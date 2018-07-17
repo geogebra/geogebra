@@ -6,8 +6,10 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -58,14 +60,23 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
 		linkBox.setText(this.shareURL);
-		linkBox.addFocusHandler(new FocusHandler() {
+		linkBox.setStyleName("linkBox");
+		linkBox.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onFocus(FocusEvent event) {
+			public void onClick(ClickEvent event) {
+				linkBox.setSelectionRange(0, 0);
 				linkBox.selectAll();
 			}
 		});
-		linkBox.setStyleName("linkBox");
+		linkBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				linkBox.setFocus(true);
+				linkBox.setSelectionRange(0, 0);
+			}
+		});
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
@@ -97,6 +108,8 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
 			app.copyTextToSystemClipboard(linkBox.getText());
+			linkBox.setFocus(true);
+			linkBox.selectAll();
 		} else if (source == printBtn) {
 			app.getDialogManager().showPrintPreview();
 			hide();

@@ -831,7 +831,11 @@ $duration: 0.2s;
 	}
 	.MaterialDialogBox.shareDialog {
 		padding-bottom: 24px;
+		padding-right: 24px;
 		
+		>div>table {
+			padding-right: 0px;
+		}
 		.linkLabel {
 			color: $text-secondary;
 			font-size: 75%;
