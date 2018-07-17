@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoMebisVideo;
 
 /**
  * bounding box construction for selected elements
@@ -492,7 +493,12 @@ public class BoundingBox {
 				return;
 			}
 			video.setWidth(newWidth);
-			video.resetRatio();
+			if (video.getGeoElement() instanceof GeoMebisVideo) {
+				newHeight = (int) (video.getOriginalRatio() * newWidth);
+				video.setHeight(newHeight);
+			} else {
+				video.resetRatio();
+			}
 			video.update();
 			break;
 
@@ -503,7 +509,12 @@ public class BoundingBox {
 			}
 			video.setAbsoluteScreenLoc(eventX, video.getTop());
 			video.setWidth(newWidth);
-			video.resetRatio();
+			if (video.getGeoElement() instanceof GeoMebisVideo) {
+				newHeight = (int) (video.getOriginalRatio() * newWidth);
+				video.setHeight(newHeight);
+			} else {
+				video.resetRatio();
+			}
 			video.update();
 			break;
 
@@ -514,7 +525,12 @@ public class BoundingBox {
 			}
 			video.setAbsoluteScreenLoc(video.getLeft(), eventY);
 			video.setHeight(newHeight);
-			video.resetRatio();
+			if (video.getGeoElement() instanceof GeoMebisVideo) {
+				newWidth = (int) (newHeight / video.getOriginalRatio());
+				video.setWidth(newWidth);
+			} else {
+				video.resetRatio();
+			}
 			video.update();
 			break;
 
@@ -524,7 +540,12 @@ public class BoundingBox {
 				return;
 			}
 			video.setHeight(newHeight);
-			video.resetRatio();
+			if (video.getGeoElement() instanceof GeoMebisVideo) {
+				newWidth = (int) (newHeight / video.getOriginalRatio());
+				video.setWidth(newWidth);
+			} else {
+				video.resetRatio();
+			}
 			video.update();
 			break;
 		case UNDEFINED:

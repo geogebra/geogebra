@@ -1,7 +1,9 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 /**
- * Interface for drawbales resizeable by bounding box.
+ * Interface for drawables resizeable by bounding box.
  */
 public interface DrawWidget {
 	/**
@@ -58,4 +60,9 @@ public interface DrawWidget {
 	 * Update drawable.
 	 */
 	public void update();
+
+	/**
+	 * @return the geo linked to this
+	 */
+	public GeoElement getGeoElement();
 }
