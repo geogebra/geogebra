@@ -5425,4 +5425,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return p;
 	}
 
+	public int getCurrentStepNumber() {
+		return cons.getStep();
+	}
+
+	public int getLastStepNumber() {
+		return cons.steps();
+	}
+
 }

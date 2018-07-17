@@ -62,10 +62,6 @@ public class ConstructionProtocolNavigationD
 	private JLabel lbSteps;
 	/** Delay spinner */
 	JSpinner spDelay;
-	/** Application */
-	AppD app;
-	/** Construction protocol view */
-	ConstructionProtocolViewD prot;
 	private AutomaticPlayer player;
 	/**
 	 * ConstructionProtocolNavigation panel
@@ -154,12 +150,14 @@ public class ConstructionProtocolNavigationD
 
 		implPanel.removeAll();
 
-		btFirst = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+		btFirst = new JButton(
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
 		btLast = new JButton(
-				app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
-		btPrev = new JButton(app.getScaledIcon(GuiResourcesD.NAV_REWIND64));
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+		btPrev = new JButton(
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_REWIND64));
 		btNext = new JButton(
-				app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
 
 		btFirst.addActionListener(this);
 		btLast.addActionListener(this);
@@ -177,7 +175,7 @@ public class ConstructionProtocolNavigationD
 		playPanel.setVisible(showPlayButton);
 		playPanel.add(Box.createRigidArea(new Dimension(20, 10)));
 		btPlay = new JButton();
-		btPlay.setIcon(new ImageIcon(app.getPlayImage()));
+		btPlay.setIcon(new ImageIcon(((AppD) app).getPlayImage()));
 		btPlay.addActionListener(this);
 
 		spDelay.addChangeListener(new ChangeListener() {
@@ -197,7 +195,7 @@ public class ConstructionProtocolNavigationD
 		playPanel.add(new JLabel("s"));
 
 		btOpenWindow = new JButton();
-		btOpenWindow.setIcon(app
+		btOpenWindow.setIcon(((AppD) app)
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		btOpenWindow.addActionListener(new ActionListener() {
 			@Override
@@ -260,7 +258,7 @@ public class ConstructionProtocolNavigationD
 		}
 
 		if (constructionProtocolView instanceof ConstructionProtocolViewD) {
-			prot = (ConstructionProtocolViewD) constructionProtocolView;
+			prot = constructionProtocolView;
 			prot.registerNavigationBar(this);
 		}
 	}
@@ -269,7 +267,9 @@ public class ConstructionProtocolNavigationD
 	 * Unregisters this navigation bar from its protocol.
 	 */
 	public void unregister() {
-		prot.unregisterNavigationBar(this);
+		if (prot != null) {
+			((ConstructionProtocolViewD) prot).unregisterNavigationBar(this);
+		}
 	}
 
 	@Override
@@ -278,13 +278,7 @@ public class ConstructionProtocolNavigationD
 
 		implPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		ConstructionStepper stepper;
-
-		if (prot == null) {
-			stepper = app.getKernel();
-		} else {
-			stepper = prot;
-		}
+		ConstructionStepper stepper = getProt();
 
 		if (source == btFirst) {
 			stepper.firstStep();
@@ -303,7 +297,8 @@ public class ConstructionProtocolNavigationD
 			}
 		}
 
-		if (prot != null && prot.getCpPanel().isVisible()) {
+		if (prot != null && ((ConstructionProtocolViewD) prot).getCpPanel()
+				.isVisible()) {
 			prot.scrollToConstructionStep();
 		}
 
@@ -327,13 +322,13 @@ public class ConstructionProtocolNavigationD
 
 	@Override
 	public void setButtonPlay() {
-		btPlay.setIcon(new ImageIcon(app.getPlayImage()));
+		btPlay.setIcon(new ImageIcon(((AppD) app).getPlayImage()));
 		btPlay.setText(loc.getMenu("Play"));
 	}
 
 	@Override
 	public void setButtonPause() {
-		btPlay.setIcon(new ImageIcon(app.getPauseImage()));
+		btPlay.setIcon(new ImageIcon(((AppD) app).getPauseImage()));
 		btPlay.setText(loc.getMenu("Pause"));
 	}
 
@@ -355,7 +350,7 @@ public class ConstructionProtocolNavigationD
 
 		public synchronized void startAnimation() {
 			// dispatch events to play button
-			app.startDispatchingEventsTo(btPlay);
+			((AppD) app).startDispatchingEventsTo(btPlay);
 			setPlaying(true);
 			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
@@ -372,7 +367,7 @@ public class ConstructionProtocolNavigationD
 			timer.stop();
 
 			// unblock application events
-			app.stopDispatchingEvents();
+			((AppD) app).stopDispatchingEvents();
 			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
@@ -407,13 +402,16 @@ public class ConstructionProtocolNavigationD
 		if (btFirst == null) {
 			return;
 		}
-		btFirst.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
-		btLast.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
-		btPrev.setIcon(app.getScaledIcon(GuiResourcesD.NAV_REWIND64));
-		btNext.setIcon(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
-		btOpenWindow.setIcon(app
+		btFirst.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+		btLast.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+		btPrev.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_REWIND64));
+		btNext.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
+		btOpenWindow.setIcon(((AppD) app)
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
-		lbSteps.setFont(app.getPlainFont());
+		lbSteps.setFont(((AppD) app).getPlainFont());
 		update();
 
 	}

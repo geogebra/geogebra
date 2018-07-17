@@ -417,6 +417,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
+			Log.printStacktrace("");
 			constructionProtocolView = new ConstructionProtocolViewD(
 					getApp());
 		}

@@ -1,11 +1,16 @@
 package org.geogebra.common.gui.view.consprotocol;
 
+import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
 
 /**
  * Navigation buttons for the construction protocol
  */
 public abstract class ConstructionProtocolNavigation {
+
+	protected ConstructionProtocolView prot;
+
+	protected App app;
 
 	/**
 	 * True if play button visible on navigation bar.
@@ -124,6 +129,10 @@ public abstract class ConstructionProtocolNavigation {
 
 	protected void setViewID(int viewID) {
 		this.viewID = viewID;
+	}
+
+	protected ConstructionStepper getProt() {
+		return prot != null ? prot : app.getKernel();
 	}
 
 }

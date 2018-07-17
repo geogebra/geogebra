@@ -10,4 +10,10 @@ public interface ConstructionStepper {
 
 	void lastStep();
 
+	int getCurrentStepNumber();
+
+	int getLastStepNumber();
+
+	void setConstructionStep(int i);
+
 }

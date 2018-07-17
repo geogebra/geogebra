@@ -27,9 +27,7 @@ import com.google.gwt.user.client.ui.PushButton;
 public class ConstructionProtocolNavigationW
 		extends ConstructionProtocolNavigation implements ClickHandler {
 
-	AppW app;
 	private Label lbSteps;
-	ConstructionProtocolViewW prot;
 	private FlowPanel implPanel;
 	private PushButton btFirst;
 	private PushButton btLast;
@@ -181,11 +179,9 @@ public class ConstructionProtocolNavigationW
 	 */
 	@Override
     public void update() {
-		if (prot != null) {
-			int currentStep = prot.getCurrentStepNumber();
-			int stepNumber  = prot.getLastStepNumber();
+		int currentStep = getProt().getCurrentStepNumber();
+		int stepNumber = getProt().getLastStepNumber();
 			lbSteps.setText(currentStep + " / " + stepNumber);	
-		}
 	}
 	
 	@Override
@@ -266,14 +262,8 @@ public class ConstructionProtocolNavigationW
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		
-		ConstructionStepper stepper;
+		ConstructionStepper stepper = getProt();
 
-		if (prot == null) {
-			stepper = app.getKernel();
-		} else {
-			stepper = prot;
-		}
-		
 		if (source == btFirst) {
 			stepper.firstStep();
 		} 
@@ -346,8 +336,9 @@ public class ConstructionProtocolNavigationW
 				
 				@Override
                 public void run() {
-					prot.nextStep();        	
-		        	if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
+					getProt().nextStep();
+					if (getProt().getCurrentStepNumber() == getProt()
+							.getLastStepNumber()) {
 		        		stopAnimation();
 		        	}
 					if (isPlaying()) {
@@ -366,8 +357,9 @@ public class ConstructionProtocolNavigationW
 			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
 
-			if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
-				prot.setConstructionStep(-1);
+			if (getProt().getCurrentStepNumber() == getProt()
+					.getLastStepNumber()) {
+				getProt().setConstructionStep(-1);
 			}
 
 			timer.run();
@@ -392,4 +384,5 @@ public class ConstructionProtocolNavigationW
 		}
 
 	}
+
 }
