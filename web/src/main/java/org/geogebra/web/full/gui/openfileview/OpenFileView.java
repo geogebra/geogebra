@@ -102,6 +102,7 @@ public class OpenFileView extends MyHeaderPanel
 			setExtendedButtonStyle();
 			imagePanel.add(buttonPanel);
 		} else {
+			setSmallButtonStyle();
 			contentPanel.add(buttonPanel);
 			contentPanel.add(sortDropDown);
 			contentPanel.add(materialPanel);
@@ -142,13 +143,9 @@ public class OpenFileView extends MyHeaderPanel
 
 	private void initButtonPanel() {
 		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("fileViewButtonPanel");
-
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.add_black(),
 				localize("mow.newFile"), 18, app);
-		newFileBtn.setStyleName("containedButton");
-		newFileBtn.addStyleName("buttonMargin16");
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -280,7 +277,15 @@ public class OpenFileView extends MyHeaderPanel
 		newFileBtn.addStyleName("buttonMargin24");
 		openFileBtn.setStyleName("extendedFAB");
 		openFileBtn.addStyleName("FABwhite");
+		buttonPanel.setStyleName("fileViewButtonPanel");
 		buttonPanel.addStyleName("center");
+	}
+
+	private void setSmallButtonStyle() {
+		newFileBtn.setStyleName("containedButton");
+		newFileBtn.addStyleName("buttonMargin16");
+		openFileBtn.setStyleName("containedButton");
+		buttonPanel.setStyleName("fileViewButtonPanel");
 	}
 
 	@Override
@@ -314,6 +319,11 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void clearMaterials() {
 		materialPanel.clear();
+	}
+
+	@Override
+	public void clearPanel() {
+		contentPanel.clear();
 	}
 
 	@Override

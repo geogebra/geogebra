@@ -14,6 +14,8 @@ public interface BrowseViewI {
 
 	public void clearMaterials();
 
+	public void clearPanel();
+
 	public void disableMaterials();
 
 	public void onSearchResults(final List<Material> response,
