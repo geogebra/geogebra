@@ -99,7 +99,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * @author Markus
  */
-public class Kernel implements SpecialPointsListener {
+public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Maximal number of spreadsheet columns if these are increased above 32000,

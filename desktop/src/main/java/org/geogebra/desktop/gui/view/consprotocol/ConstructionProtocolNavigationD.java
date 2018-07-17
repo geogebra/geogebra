@@ -38,6 +38,7 @@ import javax.swing.event.ChangeListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -277,14 +278,22 @@ public class ConstructionProtocolNavigationD
 
 		implPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
+		ConstructionStepper stepper;
+
+		if (prot == null) {
+			stepper = app.getKernel();
+		} else {
+			stepper = prot;
+		}
+
 		if (source == btFirst) {
-			prot.firstStep();
+			stepper.firstStep();
 		} else if (source == btLast) {
-			prot.lastStep();
+			stepper.lastStep();
 		} else if (source == btPrev) {
-			prot.previousStep();
+			stepper.previousStep();
 		} else if (source == btNext) {
-			prot.nextStep();
+			stepper.nextStep();
 		} else if (source == btPlay) {
 			if (isPlaying()) {
 				player.stopAnimation();
@@ -294,7 +303,7 @@ public class ConstructionProtocolNavigationD
 			}
 		}
 
-		if (prot.getCpPanel().isVisible()) {
+		if (prot != null && prot.getCpPanel().isVisible()) {
 			prot.scrollToConstructionStep();
 		}
 

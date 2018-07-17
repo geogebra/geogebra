@@ -16,6 +16,7 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -35,7 +36,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
-public class ConstructionProtocolView {
+public class ConstructionProtocolView implements ConstructionStepper {
 
 	public App app;
 	public Kernel kernel;
