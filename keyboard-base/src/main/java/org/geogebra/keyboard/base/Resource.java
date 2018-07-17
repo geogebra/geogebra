@@ -48,5 +48,7 @@ public enum Resource {
 
     LANGUAGE,
 
-    DIVISION
+    DIVISION,
+
+    INVERSE
 }

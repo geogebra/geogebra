@@ -11,6 +11,7 @@ import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DIVISION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.MULTIPLICATION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PI;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.ROOT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
@@ -28,6 +29,7 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.DIVISION, DIVISION);
+        addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "7");
         addInputButton(row, buttonFactory, "8");
@@ -49,9 +51,9 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
 
         row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "ln", 1.0f);
-        addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}", 1.0f);
-        addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb", 1.0f);
-        addInputButton(row, buttonFactory, "i"); // TODO Inverse
+        addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}");
+        addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb");
+        addConstantInputButton(row, buttonFactory, Resource.INVERSE, "^(-1)");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "1");
         addInputButton(row, buttonFactory, "2");
