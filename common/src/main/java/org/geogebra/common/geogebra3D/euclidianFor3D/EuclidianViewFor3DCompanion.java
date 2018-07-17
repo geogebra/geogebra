@@ -50,7 +50,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 		}
 
 		// try 3D geos
-		if (geo.getGeoClassType() == GeoClass.ANGLE) {
+		if (geo.getGeoClassType() == GeoClass.ANGLE3D) {
 			d = new DrawAngleFor3D(view, (GeoAngle) geo);
 		}
 

@@ -23,9 +23,17 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * 3D controller companion
+ *
+ */
 public class EuclidianControllerFor3DCompanion
 		extends EuclidianControllerCompanion {
 
+	/**
+	 * @param ec
+	 *            3D controller
+	 */
 	public EuclidianControllerFor3DCompanion(EuclidianController ec) {
 		super(ec);
 	}
