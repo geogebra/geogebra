@@ -421,7 +421,8 @@ public abstract class MyXMLio {
 		if (!isGGTOrDefaults && oldVal && app.showConsProtNavigation()) {
 			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
-			if (app.getGuiManager() != null) {
+			if (app.getGuiManager() != null
+					&& app.getGuiManager().isUsingConstructionProtocol()) {
 				// if there is a ConstructionProtocolView, then update its
 				// navigation bars
 				app.getGuiManager().getConstructionProtocolView()
