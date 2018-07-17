@@ -4,6 +4,11 @@ apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+dependencies {
+     compile project(':keyboard-base')
+}
+
 pmd {
      ignoreFailures = true
      ruleSets = []
