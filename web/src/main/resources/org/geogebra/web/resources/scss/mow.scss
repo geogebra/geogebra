@@ -873,6 +873,10 @@
 		z-index: $z_mow_video_background;
 	}
 	
+	.mowVideo video {
+		width: 100%;
+		height: 100%;
+	}
 
 	.mowDoubleCanvas {
 		.mowVideo {
