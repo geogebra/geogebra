@@ -36,12 +36,14 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInp
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 
-class SpecialSymbolsKeyboardFactory {
+public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 
-	KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
+	@Override
+	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
 		RowImpl row = mathKeyboard.nextRow(10.0f);

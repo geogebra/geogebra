@@ -5,18 +5,80 @@ import java.util.Map;
 import org.geogebra.keyboard.base.impl.KeyboardImpl;
 import org.geogebra.keyboard.base.model.KeyModifier;
 import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-import org.geogebra.keyboard.base.model.impl.factory.KeyboardModelFactory;
+import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 /**
  * Creates {@link Keyboard} classes.
  */
 public class KeyboardFactory {
 
-	private KeyboardModelFactory keyboardModelFactory = new KeyboardModelFactory();
 	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
+	private KeyboardModelFactory mathKeyboardFactory;
+	private KeyboardModelFactory greekKeyboardFactory;
+	private KeyboardModelFactory functionKeyboardFactory;
+	private LetterKeyboardFactory letterKeyboardFactory;
+	private KeyboardModelFactory specialSymbolsKeyboardFactory;
+
+	public KeyboardFactory() {
+		mathKeyboardFactory = new MathKeyboardFactory();
+		greekKeyboardFactory = new GreekKeyboardFactory();
+		functionKeyboardFactory = new FunctionKeyboardFactory();
+		letterKeyboardFactory = new LetterKeyboardFactory();
+		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory();
+	}
+
+	/**
+	 * Sets the factory for the math keyboard.
+	 *
+	 * @param mathKeyboardFactory math keyboard factory
+	 */
+	public void setMathKeyboardFactory(KeyboardModelFactory mathKeyboardFactory) {
+		this.mathKeyboardFactory = mathKeyboardFactory;
+	}
+
+	/**
+	 * Sets the factory for the greek keyboard.
+	 *
+	 * @param greekKeyboardFactory greek keyboard factory
+	 */
+	public void setGreekKeyboardFactory(KeyboardModelFactory greekKeyboardFactory) {
+		this.greekKeyboardFactory = greekKeyboardFactory;
+	}
+
+	/**
+	 * Sets the factory for the function keyboard.
+	 *
+	 * @param functionKeyboardFactory function keyboard factory
+	 */
+	public void setFunctionKeyboardFactory(KeyboardModelFactory functionKeyboardFactory) {
+		this.functionKeyboardFactory = functionKeyboardFactory;
+	}
+
+	/**
+	 * Sets the factory for the letter keyboard.
+	 *
+	 * @param letterKeyboardFactory letter keyboard factory
+	 */
+	public void setLetterKeyboardFactory(LetterKeyboardFactory letterKeyboardFactory) {
+		this.letterKeyboardFactory = letterKeyboardFactory;
+	}
+
+	/**
+	 * Sets the factory for the special symbols keyboard.
+	 *
+	 * @param specialSymbolsKeyboardFactory special symbols keyboard factory
+	 */
+	public void setSpecialSymbolsKeyboardFactory(KeyboardModelFactory specialSymbolsKeyboardFactory) {
+		this.specialSymbolsKeyboardFactory = specialSymbolsKeyboardFactory;
+	}
 
 	/**
 	 * Creates a math keyboard with numbers and operators.
@@ -24,8 +86,7 @@ public class KeyboardFactory {
 	 * @return math keyboard
 	 */
 	public Keyboard createMathKeyboard() {
-		KeyboardModel model = keyboardModelFactory
-				.createMathKeyboard(defaultButtonFactory);
+		KeyboardModel model = mathKeyboardFactory.createKeyboardModel(defaultButtonFactory);
 		return new KeyboardImpl(model, null, null);
 	}
 
@@ -35,8 +96,7 @@ public class KeyboardFactory {
 	 * @return function keyboard
 	 */
 	public Keyboard createFunctionsKeyboard() {
-		KeyboardModel model = keyboardModelFactory
-				.createFunctionKeyboard(defaultButtonFactory);
+		KeyboardModel model = functionKeyboardFactory.createKeyboardModel(defaultButtonFactory);
 		return new KeyboardImpl(model, null, null);
 	}
 
@@ -50,8 +110,7 @@ public class KeyboardFactory {
 		CapsLockModifier capsLockModifier = new CapsLockModifier();
 		ButtonFactory buttonFactory = new ButtonFactory(
 				new KeyModifier[] { accentModifier, capsLockModifier });
-		KeyboardModel model = keyboardModelFactory
-				.createGreekKeyboard(buttonFactory);
+		KeyboardModel model = greekKeyboardFactory.createKeyboardModel(buttonFactory);
 		return new KeyboardImpl(model, capsLockModifier, accentModifier);
 	}
 
@@ -78,8 +137,8 @@ public class KeyboardFactory {
 		CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
 		ButtonFactory buttonFactory = new ButtonFactory(
 				new KeyModifier[] { accentModifier, capsLockModifier });
-		KeyboardModel model = keyboardModelFactory.createLetterKeyboard(
-				buttonFactory, topRow, middleRow, bottomRow);
+		letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow);
+		KeyboardModel model = letterKeyboardFactory.createKeyboardModel(buttonFactory);
 		return new KeyboardImpl(model, capsLockModifier, accentModifier);
 	}
 
@@ -100,8 +159,8 @@ public class KeyboardFactory {
 	 * @return special symbols keyboard
 	 */
 	public Keyboard createSpecialSymbolsKeyboard() {
-		KeyboardModel model = keyboardModelFactory
-				.createSpecialSymbolsKeyboard(defaultButtonFactory);
+		KeyboardModel model = specialSymbolsKeyboardFactory
+				.createKeyboardModel(defaultButtonFactory);
 		return new KeyboardImpl(model, null, null);
 	}
 }

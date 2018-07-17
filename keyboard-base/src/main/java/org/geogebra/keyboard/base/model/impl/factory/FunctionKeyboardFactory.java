@@ -12,12 +12,14 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInp
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 
-class FunctionKeyboardFactory {
+public class FunctionKeyboardFactory implements KeyboardModelFactory {
 
-    KeyboardModel createFunctionKeyboard(ButtonFactory buttonFactory) {
+    @Override
+    public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
         KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
         float width = 5.0f / 3;
         RowImpl row = functionKeyboard.nextRow(9.2f);

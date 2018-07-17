@@ -1,10 +1,13 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.model.KeyboardModel;
+public class GreekKeyboardFactory extends LetterKeyboardFactory {
 
-class GreekKeyboardFactory extends LetterKeyboardFactory {
+	public GreekKeyboardFactory() {
+		super();
+		initializeDefinition();
+	}
 
-    KeyboardModel createGreekKeyboard(ButtonFactory buttonFactory) {
+	private void initializeDefinition() {
         StringBuilder topRow = new StringBuilder();
 		topRow.append(Characters.PHI);
 		topRow.append(Characters.SIGMA_SPECIAL);
@@ -37,7 +40,7 @@ class GreekKeyboardFactory extends LetterKeyboardFactory {
 		bottomRow.append(Characters.NU);
 		bottomRow.append(Characters.MU);
 
-		return createLetterKeyboard(buttonFactory, topRow.toString(),
+		setKeyboardDefinition(topRow.toString(),
 				middleRow.toString(), bottomRow.toString(), false);
     }
 }

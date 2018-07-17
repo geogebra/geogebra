@@ -13,23 +13,33 @@ import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 
-class LetterKeyboardFactory {
+public class LetterKeyboardFactory implements KeyboardModelFactory {
 
 	private static final double MIN_PADDING_WEIGHT = 1.e-4;
 	private static final String EXCEPTION_MESSAGE = "Wrong keyboard definition: too long row 3.";
+	private String topRow;
+	private String middleRow;
+	private String bottomRow;
+	private boolean withSpecialSymbols;
 
-	KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory,
-			String topRow, String middleRow, String bottomRow) {
-		return createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow,
-				true);
+	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow) {
+		setKeyboardDefinition(topRow, middleRow, bottomRow, true);
 	}
 
-	KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory,
-			String topRow, String middleRow, String bottomRow,
-			boolean withSpecialSymbols) {
+	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
+			withSpecialSymbols) {
+		this.topRow = topRow;
+		this.middleRow = middleRow;
+		this.bottomRow = bottomRow;
+		this.withSpecialSymbols = withSpecialSymbols;
+	}
+
+	@Override
+	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		int topRowLength = topRow.length();
 		int middleRowLength = middleRow.length();
 		int bottomRowLength = bottomRow.length();
