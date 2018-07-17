@@ -22,6 +22,7 @@ include 'editor-web'
 include 'test'
 
 include 'keyboard-base'
+include 'keyboard-scientific'
 include 'keyboard-web'
 
 rootProject.name = 'geogebra'
