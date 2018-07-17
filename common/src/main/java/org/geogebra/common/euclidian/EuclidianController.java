@@ -98,6 +98,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMedia;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -108,6 +109,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -206,6 +208,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public static final int MOVE_Z_AXIS = 128;
 	public static final int MOVE_STROKE = 129;
 	public static final int MOVE_AUDIO_SLIDER = 130;
+	protected static final int MOVE_MEDIA = 131;
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
@@ -247,6 +250,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
 	protected Furniture movedGeoButton;
+	protected GeoWidget movedGeoWidget;
+	protected GeoMedia movedGeoMedia;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
@@ -6213,13 +6218,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
-		if (movedGeoButton instanceof GeoFrame) {
-			moveVideo();
-		}
 		if (repaint) {
 			movedGeoButton.updateRepaint();
 		} else {
 			movedGeoButton.updateCascade();
+		}
+	}
+
+	protected final void moveMedia(boolean repaint) {
+		// part of snap to grid code
+		movedGeoMedia.setAbsoluteScreenLoc(view.toScreenCoordX(xRW - getStartPointX()),
+				view.toScreenCoordY(yRW - getStartPointY()));
+
+		if (movedGeoMedia instanceof GeoVideo) {
+			moveVideo();
+		}
+		if (repaint) {
+			movedGeoMedia.updateRepaint();
+		} else {
+			movedGeoMedia.updateCascade();
 		}
 	}
 
@@ -6324,7 +6341,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final void moveAudioSlider(boolean repaint, boolean click) {
-		GeoAudio audio = (GeoAudio) movedGeoButton;
+		GeoAudio audio = (GeoAudio) movedGeoMedia;
 		setAudioTimeValue(audio);
 		audio.updateRepaint();
 	}
@@ -7509,7 +7526,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setShowMouseCoords(false);
 			setDragCursor();
 		}
+		else if (movedGeoElement instanceof GeoMedia) {
+			movedGeoMedia = (GeoMedia) movedGeoElement;
+			if (movedGeoMedia.isGeoAudio()
+					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
+				moveMode = MOVE_AUDIO_SLIDER;
+				moveAudioSlider(true, true);
+				return;
+			}
 
+			moveWidget(movedGeoMedia, MOVE_MEDIA);
+
+		}
 		// button
 		else if (movedGeoElement instanceof Furniture
 				&& ((Furniture) movedGeoElement).isFurniture()) {
@@ -7528,32 +7556,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| (moveSelected && app.isRightClickEnabled()))) {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
-				if (movedGeoButton.isGeoAudio() && !isMoveAudioExpected(
-						app.getCapturingThreshold(type))) {
-					moveMode = MOVE_AUDIO_SLIDER;
-					moveAudioSlider(true, true);
-					return;
-				}
+
 
 				// move button
-				moveMode = MOVE_BUTTON;
-				startLoc = mouseLoc;
-				if (movedGeoButton instanceof GeoButton) {
-					((GeoButton) movedGeoButton).updateAbsLocation(view);
-				}
-				oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
-				oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
+				movedGeoWidget = (GeoWidget) movedGeoElement;
+				moveWidget(movedGeoWidget, MOVE_BUTTON);
 
-				// part of snap to grid code
-				setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
-						yRW - view.toRealWorldCoordY(oldLoc.y));
-				transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x)
-						- xRW;
-				transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y)
-						- yRW;
-
-				view.setShowMouseCoords(false);
-				setDragCursor();
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7609,6 +7617,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	private void moveWidget(GeoWidget geo, int mode) {
+		moveMode = mode;
+		startLoc = mouseLoc;
+		if (geo instanceof GeoButton) {
+			((GeoButton) geo).updateAbsLocation(view);
+		}
+		oldLoc.x = geo.getAbsoluteScreenLocX();
+		oldLoc.y = geo.getAbsoluteScreenLocY();
+
+		// part of snap to grid code
+		setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
+				yRW - view.toRealWorldCoordY(oldLoc.y));
+		transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x) - xRW;
+		transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y) - yRW;
+
+		view.setShowMouseCoords(false);
+		setDragCursor();
+
+	}
 	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
 		ArrayList<GeoPointND> freeInputPoints = movedGeoElement
 				.getFreeInputPoints(view);
@@ -7635,7 +7662,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveAudioExpected(int hitThreshold) {
-		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoButton);
+		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoMedia);
 		boolean hitSlider = da.isSliderHit(mouseLoc.x, mouseLoc.y, hitThreshold);
 		return (temporaryMode && app.isRightClickEnabled())
 				|| !hitSlider;
@@ -7892,6 +7919,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case MOVE_BUTTON:
 			moveButton(repaint);
+			break;
+		case MOVE_MEDIA:
+			moveMedia(repaint);
 			break;
 		case MOVE_STROKE:
 			moveDependent(repaint);
@@ -9372,7 +9402,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		lastVideo = (GeoFrame) movedGeoButton;
+		lastVideo = (GeoFrame) movedGeoMedia;
 		videoMoved = true;
 	}
 
