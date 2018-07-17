@@ -864,6 +864,7 @@ namespace giac {
     }
     vecteur vb(innerdim);
     gen racine_max=undef;
+    bool deep_emb=false; // marker for deep embedding
     if (!trouve){
       // Change for multivariate polynomials p, added evaluation
       if (innerdim){
@@ -920,7 +921,16 @@ namespace giac {
 	  *logptr(contextptr) << gettext("The choice was done assuming ") << params << "=" << vb << endl;       
 	else 
 	  *logptr(contextptr) << gettext("Non regular value ") << vb0 << gettext(" was discarded and replaced randomly by ") << params << "=" << vb << endl;
-	racines=proot(polynome2poly1(pb));
+	// checking for embedded polynomial coefficients
+	vector< monomial<gen> >::const_iterator it=pb.coord.begin(),itend=pb.coord.end();
+	for (;0 && it!=itend;++it){ // disabled, computations would be too complex
+	  if (it->value.type==_POLY){
+	    deep_emb=true;
+	    break;
+	  }
+	}
+	if (!deep_emb) 
+	  racines=proot(polynome2poly1(pb));
       }
       else
 	racines=proot(*b__VECT._VECTptr); 
@@ -929,7 +939,7 @@ namespace giac {
       // empty if not numeric
       racine_max=in_select_root(racines,is_real(b__VECT,contextptr),contextptr);
     }
-    if (!trouve && !is_undef(racine_max)){ // select root for b
+    if (!deep_emb && !trouve && !is_undef(racine_max)){ // select root for b
       // now eval each factor over racine_max and choose the one with
       // minimal absolute value
       double min_abs=0;

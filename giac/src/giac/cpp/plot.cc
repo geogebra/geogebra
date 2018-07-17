@@ -8998,11 +8998,21 @@ namespace giac {
 	return gen(makevecteur(symbolic(at_equal,makesequence(normal(dotvecteur(v1,xyz),contextptr),zero)),symbolic(at_equal,makesequence(normal(dotvecteur(v2,xyz),contextptr),zero))),_SEQ__VECT);
       }
       gen a=im(v,contextptr);
-      gen b=-re(v,contextptr);
-      gen d=gcd(a,b);
+      gen b=-re(v,contextptr),d;
+#ifdef NO_STDEXCEPT
+      d=gcd(a,b);
+#else
+      try {
+	d=gcd(a,b);
+      } catch (std::runtime_error & err){
+	d=1;
+      }
+#endif
       a=normal(a/d,contextptr);
       b=normal(b/d,contextptr);
-      gen c=a*re(A,contextptr)+b*im(A,contextptr);
+      gen Ar,Ai;
+      reim(A,Ar,Ai,contextptr);
+      gen c=a*Ar+b*Ai;
       if (!is_zero(b,contextptr))
 	return symbolic(at_equal,makesequence(y,normal(-a/b,contextptr)*x+normal(c/b,contextptr)));
       return symbolic(at_equal,makesequence(x,normal(c/a,contextptr)));//symbolic(at_equal,makesequence(a*x+b*y,c));

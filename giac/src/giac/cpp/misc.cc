@@ -6746,8 +6746,11 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     periode=0;
     vecteur vx=lvarx(f,x);
     for (unsigned i=0;i<vx.size();++i){
-      if (vx[i].type!=_SYMB || (vx[i]._SYMBptr->sommet!=at_exp && vx[i]._SYMBptr->sommet!=at_sin && vx[i]._SYMBptr->sommet!=at_cos && vx[i]._SYMBptr->sommet!=at_tan))
+      if (vx[i].type!=_SYMB || (vx[i]._SYMBptr->sommet!=at_exp && vx[i]._SYMBptr->sommet!=at_sin && vx[i]._SYMBptr->sommet!=at_cos && vx[i]._SYMBptr->sommet!=at_tan)){
+	if (f.type==_SYMB)
+	  return is_periodic(f._SYMBptr->feuille,x,periode,contextptr);
 	return false;
+      }
     }
     gen g=_lin(trig2exp(f,contextptr),contextptr);
     vecteur v;
@@ -7410,6 +7413,22 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     return s;
   }
 
+  gen strict2large(const gen & g){
+    if (g.type==_VECT){
+      vecteur v(*g._VECTptr);
+      for (size_t i=0;i<v.size();++i)
+	v[i]=strict2large(v[i]);
+      return gen(v,g.subtype);
+    }
+    if (g.type!=_SYMB)
+      return g;
+    if (g._SYMBptr->sommet==at_superieur_strict)
+      return symbolic(at_superieur_egal,g._SYMBptr->feuille);
+    if (g._SYMBptr->sommet==at_inferieur_strict)
+      return symbolic(at_inferieur_egal,g._SYMBptr->feuille);
+    return symbolic(g._SYMBptr->sommet,strict2large(g._SYMBptr->feuille));
+  }
+
   // x->f in xmin..xmax
   // pass -inf and inf by default.
   // poi will contain point of interest: asymptotes and extremas
@@ -7444,6 +7463,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gen xval=eval(x,1,contextptr);
     giac_assume(symb_and(symb_superieur_egal(x,xmin),symb_inferieur_egal(x,xmax)),contextptr);
     gen df=domain(f,x,0,contextptr);
+    gen dflarge=strict2large(df);
     gprintf(gettext("Domain %gen"),vecteur(1,df),1,contextptr);
     gen df1=domain(f,x,1,contextptr); // singular values only
     if (df1.type!=_VECT){
@@ -7455,7 +7475,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     identificateur xid=*x._IDNTptr;
     iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
     for (;it!=itend;++it){
-      if (in_domain(df,x,*it,contextptr) && is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
+      if (in_domain(dflarge,x,*it,contextptr) && is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
 	sing.push_back(*it);
       }
     }

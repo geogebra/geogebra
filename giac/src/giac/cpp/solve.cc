@@ -736,6 +736,9 @@ namespace giac {
 	  if (is_undef(v)) return;
 	  continue;
 	}
+	if ( (isolate_mode & 1)==0 && (pos==3 || pos==4) && is_strictly_greater(*it**it,1,contextptr)){
+	  continue;
+	}
 	gen res=isolate_fcns[pos-1](*it,isolate_mode,contextptr);
 	if (res.type!=_VECT)
 	  set_merge(v,solve(xvar._SYMBptr->feuille-res,x,isolate_mode,contextptr));
