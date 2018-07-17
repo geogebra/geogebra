@@ -281,7 +281,6 @@ public class OpenFileView extends MyHeaderPanel
 		openFileBtn.setStyleName("extendedFAB");
 		openFileBtn.addStyleName("FABwhite");
 		buttonPanel.addStyleName("center");
-		contentPanel.addStyleName("empty");
 	}
 
 	@Override
@@ -406,9 +405,7 @@ public class OpenFileView extends MyHeaderPanel
 	 *            List of materials
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
-		if (matList.size() > 0) {
-			materialListEmpty = false;
-		}
+		materialListEmpty = matList.isEmpty();
 		for (int i = 0; i < matList.size(); i++) {
 			addMaterial(matList.get(i));
 		}
@@ -441,9 +438,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
-		if (matList.size() > 0) {
-			materialListEmpty = false;
-		}
+		materialListEmpty = matList.isEmpty();
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
 				addMaterial(mat);

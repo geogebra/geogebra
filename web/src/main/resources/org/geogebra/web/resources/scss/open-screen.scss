@@ -555,7 +555,6 @@
 				img {
 					padding: 20px;
 					margin-left: calc(50% - 76px); // (112+2*20)/2=76
-   					margin-right: auto;
    					margin-bottom: 48px;
    					margin-top: 88px;
    					opacity: 0.54;
@@ -652,9 +651,6 @@
 					}
 				}
 			}		
-		}
-		.fileViewContentPanel.empty {
-			display: flex;
 		}
 	}
 }
