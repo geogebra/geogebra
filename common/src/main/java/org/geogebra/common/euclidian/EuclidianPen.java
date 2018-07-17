@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -639,7 +640,7 @@ public class EuclidianPen implements GTimerListener {
 		newPolyLine.getOutput(0).setLabel(null);
 		algo = newPolyLine;
 
-		algo.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
+		algo.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
 
 		if (lastAlgo != null) {
 			try {

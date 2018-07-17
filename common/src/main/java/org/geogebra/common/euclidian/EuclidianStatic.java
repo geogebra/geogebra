@@ -376,6 +376,26 @@ public class EuclidianStatic {
 		return f.deriveFont(f.getStyle(), newSize);
 	}
 
+	/**
+	 * Always draws a string str with possible indices to g2 at position x, y.
+	 * The indices are drawn using the given indexFont. Examples for strings
+	 * with indices: "a_1" or "s_{ab}"
+	 * 
+	 * @param app
+	 *            application
+	 * @param g3
+	 *            graphics
+	 * 
+	 * @param str
+	 *            input string
+	 * @param xPos
+	 *            x-coord
+	 * @param yPos
+	 *            y-coord
+	 * @param serif
+	 *            true to use serif font
+	 * @return additional pixel needed to draw str (x-offset, y-offset)
+	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
 			double xPos, double yPos, boolean serif) {
 		return drawIndexedString(app, g3, str, xPos, yPos, serif, null, null);
@@ -399,6 +419,10 @@ public class EuclidianStatic {
 	 *            y-coord
 	 * @param serif
 	 *            true to use serif font
+	 * @param view
+	 *            view
+	 * @param col
+	 *            color
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
@@ -429,6 +453,10 @@ public class EuclidianStatic {
 	 *            true to use serif font
 	 * @param doDraw
 	 *            true to draw, false to measure only.
+	 * @param view
+	 *            view
+	 * @param col
+	 *            color
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
@@ -578,6 +606,8 @@ public class EuclidianStatic {
 	 *            true for serif font
 	 * @param textFont
 	 *            font
+	 * @param ret
+	 *            return value
 	 * @return border of resulting text drawing
 	 */
 	public final static GRectangle drawMultiLineText(App app, String labelDesc,
