@@ -16,6 +16,7 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
@@ -63,8 +64,7 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
                 Action.BACKSPACE_DELETE);
 
         row = mathKeyboard.nextRow(9.2f);
-        addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-                Action.BACKSPACE_DELETE); // TODO ANS
+        addCustomButton(row, buttonFactory, "ANS", Action.ANS);
         addInputButton(row, buttonFactory, ",");
         addInputButton(row, buttonFactory, "(");
         addInputButton(row, buttonFactory, ")");
