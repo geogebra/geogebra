@@ -159,11 +159,9 @@ public class DrawEquationW extends DrawEquation {
 		app.getDrawEquation().checkFirstCall(app);
 		GFont font = AwtFactory.getPrototype().newFont("geogebra", GFont.PLAIN,
 				fontSize - 3);
-		TeXIcon icon = app.getDrawEquation().createIcon(
-				"\\mathsf{\\mathrm {" + text0 + "}}",
-				app.getDrawEquation().convertColor(fgColor),
-				font, font.getLaTeXStyle(false),
-				null, null, app);
+		TeXIcon icon = app.getDrawEquation().createIcon(text0,
+				app.getDrawEquation().convertColor(fgColor), font,
+				font.getLaTeXStyle(false), null, null, app);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 
 		double ratio = app.getPixelRatio() * printScale;

@@ -322,8 +322,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 			Canvas c = Canvas.createIfSupported();
 			previewPanel.setWidget(c);
-			DrawEquationW.paintOnCanvas(coModel.getGeo(),
-					"\\mathrm {" + latexStr + "}", c,
+			DrawEquationW.paintOnCanvas(coModel.getGeo(), latexStr, c,
 					app.getFontSizeWeb());
 		} else {
 			previewPanel.setWidget(lblPreview);
