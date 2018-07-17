@@ -18,6 +18,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
@@ -36,7 +37,6 @@ public class GeoButton extends GeoWidget
 	private boolean serifFont = false;
 
 	private boolean fixedSize = false;
-
 
 	private Observer observer;
 
@@ -119,14 +119,12 @@ public class GeoButton extends GeoWidget
 		return label;
 	}
 
-
 	/**
 	 * @return true for textfields, false for buttons
 	 */
 	public boolean isTextField() {
 		return false;
 	}
-
 
 	/**
 	 * Returns whether the value (e.g. equation) should be shown as part of the

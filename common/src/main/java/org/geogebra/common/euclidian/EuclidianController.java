@@ -7553,12 +7553,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| (moveSelected && app.isRightClickEnabled()))) {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
-
-
 				// move button
 				movedGeoWidget = (GeoWidget) movedGeoElement;
 				moveWidget(movedGeoWidget, MOVE_BUTTON);
-
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7631,8 +7628,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.setShowMouseCoords(false);
 		setDragCursor();
-
 	}
+
 	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
 		ArrayList<GeoPointND> freeInputPoints = movedGeoElement
 				.getFreeInputPoints(view);

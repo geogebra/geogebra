@@ -178,6 +178,9 @@ public class GeoGebraTubeUser extends BaseModel {
 		return false;
 	}
 
+	/**
+	 * @return login cookie
+	 */
 	public String getCookie() {
 		return this.cookie;
 	}
@@ -190,22 +193,39 @@ public class GeoGebraTubeUser extends BaseModel {
 		this.image = url;
 	}
 
+	/**
+	 * @return avatar URL
+	 */
 	public String getImageURL() {
 		return this.image;
 	}
 
+	/**
+	 * @return user preferred language
+	 */
 	public String getLanguage() {
 		return this.language;
 	}
 
+	/**
+	 * @param language
+	 *            user preferred language
+	 */
 	public void setLanguage(String language) {
 		this.language = language;
 	}
 
+	/**
+	 * @param groups
+	 *            group IDs
+	 */
 	public void setGroups(ArrayList<String> groups) {
 		this.groups = groups;
 	}
 
+	/**
+	 * @return user group IDs (may be empt, not null)
+	 */
 	public ArrayList<String> getGroups() {
 		if (groups == null) {
 			return new ArrayList<>();

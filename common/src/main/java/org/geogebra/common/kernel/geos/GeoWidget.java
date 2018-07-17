@@ -23,8 +23,8 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	private int height = 30;
 
 	private GeoPointND[] corner = new GeoPointND[3];
+
 	/**
-	 * 
 	 * @param c
 	 *            the construction.
 	 */
@@ -180,7 +180,6 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 		update();
 	}
 
-	// Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElementND geo) {
 		return geo == this;
