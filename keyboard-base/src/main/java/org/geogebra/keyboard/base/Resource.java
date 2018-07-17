@@ -46,5 +46,7 @@ public enum Resource {
 
     ROOT,
 
-    LANGUAGE
+    LANGUAGE,
+
+    DIVISION
 }
