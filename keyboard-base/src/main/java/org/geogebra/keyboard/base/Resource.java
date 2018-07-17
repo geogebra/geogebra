@@ -48,7 +48,7 @@ public enum Resource {
 
     LANGUAGE,
 
-    DIVISION,
+    FRACTION,
 
     INVERSE
 }

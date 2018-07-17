@@ -29,8 +29,8 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
         RowImpl row = mathKeyboard.nextRow(9.2f);
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
-        addConstantInputButton(row, buttonFactory, Resource.DIVISION, DIVISION);
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
+        addConstantInputButton(row, buttonFactory, Resource.FRACTION, DIVISION);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "7");
         addInputButton(row, buttonFactory, "8");
