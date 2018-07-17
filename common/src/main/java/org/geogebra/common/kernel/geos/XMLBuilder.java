@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
@@ -149,7 +150,7 @@ public class XMLBuilder {
 			sb.append("\"");
 			sb.append("/>\n");
 
-			if (geo.getTooltipMode() != GeoElement.TOOLTIP_ALGEBRAVIEW_SHOWING) {
+			if (geo.getTooltipMode() != GeoElementND.TOOLTIP_ALGEBRAVIEW_SHOWING) {
 				sb.append("\t<tooltipMode");
 				sb.append(" val=\"");
 				sb.append(geo.getTooltipMode());
@@ -184,7 +185,7 @@ public class XMLBuilder {
 		// END G.Sturr
 
 		// decoration type
-		if (geo.getDecorationType() != GeoElement.DECORATION_NONE) {
+		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE) {
 			sb.append("\t<decoration");
 			sb.append(" type=\"");
 			sb.append(geo.getDecorationType());

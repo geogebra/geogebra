@@ -680,6 +680,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	String getLabelDescription();
 
+	/**
+	 * @return object color
+	 */
 	GColor getObjectColor();
 
 	/**
@@ -797,6 +800,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	/**
 	 * Updates visual properties and repaints this object
+	 * 
+	 * @param prop
+	 *            property
 	 */
 	public void updateVisualStyleRepaint(GProperty prop);
 
@@ -873,6 +879,11 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	String getDefinitionForInputBar();
 
+	/**
+	 * @param tpl
+	 *            string template
+	 * @return definition string
+	 */
 	String getDefinition(StringTemplate tpl);
 
 	/**

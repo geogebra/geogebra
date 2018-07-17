@@ -135,7 +135,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		sb.append(embedID);
 		sb.append("\" app=\"");
 		sb.append(appName);
-		if (!StringUtil.empty("url")) {
+		if (!StringUtil.empty(url)) {
 			sb.append("\" url=\"");
 			sb.append(url);
 		}

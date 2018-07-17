@@ -64,14 +64,6 @@ public interface AngleProperties extends GeoElementND {
 	 */
 	public int getArcSize();
 
-	@Override
-	public boolean isDrawable();
-
-	/**
-	 * @return decoration
-	 */
-	public int getDecorationType();
-
 	/**
 	 * @param type
 	 *            decoration
