@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -101,13 +102,8 @@ public class DrawEquationW extends DrawEquation {
 	 * @return canvas
 	 */
 	public static Canvas paintOnCanvas(GeoElementND geo, String text0,
-			Canvas c0,
-			int fontSize) {
-		if (geo == null) {
-			return c0 == null ? Canvas.createIfSupported() : c0;
-		}
-		AppW app = ((AppW) geo.getKernel().getApplication());
-		return paintOnCanvas(app, text0, c0, fontSize, GColor.BLACK);
+			Canvas c0, int fontSize) {
+		return paintOnCanvas(geo, text0, c0, fontSize, GColor.BLACK);
 	}
 
 	/**
@@ -123,12 +119,23 @@ public class DrawEquationW extends DrawEquation {
 	 */
 	public static Canvas paintOnCanvasOutput(GeoElementND geo, String text0,
 			Canvas c0, int fontSize) {
+		final GColor fgColor = geo.getAlgebraColor();
+		return paintOnCanvas(geo, text0, c0, fontSize, fgColor);
+	}
+
+	private static Canvas paintOnCanvas(GeoElementND geo, String text0,
+			Canvas c0, int fontSize, GColor fgColor) {
 		if (geo == null) {
 			return c0 == null ? Canvas.createIfSupported() : c0;
 		}
 		AppW app = ((AppW) geo.getKernel().getApplication());
-		final GColor fgColor = geo.getAlgebraColor();
-		return paintOnCanvas(app, text0, c0, fontSize, fgColor);
+
+		boolean serif = false;
+		if (geo instanceof TextProperties) {
+			serif = ((TextProperties) geo).isSerifFont();
+		}
+
+		return paintOnCanvas(app, text0, c0, fontSize, fgColor, serif);
 	}
 	
 	/**
@@ -145,7 +152,7 @@ public class DrawEquationW extends DrawEquation {
 	 * @return canvas
 	 */
 	public static Canvas paintOnCanvas(AppW app, String text0,
-			Canvas c0, int fontSize, final GColor fgColor) {
+			Canvas c0, int fontSize, final GColor fgColor, boolean serif) {
 
 		Canvas c = c0;
 		if (c == null) {
@@ -161,7 +168,7 @@ public class DrawEquationW extends DrawEquation {
 				fontSize - 3);
 		TeXIcon icon = app.getDrawEquation().createIcon(text0,
 				app.getDrawEquation().convertColor(fgColor), font,
-				font.getLaTeXStyle(false), null, null, app);
+				font.getLaTeXStyle(serif), null, null, app);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 
 		double ratio = app.getPixelRatio() * printScale;
