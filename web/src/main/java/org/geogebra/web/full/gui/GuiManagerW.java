@@ -1902,9 +1902,6 @@ public class GuiManagerW extends GuiManager
 		}
 		else if (!StringUtil.emptyTrim(query)) {
 			this.browseGUI.displaySearchResults(query);
-		} else {
-			this.browseGUI.clearPanel();
-			this.browseGUI.loadAllMaterials();
 		}
 		return this.browseGUI;
 	}
