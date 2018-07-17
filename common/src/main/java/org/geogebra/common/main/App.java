@@ -5455,4 +5455,8 @@ public abstract class App implements UpdateSelection {
 		return "";
 	}
 
+	public void clearMedia() {
+		// remove all videos / embeds
+	}
+
 }

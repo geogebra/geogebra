@@ -4279,9 +4279,7 @@ public class Kernel implements SpecialPointsListener {
 			app.startCollectingRepaints();
 			app.getSelectionManager().storeSelectedGeosNames();
 			app.getCompanion().storeViewCreators();
-			notifyReset();
-			clearJustCreatedGeosInViews();
-			getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
+			resetBeforeReload();
 			cons.redo();
 			notifyReset();
 			app.getCompanion().recallViewCreators();
@@ -4293,6 +4291,13 @@ public class Kernel implements SpecialPointsListener {
 					.dispatchEvent(new Event(EventType.REDO, null));
 			app.setUnAutoSaved();
 		}
+	}
+
+	private void resetBeforeReload() {
+		notifyReset();
+		clearJustCreatedGeosInViews();
+		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
+		getApplication().clearMedia();
 	}
 
 	/**
@@ -4366,10 +4371,7 @@ public class Kernel implements SpecialPointsListener {
 				app.startCollectingRepaints();
 				app.getSelectionManager().storeSelectedGeosNames();
 				app.getCompanion().storeViewCreators();
-				notifyReset();
-				clearJustCreatedGeosInViews();
-				getApplication().getActiveEuclidianView()
-						.getEuclidianController().clearSelections();
+				resetBeforeReload();
 				cons.undo();
 				notifyReset();
 				app.getCompanion().recallViewCreators();

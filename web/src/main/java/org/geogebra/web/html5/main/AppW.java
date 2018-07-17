@@ -1142,7 +1142,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Remove all widgets for videos and embeds.
 	 */
-	protected void clearMedia() {
+	@Override
+	public void clearMedia() {
 		if (getVideoManager() != null) {
 			getVideoManager().removePlayers();
 		}
