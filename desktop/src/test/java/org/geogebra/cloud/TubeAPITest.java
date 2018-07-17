@@ -26,6 +26,7 @@ import org.geogebra.desktop.move.ggtapi.models.GeoGebraTubeAPID;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -308,8 +309,7 @@ public class TubeAPITest extends Assert {
 		AuthenticationModel auth = op != null ? op.getModel()
 				: new AuthenticationModelD();
 
-		Assert.assertNotNull("Token must be stored as materials.token",
-				System.getProperty("materials.token"));
+		Assume.assumeNotNull(System.getProperty("materials.token"));
 		GeoGebraTubeUser user = new GeoGebraTubeUser(
 				System.getProperty("materials.token").trim());
 

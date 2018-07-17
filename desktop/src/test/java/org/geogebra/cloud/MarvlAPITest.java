@@ -26,15 +26,14 @@ import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 public class MarvlAPITest {
 
 	@Test
 	public void testAuth() {
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
+		needsAuth();
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		MarvlAPI api = authAPI();
 		api.authorizeUser(usr,
@@ -64,10 +63,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testUpload() {
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
-
+		needsAuth();
 		MarvlAPI api = authAPI();
 		doUpload(api, "Test material", new TestMaterialCallback());
 	}
@@ -85,9 +81,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testOpen(){
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
+		needsAuth();
 		final MarvlAPI api = authAPI();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
 		api.setClient(getClient(appd));
@@ -152,9 +146,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testCopy() {
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
+		needsAuth();
 		allowMethods("PATCH");
 		final MarvlAPI api = authAPI();
 		final LocalizationD loc = new LocalizationD(3);
@@ -175,9 +167,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testDelete() {
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
+		needsAuth();
 		allowMethods("PATCH");
 		final MarvlAPI api = authAPI();
 
@@ -261,9 +251,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testRename() {
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
+		needsAuth();
 		final MarvlAPI api = authAPI();
 		final TestMaterialCallback renameCallback = new TestMaterialCallback();
 		TestMaterialCallback uploadCallback = new TestMaterialCallback() {
@@ -282,9 +270,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testReupload() {
-		if (System.getProperty("marvl.auth.basic") == null) {
-			return;
-		}
+		needsAuth();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
 		final MarvlAPI api = authAPI();
 		api.setClient(getClient(appd));
@@ -316,6 +302,10 @@ public class MarvlAPITest {
 		reuploadCallback.verify("Test material");
 		materialCountShouldBe(api, 1);
 		Assert.assertNotEquals(filenames[0], filenames[1]);
+	}
+
+	private static void needsAuth() {
+		Assume.assumeNotNull(System.getProperty("marvl.auth.basic"));
 	}
 
 }
