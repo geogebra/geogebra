@@ -685,12 +685,17 @@ public class FunctionNVar extends ValidExpression
 		if (casEvalMap != null) {
 			sb.append("<casMap>\n");
 			for (Entry<String, FunctionNVar> entry : casEvalMap.entrySet()) {
-				sb.append("\t<entry key=\"");
-				StringUtil.encodeXML(sb, entry.getKey());
-				sb.append("\" val=\"");
-				StringUtil.encodeXML(sb,
-						entry.getValue().toString(StringTemplate.xmlTemplate));
-				sb.append("\"/>\n");
+
+				// GGB-2415 remove spurious entries
+				if (entry.getKey().indexOf("Random") == -1) {
+
+					sb.append("\t<entry key=\"");
+					StringUtil.encodeXML(sb, entry.getKey());
+					sb.append("\" val=\"");
+					StringUtil.encodeXML(sb, entry.getValue()
+							.toString(StringTemplate.xmlTemplate));
+					sb.append("\"/>\n");
+				}
 			}
 			sb.append("</casMap>\n");
 		}
