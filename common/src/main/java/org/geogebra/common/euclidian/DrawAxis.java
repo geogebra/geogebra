@@ -561,7 +561,9 @@ public class DrawAxis {
 			boolean currency) {
 		String unit = view.axesUnitLabels[idx];
 		StringBuilder sb = new StringBuilder();
-		if (currency) {
+		// "," is treated like a special currency to force thousands separator
+		// but isn't printed at the start
+		if (currency && !",".equals(unit)) {
 			boolean negative = strNum.charAt(0) == '-';
 			if (negative) {
 				sb.append(minusSign);
@@ -1144,7 +1146,7 @@ public class DrawAxis {
 			strNum = strNum0;
 		}
 
-		if (view.axesUnitLabels[axis].charAt(0) == Unicode.CURRENCY_DOLLAR
+		if (useThousandsSeparator(view.axesUnitLabels[axis])
 				&& Math.abs(num) >= CURRENCY_DOLLAR_BATCH) {
 			int length = strNum.length();
 
@@ -1166,6 +1168,12 @@ public class DrawAxis {
 			sb.append((Math.round(num * 100) % 10 == 0) ? "0" : "");
 		}
 		return sb.toString();
+	}
+
+	private static boolean useThousandsSeparator(String s) {
+		return s != null && s.length() == 1
+				&& (s.charAt(0) == Unicode.CURRENCY_DOLLAR
+						|| s.charAt(0) == ',');
 	}
 
 	/**
@@ -1223,7 +1231,8 @@ public class DrawAxis {
 		if (!view.getApplication().has(Feature.CURRENCY_UNIT)) {
 			return false;
 		}
-		return StringUtil.isCurrency(view.axesUnitLabels[axis]);
+		return StringUtil.isCurrency(view.axesUnitLabels[axis])
+				|| ",".equals(view.axesUnitLabels[axis]);
 
 	}
 }
