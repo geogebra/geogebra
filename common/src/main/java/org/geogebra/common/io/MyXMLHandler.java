@@ -1160,13 +1160,6 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
-
-		if (xmin.keySet().size() > 1) {
-			xmin.clear();
-			xmax.clear();
-			ymin.clear();
-			ymax.clear();
-		}
 		if (attrs.get("xZero") != null) {
 			try {
 				double xZero = parseDoubleNaN(attrs.get("xZero"));
