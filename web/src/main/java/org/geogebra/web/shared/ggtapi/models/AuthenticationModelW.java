@@ -59,11 +59,16 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	@Override
 	public void clearLoginToken() {
-		app.getLoginOperation().getGeoGebraTubeAPI().logout(this.authToken);
 		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
 			Window.open(app.getArticleElement().getParamLogoutURL(),
 					"_blank", "menubar=off,width=450,height=350");
 		}
+		doClearToken();
+	}
+
+	private void doClearToken() {
+		app.getLoginOperation().getGeoGebraTubeAPI().logout(this.authToken);
+
 		this.authToken = null;
 		// this should log the user out of other systems too
 		ensureInited();
@@ -73,6 +78,11 @@ public class AuthenticationModelW extends AuthenticationModel {
 		}
 		storage.removeItem(GGB_TOKEN_KEY_NAME);
 		storage.removeItem(GGB_LAST_USER);
+	}
+
+	@Override
+	public void clearLoginTokenForLogginError() {
+		doClearToken();
 	}
 
 	private void ensureInited() {
