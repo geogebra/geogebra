@@ -71,6 +71,18 @@ public class FunctionNVar extends ValidExpression
 
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
+	private final static class RandomCheck implements Inspecting {
+		protected RandomCheck() {
+			// make this visible
+		}
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo()) || (v.isExpressionNode()
+					&& ((ExpressionNode) v).getOperation() == Operation.RANDOM);
+		}
+	}
+
 	/**
 	 * Creates new Function from expression. Note: call initFunction() after
 	 * this constructor.
@@ -581,7 +593,8 @@ public class FunctionNVar extends ValidExpression
 			// where we cannot cache the derivative of g because g may have
 			// changed
 
-			useCaching = !expression.containsCasEvaluableFunction();
+			useCaching = !expression.containsCasEvaluableFunction()
+					&& !expression.inspect(new RandomCheck());
 
 		}
 
@@ -685,17 +698,11 @@ public class FunctionNVar extends ValidExpression
 		if (casEvalMap != null) {
 			sb.append("<casMap>\n");
 			for (Entry<String, FunctionNVar> entry : casEvalMap.entrySet()) {
-
-				// GGB-2415 remove spurious entries
-				if (entry.getKey().indexOf("Random") == -1) {
-
-					sb.append("\t<entry key=\"");
-					StringUtil.encodeXML(sb, entry.getKey());
-					sb.append("\" val=\"");
-					StringUtil.encodeXML(sb, entry.getValue()
-							.toString(StringTemplate.xmlTemplate));
-					sb.append("\"/>\n");
-				}
+				sb.append("\t<entry key=\"");
+				StringUtil.encodeXML(sb, entry.getKey());
+				sb.append("\" val=\"");
+				StringUtil.encodeXML(sb, entry.getValue().toString(StringTemplate.xmlTemplate));
+				sb.append("\"/>\n");
 			}
 			sb.append("</casMap>\n");
 		}

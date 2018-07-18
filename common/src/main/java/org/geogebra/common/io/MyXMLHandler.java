@@ -3054,8 +3054,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void handleMapEntry(LinkedHashMap<String, String> attrs) {
-		this.casMap.put(attrs.get("key"), attrs.get("val"));
-
+		String key = attrs.get("key");
+		if (key != null && !key.contains("Random")) { // GGB-2415 old files have
+														// Random entries
+			this.casMap.put(key, attrs.get("val"));
+		}
 	}
 
 	private void endConstructionElement(String eName) {
