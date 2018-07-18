@@ -22,8 +22,11 @@ public class KeyboardInputAdapter {
 	private static final char minus = Unicode.MINUS;
     private static final List<KeyboardAdapter> adapters;
     private static final KeyboardAdapter commandAdapter;
+    private static final CursorController cursorController;
 
     static {
+        cursorController = new CursorController();
+
 		adapters = new ArrayList<>();
         adapters.add(new FunctionsAdapter());
         adapters.add(new StringCharAdapter(times, '*'));
@@ -120,7 +123,6 @@ public class KeyboardInputAdapter {
         commandAdapter = new KeyboardAdapter() {
             @Override
             public void commit(MathFieldInternal mfi, String commandName) {
-
                 EditorState editorState = mfi.getEditorState();
                 InputController inputController = mfi.getInputController();
                 for (int i = 0; i < commandName.length(); i++) {
@@ -135,6 +137,28 @@ public class KeyboardInputAdapter {
                 return Character.areLettersOrDigits(input);
             }
         };
+
+        adapters.add(new StringInput() {
+            @Override
+            public void commit(MathFieldInternal mfi, String input) {
+                String command = input.substring(0, input.length() - Unicode
+                        .SUPERSCRIPT_MINUS_ONE_STRING.length());
+                commandAdapter.commit(mfi, command);
+                cursorController.prevCharacter(mfi.getEditorState());
+                typeCharacter(mfi, '^');
+                typeCharacter(mfi, '-');
+                typeCharacter(mfi, '1');
+                CursorController.nextCharacter(mfi.getEditorState());
+                CursorController.nextCharacter(mfi.getEditorState());
+            }
+
+            @Override
+            public boolean test(String keyboard) {
+                return keyboard.endsWith(Unicode.SUPERSCRIPT_MINUS_ONE_STRING)
+                        && commandAdapter.test(keyboard.substring(0, keyboard.length() -
+                        Unicode.SUPERSCRIPT_MINUS_ONE_STRING.length()));
+            }
+        });
 
         adapters.add(commandAdapter);
     }
