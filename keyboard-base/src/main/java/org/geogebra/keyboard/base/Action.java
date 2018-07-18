@@ -33,5 +33,7 @@ public enum Action {
 
 	SWITCH_TO_LATIN_CHARACTERS,
 
+	SWITCH_TO_123,
+
 	ANS
 }

@@ -6,13 +6,16 @@ import org.geogebra.keyboard.base.Button;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.model.KeyModifier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ButtonImpl implements Button {
 
 	private String resourceName;
 	private ResourceType resourceType;
 
-	private String actionName;
-	private ActionType actionType;
+	private List<String> actionName;
+	private List<ActionType> actionType;
 
 	private Background background;
 
@@ -37,10 +40,12 @@ public class ButtonImpl implements Button {
 			KeyModifier[] modifiers) {
 		this.resourceName = resourceName;
 		this.resourceType = resourceType;
-		this.actionName = actionName;
-		this.actionType = actionType;
 		this.background = background;
 		this.modifiers = modifiers;
+		this.actionName = new ArrayList<>();
+		this.actionName.add(actionName);
+		this.actionType = new ArrayList<>();
+		this.actionType.add(actionType);
 	}
 
 	@Override
@@ -63,29 +68,64 @@ public class ButtonImpl implements Button {
 
 	@Override
 	public String getActionName() {
-		if (modifiers != null) {
-			String modifiedActionName = actionName;
-			for (KeyModifier modifier : modifiers) {
-				modifiedActionName = modifier
-						.modifyActionName(modifiedActionName, actionType);
-			}
-			return modifiedActionName;
-		}
-		return actionName;
+		return getPrimaryActionName();
 	}
 
 	@Override
 	public ActionType getActionType() {
-		return actionType;
+		return getPrimaryActionType();
+	}
+
+	@Override
+	public String getPrimaryActionName() {
+		return getActionName(0);
+	}
+
+	@Override
+	public ActionType getPrimaryActionType() {
+		return getActionType(0);
+	}
+
+	@Override
+	public String getActionName(int index) {
+		String name = actionName.get(index);
+		ActionType type = actionType.get(index);
+		if (modifiers != null) {
+			String modifiedActionName = name;
+			for (KeyModifier modifier : modifiers) {
+				modifiedActionName = modifier
+						.modifyActionName(modifiedActionName, type);
+			}
+			return modifiedActionName;
+		}
+		return name;
+	}
+
+	@Override
+	public ActionType getActionType(int index) {
+		return actionType.get(index);
+	}
+
+	@Override
+	public int getActionsSize() {
+		return actionName.size();
+	}
+
+	@Override
+	public void addAction(String actionName, ActionType actionType) {
+		this.actionName.add(actionName);
+		this.actionType.add(actionType);
 	}
 
 	@Override
 	public Background getBackground() {
 		if (modifiers != null) {
+			String name = getPrimaryActionName();
+			ActionType type = getPrimaryActionType();
 			Background modifiedBackground = background;
 			for (KeyModifier modifier : modifiers) {
 				modifiedBackground = modifier.modifyBackground(
-						modifiedBackground, actionType, actionName);
+						modifiedBackground, type, name);
 			}
 			return modifiedBackground;
 		}
