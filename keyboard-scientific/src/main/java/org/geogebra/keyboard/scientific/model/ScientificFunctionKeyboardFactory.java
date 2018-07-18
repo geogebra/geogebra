@@ -1,9 +1,12 @@
 package org.geogebra.keyboard.scientific.model;
 
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
+import org.geogebra.keyboard.base.model.Row;
+import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
@@ -59,6 +62,21 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
         addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
+        addSecondaryAction(functionKeyboard);
+
         return functionKeyboard;
+    }
+
+    private void addSecondaryAction(KeyboardModelImpl keyboardModel) {
+        for (Row row : keyboardModel.getRows()) {
+            for (WeightedButton button : row.getButtons()) {
+                ActionType primaryAction = button.getPrimaryActionType();
+                if (primaryAction == ActionType.INPUT_TRANSLATE_MENU
+                        || primaryAction == ActionType.INPUT_TRANSLATE_COMMAND
+                        || primaryAction == ActionType.INPUT) {
+                    button.addAction(Action.SWITCH_TO_123.toString(), ActionType.CUSTOM);
+                }
+            }
+        }
     }
 }
