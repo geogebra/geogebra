@@ -81,6 +81,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_image_32();
 
+	ResourcePrototype mode_image_mow_32();
+
 	ResourcePrototype mode_integral_32();
 
 	ResourcePrototype mode_intersect_32();

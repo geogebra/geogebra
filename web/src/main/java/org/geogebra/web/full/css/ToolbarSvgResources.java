@@ -129,6 +129,12 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_image_32();
 
+	/**
+	 * @return image collection for mow as we open the file chooser
+	 */
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image_mow.svg")
+	SVGResource mode_image_mow_32();
+
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_intersect.svg")
 	@Override
 	SVGResource mode_intersect_32();

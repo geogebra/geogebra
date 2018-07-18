@@ -640,7 +640,7 @@ public class GGWToolBar extends Composite
 	 * @param target
 	 *            icon for macro or builtin mode
 	 */
-	public static void getImageResource(final int mode, AppW app,
+	public static void getImageResource(final int mode, final AppW app,
 			final HasResource target) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
@@ -677,7 +677,7 @@ public class GGWToolBar extends Composite
 			@Override
 			public void onSuccess() {
 				target.setResource(getImageURLNotMacro(
-						ToolbarSvgResources.INSTANCE, mode));
+						ToolbarSvgResources.INSTANCE, mode, app));
 			}
 		});
 
@@ -688,12 +688,13 @@ public class GGWToolBar extends Composite
 	 *            PNG or SVG bundle
 	 * @param mode
 	 *            app mode
+	 * @param app
+	 *            see {@link AppW}
 	 * @return toolbar icon resource
 	 */
 	public static ResourcePrototype getImageURLNotMacro(
-			ToolbarResources resourceBundle, int mode) {
+			ToolbarResources resourceBundle, int mode, AppW app) {
 		switch (mode) {
-
 		case EuclidianConstants.MODE_ANGLE:
 			return resourceBundle.mode_angle_32();
 
@@ -806,7 +807,8 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_hyperbola3_32();
 
 		case EuclidianConstants.MODE_IMAGE:
-			return resourceBundle.mode_image_32();
+			return app.isWhiteboardActive() ? resourceBundle.mode_image_mow_32()
+					: resourceBundle.mode_image_32();
 
 		case EuclidianConstants.MODE_CAS_INTEGRAL:
 			return resourceBundle.mode_integral_32();
