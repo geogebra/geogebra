@@ -31,27 +31,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private Label cardAuthor;
 	private ContextMenuButtonMaterialCard moreBtn;
 	private FlowPanel visibilityPanel;
-	private VisibilityState visibility;
+	private String visibility;
 	private MaterialCardController controller;
-
-	/**
-	 * @author csilla
-	 *
-	 */
-	public enum VisibilityState {
-		/**
-		 * private material
-		 */
-		Private,
-		/**
-		 * shared by link
-		 */
-		Link,
-		/**
-		 * group material
-		 */
-		Group;
-	}
 
 	/**
 	 * @param m
@@ -101,23 +82,22 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				MaterialDesignResources.INSTANCE.mow_card_public(), 24);
 		Label visibilityTxt = new Label(
 				app.getLocalization().getMenu("Public"));
-		visibility = VisibilityState.Group;
+		visibility = getMaterial().getVisibility();
 		switch (visibility) {
-		case Private:
+		case "P":
 			visibiltyImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
 			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 			break;
-		case Link:
+		case "S":
 			visibiltyImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
 			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
 			break;
-		// TODO group has to be handled since is not coming from material
-		case Group:
+		case "O":
 			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_group(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Group"));
+					MaterialDesignResources.INSTANCE.mow_card_public(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
 			break;
 		default:
 			break;
