@@ -110,20 +110,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ListBox listBox;
 	private MaterialType saveType;
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
-	private Visibility defaultVisibility = Visibility.Shared;
+	private Visibility defaultVisibility;
 	private Localization loc;
 
 	/**
+	 * Creates a new GeoGebra save dialog.
+	 * 
 	 * @param app
 	 *            AppW
-	 * 
-	 *            Creates a new GeoGebraFileChooser Window <br>
-	 *            Use ((DialogManagerW) app.getDialogManager()).getSaveDialog()
-	 *            to get a SaveDialog! This looks like a very "special"
-	 *            Implementation of a Singleton... ->Refactor?
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel(), app);
+		this.defaultVisibility = app.isWhiteboardActive() ? Visibility.Private
+				: Visibility.Shared;
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");

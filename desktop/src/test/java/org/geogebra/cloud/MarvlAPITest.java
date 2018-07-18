@@ -41,7 +41,7 @@ public class MarvlAPITest {
 				true);
 		pause(5000);
 		Assert.assertEquals("GGBTest-Student", usr.getRealName());
-		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() > 0);
+		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() == 0);
 	}
 
 	private static void pause(int i) {

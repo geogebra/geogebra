@@ -291,7 +291,7 @@ public class MarvlAPI implements BackendAPI {
 			MaterialCallbackI materialCallback, MaterialType type) {
 		JSONObject request = new JSONObject();
 		try {
-			request.put("visibility", "S"); // per docs "S" is the only
+			request.put("visibility", visibility); // per docs "S" is the only
 											// supported visibility
 			request.put("title", text);
 			request.put("file", base64);
