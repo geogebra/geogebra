@@ -27,7 +27,6 @@ public class GeoMebisVideo extends GeoMP4Video {
 	private static final String TYPE_VIDEO = "video";
 
 	private static final String PARAM_TIME = "#t";
-	private static final String PARAM_START = "start";
 
 	/** Mebis site base URL */
 	public static final String BASE_URL = "https://mediathek.mebis.bayern.de/?";
@@ -85,7 +84,7 @@ public class GeoMebisVideo extends GeoMP4Video {
 		if (url == null || !url.contains(BASE_URL)) {
 			return new MebisURL(null, MebisError.BASE_MISMATCH);
 		}
-		String substring = url.replace(BASE_URL, "");
+		String substring = getQuery(url);
 		Map<String, String> params = extractParams(substring);
 		String id = null;
 		String doc = params.get(PARAM_DOC);
@@ -139,9 +138,17 @@ public class GeoMebisVideo extends GeoMP4Video {
 		return new MebisURL(sb.toString(), MebisError.NONE);
 	}
 
-	private static Map<String, String> extractParams(String url) {
+	private static String getQuery(String url) {
+		String stem = url.replace(BASE_URL, "");
+		if (stem.contains("#")) {
+			stem = stem.substring(0, stem.indexOf("#"));
+		}
+		return stem;
+	}
+
+	private static Map<String, String> extractParams(String query) {
 		Map<String, String> params = new HashMap<>();
-		for (String item : url.split("&")) {
+		for (String item : query.split("&")) {
 			if (item.contains("=")) {
 				params.put(item.substring(0, item.indexOf("=")),
 						item.substring(item.indexOf("=") + 1));

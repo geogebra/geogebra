@@ -101,6 +101,9 @@ public class MediaURLParserTest {
 		MediaURLParser.checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120",
 				validMebis());
+		MediaURLParser.checkVideo(
+				"https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video#t=60,120",
+				validMebis());
 		// missing id
 		MediaURLParser.checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&v=BY-00072140&type=video&#t=60,120",
