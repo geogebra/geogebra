@@ -525,7 +525,7 @@ $duration: 0.2s;
    		}
    	
    		.DialogButtonPanel {
-   			padding-top: 8px;
+   			padding-top: 8px !important;
    			
    			.button {
    				color: $mebis-teal-dark;	
@@ -545,7 +545,7 @@ $duration: 0.2s;
    	.MaterialDialogBox.optionDialog {
    		.mowRenameDialogContent {
    			.AutoCompleteTextFieldW {
-   				margin: 8px 16px 8px 0px;	
+   				margin: 8px 16px 16px 0px;	
    			}
    			
    			&.emptyState {
@@ -575,7 +575,7 @@ $duration: 0.2s;
    			
  					.AutoCompleteTextFieldW {
  						border-bottom: 2px solid $black-87;
- 						margin: 8px 16px 7px 0px;	
+ 						margin: 8px 16px 15px 0px;	
  					}
  				} 				
    			}
@@ -588,13 +588,13 @@ $duration: 0.2s;
    			
  				.AutoCompleteTextFieldW {
  					border-bottom: 2px solid $mebis-teal-dark;
- 					margin: 8px 16px 7px 0px;	
+ 					margin: 8px 16px 15px 0px;	
  				}
    			}		
    		}
    	
    		.DialogButtonPanel {
-   			padding-top: 10px;
+   			padding-top: 8px !important;
    			
    			.button {
    				color: $mebis-teal-dark;	
