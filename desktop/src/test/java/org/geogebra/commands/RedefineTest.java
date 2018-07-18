@@ -5,9 +5,11 @@ import java.util.Locale;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -127,10 +129,14 @@ public class RedefineTest extends Assert {
 		app.setUndoActive(true);
 		t("b=100", "100");
 		t("a=randomUniform(0,b)", "72.75636800328681");
-		((GeoNumeric) app.getKernel().lookupLabel("b")).setValue(10);
-		((GeoNumeric) app.getKernel().lookupLabel("b")).resetDefinition();
+		((GeoNumeric) get("b")).setValue(10);
+		((GeoNumeric) get("b")).resetDefinition();
 		app.getKernel().updateConstruction(false);
 		t("a", "10");
+	}
+
+	private static GeoElement get(String string) {
+		return app.getKernel().lookupLabel(string);
 	}
 
 	@Test
@@ -168,15 +174,14 @@ public class RedefineTest extends Assert {
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", AlgebraTest.unicode("x^2 + y = 0"));
-		Assert.assertEquals(app.getKernel().lookupLabel("a").getGeoClassType(),
+		Assert.assertEquals(get("a").getGeoClassType(),
 				GeoClass.CONIC);
 		app.setXML(app.getXML(), true);
 		hasType("a", GeoClass.CONIC);
 	}
 
 	private static void hasType(String label, GeoClass geoClass) {
-		Assert.assertEquals(
-				app.getKernel().lookupLabel(label).getGeoClassType(), geoClass);
+		Assert.assertEquals(get(label).getGeoClassType(), geoClass);
 	}
 
 	@Test
@@ -280,7 +285,23 @@ public class RedefineTest extends Assert {
 		t("g(7)-h(7)", "0");
 	}
 
-	
+	@Test
+	public void updateImplicitCurve() {
+		add("a=2");
+		t("c:y^2 = (x^2-a^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
+		Assert.assertFalse("Implicit curve with var should be dependent.",
+				get("c").isIndependent());
+		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 4) / x^(2)");
+		Assert.assertTrue("Implicit curve without vars should be independent.",
+				get("c1").isIndependent());
+		Assert.assertEquals(AlgebraTest.unicode("c: y^2 = (x^2 - 2^2) / x^2"),
+				get("c").getAlgebraDescriptionTextOrHTMLDefault(
+						new IndexHTMLBuilder(true)));
+		t("a=3", "3");
+		Assert.assertEquals(AlgebraTest.unicode("c: y^2 = (x^2 - 3^2) / x^2"),
+				get("c").getAlgebraDescriptionTextOrHTMLDefault(
+						new IndexHTMLBuilder(true)));
+	}
 
 }
 

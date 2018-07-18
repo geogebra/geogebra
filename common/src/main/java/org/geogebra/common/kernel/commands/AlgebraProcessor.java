@@ -2735,7 +2735,8 @@ public class AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
-				&& !equ.hasVariableDegree();
+				&& !equ.hasVariableDegree()
+				&& (equ.isPolynomial() || !equ.inspect(Inspecting.dynamicGeosFinder));
 		GeoImplicit poly;
 		GeoElement geo = null;
 		boolean is3d = equ.isForcedSurface() || equ.isForcedQuadric()
