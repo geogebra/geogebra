@@ -85,7 +85,7 @@ class MetaModelSymbols {
 		// don't want this, see \cdot
 		// collection.addComponent(createOperator("times", "\\times", '*'));
 
-		collection.addComponent(createOperator("div", "\\div", '/'));
+		collection.addComponent(createOperator("div", "/", '/'));
 		collection.addComponent(
 				createOperator("ne", "!=", "\\ne", Unicode.NOTEQUAL));
 		collection.addComponent(createOperator("equal", "==",
