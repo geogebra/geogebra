@@ -8,6 +8,8 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -87,22 +89,15 @@ public abstract class MediaDialog extends OptionDialog
 	}
 
 	private void initActions() {
-		inputField.getTextComponent().getTextBox()
-				.addFocusHandler(new FocusHandler() {
+		// set focus to input field!
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-					@Override
-					public void onFocus(FocusEvent event) {
-						setFocusState();
-					}
-				});
-		inputField.getTextComponent().getTextBox()
-				.addBlurHandler(new BlurHandler() {
-
-					@Override
-					public void onBlur(BlurEvent event) {
-						resetInputField();
-					}
-				});
+			@Override
+			public void execute() {
+				getInputField().getTextComponent().setFocus(true);
+			}
+		});
+		addFocusBlurHandlers();
 		addInputHandler();
 		inputField.getTextComponent().getTextBox()
 				.addKeyUpHandler(new KeyUpHandler() {
@@ -124,7 +119,7 @@ public abstract class MediaDialog extends OptionDialog
 	 * Add handler for input event
 	 */
 	private void addInputHandler() {
-		nativeon(inputField.getTextComponent().getInputElement());
+		nativeOn(inputField.getTextComponent().getInputElement());
 	}
 
 	/**
@@ -147,6 +142,32 @@ public abstract class MediaDialog extends OptionDialog
 						getInputPanel().removeStyleName("hoverState");
 					}
 				});
+	}
+
+	private void addFocusBlurHandlers() {
+		inputField.getTextComponent().getTextBox()
+				.addFocusHandler(new FocusHandler() {
+
+					@Override
+					public void onFocus(FocusEvent event) {
+						setFocusState();
+					}
+				});
+		inputField.getTextComponent().getTextBox()
+				.addBlurHandler(new BlurHandler() {
+
+					@Override
+					public void onBlur(BlurEvent event) {
+						resetInputField();
+					}
+				});
+	}
+
+	/**
+	 * @return input text field
+	 */
+	public InputPanelW getInputField() {
+		return inputField;
 	}
 
 	/**
@@ -234,7 +255,7 @@ public abstract class MediaDialog extends OptionDialog
 		getInputPanel().removeStyleName("emptyState");
 	}
 
-	private native void nativeon(Element img) /*-{
+	private native void nativeOn(Element img) /*-{
 		var that = this;
 		img.addEventListener("input", function() {
 			that.@org.geogebra.web.full.gui.dialog.MediaDialog::onInput()();
