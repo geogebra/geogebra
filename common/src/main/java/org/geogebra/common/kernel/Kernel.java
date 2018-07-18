@@ -3091,7 +3091,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			// updating of the Python Script
 			// resetLibraryPythonScript();
 		}
-		if (this.ggbCAS != null) {
+		if (this.ggbCAS != null && this.ggbCAS.getCurrentCAS() != null) {
 			this.ggbCAS.getCurrentCAS().clearResult();
 		}
 		if (macroManager != null) {
