@@ -30,13 +30,13 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-        addConstantInputButton(row, buttonFactory, Resource.FRACTION, DIVISION);
+        addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "7");
         addInputButton(row, buttonFactory, "8");
         addInputButton(row, buttonFactory, "9");
         addInputButton(row, buttonFactory, MULTIPLICATION, "*");
-        addInputButton(row, buttonFactory, DIVISION, "/");
+        addInputButton(row, buttonFactory, DIVISION, DIVISION);
 
         row = mathKeyboard.nextRow(9.2f);
         addTranslateInputCommandButton(row, buttonFactory, "sin", "sin", 1.0f);

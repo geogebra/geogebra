@@ -26,7 +26,6 @@ public class KeyboardInputAdapter {
     static {
 		adapters = new ArrayList<>();
         adapters.add(new FunctionsAdapter());
-        adapters.add(new StringCharAdapter(divide, '/'));
         adapters.add(new StringCharAdapter(times, '*'));
         adapters.add(new StringCharAdapter(minus, '-'));
         adapters.add(new FunctionAdapter("|", "abs"));
@@ -52,6 +51,16 @@ public class KeyboardInputAdapter {
                 typeCharacter(mfi, '-');
                 typeCharacter(mfi, '1');
                 CursorController.nextCharacter(mfi.getEditorState());
+            }
+        });
+		adapters.add(new StringInput(divide + "") {
+            @Override
+            public void commit(MathFieldInternal mfi, String input) {
+                InputController controller = mfi.getInputController();
+                boolean createFrac = controller.getCreateFrac();
+                controller.setCreateFrac(false);
+                typeCharacter(mfi, '/');
+                controller.setCreateFrac(createFrac);
             }
         });
 		adapters.add(new StringInput(Unicode.SQUARE_ROOT + "") {
