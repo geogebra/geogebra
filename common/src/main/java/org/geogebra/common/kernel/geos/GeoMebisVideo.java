@@ -127,13 +127,15 @@ public class GeoMebisVideo extends GeoMP4Video {
 		sb.append(PARAM_TYPE);
 		sb.append("=");
 		sb.append(TYPE_VIDEO);
-		String start = params.containsKey(PARAM_START) ? params.get(PARAM_START) : null;
-		if (start != null) {
-			sb.append("&");
-			sb.append(PARAM_TIME);
-			sb.append("=");
-			sb.append(start);
+
+		int timeIndex = url.indexOf(PARAM_TIME);
+		if (timeIndex > -1) {
+			String time = url.substring(timeIndex);
+			if (time.matches("#t=[0-9]+(,[0-9]+)?")) {
+				sb.append(time);
+			}
 		}
+
 		return new MebisURL(sb.toString(), MebisError.NONE);
 	}
 
