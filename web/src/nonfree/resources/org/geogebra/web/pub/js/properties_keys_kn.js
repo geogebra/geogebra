@@ -354,7 +354,7 @@ __GGB__keysVar["kn"].command = {
     "FitLogistic": "FitLogistic",
     "FitLogistic.Syntax": "[ <List of Points> ]",
     "FitPoly": "FitPoly",
-    "FitPoly.Syntax": "[ <List of Points>, <Degree of Polynomial> ]",
+    "FitPoly.Syntax": "[ <List of Points>, <Degree of Polynomial> ]\n[ <Freehand Function>, <Degree of Polynomial> ]",
     "FitPow": "FitPow",
     "FitPow.Syntax": "[ <List of Points> ]",
     "FitSin": "FitSin",

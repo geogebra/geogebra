@@ -354,7 +354,7 @@ __GGB__keysVar["ta"].command = {
     "FitLogistic": "\u0baa\u0bca\u0bb0\u0bc1\u0ba4\u0bcd\u0ba4\u0bae\u0bbe\u0ba9\u0b85\u0bb3\u0bb5\u0bc0\u0b9f\u0bc1",
     "FitLogistic.Syntax": "[ <\u0b8e\u0ba3\u0bcd \u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd> ]",
     "FitPoly": "FitPoly",
-    "FitPoly.Syntax": "[ <List of Points>, <Degree of Polynomial> ]",
+    "FitPoly.Syntax": "[ <List of Points>, <Degree of Polynomial> ]\n[ <Freehand Function>, <Degree of Polynomial> ]",
     "FitPow": "FitPow",
     "FitPow.Syntax": "[ <\u0b8e\u0ba3\u0bcd \u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd> ]",
     "FitSin": "FitSin",
