@@ -79,7 +79,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				String url = Location.getHref().replaceAll("\\?.*", "")
 						+ Solver.getRelativeURLforEqn(getMathField().getText());
-				ShareDialog sd = new ShareDialog(AppWsolver.this, url);
+				ShareDialog sd = new ShareDialog(AppWsolver.this, url, null);
 				sd.setVisible(true);
 				sd.center();
 			}
