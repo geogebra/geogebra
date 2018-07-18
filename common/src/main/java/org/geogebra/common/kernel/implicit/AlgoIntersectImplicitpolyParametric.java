@@ -91,7 +91,7 @@ public class AlgoIntersectImplicitpolyParametric
 	@Override
 	public void compute() {
 
-		if (!p.isDefined() || f.getFunction() == null) {
+		if (!p.isDefined()) {
 			return;
 		}
 
