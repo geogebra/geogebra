@@ -124,6 +124,9 @@ public class MetaFunction extends MetaComponent {
      * Up Index for n-th argument
      */
     public int getUpIndex(int n) {
+		if (arguments.length <= n) {
+			return -1;
+		}
         return arguments[n].getUpIndex();
     }
 
@@ -131,6 +134,9 @@ public class MetaFunction extends MetaComponent {
      * Down Index for n-th argument
      */
     public int getDownIndex(int n) {
+		if (arguments.length <= n) {
+			return -1;
+		}
         return arguments[n].getDownIndex();
     }
 
