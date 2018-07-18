@@ -7,8 +7,18 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -66,14 +76,81 @@ public class MaterialRenameDialog extends OptionDialog {
 		addStyleName("GeoGebraPopup");
 		setLabels();
 		inputField.getTextComponent().setText(card.getMaterialTitle());
+		initInputFieldActions();
+	}
+
+	/**
+	 * @return input text field of dialog
+	 */
+	public InputPanelW getInputField() {
+		return inputField;
+	}
+
+	private void initInputFieldActions() {
+		// on input change
 		inputField.getTextComponent().addKeyUpHandler(new KeyUpHandler() {
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				validate(event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER);
 			}
-
 		});
+		// set focus to input field!
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				getInputField().getTextComponent().setFocus(true);
+			}
+		});
+		addHoverHandlers();
+		addFocusHandlers();
+	}
+
+	/**
+	 * Add focus / blur handlers
+	 */
+	private void addFocusHandlers() {
+		inputField.getTextComponent().getTextBox()
+				.addFocusHandler(new FocusHandler() {
+
+					@Override
+					public void onFocus(FocusEvent event) {
+						getInputField().setStyleName("mowRenameDialogContent");
+						getInputField().addStyleName("focusState");
+					}
+				});
+		inputField.getTextComponent().getTextBox()
+				.addBlurHandler(new BlurHandler() {
+
+					@Override
+					public void onBlur(BlurEvent event) {
+						getInputField().removeStyleName("focusState");
+						getInputField().addStyleName("emptyState");
+					}
+				});
+	}
+
+	/**
+	 * Add mouse over/ out handlers
+	 */
+	private void addHoverHandlers() {
+		inputField.getTextComponent().getTextBox()
+				.addMouseOverHandler(new MouseOverHandler() {
+
+					@Override
+					public void onMouseOver(MouseOverEvent event) {
+						getInputField().addStyleName("hoverState");
+					}
+				});
+		inputField.getTextComponent().getTextBox()
+				.addMouseOutHandler(new MouseOutHandler() {
+
+					@Override
+					public void onMouseOut(MouseOutEvent event) {
+						getInputField().removeStyleName("hoverState");
+					}
+				});
 	}
 
 	/**
@@ -107,8 +184,7 @@ public class MaterialRenameDialog extends OptionDialog {
 	 * set button labels
 	 */
 	public void setLabels() {
-		getCaption().setText(appW.getLocalization().getMenu("Rename"));
-		updateButtonLabels("OK");
+		getCaption().setText(appW.getLocalization().getMenu("rename.resource"));
+		updateButtonLabels("Rename");
 	}
-
 }
