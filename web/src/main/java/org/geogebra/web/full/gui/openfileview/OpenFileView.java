@@ -63,7 +63,10 @@ public class OpenFileView extends MyHeaderPanel
 	private FlowPanel materialPanel;
 	private MaterialCallbackI ggtMaterialsCB;
 	private MaterialCallbackI userMaterialsCB;
-	private FlowPanel imagePanel;
+	// info panel
+	private FlowPanel infoPanel;
+	private Label caption;
+	private Label info;
 
 	private boolean materialListEmpty = true;
 	private Order order = Order.timestamp;
@@ -100,7 +103,7 @@ public class OpenFileView extends MyHeaderPanel
 		if (materialListEmpty) {
 			showEmptyListNotification();
 			setExtendedButtonStyle();
-			imagePanel.add(buttonPanel);
+			infoPanel.add(buttonPanel);
 		} else {
 			setSmallButtonStyle();
 			contentPanel.add(buttonPanel);
@@ -254,21 +257,21 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void showEmptyListNotification() {
-		imagePanel = new FlowPanel();
-		imagePanel.setStyleName("emptyMaterialListInfo");
+		infoPanel = new FlowPanel();
+		infoPanel.setStyleName("emptyMaterialListInfo");
 		Image image = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_lightbulb(), 112, 112);
 		// init texts
-		Label caption = new Label(localize("emptyMaterialList.caption.mow"));
+		caption = new Label(localize("emptyMaterialList.caption.mow"));
 		caption.setStyleName("caption");
-		Label info = new Label(localize("emptyMaterialList.info.mow"));
+		info = new Label(localize("emptyMaterialList.info.mow"));
 		info.setStyleName("info");
 		// build panel
-		imagePanel.add(image);
-		imagePanel.add(caption);
-		imagePanel.add(info);
+		infoPanel.add(image);
+		infoPanel.add(caption);
+		infoPanel.add(info);
 		// add panel to content panel
-		contentPanel.add(imagePanel);
+		contentPanel.add(infoPanel);
 	}
 
 	private void setExtendedButtonStyle() {
@@ -354,8 +357,23 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void setLabels() {
-		headerCaption.setText(
-				app.getLocalization().getMenu("mow.openFileViewTitle"));
+		headerCaption.setText(localize("mow.openFileViewTitle"));
+		newFileBtn.setText(localize("mow.newFile"));
+		openFileBtn
+				.setImageAndText(
+						MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
+								.getSafeUri().asString(),
+						localize("mow.openFile"));
+		if (sortDropDown != null) {
+			sortDropDown.setItemText(0, localize("SortBy"));
+			for (int i = 0; i < map.length; i++) {
+				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
+			}
+		}
+		if (infoPanel != null) {
+			caption.setText(localize("emptyMaterialList.caption.mow"));
+			info.setText(localize("emptyMaterialList.info.mow"));
+		}
 	}
 
 	@Override
