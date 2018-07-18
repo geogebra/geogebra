@@ -1,6 +1,7 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -10,6 +11,11 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -34,23 +40,38 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	private StandardButton exportImgBtn;
 
 	private String shareURL;
+	/** parent widget */
+	protected Widget anchor;
 
 	/**
 	 * @param app
 	 *            application
 	 * @param shareURL
 	 *            sharing url of material
+	 * @param anchor
+	 *            parent widget
 	 */
-	public ShareDialog(AppW app, String shareURL) {
+	public ShareDialog(AppW app, String shareURL, Widget anchor) {
 		super(app.getPanel(), app);
 		this.app = app;
 		this.shareURL = shareURL;
+		this.anchor = anchor;
 		initGui();
 	}
 
 	private void initGui() {
 		addStyleName("shareDialog");
 		setAutoHideEnabled(true);
+		setGlassEnabled(false);
+		addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				if (anchor != null) {
+					anchor.removeStyleName("selected");
+				}
+			}
+		});
+		addResizeHandler();
 		mainPanel = new FlowPanel();
 
 		linkPanel = new FlowPanel();
@@ -119,6 +140,22 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		}
 	}
 
+	@Override
+	protected void addResizeHandler() {
+		if (anchor == null) {
+			super.addResizeHandler();
+		} else {
+			Window.addResizeHandler(new ResizeHandler() {
+
+				@Override
+				public void onResize(ResizeEvent event) {
+					setPopupPosition(anchor.getAbsoluteLeft() - 474,
+							anchor.getAbsoluteTop() - 27);
+				}
+			});
+		}
+	}
+
 	/**
 	 * set button labels and dialog title
 	 */
@@ -138,6 +175,9 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	@Override
 	public void show() {
 		super.show();
+		if (anchor != null) {
+			anchor.addStyleName("selected");
+		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -145,5 +185,14 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 				linkBox.setFocus(true);
 			}
 		});
+	}
+
+	@Override
+	public void center() {
+		super.center();
+		if (anchor != null) {
+			setPopupPosition(anchor.getAbsoluteLeft() - 474,
+					anchor.getAbsoluteTop() - 27);
+		}
 	}
 }
