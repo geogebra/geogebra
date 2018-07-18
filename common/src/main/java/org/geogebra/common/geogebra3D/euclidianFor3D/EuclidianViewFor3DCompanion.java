@@ -9,8 +9,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
@@ -64,7 +64,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	 * @return drawable for curve
 	 */
 	@Override
-	public DrawableND newDrawParametricCurve(GeoCurveCartesianND geo) {
+	public DrawableND newDrawParametricCurve(ParametricCurve geo) {
 		if (geo instanceof GeoCurveCartesian3D) {
 			return new DrawParametricCurve(view,
 					new CurveEvaluableFor3D((GeoCurveCartesian3D) geo));

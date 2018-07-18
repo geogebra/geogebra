@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -231,7 +231,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 	@Override
 	public void setTransformRegardingView() {
-
+		// TODO allow this even when 3d not inited
 		Coords directionView3D = ((EuclidianView3D) view.getApplication()
 				.getEuclidianView3D()).getViewDirection();
 		CoordMatrix toScreenMatrix = ((EuclidianView3D) view.getApplication()
@@ -390,6 +390,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		case IMPLICIT_POLY:
 		case CURVE_CARTESIAN:
 		case CURVE_CARTESIAN3D:
+		case FUNCTION:
 		case LIST:
 			return geo.isVisibleInViewForPlane();
 		case ANGLE:
@@ -609,7 +610,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	public DrawableND newDrawParametricCurve(GeoCurveCartesianND geo) {
+	public DrawableND newDrawParametricCurve(ParametricCurve geo) {
 		return new DrawParametricCurve(view,
 				new CurveEvaluableForPlane(geo, this));
 	}

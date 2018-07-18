@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawLocus;
-import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPointPlot;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
@@ -292,7 +291,8 @@ public class EuclidianDraw {
 			if (((GeoFunction) geo).isBooleanFunction()) {
 				d = new DrawInequality(ev, (FunctionalNVar) geo);
 			} else {
-				d = new DrawParametricCurve(ev, (ParametricCurve) geo);
+				d = ev.getCompanion()
+						.newDrawParametricCurve((ParametricCurve) geo);
 			}
 			break;
 

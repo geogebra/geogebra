@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.consprotocol;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
-import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
@@ -55,21 +54,20 @@ public class ConstructionProtocolNavigationW
 	 *            parent view ID
 	 */
 	public ConstructionProtocolNavigationW(AppW app, int viewID) {
+		super(app, viewID);
 		implPanel = new FlowPanel();
-		this.app = app;
 		
 		spDelay = new GSpinnerW();
 		
 		lbSteps = new Label();
-		setViewID(viewID);
-		
 	}
 	
 	public static Image getImageForIcon(SafeUri src) {
 		return new Image(src);
 	}
 
-	private void initGUI() {
+	@Override
+	protected void initGUI() {
 		btFirst = new PushButton(new Image(
 				GuiResources.INSTANCE.icons_play_skipback()));
 		btFirst.getUpHoveringFace().setImage(
@@ -182,18 +180,6 @@ public class ConstructionProtocolNavigationW
 		int currentStep = getProt().getCurrentStepNumber();
 		int stepNumber = getProt().getLastStepNumber();
 			lbSteps.setText(currentStep + " / " + stepNumber);	
-	}
-	
-	@Override
-	public void register(ConstructionProtocolView constructionProtocolView) {
-		if (prot == null) { 
-			initGUI(); 
-		}
-
-		if (constructionProtocolView instanceof ConstructionProtocolViewW) {
-			prot = (ConstructionProtocolViewW) constructionProtocolView;
-			prot.registerNavigationBar(this);
-		}
 	}
 
 	@Override
@@ -382,7 +368,6 @@ public class ConstructionProtocolNavigationW
 		if (playPanel != null) {
 			playPanel.setVisible(flag);
 		}
-
 	}
 
 }

@@ -32,6 +32,17 @@ public abstract class ConstructionProtocolNavigation {
 	private int viewID;
 
 	/**
+	 * @param app
+	 *            application
+	 * @param viewID
+	 *            view ID
+	 */
+	public ConstructionProtocolNavigation(App app, int viewID) {
+		this.app = app;
+		this.viewID = viewID;
+	}
+
+	/**
 	 * Sets the visibility of the navigation bar.
 	 * 
 	 * @param visible
@@ -107,7 +118,22 @@ public abstract class ConstructionProtocolNavigation {
 	 * @param constructionProtocolView
 	 *            CP view
 	 */
-	abstract public void register(ConstructionProtocolView cpv);
+	public final void register(
+			ConstructionProtocolView constructionProtocolView) {
+		if (prot == null) {
+			initGUI();
+		}
+
+		if (constructionProtocolView != null) {
+			prot = constructionProtocolView;
+			prot.registerNavigationBar(this);
+		}
+	}
+
+	/**
+	 * Initialize the UI
+	 */
+	protected abstract void initGUI();
 
 	/**
 	 * set button to "play" aspect
@@ -125,10 +151,6 @@ public abstract class ConstructionProtocolNavigation {
 
 	protected void setPlaying(boolean isPlaying) {
 		this.isPlaying = isPlaying;
-	}
-
-	protected void setViewID(int viewID) {
-		this.viewID = viewID;
 	}
 
 	protected ConstructionStepper getProt() {

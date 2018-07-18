@@ -37,13 +37,11 @@ import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
-import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -78,10 +76,9 @@ public class ConstructionProtocolNavigationD
 	 *            application
 	 */
 	public ConstructionProtocolNavigationD(AppD app, int viewID) {
+		super(app, viewID);
 		implPanel = new JPanel();
-		this.app = app;
 		this.loc = app.getLocalization();
-		this.setViewID(viewID);
 		SpinnerModel model = new SpinnerNumberModel(2, // initial value
 				0.25, // min
 				10, // max
@@ -146,18 +143,19 @@ public class ConstructionProtocolNavigationD
 	/**
 	 * Initializes all components, sets labels
 	 */
+	@Override
 	public void initGUI() {
 
 		implPanel.removeAll();
-
+		final AppD appD = (AppD) app;
 		btFirst = new JButton(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+				appD.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
 		btLast = new JButton(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+				appD.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
 		btPrev = new JButton(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_REWIND64));
+				appD.getScaledIcon(GuiResourcesD.NAV_REWIND64));
 		btNext = new JButton(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
+				appD.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
 
 		btFirst.addActionListener(this);
 		btLast.addActionListener(this);
@@ -175,7 +173,7 @@ public class ConstructionProtocolNavigationD
 		playPanel.setVisible(showPlayButton);
 		playPanel.add(Box.createRigidArea(new Dimension(20, 10)));
 		btPlay = new JButton();
-		btPlay.setIcon(new ImageIcon(((AppD) app).getPlayImage()));
+		btPlay.setIcon(new ImageIcon(appD.getPlayImage()));
 		btPlay.addActionListener(this);
 
 		spDelay.addChangeListener(new ChangeListener() {
@@ -195,22 +193,22 @@ public class ConstructionProtocolNavigationD
 		playPanel.add(new JLabel("s"));
 
 		btOpenWindow = new JButton();
-		btOpenWindow.setIcon(((AppD) app)
+		btOpenWindow.setIcon(appD
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		btOpenWindow.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// app.getGuiManager().showConstructionProtocol();
-				if (!app.getGuiManager()
+				if (!appD.getGuiManager()
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-					app.getGuiManager().setShowView(true,
+					appD.getGuiManager().setShowView(true,
 							App.VIEW_CONSTRUCTION_PROTOCOL);
 				}
 
 				// Checkbox of Construction protocol view will be checked in
 				// view menu
-				((GeoGebraMenuBar) (((GuiManagerD) app.getGuiManager())
-						.getMenuBar())).updateCPView(true);
+				((GeoGebraMenuBar) appD.getGuiManager().getMenuBar())
+						.updateCPView(true);
 			}
 		});
 		btOpenWindow.setVisible(isConsProtButtonVisible());
@@ -248,18 +246,6 @@ public class ConstructionProtocolNavigationD
 			int currentStep = prot.getCurrentStepNumber();
 			int stepNumber = prot.getLastStepNumber();
 			lbSteps.setText(currentStep + " / " + stepNumber);
-		}
-	}
-
-	@Override
-	public void register(ConstructionProtocolView constructionProtocolView) {
-		if (prot == null) {
-			initGUI();
-		}
-
-		if (constructionProtocolView instanceof ConstructionProtocolViewD) {
-			prot = constructionProtocolView;
-			prot.registerNavigationBar(this);
 		}
 	}
 

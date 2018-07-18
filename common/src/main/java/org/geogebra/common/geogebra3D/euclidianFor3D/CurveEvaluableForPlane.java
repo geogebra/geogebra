@@ -5,8 +5,8 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -17,7 +17,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class CurveEvaluableForPlane implements CurveEvaluable {
 
-	GeoCurveCartesianND parent;
+	ParametricCurve parent;
 	Coords parentOut;
 	Coords parentOutInView;
 	EuclidianViewForPlaneCompanion companion;
@@ -59,7 +59,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 	 * @param companion
 	 *            view for plane companion
 	 */
-	public CurveEvaluableForPlane(GeoCurveCartesianND parent,
+	public CurveEvaluableForPlane(ParametricCurve parent,
 			EuclidianViewForPlaneCompanion companion) {
 		this.parent = parent;
 		this.companion = companion;
@@ -96,11 +96,17 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 
 	@Override
 	public double getMinParameter() {
+		if (parent.isGeoFunction()) {
+			return companion.getView().getXmin();
+		}
 		return parent.getMinParameter();
 	}
 
 	@Override
 	public double getMaxParameter() {
+		if (parent.isGeoFunction()) {
+			return companion.getView().getXmax();
+		}
 		return parent.getMaxParameter();
 	}
 

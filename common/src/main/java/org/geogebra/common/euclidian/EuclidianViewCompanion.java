@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -549,7 +549,7 @@ public class EuclidianViewCompanion {
 		// used for some input3D
 	}
 
-	public DrawableND newDrawParametricCurve(GeoCurveCartesianND geo) {
+	public DrawableND newDrawParametricCurve(ParametricCurve geo) {
 		return new DrawParametricCurve(view, geo);
 	}
 
