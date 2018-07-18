@@ -45,7 +45,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb", 1.0f);
         addInputButton(row, buttonFactory, "abs", "|");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addInputCommandButton(row, buttonFactory, "rand", "rand", 1.0f);
+        addInputCommandButton(row, buttonFactory, "rand", "random", 1.0f);
         addInputCommandButton(row, buttonFactory, "round", "round", 1.0f);
         addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
                 Action.BACKSPACE_DELETE);
