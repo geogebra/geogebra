@@ -398,7 +398,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * 
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
-	protected void onSave() {
+	public void onSave() {
 		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
 			app.getKernel().getConstruction().setTitle(this.title.getText());
 			app.getFileManager().export(app);
