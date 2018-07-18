@@ -426,4 +426,9 @@ public class TestArticleElement implements ArticleElementInterface {
 		return "";
 	}
 
+	@Override
+	public String getParamBackendURL() {
+		return "";
+	}
+
 }

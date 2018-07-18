@@ -466,4 +466,9 @@ public interface ArticleElementInterface {
 	 */
 	String getParamLogoutURL();
 
+	/**
+	 * @return URL of Shibboleth logout
+	 */
+	String getParamBackendURL();
+
 }
