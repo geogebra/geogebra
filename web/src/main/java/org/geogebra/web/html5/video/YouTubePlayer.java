@@ -3,13 +3,13 @@ package org.geogebra.web.html5.video;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.web.full.gui.util.PersistableFrame;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -22,7 +22,7 @@ public class YouTubePlayer extends VideoPlayer {
 	private static boolean youTubeAPI;
 	private JavaScriptObject ytPlayer;
 	private static ArrayList<YouTubePlayer> waiting = new ArrayList<>();
-	private Frame frame;
+	private PersistableFrame frame;
 
 	/**
 	 * Constructor.
@@ -44,7 +44,7 @@ public class YouTubePlayer extends VideoPlayer {
 
 	@Override
 	protected void createGUI() {
-		frame = new Frame(getEmbedUrl());
+		frame = new PersistableFrame(getEmbedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
 	}
 

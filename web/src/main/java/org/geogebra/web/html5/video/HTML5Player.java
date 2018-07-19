@@ -1,9 +1,9 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.web.full.gui.util.PersistablePanel;
 import org.geogebra.web.html5.video.VideoWidget.VideoListener;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class HTML5Player extends VideoPlayer implements VideoListener {
 	private VideoWidget v;
-	private FlowPanel main;
+	private PersistablePanel main;
 
 	/**
 	 * Constructor
@@ -32,7 +32,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 
 	@Override
 	protected void createGUI() {
-		main = new FlowPanel();
+		main = new PersistablePanel();
 		v = new VideoWidget(video.getSrc(), this);
 		main.add(v);
 	}
