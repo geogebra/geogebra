@@ -71,6 +71,7 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
+import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
@@ -712,6 +713,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void openSearch(String query) {
+		if (has(Feature.MOW_OPEN_FILE_VIEW)
+				&& ((GuiManagerW) getGuiManager()).browseGUIwasLoaded()
+				&& query == null
+				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
+				((OpenFileView) getGuiManager().getBrowseView())
+						.updateMaterials();
+		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 	}
 

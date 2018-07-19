@@ -1726,8 +1726,9 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void logout() {
-		// TODO Auto-generated method stub
-
+		if (app.has(Feature.MOW_OPEN_FILE_VIEW)) {
+			this.browseGUI = null;
+		}
 	}
 
 	/**

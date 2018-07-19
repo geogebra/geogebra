@@ -324,9 +324,11 @@ public class OpenFileView extends MyHeaderPanel
 		materialPanel.clear();
 	}
 
-	@Override
-	public void clearPanel() {
-		contentPanel.clear();
+	/**
+	 * update material list
+	 */
+	public void updateMaterials() {
+		updateOrder();
 	}
 
 	@Override
