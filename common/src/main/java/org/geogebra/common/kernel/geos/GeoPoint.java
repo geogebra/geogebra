@@ -2922,6 +2922,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sb.append(loc.getMenuDefault("PressArrowsToMove",
 					"Press the arrow keys to move the object"));
 		}
+		if (sb.length() > 0 && sb.charAt(sb.length() - 1) != '.') {
+			sb.append(".");
+		}
 		super.addAuralOperations(loc, sb);
 	}
 

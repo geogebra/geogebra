@@ -2029,10 +2029,10 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			return;
 		}
-		sb.append(loc.getMenuDefault("Slider", "slider"));
+		sb.append(loc.getMenuDefault("Slider", "Slider"));
 		sb.append(" ");
 		addAuralSliderValue(sb);
-		sb.append(" ");
+		sb.append(". ");
 	}
 
 	@Override
@@ -2048,15 +2048,16 @@ public class GeoNumeric extends GeoElement
 			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
 					"Press space to start animation"));
 		}
-		sb.append(" ");
+		sb.append(". ");
 		if (getIntervalMax() != getValue()) {
 			sb.append(loc.getMenuDefault("PressUpToIncrease",
 					"Press up arrow to increase the value"));
+			sb.append(". ");
 		}
-		sb.append(" ");
 		if (getIntervalMin() != getValue()) {
 			sb.append(loc.getMenuDefault("PressDownToDecrease",
 					"Press down arrow to decrease the value"));
+			sb.append(". ");
 		}
 		super.addAuralOperations(loc, sb);
 

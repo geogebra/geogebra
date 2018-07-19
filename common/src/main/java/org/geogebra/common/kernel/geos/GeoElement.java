@@ -7714,7 +7714,7 @@ public abstract class GeoElement extends ConstructionElement
 		String caption0 = getCaptionSimple();
 		if (caption0 != null && !"".equals(caption)) {
 			sb.append(caption0);
-			sb.append(" ");
+			sb.append(". ");
 			return true;
 		}
 		return false;
@@ -7729,7 +7729,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void addAuralLabel(Localization loc, StringBuilder sb) {
 		sb.append(getLabelSimple());
-		sb.append(" ");
+		sb.append(". ");
 	}
 
 	@Override
@@ -7750,21 +7750,24 @@ public abstract class GeoElement extends ConstructionElement
 		// Implement this if geo has status. (pressed, checked, etc)
 	}
 
-	/**
-	 * 
-	 * @return text that screen readers should read.
-	 */
+	@Override
 	public String getAuralText() {
 		Localization loc = kernel.getLocalization();
 		StringBuilder sb = new StringBuilder();
 		addAuralName(loc, sb);
-		sb.append(" ");
+		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
+			sb.append(" ");
+		}
 		addAuralStatus(loc, sb);
-		sb.append(" ");
+		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
+			sb.append(" ");
+		}
 		addAuralContent(loc, sb);
-		sb.append(" ");
+		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
+			sb.append(" ");
+		}
 		addAuralOperations(loc, sb);
-		sb.append(". ");
+		sb.append(".");
 		return sb.toString();
 	}
 

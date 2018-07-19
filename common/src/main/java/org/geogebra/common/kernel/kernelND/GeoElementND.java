@@ -1517,4 +1517,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public int getDecorationType();
 
+	/**
+	 * @return text that screen readers should read.
+	 */
+	String getAuralText();
+
 }
