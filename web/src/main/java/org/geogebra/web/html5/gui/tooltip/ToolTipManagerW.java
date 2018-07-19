@@ -308,8 +308,9 @@ public final class ToolTipManagerW {
 			}
 		}
 		lastTipVisible = true;
-		if (link == ToolTipLinkType.Help && helpURL != null
-				&& helpURL.length() > 0) {
+		if (link == ToolTipLinkType.ViewSavedFile
+				|| (link == ToolTipLinkType.Help && helpURL != null
+						&& helpURL.length() > 0)) {
 				scheduleHideBottom();
 		}
 	}
