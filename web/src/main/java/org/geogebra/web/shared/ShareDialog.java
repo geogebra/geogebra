@@ -33,6 +33,8 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	private Label linkLabel;
 	/** textbox providing share url */
 	protected TextBox linkBox;
+	/** true if linkBox is focused */
+	protected boolean linkBoxFocused = true;
 	private StandardButton copyBtn;
 
 	private FlowPanel buttonPanel;
@@ -86,16 +88,18 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				linkBox.setSelectionRange(0, 0);
-				linkBox.selectAll();
+				focusLinkBox();
 			}
 		});
 		linkBox.addBlurHandler(new BlurHandler() {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				linkBox.setFocus(true);
-				linkBox.setSelectionRange(0, 0);
+				if (linkBoxFocused) {
+					linkBox.setFocus(true);
+					linkBox.setSelectionRange(0, 0);
+				}
+				linkBoxFocused = false;
 			}
 		});
 		copyBtn = new StandardButton(localize("Copy"),
@@ -125,12 +129,21 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		copyBtn.addFastClickHandler(this);
 	}
 
+	/**
+	 * focus textBox and select text
+	 */
+	protected void focusLinkBox() {
+		linkBox.setFocus(true);
+		linkBox.setSelectionRange(0, 0);
+		linkBox.selectAll();
+		linkBoxFocused = true;
+	}
 	@Override
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
+			linkBoxFocused = false;
 			app.copyTextToSystemClipboard(linkBox.getText());
-			linkBox.setFocus(true);
-			linkBox.selectAll();
+			focusLinkBox();
 		} else if (source == printBtn) {
 			app.getDialogManager().showPrintPreview();
 			hide();
