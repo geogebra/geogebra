@@ -78,6 +78,7 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -109,7 +110,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -250,7 +250,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
 	protected Furniture movedGeoButton;
-	protected GeoWidget movedGeoWidget;
+	protected AbsoluteScreenLocateable movedGeoWidget;
 	protected GeoMedia movedGeoMedia;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
@@ -7554,7 +7554,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
-				movedGeoWidget = (GeoWidget) movedGeoElement;
+				movedGeoWidget = (AbsoluteScreenLocateable) movedGeoElement;
 				moveWidget(movedGeoWidget, MOVE_BUTTON);
 			} else {
 				// need to trigger scripts
@@ -7611,7 +7611,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void moveWidget(GeoWidget geo, int mode) {
+	private void moveWidget(AbsoluteScreenLocateable geo, int mode) {
 		moveMode = mode;
 		startLoc = mouseLoc;
 		if (geo instanceof GeoButton) {
@@ -9213,7 +9213,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view instanceof PlotPanelEuclidianViewInterface) {
 				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			}
-		} else if (app.isHTML5Applet()) {
+		} else if (true || app.isHTML5Applet()) {
 			if (!isComboboxFocused()) {
 				view.requestFocus();
 			}
