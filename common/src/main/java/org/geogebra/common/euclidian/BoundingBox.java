@@ -529,9 +529,10 @@ public class BoundingBox {
 			}
 			video.setHeight(newHeight);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
-				newWidth = (int) (newHeight / video.getOriginalRatio());
-				video.setAbsoluteScreenLoc(video.getLeft() + (video.getWidth() - newWidth) / 2,
-						eventY);
+				Double w = (newHeight / video.getOriginalRatio());
+				newWidth = w.intValue();
+				int newLeft = video.getLeft() + video.getWidth() / 2 - newWidth / 2;
+				video.setAbsoluteScreenLoc(newLeft, eventY);
 				video.setWidth(newWidth);
 			} else {
 				video.setAbsoluteScreenLoc(video.getLeft(), eventY);
