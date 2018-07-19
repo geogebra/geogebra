@@ -120,6 +120,15 @@ public interface VideoManager {
 	String getYouTubeId(String url);
 
 	/**
+	 * Gets the ID of the Mebis video
+	 * 
+	 * @param url
+	 *            the URL of the video.
+	 * @return the short ID of video, or null
+	 */
+	String getMebisId(String url);
+
+	/**
 	 * Removes all players from application.
 	 */
 	void removePlayers();

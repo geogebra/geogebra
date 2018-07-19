@@ -38,6 +38,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 */
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
 	private static final String YOUTUBE_PREVIEW = "https://dev.geogebra.org/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
+	private static final String MEBIS_PREVIEW = "https://dev.geogebra.org/crossorigin/?url=https://sodis.de/mediathek/thumbsCache_16_9/%ID%___.jpg";
 
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";
@@ -125,7 +126,10 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
 			youtubeId = app.getVideoManager().getYouTubeId(getSrc());
 			previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
-
+		} else if (getFormat() == MediaFormat.VIDEO_MEBIS) {
+			Log.debug("constructIds - getSrc" + getSrc());
+			String id = app.getVideoManager().getMebisId(getSrc());
+			previewUrl = MEBIS_PREVIEW.replace("%ID%", id);
 		}
 	}
 
@@ -133,7 +137,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 * Creates the preview image for the video.
 	 */
 	protected void createPreview() {
-		if (getFormat() != MediaFormat.VIDEO_YOUTUBE) {
+		if (getFormat() != MediaFormat.VIDEO_YOUTUBE && getFormat() != MediaFormat.VIDEO_MEBIS) {
 			return;
 		}
 		app.getVideoManager().createPreview(this, new AsyncOperation<MyImage>() {

@@ -145,10 +145,36 @@ public class MediaURLParser {
 	}
 
 	/**
-	 * Transforms possible Mebis URL to a packed, standardized one.
-	 * Result contains an error code if original url is not a
-	 * Mebis URL.
-	 * format is:
+	 * Gets the ID of the Mebis video
+	 * 
+	 * @param url
+	 *            the URL of the video.
+	 * @return the short ID of video, or null
+	 */
+	public static String getMebisId(String url) {
+		String substring = getQuery(url);
+		Map<String, String> params = extractParams(substring);
+		String doc = params.get(MEBIS_PARAM_DOC);
+		String ret = getMebisIdFromParams(params, doc);
+		return ret;
+	}
+
+	private static String getMebisIdFromParams(Map<String, String> params, String doc) {
+		if (MEBIS_DOC_EMBEDDED_OBJECT.equals(doc)) {
+			if (params.containsKey(MEBIS_PARAM_ID)) {
+				return params.get(MEBIS_PARAM_ID);
+			}
+		} else if (MEBIS_DOC_PROVIDE_VIDEO.equals(doc) || MEBIS_DOC_RECORD.equals(doc)) {
+			if (params.containsKey(MEBIS_PARAM_IDENTIFIER)) {
+				return params.get(MEBIS_PARAM_IDENTIFIER);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Transforms possible Mebis URL to a packed, standardized one. Result
+	 * contains an error code if original url is not a Mebis URL. format is:
 	 * https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120
 	 * 
 	 * @param url
@@ -176,15 +202,8 @@ public class MediaURLParser {
 			return new MebisURL(null, MebisError.TYPE);
 		}
 
-		if (MEBIS_DOC_EMBEDDED_OBJECT.equals(doc)) {
-			if (params.containsKey(MEBIS_PARAM_ID)) {
-				id = params.get(MEBIS_PARAM_ID);
-			}
-		} else if (MEBIS_DOC_PROVIDE_VIDEO.equals(doc) || MEBIS_DOC_RECORD.equals(doc)) {
-			if (params.containsKey(MEBIS_PARAM_IDENTIFIER)) {
-				id = params.get(MEBIS_PARAM_IDENTIFIER);
-			}
-		}
+		id = getMebisIdFromParams(params, doc);
+
 		if (id == null) {
 			return new MebisURL(null, MebisError.ID);
 		}

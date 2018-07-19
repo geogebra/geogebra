@@ -194,4 +194,9 @@ public class VideoManagerW implements VideoManager {
 	public String getYouTubeId(String url) {
 		return MediaURLParser.getYouTubeId(url);
 	}
+
+	@Override
+	public String getMebisId(String url) {
+		return MediaURLParser.getMebisId(url);
+	}
 }
