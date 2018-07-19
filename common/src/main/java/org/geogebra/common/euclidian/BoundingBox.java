@@ -494,9 +494,10 @@ public class BoundingBox {
 			}
 			video.setWidth(newWidth);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
-				newHeight = (int) (video.getOriginalRatio() * newWidth);
+				Double h = video.getOriginalRatio() * newWidth;
+				newHeight = h.intValue();
 				video.setAbsoluteScreenLoc(video.getLeft(),
-						video.getTop() + (video.getHeight() - newHeight) / 2);
+						video.getTop() + video.getHeight() / 2 - newHeight / 2);
 				video.setHeight(newHeight);
 			} else {
 				video.resetRatio();
@@ -511,9 +512,10 @@ public class BoundingBox {
 			}
 			video.setWidth(newWidth);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
-				newHeight = (int) (video.getOriginalRatio() * newWidth);
+				Double h = video.getOriginalRatio() * newWidth;
+				newHeight = h.intValue();
 				video.setAbsoluteScreenLoc(eventX,
-						video.getTop() + (video.getHeight() - newHeight) / 2);
+						video.getTop() + video.getHeight() / 2 - newHeight / 2);
 				video.setHeight(newHeight);
 			} else {
 				video.setAbsoluteScreenLoc(eventX, video.getTop());
@@ -531,8 +533,8 @@ public class BoundingBox {
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
 				Double w = (newHeight / video.getOriginalRatio());
 				newWidth = w.intValue();
-				int newLeft = video.getLeft() + video.getWidth() / 2 - newWidth / 2;
-				video.setAbsoluteScreenLoc(newLeft, eventY);
+				video.setAbsoluteScreenLoc(video.getLeft() + video.getWidth() / 2 - newWidth / 2,
+						eventY);
 				video.setWidth(newWidth);
 			} else {
 				video.setAbsoluteScreenLoc(video.getLeft(), eventY);
@@ -548,8 +550,9 @@ public class BoundingBox {
 			}
 			video.setHeight(newHeight);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
-				newWidth = (int) (newHeight / video.getOriginalRatio());
-				video.setAbsoluteScreenLoc(video.getLeft() + (video.getWidth() - newWidth) / 2,
+				Double w = newHeight / video.getOriginalRatio();
+				newWidth = w.intValue();
+				video.setAbsoluteScreenLoc(video.getLeft() + video.getWidth() / 2 - newWidth / 2,
 						video.getTop());
 				video.setWidth(newWidth);
 			} else {
