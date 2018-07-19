@@ -303,7 +303,9 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void setMaterialsDefaultStyle() {
-		// TODO Auto-generated method stub
+		if (materialPanel.getWidgetCount() == 0) {
+			updateMaterials();
+		}
 	}
 
 	@Override
@@ -324,11 +326,21 @@ public class OpenFileView extends MyHeaderPanel
 		materialPanel.clear();
 	}
 
+	private void clearPanels() {
+		if (contentPanel != null) {
+			contentPanel.clear();
+		}
+		if (infoPanel != null) {
+			infoPanel.clear();
+		}
+	}
+
 	/**
 	 * update material list
 	 */
 	public void updateMaterials() {
-		updateOrder();
+		clearPanels();
+		loadAllMaterials();
 	}
 
 	@Override
