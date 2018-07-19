@@ -1,5 +1,6 @@
 package org.geogebra.web.shared;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -15,6 +16,7 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -127,6 +129,13 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		add(mainPanel);
 		setLabels();
 		copyBtn.addFastClickHandler(this);
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				getApp().closePopups();
+			}
+		};
+		timer.schedule(1000);
 	}
 
 	/**
@@ -207,5 +216,12 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 			setPopupPosition(anchor.getAbsoluteLeft() - 474,
 					anchor.getAbsoluteTop() - 27);
 		}
+	}
+
+	/**
+	 * @return application
+	 */
+	protected App getApp() {
+		return app;
 	}
 }
