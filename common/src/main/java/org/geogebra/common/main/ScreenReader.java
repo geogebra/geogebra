@@ -43,7 +43,7 @@ public class ScreenReader {
 
 			// dot on end to help screen readers
 			app.getActiveEuclidianView()
-					.readText(text.endsWith(".") ? text : text + ".");
+					.readText(text.trim().endsWith(".") ? text : text + ".");
 		}
 	}
 
