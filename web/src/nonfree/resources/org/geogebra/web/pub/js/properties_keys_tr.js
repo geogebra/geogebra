@@ -2405,7 +2405,7 @@ __GGB__keysVar["tr"].menu = {
     "PressEnterToEdit": "D\xfczenlemek i\xe7in enter tu\u015funa bas\u0131n",
     "PressEnterToOpenSettings": "Ayarlar\u0131 a\xe7mak i\xe7in Enter'a bas\u0131n",
     "PressEnterToSelect": "Se\xe7mek i\xe7in enter tu\u015funa bas\u0131n.",
-    "PressSlashToHide": "Press / to hide object",
+    "PressSlashToHide": "Press slash to hide object",
     "PressSlashToShow": "Nesneyi g\xf6stermek i\xe7in / tu\u015funa bas\u0131n",
     "PressSpaceCheckboxOff": "\u0130\u015faret kutusunun i\u015faretini kald\u0131rmak i\xe7in bo\u015flu\u011fa bas\u0131n",
     "PressSpaceCheckboxOn": "\u0130\u015faret kutusunu i\u015faretlemek i\xe7in bo\u015fluk tu\u015funa bas\u0131n",

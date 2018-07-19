@@ -2405,7 +2405,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "PressEnterToEdit": "Press enter to edit",
     "PressEnterToOpenSettings": "Press enter to open settings",
     "PressEnterToSelect": "\u0627\u0636\u063a\u0637 \u0625\u062f\u062e\u0627\u0644 \u0644\u0644\u062a\u062d\u062f\u064a\u062f",
-    "PressSlashToHide": "Press / to hide object",
+    "PressSlashToHide": "Press slash to hide object",
     "PressSlashToShow": "Press / to show object",
     "PressSpaceCheckboxOff": "\u0627\u0636\u063a\u0637 \u0632\u0631 \u0627\u0644\u0645\u0633\u0627\u0641\u0629 \u0644\u0625\u0644\u063a\u0627\u0621 \u062a\u062d\u062f\u064a\u062f \u0645\u0631\u0628\u0639 \u0627\u0644\u0627\u062e\u062a\u064a\u0627\u0631",
     "PressSpaceCheckboxOn": "Press space to check checkbox",

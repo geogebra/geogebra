@@ -2405,7 +2405,7 @@ __GGB__keysVar["fil"].menu = {
     "PressEnterToEdit": "Press enter to edit",
     "PressEnterToOpenSettings": "Press enter to open settings",
     "PressEnterToSelect": "Press enter to select.",
-    "PressSlashToHide": "Press / to hide object",
+    "PressSlashToHide": "Press slash to hide object",
     "PressSlashToShow": "Press / to show object",
     "PressSpaceCheckboxOff": "Press space to uncheck checkbox",
     "PressSpaceCheckboxOn": "Press space to check checkbox",
