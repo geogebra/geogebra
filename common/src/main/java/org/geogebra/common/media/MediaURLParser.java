@@ -44,7 +44,7 @@ public class MediaURLParser {
 	private static final String MEBIS_PARAM_TIME = "#t";
 
 	/** Mebis site base URL */
-	public static final String MEBIS_BASE_URL = "https://mediathek.mebis.bayern.de/?";
+	public static final String MEBIS_BASE_URL = "https://mediathek.mebis.bayern.de/";
 
 	/**
 	 * Gets the ID of the YouTube video ie from
@@ -209,6 +209,7 @@ public class MediaURLParser {
 		}
 
 		StringBuilder sb = new StringBuilder(MEBIS_BASE_URL);
+		sb.append("?");
 		sb.append(MEBIS_PARAM_DOC);
 		sb.append("=");
 		sb.append(MEBIS_DOC_PROVIDE_VIDEO);
@@ -233,7 +234,10 @@ public class MediaURLParser {
 	}
 
 	private static String getQuery(String url) {
-		String stem = url.replace(MEBIS_BASE_URL, "");
+		if (!url.contains("?")) {
+			return "";
+		}
+		String stem = url.substring(url.indexOf("?") + 1);
 		if (stem.contains("#")) {
 			stem = stem.substring(0, stem.indexOf("#"));
 		}

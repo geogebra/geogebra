@@ -104,6 +104,9 @@ public class MediaURLParserTest {
 		MediaURLParser.checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video#t=60,120",
 				validMebis());
+		MediaURLParser.checkVideo(
+				"https://mediathek.mebis.bayern.de/index.php?doc=provideVideo&identifier=BWS-04980092&type=video&start=0&title=Das Eichhornchen&file=default.mp4&restorePosted",
+				validMebis());
 		// missing id
 		MediaURLParser.checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&v=BY-00072140&type=video&#t=60,120",
