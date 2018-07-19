@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.media.MebisError;
 import org.geogebra.common.media.MebisURL;
 import org.geogebra.common.media.MediaFormat;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * GeoElement to handle videos from Mebis.
@@ -157,4 +158,8 @@ public class GeoMebisVideo extends GeoMP4Video {
 		return params;
 	}
 
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.MEBIS_VIDEO;
+	}
 }

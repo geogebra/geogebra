@@ -336,6 +336,7 @@ public class EuclidianDraw {
 			break;
 
 		case VIDEO:
+		case MEBIS_VIDEO:
 			d = new DrawVideo(ev, (GeoVideo) geo);
 			break;
 
