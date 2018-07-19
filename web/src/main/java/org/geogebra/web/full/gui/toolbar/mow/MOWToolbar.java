@@ -7,12 +7,12 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
-import org.geogebra.web.full.gui.util.PersistablePanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Style.Unit;

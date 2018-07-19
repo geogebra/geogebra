@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.web.full.gui.util.PersistablePanel;
+import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.video.VideoWidget.VideoListener;
 
 import com.google.gwt.user.client.ui.Label;

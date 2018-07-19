@@ -19,10 +19,10 @@ import org.geogebra.web.full.gui.dialog.options.OptionsGlobalW;
 import org.geogebra.web.full.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.full.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.full.gui.dialog.options.OptionsSpreadsheetW;
-import org.geogebra.web.full.gui.util.PersistablePanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.dom.client.Style;

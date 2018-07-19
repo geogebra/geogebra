@@ -10,8 +10,6 @@ import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
-import org.geogebra.web.full.gui.util.PersistablePanel;
-import org.geogebra.web.html5.gui.Persistable;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -19,6 +17,8 @@ import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 

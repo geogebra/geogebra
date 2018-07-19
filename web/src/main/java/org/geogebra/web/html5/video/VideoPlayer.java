@@ -6,7 +6,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.Persistable;
+import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;

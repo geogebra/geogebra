@@ -3,8 +3,8 @@ package org.geogebra.web.html5.video;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.web.full.gui.util.PersistableFrame;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.util.PersistableFrame;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
