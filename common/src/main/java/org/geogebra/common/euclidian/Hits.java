@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -453,10 +453,10 @@ public class Hits extends ArrayList<GeoElement> {
 	 *            class tests
 	 * @return correct hits (if exist)
 	 */
-	final public Hits keepFirsts(Test... tests) {
+	final public Hits keepFirsts(TestGeo... tests) {
 
 		Hits ret = new Hits();
-		Test testFound = null;
+		TestGeo testFound = null;
 		boolean goFurther = true;
 
 		for (int i = 0; i < size() && goFurther; i++) {
@@ -521,7 +521,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return array of changeable GeoElements out of hits
 	 */
 	final public Hits getMoveableHits(EuclidianViewInterfaceSlim view) {
-		return getMoveables(view, Test.MOVEABLE, null);
+		return getMoveables(view, TestGeo.MOVEABLE, null);
 	}
 
 	/**
@@ -535,7 +535,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view,
 			GeoPointND rotCenter) {
-		return getMoveables(view, Test.ROTATEMOVEABLE, rotCenter);
+		return getMoveables(view, TestGeo.ROTATEMOVEABLE, rotCenter);
 	}
 
 	/**
@@ -563,7 +563,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 *            rotation center
 	 * @return (rotate)moveable geos
 	 */
-	protected Hits getMoveables(EuclidianViewInterfaceSlim view, Test test,
+	protected Hits getMoveables(EuclidianViewInterfaceSlim view, TestGeo test,
 			GeoPointND rotCenter) {
 
 		GeoElement geo;
@@ -629,7 +629,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 *            hits object for result
 	 * @return array of GeoElements NOT passing test out of hits
 	 */
-	final public Hits getOtherHits(Test geoclass, Hits result) {
+	final public Hits getOtherHits(TestGeo geoclass, Hits result) {
 		return getHits(geoclass, true, result);
 	}
 
@@ -640,7 +640,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 *            hits object for result
 	 * @return array of GeoElements passing test out of hits
 	 */
-	final public Hits getHits(Test geoclass, Hits result) {
+	final public Hits getHits(TestGeo geoclass, Hits result) {
 		return getHits(geoclass, false, result);
 	}
 
@@ -673,7 +673,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return result
 	 */
 
-	final protected Hits getHits(Test geoclass, boolean other, Hits result) {
+	final protected Hits getHits(TestGeo geoclass, boolean other, Hits result) {
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
@@ -720,7 +720,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 *            Hits in which the result should be stored
 	 * @return result
 	 */
-	final public Hits getHits(Test[] geoclasses, boolean other, Hits result) {
+	final public Hits getHits(TestGeo[] geoclasses, boolean other, Hits result) {
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
@@ -745,7 +745,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 *            test
 	 * @return first hit of given class
 	 */
-	final public GeoElement getFirstHit(Test geoclass) {
+	final public GeoElement getFirstHit(TestGeo geoclass) {
 
 		for (int i = 0; i < size(); ++i) {
 			if (geoclass.check(get(i))) {
@@ -801,26 +801,26 @@ public class Hits extends ArrayList<GeoElement> {
 		// point in there?
 		Hits topHitsList = new Hits();
 		if (containsComboBox(topHitsList)) {
-			getHits(Test.GEOLIST_AS_COMBO, false, topHitsList);
+			getHits(TestGeo.GEOLIST_AS_COMBO, false, topHitsList);
 			return topHitsList;
 		}
 		if (containsGeoPoint(topHitsList)) {
 			// Hits topHitsList = new Hits();
-			getHits(Test.GEOPOINTND, false, topHitsList);
+			getHits(TestGeo.GEOPOINTND, false, topHitsList);
 			return topHitsList;
 		}
 		if (containsGeoTextfield(topHitsList)) {
-			getHits(Test.GEOTEXTFIELD, false, topHitsList);
+			getHits(TestGeo.GEOTEXTFIELD, false, topHitsList);
 			return topHitsList;
 		}
 		// text in there?
 		if (containsGeoText(topHitsList)) {
-			getHits(Test.GEOTEXT, false, topHitsList);
+			getHits(TestGeo.GEOTEXT, false, topHitsList);
 			return topHitsList;
 		}
 
 		if (containsGeoNumeric()) {
-			getHits(Test.GEONUMERIC, false, topHitsList);
+			getHits(TestGeo.GEONUMERIC, false, topHitsList);
 			return topHitsList;
 		}
 		return cloneHits();

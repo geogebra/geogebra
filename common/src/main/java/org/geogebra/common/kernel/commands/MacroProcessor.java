@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
@@ -42,7 +42,7 @@ public class MacroProcessor extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		Macro macro = c.getMacro();
 
-		Test[] macroInputTypes = macro.getInputTypes();
+		TestGeo[] macroInputTypes = macro.getInputTypes();
 
 		// wrong number of arguments
 		if (arg.length != macroInputTypes.length) {

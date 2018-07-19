@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.PolygonFactory;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -384,7 +384,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					this.view.getEuclidianController().getDefaultEventType());
 			if (this.view.getHits().containsGeoPoint()) {
 				GeoPoint point = (GeoPoint) this.view.getHits()
-						.getFirstHit(Test.GEOPOINT);
+						.getFirstHit(TestGeo.GEOPOINT);
 				if (!list.contains(point)) {
 					list.add(point);
 				}

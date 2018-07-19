@@ -24,7 +24,7 @@ import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -114,7 +114,7 @@ import org.geogebra.common.util.debug.Log;
  * <li>{@link Drawable3D} to create a drawable linked to this new element.</li>
  * <li>{@link Kernel3D} to add a method to create this new element</li>
  * <li>
- * {@link Test} Kernel3D, geogebra.euclidian.EuclidianView,
+ * {@link TestGeo} Kernel3D, geogebra.euclidian.EuclidianView,
  * geogebra3D.euclidian3D.EuclidianView3D, geogebra3D.Application3D)} to test it
  * </li>
  * </ul>

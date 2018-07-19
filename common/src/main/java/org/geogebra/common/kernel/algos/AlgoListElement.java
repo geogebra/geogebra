@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -108,7 +108,7 @@ public class AlgoListElement extends AlgoElement {
 				// for {a,x} also return number a, not function
 				&& !Inspecting.dynamicGeosFinder.check(toCopy)) {
 			for (int i = 0; i < geoList.size(); i++) {
-				if (Test.canSet(geoList.get(i), toCopy)) {
+				if (TestGeo.canSet(geoList.get(i), toCopy)) {
 					toCopy = geoList.get(i);
 				}
 			}
@@ -264,7 +264,7 @@ public class AlgoListElement extends AlgoElement {
 	private void setElement(GeoElement nth) {
 		// check type:
 		if (nth.getGeoClassType() == element.getGeoClassType()
-				|| Test.canSet(element, nth)) {
+				|| TestGeo.canSet(element, nth)) {
 			element.set(nth);
 			if (nth.getDrawAlgorithm() instanceof DrawInformationAlgo) {
 				element.setDrawAlgorithm(

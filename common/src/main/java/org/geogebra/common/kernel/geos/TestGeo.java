@@ -43,8 +43,7 @@ import org.geogebra.common.kernel.kernelND.Region3D;
  * @author Zbynek & Arpad
  *
  */
-public enum /** Test for Test */
-Test {
+public enum TestGeo {
 
 	// true GeoElements
 
@@ -400,7 +399,7 @@ Test {
 	GEOCOORDSYS2DNOTPLANE {
 		@Override
 		public boolean check(Object ob) {
-			return Test.GEOCOORDSYS2D.check(ob) && !Test.GEOPLANEND.check(ob);
+			return TestGeo.GEOCOORDSYS2D.check(ob) && !TestGeo.GEOPLANEND.check(ob);
 		}
 	},
 
@@ -564,8 +563,8 @@ Test {
 	 *            object
 	 * @return the most specific test this object can pass
 	 */
-	public static Test getSpecificTest(Object obj) {
-		for (Test t : Test.values()) {
+	public static TestGeo getSpecificTest(Object obj) {
+		for (TestGeo t : TestGeo.values()) {
 			if (t.check(obj)) {
 				return t;
 			}
@@ -584,7 +583,7 @@ Test {
 		return gen(getSpecificTest(object), getSpecificTest(setter));
 	}
 
-	private static boolean gen(Test first, Test second) {
+	private static boolean gen(TestGeo first, TestGeo second) {
 		if (first == second) {
 			return true;
 		}

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class AuralTextTest {
 
@@ -22,20 +23,20 @@ public class AuralTextTest {
 		}
 	}
 
-	@org.junit.Test
+	@Test
 	public void pointAural() {
 		aural("(1,1)", "Point", "arrow", "edit");
 		aural("Point(xAxis)", "Point", "plus and minus", "edit");
 	}
 
-	@org.junit.Test
+	@Test
 	public void numberAural() {
 		aural("Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
 		aural("4"); // TODO should not be empty when tabbing in AV
 	}
 
-	@org.junit.Test
+	@Test
 	public void checkboxAural() {
 		aural("checkbox()", "Checkbox", "uncheck", "edit");
 		aural("false", "Checkbox", " check", "edit");

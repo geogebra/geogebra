@@ -1969,7 +1969,7 @@ public class GeoCasCell extends GeoElement
 		if (lastOutputEvaluationGeo != null
 				&& !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try {
-				if (Test.canSet(twinGeo, lastOutputEvaluationGeo)) {
+				if (TestGeo.canSet(twinGeo, lastOutputEvaluationGeo)) {
 					if (lastOutputEvaluationGeo instanceof GeoNumeric
 							&& twinGeo instanceof GeoNumeric) {
 						((GeoNumeric) twinGeo)

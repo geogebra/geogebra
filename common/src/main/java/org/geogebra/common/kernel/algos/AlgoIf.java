@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -58,7 +58,7 @@ public class AlgoIf extends AlgoElement {
 		// create output GeoElement of same type as ifGeo
 		int i = 1;
 		while (i < alternatives.size()
-				&& Test.canSet(alternatives.get(i), result)) {
+				&& TestGeo.canSet(alternatives.get(i), result)) {
 			result = alternatives.get(i);
 			i++;
 		}

@@ -69,7 +69,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.MoveGeos;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
@@ -463,7 +463,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected Hits getRegionHits(Hits hits) {
-		return hits.getHits(Test.REGION3D, tempRegionHitsArrayList);
+		return hits.getHits(TestGeo.REGION3D, tempRegionHitsArrayList);
 	}
 
 	/**
@@ -594,7 +594,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// current mode is not MOVE
 			// we return current moved point if first hitted
 			GeoPointND firstPoint = (GeoPointND) hits
-					.getFirstHit(Test.GEOPOINTND);
+					.getFirstHit(TestGeo.GEOPOINTND);
 			if (firstPoint == getMovedGeoPoint()) {
 				lastGetNewPointWasExistingPoint = true;
 				return firstPoint;
@@ -1186,8 +1186,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected GeoElementND[] planeContaining(Hits hits0,
 			boolean selPreview) {
 		// keep only one type between points/lines/2D coord sys
-		Hits hits = hits0.keepFirsts(Test.GEOPOINTND, Test.GEOLINEND,
-				Test.GEOCOORDSYS2DNOTPLANE);
+		Hits hits = hits0.keepFirsts(TestGeo.GEOPOINTND, TestGeo.GEOLINEND,
+				TestGeo.GEOCOORDSYS2DNOTPLANE);
 
 		if (hits.isEmpty()) {
 			return null;
@@ -1733,7 +1733,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		super.getSelectables(top, selPreview);
 
 		// display correctly oriented 3D cursor
-		GeoPointND point = (GeoPointND) top.getFirstHit(Test.GEOPOINTND);
+		GeoPointND point = (GeoPointND) top.getFirstHit(TestGeo.GEOPOINTND);
 		if (point != null) {
 			view3D.updateCursor3D(hits);
 		}
@@ -2225,8 +2225,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 						.getInput()[1]);
 
 			} else {
-				hits.getHits(new Test[] { Test.GEOLINEND, Test.GEOCOORDSYS2D,
-						Test.GEOQUADRICND }, false, goodHits);
+				hits.getHits(new TestGeo[] { TestGeo.GEOLINEND, TestGeo.GEOCOORDSYS2D,
+						TestGeo.GEOQUADRICND }, false, goodHits);
 
 				hits = hits.getHits(1);
 			}
@@ -2237,14 +2237,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 1 || selQuadric() == 1) {
 				// 2d geo: can only intersect with 1dones.
 				hits.getHits(
-						new Test[] { Test.GEOCOORDSYS2D, Test.GEOQUADRIC3D },
+						new TestGeo[] { TestGeo.GEOCOORDSYS2D, TestGeo.GEOQUADRIC3D },
 						true, goodHits);
 
 			} else {
 				// 1d geo: can intersect with 1d or 2d geo
 				hits.getHits(
-						new Test[] { Test.GEOLINEND, Test.GEOCOORDSYS2D,
-								Test.GEOQUADRICND, Test.GEOIMPLICITSURFACE },
+						new TestGeo[] { TestGeo.GEOLINEND, TestGeo.GEOCOORDSYS2D,
+								TestGeo.GEOQUADRICND, TestGeo.GEOIMPLICITSURFACE },
 						false, goodHits);
 			}
 
@@ -2905,7 +2905,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected int addSelectedCS2D(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selection.getSelectedCS2DList(), Test.GEOCOORDSYS2D,
+				selection.getSelectedCS2DList(), TestGeo.GEOCOORDSYS2D,
 				selPreview);
 	}
 
@@ -2943,7 +2943,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected int addSelectedPlane(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selection.getSelectedPlaneList(), Test.GEOPLANEND, selPreview);
+				selection.getSelectedPlaneList(), TestGeo.GEOPLANEND, selPreview);
 	}
 
 	/**
@@ -2985,7 +2985,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected int addSelectedQuadric(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selection.getSelectedQuadricList(), Test.GEOQUADRIC3D,
+				selection.getSelectedQuadricList(), TestGeo.GEOQUADRIC3D,
 				selPreview);
 	}
 
@@ -3005,7 +3005,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selection.getSelectedQuadricLimitedList(),
-				Test.GEOQUADRIC3DLIMITED, selPreview);
+				TestGeo.GEOQUADRIC3DLIMITED, selPreview);
 	}
 
 	final protected GeoQuadric3DLimitedInterface[] getSelectedQuadricLimited() {
@@ -3024,7 +3024,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected int addSelectedPolyhedron(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selection.getSelectedPolyhedronList(), Test.GEOPOLYHEDRON,
+				selection.getSelectedPolyhedronList(), TestGeo.GEOPOLYHEDRON,
 				selPreview);
 	}
 
@@ -3574,7 +3574,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			Hits rotAbles = hits.getHits(TestGeo.TRANSFORMABLE, tempArrayList);
 			count = addSelectedGeo(rotAbles, 1, false, selPreview);
 		}
 
@@ -3643,7 +3643,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			Hits mirAbles = hits.getHits(TestGeo.TRANSFORMABLE, tempArrayList);
 			count = addSelectedGeo(mirAbles, 1, false, selPreview);
 		}
 

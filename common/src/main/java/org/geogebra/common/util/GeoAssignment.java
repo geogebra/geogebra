@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -43,11 +43,11 @@ public class GeoAssignment extends Assignment {
 	private int callsToEqual;
 	private int callsToCheckTypes;
 
-	private Test[] inputTypes;
+	private TestGeo[] inputTypes;
 	/**
 	 * The possible InputTypes for this Assignment
 	 */
-	HashSet<Test> uniqueInputTypes;
+	HashSet<TestGeo> uniqueInputTypes;
 	private TreeSet<GeoElement> randomizeablePredecessors;
 
 	private Construction cons;
@@ -72,7 +72,7 @@ public class GeoAssignment extends Assignment {
 			@Override
 			public boolean check(ExpressionValue v) {
 				return ((GeoElement) v).isLabelSet()
-						&& uniqueInputTypes.contains(Test.getSpecificTest(v));
+						&& uniqueInputTypes.contains(TestGeo.getSpecificTest(v));
 			}
 
 		};
@@ -163,7 +163,7 @@ public class GeoAssignment extends Assignment {
 			return false;
 		}
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
-			if (!Test.canSet(possibleOutputPermutation[i], macroOutput[i])) {
+			if (!TestGeo.canSet(possibleOutputPermutation[i], macroOutput[i])) {
 				return false;
 			}
 		}

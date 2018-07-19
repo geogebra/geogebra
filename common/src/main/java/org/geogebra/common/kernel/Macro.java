@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.StringUtil;
@@ -51,7 +51,7 @@ public class Macro {
 	private GeoElement[] macroOutput; // input and output objects
 	private String[] macroInputLabels;
 	private String[] macroOutputLabels;
-	private Test[] inputTypes;
+	private TestGeo[] inputTypes;
 	private Integer viewId = null;
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<>();
 	private boolean copyCaptions;
@@ -160,9 +160,9 @@ public class Macro {
 		initInputOutput();
 
 		// init inputTypes array
-		inputTypes = new Test[macroInput.length];
+		inputTypes = new TestGeo[macroInput.length];
 		for (int i = 0; i < macroInput.length; i++) {
-			inputTypes[i] = Test.getSpecificTest(macroInput[i]);
+			inputTypes[i] = TestGeo.getSpecificTest(macroInput[i]);
 		}
 
 		// after initing we turn global variable lookup on again,
@@ -548,7 +548,7 @@ public class Macro {
 	 * 
 	 * @return types of input objects
 	 */
-	final public Test[] getInputTypes() {
+	final public TestGeo[] getInputTypes() {
 		return inputTypes;
 	}
 
