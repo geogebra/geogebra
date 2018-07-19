@@ -17,9 +17,6 @@ public class VideoInputDialog extends MediaDialog {
 	 */
 	public VideoInputDialog(AppW app) {
 		super(app.getPanel(), app);
-		inputField.getTextComponent().setText(
-				"https://mediathek.mebis.bayern.de/?doc=embeddedObject&id=BWS-04985070&type=video&start=0&title=Unser%20Wetter%20-%20Das%20Klima%20und%20die%20Klimaver%C3%A4nderung");
-		setPrimaryButtonEnabled(true);
 	}
 
 	/**
