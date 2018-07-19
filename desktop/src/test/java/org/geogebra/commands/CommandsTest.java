@@ -1966,6 +1966,7 @@ public class CommandsTest extends AlgebraTest {
 		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
 				unicode("0x^4 + 0x^3 + x^2 + 0x + 0"),
 				StringTemplate.editTemplate);
+		t("FitPoly[ Function({0,4,0,1,4,9,16}), 1 ]", "(4 * x) - 2");
 	}
 
 	@Test

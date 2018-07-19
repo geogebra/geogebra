@@ -680,11 +680,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdFitPoly() {
-		t("FitPoly[ ptlist1, n2 ]");
-	}
-
-	@Test
 	public void cmdFitPow() {
 		t("FitPow[ ptlist1 ]");
 	}

@@ -22,11 +22,8 @@ public class KeyboardInputAdapter {
 	private static final char minus = Unicode.MINUS;
     private static final List<KeyboardAdapter> adapters;
     private static final KeyboardAdapter commandAdapter;
-    private static final CursorController cursorController;
 
     static {
-        cursorController = new CursorController();
-
 		adapters = new ArrayList<>();
         adapters.add(new FunctionsAdapter());
         adapters.add(new StringCharAdapter(times, '*'));
@@ -143,8 +140,8 @@ public class KeyboardInputAdapter {
             public void commit(MathFieldInternal mfi, String input) {
                 String command = input.substring(0, input.length() - Unicode
                         .SUPERSCRIPT_MINUS_ONE_STRING.length());
-                commandAdapter.commit(mfi, command);
-                cursorController.prevCharacter(mfi.getEditorState());
+				getCommandAdapter().commit(mfi, command);
+				mfi.getCursorController().prevCharacter(mfi.getEditorState());
                 typeCharacter(mfi, '^');
                 typeCharacter(mfi, '-');
                 typeCharacter(mfi, '1');
@@ -154,9 +151,9 @@ public class KeyboardInputAdapter {
 
             @Override
             public boolean test(String keyboard) {
-                return keyboard.endsWith(Unicode.SUPERSCRIPT_MINUS_ONE_STRING)
-                        && commandAdapter.test(keyboard.substring(0, keyboard.length() -
-                        Unicode.SUPERSCRIPT_MINUS_ONE_STRING.length()));
+				return keyboard.endsWith(Unicode.SUPERSCRIPT_MINUS_ONE_STRING)
+						&& getCommandAdapter().test(keyboard.substring(0,
+								keyboard.length() - Unicode.SUPERSCRIPT_MINUS_ONE_STRING.length()));
             }
         });
 
@@ -180,6 +177,13 @@ public class KeyboardInputAdapter {
 		}
 		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
 		mMathFieldInternal.onInsertString();
+	}
+
+	/**
+	 * @return command adapter
+	 */
+	protected static KeyboardAdapter getCommandAdapter() {
+		return commandAdapter;
 	}
 
 	/**
