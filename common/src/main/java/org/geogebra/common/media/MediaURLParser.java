@@ -1,6 +1,8 @@
 package org.geogebra.common.media;
 
-import org.geogebra.common.kernel.geos.GeoMebisVideo;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -28,6 +30,21 @@ public class MediaURLParser {
 	 * embed start of YouTube ID
 	 */
 	public static final String EMBED = "embed/";
+	private static final String MEBIS_PARAM_DOC = "doc";
+	private static final String MEBIS_DOC_RECORD = "record";
+	private static final String MEBIS_DOC_PROVIDE_VIDEO = "provideVideo";
+	private static final String MEBIS_DOC_EMBEDDED_OBJECT = "embeddedObject";
+
+	private static final String MEBIS_PARAM_ID = "id";
+	private static final String MEBIS_PARAM_IDENTIFIER = "identifier";
+
+	private static final String MEBIS_PARAM_TYPE = "type";
+	private static final String MEBIS_TYPE_VIDEO = "video";
+
+	private static final String MEBIS_PARAM_TIME = "#t";
+
+	/** Mebis site base URL */
+	public static final String MEBIS_BASE_URL = "https://mediathek.mebis.bayern.de/?";
 
 	/**
 	 * Gets the ID of the YouTube video ie from
@@ -98,7 +115,7 @@ public class MediaURLParser {
 	}
 
 	private static boolean checkMebisVideo(String url, AsyncOperation<VideoURL> callback) {
-		MebisURL mUrl = GeoMebisVideo.packUrl(url);
+		MebisURL mUrl = packUrl(url);
 		if (mUrl.getError() == MebisError.BASE_MISMATCH) {
 			return false;
 		}
@@ -125,5 +142,93 @@ public class MediaURLParser {
 	 */
 	public static String getEmbedURL(String url) {
 		return url.replaceAll("graspablemath.com/canvas(/)?\\?", "graspablemath.com/canvas/embed?");
+	}
+
+	/**
+	 * Transforms possible Mebis URL to a packed, standardized one.
+	 * Result contains an error code if original url is not a
+	 * Mebis URL.
+	 * format is:
+	 * https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120
+	 * 
+	 * @param url
+	 *            to transform.
+	 * @return the packed URL with error if any.
+	 */
+	public static MebisURL packUrl(String url) {
+		if (url == null || !url.contains(MEBIS_BASE_URL)) {
+			return new MebisURL(null, MebisError.BASE_MISMATCH);
+		}
+		String substring = getQuery(url);
+		Map<String, String> params = extractParams(substring);
+		String id = null;
+		String doc = params.get(MEBIS_PARAM_DOC);
+		boolean docValid = MEBIS_DOC_EMBEDDED_OBJECT.equals(doc)
+				|| MEBIS_DOC_PROVIDE_VIDEO.equals(doc) || MEBIS_DOC_RECORD.equals(doc);
+		if (!docValid) {
+			return new MebisURL(null, MebisError.DOC);
+		}
+
+		boolean typeRequired = !MEBIS_DOC_RECORD.equals(doc);
+
+		if (typeRequired && (!params.containsKey(MEBIS_PARAM_TYPE)
+				|| !MEBIS_TYPE_VIDEO.equals(params.get(MEBIS_PARAM_TYPE)))) {
+			return new MebisURL(null, MebisError.TYPE);
+		}
+
+		if (MEBIS_DOC_EMBEDDED_OBJECT.equals(doc)) {
+			if (params.containsKey(MEBIS_PARAM_ID)) {
+				id = params.get(MEBIS_PARAM_ID);
+			}
+		} else if (MEBIS_DOC_PROVIDE_VIDEO.equals(doc) || MEBIS_DOC_RECORD.equals(doc)) {
+			if (params.containsKey(MEBIS_PARAM_IDENTIFIER)) {
+				id = params.get(MEBIS_PARAM_IDENTIFIER);
+			}
+		}
+		if (id == null) {
+			return new MebisURL(null, MebisError.ID);
+		}
+
+		StringBuilder sb = new StringBuilder(MEBIS_BASE_URL);
+		sb.append(MEBIS_PARAM_DOC);
+		sb.append("=");
+		sb.append(MEBIS_DOC_PROVIDE_VIDEO);
+		sb.append("&");
+		sb.append(MEBIS_PARAM_IDENTIFIER);
+		sb.append("=");
+		sb.append(id);
+		sb.append("&");
+		sb.append(MEBIS_PARAM_TYPE);
+		sb.append("=");
+		sb.append(MEBIS_TYPE_VIDEO);
+
+		int timeIndex = url.indexOf(MEBIS_PARAM_TIME);
+		if (timeIndex > -1) {
+			String time = url.substring(timeIndex);
+			if (time.matches("#t=[0-9]+(,[0-9]+)?")) {
+				sb.append(time);
+			}
+		}
+
+		return new MebisURL(sb.toString(), MebisError.NONE);
+	}
+
+	private static String getQuery(String url) {
+		String stem = url.replace(MEBIS_BASE_URL, "");
+		if (stem.contains("#")) {
+			stem = stem.substring(0, stem.indexOf("#"));
+		}
+		return stem;
+	}
+
+	private static Map<String, String> extractParams(String query) {
+		Map<String, String> params = new HashMap<>();
+		for (String item : query.split("&")) {
+			if (item.contains("=")) {
+				params.put(item.substring(0, item.indexOf("=")),
+						item.substring(item.indexOf("=") + 1));
+			}
+		}
+		return params;
 	}
 }

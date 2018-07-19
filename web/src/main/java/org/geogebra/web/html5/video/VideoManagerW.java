@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoMP4Video;
-import org.geogebra.common.kernel.geos.GeoMebisVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaURLParser;
@@ -129,7 +127,6 @@ public class VideoManagerW implements VideoManager {
 		case NONE:
 		default:
 			return null;
-
 		}
 	}
 
@@ -190,18 +187,7 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public GeoVideo createVideo(Construction c, VideoURL videoURL) {
-		switch (videoURL.getFormat()) {
-		case VIDEO_YOUTUBE:
-			return new GeoVideo(c, videoURL.getUrl());
-		case VIDEO_HTML5:
-			return new GeoMP4Video(c, videoURL.getUrl());
-		case VIDEO_MEBIS:
-			return new GeoMebisVideo(c, videoURL.getUrl());
-		// case AUDIO_HTML5:
-		// case NONE:
-		default:
-			return null;
-		}
+		return new GeoVideo(c, videoURL.getUrl(), videoURL.getFormat());
 	}
 
 	@Override

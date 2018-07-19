@@ -18,6 +18,8 @@ public abstract class GeoMedia extends GeoWidget {
 	/** Application for subclasses too. */
 	protected App app;
 
+	private MediaFormat format;
+
 	/**
 	 * Constructs a new, empty media element.
 	 * 
@@ -37,9 +39,12 @@ public abstract class GeoMedia extends GeoWidget {
 	 *            the construction.
 	 * @param url
 	 *            the media URL.
+	 * @param format
+	 *            {@link MediaFormat}
 	 */
-	public GeoMedia(Construction c, String url) {
+	public GeoMedia(Construction c, String url, MediaFormat format) {
 		this(c);
+		this.format = format;
 		setSrc(url);
 	}
 
@@ -123,7 +128,9 @@ public abstract class GeoMedia extends GeoWidget {
 	 * 
 	 * @return the media format.
 	 */
-	public abstract MediaFormat getFormat();
+	public MediaFormat getFormat() {
+		return format;
+	}
 
 	/**
 	 * Stops media play back.
@@ -134,5 +141,15 @@ public abstract class GeoMedia extends GeoWidget {
 	public void remove() {
 		pause();
 		super.remove();
+	}
+
+	/**
+	 * Sets the media format.
+	 * 
+	 * @param format
+	 *            {@link MediaFormat}
+	 */
+	public void setFormat(MediaFormat format) {
+		this.format = format;
 	}
 }

@@ -65,7 +65,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
 	}
-
 	/**
 	 * Constructor.
 	 *
@@ -73,11 +72,15 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 *            the construction.
 	 * @param url
 	 *            the URL of the video.
+	 * @param format
+	 *            {@link MediaFormat}
 	 */
-	public GeoVideo(Construction c, String url) {
-		super(c, url);
+	public GeoVideo(Construction c, String url, MediaFormat format) {
+		super(c, url, format);
 		setSrc(url, false);
-		youtubeId = app.getVideoManager().getYouTubeId(getSrc());
+		youtubeId = format == MediaFormat.VIDEO_YOUTUBE
+				? app.getVideoManager().getYouTubeId(getSrc())
+				: null;
 		setLabel("video");
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
@@ -119,14 +122,20 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 * Define the identifiers and/or any URLs of the video here.
 	 */
 	protected void constructIds() {
-		youtubeId = app.getVideoManager().getYouTubeId(getSrc());
-		previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
+		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
+			youtubeId = app.getVideoManager().getYouTubeId(getSrc());
+			previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
+
+		}
 	}
 
 	/**
 	 * Creates the preview image for the video.
 	 */
 	protected void createPreview() {
+		if (getFormat() != MediaFormat.VIDEO_YOUTUBE) {
+			return;
+		}
 		app.getVideoManager().createPreview(this, new AsyncOperation<MyImage>() {
 
 			@Override
@@ -416,10 +425,5 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		}
 		app.getVideoManager().removePlayer(this);
 		super.remove();
-	}
-
-	@Override
-	public MediaFormat getFormat() {
-		return MediaFormat.VIDEO_YOUTUBE;
 	}
 }
