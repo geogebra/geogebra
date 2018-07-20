@@ -372,7 +372,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			break;
 		default:
 			// ignore 3D view
-			if (!App.isView3D(viewId)) {
+			if (!App.isView3D(viewId) && (viewId < App.VIEW_EUCLIDIAN_FOR_PLANE_START
+					|| viewId > App.VIEW_EUCLIDIAN_FOR_PLANE_START)) {
 				Log.error("Error attaching VIEW: " + viewId);
 			}
 		}
