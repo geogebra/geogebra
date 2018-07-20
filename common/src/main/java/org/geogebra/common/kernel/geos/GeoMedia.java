@@ -44,8 +44,7 @@ public abstract class GeoMedia extends GeoWidget {
 	 */
 	public GeoMedia(Construction c, String url, MediaFormat format) {
 		this(c);
-		this.format = format;
-		setSrc(url);
+		setSrc(url, format);
 	}
 
 	@Override
@@ -86,9 +85,24 @@ public abstract class GeoMedia extends GeoWidget {
 	 * 
 	 * @param src
 	 *            to set.
+	 * @param format TODO
 	 */
-	public void setSrc(String src) {
+	public void setSrc(String src, MediaFormat format) {
+		this.format = format;
 		setSrc(src, true);
+	}
+
+	/**
+	 * Set the source and call changed handler.
+	 * 
+	 * @param src
+	 *            to set.
+	 * @param formatStr
+	 *            format string representation.
+	 */
+	public void setSrc(String src, String formatStr) {
+		setSrc(src, MediaFormat.get(formatStr));
+
 	}
 
 	/**
@@ -141,15 +155,5 @@ public abstract class GeoMedia extends GeoWidget {
 	public void remove() {
 		pause();
 		super.remove();
-	}
-
-	/**
-	 * Sets the media format.
-	 * 
-	 * @param format
-	 *            {@link MediaFormat}
-	 */
-	public void setFormat(MediaFormat format) {
-		this.format = format;
 	}
 }

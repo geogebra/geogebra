@@ -849,7 +849,9 @@ public class ConsElementXMLHandler {
 		}
 		try {
 			GeoVideo video = (GeoVideo) geo;
-			video.setSrc(attrs.get("src"));
+			video.setSrc(attrs.get("src"), attrs.get("type"));
+			video.setWidth(Integer.parseInt(attrs.get("width")));
+			video.setHeight(Integer.parseInt(attrs.get("height")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;

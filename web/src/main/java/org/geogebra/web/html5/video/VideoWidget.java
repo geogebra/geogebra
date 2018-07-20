@@ -91,6 +91,10 @@ public class VideoWidget extends Widget {
 	 *            to set.
 	 */
 	public void setWidth(int width) {
+		if (width < 0) {
+			return;
+		}
+
 		elem.setAttribute("width", width + "px");
 	}
 
@@ -102,6 +106,10 @@ public class VideoWidget extends Widget {
 	 */
 
 	public void setHeight(int height) {
+		if (height < 0) {
+			return;
+		}
+
 		elem.setAttribute("height", height + "px");
 	}
 

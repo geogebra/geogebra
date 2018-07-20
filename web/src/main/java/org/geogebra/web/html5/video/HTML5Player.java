@@ -71,10 +71,13 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 
 	@Override
 	public void onLoad(int width, int height) {
-		getVideo().setWidth(width);
-		getVideo().setHeight(height);
+		if (!getVideo().hasSize()) {
+			getVideo().setWidth(width);
+			getVideo().setHeight(height);
+		}
 		getVideo().update();
 		update();
+
 	}
 
 	@Override

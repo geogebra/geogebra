@@ -42,7 +42,7 @@ public class GeoAudio extends GeoMedia {
 	 */
 	public GeoAudio(Construction c, String url) {
 		this(c);
-		setSrc(url);
+		setSrc(url, MediaFormat.AUDIO_HTML5);
 		setLabel("audio");
 	}
 
@@ -54,7 +54,7 @@ public class GeoAudio extends GeoMedia {
 	@Override
 	public GeoElement copy() {
 		GeoAudio ret = new GeoAudio(cons);
-		ret.setSrc(src);
+		ret.setSrc(src, getFormat());
 		return ret;
 	}
 
@@ -160,5 +160,14 @@ public class GeoAudio extends GeoMedia {
 	@Override
 	public MediaFormat getFormat() {
 		return MediaFormat.AUDIO_HTML5;
+	}
+
+	/**
+	 * 
+	 * @param src
+	 *            the audio source URL to set.
+	 */
+	public void setSrc(String src) {
+		setSrc(src, MediaFormat.AUDIO_HTML5);
 	}
 }

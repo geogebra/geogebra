@@ -79,12 +79,9 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
 		setSrc(url, false);
-		youtubeId = format == MediaFormat.VIDEO_YOUTUBE
-				? app.getVideoManager().getYouTubeId(getSrc())
-				: null;
 		setLabel("video");
-		setWidth(VIDEO_WIDTH);
-		setHeight(VIDEO_HEIGHT);
+		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
+		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
 	}
 
 	@Override
@@ -95,7 +92,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	@Override
 	public GeoElement copy() {
 		GeoVideo ret = new GeoVideo(cons);
-		ret.setSrc(getSrc());
+		ret.setSrc(getSrc(), getFormat());
 		return ret;
 	}
 
@@ -104,7 +101,8 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		if (!geo.isGeoVideo()) {
 			return;
 		}
-		setSrc(((GeoVideo) geo).getSrc());
+		GeoVideo video = (GeoVideo) geo;
+		setSrc(video.getSrc(), video.getFormat());
 		changed = true;
 	}
 
@@ -253,10 +251,12 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 * @return the embedded link of the geo.
 	 */
 	public String getEmbeddedUrl() {
-		if (youtubeId == null) {
+		if (getFormat() != MediaFormat.VIDEO_YOUTUBE) {
 			return null;
 		}
-
+		if (youtubeId == null) {
+			youtubeId = app.getVideoManager().getYouTubeId(getSrc());
+		}
 		initStartTime();
 		StringBuilder sb = new StringBuilder();
 		sb.append(YOUTUBE_EMBED);
@@ -316,11 +316,24 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		if (getEmbeddedUrl() != null) {
-			sb.append("\t<video src=\"");
+		sb.append("\t<video src=\"");
+		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
 			sb.append(StringUtil.encodeXML(getEmbeddedUrl()));
-			sb.append("\"/>\n");
+		} else {
+			sb.append(StringUtil.encodeXML(getSrc()));
 		}
+		sb.append("\"");
+		sb.append("\t\twidth=\"");
+		sb.append(getWidth());
+		sb.append("\"\n");
+		sb.append("\t\theight=\"");
+		sb.append(getHeight());
+		sb.append("\"\n");
+		sb.append("\t\ttype=\"");
+		sb.append(getFormat());
+		sb.append("\"");
+		sb.append("/>\n");
+
 	}
 
 	/**
@@ -429,5 +442,12 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		}
 		app.getVideoManager().removePlayer(this);
 		super.remove();
+	}
+
+	/**
+	 * @return if video size is set or not.
+	 */
+	public boolean hasSize() {
+		return getWidth() != -1 && getHeight() != -1;
 	}
 }

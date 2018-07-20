@@ -70,8 +70,10 @@ public abstract class VideoPlayer implements IsWidget, Persistable {
 				Unit.PX);
 		style.setTop(getVideo().getScreenLocY(app.getActiveEuclidianView()),
 				Unit.PX);
-		asWidget().setWidth(getVideo().getWidth() + "px");
-		asWidget().setHeight(getVideo().getHeight() + "px");
+		if (getVideo().hasSize()) {
+			asWidget().setWidth(getVideo().getWidth() + "px");
+			asWidget().setHeight(getVideo().getHeight() + "px");
+		}
 		if (getVideo().isBackground()) {
 			asWidget().addStyleName("background");
 		} else {
