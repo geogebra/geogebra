@@ -319,21 +319,19 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		sb.append("\t<video src=\"");
 		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
 			sb.append(StringUtil.encodeXML(getEmbeddedUrl()));
-		} else {
+		} else if (getSrc() != null) {
 			sb.append(StringUtil.encodeXML(getSrc()));
 		}
-		sb.append("\"");
-		sb.append("\t\twidth=\"");
+		sb.append("\" width=\"");
 		sb.append(getWidth());
-		sb.append("\"\n");
-		sb.append("\t\theight=\"");
+		sb.append("\" height=\"");
 		sb.append(getHeight());
-		sb.append("\"\n");
-		sb.append("\t\ttype=\"");
-		sb.append(getFormat());
-		sb.append("\"");
-		sb.append("/>\n");
-
+		if (getFormat() != null) {
+			sb.append("\" type=\"");
+			sb.append(getFormat());
+			sb.append("\"");
+		}
+		sb.append("\"/>\n");
 	}
 
 	/**
