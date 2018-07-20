@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class GOptionPaneW extends GDialogBox
 		implements ClickHandler, HasKeyboardPopup {
 
-	private App mApp;
-	private String title;
+	final private App mApp;
+	private String mTitle;
 	private String mMessage;
 	private String initialSelectionValue;
 	private Button btnOK;
@@ -44,7 +44,7 @@ public class GOptionPaneW extends GDialogBox
 	private Button[] optionButtons;
 	private String[] optionNames;
 	private int optionType;
-	private int messageType;
+	private int mMessageType;
 	private boolean requiresReturnValue;
 	private Localization loc;
 	private AsyncOperation<String[]> returnHandler;
@@ -59,7 +59,7 @@ public class GOptionPaneW extends GDialogBox
 
 	private Image mIcon;
 	private HorizontalPanel messagePanel;
-	private String okLabel = null;
+	private String mOkLabel = null;
 	private int enterOption;
 	private boolean keyDown;
 
@@ -173,7 +173,7 @@ public class GOptionPaneW extends GDialogBox
 
 		clear();
 		add(mainPanel);
-		setText(title);
+		setText(mTitle);
 	}
 
 	private void updateButtonPanel() {
@@ -238,7 +238,7 @@ public class GOptionPaneW extends GDialogBox
 	}
 
 	private void setLabels() {
-		btnOK.setText(okLabel == null ? loc.getMenu("OK") : okLabel);
+		btnOK.setText(mOkLabel == null ? loc.getMenu("OK") : mOkLabel);
 		btnCancel.setText(loc.getMenu("Cancel"));
 	}
 
@@ -257,7 +257,7 @@ public class GOptionPaneW extends GDialogBox
 			return;
 		}
 
-		switch (messageType) {
+		switch (mMessageType) {
 
 		case GOptionPane.ERROR_MESSAGE:
 			mIcon = new Image(
@@ -347,17 +347,16 @@ public class GOptionPaneW extends GDialogBox
 	/**
 	 * Launches a confirm dialog.
 	 */
-	public void showConfirmDialog(App app, String message, String title,
+	public void showConfirmDialog(String message, String title,
 			int optionType, int messageType, Image icon) {
 
-		this.mApp = app;
 		this.mMessage = message;
-		this.title = title;
+		this.mTitle = title;
 		this.optionType = optionType;
-		this.messageType = messageType;
+		this.mMessageType = messageType;
 		this.mIcon = icon;
 
-		this.okLabel = null;
+		this.mOkLabel = null;
 
 		this.returnHandler = null;
 		requiresReturnValue = false;
@@ -384,19 +383,18 @@ public class GOptionPaneW extends GDialogBox
 	 * @param returnHandler
 	 *            handler for clicked buttons
 	 */
-	public void showConfirmDialog(App app, ScrollPanel scrollPanel,
+	public void showConfirmDialog(ScrollPanel scrollPanel,
 			String title,
 			int optionType, int messageType, String okLabel, Image icon,
 			AsyncOperation<String[]> returnHandler) {
 
-		this.mApp = app;
 		this.scrollPanel = scrollPanel;
-		this.title = title;
+		this.mTitle = title;
 		this.optionType = optionType;
-		this.messageType = messageType;
+		this.mMessageType = messageType;
 		this.mIcon = icon;
 
-		this.okLabel = okLabel;
+		this.mOkLabel = okLabel;
 		this.returnHandler = returnHandler;
 
 		// this.returnHandler = null;
@@ -418,16 +416,15 @@ public class GOptionPaneW extends GDialogBox
 	 * 
 	 * (Note that returnValue is meaningless here.)
 	 */
-	public void showOptionDialog(App app, String message, String title,
+	public void showOptionDialog(String message, String title,
 			int enterOption, int messageType, Image icon, String[] optionNames,
 			AsyncOperation<String[]> handler) {
 
-		this.mApp = app;
 		this.mMessage = message;
-		this.title = title;
+		this.mTitle = title;
 		this.optionType = GOptionPane.CUSTOM_OPTION;
 		this.enterOption = enterOption;
-		this.messageType = messageType;
+		this.mMessageType = messageType;
 		this.mIcon = icon;
 		this.scrollPanel = null;
 
@@ -448,15 +445,14 @@ public class GOptionPaneW extends GDialogBox
 	 * dialogResult[1] = returnValue
 	 * 
 	 */
-	public void showInputDialog(App app, String message,
+	public void showInputDialog(String message,
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler) {
 
-		this.mApp = app;
 		this.mMessage = message;
-		this.title = null;
+		this.mTitle = null;
 		this.optionType = GOptionPane.OK_CANCEL_OPTION;
-		this.messageType = GOptionPane.PLAIN_MESSAGE;
+		this.mMessageType = GOptionPane.PLAIN_MESSAGE;
 		this.mIcon = (Image) icon;
 
 		this.initialSelectionValue = initialSelectionValue;
@@ -482,16 +478,15 @@ public class GOptionPaneW extends GDialogBox
 	 * @param okLabel
 	 *            label for OK
 	 */
-	public void showSaveDialog(App app, String title,
+	public void showSaveDialog(String title,
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler, String okLabel) {
 
-		this.mApp = app;
 		this.mMessage = "";
-		this.title = title;
-		this.okLabel = okLabel;
+		this.mTitle = title;
+		this.mOkLabel = okLabel;
 		this.optionType = GOptionPane.OK_CANCEL_OPTION;
-		this.messageType = GOptionPane.PLAIN_MESSAGE;
+		this.mMessageType = GOptionPane.PLAIN_MESSAGE;
 		this.mIcon = (Image) icon;
 
 		this.initialSelectionValue = initialSelectionValue;
@@ -499,37 +494,6 @@ public class GOptionPaneW extends GDialogBox
 		requiresReturnValue = true;
 
 		showDialog(false);
-
-	}
-
-	/**
-	 * Launches a customizable input dialog. The dialog result is returned in
-	 * the parameter of the handler callback function as an array of two
-	 * strings: <br>
-	 * 
-	 * dialogResult[0] = returnOption <br>
-	 * dialogResult[1] = returnValue
-	 * 
-	 */
-	public void showInputDialog(App app, String message, String title,
-			String initialSelectionValue, int optionType, int messageType,
-			Object icon, String[] optionNames,
-			AsyncOperation<String[]> handler) {
-
-		this.mApp = app;
-		this.mMessage = message;
-		this.title = title;
-		this.optionType = optionType;
-		this.messageType = messageType;
-		this.mIcon = (Image) icon;
-
-		this.optionNames = optionNames;
-		this.initialSelectionValue = initialSelectionValue;
-		this.returnHandler = handler;
-		requiresReturnValue = true;
-
-		showDialog(true);
-
 	}
 
 }

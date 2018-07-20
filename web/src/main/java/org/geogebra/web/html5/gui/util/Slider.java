@@ -28,13 +28,6 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	private Integer valueOnDragStart;
 
 	/**
-	 * Slider 0 - 100
-	 */
-	public Slider() {
-		this(0, 100);
-	}
-
-	/**
 	 * Create a new slider.
 	 * 
 	 * @param min

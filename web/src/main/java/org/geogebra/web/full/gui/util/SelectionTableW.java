@@ -13,8 +13,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;
 	private int selectedRow = -1;
 	private SelectionTable mode;
-	private int numRows;
-	private int numColumns;
+	private int mNumRows;
+	private int mNumColumns;
 	private boolean isIniting = true;
 	private ImageOrText[] values;
 	private boolean isMultiselectionEnabled;
@@ -72,9 +72,9 @@ public class SelectionTableW extends Grid implements ClickHandler {
 			columns = (int) (Math.ceil(data.length / (double) rows));
 		}
 
-		numRows = rows;
-		numColumns = columns;
-		resize(numRows, numColumns);
+		mNumRows = rows;
+		mNumColumns = columns;
+		resize(mNumRows, mNumColumns);
 
 		// set the table model with the data
 		populateModel(data);
@@ -210,10 +210,10 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		int c = 0;
 		if (isIniting) {
 			for (int i = 0; i < Math.min(data.length,
-					this.numRows * this.numColumns); i++) {
+					this.mNumRows * this.mNumColumns); i++) {
 				setWidget(r, c, createWidget(data[i]));
 				++c;
-				if (c == this.numColumns) {
+				if (c == this.mNumColumns) {
 					c = 0;
 					++r;
 				}
@@ -221,12 +221,12 @@ public class SelectionTableW extends Grid implements ClickHandler {
 			isIniting = false;
 		} else if (mode != SelectionTable.MODE_TEXT) {
 			for (int i = 0; i < Math.min(data.length,
-					this.numRows * this.numColumns); i++) {
+					this.mNumRows * this.mNumColumns); i++) {
 				if (getWidget(r, c) instanceof Label) {
 					data[i].applyToLabel((Label) getWidget(r, c));
 
 					++c;
-					if (c == this.numColumns) {
+					if (c == this.mNumColumns) {
 						c = 0;
 						++r;
 					}
@@ -310,10 +310,10 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	}
 
 	private ImageOrText getValueAt(int row, int column) {
-		if (values == null || values.length <= row * this.numColumns + column) {
+		if (values == null || values.length <= row * this.mNumColumns + column) {
 			return null;
 		}
-		return values[row * this.numColumns + column];
+		return values[row * this.mNumColumns + column];
 	}
 
 	/**
@@ -326,12 +326,12 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		int r = 0;
 		int c = 0;
 		for (int i = 0; i < Math.min(data.length,
-				this.numRows * this.numColumns); i++) {
+				this.mNumRows * this.mNumColumns); i++) {
 			if (getWidget(r, c) instanceof Label) {
 				((Label) getWidget(r, c)).setText(data[i].getText());
 
 				++c;
-				if (c == this.numColumns) {
+				if (c == this.mNumColumns) {
 					c = 0;
 					++r;
 				}

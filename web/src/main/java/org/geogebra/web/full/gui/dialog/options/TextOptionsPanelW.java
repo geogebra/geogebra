@@ -112,7 +112,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 					app.getGuiManager()
 							.getOptionPane()
 							.showInputDialog(
-									app,
 									app
 											.getLocalization()
 											.getMenu("EnterPercentage"),

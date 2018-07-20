@@ -223,7 +223,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 			}
 			String[] options = { loc.getMenu("DeleteTool"),
 					loc.getMenu("DontDeleteTool") };
-			app.getGuiManager().getOptionPane().showOptionDialog(app, message,
+			app.getGuiManager().getOptionPane().showOptionDialog(message,
 					question, 0, GOptionPane.QUESTION_MESSAGE, null, options,
 					new AsyncOperation<String[]>() {
 

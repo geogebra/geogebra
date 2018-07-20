@@ -337,7 +337,7 @@ public class FileManagerW extends FileManager {
 		Localization loc = getApp().getLocalization();
 		((AppW) app1).getGuiManager()
 				.getOptionPane()
-				.showSaveDialog(getApp(), loc.getMenu(titleKey),
+				.showSaveDialog(loc.getMenu(titleKey),
 						filename + "." + extension, null,
 						new AsyncOperation<String[]>() {
 

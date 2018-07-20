@@ -386,7 +386,6 @@ public class ToolCreationDialogW extends DialogBoxW implements
 			app.getGuiManager()
 					.getOptionPane()
 					.showOptionDialog(
-							app,
 							app.getLocalization().getPlain(
 									"Tool.ReplaceQuestion", commandName),
 							loc.getMenu("Question"),
@@ -431,7 +430,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		} else {
 			app.getGuiManager()
 					.getOptionPane()
-					.showConfirmDialog(app, loc.getMenu("Tool.NotCompatible"),
+					.showConfirmDialog(loc.getMenu("Tool.NotCompatible"),
 							app.getLocalization().getError("Error"),
 							GOptionPane.OK_OPTION, GOptionPane.ERROR_MESSAGE,
 							null);

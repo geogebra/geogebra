@@ -20,6 +20,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Panel containing a slider.
+ */
 public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		HasValue<Double> {
 

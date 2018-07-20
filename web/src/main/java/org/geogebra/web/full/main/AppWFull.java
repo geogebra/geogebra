@@ -22,7 +22,6 @@ import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager.AppState;
@@ -593,13 +592,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		h.updateAfterParsing();
 		afterLoadFileAppOrNot(false);
-	}
-
-	@Override
-	public final void showConfirmDialog(String title, String mess) {
-		getOptionPane().showInputDialog(this, "", title, mess,
-				GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
-				null, null);
 	}
 
 	/**

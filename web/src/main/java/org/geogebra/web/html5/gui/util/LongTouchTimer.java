@@ -11,7 +11,7 @@ public class LongTouchTimer extends Timer {
 
 	private static final int MOVE_THRESHOLD = 10;
 
-	private LongTouchHandler handler;
+	private LongTouchHandler touchHandler;
 	private int mX;
 	private int mY;
 	private boolean longTouchHappened = false;
@@ -40,7 +40,7 @@ public class LongTouchTimer extends Timer {
 	 *            used when the timer elapsed.
 	 */
 	public LongTouchTimer(LongTouchHandler handler) {
-		this.handler = handler;
+		this.touchHandler = handler;
 		this.mX = 0;
 		this.mY = 0;
 		longTouchHappened = false;
@@ -48,11 +48,11 @@ public class LongTouchTimer extends Timer {
 
 	@Override
 	public void run() {
-		if (handler == null) {
+		if (touchHandler == null) {
 			return;
 		}
 		longTouchHappened = true;
-		handler.handleLongTouch(mX, mY);
+		touchHandler.handleLongTouch(mX, mY);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class LongTouchTimer extends Timer {
 	 */
 	public void schedule(LongTouchHandler handler, int x, int y,
 			int delayMillis) {
-		this.handler = handler;
+		this.touchHandler = handler;
 		this.mX = x;
 		this.mY = y;
 		longTouchHappened = false;
@@ -155,7 +155,7 @@ public class LongTouchTimer extends Timer {
 	public void cancelTimer() {
 		mX = 0;
 		mY = 0;
-		handler = null;
+		touchHandler = null;
 		longTouchHappened = false;
 		cancel();
 	}

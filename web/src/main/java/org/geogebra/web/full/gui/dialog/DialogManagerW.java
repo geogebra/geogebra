@@ -517,7 +517,7 @@ public class DialogManagerW extends DialogManager
 	 *            Alert message
 	 */
 	public void showAlertDialog(String text) {
-		((AppW) app).getGuiManager().getOptionPane().showConfirmDialog(app,
+		((AppW) app).getGuiManager().getOptionPane().showConfirmDialog(
 				text, "", GOptionPane.OK_OPTION,
 				GOptionPane.INFORMATION_MESSAGE, null);
 	}

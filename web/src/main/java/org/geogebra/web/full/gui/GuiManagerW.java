@@ -1696,7 +1696,7 @@ public class GuiManagerW extends GuiManager
 		// icon.getElement().getStyle()
 		// .setProperty("border", "3px solid steelblue");
 
-		getOptionPane().showOptionDialog(getApp(),
+		getOptionPane().showOptionDialog(
 				loc.getPlain("CreateSlidersForA", s),
 				loc.getMenu("CreateSliders"),
 				Integer.parseInt(AlgebraProcessor.CREATE_SLIDER),
@@ -2017,7 +2017,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void exportGGB() {
 		final String extension = ((AppW) app).getFileExtension();
-		getOptionPane().showSaveDialog(getApp(), loc.getMenu("Save"),
+		getOptionPane().showSaveDialog(loc.getMenu("Save"),
 				getApp().getExportTitle() + extension, null,
 				new AsyncOperation<String[]>() {
 

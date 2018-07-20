@@ -29,7 +29,7 @@ public class ErrorHandlerW implements ErrorHandler {
 		String title = GeoGebraConstants.APPLICATION_NAME + " - "
 				+ app.getLocalization().getError("Error");
 
-		app.getOptionPane().showConfirmDialog(app, msg, title,
+		app.getOptionPane().showConfirmDialog(msg, title,
 				GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
 
 	}
@@ -55,7 +55,7 @@ public class ErrorHandlerW implements ErrorHandler {
 
 		String[] optionNames = { app.getLocalization().getMenu("OK"),
 				app.getLocalization().getMenu("ShowOnlineHelp") };
-		app.getOptionPane().showOptionDialog(app, message, title, 0,
+		app.getOptionPane().showOptionDialog(message, title, 0,
 				GOptionPane.ERROR_MESSAGE, null, optionNames,
 				new AsyncOperation<String[]>() {
 					@Override

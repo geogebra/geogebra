@@ -681,7 +681,7 @@ public class GSuggestBox extends Composite
 	 */
 	private static class SuggestionMenuItem extends AriaMenuItem {
 
-		private static final String STYLENAME_DEFAULT = "item";
+		private static final String STYLENAME_ARIA = "item";
 
 		private Suggestion suggestion;
 
@@ -700,7 +700,7 @@ public class GSuggestBox extends Composite
 			// single row, it should be clipped (instead of wrapping around and
 			// taking up a second row).
 			getElement().getStyle().setProperty("whiteSpace", "nowrap");
-			setStyleName(STYLENAME_DEFAULT);
+			setStyleName(STYLENAME_ARIA);
 			setSuggestion(suggestion);
 		}
 

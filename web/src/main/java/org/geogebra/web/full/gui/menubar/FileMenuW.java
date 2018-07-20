@@ -405,7 +405,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// set Firefox dom.allow_scripts_to_close_windows in about:config to
 		// true to make this work
 		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
-		getApp().getGuiManager().getOptionPane().showOptionDialog(getApp(),
+		getApp().getGuiManager().getOptionPane().showOptionDialog(
 				loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
 				loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
 				1, GOptionPane.WARNING_MESSAGE, null, optionNames,

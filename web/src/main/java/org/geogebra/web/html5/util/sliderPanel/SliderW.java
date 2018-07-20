@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
-import org.geogebra.web.html5.awt.GDimensionW;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -14,6 +12,10 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 
+/**
+ * Slider based on default DOM range input.
+ *
+ */
 public class SliderW extends FocusWidget implements SliderWI {
 
 	private Element range;
@@ -47,8 +49,8 @@ public class SliderW extends FocusWidget implements SliderWI {
 		return Double.valueOf(getRangeValue(range));
 	}
 
-	private native String getRangeValue(Element range) /*-{
-		return range.value;
+	private native String getRangeValue(Element rangeEl) /*-{
+		return rangeEl.value;
 	}-*/;
 
 	@Override
@@ -64,10 +66,6 @@ public class SliderW extends FocusWidget implements SliderWI {
 	@Override
 	public void setStep(double step) {
 		range.setAttribute("step", String.valueOf(step));
-	}
-
-	public GDimensionW getPreferredSize() {
-		return new GDimensionW(100, 10);
 	}
 
 	@Override

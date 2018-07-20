@@ -111,9 +111,10 @@ public class AnimationExporter {
 			}
 
 			@Override
-			public void addFrame(EuclidianViewWInterface ev, double scale,
-					ExportType format) {
-				String url = ev.getExportImageDataUrl(scale, false, format);
+			public void addFrame(EuclidianViewWInterface view,
+					double exportScale, ExportType format) {
+				String url = view.getExportImageDataUrl(exportScale, false,
+						format);
 				encoder.addFrame(url);
 			}
 

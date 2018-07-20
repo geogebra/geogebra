@@ -1337,16 +1337,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param title
-	 *            confirmation dialog title
-	 * @param mess
-	 *            message
-	 */
-	public void showConfirmDialog(String title, String mess) {
-		// This should do nothing in webSimple!
-	}
-
-	/**
 	 * @param id
 	 *            material ID
 	 * @param onError
@@ -2860,7 +2850,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            popup title
 	 */
 	public void showMessage(final String message, final String title) {
-		getOptionPane().showConfirmDialog(this, message, title,
+		getOptionPane().showConfirmDialog(message, title,
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
 				null);
 	}
@@ -2881,7 +2871,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		content.addStyleName("examContent");
 		ScrollPanel scrollPanel = new ScrollPanel(content);
 		scrollPanel.addStyleName("examScrollPanel");
-		getOptionPane().showConfirmDialog(this, scrollPanel, title,
+		getOptionPane().showConfirmDialog(scrollPanel, title,
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
 				buttonText, null, handler);
 	}
