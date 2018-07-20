@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -390,9 +391,10 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		case IMPLICIT_POLY:
 		case CURVE_CARTESIAN:
 		case CURVE_CARTESIAN3D:
-		case FUNCTION:
 		case LIST:
 			return geo.isVisibleInViewForPlane();
+		case FUNCTION:
+			return !((GeoFunction) geo).isBooleanFunction();
 		case ANGLE:
 			if (geo.isIndependent()) { // no slider in view for plane (for now)
 				return false;
