@@ -261,8 +261,7 @@ public class MouseTouchGestureController {
 					oldCenterY - centerY) > MIN_MOVE) {
 				ec.getView().rememberOrigins();
 				ec.getView().translateCoordSystemInPixels(centerX - oldCenterX,
-						centerY - oldCenterY, 0,
-						EuclidianConstants.MODE_TRANSLATEVIEW);
+						centerY - oldCenterY, 0);
 
 				oldCenterX = centerX;
 				oldCenterY = centerY;

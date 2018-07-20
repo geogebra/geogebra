@@ -507,10 +507,8 @@ public interface EuclidianViewInterfaceCommon
 	 *            y movement (in pixels)
 	 * @param dz
 	 *            z movement (for 3D) (in pixels)
-	 * @param mode
-	 *            current mode
 	 */
-	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode);
+	public void translateCoordSystemInPixels(int dx, int dy, int dz);
 
 	/**
 	 * translate coord system after page up/down key pressed

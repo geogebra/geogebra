@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.scripting;
 
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -39,7 +38,7 @@ public class CmdPan extends CmdScripting {
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
 				ev.translateCoordSystemInPixels((int) x.getDouble(),
-						-(int) y.getDouble(), 0, EuclidianController.MOVE_VIEW);
+						-(int) y.getDouble(), 0);
 
 				return arg;
 			} else if (!ok) {
@@ -58,8 +57,7 @@ public class CmdPan extends CmdScripting {
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
 				ev.translateCoordSystemInPixels((int) x.getDouble(),
-						-(int) y.getDouble(), (int) z.getDouble(),
-						EuclidianController.MOVE_VIEW);
+						-(int) y.getDouble(), (int) z.getDouble());
 
 				return arg;
 			} else if (!ok) {

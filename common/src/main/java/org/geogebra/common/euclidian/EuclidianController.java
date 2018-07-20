@@ -11422,8 +11422,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// move the view
 			view.rememberOrigins();
 			view.translateCoordSystemInPixels(x2 - movePosition.getX(),
-					y2 - movePosition.getY(), 0,
-					EuclidianConstants.MODE_TRANSLATEVIEW);
+					y2 - movePosition.getY(), 0);
 			movePosition = new GPoint(x2, y2);
 
 			// update the preview

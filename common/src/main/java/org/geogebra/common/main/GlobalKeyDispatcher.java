@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -1264,13 +1263,11 @@ public abstract class GlobalKeyDispatcher {
 					return true;
 				case INSERT:
 					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels((int) (height * base), 0, 0,
-							EuclidianController.MOVE_VIEW);
+					ev.translateCoordSystemInPixels((int) (height * base), 0, 0);
 					return true;
 				case HOME:
 					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels(-(int) (height * base), 0,
-							0, EuclidianController.MOVE_VIEW);
+					ev.translateCoordSystemInPixels(-(int) (height * base), 0, 0);
 					return true;
 				case DOWN:
 
@@ -1288,8 +1285,7 @@ public abstract class GlobalKeyDispatcher {
 						} else {
 							ev.rememberOrigins();
 							ev.translateCoordSystemInPixels(0,
-									(int) (height / 100.0 * base), 0,
-									EuclidianController.MOVE_VIEW);
+									(int) (height / 100.0 * base), 0);
 						}
 						return true;
 					}
@@ -1312,8 +1308,7 @@ public abstract class GlobalKeyDispatcher {
 						} else {
 							ev.rememberOrigins();
 							ev.translateCoordSystemInPixels(0,
-									-(int) (height / 100.0 * base), 0,
-									EuclidianController.MOVE_VIEW);
+									-(int) (height / 100.0 * base), 0);
 						}
 						return true;
 					}
@@ -1333,8 +1328,7 @@ public abstract class GlobalKeyDispatcher {
 						} else {
 							ev.rememberOrigins();
 							ev.translateCoordSystemInPixels(
-									-(int) (width / 100.0 * base), 0, 0,
-									EuclidianController.MOVE_VIEW);
+									-(int) (width / 100.0 * base), 0, 0);
 						}
 						return true;
 
@@ -1355,8 +1349,7 @@ public abstract class GlobalKeyDispatcher {
 						} else {
 							ev.rememberOrigins();
 							ev.translateCoordSystemInPixels(
-									(int) (width / 100.0 * base), 0, 0,
-									EuclidianController.MOVE_VIEW);
+									(int) (width / 100.0 * base), 0, 0);
 						}
 					}
 					return true;

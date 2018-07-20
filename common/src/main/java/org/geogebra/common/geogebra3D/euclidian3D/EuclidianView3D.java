@@ -1041,8 +1041,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Sets coord system from mouse move
 	 */
 	@Override
-	final public void translateCoordSystemInPixels(int dx, int dy, int dz,
-			int mode) {
+	final public void translateCoordSystemInPixels(int dx, int dy, int dz) {
 		setXZero(xZeroOld + dx / getSettings().getXscale());
 		setYZero(yZeroOld - dy / getSettings().getYscale());
 		setZZero(zZeroOld + dz / getSettings().getZscale());
@@ -1055,8 +1054,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	final public void pageUpDownTranslateCoordSystem(int height) {
-		translateCoordSystemInPixels(0, 0, height / 100,
-				EuclidianController.MOVE_VIEW);
+		translateCoordSystemInPixels(0, 0, height / 100);
 	}
 
 	/**

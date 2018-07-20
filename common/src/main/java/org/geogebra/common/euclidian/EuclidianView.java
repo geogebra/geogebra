@@ -1289,8 +1289,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/** Sets coord system from mouse move */
 	@Override
-	public void translateCoordSystemInPixels(int dx, int dy, int dz,
-			int modeForTranslate) {
+	public void translateCoordSystemInPixels(int dx, int dy, int dz) {
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
@@ -1315,13 +1314,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            app mode
 	 */
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
-		translateCoordSystemInPixels(dx, dy, 0, mode);
+		translateCoordSystemInPixels(dx, dy, 0);
 	}
 
 	@Override
 	public void pageUpDownTranslateCoordSystem(int height) {
-		translateCoordSystemInPixels(0, height, 0,
-				EuclidianController.MOVE_VIEW);
+		translateCoordSystemInPixels(0, height, 0);
 	}
 
 	/**
