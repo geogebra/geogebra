@@ -208,4 +208,10 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 					anchor.getAbsoluteTop() - 27);
 		}
 	}
+
+	@Deprecated
+	@Override
+	public void onMouseMove(Widget sender, int x, int y) {
+		return;
+	}
 }
