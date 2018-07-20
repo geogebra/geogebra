@@ -75,7 +75,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		});
 		addResizeHandler();
 		mainPanel = new FlowPanel();
-
+		// panel with link text field
 		linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
 		linkLabel = new Label();
@@ -84,24 +84,8 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkBox.setReadOnly(true);
 		linkBox.setText(this.shareURL);
 		linkBox.setStyleName("linkBox");
-		linkBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				focusLinkBox();
-			}
-		});
-		linkBox.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (linkBoxFocused) {
-					linkBox.setFocus(true);
-					linkBox.setSelectionRange(0, 0);
-				}
-				linkBoxFocused = false;
-			}
-		});
+		addLinkBoxHandlers();
+		// build and add copy button
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
@@ -109,6 +93,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
 		mainPanel.add(linkPanel);
+		// build button panel (print prev, export img)
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		printBtn = new StandardButton(
@@ -129,6 +114,27 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		copyBtn.addFastClickHandler(this);
 	}
 
+	private void addLinkBoxHandlers() {
+		linkBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				focusLinkBox();
+			}
+		});
+		linkBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				if (linkBoxFocused) {
+					linkBox.setFocus(true);
+					linkBox.setSelectionRange(0, 0);
+				}
+				linkBoxFocused = false;
+			}
+		});
+	}
+
 	/**
 	 * focus textBox and select text
 	 */
@@ -138,6 +144,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkBox.selectAll();
 		linkBoxFocused = true;
 	}
+
 	@Override
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
