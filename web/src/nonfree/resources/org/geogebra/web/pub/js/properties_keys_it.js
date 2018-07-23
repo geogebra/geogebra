@@ -2405,6 +2405,7 @@ __GGB__keysVar["it"].menu = {
     "PressEnterToEdit": "Premi invio per modificare",
     "PressEnterToOpenSettings": "Premi Invio per aprire le impostazioni",
     "PressEnterToSelect": "Premi Invio per selezionare.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Premi il tasto barra per nascondere l'oggetto",
     "PressSlashToShow": "Premi / per mostrare l'oggetto",
     "PressSpaceCheckboxOff": "Premi la barra spaziatrice per deselezionare la casella di controllo",

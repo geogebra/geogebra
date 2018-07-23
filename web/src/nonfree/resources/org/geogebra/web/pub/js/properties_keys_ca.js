@@ -2405,6 +2405,7 @@ __GGB__keysVar["ca"].menu = {
     "PressEnterToEdit": "Premeu la tecla Retorn per editar",
     "PressEnterToOpenSettings": "Premeu Retorn per anar a la configuraci\xf3",
     "PressEnterToSelect": "Press enter to select.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Premeu / per ocultar l'objecte",
     "PressSlashToShow": "Premeu / per mostrar l'objecte",
     "PressSpaceCheckboxOff": "Premeu espai per desactivar la casella",

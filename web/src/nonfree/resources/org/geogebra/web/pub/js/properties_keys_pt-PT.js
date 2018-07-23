@@ -2405,6 +2405,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "PressEnterToEdit": "Pressione Enter para editar",
     "PressEnterToOpenSettings": "Pressione Enter para abrir as configura\xe7\xf5es",
     "PressEnterToSelect": "Pressione enter para selecionar.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Pressione/ para esconder objeto",
     "PressSlashToShow": "Pressione / para mostrar objeto",
     "PressSpaceCheckboxOff": "Pressione a barra de espa\xe7o para desmarcar a caixa",

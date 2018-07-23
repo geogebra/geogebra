@@ -2405,6 +2405,7 @@ __GGB__keysVar["hu"].menu = {
     "PressEnterToEdit": "Press enter to edit",
     "PressEnterToOpenSettings": "Press enter to open settings",
     "PressEnterToSelect": "Press enter to select.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Press slash to hide object",
     "PressSlashToShow": "Press / to show object",
     "PressSpaceCheckboxOff": "Press space to uncheck checkbox",

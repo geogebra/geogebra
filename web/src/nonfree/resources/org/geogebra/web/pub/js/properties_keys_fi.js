@@ -2405,6 +2405,7 @@ __GGB__keysVar["fi"].menu = {
     "PressEnterToEdit": "Muokkaa painamalla Enter",
     "PressEnterToOpenSettings": "Paina enteri\xe4 niin p\xe4\xe4set asetuksiin",
     "PressEnterToSelect": "Valitse painamalla Enter.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Paina / piilottaaksesi objektin",
     "PressSlashToShow": "Paina / n\xe4ytt\xe4\xe4ksesi objektin",
     "PressSpaceCheckboxOff": "Paina v\xe4lily\xf6ti\xe4 poistaaksesi merkin laatikosta",

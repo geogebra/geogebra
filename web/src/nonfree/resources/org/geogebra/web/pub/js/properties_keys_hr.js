@@ -2405,6 +2405,7 @@ __GGB__keysVar["hr"].menu = {
     "PressEnterToEdit": "Pritisnite Enter za ure\u0111ivanje",
     "PressEnterToOpenSettings": "Pritisnite razmaknicu za otvaranje postavki",
     "PressEnterToSelect": "Pritisnite enter za odabir.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Pritisnite / za skrivanje objekta",
     "PressSlashToShow": "Pritisnite / za prikaz objekta",
     "PressSpaceCheckboxOff": "Pritisnite razmaknicu da biste isklju\u010dili potvrdni okvir",

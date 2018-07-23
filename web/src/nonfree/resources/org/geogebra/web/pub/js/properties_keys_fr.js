@@ -2405,6 +2405,7 @@ __GGB__keysVar["fr"].menu = {
     "PressEnterToEdit": "Presser Entr\xe9e pour \xe9diter",
     "PressEnterToOpenSettings": "Presser Entr\xe9e pour ouvrir Propri\xe9t\xe9s",
     "PressEnterToSelect": "Appuyer sur entr\xe9e pour s\xe9lectionner.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Presser / Pour cacher objet",
     "PressSlashToShow": "Presser / Pour afficher objet",
     "PressSpaceCheckboxOff": "Presser Espace pour enlever coche \xe0 case",

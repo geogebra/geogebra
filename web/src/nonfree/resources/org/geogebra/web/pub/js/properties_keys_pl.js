@@ -2405,6 +2405,7 @@ __GGB__keysVar["pl"].menu = {
     "PressEnterToEdit": "Naci\u015bnij enter, aby edytowa\u0107",
     "PressEnterToOpenSettings": "Press enter to open settings",
     "PressEnterToSelect": "Press enter to select.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Naci\u015bnij klawisz uko\u015bnika, aby ukry\u0107 obiekt",
     "PressSlashToShow": "Naci\u015bnij /, aby pokaza\u0107 obiektu",
     "PressSpaceCheckboxOff": "Naci\u015bnij spacj\u0119, aby odznaczy\u0107 pole wyboru",

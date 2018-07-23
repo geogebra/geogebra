@@ -2405,6 +2405,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "PressEnterToEdit": "Klik Enter om te wijzigen",
     "PressEnterToOpenSettings": "Klik op Enter om de instellingen te openen",
     "PressEnterToSelect": "Klik op enter om te selecteren.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Klik op / om het object te verbergen",
     "PressSlashToShow": "Klik op / om het object te tonen",
     "PressSpaceCheckboxOff": "Klik op spatie om het aanvinkvakje uit te vinken",

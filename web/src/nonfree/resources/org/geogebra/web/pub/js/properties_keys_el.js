@@ -2405,6 +2405,7 @@ __GGB__keysVar["el"].menu = {
     "PressEnterToEdit": "\u03a0\u03b1\u03c4\u03ae\u03c3\u03c4\u03b5 enter \u03b3\u03b9\u03b1 \u03b5\u03c0\u03b5\u03be\u03b5\u03c1\u03b3\u03b1\u03c3\u03af\u03b1",
     "PressEnterToOpenSettings": "Press enter to open settings",
     "PressEnterToSelect": "Press enter to select.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Press slash to hide object",
     "PressSlashToShow": "\u03a0\u03b1\u03c4\u03ae\u03c3\u03c4\u03b5 / \u03b3\u03b9\u03b1 \u03b5\u03bc\u03c6\u03ac\u03bd\u03b9\u03c3\u03b7 \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5",
     "PressSpaceCheckboxOff": "Press space to uncheck checkbox",

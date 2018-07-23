@@ -2405,6 +2405,7 @@ __GGB__keysVar["de"].menu = {
     "PressEnterToEdit": "Dr\xfccke Eingabe, um zu bearbeiten",
     "PressEnterToOpenSettings": "Dr\xfccke Eingabe, um die Einstellungen zu \xf6ffnen",
     "PressEnterToSelect": "Dr\xfccke Eingabe, um auszuw\xe4hlen.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Dr\xfccke /  um das Objekt zu verstecken",
     "PressSlashToShow": "Dr\xfccke / um Objekt anzuzeigen",
     "PressSpaceCheckboxOff": "Dr\xfccke Eingabe, um das H\xe4kchen im Kontrollk\xe4stchen zu entfernen.",

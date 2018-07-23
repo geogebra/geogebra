@@ -2405,6 +2405,7 @@ __GGB__keysVar["nb"].menu = {
     "PressEnterToEdit": "Trykk enter for \xe5 redigere",
     "PressEnterToOpenSettings": "Trykk enter for \xe5 \xe5pne innstillinger",
     "PressEnterToSelect": "Trykk enter for \xe5 velge",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Trykk / for \xe5 lagre objekt",
     "PressSlashToShow": "Trykk / for \xe5 vise objektet",
     "PressSpaceCheckboxOff": "Trykk mellomrom for \xe5 fjerne merking i avkryssingsboksen",

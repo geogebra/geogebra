@@ -2405,6 +2405,7 @@ __GGB__keysVar["sl"].menu = {
     "PressEnterToEdit": "Z enter urejamo",
     "PressEnterToOpenSettings": "Z enter odpremo nastavitve",
     "PressEnterToSelect": "Izberi z Enter",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "S / skrijemo objekt",
     "PressSlashToShow": "S tipko / prika\u017ee objekt",
     "PressSpaceCheckboxOff": "S presledkom razveljavimo izbiro",

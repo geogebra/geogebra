@@ -2405,6 +2405,7 @@ __GGB__keysVar["is"].menu = {
     "PressEnterToEdit": "Press enter to edit",
     "PressEnterToOpenSettings": "Veldu vendihnapp til a\xf0 opna stillingar",
     "PressEnterToSelect": "Press enter to select.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Veldu / til a\xf0 fela hlut",
     "PressSlashToShow": "Veldu / til a\xf0 s\xfdna hlut",
     "PressSpaceCheckboxOff": "Veldu bilhnapp til a\xf0 afmerkja merkireit",

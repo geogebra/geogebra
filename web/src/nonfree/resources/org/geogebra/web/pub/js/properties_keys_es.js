@@ -2405,6 +2405,7 @@ __GGB__keysVar["es"].menu = {
     "PressEnterToEdit": "Presiona intro para editar",
     "PressEnterToOpenSettings": "Presiona intro para la configuraci\xf3n",
     "PressEnterToSelect": "Presiona intro para seleccionar.",
+    "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Presiona barra para esconder el objeto",
     "PressSlashToShow": "Presiona barra para mostrar el objeto",
     "PressSpaceCheckboxOff": "Presiona espacio para desmarcar la casilla de verificaci\xf3n",

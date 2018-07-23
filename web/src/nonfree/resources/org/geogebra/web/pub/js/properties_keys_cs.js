@@ -2405,6 +2405,7 @@ __GGB__keysVar["cs"].menu = {
     "PressEnterToEdit": "Stiskn\u011bte Enter pro \xfapravy",
     "PressEnterToOpenSettings": "Stisknut\xedm kl\xe1vesy Enter otev\u0159ete nastaven\xed",
     "PressEnterToSelect": "Vyberte stisknut\xedm kl\xe1vesy enter.",
+    "PressPlusMinusToMove": "Kl\xe1vesami plus a minus m\u016f\u017eete pohybovat objektem",
     "PressSlashToHide": "Stisknut\xedm / skryjete objekt",
     "PressSlashToShow": "Stisknut\xedm / zobraz\xedte objekt",
     "PressSpaceCheckboxOff": "Stisknut\xedm mezern\xedku odozna\u010d\xedte pol\xed\u010dko",
