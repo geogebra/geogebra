@@ -326,12 +326,13 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		sb.append(getWidth());
 		sb.append("\" height=\"");
 		sb.append(getHeight());
+		sb.append("\"");
 		if (getFormat() != null) {
-			sb.append("\" type=\"");
+			sb.append("\ttype=\"");
 			sb.append(getFormat());
 			sb.append("\"");
 		}
-		sb.append("\"/>\n");
+		sb.append("/>\n");
 	}
 
 	/**
