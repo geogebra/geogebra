@@ -112,9 +112,6 @@ public class GeoEmbed extends GeoWidget implements GeoFrame, Furniture {
 		}
 		sb.append("\"/>\n");
 		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));
-		for (int i = 0; i < corner.length; i++) {
-			XMLBuilder.getCornerPointXML(sb, i, corner);
-		}
 	}
 
 	/**

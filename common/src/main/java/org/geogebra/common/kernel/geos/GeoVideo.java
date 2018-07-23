@@ -329,7 +329,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		sb.append(getHeight());
 		sb.append("\"");
 		if (getFormat() != null) {
-			sb.append("\ttype=\"");
+			sb.append(" type=\"");
 			sb.append(getFormat());
 			sb.append("\"");
 		}

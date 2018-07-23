@@ -4186,7 +4186,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-491 */
 		case MOW_WIDGET_POSITIONS:
-			return false;
+			return prerelease;
 
 		// **********************************************************************
 		// MOW END

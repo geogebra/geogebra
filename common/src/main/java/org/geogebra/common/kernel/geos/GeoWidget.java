@@ -313,4 +313,12 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return getHeight();
 	}
+
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		for (int i = 0; i < corner.length; i++) {
+			XMLBuilder.getCornerPointXML(sb, i, corner);
+		}
+	}
 }
