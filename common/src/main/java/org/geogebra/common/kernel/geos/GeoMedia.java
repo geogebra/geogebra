@@ -157,4 +157,9 @@ public abstract class GeoMedia extends GeoWidget {
 		pause();
 		super.remove();
 	}
+
+	@Override
+	public boolean isPinnable() {
+		return true;
+	}
 }
