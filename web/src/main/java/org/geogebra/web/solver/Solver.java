@@ -287,7 +287,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 			} catch (NullPointerException e) {
 				Log.error("Something terrible happened when solving "
 						+ solvable + " in " + variable);
-				Log.printStacktrace(e);
+				Log.debug(e);
 			} finally {
 				sb.reset();
 			}

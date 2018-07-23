@@ -248,7 +248,6 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	public void openFile(final JavaScriptObject fileToHandle,
 			final JavaScriptObject callback) {
-		Log.printStacktrace("OpenFileView.openFile");
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
