@@ -472,6 +472,8 @@
     					width: 232px;
     					height: 120px;
     					margin: 0px;
+    					background-repeat: no-repeat;
+    					background-position: center;
 					}
 				
 					.cardInfoPanel {
@@ -480,9 +482,9 @@
 						.cardTitle {
 							font-size: 125%;
 							color: $text-primary;
-							line-height: 19px;
+							line-height: 1;
 							letter-spacing: 0.25px;
-							padding: 8px 24px 0px 16px;
+							padding: 8px 24px 1px 16px;
 							text-overflow: ellipsis;
 							font-weight: 500;
 							max-height: 40px;
