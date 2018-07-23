@@ -178,7 +178,8 @@ public class ButtonFactory {
      * @param resource the name of the resource
      * @param action the name of the action
      * @param background the background
-     * @return
+	 *
+     * @return a button
      */
 	public WeightedButton createCustomButton(String resource, String action,
 			Background background) {
