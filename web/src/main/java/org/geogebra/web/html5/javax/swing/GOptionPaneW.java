@@ -38,12 +38,12 @@ public class GOptionPaneW extends GDialogBox
 	final private App mApp;
 	private String mTitle;
 	private String mMessage;
-	private String initialSelectionValue;
+	private String mInitialSelectionValue;
 	private Button btnOK;
 	private Button btnCancel;
 	private Button[] optionButtons;
 	private String[] optionNames;
-	private int optionType;
+	private int mOptionType;
 	private int mMessageType;
 	private boolean requiresReturnValue;
 	private Localization loc;
@@ -97,7 +97,7 @@ public class GOptionPaneW extends GDialogBox
 
 		if (requiresReturnValue) {
 			if (returnOption == GOptionPane.CANCEL_OPTION) {
-				returnValue = initialSelectionValue;
+				returnValue = mInitialSelectionValue;
 			} else {
 				returnValue = inputField.getText();
 			}
@@ -180,7 +180,7 @@ public class GOptionPaneW extends GDialogBox
 
 		buttonPanel.clear();
 
-		switch (optionType) {
+		switch (mOptionType) {
 		case GOptionPane.CUSTOM_OPTION:
 			optionButtons = new Button[optionNames.length];
 			for (int i = optionNames.length - 1; i >= 0; i--) {
@@ -247,7 +247,7 @@ public class GOptionPaneW extends GDialogBox
 		if (inputField == null) {
 			inputField = new AutoCompleteTextFieldW(mApp);
 		}
-		inputField.setText(initialSelectionValue);
+		inputField.setText(mInitialSelectionValue);
 
 	}
 
@@ -333,7 +333,7 @@ public class GOptionPaneW extends GDialogBox
 				close();
 
 			} else if (keyCode == KeyCodes.KEY_ENTER) {
-				returnOption = optionType == GOptionPane.CUSTOM_OPTION
+				returnOption = mOptionType == GOptionPane.CUSTOM_OPTION
 						? enterOption : GOptionPane.OK_OPTION;
 				close();
 			}
@@ -346,13 +346,24 @@ public class GOptionPaneW extends GDialogBox
 
 	/**
 	 * Launches a confirm dialog.
+	 * 
+	 * @param message
+	 *            message
+	 * @param title
+	 *            title
+	 * @param optionType
+	 *            options
+	 * @param messageType
+	 *            message type
+	 * @param icon
+	 *            icon
 	 */
 	public void showConfirmDialog(String message, String title,
 			int optionType, int messageType, Image icon) {
 
 		this.mMessage = message;
 		this.mTitle = title;
-		this.optionType = optionType;
+		this.mOptionType = optionType;
 		this.mMessageType = messageType;
 		this.mIcon = icon;
 
@@ -366,8 +377,6 @@ public class GOptionPaneW extends GDialogBox
 	}
 
 	/**
-	 * @param app
-	 *            application
 	 * @param scrollPanel
 	 *            content scroll pane
 	 * @param title
@@ -384,13 +393,12 @@ public class GOptionPaneW extends GDialogBox
 	 *            handler for clicked buttons
 	 */
 	public void showConfirmDialog(ScrollPanel scrollPanel,
-			String title,
-			int optionType, int messageType, String okLabel, Image icon,
-			AsyncOperation<String[]> returnHandler) {
+			String title, int optionType, int messageType, String okLabel,
+			Image icon, AsyncOperation<String[]> returnHandler) {
 
 		this.scrollPanel = scrollPanel;
 		this.mTitle = title;
-		this.optionType = optionType;
+		this.mOptionType = optionType;
 		this.mMessageType = messageType;
 		this.mIcon = icon;
 
@@ -422,7 +430,7 @@ public class GOptionPaneW extends GDialogBox
 
 		this.mMessage = message;
 		this.mTitle = title;
-		this.optionType = GOptionPane.CUSTOM_OPTION;
+		this.mOptionType = GOptionPane.CUSTOM_OPTION;
 		this.enterOption = enterOption;
 		this.mMessageType = messageType;
 		this.mIcon = icon;
@@ -433,7 +441,6 @@ public class GOptionPaneW extends GDialogBox
 		requiresReturnValue = false;
 
 		showDialog(true);
-
 	}
 
 	/**
@@ -451,11 +458,11 @@ public class GOptionPaneW extends GDialogBox
 
 		this.mMessage = message;
 		this.mTitle = null;
-		this.optionType = GOptionPane.OK_CANCEL_OPTION;
+		this.mOptionType = GOptionPane.OK_CANCEL_OPTION;
 		this.mMessageType = GOptionPane.PLAIN_MESSAGE;
 		this.mIcon = (Image) icon;
 
-		this.initialSelectionValue = initialSelectionValue;
+		this.mInitialSelectionValue = initialSelectionValue;
 		this.returnHandler = handler;
 		requiresReturnValue = true;
 
@@ -465,8 +472,6 @@ public class GOptionPaneW extends GDialogBox
 	/**
 	 * Simple download as dialog.
 	 * 
-	 * @param app
-	 *            application
 	 * @param title
 	 *            title
 	 * @param initialSelectionValue
@@ -485,11 +490,11 @@ public class GOptionPaneW extends GDialogBox
 		this.mMessage = "";
 		this.mTitle = title;
 		this.mOkLabel = okLabel;
-		this.optionType = GOptionPane.OK_CANCEL_OPTION;
+		this.mOptionType = GOptionPane.OK_CANCEL_OPTION;
 		this.mMessageType = GOptionPane.PLAIN_MESSAGE;
 		this.mIcon = (Image) icon;
 
-		this.initialSelectionValue = initialSelectionValue;
+		this.mInitialSelectionValue = initialSelectionValue;
 		this.returnHandler = handler;
 		requiresReturnValue = true;
 

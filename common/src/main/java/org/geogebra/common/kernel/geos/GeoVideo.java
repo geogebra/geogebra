@@ -66,6 +66,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
 	}
+
 	/**
 	 * Constructor.
 	 *
