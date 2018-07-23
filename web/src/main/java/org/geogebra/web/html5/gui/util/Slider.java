@@ -76,11 +76,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		range.setAttribute("max", String.valueOf(max));
 	}
 
-	public void setMajorTickSpacing(int step) {
-		range.setAttribute("step", String.valueOf(step));
-	}
-
-	public void setMinorTickSpacing(int step) {
+	public void setTickSpacing(int step) {
 		range.setAttribute("step", String.valueOf(step));
 	}
 

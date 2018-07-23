@@ -65,8 +65,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 
 		getMySlider().setMinimum(0);
 		getMySlider().setMaximum(100);
-		getMySlider().setMajorTickSpacing(25);
-		getMySlider().setMinorTickSpacing(5);
+		getMySlider().setTickSpacing(5);
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
 		if (app.isUnbundled()) {

@@ -157,8 +157,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 			getMySlider().setMinimum(-10);
 			getMySlider().setMaximum(10);
-			getMySlider().setMajorTickSpacing(10);
-			getMySlider().setMinorTickSpacing(1);
+			getMySlider().setTickSpacing(1);
 			setSliderValue(5);
 		}
 

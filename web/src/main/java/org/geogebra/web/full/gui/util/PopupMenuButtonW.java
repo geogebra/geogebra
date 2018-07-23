@@ -533,8 +533,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 	private void initSlider() {
 		mySlider = new Slider(0, 100);
-		mySlider.setMajorTickSpacing(25);
-		mySlider.setMinorTickSpacing(5);
+		mySlider.setTickSpacing(5);
 		mySlider.addChangeHandler(this);
 
 		Slider.addInputHandler(mySlider.getElement(), this);

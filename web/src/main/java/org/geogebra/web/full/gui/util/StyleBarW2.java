@@ -46,8 +46,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnLineStyle.getMySlider()
 				.setMaximum(app.has(Feature.MOW_HIGHLIGHTER_TOOL)
 						? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : 13);
-		btnLineStyle.getMySlider().setMajorTickSpacing(2);
-		btnLineStyle.getMySlider().setMinorTickSpacing(1);
+		btnLineStyle.getMySlider().setTickSpacing(1);
 		btnLineStyle.addPopupHandler(this);
 	}
 
@@ -59,8 +58,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);
-		btnPointStyle.getMySlider().setMajorTickSpacing(2);
-		btnPointStyle.getMySlider().setMinorTickSpacing(1);
+		btnPointStyle.getMySlider().setTickSpacing(1);
 
 		btnPointStyle.addPopupHandler(this);
 

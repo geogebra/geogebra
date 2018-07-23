@@ -212,21 +212,18 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		lblSelectedSymbol = new Label();
 
 		opacitySlider = new SliderPanel(0, 100);
-		opacitySlider.setMajorTickSpacing(25);
-		opacitySlider.setMinorTickSpacing(5);
+		opacitySlider.setTickSpacing(5);
 		opacitySlider.setPaintTicks(true);
 		opacitySlider.setPaintLabels(true);
 
 		angleSlider = new SliderPanel(0, 180);
-		angleSlider.setMajorTickSpacing(45);
-		angleSlider.setMinorTickSpacing(5);
+		angleSlider.setTickSpacing(5);
 		angleSlider.setPaintTicks(true);
 		angleSlider.setPaintLabels(true);
 
 		distanceSlider = new SliderPanel(5, 50);
 		// distanceSlider.setPreferredSize(new Dimension(150,50));
-		distanceSlider.setMajorTickSpacing(10);
-		distanceSlider.setMinorTickSpacing(5);
+		distanceSlider.setTickSpacing(5);
 		distanceSlider.setPaintTicks(true);
 		distanceSlider.setPaintLabels(true);
 
@@ -474,7 +471,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		imagePanel.setVisible(false);
 		anglePanel.setVisible(true);
 		angleSlider.setMaximum(180);
-		angleSlider.setMinorTickSpacing(5);
+		angleSlider.setTickSpacing(5);
 		setSymbolsVisible(false);
 	}
 
@@ -488,7 +485,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		anglePanel.setVisible(true);
 		// Only at 0, 45 and 90 degrees texturepaint not have mismatches
 		angleSlider.setMaximum(45);
-		angleSlider.setMinorTickSpacing(45);
+		angleSlider.setTickSpacing(45);
 		setSymbolsVisible(false);
 
 	}
@@ -502,7 +499,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		imagePanel.setVisible(false);
 		anglePanel.setVisible(true);
 		angleSlider.setMaximum(180);
-		angleSlider.setMinorTickSpacing(45);
+		angleSlider.setTickSpacing(45);
 		setSymbolsVisible(false);
 	}
 

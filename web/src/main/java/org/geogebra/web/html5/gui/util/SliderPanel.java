@@ -65,12 +65,8 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		slider.setMaximum(max);
 	}
 
-	public void setMajorTickSpacing(int step) {
-		slider.setMajorTickSpacing(step);
-	}
-
-	public void setMinorTickSpacing(int step) {
-		slider.setMinorTickSpacing(step);
+	public void setTickSpacing(int step) {
+		slider.setTickSpacing(step);
 	}
 
 	public void setPaintTicks(boolean b) {

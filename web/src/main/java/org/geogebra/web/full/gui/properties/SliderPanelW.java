@@ -333,8 +333,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private void createTransparencySlider() {
 		sliderTransparency = new SliderPanel(0, 100);
-		sliderTransparency.setMajorTickSpacing(25);
-		sliderTransparency.setMinorTickSpacing(5);
+		sliderTransparency.setTickSpacing(5);
 		sliderTransparency.setValue(40);
 		sliderTransparency.addChangeHandler(new ChangeHandler() {
 			@Override

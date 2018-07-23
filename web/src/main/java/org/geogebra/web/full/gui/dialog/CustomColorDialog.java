@@ -50,16 +50,14 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 
 		public ColorComponent() {
 			setStyleName("colorComponent");
-			
+
 			FlowPanel sp = new FlowPanel();
-			
+
 			Label minLabel = new Label("0");
 			slider = new Slider(0, 255);
-			slider.setMajorTickSpacing(2);
-			slider.setMinorTickSpacing(1);
-			
+			slider.setTickSpacing(1);
 			Label maxLabel = new Label("255");
-		
+
 			sp.setStyleName("colorSlider");
 			sp.add(minLabel);
 			sp.add(slider);
