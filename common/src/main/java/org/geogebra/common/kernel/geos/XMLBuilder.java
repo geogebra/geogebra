@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
@@ -285,7 +286,7 @@ public class XMLBuilder {
 	 * @param corners
 	 *            corners
 	 */
-	public static void getCornerPointXML(StringBuilder sb, int number, GeoPoint[] corners) {
+	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners) {
 		if (corners[number] == null) {
 			return;
 		}
@@ -294,9 +295,9 @@ public class XMLBuilder {
 		sb.append("\"");
 
 		if (corners[number].isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + corners[number].x + "\"");
-			sb.append(" y=\"" + corners[number].y + "\"");
-			sb.append(" z=\"" + corners[number].z + "\"");
+			sb.append(" x=\"" + corners[number].getInhomX() + "\"");
+			sb.append(" y=\"" + corners[number].getInhomY() + "\"");
+			sb.append(" z=\"1\"");
 		} else {
 			sb.append(" exp=\"");
 			StringUtil.encodeXML(sb, corners[number].getLabel(StringTemplate.xmlTemplate));

@@ -15,7 +15,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App.ExportType;
 
 /**
@@ -187,7 +187,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	public void setWidth(int newWidth) {
 		double contentWidth = geoEmbed.getContentWidth() * newWidth / getWidth();
 		geoEmbed.setContentWidth(contentWidth);
-		GeoPoint corner = geoEmbed.getCorner(1);
+		GeoPointND corner = geoEmbed.getCorner(1);
 		corner.setCoords(geoEmbed.getCorner(0).getInhomX() + newWidth / view.getXscale(),
 				corner.getInhomY(), 1);
 		corner.updateCoords();
@@ -197,7 +197,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	public void setHeight(int newHeight) {
 		double contentHeight = geoEmbed.getContentHeight() * newHeight / getHeight();
 		geoEmbed.setContentHeight(contentHeight);
-		GeoPoint corner = geoEmbed.getCorner(0);
+		GeoPointND corner = geoEmbed.getCorner(0);
 		corner.setCoords(corner.getInhomX(),
 				corner.getInhomY() - (newHeight - getHeight()) / view.getYscale(), 1);
 		corner = geoEmbed.getCorner(1);

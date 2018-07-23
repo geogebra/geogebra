@@ -22,7 +22,8 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	private int width = 40;
 	private int height = 30;
 
-	private GeoPointND[] corner = new GeoPointND[3];
+	protected GeoPointND[] corner = new GeoPointND[3];
+	protected int topLeftCorner = 0;
 
 	/**
 	 * @param c
@@ -156,12 +157,12 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	}
 
 	@Override
-	final public void setUndefined() {
+	public void setUndefined() {
 		// do nothing
 	}
 
 	@Override
-	final public boolean isDefined() {
+	public boolean isDefined() {
 		return true;
 	}
 
@@ -285,7 +286,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	public void updateAbsLocation(EuclidianView ev) {
 		if (corner[0] != null) {
 			labelOffsetX = ev.toScreenCoordX(corner[0].getInhomX());
-			labelOffsetY = ev.toScreenCoordY(corner[0].getInhomY());
+			labelOffsetY = ev.toScreenCoordY(corner[topLeftCorner].getInhomY());
 		}
 	}
 

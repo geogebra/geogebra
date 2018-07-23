@@ -99,7 +99,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoMedia;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -249,8 +248,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
 	protected Furniture movedGeoButton;
-	protected GeoWidget movedGeoWidget;
-	protected GeoMedia movedGeoMedia;
+	protected GeoWidget movedGeoMedia;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
@@ -6216,7 +6214,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoNumeric.updateRepaint();
 	}
 
-	protected final void moveAudioSlider(boolean repaint, boolean click) {
+	protected final void moveAudioSlider(boolean repaint) {
 		GeoAudio audio = (GeoAudio) movedGeoMedia;
 		setAudioTimeValue(audio);
 		audio.updateRepaint();
@@ -7402,18 +7400,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setShowMouseCoords(false);
 			setDragCursor();
 		}
-		else if (movedGeoElement instanceof GeoMedia) {
-			movedGeoMedia = (GeoMedia) movedGeoElement;
-			if (movedGeoMedia.isGeoAudio()
-					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
-				moveMode = MOVE_AUDIO_SLIDER;
-				moveAudioSlider(true, true);
-				return;
-			}
-
-			moveWidget(movedGeoMedia, MOVE_MEDIA);
-
-		}
 		// button
 		else if (movedGeoElement instanceof Furniture
 				&& ((Furniture) movedGeoElement).isFurniture()) {
@@ -7442,6 +7428,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					runScriptsIfNeeded(movedGeoElement);
 				}
 			}
+		} else if (movedGeoElement instanceof GeoWidget) {
+			movedGeoMedia = (GeoWidget) movedGeoElement;
+			if (movedGeoMedia.isGeoAudio()
+					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
+				moveMode = MOVE_AUDIO_SLIDER;
+				moveAudioSlider(true);
+				return;
+			}
+
+			moveWidget(movedGeoMedia, MOVE_MEDIA);
+
 		}
 
 		// image
@@ -7504,8 +7501,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int mode) {
 		moveMode = mode;
 		startLoc = mouseLoc;
-		if (geo instanceof GeoButton) {
-			((GeoButton) geo).updateAbsLocation(view);
+		if (geo instanceof GeoWidget) {
+			((GeoWidget) geo).updateAbsLocation(view);
 		}
 		oldLoc.x = geo.getAbsoluteScreenLocX();
 		oldLoc.y = geo.getAbsoluteScreenLocY();
@@ -7794,7 +7791,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case MOVE_AUDIO_SLIDER:
-			moveAudioSlider(repaint, false);
+			moveAudioSlider(repaint);
 			break;
 
 		case MOVE_BOOLEAN:

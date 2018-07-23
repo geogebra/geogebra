@@ -3,9 +3,6 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
@@ -14,10 +11,9 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Geo for embedded apps
  */
-public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furniture {
+public class GeoEmbed extends GeoWidget implements GeoFrame, Furniture {
 
 	private boolean defined = true;
-	private GeoPoint[] corner;
 	private int embedID;
 	private double contentWidth = 800;
 	private double contentHeight = 600;
@@ -31,7 +27,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	 */
 	public GeoEmbed(Construction c) {
 		super(c);
-		corner = new GeoPoint[3];
+		topLeftCorner = 2;
 	}
 
 	/**
@@ -59,11 +55,6 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	}
 
 	@Override
-	public ValueType getValueType() {
-		return ValueType.UNKNOWN;
-	}
-
-	@Override
 	public GeoElement copy() {
 		GeoEmbed ret = new GeoEmbed(cons);
 		ret.set(this);
@@ -88,28 +79,8 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	}
 
 	@Override
-	public String toValueString(StringTemplate tpl) {
-		return "";
-	}
-
-	@Override
 	public boolean showInAlgebraView() {
 		return false;
-	}
-
-	@Override
-	protected boolean showInEuclidianView() {
-		return true;
-	}
-
-	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return geo == this;
-	}
-
-	@Override
-	public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	/**
@@ -119,7 +90,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	 *            index
 	 * @return corner
 	 */
-	public GeoPoint getCorner(int i) {
+	public GeoPointND getCorner(int i) {
 		if (corner[i] == null) {
 			GeoPoint ret = new GeoPoint(cons);
 			ret.setCoords(0, 0, 1);
@@ -170,14 +141,14 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-		corner[0] = (GeoPoint) p;
+		corner[0] = p;
 	}
 
 	@Override
 	public void removeStartPoint(GeoPointND p) {
 		for (int i = 0; i < corner.length; i++) {
 			if (corner[i] == p) {
-				corner[i] = (GeoPoint) p.copy();
+				corner[i] = p.copy();
 			}
 		}
 	}
@@ -189,7 +160,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
-		corner[number] = (GeoPoint) p;
+		corner[number] = p;
 	}
 
 	@Override
@@ -248,18 +219,6 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	}
 
 	@Override
-	public int getAbsoluteScreenLocX() {
-		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
-		return view.toScreenCoordX(getCorner(0).getInhomX());
-	}
-
-	@Override
-	public int getAbsoluteScreenLocY() {
-		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
-		return view.toScreenCoordY(getCorner(2).getInhomY());
-	}
-
-	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
 		double oldWidth = getCorner(1).getInhomX() - getCorner(0).getInhomX();
@@ -268,11 +227,6 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		getCorner(0).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y) - oldHeight, 1);
 		getCorner(1).setCoords(view.toRealWorldCoordX(x) + oldWidth,
 				view.toRealWorldCoordY(y) - oldHeight, 1);
-	}
-
-	@Override
-	public boolean isFurniture() {
-		return true;
 	}
 
 	/**
@@ -326,6 +280,12 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	 */
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	@Override
+	public boolean isFurniture() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }
