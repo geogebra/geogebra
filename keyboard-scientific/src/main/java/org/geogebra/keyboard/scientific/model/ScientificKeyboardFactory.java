@@ -64,7 +64,7 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
                 Action.BACKSPACE_DELETE);
 
         row = mathKeyboard.nextRow(9.2f);
-        addCustomButton(row, buttonFactory, "ANS", Action.ANS);
+        addCustomButton(row, buttonFactory, "ans", Action.ANS);
         addInputButton(row, buttonFactory, ",");
         addInputButton(row, buttonFactory, "(");
         addInputButton(row, buttonFactory, ")");
