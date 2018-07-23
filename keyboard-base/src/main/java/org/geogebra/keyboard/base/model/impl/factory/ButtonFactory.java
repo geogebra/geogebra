@@ -9,36 +9,85 @@ import org.geogebra.keyboard.base.model.KeyModifier;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.base.model.impl.WeightedButtonImpl;
 
+/**
+ * Helper class for creating buttons with modifiers.
+ */
 public class ButtonFactory {
 
 	private KeyModifier[] modifiers;
 
+	/**
+	 * Creates a ButtonFactory with key modifiers.
+	 *
+	 * @param modifiers modifiers of the keys. Can be null.
+	 */
 	public ButtonFactory(KeyModifier[] modifiers) {
 		this.modifiers = modifiers;
 	}
 
-	public WeightedButton createLatexInputButton(String formula, String action,
+	/**
+	 * Creates an input button with LaTeX as resource.
+	 *
+	 * @param formula LaTeX formula
+	 * @param input the input from the button
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
+	public WeightedButton createLatexInputButton(String formula, String input,
 			float weight) {
-		return new WeightedButtonImpl(formula, ResourceType.LATEX, action,
+		return new WeightedButtonImpl(formula, ResourceType.LATEX, input,
 				ActionType.INPUT, Background.STANDARD, modifiers, weight);
 	}
 
-	public WeightedButton createInputButton(String name, String action, float weight) {
-		return new WeightedButtonImpl(name, ResourceType.TEXT, action,
+	/**
+	 * Creates an input button with string as resource.
+	 *
+	 * @param name name of the button
+	 * @param input the input from the button
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
+	public WeightedButton createInputButton(String name, String input, float weight) {
+		return new WeightedButtonImpl(name, ResourceType.TEXT, input,
 				ActionType.INPUT, Background.STANDARD, modifiers, weight);
 	}
 
-	public WeightedButton createInputButton(String name, String action) {
-		return createInputButton(name, action, 1.0f);
+	/**
+	 * Calls {@link ButtonFactory#createConstantInputButton(String, String, float)}
+	 * with parameter {@code weight = 1.0f}
+	 */
+	public WeightedButton createInputButton(String name, String input) {
+		return createInputButton(name, input, 1.0f);
 	}
 
-	public WeightedButton createConstantInputButton(String input, String action,
+	/**
+	 * Creates an input button with a defined constant a resource,
+	 * see {@link Resource}.
+	 *
+	 * @param constant the name of the resource
+	 * @param input the input from the button
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
+	public WeightedButton createConstantInputButton(String constant, String input,
 			float weight) {
-		return new WeightedButtonImpl(input, ResourceType.DEFINED_CONSTANT,
-				action, ActionType.INPUT, Background.STANDARD, modifiers,
+		return new WeightedButtonImpl(constant, ResourceType.DEFINED_CONSTANT,
+				input, ActionType.INPUT, Background.STANDARD, modifiers,
 				weight);
 	}
 
+	/**
+	 * Creates a button that has a translated resource.
+	 *
+	 * @param translate the key for the translation for the resource
+	 * @param input the input from the button
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
 	public WeightedButton createTranslateInputButton(String translate, String input,
 			float weight) {
 		return new WeightedButtonImpl(translate,
@@ -46,6 +95,15 @@ public class ButtonFactory {
 				Background.STANDARD, modifiers, weight);
 	}
 
+	/**
+	 * Creates a button that has a translated resource and a translated input.
+	 *
+	 * @param translate the key for the translation for the resource
+	 * @param input the key for the translation for the input
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
 	public WeightedButton createTranslateInputTranslateButton(String translate,
 			String input, float weight) {
 		return new WeightedButtonImpl(translate,
@@ -54,13 +112,32 @@ public class ButtonFactory {
 				weight);
 	}
 
+    /**
+     * Creates a button that has a translated input.
+     *
+     * @param name name of the button
+     * @param input the key for the translation for the input
+     * @param weight weight of the button
+     *
+     * @return a button
+     */
 	public WeightedButton createInputTranslateButton(String name,
-			String translateInput, float weight) {
-		return new WeightedButtonImpl(name, ResourceType.TEXT, translateInput,
+			String input, float weight) {
+		return new WeightedButtonImpl(name, ResourceType.TEXT, input,
 				ActionType.INPUT_TRANSLATE_COMMAND, Background.STANDARD,
 				modifiers, weight);
 	}
 
+    /**
+     * Creates a button that has a custom resource and custom action.
+     * See {@link Action} and {@link Resource}
+     *
+     * @param resource name of the resource
+     * @param action the action of the key
+     * @param weight weight of the button
+     *
+     * @return a button
+     */
 	public WeightedButton createCustomConstantButton(String resource, String action,
 			float weight) {
 		return new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT,
@@ -68,24 +145,54 @@ public class ButtonFactory {
 				weight);
 	}
 
+    /**
+     * Creates a button that has a custom resource and translated input.
+     * See {@link Resource}.
+     *
+     * @param resource name of the resource
+     * @param input the key for the translation for the input
+     * @param weight weight of the button
+     *
+     * @return a button
+     */
 	public WeightedButton createConstantInputTranslateButton(String resource,
-			String translateInput, float weight) {
+			String input, float weight) {
 		return new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT,
-				translateInput, ActionType.INPUT_TRANSLATE_COMMAND,
+                input, ActionType.INPUT_TRANSLATE_COMMAND,
 				Background.STANDARD, modifiers, weight);
 	}
 
+    /**
+     * Calls {@link ButtonFactory#createCustomButton(String, String, Background)}
+     * with parameter {@code background = }{@link Background#FUNCTIONAL}.
+     */
 	public WeightedButton createCustomButton(String resource, String action) {
-		return new WeightedButtonImpl(resource, ResourceType.TEXT, action,
-				ActionType.CUSTOM, Background.FUNCTIONAL, modifiers, 1.0f);
+	    return createCustomButton(resource, action, Background.FUNCTIONAL);
 	}
 
+    /**
+     * Creates a button with a custom action and custom resource,
+     * and with a background color.
+     * See {@link Action}, {@link Resource} and {@link Background}.
+     *
+     * @param resource the name of the resource
+     * @param action the name of the action
+     * @param background the background
+     * @return
+     */
 	public WeightedButton createCustomButton(String resource, String action,
 			Background background) {
 		return new WeightedButtonImpl(resource, ResourceType.TEXT, action,
 				ActionType.CUSTOM, background, modifiers, 1.0f);
 	}
 
+    /**
+     * Creates an empty space between buttons.
+     *
+     * @param weight the weight of the space
+     *
+     * @return a button that is invisible
+     */
 	public WeightedButton createEmptySpace(float weight) {
 		return new WeightedButtonImpl(Resource.EMPTY_IMAGE.name(),
 				ResourceType.DEFINED_CONSTANT, Action.NONE.name(),

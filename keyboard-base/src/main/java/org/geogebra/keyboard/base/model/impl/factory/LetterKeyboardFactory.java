@@ -26,10 +26,22 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	private String bottomRow;
 	private boolean withSpecialSymbols;
 
+	/**
+	 * Calls {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, boolean)}
+	 * with parameter {@code withSpecialSymbols = true}.
+	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow) {
 		setKeyboardDefinition(topRow, middleRow, bottomRow, true);
 	}
 
+	/**
+	 * Sets the definition for the letters
+	 *
+	 * @param topRow a string containing the characters for the top row
+	 * @param middleRow a string containing the characters for the middle row
+	 * @param bottomRow a string containing the characters for the bottom row
+	 * @param withSpecialSymbols true iff special symbols should be included
+	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
 			withSpecialSymbols) {
 		this.topRow = topRow;

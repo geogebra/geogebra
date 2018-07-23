@@ -27,6 +27,10 @@ public class KeyboardFactory {
 	private LetterKeyboardFactory letterKeyboardFactory;
 	private KeyboardModelFactory specialSymbolsKeyboardFactory;
 
+	/**
+	 * Creates a KeyboardFactory with default implementations
+	 * for keyboard model factories.
+	 */
 	public KeyboardFactory() {
 		mathKeyboardFactory = new MathKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
@@ -76,7 +80,8 @@ public class KeyboardFactory {
 	 *
 	 * @param specialSymbolsKeyboardFactory special symbols keyboard factory
 	 */
-	public void setSpecialSymbolsKeyboardFactory(KeyboardModelFactory specialSymbolsKeyboardFactory) {
+	public void setSpecialSymbolsKeyboardFactory(
+	        KeyboardModelFactory specialSymbolsKeyboardFactory) {
 		this.specialSymbolsKeyboardFactory = specialSymbolsKeyboardFactory;
 	}
 

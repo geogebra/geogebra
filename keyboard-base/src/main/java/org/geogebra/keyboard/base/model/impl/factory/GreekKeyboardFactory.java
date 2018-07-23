@@ -2,6 +2,9 @@ package org.geogebra.keyboard.base.model.impl.factory;
 
 public class GreekKeyboardFactory extends LetterKeyboardFactory {
 
+	/**
+	 * Creates a GreekKeyboardFactory.
+	 */
 	public GreekKeyboardFactory() {
 		super();
 		initializeDefinition();
