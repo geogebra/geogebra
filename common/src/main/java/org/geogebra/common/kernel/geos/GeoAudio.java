@@ -162,6 +162,11 @@ public class GeoAudio extends GeoMedia {
 		return MediaFormat.AUDIO_HTML5;
 	}
 
+	@Override
+	public boolean isPinnable() {
+		return true;
+	}
+
 	/**
 	 * 
 	 * @param src
