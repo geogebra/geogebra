@@ -85,7 +85,8 @@ public abstract class GeoMedia extends GeoWidget {
 	 * 
 	 * @param src
 	 *            to set.
-	 * @param format TODO
+	 * @param format
+	 *            {@link MediaFormat}
 	 */
 	public void setSrc(String src, MediaFormat format) {
 		this.format = format;

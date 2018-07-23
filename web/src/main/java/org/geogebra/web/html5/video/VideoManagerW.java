@@ -157,8 +157,16 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void removePlayers() {
+		App app = null;
 		for (VideoPlayer player : players.values()) {
 			player.asWidget().removeFromParent();
+			if (app == null) {
+				app = player.getVideo().getKernel().getApplication();
+			}
+		}
+
+		if (app != null) {
+			app.getActiveEuclidianView().getEuclidianController().clearSelectionAndRectangle();
 		}
 	}
 

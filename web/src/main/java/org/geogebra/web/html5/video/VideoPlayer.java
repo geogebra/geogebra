@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.ui.IsWidget;
  * @author Laszlo Gal
  *
  */
-public abstract class VideoPlayer implements IsWidget, Persistable {
+public abstract class VideoPlayer implements IsWidget {
 	private static boolean youTubeAPI;
 	/** The application */
 	protected App app;
