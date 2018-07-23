@@ -36,6 +36,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
+import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
@@ -43,7 +44,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
@@ -149,8 +149,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -279,8 +277,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected int mode;
 	protected int oldMode;
 	protected int moveMode = MOVE_NONE;
-	protected Macro macro;
-	protected TestGeo[] macroInput;
+
 	protected boolean toggleModeChangedKernel = false;
 	protected boolean altDown = false;
 	protected GeoElement rotGeoElement;
@@ -362,7 +359,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	// ==============================================
 	// Paste preview
-	private int index;
 	private double vertexX = Double.NaN;
 	private double vertexY = Double.NaN;
 	private ModeDelete deleteMode;
@@ -414,6 +410,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private GeoFrame lastVideo = null;
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
+	private ModeMacro modeMacro;
 
 	/**
 	 * state for selection tool over press/release
@@ -1880,7 +1877,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * 0/1/-1 if nothing happened / geo selected / geo unselected
 	 */
-	protected int handleAddSelected(Hits hits, int max, boolean addMore,
+	public int handleAddSelected(Hits hits, int max, boolean addMore,
 			ArrayList<? extends GeoElementND> list, TestGeo geoClass,
 			boolean selPreview) {
 		if (selPreview) {
@@ -5198,143 +5195,24 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
-	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
+	/**
+	 * @param hits
+	 *            hits
+	 * @param onPathPossible
+	 *            whether to allow point on path
+	 * @param intersectPossible
+	 *            whether to allow intersections
+	 * @param doSingleHighlighting
+	 *            whether to highlight the output
+	 * @return success
+	 */
+	public final boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean intersectPossible, boolean doSingleHighlighting) {
 
 		// inRegionpossible must be false so that the Segment Tool creates a
 		// point on the edge of a circle
 		return createNewPoint(hits, onPathPossible, false, intersectPossible,
 				doSingleHighlighting, false);
-	}
-
-	/**
-	 * Handles selected objects for a macro
-	 *
-	 * @param hits0
-	 *            hits
-	 * @return whether macro was successfully processed
-	 */
-	protected final boolean macro(Hits hits0,
-			final AsyncOperation<Boolean> callback2, boolean selPreview) {
-		// try to get next needed type of macroInput
-		index = selGeos();
-		Hits hits = hits0;
-		// we want a polyhedron, maybe we hit its side?
-		if (macroInput[index] == TestGeo.GEOPOLYHEDRON) {
-			hits = hits.getPolyhedronsIncludingMetaHits();
-		}
-		// standard case: try to get one object of needed input type
-		boolean objectFound = 1 == handleAddSelected(hits, macroInput.length,
-				false, getSelectedGeoList(), macroInput[index], selPreview);
-
-		// we're done if in selection preview
-		if (selPreview) {
-			if (callback2 != null) {
-				callback2.callback(false);
-			}
-			return false;
-		}
-
-		// only one point needed: try to create it
-		if (!objectFound && (macroInput[index].equals(TestGeo.GEOPOINT)
-				|| macroInput[index].equals(TestGeo.GEOPOINTND))) {
-			if (createNewPoint(hits, true, true, false)) {
-				// take movedGeoPoint which is the newly created point
-				getSelectedGeoList().add(getMovedGeoPoint());
-				selection.addSelectedGeo(getMovedGeoPoint());
-				objectFound = true;
-				pointCreated = null;
-			}
-		}
-
-		// object found in handleAddSelected()
-		if (objectFound || macroInput[index].equals(TestGeo.GEONUMERIC)
-				|| macroInput[index].equals(TestGeo.GEOANGLE)) {
-			if (!objectFound) {
-				index--;
-			}
-
-			AsyncOperation<GeoNumberValue> callback3 = new AsyncOperation<GeoNumberValue>() {
-
-				@Override
-				public void callback(GeoNumberValue num) {
-					if (num == null) {
-						// no success: reset mode
-						getView().resetMode();
-						if (callback2 != null) {
-							callback2.callback(false);
-						}
-						return;
-					}
-					// great, we got our number
-					if (num.isGeoElement()) {
-						getSelectedGeoList().add(num.toGeoElement());
-					}
-
-					readNumberOrAngleIfNeeded(this);
-
-					if (selGeos() == macroInput.length) {
-						if (macroProcess(callback2)) {
-							storeUndoInfo();
-						}
-					}
-				}
-
-			};
-			// look ahead if we need a number or an angle next
-			readNumberOrAngleIfNeeded(callback3);
-		}
-
-		return macroProcess(callback2);
-	}
-
-	/**
-	 * Wait for number or angle for a macro.
-	 * 
-	 * @param callback3
-	 *            callback
-	 */
-	public void readNumberOrAngleIfNeeded(
-			AsyncOperation<GeoNumberValue> callback3) {
-		if (++index < macroInput.length) {
-
-			// maybe we need a number
-			if (macroInput[index].equals(TestGeo.GEONUMERIC)) {
-				app.getDialogManager().showNumberInputDialog(
-						macro.getToolOrCommandName(), localization.getMenu("Numeric"),
-						null, callback3);
-
-			}
-
-			// maybe we need an angle
-			else if (macroInput[index].equals(TestGeo.GEOANGLE)) {
-				app.getDialogManager().showAngleInputDialog(
-						macro.getToolOrCommandName(), localization.getMenu("Angle"),
-						Unicode.FORTY_FIVE_DEGREES_STRING, callback3);
-			}
-		}
-	}
-
-	/**
-	 * If enough inputs are selected, process macro.
-	 * 
-	 * @param callback2
-	 *            callback
-	 * @return whether macro was processed
-	 */
-	public boolean macroProcess(AsyncOperation<Boolean> callback2) {
-		// do we have everything we need?
-		if (selGeos() == macroInput.length) {
-			GeoElement[] res = kernel.useMacro(null, macro, getSelectedGeos());
-			if (callback2 != null) {
-				callback2.callback(true);
-			}
-			return res != null;
-		}
-		if (callback2 != null) {
-			callback2.callback(false);
-		}
-		return false;
 	}
 
 	protected final boolean button(boolean textfield, boolean selPreview) {
@@ -5642,7 +5520,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			};
 
-			return macro(hits, callback2, selectionPreview);
+			return getMacroMode().macro(hits, callback2, selectionPreview);
 
 		case EuclidianConstants.MODE_AREA:
 			ret = area(hits, selectionPreview);
@@ -10968,15 +10846,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// macro mode?
 			if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				// get ID of macro
-				int macroID = mode1 - EuclidianConstants.MACRO_MODE_ID_OFFSET;
-				macro = kernel.getMacro(macroID);
-				macroInput = macro.getInputTypes();
+				getMacroMode().setMode(mode1);
 				this.mode = EuclidianConstants.MODE_MACRO;
 			}
 			break;
 		}
 
 		return previewDrawable;
+	}
+
+	private ModeMacro getMacroMode() {
+		if (modeMacro == null) {
+			modeMacro = new ModeMacro(this);
+		}
+		return modeMacro;
 	}
 
 	protected void initNewMode(int newMode) {
@@ -11851,7 +11734,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	void storeUndoInfo() {
+	/**
+	 * Store undo point for mode.
+	 */
+	public void storeUndoInfo() {
 		// store undo info and state if we use the tool once again
 		int m = temporaryMode ? oldMode : mode;
 		app.storeUndoInfoAndStateForModeStarting(
@@ -12177,12 +12063,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	public void addZoomerListener(CoordSystemListener zoomerListener) {
-		zoomerListeners.add(zoomerListener);
+	/**
+	 * @param coordSystemListener
+	 *            coord system listener
+	 */
+	public void addZoomerListener(CoordSystemListener coordSystemListener) {
+		zoomerListeners.add(coordSystemListener);
 	}
 
-	public void removeZoomerListener(CoordSystemListener zoomerListener) {
-		zoomerListeners.remove(zoomerListener);
+	/**
+	 * @param coordSystemListener
+	 *            coord system listener
+	 */
+	public void removeZoomerListener(CoordSystemListener coordSystemListener) {
+		zoomerListeners.remove(coordSystemListener);
 	}
 
 	public void onCoordSystemChanged() {
@@ -12257,5 +12151,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void setPopupJustClosed(boolean value) {
 		this.popupJustClosed = value;
+	}
+
+	public void resetPointCreated() {
+		this.pointCreated = null;
 	}
 }
