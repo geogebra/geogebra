@@ -377,10 +377,12 @@ public abstract class Log {
 			Throwable t = new Throwable();
 			StackTraceElement[] elements = t.getStackTrace();
 			// String calleeMethod = elements[0].getMethodName();
+			if (elements[depth] == null) {
+				return "?";
+			}
 			callerMethodName = elements[depth].getMethodName();
 			callerClassName = elements[depth].getClassName();
 			callerLineNumber = elements[depth].getLineNumber();
-
 			if ("Unknown".equals(callerClassName)) {
 				/*
 				 * In web production mode the GWT compile rewrites the code very
@@ -661,10 +663,17 @@ public abstract class Log {
 
 	}
 
+	/**
+	 * @return active (singleton) logger
+	 */
 	public static Log getLogger() {
 		return logger;
 	}
 
+	/**
+	 * @param string
+	 *            send screen reader text to log
+	 */
 	public static void read(String string) {
 		logger.doRead(string);
 	}
@@ -675,6 +684,10 @@ public abstract class Log {
 		}
 	}
 
+	/**
+	 * @param b
+	 *            whether to print screen reader output
+	 */
 	public void setReading(boolean b) {
 		reading = true;
 	}

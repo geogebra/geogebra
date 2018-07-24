@@ -70,8 +70,7 @@ public class AppWsimple extends AppW {
 		}
 	}
 
-	@Override
-	protected void afterCoreObjectsInited() {
+	private void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 
 		// initGuiManager();// TODO: comment it out

@@ -548,10 +548,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	protected void afterCoreObjectsInited() {
-		// TODO: abstract?
-	}
-
 	@Override
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
@@ -3766,6 +3762,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return "geometry".equals(articleElement.getDataParamAppName());
 	}
 
+	/**
+	 * @return whether we are running 3D grapher
+	 */
 	public boolean isUnbundled3D() {
 		return "3d".equals(articleElement.getDataParamAppName());
 	}

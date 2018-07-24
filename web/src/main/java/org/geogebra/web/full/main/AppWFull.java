@@ -1135,8 +1135,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	@Override
-	protected void afterCoreObjectsInited() {
+	private void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 		initGuiManager();
 		if (this.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
