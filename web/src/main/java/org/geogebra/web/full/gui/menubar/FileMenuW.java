@@ -292,18 +292,19 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});			
 		}
 		addSeparator();
-		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.export_image_black()
-						.getSafeUri().asString(),
-				loc.getMenu("exportImage"), true), true,
-				new MenuCommand(getApp()) {
+		if (!getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			addItem(MainMenu.getMenuBarHtml(
+					MaterialDesignResources.INSTANCE.export_image_black()
+							.getSafeUri().asString(),
+					loc.getMenu("exportImage"), true), true,
+					new MenuCommand(getApp()) {
 
-					@Override
-					public void doExecute() {
-						app.getDialogManager()
-								.showExportImageDialog(null);
-					}
-				});
+						@Override
+						public void doExecute() {
+							app.getDialogManager().showExportImageDialog(null);
+						}
+					});
+		}
 		shareItem = addItem(MainMenu.getMenuBarHtml(
 				MaterialDesignResources.INSTANCE.share_black().getSafeUri()
 						.asString(),
@@ -321,7 +322,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true),
 					true, new ExportMenuW(getApp()), true);
 		}
-		if (getApp().getLAF().printSupported()) {
+		if (getApp().getLAF().printSupported()
+				&& !getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 			printItem = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(
 							MaterialDesignResources.INSTANCE.print_black()

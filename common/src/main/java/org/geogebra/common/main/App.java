@@ -4188,6 +4188,10 @@ public abstract class App implements UpdateSelection {
 		case MOW_WIDGET_POSITIONS:
 			return prerelease;
 
+		/** MOW-532 */
+		case MOW_BURGER_MENU_CLEANUP:
+			return canary && whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

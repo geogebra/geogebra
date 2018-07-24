@@ -36,7 +36,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		if (app.isUnbundled()) {
 			addStyleName("floating-Popup");
 		}
-
 		initActions(this, app);
 	}
 
@@ -48,7 +47,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	 */
 	protected static void initActions(final MenuBarI menu, final AppW app) {
 
-		menu.addItem(menuText(app.getFileExtension().substring(1)), true,
+		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
+				? menuText(app.getLocalization().getMenu("Slides") + " ("
+						+ app.getFileExtension().substring(1) + ")")
+				: menuText(app.getFileExtension().substring(1)), true,
 				new MenuCommand(app) {
 
 					@Override
@@ -59,7 +61,9 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					}
 				});
 
-		menu.addItem(menuText("png"), true, new MenuCommand(app) {
+		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
+				? menuText(app.getLocalization().getMenu("Image") + " (png)")
+				: menuText("png"), true, new MenuCommand(app) {
 
 			@Override
 			public void execute() {
@@ -77,7 +81,12 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			}
 		});
 
-		menu.addItem(menuText("svg"), true, new MenuCommand(app) {
+		menu.addItem(
+				app.has(Feature.MOW_BURGER_MENU_CLEANUP) ? menuText(
+						app.getLocalization().getMenu("VectorGraphics")
+								+ " (svg)")
+						: menuText("svg"),
+				true, new MenuCommand(app) {
 
 			@Override
 			public void execute() {
@@ -95,7 +104,9 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				dialogEvent(app, "exportSVG");
 			}
 		});
-		menu.addItem(menuText("pdf"), true, new MenuCommand(app) {
+		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
+				? menuText(app.getLocalization().getMenu("pdf") + " (pdf)")
+				: menuText("pdf"), true, new MenuCommand(app) {
 
 			@Override
 			public void execute() {
@@ -125,6 +136,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		// }
 		// });
 		// }
+		if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 		menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
 
 			@Override
@@ -134,7 +146,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						.clearSelections();
 				menu.hide();
 				app.getGgbApi().exportPSTricks(exportCallback("Pstricks", app));
-
 			}
 		});
 
@@ -145,7 +156,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelectionAndRectangle();
 				menu.hide();
-
 				app.getGgbApi().exportPGF(exportCallback("PGF", app));
 			}
 		});
@@ -186,7 +196,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				menu.hide();
 				app.getGgbApi()
 						.exportAsymptote(exportCallback("Asymptote", app));
-
 			}
 		});
 
@@ -227,7 +236,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							app.exportCollada(true);
 				}
 			});
-
 		}
 
 		if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
@@ -239,7 +247,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				}
 			});
 		}
-
+		}
 	}
 
 	/**
@@ -261,7 +269,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				dialogEvent(app, "export" + string);
 			}
 		};
-
 	}
 
 	private static String menuText(String string) {
@@ -282,7 +289,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	protected static void dialogEvent(AppW app, String string) {
 		app.dispatchEvent(new org.geogebra.common.plugin.Event(
 				EventType.OPEN_DIALOG, null, string));
-
 	}
 
 	/** hide the submenu */

@@ -131,7 +131,7 @@ public class MainMenu extends FlowPanel
 		}
 
 		boolean enableGraph = !exam || app.enableGraphing();
-		if (enableGraph) {
+		if (enableGraph && !app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 			this.createPerspectivesMenu();
 			this.createEditMenu();
 			this.createViewMenu();
@@ -147,12 +147,15 @@ public class MainMenu extends FlowPanel
 			if (app.enableFileFeatures()) {
 				menus.add(fileMenu);
 			}
-
-			menus.add(editMenu);
+			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+				menus.add(editMenu);
+			}
 			if (app.isUnbundledOrWhiteboard()) {
 				menus.add(downloadMenu);
 			}
-			menus.add(perspectivesMenu);
+			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+				menus.add(perspectivesMenu);
+			}
 			if (!app.isUnbundledOrWhiteboard()) {
 				menus.add(viewMenu);
 				menus.add(settingsMenu);
@@ -190,7 +193,7 @@ public class MainMenu extends FlowPanel
 			}
 		}
 		if (enableGraph) {
-			if (app.isUnbundledOrWhiteboard()) {
+			if (app.isUnbundledOrWhiteboard() && !app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 				createEditMenu();
 				menus.add(editMenu);
 				this.menuPanel.add(editMenu,
@@ -198,7 +201,7 @@ public class MainMenu extends FlowPanel
 								MaterialDesignResources.INSTANCE.edit_black(),
 								"Edit"),
 						true);
-			} else {
+			} else if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 				this.menuPanel.add(editMenu,
 						getHTML(MaterialDesignResources.INSTANCE.edit_black(),
 								"Edit"),
@@ -214,10 +217,12 @@ public class MainMenu extends FlowPanel
 												.file_download_black(),
 										"DownloadAs"),
 								true);
+				if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 				this.menuPanel.add(perspectiveMenuUnbundled,
 						getExpandCollapseHTML(MaterialDesignResources.INSTANCE
 								.geogebra_black(), "Apps"),
 						true);
+				}
 			} else {
 				this.menuPanel.add(perspectivesMenu,
 						getHTML(MaterialDesignResources.INSTANCE
