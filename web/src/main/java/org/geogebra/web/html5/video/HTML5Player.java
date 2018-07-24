@@ -34,13 +34,13 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	protected void createGUI() {
 		main = new PersistablePanel();
 		v = new VideoWidget(video.getSrc(), this);
-		v.setControls(true);
 		main.add(v);
 	}
 
 	@Override
 	public void update() {
 		super.update();
+		v.setControls(!video.isBackground());
 	}
 
 	@Override
@@ -77,7 +77,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 		}
 		getVideo().update();
 		update();
-
 	}
 
 	@Override
