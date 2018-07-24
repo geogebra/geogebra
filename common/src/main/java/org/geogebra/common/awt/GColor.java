@@ -64,6 +64,9 @@ public final class GColor implements GPaint {
 	/** MOW GREEN */
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
 
+	/** MOW RULER */
+	public static final GColor MOW_RULER = newColor(192, 192, 192);
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to

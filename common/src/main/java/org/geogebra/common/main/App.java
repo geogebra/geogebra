@@ -4170,7 +4170,12 @@ public abstract class App implements UpdateSelection {
 		/** MOW-459 */
 		case MOW_DOUBLE_CANVAS:
 			return prerelease && whiteboard;
-			
+
+		/** MOW-533 */
+		case MOW_BACKGROUND:
+			return false;
+		// return prerelease && whiteboard;
+
 		/** MOW-348 */
 		case MOW_PDF_TOOL:
 			return prerelease && whiteboard;

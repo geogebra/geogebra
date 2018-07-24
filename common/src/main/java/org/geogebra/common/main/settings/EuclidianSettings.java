@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -131,6 +132,12 @@ public class EuclidianSettings extends AbstractSettings {
 	protected App app;
 	protected int dimension;
 
+	private BackgroundType backgroundType = BackgroundType.RULER;
+
+	private double bgRulerGap = 30;
+
+	private GColor bgRulerColor;
+
 	/**
 	 * @param app
 	 *            application
@@ -175,6 +182,8 @@ public class EuclidianSettings extends AbstractSettings {
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
+		setBackgroundType(BackgroundType.RULER);
+		setBgRulerColor(GColor.MOW_RULER);
 		setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
@@ -1433,5 +1442,49 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public static String getDefaultAxisLabel(int i) {
 		return DEFAULT_AXIS_LABELS[i];
+	}
+
+	/**
+	 * 
+	 * @return the background type for MOW
+	 */
+	public BackgroundType getBackgroundType() {
+		return backgroundType;
+	}
+
+	/**
+	 * Sets the background type for MOW.
+	 * 
+	 * @param backgroundType
+	 *            {@link BackgroundType}
+	 */
+	public void setBackgroundType(BackgroundType backgroundType) {
+		this.backgroundType = backgroundType;
+	}
+
+	/**
+	 * 
+	 * @return the y gap between two ruler lines
+	 */
+	public double getBackgroundRulerGap() {
+		return bgRulerGap;
+	}
+
+	/**
+	 * Sets the y gap between two ruler lines
+	 * 
+	 * @param backgroundRulerGap
+	 *            to set.
+	 */
+	public void setBackgroundRuleGap(double backgroundRulerGap) {
+		this.bgRulerGap = backgroundRulerGap;
+	}
+
+	public GColor getBgRulerColor() {
+		return bgRulerColor;
+	}
+
+	public void setBgRulerColor(GColor bgRulerColor) {
+		this.bgRulerColor = bgRulerColor;
 	}
 }

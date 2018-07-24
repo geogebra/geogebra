@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
+import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -525,6 +526,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public int maxCachedLayer;
 	private NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
+	private boolean showBackground = true;
+	private DrawBackground drawBg = null;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -3828,6 +3831,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		} else {
 			paintBackground(g2);
+			paintMOWBackround(g2);
 		}
 	}
 
@@ -3838,6 +3842,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (bgGraphics != null) {
 			drawBackgroundWithImages(bgGraphics, false);
 		}
+	}
+
+	/**
+	 * Draw MOW background;
+	 * 
+	 * @param g2
+	 *            {@link GGraphics2D}
+	 */
+	public void paintMOWBackround(GGraphics2D g2) {
+		if (!(app.has(Feature.MOW_BACKGROUND) && isShowBackground())) {
+			return;
+		}
+
+		if (drawBg == null) {
+			drawBg = new DrawBackground(this);
+		}
+		drawBg.draw(g2);
 	}
 
 	/**
@@ -6560,6 +6581,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public Runnable getCallBack(GeoElement geo, boolean firstCall) {
 		// overridden in web project
 		return null;
+	}
+
+	public boolean isShowBackground() {
+		return showBackground;
+	}
+
+	public void setShowBackground(boolean showBackground) {
+		this.showBackground = showBackground;
 	}
 
 }

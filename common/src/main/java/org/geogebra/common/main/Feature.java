@@ -290,6 +290,9 @@ public enum Feature {
 	/** MOW-491 */
 	MOW_WIDGET_POSITIONS,
 
+	/** MOW-533 */
+	MOW_BACKGROUND,
+
 	/** MOW-532 */
 	MOW_BURGER_MENU_CLEANUP
 }
