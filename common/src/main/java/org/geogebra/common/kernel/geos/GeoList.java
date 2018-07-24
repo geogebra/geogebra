@@ -62,8 +62,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoList extends GeoElement
 		implements ListValue, PointProperties, TextProperties, Traceable, Path,
-		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable,
- Furniture, InequalityProperties,
+		Transformable, SpreadsheetTraceable, Furniture, InequalityProperties,
 		AngleProperties, HasSymbolicMode, Animatable {
 
 	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;

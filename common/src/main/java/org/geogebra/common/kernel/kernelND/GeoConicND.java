@@ -284,7 +284,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            radius
 	 */
 	final public void setCircle(GeoPoint M, double r) {
-
 		setSphereND(M, r);
 
 	}
@@ -446,7 +445,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public void pointChanged(GeoPointND P) {
-
 		Coords coords = P.getCoordsInD2(getCoordSys());
 
 		PathParameter pp = P.getPathParameter();
@@ -484,7 +482,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            check the section (if exists)
 	 */
 	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
-
 		double px, py, ha, hb, hc_2;
 		double abspx, abspy; // for parabola and hyperbola
 		double tolerance = Kernel.STANDARD_PRECISION; // required precision
@@ -779,7 +776,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public void pathChanged(GeoPointND P) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(P)) {
@@ -1052,7 +1048,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public boolean isOnPath(GeoPointND P, double eps) {
-
 		if (P.getPath() == this) {
 			return true;
 		}
@@ -2313,7 +2308,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            y coord for line
 	 */
 	final public void setParabola(double y0) {
-
 		// set parabola's matrix
 
 		matrix[0] = 1;
@@ -2337,7 +2331,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            first half axis
 	 */
 	final public void setEllipseHyperbola(GeoPoint B, GeoPoint C, double a) {
-
 		if (B.isInfinite() || C.isInfinite()
 				|| a < -Kernel.STANDARD_PRECISION) {
 			defined = false;
@@ -2836,7 +2829,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            true to allow classification as degenerate
 	 */
 	public void classifyConic(boolean degenerate) {
-
 		defined = degenerate || checkDefined();
 		if (!defined) {
 			return;
@@ -3437,7 +3429,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-
 		if (!geo.isGeoConic()) {
 			return false;
 		}
@@ -3763,7 +3754,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
-
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
 
 		if (coords == null) { // point is not in plane containing the polygon
@@ -3788,7 +3778,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	@Override
 	public boolean isInRegion(double x0, double y0) {
-
 		return DoubleUtil.isGreaterEqual(
 				evaluate(x0, y0) / evaluateInSignificantPoint(), 0);
 
@@ -3874,7 +3863,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public void regionChanged(GeoPointND PI) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(PI)
@@ -4156,7 +4144,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public void doRemove() {
-
 		if (pointsOnConic != null) {
 			for (int i = 0; i < pointsOnConic.size(); ++i) {
 				GeoPointND pt = pointsOnConic.get(i);
@@ -4228,7 +4215,6 @@ public abstract class GeoConicND extends GeoQuadricND
 				willingDirection, result[0], result[1]);
 
 		return result;
-
 	}
 
 	@Override

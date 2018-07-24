@@ -109,7 +109,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void remove() {
-
 		bottom.removeMeta(this);
 		// no need to remove meta for side and top: theses parts will be removed
 		// too
@@ -169,7 +168,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 *            labels for self, bottom, top, side
 	 */
 	public void initLabelsIncludingBottom(String[] labels) {
-
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
@@ -206,7 +204,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 *            labels for self, top, side
 	 */
 	public void initLabelsNoBottom(String[] labels) {
-
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
@@ -361,7 +358,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 *            top parameter
 	 */
 	public void setLimits(double bottomParameter, double topParameter) {
-
 		this.bottomParameter = bottomParameter;
 		this.topParameter = topParameter;
 
@@ -444,7 +440,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
-
 		super.setEuclidianVisible(visible);
 		bottom.setEuclidianVisible(visible);
 		if (!silentTop) {
@@ -474,7 +469,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void updateVisualStyle(GProperty prop) {
-
 		super.updateVisualStyle(prop);
 
 		if (bottom == null) {
@@ -541,7 +535,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void setAlphaValue(double alpha) {
-
 		super.setAlphaValue(alpha);
 
 		if (bottom == null) {
@@ -584,7 +577,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void set(GeoElementND geo) {
-
 		if (geo instanceof GeoQuadric3DLimited) {
 			GeoQuadric3DLimited quadric = (GeoQuadric3DLimited) geo;
 
@@ -633,7 +625,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * Compute volume from radius, halfAxes and parameters
 	 */
 	public void calcVolume() {
-
 		// Application.debug("ici");
 		if (bottom == null) {
 			volume = Double.NaN;
@@ -730,7 +721,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * set top as silent part (not in construction)
 	 */
 	public void setSilentTop() {
-
 		silentTop = true;
 
 	}
@@ -758,7 +748,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
-
 		bottom.rotate(r, S);
 		top.rotate(r, S);
 		side.rotate(r, S);
@@ -770,7 +759,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void rotate(NumberValue r) {
-
 		bottom.rotate(r);
 		top.rotate(r);
 		side.rotate(r);
@@ -795,7 +783,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
-
 		((GeoConic3D) bottom).rotate(r, line);
 		top.rotate(r, line);
 		side.rotate(r, line);

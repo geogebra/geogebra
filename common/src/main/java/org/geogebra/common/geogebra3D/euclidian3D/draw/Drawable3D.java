@@ -114,7 +114,6 @@ import org.geogebra.common.util.DoubleUtil;
  * @author ggb3D
  */
 public abstract class Drawable3D extends DrawableND {
-
 	// constants for rendering
 	/**
 	 * objects that are picked are drawn with a thickness * PICKED_DILATATION
@@ -296,7 +295,6 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	@Override
 	public void update() {
-
 		clearTraceForViewChanged();
 		if (isVisible()) {
 			if (waitForUpdateVisualStyle || waitForUpdate) {
@@ -447,7 +445,6 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	@Override
 	public void setWaitForUpdate() {
-
 		waitForUpdate = true;
 	}
 
@@ -477,7 +474,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * reset the drawable
 	 */
 	public void setWaitForReset() {
-
 		// reset geometry indices
 		geomIndex = -1;
 		surfaceIndex = -1;
@@ -654,7 +650,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return the label position
 	 */
 	public Coords getLabelPosition() {
-
 		return getGeoElement().getLabelPosition();
 	}
 
@@ -683,7 +678,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return the visibility
 	 */
 	public boolean isVisible() {
-
 		boolean visible;
 
 		if (createdByDrawList()) {
@@ -712,7 +706,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return geo layer
 	 */
 	public int getLayer() {
-
 		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).getLayer();
 		}
@@ -762,7 +755,6 @@ public abstract class Drawable3D extends DrawableND {
 	 *            the 3D renderer where to draw
 	 */
 	public void drawHidden(Renderer renderer) {
-
 		if (isVisible() && getGeoElement()
 				.getLineTypeHidden() != EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
 
@@ -1004,7 +996,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return 1 if this is in front, 0 if equality, -1 either
 	 */
 	public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
-
 		/*
 		 * Log.debug("\ncheckPickOrder="+checkPickOrder+"\n" +"zPickNear= "
 		 * +(this.zPickNear) +" | zPickFar= "+(this.zPickFar) +" ("
@@ -1166,7 +1157,6 @@ public abstract class Drawable3D extends DrawableND {
 			implements Comparator<Drawable3D> {
 		@Override
 		public int compare(Drawable3D d1, Drawable3D d2) {
-
 			return d1.comparePickingTo(d2, false);
 
 		}
@@ -1177,7 +1167,6 @@ public abstract class Drawable3D extends DrawableND {
 			implements Comparator<TreeSet<Drawable3D>> {
 		@Override
 		public int compare(TreeSet<Drawable3D> set1, TreeSet<Drawable3D> set2) {
-
 			/*
 			 * TreeSet set1 = (TreeSet) arg1; TreeSet set2 = (TreeSet) arg2;
 			 */
@@ -1194,7 +1183,6 @@ public abstract class Drawable3D extends DrawableND {
 			Drawable3D d2 = set2.first();
 
 			return d1.comparePickingTo(d2, true);
-
 		}
 	}
 
@@ -1203,7 +1191,6 @@ public abstract class Drawable3D extends DrawableND {
 	 *         highlighted
 	 */
 	public boolean doHighlighting() {
-
 		// no highlighting if we're moving something
 		if (getView3D().getEuclidianController()
 				.getMoveMode() != EuclidianController.MOVE_NONE) {

@@ -345,7 +345,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * remove segments from all present polygons
 	 */
 	final public void removeSegmentsFromPolygons() {
-
 		ArrayList<GeoSegmentND> toRemove = new ArrayList<>();
 
 		Iterator<GeoElement> it = this.iterator();
@@ -369,7 +368,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return vectors and points in this hits; NOT numerics
 	 */
 	final public Hits getPointVectorNumericHits() {
-
 		Hits ret = new Hits();
 		for (int i = 0; i < size(); ++i) {
 			GeoElement geo = get(i);
@@ -387,7 +385,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * removes all polygons if there are other types of geo
 	 */
 	final public void removePolygons() {
-
 		if (size() - polyCount > 0) {
 
 			for (int i = size() - 1; i >= 0; i--) {
@@ -454,7 +451,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return correct hits (if exist)
 	 */
 	final public Hits keepFirsts(TestGeo... tests) {
-
 		Hits ret = new Hits();
 		TestGeo testFound = null;
 		boolean goFurther = true;
@@ -721,7 +717,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return result
 	 */
 	final public Hits getHits(TestGeo[] geoclasses, boolean other, Hits result) {
-
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			for (int j = 0; j < geoclasses.length; ++j) {
@@ -746,7 +741,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return first hit of given class
 	 */
 	final public GeoElement getFirstHit(TestGeo geoclass) {
-
 		for (int i = 0; i < size(); ++i) {
 			if (geoclass.check(get(i))) {
 				return get(i);
@@ -793,7 +787,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @see EuclidianController#wrapMouseMoved(AbstractEvent)
 	 */
 	public Hits getTopHits() {
-
 		if (isEmpty()) {
 			return cloneHits();
 		}
@@ -885,7 +878,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return true if contains GeoPointND
 	 */
 	final public boolean containsGeoPoint() {
-
 		for (int i = 0; i < size(); i++) {
 			if (get(i).isGeoPoint()) {
 				return true;
@@ -910,7 +902,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return true if contains GeoPointND
 	 */
 	final public boolean containsGeoPoint(Hits ret) {
-
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
@@ -928,7 +919,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return true if contains GeoPointND
 	 */
 	final public boolean containsGeoText(Hits ret) {
-
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
@@ -946,7 +936,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return whether gits contain input box
 	 */
 	final public boolean containsGeoTextfield(Hits ret) {
-
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
@@ -964,7 +953,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return whether hits contain combobox
 	 */
 	final public boolean containsComboBox(Hits ret) {
-
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
@@ -1108,19 +1096,10 @@ public class Hits extends ArrayList<GeoElement> {
 	 * remove all polygons, if hits are not all instance of GeoCoordSys2D
 	 */
 	public void removePolygonsIfNotOnlyCS2D() {
-
 		// String s = "cs2DCount="+cs2DCount+"/"+(size());
 
 		if (size() - cs2DCount > 0) {
 			removePolygons();
-			// s+="\n"+toString();
-			/*
-			 * for (int i = 0; i < size(); ) { GeoElement geo = (GeoElement)
-			 * get(i);
-			 * 
-			 * if (geo instanceof GeoCoordSys2D) remove(i); else i++; }
-			 */
-			// Application.debug(s+"\n"+toString());
 		}
 	}
 

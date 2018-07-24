@@ -210,7 +210,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	final public void setCoords(GeoVec3D v) {
-
 		setCoords(v.x, v.y, v.z);
 		/*
 		 * x = v.x; y = v.y; z = v.z;
@@ -254,7 +253,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public final boolean isOnFullLine(Coords Pnd, double eps) {
-
 		Coords P = Pnd.getCoordsIn2DView();
 
 		return isOnFullLine2D(P, eps);
@@ -268,7 +266,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return whether point lies on this line within given precision
 	 */
 	public final boolean isOnFullLine2D(Coords P, double eps) {
-
 		double simplelength = Math.abs(x) + Math.abs(y);
 		if (DoubleUtil.isZero(P.getZ())) { // infinite point
 			return Math.abs(x * P.getX() + y * P.getY()) < eps * simplelength;
@@ -284,7 +281,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	@Override
 	final public boolean isOnPath(GeoPointND PI, double eps) {
-
 		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this) {
@@ -384,7 +380,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return a possible parameter for the point P
 	 */
 	public double getPossibleParameter(Coords coords) {
-
 		PathParameter tempParam = getTempPathParameter();
 
 		// make sure we use point changed for a line to get parameters on
@@ -575,7 +570,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	@Override
 	public final GeoPointND setStandardStartPoint() {
-
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons);
 			startPoint.addIncidence(this, true);
@@ -714,7 +708,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	// Michael Borcherds 2008-04-30
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-
 		if (!geo.isDefined() || !isDefined()) {
 			return false;
 		}
@@ -888,7 +881,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	@Override
 	public void mirror(GeoLineND g1) {
-
 		GeoLine g = (GeoLine) g1;
 
 		// Y = S(phi).(X - Q) + Q
@@ -1212,7 +1204,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            path parameter of P
 	 */
 	public void doPointChanged(Coords coords, PathParameter pp) {
-
 		// project P on line
 		double px = coords.getX() / coords.getZ();
 		double py = coords.getY() / coords.getZ();
@@ -1260,7 +1251,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public void pathChanged(GeoPointND P) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(P)) {
@@ -1286,7 +1276,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            path parameter of that point
 	 */
 	public void pathChanged(Coords P, PathParameter pp) {
-
 		// calc point for given parameter
 		if (startPoint != null) {
 			P.setX(startPoint.inhomX + pp.t * y);
@@ -1441,7 +1430,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public void matrixTransform(double p, double q, double r, double s) {
-
 		double x1, y1;
 
 		if (DoubleUtil.isZero(y)) {
@@ -1868,7 +1856,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return normalized coefficients x,y,z
 	 */
 	public double[] getnormalizedCoefficients(double[] ret) {
-
 		ret[0] = x;
 		ret[1] = y;
 		ret[2] = z;

@@ -256,7 +256,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			fun = new Function(c.getKernel()) {
 				@Override
 				public double value(double x) {
-
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(x,
 							substituteFunctions[1].getFunction().value(x));
 				}
@@ -295,7 +294,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			fun = new Function(c.getKernel()) {
 				@Override
 				public double value(double x) {
-
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(
 							substituteFunctions[0].getFunction().value(x),
 							x);
@@ -312,7 +310,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			fun = new Function(c.getKernel()) {
 				@Override
 				public double value(double x) {
-
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(
 							substituteFunctions[0].getFunction().value(x),
 							substituteFunctions[1].getFunction().value(x));
@@ -415,7 +412,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public boolean addToUpdateSets(final AlgoElement algorithm) {
-
 		final boolean added = super.addToUpdateSets(algorithm);
 
 		if (added) {
@@ -622,7 +618,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	@Override
 	public double evaluate(double[] vals) {
-
 		return value(vals[0]);
 	}
 
@@ -661,7 +656,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return f(x)
 	 */
 	final public boolean evaluateBoolean(double x) {
-
 		if (fun == null || !isDefined) {
 			return false;
 		}
@@ -709,7 +703,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            vertical shift
 	 */
 	public void translate(double vx, double vy) {
-
 		if (getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 			AlgoFunctionFreehand algo = (AlgoFunctionFreehand) getParentAlgorithm();
 			GeoList list = algo.getList();
@@ -907,7 +900,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-
 		// make sure Freehand Functions have different entries in drop-down
 		// lists
 		if (this.isFreehandFunction()) {
@@ -929,7 +921,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
-
 		if (isLocalVariable()) {
 			return label;
 		}
@@ -961,7 +952,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	@Override
 	public final void getXML(boolean getListenersToo, StringBuilder sbxml) {
-
 		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
@@ -1015,7 +1005,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            contains {min, max} on exit
 	 */
 	public void getInterval(double[] bounds0) {
-
 		bounds0[0] = Double.NEGATIVE_INFINITY;
 		bounds0[1] = Double.POSITIVE_INFINITY;
 
@@ -1243,7 +1232,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
-
 		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this) {
@@ -1264,7 +1252,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public void pathChanged(GeoPointND PI) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(PI)) {
@@ -1487,7 +1474,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// Michael Borcherds 2009-02-15
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-
 		// support c==f for Line, Function
 		if (geo.isGeoLine()) {
 			return ((GeoLine) geo).isEqual(this);

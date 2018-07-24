@@ -445,7 +445,6 @@ public class CoordSys {
 	 * 
 	 */
 	public void addPoint(Coords p) {
-
 		if (isMadeCoordSys()) {
 			return;
 		}
@@ -468,7 +467,6 @@ public class CoordSys {
 	 * 
 	 */
 	public void addVector(Coords v) {
-
 		if (isMadeCoordSys()) {
 			return;
 		}
@@ -483,7 +481,6 @@ public class CoordSys {
 	 * 
 	 */
 	public void addVectorWithoutCheckMadeCoordSys(Coords v) {
-
 		switch (getMadeCoordSys()) {
 		default:
 			// do nothing
@@ -641,7 +638,6 @@ public class CoordSys {
 	 *            coefficients
 	 */
 	public void makeCoordSys(double[] vals) {
-
 		resetCoordSys();
 
 		equationVector.set(vals);
@@ -830,7 +826,6 @@ public class CoordSys {
 	 *            translation vector
 	 */
 	public void translate(Coords v) {
-
 		Coords o = matrixOrthonormal.getOrigin();
 		o.addInside(v);
 		matrixOrthonormal.setOrigin(o);
@@ -879,7 +874,6 @@ public class CoordSys {
 	 * @return {a,b,c} for inside coordsys transformation
 	 */
 	public double[] matrixTransform(CoordMatrix4x4 m) {
-
 		double[] ret;
 
 		Coords o = m.mul(matrixOrthonormal.getOrigin());
@@ -982,7 +976,6 @@ public class CoordSys {
 	 *            center point
 	 */
 	public void rotate(double phi, Coords center) {
-
 		// create rotation matrix
 		if (tempMatrix3x3 == null) {
 			tempMatrix3x3 = new CoordMatrix(3, 3);
@@ -1018,7 +1011,6 @@ public class CoordSys {
 	 *            rotation center
 	 */
 	public void rotate(CoordMatrix rot, Coords center) {
-
 		// set multiplication matrix
 		Coords o = matrixOrthonormal.getOrigin();
 
@@ -1061,7 +1053,6 @@ public class CoordSys {
 	 *            direction
 	 */
 	public void rotate(double phi, Coords center, Coords direction) {
-
 		// create rotation matrix
 		if (tempMatrix3x3 == null) {
 			tempMatrix3x3 = new CoordMatrix(3, 3);
@@ -1134,7 +1125,6 @@ public class CoordSys {
 	 *            center point
 	 */
 	public void dilateEquationVector(double r, Coords point) {
-
 		translateEquationVector(point.mul(1 - r));
 
 	}
@@ -1146,7 +1136,6 @@ public class CoordSys {
 	 *            point
 	 */
 	public void mirror(Coords point) {
-
 		// reverse all values
 		matrixOrthonormal.mulInside(-1);
 		// translate origin matrix
@@ -1183,7 +1172,6 @@ public class CoordSys {
 	 *            direction
 	 */
 	public void mirror(Coords point, Coords direction) {
-
 		// origin projected on the line
 		matrixOrthonormal.getOrigin().projectLine(point, direction, tmpCoords1,
 				null);
@@ -1222,7 +1210,6 @@ public class CoordSys {
 	 *            coord sys representing the plane
 	 */
 	public void mirror(CoordSys cs) {
-
 		Coords vn = cs.getNormal();
 
 		// origin projected on the line
@@ -1263,7 +1250,6 @@ public class CoordSys {
 	 *            new coord sys
 	 */
 	public void updateContinuous(CoordSys coordsys) {
-
 		matrixOrthonormal.getOrigin()
 				.projectPlane(coordsys.getMatrixOrthonormal(), tmpCoords1);
 		Coords vz = coordsys.getMatrixOrthonormal().getVz();
@@ -1303,7 +1289,6 @@ public class CoordSys {
 	 * 
 	 */
 	public void updateContinuousPointVx(Coords point, Coords vector) {
-
 		tmpCoords2.setCrossProduct(matrixOrthonormal.getVz(), vector);
 		tmpCoords3.setCrossProduct(vector, tmpCoords2);
 		tmpCoords3.setW(0);
@@ -1314,7 +1299,6 @@ public class CoordSys {
 				tmpCoords2, tmpCoords4, matrixOrthonormal);
 
 		updateToContainPoint(point);
-
 	}
 
 	/**

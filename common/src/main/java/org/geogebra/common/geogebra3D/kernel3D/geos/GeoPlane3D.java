@@ -138,7 +138,6 @@ public class GeoPlane3D extends GeoElement3D
 	 *            constant coefficient
 	 */
 	public void setEquation(double a, double b, double c, double d) {
-
 		setEquation(a, b, c, d, true);
 	}
 
@@ -195,7 +194,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
-
 		P.updateCoords2D();
 		P.updateCoordsFrom2D(false, null);
 
@@ -203,7 +201,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void regionChanged(GeoPointND P) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(P)
@@ -370,7 +367,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public Coords getMainDirection() {
-
 		return getCoordSys().getNormal();
 	}
 
@@ -474,7 +470,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -535,7 +530,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public Coords evaluateNormal(double u, double v) {
-
 		return coordsys.getNormal();
 	}
 
@@ -677,7 +671,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void setView2DVisible(boolean flag) {
-
 		if (euclidianViewForPlane == null) {
 			if (flag) {
 				createView2D();
@@ -716,7 +709,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public double distance(GeoPointND P) {
-
 		return Math.abs(distanceWithSign(P));
 
 	}
@@ -728,7 +720,6 @@ public class GeoPlane3D extends GeoElement3D
 	 * @return distance from point P to this plane, with sign
 	 */
 	public double distanceWithSign(GeoPointND P) {
-
 		if (tmpCoords1 == null) {
 			tmpCoords1 = new Coords(3);
 		}
@@ -746,7 +737,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public double distanceWithSign(GeoPlaneND P) {
-
 		if (tmpCoords1 == null) {
 			tmpCoords1 = new Coords(3);
 		}
@@ -849,7 +839,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void rotate(NumberValue phiVal, GeoLineND line) {
-
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
 
 	}
@@ -863,7 +852,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void mirror(GeoLineND line) {
-
 		Coords point = line.getStartInhomCoords();
 		Coords direction = line.getDirectionInD3().normalized();
 
@@ -874,7 +862,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
-
 		coordsys.mirror(plane.getCoordSys());
 		coordsys.makeEquationVector();
 
@@ -886,12 +873,10 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-
 		double r = rval.getDouble();
 
 		coordsys.dilate(r, S);
 		coordsys.dilateEquationVector(r, S);
-
 	}
 
 	@Override

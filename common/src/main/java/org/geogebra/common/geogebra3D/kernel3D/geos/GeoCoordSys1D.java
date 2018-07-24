@@ -186,7 +186,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * @return true if one point is null or infinite
 	 */
 	public boolean setCoord(GeoPointND O, GeoPointND I) {
-
 		startPoint = O;
 		endPoint = I;
 
@@ -291,7 +290,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 */
 	@Override
 	public Coords getPointInD(int dimension, double lambda) {
-
 		Coords v = getPoint(lambda);
 		switch (dimension) {
 		case 3:
@@ -305,7 +303,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	/** @return cs unit */
 	public double getUnit() {
-
 		return getCoordSys().getVx().norm();
 	}
 
@@ -327,7 +324,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void pointChanged(GeoPointND P) {
-
 		double t = getParamOnLine(P);
 
 		if (t < getMinParameter()) {
@@ -352,7 +348,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * @return path parameter of P's projection on line
 	 */
 	public double getParamOnLine(GeoPointND P) {
-
 		boolean done = false;
 		double t = 0;
 		if (((GeoElement) P).isGeoElement3D()) {
@@ -423,7 +418,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void pathChanged(GeoPointND P) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(P)) {
@@ -511,7 +505,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public Coords getCartesianEquationVector(CoordMatrix m) {
-
 		if (m == null) {
 			return CoordMatrixUtil.lineEquationVector(getCoordSys().getOrigin(),
 					getCoordSys().getVx());
@@ -572,7 +565,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	final public void translate(Coords v) {
-
 		Coords o = getCoordSys().getOrigin();
 		o.addInside(v);
 		setCoord(o, getCoordSys().getVx());
@@ -623,7 +615,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 */
 	@Override
 	final public double distance(GeoLineND g) {
-
 		double dist;
 		Coords cVector = this.getDirectionInD3()
 				.crossProduct(g.getDirectionInD3());
@@ -761,7 +752,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void rotate(NumberValue phiValue) {
-
 		Coords o = getCoordSys().getOrigin();
 
 		double z = o.getZ();
@@ -799,7 +789,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
-
 		Coords o = getCoordSys().getOrigin();
 
 		double z = o.getZ();
@@ -889,7 +878,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void rotate(NumberValue phiValue, GeoLineND line) {
-
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
@@ -903,7 +891,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void mirror(Coords Q) {
-
 		Coords o = getCoordSys().getOrigin().mul(-1);
 
 		o.addInside(Q.mul(2));
@@ -914,7 +901,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void mirror(GeoLineND line) {
-
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
@@ -936,7 +922,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
-
 		Coords point = getCoordSys().getOrigin();
 		// point projected on the plane
 		if (tmpCoords1 == null) {
@@ -963,7 +948,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-
 		double r = rval.getDouble();
 
 		Coords o = getCoordSys().getOrigin().mul(r);
@@ -971,7 +955,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		o.addInside(S.mul(1 - r));
 
 		setCoord(o, getCoordSys().getVx().mul(r));
-
 	}
 
 	@Override
