@@ -14,6 +14,9 @@ import org.geogebra.common.util.AsyncOperation;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Macro mode handler.
+ */
 public class ModeMacro {
 	protected Macro macro;
 	protected TestGeo[] macroInput;
@@ -61,6 +64,10 @@ public class ModeMacro {
 	 *
 	 * @param hits0
 	 *            hits
+	 * @param callback2
+	 *            callback when number input is needed
+	 * @param selPreview
+	 *            whether this is for preview
 	 * @return whether macro was successfully processed
 	 */
 	public final boolean macro(Hits hits0, final AsyncOperation<Boolean> callback2,
@@ -107,26 +114,7 @@ public class ModeMacro {
 
 				@Override
 				public void callback(GeoNumberValue num) {
-					if (num == null) {
-						// no success: reset mode
-						ec.getView().resetMode();
-						if (callback2 != null) {
-							callback2.callback(false);
-						}
-						return;
-					}
-					// great, we got our number
-					if (num.isGeoElement()) {
-						selection.getSelectedGeoList().add(num.toGeoElement());
-					}
-
-					readNumberOrAngleIfNeeded(this);
-
-					if (ec.selGeos() == macroInput.length) {
-						if (macroProcess(callback2)) {
-							ec.storeUndoInfo();
-						}
-					}
+					handleNumber(num, callback2, this);
 				}
 
 			};
@@ -135,6 +123,31 @@ public class ModeMacro {
 		}
 
 		return macroProcess(callback2);
+	}
+
+	protected void handleNumber(GeoNumberValue num, AsyncOperation<Boolean> callback2,
+			AsyncOperation<GeoNumberValue> callback3) {
+		if (num == null) {
+			// no success: reset mode
+			ec.getView().resetMode();
+			if (callback2 != null) {
+				callback2.callback(false);
+			}
+			return;
+		}
+		// great, we got our number
+		if (num.isGeoElement()) {
+			selection.getSelectedGeoList().add(num.toGeoElement());
+		}
+
+		readNumberOrAngleIfNeeded(callback3);
+
+		if (ec.selGeos() == macroInput.length) {
+			if (macroProcess(callback2)) {
+				ec.storeUndoInfo();
+			}
+		}
+
 	}
 
 	/**
@@ -164,6 +177,12 @@ public class ModeMacro {
 		}
 	}
 
+	/**
+	 * Set macro mode.
+	 * 
+	 * @param mode1
+	 *            app mode
+	 */
 	public void setMode(int mode1) {
 		int macroID = mode1 - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 		macro = kernel.getMacro(macroID);

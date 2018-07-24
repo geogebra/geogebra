@@ -66,5 +66,8 @@ public interface DrawWidget {
 	 */
 	public GeoElement getGeoElement();
 
+	/**
+	 * @return whether aspect ratio is fixed for this widget
+	 */
 	public boolean isFixedRatio();
 }

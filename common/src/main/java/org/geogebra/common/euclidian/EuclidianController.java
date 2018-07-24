@@ -7419,7 +7419,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
-				moveButton(movedGeoElement, MOVE_BUTTON);
+				moveAbsoluteLocatable(movedGeoButton, MOVE_BUTTON);
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7437,8 +7437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 
-			moveWidget(movedGeoMedia, MOVE_MEDIA);
-
+			moveAbsoluteLocatable(movedGeoMedia, MOVE_MEDIA);
 		}
 
 		// image
@@ -7486,20 +7485,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void moveWidget(GeoWidget geo, int mode) {
-		moveAbsoluteLocatable(geo, mode);
-	}
-
-	private void moveButton(GeoElement geo, int mode) {
-		if (!(geo instanceof AbsoluteScreenLocateable)) {
-			return;
-		}
-		
-		moveAbsoluteLocatable((AbsoluteScreenLocateable)geo, mode);
-	}
-
-	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int mode) {
-		moveMode = mode;
+	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int absMoveMode) {
+		moveMode = absMoveMode;
 		startLoc = mouseLoc;
 		if (geo instanceof GeoWidget) {
 			((GeoWidget) geo).updateAbsLocation(view);
