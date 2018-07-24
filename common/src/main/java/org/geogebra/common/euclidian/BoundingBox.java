@@ -13,8 +13,6 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.media.MediaFormat;
 
 /**
  * bounding box construction for selected elements
@@ -438,10 +436,7 @@ public class BoundingBox {
 		int eventY = e.getY();
 		int newWidth = 1;
 		int newHeight = 1;
-		MediaFormat format = video.getGeoElement() instanceof GeoVideo
-				? ((GeoVideo) video.getGeoElement()).getFormat()
-				: MediaFormat.NONE;
-
+		boolean fixRatio = video.isFixedRatio();
 		switch (handler) {
 		case TOP_RIGHT:
 			newWidth = eventX - video.getLeft();
@@ -497,7 +492,7 @@ public class BoundingBox {
 				return;
 			}
 			video.setWidth(newWidth);
-			if (format == MediaFormat.VIDEO_MEBIS) {
+			if (fixRatio) {
 				Double h = video.getOriginalRatio() * newWidth;
 				newHeight = h.intValue();
 				video.setAbsoluteScreenLoc(video.getLeft(),
@@ -515,7 +510,7 @@ public class BoundingBox {
 				return;
 			}
 			video.setWidth(newWidth);
-			if (format == MediaFormat.VIDEO_MEBIS) {
+			if (fixRatio) {
 				Double h = video.getOriginalRatio() * newWidth;
 				newHeight = h.intValue();
 				video.setAbsoluteScreenLoc(eventX,
@@ -534,7 +529,7 @@ public class BoundingBox {
 				return;
 			}
 			video.setHeight(newHeight);
-			if (format == MediaFormat.VIDEO_MEBIS) {
+			if (fixRatio) {
 				Double w = (newHeight / video.getOriginalRatio());
 				newWidth = w.intValue();
 				video.setAbsoluteScreenLoc(video.getLeft() + video.getWidth() / 2 - newWidth / 2,
@@ -553,7 +548,7 @@ public class BoundingBox {
 				return;
 			}
 			video.setHeight(newHeight);
-			if (format == MediaFormat.VIDEO_MEBIS) {
+			if (fixRatio) {
 				Double w = newHeight / video.getOriginalRatio();
 				newWidth = w.intValue();
 				video.setAbsoluteScreenLoc(video.getLeft() + video.getWidth() / 2 - newWidth / 2,

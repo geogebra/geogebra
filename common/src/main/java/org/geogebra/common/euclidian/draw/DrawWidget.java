@@ -65,4 +65,6 @@ public interface DrawWidget {
 	 * @return the geo linked to this
 	 */
 	public GeoElement getGeoElement();
+
+	public boolean isFixedRatio();
 }

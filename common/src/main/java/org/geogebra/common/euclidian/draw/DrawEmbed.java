@@ -233,4 +233,9 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	}
 
+	@Override
+	public boolean isFixedRatio() {
+		return false;
+	}
+
 }

@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.MediaFormat;
 
 /**
  * Drawable class for GeoVideo
@@ -206,6 +207,11 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	@Override
 	public void resetRatio() {
 		originalRatio = Double.NaN;
+	}
+
+	@Override
+	public boolean isFixedRatio() {
+		return video.getFormat() != MediaFormat.VIDEO_YOUTUBE;
 	}
 
 }
