@@ -281,7 +281,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
-
 		// ///////////////////////////////////
 		// VBO - vertices
 
@@ -299,7 +298,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
-
 		if (fbColors == null || fbColors.isEmpty()) {
 			glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
 			return;
@@ -318,7 +316,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
-
 		if (fbTextures == null || fbTextures.isEmpty()) {
 			disableTextureBuffer();
 			return;
@@ -342,7 +339,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
-
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
 			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			return;
@@ -373,7 +369,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void drawSurfacesOutline() {
-
 		// TODO
 
 	}
@@ -390,7 +385,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
-
 		// ///////////////////////////////////
 		// VBO - indices
 
@@ -435,7 +429,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void draw() {
-
 		resetOneNormalForAllVertices();
 		disableTextures();
 
@@ -453,7 +446,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void dispose() {
-
 		glResetProgram();
 		glDetachAndDeleteShader(shaderProgram, vertShader);
 		glDetachAndDeleteShader(shaderProgram, fragShader);
@@ -472,7 +464,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void setMatrixView() {
-
 		if (renderer.isExportingImageEquirectangular()) {
 			tmpMatrix2.set(renderer.getToScreenMatrix());
 			tmpMatrix2.set(3, 4,
@@ -502,7 +493,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void initMatrix() {
-
 		if (renderer.isExportingImageEquirectangular()) {
 			tmpMatrix1.set(renderer.getToScreenMatrix());
 			tmpMatrix1.set(3, 4,
@@ -521,7 +511,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void initMatrixForFaceToScreen() {
-
 		tmpMatrix1.setMul(projectionMatrix, renderer.getMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
 
@@ -572,7 +561,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void setLight(int light) {
-
 		glUniform2fv(ambiantDiffuseLocation, ambiantDiffuse[light]);
 	}
 
@@ -603,7 +591,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	final public void updateOrthoValues() {
-
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
 		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
 		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
@@ -635,7 +622,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void updatePerspValues() {
-
 		projectionMatrix.set(1, 1,
 				2 * renderer.perspNear[renderer.eye]
 						/ (renderer.perspRight[renderer.eye]
@@ -689,7 +675,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void viewGlasses() {
-
 		projectionMatrix.set(1, 3, perspXZ + glassesXZ[renderer.eye]);
 		projectionMatrix.set(2, 3, perspYZ + glassesYZ[renderer.eye]);
 
@@ -702,7 +687,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void updateProjectionObliqueValues() {
-
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
@@ -745,7 +729,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void initRenderingValues() {
-
 		// clip planes
 		setClipPlanesToShader();
 

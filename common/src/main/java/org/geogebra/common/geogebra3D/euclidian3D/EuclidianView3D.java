@@ -577,7 +577,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public Drawable3D newDrawable(GeoElementND geo) {
-
 		Drawable3D d = null;
 		if (geo.hasDrawable3D()) {
 
@@ -906,7 +905,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set global matrices.
 	 */
 	public void setGlobalMatrices() {
-
 		mWithoutScale.setMul(rotationMatrix, translationMatrixWithScale);
 
 		mWithScale.setMul(rotationAndScaleMatrix,
@@ -922,7 +920,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void updateMatrix() {
-
 		// rotations and scaling
 		updateRotationAndScaleMatrices();
 
@@ -944,7 +941,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void updateEye() {
-
 		// update view direction
 		if (projection == PROJECTION_OBLIQUE) {
 			viewDirection = renderer.getObliqueOrthoDirection().copyVector();
@@ -1013,7 +1009,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setRotXYinDegrees(double a, double b) {
-
 		// Log.debug("setRotXY: "+a+","+b);
 		if (Double.isNaN(a) || Double.isNaN(b)) {
 			Log.error("NaN values for setRotXYinDegrees");
@@ -1124,7 +1119,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setZeroFromXML(double x, double y, double z) {
-
 		if (app.fileVersionBefore(new int[] { 4, 9, 14, 0 })) {
 			// new matrix multiplication (since 4.9.14)
 			updateRotationMatrix();
@@ -1289,7 +1283,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	/** remembers the origins values (xzero, ...) */
 	@Override
 	public void rememberOrigins() {
-
 		super.rememberOrigins();
 
 		aOld = a;
@@ -1313,7 +1306,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update the drawables for 3D view
 	 */
 	public void update() {
-
 		updateAnimation();
 
 		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty()
@@ -1453,7 +1445,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void clearView() {
-
 		// clear lists
 		drawable3DLists.clear();
 		geosToBeAdded.clear();
@@ -1475,7 +1466,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	@Override
 	public void remove(GeoElement geo) {
-
 		if (geo.hasDrawable3D()) {
 			Drawable3D d = drawable3DMap.get(geo);
 			remove(d);
@@ -1520,10 +1510,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void update(GeoElement geo) {
-
-		// String s = geo.toString(); if (s.startsWith("F"))
-		// Application.debug(s);
-
 		if (geo.hasDrawable3D()) {
 			Drawable3D d = drawable3DMap.get(geo);
 			// ((GeoElement3DInterface) geo).getDrawable3D();
@@ -1585,7 +1571,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public Previewable getPreviewDrawable() {
-
 		return previewDrawable;
 	}
 
@@ -1642,7 +1627,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean setShowAxes(boolean flag, boolean update) {
-
 		boolean changedX = setShowAxis(AXIS_X, flag, false);
 		boolean changedY = setShowAxis(AXIS_Y, flag, false);
 		return setShowAxis(AXIS_Z, flag, true) || changedX || changedY;
@@ -1716,7 +1700,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return true if the point is between min-max coords values
 	 */
 	public boolean isInside(Coords p) {
-
 		double val = p.getX();
 		if (val < getXmin() || val > getXmax()) {
 			return false;
@@ -1747,10 +1730,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setUseClippingCube(boolean flag) {
-
 		getSettings().setUseClippingCube(flag);
 		updateUseClippingCube();
-
 	}
 
 	private void updateUseClippingCube() {
@@ -2094,9 +2075,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
-
 		return new DrawLine3D(this, selectedPoints);
-
 	}
 
 	@Override
@@ -2433,7 +2412,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setPreview(Previewable previewDrawable) {
-
 		if (this.previewDrawable == previewDrawable) {
 			return;
 		}
@@ -2449,7 +2427,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		this.previewDrawable = previewDrawable;
-
 	}
 
 	private void initPointDecorations() {
@@ -2495,13 +2472,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            location
 	 */
 	public void drawMouseCursor(Renderer renderer1, Coords v) {
-
 		CoordMatrix4x4.identity(tmpMatrix4x4_3);
 
 		tmpMatrix4x4_3.setOrigin(v);
 		renderer1.setMatrix(tmpMatrix4x4_3);
 		renderer1.drawMouseCursor();
-
 	}
 
 	protected void drawFreeCursor(Renderer renderer1) {
@@ -2522,7 +2497,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawCursor(Renderer renderer1) {
-
 		// Log.debug("\nhasMouse="
 		// + hasMouse
 		// + "\n!getEuclidianController().mouseIsOverLabel() "
@@ -2620,9 +2594,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            GeoPointND.MOVE_MODE_*
 	 */
 	public void drawPointAlready(int mode) {
-
-		// Application.debug(mode);
-
 		int pointMoveMode = mode;
 		if (pointMoveMode == GeoPointND.MOVE_MODE_TOOL_DEFAULT) {
 			pointMoveMode = ((EuclidianController3D) euclidianController)
@@ -2818,12 +2789,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set cursor to hit.
 	 */
 	public void setHitCursor() {
-
 		if (getShiftDown()) {
 			return;
 		}
 
-		// App.printStacktrace("setHitCursor");
 		cursor = EuclidianCursor.HIT;
 	}
 
@@ -2835,11 +2804,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	@Override
 	public void getXML(StringBuilder sb, boolean asPreference) {
-
-		// Application.debug("getXML: "+a+","+b);
-
-		// if (true) return "";
-
 		sb.append("<euclidianView3D>\n");
 
 		// coord system
@@ -3002,7 +2966,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * toggle the visibility of axes
 	 */
 	public void toggleAxis() {
-
 		getSettings().setShowAxes(!axesAreAllVisible());
 	}
 
@@ -3059,7 +3022,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return if this geo is owned by the view (xOy plane, ...)
 	 */
 	public boolean owns(GeoElement geo) {
-
 		boolean ret = (geo == xOyPlane);
 
 		for (int i = 0; (!ret) && (i < 3); i++) {
@@ -3076,7 +3038,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawTransp(Renderer renderer1) {
-
 		if (!app.has(Feature.MOB_PACK_PLANES)
 				|| !getRenderer().getGeometryManager().packBuffers()) {
 			if (xOyPlane.isPlateVisible()) {
@@ -3175,7 +3136,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawLabel(Renderer renderer1) {
-
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].drawLabel(renderer1);
 		}
@@ -3201,7 +3161,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * says all labels owned by the view that the view has changed
 	 */
 	public void resetOwnDrawables() {
-
 		xOyPlaneDrawable.setWaitForReset();
 
 		for (int i = 0; i < 3; i++) {
@@ -3219,7 +3178,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * says all labels to be recomputed
 	 */
 	public void resetAllDrawables() {
-
 		drawable3DLists.setWaitForResetManagerBuffers();
 		resetOwnDrawables();
 		drawable3DLists.resetAllDrawables();
@@ -3230,7 +3188,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * reset all drawables visual styles
 	 */
 	public void resetAllVisualStyles() {
-
 		// own drawables
 		xOyPlaneDrawable.setWaitForUpdateVisualStyle(null);
 
@@ -3244,7 +3201,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		drawable3DLists.resetAllVisualStyles();
 
 		getCompanion().resetAllVisualStyles();
-
 	}
 
 	/**
@@ -3385,7 +3341,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update all drawables now
 	 */
 	public void updateOwnDrawablesNow() {
-
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].update();
 		}
@@ -3398,7 +3353,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update intersection curves in controller
 		((EuclidianController3D) getEuclidianController())
 				.updateOwnDrawablesNow();
-
 	}
 
 	public void updateDrawables(Drawable3DListsForView drawables3D) {
@@ -3438,11 +3392,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setAxisLabel(int axis, String axisLabel) {
-
 		super.setAxisLabel(axis, axisLabel);
 		axisDrawable[axis].setLabelWaitForUpdate();
 		setWaitForUpdate();
-
 	}
 
 	@Override
@@ -3754,7 +3706,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set projection to equirectangular.
 	 */
 	public void setProjectionEquirectangular() {
-
 		// updateProjectionPerspectiveEyeDistance();
 		double d = renderer.getVisibleDepth() / 2 + 100;
 		renderer.setNear(d, d);
@@ -3840,7 +3791,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            shutdown green flag
 	 */
 	public void setGlassesShutDownGreen(boolean flag) {
-
 		if (isGlassesShutDownGreen == flag) {
 			return;
 		}
@@ -3989,7 +3939,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public int getFontSize() {
-
 		return app.getFontSize();
 	}
 
@@ -4036,7 +3985,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean isOnView(double[] coords) {
-
 		// check first x, y
 		if (!super.isOnView(coords)) {
 			return false;
@@ -4049,7 +3997,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		// 3D point
 		return (coords[2] >= getZmin()) && (coords[2] <= getZmax());
-
 	}
 
 	@Override
@@ -4065,7 +4012,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean isSegmentOffView(double[] p1, double[] p2) {
-
 		if (super.isSegmentOffView(p1, p2)) {
 			return true;
 		}
@@ -4121,7 +4067,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public double getGridDistances(int i) {
-
 		if (i == AXIS_Z) { // no grid along z axis
 			return getAxisNumberingDistance(AXIS_Z);
 		}
@@ -4153,7 +4098,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public final boolean isGridOrAxesShown() {
-
 		for (int i = 0; i < 3; i++) {
 			if (getShowAxis(i)) {
 				return true;
@@ -4165,7 +4109,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-
 		companion.settingsChanged(settings);
 
 		EuclidianSettings3D evs = (EuclidianSettings3D) settings;
@@ -4548,11 +4491,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            mouse start pos (screen)
 	 */
 	public void setStartPos(Coords screenStartPos) {
-
 		startPos.set(screenStartPos);
 		toSceneCoords3D(startPos);
 		startTranslation.setOrigin(screenStartPos.add(startPos));
-
 	}
 
 	/**

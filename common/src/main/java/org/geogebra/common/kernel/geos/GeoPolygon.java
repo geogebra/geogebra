@@ -236,7 +236,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public String getTypeString() {
-
 		if (notFixedPointsLength || points == null) {
 			return "Polygon";
 		}
@@ -621,7 +620,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
-
 		GeoPolygon ret = newGeoPolygon(cons1);
 		copyInternal(cons1, ret);
 		return ret;
@@ -808,7 +806,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	final public GeoPointND[] getPointsND() {
-
 		return points;
 	}
 
@@ -1424,7 +1421,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
-
 		setEuclidianVisible(visible, true);
 
 	}
@@ -1536,7 +1532,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void setLineThicknessOrVisibility(int th) {
-
 		super.setLineThickness(th);
 
 		if (segments != null) {
@@ -1627,7 +1622,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
-
 		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this) {
@@ -1652,7 +1646,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *         precision
 	 */
 	public boolean isOnPath(Coords coords, double eps) {
-
 		// check if P is on one of the segments
 		for (int i = 0; i < segments.length; i++) {
 			if (segments[i].isOnPath(coords, eps)) {
@@ -1664,7 +1657,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void pathChanged(GeoPointND PI) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(PI)) {
@@ -1743,7 +1735,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
-
 		Coords coords = PI.getCoordsInD2();
 		return isInRegion(coords.getX() / coords.getZ(),
 				coords.getY() / coords.getZ());
@@ -1799,7 +1790,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	final public void regionChanged(GeoPointND P) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(P)
@@ -1851,7 +1841,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
-
 		P.updateCoords2D();
 
 		RegionParameters rp = P.getRegionParameters();
@@ -1913,7 +1902,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * update the coord sys used for region parameters
 	 */
 	final public void updateRegionCS() {
-
 		if (getPoints() == null) {
 			return;
 		}
@@ -2106,7 +2094,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @return if this is a convex polygon
 	 */
 	public boolean isConvex() {
-
 		/*
 		 * if (getPointsLength() <= 3){ return true; }
 		 */
@@ -2213,7 +2200,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *         used in 2D)
 	 */
 	public boolean isConvexInverseDirection() {
-
 		// Log.debug(""+convexOrientation);
 
 		return (convexOrientation > 0);
@@ -2396,7 +2382,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void mirror(Coords Q) {
-
 		// important for centroid calculation
 		area *= -1;
 
@@ -2413,7 +2398,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void mirror(GeoLineND g) {
-
 		// important for centroid calculation
 		area *= -1;
 
@@ -2482,7 +2466,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * Update area from vertices
 	 */
 	public void calcArea() {
-
 		// eg Dilate[Polygon[(0,0),(1,1),(1,0)],4]
 		if (algoParent instanceof AlgoTransformation) {
 			AlgoTransformation algo = (AlgoTransformation) algoParent;
@@ -2514,7 +2497,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            centroid
 	 */
 	public void calcCentroid(GeoPointND p) {
-
 		if (algoParent instanceof PolygonAlgo) {
 			((PolygonAlgo) algoParent).calcCentroid((GeoPoint) p);
 			return;
@@ -2533,7 +2515,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		} else {
 			p.setCoords(tmp3[0], tmp3[1], tmp3[2]);
 		}
-
 	}
 
 	@Override

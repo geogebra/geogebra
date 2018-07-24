@@ -134,7 +134,6 @@ public class CoordMatrix {
 	 * @return the identity matrix
 	 */
 	public static final CoordMatrix identity(int n) {
-
 		CoordMatrix m = new CoordMatrix(n, n);
 
 		for (int i = 1; i <= n; i++) {
@@ -142,7 +141,6 @@ public class CoordMatrix {
 		}
 
 		return m;
-
 	}
 
 	/**
@@ -153,7 +151,6 @@ public class CoordMatrix {
 	 * @return scale matrix
 	 */
 	public static final CoordMatrix scaleMatrix(Coords v) {
-
 		int n = v.getLength();
 		CoordMatrix m = new CoordMatrix(n + 1, n + 1);
 
@@ -163,7 +160,6 @@ public class CoordMatrix {
 		m.set(n + 1, n + 1, 1.0);
 
 		return m;
-
 	}
 
 	/**
@@ -174,7 +170,6 @@ public class CoordMatrix {
 	 * @return diagonal matrix
 	 */
 	public static final CoordMatrix diagonalMatrix(double[] vals) {
-
 		int n = vals.length;
 		CoordMatrix m = new CoordMatrix(n, n);
 
@@ -183,7 +178,6 @@ public class CoordMatrix {
 		}
 
 		return m;
-
 	}
 
 	/**
@@ -194,7 +188,6 @@ public class CoordMatrix {
 	 * @return traslation matrix
 	 */
 	public static final CoordMatrix translationMatrix(Coords v) {
-
 		int n = v.getLength();
 		CoordMatrix m = new CoordMatrix(n + 1, n + 1);
 
@@ -205,7 +198,6 @@ public class CoordMatrix {
 		m.set(n + 1, n + 1, 1.0);
 
 		return m;
-
 	}
 
 	/**
@@ -218,7 +210,6 @@ public class CoordMatrix {
 	 * @return rotation matrix
 	 */
 	public static final CoordMatrix rotation3DMatrix(int axe, double angle) {
-
 		CoordMatrix m = new CoordMatrix(4, 4);
 
 		switch (axe) {
@@ -263,7 +254,6 @@ public class CoordMatrix {
 	 *            output matrix
 	 */
 	public static final void rotation3x3(double angle, CoordMatrix m) {
-
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
 		m.set(1, 1, cos);
@@ -305,7 +295,6 @@ public class CoordMatrix {
 		vectors[2].setX(ux * uz * (1 - c) + uy * s);
 		vectors[2].setY(uy * uz * (1 - c) - ux * s);
 		vectors[2].setZ(uz * uz * (1 - c) + c);
-
 	}
 
 	// /////////////////////////////////////////////////:
@@ -319,7 +308,6 @@ public class CoordMatrix {
 	 * 
 	 */
 	public void get(double[] val) {
-
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				val[i + j * rows] = get(i + 1, j + 1);
@@ -434,7 +422,6 @@ public class CoordMatrix {
 	 *            value
 	 */
 	public void set(double val0) {
-
 		for (int i = 0; i < columns; i++) {
 			vectors[i].set(val0);
 		}
@@ -447,7 +434,6 @@ public class CoordMatrix {
 	 *            source matrix
 	 */
 	public void set(CoordMatrix m) {
-
 		for (int i = 1; i <= m.getRows(); i++) {
 			for (int j = 1; j <= m.getColumns(); j++) {
 				this.set(i, j, m.get(i, j));
@@ -462,7 +448,6 @@ public class CoordMatrix {
 	 *            source matrix
 	 */
 	public void setTranspose(CoordMatrix m) {
-
 		for (int i = 1; i <= m.getRows(); i++) {
 			for (int j = 1; j <= m.getColumns(); j++) {
 				this.set(i, j, m.get(j, i));
@@ -514,7 +499,6 @@ public class CoordMatrix {
 	 *            matrix
 	 */
 	public void copy(CoordMatrix result) {
-
 		for (int i = 1; i <= result.getRows(); i++) {
 			for (int j = 1; j <= result.getColumns(); j++) {
 				result.set(i, j, get(i, j));
@@ -544,7 +528,6 @@ public class CoordMatrix {
 	 *            matrix
 	 */
 	public void transposeCopy(CoordMatrix result) {
-
 		for (int i = 1; i <= result.getRows(); i++) {
 			for (int j = 1; j <= result.getColumns(); j++) {
 				result.set(i, j, get(j, i));
@@ -579,7 +562,6 @@ public class CoordMatrix {
 	 * @return false if one value equals NaN
 	 */
 	public boolean isDefined() {
-
 		for (int i = 0; i < columns; i++) {
 			if (!vectors[i].isDefined()) {
 				return false;
@@ -591,7 +573,6 @@ public class CoordMatrix {
 
 	/** @return false if at least one value is infinite */
 	public boolean isFinite() {
-
 		for (int i = 0; i < columns; i++) {
 			if (!vectors[i].isFinite()) {
 				return false;
@@ -740,7 +721,6 @@ public class CoordMatrix {
 	 *            resulting matrix
 	 */
 	public void mul(CoordMatrix m, CoordMatrix result) {
-
 		for (int i = 1; i <= result.getRows(); i++) {
 			for (int j = 1; j <= result.getColumns(); j++) {
 
@@ -837,7 +817,6 @@ public class CoordMatrix {
 	 * @return determinant of the matrix
 	 */
 	public double det() {
-
 		double ret = 0.0;
 
 		if (getRows() == 1) {
@@ -1307,7 +1286,6 @@ public class CoordMatrix {
 	 *            result
 	 */
 	public void pivot(Coords sol, Coords res) {
-
 		updatePivotMatrix();
 
 		if (pivotSolRes == null) {
@@ -1333,7 +1311,6 @@ public class CoordMatrix {
 	 *            result
 	 */
 	public void pivotDegenerate(Coords sol, Coords res) {
-
 		updatePivotMatrix();
 
 		if (pivotSolResDegenerate == null) {
@@ -1631,16 +1608,13 @@ public class CoordMatrix {
 	 *            flat array
 	 */
 	public void getForGL(float[] val) {
-
 		int index = 0;
 		for (int x = 0; x < columns; x++) {
 			for (int y = 0; y < rows; y++) {
 				val[index] = (float) get(y + 1, x + 1);
 				index++;
 			}
-
 		}
-
 	}
 
 	/**
@@ -1683,7 +1657,6 @@ public class CoordMatrix {
 	 * 
 	 */
 	public static void test() {
-
 		/*
 		 * CoordMatrix m1 = CoordMatrix.Identity(3); m1.set(1, 2, 5.0);
 		 * m1.set(3, 1, 4.0); m1.set(3, 2, 3.0); m1.transpose();

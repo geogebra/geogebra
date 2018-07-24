@@ -449,9 +449,7 @@ public class Coords {
 	 * @return number of rows
 	 */
 	public int getLength() {
-
 		return rows;
-
 	}
 
 	/**
@@ -724,7 +722,6 @@ public class Coords {
 	 * @return whether this and v are independent
 	 */
 	final public boolean isLinearIndependentAllCoords(Coords v) {
-
 		int index = 0;
 		boolean notFound = true;
 		double r1 = 0, r2 = 0;
@@ -991,7 +988,6 @@ public class Coords {
 	 * @return (this-v).norm()
 	 */
 	public double distance3(Coords v) {
-
 		return MyMath.length(val[0] - v.val[0], val[1] - v.val[1], val[2] - v.val[2]);
 	}
 
@@ -1605,7 +1601,6 @@ public class Coords {
 	 *            {parameter on the line, normalized parameter}
 	 */
 	public void projectLine(Coords o, Coords v, Coords h, double[] parameters) {
-
 		this.sub(o, h); // OM
 		Coords N = v.normalized();
 		double parameter = h.dotproduct(N); // OM.N
@@ -1665,13 +1660,11 @@ public class Coords {
 	 *            point projected
 	 */
 	public void projectLine(Coords o, Coords V, Coords H) {
-
 		this.sub(o, H); // OM
 		Coords N = V.normalized();
 		double parameter = H.dotproduct(N); // OM.N
 		N.mul(parameter, H); // OH
 		o.add(H, H);
-
 	}
 
 	/**
@@ -1688,7 +1681,6 @@ public class Coords {
 	 *            output point projected
 	 */
 	public void projectNearLine(Coords o, Coords V, Coords V2, Coords project) {
-
 		Coords V3 = V.crossProduct(V2);
 
 		if (DoubleUtil.isEqual(V3.norm(), 0.0, Kernel.STANDARD_PRECISION)) {
@@ -1717,7 +1709,6 @@ public class Coords {
 	 */
 	public double projectedParameterOnLineWithDirection(Coords o, Coords V,
 			Coords V2, Coords tmp) {
-
 		Coords V3 = V.crossProduct4(V2);
 
 		if (V3.isZero()) {
@@ -1726,7 +1717,6 @@ public class Coords {
 
 		o.projectPlaneInPlaneCoords(V2, V3, V, this, tmp);
 		return -tmp.getZ();
-
 	}
 
 	/**
@@ -1898,7 +1888,6 @@ public class Coords {
 	 * set values in inhom coords
 	 */
 	public void setInhomCoords() {
-
 		if (DoubleUtil.isEqual(val[rows - 1], 1)) {
 			return;
 		}
@@ -1909,7 +1898,6 @@ public class Coords {
 		}
 
 		val[rows - 1] = 1;
-
 	}
 
 	/**
@@ -2132,7 +2120,6 @@ public class Coords {
 	 *            vector (length 4)
 	 */
 	public void completeOrthonormal(Coords vn1, Coords vn2) {
-
 		if (val[0] != 0) {
 			vn1.val[0] = -val[1];
 			vn1.val[1] = val[0];
@@ -2149,7 +2136,6 @@ public class Coords {
 		vn2.setCrossProduct(this, vn1);
 		vn2.setW(0);
 		vn2.normalize();
-
 	}
 
 	/**
@@ -2163,7 +2149,6 @@ public class Coords {
 	 *            vector (length 3)
 	 */
 	public void completeOrthonormal3(Coords vn1, Coords vn2) {
-
 		if (val[0] != 0) {
 			vn1.val[0] = -val[1];
 			vn1.val[1] = val[0];
@@ -2177,7 +2162,6 @@ public class Coords {
 
 		vn2.setCrossProduct(this, vn1);
 		vn2.normalize();
-
 	}
 
 	/**
@@ -2188,7 +2172,6 @@ public class Coords {
 	 *            vector (length 4)
 	 */
 	public void completeOrthonormal(Coords vn1) {
-
 		if (val[2] != 0) {
 			vn1.val[2] = -val[1];
 			vn1.val[1] = val[2];
@@ -2201,7 +2184,6 @@ public class Coords {
 			vn1.val[2] = 1.0;
 			vn1.val[3] = 0.0;
 		}
-
 	}
 
 	/**
@@ -2226,7 +2208,6 @@ public class Coords {
 	 *            vector (length 3)
 	 */
 	public void completeOrthonormalKeepInXOYPlaneIfPossible3(Coords vn1) {
-
 		if (!DoubleUtil.isZero(val[0]) || !DoubleUtil.isZero(val[1])) {
 			vn1.val[0] = -val[1];
 			vn1.val[1] = val[0];
@@ -2237,7 +2218,6 @@ public class Coords {
 			vn1.val[1] = 0.0;
 			vn1.val[2] = 0.0;
 		}
-
 	}
 
 	// ///////////////////////////////////////////////////
@@ -2255,7 +2235,6 @@ public class Coords {
 	 */
 
 	public Coords add(Coords v) {
-
 		Coords result = new Coords(rows);
 
 		for (int i = 0; i < rows && i < v.rows; i++) {
@@ -2274,7 +2253,6 @@ public class Coords {
 	 *            result
 	 */
 	public void add(Coords v, double[] result) {
-
 		for (int i = 0; i < rows; i++) {
 			result[i] = val[i] + v.val[i];
 		}
@@ -2289,7 +2267,6 @@ public class Coords {
 	 *            result
 	 */
 	public void add(double[] v, double[] result) {
-
 		for (int i = 0; i < rows; i++) {
 			result[i] = val[i] + v[i];
 		}
@@ -2618,7 +2595,6 @@ public class Coords {
 	 * @return true if define a defined point
 	 */
 	public boolean isPointDefined() {
-
 		if (DoubleUtil.isZero(getW())) {
 			return false;
 		}
@@ -2632,7 +2608,6 @@ public class Coords {
 	 * @return false if one value equals NaN
 	 */
 	public boolean isDefined() {
-
 		if (val == null) {
 			return false;
 		}
@@ -2696,7 +2671,6 @@ public class Coords {
 	 * negative
 	 */
 	public void checkReverseForFirstValuePositive() {
-
 		boolean zero = true;
 		int i = 0;
 		while (i < val.length && zero) {
@@ -2722,7 +2696,6 @@ public class Coords {
 	 * @return the matrix as a double[]
 	 */
 	public double[] get() {
-
 		return val;
 	}
 
@@ -2752,7 +2725,6 @@ public class Coords {
 
 	/** @return false if at least one value is infinite */
 	public boolean isFinite() {
-
 		for (int i = 0; i < rows; i++) {
 			if (Double.isInfinite(val[i])) {
 				return false;

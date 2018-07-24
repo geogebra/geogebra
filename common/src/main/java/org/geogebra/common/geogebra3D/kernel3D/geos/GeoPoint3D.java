@@ -258,7 +258,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	@Override
 	final public void setCoords(Coords v, boolean doPathOrRegion) {
-
 		super.setCoords(v);
 
 		updateCoords();
@@ -307,10 +306,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public void setCoords(double x, double y, double z, double w) {
-
 		setWillingCoordsUndefined();
 		setCoords(new Coords(x, y, z, w));
-
 	}
 
 	// sets from 2D coords
@@ -321,9 +318,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public void updateCoords() {
-
-		// Application.printStacktrace(getLabel());
-
 		// infinite point
 		// #5202
 		if (!Double.isNaN(v.getW())
@@ -550,7 +544,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public boolean movePoint(Coords rwTransVec, Coords endPosition) {
-
 		boolean movedGeo = false;
 
 		if (endPosition != null) {
@@ -575,7 +568,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		return movedGeo;
-
 	}
 
 	// /////////////////////////////////////////////////////////
@@ -698,7 +690,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            whether to update regionParameters
 	 */
 	public void updateCoords2D(Region reg, boolean updateParameters) {
-
 		Coords coords;
 		Coords[] project;
 		if (!(reg instanceof Region3D)) {
@@ -803,7 +794,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            willing coordinates
 	 */
 	public void setWillingCoords(Coords willingCoords) {
-
 		if (this.willingCoords == null) {
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
@@ -819,7 +809,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * Make willing coordinates undefined
 	 */
 	public void setWillingCoordsUndefined() {
-
 		if (this.willingCoords == null) {
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
@@ -838,7 +827,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            inhomogeneous w
 	 */
 	public void setWillingCoords(double x, double y, double z, double w) {
-
 		if (this.willingCoords == null) {
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
@@ -854,7 +842,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            willing direction
 	 */
 	public void setWillingDirection(Coords willingDirection) {
-
 		if (this.willingDirection == null) {
 			this.willingDirection = new Coords(4);
 		}
@@ -950,7 +937,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public boolean isDefined() {
-
 		return isDefined;
 	}
 
@@ -1000,7 +986,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -1065,7 +1050,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public boolean isEqualPointND(GeoPointND P) {
-
 		if (!(isDefined() && P.isDefined())) {
 			return false;
 		}
@@ -1289,7 +1273,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void switchMoveMode(int mode) {
-
 		switch (moveMode) {
 		case MOVE_MODE_XY:
 			moveMode = MOVE_MODE_Z;
@@ -1411,7 +1394,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void updateColumnHeadingsForTraceValues() {
-
 		resetSpreadsheetColumnHeadings();
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
@@ -1469,7 +1451,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
-
 		double x = getX();
 		double y = getY();
 
@@ -1537,7 +1518,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public void rotate(NumberValue phiValue) {
-
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -1551,13 +1531,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
-
 		rotate(phiValue, point.getInhomCoords());
 	}
 
 	@Override
 	final public void rotate(NumberValue phiValue, Coords point) {
-
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -1602,7 +1580,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            vector
 	 */
 	public void rotate(double phi, Coords o1, Coords vn) {
-
 		if (vn.isZero() || Double.isNaN(phi)) {
 			setUndefined();
 			return;
@@ -1636,9 +1613,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void rotate(NumberValue phiValue, GeoLineND line) {
-
 		rotate(phiValue.getDouble(), line);
-
 	}
 
 	/**
@@ -1650,7 +1625,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            line
 	 */
 	public void rotate(double phi, GeoLineND line) {
-
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
@@ -1664,7 +1638,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void pointChanged(GeoPointND p) {
-
 		if (p.isGeoElement3D()) {
 			((GeoPoint3D) p).setCoords(this.getCoords(), false);
 		} else {
@@ -1808,7 +1781,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void mirror(GeoLineND line) {
-
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
@@ -1821,12 +1793,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		// mirror at projected point
 		mirror(tmpCoords1);
-
 	}
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
-
 		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
@@ -1834,7 +1804,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		getInhomCoordsInD3().projectPlane(
 				plane.getCoordSys().getMatrixOrthonormal(), tmpCoords1);
 		mirror(tmpCoords1);
-
 	}
 
 	// //////////////////////
@@ -1843,7 +1812,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-
 		double r = rval.getDouble();
 		double temp = (1 - r);
 
@@ -1852,7 +1820,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		setCoords(r * getX() + temp * S.getX() * w,
 				r * getY() + temp * S.getY() * w,
 				r * getZ() + temp * S.getZ() * w, w);
-
 	}
 
 	// for identifying incidence by construction
@@ -1953,7 +1920,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void translate(Coords v0) {
-
 		if (tmpCoords2 == null) {
 			tmpCoords2 = new Coords(4);
 		}

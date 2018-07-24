@@ -173,7 +173,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		return createSegment((GeoSegmentND) algoSegment.getCS(),
 				euclidianVisible);
-
 	}
 
 	/**
@@ -197,10 +196,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 */
 	@Override
 	public Coords getPoint3D(int i) {
-
 		Coords v = super.getPoint3D(i);
 		return coordSys.getPoint(v.getX(), v.getY());
-
 	}
 
 	/**
@@ -210,7 +207,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 */
 	@Override
 	public Coords getMainDirection() {
-
 		if (reverseNormal) {
 			return coordSys.getNormal().mul(-1);
 		}
@@ -235,7 +231,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
-
 		setEuclidianVisible(visible, createSegments);
 
 	}
@@ -251,7 +246,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 */
 	@Override
 	public void setCoordSys(CoordSys cs) {
-
 		if (points == null) {
 			return;
 		}
@@ -274,7 +268,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void setCoordSys(GeoPolygon poly) {
-
 		// set coord sys
 		if (coordSys == null) {
 			coordSys = new CoordSys(2);
@@ -284,7 +277,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void setCoordSysAndPoints3D(GeoPolygon poly) {
-
 		// set coord sys
 		setCoordSys(poly);
 
@@ -309,7 +301,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * set 3D points length to match 2D points length
 	 */
 	public void setPoints3DLength() {
-
 		if (points3DArray == null) {
 			points3DArray = new ArrayList<>();
 		}
@@ -421,7 +412,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * @return true if it has worked
 	 */
 	public boolean updateCoordSys() {
-
 		return updateCoordSys(coordSys, points, points2D, new double[4]);
 
 	}
@@ -527,7 +517,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	// TODO merge with GeoPolygon
 	@Override
 	public void pathChanged(GeoPointND PI) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(PI)) {
@@ -570,7 +559,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	// TODO merge with GeoPolygon
 	@Override
 	public void pointChanged(GeoPointND PI) {
-
 		// TODO remove that
 		if (!(PI instanceof GeoPoint3D)) {
 			return;
@@ -643,7 +631,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
-
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
 
 		if (coords == null) { // point is not in plane containing the polygon
@@ -661,7 +648,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public Coords getDirectionInD3() {
-
 		return getMainDirection();
 	}
 
@@ -700,7 +686,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void setView2DVisible(boolean flag) {
-
 		if (euclidianViewForPlane == null) {
 			if (flag) {
 				createView2D();
@@ -856,7 +841,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void rotate(NumberValue phiVal, GeoLineND line) {
-
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
 
 		// we need to update points and segments also
@@ -921,7 +905,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void mirror(GeoLineND line) {
-
 		Coords point = line.getStartInhomCoords();
 		Coords direction = line.getDirectionInD3().normalized();
 
@@ -944,7 +927,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
-
 		getCoordSys().mirror(plane.getCoordSys());
 
 		// orientation is reversed
@@ -968,7 +950,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-
 		double r = rval.getDouble();
 
 		getCoordSys().dilate(r, S);
@@ -993,7 +974,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 				((GeoSegment3D) seg).dilate(rval, S);
 			}
 		}
-
 	}
 
 	// /////////////////////////////////
@@ -1119,7 +1099,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			Coords c = getCoordSys().getPoint(tmp3[0], tmp3[1], tmp3[2]);
 			p.setCoords(c, false);
 		}
-
 	}
 
 	@Override

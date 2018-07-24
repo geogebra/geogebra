@@ -599,7 +599,6 @@ public class GeoList extends GeoElement
 	 *            true to make this list defined
 	 */
 	public void setDefined(final boolean flag) {
-
 		isDefined = flag;
 
 		if (!isDefined) {
@@ -931,7 +930,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public final void getXML(boolean getListenersToo, final StringBuilder sb) {
-
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
@@ -1095,7 +1093,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void update(boolean drag) {
-
 		super.update(drag);
 
 		// update information on whether this path is fit for AlgoLocus
@@ -1125,7 +1122,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void doRemove() {
-
 		if (colorFunctionListener != null) {
 			// copy conditionListeners into array
 			final Object[] geos = colorFunctionListener.toArray();
@@ -1147,7 +1143,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	final public boolean isEqual(final GeoElementND geo) {
-
 		if (!geo.isGeoList()) {
 			return false;
 		}
@@ -1180,7 +1175,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setLineThickness(final int thickness) {
-
 		super.setLineThickness(thickness);
 
 		if ((elements == null) || (elements.size() == 0)) {
@@ -1221,7 +1215,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setLineType(final int type) {
-
 		super.setLineType(type);
 
 		if ((elements == null) || (elements.size() == 0)) {
@@ -1239,7 +1232,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setLineTypeHidden(final int type) {
-
 		super.setLineTypeHidden(type);
 
 		if ((elements == null) || (elements.size() == 0)) {
@@ -1327,7 +1319,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setAlphaValue(final double alpha) {
-
 		if (alpha == -1) {
 			// wait until we have a GeoElement in the list to use
 			// see getAlphaValue()
@@ -1393,7 +1384,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public boolean isMatrix() {
-
 		if (!getElementType().equals(GeoClass.LIST) || (size() == 0)) {
 			return false;
 		}
@@ -1626,7 +1616,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-
 		if (isMatrix()) {
 
 			// int rows = size();
@@ -1672,7 +1661,6 @@ public class GeoList extends GeoElement
 	 * @return selected index
 	 */
 	public int getSelectedIndex() {
-
 		if (selectedIndex >= size()) {
 			selectedIndex = 0;
 		}
@@ -2052,7 +2040,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String getCASString(StringTemplate tpl, final boolean symbolic) {
-
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
 		final StringType casPrinttype = tpl.getStringType();
@@ -2145,7 +2132,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void updateColumnHeadingsForTraceValues() {
-
 		resetSpreadsheetColumnHeadings();
 
 		for (int i = 0; i < elements.size(); i++) {
@@ -2228,7 +2214,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public TraceModesEnum getTraceModes() {
-
 		if (traceModes != null) {
 			return traceModes;
 		}
@@ -2252,7 +2237,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String getTraceDialogAsValues() {
-
 		StringBuilder sb = new StringBuilder();
 
 		if (getParentAlgorithm() != null
@@ -2358,7 +2342,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
-
 		labelOffsetX = x;
 		labelOffsetY = y;
 	}
@@ -2410,7 +2393,6 @@ public class GeoList extends GeoElement
 	 * @return mean or Double.NAN
 	 */
 	public double mean() {
-
 		if (size() == 0) {
 			return Double.NaN;
 		}
@@ -2439,7 +2421,6 @@ public class GeoList extends GeoElement
 	 * @return boolean true if AlgoLocusList should be used.
 	 */
 	public boolean shouldUseAlgoLocusList(boolean locusCalling) {
-
 		GeoPoint[] minParArray = new GeoPoint[this.size()];
 		GeoPoint[] maxParArray = new GeoPoint[this.size()];
 		GeoPoint[] minParStatic = new GeoPoint[this.size()];
@@ -2797,7 +2778,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
-
 		if (forceReflexAngle) {
 			setAngleStyle(AngleStyle.ISREFLEX);
 		} else if (angleStyle == AngleStyle.ISREFLEX) {
@@ -2809,7 +2789,6 @@ public class GeoList extends GeoElement
 				((AngleProperties) geo).setForceReflexAngle(forceReflexAngle);
 			}
 		}
-
 	}
 
 	@Override

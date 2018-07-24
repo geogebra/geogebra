@@ -138,7 +138,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 *            Array of coefficients
 	 */
 	final public void setMatrix(double[] coeffs) {
-
 		for (int i = 0; i < 10; i++) {
 			matrix[i] = coeffs[i];
 		}
@@ -152,7 +151,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	final public void setMatrixFromXML(double[] coeffs) {
-
 		for (int i = 0; i < 10; i++) {
 			matrix[i] = coeffs[i];
 		}
@@ -439,7 +437,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * @return planes (for degenerate cases)
 	 */
 	public GeoPlane3D[] getPlanes() {
-
 		if (planes == null) {
 			planes = new GeoPlane3D[2];
 			planes[0] = new GeoPlane3D(cons);
@@ -1856,7 +1853,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public String getTypeStringForAlgebraView() {
-
 		if (getParentAlgorithm() instanceof AlgoDependentQuadric3D) {
 			return "Quadric";
 		}
@@ -1871,7 +1867,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void set(GeoElementND geo) {
-
 		GeoQuadric3D quadric = (GeoQuadric3D) geo;
 
 		// copy everything
@@ -2014,7 +2009,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void evaluatePoint(double u, double v, Coords point) {
-
 		switch (type) {
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
@@ -2287,7 +2281,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public double getMinParameter(int index) {
-
 		switch (type) {
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
@@ -2357,7 +2350,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public double getMaxParameter(int index) {
-
 		switch (type) {
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
@@ -2793,7 +2785,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public boolean isInRegion(GeoPointND P) {
-
 		return isInRegion(P.getCoordsInD3());
 	}
 
@@ -2879,7 +2870,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
-
 		GeoPoint3D p1 = (GeoPoint3D) P;
 
 		RegionParameters rp = P.getRegionParameters();
@@ -3007,7 +2997,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void regionChanged(GeoPointND P) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(P)
@@ -3089,7 +3078,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
-
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
@@ -3115,7 +3103,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void rotate(NumberValue r) {
-
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
@@ -3185,7 +3172,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void rotate(NumberValue r, GeoLineND axis) {
-
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
@@ -3215,7 +3201,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void mirror(Coords point) {
-
 		// eigen matrix
 		eigenMatrix.mulInside(-1);
 		eigenMatrix.addToOrigin(point.mul(2));
@@ -3248,7 +3233,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void mirror(GeoLineND mirrorLine) {
-
 		Coords point = mirrorLine.getStartInhomCoords();
 		Coords direction = mirrorLine.getDirectionInD3().normalized();
 
@@ -3290,7 +3274,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
-
 		Coords vn = plane.getDirectionInD3().normalized();
 
 		// midpoint
@@ -3335,7 +3318,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-
 		double r = rval.getDouble();
 
 		// midpoint
@@ -3381,7 +3363,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
 			line.dilate(rval, S);
 		}
-
 	}
 
 	// ///////////////////////////////////

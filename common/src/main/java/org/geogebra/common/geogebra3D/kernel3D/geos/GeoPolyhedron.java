@@ -247,7 +247,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 *            vertex
 	 */
 	public void addPointToCurrentFace(GeoPointND point) {
-
 		currentFace.add(point);
 	}
 
@@ -316,7 +315,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return polygon corresponding
 	 */
 	public GeoPolygon3D createPolygon(int index) {
-
 		currentFace = polygonsDescriptions.get(index);
 
 		// vertices of the face
@@ -367,7 +365,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return the polygon
 	 */
 	public GeoPolygon3D createPolygon(GeoPointND[] points, int index) {
-
 		AlgoPolygon3D algo = new AlgoPolygon3D(cons, points, false, this);
 		cons.removeFromConstructionList(algo);
 
@@ -522,7 +519,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return segment with given endpoints or null if not found
 	 */
 	public GeoSegmentND getSegment(GeoPointND startPoint, GeoPointND endPoint) {
-
 		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
@@ -560,7 +556,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 *            output labels, only first one is used
 	 */
 	public void defaultLabels(String[] labels) {
-
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
@@ -606,7 +601,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 *            labels for this, points, faces, edges
 	 */
 	public void initLabels(String[] labels) {
-
 		// Application.printStacktrace("");
 
 		if (cons.isSuppressLabelsActive()) { // for redefine
@@ -803,7 +797,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public GeoSegmentND[] getSegments() {
-
 		GeoSegmentND[] ret = new GeoSegmentND[segments.size()];
 		int i = 0;
 		for (GeoSegment3D segment : segments.values()) {
@@ -817,7 +810,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return polyhedron's edges
 	 */
 	public GeoSegment3D[] getSegments3D() {
-
 		GeoSegment3D[] ret = new GeoSegment3D[segments.size()];
 		int i = 0;
 		for (GeoSegment3D segment : segments.values()) {
@@ -934,7 +926,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
-
 		super.setEuclidianVisible(visible);
 
 		if (cons.isFileLoading()) {
@@ -960,7 +951,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void setObjColor(GColor color) {
-
 		super.setObjColor(color);
 
 		if (cons.isFileLoading()) {
@@ -1026,7 +1016,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void setColorFunction(final GeoList col) {
-
 		super.setColorFunction(col);
 
 		if (polygons == null || cons.isFileLoading()) {
@@ -1208,7 +1197,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void setAlphaValue(double alpha) {
-
 		super.setAlphaValue(alpha);
 
 		if (cons.isFileLoading()) {
@@ -1520,7 +1508,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void remove() {
-
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.removeMeta(this);
 		}
@@ -1576,7 +1563,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return area
 	 */
 	public double getArea() {
-
 		// if parent algo is prism/pyramid, update area from faces
 		AlgoElement algo = getParentAlgorithm();
 		if (algo instanceof AlgoPolyhedronPoints) {
@@ -1618,7 +1604,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void setTrace(boolean trace) {
-
 		this.trace = trace;
 
 		if (polygons == null) {
@@ -1650,7 +1635,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
-
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
 				point.rotate(r, S);
@@ -1662,7 +1646,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void rotate(NumberValue r) {
-
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
 				point.rotate(r);
@@ -1688,7 +1671,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
-
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
 				point.rotate(r, line);
@@ -1706,7 +1688,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void translate(Coords v) {
-
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
 				point.translate(v);
@@ -1732,7 +1713,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void mirror(Coords Q) {
-
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
 				point.mirror(Q);
@@ -1770,7 +1750,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
 				point.dilate(rval, S);
@@ -1872,7 +1851,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void pathChanged(GeoPointND PI) {
-
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(PI)) {
@@ -1915,7 +1893,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void pointChanged(GeoPointND PI) {
-
 		// TODO remove that
 		if (!(PI instanceof GeoPoint3D)) {
 			return;
@@ -2000,7 +1977,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
-
 		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this) {
@@ -2054,7 +2030,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void updateVisualStyle(GProperty prop) {
-
 		super.updateVisualStyle(prop);
 
 		for (GeoPoint3D point : pointsCreated) {
