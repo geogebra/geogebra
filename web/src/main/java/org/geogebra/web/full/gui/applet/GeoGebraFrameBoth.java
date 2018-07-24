@@ -14,6 +14,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.HeaderPanelDeck;
 import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
@@ -215,8 +216,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final int oldWidth = this.getOffsetWidth();
 		childVisible = new boolean[count];
 		for (int i = 0; i < count; i++) {
-			childVisible[i] = frameLayout.getWidget(i).isVisible();
-			frameLayout.getWidget(i).setVisible(false);
+			if (!(frameLayout.getWidget(i) instanceof FloatingMenuPanel)) {
+				childVisible[i] = frameLayout.getWidget(i).isVisible();
+				frameLayout.getWidget(i).setVisible(false);
+			}
 		}
 		frameLayout.add(bg);
 		bg.setHeight(oldHeight + "px");
@@ -244,7 +247,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		ToolTipManagerW.hideAllToolTips();
 		final int count = getWidgetCount();
 		for (int i = 0; i < count; i++) {
-			if (childVisible.length > i) {
+			if (childVisible.length > i
+					&& !(getWidget(i) instanceof FloatingMenuPanel)) {
 				getWidget(i).setVisible(childVisible[i]);
 			}
 		}
