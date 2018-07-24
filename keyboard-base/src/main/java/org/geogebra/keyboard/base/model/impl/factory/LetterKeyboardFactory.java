@@ -19,19 +19,46 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class LetterKeyboardFactory implements KeyboardModelFactory {
 
+	/** Action that switches to another keyboard */
+	public static final int ACTION_SPECIAL_SYMBOLS = 0;
+	/** Action that turns caps lock on */
+	public static final int ACTION_SHIFT = 1;
+
+	private static final String DEFAULT_CONTROL = ",'";
 	private static final double MIN_PADDING_WEIGHT = 1.e-4;
+	private static final float LARGE_ACTION_WEIGHT = 1.2f;
+	private static final int MAX_CONTROL_ROW_LENGTH = 5;
 	private static final String EXCEPTION_MESSAGE = "Wrong keyboard definition: too long row 3.";
 	private String topRow;
 	private String middleRow;
 	private String bottomRow;
-	private boolean withSpecialSymbols;
+	private String controlRow;
+	private Integer bottomActionLeft = ACTION_SHIFT;
+	private Integer controlActionLeft = ACTION_SPECIAL_SYMBOLS;
 
 	/**
-	 * Calls {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, boolean)}
+	 * Calls
+	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, boolean)}
 	 * with parameter {@code withSpecialSymbols = true}.
+	 *
+	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
+	 *   String, String, Integer, Integer)}
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow) {
 		setKeyboardDefinition(topRow, middleRow, bottomRow, true);
+	}
+
+	/**
+	 * Calls
+	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, String, boolean)}
+	 * with parameter {@code controlRow = ",'"}.
+	 *
+	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
+	 *   String, String, Integer, Integer)}
+	 */
+	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
+			withSpecialSymbols) {
+		setKeyboardDefinition(topRow, middleRow, bottomRow, DEFAULT_CONTROL, withSpecialSymbols);
 	}
 
 	/**
@@ -41,13 +68,35 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * @param middleRow a string containing the characters for the middle row
 	 * @param bottomRow a string containing the characters for the bottom row
 	 * @param withSpecialSymbols true iff special symbols should be included
+	 *
+	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
+	 *   String, String, Integer, Integer)}
 	 */
-	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
-			withSpecialSymbols) {
+	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
+			controlRow, boolean withSpecialSymbols) {
+		Integer controlAction = withSpecialSymbols ? ACTION_SPECIAL_SYMBOLS : null;
+		setKeyboardDefinition(topRow, middleRow, bottomRow, controlRow,
+				ACTION_SHIFT, controlAction);
+	}
+
+	/**
+	 * Sets the definition for the created keyboard model.
+	 *
+	 * @param topRow a string containing the characters for the top row
+	 * @param middleRow a string containing the characters for the middle row
+	 * @param bottomRow a string containing the characters for the bottom row
+	 * @param controlRow a string containing the characters for the control row
+	 * @param bottomActionLeft constant action that appears in the bottom row
+	 * @param controlActionLeft constant action that appears in the control row
+	 */
+	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
+			controlRow, Integer bottomActionLeft, Integer controlActionLeft) {
 		this.topRow = topRow;
 		this.middleRow = middleRow;
 		this.bottomRow = bottomRow;
-		this.withSpecialSymbols = withSpecialSymbols;
+		this.controlRow = controlRow;
+		this.bottomActionLeft = bottomActionLeft;
+		this.controlActionLeft = controlActionLeft;
 	}
 
 	@Override
@@ -55,36 +104,38 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		int topRowLength = topRow.length();
 		int middleRowLength = middleRow.length();
 		int bottomRowLength = bottomRow.length();
+		int controlRowLength = controlRow.length();
+		int bottomSpecialLength = bottomActionLeft == null ? 1 : 2;
+		// this contains left, right and return enter
+		int controlSpecialLength = (controlActionLeft == null ? 0 : 1) + 3;
 
 		// sanity checks
-		if (bottomRowLength > topRowLength - 1
-				&& bottomRowLength > middleRowLength - 1) {
+		if (bottomRowLength > topRowLength && bottomRowLength > middleRowLength) {
 			throw new RuntimeException(EXCEPTION_MESSAGE);
 		}
-
-		int rowWeightSum;
-		if (topRowLength == middleRowLength
-				&& middleRowLength - 1 == bottomRowLength) {
-			rowWeightSum = middleRowLength + 1;
-		} else {
-			rowWeightSum = Math.max(topRowLength, middleRowLength);
+		if (controlRowLength > MAX_CONTROL_ROW_LENGTH) {
+			throw new RuntimeException("Control row too long");
 		}
+
+		int rowWeightSum = Math.max(topRowLength, middleRowLength);
+		rowWeightSum = Math.max(rowWeightSum, bottomRowLength + bottomSpecialLength);
 
 		float topRowPadding = (rowWeightSum - topRowLength) / 2.0f;
 		float middleRowPadding = (rowWeightSum - middleRowLength) / 2.0f;
 
 		float actionButtonSize;
 		float actionButtonMargin;
-		if (rowWeightSum - bottomRowLength == 2) {
+		if (rowWeightSum - bottomRowLength - bottomSpecialLength == 0) {
 			actionButtonSize = 1.0f;
 			actionButtonMargin = 0.0f;
-		} else if (rowWeightSum - bottomRowLength > 2) {
-			actionButtonSize = 1.2f;
-			actionButtonMargin = (rowWeightSum - bottomRowLength - 2.4f) / 2.0f;
+		} else if (rowWeightSum - bottomRowLength - bottomSpecialLength > 0) {
+			actionButtonSize = LARGE_ACTION_WEIGHT;
+			actionButtonMargin = (rowWeightSum - bottomRowLength -
+					bottomSpecialLength * LARGE_ACTION_WEIGHT) / bottomSpecialLength;
 		} else {
 			throw new RuntimeException(EXCEPTION_MESSAGE);
 		}
-		float spaceSize = rowWeightSum - 5;
+		float spaceSize = rowWeightSum - controlRowLength - controlSpecialLength;
 
 		KeyboardModelImpl letterKeyboard = new KeyboardModelImpl();
 
@@ -95,8 +146,9 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 
 		RowImpl bottomRowImpl = letterKeyboard.nextRow(rowWeightSum);
 
-		addConstantCustomButton(bottomRowImpl, buttonFactory,
-				Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
+		if (bottomActionLeft != null) {
+			addActionButton(bottomRowImpl, buttonFactory, bottomActionLeft, actionButtonSize);
+		}
 		addButton(bottomRowImpl,
 				buttonFactory.createEmptySpace(actionButtonMargin));
 		addButtons(bottomRowImpl, buttonFactory, bottomRow);
@@ -106,24 +158,17 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 				Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE,
 				actionButtonSize);
 
-		RowImpl controlRow = letterKeyboard.nextRow(rowWeightSum);
-		if (withSpecialSymbols) {
-			StringBuilder builder = new StringBuilder();
-			builder.append(HASHTAG);
-			builder.append(AMPERSAND);
-			builder.append(NOT_SIGN);
-			addCustomButton(controlRow, buttonFactory, builder.toString(),
-					Action.SWITCH_TO_SPECIAL_SYMBOLS);
-			spaceSize -= 1;
+		RowImpl controlRowImpl = letterKeyboard.nextRow(rowWeightSum);
+		if (controlActionLeft != null) {
+			addActionButton(controlRowImpl, buttonFactory, controlActionLeft, actionButtonSize);
 		}
-		addInputButton(controlRow, buttonFactory, ",");
-		addInputButton(controlRow, buttonFactory, "'");
-		addInputButton(controlRow, buttonFactory, " ", spaceSize);
-		addConstantCustomButton(controlRow, buttonFactory, Resource.LEFT_ARROW,
+		addButtons(controlRowImpl, buttonFactory, controlRow);
+		addInputButton(controlRowImpl, buttonFactory, " ", spaceSize);
+		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.LEFT_ARROW,
 				Action.LEFT_CURSOR);
-		addConstantCustomButton(controlRow, buttonFactory, Resource.RIGHT_ARROW,
+		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.RIGHT_ARROW,
 				Action.RIGHT_CURSOR);
-		addConstantCustomButton(controlRow, buttonFactory,
+		addConstantCustomButton(controlRowImpl, buttonFactory,
 				Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
 		return letterKeyboard;
@@ -142,6 +187,23 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			String definition) {
 		for (int i = 0; i < definition.length(); i++) {
 			addButtonCharacter(rowImpl, buttonFactory, definition.charAt(i));
+		}
+	}
+
+	private void addActionButton(RowImpl rowImpl, ButtonFactory buttonFactory, Integer action,
+			float actionButtonSize) {
+		switch (action) {
+			case ACTION_SHIFT:
+				addConstantCustomButton(rowImpl, buttonFactory,
+						Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
+				break;
+			case ACTION_SPECIAL_SYMBOLS:
+				StringBuilder builder = new StringBuilder();
+				builder.append(HASHTAG);
+				builder.append(AMPERSAND);
+				builder.append(NOT_SIGN);
+				addCustomButton(rowImpl, buttonFactory, builder.toString(),
+						Action.SWITCH_TO_SPECIAL_SYMBOLS);
 		}
 	}
 
