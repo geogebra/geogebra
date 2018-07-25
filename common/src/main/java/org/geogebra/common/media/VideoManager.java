@@ -153,4 +153,14 @@ public interface VideoManager {
 	 * 
 	 */
 	GeoVideo createVideo(Construction c, VideoURL videoURL);
+
+	/**
+	 * Cache video players temporarily
+	 */
+	void storeVideos();
+
+	/**
+	 * Remove unused videos from cache.
+	 */
+	void clearStoredVideos();
 }

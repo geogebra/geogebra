@@ -4277,13 +4277,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (undoActive && cons.getUndoManager().redoPossible()) {
 			app.batchUpdateStart();
 			app.startCollectingRepaints();
-			app.getSelectionManager().storeSelectedGeosNames();
-			app.getCompanion().storeViewCreators();
 			resetBeforeReload();
 			cons.redo();
-			notifyReset();
-			app.getCompanion().recallViewCreators();
-			app.getSelectionManager().recallSelectedGeosNames(this);
+			restoreAfterReload();
 			app.stopCollectingRepaints();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
@@ -4294,10 +4290,26 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	private void resetBeforeReload() {
+		app.getSelectionManager().storeSelectedGeosNames();
+		app.getCompanion().storeViewCreators();
 		notifyReset();
 		clearJustCreatedGeosInViews();
 		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		getApplication().clearMedia();
+		if (getApplication().getVideoManager() != null) {
+			getApplication().getVideoManager().storeVideos();
+		}
+		if (getApplication().getEmbedManager() != null) {
+			getApplication().getEmbedManager().removeAll();
+		}
+	}
+
+	private void restoreAfterReload() {
+		notifyReset();
+		app.getCompanion().recallViewCreators();
+		app.getSelectionManager().recallSelectedGeosNames(this);
+		if (getApplication().getVideoManager() != null) {
+			getApplication().getVideoManager().clearStoredVideos();
+		}
 	}
 
 	/**
@@ -4369,13 +4381,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			if (cons.getUndoManager().undoPossible()) {
 				app.batchUpdateStart();
 				app.startCollectingRepaints();
-				app.getSelectionManager().storeSelectedGeosNames();
-				app.getCompanion().storeViewCreators();
 				resetBeforeReload();
 				cons.undo();
-				notifyReset();
-				app.getCompanion().recallViewCreators();
-				app.getSelectionManager().recallSelectedGeosNames(this);
+				restoreAfterReload();
 
 				// repaint needed for last undo in second EuclidianView (bugfix)
 				if (!undoPossible()) {

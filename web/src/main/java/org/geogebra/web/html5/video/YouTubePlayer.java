@@ -44,7 +44,7 @@ public class YouTubePlayer extends VideoPlayer {
 
 	@Override
 	protected void createGUI() {
-		frame = new PersistableFrame(getEmbedUrl());
+		frame = new PersistableFrame(video.getEmbeddedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
 	}
 
@@ -179,6 +179,11 @@ public class YouTubePlayer extends VideoPlayer {
 	@Override
 	public Widget asWidget() {
 		return frame;
+	}
+
+	@Override
+	public boolean matches(GeoVideo video2) {
+		return video2.getEmbeddedUrl().equals(video2.getEmbeddedUrl());
 	}
 }
 

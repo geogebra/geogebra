@@ -25,7 +25,6 @@ public abstract class VideoPlayer implements IsWidget {
 
 	/** Video geo to play */
 	protected GeoVideo video;
-	private String embedUrl = null;
 	private JavaScriptObject ytPlayer;
 	private String playerId;
 	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
@@ -141,12 +140,11 @@ public abstract class VideoPlayer implements IsWidget {
 	}
 
 	/**
-	 * 
-	 * @return the embedded URL of the video if any.
+	 * @param video2
+	 *            other video
+	 * @return whether the player is compatible with the oter video
 	 */
-	public String getEmbedUrl() {
-		return video.getEmbeddedUrl();
-	}
+	public abstract boolean matches(GeoVideo video2);
 
 }
 

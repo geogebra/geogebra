@@ -94,4 +94,9 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 						"Something went wrong. Please, check "
 						+ "if you are online, the link exists or have permission to the video"));
 	}
+
+	@Override
+	public boolean matches(GeoVideo video2) {
+		return video.getSrc().equals(video2.getSrc());
+	}
 }

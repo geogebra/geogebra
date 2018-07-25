@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.video;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class VideoManagerW implements VideoManager {
 	private boolean previewOnly = false;
 
 	private Map<GeoVideo, VideoPlayer> players = new HashMap<>();
+	private ArrayList<VideoPlayer> cache = new ArrayList<>();
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -107,6 +109,16 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void addPlayer(final GeoVideo video) {
+		// use int instead of iterator to prevent concurrent access
+		for (int i = 0; i < cache.size(); i++) {
+			VideoPlayer other = cache.get(i);
+			if (other.matches(video)) {
+				players.put(video, other);
+				other.asWidget().setVisible(true);
+				cache.remove(other);
+				return;
+			}
+		}
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
 		final VideoPlayer player = createPlayer(video, players.size());
@@ -165,9 +177,19 @@ public class VideoManagerW implements VideoManager {
 			}
 		}
 
+		players.clear();
 		if (app != null) {
 			app.getActiveEuclidianView().getEuclidianController().clearSelectionAndRectangle();
 		}
+	}
+
+	@Override
+	public void storeVideos() {
+		for (VideoPlayer player : players.values()) {
+			player.asWidget().setVisible(false);
+			cache.add(player);
+		}
+		players.clear();
 	}
 
 	@Override
@@ -206,5 +228,14 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public String getMebisId(String url) {
 		return MediaURLParser.getMebisId(url);
+	}
+
+	@Override
+	public void clearStoredVideos() {
+		for (VideoPlayer player : cache) {
+			player.asWidget().removeFromParent();
+		}
+		cache.clear();
+
 	}
 }
