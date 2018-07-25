@@ -12,6 +12,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
  */
 public class DrawBackground {
 	private EuclidianView view;
+	private EuclidianSettings settings;
 	private static final int RULER_DISTANCE = 50;
 
 	/**
@@ -21,6 +22,7 @@ public class DrawBackground {
 	 */
 	public DrawBackground(EuclidianView euclidianView) {
 		view = euclidianView;
+		settings = view.getSettings();
 	}
 
 	/**
@@ -29,10 +31,23 @@ public class DrawBackground {
 	 * @param g2
 	 */
 	public void draw(GGraphics2D g2) {
-		drawHorizontalLines(g2, 0, 0);
+		switch (settings.getBackgroundType()) {
+		case RULER:
+			drawHorizontalLines(g2, 0, 0);
+			break;
+		case SQUARE_BIG:
+			drawSquaredBackground(g2, 0, 0);
+			break;
+		case SQUARE_SMALL:
+			break;
+		case SVG:
+			break;
+		default:
+			break;
+		}
+
 	}
 	private void drawHorizontalLines(GGraphics2D g2, double xCrossPix1, double yCrossPix1) {
-		EuclidianSettings settings = view.getSettings();
 		double xCrossPix = xCrossPix1;
 
 		double gapY = settings.getBackgroundRulerGap();
@@ -44,12 +59,40 @@ public class DrawBackground {
 		final double x = xCrossPix + view.getXZero();
 		double yEnd = view.getHeight();
 		double y = start + gapY;
-		double width = view.getWidth();
+		double width = view.getWidth() - (view.getWidth() % gapY);
 		while (y <= yEnd) {
 			addStraightLineToGeneralPath(g2, x, y, x + width, y);
 			y += gapY;
 		}
 		g2.endAndDrawGeneralPath();
+	}
+
+	private void drawVerticalLines(GGraphics2D g2, double xCrossPix1,
+			double yCrossPix1) {
+		double xCrossPix = xCrossPix1;
+
+		double gapY = settings.getBackgroundRulerGap();
+		double start = view.getYZero() % gapY;
+
+		// draw main grid
+		g2.setColor(settings.getBgRulerColor());
+		g2.startGeneralPath();
+		double x = xCrossPix + view.getXZero();
+		double xEnd = x + view.getWidth();
+		double y = start + gapY;
+		double height = view.getHeight();
+
+		while (x <= xEnd) {
+			addStraightLineToGeneralPath(g2, x, y, x, y + height);
+			x += gapY;
+		}
+		g2.endAndDrawGeneralPath();
+	}
+
+	private void drawSquaredBackground(GGraphics2D g2, double xCrossPix1,
+			double yCrossPix1) {
+		drawHorizontalLines(g2, xCrossPix1, yCrossPix1);
+		drawVerticalLines(g2, xCrossPix1, yCrossPix1);
 	}
 
 	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,
