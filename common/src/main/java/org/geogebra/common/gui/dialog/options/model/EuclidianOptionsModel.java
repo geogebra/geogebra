@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -649,6 +650,18 @@ public class EuclidianOptionsModel {
 		}
 	}
 
+	public void fillRulingCombo() {
+		Localization loc = app.getLocalization();
+		String[] rulerTypes = { loc.getMenuDefault("None", " "),
+				loc.getMenuDefault("Ruled", "Ruled"),
+				loc.getMenuDefault("Squared5", "Squared (5 mm)"),
+				loc.getMenuDefault("Squared1", "Squared (1 mm)") };
+
+		for (String item : rulerTypes) {
+			listener.addRulerTypeItem(item);
+		}
+	}
+
 	public void fillAngleOptions() {
 		String[] angleOptions = { Unicode.PI_STRING + "/12",
 				Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
@@ -774,6 +787,8 @@ public class EuclidianOptionsModel {
 
 		GColor getEuclidianBackground(int viewNumber);
 
+		void addRulerTypeItem(String item);
+
 		void enableAxesRatio(boolean value);
 
 		void setMinMaxText(String minX, String maxX, String minY, String maxY);
@@ -808,6 +823,30 @@ public class EuclidianOptionsModel {
 		void selectGridStyle(int style);
 
 		void addAngleOptionItem(String item);
+	}
+
+	/**
+	 * Set ruler type from dropdown.
+	 * 
+	 * @param index
+	 *            the selected index
+	 */
+	public void appyRulerType(int index) {
+		EuclidianSettings settings = view.getSettings();
+		switch (index) {
+		case 0:
+			settings.setBackgroundType(BackgroundType.NONE);
+			break;
+		case 1:
+			settings.setBackgroundType(BackgroundType.RULER);
+			break;
+		case 2:
+			settings.setBackgroundType(BackgroundType.SQUARE_SMALL);
+			break;
+		case 3:
+			settings.setBackgroundType(BackgroundType.SQUARE_BIG);
+			break;
+		}
 	}
 
 }

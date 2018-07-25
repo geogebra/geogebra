@@ -8,6 +8,7 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -101,6 +102,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private FormLabel lbPointCapturing;
 		private ListBox pointCapturingStyleList;
 		ListBox lbGridType;
+		ListBox lbRulerType = null;
 		CheckBox cbGridManualTick;
 		NumberListBox ncbGridTickX;
 		NumberListBox ncbGridTickY;
@@ -109,6 +111,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private FormLabel gridLabel2;
 		private FormLabel gridLabel3;
 		protected FormLabel lblGridType;
+		private FormLabel lblRulerType;
 		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
@@ -134,6 +137,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(mainPanel);
 			initGridTypePanel();
 			initGridStylePanel();
+			initRulerType(mainPanel);
 		}
 		
 		/**
@@ -333,6 +337,24 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			typePanel.setStyleName("panelIndent");
 			mainPanel.add(typePanel);
 		}
+
+		private void initRulerType(FlowPanel panel) {
+			if (!(app.has(Feature.MOW_BACKGROUND) && app.isWhiteboardActive())) {
+				return;
+			}
+			lbRulerType = new ListBox();
+			lblRulerType = new FormLabel("Ruling").setFor(lbRulerType);
+			lbRulerType.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					model.appyRulerType(lbRulerType.getSelectedIndex());
+					updateView();
+					app.storeUndoInfo();
+				}
+			});
+			panel.add(LayoutUtilW.panelRowIndent(lblRulerType, lbRulerType));
+		}
 		
 		protected void addGridType(FlowPanel gridTickAnglePanel) {
 			gridTickAnglePanel.add(lbGridType);
@@ -453,6 +475,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
 			cbBoldGrid.setText(loc.getMenu("Bold"));
+
+			if (lbRulerType != null) {
+				idx = lbRulerType.getSelectedIndex();
+				lbRulerType.clear();
+				model.fillRulingCombo();
+				lbRulerType.setSelectedIndex(idx);
+			}
 		}
 		
 		protected void setGridTypeLabel() {
@@ -516,6 +545,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ImageOrText content = new ImageOrText();
 			content.setBgColor(color);
 			btGridColor.setIcon(content);
+		}
+
+		public void addRulerTypeItem(String item) {
+			lbRulerType.addItem(item);
 		}
 	
 	}
@@ -829,6 +862,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void setTextColon(FormLabel cb, String string) {
 		cb.setText(loc.getMenu(string) + ":");
+	}
+
+	@Override
+	public void addRulerTypeItem(String item) {
+		if (gridTab == null) {
+			return;
+		}
+
+		gridTab.addRulerTypeItem(item);
 	}
 }
 

@@ -3,10 +3,13 @@ package org.geogebra.common.euclidian.background;
 /**
  * Types of MOW backgrounds.
  * 
- * @author laszlo
+ * @author laszlso
  *
  */
 public enum BackgroundType {
+	/** no ruler as background */
+	NONE,
+
 	/** horizontal lines */
 	RULER,
 
