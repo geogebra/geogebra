@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.AsyncOperation;
@@ -57,7 +58,7 @@ public class VideoInputDialog extends MediaDialog {
 	 */
 	void addVideo(VideoURL videoURL) {
 		resetError();
-		appW.getGuiManager().addVideo(videoURL);
+		new MediaFactory(appW).addVideo(videoURL);
 		hide();
 	}
 }

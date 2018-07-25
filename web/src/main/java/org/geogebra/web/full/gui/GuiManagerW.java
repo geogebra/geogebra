@@ -26,11 +26,9 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -38,7 +36,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -59,7 +56,6 @@ import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
@@ -2456,27 +2452,6 @@ public class GuiManagerW extends GuiManager
 			return getAlgebraInput().getTextField();
 		}
 		return ml;
-	}
-
-	@Override
-	public void addAudio(String url) {
-		EuclidianView ev = app.getActiveEuclidianView();
-		GeoAudio audio = new GeoAudio(kernel.getConstruction(), url);
-		audio.setAbsoluteScreenLoc((ev.getWidth() - audio.getWidth()) / 2,
-				(ev.getHeight() - audio.getHeight()) / 2);
-		ev.add(audio);
-		app.getActiveEuclidianView().repaint();
-	}
-
-	@Override
-	public void addVideo(VideoURL videoUrl) {
-		GeoGebraFrameBoth appFrame = getApp().getAppletFrame();
-		EuclidianView ev = app.getActiveEuclidianView();
-		GeoVideo video = app.getVideoManager().createVideo(kernel.getConstruction(), videoUrl);
-		video.setBackground(true);
-		video.setAbsoluteScreenLoc((appFrame.getOffsetWidth() - video.getWidth()) / 2,
-				(appFrame.getOffsetHeight() - video.getHeight()) / 2);
-		ev.add(video);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
@@ -51,7 +52,7 @@ public class AudioInputDialog extends MediaDialog {
 	 */
 	void addAudio() {
 		resetError();
-		appW.getGuiManager().addAudio(inputField.getText());
+		new MediaFactory(appW).addAudio(inputField.getText());
 		hide();
 	}
 }
