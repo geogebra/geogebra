@@ -104,7 +104,6 @@ public class AngleInputDialogW extends InputDialogW {
 			afterActionPerformed(false);
 			// do nothing on uninitializedValue
 		}
-
 	}
 
 	void afterActionPerformed(boolean finished) {
@@ -114,6 +113,6 @@ public class AngleInputDialogW extends InputDialogW {
 		} else {
 			wrappedPopup.show();
 		}
-
 	}
+
 }

@@ -83,26 +83,23 @@ public class ColorChooserDialog extends DialogBoxW
 			@Override
 			public void onClearBackground() {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void onBackgroundSelected() {
 				// TODO Auto-generated method stub
-				
 			}
-			
+
 			@Override
 			public void onAlphaChange() {
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
 			public void onBarSelected() {
 				// TODO Auto-generated method stub
-
 			}
+
 		});
 	}
 	
@@ -113,27 +110,23 @@ public class ColorChooserDialog extends DialogBoxW
 		btnOk.setText(localize("OK"));
 		btnCancel.setText(localize("Cancel"));
 		btnReset.setText(localize("Reset"));
-    }
+	}
 
 	private String localize(final String id) {
 		return app.getLocalization().getMenu(id);
 	}
-	
+
 	public GColor getSelectedColor() {
-	    return selectedColor;
-    }
-	
+		return selectedColor;
+	}
+
 	public void setSelectedColor(GColor selectedColor) {
-	    this.selectedColor = selectedColor;
-    }
-	
-	public ColorChangeHandler getHandler() {
-	    return handler;
-    }
-	
+		this.selectedColor = selectedColor;
+	}
+
 	public void setHandler(ColorChangeHandler handler) {
-	    this.handler = handler;
-    }
+		this.handler = handler;
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {

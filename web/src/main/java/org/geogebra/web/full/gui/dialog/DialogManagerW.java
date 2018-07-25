@@ -119,9 +119,10 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(GPoint position,
+			GeoBoolean bool) {
 		CheckboxCreationDialogW dlg = new CheckboxCreationDialogW((AppW) app,
-				loc, bool);
+				position, bool);
 		dlg.show();
 	}
 

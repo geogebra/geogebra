@@ -187,7 +187,7 @@ public abstract class MediaDialog extends OptionDialog
 		String url = inputField.getText().trim();
 		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
 
-		if (!url.startsWith(HTTPS)) {
+		if (!url.startsWith(HTTPS) && !url.startsWith("data:")) {
 			value = HTTPS + value;
 		}
 		return value;

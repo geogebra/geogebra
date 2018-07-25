@@ -45,13 +45,13 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class TextEditPanel extends VerticalPanel
 		implements ClickHandler, FocusHandler, ITextEditPanel, SetLabels {
 
-	protected AppW app;
-	protected DynamicTextProcessor dTProcessor;
+	private AppW app;
+	private DynamicTextProcessor dTProcessor;
 	protected GeoTextEditor editor;
-	protected FlowPanel toolBar;
-	protected TextPreviewPanelW previewer;
+	private FlowPanel toolBar;
+	private TextPreviewPanelW previewer;
 
-	protected ToggleButton btnInsert;
+	private ToggleButton btnInsert;
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
@@ -250,15 +250,15 @@ public class TextEditPanel extends VerticalPanel
 		return btnLatex.getValue();
 	}
 
-	public boolean isSerif() {
+	private boolean isSerif() {
 		return btnSerif.getValue();
 	}
 
-	public boolean isBold() {
+	private boolean isBold() {
 		return btnBold.getValue();
 	}
 
-	public boolean isItalic() {
+	private boolean isItalic() {
 		return btnItalic.getValue();
 	}
 
@@ -408,11 +408,7 @@ public class TextEditPanel extends VerticalPanel
 		editor.insertTextString(text, isLatex);
 	}
 
-	public void updateFonts() {
-		editor.updateFonts();
-	}
-
-	public int getFontStyle() {
+	private int getFontStyle() {
 		return TextOptionsModel.getFontStyle(isBold(), isItalic());
 	}
 
@@ -421,6 +417,22 @@ public class TextEditPanel extends VerticalPanel
 		btnLatex.setValue(true);
 		editGeo.setLaTeX(true, false);
 		updatePreviewPanel();
-
 	}
+
+	/**
+	 * Apply style to text
+	 * 
+	 * @param t
+	 *            text to be updated
+	 */
+	public void updateTextStyle(GeoText t) {
+		t.setLaTeX(isLatex(), true);
+		t.setFontStyle(getFontStyle());
+		t.setSerifFont(isSerif());
+		// make sure for new LaTeX texts we get nice "x"s
+		if (isLatex()) {
+			t.setSerifFont(true);
+		}
+	}
+
 }

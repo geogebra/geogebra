@@ -152,13 +152,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 			Log.debug("null editor");
 			return;
 		}
-		t.setLaTeX(editor.isLatex(), true);
-		t.setFontStyle(editor.getFontStyle());
-		t.setSerifFont(editor.isSerif());
-		// make sure for new LaTeX texts we get nice "x"s
-		if (editor.isLatex()) {
-			t.setSerifFont(true);
-		}
+		editor.updateTextStyle(t);
 	}
 
 	/**

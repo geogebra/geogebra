@@ -883,7 +883,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_PDF:
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:
-			return "Extension";
+			return "Web";
 		case EuclidianConstants.MODE_SELECT:
 			return "Select";
 

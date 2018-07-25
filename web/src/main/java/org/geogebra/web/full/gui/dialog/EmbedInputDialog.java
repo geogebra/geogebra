@@ -27,7 +27,7 @@ public class EmbedInputDialog extends MediaDialog {
 	public void setLabels() {
 		super.setLabels();
 		// dialog title
-		getCaption().setText(appW.getLocalization().getMenu("Audio"));
+		getCaption().setText(appW.getLocalization().getMenu("Web"));
 	}
 
 	@Override
