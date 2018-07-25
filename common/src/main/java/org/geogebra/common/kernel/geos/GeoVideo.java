@@ -126,7 +126,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 			youtubeId = app.getVideoManager().getYouTubeId(getSrc());
 			previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
 		} else if (getFormat() == MediaFormat.VIDEO_MEBIS) {
-			Log.debug("constructIds - getSrc" + getSrc());
 			String id = app.getVideoManager().getMebisId(getSrc());
 			previewUrl = MEBIS_PREVIEW.replace("%ID%", id);
 		}
