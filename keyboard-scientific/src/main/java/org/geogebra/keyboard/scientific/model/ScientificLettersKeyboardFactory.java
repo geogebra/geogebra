@@ -1,5 +1,6 @@
 package org.geogebra.keyboard.scientific.model;
 
+import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 
 import java.util.Arrays;
@@ -7,30 +8,71 @@ import java.util.Arrays;
 public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 
 	private static final String DEFAULT_CONTROL_ROW = "=,'";
+	private StringBuilder builder = new StringBuilder();
 
 	@Override
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
 			controlRow, Integer bottomActionLeft, Integer controlActionLeft) {
-		String allButtons = topRow + middleRow + bottomRow;
+		String[] rows = { topRow, middleRow, bottomRow };
+		String[][] possibleAccents = new String[rows.length][2];
+		int[] accentsLength = new int[rows.length];
+		int allAccentsLength = 0;
+		for (int i = 0; i < rows.length; i++) {
+			possibleAccents[i][0] = getAccents(rows[i]);
+			possibleAccents[i][1] = reverse(getAccents(rows[i]));
+			accentsLength[i] = possibleAccents[i][0].length() + possibleAccents[i][1].length();
+			allAccentsLength += accentsLength[i];
+		}
+
+		builder.setLength(0);
+		for (int i = 0; i < rows.length; i++) {
+			String row = rows[i];
+			builder.append(row.substring(
+					possibleAccents[i][0].length(),
+					row.length() - possibleAccents[i][1].length()));
+		}
+
+		String allButtons = builder.toString();
 		char[] characters = allButtons.toCharArray();
 		Arrays.sort(characters);
-		int length = characters.length;
-		int[] lengths = { 0, 0 };
+		int length = characters.length + allAccentsLength;
+		int[] lengths = new int[rows.length + 1];
 		int rowLength = (int) Math.ceil(length / 3.0f);
-		if (length % 3 == 2) {
-			lengths[0] = lengths[1] = rowLength;
-		} else if (length % 3 == 1) {
-			lengths[0] = rowLength - 1;
-			lengths[1] = rowLength;
-		} else {
-			lengths[0] = lengths[1] = rowLength - 1;
+		for (int i = 0; i < rows.length; i++) {
+			lengths[i + 1] = rowLength - accentsLength[i];
 		}
-		String newTopRow = subrangeToString(characters, 0, lengths[0]);
-		String newMiddleRow = subrangeToString(characters, lengths[0], lengths[1]);
-		String newBottomRow = subrangeToString(characters, lengths[1], length);
+		if (length % 3 == 2) {
+			lengths[3] -= 1;
+		} else if (length % 3 == 1) {
+			lengths[1] -= 1;
+			lengths[3] -= 1;
+		}
 
-		super.setKeyboardDefinition(newTopRow, newMiddleRow, newBottomRow, DEFAULT_CONTROL_ROW,
+		String[] newRows = new String[rows.length];
+		for (int i = 0; i < rows.length; i++) {
+			newRows[i] = possibleAccents[i][0] + subrangeToString(characters, lengths[i],
+					lengths[i + 1]) + possibleAccents[i][1];
+			lengths[i + 1] += lengths[i];
+		}
+		super.setKeyboardDefinition(newRows[0], newRows[1], newRows[2], DEFAULT_CONTROL_ROW,
 				null, ACTION_SHIFT);
+	}
+
+	private String getAccents(String string) {
+		builder.setLength(0);
+		for (int i = 0; i < string.length() && i < 2; i++) {
+			String c = String.valueOf(string.charAt(i));
+			if (Accents.isAccent(c)) {
+				builder.append(c);
+			} else {
+				break;
+			}
+		}
+		return builder.toString();
+	}
+
+	private String reverse(String string) {
+		return new StringBuilder(string).reverse().toString();
 	}
 
 	private String subrangeToString(char[] chars, int from, int to) {
