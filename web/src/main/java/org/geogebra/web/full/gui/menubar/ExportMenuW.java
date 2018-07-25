@@ -105,7 +105,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			}
 		});
 		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
-				? menuText(app.getLocalization().getMenu("pdf") + " (pdf)")
+				? menuText(app.getLocalization().getMenu("pdf"))
 				: menuText("pdf"), true, new MenuCommand(app) {
 
 			@Override
