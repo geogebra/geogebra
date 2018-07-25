@@ -13,7 +13,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 public class DrawBackground {
 	private EuclidianView view;
 	private EuclidianSettings settings;
-	private static final int RULER_DISTANCE = 50;
 
 	/**
 	 * 
@@ -29,14 +28,15 @@ public class DrawBackground {
 	 * Draws the background for MOW.
 	 * 
 	 * @param g2
+	 *            graphics
 	 */
 	public void draw(GGraphics2D g2) {
 		switch (settings.getBackgroundType()) {
 		case RULER:
-			drawHorizontalLines(g2, 0, 0);
+			drawHorizontalLines(g2, 0);
 			break;
 		case SQUARE_BIG:
-			drawSquaredBackground(g2, 0, 0);
+			drawSquaredBackground(g2, 0);
 			break;
 		case SQUARE_SMALL:
 			break;
@@ -45,9 +45,9 @@ public class DrawBackground {
 		default:
 			break;
 		}
-
 	}
-	private void drawHorizontalLines(GGraphics2D g2, double xCrossPix1, double yCrossPix1) {
+
+	private void drawHorizontalLines(GGraphics2D g2, double xCrossPix1) {
 		double xCrossPix = xCrossPix1;
 
 		double gapY = settings.getBackgroundRulerGap();
@@ -67,8 +67,7 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawVerticalLines(GGraphics2D g2, double xCrossPix1,
-			double yCrossPix1) {
+	private void drawVerticalLines(GGraphics2D g2, double xCrossPix1) {
 		double xCrossPix = xCrossPix1;
 
 		double gapY = settings.getBackgroundRulerGap();
@@ -89,10 +88,9 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawSquaredBackground(GGraphics2D g2, double xCrossPix1,
-			double yCrossPix1) {
-		drawHorizontalLines(g2, xCrossPix1, yCrossPix1);
-		drawVerticalLines(g2, xCrossPix1, yCrossPix1);
+	private void drawSquaredBackground(GGraphics2D g2, double xCrossPix1) {
+		drawHorizontalLines(g2, xCrossPix1);
+		drawVerticalLines(g2, xCrossPix1);
 	}
 
 	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,

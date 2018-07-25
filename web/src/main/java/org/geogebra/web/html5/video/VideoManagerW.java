@@ -236,6 +236,6 @@ public class VideoManagerW implements VideoManager {
 			player.asWidget().removeFromParent();
 		}
 		cache.clear();
-
 	}
+
 }
