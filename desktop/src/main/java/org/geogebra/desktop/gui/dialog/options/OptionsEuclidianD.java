@@ -1252,4 +1252,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		// TODO Auto-generated method stub
 
 	}
+
+	public void addRulerTypeItem(String item) {
+		// implemented in web
+	}
 }
