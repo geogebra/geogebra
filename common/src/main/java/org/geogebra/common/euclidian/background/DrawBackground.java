@@ -62,7 +62,7 @@ public class DrawBackground {
 		g2.startGeneralPath();
 		final double x = view.getXZero() - view.getWidth() / 2;
 		double yEnd = view.getHeight();
-		double y = start + gap;
+		double y = start;// + gap; // do we need this?
 		double width = view.getWidth() - (view.getWidth() % gap);
 
 		if (subgrid) {

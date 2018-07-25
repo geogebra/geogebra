@@ -183,8 +183,8 @@ public class EuclidianSettings extends AbstractSettings {
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
-		setBackgroundType(BackgroundType.SQUARE_SMALL);
-		// setBackgroundType(BackgroundType.RULER);
+		// setBackgroundType(BackgroundType.SQUARE_SMALL);
+		setBackgroundType(BackgroundType.RULER);
 		setBgRulerColor(GColor.MOW_RULER);
 		setBgSubgridColor(GColor.MOW_SUBGRID);
 		setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
