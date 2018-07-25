@@ -3035,6 +3035,7 @@ __GGB__keysVar["sk"].menu = {
     "Volume": "Objem",
     "Volume.Help": "Vyber ihlan, hranol, gu\u013eu, ku\u017ee\u013e, valec, at\u010f.",
     "VolumeOfA": "Objem telesa %0",
+    "Web": "Web",
     "Webcam": "Webov\xe1 kamera",
     "Webcam.Chrome": "Prosim kliknite na 'Povoli\u0165' v pop-up p\xe1sme",
     "Webcam.Denied.Caption": "Camera is blocked",

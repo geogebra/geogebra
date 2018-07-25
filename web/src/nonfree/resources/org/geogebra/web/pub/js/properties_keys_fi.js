@@ -3035,6 +3035,7 @@ __GGB__keysVar["fi"].menu = {
     "Volume": "Tilavuus",
     "Volume.Help": "Valitse kappale: monitahokas, pallo, kartio, lieri\xf6, jne.",
     "VolumeOfA": "Kappaleen %0 tilavuus",
+    "Web": "Www",
     "Webcam": "Webkamera",
     "Webcam.Chrome": "Klikkaa \"Salli\" ponnahdusikkunassa",
     "Webcam.Denied.Caption": "Kamera on estetty",

@@ -3035,6 +3035,7 @@ __GGB__keysVar["da"].menu = {
     "Volume": "Rumfang",
     "Volume.Help": "V\xe6lg pyramide, prisme, kugle, kegle, cylinder, etc",
     "VolumeOfA": "Rumfang af %0",
+    "Web": "Web",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Klik venligst 'Tillad' i pop-up baren",
     "Webcam.Denied.Caption": "Camera is blocked",

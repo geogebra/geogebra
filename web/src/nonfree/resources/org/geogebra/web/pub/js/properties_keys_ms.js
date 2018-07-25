@@ -3035,6 +3035,7 @@ __GGB__keysVar["ms"].menu = {
     "Volume": "Isipadu",
     "Volume.Help": "Pilih piramid, prisma, sfera, kon, silinder, dll.",
     "VolumeOfA": "Isipadu %0",
+    "Web": "Web",
     "Webcam": "KameraWeb",
     "Webcam.Chrome": "Sila klik 'Allow' di bar 'pop-up'",
     "Webcam.Denied.Caption": "Camera is blocked",

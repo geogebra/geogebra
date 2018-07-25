@@ -3035,6 +3035,7 @@ __GGB__keysVar["am"].menu = {
     "Volume": "\u1218\u1320\u1290 \u12ed\u12d8\u1275",
     "Volume.Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "VolumeOfA": "\u12e8%0 \u1218\u1320\u1290 \u12ed\u12d8\u1275",
+    "Web": "Web",
     "Webcam": "\u12e8\u12f5\u1228\u1308\u1345 \u12ab\u121c\u122b",
     "Webcam.Chrome": "\u1265\u1245 \u1263\u12ed \u12a0\u121e\u120c \u12c9\u1235\u1325 '\u134d\u1240\u12f5' \u1320\u1245 \u12eb\u12f5\u122d\u1309",
     "Webcam.Denied.Caption": "Camera is blocked",

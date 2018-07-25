@@ -3035,6 +3035,7 @@ __GGB__keysVar["sl"].menu = {
     "Volume": "Prostornina",
     "Volume.Help": "Izberi piramido, prizmo, sfero, sto\u017eec, valj, itd.",
     "VolumeOfA": "Prostornina %0",
+    "Web": "Splet",
     "Webcam": "Spletna kamera",
     "Webcam.Chrome": "Klikni na 'Dovoli' v pojavnem pasu",
     "Webcam.Denied.Caption": "Kamera je blokirana",

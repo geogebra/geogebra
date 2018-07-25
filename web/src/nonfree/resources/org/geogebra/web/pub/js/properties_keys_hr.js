@@ -3035,6 +3035,7 @@ __GGB__keysVar["hr"].menu = {
     "Volume": "Obujam",
     "Volume.Help": "Odaberite piramidu, prizmu, kuglu, sto\u017eac, valjak, itd.",
     "VolumeOfA": "Volumen od %0",
+    "Web": "Web",
     "Webcam": "Web kamera",
     "Webcam.Chrome": "Molimo odaberite \"Dozvoli\" u sko\u010dnom prozoru",
     "Webcam.Denied.Caption": "Kamera je blokirana",

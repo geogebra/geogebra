@@ -3035,6 +3035,7 @@ __GGB__keysVar["sv"].menu = {
     "Volume": "Volym",
     "Volume.Help": "V\xe4lj ett 3D-objekt, t.ex. en pyramid, kon, cylinder, klot, prisma etc.",
     "VolumeOfA": "Volymen f\xf6r %0",
+    "Web": "Webb",
     "Webcam": "Webbkamera",
     "Webcam.Chrome": "Var sn\xe4ll och klicka p\xe5 'Till\xe5t' i meddelandelisten.",
     "Webcam.Denied.Caption": "Camera is blocked",

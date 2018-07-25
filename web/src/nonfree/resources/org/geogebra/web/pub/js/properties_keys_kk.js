@@ -3035,6 +3035,7 @@ __GGB__keysVar["kk"].menu = {
     "Volume": "\u041a\u04e9\u043b\u0435\u043c\u0456",
     "Volume.Help": "\u041f\u0438\u0440\u0430\u043c\u0438\u0434\u0430, \u043f\u0440\u0438\u0437\u043c\u0430, \u0441\u0444\u0435\u0440\u0430, \u0446\u0438\u043b\u0438\u043d\u0434\u0440, \u0442.\u0431. \u0442\u0430\u04a3\u0434\u0430\u04a3\u044b\u0437",
     "VolumeOfA": "%0 \u043a\u04e9\u043b\u0435\u043c\u0456",
+    "Web": "\u0412\u0435\u0431",
     "Webcam": "Web \u043a\u0430\u043c\u0435\u0440\u0430",
     "Webcam.Chrome": "Please select 'Allow' in the pop-up bar",
     "Webcam.Denied.Caption": "Camera is blocked",

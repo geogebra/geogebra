@@ -3035,6 +3035,7 @@ __GGB__keysVar["ko"].menu = {
     "Volume": "\ubd80\ud53c",
     "Volume.Help": "\uac01\ubfd4, \uac01\uae30\ub465, \uad6c, \uc6d0\ubfd4, \uc6d0\uae30\ub465 \ub4f1\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     "VolumeOfA": "%0 \uc758 \ubd80\ud53c",
+    "Web": "\uc6f9",
     "Webcam": "\uc6f9\ucea0",
     "Webcam.Chrome": "\ud31d\uc5c5\ubc14\uc5d0\uc11c '\ud655\uc778'\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     "Webcam.Denied.Caption": "\uce74\uba54\ub77c\uac00 \ucc28\ub2e8\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",

@@ -3035,6 +3035,7 @@ __GGB__keysVar["is"].menu = {
     "Volume": "R\xfamm\xe1l",
     "Volume.Help": "Velji\xf0 p\xedram\xedta, strending, k\xfalu, keilu, s\xedvalning osfrv.",
     "VolumeOfA": "R\xfamm\xe1l %0",
+    "Web": "Web",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Vinsamlega velji\xf0 'Allow' \xed glugganum sem birtist",
     "Webcam.Denied.Caption": "Myndav\xe9l er \xf3virk.",

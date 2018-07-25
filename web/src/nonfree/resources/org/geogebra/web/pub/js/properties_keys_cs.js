@@ -3035,6 +3035,7 @@ __GGB__keysVar["cs"].menu = {
     "Volume": "Objem",
     "Volume.Help": "Vyberte jehlan, hranol, kouli, ku\u017eel, v\xe1lec apod.",
     "VolumeOfA": "Objem %0",
+    "Web": "Webov\xfd prvek",
     "Webcam": "Webkamery",
     "Webcam.Chrome": "Klikn\u011bte pros\xedm na 'Povolit' na vyskakovac\xed li\u0161t\u011b.",
     "Webcam.Denied.Caption": "Kamera je zablokovan\xe1",

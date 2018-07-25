@@ -3035,6 +3035,7 @@ __GGB__keysVar["lv"].menu = {
     "Volume": "Volume",
     "Volume.Help": "Izv\u0113lies piram\u012bdu, prizmu, sf\u0113ru, konusu, cilindru, utt.",
     "VolumeOfA": "V\u0113rt\u012bba %0",
+    "Web": "Web",
     "Webcam": "Web kamera",
     "Webcam.Chrome": "L\u016bdzu uzspiediet 'At\u013caut' Uznirsto\u0161aj\u0101 log\u0101",
     "Webcam.Denied.Caption": "Camera is blocked",

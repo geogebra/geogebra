@@ -3035,6 +3035,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Volume": "\u9ad4\u7a4d",
     "Volume.Help": "\u9078\u64c7\u7acb\u9ad4\u7269\u4ef6\uff0c\u5982\uff1a\u89d2\u9310\u3001\u89d2\u67f1\u3001\u7403\u3001\u5713\u9310\u3001\u5713\u67f1\u7b49\u3002",
     "VolumeOfA": "%0 \u7684\u9ad4\u7a4d",
+    "Web": "Web",
     "Webcam": "\u7db2\u8def\u651d\u5f71\u6a5f",
     "Webcam.Chrome": "Please select 'Allow' in the pop-up bar",
     "Webcam.Denied.Caption": "Camera is blocked",

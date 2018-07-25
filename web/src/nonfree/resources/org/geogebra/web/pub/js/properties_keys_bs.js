@@ -3035,6 +3035,7 @@ __GGB__keysVar["bs"].menu = {
     "Volume": "Zapremina",
     "Volume.Help": "Ozna\u010dite piramidu, prizmu, sferu, kupu, valjak, itd.",
     "VolumeOfA": "Zapremina od %0",
+    "Web": "Web",
     "Webcam": "Web-kamera",
     "Webcam.Chrome": "Molimo kliknite na 'Omogu\u0107i' u u sko\u010dnom prozoru",
     "Webcam.Denied.Caption": "Camera is blocked",

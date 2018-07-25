@@ -3035,6 +3035,7 @@ __GGB__keysVar["hu"].menu = {
     "Volume": "T\xe9rfogat",
     "Volume.Help": "G\xfala, has\xe1b, g\xf6mb, k\xfap, henger stb. kijel\xf6l\xe9se",
     "VolumeOfA": "%0 t\xe9rfogata",
+    "Web": "Web",
     "Webcam": "Webkamera",
     "Webcam.Chrome": "Kattintson az \"Enged\xe9lyez\xe9s\" gombra a felugr\xf3 ablakban.",
     "Webcam.Denied.Caption": "Camera is blocked",

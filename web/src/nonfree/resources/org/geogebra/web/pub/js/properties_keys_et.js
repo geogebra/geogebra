@@ -3035,6 +3035,7 @@ __GGB__keysVar["et"].menu = {
     "Volume": "Ruumala",
     "Volume.Help": "Vali p\xfcramiid, prisma, kera, koonus, silinder, jne.",
     "VolumeOfA": "%0 ruumala",
+    "Web": "Web",
     "Webcam": "Veebikaamera",
     "Webcam.Chrome": "Palun kl\xf5psake h\xfcpikreal valikule \"Luba\"",
     "Webcam.Denied.Caption": "Camera is blocked",

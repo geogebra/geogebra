@@ -3035,6 +3035,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Volume": "\u4f53\u79ef",
     "Volume.Help": "\u9009\u62e9\u7acb\u4f53\u56fe\u5f62, \u5982\u68f1\u9525\u3001\u68f1\u67f1\u3001\u7403\u4f53\u3001\u5706\u9525\u53ca\u5706\u67f1\u7b49",
     "VolumeOfA": "%0 \u7684\u4f53\u79ef",
+    "Web": "\u4e92\u8054\u7f51",
     "Webcam": "\u7f51\u7edc\u6444\u50cf\u5934",
     "Webcam.Chrome": "\u8bf7\u5728\u5f39\u51fa\u680f\u4e2d\u9009\u62e9\"\u5141\u8bb8\"",
     "Webcam.Denied.Caption": "Camera \u88ab\u963b\u6b62\u4f7f\u7528",

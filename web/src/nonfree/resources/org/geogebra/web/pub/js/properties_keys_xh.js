@@ -3035,6 +3035,7 @@ __GGB__keysVar["xh"].menu = {
     "Volume": "uMthamo",
     "Volume.Help": "Khetha ipyramid, iprism, isphere, icone, icylinder, etc.",
     "VolumeOfA": "uMthamo ka %0",
+    "Web": "Web",
     "Webcam": "iWebcam",
     "Webcam.Chrome": "Nceda ucofe u 'Vumela' kwi pop-up bar",
     "Webcam.Denied.Caption": "Camera is blocked",

@@ -3035,6 +3035,7 @@ __GGB__keysVar["nn"].menu = {
     "Volume": "Volum",
     "Volume.Help": "Vel pyramide, prisme, kule, kjegle, sylinder, etc.",
     "VolumeOfA": "Volum av %0",
+    "Web": "Web",
     "Webcam": "Webkamera",
     "Webcam.Chrome": "Klikk 'Tillat' i hurtigmenyen",
     "Webcam.Denied.Caption": "Kameraet er blokkert",

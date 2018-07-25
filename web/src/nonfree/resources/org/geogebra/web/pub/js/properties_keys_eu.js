@@ -3035,6 +3035,7 @@ __GGB__keysVar["eu"].menu = {
     "Volume": "Bolumena",
     "Volume.Help": "Piramidea, prisma, esfera, konoa, zilindroa, etab. aukeratu",
     "VolumeOfA": "%0-(r)en bolumena",
+    "Web": "Sarea",
     "Webcam": "Web-kamera",
     "Webcam.Chrome": "Mesedez, egin klik 'Baimendu' botoian, barra berrian",
     "Webcam.Denied.Caption": "Camera is blocked",

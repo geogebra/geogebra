@@ -3035,6 +3035,7 @@ __GGB__keysVar["ar"].menu = {
     "Volume": "Volume",
     "Volume.Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "VolumeOfA": "Volume of %0",
+    "Web": "Web",
     "Webcam": "\u0643\u0627\u0645\u064a\u0631\u0627 \u0648\u0627\u0628",
     "Webcam.Chrome": "Please select 'Allow' in the pop-up bar",
     "Webcam.Denied.Caption": "Camera is blocked",

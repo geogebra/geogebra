@@ -3035,6 +3035,7 @@ __GGB__keysVar["tr"].menu = {
     "Volume": "Hacim",
     "Volume.Help": "Piramit, prizma, k\xfcre, koni, silindir vesaire se\xe7in",
     "VolumeOfA": "%0 Hacmi",
+    "Web": "Web",
     "Webcam": "Web Kameras\u0131",
     "Webcam.Chrome": "L\xfctfen a\xe7\u0131lan \xe7ubukta '\u0130zin Ver' se\xe7iniz",
     "Webcam.Denied.Caption": "Kamera engellenmi\u015f",

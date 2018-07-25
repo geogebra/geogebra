@@ -3035,6 +3035,7 @@ __GGB__keysVar["pt"].menu = {
     "Volume": "Volume",
     "Volume.Help": "Selecionar pir\xe2mide, prisma, esfera, cone, cilindro, etc.",
     "VolumeOfA": "Volume de %0",
+    "Web": "Web",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Por favor, clique em \"Permitir\" na janela de di\xe1logo",
     "Webcam.Denied.Caption": "Camera is blocked",
