@@ -130,12 +130,11 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			actionButtonMargin = 0.0f;
 		} else if (rowWeightSum - bottomRowLength - bottomSpecialLength > 0) {
 			actionButtonSize = LARGE_ACTION_WEIGHT;
-			actionButtonMargin = (rowWeightSum - bottomRowLength -
-					bottomSpecialLength * LARGE_ACTION_WEIGHT) / bottomSpecialLength;
+			actionButtonMargin = (rowWeightSum - bottomRowLength
+					- bottomSpecialLength * LARGE_ACTION_WEIGHT) / bottomSpecialLength;
 		} else {
 			throw new RuntimeException(EXCEPTION_MESSAGE);
 		}
-		float spaceSize = rowWeightSum - controlRowLength - controlSpecialLength;
 
 		KeyboardModelImpl letterKeyboard = new KeyboardModelImpl();
 
@@ -163,6 +162,7 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			addActionButton(controlRowImpl, buttonFactory, controlActionLeft, actionButtonSize);
 		}
 		addButtons(controlRowImpl, buttonFactory, controlRow);
+		float spaceSize = rowWeightSum - controlRowLength - controlSpecialLength;
 		addInputButton(controlRowImpl, buttonFactory, " ", spaceSize);
 		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.LEFT_ARROW,
 				Action.LEFT_CURSOR);
@@ -192,18 +192,16 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 
 	private void addActionButton(RowImpl rowImpl, ButtonFactory buttonFactory, Integer action,
 			float actionButtonSize) {
-		switch (action) {
-			case ACTION_SHIFT:
-				addConstantCustomButton(rowImpl, buttonFactory,
-						Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
-				break;
-			case ACTION_SPECIAL_SYMBOLS:
-				StringBuilder builder = new StringBuilder();
-				builder.append(HASHTAG);
-				builder.append(AMPERSAND);
-				builder.append(NOT_SIGN);
-				addCustomButton(rowImpl, buttonFactory, builder.toString(),
-						Action.SWITCH_TO_SPECIAL_SYMBOLS);
+		if (action == ACTION_SHIFT) {
+			addConstantCustomButton(rowImpl, buttonFactory, Resource.CAPS_LOCK,
+					Action.CAPS_LOCK, actionButtonSize);
+		} else if (action == ACTION_SPECIAL_SYMBOLS) {
+			StringBuilder builder = new StringBuilder();
+			builder.append(HASHTAG);
+			builder.append(AMPERSAND);
+			builder.append(NOT_SIGN);
+			addCustomButton(rowImpl, buttonFactory, builder.toString(),
+					Action.SWITCH_TO_SPECIAL_SYMBOLS);
 		}
 	}
 
