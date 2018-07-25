@@ -573,6 +573,8 @@ public class MOWToolbar extends FlowPanel {
 			getElement().getStyle()
 					.setLeft((app.getWidth() - MAX_TOOLBAR_WIDTH) / 2, Unit.PX);
 		}
+		app.ensureStandardView();
+
 	}
 
 	/**

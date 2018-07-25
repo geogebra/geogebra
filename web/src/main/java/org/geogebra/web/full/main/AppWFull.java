@@ -1457,11 +1457,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			adjustViews(false, false);
 		}
 		kernel.notifyScreenChanged();
-		if (isWhiteboardActive()) {
-			ensureStandardView();
-		}
 		resetPenTool();
-
 	}
 
 	private void updatePerspective(Perspective p) {

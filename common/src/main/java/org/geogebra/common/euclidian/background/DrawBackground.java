@@ -5,9 +5,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
- * Helper class for drawing the grid
+ * Helper class for drawing the background
  * 
- * @author zbynek
+ * @author laszlo
  *
  */
 public class DrawBackground {
@@ -54,14 +54,13 @@ public class DrawBackground {
 
 	private void drawHorizontalLines(GGraphics2D g2, double xCrossPix1,
 			boolean subgrid) {
-		double xCrossPix = xCrossPix1;
 		double start = view.getYZero() % gap;
 
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubgridColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
-		final double x = xCrossPix + view.getXZero();
+		final double x = view.getXZero() - view.getWidth() / 2;
 		double yEnd = view.getHeight();
 		double y = start + gap;
 		double width = view.getWidth() - (view.getWidth() % gap);
