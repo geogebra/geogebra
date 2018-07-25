@@ -19,7 +19,7 @@ public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 		int allAccentsLength = 0;
 		for (int i = 0; i < rows.length; i++) {
 			possibleAccents[i][0] = getAccents(rows[i]);
-			possibleAccents[i][1] = reverse(getAccents(rows[i]));
+			possibleAccents[i][1] = reverse(getAccents(reverse(rows[i])));
 			accentsLength[i] = possibleAccents[i][0].length() + possibleAccents[i][1].length();
 			allAccentsLength += accentsLength[i];
 		}
@@ -50,9 +50,9 @@ public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 
 		String[] newRows = new String[rows.length];
 		for (int i = 0; i < rows.length; i++) {
+			lengths[i + 1] += lengths[i];
 			newRows[i] = possibleAccents[i][0] + subrangeToString(characters, lengths[i],
 					lengths[i + 1]) + possibleAccents[i][1];
-			lengths[i + 1] += lengths[i];
 		}
 		super.setKeyboardDefinition(newRows[0], newRows[1], newRows[2], DEFAULT_CONTROL_ROW,
 				null, ACTION_SHIFT);
