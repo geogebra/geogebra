@@ -3177,6 +3177,7 @@ __GGB__keysVar["hu"].menu = {
     "exam_set_airplane_mode_on": "K\xe9rj\xfck kapcsolja be a rep\xfcl\u0151 \xfczemm\xf3dot",
     "exam_start_button": "A vizsga megkezd\xe9se",
     "exam_start_date": "A vizsga d\xe1tuma",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "A vizsga kezd\xe9si ideje",
     "exam_started": "A vizsga megkezd\u0151d\xf6tt",
     "exam_views_deactivated": "Kikapcsolt n\xe9zetek",

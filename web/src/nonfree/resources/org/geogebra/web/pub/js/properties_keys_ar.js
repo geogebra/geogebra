@@ -3177,6 +3177,7 @@ __GGB__keysVar["ar"].menu = {
     "exam_set_airplane_mode_on": "Switch to Airplane Mode and turn off Wi-Fi and Bluetooth to continue",
     "exam_start_button": "Start",
     "exam_start_date": "Date",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "\u0628\u062f\u0621 \u0627\u0644\u0648\u0642\u062a",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",

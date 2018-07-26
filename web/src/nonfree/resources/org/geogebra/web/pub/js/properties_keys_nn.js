@@ -3177,6 +3177,7 @@ __GGB__keysVar["nn"].menu = {
     "exam_set_airplane_mode_on": "Set p\xe5 flymodus og sj\xe5 av Wi-.Fi og Bl\xe5tann for \xe5 halde fram",
     "exam_start_button": "Start pr\xf8va",
     "exam_start_date": "Pr\xf8vedato",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Tid for pr\xf8vestart",
     "exam_started": "Pr\xf8vemodulen er starta",
     "exam_views_deactivated": "Deaktiverte vindauge",

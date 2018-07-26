@@ -3177,6 +3177,7 @@ __GGB__keysVar["es-UY"].menu = {
     "exam_set_airplane_mode_on": "Activa el modo avi\xf3n y desactiva Wi-Fi y Bluetooth para continuar",
     "exam_start_button": "Comenzar",
     "exam_start_date": "Fecha",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Hora de inicio",
     "exam_started": "Examen iniciado",
     "exam_views_deactivated": "Vistas desactivadas",

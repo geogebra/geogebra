@@ -3177,6 +3177,7 @@ __GGB__keysVar["da"].menu = {
     "exam_set_airplane_mode_on": "Sl\xe5 flytilstand til nu",
     "exam_start_button": "Start eksamen",
     "exam_start_date": "Eksamen start dato",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Eksamen start tid",
     "exam_started": "Eksamen tilstand igang",
     "exam_views_deactivated": "Deaktiverede vinduer",

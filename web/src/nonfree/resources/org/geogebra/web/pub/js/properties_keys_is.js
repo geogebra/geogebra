@@ -3177,6 +3177,7 @@ __GGB__keysVar["is"].menu = {
     "exam_set_airplane_mode_on": "Vinsamlega virki\xf0 flugv\xe9larstillingu",
     "exam_start_button": "Hefja pr\xf3f",
     "exam_start_date": "Byrjunardagur pr\xf3fs",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Upphafst\xedmi pr\xf3fs",
     "exam_started": "Pr\xf3f hafi\xf0",
     "exam_views_deactivated": "\xd3virkir gluggar",

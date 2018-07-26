@@ -3177,6 +3177,7 @@ __GGB__keysVar["de-AT"].menu = {
     "exam_set_airplane_mode_on": "Aktiviere bitte den Flugmodus und deaktiviere deine Wi-Fi und Bluetooth Verbindung um weiterzumachen.",
     "exam_start_button": "Starten",
     "exam_start_date": "Datum der Pr\xfcfung",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Beginn der Pr\xfcfung",
     "exam_started": "Start der Pr\xfcfung",
     "exam_views_deactivated": "Nicht verf\xfcgbare Ansichten",

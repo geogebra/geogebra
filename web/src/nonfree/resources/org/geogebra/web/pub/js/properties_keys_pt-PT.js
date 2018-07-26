@@ -3177,6 +3177,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "exam_set_airplane_mode_on": "Por favor, ative o modo avi\xe3o agora",
     "exam_start_button": "Iniciar o Exame",
     "exam_start_date": "Data de In\xedcio do Exame",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "In\xedcio do \"Modo Exame\"",
     "exam_started": "In\xedcio do \"Modo Exame\"",
     "exam_views_deactivated": "Desativar Vistas",

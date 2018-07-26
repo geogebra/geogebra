@@ -3177,6 +3177,7 @@ __GGB__keysVar["fi"].menu = {
     "exam_set_airplane_mode_on": "Jatka asettamalla laitteesi lentokonetilaan ja sammuttamalla Wi-Fi ja Bluetooth",
     "exam_start_button": "Aloita",
     "exam_start_date": "P\xe4iv\xe4m\xe4\xe4r\xe4",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Aloitusaika",
     "exam_started": "Koetila k\xe4ynnistetty",
     "exam_views_deactivated": "K\xe4yt\xf6st\xe4 poistetut n\xe4kym\xe4t",

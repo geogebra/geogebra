@@ -3177,6 +3177,7 @@ __GGB__keysVar["it"].menu = {
     "exam_set_airplane_mode_on": "Per continuare, attiva la modalit\xe0 Aereo e disattiva Wi-Fi e Bluetooth",
     "exam_start_button": "Inizia",
     "exam_start_date": "Data",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Ora inizio",
     "exam_started": "Esame iniziato",
     "exam_views_deactivated": "Viste disattivate",

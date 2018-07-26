@@ -3177,6 +3177,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "exam_set_airplane_mode_on": "Canvieu a mode avi\xf3 i desconnecteu el Wi-Fi i el Bluetooth per a continuar",
     "exam_start_button": "Comen\xe7a l'examen",
     "exam_start_date": "Data d'inici de l'examen",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Hora d'inici de l'examen",
     "exam_started": "El mode examen ha comen\xe7at",
     "exam_views_deactivated": "Vistes desactivades",

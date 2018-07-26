@@ -3177,6 +3177,7 @@ __GGB__keysVar["cs"].menu = {
     "exam_set_airplane_mode_on": "Zapn\u011bte pros\xedm letov\xfd re\u017eim",
     "exam_start_button": "Za\u010d\xedt",
     "exam_start_date": "Datum",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "\u010cas za\u010d\xe1tku zkou\u0161ky",
     "exam_started": "Za\u010d\xe1tek zkou\u0161ky",
     "exam_views_deactivated": "Deaktivovan\xe9 pohledy",

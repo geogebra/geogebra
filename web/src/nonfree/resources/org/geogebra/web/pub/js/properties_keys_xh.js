@@ -3177,6 +3177,7 @@ __GGB__keysVar["xh"].menu = {
     "exam_set_airplane_mode_on": "Phinda ulayte I airplane mode ngoku",
     "exam_start_button": "Qalisa uVavanyo",
     "exam_start_date": "uMhla wokuQala koVavanyo",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Ixesha lokuqala kovavanyo",
     "exam_started": "Uvavanyo luqalile",
     "exam_views_deactivated": "Susa Imibonakaliso",

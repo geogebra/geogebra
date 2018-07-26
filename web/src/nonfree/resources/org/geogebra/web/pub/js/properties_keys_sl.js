@@ -3177,6 +3177,7 @@ __GGB__keysVar["sl"].menu = {
     "exam_set_airplane_mode_on": "Vklop letalskega na\u010dina in izklopi brez\u017ei\u010dno omre\u017eje in bluetooth",
     "exam_start_button": "Za\u010dni",
     "exam_start_date": "Datum",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Za\u010detek",
     "exam_started": "Re\u0161evanje nalog se je za\u010delo",
     "exam_views_deactivated": "Deaktivirani pogledi",

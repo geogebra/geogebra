@@ -3177,6 +3177,7 @@ __GGB__keysVar["sv"].menu = {
     "exam_set_airplane_mode_on": "V\xe4nligen aktivera flygplansl\xe4get nu och st\xe4ng av WiFi och Bluetooth f\xf6r att forts\xe4tta",
     "exam_start_button": "Starta provet",
     "exam_start_date": "Provdatum",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Provet startade",
     "exam_started": "Provl\xe4get startades",
     "exam_views_deactivated": "Avaktiverade vyer",

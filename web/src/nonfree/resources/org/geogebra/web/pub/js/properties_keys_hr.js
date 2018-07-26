@@ -3177,6 +3177,7 @@ __GGB__keysVar["hr"].menu = {
     "exam_set_airplane_mode_on": "Molimo uklju\u010dite zrakoplovni na\u010din rada te isklju\u010dite Wi-Fi i Bluetooth",
     "exam_start_button": "Zapo\u010dni",
     "exam_start_date": "Datum",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Po\u010detno vrijeme",
     "exam_started": "Ispit zapo\u010det",
     "exam_views_deactivated": "Deaktiviranje pogleda",

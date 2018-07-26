@@ -3177,6 +3177,7 @@ __GGB__keysVar["tr"].menu = {
     "exam_set_airplane_mode_on": "Devam etmek i\xe7in U\xe7u\u015f Moduna ge\xe7in ve Wi-Fi ve Bluetooth'u kapat\u0131n",
     "exam_start_button": "Ba\u015flat",
     "exam_start_date": "Tarih",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Ba\u015flama Zaman\u0131",
     "exam_started": "S\u0131nav ba\u015flat\u0131ld\u0131",
     "exam_views_deactivated": "Devre d\u0131\u015f\u0131 b\u0131rak\u0131lm\u0131\u015f G\xf6r\xfcn\xfcmler",

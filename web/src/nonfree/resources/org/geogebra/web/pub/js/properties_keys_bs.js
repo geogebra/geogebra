@@ -3177,6 +3177,7 @@ __GGB__keysVar["bs"].menu = {
     "exam_set_airplane_mode_on": "Switch to Airplane Mode and turn off Wi-Fi and Bluetooth to continue",
     "exam_start_button": "Start ispita",
     "exam_start_date": "Date",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",

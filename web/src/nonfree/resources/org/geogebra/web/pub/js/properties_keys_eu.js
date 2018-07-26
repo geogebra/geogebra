@@ -3177,6 +3177,7 @@ __GGB__keysVar["eu"].menu = {
     "exam_set_airplane_mode_on": "Hegaldi-modura aldatu eta desaktibatu WiFi-a eta Bluetooth-a jarraitu ahal izateko",
     "exam_start_button": "Hasi Azterketa",
     "exam_start_date": "Azterketaren hasiera-data",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "Azterketaren hasiera-ordua",
     "exam_started": "Azterketa abian da",
     "exam_views_deactivated": "Desgaitutako Ikuspegiak",

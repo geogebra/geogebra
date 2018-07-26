@@ -3177,6 +3177,7 @@ __GGB__keysVar["ko"].menu = {
     "exam_set_airplane_mode_on": "\uc774\uc81c \ube44\ud589\uae30 \ubaa8\ub4dc\ub85c \uc804\ud658\ud558\uace0 \uacc4\uc18d \uc9c4\ud589\ud558\uae30 \uc704\ud574 \uc640\uc774\ud30c\uc774\uc640 \ube14\ub8e8\ud22c\uc2a4\ub97c \uc885\ub8cc\ud574 \uc8fc\uc2ed\uc2dc\uc624.",
     "exam_start_button": "\uc2dc\uc791\ud558\uae30",
     "exam_start_date": "\uc77c\uc790",
+    "exam_start_dialog_text": "The header shows timer information during the exam.",
     "exam_start_time": "\uc2dc\uc791 \uc2dc\uac04",
     "exam_started": "\uc2dc\uc791\ub41c \ud3c9\uac00",
     "exam_views_deactivated": "\ube44\ud65c\uc131\ud654\ub41c \ucc3d",
