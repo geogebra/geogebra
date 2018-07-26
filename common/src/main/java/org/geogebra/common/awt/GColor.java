@@ -534,4 +534,12 @@ public final class GColor implements GPaint {
 				0.0000084096 * x * x * x + 0.0012150 * x * x + 0.049231 * x);
 	}
 
+	/**
+	 * @param orig
+	 *            The original color
+	 * @return brighter color for grid.
+	 */
+	public static GColor getSubGridColor(GColor orig) {
+		return GColor.newColor(orig.getRed(), orig.getGreen(), orig.getBlue(), 60);
+	}
 }

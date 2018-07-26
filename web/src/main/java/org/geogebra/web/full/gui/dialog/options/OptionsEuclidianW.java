@@ -492,22 +492,22 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		@Override
 		public void setLabels() {
 			if (gridOptions) {
+				cbShowGrid.setText(loc.getMenu("ShowGrid"));
+				setTextColon(lbPointCapturing, "PointCapturing");
+				updatePointCapturingStyleList();
+				int idx = lbGridType.getSelectedIndex();
+				setGridTypeLabel();
+				lbGridType.clear();
+				model.fillGridTypeCombo();
+				lbGridType.setSelectedIndex(idx);
 
-			cbShowGrid.setText(loc.getMenu("ShowGrid"));
-			setTextColon(lbPointCapturing, "PointCapturing");
-			updatePointCapturingStyleList();
-			int idx = lbGridType.getSelectedIndex();
-			setGridTypeLabel();
-			lbGridType.clear();
-			model.fillGridTypeCombo();
-			lbGridType.setSelectedIndex(idx);
-
-			idx = cbGridTickAngle.getSelectedIndex();
-			cbGridTickAngle.cleanSelection();
-			model.fillAngleOptions();
-			cbGridTickAngle.setSelectedIndex(idx);
-			cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
+				idx = cbGridTickAngle.getSelectedIndex();
+				cbGridTickAngle.cleanSelection();
+				model.fillAngleOptions();
+				cbGridTickAngle.setSelectedIndex(idx);
+				cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
 			}
+
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
 			cbBoldGrid.setText(loc.getMenu("Bold"));

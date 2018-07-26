@@ -57,16 +57,6 @@ public class DrawGrid {
 	//
 	// }
 
-	/**
-	 * @return brighter color
-	 */
-	private static GColor getBrighterColor(GColor orig) {
-		// return GColor.newColor(brighterComponent(orig.getRed()),
-		// brighterComponent(orig.getGreen()),
-		// brighterComponent(orig.getBlue()));
-		return GColor.newColor(orig.getRed(), orig.getGreen(), orig.getBlue(),
-				60);
-	}
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
 			double yCrossPix1, boolean subGrid) {
@@ -110,7 +100,7 @@ public class DrawGrid {
 		g2.endAndDrawGeneralPath();
 
 		// draw sub grid
-		g2.setColor(getBrighterColor(view.getGridColor()));
+		g2.setColor(GColor.getSubGridColor(view.getGridColor()));
 		g2.startGeneralPath();
 		pix = start;
 		for (int j = 0; pix <= yAxisEnd; j++) {
@@ -213,7 +203,7 @@ public class DrawGrid {
 		g2.endAndDrawGeneralPath();
 
 		// draw sub grid
-		g2.setColor(getBrighterColor(view.getGridColor()));
+		g2.setColor(GColor.getSubGridColor(view.getGridColor()));
 		g2.startGeneralPath();
 		pix = xAxisStart;
 		for (int i = 1; pix <= view.getWidth(); i++) {
