@@ -821,7 +821,14 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleLabelStyle(evSet, attrs);
 				break;
 			}
-
+		case 'r':
+			if ("rulerColor".equals(eName)) {
+				ok = handleRulerColor(evSet, attrs);
+				break;
+			} else if ("rulerType".equals(eName)) {
+				ok = handleRulerType(evSet, attrs);
+				break;
+			}
 		case 's':
 			if ("size".equals(eName)) {
 				ok = handleEvSize(evSet, attrs);
@@ -1537,11 +1544,30 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
+	private static boolean handleRulerType(EuclidianSettings ev,
+			LinkedHashMap<String, String> attrs) {
+		int rulerType = Integer.parseInt(attrs.get("val"));
+		ev.setRulerType(rulerType);
+		return true;
+	}
+
+	private static boolean handleRulerColor(EuclidianSettings ev,
+			LinkedHashMap<String, String> attrs) {
+		GColor col = handleColorAttrs(attrs);
+		if (col == null) {
+			return false;
+		}
+		ev.setBgRulerColor(col);
+		return true;
+	}
 	private static boolean handleLineStyle(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		try {
 			ev.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
 			ev.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
+			if (attrs.containsKey("ruler")) {
+				ev.setRulerLineStyle(Integer.parseInt(attrs.get("grid")));
+			}
 			return true;
 		} catch (RuntimeException e) {
 			return false;

@@ -35,4 +35,20 @@ public enum BackgroundType {
 		return value;
 	}
 
+	/**
+	 * Converts int to enum
+	 * 
+	 * @param v
+	 *            the int value to convert to.
+	 * @return the converted enum.
+	 */
+	public static BackgroundType fromInt(int v) {
+		for (BackgroundType bt : values()) {
+			if (bt.value == v) {
+				return bt;
+			}
+		}
+		return BackgroundType.NONE;
+	}
+
 }

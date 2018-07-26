@@ -1555,11 +1555,20 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * Sets the ruler linee style
+	 * Sets the ruler line style
 	 * 
 	 * @param rulerLineStyle
 	 */
 	public void setRulerLineStyle(int rulerLineStyle) {
 		this.rulerLineStyle = rulerLineStyle;
+	}
+
+	/**
+	 * 
+	 * @param rulerType
+	 *            type as int.
+	 */
+	public void setRulerType(int rulerType) {
+		setBackgroundType(BackgroundType.fromInt(rulerType));
 	}
 }

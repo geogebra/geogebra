@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -4939,11 +4940,34 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		sbxml.append(gridColor.getBlue());
 		sbxml.append("\"/>\n");
 
+		int rulerType = settings.getBackgroundType().value();
+		if (app.isWhiteboardActive() && rulerType != BackgroundType.NONE.value()) {
+			sbxml.append("\t<rulerType val=\"");
+			sbxml.append(rulerType);
+			sbxml.append("\"/>\n");
+		}
+		// ruler color
+		GColor rulerColor = settings.getBgRulerColor();
+		if (app.isWhiteboardActive() && !GColor.MOW_RULER.equals(rulerColor)) {
+			sbxml.append("\t<rulerColor r=\"");
+			sbxml.append(rulerColor.getRed());
+			sbxml.append("\" g=\"");
+			sbxml.append(rulerColor.getGreen());
+			sbxml.append("\" b=\"");
+			sbxml.append(rulerColor.getBlue());
+			sbxml.append("\"/>\n");
+		}
 		// axes line style
 		sbxml.append("\t<lineStyle axes=\"");
 		sbxml.append(axesLineType);
 		sbxml.append("\" grid=\"");
 		sbxml.append(gridLineStyle);
+		int rulerLineStyle = settings.getRulerLineStyle();
+		if (app.isWhiteboardActive()) {
+			sbxml.append("\" ruler=\"");
+			sbxml.append(rulerLineStyle);
+		}
+
 		sbxml.append("\"/>\n");
 
 		// axes label style
