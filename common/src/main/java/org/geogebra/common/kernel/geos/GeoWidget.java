@@ -19,8 +19,8 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public abstract class GeoWidget extends GeoElement implements Locateable, AbsoluteScreenLocateable {
-	private int width = 40;
-	private int height = 30;
+	private Double width = 40.0;
+	private Double height = 30.0;
 
 	protected GeoPointND[] corner = new GeoPointND[3];
 	protected int topLeftCorner = 0;
@@ -118,6 +118,10 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 * @return width in pixels (if it's fixed)
 	 */
 	public int getWidth() {
+		return width.intValue();
+	}
+	
+	protected double getWidthAsDouble(){
 		return width;
 	}
 
@@ -126,9 +130,16 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 *            width in pixels (used for fixed size buttons)
 	 */
 	public void setWidth(int width) {
-		this.width = width;
+		this.width = (double) width;
 		if (hasScreenLocation()) {
 			getScreenLocation().initWidth(width);
+		}
+	}
+	
+	protected void setWidth(double width){
+		this.width = width;
+		if (hasScreenLocation()) {
+			getScreenLocation().initWidth(((Double)width).intValue());
 		}
 	}
 
@@ -137,20 +148,31 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 * @return height in pixels (if it's fixed)
 	 */
 	public int getHeight() {
-		return height;
+		return height.intValue();
 	}
 
+	protected double getHeightAsDouble(){
+		return height;
+	}	
+	
 	/**
 	 * @param height
 	 *            height in pixels (used for fixed size buttons)
 	 */
 	public void setHeight(int height) {
-		this.height = height;
+		this.height = (double) height;
 		if (hasScreenLocation()) {
 			getScreenLocation().initHeight(height);
 		}
 	}
 
+	protected void setHeight(double height) {
+		this.height = height;
+		if (hasScreenLocation()) {
+			getScreenLocation().initHeight(((Double)height).intValue());
+		}
+	}
+	
 	@Override
 	public ValueType getValueType() {
 		return ValueType.VOID;
