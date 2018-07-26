@@ -12,16 +12,14 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TreeItem;
 
 /**
  * Slider item for Algebra View.
@@ -29,8 +27,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetex extends RadioTreeItem
-		implements SliderTreeItemInterface {
+public class SliderTreeItemRetex extends RadioTreeItem {
 
 	private static final int SLIDER_EXT = 15;
 
@@ -50,15 +47,8 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	 * panel to display animation related controls
 	 */
 
-	private ScheduledCommand resizeCmd = new ScheduledCommand() {
-
-		@Override
-		public void execute() {
-			resize();
-		}
-	};
 	private MinMaxPanel minMaxPanel;
-	private GeoNumeric num = null;
+	private GeoNumeric num;
 
 	/**
 	 * Creates a SliderTreeItem for AV sliders
@@ -119,7 +109,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 			main.add(sliderContent);
 		}
-
 	}
 
 	private void createSliderContent() {
@@ -139,12 +128,13 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	/**
 	 * resize slider to fit to the panel in a deferred way.
 	 */
-	@Override
 	public void deferredResize() {
-		if (getSlider() == null) {
-			return;
-		}
-		Scheduler.get().scheduleDeferred(resizeCmd);
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				resize();
+			}
+		});
 	}
 
 	/** update size */
@@ -156,10 +146,9 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		int width = getAV().getOffsetWidth() - 2 * marblePanel.getOffsetWidth()
 				+ SLIDER_EXT;
 		if (controls.getAnimPanel() != null) {
-			width -= controls.getAnimPanel().getPlayButton().getOffsetWidth();
+			width -= AnimPanel.PLAY_BUTTON_SIZE;
 		}
 		slider.setWidth(width);
-	
 	}
 
 	private void createMinMaxPanel() {
@@ -213,8 +202,8 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	@Override
 	public void onResize() {
-		deferredResize();
 		super.onResize();
+		deferredResize();
 	}
 
 	@Override
@@ -227,7 +216,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		return false;
 	}
 
-	@Override
 	public void setSliderVisible(boolean visible) {
 		sliderPanel.setVisible(visible);
 	}
@@ -243,7 +231,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		super.selectItem(selected);
 	}
 
-	@Override
 	public void setAnimPanelVisible(boolean visible) {
 		controls.showAnimPanel(visible);
 	}
@@ -273,14 +260,12 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		this.slider = slider;
 	}
 
-	@Override
 	public void expandSize(int width) {
 		if (getAV().getOffsetWidth() < width) {
 			getAV().expandWidth(width);
 		}
 	}
 
-	@Override
 	public void restoreSize() {
 		getAV().restoreWidth(false);
 	}
@@ -319,7 +304,5 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	public void onStopEdit() {
 		sliderContent.addStyleName("avSlider");
 		sliderContent.removeStyleName("avEditSlider");
-
 	}
-
 }

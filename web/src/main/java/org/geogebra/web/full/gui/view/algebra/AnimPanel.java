@@ -33,6 +33,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class AnimPanel extends FlowPanel implements ClickHandler {
 
+	public static final int PLAY_BUTTON_SIZE = 24;
+
 	/**
 	 * Animation speeds
 	 */
@@ -140,12 +142,12 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		speedPanel = new FlowPanel();
 		speedPanel.addStyleName("speedPanel-hidden");
 		btnSpeedDown = new MyToggleButtonW(new NoDragImage(
-				MaterialDesignResources.INSTANCE.speed_down_black(), 24));
+				MaterialDesignResources.INSTANCE.speed_down_black(), PLAY_BUTTON_SIZE));
 
 		btnSpeedDown.setStyleName("flatButton");
 
 		btnSpeedUp = new MyToggleButtonW(new NoDragImage(
-				MaterialDesignResources.INSTANCE.speed_up_black(), 24));
+				MaterialDesignResources.INSTANCE.speed_up_black(), PLAY_BUTTON_SIZE));
 
 		btnSpeedUp.setStyleName("flatButton");
 
@@ -184,23 +186,23 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.play_black()
 									.getSafeUri(),
-							0, 0, 24, 24, false,
+							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false,
 							false),
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.pause_black()
 									.getSafeUri(),
-							0, 0, 24, 24, false, false));
+							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false, false));
 			btnPlay.getUpHoveringFace()
 					.setImage(new Image(
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.play_purple()
 									.getSafeUri(),
-							0, 0, 24, 24, false, false)));
+							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false, false)));
 			btnPlay.getDownHoveringFace().setImage(
 					new Image(new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.pause_purple()
 									.getSafeUri(),
-							0, 0, 24, 24, false, false)));
+							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false, false)));
 			btnPlay.setIgnoreTab();
 		} else {
 			btnPlay = new MyToggleButtonW(

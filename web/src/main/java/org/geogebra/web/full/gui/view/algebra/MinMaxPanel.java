@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.gui.view.algebra.SliderTreeItemInterface.CancelListener;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
@@ -37,9 +36,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
+		KeyHandler, MouseDownHandler, MouseUpHandler {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
-	private SliderTreeItemInterface sliderTreeItem;
+	private SliderTreeItemRetex sliderTreeItem;
 	/** min width of the panel */
 	public static final int MINMAX_MIN_WIDHT = 326;
 	private AVField tfMin;
@@ -97,20 +96,16 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	/**
 	 * Input field for MinMaxPanel
 	 */
-	static class AVField extends AutoCompleteTextFieldW {
-		private CancelListener listener;
+	private class AVField extends AutoCompleteTextFieldW {
 
 		/**
 		 * @param columns
 		 *            field width
 		 * @param app
 		 *            application
-		 * @param listener
-		 *            called on edit cancel
 		 */
-		public AVField(int columns, App app, CancelListener listener) {
+		public AVField(int columns, App app) {
 			super(columns, app);
-			this.listener = listener;
 			setDeferredFocus(true);
 			enableGGBKeyboard();
 		}
@@ -132,7 +127,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			}
 			e.stopPropagation();
 			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
-				listener.cancel();
+				hide();
 			}
 		}
 
@@ -152,18 +147,15 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	 * @param item
 	 *            parent tree item
 	 */
-	public MinMaxPanel(SliderTreeItemInterface item) {
+	public MinMaxPanel(SliderTreeItemRetex item) {
 		this.sliderTreeItem = item;
 		num = (GeoNumeric) this.sliderTreeItem.getGeo();
 		kernel = num.getKernel();
 		app = kernel.getApplication();
 
-		tfMin = new AVField(4, app,
-				this);
-		tfMax = new AVField(4, app,
-				this);
-		tfStep = new AVField(4, app,
-				this);
+		tfMin = new AVField(4, app);
+		tfMax = new AVField(4, app);
+		tfStep = new AVField(4, app);
 		lblValue = new Label(Unicode.LESS_EQUAL + " "
 				+ num
 						.getCaption(StringTemplate.defaultTemplate)
@@ -324,11 +316,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		}
 
 		return value;
-	}
-
-	@Override
-	public void cancel() {
-		hide();
 	}
 
 	@Override

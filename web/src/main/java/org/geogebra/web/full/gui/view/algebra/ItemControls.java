@@ -97,8 +97,8 @@ public class ItemControls extends FlowPanel
 				}
 			});
 		}
-		return btnDelete;
 
+		return btnDelete;
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class ItemControls extends FlowPanel
 			});
 			AriaHelper.setHidden(btnMore, true);
 		}
-		return btnMore;
 
+		return btnMore;
 	}
 
 	/**
@@ -149,7 +149,6 @@ public class ItemControls extends FlowPanel
 		}
 		radioTreeItem.cancelEditing();
 		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
-
 	}
 
 	/**
@@ -187,7 +186,6 @@ public class ItemControls extends FlowPanel
 		} else {
 			showAnimPanel(false);
 		}
-
 	}
 
 	private boolean hasMoreMenu() {
@@ -204,7 +202,6 @@ public class ItemControls extends FlowPanel
 		} else {
 			animPanel = null;
 		}
-
 	}
 
 	/**

@@ -535,8 +535,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private static void repaintSliderNode(TreeItem ti) {
-		if (ti instanceof SliderTreeItemInterface) {
-			RadioTreeItem.as(ti).repaint();
+		if (ti instanceof SliderTreeItemRetex) {
+			((SliderTreeItemRetex) ti).repaint();
 		}
 	}
 
