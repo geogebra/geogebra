@@ -36,12 +36,33 @@ public class PackageSize {
 									cells[1].indexOf("</a")),
 							cells[3].replaceAll("[^0-9]", ""));
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		System.out.println(packages.get("org.geogebra").toString());
+		try {
+			updateSelfSizes(packages.get(""));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println(packages.get("").toString());
+	}
+
+	private static void updateSelfSizes(JSONObject pkg) throws JSONException {
+		if (pkg.has("children")) {
+			JSONArray children = pkg.getJSONArray("children");
+			for (int i = 0; i < children.length(); i++) {
+				updateSelfSizes(children.getJSONObject(i));
+			}
+			if (pkg.has("bytes")) {
+				JSONObject root = new JSONObject();
+				root.put("bytes", pkg.get("bytes"));
+				root.put("name", pkg.get("name") + "*");
+				pkg.remove("bytes");
+				pkg.getJSONArray("children").put(root);
+			}
+		}
+
 	}
 
 	private void addPackage(String name, String size) throws JSONException {
@@ -50,18 +71,19 @@ public class PackageSize {
 			addParents(name, self);
 			packages.put(name, self);
 		}
-		packages.get(name).put("size", size);
+		packages.get(name).put("bytes", size);
 	}
 
 	private void addParents(String name, JSONObject self)
 			throws JSONException {
 		self.put("name", name);
-		String parent = name.substring(0, name.lastIndexOf("."));
+		String parent = name.contains(".")
+				? name.substring(0, name.lastIndexOf(".")) : "";
 		if (packages.get(parent) == null) {
 			JSONObject parentPackage = new JSONObject();
 			packages.put(parent, parentPackage);
 			packages.get(parent).put("name", parent);
-			if (parent.contains(".")) {
+			if (parent.length() > 0) {
 				addParents(parent, parentPackage);
 			}			
 		}
