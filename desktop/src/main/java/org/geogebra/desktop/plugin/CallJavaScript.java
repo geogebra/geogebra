@@ -2,6 +2,7 @@ package org.geogebra.desktop.plugin;
 
 import org.geogebra.common.main.App;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Scriptable;
 
 public class CallJavaScript {
@@ -14,6 +15,8 @@ public class CallJavaScript {
 	 * @return
 	 */
 	public static Scriptable evalGlobalScript(App app) {
+
+		ContextFactory.initGlobal(new SandboxContextFactory());
 
 		// create new scope
 		Context cx = Context.enter();
