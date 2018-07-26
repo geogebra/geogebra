@@ -25,7 +25,7 @@ public class CallJavaScript {
 		// Context.setCachingEnabled(false);
 		// }
 
-		Scriptable scope = cx.initStandardObjects();
+		Scriptable scope = cx.initSafeStandardObjects();
 
 		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
 		GeoGebraGlobal.initStandardObjects(app, scope, null, false);
@@ -58,6 +58,8 @@ public class CallJavaScript {
 				.getGlobalScopeMap().get(app.getKernel().getConstruction());
 
 		Context cx = Context.enter();
+
+		cx.initSafeStandardObjects();
 
 		// No class loader for unsigned applets so don't try and optimize.
 		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
