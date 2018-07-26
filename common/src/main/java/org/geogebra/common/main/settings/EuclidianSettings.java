@@ -144,7 +144,7 @@ public class EuclidianSettings extends AbstractSettings {
 	private double bgRulerGap = 60;
 
 	private GColor bgRulerColor;
-	private GColor bgSubgridColor;
+	private GColor bgSubLineColor;
 
 	/**
 	 * @param app
@@ -192,7 +192,6 @@ public class EuclidianSettings extends AbstractSettings {
 		setBackground(GColor.WHITE);
 		setBackgroundType(BackgroundType.NONE);
 		setBgRulerColor(GColor.MOW_RULER);
-		setBgSubgridColor(GColor.MOW_SUBGRID);
 		setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
@@ -1195,6 +1194,20 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * Adds ruler XML
+	 * 
+	 * @param sbxml
+	 *            xml builder
+	 */
+	public void addRulerXML(StringBuilder sbxml) {
+		sbxml.append("\t<ruler type=\"");
+		sbxml.append(backgroundType.value());
+		sbxml.append("\" color=\"");
+		sbxml.append(backgroundType.value());
+		sbxml.append("\"/>\n");
+	}
+
+	/**
 	 * Returns axis label including &lt;b> and &lt;i>
 	 * 
 	 * @param i
@@ -1489,29 +1502,31 @@ public class EuclidianSettings extends AbstractSettings {
 		this.bgRulerGap = backgroundRulerGap;
 	}
 
+	/**
+	 * 
+	 * @return the ruler main color
+	 */
 	public GColor getBgRulerColor() {
 		return bgRulerColor;
 	}
 
 	/**
-	 * @return color of subgrid lines
+	 * @return color of sub lines
 	 */
-	public GColor getBgSubgridColor() {
-		return bgSubgridColor;
-	}
-
-	public void setBgRulerColor(GColor bgRulerColor) {
-		this.bgRulerColor = bgRulerColor;
+	public GColor getBgSubLineColor() {
+		return bgSubLineColor;
 	}
 
 	/**
-	 * set color of subgrid lines
+	 * Set color of lines
+	 * Color sub lines is derived from that.
 	 * 
-	 * @param bgSubgridColor
-	 *            color of subgrid
+	 * @param color
+	 *            color of main lines.
 	 */
-	public void setBgSubgridColor(GColor bgSubgridColor) {
-		this.bgSubgridColor = bgSubgridColor;
+	public void setBgRulerColor(GColor color) {
+		this.bgRulerColor = color;
+		bgSubLineColor = GColor.getSubGridColor(color);
 	}
 
 	/**
@@ -1531,10 +1546,19 @@ public class EuclidianSettings extends AbstractSettings {
 		this.rulerBold = rulerBold;
 	}
 
+	/**
+	 * 
+	 * @return the ruler linestyle
+	 */
 	public int getRulerLineStyle() {
 		return rulerLineStyle;
 	}
 
+	/**
+	 * Sets the ruler linee style
+	 * 
+	 * @param rulerLineStyle
+	 */
 	public void setRulerLineStyle(int rulerLineStyle) {
 		this.rulerLineStyle = rulerLineStyle;
 	}
