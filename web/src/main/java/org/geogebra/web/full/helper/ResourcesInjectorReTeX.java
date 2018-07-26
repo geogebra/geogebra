@@ -2,13 +2,10 @@ package org.geogebra.web.full.helper;
 
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.SharedResources;
-
-import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  * Resource injector that includes UI styles.
@@ -27,7 +24,6 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
@@ -38,12 +34,6 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
 	}
-
-	private native JavaScriptObject getOldJQuery() /*-{
-		var oldQuery = $wnd.jQuery;
-		delete ($wnd.jQuery);
-		return oldQuery;
-	}-*/;
 
 	@Override
 	public native void loadWebFont(String fontUrl) /*-{
@@ -58,19 +48,5 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 			$wnd.WebFontConfig.custom.urls = [ fontUrl ];
 		}
 		$wnd.WebFont && $wnd.WebFont.load($wnd.WebFontConfig);
-	}-*/;
-
-	/**
-	 * Runs JQ in noconflict mode; note that when running injectResourcesGUI
-	 * twice jQuery is undefined on the second run
-	 * 
-	 * @param oldQuery
-	 *            value of window.jQuery before we started loading
-	 */
-	private native void jQueryNoConflict(JavaScriptObject oldQuery) /*-{
-		if ($wnd.jQuery && $wnd.jQuery.noConflict) {
-			$wnd.$ggbQuery = $wnd.jQuery.noConflict(true);
-		}
-		$wnd.jQuery = oldQuery;
 	}-*/;
 }
