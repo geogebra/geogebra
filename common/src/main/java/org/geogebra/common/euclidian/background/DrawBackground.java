@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian.background;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -14,6 +16,7 @@ public class DrawBackground {
 	private EuclidianView view;
 	private EuclidianSettings settings;
 	private double gap;
+	private GBasicStroke rulerStroke;
 
 	/**
 	 * 
@@ -32,6 +35,9 @@ public class DrawBackground {
 	 *            graphics
 	 */
 	public void draw(GGraphics2D g2) {
+		rulerStroke = EuclidianStatic.getStroke(settings.isRulerBold() ? 2f : 1f,
+				settings.getRulerLineStyle());
+		g2.setStroke(rulerStroke);
 		gap = settings.getBackgroundRulerGap();
 		switch (settings.getBackgroundType()) {
 		case RULER:

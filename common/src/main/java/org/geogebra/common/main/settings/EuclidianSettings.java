@@ -55,6 +55,11 @@ public class EuclidianSettings extends AbstractSettings {
 	private int gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 
 	/**
+	 * Line style of ruler.
+	 */
+	private int rulerLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
+
+	/**
 	 * Various distances between lines of the grid.
 	 */
 	double[] gridDistances = null; // { 2, 2, Math.PI/6 };
@@ -110,6 +115,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private boolean showGrid;
 
 	protected boolean gridIsBold;
+
+	private boolean rulerBold = false;
 
 	private int gridType = EuclidianView.GRID_CARTESIAN;
 
@@ -183,8 +190,7 @@ public class EuclidianSettings extends AbstractSettings {
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
-		// setBackgroundType(BackgroundType.SQUARE_SMALL);
-		setBackgroundType(BackgroundType.RULER);
+		setBackgroundType(BackgroundType.NONE);
 		setBgRulerColor(GColor.MOW_RULER);
 		setBgSubgridColor(GColor.MOW_SUBGRID);
 		setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
@@ -1506,5 +1512,30 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setBgSubgridColor(GColor bgSubgridColor) {
 		this.bgSubgridColor = bgSubgridColor;
+	}
+
+	/**
+	 * 
+	 * @return if ruler lines are bold.
+	 */
+	public boolean isRulerBold() {
+		return rulerBold;
+	}
+
+	/**
+	 * 
+	 * @param rulerBold
+	 *            to set.
+	 */
+	public void setRulerBold(boolean rulerBold) {
+		this.rulerBold = rulerBold;
+	}
+
+	public int getRulerLineStyle() {
+		return rulerLineStyle;
+	}
+
+	public void setRulerLineStyle(int rulerLineStyle) {
+		this.rulerLineStyle = rulerLineStyle;
 	}
 }

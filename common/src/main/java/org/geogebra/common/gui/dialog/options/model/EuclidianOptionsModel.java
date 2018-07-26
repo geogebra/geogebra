@@ -126,6 +126,16 @@ public class EuclidianOptionsModel {
 
 	}
 
+	public void applyRulerColor(GColor col) {
+		view.getSettings().setBgRulerColor(col);
+		view.repaintView();
+	}
+
+	public void applyBoldRuler(boolean bold) {
+		view.getSettings().setRulerBold(bold);
+		view.repaintView();
+	}
+
 	public void applyTooltipMode(int mode0) {
 		int mode = mode0;
 		if (mode == 0) {
@@ -403,6 +413,11 @@ public class EuclidianOptionsModel {
 		view.setGridLineStyle(style);
 	}
 
+	public void applyRulerStyle(int style) {
+		view.getSettings().setRulerLineStyle(style);
+		view.repaintView();
+	}
+
 	public void appyGridManualTick(boolean value) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAutomaticGridDistance(!value,
@@ -588,6 +603,7 @@ public class EuclidianOptionsModel {
 
 		listener.updateBackgroundColor(getBackgroundColor());
 
+		listener.updateRulerType(view.getSettings().getBackgroundType().value());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
 
@@ -652,7 +668,7 @@ public class EuclidianOptionsModel {
 
 	public void fillRulingCombo() {
 		Localization loc = app.getLocalization();
-		String[] rulerTypes = { loc.getMenuDefault("None", " "),
+		String[] rulerTypes = { loc.getMenuDefault("NoRuling", "No ruling"),
 				loc.getMenuDefault("Ruled", "Ruled"),
 				loc.getMenuDefault("Squared5", "Squared (5 mm)"),
 				loc.getMenuDefault("Squared1", "Squared (1 mm)") };
@@ -729,6 +745,10 @@ public class EuclidianOptionsModel {
 
 	public GColor getGridColor() {
 		return view.getGridColor();
+	}
+
+	public GColor getRulerColor() {
+		return view.getSettings().getBgRulerColor();
 	}
 
 	public GColor getBackgroundColor() {
@@ -823,6 +843,8 @@ public class EuclidianOptionsModel {
 		void selectGridStyle(int style);
 
 		void addAngleOptionItem(String item);
+
+		void updateRulerType(int idx);
 	}
 
 	/**

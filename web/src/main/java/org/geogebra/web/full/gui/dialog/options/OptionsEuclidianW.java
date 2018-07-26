@@ -381,9 +381,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void initGridStylePanel() {
-			if (!gridOptions) {
-				return;
-			}
 
 			// line style
 			btnGridStyle = LineStylePopup.create(app, -1, false,
@@ -396,8 +393,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void fireActionPerformed(PopupMenuButtonW actionButton) {
-					model.appyGridStyle(EuclidianView
-							.getLineType(btnGridStyle.getSelectedIndex()));
+					int style = EuclidianView.getLineType(btnGridStyle.getSelectedIndex());
+					if (gridOptions) {
+						model.appyGridStyle(style);
+					} else {
+						model.applyRulerStyle(style);
+					}
 				}
 			});
 			btnGridStyle.setKeepVisible(false);
@@ -409,11 +410,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					if (!cbShowGrid.getValue()) {
+					if (gridOptions && !cbShowGrid.getValue()) {
 						return;
 					}
 					getDialogManager().showColorChooserDialog(
-							model.getGridColor(),
+							gridOptions ? model.getGridColor() : model.getRulerColor(),
 							new ColorChangeHandler() {
 						
 						@Override
@@ -424,7 +425,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						
 						@Override
 						public void onColorChange(GColor color) {
-							model.applyGridColor(color);
+									if (gridOptions) {
+										model.applyGridColor(color);
+									} else {
+										model.applyRulerColor(color);
+									}
 							updateGridColorButton(color);
 						}
 						
@@ -462,7 +467,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					model.applyBoldGrid(cbBoldGrid.getValue());
+					if (gridOptions) {
+						model.applyBoldGrid(cbBoldGrid.getValue());
+					} else {
+						model.applyBoldRuler(cbBoldGrid.getValue());
+					}
 					updateView();
 				}
 			});
@@ -498,11 +507,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			model.fillAngleOptions();
 			cbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
+			}
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
 			cbBoldGrid.setText(loc.getMenu("Bold"));
-			}
-			if (lbRulerType != null) {
+
+			if (!gridOptions) {
+				lblRulerType.setText(loc.getMenu("Ruling") + ":");
 				int idx1 = lbRulerType.getSelectedIndex();
 				lbRulerType.clear();
 				model.fillRulingCombo();
@@ -590,16 +601,23 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void updateGridColorButton(GColor color) {
-			if (!gridOptions) {
-				return;
-			}
 			ImageOrText content = new ImageOrText();
 			content.setBgColor(color);
 			btGridColor.setIcon(content);
 		}
 
 		public void addRulerTypeItem(String item) {
+			if (gridOptions) {
+				return;
+			}
 			lbRulerType.addItem(item);
+		}
+
+		public void setRulerType(int idx) {
+			if (gridOptions) {
+				return;
+			}
+			lbRulerType.setSelectedIndex(idx);
 		}
 	
 	}
@@ -922,6 +940,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		gridTab.addRulerTypeItem(item);
+	}
+
+	@Override
+	public void updateRulerType(int idx) {
+		gridTab.setRulerType(idx);
 	}
 }
 

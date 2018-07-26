@@ -1256,4 +1256,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	public void addRulerTypeItem(String item) {
 		// implemented in web
 	}
+
+	public void updateRulerType(int idx) {
+		// implemented in web
+	}
 }
