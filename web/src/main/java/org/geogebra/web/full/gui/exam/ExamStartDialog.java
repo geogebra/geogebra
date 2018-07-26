@@ -1,12 +1,14 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
@@ -14,7 +16,8 @@ import com.google.gwt.user.client.ui.Label;
  *         dialog to enter in graphing calc exam mode
  *
  */
-public class ExamStartDialog extends DialogBoxW implements SetLabels {
+public class ExamStartDialog extends DialogBoxW
+		implements SetLabels, FastClickHandler {
 	private FlowPanel mainPanel;
 	private Label startText;
 	private FlowPanel buttonPanel;
@@ -39,7 +42,9 @@ public class ExamStartDialog extends DialogBoxW implements SetLabels {
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
 		cancelBtn = new StandardButton("", app);
+		cancelBtn.addFastClickHandler(this);
 		startBtn = new StandardButton("", app);
+		startBtn.addFastClickHandler(this);
 		buttonPanel.add(cancelBtn);
 		buttonPanel.add(startBtn);
 		// build main panel
@@ -63,6 +68,14 @@ public class ExamStartDialog extends DialogBoxW implements SetLabels {
 	public void show() {
 		super.show();
 		center();
+	}
+
+	public void onClick(Widget source) {
+		if (source == cancelBtn) {
+			this.hide();
+		} else if (source == startBtn) {
+			
+		}
 	}
 
 }

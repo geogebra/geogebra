@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -55,13 +56,28 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 
 						@Override
 						public void execute() {
-							ExamStartDialog examStartDialog = new ExamStartDialog(
-									getApp());
-							examStartDialog.show();
-							examStartDialog.center();
+							((DialogManagerW) app.getDialogManager())
+									.getSaveDialog()
+									.showIfNeeded(getExamCallback());
 						}
 					});
 		}
+	}
+
+	/**
+	 * @return callback that shows the start exam dialog 
+	 */
+	Runnable getExamCallback() {
+		return new Runnable() {
+
+			@Override
+			public void run() {
+				app.toggleMenu();
+				ExamStartDialog examStartDialog = new ExamStartDialog(getApp());
+				examStartDialog.show();
+				examStartDialog.center();
+			}
+		};
 	}
 
 	private void addMenuItem(String appId, String translationKey,

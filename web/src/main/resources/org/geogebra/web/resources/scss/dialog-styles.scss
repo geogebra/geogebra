@@ -919,6 +919,12 @@ $duration: 0.2s;
 				margin: 0px;
 				padding-right: 16px;
 			}
+		
+			.DialogButtonPanel {
+				.button {
+					cursor: pointer;
+				}
+			}
 		}
 	}
 }
