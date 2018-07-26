@@ -125,6 +125,19 @@ $slider-diameter:15px;
 		transform-origin: 50% 50%;
 		margin: -5px 0 0 0;
 		transition: initial;
+		cursor: pointer;
+	}
+	
+	input[type=range]::-webkit-slider-thumb:hover {
+		height: 19px;
+		width: 19px;
+		margin: -7px 0 0 0;
+	}
+	
+	input[type=range]::-moz-range-thumb:hover {
+		height: 19px;
+		width: 19px;
+		margin: -7px 0 0 0;
 	}
 		
 	input[type=range]::-moz-range-track {
@@ -140,6 +153,7 @@ $slider-diameter:15px;
 		border-radius: 50%;
 		background: $black;
 		margin-top: -5px;
+		cursor: pointer;
 	}
 	
 	// hide the outline behind the border
@@ -174,7 +188,7 @@ $slider-diameter:15px;
 		background: $slider-track;
 	}
 	
-	input[type=range]::-ms-thumb {
+	3 {
 		border: none;
 		height: $slider-diameter;
 		width: $slider-diameter;
