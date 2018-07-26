@@ -4,13 +4,11 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -132,12 +130,6 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 			return;
 		}
 		super.onMouseDown(event);
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		SliderWJquery.stopSliders();
-		super.onMouseUp(event);
 	}
 
 	@Override

@@ -106,7 +106,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 					&& kernel.degreesMode();
 			setSlider(new SliderPanelW(num.getIntervalMin(),
 					num.getIntervalMax(), app.getKernel(), degree));
-			updateColor();
 
 			getSlider().setValue(num.getValue());
 
@@ -179,10 +178,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	}
 
-	private void updateColor() {
-		getSlider().updateColor(geo.getAlgebraColor());
-	}
-
 	@Override
 	protected void doUpdate() {
 		if (num == null) {
@@ -198,7 +193,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		marblePanel.update();
 		controls.updateAnimPanel();
 
-		getSlider().setScale(app.getArticleElement().getScaleX());
 		double min = num.getIntervalMin();
 		double max = num.getIntervalMax();
 		boolean degree = geo.isGeoAngle()
@@ -215,7 +209,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 			styleContentPanel();
 		}
 		updateTextItems();
-		updateColor();
 	}
 
 	@Override
@@ -227,17 +220,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	@Override
 	public void setDraggable() {
 		// slider is not draggable from AV to EV.
-	}
-
-	/**
-	 * cast method with no 'instanceof' check.
-	 * 
-	 * @param item
-	 *            TreeItem to be casted
-	 * @return Casted item to SliderTreeItem
-	 */
-	public static SliderTreeItemRetex as(TreeItem item) {
-		return (SliderTreeItemRetex) item;
 	}
 
 	@Override

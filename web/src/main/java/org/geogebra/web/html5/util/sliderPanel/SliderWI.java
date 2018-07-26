@@ -15,7 +15,4 @@ public interface SliderWI extends HasChangeHandlers, HasValue<Double>,
 	void setMinimum(double min);
 
 	void setStep(double step);
-
-	void setScale(double scale);
-
 }

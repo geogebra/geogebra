@@ -122,11 +122,4 @@ public class SliderW extends FocusWidget implements SliderWI {
 			curValue = value;
 		}
 	}
-
-	@Override
-	public void setScale(double scale) {
-		// only needed for jQuery slider
-
-	}
-
 }

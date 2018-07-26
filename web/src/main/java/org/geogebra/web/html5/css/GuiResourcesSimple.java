@@ -40,9 +40,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
 	ImageResource icons_play_pause_circle_hover();
 
-	@Source("org/geogebra/web/resources/js/jquery-1.7.2.min.js")
-	TextResource jQueryJs();
-
 	@Source("org/geogebra/web/resources/js/zipjs/codecs.js")
 	TextResource pakoCodecJs();
 
@@ -64,9 +61,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	// used by ExamUtil (eg toggleFullScreen)
 	@Source("org/geogebra/web/resources/js/visibility.js")
 	TextResource visibilityJs();
-
-	@Source("org/geogebra/web/resources/js/jquery-ui.js")
-	TextResource jqueryUI();
 
 	@Source("org/geogebra/web/resources/js/domvas.js")
 	TextResource domvas();
@@ -119,9 +113,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/layout.scss")
 	SassResource layoutScss();
-
-	@Source("org/geogebra/web/resources/css/jquery-ui.css")
-	TextResource jqueryStyle();
 
 	@Source("org/geogebra/common/icons/png/view_refresh.png")
 	ImageResource viewRefresh();

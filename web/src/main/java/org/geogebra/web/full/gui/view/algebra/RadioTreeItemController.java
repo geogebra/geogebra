@@ -33,7 +33,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
-import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -207,7 +206,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		SliderWJquery.stopSliders();
+
 		event.stopPropagation();
 		if (isEditing()) {
 			return;

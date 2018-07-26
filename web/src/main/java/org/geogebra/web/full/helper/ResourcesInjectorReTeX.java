@@ -17,15 +17,9 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 	@Override
 	protected void injectResourcesGUI() {
-		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
-		JavaScriptObject oldQuery = getOldJQuery();
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
-		jQueryNoConflict(oldQuery);
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
 		StyleInjector.inject(GuiResources.INSTANCE.mowStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.openScreenStyle());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.fonts());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());

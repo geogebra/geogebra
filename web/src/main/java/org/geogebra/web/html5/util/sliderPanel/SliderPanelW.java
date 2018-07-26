@@ -1,15 +1,11 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
@@ -49,9 +45,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		this.kernel = kernel;
 		minLabel = new Label();
 		add(minLabel);
-		slider = new SliderWJquery(min, max);
-		slider.setScale(((AppW) kernel.getApplication()).getArticleElement()
-				.getScaleX());
+		slider = new SliderW(min, max);
 		add(slider);
 		maxLabel = new Label();
 		setMinimum(min, degrees);
@@ -160,37 +154,5 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		double w = width - minLabel.getOffsetWidth()
 				- maxLabel.getOffsetWidth();
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
-	}
-
-	/**
-	 * @param color
-	 *            slider color
-	 */
-	public void updateColor(GColor color) {
-		GColor c = color.deriveWithAlpha(102);
-
-		Style uiStyle = Dom.querySelectorForElement(getElement(), "ui-slider")
-				.getStyle();
-		uiStyle.setBackgroundColor(GColor.getColorString(c));
-		setUIStyle(getElement(), color);
-	}
-
-	private static void setUIStyle(Element elem, GColor color) {
-		GColor c = color.deriveWithAlpha(102);
-		Style style = Dom.querySelectorForElement(elem,
-				"ui-state-default").getStyle();
-		style.setBackgroundColor(GColor.getColorString(color));
-
-		style.setBorderColor(GColor.getColorString(c));
-	}
-
-	/**
-	 * @param scale
-	 *            scale of the app, NOT including browser zoom
-	 */
-	public void setScale(double scale) {
-		if (slider != null) {
-			slider.setScale(scale);
-		}
 	}
 }
