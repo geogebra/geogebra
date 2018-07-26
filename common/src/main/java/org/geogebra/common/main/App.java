@@ -4425,6 +4425,10 @@ public abstract class App implements UpdateSelection {
 		/** GBB-2394 */
 		case SPLITTER_LOADING:
 			return prerelease;
+
+		/** GGB-2439 */
+		case GRAPH_EXAM_MODE:
+			return true;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

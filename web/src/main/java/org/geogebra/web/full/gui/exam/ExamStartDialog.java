@@ -47,6 +47,7 @@ public class ExamStartDialog extends DialogBoxW implements SetLabels {
 		mainPanel.add(buttonPanel);
 		mainPanel.addStyleName("examStartDialog");
 		add(mainPanel);
+		setGlassEnabled(true);
 		setLabels();
 	}
 

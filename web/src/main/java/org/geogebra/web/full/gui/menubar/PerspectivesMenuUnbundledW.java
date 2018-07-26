@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -45,10 +46,25 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				MaterialDesignResources.INSTANCE.graphing3D());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
+		if (app.has(Feature.GRAPH_EXAM_MODE) && app.isUnbundledGraphing()) {
+			addItem(MainMenu.getMenuBarHtml(
+					MaterialDesignResources.INSTANCE.exam_graphing()
+							.getSafeUri().asString(),
+					app.getLocalization().getMenu("ExamGraphingCalc.short"),
+					true), true, new MenuCommand(getApp()) {
+
+						@Override
+						public void execute() {
+							ExamStartDialog examStartDialog = new ExamStartDialog(
+									getApp());
+							examStartDialog.show();
+							examStartDialog.center();
+						}
+					});
+		}
 	}
 
-	private void addMenuItem(String appId,
-			String translationKey,
+	private void addMenuItem(String appId, String translationKey,
 			ResourcePrototype icon) {
 		StringBuilder link = new StringBuilder("https://www.geogebra.org/");
 		if (app.has(Feature.TUBE_BETA)) {

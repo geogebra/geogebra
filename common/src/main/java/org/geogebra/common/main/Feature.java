@@ -190,6 +190,9 @@ public enum Feature {
 
 	/** GGB-2394 */
 	SPLITTER_LOADING,
+	
+	/** GGB-2439 */
+	GRAPH_EXAM_MODE,
 
 	/** MOW-285 */
 	MOW_BOUNDING_BOX_FOR_PEN_TOOL,
