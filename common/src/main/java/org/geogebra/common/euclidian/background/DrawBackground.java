@@ -42,6 +42,7 @@ public class DrawBackground {
 		switch (settings.getBackgroundType()) {
 		case RULER:
 			drawHorizontalLines(g2, 0, false);
+			drawVerticalFrame(g2, 0, false);
 			break;
 		case SQUARE_BIG:
 			gap = settings.getBackgroundRulerGap() / 2;
@@ -58,17 +59,32 @@ public class DrawBackground {
 		}
 	}
 
+	private void drawVerticalFrame(GGraphics2D g2, int i, boolean b) {
+		double start = view.getYZero() % gap;
+		// draw main grid
+		g2.setColor(settings.getBgRulerColor());
+		g2.startGeneralPath();
+
+		double x = view.getXZero() - view.getWidth() / 2;
+		double xEnd = x + view.getWidth();
+		double yEnd = view.getHeight();
+		double y = start - gap;
+		g2.addStraightLineToGeneralPath(x, y, x, yEnd);
+		g2.addStraightLineToGeneralPath(xEnd, y, xEnd, yEnd);
+		g2.endAndDrawGeneralPath();
+	}
+
 	private void drawHorizontalLines(GGraphics2D g2, double xCrossPix1,
 			boolean subgrid) {
 		double start = view.getYZero() % gap;
 
 		// draw main grid
-		g2.setColor(subgrid ? settings.getBgSubgridColor()
+		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
 		final double x = view.getXZero() - view.getWidth() / 2;
 		double yEnd = view.getHeight();
-		double y = start;// + gap; // do we need this?
+		double y = start - gap;
 		double width = view.getWidth() - (view.getWidth() % gap);
 
 		if (subgrid) {
@@ -92,16 +108,15 @@ public class DrawBackground {
 
 	private void drawVerticalLines(GGraphics2D g2, double xCrossPix1,
 			boolean subgrid) {
-		double xCrossPix = xCrossPix1;
 		double start = view.getYZero() % gap;
-
 		// draw main grid
-		g2.setColor(subgrid ? settings.getBgSubgridColor()
+		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
-		double x = xCrossPix + view.getXZero();
+
+		double x = view.getXZero() - view.getWidth() / 2;
 		double xEnd = x + view.getWidth();
-		double y = start + gap;
+		double y = start - gap;
 		double height = view.getHeight();
 
 		if (subgrid) {
