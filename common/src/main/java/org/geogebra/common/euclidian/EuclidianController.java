@@ -10936,7 +10936,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// make zooming a little bit smoother by having some steps
 		view.setAnimatedCoordSystem(
 				px, py, factor, view.getXscale() * factor, steps, false);
+		zoomVideos(factor);
 		app.setUnsaved();
+	}
+
+	private void zoomVideos(double factor) {
+		this.getApplication().getVideoManager().zoomVideos(factor);
 	}
 
 	/**

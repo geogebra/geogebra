@@ -449,4 +449,11 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	public boolean hasSize() {
 		return getWidth() != -1 && getHeight() != -1;
 	}
+
+	public void zoom(double factor) {
+		Double width = getWidth() * factor;
+		Double height = getHeight() * factor;
+		setWidth(width);
+		setHeight(height);
+	}
 }
