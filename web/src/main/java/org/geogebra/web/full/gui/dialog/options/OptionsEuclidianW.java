@@ -118,22 +118,27 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
 		private FlowPanel mainPanel;
+		private boolean gridOptions;
 
 		public GridTab() {
 			super(app);
-			cbShowGrid = new CheckBox();
-			cbShowGrid.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					enableGrid(cbShowGrid.getValue());
-					app.storeUndoInfo();
-				}
-			});
+			gridOptions = !app.isWhiteboardActive() || !app.has(Feature.MOW_BACKGROUND);
 			mainPanel = new FlowPanel();
+			if (gridOptions) {
+				cbShowGrid = new CheckBox();
+				cbShowGrid.addClickHandler(new ClickHandler() {
 
-			add(cbShowGrid);
-			addPointCapturingStyle();
+					@Override
+					public void onClick(ClickEvent event) {
+						enableGrid(cbShowGrid.getValue());
+						app.storeUndoInfo();
+					}
+				});
+
+
+				add(cbShowGrid);
+				addPointCapturingStyle();
+			}
 			add(mainPanel);
 			initGridTypePanel();
 			initGridStylePanel();
@@ -148,6 +153,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void addPointCapturingStyle() {
+			if (!gridOptions) {
+				return;
+			}
+
 			pointCapturingStyleList = new ListBox();
 			lbPointCapturing = new FormLabel(
 					loc.getMenu("PointCapturing") + ":")
@@ -195,6 +204,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void updatePointCapturingStyleList() {
+			if (!gridOptions) {
+				return;
+			}
+
 			pointCapturingStyleList.clear();
 			String[] strPointCapturing = new String[] {
 					loc.getMenu("Labeling.automatic"),
@@ -223,6 +236,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		void enableGrid(boolean value) {
+			if (!gridOptions) {
+				return;
+			}
+
 			model.showGrid(value);
 			if (value) {
 				mainPanel.removeStyleName("disabled");
@@ -237,8 +254,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void initGridTypePanel() {
+			if (!gridOptions) {
+				return;
+			}
 			// grid type combo box
-
 			lbGridType = new ListBox();
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
@@ -339,9 +358,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void initRulerType(FlowPanel panel) {
-			if (!(app.has(Feature.MOW_BACKGROUND) && app.isWhiteboardActive())) {
+			if (gridOptions) {
 				return;
 			}
+
 			lbRulerType = new ListBox();
 			lblRulerType = new FormLabel("Ruling").setFor(lbRulerType);
 			lbRulerType.addChangeHandler(new ChangeHandler() {
@@ -361,6 +381,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void initGridStylePanel() {
+			if (!gridOptions) {
+				return;
+			}
+
 			// line style
 			btnGridStyle = LineStylePopup.create(app, -1, false,
 					app.isUnbundledOrWhiteboard());
@@ -458,6 +482,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		@Override
 		public void setLabels() {
+			if (gridOptions) {
+
 			cbShowGrid.setText(loc.getMenu("ShowGrid"));
 			setTextColon(lbPointCapturing, "PointCapturing");
 			updatePointCapturingStyleList();
@@ -475,29 +501,44 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
 			cbBoldGrid.setText(loc.getMenu("Bold"));
-
+			}
 			if (lbRulerType != null) {
-				idx = lbRulerType.getSelectedIndex();
+				int idx1 = lbRulerType.getSelectedIndex();
 				lbRulerType.clear();
 				model.fillRulingCombo();
-				lbRulerType.setSelectedIndex(idx);
+				lbRulerType.setSelectedIndex(idx1);
 			}
 		}
 		
 		protected void setGridTypeLabel() {
+			if (!gridOptions) {
+				return;
+			}
+
 			lblGridType.setText(loc.getMenu("GridType"));
 		}
 
 		public void addGridTypeItem(String item) {
+			if (!gridOptions) {
+				return;
+			}
+
 			lbGridType.addItem(item);
 		}
 
 		public void addAngleOptionItem(String item) {
+			if (!gridOptions) {
+				return;
+			}
+
 			cbGridTickAngle.addItem(item);
 		}
 
 		public void update(GColor color, boolean isShown, boolean isBold,
 				int gridType) {
+			if (!gridOptions) {
+				return;
+			}
 
 			enableGrid(isShown);
 			cbShowGrid.setValue(isShown);
@@ -509,7 +550,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 		public void updateTicks(boolean isAutoGrid, double[] gridTicks,
 				int gridType) {
-	
+			if (!gridOptions) {
+				return;
+			}
+
 			if (gridType != EuclidianView.GRID_POLAR) {
 
 				ncbGridTickY.setVisible(true);
@@ -538,10 +582,17 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void selectGridStyle(int style) {
+			if (!gridOptions) {
+				return;
+			}
+
 			btnGridStyle.selectLineType(style);
 		}
 
 		public void updateGridColorButton(GColor color) {
+			if (!gridOptions) {
+				return;
+			}
 			ImageOrText content = new ImageOrText();
 			content.setBgColor(color);
 			btGridColor.setIcon(content);
