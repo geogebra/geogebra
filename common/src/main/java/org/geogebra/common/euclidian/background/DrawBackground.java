@@ -41,16 +41,16 @@ public class DrawBackground {
 		gap = settings.getBackgroundRulerGap();
 		switch (settings.getBackgroundType()) {
 		case RULER:
-			drawHorizontalLines(g2, 0, false);
-			drawVerticalFrame(g2, 0, false);
+			drawHorizontalLines(g2, false);
+			drawVerticalFrame(g2);
 			break;
 		case SQUARE_BIG:
 			gap = settings.getBackgroundRulerGap() / 2;
-			drawSquaredBackground(g2, 0);
+			drawSquaredBackground(g2);
 			break;
 		case SQUARE_SMALL:
-			drawSquaredSubgrid(g2, 0);
-			drawSquaredBackground(g2, 0);
+			drawSquaredSubgrid(g2);
+			drawSquaredBackground(g2);
 			break;
 		case SVG:
 			break;
@@ -59,13 +59,17 @@ public class DrawBackground {
 		}
 	}
 
-	private void drawVerticalFrame(GGraphics2D g2, int i, boolean b) {
+	private double getStartX() {
+		return view.getXZero() - view.getWidth() / 2.0;
+	}
+
+	private void drawVerticalFrame(GGraphics2D g2) {
 		double start = view.getYZero() % gap;
 		// draw main grid
 		g2.setColor(settings.getBgRulerColor());
 		g2.startGeneralPath();
 
-		double x = view.getXZero() - view.getWidth() / 2;
+		double x = getStartX();
 		double xEnd = x + view.getWidth();
 		double yEnd = view.getHeight();
 		double y = start - gap;
@@ -74,15 +78,14 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawHorizontalLines(GGraphics2D g2, double xCrossPix1,
-			boolean subgrid) {
+	private void drawHorizontalLines(GGraphics2D g2, boolean subgrid) {
 		double start = view.getYZero() % gap;
 
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
-		final double x = view.getXZero() - view.getWidth() / 2;
+		final double x = getStartX();
 		double yEnd = view.getHeight();
 		double y = start - gap;
 		double width = view.getWidth() - (view.getWidth() % gap);
@@ -106,15 +109,14 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawVerticalLines(GGraphics2D g2, double xCrossPix1,
-			boolean subgrid) {
+	private void drawVerticalLines(GGraphics2D g2, boolean subgrid) {
 		double start = view.getYZero() % gap;
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
 
-		double x = view.getXZero() - view.getWidth() / 2;
+		double x = getStartX();
 		double xEnd = x + view.getWidth();
 		double y = start - gap;
 		double height = view.getHeight();
@@ -139,14 +141,14 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawSquaredBackground(GGraphics2D g2, double xCrossPix1) {
-		drawHorizontalLines(g2, xCrossPix1, false);
-		drawVerticalLines(g2, xCrossPix1, false);
+	private void drawSquaredBackground(GGraphics2D g2) {
+		drawHorizontalLines(g2, false);
+		drawVerticalLines(g2, false);
 	}
 
-	private void drawSquaredSubgrid(GGraphics2D g2, double xCrossPix1) {
-		drawHorizontalLines(g2, xCrossPix1, true);
-		drawVerticalLines(g2, xCrossPix1, true);
+	private void drawSquaredSubgrid(GGraphics2D g2) {
+		drawHorizontalLines(g2, true);
+		drawVerticalLines(g2, true);
 	}
 
 	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,

@@ -856,9 +856,6 @@ public class EuclidianOptionsModel {
 	public void appyRulerType(int index) {
 		EuclidianSettings settings = view.getSettings();
 		switch (index) {
-		case 0:
-			settings.setBackgroundType(BackgroundType.NONE);
-			break;
 		case 1:
 			settings.setBackgroundType(BackgroundType.RULER);
 			break;
@@ -867,6 +864,9 @@ public class EuclidianOptionsModel {
 			break;
 		case 3:
 			settings.setBackgroundType(BackgroundType.SQUARE_BIG);
+			break;
+		default:
+			settings.setBackgroundType(BackgroundType.NONE);
 			break;
 		}
 	}
