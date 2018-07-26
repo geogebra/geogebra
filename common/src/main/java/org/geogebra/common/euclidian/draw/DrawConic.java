@@ -50,10 +50,6 @@ import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoParabolaPointLine;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -66,9 +62,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -2601,21 +2595,9 @@ public class DrawConic extends Drawable implements Previewable {
 			view.repaintView();
 			return;
 		}
-		Equation equ = getEquationOfConic(event);
+		double[] equ = getEquationOfConic(event);
 		if (equ != null) {
-			equ.initEquation();
-			ValidExpression ve = equ.wrap();
-			ve.setLabel(conic.getLabelSimple());
-			try {
-				view.getKernel().getAlgebraProcessor()
-						.processValidExpression(ve);
-			} catch (MyError e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			conic.setMatrix(equ);
 		}
 		conic.setEuclidianVisible(true);
 		conic.setSelected(true);
@@ -2627,7 +2609,7 @@ public class DrawConic extends Drawable implements Previewable {
 		view.repaintView();
 	}
 
-	private Equation getEquationOfConic(AbstractEvent event) {
+	private double[] getEquationOfConic(AbstractEvent event) {
 		// real coords
 		double startX = view
 				.toRealWorldCoordX(fixCornerX);
@@ -2647,49 +2629,13 @@ public class DrawConic extends Drawable implements Previewable {
 		// coords of center
 		double centerX = (startX + endX) / 2;
 		double centerY = (startY + endY) / 2;
-		// minor and major axis
-		double minAx = Math.hypot(centerX - centerX, centerY - endY);
-		double majAx = Math.hypot(centerX - endX, centerY - centerY);
+		// build equation (x-centerX)/b^2+(y-centerY)/a^2 = 1
+		double overBsquared = 1 / Math.pow(centerX - endX, 2);
+		double overAsquared = 1 / Math.pow(centerY - endY, 2);
 
-		// construct equation (x-center_x)^2 / b^2 + (y-center_y)^2 / a^2 = 1
-		FunctionVariable xx = new FunctionVariable(view.getKernel(), "x");
-		FunctionVariable yy = new FunctionVariable(view.getKernel(), "y");
-		ExpressionNode rhs = new ExpressionNode(view.getKernel(), 1);
-		ExpressionNode expCenterX = new ExpressionNode(view.getKernel(),
-				centerX);
-		ExpressionNode expCenterY = new ExpressionNode(view.getKernel(),
-				centerY);
-		ExpressionNode expA = new ExpressionNode(view.getKernel(), minAx);
-		ExpressionNode expB = new ExpressionNode(view.getKernel(), majAx);
-
-		ExpressionNode leftNumerator = new ExpressionNode(view.getKernel(), xx,
-				Operation.MINUS, expCenterX);
-		ExpressionNode leftNumeratorSqr = new ExpressionNode(view.getKernel(),
-				leftNumerator, Operation.POWER,
-				new ExpressionNode(view.getKernel(), 2));
-
-		ExpressionNode leftDenom = new ExpressionNode(view.getKernel(), expB,
-				Operation.POWER, new ExpressionNode(view.getKernel(), 2));
-
-		ExpressionNode leftLhs = new ExpressionNode(view.getKernel(),
-				leftNumeratorSqr, Operation.DIVIDE, leftDenom);
-
-		ExpressionNode rightNumerator = new ExpressionNode(view.getKernel(), yy,
-				Operation.MINUS, expCenterY);
-		ExpressionNode rightNumeatorSqr = new ExpressionNode(view.getKernel(),
-				rightNumerator, Operation.POWER,
-				new ExpressionNode(view.getKernel(), 2));
-
-		ExpressionNode rightDenom = new ExpressionNode(view.getKernel(), expA,
-				Operation.POWER, new ExpressionNode(view.getKernel(), 2));
-
-		ExpressionNode rightLhs = new ExpressionNode(view.getKernel(),
-				rightNumeatorSqr, Operation.DIVIDE, rightDenom);
-
-		ExpressionNode lhs = new ExpressionNode(view.getKernel(), leftLhs,
-				Operation.PLUS, rightLhs);
-		Equation equ = new Equation(view.getKernel(), lhs, rhs);
-
-		return equ;
+		return new double[] { overBsquared, overAsquared,
+				-1 + centerX * centerX * overBsquared + centerY * centerY * overAsquared, 0,
+				-centerX * overBsquared, -centerY * overAsquared };
 	}
+
 }
