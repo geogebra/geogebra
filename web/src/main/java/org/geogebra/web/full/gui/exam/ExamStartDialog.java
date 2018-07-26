@@ -71,11 +71,12 @@ public class ExamStartDialog extends DialogBoxW
 	}
 
 	public void onClick(Widget source) {
-		if (source == cancelBtn) {
-			this.hide();
-		} else if (source == startBtn) {
-			
+		if (source == startBtn) {
+			app.fileNew();
+			((AppW) app).getLAF().toggleFullscreen(true);
+			app.setNewExam();
 		}
+		hide();
 	}
 
 }

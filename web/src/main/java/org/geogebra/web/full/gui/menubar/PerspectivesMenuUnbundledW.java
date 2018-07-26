@@ -72,7 +72,9 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 
 			@Override
 			public void run() {
-				app.toggleMenu();
+				if (app.isMenuShowing()) {
+					app.toggleMenu();
+				}
 				ExamStartDialog examStartDialog = new ExamStartDialog(getApp());
 				examStartDialog.show();
 				examStartDialog.center();
