@@ -16,7 +16,7 @@ public class CallJavaScript {
 	 */
 	public static Scriptable evalGlobalScript(App app) {
 
-		ContextFactory.initGlobal(new SandboxContextFactory());
+		ContextFactory.initGlobal(SandboxContextFactory.getInstance());
 
 		// create new scope
 		Context cx = Context.enter();

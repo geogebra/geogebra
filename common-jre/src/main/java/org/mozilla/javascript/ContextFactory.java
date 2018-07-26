@@ -170,6 +170,9 @@ public class ContextFactory
      */
     public synchronized static void initGlobal(ContextFactory factory)
     {
+		if (factory == global) {
+			return;
+		}
         if (factory == null) {
             throw new IllegalArgumentException();
         }
