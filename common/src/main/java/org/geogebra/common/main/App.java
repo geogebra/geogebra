@@ -4428,7 +4428,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2439 */
 		case GRAPH_EXAM_MODE:
-			return true;
+			return false;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
