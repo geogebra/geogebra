@@ -10940,7 +10940,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.setUnsaved();
 	}
 
-	private void zoomVideos(double factor) {
+	public void zoomVideos(double factor) {
 		this.getApplication().getVideoManager().zoomVideos(factor);
 	}
 

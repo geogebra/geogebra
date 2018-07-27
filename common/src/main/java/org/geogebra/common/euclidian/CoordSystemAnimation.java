@@ -55,6 +55,8 @@ public abstract class CoordSystemAnimation {
 	private double standardX;
 	private double standardY;
 
+	private double zoomFactor;
+
 	/**
 	 * Creates new zoomer
 	 * 
@@ -114,7 +116,7 @@ public abstract class CoordSystemAnimation {
 			boolean doStoreUndo) {
 		this.px = ptx;
 		this.py = pty;
-		// this.zoomFactor = zoomFactor;
+		this.zoomFactor = zoomFactor;
 		this.storeUndo = doStoreUndo;
 
 		oldScale = view.getXscale();
@@ -197,6 +199,7 @@ public abstract class CoordSystemAnimation {
 				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 						oldScale * factor,
 						oldScale * factor * view.getScaleRatio());
+				view.getEuclidianController().zoomVideos(Math.pow(zoomFactor, 1.0 / (steps)));
 				break;
 			case ZOOM_RW:
 				double i = counter;
