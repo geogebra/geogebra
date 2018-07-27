@@ -1548,6 +1548,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		int rulerType = Integer.parseInt(attrs.get("val"));
 		ev.setRulerType(rulerType);
+		ev.setRulerBold(Boolean.parseBoolean(attrs.get("bold")));
 		return true;
 	}
 
@@ -1566,7 +1567,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
 			ev.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
 			if (attrs.containsKey("ruler")) {
-				ev.setRulerLineStyle(Integer.parseInt(attrs.get("grid")));
+				ev.setRulerLineStyle(Integer.parseInt(attrs.get("ruler")));
 			}
 			return true;
 		} catch (RuntimeException e) {
