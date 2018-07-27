@@ -75,6 +75,10 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				if (app.isMenuShowing()) {
 					app.toggleMenu();
 				}
+				app.fileNew();
+				app.getLAF().toggleFullscreen(true);
+				app.setNewExam();
+				app.startExam();
 				ExamStartDialog examStartDialog = new ExamStartDialog(getApp());
 				examStartDialog.show();
 				examStartDialog.center();
