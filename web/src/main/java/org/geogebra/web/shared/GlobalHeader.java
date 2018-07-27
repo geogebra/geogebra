@@ -5,7 +5,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -136,12 +135,10 @@ public class GlobalHeader implements EventRenderable {
 					String os = Browser.getMobileOperatingSystem();
 					getApp().getExam().checkCheating(os);
 					if (getApp().getExam().isCheating()
-							&& getApp().getGuiManager() instanceof GuiManagerW
-							&& ((GuiManagerW) getApp().getGuiManager())
+							&& getApp().getGuiManager()
 									.getUnbundledToolbar() != null) {
-						((GuiManagerW) getApp().getGuiManager())
-								.getUnbundledToolbar()
-								.setHeaderStyle("examCheat");
+						getApp().getGuiManager()
+								.setUnbundledHeaderStyle("examCheat");
 					}
 
 					getTimer().setText(getApp().getExam()

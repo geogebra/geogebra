@@ -2460,4 +2460,9 @@ public class GuiManagerW extends GuiManager
 				: getLayout().getDockManager().getRoot()
 				.getOrientation() == SwingConstants.VERTICAL_SPLIT;
 	}
+	
+	public void setUnbundledHeaderStyle(String style) {
+		getUnbundledToolbar().setHeaderStyle(style);
+	}
+
 }

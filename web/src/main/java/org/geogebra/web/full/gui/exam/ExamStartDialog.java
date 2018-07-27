@@ -79,7 +79,7 @@ public class ExamStartDialog extends DialogBoxW
 							.getUnbundledToolbar() != null) {
 				((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
 						.setHeaderStyle("examOk");
-
+				((GuiManagerW) app.getGuiManager()).resetMenu();
 			}
 			GlobalHeader.INSTANCE.addExamTimer();
 		}
