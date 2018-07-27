@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoCoords4D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**

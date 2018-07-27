@@ -1,4 +1,4 @@
-package org.geogebra.common.io;
+package org.geogebra.common.geogebra3D.io;
 
 import java.util.ArrayList;
 import java.util.List;

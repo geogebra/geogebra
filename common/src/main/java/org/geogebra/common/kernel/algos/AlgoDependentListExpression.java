@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -44,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
@@ -142,16 +142,16 @@ public class AlgoDependentListExpression extends AlgoElement
 			if (i < cachedListSize) {
 				cached = list.getCached(i);
 			}
-			GeoElement geo = toGeo(element, cached, cons);
+			GeoElementND geo = toGeo(element, cached, cons);
 			if (geo != null) {
 				list.add(geo);
 			}
 		}
 	}
 
-	private static GeoElement toGeo(ExpressionValue element,
+	private static GeoElementND toGeo(ExpressionValue element,
 			GeoElement cachedGeo, Construction cons) {
-		GeoElement geo = null;
+		GeoElementND geo = null;
 
 		// number result
 		if (element instanceof NumberValue) {
@@ -242,7 +242,7 @@ public class AlgoDependentListExpression extends AlgoElement
 
 			// no cached point: create new one
 			if (geo == null) {
-				GeoPoint3D point = new GeoPoint3D(cons);
+				GeoPointND point = cons.getKernel().getGeoFactory().newPoint(3, cons);
 				point.setCoords(vec.getX(), vec.getY(), vec.getZ(), 1);
 				geo = point;
 			}
@@ -274,7 +274,7 @@ public class AlgoDependentListExpression extends AlgoElement
 				ExpressionValue en = myList2.getListElement(j);
 				ExpressionValue ev = en
 						.evaluate(StringTemplate.defaultTemplate);
-				GeoElement geo2 = toGeo(ev, null, cons);
+				GeoElementND geo2 = toGeo(ev, null, cons);
 				if (geo2 != null) {
 					list2.add(geo2);
 				}

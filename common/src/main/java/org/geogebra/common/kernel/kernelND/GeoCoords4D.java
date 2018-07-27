@@ -1,4 +1,4 @@
-package org.geogebra.common.geogebra3D.kernel3D.geos;
+package org.geogebra.common.kernel.kernelND;
 
 /**
  * Simple interface for geos that have 4 coords (3D points and vectors, 3D

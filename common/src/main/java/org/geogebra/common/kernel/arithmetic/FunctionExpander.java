@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -9,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -107,8 +107,8 @@ public class FunctionExpander implements Traversing {
 							.unwrap()).getExpression() : ve.wrap();
 
 					en2 = en2.traverse(this).wrap();
-					if (en2.getLeft() instanceof GeoSurfaceCartesian3D) {
-						FunctionNVar[] fun = ((GeoSurfaceCartesian3D) en2
+					if (en2.getLeft() instanceof GeoSurfaceCartesianND) {
+						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2
 								.getLeft()).getFunctions();
 						MyVec3DNode vect = new MyVec3DNode(
 								((ExpressionNode) ev).getKernel(),
@@ -128,7 +128,7 @@ public class FunctionExpander implements Traversing {
 					}
 					fv = ((GeoCasCell) geo).getFunctionVariables();
 				}
-				if (geo instanceof GeoSurfaceCartesian3D) {
+				if (geo instanceof GeoSurfaceCartesianND) {
 					surface = true;
 							if (en.getRight() instanceof MyList
 									&& ((MyList) en.getRight()).getListElement(
@@ -139,7 +139,7 @@ public class FunctionExpander implements Traversing {
 						en.setRight(((ExpressionNode) ((MyList) en.getRight())
 								.getListElement(0)).getLeft());
 					}
-					FunctionNVar[] fun = ((GeoSurfaceCartesian3D) geo)
+					FunctionNVar[] fun = ((GeoSurfaceCartesianND) geo)
 							.getFunctions();
 					fv = fun[0].getFunctionVariables();
 					Kernel kernel = fun[0].getKernel();

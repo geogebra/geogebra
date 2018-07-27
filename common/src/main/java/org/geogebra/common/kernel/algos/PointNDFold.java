@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -9,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoCoords4D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
@@ -116,9 +116,9 @@ public class PointNDFold implements FoldComputer {
 		if (result instanceof GeoVec3D) {
 			// 2D Point / Vector
 			((GeoVec3D) result).setCoords(x, y, 1.0);
-		} else if (result instanceof GeoVec4D) {
+		} else if (result instanceof GeoCoords4D) {
 			// 3D Point / Vector
-			((GeoVec4D) result).setCoords(x, y, z, 1.0);
+			((GeoCoords4D) result).setCoords(x, y, z, 1.0);
 		}
 
 	}

@@ -12,7 +12,6 @@ import java.util.Vector;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -1975,8 +1974,8 @@ public class GeoCasCell extends GeoElement
 						((GeoNumeric) twinGeo)
 								.extendMinMax(lastOutputEvaluationGeo);
 					}
-					if (twinGeo instanceof GeoSurfaceCartesian3D
-							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
+					if (twinGeo instanceof GeoSurfaceCartesianND
+							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesianND) {
 						// when we replace twinGeo, dependent geos are also
 						// deleted from cons
 						twinGeo.doRemove();
@@ -2244,7 +2243,7 @@ public class GeoCasCell extends GeoElement
 								.unwrap()).getArgument(0) != null) {
 					ExpressionNode node = ((Command) expandedEvalVE.unwrap())
 							.getArgument(0);
-					if (!(node.getLeft() instanceof GeoSurfaceCartesian3D)
+					if (!(node.getLeft() instanceof GeoSurfaceCartesianND)
 							&& !(node.getRight() instanceof MyList)) {
 						// needed for GGB-494
 						// replace GeoSurfaceCartesian3D geos with MyVect3D with

@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 
 /**
  * AlgoElement class for finding difference (region difference) of two 3D
@@ -37,7 +38,7 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	 *            third input exclusive difference or not
 	 */
 	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive) {
 
 		super(cons, labels, inPoly0, inPoly1);
 		this.exclusive = exclusive;
@@ -58,7 +59,7 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	 *            second input polygon
 	 */
 	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
 		initialize(null);

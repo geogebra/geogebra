@@ -18,7 +18,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
-import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -43,7 +42,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
@@ -573,25 +571,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (avPanel instanceof ToolbarDockPanelW) {
 			((ToolbarDockPanelW) avPanel).getToolbar().reset();
 		}
-	}
-
-	@Override
-	public final void openOFF(String content) {
-		OFFHandler h = new OFFHandler(getKernel().getConstruction());
-		h.reset();
-		String[] lines = content.split("\n");
-		try {
-			for (String line : lines) {
-
-				h.addLine(line);
-
-			}
-		} catch (CSVException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		h.updateAfterParsing();
-		afterLoadFileAppOrNot(false);
 	}
 
 	/**

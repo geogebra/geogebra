@@ -8,7 +8,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
@@ -2410,7 +2409,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	public GeoElement[] differencePolygons(String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 		AlgoDifferencePolygons3D algo = new AlgoDifferencePolygons3D(cons,
 				labels, inPoly0, inPoly1);
 		return algo.getOutput();
@@ -2424,7 +2423,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	public GeoElement[] differencePolygons(String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive) {
 		AlgoDifferencePolygons3D algo = new AlgoDifferencePolygons3D(cons,
 				labels, inPoly0, inPoly1, exclusive);
 		return algo.getOutput();

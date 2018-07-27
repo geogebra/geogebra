@@ -27,6 +27,7 @@ public class PackageSize {
 		String[] table = html
 				.substring(html.indexOf("<tr"), html.lastIndexOf("/tr>"))
 				.split("<tr");
+		int total = 0;
 		for (String row : table) {
 			String[] cells = row.split("<td");
 			if (cells.length > 3) {
@@ -35,6 +36,8 @@ public class PackageSize {
 							cells[1].substring(cells[1].indexOf(">", 7) + 1,
 									cells[1].indexOf("</a")),
 							cells[3].replaceAll("[^0-9]", ""));
+					total += Integer
+							.parseInt(cells[3].replaceAll("[^0-9]", ""));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -45,6 +48,7 @@ public class PackageSize {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		System.out.println(total);
 		System.out.println(packages.get("").toString());
 	}
 

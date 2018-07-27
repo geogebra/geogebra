@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -37,10 +36,8 @@ public class CmdDifference extends CommandProcessor {
 		case 2:
 			if ((ok[0] = arg[0] instanceof GeoPolygon)
 					&& (ok[1] = arg[1] instanceof GeoPolygon)) {
-				if (arg[0] instanceof GeoPolygon3D
-						&& arg[1] instanceof GeoPolygon3D) {
-					return difference3D(c.getLabels(), (GeoPolygon3D) arg[0],
-							(GeoPolygon3D) arg[1]);
+				if (arg[0].isGeoElement3D() && arg[1].isGeoElement3D()) {
+					return difference3D(c.getLabels(), (GeoPolygon) arg[0], (GeoPolygon) arg[1]);
 				}
 				return difference(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1]);
@@ -50,10 +47,9 @@ public class CmdDifference extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoPolygon)
 					&& (ok[1] = arg[1] instanceof GeoPolygon)
 					&& (ok[2] = arg[2] instanceof GeoBoolean)) {
-				if (arg[0] instanceof GeoPolygon3D
-						&& arg[1] instanceof GeoPolygon3D) {
-					return difference3D(c.getLabels(), (GeoPolygon3D) arg[0],
-							(GeoPolygon3D) arg[1], (GeoBoolean) arg[2]);
+				if (arg[0].isGeoElement3D() && arg[1].isGeoElement3D()) {
+					return difference3D(c.getLabels(), (GeoPolygon) arg[0], (GeoPolygon) arg[1],
+							(GeoBoolean) arg[2]);
 				}
 				return difference(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1], (GeoBoolean) arg[2]);
@@ -94,8 +90,7 @@ public class CmdDifference extends CommandProcessor {
 	 *            input polygon3D 2
 	 * @return resulting polygons
 	 */
-	protected GeoElement[] difference3D(String[] labels, GeoPolygon3D poly1,
-			GeoPolygon3D poly2) {
+	protected GeoElement[] difference3D(String[] labels, GeoPolygon poly1, GeoPolygon poly2) {
 		return kernel.getManager3D().differencePolygons(labels, poly1, poly2);
 	}
 
@@ -132,8 +127,8 @@ public class CmdDifference extends CommandProcessor {
 	 *            input GeoBoolean indicating exclusive difference or not
 	 * @return resulting polygons
 	 */
-	protected GeoElement[] difference3D(String[] labels, GeoPolygon3D poly1,
-			GeoPolygon3D poly2, GeoBoolean exclusive) {
+	protected GeoElement[] difference3D(String[] labels, GeoPolygon poly1, GeoPolygon poly2,
+			GeoBoolean exclusive) {
 		return kernel.getManager3D().differencePolygons(labels, poly1, poly2,
 				exclusive);
 	}

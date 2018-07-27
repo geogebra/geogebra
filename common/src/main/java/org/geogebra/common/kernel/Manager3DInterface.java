@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -711,13 +710,13 @@ public interface Manager3DInterface {
 	 * Difference polygons (region)
 	 */
 	public GeoElement[] differencePolygons(String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1);
+			GeoPolygon inPoly0, GeoPolygon inPoly1);
 
 	/**
 	 * Difference polygons or exclusive difference polygons (region)
 	 */
 	public GeoElement[] differencePolygons(String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive);
+			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive);
 
 	/**
 	 * Union polygons (region)

@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
+import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
@@ -13,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.dialog.DialogManager3DW;
@@ -200,6 +202,25 @@ public class AppWapplet3D extends AppWFull {
 	public boolean isEuclidianView3D(EuclidianViewInterfaceCommon view) {
 		// euclidianView3D might be null
 		return view != null && view == euclidianView3D;
+	}
+
+	@Override
+	public final void openOFF(String content) {
+		OFFHandler h = new OFFHandler(getKernel().getConstruction());
+		h.reset();
+		String[] lines = content.split("\n");
+		try {
+			for (String line : lines) {
+
+				h.addLine(line);
+
+			}
+		} catch (CSVException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		h.updateAfterParsing();
+		afterLoadFileAppOrNot(false);
 	}
 
 }
