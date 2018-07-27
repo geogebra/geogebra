@@ -76,7 +76,7 @@
 }
 
 .GeoGebraFrame .menuBtn {
-	margin: 14px 2px 14px 12px;
+	margin: 14px 2px 14px 18px;
 }
 
 .GeoGebraFrame .shareBtn {
@@ -104,6 +104,25 @@
 img.profileImage {
     border-radius: 50%;
     display: block;
+}
+
+.GeoGebraHeader .examPanel {
+	position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    min-height: 48px;
+}
+
+.GeoGebraHeader .examInfoBtn {
+    margin: 14px 18px;
+}
+
+.GeoGebraHeader .examTimer {
+    font-size: 24px;
+    font-weight: normal;
+    margin: 20px 0px;
+    line-height: 1;
 }
 
 .GeoGebraFrame .headerLogo {

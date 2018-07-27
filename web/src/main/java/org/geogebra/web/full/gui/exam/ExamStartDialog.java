@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -75,6 +77,13 @@ public class ExamStartDialog extends DialogBoxW
 			app.fileNew();
 			((AppW) app).getLAF().toggleFullscreen(true);
 			app.setNewExam();
+			if (app.getGuiManager() instanceof GuiManagerW &&
+					((GuiManagerW) app.getGuiManager())
+							.getUnbundledToolbar() != null) {
+				((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
+						.setHeaderStyle("examOk");
+			}
+			GlobalHeader.INSTANCE.addExamTimer();
 		}
 		hide();
 	}
