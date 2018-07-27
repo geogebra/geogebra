@@ -134,9 +134,7 @@ public class GlobalHeader implements EventRenderable {
 				if (getApp().getExam() != null) {
 					String os = Browser.getMobileOperatingSystem();
 					getApp().getExam().checkCheating(os);
-					if (getApp().getExam().isCheating()
-							&& getApp().getGuiManager()
-									.getUnbundledToolbar() != null) {
+					if (getApp().getExam().isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
 					}
