@@ -18,10 +18,11 @@ import com.google.gwt.dev.util.collect.HashMap;
 
 public class PackageSize {
 
-
 	private static HashMap<String, JSONObject> packages = new HashMap<>();
+	private static final boolean addUnattributed = true;
+
 	@Test
-	public void testPackages() {
+	public void testPackages() throws JSONException {
 		String html = loadFileIntoString(
 				"build/gwt/extra/webSimple/soycReport/compile-report/initial-0-packageBreakdown.html");
 		String[] table = html
@@ -43,10 +44,16 @@ public class PackageSize {
 				}
 			}
 		}
-		try {
-			updateSelfSizes(packages.get(""));
-		} catch (JSONException e) {
-			e.printStackTrace();
+
+		updateSelfSizes(packages.get(""));
+
+		if (addUnattributed) {
+			html = loadFileIntoString(
+					"build/gwt/extra/webSimple/soycReport/compile-report/initial-0-codeTypeBreakdown.html");
+			String bytes = html.split("<p class=\"soyc-breakdown-strings\">")[2]
+					.replaceAll("[^0-9]", "");
+			packages.get("").getJSONArray("children")
+					.put(new JSONObject().put("name", "Dark matter").put("bytes", bytes));
 		}
 		System.out.println(total);
 		System.out.println(packages.get("").toString());
