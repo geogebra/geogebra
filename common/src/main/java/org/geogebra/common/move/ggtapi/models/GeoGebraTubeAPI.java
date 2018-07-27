@@ -40,10 +40,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	/** Login for beta */
 	public static final String login_urlBeta = "https://accounts-beta.geogebra.org/api/index.php";
 
-	static public final int LOGIN_TOKEN_VALID = 0;
-	static public final int LOGIN_TOKEN_INVALID = 1;
-	static public final int LOGIN_REQUEST_FAILED = -2;
-
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;
@@ -554,21 +550,26 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public void copy(Material material, final String title, final MaterialCallbackI copyCallback) {
+	public void copy(final Material material, final String title,
+			final MaterialCallbackI copyCallback) {
 		getItem(material.getSharingKeyOrId(), new MaterialCallbackI() {
 
 			@Override
 			public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
-				uploadMaterial("", result.get(0).getVisibility(),
+				if (result.size() > 0) {
+					uploadMaterial("", result.get(0).getVisibility(),
 						title,
 						result.get(0).getBase64(), copyCallback, result.get(0).getType(),
 						result.get(0));
+				} else {
+					copyCallback.onError(
+							new Exception("No material found: " + material.getSharingKeyOrId()));
+				}
 			}
 
 			@Override
 			public void onError(Throwable exception) {
-				System.err.println(exception);
-
+				copyCallback.onError(exception);
 			}
 		});
 	}

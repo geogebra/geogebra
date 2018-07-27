@@ -107,7 +107,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// initView(true);
 
 		getRenderer().init();
-		if (g2p != null) {
+		if (g2p.getCanvas() != null) {
 			ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
