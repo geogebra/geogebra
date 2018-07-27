@@ -77,6 +77,7 @@ public class ExamStartDialog extends DialogBoxW
 			app.fileNew();
 			((AppW) app).getLAF().toggleFullscreen(true);
 			app.setNewExam();
+			app.startExam();
 			if (app.getGuiManager() instanceof GuiManagerW &&
 					((GuiManagerW) app.getGuiManager())
 							.getUnbundledToolbar() != null) {

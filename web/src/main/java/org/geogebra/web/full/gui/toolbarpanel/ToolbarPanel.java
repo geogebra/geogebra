@@ -867,9 +867,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            style to change color of header (teal -> ok, red -> cheating)
 	 */
 	public void setHeaderStyle(String style) {
+		header.removeStyleName("examOk");
+		header.removeStyleName("examCheat");
 		header.addStyleName(style);
 	}
-
 
 	/**
 	 * Called when app changes orientation.

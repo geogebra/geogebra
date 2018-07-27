@@ -6,10 +6,14 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
@@ -89,6 +93,20 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
+	}
+
+	/**
+	 * @return exam timer
+	 */
+	public Label getTimer() {
+		return timer;
+	}
+
+	/**
 	 * switch right buttons with exam timer and info button
 	 */
 	public void addExamTimer() {
@@ -98,7 +116,7 @@ public class GlobalHeader implements EventRenderable {
 		// exam panel with timer and info btn
 		examPanel = new FlowPanel();
 		examPanel.setStyleName("examPanel");
-		timer = new Label("00:00");
+		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
 		examInfoBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.info_black(), null, 24, app);
@@ -111,5 +129,28 @@ public class GlobalHeader implements EventRenderable {
 		exam.setId("examId");
 		getButtonPanel().getElement().getParentElement().appendChild(exam);
 		RootPanel.get("examId").add(examPanel);
+		// run timer
+		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				if (getApp().getExam() != null) {
+					String os = Browser.getMobileOperatingSystem();
+					getApp().getExam().checkCheating(os);
+					if (getApp().getExam().isCheating()
+							&& getApp().getGuiManager() instanceof GuiManagerW
+							&& ((GuiManagerW) getApp().getGuiManager())
+									.getUnbundledToolbar() != null) {
+						((GuiManagerW) getApp().getGuiManager())
+								.getUnbundledToolbar()
+								.setHeaderStyle("examCheat");
+					}
+
+					getTimer().setText(getApp().getExam()
+							.timeToString(System.currentTimeMillis()));
+
+					AnimationScheduler.get().requestAnimationFrame(this);
+				}
+			}
+		});
 	}
 }
