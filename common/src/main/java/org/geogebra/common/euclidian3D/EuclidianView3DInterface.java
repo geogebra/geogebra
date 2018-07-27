@@ -12,6 +12,14 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *         Interface for 3D view
  */
 public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
+	/** default scene x-coord of origin */
+	public static final double XZERO_SCENE_STANDARD = 0;
+	/** default scene y-coord of origin */
+	public static final double YZERO_SCENE_STANDARD = 0;
+	/** default scene z-coord of origin */
+	public static final double ZZERO_SCENE_STANDARD = -1.5;
+	public final static double ANGLE_ROT_OZ = -60;
+	public final static double ANGLE_ROT_XOY = 20;
 
 	/**
 	 * rotate to default
@@ -229,5 +237,11 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @return renderer
 	 */
 	public Renderer getRenderer();
+
+	public void setXZero(double xZero);
+
+	public void setYZero(double xZero);
+
+	public void setZZero(double xZero);
 
 }

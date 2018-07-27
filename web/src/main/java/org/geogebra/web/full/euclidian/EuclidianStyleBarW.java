@@ -12,7 +12,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -415,7 +415,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				// in view stylebar won't be appeared object stylebar
 				geos = new Object[0];
 			} else if (!isDynamicStylebar()
-					&& (this.getView() instanceof EuclidianView3D)
+					&& (this.getView() instanceof EuclidianView3DInterface)
 					&& (!EuclidianConstants
 							.isMoveOrSelectionMode(app.getMode()))
 					&& (app.getMode() != EuclidianConstants.MODE_PEN)
@@ -751,7 +751,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	boolean showAllStyleButtons() {
 		return !app.has(Feature.DYNAMIC_STYLEBAR)
 				|| (!isDynamicStylebar()
-						&& !(this.getView() instanceof EuclidianView3D))
+						&& !(this
+								.getView() instanceof EuclidianView3DInterface))
 				|| !app.isUnbundledOrWhiteboard();
 	}
 

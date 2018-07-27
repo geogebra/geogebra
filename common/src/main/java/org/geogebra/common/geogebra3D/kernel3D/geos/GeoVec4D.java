@@ -62,7 +62,6 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	public GeoVec4D(Construction c, double x, double y, double z, double w) {
 		this(c);
 		setCoords(x, y, z, w);
-
 	}
 
 	@Override

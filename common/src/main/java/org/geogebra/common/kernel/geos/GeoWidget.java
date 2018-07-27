@@ -120,8 +120,8 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	public int getWidth() {
 		return width.intValue();
 	}
-	
-	protected double getWidthAsDouble(){
+
+	protected double getWidthAsDouble() {
 		return width;
 	}
 
@@ -135,11 +135,11 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 			getScreenLocation().initWidth(width);
 		}
 	}
-	
-	protected void setWidth(double width){
+
+	protected void setWidth(double width) {
 		this.width = width;
 		if (hasScreenLocation()) {
-			getScreenLocation().initWidth(((Double)width).intValue());
+			getScreenLocation().initWidth(((Double) width).intValue());
 		}
 	}
 
@@ -169,7 +169,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	protected void setHeight(double height) {
 		this.height = height;
 		if (hasScreenLocation()) {
-			getScreenLocation().initHeight(((Double)height).intValue());
+			getScreenLocation().initHeight(((Double) height).intValue());
 		}
 	}
 	

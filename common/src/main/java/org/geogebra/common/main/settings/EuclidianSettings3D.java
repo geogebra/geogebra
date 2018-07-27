@@ -2,7 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -17,10 +17,11 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	private double zscale;
 
-	private double zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
+	private double zZero = EuclidianView3DInterface.ZZERO_SCENE_STANDARD;
 
-	private double a = EuclidianView3D.ANGLE_ROT_OZ;
-	private double b = EuclidianView3D.ANGLE_ROT_XOY; // angles (in degrees)
+	private double a = EuclidianView3DInterface.ANGLE_ROT_OZ;
+	private double b = EuclidianView3DInterface.ANGLE_ROT_XOY; // angles (in
+																// degrees)
 
 	private boolean hadSettingChanged = false;
 	private boolean hasSameScales = true;
@@ -66,8 +67,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		setXscale(50);
 		setYscale(50);
 		setZscale(50);
-		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
-		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
+		xZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
+		yZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		dimension = 3;
 	}
 
@@ -205,7 +206,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.b = b2;
 	}
 
-	public void updateRotXY(EuclidianView3D view) {
+	public void updateRotXY(EuclidianView3DInterface view) {
 		view.setRotXYinDegrees(a, b);
 	}
 
@@ -248,7 +249,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param view
 	 *            view to be updated
 	 */
-	public void updateOrigin(EuclidianView3D view) {
+	public void updateOrigin(EuclidianView3DInterface view) {
 		view.setXZero(getXZero());
 		view.setYZero(getYZero());
 		view.setZZero(getZZero());
@@ -454,12 +455,12 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * set orientation, position, scaling to standard view
 	 */
 	public void setStandardView() {
-		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
-		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
-		zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
+		xZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
+		yZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
+		zZero = EuclidianView3DInterface.ZZERO_SCENE_STANDARD;
 
-		a = EuclidianView3D.ANGLE_ROT_OZ;
-		b = EuclidianView3D.ANGLE_ROT_XOY;
+		a = EuclidianView3DInterface.ANGLE_ROT_OZ;
+		b = EuclidianView3DInterface.ANGLE_ROT_XOY;
 
 		xscale = EuclidianView.SCALE_STANDARD;
 		yscale = EuclidianView.SCALE_STANDARD;

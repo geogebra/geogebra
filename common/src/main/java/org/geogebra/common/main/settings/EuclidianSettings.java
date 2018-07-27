@@ -1558,6 +1558,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Sets the ruler line style
 	 * 
 	 * @param rulerLineStyle
+	 *            ruler line style
 	 */
 	public void setRulerLineStyle(int rulerLineStyle) {
 		if (this.rulerLineStyle != rulerLineStyle) {

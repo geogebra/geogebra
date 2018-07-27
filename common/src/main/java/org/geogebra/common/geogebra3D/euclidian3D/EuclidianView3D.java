@@ -132,14 +132,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	// since V3.0 this factor is 1, before it was 0.5
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
-	/** default scene x-coord of origin */
-	public static final double XZERO_SCENE_STANDARD = 0;
-	/** default scene y-coord of origin */
-	public static final double YZERO_SCENE_STANDARD = 0;
-	/** default scene z-coord of origin */
-	public static final double ZZERO_SCENE_STANDARD = -1.5;
-	public final static double ANGLE_ROT_OZ = -60;
-	public final static double ANGLE_ROT_XOY = 20;
+
 	/**
 	 * number of drawables linked to this view (xOy plane, Ox, Oy, Oz axis)
 	 */

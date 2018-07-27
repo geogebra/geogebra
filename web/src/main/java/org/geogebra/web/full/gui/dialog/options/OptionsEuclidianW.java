@@ -135,7 +135,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					}
 				});
 
-
 				add(cbShowGrid);
 				addPointCapturingStyle();
 			}

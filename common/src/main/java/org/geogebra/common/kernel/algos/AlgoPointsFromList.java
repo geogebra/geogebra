@@ -395,7 +395,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				temp[i].setCoords(0, 0, 1); // init as defined
 			}
 			for (int i = points3D.length; i < temp.length; i++) {
-				temp[i] = new GeoPoint3D(cons);
+				temp[i] = (GeoPoint3D) cons.getKernel().getGeoFactory().newPoint(3, cons);
 				temp[i].setCoords(0, 0, 1); // init as defined
 				temp[i].setParentAlgorithm(this);
 			}

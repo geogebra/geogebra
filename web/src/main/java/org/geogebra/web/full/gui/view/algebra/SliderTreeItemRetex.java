@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -164,7 +164,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 		sliderPanel.setVisible(true);
 		controls.showAnimPanel(true);
-
 	}
 
 	@Override
@@ -216,6 +215,10 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		return false;
 	}
 
+	/**
+	 * @param visible
+	 *            whether to show slider
+	 */
 	public void setSliderVisible(boolean visible) {
 		sliderPanel.setVisible(visible);
 	}
@@ -231,6 +234,10 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		super.selectItem(selected);
 	}
 
+	/**
+	 * @param visible
+	 *            whether to show animation panel
+	 */
 	public void setAnimPanelVisible(boolean visible) {
 		controls.showAnimPanel(visible);
 	}
@@ -260,12 +267,19 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		this.slider = slider;
 	}
 
+	/**
+	 * @param width
+	 *            new width
+	 */
 	public void expandSize(int width) {
 		if (getAV().getOffsetWidth() < width) {
 			getAV().expandWidth(width);
 		}
 	}
 
+	/**
+	 * Restore last width
+	 */
 	public void restoreSize() {
 		getAV().restoreWidth(false);
 	}
@@ -287,7 +301,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	@Override
 	protected int getWidthForEdit() {
 		return MinMaxPanel.MINMAX_MIN_WIDHT;
-
 	}
 
 	@Override
