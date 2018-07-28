@@ -558,7 +558,7 @@ public class Browser {
 	 * @return a base64 encoded string.
 	 */
 	public static native String encodeBase64(String text)/*-{
-		return $wnd.btoa(text);
+		return $wnd.btoa(unescape(encodeURIComponent(text)));
 	}-*/;
 
 	public static void removeDefaultContextMenu(Element element) {
