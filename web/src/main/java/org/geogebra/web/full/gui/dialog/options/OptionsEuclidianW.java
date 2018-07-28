@@ -266,7 +266,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					model.appyGridType(lbGridType.getSelectedIndex());
+					model.applyGridType(lbGridType.getSelectedIndex());
 					updateView();
 					app.storeUndoInfo();
 				}
@@ -278,7 +278,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onClick(ClickEvent event) {
-					model.appyGridManualTick(cbGridManualTick.getValue());
+					model.applyGridManualTick(cbGridManualTick.getValue());
 					updateView();
 				}
 			});
@@ -348,7 +348,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbGridType.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					model.appyGridType(lbGridType.getSelectedIndex());
+					model.applyGridType(lbGridType.getSelectedIndex());
 					updateView();					
 				}
 			});
@@ -367,7 +367,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					model.appyRulerType(lbRulerType.getSelectedIndex());
+					model.applyRulerType(lbRulerType.getSelectedIndex());
 					updateView();
 					app.storeUndoInfo();
 				}
@@ -394,7 +394,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					int style = EuclidianView.getLineType(btnGridStyle.getSelectedIndex());
 					if (gridOptions) {
-						model.appyGridStyle(style);
+						model.applyGridStyle(style);
 					} else {
 						model.applyRulerStyle(style);
 					}

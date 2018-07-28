@@ -338,7 +338,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			public void handlePopupActionEvent() {
 				int idx = getSelectedIndex();
 
-				model.appyAxesStyle(EuclidianStyleConstants
+				model.applyAxesStyle(EuclidianStyleConstants
 						.getLineStyleOptions(idx)
 						// make sure bold checkbox doesn't change
 						+ (cbBoldAxes.getValue()

@@ -330,7 +330,7 @@ public class EuclidianOptionsModel {
 		view.setAllowShowMouseCoords(value);
 	}
 
-	public void appyGridType(int type) {
+	public void applyGridType(int type) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setGridType(type);
 			return;
@@ -360,7 +360,7 @@ public class EuclidianOptionsModel {
 
 	}
 
-	public void appyAxesStyle(int style) {
+	public void applyAxesStyle(int style) {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1).setAxesLineStyle(style);
 			return;
@@ -387,7 +387,7 @@ public class EuclidianOptionsModel {
 
 	}
 
-	public void appyGridStyle(int style) {
+	public void applyGridStyle(int style) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setGridLineStyle(style);
 			return;
@@ -418,7 +418,7 @@ public class EuclidianOptionsModel {
 		view.repaintView();
 	}
 
-	public void appyGridManualTick(boolean value) {
+	public void applyGridManualTick(boolean value) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAutomaticGridDistance(!value,
 					true);
@@ -853,7 +853,7 @@ public class EuclidianOptionsModel {
 	 * @param index
 	 *            the selected index
 	 */
-	public void appyRulerType(int index) {
+	public void applyRulerType(int index) {
 		EuclidianSettings settings = view.getSettings();
 		switch (index) {
 		case 1:

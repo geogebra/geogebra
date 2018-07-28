@@ -787,11 +787,11 @@ public class OptionsEuclidianD extends OptionsEuclidian
 			model.applyMouseCoords(cbShowMouseCoords.isSelected());
 
 		} else if (source == cbGridType) {
-			model.appyGridType(cbGridType.getSelectedIndex());
+			model.applyGridType(cbGridType.getSelectedIndex());
 
 		} else if (source == cbAxesStyle) {
 
-			model.appyAxesStyle(
+			model.applyAxesStyle(
 					((Integer) cbAxesStyle.getSelectedItem()).intValue()
 							// make sure bold checkbox doesn't change
 							+ (cbBoldAxes.isSelected()
@@ -808,11 +808,11 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		}
 
 		else if (source == cbGridStyle) {
-			model.appyGridStyle(
+			model.applyGridStyle(
 					((Integer) cbGridStyle.getSelectedItem()).intValue());
 
 		} else if (source == cbGridManualTick) {
-			model.appyGridManualTick(cbGridManualTick.isSelected());
+			model.applyGridManualTick(cbGridManualTick.isSelected());
 
 		} else if (source == tfAxesRatioX || source == tfAxesRatioY) {
 			double xval = parseDouble(tfAxesRatioX.getText());
