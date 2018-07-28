@@ -2667,7 +2667,7 @@ __GGB__keysVar["pl"].menu = {
     "ShowOutliers": "Poka\u017c zarysy",
     "ShowPlane": "Poka\u017c p\u0142aszczyzn\u0119",
     "ShowPlot2": "Poka\u017c drugi wykres",
-    "ShowResetIcon": "Poka\u017c ikon\u0119 resetu konstrukcji",
+    "ShowResetIcon": "Poka\u017c ikon\u0119 Resetu konstrukcji",
     "ShowRowHeader": "Poka\u017c Nag\u0142\xf3wki Wierszy",
     "ShowSidebar": "Poka\u017c Pasek boczny",
     "ShowSliderInAlgebraView": "Poka\u017c suwak w Widoku Algebry",

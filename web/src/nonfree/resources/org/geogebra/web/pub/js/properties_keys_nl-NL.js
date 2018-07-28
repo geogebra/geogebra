@@ -3177,7 +3177,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "exam_set_airplane_mode_on": "Schakel vliegtuigmodus in en schakel wifi en bluetooth uit om verder te gaan",
     "exam_start_button": "Start Examen",
     "exam_start_date": "Startdatum",
-    "exam_start_dialog_text": "The header shows timer information during the exam.",
+    "exam_start_dialog_text": "De titelbalk toont tijdsinformatie tijdens het examen.",
     "exam_start_time": "Begintijdstip",
     "exam_started": "Examenmodus gestart",
     "exam_views_deactivated": "Gedeactiveerde schermen",
