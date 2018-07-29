@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -1549,7 +1550,26 @@ public class Construction {
 	 * @throws Exception
 	 *             i.e. for circular definition
 	 */
-	public void replace(GeoElement oldGeo, GeoElement newGeo) throws Exception {
+	public void replace(GeoElement oldGeo, GeoElement newGeo)
+			throws Exception {
+		replace(oldGeo, newGeo, null);
+	}
+
+	/**
+	 * Replaces oldGeo by newGeo in the current construction. This may change
+	 * the logic of the construction and is a very powerful operation
+	 * 
+	 * @param oldGeo
+	 *            Geo to be replaced.
+	 * @param newGeo
+	 *            Geo to be used instead.
+	 * @param info
+	 *            EvalInfo (can be null)
+	 * @throws Exception
+	 *             i.e. for circular definition
+	 */
+	public void replace(GeoElement oldGeo, GeoElement newGeo, EvalInfo info)
+			throws Exception {
 		if (oldGeo == null || newGeo == null || oldGeo == newGeo) {
 			return;
 		}
@@ -1700,7 +1720,7 @@ public class Construction {
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
-		buildConstruction(consXML, oldXML);
+		buildConstruction(consXML, oldXML, info);
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
@@ -3118,11 +3138,20 @@ public class Construction {
 	/**
 	 * Tries to build the new construction from the given XML string.
 	 */
-	private void buildConstruction(StringBuilder consXML, String oldXML) throws Exception {
+	private void buildConstruction(StringBuilder consXML, String oldXML)
+			throws Exception {
+		buildConstruction(consXML, oldXML, null);
+	}
+
+	/**
+	 * Tries to build the new construction from the given XML string.
+	 */
+	private void buildConstruction(StringBuilder consXML, String oldXML,
+			EvalInfo info) throws Exception {
 		// try to process the new construction
 		try {
 			ensureUndoManagerExists();
-			undoManager.processXML(consXML.toString(), false);
+			undoManager.processXML(consXML.toString(), false, info);
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();

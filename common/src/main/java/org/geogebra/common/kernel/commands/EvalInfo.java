@@ -17,6 +17,7 @@ public class EvalInfo {
 	private boolean autoAddDegree = false;
 	private boolean fractions = false;
 	private boolean forceUserEquation;
+	private boolean updateRandom = true;
 
 	/**
 	 * @param labelOut
@@ -35,6 +36,22 @@ public class EvalInfo {
 	 */
 	public EvalInfo(boolean labelOut) {
 		this.labelOutput = labelOut;
+	}
+
+	/**
+	 * 
+	 * @param labelOutput
+	 *            whether label should be labeled
+	 * @param redefineIndependent
+	 *            whether independent geos may be redefined by processing the
+	 *            expression
+	 * @param updateRandom
+	 *            whether random numbers should be updated on a redefinition
+	 */
+	public EvalInfo(boolean labelOutput, boolean redefineIndependent,
+			boolean updateRandom) {
+		this(labelOutput, redefineIndependent);
+		this.updateRandom = updateRandom;
 	}
 
 	/**
@@ -113,6 +130,7 @@ public class EvalInfo {
 		ret.autoAddDegree = this.autoAddDegree;
 		ret.fractions = this.fractions;
 		ret.forceUserEquation = this.forceUserEquation;
+		ret.updateRandom = this.updateRandom;
 		return ret;
 	}
 
@@ -239,5 +257,14 @@ public class EvalInfo {
 	public boolean isForceUserEquation() {
 		return forceUserEquation;
 	}
+
+	/**
+	 * 
+	 * @return whether random numbers should be updated on a redefinition
+	 */
+	public boolean updateRandom() {
+		return updateRandom;
+	}
+
 
 }

@@ -1868,7 +1868,7 @@ public class AlgebraProcessor {
 									cell.getAssignmentType()));
 							processCasCell(cell, false);
 						} else {
-							cons.replace(replaceable, newGeo);
+							cons.replace(replaceable, newGeo, info);
 						}
 						// now all objects have changed
 						// get the new object with same label as our result

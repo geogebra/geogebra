@@ -292,7 +292,7 @@ public class GeoInputBox extends GeoButton {
 			} else {
 				final boolean imaginary = imaginaryAdded;
 				EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
-						linkedGeo.isIndependent()).withSliders(false);
+						linkedGeo.isIndependent(), false).withSliders(false);
 
 				// TRAC-5294 make sure user input gives the correct type
 				// so that eg construction isn't killed by entering "y"

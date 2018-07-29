@@ -2251,7 +2251,7 @@ public class AlgoDispatcher {
 					true);
 
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			cons.replace((GeoElement) point, (GeoElement) newPoint);
+			cons.replace((GeoElement) point, (GeoElement) newPoint, null);
 
 			if (setDefaultColor) {
 				newPoint.setObjColor(cons.getConstructionDefaults()
