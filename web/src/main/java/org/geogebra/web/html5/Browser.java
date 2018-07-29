@@ -553,6 +553,11 @@ public class Browser {
 	 * 
 	 * Returns a base64 encoding of the specified (binary) string
 	 * 
+	 * extra encoding needed for file from Generator: Adobe Illustrator 11.0,
+	 * SVG Export Plug-In
+	 * 
+	 * xpacket begin='\uFEFF'
+	 * 
 	 * @param text
 	 *            A binary string (obtained for instance by the FileReader API)
 	 * @return a base64 encoded string.
