@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.OptionsAlgebra;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -22,8 +23,11 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAlgebraD extends OptionsAlgebra
+public class OptionsAlgebraD 
 		implements SetLabels, OptionPanelD {
+
+	protected static final List<SortMode> supportedModes = Arrays.asList(
+			SortMode.DEPENDENCY, SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 	/**
 	 * Application object.

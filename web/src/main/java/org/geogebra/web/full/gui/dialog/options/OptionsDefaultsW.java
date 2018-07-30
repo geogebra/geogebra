@@ -1,11 +1,10 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import org.geogebra.common.gui.dialog.options.OptionsDefaults;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class OptionsDefaultsW extends OptionsDefaults implements OptionPanelW {
+public class OptionsDefaultsW implements OptionPanelW {
 
 	@Override
 	public void updateGUI() {

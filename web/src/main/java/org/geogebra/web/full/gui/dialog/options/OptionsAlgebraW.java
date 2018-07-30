@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -29,9 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class OptionsAlgebraW extends OptionsAdvanced
- implements OptionPanelW,
-		SetLabels, SettingListener {
+public class OptionsAlgebraW
+		implements OptionPanelW, SetLabels, SettingListener {
 
 	private AppW app;
 	private AlgebraTab algebraTab;

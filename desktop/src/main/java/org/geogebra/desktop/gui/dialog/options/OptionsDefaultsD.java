@@ -24,7 +24,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.OptionsDefaults;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -36,7 +35,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaultsD extends OptionsDefaults
+public class OptionsDefaultsD
 		implements OptionPanelD, TreeSelectionListener, SetLabels {
 
 	/**

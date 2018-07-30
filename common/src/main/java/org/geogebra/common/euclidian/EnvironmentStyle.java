@@ -3,7 +3,7 @@ package org.geogebra.common.euclidian;
 /**
  * Dascribes the drawing environment
  */
-public abstract class EnvironmentStyle {
+public class EnvironmentStyle {
 
 	/**
 	 * @return horizontal scale factor

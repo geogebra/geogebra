@@ -30,7 +30,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.Feature;
@@ -50,7 +49,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * Advanced options for the options dialog.
  */
 @SuppressWarnings("javadoc")
-public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
+public class OptionsAdvancedD implements OptionPanelD,
 		ActionListener, ChangeListener, FocusListener, SetLabels {
 
 	/**

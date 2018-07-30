@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 
-public abstract class OptionsObject {
+public class OptionsObject {
 
 	protected static final int MIN_LIST_WIDTH = 120;
 	public static final int TEXT_FIELD_FRACTION_DIGITS = 8;
