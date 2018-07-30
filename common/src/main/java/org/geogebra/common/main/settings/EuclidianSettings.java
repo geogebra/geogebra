@@ -1527,6 +1527,7 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setBgRulerColor(GColor color) {
 		this.bgRulerColor = color;
 		bgSubLineColor = GColor.getSubGridColor(color);
+		settingChanged();
 	}
 
 	/**
@@ -1544,6 +1545,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setRulerBold(boolean rulerBold) {
 		this.rulerBold = rulerBold;
+		settingChanged();
 	}
 
 	/**
@@ -1574,5 +1576,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setRulerType(int rulerType) {
 		setBackgroundType(BackgroundType.fromInt(rulerType));
+		settingChanged();
 	}
 }

@@ -592,10 +592,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void selectGridStyle(int style) {
-			if (!gridOptions) {
-				return;
-			}
-
 			btnGridStyle.selectLineType(style);
 		}
 
@@ -617,6 +613,25 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				return;
 			}
 			lbRulerType.setSelectedIndex(idx);
+		}
+
+		/**
+		 * Update ruler properties.
+		 * 
+		 * @param typeIdx
+		 *            The type.
+		 * @param color
+		 *            to set.
+		 * @param lineStyle
+		 *            The line style.
+		 * @param bold
+		 *            true if the lines should be bold.
+		 */
+		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
+			setRulerType(typeIdx);
+			updateGridColorButton(color);
+			selectGridStyle(lineStyle);
+			cbBoldGrid.setValue(bold);
 		}
 	
 	}
@@ -942,8 +957,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	@Override
-	public void updateRulerType(int idx) {
-		gridTab.setRulerType(idx);
+	public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
+		gridTab.updateRuler(typeIdx, color, lineStyle, bold);
 	}
 }
 

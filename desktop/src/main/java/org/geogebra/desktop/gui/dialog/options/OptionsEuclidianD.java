@@ -1257,7 +1257,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		// implemented in web
 	}
 
-	public void updateRulerType(int idx) {
+	public void updateRuler(int typeIdx, GColor color, int lineStyle,
+			boolean bold) {
 		// implemented in web
 	}
 }

@@ -602,8 +602,9 @@ public class EuclidianOptionsModel {
 				view.getGridIsBold(), view.getGridType());
 
 		listener.updateBackgroundColor(getBackgroundColor());
-
-		listener.updateRulerType(view.getSettings().getBackgroundType().value());
+		EuclidianSettings es = view.getSettings();
+		listener.updateRuler(es.getBackgroundType().value(), es.getBgRulerColor(),
+				es.getRulerLineStyle(), es.isRulerBold());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
 
@@ -844,7 +845,7 @@ public class EuclidianOptionsModel {
 
 		void addAngleOptionItem(String item);
 
-		void updateRulerType(int idx);
+		void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold);
 	}
 
 	/**
