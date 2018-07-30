@@ -737,8 +737,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				processAccent(text);
 			} else {
 
+				// translate commands and functions as appropriate
 				if ("Integral".equals(text) || "Derivative".equals(text)) {
 					text = hasKeyboard.getLocalization().getCommand(text);
+				} else if ("sin cos tan asin acos atan".indexOf(text) > -1) {
+					text = hasKeyboard.getLocalization().getFunction(text)
+							+ "(";
 				}
 
 				processField.insertString(text);
