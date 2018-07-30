@@ -229,13 +229,6 @@ public class VideoManagerW implements VideoManager {
 	public String getMebisId(String url) {
 		return MediaURLParser.getMebisId(url);
 	}
-	
-	public void zoomVideos(double factor) {
-		for (VideoPlayer player : players.values()) {
-			player.getVideo().zoom(factor);
-		}
-	}
-
 
 	@Override
 	public void clearStoredVideos() {

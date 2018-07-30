@@ -153,8 +153,6 @@ public interface VideoManager {
 	 * 
 	 */
 	GeoVideo createVideo(Construction c, VideoURL videoURL);
-
-	void zoomVideos(double factor);
 	
 	/**
 	 * Cache video players temporarily

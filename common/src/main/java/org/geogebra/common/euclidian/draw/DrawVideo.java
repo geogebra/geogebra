@@ -31,6 +31,8 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	private int top;
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
+	private double xScale;
+	private double yScale;
 
 	/** Threshold correction for resizing handler capturing */
 	public static final int HANDLER_THRESHOLD = -4;
@@ -46,11 +48,17 @@ public class DrawVideo extends Drawable implements DrawWidget {
 		this.video = geo;
 		this.geo = geo;
 		this.app = geo.getKernel().getApplication();
+		this.xScale = view.getXscale();
+		this.yScale = view.getYscale();
 		setMetrics();
 	}
 
 	@Override
 	public void update() {
+		if(xScale != view.getXscale()){
+			video.zoom(view.getXscale()/xScale);
+			xScale = view.getXscale();
+		}
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().updatePlayer(video);
 		}
