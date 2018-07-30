@@ -1,12 +1,10 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
-import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,55 +13,56 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author csilla
  * 
- *         dialog to enter in graphing calc exam mode
+ *         exit exam confirmation dialog
  *
  */
-public class ExamStartDialog extends DialogBoxW
+public class ExamExitConfirmDialog extends DialogBoxW
 		implements SetLabels, FastClickHandler {
 	private FlowPanel mainPanel;
-	private Label startText;
+	private Label confirmText;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
-	private StandardButton startBtn;
+	private StandardButton exitBtn;
+	private AppW appW;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public ExamStartDialog(AppW app) {
+	public ExamExitConfirmDialog(AppW app) {
 		super(app.getPanel(), app);
+		this.appW = app;
 		buildGUI();
 	}
 
 	private void buildGUI() {
 		// init start dialog text
 		mainPanel = new FlowPanel();
-		startText = new Label("");
-		startText.addStyleName("examStartText");
+		confirmText = new Label("");
+		confirmText.addStyleName("exitConfText");
 		// create button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		cancelBtn = new StandardButton("", app);
+		cancelBtn = new StandardButton("", appW);
 		cancelBtn.addFastClickHandler(this);
-		startBtn = new StandardButton("", app);
-		startBtn.addFastClickHandler(this);
+		exitBtn = new StandardButton("", appW);
+		exitBtn.addFastClickHandler(this);
 		buttonPanel.add(cancelBtn);
-		buttonPanel.add(startBtn);
+		buttonPanel.add(exitBtn);
 		// build main panel
-		mainPanel.add(startText);
+		mainPanel.add(confirmText);
 		mainPanel.add(buttonPanel);
-		mainPanel.addStyleName("examStartDialog");
+		mainPanel.addStyleName("examExitConfDialog");
 		add(mainPanel);
 		setGlassEnabled(true);
 		setLabels();
 	}
 
 	public void setLabels() {
-		getCaption().setText(app.getLocalization().getMenu("exam_menu_enter"));
-		startText.setText(
-				app.getLocalization().getMenu("exam_start_dialog_text"));
-		startBtn.setLabel(app.getLocalization().getMenu("exam_start_button"));
-		cancelBtn.setLabel(app.getLocalization().getMenu("Cancel"));
+		confirmText.setText(
+				app.getLocalization().getMenu("exam_exit_confirmation"));
+		exitBtn.setLabel(appW.getLocalization().getMenu("Exit"));
+		cancelBtn.setLabel(appW.getLocalization().getMenu("Cancel"));
 	}
 
 	@Override
@@ -73,16 +72,10 @@ public class ExamStartDialog extends DialogBoxW
 	}
 
 	public void onClick(Widget source) {
-		if (source == startBtn) {
-			if (app.getGuiManager() instanceof GuiManagerW &&
-					((GuiManagerW) app.getGuiManager())
-							.getUnbundledToolbar() != null) {
-				((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
-						.setHeaderStyle("examOk");
-				((GuiManagerW) app.getGuiManager()).resetMenu();
-			}
-			GlobalHeader.INSTANCE.addExamTimer();
+		if (source == exitBtn) {
+			new ExamExitDialog(appW).show();
 		}
 		hide();
 	}
+
 }

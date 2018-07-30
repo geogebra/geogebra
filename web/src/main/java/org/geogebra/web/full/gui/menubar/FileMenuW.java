@@ -19,6 +19,7 @@ import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.util.SaveDialogW;
@@ -223,7 +224,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				ToolBar.getAllToolsNoMacros(true, false, getApp()));
 		getApp().getGuiManager().resetMenu();
 		getApp().setActivePerspective(0);
-
 	}
 
 	private void initActions() {
@@ -407,7 +407,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// set Firefox dom.allow_scripts_to_close_windows in about:config to
 		// true to make this work
 		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
-		getApp().getGuiManager().getOptionPane().showOptionDialog(
+		if (getApp().isUnbundledGraphing()
+				&& getApp().has(Feature.GRAPH_EXAM_MODE)) {
+			new ExamExitConfirmDialog(getApp()).show();
+		} else {
+			getApp().getGuiManager().getOptionPane().showOptionDialog(
 				loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
 				loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
 				1, GOptionPane.WARNING_MESSAGE, null, optionNames,
@@ -419,6 +423,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 					}
 				});
+		}
 	}
 
 	/**
