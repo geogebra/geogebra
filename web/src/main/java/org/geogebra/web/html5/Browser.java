@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.Window.Navigator;
 
 public class Browser {
 	private static boolean webWorkerSupported = false;
@@ -763,5 +764,9 @@ public class Browser {
 			return -1;
 		}
 	}-*/;
+
+	public static boolean isChrome() {
+		return Navigator.getUserAgent().matches(".*Chrome/.*");
+	}
 
 }

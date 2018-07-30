@@ -14,6 +14,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
@@ -208,10 +209,25 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				yOffset += LINE_HEIGHT / 2;
 			}
 		};
-		getApp().getExam().getLog(loc, getApp().getSettings(),
-				canvasLogBuilder);
-		Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
+		if (Browser.isChrome()) {
+
+			getApp().getGgbApi().getScreenshotURL(
+					getApp().getOptionPane().getContentElement(),
+					getCallback(StringUtil.pngMarker));
+
+		} else {
+			getApp().getExam().getLog(loc, getApp().getSettings(),
+					canvasLogBuilder);
+			Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
+		}
 	}
+
+	private static native JavaScriptObject getCallback(String marker) /*-{
+		// TODO Auto-generated method stub
+		return function(url) {
+			@org.geogebra.web.html5.Browser::exportImage(Ljava/lang/String;Ljava/lang/String;)(marker+url, "screenshot.png");
+		};
+	}-*/;
 
 	private void resetAfterExam() {
 		getApp().setExam(null);

@@ -1670,7 +1670,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * 
 	 * @return option pane
 	 */
-	protected GOptionPaneW getOptionPane() {
+	public GOptionPaneW getOptionPane() {
 		return getGuiManager() != null ? getGuiManager().getOptionPane()
 				: new GOptionPaneW(getPanel(), this);
 	}

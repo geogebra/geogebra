@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -499,6 +500,10 @@ public class GOptionPaneW extends GDialogBox
 		requiresReturnValue = true;
 
 		showDialog(false);
+	}
+
+	public Element getContentElement() {
+		return this.getContainerElement();
 	}
 
 }
