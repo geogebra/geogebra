@@ -54,6 +54,8 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	private HitType lastHitType;
 	private State state = State.NONE;
 	private boolean background = true;
+	private double xScale;
+	private double yScale;
 
 	/**
 	 * Constructor.
@@ -83,6 +85,8 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		setLabel("video");
 		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
 		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
+		xScale = app.getActiveEuclidianView().getXscale();
+		yScale = app.getActiveEuclidianView().getYscale();
 	}
 
 	@Override
@@ -472,5 +476,31 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	public void zoomY(double factor) {
 		Double height = getHeightAsDouble() * factor;
 		setHeight(height);
+	}
+
+	@Override
+	public void setAbsoluteScreenLocActive(boolean flag) {
+		super.setAbsoluteScreenLocActive(flag);
+		if (app != null && app.getActiveEuclidianView() != null) {
+			xScale = app.getActiveEuclidianView().getXscale();
+			yScale = app.getActiveEuclidianView().getYscale();
+		}
+	}
+
+	/**
+	 * Zoom the video if the video is not pinned, and the scales of the view
+	 * changed.
+	 */
+	public void zoomIfNeeded() {
+		if (!isAbsoluteScreenLocActive()) {
+			if (xScale != app.getActiveEuclidianView().getXscale()) {
+				zoomX(app.getActiveEuclidianView().getXscale() / xScale);
+				xScale = app.getActiveEuclidianView().getXscale();
+			}
+			if (yScale != app.getActiveEuclidianView().getYscale()) {
+				zoomY(app.getActiveEuclidianView().getYscale() / yScale);
+				yScale = app.getActiveEuclidianView().getYscale();
+			}
+		}
 	}
 }
