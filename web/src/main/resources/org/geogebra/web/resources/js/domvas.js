@@ -9,7 +9,7 @@
 		var computedStyle = getComputedStyle(origElem);
 
 		if(supportsCSSText) {
-			elem.style.cssText = computedStyle.cssText;
+			elem.style.cssText = computedStyle.cssText; //.replace(/font:(.*)([0-9.]*px)\/([0-9.]*px)/,"font-size:$2;font:$1");
 
 		} else {
 

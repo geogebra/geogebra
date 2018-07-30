@@ -58,6 +58,7 @@ public class ExamStartDialog extends DialogBoxW
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		getCaption().setText(app.getLocalization().getMenu("exam_menu_enter"));
 		startText.setText(
@@ -72,10 +73,11 @@ public class ExamStartDialog extends DialogBoxW
 		center();
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == startBtn) {
-			if (app.getGuiManager() instanceof GuiManagerW &&
-					((GuiManagerW) app.getGuiManager())
+			if (app.getGuiManager() instanceof GuiManagerW
+					&& ((GuiManagerW) app.getGuiManager())
 							.getUnbundledToolbar() != null) {
 				((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
 						.setHeaderStyle("examOk");

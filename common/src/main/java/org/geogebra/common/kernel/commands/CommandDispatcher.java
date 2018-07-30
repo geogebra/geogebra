@@ -190,7 +190,7 @@ public abstract class CommandDispatcher {
 
 			// disable preview for commands using CAS
 			// if CAS not loaded
-			if (!info.isUsingCAS() && !kernel.isGeoGebraCASready()
+			if (info != null && !info.isUsingCAS() && !kernel.isGeoGebraCASready()
 					&& cmdProc instanceof UsesCAS) {
 				return null;
 			}

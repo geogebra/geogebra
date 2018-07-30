@@ -55,8 +55,6 @@ public abstract class CoordSystemAnimation {
 	private double standardX;
 	private double standardY;
 
-	private double zoomFactor;
-
 	/**
 	 * Creates new zoomer
 	 * 
@@ -116,7 +114,6 @@ public abstract class CoordSystemAnimation {
 			boolean doStoreUndo) {
 		this.px = ptx;
 		this.py = pty;
-		this.zoomFactor = zoomFactor;
 		this.storeUndo = doStoreUndo;
 
 		oldScale = view.getXscale();

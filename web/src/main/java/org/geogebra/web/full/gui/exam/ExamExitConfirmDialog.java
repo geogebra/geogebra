@@ -58,6 +58,7 @@ public class ExamExitConfirmDialog extends DialogBoxW
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		confirmText.setText(
 				app.getLocalization().getMenu("exam_exit_confirmation"));
@@ -71,6 +72,7 @@ public class ExamExitConfirmDialog extends DialogBoxW
 		center();
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == exitBtn) {
 			new ExamExitDialog(appW).show();
