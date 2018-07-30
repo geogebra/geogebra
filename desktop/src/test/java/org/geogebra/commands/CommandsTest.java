@@ -1272,6 +1272,7 @@ public class CommandsTest extends AlgebraTest {
 		t("list1=Zip[f(1),f,{x,x+1}]", "{1, 2}");
 		String xml = app.getGgbApi().getXML();
 		t("list2=Zip[f(1,2),f,{x+y,y+x+1}]", "{3, 4}");
+		t("list3=Zip[f(1),f,{Curve(p,p+1,p,0,2)}]", "{(1, 2)}");
 		app.getKernel().clearConstruction(true);
 		app.getGgbApi().setXML(xml);
 		t("list1", "{1, 2}");

@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -153,6 +154,11 @@ public interface Traversing {
 						? new GeoDummyVariable(kernel.getConstruction(),
 								c.getName())
 						: new Variable(kernel, c.getName());
+				GeoElement fun = cas ? null : kernel.lookupLabel(c.getName());
+				if (fun instanceof GeoCurveCartesian && c.getArgumentNumber() == 1) {
+					return new ExpressionNode(kernel, var, Operation.VEC_FUNCTION,
+							argList.getItem(0));
+				}
 				return new ExpressionNode(kernel, var, Operation.FUNCTION_NVAR,
 						argList);
 			}
