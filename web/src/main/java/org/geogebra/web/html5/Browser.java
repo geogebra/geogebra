@@ -360,6 +360,19 @@ public class Browser {
 		return devicePixelRatio / backingStorePixelRatio;
 	}-*/;
 
+	/**
+	 * 
+	 * Returns a base64 encoding of the specified (binary) string
+	 * 
+	 * extra encoding needed for file from Generator: Adobe Illustrator 11.0,
+	 * SVG Export Plug-In
+	 * 
+	 * xpacket begin='\uFEFF'
+	 * 
+	 * @param svg
+	 *            A binary string (obtained for instance by the FileReader API)
+	 * @return a base64 encoded string.
+	 */
 	public static native String encodeSVG(String svg) /*-{
 		// can't use data:image/svg+xml;utf8 in IE11 / Edge
 		// so encode as Base64
@@ -547,23 +560,6 @@ public class Browser {
 	 */
 	public static native String decodeBase64(String base64)/*-{
 		return decodeURIComponent(escape($wnd.atob(base64)));
-	}-*/;
-
-	/**
-	 * 
-	 * Returns a base64 encoding of the specified (binary) string
-	 * 
-	 * extra encoding needed for file from Generator: Adobe Illustrator 11.0,
-	 * SVG Export Plug-In
-	 * 
-	 * xpacket begin='\uFEFF'
-	 * 
-	 * @param text
-	 *            A binary string (obtained for instance by the FileReader API)
-	 * @return a base64 encoded string.
-	 */
-	public static native String encodeBase64(String text)/*-{
-		return $wnd.btoa(unescape(encodeURIComponent(text)));
 	}-*/;
 
 	public static void removeDefaultContextMenu(Element element) {

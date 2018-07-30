@@ -1,1 +1,99 @@
-!function(){function t(t,e,l){var o=getComputedStyle(e);if(i)t.style.cssText=o.cssText;else for(var s in o)isNaN(parseInt(s,10))&&"function"!=typeof o[s]&&!/^(cssText|length|parentRule)$/.test(s)&&(t.style[s]=o[s])}function e(e,i){var l=e.querySelectorAll("*"),o=i.querySelectorAll("*");t(e,i,1),Array.prototype.forEach.call(l,function(e,i){if("CANVAS"==e.tagName){window.div=document.createElement("div"),e.parentElement.replaceChild(div,e),div.style.height=o[i].offsetHeight+"px",div.style.width=o[i].offsetWidth+"px";var l=o[i].toDataURL();div.style.backgroundImage="url("+l+")",div.style.backgroundSize=div.style.width+" "+div.style.height}else t(e,o[i])}),e.style.margin=e.style.marginLeft=e.style.marginTop=e.style.marginBottom=e.style.marginRight=""}var i=""!==getComputedStyle(document.body).cssText;window.domvas={toImage:function(t,i,l,o,s,n){s=s||0,n=n||0;var r=t.cloneNode(!0);e(r,t),r.setAttribute("xmlns","http://www.w3.org/1999/xhtml");var a=(new XMLSerializer).serializeToString(r),g="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='"+((l||t.offsetWidth)+s)+"' height='"+((o||t.offsetHeight)+n)+"'><foreignObject width='100%' height='100%' x='"+s+"' y='"+n+"'>"+a+"</foreignObject></svg>",d=new Image;d.src=g,d.onload=function(){i&&i.call(this,this)}}}}();
+"use strict";
+
+(function() {
+
+	var supportsCSSText = getComputedStyle(document.body).cssText !== "";
+
+	function copyCSS(elem, origElem, log) {
+
+		var computedStyle = getComputedStyle(origElem);
+
+		if(supportsCSSText) {
+			elem.style.cssText = computedStyle.cssText;
+
+		} else {
+
+			// Really, Firefox?
+			for(var prop in computedStyle) {
+				if(isNaN(parseInt(prop, 10)) && typeof computedStyle[prop] !== 'function' && !(/^(cssText|length|parentRule)$/).test(prop)) {
+					elem.style[prop] = computedStyle[prop];
+				}
+			}
+
+		}
+
+	}
+
+	function inlineStyles(elem, origElem) {
+
+		var children = elem.querySelectorAll('*');
+		var origChildren = origElem.querySelectorAll('*');
+
+		// copy the current style to the clone
+		copyCSS(elem, origElem, 1);
+
+		// collect all nodes within the element, copy the current style to the clone
+		Array.prototype.forEach.call(children, function(child, i) {
+			if(child.tagName == 'CANVAS'){
+				window.div = document.createElement('div');
+				child.parentElement.replaceChild(div,child);
+				div.style.height=origChildren[i].offsetHeight+"px";
+				div.style.width=origChildren[i].offsetWidth+"px";
+				var url = origChildren[i].toDataURL();
+				div.style.backgroundImage="url("+url+")";
+				div.style.backgroundSize=div.style.width+" "+div.style.height;
+			}else{
+				copyCSS(child, origChildren[i]);
+			}
+		});
+
+		// strip margins from the outer element
+		elem.style.margin = elem.style.marginLeft = elem.style.marginTop = elem.style.marginBottom = elem.style.marginRight = '';
+
+	}
+
+	window.domvas = {
+
+		toImage: function(origElem, callback, width, height, left, top) {
+
+			left = (left || 0);
+			top = (top || 0);
+
+			var elem = origElem.cloneNode(true);
+			
+			// inline all CSS (ugh..)
+			inlineStyles(elem, origElem);
+
+			// unfortunately, SVG can only eat well formed XHTML
+			elem.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+
+			// serialize the DOM node to a String
+			var serialized = new XMLSerializer().serializeToString(elem);
+
+			// Create well formed data URL with our DOM string wrapped in SVG
+			var dataUri = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(
+				"<svg xmlns='http://www.w3.org/2000/svg' width='" + ((width || origElem.offsetWidth) + left) + "' height='" + ((height || origElem.offsetHeight) + top) + "'>" +
+					"<foreignObject width='100%' height='100%' x='" + left + "' y='" + top + "'>" +
+					serialized +
+					"</foreignObject>" +
+				"</svg>")));
+
+			// create new, actual image
+			var img = new Image();
+			img.src = dataUri;
+
+			// when loaded, fire onload callback with actual image node
+			
+			img.onload = function() {
+				if(callback) {
+					callback.call(this, this);
+				}
+			};
+			
+
+		}
+
+	};
+
+})();
+
