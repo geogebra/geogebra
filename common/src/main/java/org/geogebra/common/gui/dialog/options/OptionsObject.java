@@ -16,7 +16,9 @@ public class OptionsObject {
 	private ArrayList<GeoElement> selection;
 	private StringBuilder sb = new StringBuilder();
 
-	//
+	protected OptionsObject() {
+		// no instances
+	}
 
 	/**
 	 * update geo just added

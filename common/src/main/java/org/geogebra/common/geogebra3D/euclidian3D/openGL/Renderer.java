@@ -2,18 +2,15 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 /**
@@ -29,7 +26,7 @@ import org.geogebra.common.main.App;
  * @author ggb3D
  * 
  */
-public abstract class Renderer {
+public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * renderer type (shader or not)
@@ -201,12 +198,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * 
-	 * @return canvas (for desktop version at least)
-	 */
-	abstract public Object getCanvas();
-
-	/**
 	 * set the list of {@link Drawable3D} to be drawn
 	 * 
 	 * @param dl
@@ -215,11 +206,6 @@ public abstract class Renderer {
 	public void setDrawable3DLists(Drawable3DListsForView dl) {
 		drawable3DLists = dl;
 	}
-
-	/**
-	 * re-calc the display immediately
-	 */
-	abstract public void display();
 
 	/**
 	 * 
@@ -665,36 +651,6 @@ public abstract class Renderer {
 	 */
 	abstract protected void exportImage();
 
-	/**
-	 * enable culling
-	 */
-	abstract public void enableCulling();
-
-	/**
-	 * disable culling
-	 */
-	abstract public void disableCulling();
-
-	/**
-	 * cull front faces
-	 */
-	abstract public void setCullFaceFront();
-
-	/**
-	 * cull back faces
-	 */
-	abstract public void setCullFaceBack();
-
-	/**
-	 * disable blending
-	 */
-	abstract public void disableBlending();
-
-	/**
-	 * enable blending
-	 */
-	abstract public void enableBlending();
-
 	protected void drawTranspNotCurved() {
 		disableCulling();
 		drawable3DLists.drawTransp(this);
@@ -772,46 +728,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * enable textures
-	 */
-	abstract public void enableTextures();
-
-	/**
-	 * disable multi samples (for antialiasing)
-	 */
-	abstract public void disableTextures();
-
-	/**
-	 * enable multi samples (for antialiasing)
-	 */
-	abstract public void enableMultisample();
-
-	/**
-	 * disable textures
-	 */
-	abstract public void disableMultisample();
-
-	/**
-	 * enable alpha test : avoid z-buffer writing for transparent parts
-	 */
-	abstract public void enableAlphaTest();
-
-	/**
-	 * disable alpha test
-	 */
-	abstract public void disableAlphaTest();
-
-	/**
-	 * disable lighting
-	 */
-	abstract public void disableLighting();
-
-	/**
-	 * enable lighting
-	 */
-	abstract public void enableLighting();
-
-	/**
 	 * disable shine (specular)
 	 */
 	public void disableShine() {
@@ -838,19 +754,6 @@ public abstract class Renderer {
 	public void enableOpaqueSurfaces() {
 		// only implemented with shaders
 	}
-
-	/**
-	 * init lighting
-	 */
-	abstract public void initLighting();
-
-	/**
-	 * set real-world origin for label
-	 * 
-	 * @param origin
-	 *            real-world coordinates
-	 */
-	abstract public void setLabelOrigin(float[] origin);
 
 	/**
 	 * draw face-to screen parts (labels, ...)
@@ -940,14 +843,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * sets the clip planes
-	 * 
-	 * @param minMax
-	 *            min/max for x/y/z
-	 */
-	abstract public void setClipPlanes(double[][] minMax);
-
-	/**
 	 * init drawing matrix to view3D toScreen matrix
 	 */
 	abstract protected void setMatrixView();
@@ -956,41 +851,6 @@ public abstract class Renderer {
 	 * reset to projection matrix only
 	 */
 	abstract protected void unsetMatrixView();
-
-	/**
-	 * enable depth mask (write in depth buffer)
-	 */
-	abstract public void enableDepthMask();
-
-	/**
-	 * disable depth mask (write in depth buffer)
-	 */
-	abstract public void disableDepthMask();
-
-	/**
-	 * enable depth test
-	 */
-	abstract public void enableDepthTest();
-
-	/**
-	 * disable depth test
-	 */
-	abstract public void disableDepthTest();
-
-	/**
-	 * set the color mask
-	 * 
-	 * @param r
-	 *            red
-	 * @param g
-	 *            green
-	 * @param b
-	 *            blue
-	 * @param a
-	 *            alpha
-	 */
-	abstract public void setColorMask(boolean r, boolean g, boolean b,
-			boolean a);
 
 	protected void draw() {
 
@@ -1183,14 +1043,6 @@ public abstract class Renderer {
 	 * getGL().glPopAttrib(); }
 	 */
 
-	/**
-	 * set line width
-	 * 
-	 * @param width
-	 *            line width
-	 */
-	abstract public void setLineWidth(double width);
-
 	// /////////////////////////////////////////////////
 	//
 	// pencil methods
@@ -1236,15 +1088,6 @@ public abstract class Renderer {
 	 */
 	abstract protected void setColor(float r, float g, float b, float a);
 
-	// layer
-	/**
-	 * sets the layer to l. Use gl.glPolygonOffset( ).
-	 * 
-	 * @param l
-	 *            the layer
-	 */
-	abstract public void setLayer(int l);
-
 	// drawing matrix
 
 	/**
@@ -1265,22 +1108,6 @@ public abstract class Renderer {
 	public CoordMatrix4x4 getMatrix() {
 		return m_drawingMatrix;
 	}
-
-	/**
-	 * sets the drawing matrix to openGLlocal. same as
-	 * initMatrix(m_drawingMatrix)
-	 */
-	abstract public void initMatrix();
-
-	/**
-	 * set the matrix for face to screen part
-	 */
-	abstract public void initMatrixForFaceToScreen();
-
-	/**
-	 * turn off the last drawing matrix set in openGLlocal.
-	 */
-	abstract public void resetMatrix();
 
 	// /////////////////////////////////////////////////////////
 	// drawing geometries
@@ -1457,36 +1284,11 @@ public abstract class Renderer {
 	 * getGL().glPopMatrix(); }
 	 */
 
-	/**
-	 * set hits for mouse location
-	 * 
-	 * @param mouseLoc
-	 *            mouse location
-	 * @param threshold
-	 *            threshold
-	 */
-	abstract public void setHits(GPoint mouseLoc, int threshold);
-
-	/**
-	 * set label hits for mouse location
-	 * 
-	 * @param mouseLoc
-	 *            mouse location
-	 * @return first label hitted geo
-	 */
-	abstract public GeoElement getLabelHit(GPoint mouseLoc);
-
 	abstract protected void pushSceneMatrix();
 
 	public enum PickingType {
 		POINT_OR_CURVE, SURFACE, LABEL
 	}
-
-	/**
-	 * process picking for intersection curves SHOULD NOT BE CALLED OUTSIDE THE
-	 * DISPLAY LOOP
-	 */
-	abstract public void pickIntersectionCurves();
 
 	// ////////////////////////////////
 	// LIGHTS
@@ -1544,20 +1346,6 @@ public abstract class Renderer {
 		setClearColor(r, g, b, 1.0f);
 	}
 
-	/**
-	 * set clear color
-	 * 
-	 * @param r
-	 *            red
-	 * @param g
-	 *            green
-	 * @param b
-	 *            blue
-	 * @param a
-	 *            alpha
-	 */
-	abstract public void setClearColor(float r, float g, float b, float a);
-
 	// ////////////////////////////////
 	// initializations
 
@@ -1586,11 +1374,6 @@ public abstract class Renderer {
 	abstract protected void setLightModel();
 
 	abstract protected void setAlphaFunc();
-
-	/**
-	 * ensure that animation is on (needed when undocking/docking 3D view)
-	 */
-	abstract public void resumeAnimator();
 
 	// projection mode
 
@@ -1772,11 +1555,6 @@ public abstract class Renderer {
 			break;
 		}
 	}
-
-	/**
-	 * for shaders : update projection matrix
-	 */
-	abstract public void updateOrthoValues();
 
 	/**
 	 * Set Up An Ortho View regarding left, right, bottom, front values
@@ -2021,59 +1799,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * enable GL textures 2D
-	 */
-	abstract public void enableTextures2D();
-
-	/**
-	 * disable GL textures 2D
-	 */
-	abstract public void disableTextures2D();
-
-	/**
-	 * generate textures
-	 * 
-	 * @param number
-	 *            texture length
-	 * @param index
-	 *            indices
-	 */
-	abstract public void genTextures2D(int number, int[] index);
-
-	/**
-	 * bind the texture
-	 * 
-	 * @param index
-	 *            texture index
-	 */
-	abstract public void bindTexture(int index);
-
-	abstract public GBufferedImage createBufferedImage(DrawLabel3D label);
-
-	/**
-	 * create alpha texture for label from image
-	 * 
-	 * @param label
-	 *            label
-	 * @param bimg
-	 *            buffered image
-	 */
-	abstract public void createAlphaTexture(DrawLabel3D label,
-			GBufferedImage bimg);
-
-	/**
-	 * 
-	 * @param sizeX
-	 *            width
-	 * @param sizeY
-	 *            height
-	 * @param buf
-	 *            image data
-	 * @return a texture for alpha channel
-	 */
-	abstract public int createAlphaTexture(int sizeX, int sizeY, byte[] buf);
-
-	/**
 	 * 
 	 * @param val
 	 *            value
@@ -2086,28 +1811,7 @@ public abstract class Renderer {
 			ret *= 2;
 		}
 		return ret;
-
 	}
-
-	/**
-	 * @param sizeX
-	 *            width
-	 * @param sizeY
-	 *            height
-	 * @param buf
-	 *            image data
-	 */
-	abstract public void textureImage2D(int sizeX, int sizeY, byte[] buf);
-
-	/**
-	 * set texture linear parameters
-	 */
-	abstract public void setTextureLinear();
-
-	/**
-	 * set texture nearest parameters
-	 */
-	abstract public void setTextureNearest();
 
 	/**
 	 * init the renderer
@@ -2193,29 +1897,11 @@ public abstract class Renderer {
 	abstract protected void enableNormalNormalized();
 
 	/**
-	 * enable fading (e.g. for planes)
-	 */
-	abstract public void enableFading();
-
-	/**
 	 * enable text textures
 	 */
 	public void enableTexturesForText() {
 		enableTextures();
 	}
-
-	/**
-	 * enable fading (e.g. for planes)
-	 */
-	abstract public void enableDash();
-
-	abstract public void setDashTexture(int index);
-
-	/**
-	 * 
-	 * @return true if it uses shaders
-	 */
-	abstract public boolean useShaders();
 
 	/**
 	 * 
@@ -2312,12 +1998,6 @@ public abstract class Renderer {
 	protected void setExportType(ExportType type) {
 		exportType = type;
 	}
-
-	/**
-	 * create a dummy texture to please the GL shader language, that needs something
-	 * correct to be bound on texture 0
-	 */
-	abstract public void createDummyTexture();
 
 	/**
 	 * 

@@ -146,7 +146,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	}
 
 	@Override
-	final protected void setBufferLeft() {
+	final public void setBufferLeft() {
 		if (zSpace == null) {
 			return;
 		}
@@ -154,7 +154,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	}
 
 	@Override
-	final protected void setBufferRight() {
+	final public void setBufferRight() {
 		if (zSpace == null) {
 			return;
 		}

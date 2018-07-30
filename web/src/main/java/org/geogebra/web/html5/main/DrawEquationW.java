@@ -225,7 +225,7 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	protected Image getCachedDimensions(String text, GeoElementND geo,
+	public Image getCachedDimensions(String text, GeoElementND geo,
 			Color fgColor, GFont font, int style, int[] ret) {
 		// TODO JLaTeXMathCache uses
 		// import java.lang.ref.Reference;

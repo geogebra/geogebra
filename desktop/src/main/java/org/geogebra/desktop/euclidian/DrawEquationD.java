@@ -160,7 +160,7 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	@Override
-	protected Image getCachedDimensions(String text, GeoElementND geo,
+	public Image getCachedDimensions(String text, GeoElementND geo,
 			com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
 			GFont font, int style, int[] ret) {
 		Object key = null;

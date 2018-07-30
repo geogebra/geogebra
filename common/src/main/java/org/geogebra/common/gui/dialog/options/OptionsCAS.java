@@ -2,10 +2,13 @@ package org.geogebra.common.gui.dialog.options;
 
 import java.util.Arrays;
 
-public class OptionsCAS {
-
+public final class OptionsCAS {
 	/** available CAS timeout options (will be reused in OptionsCAS) */
 	final private static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
+
+	private OptionsCAS() {
+		// no instances
+	}
 
 	/**
 	 * @param integer

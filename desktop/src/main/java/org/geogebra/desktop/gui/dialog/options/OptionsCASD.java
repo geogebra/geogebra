@@ -23,8 +23,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Options for the CAS view.
  */
-public class OptionsCASD extends OptionsCAS
-		implements OptionPanelD, ActionListener, SetLabels {
+public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	/**
 	 * Application object.
 	 */

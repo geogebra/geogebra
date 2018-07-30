@@ -39,7 +39,6 @@ import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -63,7 +62,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -82,19 +80,14 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoScriptRunner;
-import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
-import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -108,7 +101,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Represents an application window, gives access to views and system stuff
  */
 @SuppressWarnings("javadoc")
-public abstract class App implements UpdateSelection {
+public abstract class App implements UpdateSelection, AppInterface {
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	/** Url for main page of manual */
@@ -873,13 +866,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	public abstract boolean isApplet();
-
-	/**
-	 * Store current state of construction for undo/redo purposes
-	 */
-	public abstract void storeUndoInfo();
-
 	/**
 	 * Store current state of construction for undo/redo purposes, and state of
 	 * construction for mode starting (so undo cancels partial tool preview)
@@ -948,20 +934,6 @@ public abstract class App implements UpdateSelection {
 				.storeUndoInfoForProperties(isUndoActive());
 	}
 
-	/**
-	 * @return true if we have access to complete gui (menubar, toolbar); false
-	 *         for minimal applets (just one EV, no gui)
-	 */
-	public abstract boolean isUsingFullGui();
-
-	/**
-	 *
-	 * @param view
-	 *            view ID
-	 * @return whether view with given ID is visible
-	 */
-	public abstract boolean showView(int view);
-
 	public boolean letRename() {
 		return true;
 	}
@@ -1025,14 +997,6 @@ public abstract class App implements UpdateSelection {
 	public void localizeAndShowError(String key) {
 		showError(getLocalization().getError(key));
 	}
-
-	/**
-	 * Show error dialog with given text
-	 *
-	 * @param localizedError
-	 *            error message
-	 */
-	public abstract void showError(String localizedError);
 
 	/**
 	 * Shows error dialog with a given text
@@ -1258,11 +1222,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @return algebra view
-	 */
-	public abstract AlgebraView getAlgebraView();
-
-	/**
 	 * @return EV1
 	 */
 	public EuclidianView getEuclidianView1() {
@@ -1277,11 +1236,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @return active euclidian view (may be EV, EV2 or 3D)
-	 */
-	public abstract EuclidianView getActiveEuclidianView();
-
-	/**
 	 * @return whether 3D view was initialized
 	 */
 	public boolean isEuclidianView3Dinited() {
@@ -1294,31 +1248,6 @@ public abstract class App implements UpdateSelection {
 	public EuclidianView3DInterface getEuclidianView3D() {
 		return null;
 	}
-
-	/**
-	 * @return whether EV2 was initialized
-	 */
-	public abstract boolean hasEuclidianView2EitherShowingOrNot(int idx);
-
-	/**
-	 * @return whether EV2 is visible
-	 */
-	public abstract boolean isShowingEuclidianView2(int idx);
-
-	/**
-	 * @return image manager
-	 */
-	public abstract ImageManager getImageManager();
-
-	/**
-	 * @return gui manager (it's null in minimal applets)
-	 */
-	public abstract GuiManagerInterface getGuiManager();
-
-	/**
-	 * @return dialog manager
-	 */
-	public abstract DialogManager getDialogManager();
 
 	/**
 	 * Initializes GUI manager
@@ -1361,21 +1290,6 @@ public abstract class App implements UpdateSelection {
 	public void setScriptingLanguage(String scriptingLanguage) {
 		this.scriptingLanguage = scriptingLanguage;
 	}
-
-	/**
-	 * Runs JavaScript
-	 *
-	 * @param app
-	 *            application
-	 * @param script
-	 *            JS method name
-	 * @param arg
-	 *            arguments
-	 * @throws Exception
-	 *             when script contains errors
-	 */
-	public abstract void evalJavaScript(App app, String script, String arg)
-			throws Exception;
 
 	/**
 	 * @param v
@@ -2020,18 +1934,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @return width of the whole application (central panel) This is needed for
-	 *         Corner[6]
-	 */
-	public abstract double getWidth();
-
-	/**
-	 * @return height of the whole application (central panel) This is needed
-	 *         for Corner[6]
-	 */
-	public abstract double getHeight();
-
-	/**
 	 *
 	 * @param serif
 	 *            serif
@@ -2045,11 +1947,6 @@ public abstract class App implements UpdateSelection {
 		return AwtFactory.getPrototype().newFont(serif ? "Serif" : "SansSerif",
 				style, size);
 	}
-
-	/**
-	 * In Desktop gives current font, in Web creates a new one
-	 */
-	public abstract GFont getPlainFontCommon();
 
 	public boolean isExporting() {
 		return exportType != ExportType.NONE;
@@ -2169,14 +2066,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * TODO maybe we should create another factory for internal classes like
-	 * this
-	 *
-	 * @return new graphics adapter for geo
-	 */
-	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
-
-	/**
 	 * Repaints the spreadsheet view
 	 */
 	public void repaintSpreadsheet() {
@@ -2235,23 +2124,8 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setDefaultCursor() {
 		// TODO Auto-generated method stub
-
 	}
 
-	/**
-	 * Switch current cursor to wait cursor
-	 */
-	public abstract void setWaitCursor();
-
-	/**
-	 * Update stylebars of all views
-	 */
-	public abstract void updateStyleBars();
-
-	/**
-	 * Update dynamic stylebars of all views
-	 */
-	public abstract void updateDynamicStyleBars();
 
 	/**
 	 * Changes current mode to move mode
@@ -2266,16 +2140,6 @@ public abstract class App implements UpdateSelection {
 	public void setMoveMode(ModeSetter m) {
 		setMode(EuclidianConstants.MODE_MOVE, m);
 	}
-
-	/**
-	 * Changes current mode to mode of the toolbar's 1rst tool.
-	 */
-	public abstract void set1rstMode();
-
-	/**
-	 * @return spreadsheet table model
-	 */
-	public abstract SpreadsheetTableModel getSpreadsheetTableModel();
 
 	/**
 	 * Changes current mode (tool number)
@@ -2351,20 +2215,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	public abstract void setXML(String string, boolean b);
-
-	/**
-	 * Returns API that can be used from external applications
-	 *
-	 * @return GeoGebra API
-	 */
-	public abstract GgbAPI getGgbApi();
-
-	/**
-	 * @return sound manager
-	 */
-	public abstract SoundManager getSoundManager();
-
 	/**
 	 * @return video manager
 	 */
@@ -2406,18 +2256,6 @@ public abstract class App implements UpdateSelection {
 	public boolean isMiddleClick(AbstractEvent e) {
 		return e.isMiddleClick();
 	}
-
-	/**
-	 * @return whether input bar is visible
-	 */
-	public abstract boolean showAlgebraInput();
-
-	/**
-	 * @return global key dispatcher. Can be null (eg Android, iOS)
-	 */
-	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
-
-	public abstract void callAppletJavaScript(String string, Object[] args);
 
 	/**
 	 * Inform current selection listener about newly (un)selected geo
@@ -2535,11 +2373,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Updates menubar
-	 */
-	public abstract void updateMenubar();
-
-	/**
 	 * @return general font size (used for EV and GUI)
 	 */
 	public int getFontSize() {
@@ -2592,11 +2425,6 @@ public abstract class App implements UpdateSelection {
 
 		updateUI();
 	}
-
-	/**
-	 * Recursively update all components with current look and feel
-	 */
-	public abstract void updateUI();
 
 	/**
 	 * @return string representation of current locale, eg no_NO_NY
@@ -2861,19 +2689,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	/**
-	 * Opens browser with given URL
-	 *
-	 * @param string
-	 *            URL
-	 */
-	public abstract void showURLinBrowser(String string);
-
-	/**
-	 * Opens the upload to GGT dialog
-	 */
-	public abstract void uploadToGeoGebraTube();
-
 	public boolean getUseFullGui() {
 		return useFullGui;
 	}
@@ -2927,11 +2742,6 @@ public abstract class App implements UpdateSelection {
 		getGuiManager().updateAlgebraInput();
 		updateMenubar();
 	}
-
-	/**
-	 * Updates application layout
-	 */
-	public abstract void updateApplicationLayout();
 
 	/**
 	 * Returns name or help for given tool
@@ -3015,18 +2825,6 @@ public abstract class App implements UpdateSelection {
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
 		return pf;
 	}
-
-	/**
-	 * Clears construction
-	 *
-	 * @return true if successful otherwise false (eg user clicks "Cancel")
-	 */
-	public abstract boolean clearConstruction();
-
-	/**
-	 * Clear construction and reset settings from preferences
-	 */
-	public abstract void fileNew();
 
 	/**
 	 * Remove references to dynamic bounds, reset selection rectangle
@@ -3114,13 +2912,6 @@ public abstract class App implements UpdateSelection {
 		random = new Random(seed);
 	}
 
-	public abstract boolean loadXML(String xml) throws Exception;
-
-	/**
-	 * copy bitmap of EV to clipboard
-	 */
-	public abstract void copyGraphicsViewToClipboard();
-
 	/**
 	 * copy base64 of current .ggb file to clipboard
 	 */
@@ -3152,8 +2943,6 @@ public abstract class App implements UpdateSelection {
 	public final void setStandardView() {
 		getActiveEuclidianView().setStandardView(true);
 	}
-
-	public abstract void exitAll();
 
 	/**
 	 * Full version eg X.Y.Zd-prerelease
@@ -3253,14 +3042,6 @@ public abstract class App implements UpdateSelection {
 	public String getPreferencesXML() {
 		return getXMLio().getPreferencesXML();
 	}
-
-	/**
-	 * @param geo1
-	 *            geo
-	 * @param string
-	 *            parameter (for input box scripts)
-	 */
-	public abstract void runScripts(GeoElement geo1, String string);
 
 	/**
 	 * @param type
@@ -4655,8 +4436,6 @@ public abstract class App implements UpdateSelection {
 		return Input3DConstants.PREFS_NONE;
 	}
 
-	public abstract void closePopups();
-
 	/**
 	 * Close popups and dropdowns; keep active dropdown at (x,y).
 	 * 
@@ -4681,15 +4460,6 @@ public abstract class App implements UpdateSelection {
 	public double getExportScale() {
 		return this.exportScale;
 	}
-
-	/**
-	 * Creates a new Timer.
-	 *
-	 * @param delay
-	 *            Milliseconds to run timer after start()1.
-	 * @return GTimer descendant instance.
-	 */
-	public abstract GTimer newTimer(GTimerListener listener, int delay);
 
 	/**
 	 * @param geo
@@ -5073,8 +4843,6 @@ public abstract class App implements UpdateSelection {
 		}
 		return singularWS.directCommand(s);
 	}
-
-	abstract public void invokeLater(Runnable runnable);
 
 	/**
 	 * 

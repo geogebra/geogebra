@@ -97,4 +97,35 @@
 		<exclude name="CollapsibleIfStatements" />
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />		
 	</rule>
+	 <rule name="AbstractClassWithoutAnyMethod"
+          language="java"
+          since="4.2"
+          class="net.sourceforge.pmd.lang.rule.XPathRule"
+          typeResolution="true"
+          message="Common project should define abstract methods in interfaces."
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_design.html#abstractclasswithoutanymethod">
+        <description>
+Common project should define abstract methods in interfaces.
+        </description>
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>
+<![CDATA[
+//ClassOrInterfaceDeclaration
+    [@Abstract = 'true']
+    [count(//MethodDeclaration[@Abstract = 'true']) > 45]
+]]>
+                </value>
+            </property>
+        </properties>
+        <example>
+<![CDATA[
+public abstract class Example {
+    String field;
+    int otherField;
+}
+]]>
+        </example>
+    </rule>
 </ruleset>

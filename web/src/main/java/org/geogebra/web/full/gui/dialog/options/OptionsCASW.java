@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
@@ -16,8 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Settings for CAS in HTML5
  *
  */
-public class OptionsCASW extends OptionsCAS implements OptionPanelW,
-		ClickHandler {
+public class OptionsCASW implements OptionPanelW, ClickHandler {
 
 	private AppW app;
 	private FlowPanel optionsPanel;
