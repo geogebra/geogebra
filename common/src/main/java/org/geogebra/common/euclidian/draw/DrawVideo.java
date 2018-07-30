@@ -55,13 +55,15 @@ public class DrawVideo extends Drawable implements DrawWidget {
 
 	@Override
 	public void update() {
-		if(xScale != view.getXscale()){
-			video.zoomX(view.getXscale()/xScale);
-			xScale = view.getXscale();
-		}
-		if(yScale != view.getYscale()){
-			video.zoomY(view.getYscale()/yScale);
-			yScale = view.getYscale();
+		if (!video.isAbsoluteScreenLocActive()) {
+			if(xScale != view.getXscale()){
+				video.zoomX(view.getXscale()/xScale);
+				xScale = view.getXscale();
+			}
+			if(yScale != view.getYscale()){
+				video.zoomY(view.getYscale()/yScale);
+				yScale = view.getYscale();
+			}			
 		}
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().updatePlayer(video);
