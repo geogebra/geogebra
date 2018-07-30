@@ -611,7 +611,7 @@ public abstract class ContextMenuGeoElement {
 							.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 						((GeoImage) geoText).updateScaleAndLocation();
 					}
-					} else {
+				} else {
 					// convert screen coords to real world
 					if (geoText.isGeoImage() && geoText.getKernel()
 							.getApplication().has(Feature.MOW_PIN_IMAGE)) {
