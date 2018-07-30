@@ -25,7 +25,12 @@ public abstract class CASgiacJre extends CASgiacB {
     }
 
     @Override
-    protected void callEvaluateFunction(Runnable evaluateFunction) throws Throwable {
+	/**
+	 * synchronized needed in case CAS called from a thread eg Input Bar preview
+	 * eg sin(x)>0
+	 */
+	synchronized protected void callEvaluateFunction(Runnable evaluateFunction)
+			throws Throwable {
         if (useThread()) {
             // send expression to CAS
             Thread thread = new EvaluateThread(evaluateFunction);
