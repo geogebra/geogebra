@@ -16,7 +16,7 @@ import org.geogebra.common.main.MyError;
 /**
  * SolveODE
  */
-public class CmdSolveODE extends CommandProcessor {
+public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
@@ -34,6 +34,11 @@ public class CmdSolveODE extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		arg = resArgs(c);
+
+		if (!info.isUsingCAS()) {
+			// GeoElement[] ret = { null };
+			// return ret;
+		}
 
 		switch (n) {
 		case 1:

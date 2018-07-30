@@ -10,7 +10,8 @@ import org.geogebra.common.main.MyError;
 /**
  * ParametricDerivative[ &lt;GeoCurveCartesian> ]
  */
-public class CmdParametricDerivative extends CommandProcessor {
+public class CmdParametricDerivative extends CommandProcessor
+		implements UsesCAS {
 
 	/**
 	 * Create new command processor

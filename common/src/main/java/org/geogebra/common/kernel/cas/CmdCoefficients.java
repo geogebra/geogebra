@@ -12,7 +12,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Coefficients
  */
-public class CmdCoefficients extends CommandProcessor {
+public class CmdCoefficients extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor

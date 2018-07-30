@@ -11,7 +11,7 @@ import org.geogebra.common.main.MyError;
 /**
  * ImplicitDerivative[f(x,y)]
  */
-public class CmdImplicitDerivative extends CommandProcessor {
+public class CmdImplicitDerivative extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * @param kernel

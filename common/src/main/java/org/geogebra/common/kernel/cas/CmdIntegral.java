@@ -21,7 +21,7 @@ import org.geogebra.common.main.MyError;
  *
  * Integral[ &lt;GeoFunction f>, &lt;GeoFunction g>, &lt;Number a>, &lt;Number b> ]
  */
-public class CmdIntegral extends CommandProcessor {
+public class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 	// from GeoGebra 4.0, Integral has been split into Integral and
 	// IntegralBetween

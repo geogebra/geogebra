@@ -17,7 +17,7 @@ import org.geogebra.common.main.MyError;
  * 
  * @author Zbynek Konecny
  */
-public class CmdTrigCombine extends CommandProcessor {
+public class CmdTrigCombine extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * @param kernel

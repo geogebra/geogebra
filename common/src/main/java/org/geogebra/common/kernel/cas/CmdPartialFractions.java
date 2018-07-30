@@ -11,7 +11,7 @@ import org.geogebra.common.main.MyError;
 /**
  * PartialFractions
  */
-public class CmdPartialFractions extends CommandProcessor {
+public class CmdPartialFractions extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor

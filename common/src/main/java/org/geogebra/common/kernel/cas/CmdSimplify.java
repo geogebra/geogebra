@@ -15,7 +15,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Simplify
  */
-public class CmdSimplify extends CommandProcessor {
+public class CmdSimplify extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor

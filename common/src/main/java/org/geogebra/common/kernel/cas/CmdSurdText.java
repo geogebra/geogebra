@@ -12,7 +12,7 @@ import org.geogebra.common.main.MyError;
 /**
  * SurdText
  */
-public class CmdSurdText extends CommandProcessor {
+public class CmdSurdText extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor

@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -186,6 +187,14 @@ public abstract class CommandDispatcher {
 
 		GeoElement[] ret = null;
 		try {
+
+			// disable preview for commands using CAS
+			// if CAS not loaded
+			if (!info.isUsingCAS() && !kernel.isGeoGebraCASready()
+					&& cmdProc instanceof UsesCAS) {
+				return null;
+			}
+
 			ret = cmdProc.process(c, info);
 		} catch (MyError e) {
 			throw e;

@@ -11,7 +11,7 @@ import org.geogebra.common.main.MyError;
 /**
  * LimitBelow
  */
-public class CmdLimitBelow extends CommandProcessor {
+public class CmdLimitBelow extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor

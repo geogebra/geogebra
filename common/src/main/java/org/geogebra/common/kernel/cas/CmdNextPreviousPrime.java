@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author zbynek
  *
  */
-public class CmdNextPreviousPrime extends CmdOneNumber {
+public class CmdNextPreviousPrime extends CmdOneNumber implements UsesCAS {
 
 	private boolean next;
 

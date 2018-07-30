@@ -10,7 +10,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Degree
  */
-public class CmdDegree extends CommandProcessor {
+public class CmdDegree extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
