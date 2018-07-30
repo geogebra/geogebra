@@ -413,51 +413,47 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						return;
 					}
 					getDialogManager().showColorChooserDialog(
-							gridOptions ? model.getGridColor() : model.getRulerColor(),
+							gridOptions ? model.getGridColor()
+									: model.getRulerColor(),
 							new ColorChangeHandler() {
-						
-						@Override
-						public void onForegroundSelected() {
-							// TODO Auto-generated method stub
+
+								@Override
+								public void onForegroundSelected() {
+									// no background for grid
+								}
 							
-						}
-						
-						@Override
-						public void onColorChange(GColor color) {
+								@Override
+								public void onColorChange(GColor color) {
 									if (gridOptions) {
 										model.applyGridColor(color);
 									} else {
 										model.applyRulerColor(color);
 									}
-							updateGridColorButton(color);
-						}
-						
-						@Override
-						public void onClearBackground() {
-							// TODO Auto-generated method stub
+									updateGridColorButton(color);
+								}
 							
-						}
-						
-						@Override
-						public void onBackgroundSelected() {
-							// TODO Auto-generated method stub
+								@Override
+								public void onClearBackground() {
+									// no background for grid
+								}
 							
-						}
-						
-						@Override
-						public void onAlphaChange() {
-							// TODO Auto-generated method stub
+								@Override
+								public void onBackgroundSelected() {
+									// no background for grid
+								}
 							
-						}
+								@Override
+								public void onAlphaChange() {
+									// no alpha for grid
+								}
 
-						@Override
-						public void onBarSelected() {
-							// TODO Auto-generated method stub
-
-						}
-					});
-				// Just for dummy.
-//				
+								@Override
+								public void onBarSelected() {
+									// no bars
+								}
+							});
+					// Just for dummy.
+					//
 				}
 			});
 			// bold
