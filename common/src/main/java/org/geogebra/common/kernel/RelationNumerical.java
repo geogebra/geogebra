@@ -394,8 +394,14 @@ public class RelationNumerical {
 		if (DoubleUtil.isEqual(a.evaluateDouble(), b.evaluateDouble())) {
 
 			if (a.isEqual(b)) {
+				// numerical report on perfect match of segments (equality)
 				register(true, null,
 						equalityString((GeoElement) a, (GeoElement) b, true));
+				// temporarily allow symbolic check of congruency
+				// (until equality is not implemented symbolically)
+				register(true, RelationCommand.AreCongruent,
+						congruentSegmentString((GeoElement) a, (GeoElement) b,
+								true, loc));
 			} else {
 				register(true, RelationCommand.AreCongruent,
 						congruentSegmentString((GeoElement) a, (GeoElement) b,
