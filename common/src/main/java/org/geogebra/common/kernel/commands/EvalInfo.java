@@ -266,5 +266,4 @@ public class EvalInfo {
 		return updateRandom;
 	}
 
-
 }

@@ -151,7 +151,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 		return height.intValue();
 	}
 
-	protected double getHeightAsDouble(){
+	protected double getHeightAsDouble() {
 		return height;
 	}	
 	

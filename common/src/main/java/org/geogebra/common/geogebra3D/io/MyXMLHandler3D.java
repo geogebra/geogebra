@@ -386,7 +386,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected void startEuclidianViewElementCheckViewId(String eName,
 			LinkedHashMap<String, String> attrs) {
-
 		if ("viewId".equals(eName)) {
 			String plane = attrs.get("plane");
 			evSet = app.getSettings().getEuclidianForPlane(plane);
@@ -401,12 +400,8 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected boolean startEuclidianViewElementSwitch(String eName,
 			LinkedHashMap<String, String> attrs, char firstChar) {
-
-		if (firstChar == 't') {
-			if ("transformForPlane".equals(eName)) {
-				return handleTransformForPlane(
-						(EuclidianSettingsForPlane) evSet, attrs);
-			}
+		if ("transformForPlane".equals(eName)) {
+			return handleTransformForPlane((EuclidianSettingsForPlane) evSet, attrs);
 		}
 
 		return super.startEuclidianViewElementSwitch(eName, attrs, firstChar);
@@ -414,7 +409,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	private static boolean handleTransformForPlane(EuclidianSettingsForPlane ev,
 			LinkedHashMap<String, String> attrs) {
-
 		try {
 			ev.setTransformForPlane(Boolean.parseBoolean(attrs.get("mirror")),
 					Integer.parseInt(attrs.get("rotate")));
@@ -422,7 +416,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		} catch (Exception e) {
 			return false;
 		}
-
 	}
 
 }

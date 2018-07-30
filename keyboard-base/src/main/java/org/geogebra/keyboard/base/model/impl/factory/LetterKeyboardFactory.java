@@ -106,8 +106,6 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		int bottomRowLength = bottomRow.length();
 		int controlRowLength = controlRow.length();
 		int bottomSpecialLength = bottomActionLeft == null ? 1 : 2;
-		// this contains left, right and return enter
-		int controlSpecialLength = (controlActionLeft == null ? 0 : 1) + 3;
 
 		// sanity checks
 		if (bottomRowLength > topRowLength && bottomRowLength > middleRowLength) {
@@ -162,6 +160,8 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			addActionButton(controlRowImpl, buttonFactory, controlActionLeft, actionButtonSize);
 		}
 		addButtons(controlRowImpl, buttonFactory, controlRow);
+		// this contains left, right and return enter
+		int controlSpecialLength = (controlActionLeft == null ? 0 : 1) + 3;
 		float spaceSize = rowWeightSum - controlRowLength - controlSpecialLength;
 		addInputButton(controlRowImpl, buttonFactory, " ", spaceSize);
 		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.LEFT_ARROW,

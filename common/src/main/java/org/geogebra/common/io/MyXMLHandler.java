@@ -1561,6 +1561,7 @@ public class MyXMLHandler implements DocHandler {
 		ev.setBgRulerColor(col);
 		return true;
 	}
+
 	private static boolean handleLineStyle(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		try {

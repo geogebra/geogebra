@@ -48,15 +48,7 @@ public class DrawGrid {
 		} else {
 			drawHorizontalGridLinear(g2, xCrossPix, yCrossPix, subGrid);
 		}
-
 	}
-
-	// private static int brighterComponent(int comp) {
-	// double factor = 0.3;
-	// return (int) (255 - ((255 - comp) * factor));
-	//
-	// }
-
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
 			double yCrossPix1, boolean subGrid) {
