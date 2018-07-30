@@ -1,8 +1,17 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.DrawEquation;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.CASFactory;
+import org.geogebra.common.factories.Factory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.plugin.GgbAPI;
@@ -10,6 +19,7 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
+import org.geogebra.common.util.NormalizerMinimal;
 
 public interface AppInterface {
 	abstract public void invokeLater(Runnable runnable);
@@ -53,6 +63,8 @@ public interface AppInterface {
 	 *            error message
 	 */
 	public abstract void showError(String localizedError);
+
+	public abstract void showError(String string, String str);
 
 	/**
 	 * @return algebra view
@@ -235,4 +247,86 @@ public interface AppInterface {
 	 *            parameter (for input box scripts)
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
+
+	/**
+	 * @return true if we have critically low free memory
+	 */
+	public abstract boolean freeMemoryIsCritical();
+
+	/**
+	 * @return Approximate amount of remaining memory in bytes
+	 */
+	public abstract long freeMemory();
+
+	/**
+	 * @return euclidian view; if not present yet, new one is created
+	 */
+	public abstract EuclidianView createEuclidianView();
+
+	/**
+	 * Makes given view active
+	 *
+	 * @param evID
+	 *            view id
+	 */
+	public abstract void setActiveView(int evID);
+
+	/**
+	 * Returns undo manager
+	 *
+	 * @param cons
+	 *            construction
+	 * @return undo manager
+	 */
+	public abstract UndoManager getUndoManager(Construction cons);
+
+	/**
+	 * @return whether we are running in HTML5 applet
+	 */
+	public abstract boolean isHTML5Applet();
+
+	public abstract CASFactory getCASFactory();
+
+	public abstract Factory getFactory();
+
+	public abstract NormalizerMinimal getNormalizer();
+
+	public abstract void reset();
+
+	public abstract EuclidianController newEuclidianController(Kernel kernel1);
+
+	public abstract DrawEquation getDrawEquation();
+
+	public abstract void resetUniqueId();
+
+	public abstract Localization getLocalization();
+
+	public abstract MyXMLio createXMLio(Construction cons);
+
+	/**
+	 *
+	 * useful for benchmarking ie only useful for elapsed time
+	 *
+	 * accuracy will depend on the platform / browser uses
+	 * System.nanoTime()/1000000 in Java performance.now() in JavaScript
+	 *
+	 * Won't return sub-millisecond accuracy
+	 *
+	 * Chrome: doesn't work for sub-millisecond yet
+	 * https://code.google.com/p/chromium/issues/detail?id=158234
+	 *
+	 * @return millisecond time
+	 */
+	public abstract double getMillisecondTime();
+
+	public abstract void showCustomizeToolbarGUI();
+
+	public abstract boolean isSelectionRectangleAllowed();
+
+	/**
+	 * @param filename
+	 *            filename
+	 * @return image wrapped in GBufferedImage
+	 */
+	public abstract MyImage getExternalImageAdapter(String filename, int width, int height);
 }

@@ -14,9 +14,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.cas.singularws.SingularWebService;
-import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -32,8 +30,6 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.factories.CASFactory;
-import org.geogebra.common.factories.Factory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
@@ -46,14 +42,12 @@ import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.AnimationManager;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
-import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -1183,16 +1177,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * @return true if we have critically low free memory
-	 */
-	public abstract boolean freeMemoryIsCritical();
-
-	/**
-	 * @return Approximate amount of remaining memory in bytes
-	 */
-	public abstract long freeMemory();
-
-	/**
 	 * set right angle style
 	 *
 	 * @param style
@@ -1335,11 +1319,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * @return euclidian view; if not present yet, new one is created
-	 */
-	public abstract EuclidianView createEuclidianView();
-
-	/**
 	 * Returns current mode (tool number)
 	 *
 	 * @return current mode
@@ -1399,14 +1378,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public int getMD5folderLength(String fullPath) {
 		return 32;
 	}
-
-	/**
-	 * @param filename
-	 *            filename
-	 * @return image wrapped in GBufferedImage
-	 */
-	public abstract MyImage getExternalImageAdapter(String filename, int width,
-			int height);
 
 	/**
 	 * @return whether label dragging is enableded
@@ -1505,14 +1476,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public final void setUnAutoSaved() {
 		isAutoSaved = false;
 	}
-
-	/**
-	 * Makes given view active
-	 *
-	 * @param evID
-	 *            view id
-	 */
-	public abstract void setActiveView(int evID);
 
 	/**
 	 * Update backgrounds and repaint views.
@@ -1649,8 +1612,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public String getXML() {
 		return getXMLio().getFullXML();
 	}
-
-	public abstract void showError(String string, String str);
 
 	/**
 	 * @param viewID
@@ -1795,8 +1756,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		this.uniqueId = uniqueId;
 	}
 
-	public abstract void resetUniqueId();
-
 	/**
 	 * @param auxiliaryObjects
 	 *            true to show Auxiliary objects
@@ -1906,8 +1865,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public void setTooltipLanguage(String ttl) {
 		// TODO Auto-generated method stub
 	}
-
-	public abstract DrawEquation getDrawEquation();
 
 	public ArrayList<Perspective> getTmpPerspectives() {
 		return tmpPerspectives;
@@ -2042,17 +1999,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1);
-
-	public abstract EuclidianController newEuclidianController(Kernel kernel1);
-
-	/**
-	 * Returns undo manager
-	 *
-	 * @param cons
-	 *            construction
-	 * @return undo manager
-	 */
-	public abstract UndoManager getUndoManager(Construction cons);
 
 	/**
 	 * TODO refactor to remove this method Creates new animation manager
@@ -2592,8 +2538,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	protected abstract void getLayoutXML(StringBuilder sb,
 			boolean asPreference);
 
-	public abstract void reset();
-
 	/**
 	 * @return selection listener
 	 */
@@ -2662,11 +2606,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		setSaved();
 	}
-
-	/**
-	 * @return whether we are running in HTML5 applet
-	 */
-	public abstract boolean isHTML5Applet();
 
 	/**
 	 * @param useTransparentCursorWhenDragging
@@ -2959,8 +2898,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return GeoGebraConstants.VERSION_STRING + "?";
 	}
 
-	public abstract NormalizerMinimal getNormalizer();
-
 	public final void zoom(double px, double py, double zoomFactor) {
 		getActiveEuclidianView().zoom(px, py, zoomFactor, 15, true);
 	}
@@ -3098,10 +3035,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		geoForCopyStyle = geo;
 	}
 
-	public abstract CASFactory getCASFactory();
-
-	public abstract Factory getFactory();
-
 	public void dispatchEvent(Event evt) {
 		getEventDispatcher().dispatchEvent(evt);
 	}
@@ -3115,8 +3048,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		}
 		return myXMLio;
 	}
-
-	public abstract MyXMLio createXMLio(Construction cons);
 
 	public boolean hasEventDispatcher() {
 		return eventDispatcher != null;
@@ -3186,8 +3117,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		getEuclidianView1().getEuclidianController()
 				.stopCollectingMinorRepaints();
 	}
-
-	public abstract Localization getLocalization();
 
 	/**
 	 * @return selction manager
@@ -3519,22 +3448,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 *
-	 * useful for benchmarking ie only useful for elapsed time
-	 *
-	 * accuracy will depend on the platform / browser uses
-	 * System.nanoTime()/1000000 in Java performance.now() in JavaScript
-	 *
-	 * Won't return sub-millisecond accuracy
-	 *
-	 * Chrome: doesn't work for sub-millisecond yet
-	 * https://code.google.com/p/chromium/issues/detail?id=158234
-	 *
-	 * @return millisecond time
-	 */
-	public abstract double getMillisecondTime();
-
-	/**
 	 * Update undo/redo and menu for selection.
 	 */
 	public void updateActions() {
@@ -3758,10 +3671,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public void ensureTimerRunning() {
 		// only for Web
 	}
-
-	public abstract void showCustomizeToolbarGUI();
-
-	public abstract boolean isSelectionRectangleAllowed();
 
 	protected boolean isNativeMobileAppWithNewUI() {
 		return false;
