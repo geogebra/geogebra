@@ -2051,6 +2051,16 @@ public class CommandsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdPoint() {
+		t("Point[ xAxis ]", "(0, 0)");
+		t("Point[ x^2+y^2=1, 0.25]", "(0, -1)", StringTemplate.editTemplate);
+		t("Point[ (1,1),Vector((3,4))]", "(4, 5)");
+		t("Point[ {1,2}]", "(1, 2)");
+		t("Point[ 0x < 1]", "(0, 0)");
+		t("Point[ 0x > 1]", "(NaN, NaN)");
+	}
+
+	@Test
 	public void testPointsFromList() {
 		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");

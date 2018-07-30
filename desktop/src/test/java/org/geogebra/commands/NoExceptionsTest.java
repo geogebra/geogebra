@@ -1216,14 +1216,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdPoint() {
-		t("Point[ obj ]");
-		t("Point[ obj, prob]");
-		t("Point[ Pt1,v1]");
-		t("Point[ list1]");
-	}
-
-	@Test
 	public void cmdPointIn() {
 		t("PointIn[ poly1 ]");
 	}

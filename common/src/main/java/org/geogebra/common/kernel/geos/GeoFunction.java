@@ -1227,6 +1227,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					}
 				}
 			}
+			if (bestDist == Double.MAX_VALUE) {
+				P.setUndefined();
+			}
 		}
 	}
 
