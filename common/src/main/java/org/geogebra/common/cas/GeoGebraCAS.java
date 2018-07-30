@@ -237,7 +237,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				return null;
 			}
 			// invalid output -- don't cache
-			if ("?".equals(tmp) || "".equals(tmp) || tmp == null) {
+			if ("?".equals(tmp) || "".equals(tmp) || "undef".equals(tmp)
+					|| tmp == null) {
 				return null;
 			}
 
