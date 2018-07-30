@@ -450,10 +450,27 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		return getWidth() != -1 && getHeight() != -1;
 	}
 
-	public void zoom(double factor) {
+	/**
+	 * Zooming in x direction
+	 * 
+	 * @param factor
+	 *            zoom factor;
+	 * 
+	 */
+	public void zoomX(double factor) {
 		Double width = getWidthAsDouble() * factor;
-		Double height = getHeightAsDouble() * factor;
 		setWidth(width);
+	}
+	
+	/**
+	 * Zooming in y direction
+	 * 
+	 * @param factor
+	 *            zoom factor;
+	 * 
+	 */
+	public void zoomY(double factor) {
+		Double height = getHeightAsDouble() * factor;
 		setHeight(height);
 	}
 }
