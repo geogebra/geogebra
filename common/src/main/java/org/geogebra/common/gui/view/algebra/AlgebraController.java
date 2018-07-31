@@ -32,6 +32,7 @@ public class AlgebraController {
 	protected SelectionManager selection;
 	private AlgebraView view;
 	private boolean isAutoCreateSliders = true;
+	private boolean isStoringUndo = true;
 
 	// private GeoVector tempVec;
 	// private boolean kernelChanged;
@@ -59,8 +60,24 @@ public class AlgebraController {
 		return getDragText(new ArrayList<String>());
 	}
 
+	/**
+	 * Set to true if the algebra controller should automatically create sliders
+	 * for unknown variables.
+	 *
+	 * @param isAutoCreateSliders true to auto create sliders
+	 */
 	public void setAutoCreateSliders(boolean isAutoCreateSliders) {
 		this.isAutoCreateSliders = isAutoCreateSliders;
+	}
+
+	/**
+	 * Set to true if the algebra controller should store undo
+	 * when the evaluation succeeds.
+	 *
+	 * @param isStoringUndo true to save undo
+	 */
+	public void setStoringUndo(boolean isStoringUndo) {
+		this.isStoringUndo = isStoringUndo;
 	}
 
 	public String getDragText(ArrayList<String> geoLabelList) {
@@ -157,7 +174,7 @@ public class AlgebraController {
 			};
 
 			geos = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(input, true,
+					.processAlgebraCommandNoExceptionHandling(input, isStoringUndo,
 							errorHandler, isAutoCreateSliders, callback);
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
