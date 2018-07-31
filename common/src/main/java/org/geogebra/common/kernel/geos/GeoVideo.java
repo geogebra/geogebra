@@ -67,8 +67,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		super(c);
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
-		xScale = app.getActiveEuclidianView().getXscale();
-		yScale = app.getActiveEuclidianView().getYscale();
 	}
 
 	/**
@@ -87,8 +85,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		setLabel("video");
 		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
 		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
-		xScale = app.getActiveEuclidianView().getXscale();
-		yScale = app.getActiveEuclidianView().getYscale();
 	}
 
 	@Override
@@ -494,6 +490,11 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 * changed.
 	 */
 	public void zoomIfNeeded() {
+		if (xScale == 0) {
+			xScale = app.getActiveEuclidianView().getXscale();
+			yScale = app.getActiveEuclidianView().getYscale();
+			return;
+		}
 		if (!isAbsoluteScreenLocActive()) {
 			if (xScale != app.getActiveEuclidianView().getXscale()) {
 				zoomX(app.getActiveEuclidianView().getXscale() / xScale);
