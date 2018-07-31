@@ -482,7 +482,8 @@ class DragController {
 			Timer dragStyleTimer = new Timer() {
 				@Override
 				public void run() {
-					if (!CancelEventTimer.noDrag()) {
+					// clicked may become null before timeout
+					if (!CancelEventTimer.noDrag() && clicked != null) {
 						clicked.addDragStartStyle(true);
 					}
 				}
@@ -598,9 +599,11 @@ class DragController {
 	 */
 	void onDrop() {
 		dropAnimTimer.cancel();
-		cards.reorder(dragged.index(), dragged.getDropIndex());
-		getListener().update();
-		cards.clickPage(dragged.index(), false);
+		if (dragged.index() >= 0) {
+			cards.reorder(dragged.index(), dragged.getDropIndex());
+			getListener().update();
+			cards.clickPage(dragged.index(), false);
+		}
 		cancelDrag();
 	}
 
