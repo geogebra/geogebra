@@ -206,8 +206,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
-	@Override
-	public void showBrowser(HeaderPanel bg) {
+	/**
+	 * @param bg
+	 *            full-sized GUI
+	 */
+	public void showBrowser(MyHeaderPanel bg) {
 		keyBoardNeeded(false, null);
 		GeoGebraFrameW frameLayout = this;
 		ToolTipManagerW.hideAllToolTips();
@@ -226,10 +229,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		bg.setWidth(oldWidth + "px");
 		bg.onResize();
 		bg.setVisible(true);
+		bg.setFrame(this);
 
-		if (bg instanceof MyHeaderPanel) {
-			((MyHeaderPanel) bg).setFrame(this);
-		}
 		this.lastBG = bg;
 		// in Graphing Menu > OPen sets overflow to hidden-> breaks resizing of
 		// BrowseGUI

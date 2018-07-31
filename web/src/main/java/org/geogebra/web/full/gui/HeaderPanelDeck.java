@@ -6,7 +6,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.HasAppletProperties;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.HeaderPanel;
 
 /**
  * Interface for app frame
@@ -33,11 +32,6 @@ public interface HeaderPanelDeck
 	 */
 	void setMenuHeight(boolean inputShowing);
 
-	/**
-	 * @param bg
-	 *            full-sized GUI
-	 */
-	void showBrowser(HeaderPanel bg);
 
 	/**
 	 * @return frame element

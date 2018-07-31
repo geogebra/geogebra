@@ -110,7 +110,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -678,7 +677,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return dialogManager;
 	}
 
-	private void showBrowser(HeaderPanel bg) {
+	private void showBrowser(MyHeaderPanel bg) {
 		getAppletFrame().setApplication(this);
 		getAppletFrame().showBrowser(bg);
 	}
