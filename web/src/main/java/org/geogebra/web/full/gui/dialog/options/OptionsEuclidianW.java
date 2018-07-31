@@ -588,6 +588,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void selectGridStyle(int style) {
+			if (!gridOptions) {
+				return;
+			}
+			btnGridStyle.selectLineType(style);
+		}
+
+		public void selectRulerStyle(int style) {
 			btnGridStyle.selectLineType(style);
 		}
 
@@ -626,7 +633,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
 			setRulerType(typeIdx);
 			updateGridColorButton(color);
-			selectGridStyle(lineStyle);
+			selectRulerStyle(lineStyle);
 			cbBoldGrid.setValue(bold);
 		}
 	
