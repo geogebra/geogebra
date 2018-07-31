@@ -361,21 +361,20 @@ public class AdjustScreen {
 	}
 
 	/**
-	 * Adjust the origo to the screen size
+	 * Adjust the coordinate system to the screen size
 	 * 
 	 * @param view
 	 *            {@link EuclidianView}
 	 */
-	public static void adjustOrigo(EuclidianView view) {
+	public static void adjustCoordSystem(EuclidianView view) {
 		EuclidianSettings s = view.getSettings();
-		double ox = s.getFileXZero();
-		double oy = s.getFileYZero();
-		double w = s.getFileWidth();
-		double h = s.getFileHeight();
-		double w2 = view.getWidth();
-		double h2 = view.getHeight();
-		double ox2 = (ox * w2) / w;
-		double oy2 = (oy * h2) / h;
-		view.setCoordSystem(ox2, oy2, s.getXscale(), s.getYscale());
+		double rX = (double) view.getWidth() / s.getFileWidth();
+		double rY = (double) view.getHeight() / s.getFileHeight();
+
+		double ox = s.getFileXZero() * rX;
+		double oy = s.getFileYZero() * rY;
+		double xScale = s.getFileXScale() * rX;
+		double yScale = s.getFileYScale() * rY;
+		view.setCoordSystem(ox, oy, xScale, yScale);
 	}
 }

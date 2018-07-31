@@ -1438,7 +1438,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		kernel.notifyScreenChanged();
 		resetPenTool();
 		if (isWhiteboardActive()) {
-			AdjustScreen.adjustOrigo(getActiveEuclidianView());
+			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
 	}
 
