@@ -19,8 +19,8 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public abstract class GeoWidget extends GeoElement implements Locateable, AbsoluteScreenLocateable {
-	private Double width = 40.0;
-	private Double height = 30.0;
+	private double width = 40.0;
+	private double height = 30.0;
 
 	protected GeoPointND[] corner = new GeoPointND[3];
 	protected int topLeftCorner = 0;
@@ -118,7 +118,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 * @return width in pixels (if it's fixed)
 	 */
 	public int getWidth() {
-		return width.intValue();
+		return (int) width;
 	}
 
 	protected double getWidthAsDouble() {
@@ -130,7 +130,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 *            width in pixels (used for fixed size buttons)
 	 */
 	public void setWidth(int width) {
-		this.width = (double) width;
+		this.width = width;
 		if (hasScreenLocation()) {
 			getScreenLocation().initWidth(width);
 		}
@@ -139,7 +139,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	protected void setWidth(double width) {
 		this.width = width;
 		if (hasScreenLocation()) {
-			getScreenLocation().initWidth(((Double) width).intValue());
+			getScreenLocation().initWidth((int) width);
 		}
 	}
 
@@ -148,7 +148,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 * @return height in pixels (if it's fixed)
 	 */
 	public int getHeight() {
-		return height.intValue();
+		return (int) height;
 	}
 
 	protected double getHeightAsDouble() {
@@ -160,7 +160,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	 *            height in pixels (used for fixed size buttons)
 	 */
 	public void setHeight(int height) {
-		this.height = (double) height;
+		this.height = height;
 		if (hasScreenLocation()) {
 			getScreenLocation().initHeight(height);
 		}
@@ -169,7 +169,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	protected void setHeight(double height) {
 		this.height = height;
 		if (hasScreenLocation()) {
-			getScreenLocation().initHeight(((Double) height).intValue());
+			getScreenLocation().initHeight((int) height);
 		}
 	}
 	
