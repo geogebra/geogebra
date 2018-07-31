@@ -219,10 +219,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final int oldWidth = this.getOffsetWidth();
 		childVisible = new boolean[count];
 		for (int i = 0; i < count; i++) {
-			if (!(frameLayout.getWidget(i) instanceof FloatingMenuPanel)) {
-				childVisible[i] = frameLayout.getWidget(i).isVisible();
-				frameLayout.getWidget(i).setVisible(false);
-			}
+			// MOW-531 burger menu not invisible yet
+			childVisible[i] = frameLayout.getWidget(i).isVisible()
+					&& !(frameLayout.getWidget(i) instanceof FloatingMenuPanel);
+			frameLayout.getWidget(i).setVisible(false);
 		}
 		frameLayout.add(bg);
 		bg.setHeight(oldHeight + "px");
@@ -248,8 +248,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		ToolTipManagerW.hideAllToolTips();
 		final int count = getWidgetCount();
 		for (int i = 0; i < count; i++) {
-			if (childVisible.length > i
-					&& !(getWidget(i) instanceof FloatingMenuPanel)) {
+			if (childVisible.length > i) {
 				getWidget(i).setVisible(childVisible[i]);
 			}
 		}
