@@ -26,15 +26,15 @@ public class ExamExitDialog extends DialogBoxW
 	private Label examTitle;
 	// components of content panel
 	private FlowPanel contentPanel;
-	private Label teacherText;
-	private Label durationLbl;
-	private Label duration;
-	private Label dateLbl;
-	private Label date;
-	private Label startTimeLbl;
-	private Label startTime;
-	private Label endTimeLbl;
-	private Label endTime;
+	private Label teacherText = new Label("");
+	private Label durationLbl = new Label("");
+	private Label duration = new Label("");
+	private Label dateLbl = new Label("");
+	private Label date = new Label("");
+	private Label startTimeLbl = new Label("");
+	private Label startTime = new Label("");
+	private Label endTimeLbl = new Label("");
+	private Label endTime = new Label("");
 	// components of button panel
 	private FlowPanel buttonPanel;
 	private StandardButton okBtn;
@@ -64,21 +64,7 @@ public class ExamExitDialog extends DialogBoxW
 		// build content panel
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("contentPanel");
-		teacherText = new Label("");
-		teacherText.setStyleName("textStyle");
-		durationLbl = new Label("");
-		durationLbl.setStyleName("captionStyle");
-		duration = new Label("");
-		duration.setStyleName("textStyle");
-		dateLbl = new Label("");
-		dateLbl.setStyleName("captionStyle");
-		date = new Label("");
-		date.setStyleName("textStyle");
-		contentPanel.add(teacherText);
-		contentPanel.add(durationLbl);
-		contentPanel.add(duration);
-		contentPanel.add(dateLbl);
-		contentPanel.add(date);
+		buildContent();
 		// build button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
@@ -91,6 +77,24 @@ public class ExamExitDialog extends DialogBoxW
 		dialog.add(buttonPanel);
 		this.add(dialog);
 		setLabels();
+	}
+
+	private void buildContent() {
+		teacherText.setStyleName("textStyle");
+		contentPanel.add(teacherText);
+		contentPanel.add(buildBlock(durationLbl, duration));
+		contentPanel.add(buildBlock(dateLbl, date));
+		contentPanel.add(buildBlock(startTimeLbl, startTime));
+		contentPanel.add(buildBlock(endTimeLbl, endTime));
+	}
+
+	private static FlowPanel buildBlock(Label caption, Label text) {
+		FlowPanel block = new FlowPanel();
+		caption.setStyleName("captionStyle");
+		text.setStyleName("textStyle");
+		block.add(caption);
+		block.add(text);
+		return block;
 	}
 
 	public void setLabels() {
@@ -108,12 +112,15 @@ public class ExamExitDialog extends DialogBoxW
 		duration.setText(appW.getExam().getElapsedTimeLocalized());
 		dateLbl.setText(appW.getLocalization().getMenu("exam_start_date"));
 		date.setText(appW.getExam().getDate());
+		startTimeLbl.setText(appW.getLocalization().getMenu("exam_start_time"));
+		startTime.setText(appW.getExam().getStartTime());
+		endTimeLbl.setText(appW.getLocalization().getMenu("exam_end_time"));
+		endTime.setText(appW.getExam().getEndTime());
 		// button panel
 		okBtn.setText(appW.getLocalization().getMenu("Exit"));
 	}
 
 	public void onClick(Widget source) {
-
 	}
 
 	@Override
