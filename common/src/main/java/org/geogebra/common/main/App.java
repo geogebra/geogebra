@@ -3710,7 +3710,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// MOB-1537
 		case MOB_PREVIEW_WHEN_EDITING:
-			return true;
+			return false;
 
 		// AND-1071 and IGR-819
 		case MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION:
