@@ -26,7 +26,7 @@ import org.geogebra.desktop.main.LocalizationD;
 public class OptionsAlgebraD 
 		implements SetLabels, OptionPanelD {
 
-	protected static final List<SortMode> supportedModes = Arrays.asList(
+	private static final List<SortMode> SUPPORTED_MODES = Arrays.asList(
 			SortMode.DEPENDENCY, SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 	/**
@@ -38,14 +38,16 @@ public class OptionsAlgebraD
 
 	private JPanel wrappedPanel;
 	private JCheckBox auxiliary;
-	private JComboBox sortMode, description;
+	private JComboBox<String> sortMode;
+	private JComboBox<String> description;
 	private JLabel descriptionLabel, sortLabel;
-	boolean ignoreActions;
+	private boolean ignoreActions;
 
 	/**
 	 * Construct advanced option panel.
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public OptionsAlgebraD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
@@ -63,14 +65,7 @@ public class OptionsAlgebraD
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ignoreActions) {
-					return;
-				}
-				if (description.getSelectedIndex() >= 0) {
-					app.getKernel()
-							.setAlgebraStyle(description.getSelectedIndex());
-					app.getKernel().updateConstruction(false);
-				}
+				onDescriptionChange();
 			}
 		});
 
@@ -78,14 +73,7 @@ public class OptionsAlgebraD
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ignoreActions) {
-					return;
-				}
-				if (sortMode.getSelectedIndex() >= 0) {
-					int index = sortMode.getSelectedIndex();
-					app.getSettings().getAlgebra()
-							.setTreeMode(supportedModes.get(index));
-				}
+				onSortChange();
 			}
 		});
 
@@ -93,12 +81,45 @@ public class OptionsAlgebraD
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				app.setShowAuxiliaryObjects(auxiliary.isSelected());
-
+				onAuxChange();
 			}
 
 		});
 
+	}
+
+	/**
+	 * Auxiliary change handler.
+	 */
+	protected void onAuxChange() {
+		app.setShowAuxiliaryObjects(auxiliary.isSelected());
+	}
+
+	/**
+	 * Description change handler.
+	 */
+	protected void onDescriptionChange() {
+		if (ignoreActions) {
+			return;
+		}
+		if (description.getSelectedIndex() >= 0) {
+			app.getKernel().setAlgebraStyle(description.getSelectedIndex());
+			app.getKernel().updateConstruction(false);
+		}
+	}
+
+	/**
+	 * Sort mode handler.
+	 */
+	protected void onSortChange() {
+		if (ignoreActions) {
+			return;
+		}
+		if (sortMode.getSelectedIndex() >= 0) {
+			int index = sortMode.getSelectedIndex();
+			app.getSettings().getAlgebra()
+					.setTreeMode(SUPPORTED_MODES.get(index));
+		}
 	}
 
 	/**
@@ -114,13 +135,13 @@ public class OptionsAlgebraD
 		panel.setLayout(new GridLayout(10, 1));
 		app.setComponentOrientation(panel);
 		this.auxiliary = new JCheckBox();
-		this.sortMode = new JComboBox() {
+		this.sortMode = new JComboBox<String>() {
 			@Override
 			public void setSelectedIndex(int i) {
 				super.setSelectedIndex(i);
 			}
 		};
-		this.description = new JComboBox();
+		this.description = new JComboBox<>();
 
 		panel.add(auxiliary);
 
@@ -158,12 +179,12 @@ public class OptionsAlgebraD
 		ignoreActions = true;
 		sortMode.removeAllItems();
 
-		for (SortMode mode : supportedModes) {
+		for (SortMode mode : SUPPORTED_MODES) {
 			sortMode.addItem(app.getLocalization().getMenu(mode.toString()));
 		}
 
 		SortMode selectedMode = app.getAlgebraView().getTreeMode();
-		sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
+		sortMode.setSelectedIndex(SUPPORTED_MODES.indexOf(selectedMode));
 		ignoreActions = false;
 	}
 
