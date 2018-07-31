@@ -33,6 +33,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
+import com.google.gwt.user.client.Window.Navigator;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -459,12 +460,20 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		boolean handled = handleGeneralKeys(kc,
-		        event.isShiftKeyDown(), event.isControlKeyDown(),
+				event.isShiftKeyDown(),
+				isControlKeyDown(event),
 		        event.isAltKeyDown(), false, true);
 		if (handled) {
 			event.preventDefault();
 		}
 		return handled;
+	}
+
+	private static boolean isControlKeyDown(KeyUpEvent event) {
+		return event.isControlKeyDown()
+				|| ((Navigator.getUserAgent().contains("Macintosh")
+						|| Navigator.getUserAgent().contains("Mac OS"))
+						&& event.isMetaKeyDown());
 	}
 
 	/**
