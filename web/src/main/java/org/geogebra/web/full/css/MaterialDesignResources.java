@@ -274,6 +274,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/projection_oblique_black.svg")
 	SVGResource projection_oblique();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-error-24px.svg")
+	SVGResource exam_error();
+
 	// Toolbar resoures
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_more_vert_white_24px.svg")

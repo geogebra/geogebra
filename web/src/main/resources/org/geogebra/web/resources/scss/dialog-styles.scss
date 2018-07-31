@@ -941,9 +941,29 @@ $duration: 0.2s;
 	.MaterialDialogBox.examExitDialog {
 		padding: 0px;
 		
+		.dialogContent {
+			width: 316px;
+		}
+		
 		.titlePanel {
 			background-color: $teal-default;
 			padding: 20px 24px;
+			
+			&.cheating {
+				background-color: $exam-red;
+				
+				.panelRowIndent {
+					padding: 0px;	
+					
+					.examTitle {   
+    					margin-left: 8px;
+					}
+				}
+			
+				.panelRowIndent>* {
+					margin: 0px;	
+				}
+			}
 			
 			.calcType {
 				font-size: 75%;	

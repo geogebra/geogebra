@@ -1,7 +1,10 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
@@ -23,6 +26,7 @@ public class ExamExitDialog extends DialogBoxW
 	// components of title panel
 	private FlowPanel titlePanel;
 	private Label calcType;
+	private NoDragImage alertImg;
 	private Label examTitle;
 	// components of content panel
 	private FlowPanel contentPanel;
@@ -60,7 +64,14 @@ public class ExamExitDialog extends DialogBoxW
 		examTitle = new Label("");
 		examTitle.setStyleName("examTitle");
 		titlePanel.add(calcType);
-		titlePanel.add(examTitle);
+		if (appW.getExam().isCheating()) {
+			titlePanel.addStyleName("cheating");
+			alertImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.exam_error(), 24);
+			titlePanel.add(LayoutUtilW.panelRowIndent(alertImg, examTitle));
+		} else {
+			titlePanel.add(examTitle);
+		}
 		// build content panel
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("contentPanel");

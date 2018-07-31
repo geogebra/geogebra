@@ -75,6 +75,8 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == exitBtn) {
+			appW.getExam().storeEndTime();
+			appW.getExam().exit();
 			new ExamExitDialog(appW).show();
 		}
 		hide();
