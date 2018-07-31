@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -338,17 +339,20 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 			break;
 		case PLUS:
-			return tpl.plusString(left, right, leftStr, rightStr, valueForm);
+			return tpl.plusString(left, right, leftStr, rightStr, valueForm,
+					loc);
 		case MINUS:
 			return tpl.minusString(left, right, leftStr, rightStr, valueForm, loc);
 
 		case MULTIPLY:
 			return tpl.multiplyString(left, right, leftStr, rightStr, valueForm, loc);
 		case DIVIDE:
-			return tpl.divideString(left, right, leftStr, rightStr, valueForm);
+			return tpl.divideString(left, right, leftStr, rightStr, valueForm,
+					loc);
 
 		case POWER:
-			return tpl.powerString(left, right, leftStr, rightStr, valueForm);
+			return tpl.powerString(left, right, leftStr, rightStr, valueForm,
+					loc);
 
 		case FACTORIAL:
 			switch (stringType) {
@@ -953,6 +957,12 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {
+			case SCREEN_READER:
+				sb.append(ScreenReader.getStartSqrt(loc));
+				sb.append(leftStr);
+				sb.append(ScreenReader.getEndSqrt(loc));
+
+				break;
 			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
 				break;
@@ -976,6 +986,12 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case CBRT:
 			switch (stringType) {
+			case SCREEN_READER:
+				sb.append(ScreenReader.getStartCbrt(loc));
+			sb.append(leftStr);
+			sb.append(ScreenReader.getEndCbrt(loc));
+
+			break;
 			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3", "</degree>", "", leftStr, "");
 				break;

@@ -464,8 +464,8 @@ public class ExpressionNode extends ValidExpression
 		// ExpressionNode, eg Normal[0,1,x]
 		switch (operation) {
 		case POWER: // eg e^x
-			if ((left instanceof NumberValue) && MyDouble
-					.exactEqual(left.evaluateDouble(), Math.E)) {
+			if ((left instanceof NumberValue)
+					&& MyDouble.exactEqual(left.evaluateDouble(), Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -481,8 +481,8 @@ public class ExpressionNode extends ValidExpression
 		case DIVIDE: // eg 1 / e or e / 1
 		case PLUS: // eg 1 + e or e + 1
 		case MINUS: // eg 1 - e or e - 1
-			if ((left instanceof NumberValue) && MyDouble
-					.exactEqual(left.evaluateDouble(), Math.E)) {
+			if ((left instanceof NumberValue)
+					&& MyDouble.exactEqual(left.evaluateDouble(), Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -492,8 +492,8 @@ public class ExpressionNode extends ValidExpression
 							Operation.EXP, null);
 					kernel.getConstruction().removeLabel(geo);
 				}
-			} else if ((right instanceof NumberValue) && MyDouble
-					.exactEqual(right.evaluateDouble(), Math.E)) {
+			} else if ((right instanceof NumberValue)
+					&& MyDouble.exactEqual(right.evaluateDouble(), Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -1031,8 +1031,7 @@ public class ExpressionNode extends ValidExpression
 					new ExpressionNode(kernel, left, operation, right), ""));
 		}
 		ExpressionNode scalarExpanded = VectorArithmetic
-				.expandScalarProduct(kernel, left, right,
-				operation);
+				.expandScalarProduct(kernel, left, right, operation);
 		if (scalarExpanded != null) {
 			return scalarExpanded.makePolynomialTree(equ, keepFraction);
 		}
@@ -1379,7 +1378,7 @@ public class ExpressionNode extends ValidExpression
 
 			String leftStr = getCasString(left, tpl, symbolic, false);
 			String rightStr = null;
-			
+
 			if (right != null) {
 				rightStr = getCasString(right, tpl, symbolic, true);
 			}
@@ -1388,19 +1387,19 @@ public class ExpressionNode extends ValidExpression
 			if (operation == Operation.RANDOM) {
 				double d = left.evaluateDouble();
 				leftStr = kernel.format(d, StringTemplate.defaultTemplate);
-				ret = ExpressionSerializer.operationToString(left, right, operation,
-						leftStr, rightStr, true, tpl, kernel);
+				ret = ExpressionSerializer.operationToString(left, right,
+						operation, leftStr, rightStr, true, tpl, kernel);
 			} else {
-				ret = ExpressionSerializer.operationToString(left, right, operation,
-						leftStr, rightStr, !symbolic, tpl, kernel);
+				ret = ExpressionSerializer.operationToString(left, right,
+						operation, leftStr, rightStr, !symbolic, tpl, kernel);
 			}
 		}
 
 		return ret;
 	}
 
-	private String getCasString(ExpressionValue left2, StringTemplate tpl, boolean symbolic,
-			boolean isRight) {
+	private String getCasString(ExpressionValue left2, StringTemplate tpl,
+			boolean symbolic, boolean isRight) {
 		if (symbolic && left2.isGeoElement()) {
 			if (((GeoElement) left2).isRandomGeo()) {
 				return left2.toValueString(tpl);
@@ -1408,7 +1407,8 @@ public class ExpressionNode extends ValidExpression
 			return ((GeoElement) left2).getLabel(tpl);
 		} else if (left2.isExpressionNode()) {
 			return ((ExpressionNode) left2).getCASstring(tpl, symbolic);
-		} else if (left2.isGeoElement() && ((GeoElement) left2).getDefinition() != null) {
+		} else if (left2.isGeoElement()
+				&& ((GeoElement) left2).getDefinition() != null) {
 			return ((GeoElement) left2).getDefinition().toValueString(tpl);
 		} else if (isRight && shaveBrackets()) {
 			return ((MyList) left2).toString(tpl, !symbolic, false);
@@ -1431,7 +1431,7 @@ public class ExpressionNode extends ValidExpression
 				&& ev instanceof GeoSegment) {
 			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]"
 		}
-							// format expressions
+		// format expressions
 		return ((operation.equals(Operation.EQUAL_BOOLEAN)
 				|| operation.equals(Operation.DIVIDE)
 				|| operation.equals(Operation.MULTIPLY)
@@ -1488,8 +1488,8 @@ public class ExpressionNode extends ValidExpression
 				}
 			}
 		}
-		return ExpressionSerializer.operationToString(left, right, operation, leftStr,
-				rightStr, false, tpl, kernel);
+		return ExpressionSerializer.operationToString(left, right, operation,
+				leftStr, rightStr, false, tpl, kernel);
 	}
 
 	private boolean shaveBrackets() {
@@ -1533,8 +1533,8 @@ public class ExpressionNode extends ValidExpression
 			}
 		}
 
-		return ExpressionSerializer.operationToString(left, right, operation, leftStr,
-				rightStr, true, tpl, kernel);
+		return ExpressionSerializer.operationToString(left, right, operation,
+				leftStr, rightStr, true, tpl, kernel);
 	}
 
 	@Override
@@ -1560,8 +1560,8 @@ public class ExpressionNode extends ValidExpression
 			}
 		}
 
-		return ExpressionSerializer.operationToString(left, right, operation, leftStr,
-				rightStr, true, tpl, kernel);
+		return ExpressionSerializer.operationToString(left, right, operation,
+				leftStr, rightStr, true, tpl, kernel);
 	}
 
 	/**
@@ -1607,8 +1607,8 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		// build latex string
-		ret = ExpressionSerializer.operationToString(left, right, operation, leftStr,
-				rightStr, !symbolic, tpl, kernel);
+		ret = ExpressionSerializer.operationToString(left, right, operation,
+				leftStr, rightStr, !symbolic, tpl, kernel);
 
 		return checkMathml(ret, tpl);
 	}
@@ -1679,8 +1679,8 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
 		if (ev1 instanceof NumberValue && ev2 instanceof NumberValue) {
-			return DoubleUtil.isEqual(ev1.evaluateDouble(), ev2.evaluateDouble(),
-					Kernel.STANDARD_PRECISION);
+			return DoubleUtil.isEqual(ev1.evaluateDouble(),
+					ev2.evaluateDouble(), Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
 			return ((TextValue) ev1)
 					.toValueString(StringTemplate.defaultTemplate)
@@ -1721,8 +1721,7 @@ public class ExpressionNode extends ValidExpression
 		if (ev.isLeaf() && (ev instanceof NumberValue)) {
 			// function variables need to be kept
 			// special doubles like pi, degree, rad need to be kept
-			if (ev instanceof FunctionVariable
-					|| ev instanceof GeoDummyVariable
+			if (ev instanceof FunctionVariable || ev instanceof GeoDummyVariable
 					|| ev instanceof MySpecialDouble) {
 				return false;
 			}
@@ -3590,7 +3589,8 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public String toFractionString(StringTemplate tpl) {
 		initFraction();
-		return ((ExpressionNode) resolve).toFractionStringFlat(tpl);
+		return ((ExpressionNode) resolve).toFractionStringFlat(tpl,
+				kernel.getLocalization());
 	}
 
 	/**
@@ -3618,7 +3618,7 @@ public class ExpressionNode extends ValidExpression
 		return null;
 	}
 
-	private String toFractionStringFlat(StringTemplate tpl) {
+	private String toFractionStringFlat(StringTemplate tpl, Localization loc) {
 		if (operation == Operation.MULTIPLY && right instanceof MyDouble
 				&& MyDouble.exactEqual(right.evaluateDouble(), Math.PI)) {
 			return tpl.multiplyString(left, right,
@@ -3627,10 +3627,10 @@ public class ExpressionNode extends ValidExpression
 		}
 		if (operation == Operation.DIVIDE) {
 			String leftS = left.isExpressionNode()
-					? left.wrap().toFractionStringFlat(tpl)
+					? left.wrap().toFractionStringFlat(tpl, loc)
 					: left.toValueString(tpl);
 			return tpl.divideString(left, right, leftS,
-					right.toValueString(tpl), true);
+					right.toValueString(tpl), true, loc);
 		}
 
 		return toValueString(tpl);

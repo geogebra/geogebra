@@ -991,10 +991,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            right subtree as string
 	 * @param valueForm
 	 *            whether to show values rather than names
+	 * @param loc
 	 * @return l+r as string
 	 */
 	public String plusString(ExpressionValue l, ExpressionValue r,
-			String leftStr, String rightStr, boolean valueForm) {
+			String leftStr, String rightStr, boolean valueForm,
+			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
 		// make sure A:=(1,2) B:=(3,4) A+B works
@@ -1004,6 +1006,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		final Operation operation = Operation.PLUS;
 		switch (stringType) {
+		case SCREEN_READER:
+
+			sb.append(leftStr);
+			sb.append(ScreenReader.getPlus(loc));
+			sb.append(rightStr);
+			sb.append(' ');
+
+			break;
+
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
 			break;
@@ -1397,6 +1408,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
+		case SCREEN_READER:
+
+			sb.append(leftStr);
+			sb.append(ScreenReader.getMinus(loc));
+
+			if (!right.isLeaf()) {
+				sb.append('(');
+				sb.append(rightStr);
+				sb.append(')');
+			} else {
+				sb.append(rightStr);
+			}
+
+			sb.append(' ');
+
+			break;
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
@@ -1668,6 +1695,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 		StringBuilder sb = new StringBuilder();
 		Operation operation = Operation.MULTIPLY;
 		switch (stringType) {
+
+		case SCREEN_READER:
+
+			if (!left.isLeaf()) {
+				sb.append('(');
+				sb.append(leftStr);
+				sb.append(')');
+			} else {
+				sb.append(leftStr);
+			}
+
+			sb.append(ScreenReader.getTimes(loc));
+
+			if (!right.isLeaf()) {
+				sb.append('(');
+				sb.append(rightStr);
+				sb.append(')');
+			} else {
+				sb.append(rightStr);
+			}
+
+			sb.append(' ');
+
+			break;
 
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
@@ -2048,15 +2099,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            serialized right expression
 	 * @param valueForm
 	 *            whether to substitute variables
+	 * @param loc
 	 * @return left / right with appropriate brackets
 	 */
 	public String divideString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm) {
+			String leftStr, String rightStr, boolean valueForm,
+			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
 		case SCREEN_READER:
-			Localization loc = left.getKernel().getApplication()
-					.getLocalization();
 			sb.append(ScreenReader.getStartFraction(loc));
 			sb.append(leftStr);
 			sb.append(ScreenReader.getMiddleFraction(loc));
@@ -2624,12 +2675,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            right string
 	 * @param valueForm
 	 *            whether to substitute variables
+	 * @param loc
 	 * @return leftStr || rightStr for this string type
 	 */
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 			"missing break is deliberate" })
 	public String powerString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm) {
+			String leftStr, String rightStr, boolean valueForm,
+			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
 		/*
@@ -2649,6 +2702,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
+		} else if (stringType.equals(StringType.SCREEN_READER)) {
+			sb.append(leftStr);
+			sb.append(" ");
+			if ("2".equals(rightStr)) {
+				sb.append(ScreenReader.getSquared(loc));
+			} else if ("3".equals(rightStr)) {
+				sb.append(ScreenReader.getCubed(loc));
+			} else {
+				sb.append(ScreenReader.getStartPower(loc));
+				sb.append(rightStr);
+				sb.append(ScreenReader.getEndPower(loc));
+			}
+
 		} else {
 
 			// everything else
