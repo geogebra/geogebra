@@ -14,6 +14,41 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 public enum TrigonometricSteps implements SimplificationStepGenerator {
 
+	NEGATIVE_ARGUMENT {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isTrigonometric()) {
+				StepOperation so = (StepOperation) sn;
+				StepExpression argument = so.getOperand(0);
+				StepExpression result = null;
+
+				if (argument.isNegative()) {
+					switch (so.getOperation()) {
+					case SIN:
+						result = sin(argument.negate()).negate();
+						sb.add(SolutionStepType.TRIGO_ODD_SIN, tracker.getColorTracker());
+						break;
+					case COS:
+						result = cos(argument.negate());
+						sb.add(SolutionStepType.TRIGO_EVEN_COS, tracker.getColorTracker());
+						break;
+					case TAN:
+						result = tan(argument.negate()).negate();
+						sb.add(SolutionStepType.TRIGO_ODD_TAN, tracker.getColorTracker());
+					}
+				}
+
+				if (result != null) {
+					so.setColor(tracker.getColorTracker());
+					result.setColor(tracker.incColorTracker());
+					return result;
+				}
+			}
+
+			return sn.iterateThrough(this, sb, tracker);
+		}
+	},
+
 	SPLIT_FRACTIONS_WITH_PI {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -46,7 +81,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 			if (numerator != null && denominator != null
 					&& numerator.isInteger() && denominator.isInteger()) {
-				double value = Math.floor(numerator.getValue() / (denominator.getValue() * 2));
+				double ratio = numerator.getValue() / (denominator.getValue() * 2);
+				double value = ratio < 0 ? Math.ceil(ratio) : Math.floor(ratio);
 
 				if (value != 0) {
 					StepExpression newNumerator = nonTrivialProduct(numerator.getValue() -
@@ -457,6 +493,7 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					TrigonometricSteps.NEGATIVE_ARGUMENT,
 					TrigonometricSteps.EVALUATE_TRIGONOMETRIC,
 					TrigonometricSteps.ELIMINATE_PERIOD,
 					TrigonometricSteps.EXTRACT_PERIOD,

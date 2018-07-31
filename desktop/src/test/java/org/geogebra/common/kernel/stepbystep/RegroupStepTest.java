@@ -24,6 +24,8 @@ public class RegroupStepTest {
 
 	@Test
 	public void trigonometricSimplifications() {
+		r("cos(-(pi/2))", "0");
+		r("cos(-(pi))", "-1");
 		r("sin((2 * pi)/3)", "(nroot(3, 2))/(2)");
 		r("sin((128 * pi)/3)", "(nroot(3, 2))/(2)");
 		r("sin((131 * pi)/3)", "-(nroot(3, 2))/(2)");

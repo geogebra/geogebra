@@ -386,6 +386,12 @@ public enum SolutionStepType {
 
 	EVALUATE_TRIGO("EvaluateTrigo", "Evaluate trigonometric function"),
 
+	TRIGO_ODD_SIN("TrigoOddSin", "Sine is an odd function", "$\\sin(-x) = -\\sin(x)$"),
+
+	TRIGO_EVEN_COS("TrigoEvenCos", "Cosine is an even function", "$\\cos(-x) = \\cos(x)$"),
+
+	TRIGO_ODD_TAN("TrigoOddTan", "Tangent is an odd function", "$\\tan(-x) = \\tan(x)$"),
+
 	FACTOR_OUT_2PI("FactorOut2Pi", "Factor out $2 \\pi$ where possible"),
 
 	FACTOR_OUT_PI("FactorOut2Pi", "Factor out $\\pi$ where possible"),
