@@ -977,7 +977,8 @@ $duration: 0.2s;
 		}
 		
 		.contentPanel {
-    		padding: 20px 24px 0px 24px;
+			height: 252px;
+    		padding: 20px 24px 24px 24px;
     		
     		.textStyle {
     			color: $text-primary;
@@ -992,6 +993,7 @@ $duration: 0.2s;
     
     	.DialogButtonPanel {
     		padding-right: 8px;
+    		padding-top: 8px;
     	}		
 	}
 }

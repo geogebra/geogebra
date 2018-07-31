@@ -11,6 +11,7 @@ import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,6 +30,7 @@ public class ExamExitDialog extends DialogBoxW
 	private NoDragImage alertImg;
 	private Label examTitle;
 	// components of content panel
+	private ScrollPanel scrollPanel;
 	private FlowPanel contentPanel;
 	private Label teacherText = new Label("");
 	private Label durationLbl = new Label("");
@@ -73,9 +75,11 @@ public class ExamExitDialog extends DialogBoxW
 			titlePanel.add(examTitle);
 		}
 		// build content panel
+		scrollPanel = new ScrollPanel();
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("contentPanel");
 		buildContent();
+		scrollPanel.add(contentPanel);
 		// build button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
@@ -84,7 +88,7 @@ public class ExamExitDialog extends DialogBoxW
 		buttonPanel.add(okBtn);
 		// build whole dialog
 		dialog.add(titlePanel);
-		dialog.add(contentPanel);
+		dialog.add(scrollPanel);
 		dialog.add(buttonPanel);
 		this.add(dialog);
 		setLabels();
