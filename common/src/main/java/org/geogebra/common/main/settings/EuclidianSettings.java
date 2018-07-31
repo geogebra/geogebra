@@ -1522,7 +1522,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @param backgroundRulerGap
 	 *            to set.
 	 */
-	public void setBackgroundRuleGap(double backgroundRulerGap) {
+	public void setBackgroundRulerGap(double backgroundRulerGap) {
 		this.bgRulerGap = backgroundRulerGap;
 	}
 
