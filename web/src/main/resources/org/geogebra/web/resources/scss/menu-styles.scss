@@ -242,6 +242,11 @@ $classicToolbar: 50px;
 				}
 			}
 		}
+		&.mow {
+			.gwt-StackPanel .gwt-StackPanelItem {
+				min-width: 255px;
+			}
+		}
 		&.animateIn {
 			animation-duration: 0.25s;
 			animation-name: animateIn;
