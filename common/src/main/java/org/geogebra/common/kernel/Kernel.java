@@ -4474,9 +4474,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			int index = image
 					.indexOf(Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING);
 
+			// tg^-1 -> index = 2 (eg Hungarian)
 			// sin^-1 -> index = 3
 			// sinh^-1 -> index =4
-			if (index == 3 || index == 4) {
+			if (index >= 2 && index <= 4) {
 				return inverseTrig(type, en);
 			}
 			// eg sin^-2(x)
