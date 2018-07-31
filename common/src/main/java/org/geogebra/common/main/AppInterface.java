@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -329,4 +330,6 @@ public interface AppInterface {
 	 * @return image wrapped in GBufferedImage
 	 */
 	public abstract MyImage getExternalImageAdapter(String filename, int width, int height);
+
+	abstract ScriptManager newScriptManager();
 }

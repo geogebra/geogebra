@@ -221,7 +221,7 @@ public class AppDNoGui extends App implements AppDI {
 	}
 
 	@Override
-	protected ScriptManager newScriptManager() {
+	public ScriptManager newScriptManager() {
 		return new ScriptManagerD(this);
 	}
 

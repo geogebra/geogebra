@@ -1029,8 +1029,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return scriptManager;
 	}
 
-	abstract protected ScriptManager newScriptManager();
-
 	/**
 	 * Get the event dispatcher, which dispatches events objects that manage
 	 * event driven scripts

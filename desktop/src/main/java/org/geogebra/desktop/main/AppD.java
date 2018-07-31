@@ -4106,7 +4106,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	protected ScriptManager newScriptManager() {
+	public ScriptManager newScriptManager() {
 		return new ScriptManagerD(this);
 	}
 

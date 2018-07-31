@@ -582,7 +582,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	protected ScriptManager newScriptManager() {
+	public ScriptManager newScriptManager() {
 		return new ScriptManagerW(this);
 	}
 
