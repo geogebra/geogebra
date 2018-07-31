@@ -937,5 +937,42 @@ $duration: 0.2s;
 			}
 		}
 	}
+
+	.MaterialDialogBox.examExitDialog {
+		padding: 0px;
+		
+		.titlePanel {
+			background-color: $teal-default;
+			padding: 20px 24px;
+			
+			.calcType {
+				font-size: 75%;	
+    			color: $text-light-secondary;
+			}
+		
+			.examTitle {
+				font-size: 100%;	
+				color: $text-light-primary;
+			}
+		}
+		
+		.contentPanel {
+    		padding: 20px 24px 0px 24px;
+    		
+    		.textStyle {
+    			color: $text-primary;
+    		}
+    	
+    		.captionStyle {
+    			margin-top: 20px;	
+    			font-size: 75%;	
+    			color: $text-secondary;
+    		}	
+    	}
+    
+    	.DialogButtonPanel {
+    		padding-right: 8px;
+    	}		
+	}
 }
 	

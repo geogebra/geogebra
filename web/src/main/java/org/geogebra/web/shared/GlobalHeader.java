@@ -139,8 +139,8 @@ public class GlobalHeader implements EventRenderable {
 								.setUnbundledHeaderStyle("examCheat");
 					}
 
-					getTimer().setText(getApp().getExam()
-							.timeToString(System.currentTimeMillis()));
+					getTimer().setText(
+							getApp().getExam().getElapsedTimeLocalized());
 
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
