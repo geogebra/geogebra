@@ -594,7 +594,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btnGridStyle.selectLineType(style);
 		}
 
-		public void selectRulerStyle(int style) {
+		private void selectRulerStyle(int style) {
 			btnGridStyle.selectLineType(style);
 		}
 
