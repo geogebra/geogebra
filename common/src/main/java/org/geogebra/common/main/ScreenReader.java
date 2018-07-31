@@ -124,4 +124,18 @@ public class ScreenReader {
 	public static void readSliderValue(GeoNumeric geo) {
 		readText(geo.getAuralCurrentValue(), geo.getKernel().getApplication());
 	}
+
+	public static Object getStartFraction(Localization loc) {
+		return loc.getMenuDefault("ScreenReader.startFraction",
+				"start fraction") + " ";
+	}
+
+	public static Object getMiddleFraction(Localization loc) {
+		return loc.getMenuDefault("ScreenReader.fractionOver", "over") + " ";
+	}
+
+	public static Object getEndFraction(Localization loc) {
+		return loc.getMenuDefault("ScreenReader.endFraction", "end fraction")
+				+ " ";
+	}
 }

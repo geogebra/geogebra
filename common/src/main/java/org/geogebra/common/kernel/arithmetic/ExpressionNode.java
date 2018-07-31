@@ -1155,7 +1155,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private ExpressionValue computeResolve() {
-		Resolution res = new Resolution();
+		Resolution res = new Resolution(left.getKernel());
 		res.setType(ValueType.resolve(operation, left, right, res));
 
 		return res;

@@ -701,4 +701,8 @@ final public class Geo3DVec extends ValidExpression
 				Double.NaN);
 	}
 
+	public Kernel getKernel() {
+		return kernel;
+	}
+
 }

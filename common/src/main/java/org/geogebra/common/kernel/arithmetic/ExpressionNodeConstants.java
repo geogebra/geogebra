@@ -26,7 +26,9 @@ public interface ExpressionNodeConstants {
 		/** Content MathML */
 		CONTENT_MATHML,
 		/** OGP */
-		OGP;
+		OGP,
+		/** GGB-2454 for screen reader */
+		SCREEN_READER;
 
 		/**
 		 * @return whether this is giac type

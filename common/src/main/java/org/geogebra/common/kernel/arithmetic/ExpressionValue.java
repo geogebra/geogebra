@@ -280,4 +280,6 @@ public interface ExpressionValue {
 	 * @return whether this evaluates to 3D vector on non-complex 2D
 	 */
 	public boolean evaluatesToNDVector();
+
+	public Kernel getKernel();
 }

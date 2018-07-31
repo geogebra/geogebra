@@ -1325,4 +1325,8 @@ public class MyDouble extends ValidExpression
 	public boolean isDigits() {
 		return true;
 	}
+
+	public Kernel getKernel() {
+		return kernel;
+	}
 }

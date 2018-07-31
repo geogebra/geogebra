@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -2053,6 +2054,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
+		case SCREEN_READER:
+			Localization loc = left.getKernel().getApplication()
+					.getLocalization();
+			sb.append(ScreenReader.getStartFraction(loc));
+			sb.append(leftStr);
+			sb.append(ScreenReader.getMiddleFraction(loc));
+			sb.append(rightStr);
+			sb.append(ScreenReader.getEndFraction(loc));
+
+			break;
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
 			break;

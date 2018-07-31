@@ -15,6 +15,11 @@ public class Resolution implements ExpressionValue {
 
 	private ValueType type;
 	private int listDepth = 0;
+	private Kernel kernel;
+
+	public Resolution(Kernel kernel) {
+		this.kernel = kernel;
+	}
 
 	/**
 	 * @param listDepth
@@ -218,7 +223,7 @@ public class Resolution implements ExpressionValue {
 
 	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel) {
-		Resolution res = new Resolution();
+		Resolution res = new Resolution(kernel);
 		res.listDepth = this.listDepth;
 		res.type = this.type;
 		return res;
@@ -233,6 +238,10 @@ public class Resolution implements ExpressionValue {
 	public boolean evaluatesToNDVector() {
 		// TODO Auto-generated method stub
 		return evaluatesTo3DVector() || evaluatesToNonComplex2DVector();
+	}
+
+	public Kernel getKernel() {
+		return kernel;
 	}
 
 }
