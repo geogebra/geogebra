@@ -417,7 +417,7 @@ public class MarvlAPI implements BackendAPI {
 	public void getGroups(String materialID, final AsyncOperation<List<String>> callback) {
 		HttpRequest request = makeRequest();
 		request.sendRequestPost("GET",
-				baseURL + "/materials/" + materialID + "/groups?type=wasSharedWith", null,
+				baseURL + "/materials/" + materialID + "/groups?type=isShared", null,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {

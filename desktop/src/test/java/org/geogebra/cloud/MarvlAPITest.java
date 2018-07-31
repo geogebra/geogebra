@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.jre.util.Base64;
+import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
@@ -19,7 +20,9 @@ import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
@@ -36,10 +39,20 @@ public class MarvlAPITest {
 		needsAuth();
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		MarvlAPI api = authAPI();
-		api.authorizeUser(usr,
-				new LoginOperationD(new AppDNoGui(new LocalizationD(3), false)),
-				true);
-		pause(5000);
+		LogInOperation loginOp = new LoginOperationD(
+				new AppDNoGui(new LocalizationD(3), false));
+		final TestAsyncOperation<Boolean> callback = new TestAsyncOperation<>();
+		loginOp.getView().add(new EventRenderable() {
+
+			@Override
+			public void renderEvent(BaseEvent event) {
+				if (event instanceof LoginEvent) {
+					callback.callback(true);
+				}
+			}
+		});
+		api.authorizeUser(usr, loginOp, true);
+		callback.await(5);
 		Assert.assertEquals("GGBTest-Student", usr.getRealName());
 		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() == 0);
 	}
@@ -48,10 +61,8 @@ public class MarvlAPITest {
 		try {
 			Thread.sleep(i);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	private static MarvlAPI authAPI() {
@@ -66,6 +77,32 @@ public class MarvlAPITest {
 		needsAuth();
 		MarvlAPI api = authAPI();
 		doUpload(api, "Test material", new TestMaterialCallback());
+	}
+
+	@Test
+	public void testmaterialGroup() {
+		needsAuth();
+		final MarvlAPI api = authAPI();
+		final String[] success = new String[1];
+		final TestAsyncOperation<List<String>> groupCallback = new TestAsyncOperation<List<String>>() {
+
+			@Override
+			public void callback(List<String> obj) {
+				success[0] = obj == null ? "FAIL" : obj.size() + "";
+
+			}
+		};
+		doUpload(api, "Test material", new TestMaterialCallback() {
+			@Override
+			public boolean handleMaterial(Material mat) {
+
+				api.getGroups(mat.getSharingKeyOrId(),
+						groupCallback);
+				return true;
+			}
+		});
+		groupCallback.await(5);
+		Assert.assertEquals("0", success[0]);
 	}
 
 	private static void doUpload(MarvlAPI api, String title,
