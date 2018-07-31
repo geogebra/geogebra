@@ -22,10 +22,12 @@ public class DrawBackground {
 	 * 
 	 * @param euclidianView
 	 *            view
+	 * @param settings
+	 *            euclidian settings
 	 */
-	public DrawBackground(EuclidianView euclidianView) {
+	public DrawBackground(EuclidianView euclidianView, EuclidianSettings settings) {
 		view = euclidianView;
-		settings = view.getSettings();
+		this.settings = settings;
 	}
 
 	/**
