@@ -95,8 +95,25 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void deleteMaterial(Material mat, MaterialCallbackI cb) {
-		performRequest("DELETE", "/materials/" + mat.getSharingKeyOrId(), null, cb);
+	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
+
+		HttpRequest request = makeRequest();
+		request.sendRequestPost("DELETE", baseURL + "/materials/" + mat.getSharingKeyOrId(), null,
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String responseStr) {
+						// we don't parse the response here
+						ArrayList<Material> mats = new ArrayList<>();
+						mats.add(mat);
+						callback.onLoaded(mats, null);
+					}
+
+					@Override
+					public void onError(String error) {
+						callback.onError(new Exception(error));
+					}
+				});
+
 	}
 
 	@Override
