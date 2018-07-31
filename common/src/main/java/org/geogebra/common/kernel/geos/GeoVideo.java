@@ -67,6 +67,8 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		super(c);
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
+		xScale = app.getActiveEuclidianView().getXscale();
+		yScale = app.getActiveEuclidianView().getYscale();
 	}
 
 	/**
