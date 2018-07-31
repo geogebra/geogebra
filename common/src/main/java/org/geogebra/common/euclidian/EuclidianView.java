@@ -4019,6 +4019,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (showResetIcon()) {
 			drawResetIcon(g);
 		}
+		paintMOWBackround(g);
 	}
 
 	boolean showResetIcon() {
