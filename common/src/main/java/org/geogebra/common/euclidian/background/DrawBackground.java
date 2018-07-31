@@ -146,12 +146,12 @@ public class DrawBackground {
 	}
 
 	private void drawSquaredBackground(GGraphics2D g2) {
-		drawHorizontalLines(g2, (view.getWidth() % gap), false);
+		drawHorizontalLines(g2, view.getWidth() - (view.getWidth() % gap), false);
 		drawVerticalLines(g2, false);
 	}
 
 	private void drawSquaredSubgrid(GGraphics2D g2) {
-		drawHorizontalLines(g2, (view.getWidth() % gap), true);
+		drawHorizontalLines(g2, view.getWidth() - (view.getWidth() % gap), true);
 		drawVerticalLines(g2, true);
 	}
 
