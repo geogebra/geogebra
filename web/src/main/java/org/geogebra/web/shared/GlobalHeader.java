@@ -202,8 +202,6 @@ public class GlobalHeader implements EventRenderable {
 			$wnd.onfocus = function(event) {
 				if (fullscreen) {
 					stopCheating();
-					//	focus = true;
-					console.log("focus 3 " + focus);
 				}
 			};
 			// window resize has 2 cases: full screen and not full screen

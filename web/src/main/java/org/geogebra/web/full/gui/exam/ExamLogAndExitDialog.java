@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  *         exam exit dialog with the whole information
  *
  */
-public class ExamExitDialog extends DialogBoxW
+public class ExamLogAndExitDialog extends DialogBoxW
 		implements FastClickHandler, SetLabels {
 	private AppW appW;
 	private FlowPanel dialog;
@@ -46,21 +46,51 @@ public class ExamExitDialog extends DialogBoxW
 	// components of button panel
 	private FlowPanel buttonPanel;
 	private StandardButton okBtn;
+	private StandardButton exitBtn;
 
 	/**
 	 * @param app
 	 *            application
+	 * @param isLogDialog
+	 *            true if need to build log dialog
 	 */
-	public ExamExitDialog(AppW app) {
+	public ExamLogAndExitDialog(AppW app, boolean isLogDialog) {
 		super(app.getPanel(), app);
 		this.appW = app;
 		this.addStyleName("examExitDialog");
-		buildGUI();
+		buildGUI(isLogDialog);
 	}
 
-	private void buildGUI() {
+	private void buildGUI(boolean isLogDialog) {
 		dialog = new FlowPanel();
 		// build title panel
+		buildTitlePanel();
+		// build content panel
+		scrollPanel = new ScrollPanel();
+		contentPanel = new FlowPanel();
+		contentPanel.setStyleName("contentPanel");
+		buildContent(isLogDialog);
+		scrollPanel.add(contentPanel);
+		// build button panel
+		buttonPanel = new FlowPanel();
+		buttonPanel.setStyleName("DialogButtonPanel");
+		if (appW.getExam().isCheating()) {
+			buttonPanel.addStyleName("withDivider");
+		}
+		okBtn = new StandardButton("", appW);
+		okBtn.addFastClickHandler(this);
+		exitBtn = new StandardButton("", appW);
+		exitBtn.addFastClickHandler(this);
+		buttonPanel.add(isLogDialog ? okBtn : exitBtn);
+		// build whole dialog
+		dialog.add(titlePanel);
+		dialog.add(scrollPanel);
+		dialog.add(buttonPanel);
+		this.add(dialog);
+		setLabels();
+	}
+
+	private void buildTitlePanel() {
 		titlePanel = new FlowPanel();
 		titlePanel.setStyleName("titlePanel");
 		calcType = new Label("");
@@ -76,36 +106,19 @@ public class ExamExitDialog extends DialogBoxW
 		} else {
 			titlePanel.add(examTitle);
 		}
-		// build content panel
-		scrollPanel = new ScrollPanel();
-		contentPanel = new FlowPanel();
-		contentPanel.setStyleName("contentPanel");
-		buildContent();
-		scrollPanel.add(contentPanel);
-		// build button panel
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		if (appW.getExam().isCheating()) {
-			buttonPanel.addStyleName("withDivider");
-		}
-		okBtn = new StandardButton("", appW);
-		okBtn.addFastClickHandler(this);
-		buttonPanel.add(okBtn);
-		// build whole dialog
-		dialog.add(titlePanel);
-		dialog.add(scrollPanel);
-		dialog.add(buttonPanel);
-		this.add(dialog);
-		setLabels();
 	}
 
-	private void buildContent() {
+	private void buildContent(boolean isLogDialog) {
 		teacherText.setStyleName("textStyle");
-		contentPanel.add(teacherText);
-		contentPanel.add(buildBlock(durationLbl, duration));
+		if (!isLogDialog) {
+			contentPanel.add(teacherText);
+			contentPanel.add(buildBlock(durationLbl, duration));
+		}
 		contentPanel.add(buildBlock(dateLbl, date));
 		contentPanel.add(buildBlock(startTimeLbl, startTime));
-		contentPanel.add(buildBlock(endTimeLbl, endTime));
+		if (!isLogDialog) {
+			contentPanel.add(buildBlock(endTimeLbl, endTime));
+		}
 		if (appW.getExam().isCheating()) {
 			activityPanel = buildActivityPanel();
 			contentPanel.add(buildBlock(activityLbl, activityPanel));
@@ -155,7 +168,8 @@ public class ExamExitDialog extends DialogBoxW
 		endTime.setText(appW.getExam().getEndTime());
 		activityLbl.setText(appW.getLocalization().getMenu("exam_activity"));
 		// button panel
-		okBtn.setText(appW.getLocalization().getMenu("Exit"));
+		exitBtn.setText(appW.getLocalization().getMenu("Exit"));
+		okBtn.setText(appW.getLocalization().getMenu("OK"));
 	}
 
 	public void onClick(Widget source) {

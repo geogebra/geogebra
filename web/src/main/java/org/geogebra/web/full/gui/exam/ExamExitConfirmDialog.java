@@ -77,7 +77,7 @@ public class ExamExitConfirmDialog extends DialogBoxW
 		if (source == exitBtn) {
 			appW.getExam().storeEndTime();
 			appW.getExam().exit();
-			new ExamExitDialog(appW).show();
+			new ExamLogAndExitDialog(appW, false).show();
 		}
 		hide();
 	}

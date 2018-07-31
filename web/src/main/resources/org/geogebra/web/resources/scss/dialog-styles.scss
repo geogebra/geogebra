@@ -988,6 +988,10 @@ $duration: 0.2s;
     			margin-top: 20px;	
     			font-size: 75%;	
     			color: $text-secondary;
+    			
+    			&.noMargin {
+    				margin-top: 0px;	
+    			}
     		}	
     	}
     
