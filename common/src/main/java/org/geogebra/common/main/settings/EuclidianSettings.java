@@ -145,6 +145,10 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private GColor bgRulerColor;
 	private GColor bgSubLineColor;
+	private double fileXZero;
+	private double fileYZero;
+	private double fileXScale;
+	private double fileYScale;
 
 	/**
 	 * @param app
@@ -879,6 +883,26 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * Stores the original coordinate system
+	 * 
+	 * @param xZero
+	 *            x-coord of the origin
+	 * @param yZero
+	 *            y-coord of the origin
+	 * @param xscale
+	 *            x scale
+	 * @param yscale
+	 *            y scale
+	 */
+	public void setFileCoordSystem(double xZero, double yZero, double xscale, double yscale) {
+		fileXZero = xZero;
+		fileYZero = yZero;
+		fileXScale = xscale;
+		fileYScale = yscale;
+
+	}
+
+	/**
 	 * @param tickDist
 	 *            tick distance
 	 * @param axis
@@ -1577,5 +1601,37 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setRulerType(int rulerType) {
 		setBackgroundType(BackgroundType.fromInt(rulerType));
 		settingChanged();
+	}
+
+	/**
+	 * 
+	 * @return the original x zero that comes from file.
+	 */
+	public double getFileXZero() {
+		return fileXZero;
+	}
+
+	/**
+	 * 
+	 * @return the original y zero that comes from file.
+	 */
+	public double getFileYZero() {
+		return fileYZero;
+	}
+
+	/**
+	 * 
+	 * @return the original x scale that comes from file.
+	 */
+	public double getFileXScale() {
+		return fileXScale;
+	}
+
+	/**
+	 * 
+	 * @return the original y scale that comes from file.
+	 */
+	public double getFileYScale() {
+		return fileYScale;
 	}
 }

@@ -8,6 +8,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
@@ -1437,6 +1438,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		kernel.notifyScreenChanged();
 		resetPenTool();
+		if (isWhiteboardActive()) {
+			AdjustScreen.adjustOrigo(getActiveEuclidianView());
+		}
 	}
 
 	private void updatePerspective(Perspective p) {

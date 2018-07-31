@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -357,5 +358,24 @@ public class AdjustScreen {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Adjust the origo to the screen size
+	 * 
+	 * @param view
+	 *            {@link EuclidianView}
+	 */
+	public static void adjustOrigo(EuclidianView view) {
+		EuclidianSettings s = view.getSettings();
+		double ox = s.getFileXZero();
+		double oy = s.getFileYZero();
+		double w = s.getFileWidth();
+		double h = s.getFileHeight();
+		double w2 = view.getWidth();
+		double h2 = view.getHeight();
+		double ox2 = (ox * w2) / w;
+		double oy2 = (oy * h2) / h;
+		view.setCoordSystem(ox2, oy2, s.getXscale(), s.getYscale());
 	}
 }
