@@ -17,6 +17,7 @@ public class DrawBackground {
 	private EuclidianSettings settings;
 	private double gap;
 	private GBasicStroke rulerStroke;
+	private double yScale;
 
 	/**
 	 * 
@@ -40,6 +41,7 @@ public class DrawBackground {
 		rulerStroke = EuclidianStatic.getStroke(settings.isRulerBold() ? 2f : 1f,
 				settings.getRulerLineStyle());
 		g2.setStroke(rulerStroke);
+		updateRulerGap();
 		gap = settings.getBackgroundRulerGap();
 		switch (settings.getBackgroundType()) {
 		case RULER:
@@ -57,6 +59,21 @@ public class DrawBackground {
 			break;
 		default:
 			break;
+		}
+	}
+
+	/**
+	 * Update the gap between two ruler lines, if the view zoomed
+	 */
+	public void updateRulerGap() {
+		if (yScale == 0) {
+			yScale = view.getYscale();
+			return;
+		}
+		if (yScale != view.getYscale()) {
+			double factor = view.getYscale() / yScale;
+			settings.setBackgroundRulerGap(settings.getBackgroundRulerGap() * factor);
+			yScale = view.getYscale();
 		}
 	}
 
