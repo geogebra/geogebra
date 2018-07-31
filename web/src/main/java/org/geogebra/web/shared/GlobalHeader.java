@@ -161,18 +161,11 @@ public class GlobalHeader implements EventRenderable {
 		var that = this;
 
 		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
-		//var screenHeight = screen.height - 5;
-
-		//var focus;
-		//$wnd.console.log("focus 1: " + focus);
 		var fullscreen = true;
-		//$wnd.console.log("fullscreen: " + fullscreen);
-		if ($wnd.innerHeight < screen.height - 5
-				|| $wnd.innerWidth < screen.width - 5) {
-			fullscreen = false;
-		}
-		//var fullHeight = $wnd.innerHeight;
-		//var fullWidth = $wnd.innerWidth;
+		//if (($wnd.innerHeight > 0 && $wnd.innerHeight < screen.height - 5)
+		//		|| ($wnd.innerWidth > 0 && $wnd.innerWidth < screen.width - 5)) {
+		//	fullscreen = false;
+		//}
 
 		var startCheating = function() {
 			that.@org.geogebra.web.shared.GlobalHeader::startCheating()()
@@ -184,18 +177,12 @@ public class GlobalHeader implements EventRenderable {
 			return that.@org.geogebra.web.shared.GlobalHeader::isTablet()()
 		};
 
-		//	var examActive = function() {
-		//	that.@org.geogebra.common.main.App::isExam()()
-		//};
-		//$wnd.console.log("examActive " + examActive);
-
 		if (tabletMode) {
 			$wnd.visibilityEventMain(startCheating, stopCheating);
 		} else {
 
 			$wnd.onblur = function(event) {
 				// Borrowed from http://www.quirksmode.org/js/events_properties.html
-				//$wnd.console.log("4");
 				var e = event ? event : $wnd.event;
 				var targ;
 				if (e.target) {
@@ -206,27 +193,19 @@ public class GlobalHeader implements EventRenderable {
 				if (targ.nodeType == 3) { // defeat Safari bug
 					targ = targ.parentNode;
 				}
-				//console.log("Checking cheating: Type = " + e.type
-				//		+ ", Target = " + targ + ", " + targ.id
-				//		+ " CurrentTarget = " + e.currentTarget + ", "
-				//		+ e.currentTarget.id);
 				// The focusout event should not be caught:
-				if (e.type == "blur") { //&& fullscreen == true
-					//$wnd.console.log("5");
+				if (e.type == "blur") {
 					startCheating();
-					//focus = false;
-					//console.log("focus 2 " + focus);
 				}
 
 			};
 			$wnd.onfocus = function(event) {
-				//$wnd.console.log("6");
 				if (fullscreen) {
 					stopCheating();
 					//	focus = true;
-					//	console.log("focus 3 " + focus);
+					console.log("focus 3 " + focus);
 				}
-			}
+			};
 			// window resize has 2 cases: full screen and not full screen
 			$wnd
 					.addEventListener(
