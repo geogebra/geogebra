@@ -90,7 +90,6 @@ public class ExamEnvironment {
 	 *            operating system
 	 */
 	public void checkCheating(String os) {
-
 		boolean delay;
 		// needed for GGB-1211
 		if (os.contains("iOS")) {
@@ -106,7 +105,6 @@ public class ExamEnvironment {
 		// if (maybeCheating > 0 && maybeCheating < System.currentTimeMillis() -
 		// 100) {
 		if (maybeCheating > 0 && delay) {
-
 			maybeCheating = -1;
 			if (getStart() > 0) {
 				initLists();
@@ -116,7 +114,6 @@ public class ExamEnvironment {
 					lastCheatingEventWindowWasLeft = true;
 					Log.debug("STARTED CHEATING");
 				}
-
 			}
 		}
 	}

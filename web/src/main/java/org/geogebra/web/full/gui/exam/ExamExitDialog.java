@@ -41,6 +41,8 @@ public class ExamExitDialog extends DialogBoxW
 	private Label startTime = new Label("");
 	private Label endTimeLbl = new Label("");
 	private Label endTime = new Label("");
+	private Label activityLbl = new Label("");
+	private FlowPanel activityPanel;
 	// components of button panel
 	private FlowPanel buttonPanel;
 	private StandardButton okBtn;
@@ -83,6 +85,9 @@ public class ExamExitDialog extends DialogBoxW
 		// build button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
+		if (appW.getExam().isCheating()) {
+			buttonPanel.addStyleName("withDivider");
+		}
 		okBtn = new StandardButton("", appW);
 		okBtn.addFastClickHandler(this);
 		buttonPanel.add(okBtn);
@@ -101,9 +106,26 @@ public class ExamExitDialog extends DialogBoxW
 		contentPanel.add(buildBlock(dateLbl, date));
 		contentPanel.add(buildBlock(startTimeLbl, startTime));
 		contentPanel.add(buildBlock(endTimeLbl, endTime));
+		if (appW.getExam().isCheating()) {
+			activityPanel = buildActivityPanel();
+			contentPanel.add(buildBlock(activityLbl, activityPanel));
+		}
 	}
 
-	private static FlowPanel buildBlock(Label caption, Label text) {
+	private FlowPanel buildActivityPanel() {
+		activityPanel = new FlowPanel();
+		Label currActivity = new Label("");
+		String activityStr = appW.getExam().getLogTimes(appW.getLocalization());
+		String[] activityVector = activityStr.split("\\r?\\n");
+		for (String currActivityStr : activityVector) {
+			currActivity = new Label(currActivityStr);
+			currActivity.setStyleName("textStyle");
+			activityPanel.add(currActivity);
+		}
+		return activityPanel;
+	}
+
+	private static FlowPanel buildBlock(Widget caption, Widget text) {
 		FlowPanel block = new FlowPanel();
 		caption.setStyleName("captionStyle");
 		text.setStyleName("textStyle");
@@ -131,6 +153,7 @@ public class ExamExitDialog extends DialogBoxW
 		startTime.setText(appW.getExam().getStartTime());
 		endTimeLbl.setText(appW.getLocalization().getMenu("exam_end_time"));
 		endTime.setText(appW.getExam().getEndTime());
+		activityLbl.setText(appW.getLocalization().getMenu("exam_activity"));
 		// button panel
 		okBtn.setText(appW.getLocalization().getMenu("Exit"));
 	}

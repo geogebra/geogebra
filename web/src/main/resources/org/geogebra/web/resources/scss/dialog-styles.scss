@@ -994,6 +994,10 @@ $duration: 0.2s;
     	.DialogButtonPanel {
     		padding-right: 8px;
     		padding-top: 8px;
+    		
+    		&.withDivider {
+    			border-top: 1px solid $black-12;	
+    		}
     	}		
 	}
 }
