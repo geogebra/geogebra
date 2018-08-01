@@ -70,6 +70,8 @@ public class PenSubMenu extends SubMenuPanel {
 	public PenSubMenu(AppW app) {
 		super(app/* , false */);
 		addStyleName("penSubMenu");
+		// needed for slider mouse events
+		ClickStartHandler.initDefaults(this, false, true);
 	}
 
 	private void createPenPanel() {
@@ -160,6 +162,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setMinimum(EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE, false);
 		slider.setMaximum(EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE, false);
 		slider.setStep(EuclidianConstants.DEFAULT_PEN_STEP);
+		slider.setWidth(300);
 		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
 		slider.add(preview);
