@@ -141,7 +141,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private BackgroundType backgroundType = BackgroundType.RULER;
 
-	private double bgRulerGap = 60;
+	private double bgRulerGap = 50;
 
 	private GColor bgRulerColor;
 	private GColor bgSubLineColor;
