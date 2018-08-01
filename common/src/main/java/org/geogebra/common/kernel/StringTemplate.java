@@ -375,13 +375,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * High precision, fixed decimal places (15)
 	 */
 	public static final StringTemplate maxDecimals = new StringTemplate(
-			"maxPrecision");
+			"maxDecimals");
 
 	static {
-		maxPrecision.nf = FormatFactory.getPrototype().getNumberFormat(15);
-		maxPrecision.allowMoreDigits = false;
-		maxPrecision.forceNF = true;
-		maxPrecision.localizeCmds = false;
+		maxDecimals.nf = FormatFactory.getPrototype().getNumberFormat(15);
+		maxDecimals.allowMoreDigits = false;
+		maxDecimals.forceNF = true;
+		maxDecimals.localizeCmds = false;
 	}
 
 	/**
