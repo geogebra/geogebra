@@ -1017,8 +1017,8 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::previousConstructionStep()();
 		};
 		
-		api.nextConstructioStep = function() {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::nextConstructioStep()();
+		api.nextConstructionStep = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::nextConstructionStep()();
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

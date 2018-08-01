@@ -2425,7 +2425,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		kernel.previousStep();
 	}
 
-	public void nextConstructioStep() {
+	public void nextConstructionStep() {
 		kernel.nextStep();
 	}
 
