@@ -22,9 +22,24 @@ public class PackageSize {
 	private static final boolean addUnattributed = true;
 
 	@Test
-	public void testPackages() throws JSONException {
+	public void testPackages() {
+		try {
+			checkModule("webSimple");
+			checkModule("web3d");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void checkModule(String string) throws JSONException {
+		packages.clear();
 		String html = loadFileIntoString(
-				"build/gwt/extra/webSimple/soycReport/compile-report/initial-0-packageBreakdown.html");
+				"build/gwt/extra/" + string
+						+ "/soycReport/compile-report/initial-0-packageBreakdown.html");
+		if (html == null) {
+			return;
+		}
 		String[] table = html
 				.substring(html.indexOf("<tr"), html.lastIndexOf("/tr>"))
 				.split("<tr");
@@ -49,14 +64,17 @@ public class PackageSize {
 
 		if (addUnattributed) {
 			html = loadFileIntoString(
-					"build/gwt/extra/webSimple/soycReport/compile-report/initial-0-codeTypeBreakdown.html");
+					"build/gwt/extra/" + string
+							+ "/soycReport/compile-report/initial-0-codeTypeBreakdown.html");
 			String bytes = html.split("<p class=\"soyc-breakdown-strings\">")[2]
 					.replaceAll("[^0-9]", "");
-			packages.get("").getJSONArray("children")
-					.put(new JSONObject().put("name", "Dark matter").put("bytes", bytes));
+			packages.get("").getJSONArray("children").put(new JSONObject()
+					.put("name", "Dark matter").put("bytes", bytes));
+			total += Integer.parseInt(bytes);
 		}
-		System.out.println(total);
+		packages.get("").put("total", total);
 		System.out.println(packages.get("").toString());
+
 	}
 
 	private static void updateSelfSizes(JSONObject pkg) throws JSONException {
