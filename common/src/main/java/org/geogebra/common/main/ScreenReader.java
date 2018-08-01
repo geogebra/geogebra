@@ -131,7 +131,8 @@ public class ScreenReader {
 	}
 
 	public static String getMiddleFraction(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.fractionOver", "over") + " ";
+		return " " + loc.getMenuDefault("ScreenReader.fractionOver", "over")
+				+ " ";
 	}
 
 	public static String getEndFraction(Localization loc) {
