@@ -9,8 +9,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Judit
  */
+@SuppressWarnings("javadoc")
 public class ScreenReader {
 
+	// just in English right now (translations can be added to ggbtrans later if
+	// we need)
 	final private static String TRANSLATION_PREFIX = "ScreenReader.";
 
 	/**
@@ -190,12 +193,12 @@ public class ScreenReader {
 		return loc.getMenuDefault(TRANSLATION_PREFIX + "cubed", "cubed") + " ";
 	}
 
-	public static Object getStartPower(Localization loc) {
+	public static String getStartPower(Localization loc) {
 		return loc.getMenuDefault(TRANSLATION_PREFIX + "startSuperscript",
 				"start superscript") + " ";
 	}
 
-	public static Object getEndPower(Localization loc) {
+	public static String getEndPower(Localization loc) {
 		return loc.getMenuDefault(TRANSLATION_PREFIX + "endSuperscript",
 				"end superscript") + " ";
 	}

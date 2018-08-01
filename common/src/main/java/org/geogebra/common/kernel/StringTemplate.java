@@ -372,7 +372,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Default template, just increases precision to max
+	 * GGB-2454
 	 */
 	public static final StringTemplate screenReader = new StringTemplate(
 			"screenReader");

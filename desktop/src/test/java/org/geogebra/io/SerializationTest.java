@@ -56,6 +56,15 @@ public class SerializationTest {
 	}
 
 	@Test
+	public void testScreenReader() {
+		tsc("x^2+2x-1", "x squared  plus 2 times x   minus 1 ");
+		tsc("sqrt(x+1)", "start square root x plus 1 end square root ");
+		tsc("(x+1)/(x-1)",
+				"start fraction x plus 1  over x minus 1  end fraction ");
+		tsc("sin(2x)", "sin(2 times x )");
+	}
+
+	@Test
 	public void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
@@ -77,12 +86,21 @@ public class SerializationTest {
 	}
 
 	private static void tcl(String string, String string2) {
-		AlgebraProcessor ap =app.getKernel().getAlgebraProcessor();
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result =  ap.processAlgebraCommand(string, false);
 		Assert.assertTrue(result[0] instanceof GeoFunction);
 		Assert.assertEquals(((GeoFunction) result[0]).conditionalLaTeX(false,
 				StringTemplate.latexTemplate), string2.replace("<=",
 				Unicode.LESS_EQUAL + ""));
+
+	}
+
+	private static void tsc(String string, String string2) {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		GeoElementND[] result = ap.processAlgebraCommand(string, false);
+		Assert.assertTrue(result[0] instanceof GeoFunction);
+		Assert.assertEquals(
+				result[0].toValueString(StringTemplate.screenReader), string2);
 
 	}
 
