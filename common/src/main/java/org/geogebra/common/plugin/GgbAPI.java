@@ -2413,7 +2413,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
-	public int getConstructionSteps() {
+	public int getConstructionSteps(boolean breakpoints) {
+		if (breakpoints) {
+			return app.getGuiManager().getConstructionProtocolView()
+					.getLastStepNumber();
+		}
 		return kernel.getLastConstructionStep();
 	}
 

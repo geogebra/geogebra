@@ -1005,8 +1005,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportConstruction(Lcom/google/gwt/core/client/JsArrayString;)(flags || ["color","name","definition","value"]);
 		};
 		
-		api.getConstructionSteps = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getConstructionSteps()();
+		api.getConstructionSteps = function(breakpoints) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getConstructionSteps(Z)(!!breakpoints);
 		};
 		
 		api.setConstructionStep = function(n) {
