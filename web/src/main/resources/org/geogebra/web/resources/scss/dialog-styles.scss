@@ -1004,5 +1004,17 @@ $duration: 0.2s;
     		}
     	}		
 	}
+
+	.MaterialDialogBox.examLogDialog {
+		@extend .MaterialDialogBox.examExitDialog;
+		.contentPanel {
+			min-height: 0;
+			height: unset;
+			
+			div:first-of-type > .captionStyle:first-child { 
+				margin: 0px;	
+			}
+		}
+	}
 }
 	

@@ -57,7 +57,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog) {
 		super(app.getPanel(), app);
 		this.appW = app;
-		this.addStyleName("examExitDialog");
+		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
 		buildGUI(isLogDialog);
 	}
 
