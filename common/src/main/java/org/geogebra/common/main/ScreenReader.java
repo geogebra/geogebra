@@ -140,15 +140,15 @@ public class ScreenReader {
 	}
 
 	public static String getTimes(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.times", "times") + " ";
+		return " " + loc.getMenuDefault("ScreenReader.times", "times") + " ";
 	}
 
 	public static String getPlus(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.plus", "plus") + " ";
+		return " " + loc.getMenuDefault("ScreenReader.plus", "plus") + " ";
 	}
 
 	public static String getMinus(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.minus", "minus") + " ";
+		return " " + loc.getMenuDefault("ScreenReader.minus", "minus") + " ";
 	}
 
 	public static String getStartCbrt(Localization loc) {
