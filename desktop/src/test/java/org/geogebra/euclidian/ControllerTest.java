@@ -279,7 +279,7 @@ public class ControllerTest {
 
 	@Test
 	public void circleArc3Tool() {
-		app.setMode(EuclidianConstants.DEFAULT_ERASER_SIZE);
+		app.setMode(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
 		click(100, 100);
 		click(100, 0);
 		click(0, 0);
@@ -334,7 +334,7 @@ public class ControllerTest {
 
 	@Test
 	public void imageTool() {
-		app.setMode(EuclidianConstants.DEFAULT_CHECKBOX_SIZE); // TODO 26
+		app.setMode(EuclidianConstants.MODE_IMAGE); // TODO 26
 	}
 
 	@Test
@@ -529,7 +529,7 @@ public class ControllerTest {
 				"h = 2.82843", "i = 2.82843");
 	}
 
-	private void prepareInput(String... string) {
+	private static void prepareInput(String... string) {
 		app.initDialogManager(false, string);
 		events.add(new TestEvent(0, 0).withInput(string));
 	}
@@ -585,7 +585,13 @@ public class ControllerTest {
 
 	@Test
 	public void parabolaTool() {
-		app.setMode(EuclidianConstants.MODE_PARABOLA); // TODO 57
+		app.setMode(EuclidianConstants.MODE_PARABOLA);
+		t("y = -1");
+		t("A = (2, -2)");
+		click(50, 50);
+		click(100, 100);
+		checkContent("f: y = -1", "A = (2, -2)",
+				AlgebraTest.unicode("c: x^2 - 4x + 2y = -7"));
 	}
 
 	@Test
@@ -624,7 +630,13 @@ public class ControllerTest {
 
 	@Test
 	public void polyLineTool() {
-		app.setMode(EuclidianConstants.MODE_POLYLINE); // TODO 65
+		app.setMode(EuclidianConstants.MODE_POLYLINE);
+		click(50, 50);
+		click(100, 50);
+		click(100, 100);
+		click(50, 50);
+		checkContent("A = (1, -1)", "B = (2, -1)", "C = (2, -2)", "f = 2");
+
 	}
 
 	@Test
@@ -671,7 +683,10 @@ public class ControllerTest {
 
 	@Test
 	public void extremumTool() {
-		app.setMode(EuclidianConstants.MODE_EXTREMUM); // TODO 75
+		app.setMode(EuclidianConstants.MODE_EXTREMUM);
+		t("x*(x-2)");
+		click(50, 50);
+		checkContent("f(x) = x (x - 2)", "A = (1, -1)");
 	}
 
 	@Test
