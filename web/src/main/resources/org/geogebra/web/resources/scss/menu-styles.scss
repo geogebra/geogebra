@@ -22,7 +22,7 @@ $classicToolbar: 50px;
 			padding-bottom: 4px;
 		}
 		.menuLink{
-			padding-top: 8px;
+			//padding-top: 8px;
 			display: inline-block;
 		}
 		.gwt-StackPanel .matStackPanelNoOpacity {
@@ -35,7 +35,7 @@ $classicToolbar: 50px;
 			}
 			
 			.gwt-MenuItem {
-				padding-top: 0px;
+				padding-top: 12px;
 				height: 40px;
 				padding-bottom: 0px;
 				padding-right: 16px;
@@ -43,6 +43,8 @@ $classicToolbar: 50px;
 				line-height: normal;
 				min-width: 232px;
 				color: $black-87;
+				font-size: 90%;
+				font-family: initial;
 				
 				img {
 					height: 24px;
@@ -53,7 +55,8 @@ $classicToolbar: 50px;
 			
 				a { 
 					span { 
-						font-size: 90%;
+						font-size: 100%;
+						color: $black-87;
 					}
 				}
 			
