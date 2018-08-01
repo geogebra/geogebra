@@ -1,11 +1,13 @@
 package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 
 public class EditorState {
 
@@ -284,6 +286,65 @@ public class EditorState {
 			fieldParent = fieldParent.getParent();
 		}
 		return false;
+	}
+
+	/**
+	 * @return description of cursor position
+	 */
+	public String getDescription() {
+		MathComponent prev = currentField.getArgument(currentOffset - 1);
+		MathComponent next = currentField.getArgument(currentOffset);
+		StringBuilder sb = new StringBuilder();
+		if (next == null && currentField.getParent() != null) {
+			sb.append("end of " + describeParent(currentField.getParent()));
+			sb.append(" ");
+		}
+		if (prev != null) {
+			sb.append("after " + describePrev(prev));
+		} else if (currentField.getParent() != null) {
+			sb.append("start of " + describeParent(currentField.getParent()));
+		}
+		sb.append(" ");
+
+		if (next != null) {
+			sb.append("before " + describe(next));
+		}
+		return sb.toString().trim();
+	}
+
+	private String describePrev(MathComponent parent) {
+		if (parent instanceof MathFunction
+				&& Tag.SUPERSCRIPT == ((MathFunction) parent).getName()) {
+			return describe(
+					currentField.getArgument(currentField.indexOf(parent) - 1))
+					+ " squared";
+		}
+		return describe(parent);
+	}
+
+	private static String describe(MathComponent prev) {
+		if (prev instanceof MathFunction) {
+			switch (((MathFunction) prev).getName()) {
+			case FRAC:
+				return "fraction";
+			case SQRT:
+				return "square root";
+			case SUPERSCRIPT:
+				return "superscript";
+			default:
+				return "function";
+			}
+		}
+		return GeoGebraSerializer.serialize(prev).replace("+", "plus");
+	}
+
+	private String describeParent(MathContainer parent) {
+		if (parent instanceof MathFunction
+				&& Tag.FRAC == ((MathFunction) parent).getName()) {
+			return parent.indexOf(currentField) == 0 ? "numerator"
+					: "denominator";
+		}
+		return describe(parent);
 	}
 
 }

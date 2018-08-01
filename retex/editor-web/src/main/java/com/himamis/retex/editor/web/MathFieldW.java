@@ -328,6 +328,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
+				if (code == JavaKeyCodes.VK_LEFT
+						|| code == JavaKeyCodes.VK_RIGHT) {
+					readPosition();
+				}
 				// need to prevent default for arrows to kill keypress
 				// (otherwise strange chars appear in Firefox). Backspace/delete
 				// also need killing.
@@ -342,9 +346,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				event.stopPropagation();
 
 			}
+
+
 		}, KeyDownEvent.getType());
 	}
 
+	private void readPosition() {
+		setAriaLabel(this.mathFieldInternal.getEditorState().getDescription());
+	}
 	/**
 	 * Update alt flags after key released
 	 * 

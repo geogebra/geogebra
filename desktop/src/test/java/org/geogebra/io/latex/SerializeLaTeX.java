@@ -4,21 +4,21 @@ import java.text.Normalizer;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -132,7 +132,6 @@ public class SerializeLaTeX {
 		checkCannon("x_2 sin(x)", "x_{2}*sin(x)");
 		checkCannon("f_2(x)", "f_{2}(x)");
 		checkCannon("f_2 (x)", "f_{2} (x)");
-
 	}
 
 	@Test
@@ -423,8 +422,6 @@ public class SerializeLaTeX {
 		final MathFieldD mathField = new MathFieldD();
 
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
-		InputController inputController = mathFieldInternal
-				.getInputController();
 		EditorState editorState = mathFieldInternal.getEditorState();
 
 		mathField.insertString(input);
@@ -465,6 +462,51 @@ public class SerializeLaTeX {
 			Assert.assertNull(e);
 		}
 		
+	}
+
+	private static void checkReader(String input, String... output) {
+		MathFormula mf = null;
+		try {
+			mf = parser.parse(input);
+			checkLaTeXRender(mf);
+		} catch (ParseException e) {
+			Assert.assertNull(e);
+		}
+		final MathFieldD mathField = new MathFieldD();
+		MathFieldInternal mfi = new MathFieldInternal(mathField);
+		mfi.setFormula(mf);
+		CursorController.firstField(mfi.getEditorState());
+		mfi.update();
+		for (int i = 0; i < output.length; i++) {
+			if (!mfi.getEditorState().getDescription().matches(output[i])) {
+				Assert.assertEquals(mfi.getEditorState().getDescription(),
+						output[i]);
+			}
+			CursorController.nextCharacter(mfi.getEditorState());
+			mfi.update();
+		}
+	}
+
+	@Test
+	public void testReader() {
+		// checkReader("1+x^2", "before 1", "after 1 before +", "after + before
+		// x",
+		// "after x before ^(2)",
+		// "start of power before 2");
+		checkReader("1+sqrt(x^2+2x+1/x+33)", "before 1", "after 1 before plus",
+				"after plus before square root",
+				"start of square root before x squared|start of square root before x",
+				"after x before superscript",
+				"(at )?start of superscript before 2",
+				"(at )?end of superscript after 2",
+				"after x squared before plus",
+				"after plus before 2( times x)?",
+				"after 2 before x",
+				"after (2 times )?x before plus", "after plus before fraction",
+				"start of numerator before 1", "end of numerator after 1",
+				"start of denominator before x", "end of denominator after x",
+				"after fraction before plus", "after plus before 3(3)?",
+				"after 3 before 3", "(at )?end of square root after 3(3)?");
 	}
 
 	private static void checkLaTeXRender(MathFormula mf) {
