@@ -139,9 +139,8 @@ public class ScreenReader {
 	}
 
 	public static String getEndFraction(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "endFraction",
-				"end fraction")
-				+ " ";
+		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "endFraction",
+				"end fraction") + " ";
 	}
 
 	public static String getTimes(Localization loc) {
