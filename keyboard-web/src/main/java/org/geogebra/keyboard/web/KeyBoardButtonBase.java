@@ -30,6 +30,25 @@ public class KeyBoardButtonBase extends SimplePanel {
 	/**
 	 * @param caption
 	 *            text of the button
+	 * @param altText
+	 *            altText for the screen reader
+	 * @param feedback
+	 *            String to send if click occurs
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public KeyBoardButtonBase(String caption, String altText, String feedback,
+			ButtonHandler handler) {
+		this(handler);
+		this.label = new Label();
+		this.setWidget(label);
+		setCaption(checkThai(caption), altText);
+		this.feedback = feedback;
+	}
+
+	/**
+	 * @param caption
+	 *            text of the button (and altText)
 	 * @param feedback
 	 *            String to send if click occurs
 	 * @param handler
@@ -37,11 +56,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 */
 	public KeyBoardButtonBase(String caption, String feedback,
 			ButtonHandler handler) {
-		this(handler);
-		this.label = new Label();
-		this.setWidget(label);
-		setCaption(checkThai(caption));
-		this.feedback = feedback;
+		this(caption, caption, feedback, handler);
 	}
 
 	// https://codepoints.net/search?gc=Mn
@@ -113,8 +128,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param feedback1
 	 *            feedback of the button (to be inserted in textfield)
 	 */
-	public void setCaption(String caption, String feedback1) {
-		this.getElement().setAttribute("aria-label", caption);
+	public void setCaption(String caption, String altText, String feedback1) {
+		this.getElement().setAttribute("aria-label", altText);
 		this.caption = caption;
 		if (feedback1 != null) {
 			this.feedback = feedback1;
@@ -148,8 +163,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param caption
 	 *            text of the button (also used as new feedback)
 	 */
-	public final void setCaption(String caption) {
-		setCaption(caption, caption);
+	public final void setCaption(String caption, String altText) {
+		setCaption(caption, altText, caption);
 	}
 
 	/**

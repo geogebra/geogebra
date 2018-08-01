@@ -232,6 +232,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				if (!Action.NONE.name().equals(wb.getActionName())) {
 					KeyBoardButtonBase button = makeButton(wb, bh);
 					keyboard.addToRow(index, button);
+					
 				}
 			}
 			index++;
@@ -373,7 +374,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			return new KeyBoardButtonBase("[", "[]", b);
 		}
 
-		return new KeyBoardButtonBase(name, b);
+		String altText = name;
+		if (("" + Unicode.IMAGINARY).equals(name)) {
+			altText = "imaginary i";
+		}
+
+		return new KeyBoardButtonBase(name, altText, name, b);
 	}
 
 	private static KeyBoardButtonBase accentButton(String accent,
