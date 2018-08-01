@@ -15,10 +15,7 @@ public class LabelController {
 	 * @param element the element
 	 */
 	public void hideLabel(GeoElement element) {
-		element.setLabelVisible(false);
-		element.setLabel(element.getFreeLabel(PREFIX));
-		element.setDescriptionNeedsUpdateInAV(true);
-		updateElement(element);
+		updateLabel(element, false);
 	}
 
 	/**
@@ -27,13 +24,13 @@ public class LabelController {
 	 * @param element the element
 	 */
 	public void showLabel(GeoElement element) {
-		element.setLabelVisible(true);
-		element.setLabel(element.getFreeLabel(null));
-		element.setDescriptionNeedsUpdateInAV(true);
-		updateElement(element);
+		updateLabel(element, true);
 	}
 
-	private void updateElement(GeoElement element) {
+	private void updateLabel(GeoElement element, boolean show) {
+		element.setAlgebraLabelVisible(show);
+		element.setLabel(element.getFreeLabel(show ? null : PREFIX));
+		element.setDescriptionNeedsUpdateInAV(true);
 		element.getKernel().notifyUpdate(element);
 	}
 }

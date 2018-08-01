@@ -201,6 +201,7 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean forceEuclidianVisible = false;
 	private boolean algebraVisible = true;
 	private boolean labelVisible = true;
+	private boolean algebraLabelVisible = true;
 	private boolean isConsProtBreakpoint; // in construction protocol
 	private boolean algoMacroOutput; // is an output object of a macro
 										// construction
@@ -1773,6 +1774,16 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	final public boolean getLabelVisible() {
 		return labelVisible;
+	}
+
+	@Override
+	public boolean isAlgebraLabelVisible() {
+		return algebraLabelVisible;
+	}
+
+	@Override
+	public void setAlgebraLabelVisible(boolean algebraLabelVisible) {
+		this.algebraLabelVisible = algebraLabelVisible;
 	}
 
 	/**

@@ -193,6 +193,9 @@ public class XMLBuilder {
 			sb.append("\"/>\n");
 		}
 
+		if (!geo.isAlgebraLabelVisible()) {
+			sb.append("\t<algebra labelVisible=\"false\"/>");
+		}
 	}
 
 	/**

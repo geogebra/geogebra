@@ -206,6 +206,20 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean isInfinite();
 
 	/**
+	 * Whether the label is visible in Algebra View.
+	 *
+	 * @return true if the label is visible in AV.
+	 */
+	boolean isAlgebraLabelVisible();
+
+	/**
+	 * Set whether the label should be visible in Algebra View.
+	 *
+	 * @param algebraLabelVisible true if the label should be visible in AV
+	 */
+	void setAlgebraLabelVisible(boolean algebraLabelVisible);
+
+	/**
 	 * Update visual style and notify kernel
 	 * 
 	 * @param prop

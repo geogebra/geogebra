@@ -842,6 +842,16 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleAlgebra(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setAlgebraLabelVisible(MyXMLHandler.parseBoolean(attrs.get("labelVisible")));
+			return true;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	private boolean handleVideo(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof GeoVideo)) {
 			Log.error("wrong element type for <video>: " + geo.getClass());
@@ -1857,6 +1867,9 @@ public class ConsElementXMLHandler {
 					break;
 				} else if ("audio".equals(eName)) {
 					handleAudio(attrs);
+					break;
+				} else if ("algebra".equals(eName)) {
+					handleAlgebra(attrs);
 					break;
 				}
 
