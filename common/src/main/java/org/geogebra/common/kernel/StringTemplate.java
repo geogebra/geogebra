@@ -378,9 +378,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			"screenReader");
 
 	static {
-		screenReader.sf = FormatFactory.getPrototype().getScientificFormat(15,
-				20, false);
-		screenReader.stringType = StringType.SCREEN_READER;
+		screenReader.setType(StringType.SCREEN_READER);
+		screenReader.localizeCmds = true;
 	}
 
 	/**
@@ -578,6 +577,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case LIBRE_OFFICE:
 			printFormPI = "%pi";
 			printFormImaginary = "i";
+			break;
+
+		case SCREEN_READER:
+			printFormPI = " pi ";
+			printFormImaginary = " i ";
 			break;
 
 		default:
@@ -1899,7 +1903,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}
 
 					if (showMultiplicationSign) {
-						sb.append(multiplicationSign());
+						sb.append(multiplicationSign(loc));
 					} else if (multiplicationSpaceNeeded) {
 						// space instead of multiplication sign
 						sb.append(multiplicationSpace());
@@ -1933,7 +1937,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-						sb.append(multiplicationSign());
+						sb.append(multiplicationSign(loc));
 						break;
 
 					default:
@@ -2037,7 +2041,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return null;
 	}
 
-	protected String multiplicationSign() {
+	protected String multiplicationSign(Localization loc) {
 		switch (stringType) {
 		case LATEX:
 			return " \\cdot ";
@@ -2048,13 +2052,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case GEOGEBRA:
 			return " * "; // space for multiplication
 
+		case SCREEN_READER:
+			return ScreenReader.getTimes(loc);
+
 		default:
 			return " * ";
 		}
 	}
 
 	protected String multiplicationSpace() {
-		// wide space for multiplicatoin space in LaTeX
+		// wide space for multiplication space in LaTeX
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
 

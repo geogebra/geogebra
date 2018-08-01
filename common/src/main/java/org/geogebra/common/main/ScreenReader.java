@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class ScreenReader {
 
+	final private static String TRANSLATION_PREFIX = "ScreenReader.";
+
 	/**
 	 * @param app
 	 *            application
@@ -126,67 +128,77 @@ public class ScreenReader {
 	}
 
 	public static String getStartFraction(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.startFraction",
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "startFraction",
 				"start fraction") + " ";
 	}
 
 	public static String getMiddleFraction(Localization loc) {
-		return " " + loc.getMenuDefault("ScreenReader.fractionOver", "over")
+		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "fractionOver",
+				"over")
 				+ " ";
 	}
 
 	public static String getEndFraction(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.endFraction", "end fraction")
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "endFraction",
+				"end fraction")
 				+ " ";
 	}
 
 	public static String getTimes(Localization loc) {
-		return " " + loc.getMenuDefault("ScreenReader.times", "times") + " ";
+		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "times", "times")
+				+ " ";
 	}
 
 	public static String getPlus(Localization loc) {
-		return " " + loc.getMenuDefault("ScreenReader.plus", "plus") + " ";
+		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "plus", "plus")
+				+ " ";
 	}
 
 	public static String getMinus(Localization loc) {
-		return " " + loc.getMenuDefault("ScreenReader.minus", "minus") + " ";
+		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "minus", "minus")
+				+ " ";
 	}
 
 	public static String getStartCbrt(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.startCbrt", "start cube root")
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "startCbrt",
+				"start cube root")
 				+ " ";
 	}
 
 	public static String getEndCbrt(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.endCbrt", "end cube root")
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "endCbrt",
+				"end cube root")
 				+ " ";
 	}
 
 	public static String getStartSqrt(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.startSqrtCbrt",
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "startSqrtCbrt",
 				"start square root") + " ";
 	}
 
 	public static String getEndSqrt(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.endSqrt", "end square root")
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "endSqrt",
+				"end square root")
 				+ " ";
 	}
 
 	public static String getSquared(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.squared", "squared") + " ";
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "squared", "squared")
+				+ " ";
 	}
 
 	public static Object getCubed(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.cubed", "cubed") + " ";
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "cubed", "cubed") + " ";
 	}
 
 	public static Object getStartPower(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.startSuperscript",
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "startSuperscript",
 				"start superscript") + " ";
 	}
 
 	public static Object getEndPower(Localization loc) {
-		return loc.getMenuDefault("ScreenReader.endSuperscript",
+		return loc.getMenuDefault(TRANSLATION_PREFIX + "endSuperscript",
 				"end superscript") + " ";
 	}
+
 }
