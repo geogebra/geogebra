@@ -1003,7 +1003,23 @@ public class ScriptManagerW extends ScriptManager {
 		
 		api.exportConstruction = function(flags) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportConstruction(Lcom/google/gwt/core/client/JsArrayString;)(flags || ["color","name","definition","value"]);
-		}
+		};
+		
+		api.getConstructionSteps = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getConstructionSteps()();
+		};
+		
+		api.setConstructionStep = function(n) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setConstructionStep(D)(n);
+		};
+		
+		api.previousConstructionStep = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::previousConstructionStep()();
+		};
+		
+		api.nextConstructioStep = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::nextConstructioStep()();
+		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
