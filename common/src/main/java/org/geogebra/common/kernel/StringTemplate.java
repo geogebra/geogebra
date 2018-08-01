@@ -372,6 +372,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * Default template, just increases precision to max
+	 */
+	public static final StringTemplate screenReader = new StringTemplate(
+			"screenReader");
+
+	static {
+		screenReader.sf = FormatFactory.getPrototype().getScientificFormat(15,
+				20, false);
+		screenReader.stringType = StringType.SCREEN_READER;
+	}
+
+	/**
 	 * High precision, fixed decimal places (15)
 	 */
 	public static final StringTemplate maxDecimals = new StringTemplate(

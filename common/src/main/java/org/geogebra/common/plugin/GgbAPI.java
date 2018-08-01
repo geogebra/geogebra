@@ -2400,4 +2400,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				useColors);
 	}
 
+	/**
+	 * 
+	 * @param label
+	 *            label of GeoElement
+	 * @return screen reader output for GeoElement
+	 */
+	public String getScreenReaderOutput(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+
+		return geo.toValueString(StringTemplate.screenReader);
+
+	}
+
 }
