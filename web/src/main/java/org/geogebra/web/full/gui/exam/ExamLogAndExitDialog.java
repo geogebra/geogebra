@@ -68,13 +68,14 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		// build content panel
 		scrollPanel = new ScrollPanel();
 		contentPanel = new FlowPanel();
-		contentPanel.setStyleName("contentPanel");
+		contentPanel.setStyleName(appW.getExam().isCheating() && isLogDialog
+				? "contentPanel cheating" : "contentPanel");
 		buildContent(isLogDialog);
 		scrollPanel.add(contentPanel);
 		// build button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		if (appW.getExam().isCheating()) {
+		if (appW.getExam().isCheating() && !isLogDialog) {
 			buttonPanel.addStyleName("withDivider");
 		}
 		okBtn = new StandardButton("", appW);
@@ -173,6 +174,11 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	}
 
 	public void onClick(Widget source) {
+		if (source == okBtn) {
+			hide();
+		} else if (source == exitBtn) {
+
+		}
 	}
 
 	@Override
