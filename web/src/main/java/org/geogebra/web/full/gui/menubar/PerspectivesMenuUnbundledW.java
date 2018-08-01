@@ -47,7 +47,8 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				MaterialDesignResources.INSTANCE.graphing3D());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
-		if (app.has(Feature.GRAPH_EXAM_MODE) && app.isUnbundledGraphing()) {
+		if (app.has(Feature.GRAPH_EXAM_MODE) && app.isUnbundledGraphing()
+				&& !app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.exam_graphing()
 							.getSafeUri().asString(),
