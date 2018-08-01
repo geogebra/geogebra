@@ -45,8 +45,11 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 			Action action, Localization loc, String altText) {
 		super(handler);
 		this.image = new Image(image);
-		this.image.setAltText(loc.getMenu(altText));
-		this.getElement().setAttribute("aria-label", loc.getMenu(altText));
+
+		String altTextTranslated = loc.getMenu(altText);
+
+		this.image.setAltText(altTextTranslated);
+		this.getElement().setAttribute("aria-label", altTextTranslated);
 		this.action = action;
 		this.add(this.image);
 		addStyleName("colored");
@@ -93,15 +96,18 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 			ButtonHandler handler, boolean addSupSyle, Localization loc,
 			String altText) {
 		super(handler);
+
+		String altTextTranslated = loc.getMenu(altText);
+
 		this.image = new NoDragImage(svg, 24);
-		this.image.setAltText(loc.getMenu(altText));
+		this.image.setAltText(altTextTranslated);
 		this.image.getElement().setAttribute("role", "img");
 		this.feedback = feedback;
 		this.add(this.image);
 		if (addSupSyle) {
 			this.addStyleName("sup");
 		}
-		this.getElement().setAttribute("aria-label", loc.getMenu(altText));
+		this.getElement().setAttribute("aria-label", altTextTranslated);
 	}
 
 	/**
