@@ -243,11 +243,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (ctx == null) {
 			return;
 		}
-		ctx.getCanvas().getStyle().setHeight(height,
-				Unit.PX);
+		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
 
-		ctx.getCanvas().getStyle()
-				.setWidth(roundUp(icon.getIconWidth() + 30), Unit.PX);
+		ctx.getCanvas().getStyle().setWidth(roundUp(icon.getIconWidth() + 30),
+				Unit.PX);
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		repaintWeb();
@@ -281,8 +280,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				// don't kill Ctrl+V or write V
-				if (controlDown(event) && (event.getCharCode() == 'v'
-						|| event.getCharCode() == 'V') || isLeftAltDown()) {
+				if (controlDown(event)
+						&& (event.getCharCode() == 'v'
+								|| event.getCharCode() == 'V')
+						|| isLeftAltDown()) {
 
 					event.stopPropagation();
 				} else {
@@ -305,11 +306,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					event.preventDefault();
 					return;
 				}
-				int code = convertToGWTKeyCode(event.getNativeEvent());
-				keyListener.onKeyReleased(
-						new KeyEvent(code, getModifiers(event),
-								getChar(event.getNativeEvent())));
+				int code = convertToJavaKeyCode(event.getNativeEvent());
+				keyListener.onKeyReleased(new KeyEvent(code,
+						getModifiers(event), getChar(event.getNativeEvent())));
 				updateAltForKeyUp(event);
+
+				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_DELETE
 						|| code == JavaKeyCodes.VK_ESCAPE) {
 					event.preventDefault();
@@ -327,10 +329,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					setLeftAltDown(true);
 				}
 
-				int code = convertToGWTKeyCode(event.getNativeEvent());
-				boolean handled = keyListener.onKeyPressed(
-						new KeyEvent(code, getModifiers(event),
-								getChar(event.getNativeEvent())));
+				int code = convertToJavaKeyCode(event.getNativeEvent());
+				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
+						getModifiers(event), getChar(event.getNativeEvent())));
+
+				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_LEFT
 						|| code == JavaKeyCodes.VK_RIGHT) {
 					readPosition();
@@ -340,16 +343,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				// also need killing.
 				// also kill events while left alt down: alt+e, alt+d working in
 				// browser
+				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_DELETE
-						|| code == JavaKeyCodes.VK_ESCAPE
-						|| handled
+						|| code == JavaKeyCodes.VK_ESCAPE || handled
 						|| isLeftAltDown()) {
 					event.preventDefault();
 				}
 				event.stopPropagation();
 
 			}
-
 
 		}, KeyDownEvent.getType());
 	}
@@ -369,6 +371,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public void setExpressionReader(ExpressionReader expressionReader) {
 		this.expressionReader = expressionReader;
 	}
+
 	/**
 	 * Update alt flags after key released
 	 * 
@@ -402,8 +405,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return checkCode(nativeEvent, "AltRight");
 	}
 
-	public static native boolean checkCode(NativeEvent evt,
-			String check) /*-{
+	public static native boolean checkCode(NativeEvent evt, String check) /*-{
 		return evt.code == check;
 	}-*/;
 
@@ -421,7 +423,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            native event
 	 * @return java key code
 	 */
-	int convertToGWTKeyCode(NativeEvent evt) {
+	int convertToJavaKeyCode(NativeEvent evt) {
 
 		int keyCodeGWT = evt.getKeyCode();
 
@@ -452,8 +454,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            browser keyboard event
 	 * @return MacOS: whether meta is down; other os: whether Ctrl is down
 	 */
-	boolean controlDown(
-			com.google.gwt.event.dom.client.KeyEvent<?> event) {
+	boolean controlDown(com.google.gwt.event.dom.client.KeyEvent<?> event) {
 		return Navigator.getUserAgent().contains("Macintosh")
 				|| Navigator.getUserAgent().contains("Mac OS")
 						? event.isMetaKeyDown() : event.isControlKeyDown();
@@ -699,8 +700,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
 			mathFieldInternal.getCursorController();
-			CursorController
-					.lastField(mathFieldInternal.getEditorState());
+			CursorController.lastField(mathFieldInternal.getEditorState());
 		}
 		// update even when cursor didn't change here
 		mathFieldInternal.update();
@@ -762,8 +762,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();
-			Element el = getHiddenTextAreaNative(counter++,
-					clip.getElement());
+			Element el = getHiddenTextAreaNative(counter++, clip.getElement());
 			wrap = MyTextArea.wrap(el);
 
 			wrap.addCompositionUpdateHandler(new CompositionHandler() {
@@ -981,9 +980,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public static void scrollParent(FlowPanel latexItem, int margin) {
 		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
 				- margin < CursorBox.startX) {
-			latexItem.getElement().setScrollLeft(
-					(int) CursorBox.startX - latexItem.getOffsetWidth()
-							+ margin);
+			latexItem.getElement().setScrollLeft((int) CursorBox.startX
+					- latexItem.getOffsetWidth() + margin);
 		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft()
 				+ margin) {
 			latexItem.getElement()
