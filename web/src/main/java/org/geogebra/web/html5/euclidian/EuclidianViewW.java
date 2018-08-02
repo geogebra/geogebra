@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
@@ -372,11 +373,24 @@ public class EuclidianViewW extends EuclidianView implements
 		c4.setCoordinateSpaceHeight(height);
 		c4.setWidth(width + "px");
 		c4.setHeight(height + "px");
+
+		double origXZero = getXZero();
+		double origScale = getXscale();
+		if (app.has(Feature.MOW_BACKGROUND) && this.getSettings()
+				.getBackgroundType() != BackgroundType.NONE
+				&& selectionRectangle == null) {
+			setCoordSystem(525 / SCALE_STANDARD * origScale, getYZero(),
+					origScale * scale, origScale * scale);
+		}
 		g4copy = new GGraphics2DW(c4);
 		this.appW.setExporting(ExportType.PNG, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
 		this.appW.setExporting(ExportType.NONE, 1);
+
+		if (app.has(Feature.MOW_BACKGROUND) && selectionRectangle == null) {
+			setCoordSystem(origXZero, getYZero(), origScale, origScale);
+		}
 		return g4copy.getCanvas();
 	}
 
@@ -1386,6 +1400,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 		prevImg.getElement().setAttribute("src", urlText);
 		prevImg.addStyleName("prevImg");
+		prevImg.setWidth(
+				(getExportWidth() / getXscale()) * getPrintingScale() + "cm");
+		prevImg.setHeight(
+				(getExportHeight() / getYscale()) * getPrintingScale() + "cm");
 		pPanel.clear();
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override

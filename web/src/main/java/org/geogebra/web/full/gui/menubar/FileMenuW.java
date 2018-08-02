@@ -338,7 +338,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					true, new ExportMenuW(getApp()), true);
 		}
 		if (getApp().getLAF().printSupported()
-				&& !getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+				&& (!getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)
+						|| getApp().has(Feature.MOW_BACKGROUND))) {
 			printItem = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(
 							MaterialDesignResources.INSTANCE.print_black()
