@@ -83,7 +83,6 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == exitBtn) {
 			appW.getExam().exit();
-			appW.getLAF().toggleFullscreen(false);
 			GlobalHeader.INSTANCE.resetAfterExam();
 			new ExamLogAndExitDialog(appW, false, returnHandler).show();
 			hide();

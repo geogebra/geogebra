@@ -191,6 +191,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 				((GuiManagerW) appW.getGuiManager()).getUnbundledToolbar()
 						.resetHeaderStyle();
 			}
+			appW.getLAF().toggleFullscreen(false);
 			hide();
 			returnHandler.callback("exit");
 		}
