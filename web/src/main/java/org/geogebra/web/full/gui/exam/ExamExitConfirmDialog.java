@@ -33,6 +33,7 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	 *            application
 	 * @param returnHandler
 	 */
+	@SuppressWarnings("javadoc")
 	public ExamExitConfirmDialog(AppW app,
 			AsyncOperation<String> returnHandler) {
 		super(app.getPanel(), app);
@@ -85,6 +86,8 @@ public class ExamExitConfirmDialog extends DialogBoxW
 			appW.getLAF().toggleFullscreen(false);
 			GlobalHeader.INSTANCE.resetAfterExam();
 			new ExamLogAndExitDialog(appW, false, returnHandler).show();
+			hide();
+		} else if (source == cancelBtn) {
 			hide();
 		}
 	}
