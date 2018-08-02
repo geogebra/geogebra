@@ -10,15 +10,22 @@ import org.geogebra.common.util.AsyncOperation;
 public class SCAlgebraCallback implements AsyncOperation<GeoElementND[]> {
 
     private LabelController mLabelController;
+    private boolean mShouldCenterText;
 
     public SCAlgebraCallback() {
         mLabelController = new LabelController();
     }
 
+    public void setShouldCenterText(boolean shouldCenterText) {
+        mShouldCenterText = shouldCenterText;
+    }
+
     @Override
     public void callback(GeoElementND[] geoElements) {
         Kernel kernel = geoElements[0].getKernel();
-        kernel.checkGeoTexts(geoElements);
+        if (mShouldCenterText) {
+            kernel.checkGeoTexts(geoElements);
+        }
         if (geoElements instanceof GeoElement[]) {
             hideLabels((GeoElement[]) geoElements);
         }
