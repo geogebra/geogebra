@@ -129,22 +129,6 @@ public class AlgebraController {
 		return latex;
 	}
 
-	public void checkGeoTexts(GeoElementND[] newGeos) {
-		if (newGeos == null) {
-			// no GeoElements were created
-			return;
-		}
-		// create texts in the middle of the visible view
-		// we must check that size of geos is not 0 (ZoomIn,
-		// ZoomOut, ...)
-		if (newGeos.length > 0 && newGeos[0] != null
-				&& newGeos[0].isGeoText()) {
-			InputHelper.centerText((GeoText) newGeos[0],
-					kernel.getApplication().getActiveEuclidianView());
-
-		}
-	}
-
 	public boolean onTextEntered(String input, ErrorHandler errorHandler) {
 		return onTextEntered(input, errorHandler, null);
 	}
@@ -169,7 +153,7 @@ public class AlgebraController {
 					if (cb != null) {
 						cb.callback(newGeos);
 					}
-					checkGeoTexts(newGeos);
+					kernel.checkGeoTexts(newGeos);
 				}
 			};
 

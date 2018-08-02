@@ -17,6 +17,7 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -52,6 +53,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -422,6 +424,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		return new AlgebraProcessor(kernel, app.getCommandDispatcher(kernel));
+	}
+
+	public void checkGeoTexts(GeoElementND[] newGeos) {
+		if (newGeos == null) {
+			// no GeoElements were created
+			return;
+		}
+		// create texts in the middle of the visible view
+		// we must check that size of geos is not 0 (ZoomIn,
+		// ZoomOut, ...)
+		if (newGeos.length > 0 && newGeos[0] != null
+				&& newGeos[0].isGeoText()) {
+			InputHelper.centerText((GeoText) newGeos[0],
+					getApplication().getActiveEuclidianView());
+
+		}
 	}
 
 	/**
