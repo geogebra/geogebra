@@ -91,6 +91,13 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
+	 * @return panel of exam timer
+	 */
+	public RootPanel getExamPanel() {
+		return RootPanel.get("examId");
+	}
+
+	/**
 	 * @return application
 	 */
 	public AppW getApp() {
@@ -105,11 +112,20 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
+	 * remove exam timer and put back button panel
+	 */
+	public void resetAfterExam() {
+		getExamPanel().getElement().removeFromParent();
+		getButtonPanel().getElement().getStyle()
+				.setDisplay(Display.FLEX);
+	}
+
+	/**
 	 * switch right buttons with exam timer and info button
 	 */
 	public void addExamTimer() {
 		// remove other buttons
-		GlobalHeader.INSTANCE.getButtonPanel().getElement().getStyle()
+		getButtonPanel().getElement().getStyle()
 				.setDisplay(Display.NONE);
 		// exam panel with timer and info btn
 		examPanel = new FlowPanel();
@@ -138,10 +154,8 @@ public class GlobalHeader implements EventRenderable {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
 					}
-
 					getTimer().setText(
 							getApp().getExam().getElapsedTimeLocalized());
-
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}

@@ -338,6 +338,8 @@ public class ExamEnvironment {
 	/**
 	 * @param loc
 	 *            localization
+	 * @param withEndTime
+	 *            true if add end timestamp
 	 * @return the string list of activities
 	 */
 	public ArrayList<String> getActiviyList(Localization loc,

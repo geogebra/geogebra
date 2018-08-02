@@ -113,7 +113,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		String buttonText = null;
 		AsyncOperation<String[]> handler = null;
 		AsyncOperation<String[]> welcomeHandler = null;
-		if (examFile) {
+		if (examFile && !getApp().isUnbundledGraphing()) {
 			if (getApp().getVersion().isAndroidWebview()) {
 				handler = new AsyncOperation<String[]>() {
 					@Override
@@ -210,7 +210,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			}
 		};
 		if (Browser.isChrome()) {
-
 			getApp().getGgbApi().getScreenshotURL(
 					getApp().getOptionPane().getContentElement(),
 					getCallback(StringUtil.pngMarker));
@@ -423,9 +422,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// set Firefox dom.allow_scripts_to_close_windows in about:config to
 		// true to make this work
 		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
+
 		if (getApp().isUnbundledGraphing()
 				&& getApp().has(Feature.GRAPH_EXAM_MODE)) {
-			new ExamExitConfirmDialog(getApp()).show();
+			new ExamExitConfirmDialog(getApp(), new AsyncOperation<String>() {
+				@Override
+				public void callback(String obj) {
+					if ("exit".equals(obj)) {
+						exitAndResetExam();
+					}
+				}
+			}).show();
 		} else {
 			getApp().getGuiManager().getOptionPane().showOptionDialog(
 				loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
@@ -438,7 +445,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							exitAndResetExam();
 						}
 					}
-				});
+					});
 		}
 	}
 

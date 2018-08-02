@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -18,6 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ExamExitConfirmDialog extends DialogBoxW
 		implements SetLabels, FastClickHandler {
+	private AsyncOperation<String> returnHandler;
 	private FlowPanel mainPanel;
 	private Label confirmText;
 	private FlowPanel buttonPanel;
@@ -28,10 +31,13 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	/**
 	 * @param app
 	 *            application
+	 * @param returnHandler
 	 */
-	public ExamExitConfirmDialog(AppW app) {
+	public ExamExitConfirmDialog(AppW app,
+			AsyncOperation<String> returnHandler) {
 		super(app.getPanel(), app);
 		this.appW = app;
+		this.returnHandler = returnHandler;
 		buildGUI();
 	}
 
@@ -75,11 +81,12 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == exitBtn) {
-			appW.getExam().storeEndTime();
 			appW.getExam().exit();
-			new ExamLogAndExitDialog(appW, true).show();
+			appW.getLAF().toggleFullscreen(false);
+			GlobalHeader.INSTANCE.resetAfterExam();
+			new ExamLogAndExitDialog(appW, false, returnHandler).show();
+			hide();
 		}
-		hide();
 	}
 
 }

@@ -3,7 +3,9 @@ package org.geogebra.web.full.gui.exam;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -25,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ExamLogAndExitDialog extends DialogBoxW
 		implements FastClickHandler, SetLabels {
 	private AppW appW;
+	private AsyncOperation<String> returnHandler;
 	private FlowPanel dialog;
 	// components of title panel
 	private FlowPanel titlePanel;
@@ -55,10 +58,13 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	 *            application
 	 * @param isLogDialog
 	 *            true if need to build log dialog
+	 * @param returnHandler
 	 */
-	public ExamLogAndExitDialog(AppW app, boolean isLogDialog) {
+	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
+			AsyncOperation<String> returnHandler) {
 		super(app.getPanel(), app);
 		this.appW = app;
+		this.returnHandler = returnHandler;
 		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
 		buildGUI(isLogDialog);
 	}
@@ -179,7 +185,14 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		if (source == okBtn) {
 			hide();
 		} else if (source == exitBtn) {
-
+			if (appW.getGuiManager() instanceof GuiManagerW
+					&& ((GuiManagerW) appW.getGuiManager())
+							.getUnbundledToolbar() != null) {
+				((GuiManagerW) appW.getGuiManager()).getUnbundledToolbar()
+						.resetHeaderStyle();
+			}
+			hide();
+			returnHandler.callback("exit");
 		}
 	}
 

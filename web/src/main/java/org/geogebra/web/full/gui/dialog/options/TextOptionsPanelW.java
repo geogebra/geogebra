@@ -123,7 +123,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 												String[] dialogResult) {
 									model.applyFontSizeFromString(dialogResult[1]);
 								}
-							});
+									});
 
 				} else {
 					model.applyFontSizeFromIndex(lbSize.getSelectedIndex());

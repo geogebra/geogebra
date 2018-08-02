@@ -31,7 +31,6 @@ public class ErrorHandlerW implements ErrorHandler {
 
 		app.getOptionPane().showConfirmDialog(msg, title,
 				GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
-
 	}
 
 	@Override
