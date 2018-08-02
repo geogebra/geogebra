@@ -373,8 +373,7 @@ public class AdjustScreen {
 
 		double ox = s.getFileXZero() * rX;
 		double oy = s.getFileYZero() * rY;
-		double xScale = s.getFileXScale() * rX;
-		double yScale = s.getFileYScale() * rY;
-		view.setCoordSystem(ox, oy, xScale, yScale);
+		double scale = s.getFileYScale() * rY;
+		view.setCoordSystem(ox, oy, scale, scale);
 	}
 }
