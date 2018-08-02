@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -121,18 +123,18 @@ public class ExamLogAndExitDialog extends DialogBoxW
 			contentPanel.add(buildBlock(endTimeLbl, endTime));
 		}
 		if (appW.getExam().isCheating()) {
-			activityPanel = buildActivityPanel();
+			activityPanel = buildActivityPanel(isLogDialog);
 			contentPanel.add(buildBlock(activityLbl, activityPanel));
 		}
 	}
 
-	private FlowPanel buildActivityPanel() {
+	private FlowPanel buildActivityPanel(boolean isLogDialog) {
 		activityPanel = new FlowPanel();
 		Label currActivity = new Label("");
-		String activityStr = appW.getExam().getLogTimes(appW.getLocalization());
-		String[] activityVector = activityStr.split("\\r?\\n");
-		for (String currActivityStr : activityVector) {
-			currActivity = new Label(currActivityStr);
+		ArrayList<String> activityList = appW.getExam()
+				.getActiviyList(appW.getLocalization(), !isLogDialog);
+		for (int i = 0; i < activityList.size(); i++) {
+			currActivity = new Label(activityList.get(i));
 			currActivity.setStyleName("textStyle");
 			activityPanel.add(currActivity);
 		}

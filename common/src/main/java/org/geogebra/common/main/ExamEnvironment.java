@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -39,6 +40,7 @@ public class ExamEnvironment {
 
 	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
+	private ArrayList<String> activityList = new ArrayList<>();
 
 	/**
 	 * application
@@ -312,6 +314,7 @@ public class ExamEnvironment {
 		sb.append("0:00");
 		sb.append(' ');
 		sb.append(loc.getMenu("exam_started"));
+
 		builder.addLine(sb);
 
 		if (cheatingTimes != null) {
@@ -330,6 +333,42 @@ public class ExamEnvironment {
 			sb.append(loc.getMenu("exam_ended"));
 			builder.addLine(sb);
 		}
+	}
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @return the string list of activities
+	 */
+	public ArrayList<String> getActiviyList(Localization loc,
+			boolean withEndTime) {
+		activityList.clear();
+		// add exam start time
+		StringBuilder sb = new StringBuilder();
+		sb.append("0:00");
+		sb.append(' ');
+		sb.append(loc.getMenu("exam_started"));
+		activityList.add(sb.toString());
+		// add cheating activities
+		if (cheatingTimes != null) {
+			for (int i = 0; i < cheatingTimes.size(); i++) {
+				sb.setLength(0);
+				sb.append(timeToString(cheatingTimes.get(i)));
+				sb.append(' ');
+				sb.append(getCheatingString(cheatingEvents.get(i), loc));
+				activityList.add(sb.toString());
+			}
+		}
+		// add exam end time
+		if (withEndTime && closed > 0) {
+			sb.setLength(0);
+			// get exit timestamp
+			sb.append(timeToString(closed));
+			sb.append(' ');
+			sb.append(loc.getMenu("exam_ended"));
+			activityList.add(sb.toString());
+		}
+		return activityList;
 	}
 
 	/**
