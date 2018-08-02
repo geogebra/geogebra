@@ -766,7 +766,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 									parseResponse.get(0).getModified());
 							registerOpenFileListener(
 									getUpdateTitleCallback(material));
-							getGgbApi().setBase64(material.getBase64());
+							if (!StringUtil.empty(material.getFileName())) {
+								getViewW().processFileName(
+										material.getFileName());
+							} else {
+								getGgbApi().setBase64(material.getBase64());
+							}
 							setActiveMaterial(material);
 						} else {
 							onError.run();
