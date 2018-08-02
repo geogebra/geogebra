@@ -3,10 +3,17 @@ package org.geogebra.web.html5.main;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class JsEval {
-	public static native void evalScriptNative(String script) /*-{
+	/**
+	 * 
+	 * @param script
+	 * @param appletID
+	 *            eg ggbApplet or ggbApplet12345
+	 */
+	public static native void evalScriptNative(String script,
+			String appletID) /*-{
 		var oldAlert = $wnd.alert;
 		$wnd.alert = function(a) {
-			$wnd.ggbApplet && $wnd.ggbApplet.showTooltip(a)
+			$wnd[appletID] && $wnd[appletID].showTooltip(a)
 		};
 		try {
 			$wnd.eval(script);

@@ -2936,7 +2936,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		JsEval.evalScriptNative(script);
+		JsEval.evalScriptNative(script, ggbApplet);
 	}
 
 	public void attachNativeLoadHandler(ImageElement img) {
