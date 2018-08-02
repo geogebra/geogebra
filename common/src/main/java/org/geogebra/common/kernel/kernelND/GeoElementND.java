@@ -643,6 +643,7 @@ public interface GeoElementND extends ExpressionValue {
 	/**
 	 * @return parent kernel
 	 */
+	@Override
 	Kernel getKernel();
 
 	/**
@@ -1536,4 +1537,8 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	String getAuralText();
 
+	/**
+	 * @return the value of geo as an expression for screen readers.
+	 */
+	String getAuralExpression();
 }

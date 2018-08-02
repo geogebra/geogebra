@@ -7821,6 +7821,11 @@ public abstract class GeoElement extends ConstructionElement
 		return null;
 	}
 
+	@Override
+	public String getAuralExpression() {
+		return toValueString(StringTemplate.screenReader);
+	}
+
 	/**
 	 * 
 	 * @param ev
