@@ -1,5 +1,19 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.trigoLookup;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.applyOp;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.cos;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.sin;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.tan;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
@@ -7,10 +21,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
-
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.trigoLookup;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 public enum TrigonometricSteps implements SimplificationStepGenerator {
 
@@ -35,6 +45,9 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 					case TAN:
 						result = tan(argument.negate()).negate();
 						sb.add(SolutionStepType.TRIGO_ODD_TAN, tracker.getColorTracker());
+					default:
+						// not trigonometric: contradicts check above
+						break;
 					}
 				}
 
