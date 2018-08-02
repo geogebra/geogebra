@@ -2880,15 +2880,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				// Application.debug("container"+com.getClass());
 				((SetLabels) com).setLabels();
 			}
-
-			/*
-			 * for debugging, to show classes that might benefit from
-			 * implementing SetLabels if (com instanceof JPanel && !(com
-			 * instanceof SetLabels) &&!(com.getClass().toString().startsWith(
-			 * "class java"))) { //((JPanel)com).setla
-			 * System.err.println(com.getClass().toString()+" panel "+com); }//
-			 */
-
 		}
 	}
 

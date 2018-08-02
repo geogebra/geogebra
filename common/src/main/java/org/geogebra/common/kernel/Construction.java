@@ -2582,9 +2582,6 @@ public class Construction {
 			moveInConstructionList(casCell, maxPredIndex + 1);
 			return true;
 		}
-		System.err.println(
-				"Construction.updateConstructionOrder(GeoCasCell) failed: "
-						+ casCell);
 		return false;
 	}
 

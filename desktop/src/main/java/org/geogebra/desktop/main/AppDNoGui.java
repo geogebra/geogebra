@@ -2,7 +2,6 @@ package org.geogebra.desktop.main;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -299,7 +298,6 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		System.err.println(new File(filename).exists());
 		MyImageD im = ImageManagerD.getExternalImage(filename);
 		return im;
 	}

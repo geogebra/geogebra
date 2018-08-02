@@ -83,8 +83,6 @@ abstract public class MathContainer extends MathComponent {
 			if (s.length() == 1) {
 				lastChar = s.charAt(0);
 			} else {
-				// System.err.println("length isn't 1" + s + " " +
-				// toHexString(s));
 				return false;
 			}
 

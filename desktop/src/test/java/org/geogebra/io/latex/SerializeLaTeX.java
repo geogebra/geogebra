@@ -5,6 +5,9 @@ import java.text.Normalizer;
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
+import org.geogebra.common.main.ScreenReader;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -478,21 +481,13 @@ public class SerializeLaTeX {
 		mfi.setFormula(mf);
 		CursorController.firstField(mfi.getEditorState());
 		mfi.update();
-		ExpressionReader er = new ExpressionReader() {
-
-			@Override
-			public Object localize(String key, String... parameters) {
-				String out = key;
-				for (int i = 0; i < parameters.length; i++) {
-					out = out.replace("%" + i, parameters[i]);
-				}
-				return out;
-			}
-		};
+		final AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
+		ExpressionReader er = ScreenReader.getExpressionReader(app);
 		for (int i = 0; i < output.length; i++) {
-			if (!mfi.getEditorState().getDescription(er).matches(output[i])) {
-				Assert.assertEquals(output[i],
-						mfi.getEditorState().getDescription(er));
+			String readerOutput = mfi.getEditorState().getDescription(er)
+					.replaceAll(" +", " ");
+			if (!readerOutput.matches(output[i])) {
+				Assert.assertEquals(output[i], readerOutput);
 			}
 			CursorController.nextCharacter(mfi.getEditorState());
 			mfi.update();
@@ -500,17 +495,22 @@ public class SerializeLaTeX {
 	}
 
 	@Test
-	public void testReader() {
-		// checkReader("1+x^2", "before 1", "after 1 before +", "after + before
-		// x",
-		// "after x before ^(2)",
-		// "start of power before 2");
-		checkReader("1+sqrt(x^2+2x+1/x+33)", "before 1", "after 1 before plus",
+	public void testReaderQuadratic() {
+		checkReader("1+x^2", "start of 1 plus x squared", "after 1 before plus",
+				"after plus before x",
+				"after x before superscript", "start of superscript before 2",
+				"end of superscript after 2", "end of 1 plus x squared");
+	}
+
+	@Test
+	public void testReaderSqrt() {
+		checkReader("1+sqrt(x^2+2x+1/x+33)",
+				"start of 1 plus start square root x squared plus 2 times x plus start fraction 1 over x end fraction plus 33 end square root",
+				"after 1 before plus",
 				"after plus before square root",
 				"start of square root before x( squared)?",
 				"after x before superscript",
-				"(at )?start of superscript before 2",
-				"(at )?end of superscript after 2",
+				"start of superscript before 2", "end of superscript after 2",
 				"after x squared before plus",
 				"after plus before 2( times )?x",
 				"after 2 before x",
@@ -518,7 +518,8 @@ public class SerializeLaTeX {
 				"start of numerator before 1", "end of numerator after 1",
 				"start of denominator before x", "end of denominator after x",
 				"after fraction before plus", "after plus before 33",
-				"after 3 before 3", "(at )?end of square root after 33");
+				"after 3 before 3", "end of square root after 33",
+				"end of 1 plus start square root x squared plus 2 times x plus start fraction 1 over x end fraction plus 33 end square root");
 	}
 
 	private static void checkLaTeXRender(MathFormula mf) {

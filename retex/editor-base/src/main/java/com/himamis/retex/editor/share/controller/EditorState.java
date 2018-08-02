@@ -297,25 +297,39 @@ public class EditorState {
 		MathComponent prev = currentField.getArgument(currentOffset - 1);
 		MathComponent next = currentField.getArgument(currentOffset);
 		StringBuilder sb = new StringBuilder();
-		if (next == null && currentField.getParent() != null) {
+		if (currentField.getParent() == null) {
+			if (prev == null) {
+				return ed
+						.localize("start of %0", ed.mathExpression(
+								GeoGebraSerializer.serialize(currentField)))
+						.trim();
+			}
+			if (next == null) {
+				return ed
+						.localize("end of %0", ed.mathExpression(
+								GeoGebraSerializer.serialize(currentField)))
+						.trim();
+			}
+		}
+		if (next == null) {
 			sb.append(ed.localize("end of %0",
 					describeParent(currentField.getParent())));
 			sb.append(" ");
 		}
 		if (prev != null) {
-			sb.append(ed.localize("after %0", describePrev(prev)));
-		} else if (currentField.getParent() != null) {
+			sb.append(ed.localize("after %0", describePrev(prev, ed)));
+		} else {
 			sb.append(ed.localize("start of %0", describeParent(currentField.getParent())));
 		}
 		sb.append(" ");
 
 		if (next != null) {
-			sb.append(ed.localize("before %0", describeNext(next)));
+			sb.append(ed.localize("before %0", describeNext(next, ed)));
 		}
 		return sb.toString().trim();
 	}
 
-	private String describePrev(MathComponent parent) {
+	private String describePrev(MathComponent parent, ExpressionReader er) {
 		if (parent instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) parent).getName()) {
 			return describe(
@@ -329,13 +343,13 @@ public class EditorState {
 				i--;
 			}
 			if (sb.length() > 0) {
-				return sb.reverse().toString();
+				return er.mathExpression(sb.reverse().toString());
 			}
 		}
 		return describe(parent);
 	}
 
-	private String describeNext(MathComponent parent) {
+	private String describeNext(MathComponent parent, ExpressionReader er) {
 		if (parent instanceof MathCharacter) {
 			StringBuilder sb = new StringBuilder();
 			int i = currentField.indexOf(parent);
@@ -343,7 +357,7 @@ public class EditorState {
 				i++;
 			}
 			if (sb.length() > 0) {
-				return sb.toString();
+				return er.mathExpression(sb.toString());
 			}
 		}
 		return describe(parent);

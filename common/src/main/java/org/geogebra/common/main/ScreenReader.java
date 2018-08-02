@@ -1,8 +1,12 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
+
+import com.himamis.retex.editor.share.controller.ExpressionReader;
 
 /**
  * Utility class for reading GeoElement descriptions
@@ -201,6 +205,31 @@ public class ScreenReader {
 	public static String getEndPower(Localization loc) {
 		return loc.getMenuDefault(TRANSLATION_PREFIX + "endSuperscript",
 				"end superscript") + " ";
+	}
+
+	public static ExpressionReader getExpressionReader(final App app) {
+		return new ExpressionReader() {
+
+			@Override
+			public String localize(String key, String... parameters) {
+				String out = key;
+				for (int i = 0; i < parameters.length; i++) {
+					out = out.replace("%" + i, parameters[i]);
+				}
+				return out;
+			}
+
+			@Override
+			public String mathExpression(String serialize) {
+				try {
+					return app.getKernel().getParser().parseGeoGebraExpression(serialize)
+							.toString(StringTemplate.screenReader);
+				} catch (org.geogebra.common.kernel.parser.ParseException e) {
+					Log.error(serialize);
+					throw new RuntimeException(e);
+				}
+			}
+		};
 	}
 
 }

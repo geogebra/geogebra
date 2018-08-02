@@ -112,6 +112,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private FocusHandler focusHandler;
 
 	private FormatConverter converter;
+
+	private ExpressionReader expressionReader;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -354,19 +356,18 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	/** Read position in current */
 	protected void readPosition() {
-		ExpressionReader er = new ExpressionReader() {
+		if (expressionReader != null) {
+			setAriaLabel(this.mathFieldInternal.getEditorState()
+					.getDescription(expressionReader));
+		}
+	}
 
-			@Override
-			public Object localize(String key, String... parameters) {
-				String out = key;
-				for (int i = 0; i < parameters.length; i++) {
-					out = out.replace("%" + i, parameters[i]);
-				}
-				return out;
-			}
-		};
-		setAriaLabel(
-				this.mathFieldInternal.getEditorState().getDescription(er));
+	/**
+	 * @param expressionReader
+	 *            expression reader
+	 */
+	public void setExpressionReader(ExpressionReader expressionReader) {
+		this.expressionReader = expressionReader;
 	}
 	/**
 	 * Update alt flags after key released

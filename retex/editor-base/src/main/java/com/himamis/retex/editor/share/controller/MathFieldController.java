@@ -15,6 +15,7 @@ import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
 
@@ -123,7 +124,8 @@ public class MathFieldController {
 			System.out.println(selectionEnd);
 			System.out.println(serializedFormula);
 		} catch (Error e) {
-			System.err.println(e.getCause() != null ? e.getCause() : e);
+			FactoryProvider.getInstance()
+					.debug(e.getCause() != null ? e.getCause() : e);
 		}
 
 	}

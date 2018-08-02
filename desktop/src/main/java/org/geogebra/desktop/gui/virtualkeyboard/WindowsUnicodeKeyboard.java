@@ -64,7 +64,6 @@ public class WindowsUnicodeKeyboard extends Keyboard {
 	}
 
 	private void typeNumPad(int digit) {
-		// System.err.println(digit+"");
 		switch (digit) {
 		default:
 			// do nothing

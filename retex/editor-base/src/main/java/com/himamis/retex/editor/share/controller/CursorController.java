@@ -150,7 +150,6 @@ public class CursorController {
 		// retrieve parent
 		MathContainer container = component.getParent();
 		int current = component.getParentIndex();
-		System.err.println(component + "/" + container);
 		if (container == null) {
 			// this component has no parent
 			// previous component doesn't exist
