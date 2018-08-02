@@ -108,4 +108,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		app.buildApplicationPanel(); // in webSimple we need to init the size
 										// before we load file
 	}
+
+	@Override
+	public void initPageControlPanel(AppW appW) {
+		// no page control
+	}
 }

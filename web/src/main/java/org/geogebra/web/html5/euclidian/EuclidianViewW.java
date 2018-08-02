@@ -737,6 +737,16 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	/**
+	 * @deprecated - double canvas should be used in all apps
+	 */
+	@Deprecated
+	public void initBgCanvas() {
+		if (this.g2bg == null) {
+			this.initBackgroundCanvas(evPanel);
+		}
+	}
+
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 			EuclidianController euclidiancontroller, int newEvNo,
 			EuclidianSettings settings) {

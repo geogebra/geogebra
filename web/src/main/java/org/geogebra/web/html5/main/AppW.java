@@ -790,9 +790,27 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private void loadFile(GgbFile archiveContent, final boolean asSlide)
 			throws Exception {
-		if (getPageController() != null
-				&& getPageController().loadSlides(archiveContent)) {
-			return;
+		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
+			getArticleElement().attr("appName", "whiteboard");
+			getAppletFrame().initPageControlPanel(this);
+			if (getPageController() != null) {
+				getEuclidianView1().initBgCanvas();
+				getPageController().loadSlides(archiveContent);
+				// TODO when loading from URL with app=auto, EV is not
+				// initialized.
+				Timer t = new Timer() {
+
+					@Override
+					public void run() {
+						if (!showView(App.VIEW_EUCLIDIAN)) {
+							getGgbApi().setPerspective("G");
+						}
+					}
+
+				};
+				t.schedule(5000);
+				return;
+			}
 		}
 
 		beforeLoadFile(asSlide);

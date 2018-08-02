@@ -83,4 +83,10 @@ public interface HasAppletProperties {
 	 * Update the CSS height of the article
 	 */
 	public void updateArticleHeight();
+
+	/**
+	 * @param appW
+	 *            app
+	 */
+	public void initPageControlPanel(AppW appW);
 }

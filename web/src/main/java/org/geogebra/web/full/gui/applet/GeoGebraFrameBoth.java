@@ -985,6 +985,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param app1
 	 *            app
 	 */
+	@Override
 	public void initPageControlPanel(AppW app1) {
 		if (!app1.has(Feature.MOW_MULTI_PAGE)) {
 			return;
