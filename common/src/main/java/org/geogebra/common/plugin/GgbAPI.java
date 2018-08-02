@@ -2413,24 +2413,58 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
-	public int getConstructionSteps(boolean breakpoints) {
+	/**
+	 * @param breakpoints
+	 *            whether to return steps taking breakpoints into account
+	 * @return number of steps
+	 */
+	public double getConstructionSteps(boolean breakpoints) {
 		if (breakpoints) {
+			if (app.getGuiManager() != null) {
 			return app.getGuiManager().getConstructionProtocolView()
 					.getLastStepNumber();
+			}
+			// could return number of breakpoints if needed
+			return Double.NaN;
 		}
 		return kernel.getLastConstructionStep();
 	}
 
+	/**
+	 * @param i
+	 *            new step
+	 */
 	public void setConstructionStep(double i) {
-		kernel.setConstructionStep((int) i);
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getConstructionProtocolView()
+					.setConstructionStep((int) i);
+		} else {
+			kernel.setConstructionStep((int) i);
+		}
 	}
 
+	/**
+	 * Advance to previous construction step (using breakpoints if enabled in
+	 * .ggb file)
+	 */
 	public void previousConstructionStep() {
-		kernel.previousStep();
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getConstructionProtocolView().previousStep();
+		} else {
+			kernel.previousStep();
+		}
 	}
 
+	/**
+	 * Advance to next construction step (using breakpoints if enabled in .ggb
+	 * file)
+	 */
 	public void nextConstructionStep() {
-		kernel.nextStep();
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getConstructionProtocolView().nextStep();
+		} else {
+			kernel.nextStep();
+		}
 	}
 
 }
