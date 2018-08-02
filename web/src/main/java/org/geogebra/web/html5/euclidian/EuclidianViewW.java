@@ -1391,7 +1391,7 @@ public class EuclidianViewW extends EuclidianView implements
 				&& getSettings().getBackgroundType() != BackgroundType.NONE
 				&& selectionRectangle == null) {
 			setCoordSystem(525 / SCALE_STANDARD * origScale, getYZero(),
-					origScale * scale, origScale * scale);
+					origScale, origScale);
 		}
 		final Image prevImg = new Image();
 		String urlText = getExportImageDataUrl(scale, false);
