@@ -555,19 +555,33 @@ public class MathFieldInternal
 			}
 			for (int i = Math.min(wordEnd, sel.size() - 1); i >= 0; i--) {
 
-				if (sel.getArgument(i) instanceof MathCharacter) {
-					if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
-						break;
-					}
-					str.append(
-							((MathCharacter) sel.getArgument(i)).getUnicode());
-					// FactoryProvider.getInstance().debug(str);
-				} else {
+				if (!appendChar(str, sel, i)) {
 					break;
 				}
 			}
 		}
 		return str.reverse().toString().trim();
+	}
+
+	/**
+	 * @param str
+	 *            string builder
+	 * @param sel
+	 *            formula part
+	 * @param i
+	 *            index
+	 * @return whether char is a part of a word
+	 */
+	public static boolean appendChar(StringBuilder str, MathSequence sel,
+			int i) {
+		if (sel.getArgument(i) instanceof MathCharacter) {
+			if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
+				return false;
+			}
+			str.append(((MathCharacter) sel.getArgument(i)).getUnicode());
+			return true;
+		}
+		return false;
 	}
 
 	/**

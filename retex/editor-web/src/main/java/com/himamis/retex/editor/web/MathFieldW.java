@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
+import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.FormatConverter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
@@ -351,8 +352,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}, KeyDownEvent.getType());
 	}
 
-	private void readPosition() {
-		setAriaLabel(this.mathFieldInternal.getEditorState().getDescription());
+	/** Read position in current */
+	protected void readPosition() {
+		ExpressionReader er = new ExpressionReader() {
+
+			@Override
+			public Object localize(String key, String... parameters) {
+				String out = key;
+				for (int i = 0; i < parameters.length; i++) {
+					out = out.replace("%" + i, parameters[i]);
+				}
+				return out;
+			}
+		};
+		setAriaLabel(
+				this.mathFieldInternal.getEditorState().getDescription(er));
 	}
 	/**
 	 * Update alt flags after key released

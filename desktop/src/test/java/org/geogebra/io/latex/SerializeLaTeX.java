@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
@@ -477,10 +478,21 @@ public class SerializeLaTeX {
 		mfi.setFormula(mf);
 		CursorController.firstField(mfi.getEditorState());
 		mfi.update();
+		ExpressionReader er = new ExpressionReader() {
+
+			@Override
+			public Object localize(String key, String... parameters) {
+				String out = key;
+				for (int i = 0; i < parameters.length; i++) {
+					out = out.replace("%" + i, parameters[i]);
+				}
+				return out;
+			}
+		};
 		for (int i = 0; i < output.length; i++) {
-			if (!mfi.getEditorState().getDescription().matches(output[i])) {
-				Assert.assertEquals(mfi.getEditorState().getDescription(),
-						output[i]);
+			if (!mfi.getEditorState().getDescription(er).matches(output[i])) {
+				Assert.assertEquals(output[i],
+						mfi.getEditorState().getDescription(er));
 			}
 			CursorController.nextCharacter(mfi.getEditorState());
 			mfi.update();
@@ -495,18 +507,18 @@ public class SerializeLaTeX {
 		// "start of power before 2");
 		checkReader("1+sqrt(x^2+2x+1/x+33)", "before 1", "after 1 before plus",
 				"after plus before square root",
-				"start of square root before x squared|start of square root before x",
+				"start of square root before x( squared)?",
 				"after x before superscript",
 				"(at )?start of superscript before 2",
 				"(at )?end of superscript after 2",
 				"after x squared before plus",
-				"after plus before 2( times x)?",
+				"after plus before 2( times )?x",
 				"after 2 before x",
-				"after (2 times )?x before plus", "after plus before fraction",
+				"after 2( times )?x before plus", "after plus before fraction",
 				"start of numerator before 1", "end of numerator after 1",
 				"start of denominator before x", "end of denominator after x",
-				"after fraction before plus", "after plus before 3(3)?",
-				"after 3 before 3", "(at )?end of square root after 3(3)?");
+				"after fraction before plus", "after plus before 33",
+				"after 3 before 3", "(at )?end of square root after 33");
 	}
 
 	private static void checkLaTeXRender(MathFormula mf) {

@@ -1,8 +1,10 @@
 package com.himamis.retex.editor.share.controller;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -291,23 +293,24 @@ public class EditorState {
 	/**
 	 * @return description of cursor position
 	 */
-	public String getDescription() {
+	public String getDescription(ExpressionReader ed) {
 		MathComponent prev = currentField.getArgument(currentOffset - 1);
 		MathComponent next = currentField.getArgument(currentOffset);
 		StringBuilder sb = new StringBuilder();
 		if (next == null && currentField.getParent() != null) {
-			sb.append("end of " + describeParent(currentField.getParent()));
+			sb.append(ed.localize("end of %0",
+					describeParent(currentField.getParent())));
 			sb.append(" ");
 		}
 		if (prev != null) {
-			sb.append("after " + describePrev(prev));
+			sb.append(ed.localize("after %0", describePrev(prev)));
 		} else if (currentField.getParent() != null) {
-			sb.append("start of " + describeParent(currentField.getParent()));
+			sb.append(ed.localize("start of %0", describeParent(currentField.getParent())));
 		}
 		sb.append(" ");
 
 		if (next != null) {
-			sb.append("before " + describe(next));
+			sb.append(ed.localize("before %0", describeNext(next)));
 		}
 		return sb.toString().trim();
 	}
@@ -318,6 +321,30 @@ public class EditorState {
 			return describe(
 					currentField.getArgument(currentField.indexOf(parent) - 1))
 					+ " squared";
+		}
+		if (parent instanceof MathCharacter) {
+			StringBuilder sb = new StringBuilder();
+			int i = currentField.indexOf(parent);
+			while (MathFieldInternal.appendChar(sb, currentField, i)) {
+				i--;
+			}
+			if (sb.length() > 0) {
+				return sb.reverse().toString();
+			}
+		}
+		return describe(parent);
+	}
+
+	private String describeNext(MathComponent parent) {
+		if (parent instanceof MathCharacter) {
+			StringBuilder sb = new StringBuilder();
+			int i = currentField.indexOf(parent);
+			while (MathFieldInternal.appendChar(sb, currentField, i)) {
+				i++;
+			}
+			if (sb.length() > 0) {
+				return sb.toString();
+			}
 		}
 		return describe(parent);
 	}
