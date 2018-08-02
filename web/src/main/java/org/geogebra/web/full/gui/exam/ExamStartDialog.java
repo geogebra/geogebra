@@ -76,6 +76,8 @@ public class ExamStartDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == startBtn) {
+			app.setNewExam();
+			app.startExam();
 			if (app.getGuiManager() instanceof GuiManagerW
 					&& ((GuiManagerW) app.getGuiManager())
 							.getUnbundledToolbar() != null) {
@@ -84,6 +86,8 @@ public class ExamStartDialog extends DialogBoxW
 				((GuiManagerW) app.getGuiManager()).resetMenu();
 			}
 			GlobalHeader.INSTANCE.addExamTimer();
+		} else if (source == cancelBtn) {
+			((AppW) app).getLAF().toggleFullscreen(false);
 		}
 		hide();
 	}
