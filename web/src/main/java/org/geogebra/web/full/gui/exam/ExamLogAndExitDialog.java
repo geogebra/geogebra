@@ -136,7 +136,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 
 	private FlowPanel buildActivityPanel(boolean isLogDialog) {
 		activityPanel = new FlowPanel();
-		Label currActivity = new Label("");
+		Label currActivity;
 		ArrayList<String> activityList = appW.getExam()
 				.getActiviyList(appW.getLocalization(), !isLogDialog);
 		for (int i = 0; i < activityList.size(); i++) {
@@ -156,6 +156,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		return block;
 	}
 
+	@Override
 	public void setLabels() {
 		// title panel
 		calcType.setText("GeoGebra "
@@ -181,6 +182,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		okBtn.setText(appW.getLocalization().getMenu("OK"));
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == okBtn) {
 			hide();

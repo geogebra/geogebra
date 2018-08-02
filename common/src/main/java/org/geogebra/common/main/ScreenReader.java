@@ -222,7 +222,7 @@ public class ScreenReader {
 			@Override
 			public String mathExpression(String serialize) {
 				try {
-					return app.getKernel().getParser().parseGeoGebraExpression(serialize)
+					return app.getKernel().getParser().parseGeoGebraCAS(serialize, null)
 							.toString(StringTemplate.screenReader);
 				} catch (org.geogebra.common.kernel.parser.ParseException e) {
 					Log.error(serialize);

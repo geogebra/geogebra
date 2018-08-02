@@ -34,6 +34,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FormatConverterImpl;
@@ -1849,6 +1850,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
+		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
