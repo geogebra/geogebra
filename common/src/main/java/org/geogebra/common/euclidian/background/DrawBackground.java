@@ -161,6 +161,8 @@ public class DrawBackground {
 				addStraightLineToGeneralPath(g2, x, y, x, y + height);
 				x += gap;
 			}
+			// make sure last line is drawn despite of rounding errors
+			addStraightLineToGeneralPath(g2, xEnd, y, xEnd, y + height);
 		}
 		g2.endAndDrawGeneralPath();
 	}
