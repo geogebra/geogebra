@@ -536,18 +536,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 
 	/**
-	 * Go to geogebra.org or close iframe if we are running in one
-	 */
-	protected native void backToGeoGebra() /*-{
-		if ($wnd != $wnd.parent) {
-			$wnd.parent.postMessage("{\"type\":\"closesingleton\"}",
-					location.protocol + "//" + location.host);
-		} else {
-			$wnd.location.assign("/");
-		}
-	}-*/;
-
-	/**
 	 * 
 	 * @param app
 	 *            application

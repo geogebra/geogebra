@@ -76,6 +76,9 @@ public class ExamStartDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == startBtn) {
+			// ensure fullscreen: we may have lost it when handling unsaved
+			// changes
+			((AppW) app).getLAF().toggleFullscreen(true);
 			app.setNewExam();
 			app.startExam();
 			if (app.getGuiManager() instanceof GuiManagerW
