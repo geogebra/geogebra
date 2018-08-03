@@ -84,6 +84,7 @@ public class ExamStartDialog extends DialogBoxW
 				((GuiManagerW) app.getGuiManager()).setUnbundledHeaderStyle("examOk");
 				((GuiManagerW) app.getGuiManager()).resetMenu();
 				GlobalHeader.INSTANCE.addExamTimer();
+				new ExamUtil((AppW) app).visibilityEventMain();
 				((GuiManagerW) app.getGuiManager()).initInfoBtnAction();
 			}			
 		} else if (source == cancelBtn) {

@@ -5,7 +5,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -164,7 +163,6 @@ public class GlobalHeader implements EventRenderable {
 				}
 			}
 		});
-		new ExamUtil(app).visibilityEventMain();
 	}
 
 }
