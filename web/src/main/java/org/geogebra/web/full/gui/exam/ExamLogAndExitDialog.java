@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -141,15 +140,23 @@ public class ExamLogAndExitDialog extends DialogBoxW
 
 	private FlowPanel buildActivityPanel(boolean isLogDialog) {
 		activityPanel = new FlowPanel();
-		Label currActivity;
-		ArrayList<String> activityList = appW.getExam()
-				.getActiviyList(appW.getLocalization(), !isLogDialog);
-		for (int i = 0; i < activityList.size(); i++) {
-			currActivity = new Label(activityList.get(i));
-			currActivity.setStyleName("textStyle");
-			activityPanel.add(currActivity);
-		}
+		appW.getExam()
+				.appendLogTimes(appW.getLocalization(), new ExamLogBuilder() {
+					@Override
+					public void addLine(StringBuilder sb) {
+						addActivity(new Label(sb.toString()));
+					}
+				}, !isLogDialog);
 		return activityPanel;
+	}
+
+	/**
+	 * @param label
+	 *            activity row
+	 */
+	protected void addActivity(Label label) {
+		label.setStyleName("textStyle");
+		activityPanel.add(label);
 	}
 
 	private static FlowPanel buildBlock(Widget caption, Widget text) {

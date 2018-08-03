@@ -296,8 +296,14 @@ public class ExamEnvironment {
 		return timeToString(System.currentTimeMillis());
 	}
 
-	private void appendLogTimes(Localization loc, ExamLogBuilder builder,
-			boolean showEndTime) {
+	/**
+	 * @param loc
+	 *            localization
+	 * @param withEndTime
+	 *            true if add end timestamp
+	 */
+	public void appendLogTimes(Localization loc, ExamLogBuilder builder,
+			boolean withEndTime) {
 		// Log times
 		StringBuilder sb = new StringBuilder();
 		sb.append("0:00");
@@ -315,51 +321,13 @@ public class ExamEnvironment {
 				builder.addLine(sb);
 			}
 		}
-		if (showEndTime && closed > 0) {
+		if (withEndTime && closed > 0) {
 			sb.setLength(0);
 			sb.append(timeToString(closed)); // get exit timestamp
 			sb.append(' ');
 			sb.append(loc.getMenu("exam_ended"));
 			builder.addLine(sb);
 		}
-	}
-
-	/**
-	 * @param loc
-	 *            localization
-	 * @param withEndTime
-	 *            true if add end timestamp
-	 * @return the string list of activities
-	 */
-	public ArrayList<String> getActiviyList(Localization loc,
-			boolean withEndTime) {
-		activityList.clear();
-		// add exam start time
-		StringBuilder sb = new StringBuilder();
-		sb.append("0:00");
-		sb.append(' ');
-		sb.append(loc.getMenu("exam_started"));
-		activityList.add(sb.toString());
-		// add cheating activities
-		if (cheatingTimes != null) {
-			for (int i = 0; i < cheatingTimes.size(); i++) {
-				sb.setLength(0);
-				sb.append(timeToString(cheatingTimes.get(i)));
-				sb.append(' ');
-				sb.append(getCheatingString(cheatingEvents.get(i), loc));
-				activityList.add(sb.toString());
-			}
-		}
-		// add exam end time
-		if (withEndTime && closed > 0) {
-			sb.setLength(0);
-			// get exit timestamp
-			sb.append(timeToString(closed));
-			sb.append(' ');
-			sb.append(loc.getMenu("exam_ended"));
-			activityList.add(sb.toString());
-		}
-		return activityList;
 	}
 
 	/**
