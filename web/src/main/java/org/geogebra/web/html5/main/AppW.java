@@ -2921,11 +2921,23 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public void evalJavaScript(App app, String script, String arg) {
+	public void evalJavaScript(App app, String script0, String arg) {
 
 		String ggbApplet = getAppletId();
 
-		JsEval.evalScriptNative(script, ggbApplet, arg);
+		// TODO: maybe use sandbox?
+		String script = script0;
+
+		script = "document.ggbApplet= document." + ggbApplet
+				+ "; ggbApplet = document." + ggbApplet + ";" + script;
+
+		// script = "ggbApplet = document.ggbApplet;"+script;
+
+		// add eg arg="A"; to start
+		if (arg != null) {
+			script = "arg=\"" + arg + "\";" + script;
+		}
+		JsEval.evalScriptNative(script, ggbApplet);
 	}
 
 	public void attachNativeLoadHandler(ImageElement img) {

@@ -12,12 +12,9 @@ public class JsEval {
 	 *            argument
 	 */
 	public static native void evalScriptNative(String script,
-			String appletID, String arg) /*-{
+			String appletID) /*-{
 
 		var oldAlert = $wnd.alert;
-		var oldApplet = $wnd.ggbApplet;
-
-		$wnd.ggbApplet = $wnd[appletID];
 		$wnd.alert = function(a) {
 			$wnd[appletID] && $wnd[appletID].showTooltip(a)
 		};
@@ -25,7 +22,6 @@ public class JsEval {
 			$wnd.eval(script);
 		} finally {
 			$wnd.alert = oldAlert;
-			$wnd.ggbApplet = oldApplet;
 		}
 	}-*/;
 
