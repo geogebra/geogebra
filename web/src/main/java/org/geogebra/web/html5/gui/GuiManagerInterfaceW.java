@@ -146,6 +146,14 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	public boolean isVerticalSplit(boolean fallback);
 
+	/**
+	 * @param style
+	 *            exam ok (teal), or exam cheat (red)
+	 */
 	public void setUnbundledHeaderStyle(String style);
-
+	
+	/**
+	 * init on click for exam info button
+	 */
+	public void initInfoBtnAction();
 }

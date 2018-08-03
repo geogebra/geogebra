@@ -15,7 +15,6 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -28,7 +27,6 @@ public class GlobalHeader implements EventRenderable {
 	private ProfilePanel profilePanel;
 	private RootPanel signIn;
 	private AppW app;
-	private FlowPanel examPanel;
 	private Label timer;
 	private StandardButton examInfoBtn;
 
@@ -112,6 +110,13 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
+	 * @return exam info button
+	 */
+	public StandardButton getExamInfoBtn() {
+		return examInfoBtn;
+	}
+
+	/**
 	 * remove exam timer and put back button panel
 	 */
 	public void resetAfterExam() {
@@ -128,21 +133,19 @@ public class GlobalHeader implements EventRenderable {
 		getButtonPanel().getElement().getStyle()
 				.setDisplay(Display.NONE);
 		// exam panel with timer and info btn
-		examPanel = new FlowPanel();
-		examPanel.setStyleName("examPanel");
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
 		examInfoBtn = new StandardButton(
 				SharedResources.INSTANCE.info_black(), null, 24, app);
 		examInfoBtn.addStyleName("flatButtonHeader");
 		examInfoBtn.addStyleName("examInfoBtn");
-		examPanel.add(timer);
-		examPanel.add(examInfoBtn);
 		// add exam panel to
 		DivElement exam = DOM.createDiv().cast();
 		exam.setId("examId");
 		getButtonPanel().getElement().getParentElement().appendChild(exam);
-		RootPanel.get("examId").add(examPanel);
+		RootPanel.get("examId").addStyleName("examPanel");
+		RootPanel.get("examId").add(timer);
+		RootPanel.get("examId").add(examInfoBtn);
 		// run timer
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override

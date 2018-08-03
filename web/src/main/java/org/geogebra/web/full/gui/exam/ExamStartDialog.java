@@ -81,11 +81,11 @@ public class ExamStartDialog extends DialogBoxW
 			if (app.getGuiManager() instanceof GuiManagerW
 					&& ((GuiManagerW) app.getGuiManager())
 							.getUnbundledToolbar() != null) {
-				((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
-						.setHeaderStyle("examOk");
+				((GuiManagerW) app.getGuiManager()).setUnbundledHeaderStyle("examOk");
 				((GuiManagerW) app.getGuiManager()).resetMenu();
-			}
-			GlobalHeader.INSTANCE.addExamTimer();
+				GlobalHeader.INSTANCE.addExamTimer();
+				((GuiManagerW) app.getGuiManager()).initInfoBtnAction();
+			}			
 		} else if (source == cancelBtn) {
 			((AppW) app).getLAF().toggleFullscreen(false);
 		}

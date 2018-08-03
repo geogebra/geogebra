@@ -872,6 +872,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	/**
+	 * 
+	 */
+	public void initInfoBtnAction() {
+		header.initInfoBtnAction();
+	}
+
+	/**
 	 * remove exam style
 	 */
 	public void resetHeaderStyle() {

@@ -5,16 +5,19 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
@@ -918,5 +921,22 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 
+	 */
+	public void initInfoBtnAction() {
+		final StandardButton examInfoBtn = GlobalHeader.INSTANCE
+				.getExamInfoBtn();
+		if (examInfoBtn == null) {
+			return;
+		}
+		examInfoBtn.addFastClickHandler(new FastClickHandler() {
+
+			public void onClick(Widget source) {
+				new ExamLogAndExitDialog(app, true, null).show();
+			}
+		});
 	}
 }

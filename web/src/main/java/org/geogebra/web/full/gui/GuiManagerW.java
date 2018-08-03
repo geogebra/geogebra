@@ -2465,4 +2465,10 @@ public class GuiManagerW extends GuiManager
 		getUnbundledToolbar().setHeaderStyle(style);
 	}
 
+	/**
+	 * init on click for exam info button
+	 */
+	public void initInfoBtnAction() {
+		getUnbundledToolbar().initInfoBtnAction();
+	}
 }
