@@ -32,7 +32,6 @@ public interface HeaderPanelDeck
 	 */
 	void setMenuHeight(boolean inputShowing);
 
-
 	/**
 	 * @return frame element
 	 */

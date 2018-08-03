@@ -59,6 +59,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	 * @param isLogDialog
 	 *            true if need to build log dialog
 	 * @param returnHandler
+	 *            return handler
 	 */
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			AsyncOperation<String> returnHandler) {

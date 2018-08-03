@@ -1008,6 +1008,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param valueForm
 	 *            whether to show values rather than names
 	 * @param loc
+	 *            localization
 	 * @return l+r as string
 	 */
 	public String plusString(ExpressionValue l, ExpressionValue r,
@@ -2119,6 +2120,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param valueForm
 	 *            whether to substitute variables
 	 * @param loc
+	 *            localization
 	 * @return left / right with appropriate brackets
 	 */
 	public String divideString(ExpressionValue left, ExpressionValue right,
@@ -2695,6 +2697,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param valueForm
 	 *            whether to substitute variables
 	 * @param loc
+	 *            localization
 	 * @return leftStr || rightStr for this string type
 	 */
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",

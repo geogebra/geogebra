@@ -32,8 +32,8 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	 * @param app
 	 *            application
 	 * @param returnHandler
+	 *            return handler
 	 */
-	@SuppressWarnings("javadoc")
 	public ExamExitConfirmDialog(AppW app,
 			AsyncOperation<String> returnHandler) {
 		super(app.getPanel(), app);

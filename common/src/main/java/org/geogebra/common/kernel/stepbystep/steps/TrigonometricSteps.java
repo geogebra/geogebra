@@ -45,6 +45,7 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 					case TAN:
 						result = tan(argument.negate()).negate();
 						sb.add(SolutionStepType.TRIGO_ODD_TAN, tracker.getColorTracker());
+						break;
 					default:
 						// not trigonometric: contradicts check above
 						break;

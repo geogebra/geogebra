@@ -2070,7 +2070,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// TODO Auto-generated method stub
 	}
 
-
 	/**
 	 * Changes current mode to move mode
 	 */

@@ -6,10 +6,9 @@ public class JsEval {
 	/**
 	 * 
 	 * @param script
+	 *            script to execute
 	 * @param appletID
 	 *            eg ggbApplet or ggbApplet12345
-	 * @param arg
-	 *            argument
 	 */
 	public static native void evalScriptNative(String script,
 			String appletID) /*-{
