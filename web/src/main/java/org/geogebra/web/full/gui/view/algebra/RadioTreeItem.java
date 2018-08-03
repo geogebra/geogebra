@@ -179,6 +179,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private AsyncOperation<GeoElementND> suggestionCallback;
 	protected boolean first = false;
+	private String ariaPreview;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -457,7 +458,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (outputPanel == null) {
 			return;
 		}
-
+		ariaPreview = null;
 		outputPanel.reset();
 	}
 
@@ -486,6 +487,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			clearPreview();
 
 		} else {
+			ariaPreview = previewGeo.getAuralExpression();
 			content.removeStyleName("noPreview");
 			content.addStyleName("avPreview");
 			boolean forceLatex = false;
@@ -1861,7 +1863,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private void updateEditorAriaLabel(String text) {
 		if (mf != null) {
 			if (!StringUtil.emptyTrim(text)) {
-				mf.setAriaLabel(text);
+				mf.setAriaLabel(ariaPreview != null ? text + " = " + ariaPreview : text);
 			} else {
 				mf.setAriaLabel(loc.getMenu("EnterExpression"));
 			}
