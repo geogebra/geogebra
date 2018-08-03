@@ -796,19 +796,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (getPageController() != null) {
 				getEuclidianView1().initBgCanvas();
 				getPageController().loadSlides(archiveContent);
-				// TODO when loading from URL with app=auto, EV is not
-				// initialized.
-				Timer t = new Timer() {
-
-					@Override
-					public void run() {
-						if (!showView(App.VIEW_EUCLIDIAN)) {
-							getGgbApi().setPerspective("G");
-						}
-					}
-
-				};
-				t.schedule(5000);
 				return;
 			}
 		}

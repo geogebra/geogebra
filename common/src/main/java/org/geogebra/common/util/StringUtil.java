@@ -571,7 +571,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return parsed number
 	 */
 	public static double parseDouble(String s) {
-		if ("NaN".equals(s) || "undefined".equals(s) || "null".equals(s)) {
+		if (isNaN(s)) {
 			return Double.NaN;
 		} else if ("Infinity".equals(s)) {
 			return Double.POSITIVE_INFINITY;
@@ -580,6 +580,15 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 
 		return Double.parseDouble(s);
+	}
+
+	/**
+	 * @param s
+	 *            string
+	 * @return whether it is representation of null
+	 */
+	public static boolean isNaN(String s) {
+		return "NaN".equals(s) || "undefined".equals(s) || "null".equals(s);
 	}
 
 	/**

@@ -1370,7 +1370,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			((DockManagerW) getGuiManager().getLayout().getDockManager())
 					.init(frame);
 			Perspective p = null;
-			if (perspective != null) {
+			if (perspective != null && !StringUtil.isNaN(perspective)) {
 				p = PerspectiveDecoder.decode(perspective,
 						this.getKernel().getParser(),
 						ToolBar.getAllToolsNoMacros(true, false, this));
