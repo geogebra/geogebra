@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.exam;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
+
 public class ExamUtil {
 
 	private AppW app;
@@ -123,5 +125,16 @@ public class ExamUtil {
 		return app.getLAF().isTablet()
 				&& !"TabletWin".equals(app.getLAF().getFrameStyleName());
 	}
+
+	/**
+	 * @param element
+	 *            element
+	 * @param red
+	 *            whether it should be red
+	 */
+	public static native void makeRed(Element element, boolean red) /*-{
+		element.style.setProperty("background-color", red ? "#D32F2F" : "",
+				red ? "important" : "");
+	}-*/;
 
 }

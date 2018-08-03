@@ -252,7 +252,8 @@ public class GGWToolBar extends Composite
 					String os = Browser.getMobileOperatingSystem();
 					app.getExam().checkCheating(os);
 					if (app.getExam().isCheating()) {
-						makeRed(getElement());
+						ExamUtil.makeRed(getElement(), true);
+						makeTimerWhite(getElement());
 					}
 
 					timer.setText(app.getExam()
@@ -321,8 +322,7 @@ public class GGWToolBar extends Composite
 	 *            element to be changed to red timer text elements get changed
 	 *            to white
 	 */
-	native void makeRed(Element element) /*-{
-		element.style.setProperty("background-color", "red", "important");
+	native void makeTimerWhite(Element element) /*-{
 		var timerElements = element.getElementsByClassName("rightButtonPanel")[0]
 				.getElementsByClassName("timer");
 		var i;
@@ -331,15 +331,7 @@ public class GGWToolBar extends Composite
 		}
 	}-*/;
 
-	/**
-	 * 
-	 * @param element
-	 *            element to be reset resets background-color to none - color
-	 *            goes back to inherited
-	 */
-	native void resetToolbarColor(Element element) /*-{
-		element.style.setProperty("background-color", "", "");
-	}-*/;
+
 
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel() {
@@ -397,7 +389,7 @@ public class GGWToolBar extends Composite
 			}
 
 			if (!exam) {
-				resetToolbarColor(getElement());
+				ExamUtil.makeRed(getElement(), false);
 			}
 			this.rightButtonPanel.add(openMenuButton);
 		}

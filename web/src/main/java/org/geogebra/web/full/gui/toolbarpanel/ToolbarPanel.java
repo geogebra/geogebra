@@ -11,6 +11,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -869,6 +870,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public void setHeaderStyle(String style) {
 		resetHeaderStyle();
 		header.addStyleName(style);
+		ExamUtil.makeRed(header.getElement(), "examCheat".equals(style));
 	}
 
 	/**
@@ -882,6 +884,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * remove exam style
 	 */
 	public void resetHeaderStyle() {
+		ExamUtil.makeRed(header.getElement(), false);
 		header.removeStyleName("examOk");
 		header.removeStyleName("examCheat");
 	}
