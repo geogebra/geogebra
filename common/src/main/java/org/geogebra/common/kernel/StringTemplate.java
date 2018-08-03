@@ -3486,4 +3486,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return "atand";
 	}
 
+	public void setLocalizeCmds(boolean localizeCmds) {
+		this.localizeCmds = localizeCmds;
+	}
 }
