@@ -57,6 +57,9 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 
 						@Override
 						public void execute() {
+							if (app.isMenuShowing()) {
+								app.toggleMenu();
+							}
 							((DialogManagerW) app.getDialogManager())
 									.getSaveDialog()
 									.showIfNeeded(getExamCallback());
@@ -73,9 +76,6 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 
 			@Override
 			public void run() {
-				if (app.isMenuShowing()) {
-					app.toggleMenu();
-				}
 				app.fileNew();
 				app.getLAF().toggleFullscreen(true);
 				ExamStartDialog examStartDialog = new ExamStartDialog(getApp());
