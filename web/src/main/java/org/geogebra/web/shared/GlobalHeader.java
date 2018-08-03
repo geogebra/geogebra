@@ -5,6 +5,7 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -163,94 +164,7 @@ public class GlobalHeader implements EventRenderable {
 				}
 			}
 		});
-		visibilityEventMain(isTablet());
+		new ExamUtil(app).visibilityEventMain();
 	}
 
-	/**
-	 * check and log window resize and focus lost/gained window resize is
-	 * checked first - if window is not in full screen mode "cheating" can't be
-	 * stopped (only going back to full screen ends "cheating") if window is in
-	 * full screen losing focus starts "cheating", gaining focus stops
-	 * "cheating"
-	 */
-	private native void visibilityEventMain(boolean tabletMode) /*-{
-		// wrapper to call the appropriate function from visibility.js
-		var that = this;
-
-		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
-		var fullscreen = true;
-		//if (($wnd.innerHeight > 0 && $wnd.innerHeight < screen.height - 5)
-		//		|| ($wnd.innerWidth > 0 && $wnd.innerWidth < screen.width - 5)) {
-		//	fullscreen = false;
-		//}
-
-		var startCheating = function() {
-			that.@org.geogebra.web.shared.GlobalHeader::startCheating()()
-		};
-		var stopCheating = function() {
-			that.@org.geogebra.web.shared.GlobalHeader::stopCheating()()
-		};
-		var isTablet = function() {
-			return that.@org.geogebra.web.shared.GlobalHeader::isTablet()()
-		};
-
-		if (tabletMode) {
-			$wnd.visibilityEventMain(startCheating, stopCheating);
-		} else {
-
-			$wnd.onblur = function(event) {
-				// Borrowed from http://www.quirksmode.org/js/events_properties.html
-				var e = event ? event : $wnd.event;
-				var targ;
-				if (e.target) {
-					targ = e.target;
-				} else if (e.srcElement) {
-					targ = e.srcElement;
-				}
-				if (targ.nodeType == 3) { // defeat Safari bug
-					targ = targ.parentNode;
-				}
-				// The focusout event should not be caught:
-				if (e.type == "blur") {
-					startCheating();
-				}
-
-			};
-			$wnd.onfocus = function(event) {
-				if (fullscreen) {
-					stopCheating();
-				}
-			};
-			// window resize has 2 cases: full screen and not full screen
-			$wnd
-					.addEventListener(
-							"resize",
-							function() {
-								fullscreen = @org.geogebra.web.html5.Browser::isCoveringWholeScreen()();
-								if (!fullscreen) {
-									startCheating();
-								} else {
-									stopCheating();
-								}
-							});
-		}
-	}-*/ ;
-
-	private void startCheating() {
-		if (app.getExam() != null) {
-			String os = Browser.getMobileOperatingSystem();
-			app.getExam().startCheating(os);
-		}
-	}
-
-	private void stopCheating() {
-		if (app.getExam() != null) {
-			app.getExam().stopCheating();
-		}
-	}
-
-	private boolean isTablet() {
-		return app.getLAF().isTablet()
-				&& !"TabletWin".equals(app.getLAF().getFrameStyleName());
-	}
 }

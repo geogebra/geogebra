@@ -1,7 +1,7 @@
 package org.geogebra.web.tablet;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
-import org.geogebra.web.html5.main.ExamUtil;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 
 /**
  * LAF for Windows Store app

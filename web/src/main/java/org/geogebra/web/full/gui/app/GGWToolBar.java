@@ -14,6 +14,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.ImageFactory;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
@@ -263,7 +264,7 @@ public class GGWToolBar extends Composite
 
 		});
 		// check and log window resize and focus on window
-		visibilityEventMain(isTablet());
+		new ExamUtil(app).visibilityEventMain();
 
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);
@@ -339,117 +340,6 @@ public class GGWToolBar extends Composite
 	native void resetToolbarColor(Element element) /*-{
 		element.style.setProperty("background-color", "", "");
 	}-*/;
-
-	private void startCheating() {
-		if (app.getExam() != null) {
-			String os = Browser.getMobileOperatingSystem();
-			app.getExam().startCheating(os);
-		}
-	}
-
-	private void stopCheating() {
-		if (app.getExam() != null) {
-			app.getExam().stopCheating();
-		}
-	}
-
-	private boolean isTablet() {
-		return app.getLAF().isTablet()
-				&& !"TabletWin".equals(app.getLAF().getFrameStyleName());
-	}
-
-	/**
-	 * check and log window resize and focus lost/gained window resize is
-	 * checked first - if window is not in full screen mode "cheating" can't be
-	 * stopped (only going back to full screen ends "cheating") if window is in
-	 * full screen losing focus starts "cheating", gaining focus stops
-	 * "cheating"
-	 */
-	private native void visibilityEventMain(boolean tabletMode) /*-{
-		// wrapper to call the appropriate function from visibility.js
-		var that = this;
-
-		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
-		//var screenHeight = screen.height - 5;
-
-		//var focus;
-		//$wnd.console.log("focus 1: " + focus);
-		var fullscreen = true;
-		//$wnd.console.log("fullscreen: " + fullscreen);
-		if ($wnd.innerHeight < screen.height - 5
-				|| $wnd.innerWidth < screen.width - 5) {
-			fullscreen = false;
-		}
-		//var fullHeight = $wnd.innerHeight;
-		//var fullWidth = $wnd.innerWidth;
-
-		var startCheating = function() {
-			that.@org.geogebra.web.full.gui.app.GGWToolBar::startCheating()()
-		};
-		var stopCheating = function() {
-			that.@org.geogebra.web.full.gui.app.GGWToolBar::stopCheating()()
-		};
-		var isTablet = function() {
-			return that.@org.geogebra.web.full.gui.app.GGWToolBar::isTablet()()
-		};
-
-		//	var examActive = function() {
-		//	that.@org.geogebra.common.main.App::isExam()()
-		//};
-		//$wnd.console.log("examActive " + examActive);
-
-		if (tabletMode) {
-			$wnd.visibilityEventMain(startCheating, stopCheating);
-		} else {
-
-			$wnd.onblur = function(event) {
-				// Borrowed from http://www.quirksmode.org/js/events_properties.html
-				//$wnd.console.log("4");
-				var e = event ? event : $wnd.event;
-				var targ;
-				if (e.target) {
-					targ = e.target;
-				} else if (e.srcElement) {
-					targ = e.srcElement;
-				}
-				if (targ.nodeType == 3) { // defeat Safari bug
-					targ = targ.parentNode;
-				}
-				//console.log("Checking cheating: Type = " + e.type
-				//		+ ", Target = " + targ + ", " + targ.id
-				//		+ " CurrentTarget = " + e.currentTarget + ", "
-				//		+ e.currentTarget.id);
-				// The focusout event should not be caught:
-				if (e.type == "blur") { //&& fullscreen == true
-					//$wnd.console.log("5");
-					startCheating();
-					//focus = false;
-					//console.log("focus 2 " + focus);
-				}
-
-			};
-			$wnd.onfocus = function(event) {
-				//$wnd.console.log("6");
-				if (fullscreen) {
-					stopCheating();
-					//	focus = true;
-					//	console.log("focus 3 " + focus);
-				}
-			}
-			// window resize has 2 cases: full screen and not full screen
-			$wnd
-					.addEventListener(
-							"resize",
-							function() {
-								fullscreen = @org.geogebra.web.html5.Browser::isCoveringWholeScreen()();
-								if (!fullscreen) {
-									startCheating();
-								} else {
-									stopCheating();
-								}
-							});
-		}
-	}-*/ ;
 
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel() {
