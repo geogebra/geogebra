@@ -166,10 +166,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		// title panel
 		calcType.setText("GeoGebra "
 				+ appW.getLocalization().getMenu("exam_calctype_graphing"));
-		examTitle.setText(appW.getLocalization().getMenu("exam_menu_entry")
-				+ ": " + (appW.getExam().isCheating()
-						? appW.getLocalization().getMenu("exam_alert")
-						: appW.getLocalization().getMenu("OK")));
+		examTitle.setText(ExamUtil.status(appW));
 		// content panel
 		teacherText.setText(appW.getLocalization()
 				.getMenu("exam_log_show_screen_to_teacher"));

@@ -276,26 +276,15 @@ public class ExamEnvironment {
 	private void appendStartEnd(Localization loc, ExamLogBuilder builder,
 			boolean showEndTime) {
 		// Exam Start Date
-		StringBuilder sb = new StringBuilder();
-		sb.append(loc.getMenu("exam_start_date"));
-		sb.append(": ");
-		sb.append(getLocalizedDateOnly(loc, examStartTime));
-		builder.addLine(sb);
-
+		builder.addField(loc.getMenu("exam_start_date"),
+				getLocalizedDateOnly(loc, examStartTime));
 		// Exam Start Time
-		sb.setLength(0);
-		sb.append(loc.getMenu("exam_start_time"));
-		sb.append(": ");
-		sb.append(getLocalizedTimeOnly(loc, examStartTime));
-		builder.addLine(sb);
+		builder.addField(loc.getMenu("exam_start_time"),
+				getLocalizedTimeOnly(loc, examStartTime));
 
 		// Exam End Time
 		if (showEndTime && closed > 0) {
-			sb.setLength(0);
-			sb.append(loc.getMenu("exam_end_time"));
-			sb.append(": ");
-			sb.append(getLocalizedTimeOnly(loc, closed));
-			builder.addLine(sb);
+			builder.addField(loc.getMenu("exam_end_time"), getLocalizedTimeOnly(loc, closed));
 		}
 	}
 
@@ -392,9 +381,11 @@ public class ExamEnvironment {
 	 */
 	public void getLog(Localization loc, Settings settings,
 			ExamLogBuilder sb) {
-		appendSettings(loc, settings, sb);
+		if (!app.isUnbundled()) {
+			appendSettings(loc, settings, sb);
+		}
 		appendStartEnd(loc, sb, true);
-		sb.addHR();
+		sb.addField(loc.getMenu("exam_activity"), "");
 		appendLogTimes(loc, sb, true);
 	}
 

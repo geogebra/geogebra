@@ -26,16 +26,22 @@ public class HTMLLogBuilder extends ExamLogBuilder {
 
 	@Override
 	public void addLine(StringBuilder sb) {
+		addLineEl(sb.toString());
+	}
+
+	private DivElement addLineEl(String string) {
 		DivElement div = DOM.createDiv().cast();
-		div.setInnerText(sb.toString());
+		div.setInnerText(string);
 		html.getElement().appendChild(div);
+		return div;
 	}
 
 	@Override
-	public void addHR() {
-		Element hr = DOM.createElement("HR");
-		hr.getStyle().setMarginBottom(10, Unit.PX);
-		html.getElement().appendChild(hr);
+	public void addField(String name, String value) {
+		DivElement nameEl = addLineEl(name);
+		nameEl.getStyle().setColor("rgba(0,0,0,0.54)");
+		nameEl.getStyle().setFontSize(75, Unit.PCT);
+		addLineEl(value);
 	}
 
 	/**

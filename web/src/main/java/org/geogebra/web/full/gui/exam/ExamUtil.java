@@ -137,4 +137,16 @@ public class ExamUtil {
 				red ? "important" : "");
 	}-*/;
 
+	/**
+	 * @param appW
+	 *            app
+	 * @return exam status description
+	 */
+	public static String status(AppW appW) {
+		return appW.getLocalization().getMenu("exam_menu_entry") + ": "
+				+ (appW.getExam().isCheating()
+						? appW.getLocalization().getMenu("exam_alert")
+						: appW.getLocalization().getMenu("OK"));
+	}
+
 }

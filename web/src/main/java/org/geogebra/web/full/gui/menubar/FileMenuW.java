@@ -14,13 +14,13 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.util.SaveDialogW;
@@ -105,6 +105,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	/**
 	 * Exit exam and restore normal mode
 	 */
+	protected void exitAndResetExamGraphing() {
+		getApp().getLAF().toggleFullscreen(false);
+		ExamEnvironment exam = getApp().getExam();
+		exam.exit();
+		saveScreenshot(loc.getMenu("ExamGraphingCalc.long"));
+		resetAfterExam();
+	}
+
+	/**
+	 * Exit exam and restore normal mode
+	 */
 	protected void exitAndResetExam() {
 		getApp().getLAF().toggleFullscreen(false);
 		ExamEnvironment exam = getApp().getExam();
@@ -183,42 +194,58 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 		getApp().getExam().getLog(loc, getApp().getSettings(), htmlBuilder);
 		getApp().showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
+		saveScreenshot(menu);
+
+	}
+
+	private void saveScreenshot(String menu) {
+		final int header = 78;
 		Canvas canvas = Canvas.createIfSupported();
 		final GGraphics2DW g2 = new GGraphics2DW(canvas);
+
 		g2.setCoordinateSpaceSize(500,
-				getApp().getExam().getEventCount() * LINE_HEIGHT + 200);
+				getApp().getExam().getEventCount() * LINE_HEIGHT + 350);
 		g2.setColor(GColor.WHITE);
 		g2.fillRect(0, 0, canvas.getCoordinateSpaceWidth(),
 				canvas.getCoordinateSpaceHeight());
-		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 24));
-		g2.setColor(GColor.BLACK);
+		g2.setPaint(GColor.newColorRGB(
+				getApp().getExam().isCheating() ? 0xD32F2F : 0x3DA196));
+		g2.fillRect(0, 0, 500, header);
+		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
+		g2.setColor(GColor.WHITE);
 		g2.drawString(menu, PADDING, PADDING);
+		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 16));
+		g2.drawString(ExamUtil.status(getApp()), PADDING,
+				PADDING + LINE_HEIGHT);
+		g2.setColor(GColor.BLACK);
 		ExamLogBuilder canvasLogBuilder = new ExamLogBuilder() {
-			private int yOffset = 48;
+			private int yOffset = header + LINE_HEIGHT;
+
 			@Override
 			public void addLine(StringBuilder sb) {
+				g2.setColor(GColor.BLACK);
 				g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 16));
 				g2.drawString(sb.toString(), PADDING, yOffset);
 				yOffset += LINE_HEIGHT;
 			}
 
 			@Override
-			public void addHR() {
-				g2.drawStraightLine(PADDING, yOffset - LINE_HEIGHT / 2,
-						PADDING + 200, yOffset - LINE_HEIGHT / 2);
-				yOffset += LINE_HEIGHT / 2;
+			public void addField(String name, String value) {
+				g2.setColor(GColor.GRAY);
+				g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
+				g2.drawString(name, PADDING, yOffset);
+				yOffset += LINE_HEIGHT;
+				g2.setColor(GColor.BLACK);
+				g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 16));
+				g2.drawString(value, PADDING, yOffset);
+				yOffset += LINE_HEIGHT;
 			}
-		};
-		if (Browser.isChrome()) {
-			getApp().getGgbApi().getScreenshotURL(
-					getApp().getOptionPane().getContentElement(),
-					getCallback(StringUtil.pngMarker));
 
-		} else {
-			getApp().getExam().getLog(loc, getApp().getSettings(),
-					canvasLogBuilder);
+		};
+		getApp().getExam().getLog(loc, getApp().getSettings(),
+				canvasLogBuilder);
 			Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
-		}
+
 	}
 
 	private static native JavaScriptObject getCallback(String marker) /*-{
@@ -427,25 +454,25 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (getApp().isUnbundledGraphing()
 				&& getApp().has(Feature.GRAPH_EXAM_MODE)) {
 			new ExamExitConfirmDialog(getApp(), new AsyncOperation<String>() {
-				@Override
+					@Override
 				public void callback(String obj) {
 					if ("exit".equals(obj)) {
-						exitAndResetExam();
+						exitAndResetExamGraphing();
 					}
 				}
 			}).show();
 		} else {
 			getApp().getGuiManager().getOptionPane().showOptionDialog(
-				loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
-				loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
-				1, GOptionPane.WARNING_MESSAGE, null, optionNames,
-				new AsyncOperation<String[]>() {
-					@Override
-					public void callback(String[] obj) {
-						if ("1".equals(obj[0])) {
-							exitAndResetExam();
+					loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
+					loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
+					1, GOptionPane.WARNING_MESSAGE, null, optionNames,
+					new AsyncOperation<String[]>() {
+						@Override
+						public void callback(String[] obj) {
+							if ("1".equals(obj[0])) {
+								exitAndResetExam();
+							}
 						}
-					}
 					});
 		}
 	}

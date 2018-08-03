@@ -8,13 +8,6 @@ public class ExamLogBuilder {
 	private StringBuilder sb = new StringBuilder();
 
 	/**
-	 * Add separator between header and events
-	 */
-	public void addHR() {
-		// only needed in web
-	}
-
-	/**
 	 * Append a line to the log.
 	 * 
 	 * @param line
@@ -28,6 +21,16 @@ public class ExamLogBuilder {
 	@Override
 	public String toString() {
 		return sb.toString();
+	}
+
+	/**
+	 * @param description
+	 *            field name
+	 * @param value
+	 *            field value
+	 */
+	public void addField(String description, String value) {
+		addLine(new StringBuilder(description + ": " + value));
 	}
 
 }
