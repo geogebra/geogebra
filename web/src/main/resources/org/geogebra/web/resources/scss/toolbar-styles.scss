@@ -131,12 +131,16 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 	
 		.header-open-portrait.examOk,
-		.header-open-landscape.examOk {
+		.header-open-landscape.examOk,
+		.header-close-portrait.examOk,
+		.header-close-landscape.examOk {
 			background-color: $teal-default;
 		}
 	
 		.header-open-portrait.examCheat,
-		.header-open-landscape.examCheat {
+		.header-open-landscape.examCheat,
+		.header-close-portrait.examCheat,
+		.header-close-landscape.examCheat {
 			background-color: $exam-red;
 		}
 		
