@@ -935,7 +935,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		examInfoBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
-				new ExamLogAndExitDialog(app, true, null).show();
+				new ExamLogAndExitDialog(app, true, null, examInfoBtn).show();
 			}
 		});
 	}

@@ -52,6 +52,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton okBtn;
 	private StandardButton exitBtn;
+	private Widget anchor;
 
 	/**
 	 * @param app
@@ -60,12 +61,15 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	 *            true if need to build log dialog
 	 * @param returnHandler
 	 *            return handler
+	 * @param anchor
+	 *            anchor
 	 */
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
-			AsyncOperation<String> returnHandler) {
+			AsyncOperation<String> returnHandler, Widget anchor) {
 		super(app.getPanel(), app);
 		this.appW = app;
 		this.returnHandler = returnHandler;
+		this.anchor = anchor;
 		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
 		buildGUI(isLogDialog);
 	}
@@ -204,5 +208,16 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	public void show() {
 		super.show();
 		super.center();
+		if (anchor != null) {
+			anchor.addStyleName("selected");
+		}
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		if (anchor != null) {
+			anchor.removeStyleName("selected");
+		}
 	}
 }
