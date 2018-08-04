@@ -302,8 +302,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			fontSizeList.clear();
 			for (int i = 0; i < org.geogebra.common.util.Util
 					.menuFontSizesLength(); i++) {
-				fontSizeList.addItem(
-						org.geogebra.common.util.Util.menuFontSizes(i) + " pt");
+				fontSizeList.addItem(app.getLocalization().getPlain("Apt",
+						org.geogebra.common.util.Util.menuFontSizes(i) + ""));
 			}
 		}
 
