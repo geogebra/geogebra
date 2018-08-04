@@ -1294,7 +1294,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "ApplyTemplate": "\u5957\u7528\u6a23\u5f0f",
     "ApplyToSelectedObjects": "\u5957\u7528\u65bc\u6240\u9078\u7269\u4ef6",
     "Apps": "\u61c9\u7528\u7a0b\u5f0f",
-    "Apt": "%0 pt",
+    "Apt": "%0 \u9ede",
     "Arc": "\u5f27",
     "ArcLengthOfA": "%0 \u5f27\u9577",
     "Area": "\u9762\u7a4d",
