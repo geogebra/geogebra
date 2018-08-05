@@ -69,7 +69,7 @@ public class MyImageD implements MyImageJre {
 		try {
 			uri = universe.loadSVG(stream, name);
 			diagram = universe.getDiagram(uri);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
