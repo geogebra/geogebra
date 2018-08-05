@@ -223,9 +223,8 @@ public class GGraphics2DD implements GGraphics2D {
 
 		if (imgD.isSVG()) {
 			try {
-				// TODO: x, y
 				imgD.getDiagram().render(impl);
-			} catch (SVGException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
