@@ -909,6 +909,14 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			tabTools.lessBtn
 					.setText(app.getLocalization().getMenu("Tools.Less"));
 		}
+		if (moveBtn != null) {
+			String altText = app.getLocalization()
+					.getMenu(EuclidianConstants
+							.getModeText(EuclidianConstants.MODE_MOVE))
+					+ ". " + app.getToolHelp(EuclidianConstants.MODE_MOVE);
+			moveBtn.setTitle(altText);
+			moveBtn.setAltText(altText);
+		}
 	}
 
 	/**
