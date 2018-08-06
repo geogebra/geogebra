@@ -620,7 +620,9 @@ public class MaterialListElement extends FlowPanel
 		 */
 		if (ownMaterial && !isLocal()) {
 			this.sharedBy.setVisible(true);
-			this.viewButton.setVisible(show);
+			if (viewButton != null) {
+				this.viewButton.setVisible(show);
+			}
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
 			this.deleteButton
@@ -638,7 +640,9 @@ public class MaterialListElement extends FlowPanel
 			this.editButton.setVisible(show);
 		} else {
 			this.sharedBy.setVisible(true);
-			this.viewButton.setVisible(show);
+			if (viewButton != null) {
+				this.viewButton.setVisible(show);
+			}
 			this.editButton.setVisible(show);
 		}
 
