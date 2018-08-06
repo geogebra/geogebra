@@ -144,12 +144,12 @@ public class MaterialListElement extends FlowPanel
 	protected void initMaterialInfos() {
 		if (!isLocal()) {
 			this.title = new Label(this.getMaterial().getTitle());
-			this.sharedBy = new Label(this.getMaterial().getAuthor());
-			this.sharedBy.setStyleName("sharedPanel");
 		} else {
 			String key = this.getMaterial().getTitle();
 			this.title = new Label(extractTitle(key));
 		}
+		this.sharedBy = new Label(this.getMaterial().getAuthor());
+		this.sharedBy.setStyleName("sharedPanel");
 		this.title.addStyleName("fileTitle");
 	}
 
