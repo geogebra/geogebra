@@ -281,5 +281,4 @@ public interface ExpressionValue {
 	 */
 	public boolean evaluatesToNDVector();
 
-	public Kernel getKernel();
 }

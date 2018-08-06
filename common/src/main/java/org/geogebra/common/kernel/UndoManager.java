@@ -150,11 +150,7 @@ public abstract class UndoManager {
 	final public synchronized void processXML(String strXML,
 			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
 
-		boolean randomize = true;
-
-		if (info != null) {
-			randomize = info.updateRandom();
-		}
+		boolean randomize = info == null || info.updateRandom();
 
 		construction.setFileLoading(true);
 		construction.setCasCellUpdate(true);
@@ -164,25 +160,15 @@ public abstract class UndoManager {
 		construction.setCasCellUpdate(false);
 	}
 
-	/**
-	 * Processes XML
-	 * 
-	 * @param strXML
-	 *            XML string
-	 * @param isGGTOrDefaults
-	 *            whether to treat the XML as defaults
-	 * @throws Exception
-	 *             on trouble with parsing or running commands
-	 */
-	final public synchronized void processXML(String strXML,
-			boolean isGGTOrDefaults, boolean randomize) throws Exception {
-		construction.setFileLoading(true);
-		construction.setCasCellUpdate(true);
-		construction.getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
-				true, randomize);
-		construction.setFileLoading(false);
-		construction.setCasCellUpdate(false);
-	}
+	// final public synchronized void processXML(String strXML,
+	// boolean isGGTOrDefaults, boolean randomize) throws Exception {
+	// construction.setFileLoading(true);
+	// construction.setCasCellUpdate(true);
+	// construction.getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
+	// true, randomize);
+	// construction.setFileLoading(false);
+	// construction.setCasCellUpdate(false);
+	// }
 
 	/**
 	 * Loads previous construction state from undo info list.

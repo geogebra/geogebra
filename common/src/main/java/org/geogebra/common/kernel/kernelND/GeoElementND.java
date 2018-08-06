@@ -643,7 +643,6 @@ public interface GeoElementND extends ExpressionValue {
 	/**
 	 * @return parent kernel
 	 */
-	@Override
 	Kernel getKernel();
 
 	/**

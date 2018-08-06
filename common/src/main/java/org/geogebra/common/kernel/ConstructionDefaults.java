@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -622,7 +623,7 @@ public class ConstructionDefaults {
 				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 				&& cons.getApplication().isUnbundledGeometry()) {
-			angle.labelMode = GeoElement.LABEL_VALUE;
+			angle.labelMode = GeoElementND.LABEL_VALUE;
 			angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		}
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
@@ -957,7 +958,7 @@ public class ConstructionDefaults {
 			}
 
 			defaultLabelMode = defaultGeo
-					.getLabelMode() == GeoElement.LABEL_DEFAULT;
+					.getLabelMode() == GeoElementND.LABEL_DEFAULT;
 		}
 
 		if (defaultLabelMode) {
@@ -1173,7 +1174,7 @@ public class ConstructionDefaults {
 					|| !cons.getApplication()
 							.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 					|| !(geo instanceof GeoAngle)) {
-				geo.labelMode = GeoElement.LABEL_DEFAULT;
+				geo.labelMode = GeoElementND.LABEL_DEFAULT;
 			}
 			geo.setLabelVisible(true);
 		}
