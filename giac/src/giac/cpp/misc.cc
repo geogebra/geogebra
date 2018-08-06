@@ -7662,7 +7662,15 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (is_greater(ep[i],xmin0,contextptr) && is_greater(xmax0,ep[i],contextptr) && in_domain(df,x,ep[i],contextptr))
 	tvx.push_back(ep[i]);
     }
-    comprim(tvx);
+    // add sign/abs
+    vecteur lsignabs(mergevecteur(lop(f,at_sign),lop(f,at_abs)));
+    if (!lsignabs.empty()){
+      lsignabs=lvarx(lsignabs,x);
+      for (size_t i=0;i<lsignabs.size();++i){
+	tvx=mergevecteur(tvx,solve(lsignabs[i]._SYMBptr->feuille,x,periode==0?2:0,contextptr));
+      }
+    }
+    comprim(tvx);    
     gen tmp=_sort(tvx,contextptr);
     if (tmp.type!=_VECT){
       purgenoassume(x,contextptr);
@@ -7956,6 +7964,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (s==2 && x.type!=_IDNT)
 	return _tabvar(makevecteur(f,x),contextptr);
     }
+    if (!when2sign(f,x,contextptr))
+      return gensizeerr("Bad when");
     vecteur tvi,poi;
     bool param=f.type==_VECT && f._VECTptr->size()==2;
     int periodic=0;
@@ -8369,9 +8379,210 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     return pixel_v();
 #endif
   }
+  void set_pixel(int x,int y,int c,GIAC_CONTEXT){
+    _set_pixel(makesequence(x,y,c),contextptr);
+  }
   static const char _set_pixel_s []="set_pixel";
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
   define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
+
+  //Uses the Bresenham line algorithm 
+  void draw_line(int x1, int y1, int x2, int y2, int color,GIAC_CONTEXT) {
+    int w =(color & 0x00070000) >> 16;
+    ++w;
+    color &= 0xffff;
+    signed char ix; 
+    signed char iy; 
+    
+    // if x1 == x2 or y1 == y2, then it does not matter what we set here 
+    int delta_x = (x2 > x1?(ix = 1, x2 - x1):(ix = -1, x1 - x2)) << 1; 
+    int delta_y = (y2 > y1?(iy = 1, y2 - y1):(iy = -1, y1 - y2)) << 1; 
+    
+    set_pixel(x1, y1, color,contextptr);  
+    if (delta_x >= delta_y) { 
+      int error = delta_y - (delta_x >> 1);        // error may go below zero 
+      while (x1 != x2) { 
+	if (error >= 0) { 
+	  if (error || (ix > 0)) { 
+	    y1 += iy; 
+	    error -= delta_x; 
+	  }                           // else do nothing 
+	}                              // else do nothing 
+	x1 += ix; 
+	error += delta_y;
+#if 1
+	int y__=y1+(w+1)/2;
+	for (int y_=y1-w/2;y_<y__;++y_)
+	  set_pixel(x1, y_, color,contextptr);
+#else
+	set_pixel(x1, y1, color,contextptr);
+#endif
+      } 
+    } else { 
+      int error = delta_x - (delta_y >> 1);      // error may go below zero 
+      while (y1 != y2) { 
+	if (error >= 0) { 
+	  if (error || (iy > 0)) { 
+	    x1 += ix; 
+	    error -= delta_y; 
+	  }                           // else do nothing 
+	}                              // else do nothing 
+	y1 += iy; 
+	error += delta_x;
+#if 1
+	int x__=x1+(w+1)/2;
+	for (int x_=x1-w/2;x_<x__;++x_)
+	  set_pixel(x_, y1, color,contextptr);
+#else
+	set_pixel(x1, y1, color,contextptr);
+#endif
+      } 
+    }
+  }
+
+  int asc_sort_int(const void * vptr,const void *wptr){
+    const vector<int> * v=(const vector<int> * )vptr;
+    const vector<int> * w=(const vector<int> * )wptr;
+    for (size_t i=0;i<v->size();++i){
+      int vi=(*v)[i];
+      int wi=(*w)[i];
+      if (vi!=wi)
+	return vi<wi?-1:1;
+    }
+    return 0;
+  }
+
+  int asc_sort_double(const void * vptr,const void *wptr){
+    const vector<double> * v=(const vector<double> * )vptr;
+    const vector<double> * w=(const vector<double> * )wptr;
+    for (size_t i=0;i<v->size();++i){
+      double vi=(*v)[i];
+      double wi=(*w)[i];
+      if (abs(vi-wi)>1e-6*abs(wi))
+	return vi<wi?-1:1;
+    }
+    return 0;
+  }
+
+  // L might be modified by closing the polygon
+  void draw_filled_polygon(vector< vector<int> > &L,int xmin,int xmax,int ymin,int ymax,int color,GIAC_CONTEXT){
+    int n=L.size();
+    // close polygon if it is open
+    if (L[n-1]!=L[0])
+      L.push_back(L[0]);
+    else
+      n--;
+    // ordered list of ymin,x,index (ordered by ascending ymin)
+    vector< vector<int> > om(n,vector<int>(4)); // size==12K for n==384 
+    for (int j=0;j<n;j++){
+      int y0=L[j][1],y1=L[j+1][1];
+      om[j][0]=y0<y1?y0:y1;
+      om[j][1]=y0<y1?L[j][0]:L[j+1][0];
+      om[j][2]=j;
+      om[j][3]=y0<y1?j:(j==n-1?0:j+1);
+    }
+    qsort(&om.front(),om.size(),sizeof(vector<int>),asc_sort_int);
+    // reverse(om.begin(),om.end());
+    vector<double> p(n); // inverses of slopes
+    for (int j=0;j<n;j++){
+      double dx=L[j+1][0]-L[j][0];
+      double dy=L[j+1][1]-L[j][1];
+      p[j]=dy==0?(dx>0?1e300:-1e300):dx/dy;
+    }
+    // initialization, lowest horizontal that is crossing the polygon
+    // y at ymin-1, that way lxj is initialized in the loop
+    int y=om[0][0]-1,j,ompos=0;
+    vector< vector<double> > lxj; // size about 12K for n==384
+    // main loop
+    for (;y<ymax;){
+      if (y>=ymin){ // draw pixels for this horizontal frame
+	size_t lxjs=lxj.size();
+	qsort(&lxj.front(),lxjs,sizeof(vector<double>),asc_sort_double);
+	bool odd=false;
+	vector<char> impair(lxjs);
+	for (size_t k=0;k<lxjs;++k){
+	  int arete=lxj[k][1]; // edge L[arete]->L[arete+1]
+	  int y1=L[arete][1],y2=L[arete+1][1];
+	  if (y!=y1 && y!=y2)
+	    odd=!odd;
+	  else {
+	    int ym=giacmin(y1,y2);
+	    if ( y1!=y2 && (ym==y || ym==y)){
+	      odd=!odd;
+	    }
+	  }
+	  impair[k]=odd;
+	}
+	for (size_t k=0;k<lxjs;++k){
+	  if (impair[k]){
+	    int x1=giacmax(xmin,int(lxj[k][0]+.5));
+	    int x2=k==lxjs-1?xmax:giacmin(xmax,int(lxj[k+1][0]+.5));
+	    for (;x1<=x2;++x1)
+	      set_pixel(x1,y,color,contextptr);
+	  }
+	}
+      } // end if y>=ymin
+      y++;
+      if (y>=ymax) break;
+      // update lxj
+      for (j=0;j<lxj.size();++j){
+	int k=lxj[j][1];
+	if (y<=giacmax(L[k][1],L[k+1][1]))
+	  lxj[j][0] += p[k];
+	else {
+	  lxj.erase(lxj.begin()+j);
+	  --j;
+	}
+      }
+      // new edges
+      for (j=ompos;j<n;++j){
+	ompos=j;
+	if (om[j][0]>y)
+	  break;
+	if (om[j][0]<y)
+	  continue;
+	vector<double> add(2,om[j][1]);
+	add[1]=om[j][2];
+	lxj.push_back(add);
+      }
+    } // end for (;y<ymax;)
+  }
+
+  void draw_polygon(vector< vector<int> > & v1,int color,GIAC_CONTEXT){
+    if (v1.back()!=v1.front())
+      v1.push_back(v1.front());
+    int n=v1.size()-1;
+    for (int i=0;i<n;++i){
+      int x1=v1[i][0],y1=v1[i][1],x2=v1[i+1][0],y2=v1[i+1][1];
+      draw_line(x1,y1,x2,y2,color,contextptr);
+    }
+  }
+  
+  gen _draw_polygon(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT || a._VECTptr->size()<2)
+      return gentypeerr(contextptr);
+    const vecteur & v=*a._VECTptr;
+    vector< vector<int> > v1;
+    if (ckmatrix(v) && v.front()._VECTptr->size()==2){
+      if (!vecteur2vectvector_int(v,0,v1))
+	return gensizeerr(contextptr);
+      draw_polygon(v1,0,contextptr);
+      return 1;
+    }
+    gen g(v[0]);
+    if (!ckmatrix(g) || g._VECTptr->front()._VECTptr->size()!=2 || !vecteur2vectvector_int(*g._VECTptr,0,v1))
+      return gensizeerr(contextptr);
+    int attr=v.back().val;
+    if (attr & 0x40000000)
+      draw_filled_polygon(v1,0,1024,0,768,attr & 0xffff,contextptr);
+    else
+      draw_polygon(v1,attr & 0xffff,contextptr);
+    return 1;
+  }
+  static const char _draw_polygon_s []="draw_polygon";
+  static define_unary_function_eval (__draw_polygon,&_draw_polygon,_draw_polygon_s);
+  define_unary_function_ptr5( at_draw_polygon ,alias_at_draw_polygon,&__draw_polygon,0,true);
 
   gen _draw_string(const gen & a_,GIAC_CONTEXT){
 #ifdef GIAC_HAS_STO_38

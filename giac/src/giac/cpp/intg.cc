@@ -2313,6 +2313,36 @@ namespace giac {
     return true;
   }
 
+  bool when2sign(gen &e,const gen &gen_x,GIAC_CONTEXT){
+    vecteur lwhen(lop(e,at_when));
+    if (!lwhen.empty()) lwhen=lvarx(lwhen,gen_x);
+    if (!lwhen.empty()){
+      vecteur l2;
+      const_iterateur it=lwhen.begin(),itend=lwhen.end();
+      int i=0;
+      for (;it!=itend;++it,++i){
+	gen tmp=it->_SYMBptr->feuille,repl;
+	if (tmp.type!=_VECT || tmp._VECTptr->size()!=3)
+	  return false;
+	vecteur & whenargs = *tmp._VECTptr;
+	tmp = whenargs[0];
+	if ( (tmp.is_symb_of_sommet(at_superieur_strict) || 
+	     tmp.is_symb_of_sommet(at_superieur_egal) ) &&
+	     (repl=tmp._SYMBptr->feuille).type==_VECT && repl._VECTptr->size()==2){
+	  repl=repl._VECTptr->back()-repl._VECTptr->front();
+	  repl=(symbolic(at_sign,repl)+1)/2;
+	}
+	else {
+	  repl=symbolic(at_same,gen(makevecteur(tmp,0),_SEQ__VECT));
+	  repl=symbolic(at_sign,repl);
+	}
+	l2.push_back(whenargs[1]+repl*(whenargs[2]-whenargs[1]));
+      }
+      e=complex_subst(e,lwhen,l2,contextptr);      
+    }
+    return true;
+  }
+
   // intmode bit 0 is used for sqrt int control, bit 1 control step/step info
   gen integrate_id_rem(const gen & e_orig,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
 #ifdef LOGINT
@@ -2351,32 +2381,8 @@ namespace giac {
 #endif
     // Step -1: replace ifte(a,b,c) by b+sign(a==0)*(c-b)
     // if a is A1>A2 or A1>=A2 condition, the sign(a==0) is replaced by (sign(A2-A1)+1)/2
-    vecteur lwhen(lop(e,at_when));
-    if (!lwhen.empty()) lwhen=lvarx(lwhen,gen_x);
-    if (!lwhen.empty()){
-      vecteur l2;
-      const_iterateur it=lwhen.begin(),itend=lwhen.end();
-      int i=0;
-      for (;it!=itend;++it,++i){
-	gen tmp=it->_SYMBptr->feuille,repl;
-	if (tmp.type!=_VECT || tmp._VECTptr->size()!=3)
-	  return gensizeerr(gettext("Bad when ")+it->print(contextptr));
-	vecteur & whenargs = *tmp._VECTptr;
-	tmp = whenargs[0];
-	if ( (tmp.is_symb_of_sommet(at_superieur_strict) || 
-	     tmp.is_symb_of_sommet(at_superieur_egal) ) &&
-	     (repl=tmp._SYMBptr->feuille).type==_VECT && repl._VECTptr->size()==2){
-	  repl=repl._VECTptr->back()-repl._VECTptr->front();
-	  repl=(symbolic(at_sign,repl)+1)/2;
-	}
-	else {
-	  repl=symbolic(at_same,gen(makevecteur(tmp,0),_SEQ__VECT));
-	  repl=symbolic(at_sign,repl);
-	}
-	l2.push_back(whenargs[1]+repl*(whenargs[2]-whenargs[1]));
-      }
-      e=complex_subst(e,lwhen,l2,contextptr);      
-    }
+    if (!when2sign(e,gen_x,contextptr))
+      return gensizeerr(gettext("Bad when ")+e.print(contextptr));
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 0 ") << e << endl;
 #endif

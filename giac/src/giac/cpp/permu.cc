@@ -374,22 +374,21 @@ namespace giac {
     int n1;
     n1=int(c.size());
     //vector<int> p;
-    vector<int> c2(n1);
-    c1=c2;
+    c1.resize(n1);
+    int b=array_start(contextptr);
     for (int j=0;j<n1;j++){
-      if (array_start(contextptr))//xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
-	c1[j]=c[j].val-1; 
-      else 
-	c1[j]=c[j].val;
+      int tmp=c[j].val-b;
+      if (tmp<0) 
+	return false;
+      c1[j]=tmp;
     }   
-    for (int k=0;k<n1-1;k++) {
-      int ck=c1[k];
-      if (ck<0) {return(false);}
-      for (int j=k+1;j<n1;j++){
-	if (ck==c1[j]) {return (false);}
-      }
+    vector<int> c2(c1);
+    sort(c2.begin(),c2.end());
+    for (int k=1;k<n1;k++) {
+      if (c2[k]==c2[k-1])
+	return false;
     }
-    return (true);
+    return true;
   } 
   gen _is_cycle(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

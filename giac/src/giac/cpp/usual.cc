@@ -1942,21 +1942,21 @@ namespace giac {
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
 	gen e1=e;
 	if (!angle_radian(contextptr)) 
-  {
-    //grad
-    if(angle_degree(contextptr))
-	  e1=e*deg2rad_g;
-    else
-      e1 = e*grad2rad_g;
-  }
-
+	  {
+	    //grad
+	    if(angle_degree(contextptr))
+	      e1=e*deg2rad_g;
+	    else
+	      e1 = e*grad2rad_g;
+	  }
+	
 	gen e2=im(e1,contextptr);
 	e1=re(e1,contextptr);
-  //grad
+	//grad
 	int mode=get_mode_set_radian(contextptr);
 	e1=tan(e1,contextptr);
 	angle_mode(mode,contextptr);
-
+	
 	e2=cst_i*tanh(e2,contextptr);
 	return (e1+e2)/(1-e1*e2);
       }
@@ -1977,6 +1977,17 @@ namespace giac {
     if (is_algebraic_program(e,a,b))
       return symbolic(at_program,gen(makevecteur(a,0,tan(b,contextptr)),_SEQ__VECT));
     int k;
+    if (angle_radian(contextptr)){
+      if (contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr)){
+	if (is_integer(a)){
+	  if (is_zero(b)) 
+	    return 0;
+	  else 
+	    if (a!=0) // avoid recursion
+	      return tan(b,contextptr);
+	}
+      }
+    }
     if (!approx_mode(contextptr)){ 
       if (is_multiple_of_pi_over_12(e,k,contextptr)) //grad
 	return *table_tan[(k%12)];

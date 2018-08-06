@@ -40,6 +40,7 @@ namespace giac {
   // find surd/NTHROOT inside e, set subst1 to list of surd/NTHROOT and subst2
   // to replacement by pow
   void surd2pow(const gen & e,vecteur & subst1,vecteur & subst2,GIAC_CONTEXT);
+  bool when2sign(gen &e,const gen &gen_x,GIAC_CONTEXT);
   gen invexptoexpneg(const gen& g,GIAC_CONTEXT);
   bool is_rewritable_as_f_of(const gen & fu,const gen & u,gen & fx,const gen & gen_x,GIAC_CONTEXT);
 
