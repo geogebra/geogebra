@@ -232,4 +232,28 @@ public class ScreenReader {
 		};
 	}
 
+	/**
+	 * 
+	 * @param app
+	 *            {@link App}
+	 * @param exp
+	 *            The expression to read.
+	 * @param ariaPreview
+	 *            preview of the expression to read.
+	 * @return the full aural representation of the expression with its preview if
+	 *         any.
+	 */
+	public static String getAriaExpression(App app, String exp, String ariaPreview) {
+		StringBuilder sb = new StringBuilder();
+		try {
+			sb.append(ScreenReader.getExpressionReader(app).mathExpression(exp));
+			if (ariaPreview != null) {
+				sb.append(" = ");
+				sb.append(ariaPreview);
+			}
+		} catch (Exception e) {
+			// do nothing
+		}
+		return sb.toString();
+	}
 }

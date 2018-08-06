@@ -1863,7 +1863,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private void updateEditorAriaLabel(String text) {
 		if (mf != null) {
 			if (!StringUtil.emptyTrim(text)) {
-				mf.setAriaLabel(ariaPreview != null ? text + " = " + ariaPreview : text);
+				mf.setAriaLabel(ScreenReader.getAriaExpression(app, text, ariaPreview));
 			} else {
 				mf.setAriaLabel(loc.getMenu("EnterExpression"));
 			}
