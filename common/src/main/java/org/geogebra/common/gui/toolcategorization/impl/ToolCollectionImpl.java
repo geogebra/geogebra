@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,5 +85,27 @@ class ToolCollectionImpl implements ToolCollection {
             throw new UnsupportedOperationException("Level size not in range");
         }
         this.level = level;
+    }
+
+    @Override
+    public void filter(ToolCollectionFilter filter) {
+        for (ToolsCollection collection: collections) {
+            List<String> newCategories = new ArrayList<>();
+            for (int i = collection.tools.size() - 1; i >= 0; i--) {
+                List<Integer> tools = collection.tools.get(i);
+                List<Integer> filteredTools = new ArrayList<>();
+                for (int j = 0; j < tools.size(); j++) {
+                    if (filter.filter(tools.get(j))) {
+                        filteredTools.add(tools.get(j));
+                    }
+                }
+                if (filteredTools.size() == 0) {
+                    collection.tools.remove(i);
+                    collection.categories.remove(i);
+                } else {
+                    collection.tools.set(i, filteredTools);
+                }
+            }
+        }
     }
 }

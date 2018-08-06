@@ -44,4 +44,11 @@ public interface ToolCollection {
      * @param level the toolset level
      */
     void setLevel(int level);
+
+    /**
+     * Filter this ToolCollection with the speicified filter.
+     *
+     * @param filter filter
+     */
+    void filter(ToolCollectionFilter filter);
 }
