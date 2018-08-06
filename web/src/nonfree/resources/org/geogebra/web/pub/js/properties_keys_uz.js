@@ -2163,7 +2163,7 @@ __GGB__keysVar["uz"].menu = {
     "Month.4": "April",
     "Month.5": "May",
     "Month.6": "June",
-    "Month.7": "July",
+    "Month.7": "Iyul",
     "Month.8": "August",
     "Month.9": "September",
     "More": "More",
@@ -2620,7 +2620,7 @@ __GGB__keysVar["uz"].menu = {
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",
-    "ShapeTriangle": "Triangle",
+    "ShapeTriangle": "Uchburchak",
     "Share": "Share",
     "ShareDialogDescription": "Send via email, upload to GeoGebra or other repositories.",
     "ShareDialogTitle": "Share Construction",
@@ -3311,7 +3311,7 @@ __GGB__keysVar["uz"].menu = {
     "ymax": "y Max",
     "ymin": "y Min",
     "ystep": "Y Step",
-    "zAxis": "zAxis",
+    "zAxis": "Oz o'qi",
 };
 
 
