@@ -30,7 +30,7 @@ public class ExamLogBuilder {
 	 *            field value
 	 */
 	public void addField(String description, String value) {
-		addLine(new StringBuilder(description + ": " + value));
+		addLine(new StringBuilder(description).append(": ").append(value));
 	}
 
 }

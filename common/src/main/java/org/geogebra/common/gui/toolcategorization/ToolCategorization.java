@@ -13,6 +13,14 @@ import org.geogebra.common.main.settings.ToolbarSettings;
  */
 public class ToolCategorization {
 
+	private ToolsetLevel level;
+	private ArrayList<Category> customizedCategories;
+	private ArrayList<ArrayList<Integer>> toolsLists;
+	private TreeSet<Integer> availableTools;
+	private App app;
+	private ToolbarSettings settings;
+	private boolean isPhoneApp;
+
 	/**
 	 * levels of toolset
 	 * 
@@ -162,14 +170,6 @@ public class ToolCategorization {
             return header;
         }
     }
-
-	private ToolsetLevel level;
-    private ArrayList<Category> customizedCategories;
-    private ArrayList<ArrayList<Integer>> toolsLists;
-    private TreeSet<Integer> availableTools;
-    private App app;
-	private ToolbarSettings settings;
-	private boolean isPhoneApp;
 
     /**
 	 * Creates a tool categorization for the give type

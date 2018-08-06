@@ -1,6 +1,5 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -40,7 +39,6 @@ public class ExamEnvironment {
 
 	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
-	private ArrayList<String> activityList = new ArrayList<>();
 
 	/**
 	 * application
