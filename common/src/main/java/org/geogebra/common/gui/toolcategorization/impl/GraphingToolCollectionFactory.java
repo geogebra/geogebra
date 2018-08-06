@@ -40,7 +40,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_SHOW_HIDE_LABEL,
                 EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 
-        if (isPhoneApp) {
+        if (!isPhoneApp) {
             impl.extendCategory(CATEGORY_MEDIA,
                     EuclidianConstants.MODE_IMAGE,
                     EuclidianConstants.MODE_TEXT);
