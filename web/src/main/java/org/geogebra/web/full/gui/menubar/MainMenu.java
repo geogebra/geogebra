@@ -412,6 +412,10 @@ public class MainMenu extends FlowPanel
 				GMenuBar menu = getMenuAt(index);
 				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
 						+ menu.getMenuTitle().substring(1);
+				if ("User".equals(title)
+						&& app.getLoginOperation().isLoggedIn()) {
+					title = app.getLoginOperation().getUserName();
+				}
 
 				if (menu == settingsMenu) {
 					setStackText(index, getHTML(img, title), title, expand);
