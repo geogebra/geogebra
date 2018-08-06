@@ -34,9 +34,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
@@ -4943,15 +4941,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 				factory = new GraphingToolCollectionFactory();
 		}
 		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_GEOMETRY:
-			case ANDROID_NATIVE_3D:
-			case IOS_GEOMETRY:
-			case IOS_NATIVE:
-			case IOS_NATIVE_3D:
-				factory.setPhoneApp(true);
-			default:
-				factory.setPhoneApp(false);
+		case ANDROID_NATIVE_GRAPHING:
+		case ANDROID_GEOMETRY:
+		case ANDROID_NATIVE_3D:
+		case IOS_GEOMETRY:
+		case IOS_NATIVE:
+		case IOS_NATIVE_3D:
+			factory.setPhoneApp(true);
+			break;
+		default:
+			factory.setPhoneApp(false);
 		}
 		return factory;
 	}

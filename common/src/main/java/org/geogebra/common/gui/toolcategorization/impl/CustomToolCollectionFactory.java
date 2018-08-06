@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
+import java.util.List;
+
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.main.App;
-
-import java.util.List;
 
 /**
  * Creates custom ToolCollections specified by toolbar strings.
@@ -25,7 +25,6 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
         this.app = app;
         this.toolbarDefinition = toolbarDefinition;
     }
-
 
     /**
      * Creates a CustomToolCollectionFactory with an empty definition.

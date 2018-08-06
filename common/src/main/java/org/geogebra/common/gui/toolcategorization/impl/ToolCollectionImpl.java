@@ -1,25 +1,25 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 
 /**
  * Generic implementation of a ToolCollection.
  */
 class ToolCollectionImpl implements ToolCollection {
 
+	private int level = -1;
+	private List<ToolsCollection> collections = new ArrayList<>();
+	private List<String> levels = new ArrayList<>();
+
     private static class ToolsCollection {
         private List<String> categories = new ArrayList<>();
         private List<List<Integer>> tools = new ArrayList<>();
     }
-
-    private int level = -1;
-    private List<ToolsCollection> collections = new ArrayList<>();
-    private List<String> levels = new ArrayList<>();
 
     void addLevel(String levelName) {
         levels.add(levelName);
