@@ -159,7 +159,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
         impl.extendCategory(CATEGORY_SPECIAL_LINES,
                 EuclidianConstants.MODE_VECTOR_FROM_POINT,
                 EuclidianConstants.MODE_POLYLINE,
-                EuclidianConstants.MODE_FITLINE,
+                // EuclidianConstants.MODE_FITLINE,
                 EuclidianConstants.MODE_POLAR_DIAMETER);
     }
 }
