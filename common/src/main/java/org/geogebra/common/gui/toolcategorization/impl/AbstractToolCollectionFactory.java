@@ -2,7 +2,7 @@ package org.geogebra.common.gui.toolcategorization.impl;
 
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 
-abstract class AbstractToolCollectionFactory implements ToolCollectionFactory {
+public abstract class AbstractToolCollectionFactory implements ToolCollectionFactory {
 
     /**
      * full list of tools
