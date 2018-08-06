@@ -34,7 +34,15 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -4894,6 +4902,60 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// too
 		getSettings().getToolbarSettings().setFrom(getVersion());
 		return new ToolCategorization(this, getSettings().getToolbarSettings());
+	}
+
+	/**
+	 * Create a tool collection factory for this app.
+	 *
+	 * @return a ToolCollectionFactory
+	 */
+	public ToolCollectionFactory createToolCollectionFactory() {
+		ToolCollectionFactory factory = null;
+		Perspective perspective = getTmpPerspective(null);
+		String toolbarDefinition = perspective != null ?
+				perspective.getToolbarDefinition() : null;
+		if (toolbarDefinition == null) {
+			factory = createDefaultToolCollectionFactory();
+		} else {
+			factory = new CustomToolCollectionFactory(this, toolbarDefinition);
+		}
+		return factory;
+	}
+
+	private ToolCollectionFactory createDefaultToolCollectionFactory() {
+		AbstractToolCollectionFactory factory = null;
+		switch (getVersion()) {
+			case ANDROID_NATIVE_GRAPHING:
+			case IOS_NATIVE:
+			case WEB_GRAPHING:
+				factory = new GraphingToolCollectionFactory();
+				break;
+			case ANDROID_GEOMETRY:
+			case IOS_GEOMETRY:
+			case WEB_GEOMETRY:
+			case WEB_GEOMETRY_OFFLINE:
+				factory = new GeometryToolCollectionFactory();
+				break;
+			case ANDROID_NATIVE_3D:
+			case WEB_3D_GRAPHING:
+			case IOS_NATIVE_3D:
+				factory = new Graphing3DToolCollectionFactory();
+				break;
+			default:
+				factory = new GraphingToolCollectionFactory();
+		}
+		switch (getVersion()) {
+			case ANDROID_NATIVE_GRAPHING:
+			case ANDROID_GEOMETRY:
+			case ANDROID_NATIVE_3D:
+			case IOS_GEOMETRY:
+			case IOS_NATIVE:
+			case IOS_NATIVE_3D:
+				factory.setPhoneApp(true);
+			default:
+				factory.setPhoneApp(false);
+		}
+		return factory;
 	}
 
 	/**
