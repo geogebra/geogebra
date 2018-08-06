@@ -287,17 +287,15 @@ public class MainMenu extends FlowPanel
 		if (!app.isUnbundled()) {
 			if (app.isWhiteboardActive()) {
 				ImageResource icon = MaterialDesignResources.INSTANCE
-						.whiteboard();
+						.mebis();
 				logoMenu = new GMenuBar("", app);
 				logoMenu.setStyleName("logoMenu");
 				this.menuPanel.add(logoMenu,
-						getHTML(icon,
-								"GeoGebra " + app.getLocalization()
-										.getMenu("Perspective.Whiteboard")),
+						getHTML(icon, app.getLocalization()
+										.getMenu("Mebis")),
 						true);
 			} else {
 				this.menuPanel.addStyleName("menuPanel");
-
 			}
 		} else {
 			AppType appType = app.getSettings().getToolbarSettings().getType();

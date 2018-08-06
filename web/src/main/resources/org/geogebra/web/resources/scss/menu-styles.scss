@@ -247,8 +247,13 @@ $classicToolbar: 50px;
 		&.mow {
 			.gwt-StackPanel .gwt-StackPanelItem {
 				min-width: 255px;
+				
+				&.gwt-StackPanelItem-first img {
+					width: 40px;			
+				}
 			}
 		}
+
 		&.animateIn {
 			animation-duration: 0.25s;
 			animation-name: animateIn;

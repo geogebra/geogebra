@@ -384,7 +384,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-		buttonPanel.add(providerPopup);
+		if (!app.isWhiteboardActive()) {
+			buttonPanel.add(providerPopup);
+		}
 		buttonPanel.add(listBox);
 	}
 
