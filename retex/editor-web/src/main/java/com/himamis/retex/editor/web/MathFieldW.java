@@ -32,6 +32,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -46,6 +47,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -114,6 +116,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private FormatConverter converter;
 
 	private ExpressionReader expressionReader;
+
+	private Element dummy;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -192,6 +196,25 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
+		if (mobileBrowser()
+				&& !"".equals(label)) {
+			FactoryProvider.getInstance().debug(label);
+			if (dummy == null) {
+				dummy = DOM.createDiv();
+				dummy.setTabIndex(-1);
+				dummy.setAttribute("role", "status");
+				// dummy.setAttribute("aria-live", "polite");
+				dummy.setAttribute("aria-atomic", "true");
+				dummy.setAttribute("aria-relevant", "text");
+				dummy.getStyle().setTop(-1000.0, Unit.PX);
+				dummy.getStyle().setPosition(Position.ABSOLUTE);
+			}
+			parent.getElement().appendChild(dummy);
+
+			dummy.setInnerText(label);
+			dummy.focus();
+			return;
+		}
 		if (wrap != null) {
 			wrap.getElement().setAttribute("aria-label", label);
 		}
@@ -357,7 +380,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/** Read position in current */
-	protected void readPosition() {
+	public void readPosition() {
 		if (expressionReader != null) {
 			setAriaLabel(this.mathFieldInternal.getEditorState()
 					.getDescription(expressionReader));
@@ -509,7 +532,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (lastIcon == null) {
 			return;
 		}
-		if (!active(wrap.getElement()) && this.enabled) {
+		if (!active(wrap.getElement()) && this.enabled
+				&& !mobileBrowser()) {
 			wrap.getElement().focus();
 		}
 		final double height = computeHeight(lastIcon);
@@ -524,8 +548,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				"#FFFFFF", null, ratio);
 	}
 
+	private static boolean mobileBrowser() {
+		return false; // Navigator.getUserAgent().toLowerCase().contains("ipad");
+	}
+
 	private double computeHeight(TeXIcon lastIcon2) {
-		// TODO Auto-generated method stub
 		int margin = getMargin(lastIcon2);
 		return roundUp(lastIcon2.getIconHeight() + margin + bottomOffset);
 	}
@@ -661,7 +688,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		onTextfieldBlur = null;
 		mathFieldInternal.update();
 		// first focus canvas to get the scrolling right
-		html.getElement().focus();
+		if (!mobileBrowser()) {
+			html.getElement().focus();
+		}
 		if (focusHandler != null) {
 			focusHandler.onFocus(null);
 		}
@@ -671,7 +700,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	private void focusTextArea() {
-		wrap.getElement().focus();
+		if (!mobileBrowser()) {
+			wrap.getElement().focus();
+		}
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}

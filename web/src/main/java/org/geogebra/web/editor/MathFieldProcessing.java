@@ -50,6 +50,7 @@ public class MathFieldProcessing implements KeyboardListener {
 				: JavaKeyCodes.VK_RIGHT;
 
 		mf.getKeyListener().onKeyPressed(new KeyEvent(arrowType));
+		mf.readPosition();
 	}
 
 	@Override
