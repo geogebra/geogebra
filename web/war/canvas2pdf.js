@@ -180,8 +180,14 @@
 
 	                this.fillColor = value;
 
-	                var color = fixColor(value);
-	                _this.doc.fillColor(color.c, color.a);
+	                if (value instanceof PDFGradientFill) {
+	                	// TODO
+	                	console.log("TODO", _this.doc);
+	                } else {
+		                var color = fixColor(value);
+		                _this.doc.fillColor(color.c, color.a);	                	
+	                }
+	                
 	            }
 	        });
 	        Object.defineProperty(this, 'strokeStyle', {
@@ -358,12 +364,7 @@
 	        this.doc.quadraticCurveTo(cpx, cpy, x, y);
 	    };
 	    canvas2pdf.PdfContext.prototype.createLinearGradient = function(x1, y1, x2, y2) {
-	        var gradient = this.doc.linearGradient(x1, y1, x2, y2);
-	        gradient.addColorStop = function(offset, color) {
-	            var fixedColor = fixColor(color);
-	            gradient.stop(offset, fixedColor.c, fixedColor.a);
-	        };
-	        return gradient;
+	    	return this.doc.linearGradient(x1, y1, x2, y2);
 	    };
 
 	    canvas2pdf.PdfContext.prototype.createRadialGradient = function(x0, y0, r0, x1, y1, r1) {
@@ -477,7 +478,7 @@
 		
 		// use pako to compress streams if available
 		// https://github.com/nodeca/pako (MIT)
-		canvas2pdf.usePako = !!window.pako;
+		canvas2pdf.usePako = false;//!!window.pako;
 
 	}
 
@@ -573,14 +574,60 @@
 	PDFKitMini.prototype.imageLoadFromCanvas = function(a) {
 	    a = new PDFImage(a);
 	    this.add(a);
-	    this.currentImage = a
+	    this.currentImage = a;
 	};
 
 	PDFKitMini.prototype.imageTileLoadFromCanvas = function(a) {
 
 	    a = new PDFImageTile(a);
 	    this.add(a);
-	    this.currentPage.currentImageTile = a
+	    this.currentPage.currentImageTile = a;
+
+	};
+
+	PDFKitMini.prototype.linearGradient = function(x1, y1, x2, y2) {
+		
+		var m = this.currentPage._ctm;
+		
+		
+		var m0 = m[0];
+		var m1 = m[1];
+		var m2 = m[2];
+		var m3 = m[3];
+		var m4 = m[4];
+		var m5 = m[5];
+		
+		//console.log(m0,m1,m2,m3,m4,m5);
+		
+		
+		// inverse transformation
+		// needed????????????
+//		var m0t = m3 / ((m0 * m3) - (m1 * m2));
+//		var m1t = ((-m2)) / ((m0 * m3) - (m1 * m2));
+//		var m2t = ((m2 * m5) - (m3 * m4)) / ((m0 * m3) - (m1 * m2));
+//		var m3t = ((-m1)) / ((m0 * m3) - (m1 * m2));
+//		var m4t = m0 / ((m0 * m3) - (m1 * m2));
+//		var m5t = (((-m0) * m5) + (m1 * m4)) / ((m0 * m3) - (m1 * m2));
+//		console.log(m0t,m1t,m2t,m3t,m4t,m5t);
+//		console.log(x1,y1,x2,y2);
+//		
+//		
+//		// transform coords
+//		// needed?
+//		var x1t = m0t * x1 + m2t * y1 + m4t;
+//		var y1t = m1t * x1 + m3t * y1 + m5t;
+//		var x2t = m0t * x2 + m2t * y2 + m4t;
+//		var y2t = m1t * x2 + m3t * y2 + m5t;
+//		console.log(x1t,y1t,x2t,y2t);
+		
+
+	    var a = new PDFGradientFill(x1, y1, x2, y2, this.currentPage);
+	    this.add(a);
+	    this.currentPage.currentImageTile = a;
+	    
+	    this.addPatternToPage(a);
+	    
+	    return a;
 
 	};
 
@@ -961,7 +1008,7 @@
 	    this.pdfStream.addText("Q ");
 	};
 	PDFPage.prototype.fill = function(rule) {
-
+		
 	    if (this.currentImageTile) {
 	        this.pdfStream.addText("/Pattern cs ");
 	        this.pdfStream.addText("/Pattern CS ");
@@ -993,7 +1040,7 @@
 
 	    }
 	    this.setAlpha(this.alpha);
-
+	    
 	    this.pdfStream.addText(this.fillColor + " rg ");
 	    this.pdfStream.addText(this.strokeColor + " RG ");
 
@@ -1429,6 +1476,53 @@
 		}
 	    return PDFObject.makeObject(props, this.id, this.stream);
 	};
+	
+	function PDFGradientFill(x1, y1, x2, y2, currentPage) {
+		
+		this.page = currentPage;
+		
+		this.x1 = x1;
+		this.y1 = y1;
+		this.x2 = x2;
+		this.y2 = y2;
+		
+		this.cols = ["white", "black"];
+	}
+	
+	// n = 0 or 1
+	PDFGradientFill.prototype.addColorStop = function(n, col) {
+		if (n != 0 && n != 1) {
+			console.error("only 0 and 1 suppored for addColorStop", n);	
+		}
+		this.cols[Math.round(n)] = col;
+	}
+
+	PDFGradientFill.prototype.getObject = function() {
+		
+		var col0 = fixColor(this.cols[0]).c.split(" ");
+		var col1 = fixColor(this.cols[1]).c.split(" ");
+		
+	    var props = {
+	        "Type": "Pattern",
+	        "PatternType": 2,
+			"Shading": {
+		        "ShadingType": 2,
+		        "Extend": [true, true],
+		        "Coords": [this.x1, this.page.height - this.y1, this.x2, this.page.height - this.y2],
+				"ColorSpace": "DeviceRGB",
+		        "Function": {
+		            "FunctionType": 2,
+		            "N": 1,
+		            "Domain": [0, 1],
+		            "C0": [col0[0]*1, col0[1]*1, col0[2]*1],
+		            "C1": [col1[0]*1, col1[1]*1, col1[2]*1],
+		        }
+	        },
+	    }
+	    return PDFObject.makeObject(props, this.id, this.stream);
+	};
+
+
 
 	function PDFImageTile(canvas) {
 	    this.width = canvas.width;
