@@ -4911,9 +4911,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
 		ToolCollectionFactory factory = null;
-		Perspective perspective = getTmpPerspective(null);
-		String toolbarDefinition = perspective != null ?
-				perspective.getToolbarDefinition() : null;
+		String toolbarDefinition = getGuiManager().getToolbarDefinition();
 		if (toolbarDefinition == null) {
 			factory = createDefaultToolCollectionFactory();
 		} else {
