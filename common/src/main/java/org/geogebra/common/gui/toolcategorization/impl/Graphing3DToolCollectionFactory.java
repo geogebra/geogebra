@@ -87,6 +87,8 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
     private void createAdvancedLevel(ToolCollectionImpl impl) {
         impl.addLevel(LEVEL_ADVANCED);
 
+        impl.extendCategory(CATEGORY_BASIC);
+
         impl.extendCategory(CATEGORY_EDIT,
                 EuclidianConstants.MODE_VIEW_IN_FRONT_OF);
 

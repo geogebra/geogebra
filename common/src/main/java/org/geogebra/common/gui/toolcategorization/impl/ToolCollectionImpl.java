@@ -45,7 +45,8 @@ class ToolCollectionImpl implements ToolCollection {
             if (categoryIndex < 0) {
                 addCategory(category, tools);
             } else {
-                List<Integer> previousTools = collections.get(previousLevel).tools.get(categoryIndex);
+                List<Integer> previousTools =
+                        collections.get(previousLevel).tools.get(categoryIndex);
                 List<Integer> newTools = new ArrayList<>(previousTools);
                 newTools.addAll(tools);
                 addCategory(category, newTools);

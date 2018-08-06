@@ -91,13 +91,14 @@ abstract class AbstractToolCollectionFactory implements ToolCollectionFactory {
      */
      static final String CATEGORY_SELECT_AND_FORMAT = "ToolCategory.SelectAndFormat";
 
-    boolean isPhoneApp;
+    boolean isPhoneApp = false;
 
-    AbstractToolCollectionFactory() {
-        this(false);
-    }
-
-    AbstractToolCollectionFactory(boolean isPhoneApp) {
+    /**
+     * Set to true if this Factory is created for phone apps.
+     *
+     * @param isPhoneApp if phone app is using this
+     */
+    public void setPhoneApp(boolean isPhoneApp) {
         this.isPhoneApp = isPhoneApp;
     }
 }

@@ -20,7 +20,7 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
         createAdvancedLevel(impl);
 
         impl.setLevel(0);
-        return null;
+        return impl;
     }
 
     private void createEmptyConstructionLevel(ToolCollectionImpl impl) {
@@ -37,6 +37,8 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
 
     private void createStandardLevel(ToolCollectionImpl impl) {
         impl.addLevel(LEVEL_STANDARD);
+
+        impl.extendCategory(CATEGORY_BASIC);
 
         impl.extendCategory(CATEGORY_EDIT,
                 EuclidianConstants.MODE_SELECT,
@@ -92,6 +94,8 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
 
     private void createAdvancedLevel(ToolCollectionImpl impl) {
         impl.addLevel(LEVEL_ADVANCED);
+
+        impl.extendCategory(CATEGORY_BASIC);
 
         impl.extendCategory(CATEGORY_EDIT,
                 EuclidianConstants.MODE_TRANSLATEVIEW,

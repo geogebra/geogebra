@@ -16,7 +16,7 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
     private String toolbarDefinition;
 
     /**
-     * Create a CustomToolCollectionFactory.
+     * Creates a CustomToolCollectionFactory.
      *
      * @param app app
      * @param toolbarDefinition toolbar definition
@@ -24,6 +24,16 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
     public CustomToolCollectionFactory(App app, String toolbarDefinition) {
         this.app = app;
         this.toolbarDefinition = toolbarDefinition;
+    }
+
+
+    /**
+     * Creates a CustomToolCollectionFactory with an empty definition.
+     *
+     * @param app app
+     */
+    public CustomToolCollectionFactory(App app) {
+        this(app, "");
     }
 
     /**
