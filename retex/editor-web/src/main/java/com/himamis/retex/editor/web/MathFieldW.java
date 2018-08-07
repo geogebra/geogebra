@@ -188,6 +188,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}, MouseDownEvent.getType());
 
 		this.focusHandler = fh;
+		if (wrap != null) {
+			wrap.getElement().setAttribute("aria-live", "polite");
+		}
 		setKeyListener(wrap, keyListener);
 	}
 
