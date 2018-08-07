@@ -1906,6 +1906,7 @@ __GGB__keysVar["nn"].menu = {
     "Gridlines": "Linjer p\xe5 rutenettet",
     "Group": "Group",
     "GroupObjects": "Grupp\xe9r objekt",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Eksponentiell",
     "HSL": "HSL",
     "HSV": "HSV",

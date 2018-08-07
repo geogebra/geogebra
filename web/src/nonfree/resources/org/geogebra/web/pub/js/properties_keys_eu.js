@@ -1906,6 +1906,7 @@ __GGB__keysVar["eu"].menu = {
     "Gridlines": "Lauki-sarearen lerroak",
     "Group": "Group",
     "GroupObjects": "Taldekatu Objektuak",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Hazkuntza",
     "HSL": "HSL",
     "HSV": "HSV",

@@ -1906,6 +1906,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Gridlines": "\u683c\u7dda",
     "Group": "Group",
     "GroupObjects": "\u7fa4\u7d44\u7269\u4ef6",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "\u6210\u9577\u66f2\u7dda",
     "HSL": "HSL",
     "HSV": "HSV",

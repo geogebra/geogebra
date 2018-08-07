@@ -1906,6 +1906,7 @@ __GGB__keysVar["eo"].menu = {
     "Gridlines": "Kradlinioj",
     "Group": "Group",
     "GroupObjects": "Group Objects",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Growth",
     "HSL": "Dupolusa Kolorspaco",
     "HSV": "Unupolusa Kolorspaco",

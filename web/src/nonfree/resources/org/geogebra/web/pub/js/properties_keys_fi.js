@@ -1906,6 +1906,7 @@ __GGB__keysVar["fi"].menu = {
     "Gridlines": "Ruudukko",
     "Group": "Group",
     "GroupObjects": "Ryhmit\xe4 objektit",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Kasvu",
     "HSL": "HSL",
     "HSV": "HSV",

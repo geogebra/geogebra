@@ -1906,6 +1906,7 @@ __GGB__keysVar["id"].menu = {
     "Gridlines": "Garis Kisi-kisi",
     "Group": "Group",
     "GroupObjects": "Group Objek",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Pertumbuhan",
     "HSL": "HSL",
     "HSV": "HSV",

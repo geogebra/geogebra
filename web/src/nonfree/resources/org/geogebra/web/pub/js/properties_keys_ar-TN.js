@@ -1906,6 +1906,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "Gridlines": "\u062e\u0637\u0648\u0637 \u0627\u0644\u0634\u0628\u0643\u0629",
     "Group": "Group",
     "GroupObjects": "\u0645\u062c\u0645\u0648\u0639\u0627\u062a \u0627\u0644\u0639\u0646\u0627\u0635\u0631",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "\u0642\u0648\u0651\u0629",
     "HSL": "HSL",
     "HSV": "HSV",

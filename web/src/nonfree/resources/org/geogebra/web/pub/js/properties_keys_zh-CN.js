@@ -1906,6 +1906,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Gridlines": "\u7f51\u683c\u7ebf",
     "Group": "Group",
     "GroupObjects": "\u7ec4\u5408\u5bf9\u8c61",
+    "GroupShareTxt": "\u9009\u62e9\u4e0e\u5176\u5206\u4eab\u8d44\u6e90\u7684\u5c0f\u7ec4:",
     "Growth": "\u6210\u957f\u66f2\u7ebf",
     "HSL": "HSL",
     "HSV": "HSV",

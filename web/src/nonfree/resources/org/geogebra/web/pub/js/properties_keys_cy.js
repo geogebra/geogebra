@@ -1906,6 +1906,7 @@ __GGB__keysVar["cy"].menu = {
     "Gridlines": "Llinellau Grid",
     "Group": "Group",
     "GroupObjects": "Grwpio Gwrthrychau",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Cynnydd",
     "HSL": "HSL",
     "HSV": "HSV",

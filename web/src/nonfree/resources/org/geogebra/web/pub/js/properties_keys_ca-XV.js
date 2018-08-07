@@ -1906,6 +1906,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Gridlines": "Graella",
     "Group": "Group",
     "GroupObjects": "Agrupa els objectes",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "a*b^x",
     "HSL": "HSL",
     "HSV": "HSV",

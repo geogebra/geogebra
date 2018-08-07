@@ -1906,6 +1906,7 @@ __GGB__keysVar["de"].menu = {
     "Gridlines": "Gitterlinien",
     "Group": "Gruppe",
     "GroupObjects": "Objekte gruppieren",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Wachstum",
     "HSL": "HSL",
     "HSV": "HSV",

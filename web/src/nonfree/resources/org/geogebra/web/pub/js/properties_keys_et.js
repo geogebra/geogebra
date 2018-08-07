@@ -1906,6 +1906,7 @@ __GGB__keysVar["et"].menu = {
     "Gridlines": "Ruudustiku jooned",
     "Group": "Group",
     "GroupObjects": "Grupeeri objektid",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Kasv",
     "HSL": "HSL",
     "HSV": "HSV",

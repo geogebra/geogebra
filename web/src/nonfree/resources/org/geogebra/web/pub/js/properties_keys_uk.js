@@ -1906,6 +1906,7 @@ __GGB__keysVar["uk"].menu = {
     "Gridlines": "\u041b\u0456\u043d\u0456\u0457 \u0441\u0456\u0442\u043a\u0438",
     "Group": "Group",
     "GroupObjects": "\u0413\u0440\u0443\u043f\u0443\u0432\u0430\u0442\u0438 \u043e\u0431'\u0454\u043a\u0442\u0438",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "\u041f\u043e\u043a\u0430\u0437\u043e\u0432\u0430",
     "HSL": "HSL",
     "HSV": "HSV",

@@ -1906,6 +1906,7 @@ __GGB__keysVar["pt"].menu = {
     "Gridlines": "Retas da Malha",
     "Group": "Group",
     "GroupObjects": "Agrupar Objetos",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Crescimento",
     "HSL": "HSL",
     "HSV": "HSV",

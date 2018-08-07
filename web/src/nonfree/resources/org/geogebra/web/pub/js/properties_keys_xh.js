@@ -1906,6 +1906,7 @@ __GGB__keysVar["xh"].menu = {
     "Gridlines": "Imigca yeGrid",
     "Group": "Group",
     "GroupObjects": "Izinto zeGroup",
+    "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Ukukhula",
     "HSL": "HSL",
     "HSV": "HSV",
