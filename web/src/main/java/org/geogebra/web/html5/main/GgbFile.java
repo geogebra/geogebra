@@ -44,24 +44,36 @@ public class GgbFile extends HashMap<String, String> implements ZipFile {
 	}
 
 	/**
+	 * @param copyId
+	 *            id of the new file
 	 * @return a file with the same content
 	 */
-	public GgbFile duplicate(String id) {
-		GgbFile copy = id == null ? new GgbFile() : new GgbFile(id);
+	public GgbFile duplicate(String copyId) {
+		GgbFile copy = copyId == null ? new GgbFile() : new GgbFile(copyId);
 		for (Entry<String, String> entry : entrySet()) {
 			copy.put(entry.getKey(), entry.getValue());
 		}
 		return copy;
 	}
 
+	/**
+	 * @return file ID
+	 */
 	public String getID() {
 		return id;
 	}
 
+	/**
+	 * @param id
+	 *            file ID
+	 */
 	public void setID(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return file counter; unique within session
+	 */
 	public static int getCounter() {
 		return counter;
 	}

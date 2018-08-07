@@ -2,12 +2,17 @@ package org.geogebra.web.html5.main;
 
 import com.google.gwt.dom.client.Element;
 
+/**
+ * Handles files dropped into GeoGebra.
+ */
 public class FileDropHandlerW {
 	/**
 	 * Register file drop handlers for the canvas of this application
 	 * 
 	 * @param ce
 	 *            Element that listens to the drop events
+	 * @param appl
+	 *            application
 	 */
 	protected static native void registerDropHandler(Element ce,
 			AppW appl) /*-{

@@ -51,18 +51,25 @@ public class TimerSystemW {
 		repaintTimer = new Timer() {
 			@Override
 			public void run() {
-				browserSkipped = 0;
-				if (!suggestRepaint()) {
-					idle++;
-				}
-				if (idle > 30) {
-					idle = 0;
-					this.cancel();
-				}
+				tick();
 			}
 		};
 
 		repaintTimer.scheduleRepeating(MAIN_LOOP_DELAY);
+	}
+
+	/**
+	 * Execute one timer tick.
+	 */
+	protected void tick() {
+		browserSkipped = 0;
+		if (!suggestRepaint()) {
+			idle++;
+		}
+		if (idle > 30) {
+			idle = 0;
+			repaintTimer.cancel();
+		}
 	}
 
 	/**
