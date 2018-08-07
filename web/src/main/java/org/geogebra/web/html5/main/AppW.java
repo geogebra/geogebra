@@ -2229,7 +2229,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// }
 		updateCommandDictionary();
 		String key = getConfig().getAppTitle();
-		Log.debug(getArticleElement());
 		getArticleElement().getElement().setAttribute("aria-label",
 				getLocalization().getMenu(key));
 		setAltText();
