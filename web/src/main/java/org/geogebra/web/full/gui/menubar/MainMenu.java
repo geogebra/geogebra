@@ -291,8 +291,7 @@ public class MainMenu extends FlowPanel
 				logoMenu = new GMenuBar("", app);
 				logoMenu.setStyleName("logoMenu");
 				this.menuPanel.add(logoMenu,
-						getHTML(icon, app.getLocalization()
-										.getMenu("Mebis")),
+						getHTML(icon, ""),
 						true);
 			} else {
 				this.menuPanel.addStyleName("menuPanel");
