@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -33,7 +34,6 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.Window.Navigator;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -471,9 +471,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	private static boolean isControlKeyDown(KeyUpEvent event) {
 		return event.isControlKeyDown()
-				|| ((Navigator.getUserAgent().contains("Macintosh")
-						|| Navigator.getUserAgent().contains("Mac OS"))
-						&& event.isMetaKeyDown());
+				|| Browser.isMacOS() && event.isMetaKeyDown();
 	}
 
 	/**

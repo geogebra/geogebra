@@ -769,4 +769,12 @@ public class Browser {
 		return Navigator.getUserAgent().matches(".*Chrome/.*");
 	}
 
+	/**
+	 * @return whether we're running in a Mac browser
+	 */
+	public static boolean isMacOS() {
+		return Navigator.getUserAgent().contains("Macintosh")
+				|| Navigator.getUserAgent().contains("Mac OS");
+	}
+
 }
