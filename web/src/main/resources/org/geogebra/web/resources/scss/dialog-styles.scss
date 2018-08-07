@@ -1023,5 +1023,27 @@ $duration: 0.2s;
 			}
 		}
 	}
+
+	.MaterialDialogBox.mowShareDialog {
+		padding: 24px 0px 24px 0px;
+		
+		.Caption {
+			padding: 0px 24px 0px 24px;	
+		}
+		
+		.chooseGrTxt {
+			color: $text-primary;
+			font-size: 100%;
+    		margin: 0px 24px 10px 24px;	
+		}
+	
+		.groupList {
+			height: unset;
+			max-height: 216px;
+			border-bottom: 1px solid $black-12;
+			border-top: 1px solid $black-12;	
+			padding: 0px 24px 0px 24px;	
+		}		
+	}
 }
 	

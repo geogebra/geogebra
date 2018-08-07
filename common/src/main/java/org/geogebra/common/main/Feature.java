@@ -297,6 +297,9 @@ public enum Feature {
 	MOW_BACKGROUND,
 
 	/** MOW-532 */
-	MOW_BURGER_MENU_CLEANUP
+	MOW_BURGER_MENU_CLEANUP,
+	
+	/** MOW-484 */
+	MOW_SHARE_DIALOG
 }
 

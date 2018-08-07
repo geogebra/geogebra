@@ -3894,6 +3894,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_BURGER_MENU_CLEANUP:
 			return canary && whiteboard;
 
+		/** MOW-484 */
+		case MOW_SHARE_DIALOG:
+			return canary && whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

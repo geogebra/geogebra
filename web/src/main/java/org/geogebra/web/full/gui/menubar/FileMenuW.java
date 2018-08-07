@@ -32,6 +32,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialog;
 import org.geogebra.web.shared.ShareDialogW;
+import org.geogebra.web.shared.ShareMowDialog;
 import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -489,6 +490,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		Runnable shareCallback = new Runnable() {
 			protected ShareDialog shareDialog;
 			protected ShareDialogW sd;
+			protected ShareMowDialog mowShareDialog;
 
 			@Override
 			public void run() {
@@ -518,12 +520,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						&& app.getActiveMaterial().getSharingKey() != null) {
 					sharingKey = app.getActiveMaterial().getSharingKey();
 				}
-				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
+				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
+						&& app.isUnbundled()) {
 					shareDialog = new ShareDialog(app,
 							app.getCurrentURL(sharingKey, true), anchor);
 					shareDialog.setVisible(true);
 					shareDialog.center();
-				} else {
+				} else if (app.has(Feature.MOW_SHARE_DIALOG)) {
+					mowShareDialog = new ShareMowDialog(app);
+					mowShareDialog.show();
+				}
+				else {
 					sd = new ShareDialogW(app, anchor, geogebrabutton,
 							app.getCurrentURL(sharingKey, true));
 					sd.setVisible(true);
