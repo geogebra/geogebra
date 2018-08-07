@@ -386,8 +386,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
 		if (!app.isWhiteboardActive()) {
 			buttonPanel.add(providerPopup);
+			buttonPanel.add(listBox);
 		}
-		buttonPanel.add(listBox);
 	}
 
 	/**
