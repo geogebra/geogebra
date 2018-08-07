@@ -252,6 +252,7 @@ public class ScreenReader {
 				sb.append(ariaPreview);
 			}
 		} catch (Exception e) {
+			return exp;
 			// do nothing
 		}
 		return sb.toString();
