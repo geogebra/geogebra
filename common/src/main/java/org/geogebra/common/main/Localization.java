@@ -50,6 +50,7 @@ public abstract class Localization {
 	private boolean reverseNameDescription = false;
 	// For Hebrew and Arabic. Guy Hed, 25.8.2008
 	public boolean rightToLeftReadingOrder = false;
+	private boolean areEnglishCommandsForced;
 
 	/** decimal point (different in eg Arabic) */
 	private char unicodeDecimalPoint = '.';
@@ -1486,7 +1487,7 @@ public abstract class Localization {
 	 */
 	protected Locale getCommandLocale() {
 		Language language = Language.getLanguage(getLanguage());
-		if (language != null && !language.hasTranslatedKeyboard()) {
+		if (areEnglishCommandsForced || (language != null && !language.hasTranslatedKeyboard())) {
 			return Locale.ENGLISH;
 		}
 		return currentLocale;
@@ -1524,5 +1525,9 @@ public abstract class Localization {
 	public String getTutorialURL(AppConfig config) {
 		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/"
 				+ getMenu(config.getTutorialKey());
+	}
+
+	public void forceEnglishCommands() {
+		areEnglishCommandsForced = true;
 	}
 }

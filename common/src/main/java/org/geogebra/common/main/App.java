@@ -405,8 +405,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	protected AccessibilityManagerInterface accessibilityManager;
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 
-	private boolean mAreEnglishCommandsForced;
-
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
 	}
@@ -754,12 +752,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			}
 
 			// Log.debug(internal);
-			String local;
-			if (mAreEnglishCommandsForced)  {
-				local = getEnLocalization().getCommand(internal);
-			} else {
-				local = getLocalization().getCommand(internal);
-			}
+			String local = getLocalization().getCommand(internal);
 			putInTranslateCommandTable(comm, local);
 
 			if (local != null) {
@@ -5216,7 +5209,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	public void forceEnglishCommands() {
-		mAreEnglishCommandsForced = true;
+		getLocalization().forceEnglishCommands();
 	}
 
 }
