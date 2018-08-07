@@ -90,7 +90,6 @@ class ToolCollectionImpl implements ToolCollection {
     @Override
     public void filter(ToolCollectionFilter filter) {
         for (ToolsCollection collection: collections) {
-            List<String> newCategories = new ArrayList<>();
             for (int i = collection.tools.size() - 1; i >= 0; i--) {
                 List<Integer> tools = collection.tools.get(i);
                 List<Integer> filteredTools = new ArrayList<>();
