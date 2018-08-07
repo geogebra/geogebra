@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -5210,6 +5211,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	public void forceEnglishCommands() {
 		getLocalization().forceEnglishCommands();
+		StringTemplate.editorTemplate.setLocalizeCmds(false);
 	}
 
 }
