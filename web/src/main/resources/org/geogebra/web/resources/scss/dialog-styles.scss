@@ -831,7 +831,7 @@ $duration: 0.2s;
    			}
    		}
 	}
-	.MaterialDialogBox.shareDialog {
+	.MaterialDialogBox.shareLinkGgb {
 		padding-bottom: 24px;
 		padding-right: 24px;
 		
@@ -1073,6 +1073,29 @@ $duration: 0.2s;
 	    		}
 			}	
 		}	
+	}
+
+	.MaterialDialogBox.shareLinkMow {
+		@extend .shareLinkGgb;
+		
+		padding: 24px 8px 0px 24px;
+		
+		.linkPanel {	
+			margin-right: 16px;
+					
+			.linkBox {
+			    border-bottom: 2px solid $mebis-teal-dark !important;
+			}
+			.linkBox::selection {
+  				background: $mebis-teal-20;
+  			}
+  		}
+  	
+  		.DialogButtonPanel {
+  			.button {
+   				color: $mebis-teal-dark;	
+   			}	
+  		}
 	}
 }
 	

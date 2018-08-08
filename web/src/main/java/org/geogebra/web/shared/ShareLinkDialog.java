@@ -41,6 +41,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	private FlowPanel buttonPanel;
 	private StandardButton printBtn;
 	private StandardButton exportImgBtn;
+	private StandardButton cancelBtn;
 
 	private String shareURL;
 	/** parent widget */
@@ -63,7 +64,8 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private void initGui() {
-		addStyleName("shareDialog");
+		addStyleName(
+				app.isWhiteboardActive() ? "shareLinkMow" : "shareLinkGgb");
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -107,8 +109,14 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 				localize("exportImage"), 24, app);
 		exportImgBtn.setStyleName("roundButton");
 		exportImgBtn.addFastClickHandler(this);
-		buttonPanel.add(printBtn);
-		buttonPanel.add(exportImgBtn);
+		cancelBtn = new StandardButton(localize("Cancel"), app);
+		if (app.isWhiteboardActive()) {
+			buttonPanel.setStyleName("DialogButtonPanel");
+			buttonPanel.add(cancelBtn);
+		} else {
+			buttonPanel.add(printBtn);
+			buttonPanel.add(exportImgBtn);
+		}
 		mainPanel.add(buttonPanel);
 		add(mainPanel);
 		setLabels();
@@ -182,7 +190,8 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	 */
 	public void setLabels() {
 		// dialog title
-		getCaption().setText(localize("Share"));
+		getCaption().setText(
+				localize(app.isWhiteboardActive() ? "shareByLink" : "Share"));
 		linkLabel.setText(localize("Link"));
 		copyBtn.setText(localize("Copy"));
 		printBtn.setText(localize("Print"));

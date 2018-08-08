@@ -30,6 +30,7 @@ public class ShareMowDialog extends DialogBoxW
 	public ShareMowDialog(AppW app) {
 		super(app.getPanel(), app);
 		setAutoHideEnabled(true);
+		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
 		buildGUI();
 	}
@@ -41,6 +42,7 @@ public class ShareMowDialog extends DialogBoxW
 		chooseGrLbl.setStyleName("chooseGrTxt");
 		contentPanel.add(chooseGrLbl);
 		groupsPanel = new ScrollPanel();
+
 		groupsPanel.setStyleName("groupList");
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
@@ -60,12 +62,16 @@ public class ShareMowDialog extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == getLinkBtn) {
 			hide();
-			new ShareLinkDialog((AppW) app, "", null).show();
+			ShareLinkDialog getLinkSD = new ShareLinkDialog((AppW) app,
+					"mow share link", null);
+			getLinkSD.show();
+			getLinkSD.center();
 		}
 	}
 
 	public void setLabels() {
-		getCaption().setText(app.getLocalization().getMenu("Share"));
+		getCaption().setText(app.getLocalization()
+				.getMenu("Share"));
 		chooseGrLbl.setText(app.getLocalization().getMenu("GroupShareTxt"));
 	}
 
