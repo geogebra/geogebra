@@ -34,6 +34,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
@@ -4908,7 +4909,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public ToolCollectionFactory createToolCollectionFactory() {
 		ToolCollectionFactory factory = null;
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null) {
+		if (toolbarDefinition == null
+				|| ToolBar.isDefaultToolbar(toolbarDefinition)
+				|| ToolBar.isDefaultToolbar3D(toolbarDefinition)) {
 			factory = createDefaultToolCollectionFactory();
 		} else {
 			factory = new CustomToolCollectionFactory(this, toolbarDefinition);
