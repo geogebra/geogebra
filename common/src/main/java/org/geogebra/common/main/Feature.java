@@ -267,9 +267,6 @@ public enum Feature {
 	/** MOB-1518 */
 	MOB_PACK_QUADRICS,
 
-	/** MOB-1519 */
-	MOB_PACK_SURFACES_GRAPHS,
-
 	/** GGB-2416 */
 	SHARE_DIALOG_MAT_DESIGN,
 
