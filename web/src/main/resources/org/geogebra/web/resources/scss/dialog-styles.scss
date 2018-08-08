@@ -1043,7 +1043,36 @@ $duration: 0.2s;
 			border-bottom: 1px solid $black-12;
 			border-top: 1px solid $black-12;	
 			padding: 0px 24px 0px 24px;	
-		}		
+		}
+	
+		.buttonPanel {
+			margin: 20px auto 0px auto;
+    		width: fit-content;
+			
+			.getLinkBtn {
+				cursor: pointer;
+				
+				img {
+					padding: 6px;
+	    			background-color: $mebis-teal;
+	    			border-radius: 50%;
+	    		}
+	    		
+	    		.gwt-Label {
+	    			text-align: center;
+	    			margin: 4px 0px 0px 0px;
+	    			color: $text-secondary;
+	    			font-size: 80%;
+	    			cursor: pointer;
+	    		}
+	    	
+	    		&:hover {
+	    			img {
+	    				background-color: $mebis-teal-hover;
+	    			}	
+	    		}
+			}	
+		}	
 	}
 }
 	

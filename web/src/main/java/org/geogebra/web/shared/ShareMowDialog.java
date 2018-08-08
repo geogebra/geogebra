@@ -1,7 +1,9 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -20,6 +22,7 @@ public class ShareMowDialog extends DialogBoxW
 	private ScrollPanel groupsPanel;
 	private Label chooseGrLbl;
 	private FlowPanel buttonPanel;
+	private StandardButton getLinkBtn;
 
 	/**
 	 * @param app
@@ -27,6 +30,7 @@ public class ShareMowDialog extends DialogBoxW
 	 */
 	public ShareMowDialog(AppW app) {
 		super(app.getPanel(), app);
+		setAutoHideEnabled(true);
 		addStyleName("mowShareDialog");
 		buildGUI();
 	}
@@ -40,7 +44,12 @@ public class ShareMowDialog extends DialogBoxW
 		groupsPanel = new ScrollPanel();
 		groupsPanel.setStyleName("groupList");
 		buttonPanel = new FlowPanel();
-
+		buttonPanel.setStyleName("buttonPanel");
+		getLinkBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.mow_link_white(),
+				app.getLocalization().getMenu("getLink"), 24, app);
+		getLinkBtn.setStyleName("getLinkBtn");
+		buttonPanel.add(getLinkBtn);
 		dialog.add(contentPanel);
 		dialog.add(groupsPanel);
 		dialog.add(buttonPanel);
