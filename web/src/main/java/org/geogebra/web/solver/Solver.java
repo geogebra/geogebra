@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
@@ -131,6 +132,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 
 		mathField = new MathFieldW(null, editorFocusPanel, canvas, this, false, null);
 		mathField.setPixelRatio(Browser.getPixelRatio());
+		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
 
 		Window.addResizeHandler(new ResizeHandler() {
