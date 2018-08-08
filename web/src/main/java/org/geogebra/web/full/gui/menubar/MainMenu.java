@@ -83,7 +83,8 @@ public class MainMenu extends FlowPanel
 	 * img list of menu items
 	 */
 	ArrayList<SVGResource> menuImgs = new ArrayList<>();
-	private GMenuBar userMenu;
+	/** user menu */
+	GMenuBar userMenu;
 	/** sign in menu */
 	final GMenuBar signInMenu;
 	/**
@@ -106,7 +107,6 @@ public class MainMenu extends FlowPanel
 			this.addStyleName("menubarSMART");
 		}
 		signInMenu = new GMenuBar("signin", app);
-		// leftSide = app.isWhiteboardActive() || app.isUnbundled();
 		this.app = app;
 		init();
 	}
@@ -409,7 +409,7 @@ public class MainMenu extends FlowPanel
 				GMenuBar menu = getMenuAt(index);
 				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
 						+ menu.getMenuTitle().substring(1);
-				if ("User".equals(title)
+				if (menu == userMenu
 						&& app.getLoginOperation().isLoggedIn()) {
 					title = app.getLoginOperation().getUserName();
 				}
