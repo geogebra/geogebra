@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -46,8 +45,9 @@ public class ShareMowDialog extends DialogBoxW
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		getLinkBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.mow_link_white(),
+				SharedResources.INSTANCE.mow_link_white(),
 				app.getLocalization().getMenu("getLink"), 24, app);
+		getLinkBtn.addFastClickHandler(this);
 		getLinkBtn.setStyleName("getLinkBtn");
 		buttonPanel.add(getLinkBtn);
 		dialog.add(contentPanel);
@@ -58,7 +58,10 @@ public class ShareMowDialog extends DialogBoxW
 	}
 
 	public void onClick(Widget source) {
-
+		if (source == getLinkBtn) {
+			hide();
+			new ShareLinkDialog((AppW) app, "", null).show();
+		}
 	}
 
 	public void setLabels() {

@@ -458,9 +458,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-link-24px.svg")
 	SVGResource mow_card_link();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-link-white-24px.svg")
-	SVGResource mow_link_white();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-lock-24px.svg")
 	SVGResource mow_card_private();
 
