@@ -212,7 +212,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			if (dummy == null) {
 				dummy = DOM.createDiv();
 				dummy.setTabIndex(-1);
-				dummy.setAttribute("role", "status");
+				// dummy.setAttribute("role", "status");
 				// dummy.setAttribute("aria-live", "polite");
 				dummy.setAttribute("aria-atomic", "true");
 				dummy.setAttribute("aria-relevant", "text");
@@ -542,8 +542,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (lastIcon == null) {
 			return;
 		}
-		if (!active(wrap.getElement()) && this.enabled
-				&& !mobileBrowser()) {
+		if (!active(wrap.getElement()) && this.enabled) {
 			wrap.getElement().focus();
 		}
 		final double height = computeHeight(lastIcon);
@@ -559,7 +558,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	private static boolean mobileBrowser() {
-		return false; // Navigator.getUserAgent().toLowerCase().contains("ipad");
+		return Navigator.getUserAgent().toLowerCase().contains("ipad");
 	}
 
 	private double computeHeight(TeXIcon lastIcon2) {
@@ -698,9 +697,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		onTextfieldBlur = null;
 		mathFieldInternal.update();
 		// first focus canvas to get the scrolling right
-		if (!mobileBrowser()) {
-			html.getElement().focus();
-		}
+		html.getElement().focus();
+
 		if (focusHandler != null) {
 			focusHandler.onFocus(null);
 		}
@@ -710,9 +708,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	private void focusTextArea() {
-		if (!mobileBrowser()) {
-			wrap.getElement().focus();
-		}
+		wrap.getElement().focus();
+
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}
