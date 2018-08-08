@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class ShareMowDialog extends DialogBoxW
+public class ShareDialogMow extends DialogBoxW
 		implements FastClickHandler, SetLabels {
 	private FlowPanel dialog;
 	private FlowPanel contentPanel;
@@ -27,7 +27,7 @@ public class ShareMowDialog extends DialogBoxW
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public ShareMowDialog(AppW app) {
+	public ShareDialogMow(AppW app) {
 		super(app.getPanel(), app);
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
@@ -57,6 +57,7 @@ public class ShareMowDialog extends DialogBoxW
 		dialog.add(buttonPanel);
 		this.add(dialog);
 		setLabels();
+		addResizeHandler();
 	}
 
 	public void onClick(Widget source) {
@@ -73,6 +74,7 @@ public class ShareMowDialog extends DialogBoxW
 		getCaption().setText(app.getLocalization()
 				.getMenu("Share"));
 		chooseGrLbl.setText(app.getLocalization().getMenu("GroupShareTxt"));
+		getLinkBtn.setText(app.getLocalization().getMenu("getLink"));
 	}
 
 	@Override
@@ -80,5 +82,4 @@ public class ShareMowDialog extends DialogBoxW
 		super.show();
 		super.center();
 	}
-
 }

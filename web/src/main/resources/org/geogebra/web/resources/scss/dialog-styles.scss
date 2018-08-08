@@ -1032,7 +1032,7 @@ $duration: 0.2s;
 		}
 		
 		.chooseGrTxt {
-			color: $text-primary;
+			color: $text-secondary;
 			font-size: 100%;
     		margin: 0px 24px 10px 24px;	
 		}
@@ -1051,6 +1051,7 @@ $duration: 0.2s;
 			
 			.getLinkBtn {
 				cursor: pointer;
+				transition: background-color 0.15s;
 				
 				img {
 					padding: 6px;

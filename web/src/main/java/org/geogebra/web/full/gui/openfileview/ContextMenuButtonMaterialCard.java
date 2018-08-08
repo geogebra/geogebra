@@ -6,7 +6,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ShareMowDialog;
+import org.geogebra.web.shared.ShareDialogMow;
 
 import com.google.gwt.user.client.Command;
 
@@ -93,7 +93,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute share action
 	 */
 	protected void onShare() {
-		ShareMowDialog dialog = new ShareMowDialog(app);
+		ShareDialogMow dialog = new ShareDialogMow(app);
 		dialog.show();
 		// GroupShareDialog dialog = new GroupShareDialog(app, card);
 		// dialog.center();
