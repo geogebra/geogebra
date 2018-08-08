@@ -6,12 +6,15 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -70,6 +73,8 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
 		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
+		setGlassEnabled(false);
+		setAutoHideEnabled(true);
 		buildGUI(isLogDialog);
 	}
 
@@ -87,7 +92,9 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		// build button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		if (appW.getExam().isCheating() && !isLogDialog) {
+		if ((appW.getExam().isCheating() && !isLogDialog)
+				|| (isLogDialog && activityPanel != null
+						&& activityPanel.getWidgetCount() > 7)) {
 			buttonPanel.addStyleName("withDivider");
 		}
 		okBtn = new StandardButton("", appW);
@@ -101,6 +108,12 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		dialog.add(buttonPanel);
 		this.add(dialog);
 		setLabels();
+		addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				removeSelection();
+			}
+		});
 	}
 
 	private void buildTitlePanel() {
@@ -217,11 +230,18 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		}
 	}
 
-	@Override
-	public void hide() {
-		super.hide();
+	/**
+	 * remove selected style of anchor btn
+	 */
+	public void removeSelection() {
 		if (anchor != null) {
 			anchor.removeStyleName("selected");
 		}
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		removeSelection();
 	}
 }
