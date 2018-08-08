@@ -110,6 +110,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		exportImgBtn.setStyleName("roundButton");
 		exportImgBtn.addFastClickHandler(this);
 		cancelBtn = new StandardButton(localize("Cancel"), app);
+		cancelBtn.addFastClickHandler(this);
 		if (app.isWhiteboardActive()) {
 			buttonPanel.setStyleName("DialogButtonPanel");
 			buttonPanel.add(cancelBtn);
@@ -166,6 +167,8 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		} else if (source == exportImgBtn) {
 			app.getDialogManager().showExportImageDialog(null);
 			hide();
+		} else if (source == cancelBtn) {
+			hide();
 		}
 	}
 
@@ -196,6 +199,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		copyBtn.setText(localize("Copy"));
 		printBtn.setText(localize("Print"));
 		exportImgBtn.setText(localize("exportImage"));
+		cancelBtn.setText(localize("Cancel"));
 	}
 
 	private String localize(String id) {
