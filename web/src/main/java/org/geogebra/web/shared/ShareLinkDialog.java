@@ -25,9 +25,9 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Alicia
  *
- *         Share Dialog Material Design
+ *         get share link dialog
  */
-public class ShareDialog extends DialogBoxW implements FastClickHandler {
+public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 
 	private FlowPanel mainPanel;
 	private FlowPanel linkPanel;
@@ -54,7 +54,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	 * @param anchor
 	 *            parent widget
 	 */
-	public ShareDialog(AppW app, String shareURL, Widget anchor) {
+	public ShareLinkDialog(AppW app, String shareURL, Widget anchor) {
 		super(app.getPanel(), app);
 		this.app = app;
 		this.shareURL = shareURL;

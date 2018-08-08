@@ -17,7 +17,7 @@ import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
-import org.geogebra.web.shared.ShareDialog;
+import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.solver.Solver;
 
@@ -79,7 +79,8 @@ public class AppWsolver extends AppW implements HasKeyboard {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				String url = Location.getHref().replaceAll("\\?.*", "")
 						+ Solver.getRelativeURLforEqn(getMathField().getText());
-				ShareDialog sd = new ShareDialog(AppWsolver.this, url, share);
+				ShareLinkDialog sd = new ShareLinkDialog(AppWsolver.this, url,
+						share);
 				sd.setVisible(true);
 				sd.center();
 			}
