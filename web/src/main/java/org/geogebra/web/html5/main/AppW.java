@@ -1294,13 +1294,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public native boolean doOpenFile(JavaScriptObject fileToHandle,
 			JavaScriptObject callback) /*-{
-		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off)$/i;
+		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off|pdf)$/i;
 		var fileName = fileToHandle.name.toLowerCase();
 		if (!fileName.match(ggbRegEx)) {
 			return false;
 		}
-
 		var appl = this;
+		if (fileName.match(/\.(pdf)$/i)) {
+			appl.@org.geogebra.web.html5.main.AppW::openPDF(Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+			return true;
+		}
+
 		var reader = new FileReader();
 		reader.onloadend = function(ev) {
 			if (reader.readyState === reader.DONE) {
@@ -3316,6 +3320,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 **/
 	public void openOFF(String response) {
 		// only makes sense in 3D
+	}
+
+	public void openPDF(JavaScriptObject response) {
+		// only makes sense in GUI
 	}
 
 	/**

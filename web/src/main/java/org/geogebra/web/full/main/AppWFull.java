@@ -102,6 +102,7 @@ import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -1895,6 +1896,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private void setSpHeight(int spHeight) {
 		this.spHeight = spHeight;
+	}
+
+	@Override
+	public void openPDF(JavaScriptObject file) {
+		((DialogManagerW) this.getDialogManager()).showPDFInputDialog(file);
 	}
 
 }
