@@ -255,9 +255,6 @@ public enum Feature {
 	/** AND-887 and IGR-732 */
 	MOB_PROPERTY_SORT_BY,
 
-	/** IGR-898 */
-	MOB_REACT_SEARCH_VIEW,
-
 	/** GGB-2375 */
 	INPUT_BOX_LINE_UP_BETTER,
 

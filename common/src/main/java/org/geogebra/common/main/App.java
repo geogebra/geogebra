@@ -3729,10 +3729,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_PROPERTY_SORT_BY:
 			return false;
 
-		// IGR-898
-		case MOB_REACT_SEARCH_VIEW:
-			return true;
-
 		// MOB-1517
 		case MOB_PACK_PLANES:
 			return true;
