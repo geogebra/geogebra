@@ -112,7 +112,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -3031,8 +3030,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawTransp(Renderer renderer1) {
-		if (!app.has(Feature.MOB_PACK_PLANES)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			if (xOyPlane.isPlateVisible()) {
 				xOyPlaneDrawable.drawTransp(renderer1);
 			}
@@ -3048,8 +3046,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawHiding(Renderer renderer1) {
-		if (!app.has(Feature.MOB_PACK_PLANES)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			xOyPlaneDrawable.drawHiding(renderer1);
 		}
 		getCompanion().drawHiding(renderer1);
@@ -3098,8 +3095,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		if (!app.has(Feature.MOB_PACK_PLANES)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			xOyPlaneDrawable.drawHidden(renderer1);
 		}
 

@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -129,21 +128,15 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 	@Override
 	public GColor getSurfaceColor() {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_PLANES)) {
-			if (getPlane().isPlateVisible()) {
-				return super.getSurfaceColor();
-			}
-			return ManagerShadersElementsGlobalBufferPacking.COLOR_INVISIBLE;
+		if (getPlane().isPlateVisible()) {
+			return super.getSurfaceColor();
 		}
-		return super.getSurfaceColor();
+		return ManagerShadersElementsGlobalBufferPacking.COLOR_INVISIBLE;
 	}
 
 	@Override
 	public boolean isVisible() {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_PLANES)) {
-			return isGridVisible() || getPlane().isPlateVisible();
-		}
-		return super.isVisible();
+		return isGridVisible() || getPlane().isPlateVisible();
 	}
 
 }

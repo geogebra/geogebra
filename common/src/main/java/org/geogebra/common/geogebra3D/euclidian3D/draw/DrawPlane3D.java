@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -683,8 +682,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_PLANES)
-				&& shouldBePackedCheckCreatedByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 
 }
