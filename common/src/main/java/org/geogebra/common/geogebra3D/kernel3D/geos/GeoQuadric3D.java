@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -237,10 +236,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				getPlanes();
 				planes[0].setEquation(matrix[7], matrix[8], matrix[9],
 						matrix[3] / 2);
-				if (getKernel().getApplication()
-						.has(Feature.MOB_PACK_QUADRICS)) {
-					planes[0].getCoordSys().makeEquationVector();
-				}
+				planes[0].getCoordSys().makeEquationVector();
 				type = GeoQuadricNDConstants.QUADRIC_PLANE;
 
 			} else {
@@ -530,9 +526,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		cs.setVz(eigenvecND[2]);
 		cs.setMatrixOrthonormalAndDrawingMatrix();
 		cs.setMadeCoordSys();
-		if (getKernel().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			cs.makeEquationVector();
-		}
+		cs.makeEquationVector();
 
 		cs = planes[1].getCoordSys();
 		cs.resetCoordSys();
@@ -544,9 +538,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		cs.setVz(eigenvecND[2]);
 		cs.setMatrixOrthonormalAndDrawingMatrix();
 		cs.setMadeCoordSys();
-		if (getKernel().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			cs.makeEquationVector();
-		}
+		cs.makeEquationVector();
 
 		type = GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES;
 	}
@@ -714,9 +706,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		tmpCoords3.setAdd(tmpCoords, tmpCoords2);
 		cs.addVectorWithoutCheckMadeCoordSys(tmpCoords3);
 		cs.makeOrthoMatrix(false, false);
-		if (getKernel().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			cs.makeEquationVector();
-		}
+		cs.makeEquationVector();
 
 		cs = planes[1].getCoordSys();
 		cs.resetCoordSys();
@@ -725,9 +715,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		tmpCoords3.setSub(tmpCoords, tmpCoords2);
 		cs.addVectorWithoutCheckMadeCoordSys(tmpCoords3);
 		cs.makeOrthoMatrix(false, false);
-		if (getKernel().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			cs.makeEquationVector();
-		}
+		cs.makeEquationVector();
 
 		type = GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES;
 

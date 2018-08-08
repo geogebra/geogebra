@@ -4,7 +4,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 
 /**
  * Helper for drawing planes, for quadrics
@@ -57,10 +56,7 @@ public class DrawPlane3DForQuadrics extends DrawPlane3D {
 
 	@Override
 	protected int getGridThickness() {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			return 0; // no grid used for planes for quadrics
-		}
-		return super.getGridThickness();
+		return 0;
 	}
 
 }

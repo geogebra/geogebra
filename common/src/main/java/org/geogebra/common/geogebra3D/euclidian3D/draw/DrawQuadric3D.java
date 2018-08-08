@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing quadrics.
@@ -1602,8 +1601,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_QUADRICS)
-				&& shouldBePackedCheckCreatedByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 
 /**
  * list of drawables stored by the view (will also draw the view axes, plane,
@@ -126,17 +125,6 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	}
 
 	@Override
-	public void drawTranspClosedNotCurved(Renderer renderer) {
-		super.drawTranspClosedNotCurved(renderer);
-		if (!view3D.getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			if (renderer.getGeometryManager().packBuffers()) {
-				((ManagerShadersElementsGlobalBufferPacking) renderer
-						.getGeometryManager()).drawSurfacesClosed(renderer);
-			}
-		}
-	}
-
-	@Override
 	public void drawHiddenNotTextured(Renderer renderer) {
 		super.drawHiddenNotTextured(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
@@ -148,11 +136,9 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	@Override
 	public void drawTranspClosedCurved(Renderer renderer) {
 		super.drawTranspClosedCurved(renderer);
-		if (view3D.getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			if (renderer.getGeometryManager().packBuffers()) {
-				((ManagerShadersElementsGlobalBufferPacking) renderer
-						.getGeometryManager()).drawSurfacesClosed(renderer);
-			}
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer
+					.getGeometryManager()).drawSurfacesClosed(renderer);
 		}
 	}
 
