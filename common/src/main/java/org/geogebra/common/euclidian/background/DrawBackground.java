@@ -59,10 +59,21 @@ public class DrawBackground {
 			drawSquaredBackground(g2);
 			break;
 		case SVG:
-			break;
+		case ELEMENTARY12:
+		case ELEMENTARY12_HOUSE:
+		case ELEMENTARY34:
+		case MUSIC:
+			drawSVG(g2);
+		case NONE:
 		default:
 			break;
 		}
+	}
+
+	private void drawSVG(GGraphics2D g2) {
+		int y = view.getMinYScreen();
+		int x = (int) getStartX();
+		g2.drawImage(view.getSVGBackground(), x, y);
 	}
 
 	/**

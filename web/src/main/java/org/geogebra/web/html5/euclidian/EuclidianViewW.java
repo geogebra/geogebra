@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -28,6 +29,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -38,14 +40,17 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -100,6 +105,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	private MyImageW svgBackground = null;
 
 	private AnimationCallback repaintCallback = new AnimationCallback() {
 		@Override
@@ -1750,4 +1756,52 @@ public class EuclidianViewW extends EuclidianView implements
 		return app.getCapturingThreshold(type);
 	}
 
+	/**
+	 * Prepares the SVG background.
+	 * 
+	 * @param force
+	 *            to make sure that new SVG is set.
+	 */
+	public void prepareSVGBackground(boolean force) {
+		if (force || svgBackground == null) {
+			SVGResource res = null;
+			switch (getSettings().getBackgroundType()) {
+			case ELEMENTARY12:
+				res = MaterialDesignResources.INSTANCE.mow_ruling_elementary12();
+				break;
+			case ELEMENTARY12_HOUSE:
+				res = MaterialDesignResources.INSTANCE.mow_ruling_elementary12house();
+				break;
+			case ELEMENTARY34:
+				res = MaterialDesignResources.INSTANCE.mow_ruling_elementary34();
+				break;
+			case MUSIC:
+				res = MaterialDesignResources.INSTANCE.mow_ruling_music();
+				break;
+			case SVG:
+			case NONE:
+			case RULER:
+			case SQUARE_BIG:
+			case SQUARE_SMALL:
+			default:
+				break;
+			
+			}
+
+			if (res != null) {
+				Image img = new Image(ImgResourceHelper.safeURI(res));
+				svgBackground = new MyImageW(ImageElement.as(img.getElement()), true);
+			}
+		}
+	}
+
+	@Override
+	protected void prepareSVGBackground() {
+		prepareSVGBackground(false);
+	}
+
+	@Override
+	public MyImage getSVGBackground() {
+		return svgBackground;
+	}
 }

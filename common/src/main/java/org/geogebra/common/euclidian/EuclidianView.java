@@ -19,8 +19,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
-import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -3859,21 +3859,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (drawBg == null) {
 			drawBg = new DrawBackground(this, settings);
 		}
-		if (settings.getBackgroundType() == BackgroundType.SVG) {
-			paintSVGBackground(g2);
-		} else {
-			drawBg.draw(g2);
+		if (settings.getBackgroundType().isSVG()) {
+			prepareSVGBackground();
 		}
+
+		drawBg.draw(g2);
 	}
 
 	/**
-	 * Draws an SVG as background.
-	 * 
-	 * @param g2
-	 *            the background graphics.
+	 * inits an SVG as background.
 	 */
-	protected void paintSVGBackground(GGraphics2D g2) {
+	protected void prepareSVGBackground() {
 		// implemented on web
+	}
+
+	public MyImage getSVGBackground() {
+		return null;
 	}
 
 	/**

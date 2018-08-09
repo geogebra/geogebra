@@ -50,13 +50,10 @@ public enum BackgroundType {
 
 	/**
 	 * Checks that the given enum value refers to an SVG file.
-	 * 
-	 * @param bg
-	 *            enum to check.
 	 * @return if it is SVG or not.
 	 */
-	public static boolean isSVG(BackgroundType bg) {
-		return bg.value() >= ELEMENTARY12.value();
+	public boolean isSVG() {
+		return value() >= ELEMENTARY12.value();
 	}
 
 	/**
