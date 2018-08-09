@@ -562,16 +562,18 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						.showIfNeeded(shareCallback, true, anchor);
 				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
 						|| app.has(Feature.MOW_SHARE_DIALOG)) {
-					((DialogManagerW) app.getDialogManager()).getSaveDialog()
-							.onSave();
-				}
+				((DialogManagerW) app.getDialogManager()).getSaveDialog()
+					.onSave();
+		}
 			}
 		} else {
-			/*
-			 * if (app.getActiveMaterial() != null) { ((DialogManagerW)
-			 * app.getDialogManager()).getSaveDialog()
-			 * .onSave(app.getActiveMaterial().getTitle()); }
-			 */
+			if (app.getActiveMaterial() != null
+					&& app.getLoginOperation().isLoggedIn()
+					&& (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
+							|| app.has(Feature.MOW_SHARE_DIALOG))) {
+					((DialogManagerW) app.getDialogManager()).getSaveDialog()
+						.onSave();
+			}
 			// saved
 			shareCallback.run();
 		}
