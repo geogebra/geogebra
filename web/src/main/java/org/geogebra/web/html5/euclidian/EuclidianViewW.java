@@ -1520,7 +1520,6 @@ public class EuclidianViewW extends EuclidianView implements
 			@Override
 			public void run() {
 				dummyDiv.getElement().setInnerHTML("");
-				Log.debug("[lac] dummyDiv is cleared");
 			}
 		};
 		timerClearDummyDiv.schedule(1000);
