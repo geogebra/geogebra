@@ -225,6 +225,10 @@ public class MediaURLParser {
 		int timeIndex = url.indexOf(MEBIS_PARAM_TIME);
 		if (timeIndex > -1) {
 			String time = url.substring(timeIndex);
+			int endIdx = time.indexOf("&");
+			if (endIdx > -1) {
+				time = time.substring(0, endIdx);
+			}
 			if (time.matches("#t=[0-9]+(,[0-9]+)?")) {
 				sb.append(time);
 			}
