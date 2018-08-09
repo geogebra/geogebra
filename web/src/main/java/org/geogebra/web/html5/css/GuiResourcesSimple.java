@@ -2,6 +2,7 @@ package org.geogebra.web.html5.css;
 
 import org.geogebra.web.html5.util.LessResource;
 import org.geogebra.web.resources.LessReference;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
@@ -199,4 +200,17 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/video_player_black_opacity54_360px.png")
 	ImageResource mow_video_player();
+
+	// MOW Rulings
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12.svg")
+	SVGResource mow_ruling_elementary12();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12house.svg")
+	SVGResource mow_ruling_elementary12house();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary34.svg")
+	SVGResource mow_ruling_elementary34();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/music.svg")
+	SVGResource mow_ruling_music();
 }

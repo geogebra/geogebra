@@ -29,7 +29,6 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -1760,13 +1759,13 @@ public class EuclidianViewW extends EuclidianView implements
 	private SVGResource getSVGRulingResource() {
 		switch (getSettings().getBackgroundType()) {
 		case ELEMENTARY12:
-			return MaterialDesignResources.INSTANCE.mow_ruling_elementary12();
+			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12();
 		case ELEMENTARY12_HOUSE:
-			return MaterialDesignResources.INSTANCE.mow_ruling_elementary12house();
+			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12house();
 		case ELEMENTARY34:
-			return MaterialDesignResources.INSTANCE.mow_ruling_elementary34();
+			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary34();
 		case MUSIC:
-			return MaterialDesignResources.INSTANCE.mow_ruling_music();
+			return GuiResourcesSimple.INSTANCE.mow_ruling_music();
 		case SVG:
 		case NONE:
 		case RULER:
