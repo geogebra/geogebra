@@ -93,7 +93,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute share action
 	 */
 	protected void onShare() {
-		ShareDialogMow dialog = new ShareDialogMow(app);
+		ShareDialogMow dialog = new ShareDialogMow(app,
+				app.getCurrentURL(material.getSharingKey(), true));
 		dialog.show();
 		// GroupShareDialog dialog = new GroupShareDialog(app, card);
 		// dialog.center();

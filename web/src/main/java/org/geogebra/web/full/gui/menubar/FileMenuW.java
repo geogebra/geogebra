@@ -559,7 +559,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				((DialogManagerW) app.getDialogManager()).getSaveDialog()
 						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
 						.showIfNeeded(shareCallback, true, anchor);
-				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
+				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
+						|| app.has(Feature.MOW_SHARE_DIALOG)) {
 					((DialogManagerW) app.getDialogManager()).getSaveDialog()
 							.onSave();
 				}
