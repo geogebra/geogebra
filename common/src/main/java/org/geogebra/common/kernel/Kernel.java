@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -5458,6 +5459,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	public int getLastStepNumber() {
 		return cons.steps();
+	}
+
+	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
+
 	}
 
 }

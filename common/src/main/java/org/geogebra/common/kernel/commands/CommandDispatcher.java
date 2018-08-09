@@ -129,13 +129,13 @@ public abstract class CommandDispatcher {
 	/**
 	 * Creates new command dispatcher
 	 * 
-	 * @param kernel2
+	 * @param kernel
 	 *            Kernel of current application
 	 */
-	public CommandDispatcher(Kernel kernel2) {
-		this.kernel = kernel2;
-		cons = kernel2.getConstruction();
-		app = kernel2.getApplication();
+	public CommandDispatcher(Kernel kernel) {
+		this.kernel = kernel;
+		cons = kernel.getConstruction();
+		app = kernel.getApplication();
 	}
 
 	/**
@@ -835,7 +835,7 @@ public abstract class CommandDispatcher {
 		return null;
 	}
 
-	private CommandDispatcherStats getStatsDispatcher() {
+	protected CommandDispatcherStats getStatsDispatcher() {
 		if (statsDispatcher == null) {
 			statsDispatcher = new CommandDispatcherStats();
 		}
