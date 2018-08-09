@@ -3860,7 +3860,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			drawBg = new DrawBackground(this, settings);
 		}
 		if (settings.getBackgroundType().isSVG()) {
-			prepareSVGBackground();
+			createSVGBackgroundIfNeeded();
 		}
 
 		drawBg.draw(g2);
@@ -3869,7 +3869,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * inits an SVG as background.
 	 */
-	protected void prepareSVGBackground() {
+	protected void createSVGBackgroundIfNeeded() {
 		// implemented on web
 	}
 

@@ -105,6 +105,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	private String svgBackgroundUri = null;
 	private MyImageW svgBackground = null;
 
 	private AnimationCallback repaintCallback = new AnimationCallback() {
@@ -1756,48 +1757,37 @@ public class EuclidianViewW extends EuclidianView implements
 		return app.getCapturingThreshold(type);
 	}
 
-	/**
-	 * Prepares the SVG background.
-	 * 
-	 * @param force
-	 *            to make sure that new SVG is set.
-	 */
-	public void prepareSVGBackground(boolean force) {
-		if (force || svgBackground == null) {
-			SVGResource res = null;
-			switch (getSettings().getBackgroundType()) {
-			case ELEMENTARY12:
-				res = MaterialDesignResources.INSTANCE.mow_ruling_elementary12();
-				break;
-			case ELEMENTARY12_HOUSE:
-				res = MaterialDesignResources.INSTANCE.mow_ruling_elementary12house();
-				break;
-			case ELEMENTARY34:
-				res = MaterialDesignResources.INSTANCE.mow_ruling_elementary34();
-				break;
-			case MUSIC:
-				res = MaterialDesignResources.INSTANCE.mow_ruling_music();
-				break;
-			case SVG:
-			case NONE:
-			case RULER:
-			case SQUARE_BIG:
-			case SQUARE_SMALL:
-			default:
-				break;
-			
-			}
-
-			if (res != null) {
-				Image img = new Image(ImgResourceHelper.safeURI(res));
-				svgBackground = new MyImageW(ImageElement.as(img.getElement()), true);
-			}
+	private SVGResource getSVGRulingResource() {
+		switch (getSettings().getBackgroundType()) {
+		case ELEMENTARY12:
+			return MaterialDesignResources.INSTANCE.mow_ruling_elementary12();
+		case ELEMENTARY12_HOUSE:
+			return MaterialDesignResources.INSTANCE.mow_ruling_elementary12house();
+		case ELEMENTARY34:
+			return MaterialDesignResources.INSTANCE.mow_ruling_elementary34();
+		case MUSIC:
+			return MaterialDesignResources.INSTANCE.mow_ruling_music();
+		case SVG:
+		case NONE:
+		case RULER:
+		case SQUARE_BIG:
+		case SQUARE_SMALL:
+		default:
+			return null;
 		}
 	}
 
 	@Override
-	protected void prepareSVGBackground() {
-		prepareSVGBackground(false);
+	public void createSVGBackgroundIfNeeded() {
+		SVGResource res = getSVGRulingResource();
+		if (res != null) {
+			String uri = ImgResourceHelper.safeURI(res);
+			if (!uri.equals(svgBackgroundUri)) {
+				Image img = new Image(uri);
+				svgBackground = new MyImageW(ImageElement.as(img.getElement()), true);
+				svgBackgroundUri = uri;
+			}
+		}
 	}
 
 	@Override
