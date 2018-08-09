@@ -111,6 +111,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		ExamEnvironment exam = getApp().getExam();
 		exam.exit();
 		saveScreenshot(loc.getMenu("ExamGraphingCalc.long"));
+		getApp().fileNew();
 		resetAfterExam();
 	}
 
@@ -566,6 +567,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			}
 		} else {
+			/*
+			 * if (app.getActiveMaterial() != null) { ((DialogManagerW)
+			 * app.getDialogManager()).getSaveDialog()
+			 * .onSave(app.getActiveMaterial().getTitle()); }
+			 */
 			// saved
 			shareCallback.run();
 		}
