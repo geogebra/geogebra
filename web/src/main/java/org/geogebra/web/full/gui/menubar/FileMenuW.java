@@ -527,7 +527,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					shareDialog.setVisible(true);
 					shareDialog.center();
 				} else if (app.has(Feature.MOW_SHARE_DIALOG)) {
-					mowShareDialog = new ShareDialogMow(app);
+					mowShareDialog = new ShareDialogMow(app,
+							app.getCurrentURL(sharingKey, true));
 					mowShareDialog.show();
 				}
 				else {

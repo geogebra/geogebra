@@ -22,13 +22,17 @@ public class ShareDialogMow extends DialogBoxW
 	private Label chooseGrLbl;
 	private FlowPanel buttonPanel;
 	private StandardButton getLinkBtn;
+	private String shareURL;
 
 	/**
 	 * @param app
 	 *            {@link AppW}
+	 * @param shareURL
+	 *            url of sharing link
 	 */
-	public ShareDialogMow(AppW app) {
+	public ShareDialogMow(AppW app, String shareURL) {
 		super(app.getPanel(), app);
+		this.shareURL = shareURL;
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
@@ -42,7 +46,6 @@ public class ShareDialogMow extends DialogBoxW
 		chooseGrLbl.setStyleName("chooseGrTxt");
 		contentPanel.add(chooseGrLbl);
 		groupsPanel = new ScrollPanel();
-
 		groupsPanel.setStyleName("groupList");
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
@@ -64,7 +67,7 @@ public class ShareDialogMow extends DialogBoxW
 		if (source == getLinkBtn) {
 			hide();
 			ShareLinkDialog getLinkSD = new ShareLinkDialog((AppW) app,
-					"mow share link", null);
+					shareURL, null);
 			getLinkSD.show();
 			getLinkSD.center();
 		}
