@@ -156,6 +156,10 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
+	public boolean isClosed() {
+		return closed != -1;
+	}
+
 	/**
 	 * @param translation The translation identifier from the Translation enum.
 	 * @return The translation identified by the Translation parameter.

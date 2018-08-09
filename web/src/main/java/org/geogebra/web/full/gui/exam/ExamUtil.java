@@ -91,7 +91,7 @@ public class ExamUtil {
 	}-*/ ;
 
 	private void startCheating() {
-		if (app.getExam() != null) {
+		if (app.getExam() != null && !app.getExam().isClosed()) {
 			String os = Browser.getMobileOperatingSystem();
 			app.getExam().startCheating(os);
 		}
