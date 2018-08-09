@@ -108,8 +108,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 */
 	protected void exitAndResetExamGraphing() {
 		getApp().getLAF().toggleFullscreen(false);
-		ExamEnvironment exam = getApp().getExam();
-		exam.exit();
 		saveScreenshot(loc.getMenu("ExamGraphingCalc.long"));
 		getApp().fileNew();
 		resetAfterExam();
