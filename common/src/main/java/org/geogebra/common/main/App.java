@@ -5200,6 +5200,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// remove all videos / embeds
 	}
 
+	/**
+	 * Enables only the english commands
+	 */
 	public void forceEnglishCommands() {
 		getLocalization().forceEnglishCommands();
 		StringTemplate.editorTemplate.setLocalizeCmds(false);

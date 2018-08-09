@@ -3486,6 +3486,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return "atand";
 	}
 
+	/**
+	 * Turns on or off command name localization
+	 * @param localizeCmds If false, the command names won't be localized,
+	 *                        otherwise they will be localized
+	 */
 	public void setLocalizeCmds(boolean localizeCmds) {
 		this.localizeCmds = localizeCmds;
 	}

@@ -1527,6 +1527,9 @@ public abstract class Localization {
 				+ getMenu(config.getTutorialKey());
 	}
 
+	/**
+	 * Enables only the english commands
+	 */
 	public void forceEnglishCommands() {
 		areEnglishCommandsForced = true;
 	}
