@@ -111,7 +111,7 @@ public class DefaultTeXFont implements TeXFont {
 		// load LATIN block
 		loadedAlphabets.add(Character.UnicodeBlock.of('a'));
 		// fonts + font descriptions
-		fontInfo = parser.parseFontDescriptions(fontInfo);
+		parser.parseFontDescriptions(fontInfo);
 		// general font parameters
 		parameters = parser.parseParameters();
 		// text style mappings
@@ -168,7 +168,7 @@ public class DefaultTeXFont implements TeXFont {
 
 	public static void addTeXFontDescription(Object in, String name) throws ResourceParseException {
 		DefaultTeXFontParser dtfp = new DefaultTeXFontParser(in, name);
-		fontInfo = dtfp.parseFontDescriptions(fontInfo);
+		dtfp.parseFontDescriptions(fontInfo);
 		textStyleMappings.putAll(dtfp.parseTextStyleMappings());
 		symbolMappings.putAll(dtfp.parseSymbolMappings());
 	}
@@ -177,7 +177,7 @@ public class DefaultTeXFont implements TeXFont {
 			String name, AlphabetRegistration reg)
 			throws ResourceParseException {
 		DefaultTeXFontParser dtfp = new DefaultTeXFontParser(base, in, name);
-		fontInfo = dtfp.parseFontDescriptions(fontInfo);
+		dtfp.parseFontDescriptions(fontInfo);
 		dtfp.parseExtraPath();
 		textStyleMappings.putAll(dtfp.parseTextStyleMappings());
 		symbolMappings.putAll(reg.getMap());

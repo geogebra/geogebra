@@ -222,11 +222,11 @@ public class DefaultTeXFontParser {
 		charChildParsers.put("Extension", new ExtensionParser());
 	}
 
-	public ArrayList<FontInfo> parseFontDescriptions(ArrayList<FontInfo> res,
+	public void parseFontDescriptions(ArrayList<FontInfo> res,
 			Object file, String name)
 			throws ResourceParseException {
 		if (file == null) {
-			return res;
+			return;
 		}
 		Element font;
 		try {
@@ -294,10 +294,10 @@ public class DefaultTeXFontParser {
 		}
 
 		parsedTextStyles = parseStyleMappings();
-		return res;
+		return;
 	}
 
-	public ArrayList<FontInfo> parseFontDescriptions(ArrayList<FontInfo> fi)
+	public void parseFontDescriptions(ArrayList<FontInfo> fi)
 			throws ResourceParseException {
 		Element fontDescriptions = root.getElementsByTagName("FontDescriptions").item(0).castToElement();
 		if (!fontDescriptions.isNull()) { // element present
@@ -306,14 +306,14 @@ public class DefaultTeXFontParser {
 				// get required string attribute
 				String include = getAttrValueAndCheckIfNotNull("include", list.item(i).castToElement());
 				if (base == null) {
-					fi = parseFontDescriptions(fi,
+					parseFontDescriptions(fi,
 							resource.loadResource(DefaultTeXFontParser.class, include), include);
 				} else {
-					fi = parseFontDescriptions(fi, resource.loadResource(base, include), include);
+					parseFontDescriptions(fi,
+							resource.loadResource(base, include), include);
 				}
 			}
 		}
-		return fi;
 	}
 
 	protected void parseExtraPath() throws ResourceParseException {
