@@ -160,19 +160,6 @@ public class DefaultTeXFont implements TeXFont {
 		isIt = it;
 	}
 
-	public static void addTeXFontDescription(String file) throws ResourceParseException {
-
-		Object in = new Resource().loadResource(file);
-		addTeXFontDescription(in, file);
-	}
-
-	public static void addTeXFontDescription(Object in, String name) throws ResourceParseException {
-		DefaultTeXFontParser dtfp = new DefaultTeXFontParser(in, name);
-		dtfp.parseFontDescriptions(fontInfo);
-		textStyleMappings.putAll(dtfp.parseTextStyleMappings());
-		symbolMappings.putAll(dtfp.parseSymbolMappings());
-	}
-
 	public static void addTeXFontDescription(Object base, Object in,
 			String name, AlphabetRegistration reg)
 			throws ResourceParseException {
@@ -181,17 +168,6 @@ public class DefaultTeXFont implements TeXFont {
 		dtfp.parseExtraPath();
 		textStyleMappings.putAll(dtfp.parseTextStyleMappings());
 		symbolMappings.putAll(reg.getMap());
-	}
-
-	public static void addAlphabet(Character.UnicodeBlock alphabet, Object inlanguage, String language,
-			Object insymbols, String symbols, Object inmappings, String mappings)
-			throws ResourceParseException {
-		if (!loadedAlphabets.contains(alphabet)) {
-			addTeXFontDescription(inlanguage, language);
-			SymbolAtom.addSymbolAtom(insymbols, symbols);
-			TeXFormula.addSymbolMappings(inmappings, mappings);
-			loadedAlphabets.add(alphabet);
-		}
 	}
 
 	public static void addAlphabet(Object base,
@@ -213,20 +189,6 @@ public class DefaultTeXFont implements TeXFont {
 			}
 			System.out.println("ADDED");
 			TeXParser.isLoading = false;
-		}
-	}
-
-	public static void addAlphabet(Character.UnicodeBlock alphabet, String name) {
-		String lg = "fonts/" + name + "/language_" + name + ".xml";
-		String sym = "fonts/" + name + "/symbols_" + name + ".xml";
-		String map = "fonts/" + name + "/mappings_" + name + ".xml";
-
-		Resource resource = new Resource();
-		try {
-			DefaultTeXFont.addAlphabet(alphabet, resource.loadResource(TeXFormula.class, lg),
-					lg, resource.loadResource(TeXFormula.class, sym), sym,
-					resource.loadResource(TeXFormula.class, map), map);
-		} catch (FontAlreadyLoadedException e) {
 		}
 	}
 
