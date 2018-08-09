@@ -21,19 +21,19 @@ public enum BackgroundType {
 	SQUARE_BIG(3),
 
 	/** Elementary 1/2 background */
-	ELEMENTARY12(5),
+	ELEMENTARY12(4),
 
 	/** Elementary 1/2 with house background */
-	ELEMENTARY12_HOUSE(6),
+	ELEMENTARY12_HOUSE(5),
 
 	/** Elementary 3/4 background */
-	ELEMENTARY34(7),
+	ELEMENTARY34(6),
 
 	/** Music background */
-	MUSIC(8),
+	MUSIC(7),
 
 	/** General SVG as background */
-	SVG(9);
+	SVG(8);
 
 	private int value;
 

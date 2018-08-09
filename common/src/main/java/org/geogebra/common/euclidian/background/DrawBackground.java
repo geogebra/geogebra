@@ -64,7 +64,7 @@ public class DrawBackground {
 		case ELEMENTARY34:
 		case MUSIC:
 			drawSVG(g2);
-		case NONE:
+			break;
 		default:
 			break;
 		}
