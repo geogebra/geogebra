@@ -93,7 +93,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 				ShaderProvider.getFragmentShader(true)));
 		setVertShader(getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(true, true)));
+				ShaderProvider.getVertexShader(true)));
 	}
 
 	@Override
