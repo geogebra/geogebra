@@ -183,7 +183,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public void mousePressed(MouseEvent e) {
 		if (input3D.currentlyUseMouse2D()) {
 			super.mousePressed(e);
-		} else if (input3D.useHandGrabbing() && mode != MOVE_NONE) {
+		} else if (input3D.useHandGrabbing() && moveMode != MOVE_NONE) {
 			releaseGrabbing();
 			super.mousePressed(e);
 		}
