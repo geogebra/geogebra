@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -666,8 +665,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			wrappedPopup.addSeparator();
 		}
 
-		if (pinnable
-				&& !(app.isWhiteboardActive() && geo instanceof GeoImage)) {
+		if (pinnable) {
 
 			String img;
 			final boolean pinned = geo.isPinned();

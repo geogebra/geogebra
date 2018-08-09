@@ -888,6 +888,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public boolean isAbsoluteScreenLocateable() {
+		if (kernel.getApplication().isWhiteboardActive()) {
+			return false;
+		}
 		return isIndependent();
 	}
 
@@ -1274,6 +1277,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public boolean isPinnable() {
+		if (kernel.getApplication().isWhiteboardActive()) {
+			return false;
+		}
 		return true;
 	}
 
