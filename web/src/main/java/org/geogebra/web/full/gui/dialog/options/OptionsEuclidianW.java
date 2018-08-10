@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog.options;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
@@ -55,6 +56,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private GridTab gridTab;
 	private boolean isIniting;
 	protected Localization loc;
+	public FlowPanel stylePanel;
 	
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
@@ -472,7 +474,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 
 			// style panel
-			FlowPanel stylePanel = new FlowPanel();
+			stylePanel = new FlowPanel();
 
 			stylePanel.add(LayoutUtilW.panelRowIndent(btnGridStyle));
 			stylePanel.add(LayoutUtilW.panelRowIndent(lblColor, btGridColor, cbBoldGrid));
@@ -545,7 +547,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			if (!gridOptions) {
 				return;
 			}
-
+			stylePanel.setVisible(true);
 			enableGrid(isShown);
 			cbShowGrid.setValue(isShown);
 			cbBoldGrid.setValue(isBold);
@@ -632,9 +634,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		 */
 		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
 			setRulerType(typeIdx);
-			updateGridColorButton(color);
-			selectRulerStyle(lineStyle);
-			cbBoldGrid.setValue(bold);
+			BackgroundType bgType = BackgroundType.fromInt(typeIdx);
+			if (bgType == BackgroundType.NONE || bgType.isSVG()) {
+				stylePanel.setVisible(false);
+			} else {
+				stylePanel.setVisible(true);
+				updateGridColorButton(color);
+				selectRulerStyle(lineStyle);
+				cbBoldGrid.setValue(bold);
+			}
 		}
 	
 	}
