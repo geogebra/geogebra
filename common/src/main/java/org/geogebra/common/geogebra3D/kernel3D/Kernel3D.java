@@ -291,8 +291,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	final public GeoRayND rayND(String label, GeoPointND P, GeoPointND Q) {
-		if (((GeoElement) P).isGeoElement3D()
-				|| ((GeoElement) Q).isGeoElement3D()) {
+		if (P.isGeoElement3D() || Q.isGeoElement3D()) {
 			return getManager3D().ray3D(label, P, Q);
 		}
 		return super.ray(label, (GeoPoint) P, (GeoPoint) Q);
@@ -302,8 +301,7 @@ public class Kernel3D extends Kernel {
 	final public GeoSegmentND segmentND(String label, GeoPointND P,
 			GeoPointND Q) {
 
-		if (((GeoElement) P).isGeoElement3D()
-				|| ((GeoElement) Q).isGeoElement3D()) {
+		if (P.isGeoElement3D() || Q.isGeoElement3D()) {
 			return getManager3D().segment3D(label, P, Q);
 		}
 		return super.segment(label, (GeoPoint) P, (GeoPoint) Q);
@@ -314,7 +312,7 @@ public class Kernel3D extends Kernel {
 
 		boolean is3D = false;
 		for (int i = 0; i < P.length && !is3D; i++) {
-			if (((GeoElement) P[i]).isGeoElement3D()) {
+			if (P[i].isGeoElement3D()) {
 				is3D = true;
 			}
 		}
@@ -330,7 +328,7 @@ public class Kernel3D extends Kernel {
 
 		boolean is3D = false;
 		for (int i = 0; i < P.length && !is3D; i++) {
-			if (((GeoElement) P[i]).isGeoElement3D()) {
+			if (P[i].isGeoElement3D()) {
 				is3D = true;
 			}
 		}

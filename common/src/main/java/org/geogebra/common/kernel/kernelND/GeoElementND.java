@@ -1540,4 +1540,10 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return the value of geo as an expression for screen readers.
 	 */
 	String getAuralExpression();
+
+	/**
+	 * @return whether the to-be-drawn geoElement is filled, meaning the
+	 *         alpha-value is greater zero, or hatching is enabled.
+	 */
+	boolean isFilled();
 }

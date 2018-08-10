@@ -21,6 +21,7 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
@@ -1711,7 +1712,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return callback (for JLM)
 	 */
 	@Override
-	public Runnable getCallBack(GeoElement geo, boolean firstCall) {
+	public Runnable getCallBack(GeoElementND geo, boolean firstCall) {
 		return firstCall ? new DrawLaTeXCallBack(geo) : null;
 	}
 
@@ -1729,9 +1730,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private class DrawLaTeXCallBack implements Runnable {
 
-		private GeoElement geo;
+		private GeoElementND geo;
 
-		public DrawLaTeXCallBack(GeoElement geo) {
+		public DrawLaTeXCallBack(GeoElementND geo) {
 			this.geo = geo;
 		}
 
