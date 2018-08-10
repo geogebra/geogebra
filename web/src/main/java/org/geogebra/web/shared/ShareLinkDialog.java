@@ -161,6 +161,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 			linkBoxFocused = false;
 			app.copyTextToSystemClipboard(linkBox.getText());
 			focusLinkBox();
+			hide();
 		} else if (source == printBtn) {
 			app.getDialogManager().showPrintPreview();
 			hide();
