@@ -338,8 +338,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public void setSphereND(GeoPointND M, double r) {
-		defined = ((GeoElement) M).isDefined() && !M.isInfinite(); // check
-																	// midpoint
+		defined = M.isDefined() && !M.isInfinite(); // check midpoint
 		setSphereND(M.getInhomCoordsInD2(), r);
 	}
 

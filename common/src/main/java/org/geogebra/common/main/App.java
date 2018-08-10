@@ -1118,9 +1118,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public void deleteSelectedObjects(boolean isCut) {
 		if (letDelete()) {
-			Object[] geos = selection.getSelectedGeos().toArray();
+			GeoElement[] geos = selection.getSelectedGeos().toArray(new GeoElement[0]);
 			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
+				GeoElement geo = geos[i];
 				if (!geo.isProtected(EventType.REMOVE)) {
 					if (isCut || geo.isShape()) {
 						if (geo.getParentAlgorithm() != null) {

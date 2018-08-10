@@ -409,17 +409,8 @@ public class GeoList extends GeoElement
 	}
 
 	/*
-	 * we DON'T want to do this, as objects without label set eg the point in
-	 * this {(1,1)} are drawn by the list public final void setLayer(int layer)
-	 * { super.setLayer(layer);
-	 * 
-	 * if (geoList == null || geoList.size() == 0) return;
-	 * 
-	 * int size = geoList.size(); for (int i=0; i < size; i++) { GeoElement geo
-	 * = (GeoElement)geoList.get(i); if (!geo.isLabelSet()) geo.setLayer(layer);
-	 * }
-	 * 
-	 * }
+	 * we DON'T want to override setLayer, as objects without label set eg the
+	 * point in this {(1,1)} are drawn by the list
 	 */
 
 	@Override

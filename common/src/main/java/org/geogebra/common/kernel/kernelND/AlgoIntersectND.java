@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.kernelND;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
-import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Generic algo for intersection in n dimensions
@@ -55,7 +54,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 	protected void avoidDoubleTangentPoint() {
 		GeoPointND[] points = getIntersectionPoints();
 		if (!points[1].isLabelSet()
-				&& ((GeoElement) points[0]).isEqual(points[1])) {
+				&& points[0].isEqual(points[1])) {
 			points[1].setUndefined();
 		}
 	}

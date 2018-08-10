@@ -1497,7 +1497,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		if (updateSegments) {
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
-					((GeoElement) segments[i]).setLineTypeHidden(type);
+					segments[i].setLineTypeHidden(type);
 					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
@@ -2678,8 +2678,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private void setPointSize(int size) {
 		for (GeoPointND point : points) {
-			((GeoElement) point)
-					.setEuclidianVisibleIfNoConditionToShowObject(true);
+			point.setEuclidianVisibleIfNoConditionToShowObject(true);
 			point.setPointSize(size);
 			point.updateRepaint();
 		}
@@ -2687,8 +2686,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private void setPointNotVisibile() {
 		for (GeoPointND point : points) {
-			((GeoElement) point)
-					.setEuclidianVisibleIfNoConditionToShowObject(false);
+			point.setEuclidianVisibleIfNoConditionToShowObject(false);
 			point.updateRepaint();
 		}
 	}

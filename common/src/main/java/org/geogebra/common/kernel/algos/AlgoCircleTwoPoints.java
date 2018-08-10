@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -128,7 +127,6 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 
 		return getLoc().getPlainDefault("CircleThroughAwithCenterB",
 				"Circle through %0 with center %1",
-				((GeoElement) getP()).getLabel(tpl),
-				((GeoElement) getM()).getLabel(tpl));
+				getP().getLabel(tpl), getM().getLabel(tpl));
 	}
 }

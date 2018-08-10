@@ -5592,10 +5592,7 @@ public abstract class GeoElement extends ConstructionElement
 		lineType = i;
 	}
 
-	/**
-	 * @param i
-	 *            line type for hidden lines
-	 */
+	@Override
 	public void setLineTypeHidden(final int i) {
 		lineTypeHidden = i;
 	}

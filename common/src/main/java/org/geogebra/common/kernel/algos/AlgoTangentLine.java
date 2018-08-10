@@ -40,6 +40,16 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 		super(cons, label, g, c);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param g
+	 *            conic
+	 * @param c
+	 *            parallel line
+	 */
 	public AlgoTangentLine(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {
 		super(cons, labels, g, c);

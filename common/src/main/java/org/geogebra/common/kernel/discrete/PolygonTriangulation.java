@@ -11,7 +11,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -669,8 +668,7 @@ public class PolygonTriangulation {
 	 */
 	private void setName(Point point, int i) {
 		if (DEBUG) {
-			point.name = ((GeoElement) polygon.getPointsND()[i])
-					.getLabelSimple();
+			point.name = polygon.getPointsND()[i].getLabelSimple();
 		}
 	}
 

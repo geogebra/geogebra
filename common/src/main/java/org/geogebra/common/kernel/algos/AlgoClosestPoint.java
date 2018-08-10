@@ -87,7 +87,7 @@ public class AlgoClosestPoint extends AlgoElement
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	protected void addIncidence() {
-		((GeoPoint) P).addIncidence((GeoElement) path, false);
+		P.addIncidence((GeoElement) path, false);
 
 	}
 

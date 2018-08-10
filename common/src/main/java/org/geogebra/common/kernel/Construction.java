@@ -2040,14 +2040,6 @@ public class Construction {
 			typeSet = createTypeSet(type);
 		}
 		typeSet.add(geo);
-
-		/*
-		 * Application.debug("*** geoSet order (add " + geo + ") ***"); Iterator
-		 * it = geoSet.iterator();
-		 * 
-		 * while (it.hasNext()) { GeoElement g = (GeoElement) it.next();
-		 * Application.debug(g.getConstructionIndex() + ": " + g); }
-		 */
 	}
 
 	/**

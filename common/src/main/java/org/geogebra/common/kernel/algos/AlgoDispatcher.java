@@ -2239,8 +2239,8 @@ public class AlgoDispatcher {
 			// checkZooming();
 
 			boolean setDefaultColor = false;
-			if (((GeoElement) point).getColorFunction() == null) {
-				setDefaultColor = ((GeoElement) point).getObjectColor()
+			if (point.getColorFunction() == null) {
+				setDefaultColor = point.getObjectColor()
 						.equals(cons.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_POINT_FREE)
@@ -2289,7 +2289,7 @@ public class AlgoDispatcher {
 											ConstructionDefaults.DEFAULT_POINT_ON_PATH)
 									.getObjectColor());
 				} else if (p.hasRegion()) {
-					setDefaultColor = ((GeoElement) p).getObjectColor()
+					setDefaultColor = p.getObjectColor()
 							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_IN_REGION)

@@ -1546,4 +1546,10 @@ public interface GeoElementND extends ExpressionValue {
 	 *         alpha-value is greater zero, or hatching is enabled.
 	 */
 	boolean isFilled();
+
+	/**
+	 * @param i
+	 *            line type for hidden lines
+	 */
+	void setLineTypeHidden(int i);
 }
