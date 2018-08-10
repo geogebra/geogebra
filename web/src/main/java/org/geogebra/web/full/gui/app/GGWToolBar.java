@@ -314,7 +314,6 @@ public class GGWToolBar extends Composite
 			}
 		}, ClickEvent.getType());
 		return fp;
-
 	}
 
 	/**
@@ -330,8 +329,6 @@ public class GGWToolBar extends Composite
 			timerElements[i].style.setProperty("color", "white", "important");
 		}
 	}-*/;
-
-
 
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel() {

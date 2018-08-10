@@ -13,7 +13,6 @@ import com.himamis.retex.editor.share.controller.ExpressionReader;
  * 
  * @author Judit
  */
-@SuppressWarnings("javadoc")
 public class ScreenReader {
 
 	// just in English right now (translations can be added to ggbtrans later if
@@ -135,76 +134,63 @@ public class ScreenReader {
 	}
 
 	public static String getStartFraction(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "startFraction",
-				"start fraction") + " ";
+		return localize(loc, "startFraction", "start fraction");
+	}
+
+	private static String localize(Localization loc, String string, String string2) {
+		return loc.getMenuDefault(TRANSLATION_PREFIX + string, string2) + " ";
 	}
 
 	public static String getMiddleFraction(Localization loc) {
-		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "fractionOver",
-				"over")
-				+ " ";
+		return " " + localize(loc, "fractionOver", "over");
 	}
 
 	public static String getEndFraction(Localization loc) {
-		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "endFraction",
-				"end fraction") + " ";
+		return " " + localize(loc, "endFraction", "end fraction");
 	}
 
 	public static String getTimes(Localization loc) {
-		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "times", "times")
-				+ " ";
+		return " " + localize(loc, "times", "times");
 	}
 
 	public static String getPlus(Localization loc) {
-		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "plus", "plus")
-				+ " ";
+		return " " + localize(loc, "plus", "plus");
 	}
 
 	public static String getMinus(Localization loc) {
-		return " " + loc.getMenuDefault(TRANSLATION_PREFIX + "minus", "minus")
-				+ " ";
+		return " " + localize(loc, "minus", "minus");
 	}
 
 	public static String getStartCbrt(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "startCbrt",
-				"start cube root")
-				+ " ";
+		return localize(loc, "startCbrt", "start cube root");
 	}
 
 	public static String getEndCbrt(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "endCbrt",
-				"end cube root")
-				+ " ";
+		return localize(loc, "endCbrt", "end cube root");
 	}
 
 	public static String getStartSqrt(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "startSqrtCbrt",
-				"start square root") + " ";
+		return localize(loc, "startSqrtCbrt", "start square root");
 	}
 
 	public static String getEndSqrt(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "endSqrt",
-				"end square root")
-				+ " ";
+		return localize(loc, "endSqrt", "end square root");
 	}
 
 	public static String getSquared(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "squared", "squared")
-				+ " ";
+		return localize(loc, "squared", "squared");
 	}
 
 	public static Object getCubed(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "cubed", "cubed") + " ";
+		return localize(loc, "cubed", "cubed");
 	}
 
 	public static String getStartPower(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "startSuperscript",
-				"start superscript") + " ";
+		return localize(loc, "startSuperscript", "start superscript");
 	}
 
 	public static String getEndPower(Localization loc) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + "endSuperscript",
-				"end superscript") + " ";
+		return localize(loc, "endSuperscript", "end superscript");
 	}
 
 	public static ExpressionReader getExpressionReader(final App app) {
