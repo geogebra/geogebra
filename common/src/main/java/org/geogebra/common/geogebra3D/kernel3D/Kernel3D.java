@@ -97,8 +97,6 @@ public class Kernel3D extends Kernel {
 	private double zmax3;
 	private double zscale3;
 
-	private CommandDispatcher commandDispatcher;
-
 	/**
 	 * @param app
 	 *            application
@@ -187,8 +185,8 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor3D(kernel,
-				kernel == this ? getCommandDispatcher() : new CommandDispatcher3D(kernel));
+		CommandDispatcher cd = new CommandDispatcher3D(kernel);
+		return new AlgebraProcessor3D(kernel, cd);
 	}
 
 	/** return all points of the current construction */
@@ -473,17 +471,5 @@ public class Kernel3D extends Kernel {
 	public ConstructionCompanion createConstructionCompanion(
 			Construction cons1) {
 		return new ConstructionCompanion3D(cons1);
-	}
-
-	@Override
-    public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
-        this.commandDispatcher = commandDispatcher;
-    }
-
-    private CommandDispatcher getCommandDispatcher() {
-		if (commandDispatcher == null) {
-			commandDispatcher = new CommandDispatcher3D(this);
-		}
-		return commandDispatcher;
 	}
 }
