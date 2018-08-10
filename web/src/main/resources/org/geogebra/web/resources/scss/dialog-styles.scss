@@ -1031,11 +1031,20 @@ $duration: 0.2s;
 		.Caption {
 			padding: 0px 24px 0px 24px;	
 		}
+	
+		.dialogContent {
+    	   width: 350px;
+    	}
 		
 		.chooseGrTxt {
 			color: $text-secondary;
 			font-size: 100%;
     		margin: 0px 24px 10px 24px;	
+		}
+	
+		.noGrTxt {
+			@extend .chooseGrTxt;
+			margin-bottom: 0px;	
 		}
 	
 		.groupList {

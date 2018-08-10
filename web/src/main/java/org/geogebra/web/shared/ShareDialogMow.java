@@ -21,9 +21,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShareDialogMow extends DialogBoxW
 		implements FastClickHandler, SetLabels {
 	private FlowPanel dialog;
-	private FlowPanel contentPanel;
+	private FlowPanel groupContent;
 	private ScrollPanel groupsPanel;
-	private Label chooseGrLbl;
+	private Label groupInfoLbl;
 	private FlowPanel buttonPanel;
 	private StandardButton getLinkBtn;
 	private String shareURL;
@@ -45,13 +45,8 @@ public class ShareDialogMow extends DialogBoxW
 
 	private void buildGUI() {
 		dialog = new FlowPanel();
-		contentPanel = new FlowPanel();
-		chooseGrLbl = new Label("");
-		chooseGrLbl.setStyleName("chooseGrTxt");
-		contentPanel.add(chooseGrLbl);
-		groupsPanel = new ScrollPanel();
-		groupsPanel.setStyleName("groupList");
-		groupsPanel.add(getGroupsList());
+		groupContent = new FlowPanel();
+		buildGroupsList();
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		getLinkBtn = new StandardButton(
@@ -60,30 +55,41 @@ public class ShareDialogMow extends DialogBoxW
 		getLinkBtn.addFastClickHandler(this);
 		getLinkBtn.setStyleName("getLinkBtn");
 		buttonPanel.add(getLinkBtn);
-		dialog.add(contentPanel);
-		dialog.add(groupsPanel);
+		dialog.add(groupContent);
 		dialog.add(buttonPanel);
 		this.add(dialog);
 		setLabels();
 		addResizeHandler();
 	}
 
-	private FlowPanel getGroupsList() {
-		/*
-		 * ArrayList<String> groupNames = app.getLoginOperation().getModel()
-		 * .getUserGroups();
-		 */
-		ArrayList<String> groupNames = new ArrayList<>(
+	private void buildGroupsList() {
+		ArrayList<String> groupNames = app.getLoginOperation().getModel()
+				.getUserGroups();
+		groupInfoLbl = new Label("");
+		if (groupNames.isEmpty()) {
+			groupInfoLbl
+					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
+			groupInfoLbl.setStyleName("noGrTxt");
+			groupContent.add(groupInfoLbl);
+			return;
+		}
+		groupInfoLbl.setText(app.getLocalization().getMenu("GroupShareTxt"));
+		groupInfoLbl.setStyleName("chooseGrTxt");
+		groupContent.add(groupInfoLbl);
+		groupNames = new ArrayList<>(
 				Arrays.asList("Group1", "Group2", "Group3", "Group4"));
 		final FlowPanel groupList = new FlowPanel();
 		for (String groupName : groupNames) {
 			groupList.add(buildGroup(groupName));
 		}
-		return groupList;
+		groupsPanel = new ScrollPanel();
+		groupsPanel.setStyleName("groupList");
+		groupsPanel.add(groupList);
+		groupContent.add(groupsPanel);
 	}
 
 	private FlowPanel buildGroup(String groupName) {
-		FlowPanel groupContent = new FlowPanel();
+		FlowPanel groupItem = new FlowPanel();
 		groupContent.setStyleName("groupContent");
 		NoDragImage img = new NoDragImage(SharedResources.INSTANCE.groups(),
 				40);
@@ -95,9 +101,9 @@ public class ShareDialogMow extends DialogBoxW
 		groupMemberLbl.setStyleName("groupMember");
 		groupInfoPanel.add(groupNameLbl);
 		groupInfoPanel.add(groupMemberLbl);
-		groupContent.add(img);
-		groupContent.add(groupInfoPanel);
-		return groupContent;
+		groupItem.add(img);
+		groupItem.add(groupInfoPanel);
+		return groupItem;
 	}
 
 	public void onClick(Widget source) {
@@ -113,7 +119,6 @@ public class ShareDialogMow extends DialogBoxW
 	public void setLabels() {
 		getCaption().setText(app.getLocalization()
 				.getMenu("Share"));
-		chooseGrLbl.setText(app.getLocalization().getMenu("GroupShareTxt"));
 		getLinkBtn.setText(app.getLocalization().getMenu("getLink"));
 	}
 
