@@ -33,4 +33,6 @@ public interface BrowseViewI {
 
 	public void removeMaterial(Material material);
 
+	public void setHeaderVisible(boolean visible);
+
 }

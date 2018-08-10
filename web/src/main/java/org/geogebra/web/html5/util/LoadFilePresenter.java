@@ -150,21 +150,24 @@ public class LoadFilePresenter {
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = ae.getDataParamPerspective();
-		if (app.isUnbundledGraphing()) {
-			perspective = Perspective.GRAPHING + "";
-		} else if (app.isUnbundledGeometry()) {
-			perspective = Perspective.GEOMETRY + "";
-		} else if (app.isUnbundled3D()) {
-			perspective = Perspective.GRAPHER_3D + "";
-		} else if (app.isWhiteboardActive()) {
-			perspective = Perspective.WHITEBOARD + "";
+		if (perspective == null) {
+			perspective = "";
+		}
+		if (!perspective.startsWith("search:")) {
+			if (app.isUnbundledGraphing()) {
+				perspective = Perspective.GRAPHING + "";
+			} else if (app.isUnbundledGeometry()) {
+				perspective = Perspective.GEOMETRY + "";
+			} else if (app.isUnbundled3D()) {
+				perspective = Perspective.GRAPHER_3D + "";
+			} else if (app.isWhiteboardActive()) {
+				perspective = Perspective.WHITEBOARD + "";
+			}
 		}
 		if (perspective.length() == 0) {
 			perspective = Location.getParameter("GeoGebraPerspective");
 		}
-		if (perspective == null) {
-			perspective = "";
-		}
+
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
 				app.setCloseBrowserCallback(new Runnable() {

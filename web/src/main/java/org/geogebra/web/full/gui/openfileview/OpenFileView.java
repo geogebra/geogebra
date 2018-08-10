@@ -21,9 +21,13 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -82,6 +86,10 @@ public class OpenFileView extends MyHeaderPanel
 	public OpenFileView(AppW app, FileOpenButton openFileButton) {
 		this.app = app;
 		this.openFileBtn = openFileButton;
+		if (this.app.getLoginOperation() == null) {
+			this.app.initSignInEventFlow(new LoginOperationW(app),
+					!ArticleElement.isEnableUsageStats());
+		}
 		initGUI();
 	}
 
@@ -486,4 +494,14 @@ public class OpenFileView extends MyHeaderPanel
 			}
 		}
 	}
+
+	@Override
+	public void setHeaderVisible(boolean visible) {
+		if (headerPanel.getElement().getParentElement() != null) {
+			headerPanel.getElement().getParentElement().getStyle()
+					.setDisplay(visible ? Display.BLOCK : Display.NONE);
+		}
+		contentPanel.getElement().getStyle().setTop(visible ? 44 : 0, Unit.PX);
+	}
+
 }

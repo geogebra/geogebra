@@ -1145,7 +1145,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 					if (geosOK) {
 						// get color from first geo
 						GColor geoColor;
-						geoColor = ((GeoElement) geos[0]).getObjectColor();
+						geoColor = geos.length > 0
+								? ((GeoElement) geos[0]).getObjectColor()
+								: GColor.BLACK;
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value

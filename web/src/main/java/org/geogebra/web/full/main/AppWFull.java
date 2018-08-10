@@ -510,7 +510,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		}
 
-		GeoGebraPreferencesW.getPref().loadForApp(this, p);
+		// GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
 
@@ -693,6 +693,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 						.updateMaterials();
 		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
+		if (getArticleElement().getDataParamPerspective()
+				.startsWith("search:")) {
+			getGuiManager().getBrowseView().setHeaderVisible(false);
+			getArticleElement().attr("perspective", "");
+		} else {
+			getGuiManager().getBrowseView().setHeaderVisible(true);
+		}
 	}
 
 	@Override

@@ -441,4 +441,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				app.getLocalization().getMenu("Loading"), false, app);
 		}
 	}
+
+	@Override
+	public void setHeaderVisible(boolean b) {
+		// only for MOW
+	}
 }
