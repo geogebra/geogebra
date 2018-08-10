@@ -401,10 +401,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
-		if (app.getActiveMaterial() != null) {
-			this.title.setText(app.getActiveMaterial().getTitle());
-			app.getActiveMaterial().setVisibility(Visibility.Shared.getToken());
-		}
 		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
 			app.getKernel().getConstruction()
 					.setTitle(this.title.getText());
