@@ -57,6 +57,7 @@ public class DrawLocus extends Drawable {
 	private CoordSys transformSys;
 	private BoundingBox boundingBox;
 	private GBufferedImage bitmap;
+	private AlgoElement algo;
 
 	private int bitmapShiftX;
 	private int bitmapShiftY;
@@ -88,7 +89,7 @@ public class DrawLocus extends Drawable {
 			return;
 		}
 
-		AlgoElement algo = geo.getParentAlgorithm();
+		algo = geo.getParentAlgorithm();
 		if (algo instanceof AlgoLocusEquation) {
 			AlgoLocusEquation ale = (AlgoLocusEquation) geo
 					.getParentAlgorithm();
