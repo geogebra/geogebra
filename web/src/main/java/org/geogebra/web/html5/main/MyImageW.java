@@ -78,7 +78,7 @@ public final class MyImageW implements MyImage {
 			canv.setCoordinateSpaceWidth(img.getWidth());
 			canv.setCoordinateSpaceHeight(img.getHeight());
 			canv.setWidth(getWidth() + "px");
-			canv.setHeight(getWidth() + "px");
+			canv.setHeight(getHeight() + "px");
 			Context2d c2d = canv.getContext2d();
 			c2d.drawImage(img, 0, 0);
 		}
