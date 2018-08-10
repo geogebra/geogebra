@@ -76,6 +76,7 @@ public class DrawBackground {
 		int y = (int) view.getYZero() - view.getMaxYScreen() / 2;
 		int x = (int) getStartX();
 		g2.drawImage(svg, x, y);
+		g2.drawImage(svg, x, y + svg.getHeight());
 	}
 
 	/**
