@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.background;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -71,9 +72,10 @@ public class DrawBackground {
 	}
 
 	private void drawSVG(GGraphics2D g2) {
-		int y = view.getMinYScreen();
+		MyImage svg = view.getSVGBackground();
+		int y = (int) view.getYZero() - view.getMaxYScreen() / 2;
 		int x = (int) getStartX();
-		g2.drawImage(view.getSVGBackground(), x, y);
+		g2.drawImage(svg, x, y);
 	}
 
 	/**
