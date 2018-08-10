@@ -20,7 +20,6 @@ public class DrawBackground {
 	private GBasicStroke rulerStroke;
 	private double yScale;
 	private double width;
-
 	/**
 	 * 
 	 * @param euclidianView
@@ -73,10 +72,14 @@ public class DrawBackground {
 
 	private void drawSVG(GGraphics2D g2) {
 		MyImage svg = view.getSVGBackground();
+		int h = svg.getHeight();
 		int y = (int) view.getYZero() - view.getMaxYScreen() / 2;
 		int x = (int) getStartX();
-		g2.drawImage(svg, x, y);
-		g2.drawImage(svg, x, y + svg.getHeight());
+		while (h != 0 && y < view.getMaxYScreen()) {
+			g2.drawImage(svg, x, y);
+			y += h;
+		}
+
 	}
 
 	/**
