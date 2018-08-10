@@ -2218,6 +2218,7 @@ __GGB__keysVar["tr"].menu = {
     "Next": "Sonraki",
     "NextCell": "Sonraki H\xfccre",
     "No.": "No.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "L\xfctfen taray\u0131c\u0131n\u0131zdaki WebGL'yi etkinkle\u015ftirin",
     "None": "Hi\xe7biri",
     "NormalCurve": "Normal E\u011fri",

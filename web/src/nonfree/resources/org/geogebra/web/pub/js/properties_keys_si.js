@@ -2218,6 +2218,7 @@ __GGB__keysVar["si"].menu = {
     "Next": "\u0d8a\u0dbd\u0d9c",
     "NextCell": "\u0d8a\u0dbd\u0d9f \u0d9a\u0ddc\u0da7\u0dd4\u0dc0",
     "No.": "\u0dc0\u0dd0\u0dbb\u0daf\u0dd2",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Please enable WebGL in your browser",
     "None": "None",
     "NormalCurve": "Normal Curve",

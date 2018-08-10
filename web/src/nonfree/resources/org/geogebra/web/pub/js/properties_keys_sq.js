@@ -2218,6 +2218,7 @@ __GGB__keysVar["sq"].menu = {
     "Next": "Tjeter",
     "NextCell": "Qeliza tjeter",
     "No.": "Nr.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Please enable WebGL in your browser",
     "None": "Asnje",
     "NormalCurve": "Kurbe Normale",

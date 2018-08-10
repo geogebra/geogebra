@@ -2218,6 +2218,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Next": "\u4e0b\u4e00\u6b65",
     "NextCell": "\u4e0b\u4e00\u4e2a\u5355\u5143\u683c",
     "No.": "\u5e8f\u53f7",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "\u8bf7\u5728\u6d4f\u89c8\u5668\u4e2d\u542f\u7528 WebGL",
     "None": "\u65e0",
     "NormalCurve": "\u6b63\u6001\u66f2\u7ebf",

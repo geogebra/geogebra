@@ -2218,6 +2218,7 @@ __GGB__keysVar["eu"].menu = {
     "Next": "Hurrengoa",
     "NextCell": "Hurrengo Gelaxka",
     "No.": "Zkia.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Gaitu WebGL zure nabigatzailean, mesedez.",
     "None": "Bat ere ez",
     "NormalCurve": "Kurba Normala",

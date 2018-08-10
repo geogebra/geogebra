@@ -2218,6 +2218,7 @@ __GGB__keysVar["xh"].menu = {
     "Next": "Okulandelayo",
     "NextCell": "Igumbi elilandelayo",
     "No.": "Hayi.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Nceda wenze uWebGL kwibrowser yakho asebenze",
     "None": "Alikho",
     "NormalCurve": "iNormal Curve",

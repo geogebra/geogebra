@@ -2218,6 +2218,7 @@ __GGB__keysVar["pt"].menu = {
     "Next": "Pr\xf3ximo",
     "NextCell": "Pr\xf3xima C\xe9lula",
     "No.": "N.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Por favor, habilite o WebGL em seu navegador",
     "None": "Nenhum",
     "NormalCurve": "Curva Normal",

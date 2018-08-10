@@ -2218,6 +2218,7 @@ __GGB__keysVar["sl"].menu = {
     "Next": "Naprej",
     "NextCell": "Naslednja celica",
     "No.": "\u0160t.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Omogo\u010di WebGL v brskalniku",
     "None": "Noben",
     "NormalCurve": "Normalna krivulja",

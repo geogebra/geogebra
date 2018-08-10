@@ -2218,6 +2218,7 @@ __GGB__keysVar["fil"].menu = {
     "Next": "Susunod",
     "NextCell": "Susunod na Cell",
     "No.": "Hindi.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Please enable WebGL in your browser",
     "None": "None",
     "NormalCurve": "Normal Curve",

@@ -2218,6 +2218,7 @@ __GGB__keysVar["fi"].menu = {
     "Next": "Seuraava",
     "NextCell": "Seuraava solu",
     "No.": "No.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Salli WebGL selaimessasi",
     "None": "Tyhj\xe4",
     "NormalCurve": "Normaalik\xe4yr\xe4",

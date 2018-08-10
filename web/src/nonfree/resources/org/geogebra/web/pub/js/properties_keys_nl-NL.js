@@ -2218,6 +2218,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Next": "Volgende",
     "NextCell": "Volgende cel",
     "No.": "Nr.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Schakel WebGL in",
     "None": "Geen",
     "NormalCurve": "Normaalkromme",

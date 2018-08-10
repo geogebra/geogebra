@@ -2218,6 +2218,7 @@ __GGB__keysVar["nb"].menu = {
     "Next": "Neste",
     "NextCell": "Neste celle",
     "No.": "Nr.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Vennligst tillat WebGL i nettleseren din",
     "None": "Ingen",
     "NormalCurve": "Normalfordelingskurve",

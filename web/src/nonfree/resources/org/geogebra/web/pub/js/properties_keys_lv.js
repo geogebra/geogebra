@@ -2218,6 +2218,7 @@ __GGB__keysVar["lv"].menu = {
     "Next": "N\u0101kamais",
     "NextCell": "N\u0101kam\u0101 \u0160\u016bna",
     "No.": "N\u0113.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Please enable WebGL in your browser",
     "None": "Neviens",
     "NormalCurve": "Norm\u0101lsadal\u012bjuma L\u012bkne",

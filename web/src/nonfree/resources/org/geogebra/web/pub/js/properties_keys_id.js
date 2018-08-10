@@ -2218,6 +2218,7 @@ __GGB__keysVar["id"].menu = {
     "Next": "Lanjut",
     "NextCell": "Sel Selanjutnya",
     "No.": "Tidak.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Please enable WebGL in your browser",
     "None": "Tidak ada",
     "NormalCurve": "Kuurva Normal",

@@ -2218,6 +2218,7 @@ __GGB__keysVar["hr"].menu = {
     "Next": "Sljede\u0107e",
     "NextCell": "Sljede\u0107a \u0107elija",
     "No.": "Br.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Omogu\u0107ite WebGL u pregledniku",
     "None": "Nikoja",
     "NormalCurve": "Normalna krivulja",

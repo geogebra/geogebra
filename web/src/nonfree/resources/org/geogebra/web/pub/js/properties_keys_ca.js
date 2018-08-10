@@ -2218,6 +2218,7 @@ __GGB__keysVar["ca"].menu = {
     "Next": "Seg\xfcent",
     "NextCell": "Cel\xb7la seg\xfcent",
     "No.": "No.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Cal que activeu l'opci\xf3 WebGL en el vostre navegador",
     "None": "Cap",
     "NormalCurve": "Corba normal",

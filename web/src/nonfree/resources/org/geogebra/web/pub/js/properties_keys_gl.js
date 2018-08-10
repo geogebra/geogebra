@@ -2218,6 +2218,7 @@ __GGB__keysVar["gl"].menu = {
     "Next": "Seguinte",
     "NextCell": "Seguinte cela",
     "No.": "No.",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "No explorador, \xe9 preciso activar WebGL",
     "None": "Ning\xfan",
     "NormalCurve": "Curva normal",

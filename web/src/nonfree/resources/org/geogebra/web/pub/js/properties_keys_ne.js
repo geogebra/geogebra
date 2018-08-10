@@ -2218,6 +2218,7 @@ __GGB__keysVar["ne"].menu = {
     "Next": "\u0905\u0930\u094d\u0915\u094b",
     "NextCell": "\u0905\u0930\u094d\u0915\u094b \u0915\u094b\u0937\u094d\u091f\u0915",
     "No.": "\u0928\u094b",
+    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
     "NoWebGL": "Please enable WebGL in your browser",
     "None": "\u0915\u0941\u0928\u0948\u092a\u0928\u093f \u0939\u094b\u0907\u0928",
     "NormalCurve": "\u0938\u093e\u092e\u093e\u0928\u094d\u092f \u092c\u0915\u094d\u0930",
