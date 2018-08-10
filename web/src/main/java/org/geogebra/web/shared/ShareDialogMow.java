@@ -1,7 +1,11 @@
 package org.geogebra.web.shared;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -47,11 +51,12 @@ public class ShareDialogMow extends DialogBoxW
 		contentPanel.add(chooseGrLbl);
 		groupsPanel = new ScrollPanel();
 		groupsPanel.setStyleName("groupList");
+		groupsPanel.add(getGroupsList());
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		getLinkBtn = new StandardButton(
 				SharedResources.INSTANCE.mow_link_white(),
-				app.getLocalization().getMenu("getLink"), 24, app);
+				app.getLocalization().getMenu("getLink"), 32, app);
 		getLinkBtn.addFastClickHandler(this);
 		getLinkBtn.setStyleName("getLinkBtn");
 		buttonPanel.add(getLinkBtn);
@@ -61,6 +66,38 @@ public class ShareDialogMow extends DialogBoxW
 		this.add(dialog);
 		setLabels();
 		addResizeHandler();
+	}
+
+	private FlowPanel getGroupsList() {
+		/*
+		 * ArrayList<String> groupNames = app.getLoginOperation().getModel()
+		 * .getUserGroups();
+		 */
+		ArrayList<String> groupNames = new ArrayList<>(
+				Arrays.asList("Group1", "Group2", "Group3", "Group4"));
+		final FlowPanel groupList = new FlowPanel();
+		for (String groupName : groupNames) {
+			groupList.add(buildGroup(groupName));
+		}
+		return groupList;
+	}
+
+	private FlowPanel buildGroup(String groupName) {
+		FlowPanel groupContent = new FlowPanel();
+		groupContent.setStyleName("groupContent");
+		NoDragImage img = new NoDragImage(SharedResources.INSTANCE.groups(),
+				40);
+		FlowPanel groupInfoPanel = new FlowPanel();
+		groupInfoPanel.setStyleName("groupInfo");
+		Label groupNameLbl = new Label(groupName);
+		groupNameLbl.setStyleName("groupName");
+		Label groupMemberLbl = new Label("100 Memeber(s)");
+		groupMemberLbl.setStyleName("groupMember");
+		groupInfoPanel.add(groupNameLbl);
+		groupInfoPanel.add(groupMemberLbl);
+		groupContent.add(img);
+		groupContent.add(groupInfoPanel);
+		return groupContent;
 	}
 
 	public void onClick(Widget source) {

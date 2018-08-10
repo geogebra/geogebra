@@ -1026,6 +1026,7 @@ $duration: 0.2s;
 
 	.MaterialDialogBox.mowShareDialog {
 		padding: 24px 0px 24px 0px;
+		width: 350px;
 		
 		.Caption {
 			padding: 0px 24px 0px 24px;	
@@ -1042,7 +1043,42 @@ $duration: 0.2s;
 			max-height: 216px;
 			border-bottom: 1px solid $black-12;
 			border-top: 1px solid $black-12;	
-			padding: 0px 24px 0px 24px;	
+			padding: 0px;	
+			width: 350px;
+			cursor: pointer;
+			
+			.groupContent {
+			    display: flex;
+			    height: 40px;
+			    padding: 16px 24px;
+			    
+			    img {
+					opacity: 0.54;	
+				}
+		
+				.groupInfo {
+				    padding-left: 16px;
+				    
+				    .groupName {
+				    	font-size: 100%;
+				    	color: $text-primary;
+				    	line-height: 16px;
+	    				height: 16px;	
+				    }
+				   
+				   	.groupMember {
+					   	font-size: 88%;
+					    color: $text-secondary;	
+					    line-height: 14px;
+			   			height: 14px;
+			   			padding-top: 6px;
+				   	}
+				}
+			
+				&:hover {
+					background-color: $white-5-overlay;	
+				} 
+			}
 		}
 	
 		.buttonPanel {
@@ -1054,7 +1090,7 @@ $duration: 0.2s;
 				transition: background-color 0.15s;
 				
 				img {
-					padding: 6px;
+					padding: 8px;
 	    			background-color: $mebis-teal;
 	    			border-radius: 50%;
 	    		}
@@ -1063,7 +1099,7 @@ $duration: 0.2s;
 	    			text-align: center;
 	    			margin: 4px 0px 0px 0px;
 	    			color: $text-secondary;
-	    			font-size: 80%;
+	    			font-size: 88%;
 	    			cursor: pointer;
 	    		}
 	    	
