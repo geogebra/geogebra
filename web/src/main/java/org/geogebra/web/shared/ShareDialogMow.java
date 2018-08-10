@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -66,6 +65,10 @@ public class ShareDialogMow extends DialogBoxW
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		groupInfoLbl = new Label("");
+		/*
+		 * groupNames = new ArrayList<>( Arrays.asList("Group1", "Group2",
+		 * "Group3", "Group4"));
+		 */
 		if (groupNames.isEmpty()) {
 			groupInfoLbl
 					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
@@ -76,11 +79,9 @@ public class ShareDialogMow extends DialogBoxW
 		groupInfoLbl.setText(app.getLocalization().getMenu("GroupShareTxt"));
 		groupInfoLbl.setStyleName("chooseGrTxt");
 		groupContent.add(groupInfoLbl);
-		groupNames = new ArrayList<>(
-				Arrays.asList("Group1", "Group2", "Group3", "Group4"));
-		final FlowPanel groupList = new FlowPanel();
+		FlowPanel groupList = new FlowPanel();
 		for (String groupName : groupNames) {
-			groupList.add(buildGroup(groupName));
+			groupList.add(this.buildGroup(groupName));
 		}
 		groupsPanel = new ScrollPanel();
 		groupsPanel.setStyleName("groupList");
@@ -88,9 +89,14 @@ public class ShareDialogMow extends DialogBoxW
 		groupContent.add(groupsPanel);
 	}
 
-	private FlowPanel buildGroup(String groupName) {
+	/**
+	 * @param groupName
+	 *            name of the group
+	 * @return panel containing group img, name and nr of memebers
+	 */
+	public FlowPanel buildGroup(String groupName) {
 		FlowPanel groupItem = new FlowPanel();
-		groupContent.setStyleName("groupContent");
+		groupItem.setStyleName("groupContent");
 		NoDragImage img = new NoDragImage(SharedResources.INSTANCE.groups(),
 				40);
 		FlowPanel groupInfoPanel = new FlowPanel();
