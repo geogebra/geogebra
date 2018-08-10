@@ -73,12 +73,16 @@ public class DrawBackground {
 	private void drawSVG(GGraphics2D g2) {
 		MyImage svg = view.getSVGBackground();
 		int h = svg.getHeight();
-		int y = (int) view.getYZero() - view.getMaxYScreen() / 2;
+		int y = (int) ((int) view.getYZero() % gap - gap);
 		int x = (int) getStartX();
+		g2.saveTransform();
+
+		g2.scale(view.getXscale() / 25, view.getYscale() / 25);
 		while (h != 0 && y < view.getMaxYScreen()) {
 			g2.drawImage(svg, x, y);
 			y += h;
 		}
+		g2.restoreTransform();
 
 	}
 
