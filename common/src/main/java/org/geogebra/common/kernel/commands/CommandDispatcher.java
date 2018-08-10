@@ -63,6 +63,8 @@ public abstract class CommandDispatcher {
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
+	private CommandFilter commandFilter;
+
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
@@ -285,6 +287,12 @@ public abstract class CommandDispatcher {
 		try {
 
 			Commands command = Commands.valueOf(cmdName);
+
+			if (commandFilter != null && !commandFilter.isCommandAllowed(command)) {
+				Log.warn("The command is not allowed by the command filter");
+				return null;
+			}
+
 			switch (command) {
 
 			// scripting
@@ -918,5 +926,9 @@ public abstract class CommandDispatcher {
 	 */
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public void setCommandFilter(CommandFilter commandFilter) {
+		this.commandFilter = commandFilter;
 	}
 }

@@ -3397,4 +3397,12 @@ public class AlgebraProcessor {
 	public boolean isCommandsEnabled() {
 		return cmdDispatcher.isEnabled();
 	}
+
+	/**
+	 * Sets the command filter to the command dispatcher
+	 * @param commandFilter contains the set of allowed commands
+	 */
+	public void setCommandFilter(CommandFilter commandFilter) {
+		cmdDispatcher.setCommandFilter(commandFilter);
+	}
 }
