@@ -100,7 +100,16 @@ public class AlgoName extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		String returnLabel = geo.getLabel(StringTemplate.realTemplate);
+		String returnLabel;
+		if (geo.getParentAlgorithm() instanceof AlgoListElement) {
+			AlgoListElement algo = (AlgoListElement) geo.getParentAlgorithm();
+
+			returnLabel = algo.getLabel();
+
+		} else {
+			returnLabel = geo.getLabel(StringTemplate.realTemplate);
+		}
+
 		if (returnLabel != null) {
 			text.setTextString(returnLabel);
 		} else {

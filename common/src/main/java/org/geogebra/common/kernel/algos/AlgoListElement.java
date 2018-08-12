@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -41,6 +42,7 @@ public class AlgoListElement extends AlgoElement {
 	private GeoNumberValue[] num2 = null; // input
 	private GeoElement numGeo;
 	private GeoElement element; // output
+	private String elementLabel;
 
 	/**
 	 * Creates new labeled element algo
@@ -266,6 +268,7 @@ public class AlgoListElement extends AlgoElement {
 		if (nth.getGeoClassType() == element.getGeoClassType()
 				|| TestGeo.canSet(element, nth)) {
 			element.set(nth);
+			elementLabel = nth.getLabel(StringTemplate.realTemplate);
 			if (nth.getDrawAlgorithm() instanceof DrawInformationAlgo) {
 				element.setDrawAlgorithm(
 						((DrawInformationAlgo) nth.getDrawAlgorithm()).copy());
@@ -275,6 +278,15 @@ public class AlgoListElement extends AlgoElement {
 			element.setUndefined();
 		}
 
+	}
+
+	/**
+	 * So that Name(Element(list1,1)) works
+	 * 
+	 * @return label
+	 */
+	public String getLabel() {
+		return elementLabel;
 	}
 
 	/*
