@@ -2507,7 +2507,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Remove": "Elimina",
     "RemoveColumn": "Elimina la columna",
     "RemoveFavorite": "Elimina de Favorits",
-    "RemoveLabel": "Remove label",
+    "RemoveLabel": "Treu l'etiqueta",
     "RemoveLineBreaks": "Elimina els salts de l\xednia",
     "RemoveRow": "Elimina la fila",
     "RemoveTrace": "Elimina l'objecte de la llista seleccionada",
