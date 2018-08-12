@@ -150,9 +150,7 @@ public class LoadFilePresenter {
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = ae.getDataParamPerspective();
-		if (perspective == null) {
-			perspective = "";
-		}
+
 		if (!perspective.startsWith("search:")) {
 			if (app.isUnbundledGraphing()) {
 				perspective = Perspective.GRAPHING + "";
@@ -165,9 +163,12 @@ public class LoadFilePresenter {
 			}
 		}
 		if (perspective.length() == 0) {
+			// Location param may be null
 			perspective = Location.getParameter("GeoGebraPerspective");
+			if (perspective == null) {
+				perspective = "";
+			}
 		}
-
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
 				app.setCloseBrowserCallback(new Runnable() {
