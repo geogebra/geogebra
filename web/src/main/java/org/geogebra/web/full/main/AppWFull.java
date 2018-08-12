@@ -510,7 +510,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		}
 
-		// GeoGebraPreferencesW.getPref().loadForApp(this, p);
+		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
 
