@@ -31,7 +31,7 @@ public class FormatSTL implements Format {
 
 	@Override
 	public void getScriptEnd(StringBuilder sb) {
-		sb.append("\nendsolid geogebra");
+		sb.append("\n endsolid geogebra");
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class FormatSTL implements Format {
 			nz = normalsList.get(3 * normal + 2);
 			break;
 		}
-		sb.append("\nfacet normal ");
+		sb.append("\n facet normal ");
 		sb.append(nx);
 		sb.append(" ");
 		sb.append(ny);
@@ -148,7 +148,7 @@ public class FormatSTL implements Format {
 		sb.append("\n    endloop");
 
 		// end
-		sb.append("\nendfacet");
+		sb.append("\n endfacet");
 	}
 
 	@Override
