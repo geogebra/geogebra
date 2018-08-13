@@ -30,10 +30,10 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	/**
 	 * default edge length for print
 	 */
-	final static public double EDGE_FOR_PRINT = 25; // 2.5cm
-	final static private double THICKNESS_FOR_PRINT_SURFACES = 1.0 / 2; // 1mm
-	final static private double FACTOR_SURFACE_TO_LINE_THICKNESS = 1.5f; // 1.5mm
-	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f; // 2.25mm
+	final static public double EDGE_FOR_PRINT = 40; // 4cm
+	final static private float THICKNESS_FOR_PRINT_LINES = 3.5f / 2; // 3.5mm
+	final static private float SHIFT_LINE_TO_SURFACE_THICKNESS = -0.3f / 2; // 3.2mm
+	final static private float SHIFT_LINE_THICKNESS_TO_POINT_SIZE = 0.3f / 2; // 3.8mm
 	final static private String THICKNESS_GEO_NAME = "STLthickness";
 
 	private double mXmin;
@@ -171,19 +171,20 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 						d = val;
 					}
 				}
-				double thickness = THICKNESS_FOR_PRINT_SURFACES;
+				double thickness = THICKNESS_FOR_PRINT_LINES;
 				GeoElement thicknessGeo = getKernel()
 						.lookupLabel(THICKNESS_GEO_NAME);
 				if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
 					thickness = ((NumberValue) thicknessGeo).getDouble() / 2;
 				}
-				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
-						* thickness * getXscale());
 				specificThicknessForLines = (float) ((d / EDGE_FOR_PRINT)
-						* thickness * FACTOR_SURFACE_TO_LINE_THICKNESS
+						* thickness * getXscale());
+				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
+						* (thickness + SHIFT_LINE_TO_SURFACE_THICKNESS)
 						* getXscale());
-				specificSizeForPoints = specificThicknessForLines
-						* FACTOR_LINE_THICKNESS_TO_POINT_SIZE;
+				specificSizeForPoints = (float) ((d / EDGE_FOR_PRINT)
+						* (thickness + SHIFT_LINE_THICKNESS_TO_POINT_SIZE)
+						* getXscale());
 				specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 				specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
 				format.setScale(EDGE_FOR_PRINT / d);
