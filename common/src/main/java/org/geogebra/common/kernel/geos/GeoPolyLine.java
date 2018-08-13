@@ -294,7 +294,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public double getMaxParameter() {
-		return points.length - 1;
+		return points == null ? 0 : points.length - 1;
 	}
 
 	@Override
@@ -341,6 +341,15 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 		GeoPoint P = (GeoPoint) PI;
 
+		// Polyline({A})
+		if (points.length == 1) {
+			setSegmentPoints((GeoPoint) points[0], (GeoPoint) points[0]);
+			P.x = seg.getPointX(0);
+			P.y = seg.getPointY(0);
+			P.z = 1.0;
+			return;
+		}
+
 		// parameter is between 0 and points.length - 1,
 		// i.e. floor(parameter) gives the point index
 		int index;
@@ -381,6 +390,12 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		double qy = P.y / P.z;
 		double minDist = Double.POSITIVE_INFINITY;
 		double resx = 0, resy = 0, resz = 0, param = 0;
+
+		// Point(Polyline({}))
+		if (points == null || points.length == 0) {
+			P.setUndefined();
+			return;
+		}
 
 		// find closest point on each segment
 		PathParameter pp = P.getPathParameter();
