@@ -780,10 +780,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		getLocalization().setCommandChanged(false);
 	}
 
-	protected Localization getEnLocalization() {
-		return null;
-	}
-
 	private void putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
 		// Check that we don't overwrite local with English
