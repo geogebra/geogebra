@@ -44,7 +44,7 @@ import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandFilter;
+import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -5465,6 +5465,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return cons.steps();
 	}
 
+	/**
+	 * Sets the CommandFilter to the AlgebraProcessor
+	 * @param commandFilter only the commands that are allowed by the commandFilter will be accepted
+	 */
 	public void setCommandFilter(CommandFilter commandFilter) {
 		getAlgebraProcessor().setCommandFilter(commandFilter);
 	}

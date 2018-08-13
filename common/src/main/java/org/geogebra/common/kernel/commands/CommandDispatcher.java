@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.UsesCAS;
+import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -838,7 +839,7 @@ public abstract class CommandDispatcher {
 				return null;
 			}
 		} catch (RuntimeException e) {
-			Log.warn("command not found / CAS command called:" + cmdName);
+			Log.info("command not found / CAS command called:" + cmdName);
 		}
 		return null;
 	}
@@ -928,6 +929,10 @@ public abstract class CommandDispatcher {
 		return enabled;
 	}
 
+	/**
+	 * Sets the CommandFilter
+	 * @param commandFilter only the commands that are allowed by the commandFilter will be accepted
+	 */
 	public void setCommandFilter(CommandFilter commandFilter) {
 		this.commandFilter = commandFilter;
 	}

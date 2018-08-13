@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -3399,8 +3400,8 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Sets the command filter to the command dispatcher
-	 * @param commandFilter contains the set of allowed commands
+	 * Sets the CommandFilter to the CommandDispatcher
+	 * @param commandFilter only the commands that are allowed by the commandFilter will be accepted
 	 */
 	public void setCommandFilter(CommandFilter commandFilter) {
 		cmdDispatcher.setCommandFilter(commandFilter);
