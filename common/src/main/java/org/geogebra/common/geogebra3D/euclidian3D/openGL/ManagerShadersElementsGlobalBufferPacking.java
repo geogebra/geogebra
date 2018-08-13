@@ -377,7 +377,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public void updateColorAndLayer(GColor color, int layer, int index) {
 		GeometriesSet geometrySet = getGeometrySet(index);
-		if (geometrySet != null) {
+		if (geometrySet instanceof GeometriesSetElementsGlobalBufferPacking) {
 			((GeometriesSetElementsGlobalBufferPacking) geometrySet)
 					.updateColorAndLayer(color, layer);
 		}
@@ -386,7 +386,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public void updateVisibility(boolean visible, int index, int alpha, int layer) {
 		GeometriesSet geometrySet = getGeometrySet(index);
-		if (geometrySet != null) {
+		if (geometrySet instanceof GeometriesSetElementsGlobalBufferPacking) {
 			((GeometriesSetElementsGlobalBufferPacking) geometrySet)
 					.updateVisibility(visible, alpha, layer);
 		}
