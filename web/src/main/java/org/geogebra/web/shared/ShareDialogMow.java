@@ -65,10 +65,6 @@ public class ShareDialogMow extends DialogBoxW
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		groupInfoLbl = new Label("");
-		/*
-		 * groupNames = new ArrayList<>( Arrays.asList("Group1", "Group2",
-		 * "Group3", "Group4"));
-		 */
 		if (groupNames.isEmpty()) {
 			groupInfoLbl
 					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
@@ -103,10 +99,10 @@ public class ShareDialogMow extends DialogBoxW
 		groupInfoPanel.setStyleName("groupInfo");
 		Label groupNameLbl = new Label(groupName);
 		groupNameLbl.setStyleName("groupName");
-		Label groupMemberLbl = new Label("100 Memeber(s)");
-		groupMemberLbl.setStyleName("groupMember");
+		// Label groupMemberLbl = new Label("100 Memeber(s)");
+		// groupMemberLbl.setStyleName("groupMember");
 		groupInfoPanel.add(groupNameLbl);
-		groupInfoPanel.add(groupMemberLbl);
+		// groupInfoPanel.add(groupMemberLbl);
 		groupItem.add(img);
 		groupItem.add(groupInfoPanel);
 		return groupItem;
