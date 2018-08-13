@@ -420,13 +420,16 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// needed for MOW-114
 		GeoSegmentND[] segmentsOfPoly = poly.getSegments();
 		boolean wasSegmentHit = false;
-		// check if one of sides was hit
-		for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
-			DrawableND d = view.getDrawableFor(geoSegmentND);
-			if (d != null && d instanceof DrawSegment
-					&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
-				wasSegmentHit = true;
-				break;
+
+		if (segmentsOfPoly != null) {
+			// check if one of sides was hit
+			for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
+				DrawableND d = view.getDrawableFor(geoSegmentND);
+				if (d != null && d instanceof DrawSegment
+						&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
+					wasSegmentHit = true;
+					break;
+				}
 			}
 		}
 		// no filling
