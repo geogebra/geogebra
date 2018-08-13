@@ -144,10 +144,9 @@ public class TextEditPanel extends VerticalPanel
 			return;
 		}
 		boolean wasLaTeX = isLatex();
+		String inputValue = dTProcessor.buildGeoGebraString(editor.getDynamicTextList(), isLatex());
 		boolean isLaTeX = previewer
-				.updatePreviewText(editGeo,
-						dTProcessor.buildGeoGebraString(
-								editor.getDynamicTextList(), isLatex()),
+				.updatePreviewText(editGeo, handleUnderscores(app, inputValue, false),
 						isLatex(), mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
 			btnLatex.setValue(true);
@@ -155,6 +154,24 @@ public class TextEditPanel extends VerticalPanel
 				editGeo.setLaTeX(true, false);
 			}
 		}
+	}
+
+	/**
+	 * Replaces _ to its unicode identifier on MOW
+	 * 
+	 * @param app
+	 *            The application.
+	 * @param input
+	 *            The text input.
+	 * @param latex
+	 *            true if text is LaTeX.
+	 * @return the processed text.
+	 */
+	public static String handleUnderscores(App app, String input, boolean latex) {
+		if (app.isWhiteboardActive() && !latex) {
+			return input.replace("_", "\uFF3F");
+		}
+		return input;
 	}
 
 	@Override

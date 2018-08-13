@@ -189,7 +189,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 				callback.callback(false);
 				return;
 			}
-			String inputValue = input;
+			String inputValue = TextEditPanel.handleUnderscores(app, input, isLatex());
 			// no quotes?
 			if (inputValue.indexOf('"') < 0) {
 				// this should become either
