@@ -7,12 +7,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
 
-public class SCAlgebraCallback implements AsyncOperation<GeoElementND[]> {
+public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
 
     private LabelController mLabelController;
     private boolean mShouldCenterText;
 
-    public SCAlgebraCallback() {
+    public LabelHiderCallback() {
         mLabelController = new LabelController();
     }
 

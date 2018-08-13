@@ -427,17 +427,21 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return new AlgebraProcessor(kernel, app.getCommandDispatcher(kernel));
 	}
 
-	public void checkGeoTexts(GeoElementND[] newGeos) {
-		if (newGeos == null) {
+	/**
+	 * Centers the first element of a GeoElementND array, if that element is a GeoText
+	 * @param geoElements The array of which the first element will be centered
+	 */
+	public void checkGeoTexts(GeoElementND[] geoElements) {
+		if (geoElements == null) {
 			// no GeoElements were created
 			return;
 		}
 		// create texts in the middle of the visible view
 		// we must check that size of geos is not 0 (ZoomIn,
 		// ZoomOut, ...)
-		if (newGeos.length > 0 && newGeos[0] != null
-				&& newGeos[0].isGeoText()) {
-			InputHelper.centerText((GeoText) newGeos[0],
+		if (geoElements.length > 0 && geoElements[0] != null
+				&& geoElements[0].isGeoText()) {
+			InputHelper.centerText((GeoText) geoElements[0],
 					getApplication().getActiveEuclidianView());
 
 		}
