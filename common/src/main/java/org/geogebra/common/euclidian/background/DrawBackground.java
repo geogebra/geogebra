@@ -80,6 +80,8 @@ public class DrawBackground {
 
 		int x = (int) getStartX();
 		g2.saveTransform();
+		g2.translate(0, y);
+		y = 0;
 
 		g2.scale(view.getXscale() / 25, view.getYscale() / 25);
 		while (h != 0 && y < view.getMaxYScreen()) {
