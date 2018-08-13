@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.algebra.scicalc;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -10,26 +9,17 @@ import org.geogebra.common.util.AsyncOperation;
 public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
 
     private LabelController mLabelController;
-    private boolean mShouldCenterText;
 
     public LabelHiderCallback() {
         mLabelController = new LabelController();
     }
 
-    public void setShouldCenterText(boolean shouldCenterText) {
-        mShouldCenterText = shouldCenterText;
-    }
-
     @Override
     public void callback(GeoElementND[] geoElements) {
-        Kernel kernel = geoElements[0].getKernel();
-        if (mShouldCenterText) {
-            kernel.checkGeoTexts(geoElements);
-        }
         if (geoElements instanceof GeoElement[]) {
             hideLabels((GeoElement[]) geoElements);
         }
-        kernel.storeUndoInfo();
+        geoElements[0].getKernel().storeUndoInfo();
     }
 
     private void hideLabels(GeoElement[] geoElements) {
