@@ -234,6 +234,12 @@ public class AlgoSlopeField extends AlgoElement {
 			}
 		}
 
+		if (mainView == null) {
+			// eg 3D Android app
+			locus.setUndefined();
+			return;
+		}
+
 		// if it's visible in at least one view, calculate visible portion
 		if (xmax > -Double.MAX_VALUE) {
 			int nD = (int) (n == null ? 39 : n.getDouble() - 1);
