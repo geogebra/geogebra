@@ -1143,5 +1143,16 @@ $duration: 0.2s;
    			}	
   		}
 	}
+
+	.MaterialDialogBox.saveDialogMow {
+		@extend .mediaDialog;
+		
+		.mowMediaDialogContent.hoverState, 
+			.mowMediaDialogContent.focusState {
+				.AutoCompleteTextFieldW {
+   					margin: 8px 16px 7px 0px !important;	
+   				}
+   		}
+	}
 }
 	
