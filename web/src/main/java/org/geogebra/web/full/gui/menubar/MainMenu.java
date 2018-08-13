@@ -161,9 +161,9 @@ public class MainMenu extends FlowPanel
 				menus.add(settingsMenu);
 				menus.add(toolsMenu);
 			}
-
-			menus.add(helpMenu);
-
+			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+				menus.add(helpMenu);
+			}
 			if (app.enableFileFeatures()) {
 				menus.add(signInMenu);
 			}
@@ -265,15 +265,19 @@ public class MainMenu extends FlowPanel
 					true);
 		}
 		if (!exam) {
-			if (app.isUnbundledOrWhiteboard()) {
-				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
-						SharedResources.INSTANCE.icon_help_black(),
-						"Help"), true);
-			} else {
-				this.menuPanel.add(helpMenu,
-						getHTML(SharedResources.INSTANCE.icon_help_black(),
-								"Help"),
-						true);
+			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+				if (app.isUnbundledOrWhiteboard()) {
+					this.menuPanel.add(helpMenu,
+							getExpandCollapseHTML(
+									SharedResources.INSTANCE.icon_help_black(),
+									"Help"),
+							true);
+				} else {
+					this.menuPanel.add(helpMenu,
+							getHTML(SharedResources.INSTANCE.icon_help_black(),
+									"Help"),
+							true);
+				}
 			}
 			if (app.getNetworkOperation().isOnline()) {
 				render(true);
