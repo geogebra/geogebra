@@ -35,6 +35,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	final static private float SHIFT_LINE_TO_SURFACE_THICKNESS = -0.3f / 2; // 3.2mm
 	final static private float SHIFT_LINE_THICKNESS_TO_POINT_SIZE = 0.3f / 2; // 3.8mm
 	final static private String THICKNESS_GEO_NAME = "STLthickness";
+	final static private String SCALE_GEO_NAME = "STLscale";
 
 	private double mXmin;
 	private double mXmax;
@@ -163,31 +164,39 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		if (format.needsClosedObjects()) {
 			if (updateObjectsBounds(true, true)) {
 				useSpecificThickness = true;
-				double d = boundsMax.getX() - boundsMin.getX();
-				for (int i = 2; i <= 3; i++) {
-					double val = (boundsMax.get(i) - boundsMin.get(i))
-							* getScale(i - 1) / getXscale();
-					if (val > d) {
-						d = val;
-					}
-				}
 				double thickness = THICKNESS_FOR_PRINT_LINES;
 				GeoElement thicknessGeo = getKernel()
 						.lookupLabel(THICKNESS_GEO_NAME);
 				if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
 					thickness = ((NumberValue) thicknessGeo).getDouble() / 2;
 				}
-				specificThicknessForLines = (float) ((d / EDGE_FOR_PRINT)
-						* thickness * getXscale());
-				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
-						* (thickness + SHIFT_LINE_TO_SURFACE_THICKNESS)
+				double scale;
+				GeoElement scaleGeo = getKernel().lookupLabel(SCALE_GEO_NAME);
+				if (scaleGeo != null && scaleGeo.isNumberValue()) {
+					// 1unit = 10mm
+					scale = ((NumberValue) scaleGeo).getDouble() * 10;
+				} else {
+					double d = boundsMax.getX() - boundsMin.getX();
+					for (int i = 2; i <= 3; i++) {
+						double val = (boundsMax.get(i) - boundsMin.get(i))
+								* getScale(i - 1) / getXscale();
+						if (val > d) {
+							d = val;
+						}
+					}
+					scale = EDGE_FOR_PRINT / d;
+				}
+				specificThicknessForLines = (float) (thickness / scale
 						* getXscale());
-				specificSizeForPoints = (float) ((d / EDGE_FOR_PRINT)
-						* (thickness + SHIFT_LINE_THICKNESS_TO_POINT_SIZE)
+				specificThicknessForSurfaces = (float) ((thickness
+						+ SHIFT_LINE_TO_SURFACE_THICKNESS) / scale
+						* getXscale());
+				specificSizeForPoints = (float) ((thickness
+						+ SHIFT_LINE_THICKNESS_TO_POINT_SIZE) / scale
 						* getXscale());
 				specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 				specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
-				format.setScale(EDGE_FOR_PRINT / d);
+				format.setScale(scale);
 				reset();
 				updateScene();
 			} else {
