@@ -58,7 +58,7 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	// compute parabola with focus F and line l
 	@Override
 	public final void compute() {
-		parabola.setParabola((GeoPoint) F, (GeoLine) line);
+		parabola.setParabola(F, (GeoLine) line);
 	}
 
 	@Override

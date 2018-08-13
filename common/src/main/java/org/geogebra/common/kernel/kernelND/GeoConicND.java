@@ -2246,7 +2246,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param g
 	 *            line
 	 */
-	final public void setParabola(GeoPoint F, GeoLine g) {
+	final public void setParabola(GeoPointND F, GeoLine g) {
 		defined = F.isDefined() && !F.isInfinite() && g.isDefined();
 
 		if (!defined) {
@@ -2254,8 +2254,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		// set parabola's matrix
-		double fx = F.inhomX;
-		double fy = F.inhomY;
+		double fx = F.getInhomX();
+		double fy = F.getInhomY();
 
 		matrix[0] = g.y * g.y;
 		matrix[1] = g.x * g.x;
