@@ -663,8 +663,8 @@ public class ExportToPrinter3D {
 	 */
 	public StringBuilder export(Format format1) {
 		this.format = format1;
-		this.format.setNewlineString(
-				view.getApplication().isHTML5Applet() ? NEWLINE_HTML : NEWLINE);
+		// this.format.setNewlineString(
+		// view.getApplication().isHTML5Applet() ? NEWLINE_HTML : NEWLINE);
 		xInvScale = 1 / view.getXscale();
 
 		sb.setLength(0);
