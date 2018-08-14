@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * OpenJSCAD format
  */
-public class FormatJscad implements Format {
+public class FormatJscad extends Format {
 
 	@Override
 	public String getExtension() {
@@ -15,19 +15,25 @@ public class FormatJscad implements Format {
 
 	@Override
 	public void getScriptStart(StringBuilder sb) {
-		sb.append(
-				"// Created with GeoGebra www.geogebra.org \nfunction main() {\n    var s=[];");
+		sb.append("// Created with GeoGebra www.geogebra.org");
+		appendNewline(sb);
+		sb.append("function main() {");
+		appendNewline(sb);
+		sb.append("    var s=[];");
 	}
 
 	@Override
 	public void getScriptEnd(StringBuilder sb) {
-		sb.append("    return union(s);\n}");
+		sb.append("    return union(s);");
+		appendNewline(sb);
+		sb.append("}");
 	}
 
 	@Override
 	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency,
 			GColor color, double alpha) {
-		sb.append("\n    // ");
+		appendNewline(sb);
+		sb.append("    // ");
 		sb.append(type);
 		sb.append(": ");
 		sb.append(geo.getLabelSimple());
@@ -35,22 +41,27 @@ public class FormatJscad implements Format {
 
 	@Override
 	public void getPolyhedronStart(StringBuilder sb) {
-		sb.append("\n    s.push(polyhedron({");
+		appendNewline(sb);
+		sb.append("    s.push(polyhedron({");
 	}
 
 	@Override
 	public void getPolyhedronEnd(StringBuilder sb) {
-		sb.append("\n    }));\n");
+		appendNewline(sb);
+		sb.append("    }));");
+		appendNewline(sb);
 	}
 
 	@Override
 	public void getVerticesStart(StringBuilder sb, int count) {
-		sb.append("\n        points : [");
+		appendNewline(sb);
+		sb.append("        points : [");
 	}
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		sb.append("\n            [");
+		appendNewline(sb);
+		sb.append("            [");
 		sb.append(x);
 		sb.append(",");
 		sb.append(y);
@@ -66,17 +77,20 @@ public class FormatJscad implements Format {
 
 	@Override
 	public void getVerticesEnd(StringBuilder sb) {
-		sb.append("\n        ],");
+		appendNewline(sb);
+		sb.append("        ],");
 	}
 
 	@Override
 	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals) {
-		sb.append("\n        triangles : [");
+		appendNewline(sb);
+		sb.append("        triangles : [");
 	}
 
 	@Override
 	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
-		sb.append("\n            [");
+		appendNewline(sb);
+		sb.append("            [");
 		sb.append(v1);
 		sb.append(",");
 		sb.append(v3);
@@ -92,7 +106,8 @@ public class FormatJscad implements Format {
 
 	@Override
 	public void getFacesEnd(StringBuilder sb) {
-		sb.append("\n        ]");
+		appendNewline(sb);
+		sb.append("        ]");
 	}
 
 	@Override

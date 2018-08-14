@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * STL format
  */
-public class FormatSTL implements Format {
+public class FormatSTL extends Format {
 
 	private ReusableArrayList<Double> verticesList = new ReusableArrayList<>();
 	private ReusableArrayList<Double> normalsList = new ReusableArrayList<>();
@@ -31,7 +31,8 @@ public class FormatSTL implements Format {
 
 	@Override
 	public void getScriptEnd(StringBuilder sb) {
-		sb.append("\n endsolid geogebra");
+		appendNewline(sb);
+		sb.append("endsolid geogebra");
 	}
 
 	@Override
@@ -118,7 +119,8 @@ public class FormatSTL implements Format {
 			nz = normalsList.get(3 * normal + 2);
 			break;
 		}
-		sb.append("\n facet normal ");
+		appendNewline(sb);
+		sb.append("facet normal ");
 		sb.append(nx);
 		sb.append(" ");
 		sb.append(ny);
@@ -126,29 +128,35 @@ public class FormatSTL implements Format {
 		sb.append(nz);
 
 		// vertices
-		sb.append("\n    outer loop");
-		sb.append("\n        vertex ");
+		appendNewline(sb);
+		sb.append("    outer loop");
+		appendNewline(sb);
+		sb.append("        vertex ");
 		sb.append(v1x);
 		sb.append(" ");
 		sb.append(v1y);
 		sb.append(" ");
 		sb.append(v1z);
-		sb.append("\n        vertex ");
+		appendNewline(sb);
+		sb.append("        vertex ");
 		sb.append(v2x);
 		sb.append(" ");
 		sb.append(v2y);
 		sb.append(" ");
 		sb.append(v2z);
-		sb.append("\n        vertex ");
+		appendNewline(sb);
+		sb.append("        vertex ");
 		sb.append(v3x);
 		sb.append(" ");
 		sb.append(v3y);
 		sb.append(" ");
 		sb.append(v3z);
-		sb.append("\n    endloop");
+		appendNewline(sb);
+		sb.append("    endloop");
 
 		// end
-		sb.append("\n endfacet");
+		appendNewline(sb);
+		sb.append("endfacet");
 	}
 
 	@Override

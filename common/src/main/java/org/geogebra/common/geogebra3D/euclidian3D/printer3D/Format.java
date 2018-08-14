@@ -8,12 +8,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Different formats for 3D printers
  * 
  */
-public interface Format {
+abstract public class Format {
+
+	private String newline = ExportToPrinter3D.NEWLINE;
 
 	/**
 	 * @return file extension for this format
 	 */
-	public String getExtension();
+	abstract public String getExtension();
 
 	/**
 	 * script start
@@ -21,7 +23,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getScriptStart(StringBuilder sb);
+	abstract public void getScriptStart(StringBuilder sb);
 
 	/**
 	 * script end
@@ -29,7 +31,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getScriptEnd(StringBuilder sb);
+	abstract public void getScriptEnd(StringBuilder sb);
 
 	/**
 	 * @param sb
@@ -45,7 +47,8 @@ public interface Format {
 	 * @param alpha
 	 *            object alpha
 	 */
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency,
+	abstract public void getObjectStart(StringBuilder sb, String type,
+			GeoElement geo, boolean transparency,
 			GColor color, double alpha);
 
 	/**
@@ -54,7 +57,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getPolyhedronStart(StringBuilder sb);
+	abstract public void getPolyhedronStart(StringBuilder sb);
 
 	/**
 	 * end for polyhedron
@@ -62,7 +65,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getPolyhedronEnd(StringBuilder sb);
+	abstract public void getPolyhedronEnd(StringBuilder sb);
 
 	/**
 	 * 
@@ -73,7 +76,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getVerticesStart(StringBuilder sb, int count);
+	abstract public void getVerticesStart(StringBuilder sb, int count);
 
 	/**
 	 * 
@@ -86,7 +89,8 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getVertices(StringBuilder sb, double x, double y, double z);
+	abstract public void getVertices(StringBuilder sb, double x, double y,
+			double z);
 
 	/**
 	 * separator for vertices list
@@ -94,7 +98,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getVerticesSeparator(StringBuilder sb);
+	abstract public void getVerticesSeparator(StringBuilder sb);
 
 	/**
 	 * 
@@ -103,7 +107,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getVerticesEnd(StringBuilder sb);
+	abstract public void getVerticesEnd(StringBuilder sb);
 
 	/**
 	 * 
@@ -114,7 +118,7 @@ public interface Format {
 	 * @param count
 	 *            normals length
 	 */
-	public void getNormalsStart(StringBuilder sb, int count);
+	abstract public void getNormalsStart(StringBuilder sb, int count);
 
 	/**
 	 * @param sb
@@ -126,7 +130,8 @@ public interface Format {
 	 * @param z
 	 *            z coord normal description
 	 */
-	public void getNormal(StringBuilder sb, double x, double y, double z);
+	abstract public void getNormal(StringBuilder sb, double x, double y,
+			double z);
 
 	/**
 	 * 
@@ -135,7 +140,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getNormalsSeparator(StringBuilder sb);
+	abstract public void getNormalsSeparator(StringBuilder sb);
 
 	/**
 	 * 
@@ -144,7 +149,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getNormalsEnd(StringBuilder sb);
+	abstract public void getNormalsEnd(StringBuilder sb);
 
 	/**
 	 * 
@@ -157,7 +162,8 @@ public interface Format {
 	 * @param hasSpecificNormals
 	 *            says if we'll pass specific normals indices
 	 */
-	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals);
+	abstract public void getFacesStart(StringBuilder sb, int count,
+			boolean hasSpecificNormals);
 
 	/**
 	 * @param sb
@@ -171,7 +177,8 @@ public interface Format {
 	 * @param normal
 	 *            normal index
 	 */
-	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal);
+	abstract public void getFaces(StringBuilder sb, int v1, int v2, int v3,
+			int normal);
 
 	/**
 	 * 
@@ -180,7 +187,7 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getFacesSeparator(StringBuilder sb);
+	abstract public void getFacesSeparator(StringBuilder sb);
 
 	/**
 	 * end for face
@@ -188,31 +195,31 @@ public interface Format {
 	 * @param sb
 	 *            output builder
 	 */
-	public void getFacesEnd(StringBuilder sb);
+	abstract public void getFacesEnd(StringBuilder sb);
 
 	/**
 	 * 
 	 * @return true if this format can export surfaces
 	 */
-	public boolean handlesSurfaces();
+	abstract public boolean handlesSurfaces();
 
 	/**
 	 * 
 	 * @return true if needs closed objects (for stl export)
 	 */
-	public boolean needsClosedObjects();
+	abstract public boolean needsClosedObjects();
 
 	/**
 	 * 
 	 * @return true if it handles normals
 	 */
-	public boolean handlesNormals();
+	abstract public boolean handlesNormals();
 
 	/**
 	 * 
 	 * @return true if it always uses a specific view for export
 	 */
-	public boolean useSpecificViewForExport();
+	abstract public boolean useSpecificViewForExport();
 
 	/**
 	 * set scale for vertices
@@ -220,6 +227,25 @@ public interface Format {
 	 * @param scale
 	 *            scale
 	 */
-	public void setScale(double scale);
+	abstract public void setScale(double scale);
+
+	/**
+	 * 
+	 * @param newline
+	 *            set string used for newline
+	 */
+	public void setNewlineString(String newline) {
+		this.newline = newline;
+	}
+
+	/**
+	 * append a newline string to string builder
+	 * 
+	 * @param sb
+	 *            string builder
+	 */
+	protected void appendNewline(StringBuilder sb) {
+		sb.append(newline);
+	}
 
 }

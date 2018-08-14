@@ -60,6 +60,15 @@ public class ExportToPrinter3D {
 	private Coords tmpNormal = new Coords(3);
 
 	/**
+	 * newline string for URL
+	 */
+	private final static String NEWLINE_HTML = "%0A";
+	/**
+	 * default newline string
+	 */
+	public final static String NEWLINE = "\n";
+
+	/**
 	 * 
 	 * interface for geometries methods used for export
 	 *
@@ -288,8 +297,6 @@ public class ExportToPrinter3D {
 	public void exportSurface(GeoElement geo, int index) {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
-		export(geo, index, "SURFACE", true, null, alpha);
-		reverse = true;
 		export(geo, index, "SURFACE", true, null, alpha);
 	}
 
@@ -656,6 +663,8 @@ public class ExportToPrinter3D {
 	 */
 	public StringBuilder export(Format format1) {
 		this.format = format1;
+		this.format.setNewlineString(
+				view.getApplication().isHTML5Applet() ? NEWLINE_HTML : NEWLINE);
 		xInvScale = 1 / view.getXscale();
 
 		sb.setLength(0);

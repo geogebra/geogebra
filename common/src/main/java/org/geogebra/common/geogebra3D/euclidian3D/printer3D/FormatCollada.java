@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Collada format
  */
-public class FormatCollada implements Format {
+public class FormatCollada extends Format {
 	
 	private static float AMBIENT = Renderer.AMBIENT_0;
 	private ArrayList<IdColor> idColors;

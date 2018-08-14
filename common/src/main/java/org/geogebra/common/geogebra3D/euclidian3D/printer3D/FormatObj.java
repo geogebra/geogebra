@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * .obj format
  *
  */
-public class FormatObj implements Format {
+public class FormatObj extends Format {
 
 	private int index;
 	private int nextShift;
@@ -32,9 +32,12 @@ public class FormatObj implements Format {
 	@Override
 	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency,
 			GColor color, double alpha) {
-		sb.append("\n#########################\n### ");
+		appendNewline(sb);
+		sb.append("#########################");
+		appendNewline(sb);
+		sb.append("### ");
 		sb.append(geo.getLabelSimple());
-		sb.append("\n");
+		appendNewline(sb);
 
 	}
 
@@ -52,7 +55,7 @@ public class FormatObj implements Format {
 
 	@Override
 	public void getVerticesStart(StringBuilder sb, int count) {
-		sb.append("\n");
+		appendNewline(sb);
 		index += nextShift;
 		nextShift = 0;
 	}
@@ -70,17 +73,17 @@ public class FormatObj implements Format {
 
 	@Override
 	public void getVerticesSeparator(StringBuilder sb) {
-		sb.append("\n");
+		appendNewline(sb);
 	}
 
 	@Override
 	public void getVerticesEnd(StringBuilder sb) {
-		sb.append("\n");
+		appendNewline(sb);
 	}
 
 	@Override
 	public void getNormalsStart(StringBuilder sb, int count) {
-		sb.append("\n");
+		appendNewline(sb);
 	}
 
 	@Override
@@ -95,12 +98,12 @@ public class FormatObj implements Format {
 
 	@Override
 	public void getNormalsSeparator(StringBuilder sb) {
-		sb.append("\n");
+		appendNewline(sb);
 	}
 
 	@Override
 	public void getNormalsEnd(StringBuilder sb) {
-		sb.append("\n");
+		appendNewline(sb);
 	}
 
 	@Override
@@ -146,12 +149,12 @@ public class FormatObj implements Format {
 
 	@Override
 	public void getFacesSeparator(StringBuilder sb) {
-		sb.append("\n");
+		appendNewline(sb);
 	}
 
 	@Override
 	public void getFacesEnd(StringBuilder sb) {
-		sb.append("\n");
+		appendNewline(sb);
 
 	}
 
