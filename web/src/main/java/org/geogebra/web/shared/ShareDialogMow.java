@@ -3,11 +3,14 @@ package org.geogebra.web.shared;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -19,6 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ShareDialogMow extends DialogBoxW
 		implements FastClickHandler, SetLabels {
+	private AppW appW;
 	private FlowPanel dialog;
 	private FlowPanel groupContent;
 	private ScrollPanel groupsPanel;
@@ -26,6 +30,41 @@ public class ShareDialogMow extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton getLinkBtn;
 	private String shareURL;
+
+	private class Group extends FlowPanel {
+		private String groupName;
+
+		public Group(String groupName) {
+			this.groupName = groupName;
+			this.setStyleName("groupContent");
+			NoDragImage img = new NoDragImage(SharedResources.INSTANCE.groups(),
+					40);
+			FlowPanel groupInfoPanel = new FlowPanel();
+			groupInfoPanel.setStyleName("groupInfo");
+			Label groupNameLbl = new Label(groupName);
+			groupNameLbl.setStyleName("groupName");
+			// Label groupMemberLbl = new Label("100 Memeber(s)");
+			// groupMemberLbl.setStyleName("groupMember");
+			groupInfoPanel.add(groupNameLbl);
+			// groupInfoPanel.add(groupMemberLbl);
+			this.add(img);
+			this.add(groupInfoPanel);
+			this.addDomHandler(new ClickHandler() {
+				@Override
+				public void onClick(final ClickEvent event) {
+					Log.debug("SHARED WITH GROUP: " + getGroupName());
+					getAppW().getLoginOperation().getGeoGebraTubeAPI()
+							.setShared(getAppW().getActiveMaterial(),
+									getGroupName(), true, null);
+					hide();
+				}
+			}, ClickEvent.getType());
+		}
+
+		public String getGroupName() {
+			return groupName;
+		}
+	}
 
 	/**
 	 * @param app
@@ -36,10 +75,18 @@ public class ShareDialogMow extends DialogBoxW
 	public ShareDialogMow(AppW app, String shareURL) {
 		super(app.getPanel(), app);
 		this.shareURL = shareURL;
+		this.appW = app;
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
 		buildGUI();
+	}
+
+	/**
+	 * @return application
+	 */
+	public AppW getAppW() {
+		return appW;
 	}
 
 	private void buildGUI() {
@@ -77,35 +124,12 @@ public class ShareDialogMow extends DialogBoxW
 		groupContent.add(groupInfoLbl);
 		FlowPanel groupList = new FlowPanel();
 		for (String groupName : groupNames) {
-			groupList.add(this.buildGroup(groupName));
+			groupList.add(new Group(groupName));
 		}
 		groupsPanel = new ScrollPanel();
 		groupsPanel.setStyleName("groupList");
 		groupsPanel.add(groupList);
 		groupContent.add(groupsPanel);
-	}
-
-	/**
-	 * @param groupName
-	 *            name of the group
-	 * @return panel containing group img, name and nr of memebers
-	 */
-	public FlowPanel buildGroup(String groupName) {
-		FlowPanel groupItem = new FlowPanel();
-		groupItem.setStyleName("groupContent");
-		NoDragImage img = new NoDragImage(SharedResources.INSTANCE.groups(),
-				40);
-		FlowPanel groupInfoPanel = new FlowPanel();
-		groupInfoPanel.setStyleName("groupInfo");
-		Label groupNameLbl = new Label(groupName);
-		groupNameLbl.setStyleName("groupName");
-		// Label groupMemberLbl = new Label("100 Memeber(s)");
-		// groupMemberLbl.setStyleName("groupMember");
-		groupInfoPanel.add(groupNameLbl);
-		// groupInfoPanel.add(groupMemberLbl);
-		groupItem.add(img);
-		groupItem.add(groupInfoPanel);
-		return groupItem;
 	}
 
 	public void onClick(Widget source) {
