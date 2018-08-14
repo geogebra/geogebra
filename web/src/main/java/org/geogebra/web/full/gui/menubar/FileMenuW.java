@@ -486,7 +486,50 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 *            relative element
 	 */
 	public static void showShareDialog(final AppW app, final Widget anchor) {
-		Runnable shareCallback = new Runnable() {
+		Runnable shareCallback = getShareCallback(app, anchor);
+
+		if (app.getActiveMaterial() == null
+				|| "P".equals(app.getActiveMaterial().getVisibility())) {
+			if (!app.getLoginOperation().isLoggedIn()) {
+				// not saved, not logged in
+				loginForShare(app, anchor);
+			} else {
+				// not saved, logged in
+				((DialogManagerW) app.getDialogManager()).getSaveDialog()
+						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
+						.showIfNeeded(shareCallback, true, anchor);
+				autoSaveMaterial(app);
+			}
+		} else {
+			if (app.getActiveMaterial() != null && app.getLoginOperation().isLoggedIn()) {
+				autoSaveMaterial(app);
+			}
+			// saved
+			shareCallback.run();
+		}
+	}
+
+	private static void autoSaveMaterial(final AppW app) {
+		if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN) || app.has(Feature.MOW_SHARE_DIALOG)) {
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().onSave();
+		}
+	}
+
+	private static void loginForShare(final AppW app, final Widget anchor) {
+		app.getLoginOperation().getView().add(new EventRenderable() {
+			@Override
+			public void renderEvent(BaseEvent event) {
+				if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+					showShareDialog(app, anchor);
+				}
+			}
+		});
+		((SignInButton) app.getLAF().getSignInButton(app)).login();
+	}
+
+
+	private static Runnable getShareCallback(final AppW app, final Widget anchor) {
+		return new Runnable() {
 			protected ShareLinkDialog shareDialog;
 			protected ShareDialogW sd;
 			protected ShareDialogMow mowShareDialog;
@@ -538,45 +581,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			}
 		};
-		if (app.getActiveMaterial() == null
-				|| "P".equals(app.getActiveMaterial().getVisibility())) {
-			if (!app.getLoginOperation().isLoggedIn()) {
-				// not saved, not logged in
-				app.getLoginOperation().getView().add(new EventRenderable() {
-
-					@Override
-					public void renderEvent(BaseEvent event) {
-						if (event instanceof LoginEvent
-								&& ((LoginEvent) event).isSuccessful()) {
-							showShareDialog(app, anchor);
-						}
-					}
-				});
-				((SignInButton) app.getLAF().getSignInButton(app)).login();
-			} else {
-				// not saved, logged in
-				((DialogManagerW) app.getDialogManager()).getSaveDialog()
-						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
-						.showIfNeeded(shareCallback, true, anchor);
-				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
-						|| app.has(Feature.MOW_SHARE_DIALOG)) {
-				((DialogManagerW) app.getDialogManager()).getSaveDialog()
-					.onSave();
-		}
-			}
-		} else {
-			if (app.getActiveMaterial() != null
-					&& app.getLoginOperation().isLoggedIn()
-					&& (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
-							|| app.has(Feature.MOW_SHARE_DIALOG))) {
-					((DialogManagerW) app.getDialogManager()).getSaveDialog()
-						.onSave();
-			}
-			// saved
-			shareCallback.run();
-		}
 	}
-
 	/**
 	 * 
 	 * @param app
