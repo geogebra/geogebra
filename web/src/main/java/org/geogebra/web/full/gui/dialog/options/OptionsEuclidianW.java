@@ -556,6 +556,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			updateGridColorButton(color);
 		}
 	
+		/**
+		 * @param isAutoGrid
+		 *            true if auto
+		 * @param gridTicks
+		 *            grid ticks
+		 * @param gridType
+		 *            type of grid
+		 */
 		public void updateTicks(boolean isAutoGrid, double[] gridTicks,
 				int gridType) {
 			if (!gridOptions) {
@@ -589,6 +597,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbGridTickAngle.setEnabled(!isAutoGrid);
 		}
 
+		/**
+		 * @param style
+		 *            of grid lines
+		 */
 		public void selectGridStyle(int style) {
 			if (!gridOptions) {
 				return;
@@ -600,12 +612,20 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btnGridStyle.selectLineType(style);
 		}
 
+		/**
+		 * @param color
+		 *            of grid lines
+		 */
 		public void updateGridColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
 			content.setBgColor(color);
 			btGridColor.setIcon(content);
 		}
 
+		/**
+		 * @param item
+		 *            add drop-down menu item with text
+		 */
 		public void addRulerTypeItem(String item) {
 			if (gridOptions) {
 				return;
@@ -613,6 +633,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbRulerType.addItem(item);
 		}
 
+		/**
+		 * @param idx
+		 *            index of ruler type
+		 */
 		public void setRulerType(int idx) {
 			if (gridOptions) {
 				return;
@@ -644,7 +668,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				cbBoldGrid.setValue(bold);
 			}
 		}
-	
 	}
 	
 	/**

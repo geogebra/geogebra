@@ -3867,12 +3867,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * inits an SVG as background.
+	 * create an SVG as background.
 	 */
 	protected void createSVGBackgroundIfNeeded() {
 		// implemented on web
 	}
 
+	/**
+	 * Overridden for web
+	 * 
+	 * @return svg background
+	 */
 	public MyImage getSVGBackground() {
 		return null;
 	}

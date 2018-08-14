@@ -1,10 +1,9 @@
 package org.geogebra.common.euclidian.background;
 
 /**
- * Types of MOW backgrounds.
- * *
+ * Types of MOW backgrounds. *
  * 
- * @author laszlso
+ * @author laszlo
  *
  */
 public enum BackgroundType {
