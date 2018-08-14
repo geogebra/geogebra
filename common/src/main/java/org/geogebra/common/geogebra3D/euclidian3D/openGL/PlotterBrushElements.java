@@ -12,7 +12,11 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *
  */
 public class PlotterBrushElements extends PlotterBrush {
-	private int sectionSize = -1;
+
+	private static int SECTION_SIZE_NOT_STARTED = -2;
+	private static int SECTION_SIZE_MAY_START = -1;
+	private static int SECTION_SIZE_STARTED = 0;
+	private int sectionSize = SECTION_SIZE_NOT_STARTED;
 
 	/**
 	 * constructor
@@ -81,7 +85,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	 */
 	private void startCurve() {
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		sectionSize = 0;
+		sectionSize = SECTION_SIZE_STARTED;
 
 	}
 
@@ -91,8 +95,9 @@ public class PlotterBrushElements extends PlotterBrush {
 	 */
 	private void endCurve() {
 
-		if (sectionSize == -1) {
+		if (sectionSize < SECTION_SIZE_STARTED) {
 			// no curve drawn
+			sectionSize = SECTION_SIZE_NOT_STARTED;
 			return;
 		}
 
@@ -103,11 +108,15 @@ public class PlotterBrushElements extends PlotterBrush {
 
 		((ManagerShaders) manager).endGeometry(sectionSize, TypeElement.CURVE);
 
-		sectionSize = -1;
+		sectionSize = SECTION_SIZE_NOT_STARTED;
 	}
 
 	@Override
 	public void join() {
+		// start curve
+		if (sectionSize == SECTION_SIZE_MAY_START) {
+			startCurve();
+		}
 		// draw curve part
 		for (int i = 0; i < LATITUDES; i++) {
 			draw(start, SINUS[i], COSINUS[i], 0); // bottom of the tube rule
@@ -124,9 +133,13 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
+		// close last part
+		if (sectionSize >= SECTION_SIZE_STARTED) {
+			endCurve();
+		}
 
-		// needs to specify sectionSize = -1 before moveTo() to avoid endCurve()
-		sectionSize = -1;
+		// needs to specify sectionSize < 0 before moveTo() to avoid endCurve()
+		sectionSize = SECTION_SIZE_MAY_START;
 		moveTo(pos);
 
 	}
@@ -135,12 +148,9 @@ public class PlotterBrushElements extends PlotterBrush {
 	public void moveTo(double[] pos) {
 
 		// close last part
-		if (sectionSize >= 0) {
+		if (sectionSize >= SECTION_SIZE_STARTED) {
 			endCurve();
 		}
-
-		// start new part
-		startCurve();
 
 		super.moveTo(pos);
 	}
@@ -148,12 +158,9 @@ public class PlotterBrushElements extends PlotterBrush {
 	@Override
 	public void moveTo(double x, double y, double z) {
 		// close last part
-		if (sectionSize >= 0) {
+		if (sectionSize >= SECTION_SIZE_STARTED) {
 			endCurve();
 		}
-
-		// start new part
-		startCurve();
 
 		drawTo(x, y, z, false);
 	}
@@ -165,7 +172,7 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void start(int old) {
-		sectionSize = -1;
+		sectionSize = SECTION_SIZE_MAY_START;
 		super.start(old);
 	}
 
