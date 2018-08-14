@@ -121,36 +121,36 @@ public class FormatSTL extends Format {
 		}
 		appendNewline(sb);
 		sb.append("facet normal ");
-		sb.append(nx);
+		appendValue(sb, nx);
 		sb.append(" ");
-		sb.append(ny);
+		appendValue(sb, ny);
 		sb.append(" ");
-		sb.append(nz);
+		appendValue(sb, nz);
 
 		// vertices
 		appendNewline(sb);
 		sb.append("    outer loop");
 		appendNewline(sb);
 		sb.append("        vertex ");
-		sb.append(v1x);
+		appendValue(sb, v1x);
 		sb.append(" ");
-		sb.append(v1y);
+		appendValue(sb, v1y);
 		sb.append(" ");
-		sb.append(v1z);
+		appendValue(sb, v1z);
 		appendNewline(sb);
 		sb.append("        vertex ");
-		sb.append(v2x);
+		appendValue(sb, v2x);
 		sb.append(" ");
-		sb.append(v2y);
+		appendValue(sb, v2y);
 		sb.append(" ");
-		sb.append(v2z);
+		appendValue(sb, v2z);
 		appendNewline(sb);
 		sb.append("        vertex ");
-		sb.append(v3x);
+		appendValue(sb, v3x);
 		sb.append(" ");
-		sb.append(v3y);
+		appendValue(sb, v3y);
 		sb.append(" ");
-		sb.append(v3z);
+		appendValue(sb, v3z);
 		appendNewline(sb);
 		sb.append("    endloop");
 
@@ -214,5 +214,9 @@ public class FormatSTL extends Format {
 	@Override
 	public void setScale(double scale) {
 		this.scale = scale;
+	}
+
+	private static void appendValue(StringBuilder sb, double v) {
+		sb.append(String.format("%.2f", v));
 	}
 }
