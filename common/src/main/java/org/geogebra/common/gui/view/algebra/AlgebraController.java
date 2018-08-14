@@ -157,7 +157,7 @@ public class AlgebraController {
 
 			geos = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, isStoringUndo,
-							errorHandler, isAutoCreateSliders, callback);
+							errorHandler, isAutoCreateSliders, true, callback);
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
