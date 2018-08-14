@@ -6,7 +6,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Helper class for drawing the background
@@ -83,10 +82,10 @@ public class DrawBackground {
 		g2.saveTransform();
 
 		double scaleY = view.getYscale() / 25;
-		g2.scale(view.getXscale() / 25, scaleY);
+		g2.scale(scaleY, scaleY);
 		while (h != 0 && y < view.getMaxYScreen()) {
 
-			g2.drawImage(svg, x, (int) (y / scaleY));
+			g2.drawImage(svg, (int) (x / scaleY), (int) (y / scaleY));
 			y += (h * scaleY);
 		}
 		g2.restoreTransform();
