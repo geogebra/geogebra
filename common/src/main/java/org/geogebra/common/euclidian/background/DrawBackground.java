@@ -6,6 +6,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Helper class for drawing the background
@@ -73,23 +74,22 @@ public class DrawBackground {
 	private void drawSVG(GGraphics2D g2) {
 		MyImage svg = view.getSVGBackground();
 		int h = svg.getHeight();
-		int y = (int) view.getYZero() % h;
+		int y = (int) (view.getYZero() % h);
 		if (y > 0) {
 			y -= h;
 		}
 
 		int x = (int) getStartX();
 		g2.saveTransform();
-		g2.translate(0, y);
-		y = 0;
 
-		g2.scale(view.getXscale() / 25, view.getYscale() / 25);
+		double scaleY = view.getYscale() / 25;
+		g2.scale(view.getXscale() / 25, scaleY);
 		while (h != 0 && y < view.getMaxYScreen()) {
-			g2.drawImage(svg, x, y);
-			y += h;
+
+			g2.drawImage(svg, x, (int) (y / scaleY));
+			y += (h * scaleY);
 		}
 		g2.restoreTransform();
-
 	}
 
 	/**
