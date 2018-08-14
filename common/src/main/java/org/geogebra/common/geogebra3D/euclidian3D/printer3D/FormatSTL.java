@@ -217,6 +217,17 @@ public class FormatSTL extends Format {
 	}
 
 	private static void appendValue(StringBuilder sb, double v) {
-		sb.append(String.format("%.2f", v));
+		int v1 = (int) Math.abs(v * 100);
+		int integerValue = v1 / 100;
+		int decimals = v1 % 100;
+		if (v < 0) {
+			sb.append("-");
+		}
+		sb.append(integerValue);
+		sb.append(".");
+		if (decimals < 10) {
+			sb.append("0");
+		}
+		sb.append(decimals);
 	}
 }
