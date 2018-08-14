@@ -249,9 +249,6 @@ public enum Feature {
 	/** GGB-2366 */
 	TIKZ_AXES,
 
-	/** AND-1071 and IGR-819 */
-	MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION,
-
 	/** AND-887 and IGR-732 */
 	MOB_PROPERTY_SORT_BY,
 
