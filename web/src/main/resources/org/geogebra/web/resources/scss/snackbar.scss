@@ -68,5 +68,41 @@
 		bottom: -80px;
 		transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	} 
+
+	.snackbarMow {
+		display: block;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		border-radius: 4px;
+		padding: 3px;
+		background-color: $black-87;
+		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+		z-index: 1000;
+		position: absolute;
+		color: #FFFFFF;
+		/*left: 862px !important;
+    	top: 750px !important;*/
+			
+		.infoText {
+			padding: 5px 50px;
+			display: inline-block;
+			cursor: default;
+			color: #FFFFFF;
+			
+			p {
+				margin: 0px !important;
+			}
+		}
+
+		.manualLink {
+			border-left: 1px solid #FFFFFF;
+			padding: 10px 20px;
+			display: inline-block;
+			background-repeat: no-repeat;
+			background-position: center center;
+			padding-top: 20%;
+			color: #FFFFFF;
+			cursor: pointer;
+		}
+	}
 }
 

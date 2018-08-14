@@ -200,6 +200,8 @@ public final class ToolTipManagerW {
 				bottomInfoTipPanel.addStyleName("small");
 				isSmall = true;
 			}
+		} else if (app.isWhiteboardActive()) {
+			bottomInfoTipPanel.setStyleName("snackbarMow");
 		} else {
 			bottomInfoTipPanel.setStyleName("infoTooltip");
 		}
@@ -240,7 +242,8 @@ public final class ToolTipManagerW {
 			/*
 			 * In "exam" mode the question mark is not shown
 			 */
-			if (!(appw.isExam() && appw.getExam().getStart() >= 0)) {
+			if (!(appw.isExam() && appw.getExam().getStart() >= 0)
+					&& !app.isWhiteboardActive()) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
 		} else if (app.isUnbundled()) {
@@ -280,12 +283,17 @@ public final class ToolTipManagerW {
 			// Toolbar on bottom - tooltip needs to be positioned higher so it
 			// doesn't overlap with the toolbar
 		if (appw.getToolbarPosition() == SwingConstants.SOUTH) {
-			style.setLeft(left * 1.5, Unit.PX);
-			style.setTop(
-					(appw.getHeight() - (kb ? 250 : 70) - 50) - 20 * lines(text),
-					Unit.PX);
-			// Toolbar on top
-		} else {
+			style.setLeft(left, Unit.PX);
+			if (app.isWhiteboardActive()) {
+				style.setTop((appw.getHeight() - 220) - 20 * lines(text),
+						Unit.PX);
+			} else {
+				style.setTop((appw.getHeight() - (kb ? 250 : 70) - 50)
+						- 20 * lines(text), Unit.PX);
+			}
+		}
+		// Toolbar on top
+		else {
 			style.setLeft(left, Unit.PX);
 
 			if (app.isUnbundled()) {
