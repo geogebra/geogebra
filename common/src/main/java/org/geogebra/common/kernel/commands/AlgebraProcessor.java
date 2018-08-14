@@ -621,10 +621,33 @@ public class AlgebraProcessor {
 			final String cmd, final boolean storeUndo,
 			final ErrorHandler handler, boolean autoCreateSlidersAndDegrees,
 			final AsyncOperation<GeoElementND[]> callback0) {
+		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
+				autoCreateSlidersAndDegrees, autoCreateSlidersAndDegrees, callback0);
+	}
+
+	/**
+	 * @param cmd
+	 *            string to process
+	 * @param storeUndo
+	 *            true to make undo step
+	 * @param handler
+	 *            decides how to handle exceptions
+	 * @param autoCreateSliders
+	 *            whether to create sliders (using a popup)
+	 * @param addDegrees
+	 *            whether to add degrees
+	 * @param callback0
+	 *            callback after the geos are created
+	 * @return resulting geos
+	 */
+	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
+			final String cmd, final boolean storeUndo,
+			final ErrorHandler handler, boolean autoCreateSliders, boolean addDegrees,
+			final AsyncOperation<GeoElementND[]> callback0) {
 
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
-				.withSliders(autoCreateSlidersAndDegrees)
-				.addDegree(autoCreateSlidersAndDegrees && app.getKernel()
+				.withSliders(autoCreateSliders)
+				.addDegree(addDegrees && app.getKernel()
 						.getAngleUnit() == Kernel.ANGLE_DEGREE);
 
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
