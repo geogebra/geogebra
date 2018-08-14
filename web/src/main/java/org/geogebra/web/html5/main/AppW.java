@@ -150,7 +150,6 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
@@ -3812,8 +3811,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if ("html".equals(extension)) {
 			url = StringUtil.htmlMarker + content;
-		} else if ("stl".equals(extension)) {
-			url = StringUtil.txtMarker + URL.encodePathSegment(content);
 		} else {
 			url = StringUtil.txtMarker + content;
 			// do we ever need this?
