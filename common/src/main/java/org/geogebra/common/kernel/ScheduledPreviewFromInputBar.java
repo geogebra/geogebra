@@ -121,8 +121,11 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
 		}
-		EvalInfo info = new EvalInfo(false, true).withScripting(false)
-				.withCAS(false).addDegree(true).withUserEquation(true);
+		EvalInfo info = new EvalInfo(false, true)
+				.withScripting(false)
+				.withCAS(false)
+				.addDegree(kernel.getAngleUnit() == Kernel.ANGLE_DEGREE)
+				.withUserEquation(true);
 		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		boolean suppressLabelsOld = this.kernel.getConstruction().isSuppressLabelsActive();
