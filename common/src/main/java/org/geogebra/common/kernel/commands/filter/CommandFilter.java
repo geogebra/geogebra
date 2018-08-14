@@ -8,8 +8,9 @@ import org.geogebra.common.kernel.commands.Commands;
 public interface CommandFilter {
 
     /**
-     * @param command
-     * @return Returns true if the command is allowed, otherwise false
-     */
+	 * @param command
+	 *            command
+	 * @return Returns true if the command is allowed, otherwise false
+	 */
     boolean isCommandAllowed(Commands command);
 }

@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.Commands;
 /**
  * Singleton factory that creates command filters for the Scientific Calculator
  */
-public class SciCalcCommandFilterFactory {
+public final class SciCalcCommandFilterFactory {
 
     private static SciCalcCommandFilterFactory instance;
 
