@@ -298,6 +298,8 @@ public class ExportToPrinter3D {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
 		export(geo, index, "SURFACE", true, null, alpha);
+		reverse = true;
+		export(geo, index, "SURFACE", true, null, alpha);
 	}
 
 	private void export(GeoElement geo, int geometryIndex, String group,
