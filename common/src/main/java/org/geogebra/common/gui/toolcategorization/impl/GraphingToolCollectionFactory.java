@@ -100,7 +100,8 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_ATTACH_DETACH,
                 EuclidianConstants.MODE_EXTREMUM,
                 EuclidianConstants.MODE_ROOTS,
-                EuclidianConstants.MODE_COMPLEX_NUMBER);
+                EuclidianConstants.MODE_COMPLEX_NUMBER,
+                EuclidianConstants.MODE_CREATE_LIST);
 
         impl.extendCategory(CATEGORY_CONSTRUCT,
                 EuclidianConstants.MODE_LOCUS);
