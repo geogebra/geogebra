@@ -31,7 +31,8 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_SLIDER,
                 EuclidianConstants.MODE_INTERSECT,
                 EuclidianConstants.MODE_EXTREMUM,
-                EuclidianConstants.MODE_ROOTS);
+                EuclidianConstants.MODE_ROOTS,
+                EuclidianConstants.MODE_FITLINE);
 
         impl.extendCategory(CATEGORY_EDIT,
                 EuclidianConstants.MODE_SELECT,
@@ -108,8 +109,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_SEGMENT_FIXED,
                 EuclidianConstants.MODE_VECTOR_FROM_POINT,
                 EuclidianConstants.MODE_POLAR_DIAMETER,
-                EuclidianConstants.MODE_POLYLINE,
-                EuclidianConstants.MODE_FITLINE);
+                EuclidianConstants.MODE_POLYLINE);
 
         impl.extendCategory(CATEGORY_POLYGONS,
                 EuclidianConstants.MODE_POLYGON,
