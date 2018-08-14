@@ -3494,4 +3494,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void setLocalizeCmds(boolean localizeCmds) {
 		this.localizeCmds = localizeCmds;
 	}
+
+	/**
+	 * Set to true to print ~ 3.1415 as pi.
+	 *
+	 * @param allowPiHack true to print pi symbolically
+	 */
+	public void setAllowPiHack(boolean allowPiHack) {
+		this.allowPiHack = allowPiHack;
+	}
 }

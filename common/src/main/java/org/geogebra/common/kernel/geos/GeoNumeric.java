@@ -722,7 +722,7 @@ public class GeoNumeric extends GeoElement
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
-		if (symbolicMode && getDefinition() != null
+		if (symbolicMode && getDefinition() != null && getDefinition().isFraction()
 				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
