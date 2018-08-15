@@ -67,12 +67,28 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				StringTemplate.defaultTemplate);
 	}
 
-	protected static String getDescription(GeoElement geo) {
-		return geo.getDescriptionHTML(false);
+	/**
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param addHTMLtag
+	 *            needs to be true for ggb5 (for Unicode)
+	 * @return
+	 */
+	protected static String getDescription(GeoElement geo, boolean addHTMLtag) {
+		return geo.getDescriptionHTML(addHTMLtag);
 	}
 
-	protected static String getDefinition(GeoElement geo) {
-		return geo.getDefinitionHTML(false);
+	/**
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param addHTMLtag
+	 *            needs to be true for ggb5 (for Unicode)
+	 * @return
+	 */
+	protected static String getDefinition(GeoElement geo, boolean addHTMLtag) {
+		return geo.getDefinitionHTML(addHTMLtag);
 	}
 
 	protected static boolean getBreakpoint(GeoElement geo) {
@@ -237,8 +253,10 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			// algebra = geo.getRedefineString(true, true);
 			// algebra = geo.toOutputValueString();
 			algebra = ConstructionProtocolView.getAlgebra(geo);
-			description = ConstructionProtocolView.getDescription(geo);
-			definition = ConstructionProtocolView.getDefinition(geo);
+			description = ConstructionProtocolView.getDescription(geo,
+					!app.isHTML5Applet());
+			definition = ConstructionProtocolView.getDefinition(geo,
+					!app.isHTML5Applet());
 			updateCaption();
 			consProtocolVisible = ConstructionProtocolView.getBreakpoint(geo);
 
@@ -1025,11 +1043,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 						break;
 
 					case DESCRIPTION:
-						str = getDescription(geo);
+						str = getDescription(geo, false);
 						break;
 
 					case DEFINITION:
-						str = getDefinition(geo);
+						str = getDefinition(geo, false);
 						break;
 
 					case VALUE:
