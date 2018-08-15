@@ -31,6 +31,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -50,6 +51,7 @@ import org.geogebra.web.full.gui.AccessibilityManagerW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -156,6 +158,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	FloatingMenuPanel floatingMenuPanel = null;
 
 	private EmbedManager embedManager;
+
+	private SaveController saveController = null;
 
 	/**
 	 * 
@@ -1910,4 +1914,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 		((DialogManagerW) this.getDialogManager()).showPDFInputDialog(file);
 	}
 
+	@Override
+	public SaveController getSaveController() {
+		if (saveController == null) {
+			saveController = new SaveControllerW(this);
+		}
+		return saveController;
+	}
 }

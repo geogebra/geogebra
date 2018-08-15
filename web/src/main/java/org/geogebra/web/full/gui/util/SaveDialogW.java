@@ -6,7 +6,9 @@ import java.util.List;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManager;
+import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -15,28 +17,26 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.main.FileManager;
-import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
@@ -61,38 +61,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Dialog for online saving (tube/drive)
  */
 public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
-        EventRenderable {
-	/** Material visibility */
-	public enum Visibility {
-		/** private */
-		Private(0, "P"),
-		/** shared with link */
-		Shared(1, "S"),
-		/** public */
-		Public(2, "O");
-
-		private int index;
-		private String token;
-
-		Visibility(int index, String tok) {
-			this.index = index;
-			this.token = tok;
-		}
-
-		/**
-		 * @return index 0-2
-		 */
-		int getIndex() {
-			return this.index;
-		}
-
-		/**
-		 * @return string representation P/S/O
-		 */
-		String getToken() {
-			return this.token;
-		}
-	}
+		SaveListener, EventRenderable {
 
 	private static final int MAX_TITLE_LENGTH = 60;
 	/** application */
@@ -108,9 +77,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private PopupMenuButtonW providerPopup;
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
-	private MaterialType saveType;
+
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
-	private Visibility defaultVisibility;
+	private MaterialVisibility defaultVisibility;
 	private Localization loc;
 
 	/**
@@ -121,8 +90,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel(), app);
-		this.defaultVisibility = app.isWhiteboardActive() ? Visibility.Private
-				: Visibility.Shared;
+		this.defaultVisibility = app.isWhiteboardActive() ? MaterialVisibility.Private
+				: MaterialVisibility.Shared;
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
@@ -136,8 +105,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		p.add(getTitelPanel());
 		p.add(getButtonPanel());
 		contentPanel.add(p);
-		this.saveType = MaterialType.ggb;
-
 		addCancelButton();
 
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -177,13 +144,15 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            whether this is a fork
 	 * @return save callback
 	 */
-	MaterialCallback initMaterialCB(final String base64, final boolean forked) {
+	@Override
+	public
+	MaterialCallbackI initMaterialCB(final String base64, final boolean forked) {
 		return new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
 			        ArrayList<Chapter> meta) {
-				if (isWorksheet()) {
+				if (app.getSaveController().isWorksheet()) {
 					if (parseResponse.size() == 1) {
 						Material newMat = parseResponse.get(0);
 						newMat.setThumbnailBase64(((EuclidianViewWInterface) app
@@ -209,16 +178,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 						runAfterSaveCallback();
 					} else {
 						resetCallback();
-						saveLocalIfNeeded(getCurrentTimestamp(app),
+						saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app),
 								SaveState.ERROR);
 					}
 				} else {
 					if (parseResponse.size() == 1) {
 						SaveCallback.onSaved(app, SaveState.OK,
-								isMacro());
+								app.getSaveController().isMacro());
 					} else {
 						SaveCallback.onSaved(app, SaveState.ERROR,
-								isMacro());
+								app.getSaveController().isMacro());
 					}
 				}
 
@@ -231,12 +200,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 				resetCallback();
 				((GuiManagerW) app.getGuiManager()).exportGGB();
-				saveLocalIfNeeded(getCurrentTimestamp(app), SaveState.ERROR);
+				saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app), SaveState.ERROR);
 				hide();
 			}
 
 			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (isWorksheet()
+				if (app.getSaveController().isWorksheet()
 						&& (app.getFileManager().shouldKeep(0)
 								|| app.has(Feature.LOCALSTORAGE_FILES)
 								|| state == SaveState.ERROR)) {
@@ -248,17 +217,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				}
 			}
 		};
-	}
-
-	/**
-	 * @param app
-	 *            used to get current sync stamp
-	 * @return current time in seconds since epoch OR app sync stamp + 1 if
-	 *         bigger (to avoid problems with system clock)
-	 */
-	public static long getCurrentTimestamp(AppW app) {
-		return Math.max(System.currentTimeMillis() / 1000,
-		        app.getSyncStamp() + 1);
 	}
 
 	private HorizontalPanel getTitelPanel() {
@@ -371,7 +329,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		listBox.addItem(loc.getMenu("Private"));
 		listBox.addItem(loc.getMenu("Shared"));
 		listBox.addItem(loc.getMenu("Public"));
-		listBox.setItemSelected(Visibility.Private.getIndex(), true);
+		listBox.setItemSelected(MaterialVisibility.Private.getIndex(), true);
 		if (app.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(app.getFileManager()
@@ -401,82 +359,31 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
-		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
-			app.getKernel().getConstruction()
-					.setTitle(this.title.getText());
-			app.getFileManager().export(app);
-		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
-			saveLocal();
-		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
-			uploadToDrive();
-		} else {
-			if (app.getActiveMaterial() == null
-					|| isMacro()) {
-				app.setActiveMaterial(new Material(0, saveType));
-			}
-			switch (listBox.getSelectedIndex()) {
-			case 0:
-				app.getActiveMaterial().setVisibility(
-				        Visibility.Private.getToken());
-				break;
-			case 1:
-				app.getActiveMaterial().setVisibility(
-				        Visibility.Shared.getToken());
-				break;
-			case 2:
-				app.getActiveMaterial().setVisibility(
-				        Visibility.Public.getToken());
-				break;
-			default:
-				app.getActiveMaterial().setVisibility(
-				        Visibility.Private.getToken());
-				break;
-			}
-
-			uploadToGgt(app.getActiveMaterial().getVisibility());
-		}
+		app.getSaveController().save(title.getText(), getSelectedVisibility(), this);
 	}
 
+	private MaterialVisibility getSelectedVisibility() {
+		switch (listBox.getSelectedIndex()) {
+		case 1:
+			return MaterialVisibility.Shared;
+		case 2:
+			return MaterialVisibility.Public;
+		case 0:
+		default:
+			return MaterialVisibility.Private;
+		}
+
+	}
 	/**
 	 * sets the application as "saved" and closes the dialog
 	 */
 	protected void onDontSave() {
 		hide();
-		if (isWorksheet()) {
+		if (app.getSaveController().isWorksheet()) {
 			app.setSaved();
 			runAfterSaveCallback();
 		}
 	}
-
-	private void saveLocal() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(
-				loc.getMenu("Saving"), false, app);
-		if (!this.title.getText().equals(
-		        app.getKernel().getConstruction().getTitle())) {
-			app.setTubeId(null);
-			app.setLocalID(-1);
-		}
-		app.getKernel().getConstruction().setTitle(this.title.getText());
-		app.getGgbApi().getBase64(true, new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String s) {
-				((FileManager) app.getFileManager()).saveFile(s,
-				        getCurrentTimestamp(app), new SaveCallback(app,
-				                SaveState.OK) {
-					        @Override
-					        public void onSaved(final Material mat,
-					                final boolean isLocal) {
-						        super.onSaved(mat, isLocal);
-						        runAfterSaveCallback();
-					        }
-				        });
-				hide();
-			}
-		});
-
-	}
-
 	// /**
 	// * @return true if material was already public or shared
 	// */
@@ -486,153 +393,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	// || app.getActiveMaterial().getVisibility()
 	// .equals(Visibility.Shared.getToken());
 	// }
-
-	/**
-	 * Handles the upload of the file and closes the dialog. If there are
-	 * sync-problems with a file, a new one is generated on ggt.
-	 */
-	private void uploadToGgt(final String visibility) {
-		final boolean titleChanged = !this.title.getText()
-				.equals(app.getKernel().getConstruction().getTitle());
-		if (this.saveType != MaterialType.ggt) {
-			app.getKernel().getConstruction().setTitle(this.title.getText());
-		}
-		
-		final AsyncOperation<String> handler = new AsyncOperation<String>() {
-			@Override
-			public void callback(String base64) {
-				if (titleChanged
-						&& isWorksheet()) {
-					Log.debug("SAVE filename changed");
-					app.updateMaterialURL(0, null, null);
-					doUploadToGgt(app.getTubeId(), visibility, base64,
-					        initMaterialCB(base64, false));
-				} else if (StringUtil.emptyOrZero(app.getTubeId())
-						|| isMacro()) {
-					Log.debug("SAVE had no Tube ID or tool is saved");
-					doUploadToGgt(null, visibility, base64,
-					        initMaterialCB(base64, false));
-				} else {
-					handleSync(base64, visibility);
-				}
-			}
-
-		};
-
-		ToolTipManagerW.sharedInstance().showBottomMessage(
-				loc.getMenu("Saving"), false, app);
-
-		if (saveType == MaterialType.ggt) {
-			app.getGgbApi().getMacrosBase64(true, handler);
-		} else {
-			app.getGgbApi().getBase64(true, handler);
-		}
-
-		hide();
-	}
-
-	private void uploadToDrive() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(
-				loc.getMenu("Saving"), false, app);
-		app.getGoogleDriveOperation().afterLogin(new Runnable() {
-
-			@Override
-			public void run() {
-				doUploadToDrive();
-			}
-		});
-	}
-
-	/**
-	 * GoogleDrive upload
-	 */
-	void doUploadToDrive() {
-		String saveName = this.title.getText();
-		String prefix = saveType == MaterialType.ggb ? ".ggb" : ".ggt";
-		if (!saveName.endsWith(prefix)) {
-			app.getKernel().getConstruction().setTitle(saveName);
-			saveName += prefix;
-		} else {
-			app.getKernel()
-			        .getConstruction()
-			        .setTitle(
-			                saveName.substring(0,
-			                        saveName.length() - prefix.length()));
-		}
-		JavaScriptObject callback = ((GoogleDriveOperationW) app
-		        .getGoogleDriveOperation()).getPutFileCallback(saveName,
-						"GeoGebra", saveType == MaterialType.ggb);
-		if (saveType == MaterialType.ggt) {
-			app.getGgbApi().getMacrosBase64(true, callback);
-		} else {
-			app.getGgbApi().getBase64(true, callback);
-		}
-	}
-
-	/**
-	 * @param base64
-	 *            material base64
-	 * @param visibility
-	 *            "P" / "O" / "S"
-	 */
-	void handleSync(final String base64, final String visibility) {
-		app.getLoginOperation().getGeoGebraTubeAPI()
-		        .getItem(app.getTubeId() + "", new MaterialCallback() {
-
-			        @Override
-			        public void onLoaded(final List<Material> parseResponse,
-			                ArrayList<Chapter> meta) {
-				        MaterialCallback materialCallback;
-				        if (parseResponse.size() == 1) {
-					        if (parseResponse.get(0).getModified() > app
-					                .getSyncStamp()) {
-								Log.debug("SAVE MULTIPLE"
-						                + parseResponse.get(0).getModified()
-						                + ":" + app.getSyncStamp());
-								app.updateMaterialURL(0, null, null);
-						        materialCallback = initMaterialCB(base64, true);
-					        } else {
-						        materialCallback = initMaterialCB(base64, false);
-					        }
-					        doUploadToGgt(app.getTubeId(), visibility, base64,
-					                materialCallback);
-				        } else {
-					        // if the file was deleted meanwhile
-							// (parseResponse.size() == 0)
-							app.setTubeId(null);
-					        materialCallback = initMaterialCB(base64, false);
-					        doUploadToGgt(app.getTubeId(), visibility, base64,
-					                materialCallback);
-				        }
-			        }
-
-			        @Override
-			        public void onError(final Throwable exception) {
-				        // TODO show correct message
-				        app.showError("Error");
-			        }
-		        });
-	}
-
-	/**
-	 * does the upload of the actual opened file to GeoGebraTube
-	 * 
-	 * @param tubeID
-	 *            id in materials platform
-	 * @param visibility
-	 *            visibility string
-	 * @param base64
-	 *            material base64
-	 * 
-	 * @param materialCallback
-	 *            {@link MaterialCallback}
-	 */
-	void doUploadToGgt(String tubeID, String visibility, String base64,
-	        MaterialCallback materialCallback) {
-		app.getLoginOperation().getGeoGebraTubeAPI()
-				.uploadMaterial(tubeID, visibility, this.title.getText(),
-						base64, materialCallback, this.saveType);
-	}
 
 	@Override
 	public void show() {
@@ -657,14 +417,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			// org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
 			if (app.getActiveMaterial() != null) {
 				if (app.getActiveMaterial().getVisibility()
-				        .equals(Visibility.Public.getToken())) {
-					this.listBox.setSelectedIndex(Visibility.Public.getIndex());
+						.equals(MaterialVisibility.Public.getToken())) {
+					this.listBox.setSelectedIndex(MaterialVisibility.Public.getIndex());
 				} else if (app.getActiveMaterial().getVisibility()
-				        .equals(Visibility.Shared.getToken())) {
-					this.listBox.setSelectedIndex(Visibility.Shared.getIndex());
+						.equals(MaterialVisibility.Shared.getToken())) {
+					this.listBox.setSelectedIndex(MaterialVisibility.Shared.getIndex());
 				} else {
 					this.listBox
-					        .setSelectedIndex(Visibility.Private.getIndex());
+							.setSelectedIndex(MaterialVisibility.Private.getIndex());
 				}
 			} else {
 				this.listBox.setSelectedIndex(defaultVisibility.getIndex());
@@ -731,10 +491,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	}
 
+	/**
+	 * Sets initial title for the material to save.
+	 */
 	public void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null && !"".equals(consTitle)
-				&& !isMacro()) {
+				&& !app.getSaveController().isMacro()) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
@@ -757,17 +520,18 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
 		this.dontSaveButton.setText(loc.getMenu("DontSave"));
 		this.saveButton.setText(loc.getMenu("Save"));
-		this.listBox.setItemText(Visibility.Private.getIndex(),
+		this.listBox.setItemText(MaterialVisibility.Private.getIndex(),
 				loc.getMenu("Private"));
-		this.listBox.setItemText(Visibility.Shared.getIndex(),
+		this.listBox.setItemText(MaterialVisibility.Shared.getIndex(),
 				loc.getMenu("Shared"));
-		this.listBox.setItemText(Visibility.Public.getIndex(),
+		this.listBox.setItemText(MaterialVisibility.Public.getIndex(),
 				loc.getMenu("Public"));
 	}
 
 	/**
 	 * runs the callback
 	 */
+	@Override
 	public void runAfterSaveCallback() {
 		if (runAfterSave != null) {
 			runAfterSave.run();
@@ -800,35 +564,45 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	/**
-	 * @param saveType
-	 *            set the saveType for the SaveDialog
-	 */
-	public void setSaveType(MaterialType saveType) {
-		this.saveType = saveType;
-	}
-
-	/**
-	 * @return true if the MaterialType is ggb
-	 */
-	boolean isWorksheet() {
-		return saveType.equals(MaterialType.ggb)
-				|| saveType.equals(MaterialType.ggs);
-	}
-
-	/**
-	 * @return true if the MaterialType is ggt
-	 */
-	boolean isMacro() {
-		return saveType.equals(MaterialType.ggt);
-	}
-
-	/**
 	 * @param visibility
 	 *            new default
 	 * @return this
 	 */
-	public SaveDialogW setDefaultVisibility(Visibility visibility) {
+	public SaveDialogW setDefaultVisibility(MaterialVisibility visibility) {
 		this.defaultVisibility = visibility;
 		return this;
+	}
+
+	@Override
+	public AsyncOperation<String> base64Callback() {
+		// TODO Auto-generated method stub
+		return new AsyncOperation<String>() {
+
+			@Override
+			public void callback(String s) {
+				((FileManager) app.getFileManager()).saveFile(s,
+						SaveControllerW.getCurrentTimestamp(app), new SaveCallback(app,
+				                SaveState.OK) {
+					        @Override
+					        public void onSaved(final Material mat,
+					                final boolean isLocal) {
+						        super.onSaved(mat, isLocal);
+						        runAfterSaveCallback();
+					        }
+				        });
+				hide();
+			}
+		};
+		
+	}
+
+	/**
+	 * Sets material type to be saved.
+	 * 
+	 * @param saveType
+	 *            for the dialog.
+	 */
+	public void setSaveType(MaterialType saveType) {
+		app.getSaveController().setSaveType(saveType);
 	}
 }

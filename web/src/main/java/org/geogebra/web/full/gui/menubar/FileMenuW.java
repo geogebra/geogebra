@@ -8,6 +8,7 @@ import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -23,7 +24,6 @@ import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.LayoutW;
-import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -496,9 +496,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			} else {
 				// not saved, logged in
 				((DialogManagerW) app.getDialogManager()).getSaveDialog()
-						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
+						.setDefaultVisibility(MaterialVisibility.Shared)
 						.showIfNeeded(shareCallback, true, anchor);
-				autoSaveMaterial(app);
+				// autoSaveMaterial(app);
 			}
 		} else {
 			if (app.getActiveMaterial() != null && app.getLoginOperation().isLoggedIn()) {

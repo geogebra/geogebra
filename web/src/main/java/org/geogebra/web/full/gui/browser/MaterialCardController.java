@@ -10,8 +10,8 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
-import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -212,7 +212,7 @@ public class MaterialCardController {
 							});
 		} else {
 			this.getMaterial()
-					.setModified(Math.max(SaveDialogW.getCurrentTimestamp(app),
+					.setModified(Math.max(SaveControllerW.getCurrentTimestamp(app),
 							getMaterial().getSyncStamp() + 1));
 			this.app.getFileManager().rename(text, this.getMaterial());
 		}

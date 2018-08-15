@@ -1792,6 +1792,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public MyImage getSVGBackground() {
+		Log.debug("SVGBG h: " + svgBackground.getHeight());
 		return svgBackground;
 	}
 }

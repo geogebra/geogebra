@@ -5200,4 +5200,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 		StringTemplate.editorTemplate.setLocalizeCmds(false);
 	}
 
+	/**
+	 * 
+	 * @return controller for saving materials.
+	 */
+	public SaveController getSaveController() {
+		return null;
+	}
 }
