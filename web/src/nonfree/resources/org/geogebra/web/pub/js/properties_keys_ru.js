@@ -3288,7 +3288,7 @@ __GGB__keysVar["ru"].menu = {
     "stylebar.LineStyle": "\u0422\u0438\u043f \u043b\u0438\u043d\u0438\u0438",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "\u041e\u0440\u0442\u043e\u0433\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0440\u043e\u0435\u043a\u0446\u0438\u044f",
-    "stylebar.ParallelProjection": "Parallel projection",
+    "stylebar.ParallelProjection": "Orthographic projection",
     "stylebar.Pen": "\u041d\u0430\u0440\u0438\u0441\u043e\u0432\u0430\u0442\u044c \u043a\u0430\u0440\u0430\u043d\u0434\u0430\u0448\u043e\u043c",
     "stylebar.PerspectiveProjection": "Perspective projection",
     "stylebar.PointStyle": "\u0421\u0442\u0438\u043b\u044c \u0442\u043e\u0447\u043a\u0438",

@@ -3288,7 +3288,7 @@ __GGB__keysVar["si"].menu = {
     "stylebar.LineStyle": "Set line style",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Orthographic Projection",
-    "stylebar.ParallelProjection": "Parallel projection",
+    "stylebar.ParallelProjection": "Orthographic projection",
     "stylebar.Pen": "Draw with pen",
     "stylebar.PerspectiveProjection": "Perspective projection",
     "stylebar.PointStyle": "Set point style",

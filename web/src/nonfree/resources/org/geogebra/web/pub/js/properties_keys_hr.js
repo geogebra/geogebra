@@ -3251,7 +3251,7 @@ __GGB__keysVar["hr"].menu = {
     "rename.resource": "Preimenuj materijal",
     "resetConstruction": "Vrati po\u010detno stanje konstrukcije",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra uratke",
-    "shareByLink": "Share by link",
+    "shareByLink": "Dijeljeno poveznicom",
     "share_message": "Message",
     "share_message_text": "Unesite kratku osobnu poruku",
     "share_recipient": "Recipient",

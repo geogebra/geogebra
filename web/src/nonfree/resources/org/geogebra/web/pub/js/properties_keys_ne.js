@@ -3288,7 +3288,7 @@ __GGB__keysVar["ne"].menu = {
     "stylebar.LineStyle": "\u092c\u0930\u0947\u0916\u093e\u0915\u094b \u092a\u094d\u0930\u093e\u0930\u0941\u092a \u092e\u093f\u0932\u093e\u0909\u0928\u0941\u0939\u094b\u0938",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Orthographic Projection",
-    "stylebar.ParallelProjection": "Parallel projection",
+    "stylebar.ParallelProjection": "Orthographic projection",
     "stylebar.Pen": "\u0915\u0932\u092e\u0932\u0947 \u0916\u093f\u091a\u094d\u0928\u0941\u0939\u094b\u0938",
     "stylebar.PerspectiveProjection": "Perspective projection",
     "stylebar.PointStyle": "\u092c\u093f\u0928\u094d\u0926\u0941\u0915\u094b \u092a\u094d\u0930\u093e\u0930\u0941\u092a \u092e\u093f\u0932\u093e\u0909\u0928\u0941\u0939\u094b\u0938",
