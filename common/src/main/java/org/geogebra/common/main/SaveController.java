@@ -1,8 +1,7 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Handles materials save.
@@ -11,18 +10,22 @@ import org.geogebra.common.util.AsyncOperation;
  *
  */
 public interface SaveController {
+	/**
+	 * Listener interface to communicate with caller GUI.
+	 * 
+	 * @author laszlo
+	 *
+	 */
 	public interface SaveListener {
-		AsyncOperation<String> base64Callback();
-
+		/**
+		 * Hides listener GUI
+		 * (dialog)
+		 */
 		void hide();
-
-		void runAfterSaveCallback();
-
-		MaterialCallbackI initMaterialCB(final String base64, final boolean forked);
 	}
 	
 	/**
-	 * Save material
+	 * Save material with a given name.
 	 * 
 	 * @param fileName
 	 *            material file name.
@@ -32,7 +35,19 @@ public interface SaveController {
 	 * @param listener
 	 *            to communicate with caller.
 	 */
-	void save(String fileName, MaterialVisibility visibility, SaveListener listener);
+	void saveAs(String fileName, MaterialVisibility visibility, SaveListener listener);
+
+	/**
+	 * Saves existing material
+	 * 
+	 * @param mat
+	 */
+	void save(Material mat);
+
+	/**
+	 * Cancel saving.
+	 */
+	void cancel();
 
 	/**
 	 * @return true if the MaterialType is ggb
@@ -48,5 +63,18 @@ public interface SaveController {
 	 * @param saveType
 	 *            set the saveType.
 	 */
-	public void setSaveType(MaterialType saveType);
+	void setSaveType(MaterialType saveType);
+
+	/**
+	 * Sets the callback that needs to be run after saving material.
+	 * 
+	 * @param runAfterSave
+	 *            the callback.
+	 */
+	void setRunAfterSave(Runnable runAfterSave);
+
+	/**
+	 * Run callback after save.
+	 */
+	void runAfterSaveCallback();
 }

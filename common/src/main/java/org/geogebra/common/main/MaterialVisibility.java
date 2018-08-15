@@ -30,4 +30,18 @@ public enum MaterialVisibility {
 	public String getToken() {
 		return this.token;
 	}
+
+	/**
+	 * @param token
+	 *            string representation.
+	 * @return Enum from token.
+	 */
+	public static MaterialVisibility value(String token) {
+		if ("O".equals(token)) {
+			return Public;
+		} else if ("S".equals(token)) {
+			return Shared;
+		}
+		return Private;
+	}
 }

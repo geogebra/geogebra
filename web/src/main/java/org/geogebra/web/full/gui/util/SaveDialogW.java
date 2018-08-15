@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
@@ -12,22 +11,12 @@ import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.browser.BrowseResources;
-import org.geogebra.web.full.main.FileManager;
-import org.geogebra.web.full.util.SaveCallback;
-import org.geogebra.web.full.util.SaveCallback.SaveState;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -35,7 +24,6 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
-import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -72,7 +60,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private StandardButton saveButton;
 	private Label titleLabel;
 	private final static int MIN_TITLE_LENGTH = 1;
-	private Runnable runAfterSave;
 	// SaveCallback saveCallback;
 	private PopupMenuButtonW providerPopup;
 	private FlowPanel buttonPanel;
@@ -96,7 +83,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);
-		// this.saveCallback = new SaveCallback(this.app);
 		FlowPanel contentPanel = new FlowPanel();
 		this.add(contentPanel);
 
@@ -135,88 +121,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		app.setDefaultCursor();
 		dontSaveButton.setEnabled(true);
 		app.closePopupsNoTooltips();
-	}
-
-	/**
-	 * @param base64
-	 *            material base64
-	 * @param forked
-	 *            whether this is a fork
-	 * @return save callback
-	 */
-	@Override
-	public
-	MaterialCallbackI initMaterialCB(final String base64, final boolean forked) {
-		return new MaterialCallback() {
-
-			@Override
-			public void onLoaded(final List<Material> parseResponse,
-			        ArrayList<Chapter> meta) {
-				if (app.getSaveController().isWorksheet()) {
-					if (parseResponse.size() == 1) {
-						Material newMat = parseResponse.get(0);
-						newMat.setThumbnailBase64(((EuclidianViewWInterface) app
-								.getActiveEuclidianView())
-								.getCanvasBase64WithTypeString());
-						app.getKernel().getConstruction()
-								.setTitle(title.getText());
-
-						// last synchronization is equal to last modified
-						app.setSyncStamp(newMat.getModified());
-
-						newMat.setSyncStamp(newMat.getModified());
-
-						app.updateMaterialURL(newMat.getId(),
-								newMat.getSharingKeyOrId(), title.getText());
-
-						app.setActiveMaterial(newMat);
-						app.setSyncStamp(newMat.getModified());
-						saveLocalIfNeeded(newMat.getModified(),
-								forked ? SaveState.FORKED : SaveState.OK);
-						// if we got there via file => new, do the file =>new
-						// now
-						runAfterSaveCallback();
-					} else {
-						resetCallback();
-						saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app),
-								SaveState.ERROR);
-					}
-				} else {
-					if (parseResponse.size() == 1) {
-						SaveCallback.onSaved(app, SaveState.OK,
-								app.getSaveController().isMacro());
-					} else {
-						SaveCallback.onSaved(app, SaveState.ERROR,
-								app.getSaveController().isMacro());
-					}
-				}
-
-				hide();
-			}
-
-			@Override
-			public void onError(final Throwable exception) {
-				Log.error("SAVE Error" + exception.getMessage());
-
-				resetCallback();
-				((GuiManagerW) app.getGuiManager()).exportGGB();
-				saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app), SaveState.ERROR);
-				hide();
-			}
-
-			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (app.getSaveController().isWorksheet()
-						&& (app.getFileManager().shouldKeep(0)
-								|| app.has(Feature.LOCALSTORAGE_FILES)
-								|| state == SaveState.ERROR)) {
-					app.getKernel().getConstruction().setTitle(title.getText());
-					((FileManager) app.getFileManager()).saveFile(base64,
-							modified, new SaveCallback(app, state));
-				} else {
-					SaveCallback.onSaved(app, state, false);
-				}
-			}
-		};
 	}
 
 	private HorizontalPanel getTitelPanel() {
@@ -359,7 +263,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
-		app.getSaveController().save(title.getText(), getSelectedVisibility(), this);
+		app.getSaveController().saveAs(title.getText(), getSelectedVisibility(), this);
 	}
 
 	private MaterialVisibility getSelectedVisibility() {
@@ -379,20 +283,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	protected void onDontSave() {
 		hide();
-		if (app.getSaveController().isWorksheet()) {
-			app.setSaved();
-			runAfterSaveCallback();
-		}
+		app.getSaveController().cancel();
 	}
-	// /**
-	// * @return true if material was already public or shared
-	// */
-	// private boolean isAlreadyPublicOrShared() {
-	// return app.getActiveMaterial().getVisibility()
-	// .equals(Visibility.Public.getToken())
-	// || app.getActiveMaterial().getVisibility()
-	// .equals(Visibility.Shared.getToken());
-	// }
 
 	@Override
 	public void show() {
@@ -466,7 +358,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
 		if (needed && !app.getLAF().isEmbedded()) {
-			runAfterSave = runnable;
+			app.getSaveController().setRunAfterSave(runnable);
 			if (anchor == null) {
 				center();
 			} else {
@@ -474,7 +366,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 			position();
 		} else {
-			runAfterSave = null;
+			app.getSaveController().setRunAfterSave(null);
 			runnable.run();
 		}
 	}
@@ -528,24 +420,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				loc.getMenu("Public"));
 	}
 
-	/**
-	 * runs the callback
-	 */
-	@Override
-	public void runAfterSaveCallback() {
-		if (runAfterSave != null) {
-			runAfterSave.run();
-			resetCallback();
-		}
-	}
-
-	/**
-	 * resets the callback
-	 */
-	void resetCallback() {
-		this.runAfterSave = null;
-	}
-
 	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		Provider provider = this.supportedProviders.get(actionButton.getSelectedIndex());
@@ -571,29 +445,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	public SaveDialogW setDefaultVisibility(MaterialVisibility visibility) {
 		this.defaultVisibility = visibility;
 		return this;
-	}
-
-	@Override
-	public AsyncOperation<String> base64Callback() {
-		// TODO Auto-generated method stub
-		return new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String s) {
-				((FileManager) app.getFileManager()).saveFile(s,
-						SaveControllerW.getCurrentTimestamp(app), new SaveCallback(app,
-				                SaveState.OK) {
-					        @Override
-					        public void onSaved(final Material mat,
-					                final boolean isLocal) {
-						        super.onSaved(mat, isLocal);
-						        runAfterSaveCallback();
-					        }
-				        });
-				hide();
-			}
-		};
-		
 	}
 
 	/**

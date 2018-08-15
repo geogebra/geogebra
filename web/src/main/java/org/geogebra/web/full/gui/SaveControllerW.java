@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
@@ -14,7 +15,11 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
+import org.geogebra.web.full.util.SaveCallback;
+import org.geogebra.web.full.util.SaveCallback.SaveState;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -34,6 +39,8 @@ public class SaveControllerW implements SaveController {
 	private MaterialType saveType;
 	private SaveListener listener = null;
 	private String fileName = "";
+	private Runnable runAfterSave = null;
+
 	/**
 	 * Constructor
 	 * 
@@ -46,11 +53,16 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void save(String name, MaterialVisibility visibility, SaveListener l) {
-		if (l == null) {
+	public void save(Material mat) {
+		if (mat == null) {
 			return;
 		}
 
+		saveAs(mat.getFileName(), MaterialVisibility.value(mat.getVisibility()), null);
+	}
+
+	@Override
+	public void saveAs(String name, MaterialVisibility visibility, SaveListener l) {
 		this.listener = l;
 		this.fileName = name;
 		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
@@ -77,7 +89,7 @@ public class SaveControllerW implements SaveController {
 			app.setLocalID(-1);
 		}
 		app.getKernel().getConstruction().setTitle(fileName);
-		app.getGgbApi().getBase64(true, listener.base64Callback());
+		app.getGgbApi().getBase64(true, newBase64Callback());
 
 	}
 
@@ -99,11 +111,11 @@ public class SaveControllerW implements SaveController {
 					Log.debug("SAVE filename changed");
 					app.updateMaterialURL(0, null, null);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
-							listener.initMaterialCB(base64, false));
+							newMaterialCB(base64, false));
 				} else if (StringUtil.emptyOrZero(app.getTubeId()) || isMacro()) {
 					Log.debug("SAVE had no Tube ID or tool is saved");
 					doUploadToGgt(null, visibility, base64,
-							listener.initMaterialCB(base64, false));
+							newMaterialCB(base64, false));
 				} else {
 					handleSync(base64, visibility);
 				}
@@ -118,8 +130,9 @@ public class SaveControllerW implements SaveController {
 		} else {
 			app.getGgbApi().getBase64(true, handler);
 		}
-
-		listener.hide();
+		if (listener != null) {
+			listener.hide();
+		}
 	}
 
 	private void uploadToDrive() {
@@ -175,9 +188,9 @@ public class SaveControllerW implements SaveController {
 								Log.debug("SAVE MULTIPLE" + parseResponse.get(0).getModified() + ":"
 										+ app.getSyncStamp());
 								app.updateMaterialURL(0, null, null);
-								materialCallback = listener.initMaterialCB(base64, true);
+								materialCallback = newMaterialCB(base64, true);
 							} else {
-								materialCallback = listener.initMaterialCB(base64, false);
+								materialCallback = newMaterialCB(base64, false);
 							}
 							doUploadToGgt(app.getTubeId(), visibility, base64,
 									materialCallback);
@@ -185,7 +198,7 @@ public class SaveControllerW implements SaveController {
 							// if the file was deleted meanwhile
 							// (parseResponse.size() == 0)
 							app.setTubeId(null);
-							materialCallback = listener.initMaterialCB(base64, false);
+							materialCallback = newMaterialCB(base64, false);
 							doUploadToGgt(app.getTubeId(), visibility, base64,
 									materialCallback);
 						}
@@ -218,17 +231,11 @@ public class SaveControllerW implements SaveController {
 				fileName, base64, materialCallback, this.saveType);
 	}
 
-	/**
-	 * @return true if the MaterialType is ggb
-	 */
 	@Override
 	public boolean isWorksheet() {
 		return saveType.equals(MaterialType.ggb) || saveType.equals(MaterialType.ggs);
 	}
 
-	/**
-	 * @return true if the MaterialType is ggt
-	 */
 	@Override
 	public boolean isMacro() {
 		return saveType.equals(MaterialType.ggt);
@@ -247,5 +254,134 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public void setSaveType(MaterialType saveType) {
 		this.saveType = saveType;
+	}
+
+	/**
+	 * @param base64
+	 *            material base64
+	 * @param forked
+	 *            whether this is a fork
+	 * @return save callback
+	 */
+	MaterialCallbackI newMaterialCB(final String base64, final boolean forked) {
+		return new MaterialCallback() {
+
+			@Override
+			public void onLoaded(final List<Material> parseResponse, ArrayList<Chapter> meta) {
+				if (isWorksheet()) {
+					if (parseResponse.size() == 1) {
+						Material newMat = parseResponse.get(0);
+						newMat.setThumbnailBase64(
+								((EuclidianViewWInterface) app.getActiveEuclidianView())
+										.getCanvasBase64WithTypeString());
+						app.getKernel().getConstruction().setTitle(fileName);
+
+						// last synchronization is equal to last modified
+						app.setSyncStamp(newMat.getModified());
+
+						newMat.setSyncStamp(newMat.getModified());
+
+						app.updateMaterialURL(newMat.getId(), newMat.getSharingKeyOrId(), fileName);
+
+						app.setActiveMaterial(newMat);
+						app.setSyncStamp(newMat.getModified());
+						saveLocalIfNeeded(newMat.getModified(),
+								forked ? SaveState.FORKED : SaveState.OK);
+						// if we got there via file => new, do the file =>new
+						// now
+						runAfterSaveCallback();
+					} else {
+						resetCallback();
+						saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app),
+								SaveState.ERROR);
+					}
+				} else {
+					if (parseResponse.size() == 1) {
+						SaveCallback.onSaved(app, SaveState.OK, isMacro());
+					} else {
+						SaveCallback.onSaved(app, SaveState.ERROR, isMacro());
+					}
+				}
+				if (listener != null) {
+					listener.hide();
+				}
+			}
+
+			@Override
+			public void onError(final Throwable exception) {
+				Log.error("SAVE Error" + exception.getMessage());
+
+				resetCallback();
+				((GuiManagerW) app.getGuiManager()).exportGGB();
+				saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app), SaveState.ERROR);
+				if (listener != null) {
+					listener.hide();
+				}
+			}
+
+			private void saveLocalIfNeeded(long modified, SaveState state) {
+				if (isWorksheet() && (app.getFileManager().shouldKeep(0)
+						|| app.has(Feature.LOCALSTORAGE_FILES) || state == SaveState.ERROR)) {
+					app.getKernel().getConstruction().setTitle(fileName);
+					((FileManager) app.getFileManager()).saveFile(base64, modified,
+							new SaveCallback(app, state));
+				} else {
+					SaveCallback.onSaved(app, state, false);
+				}
+			}
+		};
+	}
+
+	private AsyncOperation<String> newBase64Callback() {
+		return new AsyncOperation<String>() {
+
+			@Override
+			public void callback(String s) {
+				((FileManager) app.getFileManager()).saveFile(s, getCurrentTimestamp(app),
+						new SaveCallback(app, SaveState.OK) {
+							@Override
+							public void onSaved(final Material mat, final boolean isLocal) {
+								super.onSaved(mat, isLocal);
+								runAfterSaveCallback();
+							}
+						});
+				if (listener != null) {
+					listener.hide();
+				}
+			}
+		};
+
+	}
+
+	@Override
+	public void runAfterSaveCallback() {
+		if (getRunAfterSave() != null) {
+			getRunAfterSave().run();
+			resetCallback();
+		}
+	}
+
+	/**
+	 * resets the callback
+	 */
+	void resetCallback() {
+		this.setRunAfterSave(null);
+	}
+
+	@Override
+	public void cancel() {
+		if (isWorksheet()) {
+			app.setSaved();
+			runAfterSaveCallback();
+		}
+	}
+
+	private Runnable getRunAfterSave() {
+		return runAfterSave;
+	}
+
+	@Override
+	public void setRunAfterSave(Runnable runAfterSave) {
+		this.runAfterSave = runAfterSave;
 	}
 }
