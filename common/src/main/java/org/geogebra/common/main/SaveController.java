@@ -1,6 +1,5 @@
 package org.geogebra.common.main;
 
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 
 /**
@@ -38,11 +37,10 @@ public interface SaveController {
 	void saveAs(String fileName, MaterialVisibility visibility, SaveListener listener);
 
 	/**
-	 * Saves existing material
+	 * Saves the currently active material
 	 * 
-	 * @param mat
 	 */
-	void save(Material mat);
+	void saveActiveMaterial();
 
 	/**
 	 * Cancel saving.

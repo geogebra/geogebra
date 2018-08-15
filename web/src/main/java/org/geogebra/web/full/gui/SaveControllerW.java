@@ -53,7 +53,8 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void save(Material mat) {
+	public void saveActiveMaterial() {
+		Material mat = app.getActiveMaterial();
 		if (mat == null) {
 			return;
 		}

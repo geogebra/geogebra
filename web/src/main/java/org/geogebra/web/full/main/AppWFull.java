@@ -32,6 +32,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
+import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -52,6 +53,7 @@ import org.geogebra.web.full.gui.CustomizeToolbarGUI;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
+import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -160,6 +162,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private EmbedManager embedManager;
 
 	private SaveController saveController = null;
+
+	private ShareControllerW shareController;
 
 	/**
 	 * 
@@ -1920,5 +1924,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 			saveController = new SaveControllerW(this);
 		}
 		return saveController;
+	}
+
+	@Override
+	public ShareController getShareController() {
+		if (shareController == null) {
+			shareController = new ShareControllerW(this);
+		}
+		return shareController;
 	}
 }

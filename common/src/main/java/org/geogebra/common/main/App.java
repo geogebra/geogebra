@@ -5207,4 +5207,12 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public SaveController getSaveController() {
 		return null;
 	}
+
+	/**
+	 * 
+	 * @return controller for sharing materials.
+	 */
+	public ShareController getShareController() {
+		return null;
+	}
 }

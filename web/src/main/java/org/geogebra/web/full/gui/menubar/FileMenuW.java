@@ -8,41 +8,28 @@ import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MaterialVisibility;
-import org.geogebra.common.main.MaterialsManagerI;
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ShareDialogMow;
-import org.geogebra.web.shared.ShareDialogW;
-import org.geogebra.web.shared.ShareLinkDialog;
-import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -435,11 +422,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 *            relative element
 	 */
 	public static void share(AppW app, Widget anchor) {
+		ShareControllerW sc = (ShareControllerW) app.getShareController();
 		if (!nativeShareSupported()) {
-			showShareDialog(app, anchor);
+			sc.setAnchor(anchor);
+			sc.share();
 		} else {
-			app.getGgbApi().getBase64(true,
-					getShareStringHandler(app));
+			sc.getBase64();
 		}
 	}
 
@@ -475,128 +463,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 					});
 		}
-	}
-
-	/**
-	 * Show the custom share dialog
-	 * 
-	 * @param app
-	 *            application
-	 * @param anchor
-	 *            relative element
-	 */
-	public static void showShareDialog(final AppW app, final Widget anchor) {
-		Runnable shareCallback = getShareCallback(app, anchor);
-
-		if (app.getActiveMaterial() == null
-				|| "P".equals(app.getActiveMaterial().getVisibility())) {
-			if (!app.getLoginOperation().isLoggedIn()) {
-				// not saved, not logged in
-				loginForShare(app, anchor);
-			} else {
-				// not saved, logged in
-				((DialogManagerW) app.getDialogManager()).getSaveDialog()
-						.setDefaultVisibility(MaterialVisibility.Shared)
-						.showIfNeeded(shareCallback, true, anchor);
-				// autoSaveMaterial(app);
-			}
-		} else {
-			if (app.getActiveMaterial() != null && app.getLoginOperation().isLoggedIn()) {
-				autoSaveMaterial(app);
-			}
-			// saved
-			shareCallback.run();
-		}
-	}
-
-	private static void autoSaveMaterial(final AppW app) {
-		if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN) || app.has(Feature.MOW_SHARE_DIALOG)) {
-			((DialogManagerW) app.getDialogManager()).getSaveDialog().onSave();
-		}
-	}
-
-	private static void loginForShare(final AppW app, final Widget anchor) {
-		app.getLoginOperation().getView().add(new EventRenderable() {
-			@Override
-			public void renderEvent(BaseEvent event) {
-				if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-					showShareDialog(app, anchor);
-				}
-			}
-		});
-		((SignInButton) app.getLAF().getSignInButton(app)).login();
-	}
-
-
-	private static Runnable getShareCallback(final AppW app, final Widget anchor) {
-		return new Runnable() {
-			protected ShareLinkDialog shareDialog;
-			protected ShareDialogW sd;
-			protected ShareDialogMow mowShareDialog;
-
-			@Override
-			public void run() {
-				NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
-						.geogebraLogo().getSafeUri().asString());
-				PushButton geogebrabutton = new PushButton(geogebraimg,
-						new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								if (!FileMenuW.nativeShareSupported()) {
-									app.uploadToGeoGebraTube();
-								} else {
-									app.getGgbApi().getBase64(true, FileMenuW
-											.getShareStringHandler(app));
-								}
-								if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
-									shareDialog.hide();
-								} else {
-									sd.hide();
-								}
-							}
-
-						});
-				String sharingKey = "";
-				if (app.getActiveMaterial() != null
-						&& app.getActiveMaterial().getSharingKey() != null) {
-					sharingKey = app.getActiveMaterial().getSharingKey();
-				}
-				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)
-						&& app.isUnbundled()) {
-					shareDialog = new ShareLinkDialog(app,
-							app.getCurrentURL(sharingKey, true), anchor);
-					shareDialog.setVisible(true);
-					shareDialog.center();
-				} else if (app.has(Feature.MOW_SHARE_DIALOG)) {
-					mowShareDialog = new ShareDialogMow(app,
-							app.getCurrentURL(sharingKey, true));
-					mowShareDialog.show();
-				}
-				else {
-					sd = new ShareDialogW(app, anchor, geogebrabutton,
-							app.getCurrentURL(sharingKey, true));
-					sd.setVisible(true);
-					sd.center();
-				}
-			}
-		};
-	}
-	/**
-	 * 
-	 * @param app
-	 *            application
-	 * @return handler for native sharing
-	 */
-	public static AsyncOperation<String> getShareStringHandler(final AppW app) {
-		return new AsyncOperation<String>() {
-			@Override
-			public void callback(String s) {
-				String title = app.getKernel().getConstruction().getTitle();
-				MaterialsManagerI fm = app.getFileManager();
-				fm.nativeShare(s, "".equals(title) ? "construction" : title);
-			}
-		};
 	}
 
 	/**
