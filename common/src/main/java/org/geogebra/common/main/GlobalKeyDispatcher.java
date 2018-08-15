@@ -917,17 +917,7 @@ public abstract class GlobalKeyDispatcher {
 		case D:
 		case BACK_QUOTE:
 			if (!isShiftDown) {
-				Kernel kernel = app.getKernel();
-				kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
-				kernel.setAlgebraStyleSpreadsheet(
-						(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
-
-				kernel.updateConstruction(false);
-				/*
-				 * if (app.hasOptionsMenu()) {
-				 * app.getOptionsMenu(null).updateMenuViewDescription(); }
-				 */
-				app.setUnsaved();
+				toggleAlgebraStyle(app);
 				consumed = true;
 			} else {
 
@@ -973,6 +963,20 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		return consumed;
+	}
+
+	public static void toggleAlgebraStyle(App app) {
+		Kernel kernel = app.getKernel();
+		kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
+		kernel.setAlgebraStyleSpreadsheet(
+				(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
+
+		kernel.updateConstruction(false);
+		/*
+		 * if (app.hasOptionsMenu()) {
+		 * app.getOptionsMenu(null).updateMenuViewDescription(); }
+		 */
+		app.setUnsaved();
 	}
 
 	/**
