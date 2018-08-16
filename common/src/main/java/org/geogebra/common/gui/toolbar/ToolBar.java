@@ -363,32 +363,6 @@ public class ToolBar {
 	}
 
 	/**
-	 * @return definition for MOW shapes toolbar
-	 */
-	public static String getMOWToolsShapesDefString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
-
-		return sb.toString();
-	}
-
-	/**
 	 * @return definition for MOW math toolbar
 	 */
 	public static String getMOWToolsDefString() {
