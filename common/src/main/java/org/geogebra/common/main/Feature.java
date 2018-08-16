@@ -287,6 +287,9 @@ public enum Feature {
 	/** MOW-484 */
 	MOW_SHARE_DIALOG,
 
+	/** MOW-189 */
+	MOW_TEXT_TOOL,
+
 	/** AND-1304 */
 	MOB_LIST_TOOL
 }

@@ -418,6 +418,8 @@ public final class EuclidianConstants {
 	/** Extension embed */
 	public static final int MODE_EXTENSION = 120;
 
+	/** Text tool */
+	public static final int MODE_MEDIA_TEXT = 121;
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
