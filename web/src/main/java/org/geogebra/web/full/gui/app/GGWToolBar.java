@@ -737,6 +737,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SELECT:
 			return resourceBundle.mode_select_32();
 
+		case EuclidianConstants.MODE_SELECT_MOW:
+			return resourceBundle.mode_select_32();
+
 		case EuclidianConstants.MODE_MOVE_ROTATE:
 			return resourceBundle.mode_moverotate_32();
 

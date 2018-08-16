@@ -290,6 +290,9 @@ public enum Feature {
 	/** MOW-189 */
 	MOW_TEXT_TOOL,
 
+	/** MOW-578 */
+	MOW_SELECTION_TOOL,
+
 	/** AND-1304 */
 	MOB_LIST_TOOL
 }

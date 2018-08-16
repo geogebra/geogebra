@@ -239,6 +239,9 @@ public final class EuclidianConstants {
 	/** Select multiple objects */
 	public static final int MODE_SELECT = 77;
 
+	/** */
+	public static final int MODE_SELECT_MOW = 78;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -887,6 +890,8 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_EXTENSION:
 			return "Web";
 		case EuclidianConstants.MODE_SELECT:
+			return "Select";
+		case EuclidianConstants.MODE_SELECT_MOW:
 			return "Select";
 
 		default:

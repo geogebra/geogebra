@@ -96,7 +96,9 @@ public class PenSubMenu extends SubMenuPanel {
 			eraser.addStyleName("plusMarginLeft");
 		}
 		move = createButton(EuclidianConstants.MODE_MOVE);
-		select = createButton(EuclidianConstants.MODE_SELECT);
+		select = createButton(app.has(Feature.MOW_SELECTION_TOOL)
+				? EuclidianConstants.MODE_SELECT_MOW
+				: EuclidianConstants.MODE_SELECT);
 		if (app.has(Feature.MOW_HIGHLIGHTER_TOOL)) {
 			penPanel.add(
 					LayoutUtilW.panelRow(select, pen, eraser, highlighter));
