@@ -60,10 +60,6 @@ public class ExportToPrinter3D {
 	private Coords tmpNormal = new Coords(3);
 
 	/**
-	 * newline string for URL
-	 */
-	private final static String NEWLINE_HTML = "%0A";
-	/**
 	 * default newline string
 	 */
 	public final static String NEWLINE = "\n";

@@ -23,13 +23,13 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * 
-	 * @param elementsLength
+	 * @param elementsLengthOther
 	 *            geometry elements length
-	 * @param indicesLength
+	 * @param indicesLengthOther
 	 *            geometry indices length
 	 * @return true if possible to add geometry to this pack
 	 */
-	abstract boolean canAdd(int elementsLength, int indicesLength);
+	abstract boolean canAdd(int elementsLengthOther, int indicesLengthOther);
 
 	/**
 	 * Prepare buffers to add geometry and update length

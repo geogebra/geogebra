@@ -39,7 +39,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	}
 
 	@Override
-	public boolean canAdd(int elementsLength, int indicesLength) {
+	public boolean canAdd(int elementsLengthOther, int indicesLengthOther) {
 		return false;
 	}
 
