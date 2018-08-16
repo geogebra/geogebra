@@ -25,7 +25,6 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -92,7 +91,7 @@ public class OpenFileView extends MyHeaderPanel
 		this.openFileBtn = openFileButton;
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app),
-					!ArticleElement.isEnableUsageStats());
+					true);
 		}
 		this.app.getLoginOperation().getView().add(this);
 		initGUI();
