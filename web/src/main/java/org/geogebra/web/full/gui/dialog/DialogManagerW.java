@@ -42,6 +42,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
@@ -68,6 +69,7 @@ public class DialogManagerW extends DialogManager
 
 	private FunctionInspectorW functionInspector;
 	protected SaveDialogW saveDialog = null;
+	protected SaveDialogMow saveDialogMow = null;
 	protected UploadImageDialog imageDialog;
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
@@ -452,10 +454,27 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
+	 * 
+	 * @return {@link SaveDialogMow}
+	 */
+	public SaveDialogMow getSaveDialogMow() {
+		if (saveDialogMow == null) {
+			saveDialogMow = new SaveDialogMow((AppW) app);
+		}
+		// set default saveType, .ggs for whiteboard
+		app.getSaveController().setSaveType(MaterialType.ggs);
+		return saveDialogMow;
+	}
+
+	/**
 	 * shows the {@link SaveDialogW} centered on the screen
 	 */
 	public void showSaveDialog() {
-		getSaveDialog().center();
+		if (app.isWhiteboardActive()) {
+			getSaveDialogMow().show();
+		} else {
+			getSaveDialog().center();
+		}
 	}
 
 	@Override

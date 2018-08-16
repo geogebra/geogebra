@@ -1,6 +1,10 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.common.main.MaterialsManager;
+import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -28,7 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class SaveDialogMow extends DialogBoxW
-		implements SetLabels, FastClickHandler {
+		implements SetLabels, FastClickHandler, SaveListener {
 	private FlowPanel dialogContent;
 	private FlowPanel inputPanel;
 	private FormLabel titleLbl;
@@ -170,7 +174,9 @@ public class SaveDialogMow extends DialogBoxW
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == saveBtn) {
-			hide();
+			app.getSaveController().saveAs(getInputField().getText(),
+					MaterialVisibility.Private, this);
+			// hide();
 		}
 	}
 
@@ -185,5 +191,43 @@ public class SaveDialogMow extends DialogBoxW
 	public void show() {
 		super.show();
 		center();
+		this.setTitle();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				getInputField().getTextComponent().setFocus(true);
+			}
+		});
+	}
+
+	/**
+	 * Sets initial title for the material to save.
+	 */
+	public void setTitle() {
+		String consTitle = app.getKernel().getConstruction().getTitle();
+		if (consTitle != null && !"".equals(consTitle)
+				&& !app.getSaveController().isMacro()) {
+			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
+				consTitle = getTitleOnly(consTitle);
+			}
+			getInputField().getTextComponent().setText(consTitle);
+		} else {
+			getInputField().getTextComponent()
+					.setText(app.getLocalization().getMenu("Untitled"));
+		}
+	}
+
+	private static String getTitleOnly(String key) {
+		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
+	}
+
+	/**
+	 * Sets material type to be saved.
+	 * 
+	 * @param saveType
+	 *            for the dialog.
+	 */
+	public void setSaveType(MaterialType saveType) {
+		app.getSaveController().setSaveType(saveType);
 	}
 }
