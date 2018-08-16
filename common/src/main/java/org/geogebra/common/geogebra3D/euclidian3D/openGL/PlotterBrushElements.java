@@ -133,15 +133,9 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
-		// close last part
-		if (sectionSize >= SECTION_SIZE_STARTED) {
-			endCurve();
-		}
-
 		// needs to specify sectionSize < 0 before moveTo() to avoid endCurve()
-		sectionSize = SECTION_SIZE_MAY_START;
 		moveTo(pos);
-
+		sectionSize = SECTION_SIZE_MAY_START;
 	}
 
 	@Override
@@ -207,6 +201,12 @@ public class PlotterBrushElements extends PlotterBrush {
 	protected void drawArrowBaseOuter(Coords arrowBase) {
 		moveTo(arrowBase, TickStep.START);
 		moveTo(arrowBase, TickStep.OUT);
+	}
+
+	@Override
+	public void down(Coords point) {
+		super.down(point);
+		sectionSize = SECTION_SIZE_MAY_START;
 	}
 
 }
