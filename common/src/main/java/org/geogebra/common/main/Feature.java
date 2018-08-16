@@ -285,6 +285,9 @@ public enum Feature {
 	MOW_BURGER_MENU_CLEANUP,
 	
 	/** MOW-484 */
-	MOW_SHARE_DIALOG
+	MOW_SHARE_DIALOG,
+
+	/** AND-1304 */
+	MOB_LIST_TOOL
 }
 
