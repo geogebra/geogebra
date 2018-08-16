@@ -205,7 +205,8 @@ public class LoadFilePresenter {
 	protected void deferredOpenEmpty(AppW app) {
 		String perspective = defaultPerspective(app);
 		finishEmptyLoading(app,
-				perspective == null ? null : getPerspective(app, perspective));
+				perspective.length() > 0 ? null
+						: getPerspective(app, perspective));
 	}
 
 	private static String defaultPerspective(AppW app) {
@@ -218,7 +219,7 @@ public class LoadFilePresenter {
 		} else if (app.isWhiteboardActive()) {
 			return Perspective.WHITEBOARD + "";
 		}
-		return null;
+		return "";
 	}
 
 	private static Perspective getPerspective(AppW app, String perspective) {

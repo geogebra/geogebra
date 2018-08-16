@@ -75,13 +75,9 @@ border-spacing:0;
     z-index: 501;
     /* box-shadow: 1px 1px 6px 1px #666666; */
     background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
     box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     padding: 15px;
 }
@@ -154,15 +150,7 @@ margin: 0px 5px 0px 0px;
 }
 
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
+     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;

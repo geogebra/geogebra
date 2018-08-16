@@ -270,6 +270,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void showEmptyListNotification() {
+		contentPanel.clear();
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("emptyMaterialListInfo");
 		Image image = new NoDragImage(
@@ -513,7 +514,7 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
-			loadAllMaterials();
+			updateMaterials();
 		}
 	}
 
