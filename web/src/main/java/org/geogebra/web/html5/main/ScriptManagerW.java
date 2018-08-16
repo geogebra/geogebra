@@ -1009,8 +1009,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getConstructionSteps(Z)(!!breakpoints);
 		};
 		
-		api.setConstructionStep = function(n) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setConstructionStep(D)(n);
+		api.setConstructionStep = function(n, breakpoints) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setConstructionStep(DZ)(n, !!breakpoints);
 		};
 		
 		api.previousConstructionStep = function() {

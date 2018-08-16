@@ -2433,8 +2433,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	/**
 	 * @param i
 	 *            new step
+	 * @param breakpoints
+	 *            use breakpoints
 	 */
-	public void setConstructionStep(double i) {
+	public void setConstructionStep(double i, boolean breakpoints) {
+
+		if (breakpoints) {
+			i = kernel.getBreakpointStep((int) i);
+		}
+
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getConstructionProtocolView()
 					.setConstructionStep((int) i);
