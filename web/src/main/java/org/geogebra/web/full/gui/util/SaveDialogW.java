@@ -49,7 +49,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Dialog for online saving (tube/drive)
  */
 public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
-		SaveListener, EventRenderable {
+		SaveListener, EventRenderable, SaveDialogI {
 
 	private static final int MAX_TITLE_LENGTH = 60;
 	/** application */
@@ -380,7 +380,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				(getRootPanel().getOffsetHeight() - getOffsetHeight()) >> 1,
 				100);
 		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
-
 	}
 
 	/**

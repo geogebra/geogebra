@@ -3,6 +3,8 @@ package org.geogebra.web.shared;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -21,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ShareDialogMow extends DialogBoxW
-		implements FastClickHandler, SetLabels {
+		implements FastClickHandler, SetLabels, SaveListener {
 	private AppW appW;
 	private FlowPanel dialog;
 	private FlowPanel groupContent;
@@ -140,6 +142,9 @@ public class ShareDialogMow extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == getLinkBtn) {
 			hide();
+			app.getSaveController().saveAs(
+					getAppW().getActiveMaterial().getTitle(),
+					MaterialVisibility.Shared, null);
 			ShareLinkDialog getLinkSD = new ShareLinkDialog((AppW) app,
 					shareURL, null);
 			getLinkSD.show();

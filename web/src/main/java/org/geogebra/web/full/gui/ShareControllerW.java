@@ -64,7 +64,6 @@ public class ShareControllerW implements ShareController {
 			// saved
 			shareCallback.run();
 		}
-
 	}
 
 	private void autoSaveMaterial() {
@@ -122,7 +121,8 @@ public class ShareControllerW implements ShareController {
 							anchor);
 					shareDialog.setVisible(true);
 					shareDialog.center();
-				} else if (app.has(Feature.MOW_SHARE_DIALOG)) {
+				} else if (app.has(Feature.MOW_SHARE_DIALOG)
+						&& app.isWhiteboardActive()) {
 					mowShareDialog = new ShareDialogMow(app, app.getCurrentURL(sharingKey, true));
 					mowShareDialog.show();
 				} else {

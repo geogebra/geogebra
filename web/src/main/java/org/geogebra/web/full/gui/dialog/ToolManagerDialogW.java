@@ -30,7 +30,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.ToolNameIconPanelW;
 import org.geogebra.web.full.gui.ToolNameIconPanelW.MacroChangeListener;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
-import org.geogebra.web.full.gui.util.SaveDialogW;
+import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.GeoGebraTubeExportW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -386,10 +386,9 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	 */
 	private void saveTools() {
 		applyChanges();
-		SaveDialogW dlg = ((DialogManagerW) app.getDialogManager())
+		SaveDialogI dlg = ((DialogManagerW) app.getDialogManager())
 				.getSaveDialog();
 		dlg.setSaveType(MaterialType.ggt);
-
 		dlg.show();
 	}
 

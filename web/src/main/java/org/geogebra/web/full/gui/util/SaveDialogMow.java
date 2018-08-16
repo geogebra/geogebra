@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class SaveDialogMow extends DialogBoxW
-		implements SetLabels, FastClickHandler, SaveListener {
+		implements SetLabels, FastClickHandler, SaveListener, SaveDialogI {
 	private FlowPanel dialogContent;
 	private FlowPanel inputPanel;
 	private FormLabel titleLbl;
@@ -40,6 +40,7 @@ public class SaveDialogMow extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
+	private MaterialVisibility defaultVisibility;
 
 	/**
 	 * @param app see {@link AppW}
@@ -47,6 +48,8 @@ public class SaveDialogMow extends DialogBoxW
 	public SaveDialogMow(AppW app) {
 		super(app.getPanel(), app);
 		this.addStyleName("saveDialogMow");
+		this.defaultVisibility = app.isWhiteboardActive()
+				? MaterialVisibility.Private : MaterialVisibility.Shared;
 		initGUI();
 		initActions();
 	}
@@ -229,5 +232,46 @@ public class SaveDialogMow extends DialogBoxW
 	 */
 	public void setSaveType(MaterialType saveType) {
 		app.getSaveController().setSaveType(saveType);
+	}
+
+	public SaveDialogI setDefaultVisibility(MaterialVisibility visibility) {
+		this.defaultVisibility = visibility;
+		return this;
+	}
+
+	/**
+	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
+	 * another file or creating a new one
+	 * 
+	 * Never shown in embedded LAF (Mix, SMART)
+	 * 
+	 * @param runnable
+	 *            runs either after saved successfully or immediately if dialog
+	 *            not needed {@link Runnable}
+	 */
+	public void showIfNeeded(Runnable runnable) {
+		showIfNeeded(runnable, !app.isSaved(), null);
+	}
+
+	/**
+	 * @param runnable
+	 *            callback
+	 * @param needed
+	 *            whether it's needed to save (otherwise just run callback)
+	 * @param anchor
+	 *            relative element
+	 */
+	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
+		if (needed && !((AppW) app).getLAF().isEmbedded()) {
+			app.getSaveController().setRunAfterSave(runnable);
+			if (anchor == null) {
+				center();
+			} else {
+				showRelativeTo(anchor);
+			}
+		} else {
+			app.getSaveController().setRunAfterSave(null);
+			runnable.run();
+		}
 	}
 }

@@ -42,6 +42,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
@@ -68,8 +69,7 @@ public class DialogManagerW extends DialogManager
 		implements EventRenderable, LoadingApplication {
 
 	private FunctionInspectorW functionInspector;
-	protected SaveDialogW saveDialog = null;
-	protected SaveDialogMow saveDialogMow = null;
+	protected SaveDialogI saveDialog = null;
 	protected UploadImageDialog imageDialog;
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
@@ -441,11 +441,15 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * 
-	 * @return {@link SaveDialogW}
+	 * @return {@link SaveDialogI}
 	 */
-	public SaveDialogW getSaveDialog() {
+	public SaveDialogI getSaveDialog() {
 		if (saveDialog == null) {
-			saveDialog = new SaveDialogW((AppW) app);
+			if (app.isWhiteboardActive()) {
+				saveDialog = new SaveDialogMow((AppW) app);
+			} else {
+				saveDialog = new SaveDialogW((AppW) app);
+			}
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -454,27 +458,10 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * 
-	 * @return {@link SaveDialogMow}
-	 */
-	public SaveDialogMow getSaveDialogMow() {
-		if (saveDialogMow == null) {
-			saveDialogMow = new SaveDialogMow((AppW) app);
-		}
-		// set default saveType, .ggs for whiteboard
-		app.getSaveController().setSaveType(MaterialType.ggs);
-		return saveDialogMow;
-	}
-
-	/**
 	 * shows the {@link SaveDialogW} centered on the screen
 	 */
 	public void showSaveDialog() {
-		if (app.isWhiteboardActive()) {
-			getSaveDialogMow().show();
-		} else {
-			getSaveDialog().center();
-		}
+		getSaveDialog().show();
 	}
 
 	@Override
