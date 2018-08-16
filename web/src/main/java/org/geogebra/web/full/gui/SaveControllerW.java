@@ -59,7 +59,7 @@ public class SaveControllerW implements SaveController {
 			return;
 		}
 
-		saveAs(mat.getFileName(), MaterialVisibility.value(mat.getVisibility()), null);
+		saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
 	}
 
 	@Override
