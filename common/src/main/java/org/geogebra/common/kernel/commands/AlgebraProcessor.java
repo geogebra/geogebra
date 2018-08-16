@@ -640,10 +640,9 @@ public class AlgebraProcessor {
 	 *            callback after the geos are created
 	 * @return resulting geos
 	 */
-	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
-			final String cmd, final boolean storeUndo,
-			final ErrorHandler handler, boolean autoCreateSliders, boolean addDegreesIfKernelInDegrees,
-			final AsyncOperation<GeoElementND[]> callback0) {
+	public GeoElementND[] processAlgebraCommandNoExceptionHandling(final String cmd,
+			final boolean storeUndo, final ErrorHandler handler, boolean autoCreateSliders,
+			boolean addDegreesIfKernelInDegrees, final AsyncOperation<GeoElementND[]> callback0) {
 
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
 				.withSliders(autoCreateSliders)

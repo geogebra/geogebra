@@ -31,6 +31,7 @@ public class ShareControllerW implements ShareController {
 
 	private AppW app;
 	private Widget anchor = null;
+
 	/**
 	 * Constructor
 	 * 

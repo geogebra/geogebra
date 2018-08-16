@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.commands.filter;
 
-import org.geogebra.common.kernel.commands.Commands;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.geogebra.common.kernel.commands.Commands;
+
 /**
- * CommandFilter interface implemented using HashSet<Commands>
+ * CommandFilter interface implemented using HashSet&lt;Commands&gt;
  */
 class CommandFilterSet implements CommandFilter {
 

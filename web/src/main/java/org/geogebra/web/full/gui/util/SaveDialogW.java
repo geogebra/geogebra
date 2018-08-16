@@ -276,8 +276,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		default:
 			return MaterialVisibility.Private;
 		}
-
 	}
+
 	/**
 	 * sets the application as "saved" and closes the dialog
 	 */
@@ -296,7 +296,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				position();
 			}
 		});
-		
+
 		this.setTitle();
 		if (app.isOffline()) {
 			this.providerPopup.setVisible(this.supportedProviders
@@ -344,6 +344,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            runs either after saved successfully or immediately if dialog
 	 *            not needed {@link Runnable}
 	 */
+	@Override
 	public void showIfNeeded(Runnable runnable) {
 		showIfNeeded(runnable, !app.isSaved(), null);
 	}
@@ -356,6 +357,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * @param anchor
 	 *            relative element
 	 */
+	@Override
 	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
 		if (needed && !app.getLAF().isEmbedded()) {
 			app.getSaveController().setRunAfterSave(runnable);
@@ -385,6 +387,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	/**
 	 * Sets initial title for the material to save.
 	 */
+	@Override
 	public void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null && !"".equals(consTitle)
@@ -406,6 +409,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	/**
 	 * Update localization
 	 */
+	@Override
 	public void setLabels() {
 		this.getCaption().setText(loc.getMenu("Save"));
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
@@ -441,6 +445,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            new default
 	 * @return this
 	 */
+	@Override
 	public SaveDialogW setDefaultVisibility(MaterialVisibility visibility) {
 		this.defaultVisibility = visibility;
 		return this;
@@ -452,6 +457,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * @param saveType
 	 *            for the dialog.
 	 */
+	@Override
 	public void setSaveType(MaterialType saveType) {
 		app.getSaveController().setSaveType(saveType);
 	}

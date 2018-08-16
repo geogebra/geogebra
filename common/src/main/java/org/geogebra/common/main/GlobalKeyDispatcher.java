@@ -965,6 +965,12 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
+	/**
+	 * Change algebra style value -&gt; desfinition -&gt; description ...
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public static void toggleAlgebraStyle(App app) {
 		Kernel kernel = app.getKernel();
 		kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);

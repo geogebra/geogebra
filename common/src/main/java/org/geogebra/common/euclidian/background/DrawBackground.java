@@ -20,6 +20,7 @@ public class DrawBackground {
 	private GBasicStroke rulerStroke;
 	private double yScale;
 	private double width;
+
 	/**
 	 * 
 	 * @param euclidianView

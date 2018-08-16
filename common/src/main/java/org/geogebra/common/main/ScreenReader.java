@@ -193,6 +193,11 @@ public class ScreenReader {
 		return localize(loc, "endSuperscript", "end superscript");
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return expression to speech converter
+	 */
 	public static ExpressionReader getExpressionReader(final App app) {
 		return new ExpressionReader() {
 
