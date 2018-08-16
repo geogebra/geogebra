@@ -5465,7 +5465,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		tempArrayList.clear();
 		tempArrayList.add(geo);
 
-		getEuclidianController().startCollectingMinorRepaints();
 		AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
 			@Override
 			public void callback(Boolean arg) {
@@ -5481,7 +5480,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			getEuclidianController().storeUndoInfo();
 		}
 		kernel.notifyRepaint();
-		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	/**
@@ -5689,13 +5687,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			tempArrayList.add(geo);
 			geos = tempArrayList;
 		}
-		getEuclidianController().startCollectingMinorRepaints();
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
 				geos, false);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
-		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	@Override
@@ -5719,13 +5715,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		tempArrayList.addAll(geoList);
 		geos = tempArrayList;
 
-		getEuclidianController().startCollectingMinorRepaints();
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
 				geos, false);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
-		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	/**

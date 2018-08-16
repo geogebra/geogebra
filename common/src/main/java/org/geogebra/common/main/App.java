@@ -3108,22 +3108,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * Start collecting repaint calls.
-	 */
-	public void startCollectingRepaints() {
-		getEuclidianView1().getEuclidianController()
-				.startCollectingMinorRepaints();
-	}
-
-	/**
-	 * Stop collecting repaint calls.
-	 */
-	public void stopCollectingRepaints() {
-		getEuclidianView1().getEuclidianController()
-				.stopCollectingMinorRepaints();
-	}
-
-	/**
 	 * @return selction manager
 	 */
 	public SelectionManager getSelectionManager() {

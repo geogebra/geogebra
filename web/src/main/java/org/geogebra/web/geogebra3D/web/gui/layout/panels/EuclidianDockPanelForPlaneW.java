@@ -161,8 +161,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 		view.synCanvasSize();
 		view.doRepaint2();
-		app.stopCollectingRepaints();
-
 	}
 
 	@Override

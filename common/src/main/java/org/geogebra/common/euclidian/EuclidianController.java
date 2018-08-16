@@ -268,7 +268,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	// may be omitted
 	protected boolean moveModeSelectionHandled;
 
-	// collectingRepaints set to 0
 	protected boolean highlightJustCreatedGeos = true;
 	protected ArrayList<GeoElement> pastePreviewSelected = null;
 	protected ArrayList<GeoElement> pastePreviewSelectedAndDependent;
@@ -303,8 +302,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected ArrayList<Double> tempDependentPointX;
 	protected ArrayList<Double> tempDependentPointY;
 	protected boolean mouseIsOverLabel = false;
-	protected int collectingRepaints = 0; // if greater than 0, some repaints
-	protected boolean collectedRepaints = false; // whether to repaint when
 	protected EuclidianControllerCompanion companion;
 	/**
 	 * position of last mouseDown or touchStart
@@ -606,36 +603,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected EuclidianControllerCompanion newCompanion() {
 		return new EuclidianControllerCompanion(this);
-	}
-
-	/**
-	 * Start collecting the minor repaints (view.repaintView's not at the end of
-	 * the events) This method may be called more times, but there should be one
-	 * stopCollectingMinorRepaints for one startCollectingMinorRepaints in the
-	 * same method (and repaint can be done if every level is closed)
-	 */
-	public void startCollectingMinorRepaints() {
-		if (collectingRepaints < 0) {
-			collectingRepaints = 0;
-		}
-
-		if (collectingRepaints == 0) {
-			collectedRepaints = false;
-		}
-		collectingRepaints++;
-	}
-
-	/**
-	 * Stop collecting the minor repaints (view.repaintView's not at the end of
-	 * the events)
-	 */
-	public void stopCollectingMinorRepaints() {
-		collectingRepaints--;
-		if (collectingRepaints <= 0 && collectedRepaints) {
-			view.repaintView();
-			collectingRepaints = 0;
-			collectedRepaints = false;
-		}
 	}
 
 	protected void updatePastePreviewPosition() {
@@ -3809,11 +3776,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            call (or not) updateSelection()
 	 */
 	public void clearSelections(boolean repaint, boolean updateSelection) {
-		startCollectingMinorRepaints();
-
 		selection.clearLists();
 		clearSelectionsKeepLists(repaint, updateSelection);
-		stopCollectingMinorRepaints();
 	}
 
 	private void clearSelectionsKeepLists(boolean repaint,
@@ -6625,7 +6589,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			repaintNeeded = true;
 		}
 
-		startCollectingMinorRepaints();
 		boolean control = app.isControlDown(event);
 		if (noHighlighting ? refreshHighlighting(null, control)
 				: refreshHighlighting(tempFullHits, control)) {
@@ -6634,7 +6597,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else if (repaintNeeded) {
 			view.repaintView();
 		}
-		stopCollectingMinorRepaints();
 	}
 
 	protected void setCursorForProccessMouseMoveHit() {
@@ -6696,14 +6658,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.animationButtonPressed = false;
 		app.storeUndoInfoIfSetCoordSystemOccured();
 
-		startCollectingMinorRepaints();
 		refreshHighlighting(null, app.isControlDown(event));
 		resetToolTipManager();
 		view.setAnimationButtonsHighlighted(false);
 		view.setShowMouseCoords(false);
 		mouseLoc = null;
 		kernel.notifyRepaint();
-		stopCollectingMinorRepaints();
 		view.mouseExited();
 	}
 
@@ -7677,7 +7637,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void handleMouseDragged(boolean repaint,
 			AbstractEvent event, boolean manual) {
-		startCollectingMinorRepaints();
 		if (getResizedShape() != null) {
 			setBoundingBoxCursor(getResizedShape());
 
@@ -7689,11 +7648,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			hideDynamicStylebar();
 			view.repaintView();
-			stopCollectingMinorRepaints();
 			return;
 		}
 		if (freehandModePrepared()) {
-			stopCollectingMinorRepaints();
 			// no repaint, so that the line drawn by the freehand mode will not
 			// disappear
 			return;
@@ -7705,7 +7662,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					getDeleteToolSize(), false);
 
 			kernel.notifyRepaint();
-			stopCollectingMinorRepaints();
 
 			return;
 		}
@@ -7837,7 +7793,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default: // do nothing
 		}
 
-		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
@@ -9455,7 +9410,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
-		startCollectingMinorRepaints();
 		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
 			if (mode != EuclidianConstants.MODE_SELECT) {
@@ -9603,7 +9557,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				app.getGuiManager().replaceInputSelection(sb.toString());
 			} else if (shift) {
 				processZoomRectangle();
-				stopCollectingMinorRepaints();
 				return;
 			}
 			break;
@@ -9613,13 +9566,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			storeUndoInfo();
 		}
 
-		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
 	protected void processSelection() {
-		startCollectingMinorRepaints();
-
 		Hits hits = new Hits();
 		hits.addAll(getAppSelectedGeos());
 		clearSelections();
@@ -9692,7 +9642,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		}
 
-		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
@@ -10132,8 +10081,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					changedKernel, control, type, mayFocus);
 		}
 
-		startCollectingMinorRepaints();
-
 		// remember helper point, see createNewPoint()
 		if ((changedKernel || this.checkboxChangeOccured) && !changedKernel0
 				&& !modeCreatesHelperPoints(mode)) {
@@ -10393,7 +10340,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (alt && app.showAlgebraInput()) {
 			altClicked(type);
 		}
-		stopCollectingMinorRepaints();
 		// selection is not highlighted during move in 3D view
 		selection.updateSelectionHighlight();
 		kernel.notifyRepaint();
@@ -11001,14 +10947,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return EuclidianConstants.DEFAULT_ERASER_SIZE;
-	}
-
-	public boolean isCollectingRepaints() {
-		return collectingRepaints > 0;
-	}
-
-	public void setCollectedRepaints(boolean collected) {
-		collectedRepaints = collected;
 	}
 
 	protected DialogManager getDialogManager() {

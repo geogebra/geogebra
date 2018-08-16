@@ -301,7 +301,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// if we have pen tool in action
 		// repaint the preview line
-		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
 	}
@@ -558,10 +557,7 @@ public class EuclidianViewW extends EuclidianView implements
 			doRepaint();
 			return;
 		}
-		if (getEuclidianController().isCollectingRepaints()) {
-			getEuclidianController().setCollectedRepaints(true);
-			return;
-		}
+
 		getApplication().ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;

@@ -89,7 +89,6 @@ public class App3DW {
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.setCoordinateSpaceSize(width, height);
 		view.doRepaint2();
-		app.stopCollectingRepaints();
 	}
 
 }

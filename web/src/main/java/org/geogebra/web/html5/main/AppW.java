@@ -924,7 +924,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Prepare for loading file
 	 */
 	private void beforeLoadFile(boolean asSlide) {
-		startCollectingRepaints();
 		// make sure the image manager will not wait for images from the *old*
 		// file
 		if (this.getImageManager() != null && !asSlide) {
@@ -3043,7 +3042,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// Log.debug("syn size");
 		getEuclidianView1().setCoordinateSpaceSize(width, height);
 		getEuclidianView1().doRepaint2();
-		stopCollectingRepaints();
 	}
 
 	/**
@@ -3066,7 +3064,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getEuclidianView2(1).setCoordinateSpaceSize(width, height);
 		getEuclidianView2(1).doRepaint2();
-		stopCollectingRepaints();
 	}
 
 	/**

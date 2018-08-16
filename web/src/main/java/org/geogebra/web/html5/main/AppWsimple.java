@@ -115,7 +115,6 @@ public class AppWsimple extends AppW {
 		getAppletFrame().resetAutoSize();
 
 		getEuclidianView1().doRepaint2();
-		stopCollectingRepaints();
 		frame.hideSplash();
 
 		setDefaultCursor();

@@ -4299,11 +4299,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public void redo() {
 		if (undoActive && cons.getUndoManager().redoPossible()) {
 			app.batchUpdateStart();
-			app.startCollectingRepaints();
 			resetBeforeReload();
 			cons.redo();
 			restoreAfterReload();
-			app.stopCollectingRepaints();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
@@ -4403,7 +4401,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 			if (cons.getUndoManager().undoPossible()) {
 				app.batchUpdateStart();
-				app.startCollectingRepaints();
 				resetBeforeReload();
 				cons.undo();
 				restoreAfterReload();
@@ -4412,7 +4409,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				if (!undoPossible()) {
 					notifyRepaint();
 				}
-				app.stopCollectingRepaints();
 				app.batchUpdateEnd();
 				storeStateForModeStarting();
 				app.getEventDispatcher()
