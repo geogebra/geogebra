@@ -66,7 +66,7 @@ public class ExportToPrinter3D {
 	/**
 	 * default newline string
 	 */
-	public final static String NEWLINE = "\r\n";
+	public final static String NEWLINE = "\n";
 
 	/**
 	 * 
