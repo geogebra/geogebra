@@ -33,7 +33,10 @@ public final class LocalizationW extends Localization {
 	/**
 	 * eg "en_GB", "es" // remains null until we're sure keys are loaded
 	 */
-	String localeStr = DEFAULT_LANGUAGE;
+	private String localeStr = DEFAULT_LANGUAGE;
+	// must be updated whenever localeStr changes
+	// (cached for speed)
+	private Language lang = Language.English_US;
 
 	private ScriptLoadCallback scriptCallback;
 
@@ -99,7 +102,6 @@ public final class LocalizationW extends Localization {
 
 	// TODO: implement getCommandLocale()
 	private String getCommandLocaleString() {
-		Language lang = Language.getClosestGWTSupportedLanguage(localeStr);
 		if (!lang.hasTranslatedKeyboard()) {
 			// TODO: implement if LocalizationW uses Locale rather than String
 			return "en";
@@ -266,21 +268,24 @@ public final class LocalizationW extends Localization {
 	}
 
 	/**
-	 * @param lang
+	 * @param lang0
 	 *            preferred language
 	 */
-	public void setLanguage(String lang) {
-		if ("".equals(lang)) {
+	public void setLanguage(String lang0) {
+		if ("".equals(lang0)) {
 			localeStr = "en";
 		} else {
-			localeStr = lang;
+			localeStr = lang0;
 		}
+		// must be updated whenever localeStr changes
+		lang = Language.getClosestGWTSupportedLanguage(localeStr);
+
 
 		setCommandChanged(true);
 
-		Log.debug("keys loaded for language: " + lang);
+		Log.debug("keys loaded for language: " + lang0);
 
-		updateLanguageFlags(lang);
+		updateLanguageFlags(lang0);
 
 		// For styling on Firefox. (Mainly for rtl-languages.)
 		// TODO set RTL to the correct element when ready
@@ -290,7 +295,7 @@ public final class LocalizationW extends Localization {
 		// RootPanel.getBodyElement().setAttribute("dir", "ltr");
 		// }
 
-		saveLanguageToSettings(lang);
+		saveLanguageToSettings(lang0);
 	}
 
 	@Override
@@ -299,13 +304,13 @@ public final class LocalizationW extends Localization {
 	}
 
 	/**
-	 * @param lang
+	 * @param lang0
 	 *            language (assuming it is supported)
 	 * @param version
 	 *            app version
 	 * @return true when available
 	 */
-	static native boolean loadPropertiesFromStorage(String lang,
+	static native boolean loadPropertiesFromStorage(String lang0,
 			String version) /*-{
 		var storedTranslation = {};
 		if ($wnd.localStorage && $wnd.localStorage.translation) {
@@ -319,9 +324,9 @@ public final class LocalizationW extends Localization {
 				$wnd.console && $wnd.console.log(e.message);
 			}
 		}
-		if (storedTranslation && storedTranslation[lang]) {
+		if (storedTranslation && storedTranslation[lang0]) {
 			$wnd["__GGB__keysVar"] = {};
-			$wnd["__GGB__keysVar"][lang] = storedTranslation[lang];
+			$wnd["__GGB__keysVar"][lang0] = storedTranslation[lang0];
 			return true;
 		}
 		return false;
@@ -330,19 +335,19 @@ public final class LocalizationW extends Localization {
 	/**
 	 * Saves properties loaded from external JSON to localStorage
 	 * 
-	 * @param lang
+	 * @param lang0
 	 *            language
 	 * @param version
 	 *            app version
 	 */
-	static native void savePropertiesToStorage(String lang,
+	static native void savePropertiesToStorage(String lang0,
 			String version) /*-{
 		var storedTranslation = {};
 		if ($wnd.localStorage && $wnd["__GGB__keysVar"]
-				&& $wnd["__GGB__keysVar"][lang]) {
+				&& $wnd["__GGB__keysVar"][lang0]) {
 			var obj = {};
 			obj.version = version;
-			obj[lang] = $wnd.__GGB__keysVar[lang];
+			obj[lang0] = $wnd.__GGB__keysVar[lang0];
 			$wnd.localStorage.translation = JSON.stringify(obj);
 		}
 	}-*/;
@@ -386,16 +391,16 @@ public final class LocalizationW extends Localization {
 	}
 
 	/**
-	 * @param lang
+	 * @param lang0
 	 *            language
 	 * @param app
 	 *            callback
 	 */
-	public void loadScript(final String lang, final HasLanguage app) {
+	public void loadScript(final String lang0, final HasLanguage app) {
 		if (Browser.supportsSessionStorage()
-				&& LocalizationW.loadPropertiesFromStorage(lang,
+				&& LocalizationW.loadPropertiesFromStorage(lang0,
 						GeoGebraConstants.VERSION_STRING)) {
-			app.doSetLanguage(lang, false);
+			app.doSetLanguage(lang0, false);
 		} else {
 			// load keys (into a JavaScript <script> tag)
 			ScriptElement script = Document.get().createScriptElement();
@@ -404,7 +409,7 @@ public final class LocalizationW extends Localization {
 				url = GeoGebraConstants.CDN_APPS
 						+ GeoGebraConstants.VERSION_STRING + "/web3d/";
 			}
-			script.setSrc(url + "js/properties_keys_" + lang + ".js");
+			script.setSrc(url + "js/properties_keys_" + lang0 + ".js");
 			scriptCallback = new ScriptLoadCallback() {
 				private boolean canceled = false;
 
@@ -415,10 +420,10 @@ public final class LocalizationW extends Localization {
 						return;
 					}
 					// force reload
-					app.doSetLanguage(lang, true);
+					app.doSetLanguage(lang0, true);
 
 					if (Browser.supportsSessionStorage()) {
-						LocalizationW.savePropertiesToStorage(lang,
+						LocalizationW.savePropertiesToStorage(lang0,
 								GeoGebraConstants.VERSION_STRING);
 					}
 				}
@@ -429,8 +434,8 @@ public final class LocalizationW extends Localization {
 						Log.debug("Async language file load canceled.");
 						return;
 					}
-					LocalizationW.loadPropertiesFromStorage(lang, "");
-					app.doSetLanguage(lang, false);
+					LocalizationW.loadPropertiesFromStorage(lang0, "");
+					app.doSetLanguage(lang0, false);
 				}
 
 				@Override
@@ -445,9 +450,9 @@ public final class LocalizationW extends Localization {
 
 	}
 
-	private native void saveLanguageToSettings(String lang) /*-{
+	private native void saveLanguageToSettings(String lang0) /*-{
 		if ($wnd.android && $wnd.android.savePreference) {
-			$wnd.android.savePreference("language", lang);
+			$wnd.android.savePreference("language", lang0);
 		}
 	}-*/;
 }
