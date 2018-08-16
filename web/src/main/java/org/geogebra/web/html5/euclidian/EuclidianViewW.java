@@ -340,16 +340,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected final void setHeight(int h) {
-		// TODO: not clear what should we do
-	}
-
-	@Override
-	protected final void setWidth(int h) {
-		// TODO: not clear what should we do
-	}
-
-	@Override
 	public final GGraphics2DWI getGraphicsForPen() {
 		return g2p;
 	}

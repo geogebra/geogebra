@@ -438,16 +438,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	final protected void setHeight(int height) {
-		//
-	}
-
-	@Override
-	final protected void setWidth(int width) {
-		//
-	}
-
-	@Override
 	final protected void setStyleBarMode(int mode) {
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);

@@ -1646,9 +1646,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// setScaleRatio(getYscale() / getXscale());
 
 		xZero = -getXmin() * getXscale();
-		setWidth((int) ((getXmax() * getXscale()) + getXZero()));
 		yZero = getYmax() * getYscale();
-		setHeight((int) (getYZero() - (getYmin() * getYscale())));
 
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
@@ -2896,18 +2894,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return font
 	 */
 	public abstract GFont getFont();
-
-	/**
-	 * @param h
-	 *            new height
-	 */
-	protected abstract void setHeight(int h);
-
-	/**
-	 * @param h
-	 *            new width
-	 */
-	protected abstract void setWidth(int h);
 
 	/**
 	 * Initializes cursor
@@ -4702,24 +4688,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Restore coord system from temp variables
 	 */
 	final public void restoreOldCoordSystem() {
-		setWidth(widthTemp);
-		setHeight(heightTemp);
 		setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
-	}
-
-	/**
-	 * used for rescaling applets when the reset button is hit use
-	 * setTemporarySize(-1, -1) to disable
-	 * 
-	 * @param w
-	 *            width
-	 * @param h
-	 *            height
-	 */
-	public void setTemporarySize(int w, int h) {
-		setWidth(w);
-		setHeight(h);
-		updateSize();
 	}
 
 	/**

@@ -307,16 +307,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	}
 
 	@Override
-	protected void setHeight(int h) {
-		// no need
-	}
-
-	@Override
-	protected void setWidth(int h) {
-		// no need
-	}
-
-	@Override
 	protected void setStyleBarMode(int mode) {
 		// no need
 	}

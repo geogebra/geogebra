@@ -798,9 +798,6 @@ public class EuclidianViewD extends EuclidianView
 	protected void updateSizeKeepDrawables() {
 
 		// record the old coord system
-
-		setWidth(getWidth());
-		setHeight(getHeight());
 		if ((getWidth() <= 0) || (getHeight() <= 0)) {
 			return;
 		}
@@ -879,16 +876,6 @@ public class EuclidianViewD extends EuclidianView
 		g2Dtemp.setFont(font);
 
 		return g2Dtemp;
-	}
-
-	@Override
-	final protected void setHeight(int height) {
-		//
-	}
-
-	@Override
-	final protected void setWidth(int width) {
-		//
 	}
 
 	@Override

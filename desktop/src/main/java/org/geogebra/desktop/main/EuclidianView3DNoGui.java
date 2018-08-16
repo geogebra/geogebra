@@ -109,18 +109,6 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 	}
 
 	@Override
-	protected void setHeight(int h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setWidth(int h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void setStyleBarMode(int mode) {
 		// TODO Auto-generated method stub
 

@@ -150,18 +150,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 	}
 
 	@Override
-	protected void setHeight(int h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setWidth(int h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void initCursor() {
 		// TODO Auto-generated method stub
 
