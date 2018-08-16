@@ -502,7 +502,7 @@ public class Browser {
 			var a = $doc.createElement("a");
 			$doc.body.appendChild(a);
 			a.style = "display: none";
-			a.href = url;
+			a.href = window.encodeURI(url);
 			a.download = title;
 			$wnd.setTimeout(function() {
 				a.click()
