@@ -245,8 +245,10 @@ public class OpenFileView extends MyHeaderPanel
 						&& app.getPageController() != null) {
 					app.getPageController().resetPageControl();
 				}
+
 			}
 		};
+		app.getArticleElement().attr("perspective", "");
 		((DialogManagerW) getApp().getDialogManager()).getSaveDialog()
 				.showIfNeeded(newConstruction);
 		close();

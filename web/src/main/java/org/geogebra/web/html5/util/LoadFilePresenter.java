@@ -152,15 +152,7 @@ public class LoadFilePresenter {
 		String perspective = ae.getDataParamPerspective();
 
 		if (!perspective.startsWith("search:")) {
-			if (app.isUnbundledGraphing()) {
-				perspective = Perspective.GRAPHING + "";
-			} else if (app.isUnbundledGeometry()) {
-				perspective = Perspective.GEOMETRY + "";
-			} else if (app.isUnbundled3D()) {
-				perspective = Perspective.GRAPHER_3D + "";
-			} else if (app.isWhiteboardActive()) {
-				perspective = Perspective.WHITEBOARD + "";
-			}
+			perspective = defaultPerspective(app);
 		}
 		if (perspective.length() == 0) {
 			// Location param may be null
@@ -175,8 +167,7 @@ public class LoadFilePresenter {
 
 					@Override
 					public void run() {
-						finishEmptyLoading(app, null);
-
+						deferredOpenEmpty(app);
 					}
 				});
 				app.openSearch(perspective.substring("search:".length()));
@@ -188,45 +179,12 @@ public class LoadFilePresenter {
 					@Override
 					public void run() {
 						finishEmptyLoading(app, null);
-
 					}
 				});
 				app.showCustomizeToolbarGUI();
 				return true;
 			} else {
-				Perspective pd = PerspectiveDecoder.decode(perspective,
-				        app.getKernel().getParser(),
-						ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
-				if ("1".equals(perspective) || "2".equals(perspective)
-						|| "5".equals(perspective)) {
-
-					if (app.isPortrait()) {
-						int height = app.getArticleElement()
-								.getDataParamHeight();
-						if (app.getArticleElement().getDataParamFitToScreen()) {
-							height = Window.getClientHeight();
-						}
-						if (height > 0) {
-							double ratio = PerspectiveDecoder
-									.portraitRatio(height,
-											app.isUnbundledGraphing()
-													|| app.isUnbundled3D());
-							pd.getSplitPaneData()[0].setDivider(ratio);
-						}
-
-					} else {
-						int width = app.getArticleElement().getDataParamWidth();
-						if (app.getArticleElement().getDataParamFitToScreen()) {
-							width = Window.getClientWidth();
-						}
-						if (width > 0) {
-							double ratio = PerspectiveDecoder
-									.landscapeRatio(app, width);
-							pd.getSplitPaneData()[0].setDivider(ratio);
-						}
-					}
-
-				}
+				Perspective pd = getPerspective(app, perspective);
 				finishEmptyLoading(app, pd);
 
 				return false;
@@ -236,6 +194,65 @@ public class LoadFilePresenter {
 		finishEmptyLoading(app, null);
 		return false;
 
+	}
+
+	/**
+	 * Init app after open screen was closed
+	 * 
+	 * @param app
+	 *            application
+	 */
+	protected void deferredOpenEmpty(AppW app) {
+		String perspective = defaultPerspective(app);
+		finishEmptyLoading(app,
+				perspective == null ? null : getPerspective(app, perspective));
+	}
+
+	private static String defaultPerspective(AppW app) {
+		if (app.isUnbundledGraphing()) {
+			return Perspective.GRAPHING + "";
+		} else if (app.isUnbundledGeometry()) {
+			return Perspective.GEOMETRY + "";
+		} else if (app.isUnbundled3D()) {
+			return Perspective.GRAPHER_3D + "";
+		} else if (app.isWhiteboardActive()) {
+			return Perspective.WHITEBOARD + "";
+		}
+		return null;
+	}
+
+	private static Perspective getPerspective(AppW app, String perspective) {
+		Perspective pd = PerspectiveDecoder.decode(perspective,
+				app.getKernel().getParser(),
+				ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
+		if ("1".equals(perspective) || "2".equals(perspective)
+				|| "5".equals(perspective)) {
+
+			if (app.isPortrait()) {
+				int height = app.getArticleElement().getDataParamHeight();
+				if (app.getArticleElement().getDataParamFitToScreen()) {
+					height = Window.getClientHeight();
+				}
+				if (height > 0) {
+					double ratio = PerspectiveDecoder.portraitRatio(height,
+							app.isUnbundledGraphing() || app.isUnbundled3D());
+					pd.getSplitPaneData()[0].setDivider(ratio);
+				}
+
+			} else {
+				int width = app.getArticleElement().getDataParamWidth();
+				if (app.getArticleElement().getDataParamFitToScreen()) {
+					width = Window.getClientWidth();
+				}
+				if (width > 0) {
+					double ratio = PerspectiveDecoder.landscapeRatio(app,
+							width);
+					pd.getSplitPaneData()[0].setDivider(ratio);
+				}
+			}
+
+		}
+		return pd;
 	}
 
 	/**

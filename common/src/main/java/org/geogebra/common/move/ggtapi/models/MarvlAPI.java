@@ -251,7 +251,8 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
-		// no public material
+		// no public materials
+		userMaterialsCB.onLoaded(new ArrayList<Material>(), null);
 	}
 
 	@Override
