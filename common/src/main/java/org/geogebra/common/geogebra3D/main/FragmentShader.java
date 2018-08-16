@@ -223,11 +223,11 @@ public class FragmentShader {
 				+ "return;\n"
 
 				+ "}\n"
-				
+
 				// dash packed
 				+ "if (textureType == 14) { // TEXTURE_TYPE_DASH + DASH_PACKED = 4 + 10;\n"
-				+ "y = (coordTexture.y -  float((int(coordTexture.y) / "
-				+ Textures.DASH_ID_LENGTH + ") * " + Textures.DASH_ID_LENGTH
+				+ "y = (coordTexture.y -  float(int((coordTexture.y + 0.5) / "
+				+ Textures.DASH_ID_LENGTH + ".0) * " + Textures.DASH_ID_LENGTH
 				+ ") + 0.5) / "
 				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
 				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
@@ -239,17 +239,19 @@ public class FragmentShader {
 				
 				// dash packed hidden
 				+ "if (textureType == 15) { // TEXTURE_TYPE_DASH + DASH_PACKED_HIDDEN = 4 + 11;\n"
-				+ "y = (float(int(coordTexture.y) / " + Textures.DASH_ID_LENGTH + ") + 0.5) / "
-				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
+				+ "y = (float(int((coordTexture.y+0.5) / " + Textures.DASH_ID_LENGTH +
+				".0)) + " + "0.5) / " + TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
 				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
-				+ "if (textureDash.a < 0.5){\n" 
+				+ "if (textureDash.a < 0.5){\n"
 				+ "  discard; // don't write\n" + "  }\n"
-				+ "gl_FragColor = color;\n" + "return;\n" + "}\n "
+				+ "gl_FragColor = color;\n"
+				+ "return;\n" +
+				"}\n "
 
 				// dash
 				+ "x =  mod(dashValues[0] * coordTexture.x, 1.0);\n"
 				+ "if (x > dashValues[1] || (x > dashValues[2] && x <= dashValues[3])){\n"
-				+ "discard;\n" 
+				+ "discard;\n"
 				+ "}\n"
 				+ "gl_FragColor = color;\n"
 				+ "} ";
