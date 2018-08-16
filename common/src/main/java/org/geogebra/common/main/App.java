@@ -433,7 +433,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Changes version; should be called only once, right after the constructor
-	 * 
+	 *
 	 * @param version
 	 *            version
 	 */
@@ -515,7 +515,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * Gets max scale based on EV size; scale down if EV too big to avoid
 	 * clipboard errors
-	 * 
+	 *
 	 * @param ev
 	 *            view
 	 * @return maximum scale for clipboard images; default 2
@@ -878,7 +878,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Store global undo point an possibly one for mode.
-	 * 
+	 *
 	 * @param storeForMode
 	 *            whether to store a mode undo point too
 	 */
@@ -1426,7 +1426,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Enable / disable autoscroll in spreadsheet.
-	 * 
+	 *
 	 * @param scrollToShow
 	 *            scrolling flag for spreadsheet
 	 */
@@ -1526,7 +1526,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Open macro with given name in a new window.
-	 * 
+	 *
 	 * @param macroName
 	 *            macro name
 	 */
@@ -1578,7 +1578,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param e
 	 *            error
 	 */
@@ -1599,7 +1599,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * Unexpected exception: can't work out anything better, just show "Invalid
 	 * Input"
-	 * 
+	 *
 	 * @param e
 	 *            exception
 	 */
@@ -1917,7 +1917,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Start graphics view export.
-	 * 
+	 *
 	 * @param et
 	 *            export type
 	 * @param scale
@@ -1958,7 +1958,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Update toolbar settings (no UI update)
-	 * 
+	 *
 	 * @param toolbar
 	 *            show toolbar?
 	 * @param help
@@ -1975,7 +1975,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Update the toolbar position flag and optionally rebuilds the UI
-	 * 
+	 *
 	 * @param position
 	 *            new position
 	 * @param update
@@ -2411,7 +2411,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Returns font manager
-	 * 
+	 *
 	 * @return font manager
 	 */
 	protected abstract FontManager getFontManager();
@@ -2585,7 +2585,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * (De)activate undo and redo, update toolbar
-	 * 
+	 *
 	 * @param undoActive
 	 *            whether undo should be active
 	 */
@@ -2623,7 +2623,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Update UI after redefinition
-	 * 
+	 *
 	 * @param geo
 	 *            redefined geo
 	 */
@@ -2871,7 +2871,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param url
 	 *            url
 	 * @return url converted to a data URI if possible. If not, returns the URL
@@ -2890,7 +2890,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Full version eg X.Y.Zd-prerelease
-	 * 
+	 *
 	 * @return version string
 	 */
 	public String getVersionString() {
@@ -3068,7 +3068,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Show or hide the input bar.
-	 * 
+	 *
 	 * @param flag
 	 *            whwther to show
 	 * @param update
@@ -3224,7 +3224,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Add space separated list of view IDs that are showing navigation bar
-	 * 
+	 *
 	 * @param sb
 	 *            XML builder
 	 */
@@ -3425,7 +3425,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Toggle navigation bar on given view.
-	 * 
+	 *
 	 * @param id
 	 *            view ID
 	 */
@@ -3544,7 +3544,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Recompute coord systems in EV and spreadsheet Only needed in web,
-	 * 
+	 *
 	 */
 	public void updateViewSizes() {
 		// overwritten in AppW
@@ -3568,7 +3568,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Add file open listener.
-	 * 
+	 *
 	 * @param openListener
 	 *            listener
 	 */
@@ -3684,7 +3684,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * Check if featue is supported; depends on prerelease/ canary flags and
 	 * platform / app name.
-	 * 
+	 *
 	 * @param f
 	 *            feature
 	 * @return whether it's supported
@@ -3769,7 +3769,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** MOW-320 */
 		case MOW_PIN_IMAGE:
 			return prerelease && whiteboard;
-			
+
 		case MOW_PEN_IS_LOCUS:
 			return prerelease;
 
@@ -4108,6 +4108,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** GGB-2439 */
 		case GRAPH_EXAM_MODE:
 			return prerelease;
+
+		/** AND-1304 */
+        case MOB_LIST_TOOL:
+            return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4302,7 +4307,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Run a callback on each view.
-	 * 
+	 *
 	 * @param c
 	 *            view callback
 	 */
@@ -4336,7 +4341,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Close popups and dropdowns; keep active dropdown at (x,y).
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coord
 	 * @param y
@@ -4428,7 +4433,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Opens a file.
-	 * 
+	 *
 	 * @param zipFile
 	 *            ggb file
 	 * @return success
@@ -4468,7 +4473,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Schedule input preview action.
-	 * 
+	 *
 	 * @param scheduledPreview
 	 *            input preview action
 	 */
@@ -4483,7 +4488,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Get url to eg play an MP3.
-	 * 
+	 *
 	 * @param id
 	 *            matrial ID
 	 * @return download URL
@@ -4527,7 +4532,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * Change rounding; setting may contain "s" for scientific digits or "r" to
 	 * prefer rationals.
-	 * 
+	 *
 	 * @param rounding
 	 *            rounding description
 	 */
@@ -4595,7 +4600,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Adjust widgets on screen.
-	 * 
+	 *
 	 * @param reset
 	 *            whether to reset the stored offsets
 	 */
@@ -4624,10 +4629,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
-	 * 
+	 *
 	 * @param force
 	 *            TODO
-	 * 
+	 *
 	 * @return if screen became portrait or not.
 	 */
 	public boolean adjustViews(boolean reset, boolean force) {
@@ -4647,7 +4652,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Description of a labeling style.
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param id
@@ -4685,7 +4690,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Update view settings with size from XML
-	 * 
+	 *
 	 * @param evSet
 	 *            view settings
 	 */
@@ -4694,7 +4699,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 9999 (or 200 in web)
 	 */
 	public int getMaxSpreadsheetRowsVisible() {
@@ -4702,7 +4707,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 9999 (or 200 in web)
 	 */
 	public int getMaxSpreadsheetColumnsVisible() {
@@ -4743,7 +4748,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param callback
 	 *            GeoGebraToPstricks object
 	 */
@@ -4753,7 +4758,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param callback
 	 *            GeoGebraToAsymptote object
 	 */
@@ -4763,7 +4768,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param callback
 	 *            GeoGebraToPgf object
 	 */
@@ -4781,7 +4786,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * last commands selected from help (used in Android & iOS native)
-	 * 
+	 *
 	 * @param commandName
 	 *            last command
 	 */
@@ -4815,7 +4820,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Set list of triangle center coefficients
-	 * 
+	 *
 	 * @param kimberlingw
 	 *            triangle center switch
 	 * @return triangle center switch
@@ -4832,7 +4837,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Set list of cubic curve coefficients
-	 * 
+	 *
 	 * @param cubicw
 	 *            cubic curve switch
 	 * @return cubic curve switch
@@ -4846,7 +4851,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * SMART and Android WebView apps use special native Giac Other web apps use
 	 * giac.js GGB6 WebView uses giac.js for now, see GGB-895 Everything else
 	 * uses native Giac
-	 * 
+	 *
 	 * @return true if using native Giac, false if using giac.js
 	 */
 	public boolean nativeCAS() {
@@ -4934,7 +4939,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * set export will be done on next 3D frame
-	 * 
+	 *
 	 * @param format
 	 *            export format
 	 */
@@ -4951,7 +4956,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the AccessibilityManager.
 	 */
 	public AccessibilityManagerInterface getAccessibilityManager() {
@@ -4965,7 +4970,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * GGB-2171
-	 * 
+	 *
 	 * @param b
 	 *            set whether buttons have shadows
 	 */
@@ -4975,7 +4980,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * GGB-2171
-	 * 
+	 *
 	 * @param percent
 	 *            set how rounded buttons are
 	 */
@@ -4993,7 +4998,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * GGB-2171
-	 * 
+	 *
 	 * @return how rounded buttons are
 	 */
 	public double getButtonRouding() {
@@ -5002,7 +5007,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * GGB-2171
-	 * 
+	 *
 	 * @return whether buttons have shadows
 	 */
 	public boolean getButtonShadows() {
@@ -5011,7 +5016,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * check is view is 3D WITHOUT creating 3D View
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @return true if it's 3D
@@ -5029,7 +5034,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * Lazy load special points manager
-	 * 
+	 *
 	 * @return special points manager
 	 */
 	public SpecialPointsManager getSpecialPointsManager() {
@@ -5047,7 +5052,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * enable/disable CAS and re-init command table
-	 * 
+	 *
 	 * @param enable
 	 *            whether to enable CAS
 	 */
@@ -5095,12 +5100,12 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ext
 	 *            extension
 	 * @param content
 	 *            contents of file
-	 * 
+	 *
 	 */
 	public void exportStringToFile(String ext, String content) {
 		// needs to be implemented in subclasses
@@ -5111,12 +5116,12 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * web: show in lightbox
 	 * mobile: share intent (TODO)
 	 * desktop: copy to clipboard
-	 * 
+	 *
 	 * @param base64image base64 encoded PNG/SVG/PDF
 	 */
 	public void handleImageExport(String base64image) {
 		// overridden in AppW, AppD, etc
-		
+
 	}
 
 	/**
@@ -5126,7 +5131,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            file content
 	 * @param args
 	 *            arguments
-	 * 
+	 *
 	 */
 	public void executeAction(EventType action, AppState state, String[] args) {
 		// TODO Auto-generated method stub
@@ -5179,7 +5184,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param m
 	 *            mode
 	 * @return icon as base64 (might be PNG or SVG)
@@ -5201,7 +5206,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return controller for saving materials.
 	 */
 	public SaveController getSaveController() {
@@ -5209,7 +5214,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return controller for sharing materials.
 	 */
 	public ShareController getShareController() {
