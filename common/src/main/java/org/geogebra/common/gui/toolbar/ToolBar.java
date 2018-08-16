@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * @author gabor
@@ -331,17 +332,18 @@ public class ToolBar {
 	}
 
 	/**
-	 * @param extension
-	 *            whether to add extension mode
+	 * @param app
+	 *            the application.
 	 * @return definition for MOW media toolbar
 	 */
-	public static String getMOWMediaToolBarDefString(boolean extension) {
+	public static String getMOWMediaToolBarDefString(App app) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SELECT);
 		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_TEXT);
+		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
+				: EuclidianConstants.MODE_TEXT);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		sb.append(" ");
@@ -354,7 +356,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_GEOGEBRA);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		if (extension) {
+		if (app.has(Feature.EMBED_EXTENSION)) {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_EXTENSION);
 		}

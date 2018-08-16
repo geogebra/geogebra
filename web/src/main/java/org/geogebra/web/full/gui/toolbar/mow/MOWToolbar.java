@@ -384,7 +384,7 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	private SubMenuPanel getSubMenuForMode(int mode) {
-		if (mode == EuclidianConstants.MODE_TEXT
+		if (mode == MediaSubMenu.getTextMode(app)
 				|| mode == EuclidianConstants.MODE_IMAGE
 				|| mode == EuclidianConstants.MODE_VIDEO
 				|| mode == EuclidianConstants.MODE_CAMERA
@@ -424,7 +424,7 @@ public class MOWToolbar extends FlowPanel {
 		if (!(mode == EuclidianConstants.MODE_PEN && currentMenu == penMenu)
 				&& !(mode == EuclidianConstants.MODE_HIGHLIGHTER
 						&& currentMenu == penMenu)
-				&& !((mode == EuclidianConstants.MODE_TEXT
+				&& !((mode == MediaSubMenu.getTextMode(app)
 						|| mode == EuclidianConstants.MODE_MOVE)
 						&& currentMenu == mediaMenu)) {
 			doSetCurrentMenu(getSubMenuForMode(mode));

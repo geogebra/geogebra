@@ -26,11 +26,27 @@ public class MediaSubMenu extends SubMenuPanel {
 	protected void createContentPanel() {
 		super.createContentPanel();
 		super.createPanelRow(ToolBar
-				.getMOWMediaToolBarDefString(app.has(Feature.EMBED_EXTENSION)));
+				.getMOWMediaToolBarDefString(app));
 	}
 
 	@Override
 	public int getFirstMode() {
+		return getTextMode(app);
+	}
+
+	/**
+	 * Chooses text mode - for development.
+	 * 
+	 * @param app
+	 *            {@link AppW}
+	 * 
+	 * @return the text mode for the tool.
+	 */
+	public static int getTextMode(AppW app) {
+		if (app.has(Feature.MOW_TEXT_TOOL)) {
+			return EuclidianConstants.MODE_MEDIA_TEXT;
+		}
+
 		return EuclidianConstants.MODE_TEXT;
 	}
 }

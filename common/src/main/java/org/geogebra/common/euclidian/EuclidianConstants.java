@@ -654,6 +654,7 @@ public final class EuclidianConstants {
 			return "Vector.Tool";
 
 		case EuclidianConstants.MODE_TEXT:
+		case EuclidianConstants.MODE_MEDIA_TEXT:
 			return "Text.Tool";
 
 		case EuclidianConstants.MODE_IMAGE:

@@ -840,6 +840,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_tangent_32();
 
 		case EuclidianConstants.MODE_TEXT:
+		case EuclidianConstants.MODE_MEDIA_TEXT:
 			return resourceBundle.mode_text_32();
 
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
