@@ -25,7 +25,7 @@ public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
     private void hideLabels(GeoElement[] geoElements) {
         for (GeoElement element : geoElements) {
             ExpressionNode definition = element.getDefinition();
-            if (definition != null && definition.getLabel() == null) {
+            if (definition == null || definition.getLabel() == null) {
                 mLabelController.hideLabel(element);
             }
         }
