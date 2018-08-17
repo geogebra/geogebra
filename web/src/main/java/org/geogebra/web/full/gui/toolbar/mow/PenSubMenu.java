@@ -13,6 +13,7 @@ import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PenPreview;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -147,7 +148,11 @@ public class PenSubMenu extends SubMenuPanel {
 				MaterialDesignResources.INSTANCE.add_black(), null, 24, app);
 		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
-		btnCustomColor.addFastClickHandler(this);
+		btnCustomColor.addFastClickHandler(new FastClickHandler() {
+			public void onClick(Widget source) {
+				openColorDialog();
+			}
+		});
 		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
 				btnColor[2], btnColor[3], btnColor[4], btnColor[5], btnColor[6],
 				btnColor[7], btnColor[8], btnCustomColor));
@@ -217,23 +222,16 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 	}
 
-	@Override
-	public void onClick(Widget source) {
-		if (source == pen) {
-			app.setMode(EuclidianConstants.MODE_PEN);
-		} else if (source == eraser) {
-			app.setMode(EuclidianConstants.MODE_ERASER);
-		} else if (source == move) {
-			app.setMode(EuclidianConstants.MODE_MOVE);
-		} else if (source == select) {
-			app.setMode(EuclidianConstants.MODE_SELECT);
-		} else if (source == btnCustomColor) {
-			openColorDialog();
-		} else if (source == highlighter) {
-			app.setMode(EuclidianConstants.MODE_HIGHLIGHTER);
-		}
-		closeFloatingMenus();
-	}
+	/*
+	 * @Override public void onClick(Widget source) { if (source == pen) {
+	 * app.setMode(EuclidianConstants.MODE_PEN); } else if (source == eraser) {
+	 * app.setMode(EuclidianConstants.MODE_ERASER); } else if (source == move) {
+	 * app.setMode(EuclidianConstants.MODE_MOVE); } else if (source == select) {
+	 * app.setMode(EuclidianConstants.MODE_SELECT); } else if (source ==
+	 * btnCustomColor) { openColorDialog(); } else if (source == highlighter) {
+	 * app.setMode(EuclidianConstants.MODE_HIGHLIGHTER); } closeFloatingMenus();
+	 * }
+	 */
 
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
@@ -437,7 +435,10 @@ public class PenSubMenu extends SubMenuPanel {
 		preview.update();
 	}
 
-	private void openColorDialog() {
+	/**
+	 * Opens the custom color dialog
+	 */
+	public void openColorDialog() {
 		if (colorsEnabled) {
 			final GeoElement penGeo = getPenGeo();
 			DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
