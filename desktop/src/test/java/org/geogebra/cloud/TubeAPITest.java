@@ -96,9 +96,7 @@ public class TubeAPITest extends Assert {
 			}
 		}
 
-		assertEquals("Wrong number of upload results", 1, titles.size());
-		assertFalse("Wrong upload result: " + titles.get(0),
-				titles.get(0).contains("FAIL"));
+		checkNoFail(titles, 1);
 	}
 
 	@Test
@@ -124,9 +122,7 @@ public class TubeAPITest extends Assert {
 			}
 		}
 
-		assertEquals("Wrong number of upload results", 2, titles.size());
-		assertFalse("Wrong upload result: " + titles.get(0),
-				titles.get(0).contains("FAIL"));
+		checkNoFail(titles, 2);
 	}
 
 	private void uploadMaterial(GeoGebraTubeAPID api,
@@ -155,7 +151,7 @@ public class TubeAPITest extends Assert {
 					@Override
 					public void onError(Throwable exception) {
 						exception.printStackTrace();
-						Assert.assertNull(exception.getMessage());
+						titles.add("FAIL " + exception.getMessage());
 
 					}
 
@@ -181,7 +177,7 @@ public class TubeAPITest extends Assert {
 			@Override
 			public void onError(Throwable exception) {
 				exception.printStackTrace();
-				Assert.assertNull(exception.getMessage());
+				titles.add("FAIL " + exception.getMessage());
 
 			}
 		};
@@ -194,10 +190,17 @@ public class TubeAPITest extends Assert {
 				e.printStackTrace();
 			}
 		}
-		assertEquals("Wrong number of upload results", 1, titles.size());
-		assertFalse("Wrong upload result: " + titles.get(0),
-				titles.get(0).contains("FAIL"));
+		checkNoFail(titles, 1);
 	}
+
+	private static void checkNoFail(ArrayList<String> titles, int len) {
+		for (String title : titles) {
+			assertFalse("Wrong upload result: " + title,
+					title.contains("FAIL"));
+		}
+		assertEquals("Wrong number of upload results", len, titles.size());
+	}
+
 	/**
 	 * Upload one material and delete all materials in account.
 	 */
