@@ -39,8 +39,11 @@ public interface SaveController {
 	/**
 	 * Saves the currently active material
 	 * 
+	 * @param autoSaveCallback
+	 *            to run after saving was successful.
+	 * 
 	 */
-	void saveActiveMaterial();
+	void saveActiveMaterial(Runnable autoSaveCallback);
 
 	/**
 	 * Cancel saving.

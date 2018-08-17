@@ -36,10 +36,11 @@ public class SaveControllerW implements SaveController {
 
 	private AppW app;
 	private Localization loc;
-	private MaterialType saveType;
+	private MaterialType saveType = null;
 	private SaveListener listener = null;
 	private String fileName = "";
 	private Runnable runAfterSave = null;
+	private Runnable autoSaveCallback;
 
 	/**
 	 * Constructor
@@ -53,12 +54,13 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void saveActiveMaterial() {
+	public void saveActiveMaterial(Runnable autoSaveCallback) {
 		Material mat = app.getActiveMaterial();
 		if (mat == null) {
 			return;
 		}
-
+		setSaveType(mat.getType());
+		this.autoSaveCallback = autoSaveCallback;
 		saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
 	}
 
@@ -234,12 +236,12 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public boolean isWorksheet() {
-		return saveType.equals(MaterialType.ggb) || saveType.equals(MaterialType.ggs);
+		return MaterialType.ggb.equals(saveType) || MaterialType.ggs.equals(saveType);
 	}
 
 	@Override
 	public boolean isMacro() {
-		return saveType.equals(MaterialType.ggt);
+		return MaterialType.ggt.equals(saveType);
 	}
 
 	/**
@@ -291,6 +293,7 @@ public class SaveControllerW implements SaveController {
 						// if we got there via file => new, do the file =>new
 						// now
 						runAfterSaveCallback();
+						runAutoSaveCallback();
 					} else {
 						resetCallback();
 						saveLocalIfNeeded(SaveControllerW.getCurrentTimestamp(app),
@@ -299,6 +302,7 @@ public class SaveControllerW implements SaveController {
 				} else {
 					if (parseResponse.size() == 1) {
 						SaveCallback.onSaved(app, SaveState.OK, isMacro());
+						runAutoSaveCallback();
 					} else {
 						SaveCallback.onSaved(app, SaveState.ERROR, isMacro());
 					}
@@ -344,6 +348,7 @@ public class SaveControllerW implements SaveController {
 							public void onSaved(final Material mat, final boolean isLocal) {
 								super.onSaved(mat, isLocal);
 								runAfterSaveCallback();
+
 							}
 						});
 				if (listener != null) {
@@ -359,6 +364,13 @@ public class SaveControllerW implements SaveController {
 		if (getRunAfterSave() != null) {
 			getRunAfterSave().run();
 			resetCallback();
+		}
+	}
+
+	private void runAutoSaveCallback() {
+		if (autoSaveCallback != null) {
+			autoSaveCallback.run();
+			autoSaveCallback = null;
 		}
 	}
 

@@ -45,31 +45,38 @@ public class ShareControllerW implements ShareController {
 	@Override
 	public void share() {
 		Runnable shareCallback = getShareCallback();
-
-		if (app.getActiveMaterial() == null
-				|| "P".equals(app.getActiveMaterial().getVisibility())) {
+		boolean untitled = app.getActiveMaterial() == null;
+		if (untitled || "P".equals(app.getActiveMaterial().getVisibility())) {
 			if (!app.getLoginOperation().isLoggedIn()) {
 				// not saved, not logged in
 				loginForShare();
 			} else {
 				// not saved, logged in
-				((DialogManagerW) app.getDialogManager()).getSaveDialog()
-						.setDefaultVisibility(MaterialVisibility.Shared)
-						.showIfNeeded(shareCallback, true, anchor);
-				// autoSaveMaterial(app);
+				if (untitled) {
+					saveUntitledMaterial(shareCallback);
+				} else {
+					autoSaveMaterial(shareCallback);
+				}
 			}
 		} else {
-			if (app.getActiveMaterial() != null && app.getLoginOperation().isLoggedIn()) {
-				autoSaveMaterial();
+			if (app.getActiveMaterial() != null
+					&& app.getLoginOperation().isLoggedIn()) {
+				autoSaveMaterial(shareCallback);
 			}
-			// saved
-			shareCallback.run();
 		}
 	}
 
-	private void autoSaveMaterial() {
+	private void saveUntitledMaterial(Runnable shareCallback) {
+		MaterialVisibility visibility = app.isWhiteboardActive() ? MaterialVisibility.Private
+				: MaterialVisibility.Shared;
+		((DialogManagerW) app.getDialogManager()).getSaveDialog().setDefaultVisibility(visibility)
+				.showIfNeeded(shareCallback, true, anchor);
+
+	}
+
+	private void autoSaveMaterial(Runnable shareCallback) {
 		if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN) || app.has(Feature.MOW_SHARE_DIALOG)) {
-			app.getSaveController().saveActiveMaterial();
+			app.getSaveController().saveActiveMaterial(shareCallback);
 		}
 	}
 
