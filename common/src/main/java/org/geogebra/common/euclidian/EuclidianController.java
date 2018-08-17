@@ -4184,6 +4184,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (!selPreview && (hits.size() > 1)) {
 			list = getAlgoDispatcher().list(null, hits, false);
 			if (list != null) {
+				messageListCreated(list);
 				ret[0] = list;
 				return ret;
 			}
@@ -4191,6 +4192,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		return null;
 	}
+
+	private void messageListCreated(GeoList list) {
+		if (view.getAllowToolTips() != EuclidianStyleConstants.TOOLTIPS_OFF) {
+			String label = list.getLabel(StringTemplate.algebraTemplate);
+			String message = localization.getPlain("ListCreated", label);
+			view.setToolTipText(message);
+		}
+	}
+
 
 	protected void calcRWcoords() {
 		xRW = (mouseLoc.x - view.getXZero()) * view.getInvXscale();
