@@ -33,9 +33,12 @@ public class FunctionKeyboardFactory implements KeyboardModelFactory {
         addInputButton(row, buttonFactory, DEGREE);
 
         row = functionKeyboard.nextRow(9.2f);
-        addTranslateInputCommandButton(row, buttonFactory, "asin", "asin", width);
-        addTranslateInputCommandButton(row, buttonFactory, "acos", "acos", width);
-        addTranslateInputCommandButton(row, buttonFactory, "atan", "atan", width);
+		addTranslateInputCommandButton(row, buttonFactory, "asin",
+				"altText.asin", "asin", width);
+		addTranslateInputCommandButton(row, buttonFactory, "acos",
+				"altText.acos", "acos", width);
+		addTranslateInputCommandButton(row, buttonFactory, "atan",
+				"altText.atan", "atan", width);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "{");
         addInputButton(row, buttonFactory, "}");
@@ -49,7 +52,9 @@ public class FunctionKeyboardFactory implements KeyboardModelFactory {
         addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addConstantInputCommandButton(row, buttonFactory, Resource.DERIVATIVE, "Derivative", 1.0f);
         addConstantInputCommandButton(row, buttonFactory, Resource.INTEGRAL, "Integral", 1.0f);
-        addInputButton(row, buttonFactory, "i", "\u03af");
+
+		// start altText with "altText." if it's a ggbtrans key
+		addInputButton(row, buttonFactory, "i", "\u03af", "altText.Imaginaryi");
 		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
 				Action.BACKSPACE_DELETE);
 

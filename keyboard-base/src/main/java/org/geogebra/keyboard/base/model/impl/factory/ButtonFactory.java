@@ -49,17 +49,20 @@ public class ButtonFactory {
 	 *
 	 * @return a button
 	 */
-	public WeightedButton createInputButton(String name, String input, float weight) {
+	public WeightedButton createInputButton(String name, String altText,
+			String input, float weight) {
 		return new WeightedButtonImpl(name, ResourceType.TEXT, input,
-				ActionType.INPUT, Background.STANDARD, modifiers, weight);
+				ActionType.INPUT, Background.STANDARD, modifiers, weight,
+				altText);
 	}
 
 	/**
 	 * Calls {@link ButtonFactory#createConstantInputButton(String, String, float)}
 	 * with parameter {@code weight = 1.0f}
 	 */
-	public WeightedButton createInputButton(String name, String input) {
-		return createInputButton(name, input, 1.0f);
+	public WeightedButton createInputButton(String name, String altText,
+			String input) {
+		return createInputButton(name, altText, input, 1.0f);
 	}
 
 	/**
@@ -110,6 +113,28 @@ public class ButtonFactory {
 				ResourceType.TRANSLATION_MENU_KEY, input,
 				ActionType.INPUT_TRANSLATE_MENU, Background.STANDARD, modifiers,
 				weight);
+	}
+
+	/**
+	 * Creates a button that has a translated resource and a translated input.
+	 * 
+	 * @param translate
+	 *            the key for the translation for the resource
+	 * @param altText
+	 *            text for the screen reader
+	 * @param input
+	 *            the key for the translation for the input
+	 * @param weight
+	 *            weight of the button
+	 * 
+	 * @return a button
+	 */
+	public WeightedButton createTranslateInputTranslateButton(
+			String translate, String altText, String input,
+			float weight) {
+		return new WeightedButtonImpl(translate,
+				ResourceType.TRANSLATION_MENU_KEY, input, ActionType.INPUT,
+				Background.STANDARD, modifiers, weight, altText);
 	}
 
     /**
@@ -199,4 +224,5 @@ public class ButtonFactory {
 				ResourceType.DEFINED_CONSTANT, Action.NONE.name(),
 				ActionType.CUSTOM, Background.INVISIBLE, null, weight);
 	}
+
 }

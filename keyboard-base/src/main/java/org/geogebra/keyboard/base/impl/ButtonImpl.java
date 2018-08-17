@@ -1,13 +1,13 @@
 package org.geogebra.keyboard.base.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Button;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.model.KeyModifier;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ButtonImpl implements Button {
 
@@ -20,6 +20,7 @@ public class ButtonImpl implements Button {
 	private Background background;
 
 	private KeyModifier[] modifiers;
+	private String altText = null;
 
 	/**
 	 * @param resourceName
@@ -37,7 +38,7 @@ public class ButtonImpl implements Button {
 	 */
 	public ButtonImpl(String resourceName, ResourceType resourceType,
 			String actionName, ActionType actionType, Background background,
-			KeyModifier[] modifiers) {
+			KeyModifier[] modifiers, String altText) {
 		this.resourceName = resourceName;
 		this.resourceType = resourceType;
 		this.background = background;
@@ -46,6 +47,7 @@ public class ButtonImpl implements Button {
 		this.actionName.add(actionName);
 		this.actionType = new ArrayList<>();
 		this.actionType.add(actionType);
+		this.altText = altText;
 	}
 
 	@Override
@@ -130,5 +132,13 @@ public class ButtonImpl implements Button {
 			return modifiedBackground;
 		}
 		return background;
+	}
+
+	public String getAltText() {
+		return altText == null ? getPrimaryActionName() : altText;
+	}
+
+	public void setAltText(String s) {
+		altText = s;
 	}
 }

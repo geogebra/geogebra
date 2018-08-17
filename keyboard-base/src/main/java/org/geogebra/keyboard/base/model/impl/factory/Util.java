@@ -57,7 +57,8 @@ public class Util {
 	 */
 	public static void addInputButton(RowImpl row, ButtonFactory buttonFactory,
 			String name, float weight) {
-		addButton(row, buttonFactory.createInputButton(name, name, weight));
+		addButton(row,
+				buttonFactory.createInputButton(name, name, name, weight));
 	}
 
 	/**
@@ -66,7 +67,16 @@ public class Util {
 	 */
 	public static void addInputButton(RowImpl row, ButtonFactory buttonFactory,
 			String name, String input) {
-		addButton(row, buttonFactory.createInputButton(name, input));
+		addButton(row, buttonFactory.createInputButton(name, name, input));
+	}
+
+	/**
+	 * Adds a button to the row created by
+	 * {@link ButtonFactory#createInputButton(String, String)}.
+	 */
+	public static void addInputButton(RowImpl row, ButtonFactory buttonFactory,
+			String name, String input, String altText) {
+		addButton(row, buttonFactory.createInputButton(name, altText, input));
 	}
 
 	/**
@@ -198,6 +208,18 @@ public class Util {
 			String translateInput, float weight) {
 		row.addButton(buttonFactory.createTranslateInputTranslateButton(
 				translateName, translateInput, weight));
+	}
+
+	/**
+	 * Adds a button to the row created by
+	 * {@link ButtonFactory#createTranslateInputTranslateButton(String, String, float)}
+	 * .
+	 */
+	public static void addTranslateInputCommandButton(RowImpl row,
+			ButtonFactory buttonFactory, String translateName, String altText,
+			String translateInput, float weight) {
+		row.addButton(buttonFactory.createTranslateInputTranslateButton(
+				translateName, altText, translateInput, weight));
 	}
 
 	/**

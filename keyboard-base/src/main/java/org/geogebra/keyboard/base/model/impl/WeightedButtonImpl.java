@@ -29,9 +29,33 @@ public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 	 */
 	public WeightedButtonImpl(String resourceName, ResourceType resourceType,
 			String actionName, ActionType actionType, Background background,
+			KeyModifier[] modifiers, float weight, String altText) {
+		super(resourceName, resourceType, actionName, actionType, background,
+				modifiers, altText);
+		this.weight = weight;
+	}
+
+	/**
+	 * @param resourceName
+	 *            resource name
+	 * @param resourceType
+	 *            resource type
+	 * @param actionName
+	 *            action name
+	 * @param actionType
+	 *            action type
+	 * @param background
+	 *            background
+	 * @param modifiers
+	 *            modifiers
+	 * @param weight
+	 *            relative width
+	 */
+	public WeightedButtonImpl(String resourceName, ResourceType resourceType,
+			String actionName, ActionType actionType, Background background,
 			KeyModifier[] modifiers, float weight) {
 		super(resourceName, resourceType, actionName, actionType, background,
-				modifiers);
+				modifiers, null);
 		this.weight = weight;
 	}
 
@@ -39,4 +63,5 @@ public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 	public float getWeight() {
 		return weight;
 	}
+
 }

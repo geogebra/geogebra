@@ -309,8 +309,19 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 						Language.getCurrency(keyboardLocale.toString()),
 						Language.getCurrency(keyboardLocale.toString()), b);
 			}
+
+			final String name = wb.getActionName();
+
+			String altText = wb.getAltText();
+			if (altText == null || altText.isEmpty()) {
+				altText = name;
+			} else {
+				// eg "inverse sine"
+				altText = locale.getMenu(wb.getAltText());
+			}
+
 			return new KeyBoardButtonBase(
-					locale.getFunction(wb.getActionName()), wb.getActionName(),
+					locale.getFunction(name), altText, name,
 					b);
 		case TRANSLATION_COMMAND_KEY:
 			return new KeyBoardButtonBase(locale.getCommand(wb.getActionName()),
@@ -374,9 +385,16 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			return new KeyBoardButtonBase("[", "[]", b);
 		}
 
-		String altText = name;
-		if (("" + Unicode.IMAGINARY).equals(name)) {
-			altText = "imaginary i";
+		String altText = wb.getAltText();
+
+		if (altText == null || altText.isEmpty()) {
+			// default behaviour for most keys
+			altText = name;
+		} else if (altText.startsWith("altText.")) {
+			// translate if necessary
+			// eg altText.imaginaryi
+			altText = locale.getMenuDefault(altText,
+					altText.replace("altText.", ""));
 		}
 
 		return new KeyBoardButtonBase(name, altText, name, b);
@@ -748,7 +766,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					text = hasKeyboard.getLocalization().getCommand(text);
 				} else
 				// matches sin, cos, tan, asin, acos, atan
-				// also asi, aco, ata (won't occur)
 				if ((text.length() == 3 || text.length() == 4)
 						&& "asin acos atan".indexOf(text) > -1) {
 					text = hasKeyboard.getLocalization().getFunction(text)

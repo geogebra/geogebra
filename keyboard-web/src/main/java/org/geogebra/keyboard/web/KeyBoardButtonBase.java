@@ -129,6 +129,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 *            feedback of the button (to be inserted in textfield)
 	 */
 	public void setCaption(String caption, String altText, String feedback1) {
+
 		this.getElement().setAttribute("aria-label", altText);
 		this.caption = caption;
 		if (feedback1 != null) {
