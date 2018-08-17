@@ -340,7 +340,7 @@ public class ToolBar {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SELECT_MOW);
+		sb.append(EuclidianConstants.MODE_SELECT);
 		sb.append(" | ");
 		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
 				: EuclidianConstants.MODE_TEXT);
@@ -372,7 +372,7 @@ public class ToolBar {
 		// Move, Select
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SELECT_MOW);
+		sb.append(EuclidianConstants.MODE_SELECT);
 		sb.append(" | ");
 		// Shapes
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
