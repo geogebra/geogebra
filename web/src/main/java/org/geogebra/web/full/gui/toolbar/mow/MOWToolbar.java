@@ -394,7 +394,8 @@ public class MOWToolbar extends FlowPanel {
 				|| mode == EuclidianConstants.MODE_PDF) {
 			return mediaMenu;
 		} else if (mode == EuclidianConstants.MODE_PEN
-				|| mode == EuclidianConstants.MODE_ERASER) {
+				|| mode == EuclidianConstants.MODE_ERASER
+				|| mode == EuclidianConstants.MODE_SELECT_MOW) {
 			return penMenu;
 		} else if (mode == EuclidianConstants.MODE_MOVE
 				|| mode == EuclidianConstants.MODE_SELECT

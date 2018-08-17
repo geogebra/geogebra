@@ -378,7 +378,8 @@ public class PenSubMenu extends SubMenuPanel {
 		reset();
 		if (mode == EuclidianConstants.MODE_MOVE) {
 			doSelectMove();
-		} else if (mode == EuclidianConstants.MODE_SELECT) {
+		} else if (mode == EuclidianConstants.MODE_SELECT
+				|| mode == EuclidianConstants.MODE_SELECT_MOW) {
 			doSelectSelect();
 		} else if (mode == EuclidianConstants.MODE_ERASER) {
 			doSelectEraser();
