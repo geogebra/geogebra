@@ -36,7 +36,8 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamId() {
-		return "";
+		return attributes.getOrDefault("id",
+				ArticleElementInterface.DEFAULT_APPLET_ID);
 	}
 
 	@Override
@@ -61,7 +62,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamEnableRightClick() {
-		return false;
+		return !"false".equals(attributes.get("enableRightClick"));
 	}
 
 	@Override
@@ -156,7 +157,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamUseBrowserForJS() {
-		return false;
+		return "true".equals(attributes.get("useBrowserForJS"));
 	}
 
 	@Override
