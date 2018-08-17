@@ -941,6 +941,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		@Override
 		public void updateAll() {
+			if (isNotifyUpdateCalled()) {
+				return;
+			}
+
 			int size = rowList.size();
 
 			for (int i = 0; i < size; ++i) {
