@@ -40,7 +40,6 @@ public class SaveDialogMow extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
-	private MaterialVisibility defaultVisibility;
 
 	/**
 	 * @param app see {@link AppW}
@@ -48,8 +47,6 @@ public class SaveDialogMow extends DialogBoxW
 	public SaveDialogMow(AppW app) {
 		super(app.getPanel(), app);
 		this.addStyleName("saveDialogMow");
-		this.defaultVisibility = app.isWhiteboardActive()
-				? MaterialVisibility.Private : MaterialVisibility.Shared;
 		initGUI();
 		initActions();
 	}
@@ -173,6 +170,7 @@ public class SaveDialogMow extends DialogBoxW
 		return titleField;
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == cancelBtn) {
 			hide();
@@ -183,6 +181,7 @@ public class SaveDialogMow extends DialogBoxW
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		getCaption().setText(app.getLocalization().getMenu("Save"));
 		titleLbl.setText(app.getLocalization().getMenu("Title"));
@@ -206,6 +205,7 @@ public class SaveDialogMow extends DialogBoxW
 	/**
 	 * Sets initial title for the material to save.
 	 */
+	@Override
 	public void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null && !"".equals(consTitle)
@@ -230,12 +230,13 @@ public class SaveDialogMow extends DialogBoxW
 	 * @param saveType
 	 *            for the dialog.
 	 */
+	@Override
 	public void setSaveType(MaterialType saveType) {
 		app.getSaveController().setSaveType(saveType);
 	}
 
+	@Override
 	public SaveDialogI setDefaultVisibility(MaterialVisibility visibility) {
-		this.defaultVisibility = visibility;
 		return this;
 	}
 
@@ -249,6 +250,7 @@ public class SaveDialogMow extends DialogBoxW
 	 *            runs either after saved successfully or immediately if dialog
 	 *            not needed {@link Runnable}
 	 */
+	@Override
 	public void showIfNeeded(Runnable runnable) {
 		showIfNeeded(runnable, !app.isSaved(), null);
 	}
@@ -261,6 +263,7 @@ public class SaveDialogMow extends DialogBoxW
 	 * @param anchor
 	 *            relative element
 	 */
+	@Override
 	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
 		if (needed && !((AppW) app).getLAF().isEmbedded()) {
 			app.getSaveController().setRunAfterSave(runnable);

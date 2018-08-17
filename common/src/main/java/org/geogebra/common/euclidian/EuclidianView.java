@@ -450,8 +450,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean reIniting = false;
 	private boolean backgroundIsUpdating = false;
 
-	private int widthTemp;
-	private int heightTemp;
 	private double xminTemp;
 	private double xmaxTemp;
 	private double yminTemp;
