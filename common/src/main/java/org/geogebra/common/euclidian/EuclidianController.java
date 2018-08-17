@@ -3434,12 +3434,38 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// got location
+		if (app.has(Feature.MOW_TEXT_TOOL)) {
+			createWhiteboardText(loc, rw);
+			return true;
+		}
 		if (loc != null && getDialogManager() != null) {
 			getDialogManager().showTextCreationDialog(loc, rw);
 			return true;
 		}
 
 		return false;
+	}
+
+	private void createWhiteboardText(GeoPointND loc, boolean rw) {
+		GeoText t = kernel.getAlgebraProcessor().text("Replace me");
+		t.setEuclidianVisible(true);
+		t.setAbsoluteScreenLocActive(false);
+
+		if (rw) {
+			Coords coords = loc.getInhomCoordsInD3();
+			t.setRealWorldLoc(view.toRealWorldCoordX(coords.getX()),
+					view.toRealWorldCoordY(coords.getY()));
+			t.setAbsoluteScreenLocActive(false);
+		} else {
+			Coords coords = loc.getInhomCoordsInD3();
+			t.setAbsoluteScreenLoc((int) coords.getX(), (int) coords.getY());
+			t.setAbsoluteScreenLocActive(true);
+
+		}
+
+		memorizeJustCreatedGeos(t.asArray());
+		t.setLabel(null);
+		kernel.notifyRepaint();
 	}
 
 	/**
@@ -5405,6 +5431,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		// new text
+
+		case EuclidianConstants.MODE_MEDIA_TEXT:
 		case EuclidianConstants.MODE_TEXT:
 			changedKernel = text(
 					hits.getOtherHits(TestGeo.GEOIMAGE, tempArrayList),

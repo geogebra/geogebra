@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -56,6 +57,8 @@ public final class DrawText extends Drawable {
 	private int oldXpos;
 	private int oldYpos;
 	private boolean needsBoundingBoxOld;
+
+	private BoundingBox boundingBox;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
 
@@ -167,6 +170,11 @@ public final class DrawText extends Drawable {
 					labelRectangle.getWidth() * view.getInvXscale(),
 					-labelRectangle.getHeight() * view.getInvYscale());
 		}
+
+		if (isWhiteboardText() && boundingBox != null) {
+			boundingBox.setRectangle(getBounds());
+		}
+
 	}
 
 	@Override
@@ -293,7 +301,18 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
+		if (isWhiteboardText()) {
+			if (boundingBox == null) {
+				boundingBox = new BoundingBox(false);
+			}
+			boundingBox.setRectangle(getBounds());
+			return boundingBox;
+
+		}
 		return null;
+	}
+
+	private boolean isWhiteboardText() {
+		return view.getApplication().has(Feature.MOW_TEXT_TOOL);
 	}
 }
