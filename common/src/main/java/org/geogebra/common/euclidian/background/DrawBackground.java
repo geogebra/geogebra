@@ -85,7 +85,6 @@ public class DrawBackground {
 		double scaleY = view.getYscale() / 25;
 		g2.scale(scaleY, scaleY);
 		while (h != 0 && y < view.getMaxYScreen()) {
-
 			g2.drawImage(svg, (int) (x / scaleY), (int) (y / scaleY));
 			y += (h * scaleY);
 		}
@@ -132,7 +131,6 @@ public class DrawBackground {
 
 	private void drawHorizontalLines(GGraphics2D g2, boolean subgrid) {
 		double start = view.getYZero() % gap;
-
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
