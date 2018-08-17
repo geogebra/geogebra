@@ -1519,6 +1519,10 @@ public class CommandsTest extends AlgebraTest {
 		t("Simplify[ sin^2(x)+cos^2(x) ]", "1");
 		t("Simplify[ 2/sqrt(2) ]", "sqrt(2)");
 		t("Simplify[\"x+-x--x\"]", "x " + Unicode.MINUS + " x + x");
+		t("sa=1", "1");
+		t("sb=2", "2");
+		t("sc=sa+sb", "3");
+		t("Simplify(sc*x^2)", "(3 * x^(2))");
 	}
 	private static void prob(String cmd, String params, String pdf,
 			String cdf) {

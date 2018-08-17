@@ -1409,7 +1409,7 @@ public class ExpressionNode extends ValidExpression
 			return ((ExpressionNode) left2).getCASstring(tpl, symbolic);
 		} else if (left2.isGeoElement()
 				&& ((GeoElement) left2).getDefinition() != null) {
-			return ((GeoElement) left2).getDefinition().toValueString(tpl);
+			return "(" + ((GeoElement) left2).getDefinition().toValueString(tpl) + ")";
 		} else if (isRight && shaveBrackets()) {
 			return ((MyList) left2).toString(tpl, !symbolic, false);
 		}
