@@ -37,6 +37,7 @@ public final class LocalizationW extends Localization {
 	// must be updated whenever localeStr changes
 	// (cached for speed)
 	private Language lang = Language.English_US;
+	private String langGWT = lang.getLocaleGWT();
 
 	private ScriptLoadCallback scriptCallback;
 
@@ -106,7 +107,7 @@ public final class LocalizationW extends Localization {
 			// TODO: implement if LocalizationW uses Locale rather than String
 			return "en";
 		}
-		return lang.getLocaleGWT();
+		return langGWT;
 	}
 
 	/**
@@ -277,9 +278,10 @@ public final class LocalizationW extends Localization {
 		} else {
 			localeStr = lang0;
 		}
-		// must be updated whenever localeStr changes
-		lang = Language.getClosestGWTSupportedLanguage(localeStr);
 
+		// these must be updated whenever localeStr changes
+		lang = Language.getClosestGWTSupportedLanguage(localeStr);
+		langGWT = lang.getLocaleGWT();
 
 		setCommandChanged(true);
 
