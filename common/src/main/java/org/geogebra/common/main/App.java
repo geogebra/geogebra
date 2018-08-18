@@ -3719,7 +3719,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// MOB-1722
 		case MOB_EXPORT_STL:
-			return true;
+			return (prerelease || !Versions.DESKTOP.equals(version)) && is3D();
 
 		//AND-1253
         case MOB_CLOSE_SETTINGS_BUG:
