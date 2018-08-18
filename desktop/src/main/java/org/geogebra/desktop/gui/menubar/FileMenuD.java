@@ -180,7 +180,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
 			mi = submenu.add(exportSCADaction);
 		}
-		if (app.has(Feature.MOB_EXPORT_STL) && app.is3D()) {
+		if (app.has(Feature.MOB_EXPORT_STL)) {
 			mi = submenu.add(exportSTLaction);
 		}
 		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
@@ -622,7 +622,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			};
 		}
 
-		if (app.has(Feature.MOB_EXPORT_STL) && app.is3D()) {
+		if (app.has(Feature.MOB_EXPORT_STL)) {
 			exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;

@@ -65,21 +65,22 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				? menuText(app.getLocalization().getMenu("Image") + " (png)")
 				: menuText("png"), true, new MenuCommand(app) {
 
-			@Override
-			public void execute() {
-				menu.hide();
-				app.toggleMenu();
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelections();
-				String url = ((EuclidianViewWInterface) app
-						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
-								false);
+					@Override
+					public void execute() {
+						menu.hide();
+						app.toggleMenu();
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
+						String url = ((EuclidianViewWInterface) app
+								.getActiveEuclidianView())
+										.getExportImageDataUrl(1.0, false);
 
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), "png", "ExportAsPicture", app);
-				dialogEvent(app, "exportPNG");
-			}
-		});
+						app.getFileManager().showExportAsPictureDialog(url,
+								app.getExportTitle(), "png", "ExportAsPicture",
+								app);
+						dialogEvent(app, "exportPNG");
+					}
+				});
 
 		menu.addItem(
 				app.has(Feature.MOW_BURGER_MENU_CLEANUP) ? menuText(
@@ -88,40 +89,43 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						: menuText("svg"),
 				true, new MenuCommand(app) {
 
-			@Override
-			public void execute() {
-				menu.hide();
-				app.toggleMenu();
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelections();
+					@Override
+					public void execute() {
+						menu.hide();
+						app.toggleMenu();
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
 
-				String svg = Browser.encodeSVG(
-						((EuclidianViewWInterface) app.getActiveEuclidianView())
-								.getExportSVG(1, false));
+						String svg = Browser
+								.encodeSVG(((EuclidianViewWInterface) app
+										.getActiveEuclidianView())
+												.getExportSVG(1, false));
 
-				app.getFileManager().showExportAsPictureDialog(svg,
-						app.getExportTitle(), "svg", "ExportAsPicture", app);
-				dialogEvent(app, "exportSVG");
-			}
-		});
+						app.getFileManager().showExportAsPictureDialog(svg,
+								app.getExportTitle(), "svg", "ExportAsPicture",
+								app);
+						dialogEvent(app, "exportSVG");
+					}
+				});
 		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
 				? menuText(app.getLocalization().getMenu("pdf"))
 				: menuText("pdf"), true, new MenuCommand(app) {
 
-			@Override
-			public void execute() {
+					@Override
+					public void execute() {
 
-				menu.hide();
-				app.toggleMenu();
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelections();
-				String pdf = app.getGgbApi().exportPDF(1, null, null);
+						menu.hide();
+						app.toggleMenu();
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
+						String pdf = app.getGgbApi().exportPDF(1, null, null);
 
-				app.getFileManager().showExportAsPictureDialog(pdf,
-						app.getExportTitle(), "pdf", "ExportAsPicture", app);
-				dialogEvent(app, "exportPDF");
-			}
-		});
+						app.getFileManager().showExportAsPictureDialog(pdf,
+								app.getExportTitle(), "pdf", "ExportAsPicture",
+								app);
+						dialogEvent(app, "exportPDF");
+					}
+				});
 		// TODO add gif back when ready
 		// if (!app.getLAF().isTablet()) {
 		// addItem(menuText(
@@ -137,116 +141,117 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		// });
 		// }
 		if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
-		menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
+			menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
 
-			@Override
-			public void execute() {
-				app.getActiveEuclidianView().setSelectionRectangle(null);
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelections();
-				menu.hide();
-				app.getGgbApi().exportPSTricks(exportCallback("Pstricks", app));
-			}
-		});
-
-		menu.addItem(menuText("PGF/TikZ"), true, new MenuCommand(app) {
-
-			@Override
-			public void execute() {
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelectionAndRectangle();
-				menu.hide();
-				app.getGgbApi().exportPGF(exportCallback("PGF", app));
-			}
-		});
-
-		menu.addItem(
-				menuText(app.getLocalization()
-						.getMenu("ConstructionProtocol") + " ("
-						+ FileExtensions.HTML + ")"),
-				true, new MenuCommand(app) {
-					@Override
-					public void doExecute() {
-						menu.hide();
-						app.exportStringToFile("html",
-								app.getGgbApi().exportConstruction("color",
-										"name", "definition", "value"));
-					}
-				});
-
-		menu.addItem(
-				menuText(app.getLocalization()
-						.getMenu("DynamicWorksheetAsWebpage") + " ("
-						+ FileExtensions.HTML + ")"),
-				true, new MenuCommand(app) {
-					@Override
-					public void doExecute() {
-						menu.hide();
-						app.exportStringToFile("html",
-								HTML5Export.getFullString(app));
-					}
-				});
-
-		menu.addItem(menuText("Asymptote"), true, new MenuCommand(app) {
-
-			@Override
-			public void execute() {
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelectionAndRectangle();
-				menu.hide();
-				app.getGgbApi()
-						.exportAsymptote(exportCallback("Asymptote", app));
-			}
-		});
-
-		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
-			menu.addItem(menuText("OpenSCAD"), true, new MenuCommand(app) {
 				@Override
-				public void doExecute() {
+				public void execute() {
+					app.getActiveEuclidianView().setSelectionRectangle(null);
+					app.getActiveEuclidianView().getEuclidianController()
+							.clearSelections();
 					menu.hide();
-					app.setExport3D(new FormatJscad());
-				}
-			});
-		}
-
-		if (app.has(Feature.MOB_EXPORT_STL) && app.is3D()) {
-			menu.addItem(menuText("STL"), true, new MenuCommand(app) {
-				@Override
-				public void doExecute() {
-					menu.hide();
-					app.setExport3D(new FormatSTL());
-				}
-			});
-		}
-
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
-			menu.addItem(menuText("Collada"), true, new MenuCommand(app) {
-				@Override
-				public void doExecute() {
-					menu.hide();
-					app.exportCollada(false);
+					app.getGgbApi()
+							.exportPSTricks(exportCallback("Pstricks", app));
 				}
 			});
 
-			menu.addItem(menuText("Collada (html)"), true,
-					new MenuCommand(app) {
+			menu.addItem(menuText("PGF/TikZ"), true, new MenuCommand(app) {
+
+				@Override
+				public void execute() {
+					app.getActiveEuclidianView().getEuclidianController()
+							.clearSelectionAndRectangle();
+					menu.hide();
+					app.getGgbApi().exportPGF(exportCallback("PGF", app));
+				}
+			});
+
+			menu.addItem(
+					menuText(app.getLocalization()
+							.getMenu("ConstructionProtocol") + " ("
+							+ FileExtensions.HTML + ")"),
+					true, new MenuCommand(app) {
 						@Override
 						public void doExecute() {
 							menu.hide();
-							app.exportCollada(true);
-				}
-			});
-		}
+							app.exportStringToFile("html",
+									app.getGgbApi().exportConstruction("color",
+											"name", "definition", "value"));
+						}
+					});
 
-		if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
-			menu.addItem(menuText("Obj"), true, new MenuCommand(app) {
+			menu.addItem(
+					menuText(app.getLocalization()
+							.getMenu("DynamicWorksheetAsWebpage") + " ("
+							+ FileExtensions.HTML + ")"),
+					true, new MenuCommand(app) {
+						@Override
+						public void doExecute() {
+							menu.hide();
+							app.exportStringToFile("html",
+									HTML5Export.getFullString(app));
+						}
+					});
+
+			menu.addItem(menuText("Asymptote"), true, new MenuCommand(app) {
+
 				@Override
-				public void doExecute() {
+				public void execute() {
+					app.getActiveEuclidianView().getEuclidianController()
+							.clearSelectionAndRectangle();
 					menu.hide();
-					app.exportObj();
+					app.getGgbApi()
+							.exportAsymptote(exportCallback("Asymptote", app));
 				}
 			});
-		}
+
+			if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
+				menu.addItem(menuText("OpenSCAD"), true, new MenuCommand(app) {
+					@Override
+					public void doExecute() {
+						menu.hide();
+						app.setExport3D(new FormatJscad());
+					}
+				});
+			}
+
+			if (app.has(Feature.MOB_EXPORT_STL)) {
+				menu.addItem(menuText("STL"), true, new MenuCommand(app) {
+					@Override
+					public void doExecute() {
+						menu.hide();
+						app.setExport3D(new FormatSTL());
+					}
+				});
+			}
+
+			if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
+				menu.addItem(menuText("Collada"), true, new MenuCommand(app) {
+					@Override
+					public void doExecute() {
+						menu.hide();
+						app.exportCollada(false);
+					}
+				});
+
+				menu.addItem(menuText("Collada (html)"), true,
+						new MenuCommand(app) {
+							@Override
+							public void doExecute() {
+								menu.hide();
+								app.exportCollada(true);
+							}
+						});
+			}
+
+			if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
+				menu.addItem(menuText("Obj"), true, new MenuCommand(app) {
+					@Override
+					public void doExecute() {
+						menu.hide();
+						app.exportObj();
+					}
+				});
+			}
 		}
 	}
 
