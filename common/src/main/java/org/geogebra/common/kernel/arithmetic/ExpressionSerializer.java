@@ -2035,9 +2035,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				}
 
 				sb.append(altText);
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append(")");
+				sb.append(tpl.leftBracket());
 				break;
 			case LATEX:
 				if (tpl.isPrintLocalizedCommandNames()) {

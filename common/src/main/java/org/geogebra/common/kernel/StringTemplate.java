@@ -1312,6 +1312,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ( or \left(
 	 */
 	public String leftBracket() {
+		if (stringType == StringType.SCREEN_READER) {
+			return " open parenthesis ";
+		}
 		return left() + "(";
 	}
 
@@ -1319,6 +1322,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ) or \right)
 	 */
 	public String rightBracket() {
+		if (stringType == StringType.SCREEN_READER) {
+			return " close parenthesis ";
+		}
 		return right() + ")";
 	}
 
