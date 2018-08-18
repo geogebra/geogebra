@@ -1313,7 +1313,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String leftBracket() {
 		if (stringType == StringType.SCREEN_READER) {
-			return " open parenthesis ";
+			return ScreenReader.getLeftBracket();
 		}
 		return left() + "(";
 	}
@@ -1323,7 +1323,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String rightBracket() {
 		if (stringType == StringType.SCREEN_READER) {
-			return " close parenthesis ";
+			return ScreenReader.getRightBracket();
 		}
 		return right() + ")";
 	}
@@ -1437,9 +1437,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(ScreenReader.getMinus(loc));
 
 			if (!right.isLeaf()) {
-				sb.append('(');
+				sb.append(leftBracket());
 				sb.append(rightStr);
-				sb.append(')');
+				sb.append(rightBracket());
 			} else {
 				sb.append(rightStr);
 			}
@@ -1722,9 +1722,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case SCREEN_READER:
 
 			if (!left.isLeaf()) {
-				sb.append('(');
+				sb.append(leftBracket());
 				sb.append(leftStr);
-				sb.append(')');
+				sb.append(rightBracket());
 			} else {
 				sb.append(leftStr);
 			}
@@ -1732,9 +1732,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(ScreenReader.getTimes(loc));
 
 			if (!right.isLeaf()) {
-				sb.append('(');
+				sb.append(leftBracket());
 				sb.append(rightStr);
-				sb.append(')');
+				sb.append(rightBracket());
 			} else {
 				sb.append(rightStr);
 			}

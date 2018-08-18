@@ -248,4 +248,12 @@ public class ScreenReader {
 		}
 		return sb.toString();
 	}
+
+	public static String getLeftBracket() {
+		return " open parenthesis ";
+	}
+
+	public static String getRightBracket() {
+		return " close parenthesis ";
+	}
 }
