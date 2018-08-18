@@ -345,6 +345,7 @@ public class UnicodeTeX {
 		p('\u22a3', "dashv");
 		p('\u22a4', "top");
 		p('\u22a5', "perp");
+		p('\u27c2', "perp");
 		p('\u22a7', "models");
 		p('\u22a8', "vDash");
 		p('\u22a9', "Vdash");

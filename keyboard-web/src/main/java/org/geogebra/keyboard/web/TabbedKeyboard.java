@@ -440,62 +440,63 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_enter_black(), bh,
-					Action.RETURN_ENTER, loc, "EnterAltText");
+					Action.RETURN_ENTER, loc, "altText.Enter");
 		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
-					Action.BACKSPACE_DELETE, loc, "BackspaceAltText");
+					Action.BACKSPACE_DELETE, loc, "altText.Backspace");
 		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), bh,
-					Action.LEFT_CURSOR, loc, "LeftArrowAltText");
+					Action.LEFT_CURSOR, loc, "altText.LeftArrow");
 		} else if (resourceName.equals(Resource.RIGHT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
-					Action.RIGHT_CURSOR, loc, "RightArrowAltText");
+					Action.RIGHT_CURSOR, loc, "altText.RightArrow");
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.square(),
 							button.getActionName(), bh, false, loc,
-					"SquareAltText");
+					"altText.Square");
 			
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.xPower(),
-							"a^x", bh, false, loc, "PowerAltText");			
+					"a^x", bh, false, loc, "altText.Power");
 		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
-					Action.CAPS_LOCK, loc, "CapsLockUnactiveAltText");
+					Action.CAPS_LOCK, loc, "altText.CapsLockInactive");
 		} else if (resourceName.equals(Resource.CAPS_LOCK_ENABLED.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
-					Action.CAPS_LOCK, loc, "CapsLockActiveAltText");
+					Action.CAPS_LOCK, loc, "altText.CapsLockActive");
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.ten_power(),
 							button.getActionName(), bh, false, loc,
-							"PowTenAltText");
+					"altText.PowTen");
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
 			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.e_power(),
 							button.getActionName(), bh, false, loc,
-							"PowEAltText");
+					"altText.PowE");
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
-			return new KeyBoardButtonBase("log_10", "log10", bh);
+			return new KeyBoardButtonBase("log_10", "altText.log10", "log10",
+					bh);
 		} else if (resourceName.equals(Resource.LOG_B.name())) {
 			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.log(),
-					"log_", bh, true, loc, "LogBAltText");
+					"log_", bh, true, loc, "altText.LogB");
 		} else if (resourceName.equals(Resource.A_N.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.a_index(),
-							"_", bh, false, loc, "SubscriptAltText");
+					"_", bh, false, loc, "altText.Subscript");
 		} else if (resourceName.equals(Resource.N_ROOT.name())) {
 			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.n_root(),
 							button.getActionName(), bh, false, loc,
-							"RootAltText");
+					"altText.Root");
 		} else if (resourceName.equals(Resource.INTEGRAL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.integral(),
@@ -507,21 +508,21 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (resourceName.equals(Resource.ABS.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.abs(),
-					"abs", bh, false, loc, "AbsAltText");
+					"abs", bh, false, loc, "altText.Abs");
 		} else if (resourceName.equals(Resource.CEIL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.ceil(),
-					button.getActionName(), bh, false, loc, "CeilAltText");
+					button.getActionName(), bh, false, loc, "altText.Ceil");
 		} else if (resourceName.equals(Resource.FLOOR.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.floor(),
-					button.getActionName(), bh, false, loc, "FloorAltText");
+					button.getActionName(), bh, false, loc, "altText.Floor");
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.sqrt(),
 							button.getActionName(), bh, false, loc,
-							"SquareRootAltText");
+					"altText.SquareRoot");
 		}
 		if (KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS.equals(resourceName)) {
 			return new KeyBoardButtonFunctionalBase(

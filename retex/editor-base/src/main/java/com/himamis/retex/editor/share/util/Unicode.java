@@ -124,7 +124,7 @@ public class Unicode {
 	final public static char MEASURED_ANGLE = '\u2221';
 
 	public static final char PARALLEL = '\u2225';
-	public static final char PERPENDICULAR = '\u22a5';
+	public static final char PERPENDICULAR = '\u27c2';
 	public static final char IS_ELEMENT_OF = '\u2208';
 	public static final char IS_SUBSET_OF = '\u2286';
 	public static final char IS_SUBSET_OF_STRICT = '\u2282';

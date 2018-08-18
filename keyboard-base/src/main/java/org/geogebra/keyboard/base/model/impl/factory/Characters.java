@@ -49,7 +49,7 @@ public class Characters {
     public static final char NOT_SIGN = '\u00AC';
     public static final char CIRCLED_TIMES = '\u2297';
     public static final char PARALLEL_TO = '\u2225';
-    public static final char UP_TACK = '\u22A5';
+	public static final char PERPENDICULAR = '\u27c2';
     public static final char ELEMENT_OF = '\u2208';
     public static final char SUBSET_OF = '\u2282';
     public static final char SUBSET_OF_OR_EQUAL_TO = '\u2286';
