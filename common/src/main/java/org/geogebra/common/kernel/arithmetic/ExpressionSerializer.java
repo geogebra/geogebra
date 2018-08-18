@@ -427,33 +427,36 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case ARCCOS:
 			trig(leftStr, sb, "<arccos/>", "\\arccos", "ACOS(", "acos", "arccos",
-					giacDegFix("acos", kernel), tpl, loc, false, true);
+					giacDegFix("acos", kernel), tpl, loc, false, true,
+					"altText.acos");
 			break;
 
 		case ARCCOSD:
 			trig(leftStr, sb, "<arccos/>", "\\arccos", "ACOS(", tpl.acosd(kernel), "arccos",
-					"acosd", tpl, loc, false, true);
+					"acosd", tpl, loc, false, true, "altText.acos");
 			break;
 
 		case ARCSIN:
 			trig(leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(", "asin", "arcsin",
-					giacDegFix("asin", kernel), tpl, loc, false, true);
+					giacDegFix("asin", kernel), tpl, loc, false, true,
+					"altText.asin");
 			break;
 
 		case ARCSIND:
 
 			trig(leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(", tpl.asind(kernel), "arcsin",
-					"asind", tpl, loc, false, true);
+					"asind", tpl, loc, false, true, "altText.asin");
 			break;
 
 		case ARCTAN:
 			trig(leftStr, sb, "<arctan/>", "\\arctan", "ATAN(", "atan", "arctan",
-					giacDegFix("atan", kernel), tpl, loc, false, true);
+					giacDegFix("atan", kernel), tpl, loc, false, true,
+					"altText.atan");
 			break;
 
 		case ARCTAND:
 			trig(leftStr, sb, "<arctan/>", "\\arctan", "ATAN(", tpl.atand(kernel), "arctan",
-					"atand", tpl, loc, false, true);
+					"atand", tpl, loc, false, true, "altText.atan");
 			break;
 
 		case ARCTAN2:
@@ -2005,7 +2008,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			Localization loc, boolean needDegrees) {
 
 		trig(leftStr, sb, mathml, latex, psTricks2, key, libreOffice, giac, tpl, loc, needDegrees,
-				false);
+				false, null);
 	}
 
 	/**
@@ -2015,12 +2018,27 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 	 */
 	private static void trig(String leftStr, StringBuilder sb, String mathml, String latex,
 			String psTricks, String key, String libreOffice, String giac, StringTemplate tpl,
-			Localization loc, boolean needDegrees, boolean inverseNeedsDegrees) {
+			Localization loc, boolean needDegrees, boolean inverseNeedsDegrees,
+			String altText) {
 
 		if (tpl.hasType(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
 			switch (tpl.getStringType()) {
+			case SCREEN_READER:
+
+				if (altText == null) {
+					altText = loc.getFunction(key);
+				} else if (altText.startsWith("altText.")) {
+					altText = loc.getMenuDefault(altText,
+							altText.replace("altText.", ""));
+				}
+
+				sb.append(altText);
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append(")");
+				break;
 			case LATEX:
 				if (tpl.isPrintLocalizedCommandNames()) {
 					// eg \\operatorname{sen} when sin translated
