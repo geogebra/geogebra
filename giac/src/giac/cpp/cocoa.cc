@@ -11523,7 +11523,7 @@ namespace giac {
   };
 
   longlong memory_usage(){
-#if defined HAVE_SYS_RESOURCE_H && !defined NSPIRE
+#if defined HAVE_SYS_RESOURCE_H && !defined NSPIRE && !defined NSPIRE_NEWLIB
     struct rusage r_usage;
     getrusage(RUSAGE_SELF,&r_usage);
     return r_usage.ru_maxrss;

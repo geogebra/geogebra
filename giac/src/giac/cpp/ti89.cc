@@ -1419,7 +1419,12 @@ namespace giac {
       return change_subtype(0,_INT_BOOLEAN);
     int x=xcas_mode(contextptr);
     xcas_mode(3,contextptr);
-    gen res=solvepostprocess(gf,g._VECTptr->back(),contextptr);
+    gen vars=g._VECTptr->back();
+    if (vars.type==_VECT && !ckmatrix(gf))
+      gf=vecteur(1,gf);
+    gen res=solvepostprocess(gf,vars,contextptr);
+    if (res.is_symb_of_sommet(at_ou) && res._SYMBptr->feuille.type==_VECT && res._SYMBptr->feuille._VECTptr->size()==1)
+      res=res._SYMBptr->feuille._VECTptr->front();
     xcas_mode(x,contextptr);
     return res;
   }

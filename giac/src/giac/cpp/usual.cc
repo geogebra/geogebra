@@ -2919,7 +2919,9 @@ namespace giac {
   static define_unary_function_eval4 (__im,(const gen_op_context)im,_im_s,0,&texprintasim);
   define_unary_function_ptr5( at_im ,alias_at_im,&__im,0,true);
 
-  // symbolic symb_conj(const gen & e){  return symbolic(at_conj,e);  }
+  symbolic symb_conj(const gen & e){  
+    return symbolic(at_conj,e);  
+  }
   gen conj(const gen & a,GIAC_CONTEXT){
     if (is_equal(a))
       return apply_to_equal(a,conj,contextptr);

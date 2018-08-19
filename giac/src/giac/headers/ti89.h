@@ -71,6 +71,7 @@ namespace giac {
   gen _semi_augment(const gen & g,GIAC_CONTEXT);
   gen _cumSum(const gen & g,GIAC_CONTEXT);
   gen _exp2list(const gen & g,GIAC_CONTEXT);
+  gen _list2exp(const gen & g,GIAC_CONTEXT);
   gen _list2mat(const gen & g,GIAC_CONTEXT);
   gen _deltalist(const gen & g,GIAC_CONTEXT);
   gen _mat2list(const gen & g,GIAC_CONTEXT);

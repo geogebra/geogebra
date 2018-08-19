@@ -3890,7 +3890,7 @@ namespace giac {
       int r=-1;
       for (;;){
 	r=int(giac_rand(contextptr)/double(rand_max2)*n);
-	if (tab[r]) break;
+	if (tab[r]){ tab[r]=false;  break; }
       }
       v[j]=r;
     }
@@ -7171,6 +7171,30 @@ namespace giac {
     }
     return g;
   }
+
+  gen re2zconj(const gen &g,GIAC_CONTEXT){
+    return (g+symb_conj(g))/2;
+  }
+  
+  gen im2zconj(const gen &g,GIAC_CONTEXT){
+    return (g-symb_conj(g))/(2*cst_i);
+  }
+  
+  gen abs2zconj(const gen &g,GIAC_CONTEXT){
+    return symbolic(at_sqrt,g*symb_conj(g));
+  }
+
+  gen re2abs(const gen & g,GIAC_CONTEXT){
+    return (g+pow(symb_abs(g),2,contextptr)/g)/2;    
+  }
+  
+  gen im2abs(const gen & g,GIAC_CONTEXT){
+    return (g-pow(symb_abs(g),2,contextptr)/g)/(2*cst_i);    
+  }
+
+  gen conj2abs(const gen &g,GIAC_CONTEXT){
+    return pow(symb_abs(g),2,contextptr)/g;
+  }
   
   gen _convert(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
@@ -7265,6 +7289,29 @@ namespace giac {
       if (g.type!=_DOUBLE_ && g.type!=_CPLX && g.type!=_FLOAT_)
 	return gensizeerr(gettext("Some units could not be converted to MKSA"));
       return g*f;
+    }
+    if (s==2 && f==at_conj){
+      // convert re/im to conj
+      vector<const unary_function_ptr *> vu;
+      vu.push_back(at_re); 
+      vu.push_back(at_im); 
+      vu.push_back(at_abs); 
+      vector <gen_op_context> vv;
+      vv.push_back(re2zconj);
+      vv.push_back(im2zconj);
+      vv.push_back(abs2zconj);
+      return subst(g,vu,vv,false,contextptr);
+    }
+    if (s==2 && f==at_abs){
+      vector<const unary_function_ptr *> vu;
+      vu.push_back(at_re); 
+      vu.push_back(at_im); 
+      vu.push_back(at_conj); 
+      vector <gen_op_context> vv;
+      vv.push_back(re2abs);
+      vv.push_back(im2abs);
+      vv.push_back(conj2abs);
+      return subst(g,vu,vv,false,contextptr);
     }
     if (s==2 && f==at_interval)
       return convert_interval(g,int(decimal_digits(contextptr)*3.2),contextptr);
@@ -9392,7 +9439,7 @@ namespace giac {
   const mksa_unit __ozUK_unit={2.84130625e-5,3,0,0,0,0,0,0,0};
   const mksa_unit __ozfl_unit={2.95735295625e-5,3,0,0,0,0,0,0,0};
   const mksa_unit __ozt_unit={0.0311034768,0,1,0,0,0,0,0,0};
-  const mksa_unit __pc_unit={3.08567758149e16,1,0,0,0,0,0,0,0};
+  const mksa_unit __pc_unit={3.08567758149137e16,1,0,0,0,0,0,0,0};
   const mksa_unit __pdl_unit={0.138254954376,1,1,-2,0,0,0,0,0};
   const mksa_unit __pk_unit={0.0088097675,3,0,0,0,0,0,0,0};
   const mksa_unit __psi_unit={6894.75729317,-1,1,-2,0,0,0,0,0};

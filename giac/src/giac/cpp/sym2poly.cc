@@ -1930,7 +1930,7 @@ namespace giac {
     }
     for (;it!=itend;++it,++l_it){
       if ((*it))
-	res->v.push_back(pow(*l_it,*it));
+	res->v.push_back(pow(*l_it,*it,contextptr));
     }
     if (res->v.empty()){
       delete_ref_vecteur(res);

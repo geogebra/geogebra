@@ -45,7 +45,7 @@ using namespace std;
 #include "quater.h"
 #include "sparse.h"
 #include "giacintl.h"
-#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB || defined FXCG || defined GIAC_GGB
 inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
 inline giac::gen _graph_charpoly(const giac::gen &g,const giac::context *){ return g;}
 #else
@@ -3536,7 +3536,7 @@ static define_unary_function_eval (__exponential_regression_plot,&_exponential_r
     xmax += (xmax-xmin); 
     gen ad(evalf_double(a,1,contextptr)),bd(evalf_double(b,1,contextptr)),cd(evalf_double(correl2,1,contextptr));
     if (ad.type==_DOUBLE_ && bd.type==_DOUBLE_ && cd.type==_DOUBLE_){
-      string eqs="y=ln("+print_DOUBLE_(ad._DOUBLE_val,3)+"*x+"+print_DOUBLE_(bd._DOUBLE_val,3)+")";
+      string eqs="y="+print_DOUBLE_(ad._DOUBLE_val,3)+"*ln(x)+"+print_DOUBLE_(bd._DOUBLE_val,3);
       string R2s=" , R2="+print_DOUBLE_(cd._DOUBLE_val,3);
       *logptr(contextptr) << eqs << R2s << endl;
       string s;
@@ -6870,6 +6870,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gen res;
 #ifdef NO_STDEXCEPT
     res=limit(f,x,x0,direction,contextptr);
+    if (res.type==_STRNG)
+      res=undef; // message too long
 #else
     try {
       res=limit(f,x,x0,direction,contextptr);

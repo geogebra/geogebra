@@ -817,8 +817,11 @@ namespace giac {
 	gen ef=sortsubst(e._SYMBptr->feuille,i,newi,quotesubst,contextptr);
 	if (quotesubst || e._SYMBptr->sommet.quoted())
 	  return symbolic(e._SYMBptr->sommet,ef);
-	else
+	else {
+	  // code below would allow assume(z,complex);subst(re(z),[re,im],[x->(x+conj(x))/2,x->(x-conj(x))/2/i]);
+	  // if (int pos=equalposcomp(i,e._SYMBptr->sommet)) return newi[pos-1](ef,contextptr);
 	  return e._SYMBptr->sommet(ef,contextptr);
+	}
       }
     case _VECT:
       return gen(sortsubst(*e._VECTptr,i,newi,quotesubst,contextptr),e.subtype);

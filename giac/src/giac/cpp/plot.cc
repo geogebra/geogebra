@@ -109,7 +109,7 @@ extern "C" {
 #include <sys/wait.h>
 #endif
 
-#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB || defined FXCG || defined GIAC_GGB
 inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
 inline giac::gen _graph_vertices(const giac::gen &g,const giac::context *){ return g;}
 inline giac::gen _is_planar(const giac::gen &g,const giac::context *){ return g;}
