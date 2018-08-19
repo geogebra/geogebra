@@ -3146,19 +3146,10 @@ public abstract class GeoElement extends ConstructionElement
 
 				final GeoPointND point = (GeoPointND) this;
 				if (point.getMode() == Kernel.COORD_COMPLEX) {
-					String complexLabel = "z_1";
-					int i = 1;
-					while (!cons.isFreeLabel(complexLabel)) {
-						i++;
-						if (i < 9) {
-							// eg z_6
-							complexLabel = "z_" + i;
-						} else {
-							// eg z_{12}
-							complexLabel = "z_{" + i + "}";
-						}
-					}
-					return complexLabel;
+
+					// check through z_1, z_2, etc and return first one free
+					// (also checks z_{1} to avoid clash)
+					return cons.getIndexLabel("z", 1);
 				}
 
 			} else if (isGeoFunction()) {
@@ -3230,43 +3221,54 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		int counter = 0, q, r;
-		final StringBuilder sbDefaultLabel = new StringBuilder();
+		String labelToUse = "";
 		boolean repeat = true;
+
+		// search through labels to find a free one, eg
+		// A, B, C, ...
+		// A_1, B_1, C_1, ...
+		// A_2, B_2, C_2, ...
+		// ...
+		// A_{10}, B_{10}, c_{10}, ...
+		// ...
 		while (repeat) {
-			sbDefaultLabel.setLength(0);
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
 
-			final char ch = chars[r];
-			sbDefaultLabel.append(ch);
+			String labelBase = chars[r] + "";
 
-			// this arabic letter is two unicode chars
-			if (ch == '\u0647') {
-				sbDefaultLabel.append('\u0640');
+			// this arabic letter is two Unicode chars
+			if (chars[r] == '\u0647') {
+				labelBase += "\u0640";
 			}
 
-			if (q > 0) {
-				// don't use indices
-				// sbDefaultLabel.append(q);
+			String index1;
+			String index2;
 
-				// q as index
-				if (q < 10) {
-					sbDefaultLabel.append('_');
-					sbDefaultLabel.append(q);
-				} else {
-					sbDefaultLabel.append("_{");
-					sbDefaultLabel.append(q);
-					sbDefaultLabel.append('}');
-				}
+			if (q == 0) {
+				index1 = "";
+				index2 = "";
+				labelToUse = labelBase;
+			} else if (q < 10) {
+				index1 = "_" + q;
+				index2 = "_{" + q + "}";
+				labelToUse = labelBase + index1;
 
+			} else {
+				index1 = "_" + q;
+				index2 = "_{" + q + "}";
+				labelToUse = labelBase + index2;
 			}
+
 			counter++;
 
 			// is label reserved
-			repeat = !cons.isFreeLabel(sbDefaultLabel.toString(), true, true);
+			// check both forms ie a_{1} and a_1
+			repeat = !cons.isFreeLabel(labelBase + index1, true, true)
+					|| !cons.isFreeLabel(labelBase + index2, true, true);
 
 		}
-		return sbDefaultLabel.toString();
+		return labelToUse;
 	}
 
 	private String defaultNumberedLabel(final String plainKey,
