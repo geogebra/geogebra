@@ -21,8 +21,9 @@ import org.geogebra.common.util.debug.Log;
 public abstract class GeoWidget extends GeoElement implements Locateable, AbsoluteScreenLocateable {
 	private double width = 40.0;
 	private double height = 30.0;
-
+	/** Corners */
 	protected GeoPointND[] corner = new GeoPointND[3];
+	/** Index of top left corner */
 	protected int topLeftCorner = 0;
 
 	/**
@@ -121,6 +122,9 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 		return (int) width;
 	}
 
+	/**
+	 * @return width in pixels
+	 */
 	protected double getWidthAsDouble() {
 		return width;
 	}
@@ -136,6 +140,10 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 		}
 	}
 
+	/**
+	 * @param width
+	 *            width
+	 */
 	protected void setWidth(double width) {
 		this.width = width;
 		if (hasScreenLocation()) {
@@ -151,6 +159,9 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 		return (int) height;
 	}
 
+	/**
+	 * @return height in pixels
+	 */
 	protected double getHeightAsDouble() {
 		return height;
 	}	
@@ -166,6 +177,10 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 		}
 	}
 
+	/**
+	 * @param height
+	 *            height in pixels
+	 */
 	protected void setHeight(double height) {
 		this.height = height;
 		if (hasScreenLocation()) {

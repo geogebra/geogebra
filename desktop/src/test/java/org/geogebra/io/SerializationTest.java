@@ -25,9 +25,9 @@ public class SerializationTest {
 	public static void initialize() {
 		app = new AppDNoGui(new LocalizationD(3), true);
 	}
+
 	@Test
 	public void testSerializationSpeed(){
-
 		app.setLanguage(Locale.US);
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
@@ -61,7 +61,7 @@ public class SerializationTest {
 		tsc("sqrt(x+1)", "start square root x plus 1 end square root ");
 		tsc("(x+1)/(x-1)",
 				"start fraction x plus 1  over x minus 1  end fraction ");
-		tsc("sin(2x)", "sin(2 times x )");
+		tsc("sin(2x)", "sin open parenthesis 2 times x  close parenthesis ");
 	}
 
 	@Test
@@ -82,7 +82,6 @@ public class SerializationTest {
 		// x>1 and x<=2 cover the whole axis, further conditions are irrelevant
 		tcl("If[x>1,x,If[x<=2,-x,If[x>3,x^2,x^3]]]", caseImpossible);
 		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
-
 	}
 
 	private static void tcl(String string, String string2) {
@@ -92,7 +91,6 @@ public class SerializationTest {
 		Assert.assertEquals(((GeoFunction) result[0]).conditionalLaTeX(false,
 				StringTemplate.latexTemplate), string2.replace("<=",
 				Unicode.LESS_EQUAL + ""));
-
 	}
 
 	private static void tsc(String string, String string2) {
@@ -101,7 +99,6 @@ public class SerializationTest {
 		Assert.assertTrue(result[0] instanceof GeoFunction);
 		Assert.assertEquals(
 				result[0].toValueString(StringTemplate.screenReader), string2);
-
 	}
 
 	@Test

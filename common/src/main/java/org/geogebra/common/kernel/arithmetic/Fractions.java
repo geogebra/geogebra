@@ -78,6 +78,14 @@ public class Fractions {
 		return false;
 	}
 
+	/**
+	 * @param parts
+	 *            output: [numerator, denominator]
+	 * @param expr
+	 *            expression
+	 * @param expandPlus
+	 *            whether to expand a/d+b/c to a single fraction
+	 */
 	protected static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
 			boolean expandPlus) {
 		ExpressionValue numL, numR, denL = null, denR = null;

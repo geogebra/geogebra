@@ -2028,13 +2028,12 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			case SCREEN_READER:
 
 				if (altText == null) {
-					altText = loc.getFunction(key);
+					sb.append(loc.getFunction(key));
 				} else if (altText.startsWith("altText.")) {
-					altText = loc.getMenuDefault(altText,
-							altText.replace("altText.", ""));
+					sb.append(loc.getMenuDefault(altText,
+							altText.replace("altText.", "")));
 				}
 
-				sb.append(altText);
 				sb.append(tpl.leftBracket());
 				break;
 			case LATEX:

@@ -4227,7 +4227,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-
 	protected void calcRWcoords() {
 		xRW = (mouseLoc.x - view.getXZero()) * view.getInvXscale();
 		yRW = (view.getYZero() - mouseLoc.y) * view.getInvYscale();

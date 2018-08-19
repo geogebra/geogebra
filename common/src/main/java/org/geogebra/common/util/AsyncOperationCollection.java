@@ -7,6 +7,7 @@ import java.util.List;
  * A collection of async operations.
  *
  * @param <T>
+ *            callback argument type
  */
 public class AsyncOperationCollection<T> implements AsyncOperation<T> {
 

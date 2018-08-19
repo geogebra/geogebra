@@ -3618,19 +3618,19 @@ public class ExpressionNode extends ValidExpression
 		return null;
 	}
 
-	private String toFractionStringFlat(StringTemplate tpl, Localization loc) {
+	private String toFractionStringFlat(StringTemplate tpl, Localization locale) {
 		if (operation == Operation.MULTIPLY && right instanceof MyDouble
 				&& MyDouble.exactEqual(right.evaluateDouble(), Math.PI)) {
 			return tpl.multiplyString(left, right,
 					kernel.format(Math.round(left.evaluateDouble()), tpl),
-					right.toValueString(tpl), true, loc);
+					right.toValueString(tpl), true, locale);
 		}
 		if (operation == Operation.DIVIDE) {
 			String leftS = left.isExpressionNode()
-					? left.wrap().toFractionStringFlat(tpl, loc)
+					? left.wrap().toFractionStringFlat(tpl, locale)
 					: left.toValueString(tpl);
 			return tpl.divideString(left, right, leftS,
-					right.toValueString(tpl), true, loc);
+					right.toValueString(tpl), true, locale);
 		}
 
 		return toValueString(tpl);

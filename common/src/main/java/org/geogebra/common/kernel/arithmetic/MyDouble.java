@@ -1326,7 +1326,4 @@ public class MyDouble extends ValidExpression
 		return true;
 	}
 
-	public Kernel getKernel() {
-		return kernel;
-	}
 }
