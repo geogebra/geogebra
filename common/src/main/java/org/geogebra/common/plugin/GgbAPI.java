@@ -2427,7 +2427,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			// could return number of breakpoints if needed
 			return Double.NaN;
 		}
-		return kernel.getLastConstructionStep();
+
+		// returns -1 for no objects
+		// return kernel.getLastConstructionStep();
+		// returns 0 for no objects
+		return kernel.getConstruction().steps();
 	}
 
 	/**
