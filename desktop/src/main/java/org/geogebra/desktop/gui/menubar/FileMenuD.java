@@ -632,7 +632,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					try {
 						app.setExport3D(new FormatSTL());
 					} catch (Exception ex) {
-						Log.debug("Export to STL not available");
+						ex.printStackTrace();
+						Log.debug("Problem exporting to STL");
 					}
 				}
 			};
