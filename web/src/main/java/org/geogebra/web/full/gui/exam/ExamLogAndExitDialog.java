@@ -199,15 +199,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		if (source == okBtn) {
 			hide();
 		} else if (source == exitBtn) {
-			if (appW.getGuiManager() instanceof GuiManagerW
-					&& ((GuiManagerW) appW.getGuiManager())
-							.getUnbundledToolbar() != null) {
-				((GuiManagerW) appW.getGuiManager()).getUnbundledToolbar()
-						.resetHeaderStyle();
-			}
-			appW.getLAF().toggleFullscreen(false);
-			hide();
-			returnHandler.callback("exit");
+			onCancel();
 		}
 	}
 
@@ -218,6 +210,19 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		if (anchor != null) {
 			anchor.addStyleName("selected");
 		}
+	}
+
+	@Override
+	public void onCancel() {
+		if (appW.getGuiManager() instanceof GuiManagerW
+				&& ((GuiManagerW) appW.getGuiManager())
+						.getUnbundledToolbar() != null) {
+			((GuiManagerW) appW.getGuiManager()).getUnbundledToolbar()
+					.resetHeaderStyle();
+		}
+		appW.getLAF().toggleFullscreen(false);
+		hide();
+		returnHandler.callback("exit");
 	}
 
 	/**

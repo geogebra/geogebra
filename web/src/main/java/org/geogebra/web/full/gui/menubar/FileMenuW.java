@@ -10,6 +10,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
@@ -222,10 +223,13 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
 				g2.drawString(name, PADDING, yOffset);
 				yOffset += LINE_HEIGHT;
-				g2.setColor(GColor.BLACK);
-				g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 16));
-				g2.drawString(value, PADDING, yOffset);
-				yOffset += LINE_HEIGHT;
+				// no empty line after "Activity"
+				if (!StringUtil.empty(value)) {
+					g2.setColor(GColor.BLACK);
+					g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 16));
+					g2.drawString(value, PADDING, yOffset);
+					yOffset += LINE_HEIGHT;
+				}
 			}
 
 		};

@@ -5,6 +5,9 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 
+/**
+ * Utility class for exam mode
+ */
 public class ExamUtil {
 
 	private AppW app;

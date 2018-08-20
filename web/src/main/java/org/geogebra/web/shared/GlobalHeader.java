@@ -12,12 +12,16 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * Singleton representing external header bar of unbundled apps.
+ */
 public class GlobalHeader implements EventRenderable {
 	/**
 	 * Singleton instance.
@@ -29,6 +33,8 @@ public class GlobalHeader implements EventRenderable {
 	private AppW app;
 	private Label timer;
 	private StandardButton examInfoBtn;
+
+	private String oldHref;
 
 	/**
 	 * Activate sign in button in external header
@@ -123,6 +129,7 @@ public class GlobalHeader implements EventRenderable {
 		getExamPanel().getElement().removeFromParent();
 		getButtonPanel().getElement().getStyle()
 				.setDisplay(Display.FLEX);
+		getHomeLink().setHref(oldHref);
 	}
 
 	/**
@@ -143,6 +150,8 @@ public class GlobalHeader implements EventRenderable {
 		DivElement exam = DOM.createDiv().cast();
 		exam.setId("examId");
 		getButtonPanel().getElement().getParentElement().appendChild(exam);
+		oldHref = getHomeLink().getHref();
+		getHomeLink().setHref("#");
 		RootPanel.get("examId").addStyleName("examPanel");
 		RootPanel.get("examId").add(timer);
 		RootPanel.get("examId").add(examInfoBtn);
@@ -163,6 +172,11 @@ public class GlobalHeader implements EventRenderable {
 				}
 			}
 		});
+	}
+
+	private static AnchorElement getHomeLink() {
+		return RootPanel.get("headerID").getElement().getElementsByTagName("a")
+				.getItem(0).cast();
 	}
 
 }
