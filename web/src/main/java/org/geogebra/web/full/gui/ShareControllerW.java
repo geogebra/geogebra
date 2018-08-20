@@ -59,7 +59,11 @@ public class ShareControllerW implements ShareController {
 				}
 			}
 		} else {
-			if (app.getActiveMaterial() != null
+			// share public or shared material but not logged in
+			if (!app.getLoginOperation().isLoggedIn()) {
+				// not saved, not logged in
+				loginForShare();
+			} else if (app.getActiveMaterial() != null
 					&& app.getLoginOperation().isLoggedIn()) {
 				autoSaveMaterial(shareCallback);
 			}
