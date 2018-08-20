@@ -12159,7 +12159,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
+	void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
 		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
 				maxX = Double.NEGATIVE_INFINITY,
 				maxY = Double.NEGATIVE_INFINITY;
