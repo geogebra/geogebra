@@ -214,9 +214,6 @@ public class SaveDialogMow extends DialogBoxW
 				consTitle = getTitleOnly(consTitle);
 			}
 			getInputField().getTextComponent().setText(consTitle);
-		} else {
-			getInputField().getTextComponent()
-					.setText(app.getLocalization().getMenu("Untitled"));
 		}
 	}
 
