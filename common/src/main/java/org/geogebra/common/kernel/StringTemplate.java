@@ -2135,11 +2135,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
 		case SCREEN_READER:
-			sb.append(ScreenReader.getStartFraction(loc));
-			sb.append(leftStr);
-			sb.append(ScreenReader.getMiddleFraction(loc));
-			sb.append(rightStr);
-			sb.append(ScreenReader.getEndFraction(loc));
+			ScreenReader.fraction(sb, leftStr, rightStr, loc);
 
 			break;
 		case CONTENT_MATHML:
@@ -2711,7 +2707,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String powerString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {
-		StringBuilder sb = new StringBuilder();
+
 
 		/*
 		 * support for sin^2(x) for display, too slow and hacky if
@@ -2729,22 +2725,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		 */
 
 		if (stringType.equals(StringType.CONTENT_MATHML)) {
+			StringBuilder sb = new StringBuilder();
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
+			return sb.toString();
 		} else if (stringType.equals(StringType.SCREEN_READER)) {
-			sb.append(leftStr);
-			sb.append(" ");
-			if ("2".equals(rightStr)) {
-				sb.append(ScreenReader.getSquared(loc));
-			} else if ("3".equals(rightStr)) {
-				sb.append(ScreenReader.getCubed(loc));
-			} else {
-				sb.append(ScreenReader.getStartPower(loc));
-				sb.append(rightStr);
-				sb.append(ScreenReader.getEndPower(loc));
-			}
+			return ScreenReader.power(leftStr, rightStr, loc);
 
 		} else {
-
+			StringBuilder sb = new StringBuilder();
 			// everything else
 
 			boolean finished = false;
@@ -2960,9 +2948,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 					appendWithBrackets(sb, rightStr);
 				}
 			}
+			return sb.toString();
 		}
-
-		return sb.toString();
 	}
 
 	/**

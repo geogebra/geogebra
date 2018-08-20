@@ -300,26 +300,31 @@ public class EditorState {
 		if (currentField.getParent() == null) {
 			if (prev == null) {
 				return ed
-						.localize("start of %0", ed.mathExpression(
-								GeoGebraSerializer.serialize(currentField)))
+						.localize("start of %0",
+								fullDescription(ed, currentField))
 						.trim();
 			}
 			if (next == null) {
 				return ed
-						.localize("end of %0", ed.mathExpression(
-								GeoGebraSerializer.serialize(currentField)))
+						.localize("end of %0",
+								fullDescription(ed, currentField))
 						.trim();
 			}
 		}
+		if (next == null && prev == null) {
+			return ed.localize("empty %0",
+					describeParent(currentField.getParent(), ed));
+		}
 		if (next == null) {
 			sb.append(ed.localize("end of %0",
-					describeParent(currentField.getParent())));
+					describeParent(currentField.getParent(), ed)));
 			sb.append(" ");
 		}
 		if (prev != null) {
 			sb.append(ed.localize("after %0", describePrev(prev, ed)));
 		} else {
-			sb.append(ed.localize("start of %0", describeParent(currentField.getParent())));
+			sb.append(ed.localize("start of %0",
+					describeParent(currentField.getParent(), ed)));
 		}
 		sb.append(" ");
 
@@ -332,9 +337,11 @@ public class EditorState {
 	private String describePrev(MathComponent parent, ExpressionReader er) {
 		if (parent instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) parent).getName()) {
-			return describe(
-					currentField.getArgument(currentField.indexOf(parent) - 1))
-					+ " squared";
+			return er.power(
+					GeoGebraSerializer.serialize(currentField
+							.getArgument(currentField.indexOf(parent) - 1)),
+					GeoGebraSerializer
+							.serialize(((MathFunction) parent).getArgument(0)));
 		}
 		if (parent instanceof MathCharacter) {
 			StringBuilder sb = new StringBuilder();
@@ -346,7 +353,7 @@ public class EditorState {
 				return er.mathExpression(sb.reverse().toString());
 			}
 		}
-		return describe(parent);
+		return describe(parent, er);
 	}
 
 	private String describeNext(MathComponent parent, ExpressionReader er) {
@@ -360,10 +367,10 @@ public class EditorState {
 				return er.mathExpression(sb.toString());
 			}
 		}
-		return describe(parent);
+		return describe(parent, er);
 	}
 
-	private static String describe(MathComponent prev) {
+	private static String describe(MathComponent prev, ExpressionReader er) {
 		if (prev instanceof MathFunction) {
 			switch (((MathFunction) prev).getName()) {
 			case FRAC:
@@ -376,16 +383,53 @@ public class EditorState {
 				return "function";
 			}
 		}
-		return GeoGebraSerializer.serialize(prev).replace("+", "plus");
+		return fullDescription(er, prev);
 	}
 
-	private String describeParent(MathContainer parent) {
+	private static String fullDescription(ExpressionReader er,
+			MathComponent prev) {
+		String ggb = GeoGebraSerializer.serialize(prev);
+		try {
+			return er.mathExpression(ggb);
+		} catch (Exception e) {
+			if (prev instanceof MathSequence) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < ((MathSequence) prev).size(); i++) {
+					sb.append(fullDescription(er,
+							((MathSequence) prev).getArgument(i)));
+					sb.append(" ");
+				}
+				return sb.toString();
+			}
+			if (prev instanceof MathFunction) {
+				switch (((MathFunction) prev).getName()) {
+				case FRAC:
+					return er.fraction(
+							fullDescription(er,
+									((MathFunction) prev).getArgument(0)),
+							fullDescription(er,
+									((MathFunction) prev).getArgument(1)));
+				case SQRT:
+					return er.squareRoot(fullDescription(er,
+							((MathFunction) prev).getArgument(0)));
+				case SUPERSCRIPT:
+					return er.power("", fullDescription(er,
+							((MathFunction) prev).getArgument(0)));
+				default:
+					break;
+				}
+			}
+			return ggb.replace("+", "plus");
+		}
+	}
+
+	private String describeParent(MathContainer parent, ExpressionReader er) {
 		if (parent instanceof MathFunction
 				&& Tag.FRAC == ((MathFunction) parent).getName()) {
 			return parent.indexOf(currentField) == 0 ? "numerator"
 					: "denominator";
 		}
-		return describe(parent);
+		return describe(parent, er);
 	}
 
 }

@@ -190,7 +190,7 @@ public class ScreenReader {
 	}
 
 	public static String getEndPower(Localization loc) {
-		return localize(loc, "endSuperscript", "end superscript");
+		return " " + localize(loc, "endSuperscript", "end superscript");
 	}
 
 	/**
@@ -199,6 +199,7 @@ public class ScreenReader {
 	 * @return expression to speech converter
 	 */
 	public static ExpressionReader getExpressionReader(final App app) {
+		final Localization loc = app.getLocalization();
 		return new ExpressionReader() {
 
 			@Override
@@ -219,6 +220,24 @@ public class ScreenReader {
 					Log.error(serialize);
 					throw new RuntimeException(e);
 				}
+			}
+
+			@Override
+			public String power(String base, String exponent) {
+				return ScreenReader.power(base, exponent, loc);
+			}
+
+			@Override
+			public String fraction(String numerator, String denominator) {
+				StringBuilder sb = new StringBuilder();
+				ScreenReader.fraction(sb, numerator, denominator, loc);
+				return sb.toString();
+			}
+
+			@Override
+			public String squareRoot(String arg) {
+
+				return ScreenReader.getStartSqrt(loc) + arg + ScreenReader.getEndSqrt(loc);
 			}
 		};
 	}
@@ -255,5 +274,40 @@ public class ScreenReader {
 
 	public static String getRightBracket() {
 		return " close parenthesis ";
+	}
+
+	/**
+	 * @param leftStr
+	 *            base
+	 * @param rightStr
+	 *            exponent
+	 * @param loc
+	 *            localization
+	 * @return "x squared", "x cubed" or
+	 *         "x start superscript a plus 1 end superscript"
+	 */
+	public static String power(String leftStr, String rightStr, Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(leftStr);
+		sb.append(" ");
+		if ("2".equals(rightStr)) {
+			sb.append(ScreenReader.getSquared(loc));
+		} else if ("3".equals(rightStr)) {
+			sb.append(ScreenReader.getCubed(loc));
+		} else {
+			sb.append(ScreenReader.getStartPower(loc));
+			sb.append(rightStr);
+			sb.append(ScreenReader.getEndPower(loc));
+		}
+		return sb.toString();
+	}
+
+	public static void fraction(StringBuilder sb, String leftStr, String rightStr,
+			Localization loc) {
+		sb.append(ScreenReader.getStartFraction(loc));
+		sb.append(leftStr);
+		sb.append(ScreenReader.getMiddleFraction(loc));
+		sb.append(rightStr);
+		sb.append(ScreenReader.getEndFraction(loc));
 	}
 }

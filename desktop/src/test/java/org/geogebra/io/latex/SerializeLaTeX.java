@@ -503,6 +503,49 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testReaderPower() {
+		checkReader("x^3+x^4+1",
+				"start of x cubed plus x start superscript 4 end superscript plus 1",
+				"after x before superscript", "start of superscript before 3",
+				"end of superscript after 3", "after x cubed before plus",
+				"after plus before x",
+				"after x before superscript", "start of superscript before 4",
+				"end of superscript after 4",
+				"after x start superscript 4 end superscript before plus",
+				"after plus before 1",
+				"end of x cubed plus x start superscript 4 end superscript plus 1");
+	}
+
+	@Test
+	public void testIncompletePower() {
+		checkReader("x^3+",
+				"start of x cubed plus",
+				"after x before superscript", "start of superscript before 3",
+				"end of superscript after 3", "after x cubed before plus",
+				"end of x cubed plus");
+	}
+
+	@Test
+	public void testIncompleteFraction() {
+		checkReader("x^3/()",
+				"start of start fraction x cubed over end fraction",
+				"start of numerator before x", "after x before superscript",
+				"start of superscript before 3", "end of superscript after 3",
+				"end of numerator after x cubed",
+				"empty denominator",
+				"end of start fraction x cubed over end fraction");
+	}
+
+	@Test
+	public void testIncompleteSqrt() {
+		checkReader("sqrt(x+)",
+				"start of start square root x plus end square root",
+				"start of square root before x", "after x before plus",
+				"end of square root after plus",
+				"end of start square root x plus end square root");
+	}
+
+	@Test
 	public void testReaderSqrt() {
 		checkReader("1+sqrt(x^2+2x+1/x+33)",
 				"start of 1 plus start square root x squared plus 2 times x plus start fraction 1 over x end fraction plus 33 end square root",
