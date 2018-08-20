@@ -1007,6 +1007,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switch (mode) {
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECT:
+		case EuclidianConstants.MODE_SELECT_MOW:
 		case EuclidianConstants.MODE_TEXT:
 		case EuclidianConstants.MODE_DELETE:
 		case EuclidianConstants.MODE_RELATION:
@@ -6394,6 +6395,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
+		case EuclidianConstants.MODE_SELECT_MOW:
 			// handle selection click
 			setViewHits(type);
 			handleSelectClick(view.getHits().getTopHits(),
@@ -8085,6 +8087,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						lastSelectionPressResult = SelectionToolPressResult.ADD;
 						selection.addSelectedGeo(geo, true, true);
 					}
+				} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
+					if (geo == null) {
+						lastSelectionPressResult = SelectionToolPressResult.EMPTY;
+					} else {
+						selection.clearSelectedGeos(geo == null, false);
+						selection.updateSelection(false);
+						selection.addSelectedGeo(geo, true, true);
+					}
 				} else if (mode == EuclidianConstants.MODE_MOVE
 						&& isSpecialPreviewPointFound(topHits)) {
 					previewPointHits = getPreviewSpecialPointHits(topHits);
@@ -8974,6 +8984,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// move an object
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECT:
+		case EuclidianConstants.MODE_SELECT_MOW:
 			handleMousePressedForMoveMode(e, false);
 			break;
 
@@ -9964,6 +9975,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					selection.clearSelectedGeos(true, true);
 					break;
 				case ADD:
+				case DEFAULT:
+				default:
+					// nothing to do
+					break;
+				}
+			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
+				switch (lastSelectionPressResult) {
+				case EMPTY:
+					clearSelections();
+					break;
 				case DEFAULT:
 				default:
 					// nothing to do
