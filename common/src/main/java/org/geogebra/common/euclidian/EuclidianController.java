@@ -510,6 +510,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
+	private boolean isMultiSelection() {
+		return mode == EuclidianConstants.MODE_SELECT_MOW
+				&& selection.getSelectedGeos().size() > 1;
+	}
+
 	private static boolean modeCreatesHelperPoints(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_SEGMENT:
@@ -7834,6 +7839,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default: // do nothing
 		}
 
+		if (isMultiSelection()) {
+			setBoundingBoxFromList(selection.getSelectedGeos());
+		}
+
 		kernel.notifyRepaint();
 	}
 
@@ -9610,7 +9619,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							view.setBoundingBox(boundingBox);
 							view.repaintView();
 						} else {
-							setBoundingBoxFromHits(hits);
+							setBoundingBoxFromList(hits);
 						}
 					}
 				}
@@ -12150,7 +12159,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void setBoundingBoxFromHits(ArrayList<GeoElement> geos) {
+	private void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
 		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
 				maxX = Double.NEGATIVE_INFINITY,
 				maxY = Double.NEGATIVE_INFINITY;
