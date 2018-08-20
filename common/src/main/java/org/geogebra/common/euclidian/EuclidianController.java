@@ -5229,6 +5229,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switch (mode) {
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECT:
+		case EuclidianConstants.MODE_SELECT_MOW:
 			// highlight and select hits
 			if (selectionPreview) {
 				getSelectables(hits.getTopHits(), selectionPreview);
@@ -6331,6 +6332,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECT:
+		case EuclidianConstants.MODE_SELECT_MOW:
 			hits.removePolygonsIfSidePresent();
 			break;
 		default:
@@ -7962,6 +7964,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return moveMode == MOVE_NONE && isAltDown();
 
 		case EuclidianConstants.MODE_SELECT:
+		case EuclidianConstants.MODE_SELECT_MOW:
 			return true;
 
 		// move rotate objects
@@ -8091,9 +8094,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					if (geo == null) {
 						lastSelectionPressResult = SelectionToolPressResult.EMPTY;
 					} else {
-						selection.clearSelectedGeos(geo == null, false);
-						selection.updateSelection(false);
-						selection.addSelectedGeo(geo, true, true);
+						if (view.getSelectionRectangle() == null) {
+							selection.clearSelectedGeos(geo == null, false);
+							selection.updateSelection(false);
+							selection.addSelectedGeo(geo, true, true);
+						}
 					}
 				} else if (mode == EuclidianConstants.MODE_MOVE
 						&& isSpecialPreviewPointFound(topHits)) {
@@ -8109,10 +8114,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (geo != null && view.getDrawableFor(geo) != null) {
-			Drawable dr = ((Drawable) view.getDrawableFor(geo));
-			BoundingBox boundingBox = dr.getBoundingBox();
-			view.setBoundingBox(boundingBox);
-			view.repaintView();
+
+			// TODO: revert this when united bounding box is done
+			if (mode == EuclidianConstants.MODE_SELECT_MOW
+					&& selection.getSelectedGeos().size() != 1) {
+				// do nothing
+			} else {
+				Drawable dr = ((Drawable) view.getDrawableFor(geo));
+				BoundingBox boundingBox = dr.getBoundingBox();
+				view.setBoundingBox(boundingBox);
+				view.repaintView();
+			}
 		}
 
 		Hits th = viewHits.getTopHits();
@@ -8497,6 +8509,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (app.isSelectionRectangleAllowed()
 					&& ((app.isRightClick(event)
 							|| app.getMode() == EuclidianConstants.MODE_SELECT)
+							|| app.getMode() == EuclidianConstants.MODE_SELECT_MOW
 							|| (allowSelectionRectangle() && !shapeDragged))
 					&& !temporaryMode) {
 				// Michael Borcherds 2007-10-07
@@ -9460,7 +9473,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			boolean shift) {
 		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-			if (mode != EuclidianConstants.MODE_SELECT) {
+			if (mode != EuclidianConstants.MODE_SELECT
+					&& mode != EuclidianConstants.MODE_SELECT_MOW) {
 				clearSelections();
 			}
 		} else {
@@ -9579,6 +9593,27 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& mode == EuclidianConstants.MODE_SELECT) {
 				if (hits != null) {
 					selection.addSelectedGeos(hits, true);
+				}
+			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
+				// check if it was a selection with the rectangle or just a drag
+				if (view.getSelectionRectangle() != null) {
+					view.setSelectionRectangle(null);
+
+					if (hits != null) {
+						selection.setSelectedGeos(hits, true);
+
+						if (hits.size() == 1) {
+							Drawable dr = ((Drawable) view
+									.getDrawableFor(hits.get(0)));
+							BoundingBox boundingBox = dr.getBoundingBox();
+
+							view.setBoundingBox(boundingBox);
+							view.repaintView();
+						} else {
+							// TODO: united boundingbox
+							view.setBoundingBox(null);
+						}
+					}
 				}
 			} else {
 				setAppSelectedGeos(hits, false);
@@ -10235,6 +10270,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean shouldClearSelectionAfterMove(boolean rightClick) {
 		boolean shouldClear = !EuclidianView.usesSelectionRectangleAsInput(mode) && !rightClick
 				&& mode != EuclidianConstants.MODE_SELECT
+				&& mode != EuclidianConstants.MODE_SELECT_MOW
 				&& !wasBoundingBoxDrag();
 		shouldClear &= shouldClearSelectionForMove();
 		return shouldClear;
