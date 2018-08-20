@@ -13,8 +13,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class PlotterBrushElements extends PlotterBrush {
 
-	private static int SECTION_SIZE_NOT_STARTED = -2;
-	private static int SECTION_SIZE_MAY_START = -1;
+	private static int SECTION_SIZE_NOT_STARTED = -1;
 	private static int SECTION_SIZE_STARTED = 0;
 	private int sectionSize = SECTION_SIZE_NOT_STARTED;
 
@@ -113,10 +112,6 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void join() {
-		// start curve
-		if (sectionSize == SECTION_SIZE_MAY_START) {
-			startCurve();
-		}
 		// draw curve part
 		for (int i = 0; i < LATITUDES; i++) {
 			draw(start, SINUS[i], COSINUS[i], 0); // bottom of the tube rule
@@ -133,9 +128,7 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
-		// needs to specify sectionSize < 0 before moveTo() to avoid endCurve()
 		moveTo(pos);
-		sectionSize = SECTION_SIZE_MAY_START;
 	}
 
 	@Override
@@ -145,6 +138,9 @@ public class PlotterBrushElements extends PlotterBrush {
 		if (sectionSize >= SECTION_SIZE_STARTED) {
 			endCurve();
 		}
+
+		// start new curve
+		startCurve();
 
 		super.moveTo(pos);
 	}
@@ -156,18 +152,15 @@ public class PlotterBrushElements extends PlotterBrush {
 			endCurve();
 		}
 
+		// start new curve
+		startCurve();
+
 		drawTo(x, y, z, false);
 	}
 
 	@Override
 	public void endPlot() {
 		endCurve();
-	}
-
-	@Override
-	public void start(int old) {
-		sectionSize = SECTION_SIZE_MAY_START;
-		super.start(old);
 	}
 
 	@Override
@@ -201,12 +194,6 @@ public class PlotterBrushElements extends PlotterBrush {
 	protected void drawArrowBaseOuter(Coords arrowBase) {
 		moveTo(arrowBase, TickStep.START);
 		moveTo(arrowBase, TickStep.OUT);
-	}
-
-	@Override
-	public void down(Coords point) {
-		super.down(point);
-		sectionSize = SECTION_SIZE_MAY_START;
 	}
 
 }
