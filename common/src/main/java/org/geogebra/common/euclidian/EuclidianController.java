@@ -9610,8 +9610,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							view.setBoundingBox(boundingBox);
 							view.repaintView();
 						} else {
-							// TODO: united boundingbox
-							view.setBoundingBox(null);
+							setBoundingBoxFromHits(hits);
 						}
 					}
 				}
@@ -12149,6 +12148,37 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (cursor != null) {
 			view.setCursor(cursor);
 		}
+	}
+
+	private void setBoundingBoxFromHits(ArrayList<GeoElement> geos) {
+		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
+				maxX = Double.NEGATIVE_INFINITY,
+				maxY = Double.NEGATIVE_INFINITY;
+
+		for (int i = 0; i < geos.size(); i++) {
+			Drawable dr = ((Drawable) view.getDrawableFor(geos.get(i)));
+			GRectangle bounds = dr.getBounds();
+
+			double x = bounds.getX(), y = bounds.getY();
+			double w = bounds.getWidth(), h = bounds.getHeight();
+
+			if (x < minX)
+				minX = x;
+			if ((x + w) > maxX)
+				maxX = x + w;
+			if (y < minY)
+				minY = y;
+			if ((y + h) > maxY)
+				maxY = y + h;
+		}
+
+		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
+				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
+
+		BoundingBox boundingBox = new BoundingBox(false);
+		boundingBox.setRectangle(rect);
+
+		view.setBoundingBox(boundingBox);
 	}
 
 	/**
