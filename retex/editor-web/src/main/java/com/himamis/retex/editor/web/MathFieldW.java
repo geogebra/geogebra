@@ -32,7 +32,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -47,7 +46,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -118,7 +116,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	private ExpressionReader expressionReader;
 
-	private Element dummy;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -207,23 +204,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
-		if (mobileBrowser()
-				&& !"".equals(label)) {
+		if (mobileBrowser() && !"".equals(label)) {
+			// mobile Safari: alttext is connected to parent so that screen
+			// reader doesn't read "dimmed" for the textarea
 			FactoryProvider.getInstance().debug(label);
-			if (dummy == null) {
-				dummy = DOM.createDiv();
-				dummy.setTabIndex(-1);
-				// dummy.setAttribute("role", "status");
-				// dummy.setAttribute("aria-live", "polite");
-				dummy.setAttribute("aria-atomic", "true");
-				dummy.setAttribute("aria-relevant", "text");
-				dummy.getStyle().setTop(-1000.0, Unit.PX);
-				dummy.getStyle().setPosition(Position.ABSOLUTE);
+			if (!"textbox".equals(parent.getElement().getAttribute("role"))) {
+				parent.getElement().setAttribute("aria-live", "assertive");
+				parent.getElement().setAttribute("aria-atomic", "true");
+				parent.getElement().setAttribute("role", "textbox");
 			}
-			parent.getElement().appendChild(dummy);
 
-			dummy.setInnerText(label);
-			dummy.focus();
+			parent.getElement().setAttribute("aria-label", label);
 			return;
 		}
 		if (wrap != null) {
