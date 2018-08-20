@@ -322,7 +322,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		editTemplate.allowMoreDigits = true;
 		editTemplate.hideLHS = true;
 		editTemplate.changeArcTrig = false;
-
 		editorTemplate.allowMoreDigits = editTemplate.allowMoreDigits;
 		editorTemplate.hideLHS = editTemplate.hideLHS;
 	}
@@ -1810,7 +1809,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
-			if (!isPrintLocalizedCommandNames()
+			if (useExtensiveBrackets()
 					|| (left.evaluatesToList() && isNDvector(right))) {
 				sb.append(leftBracket());
 			}
@@ -1959,7 +1958,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
-			if (!isPrintLocalizedCommandNames()
+			if (useExtensiveBrackets()
 					|| (left.evaluatesToList() && isNDvector(right))) {
 				sb.append(rightBracket());
 			}
@@ -2026,6 +2025,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * To be safe add more brackets for XML, giac, PSTRICKS, ... but not to
+	 * human readable formats (localized or GGB syntax in scientific calculator)
+	 * 
+	 * @return whether to add extra brackets around multiplication
+	 */
+	private boolean useExtensiveBrackets() {
+		return !localizeCmds && stringType != StringType.GEOGEBRA;
 	}
 
 	protected String expToString(ExpressionValue v, boolean valueMode) {
