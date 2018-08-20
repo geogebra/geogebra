@@ -611,7 +611,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		projectionMatrix.set(1, 4, 0);
 		projectionMatrix.set(2, 4, 0);
 		projectionMatrix.set(3, 4, 0);
-
 	}
 
 	@Override
@@ -724,7 +723,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 		glUniform3fv(clipPlanesMinLocation, clipPlanesMin);
 		glUniform3fv(clipPlanesMaxLocation, clipPlanesMax);
-
 	}
 
 	@Override
@@ -776,7 +774,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 		disableShineNoCheck();
 	}
-
 
 	/**
 	 * disable lighting without checking if light is used

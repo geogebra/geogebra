@@ -263,7 +263,7 @@ public class ScreenReader {
 				sb.append(ariaPreview);
 			}
 		} catch (Exception e) {
-			// do nothing
+			return ""; // fallback to MathField serialization handled elsewhere
 		}
 		return sb.toString();
 	}

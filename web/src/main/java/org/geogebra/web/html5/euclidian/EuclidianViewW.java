@@ -294,8 +294,7 @@ public class EuclidianViewW extends EuclidianView implements
 		this.updateBackgroundIfNecessary();
 
 		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
-			GGraphics2DW g2 = (GGraphics2DW) g2p;
-			g2.clearAll();
+			g2p.clearAll();
 		}
 		paint(g2p, g2bg);
 
