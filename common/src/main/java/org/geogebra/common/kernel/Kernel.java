@@ -865,6 +865,28 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	}
 
+	/**
+	 * 
+	 * @return number of breakpoints
+	 */
+	public int getBreakpointSteps() {
+
+		int count = 0;
+		int step = 0;
+		int lastStep = getLastConstructionStep();
+
+		while (step <= lastStep) {
+			if (cons.getConstructionElement(step).isConsProtocolBreakpoint()) {
+				count++;
+			}
+
+			step++;
+		}
+
+		return count;
+
+	}
+
 	private int getNextBreakpoint(int initStep) {
 		int step = initStep;
 		int lastStep = getLastConstructionStep();

@@ -2420,12 +2420,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public double getConstructionSteps(boolean breakpoints) {
 		if (breakpoints) {
-			if (app.getGuiManager() != null) {
-			return app.getGuiManager().getConstructionProtocolView()
-					.getLastStepNumber();
-			}
-			// could return number of breakpoints if needed
-			return Double.NaN;
+			return kernel.getBreakpointSteps();
 		}
 
 		// returns -1 for no objects
