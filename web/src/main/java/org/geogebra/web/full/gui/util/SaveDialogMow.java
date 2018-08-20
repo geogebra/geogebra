@@ -174,10 +174,10 @@ public class SaveDialogMow extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == cancelBtn) {
 			hide();
+			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
 			app.getSaveController().saveAs(getInputField().getText(),
 					MaterialVisibility.Private, this);
-			// hide();
 		}
 	}
 
