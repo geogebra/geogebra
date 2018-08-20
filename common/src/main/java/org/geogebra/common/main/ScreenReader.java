@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.kernel.parser.GParser;
 
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 
@@ -200,6 +200,8 @@ public class ScreenReader {
 	 */
 	public static ExpressionReader getExpressionReader(final App app) {
 		final Localization loc = app.getLocalization();
+		final GParser parser = new GParser(app.getKernel(), app.getKernel().getConstruction());
+		parser.setSilent(true);
 		return new ExpressionReader() {
 
 			@Override
@@ -214,10 +216,9 @@ public class ScreenReader {
 			@Override
 			public String mathExpression(String serialize) {
 				try {
-					return app.getKernel().getParser().parseGeoGebraCAS(serialize, null)
+					return parser.parseGeoGebraCAS(serialize, null)
 							.toString(StringTemplate.screenReader);
-				} catch (org.geogebra.common.kernel.parser.ParseException e) {
-					Log.error(serialize);
+				} catch (org.geogebra.common.kernel.parser.ParseException | Error e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -262,7 +263,6 @@ public class ScreenReader {
 				sb.append(ariaPreview);
 			}
 		} catch (Exception e) {
-			return exp;
 			// do nothing
 		}
 		return sb.toString();

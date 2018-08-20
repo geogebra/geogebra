@@ -8,6 +8,8 @@ import org.geogebra.common.util.debug.Log;
  * Faster exceptions
  */
 public class GParser extends Parser {
+	private boolean silent;
+
 	/**
 	 * 
 	 * @param kernel
@@ -21,16 +23,26 @@ public class GParser extends Parser {
 
 	@Override
 	public ParseException generateParseException() {
-		if (jj_nt != null && jj_nt.image != null) {
-			Log.error("Unexpected next token: " + jj_nt.image);
-		} else if (token.image != null) {
-			Log.error("Unexpected token: " + token.image);
-		} else {
-			Log.error("Generic parse error");
+		if (!silent) {
+			if (jj_nt != null && jj_nt.image != null) {
+				Log.error("Unexpected next token: " + jj_nt.image);
+			} else if (token.image != null) {
+				Log.error("Unexpected token: " + token.image);
+			} else {
+				Log.error("Generic parse error");
+			}
 		}
 		return new ParseException(getKernel().getLocalization()
 				.getErrorDefault("InvalidInput", "Please check your input"));
 
+	}
+
+	/**
+	 * @param silent
+	 *            whether to suppress console errors
+	 */
+	public void setSilent(boolean silent) {
+		this.silent = silent;
 	}
 
 }

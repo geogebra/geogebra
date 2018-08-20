@@ -73,6 +73,7 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
@@ -1100,6 +1101,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public String getText() {
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
+	}
+
+	/**
+	 * @param er
+	 *            expression reader
+	 * @return description for screen reader
+	 */
+	public String getDescription(ExpressionReader er) {
+		mathFieldInternal.getEditorState();
+		return ScreenReaderSerializer.fullDescription(er,
+				mathFieldInternal.getEditorState().getRootComponent());
 	}
 
 }

@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 
 public class EditorState {
 
@@ -301,13 +302,15 @@ public class EditorState {
 			if (prev == null) {
 				return ed
 						.localize("start of %0",
-								fullDescription(ed, currentField))
+								ScreenReaderSerializer.fullDescription(ed,
+										currentField))
 						.trim();
 			}
 			if (next == null) {
 				return ed
 						.localize("end of %0",
-								fullDescription(ed, currentField))
+								ScreenReaderSerializer.fullDescription(ed,
+										currentField))
 						.trim();
 			}
 		}
@@ -383,44 +386,7 @@ public class EditorState {
 				return "function";
 			}
 		}
-		return fullDescription(er, prev);
-	}
-
-	private static String fullDescription(ExpressionReader er,
-			MathComponent prev) {
-		String ggb = GeoGebraSerializer.serialize(prev);
-		try {
-			return er.mathExpression(ggb);
-		} catch (Exception e) {
-			if (prev instanceof MathSequence) {
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < ((MathSequence) prev).size(); i++) {
-					sb.append(fullDescription(er,
-							((MathSequence) prev).getArgument(i)));
-					sb.append(" ");
-				}
-				return sb.toString();
-			}
-			if (prev instanceof MathFunction) {
-				switch (((MathFunction) prev).getName()) {
-				case FRAC:
-					return er.fraction(
-							fullDescription(er,
-									((MathFunction) prev).getArgument(0)),
-							fullDescription(er,
-									((MathFunction) prev).getArgument(1)));
-				case SQRT:
-					return er.squareRoot(fullDescription(er,
-							((MathFunction) prev).getArgument(0)));
-				case SUPERSCRIPT:
-					return er.power("", fullDescription(er,
-							((MathFunction) prev).getArgument(0)));
-				default:
-					break;
-				}
-			}
-			return ggb.replace("+", "plus");
-		}
+		return ScreenReaderSerializer.fullDescription(er, prev);
 	}
 
 	private String describeParent(MathContainer parent, ExpressionReader er) {
