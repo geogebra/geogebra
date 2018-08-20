@@ -46,6 +46,9 @@ public final class WindowReference implements EventRenderable {
 		
 	}
 	
+	/**
+	 * Close the window.
+	 */
 	public native void close() /*-{
 		var wnd = this.@org.geogebra.web.shared.WindowReference::wnd;
 		if ($wnd.debug) {
@@ -72,8 +75,8 @@ public final class WindowReference implements EventRenderable {
 					app.getLocalization().getMenu("GeoGebraMaterials"),
 					lOW.getLoginURL(app.getLocalization().getLanguage()),
 					callback, 900, 500);
-					lOW.getView().add(instance);
-					instance.initClosedCheck();
+			lOW.getView().add(instance);
+			instance.initClosedCheck();
 			}
 		
 		return instance;
@@ -144,7 +147,7 @@ public final class WindowReference implements EventRenderable {
 		int left = (Window.getClientWidth() / 2) - (width / 2);
 		int top = (Window.getClientHeight() / 2) - (height / 2);
 		String settings = "resizable," + "toolbar=no," + "location=no,"
-				+ "scrollbars=no, " + "statusbar=no, " + "titlebar=no, "
+				+ "statusbar=no, " + "titlebar=no, "
 				+ "width=" + width + "," + "height=" + height + "," + "left="
 				+ left + ", " + "top=" + top;
 		String url = BASEURL.getOpenerUrl() + "?redirect=" + redirect
