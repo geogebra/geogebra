@@ -106,6 +106,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	// // buttons and lists of buttons
 	private ColorPopupMenuButton btnBgColor;
+	private ColorPopupMenuButton btnTextBgColor;
 	private ColorPopupMenuButton btnTextColor;
 	private PopupMenuButtonW btnTextSize;
 	private PopupMenuButtonW btnLabelStyle;
@@ -505,6 +506,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// add color and style buttons
 		add(btnColor);
 		add(btnBgColor);
+		add(btnTextBgColor);
 		add(btnTextColor);
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && btnFilling != null) {
 			add(btnFilling);
@@ -573,7 +575,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 			addDeleteButton();
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos() && isContextMenuNeeded()) {
+		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()
+				&& isContextMenuNeeded()) {
 			addContextMenuButton();
 		}
 	}
@@ -749,10 +752,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * the default stylebar yet.
 	 */
 	boolean showAllStyleButtons() {
-		return !app.has(Feature.DYNAMIC_STYLEBAR)
-				|| (!isDynamicStylebar()
-						&& !(this
-								.getView() instanceof EuclidianView3DInterface))
+		return !app.has(Feature.DYNAMIC_STYLEBAR) || (!isDynamicStylebar()
+				&& !(this.getView() instanceof EuclidianView3DInterface))
 				|| !app.isUnbundledOrWhiteboard();
 	}
 
@@ -835,14 +836,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 														// flag is true
 			return new PopupMenuButtonW[] { btnAxesStyle,
 					getAxesOrGridPopupMenuButton(), btnColor, btnBgColor,
-					btnTextColor, btnFilling, btnLineStyle, btnPointStyle,
-					btnTextSize, btnAngleInterval, btnLabelStyle,
+					btnTextColor, btnTextBgColor, btnFilling, btnLineStyle,
+					btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
 					btnPointCapture, btnChangeView };
 		}
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
-				btnColor, btnBgColor, btnTextColor, btnFilling, btnLineStyle,
-				btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
-				btnPointCapture, btnChangeView };
+				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
+				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval,
+				btnLabelStyle, btnPointCapture, btnChangeView };
 	}
 
 	// =====================================================
@@ -868,6 +869,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 		createBgColorBtn();
 		createTextColorBtn();
+		createTextBgColorBtn();
 		createTextBoldBtn();
 		createTextItalicBtn();
 		createFixPositionBtn();
@@ -1132,9 +1134,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
-						if (geo instanceof GeoText
-								|| geo instanceof GeoButton || geo.isGeoAudio()
-								|| geo.isGeoVideo()
+						if (geo instanceof GeoText || geo instanceof GeoButton
+								|| geo.isGeoAudio() || geo.isGeoVideo()
 								|| geo instanceof GeoEmbed) {
 							geosOK = false;
 							break;
@@ -1311,9 +1312,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 				for (int i = 0; i < geos.length; i++) {
 					GeoElement geo = ((GeoElement) geos[i])
 							.getGeoElementForPropertiesDialog();
-					if (!(geo instanceof GeoText)
-							&& !(geo instanceof GeoButton || geo.isGeoAudio()
-									|| geo.isGeoVideo())) {
+					if (!(geo instanceof GeoText) && !(geo instanceof GeoButton
+							|| geo.isGeoAudio() || geo.isGeoVideo())) {
 						geosOK = false;
 						break;
 					}
@@ -1364,6 +1364,48 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
+			private GColor geoTextColor;
+
+			@Override
+			public void update(Object[] geos) {
+				GeoElement geo0 = (GeoElement) geos[0];
+				boolean geosOK = checkGeoText(geos) && !(geo0.isGeoInputBox()
+						|| geo0.isGeoAudio() || geo0.isGeoVideo());
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					geoTextColor = geo.getObjectColor();
+					updateColorTable();
+
+					// find the geoColor in the table and select it
+					int index = this.getColorIndex(geoTextColor);
+					setSelectedIndex(index);
+
+					// if nothing was selected, set the icon to show the
+					// non-standard color
+					if (index == -1) {
+						this.setIcon(getButtonIcon());
+					}
+				}
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.text_color(), 24);
+			}
+		};
+		btnTextColor.setEnableTable(true);
+		btnTextColor.addStyleName("btnTextColor");
+		btnTextColor.addPopupHandler(this);
+	}
+
+	private void createTextBgColorBtn() {
+		btnTextBgColor = new ColorPopupMenuButton(app,
+				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+
 			private GColor geoColor;
 
 			@Override
@@ -1397,9 +1439,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 						getSelectedColor(), null);
 			}
 		};
-		btnTextColor.setEnableTable(true);
-		btnTextColor.addStyleName("btnTextColor");
-		btnTextColor.addPopupHandler(this);
+		btnTextBgColor.setEnableTable(true);
+		btnTextBgColor.addStyleName("btnTextColor");
+		btnTextBgColor.addPopupHandler(this);
 	}
 
 	private void createTextBoldBtn() {
@@ -1700,9 +1742,23 @@ public class EuclidianStyleBarW extends StyleBarW2
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
 						color, alpha);
 			}
-		} else if (source == btnTextColor) {
+		} else if (source == btnTextColor) { 
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
+				if (color == null) {
+					if (app.isWhiteboardActive()) {
+						openColorDialog(targetGeos, false);
+					} else {
+						openPropertiesForColor(false);
+					}
+					return false;
+				}
+				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
+						color);
+			}
+		} else if (source == btnTextBgColor) {
+			if (btnTextBgColor.getSelectedIndex() >= 0) {
+				GColor color = btnTextBgColor.getSelectedColor();
 				if (color == null) {
 					if (app.isWhiteboardActive()) {
 						openColorDialog(targetGeos, false);
@@ -1741,8 +1797,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			needUndo = EuclidianStyleBarStatic.applyFixObject(targetGeos,
 					btnFixObject.isSelected(), ev) != null;
 			btnFixObject.update(targetGeos.toArray());
-		}
-		else if (!processSourceForAxesAndGrid(source)) {
+		} else if (!processSourceForAxesAndGrid(source)) {
 			for (int i = 0; i < 3; i++) {
 				if (source == btnDeleteSizes[i]) {
 					setDelSize(i);
@@ -1999,7 +2054,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnLineStyle, "stylebar.LineStyle");
 		setToolTipText(btnPointStyle, "stylebar.PointStyle");
 		setToolTipText(btnFilling, "stylebar.Filling");
-		setToolTipText(btnTextColor, "stylebar.TextColor");
+		setToolTipText(btnTextBgColor, "stylebar.TextColor");
 		setToolTipText(btnTextSize, "stylebar.TextSize");
 		setToolTipText(btnBold, "stylebar.Bold");
 		setToolTipText(btnItalic, "stylebar.Italic");
