@@ -755,40 +755,68 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void enableLighting() {
 		if (view3D.getUseLight()) {
-			glUniform1i(enableLightLocation, 1);
+			enableLightingNoCheck();
 		}
+	}
+
+	/**
+	 * enable lighting without checking if light is used
+	 */
+	protected void enableLightingNoCheck() {
+		glUniform1i(enableLightLocation, 1);
 	}
 
 	@Override
 	public void initLighting() {
 		if (view3D.getUseLight()) {
-			glUniform1i(enableLightLocation, 1);
+			enableLightingNoCheck();
 		} else {
-			glUniform1i(enableLightLocation, 0);
+			disableLightingNoCheck();
 		}
 
-		glUniform1i(enableShineLocation, 0);
+		disableShineNoCheck();
+	}
 
+
+	/**
+	 * disable lighting without checking if light is used
+	 */
+	protected void disableLightingNoCheck() {
+		glUniform1i(enableLightLocation, 0);
 	}
 
 	@Override
 	public void disableLighting() {
 		if (view3D.getUseLight()) {
-			glUniform1i(enableLightLocation, 0);
+			disableLightingNoCheck();
 		}
+	}
+
+	/**
+	 * disable shining without checking if light is used
+	 */
+	protected void disableShineNoCheck() {
+		glUniform1i(enableShineLocation, 0);
+	}
+
+	/**
+	 * enable shining without checking if light is used
+	 */
+	protected void enableShineNoCheck() {
+		glUniform1i(enableShineLocation, 1);
 	}
 
 	@Override
 	public void disableShine() {
 		if (view3D.getUseLight()) {
-			glUniform1i(enableShineLocation, 0);
+			disableShineNoCheck();
 		}
 	}
 
 	@Override
 	public void enableShine() {
 		if (view3D.getUseLight()) {
-			glUniform1i(enableShineLocation, 1);
+			enableShineNoCheck();
 		}
 	}
 
