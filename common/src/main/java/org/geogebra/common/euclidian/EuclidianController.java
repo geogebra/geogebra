@@ -510,7 +510,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
-	private boolean isMultiSelection() {
+	public boolean isMultiSelection() {
 		return mode == EuclidianConstants.MODE_SELECT_MOW
 				&& selection.getSelectedGeos().size() > 1;
 	}
@@ -7839,10 +7839,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default: // do nothing
 		}
 
-		if (isMultiSelection()) {
-			setBoundingBoxFromList(selection.getSelectedGeos());
-		}
-
 		kernel.notifyRepaint();
 	}
 
@@ -8123,17 +8119,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (geo != null && view.getDrawableFor(geo) != null) {
-
-			// TODO: revert this when united bounding box is done
-			if (mode == EuclidianConstants.MODE_SELECT_MOW
-					&& selection.getSelectedGeos().size() != 1) {
-				// do nothing
-			} else {
-				Drawable dr = ((Drawable) view.getDrawableFor(geo));
-				BoundingBox boundingBox = dr.getBoundingBox();
-				view.setBoundingBox(boundingBox);
-				view.repaintView();
-			}
+			Drawable dr = ((Drawable) view.getDrawableFor(geo));
+			BoundingBox boundingBox = dr.getBoundingBox();
+			view.setBoundingBox(boundingBox);
+			view.repaintView();
 		}
 
 		Hits th = viewHits.getTopHits();
@@ -12159,7 +12148,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
+	public void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
 		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
 				maxX = Double.NEGATIVE_INFINITY,
 				maxY = Double.NEGATIVE_INFINITY;

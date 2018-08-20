@@ -3655,8 +3655,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
 			drawLayers[layer].drawAll(g2);
-			this.getEuclidianController()
-					.setBoundingBoxFromList(app.getSelectionManager().getSelectedGeos());
+
+			if (this.getEuclidianController().isMultiSelection()) {
+				this.getEuclidianController().setBoundingBoxFromList(
+						app.getSelectionManager().getSelectedGeos());
+			}
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
 		}
