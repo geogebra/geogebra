@@ -231,9 +231,8 @@ public abstract class Renderer implements RendererInterface {
 		if (!view3D.getCompanion().isStereoBuffered()) {
 			clearColorBuffer();
 		}
-
-		// init lighting
 		initLighting();
+		disableOpaqueSurfaces();
 	}
 
 	/**
