@@ -463,6 +463,7 @@
     				background-color: $mow_material_card_bgd;
     				box-shadow: 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12, 0 1px 3px 0 $black-2;
     				transition: box-shadow .25s;
+    				cursor: pointer;
     				
     				&:hover {
     					box-shadow: 0 8px 10px 1px $black-14, 0 3px 14px 2px $black-12, 0 5px 5px -3px $black-2;
