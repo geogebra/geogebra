@@ -1604,6 +1604,7 @@ __GGB__keysVar["nn"].menu = {
     "Descending": "Minkande",
     "Description": "Forklaring",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebrafelt rad %0 viser %1",
     "Description.Done": "Avslutt produktturen",
     "Description.FocusedInputContainsA": "Fokusert inntasting: %0",

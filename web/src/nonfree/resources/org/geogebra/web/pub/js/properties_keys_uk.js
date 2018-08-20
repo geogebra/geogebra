@@ -1604,6 +1604,7 @@ __GGB__keysVar["uk"].menu = {
     "Descending": "\u0421\u043f\u0430\u0434\u043d\u0438\u0439",
     "Description": "\u041e\u043f\u0438\u0441",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "\u0420\u044f\u0434\u043e\u043a \u0410\u043b\u0433\u0435\u0431\u0440\u0430 %0 \u043f\u043e\u043a\u0430\u0437\u0443\u0454 %1",
     "Description.Done": "Close product tour",
     "Description.FocusedInputContainsA": "Focused input contains: %0",

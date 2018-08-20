@@ -1604,6 +1604,7 @@ __GGB__keysVar["tr"].menu = {
     "Descending": "Azalan",
     "Description": "A\xe7\u0131klama",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebra View row %0 shows %1",
     "Description.Done": "\xdcr\xfcn tutunu kapat",
     "Description.FocusedInputContainsA": "Odaklan\u0131lan girdi: %0",

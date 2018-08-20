@@ -1604,6 +1604,7 @@ __GGB__keysVar["nl"].menu = {
     "Descending": "Afnemend",
     "Description": "Omschrijving",
     "Description.AVRowInput": "Rij %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Rij %0 van het Algebra venster is %1",
     "Description.Done": "Sluit productrondleiding",
     "Description.FocusedInputContainsA": "De inhoud in focus is: %0",

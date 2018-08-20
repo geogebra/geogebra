@@ -1604,6 +1604,7 @@ __GGB__keysVar["eu"].menu = {
     "Descending": "Beheranzkoa",
     "Description": "Deskribapena",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebra-ikuspegiko %0. lerroan %1 azaltzen da",
     "Description.Done": "Itxi produktu-txangoa",
     "Description.FocusedInputContainsA": "Fokuratutako sarreran ondokoa dago: %0",

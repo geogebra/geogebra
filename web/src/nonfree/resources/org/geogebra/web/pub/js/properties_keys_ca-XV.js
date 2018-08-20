@@ -1604,6 +1604,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Descending": "Descendent",
     "Description": "Descripci\xf3",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "En la finestra algebraica la fila %0 mostra %1",
     "Description.Done": "Tanca la visita guiada",
     "Description.FocusedInputContainsA": "L'entrada amb el focus cont\xe9: %0",

@@ -1604,6 +1604,7 @@ __GGB__keysVar["sv"].menu = {
     "Descending": "Fallande",
     "Description": "Beskrivning",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebraf\xf6nstrets rad %0 visar %1",
     "Description.Done": "St\xe4ng",
     "Description.FocusedInputContainsA": "Fokus \xe4r p\xe5: %0",

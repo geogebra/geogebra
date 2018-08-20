@@ -1604,6 +1604,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Descending": "Descendente",
     "Description": "Descri\xe7\xe3o",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Vista da Folha \xc1lgebrica exibir linha%0 mostrar % 1",
     "Description.Done": "Fechar a visita do produto",
     "Description.FocusedInputContainsA": "A entrada focada cont\xe9m:% 0",

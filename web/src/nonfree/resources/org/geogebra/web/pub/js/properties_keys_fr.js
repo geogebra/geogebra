@@ -1604,6 +1604,7 @@ __GGB__keysVar["fr"].menu = {
     "Descending": "D\xe9croissant",
     "Description": "Description",
     "Description.AVRowInput": "Ligne %0 : %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "La ligne %0 dans Alg\xe8bre affiche %1",
     "Description.Done": "Fermer",
     "Description.FocusedInputContainsA": "L'entr\xe9e s\xe9lectionn\xe9e est : %0",

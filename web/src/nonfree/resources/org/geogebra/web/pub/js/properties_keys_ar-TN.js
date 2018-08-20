@@ -1604,6 +1604,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "Descending": "\u062a\u0646\u0627\u0632\u0644\u064a\u0629",
     "Description": "Description",
     "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebra View row %0 shows %1",
     "Description.Done": "Close product tour",
     "Description.FocusedInputContainsA": "Focused input contains: %0",
