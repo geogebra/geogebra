@@ -176,8 +176,13 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
+			MaterialVisibility visibility = ((AppW) app)
+					.getActiveMaterial() != null ? MaterialVisibility.value(
+									((AppW) app).getActiveMaterial()
+											.getVisibility())
+							: MaterialVisibility.Private;
 			app.getSaveController().saveAs(getInputField().getText(),
-					MaterialVisibility.Private, this);
+					visibility, this);
 		}
 	}
 
