@@ -489,7 +489,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			clearPreview();
 
 		} else {
-			ariaPreview = previewGeo.getAuralExpression();
 			content.removeStyleName("noPreview");
 			content.addStyleName("avPreview");
 			boolean forceLatex = false;
@@ -499,6 +498,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 
 			InputHelper.updateSymbolicMode(previewGeo);
+			ariaPreview = previewGeo.getAuralExpression();
 
 			createDVPanels();
 			content.addStyleName("avPreview");
@@ -2132,7 +2132,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		doUpdateAfterRedefine(success);
 		if (ariaLabel != null) {
-			ariaLabel.setText("Hi I am lacko");
 			ariaLabel.getElement().focus();
 
 		}
