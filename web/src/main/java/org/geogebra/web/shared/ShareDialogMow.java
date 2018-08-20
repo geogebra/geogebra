@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -142,14 +143,22 @@ public class ShareDialogMow extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == getLinkBtn) {
 			hide();
-			app.getSaveController().saveAs(
-					getAppW().getActiveMaterial().getTitle(),
-					MaterialVisibility.Shared, null);
+			if (getAppW().getActiveMaterial() != null) {
+				save(getAppW().getActiveMaterial());
+			}
 			ShareLinkDialog getLinkSD = new ShareLinkDialog((AppW) app,
 					shareURL, null);
 			getLinkSD.show();
 			getLinkSD.center();
 		}
+	}
+
+	private void save(Material activeMaterial) {
+		app.getSaveController().saveAs(activeMaterial.getTitle(),
+				MaterialVisibility.Public.getToken()
+						.equals(activeMaterial.getVisibility())
+						? MaterialVisibility.Public : MaterialVisibility.Shared,
+				null);
 	}
 
 	@Override
