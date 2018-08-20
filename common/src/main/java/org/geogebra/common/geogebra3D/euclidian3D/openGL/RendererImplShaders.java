@@ -91,7 +91,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	private int currentLayer;
 	private float[] eyeOrDirection = new float[4];
-	private float[][] ambiantDiffuse;
+	protected float[][] ambiantDiffuse;
 
 	/**
 	 * dash values for shaders
