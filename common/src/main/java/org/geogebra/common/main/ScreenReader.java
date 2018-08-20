@@ -302,6 +302,16 @@ public class ScreenReader {
 		return sb.toString();
 	}
 
+	/**
+	 * @param sb
+	 *            string builder
+	 * @param leftStr
+	 *            numerator
+	 * @param rightStr
+	 *            denominator
+	 * @param loc
+	 *            localization
+	 */
 	public static void fraction(StringBuilder sb, String leftStr, String rightStr,
 			Localization loc) {
 		sb.append(ScreenReader.getStartFraction(loc));

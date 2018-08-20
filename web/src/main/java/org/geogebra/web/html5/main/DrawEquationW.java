@@ -149,6 +149,8 @@ public class DrawEquationW extends DrawEquation {
 	 *            font size
 	 * @param fgColor
 	 *            color
+	 * @param serif
+	 *            whether to use serif font
 	 * @return canvas
 	 */
 	public static Canvas paintOnCanvas(AppW app, String text0,

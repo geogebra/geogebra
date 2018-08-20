@@ -6,7 +6,7 @@ public interface ExpressionReader {
 
 	String mathExpression(String serialize);
 
-	String power(String serialize, String serialize2);
+	String power(String base, String exponent);
 
 	String fraction(String numerator, String denominator);
 

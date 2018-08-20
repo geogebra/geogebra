@@ -3447,6 +3447,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param sharingKey
 	 *            material sharing key
+	 * @param absolute
+	 *            whether to include host name
 	 * @return appName parameter
 	 */
 	public String getCurrentURL(String sharingKey, boolean absolute) {
@@ -3455,6 +3457,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String host = apiURL.substring(0, apiURL.indexOf("/", 12));
 		if (StringUtil.empty(appName)) {
 			appName = "classic";
+		}
+		if ("whiteboard".equals(appName)) {
+			appName = "notes";
 		}
 		String path = "/" + appName + "/" + sharingKey;
 		return absolute ? host + path : path;

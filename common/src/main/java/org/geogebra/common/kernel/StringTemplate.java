@@ -2707,23 +2707,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String powerString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {
-
-
-		/*
-		 * support for sin^2(x) for display, too slow and hacky if
-		 * (STRING_TYPE.equals(StringType.GEOGEBRA &&
-		 * leftStr.startsWith("sin(")) { //&& "2".equals(rightStr)) { int index;
-		 * try { index = Integer.parseInt(rightStr); } catch
-		 * (NumberFormatException nfe) { index = Integer.MAX_VALUE; }
-		 * 
-		 * if (index > 0 && index != Integer.MAX_VALUE) { sb.append("sin");
-		 * sb.append(Unicode.numberToIndex(index));
-		 * sb.append(leftStr.substring(3)); // everying except the "sin" break;
-		 * }
-		 * 
-		 * }//
-		 */
-
 		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			StringBuilder sb = new StringBuilder();
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
