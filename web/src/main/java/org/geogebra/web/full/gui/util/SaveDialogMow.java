@@ -192,6 +192,8 @@ public class SaveDialogMow extends DialogBoxW
 		titleLbl.setText(app.getLocalization().getMenu("Title"));
 		saveBtn.setLabel(app.getLocalization().getMenu("Save"));
 		cancelBtn.setLabel(app.getLocalization().getMenu("Cancel"));
+		titleField.getTextComponent().getTextBox().getElement().setAttribute(
+				"placeholder", app.getLocalization().getMenu("Untitled"));
 	}
 
 	@Override
@@ -213,7 +215,7 @@ public class SaveDialogMow extends DialogBoxW
 	@Override
 	public void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (consTitle != null && !"".equals(consTitle)
+		if (consTitle != null
 				&& !app.getSaveController().isMacro()) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);

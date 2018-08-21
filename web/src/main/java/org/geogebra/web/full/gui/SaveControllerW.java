@@ -385,7 +385,10 @@ public class SaveControllerW implements SaveController {
 	public void cancel() {
 		if (isWorksheet()) {
 			app.setSaved();
-			runAfterSaveCallback();
+			// run only if material active/created
+			if (app.getActiveMaterial() != null) {
+				runAfterSaveCallback();
+			}
 		}
 	}
 
