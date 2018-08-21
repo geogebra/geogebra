@@ -8510,9 +8510,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (app.isSelectionRectangleAllowed()
 					&& ((app.isRightClick(event)
 							|| app.getMode() == EuclidianConstants.MODE_SELECT)
-							|| app.getMode() == EuclidianConstants.MODE_SELECT_MOW
 							|| (allowSelectionRectangle() && !shapeDragged))
-					&& !temporaryMode) {
+					&& !temporaryMode
+					&& (!app.isRightClick(event) && app
+							.getMode() == EuclidianConstants.MODE_SELECT_MOW)) {
 				// Michael Borcherds 2007-10-07
 				// set zoom rectangle's size
 				// right-drag: zoom
