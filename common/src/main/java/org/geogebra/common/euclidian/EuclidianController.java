@@ -510,6 +510,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
+	/**
+	 * @return whether multiple elements are selected (MOW)
+	 */
 	public boolean isMultiSelection() {
 		return mode == EuclidianConstants.MODE_SELECT_MOW
 				&& selection.getSelectedGeos().size() > 1;
@@ -12148,6 +12151,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Calculate and draw united bounding box for a list of GeoElements
+	 *
+	 * @param geos
+	 *            list of GeoElements
+	 */
 	public void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
 		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
 				maxX = Double.NEGATIVE_INFINITY,
@@ -12160,14 +12169,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			double x = bounds.getX(), y = bounds.getY();
 			double w = bounds.getWidth(), h = bounds.getHeight();
 
-			if (x < minX)
+			if (x < minX) {
 				minX = x;
-			if ((x + w) > maxX)
+			}
+			if ((x + w) > maxX) {
 				maxX = x + w;
-			if (y < minY)
+			}
+			if (y < minY) {
 				minY = y;
-			if ((y + h) > maxY)
+			}
+			if ((y + h) > maxY) {
 				maxY = y + h;
+			}
 		}
 
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
