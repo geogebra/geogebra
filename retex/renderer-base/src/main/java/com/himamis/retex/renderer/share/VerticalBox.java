@@ -63,6 +63,10 @@ class VerticalBox extends Box {
 	public VerticalBox() {
 	}
 
+	public VerticalBox(Box b) {
+		add(b);
+	}
+
 	public VerticalBox(Box b, double rest, Align alignment) {
 		this();
 		add(b);
