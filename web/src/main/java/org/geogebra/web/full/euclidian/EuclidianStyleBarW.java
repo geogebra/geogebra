@@ -23,6 +23,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -602,7 +604,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private boolean isImageGeoSelected() {
-		return !ev.getEuclidianController().getAppSelectedGeos().isEmpty()
+		return ev.getEuclidianController().getAppSelectedGeos().size() == 1
 				&& getFirstGeo().isGeoImage();
 	}
 
@@ -1236,8 +1238,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
-						if (geo instanceof GeoText
-								|| geo instanceof GeoButton) {
+						if (geo instanceof GeoText || geo instanceof GeoButton
+								|| geo instanceof GeoPoint
+								|| geo instanceof GeoLocusStroke
+								|| geo instanceof GeoLine || geo.isGeoVideo()
+								|| geo.isGeoAudio() || geo.isGeoImage()) {
 							geosOK = false;
 							break;
 						}
