@@ -71,8 +71,8 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean forceReTeX() {
-		return true;
+	public boolean isGraphingExamSupported() {
+		return false;
 	}
 
 }

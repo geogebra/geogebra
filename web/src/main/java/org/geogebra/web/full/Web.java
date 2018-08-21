@@ -10,6 +10,7 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
+import org.geogebra.web.full.gui.laf.ChromeLookAndFeel;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
@@ -131,6 +132,10 @@ public class Web implements EntryPoint {
 
 			if ("bundle".equals(laf)) {
 				return new BundleLookAndFeel();
+			}
+
+			if ("chrome".equals(laf)) {
+				return new ChromeLookAndFeel();
 			}
 		}
 		if (!((CASFactory) GWT.create(CASFactory.class)).isEnabled()) {

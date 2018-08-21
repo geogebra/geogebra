@@ -4093,7 +4093,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GBB-2374 */
 		case MAT_DESIGN_HEADER:
-			return prerelease;
+			return true;
 
 		case SHARE_DIALOG_MAT_DESIGN:
 			return prerelease;
@@ -4104,7 +4104,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GGB-2439 */
 		case GRAPH_EXAM_MODE:
-			return prerelease;
+			return true;
 
 		/** AND-1304 */
         case MOB_LIST_TOOL:

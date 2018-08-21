@@ -56,4 +56,6 @@ public interface GLookAndFeelI {
 	String getFrameStyleName();
 
 	void toggleFullscreen(boolean b);
+
+	boolean isGraphingExamSupported();
 }
