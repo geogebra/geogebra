@@ -56,7 +56,6 @@ public class ConstructionProtocolExportDialogD extends JDialog
 
 	private JCheckBox cbDrawingPadPicture, cbScreenshotPicture;
 	private JCheckBox cbColor;
-	private JCheckBox cbIcons;
 	private GraphicSizePanel sizePanel;
 	boolean kernelChanged = false;
 	private ConstructionProtocolViewD prot;
@@ -118,10 +117,6 @@ public class ConstructionProtocolExportDialogD extends JDialog
 		cbColor = new JCheckBox(loc.getMenu("ColorfulConstructionProtocol"));
 		cbColor.setSelected(false);
 
-		cbIcons = new JCheckBox(
-				loc.getMenu("ToolbarIconsConstructionProtocolExport"));
-		cbIcons.setSelected(prot.getAddIcons());
-
 		// disable width and height field when checkbox is deselected
 		cbDrawingPadPicture.addActionListener(new ActionListener() {
 			@Override
@@ -149,12 +144,6 @@ public class ConstructionProtocolExportDialogD extends JDialog
 				prot.setUseColors(cbColor.isSelected());
 			}
 		});
-		cbIcons.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				prot.setAddIcons(cbIcons.isSelected());
-			}
-		});
 
 		// Cancel and Export Button
 		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
@@ -177,7 +166,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 						}
 						exportHTML(cbDrawingPadPicture.isSelected(),
 								cbScreenshotPicture.isSelected(),
-								cbColor.isSelected(), cbIcons.isSelected());
+								cbColor.isSelected(), true);
 					}
 				};
 				runner.start();
@@ -204,7 +193,6 @@ public class ConstructionProtocolExportDialogD extends JDialog
 									ConstructionProtocolView.getHTML(null,
 											app.getLocalization(),
 											app.getKernel(), prot.getColumns(),
-											prot.getAddIcons(),
 											prot.getUseColors()));
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
@@ -225,7 +213,6 @@ public class ConstructionProtocolExportDialogD extends JDialog
 
 		JPanel southPanel = new JPanel(new BorderLayout());
 		southPanel.add(cbColor, BorderLayout.NORTH);
-		southPanel.add(cbIcons, BorderLayout.CENTER);
 		southPanel.add(buttonPanel, BorderLayout.SOUTH);
 		cp.add(southPanel, BorderLayout.SOUTH);
 
@@ -301,7 +288,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 			String imgBase64 = GgbAPID.base64encode(img, 72);
 			String export = ConstructionProtocolView.getHTML(imgBase64,
 					app.getLocalization(), app.getKernel(), prot.getColumns(),
-					addIcons, useColors);
+					useColors);
 
 			Log.debug(export);
 

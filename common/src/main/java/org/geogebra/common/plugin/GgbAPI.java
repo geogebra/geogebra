@@ -2396,8 +2396,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				Log.warn("Unknown column" + s);
 			}
 		}
-		return ConstructionProtocolView.getHTML(null, app.getLocalization(), kernel, columns, false,
-				useColors);
+		return ConstructionProtocolView.getHTML(null, app.getLocalization(),
+				kernel, columns, useColors);
 	}
 
 	/**

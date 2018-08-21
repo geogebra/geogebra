@@ -911,12 +911,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 *            : image file to be included
 	 */
 	public static String getHTML(String imgBase64, Localization loc,
-			Kernel kernel, ArrayList<Columns> columns, boolean addIcons,
-			boolean useColors) {
+			Kernel kernel, ArrayList<Columns> columns, boolean useColors) {
 
 		StringBuilder sb = new StringBuilder();
-
-		boolean icon_column;
 
 		// Let's be W3C compliant:
 		sb.append(
@@ -991,15 +988,10 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		for (int nCol = 0; nCol < nColumns; nCol++) {
 			// toolbar icon will only be inserted on request
 
-			icon_column = Columns.TOOLBARICON.translationKey
-					.equals(columns.get(nCol));
-			if ((icon_column && addIcons) || !icon_column) {
-				title = columns.get(nCol).getTranslation(loc);
-				sb.append("<th>");
-				sb.append(StringUtil.toHTMLString(title));
-				sb.append("</th>\n");
-			}
-
+			title = columns.get(nCol).getTranslation(loc);
+			sb.append("<th>");
+			sb.append(StringUtil.toHTMLString(title));
+			sb.append("</th>\n");
 		}
 		sb.append("</tr>\n");
 
@@ -1016,74 +1008,68 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				Columns column = columns.get(nCol);
 
 				// toolbar icon will only be inserted on request
-				icon_column = Columns.TOOLBARICON.translationKey
-						.equals(columns.get(nCol));
-				if ((icon_column && addIcons) || !icon_column) {
 
-					String str = "";
+				String str = "";
 
-					switch (column) {
-					default:
-						str = "";
-						break;
+				switch (column) {
+				default:
+					str = "";
+					break;
 
-					case NUMBER:
-						str = (nRow + 1) + "";
-						break;
-					case CAPTION:
-						str = getCaption(geo, false);
-						break;
+				case NUMBER:
+					str = (nRow + 1) + "";
+					break;
+				case CAPTION:
+					str = getCaption(geo, false);
+					break;
 
-					case NAME:
-						str = getName(geo);
-						break;
+				case NAME:
+					str = getName(geo);
+					break;
 
-					case TOOLBARICON:
-						str = getModeIcon(geo);
-						break;
+				case TOOLBARICON:
+					str = getModeIcon(geo);
+					break;
 
-					case DESCRIPTION:
-						str = getDescription(geo, false);
-						break;
+				case DESCRIPTION:
+					str = getDescription(geo, false);
+					break;
 
-					case DEFINITION:
-						str = getDefinition(geo, false);
-						break;
+				case DEFINITION:
+					str = getDefinition(geo, false);
+					break;
 
-					case VALUE:
-						str = getAlgebra(geo);
-						break;
+				case VALUE:
+					str = getAlgebra(geo);
+					break;
 
-					case BREAKPOINT:
-						str = getBreakpoint(geo) + "";
-						break;
+				case BREAKPOINT:
+					str = getBreakpoint(geo) + "";
+					break;
 
-					}
-
-					sb.append("<td>");
-					if ("".equals(str)) {
-						sb.append("&nbsp;"); // space
-					} else {
-
-						GColor color = useColors ? geo.getAlgebraColor()
-								: GColor.BLACK;
-
-						if (!GColor.BLACK.equals(color)) {
-							sb.append("<span style=\"color:#");
-							sb.append(StringUtil.toHexString(
-									(byte) color.getRed(),
-									(byte) color.getGreen(),
-									(byte) color.getBlue()));
-							sb.append("\">");
-							sb.append(str);
-							sb.append("</span>");
-						} else {
-							sb.append(str);
-						}
-					}
-					sb.append("</td>\n");
 				}
 
+				sb.append("<td>");
+				if ("".equals(str)) {
+					sb.append("&nbsp;"); // space
+				} else {
+
+					GColor color = useColors ? geo.getAlgebraColor()
+							: GColor.BLACK;
+
+					if (!GColor.BLACK.equals(color)) {
+						sb.append("<span style=\"color:#");
+						sb.append(StringUtil.toHexString((byte) color.getRed(),
+								(byte) color.getGreen(),
+								(byte) color.getBlue()));
+						sb.append("\">");
+						sb.append(str);
+						sb.append("</span>");
+					} else {
+						sb.append(str);
+					}
+				}
+				sb.append("</td>\n");
 			}
 			sb.append("</tr>\n");
 		}
