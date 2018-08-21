@@ -5513,12 +5513,4 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return cons.steps();
 	}
 
-	/**
-	 * Sets the CommandFilter to the AlgebraProcessor
-	 * @param commandFilter only the commands that are allowed by the commandFilter will be accepted
-	 */
-	public void setCommandFilter(CommandFilter commandFilter) {
-		getAlgebraProcessor().setCommandFilter(commandFilter);
-	}
-
 }

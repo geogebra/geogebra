@@ -290,7 +290,7 @@ public abstract class CommandDispatcher {
 			Commands command = Commands.valueOf(cmdName);
 
 			if (commandFilter != null && !commandFilter.isCommandAllowed(command)) {
-				Log.warn("The command is not allowed by the command filter");
+				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
 
@@ -839,7 +839,7 @@ public abstract class CommandDispatcher {
 				return null;
 			}
 		} catch (RuntimeException e) {
-			Log.info("command not found / CAS command called:" + cmdName);
+			Log.warn("command not found / CAS command called:" + cmdName);
 		}
 		return null;
 	}
