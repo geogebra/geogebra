@@ -14,6 +14,11 @@ import org.geogebra.common.main.settings.EuclidianSettings;
  *
  */
 public class DrawBackground {
+	/*
+	 * Default scale (when the view not zoomed) of the svg file used as
+	 * background
+	 */
+	private static final double SVG_SCALE = 2;
 	private EuclidianView view;
 	private EuclidianSettings settings;
 	private double gap;
@@ -73,7 +78,7 @@ public class DrawBackground {
 
 	private void drawSVG(GGraphics2D g2) {
 		MyImage svg = view.getSVGBackground();
-		double scale = view.getYscale() / 25;
+		double scale = (view.getYscale() / EuclidianView.SCALE_STANDARD) * SVG_SCALE;
 		int h = (int) (svg.getHeight() * scale);
 		int y = (int) (view.getYZero() % h);
 		if (y > 0) {
