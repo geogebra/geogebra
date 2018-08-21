@@ -519,7 +519,7 @@ public class Macro {
 	 * @param algoMacro
 	 *            macro algorithm
 	 */
-	public void unregisterAlgorithm(AlgoMacroInterface algoMacro) {
+	public void unregisterAlgorithm(AlgoElement algoMacro) {
 		usingAlgos.remove(algoMacro);
 	}
 

@@ -4,20 +4,20 @@ $duration: 0.2s;
 .GeoGebraFrame {
 	
 	.MaterialDialogBox {
-		 	input[type="text"]:focus, 
-		 	input[type="number"]:focus, 
-			.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
-		 	textarea:focus, .GeoGebraFrame .gwt-TextArea:focus, 
-			 iframe.objectPropertiesTextEditor:focus, 
-			 input[type="text"]:focus:not([readonly]), 
-			 input[type="number"]:focus:not([readonly]),
-		  .gwt-TextBox:focus:not([readonly]),
-		 	  select:focus:not([readonly]), 
-		 	 	 textarea:focus:not([readonly]), 
-			 .gwt-TextArea:focus:not([readonly]), 
-			 iframe.objectPropertiesTextEditor:focus:not([readonly]) {
-				border: 1px $teal-default solid;
-			}	
+		input[type="text"]:focus, 
+		input[type="number"]:focus, 
+		.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
+		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus, 
+		iframe.objectPropertiesTextEditor:focus, 
+		input[type="text"]:focus:not([readonly]), 
+		input[type="number"]:focus:not([readonly]),
+		.gwt-TextBox:focus:not([readonly]),
+		select:focus:not([readonly]), 
+		textarea:focus:not([readonly]), 
+		.gwt-TextArea:focus:not([readonly]), 
+		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
+			border: 1px $teal-default solid;
+		}	
 	}	
 
 	.MaterialDialogBox {
@@ -40,7 +40,7 @@ $duration: 0.2s;
 		.ColorDialog-content {
 			.gwt-Label {
 				margin-top: 0px;
-				font-size: initial;;	
+				font-size: initial;	
 			}
 			
 			input[type="range"] {
@@ -55,7 +55,7 @@ $duration: 0.2s;
 		
 			.CustomColorPreview {
 				canvas {
-					width: 266px;;	
+					width: 266px;
 					border-radius: 2px;
 				}
 			

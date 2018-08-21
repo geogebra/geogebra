@@ -277,8 +277,7 @@
 			}	
 		}
 	}
-	.mediaSubMenu {}
-	
+
 	.mowColorButton {
 		 width: 32px;
 		 height: 32px;
@@ -451,8 +450,8 @@
 /*****************
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
 ******************/	
-.mowDynStyleBar {
-	.MyCanvasButton {
+	.mowDynStyleBar {
+		.MyCanvasButton {
 			&:hover {
 				border: $mow_highlight solid 1px !important;
 			}
@@ -473,31 +472,32 @@
 				}
 			}
 		}
-	
-	.btnCrop,.btnBold,.btnItalic {
-		border-radius: 2px;
-		margin-left: 0px;
-   	 	margin-right: 8px;
-   	 		
-		img {
-			opacity: 0.7;
-		}	
 		
-		&:hover, &:focus {
-			border: $mow_highlight solid 1px !important;
+		.btnCrop,.btnBold,.btnItalic {
+			border-radius: 2px;
+			margin-left: 0px;
+			margin-right: 8px;
+
+			img {
+				opacity: 0.7;
+			}	
+			
+			&:hover, &:focus {
+				border: $mow_highlight solid 1px !important;
+			}
+			
+			&.gwt-ToggleButton-down {
+				border: $mow_highlight solid 1px !important;
+			}
 		}
 		
-		&.gwt-ToggleButton-down {
-			border: $mow_highlight solid 1px !important;
+		.matDynStyleContextButton:hover {
+			margin-right: 0px !important;
+			margin-left: 0px !important;
+			border: none !important;
 		}
 	}
-	
-	.matDynStyleContextButton:hover {
-	    margin-right: 0px !important;
-	    margin-left: 0px !important;
-	    border: none !important;
-	}
-}
+
 	.mowPopup{
 		.gwt-Label.border.selected,
 		.gwt-Label.border:hover,
