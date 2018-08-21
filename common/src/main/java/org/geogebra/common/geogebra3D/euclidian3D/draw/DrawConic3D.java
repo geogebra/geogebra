@@ -106,8 +106,7 @@ public class DrawConic3D extends Drawable3DCurves
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			if (exportSurface) {
-				exportToPrinter3D.exportSurface(getGeoElement(),
-						getSurfaceIndex());
+				exportToPrinter3D.exportSurface(this);
 			} else {
 				if (getGeoElement().getLineThickness() > 0) {
 					exportToPrinter3D.export(this, Type.CURVE_CLOSED);

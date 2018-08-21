@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
@@ -13,12 +14,14 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.GeometriesSet;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * Export to 3D printer
@@ -279,7 +282,16 @@ public class ExportToPrinter3D {
 	 *            drawable
 	 */
 	public void exportSurface(Drawable3D d) {
-		exportSurface(d.getGeoElement(), d.getSurfaceIndex());
+		if (format.needsClosedObjects()) { // draw only spheres so far
+			if (d instanceof DrawQuadric3D) {
+				GeoQuadric3D q = (GeoQuadric3D) d.getGeoElement();
+				if (q.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
+					exportSurface(d.getGeoElement(), d.getSurfaceIndex());
+				}
+			}
+		} else {
+			exportSurface(d.getGeoElement(), d.getSurfaceIndex());
+		}
 	}
 
 	/**
@@ -290,7 +302,7 @@ public class ExportToPrinter3D {
 	 * @param index
 	 *            surface index
 	 */
-	public void exportSurface(GeoElement geo, int index) {
+	private void exportSurface(GeoElement geo, int index) {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
 		export(geo, index, "SURFACE", true, null, alpha);
