@@ -3725,6 +3725,10 @@ public abstract class App implements UpdateSelection, AppInterface {
         case MOB_CLOSE_SETTINGS_BUG:
             return true;
 
+        // MOB-1737
+		case MOB_AND_AR:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

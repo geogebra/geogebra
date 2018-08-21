@@ -294,6 +294,9 @@ public enum Feature {
 	MOW_SELECTION_TOOL,
 
 	/** AND-1304 */
-	MOB_LIST_TOOL
+	MOB_LIST_TOOL,
+
+	/** MOB-1737 */
+	MOB_AND_AR
 }
 
