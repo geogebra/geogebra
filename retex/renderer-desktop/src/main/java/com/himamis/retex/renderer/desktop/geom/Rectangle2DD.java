@@ -45,7 +45,8 @@ package com.himamis.retex.renderer.desktop.geom;
 
 import java.awt.geom.Rectangle2D;
 
-public class Rectangle2DD extends Rectangle2D.Float implements com.himamis.retex.renderer.share.platform.geom.Rectangle2D {
+public class Rectangle2DD extends Rectangle2D.Double
+		implements com.himamis.retex.renderer.share.platform.geom.Rectangle2D {
 
 	private static final long serialVersionUID = 1L;
 

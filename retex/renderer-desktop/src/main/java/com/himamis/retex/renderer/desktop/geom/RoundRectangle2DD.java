@@ -45,7 +45,8 @@ package com.himamis.retex.renderer.desktop.geom;
 
 import java.awt.geom.RoundRectangle2D;
 
-public class RoundRectangle2DD extends RoundRectangle2D.Float implements com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D {
+public class RoundRectangle2DD extends RoundRectangle2D.Double implements
+		com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D {
 
 	private static final long serialVersionUID = 1L;
 

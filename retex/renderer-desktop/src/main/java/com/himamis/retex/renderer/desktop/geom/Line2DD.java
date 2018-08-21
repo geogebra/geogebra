@@ -45,7 +45,8 @@ package com.himamis.retex.renderer.desktop.geom;
 
 import java.awt.geom.Line2D;
 
-public class Line2DD extends Line2D.Float implements com.himamis.retex.renderer.share.platform.geom.Line2D {
+public class Line2DD extends Line2D.Double
+		implements com.himamis.retex.renderer.share.platform.geom.Line2D {
 
 	private static final long serialVersionUID = 1L;
 
