@@ -1604,7 +1604,6 @@ __GGB__keysVar["sl"].menu = {
     "Descending": "Padajo\u010de",
     "Description": "Opis",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Pogled Algebra vrstica %0 prikaz %1",
     "Description.Done": "Zapri vodnik po programu",
     "Description.FocusedInputContainsA": "Trenutni izraz: %0",

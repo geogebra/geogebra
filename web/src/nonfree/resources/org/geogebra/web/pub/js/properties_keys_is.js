@@ -1604,7 +1604,6 @@ __GGB__keysVar["is"].menu = {
     "Descending": "Minnkandi",
     "Description": "L\xfdsing",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebrugluggi l\xedna %0 s\xfdnir %1",
     "Description.Done": "H\xe6tta og loka",
     "Description.FocusedInputContainsA": "Focused input contains: %0",

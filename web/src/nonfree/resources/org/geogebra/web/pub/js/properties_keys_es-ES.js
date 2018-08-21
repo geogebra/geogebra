@@ -1604,7 +1604,6 @@ __GGB__keysVar["es-ES"].menu = {
     "Descending": "Descendente",
     "Description": "Descripci\xf3n",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "La fila %0 de la Vista Algebraica muestra %1",
     "Description.Done": "Cerrar el recorrido del producto",
     "Description.FocusedInputContainsA": "La entrada enfocada contiene: %0",

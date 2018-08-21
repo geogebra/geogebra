@@ -1604,7 +1604,6 @@ __GGB__keysVar["pt"].menu = {
     "Descending": "Decrescente",
     "Description": "Descri\xe7\xe3o",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "A linha %0 da Janela de \xc1lgebra exibe %1",
     "Description.Done": "Fechar tour do produto",
     "Description.FocusedInputContainsA": "A entrada em foco cont\xe9m: %0",

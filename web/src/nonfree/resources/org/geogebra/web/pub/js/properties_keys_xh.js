@@ -1604,7 +1604,6 @@ __GGB__keysVar["xh"].menu = {
     "Descending": "IqalaEzantsiIyaPhezulu",
     "Description": "iNkcazelo",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Irow %0 ebonisa u %1 kwi Algebra View",
     "Description.Done": "Vala i product tour",
     "Description.FocusedInputContainsA": "iFocused input ina: %0",

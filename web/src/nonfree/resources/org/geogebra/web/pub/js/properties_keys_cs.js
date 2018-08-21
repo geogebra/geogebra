@@ -1604,7 +1604,6 @@ __GGB__keysVar["cs"].menu = {
     "Descending": "Klesaj\xedc\xed",
     "Description": "Popis",
     "Description.AVRowInput": "\u0158\xe1dek %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Na \u0159\xe1dku %0 algebraick\xe9ho okna je %1",
     "Description.Done": "Ukon\u010dit uk\xe1zku",
     "Description.FocusedInputContainsA": "Ozna\u010den\xfd vstup obsahuje: %0",

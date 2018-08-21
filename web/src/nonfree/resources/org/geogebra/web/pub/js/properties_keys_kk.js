@@ -1604,7 +1604,6 @@ __GGB__keysVar["kk"].menu = {
     "Descending": "\u0422\u04e9\u043c\u0435\u043d\u0434\u0435\u0443 \u0440\u0435\u0442\u0456\u043c\u0435\u043d",
     "Description": "\u0421\u0438\u043f\u0430\u0442\u0442\u0430\u043c\u0430",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebra View row %0 shows %1",
     "Description.Done": "Close product tour",
     "Description.FocusedInputContainsA": "Focused input contains: %0",

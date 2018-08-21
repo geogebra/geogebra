@@ -1604,7 +1604,6 @@ __GGB__keysVar["fi"].menu = {
     "Descending": "Laskeva",
     "Description": "Kuvaus",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algenra-n\xe4kym\xe4n rivill\xe4 %0 on %1",
     "Description.Done": "Sulje esittelykierros",
     "Description.FocusedInputContainsA": "Kohdistettu sy\xf6te sis\xe4lt\xe4\xe4: %0",

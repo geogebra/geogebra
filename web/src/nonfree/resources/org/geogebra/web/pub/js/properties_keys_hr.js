@@ -1604,7 +1604,6 @@ __GGB__keysVar["hr"].menu = {
     "Descending": "Padaju\u0107i",
     "Description": "Opis",
     "Description.AVRowInput": "Pravac %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "Algebra prikaz redak %0 pokazuje %1",
     "Description.Done": "Zatvori pregled proizvoda",
     "Description.FocusedInputContainsA": "Fokusirani ulaz sadr\u017ei: %0",

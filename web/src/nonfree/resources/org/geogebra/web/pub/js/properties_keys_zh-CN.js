@@ -1604,7 +1604,6 @@ __GGB__keysVar["zh-CN"].menu = {
     "Descending": "\u9012\u51cf",
     "Description": "\u63cf\u8ff0",
     "Description.AVRowInput": "\u7b2c %0 \u884c: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "\u4ee3\u6570\u533a\u7b2c %0 \u884c\u663e\u793a %1",
     "Description.Done": "\u5173\u95ed\u8f6f\u4ef6\u5bfc\u5f15",
     "Description.FocusedInputContainsA": "\u5173\u6ce8\u7684\u8f93\u5165\u680f\u5305\u542b: %0",

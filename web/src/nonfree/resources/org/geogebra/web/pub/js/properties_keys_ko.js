@@ -1604,7 +1604,6 @@ __GGB__keysVar["ko"].menu = {
     "Descending": "\uac10\uc18c",
     "Description": "\uc124\uba85",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "\ub300\uc218\ucc3d %0 \ud589\uc740 %1 \uc744 \ubcf4\uc5ec\uc90d\ub2c8\ub2e4.",
     "Description.Done": "\ub458\ub7ec\ubcf4\uae30 \ub2eb\uae30",
     "Description.FocusedInputContainsA": "\uc120\ud0dd\ub41c \uc785\ub825 \uc0ac\ud56d: %0",

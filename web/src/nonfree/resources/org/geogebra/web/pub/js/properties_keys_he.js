@@ -1604,7 +1604,6 @@ __GGB__keysVar["he"].menu = {
     "Descending": "\u05d9\u05d5\u05e8\u05d3",
     "Description": "\u05ea\u05d0\u05d5\u05e8",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "\u05e9\u05d5\u05e8\u05ea \u05ea\u05e6\u05d5\u05d2\u05d4 \u05d0\u05dc\u05d2\u05d1\u05e8\u05d9\u05ea %0 \u05de\u05e8\u05d0\u05d4 %1",
     "Description.Done": "\u05e1\u05d2\u05d5\u05e8 \u05e1\u05e7\u05d9\u05e8\u05ea \u05de\u05d5\u05e6\u05e8",
     "Description.FocusedInputContainsA": "\u05e7\u05dc\u05d8 \u05e0\u05d1\u05d7\u05e8 \u05de\u05db\u05d9\u05dc: \u200f\u200e%0\u200e",

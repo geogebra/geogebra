@@ -1604,7 +1604,6 @@ __GGB__keysVar["da"].menu = {
     "Descending": "Aftagende",
     "Description": "Beskrivelse",
     "Description.AVRowInput": "Line %0: %1",
-    "Description.AVRowInputEmpty": "Enter your equation or expression here.",
     "Description.AVRowOutputs": "I r\xe6kke %0 st\xe5r %1",
     "Description.Done": "Afslut produkt guiden",
     "Description.FocusedInputContainsA": "aktuelt input: %0",
