@@ -10,7 +10,7 @@
 	.MatTitleBarPanelContent {
 		min-width: 48px;
 		min-height: 48px;
-		box-shadow:none;
+		box-shadow: none;
 		padding: 0px;
 		background-color: transparent;
 	}
@@ -69,11 +69,11 @@
 			img , .buttonContent {
 				opacity: 0.7;	
 			}
-			
+
 			&:hover {
-    			border:$purple-default solid 1px;
+				border: $purple-default solid 1px;
 			}
-		
+
 			&.active {
 				border: $purple-default solid 1px;
 			}
@@ -94,8 +94,8 @@
 		.btnBold,.btnItalic {
 			border-radius: 2px;
 			margin-left: 0px;
-   	 		margin-right: 8px;
-   	 		
+			margin-right: 8px;
+			
 			img {
 				opacity: 0.7;
 			}	
@@ -108,8 +108,8 @@
 				border: $purple-default solid 1px;
 			}
 		}
-	    
-	    .matDynStyleContextButton { 
+
+		.matDynStyleContextButton { 
 			margin-right: 0px !important;
 			margin-left: 0px !important;
 			border: none !important;

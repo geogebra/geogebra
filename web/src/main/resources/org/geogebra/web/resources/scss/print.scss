@@ -23,7 +23,6 @@
 }
 
 @media print {
-	
 	.avPlainText {
 		width: 100vw;
 		white-space: normal;	
@@ -33,6 +32,7 @@
 	     & , *{
 			visibility: hidden;
 		}
+
 		.mowFloatingButton{
 			visibility: hidden;
 		}

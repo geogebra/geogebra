@@ -13,7 +13,7 @@ $classicToolbar: 50px;
 		/*box-shadow: 0 0 16px $black-28;*/
 		background-color: $white;
 		/*border-radius: 2px;*/
-		z-index:  100000;
+		z-index: 100000;
 		height: 100%;
 		max-width: 100%;
 		overflow-y: auto;	
@@ -145,8 +145,8 @@ $classicToolbar: 50px;
 			padding-top: 0px;
 			padding-bottom: 0px;
 			padding-right: 16px;
-			border-bottom:none;
-			border-top:none;
+			border-bottom: none;
+			border-top: none;
 			line-height: normal;
 			img {
 				height: 24px;
@@ -221,7 +221,7 @@ $classicToolbar: 50px;
 		
 		&.classic{
 			top: $classicToolbar;
-			right:0;
+			right: 0;
 			height: calc(100% - 50px);
 			&.animateIn {
 				animation-name: animateInClassic;
@@ -231,16 +231,16 @@ $classicToolbar: 50px;
 			}
 			
 			.gwt-StackPanel .gwt-StackPanelItem, .gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first{
-				height:32px;
-				padding-left:32px;
-				background-color:$transparent;
+				height: 32px;
+				padding-left: 32px;
+				background-color: $transparent;
 				border-bottom: 1px #dcdcdc solid;
 				img {
 					opacity: 1;
-					position:static;
+					position: static;
 					width: 20px;
 					height: 20px;
-					margin-left:-28px;
+					margin-left: -28px;
 				}
 			}
 		}
@@ -269,27 +269,27 @@ $classicToolbar: 50px;
 	}
 			
 	@keyframes animateIn {
-		0% {left:-320px; top:0px;}
-		50% {left:-100; top:0px;}
-		100% {left:0px; top:0px;}
+		0% {left: -320px; top: 0px;}
+		50% {left: -100; top: 0px;}
+		100% {left: 0px; top: 0px;}
 	}
 			
 	@keyframes animateOut {
-		0% {left:0px; top:0px;}
-		50% {left:-220; top:0px;}
-		100% {left:-320px; top:0px;}
+		0% {left: 0px; top: 0px;}
+		50% {left: -220; top: 0px;}
+		100% {left: -320px; top: 0px;}
 	}
 	
 	@keyframes animateInClassic {
-		0% {right:-320px; top: $classicToolbar;}
-		50% {right:-100; top:$classicToolbar;}
-		100% {right:0px; top:$classicToolbar;}
+		0% {right: -320px; top: $classicToolbar;}
+		50% {right: -100; top: $classicToolbar;}
+		100% {right: 0px; top: $classicToolbar;}
 	}
 			
 	@keyframes animateOutClassic {
-		0% {right:0px; top:$classicToolbar;}
-		50% {right:-220; top:$classicToolbar;}
-		100% {right:-320px; top:$classicToolbar;}
+		0% {right: 0px; top: $classicToolbar;}
+		50% {right: -220; top: $classicToolbar;}
+		100% {right: -320px; top: $classicToolbar;}
 	}
 }
 	

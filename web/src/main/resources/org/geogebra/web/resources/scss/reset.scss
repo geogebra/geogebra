@@ -1,8 +1,8 @@
 @import 'colors';
-$slider-diameter:15px;
+$slider-diameter: 15px;
 
 .GeoGebraFrame {
-	box-sizing:content-box;
+	box-sizing: content-box;
 
 	* {
 		margin: initial;
@@ -20,14 +20,16 @@ $slider-diameter:15px;
 		font-kerning: auto;
 		text-decoration: none;
 		box-sizing: content-box;
-		text-shadow:none;
+		text-shadow: none;
 		text-align: initial;
 		background: initial;
 	}
+
 	.gwt-Button {
 		height: initial;
 		text-shadow: initial;
 	}
+
 	table tr, table td, img, li, input, button, input[type="number"], input[type="text"], ul {
 		margin: 0;
 		padding: 0;
@@ -39,25 +41,30 @@ $slider-diameter:15px;
 		width: initial;
 		max-width: initial;
 		background-color: initial;
-		box-sizing:initial;
+		box-sizing: initial;
 		text-shadow: initial;
 		transition: initial;
 	}
+
 	strong {
 		font-weight: bold;
 	}
+
 	select, img {
-		display:initial;
+		display: initial;
 	}
+
 	div {
-		box-sizing:initial;
+		box-sizing: initial;
 	}
+
 	input[type="checkbox"] {
 		position: initial;
 		left: initial;
 		opacity: initial;
 		pointer-events: initial;
 	}
+
 	input[type="checkbox"] + label {
 		&:after, &:before {
 			content: none;
@@ -70,6 +77,7 @@ $slider-diameter:15px;
 		line-height: initial;
 		font-size: initial;
 	}
+
 	table {
 		border-collapse: initial;
 		border-spacing: initial;
@@ -80,12 +88,13 @@ $slider-diameter:15px;
 	.thumb {
 		display: none;
 	}
+
 	.btn {
 		text-transform: initial;
 		line-height: initial;
 		box-shadow: initial;
 	}	
-	
+
 	input:not([type]),
 	input[type=text],
 	input[type=password],
@@ -106,7 +115,7 @@ $slider-diameter:15px;
 	
 	input[type=range]{
 		-webkit-appearance: none;
-		width:129px; //default in Edge and Chrome
+		width: 129px; //default in Edge and Chrome
 	}
 	
 	input[type=range]::-webkit-slider-runnable-track {
@@ -187,8 +196,8 @@ $slider-diameter:15px;
 	input[type=range]::-ms-fill-upper {
 		background: $slider-track;
 	}
-	
-	3 {
+
+	input[type=range]::-ms-thumb {
 		border: none;
 		height: $slider-diameter;
 		width: $slider-diameter;
@@ -214,6 +223,7 @@ $slider-diameter:15px;
   left: -9999px;
   opacity: 0;
 }
+
 .MaterialDialogBox .gwt-RadioButton [type="radio"] + label {
 	padding-left: 35px;
 }

@@ -134,19 +134,19 @@ $duration: 0.2s;
 		}
 		
 		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
-	 	    padding-left: 16px; 
-	 	    padding-right: 16px; 
-	 	} 
-	 	                         
-	 	 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame:hover { 
-	 	    background-color: $selected-menuitem-background; 
-	 	} 
-		
+			padding-left: 16px; 
+			padding-right: 16px; 
+		} 
+
+		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame:hover { 
+			background-color: $selected-menuitem-background; 
+		} 
+
 		.gwt-MenuItem.no-image {
 			padding-left: 24px !important;
 			padding-right: 16px;
 		}
-		
+
 		.gwt-MenuItem:hover {
 			background-color: $selected-menuitem-background;
 			color: $black;
@@ -156,10 +156,10 @@ $duration: 0.2s;
 			}
 			
 			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
-	 	       background-color: $selected-menuitem-background; 
-	 	    } 
+				background-color: $selected-menuitem-background; 
+			}
 		}
-		
+
 		.gwt-MenuItem-disabled,
 		.gwt-MenuItem-disabled:hover {
 			color: $black;
@@ -171,16 +171,16 @@ $duration: 0.2s;
 	.suggestionBar {
 		position: absolute;
 		font-family: sans-serif;
-		bottom:0px;
-		right:0;
-		overflow-y:hidden;
+		bottom: 0;
+		right: 0;
+		overflow-y: hidden;
 		&.animating {
-			animation-name:addSuggestions;
+			animation-name: addSuggestions;
 			animation-duration: $duration;
 		}
 		&.removing {
-			animation-name:removeSuggestions;
-			animation-duration:$duration;
+			animation-name: removeSuggestions;
+			animation-duration: $duration;
 		}
 	}
 
@@ -199,7 +199,7 @@ $duration: 0.2s;
 	}
 
 	.AlgebraViewObjectStylebar.withContextMenu {
-			bottom:0;
+			bottom: 0;
 			padding: 8px 2px 0px 0px;
 			box-shadow: none;
 			background-color: $transparent;

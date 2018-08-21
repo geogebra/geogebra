@@ -97,7 +97,7 @@
 		padding-top: 10px;
 		padding-right: 10px;
 		min-width: 250px;
-		max-width:100%;
+		max-width: 100%;
 	}
 
 	.DialogButtonPanel button {
@@ -162,10 +162,10 @@
 	
 	/*---------------- SHARE DIALOG -------------*/
 	.shareDialog, .shareLinkGgb, .shareLinkMow {
-		min-width:320px;
+		min-width: 320px;
 		&>div>table {
-			width:100%;
-			padding-right:16px;
+			width: 100%;
+			padding-right: 16px;
 		}
 		
 		.dialogContent input[type="text"] {
