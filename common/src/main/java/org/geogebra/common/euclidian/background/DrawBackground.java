@@ -73,7 +73,8 @@ public class DrawBackground {
 
 	private void drawSVG(GGraphics2D g2) {
 		MyImage svg = view.getSVGBackground();
-		int h = svg.getHeight();
+		double scale = view.getYscale() / 25;
+		int h = (int) (svg.getHeight() * scale);
 		int y = (int) (view.getYZero() % h);
 		if (y > 0) {
 			y -= h;
@@ -82,11 +83,10 @@ public class DrawBackground {
 		int x = (int) getStartX();
 		g2.saveTransform();
 
-		double scaleY = view.getYscale() / 25;
-		g2.scale(scaleY, scaleY);
+		g2.scale(scale, scale);
 		while (h != 0 && y < view.getMaxYScreen()) {
-			g2.drawImage(svg, (int) (x / scaleY), (int) (y / scaleY));
-			y += (h * scaleY);
+			g2.drawImage(svg, (int) (x / scale), (int) (y / scale));
+			y += h;
 		}
 		g2.restoreTransform();
 	}
