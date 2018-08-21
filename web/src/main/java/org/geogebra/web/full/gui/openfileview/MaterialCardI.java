@@ -65,4 +65,10 @@ public interface MaterialCardI {
 	 */
 	String getMaterialID();
 
+	/**
+	 * @param visibility
+	 *            material visibility
+	 */
+	void updateVisibility(String visibility);
+
 }

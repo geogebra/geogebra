@@ -750,4 +750,9 @@ public class MaterialListElement extends FlowPanel
 	public String getMaterialID() {
 		return getMaterial().getSharingKeyOrId();
 	}
+
+	@Override
+	public void updateVisibility(String visibility) {
+		// only needed for new cards
+	}
 }

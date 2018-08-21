@@ -3,9 +3,9 @@ package org.geogebra.web.shared;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -33,6 +33,8 @@ public class ShareDialogMow extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton getLinkBtn;
 	private String shareURL;
+	private Material material;
+	private MaterialCallbackI callback;
 
 	private class Group extends FlowPanel {
 		private String groupName;
@@ -75,10 +77,11 @@ public class ShareDialogMow extends DialogBoxW
 	 * @param shareURL
 	 *            url of sharing link
 	 */
-	public ShareDialogMow(AppW app, String shareURL) {
+	public ShareDialogMow(AppW app, String shareURL, Material mat) {
 		super(app.getPanel(), app);
 		this.shareURL = shareURL;
 		this.appW = app;
+		this.material = mat;
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
@@ -143,22 +146,16 @@ public class ShareDialogMow extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == getLinkBtn) {
 			hide();
-			if (getAppW().getActiveMaterial() != null) {
-				save(getAppW().getActiveMaterial());
+			if (material != null && "P".equals(material.getVisibility())) {
+				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+						material.getSharingKeyOrId(), "S", material.getTitle(),
+						null, callback, material.getType());
 			}
 			ShareLinkDialog getLinkSD = new ShareLinkDialog((AppW) app,
 					shareURL, null);
 			getLinkSD.show();
 			getLinkSD.center();
 		}
-	}
-
-	private void save(Material activeMaterial) {
-		app.getSaveController().saveAs(activeMaterial.getTitle(),
-				MaterialVisibility.Public.getToken()
-						.equals(activeMaterial.getVisibility())
-						? MaterialVisibility.Public : MaterialVisibility.Shared,
-				null);
 	}
 
 	@Override
@@ -172,5 +169,13 @@ public class ShareDialogMow extends DialogBoxW
 	public void show() {
 		super.show();
 		super.center();
+	}
+
+	/**
+	 * @param materialCallbackI
+	 *            callback for visibility change
+	 */
+	public void setCallback(MaterialCallbackI materialCallbackI) {
+		this.callback = materialCallbackI;
 	}
 }

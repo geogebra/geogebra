@@ -1,7 +1,13 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
@@ -94,7 +100,20 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 */
 	protected void onShare() {
 		ShareDialogMow dialog = new ShareDialogMow(app,
-				app.getCurrentURL(material.getSharingKey(), true));
+				app.getCurrentURL(material.getSharingKey(), true), material);
+		dialog.setCallback(new MaterialCallbackI() {
+
+			@Override
+			public void onLoaded(List<Material> result,
+					ArrayList<Chapter> meta) {
+				card.updateVisibility(result.get(0).getVisibility());
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				Log.debug(exception);
+			}
+		});
 		dialog.show();
 		// GroupShareDialog dialog = new GroupShareDialog(app, card);
 		// dialog.center();

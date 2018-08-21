@@ -31,7 +31,6 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private Label cardAuthor;
 	private ContextMenuButtonMaterialCard moreBtn;
 	private FlowPanel visibilityPanel;
-	private String visibility;
 	private MaterialCardController controller;
 
 	/**
@@ -78,32 +77,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		// panel for visibility state
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.setStyleName("visibilityPanel");
-		NoDragImage visibiltyImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_card_public(), 24);
-		Label visibilityTxt = new Label(
-				app.getLocalization().getMenu("Public"));
-		visibility = getMaterial().getVisibility();
-		switch (visibility) {
-		case "P":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
-			break;
-		case "S":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
-			break;
-		case "O":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_public(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
-			break;
-		default:
-			break;
-		}
-		visibilityPanel
-				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
+		updateVisibility(getMaterial().getVisibility());
+
 		// build info panel
 		infoPanel.add(cardTitle);
 		infoPanel.add(
@@ -181,5 +156,36 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	@Override
 	public String getMaterialID() {
 		return getMaterial().getSharingKeyOrId();
+	}
+
+	@Override
+	public void updateVisibility(String visibility) {
+		NoDragImage visibiltyImg = new NoDragImage(
+				MaterialDesignResources.INSTANCE.mow_card_public(), 24);
+		Label visibilityTxt = new Label(
+				app.getLocalization().getMenu("Public"));
+		switch (visibility) {
+		case "P":
+			visibiltyImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
+			break;
+		case "S":
+			visibiltyImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
+			break;
+		case "O":
+			visibiltyImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.mow_card_public(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
+			break;
+		default:
+			break;
+		}
+		visibilityPanel.clear();
+		visibilityPanel
+				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
+
 	}
 }
