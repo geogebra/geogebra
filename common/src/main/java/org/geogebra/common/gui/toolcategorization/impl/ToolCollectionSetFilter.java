@@ -11,7 +11,8 @@ import java.util.Set;
  */
 public class ToolCollectionSetFilter implements ToolCollectionFilter {
 
-	private Set<Integer> excludeSet;
+	private Set<Integer> set;
+	private boolean include = false;
 
 	/**
 	 * Constructs a filter. This filters based on a set.
@@ -19,7 +20,7 @@ public class ToolCollectionSetFilter implements ToolCollectionFilter {
 	 * @param excludeSet tools that should be excluded
 	 */
 	public ToolCollectionSetFilter(Set<Integer> excludeSet) {
-		this.excludeSet = excludeSet;
+		this.set = excludeSet;
 	}
 
 	/**
@@ -30,8 +31,18 @@ public class ToolCollectionSetFilter implements ToolCollectionFilter {
 		this(new HashSet<Integer>(Arrays.asList(excludeTools)));
 	}
 
+	/**
+	 * Set whether this *set* contains tools
+	 * that should be included or excluded.
+	 * @param include true if the set contains tools that should
+	 *                be included, false otherwise.
+	 */
+	public void setInclude(boolean include) {
+		this.include = include;
+	}
+
 	@Override
 	public boolean filter(int tool) {
-		return !excludeSet.contains(tool);
+		return set.contains(tool) == include;
 	}
 }
