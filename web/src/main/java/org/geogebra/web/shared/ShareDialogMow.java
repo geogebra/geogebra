@@ -33,7 +33,6 @@ public class ShareDialogMow extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton getLinkBtn;
 	private String shareURL;
-	private Material material;
 
 	private class Group extends FlowPanel {
 		private String groupName;
@@ -76,11 +75,10 @@ public class ShareDialogMow extends DialogBoxW
 	 * @param shareURL
 	 *            url of sharing link
 	 */
-	public ShareDialogMow(AppW app, String shareURL, Material mat) {
+	public ShareDialogMow(AppW app, String shareURL) {
 		super(app.getPanel(), app);
 		this.shareURL = shareURL;
 		this.appW = app;
-		this.material = mat;
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
@@ -145,11 +143,6 @@ public class ShareDialogMow extends DialogBoxW
 	public void onClick(Widget source) {
 		if (source == getLinkBtn) {
 			hide();
-			if (material != null) {
-				getAppW().setActiveMaterial(material);
-				app.getSaveController().setSaveType(material.getType());
-				app.setTubeId(Integer.toString(material.getId()));
-			}
 			if (getAppW().getActiveMaterial() != null) {
 				save(getAppW().getActiveMaterial());
 			}

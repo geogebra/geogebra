@@ -136,7 +136,7 @@ public class ShareControllerW implements ShareController {
 				} else if (app.has(Feature.MOW_SHARE_DIALOG)
 						&& app.isWhiteboardActive()) {
 					mowShareDialog = new ShareDialogMow(app,
-							app.getCurrentURL(sharingKey, true), null);
+							app.getCurrentURL(sharingKey, true));
 					mowShareDialog.show();
 				} else {
 					sd = new ShareDialogW(app, anchor, geogebrabutton,
