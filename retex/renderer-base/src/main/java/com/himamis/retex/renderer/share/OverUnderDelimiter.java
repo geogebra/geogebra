@@ -46,6 +46,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.exception.InvalidUnitException;
 
 /**
@@ -72,7 +73,8 @@ public class OverUnderDelimiter extends Atom {
 		return setFields(new OverUnderDelimiter(base, script,symbol, kern, over));
 	}
 
-	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s, int kernUnit, double kern, boolean over)
+	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s,
+			Unit kernUnit, double kern, boolean over)
 			throws InvalidUnitException {
 		type = TeXConstants.TYPE_INNER;
 		this.base = base;
@@ -113,12 +115,12 @@ public class OverUnderDelimiter extends Atom {
 		// create centered horizontal box if smaller than maximum width
 		double max = getMaxWidth(b, del, scriptBox);
 		if (max - b.getWidth() > TeXFormula.PREC) {
-			b = new HorizontalBox(b, max, TeXConstants.ALIGN_CENTER);
+			b = new HorizontalBox(b, max, TeXConstants.Align.CENTER);
 		}
 
-		del = new VerticalBox(del, max, TeXConstants.ALIGN_CENTER);
+		del = new VerticalBox(del, max, TeXConstants.Align.CENTER);
 		if (scriptBox != null && max - scriptBox.getWidth() > TeXFormula.PREC) {
-			scriptBox = new HorizontalBox(scriptBox, max, TeXConstants.ALIGN_CENTER);
+			scriptBox = new HorizontalBox(scriptBox, max, TeXConstants.Align.CENTER);
 		}
 
 		return new OverUnderBox(b, del, scriptBox, kern.createBox(env).getHeight(), over);

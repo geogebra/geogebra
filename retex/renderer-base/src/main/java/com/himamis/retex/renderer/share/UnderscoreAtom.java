@@ -50,9 +50,9 @@ package com.himamis.retex.renderer.share;
  */
 public class UnderscoreAtom extends Atom {
 
-	public static final SpaceAtom w = new SpaceAtom(TeXConstants.UNIT_EM, 0.7f,
+	public static final SpaceAtom w = new SpaceAtom(TeXLength.Unit.EM, 0.7f,
 			0, 0);
-	public static final SpaceAtom s = new SpaceAtom(TeXConstants.UNIT_EM, 0.06f,
+	public static final SpaceAtom s = new SpaceAtom(TeXLength.Unit.EM, 0.06f,
 			0, 0);
 
 	@Override

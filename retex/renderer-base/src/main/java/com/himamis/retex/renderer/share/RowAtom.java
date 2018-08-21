@@ -123,7 +123,7 @@ public class RowAtom extends Atom implements Row {
 			return elements.removeLast();
 		}
 
-		return new SpaceAtom(TeXConstants.UNIT_POINT, 0.0f, 0.0f, 0.0f);
+		return new SpaceAtom(TeXLength.Unit.POINT, 0.0f, 0.0f, 0.0f);
 	}
 
 	public Atom getElement(int i) {

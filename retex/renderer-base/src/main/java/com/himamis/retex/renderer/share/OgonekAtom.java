@@ -77,7 +77,7 @@ public class OgonekAtom extends Atom {
 			y = ogonek;
 		}
 
-		Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_RIGHT);
+		Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.Align.RIGHT);
 		vb.add(new StrutBox(0, -ogonek.getHeight(), 0, 0));
 		vb.add(og);
 		double f = vb.getHeight() + vb.getDepth();

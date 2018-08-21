@@ -51,7 +51,7 @@ package com.himamis.retex.renderer.share;
 public class HdotsforAtom extends MulticolumnAtom {
 
 	private static final Atom ldotp = SymbolAtom.get("ldotp");
-	private static final Atom thin = new SpaceAtom(TeXConstants.THINMUSKIP);
+	private static final Atom thin = new SpaceAtom(TeXConstants.Muskip.THIN);
 	private double coeff;
 
 	@Override
@@ -94,7 +94,7 @@ public class HdotsforAtom extends MulticolumnAtom {
 			while (b.getWidth() < w) {
 				b.add(db);
 			}
-			b = new HorizontalBox(b, w, TeXConstants.ALIGN_CENTER);
+			b = new HorizontalBox(b, w, TeXConstants.Align.CENTER);
 		} else {
 			b = db;
 		}

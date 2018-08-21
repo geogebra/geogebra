@@ -49,6 +49,7 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -62,19 +63,19 @@ class VerticalBox extends Box {
 	public VerticalBox() {
 	}
 
-	public VerticalBox(Box b, double rest, int alignment) {
+	public VerticalBox(Box b, double rest, Align alignment) {
 		this();
 		add(b);
-		if (alignment == TeXConstants.ALIGN_CENTER) {
+		if (alignment == TeXConstants.Align.CENTER) {
 			StrutBox s = new StrutBox(0, rest / 2, 0, 0);
 			super.add(0, s);
 			height += rest / 2;
 			depth += rest / 2;
 			super.add(s);
-		} else if (alignment == TeXConstants.ALIGN_TOP) {
+		} else if (alignment == TeXConstants.Align.TOP) {
 			depth += rest;
 			super.add(new StrutBox(0, rest, 0, 0));
-		} else if (alignment == TeXConstants.ALIGN_BOTTOM) {
+		} else if (alignment == TeXConstants.Align.BOTTOM) {
 			height += rest;
 			super.add(0, new StrutBox(0, rest, 0, 0));
 		}

@@ -48,6 +48,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
@@ -74,7 +75,7 @@ public class TeXEnvironment {
 	private String textStyle;
 	private boolean smallCap;
 	private double scaleFactor = 1;
-	private int interlineUnit;
+	private Unit interlineUnit;
 	private double interline;
 
 	public boolean isColored = false;
@@ -83,7 +84,8 @@ public class TeXEnvironment {
 		this(style, tf, null, null);
 	}
 
-	public TeXEnvironment(int style, TeXFont tf, int widthUnit, double textwidth) {
+	public TeXEnvironment(int style, TeXFont tf, Unit widthUnit,
+			double textwidth) {
 		this(style, tf, null, null);
 		this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
 	}
@@ -93,7 +95,7 @@ public class TeXEnvironment {
 		this.tf = tf;
 		background = bg;
 		color = c;
-		setInterline(TeXConstants.UNIT_EX, 1f);
+		setInterline(TeXLength.Unit.EX, 1f);
 	}
 
 	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg, Color c, String textStyle,
@@ -105,10 +107,10 @@ public class TeXEnvironment {
 		this.smallCap = smallCap;
 		background = bg;
 		color = c;
-		setInterline(TeXConstants.UNIT_EX, 1f);
+		setInterline(TeXLength.Unit.EX, 1f);
 	}
 
-	public void setInterline(int unit, double len) {
+	public void setInterline(Unit unit, double len) {
 		this.interline = len;
 		this.interlineUnit = unit;
 	}
@@ -117,7 +119,7 @@ public class TeXEnvironment {
 		return interline * SpaceAtom.getFactor(interlineUnit, this);
 	}
 
-	public void setTextwidth(int widthUnit, double textwidth) {
+	public void setTextwidth(Unit widthUnit, double textwidth) {
 		this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
 	}
 

@@ -77,8 +77,8 @@ public class CedillaAtom extends Atom {
 			y = cedilla;
 		}
 
-		Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_CENTER);
-		double x = 0.4 * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+		Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.Align.CENTER);
+		double x = 0.4 * SpaceAtom.getFactor(TeXLength.Unit.MU, env);
 		vb.add(new StrutBox(0, -x, 0, 0));
 		vb.add(ce);
 		double f = vb.getHeight() + vb.getDepth();

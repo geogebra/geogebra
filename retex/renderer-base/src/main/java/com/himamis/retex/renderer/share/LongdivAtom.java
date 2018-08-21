@@ -53,11 +53,10 @@ import java.util.ArrayList;
 public class LongdivAtom extends VRowAtom {
 
 	public LongdivAtom(long divisor, long dividend) {
-		setHalign(TeXConstants.ALIGN_RIGHT);
+		setHalign(TeXConstants.Align.RIGHT);
 		setVtop(true);
 		String[] res = makeResults(divisor, dividend);
-		Atom rule = new RuleAtom(TeXConstants.UNIT_EX, 0f, TeXConstants.UNIT_EX,
-				2.6f, TeXConstants.UNIT_EX, 0.5f);
+		Atom rule = new RuleAtom(TeXLength.Unit.EX, 0, 2.6, 0.5);
 		for (int i = 0; i < res.length; ++i) {
 			Atom num = new TeXFormula(res[i]).root;
 			if (i % 2 == 0) {
@@ -75,13 +74,13 @@ public class LongdivAtom extends VRowAtom {
 				Atom big = new BigDelimiterAtom(rparen, 1);
 				Atom ph = new PhantomAtom(big, false, true, true);
 				RowAtom ra = new RowAtom(ph);
-				Atom raised = new RaiseAtom(big, TeXConstants.UNIT_X8, 3.5f,
-						TeXConstants.UNIT_X8, 0f, TeXConstants.UNIT_X8, 0f);
+				Atom raised = new RaiseAtom(big, TeXLength.Unit.X8, 3.5f,
+						TeXLength.Unit.X8, 0f, TeXLength.Unit.X8, 0f);
 				ra.add(new SmashedAtom(raised));
 				ra.add(num);
 				Atom a = new OverlinedAtom(ra);
 				RowAtom ra1 = new RowAtom(new TeXFormula(div).root);
-				ra1.add(new SpaceAtom(TeXConstants.THINMUSKIP));
+				ra1.add(new SpaceAtom(TeXConstants.Muskip.THIN));
 				ra1.add(a);
 				append(ra1);
 			} else {

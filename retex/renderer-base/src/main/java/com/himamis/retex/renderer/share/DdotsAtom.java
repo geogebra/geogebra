@@ -60,10 +60,10 @@ public class DdotsAtom extends Atom {
 		Box ldots = TeXFormula.get("ldots").root.createBox(env);
 		double w = ldots.getWidth();
 		Box dot = SymbolAtom.get("ldotp").createBox(env);
-		HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_LEFT);
-		HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.ALIGN_CENTER);
-		HorizontalBox hb3 = new HorizontalBox(dot, w, TeXConstants.ALIGN_RIGHT);
-		Box pt4 = new SpaceAtom(TeXConstants.UNIT_MU, 0, 4, 0).createBox(env);
+		HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.Align.LEFT);
+		HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.Align.CENTER);
+		HorizontalBox hb3 = new HorizontalBox(dot, w, TeXConstants.Align.RIGHT);
+		Box pt4 = new SpaceAtom(TeXLength.Unit.MU, 0, 4, 0).createBox(env);
 		VerticalBox vb = new VerticalBox();
 		vb.add(hb1);
 		vb.add(pt4);

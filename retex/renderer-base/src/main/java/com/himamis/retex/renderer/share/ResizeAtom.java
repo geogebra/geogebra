@@ -45,13 +45,15 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXLength.Unit;
+
 /**
  * An atom representing a scaled Atom.
  */
 public class ResizeAtom extends Atom {
 
 	private Atom base;
-	private int wunit, hunit;
+	private Unit wunit, hunit;
 	private double w, h;
 	private boolean keepaspectratio;
 
@@ -72,19 +74,19 @@ public class ResizeAtom extends Atom {
 		this.type = base.type;
 		this.base = base;
 		this.keepaspectratio = keepaspectratio;
-		double[] w = SpaceAtom.getLength(ws == null ? "" : ws);
-		double[] h = SpaceAtom.getLength(hs == null ? "" : hs);
+		Object[] w = SpaceAtom.getLength(ws == null ? "" : ws);
+		Object[] h = SpaceAtom.getLength(hs == null ? "" : hs);
 		if (w.length != 2) {
-			this.wunit = -1;
+			this.wunit = Unit.NONE;
 		} else {
-			this.wunit = (int) w[0];
-			this.w = w[1];
+			this.wunit = (Unit) w[0];
+			this.w = (Double) w[1];
 		}
 		if (h.length != 2) {
-			this.hunit = -1;
+			this.hunit = Unit.NONE;
 		} else {
-			this.hunit = (int) h[0];
-			this.h = h[1];
+			this.hunit = (Unit) h[0];
+			this.h = (Double) h[1];
 		}
 	}
 
@@ -105,19 +107,19 @@ public class ResizeAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
-		if (wunit == -1 && hunit == -1) {
+		if (wunit == Unit.NONE && hunit == Unit.NONE) {
 			return bbox;
 		}
 		double xscl = 1;
 		double yscl = 1;
-		if (wunit != -1 && hunit != -1) {
+		if (wunit != Unit.NONE && hunit != Unit.NONE) {
 			xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
 			yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
 			if (keepaspectratio) {
 				xscl = Math.min(xscl, yscl);
 				yscl = xscl;
 			}
-		} else if (wunit != -1 && hunit == -1) {
+		} else if (wunit != Unit.NONE && hunit == Unit.NONE) {
 			xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
 			yscl = xscl;
 		} else {

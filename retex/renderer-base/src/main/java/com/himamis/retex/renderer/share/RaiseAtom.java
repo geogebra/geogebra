@@ -45,13 +45,15 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXLength.Unit;
+
 /**
  * An atom representing a scaled Atom.
  */
 public class RaiseAtom extends Atom {
 
 	private Atom base;
-	private int runit, hunit, dunit;
+	private Unit runit, hunit, dunit;
 	private double r, h, d;
 
 	@Override
@@ -59,7 +61,8 @@ public class RaiseAtom extends Atom {
 		return setFields(new RaiseAtom(base, runit, r, hunit, h, dunit, d));
 	}
 
-	public RaiseAtom(Atom base, int runit, double r, int hunit, double h, int dunit, double d) {
+	public RaiseAtom(Atom base, Unit runit, double r, Unit hunit, double h,
+			Unit dunit, double d) {
 		this.base = base;
 		this.runit = runit;
 		this.r = r;
@@ -82,19 +85,19 @@ public class RaiseAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
-		if (runit == -1) {
+		if (runit == Unit.NONE) {
 			bbox.setShift(0);
 		} else {
 			bbox.setShift(-r * SpaceAtom.getFactor(runit, env));
 		}
 
-		if (hunit == -1) {
+		if (hunit == Unit.NONE) {
 			return bbox;
 		}
 
 		HorizontalBox hbox = new HorizontalBox(bbox);
 		hbox.setHeight(h * SpaceAtom.getFactor(hunit, env));
-		if (dunit == -1) {
+		if (dunit == Unit.NONE) {
 			hbox.setDepth(0);
 		} else {
 			hbox.setDepth(d * SpaceAtom.getFactor(dunit, env));

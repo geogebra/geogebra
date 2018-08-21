@@ -185,7 +185,7 @@ public class AccentedAtom extends Atom {
 		}
 
 		// calculate delta
-		double ec = -SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+		double ec = -SpaceAtom.getFactor(TeXLength.Unit.MU, env);
 		double delta = acc ? ec : Math.min(b.getHeight(), tf.getXHeight(style, ch.getFontCode()));
 
 		// create vertical box
@@ -210,7 +210,7 @@ public class AccentedAtom extends Atom {
 		double diff = (u - y.getWidth()) / 2;
 		y.setShift(s + (diff > 0 ? diff : 0));
 		if (diff < 0) {
-			b = new HorizontalBox(b, y.getWidth(), TeXConstants.ALIGN_CENTER);
+			b = new HorizontalBox(b, y.getWidth(), TeXConstants.Align.CENTER);
 		}
 		vBox.add(y);
 

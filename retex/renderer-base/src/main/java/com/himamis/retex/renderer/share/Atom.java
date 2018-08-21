@@ -48,6 +48,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+
 /**
  * An abstract superclass for all logical mathematical constructions that can be a part of a
  * TeXFormula. All subclasses must implement the abstract {@link #createBox(TeXEnvironment)} method
@@ -71,7 +73,7 @@ public abstract class Atom implements Cloneable {
 
 	public int type_limits = TeXConstants.SCRIPT_NOLIMITS;
 
-	public int alignment = -1;
+	public Align alignment = Align.NONE;
 	
 	/**
 	 * Convert this atom into a {@link Box}, using properties set by "parent" atoms, like the TeX

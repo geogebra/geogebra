@@ -46,7 +46,7 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.exception.InvalidUnitException;
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
  * An atom representing another atom with an atom above it (if not null) seperated by a kern and in
@@ -65,7 +65,7 @@ public class UnderOverAtom extends Atom {
 	private final double overSpace;
 
 	// units for the kerns
-	private final int overUnit;
+	private final Unit overUnit;
 
 	// whether the under- and overscript should be drawn in a smaller size
 	private final boolean underScriptSize;
@@ -80,12 +80,9 @@ public class UnderOverAtom extends Atom {
 		return setFields(ret);
 	}
 
-	public UnderOverAtom(Atom base, Atom underOver, int underOverUnit, double underOverSpace,
+	public UnderOverAtom(Atom base, Atom underOver, Unit underOverUnit,
+			double underOverSpace,
 			boolean underOverScriptSize, boolean over) {
-		// check if unit is valid
-		SpaceAtom.checkUnit(underOverUnit);
-
-		// units valid
 		this.base = base;
 		// TODO: split into two different classes?
 
@@ -103,18 +100,16 @@ public class UnderOverAtom extends Atom {
 			this.underScriptSize = underOverScriptSize;
 			this.overSpace = 0.0f;
 			this.over = null;
-			this.overUnit = 0;
+			this.overUnit = Unit.EM;
 			this.overScriptSize = false;
 		}
 	}
 
-	public UnderOverAtom(Atom base, Atom under, int underUnit, double underSpace, boolean underScriptSize,
-			Atom over, int overUnit, double overSpace, boolean overScriptSize) throws InvalidUnitException {
-		// check if units are valid
-		SpaceAtom.checkUnit(underUnit);
-		SpaceAtom.checkUnit(overUnit);
+	public UnderOverAtom(Atom base, Atom under, Unit underUnit,
+			double underSpace, boolean underScriptSize, Atom over,
+			Unit overUnit,
+			double overSpace, boolean overScriptSize) {
 
-		// units valid
 		this.base = base;
 		this.under = under;
 		this.underSpace = underSpace;
@@ -126,7 +121,7 @@ public class UnderOverAtom extends Atom {
 	}
 
 	public UnderOverAtom(Atom base, Atom under, Atom over, double underSpace,
-			double overSpace, int overUnit, boolean underScriptSize,
+			double overSpace, Unit overUnit, boolean underScriptSize,
 			boolean overScriptSize) {
 		this.base = base;
 		this.under = under;
@@ -189,7 +184,7 @@ public class UnderOverAtom extends Atom {
 
 	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
-			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
+			return new HorizontalBox(b, maxWidth, TeXConstants.Align.CENTER);
 		}
 		return b;
 	}

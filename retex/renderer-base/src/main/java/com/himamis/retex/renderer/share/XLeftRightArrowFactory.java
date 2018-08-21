@@ -66,7 +66,7 @@ public class XLeftRightArrowFactory {
 		}
 
 		Box minus = new SmashedAtom(MINUS, "").createBox(env);
-		Box kern = new SpaceAtom(TeXConstants.UNIT_MU, -4f, 0, 0).createBox(env);
+		Box kern = new SpaceAtom(TeXLength.Unit.MU, -4f, 0, 0).createBox(env);
 		double mwidth = minus.getWidth() + kern.getWidth();
 		swidth += kern.getWidth();
 		HorizontalBox hb = new HorizontalBox();
@@ -78,14 +78,14 @@ public class XLeftRightArrowFactory {
 
 		double sf = (width - swidth - w) / minus.getWidth();
 
-		hb.add(new SpaceAtom(TeXConstants.UNIT_MU, -2f * sf, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.MU, -2f * sf, 0, 0).createBox(env));
 		hb.add(new ScaleAtom(MINUS, sf, 1).createBox(env));
 
 		if (left) {
-			hb.add(0, new SpaceAtom(TeXConstants.UNIT_MU, -3.5f, 0, 0).createBox(env));
+			hb.add(0, new SpaceAtom(TeXLength.Unit.MU, -3.5f, 0, 0).createBox(env));
 			hb.add(0, arr);
 		} else {
-			hb.add(new SpaceAtom(TeXConstants.UNIT_MU, -2f * sf - 2f, 0, 0).createBox(env));
+			hb.add(new SpaceAtom(TeXLength.Unit.MU, -2f * sf - 2f, 0, 0).createBox(env));
 			hb.add(arr);
 		}
 
@@ -108,7 +108,7 @@ public class XLeftRightArrowFactory {
 		}
 
 		Box minus = new SmashedAtom(MINUS, "").createBox(env);
-		Box kern = new SpaceAtom(TeXConstants.UNIT_MU, -3.4f, 0, 0).createBox(env);
+		Box kern = new SpaceAtom(TeXLength.Unit.MU, -3.4f, 0, 0).createBox(env);
 		double mwidth = minus.getWidth() + kern.getWidth();
 		swidth += 2 * kern.getWidth();
 

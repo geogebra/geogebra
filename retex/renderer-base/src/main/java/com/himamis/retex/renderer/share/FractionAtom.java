@@ -46,6 +46,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.exception.InvalidUnitException;
 
 /**
@@ -57,10 +59,11 @@ public class FractionAtom extends Atom {
 	private boolean noDefault = false;
 
 	// unit used for the thickness of the fraction line
-	private int unit;
+	private Unit unit;
 
 	// alignment settings for the numerator and denominator
-	private int numAlign = TeXConstants.ALIGN_CENTER, denomAlign = TeXConstants.ALIGN_CENTER;
+	private Align numAlign = TeXConstants.Align.CENTER,
+			denomAlign = TeXConstants.Align.CENTER;
 
 	// the atoms representing the numerator and denominator
 	private Atom numerator, denominator;
@@ -97,7 +100,7 @@ public class FractionAtom extends Atom {
 	 * @param rule whether the fraction line should be drawn
 	 */
 	public FractionAtom(Atom num, Atom den, boolean rule) {
-		this(num, den, !rule, TeXConstants.UNIT_PIXEL, 0f);
+		this(num, den, !rule, TeXLength.Unit.PIXEL, 0f);
 	}
 
 	/**
@@ -118,11 +121,9 @@ public class FractionAtom extends Atom {
 	 * @throws InvalidUnitException
 	 *             if the given integer is not a valid unit constant
 	 */
-	public FractionAtom(Atom num, Atom den, boolean noDef, int unit, double t) throws InvalidUnitException {
-		// check unit
-		SpaceAtom.checkUnit(unit);
+	public FractionAtom(Atom num, Atom den, boolean noDef, Unit unit,
+			double t) {
 
-		// unit ok
 		numerator = num;
 		denominator = den;
 		noDefault = noDef;
@@ -140,7 +141,8 @@ public class FractionAtom extends Atom {
 	 * @param numAlign alignment of the numerator
 	 * @param denomAlign alignment of the denominator
 	 */
-	public FractionAtom(Atom num, Atom den, boolean rule, int numAlign, int denomAlign) {
+	public FractionAtom(Atom num, Atom den, boolean rule, Align numAlign,
+			Align denomAlign) {
 		this(num, den, rule);
 		this.numAlign = checkAlignment(numAlign);
 		this.denomAlign = checkAlignment(denomAlign);
@@ -155,7 +157,8 @@ public class FractionAtom extends Atom {
 	 * @param numAlign alignment of the numerator
 	 * @param denomAlign alignment of the denominator
 	 */
-	public FractionAtom(Atom num, Atom den, double defFactor, int numAlign, int denomAlign) {
+	public FractionAtom(Atom num, Atom den, double defFactor, Align numAlign,
+			Align denomAlign) {
 		this(num, den, true, numAlign, denomAlign);
 		this.defFactor = defFactor;
 		defFactorSet = true;
@@ -171,7 +174,8 @@ public class FractionAtom extends Atom {
 	 * @param numAlign alignment of the numerator
 	 * @param denomAlign alignment of the denominator
 	 */
-	public FractionAtom(Atom num, Atom den, int unit, double t, int numAlign, int denomAlign) {
+	public FractionAtom(Atom num, Atom den, Unit unit, double t, Align numAlign,
+			Align denomAlign) {
 		this(num, den, unit, t);
 		this.numAlign = checkAlignment(numAlign);
 		this.denomAlign = checkAlignment(denomAlign);
@@ -185,12 +189,13 @@ public class FractionAtom extends Atom {
 	 * @param unit a unit constant for the line thickness
 	 * @param t the thickness of the fraction line (in the given unit)
 	 */
-	public FractionAtom(Atom num, Atom den, int unit, double t) {
+	public FractionAtom(Atom num, Atom den, Unit unit, double t) {
 		this(num, den, true, unit, t);
 	}
 
-	private FractionAtom(Atom numerator, Atom denominator, int unit, double thickness, int numAlign,
-			int denomAlign, double defFactor, boolean defFactorSet, boolean noDefault) {
+	private FractionAtom(Atom numerator, Atom denominator, Unit unit,
+			double thickness, Align numAlign, Align denomAlign,
+			double defFactor, boolean defFactorSet, boolean noDefault) {
 		this(numerator, denominator, unit, thickness, numAlign,	denomAlign);
 		this.defFactor = defFactor;
 		this.defFactorSet = defFactorSet;
@@ -200,11 +205,11 @@ public class FractionAtom extends Atom {
 
 	// Checks if the alignment constant is valid.
 	// If not, a default value will be used.
-	private static int checkAlignment(int align) {
-		if (align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT) {
+	private static Align checkAlignment(Align align) {
+		if (align == TeXConstants.Align.LEFT || align == TeXConstants.Align.RIGHT) {
 			return align;
 		}
-		return TeXConstants.ALIGN_CENTER;
+		return TeXConstants.Align.CENTER;
 	}
 
 	@Override
@@ -304,9 +309,9 @@ public class FractionAtom extends Atom {
 		vBox.setDepth(shiftDown + denom.getDepth());
 
 		// \nulldelimiterspace is set by default to 1.2pt = 0.12em)
-		double f = new SpaceAtom(TeXConstants.UNIT_EM, 0.12f, 0, 0).createBox(env).getWidth();
+		double f = new SpaceAtom(TeXLength.Unit.EM, 0.12f, 0, 0).createBox(env).getWidth();
 
-		return new HorizontalBox(vBox, vBox.getWidth() + 2 * f, TeXConstants.ALIGN_CENTER);
+		return new HorizontalBox(vBox, vBox.getWidth() + 2 * f, TeXConstants.Align.CENTER);
 	}
 
 	public Atom getNumerator() {

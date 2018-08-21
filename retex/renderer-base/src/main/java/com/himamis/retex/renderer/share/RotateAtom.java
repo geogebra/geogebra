@@ -47,6 +47,8 @@ package com.himamis.retex.renderer.share;
 
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.TeXLength.Unit;
+
 /**
  * An atom representing a rotated Atom.
  */
@@ -55,7 +57,7 @@ public class RotateAtom extends Atom {
 	private Atom base;
 	private double angle;
 	private int option = -1;
-	private int xunit, yunit;
+	private Unit xunit, yunit;
 	private double x, y;
 
 	@Override
@@ -89,19 +91,19 @@ public class RotateAtom extends Atom {
 			this.option = RotateBox.getOrigin(map.get("origin"));
 		} else {
 			if (map.containsKey("x")) {
-				double[] xinfo = SpaceAtom.getLength(map.get("x"));
-				this.xunit = (int) xinfo[0];
-				this.x = xinfo[1];
+				Object[] xinfo = SpaceAtom.getLength(map.get("x"));
+				this.xunit = (Unit) xinfo[0];
+				this.x = (Double) xinfo[1];
 			} else {
-				this.xunit = TeXConstants.UNIT_POINT;
+				this.xunit = TeXLength.Unit.POINT;
 				this.x = 0;
 			}
 			if (map.containsKey("y")) {
-				double[] yinfo = SpaceAtom.getLength(map.get("y"));
-				this.yunit = (int) yinfo[0];
-				this.y = yinfo[1];
+				Object[] yinfo = SpaceAtom.getLength(map.get("y"));
+				this.yunit = (Unit) yinfo[0];
+				this.y = (Double) yinfo[1];
 			} else {
-				this.yunit = TeXConstants.UNIT_POINT;
+				this.yunit = TeXLength.Unit.POINT;
 				this.y = 0;
 			}
 		}

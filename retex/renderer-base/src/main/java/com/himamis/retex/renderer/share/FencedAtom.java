@@ -124,7 +124,7 @@ public class FencedAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		Box content = base.createBox(env);
-		double shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
+		double shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXLength.Unit.POINT, env);
 		double axis = tf.getAxisHeight(env.getStyle());
 		double delta = Math.max(content.getHeight() - axis, content.getDepth() + axis);
 		double minHeight = Math.max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);

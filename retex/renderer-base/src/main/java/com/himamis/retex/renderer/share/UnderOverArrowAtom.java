@@ -82,7 +82,7 @@ public class UnderOverArrowAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base != null ? base.createBox(env) : new StrutBox(0, 0, 0, 0);
-		double sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).createBox(env).getWidth();
+		double sep = new SpaceAtom(TeXLength.Unit.POINT, 1f, 0, 0).createBox(env).getWidth();
 		Box arrow;
 
 		if (dble) {
@@ -96,12 +96,12 @@ public class UnderOverArrowAtom extends Atom {
 		VerticalBox vb = new VerticalBox();
 		if (over) {
 			vb.add(arrow);
-			vb.add(new HorizontalBox(b, arrow.getWidth(), TeXConstants.ALIGN_CENTER));
+			vb.add(new HorizontalBox(b, arrow.getWidth(), TeXConstants.Align.CENTER));
 			double h = vb.getDepth() + vb.getHeight();
 			vb.setDepth(b.getDepth());
 			vb.setHeight(h - b.getDepth());
 		} else {
-			vb.add(new HorizontalBox(b, arrow.getWidth(), TeXConstants.ALIGN_CENTER));
+			vb.add(new HorizontalBox(b, arrow.getWidth(), TeXConstants.Align.CENTER));
 			vb.add(new StrutBox(0, sep, 0, 0));
 			vb.add(arrow);
 			double h = vb.getDepth() + vb.getHeight();

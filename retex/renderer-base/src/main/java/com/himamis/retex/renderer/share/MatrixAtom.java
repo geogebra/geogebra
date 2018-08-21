@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -60,11 +61,11 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 @SuppressWarnings("javadoc")
 public class MatrixAtom extends Atom {
 
-	final public static SpaceAtom hsep = new SpaceAtom(TeXConstants.UNIT_EM, 1f, 0.0f, 0.0f);
-	final public static SpaceAtom semihsep = new SpaceAtom(TeXConstants.UNIT_EM, 0.5f, 0.0f, 0.0f);
-	final public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1f, 0.0f);
-	final public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
-	final public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
+	final public static SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1f, 0.0f, 0.0f);
+	final public static SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM, 0.5f, 0.0f, 0.0f);
+	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 1f, 0.0f);
+	final public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 0.4f, 0.0f);
+	final public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 0.4f, 0.0f);
 
 	public static final int ARRAY = 0;
 	public static final int MATRIX = 1;
@@ -78,14 +79,14 @@ public class MatrixAtom extends Atom {
 	private static final Box nullBox = new StrutBox(0, 0, 0, 0);
 
 	private ArrayOfAtoms matrix;
-	private int[] position;
+	private Align[] position;
 	private Map<Integer, VlineAtom> vlines = new HashMap<Integer, VlineAtom>();
 	private boolean isPartial;
 	private boolean spaceAround;
 	private ArrayList<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
 	private ArrayList<Color> colors = new ArrayList<Color>();
 
-	final private static SpaceAtom align = new SpaceAtom(TeXConstants.MEDMUSKIP);
+	final private static SpaceAtom align = new SpaceAtom(TeXConstants.Muskip.MED);
 
 	@Override
 	final public Atom duplicate() {
@@ -140,32 +141,34 @@ public class MatrixAtom extends Atom {
 		this.spaceAround = spaceAround;
 
 		if (type != MATRIX && type != SMALLMATRIX) {
-			position = new int[matrix.col];
+			position = new Align[matrix.col];
 			for (int i = 0; i < matrix.col; i += 2) {
-				position[i] = TeXConstants.ALIGN_RIGHT;
+				position[i] = TeXConstants.Align.RIGHT;
 				if (i + 1 < matrix.col) {
-					position[i + 1] = TeXConstants.ALIGN_LEFT;
+					position[i + 1] = TeXConstants.Align.LEFT;
 				}
 			}
 		} else {
-			position = new int[matrix.col];
+			position = new Align[matrix.col];
 			for (int i = 0; i < matrix.col; i++) {
-				position[i] = TeXConstants.ALIGN_CENTER;
+				position[i] = TeXConstants.Align.CENTER;
 			}
 		}
 	}
 
-	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, int type, int alignment) {
+	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, int type,
+			Align alignment) {
 		this(isPartial, array, type, alignment, true);
 	}
 
-	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, int type, int alignment, boolean spaceAround) {
+	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, int type,
+			Align alignment, boolean spaceAround) {
 		this.isPartial = isPartial;
 		this.matrix = array;
 		this.type = type;
 		this.spaceAround = spaceAround;
 
-		position = new int[matrix.col];
+		position = new Align[matrix.col];
 		for (int i = 0; i < matrix.col; i++) {
 			position[i] = alignment;
 		}
@@ -184,18 +187,18 @@ public class MatrixAtom extends Atom {
 		char ch;
 		TeXFormula tf;
 		TeXParser tp;
-		List<Integer> lposition = new ArrayList<Integer>();
+		List<Align> lposition = new ArrayList<Align>();
 		while (pos < len) {
 			ch = opt.charAt(pos);
 			switch (ch) {
 			case 'l':
-				lposition.add(TeXConstants.ALIGN_LEFT);
+				lposition.add(TeXConstants.Align.LEFT);
 				break;
 			case 'r':
-				lposition.add(TeXConstants.ALIGN_RIGHT);
+				lposition.add(TeXConstants.Align.RIGHT);
 				break;
 			case 'c':
-				lposition.add(TeXConstants.ALIGN_CENTER);
+				lposition.add(TeXConstants.Align.CENTER);
 				break;
 			case '|':
 				int nb = 1;
@@ -219,7 +222,7 @@ public class MatrixAtom extends Atom {
 					matrix.get(j).add(lposition.size(), at);
 				}
 
-				lposition.add(TeXConstants.ALIGN_NONE);
+				lposition.add(TeXConstants.Align.NONE);
 				pos += tp.getPos();
 				pos--;
 				break;
@@ -242,23 +245,23 @@ public class MatrixAtom extends Atom {
 			case '\t':
 				break;
 			default:
-				lposition.add(TeXConstants.ALIGN_CENTER);
+				lposition.add(TeXConstants.Align.CENTER);
 			}
 			pos++;
 		}
 
 		for (int j = lposition.size(); j < matrix.col; j++) {
-			lposition.add(TeXConstants.ALIGN_CENTER);
+			lposition.add(TeXConstants.Align.CENTER);
 		}
 
 		if (lposition.size() != 0) {
-			Integer[] tab = lposition.toArray(new Integer[0]);
-			position = new int[tab.length];
+			Align[] tab = lposition.toArray(new Align[0]);
+			position = new Align[tab.length];
 			for (int i = 0; i < tab.length; i++) {
 				position[i] = tab[i];
 			}
 		} else {
-			position = new int[] { TeXConstants.ALIGN_CENTER };
+			position = new Align[] { TeXConstants.Align.CENTER };
 		}
 	}
 
@@ -277,7 +280,7 @@ public class MatrixAtom extends Atom {
 		case ARRAY:
 			// Array : hsep_col/2 elem hsep_col elem hsep_col ... hsep_col elem hsep_col/2
 			i = 1;
-			if (position[0] == TeXConstants.ALIGN_NONE) {
+			if (position[0] == TeXConstants.Align.NONE) {
 				arr[1] = new StrutBox(0.0f, 0.0f, 0.0f, 0.0f);
 				i = 2;
 			}
@@ -289,7 +292,7 @@ public class MatrixAtom extends Atom {
 			arr[col] = arr[0];
 			Hsep = hsep.createBox(env);
 			for (; i < col; i++) {
-				if (position[i] == TeXConstants.ALIGN_NONE) {
+				if (position[i] == TeXConstants.Align.NONE) {
 					arr[i] = new StrutBox(0.0f, 0.0f, 0.0f, 0.0f);
 					arr[i + 1] = arr[i];
 					i++;
@@ -492,7 +495,7 @@ public class MatrixAtom extends Atom {
 								Box vatBox = vat.createBox(env);
 								hb.add(new HorizontalBox(vatBox,
 										Hsep[0].getWidth() + vatBox.getWidth(),
-										TeXConstants.ALIGN_LEFT));
+										TeXConstants.Align.LEFT));
 							} else {
 								hb.add(Hsep[0]);
 							}
@@ -543,12 +546,12 @@ public class MatrixAtom extends Atom {
 								hb.add(new HorizontalBox(vatBox,
 										Hsep[j + 1].getWidth()
 												+ vatBox.getWidth(),
-										TeXConstants.ALIGN_CENTER));
+										TeXConstants.Align.CENTER));
 							} else {
 								hb.add(new HorizontalBox(vatBox,
 										Hsep[j + 1].getWidth()
 												+ vatBox.getWidth(),
-										TeXConstants.ALIGN_RIGHT));
+										TeXConstants.Align.RIGHT));
 							}
 						} else {
 							hb.add(Hsep[j + 1]);
@@ -558,7 +561,7 @@ public class MatrixAtom extends Atom {
 						double f = env.getTextwidth();
 						f = f == Double.POSITIVE_INFINITY ? rowWidth[j] : f;
 						hb = new HorizontalBox(boxarr[i][j], f,
-								TeXConstants.ALIGN_LEFT);
+								TeXConstants.Align.LEFT);
 						j = col - 1;
 						break;
 					case TeXConstants.TYPE_HLINE:

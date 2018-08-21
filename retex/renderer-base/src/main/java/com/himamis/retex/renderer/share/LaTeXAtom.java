@@ -73,19 +73,19 @@ final public class LaTeXAtom extends Atom {
 		}
 
 		HorizontalBox hb = new HorizontalBox(rat.getLastAtom().createBox(env));
-		hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.35f * sc, 0, 0).createBox(env));
-		double f = new SpaceAtom(TeXConstants.UNIT_EX, 0.45f * sc, 0, 0).createBox(env).getWidth();
-		double f1 = new SpaceAtom(TeXConstants.UNIT_EX, 0.5f * sc, 0, 0).createBox(env).getWidth();
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.35f * sc, 0, 0).createBox(env));
+		double f = new SpaceAtom(TeXLength.Unit.EX, 0.45f * sc, 0, 0).createBox(env).getWidth();
+		double f1 = new SpaceAtom(TeXLength.Unit.EX, 0.5f * sc, 0, 0).createBox(env).getWidth();
 		CharBox A = new CharBox(env.getTeXFont().getChar('A', "mathnormal", env.supStyle().getStyle()));
 		A.setShift(-f);
 		hb.add(A);
-		hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0).createBox(env));
 		hb.add(rat.getLastAtom().createBox(env));
-		hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0).createBox(env));
 		Box E = rat.getLastAtom().createBox(env);
 		E.setShift(f1);
 		hb.add(E);
-		hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0).createBox(env));
 		hb.add(rat.getLastAtom().createBox(env));
 		return hb;
 	}

@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
@@ -60,19 +61,19 @@ public class HorizontalBox extends Box {
 
 	protected List<Integer> breakPositions;
 
-	public HorizontalBox(Box b, double w, int alignment) {
+	public HorizontalBox(Box b, double w, Align alignment) {
 		if (w != Double.POSITIVE_INFINITY) {
 			double rest = w - b.getWidth();
 			if (rest > 0) {
-				if (alignment == TeXConstants.ALIGN_CENTER || alignment == TeXConstants.ALIGN_NONE) {
+				if (alignment == TeXConstants.Align.CENTER || alignment == TeXConstants.Align.NONE) {
 					StrutBox s = new StrutBox(rest / 2, 0, 0, 0);
 					add(s);
 					add(b);
 					add(s);
-				} else if (alignment == TeXConstants.ALIGN_LEFT) {
+				} else if (alignment == TeXConstants.Align.LEFT) {
 					add(b);
 					add(new StrutBox(rest, 0, 0, 0));
-				} else if (alignment == TeXConstants.ALIGN_RIGHT) {
+				} else if (alignment == TeXConstants.Align.RIGHT) {
 					add(new StrutBox(rest, 0, 0, 0));
 					add(b);
 				} else {

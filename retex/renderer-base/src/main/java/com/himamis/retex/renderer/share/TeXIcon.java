@@ -49,6 +49,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
@@ -162,7 +163,7 @@ public class TeXIcon implements Icon {
      * @param width the new width of the TeXIcon
      * @param alignment a horizontal alignment constant: LEFT, RIGHT or CENTER
      */
-    public void setIconWidth(int width, int alignment) {
+	public void setIconWidth(int width, Align alignment) {
     	double diff = width - getIconWidth();
         if (diff > 0) {
 			box = new HorizontalBox(box, box.getWidth() + diff, alignment);
@@ -178,7 +179,7 @@ public class TeXIcon implements Icon {
      * @param height the new height of the TeXIcon
      * @param alignment a vertical alignment constant: TOP, BOTTOM or CENTER
      */
-    public void setIconHeight(int height, int alignment) {
+	public void setIconHeight(int height, Align alignment) {
     	double diff = height - getIconHeight();
         if (diff > 0) {
 			box = new VerticalBox(box, diff, alignment);

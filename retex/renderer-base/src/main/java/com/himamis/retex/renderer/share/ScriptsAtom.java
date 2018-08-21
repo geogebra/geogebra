@@ -48,13 +48,15 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+
 /**
  * An atom representing scripts to be attached to another atom.
  */
 public class ScriptsAtom extends Atom {
 
 	// TeX constant: what's the use???
-	private final static SpaceAtom SCRIPT_SPACE = new SpaceAtom(TeXConstants.UNIT_POINT, 0.5f, 0, 0);
+	private final static SpaceAtom SCRIPT_SPACE = new SpaceAtom(TeXLength.Unit.POINT, 0.5f, 0, 0);
 
 	// base atom
 	private final Atom base;
@@ -62,11 +64,11 @@ public class ScriptsAtom extends Atom {
 	// subscript and superscript to be attached to the base (if not null)
 	private final Atom subscript;
 	private final Atom superscript;
-	private int align = TeXConstants.ALIGN_LEFT;
+	private Align align = TeXConstants.Align.LEFT;
 
 	@Override
 	final public Atom duplicate() {
-		return setFields(new ScriptsAtom(base, subscript, superscript, align == TeXConstants.ALIGN_LEFT));
+		return setFields(new ScriptsAtom(base, subscript, superscript, align == TeXConstants.Align.LEFT));
 	}
 
 	public ScriptsAtom(Atom base, Atom sub, Atom sup) {
@@ -78,7 +80,7 @@ public class ScriptsAtom extends Atom {
 	public ScriptsAtom(Atom base, Atom sub, Atom sup, boolean left) {
 		this(base, sub, sup);
 		if (!left) {
-			align = TeXConstants.ALIGN_RIGHT;
+			align = TeXConstants.Align.RIGHT;
 		}
 	}
 
@@ -96,9 +98,9 @@ public class ScriptsAtom extends Atom {
 				|| (base.type_limits == TeXConstants.SCRIPT_NORMAL
 						&& style == TeXConstants.STYLE_DISPLAY)) {
 			return new UnderOverAtom(
-					new UnderOverAtom(base, subscript, TeXConstants.UNIT_POINT,
+					new UnderOverAtom(base, subscript, TeXLength.Unit.POINT,
 							0.3f, true, false),
-					superscript, TeXConstants.UNIT_POINT, 3.0f, true, true)
+					superscript, TeXLength.Unit.POINT, 3.0f, true, true)
 							.createBox(env);
 		}
 
@@ -139,7 +141,7 @@ public class ScriptsAtom extends Atom {
 
 			// include delta in width or not?
 			delta = c.getItalic();
-			deltaSymbol = new SpaceAtom(TeXConstants.MEDMUSKIP).createBox(env);
+			deltaSymbol = new SpaceAtom(TeXConstants.Muskip.MED).createBox(env);
 			if (delta > TeXFormula.PREC && subscript == null) {
 				hor.add(new StrutBox(delta, 0, 0, 0));
 			}
@@ -177,7 +179,7 @@ public class ScriptsAtom extends Atom {
 		}
 		Box x = superscript.createBox(supStyle);
 		double msiz = x.getWidth();
-		if (subscript != null && align == TeXConstants.ALIGN_RIGHT) {
+		if (subscript != null && align == TeXConstants.Align.RIGHT) {
 			msiz = Math.max(msiz, subscript.createBox(subStyle).getWidth());
 		}
 

@@ -229,7 +229,7 @@ public class BigOperatorAtom extends Atom {
 	 */
 	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
-			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
+			return new HorizontalBox(b, maxWidth, TeXConstants.Align.CENTER);
 		}
 		return b;
 	}

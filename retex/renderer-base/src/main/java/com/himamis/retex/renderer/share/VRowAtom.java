@@ -51,6 +51,9 @@ package com.himamis.retex.renderer.share;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.TeXLength.Unit;
+
 /**
  * An atom representing a vertical row of other atoms.
  */
@@ -58,10 +61,10 @@ public class VRowAtom extends Atom {
 
 	// atoms to be displayed horizontally next to eachother
 	protected LinkedList<Atom> elements = new LinkedList<Atom>();
-	private SpaceAtom raise = new SpaceAtom(TeXConstants.UNIT_EX, 0, 0, 0);
+	private SpaceAtom raise = new SpaceAtom(TeXLength.Unit.EX, 0, 0, 0);
 	protected boolean addInterline = false;
 	protected boolean vtop = false;
-	protected int halign = TeXConstants.ALIGN_NONE;
+	protected Align halign = TeXConstants.Align.NONE;
 
 	public VRowAtom() {
 		// empty
@@ -85,7 +88,7 @@ public class VRowAtom extends Atom {
 	}
 
 	private VRowAtom(LinkedList<Atom> elements, SpaceAtom raise,
-			boolean addInterline, boolean vtop, int halign) {
+			boolean addInterline, boolean vtop, Align halign) {
 		this.elements = elements;
 		this.raise = raise;
 		this.addInterline = addInterline;
@@ -101,11 +104,11 @@ public class VRowAtom extends Atom {
 		return this.addInterline;
 	}
 
-	public void setHalign(int halign) {
+	public void setHalign(Align halign) {
 		this.halign = halign;
 	}
 
-	public int getHalign() {
+	public Align getHalign() {
 		return halign;
 	}
 
@@ -117,7 +120,7 @@ public class VRowAtom extends Atom {
 		return vtop;
 	}
 
-	public void setRaise(int unit, double r) {
+	public void setRaise(Unit unit, double r) {
 		raise = new SpaceAtom(unit, r, 0, 0);
 	}
 
@@ -137,7 +140,7 @@ public class VRowAtom extends Atom {
 
 	public Box createBox(TeXEnvironment env) {
 		VerticalBox vb = new VerticalBox();
-		if (halign != TeXConstants.ALIGN_NONE) {
+		if (halign != TeXConstants.Align.NONE) {
 			double maxWidth = -Double.POSITIVE_INFINITY;
 			LinkedList<Box> boxes = new LinkedList<Box>();
 			for (ListIterator it = elements.listIterator(); it.hasNext();) {

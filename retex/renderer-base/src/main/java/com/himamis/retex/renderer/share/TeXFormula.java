@@ -53,6 +53,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.TeXConstants.Muskip;
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration;
 import com.himamis.retex.renderer.share.exception.FormulaNotFoundException;
@@ -340,7 +343,8 @@ public class TeXFormula {
 		}
 	}
 
-	public static TeXFormula getAsText(String text, int alignment) throws ParseException {
+	public static TeXFormula getAsText(String text, Align alignment)
+			throws ParseException {
 		TeXFormula formula = new TeXFormula();
 		if (text == null || "".equals(text)) {
 			formula.add(new EmptyAtom());
@@ -517,7 +521,8 @@ public class TeXFormula {
 	 * @return the modified TeXFormula
 	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
 	 */
-	public TeXFormula addStrut(int unit, double width, double height, double depth) throws InvalidUnitException {
+	public TeXFormula addStrut(Unit unit, double width, double height,
+			double depth) throws InvalidUnitException {
 		return add(new SpaceAtom(unit, width, height, depth));
 	}
 
@@ -529,26 +534,8 @@ public class TeXFormula {
 	 * @return the modified TeXFormula
 	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
 	 */
-	public TeXFormula addStrut(int type) throws InvalidUnitException {
+	public TeXFormula addStrut(Muskip type) throws InvalidUnitException {
 		return add(new SpaceAtom(type));
-	}
-
-	/**
-	 * Inserts a strut box (whitespace) with the given width (in widthUnits), height (in
-	 * heightUnits) and depth (in depthUnits) at the end of the current TeXFormula.
-	 *
-	 * @param widthUnit a unit constant used for the width (from {@link TeXConstants})
-	 * @param width the width of the strut box
-	 * @param heightUnit a unit constant used for the height (from TeXConstants)
-	 * @param height the height of the strut box
-	 * @param depthUnit a unit constant used for the depth (from TeXConstants)
-	 * @param depth the depth of the strut box
-	 * @return the modified TeXFormula
-	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
-	 */
-	public TeXFormula addStrut(int widthUnit, double width, int heightUnit, double height, int depthUnit,
-			double depth) throws InvalidUnitException {
-		return add(new SpaceAtom(widthUnit, width, heightUnit, height, depthUnit, depth));
 	}
 
 	/*
@@ -597,11 +584,11 @@ public class TeXFormula {
 		private Integer type;
 		private Color fgcolor;
 		private boolean trueValues = false;
-		private Integer widthUnit;
+		private Unit widthUnit;
 		private Double textWidth;
-		private Integer align;
+		private Align align;
 		private boolean isMaxWidth = false;
-		private Integer interLineUnit;
+		private Unit interLineUnit;
 		private Double interLineSpacing;
 
 		/**
@@ -668,7 +655,8 @@ public class TeXFormula {
 		 * @param align the alignment
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setWidth(final int widthUnit, final double textWidth, final int align) {
+		public TeXIconBuilder setWidth(final Unit widthUnit,
+				final double textWidth, final Align align) {
 			this.widthUnit = widthUnit;
 			this.textWidth = textWidth;
 			this.align = align;
@@ -705,7 +693,7 @@ public class TeXFormula {
 				// [ hello world ]
 				// [ hello ]
 				// => until (2) is solved, we stick with the hack to set align := ALIGN_LEFT!
-				this.align = TeXConstants.ALIGN_LEFT;
+				this.align = TeXConstants.Align.LEFT;
 			}
 			this.isMaxWidth = isMaxWidth;
 			return this;
@@ -719,7 +707,8 @@ public class TeXFormula {
 		 * @param interLineSpacing the value
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setInterLineSpacing(final int interLineUnit, final double interLineSpacing) {
+		public TeXIconBuilder setInterLineSpacing(final Unit interLineUnit,
+				final double interLineSpacing) {
 			if (widthUnit == null) {
 				throw new IllegalStateException(
 						"Cannot set inter line spacing without having specified a width!");
@@ -802,22 +791,26 @@ public class TeXFormula {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setTrueValues(trueValues).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, double size, int widthUnit, double textwidth, int align) {
+	public TeXIcon createTeXIcon(int style, double size, Unit widthUnit,
+			double textwidth, Align align) {
 		return createTeXIcon(style, size, 0, widthUnit, textwidth, align);
 	}
 
-	public TeXIcon createTeXIcon(int style, double size, int type, int widthUnit, double textwidth, int align) {
+	public TeXIcon createTeXIcon(int style, double size, int type,
+			Unit widthUnit, double textwidth, Align align) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
 				.setWidth(widthUnit, textwidth, align).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, double size, int widthUnit, double textwidth, int align,
-			int interlineUnit, double interline) {
+	public TeXIcon createTeXIcon(int style, double size, Unit widthUnit,
+			double textwidth, Align align, Unit interlineUnit,
+			double interline) {
 		return createTeXIcon(style, size, 0, widthUnit, textwidth, align, interlineUnit, interline);
 	}
 
-	public TeXIcon createTeXIcon(int style, double size, int type, int widthUnit, double textwidth, int align,
-			int interlineUnit, double interline) {
+	public TeXIcon createTeXIcon(int style, double size, int type,
+			Unit widthUnit, double textwidth, Align align, Unit interlineUnit,
+			double interline) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
 				.setWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
 	}

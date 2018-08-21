@@ -73,8 +73,8 @@ public class GraphicsAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 
 		env.isColored = true;
-		double width = w * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
-		double height = h * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
+		double width = w * SpaceAtom.getFactor(TeXLength.Unit.PIXEL, env);
+		double height = h * SpaceAtom.getFactor(TeXLength.Unit.PIXEL, env);
 
 		return new GraphicsBox(image, width, height, env.getSize());
 	}

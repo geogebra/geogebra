@@ -45,12 +45,14 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+
 /**
  * An atom representing a vertical row of other atoms.
  */
 public class MultlineAtom extends Atom {
 
-	final public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
+	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 1.0f, 0.0f);
 	public static final int MULTLINE = 0;
 	public static final int GATHER = 1;
 	public static final int GATHERED = 2;
@@ -83,16 +85,17 @@ public class MultlineAtom extends Atom {
 
 		VerticalBox vb = new VerticalBox();
 		Atom at = column.get(0, 0);
-		int alignment = type1 == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_LEFT;
-		if (at.alignment != -1) {
+		Align alignment = type1 == GATHER ? TeXConstants.Align.CENTER
+				: TeXConstants.Align.LEFT;
+		if (at.alignment != Align.NONE) {
 			alignment = at.alignment;
 		}
 		vb.add(new HorizontalBox(at.createBox(env), tw, alignment));
 		Box Vsep = vsep_in.createBox(env);
 		for (int i = 1; i < column.row - 1; i++) {
 			at = column.get(i, 0);
-			alignment = TeXConstants.ALIGN_CENTER;
-			if (at.alignment != -1) {
+			alignment = TeXConstants.Align.CENTER;
+			if (at.alignment != Align.NONE) {
 				alignment = at.alignment;
 			}
 			vb.add(Vsep);
@@ -101,8 +104,8 @@ public class MultlineAtom extends Atom {
 
 		if (column.row > 1) {
 			at = column.get(column.row - 1, 0);
-			alignment = type1 == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_RIGHT;
-			if (at.alignment != -1) {
+			alignment = type1 == GATHER ? TeXConstants.Align.CENTER : TeXConstants.Align.RIGHT;
+			if (at.alignment != Align.NONE) {
 				alignment = at.alignment;
 			}
 			vb.add(Vsep);

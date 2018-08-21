@@ -19,6 +19,7 @@ import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.TeXLength;
 //import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -228,9 +229,9 @@ public abstract class DrawEquation implements DrawEquationI {
 						font.getSize() + 3, style, fgColor);
 			} else {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, TeXConstants.UNIT_CM,
-						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, lineSpace.doubleValue());
+						font.getSize() + 3, TeXLength.Unit.CM,
+						maxWidth.intValue(), TeXConstants.Align.LEFT,
+						TeXLength.Unit.CM, lineSpace.doubleValue());
 			}
 		} catch (final MyError e) {
 			// e.printStackTrace();
@@ -243,8 +244,8 @@ public abstract class DrawEquation implements DrawEquationI {
 					font.getSize() + 3, style, fgColor);
 
 			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-					TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
-					TeXConstants.UNIT_CM, 0.5f);
+					TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
+					TeXLength.Unit.CM, 0.5f);
 
 		} catch (final Exception e) {
 			// e.printStackTrace();
@@ -314,9 +315,9 @@ public abstract class DrawEquation implements DrawEquationI {
 						font.getSize() + 3, style, convertColor(fgColor));
 			} else {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, TeXConstants.UNIT_CM,
-						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, lineSpace.doubleValue());
+						font.getSize() + 3, TeXLength.Unit.CM,
+						maxWidth.intValue(), TeXConstants.Align.LEFT,
+						TeXLength.Unit.CM, lineSpace.doubleValue());
 			}
 		} catch (final MyError e) {
 			// e.printStackTrace();
@@ -329,8 +330,8 @@ public abstract class DrawEquation implements DrawEquationI {
 					font.getSize() + 3, style, convertColor(fgColor));
 
 			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-					TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
-					TeXConstants.UNIT_CM, 0.5f);
+					TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
+					TeXLength.Unit.CM, 0.5f);
 
 		} catch (final Exception e) {
 			// e.printStackTrace();

@@ -51,31 +51,32 @@ package com.himamis.retex.renderer.share;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.exception.InvalidUnitException;
+import com.himamis.retex.renderer.share.TeXConstants.Muskip;
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
  * An atom representing whitespace. The dimension values can be set using different unit types.
  */
 public class SpaceAtom extends Atom {
 
-	private static Map<String, Integer> units = new HashMap<String, Integer>();
+	private static Map<String, TeXLength.Unit> units = new HashMap<String, TeXLength.Unit>();
 	static {
-		units.put("em", TeXConstants.UNIT_EM);
-		units.put("ex", TeXConstants.UNIT_EX);
-		units.put("px", TeXConstants.UNIT_PIXEL);
-		units.put("pix", TeXConstants.UNIT_PIXEL);
-		units.put("pixel", TeXConstants.UNIT_PIXEL);
-		units.put("pt", TeXConstants.UNIT_PT);
-		units.put("bp", TeXConstants.UNIT_POINT);
-		units.put("pica", TeXConstants.UNIT_PICA);
-		units.put("pc", TeXConstants.UNIT_PICA);
-		units.put("mu", TeXConstants.UNIT_MU);
-		units.put("cm", TeXConstants.UNIT_CM);
-		units.put("mm", TeXConstants.UNIT_MM);
-		units.put("in", TeXConstants.UNIT_IN);
-		units.put("sp", TeXConstants.UNIT_SP);
-		units.put("dd", TeXConstants.UNIT_DD);
-		units.put("cc", TeXConstants.UNIT_CC);
+		units.put("em", TeXLength.Unit.EM);
+		units.put("ex", TeXLength.Unit.EX);
+		units.put("px", TeXLength.Unit.PIXEL);
+		units.put("pix", TeXLength.Unit.PIXEL);
+		units.put("pixel", TeXLength.Unit.PIXEL);
+		units.put("pt", TeXLength.Unit.PT);
+		units.put("bp", TeXLength.Unit.POINT);
+		units.put("pica", TeXLength.Unit.PICA);
+		units.put("pc", TeXLength.Unit.PICA);
+		units.put("mu", TeXLength.Unit.MU);
+		units.put("cm", TeXLength.Unit.CM);
+		units.put("mm", TeXLength.Unit.MM);
+		units.put("in", TeXLength.Unit.IN);
+		units.put("sp", TeXLength.Unit.SP);
+		units.put("dd", TeXLength.Unit.DD);
+		units.put("cc", TeXLength.Unit.CC);
 	}
 
 	private static interface UnitConversion { // NOPMD
@@ -184,7 +185,7 @@ public class SpaceAtom extends Atom {
 	private boolean blankSpace;
 
 	// thinmuskip, medmuskip, thickmuskip
-	private int blankType;
+	private TeXConstants.Muskip blankType = TeXConstants.Muskip.NONE;
 
 	// dimensions
 	private double width;
@@ -192,9 +193,7 @@ public class SpaceAtom extends Atom {
 	private double depth;
 
 	// units for the dimensions
-	private int wUnit;
-	private int hUnit;
-	private int dUnit;
+	private TeXLength.Unit unit;
 
 	@Override
 	final public Atom duplicate() {
@@ -205,9 +204,7 @@ public class SpaceAtom extends Atom {
 		ret.width = width;
 		ret.height = height;
 		ret.depth = depth;
-		ret.wUnit = wUnit;
-		ret.hUnit = hUnit;
-		ret.dUnit = dUnit;
+		ret.unit = unit;
 		
 		return setFields(ret);
 	}
@@ -216,60 +213,26 @@ public class SpaceAtom extends Atom {
 		blankSpace = true;
 	}
 
-	public SpaceAtom(int type) {
+	public SpaceAtom(Muskip type) {
 		blankSpace = true;
 		blankType = type;
 	}
 
-	public SpaceAtom(int unit, double width, double height, double depth) throws InvalidUnitException {
-		// check if unit is valid
-		checkUnit(unit);
-
-		// unit valid
-		this.wUnit = unit;
-		this.hUnit = unit;
-		this.dUnit = unit;
+	public SpaceAtom(Unit unit, double width, double height, double depth) {
+		this.unit = unit;
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
 	}
 
-	/**
-	 * Check if the given unit is valid
-	 *
-	 * @param unit the unit's integer representation (a constant)
-	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
-	 */
-	public static void checkUnit(int unit) throws InvalidUnitException {
-		if (unit < 0 || unit >= unitConversions.length) {
-			throw new InvalidUnitException();
-		}
+	public static Unit getUnit(String unit) {
+		Unit u = units.get(unit);
+		return u == null ? TeXLength.Unit.PIXEL : u;
 	}
 
-	public SpaceAtom(int widthUnit, double width, int heightUnit, double height, int depthUnit, double depth)
-			throws InvalidUnitException {
-		// check if units are valid
-		checkUnit(widthUnit);
-		checkUnit(heightUnit);
-		checkUnit(depthUnit);
-
-		// all units valid
-		wUnit = widthUnit;
-		hUnit = heightUnit;
-		dUnit = depthUnit;
-		this.width = width;
-		this.height = height;
-		this.depth = depth;
-	}
-
-	public static int getUnit(String unit) {
-		Integer u = units.get(unit);
-		return u == null ? TeXConstants.UNIT_PIXEL : u.intValue();
-	}
-
-	public static double[] getLength(String lgth) {
+	public static Object[] getLength(String lgth) {
 		if (lgth == null) {
-			return new double[] { TeXConstants.UNIT_PIXEL, 0f };
+			return new Object[] { TeXLength.Unit.PIXEL, 0f };
 		}
 
 		int i = 0;
@@ -280,48 +243,64 @@ public class SpaceAtom extends Atom {
 		try {
 			f = Double.parseDouble(lgth.substring(0, i));
 		} catch (NumberFormatException e) {
-			return new double[] { Double.NaN };
+			return new Object[] { Double.NaN };
 		}
 
-		int unit;
+		Unit unit;
 		if (i != lgth.length()) {
 			unit = getUnit(lgth.substring(i).toLowerCase());
 		} else {
-			unit = TeXConstants.UNIT_PIXEL;
+			unit = TeXLength.Unit.PIXEL;
 		}
 
-		return new double[] {  unit, f };
+		return new Object[] { unit, f };
+	}
+
+	public static boolean isNegative(TeXConstants.Muskip skip) {
+		return skip == TeXConstants.Muskip.NEGTHIN
+				|| skip == TeXConstants.Muskip.NEGMED
+				|| skip == TeXConstants.Muskip.NEGTHICK;
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (blankSpace) {
-			if (blankType == 0) {
-				return new StrutBox(env.getSpace(), 0, 0, 0);
-			}
-			int bl = blankType < 0 ? -blankType : blankType;
-			Box b;
-			if (bl == TeXConstants.THINMUSKIP) {
-				b = Glue.get(TeXConstants.TYPE_INNER,
-						TeXConstants.TYPE_BIG_OPERATOR, env);
-			} else if (bl == TeXConstants.MEDMUSKIP) {
-				b = Glue.get(TeXConstants.TYPE_BINARY_OPERATOR,
-						TeXConstants.TYPE_BIG_OPERATOR, env);
+			if (blankType == TeXConstants.Muskip.NONE) {
+				return new StrutBox(env.getSpace(), 0., 0., 0.);
 			} else {
-				b = Glue.get(TeXConstants.TYPE_RELATION,
-						TeXConstants.TYPE_BIG_OPERATOR, env);
+				Box b;
+				if (blankType == TeXConstants.Muskip.THIN
+						|| blankType == TeXConstants.Muskip.NEGTHIN) {
+					b = Glue.get(TeXConstants.TYPE_INNER,
+							TeXConstants.TYPE_BIG_OPERATOR, env);
+				} else if (blankType == TeXConstants.Muskip.MED
+						|| blankType == TeXConstants.Muskip.NEGMED) {
+					b = Glue.get(TeXConstants.TYPE_BINARY_OPERATOR,
+							TeXConstants.TYPE_BIG_OPERATOR, env);
+				} else {
+					b = Glue.get(TeXConstants.TYPE_RELATION,
+							TeXConstants.TYPE_BIG_OPERATOR, env);
+				}
+				if (b == null) {
+					b = StrutBox.getEmpty();
+				}
+				if (SpaceAtom.isNegative(blankType)) {
+					b.negWidth();
+				}
+				return b;
 			}
-			if (blankType < 0) {
-				b.negWidth();
-			}
-			return b;
+		} else {
+			return new StrutBox(conv(width, unit, env), conv(height, unit, env),
+					conv(depth, unit, env), 0.);
 		}
-		return new StrutBox(width * getFactor(wUnit, env),
-				height * getFactor(hUnit, env), depth * getFactor(dUnit, env),
-				0);
 	}
 
-	public static double getFactor(int unit, TeXEnvironment env) {
-		return unitConversions[unit].getPixelConversion(env);
+	public static double getFactor(Unit unit, TeXEnvironment env) {
+		return unitConversions[unit.ordinal()].getPixelConversion(env);
+	}
+
+	private final double conv(final double x, final TeXLength.Unit unit,
+			final TeXEnvironment env) {
+		return x == 0. ? 0. : x * TeXLength.getFactor(unit, env);
 	}
 }

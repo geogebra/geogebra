@@ -45,13 +45,15 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+
 /**
  * An atom used in array mode to write on several columns.
  */
 public class MulticolumnAtom extends Atom {
 
 	protected int n;
-	protected int align;
+	protected Align align;
 	protected double w = 0;
 	protected Atom cols;
 	protected int beforeVlines;
@@ -106,24 +108,24 @@ public class MulticolumnAtom extends Atom {
 		return col;
 	}
 
-	private int parseAlign(String str) {
+	private Align parseAlign(String str) {
 		int pos = 0;
 		int len = str.length();
-		int align = TeXConstants.ALIGN_CENTER;
+		Align align = TeXConstants.Align.CENTER;
 		boolean first = true;
 		while (pos < len) {
 			char c = str.charAt(pos);
 			switch (c) {
 			case 'l':
-				align = TeXConstants.ALIGN_LEFT;
+				align = TeXConstants.Align.LEFT;
 				first = false;
 				break;
 			case 'r':
-				align = TeXConstants.ALIGN_RIGHT;
+				align = TeXConstants.Align.RIGHT;
 				first = false;
 				break;
 			case 'c':
-				align = TeXConstants.ALIGN_CENTER;
+				align = TeXConstants.Align.CENTER;
 				first = false;
 				break;
 			case '|':

@@ -45,23 +45,23 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXLength.Unit;
+
 /**
  * An atom representing a rule.
  */
 public class RuleAtom extends Atom {
 
-	private int wunit, hunit, runit;
+	private Unit unit;
 	private double w, h, r;
 
 	@Override
 	final public Atom duplicate() {
-		return setFields(new RuleAtom(wunit, w, hunit, h, runit, r));
+		return setFields(new RuleAtom(unit, w, h, r));
 	}
 
-	public RuleAtom(int wunit, double width, int hunit, double height, int runit, double raise) {
-		this.wunit = wunit;
-		this.hunit = hunit;
-		this.runit = runit;
+	public RuleAtom(Unit unit, double width, double height, double raise) {
+		this.unit = unit;
 		this.w = width;
 		this.h = height;
 		this.r = raise;
@@ -69,7 +69,7 @@ public class RuleAtom extends Atom {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		return new HorizontalRule(h * SpaceAtom.getFactor(hunit, env), w * SpaceAtom.getFactor(wunit, env), r
-				* SpaceAtom.getFactor(runit, env));
+		double factor = SpaceAtom.getFactor(unit, env);
+		return new HorizontalRule(h * factor, w * factor, r * factor);
 	}
 }

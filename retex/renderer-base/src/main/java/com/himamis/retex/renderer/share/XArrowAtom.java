@@ -69,14 +69,14 @@ public class XArrowAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		Box O = over != null ? over.createBox(env.supStyle()) : new StrutBox(0, 0, 0, 0);
 		Box U = under != null ? under.createBox(env.subStyle()) : new StrutBox(0, 0, 0, 0);
-		Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).createBox(env.supStyle());
-		Box uside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).createBox(env.subStyle());
-		Box sep = new SpaceAtom(TeXConstants.UNIT_MU, 0, 2f, 0).createBox(env);
+		Box oside = new SpaceAtom(TeXLength.Unit.EM, 1.5f, 0, 0).createBox(env.supStyle());
+		Box uside = new SpaceAtom(TeXLength.Unit.EM, 1.5f, 0, 0).createBox(env.subStyle());
+		Box sep = new SpaceAtom(TeXLength.Unit.MU, 0, 2f, 0).createBox(env);
 		double width = Math.max(O.getWidth() + 2 * oside.getWidth(), U.getWidth() + 2 * uside.getWidth());
 		Box arrow = XLeftRightArrowFactory.create(left, env, width);
 
-		Box ohb = new HorizontalBox(O, width, TeXConstants.ALIGN_CENTER);
-		Box uhb = new HorizontalBox(U, width, TeXConstants.ALIGN_CENTER);
+		Box ohb = new HorizontalBox(O, width, TeXConstants.Align.CENTER);
+		Box uhb = new HorizontalBox(U, width, TeXConstants.Align.CENTER);
 
 		VerticalBox vb = new VerticalBox();
 		vb.add(ohb);
@@ -91,7 +91,7 @@ public class XArrowAtom extends Atom {
 		vb.setHeight(h - d);
 
 		HorizontalBox hb = new HorizontalBox(vb, vb.getWidth() + 2 * sep.getHeight(),
-				TeXConstants.ALIGN_CENTER);
+				TeXConstants.Align.CENTER);
 		return hb;
 	}
 }
