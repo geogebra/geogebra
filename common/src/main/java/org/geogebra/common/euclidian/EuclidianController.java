@@ -514,7 +514,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return whether multiple elements are selected (MOW)
 	 */
 	public boolean isMultiSelection() {
-		return mode == EuclidianConstants.MODE_SELECT_MOW
+		return (mode == EuclidianConstants.MODE_SELECT_MOW
+				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
+						&& temporaryMode
+						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
 				&& selection.getSelectedGeos().size() > 1;
 	}
 
@@ -10271,7 +10274,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean shouldClearSelectionAfterMove(boolean rightClick) {
 		boolean shouldClear = !EuclidianView.usesSelectionRectangleAsInput(mode) && !rightClick
 				&& mode != EuclidianConstants.MODE_SELECT
-				&& mode != EuclidianConstants.MODE_SELECT_MOW
+				&& (mode != EuclidianConstants.MODE_TRANSLATEVIEW
+						&& temporaryMode
+						&& oldMode == EuclidianConstants.MODE_SELECT_MOW)
 				&& !wasBoundingBoxDrag();
 		shouldClear &= shouldClearSelectionForMove();
 		return shouldClear;
