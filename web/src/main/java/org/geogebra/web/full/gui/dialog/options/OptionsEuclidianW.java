@@ -56,7 +56,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private GridTab gridTab;
 	private boolean isIniting;
 	protected Localization loc;
-	public FlowPanel stylePanel;
 	
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
@@ -84,8 +83,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(axisPanel);
 		}
 		
-		public void updateView(EuclidianView view) {
-			axisPanel.updateView(view);
+		public void updateView(EuclidianView view1) {
+			axisPanel.updateView(view1);
 		}
 
 		public void setShowAxis(boolean value) {
@@ -99,7 +98,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 		
 	protected class GridTab extends EuclidianTab {
-		private static final int ICON_HEIGHT = 24;
 		CheckBox cbShowGrid;
 		private FormLabel lbPointCapturing;
 		private ListBox pointCapturingStyleList;
@@ -120,7 +118,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
 		private FlowPanel mainPanel;
-		private boolean gridOptions;
+		protected boolean gridOptions;
+		private FlowPanel stylePanel;
 
 		public GridTab() {
 			super(app);
@@ -659,7 +658,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
 			setRulerType(typeIdx);
 			BackgroundType bgType = BackgroundType.fromInt(typeIdx);
-			if (bgType == BackgroundType.NONE || bgType.isSVG()) {
+			if (!gridOptions
+					&& (bgType == BackgroundType.NONE || bgType.isSVG())) {
 				stylePanel.setVisible(false);
 			} else {
 				stylePanel.setVisible(true);
@@ -809,10 +809,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		if (!isIniting) {
 			updateGUI();
 		}
-	}
-
-	public void showCbView(boolean b) {
-		Log.warn("showCbView");
 	}
 
 	@Override

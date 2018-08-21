@@ -168,7 +168,6 @@ public class PropertiesViewW extends PropertiesView
 						((AppW) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
 				euclidianPanel.setView(((AppW) app).getEuclidianView1());
-				euclidianPanel.showCbView(false);
 			}
 			return euclidianPanel;
 
@@ -178,7 +177,6 @@ public class PropertiesViewW extends PropertiesView
 						((AppW) app).getEuclidianView2(1));
 				euclidianPanel2.setLabels();
 				euclidianPanel2.setView(((AppW) app).getEuclidianView2(1));
-				euclidianPanel2.showCbView(false);
 			}
 			return euclidianPanel2;
 
@@ -187,7 +185,6 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel3D = new OptionsEuclidianW((AppW) app,
 						((AppW) app).getEuclidianView3D());
 				euclidianPanel3D.setLabels();
-				euclidianPanel3D.showCbView(false);
 			}
 			return euclidianPanel2;
 

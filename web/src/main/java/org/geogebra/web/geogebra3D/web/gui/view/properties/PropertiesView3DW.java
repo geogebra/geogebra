@@ -44,7 +44,6 @@ public class PropertiesView3DW extends PropertiesViewW {
 				euclidianPanel3D.setLabels();
 				euclidianPanel3D.setView((EuclidianView3DW) app
 						.getEuclidianView3D());
-				euclidianPanel3D.showCbView(false);
 			}
 
 			return euclidianPanel3D;
