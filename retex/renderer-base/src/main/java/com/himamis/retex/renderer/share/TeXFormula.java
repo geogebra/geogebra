@@ -133,12 +133,12 @@ public class TeXFormula {
 		parser.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
 
 		try {
-			//DefaultTeXFont.registerAlphabet((AlphabetRegistration) Class.forName(
+			//TeXFont.registerAlphabet((AlphabetRegistration) Class.forName(
 			//		"com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration").newInstance());
-			//DefaultTeXFont.registerAlphabet((AlphabetRegistration) Class.forName(
+			//TeXFont.registerAlphabet((AlphabetRegistration) Class.forName(
 			//		"com.himamis.retex.renderer.share.greek.GreekRegistration").newInstance());
-			DefaultTeXFont.registerAlphabet(new CyrillicRegistration());
-			DefaultTeXFont.registerAlphabet(new GreekRegistration());
+			TeXFont.registerAlphabet(new CyrillicRegistration());
+			TeXFont.registerAlphabet(new GreekRegistration());
 		} catch (Exception e) {
 		}
 
@@ -392,7 +392,7 @@ public class TeXFormula {
 	// used with FOP.
 	// */
 	// public static void registerFonts(boolean b) {
-	// DefaultTeXFontParser.registerFonts(b);
+	// TeXFontParser.registerFonts(b);
 	// }
 
 	/**
@@ -493,7 +493,7 @@ public class TeXFormula {
 
 	/**
 	 * Centers the current TeXformula vertically on the axis (defined by the parameter "axisheight"
-	 * in the resource "DefaultTeXFont.xml".
+	 * in the resource "TeXFont.xml".
 	 *
 	 * @return the modified TeXFormula
 	 */
@@ -548,8 +548,8 @@ public class TeXFormula {
 		return root.createBox(style);
 	}
 
-	private static DefaultTeXFont createFont(double size, int type) {
-		DefaultTeXFont dtf = new DefaultTeXFont(size);
+	private static TeXFont createFont(double size, int type) {
+		TeXFont dtf = new TeXFont(size);
 		if (type == 0) {
 			dtf.setSs(false);
 		}
@@ -731,7 +731,7 @@ public class TeXFormula {
 			if (size == null) {
 				throw new IllegalStateException("A size is required. Use setStyle()");
 			}
-			DefaultTeXFont font = (type == null) ? new DefaultTeXFont(size) : createFont(size, type);
+			TeXFont font = (type == null) ? new TeXFont(size) : createFont(size, type);
 			TeXEnvironment te;
 			if (widthUnit != null) {
 				te = new TeXEnvironment(style, font, widthUnit, textWidth);

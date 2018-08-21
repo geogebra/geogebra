@@ -90,14 +90,15 @@ public class DefaultTeXFontParser {
 		public void parse(Element el, char ch, FontInfo info) throws ResourceParseException {
 			int[] extensionChars = new int[4];
 			// get required integer attributes
-			extensionChars[DefaultTeXFont.REP] = DefaultTeXFontParser.getIntAndCheck("rep", el);
+			extensionChars[TeXFont.REP] = DefaultTeXFontParser
+					.getIntAndCheck("rep", el);
 			// get optional integer attributes
-			extensionChars[DefaultTeXFont.TOP] = DefaultTeXFontParser.getOptionalInt("top", el,
-					DefaultTeXFont.NONE);
-			extensionChars[DefaultTeXFont.MID] = DefaultTeXFontParser.getOptionalInt("mid", el,
-					DefaultTeXFont.NONE);
-			extensionChars[DefaultTeXFont.BOT] = DefaultTeXFontParser.getOptionalInt("bot", el,
-					DefaultTeXFont.NONE);
+			extensionChars[TeXFont.TOP] = DefaultTeXFontParser
+					.getOptionalInt("top", el, TeXFont.NONE);
+			extensionChars[TeXFont.MID] = DefaultTeXFontParser
+					.getOptionalInt("mid", el, TeXFont.NONE);
+			extensionChars[TeXFont.BOT] = DefaultTeXFontParser
+					.getOptionalInt("bot", el, TeXFont.NONE);
 
 			// parsing OK, add extension info
 			info.setExtension(ch, extensionChars);
@@ -336,10 +337,10 @@ public class DefaultTeXFontParser {
 		char ch = (char) getIntAndCheck("code", charElement);
 		// retrieve optional double attributes
 		double[] metrics = new double[4];
-		metrics[DefaultTeXFont.WIDTH] = getOptionalFloat("width", charElement, 0);
-		metrics[DefaultTeXFont.HEIGHT] = getOptionalFloat("height", charElement, 0);
-		metrics[DefaultTeXFont.DEPTH] = getOptionalFloat("depth", charElement, 0);
-		metrics[DefaultTeXFont.IT] = getOptionalFloat("italic", charElement, 0);
+		metrics[TeXFont.WIDTH] = getOptionalFloat("width", charElement, 0);
+		metrics[TeXFont.HEIGHT] = getOptionalFloat("height", charElement, 0);
+		metrics[TeXFont.DEPTH] = getOptionalFloat("depth", charElement, 0);
+		metrics[TeXFont.IT] = getOptionalFloat("italic", charElement, 0);
 		// set metrics
 		info.setMetrics(ch, metrics);
 
@@ -514,10 +515,10 @@ public class DefaultTeXFontParser {
 	}
 
 	private static void setRangeTypeMappings() {
-		rangeTypeMappings.put("numbers", DefaultTeXFont.NUMBERS); // autoboxing
-		rangeTypeMappings.put("capitals", DefaultTeXFont.CAPITALS); // autoboxing
-		rangeTypeMappings.put("small", DefaultTeXFont.SMALL); // autoboxing
-		rangeTypeMappings.put("unicode", DefaultTeXFont.UNICODE); // autoboxing
+		rangeTypeMappings.put("numbers", TeXFont.NUMBERS); // autoboxing
+		rangeTypeMappings.put("capitals", TeXFont.CAPITALS); // autoboxing
+		rangeTypeMappings.put("small", TeXFont.SMALL); // autoboxing
+		rangeTypeMappings.put("unicode", TeXFont.UNICODE); // autoboxing
 	}
 
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)

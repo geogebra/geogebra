@@ -1626,14 +1626,14 @@ public class PredefMacros {
 
 //	public static final Atom DeclareMathSizes_macro(final TeXParser tp, final String[] args)
 //			throws ParseException {
-//		DefaultTeXFont.setMathSizes(Double.parseDouble(args[1]), Double.parseDouble(args[2]),
+//		TeXFont.setMathSizes(Double.parseDouble(args[1]), Double.parseDouble(args[2]),
 //				Double.parseDouble(args[3]), Double.parseDouble(args[4]));
 //		return null;
 //	}
 
 //	public static final Atom magnification_macro(final TeXParser tp, final String[] args)
 //			throws ParseException {
-//		DefaultTeXFont.setMagnification(Double.parseDouble(args[1]));
+//		TeXFont.setMagnification(Double.parseDouble(args[1]));
 //		return null;
 //	}
 

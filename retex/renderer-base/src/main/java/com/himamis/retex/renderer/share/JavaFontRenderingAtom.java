@@ -81,9 +81,9 @@ public class JavaFontRenderingAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (fontInfos == null) {
-			return new JavaFontRenderingBox(str, type1, DefaultTeXFont.getSizeFactor(env.getStyle()));
+			return new JavaFontRenderingBox(str, type1, TeXFont.getSizeFactor(env.getStyle()));
 		}
-		DefaultTeXFont dtf = (DefaultTeXFont) env.getTeXFont();
+		TeXFont dtf = (TeXFont) env.getTeXFont();
 		int type = dtf.isIt ? Font.ITALIC : Font.PLAIN;
 		type = type | (dtf.isBold ? Font.BOLD : 0);
 		boolean kerning = dtf.isRoman;
@@ -105,6 +105,6 @@ public class JavaFontRenderingAtom extends Atom {
 			}
 		}
 		return new JavaFontRenderingBox(str, type,
-				DefaultTeXFont.getSizeFactor(env.getStyle()), font, kerning);
+				TeXFont.getSizeFactor(env.getStyle()), font, kerning);
 	}
 }
