@@ -488,35 +488,32 @@ public class EuclidianStyleBarStatic {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-
 			// apply object color to all other geos except images or text
-			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText)) {
-				if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
+			// removed: see MOW-441
+			// if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText))
+			// {
+			if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
+				geo.setAlphaValue(alpha);
+			} else if ((geo.getObjectColor() != color
+					|| geo.getAlphaValue() != alpha
+					|| geo instanceof GeoPolyLine && geo.getKernel()
+							.getApplication()
+							.getMode() == EuclidianConstants.MODE_PEN)) {
+				geo.setObjColor(color);
+				// if we change alpha for functions, hit won't work properly
+				if (geo.isFillable()) {
 					geo.setAlphaValue(alpha);
-				} else if ((geo.getObjectColor() != color
-						|| geo.getAlphaValue() != alpha
-						|| geo instanceof GeoPolyLine && geo.getKernel()
-								.getApplication()
-								.getMode() == EuclidianConstants.MODE_PEN)) {
-					geo.setObjColor(color);
-					// if we change alpha for functions, hit won't work properly
-					if (geo.isFillable()) {
-						geo.setAlphaValue(alpha);
-					}
-					if (geo instanceof GeoPolyLine
-							&& geo.getKernel().getApplication()
-									.getMode() == EuclidianConstants.MODE_PEN) {
-						geo.setLineOpacity((int) Math.round(alpha * 255));
-					}
 				}
-
-				geo.updateVisualStyle(GProperty.COLOR);
-
-				needUndo = true;
-
+				if (geo instanceof GeoPolyLine
+						&& geo.getKernel().getApplication()
+								.getMode() == EuclidianConstants.MODE_PEN) {
+					geo.setLineOpacity((int) Math.round(alpha * 255));
+				}
 			}
+			geo.updateVisualStyle(GProperty.COLOR);
+			needUndo = true;
 		}
-
+		// }
 		app.getKernel().notifyRepaint();
 		return needUndo;
 	}
