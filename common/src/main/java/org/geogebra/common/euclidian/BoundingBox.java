@@ -383,6 +383,43 @@ public class BoundingBox {
 	}
 
 	/**
+	 * Does the same as hitHandlers but returns a EuclidianBoundingBoxHandler
+	 * 
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
+	 * @param hitThreshold
+	 *            - threshold
+	 * @return bounding box handler
+	 */
+	public EuclidianBoundingBoxHandler getHitHandler(int x, int y,
+			int hitThreshold) {
+		int hit = hitHandlers(x, y, hitThreshold);
+
+		switch (hit) {
+		case 0:
+			return EuclidianBoundingBoxHandler.TOP_LEFT;
+		case 1:
+			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
+		case 2:
+			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
+		case 3:
+			return EuclidianBoundingBoxHandler.TOP_RIGHT;
+		case 4:
+			return EuclidianBoundingBoxHandler.TOP;
+		case 5:
+			return EuclidianBoundingBoxHandler.LEFT;
+		case 6:
+			return EuclidianBoundingBoxHandler.BOTTOM;
+		case 7:
+			return EuclidianBoundingBoxHandler.RIGHT;
+		default:
+			return EuclidianBoundingBoxHandler.UNDEFINED;
+		}
+	}
+
+	/**
 	 * @param x
 	 *            - x coord of hit
 	 * @param y

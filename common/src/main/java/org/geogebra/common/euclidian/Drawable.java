@@ -500,32 +500,12 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y,
 			int hitThreshold) {
-		int hit = -1;
 		if (getBoundingBox() != null
 				&& getBoundingBox() == view.getBoundingBox()) {
-			hit = getBoundingBox().hitHandlers(x, y, hitThreshold);
+			return getBoundingBox().getHitHandler(x, y, hitThreshold);
 		}
 
-		switch (hit) {
-		case 0:
-			return EuclidianBoundingBoxHandler.TOP_LEFT;
-		case 1:
-			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
-		case 2:
-			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
-		case 3:
-			return EuclidianBoundingBoxHandler.TOP_RIGHT;
-		case 4:
-			return EuclidianBoundingBoxHandler.TOP;
-		case 5:
-			return EuclidianBoundingBoxHandler.LEFT;
-		case 6:
-			return EuclidianBoundingBoxHandler.BOTTOM;
-		case 7:
-			return EuclidianBoundingBoxHandler.RIGHT;
-		default:
-			return EuclidianBoundingBoxHandler.UNDEFINED;
-		}
+		return EuclidianBoundingBoxHandler.UNDEFINED;
 	}
 
 	/**

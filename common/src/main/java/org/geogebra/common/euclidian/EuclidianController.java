@@ -6560,6 +6560,27 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
 					setBoundingBoxCursor(d);
 					return;
+				} else if (isMultiSelection() && view.getBoundingBox()
+						.hitSideOfBoundingBox(event.getX(), event.getY(),
+								app.getCapturingThreshold(event.getType()))) {
+
+					EuclidianBoundingBoxHandler handler = view.getBoundingBox()
+							.getHitHandler(event.getX(), event.getY(),
+									app.getCapturingThreshold(event.getType()));
+
+					if (handler != EuclidianBoundingBoxHandler.UNDEFINED) {
+						view.setHitHandler(view.getBoundingBox().getHitHandler(
+								event.getX(), event.getY(),
+								app.getCapturingThreshold(event.getType())));
+
+						setBoundingBoxCursor(null);
+					} else {
+						// if handler is UNDEFINED the side of the bounding box
+						// was hit
+						view.setCursor(EuclidianCursor.DRAG);
+					}
+
+					return;
 				}
 			}
 		}
