@@ -381,7 +381,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			setResource(imgClose,
 					MaterialDesignResources.INSTANCE
 							.toolbar_close_portrait_white());
-			if (!app.has(Feature.MAT_DESIGN_HEADER)) {
+			if (!needsHeader()) {
 				setResource(imgMenu,
 						MaterialDesignResources.INSTANCE.toolbar_menu_black());
 			}
@@ -392,12 +392,12 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			setResource(imgClose,
 					MaterialDesignResources.INSTANCE
 							.toolbar_close_landscape_white());
-			if (!app.has(Feature.MAT_DESIGN_HEADER)) {
+			if (!needsHeader()) {
 				setResource(imgMenu,
 					MaterialDesignResources.INSTANCE.toolbar_menu_white());
 			}
 		}
-		if (app.has(Feature.MAT_DESIGN_HEADER)) {
+		if (needsHeader()) {
 			setResource(imgMenu,
 					MaterialDesignResources.INSTANCE.toolbar_menu_black());
 		}
@@ -433,9 +433,10 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				0, 0, 24, 24, false, false);
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 
-		if (app.has(Feature.MAT_DESIGN_HEADER)
+		if (needsHeader()
 				&& RootPanel.get("headerID") != null) {
 			buildHeader();
+			addShareButton();
 		} else {
 			btnMenu.addStyleName("flatButton");
 			btnMenu.addStyleName("menu");
@@ -453,6 +454,11 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu.addKeyDownHandler(this);
 	}
 
+	private boolean needsHeader() {
+		return app.has(Feature.MAT_DESIGN_HEADER)
+				&& !AppW.smallScreen(app.getLAF());
+	}
+
 	private void buildHeader() {
 		btnMenu.addStyleName("flatButtonHeader");
 		btnMenu.addStyleName("menuBtn");
@@ -463,7 +469,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			dummy.removeFromParent();
 		}
 		root.insert(btnMenu, 0);
-		addShareButton();
 	}
 
 	private void addShareButton() {

@@ -6,4 +6,9 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	public boolean isGraphingExamSupported() {
 		return true;
 	}
+
+	@Override
+	public boolean hasHeader() {
+		return false;
+	}
 }

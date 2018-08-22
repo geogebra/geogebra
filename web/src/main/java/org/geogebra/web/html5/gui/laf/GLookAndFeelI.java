@@ -58,4 +58,6 @@ public interface GLookAndFeelI {
 	void toggleFullscreen(boolean b);
 
 	boolean isGraphingExamSupported();
+
+	boolean hasHeader();
 }

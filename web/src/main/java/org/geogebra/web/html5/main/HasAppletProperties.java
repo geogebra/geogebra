@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -82,7 +84,7 @@ public interface HasAppletProperties {
 	/**
 	 * Update the CSS height of the article
 	 */
-	public void updateArticleHeight();
+	public void updateArticleHeight(GLookAndFeelI laf);
 
 	/**
 	 * @param appW

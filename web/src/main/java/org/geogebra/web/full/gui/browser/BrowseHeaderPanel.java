@@ -63,7 +63,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	}
 
 	private boolean rightPanelNeeded() {
-		return !app.has(Feature.MAT_DESIGN_HEADER) || AppW.smallScreen();
+		return !app.has(Feature.MAT_DESIGN_HEADER)
+				|| AppW.smallScreen(app.getLAF());
 	}
 
 	private void addSearchPanel() {

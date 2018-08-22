@@ -222,4 +222,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 		return false;
 	}
 
+	@Override
+	public boolean hasHeader() {
+		return true;
+	}
+
 }

@@ -151,7 +151,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					ArticleElement.getDataParamFitToScreen(articleElement));
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
-			inst.createSplash(articleElement);
+			inst.createSplash(articleElement, laf);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
 		if (geoGebraMobileTags.isEmpty()) {
@@ -259,7 +259,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// frameLayout.forceLayout();
 		if (ae.getDataParamFitToScreen()) {
 			setSize(Window.getClientWidth(),
-					GeoGebraFrameW.computeHeight(ae, AppW.smallScreen()));
+					GeoGebraFrameW.computeHeight(ae,
+							AppW.smallScreen(app.getLAF())));
 		} else {
 			app.updateViewSizes();
 		}

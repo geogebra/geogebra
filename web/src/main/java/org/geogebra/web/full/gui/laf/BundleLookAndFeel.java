@@ -75,4 +75,9 @@ public class BundleLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public boolean hasHeader() {
+		return false;
+	}
+
 }

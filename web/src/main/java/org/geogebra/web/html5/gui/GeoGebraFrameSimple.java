@@ -47,7 +47,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 					ArticleElement.getDataParamFitToScreen(articleElement));
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
-			inst.createSplash(articleElement);
+			inst.createSplash(articleElement, null);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
 

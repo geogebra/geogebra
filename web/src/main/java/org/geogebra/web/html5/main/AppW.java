@@ -217,7 +217,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
-	private boolean headerVisible = !AppW.smallScreen();
+	private boolean headerVisible;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
 	WebsocketLogger webSocketLogger = null;
@@ -268,6 +268,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected AppW(ArticleElementInterface ae, int dimension,
 			GLookAndFeelI laf) {
 		super(getVersion(ae, dimension, laf));
+		headerVisible = !AppW.smallScreen(laf);
 		if ("graphing".equals(ae.getDataParamAppName())) {
 			this.initialPerspective = "1";
 		} else if ("geometry".equals(ae.getDataParamAppName())) {
@@ -323,7 +324,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),
 					GeoGebraFrameW.computeHeight(getArticleElement(),
-							AppW.smallScreen()));
+							AppW.smallScreen(getLAF())));
 			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();
@@ -396,13 +397,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = !AppW.smallScreen();
+			boolean visible = !AppW.smallScreen(getLAF());
 			header.getStyle().setDisplay(visible ? Display.FLEX : Display.NONE);
 			if (headerVisible != visible) {
 				headerVisible = visible;
 				onHeaderVisible();
 			}
-			getAppletFrame().updateArticleHeight();
+			getAppletFrame().updateArticleHeight(getLAF());
 		}
 	}
 
@@ -426,10 +427,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
+	 * @param laf
+	 *            look and feel
 	 * @return whether the app is running on small screen (below 600px)
 	 */
-	public static boolean smallScreen() {
-		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
+	public static boolean smallScreen(GLookAndFeelI laf) {
+		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600
+				|| (laf != null && !laf.hasHeader());
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,

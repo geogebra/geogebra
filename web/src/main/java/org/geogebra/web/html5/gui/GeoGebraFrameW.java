@@ -170,18 +170,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 * @param articleElement
 	 *            ArticleElement
+	 * @param glaf
+	 *            look and feel to decide about header
 	 */
-	public void createSplash(ArticleElement articleElement) {
+	public void createSplash(ArticleElement articleElement, GLookAndFeelI glaf) {
 
 		int splashWidth = LOGO_WIDTH;
 		int splashHeight = LOGO_HEIGHT;
 
 		// to not touch the DOM twice when computing width and height
-		preProcessFitToSceen();
+		preProcessFitToSceen(glaf);
 
 		int width = computeWidth();
 		int height = GeoGebraFrameW.computeHeight(articleElement,
-				AppW.smallScreen());
+				AppW.smallScreen(glaf));
 
 		/*
 		 * if (ae.getDataParamShowMenuBar()) { // The menubar has extra height:
@@ -218,20 +220,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		add(splash);
 	}
 
-	private void preProcessFitToSceen() {
+	private void preProcessFitToSceen(GLookAndFeelI glaf) {
 		if (ae.getDataParamFitToScreen()) {
 			Document.get().getDocumentElement().getStyle()
 					.setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setOverflow(Overflow.HIDDEN);
-			updateArticleHeight();
+			updateArticleHeight(glaf);
 		}
 	}
 
 	@Override
-	public void updateArticleHeight() {
+	public void updateArticleHeight(GLookAndFeelI glaf) {
 		int margin = ae.getDataParamMarginTop();
-		if (AppW.smallScreen() || margin <= 0) {
+		if (AppW.smallScreen(glaf) || margin <= 0) {
 			ae.getElement().getStyle().setHeight(100, Unit.PCT);
 		} else {
 			ae.getElement().getStyle().setProperty("height",
@@ -640,7 +642,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		final GeoGebraFrameW inst = frame;
 		inst.ae = article;
 		inst.onLoadCallback = onLoadCallback;
-		inst.createSplash(article);
+		inst.createSplash(article, null);
 		RootPanel root = RootPanel.get(article.getId());
 		if (root != null) {
 			root.add(inst);

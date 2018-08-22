@@ -107,4 +107,9 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		}
 	}
 
+	@Override
+	public boolean hasHeader() {
+		return false;
+	}
+
 }
