@@ -97,6 +97,7 @@ public class MaterialCardController {
 							app.showError(app.getLocalization()
 									.getError("LoadFileFailed"));
 						}
+						app.getGuiManager().getBrowseView().close();
 					}
 
 					@Override
