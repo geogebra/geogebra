@@ -6576,7 +6576,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						setBoundingBoxCursor(null);
 					} else {
 						// if handler is UNDEFINED the side of the bounding box
-						// was hit
+						// was hit 
 						view.setCursor(EuclidianCursor.DRAG);
 					}
 
@@ -8543,6 +8543,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// set zoom rectangle's size
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
+
+				// clear previous selection before starting a new selection
+				// rectangle
+				if (mode == EuclidianConstants.MODE_SELECT_MOW
+						&& selection.selectedGeosSize() > 0) {
+					clearSelections();
+				}
 
 				updateSelectionRectangle(event.isShiftDown()
 						|| mode == EuclidianConstants.MODE_ZOOM_IN
