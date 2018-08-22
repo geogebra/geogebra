@@ -2174,7 +2174,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "MultiVarStats.Help": "Analitza dades de dues o m\xe9s columnes seleccionades",
     "MultiVariableStatistics": "Estad\xedstica multivariant",
     "MultivariableFunction": "Funci\xf3 multivariable",
-    "Music": "Music",
+    "Music": "M\xfasica",
     "MyProfile": "El meu perfil",
     "NSolve": "Resol num\xe8ricament",
     "NSolve.Help": "Resol num\xe8ricament una equaci\xf3 o un sistema escrit com d'una llista",
