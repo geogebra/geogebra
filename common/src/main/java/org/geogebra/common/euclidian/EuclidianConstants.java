@@ -943,7 +943,6 @@ public final class EuclidianConstants {
 		case MODE_MOVE:
 			return !draggingOccured;
 		case MODE_SELECT:
-			return true;
 		case MODE_SELECT_MOW:
 			return true;
 		default:
