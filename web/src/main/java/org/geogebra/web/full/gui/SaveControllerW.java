@@ -105,6 +105,9 @@ public class SaveControllerW implements SaveController {
 		}
 	}
 
+	/**
+	 * Offline saving
+	 */
 	private void saveLocal() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
 		if (!fileName.equals(app.getKernel().getConstruction().getTitle())) {
@@ -232,13 +235,13 @@ public class SaveControllerW implements SaveController {
 					@Override
 					public void onError(final Throwable exception) {
 						// TODO show correct message
-						getAppW().showError("Error");
+						getAppW().showError("Error in sync handler");
 					}
 				});
 	}
 
 	/**
-	 * does the upload of the actual opened file to GeoGebraTube
+	 * Does the upload of the actual opened file to GeoGebraTube
 	 * 
 	 * @param tubeID
 	 *            id in materials platform

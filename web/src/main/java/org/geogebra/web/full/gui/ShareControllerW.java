@@ -24,6 +24,14 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * If no existent material -> show save dialog and ask for title to save
+ * 
+ * If material existent -> always auto save before share
+ * 
+ * Share with group -> material stays private (visibility)
+ * 
+ * Share by link -> material will be shared (visibility)
+ * 
  * @author laszlo
  *
  */
@@ -52,6 +60,7 @@ public class ShareControllerW implements ShareController {
 	@Override
 	public void share() {
 		Runnable shareCallback = getShareCallback();
+		// not saved as material yet
 		boolean untitled = app.getActiveMaterial() == null;
 		if (untitled || "P".equals(app.getActiveMaterial().getVisibility())) {
 			if (!app.getLoginOperation().isLoggedIn()) {
@@ -70,14 +79,20 @@ public class ShareControllerW implements ShareController {
 			if (!app.getLoginOperation().isLoggedIn()) {
 				// not saved, not logged in
 				loginForShare();
-			} else if (app.getActiveMaterial() != null
+			}
+			// auto save changes of existent material before share
+			else if (app.getActiveMaterial() != null
 					&& app.getLoginOperation().isLoggedIn()) {
 				autoSaveMaterial(shareCallback);
 			}
 		}
 	}
 
+	/**
+	 * Create material and save online
+	 */
 	private void saveUntitledMaterial(Runnable shareCallback) {
+		// for mow default visibility: private
 		MaterialVisibility visibility = app.isWhiteboardActive() ? MaterialVisibility.Private
 				: MaterialVisibility.Shared;
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().setDefaultVisibility(visibility)
