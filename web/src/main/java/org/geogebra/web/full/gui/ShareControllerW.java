@@ -42,6 +42,13 @@ public class ShareControllerW implements ShareController {
 		this.app = app;
 	}
 
+	/**
+	 * @return see {@link AppW}
+	 */
+	public AppW getAppW() {
+		return app;
+	}
+
 	@Override
 	public void share() {
 		Runnable shareCallback = getShareCallback();
@@ -75,7 +82,6 @@ public class ShareControllerW implements ShareController {
 				: MaterialVisibility.Shared;
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().setDefaultVisibility(visibility)
 				.showIfNeeded(shareCallback, true, anchor);
-
 	}
 
 	private void autoSaveMaterial(Runnable shareCallback) {
@@ -104,43 +110,49 @@ public class ShareControllerW implements ShareController {
 
 			@Override
 			public void run() {
-				NoDragImage geogebraimg = new NoDragImage(
-						AppResources.INSTANCE.geogebraLogo().getSafeUri().asString());
-				PushButton geogebrabutton = new PushButton(geogebraimg, new ClickHandler() {
+				NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
+						.geogebraLogo().getSafeUri().asString());
+				PushButton geogebrabutton = new PushButton(geogebraimg,
+						new ClickHandler() {
 
-					@Override
-					public void onClick(ClickEvent event) {
-						if (!FileMenuW.nativeShareSupported()) {
-							app.uploadToGeoGebraTube();
-						} else {
-							app.getGgbApi().getBase64(true, getShareStringHandler());
-						}
-						if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
-							shareDialog.hide();
-						} else {
-							sd.hide();
-						}
-					}
+							@Override
+							public void onClick(ClickEvent event) {
+								if (!FileMenuW.nativeShareSupported()) {
+									getAppW().uploadToGeoGebraTube();
+								} else {
+									getAppW().getGgbApi().getBase64(true,
+											getShareStringHandler());
+								}
+								if (getAppW()
+										.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
+									shareDialog.hide();
+								} else {
+									sd.hide();
+								}
+							}
 
-				});
+						});
 				String sharingKey = "";
-				if (app.getActiveMaterial() != null
-						&& app.getActiveMaterial().getSharingKey() != null) {
-					sharingKey = app.getActiveMaterial().getSharingKey();
+				if (getAppW().getActiveMaterial() != null && getAppW()
+						.getActiveMaterial().getSharingKey() != null) {
+					sharingKey = getAppW().getActiveMaterial().getSharingKey();
 				}
-				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN) && app.isUnbundled()) {
-					shareDialog = new ShareLinkDialog(app, app.getCurrentURL(sharingKey, true),
-							anchor);
+				if (getAppW().has(Feature.SHARE_DIALOG_MAT_DESIGN)
+						&& getAppW().isUnbundled()) {
+					shareDialog = new ShareLinkDialog(getAppW(),
+							getAppW().getCurrentURL(sharingKey, true),
+							getAnchor());
 					shareDialog.setVisible(true);
 					shareDialog.center();
-				} else if (app.has(Feature.MOW_SHARE_DIALOG)
-						&& app.isWhiteboardActive()) {
-					mowShareDialog = new ShareDialogMow(app,
-							app.getCurrentURL(sharingKey, true), null);
+				} else if (getAppW().has(Feature.MOW_SHARE_DIALOG)
+						&& getAppW().isWhiteboardActive()) {
+					mowShareDialog = new ShareDialogMow(getAppW(),
+							getAppW().getCurrentURL(sharingKey, true), null);
 					mowShareDialog.show();
 				} else {
-					sd = new ShareDialogW(app, anchor, geogebrabutton,
-							app.getCurrentURL(sharingKey, true));
+					sd = new ShareDialogW(getAppW(), getAnchor(),
+							geogebrabutton,
+							getAppW().getCurrentURL(sharingKey, true));
 					sd.setVisible(true);
 					sd.center();
 				}
@@ -156,8 +168,9 @@ public class ShareControllerW implements ShareController {
 		return new AsyncOperation<String>() {
 			@Override
 			public void callback(String s) {
-				String title = app.getKernel().getConstruction().getTitle();
-				MaterialsManagerI fm = app.getFileManager();
+				String title = getAppW().getKernel().getConstruction()
+						.getTitle();
+				MaterialsManagerI fm = getAppW().getFileManager();
 				fm.nativeShare(s, "".equals(title) ? "construction" : title);
 			}
 		};
