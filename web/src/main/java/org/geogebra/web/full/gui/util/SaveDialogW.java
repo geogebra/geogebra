@@ -52,8 +52,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		SaveListener, EventRenderable, SaveDialogI {
 
 	private static final int MAX_TITLE_LENGTH = 60;
-	/** application */
-	protected AppW app;
+	/** appWlication */
+	protected AppW appW;
 	/** title box */
 	protected TextBox title;
 	private StandardButton dontSaveButton;
@@ -73,14 +73,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * Creates a new GeoGebra save dialog.
 	 * 
 	 * @param app
-	 *            AppW
+	 *            see {@link AppW}
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel(), app);
 		this.defaultVisibility = app.isWhiteboardActive() ? MaterialVisibility.Private
 				: MaterialVisibility.Shared;
-		this.app = app;
-		this.loc = app.getLocalization();
+		this.appW = app;
+		this.loc = appW.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);
 		FlowPanel contentPanel = new FlowPanel();
@@ -104,13 +104,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 			@Override
 			public void onClick(ClickEvent event) {
-				app.closePopups();
+				appW.closePopups();
 
 			}
 		}, ClickEvent.getType());
-		app.getLoginOperation().getView().add(this);
-		if (app.getGoogleDriveOperation() != null) {
-			app.getGoogleDriveOperation().initGoogleDriveApi();
+		appW.getLoginOperation().getView().add(this);
+		if (appW.getGoogleDriveOperation() != null) {
+			appW.getGoogleDriveOperation().initGoogleDriveApi();
 		}
 	}
 
@@ -118,16 +118,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * Handle dialog closed (escape or cancel)
 	 */
 	protected void handleClose() {
-		app.setDefaultCursor();
+		appW.setDefaultCursor();
 		dontSaveButton.setEnabled(true);
-		app.closePopupsNoTooltips();
+		appW.closePopupsNoTooltips();
 	}
 
 	private HorizontalPanel getTitelPanel() {
 		final HorizontalPanel titlePanel = new HorizontalPanel();
 		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.titleLabel = new Label(loc.getMenu("Title") + ": ");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (appW.has(Feature.DIALOG_DESIGN)) {
 			titleLabel.addStyleName("coloredLabel");
 		}
 		titlePanel.add(this.titleLabel);
@@ -167,9 +167,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		buttonPanel.add(
 				dontSaveButton = new StandardButton(loc.getMenu("DontSave"),
-						app));
+						appW));
 		buttonPanel
-				.add(saveButton = new StandardButton(loc.getMenu("Save"), app));
+				.add(saveButton = new StandardButton(loc.getMenu("Save"),
+						appW));
 
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
@@ -201,10 +202,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerImages[0] = BrowseResources.INSTANCE.location_tube();
 		int providerCount = 1;
 		this.supportedProviders.add(Provider.TUBE);
-		GeoGebraTubeUser user = app.getLoginOperation().getModel()
+		GeoGebraTubeUser user = appW.getLoginOperation().getModel()
 		        .getLoggedInUser();
 		if (user != null && user.hasGoogleDrive()
-		        && app.getLAF().supportsGoogleDrive()) {
+				&& appW.getLAF().supportsGoogleDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_drive();
 			this.supportedProviders.add(Provider.GOOGLE);
@@ -214,7 +215,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			        .location_skydrive();
 			this.supportedProviders.add(Provider.ONE);
 		}
-		if (app.getLAF().supportsLocalSave()) {
+		if (appW.getLAF().supportsLocalSave()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_local();
 			this.supportedProviders.add(Provider.LOCAL);
@@ -222,10 +223,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		if (providerPopup != null) {
 			buttonPanel.remove(providerPopup);
 		}
-		providerPopup = new PopupMenuButtonW(app, ImageOrText.convert(
+		providerPopup = new PopupMenuButtonW(appW, ImageOrText.convert(
 		        providerImages, 24), 1, providerCount,
 				SelectionTable.MODE_ICON,
-				app.isUnbundledOrWhiteboard());
+				appW.isUnbundledOrWhiteboard());
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
 		listBox = new ListBox();
@@ -234,19 +235,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		listBox.addItem(loc.getMenu("Shared"));
 		listBox.addItem(loc.getMenu("Public"));
 		listBox.setItemSelected(MaterialVisibility.Private.getIndex(), true);
-		if (app.getLAF().supportsGoogleDrive()) {
+		if (appW.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
-			providerPopup.setSelectedIndex(app.getFileManager()
+			providerPopup.setSelectedIndex(appW.getFileManager()
 			        .getFileProvider() == Provider.GOOGLE ? 1 : 0);
-		} else if (app.getLAF().supportsLocalSave()) {
+		} else if (appW.getLAF().supportsLocalSave()) {
 			providerPopup.addPopupHandler(this);
-			providerPopup.setSelectedIndex(app.getFileManager()
+			providerPopup.setSelectedIndex(appW.getFileManager()
 			        .getFileProvider() == Provider.LOCAL ? 1 : 0);
 		}
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-		if (!app.isWhiteboardActive()) {
+		if (!appW.isWhiteboardActive()) {
 			buttonPanel.add(providerPopup);
 			buttonPanel.add(listBox);
 		}
@@ -263,7 +264,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
-		app.getSaveController().saveAs(title.getText(), getSelectedVisibility(), this);
+		appW.getSaveController().saveAs(title.getText(),
+				getSelectedVisibility(), this);
 	}
 
 	private MaterialVisibility getSelectedVisibility() {
@@ -279,18 +281,18 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	/**
-	 * sets the application as "saved" and closes the dialog
+	 * sets the appWlication as "saved" and closes the dialog
 	 */
 	protected void onDontSave() {
 		hide();
-		app.getSaveController().cancel();
+		appW.getSaveController().cancel();
 	}
 
 	@Override
 	public void show() {
 		this.setAnimationEnabled(false);
 		super.show();
-		app.invokeLater(new Runnable() {
+		appW.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				position();
@@ -298,20 +300,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		});
 
 		this.setTitle();
-		if (app.isOffline()) {
+		if (appW.isOffline()) {
 			this.providerPopup.setVisible(this.supportedProviders
 					.contains(Provider.LOCAL));
 		} else {
 			this.providerPopup.setVisible(true);
 			this.providerPopup.setSelectedIndex(this.supportedProviders
-					.indexOf(app.getFileManager().getFileProvider()));
-			// app.getFileManager().setFileProvider(
+					.indexOf(appW.getFileManager().getFileProvider()));
+			// appW.getFileManager().setFileProvider(
 			// org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
-			if (app.getActiveMaterial() != null) {
-				if (app.getActiveMaterial().getVisibility()
+			if (appW.getActiveMaterial() != null) {
+				if (appW.getActiveMaterial().getVisibility()
 						.equals(MaterialVisibility.Public.getToken())) {
 					this.listBox.setSelectedIndex(MaterialVisibility.Public.getIndex());
-				} else if (app.getActiveMaterial().getVisibility()
+				} else if (appW.getActiveMaterial().getVisibility()
 						.equals(MaterialVisibility.Shared.getToken())) {
 					this.listBox.setSelectedIndex(MaterialVisibility.Shared.getIndex());
 				} else {
@@ -322,7 +324,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				this.listBox.setSelectedIndex(defaultVisibility.getIndex());
 			}
 		}
-		listBox.setVisible(app.getFileManager().getFileProvider() == Provider.TUBE);
+		listBox.setVisible(
+				appW.getFileManager().getFileProvider() == Provider.TUBE);
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.saveButton.setEnabled(false);
 		}
@@ -346,7 +349,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	@Override
 	public void showIfNeeded(Runnable runnable) {
-		showIfNeeded(runnable, !app.isSaved(), null);
+		showIfNeeded(runnable, !appW.isSaved(), null);
 	}
 
 	/**
@@ -359,8 +362,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	@Override
 	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
-		if (needed && !app.getLAF().isEmbedded()) {
-			app.getSaveController().setRunAfterSave(runnable);
+		if (needed && !appW.getLAF().isEmbedded()) {
+			appW.getSaveController().setRunAfterSave(runnable);
 			if (anchor == null) {
 				center();
 			} else {
@@ -368,7 +371,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 			position();
 		} else {
-			app.getSaveController().setRunAfterSave(null);
+			appW.getSaveController().setRunAfterSave(null);
 			runnable.run();
 		}
 	}
@@ -389,9 +392,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	@Override
 	public void setTitle() {
-		String consTitle = app.getKernel().getConstruction().getTitle();
+		String consTitle = appW.getKernel().getConstruction().getTitle();
 		if (consTitle != null && !"".equals(consTitle)
-				&& !app.getSaveController().isMacro()) {
+				&& !appW.getSaveController().isMacro()) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
@@ -426,7 +429,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		Provider provider = this.supportedProviders.get(actionButton.getSelectedIndex());
-		app.getFileManager().setFileProvider(provider);
+		appW.getFileManager().setFileProvider(provider);
 
 		listBox.setVisible(provider == Provider.TUBE);
 
@@ -459,6 +462,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	@Override
 	public void setSaveType(MaterialType saveType) {
-		app.getSaveController().setSaveType(saveType);
+		appW.getSaveController().setSaveType(saveType);
 	}
 }
