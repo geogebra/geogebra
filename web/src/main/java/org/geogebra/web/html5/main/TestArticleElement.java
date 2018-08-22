@@ -432,4 +432,9 @@ public class TestArticleElement implements ArticleElementInterface {
 		return "";
 	}
 
+	@Override
+	public boolean isForceHeader() {
+		return false;
+	}
+
 }

@@ -432,8 +432,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether the app is running on small screen (below 600px)
 	 */
 	public static boolean smallScreen(ArticleElementInterface el) {
-		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600
-				|| el.getDataParamMarginTop() <= 0;
+		return (Window.getClientWidth() < 600 || Window.getClientHeight() < 600
+				|| el.getDataParamMarginTop() <= 0) && !el.isForceHeader();
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,

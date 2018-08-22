@@ -471,4 +471,9 @@ public interface ArticleElementInterface {
 	 */
 	String getParamBackendURL();
 
+	/**
+	 * @return whether to force visible header; based on marginTop
+	 */
+	boolean isForceHeader();
+
 }

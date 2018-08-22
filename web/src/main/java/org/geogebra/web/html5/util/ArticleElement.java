@@ -814,4 +814,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getParamBackendURL() {
 		return getStringDataParam("backendURL", "");
 	}
+
+	@Override
+	public boolean isForceHeader() {
+		return getStringDataParam("marginTop", "").startsWith("+");
+	}
 }
