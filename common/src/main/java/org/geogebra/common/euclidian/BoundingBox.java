@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
@@ -45,6 +46,19 @@ public class BoundingBox {
 			this.isImage = isImage;
 			setCropHandlers(new ArrayList<GGeneralPath>());
 		}
+	}
+
+	/**
+	 * New bounding box with defined rectangle
+	 * 
+	 * @param rect
+	 *            defined rectangle
+	 * @param isImage
+	 *            true is bounding box of image
+	 */
+	public BoundingBox(GRectangle rect, boolean isImage) {
+		this(isImage);
+		setRectangle(rect);
 	}
 
 	/**

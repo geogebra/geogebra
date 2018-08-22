@@ -8146,9 +8146,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (geo != null && view.getDrawableFor(geo) != null) {
-			Drawable dr = ((Drawable) view.getDrawableFor(geo));
-			BoundingBox boundingBox = dr.getBoundingBox();
-			view.setBoundingBox(boundingBox);
+			view.setBoundingBox(
+					((Drawable) view.getDrawableFor(geo)).getBoundingBox());
 			view.repaintView();
 		}
 
@@ -12220,11 +12219,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
-
-		BoundingBox boundingBox = new BoundingBox(false);
-		boundingBox.setRectangle(rect);
-
-		view.setBoundingBox(boundingBox);
+		view.setBoundingBox(new BoundingBox(rect, false));
 	}
 
 	/**
