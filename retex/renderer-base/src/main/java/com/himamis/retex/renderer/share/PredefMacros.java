@@ -502,7 +502,7 @@ public class PredefMacros {
 			throw new ParseException("Both numerator and denominator of a fraction can't be empty!");
 		}
 
-		return new FractionAtom(num, denom, (Unit) dim[0], (double) dim[1]);
+		return new FractionAtom(num, denom, (Unit) dim[0], (Double) dim[1]);
 	}
 
 	public static final Atom abovewithdelims_macro(final TeXParser tp, final String[] args)
@@ -528,7 +528,7 @@ public class PredefMacros {
 		if (left instanceof SymbolAtom && right instanceof SymbolAtom) {
 			return new FencedAtom(
 					new FractionAtom(num, denom, (Unit) dim[0],
-							(double) dim[1]),
+							(Double) dim[1]),
 					(SymbolAtom) left,
 					(SymbolAtom) right);
 		}
@@ -1449,16 +1449,16 @@ public class PredefMacros {
 		}
 		Object[] height = SpaceAtom.getLength(args[3]);
 		Object[] depth = SpaceAtom.getLength(args[4]);
-		if (height.length == 1 || (double) height[1] == 0) {
+		if (height.length == 1 || (Double) height[1] == 0) {
 			height = new Object[] { Unit.NONE, 0 };
 		}
-		if (depth.length == 1 || (double) depth[1] == 0) {
+		if (depth.length == 1 || (Double) depth[1] == 0) {
 			depth = new Object[] { Unit.NONE, 0 };
 		}
 
 		return new RaiseAtom(new TeXFormula(tp, args[2]).root, (Unit) raise[0],
-				(double) raise[1], (Unit) height[0], (double) height[1],
-				(Unit) depth[0], (double) depth[1]);
+				(Double) raise[1], (Unit) height[0], (Double) height[1],
+				(Unit) depth[0], (Double) depth[1]);
 	}
 
 	public static final Atom shadowbox_macro(final TeXParser tp, final String[] args) throws ParseException {
