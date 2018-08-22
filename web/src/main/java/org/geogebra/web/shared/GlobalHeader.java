@@ -16,6 +16,8 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
@@ -40,6 +42,8 @@ public class GlobalHeader implements EventRenderable {
 	private String oldHref;
 
 	private boolean shareButtonInitialized;
+
+	private int initialMargin;
 
 	/**
 	 * Activate sign in button in external header
@@ -108,10 +112,10 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * @return button
+	 * Get element, NOT panel to make sure root panels are not nested
 	 */
-	public RootPanel getButtonPanel() {
-		return RootPanel.get("buttonsID");
+	private static Element getButtonElement() {
+		return Document.get().getElementById("buttonsID");
 	}
 
 	/**
@@ -146,18 +150,30 @@ public class GlobalHeader implements EventRenderable {
 	 * remove exam timer and put back button panel
 	 */
 	public void resetAfterExam() {
+		forceVisible(false);
 		getExamPanel().getElement().removeFromParent();
-		getButtonPanel().getElement().getStyle()
+		getButtonElement().getStyle()
 				.setDisplay(Display.FLEX);
 		getHomeLink().setHref(oldHref);
+	}
+
+	private void forceVisible(boolean visible) {
+		app.getArticleElement().attr("marginTop",
+				Integer.toString(visible ? initialMargin : 0));
+		app.updateHeaderVisible();
 	}
 
 	/**
 	 * switch right buttons with exam timer and info button
 	 */
 	public void addExamTimer() {
+		if (initialMargin == 0) {
+			initialMargin = getApp().getArticleElement()
+					.getDataParamMarginTop();
+		}
+		forceVisible(true);
 		// remove other buttons
-		getButtonPanel().getElement().getStyle()
+		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);
 		// exam panel with timer and info btn
 		timer = new Label("0:00");
@@ -169,7 +185,7 @@ public class GlobalHeader implements EventRenderable {
 		// add exam panel to
 		DivElement exam = DOM.createDiv().cast();
 		exam.setId("examId");
-		getButtonPanel().getElement().getParentElement().appendChild(exam);
+		getButtonElement().getParentElement().appendChild(exam);
 		oldHref = getHomeLink().getHref();
 		getHomeLink().setHref("#");
 		RootPanel.get("examId").addStyleName("examPanel");

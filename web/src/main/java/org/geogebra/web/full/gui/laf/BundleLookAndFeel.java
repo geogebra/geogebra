@@ -72,7 +72,7 @@ public class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public boolean isGraphingExamSupported() {
-		return false;
+		return true;
 	}
 
 	@Override

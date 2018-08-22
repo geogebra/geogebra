@@ -268,7 +268,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected AppW(ArticleElementInterface ae, int dimension,
 			GLookAndFeelI laf) {
 		super(getVersion(ae, dimension, laf));
-		headerVisible = !AppW.smallScreen(laf);
+		headerVisible = !AppW.smallScreen(ae);
 		if ("graphing".equals(ae.getDataParamAppName())) {
 			this.initialPerspective = "1";
 		} else if ("geometry".equals(ae.getDataParamAppName())) {
@@ -324,7 +324,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),
 					GeoGebraFrameW.computeHeight(getArticleElement(),
-							AppW.smallScreen(getLAF())));
+							AppW.smallScreen(getArticleElement())));
 			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();
@@ -397,13 +397,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = !AppW.smallScreen(getLAF());
+			boolean visible = !AppW.smallScreen(getArticleElement());
 			header.getStyle().setDisplay(visible ? Display.FLEX : Display.NONE);
 			if (headerVisible != visible) {
 				headerVisible = visible;
 				onHeaderVisible();
 			}
-			getAppletFrame().updateArticleHeight(getLAF());
+			getAppletFrame().updateArticleHeight();
 		}
 	}
 
@@ -427,13 +427,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param laf
-	 *            look and feel
+	 * @param el
+	 *            article
 	 * @return whether the app is running on small screen (below 600px)
 	 */
-	public static boolean smallScreen(GLookAndFeelI laf) {
+	public static boolean smallScreen(ArticleElementInterface el) {
 		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600
-				|| (laf != null && !laf.hasHeader());
+				|| el.getDataParamMarginTop() <= 0;
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,

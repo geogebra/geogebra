@@ -465,7 +465,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private boolean needsHeader() {
 		return app.has(Feature.MAT_DESIGN_HEADER)
-				&& !AppW.smallScreen(app.getLAF());
+				&& !AppW.smallScreen(app.getArticleElement());
 	}
 
 	private void buildHeader() {
