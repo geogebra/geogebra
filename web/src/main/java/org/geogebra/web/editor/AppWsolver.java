@@ -1,15 +1,14 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
@@ -25,7 +24,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class AppWsolver extends AppW implements HasKeyboard {
@@ -69,14 +68,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
     }
 
 	private void addShareButton() {
-		final RootPanel share = GlobalHeader.getShareButton();
-		if (share == null) {
-			return;
-		}
-		ClickStartHandler.init(share, new ClickStartHandler(true, true) {
+		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
 
 			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
+			public void callback(Widget share) {
 				String url = Location.getHref().replaceAll("\\?.*", "")
 						+ Solver.getRelativeURLforEqn(getMathField().getText());
 				ShareLinkDialog sd = new ShareLinkDialog(AppWsolver.this, url,

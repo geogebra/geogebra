@@ -5,10 +5,12 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -18,6 +20,7 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Singleton representing external header bar of unbundled apps.
@@ -35,6 +38,8 @@ public class GlobalHeader implements EventRenderable {
 	private StandardButton examInfoBtn;
 
 	private String oldHref;
+
+	private boolean shareButtonInitialized;
 
 	/**
 	 * Activate sign in button in external header
@@ -81,9 +86,24 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * @return share button
+	 * @param callback
+	 *            click callback
 	 */
-	public static RootPanel getShareButton() {
+	public void initShareButton(final AsyncOperation<Widget> callback) {
+		final RootPanel rp = getShareButton();
+		if (rp != null && !shareButtonInitialized) {
+			shareButtonInitialized = true;
+			ClickStartHandler.init(rp, new ClickStartHandler(true, true) {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					callback.callback(rp);
+				}
+			});
+		}
+	}
+
+	private static RootPanel getShareButton() {
 		return RootPanel.get("shareButton");
 	}
 
@@ -177,6 +197,19 @@ public class GlobalHeader implements EventRenderable {
 	private static AnchorElement getHomeLink() {
 		return RootPanel.get("headerID").getElement().getElementsByTagName("a")
 				.getItem(0).cast();
+	}
+
+	/**
+	 * Update style of share button, NPE safe.
+	 * 
+	 * @param selected
+	 *            whether to mark share button as selected
+	 */
+	public void selectShareButton(boolean selected) {
+		final RootPanel rp = getShareButton();
+		if (rp != null) {
+			Dom.toggleClass(rp, "selected", selected);
+		}
 	}
 
 }

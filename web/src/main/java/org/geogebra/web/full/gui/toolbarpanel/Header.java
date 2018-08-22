@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -433,15 +434,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				0, 0, 24, 24, false, false);
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 
-		if (needsHeader()
-				&& RootPanel.get("headerID") != null) {
-			buildHeader();
-			addShareButton();
-		} else {
-			btnMenu.addStyleName("flatButton");
-			btnMenu.addStyleName("menu");
-			toolbarPanel.getFrame().add(btnMenu);
-		}
+		updateMenuPosition();
 		markMenuAsExpanded(false);
 		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 
@@ -454,14 +447,28 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu.addKeyDownHandler(this);
 	}
 
+	private void updateMenuPosition() {
+		if (btnMenu == null) {
+			return;
+		}
+		boolean external = needsHeader() && RootPanel.get("headerID") != null;
+		Dom.toggleClass(btnMenu, "flatButtonHeader", "flatButton", external);
+		Dom.toggleClass(btnMenu, "menuBtn", "menu", external);
+		if (external) {
+			btnMenu.removeFromParent();
+			buildHeader();
+			addShareButton();
+		} else {
+			toolbarPanel.getFrame().add(btnMenu);
+		}
+	}
+
 	private boolean needsHeader() {
 		return app.has(Feature.MAT_DESIGN_HEADER)
 				&& !AppW.smallScreen(app.getLAF());
 	}
 
 	private void buildHeader() {
-		btnMenu.addStyleName("flatButtonHeader");
-		btnMenu.addStyleName("menuBtn");
 		RootPanel root = RootPanel.get("headerID");
 		Element dummy = Dom.querySelectorForElement(root.getElement(),
 				"menuBtn");
@@ -472,15 +479,12 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void addShareButton() {
-		final RootPanel share = GlobalHeader.getShareButton();
-		if (share == null) {
-			return;
-		}
-		ClickStartHandler.init(share, new ClickStartHandler(true, true) {
+		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
 
 			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
+			public void callback(Widget share) {
 				FileMenuW.share(app, share);
+
 			}
 		});
 	}
@@ -759,6 +763,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (isAnimating()) {
 			return;
 		}
+		updateMenuPosition();
 		updateCenterSize();
 		updateStyle();
 	}
@@ -929,7 +934,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	/**
-	 * 
+	 * Exam info button.
 	 */
 	public void initInfoBtnAction() {
 		final StandardButton examInfoBtn = GlobalHeader.INSTANCE
@@ -939,6 +944,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		examInfoBtn.addFastClickHandler(new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				new ExamLogAndExitDialog(app, true, null, examInfoBtn).show();
 			}

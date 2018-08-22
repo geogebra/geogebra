@@ -5,7 +5,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.Callback;
@@ -295,19 +294,13 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		selectSharButton(visible);
+		GlobalHeader.INSTANCE.selectShareButton(visible);
 	}
 
 	@Override
 	public void hide() {
 		super.hide();
-		selectSharButton(false);
-	}
-
-	private static void selectSharButton(boolean visible) {
-		if (GlobalHeader.getShareButton() != null) {
-			Dom.toggleClass(GlobalHeader.getShareButton(), "selected", visible);
-		}
+		GlobalHeader.INSTANCE.selectShareButton(false);
 	}
 
 	@Override
