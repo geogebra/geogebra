@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
@@ -1228,9 +1227,6 @@ public class DrawAxis {
 	}
 
 	private boolean isCurrencyUnit(int axis) {
-		if (!view.getApplication().has(Feature.CURRENCY_UNIT)) {
-			return false;
-		}
 		return StringUtil.isCurrency(view.axesUnitLabels[axis])
 				|| ",".equals(view.axesUnitLabels[axis]);
 

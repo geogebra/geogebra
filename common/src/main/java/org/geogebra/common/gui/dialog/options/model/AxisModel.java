@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -121,10 +120,7 @@ public class AxisModel {
 		listener.addUnitLabelItem("cm");
 		listener.addUnitLabelItem("m");
 		listener.addUnitLabelItem("km");
-		if (app.has(Feature.CURRENCY_UNIT)) {
-			listener.addUnitLabelItem(Unicode.CURRENCY_DOLLAR + "");
-		}
-
+		listener.addUnitLabelItem(Unicode.CURRENCY_DOLLAR + "");
 	}
 
 	public void showAxis(boolean value) {

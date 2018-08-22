@@ -176,9 +176,6 @@ public enum Feature {
 	/** MOB-1319 */
 	MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11,
 
-	/** GGB-2347 */
-	READ_DROPDOWNS,
-
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
 
@@ -197,12 +194,6 @@ public enum Feature {
 	/** MOW-285 */
 	MOW_BOUNDING_BOX_FOR_PEN_TOOL,
 
-	/** GGB-2258 */
-	VOICEOVER_CURSOR,
-
-	/** GGB-2346 */
-	CURRENCY_UNIT,
-	
 	/** GBB-2374 */
 	MAT_DESIGN_HEADER,
 

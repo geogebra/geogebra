@@ -35,24 +35,12 @@ public class AriaStackPanel extends ComplexPanel
 	private ArrayList<Widget> items = new ArrayList<>();
 	private ArrayList<Element> headers = new ArrayList<>();
 	private ArrayList<Element> contents = new ArrayList<>();
-	private boolean voiceOverCursor;
 
 	/**
 	 * Creates an empty stack panel.
-	 */
+	 **/
 	public AriaStackPanel() {
-		this(false);
-	}
-
-	/**
-	 * Creates an empty stack panel.
-	 * 
-	 * @param voiceOverCursor
-	 *            if panel is supporting VO cursor.
-	 */
-	public AriaStackPanel(boolean voiceOverCursor) {
 		ul = Document.get().createULElement();
-		this.voiceOverCursor = voiceOverCursor;
 		setElement(ul);
 		addStyleName("gwt-StackPanel");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
@@ -147,7 +135,7 @@ public class AriaStackPanel extends ComplexPanel
 
 		Element button = DOM.createElement("button");
 
-		if (!(Browser.isIPad() && voiceOverCursor)) {
+		if (!(Browser.isIPad())) {
 			li.setAttribute("role", "menuitem");
 		}
 

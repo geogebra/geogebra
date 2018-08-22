@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 
 import com.google.j2objc.annotations.WeakOuter;
@@ -888,7 +887,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		boolean setVisible(boolean visible) {
-			if (geoList.getKernel().getApplication().has(Feature.READ_DROPDOWNS) && visible) {
+			if (visible) {
 				ScreenReader.readDropDownOpened(geoList);
 			}
 			boolean repaintNeeded = this.visible != visible;
@@ -971,11 +970,8 @@ public final class DrawDropDownList extends CanvasDrawable
 				getView().repaintView();
 			}
 
-			if (geoList.getKernel().getApplication()
-					.has(Feature.READ_DROPDOWNS)) {
-				ScreenReader.readDropDownSelectorMoved(
-						geoList.getKernel().getApplication(), hovered.text);
-			}
+			ScreenReader.readDropDownSelectorMoved(geoList.getKernel().getApplication(),
+					hovered.text);
 		}
 
 		private void cancelDrag() {

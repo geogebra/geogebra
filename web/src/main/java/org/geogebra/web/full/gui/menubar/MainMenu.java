@@ -323,7 +323,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void initAriaStackPanel() {
-		this.menuPanel = new AriaStackPanel(app.has(Feature.VOICEOVER_CURSOR)) {
+		this.menuPanel = new AriaStackPanel() {
 			@Override
 			public void showStack(int index) {
 				if (app.isUnbundledOrWhiteboard() && index == 0) {

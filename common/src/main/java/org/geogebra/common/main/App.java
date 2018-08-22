@@ -4074,18 +4074,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return prerelease;
 
-		/** GGB-2347 */
-		case READ_DROPDOWNS:
-			return true;
-
-		/** GGB-2258 */
-		case VOICEOVER_CURSOR:
-			return true;
-
-		/** GGB-2346 */
-		case CURRENCY_UNIT:
-			return true;
-
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
 			// don't set true in ggb5
@@ -4096,7 +4084,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return true;
 
 		case SHARE_DIALOG_MAT_DESIGN:
-			return prerelease;
+			return true;
 
 		/** GBB-2394 */
 		case SPLITTER_LOADING:
