@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
@@ -146,8 +145,6 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 	 */
 	public abstract void onEnablePressStyle();
 
-	public abstract App getApp();
-
 	@Override
 	public void onBrowserEvent(Event event) {
 
@@ -156,7 +153,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 			return;
 		}
 		
-		if (acc.handleBrowserEvent(event, getApp())) {
+		if (acc.handleBrowserEvent(event)) {
 			return;
 		}
 		

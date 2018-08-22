@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.TabHandler;
 
 import com.google.gwt.user.client.DOM;
@@ -36,11 +35,9 @@ public class AccessibilityButton implements AccessibilityInterface {
 	/**
 	 * @param event
 	 *            browser event
-	 * @param app
-	 *            application
 	 * @return whether event was handled
 	 */
-	public boolean handleBrowserEvent(Event event, App app) {
+	public boolean handleBrowserEvent(Event event) {
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {
 			char keyCode = (char) event.getKeyCode();

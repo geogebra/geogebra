@@ -551,7 +551,6 @@ public class GgbAPIW extends GgbAPI {
 		if (ret == null) {
 			ret = app.getActiveEuclidianView();
 		}
-		Log.debug(ret.getViewID());
 		return ret;
 	}
 

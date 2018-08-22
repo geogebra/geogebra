@@ -13,6 +13,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Window.Location;
 
+/**
+ * Simple version of API just for availability check.
+ */
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
 	/**

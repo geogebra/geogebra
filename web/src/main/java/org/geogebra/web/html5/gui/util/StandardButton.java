@@ -200,11 +200,6 @@ public class StandardButton extends FastButton implements HasResource {
 	}
 
 	@Override
-	public App getApp() {
-		return app;
-	}
-
-	@Override
 	public void setResource(ResourcePrototype res) {
 		btnImage.setResource(res);
 	}
