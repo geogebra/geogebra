@@ -172,12 +172,12 @@ task copyHtml {
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { appID, prerelease, offline = false ->
-            def header = offline || appID == "whiteboard" ? "" : prerelease? file(templateDir+"app-header-beta.html").text : file(templateDir+"app-header.html").text
+            def header = appID == "whiteboard" ? "" : file(templateDir+"app-header-beta.html").text
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen" + (offline ? " offline" : "")
             return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\"><div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div>"+file(templateDir+appID+"-splash.html").text+"</div>")
-            .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text.replace('$height', prerelease ? '64px' : '33px')+file(templateDir+"app-style.css").text)
+            .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text.replace('$height', offline ? '0' : '64px')+file(templateDir+"app-style.css").text)
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
         }

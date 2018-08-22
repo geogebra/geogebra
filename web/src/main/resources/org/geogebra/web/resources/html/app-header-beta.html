@@ -1,4 +1,4 @@
-<script>marginTop=64;translation.tryApp="<!--TRY APP-->";translation.stay="<!--CONTINUE-->";
+<script>marginTop=appOnline ? 64 : 0;translation.tryApp="<!--TRY APP-->";translation.stay="<!--CONTINUE-->";
 function toggleAppPicker(){
 	var style = document.getElementsByClassName("popdown-button-container")[0].style;
 	var wasHidden = style.display == "none";
@@ -21,6 +21,11 @@ function hideAppPicker(e){
 	selectAppPicker(false);
 }
 document.body.addEventListener("mousedown", hideAppPicker);
+window.addEventListener("load", function(){
+	if(!appOnline){
+		document.getElementById("headerID").parentElement.style.display = "none";
+	}
+});
 </script>
 <nav class="GeoGebraFrame GeoGebraHeader beta">
 <div id="headerID">
