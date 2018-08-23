@@ -7710,6 +7710,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void handleMouseDragged(boolean repaint,
 			AbstractEvent event, boolean manual) {
+
+		// do not allow right-click drag for MODE_SELECT_MOW
+		if (mode == EuclidianConstants.MODE_SELECT_MOW
+				&& event.isRightClick()) {
+			return;
+		}
+
 		if (getResizedShape() != null) {
 			setBoundingBoxCursor(getResizedShape());
 
@@ -8126,7 +8133,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					if (geo == null) {
 						lastSelectionPressResult = SelectionToolPressResult.EMPTY;
 					} else {
-						if (view.getSelectionRectangle() == null) {
+						if (view.getSelectionRectangle() == null
+								&& !e.isRightClick()) {
 							selection.clearSelectedGeos(geo == null, false);
 							selection.updateSelection(false);
 							selection.addSelectedGeo(geo, true, true);
@@ -8262,7 +8270,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		if (view.hasDynamicStyleBar()) {
+		if (view.hasDynamicStyleBar()
+				&& ((mode == EuclidianConstants.MODE_SELECT_MOW
+						&& !event.isRightClick())
+						|| mode != EuclidianConstants.MODE_SELECT_MOW)) {
 			this.hideDynamicStylebar();
 		}
 
@@ -8382,7 +8393,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// Michael Borcherds 2007-10-07 allow right mouse button to drag
 			// points
 			// mathieu : also if it's mode point, we can drag the point
-			if (app.isRightClick(event)
+			if ((app.isRightClick(event)
 					|| (mode == EuclidianConstants.MODE_POINT)
 					|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
 					|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
@@ -8390,7 +8401,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| (mode == EuclidianConstants.MODE_BUTTON_ACTION)
 					|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)
 					|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
-					|| (mode == EuclidianConstants.MODE_TEXT)) {
+					|| (mode == EuclidianConstants.MODE_TEXT))
+					&& mode != EuclidianConstants.MODE_SELECT_MOW) {
 				setViewHits(event.getType());
 				GeoElement geo0 = null;
 				Hits hits0 = view.getHits();
@@ -9070,7 +9082,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
-		if (view.hasDynamicStyleBar() && !event.isControlDown()) {
+		if (view.hasDynamicStyleBar()
+				&& ((mode == EuclidianConstants.MODE_SELECT_MOW
+						&& !event.isRightClick())
+						|| mode != EuclidianConstants.MODE_SELECT_MOW)) {
 			this.hideDynamicStylebar();
 		}
 
@@ -10513,6 +10528,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		Hits hits = view.getHits().getTopHits();
 		if (hits.isEmpty()) {
 			// no hits
+
+			if (mode == EuclidianConstants.MODE_SELECT_MOW) {
+				clearSelections();
+			}
+
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 
 				if (view.getSelectionRectangle() != null) {
@@ -10538,13 +10558,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// right click on object(s) not selected -> clear
 				// selection and show menu just for new objects
 
-				if (!hits.intersect(getAppSelectedGeos())) {
+				if (mode != EuclidianConstants.MODE_SELECT_MOW
+						&& !hits.intersect(getAppSelectedGeos())) {
 					selection.clearSelectedGeos(false); // repaint will be
 					// done next step
 					selection.addSelectedGeos(hits, true);
 				}
 
 				if (canShowPopupMenu()) {
+					if (!hits.intersect(getAppSelectedGeos())) {
+						clearSelections();
+					}
 					showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
 				}
 			} else {
