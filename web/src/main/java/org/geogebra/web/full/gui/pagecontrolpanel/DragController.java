@@ -551,6 +551,7 @@ class DragController {
 	void stop(int x, int y) {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
+			clicked.addDragStartStyle(false);
 		} else if (CancelEventTimer.isDragging()) {
 			if (dragged.drop()) {
 				if (isAnimated()) {
@@ -565,7 +566,6 @@ class DragController {
 
 		}
 		cancelDrag();
-		clicked.addDragStartStyle(false);
 	}
 
 	private void createDropAnimation() {
