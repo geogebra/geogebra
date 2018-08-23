@@ -86,6 +86,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -1778,5 +1779,9 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public MyImage getSVGBackground() {
 		return svgBackground;
+	}
+
+	public AbsolutePanel getAbsolutePanel() {
+		return evPanel.getAbsolutePanel();
 	}
 }

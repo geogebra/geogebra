@@ -19,9 +19,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -451,7 +448,7 @@ public class EuclidianControllerW extends EuclidianController implements
 				|| !((AppW) app).allowStylebar()) {
 			return;
 		}
-		this.getView().getDynamicStyleBar().setVisible(false);
+		getView().getDynamicStyleBar().setVisible(false);
 	}
 
 	@Override
@@ -491,8 +488,8 @@ public class EuclidianControllerW extends EuclidianController implements
 		textPanel = new FlowPanel();
 		textPanel.addStyleName("textEditorPanel");
 		
-		DockPanelW dp = ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanel(getView().getViewID());
-		AbsolutePanel evPanel = ((EuclidianDockPanelWAbstract) dp).getAbsolutePanel();
+		
+		AbsolutePanel evPanel = ((EuclidianViewW) getView()).getAbsolutePanel();
 		evPanel.add(textPanel);
 
 		Canvas canvas = Canvas.createIfSupported();
