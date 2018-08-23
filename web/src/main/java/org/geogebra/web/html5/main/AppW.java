@@ -1843,7 +1843,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		if (is3DDisabledForApp()) {
-			getSettings().getEuclidian(-1).setEnabled(false);
+			if (getSettings().getEuclidian(-1) != null) {
+				getSettings().getEuclidian(-1).setEnabled(false);
+			}
 		} else if (getArticleElement().getDataParamEnable3D(false)
 				|| !getArticleElement().getDataParamEnable3D(true)) {
 			if (getSettings().supports3D()) {

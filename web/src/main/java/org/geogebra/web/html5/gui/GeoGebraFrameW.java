@@ -162,7 +162,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -170,8 +169,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 * @param articleElement
 	 *            ArticleElement
-	 * @param glaf
-	 *            look and feel to decide about header
 	 */
 	public void createSplash(ArticleElement articleElement) {
 
