@@ -29,7 +29,8 @@ public class ScriptArea extends TextArea
 
 	private boolean dummyCursor = false;
 
-	private AppW app;
+	/** application */
+	protected AppW app;
 
 	/**
 	 * Creates new script area
@@ -168,7 +169,7 @@ public class ScriptArea extends TextArea
 
 	@Override
 	public void addDummyCursor() {
-		if (dummyCursor) {
+		if (dummyCursor || Browser.isIPad()) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -182,7 +183,7 @@ public class ScriptArea extends TextArea
 
 	@Override
 	public int removeDummyCursor() {
-		if (!dummyCursor) {
+		if (!dummyCursor || Browser.isIPad()) {
 			return -1;
 		}
 		String text = getText();
@@ -199,7 +200,7 @@ public class ScriptArea extends TextArea
 	 *            caret position
 	 */
 	public void addDummyCursor(int caretPos) {
-		if (dummyCursor) {
+		if (dummyCursor || Browser.isIPad()) {
 			return;
 		}
 		String text = getText();

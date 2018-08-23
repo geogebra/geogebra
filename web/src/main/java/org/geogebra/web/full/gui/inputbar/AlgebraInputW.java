@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -95,6 +96,10 @@ public class AlgebraInputW extends FlowPanel
 		inputField.getTextBox().addBlurHandler(this);
 
 		inputField.addHistoryPopup(app.getInputPosition() == InputPosition.top);
+		if (Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+			inputField.enableGGBKeyboard();
+		}
 
 		updateIcons(false);
 		// new

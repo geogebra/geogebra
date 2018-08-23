@@ -4,6 +4,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.util.ScriptArea;
+import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -54,11 +55,17 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 		if (start > -1) {
 			// cursor not at the beginning of text -> delete something
+			if (Browser.isAndroid()) {
+				field.removeDummyCursor();
+			}
 			String oldText = field.getText();
 			String newText = oldText.substring(0, start)
 					+ oldText.substring(end);
 			field.setText(newText);
 			field.setCursorPos(start);
+			if (Browser.isAndroid()) {
+				field.addDummyCursor();
+			}
 		}
 
 	}
