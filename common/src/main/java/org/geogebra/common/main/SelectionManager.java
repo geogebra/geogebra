@@ -519,6 +519,18 @@ public class SelectionManager {
 	}
 
 	/**
+	 * @return if selection contains a locked element
+	 */
+	final public boolean containsLockedGeo() {
+		for (GeoElement geo : selectedGeos) {
+			if (geo.isLocked()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Removes geo from selection
 	 * 
 	 * @param geo
