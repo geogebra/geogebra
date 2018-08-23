@@ -204,9 +204,8 @@ public class LoadFilePresenter {
 	 */
 	protected void deferredOpenEmpty(AppW app) {
 		String perspective = defaultPerspective(app);
-		finishEmptyLoading(app,
-				perspective.length() > 0 ? null
-						: getPerspective(app, perspective));
+		finishEmptyLoading(app, StringUtil.empty(perspective)
+				? getPerspective(app, perspective) : null);
 	}
 
 	private static String defaultPerspective(AppW app) {
