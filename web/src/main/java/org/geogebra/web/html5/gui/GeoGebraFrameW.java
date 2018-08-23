@@ -212,6 +212,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				splash.getElement().getStyle()
 				        .setRight((width / 2) - (splashWidth / 2), Unit.PX);
 			}
+			useDataParamBorder(articleElement, this);
 		}
 		addStyleName("jsloaded");
 		add(splash);
