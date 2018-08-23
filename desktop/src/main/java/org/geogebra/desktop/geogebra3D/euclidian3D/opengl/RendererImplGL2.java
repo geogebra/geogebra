@@ -395,6 +395,11 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
+	public void enableDashHidden() {
+		enableDash();
+	}
+
+	@Override
 	public float[] getLightPosition() {
 		return Renderer.LIGHT_POSITION_D;
 	}

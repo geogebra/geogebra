@@ -887,7 +887,7 @@ public abstract class Renderer implements RendererInterface {
 		enableAlphaTest();
 		disableTextures();
 		drawable3DLists.drawHiddenNotTextured(this);
-		enableDash();
+		enableDashHidden();
 		drawable3DLists.drawHiddenTextured(this);
 
 		// ////////////////////////////

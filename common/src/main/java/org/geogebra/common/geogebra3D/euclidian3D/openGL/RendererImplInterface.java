@@ -58,6 +58,8 @@ public interface RendererImplInterface {
 
 	public abstract void enableDash();
 
+	public abstract void enableDashHidden();
+
 	public abstract void setLight(int light);
 
 	public abstract void setColorMaterial();

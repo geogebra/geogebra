@@ -273,9 +273,14 @@ public interface RendererInterface {
 	abstract public void pickIntersectionCurves();
 
 	/**
-	 * enable fading (e.g. for planes)
+	 * enable dash (for not hidden lines)
 	 */
-	abstract public void enableDash();
+	public void enableDash();
+	
+	/**
+	 * enable dash (for hidden lines)
+	 */
+	public void enableDashHidden();
 
 	abstract public void setDashTexture(int index);
 

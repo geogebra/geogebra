@@ -517,6 +517,11 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
+	final public void enableDashHidden() {
+		rendererImpl.enableDashHidden();
+	}
+
+	@Override
 	final protected float[] getLightPosition() {
 		return rendererImpl.getLightPosition();
 	}

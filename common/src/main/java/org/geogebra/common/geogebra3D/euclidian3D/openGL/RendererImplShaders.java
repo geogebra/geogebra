@@ -234,6 +234,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setCurrentTextureType(TEXTURE_TYPE_DASH);
 	}
 
+	@Override
+	public void enableDashHidden() {
+		enableDash();
+	}
+
 	/**
 	 * enable text textures
 	 */
