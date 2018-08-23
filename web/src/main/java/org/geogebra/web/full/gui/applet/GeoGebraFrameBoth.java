@@ -852,9 +852,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public GGWMenuBar getMenuBar(AppW app1) {
 		if (ggwMenuBar == null) {
 			ggwMenuBar = new GGWMenuBar();
-			((GuiManagerW) app1.getGuiManager()).getObjectPool()
-					.setGgwMenubar(
-					ggwMenuBar);
+			((GuiManagerW) app1.getGuiManager()).setGgwMenubar(ggwMenuBar);
 		}
 		return ggwMenuBar;
 	}

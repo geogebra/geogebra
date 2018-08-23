@@ -75,20 +75,6 @@ public class Marble extends SimplePanel {
 	}
 
 	/**
-	 * set background-images via HTML
-	 * 
-	 * @param text
-	 *            URL of image as string
-	 * 
-	 *            STEFFI: OLD Marbles will be done by css now!
-	 */
-	/*
-	 * public void setImage(String text) { //String html = "<img src=\"" + text
-	 * + "\" style=\"height: 19px;margin-right: 5px;\">"; String html =
-	 * "<img src=\"" + text + "\">"; this.getElement().setInnerHTML(html); }
-	 */
-
-	/**
 	 * @param value
 	 *            true tfor visible, false for invisible geo
 	 */

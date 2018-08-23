@@ -33,6 +33,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class AnimPanel extends FlowPanel implements ClickHandler {
 
+	/** Size of play button in pixels */
 	public static final int PLAY_BUTTON_SIZE = 24;
 
 	/**

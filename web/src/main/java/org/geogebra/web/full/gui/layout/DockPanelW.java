@@ -1689,10 +1689,6 @@ public abstract class DockPanelW extends ResizeComposite
 				keyboardButton.hide();
 			}
 		}
-
-		if (app.getGuiManager() != null) {
-			((GuiManagerW) app.getGuiManager()).updatePrintMenu();
-		}
 	}
 
 	/**

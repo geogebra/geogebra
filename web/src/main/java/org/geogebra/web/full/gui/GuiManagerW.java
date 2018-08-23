@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.xml.utils.ObjectPool;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
@@ -97,7 +98,6 @@ import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
-import org.geogebra.web.full.helper.ObjectPool;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
@@ -184,6 +184,8 @@ public class GuiManagerW extends GuiManager
 
 	private AccessibilityManagerW accessibilityManager = null;
 
+	private GGWMenuBar mainMenuBar;
+
 	/**
 	 * 
 	 * @param app
@@ -202,33 +204,22 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateMenubarSelection() {
-		final GGWMenuBar mb = getObjectPool().getGgwMenubar();
-		if (mb != null && mb.getMenubar() != null) {
-			mb.getMenubar().updateSelection();
+		if (mainMenuBar != null && mainMenuBar.getMenubar() != null) {
+			mainMenuBar.getMenubar().updateSelection();
 		}
 	}
 
 	@Override
 	public void updateMenubar() {
-		final GGWMenuBar ggwMenuBar = getObjectPool().getGgwMenubar();
-		if (ggwMenuBar != null) {
-			final MainMenu menuBar = getObjectPool().getGgwMenubar()
-					.getMenubar();
-			if (menuBar != null) {
-				menuBar.updateMenubar();
-			}
+		if (mainMenuBar != null && mainMenuBar.getMenubar() != null) {
+			mainMenuBar.getMenubar().updateMenubar();
 		}
-	}
-
-	public ObjectPool getObjectPool() {
-		return this.objectPool;
 	}
 
 	@Override
 	public void updateActions() {
-		final GGWMenuBar ggwMenuBar = getObjectPool().getGgwMenubar();
-		if (ggwMenuBar != null && ggwMenuBar.getMenubar() != null) {
-			ggwMenuBar.getMenubar().updateSelection();
+		if (mainMenuBar != null && mainMenuBar.getMenubar() != null) {
+			mainMenuBar.getMenubar().updateSelection();
 		}
 
 		if (getApp().has(Feature.MOW_TOOLBAR)
@@ -1425,10 +1416,9 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void resetMenu() {
-		final GGWMenuBar bar = getObjectPool().getGgwMenubar();
-		if (bar != null && bar.getMenubar() != null) {
-			bar.removeMenus();
-			bar.init(getApp());
+		if (mainMenuBar != null && mainMenuBar.getMenubar() != null) {
+			mainMenuBar.removeMenus();
+			mainMenuBar.init(getApp());
 		}
 		updateGlobalOptions();
 	}
@@ -1439,10 +1429,6 @@ public class GuiManagerW extends GuiManager
 			((PropertiesViewW) this.getPropertiesView())
 					.getOptionPanel(OptionType.GLOBAL, 0).updateGUI();
 		}
-	}
-
-	public void updatePrintMenu() {
-		// not implemented
 	}
 
 	@Override
@@ -2470,5 +2456,9 @@ public class GuiManagerW extends GuiManager
 	 */
 	public void initInfoBtnAction() {
 		getUnbundledToolbar().initInfoBtnAction();
+	}
+
+	public void setGgwMenubar(GGWMenuBar ggwMenuBar) {
+		mainMenuBar = ggwMenuBar;
 	}
 }

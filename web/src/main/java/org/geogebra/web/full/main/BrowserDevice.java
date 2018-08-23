@@ -44,7 +44,7 @@ public class BrowserDevice implements GDevice {
 			span.setAttribute("style",
 					"position: absolute; top: 0px; left: 0px; "
 							+ "width: 50px; height: 50px; padding: 10px;  overflow: hidden;");
-			span.setInnerHTML("<img src=\"" + icon.getUrl() + "\"/>");
+			span.appendChild(icon.getElement());
 			Element form = DOM.createElement("form");
 			input = DOM.createElement("input");
 			input.setAttribute("type", "file");
