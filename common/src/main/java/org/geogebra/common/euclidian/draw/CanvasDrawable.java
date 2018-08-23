@@ -113,10 +113,10 @@ public abstract class CanvasDrawable extends Drawable {
 	protected void calculateBoxBounds(boolean latex) {
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex
-				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
+				? yLabel + (labelSize.y - getPreferredHeight()) / 2
 				: yLabel;
-		boxWidth = getPreferredSize().getWidth();
-		boxHeight = getPreferredSize().getHeight();
+		boxWidth = getPreferredWidth();
+		boxHeight = getPreferredHeight();
 	}
 
 	/**
@@ -125,8 +125,8 @@ public abstract class CanvasDrawable extends Drawable {
 	protected void calculateBoxBounds() {
 		boxLeft = xLabel + 2;
 		boxTop = yLabel;
-		boxWidth = getPreferredSize().getWidth();
-		boxHeight = getPreferredSize().getHeight();
+		boxWidth = getPreferredWidth();
+		boxHeight = getPreferredHeight();
 	}
 
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
@@ -144,7 +144,7 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	protected int getTextBottom() {
-		return (getPreferredSize().getHeight() / 2)
+		return (getPreferredHeight() / 2)
 				+ (int) (getLabelFontSize() * 0.4);
 	}
 
@@ -171,7 +171,6 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected void drawOnCanvas(GGraphics2D g2, String text) {
 		App app = view.getApplication();
-		getPreferredSize();
 
 		GFont vFont = view.getFont();
 		setLabelFont(app.getFontCanDisplay(text, false, vFont.getStyle(),
@@ -259,7 +258,12 @@ public abstract class CanvasDrawable extends Drawable {
 	/**
 	 * @return dimension on screen
 	 */
-	public abstract GDimension getPreferredSize();
+	public abstract int getPreferredWidth();
+
+	/**
+	 * @return height on screen
+	 */
+	public abstract int getPreferredHeight();
 
 	@Override
 	public boolean isInside(GRectangle rect) {

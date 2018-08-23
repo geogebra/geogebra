@@ -1234,24 +1234,24 @@ public final class DrawDropDownList extends CanvasDrawable
 	protected void calculateBoxBounds(boolean latex) {
 		boxLeft = xLabel + labelSize.x + LABEL_COMBO_GAP;
 		boxTop = latex
-				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
+				? yLabel + (labelSize.y - getPreferredHeight()) / 2
 				: yLabel;
-		boxWidth = getPreferredSize().getWidth();
-		boxHeight = getPreferredSize().getHeight() + COMBO_TEXT_MARGIN;
+		boxWidth = getPreferredWidth();
+		boxHeight = getPreferredHeight() + COMBO_TEXT_MARGIN;
 	}
 
 	@Override
 	protected void calculateBoxBounds() {
 		boxLeft = xLabel + LABEL_COMBO_GAP;
 		boxTop = yLabel;
-		boxWidth = getPreferredSize().getWidth();
-		boxHeight = getPreferredSize().getHeight();
+		boxWidth = getPreferredWidth();
+		boxHeight = getPreferredHeight();
 	}
 
 	@Override
 	protected int getTextBottom() {
 		return isLatexString(selectedText) ? boxHeight - selectedHeight / 2
-				: (getPreferredSize().getHeight() + getMultipliedFontSize())
+				: (getPreferredHeight() + getMultipliedFontSize())
 						/ 2;
 	}
 
@@ -1310,9 +1310,7 @@ public final class DrawDropDownList extends CanvasDrawable
 				((getLabelFont().getSize() * geoList.getFontSizeMultiplier())));
 	}
 
-	/**
-	 * @return preferred width of dropdown
-	 */
+	@Override
 	public int getPreferredWidth() {
 		if (selectedDimension == null) {
 			return 0;
@@ -1324,16 +1322,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		int maxItemWidth = drawOptions.getMaxItemWidth();
 		return (isOptionsVisible() && maxItemWidth > selectedWidth)
 				? maxItemWidth : selectedWidth;
-	}
-
-	@Override
-	public GDimension getPreferredSize() {
-		if (selectedDimension == null) {
-			return AwtFactory.getPrototype().newDimension(0, 0);
-		}
-
-		return AwtFactory.getPrototype().newDimension(getPreferredWidth(),
-				selectedDimension.getHeight() + COMBO_TEXT_MARGIN);
 	}
 
 	/**
@@ -1589,6 +1577,15 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	public BoundingBox getBoundingBox() {
 		return null;
+	}
+
+	@Override
+	public int getPreferredHeight() {
+		if (selectedDimension == null) {
+			return 0;
+		}
+
+		return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;
 	}
 
 }

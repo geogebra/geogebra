@@ -67,12 +67,14 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void insertString(String text) {
-		field.insertString(text);
+		if (text.equals(KeyboardConstants.A_POWER_X)) {
+			field.insertString("^");
+		} else {
+			field.insertString(text);
+		}
 		if (text.startsWith("(")) {
 			// moves inside the brackets
 			onArrow(ArrowType.left);
-		} else if (text.equals(KeyboardConstants.A_POWER_X)) {
-			field.insertString("^");
 		} else if ("nroot".equals(text)) {
 			field.insertString("()");
 			onArrow(ArrowType.left);
