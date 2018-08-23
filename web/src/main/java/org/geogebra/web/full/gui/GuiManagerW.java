@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.xml.utils.ObjectPool;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
@@ -154,7 +153,6 @@ public class GuiManagerW extends GuiManager
 	private Euclidian2DockPanelW euclidianView2DockPanel;
 	private String strCustomToolbarDefinition;
 	private boolean draggingViews;
-	private final ObjectPool objectPool;
 	/** device: tablet / browser */
 	protected final GDevice device;
 	private int toolbarID = App.VIEW_EUCLIDIAN;
@@ -199,7 +197,6 @@ public class GuiManagerW extends GuiManager
 		this.loc = app.getLocalization();
 		this.device = device;
 
-		this.objectPool = new ObjectPool();
 	}
 
 	@Override
