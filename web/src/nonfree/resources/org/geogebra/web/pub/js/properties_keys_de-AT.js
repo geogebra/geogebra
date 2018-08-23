@@ -2211,7 +2211,7 @@ __GGB__keysVar["de-AT"].menu = {
     "Next": "Weiter",
     "NextCell": "N\xe4chste Zelle",
     "No.": "Nr.",
-    "NoGroupShareTxt": "Sorry. Looks like you do not have any groups to share resource with.",
+    "NoGroupShareTxt": "Legen Sie im Bereich Verwaltung zun\xe4chst eine Gruppe an, um mit einer Gruppe teilen zu k\xf6nnen.",
     "NoWebGL": "Bitte aktivieren Sie WebGL in Ihrem Browser",
     "None": "Keines",
     "NormalCurve": "Gau\xdf'sche Glockenkurve",
