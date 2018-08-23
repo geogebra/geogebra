@@ -660,6 +660,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					.getDrawableFor(activeGeoList.get(0)));
 			dr.getBoundingBox().setCropBox(val);
 			app.getActiveEuclidianView().repaintView();
+			updateStyleBar();
 		}
 	}
 

@@ -1013,4 +1013,12 @@ public final class DrawImage extends Drawable {
 			geoImage.setCorner(point, corner);
 		}
 	}
+
+	@Override
+	public GRectangle2D getBoundsForStylebarPosition() {
+		if (geoImage.isCropped() && !getBoundingBox().isCropBox()) {
+			return getCropBox();
+		}
+		return getBounds();
+	}
 }
