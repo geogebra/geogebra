@@ -356,7 +356,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_GEOGEBRA);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		if (app.has(Feature.EMBED_EXTENSION)) {
+		if (app.has(Feature.MOW_EMBED_EXTENSION)) {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_EXTENSION);
 		}

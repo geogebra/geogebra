@@ -3848,10 +3848,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** MOW-479 */
 		case MOW_OPEN_FILE_VIEW:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
-		case EMBED_EXTENSION:
-			return canary;
+		/** MOW-350 */
+		case MOW_EMBED_EXTENSION:
+			return prerelease;
 
 		/** MOW-491 */
 		case MOW_WIDGET_POSITIONS:
@@ -3859,11 +3860,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** MOW-532 */
 		case MOW_BURGER_MENU_CLEANUP:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-484 */
 		case MOW_SHARE_DIALOG:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
