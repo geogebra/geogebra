@@ -896,6 +896,6 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	public void attribPointers() {
-		// TODO Auto-generated method stub
+		// only needed for shaders
 	}
 }
