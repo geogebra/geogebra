@@ -575,6 +575,7 @@
 		height: 20px;
 		line-height: 20px;
 		text-align: center;
+		display: none;
 	}
 
 	.AutoCompleteTextFieldW .SymbolToggleButton {
@@ -582,7 +583,6 @@
 		right: 0.6em;
 		top: 50%;
 		margin-top: -0.66em;
-		display: none;
 	}
 
 	.InputTreeItemParent .XButton,

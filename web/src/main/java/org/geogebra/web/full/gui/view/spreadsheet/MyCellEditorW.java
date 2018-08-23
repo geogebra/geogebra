@@ -74,7 +74,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		app = (AppW) kernel.getApplication();
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
-		        (AppW) kernel.getApplication(), false, keyListener, false);
+		        (AppW) kernel.getApplication(), false, keyListener, false, false);
 		autoCompleteTextField.addInsertHandler(new InsertHandler() {
 			@Override
 			public void onInsert(String text) {

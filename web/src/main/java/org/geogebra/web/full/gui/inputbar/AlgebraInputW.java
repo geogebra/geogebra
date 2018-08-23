@@ -251,8 +251,6 @@ public class AlgebraInputW extends FlowPanel
 				&& !getAlgebraDockPanel().hasLongStyleBar()) {
 			getAlgebraDockPanel().showStyleBarPanel(false);
 		}
-		Object source = event.getSource();
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 		app.getSelectionManager().clearSelectedGeos();
 		this.focused = true;
 	}
@@ -260,8 +258,6 @@ public class AlgebraInputW extends FlowPanel
 	@Override
 	public void onBlur(BlurEvent event) {
 		getAlgebraDockPanel().showStyleBarPanel(true);
-		Object source = event.getSource();
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		this.focused = false;
 		onEnterPressed(false);
 	}

@@ -56,7 +56,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.himamis.retex.editor.share.util.AltKeys;
@@ -70,8 +69,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
 		KeyDownHandler, KeyUpHandler, KeyPressHandler,
 		ValueChangeHandler<String>, SelectionHandler<Suggestion>,
-		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF,
-		HasInputElement {
+		VirtualKeyboardListener, HasKeyboardTF, HasInputElement {
 
 	private static final int BOX_ROUND = 8;
 
@@ -149,7 +147,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * 
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
-		this(columns, (AppW) app, true, null, false);
+		this(columns, (AppW) app, true, null, false, false);
 	}
 
 	/**
@@ -161,8 +159,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            associated input box
 	 */
 	public AutoCompleteTextFieldW(int columns, App app,
-			Drawable drawTextField) {
-		this(columns, app);
+			Drawable drawTextField, boolean showSymbolButton) {
+		this(columns, (AppW) app, true, null, false, showSymbolButton);
 		this.drawTextField = (DrawInputBox) drawTextField;
 		addStyleName("FromDrawTextFieldNew");
 	}
@@ -181,14 +179,25 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public AutoCompleteTextFieldW(int columns, final AppW app,
 			boolean handleEscapeKey, KeyEventsHandler keyHandler,
-			boolean forCAS) {
+			boolean forCAS, boolean showSymbolButton) {
 		this.forCAS = forCAS;
 		this.app = app;
+		this.loc = app.getLocalization();
+		setAutoComplete(true);
+		this.handleEscapeKey = handleEscapeKey;
+		curWord = new StringBuilder();
+
+		historyIndex = 0;
+		history = new ArrayList<>(50);
+
+		completions = null;
+
+		addStyleName("AutoCompleteTextFieldW");
+
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		CompletionsPopup completionsPopup = new CompletionsPopup();
-		textField = new ScrollableSuggestBox(completionsPopup, this,
-				app.getPanel(), app) {
+		textField = new ScrollableSuggestBox(completionsPopup, app.getPanel(), app) {
 			@Override
 			public void setText(String s) {
 				String oldText = super.getText();
@@ -210,14 +219,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 						&& app.getGuiManager() != null) {
 					app.getGuiManager().setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
-				}
-
-				if (etype == Event.ONBLUR) {
-					AutoCompleteTextFieldW.this.setVisible(false);
-				}
-
-				if (etype == Event.ONFOCUS) {
-					AutoCompleteTextFieldW.this.setVisible(true);
 				}
 
 				if (etype == Event.ONMOUSEDOWN
@@ -253,56 +254,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			setColumns(columns);
 		}
 
-		// setVerticalAlignment(ALIGN_MIDDLE);
-		addStyleName("AutoCompleteTextFieldW");
-
-		String id = DOM.createUniqueId();
-
 		textField.addStyleName("TextField");
-		textField.getElement().setId(id);
-
-		showSymbolButton = new ToggleButton();
-		showSymbolButton.getElement().setId(id + "_SymbolButton");
-		showSymbolButton.setText(Unicode.alpha + "");
-		showSymbolButton.addStyleName("SymbolToggleButton");
-
-		ClickStartHandler.init(showSymbolButton, new ClickStartHandler(false, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// unfortunate repetition to make it work in all major browsers
-				setVisible(true);
-				setFocus(true);
-
-				if (tablePopup != null && tablePopup.isShowing()) {
-					hideTablePopup();
-				} else {
-					showTablePopup(showSymbolButton.getAbsoluteLeft(),
-							showSymbolButton.getAbsoluteTop());
-				}
-
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					@Override
-					public void execute() {
-						setVisible(true);
-						setFocus(true);
-					}
-				});
-			}
-		});
-
-		add(textField);
-		add(showSymbolButton);
-
-		this.loc = app.getLocalization();
-		setAutoComplete(true);
-		this.handleEscapeKey = handleEscapeKey;
-		curWord = new StringBuilder();
-
-		historyIndex = 0;
-		history = new ArrayList<>(50);
-
-		completions = null;
 
 		completionsPopup.addTextField(this);
 
@@ -333,7 +285,51 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 		});
 
-		init();
+		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				requestFocus();
+				app.getGlobalKeyDispatcher().setFocused(true);
+			}
+		});
+
+		add(textField);
+
+		if (showSymbolButton) {
+			setupShowSymbolButton();
+		}
+	}
+
+	private void setupShowSymbolButton() {
+		showSymbolButton = new ToggleButton();
+		showSymbolButton.setText(Unicode.alpha + "");
+		showSymbolButton.addStyleName("SymbolToggleButton");
+
+		ClickStartHandler.init(showSymbolButton, new ClickStartHandler(false, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// unfortunate repetition to make it work in all major browsers
+				app.getActiveEuclidianView().getBoxForTextField().setVisible(true);
+				setFocus(true);
+
+				if (tablePopup != null && tablePopup.isShowing()) {
+					hideTablePopup();
+				} else {
+					showTablePopup();
+				}
+
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						app.getActiveEuclidianView().getBoxForTextField().setVisible(true);
+						setFocus(true);
+					}
+				});
+			}
+		});
+
+		add(showSymbolButton);
 	}
 
 	/**
@@ -350,19 +346,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	public boolean isEnabled() {
 		return this.textField.isEnabled();
-	}
-
-	private void init() {
-		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				requestFocus();
-				if (app != null) {
-					app.getGlobalKeyDispatcher()
-							.setFocused(true);
-				}
-			}
-		});
 	}
 
 	@Override
@@ -1102,8 +1085,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			return;
 		}
 
-        boolean ctrlC = false;
-
 		switch (keyCode) {
 
 		case GWTKeycodes.KEY_Z:
@@ -1114,9 +1095,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 			break;
 		case GWTKeycodes.KEY_C:
-			if (e.isControlKeyDown()) { // workaround for MAC_OS
-				ctrlC = true;
-			}
 			break;
 
 		// process input
@@ -1229,8 +1207,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			char charPressed = (char) e.getNativeKeyCode();
 
-			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed)
-					|| modifierKeyPressed) && !(ctrlC)
+			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
 					&& (e.getNativeKeyCode() != GWTKeycodes.KEY_A)) {
 				clearSelection();
 			}
@@ -1451,7 +1428,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Show table popup next to an anchor widget
 	 *
 	 */
-	private void showTablePopup(int x, int y) {
+	private void showTablePopup() {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
 			if (app.getGuiManager() != null) {
@@ -1459,8 +1436,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 		}
 		if (this.tablePopup != null) {
-			tablePopup.show();
-			tablePopup.setPopupPosition(x, y);
+			tablePopup.showRelativeTo(showSymbolButton);
 		}
 	}
 
@@ -1539,23 +1515,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		setCaretPosition(curWordStart + bracketIndex);
 		moveToNextArgument(false, true);
     }
-
-	/**
-	 * This method inspects its first parameter - an Object, if there is a
-	 * symbol button associated with that. If there is one, this method sets the
-	 * visibility of the symbol button according to the second parameter.
-	 * 
-	 * @param source
-	 *            the scanned object
-	 * @param show
-	 *            true, if the source's symbol button must be visible, false
-	 *            otherwise.
-	 */
-	public static void showSymbolButtonIfExists(Object source, boolean show) {
-		if (source instanceof HasSymbolPopup) {
-			((HasSymbolPopup) source).showPopup(show);
-		}
-	}
 
 	@Override
 	public void setUsedForInputBox(GeoInputBox geo) {
@@ -1749,11 +1708,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setFocus(boolean b) {
 		textField.setFocus(b);
-	}
-
-	@Override
-	public void showPopup(boolean show) {
-
 	}
 
 	public void addInsertHandler(InsertHandler insertHandler) {

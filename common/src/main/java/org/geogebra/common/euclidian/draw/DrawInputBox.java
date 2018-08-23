@@ -61,10 +61,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private boolean isVisible;
 
 	private String oldCaption;
-	/** textfield component */
-	// ButtonListener bl;
-	private InputFieldListener ifListener;
-	private KeyHandler ifKeyListener;
+
 	private int oldLength = 0;
 	private GFont textFont;
 
@@ -79,19 +76,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		this.geoInputBox = geo;
 		this.geo = geo;
 
-		// action listener for checkBox
-		// bl = new ButtonListener();
-		ifListener = new InputFieldListener();
-		ifKeyListener = new InputFieldKeyListener();
-
-		// ((geogebra.gui.inputfield.AutoCompleteTextField)
-		// textField).addFocusListener(bl);
 		if (getTextField() != null) {
 			getTextField().addFocusListener(
-					AwtFactory.getPrototype().newFocusListener(ifListener));
-			// label.addMouseListener(bl);
-			// label.addMouseMotionListener(bl);
-			getTextField().addKeyHandler(ifKeyListener);
+					AwtFactory.getPrototype().newFocusListener(new InputFieldListener()));
+			getTextField().addKeyHandler(new InputFieldKeyListener());
 
 		}
 		update();
@@ -128,6 +116,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			geoInputBox.updateText(getTextField());
 
 			initialText = getTextField().getText();
+
+			getBox().setVisible(true);
 		}
 
 		/**
@@ -152,6 +142,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				geoInputBox.textSubmitted();
 				draw(getView().getGraphicsForPen());
 			}
+
+			getBox().setVisible(false);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.textbox;
 
-import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.dom.client.Document;
@@ -19,8 +18,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * 
  * @author Balazs
  */
-public class GTextBox extends TextBox implements NativePreviewHandler,
-		HasSymbolPopup, MathKeyboardListener {
+public class GTextBox extends TextBox implements NativePreviewHandler, MathKeyboardListener {
 	// On iOS when using a bluetooth keyboard, the onkeyup event reports
 	// the charcode to be 0. To solve this, we save the character code
 	// in the onkeydown event, and we use that for the onkeyup
@@ -30,23 +28,20 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	protected boolean isAltKeyDown;
 	protected boolean isShiftKeyDown;
 	protected boolean isMetaKeyDown;
-	private HasSymbolPopup showSymbolElement;
 
 	public GTextBox(Element e) {
 		super(e);
 	}
 
 	public GTextBox() {
-		this(false, null);
+		this(false);
 	}
 
 	/**
 	 * @param autocomplete
 	 *            allow browser autocomplete ?
-	 * @param hsp
-	 *            parent AutoComplete field with symbol
 	 */
-	public GTextBox(boolean autocomplete, HasSymbolPopup hsp) {
+	public GTextBox(boolean autocomplete) {
 		Event.addNativePreviewHandler(this);
 
 		if (!autocomplete) {
@@ -56,8 +51,6 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 			// #3878
 			getElement().setAttribute("autocomplete", "off");
 			getElement().setAttribute("autocapitalize", "off");
-			setPopupCallback(hsp);
-
 		}
 	}
 
@@ -89,17 +82,6 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 			isShiftKeyDown = nativeEvent.getShiftKey();
 			isControlKeyDown = nativeEvent.getCtrlKey();
 			isMetaKeyDown = nativeEvent.getMetaKey();
-		}
-	}
-
-	public void setPopupCallback(HasSymbolPopup element) {
-		this.showSymbolElement = element;
-	}
-
-	@Override
-	public void showPopup(boolean show) {
-		if (showSymbolElement != null) {
-			showSymbolElement.showPopup(show);
 		}
 	}
 

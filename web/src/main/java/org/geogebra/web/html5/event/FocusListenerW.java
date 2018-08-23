@@ -26,15 +26,11 @@ public class FocusListenerW extends FocusListener implements FocusHandler,
 
 	@Override
 	public void onFocus(FocusEvent event) {
-		Object source = event.getSource();
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 		wrapFocusGained();
 	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		Object source = event.getSource();
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		wrapFocusLost();
 	}
 }

@@ -2,7 +2,6 @@ package org.geogebra.web.html5.gui.view.autocompletion;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
 import com.google.gwt.user.client.ui.Panel;
@@ -41,9 +40,8 @@ public class ScrollableSuggestBox extends GSuggestBox {
 	 * Constructor for ScrollableSuggestBox
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
-	public ScrollableSuggestBox(SuggestOracle oracle, HasSymbolPopup hsp,
-			Panel panel, App app) {
-		super(oracle, new GTextBox(false, hsp),
+	public ScrollableSuggestBox(SuggestOracle oracle, Panel panel, App app) {
+		super(oracle, new GTextBox(false),
 				new CustomSuggestionDisplay(panel, app));
 	}
 

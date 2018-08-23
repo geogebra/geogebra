@@ -58,7 +58,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -1317,7 +1316,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
 			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
-				updateGUIfocus(this, false);
+				updateGUIfocus(false);
 			}
 
 		}
@@ -1589,7 +1588,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		setLatexItemVisible(true);
 	}
 
-	protected void updateEditorFocus(Object source, boolean blurtrue) {
+	protected void updateEditorFocus(boolean blurtrue) {
 		// deselects current selection
 		if (app.isUnbundled()) {
 			if (controls != null) {
@@ -1618,13 +1617,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (controls != null) {
 			updateButtonPanelPosition();
 		}
-
-		// always show popup, except (blurtrue && emptyCase) == true
-
-		// this basically calls the showPopup method, like:
-		// showPopup(!blurtrue || !emptyCase);
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source,
-				!blurtrue || !emptyCase);
 	}
 
 	@Override
@@ -2086,9 +2078,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		// TODO Auto-generated method stub
 	}
 
-	protected void updateGUIfocus(Object source, boolean blurtrue) {
+	protected void updateGUIfocus(boolean blurtrue) {
 		if (geo == null) {
-			updateEditorFocus(source, blurtrue);
+			updateEditorFocus(blurtrue);
 		}
 	}
 

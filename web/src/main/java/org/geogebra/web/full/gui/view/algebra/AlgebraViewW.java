@@ -1224,7 +1224,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				// if adding new elements the first time,
 				// let's show the X signs in the input bar!
 				if (this.inputPanelLatex != null) {
-					this.inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
+					this.inputPanelLatex.updateGUIfocus(false);
 				}
 
 			}
@@ -1551,7 +1551,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
-				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
+				inputPanelLatex.updateGUIfocus(false);
 			}
 		}
 		showAlgebraInput(forceKeyboard);
@@ -1622,7 +1622,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
-				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
+				inputPanelLatex.updateGUIfocus(false);
 			}
 		}
 

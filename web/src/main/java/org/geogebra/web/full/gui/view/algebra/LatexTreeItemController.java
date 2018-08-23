@@ -64,7 +64,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 		if (item.getAV().isNodeTableEmpty()) {
 			// #5245#comment:8, cases B and C excluded
-			item.updateGUIfocus(event == null ? this : event.getSource(), true);
+			item.updateGUIfocus(true);
 		}
 	}
 
