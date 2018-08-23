@@ -230,6 +230,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private EuclidianView view;
 	protected EuclidianPen pen;
 	public double oldDistance;
+	private boolean wasBoundingBoxHit;
 	protected double xTemp;
 	protected double yTemp;
 	protected boolean useLineEndPoint = false;
@@ -6563,7 +6564,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				} else if (isMultiSelection() && view.getBoundingBox()
 						.hitSideOfBoundingBox(event.getX(), event.getY(),
 								app.getCapturingThreshold(event.getType()))) {
-
 					EuclidianBoundingBoxHandler handler = view.getBoundingBox()
 							.getHitHandler(event.getX(), event.getY(),
 									app.getCapturingThreshold(event.getType()));
@@ -8130,14 +8130,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						selection.addSelectedGeo(geo, true, true);
 					}
 				} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
-					if (geo == null) {
-						lastSelectionPressResult = SelectionToolPressResult.EMPTY;
-					} else {
-						if (view.getSelectionRectangle() == null
-								&& !e.isRightClick()) {
-							selection.clearSelectedGeos(geo == null, false);
-							selection.updateSelection(false);
-							selection.addSelectedGeo(geo, true, true);
+					if (!wasBoundingBoxHit) {
+						if (geo == null) {
+							lastSelectionPressResult = SelectionToolPressResult.EMPTY;
+						} else {
+							if (view.getSelectionRectangle() == null
+									&& !e.isRightClick()) {
+								selection.clearSelectedGeos(geo == null, false);
+								selection.updateSelection(false);
+								selection.addSelectedGeo(geo, true, true);
+							}
 						}
 					}
 				} else if (mode == EuclidianConstants.MODE_MOVE
@@ -8179,7 +8181,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if ((geo != null) && (!geo.isLocked() || isMoveButtonExpected(geo)
 				|| isMoveTextFieldExpected(geo))) {
 			moveModeSelectionHandled = true;
-		} else {
+		} else if (!wasBoundingBoxHit) {
 			// no geo clicked at
 			moveMode = MOVE_NONE;
 			resetMovedGeoPoint();
@@ -8542,6 +8544,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// dragging eg a fixed point shouldn't start the selection rectangle
 		if (view.getHits().isEmpty()) {
+			boolean boundingBoxHit = wasBoundingBoxHit
+					|| (moveMode == MOVE_MULTIPLE_OBJECTS);
+
 			if (app.isSelectionRectangleAllowed()
 					&& ((app.isRightClick(event)
 							|| app.getMode() == EuclidianConstants.MODE_SELECT)
@@ -8549,7 +8554,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& !temporaryMode
 					&& ((!app.isRightClick(event) && app
 							.getMode() == EuclidianConstants.MODE_SELECT_MOW)
-							|| app.getMode() != EuclidianConstants.MODE_SELECT_MOW)) {
+							|| app.getMode() != EuclidianConstants.MODE_SELECT_MOW)
+					&& !boundingBoxHit) {
 				// Michael Borcherds 2007-10-07
 				// set zoom rectangle's size
 				// right-drag: zoom
@@ -9171,6 +9177,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			hits.removeAllButImages();
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
+		}
+
+		// check if side of bounding box was hit
+		if (view.getBoundingBox() != null) {
+			wasBoundingBoxHit = view.getBoundingBox().hitSideOfBoundingBox(
+					event.getX(), event.getY(),
+					app.getCapturingThreshold(event.getType()));
+		} else {
+			wasBoundingBoxHit = false;
 		}
 
 		Drawable d = view.getBoundingBoxHandlerHit(
