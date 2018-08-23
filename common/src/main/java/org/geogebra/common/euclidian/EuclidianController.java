@@ -8119,6 +8119,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						&& mode == EuclidianConstants.MODE_SELECT) {
 					lastSelectionPressResult = SelectionToolPressResult.REMOVE;
 					lastSelectionToolGeoToRemove = geo;
+				} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
+					// actually it's a geo to select but with the same reason
+					lastSelectionToolGeoToRemove = geo;
 				}
 			} else {
 				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
@@ -10084,7 +10087,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					break;
 				case DEFAULT:
 				default:
-					// nothing to do
+					// select the geo that was clicked and set boundingbox
+					if (isMultiSelection() && !wasBoundingBoxHit) {
+						selection.clearSelectedGeos(false, false);
+						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
+								true, true);
+						view.setBoundingBox(((Drawable) view
+								.getDrawableFor(lastSelectionToolGeoToRemove))
+										.getBoundingBox());
+						view.repaintView();
+						lastSelectionToolGeoToRemove = null;
+					}
 					break;
 				}
 			}
