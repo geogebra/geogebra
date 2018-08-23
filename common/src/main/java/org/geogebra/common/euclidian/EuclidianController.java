@@ -6873,6 +6873,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// default if nothing matches
 		moveMode = MOVE_NONE;
+		
+		// do not move if there's a selected geo that's locked
+		if (selection.containsLockedGeo()) {
+			return;
+		}
 
 		// multiple geos selected
 		if (multiple) {
@@ -10088,7 +10093,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				case DEFAULT:
 				default:
 					// select the geo that was clicked and set boundingbox
-					if (isMultiSelection() && !wasBoundingBoxHit) {
+					if (isMultiSelection() && !wasBoundingBoxHit
+							&& !event.isRightClick()) {
 						selection.clearSelectedGeos(false, false);
 						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
 								true, true);
