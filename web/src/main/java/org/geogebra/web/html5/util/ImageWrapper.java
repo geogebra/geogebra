@@ -41,7 +41,15 @@ public class ImageWrapper {
 		return img;
 	}
 
-	public static native void nativeon(ImageElement img, String event,
+	/**
+	 * @param img
+	 *            image
+	 * @param event
+	 *            event name
+	 * @param callback
+	 *            callback
+	 */
+	public static native void nativeon(Element img, String event,
 	        ImageLoadCallback callback) /*-{
 		img
 				.addEventListener(

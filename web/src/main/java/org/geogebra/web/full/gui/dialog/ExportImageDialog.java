@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.IFrameWrapper;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.shared.DialogBoxW;
@@ -174,7 +173,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 				iframe.setTabIndex(-1);
 				iframe.setSrc(imgStr);
 
-				IFrameWrapper.nativeon(iframe, "load", new ImageLoadCallback() {
+				ImageWrapper.nativeon(iframe, "load", new ImageLoadCallback() {
 
 					@Override
 					public void onLoad() {
