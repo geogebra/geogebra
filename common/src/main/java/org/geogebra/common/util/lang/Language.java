@@ -190,6 +190,13 @@ public enum Language {
 	Icelandic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "is", "Icelandic / \u00CDslenska", Script.LATIN),
 
+	/**
+	 * Java "in"
+	 * https://www.oracle.com/technetwork/java/javase/java8locales-2095355.html
+	 * 
+	 * ISO "id" https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+	 * 
+	 */
 	Indonesian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "in", "id", "Indonesian / Bahasa Indonesia",
 			Script.LATIN),
