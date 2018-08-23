@@ -451,6 +451,10 @@ public final class DrawImage extends Drawable {
 		if (!geoImage.isAbsoluteScreenLocActive()) {
 			atInverse.transform(hitCoords, 0, hitCoords, 0, 1);
 		}
+		if (geoImage.isCropped()) {
+			return geoImage.getCropBoxRelative().contains(hitCoords[0],
+					hitCoords[1]);
+		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);
 	}
 
