@@ -19,6 +19,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -27,6 +30,8 @@ import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
@@ -57,6 +62,11 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Web version of Euclidian controller
@@ -70,6 +80,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
+	private FlowPanel textPanel;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -473,6 +484,91 @@ public class EuclidianControllerW extends EuclidianController implements
 		} else {
 			pointerUpCallback.run();
 		}
+	}
+
+	@Override
+	public void initMathField() {
+		textPanel = new FlowPanel();
+		textPanel.addStyleName("textEditorPanel");
+		
+		DockPanelW dp = ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanel(getView().getViewID());
+		AbsolutePanel evPanel = ((EuclidianDockPanelWAbstract) dp).getAbsolutePanel();
+		evPanel.add(textPanel);
+
+		Canvas canvas = Canvas.createIfSupported();
+		TextListener mfListener = new TextListener();
+		MathFieldW mf = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
+		mf.setScale(((AppW) app).getArticleElement().getScaleX());
+		mf.requestViewFocus();
+		mf.setEnabled(true);
+	}
+
+	@Override
+	public void updateMathField(int x, int y) {
+		textPanel.getElement().getStyle().setTop(y, Unit.PX);
+		textPanel.getElement().getStyle().setLeft(x, Unit.PX);
+	}
+
+	private class TextListener implements MathFieldListener {
+
+		public TextListener() {
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void onEnter() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onKeyTyped() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onCursorMove() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onUpKeyPressed() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onDownKeyPressed() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public String serialize(MathSequence selectionText) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void onInsertString() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public boolean onEscape() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void onTab(boolean shiftDown) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 }
 

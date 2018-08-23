@@ -35,6 +35,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
+		StyleInjector.inject(GuiResources.INSTANCE.texttoolStyle());
 	}
 
 	@Override

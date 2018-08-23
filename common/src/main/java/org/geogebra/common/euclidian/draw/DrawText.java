@@ -81,6 +81,9 @@ public final class DrawText extends Drawable {
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
 		updateStrokes(text);
+		if (((GeoText) geo).isEditMode()) {
+			view.getEuclidianController().initMathField();
+		}
 
 		update();
 	}
@@ -139,6 +142,10 @@ public final class DrawText extends Drawable {
 
 			text.setTotalWidth((int) labelRectangle.getWidth());
 			text.setTotalHeight((int) labelRectangle.getHeight());
+
+			if (((GeoText) geo).isEditMode()) {
+				view.getEuclidianController().updateMathField(xLabel, yLabel);
+			}
 		}
 
 		boolean positionChanged = xLabel != oldXpos || yLabel != oldYpos;
@@ -180,6 +187,11 @@ public final class DrawText extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
+			if (this.isWhiteboardText()) {
+				// g2.setFont(textFont);
+				// drawMultilineText(g2, textFont);
+				return;
+			}
 
 			GColor bg = geo.getBackgroundColor();
 

@@ -116,6 +116,8 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
+	private boolean editMode;
+
 	/**
 	 * Creates new text
 	 * 
@@ -1462,4 +1464,12 @@ public class GeoText extends GeoElement
 		return txt;
 
 }
+
+	public void setEditMode(boolean b) {
+		editMode = b;
+	}
+
+	public boolean isEditMode() {
+		return editMode;
+	}
 }

@@ -3460,7 +3460,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void createWhiteboardText(GeoPointND loc, boolean rw) {
+		if (loc == null) {
+			return;
+		}
 		GeoText t = kernel.getAlgebraProcessor().text("Replace me");
+		t.setEditMode(true);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);
 
@@ -3479,6 +3483,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		memorizeJustCreatedGeos(t.asArray());
 		t.setLabel(null);
 		kernel.notifyRepaint();
+	}
+
+	public void initMathField() {
+		// not implemented here
+	}
+
+	public void updateMathField(int x, int y) {
+		// not implemented here
 	}
 
 	/**
