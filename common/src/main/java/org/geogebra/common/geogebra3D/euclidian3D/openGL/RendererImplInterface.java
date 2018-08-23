@@ -184,4 +184,6 @@ public interface RendererImplInterface {
 	 * something correct to be bound on texture 0
 	 */
 	abstract public void createDummyTexture();
+
+	abstract public void attribPointers();
 }

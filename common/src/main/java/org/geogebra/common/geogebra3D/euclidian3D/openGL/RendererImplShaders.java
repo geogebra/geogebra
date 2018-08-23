@@ -403,7 +403,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	/**
 	 * attribute vertex pointers
 	 */
-	protected void attribPointers() {
+	public void attribPointers() {
 
 		bindBuffer(GLSL_ATTRIB_POSITION);
 		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);

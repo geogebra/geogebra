@@ -176,7 +176,7 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void useShaderProgram() {
+	protected void useShaderProgram() {
 		rendererImpl.useShaderProgram();
 	}
 
@@ -377,7 +377,7 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void clearColorBuffer() {
+	protected void clearColorBuffer() {
 		rendererImpl.glClear(rendererImpl.getGL_COLOR_BUFFER_BIT());
 	}
 
