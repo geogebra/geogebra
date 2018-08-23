@@ -722,7 +722,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Command cmd = null;
 		// change back to old name-> Fix instead of Lock
 		String label = loc.getMenu("FixObject");
-		if (fixable) {
+		if (fixable
+				&& app.getSelectionManager().getSelectedGeos().size() <= 1) {
 			cmd = new Command() {
 
 				@Override

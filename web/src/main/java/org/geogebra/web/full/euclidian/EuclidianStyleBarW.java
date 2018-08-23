@@ -1134,6 +1134,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				} else {
 					boolean geosOK = (geos.length > 0
 							|| EuclidianView.isPenMode(mode));
+					boolean hasOpacity = true;
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
@@ -1142,6 +1143,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 								|| geo instanceof GeoEmbed) {
 							geosOK = false;
 							break;
+						}
+						if (geos[i] instanceof GeoLocusStroke) {
+							hasOpacity = false;
 						}
 					}
 
@@ -1176,7 +1180,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 							if (hasFillable) {
 								if (app.isWhiteboardActive()
 										&& geos[0] instanceof GeoImage) {
-									setTitle(loc.getMenu("Opacity"));
+									if (hasOpacity) {
+										setTitle(loc.getMenu("Opacity"));
+									} else {
+										super.setVisible(false);
+									}
 								} else {
 									setTitle(loc.getMenu(
 											"stylebar.ColorTransparency"));
@@ -1186,7 +1194,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 							}
 						}
 
-						setSliderVisible(hasFillable);
+						setSliderVisible(hasFillable && hasOpacity);
 
 						if (EuclidianView.isPenMode(mode)) {
 							setSliderValue(
