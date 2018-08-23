@@ -109,4 +109,13 @@ public class DefaultUndoManager extends UndoManager {
     public void addUndoListener(UndoPossibleListener undoPossibleListener) {
         mListener.add(undoPossibleListener);
     }
+
+	/**
+	 *
+	 * @param undoPossibleListener
+	 * 			  undo listener
+	 */
+	public void removeUndoListener(UndoPossibleListener undoPossibleListener) {
+    	mListener.remove(undoPossibleListener);
+	}
 }
