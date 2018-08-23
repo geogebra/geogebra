@@ -76,12 +76,16 @@ public class ShareDialogMow extends DialogBoxW
 	 *            {@link AppW}
 	 * @param shareURL
 	 *            url of sharing link
+	 * @param mat
+	 *            material
 	 */
 	public ShareDialogMow(AppW app, String shareURL, Material mat) {
 		super(app.getPanel(), app);
 		this.shareURL = shareURL;
 		this.appW = app;
-		this.material = mat;
+		// if mat != null -> share called from material context menu
+		// if not -> get active material (share from burger menu)
+		this.material = mat == null ? app.getActiveMaterial() : mat;
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
