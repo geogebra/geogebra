@@ -30,6 +30,8 @@ public interface GeoGebraConstants {
 
 		ANDROID_NATIVE_SCIENTIFIC("a", "scientific"),
 
+		ANDROID_CAS("a", "cas"),
+
 		ANDROID_WEBVIEW("aw", "classic"),
 
 		ANDROID_WEBVIEW_EXAM("aw", "exam"),

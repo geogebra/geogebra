@@ -4891,6 +4891,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		AbstractToolCollectionFactory factory = null;
 		switch (getVersion()) {
 			case ANDROID_NATIVE_GRAPHING:
+			case ANDROID_CAS:
 			case IOS_NATIVE:
 			case WEB_GRAPHING:
 				factory = new GraphingToolCollectionFactory();
@@ -4910,16 +4911,17 @@ public abstract class App implements UpdateSelection, AppInterface {
 				factory = new GraphingToolCollectionFactory();
 		}
 		switch (getVersion()) {
-		case ANDROID_NATIVE_GRAPHING:
-		case ANDROID_GEOMETRY:
-		case ANDROID_NATIVE_3D:
-		case IOS_GEOMETRY:
-		case IOS_NATIVE:
-		case IOS_NATIVE_3D:
-			factory.setPhoneApp(true);
-			break;
-		default:
-			factory.setPhoneApp(false);
+			case ANDROID_NATIVE_GRAPHING:
+			case ANDROID_CAS:
+			case ANDROID_GEOMETRY:
+			case ANDROID_NATIVE_3D:
+			case IOS_GEOMETRY:
+			case IOS_NATIVE:
+			case IOS_NATIVE_3D:
+				factory.setPhoneApp(true);
+				break;
+			default:
+				factory.setPhoneApp(false);
 		}
 		return factory;
 	}
