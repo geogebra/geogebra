@@ -319,7 +319,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Resize to fill browser
 	 */
-	protected void fitSizeToScreen() {
+	public void fitSizeToScreen() {
 		if (getArticleElement().getDataParamFitToScreen()) {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),

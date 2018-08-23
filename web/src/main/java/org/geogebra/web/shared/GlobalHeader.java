@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -158,10 +157,8 @@ public class GlobalHeader implements EventRenderable {
 
 	private void forceVisible(boolean visible) {
 		app.getArticleElement().attr("marginTop", visible ? "+64" : "0");
-		app.updateHeaderVisible();
-		// notify sidebar about resizing
-		app.getGuiManager().getLayout().getDockManager()
-				.getPanel(App.VIEW_ALGEBRA).deferredOnResize();
+		// takes care of both header visibility and menu button placement
+		app.fitSizeToScreen();
 	}
 
 	/**
