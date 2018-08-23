@@ -23,6 +23,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
 
+		StyleInjector.inject(GuiResources.INSTANCE.modernStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());

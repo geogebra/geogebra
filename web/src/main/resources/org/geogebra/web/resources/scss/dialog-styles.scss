@@ -67,29 +67,6 @@ $duration: 0.2s;
 			}
 		}
 	}
-		
-	.MaterialSymbolTablePopup {
-		z-index: 501;
-		background-color: $white;
-		border-radius: 0px;
-		padding: 16px;
-	    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
-   		box-shadow: 0 2px 10px rgba(0,0,0,.2);
-   		
-   		.SymbolTable tr {
-   			cursor: pointer;	
-   		}
-   		
-   		.SymbolTable td {
-   			padding: 8px;	
-   			text-align: center;
-   		}
-   	
-   		.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
-   			background: $white;
-    		color: $teal-light;
-   		}
-	}
 
 	/* image tool dialog */
 	.MaterialDialogBox.image {

@@ -459,4 +459,185 @@
 		top: 0px;
 		left: 0px;
 	}
+
+	input[type="text"], input[type="number"], .gwt-TextBox,
+	select, textarea,
+	.gwt-TextArea, .gwt-SuggestBox,
+	iframe.objectPropertiesTextEditor {
+		border: #DCDCDC solid 1px;
+		background: #FFFFFF;
+		padding: 4px 5px;
+		color: #666666;
+		border-radius: 5px;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		font-size: 100%;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
+	}
+
+	input[type="text"],
+	input[type="number"],
+	.gwt-TextBox,
+	select,
+	textarea,
+	.gwt-TextArea,
+	iframe.objectPropertiesTextEditor {
+		&:focus,&:focus:not([readonly]){
+			border: 1px #6161FF solid;
+		}
+	}
+
+	/*============ AutocompleteTextFieldW =======*/
+
+	.InputPanel .html-face, .AutoCompleteTextFieldW .html-face {
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.AutoCompleteTextFieldW {
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	.AutoCompleteTextFieldW .TextField {
+		display: inline-block;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		padding-left: 5px;
+		padding-right: 5px;
+		/*width: 100% !important;*/
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
+		line-height: 70%;
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew input[type="text"].TextField {
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextField .TextField {
+		margin: 0px;
+	}
+
+	.InputTreeItem .hasCursorPermanent {
+		border-color: #DCDCDC;
+	}
+
+	.scrollableTextBox{
+		width: 100%;
+		display: inline-block;
+	}
+
+	.scrollableTextBox > div{
+		width: calc(100% - 18px);
+		overflow-x: hidden;
+		display: inline-block;
+	}
+
+	.scrollableTextBox > div.gwt-PushButton{
+		width: auto;
+	}
+
+	.scrollableTextBox > div::-webkit-scrollbar{
+		display: none;
+	}
+
+	/* Slider top row: no extra padding*/
+	.gwt-TreeItem .noPadding{
+		padding-left: 0;
+	}
+
+	.latexEditor .scrollableTextBox{
+		padding-left:40px;
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-right:10px;
+		box-sizing: border-box;
+	}
+
+	.scrollableTextBox {
+		overflow: hidden;
+	}
+
+	.scrollableTextBox >* {
+		overflow: hidden;
+	}
+
+	.NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
+		border-color: #6161FF;
+	}
+
+	.SymbolToggleButton {
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		text-align: center;
+	}
+
+	.AutoCompleteTextFieldW .SymbolToggleButton {
+		position: absolute;
+		right: 0.6em;
+		top: 50%;
+		margin-top: -0.66em;
+		display: none;
+	}
+
+	.InputTreeItemParent .XButton,
+	.InputTreeItemParent .XButtonNeighbour,
+	.XButtonPanelParent .XButton,
+	.XButtonPanelParent .XButtonNeighbour {
+		cursor: pointer;
+		padding-left: 4px;
+	}
+
+	.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
+		right: 1.6em;
+	}
+
+	.AutoCompleteTextFieldW.SymbolCanBeShown input:focus+.SymbolToggleButton {
+		display: inline-block;
+	}
+
+	.AutoCompleteTextFieldW.SymbolCanBeShown input:focus.TextField {
+		padding-right: 40px;
+	}
+
+	.InputTreeItemParent .XButton.shown,
+	.InputTreeItemParent .XButton.ShowSymbolButtonFocused,
+	.InputTreeItemParent .XButtonNeighbour.shown,
+	.XButtonPanelParent .XButton.shown,
+	.XButtonPanelParent .XButtonNeighbour.shown {
+		display: inline-block;
+	}
+
+	/* avoid 'x' in IE */
+	input[type="text"]::-ms-clear {
+		display: none;
+	}
+
+	.SymbolTablePopup {
+		z-index: 501;
+		background-color: $white;
+		border-radius: 0px;
+		padding: 16px;
+		-webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
+		box-shadow: 0 2px 10px rgba(0,0,0,.2);
+
+		.SymbolTable tr {
+			cursor: pointer;
+		}
+
+		.SymbolTable td {
+			padding: 8px;
+			text-align: center;
+		}
+
+		.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
+			background: $white;
+			color: $teal-light;
+		}
+	}
 }

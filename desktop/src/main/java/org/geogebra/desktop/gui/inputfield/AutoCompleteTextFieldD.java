@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -454,7 +455,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					while (pos > 0 && getText().charAt(pos - 1) == '[') {
 						pos--;
 					}
-					String word = getWordAtPos(getText(), pos);
+					String word = MyTextField.getWordAtPos(getText(), pos);
 					String lowerCurWord = word.toLowerCase();
 					String closest = getDictionary().lookup(lowerCurWord);
 
@@ -692,32 +693,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 			this.curWordStart = next;
 		}
 	}
-
-	// returns the word at position pos in text
-	public static String getWordAtPos(String text, int pos) {
-		// search to the left
-		int wordStart = pos - 1;
-		while (wordStart >= 0 && StringUtil
-				.isLetterOrDigitOrUnderscore(text.charAt(wordStart))) {
-			--wordStart;
-		}
-		wordStart++;
-
-		// search to the right
-		int wordEnd = pos;
-		int length = text.length();
-		while (wordEnd < length
-				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd))) {
-			++wordEnd;
-		}
-
-		if (wordStart >= 0 && wordEnd <= length) {
-			return text.substring(wordStart, wordEnd);
-		}
-		return null;
-	}
-
-	// static String lastTyped = null;
 
 	/*
 	 * ----------------------------------------- Autocompletion
@@ -1087,7 +1062,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	@Override
-	public void hideDeferred(final GBox box, DrawInputBox drawInputBox) {
+	public void hideDeferred(final GBox box) {
 		setVisible(false);
 		box.setVisible(false);
 	}

@@ -56,7 +56,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private static final int TF_MARGIN = 10;
 
 	/** textfield */
-	final GeoInputBox geoInputBox;
+	private final GeoInputBox geoInputBox;
 
 	private boolean isVisible;
 
@@ -292,7 +292,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
-
 		textFont = getTextFont(tf.getText());
 
 		tf.setOpaque(true);
@@ -423,10 +422,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		if (geo.getKernel().getApplication()
 				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			if (!isSelectedForInput() || !getBox().isVisible()
-					|| !getGeoElement().isSelected()) {
-				drawTextfieldOnCanvas();
-			}
+			drawTextfieldOnCanvas();
 			highlightLabel(g2, latexLabel);
 			if (geo.isLabelVisible()) {
 				drawLabel(g2, geoInputBox, labelDesc);
@@ -560,29 +556,18 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void hideWidget() {
-
 		if (!isSelectedForInput()) {
 			return;
 		}
 
-		getTextField().hideDeferred(getBox(), this);
-
-	}
-
-	/**
-	 * Hide the widget
-	 */
-	public void removeTextField() {
-		hideWidget();
+		getTextField().hideDeferred(getBox());
 	}
 
 	/**
 	 * @return textfield
 	 */
 	public AutoCompleteTextField getTextField() {
-		AutoCompleteTextField tf = view.getTextField(geoInputBox, this);
-		return tf;
-
+		return view.getTextField(geoInputBox, this);
 	}
 
 	private GBox getBox() {

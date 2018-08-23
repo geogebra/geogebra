@@ -116,6 +116,38 @@ public abstract class MyTextField {
 	}
 
 	/**
+	 * Find a word in text at given position.
+	 *
+	 * @param text
+	 *            input text
+	 * @param pos
+	 *            initial position
+	 * @return the word at position pos in text
+	 */
+	public static String getWordAtPos(String text, int pos) {
+		// search to the left
+		int wordStart = pos - 1;
+		while (wordStart >= 0 && StringUtil
+				.isLetterOrDigitOrUnderscore(text.charAt(wordStart))) {
+			--wordStart;
+		}
+		wordStart++;
+
+		// search to the right
+		int wordEnd = pos;
+		int length = text.length();
+		while (wordEnd < length
+				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd))) {
+			++wordEnd;
+		}
+
+		if (wordStart >= 0 && wordEnd <= length) {
+			return text.substring(wordStart, wordEnd);
+		}
+		return null;
+	}
+
+	/**
 	 * @param c
 	 *            character
 	 * @return whether it's close bracket or whitespace

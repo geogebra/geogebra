@@ -47,11 +47,7 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 
 		// prevent autohide when clicking on the popup button
 		addAutoHidePartner(invoker.getElement());
-		if (app.has(Feature.DIALOG_DESIGN)) {
-			addStyleName("MaterialSymbolTablePopup");
-		} else {
-			addStyleName("SymbolTablePopup");
-		}
+		addStyleName("SymbolTablePopup");
 	}
 
 	private void createSymbolTable() {
@@ -73,17 +69,5 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 		this.textField.setFocus(true, false);
 		Cell clickCell = ((HTMLTable) event.getSource()).getCellForEvent(event);
 		textField.insertString(clickCell.getElement().getInnerText());
-		hide();
 	}
-
-	/**
-	 * Ensure the popup toggle button is updated after hiding
-	 */
-	@Override
-	public void hide(boolean autoClosed) {
-		super.hide(autoClosed);
-		textField.toggleSymbolButton(false);
-		AutoCompleteTextFieldW.setShowSymbolButtonFocused(false);
-	}
-
 }

@@ -75,7 +75,7 @@ public interface AutoCompleteTextField
 
 	void prepareShowSymbolButton(boolean b);
 
-	void hideDeferred(final GBox box, DrawInputBox drawInputBox);
+	void hideDeferred(GBox box);
 
 	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height);

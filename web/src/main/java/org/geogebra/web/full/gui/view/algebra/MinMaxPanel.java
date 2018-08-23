@@ -106,7 +106,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		 */
 		public AVField(int columns, App app) {
 			super(columns, app);
-			setDeferredFocus(true);
 			enableGGBKeyboard();
 		}
 
@@ -173,10 +172,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		add(tfMax);
 		add(lblStep);
 		add(tfStep);
-
-		tfMin.setDeferredFocus(true);
-		tfMax.setDeferredFocus(true);
-		tfStep.setDeferredFocus(true);
 
 		tfMin.addKeyHandler(this);
 		tfMax.addKeyHandler(this);

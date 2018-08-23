@@ -47,7 +47,6 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
 
 		injectLTRstyles();

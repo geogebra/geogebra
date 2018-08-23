@@ -336,6 +336,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/mow.scss")
 	SassResource mowStyle();
 
+	@Source("org/geogebra/web/resources/css/web-styles.less")
+	LessResource modernStyle();
+
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
 

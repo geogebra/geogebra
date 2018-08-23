@@ -11,7 +11,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
@@ -431,8 +430,7 @@ public class CASTableControllerW extends CASTableCellController implements
 	@Override
 	public void onBlur(BlurEvent event) {
 		CASTableCellEditor editor = view.getConsoleTable().getEditor();
-		if (!((CASEditorW) editor).isSuggesting()
-		        && !AutoCompleteTextFieldW.isShowSymbolButtonFocused()) {
+		if (!((CASEditorW) editor).isSuggesting()) {
 			view.getConsoleTable().stopEditing();
 			view.getConsoleTable().setFirstRowFront(false);
 		}

@@ -116,8 +116,8 @@ public class AutocompleteProcessing implements KeyboardListener {
 	@Override
 	public void onKeyboardClosed() {
 		if (isSVCell()) {
-			if (field.getApp().getGuiManager() != null) {
-				field.getApp().getGuiManager().getSpreadsheetView()
+			if (field.getApplication().getGuiManager() != null) {
+				field.getApplication().getGuiManager().getSpreadsheetView()
 						.setKeyboardEnabled(false);
 			}
 		}
