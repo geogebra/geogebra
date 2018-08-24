@@ -279,6 +279,7 @@ public class DrawAxis {
 	}
 
 	private void drawAxisLabelX(GGraphics2D g2, int y, GFontRenderContext frc) {
+		GFont old = g2.getFont();
 		GFont font = view.getFontLine().deriveFont(view.axesLabelsStyle[0]);
 		GTextLayout layout = AwtFactory.getPrototype()
 				.newTextLayout(view.axesLabels[0], font, frc);
@@ -302,15 +303,13 @@ public class DrawAxis {
 			layout.draw(g2, (int) (view.getWidth() - 10 - layout.getAdvance()),
 					y);
 		} else {
-			GFont old = g2.getFont();
 			g2.setFont(font);
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 					view.axesLabels[0],
 					view.getWidth() - 10 - layout.getAdvance(),
 					y, false, view, view.axesColor);
-			g2.setFont(old);
 		}
-
+		g2.setFont(old);
 	}
 
 	private static boolean serif(String string) {
