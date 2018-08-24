@@ -6573,22 +6573,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
 					setBoundingBoxCursor(d);
 					return;
-				} else if (isMultiSelection() && view.getBoundingBox()
+				} else if (view.getBoundingBox()
 						.hitSideOfBoundingBox(event.getX(), event.getY(),
 								app.getCapturingThreshold(event.getType()))) {
 					EuclidianBoundingBoxHandler handler = view.getBoundingBox()
 							.getHitHandler(event.getX(), event.getY(),
 									app.getCapturingThreshold(event.getType()));
 
-					if (handler != EuclidianBoundingBoxHandler.UNDEFINED) {
-						view.setHitHandler(view.getBoundingBox().getHitHandler(
-								event.getX(), event.getY(),
-								app.getCapturingThreshold(event.getType())));
+					view.setHitHandler(handler);
+					setBoundingBoxCursor(null);
 
-						setBoundingBoxCursor(null);
-					} else {
-						// if handler is UNDEFINED the side of the bounding box
-						// was hit 
+					// if handler is UNDEFINED the side of the bounding box
+					// was hit
+					if (handler == EuclidianBoundingBoxHandler.UNDEFINED) {
 						view.setCursor(EuclidianCursor.DRAG);
 					}
 
@@ -8121,8 +8118,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
 		removeAxes(selGeos);
 		// if object was chosen before, take it now!
-		if ((selGeos.size() == 1) && !topHits.isEmpty()
-				&& topHits.contains(selGeos.get(0))) {
+		if (((selGeos.size() == 1) && !topHits.isEmpty()
+				&& topHits.contains(selGeos.get(0)))
+				|| selGeos.size() == 1 && wasBoundingBoxHit) {
 			// object was chosen before: take it
 			geo = selGeos.get(0);
 		} else {
