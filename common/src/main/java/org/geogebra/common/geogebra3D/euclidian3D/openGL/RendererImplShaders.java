@@ -723,7 +723,16 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-	private void setClipValues(int index, double min, double max) {
+	/**
+	 * 
+	 * @param index
+	 *            index for x/y/z
+	 * @param min
+	 *            min
+	 * @param max
+	 *            max
+	 */
+	protected void setClipValues(int index, double min, double max) {
 		clipPlanesMin[index] = (float) min;
 		clipPlanesMax[index] = (float) max;
 	}
