@@ -496,8 +496,11 @@ public class EuclidianControllerW extends EuclidianController implements
 		evPanel.add(textPanel);
 
 		Canvas canvas = Canvas.createIfSupported();
+
 		TextListener mfListener = new TextListener();
+		textPanel.add(canvas);
 		textMathField = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
+		textMathField.setPixelRatio(((AppW) app).getPixelRatio());
 		textMathField.setScale(((AppW) app).getArticleElement().getScaleX());
 	}
 
