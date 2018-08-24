@@ -248,6 +248,7 @@ public class DrawAxis {
 	}
 
 	private void drawAxisLabelY(GGraphics2D g2, int x, GFontRenderContext frc) {
+		GFont old = g2.getFont();
 		GFont font = view.getFontLine().deriveFont(view.axesLabelsStyle[1]);
 		GTextLayout layout = AwtFactory.getPrototype()
 				.newTextLayout(view.axesLabels[1], font, frc);
@@ -268,15 +269,13 @@ public class DrawAxis {
 			layout.draw(g2, x,
 					(int) (5 + layout.getAscent()));
 		} else {
-			GFont old = g2.getFont();
 			g2.setFont(font);
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 					view.axesLabels[1], x,
 					(int) (5 + layout.getAscent()), false, view,
 					view.axesColor);
-			g2.setFont(old);
 		}
-
+		g2.setFont(old);
 	}
 
 	private void drawAxisLabelX(GGraphics2D g2, int y, GFontRenderContext frc) {
