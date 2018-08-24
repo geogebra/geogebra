@@ -7727,7 +7727,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void handleMouseDragged(boolean repaint,
 			AbstractEvent event, boolean manual) {
-
 		// do not allow right-click drag for MODE_SELECT_MOW
 		if (mode == EuclidianConstants.MODE_SELECT_MOW
 				&& event.isRightClick()) {
@@ -9198,15 +9197,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
-
 		// check if side of bounding box was hit
-		if (view.getBoundingBox() != null) {
-			wasBoundingBoxHit = view.getBoundingBox().hitSideOfBoundingBox(
-					event.getX(), event.getY(),
-					app.getCapturingThreshold(event.getType()));
-		} else {
-			wasBoundingBoxHit = false;
-		}
+		wasBoundingBoxHit = view.getBoundingBox() == null ? false
+				: view.getBoundingBox().hitSideOfBoundingBox(event.getX(),
+						event.getY(),
+						app.getCapturingThreshold(event.getType()));
 
 		Drawable d = view.getBoundingBoxHandlerHit(
 				new GPoint(event.getX(), event.getY()), event.getType());
@@ -9681,10 +9676,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// check if it was a selection with the rectangle or just a drag
 				if (view.getSelectionRectangle() != null) {
 					view.setSelectionRectangle(null);
-
+					// hit found
 					if (hits != null) {
 						selection.setSelectedGeos(hits, true);
-
+						// single selection
 						if (hits.size() == 1) {
 							Drawable dr = ((Drawable) view
 									.getDrawableFor(hits.get(0)));
@@ -9692,7 +9687,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 							view.setBoundingBox(boundingBox);
 							view.repaintView();
-						} else {
+						}
+						// multi-selection
+						else {
 							setBoundingBoxFromList(hits);
 						}
 					}
@@ -10572,9 +10569,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// show popup menu after right click
 		setViewHits(type);
 		Hits hits = view.getHits().getTopHits();
+		// no hits
 		if (hits.isEmpty()) {
-			// no hits
-
+			// no hit -> clear selection
 			if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				clearSelections();
 			}
