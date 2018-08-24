@@ -485,6 +485,9 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void initMathField() {
+		if (textPanel != null) {
+			return;
+		}
 		textPanel = new FlowPanel();
 		textPanel.addStyleName("textEditorPanel");
 		
