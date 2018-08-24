@@ -19,9 +19,8 @@ class Rect {
 	double fy;
 	boolean singular;
 	Coords coords = new Coords(3);
-	Rect[] children;
 
-	public void set(int x, int y, double fx, double fy, boolean singular) {
+	public Rect(int x, int y, double fx, double fy, boolean singular) {
 		this.x = x;
 		this.y = y;
 		this.fx = fx;
@@ -30,33 +29,20 @@ class Rect {
 		this.shares = 0;
 	}
 
-	public void set(Rect r) {
-		this.set(r.x, r.y, r.fx, r.fy, r.singular);
-		this.shares = r.shares;
-		this.coords.set(r.coords);
-		for (int i = 0; i < 4; i++) {
-			this.evals[i] = r.evals[i];
-		}
-	}
-
 	public Rect[] split(GeoImplicitCurve geoImplicitCurve, int factor) {
-		if (this.children == null) {
-			this.children = new Rect[4];
-			for (int i = 0; i < 4; i++) {
-				this.children[i] = new Rect();
-			}
-		}
-		Rect[] rect = this.children;
 		double fx2 = fx * 0.5;
 		double fy2 = fy * 0.5;
 		double x1 = this.coords.val[0];
 		double y1 = this.coords.val[1];
+
+		Rect[] rect = new Rect[4];
 		for (int i = 0; i < 4; i++) {
-			rect[i].set(x, y, fx2, fy2, singular);
+			rect[i] = new Rect(x, y, fx2, fy2, singular);
 			rect[i].coords.set(x1, y1, 0.0);
 			rect[i].evals[i] = this.evals[i];
 			rect[i].shares = this.shares & GeoImplicitCurve.MASK[i];
 		}
+
 		rect[1].coords.val[0] += fx2;
 		rect[2].coords.val[0] += fx2;
 		rect[2].coords.val[1] += fy2;

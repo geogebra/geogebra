@@ -67,7 +67,6 @@ abstract class QuadTree {
 	 */
 	public static final int T_INV = -1;
 	public static final int EMPTY = 0;
-	public static final int FINISHED = Integer.MAX_VALUE;
 	public static final int VALID = 1;
 	/**
 	 * it would be better to adjust LIST_THRESHOLD based on platform

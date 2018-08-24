@@ -1681,7 +1681,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		private int sw;
 		private int sh;
 		private Rect[][] grid;
-		private Rect temp;
 		private Timer timer = Timer.newTimer();
 
 		public WebExperimentalQuadTree() {
@@ -1702,18 +1701,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					return;
 				}
 
-				if (grid == null || grid.length != sh || grid[0].length != sw) {
-					this.grid = new Rect[sh][sw];
-					for (int i = 0; i < sh; i++) {
-						for (int j = 0; j < sw; j++) {
-							this.grid[i][j] = new Rect();
-						}
-					}
-				}
-
-				if (temp == null) {
-					temp = new Rect();
-				}
+				this.grid = new Rect[sh][sw];
 
 				double frx = w / sw;
 				double fry = h / sh;
@@ -1748,11 +1736,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					for (j = 1; j <= sw; j++) {
 						cur = evaluateImplicitCurve(xcoords[j], ycoords[i],
 								factor);
-						Rect rect = this.grid[i - 1][j - 1];
-						if (rect == null) {
-							continue;
-						}
-						rect.set(j - 1, i - 1, frx, fry, false);
+						Rect rect = new Rect(j - 1, i - 1, frx, fry, false);
 						rect.coords.val[0] = xcoords[j - 1];
 						rect.coords.val[1] = ycoords[i - 1];
 						rect.evals[0] = vertices[j - 1];
@@ -1791,11 +1775,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 				for (i = 0; i < sh; i++) {
 					for (j = 0; j < sw; j++) {
-						if (grid[i][j] != null && !grid[i][j].singular
-								&& grid[i][j].status != EMPTY) {
-							temp.set(grid[i][j]);
-							plot(temp, 0, factor);
-							grid[i][j].status = FINISHED;
+						if (grid[i][j].status != EMPTY) {
+							plot(grid[i][j], 0, factor);
 						}
 					}
 				}
@@ -1810,19 +1791,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					// I am exhausted, reducing load!
 					plotDepth -= 1;
 					segmentCheckDepth -= 1;
-				}
-
-				for (int k = 0; k < 4; k++) {
-					for (i = 0; i < sh; i++) {
-						for (j = 0; j < sw; j++) {
-							if (grid[i][j] != null && grid[i][j].singular
-									&& grid[i][j].status != FINISHED) {
-								temp.set(grid[i][j]);
-								plot(temp, 0, factor);
-								grid[i][j].status = FINISHED;
-							}
-						}
-					}
 				}
 			}
 		}
@@ -1841,11 +1809,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				return;
 			}
 			int e = edgeConfig(r);
-			if (grid[r.y][r.x] == null) {
-				Log.warn("Grid for implicit plotting is null");
-			}
-			if (grid[r.y][r.x] != null && grid[r.y][r.x].singular
-					|| e != EMPTY) {
+			if (grid[r.y][r.x].singular || e != EMPTY) {
 				if (depth >= plotDepth) {
 					if (addSegment(r, factor) == T0101) {
 						createTree(r, depth + 1, factor);
@@ -1871,10 +1835,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		private void nonempty(int ry, int rx) {
-			if (grid[ry][rx] != null && grid[ry][rx].status == EMPTY) {
+			if (grid[ry][rx].status == EMPTY) {
 				grid[ry][rx].status = 1;
 			}
-
 		}
 
 		@Override
