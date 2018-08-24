@@ -96,6 +96,7 @@ public class ToolbarSettings extends AbstractSettings {
 	public void setFrom(Versions version) {
 		switch (version) {
 		case ANDROID_NATIVE_GRAPHING:
+		case ANDROID_CAS:
 		case IOS_NATIVE:
 			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
 			phoneApp = true;
