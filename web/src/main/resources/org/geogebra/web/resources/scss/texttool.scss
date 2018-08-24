@@ -1,3 +1,7 @@
-.ggbDummyClass {
-	border: 0;
+.GeoGebraFrame{
+	.textEditorPanel{
+		border: solid black 1px;
+		width: 100px;
+		position: absolute;
+	}
 }
