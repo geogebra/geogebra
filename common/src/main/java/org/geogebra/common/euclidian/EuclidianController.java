@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
-import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -4259,14 +4258,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	final protected void setMouseLocation(AbstractEvent event) {
 		getCompanion().setMouseLocation(event);
-	}
-
-	public void setDragStartPoint(int index) {
-		dragStartPoint = view.getBoundingBox().getHandlerCenter(index);
-	}
-
-	public GPoint getDragStartPoint() {
-		return dragStartPoint == null ? new GPoint() : dragStartPoint;
 	}
 
 	protected void setMouseLocation(boolean alt, int x, int y) {
@@ -9207,12 +9198,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (d != null && view
 					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 				setBoundingBoxCursor(d);
-				if (d instanceof DrawImage) {
-					int handlerNr = d.getBoundingBox().hitHandlers(
-							event.getX(), event.getY(),
-							app.getCapturingThreshold(event.getType()));
-					setDragStartPoint(handlerNr);
-				}
 				setResizedShape(d);
 			}
 		}
@@ -9233,12 +9218,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						&& view.getBoundingBox()
 								.equals(d.getBoundingBox())) {
 					setResizedShape(d);
-					if (d instanceof DrawImage) {
-						int handlerNr = d.getBoundingBox().hitHandlers(
-								event.getX(), event.getY(),
-								app.getCapturingThreshold(event.getType()));
-						setDragStartPoint(handlerNr);
-					}
 				} else if (view.getHits().size() == 1
 						&& view.getHits().get(0) != null
 						&& view.getHits().get(0).isShape()) {
