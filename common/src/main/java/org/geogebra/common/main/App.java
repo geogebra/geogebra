@@ -3729,6 +3729,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_AND_AR:
 			return prerelease;
 
+		// AND-1304
+		case MOB_LIST_TOOL:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
@@ -4096,10 +4100,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** GGB-2439 */
 		case GRAPH_EXAM_MODE:
 			return true;
-
-		/** AND-1304 */
-        case MOB_LIST_TOOL:
-            return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
