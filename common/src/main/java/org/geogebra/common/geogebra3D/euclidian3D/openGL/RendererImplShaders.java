@@ -719,9 +719,13 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void setClipPlanes(double[][] minMax) {
 		for (int i = 0; i < 3; i++) {
 			double scale = view3D.getScale(i);
-			clipPlanesMin[i] = (float) (minMax[i][0] * scale);
-			clipPlanesMax[i] = (float) (minMax[i][1] * scale);
+			setClipValues(i, minMax[i][0] * scale, minMax[i][1] * scale);
 		}
+	}
+
+	private void setClipValues(int index, double min, double max) {
+		clipPlanesMin[index] = (float) min;
+		clipPlanesMax[index] = (float) max;
 	}
 
 	final private void setClipPlanesToShader() {
