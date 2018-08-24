@@ -168,14 +168,18 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				GeoElement thicknessGeo = getKernel()
 						.lookupLabel(THICKNESS_GEO_NAME);
 				if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
-					thickness = ((NumberValue) thicknessGeo).getDouble() / 2;
+					double t = ((NumberValue) thicknessGeo).getDouble() / 2;
+					if (t > 0) {
+						thickness = t;
+					}
 				}
-				double scale;
+				double scale = -1;
 				GeoElement scaleGeo = getKernel().lookupLabel(SCALE_GEO_NAME);
 				if (scaleGeo != null && scaleGeo.isNumberValue()) {
 					// 1unit = 10mm
 					scale = ((NumberValue) scaleGeo).getDouble() * 10;
-				} else {
+				}
+				if (scale < 0) {
 					double d = boundsMax.getX() - boundsMin.getX();
 					for (int i = 2; i <= 3; i++) {
 						double val = (boundsMax.get(i) - boundsMin.get(i))
