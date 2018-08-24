@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.event;
 
 import org.geogebra.common.euclidian.event.FocusListener;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;

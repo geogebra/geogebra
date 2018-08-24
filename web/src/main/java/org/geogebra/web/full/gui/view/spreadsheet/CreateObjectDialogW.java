@@ -130,7 +130,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		InputPanelW input = new InputPanelW(app, -1, false);
 
 		fldName = input.getTextComponent();
-		fldName.showPopupSymbolButton(true);
 		fldName.addBlurHandler(new BlurHandler() {
 			
 			@Override

@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;

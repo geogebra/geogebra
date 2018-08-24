@@ -332,18 +332,15 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	public int getPreferredWidth() {
-		return (int) Math
-						.round(((getView().getApplication().getFontSize()
-								* getGeoInputBox().getFontSizeMultiplier()))
-								* getGeoInputBox().getLength() * TF_WIDTH_FACTOR);
+		return (int) Math.round(((getView().getApplication().getFontSize()
+				* getGeoInputBox().getFontSizeMultiplier())) * getGeoInputBox().getLength()
+				* TF_WIDTH_FACTOR);
 	}
 
 	@Override
 	public int getPreferredHeight() {
-		return (int) Math.round(
-				((getView().getApplication().getFontSize() * getGeoInputBox().getFontSizeMultiplier()))
-						* TF_HEIGHT_FACTOR)
-				+ TF_MARGIN;
+		return (int) Math.round(((getView().getApplication().getFontSize()
+				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR) + TF_MARGIN;
 	}
 
 	@Override

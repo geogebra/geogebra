@@ -490,8 +490,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 		textPanel = new FlowPanel();
 		textPanel.addStyleName("textEditorPanel");
-		
-		
+
 		AbsolutePanel evPanel = ((EuclidianViewW) getView()).getAbsolutePanel();
 		evPanel.add(textPanel);
 
@@ -509,9 +508,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		textPanel.getElement().getStyle().setLeft(x, Unit.PX);
 	}
 
-	private class TextListener implements MathFieldListener {
+	private static class TextListener implements MathFieldListener {
 
-		public TextListener() {
+		protected TextListener() {
 			// TODO Auto-generated constructor stub
 		}
 

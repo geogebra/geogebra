@@ -225,7 +225,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
-		tfCaption.showPopupSymbolButton(true);
 		FlowPanel captionPanel = new FlowPanel();
 		if (app.has(Feature.DIALOG_DESIGN)) {
 			captionPanel.add(captionLabel);
