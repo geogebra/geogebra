@@ -59,11 +59,11 @@ public class SerializationTest {
 
 	@Test
 	public void testScreenReader() {
-		tsc("x^2+2x-1", "x squared  plus 2 times x   minus 1");
+		tsc("x^2+2x-1", "x squared plus 2 times x minus 1");
 		tsc("sqrt(x+1)", "start square root x plus 1 end square root");
 		tsc("(x+1)/(x-1)",
-				"start fraction x plus 1  over x minus 1  end fraction");
-		tsc("sin(2x)", "sin open parenthesis 2 times x  close parenthesis");
+				"start fraction x plus 1 over x minus 1 end fraction");
+		tsc("sin(2x)", "sin open parenthesis 2 times x close parenthesis");
 	}
 
 	@Test
@@ -106,9 +106,9 @@ public class SerializationTest {
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, new TestErrorHandler(),
 				new EvalInfo(true).withFractions(true), null);
-		Assert.assertEquals(
-				result[0].toValueString(StringTemplate.screenReader).trim(),
-				string2);
+		Assert.assertEquals(string2,
+				result[0].toValueString(StringTemplate.screenReader).trim()
+						.replaceAll(" +", " "));
 	}
 
 	@Test

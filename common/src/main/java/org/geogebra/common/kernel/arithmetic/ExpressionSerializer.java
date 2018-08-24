@@ -905,7 +905,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-
+			case SCREEN_READER:
+				sb.append(ScreenReader.nroot(leftStr, rightStr, loc));
+				break;
 			case GEOGEBRA_XML:
 			case GEOGEBRA:
 				if (tpl.isPrintLocalizedCommandNames() && tpl != StringTemplate.editorTemplate) {
@@ -991,10 +993,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			switch (stringType) {
 			case SCREEN_READER:
 				sb.append(ScreenReader.getStartCbrt(loc));
-			sb.append(leftStr);
-			sb.append(ScreenReader.getEndCbrt(loc));
-
-			break;
+				sb.append(leftStr);
+				sb.append(ScreenReader.getEndCbrt(loc));
+				break;
 			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3", "</degree>", "", leftStr, "");
 				break;
@@ -1025,6 +1026,11 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case ABS:
 			switch (stringType) {
+			case SCREEN_READER:
+				sb.append(ScreenReader.getStartAbs(loc));
+				sb.append(leftStr);
+				sb.append(ScreenReader.getEndAbs(loc));
+				break;
 			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<abs/>", leftStr, null);
 				break;

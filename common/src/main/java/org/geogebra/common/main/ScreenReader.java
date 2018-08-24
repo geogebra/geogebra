@@ -137,8 +137,8 @@ public class ScreenReader {
 		return localize(loc, "startFraction", "start fraction");
 	}
 
-	private static String localize(Localization loc, String string, String string2) {
-		return loc.getMenuDefault(TRANSLATION_PREFIX + string, string2) + " ";
+	private static String localize(Localization loc, String key, String fallback) {
+		return loc.getMenuDefault(TRANSLATION_PREFIX + key, fallback) + " ";
 	}
 
 	public static String getMiddleFraction(Localization loc) {
@@ -166,7 +166,15 @@ public class ScreenReader {
 	}
 
 	public static String getEndCbrt(Localization loc) {
-		return localize(loc, "endCbrt", "end cube root");
+		return " " + localize(loc, "endCbrt", "end cube root");
+	}
+
+	public static String getStartAbs(Localization loc) {
+		return localize(loc, "startAbs", "start absolute value");
+	}
+
+	public static String getEndAbs(Localization loc) {
+		return " " + localize(loc, "endAbs", " end absolute value");
 	}
 
 	public static String getStartSqrt(Localization loc) {
@@ -240,6 +248,11 @@ public class ScreenReader {
 
 				return ScreenReader.getStartSqrt(loc) + arg + ScreenReader.getEndSqrt(loc);
 			}
+
+			@Override
+			public String nroot(String radicand, String index) {
+				return ScreenReader.nroot(radicand, index, loc);
+			}
 		};
 	}
 
@@ -299,6 +312,25 @@ public class ScreenReader {
 			sb.append(rightStr);
 			sb.append(ScreenReader.getEndPower(loc));
 		}
+		return sb.toString();
+	}
+
+	/**
+	 * @param leftStr
+	 *            radicand
+	 * @param rightStr
+	 *            index
+	 * @param loc
+	 *            localization
+	 * @return root
+	 */
+	public static String nroot(String leftStr, String rightStr, Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getPlainDefault("ScreenReader.startRoot", "start %0 root", rightStr));
+		sb.append(' ');
+		sb.append(leftStr);
+		sb.append(' ');
+		sb.append(loc.getPlainDefault("ScreenReader.endRoot", "end root"));
 		return sb.toString();
 	}
 

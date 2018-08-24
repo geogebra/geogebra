@@ -292,47 +292,48 @@ public class EditorState {
 	}
 
 	/**
+	 * @param er
+	 *            expression reader
 	 * @return description of cursor position
 	 */
-	public String getDescription(ExpressionReader ed) {
+	public String getDescription(ExpressionReader er) {
 		MathComponent prev = currentField.getArgument(currentOffset - 1);
 		MathComponent next = currentField.getArgument(currentOffset);
 		StringBuilder sb = new StringBuilder();
 		if (currentField.getParent() == null) {
 			if (prev == null) {
-				return ed
+				return er
 						.localize("start of %0",
-								ScreenReaderSerializer.fullDescription(ed,
+								ScreenReaderSerializer.fullDescription(er,
 										currentField))
 						.trim();
 			}
 			if (next == null) {
-				return ed
+				return er
 						.localize("end of %0",
-								ScreenReaderSerializer.fullDescription(ed,
+								ScreenReaderSerializer.fullDescription(er,
 										currentField))
 						.trim();
 			}
 		}
 		if (next == null && prev == null) {
-			return ed.localize("empty %0",
-					describeParent(currentField.getParent(), ed));
+			return describeParent("empty %0", currentField.getParent(), er);
 		}
 		if (next == null) {
-			sb.append(ed.localize("end of %0",
-					describeParent(currentField.getParent(), ed)));
+			sb.append(
+					describeParent("end of %0", currentField.getParent(), er));
 			sb.append(" ");
 		}
 		if (prev != null) {
-			sb.append(ed.localize("after %0", describePrev(prev, ed)));
+			sb.append(er.localize("after %0", describePrev(prev, er)));
 		} else {
-			sb.append(ed.localize("start of %0",
-					describeParent(currentField.getParent(), ed)));
+			sb.append(describeParent("start of %0", currentField.getParent(),
+					er));
 		}
 		sb.append(" ");
 
 		if (next != null) {
-			sb.append(ed.localize("before %0", describeNext(next, ed)));
+			sb.append(er.localize("before %0", describeNext(next, er)));
 		}
 		return sb.toString().trim();
 	}
@@ -353,7 +354,11 @@ public class EditorState {
 				i--;
 			}
 			if (sb.length() > 0) {
-				return er.mathExpression(sb.reverse().toString());
+				try {
+					return er.mathExpression(sb.reverse().toString());
+				}catch(Exception e){
+					System.err.println(sb.reverse().toString());
+				}
 			}
 		}
 		return describe(parent, er);
@@ -382,20 +387,36 @@ public class EditorState {
 				return "square root";
 			case SUPERSCRIPT:
 				return "superscript";
+			case ABS:
+				return "absolute value";
 			default:
 				return "function";
 			}
 		}
+		if (prev instanceof MathArray) {
+			return "parentheses";
+		}
 		return ScreenReaderSerializer.fullDescription(er, prev);
 	}
 
-	private String describeParent(MathContainer parent, ExpressionReader er) {
+	private String describeParent(String pattern, MathContainer parent,
+			ExpressionReader er) {
 		if (parent instanceof MathFunction
 				&& Tag.FRAC == ((MathFunction) parent).getName()) {
-			return parent.indexOf(currentField) == 0 ? "numerator"
-					: "denominator";
+			return er.localize(pattern, parent.indexOf(currentField) == 0
+					? "numerator" : "denominator");
 		}
-		return describe(parent, er);
+		if (parent instanceof MathFunction
+				&& Tag.NROOT == ((MathFunction) parent).getName()) {
+			return er.localize(pattern, parent.indexOf(currentField) == 0
+					? "index" : "radicand");
+		}
+		if (parent instanceof MathFunction
+				&& Tag.APPLY == ((MathFunction) parent).getName()) {
+			return "";
+		}
+
+		return er.localize(pattern, describe(parent, er));
 	}
 
 }

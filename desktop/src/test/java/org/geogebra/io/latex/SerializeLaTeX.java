@@ -5,19 +5,13 @@ import java.text.Normalizer;
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
-import org.geogebra.common.main.ScreenReader;
-import org.geogebra.desktop.main.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
@@ -437,10 +431,10 @@ public class SerializeLaTeX {
 
 	private void checkLaTeX(String string, String string2) {
 		checkLaTeX(string, string2, null);
-
 	}
 
-	private void checkLaTeX(String string, String string2, BracketsAdapter ad) {
+	private static void checkLaTeX(String string, String string2,
+			BracketsAdapter ad) {
 		TeXFormula tf = new TeXFormula();
 		TeXParser tp = new TeXParser(string, tf);
 		tp.parse();
@@ -449,128 +443,39 @@ public class SerializeLaTeX {
 	}
 
 	private static void checkCannon(String input, String output) {
-		MathFormula mf = null;
-		try {
-			mf = parser.parse(input);
-			checkLaTeXRender(mf);
-		} catch (ParseException e) {
-			Assert.assertNull(e);
-		}
-		Assert.assertNotNull(mf);
+		MathFormula mf = checkLaTeXRender(parser, input);
 		Assert.assertEquals(mf.getRootComponent() + "", output,
 				serializer.serialize(mf));
-		try {
-			mf = parser.parse(output);
-			checkLaTeXRender(mf);
-		} catch (ParseException e) {
-			Assert.assertNull(e);
-		}
+		checkLaTeXRender(parser, input);
 		
 	}
 
-	private static void checkReader(String input, String... output) {
-		MathFormula mf = null;
+	/**
+	 * Check that formula can be rendered without error
+	 * 
+	 * @param parser2
+	 *            parser
+	 * 
+	 * @param input
+	 *            input
+	 * @return formula
+	 * @throws com.himamis.retex.renderer.share.exception.ParseException
+	 *             when formula can't be parsed
+	 */
+	static MathFormula checkLaTeXRender(Parser parser2, String input)
+			throws com.himamis.retex.renderer.share.exception.ParseException {
 		try {
-			mf = parser.parse(input);
-			checkLaTeXRender(mf);
-		} catch (ParseException e) {
-			Assert.assertNull(e);
+			MathFormula mf = parser2.parse(input);
+			Assert.assertNotNull(mf);
+			String tex = TeXSerializer.serialize(mf.getRootComponent());
+			TeXFormula tf = new TeXFormula();
+			TeXParser tp = new TeXParser(tex, tf);
+			tp.parse();
+			return mf;
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
 		}
-		final MathFieldD mathField = new MathFieldD();
-		MathFieldInternal mfi = new MathFieldInternal(mathField);
-		mfi.setFormula(mf);
-		CursorController.firstField(mfi.getEditorState());
-		mfi.update();
-		final AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
-		ExpressionReader er = ScreenReader.getExpressionReader(app);
-		for (int i = 0; i < output.length; i++) {
-			String readerOutput = mfi.getEditorState().getDescription(er)
-					.replaceAll(" +", " ");
-			if (!readerOutput.matches(output[i])) {
-				Assert.assertEquals(output[i], readerOutput);
-			}
-			CursorController.nextCharacter(mfi.getEditorState());
-			mfi.update();
-		}
-	}
-
-	@Test
-	public void testReaderQuadratic() {
-		checkReader("1+x^2", "start of 1 plus x squared", "after 1 before plus",
-				"after plus before x",
-				"after x before superscript", "start of superscript before 2",
-				"end of superscript after 2", "end of 1 plus x squared");
-	}
-
-	@Test
-	public void testReaderPower() {
-		checkReader("x^3+x^4+1",
-				"start of x cubed plus x start superscript 4 end superscript plus 1",
-				"after x before superscript", "start of superscript before 3",
-				"end of superscript after 3", "after x cubed before plus",
-				"after plus before x",
-				"after x before superscript", "start of superscript before 4",
-				"end of superscript after 4",
-				"after x start superscript 4 end superscript before plus",
-				"after plus before 1",
-				"end of x cubed plus x start superscript 4 end superscript plus 1");
-	}
-
-	@Test
-	public void testIncompletePower() {
-		checkReader("x^3+",
-				"start of x cubed plus",
-				"after x before superscript", "start of superscript before 3",
-				"end of superscript after 3", "after x cubed before plus",
-				"end of x cubed plus");
-	}
-
-	@Test
-	public void testIncompleteFraction() {
-		checkReader("x^3/()",
-				"start of start fraction x cubed over end fraction",
-				"start of numerator before x", "after x before superscript",
-				"start of superscript before 3", "end of superscript after 3",
-				"end of numerator after x cubed",
-				"empty denominator",
-				"end of start fraction x cubed over end fraction");
-	}
-
-	@Test
-	public void testIncompleteSqrt() {
-		checkReader("sqrt(x+)",
-				"start of start square root x plus end square root",
-				"start of square root before x", "after x before plus",
-				"end of square root after plus",
-				"end of start square root x plus end square root");
-	}
-
-	@Test
-	public void testReaderSqrt() {
-		checkReader("1+sqrt(x^2+2x+1/x+33)",
-				"start of 1 plus start square root x squared plus 2 times x plus start fraction 1 over x end fraction plus 33 end square root",
-				"after 1 before plus",
-				"after plus before square root",
-				"start of square root before x( squared)?",
-				"after x before superscript",
-				"start of superscript before 2", "end of superscript after 2",
-				"after x squared before plus",
-				"after plus before 2( times )?x",
-				"after 2 before x",
-				"after 2( times )?x before plus", "after plus before fraction",
-				"start of numerator before 1", "end of numerator after 1",
-				"start of denominator before x", "end of denominator after x",
-				"after fraction before plus", "after plus before 33",
-				"after 3 before 3", "end of square root after 33",
-				"end of 1 plus start square root x squared plus 2 times x plus start fraction 1 over x end fraction plus 33 end square root");
-	}
-
-	private static void checkLaTeXRender(MathFormula mf) {
-		String tex = TeXSerializer.serialize(mf.getRootComponent());
-		TeXFormula tf = new TeXFormula();
-		TeXParser tp = new TeXParser(tex, tf);
-		tp.parse();
-
+		return null;
 	}
 
 }

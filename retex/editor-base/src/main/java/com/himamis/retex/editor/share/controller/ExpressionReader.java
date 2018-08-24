@@ -12,4 +12,6 @@ public interface ExpressionReader {
 
 	String squareRoot(String arg);
 
+	String nroot(String radicand, String index);
+
 }

@@ -47,6 +47,12 @@ public class ScreenReaderSerializer {
 				case SUPERSCRIPT:
 					return er.power("", fullDescription(er,
 							((MathFunction) expr).getArgument(0)));
+				case NROOT:
+					return er.nroot(
+							fullDescription(er,
+									((MathFunction) expr).getArgument(1)),
+							fullDescription(er,
+									((MathFunction) expr).getArgument(0)));
 				default:
 					break;
 				}
