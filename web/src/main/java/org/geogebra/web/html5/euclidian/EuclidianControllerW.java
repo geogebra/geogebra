@@ -78,6 +78,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private MouseTouchGestureControllerW mtg;
 	private FlowPanel textPanel;
+	private MathFieldW textMathField;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -496,16 +497,15 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		Canvas canvas = Canvas.createIfSupported();
 		TextListener mfListener = new TextListener();
-		MathFieldW mf = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
-		mf.setScale(((AppW) app).getArticleElement().getScaleX());
-		mf.requestViewFocus();
-		mf.setEnabled(true);
+		textMathField = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
+		textMathField.setScale(((AppW) app).getArticleElement().getScaleX());
 	}
 
 	@Override
 	public void updateMathField(int x, int y) {
 		textPanel.getElement().getStyle().setTop(y, Unit.PX);
 		textPanel.getElement().getStyle().setLeft(x, Unit.PX);
+		textMathField.requestViewFocus();
 	}
 
 	private static class TextListener implements MathFieldListener {
