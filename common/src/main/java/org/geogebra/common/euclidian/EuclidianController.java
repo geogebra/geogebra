@@ -12251,7 +12251,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Calculate and draw united bounding box for a list of GeoElements
+	 * Calculate and set united bounding box for a list of GeoElements
 	 *
 	 * @param geos
 	 *            list of GeoElements
@@ -12261,24 +12261,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				maxX = Double.NEGATIVE_INFINITY,
 				maxY = Double.NEGATIVE_INFINITY;
 
-		for (int i = 0; i < geos.size(); i++) {
-			Drawable dr = ((Drawable) view.getDrawableFor(geos.get(i)));
-			GRectangle bounds = dr.getBounds();
+		for (GeoElement geo : geos) {
+			Drawable dr = ((Drawable) view.getDrawableFor(geo));
+			if (dr != null) {
+				GRectangle bounds = dr.getBounds();
 
-			double x = bounds.getX(), y = bounds.getY();
-			double w = bounds.getWidth(), h = bounds.getHeight();
-
-			if (x < minX) {
-				minX = x;
-			}
-			if ((x + w) > maxX) {
-				maxX = x + w;
-			}
-			if (y < minY) {
-				minY = y;
-			}
-			if ((y + h) > maxY) {
-				maxY = y + h;
+				if (bounds.getMinX() < minX) {
+					minX = bounds.getMinX();
+				}
+				if (bounds.getMaxX() > maxX) {
+					maxX = bounds.getMaxX();
+				}
+				if (bounds.getMinY() < minY) {
+					minY = bounds.getMinY();
+				}
+				if (bounds.getMaxY() > maxY) {
+					maxY = bounds.getMaxY();
+				}
 			}
 		}
 
