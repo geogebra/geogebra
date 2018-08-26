@@ -1450,10 +1450,10 @@ public class PredefMacros {
 		Object[] height = SpaceAtom.getLength(args[3]);
 		Object[] depth = SpaceAtom.getLength(args[4]);
 		if (height.length == 1 || (Double) height[1] == 0) {
-			height = new Object[] { Unit.NONE, 0 };
+			height = new Object[] { Unit.NONE, 0d };
 		}
 		if (depth.length == 1 || (Double) depth[1] == 0) {
-			depth = new Object[] { Unit.NONE, 0 };
+			depth = new Object[] { Unit.NONE, 0d };
 		}
 
 		return new RaiseAtom(new TeXFormula(tp, args[2]).root, (Unit) raise[0],
