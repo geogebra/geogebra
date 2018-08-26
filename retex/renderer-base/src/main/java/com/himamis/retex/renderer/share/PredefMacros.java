@@ -326,7 +326,7 @@ public class PredefMacros {
 		boolean rule = true;
 		Object[] ths = SpaceAtom.getLength(args[3]);
 		if (args[3] == null || args[3].length() == 0 || ths.length == 1) {
-			ths = new Object[] { 0.0, 0.0 };
+			ths = new Object[] { Unit.EM, 0.0 };
 			rule = false;
 		}
 
