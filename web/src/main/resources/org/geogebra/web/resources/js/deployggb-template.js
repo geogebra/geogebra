@@ -1209,7 +1209,7 @@ var GGBApplet = function() {
         } else {
             codebase = "https://cdn.geogebra.org/apps/latest/";
         }
-        
+
         for(var key in modules){
             if (html5CodebaseVersion.slice(modules[key].length*-1) === modules[key] ||
                 html5CodebaseVersion.slice((modules[key].length+1)*-1) === modules[key]+"/") {
@@ -1219,8 +1219,9 @@ var GGBApplet = function() {
         }
 
         // Decide if web, websimple or web3d should be used
-        if (!GGBAppletUtils.isFlexibleWorksheetEditor() && hasWebSimple && !views.is3D && !views.AV && !views.SV && !views.CV && !views.EV2 && !views.CP && !views.PC && !views.DA && !views.FI && !views.PV &&
-            !valBoolean(parameters.showToolBar) && !valBoolean(parameters.showMenuBar) && !valBoolean(parameters.showAlgebraInput) && !valBoolean(parameters.enableRightClick)) {
+        if (!GGBAppletUtils.isFlexibleWorksheetEditor() && hasWebSimple && !views.is3D && !views.AV && !views.SV && !views.CV && !views.EV2 && !views.CP && !views.PC && !views.DA && !views.FI && !views.PV
+            && !valBoolean(parameters.showToolBar) && !valBoolean(parameters.showMenuBar) && !valBoolean(parameters.showAlgebraInput)
+            && !valBoolean(parameters.enableRightClick) && (!parameters.appName || parameters.appName == "classic")) {
             codebase += 'webSimple/';
         } else {
             codebase += 'web3d/';
