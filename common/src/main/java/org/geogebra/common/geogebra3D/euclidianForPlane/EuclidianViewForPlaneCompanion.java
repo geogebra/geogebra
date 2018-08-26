@@ -394,7 +394,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		case LIST:
 			return geo.isVisibleInViewForPlane();
 		case FUNCTION:
-			return !((GeoFunction) geo).isBooleanFunction();
+			return !((GeoFunction) geo).isBooleanFunction()
+					&& geo.isVisibleInViewForPlane();
 		case ANGLE:
 			if (geo.isIndependent()) { // no slider in view for plane (for now)
 				return false;
