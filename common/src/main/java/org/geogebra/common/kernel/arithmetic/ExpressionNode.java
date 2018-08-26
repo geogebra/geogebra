@@ -3108,7 +3108,7 @@ public class ExpressionNode extends ValidExpression
 		case MINUS:
 			return left.evaluateDouble() - right.evaluateDouble();
 		case MULTIPLY:
-			return left.evaluateDouble() * right.evaluateDouble();
+			return evaluateMultiplyDouble();
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
 		case POWER:
@@ -3119,14 +3119,20 @@ public class ExpressionNode extends ValidExpression
 			return Math.cos(left.evaluateDouble());
 		case SQRT:
 			return Math.sqrt(left.evaluateDouble());
-		case ABS:
-			return Math.abs(left.evaluateDouble());
 		default:
 			break;
 		}
 		// TODO: evaluate basic operations here, but make sure errors are thrown
 		// when necessary
 		return super.evaluateDouble();
+	}
+
+	private double evaluateMultiplyDouble() {
+		double lt = left.evaluateDouble();
+		if (!Double.isNaN(lt)) {
+			lt *= right.evaluateDouble();
+		}
+		return !Double.isNaN(lt) ? lt : super.evaluateDouble();
 	}
 
 	private double evaluatePowerDouble() {
