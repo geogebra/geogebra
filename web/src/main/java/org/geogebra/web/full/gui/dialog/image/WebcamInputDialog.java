@@ -59,11 +59,11 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		buttonPanel.setStyleName("DialogButtonPanel");
 		buttonPanel.add(takePictureBtn);
 		buttonPanel.add(closeBtn);
-
+		// build content
 		add(mainPanel);
 		mainPanel.add(inputPanel);
 		mainPanel.add(buttonPanel);
-
+		// style of dialog
 		addStyleName("GeoGebraPopup");
 		addStyleName("camera");
 		setGlassEnabled(true);

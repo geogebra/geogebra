@@ -85,7 +85,6 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		if (dialogType != DialogType.PERMISSION_REQUEST) {
 			dismissBtn.setText(loc.getMenu("dismiss"));
 		}
-
 		switch (dialogType) {
 		case PERMISSION_REQUEST:
 			caption = loc.getMenu("Webcam.Request");
@@ -106,7 +105,6 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		}
 		text.setText(message);
 		getCaption().setText(caption);
-
 		if (message.length() < 80) {
 			addStyleName("narrowDialog");
 		}

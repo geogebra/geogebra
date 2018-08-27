@@ -1139,9 +1139,9 @@ $duration: 0.2s;
 	}
 }
 
-/*****************
-*   WEBCAM DIALOG
-******************/
+/****************************************************
+*   WEBCAM DIALOGS: permission dialog + camera dialog
+*****************************************************/
 	.mowPermissionDialog{
 		width: calc(100% - 80px);
    		min-width: 250px;
@@ -1157,16 +1157,16 @@ $duration: 0.2s;
 		button {
    			color: $mebis-teal-dark !important;	
    		}
-	}
-	.mowPermissionDialog.noButtons {
-		.gwt-Label{
-			padding-bottom: 32px;
+   		&.narrowDialog {
+			max-width: 376px; // 400px - (8px + 16px) padding
+		}
+		&.noButtons {
+			.gwt-Label{
+				padding-bottom: 32px;
+			}
 		}
 	}
-	.mowPermissionDialog.narrowDialog {
-		max-width: 376px; // 400px - (8px + 16px) padding
-	}
-	
+
 	.MaterialDialogBox.camera {
 		.mowCameraSimplePanel{
 			margin-right: 16px;
