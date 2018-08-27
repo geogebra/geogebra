@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.AfterClass;
@@ -28,7 +27,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class ArbitraryConstIntegrationTest {
 
-	static public boolean silent = false;
 	static GeoGebraCasInterface cas;
 	static Kernel kernel;
 	static AppDNoGui app;
@@ -41,10 +39,6 @@ public class ArbitraryConstIntegrationTest {
 	@BeforeClass
 	public static void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
-
-		if (silent) {
-			Log.setLogger(null);
-		}
 
 		// Set language to something else than English to test automatic
 		// translation.
@@ -65,9 +59,7 @@ public class ArbitraryConstIntegrationTest {
 	 */
 	@AfterClass
 	public static void handleLogs() {
-		if (!silent) {
-			logger.handleLogs();
-		}
+		logger.handleLogs();
 	}
 
 	/**
@@ -101,15 +93,7 @@ public class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = "";
-			StackTraceElement[] st = t.getStackTrace();
-
-			for (int i = 0; i < 10 && i < st.length; i++) {
-				StackTraceElement stElement = st[i];
-				sts += stElement.getClassName() + ":"
-						+ stElement.getMethodName() + stElement.getLineNumber()
-						+ "\n";
-			}
+			String sts = stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -122,55 +106,69 @@ public class ArbitraryConstIntegrationTest {
 	// @Rule
 	// public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
 
+	private static String stacktrace(Throwable t) {
+		StringBuilder sts = new StringBuilder();
+		StackTraceElement[] st = t.getStackTrace();
+
+		for (int i = 0; i < 10 && i < st.length; i++) {
+			StackTraceElement stElement = st[i];
+			sts.append(stElement.getClassName()).append(":")
+					.append(stElement.getMethodName())
+					.append(stElement.getLineNumber()).append("\n");
+		}
+		;
+		return sts.toString();
+	}
+
 	@Test
-	public void SolveODE_0() {
+	public void solveODE_0() {
 		ta("SolveODE[y'=7y^2x^3]", "y = 4 / (4 * c_1 - 7 * x^(4))");
 	}
 
 	@Test
-	public void SolveODE_1() {
+	public void solveODE_1() {
 		ta("SolveODE[y''-5y'+6y=0]", "y = c_1 * " + Unicode.EULER_STRING
 				+ "^(3 * x) + c_2 * " + Unicode.EULER_STRING + "^(2 * x)");
 	}
 
 	@Test
-	public void SolveODE_2() {
+	public void solveODE_2() {
 		ta("SolveODE[y'=5y-3]",
 				"y = c_1 * " + Unicode.EULER_STRING + "^(5*x) + 3 / 5");
 	}
 
 	@Test
-	public void SolveODE_3() {
+	public void solveODE_3() {
 		ta("SolveODE[y'+y=10]",
 				"y = c_1 * " + Unicode.EULER_STRING + "^(-x) + 10");
 	}
 
 	@Test
-	public void SolveODE_4() {
+	public void solveODE_4() {
 		ta("SolveODE[y' = (3 - y) / 2]",
 				"y = c_1 * " + Unicode.EULER_STRING + "^((-x)/ 2) + 3");
 	}
 
 	@Test
-	public void SolveODE_5() {
+	public void solveODE_5() {
 		ta("SolveODE[y' = -2 + y]",
 				"y = c_1 * " + Unicode.EULER_STRING + "^(x) + 2");
 	}
 
 	@Test
-	public void SolveODE_6() {
+	public void solveODE_6() {
 		ta("SolveODE[y' = y(y - 2)]",
 				"y = (-2) / (c_1 *" + Unicode.EULER_STRING + "^(2*x) - 1)");
 	}
 
 	@Test
-	public void SolveODE_7() {
+	public void solveODE_7() {
 		ta("SolveODE[y''=y]", "y = c_1 *" + Unicode.EULER_STRING
 				+ "^(x) + c_2 *" + Unicode.EULER_STRING + "^(-x)");
 	}
 
 	@Test
-	public void SolveODE_8() {
+	public void solveODE_8() {
 		ta("SolveODE[2y''+y'-y=0]", "y = c_1 *" + Unicode.EULER_STRING
 				+ "^(-x) + c_2 *" + Unicode.EULER_STRING + "^(x/2)",
 				"y = c_1 *" + Unicode.EULER_STRING + "^(x / 2) + c_2 *"
@@ -178,20 +176,20 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void SolveODE_9() {
+	public void solveODE_9() {
 		ta("SolveODE[y''-5y=0]",
 				"y = c_1 *" + Unicode.EULER_STRING + "^(sqrt(5) * x) + c_2 *"
 						+ Unicode.EULER_STRING + "^(-sqrt(5) * x)");
 	}
 
 	@Test
-	public void SolveODE_10() {
+	public void solveODE_10() {
 		ta("SolveODE[2y''+3y'=0]",
 				"y = c_1 *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_2");
 	}
 
 	@Test
-	public void SolveODE_11() {
+	public void solveODE_11() {
 		ta("SolveODE[y''+2y' + 101y = 0]",
 				"y=c_1 * cos(10 * x) *" + Unicode.EULER_STRING
 						+ "^(-x) + c_2 * " + Unicode.EULER_STRING
@@ -199,32 +197,32 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void SolveODE_12() {
+	public void solveODE_12() {
 		ta("SolveODE[y'' + 4y' + 4y = 0]",
 				"y=c_1 * x * " + Unicode.EULER_STRING + "^(-2 * x) + c_2 * "
 						+ Unicode.EULER_STRING + "^(-2 * x)");
 	}
 
 	@Test
-	public void SolveODE_13() {
+	public void solveODE_13() {
 		ta("SolveODE[y''=2y]",
 				"y = c_1 * " + Unicode.EULER_STRING + "^(sqrt(2) * x) + c_2 * "
 						+ Unicode.EULER_STRING + "^(-sqrt(2) * x)");
 	}
 
 	@Test
-	public void Integral_1() {
+	public void integral_1() {
 		ta("Integral[(x+1)/(x+2*sqrt(x)-3)]",
 				"15 * log(sqrt(x) + 3) + log(abs(sqrt(x) - 1)) + x - 4*sqrt(x) + c_1");
 	}
 
 	@Test
-	public void Integral_2() {
+	public void integral_2() {
 		ta("Integral[2sin(x)cos(x)]", "sin(x)^(2) + c_1");
 	}
 
 	@Test
-	public void Integral_3() {
+	public void integral_3() {
 		ta("Integral[ " + Unicode.EULER_STRING + "^x/(1+ "
 				+ Unicode.EULER_STRING + "^(2x))]",
 				"arctan(" + Unicode.EULER_STRING + "^(x)) + c_1",
@@ -233,7 +231,7 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void Integral_4() {
+	public void integral_4() {
 		ta("Integral[sin(x)(4*cos(x)) " + Unicode.EULER_STRING
 				+ "^(2*cos(x)+1)]",
 				"-(2*cos(x) - 1) * " + Unicode.EULER_STRING
@@ -241,23 +239,23 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void Integral_5() {
+	public void integral_5() {
 		ta("Integral[x * cos(a * x)]",
 				"cos(a * x) / a^(2) + x * sin(a * x) / a + c_1");
 	}
 
 	@Test
-	public void Integral_6() {
+	public void integral_6() {
 		ta("Integral[ln(x)/x]", "1 / 2 * log(x)^(2) + c_1");
 	}
 
 	@Test
-	public void Integral_7() {
+	public void integral_7() {
 		ta("Integral[cos(x)^2 sin(x)]", "(-1) / 3 * cos(x)^(3) + c_1");
 	}
 
 	@Test
-	public void Integral_8() {
+	public void integral_8() {
 		ta("Integral[(x^5+x^4+2 x^3+2 x^2+5x+9)/(x^2+1)^3]",
 				"1 / 4 * (12*x^(3) + 20*x - 4) / (x^(2) + 1)^(2) + 4*arctan(x) + 1 / 2 * log(x^(2) + 1) + c_1",
 				"1 / 4 * (12*x^(3) + 20*x - 4) / (x^(2) + 1)^(2) + 4*tan"
@@ -266,13 +264,13 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void Integral_9() {
+	public void integral_9() {
 		ta("Integral[x/(1-sqrt(2+x))]",
 				"-2 * (1 / 3 * sqrt(x + 2) * (x + 2) + 1 / 2 * (x + 2) - sqrt(x + 2) - log(abs(sqrt(x + 2) - 1))) + c_1");
 	}
 
 	@Test
-	public void Integral_10() {
+	public void integral_10() {
 		ta("Integral[1 / sqrt(x - x^2)]", "arcsin(2*x - 1) + c_1",
 				"sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING
 						+ "(2*x - 1) + c_1");
@@ -304,15 +302,7 @@ public class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = "";
-			StackTraceElement[] st = t.getStackTrace();
-
-			for (int i = 0; i < 10 && i < st.length; i++) {
-				StackTraceElement stElement = st[i];
-				sts += stElement.getClassName() + ":"
-						+ stElement.getMethodName() + stElement.getLineNumber()
-						+ "\n";
-			}
+			String sts = stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -322,13 +312,13 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void ArbConst_Integration_1() {
+	public void arbConst_Integration_1() {
 		casCellupdate("Integral[x]", "SolveODE[2y''+3y'=0]",
 				"y = c_1 *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_2");
 	}
 
 	@Test
-	public void ArbConst_Integration_2() {
+	public void arbConst_Integration_2() {
 		casCellupdate("SolveODE[y''+9y=0]", "SolveODE[y''+4y=0]",
 				"y = c_1 * cos(2 * x) + c_2 * sin(2 * x)");
 	}
@@ -378,16 +368,7 @@ public class ArbitraryConstIntegrationTest {
 			result1 = getOutput(f1);
 
 		} catch (Throwable t) {
-			String sts = "";
-			StackTraceElement[] st = t.getStackTrace();
-
-			for (int i = 0; i < 10 && i < st.length; i++) {
-				StackTraceElement stElement = st[i];
-				sts += stElement.getClassName() + ":"
-						+ stElement.getMethodName() + stElement.getLineNumber()
-						+ "\n";
-			}
-
+			String sts = stacktrace(t);
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -430,7 +411,7 @@ public class ArbitraryConstIntegrationTest {
 	 * After redefine 1: c_1 and c_4 in first
 	 */
 	@Test
-	public void ArbConst_Integration_3() {
+	public void arbConst_Integration_3() {
 		casCellupdate2("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
 				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_4 * sin(3 * x)",
 				"y = c_2 * cos(2 * x) + c_3 * sin(2 * x)");
@@ -484,16 +465,7 @@ public class ArbitraryConstIntegrationTest {
 			result2 = getOutput(f2);
 
 		} catch (Throwable t) {
-			String sts = "";
-			StackTraceElement[] st = t.getStackTrace();
-
-			for (int i = 0; i < 10 && i < st.length; i++) {
-				StackTraceElement stElement = st[i];
-				sts += stElement.getClassName() + ":"
-						+ stElement.getMethodName() + stElement.getLineNumber()
-						+ "\n";
-			}
-
+			String sts = stacktrace(t);
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -510,14 +482,14 @@ public class ArbitraryConstIntegrationTest {
 	 * 
 	 * Second cell: c_3 before redefine, c_3 and c_4 after
 	 */
-	public void ArbConst_Integration_4() {
+	public void arbConst_Integration_4() {
 		casCellupdate3("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
 				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_2 * sin(3 * x)",
 				"y = c_3 * cos(2 * x) + c_4 * sin(2 * x)");
 	}
 
 	@Test
-	public void ConstMulti() {
+	public void constMulti() {
 		ta("Simplify[SolveODE[ y*ln(2)]]", "y = c_1 * 2^(x)");
 		Assert.assertEquals(1, app.getGgbApi().getValue("c_1"), 0.01);
 		ta("SolveODE[ x]", "y = c_2 + 1 / 2 * x^(2)");
@@ -525,7 +497,7 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
-	public void ReloadTest() {
+	public void reloadTest() {
 		ta("f(x):=sin(x)", "sin(x)");
 		ta("F(x):=Integral[sin(x)]", "-cos(x) + c_1");
 		for (int i = 0; i < 2; i++) {

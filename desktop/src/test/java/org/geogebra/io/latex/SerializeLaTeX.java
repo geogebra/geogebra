@@ -2,7 +2,7 @@ package org.geogebra.io.latex;
 
 import java.text.Normalizer;
 
-import org.geogebra.commands.CommandsTest;
+import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.junit.Assert;
@@ -52,7 +52,6 @@ public class SerializeLaTeX {
 				"1" + Unicode.PARALLEL + "2");
 		checkCannon("1 = 2", "1=2");
 		checkCannon("(1 * 2)", "(1*2)");
-
 	}
 
 	@Test
@@ -62,7 +61,6 @@ public class SerializeLaTeX {
 		checkCannon("f(x) = sqrt(x)", "f(x)= sqrt(x)");
 		checkCannon("nroot(x + 1,3)", "nroot(x+1,3)");
 		checkCannon("f(x) = nroot(x,3)", "f(x)= nroot(x,3)");
-
 	}
 
 	@Test
@@ -93,7 +91,6 @@ public class SerializeLaTeX {
 		checkCannon(Unicode.EULER_STRING + Unicode.SUPERSCRIPT_MINUS
 				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0,
 				Unicode.EULER_STRING + "^(-10)");
-
 	}
 
 	@Test
@@ -102,7 +99,6 @@ public class SerializeLaTeX {
 		checkCannon("ceil(x)", "ceil(x)");
 		checkCannon(Unicode.LFLOOR + "x" + Unicode.RFLOOR, "floor(x)");
 		checkCannon(Unicode.LCEIL + "x" + Unicode.RCEIL, "ceil(x)");
-
 	}
 
 	@Test
@@ -119,7 +115,6 @@ public class SerializeLaTeX {
 				+ Unicode.SUPERSCRIPT_3, "1+x^(-23)");
 		checkCannon("e^x*sin(x)", "e^(x)*sin(x)");
 		checkCannon("e^(-10/x)*sin(x)", "e^(-(10)/(x))*sin(x)");
-
 	}
 
 	@Test
@@ -168,7 +163,6 @@ public class SerializeLaTeX {
 		checkCannon("{x, 1}", "{x,1}");
 		checkCannon("{x ,1}", "{x,1}");
 		checkCannon("{x , 1}", "{x,1}");
-
 	}
 
 	@Test
@@ -339,13 +333,10 @@ public class SerializeLaTeX {
 		testEditor("\u3147\u3157\u314F", "\uC640");
 		// ... and same for tail
 		testEditor("\u3137\u314F\u3139\u3131", "\uB2ED");
-
-
 	}
 
 	@Test
 	public void testKoreanNormalization() {
-		
 		testKorean("\uD4DB");
 
 		// Hangul syllables range
@@ -363,15 +354,11 @@ public class SerializeLaTeX {
 					// System.err.println(lead + " " + vowel + " " + tail);
 					testKorean2(lead + "" + vowel + "" + tail);
 				}
-
 			}
-
 		}
-
 	}
 
 	private void testKorean2(String s) {
-
 		String s1 = Normalizer.normalize(s, Normalizer.Form.NFKC);
 		String s2 = Korean.unflattenKorean(s).toString();
 
@@ -381,13 +368,12 @@ public class SerializeLaTeX {
 	private void testKorean(String s) {
 		Assert.assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD),
 				Korean.flattenKorean(s));
-
 	}
 
 	@Test
 	public void testEditorUnicode() {
-		testEditor(CommandsTest.unicode("x/sqrt(x^2+4)"),
-				CommandsTest.unicode("x/sqrt(x^2+4)"));
+		testEditor(AlgebraTest.unicode("x/sqrt(x^2+4)"),
+				AlgebraTest.unicode("x/sqrt(x^2+4)"));
 		testEditor("x/(" + Unicode.EULER_STRING + "^x+1)",
 				"x/(" + Unicode.EULER_STRING + "^x+1)");
 
@@ -413,7 +399,6 @@ public class SerializeLaTeX {
 		testEditor("x*|x*x", "x*abs(x*x)");
 		testEditor("x sqrt(x)", "x sqrt(x)");
 		testEditor("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
-
 	}
 
 	public void testEditor(String input, String output) {
@@ -426,7 +411,6 @@ public class SerializeLaTeX {
 
 		Assert.assertEquals(output,
 				GeoGebraSerializer.serialize(editorState.getRootComponent()));
-
 	}
 
 	private void checkLaTeX(String string, String string2) {
@@ -447,7 +431,6 @@ public class SerializeLaTeX {
 		Assert.assertEquals(mf.getRootComponent() + "", output,
 				serializer.serialize(mf));
 		checkLaTeXRender(parser, input);
-		
 	}
 
 	/**
