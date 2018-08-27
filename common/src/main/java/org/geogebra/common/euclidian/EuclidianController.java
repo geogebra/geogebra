@@ -147,6 +147,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -4247,10 +4248,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void messageListCreated(GeoList list) {
 		if (view.getAllowToolTips() != EuclidianStyleConstants.TOOLTIPS_OFF) {
-			String label = list.getLabel(StringTemplate.algebraTemplate);
-			String message = localization.getPlain("ListCreated", label);
-			view.setToolTipText(message);
+			showListCreated(list);
 		}
+	}
+
+	protected void showListCreated(GeoList list) {
+		String label = list.getLabel(StringTemplate.algebraTemplate);
+		String message = localization.getPlain("ListCreated", label);
+		view.setToolTipText(message);
 	}
 
 	protected void calcRWcoords() {
