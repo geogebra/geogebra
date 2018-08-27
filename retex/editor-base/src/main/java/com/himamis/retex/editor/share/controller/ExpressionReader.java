@@ -14,4 +14,6 @@ public interface ExpressionReader {
 
 	String nroot(String radicand, String index);
 
+	String inParentheses(String content);
+
 }

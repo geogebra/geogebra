@@ -63,6 +63,7 @@ public final class DrawText extends Drawable {
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
 	private TextController ctrl;
+
 	/**
 	 * Creates new DrawText
 	 * 
@@ -327,7 +328,10 @@ public final class DrawText extends Drawable {
 		return view.getApplication().has(Feature.MOW_TEXT_TOOL);
 	}
 
-	public void setEditMode(boolean b) {
-		((GeoText) geo).setEditMode(b);
+	/**
+	 * @param editMode whether to activate edit mode
+	 */
+	public void setEditMode(boolean editMode) {
+		((GeoText) geo).setEditMode(editMode);
 	}
 }

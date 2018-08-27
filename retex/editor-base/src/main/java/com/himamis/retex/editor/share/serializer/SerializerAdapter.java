@@ -104,7 +104,12 @@ public abstract class SerializerAdapter implements Serializer {
 
     abstract void serialize(MathSequence sequence, StringBuilder stringBuilder);
 
-    abstract void serialize(MathSequence sequence, StringBuilder stringBuilder, int from, int to);
+	public void serialize(MathSequence sequence, StringBuilder stringBuilder,
+			int from, int to) {
+		for (int i = from; i < to; i++) {
+			serialize(sequence.getArgument(i), stringBuilder);
+		}
+	}
 
     abstract void serialize(MathFunction function, StringBuilder stringBuilder);
 

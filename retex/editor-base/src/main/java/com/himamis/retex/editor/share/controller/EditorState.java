@@ -11,6 +11,7 @@ import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorState {
 
@@ -303,37 +304,40 @@ public class EditorState {
 		if (currentField.getParent() == null) {
 			if (prev == null) {
 				return er
-						.localize("start of %0",
+						.localize("start of formula %0",
 								ScreenReaderSerializer.fullDescription(er,
 										currentField))
 						.trim();
 			}
 			if (next == null) {
 				return er
-						.localize("end of %0",
+						.localize("end of formula %0",
 								ScreenReaderSerializer.fullDescription(er,
 										currentField))
 						.trim();
 			}
 		}
 		if (next == null && prev == null) {
-			return describeParent("empty %0", currentField.getParent(), er);
+			return describeParent(ExpRelation.EMPTY, currentField.getParent(),
+					er);
 		}
 		if (next == null) {
 			sb.append(
-					describeParent("end of %0", currentField.getParent(), er));
+					describeParent(ExpRelation.END_OF, currentField.getParent(),
+							er));
 			sb.append(" ");
 		}
 		if (prev != null) {
-			sb.append(er.localize("after %0", describePrev(prev, er)));
+			sb.append(describePrev(prev, er));
 		} else {
-			sb.append(describeParent("start of %0", currentField.getParent(),
+			sb.append(describeParent(ExpRelation.START_OF,
+					currentField.getParent(),
 					er));
 		}
 		sb.append(" ");
 
 		if (next != null) {
-			sb.append(er.localize("before %0", describeNext(next, er)));
+			sb.append(describeNext(next, er));
 		}
 		return sb.toString().trim();
 	}
@@ -341,11 +345,12 @@ public class EditorState {
 	private String describePrev(MathComponent parent, ExpressionReader er) {
 		if (parent instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) parent).getName()) {
-			return er.power(
+			return er.localize(ExpRelation.AFTER.toString(), er.power(
 					GeoGebraSerializer.serialize(currentField
 							.getArgument(currentField.indexOf(parent) - 1)),
 					GeoGebraSerializer
-							.serialize(((MathFunction) parent).getArgument(0)));
+							.serialize(
+									((MathFunction) parent).getArgument(0))));
 		}
 		if (parent instanceof MathCharacter) {
 			StringBuilder sb = new StringBuilder();
@@ -355,13 +360,15 @@ public class EditorState {
 			}
 			if (sb.length() > 0) {
 				try {
-					return er.mathExpression(sb.reverse().toString());
-				}catch(Exception e){
-					System.err.println(sb.reverse().toString());
+					return er.localize(ExpRelation.AFTER.toString(),
+							er.mathExpression(sb.reverse().toString()));
+				} catch (Exception e) {
+					FactoryProvider.getInstance()
+							.debug("Invalid: " + sb.reverse().toString());
 				}
 			}
 		}
-		return describe(parent, er);
+		return describe(ExpRelation.AFTER, parent, er);
 	}
 
 	private String describeNext(MathComponent parent, ExpressionReader er) {
@@ -372,51 +379,70 @@ public class EditorState {
 				i++;
 			}
 			if (sb.length() > 0) {
-				return er.mathExpression(sb.toString());
+				return er.localize(ExpRelation.BEFORE.toString(),
+						er.mathExpression(sb.toString()));
 			}
 		}
-		return describe(parent, er);
+		return describe(ExpRelation.BEFORE, parent, er);
 	}
 
-	private static String describe(MathComponent prev, ExpressionReader er) {
+	private static String describe(ExpRelation pattern, MathComponent prev,
+			ExpressionReader er) {
+		String name = describe(pattern, prev, -1);
+		if (name != null) {
+			return er.localize(pattern.toString(), name);
+		}
+		return er.localize(pattern.toString(),
+				ScreenReaderSerializer.fullDescription(er, prev));
+	}
+
+	private static String describe(ExpRelation pattern, MathComponent prev,
+			int index) {
 		if (prev instanceof MathFunction) {
+			System.err.println(pattern + ":" + index);
 			switch (((MathFunction) prev).getName()) {
 			case FRAC:
-				return "fraction";
+				return new String[] { "fraction", "numerator",
+						"denominator" }[index + 1];
+			case NROOT:
+				return new String[] { "root", "index", "radicand" }[index + 1];
 			case SQRT:
 				return "square root";
 			case SUPERSCRIPT:
 				return "superscript";
 			case ABS:
 				return "absolute value";
+			case APPLY:
+				if ((index == 1 && pattern == ExpRelation.START_OF)
+						|| (index == ((MathFunction) prev).size() - 1
+								&& pattern == ExpRelation.END_OF)) {
+					return "parentheses";
+				}
+				return index >= 0 ? "" : "function";
 			default:
 				return "function";
 			}
 		}
 		if (prev instanceof MathArray) {
-			return "parentheses";
+			return pattern == ExpRelation.BEFORE
+					|| pattern == ExpRelation.AFTER ? "parenthesis"
+							: "parentheses";
 		}
-		return ScreenReaderSerializer.fullDescription(er, prev);
+		return null;
 	}
 
-	private String describeParent(String pattern, MathContainer parent,
+	private String describeParent(ExpRelation pattern, MathContainer parent,
 			ExpressionReader er) {
-		if (parent instanceof MathFunction
-				&& Tag.FRAC == ((MathFunction) parent).getName()) {
-			return er.localize(pattern, parent.indexOf(currentField) == 0
-					? "numerator" : "denominator");
-		}
-		if (parent instanceof MathFunction
-				&& Tag.NROOT == ((MathFunction) parent).getName()) {
-			return er.localize(pattern, parent.indexOf(currentField) == 0
-					? "index" : "radicand");
-		}
-		if (parent instanceof MathFunction
-				&& Tag.APPLY == ((MathFunction) parent).getName()) {
-			return "";
+		if (parent instanceof MathFunction) {
+			String name = describe(pattern, parent,
+					parent.indexOf(currentField));
+			if (name != null && name.isEmpty()) {
+				return "";
+			}
+			return er.localize(pattern.toString(), name);
 		}
 
-		return er.localize(pattern, describe(parent, er));
+		return describe(pattern, parent, er);
 	}
 
 }

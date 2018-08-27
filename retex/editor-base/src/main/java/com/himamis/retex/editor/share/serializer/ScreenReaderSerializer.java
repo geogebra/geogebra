@@ -1,7 +1,9 @@
 package com.himamis.retex.editor.share.serializer;
 
 import com.himamis.retex.editor.share.controller.ExpressionReader;
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
@@ -25,13 +27,14 @@ public class ScreenReaderSerializer {
 			return er.mathExpression(ggb);
 		} catch (Exception e) {
 			if (expr instanceof MathSequence) {
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < ((MathSequence) expr).size(); i++) {
-					sb.append(fullDescription(er,
-							((MathSequence) expr).getArgument(i)));
-					sb.append(" ");
+				return describeContainer(expr, " ", er);
+			}
+			if (expr instanceof MathArray) {
+				String content = describeContainer(expr, " ", er);
+				if (!content.trim().isEmpty()) {
+					return er.inParentheses(content);
 				}
-				return sb.toString();
+				return er.localize("empty %0", "parentheses");
 			}
 			if (expr instanceof MathFunction) {
 				switch (((MathFunction) expr).getName()) {
@@ -57,8 +60,20 @@ public class ScreenReaderSerializer {
 					break;
 				}
 			}
-			return ggb.replace("+", "plus");
+			return ggb.replace("+", "plus").replace("-", "minus").replace("*",
+					"times");
 		}
+	}
+
+	private static String describeContainer(MathComponent expr,
+			String separator, ExpressionReader er) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < ((MathContainer) expr).size(); i++) {
+			sb.append(
+					fullDescription(er, ((MathContainer) expr).getArgument(i)));
+			sb.append(separator);
+		}
+		return sb.toString();
 	}
 
 }

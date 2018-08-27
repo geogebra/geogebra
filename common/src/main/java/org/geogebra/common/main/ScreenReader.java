@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.parser.GParser;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 
@@ -214,6 +215,9 @@ public class ScreenReader {
 
 			@Override
 			public String localize(String key, String... parameters) {
+				if (parameters.length > 0 && "".equals(parameters[0])) {
+					Log.printStacktrace("");
+				}
 				String out = key;
 				for (int i = 0; i < parameters.length; i++) {
 					out = out.replace("%" + i, parameters[i]);
@@ -252,6 +256,11 @@ public class ScreenReader {
 			@Override
 			public String nroot(String radicand, String index) {
 				return ScreenReader.nroot(radicand, index, loc);
+			}
+
+			@Override
+			public String inParentheses(String content) {
+				return ScreenReader.getLeftBracket() + content + ScreenReader.getRightBracket();
 			}
 		};
 	}

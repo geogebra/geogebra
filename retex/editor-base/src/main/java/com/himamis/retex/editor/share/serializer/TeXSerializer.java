@@ -140,14 +140,6 @@ public class TeXSerializer extends SerializerAdapter {
 	}
 
 	@Override
-	public void serialize(MathSequence sequence, StringBuilder stringBuilder,
-			int from, int to) {
-		for (int i = from; i < to; i++) {
-			serialize(sequence.getArgument(i), stringBuilder);
-		}
-	}
-
-	@Override
 	public void serialize(MathFunction function, StringBuilder stringBuilder) {
 		if (function == currentSelStart) {
 			stringBuilder.append(selection_start);
