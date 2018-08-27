@@ -59,7 +59,7 @@ public class CmdExportImage extends CmdScripting {
 		int height = -1;
 		double exportScale = Double.NaN;
 		// 1 unit = x cm
-		double scaleCM = Double.NaN;
+		double scaleCM = 1;
 		int view = 1;
 		boolean transparent = false;
 		// boolean copyToClipboard = true;
@@ -144,9 +144,11 @@ public class CmdExportImage extends CmdScripting {
 				break;
 			case "scale":
 				exportScale = value.evaluateDouble();
+				scaleCM = Double.NaN;
 				break;
 			case "scalecm":
 				scaleCM = value.evaluateDouble();
+				exportScale = Double.NaN;
 				break;
 			case "slider":
 				if (value instanceof GeoNumeric) {
@@ -225,11 +227,10 @@ public class CmdExportImage extends CmdScripting {
 			// Log.debug("widthRW= " + widthRW);
 			// Log.debug("pixelWidth= " + pixelWidth);
 			exportScale = pixelWidth / viewWidth;
-			System.out
-					.println("\nEXPORT WIDTH:" + Math.round(dpcm) + ","
-							+ viewWidth
-							+ "," + widthRW
-							+ "," + scaleCM + "," + pixelWidth);
+			// Log.debug("\nEXPORT WIDTH:" + Math.round(dpcm) + ","
+			// + viewWidth
+			// + "," + widthRW
+			// + "," + scaleCM + "," + pixelWidth);
 
 		}
 
