@@ -72,6 +72,12 @@ public class FormatObj extends Format {
 	}
 
 	@Override
+	public void getVertices(StringBuilder sb, double x, double y, double z,
+			double thickness) {
+		getVertices(sb, x, y, z);
+	}
+
+	@Override
 	public void getVerticesSeparator(StringBuilder sb) {
 		appendNewline(sb);
 	}
@@ -87,7 +93,7 @@ public class FormatObj extends Format {
 	}
 
 	@Override
-	public void getNormal(StringBuilder sb, double x, double y, double z) {
+	public void getNormal(StringBuilder sb, double x, double y, double z, boolean withThickness) {
 		sb.append("vn ");
 		sb.append(x);
 		sb.append(" ");
@@ -112,7 +118,7 @@ public class FormatObj extends Format {
 	}
 
 	@Override
-	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
+	public boolean getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
 		if (normal < 0) {
 			sb.append("f ");
 			appendIndex(sb, v1);
@@ -140,7 +146,7 @@ public class FormatObj extends Format {
 			sb.append("//");
 			appendIndex(sb, normal);
 		}
-
+		return true; // value ignored
 	}
 
 	private void appendIndex(StringBuilder sb, int i) {

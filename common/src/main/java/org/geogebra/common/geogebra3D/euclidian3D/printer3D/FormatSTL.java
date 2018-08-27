@@ -16,6 +16,7 @@ public class FormatSTL extends Format {
 	private Coords tmpCoords1 = new Coords(3);
 	private Coords tmpCoords2 = new Coords(3);
 	private Coords tmpCoords3 = new Coords(3);
+	private Coords n = new Coords(3);
 
 	private double scale;
 
@@ -64,6 +65,23 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
+	public void getVertices(StringBuilder sb, double x, double y, double z,
+			double thickness) {
+		int index = verticesList.getLength();
+		double nx = normalsList.get(index);
+		double ny = normalsList.get(index + 1);
+		double nz = normalsList.get(index + 2);
+
+		verticesList.addValue((x + nx * thickness) * scale);
+		verticesList.addValue((y + ny * thickness) * scale);
+		verticesList.addValue((z + nz * thickness) * scale);
+
+		verticesList.addValue((x - nx * thickness) * scale);
+		verticesList.addValue((y - ny * thickness) * scale);
+		verticesList.addValue((z - nz * thickness) * scale);
+	}
+
+	@Override
 	public void getVerticesSeparator(StringBuilder sb) {
 		// nothing to do
 	}
@@ -79,7 +97,7 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
+	public boolean getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
 		double v1x = verticesList.get(3 * v1);
 		double v1y = verticesList.get(3 * v1 + 1);
 		double v1z = verticesList.get(3 * v1 + 2);
@@ -90,44 +108,43 @@ public class FormatSTL extends Format {
 		double v3y = verticesList.get(3 * v3 + 1);
 		double v3z = verticesList.get(3 * v3 + 2);
 
+		// calculate normal from vertices
+		tmpCoords1.set(v1x, v1y, v1z);
+		tmpCoords2.set(v2x, v2y, v2z);
+		tmpCoords3.set(v3x, v3y, v3z);
+		tmpCoords2.setSub(tmpCoords2, tmpCoords1);
+		tmpCoords3.setSub(tmpCoords3, tmpCoords1);
+		tmpCoords1.setCrossProduct(tmpCoords2, tmpCoords3);
+		tmpCoords1.normalize();
+
 		// out normal
-		double nx, ny, nz;
 		switch (normal) {
 		case ExportToPrinter3D.NORMAL_SAME_INDEX:
 			// use first normal
-			nx = normalsList.get(3 * v1);
-			ny = normalsList.get(3 * v1 + 1);
-			nz = normalsList.get(3 * v1 + 2);
+			n.setX(normalsList.get(3 * v1));
+			n.setY(normalsList.get(3 * v1 + 1));
+			n.setZ(normalsList.get(3 * v1 + 2));
 			break;
 		case ExportToPrinter3D.NORMAL_NOT_SET:
-			// calculate normal from vertices
-			tmpCoords1.set(v1x, v1y, v1z);
-			tmpCoords2.set(v2x, v2y, v2z);
-			tmpCoords3.set(v3x, v3y, v3z);
-			tmpCoords2.setSub(tmpCoords2, tmpCoords1);
-			tmpCoords3.setSub(tmpCoords3, tmpCoords1);
-			tmpCoords1.setCrossProduct(tmpCoords2, tmpCoords3);
-			tmpCoords1.normalize();
-			nx = tmpCoords1.getX();
-			ny = tmpCoords1.getY();
-			nz = tmpCoords1.getZ();
+			// use normals from vertices
+			n.set3(tmpCoords1);
 			break;
 		default:
 			// use normal index
-			nx = normalsList.get(3 * normal);
-			ny = normalsList.get(3 * normal + 1);
-			nz = normalsList.get(3 * normal + 2);
+			n.setX(normalsList.get(3 * normal));
+			n.setY(normalsList.get(3 * normal + 1));
+			n.setZ(normalsList.get(3 * normal + 2));
 			break;
 		}
 		appendNewline(sb);
 		sb.append("facet normal ");
-		appendValue(sb, nx);
+		appendValue(sb, n.getX());
 		sb.append(" ");
-		appendValue(sb, ny);
+		appendValue(sb, n.getY());
 		sb.append(" ");
-		appendValue(sb, nz);
+		appendValue(sb, n.getZ());
 
-		// vertices
+		// vertex 1
 		appendNewline(sb);
 		sb.append("    outer loop");
 		appendNewline(sb);
@@ -138,25 +155,49 @@ public class FormatSTL extends Format {
 		sb.append(" ");
 		appendValue(sb, v1z);
 		appendNewline(sb);
-		sb.append("        vertex ");
-		appendValue(sb, v2x);
-		sb.append(" ");
-		appendValue(sb, v2y);
-		sb.append(" ");
-		appendValue(sb, v2z);
-		appendNewline(sb);
-		sb.append("        vertex ");
-		appendValue(sb, v3x);
-		sb.append(" ");
-		appendValue(sb, v3y);
-		sb.append(" ");
-		appendValue(sb, v3z);
-		appendNewline(sb);
+		boolean notReversed = normal == ExportToPrinter3D.NORMAL_NOT_SET
+				|| tmpCoords1.dotproduct(n) > 0;
+		if (notReversed) {
+			// vertex 2
+			sb.append("        vertex ");
+			appendValue(sb, v2x);
+			sb.append(" ");
+			appendValue(sb, v2y);
+			sb.append(" ");
+			appendValue(sb, v2z);
+			appendNewline(sb);
+			// vertex 3
+			sb.append("        vertex ");
+			appendValue(sb, v3x);
+			sb.append(" ");
+			appendValue(sb, v3y);
+			sb.append(" ");
+			appendValue(sb, v3z);
+			appendNewline(sb);
+		} else {
+			// vertex 3
+			sb.append("        vertex ");
+			appendValue(sb, v3x);
+			sb.append(" ");
+			appendValue(sb, v3y);
+			sb.append(" ");
+			appendValue(sb, v3z);
+			appendNewline(sb);
+			// vertex 2
+			sb.append("        vertex ");
+			appendValue(sb, v2x);
+			sb.append(" ");
+			appendValue(sb, v2y);
+			sb.append(" ");
+			appendValue(sb, v2z);
+			appendNewline(sb);
+		}
 		sb.append("    endloop");
 
 		// end
 		appendNewline(sb);
 		sb.append("endfacet");
+		return notReversed;
 	}
 
 	@Override
@@ -175,10 +216,15 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public void getNormal(StringBuilder sb, double x, double y, double z) {
+	public void getNormal(StringBuilder sb, double x, double y, double z, boolean withThickness) {
 		normalsList.addValue(x);
 		normalsList.addValue(y);
 		normalsList.addValue(z);
+		if (withThickness) {
+			normalsList.addValue(-x);
+			normalsList.addValue(-y);
+			normalsList.addValue(-z);
+		}
 	}
 
 	@Override

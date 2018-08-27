@@ -109,7 +109,22 @@ public class DrawConic3D extends Drawable3DCurves
 				exportToPrinter3D.exportSurface(this);
 			} else {
 				if (getGeoElement().getLineThickness() > 0) {
-					exportToPrinter3D.export(this, Type.CURVE_CLOSED);
+					Type exportType;
+					switch (conic.getType()) {
+					case GeoConicNDConstants.CONIC_CIRCLE:
+					case GeoConicNDConstants.CONIC_ELLIPSE:
+						exportType = Type.CURVE_CLOSED;
+						break;
+					case GeoConicNDConstants.CONIC_HYPERBOLA:
+					case GeoConicNDConstants.CONIC_PARABOLA:
+					case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+					case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+					case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+					default:
+						exportType = Type.CURVE;
+						break;
+					}
+					exportToPrinter3D.export(this, exportType);
 				}
 			}
 		}

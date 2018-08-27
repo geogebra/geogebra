@@ -1,9 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
@@ -67,6 +69,9 @@ public class ExportToPrinter3D {
 	 */
 	public final static String NEWLINE = "\n";
 
+	private TreeSet<SegmentIndex> segmentsForThickness;
+	private SegmentIndex reverseSegment;
+
 	/**
 	 * 
 	 * interface for geometries methods used for export
@@ -120,6 +125,57 @@ public class ExportToPrinter3D {
 		 * @return geometry GL type
 		 */
 		Manager.Type getType();
+
+	}
+
+	private class SegmentIndex implements Comparable<SegmentIndex> {
+		private int v1, v2;
+
+		public SegmentIndex() {
+			set(-1, -1);
+		}
+
+		public SegmentIndex(int v1, int v2) {
+			set(v1, v2);
+		}
+
+		public void set(int v1, int v2) {
+			this.v1 = v1;
+			this.v2 = v2;
+		}
+
+		public void setReverse(int v1, int v2) {
+			set(v2, v1);
+		}
+
+		public int getV1() {
+			return v1;
+		}
+
+		public int getV2() {
+			return v2;
+		}
+
+		public int compareTo(SegmentIndex o) {
+			if (v1 < o.v1) {
+				return -1;
+			}
+			if (v1 > o.v1) {
+				return 1;
+			}
+			if (v2 < o.v2) {
+				return -1;
+			}
+			if (v2 > o.v2) {
+				return 1;
+			}
+			return 0;
+		}
+
+		@Override
+		public String toString() {
+			return v1 + "-" + v2;
+		}
 
 	}
 
@@ -223,7 +279,7 @@ public class ExportToPrinter3D {
 				if (type == Type.CURVE && format.needsClosedObjects()) {
 					// face for start
 					for (int i = 1; i < 7; i++) {
-						getFaceWithOffset(notFirst, 0, 0, i, i + 1);
+						getFace(notFirst, 0, 0, i, i + 1, NORMAL_NOT_SET);
 					}
 
 					// update index
@@ -231,7 +287,8 @@ public class ExportToPrinter3D {
 
 					// face for end
 					for (int i = 2; i < 8; i++) {
-						getFaceWithOffset(notFirst, 0, l - 1, l - i, l - i - 1);
+						getFace(notFirst, 0, l - 1, l - i, l - i - 1,
+								NORMAL_NOT_SET);
 					}
 				}
 
@@ -257,11 +314,11 @@ public class ExportToPrinter3D {
 			reverse = false;
 			GeoElement geo = d.getGeoElement();
 			if (exportSurface) {
-				exportSurface(geo, d.getSurfaceIndex());
+				exportSurface(geo, d.getSurfaceIndex(), false);
 			} else {
 				if (geo.getLineThickness() > 0) {
 					export(geo, d.getGeometryIndex(), "SURFACE_MESH", false,
-							GColor.BLACK, 1);
+							GColor.BLACK, 1, false);
 				}
 			}
 
@@ -285,12 +342,13 @@ public class ExportToPrinter3D {
 		if (format.needsClosedObjects()) { // draw only spheres so far
 			if (d instanceof DrawQuadric3D) {
 				GeoQuadric3D q = (GeoQuadric3D) d.getGeoElement();
-				if (q.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
-					exportSurface(d.getGeoElement(), d.getSurfaceIndex());
-				}
+				exportSurface(d.getGeoElement(), d.getSurfaceIndex(),
+						q.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE);
+			} else if (d instanceof DrawConic3D) {
+				exportSurface(d.getGeoElement(), d.getSurfaceIndex(), true);
 			}
 		} else {
-			exportSurface(d.getGeoElement(), d.getSurfaceIndex());
+			exportSurface(d.getGeoElement(), d.getSurfaceIndex(), false);
 		}
 	}
 
@@ -302,18 +360,20 @@ public class ExportToPrinter3D {
 	 * @param index
 	 *            surface index
 	 */
-	private void exportSurface(GeoElement geo, int index) {
+	private void exportSurface(GeoElement geo, int index,
+			boolean withThickness) {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
-		export(geo, index, "SURFACE", true, null, alpha);
+		export(geo, index, "SURFACE", true, null, alpha, withThickness);
 		if (!format.needsClosedObjects()) {
 			reverse = true;
-			export(geo, index, "SURFACE", true, null, alpha);
+			export(geo, index, "SURFACE", true, null, alpha, false);
 		}
 	}
 
 	private void export(GeoElement geo, int geometryIndex, String group,
-			boolean transparency, GColor color, double alpha) {
+			boolean transparency, GColor color, double alpha,
+			boolean withThickness) {
 
 		if (alpha < 0.001) {
 			return;
@@ -333,6 +393,11 @@ public class ExportToPrinter3D {
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
 
+				// normals
+				if (withThickness) {
+					getNormals(geometry, withThickness);
+				}
+
 				// vertices
 				boolean notFirst = false;
 				format.getVerticesStart(sb, geometry.getLengthForExport());
@@ -341,16 +406,21 @@ public class ExportToPrinter3D {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
-					getVertex(notFirst, x, y, z);
+					getVertex(notFirst, x, y, z, withThickness);
 					notFirst = true;
 				}
 				format.getVerticesEnd(sb);
 				fb.rewind();
 
 				// normals
-				getNormals(geometry);
+				if (!withThickness) {
+					getNormals(geometry);
+				}
 
 				// faces
+				if (withThickness) {
+					initSegmentsForThickness();
+				}
 				GLBufferIndices bi = geometry.getBufferIndices();
 				int offset = geometry.getElementsOffset();
 				switch (geometry.getType()) {
@@ -368,7 +438,8 @@ public class ExportToPrinter3D {
 						int v2 = v4;
 						v3 = bi.get();
 						v4 = bi.get();
-						getFaceWithOffset(notFirst, offset, v1, v2, v4);
+						getFaceWithOffset(notFirst, offset, v1, v2, v4,
+								withThickness);
 						notFirst = true;
 					}
 					break;
@@ -383,9 +454,11 @@ public class ExportToPrinter3D {
 						int v2 = v4;
 						v3 = bi.get();
 						v4 = bi.get();
-						getFaceWithOffset(notFirst, offset, v1, v2, v3);
+						getFaceWithOffset(notFirst, offset, v1, v2, v3,
+								withThickness);
 						notFirst = true;
-						getFaceWithOffset(notFirst, offset, v2, v4, v3);
+						getFaceWithOffset(notFirst, offset, v2, v4, v3,
+								withThickness);
 					}
 					break;
 				case TRIANGLES:
@@ -397,12 +470,24 @@ public class ExportToPrinter3D {
 						int v1 = bi.get();
 						int v2 = bi.get();
 						v3 = bi.get();
-						getFaceWithOffset(notFirst, offset, v1, v2, v3);
+						getFaceWithOffset(notFirst, offset, v1, v2, v3,
+								withThickness);
 						notFirst = true;
 					}
 					break;
 				}
 				bi.rewind();
+
+				if (withThickness) {
+					for (SegmentIndex si : segmentsForThickness) {
+						int v1 = si.getV1();
+						int v2 = si.getV2();
+						getFace(notFirst, 2 * offset, 2 * v1, 2 * v1 + 1,
+								2 * v2 + 1, NORMAL_NOT_SET);
+						getFace(notFirst, 2 * offset, 2 * v1, 2 * v2 + 1,
+								2 * v2, NORMAL_NOT_SET);
+					}
+				}
 
 				format.getFacesEnd(sb); // end of faces
 
@@ -415,6 +500,10 @@ public class ExportToPrinter3D {
 	}
 
 	private void getNormals(GeometryForExport geometry) {
+		getNormals(geometry, false);
+	}
+
+	private void getNormals(GeometryForExport geometry, boolean withThickness) {
 		if (format.handlesNormals()) {
 			GLBuffer fb = geometry.getNormalsForExport();
 			if (fb != null && !fb.isEmpty() && fb.capacity() > 3) {
@@ -423,7 +512,7 @@ public class ExportToPrinter3D {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
-					getNormal(x, y, z);
+					getNormal(x, y, z, withThickness);
 				}
 				format.getNormalsEnd(sb);
 				fb.rewind();
@@ -509,8 +598,10 @@ public class ExportToPrinter3D {
 				// normal
 				if (format.handlesNormals()) {
 					format.getNormalsStart(sb, 2);
-					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
-					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ(),
+							false);
+					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ(),
+							false);
 					format.getNormalsEnd(sb);
 				}
 
@@ -576,8 +667,10 @@ public class ExportToPrinter3D {
 				// normal
 				if (format.handlesNormals()) {
 					format.getNormalsStart(sb, 2);
-					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
-					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ(),
+							false);
+					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ(),
+							false);
 					format.getNormalsEnd(sb);
 				}
 
@@ -655,6 +748,11 @@ public class ExportToPrinter3D {
 	}
 
 	private void getVertex(boolean notFirst, double x0, double y0, double z0) {
+		getVertex(notFirst, x0, y0, z0, false);
+	}
+
+	private void getVertex(boolean notFirst, double x0, double y0, double z0,
+			boolean withThickness) {
 		double x = x0;
 		double y = y0;
 		double z = z0;
@@ -667,42 +765,78 @@ public class ExportToPrinter3D {
 		if (notFirst) {
 			format.getVerticesSeparator(sb);
 		}
-		format.getVertices(sb, x * xInvScale, y * xInvScale, z * xInvScale);
-	}
-
-	private void getNormal(double x, double y, double z) {
-		if (reverse) {
-			getNormalHandlingReverse(-x, -y, -z);
+		if (withThickness) {
+			format.getVertices(sb, x * xInvScale, y * xInvScale, z * xInvScale,
+					view.getThicknessForSurface() * xInvScale);
 		} else {
-			getNormalHandlingReverse(x, y, z);
+			format.getVertices(sb, x * xInvScale, y * xInvScale, z * xInvScale);
 		}
 	}
 
-	private void getNormalHandlingReverse(double x, double y, double z) {
-		format.getNormal(sb, x, y, z);
+	private void getNormal(double x, double y, double z,
+			boolean withThickness) {
+		if (reverse) {
+			getNormalHandlingReverse(-x, -y, -z, withThickness);
+		} else {
+			getNormalHandlingReverse(x, y, z, withThickness);
+		}
+	}
+
+	private void getNormalHandlingReverse(double x, double y, double z,
+			boolean withThickness) {
+		format.getNormal(sb, x, y, z, withThickness);
 		format.getNormalsSeparator(sb);
 	}
 
+	private boolean getFaceWithOffset(boolean notFirst, int offset, int v1,
+			int v2, int v3) {
+		return getFace(notFirst, offset, v1, v2, v3, NORMAL_SAME_INDEX);
+	}
+
 	private void getFaceWithOffset(boolean notFirst, int offset, int v1, int v2,
-			int v3) {
-		getFace(notFirst, offset, v1, v2, v3, NORMAL_SAME_INDEX);
+			int v3, boolean withThickness) {
+		if (withThickness) {
+			boolean notReversed = getFaceWithOffset(notFirst, 2 * offset,
+					2 * v1, 2 * v2, 2 * v3);
+			getFaceWithOffset(notFirst, 2 * offset, 2 * v1 + 1, 2 * v3 + 1,
+					2 * v2 + 1);
+			if (notReversed) {
+				addToSegmentsForThickness(v1, v2);
+				addToSegmentsForThickness(v2, v3);
+				addToSegmentsForThickness(v3, v1);
+			} else {
+				addToSegmentsForThickness(v2, v1);
+				addToSegmentsForThickness(v3, v2);
+				addToSegmentsForThickness(v1, v3);
+			}
+		} else {
+			getFaceWithOffset(notFirst, offset, v1, v2, v3);
+		}
 	}
 
-	private void getFace(boolean notFirst, int offset, int v1, int v2, int v3,
+	private void addToSegmentsForThickness(int v1, int v2) {
+		reverseSegment.setReverse(v1, v2);
+		// try first to remove segment if exists in the reverse winding order
+		if (!segmentsForThickness.remove(reverseSegment)) {
+			segmentsForThickness.add(new SegmentIndex(v1, v2));
+		}
+	}
+
+	private boolean getFace(boolean notFirst, int offset, int v1, int v2,
+			int v3, int normal) {
+		return getFace(notFirst, v1 - offset, v2 - offset, v3 - offset, normal);
+	}
+
+	private boolean getFace(boolean notFirst, int v1, int v2, int v3,
 			int normal) {
-		getFace(notFirst, v1 - offset, v2 - offset, v3 - offset, normal);
-	}
-
-	private void getFace(boolean notFirst, int v1, int v2, int v3, int normal) {
 		if (notFirst) {
 			format.getFacesSeparator(sb);
 		}
 
 		if (reverse) {
-			format.getFaces(sb, v1, v3, v2, normal);
-		} else {
-			format.getFaces(sb, v1, v2, v3, normal);
+			return format.getFaces(sb, v1, v3, v2, normal);
 		}
+		return format.getFaces(sb, v1, v2, v3, normal);
 	}
 
 	/**
@@ -722,6 +856,15 @@ public class ExportToPrinter3D {
 		view.exportToPrinter3D(this);
 		format1.getScriptEnd(sb);
 		return sb;
+	}
+
+	private void initSegmentsForThickness() {
+		if (segmentsForThickness == null) {
+			segmentsForThickness = new TreeSet<>();
+			reverseSegment = new SegmentIndex();
+		} else {
+			segmentsForThickness.clear();
+		}
 	}
 
 }

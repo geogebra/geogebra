@@ -290,6 +290,12 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
+	public void getVertices(StringBuilder sb, double x, double y, double z,
+			double thickness) {
+		getVertices(sb, x, y, z);
+	}
+
+	@Override
 	public void getVerticesSeparator(StringBuilder sb) {
 		sb.append(" ");
 	}
@@ -347,12 +353,13 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
+	public boolean getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
 		appendIndex(sb, v1, normal);
 		sb.append(" ");
 		appendIndex(sb, v2, normal);
 		sb.append(" ");
 		appendIndex(sb, v3, normal);
+		return true; // value ignored
 	}
 
 	private static void appendIndex(StringBuilder sb, int index, int normal) {
@@ -380,7 +387,7 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getNormal(StringBuilder sb, double x, double y, double z) {
+	public void getNormal(StringBuilder sb, double x, double y, double z, boolean withThickness) {
 		sb.append(x);
 		sb.append(" ");
 		sb.append(y);

@@ -93,6 +93,22 @@ abstract public class Format {
 			double z);
 
 	/**
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord vertex description
+	 * @param sb
+	 *            output builder
+	 * @param thickness
+	 *            thickness (for surfaces)
+	 */
+	abstract public void getVertices(StringBuilder sb, double x, double y,
+			double z, double thickness);
+
+	/**
 	 * separator for vertices list
 	 * 
 	 * @param sb
@@ -129,9 +145,11 @@ abstract public class Format {
 	 *            y coord
 	 * @param z
 	 *            z coord normal description
+	 * @param withThickness
+	 *            if uses thickness (for surfaces)
 	 */
 	abstract public void getNormal(StringBuilder sb, double x, double y,
-			double z);
+			double z, boolean withThickness);
 
 	/**
 	 * 
@@ -176,8 +194,9 @@ abstract public class Format {
 	 *            third index face description
 	 * @param normal
 	 *            normal index
+	 * @return true if vertices order is consistent with normal orientation
 	 */
-	abstract public void getFaces(StringBuilder sb, int v1, int v2, int v3,
+	abstract public boolean getFaces(StringBuilder sb, int v1, int v2, int v3,
 			int normal);
 
 	/**
