@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -203,8 +204,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	private GPoint fromDrawable(GeoElement geo) {
 		DrawableND dr = ev.getDrawableND(geo);
-		if (dr != null && !(dr.getGeoElement() instanceof Furniture
-				&& ((Furniture) dr.getGeoElement()).isFurniture())) {
+		if (dr != null && (!(dr.getGeoElement() instanceof Furniture
+				&& ((Furniture) dr.getGeoElement()).isFurniture())
+				|| dr.getGeoElement() instanceof GeoEmbed)) {
 			return calculatePosition(dr.getBoundsForStylebarPosition(),
 					dr instanceof DrawPoint && activeGeoList.size() < 2, false);
 		}

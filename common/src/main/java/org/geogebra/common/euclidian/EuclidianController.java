@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -400,6 +401,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
+	private GPoint dragStartPoint;
 	private boolean snapMoveView = true;
 	private GeoFrame lastVideo = null;
 	private boolean videoMoved;
@@ -4259,6 +4261,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		getCompanion().setMouseLocation(event);
 	}
 
+	public void setDragStartPoint(int index) {
+		dragStartPoint = view.getBoundingBox().getHandlerCenter(index);
+	}
+
+	public GPoint getDragStartPoint() {
+		return dragStartPoint == null ? new GPoint() : dragStartPoint;
+	}
+
 	protected void setMouseLocation(boolean alt, int x, int y) {
 		mouseLoc = new GPoint(x, y);
 
@@ -6121,7 +6131,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoMedia.setAbsoluteScreenLoc(view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
-		if (movedGeoMedia instanceof GeoVideo) {
+		if (movedGeoMedia instanceof GeoVideo
+				|| movedGeoMedia instanceof GeoEmbed) {
 			moveVideo();
 		}
 		if (repaint) {
@@ -7439,8 +7450,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// button
 		else if (movedGeoElement instanceof Furniture
-				&& ((Furniture) movedGeoElement).isFurniture()) {
-
+				&& ((Furniture) movedGeoElement).isFurniture()
+				&& !(movedGeoElement instanceof GeoEmbed)) {
 			// for applets:
 			// allow buttons to be dragged only if the button tool is selected
 			// (important for tablets)
@@ -7473,7 +7484,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				moveAudioSlider(true);
 				return;
 			}
-
 			moveAbsoluteLocatable(movedGeoMedia, MOVE_MEDIA);
 		}
 
@@ -9197,6 +9207,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (d != null && view
 					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 				setBoundingBoxCursor(d);
+				if (d instanceof DrawImage) {
+					int handlerNr = d.getBoundingBox().hitHandlers(event.getX(),
+							event.getY(),
+							app.getCapturingThreshold(event.getType()));
+					setDragStartPoint(handlerNr);
+				}
 				setResizedShape(d);
 			}
 		}
@@ -9217,6 +9233,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						&& view.getBoundingBox()
 								.equals(d.getBoundingBox())) {
 					setResizedShape(d);
+					if (d instanceof DrawImage) {
+						int handlerNr = d.getBoundingBox().hitHandlers(
+								event.getX(), event.getY(),
+								app.getCapturingThreshold(event.getType()));
+						setDragStartPoint(handlerNr);
+					}
 				} else if (view.getHits().size() == 1
 						&& view.getHits().get(0) != null
 						&& view.getHits().get(0).isShape()) {

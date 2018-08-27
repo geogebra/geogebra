@@ -281,7 +281,6 @@ public class GeoEmbed extends GeoWidget implements GeoFrame, Furniture {
 
 	@Override
 	public boolean isFurniture() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
