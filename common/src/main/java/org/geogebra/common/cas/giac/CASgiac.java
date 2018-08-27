@@ -1328,7 +1328,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		if (ret.indexOf("c_") > -1) {
-			nrOfReplacedConst += ret.length() / 3; // upper bound on number of
+			// TODO with the current lookup constant numbers need to be globally
+			// unique -- we should reset the lookup table for each computation
+			// instead (e.g. revert r19766)
+			nrOfReplacedConst += ret.length() * 3; // upper bound on number of
 													// constants in result
 			Log.debug("replacing arbitrary constants in " + ret);
 			ret = ret.replaceAll("c_([0-9]*)",
