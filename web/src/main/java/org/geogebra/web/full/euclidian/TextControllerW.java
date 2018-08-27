@@ -21,8 +21,8 @@ import com.himamis.retex.editor.web.MathFieldW;
  */
 public class TextControllerW implements TextController {
 	private FlowPanel textPanel;
-	private MathFieldW textMathField;
-	private DrawText drawText;
+	MathFieldW textMathField;
+	DrawText drawText;
 	private AppW app;
 	private class TextListener implements MathFieldListener {
 
@@ -32,7 +32,6 @@ public class TextControllerW implements TextController {
 
 		@Override
 		public void onEnter() {
-			textMathField.setPlainTextMode(true);
 			textMathField.insertString("\n");
 
 		}
