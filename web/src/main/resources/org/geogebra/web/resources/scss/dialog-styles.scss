@@ -1138,4 +1138,51 @@ $duration: 0.2s;
    		}
 	}
 }
+
+/*****************
+*   WEBCAM DIALOG
+******************/
+	.mowPermissionDialog{
+		width: calc(100% - 80px);
+   		min-width: 250px;
+   		max-width: 476px; // 500px - (8px + 16px) padding
+   		max-height: calc(100% - 48px);
+		.Caption{
+			margin-right: 16px;
+		}
+		.gwt-Label{
+			margin-top: 0px !important;
+			margin-right: 16px;
+		}
+		button {
+   			color: $mebis-teal-dark !important;	
+   		}
+	}
+	.mowPermissionDialog.noButtons {
+		.gwt-Label{
+			padding-bottom: 32px;
+		}
+	}
+	.mowPermissionDialog.narrowDialog {
+		max-width: 376px; // 400px - (8px + 16px) padding
+	}
 	
+	.MaterialDialogBox.camera {
+		.mowCameraSimplePanel{
+			margin-right: 16px;
+		}
+		.mowCameraInputPanel{
+			width: 100%;
+			position: absolute;
+			text-align: center;
+		}
+		.webcamInputPanel{
+			height: 160px;
+			width: 213px;
+			position: absolute;
+			text-align: center;
+		}
+		button {
+   			color: $mebis-teal-dark !important;	
+   		}
+	}

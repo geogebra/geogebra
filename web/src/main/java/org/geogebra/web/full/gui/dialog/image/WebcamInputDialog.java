@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 
-	private AppW app1;
+	private AppW appW;
 	private FlowPanel mainPanel;
 	private SimplePanel inputPanel;
 	private WebCamInputPanel webcamInputPanel;
@@ -37,7 +37,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public WebcamInputDialog(AppW app) {
 		super(app.getPanel(), app);
-		this.app1 = app;
+		this.appW = app;
 
 		initGUI();
 		initActions();
@@ -47,10 +47,10 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		mainPanel = new FlowPanel();
 		inputPanel = new SimplePanel();
 		inputPanel.setStyleName("mowCameraSimplePanel");
-
-		webcamInputPanel = new WebCamInputPanel(app1, this);
+		// dialog content panel
+		webcamInputPanel = new WebCamInputPanel(appW, this);
 		inputPanel.add(webcamInputPanel);
-
+		// add button panel
 		takePictureBtn = new Button("");
 		takePictureBtn.setEnabled(true);
 		closeBtn = new Button("");
@@ -65,7 +65,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		mainPanel.add(buttonPanel);
 
 		addStyleName("GeoGebraPopup");
-		addStyleName("image");
+		addStyleName("camera");
 		setGlassEnabled(true);
 	}
 
@@ -81,7 +81,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	 * set button labels and dialog title
 	 */
 	public void setLabels() {
-		Localization loc = app1.getLocalization();
+		Localization loc = appW.getLocalization();
 		getCaption().setText(loc.getMenu("Camera"));
 		takePictureBtn.setText(loc.getMenu("takepicture")); // screenshot
 		closeBtn.setText(loc.getMenu("Close")); // close
@@ -107,15 +107,15 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		double width = webcamInputPanel.getVideoWidth();
 		double height = webcamInputPanel.getVideoHeight();
 		double ratio = height / width;
-		if (app1.getHeight() < app1.getWidth()) {
-			height = app1.getHeight() / 2.5;
+		if (appW.getHeight() < appW.getWidth()) {
+			height = appW.getHeight() / 2.5;
 			width = height / ratio;
 			if (width < 250) {
 				width = 250;
 				height = width * ratio;
 			}
 		} else {
-			width = Math.max(250, app1.getWidth() / 2.5);
+			width = Math.max(250, appW.getWidth() / 2.5);
 			height = width * ratio;
 		}
 		inputPanel.setHeight(height + "px");
@@ -130,7 +130,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 			String data = webcamInputPanel.getImageDataURL();
 			String name = "webcam";
 			if (data != null && !webcamInputPanel.isStreamEmpty()) {
-				app1.imageDropHappened(name, data, "");
+				appW.imageDropHappened(name, data, "");
 			}
 		} else if (source == closeBtn) {
 			hide();
@@ -142,8 +142,8 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		if (this.webcamInputPanel != null) {
 			this.webcamInputPanel.stopVideo();
 		}
-		app1.getImageManager().setPreventAuxImage(false);
-		app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+		appW.getImageManager().setPreventAuxImage(false);
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
 		super.hide();
 	}
@@ -151,7 +151,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	@Override
 	public void hide(boolean autoClosed, boolean setFocus) {
 		super.hide(autoClosed, setFocus);
-		app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
 	}
 
