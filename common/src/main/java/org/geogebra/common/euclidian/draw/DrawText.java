@@ -83,9 +83,6 @@ public final class DrawText extends Drawable {
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
 		updateStrokes(text);
-		if (((GeoText) geo).isEditMode()) {
-			ctrl.initEditor();
-		}
 
 		update();
 	}
@@ -145,7 +142,7 @@ public final class DrawText extends Drawable {
 			text.setTotalWidth((int) labelRectangle.getWidth());
 			text.setTotalHeight((int) labelRectangle.getHeight());
 
-			if (((GeoText) geo).isEditMode()) {
+			if (text.isEditMode()) {
 				ctrl.updateEditor(this);
 			}
 		}

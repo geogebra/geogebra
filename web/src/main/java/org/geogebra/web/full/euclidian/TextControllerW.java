@@ -2,6 +2,9 @@ package org.geogebra.web.full.euclidian;
 
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -24,6 +27,7 @@ public class TextControllerW implements TextController {
 	MathFieldW textMathField;
 	DrawText drawText;
 	private AppW app;
+	private EuclidianViewW view;
 	private class TextListener implements MathFieldListener {
 
 		protected TextListener() {
@@ -95,17 +99,13 @@ public class TextControllerW implements TextController {
 	 */
 	public TextControllerW(AppW app) {
 		this.app = app;
+		this.view = (EuclidianViewW) (app.getActiveEuclidianView());
 	}
 
-	@Override
-	public void initEditor() {
-		if (textPanel != null) {
-			return;
-		}
-
+	private void createGUI() {
 		textPanel = new FlowPanel();
 		textPanel.addStyleName("textEditorPanel");
-		AbsolutePanel evPanel = ((EuclidianViewW) app.getActiveEuclidianView()).getAbsolutePanel();
+		AbsolutePanel evPanel = view.getAbsolutePanel();
 		evPanel.add(textPanel);
 		Canvas canvas = Canvas.createIfSupported();
 		TextListener mfListener = new TextListener();
@@ -117,8 +117,39 @@ public class TextControllerW implements TextController {
 
 	@Override
 	public void updateEditor(DrawText dT) {
+		if (textPanel == null) {
+			createGUI();
+		}
+
 		drawText = dT;
 		textPanel.getElement().getStyle().setTop(drawText.getyLabel(), Unit.PX);
 		textPanel.getElement().getStyle().setLeft(drawText.getxLabel(), Unit.PX);
 	}
+
+	@Override
+	public GeoText createText(GeoPointND loc, boolean rw) {
+		if (loc == null) {
+			return null;
+		}
+		GeoText t = app.getKernel().getAlgebraProcessor().text("Replace me");
+		t.setEditMode(true);
+		t.setEuclidianVisible(true);
+		t.setAbsoluteScreenLocActive(false);
+		if (rw) {
+			Coords coords = loc.getInhomCoordsInD3();
+			t.setRealWorldLoc(view.toRealWorldCoordX(coords.getX()),
+					view.toRealWorldCoordY(coords.getY()));
+			t.setAbsoluteScreenLocActive(false);
+		} else {
+			Coords coords = loc.getInhomCoordsInD3();
+			t.setAbsoluteScreenLoc((int) coords.getX(), (int) coords.getY());
+			t.setAbsoluteScreenLocActive(true);
+
+		}
+
+		t.setLabel(null);
+		app.getKernel().notifyRepaint();
+		return t;
+	}
+
 }

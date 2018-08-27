@@ -146,7 +146,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.MyMath;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -3448,7 +3447,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// got location
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
-			createWhiteboardText(loc, rw);
+			GeoText t = getTextController().createText(loc, rw);
+			if (t != null) {
+				memorizeJustCreatedGeos(t.asArray());
+			}
 			return true;
 		}
 		if (loc != null && getDialogManager() != null) {
@@ -3457,32 +3459,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return false;
-	}
-
-	private void createWhiteboardText(GeoPointND loc, boolean rw) {
-		if (loc == null) {
-			return;
-		}
-		GeoText t = kernel.getAlgebraProcessor().text("Replace me");
-		t.setEditMode(true);
-		t.setEuclidianVisible(true);
-		t.setAbsoluteScreenLocActive(false);
-
-		if (rw) {
-			Coords coords = loc.getInhomCoordsInD3();
-			t.setRealWorldLoc(view.toRealWorldCoordX(coords.getX()),
-					view.toRealWorldCoordY(coords.getY()));
-			t.setAbsoluteScreenLocActive(false);
-		} else {
-			Coords coords = loc.getInhomCoordsInD3();
-			t.setAbsoluteScreenLoc((int) coords.getX(), (int) coords.getY());
-			t.setAbsoluteScreenLocActive(true);
-
-		}
-
-		memorizeJustCreatedGeos(t.asArray());
-		t.setLabel(null);
-		kernel.notifyRepaint();
 	}
 
 	/**

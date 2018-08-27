@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Handling text editor in Euclidian View.
@@ -11,10 +13,14 @@ import org.geogebra.common.euclidian.draw.DrawText;
 public interface TextController {
 
 	/**
-	 * Creates text editor for in-place editing if needed
-	 * in Euclidian View
+	 * Creates in-place editable GeoText
+	 * 
+	 * @param loc
+	 *            Text location.
+	 * @param rw
+	 *            specifies if RealWorld coordinates are used.
 	 */
-	void initEditor();
+	GeoText createText(GeoPointND loc, boolean rw);
 
 	/**
 	 * Updates the editor.
