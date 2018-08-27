@@ -1023,12 +1023,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		final Operation operation = Operation.PLUS;
 		switch (stringType) {
 		case SCREEN_READER:
-
 			sb.append(leftStr);
 			sb.append(ScreenReader.getPlus(loc));
 			sb.append(rightStr);
 			sb.append(' ');
-
 			break;
 
 		case CONTENT_MATHML:
@@ -1430,22 +1428,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
-		case SCREEN_READER:
-
-			sb.append(leftStr);
-			sb.append(ScreenReader.getMinus(loc));
-
-			if (!right.isLeaf()) {
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
-			} else {
-				sb.append(rightStr);
-			}
-
-			sb.append(' ');
-
-			break;
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
@@ -1677,7 +1659,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
-						sb.append(" - ");
+						sb.append(minus(loc));
 					}
 					sb.append(rightStr);
 				}
@@ -1687,13 +1669,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 						&& isInsertLineBreaks()) {
 					sb.append(" \\-- ");
 				} else {
-					sb.append(" - ");
+					sb.append(minus(loc));
 				}
 				appendWithBrackets(sb, rightStr);
 			}
 			break;
 		}
 		return sb.toString();
+	}
+
+	private String minus(Localization loc) {
+		return stringType == StringType.SCREEN_READER ? ScreenReader.getMinus(loc) : " - ";
 	}
 
 	/**

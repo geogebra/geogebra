@@ -609,7 +609,7 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void cmdSetConstructionStep() {
 		app.setSaved();
-		app.clearConstruction();
+		assertTrue(app.clearConstruction());
 		t("cs=ConstructionStep[]", "1");
 		t("2", "2");
 		t("7", "7");
@@ -617,7 +617,7 @@ public class CommandsTest extends AlgebraTest {
 		t("cs", "2");
 		t("SetConstructionStep[1]", new String[] {});
 		t("cs", "1");
-		app.clearConstruction();
+		assertTrue(app.clearConstruction());
 	}
 
 	@Test

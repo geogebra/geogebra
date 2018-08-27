@@ -2,7 +2,6 @@ package org.geogebra.commands;
 
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.TreeSet;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -36,10 +35,8 @@ public class AlgebraTest extends Assert {
 
 	protected static void dummySyntaxesShouldFail(String cmdName,
 			String[] syntaxLines, App app) {
-		TreeSet<Integer> available = new TreeSet<>();
 		for (String line : syntaxLines) {
 			int args = line.split(",").length;
-			available.add(args);
 			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
 			for (int i = 0; i < args - 1; i++) {
 				withArgs.append("space,");

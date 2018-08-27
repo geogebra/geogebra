@@ -106,7 +106,7 @@ public class ArbitraryConstIntegrationTest {
 	// @Rule
 	// public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
 
-	private static String stacktrace(Throwable t) {
+	static String stacktrace(Throwable t) {
 		StringBuilder sts = new StringBuilder();
 		StackTraceElement[] st = t.getStackTrace();
 

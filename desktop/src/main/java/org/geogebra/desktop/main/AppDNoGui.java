@@ -279,14 +279,12 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	protected void initGuiManager() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void evalJavaScript(App app, String script, String arg)
 			throws Exception {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -310,13 +308,11 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void showError(String string, String str) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resetUniqueId() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -576,31 +572,31 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void showURLinBrowser(String string) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void uploadToGeoGebraTube() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void updateApplicationLayout() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean clearConstruction() {
-		// TODO Auto-generated method stub
-		return false;
+		kernel.clearConstruction(true);
+		kernel.initUndoInfo();
+		resetMaxLayerUsed();
+		this.resetCurrentFile();
+		setMoveMode();
+		return true;
 	}
 
 	@Override
 	public void fileNew() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -612,25 +608,21 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void copyGraphicsViewToClipboard() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void copyBase64ToClipboard() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void copyFullHTML5ExportToClipboard() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void exitAll() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -641,7 +633,6 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void runScripts(GeoElement geo1, String string) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -716,7 +707,6 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void closePopups() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -727,7 +717,6 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void resetCurrentFile() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -790,7 +779,6 @@ public class AppDNoGui extends App implements AppDI {
 		// }
 
 		getLocalization().updateLanguageFlags(locale.getLanguage());
-
 	}
 
 	@Override
@@ -811,7 +799,6 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void invokeLater(Runnable runnable) {
 		SwingUtilities.invokeLater(runnable);
-
 	}
 
 	@Override
@@ -858,12 +845,10 @@ public class AppDNoGui extends App implements AppDI {
 
 	public void addExternalImage(String name, MyImageD img) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void storeFrameCenter() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public Image getExportImage(double thumbnailPixelsX,

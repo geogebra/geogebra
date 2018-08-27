@@ -93,11 +93,22 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testMinusSin() {
 		checkReader("3-sin(x)",
-				"start of 3 minus open parenthesis sin open parenthesis x close parenthesis close parenthesis",
+				"start of 3 minus sin open parenthesis x close parenthesis",
 				"after 3 before -", "after - before function", "before sin",
 				"after s before in", "after si before n",
 				"after sin", "before x", "after x",
-				"end of 3 minus open parenthesis sin open parenthesis x close parenthesis close parenthesis");
+				"end of 3 minus sin open parenthesis x close parenthesis");
+	}
+
+	@Test
+	public void testPlusSin() {
+		checkReader("3+sin(x)",
+				"start of 3 plus sin open parenthesis x close parenthesis",
+				"after 3 before plus", "after plus before function",
+				"before sin",
+				"after s before in", "after si before n", "after sin",
+				"before x", "after x",
+				"end of 3 plus sin open parenthesis x close parenthesis");
 	}
 
 	@Test

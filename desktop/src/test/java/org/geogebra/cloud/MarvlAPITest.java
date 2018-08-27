@@ -1,5 +1,6 @@
 package org.geogebra.cloud;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
@@ -68,8 +69,13 @@ public class MarvlAPITest {
 	private static MarvlAPI authAPI() {
 		MarvlAPI ret = new MarvlAPI(
 				"http://notes.dlb-dev01.alp-dlg.net/notes/api");
-		ret.setBasicAuth(Base64.encodeToString(
-				System.getProperty("marvl.auth.basic").getBytes(), false));
+		try {
+			ret.setBasicAuth(Base64.encodeToString(
+					System.getProperty("marvl.auth.basic").getBytes("utf-8"),
+					false));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return ret;
 	}
 

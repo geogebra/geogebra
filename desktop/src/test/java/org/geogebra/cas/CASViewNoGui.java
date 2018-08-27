@@ -8,13 +8,11 @@ import org.geogebra.desktop.main.AppDNoGui;
 public class CASViewNoGui extends CASView {
 
 	private AppDNoGui app;
-	private String[] inputs;
 	private CASTable casTable;
 
 	public CASViewNoGui(AppDNoGui app, String... inputs) {
 		super(app.getKernel());
 		this.app = app;
-		this.inputs = inputs;
 		this.casTable = new CASTableNoGui(inputs, app);
 	}
 

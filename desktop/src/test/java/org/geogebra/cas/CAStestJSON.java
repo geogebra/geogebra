@@ -239,15 +239,7 @@ public class CAStestJSON {
 								: StringTemplate.testTemplateJSON);
 			}
 		} catch (Throwable t) {
-			String sts = "";
-			StackTraceElement[] st = t.getStackTrace();
-
-			for (int i = 0; i < 10 && i < st.length; i++) {
-				StackTraceElement stElement = st[i];
-				sts += stElement.getClassName() + ":"
-						+ stElement.getMethodName() + stElement.getLineNumber()
-						+ "\n";
-			}
+			String sts = ArbitraryConstIntegrationTest.stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}

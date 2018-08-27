@@ -34,7 +34,6 @@ public class TestMaterialsManager extends MaterialsManager {
 
 	@Override
 	public void uploadUsersMaterials(ArrayList<SyncEvent> events) {
-		System.out.println("" + stockStore.size());
 		if (this.stockStore == null || this.stockStore.size() <= 0) {
 			return;
 		}
