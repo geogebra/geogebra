@@ -541,52 +541,90 @@ public class ExportToPrinter3D {
 				format.getPolyhedronEnd(sb);
 
 			} else {
-				if (!format.needsClosedObjects()) { // TODO for 3D printing
-					int length = polygon.getPointsLength();
-					Coords[] verticesWithIntersections = pt
-							.getCompleteVertices(vertices, length);
-					int completeLength = pt.getMaxPointIndex();
-					reverse = false;
+				int length = polygon.getPointsLength();
+				Coords[] verticesWithIntersections = pt
+						.getCompleteVertices(vertices, length);
+				int completeLength = pt.getMaxPointIndex();
+				reverse = false;
 
-					format.getObjectStart(sb,
-							polygon.getGeoClassType().toString(), polygon, true,
-							color, alpha);
+				format.getObjectStart(sb, polygon.getGeoClassType().toString(),
+						polygon, true, color, alpha);
 
-					// object is a polyhedron
-					format.getPolyhedronStart(sb);
+				// object is a polyhedron
+				format.getPolyhedronStart(sb);
 
-					// vertices
-					boolean notFirst = false;
-					format.getVerticesStart(sb, completeLength);
-					for (int i = 0; i < completeLength; i++) {
-						Coords v = verticesWithIntersections[i];
-						double x, y, z;
-						x = v.getX() * view.getXscale();
-						y = v.getY() * view.getYscale();
-						z = v.getZ() * view.getZscale();
+				// vertices
+				boolean notFirst = false;
+				format.getVerticesStart(sb, completeLength);
+				for (int i = 0; i < completeLength; i++) {
+					Coords v = verticesWithIntersections[i];
+					double x, y, z;
+					x = v.getX() * view.getXscale();
+					y = v.getY() * view.getYscale();
+					z = v.getZ() * view.getZscale();
+					if (format.needsClosedObjects()) {
+						getVertex(notFirst, x + dx, y + dy, z + dz);
+						notFirst = true;
+						getVertex(notFirst, x - dx, y - dy, z - dz);
+					} else {
 						getVertex(notFirst, x, y, z);
 						notFirst = true;
 					}
-					format.getVerticesEnd(sb);
+				}
+				format.getVerticesEnd(sb);
 
-					// normal
-					if (format.handlesNormals()) {
-						format.getNormalsStart(sb, 2);
-						getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
-						getNormalHandlingReverse(-n.getX(), -n.getY(),
-								-n.getZ());
-						format.getNormalsEnd(sb);
-					}
+				// normal
+				if (format.handlesNormals()) {
+					format.getNormalsStart(sb, 2);
+					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
+					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+					format.getNormalsEnd(sb);
+				}
 
-					// faces
-					int size = 0;
-					ArrayList<TriangleFan> triFanList = pt.getTriangleFans();
+				// faces
+				int size = 0;
+				ArrayList<TriangleFan> triFanList = pt.getTriangleFans();
+				for (TriangleFan triFan : triFanList) {
+					size += format.needsClosedObjects()
+							? triFan.size() - 1 + (triFan.size() + 1) * 2
+							: triFan.size() - 1;
+				}
+				format.getFacesStart(sb, size * 2, true);
+				notFirst = false;
+
+				if (format.needsClosedObjects()) {
 					for (TriangleFan triFan : triFanList) {
-						size += triFan.size() - 1;
+						int apex = triFan.getApexPoint();
+						int current = triFan.getVertexIndex(0);
+						int triFanSize = triFan.size();
+						// bottom and top
+						for (int i = 1; i < triFanSize; i++) {
+							int old = current;
+							current = triFan.getVertexIndex(i);
+							getFace(notFirst, 0, 2 * apex, 2 * old, 2 * current,
+									NORMAL_NOT_SET); // top
+							notFirst = true;
+							getFace(notFirst, 0, 2 * apex + 1, 2 * current + 1,
+									2 * old + 1, NORMAL_NOT_SET); // bottom
+						}
+						// sides
+						current = apex;
+						for (int i = 0; i < triFanSize; i++) {
+							int old = current;
+							current = triFan.getVertexIndex(i);
+							getFace(notFirst, 0, 2 * old, 2 * current + 1,
+									2 * current, NORMAL_NOT_SET);
+							notFirst = true;
+							getFace(notFirst, 0, 2 * old, 2 * old + 1,
+									2 * current + 1, NORMAL_NOT_SET);
+						}
+						getFace(notFirst, 0, 2 * current, 2 * apex + 1,
+								2 * apex, NORMAL_NOT_SET);
+						notFirst = true;
+						getFace(notFirst, 0, 2 * current, 2 * current + 1,
+								2 * apex + 1, NORMAL_NOT_SET);
 					}
-					format.getFacesStart(sb, size * 2, true);
-					notFirst = false;
-
+				} else {
 					for (TriangleFan triFan : triFanList) {
 						int apex = triFan.getApexPoint();
 						int current = triFan.getVertexIndex(0);
@@ -598,12 +636,12 @@ public class ExportToPrinter3D {
 							getFace(notFirst, apex, current, old, 1); // bottom
 						}
 					}
-
-					format.getFacesEnd(sb); // end of faces
-
-					// end of polyhedron
-					format.getPolyhedronEnd(sb);
 				}
+
+				format.getFacesEnd(sb); // end of faces
+
+				// end of polyhedron
+				format.getPolyhedronEnd(sb);
 			}
 		}
 	}
