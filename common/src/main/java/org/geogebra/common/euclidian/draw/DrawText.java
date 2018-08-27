@@ -144,7 +144,7 @@ public final class DrawText extends Drawable {
 			text.setTotalHeight((int) labelRectangle.getHeight());
 
 			if (((GeoText) geo).isEditMode()) {
-				view.getEuclidianController().updateMathField(xLabel, yLabel);
+				view.getEuclidianController().updateMathField(this);
 			}
 		}
 
@@ -187,9 +187,9 @@ public final class DrawText extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			if (this.isWhiteboardText()) {
-				// g2.setFont(textFont);
-				// drawMultilineText(g2, textFont);
+			if (this.isWhiteboardText() && !((GeoText) geo).isEditMode()) {
+				g2.setFont(textFont);
+				drawMultilineText(g2, textFont);
 				return;
 			}
 
@@ -326,5 +326,9 @@ public final class DrawText extends Drawable {
 
 	private boolean isWhiteboardText() {
 		return view.getApplication().has(Feature.MOW_TEXT_TOOL);
+	}
+
+	public void setEditMode(boolean b) {
+		((GeoText) geo).setEditMode(b);
 	}
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
@@ -78,7 +79,8 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private MouseTouchGestureControllerW mtg;
 	private FlowPanel textPanel;
-	private MathFieldW textMathField;
+	MathFieldW textMathField;
+	DrawText drawText;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -505,13 +507,13 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void updateMathField(int x, int y) {
-		textPanel.getElement().getStyle().setTop(y, Unit.PX);
-		textPanel.getElement().getStyle().setLeft(x, Unit.PX);
-		textMathField.requestViewFocus();
+	public void updateMathField(DrawText dT) {
+		drawText = dT;
+		textPanel.getElement().getStyle().setTop(drawText.getyLabel(), Unit.PX);
+		textPanel.getElement().getStyle().setLeft(drawText.getxLabel(), Unit.PX);
 	}
 
-	private static class TextListener implements MathFieldListener {
+	private class TextListener implements MathFieldListener {
 
 		protected TextListener() {
 			// TODO Auto-generated constructor stub
@@ -519,7 +521,8 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		@Override
 		public void onEnter() {
-			// TODO Auto-generated method stub
+			textMathField.setPlainTextMode(true);
+			textMathField.insertString("\n");
 
 		}
 
@@ -561,7 +564,8 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		@Override
 		public boolean onEscape() {
-			// TODO Auto-generated method stub
+			drawText.setEditMode(false);
+			drawText = null;
 			return false;
 		}
 
