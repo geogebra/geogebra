@@ -31,7 +31,6 @@ import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSlider;
-import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
@@ -149,7 +148,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -3487,14 +3485,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		kernel.notifyRepaint();
 	}
 
-	public void initMathField() {
-		// not implemented here
-	}
-
-	public void updateMathField(DrawText drawText) {
-		// not implemented here
-	}
-
 	/**
 	 * @return whether alt is pressed
 	 */
@@ -3508,6 +3498,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void setAltDown(boolean altDown) {
 		this.altDown = altDown;
+	}
+
+	/**
+	 * @return the controller for in-place editing texts.
+	 */
+	public TextController getTextController() {
+		return null;
 	}
 
 	protected final boolean slider(boolean selPreview) {

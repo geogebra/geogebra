@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Hits;
-import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.euclidian.TextControllerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -28,8 +29,6 @@ import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
@@ -60,11 +59,6 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Web version of Euclidian controller
@@ -78,10 +72,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
-	private FlowPanel textPanel;
-	MathFieldW textMathField;
-	DrawText drawText;
-
+	private TextControllerW textController = null;
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return mtg.getEnvironmentStyle();
@@ -487,94 +478,11 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void initMathField() {
-		if (textPanel != null) {
-			return;
+	public TextController getTextController() {
+		if (textController == null) {
+			textController = new TextControllerW((AppW) app);
 		}
-		textPanel = new FlowPanel();
-		textPanel.addStyleName("textEditorPanel");
-
-		AbsolutePanel evPanel = ((EuclidianViewW) getView()).getAbsolutePanel();
-		evPanel.add(textPanel);
-
-		Canvas canvas = Canvas.createIfSupported();
-
-		TextListener mfListener = new TextListener();
-		textPanel.add(canvas);
-		textMathField = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
-		textMathField.setPixelRatio(((AppW) app).getPixelRatio());
-		textMathField.setScale(((AppW) app).getArticleElement().getScaleX());
-	}
-
-	@Override
-	public void updateMathField(DrawText dT) {
-		drawText = dT;
-		textPanel.getElement().getStyle().setTop(drawText.getyLabel(), Unit.PX);
-		textPanel.getElement().getStyle().setLeft(drawText.getxLabel(), Unit.PX);
-	}
-
-	private class TextListener implements MathFieldListener {
-
-		protected TextListener() {
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public void onEnter() {
-			textMathField.setPlainTextMode(true);
-			textMathField.insertString("\n");
-
-		}
-
-		@Override
-		public void onKeyTyped() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onCursorMove() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onUpKeyPressed() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onDownKeyPressed() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public String serialize(MathSequence selectionText) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void onInsertString() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public boolean onEscape() {
-			drawText.setEditMode(false);
-			drawText = null;
-			return false;
-		}
-
-		@Override
-		public void onTab(boolean shiftDown) {
-			// TODO Auto-generated method stub
-
-		}
-
+		return textController;
 	}
 }
 
