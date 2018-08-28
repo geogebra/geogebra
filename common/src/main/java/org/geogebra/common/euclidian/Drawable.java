@@ -756,7 +756,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * method to handle corner or side drag of bounding box to resize geo
 	 * 
-	 * @param e
+	 * @param point
 	 *            - mouse drag event
 	 * @param handler
 	 *            - which corner was dragged

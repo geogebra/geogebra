@@ -127,7 +127,7 @@ public class ExportToPrinter3D {
 
 	}
 
-	private class SegmentIndex implements Comparable<SegmentIndex> {
+	private static class SegmentIndex implements Comparable<SegmentIndex> {
 		private int v1;
 		private int v2;
 

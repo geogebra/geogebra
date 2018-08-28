@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -190,8 +189,6 @@ public final class DrawText extends Drawable {
 		}
 
 		view.setBoundingBox(getBoundingBox());
-		GTextLayout layout = getTextLayout(text.getTextString(), textFont,
-				view.getGraphicsForPen());
 		int x = xLabel - 3;
 		int y = yLabel - view.getFontSize() - 3;
 		// - (layout.getBounds().getHeight()));

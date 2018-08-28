@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.css;
 
 import org.geogebra.web.html5.util.LessResource;
-import org.geogebra.web.resources.LessReference;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
