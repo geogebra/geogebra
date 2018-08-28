@@ -70,6 +70,9 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		this.loc = app.getLocalization();
 		createGUI();
 		addStyleName("GeoGebraPopup");
+		if (app.isWhiteboardActive()) {
+			addStyleName("mowPrintPrew");
+		}
 		setGlassEnabled(true);
 		getCaption().setText(loc.getMenu("PrintPreview"));
 		center();
