@@ -17,6 +17,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -41,6 +42,7 @@ public final class DrawText extends Drawable {
 	 * color used to draw rectangle around text when highlighted
 	 */
 	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
+	private static final GColor EDITOR_BORDER_COLOR = GColor.GRAY;
 
 	// private static final int SELECTION_DIAMETER_ADD = 4;
 	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;
@@ -143,9 +145,6 @@ public final class DrawText extends Drawable {
 			text.setTotalWidth((int) labelRectangle.getWidth());
 			text.setTotalHeight((int) labelRectangle.getHeight());
 
-			if (text.isEditMode()) {
-				ctrl.updateEditor(this);
-			}
 		}
 
 		boolean positionChanged = xLabel != oldXpos || yLabel != oldYpos;
@@ -181,18 +180,25 @@ public final class DrawText extends Drawable {
 		if (isWhiteboardText() && boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
 		}
+		updateEditor();
+	}
 
+	private void updateEditor() {
+		if (!text.isEditMode()) {
+			return;
+		}
+
+		GTextLayout layout = getTextLayout(text.getTextString(), textFont,
+				view.getGraphicsForPen());
+		int x = xLabel - 3;
+		int y = yLabel - view.getFontSize() - 3;
+		// - (layout.getBounds().getHeight()));
+		ctrl.updateEditor(text, x, y);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			if (this.isWhiteboardText() && !((GeoText) geo).isEditMode()) {
-				g2.setFont(textFont);
-				drawMultilineText(g2, textFont);
-				return;
-			}
-
 			GColor bg = geo.getBackgroundColor();
 
 			if (bg != null) {
@@ -218,9 +224,18 @@ public final class DrawText extends Drawable {
 				drawMultilineLaTeX(g2, textFont, geo.getObjectColor(),
 						bg != null ? bg : view.getBackgroundCommon());
 			} else {
-				g2.setPaint(geo.getObjectColor());
-				// g2.setFont(textFont);
-				drawMultilineText(g2, textFont);
+				if (text.isEditMode()) {
+					// just measuring in edit mode
+					drawMultilineText(view.getTempGraphics2D(textFont), textFont);
+
+					g2.setStroke(rectangleStroke);
+					g2.setPaint(EDITOR_BORDER_COLOR);
+					g2.draw(labelRectangle);
+				} else {
+					g2.setPaint(geo.getObjectColor());
+					drawMultilineText(g2, textFont);
+				}
+
 			}
 
 			// draw label rectangle
@@ -229,6 +244,7 @@ public final class DrawText extends Drawable {
 				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
 			}
+
 		}
 
 	}
@@ -326,12 +342,5 @@ public final class DrawText extends Drawable {
 
 	private boolean isWhiteboardText() {
 		return view.getApplication().has(Feature.MOW_TEXT_TOOL);
-	}
-
-	/**
-	 * @param editMode whether to activate edit mode
-	 */
-	public void setEditMode(boolean editMode) {
-		((GeoText) geo).setEditMode(editMode);
 	}
 }

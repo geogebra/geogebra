@@ -6766,7 +6766,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				app.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
 
-				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+				if (app.has(Feature.MOW_TEXT_TOOL) && geo0.isGeoText()) {
+					((GeoText) geo0).setEditMode(true);
+					kernel.notifyRepaint();
+				} else if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
 					// double-click slider -> Object Properties
 					getDialogManager().showPropertiesDialog(hits);
 				} else if (!geo0.isProtected(EventType.UPDATE)

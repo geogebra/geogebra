@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.TextController;
-import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -9,6 +8,8 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -21,71 +22,66 @@ import com.himamis.retex.editor.web.MathFieldW;
  * @author laszlo
  *
  */
-public class TextControllerW implements TextController {
+public class TextControllerW implements TextController, BlurHandler {
 	private FlowPanel textPanel;
-	MathFieldW textMathField;
-	DrawText drawText;
+	MathFieldW mf;
 	private AppW app;
 	private EuclidianViewW view;
+	private GeoText text;
 	private class TextListener implements MathFieldListener {
 
 		protected TextListener() {
-			// TODO Auto-generated constructor stub
+			// nothing to do.
 		}
 
 		@Override
 		public void onEnter() {
-			textMathField.insertString("\n");
+			mf.insertString("\n");
 
 		}
 
 		@Override
 		public void onKeyTyped() {
-			// TODO Auto-generated method stub
-
+			text.setTextString(mf.getText());
+			text.updateRepaint(false);
 		}
+
 
 		@Override
 		public void onCursorMove() {
-			// TODO Auto-generated method stub
+			// not used.
 
 		}
 
 		@Override
 		public void onUpKeyPressed() {
-			// TODO Auto-generated method stub
-
+			// not used.
 		}
 
 		@Override
 		public void onDownKeyPressed() {
-			// TODO Auto-generated method stub
-
+			// not used.
 		}
 
 		@Override
 		public String serialize(MathSequence selectionText) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void onInsertString() {
-			// TODO Auto-generated method stub
-
+			// not used.
 		}
 
 		@Override
 		public boolean onEscape() {
-			drawText.setEditMode(false);
-			drawText = null;
+			mf.blur();
 			return false;
 		}
 
 		@Override
 		public void onTab(boolean shiftDown) {
-			// TODO Auto-generated method stub
-
+			// not used.
 		}
 
 	}
@@ -109,20 +105,24 @@ public class TextControllerW implements TextController {
 		Canvas canvas = Canvas.createIfSupported();
 		TextListener mfListener = new TextListener();
 		textPanel.add(canvas);
-		textMathField = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
-		textMathField.setPixelRatio(app.getPixelRatio());
-		textMathField.setScale(app.getArticleElement().getScaleX());
+		mf = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
+		mf.setPixelRatio(app.getPixelRatio());
+		mf.setScale(app.getArticleElement().getScaleX());
 	}
 
 	@Override
-	public void updateEditor(DrawText dT) {
+	public void updateEditor(GeoText text, int x, int y) {
 		if (textPanel == null) {
 			createGUI();
 		}
 
-		drawText = dT;
-		textPanel.getElement().getStyle().setTop(drawText.getyLabel(), Unit.PX);
-		textPanel.getElement().getStyle().setLeft(drawText.getxLabel(), Unit.PX);
+		textPanel.removeStyleName("hidden");
+		mf.requestViewFocus();
+		this.text = text;
+		mf.setText(text.getText().getTextString(), true);
+		textPanel.getElement().getStyle().setLeft(x, Unit.PX);
+		textPanel.getElement().getStyle().setTop(y, Unit.PX);
+		mf.setOnBlur(this);
 	}
 
 	@Override
@@ -151,4 +151,11 @@ public class TextControllerW implements TextController {
 		return t;
 	}
 
+	@Override
+	public void onBlur(BlurEvent event) {
+		textPanel.addStyleName("hidden");
+		text.setEditMode(false);
+		text.setTextString(mf.getText());
+		text.update();
+	}
 }
