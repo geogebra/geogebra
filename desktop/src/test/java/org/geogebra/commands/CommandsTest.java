@@ -2040,4 +2040,15 @@ public class CommandsTest extends AlgebraTest {
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");
 	}
 
+	@Test
+	public void cmdShowSteps() {
+		// TODO t("IsDefined(ShowSteps(ConstructionStep()))", "false"); out of
+		// bounds
+		// TODO t("IsDefined(ShowSteps(Direction(xAxis)))", "false"); should be
+		// undefined
+		t("First(ShowSteps(Solve(x^2=-1/4)),16)", "\\begin{array}{l}");
+		t("First(ShowSteps(Solve(x^2=1/4)),16)", "\\begin{array}{l}");
+		t("First(ShowSteps(Solve(x^2=1/4),3),22)", "\\begin{array}{*{2}{l}}");
+	}
+
 }
