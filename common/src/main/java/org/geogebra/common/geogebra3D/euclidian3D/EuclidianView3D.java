@@ -4659,6 +4659,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].exportToPrinter3D(exportToPrinter3D, false);
 		}
+		if (xOyPlane.isPlateVisible()) {
+			xOyPlaneDrawable.exportToPrinter3D(exportToPrinter3D, true);
+		}
+		xOyPlaneDrawable.exportToPrinter3D(exportToPrinter3D, false);
 	}
 
 	/**

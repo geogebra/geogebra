@@ -7,6 +7,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
@@ -683,6 +685,18 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public boolean shouldBePacked() {
 		return shouldBePackedCheckCreatedByDrawList();
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D,
+			boolean exportSurface) {
+		if (isVisible()) {
+			if (exportSurface) {
+				exportToPrinter3D.exportSurface(this);
+			} else {
+				exportToPrinter3D.export(this, Type.CURVE);
+			}
+		}
 	}
 
 }
