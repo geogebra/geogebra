@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Handles materials save.
@@ -43,7 +44,7 @@ public interface SaveController {
 	 *            to run after saving was successful.
 	 * 
 	 */
-	void saveActiveMaterial(Runnable autoSaveCallback);
+	void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCallback);
 
 	/**
 	 * Cancel saving.
@@ -72,10 +73,10 @@ public interface SaveController {
 	 * @param runAfterSave
 	 *            the callback.
 	 */
-	void setRunAfterSave(Runnable runAfterSave);
+	void setRunAfterSave(AsyncOperation<Boolean> runAfterSave);
 
 	/**
 	 * Run callback after save.
 	 */
-	void runAfterSaveCallback();
+	void runAfterSaveCallback(boolean activeMaterial);
 }
