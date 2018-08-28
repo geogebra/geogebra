@@ -1146,9 +1146,7 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).checkSaved(new AsyncOperation<Boolean>() {
 			@Override
 			public void callback(Boolean active) {
-				if (active) {
-					ScriptManagerW.runCallback(callback);
-				}
+				ScriptManagerW.runCallback(callback);
 			}
 		});
 	}

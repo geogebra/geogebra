@@ -235,9 +235,6 @@ public class OpenFileView extends MyHeaderPanel
 
 			@Override
 			public void callback(Boolean active) {
-				if (!active) {
-					return;
-				}
 				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();

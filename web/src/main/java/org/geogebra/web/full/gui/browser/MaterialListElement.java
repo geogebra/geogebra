@@ -106,9 +106,7 @@ public class MaterialListElement extends FlowPanel
 
 			@Override
 			public void callback(Boolean activeMaterial) {
-				if (activeMaterial) {
-					onEdit();
-				}
+				onEdit();
 			}
 		};
 		initMaterialInfos();
