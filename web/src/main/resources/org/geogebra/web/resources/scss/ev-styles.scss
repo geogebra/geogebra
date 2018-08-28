@@ -10,9 +10,9 @@
 	.MatTitleBarPanelContent {
 		min-width: 48px;
 		min-height: 48px;
-		box-shadow: none;
-		padding: 0px;
-		background-color: transparent;
+		box-shadow: none !important;
+		padding: 0px !important;
+		background-color: transparent !important;
 	}
 
 	.button.flatButton.graphicsContextMenuBtn.button-up {
