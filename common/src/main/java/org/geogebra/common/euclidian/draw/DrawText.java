@@ -180,19 +180,6 @@ public final class DrawText extends Drawable {
 		if (isWhiteboardText() && boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
 		}
-		updateEditor();
-	}
-
-	private void updateEditor() {
-		if (!text.isEditMode()) {
-			return;
-		}
-
-		view.setBoundingBox(getBoundingBox());
-		int x = xLabel - 3;
-		int y = yLabel - view.getFontSize() - 3;
-		// - (layout.getBounds().getHeight()));
-		ctrl.updateEditor(text, x, y);
 	}
 
 	@Override

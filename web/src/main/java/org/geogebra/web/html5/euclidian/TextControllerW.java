@@ -1,10 +1,10 @@
 package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.TextController;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -19,7 +19,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Handling text editor in Euclidian View.
- * 
+ *
  * @author laszlo
  *
  */
@@ -28,9 +28,10 @@ public class TextControllerW implements TextController, BlurHandler {
 	MathFieldW mf;
 	private AppW app;
 	private EuclidianViewW view;
-	private GeoText text;
+
+	/** GeoText to edit */
+	GeoText text;
 	private class TextListener implements MathFieldListener {
-		private String oldValue = "";
 		protected TextListener() {
 			// nothing to do
 		}
@@ -43,12 +44,8 @@ public class TextControllerW implements TextController, BlurHandler {
 
 		@Override
 		public void onKeyTyped() {
-			String value = mf.getText();
-			if (oldValue.length() != value.length()) {
-				text.setTextString(value);
-				text.updateRepaint(false);
-				oldValue = value;
-			}
+			text.setTextString(mf.getText());
+			text.updateRepaint(false);
 		}
 
 
@@ -93,7 +90,7 @@ public class TextControllerW implements TextController, BlurHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param app
 	 *            the application.
 	 */
@@ -113,21 +110,19 @@ public class TextControllerW implements TextController, BlurHandler {
 		mf = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
+		mf.setOnBlur(this);
 	}
 
-	@Override
-	public void updateEditor(GeoText text, int x, int y) {
+	private void updateEditor(int x, int y) {
 		if (textPanel == null) {
 			createGUI();
 		}
 
 		textPanel.removeStyleName("hidden");
 		mf.requestViewFocus();
-		this.text = text;
 		mf.setText(text.getText().getTextString(), true);
 		textPanel.getElement().getStyle().setLeft(x, Unit.PX);
 		textPanel.getElement().getStyle().setTop(y, Unit.PX);
-		mf.setOnBlur(this);
 	}
 
 	@Override
@@ -152,6 +147,7 @@ public class TextControllerW implements TextController, BlurHandler {
 		}
 
 		t.setLabel(null);
+		edit(t);
 		app.getKernel().notifyRepaint();
 		return t;
 	}
@@ -166,9 +162,16 @@ public class TextControllerW implements TextController, BlurHandler {
 
 	@Override
 	public void edit(GeoText geo) {
-		Log.debug("EnTeR editing mode text");
 		geo.setEditMode(true);
-		updateEditor(geo, (int) geo.getRealWorldLocX(), (int) geo.getRealWorldLocY());
+		this.text = geo;
 
+		DrawText d = (DrawText) view.getDrawableFor(geo);
+		if (d != null) {
+			int x = d.xLabel - 3;
+			int y = d.yLabel - view.getFontSize() - 3;
+			updateEditor(x, y);
+			view.setBoundingBox(d.getBoundingBox());
+		}
+		view.repaintView();
 	}
 }

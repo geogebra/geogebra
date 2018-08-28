@@ -22,17 +22,17 @@ public interface TextController {
 	 */
 	GeoText createText(GeoPointND loc, boolean rw);
 
-	/**
-	 * Updates the editor.
-	 * 
-	 * @param text
-	 *            the current text.
-	 * @param x
-	 *            coordinate to place editor.
-	 * @param y
-	 *            coordinate to place editor.
-	 */
-	void updateEditor(GeoText text, int x, int y);
+	// /**
+	// * Updates the editor.
+	// *
+	// * @param text
+	// * the current text.
+	// * @param x
+	// * coordinate to place editor.
+	// * @param y
+	// * coordinate to place editor.
+	// */
+	// void updateEditor(GeoText text, int x, int y);
 
 	/**
 	 * Edit text
