@@ -1070,6 +1070,8 @@ $duration: 0.2s;
 		.buttonPanel {
 			margin: 20px auto 0px auto;
     		width: fit-content;
+    		// auto margin fix for firefox
+    		display: table;
 			
 			.getLinkBtn {
 				cursor: pointer;
