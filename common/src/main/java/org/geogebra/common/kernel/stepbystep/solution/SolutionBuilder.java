@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-
 import java.util.List;
 import java.util.Stack;
 
@@ -48,7 +46,7 @@ public class SolutionBuilder {
 	 * @param type      SolutionStepType of the SolutionLine
 	 * @param arguments StepNode arguments of the SolutionLine
 	 */
-	public void add(SolutionStepType type, StepNode... arguments) {
+	public void add(SolutionStepType type, HasLaTeX... arguments) {
 		add(new SolutionLine(type, arguments));
 	}
 
@@ -67,7 +65,7 @@ public class SolutionBuilder {
 		lastStep = newStep;
 	}
 
-	public void add(StepNode ss) {
+	public void add(HasLaTeX ss) {
 		add(SolutionStepType.EQUATION, ss);
 	}
 
@@ -92,12 +90,12 @@ public class SolutionBuilder {
 		group.reset();
 	}
 
-	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group, StepNode result,
-			StepNode... parameters) {
+	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group, HasLaTeX result,
+			HasLaTeX... parameters) {
 		addGroup(new SolutionLine(groupHeader, parameters), group, result);
 	}
 
-	public void addGroup(SolutionLine groupHeader, SolutionBuilder group, StepNode result) {
+	public void addGroup(SolutionLine groupHeader, SolutionBuilder group, HasLaTeX result) {
 		if (group.getSteps().getSubsteps() == null) {
 			return;
 		}
@@ -113,8 +111,8 @@ public class SolutionBuilder {
 		group.reset();
 	}
 
-	public void addSubstep(StepNode original, StepNode result, SolutionStepType substep,
-			StepNode... parameters) {
+	public void addSubstep(HasLaTeX original, HasLaTeX result, SolutionStepType substep,
+			HasLaTeX... parameters) {
 		add(SolutionStepType.SUBSTEP_WRAPPER);
 		levelDown();
 		add(original);
@@ -123,7 +121,7 @@ public class SolutionBuilder {
 		levelUp();
 	}
 
-	public void addSubsteps(StepNode original, StepNode result, SolutionBuilder substeps) {
+	public void addSubsteps(HasLaTeX original, HasLaTeX result, SolutionBuilder substeps) {
 		add(SolutionStepType.SUBSTEP_WRAPPER);
 		levelDown();
 		add(original);

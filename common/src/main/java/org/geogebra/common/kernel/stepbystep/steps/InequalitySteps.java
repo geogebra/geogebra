@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
@@ -248,12 +249,12 @@ enum InequalitySteps implements SolveStepGenerator<StepInequality> {
 			roots.add(0, StepConstant.NEG_INF);
 			roots.add(StepConstant.POS_INF);
 
-			SolutionTable table = SolutionTable.createSignTable(variable, roots, terms);
-			table.addInequalityRow(numerator, denominator);
+			SolutionTable table = StepHelper.createSignTable(variable, roots, terms);
+			StepHelper.addInequalityRow(table, numerator, denominator);
 
 			steps.add(table);
 
-			return new Result(table.readSolution(si, variable, tracker));
+			return new Result(StepHelper.readSolution(table, si, variable, tracker));
 		}
 	},
 

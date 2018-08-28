@@ -646,7 +646,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			roots.add(StepConstant.POS_INF);
 
 			SolutionTable signTable =
-					SolutionTable.createSignTable(variable, roots, new ArrayList<>(absoluteValues));
+					StepHelper.createSignTable(variable, roots, new ArrayList<>(absoluteValues));
 			steps.add(signTable);
 
 			List<StepSolution> solutions = new ArrayList<>();

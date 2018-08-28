@@ -7,9 +7,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
@@ -530,12 +528,11 @@ enum FactorSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				Set<StepVariable> variableSet = new HashSet<>();
-				so.getListOfVariables(variableSet);
+				List<StepVariable> variableList = so.getListOfVariables();
 
 				StepVariable var = null;
-				if (variableSet.size() == 1) {
-					var = (StepVariable) variableSet.toArray()[0];
+				if (variableList.size() == 1) {
+					var = variableList.get(0);
 				}
 
 				if (var == null || so.degree(var) < 2) {
@@ -607,9 +604,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 					tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
 				StepOperation so = (StepOperation) sn;
 
-				Set<StepVariable> variableSet = new HashSet<>();
-				so.getListOfVariables(variableSet);
-				StepVariable var = (StepVariable) variableSet.toArray()[0];
+				StepVariable var = so.getListOfVariables().get(0);
 
 				StepExpression[] polynomialForm = so.convertToPolynomial(var);
 

@@ -1,9 +1,7 @@
 package org.geogebra.web.solver;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
@@ -216,12 +214,11 @@ public class Solver implements EntryPoint, MathFieldListener {
 
 		printAlternativeForms(input);
 
-		Set<StepVariable> variableSet = new HashSet<>();
-		input.getListOfVariables(variableSet);
+		List<StepVariable> variableList = input.getListOfVariables();
 
-		printSolutions(input.toSolvable(), variableSet);
+		printSolutions(input.toSolvable(), variableList);
 
-		printDerivatives(input, variableSet);
+		printDerivatives(input, variableList);
 
 		if (stepsPanel.getWidgetCount() == 0) {
 			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
@@ -268,11 +265,11 @@ public class Solver implements EntryPoint, MathFieldListener {
 		}
 	}
 
-	private void printSolutions(StepSolvable solvable, Set<StepVariable> variableSet) {
+	private void printSolutions(StepSolvable solvable, List<StepVariable> variableList) {
 		List<StepInformation> solutions = new ArrayList<>();
 		SolutionBuilder sb = new SolutionBuilder();
 
-		for (StepVariable variable : variableSet) {
+		for (StepVariable variable : variableList) {
 			try {
 				double startTime = app.getMillisecondTime();
 				List<StepSolution> solutionList = solvable.solve(variable, sb);
@@ -304,12 +301,12 @@ public class Solver implements EntryPoint, MathFieldListener {
 		}
 	}
 
-	private void printDerivatives(StepTransformable input, Set<StepVariable> variableSet) {
-		if (input instanceof StepExpression && variableSet.size() > 0) {
+	private void printDerivatives(StepTransformable input, List<StepVariable> variableList) {
+		if (input instanceof StepExpression && variableList.size() > 0) {
 			stepsPanel.add(new HTML("<h2>Derivatives</h2>"));
 
 			SolutionBuilder sb = new SolutionBuilder();
-			for (StepVariable variable : variableSet) {
+			for (StepVariable variable : variableList) {
 				StepExpression derivative =
 						StepNode.differentiate((StepExpression) input, variable);
 				StepExpression result = (StepExpression) derivative.differentiateOutput(sb);

@@ -203,7 +203,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		int tableColumns = geoList.size();
 		if (args != null && !StringUtil.empty(args.getTextString())) {
 			String optionsStr = args.getTextString();
-			if (optionsStr.indexOf("v") > -1) {
+			if (optionsStr.contains("v")) {
 				alignment = Alignment.VERTICAL; // vertical table
 			}
 
@@ -216,14 +216,14 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 						.replace("$", "\\dollar ");
 			}
 
-			if (optionsStr.indexOf(",") > -1) {
+			if (optionsStr.contains(",")) {
 				decimalComma = true;
 			}
 
 			int pos;
 
 			if ((pos = optionsStr.indexOf("|")) > -1
-					&& optionsStr.indexOf("||") == -1) {
+					&& !optionsStr.contains("||")) {
 				verticalLines = true;
 
 				verticalLinesArray = new StringBuilder();
@@ -263,8 +263,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 				// + horizontalLinesArray.toString());
 			}
 
-			verticalLinesJustEdges = optionsStr.indexOf("/") > -1;
-			horizontalLinesJustEdges = optionsStr.indexOf("-") > -1;
+			verticalLinesJustEdges = optionsStr.contains("/");
+			horizontalLinesJustEdges = optionsStr.contains("-");
 
 			MatchResult matcher = matchLRC.exec(optionsStr);
 			justification = matcher.getGroup(2);
@@ -272,35 +272,35 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 				justification = "l";
 			}
 
-			if (optionsStr.indexOf("||||") > -1) {
+			if (optionsStr.contains("||||")) {
 				openBracket = "\\left| \\left|";
 				closeBracket = "\\right| \\right|";
 				openString = "||";
 				closeString = "||";
-			} else if (optionsStr.indexOf("||") > -1) {
+			} else if (optionsStr.contains("||")) {
 				openBracket = "\\left|";
 				closeBracket = "\\right|";
 				openString = "|";
 				closeString = "|";
-			} else if (optionsStr.indexOf('(') > -1) {
+			} else if (optionsStr.contains("(")) {
 				openBracket = "\\left(";
 				openString = "(";
-			} else if (optionsStr.indexOf('[') > -1) {
+			} else if (optionsStr.contains("[")) {
 				openBracket = "\\left[";
 				openString = "[";
 
-			} else if (optionsStr.indexOf('{') > -1) {
+			} else if (optionsStr.contains("{")) {
 				openBracket = "\\left\\{";
 				openString = "{";
 			}
 
-			if (optionsStr.indexOf(')') > -1) {
+			if (optionsStr.contains(")")) {
 				closeBracket = "\\right)";
 				closeString = ")";
-			} else if (optionsStr.indexOf(']') > -1) {
+			} else if (optionsStr.contains("]")) {
 				closeBracket = "\\right]";
 				closeString = "]";
-			} else if (optionsStr.indexOf('}') > -1) {
+			} else if (optionsStr.contains("}")) {
 				closeBracket = "\\right\\}";
 				closeString = "}";
 			}
@@ -311,7 +311,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			GeoText options = (GeoText) geoList.get(tableColumns - 1);
 			String optionsStr = options.getTextString();
 
-			if (optionsStr.indexOf("h") > -1) {
+			if (optionsStr.contains("h")) {
 				alignment = Alignment.HORIZONTAL; // horizontal table
 			}
 
@@ -572,7 +572,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
 			String text1 = geo1.toLaTeXString(false, tpl);
-			if (geo1.isGeoText() && !((GeoText) geo1).isLaTeX()) {
+			if (geo1 instanceof GeoText && !((GeoText) geo1).isLaTeX()) {
 				text1 = text1.replace("$", "\\dollar");
 			}
 
@@ -629,10 +629,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 					// check for "raw" LaTeX
 					// eg TableText[{"\frac{2}{3}","2","3"},{"4","5","6"}]
-					&& text1.indexOf(" ") > -1 && text1.indexOf("^") == -1
-					&& text1.indexOf("{") == -1 && text1.indexOf("}") == -1
-					&& text1.indexOf("+") == -1 && text1.indexOf("-") == -1
-					&& text1.indexOf("=") == -1 && text1.indexOf("\\") == -1
+					&& text1.contains(" ") && !text1.contains("^")
+					&& !text1.contains("{") && !text1.contains("}")
+					&& !text1.contains("+") && !text1.contains("-")
+					&& !text1.contains("=") && !text1.contains("\\")
 
 			) {
 

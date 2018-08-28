@@ -19,19 +19,13 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Process a function using single argument command
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
+public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
@@ -60,37 +54,4 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 			g.toGeoElement().set(f.toGeoElement());
 		}
 	}
-
-	@Override
-	public SolutionStep getSteps() {
-		App app = kernel.getApplication();
-
-		SolutionBuilder sb = new SolutionBuilder();
-		String definitionNoLabel = f.toGeoElement()
-				.getDefinitionNoLabel(StringTemplate.defaultTemplate);
-		StepExpression sn = (StepExpression) StepNode.getStepTree(
-				definitionNoLabel, app.getKernel().getParser());
-		switch (getClassName()) {
-		case Expand:
-			sn.expandOutput(sb);
-			break;
-		case Factor:
-			sn.factorOutput(sb);
-			break;
-		case Simplify:
-			sn.regroupOutput(sb);
-			break;
-		default:
-			Log.warn("Not supported for steps: " + getClassName());
-		}
-
-		return sb.getSteps();
-	}
-
-	@Override
-	public boolean canShowSteps() {
-		return getClassName() == Commands.Simplify || getClassName() == Commands.Expand
-				|| getClassName() == Commands.Factor;
-	}
-
 }

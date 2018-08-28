@@ -134,7 +134,6 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;

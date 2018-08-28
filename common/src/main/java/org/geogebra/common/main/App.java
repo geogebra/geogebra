@@ -233,6 +233,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * whether transparent cursor should be used while dragging
 	 */
 	private boolean useTransparentCursorWhenDragging = false;
+
 	/**
 	 * Script manager
 	 */
@@ -3505,7 +3506,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public void loseFocus() {
 		Log.debug(
-				"Should lose focus on Web applets, ipmelment (override) only where appropriate");
+				"Should lose focus on Web applets, implement (override) only where appropriate");
 	}
 
 	/**

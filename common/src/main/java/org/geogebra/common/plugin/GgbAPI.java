@@ -17,9 +17,6 @@ import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilderGGB;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.latex.BracketsAdapter;
@@ -54,10 +51,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -2217,26 +2210,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public boolean isTracing(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		return geo != null && geo.getTrace();
-	}
-
-	/**
-	 * @param eq
-	 *            stepable command
-	 * @param ggb
-	 *            use GGB syntax?
-	 * @return JSON with steps
-	 */
-	public String stepByStep(String eq, boolean ggb) {
-		StepSolvable se = StepNode.getStepTree(eq, kernel.getParser()).toSolvable();
-		
-		SolutionBuilder sb = new SolutionBuilder();
-		se.solve(new StepVariable("x"), sb);
-		
-		StepGuiBuilder builder = ggb
-				? new StepGuiBuilderGGB(kernel.getLocalization())
-				: new StepGuiBuilderJson(kernel.getLocalization());
-		builder.buildStepGui(sb.getSteps());
-		return builder.toString();
 	}
 
 	@Override

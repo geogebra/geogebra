@@ -1619,6 +1619,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_INTEGER_FRACTIONS,
+					ExpandSteps.WEAK_EXPAND_PRODUCTS,
 					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 			};
@@ -1646,6 +1647,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.COMMON_ROOT,
 					RegroupSteps.SIMPLIFY_ROOTS,
 					RegroupSteps.SIMPLE_POWERS,
+					FractionSteps.CANCEL_FRACTION,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_INTEGER_FRACTIONS,
 					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,

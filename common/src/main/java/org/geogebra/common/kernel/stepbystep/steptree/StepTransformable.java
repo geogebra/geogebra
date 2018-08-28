@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionUtils;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
@@ -164,7 +165,7 @@ public abstract class StepTransformable extends StepNode {
 	public abstract boolean containsFractions();
 
 	protected String getColorHex() {
-		return getColorHex(color);
+		return SolutionUtils.getColorHex(color);
 	}
 
 	/**

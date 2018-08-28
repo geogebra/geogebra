@@ -1188,7 +1188,9 @@ public enum Commands implements CommandsConstants,
 
 	nPr(TABLE_ENGLISH),
 
-	RoundedPolygon(TABLE_ENGLISH); // TODO move to TABLE_GEOMETRY
+	RoundedPolygon(TABLE_ENGLISH), // TODO move to TABLE_GEOMETRY
+
+	ShowSteps(TABLE_ALGEBRA);
 
 	private int table;
 

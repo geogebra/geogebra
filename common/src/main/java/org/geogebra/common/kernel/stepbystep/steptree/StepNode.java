@@ -3,32 +3,16 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.*;
 import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.kernel.stepbystep.solution.TableElement;
-import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.kernel.stepbystep.solution.HasLaTeX;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public abstract class StepNode implements TableElement {
-
-	public static String getColorHex(int color) {
-		switch (color % 5) {
-			case 1:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
-			case 2:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
-			case 3:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
-			case 4:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
-			case 0:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
-			default:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
-		}
-	}
+public abstract class StepNode implements HasLaTeX {
 
 	/**
 	 * @param s      string to be parsed
@@ -492,32 +476,36 @@ public abstract class StepNode implements TableElement {
 
 	/**
 	 * Iterates through the tree searching for StepVariables
-	 *
-	 * @param variableList set of variables found in the tree
 	 */
-	public void getListOfVariables(Set<StepVariable> variableList) {
+	public List<StepVariable> getListOfVariables() {
+		Set<StepVariable> variableSet = new HashSet<>();
+		getSetOfVariables(variableSet);
+		return new ArrayList<>(variableSet);
+	}
+
+	protected void getSetOfVariables(Set<StepVariable> variableSet) {
 		if (this instanceof StepEquationSystem) {
 			for (StepEquation se : ((StepEquationSystem) this).getEquations()) {
-				se.getListOfVariables(variableList);
+				se.getSetOfVariables(variableSet);
 			}
 		}
 
 		if (this instanceof StepSolvable) {
 			StepSolvable ss = (StepSolvable) this;
 
-			ss.LHS.getListOfVariables(variableList);
-			ss.RHS.getListOfVariables(variableList);
+			ss.LHS.getSetOfVariables(variableSet);
+			ss.RHS.getSetOfVariables(variableSet);
 		}
 
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
 			for (StepExpression operand : so) {
-				operand.getListOfVariables(variableList);
+				operand.getSetOfVariables(variableSet);
 			}
 		}
 
 		if (this instanceof StepVariable) {
-			variableList.add((StepVariable) this);
+			variableSet.add((StepVariable) this);
 		}
 	}
 }

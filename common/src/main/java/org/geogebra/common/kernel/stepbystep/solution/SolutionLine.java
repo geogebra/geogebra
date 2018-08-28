@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.Localization;
 
 import java.util.ArrayList;
@@ -15,16 +14,16 @@ public class SolutionLine extends SolutionStep {
 	 * color. This will be represented as a dot after the text of the step.
 	 */
 	private SolutionStepType type;
-	private StepNode[] parameters;
+	private HasLaTeX[] parameters;
 	private List<Integer> colors;
 
 	public SolutionLine(SolutionStepType type) {
 		this.type = type;
 	}
 
-	public SolutionLine(SolutionStepType type, StepNode... parameters) {
+	public SolutionLine(SolutionStepType type, HasLaTeX... parameters) {
 		this.type = type;
-		this.parameters = new StepNode[parameters.length];
+		this.parameters = new HasLaTeX[parameters.length];
 		for (int i = 0; i < parameters.length; i++) {
 			this.parameters[i] = parameters[i].deepCopy();
 		}

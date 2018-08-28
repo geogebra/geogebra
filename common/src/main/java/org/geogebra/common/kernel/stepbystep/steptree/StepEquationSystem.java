@@ -30,9 +30,7 @@ public class StepEquationSystem extends StepNode {
 	}
 
 	public List<StepSolution> solve(SolutionBuilder steps) {
-		Set<StepVariable> variableSet = new HashSet<>();
-		getListOfVariables(variableSet);
-		return solve(steps, new ArrayList<>(variableSet));
+		return solve(steps, getListOfVariables());
 	}
 
 	public List<StepSolution> solve(SolutionBuilder steps, List<StepVariable> variables) {

@@ -24,9 +24,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -34,7 +31,7 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Use Solve cas command from AV
  */
-public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
+public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	private GeoList solutions;
 	private GeoElement equations;
@@ -286,39 +283,5 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		default:
 			return Commands.NSolve;
 		}
-	}
-
-	/**
-	 *
-	 * @return SolutionSteps for the (system of) equation on inequality
-	 */
-	@Override
-	public SolutionStep getSteps() {
-		if (equations.isGeoList()) {
-			if (((GeoList) equations).size() == 1) {
-				return getStepsSingle(((GeoList) equations).get(0));
-			} else {
-				// TODO system
-				return null;
-			}
-		} else {
-			return getStepsSingle(equations);
-		}
-	}
-
-	private SolutionStep getStepsSingle(GeoElement geo) {
-		StepSolvable se = StepNode.getStepTree(
-				geo.getDefinitionNoLabel(StringTemplate.defaultTemplate), kernel.getParser())
-				.toSolvable();
-
-		SolutionBuilder sb = new SolutionBuilder();
-		se.solve(new StepVariable("x"), sb);
-
-		return sb.getSteps();
-	}
-
-	@Override
-	public boolean canShowSteps() {
-		return true;
 	}
 }

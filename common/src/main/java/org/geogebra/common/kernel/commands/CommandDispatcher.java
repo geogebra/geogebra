@@ -60,7 +60,10 @@ public abstract class CommandDispatcher {
 	protected CommandDispatcherInterface casDispatcher = null;
 	/** dispatcher for advanced commands */
 	protected CommandDispatcherInterface advancedDispatcher = null;
-	private CommandDispatcherStats statsDispatcher = null;
+	/** dispatcher for stats commands */
+	protected CommandDispatcherInterface statsDispatcher = null;
+	/** dispatcher for steps commands */
+	protected CommandDispatcherInterface stepsDispatcher = null;
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
@@ -834,6 +837,8 @@ public abstract class CommandDispatcher {
 			case PreviousPrime:
 			case CompleteSquare:
 				return getCASDispatcher().dispatch(command, kernel);
+			case ShowSteps:
+				return getStepsDispatcher().dispatch(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
@@ -844,7 +849,7 @@ public abstract class CommandDispatcher {
 		return null;
 	}
 
-	private CommandDispatcherStats getStatsDispatcher() {
+	private CommandDispatcherInterface getStatsDispatcher() {
 		if (statsDispatcher == null) {
 			statsDispatcher = new CommandDispatcherStats();
 		}
@@ -881,6 +886,14 @@ public abstract class CommandDispatcher {
 			advancedDispatcher = new CommandDispatcherAdvanced();
 		}
 		return advancedDispatcher;
+	}
+
+	/** @return dispatcher for steps commands */
+	protected CommandDispatcherInterface getStepsDispatcher() {
+		if (stepsDispatcher == null) {
+			stepsDispatcher = new CommandDispatcherSteps();
+		}
+		return stepsDispatcher;
 	}
 
 	/**

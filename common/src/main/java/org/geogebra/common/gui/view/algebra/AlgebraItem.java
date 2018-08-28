@@ -148,14 +148,6 @@ public class AlgebraItem {
 			}
 
 		}
-		if (geo.getKernel().getApplication().has(Feature.SHOW_STEPS)
-				&& casEnabled) {
-			sug = SuggestionSteps.get(geo);
-
-			if (sug != null) {
-				return sug;
-			}
-		}
 
 		sug = SuggestionRootExtremum.get(geo);
 		if (sug != null) {

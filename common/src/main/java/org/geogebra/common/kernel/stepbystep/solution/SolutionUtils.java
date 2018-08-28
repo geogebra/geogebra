@@ -1,15 +1,33 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class SolutionUtils {
+public class SolutionUtils {
+
+	public static String getColorHex(int color) {
+		switch (color % 5) {
+			case 1:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
+			case 2:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
+			case 3:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
+			case 4:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
+			case 0:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
+			default:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
+		}
+	}
 
 	static List<TextElement> getDefaultText(SolutionStepType sst, Localization loc,
-			StepNode[] parameters) {
+			HasLaTeX[] parameters) {
 		String translated = loc.getMenuDefault(sst.getKey(), sst.getDefault());
 
 		if (parameters == null) {
@@ -29,7 +47,7 @@ class SolutionUtils {
 	}
 
 	static List<TextElement> getDetailedText(SolutionStepType sst, Localization loc,
-			StepNode[] parameters, List<Integer> colors) {
+			HasLaTeX[] parameters, List<Integer> colors) {
 		String translated = loc.getMenuDefault(sst.getKey(), sst.getDetailed());
 
 		List<TextElement> result;
@@ -51,7 +69,7 @@ class SolutionUtils {
 		if (colors != null) {
 			for (Integer color : colors) {
 				if (color != 0) {
-					String colorText = "\\fgcolor{" + StepNode.getColorHex(color)
+					String colorText = "\\fgcolor{" + getColorHex(color)
 							+ "}{\\,\\bullet}";
 					result.add(new TextElement(colorText, colorText));
 				}

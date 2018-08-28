@@ -73,11 +73,19 @@ enum ExpandSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
+			return expandProducts(this, sn, sb, tracker, null);
+		}
+	},
+
+	WEAK_EXPAND_PRODUCTS {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			return expandProducts(this, sn, sb, tracker, false);
 		}
 	},
 
-	EXPAND_PRODUCTS {
+	STRONG_EXPAND_PRODUCTS {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
@@ -162,7 +170,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					RegroupSteps.DECIMAL_REGROUP,
 					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
 					ExpandSteps.EXPAND_POWERS,
-					ExpandSteps.EXPAND_PRODUCTS
+					ExpandSteps.STRONG_EXPAND_PRODUCTS
 			};
 
 			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker);
@@ -176,7 +184,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					RegroupSteps.DEFAULT_REGROUP,
 					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
 					ExpandSteps.EXPAND_POWERS,
-					ExpandSteps.EXPAND_PRODUCTS
+					ExpandSteps.STRONG_EXPAND_PRODUCTS
 			};
 
 			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker);
@@ -189,7 +197,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 	}
 
 	private static StepTransformable expandProducts(ExpandSteps step, StepTransformable sn,
-			SolutionBuilder sb, RegroupTracker tracker, boolean strongExpand) {
+			SolutionBuilder sb, RegroupTracker tracker, Boolean strongExpand) {
 		if (sn.isOperation(Operation.MULTIPLY)) {
 			StepOperation so = (StepOperation) sn;
 
@@ -208,7 +216,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			}
 
 			if (first != null && second != null && (first.isSum() || second.isSum())) {
-				if (!(strongExpand || first.isInteger() && remaining == null ||
+				if (!(strongExpand != null && strongExpand
+						|| first.isInteger() && remaining == null ||
 						tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
 					return sn;
 				}

@@ -84,6 +84,7 @@ public class SolveStepTest {
 
 	@Test
 	public void rationalEquations() {
+		t("5/(x-8)", "4", "x", "x = (37)/(4)");
 		t("x-1/x", "0", "x", "x = -1", "x = 1");
 		t("((1)/(3x+1))^(2)", "9", "x", "x = -(2)/(9)", "x = -(4)/(9)");
 		t("1/x", "2/3", "x", "x = (3)/(2)");
