@@ -26,7 +26,7 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class AlgebraStyleTest extends Assert {
+public class AlgebraStyleTest extends AlgebraTest {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
@@ -48,8 +48,14 @@ public class AlgebraStyleTest extends Assert {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, false, null);
 		((GeoConicND) el[0]).setToStringMode(mode);
-		assertEquals(check.replace("^2", Unicode.SUPERSCRIPT_2 + ""),
+		assertEquals(unicode(check),
 				el[0].toValueString(StringTemplate.defaultTemplate));
+		// Check it works after reload
+		app.setXML(app.getXML(), true);
+		GeoElement reloaded = app.getKernel()
+				.lookupLabel(el[0].getLabelSimple());
+		assertEquals(unicode(check),
+				reloaded.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	/**
