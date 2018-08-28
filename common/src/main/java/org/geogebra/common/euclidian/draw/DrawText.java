@@ -38,6 +38,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public final class DrawText extends Drawable {
 
+	private static final int MIN_EDITOR_WIDTH = 80;
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
@@ -188,6 +189,7 @@ public final class DrawText extends Drawable {
 			return;
 		}
 
+		view.setBoundingBox(getBoundingBox());
 		GTextLayout layout = getTextLayout(text.getTextString(), textFont,
 				view.getGraphicsForPen());
 		int x = xLabel - 3;
@@ -230,7 +232,7 @@ public final class DrawText extends Drawable {
 
 					g2.setStroke(rectangleStroke);
 					g2.setPaint(EDITOR_BORDER_COLOR);
-					g2.draw(labelRectangle);
+					g2.draw(getBounds());
 				} else {
 					g2.setPaint(geo.getObjectColor());
 					drawMultilineText(g2, textFont);
@@ -323,6 +325,10 @@ public final class DrawText extends Drawable {
 	public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
+		}
+		if (text.isEditMode() && labelRectangle.getWidth() < MIN_EDITOR_WIDTH) {
+			labelRectangle.setBounds((int) labelRectangle.getX(), (int) labelRectangle.getY(),
+					MIN_EDITOR_WIDTH, (int) labelRectangle.getHeight());
 		}
 		return labelRectangle;
 	}

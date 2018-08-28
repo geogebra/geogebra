@@ -31,7 +31,7 @@ public class TextControllerW implements TextController, BlurHandler {
 	private class TextListener implements MathFieldListener {
 
 		protected TextListener() {
-			// nothing to do.
+			// nothing to do
 		}
 
 		@Override
@@ -130,7 +130,7 @@ public class TextControllerW implements TextController, BlurHandler {
 		if (loc == null) {
 			return null;
 		}
-		GeoText t = app.getKernel().getAlgebraProcessor().text("Replace me");
+		GeoText t = app.getKernel().getAlgebraProcessor().text("");
 		t.setEditMode(true);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);
