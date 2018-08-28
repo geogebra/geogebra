@@ -1618,6 +1618,23 @@ public class CoordMatrix {
 	}
 
 	/**
+	 *
+	 * set values from openGL format
+	 *
+	 * @param val
+	 *            flat array
+	 */
+	public void setFromGL(float[] val) {
+		int index = 0;
+		for (int x = 0; x < columns; x++) {
+			for (int y = 0; y < rows; y++) {
+				set(y + 1, x + 1, val[index]);
+				index++;
+			}
+		}
+	}
+
+	/**
 	 * sub value at each diagonal coeff
 	 * 
 	 * @param value
