@@ -21,37 +21,48 @@ import org.geogebra.desktop.main.AppD;
  */
 public class ExpandConic {
 	static AppD app;
-	
-	static TreeSet<String> sym = new TreeSet<>(), asym = new TreeSet<>(),
-			nosym = new TreeSet<>(), acyc = new TreeSet<>();
-	public static void main(String[] a){
-		app = new AppD(new CommandLineArguments(new String[] { "--silent", "--giac" }), new JFrame(), false);
+
+	static TreeSet<String> sym = new TreeSet<>();
+	static TreeSet<String> asym = new TreeSet<>();
+	static TreeSet<String> nosym = new TreeSet<>();
+	static TreeSet<String> acyc = new TreeSet<>();
+
+	/**
+	 * @param a
+	 *            command line args
+	 */
+	public static void main(String[] a) {
+		app = new AppD(
+				new CommandLineArguments(new String[] { "--silent", "--giac" }),
+				new JFrame(), false);
 		try {
-			app.getKernel().getGeoGebraCAS().evaluateRaw("pad3(l):=flatten({0,0,0,0,l})[size(l)..size(l)+3]");
-			app.getKernel().getGeoGebraCAS().evaluateRaw("cyc(l):=subst(subst(l,{c=cc,b=c,a=b,C=CC,B=C,A=B}),{cc=a,CC=A})");
-			app.getKernel().getGeoGebraCAS().evaluateRaw("swapab(l):=subst(subst(l,{b=bb,a=b,B=BB,A=B}),{bb=a,BB=A})");
-			app.getKernel().getGeoGebraCAS().evaluateRaw("coeff3(s):=map(map(pad3(coeffs(s,x)),tt->pad3(coeffs(tt,y))),uu->map(uu,vv->pad3(coeffs(vv,z))))");
+			app.getKernel().getGeoGebraCAS().evaluateRaw(
+					"pad3(l):=flatten({0,0,0,0,l})[size(l)..size(l)+3]");
+			app.getKernel().getGeoGebraCAS().evaluateRaw(
+					"cyc(l):=subst(subst(l,{c=cc,b=c,a=b,C=CC,B=C,A=B}),{cc=a,CC=A})");
+			app.getKernel().getGeoGebraCAS().evaluateRaw(
+					"swapab(l):=subst(subst(l,{b=bb,a=b,B=BB,A=B}),{bb=a,BB=A})");
+			app.getKernel().getGeoGebraCAS().evaluateRaw(
+					"coeff3(s):=map(map(pad3(coeffs(s,x)),tt->pad3(coeffs(tt,y))),uu->map(uu,vv->pad3(coeffs(vv,z))))");
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		doExp();
-		/*System.out.println(acyc.size());
-		System.out.println(nosym.size());
-		System.out.println(asym.size());
-		System.out.println(sym.size());
-		for(String s:nosym){
-			System.out.println(s);
-		}
-		System.out.println("---");
-		for(String s:acyc){
-			System.out.println(s);
-		}*/
+		/*
+		 * System.out.println(acyc.size()); System.out.println(nosym.size());
+		 * System.out.println(asym.size()); System.out.println(sym.size());
+		 * for(String s:nosym){ System.out.println(s); }
+		 * System.out.println("---"); for(String s:acyc){ System.out.println(s);
+		 * }
+		 */
 	}
+
 	private static void doExp() {
 		exp("K001",
 				"a^4*c^2*x^2*y + a^2*b^2*c^2*x^2*y - 2*b^4*c^2*x^2*y - 2*a^2*c^4*x^2*y + b^2*c^4*x^2*y + c^6*x^2*y + 2*a^4*c^2*x*y^2 - a^2*b^2*c^2*x*y^2 - b^4*c^2*x*y^2 - a^2*c^4*x*y^2 + 2*b^2*c^4*x*y^2 - c^6*x*y^2 - a^4*b^2*x^2*z + 2*a^2*b^4*x^2*z - b^6*x^2*z - a^2*b^2*c^2*x^2*z - b^4*c^2*x^2*z + 2*b^2*c^4*x^2*z + a^6*y^2*z - 2*a^4*b^2*y^2*z + a^2*b^4*y^2*z + a^4*c^2*y^2*z + a^2*b^2*c^2*y^2*z - 2*a^2*c^4*y^2*z - 2*a^4*b^2*x*z^2 + a^2*b^4*x*z^2 + b^6*x*z^2 + a^2*b^2*c^2*x*z^2 - 2*b^4*c^2*x*z^2 + b^2*c^4*x*z^2 - a^6*y*z^2 - a^4*b^2*y*z^2 + 2*a^2*b^4*y*z^2 + 2*a^4*c^2*y*z^2 - a^2*b^2*c^2*y*z^2 - a^2*c^4*y*z^2");
-		exp("K002","c^2*x^2*y - c^2*x*y^2 - b^2*x^2*z + a^2*y^2*z + b^2*x*z^2 - a^2*y*z^2");
+		exp("K002",
+				"c^2*x^2*y - c^2*x*y^2 - b^2*x^2*z + a^2*y^2*z + b^2*x*z^2 - a^2*y*z^2");
 		exp("K003",
 				"a^2*b^2*c^2*x^2*y - b^4*c^2*x^2*y + b^2*c^4*x^2*y + a^4*c^2*x*y^2 - a^2*b^2*c^2*x*y^2 - a^2*c^4*x*y^2 - a^2*b^2*c^2*x^2*z - b^4*c^2*x^2*z + b^2*c^4*x^2*z + a^4*c^2*y^2*z + a^2*b^2*c^2*y^2*z - a^2*c^4*y^2*z - a^4*b^2*x*z^2 + a^2*b^4*x*z^2 + a^2*b^2*c^2*x*z^2 - a^4*b^2*y*z^2 + a^2*b^4*y*z^2 - a^2*b^2*c^2*y*z^2");
 		exp("K004",
@@ -76,8 +87,8 @@ public class ExpandConic {
 				"a^3*x^2*y - a^2*b*x^2*y - a*b^2*x^2*y + b^3*x^2*y - a^2*c*x^2*y + 2*a*b*c*x^2*y - b^2*c*x^2*y - a*c^2*x^2*y - b*c^2*x^2*y + c^3*x^2*y + a^3*x*y^2 - a^2*b*x*y^2 - a*b^2*x*y^2 + b^3*x*y^2 - a^2*c*x*y^2 + 2*a*b*c*x*y^2 - b^2*c*x*y^2 - a*c^2*x*y^2 - b*c^2*x*y^2 + c^3*x*y^2 + a^3*x^2*z - a^2*b*x^2*z - a*b^2*x^2*z + b^3*x^2*z - a^2*c*x^2*z + 2*a*b*c*x^2*z - b^2*c*x^2*z - a*c^2*x^2*z - b*c^2*x^2*z + c^3*x^2*z + 2*a^3*x*y*z - 2*a^2*b*x*y*z - 2*a*b^2*x*y*z + 2*b^3*x*y*z - 2*a^2*c*x*y*z + 12*a*b*c*x*y*z - 2*b^2*c*x*y*z - 2*a*c^2*x*y*z - 2*b*c^2*x*y*z + 2*c^3*x*y*z + a^3*y^2*z - a^2*b*y^2*z - a*b^2*y^2*z + b^3*y^2*z - a^2*c*y^2*z + 2*a*b*c*y^2*z - b^2*c*y^2*z - a*c^2*y^2*z - b*c^2*y^2*z + c^3*y^2*z + a^3*x*z^2 - a^2*b*x*z^2 - a*b^2*x*z^2 + b^3*x*z^2 - a^2*c*x*z^2 + 2*a*b*c*x*z^2 - b^2*c*x*z^2 - a*c^2*x*z^2 - b*c^2*x*z^2 + c^3*x*z^2 + a^3*y*z^2 - a^2*b*y*z^2 - a*b^2*y*z^2 + b^3*y*z^2 - a^2*c*y*z^2 + 2*a*b*c*y*z^2 - b^2*c*y*z^2 - a*c^2*y*z^2 - b*c^2*y*z^2 + c^3*y*z^2");
 		exp("K014",
 				"a*b*c*x^2*y + a*b*c*x*y^2 + a*b*c*x^2*z - a^2*b*x*y*z - a*b^2*x*y*z - a^2*c*x*y*z - b^2*c*x*y*z - a*c^2*x*y*z - b*c^2*x*y*z + a*b*c*y^2*z + a*b*c*x*z^2 + a*b*c*y*z^2");
-		exp("K015","x^2*y + x*y^2 + x^2*z - 6*x*y*z + y^2*z + x*z^2 + y*z^2");
-		exp("K016","x^2*y + x*y^2 + x^2*z + y^2*z + x*z^2 + y*z^2");
+		exp("K015", "x^2*y + x*y^2 + x^2*z - 6*x*y*z + y^2*z + x*z^2 + y*z^2");
+		exp("K016", "x^2*y + x*y^2 + x^2*z + y^2*z + x*z^2 + y*z^2");
 		exp("K017",
 				"b^4*c^2*x^2*y - a^2*c^4*x^2*y + a^4*c^2*x*y^2 - b^2*c^4*x*y^2 - a^2*b^4*x^2*z + b^2*c^4*x^2*z - a^4*b^2*y^2*z + a^2*c^4*y^2*z + a^4*b^2*x*z^2 - b^4*c^2*x*z^2 + a^2*b^4*y*z^2 - a^4*c^2*y*z^2");
 		exp("K018",
@@ -92,7 +103,8 @@ public class ExpandConic {
 				"a^4*c^2*x^2*y - a^2*b^2*c^2*x^2*y - 2*b^4*c^2*x^2*y + 3*b^2*c^4*x^2*y - c^6*x^2*y - 2*a^4*c^2*x*y^2 - a^2*b^2*c^2*x*y^2 + b^4*c^2*x*y^2 + 3*a^2*c^4*x*y^2 - c^6*x*y^2 + a^4*b^2*x^2*z - b^6*x^2*z - a^2*b^2*c^2*x^2*z + 3*b^4*c^2*x^2*z - 2*b^2*c^4*x^2*z + 2*a^6*x*y*z - 2*a^4*b^2*x*y*z - 2*a^2*b^4*x*y*z + 2*b^6*x*y*z - 2*a^4*c^2*x*y*z + 6*a^2*b^2*c^2*x*y*z - 2*b^4*c^2*x*y*z - 2*a^2*c^4*x*y*z - 2*b^2*c^4*x*y*z + 2*c^6*x*y*z - a^6*y^2*z + a^2*b^4*y^2*z + 3*a^4*c^2*y^2*z - a^2*b^2*c^2*y^2*z - 2*a^2*c^4*y^2*z - 2*a^4*b^2*x*z^2 + 3*a^2*b^4*x*z^2 - b^6*x*z^2 - a^2*b^2*c^2*x*z^2 + b^2*c^4*x*z^2 - a^6*y*z^2 + 3*a^4*b^2*y*z^2 - 2*a^2*b^4*y*z^2 - a^2*b^2*c^2*y*z^2 + a^2*c^4*y*z^2");
 		exp("K023",
 				"-(a^8*b^2*x^2*y) + 3*a^6*b^4*x^2*y - 3*a^4*b^6*x^2*y + a^2*b^8*x^2*y + a^6*b^2*c^2*x^2*y - 2*a^4*b^4*c^2*x^2*y + 2*a^2*b^6*c^2*x^2*y - b^8*c^2*x^2*y - a^6*c^4*x^2*y - a^4*b^2*c^4*x^2*y + b^6*c^4*x^2*y + 3*a^4*c^6*x^2*y + a^2*b^2*c^6*x^2*y - b^4*c^6*x^2*y - 3*a^2*c^8*x^2*y + c^10*x^2*y - a^8*b^2*x*y^2 + 3*a^6*b^4*x*y^2 - 3*a^4*b^6*x*y^2 + a^2*b^8*x*y^2 + a^8*c^2*x*y^2 - 2*a^6*b^2*c^2*x*y^2 + 2*a^4*b^4*c^2*x*y^2 - a^2*b^6*c^2*x*y^2 - a^6*c^4*x*y^2 + a^2*b^4*c^4*x*y^2 + b^6*c^4*x*y^2 + a^4*c^6*x*y^2 - a^2*b^2*c^6*x*y^2 - 3*b^4*c^6*x*y^2 + 3*b^2*c^8*x*y^2 - c^10*x*y^2 + a^6*b^4*x^2*z - 3*a^4*b^6*x^2*z + 3*a^2*b^8*x^2*z - b^10*x^2*z + a^8*c^2*x^2*z - a^6*b^2*c^2*x^2*z + a^4*b^4*c^2*x^2*z - a^2*b^6*c^2*x^2*z - 3*a^6*c^4*x^2*z + 2*a^4*b^2*c^4*x^2*z + b^6*c^4*x^2*z + 3*a^4*c^6*x^2*z - 2*a^2*b^2*c^6*x^2*z - b^4*c^6*x^2*z - a^2*c^8*x^2*z + b^2*c^8*x^2*z + a^10*y^2*z - 3*a^8*b^2*y^2*z + 3*a^6*b^4*y^2*z - a^4*b^6*y^2*z + a^6*b^2*c^2*y^2*z - a^4*b^4*c^2*y^2*z + a^2*b^6*c^2*y^2*z - b^8*c^2*y^2*z - a^6*c^4*y^2*z - 2*a^2*b^4*c^4*y^2*z + 3*b^6*c^4*y^2*z + a^4*c^6*y^2*z + 2*a^2*b^2*c^6*y^2*z - 3*b^4*c^6*y^2*z - a^2*c^8*y^2*z + b^2*c^8*y^2*z - a^8*b^2*x*z^2 + a^6*b^4*x*z^2 - a^4*b^6*x*z^2 + b^10*x*z^2 + a^8*c^2*x*z^2 + 2*a^6*b^2*c^2*x*z^2 + a^2*b^6*c^2*x*z^2 - 3*b^8*c^2*x*z^2 - 3*a^6*c^4*x*z^2 - 2*a^4*b^2*c^4*x*z^2 - a^2*b^4*c^4*x*z^2 + 3*b^6*c^4*x*z^2 + 3*a^4*c^6*x*z^2 + a^2*b^2*c^6*x*z^2 - b^4*c^6*x*z^2 - a^2*c^8*x*z^2 - a^10*y*z^2 + a^6*b^4*y*z^2 - a^4*b^6*y*z^2 + a^2*b^8*y*z^2 + 3*a^8*c^2*y*z^2 - a^6*b^2*c^2*y*z^2 - 2*a^2*b^6*c^2*y*z^2 - b^8*c^2*y*z^2 - 3*a^6*c^4*y*z^2 + a^4*b^2*c^4*y*z^2 + 2*a^2*b^4*c^4*y*z^2 + 3*b^6*c^4*y*z^2 + a^4*c^6*y*z^2 - a^2*b^2*c^6*y*z^2 - 3*b^4*c^6*y*z^2 + b^2*c^8*y*z^2");
-		exp("K024","b^2*c^2*x^2*y + a^2*c^2*x*y^2 + b^2*c^2*x^2*z + a^2*c^2*y^2*z + a^2*b^2*x*z^2 + a^2*b^2*y*z^2 ");
+		exp("K024",
+				"b^2*c^2*x^2*y + a^2*c^2*x*y^2 + b^2*c^2*x^2*z + a^2*c^2*y^2*z + a^2*b^2*x*z^2 + a^2*b^2*y*z^2 ");
 		exp("K025",
 				"a^6*x^2*y - 3*a^4*b^2*x^2*y + 3*a^2*b^4*x^2*y - b^6*x^2*y + a^2*b^2*c^2*x^2*y - b^4*c^2*x^2*y - 2*a^2*c^4*x^2*y + b^2*c^4*x^2*y + c^6*x^2*y + a^6*x*y^2 - 3*a^4*b^2*x*y^2 + 3*a^2*b^4*x*y^2 - b^6*x*y^2 + a^4*c^2*x*y^2 - a^2*b^2*c^2*x*y^2 - a^2*c^4*x*y^2 + 2*b^2*c^4*x*y^2 - c^6*x*y^2 - a^6*x^2*z + 2*a^2*b^4*x^2*z - b^6*x^2*z + 3*a^4*c^2*x^2*z - a^2*b^2*c^2*x^2*z - b^4*c^2*x^2*z - 3*a^2*c^4*x^2*z + b^2*c^4*x^2*z + c^6*x^2*z - 2*a^4*b^2*x*y*z + 2*a^2*b^4*x*y*z + 2*a^4*c^2*x*y*z - 2*b^4*c^2*x*y*z - 2*a^2*c^4*x*y*z + 2*b^2*c^4*x*y*z + a^6*y^2*z - 2*a^4*b^2*y^2*z + b^6*y^2*z + a^4*c^2*y^2*z + a^2*b^2*c^2*y^2*z - 3*b^4*c^2*y^2*z - a^2*c^4*y^2*z + 3*b^2*c^4*y^2*z - c^6*y^2*z - a^6*x*z^2 - a^4*b^2*x*z^2 + a^2*b^4*x*z^2 + b^6*x*z^2 + 3*a^4*c^2*x*z^2 + a^2*b^2*c^2*x*z^2 - 2*b^4*c^2*x*z^2 - 3*a^2*c^4*x*z^2 + c^6*x*z^2 - a^6*y*z^2 - a^4*b^2*y*z^2 + a^2*b^4*y*z^2 + b^6*y*z^2 + 2*a^4*c^2*y*z^2 - a^2*b^2*c^2*y*z^2 - 3*b^4*c^2*y*z^2 + 3*b^2*c^4*y*z^2 - c^6*y*z^2 ");
 		exp("K026",
@@ -111,7 +123,8 @@ public class ExpandConic {
 				"a^6*x^2*y - 3*a^4*b^2*x^2*y + 3*a^2*b^4*x^2*y - b^6*x^2*y + 3*a^4*c^2*x^2*y + 6*a^2*b^2*c^2*x^2*y - 9*b^4*c^2*x^2*y - 9*a^2*c^4*x^2*y + 5*b^2*c^4*x^2*y + 5*c^6*x^2*y + a^6*x*y^2 - 3*a^4*b^2*x*y^2 + 3*a^2*b^4*x*y^2 - b^6*x*y^2 + 9*a^4*c^2*x*y^2 - 6*a^2*b^2*c^2*x*y^2 - 3*b^4*c^2*x*y^2 - 5*a^2*c^4*x*y^2 + 9*b^2*c^4*x*y^2 - 5*c^6*x*y^2 - a^6*x^2*z - 3*a^4*b^2*x^2*z + 9*a^2*b^4*x^2*z - 5*b^6*x^2*z + 3*a^4*c^2*x^2*z - 6*a^2*b^2*c^2*x^2*z - 5*b^4*c^2*x^2*z - 3*a^2*c^4*x^2*z + 9*b^2*c^4*x^2*z + c^6*x^2*z + 5*a^6*y^2*z - 9*a^4*b^2*y^2*z + 3*a^2*b^4*y^2*z + b^6*y^2*z + 5*a^4*c^2*y^2*z + 6*a^2*b^2*c^2*y^2*z - 3*b^4*c^2*y^2*z - 9*a^2*c^4*y^2*z + 3*b^2*c^4*y^2*z - c^6*y^2*z - a^6*x*z^2 - 9*a^4*b^2*x*z^2 + 5*a^2*b^4*x*z^2 + 5*b^6*x*z^2 + 3*a^4*c^2*x*z^2 + 6*a^2*b^2*c^2*x*z^2 - 9*b^4*c^2*x*z^2 - 3*a^2*c^4*x*z^2 + 3*b^2*c^4*x*z^2 + c^6*x*z^2 - 5*a^6*y*z^2 - 5*a^4*b^2*y*z^2 + 9*a^2*b^4*y*z^2 + b^6*y*z^2 + 9*a^4*c^2*y*z^2 - 6*a^2*b^2*c^2*y*z^2 - 3*b^4*c^2*y*z^2 - 3*a^2*c^4*y*z^2 + 3*b^2*c^4*y*z^2 - c^6*y*z^2");
 		exp("K033",
 				"a^2*c*x^2*y - b^2*c*x^2*y + a*c^2*x^2*y + b*c^2*x^2*y + a^2*c*x*y^2 - b^2*c*x*y^2 - a*c^2*x*y^2 - b*c^2*x*y^2 - a^2*b*x^2*z - a*b^2*x^2*z - b^2*c*x^2*z + b*c^2*x^2*z + a^2*b*y^2*z + a*b^2*y^2*z + a^2*c*y^2*z - a*c^2*y^2*z - a^2*b*x*z^2 + a*b^2*x*z^2 + b^2*c*x*z^2 + b*c^2*x*z^2 - a^2*b*y*z^2 + a*b^2*y*z^2 - a^2*c*y*z^2 - a*c^2*y*z^2");
-		exp("K034","a*c*x^2*y - b*c*x*y^2 - a*b*x^2*z + a*b*y^2*z + b*c*x*z^2 - a*c*y*z^2");
+		exp("K034",
+				"a*c*x^2*y - b*c*x*y^2 - a*b*x^2*z + a*b*y^2*z + b*c*x*z^2 - a*c*y*z^2");
 		exp("K035",
 				"-(a^2*b^2*c^2*x^2*y) + b^4*c^2*x^2*y + a^2*c^4*x^2*y - b^2*c^4*x^2*y - a^4*c^2*x*y^2 + a^2*b^2*c^2*x*y^2 + a^2*c^4*x*y^2 - b^2*c^4*x*y^2 - a^2*b^4*x^2*z + a^2*b^2*c^2*x^2*z + b^4*c^2*x^2*z - b^2*c^4*x^2*z + a^4*b^2*y^2*z - a^4*c^2*y^2*z - a^2*b^2*c^2*y^2*z + a^2*c^4*y^2*z + a^4*b^2*x*z^2 - a^2*b^4*x*z^2 - a^2*b^2*c^2*x*z^2 + b^4*c^2*x*z^2 + a^4*b^2*y*z^2 - a^2*b^4*y*z^2 - a^4*c^2*y*z^2 + a^2*b^2*c^2*y*z^2");
 		exp("K036",
@@ -150,7 +163,8 @@ public class ExpandConic {
 				"(-a^8)*x^3 + 2*a^6*b^2*x^3 - 2*a^2*b^6*x^3 + b^8*x^3 + 2*a^6*c^2*x^3 - 4*a^4*b^2*c^2*x^3 + 2*a^2*b^4*c^2*x^3 + 2*a^2*b^2*c^4*x^3 - 2*b^4*c^4*x^3 - 2*a^2*c^6*x^3 + c^8*x^3 - a^8*x^2*y + 2*a^6*b^2*x^2*y - 2*a^2*b^6*x^2*y + b^8*x^2*y - 2*a^4*b^2*c^2*x^2*y + 4*a^2*b^4*c^2*x^2*y - 2*b^6*c^2*x^2*y + 2*a^4*c^4*x^2*y - 2*a^2*b^2*c^4*x^2*y + 2*b^2*c^6*x^2*y - c^8*x^2*y + a^8*x*y^2 - 2*a^6*b^2*x*y^2 + 2*a^2*b^6*x*y^2 - b^8*x*y^2 - 2*a^6*c^2*x*y^2 + 4*a^4*b^2*c^2*x*y^2 - 2*a^2*b^4*c^2*x*y^2 - 2*a^2*b^2*c^4*x*y^2 + 2*b^4*c^4*x*y^2 + 2*a^2*c^6*x*y^2 - c^8*x*y^2 + a^8*y^3 - 2*a^6*b^2*y^3 + 2*a^2*b^6*y^3 - b^8*y^3 + 2*a^4*b^2*c^2*y^3 - 4*a^2*b^4*c^2*y^3 + 2*b^6*c^2*y^3 - 2*a^4*c^4*y^3 + 2*a^2*b^2*c^4*y^3 - 2*b^2*c^6*y^3 + c^8*y^3 - a^8*x^2*z + 2*a^4*b^4*x^2*z - b^8*x^2*z + 2*a^6*c^2*x^2*z - 2*a^4*b^2*c^2*x^2*z - 2*a^2*b^4*c^2*x^2*z + 2*b^6*c^2*x^2*z + 4*a^2*b^2*c^4*x^2*z - 2*a^2*c^6*x^2*z - 2*b^2*c^6*x^2*z + c^8*x^2*z - 3*a^8*x*y*z + 4*a^6*b^2*x*y*z - 2*a^4*b^4*x*y*z + 4*a^2*b^6*x*y*z - 3*b^8*x*y*z + 4*a^6*c^2*x*y*z - 4*a^4*b^2*c^2*x*y*z - 4*a^2*b^4*c^2*x*y*z + 4*b^6*c^2*x*y*z - 2*a^4*c^4*x*y*z - 4*a^2*b^2*c^4*x*y*z - 2*b^4*c^4*x*y*z + 4*a^2*c^6*x*y*z + 4*b^2*c^6*x*y*z - 3*c^8*x*y*z - a^8*y^2*z + 2*a^4*b^4*y^2*z - b^8*y^2*z + 2*a^6*c^2*y^2*z - 2*a^4*b^2*c^2*y^2*z - 2*a^2*b^4*c^2*y^2*z + 2*b^6*c^2*y^2*z + 4*a^2*b^2*c^4*y^2*z - 2*a^2*c^6*y^2*z - 2*b^2*c^6*y^2*z + c^8*y^2*z + a^8*x*z^2 - 2*a^6*b^2*x*z^2 + 2*a^2*b^6*x*z^2 - b^8*x*z^2 - 2*a^6*c^2*x*z^2 + 4*a^4*b^2*c^2*x*z^2 - 2*a^2*b^4*c^2*x*z^2 - 2*a^2*b^2*c^4*x*z^2 + 2*b^4*c^4*x*z^2 + 2*a^2*c^6*x*z^2 - c^8*x*z^2 - a^8*y*z^2 + 2*a^6*b^2*y*z^2 - 2*a^2*b^6*y*z^2 + b^8*y*z^2 - 2*a^4*b^2*c^2*y*z^2 + 4*a^2*b^4*c^2*y*z^2 - 2*b^6*c^2*y*z^2 + 2*a^4*c^4*y*z^2 - 2*a^2*b^2*c^4*y*z^2 + 2*b^2*c^6*y*z^2 - c^8*y*z^2 + a^8*z^3 - 2*a^4*b^4*z^3 + b^8*z^3 - 2*a^6*c^2*z^3 + 2*a^4*b^2*c^2*z^3 + 2*a^2*b^4*c^2*z^3 - 2*b^6*c^2*z^3 - 4*a^2*b^2*c^4*z^3 + 2*a^2*c^6*z^3 + 2*b^2*c^6*z^3 - c^8*z^3");
 		exp("K052",
 				"a^4*b^4*x^2*y - 2*a^4*b^2*c^2*x^2*y - 2*a^2*b^4*c^2*x^2*y + a^4*c^4*x^2*y + 4*a^2*b^2*c^4*x^2*y + b^4*c^4*x^2*y - 2*a^2*c^6*x^2*y - 2*b^2*c^6*x^2*y + c^8*x^2*y + a^4*b^4*x*y^2 - 2*a^4*b^2*c^2*x*y^2 - 2*a^2*b^4*c^2*x*y^2 + a^4*c^4*x*y^2 + 4*a^2*b^2*c^4*x*y^2 + b^4*c^4*x*y^2 - 2*a^2*c^6*x*y^2 - 2*b^2*c^6*x*y^2 + c^8*x*y^2 + a^4*b^4*x^2*z - 2*a^2*b^6*x^2*z + b^8*x^2*z - 2*a^4*b^2*c^2*x^2*z + 4*a^2*b^4*c^2*x^2*z - 2*b^6*c^2*x^2*z + a^4*c^4*x^2*z - 2*a^2*b^2*c^4*x^2*z + b^4*c^4*x^2*z + a^8*y^2*z - 2*a^6*b^2*y^2*z + a^4*b^4*y^2*z - 2*a^6*c^2*y^2*z + 4*a^4*b^2*c^2*y^2*z - 2*a^2*b^4*c^2*y^2*z + a^4*c^4*y^2*z - 2*a^2*b^2*c^4*y^2*z + b^4*c^4*y^2*z + a^4*b^4*x*z^2 - 2*a^2*b^6*x*z^2 + b^8*x*z^2 - 2*a^4*b^2*c^2*x*z^2 + 4*a^2*b^4*c^2*x*z^2 - 2*b^6*c^2*x*z^2 + a^4*c^4*x*z^2 - 2*a^2*b^2*c^4*x*z^2 + b^4*c^4*x*z^2 + a^8*y*z^2 - 2*a^6*b^2*y*z^2 + a^4*b^4*y*z^2 - 2*a^6*c^2*y*z^2 + 4*a^4*b^2*c^2*y*z^2 - 2*a^2*b^4*c^2*y*z^2 + a^4*c^4*y*z^2 - 2*a^2*b^2*c^4*y*z^2 + b^4*c^4*y*z^2");
-		exp("K053A","c^2*x*y^2 + a^2*y^2*z - b^2*y^2*z + c^2*y^2*z - b^2*x*z^2 - a^2*y*z^2 - b^2*y*z^2 + c^2*y*z^2 ");
+		exp("K053A",
+				"c^2*x*y^2 + a^2*y^2*z - b^2*y^2*z + c^2*y^2*z - b^2*x*z^2 - a^2*y*z^2 - b^2*y*z^2 + c^2*y*z^2 ");
 		exp("K053B",
 				"(-c^2)*x^2*y + a^2*x^2*z - b^2*x^2*z - c^2*x^2*z + a^2*x*z^2 + b^2*x*z^2 - c^2*x*z^2 + a^2*y*z^2");
 		exp("K053C",
@@ -161,8 +175,9 @@ public class ExpandConic {
 				"-(a^2*c^4*x^2*y) + 3*b^2*c^4*x^2*y + c^6*x^2*y - 3*a^2*c^4*x*y^2 + b^2*c^4*x*y^2 - c^6*x*y^2 + a^2*b^4*x^2*z - b^6*x^2*z - 3*b^4*c^2*x^2*z - 2*a^4*b^2*x*y*z + 2*a^2*b^4*x*y*z + 2*a^4*c^2*x*y*z - 2*b^4*c^2*x*y*z - 2*a^2*c^4*x*y*z + 2*b^2*c^4*x*y*z + a^6*y^2*z - a^4*b^2*y^2*z + 3*a^4*c^2*y^2*z + 3*a^2*b^4*x*z^2 + b^6*x*z^2 - b^4*c^2*x*z^2 - a^6*y*z^2 - 3*a^4*b^2*y*z^2 + a^4*c^2*y*z^2");
 		exp("K056",
 				"(-a^6)*b^4*x^2*y + a^4*b^6*x^2*y + a^4*b^4*c^2*x^2*y + 2*a^4*b^2*c^4*x^2*y - a^6*b^4*x*y^2 + a^4*b^6*x*y^2 - a^4*b^4*c^2*x*y^2 - 2*a^2*b^4*c^4*x*y^2 - 2*a^4*b^4*c^2*x^2*z + a^6*c^4*x^2*z - a^4*b^2*c^4*x^2*z - a^4*c^6*x^2*z + 2*a^4*b^4*c^2*y^2*z + a^2*b^4*c^4*y^2*z - b^6*c^4*y^2*z + b^4*c^6*y^2*z + a^6*c^4*x*z^2 + a^4*b^2*c^4*x*z^2 + 2*a^2*b^4*c^4*x*z^2 - a^4*c^6*x*z^2 - 2*a^4*b^2*c^4*y*z^2 - a^2*b^4*c^4*y*z^2 - b^6*c^4*y*z^2 + b^4*c^6*y*z^2");
-		exp("K057a","(-a^4)*b^2*c^2*x^2*y + a^2*b^4*c^2*x^2*y - b^6*c^2*x^2*y + a^4*c^4*x^2*y + 2*b^4*c^4*x^2*y -" +
-						" a^2*c^6*x^2*y - 2*b^2*c^6*x^2*y + c^8*x^2*y + a^4*b^2*c^2*x*y^2 - a^2*b^4*c^2*x*y^2 + "
+		exp("K057a",
+				"(-a^4)*b^2*c^2*x^2*y + a^2*b^4*c^2*x^2*y - b^6*c^2*x^2*y + a^4*c^4*x^2*y + 2*b^4*c^4*x^2*y -"
+						+ " a^2*c^6*x^2*y - 2*b^2*c^6*x^2*y + c^8*x^2*y + a^4*b^2*c^2*x*y^2 - a^2*b^4*c^2*x*y^2 + "
 						+ " b^6*c^2*x*y^2 - a^4*c^4*x*y^2 - 2*b^4*c^4*x*y^2 + a^2*c^6*x*y^2 + 2*b^2*c^6*x*y^2 - c^8*x*y^2 + "
 						+ " a^6*b^2*x^2*z - 2*a^4*b^4*x^2*z + 2*a^2*b^6*x^2*z - b^8*x^2*z - a^6*c^2*x^2*z - a^2*b^4*c^2*x^2*z + "
 						+ " b^6*c^2*x^2*z + 2*a^4*c^4*x^2*z + a^2*b^2*c^4*x^2*z - 2*a^2*c^6*x^2*z - b^2*c^6*x^2*z + c^8*x^2*z + "
@@ -248,7 +263,8 @@ public class ExpandConic {
 				"a^4*c^2*x^2*y + a^2*b^2*c^2*x^2*y - 2*b^4*c^2*x^2*y - a^2*c^4*x^2*y + 2*b^2*c^4*x^2*y + 2*a^4*c^2*x*y^2 - a^2*b^2*c^2*x*y^2 - b^4*c^2*x*y^2 - 2*a^2*c^4*x*y^2 + b^2*c^4*x*y^2 - a^4*b^2*x^2*z + a^2*b^4*x^2*z - a^2*b^2*c^2*x^2*z - 2*b^4*c^2*x^2*z + 2*b^2*c^4*x^2*z - 2*a^4*b^2*x*y*z + 2*a^2*b^4*x*y*z + 2*a^4*c^2*x*y*z - 2*b^4*c^2*x*y*z - 2*a^2*c^4*x*y*z + 2*b^2*c^4*x*y*z - a^4*b^2*y^2*z + a^2*b^4*y^2*z + 2*a^4*c^2*y^2*z + a^2*b^2*c^2*y^2*z - 2*a^2*c^4*y^2*z - 2*a^4*b^2*x*z^2 + 2*a^2*b^4*x*z^2 + a^2*b^2*c^2*x*z^2 - b^4*c^2*x*z^2 + b^2*c^4*x*z^2 - 2*a^4*b^2*y*z^2 + 2*a^2*b^4*y*z^2 + a^4*c^2*y*z^2 - a^2*b^2*c^2*y*z^2 - a^2*c^4*y*z^2");
 		exp("K081",
 				"2*a^6*c^2*x^2*y - 2*a^4*b^2*c^2*x^2*y - 2*a^2*b^4*c^2*x^2*y + 2*b^6*c^2*x^2*y - 2*a^4*c^4*x^2*y + 4*a^2*b^2*c^4*x^2*y - 2*b^4*c^4*x^2*y - 2*a^2*c^6*x^2*y - 2*b^2*c^6*x^2*y + 2*c^8*x^2*y + 2*a^6*c^2*x*y^2 - 2*a^4*b^2*c^2*x*y^2 - 2*a^2*b^4*c^2*x*y^2 + 2*b^6*c^2*x*y^2 - 2*a^4*c^4*x*y^2 + 4*a^2*b^2*c^4*x*y^2 - 2*b^4*c^4*x*y^2 - 2*a^2*c^6*x*y^2 - 2*b^2*c^6*x*y^2 + 2*c^8*x*y^2 + 2*a^6*b^2*x^2*z - 2*a^4*b^4*x^2*z - 2*a^2*b^6*x^2*z + 2*b^8*x^2*z - 2*a^4*b^2*c^2*x^2*z + 4*a^2*b^4*c^2*x^2*z - 2*b^6*c^2*x^2*z - 2*a^2*b^2*c^4*x^2*z - 2*b^4*c^4*x^2*z + 2*b^2*c^6*x^2*z + 3*a^8*x*y*z - 4*a^6*b^2*x*y*z + 2*a^4*b^4*x*y*z - 4*a^2*b^6*x*y*z + 3*b^8*x*y*z - 4*a^6*c^2*x*y*z + 4*a^4*b^2*c^2*x*y*z + 4*a^2*b^4*c^2*x*y*z - 4*b^6*c^2*x*y*z + 2*a^4*c^4*x*y*z + 4*a^2*b^2*c^4*x*y*z + 2*b^4*c^4*x*y*z - 4*a^2*c^6*x*y*z - 4*b^2*c^6*x*y*z + 3*c^8*x*y*z + 2*a^8*y^2*z - 2*a^6*b^2*y^2*z - 2*a^4*b^4*y^2*z + 2*a^2*b^6*y^2*z - 2*a^6*c^2*y^2*z + 4*a^4*b^2*c^2*y^2*z - 2*a^2*b^4*c^2*y^2*z - 2*a^4*c^4*y^2*z - 2*a^2*b^2*c^4*y^2*z + 2*a^2*c^6*y^2*z + 2*a^6*b^2*x*z^2 - 2*a^4*b^4*x*z^2 - 2*a^2*b^6*x*z^2 + 2*b^8*x*z^2 - 2*a^4*b^2*c^2*x*z^2 + 4*a^2*b^4*c^2*x*z^2 - 2*b^6*c^2*x*z^2 - 2*a^2*b^2*c^4*x*z^2 - 2*b^4*c^4*x*z^2 + 2*b^2*c^6*x*z^2 + 2*a^8*y*z^2 - 2*a^6*b^2*y*z^2 - 2*a^4*b^4*y*z^2 + 2*a^2*b^6*y*z^2 - 2*a^6*c^2*y*z^2 + 4*a^4*b^2*c^2*y*z^2 - 2*a^2*b^4*c^2*y*z^2 - 2*a^4*c^4*y*z^2 - 2*a^2*b^2*c^4*y*z^2 + 2*a^2*c^6*y*z^2");
-		exp("K082","c^2*x^2*y + c^2*x*y^2 + b^2*x^2*z + a^2*y^2*z + b^2*x*z^2 + a^2*y*z^2");
+		exp("K082",
+				"c^2*x^2*y + c^2*x*y^2 + b^2*x^2*z + a^2*y^2*z + b^2*x*z^2 + a^2*y*z^2");
 		exp("K083A",
 				"(-c^2)*x^2*y - c^2*x*y^2 - c^2*y^3 + b^2*x^2*z + 2*b^2*x*y*z - 2*c^2*x*y*z + a^2*y^2*z - c^2*y^2*z + b^2*x*z^2 - a^2*y*z^2 + b^2*y*z^2 + b^2*z^3");
 		exp("K083B",
@@ -289,8 +305,10 @@ public class ExpandConic {
 				"a^6*c^2*x^2*y + a^4*b^2*c^2*x^2*y - a^2*b^4*c^2*x^2*y - b^6*c^2*x^2*y - a^4*c^4*x^2*y + 2*a^2*b^2*c^4*x^2*y + 3*b^4*c^4*x^2*y - a^2*c^6*x^2*y - 3*b^2*c^6*x^2*y + c^8*x^2*y + a^6*c^2*x*y^2 + a^4*b^2*c^2*x*y^2 - a^2*b^4*c^2*x*y^2 - b^6*c^2*x*y^2 - 3*a^4*c^4*x*y^2 - 2*a^2*b^2*c^4*x*y^2 + b^4*c^4*x*y^2 + 3*a^2*c^6*x*y^2 + b^2*c^6*x*y^2 - c^8*x*y^2 - a^6*b^2*x^2*z + a^4*b^4*x^2*z + a^2*b^6*x^2*z - b^8*x^2*z - a^4*b^2*c^2*x^2*z - 2*a^2*b^4*c^2*x^2*z + 3*b^6*c^2*x^2*z + a^2*b^2*c^4*x^2*z - 3*b^4*c^4*x^2*z + b^2*c^6*x^2*z + a^8*y^2*z - a^6*b^2*y^2*z - a^4*b^4*y^2*z + a^2*b^6*y^2*z - 3*a^6*c^2*y^2*z + 2*a^4*b^2*c^2*y^2*z + a^2*b^4*c^2*y^2*z + 3*a^4*c^4*y^2*z - a^2*b^2*c^4*y^2*z - a^2*c^6*y^2*z - a^6*b^2*x*z^2 + 3*a^4*b^4*x*z^2 - 3*a^2*b^6*x*z^2 + b^8*x*z^2 - a^4*b^2*c^2*x*z^2 + 2*a^2*b^4*c^2*x*z^2 - b^6*c^2*x*z^2 + a^2*b^2*c^4*x*z^2 - b^4*c^4*x*z^2 + b^2*c^6*x*z^2 - a^8*y*z^2 + 3*a^6*b^2*y*z^2 - 3*a^4*b^4*y*z^2 + a^2*b^6*y*z^2 + a^6*c^2*y*z^2 - 2*a^4*b^2*c^2*y*z^2 + a^2*b^4*c^2*y*z^2 + a^4*c^4*y*z^2 - a^2*b^2*c^4*y*z^2 - a^2*c^6*y*z^2");
 		exp("K100",
 				"b^4*c^2*x^3 - b^2*c^4*x^3 + a^2*b^2*c^2*x^2*y - a^2*b^2*c^2*x*y^2 - a^4*c^2*y^3 + a^2*c^4*y^3 - a^2*b^2*c^2*x^2*z + a^2*b^2*c^2*y^2*z + a^2*b^2*c^2*x*z^2 - a^2*b^2*c^2*y*z^2 + a^4*b^2*z^3 - a^2*b^4*z^3");
-		exp("K101","b*c*x^2*y - a*c*x*y^2 - b*c*x^2*z + a*c*y^2*z + a*b*x*z^2 - a*b*y*z^2");
-		exp("K102","b^2*c^2*x^2*y - a^2*c^2*x*y^2 - b^2*c^2*x^2*z + a^2*c^2*y^2*z + a^2*b^2*x*z^2 - a^2*b^2*y*z^2 ");
+		exp("K101",
+				"b*c*x^2*y - a*c*x*y^2 - b*c*x^2*z + a*c*y^2*z + a*b*x*z^2 - a*b*y*z^2");
+		exp("K102",
+				"b^2*c^2*x^2*y - a^2*c^2*x*y^2 - b^2*c^2*x^2*z + a^2*c^2*y^2*z + a^2*b^2*x*z^2 - a^2*b^2*y*z^2 ");
 		exp("K103",
 				"a^4*x^2*y - b^4*x^2*y + b^2*c^2*x^2*y - c^4*x^2*y + a^4*x*y^2 - b^4*x*y^2 - a^2*c^2*x*y^2 + c^4*x*y^2 - a^4*x^2*z + b^4*x^2*z - b^2*c^2*x^2*z + c^4*x^2*z - a^4*y^2*z + b^4*y^2*z + a^2*c^2*y^2*z - c^4*y^2*z - a^4*x*z^2 + a^2*b^2*x*z^2 - b^4*x*z^2 + c^4*x*z^2 + a^4*y*z^2 - a^2*b^2*y*z^2 + b^4*y*z^2 - c^4*y*z^2");
 		exp("K104",
@@ -397,14 +415,15 @@ public class ExpandConic {
 				"a^4*b^6*c^4*x^2*y - 2*a^4*b^4*c^6*x^2*y - 2*a^2*b^6*c^6*x^2*y + a^4*b^2*c^8*x^2*y + 4*a^2*b^4*c^8*x^2*y + b^6*c^8*x^2*y - 2*a^2*b^2*c^10*x^2*y - 2*b^4*c^10*x^2*y + b^2*c^12*x^2*y + a^6*b^4*c^4*x*y^2 - 2*a^6*b^2*c^6*x*y^2 - 2*a^4*b^4*c^6*x*y^2 + a^6*c^8*x*y^2 + 4*a^4*b^2*c^8*x*y^2 + a^2*b^4*c^8*x*y^2 - 2*a^4*c^10*x*y^2 - 2*a^2*b^2*c^10*x*y^2 + a^2*c^12*x*y^2 + a^4*b^8*c^2*x^2*z - 2*a^2*b^10*c^2*x^2*z + b^12*c^2*x^2*z - 2*a^4*b^6*c^4*x^2*z + 4*a^2*b^8*c^4*x^2*z - 2*b^10*c^4*x^2*z + a^4*b^4*c^6*x^2*z - 2*a^2*b^6*c^6*x^2*z + b^8*c^6*x^2*z + a^12*c^2*y^2*z - 2*a^10*b^2*c^2*y^2*z + a^8*b^4*c^2*y^2*z - 2*a^10*c^4*y^2*z + 4*a^8*b^2*c^4*y^2*z - 2*a^6*b^4*c^4*y^2*z + a^8*c^6*y^2*z - 2*a^6*b^2*c^6*y^2*z + a^4*b^4*c^6*y^2*z + a^6*b^8*x*z^2 - 2*a^4*b^10*x*z^2 + a^2*b^12*x*z^2 - 2*a^6*b^6*c^2*x*z^2 + 4*a^4*b^8*c^2*x*z^2 - 2*a^2*b^10*c^2*x*z^2 + a^6*b^4*c^4*x*z^2 - 2*a^4*b^6*c^4*x*z^2 + a^2*b^8*c^4*x*z^2 + a^12*b^2*y*z^2 - 2*a^10*b^4*y*z^2 + a^8*b^6*y*z^2 - 2*a^10*b^2*c^2*y*z^2 + 4*a^8*b^4*c^2*y*z^2 - 2*a^6*b^6*c^2*y*z^2 + a^8*b^2*c^4*y*z^2 - 2*a^6*b^4*c^4*y*z^2 + a^4*b^6*c^4*y*z^2");
 		exp("K148",
 				"a^4*b^2*c^4*x^2*y + a^2*b^4*c^4*x^2*y + b^6*c^4*x^2*y - 2*a^2*b^2*c^6*x^2*y - 2*b^4*c^6*x^2*y + b^2*c^8*x^2*y + a^6*c^4*x*y^2 + a^4*b^2*c^4*x*y^2 + a^2*b^4*c^4*x*y^2 - 2*a^4*c^6*x*y^2 - 2*a^2*b^2*c^6*x*y^2 + a^2*c^8*x*y^2 + a^4*b^4*c^2*x^2*z - 2*a^2*b^6*c^2*x^2*z + b^8*c^2*x^2*z + a^2*b^4*c^4*x^2*z - 2*b^6*c^4*x^2*z + b^4*c^6*x^2*z + a^8*c^2*y^2*z - 2*a^6*b^2*c^2*y^2*z + a^4*b^4*c^2*y^2*z - 2*a^6*c^4*y^2*z + a^4*b^2*c^4*y^2*z + a^4*c^6*y^2*z + a^6*b^4*x*z^2 - 2*a^4*b^6*x*z^2 + a^2*b^8*x*z^2 + a^4*b^4*c^2*x*z^2 - 2*a^2*b^6*c^2*x*z^2 + a^2*b^4*c^4*x*z^2 + a^8*b^2*y*z^2 - 2*a^6*b^4*y*z^2 + a^4*b^6*y*z^2 - 2*a^6*b^2*c^2*y*z^2 + a^4*b^4*c^2*y*z^2 + a^4*b^2*c^4*y*z^2");
-		exp("K149","b^2*x^2*y + a^2*x*y^2 + c^2*x^2*z + c^2*y^2*z + a^2*x*z^2 + b^2*y*z^2");
+		exp("K149",
+				"b^2*x^2*y + a^2*x*y^2 + c^2*x^2*z + c^2*y^2*z + a^2*x*z^2 + b^2*y*z^2");
 		exp("K150",
 				"(-a^2)*c^4*x^2*y - b^2*c^4*x^2*y + 2*c^6*x^2*y - a^2*c^4*x*y^2 - b^2*c^4*x*y^2 + 2*c^6*x*y^2 - a^2*b^4*x^2*z + 2*b^6*x^2*z - b^4*c^2*x^2*z - a^4*b^2*x*y*z - a^2*b^4*x*y*z - a^4*c^2*x*y*z + 6*a^2*b^2*c^2*x*y*z - b^4*c^2*x*y*z - a^2*c^4*x*y*z - b^2*c^4*x*y*z + 2*a^6*y^2*z - a^4*b^2*y^2*z - a^4*c^2*y^2*z - a^2*b^4*x*z^2 + 2*b^6*x*z^2 - b^4*c^2*x*z^2 + 2*a^6*y*z^2 - a^4*b^2*y*z^2 - a^4*c^2*y*z^2");
 		exp("K151",
 				"a^2*b^4*x^2*y - a^2*b^2*c^2*x^2*y - b^4*c^2*x^2*y + b^2*c^4*x^2*y + a^4*b^2*x*y^2 - a^4*c^2*x*y^2 - a^2*b^2*c^2*x*y^2 + a^2*c^4*x*y^2 - a^2*b^2*c^2*x^2*z + b^4*c^2*x^2*z + a^2*c^4*x^2*z - b^2*c^4*x^2*z + a^4*c^2*y^2*z - a^2*b^2*c^2*y^2*z - a^2*c^4*y^2*z + b^2*c^4*y^2*z - a^4*b^2*x*z^2 + a^2*b^4*x*z^2 + a^4*c^2*x*z^2 - a^2*b^2*c^2*x*z^2 + a^4*b^2*y*z^2 - a^2*b^4*y*z^2 - a^2*b^2*c^2*y*z^2 + b^4*c^2*y*z^2");
 		exp("K152",
 				"a^10*c^2*x^2*y - a^8*b^2*c^2*x^2*y - 2*a^6*b^4*c^2*x^2*y + 2*a^4*b^6*c^2*x^2*y + a^2*b^8*c^2*x^2*y - b^10*c^2*x^2*y - 3*a^8*c^4*x^2*y + 4*a^6*b^2*c^4*x^2*y + 18*a^4*b^4*c^4*x^2*y - 20*a^2*b^6*c^4*x^2*y + b^8*c^4*x^2*y + 2*a^6*c^6*x^2*y - 6*a^4*b^2*c^6*x^2*y + 18*a^2*b^4*c^6*x^2*y + 2*b^6*c^6*x^2*y + 2*a^4*c^8*x^2*y + 4*a^2*b^2*c^8*x^2*y - 2*b^4*c^8*x^2*y - 3*a^2*c^10*x^2*y - b^2*c^10*x^2*y + c^12*x^2*y + a^10*c^2*x*y^2 - a^8*b^2*c^2*x*y^2 - 2*a^6*b^4*c^2*x*y^2 + 2*a^4*b^6*c^2*x*y^2 + a^2*b^8*c^2*x*y^2 - b^10*c^2*x*y^2 - a^8*c^4*x*y^2 + 20*a^6*b^2*c^4*x*y^2 - 18*a^4*b^4*c^4*x*y^2 - 4*a^2*b^6*c^4*x*y^2 + 3*b^8*c^4*x*y^2 - 2*a^6*c^6*x*y^2 - 18*a^4*b^2*c^6*x*y^2 + 6*a^2*b^4*c^6*x*y^2 - 2*b^6*c^6*x*y^2 + 2*a^4*c^8*x*y^2 - 4*a^2*b^2*c^8*x*y^2 - 2*b^4*c^8*x*y^2 + a^2*c^10*x*y^2 + 3*b^2*c^10*x*y^2 - c^12*x*y^2 - a^10*b^2*x^2*z + 3*a^8*b^4*x^2*z - 2*a^6*b^6*x^2*z - 2*a^4*b^8*x^2*z + 3*a^2*b^10*x^2*z - b^12*x^2*z + a^8*b^2*c^2*x^2*z - 4*a^6*b^4*c^2*x^2*z + 6*a^4*b^6*c^2*x^2*z - 4*a^2*b^8*c^2*x^2*z + b^10*c^2*x^2*z + 2*a^6*b^2*c^4*x^2*z - 18*a^4*b^4*c^4*x^2*z - 18*a^2*b^6*c^4*x^2*z + 2*b^8*c^4*x^2*z - 2*a^4*b^2*c^6*x^2*z + 20*a^2*b^4*c^6*x^2*z - 2*b^6*c^6*x^2*z - a^2*b^2*c^8*x^2*z - b^4*c^8*x^2*z + b^2*c^10*x^2*z + a^12*y^2*z - 3*a^10*b^2*y^2*z + 2*a^8*b^4*y^2*z + 2*a^6*b^6*y^2*z - 3*a^4*b^8*y^2*z + a^2*b^10*y^2*z - a^10*c^2*y^2*z + 4*a^8*b^2*c^2*y^2*z - 6*a^6*b^4*c^2*y^2*z + 4*a^4*b^6*c^2*y^2*z - a^2*b^8*c^2*y^2*z - 2*a^8*c^4*y^2*z + 18*a^6*b^2*c^4*y^2*z + 18*a^4*b^4*c^4*y^2*z - 2*a^2*b^6*c^4*y^2*z + 2*a^6*c^6*y^2*z - 20*a^4*b^2*c^6*y^2*z + 2*a^2*b^4*c^6*y^2*z + a^4*c^8*y^2*z + a^2*b^2*c^8*y^2*z - a^2*c^10*y^2*z - a^10*b^2*x*z^2 + a^8*b^4*x*z^2 + 2*a^6*b^6*x*z^2 - 2*a^4*b^8*x*z^2 - a^2*b^10*x*z^2 + b^12*x*z^2 + a^8*b^2*c^2*x*z^2 - 20*a^6*b^4*c^2*x*z^2 + 18*a^4*b^6*c^2*x*z^2 + 4*a^2*b^8*c^2*x*z^2 - 3*b^10*c^2*x*z^2 + 2*a^6*b^2*c^4*x*z^2 + 18*a^4*b^4*c^4*x*z^2 - 6*a^2*b^6*c^4*x*z^2 + 2*b^8*c^4*x*z^2 - 2*a^4*b^2*c^6*x*z^2 + 4*a^2*b^4*c^6*x*z^2 + 2*b^6*c^6*x*z^2 - a^2*b^2*c^8*x*z^2 - 3*b^4*c^8*x*z^2 + b^2*c^10*x*z^2 - a^12*y*z^2 + a^10*b^2*y*z^2 + 2*a^8*b^4*y*z^2 - 2*a^6*b^6*y*z^2 - a^4*b^8*y*z^2 + a^2*b^10*y*z^2 + 3*a^10*c^2*y*z^2 - 4*a^8*b^2*c^2*y*z^2 - 18*a^6*b^4*c^2*y*z^2 + 20*a^4*b^6*c^2*y*z^2 - a^2*b^8*c^2*y*z^2 - 2*a^8*c^4*y*z^2 + 6*a^6*b^2*c^4*y*z^2 - 18*a^4*b^4*c^4*y*z^2 - 2*a^2*b^6*c^4*y*z^2 - 2*a^6*c^6*y*z^2 - 4*a^4*b^2*c^6*y*z^2 + 2*a^2*b^4*c^6*y*z^2 + 3*a^4*c^8*y*z^2 + a^2*b^2*c^8*y*z^2 - a^2*c^10*y*z^2");
-		exp("K153","a^2*b^2*c^2*(x + y + z)^3 - (a^2 + b^2 + c^2)^3*x*y*z");
+		exp("K153", "a^2*b^2*c^2*(x + y + z)^3 - (a^2 + b^2 + c^2)^3*x*y*z");
 		exp("K154",
 				"a^4*c*x^2*y + a^3*b*c*x^2*y - a^2*b^2*c*x^2*y - a*b^3*c*x^2*y - a^3*c^2*x^2*y + 2*a^2*b*c^2*x^2*y - a*b^2*c^2*x^2*y - a^2*c^3*x^2*y + a*b*c^3*x^2*y + a*c^4*x^2*y + a^3*b*c*x*y^2 + a^2*b^2*c*x*y^2 - a*b^3*c*x*y^2 - b^4*c*x*y^2 + a^2*b*c^2*x*y^2 - 2*a*b^2*c^2*x*y^2 + b^3*c^2*x*y^2 - a*b*c^3*x*y^2 + b^2*c^3*x*y^2 - b*c^4*x*y^2 - a^4*b*x^2*z + a^3*b^2*x^2*z + a^2*b^3*x^2*z - a*b^4*x^2*z - a^3*b*c*x^2*z - 2*a^2*b^2*c*x^2*z - a*b^3*c*x^2*z + a^2*b*c^2*x^2*z + a*b^2*c^2*x^2*z + a*b*c^3*x^2*z + a^4*b*y^2*z - a^3*b^2*y^2*z - a^2*b^3*y^2*z + a*b^4*y^2*z + a^3*b*c*y^2*z + 2*a^2*b^2*c*y^2*z + a*b^3*c*y^2*z - a^2*b*c^2*y^2*z - a*b^2*c^2*y^2*z - a*b*c^3*y^2*z - a^3*b*c*x*z^2 - a^2*b^2*c*x*z^2 + a*b^3*c*x*z^2 + b^4*c*x*z^2 - a^2*b*c^2*x*z^2 + 2*a*b^2*c^2*x*z^2 - b^3*c^2*x*z^2 + a*b*c^3*x*z^2 - b^2*c^3*x*z^2 + b*c^4*x*z^2 - a^4*c*y*z^2 - a^3*b*c*y*z^2 + a^2*b^2*c*y*z^2 + a*b^3*c*y*z^2 + a^3*c^2*y*z^2 - 2*a^2*b*c^2*y*z^2 + a*b^2*c^2*y*z^2 + a^2*c^3*y*z^2 - a*b*c^3*y*z^2 - a*c^4*y*z^2");
 		exp("K155",
@@ -447,10 +466,12 @@ public class ExpandConic {
 				"-(a^6*c^2*x^2*y) + a^4*b^2*c^2*x^2*y - 3*a^2*b^4*c^2*x^2*y + 3*b^6*c^2*x^2*y + a^4*c^4*x^2*y + 6*a^2*b^2*c^4*x^2*y - 3*b^4*c^4*x^2*y + a^2*c^6*x^2*y + b^2*c^6*x^2*y - c^8*x^2*y - 3*a^6*c^2*x*y^2 + 3*a^4*b^2*c^2*x*y^2 - a^2*b^4*c^2*x*y^2 + b^6*c^2*x*y^2 + 3*a^4*c^4*x*y^2 - 6*a^2*b^2*c^4*x*y^2 - b^4*c^4*x*y^2 - a^2*c^6*x*y^2 - b^2*c^6*x*y^2 + c^8*x*y^2 + a^6*b^2*x^2*z - a^4*b^4*x^2*z - a^2*b^6*x^2*z + b^8*x^2*z - a^4*b^2*c^2*x^2*z - 6*a^2*b^4*c^2*x^2*z - b^6*c^2*x^2*z + 3*a^2*b^2*c^4*x^2*z + 3*b^4*c^4*x^2*z - 3*b^2*c^6*x^2*z - a^8*y^2*z + a^6*b^2*y^2*z + a^4*b^4*y^2*z - a^2*b^6*y^2*z + a^6*c^2*y^2*z + 6*a^4*b^2*c^2*y^2*z + a^2*b^4*c^2*y^2*z - 3*a^4*c^4*y^2*z - 3*a^2*b^2*c^4*y^2*z + 3*a^2*c^6*y^2*z + 3*a^6*b^2*x*z^2 - 3*a^4*b^4*x*z^2 + a^2*b^6*x*z^2 - b^8*x*z^2 - 3*a^4*b^2*c^2*x*z^2 + 6*a^2*b^4*c^2*x*z^2 + b^6*c^2*x*z^2 + a^2*b^2*c^4*x*z^2 + b^4*c^4*x*z^2 - b^2*c^6*x*z^2 + a^8*y*z^2 - a^6*b^2*y*z^2 + 3*a^4*b^4*y*z^2 - 3*a^2*b^6*y*z^2 - a^6*c^2*y*z^2 - 6*a^4*b^2*c^2*y*z^2 + 3*a^2*b^4*c^2*y*z^2 - a^4*c^4*y*z^2 - a^2*b^2*c^4*y*z^2 + a^2*c^6*y*z^2");
 		exp("K174",
 				"(-a^4)*b^2*c^4*x^2*y + b^6*c^4*x^2*y - b^2*c^8*x^2*y - a^6*c^4*x*y^2 + a^2*b^4*c^4*x*y^2 + a^2*c^8*x*y^2 + a^4*b^4*c^2*x^2*z + b^8*c^2*x^2*z - b^4*c^6*x^2*z - a^8*c^2*y^2*z - a^4*b^4*c^2*y^2*z + a^4*c^6*y^2*z + a^6*b^4*x*z^2 - a^2*b^8*x*z^2 - a^2*b^4*c^4*x*z^2 + a^8*b^2*y*z^2 - a^4*b^6*y*z^2 + a^4*b^2*c^4*y*z^2");
-		exp("K175","(-b)*c^4*x^2*y + a*c^4*x*y^2 + b^4*c*x^2*z - a^4*c*y^2*z - a*b^4*x*z^2 + a^4*b*y*z^2");
+		exp("K175",
+				"(-b)*c^4*x^2*y + a*c^4*x*y^2 + b^4*c*x^2*z - a^4*c*y^2*z - a*b^4*x*z^2 + a^4*b*y*z^2");
 		exp("K176",
 				"a^4*c^4*x^2*y - b^4*c^4*x^2*y - 2*a^2*c^6*x^2*y + c^8*x^2*y + a^4*c^4*x*y^2 - b^4*c^4*x*y^2 + 2*b^2*c^6*x*y^2 - c^8*x*y^2 - a^4*b^4*x^2*z + 2*a^2*b^6*x^2*z - b^8*x^2*z + b^4*c^4*x^2*z + a^8*y^2*z - 2*a^6*b^2*y^2*z + a^4*b^4*y^2*z - a^4*c^4*y^2*z - a^4*b^4*x*z^2 + b^8*x*z^2 - 2*b^6*c^2*x*z^2 + b^4*c^4*x*z^2 - a^8*y*z^2 + a^4*b^4*y*z^2 + 2*a^6*c^2*y*z^2 - a^4*c^4*y*z^2");
-		exp("K177","(-c^4)*x^2*y + c^4*x*y^2 + b^4*x^2*z - a^4*y^2*z - b^4*x*z^2 + a^4*y*z^2");
+		exp("K177",
+				"(-c^4)*x^2*y + c^4*x*y^2 + b^4*x^2*z - a^4*y^2*z - b^4*x*z^2 + a^4*y*z^2");
 		exp("K178",
 				"(-a^2)*c^4*x^2*y + b^2*c^4*x^2*y - c^6*x^2*y - a^2*c^4*x*y^2 + b^2*c^4*x*y^2 + c^6*x*y^2 + a^2*b^4*x^2*z + b^6*x^2*z - b^4*c^2*x^2*z - a^6*y^2*z - a^4*b^2*y^2*z + a^4*c^2*y^2*z + a^2*b^4*x*z^2 - b^6*x*z^2 - b^4*c^2*x*z^2 + a^6*y*z^2 - a^4*b^2*y*z^2 + a^4*c^2*y*z^2");
 		exp("K179",
@@ -463,7 +484,8 @@ public class ExpandConic {
 				"a^8*x^2*y - 2*a^6*b^2*x^2*y + 2*a^2*b^6*x^2*y - b^8*x^2*y + 6*a^4*b^2*c^2*x^2*y - 4*a^2*b^4*c^2*x^2*y - 2*b^6*c^2*x^2*y - 6*a^4*c^4*x^2*y - 6*a^2*b^2*c^4*x^2*y + 4*b^4*c^4*x^2*y + 8*a^2*c^6*x^2*y + 2*b^2*c^6*x^2*y - 3*c^8*x^2*y + a^8*x*y^2 - 2*a^6*b^2*x*y^2 + 2*a^2*b^6*x*y^2 - b^8*x*y^2 + 2*a^6*c^2*x*y^2 + 4*a^4*b^2*c^2*x*y^2 - 6*a^2*b^4*c^2*x*y^2 - 4*a^4*c^4*x*y^2 + 6*a^2*b^2*c^4*x*y^2 + 6*b^4*c^4*x*y^2 - 2*a^2*c^6*x*y^2 - 8*b^2*c^6*x*y^2 + 3*c^8*x*y^2 - a^8*x^2*z + 6*a^4*b^4*x^2*z - 8*a^2*b^6*x^2*z + 3*b^8*x^2*z + 2*a^6*c^2*x^2*z - 6*a^4*b^2*c^2*x^2*z + 6*a^2*b^4*c^2*x^2*z - 2*b^6*c^2*x^2*z + 4*a^2*b^2*c^4*x^2*z - 4*b^4*c^4*x^2*z - 2*a^2*c^6*x^2*z + 2*b^2*c^6*x^2*z + c^8*x^2*z - 3*a^8*y^2*z + 8*a^6*b^2*y^2*z - 6*a^4*b^4*y^2*z + b^8*y^2*z + 2*a^6*c^2*y^2*z - 6*a^4*b^2*c^2*y^2*z + 6*a^2*b^4*c^2*y^2*z - 2*b^6*c^2*y^2*z + 4*a^4*c^4*y^2*z - 4*a^2*b^2*c^4*y^2*z - 2*a^2*c^6*y^2*z + 2*b^2*c^6*y^2*z - c^8*y^2*z - a^8*x*z^2 - 2*a^6*b^2*x*z^2 + 4*a^4*b^4*x*z^2 + 2*a^2*b^6*x*z^2 - 3*b^8*x*z^2 + 2*a^6*c^2*x*z^2 - 4*a^4*b^2*c^2*x*z^2 - 6*a^2*b^4*c^2*x*z^2 + 8*b^6*c^2*x*z^2 + 6*a^2*b^2*c^4*x*z^2 - 6*b^4*c^4*x*z^2 - 2*a^2*c^6*x*z^2 + c^8*x*z^2 + 3*a^8*y*z^2 - 2*a^6*b^2*y*z^2 - 4*a^4*b^4*y*z^2 + 2*a^2*b^6*y*z^2 + b^8*y*z^2 - 8*a^6*c^2*y*z^2 + 6*a^4*b^2*c^2*y*z^2 + 4*a^2*b^4*c^2*y*z^2 - 2*b^6*c^2*y*z^2 + 6*a^4*c^4*y*z^2 - 6*a^2*b^2*c^4*y*z^2 + 2*b^2*c^6*y*z^2 - c^8*y*z^2");
 		exp("K183",
 				"(-a^6)*x^2*y - 2*a^4*b^2*x^2*y + 3*a^2*b^4*x^2*y + 2*a^4*c^2*x^2*y - 2*a^2*b^2*c^2*x^2*y - a^2*c^4*x^2*y - 3*a^4*b^2*x*y^2 + 2*a^2*b^4*x*y^2 + b^6*x*y^2 + 2*a^2*b^2*c^2*x*y^2 - 2*b^4*c^2*x*y^2 + b^2*c^4*x*y^2 + a^6*x^2*z - 2*a^4*b^2*x^2*z + a^2*b^4*x^2*z + 2*a^4*c^2*x^2*z + 2*a^2*b^2*c^2*x^2*z - 3*a^2*c^4*x^2*z - a^4*b^2*y^2*z + 2*a^2*b^4*y^2*z - b^6*y^2*z - 2*a^2*b^2*c^2*y^2*z - 2*b^4*c^2*y^2*z + 3*b^2*c^4*y^2*z + 3*a^4*c^2*x*z^2 - 2*a^2*b^2*c^2*x*z^2 - b^4*c^2*x*z^2 - 2*a^2*c^4*x*z^2 + 2*b^2*c^4*x*z^2 - c^6*x*z^2 + a^4*c^2*y*z^2 + 2*a^2*b^2*c^2*y*z^2 - 3*b^4*c^2*y*z^2 - 2*a^2*c^4*y*z^2 + 2*b^2*c^4*y*z^2 + c^6*y*z^2");
-		exp("K184","a^2*x^2*y - b^2*x*y^2 - a^2*x^2*z + b^2*y^2*z + c^2*x*z^2 - c^2*y*z^2");
+		exp("K184",
+				"a^2*x^2*y - b^2*x*y^2 - a^2*x^2*z + b^2*y^2*z + c^2*x*z^2 - c^2*y*z^2");
 		exp("K185",
 				"(-a^2)*x^2*y + c^2*x^2*y + b^2*x*y^2 - c^2*x*y^2 + a^2*x^2*z - b^2*x^2*z + a^2*y^2*z - b^2*y^2*z + b^2*x*z^2 - c^2*x*z^2 - a^2*y*z^2 + c^2*y*z^2");
 		exp("K186",
@@ -486,7 +508,8 @@ public class ExpandConic {
 				"4*a^6*x^2*y - 12*a^4*b^2*x^2*y + 12*a^2*b^4*x^2*y - 4*b^6*x^2*y - 4*a^4*c^2*x^2*y - a^2*b^2*c^2*x^2*y + 5*b^4*c^2*x^2*y - 4*a^2*c^4*x^2*y - 5*b^2*c^4*x^2*y + 4*c^6*x^2*y + 4*a^6*x*y^2 - 12*a^4*b^2*x*y^2 + 12*a^2*b^4*x*y^2 - 4*b^6*x*y^2 - 5*a^4*c^2*x*y^2 + a^2*b^2*c^2*x*y^2 + 4*b^4*c^2*x*y^2 + 5*a^2*c^4*x*y^2 + 4*b^2*c^4*x*y^2 - 4*c^6*x*y^2 - 4*a^6*x^2*z + 4*a^4*b^2*x^2*z + 4*a^2*b^4*x^2*z - 4*b^6*x^2*z + 12*a^4*c^2*x^2*z + a^2*b^2*c^2*x^2*z + 5*b^4*c^2*x^2*z - 12*a^2*c^4*x^2*z - 5*b^2*c^4*x^2*z + 4*c^6*x^2*z + 4*a^6*y^2*z - 4*a^4*b^2*y^2*z - 4*a^2*b^4*y^2*z + 4*b^6*y^2*z - 5*a^4*c^2*y^2*z - a^2*b^2*c^2*y^2*z - 12*b^4*c^2*y^2*z + 5*a^2*c^4*y^2*z + 12*b^2*c^4*y^2*z - 4*c^6*y^2*z - 4*a^6*x*z^2 + 5*a^4*b^2*x*z^2 - 5*a^2*b^4*x*z^2 + 4*b^6*x*z^2 + 12*a^4*c^2*x*z^2 - a^2*b^2*c^2*x*z^2 - 4*b^4*c^2*x*z^2 - 12*a^2*c^4*x*z^2 - 4*b^2*c^4*x*z^2 + 4*c^6*x*z^2 - 4*a^6*y*z^2 + 5*a^4*b^2*y*z^2 - 5*a^2*b^4*y*z^2 + 4*b^6*y*z^2 + 4*a^4*c^2*y*z^2 + a^2*b^2*c^2*y*z^2 - 12*b^4*c^2*y*z^2 + 4*a^2*c^4*y*z^2 + 12*b^2*c^4*y*z^2 - 4*c^6*y*z^2");
 		exp("K195",
 				"9*a^6*x^2*y - 27*a^4*b^2*x^2*y + 27*a^2*b^4*x^2*y - 9*b^6*x^2*y - 9*a^4*c^2*x^2*y + 2*a^2*b^2*c^2*x^2*y + 7*b^4*c^2*x^2*y - 9*a^2*c^4*x^2*y - 7*b^2*c^4*x^2*y + 9*c^6*x^2*y + 9*a^6*x*y^2 - 27*a^4*b^2*x*y^2 + 27*a^2*b^4*x*y^2 - 9*b^6*x*y^2 - 7*a^4*c^2*x*y^2 - 2*a^2*b^2*c^2*x*y^2 + 9*b^4*c^2*x*y^2 + 7*a^2*c^4*x*y^2 + 9*b^2*c^4*x*y^2 - 9*c^6*x*y^2 - 9*a^6*x^2*z + 9*a^4*b^2*x^2*z + 9*a^2*b^4*x^2*z - 9*b^6*x^2*z + 27*a^4*c^2*x^2*z - 2*a^2*b^2*c^2*x^2*z + 7*b^4*c^2*x^2*z - 27*a^2*c^4*x^2*z - 7*b^2*c^4*x^2*z + 9*c^6*x^2*z + 9*a^6*y^2*z - 9*a^4*b^2*y^2*z - 9*a^2*b^4*y^2*z + 9*b^6*y^2*z - 7*a^4*c^2*y^2*z + 2*a^2*b^2*c^2*y^2*z - 27*b^4*c^2*y^2*z + 7*a^2*c^4*y^2*z + 27*b^2*c^4*y^2*z - 9*c^6*y^2*z - 9*a^6*x*z^2 + 7*a^4*b^2*x*z^2 - 7*a^2*b^4*x*z^2 + 9*b^6*x*z^2 + 27*a^4*c^2*x*z^2 + 2*a^2*b^2*c^2*x*z^2 - 9*b^4*c^2*x*z^2 - 27*a^2*c^4*x*z^2 - 9*b^2*c^4*x*z^2 + 9*c^6*x*z^2 - 9*a^6*y*z^2 + 7*a^4*b^2*y*z^2 - 7*a^2*b^4*y*z^2 + 9*b^6*y*z^2 + 9*a^4*c^2*y*z^2 - 2*a^2*b^2*c^2*y*z^2 - 27*b^4*c^2*y*z^2 + 9*a^2*c^4*y*z^2 + 27*b^2*c^4*y*z^2 - 9*c^6*y*z^2");
-		exp("K196","a^2*b^2*x^2*y + a^2*b^2*x*y^2 + a^2*c^2*x^2*z + b^2*c^2*y^2*z + a^2*c^2*x*z^2 + b^2*c^2*y*z^2 ");
+		exp("K196",
+				"a^2*b^2*x^2*y + a^2*b^2*x*y^2 + a^2*c^2*x^2*z + b^2*c^2*y^2*z + a^2*c^2*x*z^2 + b^2*c^2*y*z^2 ");
 		exp("K197",
 				"(-a^4)*x^2*y - b^4*x^2*y + 3*a^2*c^2*x^2*y - c^4*x^2*y - a^4*x*y^2 - b^4*x*y^2 + 3*b^2*c^2*x*y^2 - c^4*x*y^2 - a^4*x^2*z + 3*a^2*b^2*x^2*z - b^4*x^2*z - c^4*x^2*z - a^4*y^2*z + 3*a^2*b^2*y^2*z - b^4*y^2*z - c^4*y^2*z - a^4*x*z^2 - b^4*x*z^2 + 3*b^2*c^2*x*z^2 - c^4*x*z^2 - a^4*y*z^2 - b^4*y*z^2 + 3*a^2*c^2*y*z^2 - c^4*y*z^2");
 		exp("K198",
@@ -531,7 +554,8 @@ public class ExpandConic {
 				"(-a^12)*x^2*y + 3*a^10*b^2*x^2*y - 5*a^8*b^4*x^2*y + 7*a^6*b^6*x^2*y - 6*a^4*b^8*x^2*y + 2*a^2*b^10*x^2*y + 2*a^10*c^2*x^2*y - 5*a^8*b^2*c^2*x^2*y + 4*a^6*b^4*c^2*x^2*y - 3*a^4*b^6*c^2*x^2*y + 4*a^2*b^8*c^2*x^2*y - 2*b^10*c^2*x^2*y + a^6*b^2*c^4*x^2*y - 3*a^2*b^6*c^4*x^2*y + 2*b^8*c^4*x^2*y - 2*a^6*c^6*x^2*y + 3*a^4*b^2*c^6*x^2*y - b^6*c^6*x^2*y + a^4*c^8*x^2*y - 2*a^2*b^2*c^8*x^2*y + b^4*c^8*x^2*y - 2*a^10*b^2*x*y^2 + 6*a^8*b^4*x*y^2 - 7*a^6*b^6*x*y^2 + 5*a^4*b^8*x*y^2 - 3*a^2*b^10*x*y^2 + b^12*x*y^2 + 2*a^10*c^2*x*y^2 - 4*a^8*b^2*c^2*x*y^2 + 3*a^6*b^4*c^2*x*y^2 - 4*a^4*b^6*c^2*x*y^2 + 5*a^2*b^8*c^2*x*y^2 - 2*b^10*c^2*x*y^2 - 2*a^8*c^4*x*y^2 + 3*a^6*b^2*c^4*x*y^2 - a^2*b^6*c^4*x*y^2 + a^6*c^6*x*y^2 - 3*a^2*b^4*c^6*x*y^2 + 2*b^6*c^6*x*y^2 - a^4*c^8*x*y^2 + 2*a^2*b^2*c^8*x*y^2 - b^4*c^8*x*y^2 + a^12*x^2*z - 2*a^10*b^2*x^2*z + 2*a^6*b^6*x^2*z - a^4*b^8*x^2*z - 3*a^10*c^2*x^2*z + 5*a^8*b^2*c^2*x^2*z - a^6*b^4*c^2*x^2*z - 3*a^4*b^6*c^2*x^2*z + 2*a^2*b^8*c^2*x^2*z + 5*a^8*c^4*x^2*z - 4*a^6*b^2*c^4*x^2*z - b^8*c^4*x^2*z - 7*a^6*c^6*x^2*z + 3*a^4*b^2*c^6*x^2*z + 3*a^2*b^4*c^6*x^2*z + b^6*c^6*x^2*z + 6*a^4*c^8*x^2*z - 4*a^2*b^2*c^8*x^2*z - 2*b^4*c^8*x^2*z - 2*a^2*c^10*x^2*z + 2*b^2*c^10*x^2*z + a^8*b^4*y^2*z - 2*a^6*b^6*y^2*z + 2*a^2*b^10*y^2*z - b^12*y^2*z - 2*a^8*b^2*c^2*y^2*z + 3*a^6*b^4*c^2*y^2*z + a^4*b^6*c^2*y^2*z - 5*a^2*b^8*c^2*y^2*z + 3*b^10*c^2*y^2*z + a^8*c^4*y^2*z + 4*a^2*b^6*c^4*y^2*z - 5*b^8*c^4*y^2*z - a^6*c^6*y^2*z - 3*a^4*b^2*c^6*y^2*z - 3*a^2*b^4*c^6*y^2*z + 7*b^6*c^6*y^2*z + 2*a^4*c^8*y^2*z + 4*a^2*b^2*c^8*y^2*z - 6*b^4*c^8*y^2*z - 2*a^2*c^10*y^2*z + 2*b^2*c^10*y^2*z - 2*a^10*b^2*x*z^2 + 2*a^8*b^4*x*z^2 - a^6*b^6*x*z^2 + a^4*b^8*x*z^2 + 2*a^10*c^2*x*z^2 + 4*a^8*b^2*c^2*x*z^2 - 3*a^6*b^4*c^2*x*z^2 - 2*a^2*b^8*c^2*x*z^2 - 6*a^8*c^4*x*z^2 - 3*a^6*b^2*c^4*x*z^2 + 3*a^2*b^6*c^4*x*z^2 + b^8*c^4*x*z^2 + 7*a^6*c^6*x*z^2 + 4*a^4*b^2*c^6*x*z^2 + a^2*b^4*c^6*x*z^2 - 2*b^6*c^6*x*z^2 - 5*a^4*c^8*x*z^2 - 5*a^2*b^2*c^8*x*z^2 + 3*a^2*c^10*x*z^2 + 2*b^2*c^10*x*z^2 - c^12*x*z^2 - a^8*b^4*y*z^2 + a^6*b^6*y*z^2 - 2*a^4*b^8*y*z^2 + 2*a^2*b^10*y*z^2 + 2*a^8*b^2*c^2*y*z^2 + 3*a^4*b^6*c^2*y*z^2 - 4*a^2*b^8*c^2*y*z^2 - 2*b^10*c^2*y*z^2 - a^8*c^4*y*z^2 - 3*a^6*b^2*c^4*y*z^2 + 3*a^2*b^6*c^4*y*z^2 + 6*b^8*c^4*y*z^2 + 2*a^6*c^6*y*z^2 - a^4*b^2*c^6*y*z^2 - 4*a^2*b^4*c^6*y*z^2 - 7*b^6*c^6*y*z^2 + 5*a^2*b^2*c^8*y*z^2 + 5*b^4*c^8*y*z^2 - 2*a^2*c^10*y*z^2 - 3*b^2*c^10*y*z^2 + c^12*y*z^2");
 		exp("K218",
 				"(-a^10)*x^2*y + 4*a^8*b^2*x^2*y - 5*a^6*b^4*x^2*y + 2*a^4*b^6*x^2*y + a^8*c^2*x^2*y - 6*a^6*b^2*c^2*x^2*y + 9*a^4*b^4*c^2*x^2*y - 4*a^2*b^6*c^2*x^2*y + a^6*c^4*x^2*y - 3*a^2*b^4*c^4*x^2*y + 2*b^6*c^4*x^2*y - a^4*c^6*x^2*y + 2*a^2*b^2*c^6*x^2*y - b^4*c^6*x^2*y + 2*a^6*b^4*x*y^2 - 5*a^4*b^6*x*y^2 + 4*a^2*b^8*x*y^2 - b^10*x*y^2 - 4*a^6*b^2*c^2*x*y^2 + 9*a^4*b^4*c^2*x*y^2 - 6*a^2*b^6*c^2*x*y^2 + b^8*c^2*x*y^2 + 2*a^6*c^4*x*y^2 - 3*a^4*b^2*c^4*x*y^2 + b^6*c^4*x*y^2 - a^4*c^6*x*y^2 + 2*a^2*b^2*c^6*x*y^2 - b^4*c^6*x*y^2 - a^10*x^2*z + a^8*b^2*x^2*z + a^6*b^4*x^2*z - a^4*b^6*x^2*z + 4*a^8*c^2*x^2*z - 6*a^6*b^2*c^2*x^2*z + 2*a^2*b^6*c^2*x^2*z - 5*a^6*c^4*x^2*z + 9*a^4*b^2*c^4*x^2*z - 3*a^2*b^4*c^4*x^2*z - b^6*c^4*x^2*z + 2*a^4*c^6*x^2*z - 4*a^2*b^2*c^6*x^2*z + 2*b^4*c^6*x^2*z - a^6*b^4*y^2*z + a^4*b^6*y^2*z + a^2*b^8*y^2*z - b^10*y^2*z + 2*a^6*b^2*c^2*y^2*z - 6*a^2*b^6*c^2*y^2*z + 4*b^8*c^2*y^2*z - a^6*c^4*y^2*z - 3*a^4*b^2*c^4*y^2*z + 9*a^2*b^4*c^4*y^2*z - 5*b^6*c^4*y^2*z + 2*a^4*c^6*y^2*z - 4*a^2*b^2*c^6*y^2*z + 2*b^4*c^6*y^2*z + 2*a^6*b^4*x*z^2 - a^4*b^6*x*z^2 - 4*a^6*b^2*c^2*x*z^2 - 3*a^4*b^4*c^2*x*z^2 + 2*a^2*b^6*c^2*x*z^2 + 2*a^6*c^4*x*z^2 + 9*a^4*b^2*c^4*x*z^2 - b^6*c^4*x*z^2 - 5*a^4*c^6*x*z^2 - 6*a^2*b^2*c^6*x*z^2 + b^4*c^6*x*z^2 + 4*a^2*c^8*x*z^2 + b^2*c^8*x*z^2 - c^10*x*z^2 - a^6*b^4*y*z^2 + 2*a^4*b^6*y*z^2 + 2*a^6*b^2*c^2*y*z^2 - 3*a^4*b^4*c^2*y*z^2 - 4*a^2*b^6*c^2*y*z^2 - a^6*c^4*y*z^2 + 9*a^2*b^4*c^4*y*z^2 + 2*b^6*c^4*y*z^2 + a^4*c^6*y*z^2 - 6*a^2*b^2*c^6*y*z^2 - 5*b^4*c^6*y*z^2 + a^2*c^8*y*z^2 + 4*b^2*c^8*y*z^2 - c^10*y*z^2");
-		exp("K219","-x^3 + x^2*y + x*y^2 - y^3 + x^2*z - 3*x*y*z + y^2*z + x*z^2 + y*z^2 - z^3");
+		exp("K219",
+				"-x^3 + x^2*y + x*y^2 - y^3 + x^2*z - 3*x*y*z + y^2*z + x*z^2 + y*z^2 - z^3");
 		exp("K220",
 				"a^2*(-a + b + c)*y*(y - z)*z + b^2*(a - b + c)*x*z*(-x + z) + (a + b - c)*c^2*x*(x - y)*y + 2*(b - c)*(c - a)*(a - b)*x*y*z");
 		exp("K221",
@@ -552,8 +576,10 @@ public class ExpandConic {
 				"(-b^2)*c*x^2*z*Csc(B/3 - C/3 + Pi/6) + a^2*c*y^2*z*Csc(B/3 - C/3 + Pi/6) + b*c^2*x^2*y*Csc(A/3 - B/3 - Pi/6)*Csc(B/3 - C/3 + Pi/6) - a^2*b*y*z^2*Csc(A/3 - B/3 - Pi/6)*Csc(B/3 - C/3 + Pi/6) + a*c^2*x*y^2*Csc(A/3 - B/3 - Pi/6)*Sec(A/3 - C/3) - a*b^2*x*z^2*Csc(A/3 - B/3 - Pi/6)*Sec(A/3 - C/3)");
 		exp("K227C",
 				"b^2*c*x^2*z*Csc(A/3 - C/3 - Pi/6)*Csc(B/3 - C/3 - Pi/6) - a^2*c*y^2*z*Csc(A/3 - C/3 - Pi/6)*Csc(B/3 - C/3 - Pi/6) + a*c^2*x*y^2*Csc(A/3 - C/3 - Pi/6)*Sec(A/3 - B/3) - a*b^2*x*z^2*Csc(A/3 - C/3 - Pi/6)*Sec(A/3 - B/3) - b*c^2*x^2*y*Csc(B/3 - C/3 - Pi/6)*Sec(A/3 - B/3) + a^2*b*y*z^2*Csc(B/3 - C/3 - Pi/6)*Sec(A/3 - B/3)");
-		exp("K228","a*x*(c*y - b*z)^2 + b*y*((-c)*x + a*z)^2 + c*(b*x - a*y)^2*z");
-		exp("K229","a^2*x*(c^2*y - b^2*z)^2 + b^2*y*((-c^2)*x + a^2*z)^2 + c^2*(b^2*x - a^2*y)^2*z");
+		exp("K228",
+				"a*x*(c*y - b*z)^2 + b*y*((-c)*x + a*z)^2 + c*(b*x - a*y)^2*z");
+		exp("K229",
+				"a^2*x*(c^2*y - b^2*z)^2 + b^2*y*((-c^2)*x + a^2*z)^2 + c^2*(b^2*x - a^2*y)^2*z");
 		exp("K230",
 				"a^10*c*x^2*y - 2*a^9*b*c*x^2*y - 4*a^8*b^2*c*x^2*y + 8*a^7*b^3*c*x^2*y + 6*a^6*b^4*c*x^2*y - 12*a^5*b^5*c*x^2*y - 4*a^4*b^6*c*x^2*y + 8*a^3*b^7*c*x^2*y + a^2*b^8*c*x^2*y - 2*a*b^9*c*x^2*y - 2*a^9*c^2*x^2*y + 8*a^8*b*c^2*x^2*y + a^7*b^2*c^2*x^2*y - 24*a^6*b^3*c^2*x^2*y + 9*a^5*b^4*c^2*x^2*y + 24*a^4*b^5*c^2*x^2*y - 13*a^3*b^6*c^2*x^2*y - 8*a^2*b^7*c^2*x^2*y + 5*a*b^8*c^2*x^2*y - a^8*c^3*x^2*y - 8*a^7*b*c^3*x^2*y + 18*a^6*b^2*c^3*x^2*y + 12*a^5*b^3*c^3*x^2*y - 33*a^4*b^4*c^3*x^2*y + 16*a^2*b^6*c^3*x^2*y - 4*a*b^7*c^3*x^2*y + 5*a^7*c^4*x^2*y - 6*a^6*b*c^4*x^2*y - 24*a^5*b^2*c^4*x^2*y + 22*a^4*b^3*c^4*x^2*y + 22*a^3*b^4*c^4*x^2*y - 16*a^2*b^5*c^4*x^2*y - 3*a*b^6*c^4*x^2*y - 3*a^6*c^5*x^2*y + 18*a^5*b*c^5*x^2*y + 3*a^4*b^2*c^5*x^2*y - 32*a^3*b^3*c^5*x^2*y + 2*a^2*b^4*c^5*x^2*y + 10*a*b^5*c^5*x^2*y - 3*a^5*c^6*x^2*y - 12*a^4*b*c^6*x^2*y + 18*a^3*b^2*c^6*x^2*y + 14*a^2*b^3*c^6*x^2*y - 8*a*b^4*c^6*x^2*y + 5*a^4*c^7*x^2*y - 4*a^3*b*c^7*x^2*y - 17*a^2*b^2*c^7*x^2*y - a^3*c^8*x^2*y + 10*a^2*b*c^8*x^2*y + 5*a*b^2*c^8*x^2*y - 2*a^2*c^9*x^2*y - 4*a*b*c^9*x^2*y + a*c^10*x^2*y - 2*a^9*b*c*x*y^2 + a^8*b^2*c*x*y^2 + 8*a^7*b^3*c*x*y^2 - 4*a^6*b^4*c*x*y^2 - 12*a^5*b^5*c*x*y^2 + 6*a^4*b^6*c*x*y^2 + 8*a^3*b^7*c*x*y^2 - 4*a^2*b^8*c*x*y^2 - 2*a*b^9*c*x*y^2 + b^10*c*x*y^2 + 5*a^8*b*c^2*x*y^2 - 8*a^7*b^2*c^2*x*y^2 - 13*a^6*b^3*c^2*x*y^2 + 24*a^5*b^4*c^2*x*y^2 + 9*a^4*b^5*c^2*x*y^2 - 24*a^3*b^6*c^2*x*y^2 + a^2*b^7*c^2*x*y^2 + 8*a*b^8*c^2*x*y^2 - 2*b^9*c^2*x*y^2 - 4*a^7*b*c^3*x*y^2 + 16*a^6*b^2*c^3*x*y^2 - 33*a^4*b^4*c^3*x*y^2 + 12*a^3*b^5*c^3*x*y^2 + 18*a^2*b^6*c^3*x*y^2 - 8*a*b^7*c^3*x*y^2 - b^8*c^3*x*y^2 - 3*a^6*b*c^4*x*y^2 - 16*a^5*b^2*c^4*x*y^2 + 22*a^4*b^3*c^4*x*y^2 + 22*a^3*b^4*c^4*x*y^2 - 24*a^2*b^5*c^4*x*y^2 - 6*a*b^6*c^4*x*y^2 + 5*b^7*c^4*x*y^2 + 10*a^5*b*c^5*x*y^2 + 2*a^4*b^2*c^5*x*y^2 - 32*a^3*b^3*c^5*x*y^2 + 3*a^2*b^4*c^5*x*y^2 + 18*a*b^5*c^5*x*y^2 - 3*b^6*c^5*x*y^2 - 8*a^4*b*c^6*x*y^2 + 14*a^3*b^2*c^6*x*y^2 + 18*a^2*b^3*c^6*x*y^2 - 12*a*b^4*c^6*x*y^2 - 3*b^5*c^6*x*y^2 - 17*a^2*b^2*c^7*x*y^2 - 4*a*b^3*c^7*x*y^2 + 5*b^4*c^7*x*y^2 + 5*a^2*b*c^8*x*y^2 + 10*a*b^2*c^8*x*y^2 - b^3*c^8*x*y^2 - 4*a*b*c^9*x*y^2 - 2*b^2*c^9*x*y^2 + b*c^10*x*y^2 + a^10*b*x^2*z - 2*a^9*b^2*x^2*z - a^8*b^3*x^2*z + 5*a^7*b^4*x^2*z - 3*a^6*b^5*x^2*z - 3*a^5*b^6*x^2*z + 5*a^4*b^7*x^2*z - a^3*b^8*x^2*z - 2*a^2*b^9*x^2*z + a*b^10*x^2*z - 2*a^9*b*c*x^2*z + 8*a^8*b^2*c*x^2*z - 8*a^7*b^3*c*x^2*z - 6*a^6*b^4*c*x^2*z + 18*a^5*b^5*c*x^2*z - 12*a^4*b^6*c*x^2*z - 4*a^3*b^7*c*x^2*z + 10*a^2*b^8*c*x^2*z - 4*a*b^9*c*x^2*z - 4*a^8*b*c^2*x^2*z + a^7*b^2*c^2*x^2*z + 18*a^6*b^3*c^2*x^2*z - 24*a^5*b^4*c^2*x^2*z + 3*a^4*b^5*c^2*x^2*z + 18*a^3*b^6*c^2*x^2*z - 17*a^2*b^7*c^2*x^2*z + 5*a*b^8*c^2*x^2*z + 8*a^7*b*c^3*x^2*z - 24*a^6*b^2*c^3*x^2*z + 12*a^5*b^3*c^3*x^2*z + 22*a^4*b^4*c^3*x^2*z - 32*a^3*b^5*c^3*x^2*z + 14*a^2*b^6*c^3*x^2*z + 6*a^6*b*c^4*x^2*z + 9*a^5*b^2*c^4*x^2*z - 33*a^4*b^3*c^4*x^2*z + 22*a^3*b^4*c^4*x^2*z + 2*a^2*b^5*c^4*x^2*z - 8*a*b^6*c^4*x^2*z - 12*a^5*b*c^5*x^2*z + 24*a^4*b^2*c^5*x^2*z - 16*a^2*b^4*c^5*x^2*z + 10*a*b^5*c^5*x^2*z - 4*a^4*b*c^6*x^2*z - 13*a^3*b^2*c^6*x^2*z + 16*a^2*b^3*c^6*x^2*z - 3*a*b^4*c^6*x^2*z + 8*a^3*b*c^7*x^2*z - 8*a^2*b^2*c^7*x^2*z - 4*a*b^3*c^7*x^2*z + a^2*b*c^8*x^2*z + 5*a*b^2*c^8*x^2*z - 2*a*b*c^9*x^2*z + 2*a^10*b*x*y*z - 4*a^9*b^2*x*y*z - 2*a^8*b^3*x*y*z + 10*a^7*b^4*x*y*z - 6*a^6*b^5*x*y*z - 6*a^5*b^6*x*y*z + 10*a^4*b^7*x*y*z - 2*a^3*b^8*x*y*z - 4*a^2*b^9*x*y*z + 2*a*b^10*x*y*z + 2*a^10*c*x*y*z - 8*a^9*b*c*x*y*z + 12*a^8*b^2*c*x*y*z - 4*a^7*b^3*c*x*y*z - 14*a^6*b^4*c*x*y*z + 24*a^5*b^5*c*x*y*z - 14*a^4*b^6*c*x*y*z - 4*a^3*b^7*c*x*y*z + 12*a^2*b^8*c*x*y*z - 8*a*b^9*c*x*y*z + 2*b^10*c*x*y*z - 4*a^9*c^2*x*y*z + 12*a^8*b*c^2*x*y*z - 12*a^7*b^2*c^2*x*y*z + 10*a^6*b^3*c^2*x*y*z - 6*a^5*b^4*c^2*x*y*z - 6*a^4*b^5*c^2*x*y*z + 10*a^3*b^6*c^2*x*y*z - 12*a^2*b^7*c^2*x*y*z + 12*a*b^8*c^2*x*y*z - 4*b^9*c^2*x*y*z - 2*a^8*c^3*x*y*z - 4*a^7*b*c^3*x*y*z + 10*a^6*b^2*c^3*x*y*z - 8*a^5*b^3*c^3*x*y*z + 8*a^4*b^4*c^3*x*y*z - 8*a^3*b^5*c^3*x*y*z + 10*a^2*b^6*c^3*x*y*z - 4*a*b^7*c^3*x*y*z - 2*b^8*c^3*x*y*z + 10*a^7*c^4*x*y*z - 14*a^6*b*c^4*x*y*z - 6*a^5*b^2*c^4*x*y*z + 8*a^4*b^3*c^4*x*y*z + 8*a^3*b^4*c^4*x*y*z - 6*a^2*b^5*c^4*x*y*z - 14*a*b^6*c^4*x*y*z + 10*b^7*c^4*x*y*z - 6*a^6*c^5*x*y*z + 24*a^5*b*c^5*x*y*z - 6*a^4*b^2*c^5*x*y*z - 8*a^3*b^3*c^5*x*y*z - 6*a^2*b^4*c^5*x*y*z + 24*a*b^5*c^5*x*y*z - 6*b^6*c^5*x*y*z - 6*a^5*c^6*x*y*z - 14*a^4*b*c^6*x*y*z + 10*a^3*b^2*c^6*x*y*z + 10*a^2*b^3*c^6*x*y*z - 14*a*b^4*c^6*x*y*z - 6*b^5*c^6*x*y*z + 10*a^4*c^7*x*y*z - 4*a^3*b*c^7*x*y*z - 12*a^2*b^2*c^7*x*y*z - 4*a*b^3*c^7*x*y*z + 10*b^4*c^7*x*y*z - 2*a^3*c^8*x*y*z + 12*a^2*b*c^8*x*y*z + 12*a*b^2*c^8*x*y*z - 2*b^3*c^8*x*y*z - 4*a^2*c^9*x*y*z - 8*a*b*c^9*x*y*z - 4*b^2*c^9*x*y*z + 2*a*c^10*x*y*z + 2*b*c^10*x*y*z + a^10*b*y^2*z - 2*a^9*b^2*y^2*z - a^8*b^3*y^2*z + 5*a^7*b^4*y^2*z - 3*a^6*b^5*y^2*z - 3*a^5*b^6*y^2*z + 5*a^4*b^7*y^2*z - a^3*b^8*y^2*z - 2*a^2*b^9*y^2*z + a*b^10*y^2*z - 4*a^9*b*c*y^2*z + 10*a^8*b^2*c*y^2*z - 4*a^7*b^3*c*y^2*z - 12*a^6*b^4*c*y^2*z + 18*a^5*b^5*c*y^2*z - 6*a^4*b^6*c*y^2*z - 8*a^3*b^7*c*y^2*z + 8*a^2*b^8*c*y^2*z - 2*a*b^9*c*y^2*z + 5*a^8*b*c^2*y^2*z - 17*a^7*b^2*c^2*y^2*z + 18*a^6*b^3*c^2*y^2*z + 3*a^5*b^4*c^2*y^2*z - 24*a^4*b^5*c^2*y^2*z + 18*a^3*b^6*c^2*y^2*z + a^2*b^7*c^2*y^2*z - 4*a*b^8*c^2*y^2*z + 14*a^6*b^2*c^3*y^2*z - 32*a^5*b^3*c^3*y^2*z + 22*a^4*b^4*c^3*y^2*z + 12*a^3*b^5*c^3*y^2*z - 24*a^2*b^6*c^3*y^2*z + 8*a*b^7*c^3*y^2*z - 8*a^6*b*c^4*y^2*z + 2*a^5*b^2*c^4*y^2*z + 22*a^4*b^3*c^4*y^2*z - 33*a^3*b^4*c^4*y^2*z + 9*a^2*b^5*c^4*y^2*z + 6*a*b^6*c^4*y^2*z + 10*a^5*b*c^5*y^2*z - 16*a^4*b^2*c^5*y^2*z + 24*a^2*b^4*c^5*y^2*z - 12*a*b^5*c^5*y^2*z - 3*a^4*b*c^6*y^2*z + 16*a^3*b^2*c^6*y^2*z - 13*a^2*b^3*c^6*y^2*z - 4*a*b^4*c^6*y^2*z - 4*a^3*b*c^7*y^2*z - 8*a^2*b^2*c^7*y^2*z + 8*a*b^3*c^7*y^2*z + 5*a^2*b*c^8*y^2*z + a*b^2*c^8*y^2*z - 2*a*b*c^9*y^2*z - 2*a^9*b*c*x*z^2 + 5*a^8*b^2*c*x*z^2 - 4*a^7*b^3*c*x*z^2 - 3*a^6*b^4*c*x*z^2 + 10*a^5*b^5*c*x*z^2 - 8*a^4*b^6*c*x*z^2 + 5*a^2*b^8*c*x*z^2 - 4*a*b^9*c*x*z^2 + b^10*c*x*z^2 + a^8*b*c^2*x*z^2 - 8*a^7*b^2*c^2*x*z^2 + 16*a^6*b^3*c^2*x*z^2 - 16*a^5*b^4*c^2*x*z^2 + 2*a^4*b^5*c^2*x*z^2 + 14*a^3*b^6*c^2*x*z^2 - 17*a^2*b^7*c^2*x*z^2 + 10*a*b^8*c^2*x*z^2 - 2*b^9*c^2*x*z^2 + 8*a^7*b*c^3*x*z^2 - 13*a^6*b^2*c^3*x*z^2 + 22*a^4*b^4*c^3*x*z^2 - 32*a^3*b^5*c^3*x*z^2 + 18*a^2*b^6*c^3*x*z^2 - 4*a*b^7*c^3*x*z^2 - b^8*c^3*x*z^2 - 4*a^6*b*c^4*x*z^2 + 24*a^5*b^2*c^4*x*z^2 - 33*a^4*b^3*c^4*x*z^2 + 22*a^3*b^4*c^4*x*z^2 + 3*a^2*b^5*c^4*x*z^2 - 12*a*b^6*c^4*x*z^2 + 5*b^7*c^4*x*z^2 - 12*a^5*b*c^5*x*z^2 + 9*a^4*b^2*c^5*x*z^2 + 12*a^3*b^3*c^5*x*z^2 - 24*a^2*b^4*c^5*x*z^2 + 18*a*b^5*c^5*x*z^2 - 3*b^6*c^5*x*z^2 + 6*a^4*b*c^6*x*z^2 - 24*a^3*b^2*c^6*x*z^2 + 18*a^2*b^3*c^6*x*z^2 - 6*a*b^4*c^6*x*z^2 - 3*b^5*c^6*x*z^2 + 8*a^3*b*c^7*x*z^2 + a^2*b^2*c^7*x*z^2 - 8*a*b^3*c^7*x*z^2 + 5*b^4*c^7*x*z^2 - 4*a^2*b*c^8*x*z^2 + 8*a*b^2*c^8*x*z^2 - b^3*c^8*x*z^2 - 2*a*b*c^9*x*z^2 - 2*b^2*c^9*x*z^2 + b*c^10*x*z^2 + a^10*c*y*z^2 - 4*a^9*b*c*y*z^2 + 5*a^8*b^2*c*y*z^2 - 8*a^6*b^4*c*y*z^2 + 10*a^5*b^5*c*y*z^2 - 3*a^4*b^6*c*y*z^2 - 4*a^3*b^7*c*y*z^2 + 5*a^2*b^8*c*y*z^2 - 2*a*b^9*c*y*z^2 - 2*a^9*c^2*y*z^2 + 10*a^8*b*c^2*y*z^2 - 17*a^7*b^2*c^2*y*z^2 + 14*a^6*b^3*c^2*y*z^2 + 2*a^5*b^4*c^2*y*z^2 - 16*a^4*b^5*c^2*y*z^2 + 16*a^3*b^6*c^2*y*z^2 - 8*a^2*b^7*c^2*y*z^2 + a*b^8*c^2*y*z^2 - a^8*c^3*y*z^2 - 4*a^7*b*c^3*y*z^2 + 18*a^6*b^2*c^3*y*z^2 - 32*a^5*b^3*c^3*y*z^2 + 22*a^4*b^4*c^3*y*z^2 - 13*a^2*b^6*c^3*y*z^2 + 8*a*b^7*c^3*y*z^2 + 5*a^7*c^4*y*z^2 - 12*a^6*b*c^4*y*z^2 + 3*a^5*b^2*c^4*y*z^2 + 22*a^4*b^3*c^4*y*z^2 - 33*a^3*b^4*c^4*y*z^2 + 24*a^2*b^5*c^4*y*z^2 - 4*a*b^6*c^4*y*z^2 - 3*a^6*c^5*y*z^2 + 18*a^5*b*c^5*y*z^2 - 24*a^4*b^2*c^5*y*z^2 + 12*a^3*b^3*c^5*y*z^2 + 9*a^2*b^4*c^5*y*z^2 - 12*a*b^5*c^5*y*z^2 - 3*a^5*c^6*y*z^2 - 6*a^4*b*c^6*y*z^2 + 18*a^3*b^2*c^6*y*z^2 - 24*a^2*b^3*c^6*y*z^2 + 6*a*b^4*c^6*y*z^2 + 5*a^4*c^7*y*z^2 - 8*a^3*b*c^7*y*z^2 + a^2*b^2*c^7*y*z^2 + 8*a*b^3*c^7*y*z^2 - a^3*c^8*y*z^2 + 8*a^2*b*c^8*y*z^2 - 4*a*b^2*c^8*y*z^2 - 2*a^2*c^9*y*z^2 - 2*a*b*c^9*y*z^2 + a*c^10*y*z^2");
 		exp("K231",
@@ -582,7 +608,7 @@ public class ExpandConic {
 				"(-a^2)*b^2*x^2*y + b^4*x^2*y + a^2*c^2*x^2*y - b^2*c^2*x^2*y - a^4*x*y^2 + a^2*b^2*x*y^2 + a^2*c^2*x*y^2 - b^2*c^2*x*y^2 - a^2*b^2*x^2*z + a^2*c^2*x^2*z + b^2*c^2*x^2*z - c^4*x^2*z + a^2*b^2*y^2*z - a^2*c^2*y^2*z - b^2*c^2*y^2*z + c^4*y^2*z + a^4*x*z^2 - a^2*b^2*x*z^2 - a^2*c^2*x*z^2 + b^2*c^2*x*z^2 + a^2*b^2*y*z^2 - b^4*y*z^2 - a^2*c^2*y*z^2 + b^2*c^2*y*z^2");
 		exp("K243",
 				"a^4*c^2*x^2*y + 4*a^2*b^2*c^2*x^2*y - 5*b^4*c^2*x^2*y - 2*a^2*c^4*x^2*y + 4*b^2*c^4*x^2*y + c^6*x^2*y + 5*a^4*c^2*x*y^2 - 4*a^2*b^2*c^2*x*y^2 - b^4*c^2*x*y^2 - 4*a^2*c^4*x*y^2 + 2*b^2*c^4*x*y^2 - c^6*x*y^2 - a^4*b^2*x^2*z + 2*a^2*b^4*x^2*z - b^6*x^2*z - 4*a^2*b^2*c^2*x^2*z - 4*b^4*c^2*x^2*z + 5*b^2*c^4*x^2*z + a^6*y^2*z - 2*a^4*b^2*y^2*z + a^2*b^4*y^2*z + 4*a^4*c^2*y^2*z + 4*a^2*b^2*c^2*y^2*z - 5*a^2*c^4*y^2*z - 5*a^4*b^2*x*z^2 + 4*a^2*b^4*x*z^2 + b^6*x*z^2 + 4*a^2*b^2*c^2*x*z^2 - 2*b^4*c^2*x*z^2 + b^2*c^4*x*z^2 - a^6*y*z^2 - 4*a^4*b^2*y*z^2 + 5*a^2*b^4*y*z^2 + 2*a^4*c^2*y*z^2 - 4*a^2*b^2*c^2*y*z^2 - a^2*c^4*y*z^2");
-		exp("K244","-27*a^2*b^2*c^2*x*y*z + (a^2*x + b^2*y + c^2*z)^3");
+		exp("K244", "-27*a^2*b^2*c^2*x*y*z + (a^2*x + b^2*y + c^2*z)^3");
 		exp("K245",
 				"(-a^6)*x^2*y + 2*a^4*b^2*x^2*y - a^2*b^4*x^2*y - a^2*b^2*c^2*x^2*y + b^4*c^2*x^2*y + a^2*c^4*x^2*y - b^2*c^4*x^2*y + a^4*b^2*x*y^2 - 2*a^2*b^4*x*y^2 + b^6*x*y^2 - a^4*c^2*x*y^2 + a^2*b^2*c^2*x*y^2 + a^2*c^4*x*y^2 - b^2*c^4*x*y^2 + a^6*x^2*z - a^2*b^4*x^2*z - 2*a^4*c^2*x^2*z + a^2*b^2*c^2*x^2*z + b^4*c^2*x^2*z + a^2*c^4*x^2*z - b^2*c^4*x^2*z + a^4*b^2*y^2*z - b^6*y^2*z - a^4*c^2*y^2*z - a^2*b^2*c^2*y^2*z + 2*b^4*c^2*y^2*z + a^2*c^4*y^2*z - b^2*c^4*y^2*z + a^4*b^2*x*z^2 - a^2*b^4*x*z^2 - a^4*c^2*x*z^2 - a^2*b^2*c^2*x*z^2 + b^4*c^2*x*z^2 + 2*a^2*c^4*x*z^2 - c^6*x*z^2 + a^4*b^2*y*z^2 - a^2*b^4*y*z^2 - a^4*c^2*y*z^2 + a^2*b^2*c^2*y*z^2 + b^4*c^2*y*z^2 - 2*b^2*c^4*y*z^2 + c^6*y*z^2");
 		exp("K246",
@@ -757,7 +783,7 @@ public class ExpandConic {
 				"(-a^2)*b^2*c^2*x^2*y + b^2*c^4*x^2*y + a^2*b^2*c^2*x*y^2 - a^2*c^4*x*y^2 + a^2*b^2*c^2*x^2*z - b^4*c^2*x^2*z + a^4*c^2*y^2*z - a^2*b^2*c^2*y^2*z + a^2*b^4*x*z^2 - a^2*b^2*c^2*x*z^2 - a^4*b^2*y*z^2 + a^2*b^2*c^2*y*z^2");
 		exp("K326",
 				"a^2*b^2*c^2*x^2*y + b^2*c^4*x^2*y - a^2*b^2*c^2*x*y^2 - a^2*c^4*x*y^2 - a^2*b^2*c^2*x^2*z - b^4*c^2*x^2*z + a^4*c^2*y^2*z + a^2*b^2*c^2*y^2*z + a^2*b^4*x*z^2 + a^2*b^2*c^2*x*z^2 - a^4*b^2*y*z^2 - a^2*b^2*c^2*y*z^2");
-		exp("K327","x*(y^2 + z^2) + y*(z^2 + x^2) + z*(x^2 + y^2) + x*y*z");
+		exp("K327", "x*(y^2 + z^2) + y*(z^2 + x^2) + z*(x^2 + y^2) + x*y*z");
 		exp("K328",
 				"a*c*x^2*y + c^2*x^2*y - b*c*x*y^2 - c^2*x*y^2 - a*b*x^2*z - b^2*x^2*z + a^2*y^2*z + a*b*y^2*z + b^2*x*z^2 + b*c*x*z^2 - a^2*y*z^2 - a*c*y*z^2");
 		exp("K329",
@@ -798,7 +824,8 @@ public class ExpandConic {
 				"(-a^3)*b*c*x^2*y - a^2*b^2*c*x^2*y + a*b^3*c*x^2*y + b^4*c*x^2*y - a^3*c^2*x^2*y - a*b^2*c^2*x^2*y + 2*b^3*c^2*x^2*y + a^2*c^3*x^2*y - a*b*c^3*x^2*y + a*c^4*x^2*y - 2*b*c^4*x^2*y - c^5*x^2*y - a^4*c*x*y^2 - a^3*b*c*x*y^2 + a^2*b^2*c*x*y^2 + a*b^3*c*x*y^2 - 2*a^3*c^2*x*y^2 + a^2*b*c^2*x*y^2 + b^3*c^2*x*y^2 + a*b*c^3*x*y^2 - b^2*c^3*x*y^2 + 2*a*c^4*x*y^2 - b*c^4*x*y^2 + c^5*x*y^2 + a^3*b^2*x^2*z - a^2*b^3*x^2*z - a*b^4*x^2*z + b^5*x^2*z + a^3*b*c*x^2*z + a*b^3*c*x^2*z + 2*b^4*c*x^2*z + a^2*b*c^2*x^2*z + a*b^2*c^2*x^2*z - a*b*c^3*x^2*z - 2*b^2*c^3*x^2*z - b*c^4*x^2*z - a^5*y^2*z + a^4*b*y^2*z + a^3*b^2*y^2*z - a^2*b^3*y^2*z - 2*a^4*c*y^2*z - a^3*b*c*y^2*z - a*b^3*c*y^2*z - a^2*b*c^2*y^2*z - a*b^2*c^2*y^2*z + 2*a^2*c^3*y^2*z + a*b*c^3*y^2*z + a*c^4*y^2*z + a^4*b*x*z^2 + 2*a^3*b^2*x*z^2 - 2*a*b^4*x*z^2 - b^5*x*z^2 + a^3*b*c*x*z^2 - a^2*b^2*c*x*z^2 - a*b^3*c*x*z^2 + b^4*c*x*z^2 - a^2*b*c^2*x*z^2 + b^3*c^2*x*z^2 - a*b*c^3*x*z^2 - b^2*c^3*x*z^2 + a^5*y*z^2 + 2*a^4*b*y*z^2 - 2*a^2*b^3*y*z^2 - a*b^4*y*z^2 - a^4*c*y*z^2 + a^3*b*c*y*z^2 + a^2*b^2*c*y*z^2 - a*b^3*c*y*z^2 - a^3*c^2*y*z^2 + a*b^2*c^2*y*z^2 + a^2*c^3*y*z^2 + a*b*c^3*y*z^2");
 		exp("K345",
 				"a*c*x^2*y + b*c*x^2*y - a*c*x*y^2 - b*c*x*y^2 - a*b*x^2*z - b*c*x^2*z + a*b*y^2*z + a*c*y^2*z + a*b*x*z^2 + b*c*x*z^2 - a*b*y*z^2 - a*c*y*z^2");
-		exp("K346","b^2*c^6*x^2*y - a^2*c^6*x*y^2 - b^6*c^2*x^2*z + a^6*c^2*y^2*z + a^2*b^6*x*z^2 - a^6*b^2*y*z^2 ");
+		exp("K346",
+				"b^2*c^6*x^2*y - a^2*c^6*x*y^2 - b^6*c^2*x^2*z + a^6*c^2*y^2*z + a^2*b^6*x*z^2 - a^6*b^2*y*z^2 ");
 		exp("K347",
 				"9*a^8*x^2*y - 24*a^6*b^2*x^2*y + 18*a^4*b^4*x^2*y - 3*b^8*x^2*y + 20*a^4*b^2*c^2*x^2*y - 24*a^2*b^4*c^2*x^2*y + 4*b^6*c^2*x^2*y - 22*a^4*c^4*x^2*y + 16*a^2*b^2*c^4*x^2*y + 6*b^4*c^4*x^2*y + 8*a^2*c^6*x^2*y - 12*b^2*c^6*x^2*y + 5*c^8*x^2*y + 3*a^8*x*y^2 - 18*a^4*b^4*x*y^2 + 24*a^2*b^6*x*y^2 - 9*b^8*x*y^2 - 4*a^6*c^2*x*y^2 + 24*a^4*b^2*c^2*x*y^2 - 20*a^2*b^4*c^2*x*y^2 - 6*a^4*c^4*x*y^2 - 16*a^2*b^2*c^4*x*y^2 + 22*b^4*c^4*x*y^2 + 12*a^2*c^6*x*y^2 - 8*b^2*c^6*x*y^2 - 5*c^8*x*y^2 - 9*a^8*x^2*z + 22*a^4*b^4*x^2*z - 8*a^2*b^6*x^2*z - 5*b^8*x^2*z + 24*a^6*c^2*x^2*z - 20*a^4*b^2*c^2*x^2*z - 16*a^2*b^4*c^2*x^2*z + 12*b^6*c^2*x^2*z - 18*a^4*c^4*x^2*z + 24*a^2*b^2*c^4*x^2*z - 6*b^4*c^4*x^2*z - 4*b^2*c^6*x^2*z + 3*c^8*x^2*z + 5*a^8*y^2*z + 8*a^6*b^2*y^2*z - 22*a^4*b^4*y^2*z + 9*b^8*y^2*z - 12*a^6*c^2*y^2*z + 16*a^4*b^2*c^2*y^2*z + 20*a^2*b^4*c^2*y^2*z - 24*b^6*c^2*y^2*z + 6*a^4*c^4*y^2*z - 24*a^2*b^2*c^4*y^2*z + 18*b^4*c^4*y^2*z + 4*a^2*c^6*y^2*z - 3*c^8*y^2*z - 3*a^8*x*z^2 + 4*a^6*b^2*x*z^2 + 6*a^4*b^4*x*z^2 - 12*a^2*b^6*x*z^2 + 5*b^8*x*z^2 - 24*a^4*b^2*c^2*x*z^2 + 16*a^2*b^4*c^2*x*z^2 + 8*b^6*c^2*x*z^2 + 18*a^4*c^4*x*z^2 + 20*a^2*b^2*c^4*x*z^2 - 22*b^4*c^4*x*z^2 - 24*a^2*c^6*x*z^2 + 9*c^8*x*z^2 - 5*a^8*y*z^2 + 12*a^6*b^2*y*z^2 - 6*a^4*b^4*y*z^2 - 4*a^2*b^6*y*z^2 + 3*b^8*y*z^2 - 8*a^6*c^2*y*z^2 - 16*a^4*b^2*c^2*y*z^2 + 24*a^2*b^4*c^2*y*z^2 + 22*a^4*c^4*y*z^2 - 20*a^2*b^2*c^4*y*z^2 - 18*b^4*c^4*y*z^2 + 24*b^2*c^6*y*z^2 - 9*c^8*y*z^2");
 		exp("K348",
@@ -1519,40 +1546,41 @@ public class ExpandConic {
 		exp("K699",
 				"a^8*b^4*x^2*y-a^2*b^10*x^2*y+a^4*b^6*c^2*x^2*y-3*a^6*b^2*c^4*x^2*y+b^8*c^4*x^2*y+2*a^4*c^8*x^2*y-b^2*c^10*x^2*y+a^10*b^2*x*y^2-a^4*b^8*x*y^2-a^6*b^4*c^2*x*y^2-a^8*c^4*x*y^2+3*a^2*b^6*c^4*x*y^2-2*b^4*c^8*x*y^2+a^2*c^10*x*y^2-2*a^4*b^8*x^2*z+3*a^6*b^4*c^2*x^2*z+b^10*c^2*x^2*z-a^8*c^4*x^2*z-a^4*b^2*c^6*x^2*z-b^4*c^8*x^2*z+a^2*c^10*x^2*z+2*a^8*b^4*y^2*z-a^10*c^2*y^2*z-3*a^4*b^6*c^2*y^2*z+b^8*c^4*y^2*z+a^2*b^4*c^6*y^2*z+a^4*c^8*y^2*z-b^2*c^10*y^2*z+a^8*b^4*x*z^2-a^2*b^10*x*z^2-a^10*c^2*x*z^2+a^6*b^2*c^4*x*z^2+2*b^8*c^4*x*z^2-3*a^2*b^4*c^6*x*z^2+a^4*c^8*x*z^2+a^10*b^2*y*z^2-a^4*b^8*y*z^2+b^10*c^2*y*z^2-2*a^8*c^4*y*z^2-a^2*b^6*c^4*y*z^2+3*a^4*b^2*c^6*y*z^2-b^4*c^8*y*z^2");
 	}
+
 	public static class NullOutputStream extends OutputStream {
 		@Override
 		public void write(int b) throws IOException {
 		}
 	}
-	private static void exp(String name,String s){
-		String cycloCheck = "", symhomCheck ="";
-		//System.setOut(new PrintStream(new NullOutputStream()));
+
+	private static void exp(String name, String s) {
+		String cycloCheck = "", symhomCheck = "";
+		// System.setOut(new PrintStream(new NullOutputStream()));
 		try {
-			
-			app.getKernel().getGeoGebraCAS().evaluateRaw("g:=coeff3("+s+")");
-			//300,210,120,111
-			//033,123,213,222
+
+			app.getKernel().getGeoGebraCAS()
+					.evaluateRaw("g:=coeff3(" + s + ")");
+			// 300,210,120,111
+			// 033,123,213,222
 			cycloCheck = app.getKernel().getGeoGebraCAS().evaluateRaw(
-					"{normal(g[0][3][3]-cyc(g[3][3][0])),normal(g[0][3][3]-cyc(cyc(g[3][0][3])))," +
-					"normal(g[3][2][1]-cyc(g[2][1][3])),normal(g[3][2][1]-cyc(cyc(g[1][3][2])))," +
-					"normal(g[3][1][2]-cyc(g[1][2][3])),normal(g[3][1][2]-cyc(cyc(g[2][3][1])))," +
-					"normal(g[2][2][2]-cyc(g[2][2][2]))}");
+					"{normal(g[0][3][3]-cyc(g[3][3][0])),normal(g[0][3][3]-cyc(cyc(g[3][0][3]))),"
+							+ "normal(g[3][2][1]-cyc(g[2][1][3])),normal(g[3][2][1]-cyc(cyc(g[1][3][2]))),"
+							+ "normal(g[3][1][2]-cyc(g[1][2][3])),normal(g[3][1][2]-cyc(cyc(g[2][3][1]))),"
+							+ "normal(g[2][2][2]-cyc(g[2][2][2]))}");
 			symhomCheck = app.getKernel().getGeoGebraCAS().evaluateRaw(
-					
+
 					"normal(g[2][2][2]-swapab(g[2][2][2]))");
-			
-			
-			
+
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(!"0".equals(symhomCheck) ){
-		//	System.out.println("weird hom"+name+":"+symhomCheck);
+
+		if (!"0".equals(symhomCheck)) {
+			// System.out.println("weird hom"+name+":"+symhomCheck);
 		}
-		
-		if(!"{0,0,0,0,0,0,0}".equals(cycloCheck) ){
+
+		if (!"{0,0,0,0,0,0,0}".equals(cycloCheck)) {
 			acyc.add(name);
 			if (!name.endsWith("A") && !name.endsWith("B")
 					&& !name.endsWith("C")) {
@@ -1560,32 +1588,33 @@ public class ExpandConic {
 						"not cyclic" + name + ":" + cycloCheck);
 			}
 		}
-		
-		else{
+
+		else {
 			String symCheck = "", asymCheck = "";
 			try {
-				//300,210,120,111
-				//033,123,213,222
-				symCheck = app.getKernel().getGeoGebraCAS().evaluateRaw(
-						"normal(g[3][2][1]-swapab(g[2][3][1]))");		
-				asymCheck = app.getKernel().getGeoGebraCAS().evaluateRaw(
-						"normal(g[3][2][1]+swapab(g[2][3][1]))");
+				// 300,210,120,111
+				// 033,123,213,222
+				symCheck = app.getKernel().getGeoGebraCAS()
+						.evaluateRaw("normal(g[3][2][1]-swapab(g[2][3][1]))");
+				asymCheck = app.getKernel().getGeoGebraCAS()
+						.evaluateRaw("normal(g[3][2][1]+swapab(g[2][3][1]))");
 				// coeffs = app.getKernel().getGeoGebraCAS().evaluateRaw(
 				// "{g[0][3][3],g[1][2][3],g[2][2][2]}))");
-				
-				
+
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if("0".equals(symCheck)){
+			if ("0".equals(symCheck)) {
 				sym.add(name);
-				//System.out.println("case "+name.substring(1,4)+":return s("+toJava(coeffs)+");");
-			}else if("0".equals(asymCheck)){
+				// System.out.println("case "+name.substring(1,4)+":return
+				// s("+toJava(coeffs)+");");
+			} else if ("0".equals(asymCheck)) {
 				asym.add(name);
-				//System.out.println("case "+name.substring(1,4)+":return a("+toJava(coeffs)+");");
-			}else{
-				nosym.add(name+":"+symCheck+"\n"+asymCheck);
+				// System.out.println("case "+name.substring(1,4)+":return
+				// a("+toJava(coeffs)+");");
+			} else {
+				nosym.add(name + ":" + symCheck + "\n" + asymCheck);
 			}
 		}
 	}

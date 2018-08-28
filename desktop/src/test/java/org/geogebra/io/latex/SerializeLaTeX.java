@@ -24,7 +24,6 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-
 public class SerializeLaTeX {
 	static Parser parser;
 	private static GeoGebraSerializer serializer;
@@ -84,12 +83,13 @@ public class SerializeLaTeX {
 	@Test
 	public void testExponent() {
 		checkCannon("exp(-30)", "exp(-30)");
-		checkCannon(Unicode.EULER_STRING + "^-30", Unicode.EULER_STRING
-				+ "^(-30)");
-		checkCannon(Unicode.EULER_STRING + "^-30+1", Unicode.EULER_STRING
-				+ "^(-30)+1");
-		checkCannon(Unicode.EULER_STRING + Unicode.SUPERSCRIPT_MINUS
-				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0,
+		checkCannon(Unicode.EULER_STRING + "^-30",
+				Unicode.EULER_STRING + "^(-30)");
+		checkCannon(Unicode.EULER_STRING + "^-30+1",
+				Unicode.EULER_STRING + "^(-30)+1");
+		checkCannon(
+				Unicode.EULER_STRING + Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0,
 				Unicode.EULER_STRING + "^(-10)");
 	}
 
@@ -150,7 +150,7 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testMatrix() {
- 		checkCannon("{{1,2},{3,4}}", "{{1,2},{3,4}}");
+		checkCannon("{{1,2},{3,4}}", "{{1,2},{3,4}}");
 		checkCannon("{{1 , 2} , { 3 , 4}}", "{{1,2},{3,4}}");
 		checkCannon("{{1 , 2} , 3}", "{{1,2},3}");
 		checkCannon("{{1,2},{3,4}}+1", "{{1,2},{3,4}}+1");
@@ -179,8 +179,7 @@ public class SerializeLaTeX {
 		checkLaTeX("4-x", "4-x");
 		checkLaTeX("\\frac{4}{x}", "(4)/(x)");
 		checkLaTeX("4 \\times x", "4*x");
-		
-		
+
 		checkLaTeX("\\frac{x+y}{x-y}", "(x+y)/(x-y)");
 		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
 		checkLaTeX("\\sqrt{x}+2", "sqrt(x)+2");
@@ -214,9 +213,9 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testBinaryOp() {
-		for (char op : new char[] { Unicode.LESS_EQUAL,
-				Unicode.GREATER_EQUAL, Unicode.IS_SUBSET_OF,
-				Unicode.IS_ELEMENT_OF, Unicode.IS_SUBSET_OF_STRICT }) {
+		for (char op : new char[] { Unicode.LESS_EQUAL, Unicode.GREATER_EQUAL,
+				Unicode.IS_SUBSET_OF, Unicode.IS_ELEMENT_OF,
+				Unicode.IS_SUBSET_OF_STRICT }) {
 			checkCannon("5 " + op + " 3", "5" + op + "3");
 			checkCannon("5 " + op + " (2/3*x+5/3)",
 					"5" + op + " ((2)/(3)*x+(5)/(3))");
@@ -228,7 +227,7 @@ public class SerializeLaTeX {
 
 		testEditor("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
 		testEditor("\u314A\u315C\u3139\u3131\u314F", "\uCD9C\uAC00");
-		
+
 		testEditor("\u3142", "\u3142");
 		testEditor("\u3142\u315C", "\uBD80");
 		testEditor("\u3142\u315C\u3134", "\uBD84");
@@ -239,16 +238,14 @@ public class SerializeLaTeX {
 		testEditor("\u3142\u315C\u3134\u314E\u315B", "\uBD84\uD6A8");
 
 		testEditor("\u314D\u3157\u314E", "\uD407");
-		testEditor("\u3141\u3163\u3142\u315C\u3134",
-				"\uBBF8\uBD84");
+		testEditor("\u3141\u3163\u3142\u315C\u3134", "\uBBF8\uBD84");
 
 		testEditor("\u3147\u315F", "\uC704");
 
 		testEditor("\u3131\u314F\u3144", "\uAC12");
 
-		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147",
-				"\uD55C\uC30D");
-		
+		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
+
 		testEditor("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0C1");
 
 		// small steps
@@ -267,7 +264,7 @@ public class SerializeLaTeX {
 		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
 
 		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD558\uC30D");
-		
+
 		testEditor("\u3134\u3153\u313C\u3147\u3163", "\uB113\uC774");
 		testEditor("\u3147\u314F\u3136\u3137\u314F", "\uC54A\uB2E4");
 		testEditor("\u3131\u314F\u3144\u3147\u3161\u3134", "\uAC12\uC740");
@@ -276,20 +273,14 @@ public class SerializeLaTeX {
 
 		testEditor(Korean.flattenKorean("\uB098"), "\uB098");
 		testEditor(Korean.flattenKorean("\uB108"), "\uB108");
-		testEditor(Korean.flattenKorean("\uC6B0\uB9AC"),
-				"\uC6B0\uB9AC");
-		testEditor(Korean.flattenKorean("\uBBF8\uBD84"),
-				"\uBBF8\uBD84");
-		testEditor(Korean.flattenKorean("\uBCA1\uD130"),
-				"\uBCA1\uD130");
-		testEditor(Korean.flattenKorean("\uC0C1\uC218"),
-				"\uC0C1\uC218");
+		testEditor(Korean.flattenKorean("\uC6B0\uB9AC"), "\uC6B0\uB9AC");
+		testEditor(Korean.flattenKorean("\uBBF8\uBD84"), "\uBBF8\uBD84");
+		testEditor(Korean.flattenKorean("\uBCA1\uD130"), "\uBCA1\uD130");
+		testEditor(Korean.flattenKorean("\uC0C1\uC218"), "\uC0C1\uC218");
 		testEditor(Korean.flattenKorean("\uB2ED\uBA39\uC5B4"),
 				"\uB2ED\uBA39\uC5B4");
-		testEditor(Korean.flattenKorean("\uC6EC\uC77C"),
-				"\uC6EC\uC77C");
-		testEditor(Korean.flattenKorean("\uC801\uBD84"),
-				"\uC801\uBD84");
+		testEditor(Korean.flattenKorean("\uC6EC\uC77C"), "\uC6EC\uC77C");
+		testEditor(Korean.flattenKorean("\uC801\uBD84"), "\uC801\uBD84");
 		testEditor(Korean.flattenKorean("\uC288\uD37C\uB9E8"),
 				"\uC288\uD37C\uB9E8");
 		testEditor(Korean.flattenKorean("\u3138"), "\u1104");
@@ -304,26 +295,25 @@ public class SerializeLaTeX {
 				"\uC774\uC81C\uC880\uC790\uC790");
 		testEditor(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
 				"\uC544\uBAA8\uB974\uACA0\uB2E4");
-		
+
 		testEditor("\u3146\u1161\u11BC", "\uC30D");
 		testEditor("\u110A\u1161\u11BC", "\uC30D");
-		
-		
+
 		testEditor("\u3142\u315C", "\uBD80");
 		testEditor("\u3142\u315E", "\uBDB8");
 		testEditor("\u3142\u315E\u3139", "\uBDC0");
 		testEditor("\u3142\u315E\u313A", "\uBDC1");
-		
+
 		// testEditor("\u3132", "\u1101");
 		testEditor("\u3132\u314F", "\uAE4C");
 
 		testEditor("\u3131\u3157\u3142\u3131\u3161\u3134", "\uACF1\uADFC");
 		testEditor("\u3147\u3163\u3142\u3139\u3155\u3131", "\uC785\uB825");
-		
+
 		testEditor("\u3147\u3157\u314F\u3134\u3139\u315B", "\uC644\uB8CC");
 		testEditor("\u3131\u3157\u3142\u314E\u314F\u3131\u3163",
 				"\uACF1\uD558\uAE30");
-		
+
 		// some middle (vowel) characters need doubling (no other way to enter
 		// them)
 		// eg \u315c \u3153 = \u116f
@@ -382,8 +372,7 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testEditor() {
-		testEditor("sqrt(x/2)",
-				"sqrt(x/2)");
+		testEditor("sqrt(x/2)", "sqrt(x/2)");
 
 		testEditor("1+2+3-4", "1+2+3-4");
 		testEditor("12345", "12345");

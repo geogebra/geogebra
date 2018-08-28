@@ -67,7 +67,6 @@ public class RedefineTest extends Assert {
 						app.getDefaultErrorHandler(), false, null);
 	}
 
-
 	@Test
 	public void breakingTypeChangeShouldRaiseException() {
 		t("A=(1,1)", "(1, 1)");
@@ -158,8 +157,7 @@ public class RedefineTest extends Assert {
 	@Test
 	public void setValueShouldChangeRandomElement() {
 		app.setRandomSeed(42);
-		t("P=RandomElement((1..10,1..10))",
-				"(8, 8)");
+		t("P=RandomElement((1..10,1..10))", "(8, 8)");
 		t("SetValue(P, (7, 7))", new String[0]);
 		t("P", "(7, 7)");
 	}
@@ -174,8 +172,7 @@ public class RedefineTest extends Assert {
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", AlgebraTest.unicode("x^2 + y = 0"));
-		Assert.assertEquals(get("a").getGeoClassType(),
-				GeoClass.CONIC);
+		Assert.assertEquals(get("a").getGeoClassType(), GeoClass.CONIC);
 		app.setXML(app.getXML(), true);
 		hasType("a", GeoClass.CONIC);
 	}
@@ -201,9 +198,8 @@ public class RedefineTest extends Assert {
 	@Test
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
-		t("b:Spline({(0, 1),A,(1, 0)})",
-				AlgebraTest.unicode(
-						"(If(t < 0.5, -2t^3 + 0t^2 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0t^2 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
+		t("b:Spline({(0, 1),A,(1, 0)})", AlgebraTest.unicode(
+				"(If(t < 0.5, -2t^3 + 0t^2 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0t^2 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
 				StringTemplate.editTemplate);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");
@@ -253,8 +249,7 @@ public class RedefineTest extends Assert {
 	public void anonymousLineShouldStayLine() {
 		app.getEuclidianView3D();
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
-		t("c=Circle((0,0,0),1,x=0)",
-				"X = (0, 0, 0) + (0, - cos(t), sin(t))",
+		t("c=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
@@ -304,4 +299,3 @@ public class RedefineTest extends Assert {
 	}
 
 }
-

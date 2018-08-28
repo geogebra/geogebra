@@ -36,6 +36,9 @@ public class ArbitraryConstIntegrationTest {
 	 */
 	static CASTestLogger logger;
 
+	/**
+	 * Create app and cas.
+	 */
 	@BeforeClass
 	public static void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
@@ -169,8 +172,9 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_8() {
-		ta("SolveODE[2y''+y'-y=0]", "y = c_1 *" + Unicode.EULER_STRING
-				+ "^(-x) + c_2 *" + Unicode.EULER_STRING + "^(x/2)",
+		ta("SolveODE[2y''+y'-y=0]",
+				"y = c_1 *" + Unicode.EULER_STRING + "^(-x) + c_2 *"
+						+ Unicode.EULER_STRING + "^(x/2)",
 				"y = c_1 *" + Unicode.EULER_STRING + "^(x / 2) + c_2 *"
 						+ Unicode.EULER_STRING + "^(-x)");
 	}
@@ -198,9 +202,8 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_12() {
-		ta("SolveODE[y'' + 4y' + 4y = 0]",
-				"y=c_1 * x * " + Unicode.EULER_STRING + "^(-2 * x) + c_2 * "
-						+ Unicode.EULER_STRING + "^(-2 * x)");
+		ta("SolveODE[y'' + 4y' + 4y = 0]", "y=c_1 * x * " + Unicode.EULER_STRING
+				+ "^(-2 * x) + c_2 * " + Unicode.EULER_STRING + "^(-2 * x)");
 	}
 
 	@Test
@@ -438,8 +441,6 @@ public class ArbitraryConstIntegrationTest {
 			f1.setInput(cell1InputUpdate);
 			f1.computeOutput();
 
-
-
 			result1 = getOutput(f1);
 
 			GeoCasCell f2 = new GeoCasCell(kernel.getConstruction());
@@ -534,8 +535,8 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	private static void assertIn(String[] valid, String current) {
-		for(int i = 0; i < valid.length -1;i++){
-			if(valid[i].equals(current)){
+		for (int i = 0; i < valid.length - 1; i++) {
+			if (valid[i].equals(current)) {
 				return;
 			}
 		}
@@ -547,8 +548,7 @@ public class ArbitraryConstIntegrationTest {
 	public void reloadAppTestXY() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(x,y)=Integral(sin(x)*sin(y-x), x)", false);
-		checkAfterReload("F",
-				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)",
+		checkAfterReload("F", "F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)",
 				"F(x, y) = -1 / 2 x cos(y) + 1 / 4 sin(2x - y)");
 	}
 
@@ -556,12 +556,9 @@ public class ArbitraryConstIntegrationTest {
 	public void reloadAppTest2Var() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(t,x)=Integral(sin(x)*sin(t-x), x)", false);
-		checkAfterReload("F",
-				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)",
+		checkAfterReload("F", "F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)",
 				"F(t, x) = -1 / 2 x cos(t) - 1 / 4 sin(t - 2x)");
 
 	}
 
 }
-
-

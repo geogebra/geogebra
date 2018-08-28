@@ -18,7 +18,6 @@ public class EuclidianStyleTest {
 	public static void setupApp() {
 		app = CommandsTest.createApp();
 		cd = app.getKernel().getConstruction().getConstructionDefaults();
-
 	}
 
 	@Test

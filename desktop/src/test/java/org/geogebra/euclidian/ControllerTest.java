@@ -46,6 +46,9 @@ public class ControllerTest {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false);
 	}
 
+	/**
+	 * Repeat last test with dragging.
+	 */
 	@After
 	public void repeatWithDrag() {
 		if (!events.isEmpty()) {
@@ -210,9 +213,8 @@ public class ControllerTest {
 		click(50, 100);
 		click(50, 0);
 		click(0, 50);
-		checkContent("A = (1, -1)", "B = (2, -1)", "C = (1, -2)",
-				"D = (1, 0)", "E = (0, -1)",
-				"c: x y + x - y = 1");
+		checkContent("A = (1, -1)", "B = (2, -1)", "C = (1, -2)", "D = (1, 0)",
+				"E = (0, -1)", "c: x y + x - y = 1");
 	}
 
 	@Test
@@ -248,8 +250,8 @@ public class ControllerTest {
 		click(100, 100);
 		click(0, 100);
 		click(0, 0);
-		checkContent("A = (0, 0)", "B = (2, 0)", "C = (2, -2)",
-				"D = (0, -2)", "q1 = 4", "a = 2", "b = 2", "c = 2", "d = 2");
+		checkContent("A = (0, 0)", "B = (2, 0)", "C = (2, -2)", "D = (0, -2)",
+				"q1 = 4", "a = 2", "b = 2", "c = 2", "d = 2");
 	}
 
 	@Test
@@ -284,7 +286,6 @@ public class ControllerTest {
 		click(100, 0);
 		click(0, 0);
 
-
 		checkContent("A = (2, -2)", "B = (2, 0)", "C = (0, 0)", "c = 1.5708");
 	}
 
@@ -294,8 +295,7 @@ public class ControllerTest {
 		click(0, 0);
 		click(100, 100);
 		click(150, 0);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (3, 0)",
-				"c = 3.14159");
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (3, 0)", "c = 3.14159");
 	}
 
 	@Test
@@ -314,8 +314,7 @@ public class ControllerTest {
 		click(0, 0);
 		click(100, 100);
 		click(200, 0);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (4, 0)",
-				"c = 6.28319");
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (4, 0)", "c = 6.28319");
 
 	}
 
@@ -412,7 +411,6 @@ public class ControllerTest {
 				Unicode.alpha + " = 45" + Unicode.DEGREE_STRING);
 	}
 
-
 	@Test
 	public void vectorFromPointTool() {
 		app.setMode(EuclidianConstants.MODE_VECTOR_FROM_POINT); // TODO 37
@@ -426,9 +424,8 @@ public class ControllerTest {
 		t("p=Polygon(A,B,4)");
 		click(50, 50);
 		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
-				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
-				"perimeterp = 8", "Textp = \"Perimeter of p = 8\"",
-				"Pointp = (1, -1)");
+				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2", "perimeterp = 8",
+				"Textp = \"Perimeter of p = 8\"", "Pointp = (1, -1)");
 	}
 
 	@Test
@@ -524,9 +521,9 @@ public class ControllerTest {
 		prepareInput("4");
 		click(100, 100);
 		click(0, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "poly1 = 8",
-				"f = 2.82843", "g = 2.82843", "C = (-2, -2)", "D = (0, -4)",
-				"h = 2.82843", "i = 2.82843");
+		checkContent("A = (2, -2)", "B = (0, 0)", "poly1 = 8", "f = 2.82843",
+				"g = 2.82843", "C = (-2, -2)", "D = (0, -4)", "h = 2.82843",
+				"i = 2.82843");
 	}
 
 	private static void prepareInput(String... string) {
@@ -559,8 +556,8 @@ public class ControllerTest {
 		click(50, 50);
 		click(100, 100);
 
-		checkContent(AlgebraTest.unicode("c: x^2 + y^2 = 8"),
-				"A = (1, -1)", "A' = (4, -4)");
+		checkContent(AlgebraTest.unicode("c: x^2 + y^2 = 8"), "A = (1, -1)",
+				"A' = (4, -4)");
 	}
 
 	@Test
@@ -788,7 +785,6 @@ public class ControllerTest {
 		app.setMode(EuclidianConstants.MODE_CAMERA); // TODO 118
 	}
 
-
 	private static void click(int x, int y) {
 		TestEvent evt = new TestEvent(x, y);
 		events.add(evt);
@@ -822,8 +818,7 @@ public class ControllerTest {
 				((GeoConic) geo).setToSpecific();
 			}
 			Assert.assertEquals(desc[i],
-					geo
-					.toString(StringTemplate.editTemplate));
+					geo.toString(StringTemplate.editTemplate));
 			i++;
 		}
 		Assert.assertEquals(desc.length, app.getGgbApi().getObjectNumber());

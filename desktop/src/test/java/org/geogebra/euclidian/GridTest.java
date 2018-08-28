@@ -28,7 +28,7 @@ public class GridTest {
 	 * Create test app
 	 */
 	@BeforeClass
-	public static void setup(){
+	public static void setup() {
 		app = CommandsTest.createApp();
 	}
 
@@ -66,9 +66,8 @@ public class GridTest {
 	private static void hasBlueLines(int expectMinor, int expectMajor) {
 		ByteArrayOutputStream ss = new ByteArrayOutputStream();
 		String svg = "";
-		GraphicExportDialog.exportSVG(app,
-				app.getActiveEuclidianView(), ss, false,
-				800, 600, 8, 6, 1, false);
+		GraphicExportDialog.exportSVG(app, app.getActiveEuclidianView(), ss,
+				false, 800, 600, 8, 6, 1, false);
 		try {
 			svg = new String(ss.toByteArray(), "utf-8");
 		} catch (UnsupportedEncodingException e) {

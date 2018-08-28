@@ -34,20 +34,20 @@ public class ParserTest {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 	}
-	
+
 	@Test
-	public void testBrackets(){
+	public void testBrackets() {
 		try {
-			
+
 			long l = System.currentTimeMillis();
 
-			parseExpression(
-					"{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
+			parseExpression("{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
 
 			parseExpression("(((((((((((((((((((((((1)))))))))))))))))))))))");
-			parseExpression("If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42" +
-					"]]]]]]]]]]]]]]]]]]]]]]]]");
-			l = System.currentTimeMillis() -l;
+			parseExpression(
+					"If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42"
+							+ "]]]]]]]]]]]]]]]]]]]]]]]]");
+			l = System.currentTimeMillis() - l;
 			Log.debug("TIME" + l);
 			assertTrue("Too long:" + l, l < 400);
 		} catch (ParseException e) {
@@ -72,7 +72,6 @@ public class ParserTest {
 		checkSameStructure("x(x+1)!", "x*(x+1)!");
 		checkSameStructure("cos^2(x)", "cos(x)^2");
 		checkSameStructure("sin" + Unicode.SUPERSCRIPT_2 + "(x)", "sin(x)^2");
-
 	}
 
 	@Test
@@ -80,7 +79,6 @@ public class ParserTest {
 		checkSameStructure("A(1|2)", "(1,2)");
 		checkSameStructure("A(1|2|3)", "(1,2,3)");
 		checkSameStructure("A(1;pi/2)", "(1;pi/2)");
-
 	}
 
 	private static void checkSameStructure(String string, String string2) {
@@ -105,9 +103,10 @@ public class ParserTest {
 		return reparse1;
 	}
 
-	private void shouldBeException(String string, String exceptionClass) {
+	private static void shouldBeException(String string,
+			String exceptionClass) {
 		Throwable p = null;
-		try{
+		try {
 			parseExpression(string);
 		} catch (Throwable e) {
 			p = e;
@@ -123,7 +122,6 @@ public class ParserTest {
 		long l = System.currentTimeMillis();
 		try {
 
-
 			parseExpression(
 					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/()))))))))))))))))))))");
 
@@ -135,12 +133,12 @@ public class ParserTest {
 		Log.debug("TIME" + l);
 		assertTrue("Too long:" + l, l < 4000);
 	}
-	
+
 	/**
 	 * Test for || brackets
 	 */
 	@Test
-	public void testAbsValue(){
+	public void testAbsValue() {
 
 		try {
 			parseExpression("|1|");
@@ -178,8 +176,7 @@ public class ParserTest {
 				ExpressionNode right = new ExpressionNode(kernel, ex, top,
 						new Variable(kernel, "c"));
 				checkStable(right);
-				ExpressionNode both = new ExpressionNode(kernel, ex, top,
-						ex);
+				ExpressionNode both = new ExpressionNode(kernel, ex, top, ex);
 				checkStable(both);
 			}
 		}
@@ -193,22 +190,19 @@ public class ParserTest {
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
 	}
 
-	private void shouldReparseAs(String string, String expected) {
+	private static void shouldReparseAs(String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
-
 	}
 
-	private boolean binary(Operation op) {
+	private static boolean binary(Operation op) {
 		// TODO Auto-generated method stub
 		return !Operation.isSimpleFunction(op) && op != Operation.IF_LIST
 				&& op != Operation.$VAR_COL && op != Operation.$VAR_ROW_COL
 				&& op != Operation.$VAR_ROW && op != Operation.XOR
-				&& op != Operation.AND_INTERVAL
-				&& op != Operation.ELEMENT_OF
-				&& op != Operation.DIFF
-				&& op != Operation.FREEHAND && op != Operation.DATA
-				&& op != Operation.MATRIXTOVECTOR
+				&& op != Operation.AND_INTERVAL && op != Operation.ELEMENT_OF
+				&& op != Operation.DIFF && op != Operation.FREEHAND
+				&& op != Operation.DATA && op != Operation.MATRIXTOVECTOR
 				&& op != Operation.NO_OPERATION
 				&& op != Operation.MULTIPLY_OR_FUNCTION && op != Operation.BETA
 				&& op != Operation.BETA_INCOMPLETE
@@ -216,26 +210,23 @@ public class ParserTest {
 				&& op != Operation.GAMMA_INCOMPLETE_REGULARIZED
 				&& op != Operation.FUNCTION && op != Operation.FUNCTION_NVAR
 				&& op != Operation.VEC_FUNCTION && op != Operation.DERIVATIVE
-				&& op != Operation.IF
-				&& op != Operation.IF_SHORT
+				&& op != Operation.IF && op != Operation.IF_SHORT
 				&& op != Operation.IF_ELSE && op != Operation.SUM
 				&& op != Operation.INVERSE_NORMAL;
 	}
 
-	private void checkStable(ExpressionNode left) {
+	private static void checkStable(ExpressionNode left) {
 		String str = null;
 		try {
 			str = left.toString(StringTemplate.editTemplate);
 			// Log.debug(str);
-			ExpressionNode ve = (ExpressionNode) parseExpression(
-					str);
+			ExpressionNode ve = (ExpressionNode) parseExpression(str);
 			String combo = left.getOperation() + "," + ve.getOperation();
 
 			if ("SQRT_SHORT,SQRT".equals(combo) || "PLUS,MINUS".equals(combo)
 					|| "PLUS,PLUSMINUS".equals(combo)
 					|| "DIVIDE,MULTIPLY".equals(combo)
-					|| "VECTORPRODUCT,MULTIPLY".equals(combo)
-			) {
+					|| "VECTORPRODUCT,MULTIPLY".equals(combo)) {
 				return;
 			}
 			Log.debug(str);
@@ -244,12 +235,11 @@ public class ParserTest {
 		} catch (ParseException e) {
 			Assert.fail(str);
 		}
-
 	}
 
 	private static ValidExpression parseExpression(String string)
 			throws ParseException {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
-
 	}
+
 }

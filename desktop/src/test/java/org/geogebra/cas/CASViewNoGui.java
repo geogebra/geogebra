@@ -16,28 +16,31 @@ public class CASViewNoGui extends CASView {
 		this.casTable = new CASTableNoGui(inputs, app);
 	}
 
+	@Override
 	public void resetItems(boolean unselectAll) {
-		// TODO Auto-generated method stub
-
+		// mock implementation
 	}
 
+	@Override
 	public boolean isShowing() {
-		// TODO Auto-generated method stub
+		// mock implementation
 		return false;
 	}
 
+	@Override
 	public void repaintView() {
-		// TODO Auto-generated method stub
-
+		// mock implementation
 	}
 
+	@Override
 	public boolean suggestRepaint() {
-		// TODO Auto-generated method stub
+		// mock implementation
 		return false;
 	}
 
+	@Override
 	public boolean hasFocus() {
-		// TODO Auto-generated method stub
+		// mock implementation
 		return false;
 	}
 
@@ -54,8 +57,7 @@ public class CASViewNoGui extends CASView {
 	@Override
 	public void showSubstituteDialog(String prefix, String evalText,
 			String postfix, int selRow) {
-		// TODO Auto-generated method stub
-
+		// mock implementation
 	}
 
 }

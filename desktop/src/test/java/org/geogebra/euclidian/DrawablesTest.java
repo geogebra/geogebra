@@ -19,6 +19,7 @@ import org.junit.Test;
 
 public class DrawablesTest {
 	private static AppDNoGui app;
+
 	@BeforeClass
 	public static void setuApp() {
 		app = CommandsTest.createApp();
@@ -31,16 +32,14 @@ public class DrawablesTest {
 				"Semicircle[(0,0),(1,1)]", "xx", "1<x<2", "x=y", "{(1,1)}",
 				"ConvexHull[(0,0),(0,1),(1,0)]", "7",
 				"Polygon[(0,0),(0,1),(1,0)]", "Polyline[(0,0),(0,1),(1,0)]",
-				"Polyline[(0,0),(0,1),(1,0),true]",
-				"Ray[(0,0),(2,3)]",
+				"Polyline[(0,0),(0,1),(1,0),true]", "Ray[(0,0),(2,3)]",
 				"Segment[(0,0),(2,3)]", "Vector[(0,0),(2,3)]",
 				"FormulaText[x^2]", "(t,t^3)", "x^4+y^4=1", "x>y",
 				"Spline[(0,0),(0,1),(1,0),(2,3)]", "Turtle[]", "(1,1,0)",
 				"Vector[(1,1,0)]", "Segment[(1,1,0),(1,1,1)]",
 				"Line[(1,1,0),(1,1,1)]", "Ray[(1,1,0),(1,1,1)]",
 				"Ellipse[(2,3,0),(1,1,0),(1,0,0)]",
-				"Polygon[(0,0),(0,1),(1,0,0)]",
-				"PolyLine[(0,0),(0,1),(1,0,0)]",
+				"Polygon[(0,0),(0,1),(1,0,0)]", "PolyLine[(0,0),(0,1),(1,0,0)]",
 				"Angle[(1,1,0)]", "Net[Cube[(0,0),(1,1)],1]", "xAxis", "zAxis",
 				"cub(t)=(t,t,t^3)", "x+y=z", "xx+yy+zz=1", "Cube[(0,0),(1,1)]",
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
@@ -60,20 +59,17 @@ public class DrawablesTest {
 			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
 			DrawableND draw = app.getEuclidianView1().newDrawable(geo);
 			Assert.assertEquals(geo.getDefinitionForInputBar(),
-					ignore(geo.getGeoClassType()),
-					draw == null);
+					ignore(geo.getGeoClassType()), draw == null);
 			types.add(geo.getGeoClassType());
 		}
 		XmlTest.testCurrentXML(app);
 		for (GeoClass type : GeoClass.values()) {
-			Assert.assertTrue(type + "",
-					types.contains(type)
-							|| (GeoClass.IMPLICIT_SURFACE_3D == type
-									&& !app.has(Feature.IMPLICIT_SURFACES))
-							|| GeoClass.CAS_CELL == type
-							|| GeoClass.SPACE == type
-							|| GeoClass.DEFAULT == type
-							|| GeoClass.CLIPPINGCUBE3D == type);
+			Assert.assertTrue(type + "", types.contains(type)
+					|| (GeoClass.IMPLICIT_SURFACE_3D == type
+							&& !app.has(Feature.IMPLICIT_SURFACES))
+					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
+					|| GeoClass.DEFAULT == type
+					|| GeoClass.CLIPPINGCUBE3D == type);
 		}
 
 	}

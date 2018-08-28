@@ -1,6 +1,6 @@
 package org.geogebra.gui;
 
-import org.geogebra.commands.CommandsTest;
+import org.geogebra.commands.AlgebraTest;
 import org.geogebra.commands.TestErrorHandler;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
@@ -17,9 +17,12 @@ public class NameModelTest {
 	private static AppDNoGui app;
 	private static NameValueModel model;
 
+	/**
+	 * Create app and model.
+	 */
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 		model = new NameValueModel(app, new INameValueListener() {
 
 			@Override
@@ -79,7 +82,7 @@ public class NameModelTest {
 		});
 
 	}
-	
+
 	@Test
 	public void labelChangeShoundNotChangeCaption() {
 		GeoPoint p = makePoint("P");
@@ -133,6 +136,7 @@ public class NameModelTest {
 				r.getCaption(StringTemplate.defaultTemplate));
 
 	}
+
 	@Before
 	public void cleanup() {
 		app.getKernel().clearConstruction(true);
@@ -145,5 +149,5 @@ public class NameModelTest {
 		p.setLabel(string);
 		return p;
 	}
-	
+
 }

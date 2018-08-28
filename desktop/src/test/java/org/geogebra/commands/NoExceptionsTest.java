@@ -28,16 +28,20 @@ public class NoExceptionsTest extends AlgebraTest {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
+	/**
+	 * Create app + basic test objects
+	 */
 	@BeforeClass
 	public static void setupApp() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
-	    // Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
+		// Setting the general timeout to 11 seconds. Feel free to change this.
+		app.getKernel().getApplication().getSettings().getCasSettings()
+				.setTimeoutMilliseconds(11000);
 		// make sure x=y is a line, not plane
 		app.getGgbApi().setPerspective("1");
-		//try this before an object named i is created
+		// try this before an object named i is created
 		t("1+i");
 		t("Pt1=(1,1)");
 		t("Pt2=(2,1/2)");
@@ -83,7 +87,7 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("b2=n2==4");
 		t("impl1:x^4+y^4=1");
 		t("comp=2+3*i");
-		t("a1=30"+Unicode.DEGREE_STRING);
+		t("a1=30" + Unicode.DEGREE_STRING);
 		t("list1 = {1,2,3,4,5}");
 		t("list2 = {2,3,4}");
 		t("list3 = list2");
@@ -115,20 +119,24 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("alog=1");
 		t("freehandFunc=Function[{1,2,1,2,1,2,1,2,1,2,1}]");
 	}
+
 	public static int syntaxes;
+
 	@Before
-	public void resetSyntaxes(){
+	public void resetSyntaxes() {
 		syntaxes = -1000;
 	}
+
 	@After
-	public void checkSyntaxes(){
-		Assert.assertTrue("unchecked syntaxes: "+syntaxes,syntaxes<=0);
-	}
-	private static void  t(String s){
-		testSyntax(s,app,ap);
+	public void checkSyntaxes() {
+		Assert.assertTrue("unchecked syntaxes: " + syntaxes, syntaxes <= 0);
 	}
 
-	public static void testSyntax(String s, App app, AlgebraProcessor ap) {
+	private static void t(String s) {
+		testSyntax(s, app, ap);
+	}
+
+	private static void testSyntax(String s, App app, AlgebraProcessor ap) {
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
@@ -151,7 +159,7 @@ public class NoExceptionsTest extends AlgebraTest {
 			 * "caseval(\"timeout 8\")"); } catch (Throwable e) { App.error(
 			 * "CAS error " + e); }
 			 */
-			
+
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
@@ -161,7 +169,7 @@ public class NoExceptionsTest extends AlgebraTest {
 		} catch (final Throwable e) {
 			System.out.println("error occured:" + e.getClass().getName());
 			Throwable t = e;
-			while(t.getCause() != null){
+			while (t.getCause() != null) {
 				t = t.getCause();
 			}
 
@@ -170,7 +178,6 @@ public class NoExceptionsTest extends AlgebraTest {
 			Assert.assertNull(e.getMessage() + "," + e.getClass(), e);
 		}
 	}
-
 
 	@Test
 	public void selfTest() {
@@ -186,7 +193,8 @@ public class NoExceptionsTest extends AlgebraTest {
 		}
 		StringBuilder missing = new StringBuilder();
 		for (Commands a : Commands.values()) {
-			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name()) 
+			if (!methodNames
+					.contains("cmd" + Commands.englishToInternal(a).name())
 					&& Commands.englishToInternal(a)
 							.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& Commands.englishToInternal(a)
@@ -200,10 +208,11 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	private static boolean betaCommand(Commands a) {
-		return a == Commands.MatrixPlot ||
-				a== Commands.DensityPlot || a==Commands.ContourPlot
-				|| a==Commands.Nyquist || a==Commands.Polyhedron;
+		return a == Commands.MatrixPlot || a == Commands.DensityPlot
+				|| a == Commands.ContourPlot || a == Commands.Nyquist
+				|| a == Commands.Polyhedron;
 	}
+
 	@Test
 	public void cmdAreCollinear() {
 		t("AreCollinear[ Pt1,Pt2,Pt3 ]");
@@ -218,13 +227,12 @@ public class NoExceptionsTest extends AlgebraTest {
 	public void cmdAreParallel() {
 		t("AreParallel[ l1,l2 ]");
 	}
-	
+
 	@Test
 	public void cmdAreConcyclic() {
 		t("AreConcyclic[ Pt1,Pt2,Pt3,Pt4 ]");
 	}
 
-	
 	@Test
 	public void cmdExpression() {
 		t("(1,2)+{(2,3),(4,5)}");
@@ -368,8 +376,6 @@ public class NoExceptionsTest extends AlgebraTest {
 
 		t("CircularSector[ Pt5, Pt1,Pt2 ]");
 	}
-	
-
 
 	@Test
 	public void cmdCircumcircleArc() {
@@ -416,10 +422,9 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("ColumnName[ A1 ]");
 	}
 
-	/*@Test
-	public void cmdCompetitionRank() {
-		t("CompetitionRank[list1]");
-	}*/
+	/*
+	 * @Test public void cmdCompetitionRank() { t("CompetitionRank[list1]"); }
+	 */
 
 	@Test
 	public void cmdCompleteSquare() {
@@ -854,8 +859,6 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("Intersection[ list1, list1 ]");
 	}
 
-	
-
 	@Test
 	public void cmdIntersectRegion() {
 		t("IntersectRegion[ poly1, poly1 ]");
@@ -977,7 +980,6 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("LeftSum[ f1, n2, n3, n1 ]");
 	}
 
-
 	@Test
 	public void cmdLetterToUnicode() {
 		t("LetterToUnicode[ letter ]");
@@ -1039,8 +1041,6 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("Max[ list1, list1 ]");
 		t("Max[ n1, n1 ]");
 	}
-
-
 
 	@Test
 	public void cmdMean() {
@@ -1114,14 +1114,11 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("NormalQuantilePlot[ list2]");
 	}
 
+	/*
+	 * @Test public void cmdNyquist() { t("Nyquist[ {1,1},{1,1,1} ]");
+	 * t("Nyquist[ {-1,3},{3,4,1},6 ]"); }
+	 */
 
-
-	/*@Test
-	public void cmdNyquist() {
-		t("Nyquist[ {1,1},{1,1,1} ]");
-		t("Nyquist[ {-1,3},{3,4,1},6 ]");
-	}*/
-	
 	@Test
 	public void cmdObject() {
 		t("Object[ txt ]");
@@ -1161,7 +1158,7 @@ public class NoExceptionsTest extends AlgebraTest {
 
 	@Test
 	public void cmdParseToFunction() {
-		//t("ParseToFunction[ f1, txt ]");
+		// t("ParseToFunction[ f1, txt ]");
 	}
 
 	@Test
@@ -1201,7 +1198,7 @@ public class NoExceptionsTest extends AlgebraTest {
 
 	@Test
 	public void cmdPlaySound() {
-		t("PlaySound[ b1 ]"); 
+		t("PlaySound[ b1 ]");
 		t("PlaySound[ f1, n1, n4 ]");
 		t("PlaySound[ f1, n1, n4, n3, n2]");
 		t("PlaySound[ b1 ]"); // test this twice instead of playing file
@@ -1244,14 +1241,10 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("PolyLine[ Pt1, Pt3, Pt5 ]");
 	}
 
-
-
 	@Test
 	public void cmdPrimeFactors() {
 		t("PrimeFactors[ n1 ]");
 	}
-
-	
 
 	@Test
 	public void cmdProve() {
@@ -1673,7 +1666,7 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("StickGraph[list1, list2,b2]");
 		t("StickGraph[ptlist1,b2]");
 	}
-	
+
 	@Test
 	public void cmdStepGraph() {
 		t("StepGraph[list1, list2]");
@@ -1683,7 +1676,7 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("StepGraph[list1, list2,b2,n1]");
 		t("StepGraph[ptlist1,b2,n2]");
 	}
-	
+
 	@Test
 	public void cmdStretch() {
 		t("Stretch[ obj, l1, n2 ]");
@@ -1915,7 +1908,7 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("ZoomOut[ n1 ]");
 		t("ZoomOut[ n1, Pt1 ]");
 	}
-	
+
 	@Test
 	public void cmdSlopeField() {
 		t("SlopeField[ x/y ]");
@@ -1923,68 +1916,68 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("SlopeField[ -y/x, 5, 0.1 ]");
 		t("SlopeField[ -y/x, 5, 0.1,0,0,1,1]");
 	}
+
 	@Test
-	public void cmdScientificText(){
+	public void cmdScientificText() {
 		t("ScientificText[pi,10]");
 		t("ScientificText[pi]");
 	}
-	
+
 	@Test
-	public void cmdArePerpendicular(){
+	public void cmdArePerpendicular() {
 		t("ArePerpendicular[l1,l2]");
 	}
-	
+
 	@Test
-	public void cmdAreConcurrent(){
+	public void cmdAreConcurrent() {
 		t("AreConcurrent[l1,l2, x=0]");
 	}
-	
+
 	@Test
-	public void cmdAreEqual(){
+	public void cmdAreEqual() {
 		t("AreEqual[Pt1,Pt2]");
 	}
-	
+
 	@Test
-	public void cmdToBase(){
+	public void cmdToBase() {
 		t("ToBase[1000000,2]");
 	}
-	
+
 	@Test
-	public void cmdFromBase(){
+	public void cmdFromBase() {
 		t("FromBase[\"FFA23\",16]");
 	}
-	
+
 	@Test
-	public void cmdInverseLogistic(){
+	public void cmdInverseLogistic() {
 		t("InverseLogistic[1,2,3]");
 	}
-	
+
 	@Test
-	public void cmdInverseLogNormal(){
+	public void cmdInverseLogNormal() {
 		t("InverseLogNormal[1,2,3]");
 	}
-	
+
 	@Test
-	public void cmdContinuedFraction(){
+	public void cmdContinuedFraction() {
 		t("ContinuedFraction[(sqrt(5)-1)/2]");
 		t("ContinuedFraction[(sqrt(5)-1)/2,true]");
 		t("ContinuedFraction[(sqrt(5)-1)/2,10]");
 		t("ContinuedFraction[(sqrt(5)-1)/2,10,true]");
 	}
+
 	@Test
-	public void cmdAttachCopyToView(){
+	public void cmdAttachCopyToView() {
 		t("AttachCopyToView[Pt1,1]");
 		t("AttachCopyToView[Pt1,2,Pt2,Pt3,(123,0),(0,123)]");
 	}
-	
+
 	@Test
 	public void cmdChiSquaredTest() {
 		t("ChiSquaredTest[{list1}]");
 		t("ChiSquaredTest[list1,list1]");
 		t("ChiSquaredTest[{list1},{list1}]");
 	}
-
-
 
 	@Test
 	public void cmdDivisorsSum() {
@@ -2037,8 +2030,6 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("MatrixRank[{{1}}]");
 	}
 
-
-
 	@Test
 	public void cmdLeftSide() {
 		t("LeftSide[x^2=y^2]");
@@ -2082,251 +2073,253 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("CommonDenominator[1/2,1/3]");
 		t("CommonDenominator[1/(x-1),1/(x^2-1)]");
 	}
-	
+
 	@Test
-	public void cmdNIntegral(){
+	public void cmdNIntegral() {
 		t("NIntegral[x^2,-1,1]");
 		t("NIntegral[x^2]");
 		shouldFail("Nintegral[exp(x),x,0,1]", "x", app);
 	}
 
 	@Test
-	public void cmdRunClickScript(){
+	public void cmdRunClickScript() {
 		t("RunClickScript[object]");
 	}
+
 	@Test
-	public void cmdRunUpdateScript(){
+	public void cmdRunUpdateScript() {
 		t("RunUpdateScript[object]");
 	}
+
 	@Test
-	public void cmdToPoint(){
+	public void cmdToPoint() {
 		t("ToPoint[(1,1)]");
 	}
-	
+
 	@Test
-	public void cmdTurtle(){
+	public void cmdTurtle() {
 		t("Turtle[]");
 	}
-	
+
 	@Test
-	public void cmdTurtleForward(){
+	public void cmdTurtleForward() {
 		t("TurtleForward[turtle1, 2]");
 	}
 
 	@Test
-	public void cmdTurtleBack(){
+	public void cmdTurtleBack() {
 		t("TurtleBack[turtle1, 2]");
 	}
-	
+
 	@Test
-	public void cmdTurtleLeft(){
+	public void cmdTurtleLeft() {
 		t("TurtleLeft[turtle1, 3.14]");
 	}
-	
+
 	@Test
-	public void cmdTurtleRight(){
+	public void cmdTurtleRight() {
 		t("TurtleRight[turtle1, 3.14]");
 	}
-	
+
 	@Test
-	public void cmdZProportionTest(){
+	public void cmdZProportionTest() {
 		t("ZProportionTest[ n1, n1, n2, \">\" ]");
 	}
-	
+
 	@Test
-	public void cmdZMeanTest(){
+	public void cmdZMeanTest() {
 		t("ZMeanTest[ list1, n1, n2, \">\" ]");
 		t("ZMeanTest[ n1, n1, n2, n3, \">\" ]");
 	}
-	
+
 	@Test
-	public void cmdZMean2Test(){
+	public void cmdZMean2Test() {
 		t("ZMean2Test[ list1, n1, list1,n3, \">\" ]");
 		t("ZMean2Test[ n1, n1, n2, n3,n1,n2,\">\" ]");
 	}
-	
+
 	@Test
-	public void cmdZProportion2Test(){
+	public void cmdZProportion2Test() {
 		t("ZProportion2Test[ n3,n4,n1, n1, \">\" ]");
 	}
-	
+
 	@Test
-	public void cmdZProportionEstimate(){
+	public void cmdZProportionEstimate() {
 		t("ZproportionEstimate[n1,n2,n3]");
 	}
-	
+
 	@Test
-	public void cmdZProportion2Estimate(){
+	public void cmdZProportion2Estimate() {
 		t("Zproportion2Estimate[n1,n2,n3,n1,n2]");
 	}
-	
+
 	@Test
-	public void cmdZMeanEstimate(){
+	public void cmdZMeanEstimate() {
 		t("ZMeanEstimate[ list1, n1, n1 ]");
 		t("ZMeanEstimate[ n1, n3,n4,n1 ]");
 	}
-	
+
 	@Test
-	public void cmdZMean2Estimate(){
+	public void cmdZMean2Estimate() {
 		t("ZMean2Estimate[ list1, list1, n3,n4, n1 ]");
 		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1,n2 ]");
 	}
-	
+
 	@AfterClass
-	public static void testSaving(){
-		//System.out.println(app.getXML());
+	public static void testSaving() {
+		// System.out.println(app.getXML());
 		XmlTest.testCurrentXML(app);
-		
+
 		app.getKernel().getConstruction().initUndoInfo();
 		app.getKernel().getConstruction().undo();
 		app.getKernel().getConstruction().redo();
 	}
-	
+
 	@Test
 	public void cmdUpdateConstruction() {
 		t("UpdateConstruction[]");
 		t("UpdateConstruction[n2]");
 	}
-	/*@Test
-	public void cmdDensityPlot() {
-		t("DensityPlot[sin(x)*sin(y)]");
-		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1]");
-	}*/
+
+	/*
+	 * @Test public void cmdDensityPlot() { t("DensityPlot[sin(x)*sin(y)]");
+	 * t("DensityPlot[sin(x)*sin(y),-1,1,-1,1]"); }
+	 */
 	@Test
-	public void cmdShowAxes(){
+	public void cmdShowAxes() {
 		t("ShowAxes[]");
 		t("ShowAxes[false]");
 		t("ShowAxes[2,true]");
 	}
-	
+
 	@Test
-	public void cmdShowGrid(){
+	public void cmdShowGrid() {
 		t("ShowGrid[]");
 		t("ShowGrid[false]");
 		t("ShowGrid[2,true]");
 	}
-	
+
 	@Test
-	public void cmdCenterView(){
+	public void cmdCenterView() {
 		t("CenterView[Pt1]");
 	}
-	
+
 	@Test
-	public void cmdSetTrace(){
+	public void cmdSetTrace() {
 		t("SetTrace[Pt1,true]");
 		t("SetTrace[Pt2,false]");
 	}
-	
+
 	@Test
-	public void cmdRelation(){
-		//don't test; user interaction needed
+	public void cmdRelation() {
+		// don't test; user interaction needed
 	}
-	
-	/*@Test
-	public void cmdContourPlot(){
-		t("ContourPlot[x^2+y^2]");
-	}*/
-	
-	/*@Test
-	public void cmdMatrixPlot(){
-		t("MatrixPlot[{{0.1,0.2,0.3},{0.5,0.6,0.1}}]");
-	}*/
-	
+
+	/*
+	 * @Test public void cmdContourPlot(){ t("ContourPlot[x^2+y^2]"); }
+	 */
+
+	/*
+	 * @Test public void cmdMatrixPlot(){
+	 * t("MatrixPlot[{{0.1,0.2,0.3},{0.5,0.6,0.1}}]"); }
+	 */
+
 	@Test
-	public void cmdSetSeed(){
+	public void cmdSetSeed() {
 		t("SetSeed[42]");
 	}
-	
+
 	@Test
-	public void cmdSetPerspective(){
+	public void cmdSetPerspective() {
 		t("SetPerspective[\"SAG/C\"]");
 	}
-	
+
 	@Test
-	public void cmdStartLogging(){
+	public void cmdStartLogging() {
 		t("StartLogging[\"Ax\",alog]");
 	}
+
 	@Test
-	public void cmdStopLogging(){
+	public void cmdStopLogging() {
 		t("StopLogging[]");
 	}
+
 	@Test
-	public void cmdRemove(){
+	public void cmdRemove() {
 		t("Remove[{1,2,2},{2}]");
 	}
-	
+
 	@Test
-	public void cmdClosestPointRegion(){
+	public void cmdClosestPointRegion() {
 		t("ClosestPointRegion[c1,Pt1]");
 	}
-	
+
 	@Test
-	public void cmdRate(){
+	public void cmdRate() {
 		t("Rate[ n1, n2, n3]");
 		t("Rate[ n1, n2, n3,1]");
 		t("Rate[ n1, n2, n3,0,1]");
 		t("Rate[ n1, n2, n3,0,1,42]");
 	}
-	
+
 	@Test
-	public void cmdPeriods(){
+	public void cmdPeriods() {
 		t("Periods[ n1, n2, n3]");
 		t("Periods[ n1, n2, n3,1]");
 		t("Periods[ n1, n2, n3,0,1]");
 	}
-	
+
 	@Test
-	public void cmdPayment(){
+	public void cmdPayment() {
 		t("Payment[ n1, n2, n3]");
 		t("Payment[ n1, n2, n3,1]");
 		t("Payment[ n1, n2, n3,0,1]");
 	}
-	
+
 	@Test
-	public void cmdFutureValue(){
+	public void cmdFutureValue() {
 		t("FutureValue[ n1, n2, n3]");
 		t("FutureValue[ n1, n2, n3,1]");
 		t("FutureValue[ n1, n2, n3,0,1]");
 	}
-	
+
 	@Test
-	public void cmdPresentValue(){
+	public void cmdPresentValue() {
 		t("PresentValue[ n1, n2, n3]");
 		t("PresentValue[ n1, n2, n3,1]");
 		t("PresentValue[ n1, n2, n3,0,1]");
 	}
-	
-	
+
 	@Test
-	public void cmdIntersectConic(){
+	public void cmdIntersectConic() {
 		t("IntersectConic[x+z=0, x^2+y^2+z^2=1]");
 		t("IntersectConic[x^2+y^2+(z-1)^2=0, x^2+y^2+z^2=0]");
 	}
-	
+
 	@Test
-	public void cmdSetSpinSpeed(){
+	public void cmdSetSpinSpeed() {
 		t("SetSpinSpeed[n1]");
 	}
-	
+
 	@Test
-	public void cmdTurtleUp(){
-		t("TurtleUp[turtle1]");		
+	public void cmdTurtleUp() {
+		t("TurtleUp[turtle1]");
 	}
-	
+
 	@Test
-	public void cmdTurtleDown(){
+	public void cmdTurtleDown() {
 		t("TurtleDown[turtle1]");
 	}
-	
+
 	@Test
-	public void cmdStartRecord(){
+	public void cmdStartRecord() {
 		t("StartRecord[]");
 		t("StartRecord[false]");
 		t("StartRecord[true]");
 	}
-	
+
 	@Test
-	public void cmdRepeat(){
+	public void cmdRepeat() {
 		t("Repeat[2, UpdateConstruction[]]");
 	}
 
@@ -2382,23 +2375,23 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	// @Test
-	public void runLast() {
-
-		try {
-			for (Method m : this.getClass().getMethods()) {
-				if (!"runLast".equals(m.getName())
-						&& !"wait".equals(m.getName())
-						&& !"notify".equals(m.getName())
-						&& !"notifyAll".equals(m.getName())) {
-					safeInvoke(m);
-				}
-			}
-			Method mean = this.getClass().getMethod("cmdMeanY");
-			safeInvoke(mean);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-	}
+	// public void runLast() {
+	//
+	// try {
+	// for (Method m : this.getClass().getMethods()) {
+	// if (!"runLast".equals(m.getName())
+	// && !"wait".equals(m.getName())
+	// && !"notify".equals(m.getName())
+	// && !"notifyAll".equals(m.getName())) {
+	// safeInvoke(m);
+	// }
+	// }
+	// Method mean = this.getClass().getMethod("cmdMeanY");
+	// safeInvoke(mean);
+	// } catch (NoSuchMethodException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	private void safeInvoke(Method m) {
 		try {

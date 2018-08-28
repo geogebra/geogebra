@@ -23,21 +23,21 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  */
+
 package org.geogebra.io.latex;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -49,6 +49,10 @@ public class Test {
 		FactoryProvider.setInstance(new FactoryProviderDesktop());
 	}
 
+	/**
+	 * @param args
+	 *            command line args
+	 */
 	public static void main(String[] args) {
 		final MathFieldD mathField = new MathFieldD();
 		mathField.setFieldListener(new MathFieldListener() {
@@ -58,8 +62,8 @@ public class Test {
 				System.out.println(mathField.getFormula().getRootComponent());
 				System.out.println(GeoGebraSerializer
 						.serialize(mathField.getFormula().getRootComponent()));
-				System.out.println(TeXSerializer.serialize(
-						mathField.getFormula().getRootComponent()));
+				System.out.println(TeXSerializer
+						.serialize(mathField.getFormula().getRootComponent()));
 				System.out.println(mathField.getCurrentWord());
 			}
 
@@ -118,8 +122,7 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p
-					.parse("Distance[A,B]/2");
+			MathFormula f = p.parse("Distance[A,B]/2");
 			mathField.setFormula(f);
 			// insertString(mathField, "Plane[<7>,<7>]");
 			for (int i = 0; i < 1; i++) {
@@ -139,7 +142,7 @@ public class Test {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//mathField.insertString("ggbmatrix(3,3)");
+		// mathField.insertString("ggbmatrix(3,3)");
 		// mathField.insertString("Midpoint(<Point>, <Point>)");
 
 	}

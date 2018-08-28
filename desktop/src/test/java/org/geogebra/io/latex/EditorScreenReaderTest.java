@@ -35,9 +35,9 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testReaderQuadratic() {
 		checkReader("1+x^2", "start of formula 1 plus x squared",
-				"after 1 before plus",
-				"after plus before x", "after x before superscript",
-				"start of superscript before 2", "end of superscript after 2",
+				"after 1 before plus", "after plus before x",
+				"after x before superscript", "start of superscript before 2",
+				"end of superscript after 2",
 				"end of formula 1 plus x squared");
 	}
 
@@ -85,11 +85,10 @@ public class EditorScreenReaderTest {
 	public void testSin() {
 		checkReader("sin(x+1)",
 				"start of formula sin open parenthesis x plus 1 close parenthesis",
-				"before sin", "after s before in",
-				"after si before n",
+				"before sin", "after s before in", "after si before n",
 				"after sin", "start of parentheses before x",
-				"after x before plus",
-				"after plus before 1", "end of parentheses after 1",
+				"after x before plus", "after plus before 1",
+				"end of parentheses after 1",
 				"end of formula sin open parenthesis x plus 1 close parenthesis");
 	}
 
@@ -98,8 +97,7 @@ public class EditorScreenReaderTest {
 		checkReader("3-sin(x)",
 				"start of formula 3 minus sin open parenthesis x close parenthesis",
 				"after 3 before minus", "after minus before function",
-				"before sin",
-				"after s before in", "after si before n",
+				"before sin", "after s before in", "after si before n",
 				"after sin", "start of parentheses before x",
 				"end of parentheses after x",
 				"end of formula 3 minus sin open parenthesis x close parenthesis");
@@ -110,9 +108,9 @@ public class EditorScreenReaderTest {
 		checkReader("3+sin(x)",
 				"start of formula 3 plus sin open parenthesis x close parenthesis",
 				"after 3 before plus", "after plus before function",
-				"before sin",
-				"after s before in", "after si before n", "after sin",
-				"start of parentheses before x", "end of parentheses after x",
+				"before sin", "after s before in", "after si before n",
+				"after sin", "start of parentheses before x",
+				"end of parentheses after x",
 				"end of formula 3 plus sin open parenthesis x close parenthesis");
 	}
 
@@ -121,20 +119,17 @@ public class EditorScreenReaderTest {
 		checkReader("cbrt(x+1)",
 				"start of formula start cube root x plus 1 end cube root",
 				"before cbrt", "after c before brt", "after cb before rt",
-				"after cbr before t",
-				"after cbrt", "start of parentheses before x",
-				"after x before plus",
+				"after cbr before t", "after cbrt",
+				"start of parentheses before x", "after x before plus",
 				"after plus before 1", "end of parentheses after 1",
 				"end of formula start cube root x plus 1 end cube root");
 	}
 
 	@Test
 	public void testNroot() {
-		checkReader("nroot(x, 4)",
-				"start of formula start 4 root x end root",
+		checkReader("nroot(x, 4)", "start of formula start 4 root x end root",
 				"start of index before 4", "end of index after 4",
-				"start of radicand before x",
-				"end of radicand after x",
+				"start of radicand before x", "end of radicand after x",
 				"end of formula start 4 root x end root");
 	}
 
@@ -187,10 +182,9 @@ public class EditorScreenReaderTest {
 
 	@Test
 	public void testBracketsIncomplete() {
-		checkReader("3-()",
-				"start of formula 3 minus empty parentheses",
+		checkReader("3-()", "start of formula 3 minus empty parentheses",
 				"after 3 before minus", "after minus before parenthesis",
-				"empty parentheses", 
+				"empty parentheses",
 				"end of formula 3 minus empty parentheses");
 	}
 

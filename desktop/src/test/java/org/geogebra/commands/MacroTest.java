@@ -42,7 +42,8 @@ public class MacroTest {
 		macroBuilder.addToInput(get("B"));
 		macroBuilder.addToOutput(get("f"));
 		macroBuilder.createTool();
-		macroBuilder.finish(app, "TestLine", "TestLine","two points", false, null);
+		macroBuilder.finish(app, "TestLine", "TestLine", "two points", false,
+				null);
 		t("g=TestLine((1,3),(2,3))", "y = 3");
 	}
 

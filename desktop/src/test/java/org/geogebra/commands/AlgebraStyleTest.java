@@ -30,15 +30,13 @@ public class AlgebraStyleTest extends Assert {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
-
 	private static void checkRows(String def, int rows) {
 		checkRows(def, rows, new EvalInfo(true));
 	}
 
 	private static void checkRows(String def, int rows, EvalInfo info) {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
-				false,
-				TestErrorHandler.INSTANCE, info, null);
+				false, TestErrorHandler.INSTANCE, info, null);
 		assertEquals(DescriptionMode.values()[rows],
 				el[0].needToShowBothRowsInAV());
 		el[0].toString(StringTemplate.defaultTemplate);
@@ -54,15 +52,14 @@ public class AlgebraStyleTest extends Assert {
 				el[0].toValueString(StringTemplate.defaultTemplate));
 	}
 
-	
 	@Before
-	public void resetSyntaxes(){
+	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
 		app.getSettings().getCasSettings().setEnabled(true);
 		app.getKernel()
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
-	
+
 	@BeforeClass
 	public static void setupApp() {
 		app = new AppDNoGui(new LocalizationD(3), false);
@@ -70,11 +67,11 @@ public class AlgebraStyleTest extends Assert {
 		ap = app.getKernel().getAlgebraProcessor();
 		// make sure x=y is a line, not plane
 		app.getGgbApi().setPerspective("1");
-	    // Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
+		// Setting the general timeout to 11 seconds. Feel free to change this.
+		app.getKernel().getApplication().getSettings().getCasSettings()
+				.setTimeoutMilliseconds(11000);
 	}
 
-	
 	@Test
 	public void twoRowsAlgebra() {
 		checkRows("a=1", 1);
@@ -209,14 +206,13 @@ public class AlgebraStyleTest extends Assert {
 		// double line
 		checkEquation("-x^2=x +x -1", mode, "-x^2 - 2x = -1");
 	}
-	
+
 	@Test
 	public void undefinedNumbersShouldBeQuestionMark() {
 		t("b=1");
 		t("SetValue[b,?]");
 		assertEquals("b = ?",
-				getGeo("b")
-				.toString(StringTemplate.editTemplate));
+				getGeo("b").toString(StringTemplate.editTemplate));
 		assertEquals("b = ?", app.getKernel().lookupLabel("b")
 				.toString(StringTemplate.editorTemplate));
 		assertEquals("b = ?",
@@ -228,7 +224,7 @@ public class AlgebraStyleTest extends Assert {
 	}
 
 	@Test
-	public void shortLHSshouldBeDisplayedInLaTeX(){
+	public void shortLHSshouldBeDisplayedInLaTeX() {
 		t("a = 7");
 		t("f: y = x^3");
 		t("g: y = x^3 + a");
@@ -237,7 +233,7 @@ public class AlgebraStyleTest extends Assert {
 						StringTemplate.defaultTemplate));
 		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
 				getGeo("f").getLaTeXAlgebraDescription(true,
-				StringTemplate.defaultTemplate));
+						StringTemplate.defaultTemplate));
 		assertEquals(CommandsTest.unicode("f: y = x^3"),
 				getGeo("f").getDefinitionForEditor());
 		assertEquals(CommandsTest.unicode("g: \\,y = x^3 + a"),
@@ -282,8 +278,9 @@ public class AlgebraStyleTest extends Assert {
 	@Test
 	public void operatorsShouldHaveOneSpace() {
 		t("f(x)=If[3 < x <= 5,x^(2)]");
-		assertEquals(CommandsTest
-				.unicode("f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
+		assertEquals(
+				CommandsTest.unicode(
+						"f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
 
 				getGeo("f").getDefinitionForEditor());
 	}
@@ -293,13 +290,12 @@ public class AlgebraStyleTest extends Assert {
 		t("list1 = {x+x=y}");
 		assertEquals("list1 = {x + x = y}",
 				getGeo("list1").getDefinitionForEditor());
-		assertEquals("x + x = y",
-				((GeoList) getGeo("list1")).get(0)
-						.getDefinition(StringTemplate.editTemplate));
+		assertEquals("x + x = y", ((GeoList) getGeo("list1")).get(0)
+				.getDefinition(StringTemplate.editTemplate));
 		t("list2 = Flatten[{x=y}]");
 		assertEquals("list2 = Flatten({x = y})",
 				((GeoList) getGeo("list2")).getDefinitionForEditor());
-		
+
 	}
 
 	@Test
@@ -322,8 +318,7 @@ public class AlgebraStyleTest extends Assert {
 		t("gg(x)=2*ff(x)");
 
 		t("hh(x)=gg(x-1)");
-		assertEquals(
-				"2 (x - 1)",
+		assertEquals("2 (x - 1)",
 				getGeo("hh").toValueString(StringTemplate.defaultTemplate));
 
 		t("a(x, y) = -y^2 - x y + 2y");
@@ -334,11 +329,9 @@ public class AlgebraStyleTest extends Assert {
 
 		t("h(x) = a(x, f) - a(x, g)");
 
-		assertEquals(
-				CommandsTest.unicode(
-						"-(x / 2)^2 - x x / 2 + 2x / 2 - (-(1 - x / 2)^2 - x (1 - x / 2) + 2 (1 - x / 2))"),
-				getGeo("h")
-				.toValueString(StringTemplate.defaultTemplate));
+		assertEquals(CommandsTest.unicode(
+				"-(x / 2)^2 - x x / 2 + 2x / 2 - (-(1 - x / 2)^2 - x (1 - x / 2) + 2 (1 - x / 2))"),
+				getGeo("h").toValueString(StringTemplate.defaultTemplate));
 
 	}
 
@@ -383,8 +376,7 @@ public class AlgebraStyleTest extends Assert {
 				builder.toString());
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
-		Assert.assertEquals("R = 2P",
-				builder.toString());
+		Assert.assertEquals("R = 2P", builder.toString());
 
 	}
 
@@ -463,11 +455,9 @@ public class AlgebraStyleTest extends Assert {
 
 	private static void deg(String def, String expect) {
 		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
-				false,
-				TestErrorHandler.INSTANCE,
+				false, TestErrorHandler.INSTANCE,
 				new EvalInfo(true, true).addDegree(true), null);
-		String res = geo[0]
-						.toValueString(StringTemplate.editTemplate);
+		String res = geo[0].toValueString(StringTemplate.editTemplate);
 		Assert.assertEquals(expect, res);
 	}
 
@@ -570,8 +560,7 @@ public class AlgebraStyleTest extends Assert {
 	}
 
 	private static void mult(String def, String expectDef, String expectVal,
-			String expectSimple,
-			String expectGiac) {
+			String expectSimple, String expectGiac) {
 		mult(def, expectVal, StringTemplate.editTemplate, true);
 		mult(def, expectVal, StringTemplate.editorTemplate, true);
 		mult(def, expectDef, StringTemplate.editorTemplate, false);
@@ -579,11 +568,13 @@ public class AlgebraStyleTest extends Assert {
 		mult(def, expectGiac, StringTemplate.giacTemplate, true);
 	}
 
-	private static void mult(String def, String expect, StringTemplate tpl, boolean val) {
+	private static void mult(String def, String expect, StringTemplate tpl,
+			boolean val) {
 		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
 				null);
-		String res = val ? geo[0].toValueString(tpl) : geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
+		String res = val ? geo[0].toValueString(tpl)
+				: geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
 		Assert.assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
 
 	}

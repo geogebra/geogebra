@@ -4,6 +4,7 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'findbugs'
 apply plugin: 'eclipse'
+apply plugin: 'checkstyle'
 
 sourceSets {
     nonfree
@@ -149,4 +150,7 @@ eclipse {
             }
         }
     }
+}
+checkstyle {
+    toolVersion = "8.8"
 }

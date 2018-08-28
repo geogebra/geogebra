@@ -22,14 +22,12 @@ public class TestMaterialsManager extends MaterialsManager {
 	@Override
 	public void openMaterial(Material material) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void delete(Material material, boolean permanent,
 			Runnable onSuccess) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -73,7 +71,7 @@ public class TestMaterialsManager extends MaterialsManager {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	public void rename(String newTitle, Material mat) {
 		rename(newTitle, mat, null);
@@ -209,7 +207,7 @@ public class TestMaterialsManager extends MaterialsManager {
 
 		String key = MaterialsManager.createKeyString(this.createID(),
 				material.getTitle());
-		
+
 		this.stockStore.put(key, material.toJson().toString());
 	}
 
@@ -225,15 +223,14 @@ public class TestMaterialsManager extends MaterialsManager {
 		}
 		return nextFreeID;
 	}
-	
-	
+
 	@Override
 	public void open(String url, String features) {
 		// TODO: implement this?
 	}
-	
+
 	@Override
-	public void open(String url){
+	public void open(String url) {
 		// TODO: implement this?
 	}
 

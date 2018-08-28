@@ -58,7 +58,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	 * 
 	 * @param expected
 	 *            the expected polynomial equation
-	 * @return <b<true</b> if the equations are same (ignoring the term ordering
+	 * @return <b>true</b> if the equations are same (ignoring the term ordering
 	 *         on each side, <b>false</b> otherwise
 	 */
 	@Factory

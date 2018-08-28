@@ -67,7 +67,6 @@ public class APITest {
 		Assert.assertEquals(api.getVisible("xAxis", 1), true);
 		Assert.assertEquals(api.getVisible("yAxis", 1), true);
 
-
 		api.evalCommand("SetVisibleInView[xAxis,1,false]");
 		api.evalCommand("SetVisibleInView[yAxis,1,false]");
 		Assert.assertEquals(api.getVisible("xAxis", 1), false);
@@ -99,9 +98,10 @@ public class APITest {
 	public void casEvalTest() {
 		String assignResult = api.evalCommandCAS("$1:=a+a");
 		Assert.assertEquals("2a", assignResult);
-		String solveResult = api
-				.evalGeoGebraCAS("Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
-		Assert.assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}", solveResult);
+		String solveResult = api.evalGeoGebraCAS(
+				"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
+		Assert.assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}",
+				solveResult);
 		// OK in GUI, causes problems in the API - sent to Giac as
 		// evalfa(ggbsort(normal(zeros((ggbtmpvart)^(2)=(4)*(ggbtmpvart),x))))
 		String solveResult2 = api.evalGeoGebraCAS("Solutions[t^2 = 4t]");

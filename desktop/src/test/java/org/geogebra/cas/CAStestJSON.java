@@ -92,6 +92,9 @@ public class CAStestJSON {
 		app.getKernel().clearConstruction(true);
 	}
 
+	/**
+	 * Create app and algebra processor.
+	 */
 	@BeforeClass
 	public static void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
@@ -158,13 +161,11 @@ public class CAStestJSON {
 		for (String key : Ggb2giac.getMap(app).keySet()) {
 			if (testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
-					&& forCAS(key)
-					&& !"ApproximateSolution.3".equals(key)
+					&& forCAS(key) && !"ApproximateSolution.3".equals(key)
 					&& !"AssumeInteger.2".equals(key)
 					&& !"Binomial.2".equals(key)
 					&& !"CorrectSolution.3".equals(key)
-					&& !"Eliminate.2".equals(key)
-					&& !"ExpandOnly.1".equals(key)
+					&& !"Eliminate.2".equals(key) && !"ExpandOnly.1".equals(key)
 					&& !"GroebnerDegRevLex.1".equals(key)
 					&& !"GroebnerDegRevLex.2".equals(key)
 					&& !"GroebnerLex.1".equals(key)
@@ -186,13 +187,12 @@ public class CAStestJSON {
 	private static boolean forCAS(String key) {
 		return !"Cell.2".equals(key) && !"CellRange.2".equals(key)
 				&& !"Column.1".equals(key) && !"CopyFreeObject.1".equals(key)
-				&& !"Object.1".equals(key)
-				&& !"Row.1".equals(key) && !"Segment.2".equals(key);
+				&& !"Object.1".equals(key) && !"Row.1".equals(key)
+				&& !"Segment.2".equals(key);
 	}
 
 	private static void ta(boolean tkiontki, StringBuilder[] failures,
-			String input,
-			String[] expectedResult, String... validResults) {
+			String input, String[] expectedResult, String... validResults) {
 		String result;
 
 		try {
@@ -267,8 +267,7 @@ public class CAStestJSON {
 				// }
 				if (i == expectedResult.length - 1) {
 					failures[0].append(expectedResult[0] == null ? "null"
-							: expectedResult[0].replaceAll("c_[0-9]+",
-									"c_0"));
+							: expectedResult[0].replaceAll("c_[0-9]+", "c_0"));
 					failures[0].append(" input: ").append(input).append('\n');
 					failures[1].append(result).append('\n');
 				}
@@ -320,6 +319,9 @@ public class CAStestJSON {
 
 	}
 
+	/**
+	 * Check that all categories were tested.
+	 */
 	@AfterClass
 	public static void checkAllCatsTested() {
 		if (missing != null) {
@@ -892,7 +894,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testShuffle() {
-		testCat("Shuffle");// TODO
+		testCat("Shuffle"); // TODO
 	}
 
 	@Test

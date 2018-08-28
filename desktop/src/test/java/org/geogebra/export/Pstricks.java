@@ -99,7 +99,6 @@ public class Pstricks {
 		}
 	}
 
-
 	private static void createObjects() {
 		add("A=(1,1)");
 		add("f:x=y");

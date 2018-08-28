@@ -103,8 +103,7 @@ public class MarvlAPITest {
 			@Override
 			public boolean handleMaterial(Material mat) {
 
-				api.getGroups(mat.getSharingKeyOrId(),
-						groupCallback);
+				api.getGroups(mat.getSharingKeyOrId(), groupCallback);
 				return true;
 			}
 		});
@@ -117,14 +116,13 @@ public class MarvlAPITest {
 		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
-				testCallback,
-				MaterialType.ggs);
+				testCallback, MaterialType.ggs);
 		testCallback.await(5);
 		testCallback.verify(title);
 	}
 
 	@Test
-	public void testOpen(){
+	public void testOpen() {
 		needsAuth();
 		final MarvlAPI api = authAPI();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
@@ -283,10 +281,9 @@ public class MarvlAPITest {
 	}
 
 	@Test
-	public void copyTitles(){
+	public void copyTitles() {
 		LocalizationD loc = new LocalizationD(3);
-		Assert.assertEquals("Copy of A", MarvlAPI.getCopyTitle(loc,
-				"A"));
+		Assert.assertEquals("Copy of A", MarvlAPI.getCopyTitle(loc, "A"));
 		Assert.assertEquals("Copy of A (2)",
 				MarvlAPI.getCopyTitle(loc, "Copy of A"));
 		Assert.assertEquals("Copy of A (3)",
@@ -335,8 +332,10 @@ public class MarvlAPITest {
 				pause(1000);
 				api.uploadMaterial(mat.getSharingKeyOrId(), "S",
 						"Test material",
-						Base64.encodeToString(UtilD.loadFileIntoByteArray(
-								"src/test/resources/slides.ggs"), false),
+						Base64.encodeToString(
+								UtilD.loadFileIntoByteArray(
+										"src/test/resources/slides.ggs"),
+								false),
 						reuploadCallback, MaterialType.ggs);
 				return true;
 			}

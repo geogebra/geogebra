@@ -129,8 +129,8 @@ public class TubeAPITest extends Assert {
 			final ArrayList<String> titles, int id, final IdCallback callback) {
 
 		api.uploadMaterial(id + "", "O",
-				"testfile" + new Date() + Math.random(),
-				circleBase64, new MaterialCallbackI() {
+				"testfile" + new Date() + Math.random(), circleBase64,
+				new MaterialCallbackI() {
 
 					@Override
 					public void onLoaded(List<Material> result,
@@ -185,7 +185,7 @@ public class TubeAPITest extends Assert {
 				copyCallback);
 		for (int i = 0; i < 20 && titles.size() == 0; i++) {
 			try {
-					Thread.sleep(1000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -206,7 +206,7 @@ public class TubeAPITest extends Assert {
 	 */
 	@Test
 	public void testDelete() {
-		testUpload();// ensure we have st to delete
+		testUpload(); // ensure we have st to delete
 		final GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
@@ -248,13 +248,13 @@ public class TubeAPITest extends Assert {
 		}, Order.description);
 
 		for (int i = 0; i < 20 && titles.size() < 1; i++) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
 
 		assertTrue("Wrong number of deleted results", titles.size() > 0);
 		assertFalse("Wrong upload result: " + titles.get(0),
@@ -265,13 +265,13 @@ public class TubeAPITest extends Assert {
 		return new GeoGebraTubeAPID(new AppDNoGui(new LocalizationD(3), false)
 				.has(Feature.TUBE_BETA), getAuthClient(null));
 	}
+
 	@Test
 	public void testSync() {
 		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
 		final ClientInfo client = getAuthClient(app.getLoginOperation());
 		app.getLoginOperation().getGeoGebraTubeAPI().setClient(client);
-		final TestMaterialsManager man = new TestMaterialsManager(
-				app);
+		final TestMaterialsManager man = new TestMaterialsManager(app);
 		Material mat = new Material(0, MaterialType.ggb);
 		mat.setTitle("test-sync-" + new Date() + Math.random());
 		mat.setBase64(circleBase64);
@@ -281,11 +281,11 @@ public class TubeAPITest extends Assert {
 				new SyncCallback() {
 
 					@Override
-			public void onSync(ArrayList<SyncEvent> events) {
-				man.uploadUsersMaterials(events);
+					public void onSync(ArrayList<SyncEvent> events) {
+						man.uploadUsersMaterials(events);
 
-			}
-		});
+					}
+				});
 		for (int i = 0; i < 20; i++) {
 			try {
 				Thread.sleep(1000);
@@ -321,6 +321,5 @@ public class TubeAPITest extends Assert {
 		client.setModel(auth);
 		return client;
 	}
-
 
 }

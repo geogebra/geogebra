@@ -33,24 +33,31 @@ public class XmlTest {
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setLanguage(Locale.US);
 	}
+
 	@Test
 	public void test() {
 		testCurrentXML(app);
 	}
 
+	/**
+	 * Validate app's state against XML schema.
+	 * 
+	 * @param app
+	 *            app
+	 */
 	public static void testCurrentXML(AppDNoGui app) {
 		String xml = "";
-		try{
+		try {
 
 			URL schemaFile = new URL("http://static.geogebra.org/ggb.xsd");
 			xml = app.getXML();
 			Source xmlFile = new StreamSource(new StringReader(xml));
-			
+
 			SchemaFactory schemaFactory = SchemaFactory
-			    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(schemaFile);
 			Validator validator = schema.newValidator();
-			
+
 			validator.validate(xmlFile);
 		} catch (SAXParseException se) {
 			int l = se.getLineNumber();
@@ -63,7 +70,7 @@ public class XmlTest {
 		} catch (Exception e) {
 			Assert.assertNull(e.getLocalizedMessage(), e);
 		}
-		
+
 	}
 
 	@Test
@@ -74,7 +81,7 @@ public class XmlTest {
 		Assert.assertEquals(0.01,
 				app.getKernel().lookupLabel("P").getAnimationStep(), 1E-8);
 	}
-	
+
 	@Test
 	public void specialPointsLoadTest() {
 		app.setXML(UtilD.loadFileIntoString(

@@ -1,4 +1,5 @@
 package org.geogebra.io;
+
 import java.util.Locale;
 
 import org.geogebra.commands.TestErrorHandler;
@@ -29,28 +30,33 @@ public class SerializationTest {
 	}
 
 	@Test
-	public void testSerializationSpeed(){
+	public void testSerializationSpeed() {
 		app.setLanguage(Locale.US);
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
 		FunctionVariable fv = new FunctionVariable(app.getKernel());
-		ExpressionNode n = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv);
-		for(int i = 0;i<100000;i++){
+		ExpressionNode n = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv)
+				.plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv)
+				.plus(fv);
+		for (int i = 0; i < 100000; i++) {
 			sb.append(n.toValueString(StringTemplate.defaultTemplate));
 		}
 		System.out.println(System.currentTimeMillis() - l);
-		
+
 		l = System.currentTimeMillis();
 		StringBuilder sbm = new StringBuilder(1000);
-		ExpressionNode nm = fv.wrap().subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv);
-		for(int i = 0;i<100000;i++){
+		ExpressionNode nm = fv.wrap().subtract(fv).subtract(fv).subtract(fv)
+				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
+				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
+				.subtract(fv);
+		for (int i = 0; i < 100000; i++) {
 			sbm.append(nm.toValueString(StringTemplate.defaultTemplate));
 		}
 		System.out.println(System.currentTimeMillis() - l);
 	}
-	
+
 	@Test
-	public void testCannonicNumber(){
+	public void testCannonicNumber() {
 		Assert.assertEquals("0", StringUtil.cannonicNumber("0.0"));
 		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
 		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
@@ -94,11 +100,12 @@ public class SerializationTest {
 
 	private static void tcl(String string, String string2) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-		GeoElementND[] result =  ap.processAlgebraCommand(string, false);
+		GeoElementND[] result = ap.processAlgebraCommand(string, false);
 		Assert.assertTrue(result[0] instanceof GeoFunction);
-		Assert.assertEquals(((GeoFunction) result[0]).conditionalLaTeX(false,
-				StringTemplate.latexTemplate), string2.replace("<=",
-				Unicode.LESS_EQUAL + ""));
+		Assert.assertEquals(
+				((GeoFunction) result[0]).conditionalLaTeX(false,
+						StringTemplate.latexTemplate),
+				string2.replace("<=", Unicode.LESS_EQUAL + ""));
 	}
 
 	private static void tsc(String string, String string2) {
@@ -117,13 +124,13 @@ public class SerializationTest {
 		String[] test = new String[] { "aaa", "(a)+b", "3", "((a)+(b))+7" };
 		String[] testFalse = new String[] { "3(", "(((7)))" };
 		for (String t : test) {
-			Assert.assertTrue(RegExp.compile("^" + CASgiac.expression + "$")
-					.test(t));
+			Assert.assertTrue(
+					RegExp.compile("^" + CASgiac.expression + "$").test(t));
 
 		}
 		for (String t : testFalse) {
-			Assert.assertFalse(RegExp.compile("^" + CASgiac.expression + "$")
-					.test(t));
+			Assert.assertFalse(
+					RegExp.compile("^" + CASgiac.expression + "$").test(t));
 
 		}
 		for (String t : testI) {

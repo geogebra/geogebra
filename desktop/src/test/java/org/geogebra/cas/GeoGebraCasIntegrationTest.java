@@ -54,6 +54,9 @@ public class GeoGebraCasIntegrationTest {
 
 	static private MyArbitraryConstant arbconst;
 
+	/**
+	 * Create app and CAS.
+	 */
 	@BeforeClass
 	public static void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
@@ -132,8 +135,9 @@ public class GeoGebraCasIntegrationTest {
 								&& cmd.getArgumentNumber() > 1);
 			}
 		}
-		return outputVe.toString(includesNumericCommand
-				? StringTemplate.testNumeric : StringTemplate.testTemplate);
+		return outputVe
+				.toString(includesNumericCommand ? StringTemplate.testNumeric
+						: StringTemplate.testTemplate);
 	}
 
 	private static void tk(String input, String expectedResult,
@@ -299,7 +303,6 @@ public class GeoGebraCasIntegrationTest {
 	 *            match.
 	 */
 	private static void s(String input, String expectedPattern) {
-		String originalPattern = expectedPattern;
 		String newPattern = expectedPattern;
 		newPattern = newPattern.replace("{", "\\{");
 		newPattern = newPattern.replace("}", "\\}");
@@ -319,7 +322,7 @@ public class GeoGebraCasIntegrationTest {
 		newPattern = newPattern.replace(" ", "\\s*"); // make whitespace
 		// optional
 		Log.debug(newPattern);
-		r(input, newPattern, originalPattern);
+		r(input, newPattern, expectedPattern);
 	}
 
 	// 100 seconds max per method tested
@@ -357,7 +360,7 @@ public class GeoGebraCasIntegrationTest {
 	 * working
 	 */
 	@Test
-	public void Assignment_0() {
+	public void assignment_0() {
 		t("testvar", "testvar");
 		t("testvar := 1", "1");
 		t("testvar", "1");
@@ -880,7 +883,7 @@ public class GeoGebraCasIntegrationTest {
 	/* Delete */
 
 	@Test
-	public void Delete_0() {
+	public void delete_0() {
 		t("a := 4", "4");
 		t("a", "4");
 		t("Delete[a]", "true");
@@ -890,7 +893,7 @@ public class GeoGebraCasIntegrationTest {
 	/* Dot */
 
 	@Test
-	public void Dot_1() {
+	public void dot_1() {
 		t("(1,2) * (a,b)", "a+2*b");
 	}
 
@@ -2101,7 +2104,7 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	@Test
-	public void Mike_1254() {
+	public void tangent_1254() {
 		t("Tangent[(0.2, 10), sqrt(1 - x^2)]",
 				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12",
 				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
@@ -2109,7 +2112,7 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	@Test
-	public void Mike_1255() {
+	public void tangent_1255() {
 		t("Tangent[0.2, sqrt(1 - x^2)]",
 				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12",
 				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
@@ -2117,7 +2120,7 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	@Test
-	public void Mike_1256() {
+	public void tangent_1256() {
 		t("Tangent[a, sqrt(1 - x^2)]",
 				"y = (a * sqrt(-a^(2) + 1) * x - sqrt(-a^(2) + 1)) / (a^(2) - 1)",
 				"y = -a * sqrt(1 - a^(2))^(-1) * (x - a) + sqrt(1 - a^(2))",
@@ -2125,46 +2128,46 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	@Test
-	public void Mike_1257() {
+	public void tangent_1257() {
 		t("Tangent[(1 / sqrt(2), 1 / sqrt(2)), x^2 + y^2 = 1]",
 				"{y = -x + sqrt(2)}");
 	}
 
 	@Test
-	public void Mike_1258() {
+	public void tangent_1258() {
 		t("Tangent[(1, 0), x^2 + y^2 = 1]", "{x = 1}");
 	}
 
 	@Test
-	public void Mike_1259() {
+	public void tangent_1259() {
 		t("Tangent[(1, 0), x^3 + y^3 = 1]", "{x = 1}");
 	}
 
 	@Test
-	public void Mike_1260() {
+	public void tangent_1260() {
 		t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}", "{y = 1, x = 1}");
 	}
 
 	@Test
-	public void Mike_1261() {
+	public void tangent_1261() {
 		t("Tangent[(a, sqrt(1 - a^2)), x^2 + y^2 = 1]",
 				"{y = a * sqrt(-a^(2) + 1) / (a^(2) - 1) * x - sqrt(-a^(2) + 1) / (a^(2) - 1)}");
 	}
 
 	@Test
-	public void Mike_1262() {
+	public void tangent_1262() {
 		t("Tangent[(a, cbrt(1 - a^3)), x^3 + y^3 = 1]",
 				"{y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)}",
 				"{y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))}");
 	}
 
 	@Test
-	public void Mike_1263() {
+	public void tangent_1263() {
 		t("Tangent[(0, 0) ,x^2 - y^3 + 2y^2 - y = 0]", "{y = 0}");
 	}
 
 	@Test
-	public void Mike_1264() {
+	public void tangent_1264() {
 		// singular point (two tangents) so ? is correct
 		t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "?");
 	}

@@ -59,6 +59,7 @@ public class SpecialPointsTest {
 	private static int numberOfSpecialPoints() {
 		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
 	}
+
 	private static void updateSpecialPoints(String string) {
 		app.getSpecialPointsManager()
 				.updateSpecialPoints(app.getKernel().lookupLabel(string));
