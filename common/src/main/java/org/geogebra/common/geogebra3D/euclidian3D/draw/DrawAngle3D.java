@@ -6,6 +6,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePlanes;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -492,6 +494,18 @@ public class DrawAngle3D extends Drawable3DCurves {
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityWithSurface(visible);
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D,
+			boolean exportSurface) {
+		if (isVisible()) {
+			if (exportSurface) {
+				exportToPrinter3D.exportSurface(this);
+			} else {
+				exportToPrinter3D.export(this, Type.CURVE);
+			}
+		}
 	}
 
 }
