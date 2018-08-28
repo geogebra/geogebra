@@ -1143,10 +1143,12 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback after file is saved
 	 */
 	public void checkSaved(final JavaScriptObject callback) {
-		((AppW) app).checkSaved(new Runnable() {
+		((AppW) app).checkSaved(new AsyncOperation<Boolean>() {
 			@Override
-			public void run() {
-				ScriptManagerW.runCallback(callback);
+			public void callback(Boolean active) {
+				if (active) {
+					ScriptManagerW.runCallback(callback);
+				}
 			}
 		});
 	}

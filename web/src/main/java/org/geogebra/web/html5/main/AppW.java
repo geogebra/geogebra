@@ -3280,7 +3280,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param runnable
 	 *            callback for after file is saved
 	 */
-	public void checkSaved(Runnable runnable) {
+	public void checkSaved(AsyncOperation<Boolean> runnable) {
 		// TODO Auto-generated method stub
 
 	}

@@ -419,7 +419,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final void checkSaved(Runnable runnable) {
+	public final void checkSaved(AsyncOperation<Boolean> runnable) {
 		((DialogManagerW) getDialogManager()).getSaveDialog()
 				.showIfNeeded(runnable);
 	}

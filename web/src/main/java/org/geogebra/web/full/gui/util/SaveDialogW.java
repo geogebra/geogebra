@@ -16,6 +16,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -348,7 +349,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            not needed {@link Runnable}
 	 */
 	@Override
-	public void showIfNeeded(Runnable runnable) {
+	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
 		showIfNeeded(runnable, !appW.isSaved(), null);
 	}
 
@@ -361,7 +362,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            relative element
 	 */
 	@Override
-	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
+	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
+			Widget anchor) {
 		if (needed && !appW.getLAF().isEmbedded()) {
 			appW.getSaveController().setRunAfterSave(runnable);
 			if (anchor == null) {
@@ -372,7 +374,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			position();
 		} else {
 			appW.getSaveController().setRunAfterSave(null);
-			runnable.run();
+			runnable.callback(true);
 		}
 	}
 

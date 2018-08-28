@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
@@ -71,11 +72,11 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	/**
 	 * @return callback that shows the start exam dialog 
 	 */
-	Runnable getExamCallback() {
-		return new Runnable() {
+	AsyncOperation<Boolean> getExamCallback() {
+		return new AsyncOperation<Boolean>() {
 
 			@Override
-			public void run() {
+			public void callback(Boolean active) {
 				app.fileNew();
 				app.getLAF().toggleFullscreen(true);
 				ExamStartDialog examStartDialog = new ExamStartDialog(getApp());

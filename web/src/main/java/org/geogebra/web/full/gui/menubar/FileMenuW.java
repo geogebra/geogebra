@@ -44,7 +44,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	protected static final int LINE_HEIGHT = 24;
 	private AriaMenuItem shareItem;
 	/** clear construction and reset GUI */
-	Runnable newConstruction;
+	AsyncOperation<Boolean> newConstruction;
 	private AriaMenuItem printItem;
 	private Localization loc;
 	/** file chooser */
@@ -56,10 +56,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	public FileMenuW(final AppW app) {
 		super("file", app);
 		this.loc = app.getLocalization();
-	    this.newConstruction = new Runnable() {
+		this.newConstruction = new AsyncOperation<Boolean>() {
 			
 			@Override
-			public void run() {
+			public void callback(Boolean active) {
+				// ignore active: don't save means we want new construction
 				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();
@@ -78,7 +79,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		} else {
 			addStyleName("GeoGebraMenuBar");
 		}
-	    initActions();
+		initActions();
 	}
 	
 	/**
@@ -287,8 +288,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						((DialogManagerW) getApp().getDialogManager())
-								.getSaveDialog().showIfNeeded(newConstruction);
+						fileNew();
 					}
 		});
 
@@ -378,6 +378,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    if (!getApp().getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
+	}
+
+	/**
+	 * Create new file, maybe ask for save
+	 */
+	public void fileNew() {
+		((DialogManagerW) getApp().getDialogManager()).getSaveDialog()
+				.showIfNeeded(newConstruction);
 	}
 
 	/**

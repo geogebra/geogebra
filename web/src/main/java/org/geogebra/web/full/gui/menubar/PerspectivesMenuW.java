@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.ImageFactory;
@@ -98,11 +99,11 @@ public class PerspectivesMenuW extends GMenuBar {
 	 * @return callback that shows the exam welcome message and prepares Exam
 	 *         (goes fullscreen)
 	 */
-	Runnable getExamCallback() {
-		return new Runnable() {
+	AsyncOperation<Boolean> getExamCallback() {
+		return new AsyncOperation<Boolean>() {
 
 			@Override
-			public void run() {
+			public void callback(Boolean active) {
 				app.getLAF().toggleFullscreen(true);
 				app.setNewExam();
 				((AppWFull) app).examWelcome();

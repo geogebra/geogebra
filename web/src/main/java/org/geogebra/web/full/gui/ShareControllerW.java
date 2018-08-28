@@ -59,7 +59,7 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void share() {
-		Runnable shareCallback = getShareCallback();
+		AsyncOperation<Boolean> shareCallback = getShareCallback();
 		// not saved as material yet
 		boolean untitled = app.getActiveMaterial() == null;
 		if (untitled || "P".equals(app.getActiveMaterial().getVisibility())) {
@@ -91,7 +91,7 @@ public class ShareControllerW implements ShareController {
 	/**
 	 * Create material and save online
 	 */
-	private void saveUntitledMaterial(Runnable shareCallback) {
+	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
 		// for mow default visibility: private
 		MaterialVisibility visibility = app.isWhiteboardActive() ? MaterialVisibility.Private
 				: MaterialVisibility.Shared;
@@ -99,7 +99,7 @@ public class ShareControllerW implements ShareController {
 				.showIfNeeded(shareCallback, true, anchor);
 	}
 
-	private void autoSaveMaterial(Runnable shareCallback) {
+	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {
 		if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN) || app.has(Feature.MOW_SHARE_DIALOG)) {
 			app.getSaveController().saveActiveMaterial(shareCallback);
 		}
@@ -117,14 +117,17 @@ public class ShareControllerW implements ShareController {
 		((SignInButton) app.getLAF().getSignInButton(app)).login();
 	}
 
-	private Runnable getShareCallback() {
-		return new Runnable() {
+	private AsyncOperation<Boolean> getShareCallback() {
+		return new AsyncOperation<Boolean>() {
 			protected ShareLinkDialog shareDialog;
 			protected ShareDialogW sd;
 			protected ShareDialogMow mowShareDialog;
 
 			@Override
-			public void run() {
+			public void callback(Boolean active) {
+				if (!active) {
+					return;
+				}
 				NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
 						.geogebraLogo().getSafeUri().asString());
 				PushButton geogebrabutton = new PushButton(geogebraimg,

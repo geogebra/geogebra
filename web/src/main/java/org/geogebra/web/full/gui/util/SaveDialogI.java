@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.AsyncOperation;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -19,7 +20,8 @@ public interface SaveDialogI {
 
 	public void hide();
 
-	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor);
+	public void showIfNeeded(AsyncOperation<Boolean> callback, boolean needed,
+			Widget anchor);
 
-	public void showIfNeeded(Runnable runnable);
+	public void showIfNeeded(AsyncOperation<Boolean> runnable);
 }

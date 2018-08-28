@@ -14,6 +14,7 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -230,10 +231,13 @@ public class OpenFileView extends MyHeaderPanel
 	 * start a new file
 	 */
 	protected void newFile() {
-		Runnable newConstruction = new Runnable() {
+		AsyncOperation<Boolean> newConstruction = new AsyncOperation<Boolean>() {
 
 			@Override
-			public void run() {
+			public void callback(Boolean active) {
+				if (!active) {
+					return;
+				}
 				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();

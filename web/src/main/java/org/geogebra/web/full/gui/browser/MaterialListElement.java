@@ -63,7 +63,7 @@ public class MaterialListElement extends FlowPanel
 	protected final Localization loc;
 	protected final GuiManagerW guiManager;
 	protected State state = State.Default;
-	Runnable editMaterial;
+	AsyncOperation<Boolean> editMaterial;
 
 	protected StandardButton viewButton;
 	protected StandardButton editButton;
@@ -102,11 +102,13 @@ public class MaterialListElement extends FlowPanel
 		if (!isLocal) {
 			// this.material.setSyncStamp(-1);
 		}
-		this.editMaterial = new Runnable() {
+		this.editMaterial = new AsyncOperation<Boolean>() {
 
 			@Override
-			public void run() {
-				onEdit();
+			public void callback(Boolean activeMaterial) {
+				if (activeMaterial) {
+					onEdit();
+				}
 			}
 		};
 		initMaterialInfos();

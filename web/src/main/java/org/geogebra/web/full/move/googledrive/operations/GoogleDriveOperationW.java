@@ -517,7 +517,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private void updateAfterGoogleDriveSave(String id, String fileName,
 			String description, boolean isggb) {
-		app.getSaveController().runAfterSaveCallback();
+		app.getSaveController().runAfterSaveCallback(true);
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
 		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {

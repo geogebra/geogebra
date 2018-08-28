@@ -5,6 +5,7 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -255,7 +256,7 @@ public class SaveDialogMow extends DialogBoxW
 	 *            not needed {@link Runnable}
 	 */
 	@Override
-	public void showIfNeeded(Runnable runnable) {
+	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
 		showIfNeeded(runnable, !app.isSaved(), null);
 	}
 
@@ -268,7 +269,8 @@ public class SaveDialogMow extends DialogBoxW
 	 *            relative element
 	 */
 	@Override
-	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
+	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
+			Widget anchor) {
 		if (needed && !((AppW) app).getLAF().isEmbedded()) {
 			app.getSaveController().setRunAfterSave(runnable);
 			if (anchor == null) {
@@ -278,7 +280,7 @@ public class SaveDialogMow extends DialogBoxW
 			}
 		} else {
 			app.getSaveController().setRunAfterSave(null);
-			runnable.run();
+			runnable.callback(true);
 		}
 	}
 }

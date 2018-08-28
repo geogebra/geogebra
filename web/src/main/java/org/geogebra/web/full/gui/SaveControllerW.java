@@ -39,8 +39,8 @@ public class SaveControllerW implements SaveController {
 	private MaterialType saveType = null;
 	private SaveListener listener = null;
 	private String fileName = "";
-	private Runnable runAfterSave = null;
-	private Runnable autoSaveCallback;
+	private AsyncOperation<Boolean> runAfterSave = null;
+	private AsyncOperation<Boolean> autoSaveCallback;
 
 	/**
 	 * Constructor
@@ -75,7 +75,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void saveActiveMaterial(Runnable autoSaveCB) {
+	public void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCB) {
 		Material mat = app.getActiveMaterial();
 		if (mat == null) {
 			return;
@@ -320,7 +320,7 @@ public class SaveControllerW implements SaveController {
 								forked ? SaveState.FORKED : SaveState.OK);
 						// if we got there via file => new, do the file =>new
 						// now
-						runAfterSaveCallback();
+						runAfterSaveCallback(true);
 						runAutoSaveCallback();
 					} else {
 						resetCallback();
@@ -382,7 +382,7 @@ public class SaveControllerW implements SaveController {
 							@Override
 							public void onSaved(final Material mat, final boolean isLocal) {
 								super.onSaved(mat, isLocal);
-								runAfterSaveCallback();
+								runAfterSaveCallback(true);
 							}
 						});
 				if (getListener() != null) {
@@ -393,9 +393,9 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void runAfterSaveCallback() {
+	public void runAfterSaveCallback(boolean activeMaterial) {
 		if (getRunAfterSave() != null) {
-			getRunAfterSave().run();
+			getRunAfterSave().callback(activeMaterial);
 			resetCallback();
 		}
 	}
@@ -405,7 +405,7 @@ public class SaveControllerW implements SaveController {
 	 */
 	public void runAutoSaveCallback() {
 		if (autoSaveCallback != null) {
-			autoSaveCallback.run();
+			autoSaveCallback.callback(true);
 			autoSaveCallback = null;
 		}
 	}
@@ -422,18 +422,16 @@ public class SaveControllerW implements SaveController {
 		if (isWorksheet()) {
 			app.setSaved();
 			// run only if material active/created
-			if (app.getActiveMaterial() != null) {
-				runAfterSaveCallback();
-			}
+			runAfterSaveCallback(app.getActiveMaterial() != null);
 		}
 	}
 
-	private Runnable getRunAfterSave() {
+	private AsyncOperation<Boolean> getRunAfterSave() {
 		return runAfterSave;
 	}
 
 	@Override
-	public void setRunAfterSave(Runnable runAfterSave) {
+	public void setRunAfterSave(AsyncOperation<Boolean> runAfterSave) {
 		this.runAfterSave = runAfterSave;
 	}
 }
