@@ -8339,6 +8339,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
+		lastSelectionToolGeoToRemove = null;
+
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			if (getResizedShape() == null) {
 				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
@@ -10132,7 +10134,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				default:
 					// select the geo that was clicked and set boundingbox
 					if (isMultiSelection() && !wasBoundingBoxHit
-							&& !event.isRightClick()) {
+							&& !event.isRightClick()
+							&& lastSelectionToolGeoToRemove != null) {
 						selection.clearSelectedGeos(false, false);
 						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
 								true, true);
