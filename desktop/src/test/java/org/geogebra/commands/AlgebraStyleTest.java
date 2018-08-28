@@ -44,16 +44,20 @@ public class AlgebraStyleTest extends AlgebraTest {
 				el[0].needToShowBothRowsInAV());
 	}
 
-	private static void checkEquation(String def, int mode, String check) {
+	private static String checkEquation(String def, int mode, String check) {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, false, null);
 		((GeoConicND) el[0]).setToStringMode(mode);
 		assertEquals(unicode(check),
 				el[0].toValueString(StringTemplate.defaultTemplate));
-		// Check it works after reload
+		return el[0].getLabelSimple();
+	}
+
+	private static void checkEquationReload(String def, int mode,
+			String check) {
+		String label = checkEquation(def, mode, check);
 		app.setXML(app.getXML(), true);
-		GeoElement reloaded = app.getKernel()
-				.lookupLabel(el[0].getLabelSimple());
+		GeoElement reloaded = app.getKernel().lookupLabel(label);
 		assertEquals(unicode(check),
 				reloaded.toValueString(StringTemplate.defaultTemplate));
 	}
@@ -177,10 +181,13 @@ public class AlgebraStyleTest extends AlgebraTest {
 		checkEquation("x^2-4*y^2=2x+2y+1", GeoConicND.EQUATION_PARAMETRIC,
 				"X = (1, -0.25) + (" + Unicode.PLUSMINUS
 						+ " 1.32 cosh(t), 0.66 sinh(t))");
-		// double line TODO wrong
+		// parallel lines
 		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_PARAMETRIC,
 				"X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + "
 						+ Unicode.lambda + " (0, 1, 0)");
+		// double line
+		checkEquation("-x^2=x +x +1", GeoConicND.EQUATION_PARAMETRIC,
+				"X = (-1, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
 		// parabolas
 		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_PARAMETRIC,
 				"X = (-1, 2) + (-0.5 t, -0.25 t^2)");
@@ -198,9 +205,12 @@ public class AlgebraStyleTest extends AlgebraTest {
 		// hyperbola
 		checkEquation("x^2-4*y^2=2x+2y+1", GeoConicND.EQUATION_IMPLICIT,
 				"x^2 - 4y^2 - 2x - 2y = 1");
-		// double line TODO wrong
+		// parallel lines
 		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_IMPLICIT,
 				"-x^2 - 2x = -1");
+		// double line
+		checkEquation("-x^2=x +x +1", GeoConicND.EQUATION_IMPLICIT,
+				"-x^2 - 2x = 1");
 		// parabolas
 		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_IMPLICIT,
 				"-x^2 - 2x - y = -1");
@@ -208,6 +218,22 @@ public class AlgebraStyleTest extends AlgebraTest {
 				"y^2 - 2x - y = -1");
 		checkEquation("(x+y)^2=x +x -1+y", GeoConicND.EQUATION_IMPLICIT,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
+	}
+
+	@Test
+	public void checkEquationReload() {
+		checkEquationReload("x^2+4*y^2=1", GeoConicND.EQUATION_EXPLICIT,
+				"x^2 + 4y^2 = 1");
+		checkEquationReload("-x^2=x +x -1+y", GeoConicND.EQUATION_VERTEX,
+				"y = -(x + 1)^2 +2");
+		checkEquationReload("x^2+4*y^2=1", GeoConicND.EQUATION_SPECIFIC,
+				"x^2 / 1 + y^2 / 0.25 = 1");
+		checkEquationReload("-x^2-x=x -1+y", GeoConicND.EQUATION_CONICFORM,
+				"-(y - 2) = (x + 1)^2");
+		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_PARAMETRIC,
+				"X = (0, 0) + (cos(t), 0.5 sin(t))");
+		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_IMPLICIT,
+				"x^2 + 4y^2 = 1");
 	}
 
 	private static void checkNonParabolaFallback(int mode) {

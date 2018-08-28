@@ -2069,6 +2069,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				.getImage();
 	}
 
+	@Override
 	public MyImageD getExternalImage(String filename) {
 		return ImageManagerD.getExternalImage(filename);
 	}
@@ -2279,6 +2280,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @throws OutOfMemoryError
 	 *             error
 	 */
+	@Override
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
@@ -3432,6 +3434,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private int centerX, centerY;
 
+	@Override
 	public void storeFrameCenter() {
 		centerX = getWindowCenterX();
 		centerY = getWindowCenterY();
@@ -5348,12 +5351,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// for 3D
 	}
 
+	@Override
 	public String getModeIconBase64(int m) {
 		ImageIcon icon = getModeIcon(m);
 		Image img1 = icon.getImage();
 
 		BufferedImage img2 = ImageManagerD.toBufferedImage(img1);
 		return StringUtil.pngMarker + GgbAPID.base64encode(img2, 72);
+	}
+
+	@Override
+	public boolean isWhiteboardActive() {
+		return true;
 	}
 
 }
