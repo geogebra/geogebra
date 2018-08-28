@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
@@ -361,7 +360,7 @@ public class ExportToPrinter3D {
 				GeoQuadric3D q = (GeoQuadric3D) d.getGeoElement();
 				exportSurface(d.getGeoElement(), d.getSurfaceIndex(),
 						q.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE);
-			} else if (d instanceof DrawConic3D) {
+			} else {
 				exportSurface(d.getGeoElement(), d.getSurfaceIndex(), true);
 			}
 		} else {
