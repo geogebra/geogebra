@@ -240,11 +240,7 @@
 					
 					&[isSelected=false] {
 						border-color: @color-bordergrey;
-					}				
-					/*&:hover,
-					&:focus {
-						border-color: @color-highlight;
-					}*/
+					}
 				}
 				li {
 					.margin(0px, 5px, 0px, 0px);
@@ -349,8 +345,6 @@
 		
 		.GeoGebraMenuBar {
 			& > table {
-//				margin-top: 5px;
-//				margin-bottom: 8px;
 				width: 100%;
 			}
 			
@@ -358,7 +352,6 @@
 				.padding(6px, 5px, 6px, 35px);
 				position: relative;
 				display: block;
-//				cursor: pointer;
 
 				.menuImg {
 					width: 20px;
@@ -381,14 +374,12 @@
 			}
 		}
 	}
-}
 
-// Submenus
 	.subMenuLeftSidePopup {
 		box-shadow: none;
 		padding: 0px;
 		.border-radius(0px);
-		
+
 		.GeoGebraMenuBar.subMenuLeftSide {
 			right: 280px;
 			white-space: nowrap;
@@ -399,25 +390,26 @@
 			padding: 5px;
 			background-color: @color-white-transparent-90;
 			.box-shadow(@shadow-dark);
-			
+
 			.arrowSubmenu {
 				position: absolute;
 				top: 3px;
 				right: -15px;
 			}
-			
+
 			.gwt-MenuItem {
 				padding: 3px 10px;
 			}
-			
+
 			input[type="radio"] {
 				.margin(0px, 5px, 0px, 0px);
 			}
-			
-			
+
+
 			/* Workaround due to GWT's bug, see ticket #4819 */
 			&.subMenuLeftSide2 {
 				.right(10px);
 			}
 		}
 	}
+}

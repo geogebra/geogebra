@@ -351,6 +351,39 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
 	SassResource avStyleScss();
 
+	@Source("org/geogebra/web/resources/css/definitions.less")
+	LessReference lessDefinitions();
+
+	@Source("org/geogebra/web/resources/css/functions.less")
+	LessReference lessFunctions();
+
+	@Source("org/geogebra/web/resources/css/general.ltr.less")
+	LessResource generalStyleLTR();
+
+	@Source("org/geogebra/web/resources/css/general.rtl.less")
+	LessResource generalStyleRTL();
+
+	@Source("org/geogebra/web/resources/css/general.less")
+	LessReference generalStyle();
+
+	@Source("org/geogebra/web/resources/css/headerbar.ltr.less")
+	LessResource headerbarStyleLTR();
+
+	@Source("org/geogebra/web/resources/css/headerbar.rtl.less")
+	LessResource headerbarStyleRTL();
+
+	@Source("org/geogebra/web/resources/css/headerbar.less")
+	LessReference headerbarStyle();
+
+	@Source("org/geogebra/web/resources/css/av.ltr.less")
+	LessResource avStyleLTR();
+
+	@Source("org/geogebra/web/resources/css/av.rtl.less")
+	LessResource avStyleRTL();
+
+	@Source("org/geogebra/web/resources/css/av.less")
+	LessReference avStyle();
+
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
 	SassResource toolBarStyleScss();
 

@@ -49,7 +49,6 @@ public class ResourcesInjector {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
 
-		injectLTRstyles();
 		injectScss();
 		instance.injectResourcesGUI();
 
@@ -102,12 +101,6 @@ public class ResourcesInjector {
 	 */
 	protected void injectResourcesGUI() {
 		// overridden elsewhere
-	}
-
-	private static void injectLTRstyles() {
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR());
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR());
 	}
 
 	private static void injectScss() {

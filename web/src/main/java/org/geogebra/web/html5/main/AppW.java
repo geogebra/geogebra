@@ -626,12 +626,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void doSetLanguage(String lang, boolean asyncCall) {
 		getLocalization().setLanguage(lang);
-		StyleInjector.inject(getLocalization().isRightToLeftReadingOrder()
-				? GuiResourcesSimple.INSTANCE.generalStyleRTL()
-				: GuiResourcesSimple.INSTANCE.generalStyleLTR());
-		StyleInjector.inject(getLocalization().isRightToLeftReadingOrder()
-				? GuiResourcesSimple.INSTANCE.avStyleRTL()
-				: GuiResourcesSimple.INSTANCE.avStyleLTR());
 		// make sure digits are updated in all numbers
 		getKernel().updateConstructionLanguage();
 

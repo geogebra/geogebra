@@ -36,6 +36,20 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
 		StyleInjector.inject(GuiResources.INSTANCE.texttoolStyle());
+
+		injectLTRstyles();
+	}
+
+	public static void injectLTRstyles() {
+		StyleInjector.inject(GuiResources.INSTANCE.generalStyleLTR());
+		StyleInjector.inject(GuiResources.INSTANCE.avStyleLTR());
+		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyleLTR());
+	}
+
+	public static void injectRTLstyles() {
+		StyleInjector.inject(GuiResources.INSTANCE.generalStyleRTL());
+		StyleInjector.inject(GuiResources.INSTANCE.avStyleRTL());
+		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyleRTL());
 	}
 
 	@Override
