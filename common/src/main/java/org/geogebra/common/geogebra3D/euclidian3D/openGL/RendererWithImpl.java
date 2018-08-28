@@ -235,7 +235,7 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void drawFaceToScreen() {
+	protected void drawFaceToScreen() {
 		rendererImpl.drawFaceToScreenAbove();
 		super.drawFaceToScreen();
 		rendererImpl.drawFaceToScreenBelow();
