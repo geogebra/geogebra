@@ -2165,6 +2165,9 @@ public class NoExceptionsTest extends AlgebraTest {
 		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1,n2 ]");
 	}
 
+	/**
+	 * Check that all objects can be saved and reloaded.
+	 */
 	@AfterClass
 	public static void testSaving() {
 		// System.out.println(app.getXML());

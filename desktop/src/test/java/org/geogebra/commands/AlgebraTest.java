@@ -11,6 +11,9 @@ import org.junit.Assert;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraTest extends Assert {
+	/**
+	 * @return test app
+	 */
 	public static AppDNoGui createApp() {
 		AppDNoGui app2 = new AppDNoGui(new LocalizationD(3), false);
 		app2.setLanguage(Locale.US);
@@ -72,8 +75,13 @@ public class AlgebraTest extends Assert {
 
 	}
 
-	public static String unicode(String theSpline) {
-		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
+	/**
+	 * @param ascii
+	 *            ascii math
+	 * @return unicode math (superscript powers)
+	 */
+	public static String unicode(String ascii) {
+		return ascii.replace("^2", Unicode.SUPERSCRIPT_2 + "")
 				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
 				.replace("^4", Unicode.SUPERSCRIPT_4 + "")
 				.replace("^-1",

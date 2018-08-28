@@ -1704,30 +1704,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		Operation operation = Operation.MULTIPLY;
 		switch (stringType) {
 
-		case SCREEN_READER:
-
-			if (!left.isLeaf()) {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
-			} else {
-				sb.append(leftStr);
-			}
-
-			sb.append(ScreenReader.getTimes(loc));
-
-			if (!right.isLeaf()) {
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
-			} else {
-				sb.append(rightStr);
-			}
-
-			sb.append(' ');
-
-			break;
-
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
 			break;
@@ -1743,19 +1719,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				append(sb, leftStr, left, operation);
 				break;
 			}
-
-			// removed 0 handling due to problems with functions,
-			// e.g 0 * x + 1 becomes 0 + 1 and no longer is a function
-			// // check for 0 at left
-			// else if (valueForm && isEqualString(left, 0, !valueForm)) {
-			// sb.append("0");
-			// break;
-			// }
-			// // check for 0 at right
-			// else if (valueForm && isEqualString(right, 0, !valueForm)) {
-			// sb.append("0");
-			// break;
-			// }
+			// no chceck for 0: we need 0x + 1 to be a function, not number
 
 			// check for degree sign or 1degree or degree1 (eg for Arabic)
 			else if ((rightStr.length() == 2
@@ -1839,6 +1803,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
+					case SCREEN_READER:
 						showMultiplicationSign = true;
 						break;
 
@@ -1929,6 +1894,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
+					case SCREEN_READER:
 						sb.append(multiplicationSign(loc));
 						break;
 
@@ -3473,5 +3439,50 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public void setAllowPiHack(boolean allowPiHack) {
 		this.allowPiHack = allowPiHack;
+	}
+
+	/**
+	 * @return degree symbol
+	 */
+	public String getDegree() {
+		switch (stringType) {
+		case GIAC:
+			return "pi/180";
+		case LATEX:
+			return "^{\\circ}";
+		case SCREEN_READER:
+			return "degree";
+		}
+		return Unicode.DEGREE_STRING;
+	}
+
+	/**
+	 * @return name for euler-mascheroni constant
+	 */
+	public String getEulerGamma() {
+		switch (stringType) {
+		case GIAC:
+			return "euler\\_gamma";
+		case LATEX:
+			return "\\mathit{e_{\\gamma}}";
+		case SCREEN_READER:
+			return "euler gamme";
+		}
+		return Unicode.EULER_GAMMA_STRING;
+	}
+
+	/**
+	 * @return name for euler number
+	 */
+	public String getEulerNumber() {
+		switch (stringType) {
+		case GIAC:
+			return "e";
+		case LATEX:
+			return "\\textit{e}";
+		case SCREEN_READER:
+			return "euler number";
+		}
+		return Unicode.EULER_STRING;
 	}
 }

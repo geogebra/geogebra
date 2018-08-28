@@ -22,6 +22,9 @@ public class EditorScreenReaderTest {
 	private static Parser parser;
 	private static AppDNoGui app;
 
+	/**
+	 * Initialize app and parser.
+	 */
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
@@ -127,20 +130,20 @@ public class EditorScreenReaderTest {
 
 	@Test
 	public void testNroot() {
-		checkReader("nroot(x, 4)", "start of formula start 4 root x end root",
+		checkReader("nroot(x, 4)", "start of formula start 4th root x end root",
 				"start of index before 4", "end of index after 4",
 				"start of radicand before x", "end of radicand after x",
-				"end of formula start 4 root x end root");
+				"end of formula start 4th root x end root");
 	}
 
 	@Test
 	public void testNrootIncomplete() {
 		checkReader("nroot(x+, 4)",
-				"start of formula start 4 root x plus end root",
+				"start of formula start 4th root x plus end root",
 				"start of index before 4", "end of index after 4",
 				"start of radicand before x", "after x before plus",
 				"end of radicand after plus",
-				"end of formula start 4 root x plus end root");
+				"end of formula start 4th root x plus end root");
 	}
 
 	@Test
@@ -188,6 +191,14 @@ public class EditorScreenReaderTest {
 				"end of formula 3 minus empty parentheses");
 	}
 
+	@Test
+	public void testGreek() {
+		checkReader("2*pi*x", "start of formula 2 times pi times x",
+				"after 2 before times", "after times before pi",
+				"after p before i", "after pi before times",
+				"after times before x", "end of formula 2 times pi times x");
+	}
+
 	private static void checkReader(String input, String... output) {
 		MathFormula mf = SerializeLaTeX.checkLaTeXRender(parser, input);
 
@@ -198,6 +209,7 @@ public class EditorScreenReaderTest {
 		mfi.update();
 		ExpressionReader er = ScreenReader.getExpressionReader(app);
 		for (int i = 0; i < output.length; i++) {
+
 			String readerOutput = mfi.getEditorState().getDescription(er)
 					.replaceAll(" +", " ");
 			if (!readerOutput.matches(output[i])) {

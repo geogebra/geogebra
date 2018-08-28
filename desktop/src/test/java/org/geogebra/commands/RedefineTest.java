@@ -1,7 +1,5 @@
 package org.geogebra.commands;
 
-import java.util.Locale;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -11,7 +9,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.main.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,16 +23,13 @@ public class RedefineTest extends Assert {
 		app.getKernel().clearConstruction(true);
 	}
 
+	/**
+	 * Initialize app.
+	 */
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), false);
-		app.setLanguage(Locale.US);
+		app = AlgebraTest.createApp();
 		ap = app.getKernel().getAlgebraProcessor();
-		// make sure x=y is a line, not plane
-		app.getGgbApi().setPerspective("1");
-		// Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(11000);
 	}
 
 	private static void t(String input, String expected) {

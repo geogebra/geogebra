@@ -1,10 +1,12 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.parser.GParser;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -338,7 +340,16 @@ public class ScreenReader {
 	 */
 	public static String nroot(String leftStr, String rightStr, Localization loc) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(loc.getPlainDefault("ScreenReader.startRoot", "start %0 root", rightStr));
+		String index = rightStr;
+		try {
+			double indexVal = MyDouble.parseDouble(loc, index);
+			if (DoubleUtil.isInteger(indexVal)) {
+				index = loc.getOrdinalNumber((int) indexVal);
+			}
+		} catch (MyError e) {
+			Log.trace("Not a number");
+		}
+		sb.append(loc.getPlainDefault("ScreenReader.startRoot", "start %0 root", index));
 		sb.append(' ');
 		sb.append(leftStr);
 		sb.append(' ');

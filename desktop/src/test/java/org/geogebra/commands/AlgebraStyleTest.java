@@ -52,6 +52,9 @@ public class AlgebraStyleTest extends Assert {
 				el[0].toValueString(StringTemplate.defaultTemplate));
 	}
 
+	/**
+	 * Clear construction and reset settings.
+	 */
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
@@ -60,6 +63,9 @@ public class AlgebraStyleTest extends Assert {
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
 
+	/**
+	 * Initialize app.
+	 */
 	@BeforeClass
 	public static void setupApp() {
 		app = new AppDNoGui(new LocalizationD(3), false);

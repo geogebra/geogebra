@@ -1,11 +1,9 @@
 package org.geogebra.main;
 
-import java.util.Locale;
-
+import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.desktop.main.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,14 +12,13 @@ public class APITest {
 	private static AppDNoGui app;
 	private static GgbAPI api;
 
+	/**
+	 * Initialize app.
+	 */
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), false);
-		app.setLanguage(Locale.US);
+		app = AlgebraTest.createApp();
 		api = app.getGgbApi();
-		// Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(11000);
 	}
 
 	@Test

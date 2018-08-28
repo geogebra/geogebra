@@ -28,6 +28,9 @@ public class SerializeLaTeX {
 	static Parser parser;
 	private static GeoGebraSerializer serializer;
 
+	/**
+	 * Initilize parser and serializer.
+	 */
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
@@ -348,14 +351,14 @@ public class SerializeLaTeX {
 		}
 	}
 
-	private void testKorean2(String s) {
+	private static void testKorean2(String s) {
 		String s1 = Normalizer.normalize(s, Normalizer.Form.NFKC);
 		String s2 = Korean.unflattenKorean(s).toString();
 
 		Assert.assertEquals(s1, s2);
 	}
 
-	private void testKorean(String s) {
+	private static void testKorean(String s) {
 		Assert.assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD),
 				Korean.flattenKorean(s));
 	}
@@ -390,7 +393,7 @@ public class SerializeLaTeX {
 		testEditor("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
 	}
 
-	public void testEditor(String input, String output) {
+	private static void testEditor(String input, String output) {
 		final MathFieldD mathField = new MathFieldD();
 
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
@@ -402,7 +405,7 @@ public class SerializeLaTeX {
 				GeoGebraSerializer.serialize(editorState.getRootComponent()));
 	}
 
-	private void checkLaTeX(String string, String string2) {
+	private static void checkLaTeX(String string, String string2) {
 		checkLaTeX(string, string2, null);
 	}
 

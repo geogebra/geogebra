@@ -11,7 +11,13 @@ public class TestAsyncOperation<S> implements AsyncOperation<S> {
 	public void callback(S obj) {
 		done = true;
 	}
-	
+
+	/**
+	 * Periodically check if it's done, if not fail after timeout.
+	 * 
+	 * @param time
+	 *            timeout in seconds
+	 */
 	public void await(int time) {
 		for (int i = 0; i < time * 5; i++) {
 			if (done) {

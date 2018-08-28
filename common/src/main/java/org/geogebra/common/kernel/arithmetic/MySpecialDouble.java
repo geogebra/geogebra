@@ -159,7 +159,20 @@ public class MySpecialDouble extends MyDouble {
 		StringType printForm = tpl.getStringType();
 		char ch;
 		switch (printForm) {
-
+		case SCREEN_READER:
+			ch = strToString.charAt(0);
+			switch (ch) {
+			case Unicode.pi:
+				return tpl.getPi();
+			case Unicode.DEGREE_CHAR:
+				return tpl.getDegree();
+			case Unicode.EULER_CHAR:
+				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+					return tpl.getEulerGamma();
+				}
+				return tpl.getEulerNumber();
+			}
+			break;
 		case GIAC:
 			ch = strToString.charAt(0);
 			switch (ch) {

@@ -56,7 +56,6 @@ public class TubeAPITest extends Assert {
 				for (Material m : result) {
 					titles.add(m.getTitle());
 				}
-
 			}
 
 			@Override
@@ -296,7 +295,7 @@ public class TubeAPITest extends Assert {
 		}
 	}
 
-	public static ClientInfo getClient() {
+	protected static ClientInfo getClient() {
 		ClientInfo client = new ClientInfo();
 		// client.setModel((AuthenticationModel) this.model);
 		client.setType("desktop");

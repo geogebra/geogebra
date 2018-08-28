@@ -399,7 +399,6 @@ public class EditorState {
 	private static String describe(ExpRelation pattern, MathComponent prev,
 			int index) {
 		if (prev instanceof MathFunction) {
-			System.err.println(pattern + ":" + index);
 			switch (((MathFunction) prev).getName()) {
 			case FRAC:
 				return new String[] { "fraction", "numerator",
