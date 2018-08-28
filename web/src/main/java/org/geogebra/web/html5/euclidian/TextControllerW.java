@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -29,7 +30,7 @@ public class TextControllerW implements TextController, BlurHandler {
 	private EuclidianViewW view;
 	private GeoText text;
 	private class TextListener implements MathFieldListener {
-
+		private String oldValue = "";
 		protected TextListener() {
 			// nothing to do
 		}
@@ -42,8 +43,12 @@ public class TextControllerW implements TextController, BlurHandler {
 
 		@Override
 		public void onKeyTyped() {
-			text.setTextString(mf.getText());
-			text.updateRepaint(false);
+			String value = mf.getText();
+			if (oldValue.length() != value.length()) {
+				text.setTextString(value);
+				text.updateRepaint(false);
+				oldValue = value;
+			}
 		}
 
 
@@ -157,5 +162,13 @@ public class TextControllerW implements TextController, BlurHandler {
 		text.setEditMode(false);
 		text.setTextString(mf.getText());
 		text.update();
+	}
+
+	@Override
+	public void edit(GeoText geo) {
+		Log.debug("EnTeR editing mode text");
+		geo.setEditMode(true);
+		updateEditor(geo, (int) geo.getRealWorldLocX(), (int) geo.getRealWorldLocY());
+
 	}
 }
