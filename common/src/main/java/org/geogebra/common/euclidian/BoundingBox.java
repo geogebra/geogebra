@@ -8,11 +8,11 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 
 /**
@@ -477,14 +477,15 @@ public class BoundingBox {
 	/**
 	 * @param video
 	 *            widget
-	 * @param e
-	 *            pointer event
+	 * @param p
+	 *            pointer position
 	 * @param handler
-	 *            hit hadler
+	 *            hit handler
 	 */
-	public void resize(DrawWidget video, AbstractEvent e, EuclidianBoundingBoxHandler handler) {
-		int eventX = e.getX();
-		int eventY = e.getY();
+	public void resize(DrawWidget video, GPoint2D p,
+			EuclidianBoundingBoxHandler handler) {
+		int eventX = (int) p.getX();
+		int eventY = (int) p.getY();
 		int newWidth = 1;
 		int newHeight = 1;
 		boolean fixRatio = video.isFixedRatio();

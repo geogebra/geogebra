@@ -27,11 +27,11 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -761,7 +761,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param handler
 	 *            - which corner was dragged
 	 */
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
 		// do nothing here
 	}
@@ -773,7 +773,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param e
 	 *            - mouse release event
 	 */
-	public void updateGeo(AbstractEvent e) {
+	public void updateGeo(GPoint2D e) {
 		// do nothing here
 	}
 

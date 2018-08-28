@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -527,7 +526,7 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
 		if (!(geo.getKernel().getApplication()
 				.has(Feature.MOW_IMAGE_BOUNDING_BOX) && geo.getKernel().getApplication()
@@ -544,7 +543,7 @@ public final class DrawImage extends Drawable {
 			if (Double.isNaN(originalRatio)) {
 				updateOriginalRatio();
 			}
-			updateImageCrop(e, handler);
+			updateImageCrop(p, handler);
 		} else {
 			if (!geo.getKernel().getApplication()
 					.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
@@ -559,7 +558,7 @@ public final class DrawImage extends Drawable {
 				geoImage.screenToReal();
 			}
 			geoImage.updateScaleAndLocation();
-			updateImageResize(e, handler);
+			updateImageResize(p, handler);
 
 			if (!geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
 				return;
@@ -571,10 +570,10 @@ public final class DrawImage extends Drawable {
 		}
 	}
 
-	private void updateImageCrop(AbstractEvent event,
+	private void updateImageCrop(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		int eventX = event.getX();
-		int eventY = event.getY();
+		int eventX = (int) p.getX();
+		int eventY = (int) p.getY();
 		double newWidth = 1;
 		double newHeight = 1;
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
@@ -754,10 +753,10 @@ public final class DrawImage extends Drawable {
 		return cb;
 	}
 
-	private void updateImageResize(AbstractEvent event,
+	private void updateImageResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		int eventX = event.getX();
-		int eventY = event.getY();
+		int eventX = (int) p.getX();
+		int eventY = (int) p.getY();
 		GeoPoint A, B, D;
 		double cropMinX, cropMaxX, cropMinY, cropMaxY;
 		GRectangle2D cropBox = null;

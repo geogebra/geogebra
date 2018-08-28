@@ -31,7 +31,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipLine;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -631,7 +630,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
 		GeoPointND updated;
 		GPoint2D anchor;
@@ -646,7 +645,8 @@ public class DrawSegment extends Drawable implements Previewable {
 			anchor = line.getP1();
 			updated = s.getEndPoint();
 		}
-		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(), e.getX(), e.getY());
+		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(),
+				point.getX(), point.getY());
 		double realX = view.toRealWorldCoordX(snap.getX());
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);

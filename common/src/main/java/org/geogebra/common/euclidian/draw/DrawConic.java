@@ -39,7 +39,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipShape;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -2213,11 +2212,11 @@ public class DrawConic extends Drawable implements Previewable {
 	 * 
 	 * @param hitHandler
 	 *            - handler was hit
-	 * @param event
-	 *            - mouse event
+	 * @param p
+	 *            - mouse position
 	 */
 	protected void updateEllipseCorner(EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
+			GPoint2D p) {
 		if (prewEllipse == null) {
 			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
 					0);
@@ -2232,8 +2231,8 @@ public class DrawConic extends Drawable implements Previewable {
 		 * etBoundingBox().setRectangle(prewEllipse.getBounds()); return; }
 		 */
 
-		int dx = (int) (event.getX() - fixCornerX);
-		int dy = (int) (event.getY() - fixCornerY);
+		int dx = (int) (p.getX() - fixCornerX);
+		int dy = (int) (p.getY() - fixCornerY);
 
 		int width = dx;
 		int height = dy;
@@ -2290,19 +2289,19 @@ public class DrawConic extends Drawable implements Previewable {
 	 * 
 	 * @param hitHandler
 	 *            - handler was hit
-	 * @param event
-	 *            - mouse event
+	 * @param p
+	 *            - mouse position
 	 */
 	protected void updateEllipseSide(EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
+			GPoint2D p) {
 		if (prewEllipse == null) {
 			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
 					0);
 		}
 
 		fixCornerCoords(hitHandler);
-		int width = (int) (event.getX() - fixCornerX);
-		int height = (int) (event.getY() - fixCornerY);
+		int width = (int) (p.getX() - fixCornerX);
+		int height = (int) (p.getY() - fixCornerY);
 		
 		if (hitHandler == EuclidianBoundingBoxHandler.LEFT
 				|| hitHandler == EuclidianBoundingBoxHandler.RIGHT) {
@@ -2338,12 +2337,12 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
 		if (isCornerHandler(handler)) {
 			if (conic.getParentAlgorithm() != null) {
 				fixCornerCoords(handler);
-				translatePointsForCornerHandler(e);
+				translatePointsForCornerHandler(p);
 				setFixCornerX(Double.NaN);
 				setFixCornerY(Double.NaN);
 				oldHeight = Double.NaN;
@@ -2353,12 +2352,12 @@ public class DrawConic extends Drawable implements Previewable {
 			} else {
 				conic.setEuclidianVisible(false);
 				conic.updateRepaint();
-				updateEllipseCorner(handler, e);
+				updateEllipseCorner(handler, p);
 			}
 		} else {
 			if (conic.getParentAlgorithm() != null) {
 				fixCornerCoords(handler);
-				translatePointsForSideHandler(e);
+				translatePointsForSideHandler(p);
 				setFixCornerX(Double.NaN);
 				setFixCornerY(Double.NaN);
 				oldHeight = Double.NaN;
@@ -2368,7 +2367,7 @@ public class DrawConic extends Drawable implements Previewable {
 			} else {
 				conic.setEuclidianVisible(false);
 				conic.updateRepaint();
-				updateEllipseSide(handler, e);
+				updateEllipseSide(handler, p);
 			}
 		}
 		view.setShapeEllipse(prewEllipse);
@@ -2379,7 +2378,7 @@ public class DrawConic extends Drawable implements Previewable {
 				conic.getLineType()));
 	}
 
-	private void translatePointsForSideHandler(AbstractEvent e) {
+	private void translatePointsForSideHandler(GPoint2D e) {
 		if (conic.getParentAlgorithm() != null) {
 			double[] pointsX = new double[conic.getParentAlgorithm()
 					.getInput().length];
@@ -2441,10 +2440,10 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 	}
 
-	private void translatePointsForCornerHandler(AbstractEvent e) {
+	private void translatePointsForCornerHandler(GPoint2D p) {
 		if (conic.getParentAlgorithm() != null) {
-			int newWidth = (int) (e.getX() - fixCornerX);
-			int height = (int) (e.getY() - fixCornerY);
+			int newWidth = (int) (p.getX() - fixCornerX);
+			int height = (int) (p.getY() - fixCornerY);
 			int newHeight = (int) (newWidth * oldHeight / oldWidth);
 
 			double ratioWidth = newWidth / oldWidth;
@@ -2510,13 +2509,13 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 	}
 
-	private double[] getEndPointRealCoords(AbstractEvent event) {
+	private double[] getEndPointRealCoords(GPoint2D p) {
 		double[] coord = new double[2];
 		double startPointX = fixCornerX;
 		double startPointY = fixCornerY;
 
-		if (startPointX >= event.getX()) {
-			if (startPointY >= event.getY()) {
+		if (startPointX >= p.getX()) {
+			if (startPointY >= p.getY()) {
 				coord[0] = view.toRealWorldCoordX(startPointX
 						- getBoundingBox().getRectangle().getWidth());
 				if (isCircle) {
@@ -2540,7 +2539,7 @@ public class DrawConic extends Drawable implements Previewable {
 				}
 			}
 		} else {
-			if (startPointY >= event.getY()) {
+			if (startPointY >= p.getY()) {
 				coord[0] = view.toRealWorldCoordX(
 						startPointX
 								+ getBoundingBox().getRectangle().getWidth());
@@ -2572,17 +2571,17 @@ public class DrawConic extends Drawable implements Previewable {
 	/**
 	 * update geo of drawable
 	 * 
-	 * @param event
-	 *            - mouse event
+	 * @param p
+	 *            - mouse position
 	 */
 	@Override
-	public void updateGeo(AbstractEvent event) {
+	public void updateGeo(GPoint2D p) {
 		if (conic.getParentAlgorithm() != null) {
 			fixCornerCoords(view.getHitHandler());
 			if (isCornerHandler(view.getHitHandler())) {
-				translatePointsForCornerHandler(event);
+				translatePointsForCornerHandler(p);
 			} else {
-				translatePointsForSideHandler(event);
+				translatePointsForSideHandler(p);
 			}
 			conic.setSelected(true);
 			conic.updateRepaint();
@@ -2595,7 +2594,7 @@ public class DrawConic extends Drawable implements Previewable {
 			view.repaintView();
 			return;
 		}
-		double[] equ = getEquationOfConic(event);
+		double[] equ = getEquationOfConic(p);
 		if (equ != null) {
 			conic.setMatrix(equ);
 		}
@@ -2609,7 +2608,7 @@ public class DrawConic extends Drawable implements Previewable {
 		view.repaintView();
 	}
 
-	private double[] getEquationOfConic(AbstractEvent event) {
+	private double[] getEquationOfConic(GPoint2D p) {
 		// real coords
 		double startX = view
 				.toRealWorldCoordX(fixCornerX);
@@ -2617,7 +2616,7 @@ public class DrawConic extends Drawable implements Previewable {
 				.toRealWorldCoordY(fixCornerY);
 
 		double endX, endY;
-		double[] coords = getEndPointRealCoords(event);
+		double[] coords = getEndPointRealCoords(p);
 		endX = coords[0];
 		endY = coords[1];
 		

@@ -29,7 +29,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -573,11 +572,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * method to update points of poly after mouse release
 	 * 
-	 * @param event
-	 *            - mouse event
+	 * @param point
+	 *            - mouse position
 	 */
 	@Override
-	public void updateGeo(AbstractEvent event) {
+	public void updateGeo(GPoint2D point) {
 		updateRealPointsOfPolygon();
 		poly.updateCascade(true);
 		poly.getParentAlgorithm().update();
@@ -600,21 +599,21 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
 		poly.setEuclidianVisible(false);
 		poly.updateRepaint();
 		if (isCornerHandler(handler)) {
-			updateFreePolygonCorner(handler, e);
+			updateFreePolygonCorner(handler, point);
 		} else {
-			updateFreePolygonSide(handler, e);
+			updateFreePolygonSide(handler, point);
 		}
 		view.setShapePolygon(prewPolygon);
 		view.setShapeFillCol(poly.getFillColor());
 		view.setShapeObjCol(poly.getObjectColor());
 		view.setShapeStroke(EuclidianStatic
 				.getStroke(poly.getLineThickness() / 2.0,
-				poly.getLineType()));
+						poly.getLineType()));
 	}
 
 	private void updateRealPointsOfPolygon() {
@@ -680,12 +679,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * 
 	 * @param hitHandler
 	 *            - handler was hit
-	 * @param event
-	 *            - mouse event
+	 * @param point
+	 *            - mouse position
 	 */
 	protected void updateFreePolygonCorner(
 			EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
+			GPoint2D point) {
 		double[] pointsX = new double[poly.getPointsLength()];
 		double[] pointsY = new double[poly.getPointsLength()];
 
@@ -695,8 +694,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		fixCornerCoords(hitHandler);
 		
-		int newWidth = (int) (event.getX() - fixCornerX);
-		int height = (int) (event.getY() - fixCornerY);
+		int newWidth = (int) (point.getX() - fixCornerX);
+		int height = (int) (point.getY() - fixCornerY);
 		int newHeight = (int) (newWidth * oldHeight / oldWidth);
 
 		double ratioWidth = newWidth / oldWidth;
@@ -752,11 +751,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * 
 	 * @param hitHandler
 	 *            - handler was hit
-	 * @param event
-	 *            - mouse event
+	 * @param point
+	 *            - mouse position
 	 */
 	protected void updateFreePolygonSide(EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
+			GPoint2D point) {
 		double[] pointsX = new double[poly.getPointsLength()];
 		double[] pointsY = new double[poly.getPointsLength()];
 
@@ -767,7 +766,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		fixCornerCoords(hitHandler);
 
 		if (!Double.isNaN(fixCornerX)) {
-			int width = (int) (event.getX() - fixCornerX);
+			int width = (int) (point.getX() - fixCornerX);
 			double[] currCoords = new double[6];
 			GPathIterator it = gp.getPathIterator(null);
 			int i = poly.getPointsLength();
@@ -784,7 +783,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 
 		if (!Double.isNaN(fixCornerY)) {
-			int height = (int) (event.getY() - fixCornerY);
+			int height = (int) (point.getY() - fixCornerY);
 			double[] currCoords = new double[6];
 			GPathIterator it = gp.getPathIterator(null);
 			int i = poly.getPointsLength();

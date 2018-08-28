@@ -2305,7 +2305,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return hit drawable
 	 */
 	public Drawable getBoundingBoxHandlerHit(GPoint p, PointerEventType type) {
-		if (p == null) {
+		if (p == null || getEuclidianController().isMultiSelection()) {
 			return null;
 		}
 		DrawableIterator it = allDrawableList.getIterator();

@@ -230,6 +230,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected EuclidianPen pen;
 	public double oldDistance;
 	private boolean wasBoundingBoxHit;
+	private boolean isMultiResize;
+	private BoundingBoxResizeState startBoundingBoxState;
 	protected double xTemp;
 	protected double yTemp;
 	protected boolean useLineEndPoint = false;
@@ -7708,11 +7710,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (getResizedShape().getGeoElement().isSelected()) {
 				dontClearSelection = true;
-				getResizedShape().updateByBoundingBoxResize(event,
-					view.getHitHandler());
+
+				getResizedShape()
+						.updateByBoundingBoxResize(
+								AwtFactory.getPrototype()
+										.newPoint2D(event.getX(), event.getY()),
+								view.getHitHandler());
 			}
 
 			hideDynamicStylebar();
+			view.repaintView();
+			return;
+		} else if (isMultiResize) {
+			handleResizeMultiple(event, view.getHitHandler());
 			view.repaintView();
 			return;
 		}
@@ -7860,6 +7870,57 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		kernel.notifyRepaint();
+	}
+
+	private void handleResizeMultiple(AbstractEvent event,
+			EuclidianBoundingBoxHandler handler) {
+		// TODO: multiresize
+
+		// if for some reason there was no state initialized
+		if (startBoundingBoxState == null) {
+			startBoundingBoxState = new BoundingBoxResizeState(view);
+			// startBoundingBoxState.calculatePositions(selection.getSelectedGeos());
+		}
+
+		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
+			Drawable dr = (Drawable) view
+					.getDrawableFor(selection.getSelectedGeos().get(i));
+
+			// transpose event position to the specific element and apply
+			// updateByBoundingBoxResize
+			// & hope that it'll work <3
+
+			if (dr.getBounds() != null) {
+				double x = event.getX(), y = event.getY();
+				switch (handler) {
+				case TOP:
+					y = event.getY() + (dr.getBounds().getMinY()
+							- startBoundingBoxState.getBoundingBoxRect()
+									.getMinY());
+					break;
+				case RIGHT:
+					x = event.getX()
+							- (startBoundingBoxState.getBoundingBoxRect()
+									.getMaxX()
+									- dr.getBounds().getMaxX());
+					break;
+				case BOTTOM:
+					y = event.getY()
+							- (startBoundingBoxState.getBoundingBoxRect()
+									.getMaxY()
+									- dr.getBounds().getMaxY());
+					break;
+				case LEFT:
+					x = event.getX() + (dr.getBounds().getMinX()
+							- startBoundingBoxState.getBoundingBoxRect()
+									.getMinX());
+					break;
+				}
+
+				dr.updateByBoundingBoxResize(
+						AwtFactory.getPrototype().newPoint2D(x, y), handler);
+			}
+		}
 	}
 
 	/**
@@ -8037,6 +8098,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// ensure no wrong state due to something went wrong
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 
+		// reset
+		isMultiResize = false;
+		startBoundingBoxState = null;
+
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
 			return;
@@ -8053,12 +8118,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setDragCursor();
 			return;
 		}
-		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
-		// for now allow only corner handlers
-		if (d != null && view
-				.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-			setBoundingBoxCursor(d);
-			setResizedShape(d);
+		if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
+			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
+			if (d != null) {
+				setBoundingBoxCursor(d);
+				setResizedShape(d);
+			} else if (isMultiSelection() && wasBoundingBoxHit) {
+				isMultiResize = true;
+				startBoundingBoxState = new BoundingBoxResizeState(view);
+				// startBoundingBoxState.calculatePositions(selection.getSelectedGeos());
+			}
 		}
 		// find and set movedGeoElement
 		setViewHits(e.getType());
@@ -8145,7 +8214,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (geo != null && view.getDrawableFor(geo) != null) {
+		if (geo != null && view.getDrawableFor(geo) != null
+				&& !wasBoundingBoxHit) {
 			view.setBoundingBox(
 					((Drawable) view.getDrawableFor(geo)).getBoundingBox());
 			view.repaintView();
@@ -9866,7 +9936,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (getResizedShape() != null) {
-			getResizedShape().updateGeo(event);
+			getResizedShape().updateGeo(AwtFactory.getPrototype()
+					.newPoint2D(event.getX(), event.getY()));
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -12225,18 +12296,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			Drawable dr = ((Drawable) view.getDrawableFor(geo));
 			if (dr != null) {
 				GRectangle bounds = dr.getBounds();
-
-				if (bounds.getMinX() < minX) {
-					minX = bounds.getMinX();
-				}
-				if (bounds.getMaxX() > maxX) {
-					maxX = bounds.getMaxX();
-				}
-				if (bounds.getMinY() < minY) {
-					minY = bounds.getMinY();
-				}
-				if (bounds.getMaxY() > maxY) {
-					maxY = bounds.getMaxY();
+				if (bounds != null) {
+					if (bounds.getMinX() < minX) {
+						minX = bounds.getMinX();
+					}
+					if (bounds.getMaxX() > maxX) {
+						maxX = bounds.getMaxX();
+					}
+					if (bounds.getMinY() < minY) {
+						minY = bounds.getMinY();
+					}
+					if (bounds.getMaxY() > maxY) {
+						maxY = bounds.getMaxY();
+					}
 				}
 			}
 		}

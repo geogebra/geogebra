@@ -1,13 +1,13 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -151,13 +151,13 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
 
-		getBoundingBox().resize(this, e, handler);
+		getBoundingBox().resize(this, point, handler);
 	}
 
 	@Override

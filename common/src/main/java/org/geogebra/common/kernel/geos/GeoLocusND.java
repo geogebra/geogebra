@@ -268,7 +268,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 * @return new width
 	 */
 	public double updatePointsX(EuclidianBoundingBoxHandler handler,
-			int eventX, GRectangle2D gRectangle2D) {
+			double eventX, GRectangle2D gRectangle2D) {
 		if (nonScaledWidth == 0) {
 			return 0;
 		}
@@ -309,7 +309,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 *            new width
 	 */
 	public void updatePointsY(EuclidianBoundingBoxHandler handler,
-			int eventY, GRectangle2D gRectangle2D, double newWidth) {
+			double eventY, GRectangle2D gRectangle2D, double newWidth) {
 		if (nonScaledHeight == 0) {
 			return;
 		}

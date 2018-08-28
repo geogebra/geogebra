@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
@@ -23,7 +24,6 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
@@ -332,17 +332,17 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(AbstractEvent e,
+	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
 		if (!geo.getKernel().getApplication()
 				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
 			return;
 		}
-		updateLocus(handler, e);
+		updateLocus(handler, p);
 	}
 
 	@Override
-	public void updateGeo(AbstractEvent e) {
+	public void updateGeo(GPoint2D p) {
 		((GeoLocus) geo).resetSavedBoundingBoxValues(false);
 	}
 
@@ -351,12 +351,12 @@ public class DrawLocus extends Drawable {
 	 * 
 	 * @param handler
 	 *            - handler was hit
-	 * @param e
-	 *            - mouse event
+	 * @param p
+	 *            - mouse position
 	 */
 	private void updateLocus(EuclidianBoundingBoxHandler handler,
-			AbstractEvent e) {
-		updatePoints(handler, e,
+			GPoint2D p) {
+		updatePoints(handler, p,
 				getBoundingBox().getRectangle());
 		update();
 		getBoundingBox().setRectangle(getBounds2D());
@@ -368,13 +368,13 @@ public class DrawLocus extends Drawable {
 	 * 
 	 * @param handler
 	 *            handler was hit
-	 * @param event
-	 *            event to handle
+	 * @param p
+	 *            mouse position
 	 * @param gRectangle2D
 	 *            bounding box rectangle
 	 */
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
-			AbstractEvent event, GRectangle2D gRectangle2D) {
+			GPoint2D p, GRectangle2D gRectangle2D) {
 
 		// save the original rates when scaling first time
 		((GeoLocus) geo).saveOriginalRates(gRectangle2D);
@@ -382,12 +382,12 @@ public class DrawLocus extends Drawable {
 		switch (handler) {
 		case TOP:
 		case BOTTOM:
-			((GeoLocus) geo).updatePointsY(handler, event.getY(), gRectangle2D,
+			((GeoLocus) geo).updatePointsY(handler, p.getY(), gRectangle2D,
 					Double.NaN);
 			break;
 		case LEFT:
 		case RIGHT:
-			((GeoLocus) geo).updatePointsX(handler, event.getX(), gRectangle2D);
+			((GeoLocus) geo).updatePointsX(handler, p.getX(), gRectangle2D);
 			break;
 		case TOP_LEFT:
 		case BOTTOM_LEFT:
@@ -395,9 +395,9 @@ public class DrawLocus extends Drawable {
 		case BOTTOM_RIGHT:
 			((GeoLocus) geo).saveRatio(gRectangle2D);
 			double newWidth = ((GeoLocus) geo).updatePointsX(handler,
-					event.getX(),
+					p.getX(),
 					gRectangle2D);
-			((GeoLocus) geo).updatePointsY(handler, event.getY(), gRectangle2D,
+			((GeoLocus) geo).updatePointsY(handler, p.getY(), gRectangle2D,
 					newWidth);
 			break;
 		default: // UNDEFINED - maybe not possible
