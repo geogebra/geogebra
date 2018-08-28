@@ -4597,6 +4597,8 @@ public abstract class GeoConicND extends GeoQuadricND
 			setToUser();
 		} else if ("vertex".equals(style)) {
 			setToVertexform();
+		} else if ("conic".equals(style)) {
+			setToConicform();
 		} else {			
 			return false;
 		}

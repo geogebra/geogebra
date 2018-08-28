@@ -272,6 +272,9 @@ public class XMLBuilder {
 		case GeoConicND.EQUATION_VERTEX:
 			XMLBuilder.appendType(sb, "vertex");
 			break;
+		case GeoConicND.EQUATION_CONICFORM:
+			XMLBuilder.appendType(sb, "conic");
+			break;
 		case GeoConicND.EQUATION_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
