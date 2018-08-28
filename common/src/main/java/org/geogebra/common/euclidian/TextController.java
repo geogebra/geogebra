@@ -33,4 +33,12 @@ public interface TextController {
 	 *            coordinate to place editor.
 	 */
 	void updateEditor(GeoText text, int x, int y);
+
+	/**
+	 * Edit text
+	 * 
+	 * @param geo
+	 *            to edit
+	 */
+	void edit(GeoText geo);
 }

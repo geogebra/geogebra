@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1703,6 +1704,8 @@ public abstract class GlobalKeyDispatcher {
 			} else if (geo.isGeoInputBox()) {
 				app.getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
+			} else if (app.has(Feature.MOW_TEXT_TOOL) && geo.isGeoText()) {
+				app.getEuclidianController().getTextController().edit((GeoText) geo);
 			}
 		}
 		return false;
