@@ -336,12 +336,16 @@ public class ExportToPrinter3D {
 			}
 
 		} else {
-			if (!exportSurface) {
+			GeoElement geo = d.getGeoElement();
+			if (!geo.isGeoFunctionNVar()) {
 				reverse = false;
-				GeoElement geo = d.getGeoElement();
-				if (geo.getLineThickness() > 0) {
-					export(d.getGeometryIndex(), Type.CURVE,
-							geo.getLabelSimple(), geo);
+				if (exportSurface) {
+					exportSurface(geo, d.getSurfaceIndex(), true);
+				} else {
+					if (geo.getLineThickness() > 0) {
+						export(d.getGeometryIndex(), Type.CURVE,
+								geo.getLabelSimple(), geo);
+					}
 				}
 			}
 		}
