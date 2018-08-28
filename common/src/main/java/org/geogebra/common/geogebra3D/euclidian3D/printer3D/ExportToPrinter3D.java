@@ -129,7 +129,8 @@ public class ExportToPrinter3D {
 	}
 
 	private class SegmentIndex implements Comparable<SegmentIndex> {
-		private int v1, v2;
+		private int v1;
+		private int v2;
 
 		public SegmentIndex() {
 			set(-1, -1);
@@ -156,6 +157,18 @@ public class ExportToPrinter3D {
 			return v2;
 		}
 
+		@Override
+		public boolean equals(Object o) {
+			return o instanceof SegmentIndex && ((SegmentIndex) o).v1 == v1
+					&& ((SegmentIndex) o).v2 == v2;
+		}
+
+		@Override
+		public int hashCode() {
+			return v1 + 13 * v2;
+		}
+
+		@Override
 		public int compareTo(SegmentIndex o) {
 			if (v1 < o.v1) {
 				return -1;

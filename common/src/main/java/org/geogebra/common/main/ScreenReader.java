@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.parser.GParser;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.controller.ExpressionReader;
@@ -249,7 +250,6 @@ public class ScreenReader {
 
 			@Override
 			public String squareRoot(String arg) {
-
 				return ScreenReader.getStartSqrt(loc) + arg + ScreenReader.getEndSqrt(loc);
 			}
 
@@ -260,6 +260,9 @@ public class ScreenReader {
 
 			@Override
 			public String inParentheses(String content) {
+				if (StringUtil.emptyTrim(content)) {
+					return localize("empty %0", "parentheses");
+				}
 				return ScreenReader.getLeftBracket() + content + ScreenReader.getRightBracket();
 			}
 		};

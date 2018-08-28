@@ -1072,6 +1072,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param val
 	 *            x-coord of the origin
 	 */
+	@Override
 	public void setXZero(double val) {
 		xZero = val;
 	}
@@ -1087,6 +1088,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param val
 	 *            y-coord of the origin
 	 */
+	@Override
 	public void setYZero(double val) {
 		yZero = val;
 	}
@@ -1105,6 +1107,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param val
 	 *            z-coord of the origin
 	 */
+	@Override
 	public void setZZero(double val) {
 		zZero = val;
 	}

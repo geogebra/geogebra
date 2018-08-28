@@ -31,10 +31,7 @@ public class ScreenReaderSerializer {
 			}
 			if (expr instanceof MathArray) {
 				String content = describeContainer(expr, " ", er);
-				if (!content.trim().isEmpty()) {
-					return er.inParentheses(content);
-				}
-				return er.localize("empty %0", "parentheses");
+				return er.inParentheses(content);
 			}
 			if (expr instanceof MathFunction) {
 				switch (((MathFunction) expr).getName()) {

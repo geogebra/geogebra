@@ -182,6 +182,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public static class IntersectionCurve {
 		protected GeoElement geo1;
 		protected GeoElement geo2;
+		/** drawable */
 		public Drawable3D drawable;
 
 		/**
@@ -2394,6 +2395,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 	}
 
+	/**
+	 * @return intersection curves
+	 */
 	public ArrayList<IntersectionCurve> getIntersectionCurves() {
 		return intersectionCurveList;
 	}
@@ -4120,6 +4124,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCursorForTranslateViewNoHit();
 	}
 
+	/**
+	 * @param flag
+	 *            whether view rotation occured
+	 */
 	public void setViewRotationOccured(boolean flag) {
 		viewRotationOccured = flag;
 	}
