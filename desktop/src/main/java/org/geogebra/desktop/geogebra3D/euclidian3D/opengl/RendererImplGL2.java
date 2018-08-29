@@ -906,6 +906,6 @@ public class RendererImplGL2 extends RendererImpl
 
 	public void setProjectionMatrixViewForAR(float[] cameraView,
 			float[] cameraPerspective, float[] modelMatrix, float scaleFactor) {
-		// TODO fill this
+		// used only with shaders
 	}
 }
