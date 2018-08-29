@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 
@@ -72,7 +73,7 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 					expression.toSolvable().solve(variable, sb);
 					break;
 				case Derivative:
-					StepTransformable.differentiate((StepExpression) expression, variable)
+				StepNode.differentiate((StepExpression) expression, variable)
 							.differentiate(sb);
 			}
 

@@ -2042,9 +2042,15 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdShowSteps() {
+		shouldFail("ShowSteps(ConstructionStep())",
+				"Illegal argument: ConstructionStep",
+				app);
 		t("First(ShowSteps(Solve(x^2=-1/4)),16)", "\\begin{array}{l}");
+		t("IndexOf(\"frac{1}{2}\",ShowSteps(Solve(x^2=1/4)))>10", "true");
 		t("First(ShowSteps(Solve(x^2=1/4)),16)", "\\begin{array}{l}");
 		t("First(ShowSteps(Solve(x^2=1/4),3),22)", "\\begin{array}{*{2}{l}}");
+		t("eq:x*x=1/4", unicode("(-x - 0.5) (-x + 0.5) = 0"));
+		t("IndexOf(\"frac{1}{2}\",ShowSteps(Solve(eq)))>10", "true");
 	}
 
 }

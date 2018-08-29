@@ -48,7 +48,10 @@ public class CmdShowSteps extends CommandProcessor {
 
 		ExpressionNode expressionNode = internalCommand.getArgument(0);
 		expressionNode.resolveVariables(new EvalInfo(false));
-
+		if (expressionNode.unwrap().isGeoElement()
+				&& ((GeoElement) expressionNode.unwrap()).getDefinition() != null) {
+			expressionNode = ((GeoElement) expressionNode.unwrap()).getDefinition();
+		}
 		StepTransformable expression = StepNode.getStepTree(
 				expressionNode.toOutputValueString(StringTemplate.defaultTemplate),
 				kernel.getParser());
