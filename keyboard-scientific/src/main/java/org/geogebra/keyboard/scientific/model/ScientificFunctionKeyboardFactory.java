@@ -26,37 +26,36 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
     public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
         KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
         RowImpl row = functionKeyboard.nextRow(6.2f);
-        addTranslateInputCommandButton(row, buttonFactory, "asin", "asin", 1.0f);
-        addTranslateInputCommandButton(row, buttonFactory, "acos", "acos", 1.0f);
-        addTranslateInputCommandButton(row, buttonFactory, "atan", "atan", 1.0f);
+        addInputButton(row, buttonFactory, "\u00B0");
+        addInputButton(row, buttonFactory, "\u2032");
+        addInputButton(row, buttonFactory, "\u2033");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addTranslateInputCommandButton(row, buttonFactory, "mean", "mean", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "stdev", "stdev", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "stdevp", "SampleSD", 1.0f);
 
         row = functionKeyboard.nextRow(6.2f);
-        addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^", 1.0f);
-        addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^", 1.0f);
-        addConstantInputButton(row, buttonFactory, Resource.N_ROOT, "nroot", 1.0f);
+        addTranslateInputCommandButton(row, buttonFactory, "asin", "asin", 1.0f);
+        addTranslateInputCommandButton(row, buttonFactory, "acos", "acos", 1.0f);
+        addTranslateInputCommandButton(row, buttonFactory, "atan", "atan", 1.0f);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputCommandButton(row, buttonFactory, "\u207FP\u1D63", "nPr", 1.0f);
         addInputCommandButton(row, buttonFactory, "\u207FC\u1D63", "BinomialCoefficient", 1.0f);
         addInputButton(row, buttonFactory, "!");
 
         row = functionKeyboard.nextRow(6.2f);
-        addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}", 1.0f);
-        addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb", 1.0f);
-        addInputButton(row, buttonFactory, "abs", "|");
+        addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^", 1.0f);
+        addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^", 1.0f);
+        addConstantInputButton(row, buttonFactory, Resource.N_ROOT, "nroot", 1.0f);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addInputCommandButton(row, buttonFactory, "rand", "random", 1.0f);
+        addInputButton(row, buttonFactory, "abs", "|");
         addInputCommandButton(row, buttonFactory, "round", "round", 1.0f);
-        addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-                Action.BACKSPACE_DELETE);
+        addInputCommandButton(row, buttonFactory, "mad", "mad", 1.0f);
 
         row = functionKeyboard.nextRow(6.2f);
-        addCustomButton(row, buttonFactory, "ans", Action.ANS);
         addInputButton(row, buttonFactory, "{");
         addInputButton(row, buttonFactory, "}");
+        addInputCommandButton(row, buttonFactory, "rand", "random", 1.0f);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
         addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
