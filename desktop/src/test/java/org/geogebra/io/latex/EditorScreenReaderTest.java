@@ -14,6 +14,7 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -178,6 +179,14 @@ public class EditorScreenReaderTest {
 				"start of formula start square root x end square root",
 				"start of square root before x", "end of square root after x",
 				"end of formula start square root x end square root");
+	}
+
+	@Test
+	public void testReaderSqrtPi() {
+		checkReader("sqrt("+Unicode.pi+")",
+				"start of formula start square root pi end square root",
+				"start of square root before pi", "end of square root after pi",
+				"end of formula start square root pi end square root");
 	}
 
 	@Test
