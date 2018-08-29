@@ -1389,4 +1389,18 @@ public class GgbAPIW extends GgbAPI {
 		return this.exportConstruction(columnNames);
 	}
 
+	/**
+	 * @param token
+	 *            token
+	 * @param showUI
+	 *            whether to show UI when token is invalid
+	 */
+	public void login(String token, boolean showUI) {
+		if (showUI && (StringUtil.empty(token) || StringUtil.isNaN(token))) {
+			app.getLoginOperation().showLoginDialog();
+		} else {
+			login(token);
+		}
+	}
+
 }

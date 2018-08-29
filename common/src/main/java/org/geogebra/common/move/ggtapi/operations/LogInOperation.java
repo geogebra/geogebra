@@ -187,4 +187,9 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		return mat.getViewerID() <= 0
 				|| mat.getViewerID() == getModel().getUserId();
 	}
+
+	public void showLoginDialog() {
+		// TODO Auto-generated method stub
+
+	}
 }

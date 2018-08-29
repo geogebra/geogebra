@@ -223,8 +223,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::openFile(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(base64string + "", callback);
 		}
 
-		api.login = function(token) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::login(Ljava/lang/String;)(token  + "");
+		api.login = function(token, ui) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::login(Ljava/lang/String;Z)(token  + "", !!ui);
 		};
 
 		api.logout = function() {

@@ -10,6 +10,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
+import org.geogebra.web.shared.SignInButton;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
@@ -109,5 +110,10 @@ public class LoginOperationW extends LogInOperation {
 	private void processCookie() {
 		Log.debug("COOKIE LOGIN");
 		getGeoGebraTubeAPI().performCookieLogin(this);
+	}
+
+	@Override
+	public void showLoginDialog() {
+		((SignInButton) app.getLAF().getSignInButton(app)).login();
 	}
 }

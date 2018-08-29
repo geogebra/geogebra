@@ -23,7 +23,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
-import org.geogebra.web.shared.SignInButton;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -369,8 +368,7 @@ public class MainMenu extends FlowPanel
 							&& !app.getLoginOperation().isLoggedIn()
 							&& index >= 0
 							&& this.getWidget(index) == signInMenu) {
-						((SignInButton) app.getLAF().getSignInButton(app))
-								.login();
+						app.getLoginOperation().showLoginDialog();
 						app.toggleMenu();
 						return;
 					} else if (index >= 0) {

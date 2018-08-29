@@ -15,7 +15,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.user.client.Window;
 
@@ -209,7 +208,7 @@ public abstract class FileManager extends MaterialsManager {
 			// not logged in and possible to log in
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
 			appw.getGuiManager().listenToLogin();
-			((SignInButton) appw.getLAF().getSignInButton(appw)).login();
+			appw.getLoginOperation().showLoginDialog();
 			// logged in
 		} else {
 			((DialogManagerW) appw.getDialogManager()).showSaveDialog();

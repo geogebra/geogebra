@@ -16,7 +16,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.ShareLinkDialog;
-import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -114,7 +113,7 @@ public class ShareControllerW implements ShareController {
 				}
 			}
 		});
-		((SignInButton) app.getLAF().getSignInButton(app)).login();
+		app.getLoginOperation().showLoginDialog();
 	}
 
 	private AsyncOperation<Boolean> getShareCallback() {
