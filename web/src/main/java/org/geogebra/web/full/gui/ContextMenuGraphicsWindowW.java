@@ -1,14 +1,17 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -116,10 +119,45 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				true, new Command() {
 
 					public void execute() {
-						// TODO open color chooser dialog
+						openColorChooser();
 					}
 				});
 		wrappedPopup.addItem(miBackgroundCol);
+	}
+
+	/**
+	 * open color chooser dialog to select graphics background
+	 */
+	protected void openColorChooser() {
+		((DialogManagerW) (app.getDialogManager())).showColorChooserDialog(
+				app.getSettings().getEuclidian(1).getBackground(),
+				new ColorChangeHandler() {
+
+					public void onForegroundSelected() {
+						// do nothing
+					}
+
+					public void onColorChange(GColor color) {
+						// change graphics background color
+						app.getSettings().getEuclidian(1).setBackground(color);
+					}
+
+					public void onClearBackground() {
+						// do nothing
+					}
+
+					public void onBarSelected() {
+						// do nothing
+					}
+
+					public void onBackgroundSelected() {
+						// do nothing
+					}
+
+					public void onAlphaChange() {
+						// do nothing
+					}
+				});
 	}
 
 	private void addClearTraceMenuItem() {
