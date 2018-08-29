@@ -173,6 +173,14 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
+	public void testReaderSqrt2() {
+		checkReader("sqrt(x)",
+				"start of formula start square root x end square root",
+				"start of square root before x", "end of square root after x",
+				"end of formula start square root x end square root");
+	}
+
+	@Test
 	public void testBrackets() {
 		checkReader("2*(3+4)-2",
 				"start of formula 2 times open parenthesis 3 plus 4 close parenthesis minus 2",
