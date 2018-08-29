@@ -1,18 +1,14 @@
 package org.geogebra.web.html5.gui.util;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -22,10 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,21 +37,14 @@ public class ZoomPanel extends FlowPanel
 	 * enter/exit fullscreen mode
 	 */
 	StandardButton fullscreenBtn;
-	/**
-	 * is in fullscreen mode
-	 */
-	boolean fullScreenActive = false;
 
 	/** application */
 	private AppW app;
 	private EuclidianView view;
-	/** after we leave fullscreen, we must reset container position */
-	private HashMap<String, String> containerProps = new HashMap<>();
-	private GDimension oldSize;
 
-	private double cssScale = 0;
 	private List<StandardButton> buttons = null;
 	private boolean homeShown;
+	private ZoomController zoomController;
 
 	/**
 	 *
@@ -76,6 +61,7 @@ public class ZoomPanel extends FlowPanel
 			boolean zoomable) {
 		this.view = view;
 		this.app = app;
+		zoomController = new ZoomController(app);
 		if (view != null) {
 			view.getEuclidianController().addZoomerListener(this);
 		}
@@ -102,17 +88,26 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	/**
+	 * @return controller for zoom panel and its buttons
+	 */
+	public ZoomController getZoomController() {
+		return zoomController;
+	}
+
+	/**
 	 * Updates fullscreen button and article.
 	 */
 	public void updateFullscreen() {
 		ArticleElementInterface ae = app.getArticleElement();
-		if (!ae.getDataParamApp() && fullScreenActive) {
-			scaleApplet(ae.getParentElement(),
-					ae.getParentElement().getParentElement());
+		if (!ae.getDataParamApp() && isFullScreen()) {
+			getZoomController().scaleApplet(ae.getParentElement(),
+					ae.getParentElement().getParentElement(),
+					getPanelElement());
 		}
 		if (ae.getDataParamApp() && fullscreenBtn != null) {
 			fullscreenBtn.setVisible(
-					fullScreenActive || !Browser.isCoveringWholeScreen());
+					isFullScreen()
+							|| !Browser.isCoveringWholeScreen());
 		}
 	}
 
@@ -133,7 +128,8 @@ public class ZoomPanel extends FlowPanel
 
 			@Override
 			public void onClick(Widget source) {
-				onFullscreenPressed();
+				getZoomController().onFullscreenPressed(getPanelElement(),
+						fullscreenBtn);
 			}
 		};
 
@@ -153,58 +149,19 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	/**
-	 * Handler that runs on switching to fullscreen.
+	 * @return we need getElement() for zoom controller
 	 */
-	void onFullscreen() {
-		fullScreenActive = true;
-		fullscreenBtn
-				.setIcon(ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
+	public Element getPanelElement() {
+		return getElement();
 	}
 
 	/**
 	 * Handler that runs on exiting to fullscreen.
 	 */
 	void onExitFullscreen() {
-		fullScreenActive = false;
+		getZoomController().setFullScreenActive(false);
 		fullscreenBtn.setIcon(ZoomPanelResources.INSTANCE.fullscreen_black18());
-		if (!app.getArticleElement().getDataParamFitToScreen()) {
-
-			final Element scaler = app.getArticleElement().getParentElement();
-
-			scaler.removeClassName("fullscreen");
-			scaler.getStyle().setMarginLeft(0, Unit.PX);
-			scaler.getStyle().setMarginTop(0, Unit.PX);
-			dispatchResize();
-			Element container = scaler.getParentElement();
-			resetStyleAfterFullscreen(container);
-			double scale = cssScale > 0 ? cssScale
-					: app.getArticleElement().getDataParamScale();
-			Browser.scale(scaler,
-					scale,
-					0, 0);
-			app.getArticleElement().resetScale(scale);
-			app.checkScaleContainer();
-		}
-		Browser.scale(getElement(), 1, 0, 0);
-	}
-
-	/**
-	 * Resetting position and margins.
-	 * 
-	 * @param container
-	 *            to reset.
-	 */
-	protected void resetStyleAfterFullscreen(Element container) {
-		if (container != null) {
-			for (Entry<String, String> e : containerProps.entrySet()) {
-				if (!StringUtil.empty(e.getValue())) {
-					container.getStyle().setProperty(e.getKey(), e.getValue());
-				}
-			}
-		}
-		if (oldSize != null && app.isUnbundled()) {
-			app.getGgbApi().setSize(oldSize.getWidth(), oldSize.getHeight());
-		}
+		getZoomController().onExitFullscreen(getElement());
 	}
 
 	/**
@@ -221,7 +178,7 @@ public class ZoomPanel extends FlowPanel
 
 			@Override
 			public void onClick(Widget source) {
-				onHomePressed();
+				getZoomController().onHomePressed();
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
@@ -252,7 +209,7 @@ public class ZoomPanel extends FlowPanel
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				onZoomOutPressed();
+				getZoomController().onZoomOutPressed();
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
@@ -268,7 +225,7 @@ public class ZoomPanel extends FlowPanel
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				onZoomInPressed();
+				getZoomController().onZoomInPressed();
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
@@ -326,131 +283,6 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	/**
-	 * forces a resize event.
-	 */
-	protected native void dispatchResize() /*-{
-		$wnd.dispatchEvent(new Event("resize"));
-	}-*/;
-
-	/** Home button handler. */
-	protected void onHomePressed() {
-		app.getActiveEuclidianView().setStandardView(true);
-		app.getAccessibilityManager().focusMenu();
-	}
-
-	/** Zoom In button handler. */
-	protected void onZoomInPressed() {
-		getEuclidianView().getEuclidianController().zoomInOut(false, false);
-	}
-
-	/** Zoom Out button handler. */
-	protected void onZoomOutPressed() {
-		getEuclidianView().getEuclidianController().zoomInOut(false, true);
-	}
-
-	/** Full screen button handler. */
-	protected void onFullscreenPressed() {
-		final Element container;
-		final boolean ipad = Browser.isIPad();
-		if (app.getArticleElement().getDataParamFitToScreen()) {
-			container = null;
-		} else {
-			ArticleElementInterface ae = app.getArticleElement();
-			final Element scaler = ae.getParentElement();
-			container = scaler.getParentElement();
-			if (!fullScreenActive) {
-				String containerPositionBefore = container.getStyle()
-						.getPosition();
-				if (StringUtil.empty(containerPositionBefore)) {
-					containerPositionBefore = "static";
-				}
-				containerProps.clear();
-				containerProps.put("position", containerPositionBefore);
-				setContainerProp(container, "width", "100%");
-				setContainerProp(container, "height", "100%");
-				setContainerProp(container, "maxWidth", "100%");
-				setContainerProp(container, "maxHeight", "100%");
-				setContainerProp(container, "marginLeft", "0");
-				setContainerProp(container, "marginTop", "0");
-				oldSize = app.getPreferredSize();
-				scaler.addClassName("fullscreen");
-				cssScale = ae.getParentScaleX();
-				if (ipad) {
-					setContainerProp(container, "left", "0px");
-					scaler.addClassName("fullscreen-ipad");
-				}
-
-				Timer t = new Timer() {
-
-					@Override
-					public void run() {
-						scaleApplet(scaler, container);
-						onFullscreen();
-					}
-				};
-				// delay scaling to make sure scrollbars disappear
-				t.schedule(50);
-			} else {
-				if (ipad) {
-					scaler.removeClassName("fullscreen-ipad");
-					onExitFullscreen();
-					if (cssScale != 0) {
-						Browser.scale(scaler, cssScale, 0, 0);
-					}
-				}
-			}
-		}
-
-		if (!ipad) {
-			fullScreenActive = !fullScreenActive;
-			Browser.toggleFullscreen(fullScreenActive, container);
-		}
-	}
-
-	private void setContainerProp(Element container, String propName,
-			String value) {
-		containerProps.put(propName, container.getStyle().getProperty(propName));
-		container.getStyle().setProperty(propName, value);
-	}
-
-	/**
-	 * Scales the applet to fit the screen.
-	 * 
-	 * @param scaler
-	 *            the applet scaler element.
-	 * @param container
-	 *            content to scale.
-	 */
-	protected void scaleApplet(Element scaler, Element container) {
-		double scale = 1;
-		if (app.isUnbundled()) {
-			app.getGgbApi().setSize(Window.getClientWidth(),
-					Window.getClientHeight());
-			Browser.scale(scaler, 1, 0, 0);
-		} else {
-			double xscale = Window.getClientWidth() / app.getWidth();
-			double yscale = Window.getClientHeight() / app.getHeight();
-			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
-			Browser.scale(scaler, scale, 0, 0);
-			Browser.scale(getElement(), 1 / scale, 120, 100);
-			container.getStyle().setPosition(Position.ABSOLUTE);
-			double marginLeft = 0;
-			double marginTop = 0;
-			if (xscale > yscale) {
-				marginLeft = (Window.getClientWidth() - app.getWidth() * scale)
-						/ 2;
-			} else {
-				marginTop = (Window.getClientHeight() - app.getHeight() * scale)
-						/ 2;
-			}
-			scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
-			scaler.getStyle().setMarginTop(marginTop, Unit.PX);
-		}
-		app.getArticleElement().resetScale(scale);
-		app.recalculateEnvironments();
-	}
-
-	/**
 	 * Sets translated titles of the buttons.
 	 */
 	public void setLabels() {
@@ -476,7 +308,7 @@ public class ZoomPanel extends FlowPanel
 	private static boolean needsZoomButtons(AppW app) {
 		return (app.getArticleElement().getDataParamShowZoomButtons()
 				|| app.getArticleElement().getDataParamApp())
-				&& app.isShiftDragZoomEnabled() && !app.isWhiteboardActive();
+				&& app.isShiftDragZoomEnabled();
 	}
 
 	/**
@@ -520,7 +352,6 @@ public class ZoomPanel extends FlowPanel
 			app.getAccessibilityManager().focusNext(this);
 			return true;
 		}
-
 		return false;
 	}
 
@@ -544,11 +375,9 @@ public class ZoomPanel extends FlowPanel
 		if (homeBtn != null && homeShown) {
 			return homeBtn;
 		}
-
 		if (zoomInBtn != null) {
 			return zoomInBtn;
 		}
-
 		return fullscreenBtn;
 	}
 
@@ -556,15 +385,12 @@ public class ZoomPanel extends FlowPanel
 		if (fullscreenBtn != null) {
 			return fullscreenBtn;
 		}
-
 		if (zoomOutBtn != null) {
 			return zoomOutBtn;
 		}
-
 		if (homeBtn != null && homeShown) {
 			return homeBtn;
 		}
-
 		return null;
 	}
 
@@ -572,6 +398,6 @@ public class ZoomPanel extends FlowPanel
 	 * @return whether fullscreen is active
 	 */
 	public boolean isFullScreen() {
-		return this.fullScreenActive;
+		return getZoomController().isFullScreenActive();
 	}
 }
