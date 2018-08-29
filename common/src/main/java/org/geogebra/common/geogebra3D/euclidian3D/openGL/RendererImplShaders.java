@@ -507,7 +507,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 		scaleMatrix.set(3,3, scaleFactor);
 		scaleMatrix.set(4,4, 1);
 
-		tmpMatrix1.setMul(modelMatrixCoord, scaleMatrix);
+		tmpMatrix2.setMul(scaleMatrix, renderer.getToScreenMatrix());
+		tmpMatrix1.setMul(modelMatrixCoord, tmpMatrix2);
 		mvMatrixCoord.setMul(cameraViewCoord, tmpMatrix1);
 		mvpMatrixCoord.setMul(cameraProjectionCoord, mvMatrixCoord);
 		mvpMatrixCoord.getForGL(tmpFloat16);
