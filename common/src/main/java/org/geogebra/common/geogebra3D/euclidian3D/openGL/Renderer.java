@@ -874,9 +874,8 @@ public abstract class Renderer implements RendererInterface {
 		if (mIsARCoreEnabled){
 			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
 					arScaleFactor);
-		} else {
-			setMatrixView();
 		}
+		setMatrixView();
 
 		setLightPosition();
 		setLight(0);
