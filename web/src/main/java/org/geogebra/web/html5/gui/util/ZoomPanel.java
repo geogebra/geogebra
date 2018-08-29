@@ -65,6 +65,8 @@ public class ZoomPanel extends FlowPanel
 	 *
 	 * @param view
 	 *            The Euclidian View to put zoom buttons onto.
+	 * @param app
+	 *            see {@link AppW}
 	 * @param rightBottom
 	 *            whether this is placed in the right bottom
 	 * @param zoomable
@@ -474,7 +476,7 @@ public class ZoomPanel extends FlowPanel
 	private static boolean needsZoomButtons(AppW app) {
 		return (app.getArticleElement().getDataParamShowZoomButtons()
 				|| app.getArticleElement().getDataParamApp())
-				&& app.isShiftDragZoomEnabled();
+				&& app.isShiftDragZoomEnabled() && !app.isWhiteboardActive();
 	}
 
 	/**
