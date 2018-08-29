@@ -316,6 +316,10 @@ public abstract class App3DCompanion extends AppCompanion {
 				settings.setShowAxis(AxisModel.AXIS_Y,
 						s2d.getShowAxis(AxisModel.AXIS_Y));
 				settings.setShowAxis(AxisModel.AXIS_Z, false);
+				settings.setShowPlate(false);
+				settings.setShowGridSetting(s2d.getShowGrid() && (s2d
+						.getGridType() == EuclidianView.GRID_CARTESIAN
+						|| s2d.getGridType() == EuclidianView.GRID_CARTESIAN_WITH_SUBGRID));
 				double xscale = s2d.getXscale();
 				double yscale = s2d.getYscale();
 				double xmin = -s2d.getXZero() / xscale;
