@@ -31,15 +31,22 @@ public class CmdShowSteps extends CommandProcessor {
 			throw argErr(c, c.getArgument(0));
 		}
 
+		Command internalCommand = (Command) c.getArgument(0).unwrap();
+		Commands name = Commands.valueOf(internalCommand.getName());
+
+		if (name != Commands.Simplify && name != Commands.Factor
+				&& name != Commands.Expand && name != Commands.Solve
+				&& name != Commands.Derivative
+				|| internalCommand.getArgumentNumber() != 1) {
+			throw argErr(c, c.getArgument(0));
+		}
+
 		if (c.getArgumentNumber() == 2
 				&& (!c.getArgument(1).evaluatesToNumber(false)
-				|| c.getArgument(1).evaluateDouble() <= 0
-				|| !DoubleUtil.isInteger(c.getArgument(1).evaluateDouble()))) {
+				|| c.getArgument(1).evaluateDouble() <= 0.5)) {
 			throw argErr(c, c.getArgument(1));
 		}
 
-		Command internalCommand = (Command) c.getArgument(0).unwrap();
-		Commands name = Commands.valueOf(internalCommand.getName());
 		ExpressionNode expressionNode = internalCommand.getArgument(0);
 		expressionNode.resolveVariables(new EvalInfo(false));
 
