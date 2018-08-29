@@ -39,7 +39,6 @@ public class TextControllerW implements TextController, BlurHandler {
 		@Override
 		public void onEnter() {
 			mf.insertString("\n");
-
 		}
 
 		@Override

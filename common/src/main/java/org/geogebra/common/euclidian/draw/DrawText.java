@@ -16,9 +16,12 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -63,6 +66,8 @@ public final class DrawText extends Drawable {
 	private BoundingBox boundingBox;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
+	private double scaleX = 1;
+	private double scaleY = 1;
 
 	/**
 	 * Creates new DrawText
@@ -233,6 +238,22 @@ public final class DrawText extends Drawable {
 
 	}
 
+	@Override
+	protected void doDrawMultilineText(GGraphics2D g2, GFont textFont) {
+		double translateX = getBounds().getMinX();
+		double translateY = getBounds().getMinY();
+		g2.saveTransform();
+		g2.translate(translateX, translateY);
+		g2.scale(scaleX, scaleY);
+		g2.translate(-translateX, -translateY);
+		EuclidianStatic.drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2,
+				isSerif(), textFont, labelRectangle);
+		g2.restoreTransform();
+		labelRectangle.setBounds((int) labelRectangle.getMinX(), (int) labelRectangle.getMinY(),
+				(int) (labelRectangle.getWidth() * scaleX),
+				(int) (labelRectangle.getHeight() * scaleY));
+	}
+
 	/**
 	 * was this object clicked at? (mouse pointer location (x,y) in screen
 	 * coords)
@@ -330,5 +351,24 @@ public final class DrawText extends Drawable {
 
 	private boolean isWhiteboardText() {
 		return view.getApplication().has(Feature.MOW_TEXT_TOOL);
+	}
+
+	@Override
+	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
+		double minX = boundingBox.getRectangle().getMinX();
+		double maxX = boundingBox.getRectangle().getMaxX();
+		double minY = boundingBox.getRectangle().getMinY();
+		double maxY = boundingBox.getRectangle().getMaxY();
+		double mouseY = point.getY();
+		double mouseX = point.getX();
+
+		switch (handler) {
+		case BOTTOM:
+			scaleY *= ((mouseY - minY) / (maxY - minY));
+			break;
+		case RIGHT:
+			scaleX *= ((mouseX - minX) / (maxX - minX));
+			break;
+		}
 	}
 }
