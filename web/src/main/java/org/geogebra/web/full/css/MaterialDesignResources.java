@@ -325,6 +325,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource mode_move();
 
 	// Burger Menu resources
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/menu_whiteBorder.svg")
+	SVGResource menu_black_whiteBorder();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_content_copy_black_24px.svg")
 	SVGResource copy_black();
 

@@ -907,10 +907,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	private void attachOpenMenuButton() {
 		openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_menu_black(),
-				null, 24,
-				app);
-
+				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
+				24, app);
 		/*
 		 * openMenuButton.getUpHoveringFace()
 		 * .setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(), 32));
