@@ -22,7 +22,7 @@ public class CmdShowSteps extends CommandProcessor {
 
 	@Override
 	public GeoElement[] process(Command c) {
-		if (c.getArgumentNumber() != 1 && c.getArgumentNumber() != 2) {
+		if (c.getArgumentNumber() != 1) {
 			throw argNumErr(c);
 		}
 
@@ -40,23 +40,17 @@ public class CmdShowSteps extends CommandProcessor {
 			throw argErr(c, c.getArgument(0));
 		}
 
-		if (c.getArgumentNumber() == 2
-				&& (!c.getArgument(1).evaluatesToNumber(false)
-				|| c.getArgument(1).evaluateDouble() <= 0.5)) {
-			throw argErr(c, c.getArgument(1));
-		}
-
 		ExpressionNode expressionNode = internalCommand.getArgument(0);
 		expressionNode.resolveVariables(new EvalInfo(false));
 		if (expressionNode.unwrap().isGeoElement()
 				&& ((GeoElement) expressionNode.unwrap()).getDefinition() != null) {
 			expressionNode = ((GeoElement) expressionNode.unwrap()).getDefinition();
 		}
+
 		StepTransformable expression = StepNode.getStepTree(
 				expressionNode.toOutputValueString(StringTemplate.defaultTemplate),
 				kernel.getParser());
-		int maxRows = c.getArgumentNumber() == 2 ? (int) c.getArgument(1).evaluateDouble() : -1;
 
-		return new AlgoShowSteps(cons, resArgs(c), name, expression, maxRows).getOutput();
+		return new AlgoShowSteps(cons, resArgs(c), name, expression).getOutput();
 	}
 }

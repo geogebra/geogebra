@@ -2045,12 +2045,11 @@ public class CommandsTest extends AlgebraTest {
 		shouldFail("ShowSteps(ConstructionStep())",
 				"Illegal argument: ConstructionStep",
 				app);
-		t("First(ShowSteps(Solve(x^2=-1/4)),16)", "\\begin{array}{l}");
-		t("IndexOf(\"frac{1}{2}\",ShowSteps(Solve(x^2=1/4)))>10", "true");
-		t("First(ShowSteps(Solve(x^2=1/4)),16)", "\\begin{array}{l}");
-		t("First(ShowSteps(Solve(x^2=1/4),3),22)", "\\begin{array}{*{2}{l}}");
+		t("First(ShowSteps(Solve(x^2=-1/4)))", "{\"x^{2} = \\frac{-1}{4}\"}");
+		t("First(ShowSteps(Solve(x^2=1/4)))", "{\"x = \\pm \\sqrt{\\frac{1}{4}}\"}");
+		t("IndexOf(Text(\"x = \\pm \\frac{1}{2}\"),ShowSteps(Solve(x^2=1/4)))>0", "true");
 		t("eq:x*x=1/4", unicode("(-x - 0.5) (-x + 0.5) = 0"));
-		t("IndexOf(\"frac{1}{2}\",ShowSteps(Solve(eq)))>10", "true");
+		t("IndexOf(Text(\"x = \\pm \\frac{1}{2}\"),ShowSteps(Solve(eq)))>0", "true");
 	}
 
 }

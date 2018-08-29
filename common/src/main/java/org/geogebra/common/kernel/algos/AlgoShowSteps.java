@@ -5,7 +5,7 @@ import org.geogebra.common.gui.view.algebra.StepGuiBuilderCmd;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -16,17 +16,15 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 
 	private Commands name;
 	private StepTransformable expression;
-	private int maxRows;
 
-	private GeoText text;
+	private GeoList list;
 
 	public AlgoShowSteps(Construction c, GeoElement[] input, Commands name,
-			StepTransformable expression, int maxRows) {
+			StepTransformable expression) {
 		super(c);
 		this.input = input;
 		this.name = name;
 		this.expression = expression;
-		this.maxRows = maxRows;
 
 		setInputOutput();
 		compute();
@@ -34,17 +32,9 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 
 	@Override
 	protected void setInputOutput() {
-		text = new GeoText(cons);
-		text.setAbsoluteScreenLoc(0, 0);
-		text.setAbsoluteScreenLocActive(true);
+		list = new GeoList(cons);
 
-		text.setLaTeX(true, false);
-
-		// set sans-serif LaTeX default
-		text.setSerifFont(false);
-
-		text.setIsTextCommand(true); // stop editing as text
-		setOnlyOutput(text);
+		setOnlyOutput(list);
 
 		setDependencies();
 	}
@@ -73,17 +63,17 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 					expression.toSolvable().solve(variable, sb);
 					break;
 				case Derivative:
-				StepNode.differentiate((StepExpression) expression, variable)
+					StepNode.differentiate((StepExpression) expression, variable)
 							.differentiate(sb);
 			}
 
-			StepGuiBuilder builder = new StepGuiBuilderCmd(kernel.getLocalization(),
-					maxRows, variable);
-			builder.buildStepGui(sb.getSteps());
+			StepGuiBuilderCmd builder = new StepGuiBuilderCmd(kernel.getLocalization(), list,
+					variable);
 
-			text.setTextString(builder.toString());
+			list.clear();
+			builder.buildStepGui(sb.getSteps());
 		} catch (Exception e) {
-			text.setUndefined();
+			list.setUndefined();
 		}
 	}
 
