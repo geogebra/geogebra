@@ -165,6 +165,13 @@ public abstract class Renderer implements RendererInterface {
 	public boolean waitForSetStencilLines = false;
 	private Runnable export3DRunnable;
 
+	//ARCore
+	private boolean mIsARCoreEnabled = false;
+	private float[] arCameraView;
+	private float[] arModelMatrix;
+	private float[] arCameraPerspective;
+	private float arScaleFactor;
+
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
 	 * 
@@ -846,6 +853,10 @@ public abstract class Renderer implements RendererInterface {
 	 */
 	abstract protected void setMatrixView();
 
+	abstract protected void setProjectionMatrixViewForAR(float[] cameraView,
+														 float[] cameraPerspective,
+														 float[] modelMatrix, float scaleFactor);
+
 	/**
 	 * reset to projection matrix only
 	 */
@@ -860,7 +871,12 @@ public abstract class Renderer implements RendererInterface {
 		drawFaceToScreen();
 
 		// init drawing matrix to view3D toScreen matrix
-		setMatrixView();
+		if (mIsARCoreEnabled){
+			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
+					arScaleFactor);
+		} else {
+			setMatrixView();
+		}
 
 		setLightPosition();
 		setLight(0);
@@ -2006,4 +2022,14 @@ public abstract class Renderer implements RendererInterface {
 		return true;
 	}
 
+	public void setARCoreEnabled(boolean isARCoreEnabled){
+		mIsARCoreEnabled = isARCoreEnabled;
+	}
+
+	public void setARMatrix(float[] cameraView, float[] cameraPerspective, float[] modelMatrix, float scaleFactor){
+		arCameraView = cameraView;
+		arCameraPerspective = cameraPerspective;
+		arModelMatrix = modelMatrix;
+		arScaleFactor = scaleFactor;
+	}
 }

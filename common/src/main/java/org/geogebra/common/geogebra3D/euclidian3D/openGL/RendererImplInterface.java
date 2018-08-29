@@ -172,6 +172,10 @@ public interface RendererImplInterface {
 
 	public abstract void setMatrixView();
 
+    public abstract void setProjectionMatrixViewForAR(float[] cameraView,
+                                                      float[] cameraPerspective,
+                                                      float[] modelMatrix, float scaleFactor);
+
 	public abstract void unsetMatrixView();
 
 	public abstract void pushSceneMatrix();
