@@ -492,28 +492,26 @@ public abstract class RendererImplShaders extends RendererImpl {
         CoordMatrix4x4 mvpMatrixCoord = new CoordMatrix4x4();
         CoordMatrix4x4 scaleMatrix = new CoordMatrix4x4();
         CoordMatrix4x4 cameraViewCoord = new CoordMatrix4x4();
-        CoordMatrix4x4 cameraPerspectiveCoord = new CoordMatrix4x4();
+        CoordMatrix4x4 cameraProjectionCoord = new CoordMatrix4x4();
         CoordMatrix4x4 modelMatrixCoord = new CoordMatrix4x4();
 
         CoordMatrix4x4.identity(mvMatrixCoord);
         CoordMatrix4x4.identity(mvpMatrixCoord);
         cameraViewCoord.setFromGL(cameraView);
-        cameraPerspectiveCoord.setFromGL(cameraView);
-        modelMatrixCoord.setFromGL(cameraView);
+        cameraProjectionCoord.setFromGL(cameraPerspective);
+        modelMatrixCoord.setFromGL(modelMatrix);
 
         CoordMatrix4x4.identity(scaleMatrix);
-        scaleMatrix.set(1,1, scaleFactor);
-        scaleMatrix.set(2,2, scaleFactor);
-        scaleMatrix.set(3,3, scaleFactor);
-        scaleMatrix.set(4,4, 1);
-        mvMatrixCoord.setMul(cameraPerspectiveCoord, scaleMatrix);
+		scaleMatrix.set(1,1, scaleFactor);
+		scaleMatrix.set(2,2, scaleFactor);
+		scaleMatrix.set(3,3, scaleFactor);
+		scaleMatrix.set(4,4, 1);
 
-        mvMatrixCoord.setMul(cameraViewCoord, modelMatrixCoord);
-        mvpMatrixCoord.setMul(cameraPerspectiveCoord, mvpMatrixCoord);
-
-        mvpMatrixCoord.getForGL(tmpFloat16);
-
-        glUniformMatrix4fv(matrixLocation, tmpFloat16);
+		tmpMatrix1.setMul(modelMatrixCoord, scaleMatrix);
+		mvMatrixCoord.setMul(cameraViewCoord, tmpMatrix1);
+		mvpMatrixCoord.setMul(cameraProjectionCoord, mvMatrixCoord);
+		mvpMatrixCoord.getForGL(tmpFloat16);
+		glUniformMatrix4fv(matrixLocation, tmpFloat16);
     }
 
 	@Override
