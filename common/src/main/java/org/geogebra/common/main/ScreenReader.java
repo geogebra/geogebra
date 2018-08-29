@@ -218,9 +218,6 @@ public class ScreenReader {
 
 			@Override
 			public String localize(String key, String... parameters) {
-				if (parameters.length > 0 && "".equals(parameters[0])) {
-					Log.printStacktrace("");
-				}
 				String out = key;
 				for (int i = 0; i < parameters.length; i++) {
 					out = out.replace("%" + i, parameters[i]);

@@ -277,7 +277,7 @@ public abstract class Log {
 	public void log(Level level, String logMessage, int depth) {
 		String message = logMessage;
 		if (message == null) {
-			message = "*null*";
+			message = "<null>";
 		}
 
 		if (logLevel.getPriority() >= level.getPriority()) {
@@ -455,18 +455,6 @@ public abstract class Log {
 	}
 
 	/**
-	 * @param tag
-	 *            arbitrary message tag
-	 * @param message
-	 *            message
-	 */
-	public static void debug(Object tag, String message) {
-		if (logger != null) {
-			logger.log(logger.DEBUG, "[" + tag + "] " + message);
-		}
-	}
-
-	/**
 	 * @param message
 	 *            debug message
 	 * @param depth
@@ -639,10 +627,10 @@ public abstract class Log {
 	 * @param message
 	 *            content to be printed on top of the trace
 	 */
-	public static void printStacktrace(Object message) {
+	public static void printStacktrace(String message) {
 		if (logger != null) {
 			logger.doPrintStacktrace(
-					message == null ? "*null*" : message.toString());
+					message == null ? "<null>" : message);
 		}
 	}
 
