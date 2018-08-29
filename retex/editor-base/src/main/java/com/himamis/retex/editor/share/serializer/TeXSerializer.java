@@ -43,7 +43,7 @@ public class TeXSerializer extends SerializerAdapter {
 		} else if (" ".equals(mathCharacter.getName())) {
 			stringBuilder.append("\\nbsp ");
 		} else if (lineBreakEnabled && 10 == mathCharacter.getName().charAt(0)) {
-			stringBuilder.append("\\\\");
+			stringBuilder.append("\\\\\\vspace{0}");
 		} else {
 			String texName = mathCharacter.getTexName();
 			if (LaTeXUtil.isSymbolEscapeable(texName)) {
