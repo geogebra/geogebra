@@ -903,4 +903,9 @@ public class RendererImplGL2 extends RendererImpl
 	public void attribPointers() {
 		// only needed for shaders
 	}
+
+	public void setProjectionMatrixViewForAR(float[] cameraView,
+			float[] cameraPerspective, float[] modelMatrix, float scaleFactor) {
+		// TODO fill this
+	}
 }
