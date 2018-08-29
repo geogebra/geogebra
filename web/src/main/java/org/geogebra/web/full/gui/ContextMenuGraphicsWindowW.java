@@ -694,8 +694,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		protected void initActions() {
 			addRulingItem("NoRuling", BackgroundType.NONE);
 			addRulingItem("Ruled", BackgroundType.RULER);
-			addRulingItem("Squared5", BackgroundType.SQUARE_BIG);
-			addRulingItem("Squared1", BackgroundType.SQUARE_SMALL);
+			addRulingItem("Squared5", BackgroundType.SQUARE_SMALL);
+			addRulingItem("Squared1", BackgroundType.SQUARE_BIG);
 			addRulingItem("Elementary12", BackgroundType.ELEMENTARY12);
 			addRulingItem("Elementary12WithHouse",
 					BackgroundType.ELEMENTARY12_HOUSE);
