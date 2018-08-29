@@ -243,4 +243,12 @@ public class MathFieldController {
 	public double getFontSize() {
 		return size;
 	}
+
+	/**
+	 * Enables or disables line break in the editor.
+	 */
+	public void setLineBreakEnabled(boolean b) {
+		texSerializer.setLineBeakEnabled(b);
+
+	}
 }

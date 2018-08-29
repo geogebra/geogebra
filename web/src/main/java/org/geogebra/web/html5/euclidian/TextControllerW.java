@@ -110,6 +110,7 @@ public class TextControllerW implements TextController, BlurHandler {
 		mf = new MathFieldW(null, textPanel, canvas, mfListener, false, null);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
+		mf.setLineBreakEnabled(true);
 		mf.setOnBlur(this);
 	}
 

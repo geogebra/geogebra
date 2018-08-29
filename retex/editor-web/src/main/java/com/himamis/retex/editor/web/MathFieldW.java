@@ -191,6 +191,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
+	 * Enables or disables line break in the editor.
+	 */
+	public void setLineBreakEnabled(boolean b) {
+		mathFieldInternal.getMathFieldController().setLineBreakEnabled(b);
+	}
+
+	/**
 	 * Sets aria live property.
 	 */
 	public void setAriaLive() {

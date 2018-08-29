@@ -18,6 +18,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String selection_end = "}";
 
 	private static final String characterMissing = "\\nbsp ";
+	private boolean lineBreakEnabled = false;
 
 	/**
 	 * Creates new TeX serializer
@@ -41,6 +42,8 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\@ ");
 		} else if (" ".equals(mathCharacter.getName())) {
 			stringBuilder.append("\\nbsp ");
+		} else if (lineBreakEnabled && 10 == mathCharacter.getName().charAt(0)) {
+			stringBuilder.append("\\\\");
 		} else {
 			String texName = mathCharacter.getTexName();
 			if (LaTeXUtil.isSymbolEscapeable(texName)) {
@@ -61,6 +64,13 @@ public class TeXSerializer extends SerializerAdapter {
 		if (mathCharacter.isOperator() || mathCharacter.isSymbol()) {
 			stringBuilder.append(' ');
 		}
+	}
+
+	/**
+	 * Enables or disables line break in the editor.
+	 */
+	public void setLineBeakEnabled(boolean b) {
+		lineBreakEnabled = b;
 	}
 
 	@Override
