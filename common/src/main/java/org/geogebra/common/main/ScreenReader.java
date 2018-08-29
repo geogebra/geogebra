@@ -186,7 +186,7 @@ public class ScreenReader {
 	}
 
 	public static String getEndSqrt(Localization loc) {
-		return localize(loc, "endSqrt", "end square root");
+		return " " + localize(loc, "endSqrt", "end square root");
 	}
 
 	public static String getSquared(Localization loc) {
@@ -252,7 +252,8 @@ public class ScreenReader {
 
 			@Override
 			public String squareRoot(String arg) {
-				return ScreenReader.getStartSqrt(loc) + arg + ScreenReader.getEndSqrt(loc);
+				return ScreenReader.getStartSqrt(loc) + arg
+						+ ScreenReader.getEndSqrt(loc);
 			}
 
 			@Override
