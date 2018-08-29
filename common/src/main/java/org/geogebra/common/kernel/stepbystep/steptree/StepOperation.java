@@ -90,8 +90,9 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	}
 
 	private static boolean requiresDot(StepExpression a, StepExpression b) {
-		return b.nonSpecialConstant() || (a instanceof StepVariable && a.equals(b)) ||
-				(b.isOperation(Operation.POWER) &&
+		return b.nonSpecialConstant() || (a instanceof StepVariable && a.equals(b))
+				|| a.isInteger() && b.isFraction()
+				|| (b.isOperation(Operation.POWER) &&
 						requiresDot(a, ((StepOperation) b).getOperand(0)));
 	}
 
