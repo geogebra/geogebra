@@ -42,6 +42,8 @@ public interface GeoGebraConstants {
 
         IOS_SCIENTIFIC("i", "scientific"),
 
+		IOS_CAS("i", "cas"),
+
 		IOS_NATIVE_3D("i", "3D"),
 
 		IOS_WEBVIEW("iw", "classic"),

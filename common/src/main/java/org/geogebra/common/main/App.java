@@ -4895,6 +4895,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			case ANDROID_NATIVE_GRAPHING:
 			case ANDROID_CAS:
 			case IOS_NATIVE:
+			case IOS_CAS:
 			case WEB_GRAPHING:
 				factory = new GraphingToolCollectionFactory();
 				break;
