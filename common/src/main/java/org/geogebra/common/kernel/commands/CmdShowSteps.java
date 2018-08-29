@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
-import org.geogebra.common.util.DoubleUtil;
 
 public class CmdShowSteps extends CommandProcessor {
 
@@ -17,7 +16,7 @@ public class CmdShowSteps extends CommandProcessor {
 	 *
 	 * @param kernel kernel
 	 */
-	public CmdShowSteps(Kernel kernel) {
+	CmdShowSteps(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -51,7 +50,8 @@ public class CmdShowSteps extends CommandProcessor {
 		expressionNode.resolveVariables(new EvalInfo(false));
 
 		StepTransformable expression = StepNode.getStepTree(
-				expressionNode.toOutputValueString(StringTemplate.defaultTemplate), kernel.getParser());
+				expressionNode.toOutputValueString(StringTemplate.defaultTemplate),
+				kernel.getParser());
 		int maxRows = c.getArgumentNumber() == 2 ? (int) c.getArgument(1).evaluateDouble() : -1;
 
 		return new AlgoShowSteps(cons, resArgs(c), name, expression, maxRows).getOutput();
