@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.main.OptionType;
@@ -39,6 +40,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 */
 	protected double py;
 	private GCollapseMenuItem gridCollapseItem;
+	private GCollapseMenuItem rulingCollapseItem;
 
 	/**
 	 * @param app
@@ -71,14 +73,53 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			setTitle(loc.getMenu("DrawingPad"));
 		}
-		if (app.isUnbundledOrWhiteboard()) {
-			addAxesMenuItem(1);
-			addGridMenuItem();
-			addSnapToGridMenuItem();
-			addClearTraceMenuItem();
+		if (!app.isWhiteboardActive()) {
+			if (app.isUnbundled()) {
+				addAxesMenuItem(1);
+				addGridMenuItem();
+				addSnapToGridMenuItem();
+				addClearTraceMenuItem();
+			}
+			addShowAllObjAndStandView();
+		} else {
+			addRulingMenuItem();
+			addBackgroundMenuItem();
 		}
-		addShowAllObjAndStandView();
 		addMiProperties("DrawingPad", ot);
+	}
+
+	private void addRulingMenuItem() {
+		String htmlString = MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.grid_black()
+								.getSafeUri().asString(),
+						loc.getMenu("Ruling"));
+		rulingCollapseItem = new GCollapseMenuItem(htmlString,
+				loc.getMenu("Ruling"),
+				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString(),
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				false, wrappedPopup);
+		wrappedPopup.addItem(rulingCollapseItem);
+		RulingSubmenu rulingSubMenu = new RulingSubmenu(rulingCollapseItem);
+		rulingSubMenu.update();
+		rulingCollapseItem.attachToParent();
+	}
+
+	private void addBackgroundMenuItem() {
+		AriaMenuItem miBackgroundCol = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.color_black()
+								.getSafeUri().asString(),
+						loc.getMenu("BackgroundColor")),
+				true, new Command() {
+
+					public void execute() {
+						// TODO open color chooser dialog
+					}
+				});
+		wrappedPopup.addItem(miBackgroundCol);
 	}
 
 	private void addClearTraceMenuItem() {
@@ -586,6 +627,66 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				@Override
 				public void execute() {
 					setGridType(EuclidianView.GRID_NOT_SHOWN);
+				}
+			}, false);
+		}
+
+		@Override
+		public void update() {
+			// do nothing now
+		}
+	}
+
+	/**
+	 * expand/collapse menu item with ruling types
+	 * 
+	 * @author csilla
+	 *
+	 */
+	public class RulingSubmenu extends CheckMarkSubMenu {
+		/**
+		 * @param parentMenu
+		 *            - parent menu item
+		 */
+		public RulingSubmenu(GCollapseMenuItem parentMenu) {
+			super(parentMenu);
+		}
+
+		@Override
+		protected void initActions() {
+			addRulingItem("NoRuling", BackgroundType.NONE);
+			addRulingItem("Ruled", BackgroundType.RULER);
+			addRulingItem("Squared5", BackgroundType.SQUARE_BIG);
+			addRulingItem("Squared1", BackgroundType.SQUARE_SMALL);
+			addRulingItem("Elementary12", BackgroundType.ELEMENTARY12);
+			addRulingItem("Elementary12WithHouse",
+					BackgroundType.ELEMENTARY12_HOUSE);
+			addRulingItem("Elementary34", BackgroundType.ELEMENTARY34);
+			addRulingItem("Music", BackgroundType.MUSIC);
+		}
+
+		/**
+		 * @param rulingType
+		 *            new ruling type (see BackgroundType)
+		 */
+		protected void setRulingType(BackgroundType rulingType) {
+			app.getSettings().getEuclidian(1).setRulerType(rulingType.value());
+			// app.getActiveEuclidianView().setGridType(gridType);
+			app.getActiveEuclidianView().repaintView();
+			app.storeUndoInfo();
+			wrappedPopup.hideMenu();
+		}
+
+		private void addRulingItem(String key,
+				final BackgroundType rulingType) {
+			String text = app.getLocalization().getMenu(key);
+			boolean isSelected = app.getSettings().getEuclidian(1)
+					.getBackgroundType() == rulingType;
+			addItem(text, isSelected, new Command() {
+
+				@Override
+				public void execute() {
+					setRulingType(rulingType);
 				}
 			}, false);
 		}

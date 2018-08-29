@@ -363,7 +363,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			}
 
 			lbRulerType = new ListBox();
-			lblRulerType = new FormLabel("Ruling").setFor(lbRulerType);
+			lblRulerType = new FormLabel(loc.getMenu("Ruling"))
+					.setFor(lbRulerType);
 			lbRulerType.addChangeHandler(new ChangeHandler() {
 
 				@Override
