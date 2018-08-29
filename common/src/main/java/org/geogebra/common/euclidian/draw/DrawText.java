@@ -214,6 +214,7 @@ public final class DrawText extends Drawable {
 					g2.setStroke(rectangleStroke);
 					g2.setPaint(EDITOR_BORDER_COLOR);
 					g2.draw(getBounds());
+					boundingBox.setRectangle(getBounds());
 				} else {
 					g2.setPaint(geo.getObjectColor());
 					drawMultilineText(g2, textFont);
