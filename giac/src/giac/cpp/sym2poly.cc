@@ -1930,7 +1930,7 @@ namespace giac {
     }
     for (;it!=itend;++it,++l_it){
       if ((*it))
-	res->v.push_back(pow(*l_it,*it,contextptr));
+	res->v.push_back(pow(*l_it,*it,contextptr)); // change for normal(abs(z)^2), was pow(*l_it,*it)
     }
     if (res->v.empty()){
       delete_ref_vecteur(res);

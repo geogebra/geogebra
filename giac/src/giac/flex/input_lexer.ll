@@ -261,7 +261,7 @@
 	/* Abbreviations */
 D	[0-9]
 E	[eE][eE]?[-+]?{D}+
-A	[a-zA-Z~\200-\355\357-\376] 
+A	[a-zA-Z\200-\355\357-\376] 
 AN	[0-9a-zA-Z_~ ?\200-\355\357-\376] 
         /* If changed, modify isalphan in help.cc FIXME is . allowed inside alphanumeric ? answer NO */
 %x comment
@@ -506,7 +506,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "--"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 "-="                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
 ".+"                    index_status(yyextra)=0; (*yylval)=gen(at_pointplus,2); return T_PLUS;
-"&"                     index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
+"&"                     index_status(yyextra)=0; (*yylval)=gen((python_compat(yyextra)?at_bitor:at_plus),2); return T_PLUS;
+"~"                     index_status(yyextra)=0; (*yylval)=gen(at_bitnot,1); return T_NOT;
 "√"                     index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
 "∡"                     index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
 "²"                     index_status(yyextra)=1; (*yylval)=2; return T_SQ;

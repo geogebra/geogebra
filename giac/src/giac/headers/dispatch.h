@@ -593,6 +593,7 @@ namespace giac {
     _GT_WEIGHTED = 147, // weighted
     _GT_WEIGHTS = 148, // weights
     _GT_BIPARTITE = 149, // bipartite
+    _GT_ACYCLIC = 150, // acyclic
   };
 
   enum mupad_operator {

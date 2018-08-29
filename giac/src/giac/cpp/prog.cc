@@ -8506,6 +8506,8 @@ namespace giac {
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return symbolic(at_tilocal,args);
     vecteur & v=*args._VECTptr;
+    if (v[1].type==_INT_)
+      return _bitor(args,contextptr);
     if (is_equal(v.front()))
       return symb_equal(_tilocal(makesequence((v.front()._SYMBptr->feuille)[0],v.back()),contextptr),_tilocal(makesequence((v.front()._SYMBptr->feuille)[1],v.back()),contextptr));
     // find local variables

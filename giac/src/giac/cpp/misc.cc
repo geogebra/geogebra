@@ -5301,7 +5301,6 @@ static define_unary_function_eval (__bitor,&_bitor,_bitor_s);
 static define_unary_function_eval (__bitxor,&_bitxor,_bitxor_s);
   define_unary_function_ptr5( at_bitxor ,alias_at_bitxor,&__bitxor,0,true);
 
-  /*
   gen _bitnot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_INT_)
@@ -5316,7 +5315,6 @@ static define_unary_function_eval (__bitxor,&_bitxor,_bitxor_s);
   static const char _bitnot_s []="bitnot";
   static define_unary_function_eval (__bitnot,&_bitnot,_bitnot_s);
   define_unary_function_ptr5( at_bitnot ,alias_at_bitnot,&__bitnot,0,true);
-  */
 
   gen _hamdist(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -8663,6 +8661,39 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _dtype_s []="dtype";
   static define_unary_function_eval (__dtype,&_dtype,_dtype_s);
   define_unary_function_ptr5( at_dtype ,alias_at_dtype,&__dtype,0,true);
+
+  gen _rgb(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->size()<3)
+      return gensizeerr(contextptr);
+    const vecteur & v=*args._VECTptr;
+    gen a=v[0],b=v[1],c=v[2];
+    if (a.type==_DOUBLE_ || b.type==_DOUBLE_ || c.type==_DOUBLE_){
+      a=_floor(256*a,contextptr);
+      b=_floor(256*b,contextptr);
+      c=_floor(256*c,contextptr);
+    }
+    if (a.type==_INT_ && b.type==_INT_ && c.type==_INT_ && a.val>=0 && a.val<256 && b.val>=0 && b.val<256 && c.val>=0 && c.val<256 ){
+      int d=0;
+      if (v.size()==4 && (v.back()==888 || v.back()==at_pixon || v.back()==at_set_pixel)){
+	d=(a.val<<16)|(b.val<<8)|c.val;
+	if (d>0 && d<512) 
+	  d += (1<<16);
+      }
+      else {
+	if (v.size()==4 && v.back()!=565)
+	  return gensizeerr(contextptr);
+	d=(((a.val*32)/256)<<11) | (((b.val*64)/256)<<5) | ((c.val*32)/256);
+	if (d>0 && d<512){
+	  d += (1<<11);
+	}
+      }
+      return d;
+    }
+    return gensizeerr(contextptr);
+  }
+  static const char _rgb_s []="rgb";
+  static define_unary_function_eval (__rgb,&_rgb,_rgb_s);
+  define_unary_function_ptr5( at_rgb ,alias_at_rgb,&__rgb,0,true);
 
 #ifdef EMCC_FETCH
   // with emscripten 1.37.28, it does not work

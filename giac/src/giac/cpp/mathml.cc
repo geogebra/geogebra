@@ -671,9 +671,15 @@ namespace giac {
       return "white";
     }
     int r,g,b;
-    if (color>=0x100 && color<0x17e)
+    if (color>=0x100 && color<0x17e){
       color -= 0x100;
-    arc_en_ciel(color,r,g,b);
+      arc_en_ciel(color,r,g,b);
+    } else {
+      r=8*((color>>11)&0x1f);
+      g=4*((color>>5) &0x3f);
+      b=8*(color & 0x1f);
+      //CERR << color << " " << r << " " << g << " " << b << endl;
+    }
     return "rgb("+print_INT_(r)+","+print_INT_(g)+","+print_INT_(b)+")";
   }
 

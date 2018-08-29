@@ -237,6 +237,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_histogram;
   extern const unary_function_ptr * const  at_bitand;
   extern const unary_function_ptr * const  at_bitor;
+  extern const unary_function_ptr * const  at_bitnot;
   extern const unary_function_ptr * const  at_bitxor;
   extern const unary_function_ptr * const  at_hamdist;
   matrice effectifs(const vecteur & v,double class_minimum,double class_size,GIAC_CONTEXT);
