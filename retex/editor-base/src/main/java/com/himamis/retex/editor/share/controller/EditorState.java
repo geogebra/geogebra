@@ -338,8 +338,18 @@ public class EditorState {
 
 		if (next != null) {
 			sb.append(describeNext(next, er));
+		} else if (endOfFunctionName()) {
+			sb.append(
+					er.localize(ExpRelation.BEFORE.toString(), "parenthesis"));
 		}
 		return sb.toString().trim();
+	}
+
+	private boolean endOfFunctionName() {
+		return currentField.getParent() instanceof MathFunction
+				&& ((MathFunction) currentField.getParent())
+						.getName() == Tag.APPLY
+				&& currentField.getParentIndex() == 0;
 	}
 
 	private String describePrev(MathComponent parent, ExpressionReader er) {
