@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -64,7 +63,6 @@ public final class DrawText extends Drawable {
 	private BoundingBox boundingBox;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
-	private TextController ctrl;
 
 	/**
 	 * Creates new DrawText
@@ -77,7 +75,6 @@ public final class DrawText extends Drawable {
 	public DrawText(EuclidianView view, GeoText text) {
 		this.view = view;
 		this.text = text;
-		ctrl = view.getEuclidianController().getTextController();
 		geo = text;
 
 		textFont = view.getApplication().getPlainFontCommon()
