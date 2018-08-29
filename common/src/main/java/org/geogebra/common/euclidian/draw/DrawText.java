@@ -239,19 +239,23 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	protected void doDrawMultilineText(GGraphics2D g2, GFont textFont) {
-		double translateX = getBounds().getMinX();
-		double translateY = getBounds().getMinY();
-		g2.saveTransform();
-		g2.translate(translateX, translateY);
-		g2.scale(scaleX, scaleY);
-		g2.translate(-translateX, -translateY);
-		EuclidianStatic.drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2,
-				isSerif(), textFont, labelRectangle);
-		g2.restoreTransform();
-		labelRectangle.setBounds((int) labelRectangle.getMinX(), (int) labelRectangle.getMinY(),
+	protected void doDrawMultilineText(GGraphics2D g2, GFont tFont) {
+		if (isWhiteboardText()) {
+			double translateX = getBounds().getMinX();
+			double translateY = getBounds().getMinY();
+			g2.saveTransform();
+			g2.translate(translateX, translateY);
+			g2.scale(scaleX, scaleY);
+			g2.translate(-translateX, -translateY);
+			EuclidianStatic.drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2,
+					isSerif(), tFont, labelRectangle);
+			g2.restoreTransform();
+			labelRectangle.setBounds((int) labelRectangle.getMinX(), (int) labelRectangle.getMinY(),
 				(int) (labelRectangle.getWidth() * scaleX),
 				(int) (labelRectangle.getHeight() * scaleY));
+		} else {
+			super.doDrawMultilineText(g2, tFont);
+		}
 	}
 
 	/**
