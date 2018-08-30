@@ -179,9 +179,13 @@ public final class DrawText extends Drawable {
 					-labelRectangle.getHeight() * view.getInvYscale());
 		}
 
-		if (isWhiteboardText() && boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
+		if (text.isEditMode()) {
+			adjustBoundingBoxToText();
 		}
+
+		// if (isWhiteboardText() && boundingBox != null) {
+		// boundingBox.setRectangle(getBounds());
+		// }
 	}
 
 	@Override
@@ -213,13 +217,9 @@ public final class DrawText extends Drawable {
 						bg != null ? bg : view.getBackgroundCommon());
 			} else {
 				if (text.isEditMode()) {
-					// just measuring in edit mode
-					drawMultilineText(view.getTempGraphics2D(textFont), textFont);
-
 					g2.setStroke(rectangleStroke);
 					g2.setPaint(EDITOR_BORDER_COLOR);
 					g2.draw(getBounds());
-					boundingBox.setRectangle(getBounds());
 				} else {
 					g2.setPaint(geo.getObjectColor());
 					drawMultilineText(g2, textFont);
@@ -236,6 +236,14 @@ public final class DrawText extends Drawable {
 
 		}
 
+	}
+
+	private void adjustBoundingBoxToText() {
+		// just measuring in edit mode
+		drawMultilineText(view.getTempGraphics2D(textFont), textFont);
+		if (boundingBox != null) {
+			boundingBox.setRectangle(getBounds());
+		}
 	}
 
 	@Override
@@ -345,8 +353,8 @@ public final class DrawText extends Drawable {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
 				boundingBox = new BoundingBox(false);
+				boundingBox.setRectangle(getBounds());
 			}
-			boundingBox.setRectangle(getBounds());
 			return boundingBox;
 		}
 		return null;
