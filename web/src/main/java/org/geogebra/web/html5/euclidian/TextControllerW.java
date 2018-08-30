@@ -130,6 +130,7 @@ public class TextControllerW implements TextController, BlurHandler {
 			return null;
 		}
 		GeoText t = app.getKernel().getAlgebraProcessor().text("");
+		app.getSelectionManager().addSelectedGeo(t);
 		t.setEditMode(true);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);

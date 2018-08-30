@@ -9313,7 +9313,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		Drawable d = view.getBoundingBoxHandlerHit(
 				new GPoint(event.getX(), event.getY()), event.getType());
-		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode)
+				|| mode == EuclidianConstants.MODE_MEDIA_TEXT && app.has(Feature.MOW_TEXT_TOOL)) {
 			// for now allow only corner handlers
 			if (d != null && view
 					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
