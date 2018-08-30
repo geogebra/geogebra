@@ -126,9 +126,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 * @param args
 	 *            table formating, see parseArgs()
 	 */
-	public AlgoTableText(Construction cons, String label, GeoList geoList,
+	public AlgoTableText(Construction cons, GeoElement[] input, String label, GeoList geoList,
 			GeoText args) {
-		this(cons, geoList, args);
+		this(cons, input, geoList, args);
 		text.setLabel(label);
 	}
 
@@ -140,8 +140,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 * @param args
 	 *            table formating, see parseArgs()
 	 */
-	AlgoTableText(Construction cons, GeoList geoList, GeoText args) {
+	AlgoTableText(Construction cons, GeoElement[] input, GeoList geoList, GeoText args) {
 		super(cons);
+		this.input = input;
 		this.geoList = geoList;
 		this.args = args;
 
@@ -167,15 +168,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 	@Override
 	protected void setInputOutput() {
-		if (args == null) {
-			input = new GeoElement[1];
-			input[0] = geoList;
-		} else {
-			input = new GeoElement[2];
-			input[0] = geoList;
-			input[1] = args;
-		}
-
 		super.setOutputLength(1);
 		super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
