@@ -596,7 +596,8 @@ public abstract class DockPanelW extends ResizeComposite
 			graphicsContextMenuBtn
 					.addFastClickHandler(graphicsContextMenuHandler);
 			graphicsContextMenuBtn.addStyleName("flatButton");
-			graphicsContextMenuBtn.addStyleName("graphicsContextMenuBtn");
+			graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
+					? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 			titleBarPanelContent.add(graphicsContextMenuBtn);
 			graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
 			graphicsContextMenuBtn.addTabHandler(this);

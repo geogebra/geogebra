@@ -5,11 +5,12 @@
 	
 	.TitleBarPanel {
 		z-index: $always_on_top;	
+		padding: 0px !important;
 	}
 	
 	.MatTitleBarPanelContent {
 		min-width: 48px;
-		min-height: 48px;
+		min-height: 36px;
 		box-shadow: none !important;
 		padding: 0px !important;
 		background-color: transparent !important;
@@ -20,6 +21,7 @@
 		margin-right: 10px;	
 		position: relative;
 		right: 0px;
+		border-radius: 50%;
 		img {
 			opacity: 0.54;
 		}
@@ -30,6 +32,15 @@
 				
 		img {
 			opacity: 0.84;	
+		}
+	}
+
+	.button.flatButton.graphicsContextMenuBtn.mow.button-up-hovering {
+		@extend .button-up;
+			
+		background-color: $mow_card_background_hover;
+		img {
+			opacity: 1;	
 		}
 	}
 
