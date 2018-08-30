@@ -404,9 +404,11 @@
     	bottom: 8px !important;
     	right: 16px !important;
     }
-    .zommPanelMow {
-    	margin-bottom: 8px;
-    	right: 16px !important;
+    .mowZoomPanel {
+    	margin-top: 48px!important;
+	    left: auto !important;
+	    z-index: 60;
+	    right: 22px !important;
     }
 	.zoomPanelWithPageControl {
 		margin-bottom: 64px;

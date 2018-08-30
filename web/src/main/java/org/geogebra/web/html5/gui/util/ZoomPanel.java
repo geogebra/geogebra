@@ -308,7 +308,7 @@ public class ZoomPanel extends FlowPanel
 	private static boolean needsZoomButtons(AppW app) {
 		return (app.getArticleElement().getDataParamShowZoomButtons()
 				|| app.getArticleElement().getDataParamApp())
-				&& app.isShiftDragZoomEnabled();
+				&& app.isShiftDragZoomEnabled() && !app.isWhiteboardActive();
 	}
 
 	/**
