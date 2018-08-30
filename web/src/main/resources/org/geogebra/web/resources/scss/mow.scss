@@ -515,25 +515,31 @@
 ******************/
 
 	.mowOpenMenuButton {
-		position: absolute;
-		top: 4px;
-		left: 0px;
-		margin-left: 4px;
-		z-index: 99;
+    	position: absolute;
+    	top: 0px;
+    	padding: 6px;
+    	margin: 10px 6px 6px 10px;
+    	left: 0px;
+    	z-index: 99;
+    	border-radius: 50%;
+    	width: 24px;
+    	height: 24px;
+    	cursor: pointer;
+		
 		img{
-			margin: 6px;
-		    padding: 6px;
 		    width: 24px;
 		    height: 24px;
-		    cursor: pointer;
 		}
 	}
 	.mowOpenMenuButton.button-up{
-			opacity: 0.54;
-		}
+		opacity: 0.54;
+	}
 	.mowOpenMenuButton.button-up-hovering{
-			opacity: 0.8;
-		}
+		img { 
+		  opacity: 1;
+		 }
+		 background-color: $mow_card_background_hover;
+	}
 	
 	.mowMenubar {
 		  position: absolute;
