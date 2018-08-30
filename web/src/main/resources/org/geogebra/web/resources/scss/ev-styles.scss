@@ -500,6 +500,16 @@
 	.undoRedoPositionMow {
 		top: 0px;
 		left: 40px;
+		.flatButton {
+			border-radius: 50%;	
+			
+			&.buttonActive:hover {
+				img { 
+		  			opacity: 1;
+		  		}
+		  		background-color: $mow_card_background_hover;
+			}
+		}
 	}
 	.fullscreen-ipad {
 		position: absolute;
