@@ -40,12 +40,18 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		injectLTRstyles();
 	}
 
+	/**
+	 * Inject UI styles for LTR languages.
+	 */
 	public static void injectLTRstyles() {
 		StyleInjector.inject(GuiResources.INSTANCE.generalStyleLTR());
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleLTR());
 		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyleLTR());
 	}
 
+	/**
+	 * Inject UI styles for RTL languages.
+	 */
 	public static void injectRTLstyles() {
 		StyleInjector.inject(GuiResources.INSTANCE.generalStyleRTL());
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleRTL());

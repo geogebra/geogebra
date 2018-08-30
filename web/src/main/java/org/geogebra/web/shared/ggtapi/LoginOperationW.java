@@ -116,4 +116,9 @@ public class LoginOperationW extends LogInOperation {
 	public void showLoginDialog() {
 		((SignInButton) app.getLAF().getSignInButton(app)).login();
 	}
+
+	@Override
+	public boolean hasLoginButton() {
+		return StringUtil.empty(app.getArticleElement().getParamLoginURL());
+	}
 }

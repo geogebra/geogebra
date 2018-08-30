@@ -195,4 +195,12 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		// only in web
 	}
 
+	/**
+	 * @return whether login/logout button should be inside the app
+	 */
+	public boolean hasLoginButton() {
+		// only in web
+		return true;
+	}
+
 }

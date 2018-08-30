@@ -486,7 +486,8 @@ public class MainMenu extends FlowPanel
 
 	@Override
 	public void render(boolean online) {
-		if (!app.enableFileFeatures()) {
+		if (!app.enableFileFeatures() || (app.getLoginOperation() != null
+				&& !app.getLoginOperation().hasLoginButton())) {
 			return;
 		}
 		removeUserSignIn();

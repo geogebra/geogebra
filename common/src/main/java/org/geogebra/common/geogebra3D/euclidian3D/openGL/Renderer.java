@@ -2021,10 +2021,20 @@ public abstract class Renderer implements RendererInterface {
 		return true;
 	}
 
-	public void setARCoreEnabled(boolean isARCoreEnabled){
+	public void setARCoreEnabled(boolean isARCoreEnabled) {
 		mIsARCoreEnabled = isARCoreEnabled;
 	}
 
+	/**
+	 * @param cameraView
+	 *            camera view flattened matrix
+	 * @param cameraPerspective
+	 *            camera perspective flattened matrix
+	 * @param modelMatrix
+	 *            model flattened matrix
+	 * @param scaleFactor
+	 *            scale factor
+	 */
 	public void setARMatrix(float[] cameraView, float[] cameraPerspective, float[] modelMatrix,
 			float scaleFactor) {
 		arCameraView = cameraView;
