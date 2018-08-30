@@ -265,11 +265,7 @@ public abstract class DrawEquation implements DrawEquationI {
 				Log.debug("LaTeX parse exception2: " + e2.getMessage() + "\n"
 						+ text);
 				formula = TeXFormula
-						.getPartialTeXFormula(
-								"\\text{"
-										+ app.getLocalization().getError(
-												"CAS.GeneralErrorMessage")
-										+ "}");
+						.getPartialTeXFormula("?");
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, style, fgColor);
 			}
