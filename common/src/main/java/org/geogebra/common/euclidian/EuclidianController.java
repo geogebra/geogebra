@@ -3421,7 +3421,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
+	private boolean hitTextTool(boolean edit) {
+		if (!app.has(Feature.MOW_TEXT_TOOL)) {
+			return false;
+		}
+
+		Hits ret = view.getHits().createNewHits();
+		if (view.getHits().containsGeoText(ret)) {
+			GeoText text = (GeoText) (ret.get(0));
+			if (edit && !text.isEditMode()) {
+				getTextController().edit(text);
+			}
+			return true;
+		}
+		return false;
+	}
 	protected final boolean text(Hits hits, boolean selPreview) {
+		if (hitTextTool(false)) {
+			return false;
+		}
 		GeoPointND loc = null; // location
 		boolean rw = true;
 
@@ -3448,6 +3466,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// got location
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
+			if (wasBoundingBoxHit) {
+				return false;
+			}
+
 			GeoText t = getTextController().createText(loc, rw);
 			if (t != null) {
 				memorizeJustCreatedGeos(t.asArray());
@@ -6769,8 +6791,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoElement geo0 = hits.get(0);
 
 				if (app.has(Feature.MOW_TEXT_TOOL) && geo0.isGeoText()) {
+
 					getTextController().edit((GeoText) geo0);
-				} else if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+				} else if (geo0.isGeoNumeric()
+						&& ((GeoNumeric) geo0).isSlider()) {
 					// double-click slider -> Object Properties
 					getDialogManager().showPropertiesDialog(hits);
 				} else if (!geo0.isProtected(EventType.UPDATE)
@@ -9173,6 +9197,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		setMoveModeForFurnitures();
 
+		if (hitTextTool(true)) {
+			return;
+		}
+
 		AutoCompleteTextField tf = view.getTextField();
 		if (tf != null && tf.hasFocus()) {
 			view.requestFocusInWindow();
@@ -9919,6 +9947,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			dl.onMouseUp(event.getX(), event.getY());
 			return;
 		}
+
 		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
 			view.setPreview(null);
 			if (firstSelectedPoint != null
