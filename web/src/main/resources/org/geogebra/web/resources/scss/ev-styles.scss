@@ -18,7 +18,7 @@
 	.button.flatButton.graphicsContextMenuBtn.button-up {
 		margin-top: 10px;
 		margin-right: 10px;	
-		position: absolute;
+		position: relative;
 		right: 0px;
 		img {
 			opacity: 0.54;
@@ -414,11 +414,15 @@
 	    	position: relative;
 		    margin: 6px;
 		    padding: 6px;
-		    opacity: 0.54;
 		    cursor: pointer;
+		    border-radius: 50%;
+		    width: 24px;
+    		height: 24px;
 		    
 		    &.zoomPanelBtnSmall {
 		    	padding: 8px;	
+		    	width: 20px;
+    			height: 20px;
 		    	
 		    	img {
 		    		width: 20px;
@@ -428,8 +432,16 @@
 		   
 		   img {
 		   		width: 24px;
-				height: 24px;		    	
+				height: 24px;	
+				opacity: 0.54;	    	
 		   }
+		  
+		  	&:hover {
+		  		img { 
+		  			opacity: 1;
+		  		}
+		  		background-color: $mow_card_background_hover;
+		  	}
 		}
     }
 	.zoomPanelWithPageControl {
