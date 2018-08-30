@@ -1729,7 +1729,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (app.getLoginOperation() != null
 				&& app.getLoginOperation().getModel() != null) {
 
-			app.getLoginOperation().getModel().clearLoginToken();
+			app.getLoginOperation().performLogOut();
 		}
 	}
 
