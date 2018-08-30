@@ -269,13 +269,14 @@ public class ToolCategorization {
             default:
 			category = Category.BASIC;
 			tools = new ArrayList<>();
-                addToList(tools, EuclidianConstants.MODE_MOVE);
-                addToList(tools, EuclidianConstants.MODE_POINT);
-                addToList(tools, EuclidianConstants.MODE_SLIDER);
-                addToList(tools, EuclidianConstants.MODE_INTERSECT);
-                addToList(tools, EuclidianConstants.MODE_EXTREMUM);
-                addToList(tools, EuclidianConstants.MODE_ROOTS);
-                if (!isPhoneApp) {
+			addToList(tools, EuclidianConstants.MODE_MOVE);
+			addToList(tools, EuclidianConstants.MODE_POINT);
+			addToList(tools, EuclidianConstants.MODE_SLIDER);
+			addToList(tools, EuclidianConstants.MODE_INTERSECT);
+			addToList(tools, EuclidianConstants.MODE_EXTREMUM);
+			addToList(tools, EuclidianConstants.MODE_ROOTS);
+			addToList(tools, EuclidianConstants.MODE_FITLINE);
+			if (!isPhoneApp) {
                    // addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
                 }
                 storeIfNotEmpty(category, tools);
@@ -431,7 +432,6 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
 		addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
 		addToList(tools, EuclidianConstants.MODE_POLYLINE);
-		addToList(tools, EuclidianConstants.MODE_FITLINE);
         storeIfNotEmpty(category, tools);
 
 		category = Category.POLYGONS;
