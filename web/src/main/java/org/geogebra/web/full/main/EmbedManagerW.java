@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -227,8 +228,11 @@ public class EmbedManagerW implements EmbedManager {
 			GeoElement geo = it.next();
 			if (geo instanceof GeoEmbed) {
 				int id = ((GeoEmbed) geo).getEmbedID();
-				((GgbFile) archiveContent).put("embed_" + id + ".json",
-						content.get(id));
+				String encoded = content.get(id);
+				if (!StringUtil.empty(encoded)) {
+					((GgbFile) archiveContent).put("embed_" + id + ".json",
+							encoded);
+				}
 			}
 		}
 	}
