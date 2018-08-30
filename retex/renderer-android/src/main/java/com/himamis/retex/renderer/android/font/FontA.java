@@ -3,7 +3,9 @@ package com.himamis.retex.renderer.android.font;
 import android.graphics.Typeface;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 import java.util.Map;
 
@@ -67,6 +69,11 @@ public class FontA implements Font {
 	public int getScale() {
 		return 1;
 	}
+
+    @Override
+    public Shape getGlyphOutline(FontRenderContext frc, String valueOf) {
+        return null;
+    }
 
 
 }

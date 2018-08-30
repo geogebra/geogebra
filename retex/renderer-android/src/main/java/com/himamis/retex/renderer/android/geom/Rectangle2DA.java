@@ -31,6 +31,11 @@ public class Rectangle2DA implements Rectangle2D {
 		return mRect;
 	}
 
+	@Override
+	public Rectangle2D getBounds2DX() {
+		return this;
+	}
+
 	public double getX() {
 		return mRect.left;
 	}
