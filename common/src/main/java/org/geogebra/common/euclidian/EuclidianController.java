@@ -7904,88 +7904,86 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		int distY = event.getY() - lastMouseLoc.getY();
 
 		GRectangle2D boundingBoxRect = view.getBoundingBox().getRectangle();
+		
+		double bbWidth = boundingBoxRect.getWidth(),
+				bbHeight = boundingBoxRect.getHeight(),
+				bbMinX = boundingBoxRect.getMinX(),
+				bbMinY = boundingBoxRect.getMinY();
+
+		switch (handler) {
+		case RIGHT:
+			bbWidth += distX;
+			break;
+		case LEFT:
+			bbWidth -= distX;
+			bbMinX += distX;
+			break;
+		}
+		switch (handler) {
+		case TOP:
+			bbHeight -= distY;
+			bbMinY += distY;
+			break;
+		case BOTTOM:
+			bbHeight += distY;
+			break;
+		}
 
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
-			Drawable dr = (Drawable) view
-					.getDrawableFor(geo);
+			Drawable dr = (Drawable) view.getDrawableFor(geo);
 
 			if (dr.getBounds() != null && dr.getBoundingBox() != null
 					&& dr.getBoundingBox().getNrHandlers() == 8) {
-				double newMinX = 0, newMaxX = 0,
-						bbWidth = boundingBoxRect.getWidth(),
-						bbMinX = boundingBoxRect.getMinX();
-
-				double newMinY = 0, newMaxY = 0,
-						bbHeight = boundingBoxRect.getHeight(),
-						bbMinY = boundingBoxRect.getMinY();
-
 				// we calculate the position of min / max points relative to the
-				// bounding box minX and width
+				// old bounding box minX and width
 				double minXRatio = (dr.getBounds().getMinX()
-						- bbMinX)
-						/ bbWidth,
+						- boundingBoxRect.getMinX())
+						/ boundingBoxRect.getWidth(),
 						maxXRatio = (dr.getBounds().getMaxX()
-								- bbMinX)
-								/ bbWidth;
+								- boundingBoxRect.getMinX())
+								/ boundingBoxRect.getWidth();
 
-				double minYRatio = (dr.getBounds().getMinY() - bbMinY)
-						/ bbHeight,
-						maxYRatio = (dr.getBounds().getMaxY() - bbMinY)
-								/ bbHeight;
+				double minYRatio = (dr.getBounds().getMinY()
+						- boundingBoxRect.getMinY())
+						/ boundingBoxRect.getHeight(),
+						maxYRatio = (dr.getBounds().getMaxY()
+								- boundingBoxRect.getMinY())
+								/ boundingBoxRect.getHeight();
 
-				// update bounding box values & calculate positions relative to
-				// it
-				switch (handler) {
-				case RIGHT:
-					bbWidth += distX;
-					break;
-				case LEFT:
-					bbWidth -= distX;
-					bbMinX += distX;
-					break;
-				default:
-					break;
-				}
-				newMinX = bbWidth * minXRatio;
-				newMaxX = bbWidth * maxXRatio;
-
-				switch (handler) {
-				case TOP:
-					bbHeight -= distY;
-					bbMinY += distY;
-					break;
-				case BOTTOM:
-					bbHeight += distY;
-					break;
-				default:
-					break;
-				}
-				newMinY = bbHeight * minYRatio;
-				newMaxY = bbHeight * maxYRatio;
+				// calculate positions relative to it
+				double newMinX = bbWidth * minXRatio,
+						newMaxX = bbWidth * maxXRatio,
+						newMinY = bbHeight * minYRatio,
+						newMaxY = bbHeight * maxYRatio;
 
 				// resize to new width
-				double oldMaxX = dr.getBounds().getMinX() + (newMaxX - newMinX),
-						oldMaxY = dr.getBounds().getMinY()
+				double maxXFromOld = dr.getBounds().getMinX()
+						+ (newMaxX - newMinX),
+						maxYFromOld = dr.getBounds().getMinY()
 								+ (newMaxY - newMinY);
-				GPoint2D point = AwtFactory.getPrototype()
-						.newPoint2D(oldMaxX, oldMaxY);
 				// this is temporary until we get rid of previews
-				dr.updateByBoundingBoxResize(point,
-						EuclidianBoundingBoxHandler.RIGHT);
-				dr.updateGeo(point);
-
-				dr.updateByBoundingBoxResize(point,
-						EuclidianBoundingBoxHandler.BOTTOM);
-				dr.updateGeo(point);
+				GPoint2D point = AwtFactory.getPrototype()
+						.newPoint2D(maxXFromOld, maxYFromOld);
+				if (point.getX() != 0) {
+					dr.updateByBoundingBoxResize(point,
+							EuclidianBoundingBoxHandler.RIGHT);
+					dr.updateGeo(point);
+				}
+				if (point.getY() != 0) {
+					dr.updateByBoundingBoxResize(point,
+							EuclidianBoundingBoxHandler.BOTTOM);
+					dr.updateGeo(point);
+				}
 
 				// calculate the difference between the new and old positions
 				// (minX) and then apply translate
 				double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
 						dy = newMinY + bbMinY - dr.getBounds().getMinY();
-				((Translateable) geo)
-						.translate(new Coords(dx / view.getXscale(),
-								-dy / view.getYscale()));
+				if (dx != 0 || dy != 0) {
+					((Translateable) geo).translate(new Coords(
+							dx / view.getXscale(), -dy / view.getYscale()));
+				}
 			}
 		}
 	}

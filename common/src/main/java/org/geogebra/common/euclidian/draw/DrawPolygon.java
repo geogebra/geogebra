@@ -774,7 +774,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		fixCornerCoords(hitHandler);
 
 		if (!Double.isNaN(fixCornerX)) {
-			int width = (int) (point.getX() - fixCornerX);
+			double width = point.getX() - fixCornerX;
 			double[] currCoords = new double[6];
 			GPathIterator it = gp.getPathIterator(null);
 			int i = poly.getPointsLength();
@@ -791,7 +791,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 
 		if (!Double.isNaN(fixCornerY)) {
-			int height = (int) (point.getY() - fixCornerY);
+			double height = point.getY() - fixCornerY;
 			double[] currCoords = new double[6];
 			GPathIterator it = gp.getPathIterator(null);
 			int i = poly.getPointsLength();
