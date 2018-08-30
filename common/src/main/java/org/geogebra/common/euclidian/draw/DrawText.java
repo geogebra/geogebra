@@ -348,7 +348,6 @@ public final class DrawText extends Drawable {
 			}
 			boundingBox.setRectangle(getBounds());
 			return boundingBox;
-
 		}
 		return null;
 	}
@@ -359,7 +358,7 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		double minX = boundingBox.getRectangle().getMinX();
+		double minX = xLabel;
 		double maxX = boundingBox.getRectangle().getMaxX();
 		double minY = boundingBox.getRectangle().getMinY();
 		double maxY = boundingBox.getRectangle().getMaxY();
@@ -372,6 +371,12 @@ public final class DrawText extends Drawable {
 			break;
 		case RIGHT:
 			scaleX *= ((mouseX - minX) / (maxX - minX));
+			break;
+		case LEFT:
+			scaleX *= ((maxX - mouseX) / (maxX - minX));
+			xLabel = (int) mouseX;
+			break;
+		default:
 			break;
 		}
 	}
