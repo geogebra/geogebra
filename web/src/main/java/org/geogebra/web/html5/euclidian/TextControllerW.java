@@ -31,6 +31,7 @@ public class TextControllerW implements TextController, BlurHandler {
 
 	/** GeoText to edit */
 	GeoText text;
+
 	private class TextListener implements MathFieldListener {
 		protected TextListener() {
 			// nothing to do
@@ -47,11 +48,9 @@ public class TextControllerW implements TextController, BlurHandler {
 			text.updateRepaint(false);
 		}
 
-
 		@Override
 		public void onCursorMove() {
 			// not used.
-
 		}
 
 		@Override

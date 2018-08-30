@@ -7944,6 +7944,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					bbWidth -= distX;
 					bbMinX += distX;
 					break;
+				default:
+					break;
 				}
 				newMinX = bbWidth * minXRatio;
 				newMaxX = bbWidth * maxXRatio;
@@ -7955,6 +7957,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					break;
 				case BOTTOM:
 					bbHeight += distY;
+					break;
+				default:
 					break;
 				}
 				newMinY = bbHeight * minYRatio;

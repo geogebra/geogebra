@@ -72,6 +72,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private MouseTouchGestureControllerW mtg;
 	private TextControllerW textController = null;
+
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return mtg.getEnvironmentStyle();

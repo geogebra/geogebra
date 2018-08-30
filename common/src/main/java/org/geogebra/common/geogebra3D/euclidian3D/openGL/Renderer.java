@@ -871,7 +871,7 @@ public abstract class Renderer implements RendererInterface {
 		drawFaceToScreen();
 
 		// init drawing matrix to view3D toScreen matrix
-		if (mIsARCoreEnabled){
+		if (mIsARCoreEnabled) {
 			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
 					arScaleFactor);
 		}
@@ -2025,7 +2025,8 @@ public abstract class Renderer implements RendererInterface {
 		mIsARCoreEnabled = isARCoreEnabled;
 	}
 
-	public void setARMatrix(float[] cameraView, float[] cameraPerspective, float[] modelMatrix, float scaleFactor){
+	public void setARMatrix(float[] cameraView, float[] cameraPerspective, float[] modelMatrix,
+			float scaleFactor) {
 		arCameraView = cameraView;
 		arCameraPerspective = cameraPerspective;
 		arModelMatrix = modelMatrix;

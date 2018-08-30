@@ -67,9 +67,8 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void setProjectionMatrixViewForAR(float[] cameraView,
-													  float[] cameraPerspective,
-													  float[] modelMatrix, float scaleFactor){
+	final protected void setProjectionMatrixViewForAR(float[] cameraView, float[] cameraPerspective,
+			float[] modelMatrix, float scaleFactor) {
 		rendererImpl.setProjectionMatrixViewForAR(cameraView, cameraPerspective, modelMatrix,
 				scaleFactor);
 	}

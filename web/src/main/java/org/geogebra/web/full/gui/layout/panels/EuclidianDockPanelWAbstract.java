@@ -315,8 +315,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	private void tryBuildMowZoomPanel() {
-		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager());
 		if (mowZoomPanel != null) {
 			mowZoomPanel.removeFromParent();
 			mowZoomPanel = null;

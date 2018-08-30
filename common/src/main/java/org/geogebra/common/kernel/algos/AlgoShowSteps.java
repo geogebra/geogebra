@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderCmd;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -19,6 +18,16 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 
 	private GeoList list;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param input
+	 *            inputs
+	 * @param name
+	 *            command name
+	 * @param expression
+	 *            expression
+	 */
 	public AlgoShowSteps(Construction c, GeoElement[] input, Commands name,
 			StepTransformable expression) {
 		super(c);
@@ -50,21 +59,24 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 			}
 
 			switch (name) {
-				case Simplify:
-					expression.regroup(sb);
-					break;
-				case Expand:
-					expression.expand(sb);
-					break;
-				case Factor:
-					expression.factor(sb);
-					break;
-				case Solve:
-					expression.toSolvable().solve(variable, sb);
-					break;
-				case Derivative:
-					StepNode.differentiate((StepExpression) expression, variable)
-							.differentiate(sb);
+			case Simplify:
+				expression.regroup(sb);
+				break;
+			case Expand:
+				expression.expand(sb);
+				break;
+			case Factor:
+				expression.factor(sb);
+				break;
+			case Solve:
+				expression.toSolvable().solve(variable, sb);
+				break;
+			case Derivative:
+				StepNode.differentiate((StepExpression) expression, variable).differentiate(sb);
+			default:
+				// checked in Cmd, just in case
+				list.setUndefined();
+				return;
 			}
 
 			StepGuiBuilderCmd builder = new StepGuiBuilderCmd(kernel.getLocalization(), list,

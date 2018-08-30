@@ -502,10 +502,10 @@ public abstract class RendererImplShaders extends RendererImpl {
         modelMatrixCoord.setFromGL(modelMatrix);
 
         CoordMatrix4x4.identity(scaleMatrix);
-		scaleMatrix.set(1,1, scaleFactor);
-		scaleMatrix.set(2,2, scaleFactor);
-		scaleMatrix.set(3,3, scaleFactor);
-		scaleMatrix.set(4,4, 1);
+		scaleMatrix.set(1, 1, scaleFactor);
+		scaleMatrix.set(2, 2, scaleFactor);
+		scaleMatrix.set(3, 3, scaleFactor);
+		scaleMatrix.set(4, 4, 1);
 
         tmpMatrix1.setMul(modelMatrixCoord, scaleMatrix);
         mvMatrixCoord.setMul(cameraViewCoord, tmpMatrix1);
