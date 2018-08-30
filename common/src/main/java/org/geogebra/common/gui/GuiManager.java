@@ -38,6 +38,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
@@ -208,12 +209,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
 		String processedUrlString = urlString.trim();
-		final String ggbTubeOld = "geogebratube.org/";
-		final String ggbTube = "tube.geogebra.org/";
-		final String ggbTubeBeta = "beta.geogebra.org/";
-		final String ggbTubeShort = "ggbtu.be/";
-		final String ggbMatShort = "ggbm.at/";
-		final String material = "/material/show/id/";
 
 		boolean success = false;
 		boolean isMacroFile = false;
@@ -233,55 +228,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
 				// http://www.geogebratube.org/files/material-105.ggb
-			} else if (processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE)
-					|| processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE_BETA)
-					|| processedUrlString.contains(ggbTube)
-					|| processedUrlString.contains(ggbTubeShort)
-					|| processedUrlString.contains(ggbMatShort)
-					|| processedUrlString.contains(ggbTubeBeta)
-					|| processedUrlString.contains(ggbTubeOld)) {
+			} else if (GeoGebraURLParser.isGeoGebraURL(processedUrlString)) {
 
-				// remove eg http:// if it's there
-				if (processedUrlString.contains("://")) {
-					processedUrlString = processedUrlString.substring(
-							processedUrlString.indexOf("://") + 3,
-							processedUrlString.length());
-				}
-				// remove hostname
-				processedUrlString = processedUrlString.substring(
-						processedUrlString.indexOf('/'),
-						processedUrlString.length());
-
-				String id;
-
-				// determine the start position of ID in the URL
-				int start;
-				if (processedUrlString.startsWith(material)) {
-					start = material.length();
-				} else {
-					start = processedUrlString.lastIndexOf("/m") + 2;
-				}
-
-				// no valid URL?
-				if (start == -1) {
-					Log.debug("problem parsing: " + processedUrlString);
+				String id = GeoGebraURLParser.getIDfromURL(processedUrlString);
+				if (id == null) {
 					return false;
 				}
-
-				// the end position is either before the next slash or at the
-				// end of the string
-				int end = -1;
-				if (start > -1) {
-					end = processedUrlString.indexOf('/', start);
-				}
-
-				if (end == -1) {
-					end = processedUrlString.length();
-				}
-
-				// fetch ID
-				id = processedUrlString.substring(start, end);
-
 				processedUrlString = "https://www.geogebra.org/files/material-";
 
 				// Add the login token to assure that private files of the

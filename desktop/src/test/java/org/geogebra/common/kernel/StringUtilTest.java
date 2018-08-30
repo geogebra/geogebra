@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.util.StringUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -70,6 +71,27 @@ public class StringUtilTest {
 						+ " " + StringUtil.isWhitespace(c));
 			}
 		}
+	}
+
+	@Test
+	public void checkURIparser() {
+		Assert.assertEquals("k89JtCqY", GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org/m/k89JtCqY"));
+		Assert.assertEquals("k89JtCqY", GeoGebraURLParser
+				.getIDfromURL("http://www.geogebra.org/m/k89JtCqY"));
+		Assert.assertEquals("k89JtCqY",
+				GeoGebraURLParser.getIDfromURL("www.geogebra.org/m/k89JtCqY"));
+		Assert.assertEquals("k89JtCqY",
+				GeoGebraURLParser.getIDfromURL("http://ggbm.at/k89JtCqY"));
+		Assert.assertEquals("k89JtCqY",
+				GeoGebraURLParser.getIDfromURL("http://ggbtu.be/mk89JtCqY"));
+
+	}
+
+	@Test
+	public void checkUriParserWithM() {
+		Assert.assertEquals("mAukGjbN", GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org/m/mAukGjbN"));
 	}
 
 }
