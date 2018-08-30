@@ -30,11 +30,11 @@ public class ZoomPanelMow extends FlowPanel implements SetLabels {
 	public ZoomPanelMow(AppW app) {
 		this.appW = app;
 		zoomController = new ZoomController(appW);
-		addStyleName("mowZoomPanel");
 		buildGui();
 	}
 
 	private void buildGui() {
+		addStyleName("mowZoomPanel");
 		addDragPadButton();
 		addZoomButtons();
 	}
@@ -78,7 +78,7 @@ public class ZoomPanelMow extends FlowPanel implements SetLabels {
 			addZoomOutButton();
 		}
 		homeBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.home_zoom_black18(), null, 24,
+				ZoomPanelResources.INSTANCE.home_zoom_black18(), null, 20,
 				appW);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
@@ -136,7 +136,7 @@ public class ZoomPanelMow extends FlowPanel implements SetLabels {
 	 * Sets translated titles of the buttons.
 	 */
 	public void setLabels() {
-		setButtonTitleAndAltText(dragPadBtn, "TranslateView");
+		setButtonTitleAndAltText(dragPadBtn, "Drag Pad");
 		setButtonTitleAndAltText(homeBtn, "StandardView");
 		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
 		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");

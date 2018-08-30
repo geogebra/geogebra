@@ -408,7 +408,29 @@
     	margin-top: 48px!important;
 	    left: auto !important;
 	    z-index: 60;
-	    right: 22px !important;
+	    right: 4px !important;
+	    
+	    .zoomPanelBtn {
+	    	position: relative;
+		    margin: 6px;
+		    padding: 6px;
+		    opacity: 0.54;
+		    cursor: pointer;
+		    
+		    &.zoomPanelBtnSmall {
+		    	padding: 8px;	
+		    	
+		    	img {
+		    		width: 20px;
+					height: 20px;		    			
+		    	}
+		    }
+		   
+		   img {
+		   		width: 24px;
+				height: 24px;		    	
+		   }
+		}
     }
 	.zoomPanelWithPageControl {
 		margin-bottom: 64px;
