@@ -77,6 +77,12 @@ public class OpentypeFontWrapper implements FontWrapper {
 	private native void measureNative(String text, JsArrayNumber arr) /*-{
 		var that = this;
 		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
 		var glyph = font.charToGlyph(text);
 		arr[0] = glyph.xMin;
 		arr[1] = glyph.yMin;
@@ -88,6 +94,12 @@ public class OpentypeFontWrapper implements FontWrapper {
 	private native void drawGlyphNative(String c, int x, int y, int size, Context2d ctx) /*-{
 		var that = this;
 		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
 		var path = font.getPath(c, x, y, size);
 
 		path.fill = ctx.fillStyle;
@@ -96,4 +108,38 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 		path.draw(ctx);
 	}-*/;
+
+	/**
+	 * 
+	 * @param c
+	 * @param size
+	 * @return object that can be drawn to canvas with object.draw(ctx)
+	 */
+	public JavaScriptObject getGlyphOutline(String c, int size) {
+		return getGlyphNative(c, size);
+	}
+
+	private native JavaScriptObject getGlyphNative(String c, int size) /*-{
+		var that = this;
+		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var path = font.getPath(c, 0, 0, size);
+
+		var glyph = font.charToGlyph(c);
+
+		path.xMin = glyph.xMin / 1000;
+		path.yMin = glyph.yMin / 1000;
+		path.xMax = glyph.xMax / 1000;
+		path.yMax = glyph.yMax / 1000;
+
+		path.stroke = null;
+		path.strokeWidth = 1;
+		return path;
+	}-*/;
+
 }

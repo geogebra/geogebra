@@ -84,6 +84,7 @@ public class MacroInfo {
 			return macro.executeMacro(tp,  args);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ParseException("Problem with command " + args[0] + " at position " + tp.getLine() + ":"
 					+ tp.getCol() + "\n" + e.getMessage());
 		}

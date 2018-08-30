@@ -1,7 +1,13 @@
 package com.himamis.retex.renderer.web.graphics;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
+import com.himamis.retex.renderer.web.geom.AreaW;
+import com.himamis.retex.renderer.web.geom.ShapeW;
 
 /**
  * @author michael
@@ -29,6 +35,57 @@ public class JLMContext2d extends Context2d {
 	
 	public final native boolean isSVGCanvas() /*-{
 		return !!this.createPatternSVG;
+	}-*/;
+
+	public final native boolean isCanvgLoaded() /*-{
+		return !!$wnd.canvg;
+	}-*/;
+
+
+	/**
+	 * 
+	 * draw with canvg
+	 * 
+	 * @param SVG_XML_OR_PATH_TO_SVG
+	 * @param dx
+	 * @param dy
+	 * @param dw
+	 * @param dh
+	 */
+	public final native void drawSvg(Canvas canvas,
+			String SVG_XML_OR_PATH_TO_SVG, double dx,
+			double dy, double dw, double dh) /*-{
+		if ($wnd.canvg) {
+			console.log("drawing with canvg");
+			//this.drawSvg(SVG_XML_OR_PATH_TO_SVG, dx, dy, dw, dh);
+			//			$wnd.canvg(canvas, SVG_XML_OR_PATH_TO_SVG, {
+			//				ignoreMouse : true,
+			//				ignoreAnimation : true,
+			//				ignoreDimensions : true,
+			//				ignoreClear : true,
+			//				offsetX : dx,
+			//				offsetY : dy,
+			//				scaleWidth : dw,
+			//				scaleHeight : dh
+			//			});
+
+			var cOpts = {
+				ignoreMouse : true,
+				ignoreAnimation : true,
+				ignoreDimensions : true,
+				ignoreClear : true,
+				offsetX : 0,//dx,
+				offsetY : 0,//dy,
+				scaleWidth : dw,
+				scaleHeight : dh
+			}
+
+			this.translate(-dx, -dy);
+			$wnd.canvg(this, SVG_XML_OR_PATH_TO_SVG, cOpts);
+			this.translate(dx, dy);
+		} else {
+			console.log("canvg not available");
+		}
 	}-*/;
 
 	/**
@@ -273,10 +330,36 @@ public class JLMContext2d extends Context2d {
 		this.m11_ = m01 * m0 + m11 * m1;
 		this.m12_ += m02 * m0 + m12 * m1;
 
+		// XXX should this be setTransform()?
 		this.transform(m00, m10, m01, m11, m02, m12);
 
 	}-*/;
 
-	
+	final public void fill(Shape s) {
+		if (s instanceof Rectangle2D) {
+			Rectangle2D rect = (Rectangle2D) s;
+			this.fillRect(rect.getX(), rect.getY(), rect.getWidth(),
+					rect.getHeight());
+		} else if (s instanceof AreaW) {
+
+			AreaW area = (AreaW) s;
+
+			area.fill(this);
+
+		} else if (s instanceof ShapeW) {
+
+			ShapeW shape = (ShapeW) s;
+
+			shape.fill(this);
+
+		}
+	}
+
+	final public native void fillOpentype(JavaScriptObject path) /*-{
+
+		path.fill = this.fillStyle;
+		path.draw(this);
+
+	}-*/;
 	
 }

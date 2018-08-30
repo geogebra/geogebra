@@ -46,6 +46,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -104,6 +105,14 @@ public class HorizontalRule extends Box {
 		}
 		g2.fill(rectangle);
 		g2.setColor(old);
+	}
+
+	public Area getArea() {
+
+		Rectangle2D rect = geom.createRectangle2D(0, -height + speShift, width,
+				height);
+		Area area = geom.createArea(rect);
+		return area;
 	}
 
 	@Override

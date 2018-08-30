@@ -59,7 +59,7 @@ public class DrawEquationD extends DrawEquation {
 
 			// disable \magnification{factor} (makes Algebra View not work)
 			// now removed from JLaTeXMath
-			// DefaultTeXFont.enableMagnification(false);
+			// TeXFont.enableMagnification(false);
 
 		}
 

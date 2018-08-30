@@ -232,7 +232,7 @@ public class SpaceAtom extends Atom {
 
 	public static Object[] getLength(String lgth) {
 		if (lgth == null) {
-			return new Object[] { TeXLength.Unit.PIXEL, 0f };
+			return new Object[] { TeXLength.Unit.PIXEL, 0d };
 		}
 
 		int i = 0;
@@ -243,7 +243,8 @@ public class SpaceAtom extends Atom {
 		try {
 			f = Double.parseDouble(lgth.substring(0, i));
 		} catch (NumberFormatException e) {
-			return new Object[] { Double.NaN };
+			e.printStackTrace();
+			return new Object[] { Unit.EM, Double.NaN };
 		}
 
 		Unit unit;

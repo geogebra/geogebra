@@ -43,11 +43,13 @@
  */
 package com.himamis.retex.renderer.share.platform.geom;
 
-public interface Rectangle2D {
+public interface Rectangle2D extends Shape {
 
 	public interface Double extends Rectangle2D {
 
 	}
+
+	Rectangle2D getBounds2DX();
 
 	public double getX();
 

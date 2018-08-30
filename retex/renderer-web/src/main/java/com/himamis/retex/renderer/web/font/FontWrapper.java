@@ -44,6 +44,7 @@
 package com.himamis.retex.renderer.web.font;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public interface FontWrapper {
@@ -59,5 +60,7 @@ public interface FontWrapper {
 	void drawGlyph(String c, int x, int y, int size, Context2d ctx);
 
 	Rectangle2D measureGlyph(String string);
+
+	JavaScriptObject getGlyphOutline(String c, int size);
 
 }

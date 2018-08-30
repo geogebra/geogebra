@@ -47,7 +47,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.font.FontLoader;
+import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
+import com.himamis.retex.renderer.share.platform.font.GlyphVector;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class FontD implements Font {
 
@@ -92,6 +96,24 @@ public class FontD implements Font {
 	
 	@Override
 	public int getScale() {
-		return FontLoaderD.FONT_SCALE_FACTOR;
+		return FontLoader.FONT_SCALE_FACTOR;
 	}
+
+	public GlyphVector createGlyphVector(FontRenderContext frc, String s) {
+		return new GlyphVectorD(impl
+				.createGlyphVector((java.awt.font.FontRenderContext) frc, s));
+	}
+
+	public Shape getGlyphOutline(FontRenderContext frc, String s) {
+		return createGlyphVector(frc, s).getGlyphOutline(0);
+	}
+
+	public int getSize() {
+		return impl.getSize();
+	}
+
+	public String getName() {
+		return impl.getName();
+	}
+
 }

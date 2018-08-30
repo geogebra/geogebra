@@ -35,4 +35,14 @@ public abstract class FontFactory {
 	
 	public abstract FontLoader createFontLoader();
 
+	/**
+	 * overridden in web
+	 * 
+	 * @return scale factor
+	 */
+	public int getFontScaleFactor() {
+		return FontLoader.FONT_SCALE_FACTOR;
+
+	}
+
 }

@@ -25,6 +25,7 @@ import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
@@ -99,7 +100,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(Rectangle2D rectangle) {
+	public void fill(Shape rectangle) {
 		if (rectangle instanceof java.awt.geom.Rectangle2D) {
 			impl.fill(new GGenericRectangle2DD(
 					(java.awt.geom.Rectangle2D) rectangle));
@@ -215,4 +216,5 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		GAffineTransform last = transformationStack.removeLast();
 		impl.setTransform(last);
 	}
+
 }

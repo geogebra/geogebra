@@ -118,4 +118,14 @@ public abstract class FactoryProvider {
 	public static FactoryProvider getInstance() {
 		return INSTANCE;
 	}
+
+	public void printStacktrace() {
+		try {
+			// message null check done in caller
+			throw new Exception("");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

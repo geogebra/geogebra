@@ -70,7 +70,7 @@ public abstract class Atom implements Cloneable {
 	 * The type of the atom (default value: ordinary atom)
 	 */
 	public int type = TeXConstants.TYPE_ORDINARY;
-
+	protected boolean mathMode = true;
 	public int type_limits = TeXConstants.SCRIPT_NOLIMITS;
 
 	public Align alignment = Align.NONE;
@@ -83,6 +83,10 @@ public abstract class Atom implements Cloneable {
 	 * @return the resulting box.
 	 */
 	public abstract Box createBox(TeXEnvironment env);
+
+	protected int getType() {
+		return type;
+	}
 
 	/**
 	 * Get the type of the leftermost child atom. Most atoms have no child atoms, so the "left type"
@@ -117,10 +121,18 @@ public abstract class Atom implements Cloneable {
 		atom.type = type;
 		atom.type_limits = type_limits;
 		atom.alignment = alignment;
+		atom.mathMode = mathMode;
 		
 		return atom;
 	}
 
+	public boolean isMathMode() {
+		return mathMode;
+	}
+
+	public void setMathMode(final boolean mathMode) {
+		this.mathMode = mathMode;
+	}
 
 
 }

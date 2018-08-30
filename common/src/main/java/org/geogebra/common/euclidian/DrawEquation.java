@@ -109,7 +109,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			final Graphics2DInterface g2, final int x, final int y,
 			final String text, final GFont font, final boolean serif,
 			final Color fgColor, final Color bgColor,
-			final boolean useCache, final Integer maxWidth,
+			boolean useCache, final Integer maxWidth,
 			final Double lineSpace) {
 		// TODO uncomment when \- works
 		// text=addPossibleBreaks(text);
@@ -153,6 +153,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			// depth = ret[2];
 
 		} catch (final Exception e) {
+			e.printStackTrace();
 			// Application.debug("LaTeX parse exception:
 			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
@@ -181,6 +182,8 @@ public abstract class DrawEquation implements DrawEquationI {
 				Log.error(
 						"serious latex error\n" + text + "\n"
 								+ StringUtil.toJavaString(e.getMessage()));
+
+				e2.printStackTrace();
 
 			}
 		}
@@ -234,9 +237,9 @@ public abstract class DrawEquation implements DrawEquationI {
 						TeXLength.Unit.CM, lineSpace.doubleValue());
 			}
 		} catch (final MyError e) {
-			// e.printStackTrace();
-			// Application.debug("MyError LaTeX parse exception:
-			// "+e.getMessage()+"\n"+text);
+			e.printStackTrace();
+			Log.debug("MyError LaTeX parse exception:" + e.getMessage() + "\n"
+					+ text);
 			// Write error message to Graphics View
 
 			formula = TeXFormula.getPartialTeXFormula(text);
@@ -248,9 +251,9 @@ public abstract class DrawEquation implements DrawEquationI {
 					TeXLength.Unit.CM, 0.5f);
 
 		} catch (final Exception e) {
-			// e.printStackTrace();
-			// Application.debug("LaTeX parse exception:
-			// "+e.getMessage()+"\n"+text);
+			e.printStackTrace();
+			Log.debug(
+					"LaTeX parse exception1: " + e.getMessage() + "\n" + text);
 			// Write error message to Graphics View
 			try {
 				formula = TeXFormula.getPartialTeXFormula(text);
@@ -258,7 +261,8 @@ public abstract class DrawEquation implements DrawEquationI {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, style, fgColor);
 			} catch (Exception e2) {
-				Log.debug("LaTeX parse exception: " + e2.getMessage() + "\n"
+				// e2.printStackTrace();
+				Log.debug("LaTeX parse exception2: " + e2.getMessage() + "\n"
 						+ text);
 				formula = TeXFormula
 						.getPartialTeXFormula(

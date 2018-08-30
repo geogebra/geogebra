@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.AlphabetRegistrationException;
@@ -87,7 +86,7 @@ public class TeXFont {
 
 	private static Map<String, CharFont[]> textStyleMappings;
 	private static Map<String, CharFont> symbolMappings;
-	private static ArrayList<FontInfo> fontInfo = new ArrayList<FontInfo>();
+	public static ArrayList<FontInfo> fontInfo = new ArrayList<FontInfo>();
 	private static Map<String, Double> parameters;
 	private static Map<String, Number> generalSettings;
 
@@ -187,13 +186,13 @@ public class TeXFont {
 		if (!b) {
 			TeXParser.isLoading = true;
 			Object res = new Resource().loadResource(base, language);
-			System.out.println(
-					"ADDING ALPHABET " + language + ":" + res + "," + base);
+			// System.out.println(
+			// "ADDING ALPHABET " + language + ":" + res + "," + base);
 			addTeXFontDescription(base, res, language, reg);
 			for (int i = 0; i < alphabet.length; i++) {
 				loadedAlphabets.add(alphabet[i]);
 			}
-			System.out.println("ADDED");
+			// System.out.println("ADDED");
 			TeXParser.isLoading = false;
 		}
 	}
@@ -335,16 +334,16 @@ public class TeXFont {
 			throws SymbolMappingNotFoundException {
 		Object obj = symbolMappings.get(symbolName);
 		if (obj == null) {// no symbol mapping found!
-			for (Entry<String, CharFont> e : symbolMappings.entrySet()) {
-				System.out.println(e.getKey() + " , " + e.getValue());
-			}
+			// for (Entry<String, CharFont> e : symbolMappings.entrySet()) {
+			// System.out.println(e.getKey() + " , " + e.getValue());
+			// }
 			throw new SymbolMappingNotFoundException(symbolName);
 		}
 		return getChar((CharFont) obj, style);
 	}
 
 	public Char getDefaultChar(char c, int style) {
-		// these default text style mappings will allways exist,
+		// these default text style mappings will always exist,
 		// because it's checked during parsing
 		if (c >= '0' && c <= '9') {
 			return getChar(c, defaultTextStyleMappings[NUMBERS], style);
@@ -450,6 +449,10 @@ public class TeXFont {
 	public double getQuad(int style, int fontCode) {
 		FontInfo info = fontInfo.get(fontCode);
 		return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+	}
+
+	public double getQuad(int style) {
+		return getQuad(style, getMuFontId());
 	}
 
 	public double getSize() {

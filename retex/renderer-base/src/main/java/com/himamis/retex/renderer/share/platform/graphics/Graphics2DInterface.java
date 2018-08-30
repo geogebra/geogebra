@@ -48,6 +48,7 @@ import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public interface Graphics2DInterface {
 
@@ -70,7 +71,7 @@ public interface Graphics2DInterface {
 
 	public void fillRect(int x, int y, int width, int height);
 
-	public void fill(Rectangle2D rectangle);
+	public void fill(Shape rectangle);
 
 	public void draw(Rectangle2D rectangle);
 	

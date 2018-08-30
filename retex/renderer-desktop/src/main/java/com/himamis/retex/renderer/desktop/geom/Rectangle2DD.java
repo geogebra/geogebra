@@ -66,4 +66,9 @@ public class Rectangle2DD extends Rectangle2D.Double
 	public void setRectangle(double x, double y, double width, double height) {
 		setRect(x, y, width, height);
 	}
+
+	public com.himamis.retex.renderer.share.platform.geom.Rectangle2D getBounds2DX() {
+		return this;
+	}
+
 }

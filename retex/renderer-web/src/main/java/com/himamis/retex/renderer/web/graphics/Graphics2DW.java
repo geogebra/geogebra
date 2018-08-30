@@ -63,6 +63,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
+import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.font.AsyncLoadedFont;
 import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
@@ -139,8 +140,10 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	@Override
-	public TransformW getTransform() {
-		return new TransformW(context.getScaleX(),context.getShearY(),context.getShearX(),context.getScaleY(),context.getTranslateX(),context.getTranslateY());
+	public AffineTransform getTransform() {
+		return new AffineTransform(context.getScaleX(), context.getShearY(),
+				context.getShearX(), context.getScaleY(),
+				context.getTranslateX(), context.getTranslateY());
 	}
 
 	@Override
@@ -182,9 +185,9 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(Rectangle2D rectangle) {
-		context.fillRect(rectangle.getX(), rectangle.getY(),
-				rectangle.getWidth(), rectangle.getHeight());
+	public void fill(
+			com.himamis.retex.renderer.share.platform.geom.Shape s) {
+		context.fill(s);
 	}
 
 	@Override
@@ -251,7 +254,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		private int x;
 		private int y;
 
-		private TransformW transformCopy;
+		private AffineTransform transformCopy;
 		private FontW font;
 		private ColorW color;
 
@@ -438,7 +441,7 @@ public class Graphics2DW implements Graphics2DInterface {
 				transform.getShearX(), transform.getScaleY(),
 				transform.getTranslateX(), transform.getTranslateY());
 
-		transform((TransformW) transform);
+		transform((AffineTransform) transform);
 		drawImage(image, 0, 0);
 
 		context.restoreTransform();
@@ -452,7 +455,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	 * @param transform
 	 *            transformation matrix
 	 */
-	protected void transform(TransformW transform) {
+	protected void transform(AffineTransform transform) {
 		context.transform(transform.getScaleX(), transform.getShearY(),
 				transform.getShearX(), transform.getScaleY(),
 				transform.getTranslateX(), transform.getTranslateY());
@@ -465,7 +468,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	 * @param transform
 	 *            transformation matrix
 	 */
-	protected void setTransform(TransformW transform) {
+	protected void setTransform(AffineTransform transform) {
 	
 		double dp = context.getDevicePixelRatio();
 		

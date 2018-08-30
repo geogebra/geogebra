@@ -48,6 +48,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
+import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
 
 public class GraphicsFactoryGWT extends GraphicsFactory {
 
@@ -69,7 +70,7 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 
 	@Override
 	public Transform createTransform() {
-		return new TransformW();
+		return new AffineTransform();
 	}
 
 }

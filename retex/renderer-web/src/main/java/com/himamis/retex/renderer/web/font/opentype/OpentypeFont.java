@@ -46,10 +46,15 @@ package com.himamis.retex.renderer.web.font.opentype;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.shared.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
+import com.himamis.retex.renderer.web.geom.ShapeW;
 
 public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 
@@ -96,7 +101,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 			// not interested
 			return;
 		}
-		GWT.log("Font " + name + " loaded");
+		FactoryProvider.getInstance().debug("Font " + name + " loaded");
 		opentype.removeListener(this);
 		for (FontLoadCallback fontLoadCallback : fontLoadCallbacks) {
 			fontLoadCallback.onFontLoaded(this);
@@ -111,8 +116,8 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 			// not interested
 			return;
 		}
-		GWT.log("Font " + name + " error");
-		GWT.log(error.toString());
+		FactoryProvider.getInstance().debug("Font " + name + " error");
+		FactoryProvider.getInstance().debug(error.toString());
 		opentype.removeListener(this);
 		for (FontLoadCallback fontLoadCallback : fontLoadCallbacks) {
 			fontLoadCallback.onFontError(this);
@@ -124,5 +129,35 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 	public int getScale() {
 		return 1;
 	}
+
+	public Shape getGlyphOutline(FontRenderContext frc, String s) {
+		FontW font = this;// (FontW) frc.getFont();
+		FontWrapper wrap = font.getFontWrapper();
+		JavaScriptObject outline = wrap.getGlyphOutline(s, font.getSize());
+		double xMin = xMin(outline);
+		double xMax = xMax(outline);
+		double yMin = yMin(outline);
+		double yMax = yMax(outline);
+		Rectangle2D rect = FactoryProvider.getInstance().getGeomFactory()
+				.createRectangle2D(xMin, yMin, xMax - xMin, yMax - yMin);
+		return new ShapeW(outline, rect);
+	}
+
+	private native double xMin(JavaScriptObject outline) /*-{
+		return outline.xMin;
+	}-*/;
+
+	private native double xMax(JavaScriptObject outline) /*-{
+		return outline.xMax;
+	}-*/;
+
+	private native double yMin(JavaScriptObject outline) /*-{
+		return outline.yMin;
+	}-*/;
+
+	private native double yMax(JavaScriptObject outline) /*-{
+		return outline.yMax;
+	}-*/;
+
 
 }

@@ -46,7 +46,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
+import com.himamis.retex.renderer.share.platform.geom.Area;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -116,6 +121,28 @@ public class CharBox extends Box {
 		g2.restoreTransformation();
 	}
 
+	private static final FontRenderContext FRC;
+	static {
+		FRC = new Graphics().createImage(1, 1).createGraphics2D()
+				.getFontRenderContext();
+	}
+
+	@Override
+	public Area getArea() {
+		// final Font font = Configuration.get().getFont(cf.fontId);
+		FontInfo info = TeXFont.fontInfo.get(cf.fontId);
+		Font font = info.getFont();
+
+		final Shape s = font.getGlyphOutline(FRC, String.valueOf(cf.c));
+		final Area a = geom.createArea(s);
+		final double x = size / FactoryProvider.getInstance().getFontFactory()
+				.getFontScaleFactor();
+		if (x != 1) {
+			a.scale(x);
+		}
+		return a;
+	}
+
 	@Override
 	public int getLastFontId() {
 		return cf.fontId;
@@ -125,4 +152,14 @@ public class CharBox extends Box {
 	public String toString() {
 		return "Char =" + cf.c;
 	}
+
+	public void doPrintStacktrace(String message) {
+		try {
+			// message null check done in caller
+			throw new Exception(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

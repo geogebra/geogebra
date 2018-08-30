@@ -59,6 +59,10 @@ public class CharFont {
 		this(ch, f, f);
 	}
 
+	public int getFontId() {
+		return fontId;
+	}
+
 	public CharFont(char ch, int f, int bf) {
 		c = ch;
 		fontId = f;

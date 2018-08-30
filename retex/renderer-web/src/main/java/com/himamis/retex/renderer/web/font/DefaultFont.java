@@ -44,26 +44,30 @@
 package com.himamis.retex.renderer.web.font;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
+import com.himamis.retex.renderer.web.geom.Rectangle2DW;
 
 public class DefaultFont extends FontW implements FontWrapper {
 
 	public DefaultFont(String name, int style, int size) {
 		super(name, style, size);
 	}
-	
+
 	@Override
 	public void addFontLoadedCallback(FontLoadCallback callback) {
 		callback.onFontLoaded(this);
-		
+
 	}
-	
+
 	@Override
 	public Font deriveFont(int type) {
 		return new DefaultFont(name, type, size);
 	}
-	
+
 	@Override
 	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
 		FontW derived = new DefaultFont(name, style, size);
@@ -74,25 +78,57 @@ public class DefaultFont extends FontW implements FontWrapper {
 		}
 		ctx.fillText(c, x, y);
 	}
-	
+
 	@Override
 	public FontWrapper getFontWrapper() {
 		return this;
 	}
-	
+
 	@Override
 	public boolean isLoaded() {
 		return true;
 	}
 
 	@Override
-	public Rectangle2D measureGlyph(String string) {
-		return null;
+	public Rectangle2D measureGlyph(String s) {
+		int height = size;
+		int width = size * s.length();
+		return new Rectangle2DW(0, -height, width, height);
 	}
 
 	@Override
 	public int getScale() {
 		return 1;
 	}
+
+	public Shape getGlyphOutline(FontRenderContext frc, String s) {
+		int size = ((FontW) frc.getFont()).getSize();
+		// estimate of size
+		int height = size;
+		int width = size * s.length();
+		return new Rectangle2DW(0, -height, width, height);
+	}
+
+	public JavaScriptObject getGlyphOutline(String s, int size) {
+		return getGlyphOutlineNative(s, size, getCssFontString());
+	}
+
+	private native JavaScriptObject getGlyphOutlineNative(String s, int size,
+			String font) /*-{
+		var ret = {};
+		ret.draw = function(ctx) {
+
+			try {
+				ctx.setFont(font);
+			} catch (e) {
+				// invisible frame in FF throws this
+			}
+			ctx.fillText(s, 0, 0);
+
+		}
+
+		return ret;
+
+	}-*/;
 
 }

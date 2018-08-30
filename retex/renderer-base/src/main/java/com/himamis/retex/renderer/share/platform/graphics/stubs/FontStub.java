@@ -3,7 +3,9 @@ package com.himamis.retex.renderer.share.platform.graphics.stubs;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
+import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class FontStub implements Font {
 
@@ -22,7 +24,14 @@ public class FontStub implements Font {
         return false;
     }
 
+	@Override
 	public int getScale() {
 		return 1;
 	}
+
+	@Override
+	public Shape getGlyphOutline(FontRenderContext frc, String valueOf) {
+		return null;
+	}
+
 }

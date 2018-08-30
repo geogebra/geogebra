@@ -46,6 +46,7 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.Cancel.Type;
+import com.himamis.retex.renderer.share.XArrowAtom.Kind;
 
 final class PredefinedCommands {
 
@@ -612,13 +613,105 @@ final class PredefinedCommands {
 		xleftarrow(1, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.xleftarrow_macro(tp, args);
+				return PredefMacros.xarrow_macro(tp, args, Kind.Left);
 			}
 		},
 		xrightarrow(1, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.xrightarrow_macro(tp, args);
+				return PredefMacros.xarrow_macro(tp, args, Kind.Right);
+			}
+		},
+		xleftandrightarrow(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args, Kind.LeftAndRight);
+			}
+		},
+		xrightandleft(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args, Kind.RightAndLeft);
+			}
+		},
+		xleftharpoondown(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args,
+						Kind.LeftHarpoonDown);
+			}
+		},
+		xleftharpoonup(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args, Kind.LeftHarpoonUp);
+			}
+		},
+		xleftrightharpoons(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args,
+						Kind.LeftRightHarpoons);
+			}
+		},
+		// XXX
+		// xleftrightharpoonup(1, 1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp,
+		// final String[] args) {
+		// return PredefMacros.xarrow_macro(tp, args,
+		// Kind.LeftRightHarpoonUp);
+		// }
+		// },
+		xlr(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args, Kind.LR);
+			}
+		},
+		xrightharpoondown(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args,
+						Kind.RightHarpoonDown);
+			}
+		},
+		xrightharpoonup(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args, Kind.RightHarpoonUp);
+			}
+		},
+		xrightleftharpoons(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args,
+						Kind.RightLeftHarpoons);
+			}
+		},
+		xrightsmallleftharpoons(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args,
+						Kind.RightSmallLeftHarpoons);
+			}
+		},
+		xsmallrightleftharpoons(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.xarrow_macro(tp, args,
+						Kind.SmallRightLeftHarpoons);
 			}
 		},
 		underbrace(1) {

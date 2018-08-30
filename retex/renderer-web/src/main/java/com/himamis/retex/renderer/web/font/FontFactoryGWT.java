@@ -75,4 +75,10 @@ public class FontFactoryGWT extends FontFactory {
 		return new FontLoaderW(fontLoaderWrapper);
 	}
 
+	@Override
+	public int getFontScaleFactor() {
+		return 1;
+
+	}
+
 }

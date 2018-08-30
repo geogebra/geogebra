@@ -52,4 +52,7 @@ public abstract class GeomFactory {
 	public abstract RoundRectangle2D createRoundRectangle2D(double x, double y, double w, double h, double arcw, double arch);
 	
 	public abstract Point2D createPoint2D(double x, double y);
+
+	public abstract Area createArea(Shape rect);
+
 }

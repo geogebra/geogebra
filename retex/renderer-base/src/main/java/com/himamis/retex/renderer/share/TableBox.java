@@ -33,13 +33,13 @@ public class TableBox extends Box {
 					continue;
 				}
 				g2.setColor(colors.get(i));
+				Rectangle2D rectangleI = rectangles.get(i);
 				Rectangle2D rect = FactoryProvider.getInstance()
 						.getGeomFactory()
 						.createRectangle2D(
-								rectangles.get(i).getX() + x,
-								rectangles.get(i).getY() + y - (height + depth)
-										/ 2, rectangles.get(i).getWidth(),
-								rectangles.get(i).getHeight());
+								rectangleI.getX() + x,
+								rectangleI.getY() + y - (height + depth) / 2,
+								rectangleI.getWidth(), rectangleI.getHeight());
 				g2.fill(rect);
 			}
 			g2.setColor(old);

@@ -51,6 +51,7 @@ import com.himamis.retex.renderer.share.Cancel.Type;
 import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.TeXConstants.Muskip;
 import com.himamis.retex.renderer.share.TeXLength.Unit;
+import com.himamis.retex.renderer.share.XArrowAtom.Kind;
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -326,7 +327,7 @@ public class PredefMacros {
 		boolean rule = true;
 		Object[] ths = SpaceAtom.getLength(args[3]);
 		if (args[3] == null || args[3].length() == 0 || ths.length == 1) {
-			ths = new Object[] { Unit.EM, 0.0 };
+			ths = new Object[] { Unit.CM, 0.0 };
 			rule = false;
 		}
 
@@ -712,13 +713,10 @@ public class PredefMacros {
 		return new UnderOverArrowAtom(new TeXFormula(tp, args[1], false).root, false);
 	}
 
-	public static final Atom xleftarrow_macro(final TeXParser tp, final String[] args) throws ParseException {
-		return new XArrowAtom(new TeXFormula(tp, args[1], false).root, new TeXFormula(tp, args[2]).root, true);
-	}
-
-	public static final Atom xrightarrow_macro(final TeXParser tp, final String[] args) throws ParseException {
-		return new XArrowAtom(new TeXFormula(tp, args[1], false).root, new TeXFormula(tp, args[2]).root,
-				false);
+	public static final Atom xarrow_macro(final TeXParser tp,
+			final String[] args, Kind kind) throws ParseException {
+		return new XArrowAtom(new TeXFormula(tp, args[1], false).root,
+				new TeXFormula(tp, args[2]).root, kind);
 	}
 
 	public static final Atom sideset_macro(final TeXParser tp, final String[] args) throws ParseException {

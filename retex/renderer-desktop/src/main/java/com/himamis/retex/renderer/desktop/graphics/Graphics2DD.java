@@ -56,6 +56,7 @@ import javax.imageio.ImageIO;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.font.FontRenderContextD;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
@@ -123,8 +124,9 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(Rectangle2D rectangle) {
-		impl.fill((Shape) rectangle);
+	public void fill(
+			com.himamis.retex.renderer.share.platform.geom.Shape s) {
+		impl.fill((Shape) s);
 	}
 
 	@Override
@@ -210,7 +212,7 @@ public class Graphics2DD implements Graphics2DInterface {
 		if (pngBase64.startsWith(pngMarker)) {
 			pngBase64 = pngBase64.substring(pngMarker.length());
 		} else {
-			System.err.println("invalid base64 image");
+			FactoryProvider.getInstance().debug("invalid base64 image");
 			return null;
 		}
 

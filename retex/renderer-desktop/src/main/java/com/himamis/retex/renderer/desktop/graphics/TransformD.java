@@ -44,6 +44,7 @@
 package com.himamis.retex.renderer.desktop.graphics;
 
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
@@ -66,6 +67,19 @@ public class TransformD extends AffineTransform implements Transform {
 
 	public Object getNativeObject() {
 		return this;
+	}
+
+	public Transform createInverseX() {
+		try {
+			return new TransformD(super.createInverse());
+		} catch (NoninvertibleTransformException e) {
+			return new TransformD(new AffineTransform());
+		}
+	}
+
+	public void concatenate(Transform Tx) {
+		super.concatenate((AffineTransform) Tx);
+
 	}
 
 }

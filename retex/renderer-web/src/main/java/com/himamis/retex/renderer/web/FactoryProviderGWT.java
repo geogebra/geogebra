@@ -99,4 +99,15 @@ public class FactoryProviderGWT extends FactoryProvider {
 		$wnd.console && $wnd.console.log("[ReTeX]", string);
 	}-*/;
 
+	@Override
+	public void printStacktrace() {
+
+		traceNative();
+	}
+
+	private native void traceNative() /*-{
+		$wnd.console.trace();
+	}-*/;
+
+
 }

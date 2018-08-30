@@ -136,6 +136,12 @@ public class SymbolAtom extends CharSymbol {
 		this.name = name;
 	}
 
+	public SymbolAtom(String name, int type) {
+		this(name, true);
+		// XXX
+		this.type = type;
+	}
+
 	public SymbolAtom setUnicode(char c) {
 		this.unicode = c;
 		return this;
@@ -168,11 +174,11 @@ public class SymbolAtom extends CharSymbol {
 	 * @throws SymbolNotFoundException if no symbol with the given name was found
 	 */
 	public static SymbolAtom get(String name) throws SymbolNotFoundException {
-		Object obj = symbols.get(name);
+		SymbolAtom obj = symbols.get(name);
 		if (obj == null) {
 			throw new SymbolNotFoundException(name);
 		}
-		return (SymbolAtom) obj;
+		return obj;
 	}
 
 	/**
@@ -224,5 +230,10 @@ public class SymbolAtom extends CharSymbol {
 	public CharFont getCharFont(TeXFont tf) {
 		// style doesn't matter here
 		return tf.getChar(name, TeXConstants.STYLE_DISPLAY).getCharFont();
+	}
+
+	public SymbolAtom changeLimits(int scriptNolimits) {
+		// XXX
+		return this;
 	}
 }

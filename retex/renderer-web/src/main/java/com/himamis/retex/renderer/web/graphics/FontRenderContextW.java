@@ -64,4 +64,8 @@ public class FontRenderContextW implements FontRenderContext {
 		return width;
 	}
 
+	public FontW getFont() {
+		return graphics.getFont();
+	}
+
 }

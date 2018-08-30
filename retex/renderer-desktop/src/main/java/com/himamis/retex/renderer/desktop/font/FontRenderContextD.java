@@ -45,12 +45,20 @@ package com.himamis.retex.renderer.desktop.font;
 
 import java.awt.font.FontRenderContext;
 
-public class FontRenderContextD implements
+import com.himamis.retex.renderer.share.platform.font.Font;
+
+public class FontRenderContextD extends java.awt.font.FontRenderContext
+		implements
 		com.himamis.retex.renderer.share.platform.font.FontRenderContext {
 
 	public FontRenderContext impl;
 
-	public FontRenderContextD(FontRenderContext impl) {
-		this.impl = impl;
+	public FontRenderContextD(FontRenderContext frc) {
+		this.impl = frc;
+	}
+
+	public Font getFont() {
+		// not used, web only
+		return null;
 	}
 }
