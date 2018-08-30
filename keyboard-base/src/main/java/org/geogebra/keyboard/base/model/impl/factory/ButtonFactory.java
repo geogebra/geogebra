@@ -133,7 +133,7 @@ public class ButtonFactory {
 			String translate, String altText, String input,
 			float weight) {
 		return new WeightedButtonImpl(translate,
-				ResourceType.TRANSLATION_MENU_KEY, input, ActionType.INPUT,
+				ResourceType.TRANSLATION_MENU_KEY, input, ActionType.INPUT_TRANSLATE_MENU,
 				Background.STANDARD, modifiers, weight, altText);
 	}
 
