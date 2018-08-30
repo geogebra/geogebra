@@ -659,15 +659,6 @@ final class PredefinedCommands {
 						Kind.LeftRightHarpoons);
 			}
 		},
-		// XXX
-		// xleftrightharpoonup(1, 1) {
-		// @Override
-		// public Object executeMacro(final TeXParser tp,
-		// final String[] args) {
-		// return PredefMacros.xarrow_macro(tp, args,
-		// Kind.LeftRightHarpoonUp);
-		// }
-		// },
 		xlr(1, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp,
