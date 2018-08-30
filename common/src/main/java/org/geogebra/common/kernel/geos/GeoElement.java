@@ -3211,8 +3211,13 @@ public abstract class GeoElement extends ConstructionElement
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
 
-				return getIndexLabel(kernel.getLocalization().getMenu(
-						"Name." + (list.isMatrix() ? "matrix" : "list")));
+				if (kernel.getApplication().has(Feature.MOB_LIST_LABEL)) {
+					String prefix = list.isMatrix() ? "m" : "l";
+					return getIndexLabelSimple(prefix, 1);
+				} else {
+					return getIndexLabel(kernel.getLocalization().getMenu(
+							"Name." + (list.isMatrix() ? "matrix" : "list")));
+				}
 			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
 			} else {
@@ -3294,6 +3299,14 @@ public abstract class GeoElement extends ConstructionElement
 			return getFreeLabel(null) + "_1";
 		}
 		return cons.getIndexLabel(prefix);
+	}
+
+	private String getIndexLabelSimple(final String prefix, int startIndex){
+		String label = prefix + startIndex;
+		while (!cons.isFreeLabel(label)){
+			label = prefix + startIndex++;
+		}
+		return label;
 	}
 
 	@Override
