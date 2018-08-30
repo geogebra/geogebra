@@ -773,10 +773,10 @@ public abstract class Drawable extends DrawableND {
 	 * method to update geoElement of drawable by drag of resize handlers of
 	 * boundingBox
 	 * 
-	 * @param e
-	 *            - mouse release event
+	 * @param p
+	 *            - mouse release position
 	 */
-	public void updateGeo(GPoint2D e) {
+	public void updateGeo(GPoint2D p) {
 		// do nothing here
 	}
 

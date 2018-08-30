@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -231,7 +232,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public double oldDistance;
 	private boolean wasBoundingBoxHit;
 	private boolean isMultiResize;
-	private BoundingBoxResizeState startBoundingBoxState;
 	protected double xTemp;
 	protected double yTemp;
 	protected boolean useLineEndPoint = false;
@@ -7733,12 +7733,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (getResizedShape().getGeoElement().isSelected()) {
 				dontClearSelection = true;
-
-				getResizedShape()
-						.updateByBoundingBoxResize(
-								AwtFactory.getPrototype()
-										.newPoint2D(event.getX(), event.getY()),
-								view.getHitHandler());
+				
+				GPoint2D p = AwtFactory.getPrototype().newPoint2D(event.getX(),
+						event.getY());
+				getResizedShape().updateByBoundingBoxResize(p,
+						view.getHitHandler());
+				if (app.has(Feature.MOW_SELECTION_TOOL)) {
+					getResizedShape().updateGeo(p);
+				}
 			}
 
 			hideDynamicStylebar();
@@ -7746,7 +7748,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		} else if (isMultiResize) {
 			handleResizeMultiple(event, view.getHitHandler());
-			view.repaintView();
 			return;
 		}
 		if (freehandModePrepared()) {
@@ -7897,51 +7898,90 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void handleResizeMultiple(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
-		// TODO: multiresize
 
-		// if for some reason there was no state initialized
-		if (startBoundingBoxState == null) {
-			startBoundingBoxState = new BoundingBoxResizeState(view);
-			// startBoundingBoxState.calculatePositions(selection.getSelectedGeos());
-		}
+		// calculate dragged distance
+		int distX = event.getX() - lastMouseLoc.getX();
+		int distY = event.getY() - lastMouseLoc.getY();
+
+		GRectangle2D boundingBoxRect = view.getBoundingBox().getRectangle();
 
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
+			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view
-					.getDrawableFor(selection.getSelectedGeos().get(i));
+					.getDrawableFor(geo);
 
-			// transpose event position to the specific element and apply
-			// updateByBoundingBoxResize
-			// & hope that it'll work <3
+			if (dr.getBounds() != null && dr.getBoundingBox() != null
+					&& dr.getBoundingBox().getNrHandlers() == 8) {
+				double newMinX = 0, newMaxX = 0,
+						bbWidth = boundingBoxRect.getWidth(),
+						bbMinX = boundingBoxRect.getMinX();
 
-			if (dr.getBounds() != null) {
-				double x = event.getX(), y = event.getY();
+				double newMinY = 0, newMaxY = 0,
+						bbHeight = boundingBoxRect.getHeight(),
+						bbMinY = boundingBoxRect.getMinY();
+
+				// we calculate the position of min / max points relative to the
+				// bounding box minX and width
+				double minXRatio = (dr.getBounds().getMinX()
+						- bbMinX)
+						/ bbWidth,
+						maxXRatio = (dr.getBounds().getMaxX()
+								- bbMinX)
+								/ bbWidth;
+
+				double minYRatio = (dr.getBounds().getMinY() - bbMinY)
+						/ bbHeight,
+						maxYRatio = (dr.getBounds().getMaxY() - bbMinY)
+								/ bbHeight;
+
+				// update bounding box values & calculate positions relative to
+				// it
 				switch (handler) {
-				case TOP:
-					y = event.getY() + (dr.getBounds().getMinY()
-							- startBoundingBoxState.getBoundingBoxRect()
-									.getMinY());
-					break;
 				case RIGHT:
-					x = event.getX()
-							- (startBoundingBoxState.getBoundingBoxRect()
-									.getMaxX()
-									- dr.getBounds().getMaxX());
-					break;
-				case BOTTOM:
-					y = event.getY()
-							- (startBoundingBoxState.getBoundingBoxRect()
-									.getMaxY()
-									- dr.getBounds().getMaxY());
+					bbWidth += distX;
 					break;
 				case LEFT:
-					x = event.getX() + (dr.getBounds().getMinX()
-							- startBoundingBoxState.getBoundingBoxRect()
-									.getMinX());
+					bbWidth -= distX;
+					bbMinX += distX;
 					break;
 				}
+				newMinX = bbWidth * minXRatio;
+				newMaxX = bbWidth * maxXRatio;
 
-				dr.updateByBoundingBoxResize(
-						AwtFactory.getPrototype().newPoint2D(x, y), handler);
+				switch (handler) {
+				case TOP:
+					bbHeight -= distY;
+					bbMinY += distY;
+					break;
+				case BOTTOM:
+					bbHeight += distY;
+					break;
+				}
+				newMinY = bbHeight * minYRatio;
+				newMaxY = bbHeight * maxYRatio;
+
+				// resize to new width
+				double oldMaxX = dr.getBounds().getMinX() + (newMaxX - newMinX),
+						oldMaxY = dr.getBounds().getMinY()
+								+ (newMaxY - newMinY);
+				GPoint2D point = AwtFactory.getPrototype()
+						.newPoint2D(oldMaxX, oldMaxY);
+				// this is temporary until we get rid of previews
+				dr.updateByBoundingBoxResize(point,
+						EuclidianBoundingBoxHandler.RIGHT);
+				dr.updateGeo(point);
+
+				dr.updateByBoundingBoxResize(point,
+						EuclidianBoundingBoxHandler.BOTTOM);
+				dr.updateGeo(point);
+
+				// calculate the difference between the new and old positions
+				// (minX) and then apply translate
+				double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
+						dy = newMinY + bbMinY - dr.getBounds().getMinY();
+				((Translateable) geo)
+						.translate(new Coords(dx / view.getXscale(),
+								-dy / view.getYscale()));
 			}
 		}
 	}
@@ -8123,7 +8163,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// reset
 		isMultiResize = false;
-		startBoundingBoxState = null;
 
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
@@ -8148,8 +8187,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				setResizedShape(d);
 			} else if (isMultiSelection() && wasBoundingBoxHit) {
 				isMultiResize = true;
-				startBoundingBoxState = new BoundingBoxResizeState(view);
-				// startBoundingBoxState.calculatePositions(selection.getSelectedGeos());
 			}
 		}
 		// find and set movedGeoElement
