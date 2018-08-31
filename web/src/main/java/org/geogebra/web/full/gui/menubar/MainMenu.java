@@ -486,8 +486,7 @@ public class MainMenu extends FlowPanel
 
 	@Override
 	public void render(boolean online) {
-		if (!app.enableFileFeatures() || (app.getLoginOperation() != null
-				&& !app.getLoginOperation().hasLoginButton())) {
+		if (!hasLoginButton()) {
 			return;
 		}
 		removeUserSignIn();
@@ -496,6 +495,11 @@ public class MainMenu extends FlowPanel
 		} else if (online) {
 			addSignInMenu();
 		}
+	}
+
+	private boolean hasLoginButton() {
+		return app.enableFileFeatures() && (app.getLoginOperation() == null
+				|| app.getLoginOperation().hasLoginButton());
 	}
 
 	private void removeUserSignIn() {
@@ -738,7 +742,7 @@ public class MainMenu extends FlowPanel
 
 	@Override
 	public void renderEvent(final BaseEvent event) {
-		if (!app.enableFileFeatures()) {
+		if (!hasLoginButton()) {
 			return;
 		}
 
