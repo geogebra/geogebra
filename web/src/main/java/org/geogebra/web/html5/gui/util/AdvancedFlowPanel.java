@@ -26,8 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AdvancedFlowPanel extends Composite implements HasWidgets,
 		HasAllKeyHandlers, HasAllMouseHandlers {
-	private FlowPanel mainPanel;
-	private FocusPanel focusPanel;
+	protected FlowPanel mainPanel;
+	protected FocusPanel focusPanel;
 
 	/**
 	 * New flow panel with focus handler.
@@ -116,5 +116,24 @@ public class AdvancedFlowPanel extends Composite implements HasWidgets,
 	@Override
 	public void addStyleName(String style) {
 		mainPanel.addStyleName(style);
+	}
+
+	/**
+	 * Sets attribute
+	 * 
+	 * @param attribute
+	 *            key.
+	 * @param value
+	 *            value.
+	 */
+	public void setAttribute(String attribute, String value) {
+		getElement().setAttribute(attribute, value);
+	}
+
+	/**
+	 * Make panel focused.
+	 */
+	public void requestFocus() {
+		getElement().focus();
 	}
 }

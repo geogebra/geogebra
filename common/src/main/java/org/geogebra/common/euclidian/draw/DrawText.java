@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -68,6 +69,7 @@ public final class DrawText extends Drawable {
 			.newBasicStroke(2);
 	private double scaleX = 1;
 	private double scaleY = 1;
+	private TextController ctrl;
 
 	/**
 	 * Creates new DrawText
@@ -81,6 +83,7 @@ public final class DrawText extends Drawable {
 		this.view = view;
 		this.text = text;
 		geo = text;
+		ctrl = view.getEuclidianController().getTextController();
 
 		textFont = view.getApplication().getPlainFontCommon()
 				.deriveFont(GFont.PLAIN, view.getFontSize());
@@ -180,12 +183,11 @@ public final class DrawText extends Drawable {
 		}
 
 		if (text.isEditMode()) {
+			ctrl.setEditorFont(textFont);
 			adjustBoundingBoxToText();
+		} else if (isWhiteboardText() && boundingBox != null) {
+			boundingBox.setRectangle(getBounds());
 		}
-
-		// if (isWhiteboardText() && boundingBox != null) {
-		// boundingBox.setRectangle(getBounds());
-		// }
 	}
 
 	@Override
@@ -239,10 +241,13 @@ public final class DrawText extends Drawable {
 	}
 
 	private void adjustBoundingBoxToText() {
-		// just measuring in edit mode
-		drawMultilineText(view.getTempGraphics2D(textFont), textFont);
+		GRectangle rect = ctrl.getEditorBounds();
+		if (rect == null || labelRectangle == null) {
+			return;
+		}
+		labelRectangle.setBounds(rect);
 		if (boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
+			boundingBox.setRectangle(labelRectangle);
 		}
 	}
 

@@ -1,6 +1,12 @@
+@import 'colors';
+
 .GeoGebraFrame{
-	.textEditorPanel{
-		width: 100%;
+	.mowTextEditor {
 		position: absolute;
-	}
+		border: 1px solid $teal-default;
+		z-index: 99;
+		min-height: 32px;
+		top: 20px;
+		left: 300px;	
+     }
 }

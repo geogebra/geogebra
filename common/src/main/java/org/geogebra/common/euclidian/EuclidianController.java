@@ -9274,10 +9274,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		setMoveModeForFurnitures();
 
-		if (hitTextTool(true)) {
-			return;
-		}
-
 		AutoCompleteTextField tf = view.getTextField();
 		if (tf != null && tf.hasFocus()) {
 			view.requestFocusInWindow();
@@ -10016,6 +10012,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		isMultiResize = false;
 
 		if (handleVideoReleased()) {
+			return;
+		}
+
+		if (!draggingOccured && hitTextTool(true)) {
 			return;
 		}
 
