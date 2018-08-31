@@ -252,9 +252,6 @@ public enum Feature {
 	/** MOB-1520 */
 	MOB_PACK_ALL_SURFACES,
 
-	/** MOB-1521 */
-	MOB_PACK_QUADRIC_PART,
-
 	/** MOB-1522 */
 	MOB_PACK_LISTS,
 

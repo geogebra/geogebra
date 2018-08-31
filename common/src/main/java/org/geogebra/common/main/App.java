@@ -3710,10 +3710,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_PACK_ALL_SURFACES:
 			return true;
 
-		// MOB-1521
-		case MOB_PACK_QUADRIC_PART:
-			return true;
-
 		// MOB-1522
 		case MOB_PACK_LISTS:
 			return true;

@@ -80,7 +80,6 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_QUADRIC_PART)
-				&& shouldBePackedCheckCreatedByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 }
