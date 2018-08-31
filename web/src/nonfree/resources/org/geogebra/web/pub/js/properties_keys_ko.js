@@ -2621,6 +2621,7 @@ __GGB__keysVar["ko"].menu = {
     "Share": "\uacf5\uc720",
     "ShareDialogDescription": "\uc774\uba54\uc77c\uc744 \ubcf4\ub0b4\uac70\ub098, \uc9c0\uc624\uc9c0\ube0c\ub77c \ub610\ub294 \ub2e4\ub978 \uc800\uc7a5 \uacf5\uac04\uc5d0 \uc5c5\ub85c\ub4dc\ud558\uc138\uc694.",
     "ShareDialogTitle": "\uad6c\uc131 \uacf5\uc720",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "\uacf5\uc720",
     "SharedByA": "%0 \ub2d8\uc5d0 \uc758\ud574 \uacf5\uc720\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
     "Show": "\ubcf4\uc774\uae30",

@@ -2621,6 +2621,7 @@ __GGB__keysVar["pl"].menu = {
     "Share": "Udost\u0119pnij",
     "ShareDialogDescription": "Wy\u015blij poczt\u0105 e-mail, prze\u015blij do GeoGebra lub innych repozytori\xf3w.",
     "ShareDialogTitle": "Udost\u0119pnij konstrukcj\u0119",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Udost\u0119pnione",
     "SharedByA": "Udost\u0119pnione przez: %0",
     "Show": "Poka\u017c",

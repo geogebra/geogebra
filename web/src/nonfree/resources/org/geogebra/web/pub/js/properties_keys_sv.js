@@ -2621,6 +2621,7 @@ __GGB__keysVar["sv"].menu = {
     "Share": "Dela",
     "ShareDialogDescription": "S\xe4nd med epost, ladda upp till GeoGebra eller andra materialsamlingar.",
     "ShareDialogTitle": "Dela konstruktion",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Delad",
     "SharedByA": "Delad av: %0",
     "Show": "Visa",

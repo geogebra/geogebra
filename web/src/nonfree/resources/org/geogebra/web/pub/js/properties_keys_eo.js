@@ -2621,6 +2621,7 @@ __GGB__keysVar["eo"].menu = {
     "Share": "Komunigi",
     "ShareDialogDescription": "Send via email, upload to GeoGebra or other repositories.",
     "ShareDialogTitle": "Komunigi konstruon",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Komuna",
     "SharedByA": "Shared by: %0",
     "Show": "Montri",

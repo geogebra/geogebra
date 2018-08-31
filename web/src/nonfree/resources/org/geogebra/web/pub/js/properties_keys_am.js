@@ -2621,6 +2621,7 @@ __GGB__keysVar["am"].menu = {
     "Share": "\u12a0\u130b\u122b",
     "ShareDialogDescription": "Send via email, upload to GeoGebra or other repositories.",
     "ShareDialogTitle": "Share Construction",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "\u12e8\u1270\u130b\u122b",
     "SharedByA": "\u1260 %0 \u12e8\u1270\u130b\u122b",
     "Show": "\u12a0\u1233\u12ed",

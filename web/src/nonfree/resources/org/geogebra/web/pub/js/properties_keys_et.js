@@ -2621,6 +2621,7 @@ __GGB__keysVar["et"].menu = {
     "Share": "Jaga",
     "ShareDialogDescription": "Saada epostiga, laadi GeoGebra' v\xf5i teistesse kohtadesse.",
     "ShareDialogTitle": "Jaga konstruktsiooni",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Jagatud",
     "SharedByA": "Jagas: %0",
     "Show": "N\xe4ita",

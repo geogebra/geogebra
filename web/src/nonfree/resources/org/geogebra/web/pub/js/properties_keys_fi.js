@@ -2621,6 +2621,7 @@ __GGB__keysVar["fi"].menu = {
     "Share": "Julkaise GeoGebrassa",
     "ShareDialogDescription": "L\xe4het\xe4 s\xe4hk\xf6postilla, lataa GeoGebraen tai muuhun arkistoon.",
     "ShareDialogTitle": "Jaa konstruktio",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Jaettu",
     "SharedByA": "Jakanut %0",
     "Show": "N\xe4yt\xe4",

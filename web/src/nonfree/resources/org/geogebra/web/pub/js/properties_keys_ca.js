@@ -2621,6 +2621,7 @@ __GGB__keysVar["ca"].menu = {
     "Share": "Comparteix",
     "ShareDialogDescription": "Envia per correu electr\xf2nic, puja a GeoGebra o a d'altres repositoris.",
     "ShareDialogTitle": "Comparteix la construcci\xf3",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Compartit",
     "SharedByA": "Compartit per: %0",
     "Show": "Mostra",

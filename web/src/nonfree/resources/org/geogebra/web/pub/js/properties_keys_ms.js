@@ -2621,6 +2621,7 @@ __GGB__keysVar["ms"].menu = {
     "Share": "Kongsi",
     "ShareDialogDescription": "Hantar melalui email, muat naik ke GeoGebra atau repositori yang lain",
     "ShareDialogTitle": "Kongsi Pembinaan",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Dikongsi",
     "SharedByA": "Dikongsi oleh: %0",
     "Show": "Tunjuk",

@@ -2621,6 +2621,7 @@ __GGB__keysVar["vi"].menu = {
     "Share": "Chia s\u1ebb",
     "ShareDialogDescription": "g\u1eedi qua th\u01b0 \u0111i\xean t\u1eed, t\u1ea3i l\xean trang GeoGebra hay l\xe0 nh\u1eefng kho d\u1eef li\u1ec7u kh\xe1c",
     "ShareDialogTitle": "Share Construction",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Shared",
     "SharedByA": "Shared by: %0",
     "Show": "Hi\u1ec3n th\u1ecb",

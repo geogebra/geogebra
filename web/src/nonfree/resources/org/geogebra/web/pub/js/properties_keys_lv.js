@@ -2621,6 +2621,7 @@ __GGB__keysVar["lv"].menu = {
     "Share": "Dal\u012bties",
     "ShareDialogDescription": "S\u016bt\u012bt k\u0101 e-pastu, aug\u0161upl\u0101d\u0113t GeoGebra vai citur.",
     "ShareDialogTitle": "Dal\u012bties ar konstrukcju",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Dal\u012bties",
     "SharedByA": "Dal\u012bties: %0",
     "Show": "R\u0101d\u012bt",

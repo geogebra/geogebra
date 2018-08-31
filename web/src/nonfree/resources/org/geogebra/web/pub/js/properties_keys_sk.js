@@ -2621,6 +2621,7 @@ __GGB__keysVar["sk"].menu = {
     "Share": "\u0160\xedri\u0165",
     "ShareDialogDescription": "Posla\u0165 e-mailom, nahra\u0165 na GeoGebra alebo do in\xfdch \xfalo\u017e\xedsk.",
     "ShareDialogTitle": "\u0160\xedri\u0165 kon\u0161trukciu",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "\u0160\xedren\xe9",
     "SharedByA": "\u0160\xedren\xe9 medzi: %0",
     "Show": "Zobrazi\u0165",

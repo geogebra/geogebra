@@ -2621,6 +2621,7 @@ __GGB__keysVar["is"].menu = {
     "Share": "Deila",
     "ShareDialogDescription": "Senda me\xf0 t\xf6lvup\xf3sti, hla\xf0a upp \xe1 GeoGebra e\xf0a a\xf0ra vefi.",
     "ShareDialogTitle": "Deila sm\xed\xf0",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Deilt",
     "SharedByA": "Deilt af: %0",
     "Show": "S\xfdna",

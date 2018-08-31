@@ -2621,6 +2621,7 @@ __GGB__keysVar["it"].menu = {
     "Share": "Condividi",
     "ShareDialogDescription": "Invia con e-mail, carica su GeoGebra o in altri archivi.",
     "ShareDialogTitle": "Condividi costruzione",
+    "ShareLinkHelpTxt": "Chiunque disponga del link pu\xf2 visualizzare questo file.",
     "Shared": "Condiviso",
     "SharedByA": "Condiviso da: %0",
     "Show": "Mostra",

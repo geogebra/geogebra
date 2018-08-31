@@ -2621,6 +2621,7 @@ __GGB__keysVar["hu"].menu = {
     "Share": "Publik\xe1l\xe1s",
     "ShareDialogDescription": "K\xfcld\xe9s emailben, felt\xf6lt\xe9s a GeoGebr\xe1ra vagy m\xe1s gy\u0171jtem\xe9nybe.",
     "ShareDialogTitle": "Szerkeszt\xe9s megoszt\xe1sa",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Megosztott",
     "SharedByA": "Megosztotta: %0",
     "Show": "Mutat",

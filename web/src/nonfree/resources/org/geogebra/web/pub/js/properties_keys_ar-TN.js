@@ -2621,6 +2621,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "Share": "\u0645\u0634\u0627\u0631\u0643\u0629",
     "ShareDialogDescription": "GeoGebra\u0625\u0631\u0633\u0627\u0644 \u0625\u0644\u0649",
     "ShareDialogTitle": "\u062a\u0634\u0631\u064a\u0643 \u0627\u0644\u0628\u0646\u0627\u0621",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "\u062a\u0634\u0631\u064a\u0643",
     "SharedByA": "%0\u062a\u0645 \u062a\u0634\u0634\u0631\u064a\u0643\u0647\u0627 \u0645\u0646 \u0637\u0631\u0641",
     "Show": "\u0625\u0638\u0647\u0627\u0631",

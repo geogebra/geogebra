@@ -2621,6 +2621,7 @@ __GGB__keysVar["xh"].menu = {
     "Share": "Abela",
     "ShareDialogDescription": "Thumela nge imeyl, faka kuGeoGebra okanye ezinye iindawo.",
     "ShareDialogTitle": "Yabelana ngesakhiwo",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "KwabelwenaNgayo",
     "SharedByA": "Kwabelwana ngayo ngu: %0",
     "Show": "Bonisa",

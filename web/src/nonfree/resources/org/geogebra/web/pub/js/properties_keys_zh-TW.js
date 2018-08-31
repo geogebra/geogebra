@@ -2621,6 +2621,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Share": "\u5206\u4eab",
     "ShareDialogDescription": "\u5229\u7528\u96fb\u5b50\u90f5\u4ef6\u50b3\u9001\u3001\u4e0a\u50b3\u5230 GeoGebra \u6216\u5176\u4ed6\u5730\u65b9",
     "ShareDialogTitle": "\u5206\u4eab",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "\u5df2\u5206\u4eab",
     "SharedByA": "\u5206\u4eab\u8005\uff1a%0",
     "Show": "\u986f\u793a",

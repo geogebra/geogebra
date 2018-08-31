@@ -2621,6 +2621,7 @@ __GGB__keysVar["tr"].menu = {
     "Share": "Payla\u015f",
     "ShareDialogDescription": "Email ile g\xf6nder veya GeoGebra ve di\u011fer ambarlara y\xfckle",
     "ShareDialogTitle": "Olu\u015fumu Payla\u015f",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Payla\u015f\u0131ml\u0131",
     "SharedByA": "Payla\u015fan: %0",
     "Show": "G\xf6ster",

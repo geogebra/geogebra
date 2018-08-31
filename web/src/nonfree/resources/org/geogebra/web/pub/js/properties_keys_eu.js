@@ -2621,6 +2621,7 @@ __GGB__keysVar["eu"].menu = {
     "Share": "Partekatu",
     "ShareDialogDescription": "Bidali posta elektronikoz, igo GeoGebrara edo beste biltegi batera",
     "ShareDialogTitle": "Eraikuntza Partekatu",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Partekatua",
     "SharedByA": "%0-(e)k partekatua",
     "Show": "Erakutsi",

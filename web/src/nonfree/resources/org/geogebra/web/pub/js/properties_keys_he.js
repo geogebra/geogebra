@@ -2621,6 +2621,7 @@ __GGB__keysVar["he"].menu = {
     "Share": "\u05e9\u05ea\u05e3",
     "ShareDialogDescription": "\u05e9\u05dc\u05d7\u05d9 \u05d1\u05d3\u05d5\u05d0\"\u05dc, \u05d4\u05e2\u05dc\u05d9 \u05dc-\u200fGeoGebra\u200f \u05d0\u05d5 \u05dc\u05de\u05d0\u05d2\u05e8\u05d9\u05dd \u05d0\u05d7\u05e8\u05d9\u05dd.",
     "ShareDialogTitle": "\u05e9\u05ea\u05e3 \u05d1\u05e0\u05d9\u05d9\u05d4",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "\u05de\u05e9\u05d5\u05ea\u05e3",
     "SharedByA": "\u05e9\u05d9\u05ea\u05e3: %0\u200f",
     "Show": "\u05d4\u05e6\u05d2",

@@ -2621,6 +2621,7 @@ __GGB__keysVar["lt"].menu = {
     "Share": "Bendrinti",
     "ShareDialogDescription": "Si\u0173sti el. pa\u0161tu, sukelti \u012f GeoGebra ar kitur.",
     "ShareDialogTitle": "Bendrinti konstrukcij\u0105",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Bendras",
     "SharedByA": "Bendrina: %0",
     "Show": "Rodyti",

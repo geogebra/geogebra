@@ -2621,6 +2621,7 @@ __GGB__keysVar["ro"].menu = {
     "Share": "Partajare",
     "ShareDialogDescription": "Trimite prin email, \xeencarc\u0103 pe GeoGebra sau un alt repository.",
     "ShareDialogTitle": "cota de constructii",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Partajat",
     "SharedByA": "\xcemp\u0103rt\u0103\u0219it de: %0",
     "Show": "Arat\u0103",

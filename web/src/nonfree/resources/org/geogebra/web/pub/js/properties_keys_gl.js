@@ -2621,6 +2621,7 @@ __GGB__keysVar["gl"].menu = {
     "Share": "Comparte",
     "ShareDialogDescription": "Enviar por email, subir a GeoGebra ou outros repositorios",
     "ShareDialogTitle": "Comparte Construcci\xf3n",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Compartible",
     "SharedByA": "Compartido por: %0",
     "Show": "Amosar",

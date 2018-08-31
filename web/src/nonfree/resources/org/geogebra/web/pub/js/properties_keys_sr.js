@@ -2621,6 +2621,7 @@ __GGB__keysVar["sr"].menu = {
     "Share": "Deli",
     "ShareDialogDescription": "Po\u0161alji putem e-maila, postavi na GeoGebra ili neku drugu kolekciju.",
     "ShareDialogTitle": "Dijeli Konstrukciju",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Shared",
     "SharedByA": "Podijelio/la: %0",
     "Show": "Prika\u017ei",

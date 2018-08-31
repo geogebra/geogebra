@@ -2621,6 +2621,7 @@ __GGB__keysVar["nn"].menu = {
     "Share": "Del",
     "ShareDialogDescription": "Send via e-post, last opp til GeoGebra eller andre stadar for lagring.",
     "ShareDialogTitle": "Del dette med andre",
+    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
     "Shared": "Delt",
     "SharedByA": "Delt av: %0",
     "Show": "Vis",
