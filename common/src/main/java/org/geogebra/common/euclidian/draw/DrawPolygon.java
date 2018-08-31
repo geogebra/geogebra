@@ -602,26 +602,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
 
-		if (!view.getApplication().has(Feature.MOW_SELECTION_TOOL)) {
-			poly.setEuclidianVisible(false);
-			poly.updateRepaint();
-			if (isCornerHandler(handler)) {
-				updateFreePolygonCorner(handler, point);
-			} else {
-				updateFreePolygonSide(handler, point);
-			}
-			view.setShapePolygon(prewPolygon);
-			view.setShapeFillCol(poly.getFillColor());
-			view.setShapeObjCol(poly.getObjectColor());
-			view.setShapeStroke(EuclidianStatic.getStroke(
-					poly.getLineThickness() / 2.0, poly.getLineType()));
+		poly.setEuclidianVisible(false);
+		poly.updateRepaint();
+		if (isCornerHandler(handler)) {
+			updateFreePolygonCorner(handler, point);
 		} else {
-			if (isCornerHandler(handler)) {
-				updateFreePolygonCorner(handler, point);
-			} else {
-				updateFreePolygonSide(handler, point);
-			}
+			updateFreePolygonSide(handler, point);
 		}
+		view.setShapePolygon(prewPolygon);
+		view.setShapeFillCol(poly.getFillColor());
+		view.setShapeObjCol(poly.getObjectColor());
+		view.setShapeStroke(EuclidianStatic
+				.getStroke(poly.getLineThickness() / 2.0, poly.getLineType()));
 	}
 
 	private void updateRealPointsOfPolygon() {

@@ -7738,9 +7738,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						event.getY());
 				getResizedShape().updateByBoundingBoxResize(p,
 						view.getHitHandler());
-				if (app.has(Feature.MOW_SELECTION_TOOL)) {
-					getResizedShape().updateGeo(p);
-				}
 			}
 
 			hideDynamicStylebar();
@@ -7938,8 +7935,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
 
-			if (dr.getBounds() != null && dr.getBoundingBox() != null
-					&& dr.getBoundingBox().getNrHandlers() == 8) {
+			if (dr.getBounds() != null && dr.getBoundingBox() != null) {
 
 				// calculate new positions relative to bounding box
 				double newMinX = startBoundingBoxState.getRatios()[i][0]
@@ -7957,9 +7953,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						maxYFromOld = dr.getBounds().getMinY()
 								+ (newMaxY - newMinY);
 				// resize to new width
-				// this is temporary until we get rid of previews
 				GPoint2D point = AwtFactory.getPrototype()
 						.newPoint2D(maxXFromOld, maxYFromOld);
+
 				if (point.getX() != 0) {
 					dr.updateByBoundingBoxResize(point,
 							EuclidianBoundingBoxHandler.RIGHT);
@@ -7967,7 +7963,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 				if (point.getY() != 0) {
 					dr.updateByBoundingBoxResize(point,
-							EuclidianBoundingBoxHandler.BOTTOM);
+								EuclidianBoundingBoxHandler.BOTTOM);
 					dr.updateGeo(point);
 				}
 
@@ -7975,8 +7971,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// (minX) and then apply translate
 				double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
 						dy = newMinY + bbMinY - dr.getBounds().getMinY();
-				if (dx != 0 || dy != 0) {
-
+				if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
 					((Translateable) geo).translate(new Coords(
 							dx / view.getXscale(), -dy / view.getYscale()));
 
@@ -9975,6 +9970,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
 			am.setTabOverGeos(true);
 		}
+
+		isMultiResize = false;
 
 		if (handleVideoReleased()) {
 			return;

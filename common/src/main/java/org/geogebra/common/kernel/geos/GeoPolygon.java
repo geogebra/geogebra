@@ -2370,6 +2370,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
+	public boolean isTranslateable() {
+		return true;
+	}
+
+	@Override
 	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).dilate(r, S);
