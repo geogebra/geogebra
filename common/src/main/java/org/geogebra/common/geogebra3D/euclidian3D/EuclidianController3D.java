@@ -4181,4 +4181,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void setCursorForProccessMouseMoveHit() {
 		setHitCursor();
 	}
+
+	@Override
+	public void onArrowKeyTyped() {
+		super.onArrowKeyTyped();
+		view3D.setCursor3DInvisible();
+	}
 }

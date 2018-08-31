@@ -8360,6 +8360,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// Floating stylebar not supported
 	}
 
+	public void onArrowKeyTyped() {
+		hideDynamicStylebar();
+	}
+
 	public void cancelDrag() {
 		moveMode = MOVE_NONE;
 	}

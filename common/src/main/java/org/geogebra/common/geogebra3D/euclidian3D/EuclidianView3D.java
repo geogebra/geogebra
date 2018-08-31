@@ -245,6 +245,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
+	private boolean cursor3DInvisible = true;
 	private EuclidianCursor cursor = EuclidianCursor.DEFAULT;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.identity();
@@ -2034,7 +2035,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setCursor3DType(int v) {
 		cursor3DType = v;
-		// Log.debug(""+v);
+		cursor3DInvisible = false;
+	}
+
+	/**
+	 * set 3D cursor invisible
+	 */
+	public void setCursor3DInvisible() {
+		cursor3DInvisible = true;
 	}
 
 	/**
@@ -2503,7 +2511,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// + "\ncursor=" + cursor + "\ngetCursor3DType()="
 		// + getCursor3DType());
 
-		if (hasMouse()) {
+		if (hasMouse() && !cursor3DInvisible) {
 
 			// mouse cursor
 			if (moveCursorIsVisible()) {

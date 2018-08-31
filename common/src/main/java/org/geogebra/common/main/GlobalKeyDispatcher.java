@@ -304,7 +304,7 @@ public abstract class GlobalKeyDispatcher {
 				app.getActiveEuclidianView());
 		if (app.getActiveEuclidianView() != null) {
 			app.getActiveEuclidianView().getEuclidianController()
-				.hideDynamicStylebar();
+					.onArrowKeyTyped();
 		}
 
 		// nothing moved
