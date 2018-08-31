@@ -19,6 +19,7 @@ import com.google.gwt.dom.client.Style.Unit;
  */
 public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 	private GRectangle bounds;
+	private GFont editorFont;
 	/**
 	 * constructor
 	 */
@@ -115,9 +116,17 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 			return;
 		}
 
+		editorFont = font;
 		getWidget().getElement().getStyle().setProperty("font",
 				((GFontW) font).getFullFontString());
 
+	}
+
+	/**
+	 * Gets editor font.
+	*/
+	public GFont getFont() {
+		return editorFont;
 	}
 
 	/**

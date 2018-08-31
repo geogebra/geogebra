@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
@@ -8,6 +10,9 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.awt.GFontRenderContextW;
+import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -140,6 +145,44 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 			return;
 		}
 		editor.setFont(font);
+	}
+
+	/**
+	 * Wraps a row.
+	 *
+	 * @param row
+	 *            row to wrap.
+	 */
+	public ArrayList<String> wrapRow(String row) {
+		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen().getFontRenderContext();
+		String[] words = row.split(" ");
+		int rowLength = 100;
+		int i = 0;
+		String currRow, tempRow = "";
+		ArrayList<String> wrappedRow = new ArrayList<>();
+		for (i = 0; i < words.length; i++) {
+			currRow = tempRow;
+			if (i > 0) {
+				tempRow = tempRow.concat(" ");
+			}
+			tempRow = tempRow.concat(words[i]);
+
+			// TODO
+			// int currLength = fontRenderContext.measureText(tempRow,
+			// ((GFontW) editor.getFont()).getFullFontString());
+			GFont textFont = view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN,
+					view.getFontSize());
+			int currLength = fontRenderContext.measureText(tempRow,
+					((GFontW) textFont).getFullFontString());
+			if (currLength > rowLength) {
+				wrappedRow.add(currRow);
+				tempRow = "";
+				i--;
+			}
+		}
+		wrappedRow.add(tempRow);
+		Log.debug(wrappedRow + " " + wrappedRow.size());
+		return wrappedRow;
 	}
 
 	@Override
