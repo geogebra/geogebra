@@ -428,10 +428,16 @@ namespace giac {
   static define_unary_function_eval (__NORMALD,&_normald,_NORMALD_s);
   define_unary_function_ptr5( at_NORMALD ,alias_at_NORMALD,&__NORMALD,0,true);
 
+  double unif_rand(GIAC_CONTEXT){
+    return giac_rand(contextptr)/(rand_max2+1.0);
+  }
+  double exp_rand(GIAC_CONTEXT){
+    double u=giac_rand(contextptr)/(rand_max2+1.0);
+    return -std::log(1-u);
+  }
   gen _randexp(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    double u=giac_rand(contextptr)/(rand_max2+1.0);
-    return -gen(std::log(1-u))/args;
+    return gen(exp_rand(contextptr))/args;
   }
   static const char _randexp_s []="randexp";
   static define_unary_function_eval (__randexp,&_randexp,_randexp_s);
@@ -2148,6 +2154,196 @@ namespace giac {
   static const char _gammad_icdf_s []="gammad_icdf";
   static define_unary_function_eval (__gammad_icdf,&_gammad_icdf,_gammad_icdf_s);
   define_unary_function_ptr5( at_gammad_icdf ,alias_at_gammad_icdf,&__gammad_icdf,0,true);
+
+#if 1 //def USE_GMP_REPLACEMENTS
+  // a must be an integer for non GPL projects (https://en.wikipedia.org/wiki/Gamma_distribution#Generating_gamma-distributed_random_variables) 
+  double rgamma(double a, double scale,GIAC_CONTEXT){
+    int n=a;
+    if (a!=n)
+      return 0.0/0.0;
+    double res=0;
+    for (int i=0;i<n;++i)
+      res -= std::log(unif_rand(contextptr));
+    return res*scale;
+  }
+
+#else
+  // modified from https://svn.r-project.org/R/trunk/src/nmath/rgamma.c, license GPL 2 or >=
+  // assumes a>0, scale>0
+  // thanks to R Rossignol for the reference
+  double rgamma(double a, double scale,GIAC_CONTEXT){
+    /* Constants : */
+    const static double sqrt32 = 5.656854;
+    const static double exp_m1 = 0.36787944117144232159;/* exp(-1) = 1/e */
+    
+    /* Coefficients q[k] - for q0 = sum(q[k]*a^(-k))
+     * Coefficients a[k] - for q = q0+(t*t/2)*sum(a[k]*v^k)
+     * Coefficients e[k] - for exp(q)-1 = sum(e[k]*q^k)
+     */
+    const static double q1 = 0.04166669;
+    const static double q2 = 0.02083148;
+    const static double q3 = 0.00801191;
+    const static double q4 = 0.00144121;
+    const static double q5 = -7.388e-5;
+    const static double q6 = 2.4511e-4;
+    const static double q7 = 2.424e-4;
+
+    const static double a1 = 0.3333333;
+    const static double a2 = -0.250003;
+    const static double a3 = 0.2000062;
+    const static double a4 = -0.1662921;
+    const static double a5 = 0.1423657;
+    const static double a6 = -0.1367177;
+    const static double a7 = 0.1233795;
+
+    /* State variables [FIXME for threading!] :*/
+    static double aa = 0.;
+    static double aaa = 0.;
+    static double s, s2, d;    /* no. 1 (step 1) */
+    static double q0, b, si, c;/* no. 2 (step 4) */
+
+    double e, p, q, r, t, u, v, w, x, ret_val;
+
+    // if(!R_FINITE(a) || !R_FINITE(scale)) return ML_POSINF;
+
+    if (a < 1.) { /* GS algorithm for parameters a < 1 */
+      e = 1.0 + exp_m1 * a;
+      for (;;) {
+	p = e * unif_rand(contextptr);
+	    if (p >= 1.0) {
+	      x = -std::log((e - p) / a);
+		if (exp_rand(contextptr) >= (1.0 - a) * std::log(x))
+		    break;
+	    } else {
+		x = std::exp(std::log(p) / a);
+		if (exp_rand(contextptr) >= x)
+		    break;
+	    }
+	}
+	return scale * x;
+    }
+
+    /* --- a >= 1 : GD algorithm --- */
+
+    /* Step 1: Recalculations of s2, s, d if a has changed */
+    if (a != aa) {
+	aa = a;
+	s2 = a - 0.5;
+	s = std::sqrt(s2);
+	d = sqrt32 - s * 12.0;
+    }
+    /* Step 2: t = standard normal deviate,
+               x = (s,1/2) -normal deviate. */
+
+    /* immediate acceptance (i) */
+    t = randNorm(contextptr); // norm_rand();
+    x = s + 0.5 * t;
+    ret_val = x * x;
+    if (t >= 0.0)
+	return scale * ret_val;
+
+    /* Step 3: u = 0,1 - uniform sample. squeeze acceptance (s) */
+    u = unif_rand(contextptr);
+    if (d * u <= t * t * t)
+	return scale * ret_val;
+
+    /* Step 4: recalculations of q0, b, si, c if necessary */
+
+    if (a != aaa) {
+	aaa = a;
+	r = 1.0 / a;
+	q0 = ((((((q7 * r + q6) * r + q5) * r + q4) * r + q3) * r
+	       + q2) * r + q1) * r;
+
+	/* Approximation depending on size of parameter a */
+	/* The constants in the expressions for b, si and c */
+	/* were established by numerical experiments */
+
+	if (a <= 3.686) {
+	    b = 0.463 + s + 0.178 * s2;
+	    si = 1.235;
+	    c = 0.195 / s - 0.079 + 0.16 * s;
+	} else if (a <= 13.022) {
+	    b = 1.654 + 0.0076 * s2;
+	    si = 1.68 / s + 0.275;
+	    c = 0.062 / s + 0.024;
+	} else {
+	    b = 1.77;
+	    si = 0.75;
+	    c = 0.1515 / s;
+	}
+    }
+    /* Step 5: no quotient test if x not positive */
+
+    if (x > 0.0) {
+	/* Step 6: calculation of v and quotient q */
+	v = t / (s + s);
+	if (fabs(v) <= 0.25)
+	    q = q0 + 0.5 * t * t * ((((((a7 * v + a6) * v + a5) * v + a4) * v
+				      + a3) * v + a2) * v + a1) * v;
+	else
+	    q = q0 - s * t + 0.25 * t * t + (s2 + s2) * std::log(1.0 + v);
+
+
+	/* Step 7: quotient acceptance (q) */
+	if (std::log(1.0 - u) <= q)
+	    return scale * ret_val;
+    }
+
+    for(;;) {
+	/* Step 8: e = standard exponential deviate
+	 *	u =  0,1 -uniform deviate
+	 *	t = (b,si)-double exponential (laplace) sample */
+	e = exp_rand(contextptr);
+	u = unif_rand(contextptr);
+	u = u + u - 1.0;
+	if (u < 0.0)
+	    t = b - si * e;
+	else
+	    t = b + si * e;
+	/* Step	 9:  rejection if t < tau(1) = -0.71874483771719 */
+	if (t >= -0.71874483771719) {
+	    /* Step 10:	 calculation of v and quotient q */
+	    v = t / (s + s);
+	    if (fabs(v) <= 0.25)
+		q = q0 + 0.5 * t * t *
+		    ((((((a7 * v + a6) * v + a5) * v + a4) * v + a3) * v
+		      + a2) * v + a1) * v;
+	    else
+		q = q0 - s * t + 0.25 * t * t + (s2 + s2) * std::log(1.0 + v);
+	    /* Step 11:	 hat acceptance (h) */
+	    /* (if q not positive go to step 8) */
+	    if (q > 0.0) {
+		w = expm1(q);
+		/*  ^^^^^ original code had approximation with rel.err < 2e-7 */
+		/* if t is rejected sample again at step 8 */
+		if (c * fabs(u) <= w * std::exp(e - 0.5 * t * t))
+		    break;
+	    }
+	}
+    } /* repeat .. until  `t' is accepted */
+    x = s + 0.5 * t;
+    return scale * x * x;
+  }
+#endif
+
+  // args=(alpha,beta)
+  gen _randgammad(const gen & args,GIAC_CONTEXT){
+    if (args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen alpha=args._VECTptr->front();
+    gen beta=args._VECTptr->back();
+    alpha=evalf_double(alpha,1,contextptr);
+    beta=evalf_double(beta,1,contextptr);
+    if (is_positive(-alpha,contextptr) || is_positive(-beta,contextptr) || alpha.type!=_DOUBLE_ || beta.type!=_DOUBLE_)
+      return gensizeerr(contextptr);
+    return rgamma(alpha._DOUBLE_val,1.0/beta._DOUBLE_val,contextptr);
+  }
+  static const char _randgammad_s []="randgammad";
+  static define_unary_function_eval (__randgammad,&_randgammad,_randgammad_s);
+  define_unary_function_ptr5( at_randgammad ,alias_at_randgammad,&__randgammad,0,true);
+
 
   gen uniform(const gen & g,bool ckpython,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

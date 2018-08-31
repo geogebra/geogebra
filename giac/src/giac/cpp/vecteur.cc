@@ -10491,6 +10491,22 @@ namespace giac {
 	res.push_back(randpoisson(lambda,contextptr));
       return;     
     }
+    if (f.is_symb_of_sommet(at_gammad) || f.is_symb_of_sommet(at_randgammad) ){
+      f=evalf_double(f._SYMBptr->feuille,1,contextptr);
+      gen a,b;
+      if (f.type==_VECT && f._VECTptr->size()==2){
+	a=f._VECTptr->front();
+	b=f._VECTptr->back();
+      }
+      if (a.type!=_DOUBLE_ || b.type!=_DOUBLE_ || a._DOUBLE_val<=0 || b._DOUBLE_val<=0){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      double scale=1.0/b._DOUBLE_val;
+      for (int i=0;i<n;++i)
+	res.push_back(rgamma(a._DOUBLE_val,scale,contextptr));
+      return;
+    }
     if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_EXP) || f.is_symb_of_sommet(at_randexp) || f.is_symb_of_sommet(at_exponential) || f.is_symb_of_sommet(at_exponentiald)){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);
       if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){

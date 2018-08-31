@@ -210,6 +210,9 @@ namespace giac {
 
   gen _gammad_icdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_gammad_icdf ;
+  double rgamma(double a, double scale,GIAC_CONTEXT);
+  gen _randgammad(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_randgammad ;
 
   gen _kolmogorovd(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_kolmogorovd ;
