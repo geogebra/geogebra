@@ -17,6 +17,8 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -27,7 +29,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
  * @author laszlo
  *
  */
-public class TextControllerW implements TextController, BlurHandler, KeyDownHandler {
+public class TextControllerW implements TextController, FocusHandler, BlurHandler, KeyDownHandler {
 	private MowTextEditor editor;
 	private AppW app;
 	private EuclidianViewW view;
@@ -51,6 +53,7 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 		AbsolutePanel evPanel = view.getAbsolutePanel();
 		evPanel.add(editor);
 		editor.addKeyDownHandler(this);
+		editor.addFocusHandler(this);
 		editor.addBlurHandler(this);
 
 	}
@@ -93,6 +96,7 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 	@Override
 	public void onBlur(BlurEvent event) {
 		editor.hide();
+		view.setBoundingBox(null);
 		text.setEditMode(false);
 		text.setTextString(editor.getText());
 		text.update();
@@ -202,5 +206,14 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 			return;
 		}
 		editor.setColor(color);
+	}
+
+	@Override
+	public void onFocus(FocusEvent event) {
+		Log.debug("focus");
+		DrawText d = (DrawText) view.getDrawableFor(text);
+		if (d != null) {
+			view.setBoundingBox(d.getBoundingBox());
+		}
 	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import java.util.Iterator;
 
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasAllKeyHandlers;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -93,6 +94,15 @@ public class AdvancedFlowPanel extends Composite implements HasWidgets,
 		return focusPanel.addBlurHandler(handler);
 	}
 
+	/**
+	 * @param handler
+	 *            focus handler
+	 * @return registration
+	 */
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focusPanel.addFocusHandler(handler);
+	}
+
 	@Override
 	public void add(Widget w) {
 		mainPanel.add(w);
@@ -120,7 +130,7 @@ public class AdvancedFlowPanel extends Composite implements HasWidgets,
 
 	/**
 	 * Sets attribute
-	 * 
+	 *
 	 * @param attribute
 	 *            key.
 	 * @param value
