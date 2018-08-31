@@ -22,6 +22,7 @@
 		position: relative;
 		right: 0px;
 		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
 		img {
 			opacity: 0.54;
 		}
@@ -429,6 +430,7 @@
 		    border-radius: 50%;
 		    width: 24px;
     		height: 24px;
+    		transition: background-color 150ms ease 0ms;
 		    
 		    &.zoomPanelBtnSmall {
 		    	padding: 8px;	
@@ -502,6 +504,7 @@
 		left: 40px;
 		.flatButton {
 			border-radius: 50%;	
+			transition: background-color 150ms ease 0ms;
 			
 			&.buttonActive:hover {
 				img { 
