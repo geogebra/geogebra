@@ -1145,6 +1145,12 @@ namespace giac {
 
   void autoscaleminmax(vector<double> & v,double & m,double & M,bool fullview){
     int s=int(v.size());
+    for (int i=0;i<s;++i){
+      if (my_isinf(v[i])){
+	v.erase(v.begin()+i);
+	--s; --i;
+      }
+    }
     if (s==0){
       v.push_back(0);
       ++s;

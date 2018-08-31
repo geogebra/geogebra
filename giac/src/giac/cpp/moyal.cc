@@ -2155,7 +2155,7 @@ namespace giac {
   static define_unary_function_eval (__gammad_icdf,&_gammad_icdf,_gammad_icdf_s);
   define_unary_function_ptr5( at_gammad_icdf ,alias_at_gammad_icdf,&__gammad_icdf,0,true);
 
-#if 1 //def USE_GMP_REPLACEMENTS
+#ifdef USE_GMP_REPLACEMENTS
   // a must be an integer for non GPL projects (https://en.wikipedia.org/wiki/Gamma_distribution#Generating_gamma-distributed_random_variables) 
   double rgamma(double a, double scale,GIAC_CONTEXT){
     int n=a;
