@@ -5044,7 +5044,7 @@ public abstract class GeoElement extends ConstructionElement
 					.append(StringUtil.toHexString(getAlgebraColor()));
 			sbNameDescriptionHTML.append("\">");
 		}
-		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
+		sbNameDescriptionHTML.append(indicesToHTML(label1, addHTMLtag));
 
 		if (this instanceof GeoPointND && getKernel().getApplication()
 				.getSettings().getEuclidian(1).axisShown()) {
