@@ -3437,6 +3437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		return false;
 	}
+
 	protected final boolean text(Hits hits, boolean selPreview) {
 		if (hitTextTool(false)) {
 			return false;
@@ -7921,14 +7922,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			bbWidth -= distX;
 			bbMinX += distX;
 			break;
-		}
-		switch (handler) {
 		case TOP:
 			bbHeight -= distY;
 			bbMinY += distY;
 			break;
 		case BOTTOM:
 			bbHeight += distY;
+			break;
+		default:
 			break;
 		}
 

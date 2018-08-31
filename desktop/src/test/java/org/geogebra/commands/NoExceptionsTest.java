@@ -1713,12 +1713,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdTableText() {
-		t("TableText[ list1, list1]");
-		t("TableText[ list1, list1,\"h\" ]");
-	}
-
-	@Test
 	public void cmdTake() {
 		t("Take[ list1 , n1, n4 ]");
 		t("Take[ list1 , n4 ]");

@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -24,6 +25,7 @@ import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
@@ -84,6 +86,20 @@ public class MarvlAPITest {
 		needsAuth();
 		MarvlAPI api = authAPI();
 		doUpload(api, "Test material", new TestMaterialCallback());
+	}
+
+	@Test
+	public void testUploadLoggout() {
+		MarvlAPI api = new MarvlAPI(
+				"http://notes.dlb-dev01.alp-dlg.net/notes/api");
+		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
+		TestMaterialCallback t = new TestMaterialCallback();
+		api.uploadMaterial("", "S", "This should fail",
+				Base64.encodeToString(UtilD.loadFileIntoByteArray(
+						"src/test/resources/slides.ggs"), false),
+				t, MaterialType.ggs);
+		t.await(5);
+		t.verifyError(".*401.*");
 	}
 
 	@Test

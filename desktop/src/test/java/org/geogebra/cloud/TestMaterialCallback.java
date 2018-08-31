@@ -42,6 +42,11 @@ public class TestMaterialCallback implements MaterialCallbackI {
 		Assert.assertEquals(title, StringUtil.join(",", titles));
 	}
 
+	public void verifyError(String errorPattern) {
+		String errorsS = StringUtil.join(",", errors);
+		Assert.assertTrue(errorsS, errorsS.matches(errorPattern));
+	}
+
 	/**
 	 * Periodically check if it's done, if not fail after timeout.
 	 * 

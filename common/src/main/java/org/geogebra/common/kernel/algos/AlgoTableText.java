@@ -13,7 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -119,6 +121,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	/**
 	 * @param cons
 	 *            construction
+	 * @param input
+	 *            input elements
 	 * @param label
 	 *            label for output
 	 * @param geoList
@@ -687,6 +691,13 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
+	}
+
+	/**
+	 * @return size for tests
+	 */
+	public GDimension getSize() {
+		return AwtFactory.getPrototype().newDimension(rows, columns);
 	}
 
 }

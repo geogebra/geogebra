@@ -1,11 +1,13 @@
 package org.geogebra.commands;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
+import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -133,7 +135,9 @@ public class CommandsTest extends AlgebraTest {
 
 		for (int i = 0; i < expected.length; i++) {
 			String actual = result[i].toValueString(tpl);
-			Assert.assertEquals(s + ":" + actual, expected[i], actual);
+			if (expected[i] != null) {
+				Assert.assertEquals(s + ":" + actual, expected[i], actual);
+			}
 		}
 		System.out.print("+");
 	}
@@ -266,6 +270,33 @@ public class CommandsTest extends AlgebraTest {
 		Assert.assertTrue(((GeoList) get("mat2")).isEditableMatrix());
 		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
 		Assert.assertFalse(((GeoList) get("mat2")).isEditableMatrix());
+	}
+
+	@Test
+	public void cmdTableText() {
+		t("tables=TableText[1..5]", (String) null);
+		checkSize("tables", 5, 1);
+		t("tableh=TableText[ 1..5, 1..5,\"h\" ]", (String) null);
+		checkSize("tableh", 5, 2);
+		t("tablev=TableText[ {1..5, 1..5},\"v\" ]", (String) null);
+		checkSize("tablev", 2, 5);
+		t("tablesplit=TableText[1..5,\"v\",3]", (String) null);
+		checkSize("tablesplit", 2, 3);
+		t("tablesplit=TableText[1..5,\"h\",3]", (String) null);
+		checkSize("tablesplit", 3, 2);
+	}
+
+	private static void checkSize(String string, int cols, int rows) {
+		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
+				.getSize();
+		if (((AlgoTableText) get(string).getParentAlgorithm())
+				.getAlignment() == 'h') {
+			assertEquals(cols, d.getWidth());
+			assertEquals(rows, d.getHeight());
+		} else {
+			assertEquals(rows, d.getWidth());
+			assertEquals(cols, d.getHeight());
+		}
 	}
 
 	@Test
