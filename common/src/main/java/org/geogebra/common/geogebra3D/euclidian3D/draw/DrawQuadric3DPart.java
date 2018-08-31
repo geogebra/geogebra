@@ -80,6 +80,6 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return shouldBePackedCheckCreatedByDrawList();
+		return true;
 	}
 }

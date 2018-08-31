@@ -1918,16 +1918,6 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/**
-	 * Temporary code while packing lists still in progress
-	 * 
-	 * @return true if it should be packed
-	 */
-	protected boolean shouldBePackedCheckCreatedByDrawList() {
-		return !createdByDrawList()
-				|| getView3D().getApplication().has(Feature.MOB_PACK_LISTS);
-	}
-
-	/**
 	 * Temporary code while still mixing packed/unpacked buffers
 	 * 
 	 * @return true if it should be packed

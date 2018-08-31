@@ -376,7 +376,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	public boolean shouldBePacked() {
-		return shouldBePackedCheckCreatedByDrawList();
+		return true;
 	}
 
 }

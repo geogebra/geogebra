@@ -1618,7 +1618,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public boolean shouldBePacked() {
-		return shouldBePackedCheckCreatedByDrawList();
+		return true;
 	}
 
 	@Override

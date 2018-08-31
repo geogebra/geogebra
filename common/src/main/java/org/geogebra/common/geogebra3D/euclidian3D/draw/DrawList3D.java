@@ -400,7 +400,7 @@ public class DrawList3D extends Drawable3D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_LISTS);
+		return true;
 	}
 
 }

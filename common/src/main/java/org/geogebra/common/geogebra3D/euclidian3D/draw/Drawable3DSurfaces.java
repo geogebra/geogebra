@@ -225,7 +225,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SURFACES)
-				&& shouldBePackedCheckCreatedByDrawList();
+		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SURFACES);
 	}
 }

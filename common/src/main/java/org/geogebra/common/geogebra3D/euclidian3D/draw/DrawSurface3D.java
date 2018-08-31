@@ -3262,7 +3262,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public boolean shouldBePacked() {
-		return shouldBePackedCheckCreatedByDrawList();
+		return true;
 	}
 
 	@Override
