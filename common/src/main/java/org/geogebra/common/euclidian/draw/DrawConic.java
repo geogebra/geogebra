@@ -1572,6 +1572,16 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// shape is null for 3D ellipse
+			if (conic.isShape()) {
+				double halfAxis0 = conic.getHalfAxis(0);
+				double halfAxis1 = conic.getHalfAxis(1);
+				if (Math.abs(conic.eigenvec[0].getX()) < Math.abs(conic.eigenvec[0].getY())) {
+					double swap = halfAxis0;
+					halfAxis0 = halfAxis1;
+					halfAxis1 = swap;
+				}
+				return rectAroundMidpoint(halfAxis0, halfAxis1);
+			}
 			return fillShape == null ? null : fillShape.getBounds();
 		case GeoConicNDConstants.CONIC_PARABOLA:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -1582,15 +1592,19 @@ public class DrawConic extends Drawable implements Previewable {
 							* conic.eigenvec[0].getX()),
 					Math.abs(conic.linearEccentricity
 							* conic.eigenvec[0].getY()));
-			int xmin = view.toScreenCoordX(midpoint.getX() - focX);
-			int xmax = view.toScreenCoordX(midpoint.getX() + focX);
-			int ymin = view.toScreenCoordY(midpoint.getY() - focX);
-			int ymax = view.toScreenCoordY(midpoint.getY() + focX);
-
-			return getTempFrame(xmin, ymax, xmax - xmin, ymin - ymax);
+			return rectAroundMidpoint(focX, focX);
 		default:
 			return null;
 		}
+	}
+
+	private GRectangle rectAroundMidpoint(double focX, double focY) {
+		int xmin = view.toScreenCoordX(midpoint.getX() - focX);
+		int xmax = view.toScreenCoordX(midpoint.getX() + focX);
+		int ymin = view.toScreenCoordY(midpoint.getY() - focY);
+		int ymax = view.toScreenCoordY(midpoint.getY() + focY);
+
+		return getTempFrame(xmin, ymax, xmax - xmin, ymin - ymax);
 	}
 
 	@Override
