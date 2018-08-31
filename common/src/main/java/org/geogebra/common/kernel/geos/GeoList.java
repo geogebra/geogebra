@@ -129,9 +129,11 @@ public class GeoList extends GeoElement
 	private int totalWidth = 0;
 	private int totalHeight = 0;
 
+	private boolean wasDefinedWithCurlyBrackets = true;
+
 	/**
 	 * Creates new GeoList, size defaults to 20
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -165,7 +167,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param list
 	 *            list to copy
 	 */
@@ -181,7 +183,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Returns the element type of this list.
-	 * 
+	 *
 	 * @return ELEMENT_TYPE_MIXED == GeoClass.DEFAULT or GeoClass.NUMERIC,
 	 *         GeoClass.POINT etc constant
 	 */
@@ -240,7 +242,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Set if the list should show all properties in the properties dialog. This
 	 * is just recommended for the default list.
-	 * 
+	 *
 	 * @param showAllProperties
 	 *            true to show all properties
 	 */
@@ -658,7 +660,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Adds a geo to this list
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be added
 	 */
@@ -674,7 +676,7 @@ public class GeoList extends GeoElement
 		 * // needed for Corner[Element[text // together with swapping these
 		 * lines over in MyXMLio: //kernel.updateConstruction();
 		 * //kernel.setNotifyViewsActive(oldVal);
-		 * 
+		 *
 		 * if (geo.isGeoText()) {
 		 * ((GeoText)geo).setNeedsUpdatedBoundingBox(true); }
 		 */
@@ -721,7 +723,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Removes geo from this list. Note: geo is not removed from the
 	 * construction.
-	 * 
+	 *
 	 * @param geo
 	 *            element to be removed
 	 */
@@ -733,7 +735,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Removes the first geo from the beginning of this list, and adds a new geo
 	 * to its end (useful for indefinite appending)
-	 * 
+	 *
 	 * @param geo
 	 *            element to be added
 	 */
@@ -747,7 +749,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Removes i-th element from this list. Note: this element is not removed
 	 * from the construction.
-	 * 
+	 *
 	 * @param index
 	 *            position of element to be removed
 	 */
@@ -758,7 +760,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Returns the element at the specified position in this list.
-	 * 
+	 *
 	 * @param index
 	 *            element position
 	 * @return the element at the specified position in this list.
@@ -769,7 +771,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Returns the element at the specified position in this (2D) list.
-	 * 
+	 *
 	 * @param index
 	 *            element position -- row
 	 * @param index2
@@ -782,7 +784,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Tries to return this list as an array of double values
-	 * 
+	 *
 	 * @return array of double values from this list
 	 */
 	@Override
@@ -801,7 +803,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Increases capcity of this list if necessary
-	 * 
+	 *
 	 * @param size
 	 *            capcity to ensure
 	 */
@@ -825,7 +827,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Returns the cached element at the specified position in this list's
 	 * cache.
-	 * 
+	 *
 	 * @param index
 	 *            element position
 	 * @return cached element at given position
@@ -1032,7 +1034,7 @@ public class GeoList extends GeoElement
 	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
 	 * The Element/Cell/Object command needs to know in advance what type of geo
 	 * the list will hold
-	 * 
+	 *
 	 * @return type, eg "point"
 	 */
 	public String getTypeStringForXML() {
@@ -1054,7 +1056,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Registers geo as a listener for updates of this boolean object. If this
 	 * object is updated it calls geo.updateConditions()
-	 * 
+	 *
 	 * @param geo
 	 *            element which should use this list as dynamic color
 	 */
@@ -1067,7 +1069,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Unregisters geo as a listener for updates of this boolean object.
-	 * 
+	 *
 	 * @param geo
 	 *            element which uses this list as dynamic color
 	 */
@@ -1564,7 +1566,7 @@ public class GeoList extends GeoElement
 	/**
 	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
 	 * able to set the line properties
-	 * 
+	 *
 	 * @return true if all elements have line properties
 	 */
 	@Override
@@ -1586,7 +1588,7 @@ public class GeoList extends GeoElement
 	/**
 	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
 	 * able to set the point properties
-	 * 
+	 *
 	 * @return true if all elements have point properties
 	 */
 	public boolean showPointProperties() {
@@ -1689,7 +1691,7 @@ public class GeoList extends GeoElement
 	/**
 	 * when list is visible (as a combobox) this returns the element selected by
 	 * the user or null if there's a problem
-	 * 
+	 *
 	 * @return selected element
 	 */
 	public GeoElement getSelectedElement() {
@@ -1790,7 +1792,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Nearest point to p
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 */
@@ -2079,7 +2081,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Returns true if this list contains given geo (check based on ==, not
 	 * value equality)
-	 * 
+	 *
 	 * @param geo
 	 *            geo to check
 	 * @return true if the list contains given geo
@@ -2268,7 +2270,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Performs all GeoScriptActions contained in this list
-	 * 
+	 *
 	 * @param info
 	 *            evaluation flags
 	 * @return number of actions that were performed
@@ -2291,7 +2293,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Returns position of needle in this list or -1 when not found
-	 * 
+	 *
 	 * @param needle
 	 *            geo to be found
 	 * @return position of needle in this list or -1 when not found
@@ -2379,7 +2381,7 @@ public class GeoList extends GeoElement
 	/**
 	 * attempts to calculate mean of the list if any non-numeric elements are
 	 * found, Double.NAN will be returned
-	 * 
+	 *
 	 * @return mean or Double.NAN
 	 */
 	public double mean() {
@@ -2404,10 +2406,10 @@ public class GeoList extends GeoElement
 	/**
 	 * Before creating a locus based on this GeoList as a path, this method
 	 * decides whether the locus algo should be AlgoLocus or AlgoLocusList.
-	 * 
+	 *
 	 * @param locusCalling
 	 *            whether this method was called by locus
-	 * 
+	 *
 	 * @return boolean true if AlgoLocusList should be used.
 	 */
 	public boolean shouldUseAlgoLocusList(boolean locusCalling) {
@@ -2599,7 +2601,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * For inequalities.
-	 * 
+	 *
 	 * @param showOnAxis
 	 *            true iff should be drawn on x-Axis only
 	 */
@@ -2655,7 +2657,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Changes angle style and recomputes the value from raw. See
 	 * GeoAngle.ANGLE_*
-	 * 
+	 *
 	 * @param angleStyle
 	 *            clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
@@ -2704,10 +2706,10 @@ public class GeoList extends GeoElement
 	/**
 	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
 	 * value). raw_value contains the original value.
-	 * 
+	 *
 	 * @param allowReflexAngle
 	 *            If true, angle is allowed to be> 180 degrees
-	 * 
+	 *
 	 */
 	@Override
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
@@ -2743,7 +2745,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Sets this angle shuld be drawn differently when right
-	 * 
+	 *
 	 * @param emphasizeRightAngle
 	 *            true iff this angle shuld be drawn differently when right
 	 */
@@ -2762,7 +2764,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Forces angle to be reflex or switches it to anticlockwise
-	 * 
+	 *
 	 * @param forceReflexAngle
 	 *            switch to reflex for true
 	 */
@@ -2797,7 +2799,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Change the size of the arc in pixels,
-	 * 
+	 *
 	 * @param i
 	 *            arc size, should be in <10,100>
 	 */
@@ -2815,7 +2817,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * returns size of the arc in pixels
-	 * 
+	 *
 	 * @return arc size in pixels
 	 */
 	@Override
@@ -2879,7 +2881,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Add number to the end, use cache if possible. Assume all cached elements
 	 * are GeoNumerics.
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 * @param parent
@@ -2905,7 +2907,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Add point to the end, use cache if possible. Assumes all cached elements
 	 * are points.
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -3050,7 +3052,7 @@ public class GeoList extends GeoElement
 	/**
 	 * Check for matrices for matrices defined per element like {{1,0},{0,1}}
 	 * (also dependent like {{a+1,1}})
-	 * 
+	 *
 	 * @return whether this can be eited as a matrix
 	 */
 	public boolean isEditableMatrix() {
@@ -3077,7 +3079,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Gets LaTeX string including the label for edit
-	 * 
+	 *
 	 * @param substituteNumbers
 	 *            whether value should be used
 	 * @param tpl
@@ -3138,7 +3140,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * May break dependencies, use on free lists only
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @param element
@@ -3164,7 +3166,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Sets the total width of the geo.
-	 * 
+	 *
 	 * @param width
 	 *            to set.
 	 */
@@ -3174,7 +3176,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * Sets the total height of the geo.
-	 * 
+	 *
 	 * @param height
 	 *            to set.
 	 */
@@ -3205,7 +3207,7 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geoItem
 	 *            an item of the list
 	 * @return The displayed string of item.
@@ -3227,7 +3229,7 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @param idx
 	 *            Item index.
 	 * @return the display string of the item at idx.
@@ -3301,7 +3303,7 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the aural text of the currently selected element.
 	 */
 	public String getAuralItemSelected() {
@@ -3317,7 +3319,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * @return some aural instructions at opening the drop down.
-	 * 
+	 *
 	 */
 	public String getAuralTextAsOpened() {
 		StringBuilder sb = new StringBuilder();
@@ -3331,5 +3333,24 @@ public class GeoList extends GeoElement
 		sb.append(loc.getMenuDefault("PressEnterToSelect",
 				"Press enter to select."));
 		return sb.toString();
+	}
+
+	/**
+	 * Sets whether the the list was defined with curly brackets.
+	 *
+	 * @param definedWithCurlyBrackets If true, the evaluated list should be also printed
+	 *                                 with curly brackets,
+	 *                                 otherwise it should be printed without curly brackets.
+	 */
+	public void setDefinedWithCurlyBrackets(boolean definedWithCurlyBrackets) {
+		this.wasDefinedWithCurlyBrackets = definedWithCurlyBrackets;
+	}
+
+	/**
+	 * @return Returns true if the list was defined in the input with curly brackets,
+	 * otherwise returns false.
+	 */
+	public boolean wasDefinedWithCurlyBrackets() {
+		return wasDefinedWithCurlyBrackets;
 	}
 }

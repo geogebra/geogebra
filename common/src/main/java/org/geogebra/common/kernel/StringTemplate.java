@@ -64,6 +64,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean numeric = true;
 
 	private boolean niceQuotes = false;
+
+	private boolean shouldPrintMethodsWithParenthesis;
+
 	/**
 	 * Default template, but do not localize commands
 	 */
@@ -3343,16 +3346,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ")" or, for XML, "]"
 	 */
 	public String rightCommandBracket() {
-		return isPrintLocalizedCommandNames() ? rightBracket()
+		return isPrintLocalizedCommandNames() || shouldPrintMethodsWithParenthesis
+				? rightBracket()
 				: rightSquareBracket();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return "(" or, for XML, "["
 	 */
 	public String leftCommandBracket() {
-		return isPrintLocalizedCommandNames() ? leftBracket()
+		return isPrintLocalizedCommandNames() || shouldPrintMethodsWithParenthesis
+				? leftBracket()
 				: leftSquareBracket();
 	}
 
@@ -3484,5 +3489,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "euler number";
 		}
 		return Unicode.EULER_STRING;
+	}
+
+	/**
+	 * Sets whether the parameters of the methods should be printed in parenthesis
+	 * (rather than square brackets).
+	 *
+	 * @param shouldPrintMethodsWithParenthesis If true, the parameters of the methods
+	 *                                          will be printed inside parenthesis,
+	 *                                          otherwise these might be printed
+	 *                                          inside square brackets
+	 *                                          (if the localization of the commands is turned off).
+	 */
+	public void setPrintMethodsWithParenthesis(boolean shouldPrintMethodsWithParenthesis) {
+		this.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
 	}
 }

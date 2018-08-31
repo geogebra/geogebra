@@ -88,6 +88,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
+					list.setDefinedWithCurlyBrackets(false);
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
 					return ret;
 				}
