@@ -46,7 +46,7 @@ public class TeXBuilder {
 	}
 
 	private Atom buildSequence(MathSequence mathFormula, int from, int to) {
-		RowAtom ra = new RowAtom(null);
+		RowAtom ra = new RowAtom((Atom) null);
 		int i = from;
 		if (mathFormula == currentField && to < from) {
 			addCursor(ra);
@@ -163,7 +163,7 @@ public class TeXBuilder {
 
 	private Atom buildFenced(String leftKey, String rightKey,
 			MathContainer argument, int offset) {
-		RowAtom row = new RowAtom(null);
+		RowAtom row = new RowAtom((Atom) null);
 		for (int i = offset; i < argument.size(); i++) {
 			if (i > 0) {
 				row.add(newCharAtom(','));
@@ -197,7 +197,7 @@ public class TeXBuilder {
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));
 		default:
-			RowAtom row = new RowAtom(null);
+			RowAtom row = new RowAtom((Atom) null);
 
 			row.add(build(argument.getArgument(0)));
 

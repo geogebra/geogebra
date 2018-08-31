@@ -48,7 +48,7 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 /**
@@ -57,8 +57,8 @@ import java.util.ListIterator;
  */
 public class RowAtom extends Atom implements Row {
 
-	// atoms to be displayed horizontally next to eachother
-	protected LinkedList<Atom> elements = new LinkedList<Atom>();
+	// atoms to be displayed horizontally next to each other
+	protected ArrayList<Atom> elements;
 
 	public boolean lookAtLastAtom = false;
 
@@ -104,26 +104,47 @@ public class RowAtom extends Atom implements Row {
 	}
 
 	protected RowAtom() {
-		// empty
+		this.elements = new ArrayList<Atom>();
+	}
+
+	protected RowAtom(final ArrayList<Atom> elements) {
+		this.elements = elements;
+	}
+
+	protected RowAtom(final int size) {
+		this.elements = new ArrayList<Atom>(size);
 	}
 
 	public RowAtom(Atom el) {
-		if (el != null) {
+		if (el == null) {
+			this.elements = new ArrayList<Atom>();
+		} else {
 			if (el instanceof RowAtom) {
+				this.elements = new ArrayList<Atom>(
+						((RowAtom) el).elements.size());
 				// no need to make an mrow the only element of an mrow
 				elements.addAll(((RowAtom) el).elements);
 			} else {
+				this.elements = new ArrayList<Atom>(1);
 				elements.add(el);
 			}
 		}
 	}
 
+	public RowAtom(Atom... atoms) {
+		this.elements = new ArrayList<Atom>(atoms.length);
+		for (Atom a : atoms) {
+			elements.add(a);
+		}
+	}
+
 	public Atom getLastAtom() {
-		if (elements.size() != 0) {
-			return elements.removeLast();
+		final int s = elements.size();
+		if (s != 0) {
+			return elements.remove(s - 1);
 		}
 
-		return new SpaceAtom(TeXLength.Unit.POINT, 0.0f, 0.0f, 0.0f);
+		return EmptyAtom.get();
 	}
 
 	public Atom getElement(int i) {

@@ -616,4 +616,17 @@ public class TeXFont {
 			return generalSettings.get("scriptscriptfactor").doubleValue();
 		}
 	}
+
+	public double getMHeight(int style) {
+		return getFontInfo(TextStyle.getDefault(TextStyle.CAPITALS).getFontId())
+				.getHeight('M') * getSizeFactor(style)
+				* TeXFormula.PIXELS_PER_POINT;
+	}
+
+	public FontInfo getFontInfo(final int i) {
+		// XXX
+		// return Configuration.get().getFontInfo(i);
+		return TeXFont.fontInfo.get(i);
+	}
+
 }

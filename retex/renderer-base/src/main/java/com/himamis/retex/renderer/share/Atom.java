@@ -126,6 +126,11 @@ public abstract class Atom implements Cloneable {
 		return atom;
 	}
 
+	public Atom changeType(final int type) {
+		this.type = type;
+		return this;
+	}
+
 	public boolean isMathMode() {
 		return mathMode;
 	}

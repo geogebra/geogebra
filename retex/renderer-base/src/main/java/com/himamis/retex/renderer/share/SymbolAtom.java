@@ -236,4 +236,11 @@ public class SymbolAtom extends CharSymbol {
 		// XXX
 		return this;
 	}
+
+	public Atom changeType(final int type) {
+		final Atom a = this.duplicate();
+		a.type = type;
+		return a;
+	}
+
 }

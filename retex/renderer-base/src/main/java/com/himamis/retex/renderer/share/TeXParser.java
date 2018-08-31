@@ -59,7 +59,7 @@ public class TeXParser {
 	TeXFormula formula;
 
 	private StringBuilder parseString;
-	private int pos;
+	protected int pos;
 	private int spos;
 	private int line;
 	private int col;

@@ -192,7 +192,39 @@ public class FontInfo {
 		if (unicode == null) {
 			return metrics[c];
 		}
+		// XXX
 		return metrics[unicode.get(c)];
+	}
+
+	public double getWidth(final char c) {
+		if (unicode == null) {
+			return metrics[c][0];
+		}
+		// XXX
+		return metrics[unicode.get(c)][0];
+	}
+
+	public double getHeight(final char c) {
+		if (unicode == null) {
+			return metrics[c][1];
+		}
+		// XXX
+		return metrics[unicode.get(c)][1];
+	}
+
+	public double getDepth(final char c) {
+		if (unicode == null) {
+			return metrics[c][2];
+		}
+		// XXX
+		return metrics[unicode.get(c)][2];
+	}
+
+	public double getItalic(final char c) {
+		if (unicode == null) {
+			return metrics[c][3];
+		}
+		return metrics[unicode.get(c)][3];
 	}
 
 	public CharFont getNextLarger(char ch) {
@@ -323,4 +355,5 @@ public class FontInfo {
 	public static Font getFont(int id) {
 		return fonts.get(id).getFont();
 	}
+
 }
