@@ -43,7 +43,6 @@ public class ZoomPanel extends FlowPanel
 	private EuclidianView view;
 
 	private List<StandardButton> buttons = null;
-	private boolean homeShown;
 	private ZoomController zoomController;
 
 	/**
@@ -166,7 +165,7 @@ public class ZoomPanel extends FlowPanel
 				null, 20, app);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
-		hideHomeButton();
+		getZoomController().hideHomeButton(homeBtn);
 		FastClickHandler handlerHome = new FastClickHandler() {
 
 			@Override
@@ -175,9 +174,7 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
-
 		homeBtn.addTabHandler(this);
-
 		add(homeBtn);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
@@ -233,46 +230,9 @@ public class ZoomPanel extends FlowPanel
 		return view;
 	}
 
-	/**
-	 * Shows home button.
-	 */
-	void showHomeButton() {
-		if (homeBtn == null) {
-			return;
-		}
-		homeShown = true;
-		homeBtn.addStyleName("zoomPanelHomeIn");
-		homeBtn.removeStyleName("zoomPanelHomeOut");
-		AriaHelper.setHidden(homeBtn, false);
-	}
-
-	/**
-	 * Hides home button.
-	 */
-	void hideHomeButton() {
-		if (homeBtn == null) {
-			return;
-		}
-		homeShown = false;
-		homeBtn.addStyleName("zoomPanelHomeOut");
-		homeBtn.removeStyleName("zoomPanelHomeIn");
-		AriaHelper.setHidden(homeBtn, true);
-	}
-
-	private void updateHomeButton() {
-		if (app.getActiveEuclidianView().isCoordSystemTranslatedByAnimation()) {
-			return;
-		}
-		if (app.getActiveEuclidianView().isStandardView()) {
-			hideHomeButton();
-		} else {
-			showHomeButton();
-		}
-	}
-
 	@Override
 	public void onCoordSystemChanged() {
-		updateHomeButton();
+		getZoomController().updateHomeButton(homeBtn);
 	}
 
 	/**
@@ -365,7 +325,7 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private Widget getFirstButton() {
-		if (homeBtn != null && homeShown) {
+		if (homeBtn != null && isHomeShown()) {
 			return homeBtn;
 		}
 		if (zoomInBtn != null) {
@@ -381,7 +341,7 @@ public class ZoomPanel extends FlowPanel
 		if (zoomOutBtn != null) {
 			return zoomOutBtn;
 		}
-		if (homeBtn != null && homeShown) {
+		if (homeBtn != null && isHomeShown()) {
 			return homeBtn;
 		}
 		return null;
@@ -392,5 +352,12 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public boolean isFullScreen() {
 		return getZoomController().isFullScreenActive();
+	}
+
+	/**
+	 * @return whether home button is shown
+	 */
+	public boolean isHomeShown() {
+		return getZoomController().isHomeShown();
 	}
 }

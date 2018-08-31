@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
+import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.Browser;
@@ -14,7 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class ZoomPanelMow extends FlowPanel implements SetLabels {
+public class ZoomPanelMow extends FlowPanel
+		implements SetLabels, CoordSystemListener {
 
 	private AppW appW;
 	private StandardButton dragPadBtn;
@@ -30,6 +32,10 @@ public class ZoomPanelMow extends FlowPanel implements SetLabels {
 	public ZoomPanelMow(AppW app) {
 		this.appW = app;
 		zoomController = new ZoomController(appW);
+		if (app.getActiveEuclidianView() != null) {
+			app.getActiveEuclidianView().getEuclidianController()
+					.addZoomerListener(this);
+		}
 		buildGui();
 	}
 
@@ -82,7 +88,7 @@ public class ZoomPanelMow extends FlowPanel implements SetLabels {
 				appW);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
-		// hideHomeButton();
+		getZoomController().hideHomeButton(homeBtn);
 		FastClickHandler handlerHome = new FastClickHandler() {
 
 			@Override
@@ -147,5 +153,9 @@ public class ZoomPanelMow extends FlowPanel implements SetLabels {
 			btn.setTitle(appW.getLocalization().getMenu(string));
 			btn.setAltText(appW.getLocalization().getMenu(string));
 		}
+	}
+
+	public void onCoordSystemChanged() {
+		getZoomController().updateHomeButton(homeBtn);
 	}
 }

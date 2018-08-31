@@ -31,6 +31,7 @@ public class ZoomController {
 	private GDimension oldSize;
 	/** after we leave fullscreen, we must reset container position */
 	private HashMap<String, String> containerProps = new HashMap<>();
+	private boolean homeShown;
 
 	/**
 	 * @param app
@@ -90,6 +91,13 @@ public class ZoomController {
 	 */
 	public HashMap<String, String> getContainerProps() {
 		return containerProps;
+	}
+
+	/**
+	 * @return true if home btn is visible
+	 */
+	public boolean isHomeShown() {
+		return homeShown;
 	}
 
 	/** Home button handler. */
@@ -289,5 +297,48 @@ public class ZoomController {
 		setFullScreenActive(true);
 		fullscreenBtn
 				.setIcon(ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
+	}
+
+	/**
+	 * @param homeBtn
+	 *            shows home button
+	 */
+	void showHomeButton(StandardButton homeBtn) {
+		if (homeBtn == null) {
+			return;
+		}
+		homeShown = true;
+		homeBtn.addStyleName("zoomPanelHomeIn");
+		homeBtn.removeStyleName("zoomPanelHomeOut");
+		AriaHelper.setHidden(homeBtn, false);
+	}
+
+	/**
+	 * @param homeBtn
+	 *            hides home button
+	 */
+	void hideHomeButton(StandardButton homeBtn) {
+		if (homeBtn == null) {
+			return;
+		}
+		homeShown = false;
+		homeBtn.addStyleName("zoomPanelHomeOut");
+		homeBtn.removeStyleName("zoomPanelHomeIn");
+		AriaHelper.setHidden(homeBtn, true);
+	}
+
+	/**
+	 * @param homeBtn
+	 *            show/hide home button
+	 */
+	public void updateHomeButton(StandardButton homeBtn) {
+		if (app.getActiveEuclidianView().isCoordSystemTranslatedByAnimation()) {
+			return;
+		}
+		if (app.getActiveEuclidianView().isStandardView()) {
+			hideHomeButton(homeBtn);
+		} else {
+			showHomeButton(homeBtn);
+		}
 	}
 }

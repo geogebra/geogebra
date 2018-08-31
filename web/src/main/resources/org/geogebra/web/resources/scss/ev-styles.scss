@@ -449,12 +449,39 @@
 				opacity: 0.54;	    	
 		   }
 		  
-		  	&:hover {
+		  	&:hover, &:focus {
 		  		img { 
 		  			opacity: 1;
 		  		}
 		  		background-color: $mow_card_background_hover;
 		  	}
+		}
+		.zoomPanelHomeIn {
+			@extend .zoomPanelBtn;
+			opacity: 1;
+			visibility: visible;	 
+			transition: all 0.2s ease;
+		}
+	
+		.zoomPanelHomeOut {
+			@extend .zoomPanelBtn;
+			cursor: default;
+			opacity: 0;	
+			visibility: hidden;	 
+			transition: all 0.2s ease;
+	
+			img {
+    			opacity: 0;
+    		}
+    	
+    		&:hover, &:focus {
+    			background-color: $mow_card_background_hover;
+    			
+    			img {
+    				opacity: 1;	
+    			}
+    		}
+    	
 		}
     }
 	.zoomPanelWithPageControl {
