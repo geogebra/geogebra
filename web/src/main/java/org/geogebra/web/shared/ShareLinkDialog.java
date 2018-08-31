@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Widget;
  *         get share link dialog
  */
 public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
-
 	private FlowPanel mainPanel;
 	private FlowPanel linkPanel;
 	private Label linkLabel;
@@ -37,12 +36,13 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	/** true if linkBox is focused */
 	protected boolean linkBoxFocused = true;
 	private StandardButton copyBtn;
-
+	private Label shareHelp;
+	// button panel
 	private FlowPanel buttonPanel;
 	private StandardButton printBtn;
 	private StandardButton exportImgBtn;
 	private StandardButton cancelBtn;
-
+	// share link
 	private String shareURL;
 	/** parent widget */
 	protected Widget anchor;
@@ -96,6 +96,12 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
 		mainPanel.add(linkPanel);
+		// share help text
+		shareHelp = new Label();
+		shareHelp.addStyleName("shareHelpTxt");
+		if (app.isWhiteboardActive()) {
+			mainPanel.add(shareHelp);
+		}
 		// build button panel (print prev, export img)
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
@@ -201,6 +207,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		printBtn.setText(localize("Print"));
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
+		shareHelp.setText(localize("ShareLinkHelpTxt"));
 	}
 
 	private String localize(String id) {
