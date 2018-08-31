@@ -21,7 +21,6 @@ import com.google.gwt.user.client.Window;
  *
  */
 public class ZoomController {
-
 	private AppW app;
 	/**
 	 * is in fullscreen mode

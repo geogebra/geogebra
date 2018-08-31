@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ZoomPanelMow extends FlowPanel
 		implements SetLabels, CoordSystemListener {
-
 	private AppW appW;
 	private StandardButton dragPadBtn;
 	private StandardButton zoomInBtn;
