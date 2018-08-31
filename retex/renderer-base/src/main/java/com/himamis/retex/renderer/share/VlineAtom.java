@@ -50,6 +50,7 @@ package com.himamis.retex.renderer.share;
  */
 public class VlineAtom extends Atom {
 
+	private final static VlineAtom empty = new VlineAtom(0);
 	private double height;
 	private double shift;
 	private int n;
@@ -61,6 +62,10 @@ public class VlineAtom extends Atom {
 
 	public VlineAtom(int n) {
 		this.n = n;
+	}
+
+	public static VlineAtom getEmpty() {
+		return empty;
 	}
 
 	private VlineAtom(double height, double shift, int n) {
@@ -75,6 +80,14 @@ public class VlineAtom extends Atom {
 
 	public void setShift(double shift) {
 		this.shift = shift;
+	}
+
+	public void add(final int n) {
+		this.n += n;
+	}
+
+	public int getNumber() {
+		return n;
 	}
 
 	public double getWidth(TeXEnvironment env) {

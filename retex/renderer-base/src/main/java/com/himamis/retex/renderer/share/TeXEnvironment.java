@@ -309,4 +309,13 @@ public class TeXEnvironment {
 		// if there was no last font id (whitespace boxes only), use default "mu font"
 		return (lastFontId == TeXFont.NO_FONT ? tf.getMuFontId() : lastFontId);
 	}
+
+	/**
+	 * Resets the color settings.
+	 *
+	 */
+	public void resetColors() {
+		color = null;
+		background = null;
+	}
 }
