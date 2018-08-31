@@ -4187,4 +4187,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		super.onArrowKeyTyped();
 		view3D.setCursor3DInvisible();
 	}
+
+	@Override
+	protected void snapMoveView(int dx, int dy) {
+		// no snap for 3D view
+		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
+	}
+
 }
