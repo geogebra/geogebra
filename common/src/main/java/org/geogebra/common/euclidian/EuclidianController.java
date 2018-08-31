@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
+import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -6581,7 +6582,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// if handler is UNDEFINED the side of the bounding box
 					// was hit
 					if (handler == EuclidianBoundingBoxHandler.UNDEFINED) {
-						view.setCursor(EuclidianCursor.DRAG);
+						setDragCursor();
 					}
 
 					return;
@@ -7947,6 +7948,39 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						newMaxY = startBoundingBoxState.getRatios()[i][3]
 								* bbHeight;
 
+				if (dr instanceof DrawSegment) {
+					// segments must be handled differently (by translating the
+					// points separately)
+					GeoSegment seg = (GeoSegment) geo;
+					double dStartX, dEndX, dStartY, dEndY;
+
+					if (seg.getEndPoint().getX()
+							- seg.getStartPoint().getX() > 0) {
+						dStartX = newMinX + bbMinX - dr.getBounds().getMinX();
+						dEndX = newMaxX + bbMinX - dr.getBounds().getMaxX();
+					} else {
+						dEndX = newMinX + bbMinX - dr.getBounds().getMinX();
+						dStartX = newMaxX + bbMinX - dr.getBounds().getMaxX();
+					}
+					if (seg.getEndPoint().getY()
+							- seg.getStartPoint().getY() < 0) {
+						dStartY = newMinY + bbMinY - dr.getBounds().getMinY();
+						dEndY = newMaxY + bbMinY - dr.getBounds().getMaxY();
+					} else {
+						dEndY = newMinY + bbMinY - dr.getBounds().getMinY();
+						dStartY = newMaxY + bbMinY - dr.getBounds().getMaxY();
+					}
+
+					seg.getStartPoint()
+							.translate(new Coords(dStartX / view.getXscale(),
+									-dStartY / view.getYscale()));
+					seg.getEndPoint()
+							.translate(new Coords(dEndX / view.getXscale(),
+									-dEndY / view.getYscale()));
+					seg.updateRepaint();
+					return;
+				}
+
 				// the position of the maxX and maxY from the old minX and minY
 				double maxXFromOld = dr.getBounds().getMinX()
 						+ (newMaxX - newMinX),
@@ -7955,7 +7989,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// resize to new width
 				GPoint2D point = AwtFactory.getPrototype()
 						.newPoint2D(maxXFromOld, maxYFromOld);
-
 				if (point.getX() != 0) {
 					dr.updateByBoundingBoxResize(point,
 							EuclidianBoundingBoxHandler.RIGHT);
@@ -7963,18 +7996,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 				if (point.getY() != 0) {
 					dr.updateByBoundingBoxResize(point,
-								EuclidianBoundingBoxHandler.BOTTOM);
+							EuclidianBoundingBoxHandler.BOTTOM);
 					dr.updateGeo(point);
 				}
 
-				// calculate the difference between the new and old positions
+				// calculate the difference between the new and old
+				// positions
 				// (minX) and then apply translate
 				double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
 						dy = newMinY + bbMinY - dr.getBounds().getMinY();
 				if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
 					((Translateable) geo).translate(new Coords(
 							dx / view.getXscale(), -dy / view.getYscale()));
-
+					geo.updateRepaint();
 				}
 			}
 		}
