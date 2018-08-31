@@ -1002,4 +1002,9 @@ public class TeXFormula {
 			this.serif = serif;
 		}
 	}
+
+	// XXX
+	public int getTextStyle() {
+		return TextStyle.getStyle(textStyle);
+	}
 }

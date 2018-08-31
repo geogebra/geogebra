@@ -287,8 +287,18 @@ public class TeXFont {
 				style);
 	}
 
+	public Char getChar(char c, int textStyle0, int style)
+			throws TextStyleMappingNotFoundException {
+		// XXX
+		String textStyle = TextStyle.getStyle(textStyle0);
+
+		return getChar(c, textStyle, style);
+	}
+
 	public Char getChar(char c, String textStyle, int style)
 			throws TextStyleMappingNotFoundException {
+
+
 		Object mapping = textStyleMappings.get(textStyle);
 		if (mapping == null) {
 			throw new TextStyleMappingNotFoundException(textStyle);

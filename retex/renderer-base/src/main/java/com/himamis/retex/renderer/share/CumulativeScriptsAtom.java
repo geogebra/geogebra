@@ -70,7 +70,9 @@ public class CumulativeScriptsAtom extends Atom {
 			this.sub = at.sub;
 		} else {
 			if (base == null) {
-				this.base = new PhantomAtom(new CharAtom('M', "mathnormal"), false, true, true);
+				this.base = new PhantomAtom(
+						new CharAtom('M', TextStyle.MATHNORMAL), false, true,
+						true);
 			} else {
 				this.base = base;
 			}

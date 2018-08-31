@@ -72,7 +72,7 @@ public class TeXEnvironment {
 
 	private double textwidth = Double.POSITIVE_INFINITY;
 
-	private String textStyle;
+	private int textStyle;
 	private boolean smallCap;
 	private double scaleFactor = 1;
 	private Unit interlineUnit;
@@ -98,7 +98,8 @@ public class TeXEnvironment {
 		setInterline(TeXLength.Unit.EX, 1f);
 	}
 
-	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg, Color c, String textStyle,
+	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
+			Color c, int textStyle,
 			boolean smallCap) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
@@ -205,11 +206,11 @@ public class TeXEnvironment {
 	/**
 	 * @return the current textStyle
 	 */
-	public String getTextStyle() {
+	public int getTextStyle() {
 		return textStyle;
 	}
 
-	public void setTextStyle(String textStyle) {
+	public void setTextStyle(int textStyle) {
 		this.textStyle = textStyle;
 	}
 

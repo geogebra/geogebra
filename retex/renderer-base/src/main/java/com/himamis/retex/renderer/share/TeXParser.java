@@ -935,7 +935,8 @@ public class TeXParser {
 		if (formula.root instanceof RowAtom) {
 			at = ((RowAtom) formula.root).getLastAtom();
 		} else if (formula.root == null) {
-			at = new PhantomAtom(new CharAtom('M', "mathnormal"), false, true, true);
+			at = new PhantomAtom(new CharAtom('M', TextStyle.MATHNORMAL), false,
+					true, true);
 		} else {
 			at = formula.root;
 			formula.root = null;
@@ -1356,7 +1357,8 @@ public class TeXParser {
 			return new JavaFontRenderingAtom(parseString.substring(start,
 					end + 1), fontInfos);
 		}
-		return new CharAtom(c, ignoreWhiteSpace, formula.textStyle);
+		return new CharAtom(c, ignoreWhiteSpace,
+				TextStyle.getStyle(formula.textStyle));
 	}
 
 	private String getCommand() {

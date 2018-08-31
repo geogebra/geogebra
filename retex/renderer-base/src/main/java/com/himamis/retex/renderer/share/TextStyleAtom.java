@@ -50,7 +50,7 @@ package com.himamis.retex.renderer.share;
  */
 public class TextStyleAtom extends Atom {
 
-	private String style;
+	private int style;
 	private Atom at;
 
 	@Override
@@ -58,14 +58,14 @@ public class TextStyleAtom extends Atom {
 		return setFields(new TextStyleAtom(at, style));
 	}
 
-	public TextStyleAtom(Atom at, String style) {
+	public TextStyleAtom(Atom at, int style) {
 		this.style = style;
 		this.at = at;
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		String prevStyle = env.getTextStyle();
+		int prevStyle = env.getTextStyle();
 		env.setTextStyle(style);
 		Box box = at.createBox(env);
 		env.setTextStyle(prevStyle);

@@ -562,7 +562,7 @@ public class PredefMacros {
 			TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, fontInfos);
 		}
 
-		return new TextStyleAtom(at, style);
+		return new TextStyleAtom(at, TextStyle.getStyle(style));
 	}
 
 	public static final Atom mbox_macro(final TeXParser tp, final String[] args) throws ParseException {
@@ -1876,7 +1876,7 @@ public class PredefMacros {
 		VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
 		vra.setRaise(TeXLength.Unit.EX, -0.1f);
 		RowAtom at = new RowAtom(vra);
-		at.add(new RomanAtom(new CharAtom('h', tp.formula.textStyle)));
+		at.add(new RomanAtom(new CharAtom('h', tp.formula.getTextStyle())));
 		return at;
 	}
 
@@ -1887,7 +1887,7 @@ public class PredefMacros {
 		VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
 		vra.setRaise(TeXLength.Unit.EX, 0.55f);
 		RowAtom at = new RowAtom(vra);
-		at.add(new RomanAtom(new CharAtom('H', tp.formula.textStyle)));
+		at.add(new RomanAtom(new CharAtom('H', tp.formula.getTextStyle())));
 		return at;
 	}
 
@@ -1898,7 +1898,7 @@ public class PredefMacros {
 		VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
 		vra.setRaise(TeXLength.Unit.EX, -0.1f);
 		RowAtom at = new RowAtom(vra);
-		at.add(new RomanAtom(new CharAtom('d', tp.formula.textStyle)));
+		at.add(new RomanAtom(new CharAtom('d', tp.formula.getTextStyle())));
 		return at;
 	}
 
@@ -1909,7 +1909,7 @@ public class PredefMacros {
 		VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
 		vra.setRaise(TeXLength.Unit.EX, -0.55f);
 		RowAtom at = new RowAtom(vra);
-		at.add(new RomanAtom(new CharAtom('D', tp.formula.textStyle)));
+		at.add(new RomanAtom(new CharAtom('D', tp.formula.getTextStyle())));
 		return at;
 	}
 

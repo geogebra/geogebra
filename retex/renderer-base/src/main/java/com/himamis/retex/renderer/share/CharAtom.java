@@ -56,7 +56,7 @@ public class CharAtom extends CharSymbol {
 	private final char c;
 
 	// text style (null means the default text style)
-	private String textStyle;
+	private int textStyle;
 	private boolean mathMode;
 
 	@Override
@@ -71,12 +71,12 @@ public class CharAtom extends CharSymbol {
 	 * @param c the alphanumeric character
 	 * @param textStyle the text style in which the character should be drawn
 	 */
-	public CharAtom(char c, String textStyle) {
+	public CharAtom(char c, int textStyle) {
 		this.c = c;
 		this.textStyle = textStyle;
 	}
 
-	public CharAtom(char c, boolean mathMode, String textStyle) {
+	public CharAtom(char c, boolean mathMode, int textStyle) {
 		this.c = c;
 		this.textStyle = textStyle;
 		this.mathMode = mathMode;
@@ -86,12 +86,12 @@ public class CharAtom extends CharSymbol {
 		return mathMode;
 	}
 
-	public CharAtom(char c, String textStyle, boolean textSymbol) {
+	public CharAtom(char c, int textStyle, boolean textSymbol) {
 		this(c, textStyle);
 		this.textSymbol = textSymbol;
 	}
 
-	public CharAtom(char c, String textStyle, boolean textSymbol,
+	public CharAtom(char c, int textStyle, boolean textSymbol,
 			boolean mathMode) {
 		this(c, textStyle);
 		this.textSymbol = textSymbol;
@@ -100,9 +100,9 @@ public class CharAtom extends CharSymbol {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		if (textStyle == null) {
-			String ts = env.getTextStyle();
-			if (ts != null) {
+		if (textStyle == TextStyle.NONE) {
+			int ts = env.getTextStyle();
+			if (ts != TextStyle.NONE) {
 				textStyle = ts;
 			}
 		}
@@ -131,7 +131,7 @@ public class CharAtom extends CharSymbol {
 				chr = Character.toUpperCase(c);
 			}
 		}
-		if (textStyle == null) {
+		if (textStyle == TextStyle.NONE) {
 			return tf.getDefaultChar(chr, style);
 		}
 		return tf.getChar(chr, textStyle, style);

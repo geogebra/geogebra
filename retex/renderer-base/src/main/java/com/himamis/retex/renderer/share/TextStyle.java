@@ -93,6 +93,19 @@ public final class TextStyle {
         }
     };
 
+	// XXX remove
+	private static Map<Integer, String> reverseNames = new HashMap<Integer, String>() {
+		{
+			put(MATHNORMAL, "mathnormal");
+			put(MATHFRAK, "mathfrak");
+			put(MATHCAL, "mathcal");
+			put(MATHBB, "mathbb");
+			put(MATHSCR, "mathscr");
+			put(MATHDS, "mathds");
+			put(OLDSTYLENUMS, "oldstylenums");
+		}
+	};
+
     private final int fontId;
     private final char start;
 
@@ -120,6 +133,15 @@ public final class TextStyle {
         }
         return MATHNORMAL;
     }
+
+	// XXX
+	public static String getStyle(final int style) {
+		final String s = reverseNames.get(style);
+		if (s != null) {
+			return s;
+		}
+		return reverseNames.get(MATHNORMAL);
+	}
 
     public static TextStyle[] get(final int style) {
         return styles[style];
