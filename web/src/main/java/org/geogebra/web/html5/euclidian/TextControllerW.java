@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.TextController;
@@ -90,6 +91,7 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 		text.setEditMode(false);
 		text.setTextString(editor.getText());
 		text.update();
+		text.updateRepaint();
 	}
 
 	@Override
@@ -138,5 +140,13 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 			return;
 		}
 		editor.setFont(font);
+	}
+
+	@Override
+	public void setEditorColor(GColor color) {
+		if (editor == null) {
+			return;
+		}
+		editor.setColor(color);
 	}
 }

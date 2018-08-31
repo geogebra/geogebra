@@ -184,6 +184,7 @@ public final class DrawText extends Drawable {
 
 		if (text.isEditMode()) {
 			ctrl.setEditorFont(textFont);
+			ctrl.setEditorColor(text.getObjectColor());
 			adjustBoundingBoxToText();
 		} else if (isWhiteboardText() && boundingBox != null) {
 			boundingBox.setRectangle(getBounds());

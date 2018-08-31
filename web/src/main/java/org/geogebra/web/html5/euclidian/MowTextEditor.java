@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -116,6 +117,21 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 
 		getWidget().getElement().getStyle().setProperty("font",
 				((GFontW) font).getFullFontString());
+
+	}
+
+	/**
+	 * Sets editor color.
+	 * 
+	 * @param color
+	 *            to set.
+	 */
+	public void setColor(GColor color) {
+		if (color == null) {
+			return;
+		}
+
+		getWidget().getElement().getStyle().setProperty("color", GColor.getColorString(color));
 
 	}
 

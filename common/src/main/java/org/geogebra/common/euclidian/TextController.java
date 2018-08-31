@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -45,4 +46,12 @@ public interface TextController {
 	 *            to set.
 	 */
 	void setEditorFont(GFont font);
+
+	/**
+	 * Sets editor color.
+	 * 
+	 * @param color
+	 *            to set.
+	 */
+	void setEditorColor(GColor color);
 }
