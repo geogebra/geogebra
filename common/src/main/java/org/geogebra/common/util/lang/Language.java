@@ -373,6 +373,12 @@ public enum Language {
 	Xhosa(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"xh", "Xhosa / isiXhosa", Script.LATIN),
 
+	/**
+	 * Java "ji" https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html
+	 * 
+	 * ISO "yi" https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+	 * 
+	 */
 	Yiddish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9\u05b4", true, "ji", "yi",
 			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9",
