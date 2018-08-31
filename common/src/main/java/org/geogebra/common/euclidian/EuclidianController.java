@@ -21,7 +21,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -232,6 +231,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public double oldDistance;
 	private boolean wasBoundingBoxHit;
 	private boolean isMultiResize;
+	private BoundingBoxResizeState startBoundingBoxState;
 	protected double xTemp;
 	protected double yTemp;
 	protected boolean useLineEndPoint = false;
@@ -7899,16 +7899,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void handleResizeMultiple(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 
-		// calculate dragged distance
-		int distX = event.getX() - lastMouseLoc.getX();
-		int distY = event.getY() - lastMouseLoc.getY();
+		// if for some reason there was no state initialized
+		if (startBoundingBoxState == null) {
+			startBoundingBoxState = new BoundingBoxResizeState(
+					view.getBoundingBox().getRectangle(),
+					selection.getSelectedGeos(), view);
+		}
 
-		GRectangle2D boundingBoxRect = view.getBoundingBox().getRectangle();
-		
-		double bbWidth = boundingBoxRect.getWidth(),
-				bbHeight = boundingBoxRect.getHeight(),
-				bbMinX = boundingBoxRect.getMinX(),
-				bbMinY = boundingBoxRect.getMinY();
+		// calculate dragged distance
+		int distX = event.getX() - startPosition.getX();
+		int distY = event.getY() - startPosition.getY();
+
+		double bbWidth = startBoundingBoxState.getRectangle().getWidth(),
+				bbHeight = startBoundingBoxState.getRectangle().getHeight(),
+				bbMinX = startBoundingBoxState.getRectangle().getMinX(),
+				bbMinY = startBoundingBoxState.getRectangle().getMinY();
 
 		switch (handler) {
 		case RIGHT:
@@ -7935,33 +7940,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (dr.getBounds() != null && dr.getBoundingBox() != null
 					&& dr.getBoundingBox().getNrHandlers() == 8) {
-				// we calculate the position of min / max points relative to the
-				// old bounding box minX and width
-				double minXRatio = (dr.getBounds().getMinX()
-						- boundingBoxRect.getMinX())
-						/ boundingBoxRect.getWidth(),
-						maxXRatio = (dr.getBounds().getMaxX()
-								- boundingBoxRect.getMinX())
-								/ boundingBoxRect.getWidth();
 
-				double minYRatio = (dr.getBounds().getMinY()
-						- boundingBoxRect.getMinY())
-						/ boundingBoxRect.getHeight(),
-						maxYRatio = (dr.getBounds().getMaxY()
-								- boundingBoxRect.getMinY())
-								/ boundingBoxRect.getHeight();
+				// calculate new positions relative to bounding box
+				double newMinX = startBoundingBoxState.getRatios()[i][0]
+						* bbWidth,
+						newMaxX = startBoundingBoxState.getRatios()[i][1]
+								* bbWidth,
+						newMinY = startBoundingBoxState.getRatios()[i][2]
+								* bbHeight,
+						newMaxY = startBoundingBoxState.getRatios()[i][3]
+								* bbHeight;
 
-				// calculate positions relative to it
-				double newMinX = bbWidth * minXRatio,
-						newMaxX = bbWidth * maxXRatio,
-						newMinY = bbHeight * minYRatio,
-						newMaxY = bbHeight * maxYRatio;
-
-				// resize to new width
+				// the position of the maxX and maxY from the old minX and minY
 				double maxXFromOld = dr.getBounds().getMinX()
 						+ (newMaxX - newMinX),
 						maxYFromOld = dr.getBounds().getMinY()
 								+ (newMaxY - newMinY);
+				// resize to new width
 				// this is temporary until we get rid of previews
 				GPoint2D point = AwtFactory.getPrototype()
 						.newPoint2D(maxXFromOld, maxYFromOld);
@@ -7981,8 +7976,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
 						dy = newMinY + bbMinY - dr.getBounds().getMinY();
 				if (dx != 0 || dy != 0) {
+
 					((Translateable) geo).translate(new Coords(
 							dx / view.getXscale(), -dy / view.getYscale()));
+
 				}
 			}
 		}
@@ -8165,6 +8162,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// reset
 		isMultiResize = false;
+		startBoundingBoxState = null;
 
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
@@ -8189,6 +8187,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				setResizedShape(d);
 			} else if (isMultiSelection() && wasBoundingBoxHit) {
 				isMultiResize = true;
+				startBoundingBoxState = new BoundingBoxResizeState(
+						view.getBoundingBox().getRectangle(),
+						selection.getSelectedGeos(), view);
 			}
 		}
 		// find and set movedGeoElement
@@ -11909,7 +11910,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void switchModeForMousePressed(AbstractEvent e) {
-		startPosition = null;
+		startPosition = new GPoint(e.getX(), e.getY());
 
 		switchModeForMousePressedND(e);
 
@@ -11921,7 +11922,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
 				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON
 				|| this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS)) {
-			startPosition = new GPoint(e.getX(), e.getY());
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
 
