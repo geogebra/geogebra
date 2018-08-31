@@ -236,13 +236,13 @@ public abstract class DrawEquation implements DrawEquationI {
 						maxWidth.intValue(), TeXConstants.Align.LEFT,
 						TeXLength.Unit.CM, lineSpace.doubleValue());
 			}
-		} catch (final MyError e) {
+		} catch (final Error e) {
 			e.printStackTrace();
 			Log.debug("MyError LaTeX parse exception:" + e.getMessage() + "\n"
 					+ text);
 			// Write error message to Graphics View
 
-			formula = TeXFormula.getPartialTeXFormula(text);
+			formula = TeXFormula.getPartialTeXFormula("?");
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, style, fgColor);
 

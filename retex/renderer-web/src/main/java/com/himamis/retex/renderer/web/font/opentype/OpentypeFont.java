@@ -133,6 +133,11 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 	public Shape getGlyphOutline(FontRenderContext frc, String s) {
 		FontW font = this;// (FontW) frc.getFont();
 		FontWrapper wrap = font.getFontWrapper();
+
+		if (wrap == null) {
+			throw new Error("font not loaded yet");
+		}
+
 		JavaScriptObject outline = wrap.getGlyphOutline(s, font.getSize());
 		double xMin = xMin(outline);
 		double xMax = xMax(outline);
