@@ -147,6 +147,17 @@ public class TextControllerW implements TextController, BlurHandler, KeyDownHand
 		editor.setFont(font);
 	}
 
+	private String wrapText(String text) {
+		ArrayList<String> rows = wrapRow(text);
+		String ret = "";
+		ret = rows.get(0);
+		for (int i = 1; i < rows.size(); i++) {
+			rows.get(i);
+			ret = ret.concat("\n" + rows.get(i));
+		}
+		return ret;
+	}
+
 	/**
 	 * Wraps a row.
 	 *
