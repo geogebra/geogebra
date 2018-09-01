@@ -122,8 +122,10 @@ public class VideoManagerW implements VideoManager {
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
 		final VideoPlayer player = createPlayer(video, players.size());
-		players.put(video, player);
-		appFrame.add(player);
+		if (player != null) {
+			players.put(video, player);
+			appFrame.add(player);
+		}
 
 	}
 
