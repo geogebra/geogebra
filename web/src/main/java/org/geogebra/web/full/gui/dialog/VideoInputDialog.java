@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoURL;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -36,17 +35,12 @@ public class VideoInputDialog extends MediaDialog {
 			String url = getUrlWithProtocol();
 			// inputField.getTextComponent().setText("https://www.youtube.com/watch?v=Kc2iLAubras");
 			inputField.getTextComponent().setText(url);
-			MediaURLParser.checkVideo(url, new AsyncOperation<VideoURL>() {
-
-				@Override
-				public void callback(VideoURL videoURL) {
-					if (videoURL.isValid()) {
-						addVideo(videoURL);
-					} else {
-						showError("error");
-					}
-				}
-			});
+			VideoURL videoURL = MediaURLParser.checkVideo(url);
+			if (videoURL.isValid()) {
+				addVideo(videoURL);
+			} else {
+				showError("error");
+			}
 		}
 	}
 

@@ -3,8 +3,6 @@ package org.geogebra.common.media;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.util.AsyncOperation;
-
 /**
  * Helper class for parsing video URLs.
  */
@@ -86,14 +84,14 @@ public class MediaURLParser {
 		return id;
 	}
 
+
 	/**
 	 * 
 	 * @param url
 	 *            to check if it is a valid Video file.
-	 * @param callback
-	 *            to process the result.
+	 * @return parsed URL type
 	 */
-	public static void checkVideo(String url, AsyncOperation<VideoURL> callback) {
+	public static VideoURL checkVideo(String url) {
 		boolean youtube = getYouTubeId(url) != null && !"".equals(getYouTubeId(url));
 		boolean mp4 = getMP4Url(url) != null && !"".equals(getMP4Url(url));
 		MediaFormat fmt = MediaFormat.NONE;
@@ -102,25 +100,15 @@ public class MediaURLParser {
 		} else if (mp4) {
 			fmt = MediaFormat.VIDEO_HTML5;
 		}
-
-		if (checkMebisVideo(url, callback)) {
-			return;
+		MebisURL mUrl = packUrl(url);
+		if (mUrl.getError() != MebisError.BASE_MISMATCH) {
+			return mUrl;
 		}
 
 		if (!youtube && !mp4) {
-			callback.callback(VideoURL.createError(url, fmt));
-		} else {
-			callback.callback(VideoURL.createOK(url, fmt));
+			return VideoURL.createError(url, fmt);
 		}
-	}
-
-	private static boolean checkMebisVideo(String url, AsyncOperation<VideoURL> callback) {
-		MebisURL mUrl = packUrl(url);
-		if (mUrl.getError() == MebisError.BASE_MISMATCH) {
-			return false;
-		}
-		callback.callback(mUrl);
-		return true;
+		return VideoURL.createOK(url, fmt);
 	}
 
 	private static String getMP4Url(String url) {

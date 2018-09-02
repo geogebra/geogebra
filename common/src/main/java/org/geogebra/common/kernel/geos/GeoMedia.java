@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaFormat;
+import org.geogebra.common.media.MediaURLParser;
 
 /**
  * Class for representing playable media data.
@@ -101,9 +102,12 @@ public abstract class GeoMedia extends GeoWidget {
 	 * @param formatStr
 	 *            format string representation.
 	 */
-	public void setSrc(String src, String formatStr) {
-		setSrc(src, MediaFormat.get(formatStr));
-
+	public void setSrc(final String src, String formatStr) {
+		MediaFormat fmt = MediaFormat.get(formatStr);
+		if (fmt == MediaFormat.NONE) {
+			fmt = MediaURLParser.checkVideo(src).getFormat();
+		}
+		setSrc(src, fmt);
 	}
 
 	/**

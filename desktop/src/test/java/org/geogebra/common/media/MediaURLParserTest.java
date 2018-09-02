@@ -61,65 +61,70 @@ public class MediaURLParserTest {
 
 	@Test
 	public void checkYoutubeUrls() {
-		MediaURLParser.checkVideo("https://youtu.be/bdRUiXUrYIs",
+		checkVideo("https://youtu.be/bdRUiXUrYIs",
 				validYT("bdRUiXUrYIs"));
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://www.youtube.com/watch?v=bdRUiXUrYIs&feature=youtu.be",
 				validYT("bdRUiXUrYIs"));
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://www.youtube.com/watch?spam&v=bdRUiXUrYIs&feature=youtu.be&spam",
 				validYT("bdRUiXUrYIs"));
-		MediaURLParser.checkVideo("https://youtu.be/", INVALID);
-		MediaURLParser.checkVideo("https://youtu.be/?& &&", INVALID);
-		MediaURLParser.checkVideo("https://youtube.com/bdRUiXUrYIs", INVALID);
+		checkVideo("https://youtu.be/", INVALID);
+		checkVideo("https://youtu.be/?& &&", INVALID);
+		checkVideo("https://youtube.com/bdRUiXUrYIs", INVALID);
 	}
 
 	@Test
 	public void checkMp4Urls() {
-		MediaURLParser.checkVideo("https://www.w3schools.com/htmL/mov_bbb.mp4",
+		checkVideo("https://www.w3schools.com/htmL/mov_bbb.mp4",
 				validMP4());
-		MediaURLParser.checkVideo("file.mp4", validMP4());
-		MediaURLParser.checkVideo("file.mp5", INVALID);
-		MediaURLParser.checkVideo("https://example.com/file.mp4", validMP4());
-		MediaURLParser.checkVideo("https://example.com/file.mp5", INVALID);
+		checkVideo("file.mp4", validMP4());
+		checkVideo("file.mp5", INVALID);
+		checkVideo("https://example.com/file.mp4", validMP4());
+		checkVideo("https://example.com/file.mp5", INVALID);
 	}
 
 	@Test
 	public void checkMebisUrls() {
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=embeddedObject&id=BWS-04985070&type=video&start=178&title=Wetter",
 				validMebis());
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BWS-04985070&type=video&start=0&title=Wetter&file=default.mp4",
 				validMebis());
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=record&identifier=BWS-04985070",
 				validMebis());
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=record&identifier=BY-04985070",
 				validMebis());
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120",
 				validMebis());
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video#t=60,120",
 				validMebis());
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/index.php?doc=provideVideo&identifier=BWS-04980092&type=video&start=0&title=Das Eichhornchen&file=default.mp4&restorePosted",
 				validMebis());
 		// missing id
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=provideVideo&v=BY-00072140&type=video&#t=60,120",
 				INVALID);
 		// wrong host
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120",
 				INVALID);
-		MediaURLParser.checkVideo(
+		checkVideo(
 				"https://mediathek.mebis.bayern.de/?identifier=BY-00072140",
 				INVALID);
-		MediaURLParser.checkVideo("https://mediathek.mebis.bayern.de/?&&f&",
+		checkVideo("https://mediathek.mebis.bayern.de/?&&f&",
 				INVALID);
 
+	}
+
+	public static void checkVideo(String url,
+			AsyncOperation<VideoURL> callback) {
+		callback.callback(MediaURLParser.checkVideo(url));
 	}
 }
