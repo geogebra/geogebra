@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -152,14 +153,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	}
 
 	private String wrapText(String text) {
-		ArrayList<String> rows = wrapRow(text);
-		String ret = "";
-		ret = rows.get(0);
-		for (int i = 1; i < rows.size(); i++) {
-			rows.get(i);
-			ret = ret.concat("\n" + rows.get(i));
-		}
-		return ret;
+		return StringUtil.join("\n", wrapRow(text));
 	}
 
 	/**

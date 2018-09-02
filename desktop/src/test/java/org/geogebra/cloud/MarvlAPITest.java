@@ -90,6 +90,7 @@ public class MarvlAPITest {
 
 	@Test
 	public void testUploadLoggout() {
+		needsAuth();
 		MarvlAPI api = new MarvlAPI(
 				"http://notes.dlb-dev01.alp-dlg.net/notes/api");
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
