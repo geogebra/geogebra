@@ -1497,11 +1497,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (isVisible()) {
 			GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 			switch (quadric.getType()) {
-			default:
-				if (exportSurface) {
-					exportToPrinter3D.exportSurface(this);
-				}
-				break;
 			case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
 			case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 				drawPlanes[0].exportToPrinter3D(exportToPrinter3D,
@@ -1515,6 +1510,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				break;
 			case GeoQuadricNDConstants.QUADRIC_LINE:
 				drawLine.exportToPrinter3D(exportToPrinter3D, exportSurface);
+				break;
+			default:
+				if (exportSurface) {
+					exportToPrinter3D.exportSurface(this);
+				}
 				break;
 			}
 		}
