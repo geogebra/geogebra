@@ -7938,7 +7938,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
 
 			if (dr.getBounds() != null && dr.getBoundingBox() != null) {
-
 				// calculate new positions relative to bounding box
 				double newMinX = startBoundingBoxState.getRatios()[i][0]
 						* bbWidth,
@@ -7979,37 +7978,37 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							.translate(new Coords(dEndX / view.getXscale(),
 									-dEndY / view.getYscale()));
 					seg.updateRepaint();
-					return;
-				}
+				} else {
+					// the position of the maxX and maxY from the old minX and
+					// minY
+					double maxXFromOld = dr.getBounds().getMinX()
+							+ (newMaxX - newMinX),
+							maxYFromOld = dr.getBounds().getMinY()
+									+ (newMaxY - newMinY);
+					// resize to new width
+					GPoint2D point = AwtFactory.getPrototype()
+							.newPoint2D(maxXFromOld, maxYFromOld);
+					if (point.getX() != 0) {
+						dr.updateByBoundingBoxResize(point,
+								EuclidianBoundingBoxHandler.RIGHT);
+						dr.updateGeo(point);
+					}
+					if (point.getY() != 0) {
+						dr.updateByBoundingBoxResize(point,
+								EuclidianBoundingBoxHandler.BOTTOM);
+						dr.updateGeo(point);
+					}
 
-				// the position of the maxX and maxY from the old minX and minY
-				double maxXFromOld = dr.getBounds().getMinX()
-						+ (newMaxX - newMinX),
-						maxYFromOld = dr.getBounds().getMinY()
-								+ (newMaxY - newMinY);
-				// resize to new width
-				GPoint2D point = AwtFactory.getPrototype()
-						.newPoint2D(maxXFromOld, maxYFromOld);
-				if (point.getX() != 0) {
-					dr.updateByBoundingBoxResize(point,
-							EuclidianBoundingBoxHandler.RIGHT);
-					dr.updateGeo(point);
-				}
-				if (point.getY() != 0) {
-					dr.updateByBoundingBoxResize(point,
-							EuclidianBoundingBoxHandler.BOTTOM);
-					dr.updateGeo(point);
-				}
-
-				// calculate the difference between the new and old
-				// positions
-				// (minX) and then apply translate
-				double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
-						dy = newMinY + bbMinY - dr.getBounds().getMinY();
-				if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
-					((Translateable) geo).translate(new Coords(
-							dx / view.getXscale(), -dy / view.getYscale()));
-					geo.updateRepaint();
+					// calculate the difference between the new and old
+					// positions
+					// (minX) and then apply translate
+					double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
+							dy = newMinY + bbMinY - dr.getBounds().getMinY();
+					if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
+						((Translateable) geo).translate(new Coords(
+								dx / view.getXscale(), -dy / view.getYscale()));
+						geo.updateRepaint();
+					}
 				}
 			}
 		}
