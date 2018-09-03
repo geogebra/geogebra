@@ -677,18 +677,19 @@ public class Browser {
 	 */
 	public static native void addFullscreenListener(
 			AsyncOperation<String> callback) /*-{
-		var prefixes = [ "webkit", "ms", "moz" ];
-		for ( var i in prefixes) {
-			var prefix = prefixes[i];
+		function listen(pfx, eventName) {
 			$doc
 					.addEventListener(
-							prefix + "fullscreenchange",
-							(function(pfx) {
-								return function(e) {
-									callback.@org.geogebra.common.util.AsyncOperation::callback(*)(($doc[pfx+"FullscreenElement"] || $doc.mozFullScreen) ?  "true" : "false");
-								}
-							})(prefix));
+							eventName,
+							function(e) {
+								var fsState = ($doc[pfx + "FullscreenElement"] || $doc.mozFullScreen) ? "true"
+										: "false";
+								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
+							});
 		}
+		listen("webkit", "webkitfullscreenchange");
+		listen("ms", "MSFullscreenChange");
+		listen("moz", "mozfullscreenchange");
 
 	}-*/;
 
