@@ -449,7 +449,7 @@
 				opacity: 0.54;	    	
 		   }
 		  
-		  	&:hover, &:focus {
+		  	&:hover, &:focus, &.selected {
 		  		img { 
 		  			opacity: 1;
 		  		}

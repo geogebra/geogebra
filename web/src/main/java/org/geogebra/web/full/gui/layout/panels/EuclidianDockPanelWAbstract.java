@@ -321,6 +321,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		if (allowZoomPanel()) {
 			mowZoomPanel = new ZoomPanelMow(app);
+			app.setMowZoomPanel(mowZoomPanel);
 		}
 	}
 

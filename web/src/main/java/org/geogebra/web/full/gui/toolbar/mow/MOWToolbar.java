@@ -419,6 +419,12 @@ public class MOWToolbar extends FlowPanel {
 		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			return;
 		}
+		if (mode == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			currentMenu.setMode(mode);
+			currentMode = mode;
+			return;
+		}
+		app.getZoomPanelMow().deselectDragBtn();
 		if (mode == EuclidianConstants.MODE_PEN) {
 			selectButton(penButton);
 		}

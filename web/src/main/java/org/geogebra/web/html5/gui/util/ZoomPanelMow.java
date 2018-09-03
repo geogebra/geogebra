@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.Browser;
@@ -51,6 +52,27 @@ public class ZoomPanelMow extends FlowPanel
 		return zoomController;
 	}
 
+	/**
+	 * @return see {@link AppW}
+	 */
+	public AppW getAppW() {
+		return appW;
+	}
+
+	/**
+	 * @return drag pad button
+	 */
+	public StandardButton getDragPadBtn() {
+		return dragPadBtn;
+	}
+
+	/**
+	 * remove selected style
+	 */
+	public void deselectDragBtn() {
+		getDragPadBtn().removeStyleName("selected");
+	}
+
 	private void addDragPadButton() {
 		dragPadBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.move_canvas(), null, 24, appW);
@@ -59,7 +81,8 @@ public class ZoomPanelMow extends FlowPanel
 
 			@Override
 			public void onClick(Widget source) {
-				// TODO set drag canvas mode
+				getAppW().setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+				getDragPadBtn().addStyleName("selected");
 			}
 		};
 		dragPadBtn.addFastClickHandler(handlerHome);
