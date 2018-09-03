@@ -119,10 +119,10 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 	/**
 	 * create a 4x4 dilate matrix.
-	 * 
+	 *
 	 * @param f
 	 *            dilate factor
-	 * 
+	 *
 	 * @return 4x4 dilate matrix
 	 */
 	static final public CoordMatrix4x4 dilate(double f) {
@@ -132,6 +132,31 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		}
 		ret.set(4, 4, 1);
 		return ret;
+	}
+
+	/**
+	 * set a 4x4 dilate matrix.
+	 *
+	 * @param f
+	 *            dilate factor
+	 *
+	 */
+	static final public void setDilate(CoordMatrix m, double f) {
+		for (int i = 1; i <= 3; i++) {
+			m.set(i, i, f);
+		}
+		m.set(4, 4, 1);
+	}
+
+	/**
+	 * set all matrix values to 0.
+	 */
+	static final public void setZero(CoordMatrix m) {
+		for (int i = 1; i <= 4; i++) {
+			for (int j = 1; j <= 4; j++) {
+				m.set(i, j, 0);
+			}
+		}
 	}
 
 	/**

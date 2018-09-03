@@ -60,6 +60,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
+	protected CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
 
 	protected float[] tmpFloat16 = new float[16];
 
@@ -488,28 +489,17 @@ public abstract class RendererImplShaders extends RendererImpl {
                                              float[] cameraPerspective,
                                              float[] modelMatrix, float scaleFactor) {
 
-        CoordMatrix4x4 mvMatrixCoord = new CoordMatrix4x4();
-        CoordMatrix4x4 mvpMatrixCoord = new CoordMatrix4x4();
-        CoordMatrix4x4 scaleMatrix = new CoordMatrix4x4();
-        CoordMatrix4x4 cameraViewCoord = new CoordMatrix4x4();
-        CoordMatrix4x4 cameraProjectionCoord = new CoordMatrix4x4();
-        CoordMatrix4x4 modelMatrixCoord = new CoordMatrix4x4();
-
-        CoordMatrix4x4.identity(mvMatrixCoord);
-        CoordMatrix4x4.identity(mvpMatrixCoord);
-        cameraViewCoord.setFromGL(cameraView);
-        cameraProjectionCoord.setFromGL(cameraPerspective);
-        modelMatrixCoord.setFromGL(modelMatrix);
-
-        CoordMatrix4x4.identity(scaleMatrix);
-		scaleMatrix.set(1, 1, scaleFactor);
-		scaleMatrix.set(2, 2, scaleFactor);
-		scaleMatrix.set(3, 3, scaleFactor);
-		scaleMatrix.set(4, 4, 1);
-
-        tmpMatrix1.setMul(modelMatrixCoord, scaleMatrix);
-        mvMatrixCoord.setMul(cameraViewCoord, tmpMatrix1);
-        projectionMatrix.setMul(cameraProjectionCoord, mvMatrixCoord);
+		// modelMatrix * scaleMatrix
+		CoordMatrix4x4.setZero(tmpMatrix1);
+		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
+		tmpMatrix2.setFromGL(modelMatrix);
+        tmpMatrix3.setMul(tmpMatrix2, tmpMatrix1);
+		// cameraView * (modelMatrix * scaleMatrix)
+		tmpMatrix1.setFromGL(cameraView);
+		tmpMatrix2.setMul(tmpMatrix1, tmpMatrix3);
+		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
+		tmpMatrix1.setFromGL(cameraPerspective);
+        projectionMatrix.setMul(tmpMatrix1, tmpMatrix2);
     }
 
 	@Override
