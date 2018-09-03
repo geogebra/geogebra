@@ -7906,8 +7906,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// calculate dragged distance
-		int distX = event.getX() - startPosition.getX();
-		int distY = event.getY() - startPosition.getY();
+		double distX = event.getX() - startPosition.getX();
+		double distY = event.getY() - startPosition.getY();
+
+		switch (handler) {
+		case TOP_LEFT:
+		case BOTTOM_RIGHT:
+			distY = distX / startBoundingBoxState.getWidthHeightRatio();
+			break;
+		case TOP_RIGHT:
+		case BOTTOM_LEFT:
+			distY = -distX / startBoundingBoxState.getWidthHeightRatio();
+			break;
+		default:
+			break;
+		}
 
 		double bbWidth = startBoundingBoxState.getRectangle().getWidth(),
 				bbHeight = startBoundingBoxState.getRectangle().getHeight(),
@@ -7916,17 +7929,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		switch (handler) {
 		case RIGHT:
+		case TOP_RIGHT:
+		case BOTTOM_RIGHT:
 			bbWidth += distX;
 			break;
 		case LEFT:
+		case TOP_LEFT:
+		case BOTTOM_LEFT:
 			bbWidth -= distX;
 			bbMinX += distX;
 			break;
+		default:
+			break;
+		}
+		switch (handler) {
 		case TOP:
+		case TOP_LEFT:
+		case TOP_RIGHT:
 			bbHeight -= distY;
 			bbMinY += distY;
 			break;
 		case BOTTOM:
+		case BOTTOM_LEFT:
+		case BOTTOM_RIGHT:
 			bbHeight += distY;
 			break;
 		default:

@@ -15,6 +15,7 @@ public class BoundingBoxResizeState {
 
 	private GRectangle2D rect;
 	private double ratios[][];
+	private double widthHeightRatio = 1;
 
 	/**
 	 * @param rect
@@ -31,6 +32,8 @@ public class BoundingBoxResizeState {
 		ratios = new double[geos.size()][4];
 
 		if (this.rect != null) {
+			widthHeightRatio = rect.getWidth() / rect.getHeight();
+
 			for (int i = 0; i < geos.size(); i++) {
 				Drawable dr = (Drawable) view.getDrawableFor(geos.get(i));
 
@@ -62,5 +65,12 @@ public class BoundingBoxResizeState {
 	 */
 	public GRectangle2D getRectangle() {
 		return this.rect;
+	}
+
+	/**
+	 * @return bounding box bounds
+	 */
+	public double getWidthHeightRatio() {
+		return this.widthHeightRatio;
 	}
 }
