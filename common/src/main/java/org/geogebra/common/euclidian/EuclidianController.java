@@ -7933,6 +7933,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		}
 
+		bbWidth = Math.max(bbWidth, BoundingBoxResizeState.SIDE_THRESHOLD);
+		bbHeight = Math.max(bbHeight, BoundingBoxResizeState.SIDE_THRESHOLD);
+		boolean thresholdXReached = (bbWidth <= BoundingBoxResizeState.SIDE_THRESHOLD);
+		boolean thresholdYReached = (bbHeight <= BoundingBoxResizeState.SIDE_THRESHOLD);
+
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
@@ -7952,31 +7957,43 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// segments must be handled differently (by translating the
 					// points separately)
 					GeoSegment seg = (GeoSegment) geo;
-					double dStartX, dEndX, dStartY, dEndY;
+					double dStartX = 0, dEndX = 0, dStartY = 0, dEndY = 0;
 
-					if (seg.getEndPoint().getX()
-							- seg.getStartPoint().getX() > 0) {
-						dStartX = newMinX + bbMinX - dr.getBounds().getMinX();
-						dEndX = newMaxX + bbMinX - dr.getBounds().getMaxX();
-					} else {
-						dEndX = newMinX + bbMinX - dr.getBounds().getMinX();
-						dStartX = newMaxX + bbMinX - dr.getBounds().getMaxX();
+					if (!thresholdXReached) {
+						if (seg.getEndPoint().getX()
+								- seg.getStartPoint().getX() > 0) {
+							dStartX = newMinX + bbMinX
+									- dr.getBounds().getMinX();
+							dEndX = newMaxX + bbMinX - dr.getBounds().getMaxX();
+						} else {
+							dEndX = newMinX + bbMinX - dr.getBounds().getMinX();
+							dStartX = newMaxX + bbMinX
+									- dr.getBounds().getMaxX();
+						}
 					}
-					if (seg.getEndPoint().getY()
-							- seg.getStartPoint().getY() < 0) {
-						dStartY = newMinY + bbMinY - dr.getBounds().getMinY();
-						dEndY = newMaxY + bbMinY - dr.getBounds().getMaxY();
-					} else {
-						dEndY = newMinY + bbMinY - dr.getBounds().getMinY();
-						dStartY = newMaxY + bbMinY - dr.getBounds().getMaxY();
+					if (!thresholdYReached) {
+						if (seg.getEndPoint().getY()
+								- seg.getStartPoint().getY() < 0) {
+							dStartY = newMinY + bbMinY
+									- dr.getBounds().getMinY();
+							dEndY = newMaxY + bbMinY - dr.getBounds().getMaxY();
+						} else {
+							dEndY = newMinY + bbMinY - dr.getBounds().getMinY();
+							dStartY = newMaxY + bbMinY
+									- dr.getBounds().getMaxY();
+						}
 					}
 
-					seg.getStartPoint()
-							.translate(new Coords(dStartX / view.getXscale(),
-									-dStartY / view.getYscale()));
-					seg.getEndPoint()
-							.translate(new Coords(dEndX / view.getXscale(),
-									-dEndY / view.getYscale()));
+					if (dStartX != 0 || dStartY != 0) {
+						seg.getStartPoint().translate(
+								new Coords(dStartX / view.getXscale(),
+										-dStartY / view.getYscale()));
+					}
+					if (dEndX != 0 || dEndY != 0) {
+						seg.getEndPoint()
+								.translate(new Coords(dEndX / view.getXscale(),
+										-dEndY / view.getYscale()));
+					}
 					seg.updateRepaint();
 				} else {
 					// the position of the maxX and maxY from the old minX and
@@ -7988,12 +8005,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// resize to new width
 					GPoint2D point = AwtFactory.getPrototype()
 							.newPoint2D(maxXFromOld, maxYFromOld);
-					if (point.getX() != 0) {
+					if (point.getX() != 0 && !thresholdXReached) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.RIGHT);
 						dr.updateGeo(point);
 					}
-					if (point.getY() != 0) {
+					if (point.getY() != 0 && !thresholdYReached) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.BOTTOM);
 						dr.updateGeo(point);
@@ -8002,8 +8019,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// calculate the difference between the new and old
 					// positions
 					// (minX) and then apply translate
-					double dx = newMinX + bbMinX - dr.getBounds().getMinX(),
-							dy = newMinY + bbMinY - dr.getBounds().getMinY();
+					double dx = thresholdXReached ? 0
+							: (newMinX + bbMinX - dr.getBounds().getMinX()),
+							dy = thresholdYReached ? 0
+									: (newMinY + bbMinY
+											- dr.getBounds().getMinY());
 					if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
 						((Translateable) geo).translate(new Coords(
 								dx / view.getXscale(), -dy / view.getYscale()));

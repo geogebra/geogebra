@@ -17,6 +17,11 @@ public class BoundingBoxResizeState {
 	private double ratios[][];
 
 	/**
+	 * minimum width of the bounding box
+	 */
+	public static int SIDE_THRESHOLD = 50;
+
+	/**
 	 * @param rect
 	 *            bounding box rectangle
 	 * @param geos
@@ -27,7 +32,6 @@ public class BoundingBoxResizeState {
 	public BoundingBoxResizeState(GRectangle2D rect,
 			ArrayList<GeoElement> geos, EuclidianView view) {
 		this.rect = rect;
-
 
 		ratios = new double[geos.size()][4];
 
