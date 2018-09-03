@@ -835,17 +835,25 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		CoordMatrix m1, m2;
 
-		if (getYAxisVertical()) { // y axis taken for up-down direction
-			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
-					(this.b) * EuclidianController3D.ANGLE_TO_DEGREES);
-			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
-					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
-		} else { // z axis taken for up-down direction
-			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
-					(this.b - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
-			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
-					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
-		}
+		if (mIsAREnabled){
+
+            m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
+                    (-90) * EuclidianController3D.ANGLE_TO_DEGREES);
+            m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
+                    (0 ) * EuclidianController3D.ANGLE_TO_DEGREES);
+        } else {
+            if (getYAxisVertical()) { // y axis taken for up-down direction
+                m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
+                        (this.b) * EuclidianController3D.ANGLE_TO_DEGREES);
+                m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
+                        (-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
+            } else { // z axis taken for up-down direction
+                m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
+                        (this.b - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
+                m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
+                        (-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
+            }
+        }
 
 		rotationMatrix = m1.mul(m2);
 	}
@@ -4728,7 +4736,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		return 1f;
 	}
 
-	public void setAREnabled(boolean isAREnabled) { mIsAREnabled = isAREnabled;}
+	public void setAREnabled(boolean isAREnabled) {
+		mIsAREnabled = isAREnabled;
+		updateMatrix();}
 
 	public boolean isAREnabled() {return mIsAREnabled;}
 
