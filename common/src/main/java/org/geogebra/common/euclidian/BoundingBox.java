@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -43,8 +44,11 @@ public class BoundingBox {
 	 * 
 	 * @param isImage
 	 *            true if is boundingBox of image
+	 * @param hasRotationHandler
+	 *            has rotation handler
 	 */
-	public BoundingBox(boolean isImage) {
+	public BoundingBox(boolean isImage, boolean hasRotationHandler) {
+		setNrHandlers(hasRotationHandler ? 9 : 8);
 		setHandlers(new ArrayList<GEllipse2DDouble>());
 		if (isImage) {
 			this.isImage = isImage;
@@ -59,9 +63,12 @@ public class BoundingBox {
 	 *            defined rectangle
 	 * @param isImage
 	 *            true is bounding box of image
+	 * @param hasRotationHandler
+	 *            has rotation handler
 	 */
-	public BoundingBox(GRectangle rect, boolean isImage) {
-		this(isImage);
+	public BoundingBox(GRectangle rect, boolean isImage,
+			boolean hasRotationHandler) {
+		this(isImage, hasRotationHandler);
 		setRectangle(rect);
 	}
 
@@ -237,7 +244,7 @@ public class BoundingBox {
 	}
 
 	private void createBoundingBoxHandlers() {
-		if (nrHandlers == 8) {
+		if (nrHandlers == 8 || nrHandlers == 9) {
 			// corner handlers
 			handlers.get(0).setFrameFromCenter(rectangle.getX(),
 					rectangle.getY(),
@@ -282,12 +289,16 @@ public class BoundingBox {
 					rectangle.getMaxX() + HANDLER_RADIUS,
 					(rectangle.getMinY() + rectangle.getMaxY()) / 2
 							+ HANDLER_RADIUS);
-			// handler for rotation
-			// handlers.get(8).setFrameFromCenter(
-			// (rectangle.getMinX() + rectangle.getMaxX()) / 2,
-			// rectangle.getMaxY() + 15,
-			// (rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
-			// rectangle.getMaxY() + 15 + 3);
+
+			if (nrHandlers == 9) {
+				// rotation handler
+				handlers.get(8).setFrameFromCenter(
+						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
+						rectangle.getMinY() - 25,
+						(rectangle.getMinX() + rectangle.getMaxX()) / 2
+								+ HANDLER_RADIUS,
+						rectangle.getMinY() - 25 - HANDLER_RADIUS);
+			}
 		}
 	}
 
@@ -309,13 +320,16 @@ public class BoundingBox {
 		}
 		if (handlers != null && !handlers.isEmpty() && !isCropBox) {
 			// join rotation handler and bounding box
-			// GLine2D line = AwtFactory.getPrototype().newLine2D();
-			// line.setLine((rectangle.getMinX() + rectangle.getMaxX()) / 2,
-			// rectangle.getMaxY(),
-			// (rectangle.getMinX() + rectangle.getMaxX()) / 2,
-			// rectangle.getMaxY() + 15);
-			// g2.setColor(GColor.GEOGEBRA_GRAY);
-			// g2.draw(line);
+			if (nrHandlers == 9) {
+				GLine2D line = AwtFactory.getPrototype().newLine2D();
+				line.setLine((rectangle.getMinX() + rectangle.getMaxX()) / 2,
+						rectangle.getMinY(),
+						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
+						rectangle.getMinY() - 25);
+				g2.setColor(GColor.MOW_MEBIS_TEAL);
+				g2.draw(line);
+			}
+
 			for (int i = 0; i < /* = */nrHandlers; i++) {
 				g2.setPaint(GColor.MOW_MEBIS_TEAL);
 				g2.fill(handlers.get(i));
@@ -432,6 +446,8 @@ public class BoundingBox {
 			return EuclidianBoundingBoxHandler.BOTTOM;
 		case 7:
 			return EuclidianBoundingBoxHandler.RIGHT;
+		case 8:
+			return EuclidianBoundingBoxHandler.ROTATION;
 		default:
 			return EuclidianBoundingBoxHandler.UNDEFINED;
 		}
@@ -462,7 +478,13 @@ public class BoundingBox {
 						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold)
 				// right side
 				|| onSegment(rectangle.getMaxX(), rectangle.getMinY(), x, y,
-						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold);
+						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold)
+				// rotation handler
+				|| (nrHandlers == 9 && onSegment(
+						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
+						rectangle.getMinY(), x, y,
+						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
+						rectangle.getMinY() - 25, hitThreshold));
 	}
 
 	// check if intersection point is on segment
@@ -647,6 +669,8 @@ public class BoundingBox {
 		case LEFT:
 		case RIGHT:
 			return EuclidianCursor.RESIZE_EW;
+		case ROTATION:
+			return EuclidianCursor.ROTATION;
 		default:
 			return null;
 		}

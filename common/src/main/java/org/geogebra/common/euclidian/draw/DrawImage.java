@@ -508,7 +508,8 @@ public final class DrawImage extends Drawable {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(
 					view.getApplication().has(Feature.MOW_CROP_IMAGE) ? true
-							: false);
+							: false,
+					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
 		}
 		return boundingBox;
 	}

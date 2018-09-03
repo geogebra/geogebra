@@ -503,7 +503,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false);
+			boundingBox = new BoundingBox(false,
+					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
 		}
 		return boundingBox;
 	}

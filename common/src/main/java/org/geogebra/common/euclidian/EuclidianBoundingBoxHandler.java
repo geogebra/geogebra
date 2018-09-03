@@ -41,6 +41,10 @@ public enum EuclidianBoundingBoxHandler {
 	 */
 	BOTTOM,
 	/**
+	 * rotation handler of bounding box
+	 */
+	ROTATION,
+	/**
 	 * undefined handler
 	 */
 	UNDEFINED

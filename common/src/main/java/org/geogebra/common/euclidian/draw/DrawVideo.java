@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.media.MediaFormat;
 
 /**
@@ -138,7 +139,8 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false);
+			boundingBox = new BoundingBox(false,
+					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
 			setMetrics();
 		}
 		return video.isBackground() ? boundingBox : null;

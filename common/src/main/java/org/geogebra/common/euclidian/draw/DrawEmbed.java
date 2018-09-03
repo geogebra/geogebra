@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Feature;
 
 /**
  * Drawable for embedded apps
@@ -133,7 +134,8 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false);
+			boundingBox = new BoundingBox(false,
+					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
 			setMetrics();
 		}
 		return boundingBox;

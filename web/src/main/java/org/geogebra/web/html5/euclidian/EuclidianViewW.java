@@ -1271,6 +1271,10 @@ public class EuclidianViewW extends EuclidianView implements
 		setCursorClass("cursor_highlighter");
 	}
 
+	private void setRotationCursor() {
+		setCursorClass("cursor_rotation");
+	}
+
 	@Override
 	public boolean hasFocus() {
 		// changed to return true, otherwise Arrow keys don't work to pan the
@@ -1488,6 +1492,14 @@ public class EuclidianViewW extends EuclidianView implements
 				setTransparentCursor();
 			} else {
 				setHighlighterCursor();
+			}
+			return;
+		case ROTATION:
+			if (appW.isWhiteboardActive() && getEuclidianController()
+					.getDefaultEventType() != PointerEventType.MOUSE) {
+				setTransparentCursor();
+			} else {
+				setRotationCursor();
 			}
 			return;
 		}

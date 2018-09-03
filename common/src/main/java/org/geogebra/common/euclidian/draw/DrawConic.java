@@ -61,6 +61,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -2113,7 +2114,8 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false);
+			boundingBox = new BoundingBox(false,
+					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
 		}
 		return boundingBox;
 	}

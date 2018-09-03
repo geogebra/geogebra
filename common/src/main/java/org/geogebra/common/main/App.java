@@ -3876,6 +3876,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_SELECTION_TOOL:
 			return canary && whiteboard;
 
+		/** MOW-150 */
+
+		case MOW_ROTATION_HANDLER:
+			return canary && whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

@@ -33,5 +33,7 @@ public enum EuclidianCursor {
 	/** Pen */
 	PEN,
 	/** Highlighter */
-	HIGHLIGHTER
+	HIGHLIGHTER,
+	/** Rotation */
+	ROTATION
 }

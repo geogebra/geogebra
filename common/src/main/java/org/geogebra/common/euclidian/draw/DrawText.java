@@ -363,7 +363,8 @@ public final class DrawText extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
-				boundingBox = new BoundingBox(false);
+				boundingBox = new BoundingBox(false, view.getApplication()
+						.has(Feature.MOW_ROTATION_HANDLER));
 				boundingBox.setRectangle(getBounds());
 			}
 			return boundingBox;
