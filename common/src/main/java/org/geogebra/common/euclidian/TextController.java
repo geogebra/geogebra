@@ -54,4 +54,12 @@ public interface TextController {
 	 *            to set.
 	 */
 	void setEditorColor(GColor color);
+
+	/**
+	 * Wraps the text.
+	 * 
+	 * @param editText
+	 *            text to wrap.
+	 */
+	String wrapText(String editText);
 }

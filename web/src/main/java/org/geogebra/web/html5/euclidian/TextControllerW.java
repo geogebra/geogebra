@@ -99,7 +99,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		editor.hide();
 		view.setBoundingBox(null);
 		text.setEditMode(false);
-		text.setTextString(wrapText(editor.getText()));
+		text.setTextString(editor.getText());
 		text.update();
 		text.updateRepaint();
 	}
@@ -152,7 +152,8 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		editor.setFont(font);
 	}
 
-	private String wrapText(String editText) {
+	@Override
+	public String wrapText(String editText) {
 		// TODO break the text for rows here
 		ArrayList<String> rows = new ArrayList<>();   
 		rows.add(editText);

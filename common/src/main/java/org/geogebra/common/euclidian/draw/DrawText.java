@@ -111,7 +111,12 @@ public final class DrawText extends Drawable {
 			updateStrokes(text);
 		}
 
-		String newText = text.getTextString();
+		String newText;
+		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
+			newText = ctrl.wrapText(text.getTextString());
+		} else {
+			newText = text.getTextString();
+		}
 		boolean textChanged = labelDesc == null || !labelDesc.equals(newText)
 				|| isLaTeX != text.isLaTeX()
 				|| text.isNeedsUpdatedBoundingBox() != needsBoundingBoxOld;
