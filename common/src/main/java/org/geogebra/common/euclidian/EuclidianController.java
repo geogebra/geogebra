@@ -8190,8 +8190,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MOVE:
 			return moveMode == MOVE_NONE && isAltDown();
 
-		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_SELECT_MOW:
+			return moveMode == MOVE_NONE;
+
+		case EuclidianConstants.MODE_SELECT:
 			return true;
 
 		// move rotate objects
@@ -10059,7 +10061,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			am.setTabOverGeos(true);
 		}
 
-		isMultiResize = false;
+		if (isMultiResize) {
+			storeUndoInfo();
+			isMultiResize = false;
+		}
 
 		if (handleVideoReleased()) {
 			return;
