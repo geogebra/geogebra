@@ -497,19 +497,21 @@ public class Browser {
 				}, 10);
 			}
 		} else {
-
-			// Firefox, Safari
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = window.encodeURI(url);
-			a.download = title;
-			$wnd.setTimeout(function() {
-				a.click()
-			}, 10);
-
+			@org.geogebra.web.html5.Browser::downloadDataURL(Ljava/lang/String;Ljava/lang/String;)(url, title);
 		}
 
+	}-*/;
+
+	public static native void downloadDataURL(String url, String title) /*-{
+		// Firefox, Safari
+		var a = $doc.createElement("a");
+		$doc.body.appendChild(a);
+		a.style = "display: none";
+		a.href = window.encodeURI(url);
+		a.download = title;
+		$wnd.setTimeout(function() {
+			a.click()
+		}, 10);
 	}-*/;
 
 	/**

@@ -2019,9 +2019,13 @@ public class GuiManagerW extends GuiManager
 							if (!filename.endsWith(extension)) {
 								filename += extension;
 							}
-
-							getApp().getGgbApi().getGGBfile(true,
+							if (Browser.isFirefox()) {
+								getApp().getGgbApi().getBase64(true,
+										getBase64DownloadCallback(filename));
+							} else {
+								getApp().getGgbApi().getGGBfile(true,
 									getDownloadCallback(filename));
+							}
 						}
 					}
 				}, loc.getMenu("Save"));
@@ -2073,6 +2077,17 @@ public class GuiManagerW extends GuiManager
 				a.click();
 				//		        window.URL.revokeObjectURL(url);
 			}
+		}
+	}-*/;
+
+	/**
+	 * @param title
+	 *            export title
+	 * @return callback for base64 encoded download
+	 */
+	native JavaScriptObject getBase64DownloadCallback(String title) /*-{
+		return function(base64) {
+			@org.geogebra.web.html5.Browser::downloadDataURL(Ljava/lang/String;Ljava/lang/String;)("data:application/vnd.geogebra.file;base64,"+base64, title);
 		}
 	}-*/;
 
