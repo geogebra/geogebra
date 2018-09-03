@@ -3724,7 +3724,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// AND-1304
 		case MOB_LIST_TOOL:
-			return prerelease;
+			return true;
 
 		// MOB-1771
 		case MOB_LIST_LABEL:
