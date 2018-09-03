@@ -4012,7 +4012,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return isUnbundledOrWhiteboard();
 
 		case EXPORT_SCAD_IN_MENU:
-			return prerelease;
+			return false;
 
 		case EXPORT_COLLADA_IN_MENU:
 			return prerelease;
