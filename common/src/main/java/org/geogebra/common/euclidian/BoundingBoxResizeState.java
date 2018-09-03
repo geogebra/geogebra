@@ -17,11 +17,6 @@ public class BoundingBoxResizeState {
 	private double ratios[][];
 
 	/**
-	 * minimum width of the bounding box
-	 */
-	public static int SIDE_THRESHOLD = 50;
-
-	/**
 	 * @param rect
 	 *            bounding box rectangle
 	 * @param geos

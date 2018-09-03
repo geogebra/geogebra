@@ -33,6 +33,10 @@ public class BoundingBox {
 	 * size of handler
 	 */
 	public static final int HANDLER_RADIUS = 5;
+	/**
+	 * minimum width and height for multi-selection
+	 */
+	public static final int SIDE_THRESHOLD = 50;
 
 	/**
 	 * Make new bounding box
