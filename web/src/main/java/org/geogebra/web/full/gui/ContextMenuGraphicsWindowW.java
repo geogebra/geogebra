@@ -82,6 +82,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				addGridMenuItem();
 				addSnapToGridMenuItem();
 				addClearTraceMenuItem();
+			} else {
+				addCheckboxes();
 			}
 			addShowAllObjAndStandView();
 		} else {
@@ -89,6 +91,27 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			addBackgroundMenuItem();
 		}
 		addMiProperties("DrawingPad", ot);
+	}
+
+	private void addCheckboxes() {
+		addAxesAndGridCheckBoxes();
+		addNavigationBar();
+		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW((AppW) this.app,
+				false);
+		addAxesRatioItems(yaxisMenu);
+		AriaMenuItem mi = new AriaMenuItem(
+				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
+				(AriaMenuBar) yaxisMenu);
+		mi.addStyleName("mi_no_image_new");
+		if (!app.isUnbundled()) {
+			wrappedPopup.addItem(mi);
+		}
+		if (!app.getActiveEuclidianView().isZoomable()) {
+			yaxisMenu.setEnabled(false);
+		}
+		if (app.getActiveEuclidianView().isLockedAxesRatio()) {
+			yaxisMenu.setEnabled(false);
+		}
 	}
 
 	private void addRulingMenuItem() {
@@ -118,6 +141,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						loc.getMenu("BackgroundColor")),
 				true, new Command() {
 
+					@Override
 					public void execute() {
 						openColorChooser();
 					}
@@ -133,27 +157,33 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				app.getSettings().getEuclidian(1).getBackground(),
 				new ColorChangeHandler() {
 
+					@Override
 					public void onForegroundSelected() {
 						// do nothing
 					}
 
+					@Override
 					public void onColorChange(GColor color) {
 						// change graphics background color
 						app.getSettings().getEuclidian(1).setBackground(color);
 					}
 
+					@Override
 					public void onClearBackground() {
 						// do nothing
 					}
 
+					@Override
 					public void onBarSelected() {
 						// do nothing
 					}
 
+					@Override
 					public void onBackgroundSelected() {
 						// do nothing
 					}
 
+					@Override
 					public void onAlphaChange() {
 						// do nothing
 					}
@@ -208,27 +238,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					public void execute() {
 				        setStandardView();
 			        }
-		        });
-		if (!hasWhiteboardContextMenu()) {
-			addAxesAndGridCheckBoxes();
-			addNavigationBar();
-			RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(
-					(AppW) this.app, false);
-			addAxesRatioItems(yaxisMenu);
-			AriaMenuItem mi = new AriaMenuItem(
-					loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
-					(AriaMenuBar) yaxisMenu);
-			mi.addStyleName("mi_no_image_new");
-			if (!app.isUnbundled()) {
-				wrappedPopup.addItem(mi);
-			}
-			if (!app.getActiveEuclidianView().isZoomable()) {
-				yaxisMenu.setEnabled(false);
-			}
-			if (app.getActiveEuclidianView().isLockedAxesRatio()) {
-				yaxisMenu.setEnabled(false);
-			}
-		}
+				});
 		if (!app.getActiveEuclidianView().isZoomable()) {
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
