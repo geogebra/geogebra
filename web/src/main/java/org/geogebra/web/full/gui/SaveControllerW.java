@@ -347,7 +347,7 @@ public class SaveControllerW implements SaveController {
 			public void onError(final Throwable exception) {
 				Log.error("SAVE Error" + exception.getMessage());
 				resetCallback();
-				if ("ErrorUnauthorized".equals(exception.getMessage())) {
+				if (exception.getMessage().contains("auth")) {
 					getAppW().getLoginOperation().performTokenLogin();
 				}
 				((GuiManagerW) getAppW().getGuiManager()).exportGGB();
