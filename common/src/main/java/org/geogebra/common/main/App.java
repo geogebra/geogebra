@@ -4917,6 +4917,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			case IOS_GEOMETRY:
 			case IOS_NATIVE:
 			case IOS_NATIVE_3D:
+			case IOS_CAS:
 				factory.setPhoneApp(true);
 				break;
 			default:
