@@ -99,7 +99,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		editor.hide();
 		view.setBoundingBox(null);
 		text.setEditMode(false);
-		text.setTextString(editor.getText());
+		text.setTextString(wrapText(editor.getText()));
 		text.update();
 		text.updateRepaint();
 	}
@@ -152,8 +152,21 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		editor.setFont(font);
 	}
 
-	private String wrapText(String text) {
-		return StringUtil.join("\n", wrapRow(text));
+	private String wrapText(String editText) {
+		// TODO break the text for rows here
+		ArrayList<String> rows = new ArrayList<>();   
+		rows.add(editText);
+
+		ArrayList<String> wrappedRows = new ArrayList<>();
+		for (int i = 0; i < rows.size(); i++) {
+			wrappedRows.addAll(wrapRow(rows.get(i)));
+		}
+		return StringUtil.join("\n", wrappedRows);
+	}
+
+	private double getCurrentWidth() {
+		DrawText d = (DrawText) view.getDrawableFor(text);
+		return d.getBounds().getWidth();
 	}
 
 	/**
@@ -163,30 +176,31 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	 *            row to wrap.
 	 */
 	public ArrayList<String> wrapRow(String row) {
-		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen().getFontRenderContext();
+		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen()
+				.getFontRenderContext();
 		String[] words = row.split(" ");
-		int rowLength = 100;
+		double rowLength = 80; //getCurrentWidth();
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
+		GFont textFont = view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN,
+				view.getFontSize());
 		for (i = 0; i < words.length; i++) {
 			currRow = tempRow;
 			if (i > 0) {
 				tempRow = tempRow.concat(" ");
 			}
 			tempRow = tempRow.concat(words[i]);
-
-			// TODO
-			// int currLength = fontRenderContext.measureText(tempRow,
-			// ((GFontW) editor.getFont()).getFullFontString());
-			GFont textFont = view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN,
-					view.getFontSize());
 			int currLength = fontRenderContext.measureText(tempRow,
 					((GFontW) textFont).getFullFontString());
 			if (currLength > rowLength) {
-				wrappedRow.add(currRow);
-				tempRow = "";
-				i--;
+				if ("".equals(currRow)) {
+					// TODO wrap word
+				} else {
+					wrappedRow.add(currRow);
+					tempRow = words[i];
+				}
+
 			}
 		}
 		wrappedRow.add(tempRow);
