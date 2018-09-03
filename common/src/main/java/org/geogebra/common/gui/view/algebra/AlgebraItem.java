@@ -130,6 +130,20 @@ public class AlgebraItem {
 	/**
 	 * @param geo
 	 *            element
+	 * @param app
+	 *            application requesting suggestion (may disallow it)
+	 * @return most relevant suggestion
+	 */
+	public static Suggestion getSuggestions(GeoElement geo, App app) {
+		if (app.getConfig().allowsSuggestions()) {
+			return getSuggestions(geo);
+		}
+		return null;
+	}
+
+	/**
+	 * @param geo
+	 *            element
 	 * @return most relevant suggestion
 	 */
 	public static Suggestion getSuggestions(GeoElement geo) {

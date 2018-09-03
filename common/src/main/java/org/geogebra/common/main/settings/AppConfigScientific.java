@@ -21,4 +21,9 @@ public class AppConfigScientific extends AppConfigGraphing {
     public String getTutorialKey() {
         return "";
     }
+
+	@Override
+	public boolean allowsSuggestions() {
+		return false;
+	}
 }

@@ -69,4 +69,9 @@ public class AppConfigDefault implements AppConfig {
 		return false;
 	}
 
+	@Override
+	public boolean allowsSuggestions() {
+		return true;
+	}
+
 }

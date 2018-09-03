@@ -26,4 +26,6 @@ public interface AppConfig {
 
 	public boolean hasPreviewPoints();
 
+	public boolean allowsSuggestions();
+
 }
