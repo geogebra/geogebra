@@ -3255,7 +3255,7 @@ __GGB__keysVar["am"].menu = {
     "permission.request": "Please enable access in your Settings.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
-    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_failed": "We are sorry, but the resources are currently not available.",
     "phone_loading_materials_offline": "\u12a5\u1263\u12ad\u12ce \u12e8\u1260\u12e8\u1290\u1218\u1228\u1265 \u130d\u1295\u1299\u1290\u1275 \u12eb\u1228\u130b\u130d\u1321",
     "phone_no_materials_found": "\u12e8\u1270\u1308\u1298 \u1290\u1308\u122d \u12e8\u1208\u121d",
     "phone_tour_done": "\u1270\u12a8\u1293\u12cd\u1297\u120d",

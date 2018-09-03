@@ -2553,7 +2553,7 @@ __GGB__keysVar["ca"].menu = {
     "SansSerif": "Sans-Serif",
     "Saturation": "Saturaci\xf3",
     "Save": "Desa",
-    "SaveAccountFailed": "Saving online has failed",
+    "SaveAccountFailed": "Saving online has failed, please check that you are logged in",
     "SaveAs": "Anomena i desa",
     "SaveCurrentFileQuestion": "Voleu desar els fitxers actuals?",
     "SaveCurrentPerspective": "Desa l'Escenari Actual",

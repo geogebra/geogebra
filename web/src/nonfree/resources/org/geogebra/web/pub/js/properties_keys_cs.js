@@ -2621,7 +2621,7 @@ __GGB__keysVar["cs"].menu = {
     "Share": "Sd\xedlet",
     "ShareDialogDescription": "Odeslat emailem, nahr\xe1t na GeoGebra nebo jin\xe1 \xfalo\u017ei\u0161t\u011b.",
     "ShareDialogTitle": "Sd\xedlet konstrukci",
-    "ShareLinkHelpTxt": "Anyone with the link can view this file.",
+    "ShareLinkHelpTxt": "Kdokoliv m\xe1 tento odkaz m\u016f\u017ee otev\u0159\xedt tento soubor.",
     "Shared": "Sd\xedlen\xfd",
     "SharedByA": "Sd\xedleno u\u017eivatelem: %0",
     "Show": "Zobrazit",
