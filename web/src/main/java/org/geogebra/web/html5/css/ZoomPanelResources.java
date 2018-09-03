@@ -23,7 +23,4 @@ public interface ZoomPanelResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_zoom_out_black_24px.svg")
 	SVGResource zoomout_black24();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
-	SVGResource move_canvas();
-
 }

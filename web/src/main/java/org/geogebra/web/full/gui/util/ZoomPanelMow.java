@@ -1,12 +1,16 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.util.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -75,7 +79,7 @@ public class ZoomPanelMow extends FlowPanel
 
 	private void addDragPadButton() {
 		dragPadBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.move_canvas(), null, 24, appW);
+				MaterialDesignResources.INSTANCE.move_canvas(), null, 24, appW);
 		dragPadBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerHome = new FastClickHandler() {
 

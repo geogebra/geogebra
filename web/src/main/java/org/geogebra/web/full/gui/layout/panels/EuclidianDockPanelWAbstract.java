@@ -4,11 +4,11 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
-import org.geogebra.web.html5.gui.util.ZoomPanelMow;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Overflow;
@@ -321,7 +321,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		if (allowZoomPanel()) {
 			mowZoomPanel = new ZoomPanelMow(app);
-			app.setMowZoomPanel(mowZoomPanel);
+			((AppWFull) app).setMowZoomPanel(mowZoomPanel);
 		}
 	}
 

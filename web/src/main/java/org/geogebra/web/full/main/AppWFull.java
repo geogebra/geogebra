@@ -77,6 +77,7 @@ import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
+import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
@@ -165,6 +166,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private SaveController saveController = null;
 
 	private ShareControllerW shareController;
+	private ZoomPanelMow mowZoomPanel;
 
 	/**
 	 * 
@@ -1945,5 +1947,20 @@ public class AppWFull extends AppW implements HasKeyboard {
 			shareController = new ShareControllerW(this);
 		}
 		return shareController;
+	}
+
+	/**
+	 * @param mowZoomPanel
+	 *            zoom panel
+	 */
+	public void setMowZoomPanel(ZoomPanelMow mowZoomPanel) {
+		this.mowZoomPanel = mowZoomPanel;
+	}
+
+	/**
+	 * @return zoom panel
+	 */
+	public ZoomPanelMow getZoomPanelMow() {
+		return mowZoomPanel;
 	}
 }

@@ -112,7 +112,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
-import org.geogebra.web.html5.gui.util.ZoomPanelMow;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -240,7 +239,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
 	private ViewW viewW;
 	private ZoomPanel zoomPanel;
-	private ZoomPanelMow mowZoomPanel;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -3949,21 +3947,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void setZoomPanel(ZoomPanel zoomPanel) {
 		this.zoomPanel = zoomPanel;
-	}
-
-	/**
-	 * @param mowZoomPanel
-	 *            zoom panel
-	 */
-	public void setMowZoomPanel(ZoomPanelMow mowZoomPanel) {
-		this.mowZoomPanel = mowZoomPanel;
-	}
-
-	/**
-	 * @return zoom panel
-	 */
-	public ZoomPanelMow getZoomPanelMow() {
-		return mowZoomPanel;
 	}
 
 	/**

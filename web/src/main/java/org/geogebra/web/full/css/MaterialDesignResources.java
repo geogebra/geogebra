@@ -469,4 +469,7 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/lightbulb_outline_black_24px.svg")
 	SVGResource mow_lightbulb();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
+	SVGResource move_canvas();
 }

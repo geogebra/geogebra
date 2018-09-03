@@ -100,19 +100,19 @@ public class ZoomController {
 	}
 
 	/** Home button handler. */
-	protected void onHomePressed() {
+	public void onHomePressed() {
 		app.getActiveEuclidianView().setStandardView(true);
 		app.getAccessibilityManager().focusMenu();
 	}
 
 	/** Zoom In button handler. */
-	protected void onZoomInPressed() {
+	public void onZoomInPressed() {
 		app.getActiveEuclidianView().getEuclidianController().zoomInOut(false,
 				false);
 	}
 
 	/** Zoom Out button handler. */
-	protected void onZoomOutPressed() {
+	public void onZoomOutPressed() {
 		app.getActiveEuclidianView().getEuclidianController().zoomInOut(false,
 				true);
 	}
@@ -324,7 +324,7 @@ public class ZoomController {
 	 * @param homeBtn
 	 *            hides home button
 	 */
-	void hideHomeButton(StandardButton homeBtn) {
+	public void hideHomeButton(StandardButton homeBtn) {
 		if (homeBtn == null) {
 			return;
 		}
