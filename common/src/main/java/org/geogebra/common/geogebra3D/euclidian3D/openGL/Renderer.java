@@ -166,7 +166,6 @@ public abstract class Renderer implements RendererInterface {
 	private Runnable export3DRunnable;
 
 	//ARCore
-	private boolean mIsARCoreEnabled = false;
 	private float[] arCameraView;
 	private float[] arModelMatrix;
 	private float[] arCameraPerspective;
@@ -871,7 +870,7 @@ public abstract class Renderer implements RendererInterface {
 		drawFaceToScreen();
 
 		// init drawing matrix to view3D toScreen matrix
-		if (mIsARCoreEnabled) {
+		if (view3D.isAREnabled()) {
 			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
 					arScaleFactor);
 		}
@@ -2019,10 +2018,6 @@ public abstract class Renderer implements RendererInterface {
 	 */
 	public boolean reduceForClipping() {
 		return true;
-	}
-
-	public void setARCoreEnabled(boolean isARCoreEnabled) {
-		mIsARCoreEnabled = isARCoreEnabled;
 	}
 
 	/**

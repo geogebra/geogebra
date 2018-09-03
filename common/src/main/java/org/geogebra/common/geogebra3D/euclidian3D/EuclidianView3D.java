@@ -292,6 +292,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	private EuclidianView3DAnimator animator;
 
+	//Augmented Reality
+	private boolean mIsAREnabled;
+
 	/**
 	 * common constructor
 	 *
@@ -4724,5 +4727,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	public float getTicksDeltaFactor() {
 		return 1f;
 	}
+
+	public void setAREnabled(boolean isAREnabled) { mIsAREnabled = isAREnabled;}
+
+	public boolean isAREnabled() {return mIsAREnabled;}
 
 }
