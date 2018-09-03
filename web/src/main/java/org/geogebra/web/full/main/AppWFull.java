@@ -1676,7 +1676,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void removeFloatingMenu() {
-		this.updateCenterPanelAndViews();
+		// menu is floating: no need to resize views
+		// this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateOut");
 		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
@@ -1690,7 +1691,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void addFloatingMenu() {
-		this.updateCenterPanelAndViews();
+		// menu is floating: no need to resize views
+		// this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateIn");
 		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
