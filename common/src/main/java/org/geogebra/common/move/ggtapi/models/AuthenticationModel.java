@@ -81,7 +81,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 */
 	public void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
-		if (getLoginToken() != null) {
+		if (getLoginToken() != null || user.isShibbolethAuth()) {
 			clearLoginTokenForLogginError();
 		}
 	}

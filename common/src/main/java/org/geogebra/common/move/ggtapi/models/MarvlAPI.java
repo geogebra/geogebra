@@ -130,7 +130,7 @@ public class MarvlAPI implements BackendAPI {
 							MarvlAPI.this.availabilityCheckDone = true;
 
 							MarvlAPI.this.available = true;
-
+							user.setShibbolethAuth(true);
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
 								op.onEvent(new LoginEvent(user, false, automatic, responseStr));
@@ -151,6 +151,7 @@ public class MarvlAPI implements BackendAPI {
 						System.out.println(error);
 						MarvlAPI.this.availabilityCheckDone = true;
 						MarvlAPI.this.available = false;
+						user.setShibbolethAuth(true);
 						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}
 				});
