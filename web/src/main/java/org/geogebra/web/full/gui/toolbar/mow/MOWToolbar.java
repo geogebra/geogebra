@@ -424,7 +424,9 @@ public class MOWToolbar extends FlowPanel {
 			currentMode = mode;
 			return;
 		}
-		((AppWFull) app).getZoomPanelMow().deselectDragBtn();
+		if (((AppWFull) app).getZoomPanelMow() != null) {
+			((AppWFull) app).getZoomPanelMow().deselectDragBtn();
+		}
 		if (mode == EuclidianConstants.MODE_PEN) {
 			selectButton(penButton);
 		}
