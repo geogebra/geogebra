@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
 import org.geogebra.common.main.Feature;
@@ -71,9 +72,26 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.toggleMenu();
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
-						String url = ((EuclidianViewWInterface) app
-								.getActiveEuclidianView())
-										.getExportImageDataUrl(1.0, false);
+						
+						// aim for a reasonable size export
+						double width = 2000;
+						// with scale 1 unit : 1 cm
+						double scaleCM = 1;
+
+						EuclidianView ev = app.getActiveEuclidianView();
+						double viewWidth = ev.getExportWidth();
+						double xScale = ev.getXscale();
+
+						// logic copied from CmdExportImage
+						double widthRW = viewWidth / xScale;
+						double dpcm = width / (widthRW * scaleCM);
+						int dpi = (int) (dpcm * 2.54);
+						double pixelWidth = Math
+								.round(dpcm * widthRW * scaleCM);
+						double exportScale = pixelWidth / viewWidth;
+
+						String url = StringUtil.pngMarker + app.getGgbApi()
+								.getPNGBase64(exportScale, false, dpi, false);
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "png", "ExportAsPicture",
