@@ -290,6 +290,9 @@ public enum Feature {
 	MOB_AND_AR,
 
 	/** MOB-1771 */
-	MOB_LIST_LABEL
+	MOB_LIST_LABEL,
+
+	/** AND-1342, IGR-1010 */
+	MOB_STANDARD_VIEW_ZOOM_BUTTONS
 }
 

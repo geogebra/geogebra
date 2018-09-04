@@ -3730,6 +3730,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_LIST_LABEL:
 			return prerelease;
 
+		// AND-1342, IGR-1010
+		case MOB_STANDARD_VIEW_ZOOM_BUTTONS:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
