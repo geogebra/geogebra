@@ -171,7 +171,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	final static public int PROJECTION_OBLIQUE = 3;
 	// DrawList3D();
 	final static public int PROJECTION_EQUIRECTANGULAR = 4;
-	final static public int PROJECTION_AR = 5;
 	public static final int CURSOR_DEFAULT = 0;
 
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
@@ -4744,9 +4743,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setAREnabled(boolean isAREnabled) {
 		mIsAREnabled = isAREnabled;
-		if (mIsAREnabled) {
-			startAR();
-		}
 		updateMatrix();
 	}
 
@@ -4754,7 +4750,4 @@ public abstract class EuclidianView3D extends EuclidianView
 		return mIsAREnabled;
 	}
 
-	private void startAR(){
-		projection = PROJECTION_AR;
-	}
 }

@@ -1546,26 +1546,26 @@ public abstract class Renderer implements RendererInterface {
 	 * Update projection matrix for view's projection.
 	 */
 	public final void setProjectionMatrix() {
-
-		switch (view3D.getProjection()) {
-		default:
-		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-			viewOrtho();
-			break;
-		case EuclidianView3D.PROJECTION_PERSPECTIVE:
-			viewPersp();
-			break;
-		case EuclidianView3D.PROJECTION_GLASSES:
-		case EuclidianView3D.PROJECTION_EQUIRECTANGULAR:
-			viewGlasses();
-			break;
-		case EuclidianView3D.PROJECTION_OBLIQUE:
-			viewOblique();
-			break;
-		case EuclidianView3D.PROJECTION_AR:
+		if (view3D.isAREnabled()){
 			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
-			arScaleFactor);
-			break;
+					arScaleFactor);
+		} else {
+			switch (view3D.getProjection()) {
+				default:
+				case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+					viewOrtho();
+					break;
+				case EuclidianView3D.PROJECTION_PERSPECTIVE:
+					viewPersp();
+					break;
+				case EuclidianView3D.PROJECTION_GLASSES:
+				case EuclidianView3D.PROJECTION_EQUIRECTANGULAR:
+					viewGlasses();
+					break;
+				case EuclidianView3D.PROJECTION_OBLIQUE:
+					viewOblique();
+					break;
+			}
 		}
 	}
 
