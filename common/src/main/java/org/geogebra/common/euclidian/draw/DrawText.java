@@ -243,6 +243,10 @@ public final class DrawText extends Drawable {
 
 	}
 
+	public static int getMinEditorWidth() {
+		return MIN_EDITOR_WIDTH;
+	}
+
 	public void adjustBoundingBoxToText() {
 		GRectangle rect = ctrl.getEditorBounds();
 		if (rect == null || labelRectangle == null) {

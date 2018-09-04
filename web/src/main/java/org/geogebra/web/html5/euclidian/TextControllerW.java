@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
@@ -154,9 +153,9 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	}
 
 	@Override
-	public String wrapText(String editText) {
+	public String wrapText(String txt) {
+		String editText = txt.replace("&nbsp;", " ");
 		String[] rows = editText.split("\n");
-
 		ArrayList<String> wrappedRows = new ArrayList<>();
 		for (int i = 0; i < rows.length; i++) {
 			wrappedRows.addAll(wrapRow(rows[i]));
@@ -164,9 +163,12 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		return StringUtil.join("\n", wrappedRows);
 	}
 
-	private double getCurrentWidth() {
+	private int getCurrentWidth() {
 		DrawText d = (DrawText) view.getDrawableFor(text);
-		return d.getBounds().getWidth();
+		if (d == null || d.getBounds() == null) {
+			return DrawText.getMinEditorWidth();
+		}
+		return (int) d.getBounds().getWidth();
 	}
 
 	/**
@@ -177,7 +179,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	 */
 	public ArrayList<String> wrapRow(String row) {
 		String[] words = row.split(" ");
-		int rowLength = 80; // getCurrentWidth();
+		int rowLength = getCurrentWidth();
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
@@ -192,10 +194,8 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 
 			if (currLength > rowLength) {
 				if ("".equals(currRow)) {
-					Log.debug("currRow is empty");
 					tempRow = wrapWord(tempRow, wrappedRow, rowLength);
 				} else {
-					Log.debug("currRow add to wrappedRow: " + currRow);
 					wrappedRow.add(currRow);
 					tempRow = words[i];
 					if (getLength(tempRow) > rowLength) {
@@ -206,7 +206,6 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		}
 
 		wrappedRow.add(tempRow);
-		Log.debug(wrappedRow + " " + wrappedRow.size());
 		return wrappedRow;
 	}
 
@@ -216,14 +215,12 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen()
 				.getFontRenderContext();
 		return fontRenderContext.measureText(txt, ((GFontW) textFont).getFullFontString());
-
 	}
 
 	private String wrapWord(String word, ArrayList<String> wrappedRow, int rowLength) {
 		String currWord = "";
 		char nextChar = word.charAt(0);
 		for (int i = 0; i < word.length(); i++) {
-			Log.debug("currWord: " + currWord);
 			currWord += nextChar;
 			nextChar = word.charAt(i);
 			if (getLength(currWord + nextChar) > rowLength) {
@@ -262,7 +259,6 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	@Override
 	public boolean handleTextReleased() {
 		if (lastText != null && lastText.isEditMode()) {
-			Log.debug("Editing " + lastText.getTextString());
 			edit(lastText);
 			lastText = null;
 			return true;
