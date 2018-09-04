@@ -1533,4 +1533,11 @@ public abstract class Localization {
 	public void forceEnglishCommands() {
 		areEnglishCommandsForced = true;
 	}
+
+	/**
+	 * Get the value which tells whether the english commands are forced or not
+	 */
+	public boolean isEnglishCommandsForced() {
+		return areEnglishCommandsForced;
+	}
 }
