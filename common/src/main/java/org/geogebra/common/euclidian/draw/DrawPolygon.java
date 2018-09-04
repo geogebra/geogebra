@@ -166,7 +166,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 		}
-		if (geo.isShape()) {
+		if (geo.isShape() && view
+				.getHitHandler() != EuclidianBoundingBoxHandler.ROTATION) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 				if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getHeight(),

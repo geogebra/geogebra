@@ -7749,7 +7749,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					}
 
 					hideDynamicStylebar();
-					view.repaintView();
 					return;
 				} else if (isMultiResize) {
 					// multi rotation
@@ -10147,6 +10146,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (isMultiResize) {
 			storeUndoInfo();
 			isMultiResize = false;
+			setBoundingBoxFromList(selection.getSelectedGeos());
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {
@@ -12490,6 +12491,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            list of GeoElements
 	 */
 	public void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
+		// do not update during rotation
+		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
+			return;
+		}
+
 		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
 				maxX = Double.NEGATIVE_INFINITY,
 				maxY = Double.NEGATIVE_INFINITY;
