@@ -876,9 +876,10 @@ public abstract class EuclidianView3D extends EuclidianView
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
 			translationMatrixWithScale.set(3, 4, -getZmin() * getZscale());
-			translationMatrixWithoutScale.set(3, 4, -getZmin() * getZscale());
 			translationMatrixWithoutScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithoutScale.set(2, 4, getYZero() * getYscale());
+			translationMatrixWithoutScale.set(3, 4, -getZmin() * getZscale());
+
 		} else {
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
