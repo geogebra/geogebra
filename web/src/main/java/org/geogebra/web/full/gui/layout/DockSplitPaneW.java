@@ -782,10 +782,16 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		this.preferredWidth = width;
 	}
 
+	/**
+	 * @return real width when in DOM, estimate otherwisw
+	 */
 	public int getEstimateWidth() {
 		return getOffsetWidth() > 0 ? getOffsetWidth() : preferredWidth;
 	}
 
+	/**
+	 * @return real height when in DOM, estimate otherwisw
+	 */
 	public int getEstimateHeight() {
 		return getOffsetHeight() > 0 ? getOffsetHeight() : preferredHeight;
 	}
@@ -796,11 +802,12 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 * @return whether subpanel is rightmost bottom panel
 	 */
 	public boolean isBottomRight(DockComponent needle) {
-		if (rightComponent == needle) {
+		Widget rightChild = rightComponent == null ? leftComponent : rightComponent;
+		if (rightChild == needle) {
 			return true;
 		}
-		if (rightComponent instanceof DockSplitPaneW) {
-			return ((DockSplitPaneW) rightComponent).isBottomRight(needle);
+		if (rightChild instanceof DockSplitPaneW) {
+			return ((DockSplitPaneW) rightChild).isBottomRight(needle);
 		}
 		return false;
 	}
