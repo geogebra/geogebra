@@ -489,8 +489,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						s.toGeoElement().getConstruction(), label));
 
 			} else {
-				// fallback: just use next available label
-				s.setLabel(null);
+
+				// eg Point is "PtA"
+				// -> opposite Segment is "pta"
+				if (s.toGeoElement().getConstruction()
+						.isFreeLabel(lowerCaseLabel)) {
+					s.setLabel(lowerCaseLabel);
+				} else {
+					// fallback: just use next available label
+					s.setLabel(null);
+				}
 			}
 
 		}
