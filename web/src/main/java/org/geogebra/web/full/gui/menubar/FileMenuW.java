@@ -241,7 +241,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 
 	private static native JavaScriptObject getCallback(String marker) /*-{
-		// TODO Auto-generated method stub
 		return function(url) {
 			@org.geogebra.web.html5.Browser::exportImage(Ljava/lang/String;Ljava/lang/String;)(marker+url, "screenshot.png");
 		};

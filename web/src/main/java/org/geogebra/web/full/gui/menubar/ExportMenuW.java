@@ -74,7 +74,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 								.clearSelections();
 						
 						// aim for a reasonable size export
-						double width = 2000;
+						double width = 3000;
 						// with scale 1 unit : 1 cm
 						double scaleCM = 1;
 

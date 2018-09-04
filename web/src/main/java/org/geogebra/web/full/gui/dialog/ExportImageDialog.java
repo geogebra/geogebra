@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -48,9 +48,28 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		if (base64Image != null) {
 			setPreviewImage(base64Image);
 		} else {
-			setPreviewImage(
-					((EuclidianViewWInterface) app.getActiveEuclidianView())
-							.getExportImageDataUrl(3, false));
+			
+			// aim for a reasonable size export
+			double width = 3000;
+			// with scale 1 unit : 1 cm
+			double scaleCM = 1;
+
+			EuclidianView ev = app.getActiveEuclidianView();
+			double viewWidth = ev.getExportWidth();
+			double xScale = ev.getXscale();
+
+			// logic copied from CmdExportImage
+			double widthRW = viewWidth / xScale;
+			double dpcm = width / (widthRW * scaleCM);
+			int dpi = (int) (dpcm * 2.54);
+			double pixelWidth = Math
+					.round(dpcm * widthRW * scaleCM);
+			double exportScale = pixelWidth / viewWidth;
+
+			String url = StringUtil.pngMarker + app.getGgbApi()
+					.getPNGBase64(exportScale, false, dpi, false);
+			
+			setPreviewImage(url);
 		}
 		initGui();
 		initActions();
