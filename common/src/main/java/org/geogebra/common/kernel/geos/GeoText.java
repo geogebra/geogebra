@@ -116,8 +116,11 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
-	private boolean editMode;
+	private EditMode editMode;
 
+	private enum EditMode {
+		None, Ready, Edit
+	}
 	/**
 	 * Creates new text
 	 * 
@@ -1465,11 +1468,42 @@ public class GeoText extends GeoElement
 
 }
 
-	public void setEditMode(boolean b) {
-		editMode = b;
+	public boolean isEditMode() {
+		return editMode == EditMode.Edit;
 	}
 
-	public boolean isEditMode() {
-		return editMode;
+	public void setEditMode() {
+		editMode = EditMode.Edit;
 	}
-}
+
+	public boolean isReadyToEdit() {
+		return editMode == EditMode.Ready;
+	}
+
+	public void setReadyToEdit() {
+		editMode = EditMode.Ready;
+	}
+
+	public boolean isDisplayMode() {
+		return editMode == EditMode.None;
+	}
+
+	public void cancelEditMode() {
+		editMode = EditMode.None;
+	}
+
+	public void processEditMode() {
+		switch (editMode) {
+		case None:
+			setReadyToEdit();
+			break;
+		case Ready:
+			setEditMode();
+			break;
+		case Edit:
+		default:
+			break;
+		}
+	}
+
+	}

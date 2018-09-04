@@ -187,11 +187,7 @@ public final class DrawText extends Drawable {
 					-labelRectangle.getHeight() * view.getInvYscale());
 		}
 
-		if (text.isEditMode()) {
-			ctrl.setEditorFont(textFont);
-			ctrl.setEditorColor(text.getObjectColor());
-			adjustBoundingBoxToText();
-		} else if (isWhiteboardText() && boundingBox != null) {
+		if (isWhiteboardText() && boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
 		}
 	}
@@ -227,7 +223,8 @@ public final class DrawText extends Drawable {
 				if (text.isEditMode()) {
 					g2.setStroke(rectangleStroke);
 					g2.setPaint(EDITOR_BORDER_COLOR);
-					g2.draw(getBounds());
+					GRectangle rect = getBounds();
+					g2.draw(rect);
 				} else {
 					g2.setPaint(geo.getObjectColor());
 					drawMultilineText(g2, textFont);
@@ -246,7 +243,7 @@ public final class DrawText extends Drawable {
 
 	}
 
-	private void adjustBoundingBoxToText() {
+	public void adjustBoundingBoxToText() {
 		GRectangle rect = ctrl.getEditorBounds();
 		if (rect == null || labelRectangle == null) {
 			return;
@@ -353,8 +350,9 @@ public final class DrawText extends Drawable {
 			return null;
 		}
 		if (text.isEditMode() && labelRectangle.getWidth() < MIN_EDITOR_WIDTH) {
-			labelRectangle.setBounds((int) labelRectangle.getX(), (int) labelRectangle.getY(),
-					MIN_EDITOR_WIDTH, (int) labelRectangle.getHeight());
+			labelRectangle.setBounds((int) labelRectangle.getX(),
+					(int) labelRectangle.getY(), MIN_EDITOR_WIDTH,
+					(int) labelRectangle.getHeight());
 		}
 		return labelRectangle;
 	}

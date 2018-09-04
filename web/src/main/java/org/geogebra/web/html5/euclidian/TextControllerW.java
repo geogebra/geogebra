@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -37,6 +38,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 
 	/** GeoText to edit */
 	GeoText text;
+	private GeoText lastText;
 
 	/**
 	 * Constructor.
@@ -87,7 +89,6 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 			t.setAbsoluteScreenLocActive(true);
 
 		}
-
 		t.setLabel(null);
 		edit(t, true);
 		app.getKernel().notifyRepaint();
@@ -98,7 +99,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	public void onBlur(BlurEvent event) {
 		editor.hide();
 		view.setBoundingBox(null);
-		text.setEditMode(false);
+		text.cancelEditMode();
 		text.setTextString(editor.getText());
 		text.update();
 		text.updateRepaint();
@@ -110,10 +111,10 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	}
 
 	private void edit(GeoText geo, boolean create) {
-		if (geo.isEditMode()) {
-			return;
-		}
-		geo.setEditMode(true);
+		// if (geo.isEditMode()) {
+		// return;
+		// }
+		geo.setEditMode();
 		this.text = geo;
 		text.update();
 
@@ -155,7 +156,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	@Override
 	public String wrapText(String editText) {
 		// TODO break the text for rows here
-		ArrayList<String> rows = new ArrayList<>();   
+		ArrayList<String> rows = new ArrayList<>();
 		rows.add(editText);
 
 		ArrayList<String> wrappedRows = new ArrayList<>();
@@ -219,10 +220,40 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 
 	@Override
 	public void onFocus(FocusEvent event) {
-		Log.debug("focus");
 		DrawText d = (DrawText) view.getDrawableFor(text);
 		if (d != null) {
-			view.setBoundingBox(d.getBoundingBox());
+			d.adjustBoundingBoxToText();
 		}
 	}
+
+	@Override
+	public void handleTextPressed() {
+		lastText = getHit();
+
+		if (lastText != null) {
+			lastText.processEditMode();
+		}
+	}
+
+	@Override
+	public boolean handleTextReleased() {
+		if (lastText != null && lastText.isEditMode()) {
+			Log.debug("Editing " + lastText.getTextString());
+			edit(lastText);
+			lastText = null;
+			return true;
+		}
+		return false;
+
+	}
+
+	@Override
+	public GeoText getHit() {
+		Hits ret = new Hits();
+		if (view.getHits().containsGeoText(ret)) {
+			return (GeoText) (ret.get(0));
+		}
+		return null;
+	}
+
 }

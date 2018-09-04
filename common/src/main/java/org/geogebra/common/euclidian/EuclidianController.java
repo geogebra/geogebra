@@ -408,6 +408,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
+	private GeoText lastText;
 
 	/**
 	 * state for selection tool over press/release
@@ -3422,24 +3423,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
-	private boolean hitTextTool(boolean edit) {
-		if (!app.has(Feature.MOW_TEXT_TOOL)) {
-			return false;
-		}
-
-		Hits ret = view.getHits().createNewHits();
-		if (view.getHits().containsGeoText(ret)) {
-			GeoText text = (GeoText) (ret.get(0));
-			if (edit && !text.isEditMode()) {
-				getTextController().edit(text);
-			}
-			return true;
-		}
-		return false;
-	}
-
 	protected final boolean text(Hits hits, boolean selPreview) {
-		if (hitTextTool(false)) {
+		if (getTextController().getHit() != null) {
 			return false;
 		}
 		GeoPointND loc = null; // location
@@ -9348,6 +9333,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		handleVideoPressed(event);
+		getTextController().handleTextPressed();
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -10066,11 +10052,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			isMultiResize = false;
 		}
 
-		if (handleVideoReleased()) {
-			return;
-		}
-
-		if (!draggingOccured && hitTextTool(true)) {
+		if (handleVideoReleased() || getTextController().handleTextReleased()) {
 			return;
 		}
 

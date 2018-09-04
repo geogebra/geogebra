@@ -56,6 +56,24 @@ public interface TextController {
 	void setEditorColor(GColor color);
 
 	/**
+	 * Handles pointer press on text object.
+	 */
+	void handleTextPressed();
+
+	/**
+	 * Handles pointer release on text object.
+	 * 
+	 * @return true if release is handled.
+	 */
+	boolean handleTextReleased();
+
+	/**
+	 *
+	 * @return GeoText that was hit by pointer.
+	 */
+	GeoText getHit();
+
+	/**
 	 * Wraps the text.
 	 * 
 	 * @param editText
@@ -63,3 +81,4 @@ public interface TextController {
 	 */
 	String wrapText(String editText);
 }
+
