@@ -871,15 +871,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void updateTranslationMatrix() {
 		if (mIsAREnabled) {
-			translationMatrixWithScale = CoordMatrix4x4.IDENTITY;
-			translationMatrixWithoutScale = CoordMatrix4x4.IDENTITY;
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
 			translationMatrixWithScale.set(3, 4, -getZmin() * getZscale());
-			translationMatrixWithoutScale.set(1, 4, getXZero() * getXscale());
-			translationMatrixWithoutScale.set(2, 4, getYZero() * getYscale());
-			translationMatrixWithoutScale.set(3, 4, -getZmin() * getZscale());
-
+			translationMatrixWithoutScale.set(1, 4, getXZero());
+			translationMatrixWithoutScale.set(2, 4, getYZero());
+			translationMatrixWithoutScale.set(3, 4, -getZmin());
 		} else {
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
