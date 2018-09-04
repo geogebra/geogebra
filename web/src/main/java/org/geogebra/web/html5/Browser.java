@@ -684,7 +684,8 @@ public class Browser {
 					.addEventListener(
 							eventName,
 							function(e) {
-								var fsState = ($doc[pfx + "FullscreenElement"] || $doc.mozFullScreen) ? "true"
+								var fsElement = $doc[pfx + "FullscreenElement"];
+								var fsState = (fsElement || $doc.mozFullScreen) ? "true"
 										: "false";
 								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
 							});

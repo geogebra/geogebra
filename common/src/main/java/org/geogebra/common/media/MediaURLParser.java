@@ -84,7 +84,6 @@ public class MediaURLParser {
 		return id;
 	}
 
-
 	/**
 	 * 
 	 * @param url

@@ -836,12 +836,11 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		CoordMatrix m1, m2;
 
-		if (mIsAREnabled){
-
+		if (mIsAREnabled) {
             m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
                     (-90) * EuclidianController3D.ANGLE_TO_DEGREES);
             m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
-                    (0 ) * EuclidianController3D.ANGLE_TO_DEGREES);
+					(0) * EuclidianController3D.ANGLE_TO_DEGREES);
         } else {
             if (getYAxisVertical()) { // y axis taken for up-down direction
                 m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
@@ -872,13 +871,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Update translation matrix.
 	 */
 	public void updateTranslationMatrix() {
-		if (mIsAREnabled){
+		if (mIsAREnabled) {
 			translationMatrixWithScale = CoordMatrix4x4.IDENTITY;
 			translationMatrixWithoutScale = CoordMatrix4x4.IDENTITY;
 			translationMatrixWithScale.set(3, 4, (-getZmin()) * getZscale());
-			translationMatrixWithoutScale.set(3, 4, -getZmin()* getZscale());
-		}
-		else {
+			translationMatrixWithoutScale.set(3, 4, -getZmin() * getZscale());
+		} else {
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
 			translationMatrixWithScale.set(3, 4, getZZero() * getZscale());
@@ -4746,12 +4744,15 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setAREnabled(boolean isAREnabled) {
 		mIsAREnabled = isAREnabled;
-		if (mIsAREnabled){
+		if (mIsAREnabled) {
 			startAR();
 		}
-		updateMatrix();}
+		updateMatrix();
+	}
 
-	public boolean isAREnabled() {return mIsAREnabled;}
+	public boolean isAREnabled() {
+		return mIsAREnabled;
+	}
 
 	private void startAR(){
 		projection = PROJECTION_AR;

@@ -3424,7 +3424,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final boolean text(Hits hits, boolean selPreview) {
-		if (getTextController().getHit() != null) {
+		if (getTextController() != null && getTextController().getHit() != null) {
 			return false;
 		}
 		GeoPointND loc = null; // location
@@ -9333,7 +9333,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		handleVideoPressed(event);
-		getTextController().handleTextPressed();
+		if (getTextController() != null) {
+			getTextController().handleTextPressed();
+		}
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -10052,7 +10054,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			isMultiResize = false;
 		}
 
-		if (handleVideoReleased() || getTextController().handleTextReleased()) {
+		if (handleVideoReleased()
+				|| (getTextController() != null && getTextController().handleTextReleased())) {
 			return;
 		}
 
