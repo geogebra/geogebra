@@ -485,8 +485,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			if (lowerCaseLabel.length() == 1) {
 				char[] label = new char[1];
 				label[0] = lowerCaseLabel.charAt(0);
-				s.setLabel(GeoElement.getNextIndexedLabel(
-						s.toGeoElement().getConstruction(), label));
+				s.setLabel(LabelManager.getNextIndexedLabel(s.getConstruction(), label));
 
 			} else {
 

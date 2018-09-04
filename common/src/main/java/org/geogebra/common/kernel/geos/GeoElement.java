@@ -3215,10 +3215,9 @@ public abstract class GeoElement extends ConstructionElement
 				if (kernel.getApplication().has(Feature.MOB_LIST_LABEL)) {
 					String prefix = list.isMatrix() ? "m" : "l";
 					return defaultNumberedLabel(prefix, false);
-				} else {
-					return getIndexLabel(kernel.getLocalization().getMenu(
-							"Name." + (list.isMatrix() ? "matrix" : "list")));
 				}
+				return getIndexLabel(kernel.getLocalization()
+						.getMenu("Name." + (list.isMatrix() ? "matrix" : "list")));
 			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
 			} else {
@@ -3226,71 +3225,7 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		}
 
-		return getNextIndexedLabel(cons, chars);
-	}
-
-	/**
-	 * search through labels to find a free one, eg
-	 * 
-	 * A, B, C, ...
-	 * 
-	 * A_1, B_1, C_1, ...
-	 * 
-	 * A_2, B_2, C_2, ...
-	 * 
-	 * ...
-	 * 
-	 * A_{10}, B_{10}, c_{10}, ...
-	 * 
-	 * ...
-	 */
-	public static String getNextIndexedLabel(Construction cons, char[] chars) {
-
-		Log.debug("chars[0] = " + chars);
-
-		int counter = 0, q, r;
-		String labelToUse = "";
-		boolean repeat = true;
-
-		while (repeat) {
-			q = counter / chars.length; // quotient
-			r = counter % chars.length; // remainder
-
-			String labelBase = chars[r] + "";
-
-			// this arabic letter is two Unicode chars
-			if (chars[r] == '\u0647') {
-				labelBase += "\u0640";
-			}
-
-			String index1;
-			String index2;
-
-			if (q == 0) {
-				index1 = "";
-				index2 = "";
-				labelToUse = labelBase;
-			} else if (q < 10) {
-				index1 = "_" + q;
-				index2 = "_{" + q + "}";
-				labelToUse = labelBase + index1;
-
-			} else {
-				index1 = "_" + q;
-				index2 = "_{" + q + "}";
-				labelToUse = labelBase + index2;
-			}
-
-			counter++;
-
-			// is label reserved
-			// check both forms ie a_{1} and a_1
-			repeat = !cons.isFreeLabel(labelBase + index1, true, true)
-					|| !cons.isFreeLabel(labelBase + index2, true, true);
-
-		}
-
-		return labelToUse;
+		return LabelManager.getNextIndexedLabel(cons, chars);
 	}
 
 	private String defaultNumberedLabel(final String plainKey,

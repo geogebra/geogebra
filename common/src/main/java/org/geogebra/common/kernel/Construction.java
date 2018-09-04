@@ -740,12 +740,10 @@ public class Construction {
 	}
 
 	/**
-	 * TODO:Private
-	 * 
 	 * @param pos
 	 *            position
 	 */
-	protected void updateConstructionIndex(int pos) {
+	private void updateConstructionIndex(int pos) {
 		if (pos < 0) {
 			return;
 		}
@@ -760,10 +758,9 @@ public class Construction {
 	 * 
 	 * @author Michael Borcherds
 	 * @version 2008-05-15
-	 * @return true iff there were any algos that wanted update TODO make
-	 *         private again
+	 * @return true iff there were any algos that wanted update
 	 */
-	protected final boolean updateAllConstructionProtocolAlgorithms() {
+	private final boolean updateAllConstructionProtocolAlgorithms() {
 		// Application.debug("updateAllConstructionProtocolAlgorithms");
 		// update all algorithms
 		int size = algoList.size();

@@ -409,7 +409,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
-	private GeoText lastText;
 
 	/**
 	 * state for selection tool over press/release

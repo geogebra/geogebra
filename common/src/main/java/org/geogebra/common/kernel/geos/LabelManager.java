@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -210,5 +211,72 @@ public class LabelManager {
 	public static void setLabels(final String[] labels,
 			final GeoElementND[] geos) {
 		setLabels(labels, geos, false);
+	}
+
+	/**
+	 * search through labels to find a free one, eg
+	 * 
+	 * A, B, C, ...
+	 * 
+	 * A_1, B_1, C_1, ...
+	 * 
+	 * A_2, B_2, C_2, ...
+	 * 
+	 * ...
+	 * 
+	 * A_{10}, B_{10}, c_{10}, ...
+	 * 
+	 * ...
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param chars
+	 *            single character names for this type
+	 * @return next label
+	 */
+	public static String getNextIndexedLabel(Construction cons, char[] chars) {
+		int counter = 0, q, r;
+		String labelToUse = "";
+		boolean repeat = true;
+
+		while (repeat) {
+			q = counter / chars.length; // quotient
+			r = counter % chars.length; // remainder
+
+			String labelBase = chars[r] + "";
+
+			// this arabic letter is two Unicode chars
+			if (chars[r] == '\u0647') {
+				labelBase += "\u0640";
+			}
+
+			String index1;
+			String index2;
+
+			if (q == 0) {
+				index1 = "";
+				index2 = "";
+				labelToUse = labelBase;
+			} else if (q < 10) {
+				index1 = "_" + q;
+				index2 = "_{" + q + "}";
+				labelToUse = labelBase + index1;
+
+			} else {
+				index1 = "_" + q;
+				index2 = "_{" + q + "}";
+				labelToUse = labelBase + index2;
+			}
+
+			counter++;
+
+			// is label reserved
+			// check both forms ie a_{1} and a_1
+			repeat = !cons.isFreeLabel(labelBase + index1, true, true)
+					|| !cons.isFreeLabel(labelBase + index2, true, true);
+
+		}
+
+		return labelToUse;
 	}
 }
