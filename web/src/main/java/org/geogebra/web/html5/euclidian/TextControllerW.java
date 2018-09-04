@@ -155,13 +155,11 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 
 	@Override
 	public String wrapText(String editText) {
-		// TODO break the text for rows here
-		ArrayList<String> rows = new ArrayList<>();
-		rows.add(editText);
+		String[] rows = editText.split("\n");
 
 		ArrayList<String> wrappedRows = new ArrayList<>();
-		for (int i = 0; i < rows.size(); i++) {
-			wrappedRows.addAll(wrapRow(rows.get(i)));
+		for (int i = 0; i < rows.length; i++) {
+			wrappedRows.addAll(wrapRow(rows[i]));
 		}
 		return StringUtil.join("\n", wrappedRows);
 	}
@@ -178,36 +176,62 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	 *            row to wrap.
 	 */
 	public ArrayList<String> wrapRow(String row) {
-		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen()
-				.getFontRenderContext();
 		String[] words = row.split(" ");
-		double rowLength = 80; //getCurrentWidth();
+		int rowLength = 80; // getCurrentWidth();
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
-		GFont textFont = view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN,
-				view.getFontSize());
+
 		for (i = 0; i < words.length; i++) {
 			currRow = tempRow;
 			if (i > 0) {
 				tempRow = tempRow.concat(" ");
 			}
 			tempRow = tempRow.concat(words[i]);
-			int currLength = fontRenderContext.measureText(tempRow,
-					((GFontW) textFont).getFullFontString());
+			int currLength = getLength(tempRow);
+
 			if (currLength > rowLength) {
 				if ("".equals(currRow)) {
-					// TODO wrap word
+					Log.debug("currRow is empty");
+					tempRow = wrapWord(tempRow, wrappedRow, rowLength);
 				} else {
+					Log.debug("currRow add to wrappedRow: " + currRow);
 					wrappedRow.add(currRow);
 					tempRow = words[i];
+					if (getLength(tempRow) > rowLength) {
+						tempRow = wrapWord(tempRow, wrappedRow, rowLength);
+					}
 				}
-
 			}
 		}
+
 		wrappedRow.add(tempRow);
 		Log.debug(wrappedRow + " " + wrappedRow.size());
 		return wrappedRow;
+	}
+
+	private int getLength(String txt) {
+		GFont textFont = view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN,
+				view.getFontSize());
+		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen()
+				.getFontRenderContext();
+		return fontRenderContext.measureText(txt, ((GFontW) textFont).getFullFontString());
+
+	}
+
+	private String wrapWord(String word, ArrayList<String> wrappedRow, int rowLength) {
+		String currWord = "";
+		char nextChar = word.charAt(0);
+		for (int i = 0; i < word.length(); i++) {
+			Log.debug("currWord: " + currWord);
+			currWord += nextChar;
+			nextChar = word.charAt(i);
+			if (getLength(currWord + nextChar) > rowLength) {
+				wrappedRow.add(currWord);
+				currWord = "";
+			}
+		}
+		return currWord + nextChar;
 	}
 
 	@Override
