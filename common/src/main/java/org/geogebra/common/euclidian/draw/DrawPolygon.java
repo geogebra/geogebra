@@ -578,7 +578,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	@Override
 	public void updateGeo(GPoint2D point) {
-		updateRealPointsOfPolygon();
+		if (prewPolygon != null) {
+			updateRealPointsOfPolygon();
+			prewPolygon = null;
+		}
 		poly.updateCascade(true);
 		poly.getParentAlgorithm().update();
 		for (GeoSegmentND geoSeg : poly.getSegments()) {

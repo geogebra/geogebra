@@ -148,6 +148,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -577,7 +578,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * @return shape being resized by boundong box
+	 * @return shape being resized by bounding box
 	 */
 	public Drawable getResizedShape() {
 		return resizedShape;
@@ -7721,10 +7722,42 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (getResizedShape().getGeoElement().isSelected()) {
 				dontClearSelection = true;
 				
-				GPoint2D p = AwtFactory.getPrototype().newPoint2D(event.getX(),
-						event.getY());
-				getResizedShape().updateByBoundingBoxResize(p,
-						view.getHitHandler());
+				if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
+					// rotation for single elements
+					double centerX = getResizedShape().getBounds().getMinX()
+							+ getResizedShape().getBounds().getWidth()
+							/ 2,
+							centerY = getResizedShape().getBounds().getMinY()
+									+ getResizedShape().getBounds().getHeight()
+											/ 2;
+
+					GeoPointND center = new GeoPoint(
+							app.getKernel().getConstruction(),
+							view.toRealWorldCoordX(centerX),
+							view.toRealWorldCoordY(centerY),
+							1);
+
+					NumberValue angle = (NumberValue) new GeoNumeric(
+							app.getKernel().getConstruction(),
+							Math.atan2(-(event.getY() - centerY),
+									event.getX() - centerX)
+									- Math.atan2(
+											-(lastMouseLoc.getY() - centerY),
+											lastMouseLoc.getX() - centerX));
+
+					try {
+						((PointRotateable) getResizedShape().getGeoElement())
+								.rotate(angle, center);
+						getResizedShape().getGeoElement().updateRepaint();
+					} catch (ClassCastException e) {
+						Log.alert("Class is not casteable to PointRotateable");
+					}
+				} else {
+					GPoint2D p = AwtFactory.getPrototype()
+							.newPoint2D(event.getX(), event.getY());
+					getResizedShape().updateByBoundingBoxResize(p,
+							view.getHitHandler());
+				}
 			}
 
 			hideDynamicStylebar();
@@ -12466,7 +12499,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
 		view.setBoundingBox(new BoundingBox(rect, false,
-				app.has(Feature.MOW_ROTATION_HANDLER)));
+				false && app.has(Feature.MOW_ROTATION_HANDLER)));
 	}
 
 	/**
