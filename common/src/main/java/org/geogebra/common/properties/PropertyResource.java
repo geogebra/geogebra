@@ -6,5 +6,8 @@ package org.geogebra.common.properties;
 public enum PropertyResource {
 
     /* Icons for the grid style property */
-    ICON_CARTESIAN, ICON_CARTESIAN_MINOR, ICON_POLAR, ICON_ISOMETRIC
+	ICON_CARTESIAN, ICON_CARTESIAN_MINOR, ICON_POLAR, ICON_ISOMETRIC,
+
+	/* Icons for buttons */
+	ICON_STANDARD_VIEW, ICON_ZOOM_TO_FIT
 }

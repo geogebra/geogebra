@@ -1,5 +1,7 @@
 package org.geogebra.common.properties;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
@@ -18,11 +20,10 @@ import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.GraphicsButtonsProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
-
-import java.util.ArrayList;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -118,6 +119,10 @@ public class PropertiesFactory {
         Property[] properties;
         ArrayList<Property> propertyList = new ArrayList<>();
 
+		if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
+			propertyList
+					.add(new GraphicsButtonsProperty(localization, activeView));
+		}
         propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
         propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
 
