@@ -2423,6 +2423,7 @@ public class Construction {
 			}
 		}
 
+		// GGB-843
 		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)
 				&& label.startsWith("c_")) {
 			GeoElement geo = geoTable.get(label);
@@ -2440,16 +2441,17 @@ public class Construction {
 			}
 		}
 
-		if (!fileLoading && !casCellUpdate && label.startsWith("c_")
-				&& geoTable.containsKey(label)) {
-			GeoElement geo = geoTable.get(label);
-			if (geo instanceof GeoNumeric) {
-				if (((GeoNumeric) geo).isDependentConst()) {
-					return false;
-				}
-				return true;
-			}
-		}
+		// GGB-843
+		// if (!fileLoading && !casCellUpdate && label.startsWith("c_")
+		// && geoTable.containsKey(label)) {
+		// GeoElement geo = geoTable.get(label);
+		// if (geo instanceof GeoNumeric) {
+		// if (((GeoNumeric) geo).isDependentConst()) {
+		// return false;
+		// }
+		// return true;
+		// }
+		// }
 
 		// check standard geoTable
 		if (geoTable.containsKey(label)) {
