@@ -98,10 +98,15 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	public void onBlur(BlurEvent event) {
 		editor.hide();
 		view.setBoundingBox(null);
-		text.cancelEditMode();
-		text.setTextString(editor.getText());
-		text.update();
-		text.updateRepaint();
+		String content = editor.getText();
+		if (!StringUtil.empty(content)) {
+			text.cancelEditMode();
+			text.setTextString(content);
+			text.update();
+			text.updateRepaint();
+		} else {
+			text.remove();
+		}
 	}
 
 	@Override
