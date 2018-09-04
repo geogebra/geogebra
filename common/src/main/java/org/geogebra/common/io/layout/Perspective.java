@@ -106,7 +106,7 @@ public class Perspective {
 	/** probability calculator */
 	public static final int PROBABILITY = 6;
 	/** Whiteboard */
-	public static final int WHITEBOARD = 7;
+	public static final int NOTES = 7;
 	/** Scientific calc */
 	public static final int SCIENTIFIC = 8;
 

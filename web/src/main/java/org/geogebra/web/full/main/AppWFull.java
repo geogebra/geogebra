@@ -515,7 +515,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
 		}
 		if (isWhiteboardActive()) {
-			p = Layout.getDefaultPerspectives(Perspective.WHITEBOARD - 1);
+			p = Layout.getDefaultPerspectives(Perspective.NOTES - 1);
 		}
 
 		if (isPortrait()) {

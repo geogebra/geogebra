@@ -216,7 +216,7 @@ public class LoadFilePresenter {
 		} else if (app.isUnbundled3D()) {
 			return Perspective.GRAPHER_3D + "";
 		} else if (app.isWhiteboardActive()) {
-			return Perspective.WHITEBOARD + "";
+			return Perspective.NOTES + "";
 		}
 		return "";
 	}

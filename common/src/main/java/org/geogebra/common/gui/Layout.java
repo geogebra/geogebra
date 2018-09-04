@@ -334,7 +334,7 @@ public abstract class Layout implements SettingListener {
 			// String wbToolbar = "0 | 62 73 6 110 | 2 16 51 10 55 | 102 103 104
 			// 105 106 107 108 109 101| 17 26";
 			String wbToolbar = ToolBar.getWBToolBarDefString();
-			Perspective whiteboard = new Perspective(Perspective.WHITEBOARD,
+			Perspective whiteboard = new Perspective(Perspective.NOTES,
 					spData, dpData,
 					wbToolbar, true, false, false, false, true,
 					InputPosition.algebraView);
