@@ -2551,6 +2551,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public final void setLabel(String labelNew) {
+
 		String newLabel = labelNew;
 
 		if (cons.isSuppressLabelsActive()) {
@@ -3225,17 +3226,32 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		}
 
+		return getNextIndexedLabel(cons, chars);
+	}
+
+	/**
+	 * search through labels to find a free one, eg
+	 * 
+	 * A, B, C, ...
+	 * 
+	 * A_1, B_1, C_1, ...
+	 * 
+	 * A_2, B_2, C_2, ...
+	 * 
+	 * ...
+	 * 
+	 * A_{10}, B_{10}, c_{10}, ...
+	 * 
+	 * ...
+	 */
+	public static String getNextIndexedLabel(Construction cons, char[] chars) {
+
+		Log.debug("chars[0] = " + chars);
+
 		int counter = 0, q, r;
 		String labelToUse = "";
 		boolean repeat = true;
 
-		// search through labels to find a free one, eg
-		// A, B, C, ...
-		// A_1, B_1, C_1, ...
-		// A_2, B_2, C_2, ...
-		// ...
-		// A_{10}, B_{10}, c_{10}, ...
-		// ...
 		while (repeat) {
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
@@ -3273,6 +3289,7 @@ public abstract class GeoElement extends ConstructionElement
 					|| !cons.isFreeLabel(labelBase + index2, true, true);
 
 		}
+
 		return labelToUse;
 	}
 

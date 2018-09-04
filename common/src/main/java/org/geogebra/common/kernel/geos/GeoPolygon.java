@@ -476,19 +476,23 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			s.setLabel(null);
 		} else {
 			// use lower case of point label as segment label
-			String lowerCaseLabel = ((GeoElement) p).getFreeLabel(
-					p.getLabel(StringTemplate.get(StringType.GEOGEBRA))
-							.toLowerCase());
+			String lowerCaseLabel = p
+					.getLabel(StringTemplate.get(StringType.GEOGEBRA))
+					.toLowerCase();
 
-			if (LabelManager.checkName(s, lowerCaseLabel)) {
-				s.setLabel(lowerCaseLabel);
-			} else if (LabelManager.checkName(s, lowerCaseLabel + "_1")) {
-				// eg pi -> pi_1
-				s.setLabel(lowerCaseLabel + "_1");
+			// for sides A, B, C use labels a, b, c
+			// or a_1 etc if necessary
+			if (lowerCaseLabel.length() == 1) {
+				char[] label = new char[1];
+				label[0] = lowerCaseLabel.charAt(0);
+				s.setLabel(GeoElement.getNextIndexedLabel(
+						s.toGeoElement().getConstruction(), label));
+
 			} else {
 				// fallback: just use next available label
 				s.setLabel(null);
 			}
+
 		}
 	}
 
