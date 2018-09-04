@@ -1007,7 +1007,7 @@ public class EuclidianStyleBarStatic {
 		if (geo.isDefaultGeo()) {
 
 			// check if default geo use default label
-			if (geo.getLabelMode() == GeoElement.LABEL_DEFAULT) {
+			if (geo.getLabelMode() == GeoElementND.LABEL_DEFAULT) {
 				// label visibility
 				int labelingStyle = app == null
 						? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
@@ -1022,22 +1022,22 @@ public class EuclidianStyleBarStatic {
 				case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
 				default:
 					if (geo.isGeoNumeric()) {
-						return GeoElement.LABEL_NAME_VALUE + 1;
+						return GeoElementND.LABEL_NAME_VALUE + 1;
 					}
-					return GeoElement.LABEL_NAME + 1;
+					return GeoElementND.LABEL_NAME + 1;
 
 				case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
 					if (geo.isGeoNumeric()) {
-						return GeoElement.LABEL_NAME + 1;
+						return GeoElementND.LABEL_NAME + 1;
 					}
 					return 0;
 
 				case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
 					if (geo.isGeoNumeric()) {
-						return GeoElement.LABEL_NAME_VALUE + 1;
+						return GeoElementND.LABEL_NAME_VALUE + 1;
 					}
 					if (geo.isGeoPoint()) {
-						return GeoElement.LABEL_NAME + 1;
+						return GeoElementND.LABEL_NAME + 1;
 					}
 					return 0;
 

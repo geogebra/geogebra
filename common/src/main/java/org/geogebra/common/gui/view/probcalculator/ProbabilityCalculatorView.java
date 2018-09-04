@@ -768,7 +768,7 @@ public abstract class ProbabilityCalculatorView
 
 	private void hideToolTips() {
 		for (GeoElementND geo : plotGeoList) {
-			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
+			geo.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 		}
 	}
 

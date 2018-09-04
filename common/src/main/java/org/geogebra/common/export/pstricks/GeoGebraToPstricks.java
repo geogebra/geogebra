@@ -721,7 +721,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 		}
 		int deco = geo.getDecorationType();
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			startBeamer(code);
 			markAngle(geo, r, m, angSt, angExt);
 			endBeamer(code);
@@ -1603,7 +1603,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		code.append(x2).append(",").append(y2);
 		code.append(")\n");
 		int deco = geo.getDecorationType();
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			mark(A, B, deco, geo);
 		}
 		endBeamer(code);
@@ -1711,7 +1711,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		try {
 			if (geo.isLabelVisible()) {
 				String name = geo.getLabelDescription();
-				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
+				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
 					String nameSym = name;
 					for (int i = 0; i < name.length(); i++) {
 						char uCode = name.charAt(i);

@@ -318,13 +318,13 @@ public class TextDispatcher {
 	private static void makeLabelNameVisible(GeoElementND geo) {
 		// make sure that name of the geo will be visible
 		if (!geo.isLabelVisible()) {
-			if (geo.getLabelMode() != GeoElement.LABEL_NAME_VALUE) {
-				geo.setLabelMode(GeoElement.LABEL_NAME);
+			if (geo.getLabelMode() != GeoElementND.LABEL_NAME_VALUE) {
+				geo.setLabelMode(GeoElementND.LABEL_NAME);
 			}
 			geo.setLabelVisible(true);
 		} else {
-			if (geo.getLabelMode() == GeoElement.LABEL_VALUE) {
-				geo.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			if (geo.getLabelMode() == GeoElementND.LABEL_VALUE) {
+				geo.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
 			}
 		}
 	}
@@ -461,9 +461,9 @@ public class TextDispatcher {
 
 		// show value
 		if (slope.isLabelVisible()) {
-			slope.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			slope.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
 		} else {
-			slope.setLabelMode(GeoElement.LABEL_VALUE);
+			slope.setLabelMode(GeoElementND.LABEL_VALUE);
 		}
 		slope.setLabelVisible(true);
 		slope.updateRepaint();

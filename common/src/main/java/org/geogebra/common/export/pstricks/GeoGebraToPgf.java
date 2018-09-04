@@ -818,7 +818,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 		}
 		int deco = geo.getDecorationType();
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			startBeamer(code);
 			markAngle(geo, r, m, angSt, angExt);
 			endBeamer(code);
@@ -2338,7 +2338,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		writePoint(B[0], B[1], code);
 		code.append(";\n");
 		int deco = geo.getDecorationType();
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			mark(A, B, deco, geo);
 		}
 		endBeamer(code);
@@ -2432,7 +2432,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		try {
 			if (geo.isLabelVisible()) {
 				String name = geo.getLabelDescription();
-				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
+				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
 					String nameSym = name;
 					for (int i = 0; i < name.length(); i++) {
 						char uCode = name.charAt(i);

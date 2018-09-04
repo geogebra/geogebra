@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
 public class AngleArcSizeModel extends OptionsModel {
@@ -26,12 +27,12 @@ public class AngleArcSizeModel extends OptionsModel {
 			// addded by Loic BEGIN
 			// check if decoration could be drawn
 			if (size < 20 && (angle
-					.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS
-					|| angle.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
+					.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
+					|| angle.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS)) {
 				angle.setArcSize(20);
 				int selected = getAngleAt(0).getDecorationType();
-				if (selected == GeoElement.DECORATION_ANGLE_THREE_ARCS
-						|| selected == GeoElement.DECORATION_ANGLE_TWO_ARCS) {
+				if (selected == GeoElementND.DECORATION_ANGLE_THREE_ARCS
+						|| selected == GeoElementND.DECORATION_ANGLE_TWO_ARCS) {
 					listener.setValue(20);
 				}
 			}

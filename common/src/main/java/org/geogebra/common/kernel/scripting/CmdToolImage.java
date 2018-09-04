@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -63,7 +64,7 @@ public class CmdToolImage extends CommandProcessor {
 					@Override
 					public void callback(String fileName) {
 						geoImage.setImageFileName(fileName);
-						geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
+						geoImage.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 
 						try {
 							geoImage.setStartPoint(corner == null

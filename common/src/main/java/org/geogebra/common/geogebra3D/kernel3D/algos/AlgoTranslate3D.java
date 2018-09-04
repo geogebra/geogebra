@@ -9,8 +9,19 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * 3D translation
+ */
 public class AlgoTranslate3D extends AlgoTranslate {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param in
+	 *            input
+	 * @param v
+	 *            transform vector
+	 */
 	public AlgoTranslate3D(Construction cons, GeoElement in, GeoElement v) {
 		super(cons, in, v);
 	}
@@ -40,11 +51,11 @@ public class AlgoTranslate3D extends AlgoTranslate {
 	}
 
 	@Override
-	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
+	protected GeoElement copyInternal(Construction cons1, GeoElement geo) {
 		if (v.isGeoElement3D()) {
-			return kernel.copyInternal3D(cons, geo);
+			return kernel.copyInternal3D(cons1, geo);
 		}
-		return super.copyInternal(cons, geo);
+		return super.copyInternal(cons1, geo);
 	}
 
 	@Override

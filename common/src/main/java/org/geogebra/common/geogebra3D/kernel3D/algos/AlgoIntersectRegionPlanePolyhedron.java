@@ -78,7 +78,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	/**
 	 * coords for each face
 	 */
-	protected TreeSet<CoordsWithParent> newCoords;
+	protected TreeSet<CoordsWithParent> newCoords3D;
 
 	/**
 	 * class extending Coords with reference to parent geo
@@ -396,7 +396,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	protected void addCoords(double parameter, Coords coords,
 			GeoElementND parent) {
 		Coords c = coords.copyVector();
-		newCoords.add(new CoordsWithParent(parameter, c, parent));
+		newCoords3D.add(new CoordsWithParent(parameter, c, parent));
 		if (parent instanceof GeoPointND) {
 			// boolean b=
 			polyhedronVertices.add(c);
@@ -493,10 +493,10 @@ public class AlgoIntersectRegionPlanePolyhedron
 		} else { // regular case: polygon not included in plane
 
 			// fill a new points map
-			if (newCoords == null) {
-				newCoords = new TreeSet<>();
+			if (newCoords3D == null) {
+				newCoords3D = new TreeSet<>();
 			} else {
-				newCoords.clear();
+				newCoords3D.clear();
 			}
 
 			// add intersection coords
@@ -505,7 +505,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 			// add polygon points
 			addPolygonPoints();
 
-			if (newCoords.size() > 1) { // save it only if at least two points
+			if (newCoords3D.size() > 1) { // save it only if at least two points
 				segmentCoords = getSegmentsCoords();
 				// add (polygon,segments) to newCoordsList
 				if (segmentCoords.size() > 0) {
@@ -524,7 +524,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	private ArrayList<Segment> getSegmentsCoords() {
 		ArrayList<Segment> ret = new ArrayList<>();
 
-		Iterator<CoordsWithParent> it = newCoords.iterator();
+		Iterator<CoordsWithParent> it = newCoords3D.iterator();
 		CoordsWithParent b = it.next();
 		// use start/end of segment to merge following segments
 		CoordsWithParent startSegment = null;

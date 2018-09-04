@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -108,7 +107,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		max = num.getIntervalMax();
 
 		switch (type) {
-		case GeoElement.ANIMATION_DECREASING:
+		case GeoElementND.ANIMATION_DECREASING:
 			step = -num.getAnimationStep();
 			n = (int) ((max - min) / -step);
 			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
@@ -119,7 +118,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			val = max;
 			break;
-		case GeoElement.ANIMATION_OSCILLATING:
+		case GeoElementND.ANIMATION_OSCILLATING:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
 			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
@@ -842,7 +841,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 		}
 		int deco = geo.getDecorationType();
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			startBeamer(code);
 			markAngle(geo, r, m, angSt, angExt);
 			endBeamer(code);
@@ -2357,7 +2356,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		writePoint(B[0], B[1], code);
 		code.append(";\n");
 		int deco = geo.getDecorationType();
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			mark(A, B, deco, geo);
 		}
 		endBeamer(code);
@@ -2450,7 +2449,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		try {
 			if (geo.isLabelVisible()) {
 				String name = geo.getLabelDescription();
-				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
+				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
 					String nameSym = name;
 					for (int i1 = 0; i1 < name.length(); i1++) {
 						char uCode = name.charAt(i1);
@@ -3383,7 +3382,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 						((GeoElement) geo).getHatchingDistance());
 				((GeoElement) conic)
 						.setFillType(((GeoElement) geo).getFillType());
-				drawGeoConic((GeoConic) conic);
+				drawGeoConic(conic);
 				break;
 			}
 		case INEQUALITY_PARAMETRIC_Y:

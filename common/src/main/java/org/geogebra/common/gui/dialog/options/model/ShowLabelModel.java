@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
 public class ShowLabelModel extends OptionsModel {
@@ -111,12 +112,12 @@ public class ShowLabelModel extends OptionsModel {
 	}
 
 	public static int getDropdownIndex(GeoElement geo0) {
-		return geo0.getLabelMode() == GeoElement.LABEL_CAPTION_VALUE ? 4
+		return geo0.getLabelMode() == GeoElementND.LABEL_CAPTION_VALUE ? 4
 				: Math.min(geo0.getLabelMode(), 3);
 	}
 
 	public int fromDropdown(int selectedIndex) {
-		return selectedIndex > 3 ? GeoElement.LABEL_CAPTION_VALUE
+		return selectedIndex > 3 ? GeoElementND.LABEL_CAPTION_VALUE
 				: selectedIndex;
 	}
 }

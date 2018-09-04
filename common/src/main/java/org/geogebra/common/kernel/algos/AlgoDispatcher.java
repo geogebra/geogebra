@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -676,7 +677,7 @@ public class AlgoDispatcher {
 	final public GeoConicPart circumcircleArc(String label, GeoPoint A,
 			GeoPoint B, GeoPoint C) {
 		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons,
-				label, A, B, C, GeoConicPart.CONIC_PART_ARC);
+				label, A, B, C, GeoConicNDConstants.CONIC_PART_ARC);
 		return algo.getConicPart();
 	}
 
@@ -686,7 +687,7 @@ public class AlgoDispatcher {
 	final public GeoConicPart circumcircleSector(String label, GeoPoint A,
 			GeoPoint B, GeoPoint C) {
 		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons,
-				label, A, B, C, GeoConicPart.CONIC_PART_SECTOR);
+				label, A, B, C, GeoConicNDConstants.CONIC_PART_SECTOR);
 		return algo.getConicPart();
 	}
 

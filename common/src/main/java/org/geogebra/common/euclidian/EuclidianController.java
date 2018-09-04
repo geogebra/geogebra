@@ -4684,9 +4684,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// length
 			GeoElementND seg = segments[0];
 			if (seg.isLabelVisible()) {
-				seg.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+				seg.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
 			} else {
-				seg.setLabelMode(GeoElement.LABEL_VALUE);
+				seg.setLabelMode(GeoElementND.LABEL_VALUE);
 			}
 			segments[0].setLabelVisible(true);
 			segments[0].updateRepaint();
@@ -6610,8 +6610,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement hit = hits.get(0);
 			int labelMode = hit.getLabelMode();
 			if (hit.isGeoNumeric() && ((GeoNumeric) hit).isSlider()
-					&& ((labelMode == GeoElement.LABEL_NAME_VALUE)
-							|| (labelMode == GeoElement.LABEL_VALUE))) {
+					&& ((labelMode == GeoElementND.LABEL_NAME_VALUE)
+							|| (labelMode == GeoElementND.LABEL_VALUE))) {
 				// only do this if we are not pasting something from the
 				// clipboard right now
 				// because moving on the label of a slider might move the pasted

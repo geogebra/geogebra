@@ -2,7 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
 public class DecoAngleModel extends NumberOptionsModel {
@@ -44,8 +44,8 @@ public class DecoAngleModel extends NumberOptionsModel {
 		// addded by Loic BEGIN
 		// check if decoration could be drawn
 		if (geo.getArcSize() < 20 && (geo
-				.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS
-				|| geo.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
+				.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
+				|| geo.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS)) {
 			geo.setArcSize(20);
 			listener.setArcSizeMinValue();
 		}

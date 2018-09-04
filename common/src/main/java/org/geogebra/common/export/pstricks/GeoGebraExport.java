@@ -995,7 +995,7 @@ public abstract class GeoGebraExport {
 		default:
 			// do nothing
 			break;
-		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
+		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
 			factor = tickLength / nLength;
 			nx *= factor / xunit;
 			ny *= factor / yunit;
@@ -1005,7 +1005,7 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(midY + ny);
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
+		case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / (2 * nLength);
 			vx = -ny * factor;
@@ -1025,7 +1025,7 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(midY - vy + ny);
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
+		case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / nLength;
 			vx = -ny * factor;
@@ -1050,7 +1050,7 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(midY - vy + ny);
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
+		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / (nLength);
 			vx = -ny * factor;
@@ -1074,7 +1074,7 @@ public abstract class GeoGebraExport {
 					midY - arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
+		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / (nLength);
 			vx = -ny * factor;
@@ -1113,7 +1113,7 @@ public abstract class GeoGebraExport {
 					.toRealWorldCoordY(midY + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
+		case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / nLength;
 			vx = -ny * factor;
@@ -1192,13 +1192,13 @@ public abstract class GeoGebraExport {
 		default:
 			// do nothing
 			break;
-		case GeoElement.DECORATION_ANGLE_TWO_ARCS:
+		case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
 			rdiff = 4 + geo.getLineThickness() / 2d;
 			drawArc(geo, vertex, angSt, angEnd, r);
 			r -= rdiff / euclidianView.getXscale();
 			drawArc(geo, vertex, angSt, angEnd, r);
 			break;
-		case GeoElement.DECORATION_ANGLE_THREE_ARCS:
+		case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
 			rdiff = 4 + geo.getLineThickness() / 2d;
 			drawArc(geo, vertex, angSt, angEnd, r);
 			r -= rdiff / euclidianView.getXscale();
@@ -1206,13 +1206,13 @@ public abstract class GeoGebraExport {
 			r -= rdiff / euclidianView.getXscale();
 			drawArc(geo, vertex, angSt, angEnd, r);
 			break;
-		case GeoElement.DECORATION_ANGLE_ONE_TICK:
+		case GeoElementND.DECORATION_ANGLE_ONE_TICK:
 			drawArc(geo, vertex, angSt, angEnd, r);
 			euclidianView.toScreenCoords(vertex);
 			drawTick(geo, vertex, (angSt + angEnd) / 2);
 
 			break;
-		case GeoElement.DECORATION_ANGLE_TWO_TICKS:
+		case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
 			drawArc(geo, vertex, angSt, angEnd, r);
 			euclidianView.toScreenCoords(vertex);
 			double[] angleTick = new double[2];
@@ -1229,7 +1229,7 @@ public abstract class GeoGebraExport {
 			drawTick(geo, vertex, angleTick[0]);
 			drawTick(geo, vertex, angleTick[1]);
 			break;
-		case GeoElement.DECORATION_ANGLE_THREE_TICKS:
+		case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
 			drawArc(geo, vertex, angSt, angEnd, r);
 			euclidianView.toScreenCoords(vertex);
 			angleTick = new double[2];
@@ -1246,10 +1246,10 @@ public abstract class GeoGebraExport {
 			drawTick(geo, vertex, angleTick[0]);
 			drawTick(geo, vertex, angleTick[1]);
 			break;
-		case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
+		case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
 			drawArrowArc(geo, vertex, angSt, angEnd, r, false);
 			break;
-		case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
+		case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 			drawArrowArc(geo, vertex, angSt, angEnd, r, true);
 			break;
 		}

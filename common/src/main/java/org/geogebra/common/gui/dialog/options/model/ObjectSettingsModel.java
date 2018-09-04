@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -105,7 +106,7 @@ abstract public class ObjectSettingsModel {
      * @return the label mode of the geoElement, default is LABEL_NAME
      */
     public int getLabelStyle() {
-        return geoElement != null ? geoElement.getLabelMode() : GeoElement.LABEL_NAME;
+		return geoElement != null ? geoElement.getLabelMode() : GeoElementND.LABEL_NAME;
     }
 
     /**

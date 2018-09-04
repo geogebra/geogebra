@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -40,7 +41,7 @@ public class CmdSetCaption extends CmdScripting {
 					app.getActiveEuclidianView().repaintView();
 				} else {
 					geo.setCaption(txt);
-					geo.setLabelMode(GeoElement.LABEL_CAPTION);
+					geo.setLabelMode(GeoElementND.LABEL_CAPTION);
 					geo.updateRepaint();
 				}
 				return arg;

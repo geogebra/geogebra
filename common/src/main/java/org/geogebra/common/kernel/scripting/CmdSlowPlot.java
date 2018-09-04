@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -67,8 +68,8 @@ public class CmdSlowPlot extends CmdScripting {
 				var.setAnimating(true);
 				var.setAnimationStep(0.01);
 				var.setAnimationType(
-						repeat == 1 ? GeoElement.ANIMATION_INCREASING
-								: GeoElement.ANIMATION_INCREASING_ONCE);
+						repeat == 1 ? GeoElementND.ANIMATION_INCREASING
+								: GeoElementND.ANIMATION_INCREASING_ONCE);
 				var.update();
 				FunctionVariable x = new FunctionVariable(cons.getKernel());
 				GeoElement corner1 = new AlgoDrawingPadCorner(cons,

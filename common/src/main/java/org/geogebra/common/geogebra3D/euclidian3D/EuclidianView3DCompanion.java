@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -211,8 +212,8 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	 * rotate to default
 	 */
 	public void setDefaultRotAnimation() {
-		getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
-				EuclidianView3D.ANGLE_ROT_XOY, false);
+		getView().setRotAnimation(EuclidianView3DInterface.ANGLE_ROT_OZ,
+				EuclidianView3DInterface.ANGLE_ROT_XOY, false);
 	}
 
 	protected void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {

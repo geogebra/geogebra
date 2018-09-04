@@ -842,7 +842,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				code.append(")");
 				endDraw(geo);
 			}
-			if (geo.getDecorationType() != GeoElement.DECORATION_NONE) {
+			if (geo.getDecorationType() != GeoElementND.DECORATION_NONE) {
 				markAngle(geo, r, m, angSt, angExt);
 			}
 		}
@@ -2002,7 +2002,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		addPoint(x2, y2, code);
 		endDraw(geo);
 
-		if (deco != GeoElement.DECORATION_NONE) {
+		if (deco != GeoElementND.DECORATION_NONE) {
 			mark(A, B, deco, geo);
 		}
 	}
@@ -2311,7 +2311,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		try {
 			if (geo.isLabelVisible()) {
 				String name;
-				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
+				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
 					name = convertUnicodeToText(geo.getLabelDescription())
 							.replace("\\$", "dollar");
 					if (name.contains("_")) {
@@ -2342,7 +2342,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					codePoint.append("\n");
 				}
 				if (compactcse5
-						&& geo.getLabelMode() != GeoElement.LABEL_CAPTION) {
+						&& geo.getLabelMode() != GeoElementND.LABEL_CAPTION) {
 					codePoint.append("MP(\"");
 				} else {
 					codePoint.append("label(\"");

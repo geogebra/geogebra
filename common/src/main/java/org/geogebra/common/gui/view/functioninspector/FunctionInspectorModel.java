@@ -938,14 +938,14 @@ public class FunctionInspectorModel {
 		for (GeoElement geo : intervalTabGeoList) {
 			activeEV.add(geo);
 			geo.addView(App.VIEW_FUNCTION_INSPECTOR);
-			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
+			geo.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 			geo.update();
 
 		}
 		for (GeoElement geo : pointTabGeoList) {
 			activeEV.add(geo);
 			geo.addView(App.VIEW_FUNCTION_INSPECTOR);
-			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
+			geo.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 			geo.update();
 		}
 

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -93,7 +94,7 @@ public class CmdSlider extends CommandProcessor {
 		if (n > 8) {
 			slider.setRandom(((BooleanValue) arg[8]).getBoolean());
 		}
-		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		slider.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
 		slider.setLabelVisible(true);
 		slider.setEuclidianVisible(true);
 		slider.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
