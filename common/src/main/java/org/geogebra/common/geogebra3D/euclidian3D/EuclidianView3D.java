@@ -4745,10 +4745,15 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public void setAREnabled(boolean isAREnabled) {
-		projection = PROJECTION_AR;
 		mIsAREnabled = isAREnabled;
+		if (mIsAREnabled){
+			startAR();
+		}
 		updateMatrix();}
 
 	public boolean isAREnabled() {return mIsAREnabled;}
 
+	private void startAR(){
+		projection = PROJECTION_AR;
+	}
 }
