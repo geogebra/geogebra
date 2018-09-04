@@ -30,7 +30,7 @@ public class UndoTest {
 	@Test
 	public void undoSingle() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -51,7 +51,7 @@ public class UndoTest {
 	@Test
 	public void undoReorder() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -80,7 +80,7 @@ public class UndoTest {
 	@Test
 	public void undoDuplicate() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
 
@@ -123,7 +123,7 @@ public class UndoTest {
 	@Test
 	public void undoDuplicateChain() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
 
@@ -172,7 +172,7 @@ public class UndoTest {
 	@Test
 	public void undoRedo() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -210,7 +210,7 @@ public class UndoTest {
 	@Test
 	public void pageSwitch() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
@@ -265,7 +265,7 @@ public class UndoTest {
 	@Test
 	public void switchFourSlides() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
@@ -324,7 +324,7 @@ public class UndoTest {
 	@Test
 	public void singleObjectPerSlide() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 
 
 		app.getAppletFrame().initPageControlPanel(app);

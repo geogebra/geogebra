@@ -172,7 +172,7 @@ task copyHtml {
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { appID, prerelease, offline = false ->
-            def header = appID == "whiteboard" ? "" : file(templateDir+"app-header-beta.html").text
+            def header = appID == "notes" ? "" : file(templateDir+"app-header-beta.html").text
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen" + (offline ? " offline" : "")
@@ -204,7 +204,7 @@ task copyHtml {
         file("war/graphing-template-beta.html").text = appHtml("graphing", true)
         file("war/geometry-template-beta.html").text = appHtml("geometry", true)
         file("war/3d-template-beta.html").text = appHtml("3d", true)
-        file("war/whiteboard-template.html").text = appHtml("whiteboard", true)
+        file("war/notes-template.html").text = appHtml("notes", true)
         file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator")
         file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry")
         file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator")
@@ -217,9 +217,9 @@ task copyHtml {
         
         file("war/3d.html").text = english(appHtml("3d", true), "3D Graphing Calculator")
         
-        file("war/whiteboard.html").text = english(appHtml("whiteboard", true), "Whiteboard")
+        file("war/notes.html").text = english(appHtml("notes", true), "Notes")
         
-        file("war/whiteboard-canary.html").text = english(appHtml("whiteboard", "\"canary\""), "Whiteboard")
+        file("war/notes-canary.html").text = english(appHtml("notes", "\"canary\""), "Notes")
     }
 }
 

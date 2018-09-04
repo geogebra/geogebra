@@ -30,7 +30,7 @@ public class FileMenuTest {
 	@Test
 	public void fileNew() {
 		app = MockApp
-				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+				.mockApplet(new TestArticleElement("canary", "notes"));
 		FileMenuW menu = new FileMenuW(app);
 		addObject("x");
 		menu.fileNew();

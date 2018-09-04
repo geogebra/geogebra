@@ -788,7 +788,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private void loadFile(GgbFile archiveContent, final boolean asSlide)
 			throws Exception {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
-			getArticleElement().attr("appName", "whiteboard");
+			getArticleElement().attr("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			if (getPageController() != null) {
 				getEuclidianView1().initBgCanvas();
@@ -3457,9 +3457,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (StringUtil.empty(appName)) {
 			appName = "classic";
 		}
-		if ("whiteboard".equals(appName)) {
-			appName = "notes";
-		}
 		String path = "/" + appName + "/" + sharingKey;
 		return absolute ? host + path : path;
 	}
@@ -3743,8 +3740,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public boolean isUnbundled() {
 		return AppConfigDefault
-				.isUnbundledOrWhiteboard(articleElement.getDataParamAppName())
-				&& !"whiteboard".equals(articleElement.getDataParamAppName());
+				.isUnbundledOrNotes(articleElement.getDataParamAppName())
+				&& !"notes".equals(articleElement.getDataParamAppName());
 
 	}
 

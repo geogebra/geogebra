@@ -39,9 +39,9 @@ public class AppConfigDefault implements AppConfig {
 	 *            app name
 	 * @return whether app name is one of the unbundled apps
 	 */
-	public static boolean isUnbundledOrWhiteboard(String appName) {
+	public static boolean isUnbundledOrNotes(String appName) {
 		return "graphing".equals(appName) || "geometry".equals(appName)
-				|| "whiteboard".equals(appName) || "3d".equals(appName);
+				|| "notes".equals(appName) || "3d".equals(appName);
 	}
 
 	@Override

@@ -88,11 +88,11 @@ public class Perspective {
 			"Graphing", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"Perspective.3DGraphics", "Perspective.Probability",
-			"Whiteboard", "Scientific" };
+			"Notes", "Scientific" };
 	/** slugs for web app url / tutorials url */
 	final private static String[] perspectiveSlugs = new String[] { "graphing",
 			"geometry", "spreadsheet", "cas", "3d", "probability",
-			"whiteboard" };
+			"notes" };
 	/** graphing calculator */
 	public static final int GRAPHING = 1;
 	/** geometry calculator */

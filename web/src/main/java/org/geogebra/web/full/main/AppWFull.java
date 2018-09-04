@@ -1083,7 +1083,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final boolean isWhiteboardActive() {
-		return "whiteboard"
+		return "notes"
 						.equals(getArticleElement().getDataParamAppName());
 	}
 
