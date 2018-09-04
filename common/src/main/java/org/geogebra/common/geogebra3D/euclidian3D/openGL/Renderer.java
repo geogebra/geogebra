@@ -870,10 +870,6 @@ public abstract class Renderer implements RendererInterface {
 		drawFaceToScreen();
 
 		// init drawing matrix to view3D toScreen matrix
-		if (view3D.isAREnabled()) {
-			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
-					arScaleFactor);
-		}
 		setMatrixView();
 
 		setLightPosition();
@@ -1565,6 +1561,10 @@ public abstract class Renderer implements RendererInterface {
 			break;
 		case EuclidianView3D.PROJECTION_OBLIQUE:
 			viewOblique();
+			break;
+		case EuclidianView3D.PROJECTION_AR:
+			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
+			arScaleFactor);
 			break;
 		}
 	}
