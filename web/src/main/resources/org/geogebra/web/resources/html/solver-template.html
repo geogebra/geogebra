@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>MathSolver</title>
+    <title><!--APP NAME--> - GeoGebra</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script>
@@ -26,36 +26,32 @@
     }
 
     *,:after,:before {
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box
-     }
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box
+    }
 
     .GeoGebraFrame {
         font-size: 16px;
     }
-        <!--SPLASH STYLE-->
+
+    <!--SPLASH STYLE-->
 	</style>
 	
     <script type="text/javascript">
-            function getEditorElement(){
-            	return document.getElementById("editorContainer");
+            function getContainer(){
+            	return document.getElementById("appContainer");
             }
             translation = {};
             var script = document.createElement('script');
-            script.src = codebase + "solver/solver.nocache.js";
+            script.src = codebase + "<!--CODEBASE-->";
             document.head.appendChild(script);
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-        #editorContainer{
-            width:800px;
-            height:600px;
-        }
-    </style>
 </head>
 <body dir="ltr" tabindex="-1" class="GeoGebraFrame">
 <!--HEADER-->
-<div id="editorContainer"></div>
+<div id="appContainer"></div>
+<!--GM-->
 </body>
 </html>

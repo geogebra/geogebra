@@ -97,7 +97,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);
-		edit(getEditorElement(), fr);
+		edit(getContainer(), fr);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 		guiBuilder = new WebStepGuiBuilder(app);
 
 		Canvas canvas = Canvas.createIfSupported();
-		String id = "JlmEditorKeyboard" + DOM.createUniqueId();
+		String id = "appContainer" + DOM.createUniqueId();
 		parent.setId(id);
 
 		rootPanel = RootPanel.get(id);
@@ -188,8 +188,8 @@ public class Solver implements EntryPoint, MathFieldListener {
 		});
 	}
 
-	private native Element getEditorElement() /*-{
-		return $wnd.getEditorElement();
+	private native Element getContainer() /*-{
+		return $wnd.getContainer();
 	}-*/;
 
 	private void compute(String text) {

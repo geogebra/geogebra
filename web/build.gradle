@@ -226,6 +226,7 @@ task copyHtml {
 task createSolverHtml {
     String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
     String solver = file(templateDir + "solver-template.html").text
+    String graspableMath = file(templateDir + "graspable-math.html").text
     
     file("war/solver-template.html").text = solver
             .replace("<!--HEADER-->", file(templateDir + "app-header-beta.html").text)
@@ -233,8 +234,15 @@ task createSolverHtml {
             .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
     file("war/solver.html").text = file("war/solver-template.html").text
+            .replace("<!--CODEBASE-->", "solver/solver.nocache.js")
             .replace("<!--APP NAME-->", "Math Solver")
-            .replace("<!--LANGUAGE LINKS-->", "<SCRIPT>codebase=\"./\"</script>")
+            .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
+            .replace("<!--GM-->", "")
+    file("war/exercise.html").text = file("war/solver-template.html").text
+            .replace("<!--CODEBASE-->", "exercise/exercise.nocache.js")
+            .replace("<!--APP NAME-->", "Exercise app")
+            .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
+            .replace("<!--GM-->", graspableMath)
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
