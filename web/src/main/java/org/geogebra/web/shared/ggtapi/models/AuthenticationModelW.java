@@ -3,11 +3,9 @@ package org.geogebra.web.shared.ggtapi.models;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.Window;
 
 /**
  * @author gabor
@@ -59,10 +57,6 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	@Override
 	public void clearLoginToken() {
-		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
-			Window.open(app.getArticleElement().getParamLogoutURL(),
-					"_blank", "menubar=off,width=450,height=350");
-		}
 		doClearToken();
 	}
 

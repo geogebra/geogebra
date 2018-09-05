@@ -203,4 +203,8 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		return true;
 	}
 
+	public void showLogoutUI() {
+		// only in web
+	}
+
 }

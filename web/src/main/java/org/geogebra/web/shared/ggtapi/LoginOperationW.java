@@ -14,6 +14,8 @@ import org.geogebra.web.shared.SignInButton;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
+import com.google.gwt.user.client.Window;
+
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
  * an own implementation of the API
@@ -120,5 +122,13 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public boolean hasLoginButton() {
 		return StringUtil.empty(app.getArticleElement().getParamLoginURL());
+	}
+
+	@Override
+	public void showLogoutUI() {
+		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
+			Window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
+					"menubar=off,width=450,height=350");
+		}
 	}
 }

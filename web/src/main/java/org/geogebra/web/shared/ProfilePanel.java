@@ -70,6 +70,7 @@ public class ProfilePanel extends FlowPanel {
 			@Override
 			public void onClick(Widget source) {
 				Log.debug("logout");
+				app.getLoginOperation().showLogoutUI();
 				app.getLoginOperation().performLogOut();
 				togglePopup(popup);
 			}

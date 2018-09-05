@@ -528,6 +528,7 @@ public class MainMenu extends FlowPanel
 
 					@Override
 					public void doExecute() {
+						app.getLoginOperation().showLogoutUI();
 						app.getLoginOperation().performLogOut();
 					}
 				});
