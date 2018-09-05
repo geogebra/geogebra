@@ -3295,13 +3295,7 @@ public abstract class GeoElement extends ConstructionElement
 		// remove Listeners
 		AlgoElement algo = getParentAlgorithm();
 		// first remove all dependent algorithms
-		if (algorithmList != null) {
-			final Object[] algos = algorithmList.toArray();
-			for (int i = 0; i < algos.length; i++) {
-				algo = (AlgoElement) algos[i];
-				algo.remove(this);
-			}
-		}
+		removeDependentAlgos();
 
 		// remove this object from List
 		if (isIndependent()) {
@@ -3366,6 +3360,18 @@ public abstract class GeoElement extends ConstructionElement
 		// kernel.getApplication().getActiveEuclidianView()
 		// .getEuclidianController().clearSelections();
 		// }
+	}
+
+	public void removeDependentAlgos(){
+		AlgoElement algo = getParentAlgorithm();
+		// first remove all dependent algorithms
+		if (algorithmList != null) {
+			final Object[] algos = algorithmList.toArray();
+			for (int i = 0; i < algos.length; i++) {
+				algo = (AlgoElement) algos[i];
+				algo.remove(this);
+			}
+		}
 	}
 
 	@Override

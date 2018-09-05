@@ -177,17 +177,6 @@ public class AlgebraController {
 		return geos != null;
 	}
 
-	/**
-	 * Deletes those elements which depend on the geoElement parameter.
-	 * @param geoElement The elements which are dependent on this parameter will be deleted.
-	 */
-	public void deleteDependentElements(GeoElement geoElement) {
-		List<AlgoElement> dependentAlgos = geoElement.getAlgorithmList();
-		while (dependentAlgos.size() > 0) {
-			dependentAlgos.get(0).remove(geoElement);
-		}
-	}
-
 	protected AlgebraView getView() {
 		return view;
 	}
