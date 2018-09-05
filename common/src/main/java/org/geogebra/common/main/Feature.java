@@ -249,9 +249,6 @@ public enum Feature {
 	/** GGB-2416 */
 	SHARE_DIALOG_MAT_DESIGN,
 
-	/** MOB-1520 */
-	MOB_PACK_ALL_SURFACES,
-
 	/** MOB-1722 */
 	MOB_EXPORT_STL,
 

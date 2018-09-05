@@ -3706,10 +3706,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_PROPERTY_SORT_BY:
 			return false;
 
-		// MOB-1520
-		case MOB_PACK_ALL_SURFACES:
-			return true;
-
 		// MOB-1722
 		case MOB_EXPORT_STL:
 			return (prerelease || !Versions.DESKTOP.equals(version));
