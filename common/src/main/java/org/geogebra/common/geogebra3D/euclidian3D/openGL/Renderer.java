@@ -1546,7 +1546,7 @@ public abstract class Renderer implements RendererInterface {
 	 * Update projection matrix for view's projection.
 	 */
 	public final void setProjectionMatrix() {
-		if (view3D.isAREnabled()){
+		if (view3D.isARDrawing()){
 			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
 					arScaleFactor);
 		} else {

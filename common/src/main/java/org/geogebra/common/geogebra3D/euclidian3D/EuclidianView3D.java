@@ -122,9 +122,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for 3D view
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public abstract class EuclidianView3D extends EuclidianView
 		implements EuclidianView3DInterface, ScalerXYZ {
@@ -293,6 +293,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private EuclidianView3DAnimator animator;
 
 	//Augmented Reality
+	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
 
 	/**
@@ -315,7 +316,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		startPos = new Coords(4);
 		startPos.setW(1);
-		
+
 		viewDirectionPersp = new Coords(4);
 		viewDirection = Coords.VZ.copyVector();
 
@@ -835,7 +836,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		CoordMatrix m1, m2;
 
-		if (mIsAREnabled) {
+		if (mIsARDrawing) {
             m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
                     (-90) * EuclidianController3D.ANGLE_TO_DEGREES);
             m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
@@ -870,7 +871,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Update translation matrix.
 	 */
 	public void updateTranslationMatrix() {
-		if (mIsAREnabled) {
+		if (mIsARDrawing) {
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
 			translationMatrixWithScale.set(3, 4, -getZmin() * getZscale());
@@ -1607,23 +1608,23 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/*
 	 * Point pOld = null;
-	 * 
-	 * 
+	 *
+	 *
 	 * public void setHits(Point p) {
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * if (p.equals(pOld)){ //Application.printStacktrace(""); return; }
-	 * 
-	 * 
+	 *
+	 *
 	 * pOld = p;
-	 * 
+	 *
 	 * //sets the flag and mouse location for openGL picking
 	 * renderer.setMouseLoc(p.x,p.y,Renderer.PICKING_MODE_LABELS);
-	 * 
+	 *
 	 * //calc immediately the hits renderer.display();
-	 * 
-	 * 
+	 *
+	 *
 	 * }
 	 */
 
@@ -2010,7 +2011,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			boolean storeUndo) {
 		animator.zoom(zoomFactor);
 	}
-	
+
 	@Override
 	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ) {
 		animator.zoomAxesRatio(zoomFactorY, zoomFactorZ);
@@ -2065,7 +2066,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * Update intersection thickness.
-	 * 
+	 *
 	 * @param a
 	 *            intersecting object
 	 * @param b
@@ -2610,7 +2611,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * Draw point cursor.
-	 * 
+	 *
 	 * @param mode
 	 *            GeoPointND.MOVE_MODE_*
 	 */
@@ -3614,7 +3615,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public int getProjection() {
 		return projection;
 	}
-	
+
 	public boolean hasParallelProjection() {
 		return getProjection() == PROJECTION_ORTHOGRAPHIC || getProjection() == PROJECTION_OBLIQUE;
 	}
@@ -3914,7 +3915,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/*
 	 * @Override public geogebra.common.awt.GColor getBackgroundCommon() {
 	 * return new geogebra.awt.GColorD(getBackground());
-	 * 
+	 *
 	 * }
 	 */
 
@@ -4181,7 +4182,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * update bounds that enclose all objects (except axes)
-	 * 
+	 *
 	 */
 	private boolean updateObjectsBounds() {
 		return updateObjectsBounds(false, false);
@@ -4189,13 +4190,13 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * update bounds that enclose all objects
-	 * 
+	 *
 	 * @param includeAxesIfVisible
 	 *            if axes should enlarge bounds
 	 * @param reduceWhenClipped
 	 *            set to true if clipped curves/surfaces should not be larger
 	 *            than the view itself
-	 * 
+	 *
 	 * @return true if bounds were computed
 	 */
 	protected boolean updateObjectsBounds(boolean includeAxesIfVisible,
@@ -4365,12 +4366,12 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * update background color and apply color to background
-	 * 
+	 *
 	 * @param updatedColor
 	 *            color to update background
 	 * @param applyedColor
 	 *            color actually applyed
-	 * 
+	 *
 	 */
 	public void setBackground(GColor updatedColor, GColor applyedColor) {
 		this.bgColor = updatedColor;
@@ -4416,7 +4417,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * scale coords as normal vector
-	 * 
+	 *
 	 * @param coords
 	 *            normal vector
 	 */
@@ -4431,7 +4432,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * Sclae and normalize normal vector.
-	 * 
+	 *
 	 * @param coords
 	 *            normal vector
 	 */
@@ -4444,7 +4445,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				settings.getXYscale());
 		coords.normalizeIfPossible();
 	}
-	
+
 	@Override
 	public boolean scaleAndNormalizeNormalXYZ(Coords coords, Coords ret) {
 		EuclidianSettings3D settings = getSettings();
@@ -4481,7 +4482,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * set the coord system regarding 3D mouse move
-	 * 
+	 *
 	 * @param translation
 	 *            translation vector
 	 */
@@ -4504,7 +4505,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * set mouse start pos
-	 * 
+	 *
 	 * @param screenStartPos
 	 *            mouse start pos (screen)
 	 */
@@ -4516,7 +4517,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * set the coord system regarding 3D mouse move
-	 * 
+	 *
 	 * @param startPos1
 	 *            start 3D position (screen)
 	 * @param newPos
@@ -4576,7 +4577,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public DrawClippingCube3D getClippingCubeDrawable() {
 		return clippingCubeDrawable;
 	}
-	
+
 	@Override
 	public void setExport3D(final Format format) {
 		renderer.setExport3D(new Runnable() {
@@ -4605,7 +4606,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return angle around Oz
 	 */
 	public double getAngleA() {
@@ -4613,7 +4614,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return xOy plane tilting
 	 */
 	public double getAngleB() {
@@ -4664,7 +4665,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if that view draws labels
 	 */
 	public boolean drawsLabels() {
@@ -4692,7 +4693,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @param thickness
 	 *            line thickness
 	 * @return thickness for lines (may be emphasized for STL export)
@@ -4702,7 +4703,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return thickness for surfaces (only for 3D print export)
 	 */
 	public float getThicknessForSurface() {
@@ -4710,7 +4711,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 *            point size
 	 * @return size for points (may be emphasized for STL export)
@@ -4720,7 +4721,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return factor for axes ticks thickness
 	 */
 	public float getTicksThicknessFactor() {
@@ -4728,7 +4729,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return factor for axes minor ticks thickness
 	 */
 	public float getTicksMinorThicknessFactor() {
@@ -4736,20 +4737,27 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return factor for axes ticks delta
 	 */
 	public float getTicksDeltaFactor() {
 		return 1f;
 	}
 
-	public void setAREnabled(boolean isAREnabled) {
-		mIsAREnabled = isAREnabled;
+	public void setARDrawing(boolean isARDrawing) {
+		mIsARDrawing = isARDrawing;
 		updateMatrix();
 	}
 
-	public boolean isAREnabled() {
-		return mIsAREnabled;
+	public boolean isARDrawing() {
+		return mIsARDrawing;
 	}
 
+	public void setAREnabled(boolean isAREnabled) {
+	    mIsAREnabled = isAREnabled;
+    }
+
+    public boolean isAREnabled() {
+	    return mIsAREnabled;
+    }
 }
