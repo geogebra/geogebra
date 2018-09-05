@@ -1075,4 +1075,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return true;
 	}
 
+	@Override
+	protected boolean hasRotationHandler() {
+		return true;
+	}
 }

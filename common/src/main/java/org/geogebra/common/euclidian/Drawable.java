@@ -854,4 +854,10 @@ public abstract class Drawable extends DrawableND {
 				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
 	}
 
+	/**
+	 * @return whether bounding box should have a rotation handler
+	 */
+	protected boolean hasRotationHandler() {
+		return false;
+	}
 }

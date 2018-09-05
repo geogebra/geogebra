@@ -12488,9 +12488,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				maxX = Double.NEGATIVE_INFINITY,
 				maxY = Double.NEGATIVE_INFINITY;
 
+		boolean hasRotationHandler = true;
+
 		for (GeoElement geo : geos) {
 			Drawable dr = ((Drawable) view.getDrawableFor(geo));
 			if (dr != null) {
+				if (!dr.hasRotationHandler()) {
+					hasRotationHandler = false;
+				}
 				GRectangle bounds = dr.getBounds();
 				if (bounds != null) {
 					if (bounds.getMinX() < minX) {
@@ -12512,7 +12517,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
 		view.setBoundingBox(new BoundingBox(rect, false,
-				app.has(Feature.MOW_ROTATION_HANDLER)));
+				hasRotationHandler && app.has(Feature.MOW_ROTATION_HANDLER)));
 	}
 
 	/**

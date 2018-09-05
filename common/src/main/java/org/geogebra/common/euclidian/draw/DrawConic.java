@@ -2667,4 +2667,8 @@ public class DrawConic extends Drawable implements Previewable {
 				-centerX * overBsquared, -centerY * overAsquared };
 	}
 
+	@Override
+	protected boolean hasRotationHandler() {
+		return true;
+	}
 }
