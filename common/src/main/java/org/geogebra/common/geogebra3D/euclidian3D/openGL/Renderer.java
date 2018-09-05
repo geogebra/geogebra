@@ -2037,4 +2037,6 @@ public abstract class Renderer implements RendererInterface {
 		arModelMatrix = modelMatrix;
 		arScaleFactor = scaleFactor;
 	}
+
+	public void setScaleFactor(){}
 }

@@ -4746,7 +4746,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setARDrawing(boolean isARDrawing) {
 		mIsARDrawing = isARDrawing;
-		updateMatrix();
+		if(isARDrawing){
+			getRenderer().setScaleFactor();
+			updateMatrix();
+		}
 	}
 
 	public boolean isARDrawing() {
