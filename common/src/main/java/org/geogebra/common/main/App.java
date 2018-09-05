@@ -3714,10 +3714,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_EXPORT_STL:
 			return (prerelease || !Versions.DESKTOP.equals(version));
 
-		//AND-1253
-        case MOB_CLOSE_SETTINGS_BUG:
-            return true;
-
         // MOB-1737
 		case MOB_AND_AR:
 			return prerelease;
