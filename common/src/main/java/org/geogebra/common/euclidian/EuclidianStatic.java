@@ -15,6 +15,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -666,8 +667,11 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		ret.setBounds(xLabel - 3,
-				yLabel - fontSize - 3, xoffset + 6, height + 6);
+		if (app.has(Feature.MOW_TEXT_TOOL)) {
+			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, (int) ret.getWidth(), height + 6);
+		} else {
+			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
+		}
 		return ret;
 	}
 
@@ -735,8 +739,12 @@ public class EuclidianStatic {
 		}
 
 		int height = (int) ((lines + 1) * lineSpread);
-		labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
-				height + 6);
+		if (app.has(Feature.MOW_TEXT_TOOL)) {
+			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3,
+					(int) labelRectangle.getWidth(), height + 6);
+		} else {
+			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
+		}
 		return yoffset > 0;
 	}
 
