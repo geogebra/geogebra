@@ -246,6 +246,11 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	}
 
 	@Override
+	public void onFocus(FocusEvent event) {
+		//do nothing
+	}
+
+	@Override
 	public void handleTextPressed() {
 		lastText = getHit();
 
