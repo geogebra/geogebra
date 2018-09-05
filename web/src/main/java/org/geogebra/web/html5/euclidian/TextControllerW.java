@@ -129,6 +129,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 			updateEditor(x, y);
 			if (create) {
 				view.setBoundingBox(d.getBoundingBox());
+				d.adjustBoundingBoxToText();
 			}
 		}
 		editor.show();
@@ -242,14 +243,6 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 			return;
 		}
 		editor.setColor(color);
-	}
-
-	@Override
-	public void onFocus(FocusEvent event) {
-		DrawText d = (DrawText) view.getDrawableFor(text);
-		if (d != null) {
-			d.adjustBoundingBoxToText();
-		}
 	}
 
 	@Override
