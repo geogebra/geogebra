@@ -190,6 +190,12 @@ public final class DrawText extends Drawable {
 		if (isWhiteboardText() && boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
 		}
+
+		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
+			ctrl.setEditorFont(textFont);
+			ctrl.setEditorColor(geo.getObjectColor());
+		}
+
 	}
 
 	@Override
