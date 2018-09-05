@@ -65,8 +65,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean niceQuotes = false;
 
-	private boolean shouldPrintMethodsWithParenthesis;
-
 	/**
 	 * Default template, but do not localize commands
 	 */
@@ -3346,7 +3344,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ")" or, for XML, "]"
 	 */
 	public String rightCommandBracket() {
-		return isPrintLocalizedCommandNames() || shouldPrintMethodsWithParenthesis
+		return isPrintLocalizedCommandNames()
 				? rightBracket()
 				: rightSquareBracket();
 	}
@@ -3356,7 +3354,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return "(" or, for XML, "["
 	 */
 	public String leftCommandBracket() {
-		return isPrintLocalizedCommandNames() || shouldPrintMethodsWithParenthesis
+		return isPrintLocalizedCommandNames()
 				? leftBracket()
 				: leftSquareBracket();
 	}
@@ -3429,15 +3427,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Turns on or off command name localization
-	 * @param localizeCmds If false, the command names won't be localized,
-	 *                        otherwise they will be localized
-	 */
-	public void setLocalizeCmds(boolean localizeCmds) {
-		this.localizeCmds = localizeCmds;
-	}
-
-	/**
 	 * Set to true to print ~ 3.1415 as pi.
 	 *
 	 * @param allowPiHack true to print pi symbolically
@@ -3489,19 +3478,5 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "euler number";
 		}
 		return Unicode.EULER_STRING;
-	}
-
-	/**
-	 * Sets whether the parameters of the methods should be printed in parenthesis
-	 * (rather than square brackets).
-	 *
-	 * @param shouldPrintMethodsWithParenthesis If true, the parameters of the methods
-	 *                                          will be printed inside parenthesis,
-	 *                                          otherwise these might be printed
-	 *                                          inside square brackets
-	 *                                          (if the localization of the commands is turned off).
-	 */
-	public void setPrintMethodsWithParenthesis(boolean shouldPrintMethodsWithParenthesis) {
-		this.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
 	}
 }
