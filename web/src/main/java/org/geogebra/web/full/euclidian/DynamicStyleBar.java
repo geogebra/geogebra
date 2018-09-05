@@ -121,6 +121,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			} else {
 				left -= getOffsetWidth();
 			}
+			// do not hide rotation handler
+			left = Math.max(left,
+					gRectangle2D.getMinX() + gRectangle2D.getWidth() / 2 + 12);
 		}
 
 		if (left < 0) {
