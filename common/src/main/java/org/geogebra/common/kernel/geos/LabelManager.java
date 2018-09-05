@@ -59,9 +59,10 @@ public class LabelManager {
 	 * @return whether label can be parsed, is not reserved name and does not
 	 *         start with $
 	 */
-	public static boolean isValidLabel(String label, Kernel kernel) {
+	public static boolean isValidLabel(String label, Kernel kernel,
+			GeoElement geo) {
 
-		if (!checkName(null, label)) {
+		if (!checkName(geo, label)) {
 			return false;
 		}
 

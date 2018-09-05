@@ -59,7 +59,7 @@ public class NameValueModel extends ShowLabelModel {
 	public void applyNameChange(final String name, ErrorHandler handler) {
 		if (isForceCaption() || (kernel.lookupLabel(name) != null
 				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())
-				|| !LabelManager.isValidLabel(name, kernel)) {
+				|| !LabelManager.isValidLabel(name, kernel, null)) {
 			nameModel.applyCaptionChange(name);
 			setForceCaption(!StringUtil.emptyTrim(name));
 		} else {

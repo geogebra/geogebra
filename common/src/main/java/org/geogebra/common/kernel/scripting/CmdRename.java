@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -62,20 +61,12 @@ public class CmdRename extends CmdScripting {
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
-				String checked;
-				try {
-					checked = kernel.getAlgebraProcessor()
-							.parseLabel(((GeoText) arg[1]).getTextString());
+				String newLabel = ((GeoText) arg[1]).getTextString();
+				if (LabelManager.isValidLabel(newLabel, kernel, geo)) {
+					geo.rename(newLabel);
+					geo.updateRepaint();
 
-					if (LabelManager.checkName(geo, checked)) {
-						geo.rename(checked);
-						geo.updateRepaint();
-
-						return arg;
-					}
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return arg;
 				}
 				throw argErr(c, arg[1]);
 			}

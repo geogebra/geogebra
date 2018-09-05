@@ -57,16 +57,11 @@ public class RenameInputHandler implements InputHandler {
 			callback.callback(true);
 			return;
 		}
-		if (!LabelManager.checkName(geo1, inputValue)) {
-			app.showError("InvalidInput", inputValue);
-			callback.callback(false);
-			return;
-		}
 
 		Kernel kernel = app.getKernel();
 		String newLabel = inputValue;
 
-		if (!LabelManager.isValidLabel(newLabel, kernel)) {
+		if (!LabelManager.isValidLabel(newLabel, kernel, (GeoElement) geo1)) {
 			app.showError("InvalidInput", inputValue);
 			callback.callback(false);
 			return;

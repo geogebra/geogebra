@@ -350,17 +350,10 @@ abstract public class ObjectSettingsModel {
                 return; // should not happen...
             }
 
-            try {
-                String checked = geo.getKernel().getAlgebraProcessor().parseLabel(name);
-                if (LabelManager.checkName(geo, checked)) {
-                    geo.rename(checked);
-                    geo.updateRepaint();
-                    app.setPropertiesOccured();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } catch (Error e) {
-                e.printStackTrace();
+			if (LabelManager.isValidLabel(name, geo.getKernel(), geo)) {
+            	geo.rename(name);
+            	geo.updateRepaint();
+            	app.setPropertiesOccured();
             }
 
         }

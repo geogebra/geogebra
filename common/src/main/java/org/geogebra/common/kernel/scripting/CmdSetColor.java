@@ -75,7 +75,7 @@ public class CmdSetColor extends CmdScripting {
 					.toString(StringTemplate.defaultTemplate);
 
 			if (kernel.lookupLabel(label) == null
-					&& LabelManager.isValidLabel(label, kernel)
+					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
 				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
@@ -111,7 +111,7 @@ public class CmdSetColor extends CmdScripting {
 			// SetBackgroundColor(A1,1,1,0)
 			// for empty cell
 			if (kernel.lookupLabel(label) == null
-					&& LabelManager.isValidLabel(label, kernel)
+					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
 				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
