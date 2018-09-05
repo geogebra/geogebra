@@ -1,16 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.gui.Layout;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.ImageFactory;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.DialogBoxW;
-
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,6 +11,17 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+
+import org.geogebra.common.gui.Layout;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.gui.ImageFactory;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.DialogBoxW;
 
 /**
  * Apps Picker Dialog for new Start screen (GGB-992)
@@ -83,7 +83,8 @@ public class PerspectivesPopup {
 		addPerspective(5, pr.menu_icon_probability24());
 
 		// add exam mode
-		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
+		if ((app.getLAF().examSupported(app.has(Feature.EXAM_TABLET)))
+				|| (app.getLAF().isTablet() && !app.isUnbundled() && !app.isWhiteboardActive())) {
 			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),
 					"exam_menu_entry", -1, 7);
 			contentPanel.add(examRow);

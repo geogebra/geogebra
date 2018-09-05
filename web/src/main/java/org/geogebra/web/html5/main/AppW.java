@@ -1,8 +1,30 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.storage.client.Storage;
+import com.google.gwt.storage.client.StorageMap;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GDimension;
@@ -135,31 +157,9 @@ import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.storage.client.Storage;
-import com.google.gwt.storage.client.StorageMap;
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -2614,8 +2614,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					&& getCASFactory().isEnabled();
 		}
 
-		if (getLAF() != null
-				&& getLAF().examSupported(has(Feature.EXAM_TABLET))) {
+		if ((getLAF() != null
+				&& getLAF().examSupported(has(Feature.EXAM_TABLET)))
+				|| (getLAF() != null && getLAF().isTablet() && !isUnbundled() && !isWhiteboardActive())) {
 			if (viewID == App.VIEW_EUCLIDIAN) {
 				return getSettings().getEuclidian(1).isEnabled();
 			} else if (viewID == App.VIEW_EUCLIDIAN2) {
