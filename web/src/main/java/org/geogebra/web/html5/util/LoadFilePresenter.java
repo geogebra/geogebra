@@ -152,7 +152,7 @@ public class LoadFilePresenter {
 		String perspective = ae.getDataParamPerspective();
 
 		if (!perspective.startsWith("search:")) {
-			perspective = defaultPerspective(app);
+			perspective = defaultPerspective(app, perspective);
 		}
 		if (perspective.length() == 0) {
 			// Location param may be null
@@ -203,12 +203,12 @@ public class LoadFilePresenter {
 	 *            application
 	 */
 	protected void deferredOpenEmpty(AppW app) {
-		String perspective = defaultPerspective(app);
+		String perspective = defaultPerspective(app, "");
 		finishEmptyLoading(app, !StringUtil.empty(perspective)
 				? getPerspective(app, perspective) : null);
 	}
 
-	private static String defaultPerspective(AppW app) {
+	private static String defaultPerspective(AppW app, String userPerspective) {
 		if (app.isUnbundledGraphing()) {
 			return Perspective.GRAPHING + "";
 		} else if (app.isUnbundledGeometry()) {
@@ -218,7 +218,7 @@ public class LoadFilePresenter {
 		} else if (app.isWhiteboardActive()) {
 			return Perspective.NOTES + "";
 		}
-		return "";
+		return userPerspective;
 	}
 
 	private static Perspective getPerspective(AppW app, String perspective) {
