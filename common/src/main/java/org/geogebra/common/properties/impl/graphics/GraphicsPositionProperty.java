@@ -17,8 +17,8 @@ public class GraphicsPositionProperty extends AbstractEnumerableProperty
     };
 
     private String[] values = {
-            "Standard view",
-            "Zoom to fit"
+            "StandardView",
+            "ZoomToFit"
     };
 
     private Runnable[] callbacks = {
