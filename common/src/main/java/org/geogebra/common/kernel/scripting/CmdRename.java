@@ -62,6 +62,12 @@ public class CmdRename extends CmdScripting {
 
 				GeoElement geo = arg[0];
 				String newLabel = ((GeoText) arg[1]).getTextString();
+				try {
+					// get rid of trailing spaces, also "a b"->"a"
+					newLabel = kernel.getAlgebraProcessor().parseLabel(newLabel);
+				} catch (Throwable t) {
+					// isValidLabel should fail
+				}
 				if (LabelManager.isValidLabel(newLabel, kernel, geo)) {
 					geo.rename(newLabel);
 					geo.updateRepaint();

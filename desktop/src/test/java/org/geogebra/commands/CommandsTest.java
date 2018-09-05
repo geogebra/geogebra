@@ -1419,6 +1419,10 @@ public class CommandsTest extends AlgebraTest {
 		Assert.assertEquals(
 				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
 		Assert.assertNull(get("b"));
+		shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
+		Assert.assertNotNull(get("cc"));
+		shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
+		Assert.assertNotNull(get("cc"));
 	}
 
 	@Test
