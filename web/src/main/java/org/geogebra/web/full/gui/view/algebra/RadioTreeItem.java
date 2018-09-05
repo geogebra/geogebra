@@ -55,7 +55,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
@@ -1855,9 +1854,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
-		if (Browser.isMacOS()) {
-			mf.setAriaLive();
-		}
 	}
 
 	private void updateEditorAriaLabel(String text) {

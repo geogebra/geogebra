@@ -198,20 +198,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * Sets aria live property.
-	 */
-	public void setAriaLive() {
-		if (wrap != null) {
-			wrap.getElement().setAttribute("aria-live", "polite");
-		}
-	}
-
-	/**
 	 * @param label
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
-		if (mobileBrowser() && !"".equals(label)) {
+		if ((mobileBrowser() || isMacOS()) && !"".equals(label)) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			FactoryProvider.getInstance().debug(label);
@@ -227,6 +218,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (wrap != null) {
 			wrap.getElement().setAttribute("aria-label", label);
 		}
+	}
+
+	/**
+	 * @return whether we're running in a Mac browser
+	 */
+	public static boolean isMacOS() {
+		return Navigator.getUserAgent().contains("Macintosh")
+				|| Navigator.getUserAgent().contains("Mac OS");
 	}
 
 	private static void initTimer() {
