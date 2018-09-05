@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
 
@@ -69,6 +70,8 @@ public class LabelManager {
 			return label.trim()
 					.equals(kernel.getAlgebraProcessor().parseLabel(label));
 		} catch (ParseException e) {
+			return false;
+		} catch (BracketsError e) {
 			return false;
 		}
 	}
