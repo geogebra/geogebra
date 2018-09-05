@@ -121,7 +121,7 @@ public class PropertiesFactory {
 
 		if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
 			propertyList
-					.add(new GraphicsPositionProperty(localization));
+					.add(new GraphicsPositionProperty(localization, activeView));
 		}
         propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
         propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));

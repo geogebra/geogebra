@@ -1,13 +1,15 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.util.debug.Log;
 
 public class GraphicsPositionProperty extends AbstractEnumerableProperty
         implements ActionsEnumerableProperty {
+
+    private EuclidianView euclidianView;
 
     private PropertyResource[] icons = {
             PropertyResource.ICON_STANDARD_VIEW,
@@ -23,19 +25,20 @@ public class GraphicsPositionProperty extends AbstractEnumerableProperty
             new Runnable() {
                 @Override
                 public void run() {
-                    Log.debug("Zoom to fit called!");
+                    euclidianView.setStandardView(true);
                 }
             },
             new Runnable() {
                 @Override
                 public void run() {
-                    Log.debug("Zoom to fit called!");
+                    euclidianView.setViewShowAllObjects(true, false);
                 }
             }
     };
 
-    public GraphicsPositionProperty(Localization localization) {
+    public GraphicsPositionProperty(Localization localization, EuclidianView euclidianView) {
         super(localization, "GridPosition");
+        this.euclidianView = euclidianView;
         setValuesAndLocalize(values);
     }
 
