@@ -106,6 +106,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -3516,6 +3517,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			ev.getCanvas().getElement().focus();
 			ev.focusGained();
 		}
+
+		// focus -> EV3D
+		EuclidianView3DW ev3D = (EuclidianView3DW) getEuclidianView3D();
+		visible = ev3D != null && ev3D.isShowing();
+		if (visible) {
+			ev3D.getCanvas().getElement().focus();
+			ev3D.focusGained();
+		}
+
 	}
 
 	/**
