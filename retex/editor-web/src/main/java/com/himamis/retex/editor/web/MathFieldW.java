@@ -202,7 +202,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
-		if ((mobileBrowser() || isMacOS()) && !"".equals(label)) {
+		if ((mobileBrowser() || isMacOS() || isIE()) && !"".equals(label)) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			FactoryProvider.getInstance().debug(label);
@@ -226,6 +226,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public static boolean isMacOS() {
 		return Navigator.getUserAgent().contains("Macintosh")
 				|| Navigator.getUserAgent().contains("Mac OS");
+	}
+
+	/**
+	 * @return whether we are running in IE
+	 */
+	public static boolean isIE() {
+		return Navigator.getUserAgent().toLowerCase().contains("trident")
+				|| Navigator.getUserAgent().toLowerCase().contains("msie");
 	}
 
 	private static void initTimer() {
