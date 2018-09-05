@@ -409,6 +409,7 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_EXTREMUM);
 		addToList(tools, EuclidianConstants.MODE_ROOTS);
 		addToList(tools, EuclidianConstants.MODE_COMPLEX_NUMBER);
+		addToList(tools, EuclidianConstants.MODE_CREATE_LIST);
 		storeIfNotEmpty(category, tools);
 
 		category = Category.CONSTRUCT;
