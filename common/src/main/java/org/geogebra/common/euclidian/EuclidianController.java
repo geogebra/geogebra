@@ -7736,21 +7736,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								- Math.atan2(-(lastMouseLoc.getY() - centerY),
 										lastMouseLoc.getX() - centerX));
 
-				if (getResizedShape() != null) {
-					setBoundingBoxCursor(getResizedShape());
-
-					if (getResizedShape().getGeoElement().isSelected()) {
-						dontClearSelection = true;
-
-						((PointRotateable) getResizedShape().getGeoElement())
-								.rotate(angle, center);
-						getResizedShape().getGeoElement().updateRepaint();
-					}
-
+				if (getResizedShape() != null || isMultiResize) {
+					dontClearSelection = true;
 					hideDynamicStylebar();
-					return;
-				} else if (isMultiResize) {
-					// multi rotation
+
 					for (GeoElement geo : selection.getSelectedGeos()) {
 						((PointRotateable) geo).rotate(angle, center);
 						geo.updateRepaint();
