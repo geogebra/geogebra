@@ -307,7 +307,7 @@ task draftRun(dependsOn: 'draftDeployIntoWar') {
 task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
     description 'Starts a codeserver, and a simple webserver for development'
     main 'com.google.gwt.dev.DevMode'
-    maxHeapSize '2048m'
+    maxHeapSize '4096m'
     classpath ((configurations.compile as Set<String>) 
         + (sourceSets.main.allSource.srcDirs as Set<String>) 
         + (jar.archivePath as String))
