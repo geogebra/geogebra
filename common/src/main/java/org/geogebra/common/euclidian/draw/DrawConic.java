@@ -1574,28 +1574,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// shape is null for 3D ellipse
 			if (conic.isShape()) {
-				double rad = Math.asin(Math.abs(conic.eigenvec[1].getX()));
-				double tFact, majorFact, minorFact;
-
-				tFact = Math.atan(-conic.getHalfAxis(1) / 2 * Math.tan(rad)
-						/ (conic.getHalfAxis(0) / 2));
-				minorFact = conic.getHalfAxis(1) / 2 * Math.sin(rad);
-				majorFact = conic.getHalfAxis(0) / 2 * Math.cos(rad);
-				double width = minorFact
-						* (Math.sin(tFact + Math.PI) - Math.sin(tFact))
-						+ majorFact
-								* (Math.cos(tFact) - Math.cos(tFact + Math.PI));
-
-				tFact = Math.atan(conic.getHalfAxis(1) / 2 * 1
-						/ Math.tan(rad) / (conic.getHalfAxis(0) / 2));
-				minorFact = conic.getHalfAxis(1) / 2 * Math.cos(rad);
-				majorFact = conic.getHalfAxis(0) / 2 * Math.sin(rad);
-				double height = minorFact
-						* (Math.sin(tFact) - Math.sin(tFact + Math.PI))
-						+ majorFact
-								* (Math.cos(tFact) - Math.cos(tFact + Math.PI));
-
-				return rectAroundMidpoint(width, height);
+				return rectForRotatedEllipse();
 			}
 			return fillShape == null ? null : fillShape.getBounds();
 		case GeoConicNDConstants.CONIC_PARABOLA:
@@ -1611,6 +1590,26 @@ public class DrawConic extends Drawable implements Previewable {
 		default:
 			return null;
 		}
+	}
+
+	private GRectangle rectForRotatedEllipse() {
+		double angle = conic.getAngle();
+
+		double tFactor = Math.atan(-conic.getHalfAxis(1) / 2 * Math.tan(angle)
+				/ (conic.getHalfAxis(0) / 2));
+		double width = conic.getHalfAxis(1) / 2 * Math.sin(angle)
+				* (Math.sin(tFactor + Math.PI) - Math.sin(tFactor))
+				+ conic.getHalfAxis(0) / 2 * Math.cos(angle)
+						* (Math.cos(tFactor) - Math.cos(tFactor + Math.PI));
+
+		tFactor = Math.atan(conic.getHalfAxis(1) / 2 * 1
+				/ Math.tan(angle) / (conic.getHalfAxis(0) / 2));
+		double height = conic.getHalfAxis(1) / 2 * Math.cos(angle)
+				* (Math.sin(tFactor) - Math.sin(tFactor + Math.PI))
+				+ conic.getHalfAxis(0) / 2 * Math.sin(angle)
+						* (Math.cos(tFactor) - Math.cos(tFactor + Math.PI));
+
+		return rectAroundMidpoint(width, height);
 	}
 
 	private GRectangle rectAroundMidpoint(double focX, double focY) {

@@ -7720,7 +7720,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					? getResizedShape().getBounds()
 					: view.getBoundingBox().getRectangle();
 
-			if (bounds != null) {
+			if (bounds != null && lastMouseLoc != null) {
 				double centerX = bounds.getMinX() + bounds.getWidth() / 2,
 						centerY = bounds.getMinY() + bounds.getHeight() / 2;
 
