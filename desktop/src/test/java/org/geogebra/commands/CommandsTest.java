@@ -1423,6 +1423,14 @@ public class CommandsTest extends AlgebraTest {
 		Assert.assertNotNull(get("cc"));
 		shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
 		Assert.assertNotNull(get("cc"));
+		shouldFail("Rename[ cc, \"A_{}\" ]", "Illegal", app);
+		Assert.assertNotNull(get("cc"));
+		shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
+		Assert.assertNotNull(get("cc"));
+		t("Rename[ cc, \"A_\" ]", new String[0]);
+		Assert.assertNull(get("cc"));
+		Assert.assertEquals(
+				get("A").toValueString(StringTemplate.defaultTemplate), "42");
 	}
 
 	@Test
