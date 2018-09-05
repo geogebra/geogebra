@@ -168,7 +168,7 @@ public class ZoomPanelMow extends FlowPanel
 	 * Sets translated titles of the buttons.
 	 */
 	public void setLabels() {
-		setButtonTitleAndAltText(dragPadBtn, "DragPad");
+		setButtonTitleAndAltText(dragPadBtn, "PanView");
 		setButtonTitleAndAltText(homeBtn, "StandardView");
 		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
 		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");
