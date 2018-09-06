@@ -439,16 +439,23 @@ public class ExamDialog {
 			setStartExamDialog();
 			return;
 		}
-
-		instruction.setText(loc.getMenu("exam_accept_pin"));
+		// we do not want the own pinning dialog anymore
+		// only the native pin dialog
+		/*instruction.setText(loc.getMenu("exam_accept_pin"));
 		instruction.setVisible(true);
 
 		btnOk.setText(loc.getMenu("exam_pin"));
 		btnOk.setFocus(false);
 		btnOk.setVisible(true);
 
-		box.center();
-
+		box.center();*/
+		// airplane mode off: ask again
+		if (!isAirplaneModeOn()) {
+			setAirplaneModeDialog();
+			return;
+		}
+		// ask Android to lock
+		askForTaskLock();
 		dialogState = DialogState.WAIT_FOR_TASK_LOCK;
 	}
 
