@@ -262,16 +262,20 @@ public class AlgebraItem {
 	 *            element
 	 * @param builder
 	 *            index builder
+	 * @param stringTemplate
+	 * 			  string template
 	 * @return whether we did append something to the index builder
 	 */
-	public static boolean buildPlainTextItemSimple(GeoElement geo1,
-			IndexHTMLBuilder builder) {
+	public static boolean buildPlainTextItemSimple(
+			GeoElement geo1,
+			IndexHTMLBuilder builder,
+			StringTemplate stringTemplate) {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
 		if (geo1.isIndependent() && geo1.isGeoPoint()
 				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 			builder.clear();
 			builder.append(((GeoPointND) geo1)
-					.toStringDescription(StringTemplate.defaultTemplate));
+					.toStringDescription(stringTemplate));
 			return true;
 		}
 		if (geo1.isIndependent() && geo1.getDefinition() == null) {
@@ -284,19 +288,57 @@ public class AlgebraItem {
 			return true;
 
 		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-			geo1.addLabelTextOrHTML(geo1.getDefinitionDescription(
-					StringTemplate.latexTemplate), builder);
+			geo1.addLabelTextOrHTML(
+					geo1.getDefinitionDescription(stringTemplate),
+					builder);
 			return true;
 
 		case Kernel.ALGEBRA_STYLE_DEFINITION:
 			geo1.addLabelTextOrHTML(
-					geo1.getDefinition(StringTemplate.defaultTemplate),
+					geo1.getDefinition(stringTemplate),
 					builder);
 			return true;
 		default:
 		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
 
 			return false;
+		}
+	}
+
+	/**
+	 * @param geo1
+	 *            element
+	 * @param builder
+	 *            index builder
+	 * @return whether we did append something to the index builder
+	 */
+	public static boolean buildPlainTextItemSimple(
+			GeoElement geo1,
+			IndexHTMLBuilder builder) {
+		return buildPlainTextItemSimple(geo1, builder, StringTemplate.defaultTemplate);
+	}
+
+	/**
+	 * @param geoElement
+	 *            element
+	 * @param style
+	 *            Kenel.ALGEBRA_STYLE_*
+	 * @param sb
+	 *            builder
+	 * @param stringTemplateForPlainText string template for building simple plain text item
+	 */
+	public static void getDefinitionText(
+			GeoElement geoElement,
+			int style,
+			IndexHTMLBuilder sb,
+			StringTemplate stringTemplateForPlainText) {
+
+		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && needsPacking(geoElement)) {
+			String value = geoElement.getDefinitionDescription(StringTemplate.editorTemplate);
+			sb.clear();
+			sb.append(value);
+		} else {
+			buildPlainTextItemSimple(geoElement, sb, stringTemplateForPlainText);
 		}
 	}
 
@@ -308,14 +350,11 @@ public class AlgebraItem {
 	 * @param sb
 	 *            builder
 	 */
-	public static void getDefinitionText(GeoElement geoElement, int style, IndexHTMLBuilder sb) {
-		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && needsPacking(geoElement)) {
-			String value = geoElement.getDefinitionDescription(StringTemplate.editorTemplate);
-			sb.clear();
-			sb.append(value);
-		} else {
-			buildPlainTextItemSimple(geoElement, sb);
-		}
+	public static void getDefinitionText(
+			GeoElement geoElement,
+			int style,
+			IndexHTMLBuilder sb) {
+		getDefinitionText(geoElement, style, sb, StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -418,15 +457,30 @@ public class AlgebraItem {
 	 *
 	 * @param element geo
 	 * @param style AV style
+	 * @param stringTemplate string template
 	 * @return description string for element to show in AV row; null if element prefers showing definition
 	 */
-	public static String getDescriptionString(GeoElement element, int style) {
+	public static String getDescriptionString(
+			GeoElement element,
+			int style,
+			StringTemplate stringTemplate) {
+
 		if (element.mayShowDescriptionInsteadOfDefinition()) {
 			IndexLaTeXBuilder builder = new IndexLaTeXBuilder();
-			AlgebraItem.getDefinitionText(element, style, builder);
+			AlgebraItem.getDefinitionText(element, style, builder, stringTemplate);
 			return getLatexText(builder.toString().replace("^", "\\^{\\;}"));
 		}
 		return null;
+	}
+
+	/**
+	 *
+	 * @param element geo
+	 * @param style AV style
+	 * @return description string for element to show in AV row; null if element prefers showing definition
+	 */
+	public static String getDescriptionString(GeoElement element, int style) {
+		return getDescriptionString(element, style, StringTemplate.defaultTemplate);
 	}
 
 	private static String getLatexText(String text) {
