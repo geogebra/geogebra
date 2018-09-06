@@ -84,6 +84,9 @@ public class Exercise implements EntryPoint {
 		Canvas c2 = Canvas.createIfSupported();
 		DrawEquationW.paintOnCanvas(app, nextStep, c2, 40, GColor.MAGENTA, true);
 		dataPanel.add(c2);
+
+		dataPanel.add(new HTML("<h1>A random exercise: "
+				+ ExerciseGenerator.getExercise(4).equation + "</h1>"));
 	}
 
 	private String getNextStep(SolutionStep ss) {
