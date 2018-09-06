@@ -10491,7 +10491,10 @@ namespace giac {
 	res.push_back(randpoisson(lambda,contextptr));
       return;     
     }
-    if (f.is_symb_of_sommet(at_gammad) || f.is_symb_of_sommet(at_randgammad) ){
+    bool loigamma=f.is_symb_of_sommet(at_gammad) || f.is_symb_of_sommet(at_randgammad);
+    bool loibeta=f.is_symb_of_sommet(at_betad) || f.is_symb_of_sommet(at_randbetad);
+    bool loiweibull=f.is_symb_of_sommet(at_weibulld) || f.is_symb_of_sommet(at_randweibulld);
+    if (loigamma || loiweibull || loibeta){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);
       gen a,b;
       if (f.type==_VECT && f._VECTptr->size()==2){
@@ -10502,10 +10505,26 @@ namespace giac {
 	res=vecteur(1,gensizeerr(contextptr));
 	return;
       }
-      double scale=1.0/b._DOUBLE_val;
-      for (int i=0;i<n;++i)
-	res.push_back(rgamma(a._DOUBLE_val,scale,contextptr));
-      return;
+      if (loibeta){
+	for (int i=0;i<n;++i){
+	  double X=rgamma(a._DOUBLE_val,1.0,contextptr);
+	  double Y=rgamma(b._DOUBLE_val,1.0,contextptr);
+	  res.push_back(X/(X+Y));
+	}
+	return;
+      }
+      if (loigamma){
+	double scale=1.0/b._DOUBLE_val;
+	for (int i=0;i<n;++i)
+	  res.push_back(rgamma(a._DOUBLE_val,scale,contextptr));
+	return;
+      }
+      if (loiweibull){
+	double invk=1.0/a._DOUBLE_val;
+	for (int i=0;i<n;++i)
+	  res.push_back(b._DOUBLE_val*std::pow(exp_rand(contextptr),invk));
+	return;
+      }
     }
     if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_EXP) || f.is_symb_of_sommet(at_randexp) || f.is_symb_of_sommet(at_exponential) || f.is_symb_of_sommet(at_exponentiald)){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);

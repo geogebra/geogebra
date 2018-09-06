@@ -45,6 +45,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_randNorm ;
   extern const unary_function_ptr * const  at_randnormald ;
 
+  double exp_rand(GIAC_CONTEXT);
   gen _randexp(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_randexp ;
   gen randpoisson(double lambda,GIAC_CONTEXT);
@@ -183,6 +184,8 @@ namespace giac {
   gen _snedecor_icdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_snedecor_icdf ;
 
+  gen _randweibulld(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_randweibulld ;
   extern const unary_function_ptr * const  at_weibulld ;
 
   extern const unary_function_ptr * const  at_wilcoxont ;
@@ -201,6 +204,8 @@ namespace giac {
 
   gen _betad_icdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_betad_icdf ;
+  extern const unary_function_ptr * const  at_randbetad ;
+  gen _randbetad(const gen & args,GIAC_CONTEXT);
 
   gen _gammad(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_gammad ;

@@ -3507,6 +3507,13 @@ namespace giac {
     if ( (args.type!=_VECT) || (args._VECTptr->size()!=2))
       return gensizeerr(contextptr);
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (a.type==_STRNG && b.type==_STRNG){
+      int pos=a._STRNGptr->find(*b._STRNGptr);
+      if (pos<0 || pos>=a._STRNGptr->size())
+	return 0;
+      else
+	return pos+1;
+    }
     if (a.type!=_VECT){
       if (a.type==_REAL)
 	return contains(a,b);

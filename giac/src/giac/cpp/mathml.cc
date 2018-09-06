@@ -1056,6 +1056,14 @@ namespace giac {
       s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
     g=evalf(g,1,contextptr);
     vecteur v=*(g._VECTptr);
+    for (i=0;i<int(v.size());++i){
+      gen R,I;
+      reim(v[i],R,I,contextptr);
+      if (is_inf(R)||is_inf(I)){
+	v.erase(v.begin()+i);
+	--i;
+      }
+    }
     for (i=0 ; i<signed(v.size()) ; i++){
       s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ";
       if (i%2==0)

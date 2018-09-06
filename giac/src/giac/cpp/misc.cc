@@ -7488,7 +7488,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     int cm=calc_mode(contextptr);
     calc_mode(-38,contextptr); // avoid rootof
     gen c1=solve(f1,x,periode==0?2:0,contextptr);
-    gen c2=(!do_inflex || is_zero(f2))?gen(vecteur(0)):solve(f2,x,periode==0?2:0,contextptr),c(c1);
+    gen c2=(!do_inflex || is_zero(f2))?gen(vecteur(0)):solve(_numer(f2,contextptr),x,periode==0?2:0,contextptr),c(c1);
     calc_mode(cm,contextptr);
     step_infolevel(st,contextptr);
     if (x!=xval)
@@ -7921,6 +7921,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	do_inflex=false;
 	v.erase(v.begin()+i);
 	--s; --i; continue;
+      }
+      if (v[i].is_symb_of_sommet(at_equation)){
+	gen & f=v[i]._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front()==at_derive){
+	  if (f._VECTptr->back()==2)
+	    do_inflex=true;
+	  else
+	    do_inflex=false;
+	  v.erase(v.begin()+i);
+	  --s; --i; continue;
+	}
       }
     }
     bool exactlegende=false;

@@ -5959,25 +5959,35 @@ unsigned int ConvertUTF8toUTF16 (
 
   string replace_deuxpoints_egal(const string & s){
     string res;
-    bool instring=false;
+    int instring=0;
     for (size_t i=0;i<s.size();++i){
       char ch=s[i];
       if (i==0 || s[i-1]!='\\'){
 	if (ch=='\''){
-	  res +='"';
-	  instring=!instring;
+	  if (instring==2)
+	    res += ch;
+	  else {
+	    res +='"';
+	    instring=instring?0:1;
+	  }
 	  continue;
 	}
 	if (instring){
-	  if (ch=='"')
-	    res +="\"\"";
+	  if (ch=='"'){
+	    if (instring==1)
+	      res +="\"\"";
+	    else {
+	      res += ch;
+	      instring=0;
+	    }
+	  }
 	  else
 	    res += ch;
 	  continue;
 	}
 	if (ch=='"'){
 	  res +='"';
-	  instring=!instring;
+	  instring=2;
 	  continue;
 	}
       }

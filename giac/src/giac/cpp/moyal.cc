@@ -1968,6 +1968,22 @@ namespace giac {
   static define_unary_function_eval (__weibulld_icdf,&_weibull_icdf,_weibulld_icdf_s);
   define_unary_function_ptr5( at_weibulld_icdf ,alias_at_weibulld_icdf,&__weibulld_icdf,0,true);
 
+  gen _randweibulld(const gen & args,GIAC_CONTEXT){
+    if (args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen k=args._VECTptr->front();
+    gen lambda=args._VECTptr->back();
+    k=evalf_double(k,1,contextptr);
+    lambda=evalf_double(lambda,1,contextptr);
+    if (is_positive(-k,contextptr) || is_positive(-lambda,contextptr) || k.type!=_DOUBLE_ || lambda.type!=_DOUBLE_)
+      return gensizeerr(contextptr);
+    return lambda*std::pow(exp_rand(contextptr),1.0/k._DOUBLE_val);
+  }
+  static const char _randweibulld_s []="randweibulld";
+  static define_unary_function_eval (__randweibulld,&_randweibulld,_randweibulld_s);
+  define_unary_function_ptr5( at_randweibulld ,alias_at_randweibulld,&__randweibulld,0,true);
+
   gen betad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
     if ( (x==0 && alpha==1) || (x==1 && beta==1))
       return plus_one/Beta(alpha,beta,contextptr);
@@ -2064,6 +2080,24 @@ namespace giac {
   static const char _betad_icdf_s []="betad_icdf";
   static define_unary_function_eval (__betad_icdf,&_betad_icdf,_betad_icdf_s);
   define_unary_function_ptr5( at_betad_icdf ,alias_at_betad_icdf,&__betad_icdf,0,true);
+
+  gen _randbetad(const gen & args,GIAC_CONTEXT){
+    if (args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen alpha=args._VECTptr->front();
+    gen beta=args._VECTptr->back();
+    alpha=evalf_double(alpha,1,contextptr);
+    beta=evalf_double(beta,1,contextptr);
+    if (is_positive(-alpha,contextptr) || is_positive(-beta,contextptr) || alpha.type!=_DOUBLE_ || beta.type!=_DOUBLE_)
+      return gensizeerr(contextptr);
+    double X=rgamma(alpha._DOUBLE_val,1.0,contextptr);
+    double Y=rgamma(beta._DOUBLE_val,1.0,contextptr);
+    return X/(X+Y);
+  }
+  static const char _randbetad_s []="randbetad";
+  static define_unary_function_eval (__randbetad,&_randbetad,_randbetad_s);
+  define_unary_function_ptr5( at_randbetad ,alias_at_randbetad,&__randbetad,0,true);
 
   gen gammad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
     if (is_zero(x) && alpha==1)
