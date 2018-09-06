@@ -31,6 +31,7 @@ public class EuclidianStatic {
 	 * near-horizontal thick vector isn't drawn correctly otherwise
 	 */
 	public static final int CLIP_DISTANCE = 5;
+	public static final int EDITOR_MARGIN = 3;
 
 	/** standardstroke */
 	protected static final GBasicStroke standardStroke = AwtFactory
@@ -668,7 +669,8 @@ public class EuclidianStatic {
 		int height = (int) ((lines + 1) * lineSpread);
 
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
-			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, (int) ret.getWidth(), height + 6);
+			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
+					(int) ret.getWidth(), height + 2 * EDITOR_MARGIN);
 		} else {
 			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		}
@@ -740,8 +742,8 @@ public class EuclidianStatic {
 
 		int height = (int) ((lines + 1) * lineSpread);
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
-			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3,
-					(int) labelRectangle.getWidth(), height + 6);
+			labelRectangle.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
+					(int) labelRectangle.getWidth(), height + 2 * EDITOR_MARGIN);
 		} else {
 			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		}

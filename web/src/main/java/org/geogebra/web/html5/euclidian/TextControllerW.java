@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
@@ -185,7 +186,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	 */
 	public ArrayList<String> wrapRow(String row) {
 		String[] words = row.split(" ");
-		int rowLength = getCurrentWidth();
+		int rowLength = getCurrentWidth() - 2 * EuclidianStatic.EDITOR_MARGIN;
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
