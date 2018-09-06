@@ -46,6 +46,8 @@ public class ExamDialog {
 	private DialogState dialogState;
 	private boolean wasAirplaneModeOn;
 	private GTimer checkTaskLockTimer = null;
+	// start dialog content with checkboxes
+	private FlowPanel startPanel;
 
 	private enum DialogState {
 		WAIT_FOR_AIRPLANE_MODE, WAIT_FOR_TASK_LOCK, CAN_START_EXAM
@@ -80,6 +82,7 @@ public class ExamDialog {
 		VerticalPanel mainWidget = new VerticalPanel();
 		FlowPanel btnPanel = new FlowPanel();
 		FlowPanel cbxPanel = new FlowPanel();
+		startPanel = new FlowPanel();
 
 		btnOk = new Button();
 		Button btnCancel = new Button();
@@ -94,6 +97,10 @@ public class ExamDialog {
 			box.addStyleName("boxsize");
 			btnCancel.setText(loc.getMenu("Cancel"));
 			btnHelp.setText(loc.getMenu("Help"));
+			// help button not needed for tablet
+			if (app.getLAF().isTablet()) {
+				btnHelp.setVisible(false);
+			}
 		} else {
 			box.addStyleName("ExamTabletBoxsize");
 		}
@@ -135,8 +142,12 @@ public class ExamDialog {
 		guiManager.updateToolbarActions();
 		if (checkboxes > 0) {
 			Label description = new Label(loc.getMenu("exam_custom_description"));
-			mainWidget.add(description);
-			mainWidget.add(cbxPanel);
+			startPanel.add(description);
+			startPanel.add(cbxPanel);
+			// hide start dialog content until
+			// airplane mode and pinning happened
+			startPanel.setVisible(false);
+			mainWidget.add(startPanel);
 			cbxPanel.addStyleName("ExamCheckboxPanel");
 			btnPanel.addStyleName("DialogButtonPanel");
 			box.getCaption().setText(loc.getMenu("exam_custom_header"));
@@ -443,7 +454,8 @@ public class ExamDialog {
 
 	private void setStartExamDialog() {
 		instruction.setVisible(false);
-
+		// show start dialog content
+		startPanel.setVisible(true);
 		btnOk.setText(loc.getMenu("exam_start_button"));
 		btnOk.setFocus(false);
 		btnOk.setVisible(true);
