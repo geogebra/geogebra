@@ -1190,11 +1190,17 @@ public enum Commands implements CommandsConstants,
 
 	RoundedPolygon(TABLE_ENGLISH), // TODO move to TABLE_GEOMETRY
 
-	ShowSteps(TABLE_ALGEBRA);
+	ShowSteps(TABLE_ALGEBRA),
+
+	// **********************************************************************
+	// TABLE_SIMPLE_NAME
+	// **********************************************************************
+
+	nCr(TABLE_SIMPLE_NAME);
 
 	private int table;
 
-	private Commands(int table) {
+	Commands(int table) {
 		this.table = table;
 	}
 
@@ -1262,6 +1268,7 @@ public enum Commands implements CommandsConstants,
 		case FitLine:
 			return FitLineY;
 		case BinomialCoefficient:
+		case nCr:
 			return Binomial;
 		case RandomBetween:
 			return Random;
@@ -1307,5 +1314,30 @@ public enum Commands implements CommandsConstants,
 		}
 		return null;
 	}
+
+	public static String getSimpleName(String commandName) {
+		Commands command = stringToCommand(commandName);
+		if (command == null) {
+			return commandName;
+		}
+
+		Commands simpleNamedCommand;
+		switch (command) {
+			case Binomial:
+				simpleNamedCommand = nCr;
+				break;
+			default:
+				simpleNamedCommand = null;
+		}
+		if (simpleNamedCommand != null) {
+			return simpleNamedCommand.name();
+		} else {
+			return commandName;
+		}
+	}
+
+	public boolean isAlias() {
+	    return table == TABLE_ENGLISH || table == TABLE_SIMPLE_NAME;
+    }
 
 }

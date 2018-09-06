@@ -74,4 +74,6 @@ public interface CommandsConstants {
 	 */
 	public static final int TABLE_ENGLISH = 20;
 
+	public static final int TABLE_SIMPLE_NAME = 21;
+
 }

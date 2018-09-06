@@ -65,9 +65,8 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	@Override
 	protected boolean tableVisible(int table) {
-		return !(table == CommandsConstants.TABLE_CAS
-				|| (table == CommandsConstants.TABLE_3D && !app.areCommands3DEnabled())
-				|| table == CommandsConstants.TABLE_ENGLISH);
+		return super.tableVisible(table)
+				|| (table == CommandsConstants.TABLE_3D && app.areCommands3DEnabled());
 	}
 
 	// ///////////////////////////////
@@ -126,7 +125,7 @@ public abstract class App3DCompanion extends AppCompanion {
 			ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		Settings settings = app.getSettings();
-		String name = ((GeoElement) plane).getLabelSimple();
+		String name = plane.getLabelSimple();
 		EuclidianSettings evSettings = settings.getEuclidianForPlane(name);
 		if (evSettings == null) {
 			evSettings = new EuclidianSettingsForPlane(app);
@@ -173,7 +172,7 @@ public abstract class App3DCompanion extends AppCompanion {
 			EuclidianViewForPlaneCompanion vfpc) {
 		euclidianViewForPlaneCompanionList.remove(vfpc);
 		app.getSettings().removeEuclidianSettingsForPlane(
-				((GeoElement) vfpc.getPlane()).getLabelSimple());
+				vfpc.getPlane().getLabelSimple());
 	}
 
 	/**
