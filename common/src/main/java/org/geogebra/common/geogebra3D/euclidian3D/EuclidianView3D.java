@@ -4758,6 +4758,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setAREnabled(boolean isAREnabled) {
 	    mIsAREnabled = isAREnabled;
+	    reset();
     }
 
     public boolean isAREnabled() {
