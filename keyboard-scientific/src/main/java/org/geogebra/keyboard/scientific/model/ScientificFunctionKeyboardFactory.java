@@ -15,7 +15,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
@@ -40,7 +39,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addTranslateInputCommandButton(row, buttonFactory, "atan", "atan", 1.0f);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputCommandButton(row, buttonFactory, "\u207FP\u1D63", "nPr", 1.0f);
-        addInputCommandButton(row, buttonFactory, "\u207FC\u1D63", "BinomialCoefficient", 1.0f);
+        addInputCommandButton(row, buttonFactory, "\u207FC\u1D63", "nCr", 1.0f);
         addInputButton(row, buttonFactory, "!");
 
         row = functionKeyboard.nextRow(6.2f);
@@ -73,8 +72,8 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
                 if (primaryAction == ActionType.INPUT_TRANSLATE_MENU
                         || primaryAction == ActionType.INPUT_TRANSLATE_COMMAND
                         || primaryAction == ActionType.INPUT
-                        || (primaryAction == ActionType.CUSTOM && button.getPrimaryActionName()
-                        == Action.RETURN_ENTER.name())) {
+                        || (primaryAction == ActionType.CUSTOM &&
+                            button.getPrimaryActionName().equals(Action.RETURN_ENTER.name()))) {
                     button.addAction(Action.SWITCH_TO_123.toString(), ActionType.CUSTOM);
                 }
             }

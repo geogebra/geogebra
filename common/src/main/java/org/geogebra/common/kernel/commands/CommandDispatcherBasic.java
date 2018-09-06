@@ -235,6 +235,7 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 
 		case Binomial:
 		case BinomialCoefficient:
+		case nCr:
 			return new CmdBinomial(kernel);
 
 		case Mod:

@@ -608,6 +608,7 @@ public abstract class CommandDispatcher {
 
 			case Binomial:
 			case BinomialCoefficient:
+			case nCr:
 
 			case Mod:
 			case Div:
