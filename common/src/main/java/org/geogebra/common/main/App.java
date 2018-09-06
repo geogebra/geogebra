@@ -748,7 +748,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())
 					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
-				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
+				if (comm.isAlias()) {
 					putInTranslateCommandTable(comm, null);
 				}
 				continue;
@@ -791,7 +791,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
 					Commands.englishToInternal(comm).name());
 		}
-		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
+		if (comm.isAlias()) {
 			return;
 		}
 
@@ -5192,6 +5192,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public void forceEnglishCommands() {
 		getLocalization().forceEnglishCommands();
+		StringTemplate.editorTemplate.setLocalizeCmds(false);
+		StringTemplate.editorTemplate.setPrintMethodsWithParenthesis(true);
 	}
 
 	/**

@@ -2081,7 +2081,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(psTricks);
 				break;
 			default:
-				if (tpl.isPrintLocalizedCommandNames()) {
+				if (tpl.isPrintLocalizedCommandNames() || loc.areEnglishCommandsForced()) {
 					sb.append(loc.getFunction(key));
 				} else {
 					sb.append(key);
