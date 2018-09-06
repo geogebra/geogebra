@@ -102,7 +102,7 @@ public class Parser implements ParserInterface{
       GeoGebraCASParsing = false;
       ExternalCASParsing = false;
       GiacParsing = false;
-      enableVectors = kernel.getAlgebraProcessor().enableVectors();
+      enableVectors = kernel.getAlgebraProcessor().enableStructures();
       undecided.clear();
     }
 
@@ -205,7 +205,9 @@ public class Parser implements ParserInterface{
     undecided.clear();
    }
 
-   private ExpressionValue ifVectorsEnabled(ExpressionValue def){     return enableVectors ? def : new MyDouble(kernel,Double.NaN); }
+   private ExpressionValue ifVectorsEnabled(ExpressionValue def){
+     return enableVectors ? def : new MyDouble(kernel,Double.NaN);
+ }
 
 	private MyDouble parseDouble(Token c, boolean percent) {
 		String image = c.image.replaceFirst("e", "E");
@@ -428,14 +430,20 @@ ValidExpression buildValidExpression() :
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
    |
         LOOKAHEAD(2147483647)
-        (          (ve = expressionOrEquation())        {
-          if(ve instanceof Equation)          {			ve = ((Equation)ve).equationOrAssignment();
-          }        })
+        (
+          (ve = expressionOrEquation())
+        {
+          if(ve instanceof Equation)
+          {
+			ve = ((Equation)ve).equationOrAssignment();
+          }
+        })
         (conditions = conditions()
         {
 			ve = new ExpressionNode(kernel, conditions, Operation.IF_SHORT, ve);
         })?
-        
+        
+
      |
         LOOKAHEAD(2147483647)
       ve = cartesianvector_special()
@@ -667,12 +675,15 @@ ExpressionNode conditions():
     ExpressionNode condition = null;
     ExpressionNode conditions = null;
 }
-{
-(  <COMMA> (condition = expressionnode())
+{
+
+(
+  <COMMA> (condition = expressionnode())
           {
             conditions = conditions == null ? condition : new ExpressionNode(kernel, conditions, Operation.AND, condition);
           })+
-          {			return conditions;
+          {
+			return conditions;
           }
 }
 /**
@@ -880,8 +891,10 @@ ValidExpression expressionOrEquation():
       	)?
       )?
   {
-    if(rrhs!=null)    {
-      return new MyVecNode(kernel, new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs)).wrap();    }
+    if(rrhs!=null)
+    {
+      return new MyVecNode(kernel, new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs)).wrap();
+    }
 
     return  rhs == null ? en : new Equation(kernel, en, rhs);
   }
@@ -1052,14 +1065,21 @@ ExpressionValue plusminusnode():
                 ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
             } else if (x.kind == PLUSMINUS){
             	ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
-            }            else {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
+            }
+            else {
+              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )
+              {
+                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
 							((ExpressionNode) ret).getRight(), Operation.MINUS,
 							f));
               }
-              else              {
-                 ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);              }
+              else
+              {
+                 ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);
+              }
         	}
-      }
+      }
+
     )*
     {
       //ret.simplifyLeafs();
@@ -1444,7 +1464,8 @@ ExpressionValue list():
 }
 {
    "{"
- (   (
+ (
+   (
      // empty list
        "}"
       {
@@ -1595,8 +1616,11 @@ ExpressionValue myDouble():
 |
     (c = <DEGREE>)
     {  // constant for degree to radians
-    if(c.image.length() ==3)    {		GeoElement geo = kernel.lookupLabel(c.image);
-		if(geo != null)	{			return geo;
+    if(c.image.length() ==3)
+    {
+		GeoElement geo = kernel.lookupLabel(c.image);
+		if(geo != null)	{
+			return geo;
 		}
     }
         d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
@@ -1775,7 +1799,8 @@ ExpressionValue tuple():
 		)? ")"
     {
 
-      if(y == null)      {
+      if(y == null)
+      {
 
          if(GiacParsing)
         {
@@ -1785,11 +1810,17 @@ ExpressionValue tuple():
         {
           ((ExpressionNode)x).setBrackets(true);
         }
-        return x;      }
-      else if(z == null) {       	       MyVecNode ret = new MyVecNode(kernel, x, y);
+        return x;
+      }
+      else if(z == null) {       
+	       MyVecNode ret = new MyVecNode(kernel, x, y);
 	       if(sep.kind == POLAR_SEPARATOR){
-	             ret.setPolarCoords(x,y);	       }
-	       return ifVectorsEnabled(ret);      }      else {                 MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
+	             ret.setPolarCoords(x,y);
+	       }
+	       return ifVectorsEnabled(ret);
+      }
+      else {       
+          MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
           if(sep.kind == POLAR_SEPARATOR){
              ret.setSphericalPolarCoords(x,y,z);
            }

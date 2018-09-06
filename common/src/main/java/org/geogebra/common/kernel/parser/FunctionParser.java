@@ -97,7 +97,7 @@ public class FunctionParser {
 				}
 				int index = funcName.length() - 1;
 				while (index >= 0 && cimage.charAt(index) == '\''
-						&& kernel.getAlgebraProcessor().enableVectors()) {
+						&& kernel.getAlgebraProcessor().enableStructures()) {
 					order++;
 					index--;
 				}

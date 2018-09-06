@@ -153,7 +153,7 @@ public class AlgebraProcessor {
 	private MyStringBuffer zBracket = null;
 	private MyStringBuffer closeBracket = null;
 
-	private boolean vectorsEnabled = true;
+	private boolean structuresEnabled = true;
 	private MathMLParser mathmlParserGGB;
 	private MathMLParser mathmlParserLaTeX;
 
@@ -2018,6 +2018,10 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
+		if (!enableStructures()) {
+			throw new MyError(loc, "InvalidInput");
+		}
+
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
 		if (varName.equals(Unicode.theta_STRING)
 				&& !kernel.getConstruction()
@@ -2366,6 +2370,9 @@ public class AlgebraProcessor {
 	 * @return GeoFunctionNVar
 	 */
 	public GeoElement[] processFunctionNVar(FunctionNVar fun, EvalInfo info) {
+		if (!enableStructures()) {
+			throw new MyError(loc, "InvalidInput");
+		}
 		if (!fun.initFunction(info.isSimplifyingIntegers())) {
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
@@ -2424,6 +2431,9 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			EvalInfo info) throws MyError {
+		if (!enableStructures()) {
+			throw new MyError(loc, "InvalidInput");
+		}
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -3402,16 +3412,23 @@ public class AlgebraProcessor {
 	 *            whether commands should be enabled
 	 */
 	public void setCommandsEnabled(boolean enable) {
-		this.vectorsEnabled = enable;
+		this.structuresEnabled = enable;
 		cmdDispatcher.setEnabled(enable);
 
 	}
 
 	/**
-	 * @return whether vector parsing is enabled
+	 * @return whether structure parsing is enabled
 	 */
-	public boolean enableVectors() {
-		return vectorsEnabled;
+	public boolean enableStructures() {
+		return structuresEnabled;
+	}
+
+	/**
+	 * set whether structure parsing is enabled
+	 */
+	public void setEnableStructures(boolean enableStructures) {
+		this.structuresEnabled = enableStructures;
 	}
 
 	/**
