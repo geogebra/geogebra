@@ -258,6 +258,7 @@ public class SaveDialogMow extends DialogBoxW
 	@Override
 	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
 		showIfNeeded(runnable, !app.isSaved(), null);
+		getCaption().setText(app.getLocalization().getMenu("DoYouWantToSaveYourChanges"));
 	}
 
 	/**
