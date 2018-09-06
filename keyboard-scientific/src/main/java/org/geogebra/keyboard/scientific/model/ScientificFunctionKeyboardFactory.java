@@ -31,7 +31,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addTranslateInputCommandButton(row, buttonFactory, "mean", "mean", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "stdev", "stdev", 1.0f);
-        addTranslateInputCommandButton(row, buttonFactory, "stdevp", "SampleSD", 1.0f);
+        addTranslateInputCommandButton(row, buttonFactory, "stdevp", "stdevp", 1.0f);
 
         row = functionKeyboard.nextRow(6.2f);
         addTranslateInputCommandButton(row, buttonFactory, "asin", "asin", 1.0f);
