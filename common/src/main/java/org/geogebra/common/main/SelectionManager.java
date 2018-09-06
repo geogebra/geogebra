@@ -162,7 +162,6 @@ public class SelectionManager {
 	 *            call (or not) updateSelection()
 	 */
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
-
 		int size = selectedGeos.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
@@ -797,6 +796,8 @@ public class SelectionManager {
 		TreeSet<GeoElement> copy = new TreeSet<>(tree);
 
 		Iterator<GeoElement> it = copy.iterator();
+		int viewId = ev.getViewID();
+		boolean isView3D = App.isView3D(viewId);
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 
@@ -805,8 +806,10 @@ public class SelectionManager {
 			if (!geo.isSelectionAllowed(ev)) {
 				remove = true;
 			} else {
+				boolean visibleInView = (isView3D && geo.isVisibleInView3D())
+						|| geo.isVisibleInView(viewId);
 				remove = !avShowing && (!geo.isEuclidianVisible()
-						|| !geo.isVisibleInView(ev.getViewID()));
+						|| !visibleInView);
 			}
 
 			if (remove) {
@@ -1232,3 +1235,4 @@ public class SelectionManager {
 		}
 	}
 }
+

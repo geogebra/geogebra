@@ -71,7 +71,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	/**
 	 * Update ctrl, shift flags
-	 * 
+	 *
 	 * @param ev
 	 *            key event
 	 */
@@ -81,7 +81,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	/**
 	 * Update ctrl, shift flags
-	 * 
+	 *
 	 * @param control
 	 *            if control is down.
 	 * @param shift
@@ -140,7 +140,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
 																	// pressed
-						
+
 						if (!appfocused) {
 							event.cancel();
 							setHandlingTab(true);
@@ -184,7 +184,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	/**
 	 * Focus article or dummy (if article is null)
-	 * 
+	 *
 	 * @param nextArticle
 	 *            article to be focused
 	 */
@@ -435,7 +435,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	/**
 	 * Handles key event by disassembling it into primitive types and handling
 	 * it using the mothod from common
-	 * 
+	 *
 	 * @param event
 	 *            event
 	 * @return whether event was consumed
@@ -476,7 +476,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	/**
-	 * 
+	 *
 	 * @param event
 	 *            native event
 	 * @return whether it was handled
@@ -501,8 +501,11 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			if (app.getKernel().getConstruction().isEmpty()) {
 				event.preventDefault();
 				app.getAccessibilityManager().focusMenu();
+				return;
 			}
-			return;
+
+			app.getAccessibilityManager().focusNext(null);
+
 		}
 
 		setDownKeys(event);
@@ -602,7 +605,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		if (am.isCurrentTabExitGeos(isShiftDown)) {
 			return true;
 		}
-		
+
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
 			return true;
@@ -784,7 +787,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	/**
-	 * 
+	 *
 	 * @param e
 	 *            The KeyEvent
 	 * @return true if unwanted key combination has pressed.

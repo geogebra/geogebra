@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of AccessibilityManager.
- * 
+ *
  * @author laszlo
  *
  */
@@ -30,7 +30,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param app
 	 *            The application.
 	 */
@@ -42,7 +42,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusNext(Object source) {
-		if (source instanceof LatexTreeItemController) {
+		if (source == null) {
+			focusFirstElement();
+		} else if (source instanceof LatexTreeItemController) {
 			focusMenu();
 		} else if (source instanceof ZoomPanel) {
 			if (!focusFirstGeo()) {
@@ -54,7 +56,18 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			focusInputAsNext();
 		}
 	}
-	
+
+	private void focusFirstElement() {
+		if (app.isUnbundled()) {
+			focusMenu();
+		} else {
+			if (app.is3DViewEnabled()) {
+				setTabOverGeos(true);
+				focusFirstGeo();
+			}
+		}
+	}
+
 	@Override
 	public boolean focusInput(boolean force) {
 		if (gm.getUnbundledToolbar() != null) {
@@ -178,8 +191,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (exitOnFirst || exitOnLast) {
-			selection.clearSelectedGeos();
-			return true;
+			// selection.clearSelectedGeos();
+			// return true;
 		}
 		return false;
 	}
