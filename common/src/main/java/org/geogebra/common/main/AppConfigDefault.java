@@ -75,7 +75,7 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public boolean shouldKeepRatioEuclidean() {
+	public boolean shouldKeepRatioEuclidian() {
 		return false;
 	}
 }

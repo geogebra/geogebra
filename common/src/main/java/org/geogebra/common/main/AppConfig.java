@@ -28,6 +28,6 @@ public interface AppConfig {
 
 	public boolean allowsSuggestions();
 
-	boolean shouldKeepRatioEuclidean();
+	boolean shouldKeepRatioEuclidian();
 
 }

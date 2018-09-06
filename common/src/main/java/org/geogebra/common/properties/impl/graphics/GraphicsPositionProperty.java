@@ -32,7 +32,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
             new Runnable() {
                 @Override
                 public void run() {
-                    boolean keepRatio = app.getConfig().shouldKeepRatioEuclidean();
+                    boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
                     euclidianView.setViewShowAllObjects(true, keepRatio);
                 }
             }

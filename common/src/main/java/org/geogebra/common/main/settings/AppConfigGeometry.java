@@ -82,7 +82,7 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean shouldKeepRatioEuclidean() {
+	public boolean shouldKeepRatioEuclidian() {
 		return true;
 	}
 }
