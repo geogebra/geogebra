@@ -189,7 +189,7 @@ public class SaveDialogMow extends DialogBoxW
 
 	@Override
 	public void setLabels() {
-		getCaption().setText(app.getLocalization().getMenu("Save"));
+		defaultSaveCaption();
 		titleLbl.setText(app.getLocalization().getMenu("Title"));
 		saveBtn.setLabel(app.getLocalization().getMenu("Save"));
 		cancelBtn.setLabel(app.getLocalization().getMenu("Cancel"));
@@ -197,8 +197,13 @@ public class SaveDialogMow extends DialogBoxW
 				"placeholder", app.getLocalization().getMenu("Untitled"));
 	}
 
+	private void defaultSaveCaption() {
+		getCaption().setText(app.getLocalization().getMenu("Save"));
+	}
+
 	@Override
 	public void show() {
+		defaultSaveCaption();
 		super.show();
 		center();
 		this.setTitle();
