@@ -227,7 +227,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	private String wrapWord(String word, ArrayList<String> wrappedRow, int rowLength) {
 		String currWord = "";
 		char nextChar = word.charAt(0);
-		for (int i = 0; i < word.length(); i++) {
+		for (int i = 1; i < word.length(); i++) {
 			currWord += nextChar;
 			nextChar = word.charAt(i);
 			if (getLength(currWord + nextChar) > rowLength) {
