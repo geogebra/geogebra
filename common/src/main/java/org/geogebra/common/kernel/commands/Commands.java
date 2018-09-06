@@ -1289,6 +1289,8 @@ public enum Commands implements CommandsConstants,
 			return QuadricSide;
 		case DelaunayTriangulation:
 			return DelauneyTriangulation;
+		case stdevp:
+			return SampleSD;
 		default:
 			break;
 		}
