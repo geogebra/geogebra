@@ -1196,7 +1196,8 @@ public enum Commands implements CommandsConstants,
 	// TABLE_SIMPLE_NAME
 	// **********************************************************************
 
-	nCr(TABLE_SIMPLE_NAME);
+	nCr(TABLE_SIMPLE_NAME),
+	mean(TABLE_SIMPLE_NAME);
 
 	private int table;
 
@@ -1325,6 +1326,9 @@ public enum Commands implements CommandsConstants,
 		switch (command) {
 			case Binomial:
 				simpleNamedCommand = nCr;
+				break;
+			case Mean:
+				simpleNamedCommand = mean;
 				break;
 			default:
 				simpleNamedCommand = null;
