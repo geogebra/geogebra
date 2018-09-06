@@ -1746,6 +1746,13 @@ public class CommandsTest extends AlgebraTest {
 		tpm("x+(pm2)", "{x + 2, x - 2}");
 		tpm("xpm2", "{x + 2, x - 2}");
 		tpm("xpm(pm2)", "{x + 2, x + 2}");
+		t("mul=4", "4");
+		tpm("prod=pm mul 3", "{12, -12}");
+		Assert.assertEquals("(" + Unicode.PLUSMINUS + "mul) 3",
+				get("prod").getDefinition(StringTemplate.editorTemplate));
+		tpm("prod2=pm sqrt 4", "{2, -2}");
+		Assert.assertEquals(Unicode.PLUSMINUS + "sqrt(4)",
+				get("prod2").getDefinition(StringTemplate.editorTemplate));
 	}
 
 	@Test

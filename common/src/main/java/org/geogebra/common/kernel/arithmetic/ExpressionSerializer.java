@@ -947,8 +947,12 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 			break;
 		case PLUSMINUS:
+			if (right instanceof MyNumberPair) {
+				sb.append(Unicode.PLUSMINUS);
+				tpl.append(sb, leftStr, left, Operation.PLUSMINUS);
+				break;
+			}
 			tpl.append(sb, leftStr, left, Operation.PLUSMINUS);
-
 			sb.append(Unicode.PLUSMINUS);
 			if (right.isLeaf()
 					|| (ExpressionNode.opID(right) >= Operation.VECTORPRODUCT.ordinal())) {

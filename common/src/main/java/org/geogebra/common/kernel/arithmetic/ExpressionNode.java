@@ -3362,8 +3362,7 @@ public class ExpressionNode extends ValidExpression
 							right);
 				}
 			}
-			// x * sin x in GGB is function applied on the right if "sin" is not
-			// a variable
+			// sin^2 x
 		} else if (left instanceof ExpressionNode
 				&& ((ExpressionNode) left).getOperation() == Operation.POWER
 				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
@@ -3383,9 +3382,11 @@ public class ExpressionNode extends ValidExpression
 						.power(exponent);
 
 			}
+			// x * sin x in GGB is function applied on the right if "sin" is not
+			// a variable
 			// a * b * f -- check if b*f needs special handling
-		} else if (left instanceof ExpressionNode && ((ExpressionNode) left)
-				.getOperation() == Operation.MULTIPLY) {
+		} else if (left instanceof ExpressionNode && (((ExpressionNode) left)
+				.getOperation() == Operation.MULTIPLY)) {
 			ExpressionValue bf = multiplySpecial(
 					((ExpressionNode) left).getRight(), right, kernel,
 					giacParsing);
@@ -3393,6 +3394,15 @@ public class ExpressionNode extends ValidExpression
 					: new ExpressionNode(kernel,
 							((ExpressionNode) left).getLeft(),
 							Operation.MULTIPLY, bf);
+			// +-b * f is parsed as (b +- ()) *f
+		} else if (left instanceof ExpressionNode
+				&& (((ExpressionNode) left).getOperation() == Operation.PLUSMINUS)
+				&& (((ExpressionNode) left).getRight() instanceof MyNumberPair)) {
+			ExpressionValue bf = multiplySpecial(((ExpressionNode) left).getLeft(), right, kernel,
+					giacParsing);
+			return bf == null ? null
+					: new ExpressionNode(kernel, bf, Operation.PLUSMINUS,
+							((ExpressionNode) left).getRight());
 		}
 
 		if (giacParsing) {

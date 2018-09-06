@@ -79,6 +79,13 @@ public class SerializationTest {
 	}
 
 	@Test
+	public void testLaTeX() {
+		// TODO no space before (,)
+		tex("Mean(1,2)", "Mean \\left(1, 2 \\right)");
+		tex("6*(4+3)", "6 \\;  \\left(4 + 3 \\right)");
+	}
+
+	@Test
 	public void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
@@ -99,23 +106,33 @@ public class SerializationTest {
 	}
 
 	private static void tcl(String string, String string2) {
-		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-		GeoElementND[] result = ap.processAlgebraCommand(string, false);
-		Assert.assertTrue(result[0] instanceof GeoFunction);
+		GeoElementND geo = eval(string);
+		Assert.assertTrue(geo instanceof GeoFunction);
 		Assert.assertEquals(
-				((GeoFunction) result[0]).conditionalLaTeX(false,
+				((GeoFunction) geo).conditionalLaTeX(false,
 						StringTemplate.latexTemplate),
 				string2.replace("<=", Unicode.LESS_EQUAL + ""));
 	}
 
 	private static void tsc(String string, String string2) {
+		GeoElementND geo = eval(string);
+		Assert.assertEquals(string2,
+				geo.toValueString(StringTemplate.screenReader).trim()
+						.replaceAll(" +", " "));
+	}
+
+	private static void tex(String string, String string2) {
+		GeoElementND geo = eval(string);
+		Assert.assertEquals(string2,
+				geo.getDefinition(StringTemplate.latexTemplate));
+	}
+
+	private static GeoElementND eval(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, new TestErrorHandler(),
 				new EvalInfo(true).withFractions(true), null);
-		Assert.assertEquals(string2,
-				result[0].toValueString(StringTemplate.screenReader).trim()
-						.replaceAll(" +", " "));
+		return result[0];
 	}
 
 	@Test
