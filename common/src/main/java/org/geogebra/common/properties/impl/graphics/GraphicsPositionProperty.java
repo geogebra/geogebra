@@ -2,11 +2,11 @@ package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
 
-public class GraphicsPositionProperty extends AbstractEnumerableProperty
+public class GraphicsPositionProperty extends AbstractProperty
         implements ActionsEnumerableProperty {
 
     private EuclidianView euclidianView;
@@ -39,7 +39,7 @@ public class GraphicsPositionProperty extends AbstractEnumerableProperty
     public GraphicsPositionProperty(Localization localization, EuclidianView euclidianView) {
         super(localization, "GridPosition");
         this.euclidianView = euclidianView;
-        setValuesAndLocalize(values);
+        localizeValues();
     }
 
     @Override
@@ -57,14 +57,10 @@ public class GraphicsPositionProperty extends AbstractEnumerableProperty
         return values;
     }
 
-    @Override
-    public int getIndex() {
-        // Method stub
-        return 0;
-    }
-
-    @Override
-    protected void setValueSafe(String value, int index) {
-        // Method stub
+    private void localizeValues() {
+        Localization localization = getLocalization();
+        for (int i = 0; i < values.length; i++) {
+            values[i] = localization.getMenu(values[i]);
+        }
     }
 }
