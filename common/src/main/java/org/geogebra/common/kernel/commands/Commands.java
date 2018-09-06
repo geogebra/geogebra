@@ -1192,12 +1192,13 @@ public enum Commands implements CommandsConstants,
 
 	ShowSteps(TABLE_ALGEBRA),
 
-	// **********************************************************************
+	// =============================================================
 	// TABLE_SIMPLE_NAME
-	// **********************************************************************
+	// =============================================================
 
 	nCr(TABLE_SIMPLE_NAME),
-	mean(TABLE_SIMPLE_NAME);
+	mean(TABLE_SIMPLE_NAME),
+	mad(TABLE_SIMPLE_NAME);
 
 	private int table;
 
@@ -1337,6 +1338,9 @@ public enum Commands implements CommandsConstants,
 				break;
 			case SampleSD:
 				simpleNamedCommand = stdevp;
+				break;
+			case MAD:
+				simpleNamedCommand = mad;
 				break;
 			default:
 				simpleNamedCommand = null;
