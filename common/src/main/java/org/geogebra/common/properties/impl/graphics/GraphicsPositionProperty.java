@@ -1,14 +1,16 @@
 package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
 
 public class GraphicsPositionProperty implements ActionsEnumerableProperty {
 
-	private Localization localization;
+    private Localization localization;
     private EuclidianView euclidianView;
+    private App app;
 
     private PropertyResource[] icons = {
             PropertyResource.ICON_STANDARD_VIEW,
@@ -30,14 +32,16 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
             new Runnable() {
                 @Override
                 public void run() {
-                    euclidianView.setViewShowAllObjects(true, false);
+                    boolean keepRatio = app.getConfig().shouldKeepRatioEuclidean();
+                    euclidianView.setViewShowAllObjects(true, keepRatio);
                 }
             }
     };
 
-    public GraphicsPositionProperty(Localization localization, EuclidianView euclidianView) {
-		this.localization = localization;
-        this.euclidianView = euclidianView;
+    public GraphicsPositionProperty(App app) {
+        this.app = app;
+        this.localization = app.getLocalization();
+        this.euclidianView = app.getActiveEuclidianView();
         localizeValues();
     }
 
@@ -62,11 +66,11 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         }
     }
 
-	public String getName() {
-		return null; // no name needed
-	}
+    public String getName() {
+        return null; // no name needed
+    }
 
-	public boolean isEnabled() {
-		return true;
-	}
+    public boolean isEnabled() {
+        return true;
+    }
 }
