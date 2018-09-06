@@ -196,7 +196,7 @@ public class ExerciseGenerator {
 			if (c == a) {
 				c++;
 			}
-			return new Exercise("(" + a + " x)/(x + " + b + " ) = " + c, b * c / (a - c));
+			return new Exercise("(" + a + " x)/(x + " + b + ") = " + c, b * c / (a - c));
 
 		case 23:
 			a = randIntNZ(1, 9);

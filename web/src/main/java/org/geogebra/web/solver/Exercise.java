@@ -7,6 +7,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import org.geogebra.common.awt.GColor;
@@ -18,7 +19,9 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.WebSimple;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -55,6 +58,18 @@ public class Exercise implements EntryPoint {
 
 		rootPanel = RootPanel.get(id);
 
+		StandardButton exerciseButton = new StandardButton("Generate new exercise!", app);
+		exerciseButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick(Widget source) {
+				String s = ExerciseGenerator.getExercise(3).equation;
+				newExercise(s);
+				onCanvasChanged("", s);
+			}
+		});
+
+		rootPanel.add(exerciseButton);
+
 		dataPanel = new VerticalPanel();
 		rootPanel.add(dataPanel);
 
@@ -69,7 +84,7 @@ public class Exercise implements EntryPoint {
 		StepNode expression = StepNode.getStepTree(lastEquation, app.getKernel().getParser());
 		String currentStep = expression.toLaTeXString(app.getLocalization());
 
-		dataPanel.add(new HTML("<h1>Current equation: </h1>"));
+		dataPanel.add(new HTML("<h1>Current equation: " + lastEquation + "</h1>"));
 		Canvas c1 = Canvas.createIfSupported();
 		DrawEquationW.paintOnCanvas(app, currentStep, c1, 40, GColor.MAGENTA, true);
 		dataPanel.add(c1);
@@ -84,9 +99,6 @@ public class Exercise implements EntryPoint {
 		Canvas c2 = Canvas.createIfSupported();
 		DrawEquationW.paintOnCanvas(app, nextStep, c2, 40, GColor.MAGENTA, true);
 		dataPanel.add(c2);
-
-		dataPanel.add(new HTML("<h1>A random exercise: "
-				+ ExerciseGenerator.getExercise(4).equation + "</h1>"));
 	}
 
 	private String getNextStep(SolutionStep ss) {
@@ -94,10 +106,12 @@ public class Exercise implements EntryPoint {
 			return ss.getDefault(app.getLocalization()).get(0).latex;
 		}
 
-		for (SolutionStep step : ss.getSubsteps()) {
-			String temp = getNextStep(step);
-			if (temp != null) {
-				return temp;
+		if (ss.getSubsteps() != null) {
+			for (SolutionStep step : ss.getSubsteps()) {
+				String temp = getNextStep(step);
+				if (temp != null) {
+					return temp;
+				}
 			}
 		}
 
@@ -112,6 +126,11 @@ public class Exercise implements EntryPoint {
 
 	private native void loadGM() /*-{
     	$wnd.loadGraspableMath();
+    }-*/;
+
+    private native void newExercise(String s) /*-{
+    	$wnd.canvas.model.reset();
+    	$wnd.canvas.model.createElement('derivation', { eq: s, pos: { x: 'center', y: 50 } });
     }-*/;
 
 	private native Element getContainer() /*-{
