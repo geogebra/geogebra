@@ -2281,7 +2281,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "PValue": "P",
     "PageControl": "Page Overview",
     "PairedT": "\u914d\u5bf9t",
-    "PanView": "\u62d6\u52a8\u5e73\u677f",
+    "PanView": "\u5e73\u6818\u89c6\u56fe",
     "Parabola": "\u629b\u7269\u7ebf",
     "Parabola.Help": "\u9009\u5b9a\u7126\u70b9, \u518d\u9009\u62e9\u51c6\u7ebf",
     "Parabola.Tool": "\u629b\u7269\u7ebf",
