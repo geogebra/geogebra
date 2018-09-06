@@ -125,8 +125,8 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 
 		DrawText d = (DrawText) view.getDrawableFor(geo);
 		if (d != null) {
-			int x = d.xLabel - 3;
-			int y = d.yLabel - view.getFontSize() - 3;
+			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
+			int y = d.yLabel - view.getFontSize() - EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(x, y);
 			if (create) {
 				view.setBoundingBox(d.getBoundingBox());
