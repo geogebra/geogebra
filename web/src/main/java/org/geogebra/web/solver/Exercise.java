@@ -34,6 +34,8 @@ public class Exercise implements EntryPoint {
 	private RootPanel rootPanel;
 	private VerticalPanel dataPanel;
 
+	private int previousComplexity;
+
 	@Override
 	public void onModuleLoad() {
 		WebSimple.registerSuperdevExceptionHandler();
@@ -62,8 +64,9 @@ public class Exercise implements EntryPoint {
 		exerciseButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				String s = ExerciseGenerator.getExercise(3).equation;
+				String s = ExerciseGenerator.getExercise(-1).equation;
 				newExercise(s);
+				previousComplexity = -1;
 				onCanvasChanged("", s);
 			}
 		});
@@ -91,7 +94,31 @@ public class Exercise implements EntryPoint {
 
 		SolutionBuilder sb = new SolutionBuilder();
 		((StepTransformable) expression).toSolvable().solve(new StepVariable("x"), sb);
-		dataPanel.add(new HTML("<h1>Complexity: " + sb.getSteps().getComplexity()));
+		int complexity = sb.getSteps().getComplexity();
+		dataPanel.add(new HTML("<h1>Complexity: " + complexity));
+
+		if (previousComplexity != -1) {
+			String text;
+			GColor color;
+			if (previousComplexity < complexity) {
+				if (complexity - previousComplexity < 5) {
+					text = "\\text{OK}";
+					color = GColor.YELLOW;
+				} else {
+					text = "\\text{I don't think so}";
+					color = GColor.RED;
+				}
+			} else {
+				text = "\\text{GOOD}";
+				color = GColor.GREEN;
+			}
+
+			Canvas c3 = Canvas.createIfSupported();
+			DrawEquationW.paintOnCanvas(app, text, c3, 40, color, true);
+			dataPanel.add(c3);
+		}
+
+		previousComplexity = complexity;
 
 		String nextStep = getNextStep(sb.getSteps());
 
@@ -104,6 +131,20 @@ public class Exercise implements EntryPoint {
 	private String getNextStep(SolutionStep ss) {
 		if (ss.getType() == SolutionStepType.EQUATION) {
 			return ss.getDefault(app.getLocalization()).get(0).latex;
+		}
+
+		if (ss.getType() == SolutionStepType.GROUP_WRAPPER) {
+			if (ss.getSubsteps().get(0).getSubsteps() != null) {
+				if (ss.getSubsteps().get(0).shouldSkipSubsteps()) {
+					return getNextStep(ss.getSubsteps().get(1));
+				} else if (ss.getSubsteps().get(0).shouldSkip()) {
+					return null;
+				}
+			}
+		}
+
+		if (ss.getType() == SolutionStepType.SUBSTEP_WRAPPER) {
+			return getNextStep(ss.getSubsteps().get(2));
 		}
 
 		if (ss.getSubsteps() != null) {

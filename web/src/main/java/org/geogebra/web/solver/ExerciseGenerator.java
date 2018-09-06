@@ -50,7 +50,7 @@ public class ExerciseGenerator {
 			type = (int) randint(25, 37);
 			break;
 		default:
-			return null;
+			type = (int) randint(0, 37);
 		}
 
 		switch (type) {

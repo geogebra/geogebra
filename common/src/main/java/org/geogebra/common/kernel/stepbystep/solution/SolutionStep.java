@@ -27,12 +27,25 @@ public abstract class SolutionStep {
 		return substeps;
 	}
 
+	// TODO: I should instead think about which ones I do want to collapse....
 	private boolean shouldCollapse() {
 		return getType() != SolutionStepType.FACTOR
 				&& getType() != SolutionStepType.DETERMINE_THE_DEFINED_RANGE
 				&& getType() != SolutionStepType.FIND_UNDEFINED_POINTS
 				&& getType() != SolutionStepType.SOLVE_FOR
-				&& getType() != SolutionStepType.SIMPLIFY;
+				&& getType() != SolutionStepType.SIMPLIFY
+				&& getType() != SolutionStepType.ADD_TO_BOTH_SIDES
+				&& getType() != SolutionStepType.SUBTRACT_FROM_BOTH_SIDES;
+	}
+
+	public boolean shouldSkip() {
+		return getType() == SolutionStepType.DETERMINE_THE_DEFINED_RANGE
+				|| getType() == SolutionStepType.FIND_UNDEFINED_POINTS;
+	}
+
+	public boolean shouldSkipSubsteps() {
+		return getType() == SolutionStepType.ADD_TO_BOTH_SIDES
+				|| getType() == SolutionStepType.SUBTRACT_FROM_BOTH_SIDES;
 	}
 
 	public SolutionStep cleanupSteps() {

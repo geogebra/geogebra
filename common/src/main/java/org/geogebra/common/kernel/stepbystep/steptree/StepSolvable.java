@@ -230,6 +230,16 @@ public abstract class StepSolvable extends StepTransformable {
 
 		if (se.isNegative()) {
 			return add(se.negate(), steps, eqNum);
+		} else if (se.isSum()) {
+			StepSolvable temp = this;
+			for (StepExpression operand : (StepOperation) se) {
+				if (operand.isNegative()) {
+					temp = temp.add(operand.negate(), steps, eqNum);
+				} else {
+					temp = temp.subtract(operand, steps, eqNum);
+				}
+			}
+			return temp;
 		} else {
 			return subtract(se, steps, eqNum);
 		}
