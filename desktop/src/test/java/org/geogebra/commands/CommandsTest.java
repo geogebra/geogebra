@@ -816,11 +816,11 @@ public class CommandsTest extends AlgebraTest {
 				"((cos(v) * u), ((1 - cos(v) + cos(v)) * (2 * u)), ((-sin(v)) * u))");
 
 		t("g3=Surface[(u,v,u),u,-1,1,v,1,3]", "(u, v, u)");
-		Assert.assertEquals(" \\left(u, v, u \\right)",
+		Assert.assertEquals("\\left(u, v, u \\right)",
 				get("g3").toLaTeXString(false, StringTemplate.latexTemplate));
 
 		t("g2=Surface[(u,v),u,-1,1,v,1,3]", "(u, v)");
-		Assert.assertEquals(" \\left(u, v \\right)",
+		Assert.assertEquals("\\left(u, v \\right)",
 				get("g2").toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 

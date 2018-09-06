@@ -80,9 +80,9 @@ public class SerializationTest {
 
 	@Test
 	public void testLaTeX() {
-		// TODO no space before (,)
-		tex("Mean(1,2)", "Mean \\left(1, 2 \\right)");
-		tex("6*(4+3)", "6 \\;  \\left(4 + 3 \\right)");
+		tex("Mean(1,2)", "Mean\\left(1, 2 \\right)");
+		tex("Mean({1,2})", "Mean\\left(\\left\\{1, 2\\right\\} \\right)");
+		tex("6*(4+3)", "6 \\; \\left(4 + 3 \\right)");
 	}
 
 	@Test

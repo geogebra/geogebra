@@ -2331,7 +2331,7 @@ public class GeoGebraCasIntegrationTest {
 		f.computeOutput();
 
 		Assert.assertEquals(
-				"\\mathbf{\\int\\limits_{somevar}^{g \\left(h \\right)}f \\left(y \\right)\\,\\mathrm{d}y}",
+				"\\mathbf{\\int\\limits_{somevar}^{g\\left(h \\right)}f\\left(y \\right)\\,\\mathrm{d}y}",
 				f.getLaTeXOutput());
 	}
 
@@ -2356,7 +2356,7 @@ public class GeoGebraCasIntegrationTest {
 		f.computeOutput();
 
 		Assert.assertEquals(
-				"\\mathbf{\\sum_{y=somevar}^{g \\left(h \\right)}f \\left(y \\right)}",
+				"\\mathbf{\\sum_{y=somevar}^{g\\left(h \\right)}f\\left(y \\right)}",
 				f.getLaTeXOutput());
 	}
 
