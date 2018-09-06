@@ -1330,6 +1330,9 @@ public enum Commands implements CommandsConstants,
 			case Mean:
 				simpleNamedCommand = mean;
 				break;
+			case SD:
+				simpleNamedCommand = stdev;
+				break;
 			default:
 				simpleNamedCommand = null;
 		}
