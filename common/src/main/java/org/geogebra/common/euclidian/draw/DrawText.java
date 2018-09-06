@@ -193,6 +193,7 @@ public final class DrawText extends Drawable {
 
 		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
 			ctrl.setEditorFont(textFont);
+			ctrl.setEditorLineHeight(textFont.getSize() * 1.5);
 			ctrl.setEditorColor(geo.getObjectColor());
 		}
 

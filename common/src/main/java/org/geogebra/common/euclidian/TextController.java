@@ -80,5 +80,13 @@ public interface TextController {
 	 *            text to wrap.
 	 */
 	String wrapText(String editText);
+
+	/**
+	 * Sets the line height of the editor
+	 * 
+	 * @param d
+	 *            the new line height.
+	 */
+	void setEditorLineHeight(double d);
 }
 

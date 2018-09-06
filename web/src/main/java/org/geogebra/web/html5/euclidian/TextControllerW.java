@@ -160,6 +160,14 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	}
 
 	@Override
+	public void setEditorLineHeight(double h) {
+		if (editor == null) {
+			return;
+		}
+		editor.setLineHeight(h);
+	}
+
+	@Override
 	public String wrapText(String txt) {
 		String editText = txt.replace("&nbsp;", " ");
 		String[] rows = editText.split("\n");

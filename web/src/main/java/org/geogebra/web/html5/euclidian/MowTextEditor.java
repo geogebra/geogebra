@@ -119,7 +119,16 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 		editorFont = font;
 		getWidget().getElement().getStyle().setProperty("font",
 				((GFontW) font).getFullFontString());
+	}
 
+	/**
+	 * Sets the line height of the editor
+	 * 
+	 * @param h
+	 *            the new line height.
+	 */
+	public void setLineHeight(double h) {
+		this.getWidget().getElement().getStyle().setLineHeight(h, Unit.PX);
 	}
 
 	/**
