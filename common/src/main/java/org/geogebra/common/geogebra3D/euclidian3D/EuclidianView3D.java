@@ -4749,10 +4749,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            whether AR is active
 	 */
 	public void setARDrawing(boolean isARDrawing) {
-		mIsARDrawing = isARDrawing;
-		if (isARDrawing) {
-			getRenderer().setScaleFactor();
+		if (mIsARDrawing != isARDrawing) {
+			mIsARDrawing = isARDrawing;
+			if (isARDrawing) {
+				getRenderer().setScaleFactor();
+			}
 			updateMatrix();
+			reset();
 		}
 	}
 
@@ -4765,7 +4768,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setAREnabled(boolean isAREnabled) {
 	    mIsAREnabled = isAREnabled;
-	    reset();
     }
 
     public boolean isAREnabled() {
