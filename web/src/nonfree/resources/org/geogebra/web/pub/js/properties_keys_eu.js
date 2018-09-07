@@ -3075,7 +3075,6 @@ __GGB__keysVar["eu"].menu = {
     "ZoomOut": "Txikiagotu",
     "ZoomOut.Help": "Egin klik / ukitu Ikuspegi Grafikoa txikiagotzeko (edo erabili Saguaren Gurpila)",
     "ZoomOut.Tool": "Txikiagotu",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Onartu Ebakidurak Luzapenetan",
     "allowReflexAngle": "Onartu Islapen-angelua",
     "altText.Abs": "Balio Absolutua",

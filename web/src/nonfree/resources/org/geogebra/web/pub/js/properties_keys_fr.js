@@ -3075,7 +3075,6 @@ __GGB__keysVar["fr"].menu = {
     "ZoomOut": "R\xe9duire",
     "ZoomOut.Help": "Clic/Tape dans Graphique pour r\xe9duire (ou Molette de la souris)",
     "ZoomOut.Tool": "R\xe9duction",
-    "ZoomToFit": "Recadrer",
     "allowOutlyingIntersections": "Autoriser les points d' intersection ext\xe9rieurs",
     "allowReflexAngle": "Autoriser les angles rentrants",
     "altText.Abs": "Valeur absolue",

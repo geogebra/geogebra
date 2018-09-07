@@ -3075,7 +3075,6 @@ __GGB__keysVar["fil"].menu = {
     "ZoomOut": "I-zoom palabas",
     "ZoomOut.Help": "I-click ang Graphics View para mag zoom out (Mouse Wheel)",
     "ZoomOut.Tool": "Zoom Out",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Payagan ang Outlying Intersections",
     "allowReflexAngle": "Payagan ang mga Reflex na anggulo",
     "altText.Abs": "Absolute Value",

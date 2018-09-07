@@ -3075,7 +3075,6 @@ __GGB__keysVar["lv"].menu = {
     "ZoomOut": "T\u0101lin\u0101t",
     "ZoomOut.Help": "Uzspied uz grafisk\u0101 skata, lai samazin\u0101tu(peles riten\u012btis)",
     "ZoomOut.Tool": "Samazin\u0101t",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "At\u013caut T\u0101lus Krustpunktus",
     "allowReflexAngle": "At\u013caut Atstarojo\u0161u le\u0146\u0137i",
     "altText.Abs": "Absolute Value",

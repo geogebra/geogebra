@@ -3075,7 +3075,6 @@ __GGB__keysVar["si"].menu = {
     "ZoomOut": "\u0dc0\u0dd2\u0dc1\u0dcf\u0dbd \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "ZoomOut.Help": "Click / tap to zoom (or Mouse Wheel)",
     "ZoomOut.Tool": "\u0dc0\u0dd2\u0dc1\u0dcf\u0dbd \u0d9a\u0dbb\u0db1\u0dca\u0db1",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "\u0daf\u0dd4\u0dbb\u0dd2\u0db1\u0dca \u0d87\u0dad\u0dd2 \u0da1\u0dda\u0daf\u0db1\u0dba\u0db1\u0dca \u0d85\u0db1\u0dd4\u0db8\u0dad \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "allowReflexAngle": "\u0db4\u0dbb\u0dcf\u0dc0\u0dbb\u0dca\u0dad\u0dd2\u0dad \u0d9a\u0ddd\u0db1\u0dba \u0d85\u0db1\u0dd4\u0db8\u0dad \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "altText.Abs": "Absolute Value",

@@ -3075,7 +3075,6 @@ __GGB__keysVar["xh"].menu = {
     "ZoomOut": "Zoom out",
     "ZoomOut.Help": "Klikha kwiGraphics View ukuyenza ibencinci (iVili leMouse)",
     "ZoomOut.Tool": "Nciphisa",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Vumela  iiOutlying Intersections",
     "allowReflexAngle": "Vumela Idolo elikhuluKakhulu",
     "altText.Abs": "Absolute Value",

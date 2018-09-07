@@ -3075,7 +3075,6 @@ __GGB__keysVar["fi"].menu = {
     "ZoomOut": "Loitonna",
     "ZoomOut.Help": "Loitonna klikkaamalla (tai k\xe4yt\xe4 hiiren rullaa)",
     "ZoomOut.Tool": "Loitonna",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Salli jatkeella olevat leikkauspisteet",
     "allowReflexAngle": "Salli kupera kulma",
     "altText.Abs": "Itseisarvo",

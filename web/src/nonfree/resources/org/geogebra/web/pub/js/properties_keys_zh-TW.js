@@ -3075,7 +3075,6 @@ __GGB__keysVar["zh-TW"].menu = {
     "ZoomOut": "\u7e2e\u5c0f",
     "ZoomOut.Help": "\u6309\u4e00\u4e0b\u7e6a\u5716\u5340\u5373\u53ef\u7e2e\u5c0f\uff08\u6216\u7528\u6ed1\u9f20\u6efe\u8f2a\uff09",
     "ZoomOut.Tool": "\u7e2e\u5c0f",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "\u986f\u793a\u5ef6\u4f38\u8655\u7684\u4ea4\u9ede",
     "allowReflexAngle": "\u89d2\u5ea6\u53ef\u5927\u65bc 180 \xb0",
     "altText.Abs": "Absolute Value",

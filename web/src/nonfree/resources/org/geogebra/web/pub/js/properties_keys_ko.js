@@ -3075,7 +3075,6 @@ __GGB__keysVar["ko"].menu = {
     "ZoomOut": "\uc791\uac8c\ubcf4\uae30",
     "ZoomOut.Help": "\ucd95\uc18c\ud558\ub824\uba74 \ud074\ub9ad/\ud0ed\uc744 \ud558\uc138\uc694(\ub610\ub294 \ub9c8\uc6b0\uc2a4 \ud720 \uc870\uc791).",
     "ZoomOut.Tool": "\uc791\uac8c\ubcf4\uae30",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "\ubc94\uc704 \ubc16\uc758 \uad50\uc810 \ud5c8\uc6a9",
     "allowReflexAngle": "\uc678\uac01 \ud45c\uc2dc \uac00\ub2a5",
     "altText.Abs": "\uc808\ub313\uac12",

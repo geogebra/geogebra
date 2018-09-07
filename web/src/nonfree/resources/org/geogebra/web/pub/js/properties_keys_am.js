@@ -3075,7 +3075,6 @@ __GGB__keysVar["am"].menu = {
     "ZoomOut": "\u12a0\u1233\u1295\u1235",
     "ZoomOut.Help": "Click / tap to zoom (or Mouse Wheel)",
     "ZoomOut.Tool": "\u121b\u1233\u1290\u1235",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Allow Outlying Intersections",
     "allowReflexAngle": "Allow Reflex Angle",
     "altText.Abs": "Absolute Value",

@@ -3075,7 +3075,6 @@ __GGB__keysVar["id"].menu = {
     "ZoomOut": "Perkecil",
     "ZoomOut.Help": "Klik pada tampilan grafik untuk memerkecil (Mouse Wheel)",
     "ZoomOut.Tool": "Perkecil",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Bolehkan Perpotongan Pencilan",
     "allowReflexAngle": "Bolehkan Sudut Refleksi",
     "altText.Abs": "Absolute Value",

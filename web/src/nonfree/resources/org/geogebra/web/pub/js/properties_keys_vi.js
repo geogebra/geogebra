@@ -3075,7 +3075,6 @@ __GGB__keysVar["vi"].menu = {
     "ZoomOut": "Thu nh\u1ecf",
     "ZoomOut.Help": "Ch\u1ecdn v\u1ecb tr\xed tr\xean v\xf9ng l\xe0m vi\u1ec7c \u0111\u1ec3 thu nh\u1ecf",
     "ZoomOut.Tool": "Thu nh\u1ecf",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "l\u1ea5y giao \u0111i\u1ec3m \u1edf xa",
     "allowReflexAngle": "L\u1ea5y g\xf3c \u0111\u1ed1i x\u1ee9ng",
     "altText.Abs": "Absolute Value",

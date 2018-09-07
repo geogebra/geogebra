@@ -3075,7 +3075,6 @@ __GGB__keysVar["eo"].menu = {
     "ZoomOut": "Malzomi",
     "ZoomOut.Help": "Click / tap to zoom (or Mouse Wheel)",
     "ZoomOut.Tool": "Malzomi",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Permesi distantajn komuna\u0135ojn",
     "allowReflexAngle": "Allow Reflex Angle",
     "altText.Abs": "Absolute Value",

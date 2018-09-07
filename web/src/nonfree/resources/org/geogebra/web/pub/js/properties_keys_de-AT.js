@@ -3075,7 +3075,6 @@ __GGB__keysVar["de-AT"].menu = {
     "ZoomOut": "Verkleinern",
     "ZoomOut.Help": "Klicke / ber\xfchre den Hintergrund (oder Mausrad)",
     "ZoomOut.Tool": "Verkleinere",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Au\xdferhalb liegende Schnittpunkte zulassen",
     "allowReflexAngle": "erhabener Winkel m\xf6glich",
     "altText.Abs": "Absoluter Wert",

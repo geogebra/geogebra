@@ -3075,7 +3075,6 @@ __GGB__keysVar["nb"].menu = {
     "ZoomOut": "Forminsk",
     "ZoomOut.Help": "Klikk eller trykk for \xe5 zoome (eller bruk musehjulet)",
     "ZoomOut.Tool": "Forminsk",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Tillat skj\xe6ringer i forlengelsene",
     "allowReflexAngle": "Tillat konvekse vinkler",
     "altText.Abs": "Absoluttverdi",

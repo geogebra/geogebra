@@ -3075,7 +3075,6 @@ __GGB__keysVar["et"].menu = {
     "ZoomOut": "V\xe4henda",
     "ZoomOut.Help": "Kl\xf5psake graafikavaatel (hiire kerimisnupp)",
     "ZoomOut.Tool": "V\xe4henda",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Luba v\xe4ljaspool asuvaid l\xf5ikumisi",
     "allowReflexAngle": "Luba \xfclin\xfcrinurka",
     "altText.Abs": "Absolute Value",

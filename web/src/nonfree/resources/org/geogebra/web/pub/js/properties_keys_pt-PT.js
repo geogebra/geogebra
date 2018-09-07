@@ -3075,7 +3075,6 @@ __GGB__keysVar["pt-PT"].menu = {
     "ZoomOut": "Reduzir",
     "ZoomOut.Help": "Clique na Folha Gr\xe1fica ou use a \"roda\" do Rato",
     "ZoomOut.Tool": "Reduzir",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Permitir interse\xe7\xf5es",
     "allowReflexAngle": "Permitir \xc2ngulos Reentrantes",
     "altText.Abs": "Valor Absoluto",

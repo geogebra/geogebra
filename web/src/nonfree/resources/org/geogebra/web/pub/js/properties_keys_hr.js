@@ -3075,7 +3075,6 @@ __GGB__keysVar["hr"].menu = {
     "ZoomOut": "Smanji",
     "ZoomOut.Help": "Kliknite / dirnite za zumiranje (ili okre\u0107ite kota\u010di\u0107 mi\u0161a)",
     "ZoomOut.Tool": "Smanjenje",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Sjeci\u0161te u produ\u017eetku",
     "allowReflexAngle": "Dozvoli izbo\u010deni kut",
     "altText.Abs": "Apsolutna vrijednost",

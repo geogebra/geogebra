@@ -3075,7 +3075,6 @@ __GGB__keysVar["gl"].menu = {
     "ZoomOut": "Afastar",
     "ZoomOut.Help": "Premer na Vista gr\xe1fica para reducila [roda do rato]",
     "ZoomOut.Tool": "Afastar",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Permitir intersecci\xf3ns nas prolongaci\xf3ns",
     "allowReflexAngle": "Permitir \xe1ngulos c\xf3ncavos",
     "altText.Abs": "Absolute Value",

@@ -3075,7 +3075,6 @@ __GGB__keysVar["tr"].menu = {
     "ZoomOut": "Uzakla\u015ft\u0131r",
     "ZoomOut.Help": "Uzakla\u015ft\u0131rmak i\xe7in t\u0131klay\u0131n / dokunun (veya Fare Tekerle\u011fi)",
     "ZoomOut.Tool": "Uzakla\u015ft\u0131r",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Merkezden uzak kesi\u015fime izin ver",
     "allowReflexAngle": "Yans\u0131ma A\xe7\u0131s\u0131na izin ver",
     "altText.Abs": "Mutlak De\u011fer",

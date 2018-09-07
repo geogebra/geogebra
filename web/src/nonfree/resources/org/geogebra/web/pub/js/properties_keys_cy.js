@@ -3075,7 +3075,6 @@ __GGB__keysVar["cy"].menu = {
     "ZoomOut": "Chwyddo allan",
     "ZoomOut.Help": "Clicio yn y wedd graffeg i chwyddo allan (olwyn y lygoden)",
     "ZoomOut.Tool": "Chwyddo allan",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Caniat\xe1u croestoriadau allanol",
     "allowReflexAngle": "Caniat\xe1u ongl atblyg",
     "altText.Abs": "Absolute Value",

@@ -3075,7 +3075,6 @@ __GGB__keysVar["is"].menu = {
     "ZoomOut": "\xdeysja \xfat",
     "ZoomOut.Help": "Smelli\xf0 \xe1 teiknibor\xf0 til a\xf0 \xfeysja \xfat (m\xfasarhj\xf3l)",
     "ZoomOut.Tool": "\xdeysja \xfat",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Leyfa skur\xf0punkta \xe1 framlengingum",
     "allowReflexAngle": "Leyfa fyllihorn",
     "altText.Abs": "Algildi (t\xf6lugildi)",

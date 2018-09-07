@@ -3075,7 +3075,6 @@ __GGB__keysVar["da"].menu = {
     "ZoomOut": "Formindsk",
     "ZoomOut.Help": "Klik p\xe5 tegnefladen for at zoome ud (musens hjul)",
     "ZoomOut.Tool": "Formindsk",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "tillad fjerntliggende sk\xe6ringer",
     "allowReflexAngle": "tillad spejlingsvinkel",
     "altText.Abs": "Numerisk V\xe6rdi",

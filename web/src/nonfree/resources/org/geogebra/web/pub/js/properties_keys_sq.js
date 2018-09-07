@@ -3075,7 +3075,6 @@ __GGB__keysVar["sq"].menu = {
     "ZoomOut": "Zvogelim",
     "ZoomOut.Help": "Kliko ne panelen e vizatimit per te bere zvogelim(rruli i miut)",
     "ZoomOut.Tool": "Zvogelo",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Lejim Nderprerje Perqarkuese",
     "allowReflexAngle": "Lejim Pasqyrim Kendi",
     "altText.Abs": "Absolute Value",

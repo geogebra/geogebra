@@ -3075,7 +3075,6 @@ __GGB__keysVar["lt"].menu = {
     "ZoomOut": "Tolinti",
     "ZoomOut.Help": "Spragtelkite grafiniame lange nor\u0117dami tolinti (sukite pel\u0117s ratuk\u0105)",
     "ZoomOut.Tool": "Tolinti",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Leisti tolimas sankirtas",
     "allowReflexAngle": "Leisti atspind\u017eio kampus",
     "altText.Abs": "Absolute Value",

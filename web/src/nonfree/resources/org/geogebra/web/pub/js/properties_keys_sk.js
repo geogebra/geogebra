@@ -3075,7 +3075,6 @@ __GGB__keysVar["sk"].menu = {
     "ZoomOut": "Men\u0161i\u0165",
     "ZoomOut.Help": "Kliknut\xedm na n\xe1kres\u0148u alebo ot\xe1\u010dan\xedm kolieska my\u0161i dopredu sa obraz zmen\u0161uje.",
     "ZoomOut.Tool": "Zmen\u0161enie",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Povoli\u0165 mimole\u017eiacich priese\u010dn\xedkov",
     "allowReflexAngle": "povoli\u0165 doplnkov\xfd uhol",
     "altText.Abs": "Absolute Value",

@@ -3075,7 +3075,6 @@ __GGB__keysVar["ms"].menu = {
     "ZoomOut": "Zum keluar",
     "ZoomOut.Help": "Klik pada Paparan Grafik untuk zum keluar (Roda Tetikus)",
     "ZoomOut.Tool": "Zum Keluar",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Izinkan Persilangan Luar",
     "allowReflexAngle": "Izinkan Sudut Refleks",
     "altText.Abs": "Absolute Value",

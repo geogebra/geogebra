@@ -3075,7 +3075,6 @@ __GGB__keysVar["sv"].menu = {
     "ZoomOut": "Zooma ut",
     "ZoomOut.Help": "Klicka p\xe5 ritomr\xe5det f\xf6r att zooma ut (eller anv\xe4nd mushjulet)",
     "ZoomOut.Tool": "Zooma ut",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Till\xe5t sk\xe4rningar i f\xf6rl\xe4ngningen",
     "allowReflexAngle": "Till\xe5t konvexa vinklar",
     "altText.Abs": "Absolute Value",

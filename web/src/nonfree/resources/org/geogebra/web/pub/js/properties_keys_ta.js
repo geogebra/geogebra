@@ -3075,7 +3075,6 @@ __GGB__keysVar["ta"].menu = {
     "ZoomOut": "\u0b9a\u0bbf\u0bb1\u0bbf\u0ba4\u0bbe\u0b95\u0bcd\u0b95\u0bc1\u0b95",
     "ZoomOut.Help": "\u0b9a\u0bbf\u0bb1\u0bbf\u0ba4\u0bbe\u0b95\u0bcd\u0b95\u0bc1\u0bb5\u0ba4\u0bb1\u0bcd\u0b95\u0bc1 Graphics View \u0b87\u0bb2\u0bcd \u0b9a\u0bca\u0b9f\u0bc1\u0b95\u0bcd\u0b95\u0bc1\u0b95 (Mouse Wheel)",
     "ZoomOut.Tool": "\u0b9a\u0bbf\u0bb1\u0bbf\u0ba4\u0bbe\u0b95\u0bcd\u0b95\u0bc1\u0b95",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Allow Outlying Intersections",
     "allowReflexAngle": "\u0baa\u0bbf\u0ba9\u0bcd\u0bb5\u0bb3\u0bc8 \u0b95\u0bcb\u0ba3\u0ba4\u0bcd\u0ba4\u0bc8 \u0b85\u0ba9\u0bc1\u0bae\u0ba4\u0bbf\u0b95\u0bcd\u0b95",
     "altText.Abs": "Absolute Value",

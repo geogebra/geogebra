@@ -3075,7 +3075,6 @@ __GGB__keysVar["ro"].menu = {
     "ZoomOut": "Mic\u0219orare",
     "ZoomOut.Help": "Click pe surafa\u0163a de desen pentru \xeendep\u0103rtarea imaginii (roti\u0163\u0103 mouse)",
     "ZoomOut.Tool": "\xcendep\u0103rtare imagine",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Permite\u0163i Intersec\u021bii Outlying",
     "allowReflexAngle": "Permite unghi reflectat",
     "altText.Abs": "Absolute Value",

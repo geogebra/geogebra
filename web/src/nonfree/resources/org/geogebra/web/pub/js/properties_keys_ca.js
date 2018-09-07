@@ -3075,7 +3075,6 @@ __GGB__keysVar["ca"].menu = {
     "ZoomOut": "Allunya",
     "ZoomOut.Help": "Cliqueu a la finestra gr\xe0fica per allunyar (o feu servir la roda del ratol\xed)",
     "ZoomOut.Tool": "Allunya",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Permet interseccions en perllongaments",
     "allowReflexAngle": "Permet angles orientats",
     "altText.Abs": "Valor Absolut",

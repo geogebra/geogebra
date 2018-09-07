@@ -3075,7 +3075,6 @@ __GGB__keysVar["hu"].menu = {
     "ZoomOut": "T\xe1vol\xedt\xe1s",
     "ZoomOut.Help": "Rajzlapon kattint\xe1s a kicsiny\xedt\xe9shez (eg\xe9r g\xf6rg\u0151)",
     "ZoomOut.Tool": "Kicsiny\xedt\xe9s",
-    "ZoomToFit": "Zoom to fit",
     "allowOutlyingIntersections": "Kies\u0151 metsz\xe9spontok enged\xe9lyez\xe9se",
     "allowReflexAngle": "A sz\xf6g lehet konk\xe1v",
     "altText.Abs": "Absolute Value",
