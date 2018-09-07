@@ -353,7 +353,6 @@ public class BoundingBox {
 				g2.draw(cropHandlers.get(i));
 			}
 		}
-
 	}
 
 	/**

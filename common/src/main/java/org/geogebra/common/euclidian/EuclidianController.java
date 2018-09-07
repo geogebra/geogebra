@@ -7729,7 +7729,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						view.toRealWorldCoordX(centerX),
 						view.toRealWorldCoordY(centerY), 1);
 
-				NumberValue angle = (NumberValue) new GeoNumeric(
+				NumberValue angle = new GeoNumeric(
 						app.getKernel().getConstruction(),
 						Math.atan2(-(event.getY() - centerY),
 								event.getX() - centerX)

@@ -28,13 +28,13 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoParabolaPointLine;
+import org.geogebra.common.kernel.algos.AlgoShearOrStretch;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -187,11 +188,9 @@ public class DrawConic extends Drawable implements Previewable {
 	private boolean isCircle = false;
 	/** eigenvectors */
 	protected Coords[] ev;
-	/**
-	 * preview of ellipse during resize with drag
-	 */
-	private GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
-			.newEllipse2DDouble(0, 0, 0, 0);
+
+	private GeoLine stretchDirectionX;
+	private GeoLine stretchDirectionY;
 
 	@Override
 	public GArea getShape() {
@@ -1593,7 +1592,7 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	private GRectangle rectForRotatedEllipse() {
-		double angle = conic.getAngle();
+		double angle = Math.abs(Math.asin(conic.eigenvec[1].getX()));
 
 		double tFactor = Math.atan(-conic.getHalfAxis(1) / 2 * Math.tan(angle)
 				/ (conic.getHalfAxis(0) / 2));
@@ -2237,6 +2236,25 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	/**
+	 * set the stretch direction line based on handler
+	 */
+	private void fixStretchDirection(EuclidianBoundingBoxHandler handler) {
+		if (stretchDirectionX == null
+				&& handler != EuclidianBoundingBoxHandler.TOP
+				&& handler != EuclidianBoundingBoxHandler.BOTTOM) {
+			stretchDirectionX = new GeoLine(conic.getConstruction(), 1, 0,
+					-view.toRealWorldCoordX(fixCornerX));
+		}
+
+		if (stretchDirectionY == null
+				&& handler != EuclidianBoundingBoxHandler.RIGHT
+				&& handler != EuclidianBoundingBoxHandler.LEFT) {
+			stretchDirectionY = new GeoLine(conic.getConstruction(), 0, 1,
+					-view.toRealWorldCoordY(fixCornerY));
+		}
+	}
+
+	/**
 	 * update ellipse/circle by dragging corner handler
 	 * 
 	 * @param hitHandler
@@ -2246,11 +2264,6 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	protected void updateEllipseCorner(EuclidianBoundingBoxHandler hitHandler,
 			GPoint2D p) {
-		if (prewEllipse == null) {
-			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
-					0);
-		}
-
 		fixCornerCoords(hitHandler);
 
 		/*
@@ -2263,25 +2276,27 @@ public class DrawConic extends Drawable implements Previewable {
 		int dx = (int) (p.getX() - fixCornerX);
 		int dy = (int) (p.getY() - fixCornerY);
 
-		int width = dx;
-		int height = dy;
+		double width = dx;
+		double height = dy;
+
+		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 
 		if (height >= 0) {
 			if (width >= 0) {
 				if (isCircle) {
-					prewEllipse.setFrame(fixCornerX, fixCornerY, width,
+					rect.setFrame(fixCornerX, fixCornerY, width,
 							width);
 				} else {
-					prewEllipse.setFrame(fixCornerX, fixCornerY, width,
+					rect.setFrame(fixCornerX, fixCornerY, width,
 							(int) (width / proportion));
 				}
 			} else { // width < 0
 				if (isCircle) {
-					prewEllipse.setFrame(
+					rect.setFrame(
 							fixCornerX + width, fixCornerY, -width,
 							-width);
 				} else {
-					prewEllipse.setFrame(
+					rect.setFrame(
 							fixCornerX + width, fixCornerY, -width,
 							(int) (-width / proportion));
 				}
@@ -2289,28 +2304,28 @@ public class DrawConic extends Drawable implements Previewable {
 		} else { // height < 0
 			if (width >= 0) {
 				if (isCircle) {
-					prewEllipse.setFrame(fixCornerX, fixCornerY - width,
+					rect.setFrame(fixCornerX, fixCornerY - width,
 							width, width);
 				} else {
 					int newHeight = (int) (width / proportion);
-					prewEllipse.setFrame(fixCornerX, fixCornerY - newHeight,
+					rect.setFrame(fixCornerX, fixCornerY - newHeight,
 							width, newHeight);
 				}
 			} else { // width < 0
 				if (isCircle) {
-					prewEllipse.setFrame(
+					rect.setFrame(
 							fixCornerX + width, fixCornerY + width,
 							-width, -width);
 				} else {
 					int newHeight = (int) (-width / proportion);
-					prewEllipse.setFrame(
+					rect.setFrame(
 							fixCornerX + width, fixCornerY - newHeight, -width,
 							newHeight);
 				}
 			}
 		}
 
-		getBoundingBox().setRectangle(prewEllipse.getBounds());
+		getBoundingBox().setRectangle(rect);
 	}
 
 	/**
@@ -2323,37 +2338,33 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	protected void updateEllipseSide(EuclidianBoundingBoxHandler hitHandler,
 			GPoint2D p) {
-		if (prewEllipse == null) {
-			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
-					0);
-		}
-
 		fixCornerCoords(hitHandler);
 		int width = (int) (p.getX() - fixCornerX);
 		int height = (int) (p.getY() - fixCornerY);
-		
+
+		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
+
 		if (hitHandler == EuclidianBoundingBoxHandler.LEFT
 				|| hitHandler == EuclidianBoundingBoxHandler.RIGHT) {
 			if (width >= 0) {
-				prewEllipse.setFrame(fixCornerX,
-							getBoundingBox().getRectangle().getMinY(),
-							width, getBoundingBox().getRectangle().getHeight());
+				rect.setFrame(fixCornerX,
+						getBoundingBox().getRectangle().getMinY(), width,
+						getBoundingBox().getRectangle().getHeight());
 			} else { // width < 0
-				prewEllipse.setFrame(
-							fixCornerX + width,
-							getBoundingBox().getRectangle().getMinY(), -width,
-							getBoundingBox().getRectangle().getHeight());
+				rect.setFrame(fixCornerX + width,
+						getBoundingBox().getRectangle().getMinY(), -width,
+						getBoundingBox().getRectangle().getHeight());
 			}
 		}
 
 		if (hitHandler == EuclidianBoundingBoxHandler.TOP
 				|| hitHandler == EuclidianBoundingBoxHandler.BOTTOM) {
 			if (height >= 0) {
-				prewEllipse.setFrame(getBoundingBox().getRectangle().getMinX(),
+				rect.setFrame(getBoundingBox().getRectangle().getMinX(),
 						fixCornerY, getBoundingBox().getRectangle().getWidth(),
 						height);
 			} else { // height < 0
-				prewEllipse.setFrame(getBoundingBox().getRectangle().getMinX(),
+				rect.setFrame(getBoundingBox().getRectangle().getMinX(),
 						fixCornerY + height,
 						getBoundingBox().getRectangle().getWidth(), -height);
 			}
@@ -2362,7 +2373,67 @@ public class DrawConic extends Drawable implements Previewable {
 		// with side handler dragging no circle anymore
 		setIsCircle(false);
 		proportion = Double.NaN;
-		getBoundingBox().setRectangle(prewEllipse.getBounds());
+		getBoundingBox().setRectangle(rect);
+	}
+
+	/**
+	 * resizing by drag of side handler for rotated ellipses
+	 */
+	private void stretchEllipse(EuclidianBoundingBoxHandler hitHandler,
+			GPoint2D p) {
+		fixCornerCoords(hitHandler);
+		fixStretchDirection(hitHandler);
+
+		double ratio = 1;
+		switch (hitHandler) {
+		case LEFT:
+		case RIGHT:
+		case TOP_LEFT:
+		case TOP_RIGHT:
+		case BOTTOM_LEFT:
+		case BOTTOM_RIGHT:
+			if (p.getX() > fixCornerX) {
+				ratio = (p.getX() - fixCornerX)
+						/ getBoundingBox().getRectangle().getWidth();
+			} else {
+				ratio = (fixCornerX - p.getX())
+						/ getBoundingBox().getRectangle().getWidth();
+			}
+			break;
+		case TOP:
+		case BOTTOM:
+			if (p.getY() > fixCornerY) {
+				ratio = (p.getY() - fixCornerY)
+						/ getBoundingBox().getRectangle().getHeight();
+			} else {
+				ratio = (fixCornerY - p.getY())
+						/ getBoundingBox().getRectangle().getHeight();
+			}
+			break;
+		}
+
+		if (stretchDirectionX != null) {
+			applyStretch(stretchDirectionX, ratio);
+		}
+
+		if (stretchDirectionY != null) {
+			applyStretch(stretchDirectionY, ratio);
+		}
+
+		// with side handler dragging no circle anymore
+		setIsCircle(false);
+
+		getBoundingBox().setRectangle(rectForRotatedEllipse());
+		conic.updateRepaint();
+	}
+
+	private void applyStretch(GeoLine direction, double num) {
+		AlgoShearOrStretch algo = new AlgoShearOrStretch(
+				conic.getConstruction(), conic, direction,
+				new GeoNumeric(conic.getConstruction(), num), false);
+		algo.compute();
+		conic.set(algo.getResult());
+		algo.remove();
 	}
 
 	@Override
@@ -2379,9 +2450,12 @@ public class DrawConic extends Drawable implements Previewable {
 				proportion = Double.NaN;
 				view.repaintView();
 			} else {
-				conic.setEuclidianVisible(false);
-				conic.updateRepaint();
-				updateEllipseCorner(handler, p);
+				if (conic.getRotation() == 0) {
+					updateEllipseCorner(handler, p);
+					updateRealGeo(p);
+				} else {
+					stretchEllipse(handler, p);
+				}
 			}
 		} else {
 			if (conic.getParentAlgorithm() != null) {
@@ -2394,17 +2468,14 @@ public class DrawConic extends Drawable implements Previewable {
 				proportion = Double.NaN;
 				view.repaintView();
 			} else {
-				conic.setEuclidianVisible(false);
-				conic.updateRepaint();
-				updateEllipseSide(handler, p);
+				if (conic.getRotation() == 0) {
+					updateEllipseSide(handler, p);
+					updateRealGeo(p);
+				} else {
+					stretchEllipse(handler, p);
+				}
 			}
 		}
-		view.setShapeEllipse(prewEllipse);
-		view.setShapeFillCol(conic.getFillColor());
-		view.setShapeObjCol(conic.getObjectColor());
-		view.setShapeStroke(EuclidianStatic.getStroke(
-				conic.getLineThickness() / 2.0,
-				conic.getLineType()));
 	}
 
 	private void translatePointsForSideHandler(GPoint2D e) {
@@ -2543,10 +2614,10 @@ public class DrawConic extends Drawable implements Previewable {
 		double startPointX = fixCornerX;
 		double startPointY = fixCornerY;
 
-		if (startPointX >= p.getX()) {
+		if (startPointX >= p.getX()) { // right
+			coord[0] = view.toRealWorldCoordX(
+					startPointX - getBoundingBox().getRectangle().getWidth());
 			if (startPointY >= p.getY()) {
-				coord[0] = view.toRealWorldCoordX(startPointX
-						- getBoundingBox().getRectangle().getWidth());
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(
 						startPointY - getBoundingBox().getRectangle().getWidth());
@@ -2555,23 +2626,18 @@ public class DrawConic extends Drawable implements Previewable {
 							getBoundingBox().getRectangle().getMinY());
 				}
 			} else {
-				coord[0] = view.toRealWorldCoordX(
-						startPointX
-								- getBoundingBox().getRectangle().getWidth());
 				if (isCircle) {
-					coord[1] = view.toRealWorldCoordY(
-						startPointY
-								+ getBoundingBox().getRectangle().getWidth());
+					coord[1] = view.toRealWorldCoordY(startPointY
+							+ getBoundingBox().getRectangle().getWidth());
 				} else {
 					coord[1] = view.toRealWorldCoordY(
 							getBoundingBox().getRectangle().getMaxY());
 				}
 			}
-		} else {
+		} else { // left
+			coord[0] = view.toRealWorldCoordX(
+					startPointX + getBoundingBox().getRectangle().getWidth());
 			if (startPointY >= p.getY()) {
-				coord[0] = view.toRealWorldCoordX(
-						startPointX
-								+ getBoundingBox().getRectangle().getWidth());
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(
 						startPointY
@@ -2581,8 +2647,6 @@ public class DrawConic extends Drawable implements Previewable {
 							getBoundingBox().getRectangle().getMinY());
 				}
 			} else {
-				coord[0] = view.toRealWorldCoordX(
-						startPointX + getBoundingBox().getRectangle().getWidth());
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(
 						startPointY
@@ -2623,18 +2687,27 @@ public class DrawConic extends Drawable implements Previewable {
 			view.repaintView();
 			return;
 		}
+		setFixCornerX(Double.NaN);
+		setFixCornerY(Double.NaN);
+		if (stretchDirectionX != null) {
+			stretchDirectionX.remove();
+			stretchDirectionX = null;
+		}
+		if (stretchDirectionY != null) {
+			stretchDirectionY.remove();
+			stretchDirectionY = null;
+		}
+		view.repaintView();
+	}
+
+	private void updateRealGeo(GPoint2D p) {
 		double[] equ = getEquationOfConic(p);
 		if (equ != null) {
 			conic.setMatrix(equ);
 		}
-		conic.setEuclidianVisible(true);
 		conic.setSelected(true);
 		conic.updateRepaint();
 		this.update();
-		view.setShapeEllipse(null);
-		setFixCornerX(Double.NaN);
-		setFixCornerY(Double.NaN);
-		view.repaintView();
 	}
 
 	private double[] getEquationOfConic(GPoint2D p) {

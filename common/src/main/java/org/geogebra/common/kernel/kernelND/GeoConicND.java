@@ -2554,10 +2554,11 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * @return rotation of the conic in radians
+	 * @return rotation of the conic
 	 */
-	public double getAngle() {
-		return Math.asin(Math.abs(eigenvec[1].getX()));
+	public double getRotation() {
+		return Math.abs(Math.asin(eigenvec[1].getX()))
+				* -Math.signum(eigenvec[1].getX() * eigenvec[1].getY());
 	}
 
 	/**
