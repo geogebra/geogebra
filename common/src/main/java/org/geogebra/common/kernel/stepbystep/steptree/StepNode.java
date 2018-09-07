@@ -61,6 +61,11 @@ public abstract class StepNode implements HasLaTeX {
 					return root(left, 2);
 				case MINUS:
 					return add(left, StepNode.minus(right));
+				case PLUSMINUS:
+					if (((ExpressionNode) ev).getRight() instanceof MyNumberPair) {
+						return plusminus(left);
+					}
+					return add(left, plusminus(right));
 				case ABS:
 					return abs(left);
 				case LOGB:
