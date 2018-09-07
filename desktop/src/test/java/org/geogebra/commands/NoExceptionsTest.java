@@ -537,12 +537,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdDilate() {
-		t("Dilate[ Pt1, n1, Pt3 ]");
-		t("Dilate[ Pt4, n2 ]");
-	}
-
-	@Test
 	public void cmdDirectrix() {
 		t("Directrix[ c1 ]");
 	}

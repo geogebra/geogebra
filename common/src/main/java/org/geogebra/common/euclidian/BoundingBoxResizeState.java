@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class BoundingBoxResizeState {
 
 	private GRectangle2D rect;
-	private double ratios[][];
+	private double[][] ratios;
 	private double widthHeightRatio = 1;
 
 	/**

@@ -2111,6 +2111,13 @@ public class CommandsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdDilate() {
+		t("Dilate[ (4,5), 2,(1,1) ]", "(7, 9)");
+		t("Dilate[ (4,5), 2 ]", "(8, 10)");
+		t("r=Dilate(y=-3x-6,2)", "y = -3x - 12");
+	}
+
+	@Test
 	public void cmdShowSteps() {
 		shouldFail("ShowSteps(ConstructionStep())",
 				"Illegal argument: ConstructionStep",

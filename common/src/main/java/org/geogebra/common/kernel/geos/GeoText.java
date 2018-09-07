@@ -1507,4 +1507,4 @@ public class GeoText extends GeoElement
 		}
 	}
 
-	}
+}

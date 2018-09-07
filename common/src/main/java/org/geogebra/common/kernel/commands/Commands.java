@@ -1319,6 +1319,11 @@ public enum Commands implements CommandsConstants,
 		return null;
 	}
 
+	/**
+	 * @param commandName
+	 *            command
+	 * @return command in scientific calculator
+	 */
 	public static String getSimpleName(String commandName) {
 		Commands command = stringToCommand(commandName);
 		if (command == null) {
@@ -1347,9 +1352,8 @@ public enum Commands implements CommandsConstants,
 		}
 		if (simpleNamedCommand != null) {
 			return simpleNamedCommand.name();
-		} else {
-			return commandName;
 		}
+		return commandName;
 	}
 
 	public boolean isAlias() {

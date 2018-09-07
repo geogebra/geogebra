@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class ReaderWidget extends SimplePanel {
 	private Timer timer;
+
 	/**
 	 * Constructor.
 	 */

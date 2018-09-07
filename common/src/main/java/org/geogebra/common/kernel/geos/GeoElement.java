@@ -3362,7 +3362,10 @@ public abstract class GeoElement extends ConstructionElement
 		// }
 	}
 
-	public void removeDependentAlgos(){
+	/**
+	 * Remove algos depending on this geo.
+	 */
+	public void removeDependentAlgos() {
 		AlgoElement algo = getParentAlgorithm();
 		// first remove all dependent algorithms
 		if (algorithmList != null) {

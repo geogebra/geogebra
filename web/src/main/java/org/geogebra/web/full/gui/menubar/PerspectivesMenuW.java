@@ -1,8 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Window.Location;
-
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.Feature;
@@ -16,6 +13,9 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Window.Location;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -57,7 +57,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		}
 		if (!app.isExam()) {
 			if ((app.getLAF().examSupported(app.has(Feature.EXAM_TABLET)))
-					|| (app.getLAF().isTablet() && !app.isUnbundled() && !app.isWhiteboardActive())) {
+					|| (app.getLAF().isTablet() && !app.isUnbundled()
+							&& !app.isWhiteboardActive())) {
 
 				addItem(MainMenu.getMenuBarHtml(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
