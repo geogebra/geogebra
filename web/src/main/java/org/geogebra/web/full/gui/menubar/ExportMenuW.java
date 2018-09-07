@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
+import com.google.gwt.user.client.ui.Widget;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
@@ -15,8 +17,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author bencze The "Export Image" menu, part of the "File" menu.

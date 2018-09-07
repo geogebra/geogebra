@@ -234,6 +234,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			}
 
 		};
+
 		getApp().getExam().getLog(loc, getApp().getSettings(),
 				canvasLogBuilder);
 			Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");

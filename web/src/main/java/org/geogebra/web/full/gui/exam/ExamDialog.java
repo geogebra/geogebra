@@ -399,6 +399,7 @@ public class ExamDialog {
 				}
 				// go to full screen
 				updateFullscreenStatusOn();
+				keepScreenOn();
 				// set wifi & bluetooth off if needed
 				setWifiOffIfNeeded();
 				setBluetoothOffIfNeeded();
@@ -579,6 +580,10 @@ public class ExamDialog {
 
 	private static native void exitAppJs()/*-{
 		$wnd.GeoGebraExamAndroidJsBinder.exitApp();
+	}-*/;
+
+	private static native void keepScreenOn()/*-{
+		$wnd.GeoGebraExamAndroidJsBinder.keepScreenOn();
 	}-*/;
 
 }
