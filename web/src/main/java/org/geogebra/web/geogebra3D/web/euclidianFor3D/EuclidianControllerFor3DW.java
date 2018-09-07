@@ -38,6 +38,9 @@ public class EuclidianControllerFor3DW extends EuclidianControllerW {
 
 	@Override
 	public TextController getTextController() {
-		return null;
+		if (!app.isWhiteboardActive()) {
+			return null;
+		}
+		return super.getTextController();
 	}
 }
