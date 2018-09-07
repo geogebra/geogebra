@@ -19,7 +19,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
 
     private String[] values = {
             "StandardView",
-            "ZoomToFit"
+            "ShowAllObjects"
     };
 
     private Runnable[] callbacks = {
