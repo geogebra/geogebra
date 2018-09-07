@@ -33,8 +33,8 @@ public class GFontRenderContextW extends GFontRenderContext {
 			context.setFont(cssFontString);
 			TextMetrics measure = context.measureText(text);
 			context.setFont(oldFont);
-
-			return (int) measure.getWidth();
+			double width = measure.getWidth();
+			return (int) Math.round(width);
 		} catch (Exception e) {
 			return text.length() * 12;
 		}
