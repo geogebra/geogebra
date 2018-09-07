@@ -10,6 +10,8 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.html5.euclidian.GGraphics2DE;
+import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
@@ -30,7 +32,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 	protected Canvas canvas;
 
 	private static final double RW_MARGIN = 0.3;
-	private GGraphics2DW g2;
+	private GGraphics2DWI g2;
 	private DrawPoint drawPoint;
 	private GeoPoint p;
 
@@ -53,8 +55,11 @@ public class MOWPointStyleButton extends PointStylePopup {
 		panel.add(sliderPanel);
 
 		canvas = Canvas.createIfSupported();
-		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
-		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
+		if (canvas != null) {
+			canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
+			canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
+			canvas.addStyleName("preview");
+		}
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			addSliderTitle();
 			panel.addStyleName("mowPopup");
@@ -63,8 +68,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 			sliderPanel.addStyleName("mowLinePopup");
 		}
 		sliderPanel.add(canvas);
-		canvas.addStyleName("preview");
-		g2 = new GGraphics2DW(canvas);
+		g2 = canvas == null ? new GGraphics2DE() : new GGraphics2DW(canvas);
 		p = new GeoPoint(app.getKernel().getConstruction(),
 				0, 0, 0);
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);

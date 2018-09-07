@@ -1204,7 +1204,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 						}
 
 						updateColorTable();
-						setEnableTable(!(geos[0] instanceof GeoImage));
+						setEnableTable(geos.length > 0
+								&& !(geos[0] instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
 						setSelectedIndex(index);
@@ -1382,9 +1383,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(Object[] geos) {
-				GeoElement geo0 = (GeoElement) geos[0];
-				boolean geosOK = checkGeoText(geos) && !(geo0.isGeoInputBox()
-						|| geo0.isGeoAudio() || geo0.isGeoVideo());
+				boolean geosOK = checkTextNoMedia(geos);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
@@ -1414,6 +1413,18 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextColor.setEnableTable(true);
 		btnTextColor.addStyleName("btnTextColor");
 		btnTextColor.addPopupHandler(this);
+	}
+
+	protected boolean checkTextNoMedia(Object[] geos) {
+		boolean geosOK = checkGeoText(geos);
+		for (Object obj : geos) {
+			GeoElement geo0 = (GeoElement) obj;
+			if (geo0.isGeoInputBox() || geo0.isGeoAudio()
+					|| geo0.isGeoVideo()) {
+				return false;
+			}
+		}
+		return geosOK;
 	}
 
 	private void createTextBgColorBtn() {
@@ -1464,11 +1475,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
 				@Override
 				public void update(Object[] geos) {
-
-					GeoElement geo0 = (GeoElement) geos[0];
-					boolean geosOK = checkGeoText(geos)
-							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio()
-									|| geo0.isGeoVideo());
+					boolean geosOK = checkTextNoMedia(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
@@ -1547,10 +1554,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(Object[] geos) {
-					GeoElement geo0 = (GeoElement) geos[0];
-					boolean geosOK = checkGeoText(geos)
-							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio()
-									|| geo0.isGeoVideo());
+					boolean geosOK = checkTextNoMedia(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])

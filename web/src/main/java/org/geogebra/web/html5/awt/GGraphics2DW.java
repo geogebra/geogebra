@@ -127,7 +127,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 * will probably fail * labels are malformed, eg )A=(1,2
 	 */
 	private void setDirection() {
-		this.canvas.getElement().setDir("ltr");
+		if (canvas != null) {
+			this.canvas.getElement().setDir("ltr");
+		}
 	}
 
 	/**

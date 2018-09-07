@@ -307,7 +307,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
-		if (dockPanel != null) {
+		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			dockParent.addStyleName("hide-Dragger");
 			if (opposite != null) {
@@ -382,7 +382,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
-		if (dockPanel != null) {
+		if (dockParent != null) {
 			dockParent.setWidgetMinSize(dockPanel,
 					header.isOpen() ? OPEN_MIN_WIDTH_LANDSCAPE
 							: CLOSED_WIDTH_LANDSCAPE);
