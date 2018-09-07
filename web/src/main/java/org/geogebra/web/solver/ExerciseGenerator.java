@@ -19,12 +19,12 @@ public class ExerciseGenerator {
 		}
 	}
 
-	private static double randint(int a, int b) {
-		return Math.floor(Math.random() * (b - a + 1)) + a;
+	private static int randint(int a, int b) {
+		return (int) Math.floor(Math.random() * (b - a + 1)) + a;
 	}
 
-	private static double randIntNZ(int a, int b) {
-		double ret = 0;
+	private static int randIntNZ(int a, int b) {
+		int ret = 0;
 		while (ret == 0) {
 			ret = randint(a, b);
 		}
@@ -38,19 +38,19 @@ public class ExerciseGenerator {
 
 		switch (level) {
 		case 1:
-			type = (int) randint(0, 15);
+			type = randint(0, 15);
 			break;
 		case 2:
-			type = (int) randint(10, 27);
+			type = randint(10, 27);
 			break;
 		case 3:
-			type = (int) randint(20, 34);
+			type = randint(20, 34);
 			break;
 		case 4:
-			type = (int) randint(25, 37);
+			type = randint(25, 37);
 			break;
 		default:
-			type = (int) randint(0, 37);
+			type = randint(0, 37);
 		}
 
 		switch (type) {
@@ -131,7 +131,9 @@ public class ExerciseGenerator {
 			b = randint(1, 9);
 			c = randIntNZ(-9, 9);
 			d = randint(1, 8);
-			if (a == d) d++;
+			if (a == d) {
+				d++;
+			}
 			return new Exercise(a + " x + " + b + " = " + c + " + " + d + " x",
 					(c - b) / (a - d));
 
@@ -140,7 +142,9 @@ public class ExerciseGenerator {
 			b = randint(1, 9);
 			c = randIntNZ(-9, 9);
 			d = randint(1, 8);
-			if (a == -d) d++;
+			if (a == -d) {
+				d++;
+			}
 			return new Exercise(a + " x + " + b + " = " + c + " - " + d + " x",
 					(c - b) / (a + d));
 
@@ -149,14 +153,18 @@ public class ExerciseGenerator {
 			a = randint(2, 9);
 			b = randint(1, 9);
 			c = randint(-9, 9);
-			if (a == b) a++;
+			if (a == b) {
+				a++;
+			}
 			return new Exercise(a + "(x + " + b + ") = " + c, c / a - b);
 
 		case 17:
 			a = randIntNZ(-9, 9);
 			b = randIntNZ(1, 9);
 			c = randIntNZ(-9, 9);
-			if (c == b) b++;
+			if (c == b) {
+				b++;
+			}
 			return new Exercise(a + "/(x + " + b + ") = " + c, a / c - b);
 
 		case 18:
@@ -234,7 +242,9 @@ public class ExerciseGenerator {
 			b = randint(2, 9);
 			c = randIntNZ(-9, 9);
 			d = randint(2, 8);
-			if (b == -d) d++;
+			if (b == -d) {
+				d++;
+			}
 			e = randint(-9, 9);
 			return new Exercise("(x + " + a + ")/" + b + " - (" + c + " - x)/" + d + " = " + e,
 					(-a * d + b * c + b * d * e) / (b + d));
@@ -264,7 +274,7 @@ public class ExerciseGenerator {
 			c = randint(2, 9);
 			d = randint(1, 9);
 			// ie if b/a!=d/c
-			if (c * b != a * d) {
+			if (!DoubleUtil.isEqual(c * b, a * d)) {
 				// 2 answers
 				return new Exercise("(" + a + " x + " + b + ")(" + c + " x + " + d + ") = 0",
 						-b / a, -d / c);
@@ -286,7 +296,7 @@ public class ExerciseGenerator {
 			c = randint(2, 9);
 			d = randint(1, 9);
 			// ie if b/a!=d/c
-			if (c * b != a * d) {
+			if (!DoubleUtil.isEqual(c * b, a * d)) {
 				// 2 answers
 				return new Exercise("(" + a + " x - " + b + ")(" + c + " x - " + d + ") = 0",
 						b / a,  d / c);
@@ -321,7 +331,7 @@ public class ExerciseGenerator {
 			c = randint(1,9);
 			d = randint(1,9);
 
-			if (a + b == c + d) {
+			if (DoubleUtil.isEqual(a + b, c + d)) {
 				a++;
 			}
 

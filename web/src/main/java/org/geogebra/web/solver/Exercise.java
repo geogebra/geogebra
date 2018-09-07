@@ -25,7 +25,7 @@ public class Exercise {
 
 	private int previousComplexity;
 
-	public Exercise(AppWsolver app, RootPanel rootPanel) {
+	Exercise(AppWsolver app, RootPanel rootPanel) {
 		this.app = app;
 		this.rootPanel = rootPanel;
 	}
@@ -38,7 +38,7 @@ public class Exercise {
 				String s = ExerciseGenerator.getExercise(-1).equation;
 				newExercise(s);
 				previousComplexity = -1;
-				onCanvasChanged("", s);
+				onCanvasChanged(s);
 			}
 		});
 
@@ -52,7 +52,7 @@ public class Exercise {
 		loadGM();
 	}
 
-	private void onCanvasChanged(String targetType, String lastEquation) {
+	private void onCanvasChanged(String lastEquation) {
 		dataPanel.clear();
 
 		StepNode expression = StepNode.getStepTree(lastEquation, app.getKernel().getParser());
@@ -132,7 +132,7 @@ public class Exercise {
 
 	private native void setupListener(Exercise e) /*-{
 		$wnd.onChangedCallback = function(event) {
-            e.@org.geogebra.web.solver.Exercise::onCanvasChanged(Ljava/lang/String;Ljava/lang/String;)(event.target_type, event.last_eq);
+            e.@org.geogebra.web.solver.Exercise::onCanvasChanged(Ljava/lang/String;)(event.last_eq);
         }
     }-*/;
 

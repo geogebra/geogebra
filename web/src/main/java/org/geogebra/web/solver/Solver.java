@@ -62,7 +62,7 @@ public class Solver implements MathFieldListener {
 
 	private WebStepGuiBuilder guiBuilder;
 
-	public Solver(AppWsolver app, RootPanel rootPanel) {
+	Solver(AppWsolver app, RootPanel rootPanel) {
 		this.app = app;
 		this.rootPanel = rootPanel;
 	}
