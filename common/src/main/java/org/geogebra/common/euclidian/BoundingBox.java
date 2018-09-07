@@ -30,6 +30,7 @@ public class BoundingBox {
 	private boolean isCropBox = false;
 	private boolean isImage = false;
 	private final static int VIDEO_SIZE_THRESHOLD = 100;
+	private static final int ROTATION_HANDLER_DISTANCE = 25;
 	/**
 	 * size of handler
 	 */
@@ -294,10 +295,11 @@ public class BoundingBox {
 				// rotation handler
 				handlers.get(8).setFrameFromCenter(
 						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY() - 25,
+						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE,
 						(rectangle.getMinX() + rectangle.getMaxX()) / 2
 								+ HANDLER_RADIUS,
-						rectangle.getMinY() - 25 - HANDLER_RADIUS);
+						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE
+								- HANDLER_RADIUS);
 			}
 		}
 	}
@@ -325,7 +327,7 @@ public class BoundingBox {
 				line.setLine((rectangle.getMinX() + rectangle.getMaxX()) / 2,
 						rectangle.getMinY(),
 						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY() - 25);
+						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
 				g2.setColor(GColor.MOW_MEBIS_TEAL);
 				g2.draw(line);
 			}
@@ -483,7 +485,8 @@ public class BoundingBox {
 						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 						rectangle.getMinY(), x, y,
 						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY() - 25, hitThreshold));
+						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE,
+						hitThreshold));
 	}
 
 	// check if intersection point is on segment

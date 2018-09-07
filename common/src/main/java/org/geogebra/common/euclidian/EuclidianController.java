@@ -8264,6 +8264,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		isMultiResize = false;
 		startBoundingBoxState = null;
 
+		if (view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED
+				&& view.getBoundingBox() != null) {
+			view.setHitHandler(view.getBoundingBox().getHitHandler(e.getX(),
+					e.getY(), app.getCapturingThreshold(e.getType())));
+		}
+
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
 			return;
