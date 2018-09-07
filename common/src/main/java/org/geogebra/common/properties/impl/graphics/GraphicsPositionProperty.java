@@ -6,6 +6,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
 
+/**
+ * This property controls the current positioning of the grid
+ */
 public class GraphicsPositionProperty implements ActionsEnumerableProperty {
 
     private Localization localization;
@@ -38,6 +41,11 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
             }
     };
 
+    /**
+     * Constructs a GraphicsPositionProperty
+     *
+     * @param app  for access to localization, the EuclidianView, and the app configuration
+     */
     public GraphicsPositionProperty(App app) {
         this.app = app;
         this.localization = app.getLocalization();
