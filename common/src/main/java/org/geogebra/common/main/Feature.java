@@ -274,7 +274,6 @@ public enum Feature {
 	MOW_SELECTION_TOOL,
 
 	/** MOW-150 */
-
 	MOW_ROTATION_HANDLER,
 
 	/** AND-1304 */
