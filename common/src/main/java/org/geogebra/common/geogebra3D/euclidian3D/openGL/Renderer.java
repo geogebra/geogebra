@@ -2038,5 +2038,11 @@ public abstract class Renderer implements RendererInterface {
 		arScaleFactor = scaleFactor;
 	}
 
-	public void setScaleFactor(){}
+	/**
+	 * Set scale for AR
+	 */
+	public void setScaleFactor() {
+		// only for AR
+	}
+
 }

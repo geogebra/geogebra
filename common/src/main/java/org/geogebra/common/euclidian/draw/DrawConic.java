@@ -2410,6 +2410,8 @@ public class DrawConic extends Drawable implements Previewable {
 						/ getBoundingBox().getRectangle().getHeight();
 			}
 			break;
+		case UNDEFINED:
+			break;
 		}
 
 		if (stretchDirectionX != null) {

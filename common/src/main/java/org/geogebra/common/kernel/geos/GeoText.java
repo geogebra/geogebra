@@ -121,6 +121,7 @@ public class GeoText extends GeoElement
 	private enum EditMode {
 		None, Ready, Edit
 	}
+
 	/**
 	 * Creates new text
 	 * 

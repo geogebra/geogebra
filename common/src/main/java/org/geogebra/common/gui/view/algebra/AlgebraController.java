@@ -13,11 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.gui.view.algebra;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;

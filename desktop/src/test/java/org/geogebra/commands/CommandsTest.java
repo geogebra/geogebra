@@ -2021,6 +2021,26 @@ public class CommandsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdmad() {
+		t("mad( {1,2,3,4,5} )", "1.2"); // (2+1+1+2)/5 =1.2
+		t("mad( 1, 3 )", "1"); // (1+1)/2 =1
+		t("mad({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524",
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdMean() {
+		t("Mean[ {3,4,5} ]", "4");
+		t("Mean[ {15,36,39}, {5,12,13} ]", "33.8");
+	}
+
+	@Test
+	public void cmdmean() {
+		t("mean[ {3,4,5} ]", "4");
+		t("mean[ {15,36,39}, {5,12,13} ]", "33.8");
+	}
+
+	@Test
 	public void cmdDirection() {
 		t("Direction[ x = y ]", "(-1, -1)");
 		t("Direction[ Line((0,0,0),(2,2,1)) ]", "(2, 2, 1)");

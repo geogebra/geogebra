@@ -1043,12 +1043,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdMean() {
-		t("Mean[ list1 ]");
-		t("Mean[ list1, list1 ]");
-	}
-
-	@Test
 	public void cmdMeanX() {
 		t("MeanX[ ptlist1 ]");
 	}

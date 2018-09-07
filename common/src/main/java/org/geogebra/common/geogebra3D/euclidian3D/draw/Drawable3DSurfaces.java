@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing surfaces
@@ -65,6 +64,10 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		drawTracesHidingSurface(renderer);
 	}
 
+	/**
+	 * @param renderer
+	 *            renderer
+	 */
 	protected abstract void drawSurfaceGeometry(Renderer renderer);
 
 	@Override
