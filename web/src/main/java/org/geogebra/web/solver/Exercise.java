@@ -1,15 +1,10 @@
 package org.geogebra.web.solver;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
@@ -18,17 +13,11 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.web.editor.AppWsolver;
-import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.resources.StyleInjector;
-import org.geogebra.web.shared.SharedResources;
 
-public class Exercise implements EntryPoint {
+public class Exercise {
 
 	private AppWsolver app;
 	private RootPanel rootPanel;
@@ -36,30 +25,12 @@ public class Exercise implements EntryPoint {
 
 	private int previousComplexity;
 
-	@Override
-	public void onModuleLoad() {
-		WebSimple.registerSuperdevExceptionHandler();
+	public Exercise(AppWsolver app, RootPanel rootPanel) {
+		this.app = app;
+		this.rootPanel = rootPanel;
+	}
 
-		TestArticleElement articleElement = new TestArticleElement("true",
-				"Solver");
-		LoggerW.startLogger(articleElement);
-		GeoGebraFrameSimple fr = new GeoGebraFrameSimple(false);
-		app = new AppWsolver(articleElement, fr);
-
-		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
-
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
-
-		String id = "appContainer" + DOM.createUniqueId();
-		getContainer().setId(id);
-
-		rootPanel = RootPanel.get(id);
-
+	void setupApplication() {
 		StandardButton exerciseButton = new StandardButton("Generate new exercise!", app);
 		exerciseButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -172,9 +143,5 @@ public class Exercise implements EntryPoint {
     private native void newExercise(String s) /*-{
     	$wnd.canvas.model.reset();
     	$wnd.canvas.model.createElement('derivation', { eq: s, pos: { x: 'center', y: 50 } });
-    }-*/;
-
-	private native Element getContainer() /*-{
-        return $wnd.getContainer();
     }-*/;
 }

@@ -15,26 +15,17 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.HasLanguage;
-import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.resources.JavaScriptInjector;
-import org.geogebra.web.resources.StyleInjector;
-import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -52,12 +43,10 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.CreateLibrary;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
-public class Solver implements EntryPoint, MathFieldListener {
+public class Solver implements MathFieldListener {
 
 	private AppWsolver app;
 	private JlmEditorLib library;
@@ -73,52 +62,24 @@ public class Solver implements EntryPoint, MathFieldListener {
 
 	private WebStepGuiBuilder guiBuilder;
 
-	@Override
-	public void onModuleLoad() {
-		WebSimple.registerSuperdevExceptionHandler();
+	public Solver(AppWsolver app, RootPanel rootPanel) {
+		this.app = app;
+		this.rootPanel = rootPanel;
+	}
 
-		TestArticleElement articleElement = new TestArticleElement("true",
-				"Solver");
-		LoggerW.startLogger(articleElement);
-		GeoGebraFrameSimple fr = new GeoGebraFrameSimple(false);
-		app = new AppWsolver(articleElement, fr);
-
-		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
-		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
-		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
-		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
-
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
+	void setupApplication() {
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);
-		edit(getContainer(), fr);
-	}
 
-	/**
-	 * @param parent
-	 *            editor parent
-	 * @param fr
-	 *            solver frame
-	 */
-	public void edit(Element parent, GeoGebraFrameSimple fr) {
 		guiBuilder = new WebStepGuiBuilder(app);
 
 		Canvas canvas = Canvas.createIfSupported();
-		String id = "appContainer" + DOM.createUniqueId();
-		parent.setId(id);
 
-		rootPanel = RootPanel.get(id);
-		rootPanel.add(fr);
 		solverPanel = new VerticalPanel();
 		solverPanel.addStyleName("solverPanel");
 
-		fr.add(solverPanel);
+		rootPanel.add(solverPanel);
 
 		Element el = DOM.createDiv();
 		el.appendChild(canvas.getCanvasElement());
@@ -187,10 +148,6 @@ public class Solver implements EntryPoint, MathFieldListener {
 			}
 		});
 	}
-
-	private native Element getContainer() /*-{
-		return $wnd.getContainer();
-	}-*/;
 
 	private void compute(String text) {
 		Browser.changeUrl(getRelativeURLforEqn(text));
