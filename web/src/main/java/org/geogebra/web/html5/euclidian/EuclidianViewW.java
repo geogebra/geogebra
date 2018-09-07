@@ -63,8 +63,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.DropEvent;
@@ -91,7 +89,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 //@SuppressWarnings("javadoc")
@@ -153,8 +150,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private GDimension preferredSize;
 
-	private SimplePanel dummyDiv;
-
 	private GBufferedImage cacheImage;
 
 	private Runnable callBack;
@@ -162,6 +157,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private EmbedManager embedManager;
 
 	private Timer timerClearDummyDiv = null;
+
+	private ReaderWidget screenReader;
 
 	/**
 	 * @param euclidianViewPanel
@@ -843,7 +840,7 @@ public class EuclidianViewW extends EuclidianView implements
 			es.addListener(this);
 		}
 
-		addDummyDiv();
+		addScreenReader();
 	}
 
 	/**
@@ -1505,36 +1502,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	private void addDummyDiv() {
-		dummyDiv = new SimplePanel();
-		// can't be tabbed, but can get the focus programmatically
-		dummyDiv.getElement().setTabIndex(-1);
-		RootPanel.get().add(dummyDiv);
-		dummyDiv.getElement().setAttribute("role", "status");
-		dummyDiv.getElement().setAttribute("aria-live", "polite");
-		dummyDiv.getElement().setAttribute("aria-atomic", "true");
-		dummyDiv.getElement().setAttribute("aria-relevant", "text");
-
-		dummyDiv.getElement().getStyle().setTop(-1000.0, Unit.PX);
-		dummyDiv.getElement().getStyle().setPosition(Position.ABSOLUTE);
-	}
-
-	private void createClearDummyDivTimer() {
-		timerClearDummyDiv = new Timer() {
-
-			@Override
-			public void run() {
-				dummyDiv.getElement().setInnerHTML("");
-			}
-		};
-		timerClearDummyDiv.schedule(1000);
-	}
-
-	private void clearDummyDiv() {
-		if (timerClearDummyDiv == null) {
-			createClearDummyDivTimer();
-		}
-		timerClearDummyDiv.schedule(1000);
+	private void addScreenReader() {
+		screenReader = new ReaderWidget(evNo);
+		RootPanel.get().add(screenReader);
 	}
 
 	@Override
@@ -1544,18 +1514,11 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		}
 
-		if (timerClearDummyDiv != null) {
-			timerClearDummyDiv.cancel();
-		}
-
-		Log.debug("read text: " + text);
-		dummyDiv.getElement().setInnerText(text);
+		screenReader.read(text);
 		JavaScriptObject scrollState = JavaScriptObject.createObject();
 		int scrolltop = getScrollTop(scrollState);
-		dummyDiv.getElement().focus();
 		g2p.getCanvas().getCanvasElement().focus();
 		setScrollTop(scrolltop, scrollState);
-		clearDummyDiv();
 	}
 
 	private static native boolean hasParentWindow()/*-{

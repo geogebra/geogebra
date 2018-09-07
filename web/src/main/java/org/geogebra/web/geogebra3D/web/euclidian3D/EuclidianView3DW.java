@@ -34,6 +34,7 @@ import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
+import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
@@ -65,6 +66,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -91,6 +93,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private int objectsWaitingForNewRepaint = 0;
 
 	private boolean readyToRender = false;
+
+	private ReaderWidget screenReader;
 
 	/**
 	 * constructor
@@ -167,6 +171,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
 		es.addListener(this);
+		addScreenReader();
 	}
 
 	@Override
@@ -689,26 +694,24 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			alt = app.getKernel().lookupLabel("altText");
 		}
 		if (alt instanceof GeoText) {
-			String altStr = ((GeoText) alt).getTextString();
-			if (renderer != null && renderer.getCanvas() != null) {
-				((Canvas) renderer.getCanvas()).getElement()
-						.setInnerText(altStr);
-
-			} else {
-				g2p.setAltText(altStr);
-			}
-
+			setAltText(((GeoText) alt).getTextString());
 		}
+	}
 
+	private void setAltText(String text) {
+		if (renderer != null && renderer.getCanvas() != null) {
+			((Canvas) renderer.getCanvas()).getElement().setInnerText(text);
+		} else {
+			g2p.setAltText(text);
+		}
 	}
 
 	@Override
 	public void readText(String text) {
-		//String oldAltText = g2p.getAltText();
-		//g2p.setAltText(text);
-		//RootPanel.getBodyElement().focus();
-		//this.requestFocus();
-
+		Log.debug("Read text in 3D: " + text);
+		screenReader.read(text);
+		RootPanel.getBodyElement().focus();
+		this.requestFocus();
 	}
 
 	@Override
@@ -751,4 +754,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		return Window.getClientWidth() > 0;
 	}
 
+	private void addScreenReader() {
+		screenReader = new ReaderWidget(evNo);
+		RootPanel.get().add(screenReader);
+	}
 }
