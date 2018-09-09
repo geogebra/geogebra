@@ -7943,6 +7943,15 @@ namespace giac {
 	return -1;
       return 0;
     }
+    if (a.type==_IDNT){
+      vecteur v;
+      if (find_range(a,v,contextptr) && v.size()==1 && v.front().type==_VECT && v.front()._VECTptr->size()==2){
+	if (is_positive(v.front()._VECTptr->front(),contextptr))
+	  return 1;
+	if (is_positive(-v.front()._VECTptr->back(),contextptr))
+	  return -1;
+      }
+    }
     gen approx;
     if (has_evalf(a,approx,1,contextptr) && (a.type!=approx.type ||a!=approx))
       return fastsign(approx,contextptr);
@@ -12348,6 +12357,9 @@ namespace giac {
       else
 	s="ggbpnt[";
       break;
+    case _TABLE__VECT:
+      s="{/";
+      break;
     default:
       s=calc_mode(contextptr)==1?"{":"[";
     }
@@ -12388,6 +12400,8 @@ namespace giac {
       return calc_mode(contextptr)==1?")":"]";
     case 0: case _MATRIX__VECT:
       return calc_mode(contextptr)==1?"}":"]";
+    case _TABLE__VECT:
+      return "/}";
     default:
       return calc_mode(contextptr)==1?"}":"]";
     }    

@@ -6528,7 +6528,53 @@ namespace giac {
     return true;
   }
 
+  int is_homogeneous(const polynome & p){
+    std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    if (p.dim<2 || it==itend) 
+      return 0;
+    int d=sum_degree(it->index);
+    for (++it;it!=itend;++it){
+      if (sum_degree(it->index)!=d)
+	return 0;
+    }
+    return d;
+  }
+
+  bool homogeneize(polynome & p,int dhom){
+    ++p.dim;
+    std::vector< monomial<gen> >::iterator it=p.coord.begin(),itend=p.coord.end();
+    for (;it!=itend;++it){
+      int d=sum_degree(it->index);
+      if (d>dhom)
+	return false;
+      index_t i(it->index.begin(),it->index.end());
+      i.push_back(dhom-d);
+      it->index=i;
+    }
+    return true;
+  }
+
   static bool do_factor(const polynome &p,polynome & p_content,factorization & f,bool isprimitive,bool with_sqrt,bool complexmode,const gen & divide_an_by,gen & extra_div){
+    // check for homogeneous polynomial -> 1 var less
+    if (int dhom=is_homogeneous(p)){
+      polynome phom(p);
+      // remove last degree
+      std::vector< monomial<gen> >::iterator it=phom.coord.begin(),itend=phom.coord.end();
+      for (;it!=itend;++it){
+	it->index=index_t(it->index.begin(),it->index.end()-1);
+      }
+      phom.dim--;
+      bool res=do_factor(phom,p_content,f,false,with_sqrt,complexmode,divide_an_by,extra_div);
+      // rehomogeneize f
+      factorization::iterator f_it=f.begin(),f_itend=f.end();
+      for (;f_it!=f_itend;++f_it){
+	int d=f_it->fact.total_degree();
+	homogeneize(f_it->fact,d);
+	dhom -= d*f_it->mult;
+      }
+      homogeneize(p_content,dhom);
+      return res;
+    }
     f.clear();
     if (p.coord.empty()){
       p_content=p;
