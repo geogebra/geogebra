@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -25,5 +26,15 @@ public interface GeoFunctionable extends GeoElementND {
 	 * @return this as GeoFunction
 	 */
 	public GeoFunction getGeoFunction();
+
+	/**
+	 * Like getFunction(), but for root finding we don't want to divide line
+	 * equations by y, so that Root(3x=6) works.
+	 * 
+	 * @param forRoot
+	 *            whether just the roots should be preserved
+	 * @return this as function
+	 */
+	public Function getFunction(boolean forRoot);
 
 }

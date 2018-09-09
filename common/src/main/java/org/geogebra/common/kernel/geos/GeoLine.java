@@ -1458,50 +1458,18 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 		GeoFunction ret;
 
-		FunctionVariable fv = new FunctionVariable(kernel);
 
-		ExpressionNode xCoord = new ExpressionNode(kernel, this,
-				Operation.XCOORD, null);
-
-		ExpressionNode yCoord = new ExpressionNode(kernel, this,
-				Operation.YCOORD, null);
-
-		ExpressionNode zCoord = new ExpressionNode(kernel, this,
-				Operation.ZCOORD, null);
-
-		// f(x_var) = -x/y x_var - z/y
-
-		ExpressionNode temp = new ExpressionNode(kernel, xCoord,
-				Operation.DIVIDE, yCoord);
-
-		temp = new ExpressionNode(kernel, new MyDouble(kernel, -1.0),
-				Operation.MULTIPLY, temp);
-
-		temp = new ExpressionNode(kernel, temp, Operation.MULTIPLY, fv);
-
-		temp = new ExpressionNode(kernel, temp, Operation.MINUS,
-				new ExpressionNode(kernel, zCoord, Operation.DIVIDE, yCoord));
-
-		// f(x_var) = -x/y x_var - z/y
-		/*
-		 * ExpressionNode temp = new ExpressionNode(kernel, new MyDouble(kernel,
-		 * -x / y), Operation.MULTIPLY, fv);
-		 * 
-		 * temp = new ExpressionNode(kernel, temp, Operation.PLUS, new
-		 * MyDouble(kernel, -z / y) );
-		 */
-
-		Function fun = new Function(temp, fv);
 
 		// we get a dependent function if this line has a label or is dependent
 		if (isLabelSet() || !isIndependent()) {
-			ret = new AlgoDependentFunction(cons, fun, false).getFunction();
+			ret = new AlgoDependentFunction(cons, getFunction(false), false)
+					.getFunction();
 			// cache the dependent function to avoid infinite loop
 			asFunction = ret;
 		} else {
 			// independent case: no caching so that setCoords works
 			ret = new GeoFunction(cons);
-			ret.setFunction(fun);
+			ret.setFunction(getFunction(false));
 		}
 
 		return ret;
@@ -2054,5 +2022,36 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	protected boolean canHaveSpecialPoints() {
 		return true;
+	}
+
+	public Function getFunction(boolean forRoot) {
+		FunctionVariable fv = new FunctionVariable(kernel);
+
+		ExpressionNode xCoord = new ExpressionNode(kernel, this,
+				Operation.XCOORD, null);
+
+		ExpressionNode yCoord = new ExpressionNode(kernel, this,
+				Operation.YCOORD, null);
+
+		ExpressionNode zCoord = new ExpressionNode(kernel, this,
+				Operation.ZCOORD, null);
+
+		// f(x_var) = -x/y x_var - z/y
+
+		ExpressionNode temp = forRoot ? xCoord
+				: new ExpressionNode(kernel, xCoord,
+				Operation.DIVIDE, yCoord);
+
+		temp = new ExpressionNode(kernel, new MyDouble(kernel, -1.0),
+				Operation.MULTIPLY, temp);
+
+		temp = new ExpressionNode(kernel, temp, Operation.MULTIPLY, fv);
+
+		temp = new ExpressionNode(kernel, temp, Operation.MINUS,
+				forRoot ? zCoord
+						: new ExpressionNode(kernel, zCoord, Operation.DIVIDE,
+								yCoord));
+
+		return new Function(temp, fv);
 	}
 }

@@ -2951,4 +2951,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
 		return false;
 	}
+
+	public Function getFunction(boolean b) {
+		return fun;
+	}
 }

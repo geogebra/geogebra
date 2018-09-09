@@ -273,7 +273,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			break;
 		case MULTIPLE_ROOTS:
 			if (f.isDefined()) {
-				Function fun = f.getGeoFunction().getFunction();
+				Function fun = f.getFunction(true);
 				// get polynomial factors anc calc roots
 				calcRootsMultiple(fun, 0, solution, eqnSolver);
 			} else {
@@ -297,7 +297,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// roots of f
 	protected void computeRoots() {
 		if (f.isDefined()) {
-			Function fun = f.getGeoFunction().getFunction();
+			Function fun = f.getFunction(true);
 			// get polynomial factors anc calc roots
 			calcRoots(fun, 0);
 		} else {

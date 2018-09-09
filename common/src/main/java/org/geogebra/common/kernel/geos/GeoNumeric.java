@@ -1202,7 +1202,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public GeoFunction getGeoFunction() {
-		Function fun = new Function(wrap(), new FunctionVariable(kernel));
+		Function fun = getFunction(false);
 		GeoFunction ret;
 
 		// we get a dependent function if this number has a label or is
@@ -2090,5 +2090,9 @@ public class GeoNumeric extends GeoElement
 		StringBuilder sb = new StringBuilder();
 		addAuralSliderValue(sb);
 		return sb.toString();
+	}
+
+	public Function getFunction(boolean b) {
+		return new Function(wrap(), new FunctionVariable(kernel));
 	}
 }
