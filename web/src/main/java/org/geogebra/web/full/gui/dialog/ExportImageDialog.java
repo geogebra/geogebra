@@ -48,31 +48,36 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		if (base64Image != null) {
 			setPreviewImage(base64Image);
 		} else {
-			
-			// aim for a reasonable size export
-			double width = 3000;
-			// with scale 1 unit : 1 cm
-			double scaleCM = 1;
-
-			EuclidianView ev = app.getActiveEuclidianView();
-			double viewWidth = ev.getExportWidth();
-			double xScale = ev.getXscale();
-
-			// logic copied from CmdExportImage
-			double widthRW = viewWidth / xScale;
-			double dpcm = width / (widthRW * scaleCM);
-			int dpi = (int) (dpcm * 2.54);
-			double pixelWidth = Math
-					.round(dpcm * widthRW * scaleCM);
-			double exportScale = pixelWidth / viewWidth;
-
-			String url = StringUtil.pngMarker + app.getGgbApi()
-					.getPNGBase64(exportScale, false, dpi, false);
-			
-			setPreviewImage(url);
+			setPreviewImage(getExportDataURL(app));
 		}
 		initGui();
 		initActions();
+	}
+
+	/**
+	 * @param app
+	 *            app
+	 * @return data URL of high resolution PNG export
+	 */
+	public static String getExportDataURL(AppW app) {
+		// aim for a reasonable size export
+		double width = 3000;
+		// with scale 1 unit : 1 cm
+		double scaleCM = 1;
+
+		EuclidianView ev = app.getActiveEuclidianView();
+		double viewWidth = ev.getExportWidth();
+		double xScale = ev.getXscale();
+
+		// logic copied from CmdExportImage
+		double widthRW = viewWidth / xScale;
+		double dpcm = width / (widthRW * scaleCM);
+		int dpi = (int) (dpcm * 2.54);
+		double pixelWidth = Math.round(dpcm * widthRW * scaleCM);
+		double exportScale = pixelWidth / viewWidth;
+
+		return StringUtil.pngMarker
+				+ app.getGgbApi().getPNGBase64(exportScale, false, dpi, false);
 	}
 
 	private void initGui() {
