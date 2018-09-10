@@ -3,6 +3,7 @@ package org.geogebra.web.solver;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -35,18 +36,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
-public class Solver implements MathFieldListener {
+public class Solver {
 
 	private AppWsolver app;
 	private JlmEditorLib library;
@@ -56,13 +53,13 @@ public class Solver implements MathFieldListener {
 
 	private HorizontalPanel editorPanel;
 
-	private RootPanel rootPanel;
+	private AbsolutePanel rootPanel;
 	private VerticalPanel solverPanel;
 	private VerticalPanel stepsPanel;
 
 	private WebStepGuiBuilder guiBuilder;
 
-	Solver(AppWsolver app, RootPanel rootPanel) {
+	Solver(AppWsolver app, AbsolutePanel rootPanel) {
 		this.app = app;
 		this.rootPanel = rootPanel;
 	}
@@ -89,7 +86,7 @@ public class Solver implements MathFieldListener {
 
 		FlowPanel editorFocusPanel = new FlowPanel();
 
-		mathField = new MathFieldW(null, editorFocusPanel, canvas, this, false, null);
+		mathField = new MathFieldW(null, editorFocusPanel, canvas, new SolverMathFieldListener(this), false, null);
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
@@ -122,7 +119,7 @@ public class Solver implements MathFieldListener {
 		solveButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				onEnter();
+				hideKeyboardAndCompute();
 			}
 		});
 		editorPanel.add(solveButton);
@@ -147,6 +144,11 @@ public class Solver implements MathFieldListener {
 				}
 			}
 		});
+	}
+
+	void hideKeyboardAndCompute() {
+		keyboard.hide();
+		compute(mathField.getText());
 	}
 
 	private void compute(String text) {
@@ -273,52 +275,5 @@ public class Solver implements MathFieldListener {
 				sb.reset();
 			}
 		}
-	}
-
-	@Override
-	public void onEnter() {
-		keyboard.hide();
-		compute(mathField.getText());
-	}
-
-	@Override
-	public void onKeyTyped() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onCursorMove() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return GeoGebraSerializer.serialize(selectionText);
-	}
-
-	@Override
-	public void onInsertString() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean onEscape() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onTab(boolean shiftDown) {
-		// TODO Auto-generated method stub
 	}
 }

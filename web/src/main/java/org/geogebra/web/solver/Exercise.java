@@ -1,8 +1,11 @@
 package org.geogebra.web.solver;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.client.ScriptInjector;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.awt.GColor;
@@ -20,12 +23,12 @@ import org.geogebra.web.html5.main.DrawEquationW;
 public class Exercise {
 
 	private AppWsolver app;
-	private RootPanel rootPanel;
+	private AbsolutePanel rootPanel;
 	private VerticalPanel dataPanel;
 
 	private int previousComplexity;
 
-	Exercise(AppWsolver app, RootPanel rootPanel) {
+	Exercise(AppWsolver app, AbsolutePanel rootPanel) {
 		this.app = app;
 		this.rootPanel = rootPanel;
 	}
@@ -47,9 +50,24 @@ public class Exercise {
 		dataPanel = new VerticalPanel();
 		rootPanel.add(dataPanel);
 
-		setupListener(this);
+		FlowPanel gmDiv = new FlowPanel();
+		gmDiv.getElement().setId("gm-div");
+		gmDiv.setHeight("400px");
+		rootPanel.add(gmDiv);
 
-		loadGM();
+		ScriptInjector.fromUrl("https://graspablemath.com/shared/libs/gmath/gm-inject.js")
+				.setWindow(ScriptInjector.TOP_WINDOW)
+				.setCallback(new Callback<Void, Exception>() {
+					@Override
+					public void onFailure(Exception reason) {
+
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						loadGM(Exercise.this);
+					}
+				}).inject();
 	}
 
 	private void onCanvasChanged(String lastEquation) {
@@ -130,14 +148,17 @@ public class Exercise {
 		return null;
 	}
 
-	private native void setupListener(Exercise e) /*-{
-		$wnd.onChangedCallback = function(event) {
+	private native void loadGM(Exercise e) /*-{
+		$wnd.loadGM(initCanvas, { version: 'latest' });
+
+		function initCanvas() {
+            $wnd.canvas = new $wnd.gmath.Canvas('#gm-div');
+            $wnd.canvas.model.on('el_changed', onChangedCallback);
+		}
+
+        function onChangedCallback(event) {
             e.@org.geogebra.web.solver.Exercise::onCanvasChanged(Ljava/lang/String;)(event.last_eq);
         }
-    }-*/;
-
-	private native void loadGM() /*-{
-    	$wnd.loadGraspableMath();
     }-*/;
 
     private native void newExercise(String s) /*-{

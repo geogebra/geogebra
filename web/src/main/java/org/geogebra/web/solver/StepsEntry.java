@@ -3,6 +3,7 @@ package org.geogebra.web.solver;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
@@ -17,6 +18,11 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.SharedResources;
 
 public class StepsEntry implements EntryPoint {
+
+	private AppWsolver app;
+	private RootPanel rootPanel;
+	private AbsolutePanel solverRoot;
+	private AbsolutePanel practiceRoot;
 
 	@Override
 	public void onModuleLoad() {
@@ -40,18 +46,53 @@ public class StepsEntry implements EntryPoint {
 
 		GeoGebraFrameSimple fr = new GeoGebraFrameSimple(false);
 
-		AppWsolver app = new AppWsolver(articleElement, fr);
+		app = new AppWsolver(articleElement, fr);
 
 		String type = getContainer().getAttribute("data-param-appType");
 
 		String id = "appContainer" + DOM.createUniqueId();
 		getContainer().setId(id);
-		RootPanel rootPanel = RootPanel.get(id);
+		rootPanel = RootPanel.get(id);
 
-		if ("solver".equals(type)) {
-			new Solver(app, rootPanel).setupApplication();
-		} else {
-			new Exercise(app, rootPanel).setupApplication();
+		switchMode(type);
+	}
+
+	public void switchMode(String mode) {
+		switch (mode) {
+		case "solver":
+			if (practiceRoot != null) {
+				practiceRoot.setVisible(false);
+			}
+
+			if (solverRoot == null) {
+				solverRoot = new AbsolutePanel();
+				new Solver(app, solverRoot).setupApplication();
+
+				rootPanel.add(solverRoot);
+			} else {
+				solverRoot.setVisible(true);
+			}
+
+			break;
+
+		case "practice":
+			if (solverRoot != null) {
+				solverRoot.setVisible(false);
+			}
+
+			if (practiceRoot == null) {
+				practiceRoot = new AbsolutePanel();
+				new Exercise(app, practiceRoot).setupApplication();
+
+				rootPanel.add(practiceRoot);
+			} else {
+				practiceRoot.setVisible(true);
+			}
+
+			break;
+
+		default:
+			// shouldn't happen
 		}
 	}
 
