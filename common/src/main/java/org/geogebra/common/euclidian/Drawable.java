@@ -378,7 +378,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * @return true if serif font is used for GeoText
 	 */
-	protected final boolean isSerif() {
+	final boolean isSerif() {
 		return geo.isGeoText() && ((GeoText) geo).isSerifFont();
 	}
 
@@ -398,7 +398,9 @@ public abstract class Drawable extends DrawableND {
 		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex) {
 
 			// sets labelRectangle
-			doDrawMultilineText(g2, textFont);
+			EuclidianStatic.drawMultiLineText(
+					view.getApplication(), labelDesc, xLabel, yLabel, g2,
+					isSerif(), textFont, labelRectangle);
 		} else {
 			// text with indices
 			// label description has changed, search for possible indices
@@ -409,11 +411,6 @@ public abstract class Drawable extends DrawableND {
 							labelDesc, g2, labelRectangle, textFont, isSerif(),
 							xLabel, yLabel);
 		}
-	}
-
-	protected void doDrawMultilineText(GGraphics2D g2, GFont textFont) {
-		EuclidianStatic.drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2,
-				isSerif(), textFont, labelRectangle);
 	}
 
 	/**

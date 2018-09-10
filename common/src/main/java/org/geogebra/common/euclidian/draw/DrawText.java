@@ -21,7 +21,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.factories.AwtFactory;
@@ -67,8 +66,6 @@ public final class DrawText extends Drawable {
 	private BoundingBox boundingBox;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
-	private double scaleX = 1;
-	private double scaleY = 1;
 	private TextController ctrl;
 
 	/**
@@ -265,26 +262,6 @@ public final class DrawText extends Drawable {
 		}
 	}
 
-	@Override
-	protected void doDrawMultilineText(GGraphics2D g2, GFont tFont) {
-		if (isWhiteboardText()) {
-			double translateX = getBounds().getMinX();
-			double translateY = getBounds().getMinY();
-			g2.saveTransform();
-			g2.translate(translateX, translateY);
-			g2.scale(scaleX, scaleY);
-			g2.translate(-translateX, -translateY);
-			EuclidianStatic.drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif(), tFont, labelRectangle);
-			g2.restoreTransform();
-			labelRectangle.setBounds((int) labelRectangle.getMinX(), (int) labelRectangle.getMinY(),
-				(int) (labelRectangle.getWidth() * scaleX),
-				(int) (labelRectangle.getHeight() * scaleY));
-		} else {
-			super.doDrawMultilineText(g2, tFont);
-		}
-	}
-
 	/**
 	 * was this object clicked at? (mouse pointer location (x,y) in screen
 	 * coords)
@@ -386,23 +363,14 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		double minX = xLabel;
-		double maxX = boundingBox.getRectangle().getMaxX();
-		double minY = boundingBox.getRectangle().getMinY();
-		double maxY = boundingBox.getRectangle().getMaxY();
-		double mouseY = point.getY();
-		double mouseX = point.getX();
-
 		switch (handler) {
+		case TOP:
+			break;
 		case BOTTOM:
-			scaleY *= ((mouseY - minY) / (maxY - minY));
 			break;
 		case RIGHT:
-			scaleX *= ((mouseX - minX) / (maxX - minX));
 			break;
 		case LEFT:
-			scaleX *= ((maxX - mouseX) / (maxX - minX));
-			xLabel = (int) mouseX;
 			break;
 		default:
 			break;
