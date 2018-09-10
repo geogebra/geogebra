@@ -6,8 +6,9 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -57,10 +58,25 @@ public class ShareDialogMow extends DialogBoxW
 			this.addDomHandler(new ClickHandler() {
 				@Override
 				public void onClick(final ClickEvent event) {
-					Log.debug("SHARED WITH GROUP: " + getGroupName());
 					getAppW().getLoginOperation().getGeoGebraTubeAPI()
 							.setShared(getAppW().getActiveMaterial(),
-									getGroupName(), true, null);
+									getGroupName(), true,
+									new AsyncOperation<Boolean>() {
+
+										public void callback(Boolean obj) {
+											ToolTipManagerW.sharedInstance()
+													.showBottomMessage(
+															getAppW()
+																	.getLocalization()
+																	.getPlain(
+																			obj.equals(
+																					Boolean.TRUE)
+																							? "GroupShareOk"
+																							: "GroupShareFail",
+																			getGroupName()),
+															true, getAppW());
+										}
+									});
 					hide();
 				}
 			}, ClickEvent.getType());
