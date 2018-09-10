@@ -1325,31 +1325,20 @@ public enum Commands implements CommandsConstants,
 	 * @return command in scientific calculator
 	 */
 	public static String getSimpleName(String commandName) {
-		Commands command = stringToCommand(commandName);
-		if (command == null) {
-			return commandName;
+		Commands simpleNamedCommand = null;
+
+		if (Binomial.name().equals(commandName)) {
+			simpleNamedCommand = nCr;
+		} else if (Mean.name().equals(commandName)) {
+			simpleNamedCommand = mean;
+		} else if (SD.name().equals(commandName)) {
+			simpleNamedCommand = stdev;
+		} else if (SampleSD.name().equals(commandName)) {
+			simpleNamedCommand = stdevp;
+		} else if (MAD.name().equals(commandName)) {
+			simpleNamedCommand = mad;
 		}
 
-		Commands simpleNamedCommand;
-		switch (command) {
-			case Binomial:
-				simpleNamedCommand = nCr;
-				break;
-			case Mean:
-				simpleNamedCommand = mean;
-				break;
-			case SD:
-				simpleNamedCommand = stdev;
-				break;
-			case SampleSD:
-				simpleNamedCommand = stdevp;
-				break;
-			case MAD:
-				simpleNamedCommand = mad;
-				break;
-			default:
-				simpleNamedCommand = null;
-		}
 		if (simpleNamedCommand != null) {
 			return simpleNamedCommand.name();
 		}
