@@ -7720,7 +7720,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					? getResizedShape().getBounds()
 					: view.getBoundingBox().getRectangle();
 
-			if (bounds != null && lastMouseLoc != null) {
+			if (bounds != null) {
+				if (lastMouseLoc == null) {
+					return;
+				}
+
+				// lastMouseLoc is not updated outside the view, but the event
+				// contains values in that region too, so we clamp them
+				double ex = Math.max(0,
+						Math.min(view.getWidth(), event.getX())),
+						ey = Math.max(0,
+								Math.min(view.getHeight(), event.getY()));
+
 				double centerX = bounds.getMinX() + bounds.getWidth() / 2,
 						centerY = bounds.getMinY() + bounds.getHeight() / 2;
 
@@ -7731,8 +7742,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 				NumberValue angle = new GeoNumeric(
 						app.getKernel().getConstruction(),
-						Math.atan2(-(event.getY() - centerY),
-								event.getX() - centerX)
+						Math.atan2(-(ey - centerY), ex - centerX)
 								- Math.atan2(-(lastMouseLoc.getY() - centerY),
 										lastMouseLoc.getX() - centerX));
 
