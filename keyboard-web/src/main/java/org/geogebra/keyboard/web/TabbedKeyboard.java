@@ -150,7 +150,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, locale.getMenu("Keyboard.ABC"));
+		switcher.addSwitch(keyboard,
+				locale.getMenuDefault("Keyboard.ABC", "ABC"));
 		keyboard = buildPanel(kbf.createGreekKeyboard(), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
@@ -317,7 +318,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				altText = name;
 			} else {
 				// eg "inverse sine"
-				altText = locale.getMenu(wb.getAltText());
+				altText = locale.getAltText(wb.getAltText());
 			}
 
 			return new KeyBoardButtonBase(
@@ -393,8 +394,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (altText.startsWith("altText.")) {
 			// translate if necessary
 			// eg altText.imaginaryi
-			altText = locale.getMenuDefault(altText,
-					altText.replace("altText.", ""));
+			altText = locale.getAltText(altText);
 		}
 
 		return new KeyBoardButtonBase(name, altText, name, b);
@@ -483,7 +483,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					"altText.PowE");
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10",
-					loc.getMenu("altText.log10"), "log10",
+					loc.getAltText("altText.log10"), "log10",
 					bh);
 		} else if (resourceName.equals(Resource.LOG_B.name())) {
 			return  new KeyBoardButtonFunctionalBase(

@@ -1540,4 +1540,20 @@ public abstract class Localization {
 	public boolean areEnglishCommandsForced() {
 		return areEnglishCommandsForced;
 	}
+
+	/**
+	 * 
+	 * @param altText
+	 *            eg altText.RightArrow
+	 * @return eg "Right Arrow"
+	 */
+	public String getAltText(String altText) {
+		String ret = getMenu(altText);
+
+		// just in case translations not loaded
+		if (ret.indexOf("altText.") > -1) {
+			ret = ret.replace("altText.", "");
+		}
+		return ret;
+	}
 }

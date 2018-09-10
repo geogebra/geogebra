@@ -46,7 +46,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		super(handler);
 		this.image = new Image(image);
 
-		String altTextTranslated = loc.getMenu(altText);
+		String altTextTranslated = loc.getAltText(altText);
 
 		this.image.setAltText(altTextTranslated);
 		this.getElement().setAttribute("aria-label", altTextTranslated);
@@ -97,7 +97,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 			String altText) {
 		super(handler);
 
-		String altTextTranslated = loc.getMenu(altText);
+		String altTextTranslated = loc.getAltText(altText);
 
 		this.image = new NoDragImage(svg, 24);
 		this.image.setAltText(altTextTranslated);
