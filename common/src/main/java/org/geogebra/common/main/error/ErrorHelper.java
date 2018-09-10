@@ -96,7 +96,10 @@ public class ErrorHelper {
 			ErrorHandler handler) {
 		if (handler instanceof ErrorLogger) {
 			((ErrorLogger) handler).log(e);
+		} else {
+			e.printStackTrace();
 		}
+
 		if (e.getcommandName() != null) {
 			String internal = loc
 					.getReverseCommand(e.getcommandName());

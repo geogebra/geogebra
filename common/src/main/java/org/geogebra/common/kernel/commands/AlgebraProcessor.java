@@ -1093,7 +1093,6 @@ public class AlgebraProcessor {
 				app.storeUndoInfo();
 			}
 		} catch (MyError e) {
-			e.printStackTrace();
 			ErrorHelper.handleError(e,
 					ve == null ? null
 							: ve.toString(StringTemplate.defaultTemplate),
