@@ -191,8 +191,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (exitOnFirst || exitOnLast) {
-			// selection.clearSelectedGeos();
-			// return true;
+			selection.clearSelectedGeos();
+			return true;
 		}
 		return false;
 	}

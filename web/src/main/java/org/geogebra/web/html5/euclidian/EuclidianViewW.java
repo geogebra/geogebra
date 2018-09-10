@@ -197,8 +197,15 @@ public class EuclidianViewW extends EuclidianView implements
 				}
 			}
 		});
+		initAriaDefaults();
 	}
 
+	private void initAriaDefaults() {
+		Element elem = g2p.getCanvas().getElement();
+		elem.setAttribute("role", "figure");
+		elem.setAttribute("aria-label", "Graphics View " + evNo);
+
+	}
 	/**
 	 * @param euclidiancontroller
 	 *            controller

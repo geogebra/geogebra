@@ -4193,5 +4193,4 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// no snap for 3D view
 		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
-
 }
