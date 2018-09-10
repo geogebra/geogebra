@@ -157,7 +157,7 @@ public class Exercise {
 		}
 
         function onChangedCallback(event) {
-            e.@org.geogebra.web.solver.Exercise::onCanvasChanged(Ljava/lang/String;)(event.last_eq);
+            e.@org.geogebra.web.solver.Exercise::onCanvasChanged(Ljava/lang/String;)(event.last_eq.replace('{', '(').replace('}', ')'));
         }
     }-*/;
 
