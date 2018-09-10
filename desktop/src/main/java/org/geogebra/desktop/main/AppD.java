@@ -5360,9 +5360,4 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return StringUtil.pngMarker + GgbAPID.base64encode(img2, 72);
 	}
 
-	@Override
-	public boolean isWhiteboardActive() {
-		return true;
-	}
-
 }
