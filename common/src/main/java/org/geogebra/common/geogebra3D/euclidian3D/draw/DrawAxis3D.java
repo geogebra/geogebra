@@ -27,6 +27,7 @@ public class DrawAxis3D extends DrawLine3D {
 	private int numbersXOffset;
 	private int numbersYOffset;
 	private boolean outsideBox = false;
+	static private double SQRT3_DIV_3 = Math.sqrt(3.0) / 3.0;
 
 	/**
 	 * common constructor
@@ -254,10 +255,14 @@ public class DrawAxis3D extends DrawLine3D {
 		// calc orthogonal offsets
 		int vx = (int) (v.get(1) * 1.5 * axis.getTickSize());
 		int vy = (int) (v.get(2) * 1.5 * axis.getTickSize());
+		if (getView3D().isARDrawing() && axis.getType() == GeoAxisND.Y_AXIS
+				&& vx == 0 && vy == 0) {
+				vx = (int) (-SQRT3_DIV_3 * 1.5 * axis.getTickSize());
+				vy = (int) (-SQRT3_DIV_3 * 1.5 * axis.getTickSize());
+		}
 		numbersXOffset = -vy;
 		numbersYOffset = vx;
 
-		// if (yOffset>0){
 		if (axis.getType() == GeoAxisND.X_AXIS) {
 			numbersXOffset = -numbersXOffset;
 			numbersYOffset = -numbersYOffset;
