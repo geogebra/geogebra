@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
@@ -16,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  *
  */
-public class GeoVideo extends GeoMedia implements GeoFrame {
+public class GeoVideo extends GeoMedia implements GeoFrame, Translateable {
 	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
 
 	/**
@@ -505,5 +506,19 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 				yScale = app.getActiveEuclidianView().getYscale();
 			}
 		}
+	}
+
+	@Override
+	public void translate(Coords v) {
+		for (int i = 0; i < corner.length; i++) {
+			if (corner[i] != null) {
+				corner[i].translate(v);
+			}
+		}
+	}
+
+	@Override
+	public boolean isTranslateable() {
+		return true;
 	}
 }

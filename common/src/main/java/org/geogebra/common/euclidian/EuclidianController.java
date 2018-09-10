@@ -9380,7 +9380,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		DrawAudio da = getAudioHit();
 
-		if (!event.isRightClick() && da != null) {
+		if (!event.isRightClick() && da != null && !isMultiSelection()) {
 			clearSelections();
 			app.getSelectionManager().addSelectedGeo(da.geo);
 			if (da.onMouseDown(event.getX(), event.getY())) {
@@ -9576,7 +9576,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			widgetsToBackground();
 		}
 
-		if (mode != EuclidianConstants.MODE_MOVE) {
+		if ((mode != EuclidianConstants.MODE_MOVE
+				&& mode != EuclidianConstants.MODE_SELECT_MOW)
+				|| isMultiSelection()) {
 			return;
 		}
 
@@ -9587,7 +9589,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveVideo() {
-		if (mode != EuclidianConstants.MODE_MOVE) {
+		if (mode != EuclidianConstants.MODE_MOVE
+				&& mode != EuclidianConstants.MODE_SELECT_MOW) {
 			return;
 		}
 
