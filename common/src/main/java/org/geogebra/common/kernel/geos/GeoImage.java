@@ -875,6 +875,10 @@ public class GeoImage extends GeoElement implements Locateable,
 						corners[i].getLocateableList().unregisterLocateable(this);
 					}
 				}
+				if (corners[0] != null) {
+					corners[0] = corners[0].copy();
+					hasAbsoluteLocation = true;
+				}
 				corners[1] = null;
 				corners[2] = null;
 			}
