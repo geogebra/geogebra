@@ -1,4 +1,7 @@
-<script>marginTop=appOnline ? 64 : 0;translation.tryApp="<!--TRY APP-->";translation.stay="<!--CONTINUE-->";
+<script>
+marginTop = window.appOnline ? 64 : 0;
+translation.tryApp="<!--TRY APP-->";
+translation.stay="<!--CONTINUE-->";
 function toggleAppPicker(){
 	var style = document.getElementsByClassName("popdown-button-container")[0].style;
 	var wasHidden = style.display == "none";
