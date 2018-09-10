@@ -3292,8 +3292,6 @@ public abstract class GeoElement extends ConstructionElement
 		// stop animation of this geo
 		setAnimating(false);
 
-		// remove Listeners
-		AlgoElement algo = getParentAlgorithm();
 		// first remove all dependent algorithms
 		removeDependentAlgos();
 
@@ -3302,9 +3300,8 @@ public abstract class GeoElement extends ConstructionElement
 			cons.removeFromConstructionList(this);
 		}
 
-		/*
-		 * // remove Listeners AlgoElement algo = getParentAlgorithm();
-		 */
+		// remove Listeners
+		AlgoElement algo = getParentAlgorithm();
 		if (algo != null) {
 			cons.unregisterEuclidianViewCE(algo);
 		}
@@ -3366,12 +3363,10 @@ public abstract class GeoElement extends ConstructionElement
 	 * Remove algos depending on this geo.
 	 */
 	public void removeDependentAlgos() {
-		AlgoElement algo = getParentAlgorithm();
-		// first remove all dependent algorithms
 		if (algorithmList != null) {
 			final Object[] algos = algorithmList.toArray();
 			for (int i = 0; i < algos.length; i++) {
-				algo = (AlgoElement) algos[i];
+				AlgoElement algo = (AlgoElement) algos[i];
 				algo.remove(this);
 			}
 		}
