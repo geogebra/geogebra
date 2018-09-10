@@ -7739,10 +7739,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				double centerX = bounds.getMinX() + bounds.getWidth() / 2,
 						centerY = bounds.getMinY() + bounds.getHeight() / 2;
 
-				GeoPointND center = new GeoPoint(
-						app.getKernel().getConstruction(),
-						view.toRealWorldCoordX(centerX),
-						view.toRealWorldCoordY(centerY), 1);
+				if (rotationCenter == null) {
+					rotationCenter = new GeoPoint(
+							app.getKernel().getConstruction(),
+							view.toRealWorldCoordX(centerX),
+							view.toRealWorldCoordY(centerY), 1);
+				}
 
 				NumberValue angle = new GeoNumeric(
 						app.getKernel().getConstruction(),
@@ -7755,7 +7757,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					hideDynamicStylebar();
 
 					for (GeoElement geo : selection.getSelectedGeos()) {
-						((PointRotateable) geo).rotate(angle, center);
+						((PointRotateable) geo).rotate(angle, rotationCenter);
 						geo.updateRepaint();
 					}
 					return;
@@ -10115,6 +10117,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (dl != null) {
 			dl.onMouseUp(event.getX(), event.getY());
 			return;
+		}
+
+		// reset the center of rotation
+		if (rotationCenter != null) {
+			rotationCenter.remove();
+			rotationCenter = null;
 		}
 
 		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
