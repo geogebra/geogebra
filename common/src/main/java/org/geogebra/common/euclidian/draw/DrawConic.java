@@ -191,6 +191,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private GeoLine stretchDirectionX;
 	private GeoLine stretchDirectionY;
+	private boolean flipped = false;
 
 	@Override
 	public GArea getShape() {
@@ -2384,49 +2385,85 @@ public class DrawConic extends Drawable implements Previewable {
 		fixCornerCoords(hitHandler);
 		fixStretchDirection(hitHandler);
 
+		EuclidianBoundingBoxHandler realHandler = hitHandler;
+		if (flipped) {
+			realHandler = flipHitHandler(realHandler);
+		}
+
 		double ratio = 1;
-		switch (hitHandler) {
-		case LEFT:
+		switch (realHandler) {
 		case RIGHT:
-		case TOP_LEFT:
 		case TOP_RIGHT:
-		case BOTTOM_LEFT:
 		case BOTTOM_RIGHT:
+			ratio = (p.getX() - fixCornerX)
+					/ getBoundingBox().getRectangle().getWidth();
+			if (p.getX() < fixCornerX) {
+				flipped = !flipped;
+			}
+			break;
+		case LEFT:
+		case TOP_LEFT:
+		case BOTTOM_LEFT:
+			ratio = (fixCornerX - p.getX())
+					/ getBoundingBox().getRectangle().getWidth();
 			if (p.getX() > fixCornerX) {
-				ratio = (p.getX() - fixCornerX)
-						/ getBoundingBox().getRectangle().getWidth();
-			} else {
-				ratio = (fixCornerX - p.getX())
-						/ getBoundingBox().getRectangle().getWidth();
+				flipped = !flipped;
 			}
 			break;
 		case TOP:
-		case BOTTOM:
+			ratio = (fixCornerY - p.getY())
+					/ getBoundingBox().getRectangle().getHeight();
 			if (p.getY() > fixCornerY) {
-				ratio = (p.getY() - fixCornerY)
-						/ getBoundingBox().getRectangle().getHeight();
-			} else {
-				ratio = (fixCornerY - p.getY())
-						/ getBoundingBox().getRectangle().getHeight();
+				flipped = !flipped;
 			}
 			break;
-		case UNDEFINED:
+		case BOTTOM:
+			ratio = (p.getY() - fixCornerY)
+					/ getBoundingBox().getRectangle().getHeight();
+			if (p.getY() < fixCornerY) {
+				flipped = !flipped;
+			}
 			break;
 		}
 
-		if (stretchDirectionX != null) {
-			applyStretch(stretchDirectionX, ratio);
+		if (ratio != 0) {
+			if (stretchDirectionX != null) {
+				applyStretch(stretchDirectionX, ratio);
+			}
+
+			if (stretchDirectionY != null) {
+				applyStretch(stretchDirectionY, ratio);
+			}
+
+			// with side handler dragging no circle anymore
+			setIsCircle(false);
+
+			getBoundingBox().setRectangle(rectForRotatedEllipse());
+			conic.updateRepaint();
 		}
+	}
 
-		if (stretchDirectionY != null) {
-			applyStretch(stretchDirectionY, ratio);
+	private static EuclidianBoundingBoxHandler flipHitHandler(
+			EuclidianBoundingBoxHandler handler) {
+		switch (handler) {
+		case RIGHT:
+			return EuclidianBoundingBoxHandler.LEFT;
+		case LEFT:
+			return EuclidianBoundingBoxHandler.RIGHT;
+		case TOP:
+			return EuclidianBoundingBoxHandler.BOTTOM;
+		case BOTTOM:
+			return EuclidianBoundingBoxHandler.TOP;
+		case TOP_LEFT:
+			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
+		case TOP_RIGHT:
+			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
+		case BOTTOM_LEFT:
+			return EuclidianBoundingBoxHandler.TOP_RIGHT;
+		case BOTTOM_RIGHT:
+			return EuclidianBoundingBoxHandler.TOP_LEFT;
 		}
-
-		// with side handler dragging no circle anymore
-		setIsCircle(false);
-
-		getBoundingBox().setRectangle(rectForRotatedEllipse());
-		conic.updateRepaint();
+		return handler;
 	}
 
 	private void applyStretch(GeoLine direction, double num) {
@@ -2691,6 +2728,7 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
+		flipped = false;
 		if (stretchDirectionX != null) {
 			stretchDirectionX.remove();
 			stretchDirectionX = null;
