@@ -45,7 +45,8 @@ public abstract class SolutionStep {
 
 	public boolean shouldSkipSubsteps() {
 		return getType() == SolutionStepType.ADD_TO_BOTH_SIDES
-				|| getType() == SolutionStepType.SUBTRACT_FROM_BOTH_SIDES;
+				|| getType() == SolutionStepType.SUBTRACT_FROM_BOTH_SIDES
+				|| getType() == SolutionStepType.FACTOR_POLYNOMIAL;
 	}
 
 	public SolutionStep cleanupSteps() {
