@@ -109,7 +109,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 			AlgoTransformation3D.toGeoCurveCartesian(kernel,
 					(GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
 		} else {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 
 		if (!outGeo.isDefined()) {

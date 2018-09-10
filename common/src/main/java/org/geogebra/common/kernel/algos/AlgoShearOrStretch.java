@@ -44,8 +44,6 @@ import org.geogebra.common.util.MyMath;
 public class AlgoShearOrStretch extends AlgoTransformation {
 
 	private MatrixTransformable out;
-	private GeoElement inGeo;
-	private GeoElement outGeo;
 	private GeoVec3D line;
 	private GeoNumberValue num;
 	private boolean shear;
@@ -136,7 +134,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 		if (!outGeo.isDefined()) {
 			return;

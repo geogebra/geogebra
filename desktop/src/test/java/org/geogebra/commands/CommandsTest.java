@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -2115,6 +2116,8 @@ public class CommandsTest extends AlgebraTest {
 		t("Dilate[ (4,5), 2,(1,1) ]", "(7, 9)");
 		t("Dilate[ (4,5), 2 ]", "(8, 10)");
 		t("r=Dilate(y=-3x-6,2)", "y = -3x - 12");
+		((GeoLine) get("r")).setToUser();
+		t("r", "3x + y = -12");
 	}
 
 	@Test

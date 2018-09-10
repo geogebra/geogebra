@@ -107,7 +107,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 			AlgoTransformation3D.toGeoSurfaceCartesian(kernel,
 					(GeoFunctionNVar) inGeo, (GeoSurfaceCartesian3D) outGeo);
 		} else {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 		if (!outGeo.isDefined()) {
 			return;

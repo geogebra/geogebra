@@ -16,6 +16,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
  */
 public abstract class AlgoTransformation extends AlgoElement {
 	private GeoPoint transformedPoint;
+	protected GeoElement inGeo;
+	protected GeoElement outGeo;
 
 	/**
 	 * Create new transformation algo
@@ -195,5 +197,13 @@ public abstract class AlgoTransformation extends AlgoElement {
 	public boolean euclidianViewUpdate() {
 		compute();
 		return true;
+	}
+
+	/**
+	 * set inGeo to outGeo
+	 */
+	protected void setOutGeo() {
+		outGeo.set(inGeo);
+		outGeo.resetDefinition();
 	}
 }

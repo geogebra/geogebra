@@ -139,6 +139,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	/**
 	 * @param cons
 	 *            construction
+	 * @param input
+	 *            input elements
 	 * @param geoList
 	 *            input matrix
 	 * @param args

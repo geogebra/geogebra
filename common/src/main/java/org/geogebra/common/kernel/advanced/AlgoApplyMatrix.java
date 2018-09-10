@@ -38,8 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 public class AlgoApplyMatrix extends AlgoTransformation {
 
 	private MatrixTransformable out;
-	private GeoElement inGeo;
-	private GeoElement outGeo;
 	private final GeoList matrix;
 
 	/**
@@ -114,7 +112,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 
 		if (!outGeo.isDefined()) {

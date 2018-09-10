@@ -46,8 +46,6 @@ public class AlgoRotatePoint extends AlgoTransformation
 	private GeoPointND Q;
 	private PointRotateable out;
 	private GeoNumberValue angle;
-	private GeoElement inGeo;
-	private GeoElement outGeo;
 
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;

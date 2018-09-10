@@ -34,8 +34,6 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
  */
 public abstract class AlgoRotate3D extends AlgoTransformation {
 
-	protected GeoElement inGeo;
-	protected GeoElement outGeo;
 	protected RotateableND out;
 	protected GeoNumberValue angle;
 

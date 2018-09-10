@@ -47,8 +47,6 @@ public class AlgoTranslate extends AlgoTransformation
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private Translateable out;
-	protected GeoElement inGeo;
-	protected GeoElement outGeo;
 	protected GeoElement v; // input
 	private PPolynomial[] polynomials;
 
@@ -149,13 +147,6 @@ public class AlgoTranslate extends AlgoTransformation
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
-	}
-
-	/**
-	 * set inGeo to outGeo
-	 */
-	protected void setOutGeo() {
-		outGeo.set(inGeo);
 	}
 
 	protected Coords getVectorCoords() {

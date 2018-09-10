@@ -44,8 +44,6 @@ import org.geogebra.common.util.MyMath;
 public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	private MatrixTransformable out;
-	private GeoElement inGeo;
-	private GeoElement outGeo;
 	private GeoNumberValue viewID;
 	private GeoPointND corner1;
 	private GeoPointND corner3;
@@ -179,7 +177,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			return;
 		}
 		if (!inGeo.isGeoFunction()) {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 
 		if (!outGeo.isDefined()) {

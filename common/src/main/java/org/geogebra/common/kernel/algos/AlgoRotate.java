@@ -38,8 +38,6 @@ public class AlgoRotate extends AlgoTransformation {
 
 	private Rotateable out;
 	private GeoNumberValue angle;
-	private GeoElement inGeo;
-	private GeoElement outGeo;
 	private GeoElement angleGeo;
 
 	/**
@@ -117,7 +115,7 @@ public class AlgoRotate extends AlgoTransformation {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 		if (!outGeo.isDefined()) {
 			return;

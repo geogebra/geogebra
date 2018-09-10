@@ -40,8 +40,6 @@ public class AlgoDilate extends AlgoTransformation {
 	protected GeoPointND S;
 	private Dilateable out;
 	private NumberValue r;
-	protected GeoElement inGeo;
-	protected GeoElement outGeo;
 	private GeoElement rgeo;
 
 	/**
@@ -156,13 +154,6 @@ public class AlgoDilate extends AlgoTransformation {
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
-	}
-
-	/**
-	 * set inGeo to outGeo
-	 */
-	protected void setOutGeo() {
-		outGeo.set(inGeo);
 	}
 
 	@Override

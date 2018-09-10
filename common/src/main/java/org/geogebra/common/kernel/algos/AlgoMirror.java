@@ -60,8 +60,6 @@ public class AlgoMirror extends AlgoTransformation implements
 		SymbolicParametersBotanaAlgo {
 
 	protected Mirrorable out;
-	protected GeoElement inGeo;
-	protected GeoElement outGeo;
 	private GeoLineND mirrorLine;
 	protected GeoPointND mirrorPoint;
 	private GeoConic mirrorConic;
