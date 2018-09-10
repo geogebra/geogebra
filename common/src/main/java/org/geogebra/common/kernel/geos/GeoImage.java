@@ -54,7 +54,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	protected int pixelHeight;
 	private boolean inBackground;
 	private boolean defined;
-	private boolean hasAbsoluteLocation;
+	/** Whether all corners are changeable (unlabeled and independent) */
+	private boolean hasChangeableLocation;
 	private boolean interpolate = true;
 
 	// for absolute screen location
@@ -185,7 +186,7 @@ public class GeoImage extends GeoElement implements Locateable,
 				screenY = img.screenY;
 			}
 		} else {
-			hasAbsoluteLocation = true;
+			hasChangeableLocation = true;
 			for (int i = 0; i < corners.length; i++) {
 				if (img.corners[i] == null) {
 					corners[i] = null;
@@ -407,11 +408,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			corners[number].getLocateableList().registerLocateable(this);
 		}
 
-		if (!kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
-			// absolute screen position should be deactivated
-			setAbsoluteScreenLocActive(false);
-			updateHasAbsoluteLocation();
-		}
+		// absolute screen position should be deactivated
+		setAbsoluteScreenLocActive(false);
+		updateHasAbsoluteLocation();
 	}
 
 	/**
@@ -419,20 +418,20 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * points (i.e. independent and unlabeled).
 	 */
 	private void updateHasAbsoluteLocation() {
-		hasAbsoluteLocation = true;
+		hasChangeableLocation = true;
 		int definedPoints = 0;
 		for (int i = 0; i < corners.length; i++) {
 			if (corners[i] != null) {
 				definedPoints++;
 			}
 			if (!(corners[i] == null || corners[i].isAbsoluteStartPoint())) {
-				hasAbsoluteLocation = false;
+				hasChangeableLocation = false;
 				return;
 			}
 		}
 		if (definedPoints > 1 && kernel.getApplication()
 				.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
-			hasAbsoluteLocation = false;
+			hasChangeableLocation = false;
 		}
 	}
 
@@ -478,7 +477,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	final public boolean hasAbsoluteLocation() {
-		return hasAbsoluteLocation;
+		return hasChangeableLocation;
 	}
 
 	/**
@@ -562,7 +561,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	@Override
 	final public boolean isMoveable() {
-		return (hasAbsoluteScreenLocation || hasAbsoluteLocation)
+		return (hasAbsoluteScreenLocation || hasChangeableLocation)
 				&& isPointerChangeable();
 	}
 
@@ -571,7 +570,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	@Override
 	final public boolean isRotateMoveable() {
-		return !hasAbsoluteScreenLocation && hasAbsoluteLocation
+		return !hasAbsoluteScreenLocation && hasChangeableLocation
 				&& isPointerChangeable();
 	}
 
@@ -877,7 +876,7 @@ public class GeoImage extends GeoElement implements Locateable,
 				}
 				if (corners[0] != null) {
 					corners[0] = corners[0].copy();
-					hasAbsoluteLocation = true;
+					hasChangeableLocation = true;
 				}
 				corners[1] = null;
 				corners[2] = null;
@@ -1039,7 +1038,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	private boolean initTransformPoints() {
-		if (hasAbsoluteScreenLocation || !hasAbsoluteLocation) {
+		if (hasAbsoluteScreenLocation || !hasChangeableLocation) {
 			return false;
 		}
 
