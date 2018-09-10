@@ -4238,7 +4238,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void showListCreated(GeoList list) {
 		String label = list.getLabel(StringTemplate.algebraTemplate);
 		String message = localization.getPlain("ListCreated", label);
-		view.setToolTipText(message);
+		showListToolTip(message);
+	}
+
+	public void showListToolTip(String message) {
+		// Overridden in the subclasses
 	}
 
 	protected void calcRWcoords() {

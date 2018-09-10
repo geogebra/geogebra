@@ -25,6 +25,7 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
@@ -92,6 +93,14 @@ public class EuclidianControllerW extends EuclidianController implements
 				popup.positionPopup(offsetWidth, offsetHeight, previewPoints);
 			}
 		});
+	}
+
+	@Override
+	public void showListToolTip(String message) {
+		if (message != null && !"".equals(message)) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(message, true,
+					(AppW) getApplication());
+		}
 	}
 
 	/**

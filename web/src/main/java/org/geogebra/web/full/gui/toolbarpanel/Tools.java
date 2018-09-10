@@ -334,6 +334,5 @@ public class Tools extends FlowPanel implements SetLabels {
 							app.getAppletFrame().isKeyboardShowing());
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
-
 	}
 }
