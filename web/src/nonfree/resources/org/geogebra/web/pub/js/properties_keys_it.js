@@ -1903,6 +1903,8 @@ __GGB__keysVar["it"].menu = {
     "Gridlines": "Linee della griglia",
     "Group": "Group",
     "GroupObjects": "Raggruppa oggetti",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Seleziona il gruppo con cui condividere la risorsa:",
     "Growth": "Crescita",
     "HSL": "HSL",

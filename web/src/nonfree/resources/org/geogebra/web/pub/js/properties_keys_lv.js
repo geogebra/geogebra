@@ -1903,6 +1903,8 @@ __GGB__keysVar["lv"].menu = {
     "Gridlines": "Re\u017e\u0123l\u012bnijas",
     "Group": "Group",
     "GroupObjects": "Grup\u0113t objektus",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Augo\u0161s",
     "HSL": "HSL",

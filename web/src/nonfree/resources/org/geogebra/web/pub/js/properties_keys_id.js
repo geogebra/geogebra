@@ -1903,6 +1903,8 @@ __GGB__keysVar["id"].menu = {
     "Gridlines": "Garis Kisi-kisi",
     "Group": "Group",
     "GroupObjects": "Group Objek",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Pertumbuhan",
     "HSL": "HSL",

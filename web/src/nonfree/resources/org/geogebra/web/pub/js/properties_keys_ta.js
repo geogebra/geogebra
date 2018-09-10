@@ -1903,6 +1903,8 @@ __GGB__keysVar["ta"].menu = {
     "Gridlines": "Gridlines",
     "Group": "Group",
     "GroupObjects": "Group Objects",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "\u0bb5\u0bb3\u0bb0\u0bcd\u0b9a\u0bcd\u0b9a\u0bbf",
     "HSL": "HSL",

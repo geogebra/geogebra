@@ -1903,6 +1903,8 @@ __GGB__keysVar["da"].menu = {
     "Gridlines": "Gitterlinjer",
     "Group": "Group",
     "GroupObjects": "Saml objekter i en gruppe",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "V\xe6kst",
     "HSL": "HSL",

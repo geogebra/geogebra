@@ -1903,6 +1903,8 @@ __GGB__keysVar["hr"].menu = {
     "Gridlines": "Crte mre\u017ee",
     "Group": "Group",
     "GroupObjects": "Grupa objekata",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Odaberite grupu kojoj \u0107ete podijeliti materijale:",
     "Growth": "Rasta",
     "HSL": "HSL",

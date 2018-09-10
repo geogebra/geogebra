@@ -1903,6 +1903,8 @@ __GGB__keysVar["eo"].menu = {
     "Gridlines": "Kradlinioj",
     "Group": "Group",
     "GroupObjects": "Group Objects",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Growth",
     "HSL": "Dupolusa Kolorspaco",

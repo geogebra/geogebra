@@ -1903,6 +1903,8 @@ __GGB__keysVar["fi"].menu = {
     "Gridlines": "Ruudukko",
     "Group": "Group",
     "GroupObjects": "Ryhmit\xe4 objektit",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Valitse ryhm\xe4, jolle resurssi jaetaan:",
     "Growth": "Kasvu",
     "HSL": "HSL",

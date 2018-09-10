@@ -1903,6 +1903,8 @@ __GGB__keysVar["tr"].menu = {
     "Gridlines": "Izgara \xe7izgileri",
     "Group": "Group",
     "GroupObjects": "Nesneleri Grupland\u0131r",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "B\xfcy\xfcme",
     "HSL": "HSL",

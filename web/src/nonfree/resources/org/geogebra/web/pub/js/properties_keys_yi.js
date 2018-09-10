@@ -1903,6 +1903,8 @@ __GGB__keysVar["yi"].menu = {
     "Gridlines": "\u05e8\u05e2\u05e9\u05d0\u05b8\u05d8\u05e7\u05e2",
     "Group": "Group",
     "GroupObjects": "\u05d2\u05e8\u05d5\u05e4\u05bc\u05d9\u05e8\u05d8\u05e2 \u05d0\u05b8\u05d1\u05d9\u05e2\u05e7\u05d8\u05df",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "\u05d5\u05d5\u05d5\u05bc\u05e7\u05e1",
     "HSL": "HSL",

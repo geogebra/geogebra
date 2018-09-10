@@ -1903,6 +1903,8 @@ __GGB__keysVar["nl-NL"].menu = {
     "Gridlines": "Roosterlijnen",
     "Group": "Group",
     "GroupObjects": "Groep Objecten",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Kies een groep om het materiaal in te delen:",
     "Growth": "Groei",
     "HSL": "HSL",

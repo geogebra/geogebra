@@ -1903,6 +1903,8 @@ __GGB__keysVar["gl"].menu = {
     "Gridlines": "Cuadriculados",
     "Group": "Group",
     "GroupObjects": "Agrupa obxectos",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Crecemento",
     "HSL": "HSL",

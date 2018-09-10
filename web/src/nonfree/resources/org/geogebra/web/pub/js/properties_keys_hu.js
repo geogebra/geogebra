@@ -1903,6 +1903,8 @@ __GGB__keysVar["hu"].menu = {
     "Gridlines": "R\xe1csvonalak",
     "Group": "Group",
     "GroupObjects": "Alakzatok csoportos\xedt\xe1sa",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "N\xf6veked\xe9s",
     "HSL": "HSL",

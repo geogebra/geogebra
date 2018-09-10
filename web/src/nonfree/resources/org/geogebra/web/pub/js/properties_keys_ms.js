@@ -1903,6 +1903,8 @@ __GGB__keysVar["ms"].menu = {
     "Gridlines": "Garisgrid",
     "Group": "Group",
     "GroupObjects": "Kumpulkan Objek-objek",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Pertumbuhan",
     "HSL": "HSL",

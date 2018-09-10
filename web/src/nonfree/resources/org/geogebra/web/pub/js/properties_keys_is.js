@@ -1903,6 +1903,8 @@ __GGB__keysVar["is"].menu = {
     "Gridlines": "Grindarl\xednur",
     "Group": "Group",
     "GroupObjects": "Flokka hluti",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "V\xf6xtur",
     "HSL": "HSL",

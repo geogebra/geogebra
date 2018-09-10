@@ -1903,6 +1903,8 @@ __GGB__keysVar["sq"].menu = {
     "Gridlines": "Vija-Rrjetore",
     "Group": "Group",
     "GroupObjects": "Grup Objektesh",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Rritje",
     "HSL": "HSL",

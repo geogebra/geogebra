@@ -1903,6 +1903,8 @@ __GGB__keysVar["sv"].menu = {
     "Gridlines": "Linjer f\xf6r rutn\xe4t",
     "Group": "Group",
     "GroupObjects": "Gruppera Objekt",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Exponentiell C\u2022a^x",
     "HSL": "HSL",

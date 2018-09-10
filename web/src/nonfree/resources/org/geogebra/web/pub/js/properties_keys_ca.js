@@ -1903,6 +1903,8 @@ __GGB__keysVar["ca"].menu = {
     "Gridlines": "Graella",
     "Group": "Group",
     "GroupObjects": "Agrupa objectes",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "a*b^x",
     "HSL": "HSL",

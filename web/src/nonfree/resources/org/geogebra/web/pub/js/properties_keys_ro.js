@@ -1903,6 +1903,8 @@ __GGB__keysVar["ro"].menu = {
     "Gridlines": "Linii gril\u0103",
     "Group": "Group",
     "GroupObjects": "Groupeaz\u0103 Obiecte",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Cre\u0219tere",
     "HSL": "HSL",

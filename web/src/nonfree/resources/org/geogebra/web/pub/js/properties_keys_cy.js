@@ -1903,6 +1903,8 @@ __GGB__keysVar["cy"].menu = {
     "Gridlines": "Llinellau Grid",
     "Group": "Group",
     "GroupObjects": "Grwpio Gwrthrychau",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Cynnydd",
     "HSL": "HSL",

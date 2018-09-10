@@ -1903,6 +1903,8 @@ __GGB__keysVar["lt"].menu = {
     "Gridlines": "Tinklelis",
     "Group": "Group",
     "GroupObjects": "Grupuoti objektus",
+    "GroupShareFail": "Sharing with %0 failed",
+    "GroupShareOk": "Successfully shared with %0",
     "GroupShareTxt": "Choose group to share resource with:",
     "Growth": "Augimas",
     "HSL": "HSL",
