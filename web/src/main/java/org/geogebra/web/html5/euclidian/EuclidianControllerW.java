@@ -488,6 +488,9 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public TextController getTextController() {
+		if (!app.has(Feature.MOW_TEXT_TOOL)) {
+			return null;
+		}
 		if (textController == null) {
 			textController = new TextControllerW((AppW) app);
 		}
