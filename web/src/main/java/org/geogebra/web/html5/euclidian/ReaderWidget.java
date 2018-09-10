@@ -27,7 +27,7 @@ public class ReaderWidget extends SimplePanel {
 		getElement().setAttribute("role", "status");
 		getElement().setAttribute("aria-live", "polite");
 		getElement().setAttribute("aria-atomic", "true");
-		getElement().setAttribute("aria-relevant", "text");
+		getElement().setAttribute("aria-relevant", "additions text");
 		getElement().getStyle().setTop(-1000.0, Unit.PX);
 		getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
@@ -79,6 +79,7 @@ public class ReaderWidget extends SimplePanel {
 	}
 
 	private void focus() {
+		Log.debug("[SCR] screenReader widget is focused.");
 		getElement().focus();
 	}
 }
