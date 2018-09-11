@@ -1239,7 +1239,7 @@ public abstract class AlgoElement extends ConstructionElement
 		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(getLoc().getCommand(def));
 		} else {
-			sbAE.append(Commands.getSimpleName(def));
+			sbAE.append(def);
 		}
 
 		int length = getInputLengthForCommandDescription();
