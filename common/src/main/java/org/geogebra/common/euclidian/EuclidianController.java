@@ -6846,12 +6846,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					for (GeoPointND point : geo.getFreeInputPoints(getView())) {
 						moveMultipleObjectsList.add((GeoElement) point);
 					}
-				} else if (geo.isGeoImage()) { // add start points for images
-					for (GeoPoint point : ((GeoImage) geo).getStartPoints()) {
-						if (point != null && view.isMoveable(point)) {
-							moveMultipleObjectsList.add(point);
-						}
-					}
 				}
 			}
 		}
@@ -12526,7 +12520,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (!dr.hasRotationHandler()) {
 					hasRotationHandler = false;
 				}
-				GRectangle bounds = dr.getBounds();
+				GRectangle2D bounds = dr.getBoundingBox().getRectangle();
 				if (bounds != null) {
 					if (bounds.getMinX() < minX) {
 						minX = bounds.getMinX();

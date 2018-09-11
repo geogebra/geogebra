@@ -464,7 +464,10 @@ public final class DrawImage extends Drawable {
 			return false;
 		}
 
-		return rect.intersects(getBoundingBox().getRectangle());
+		if (view.getApplication().has(Feature.MOW_SELECTION_TOOL)) {
+			return rect.intersects(getBoundingBox().getRectangle());
+		}
+		return rect.intersects(classicBoundingBox);
 	}
 
 	@Override
@@ -472,7 +475,11 @@ public final class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-		return rect.contains(getBoundingBox().getRectangle());
+
+		if (view.getApplication().has(Feature.MOW_SELECTION_TOOL)) {
+			return rect.contains(getBoundingBox().getRectangle());
+		}
+		return rect.contains(classicBoundingBox);
 	}
 
 	/**
@@ -569,6 +576,7 @@ public final class DrawImage extends Drawable {
 					.has(Feature.MOW_PIN_IMAGE)) {
 				geoImage.updateScaleAndLocation();
 			}
+			geoImage.update();
 		}
 	}
 
@@ -825,7 +833,6 @@ public final class DrawImage extends Drawable {
 			D.updateRepaint();
 			setCorner(D, 2);
 			break;
-
 		case BOTTOM_RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
