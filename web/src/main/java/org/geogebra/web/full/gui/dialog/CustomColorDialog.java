@@ -106,6 +106,8 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		public PreviewPanel(GColor oColor) {
 			setStyleName("CustomColorPreview");
 			title = new Label();
+			title.addStyleName(
+					getApplication().isWhiteboardActive() ? "previewLbl" : "");
 			add(title);
 			canvas = Canvas.createIfSupported();
 			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
@@ -159,7 +161,8 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		setWidget(mainWidget = new FlowPanel());
 		addStyleName("GeoGebraPopup");
 		if (app.has(Feature.DIALOG_DESIGN)) {
-			addStyleName("ColorChooser");
+			addStyleName(app.isWhiteboardActive() ? "ColorChooser mow"
+					: "ColorChooser");
 		}
 		this.origColor = listener.getSelectedColor();
 		createGUI();

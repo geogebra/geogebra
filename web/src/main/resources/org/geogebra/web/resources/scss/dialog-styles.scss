@@ -1199,3 +1199,21 @@ $duration: 0.2s;
    			color: $mebis-teal-dark !important;	
    		}
 	}
+
+	.MaterialDialogBox.mow, 
+		.MaterialDialogBox.ColorChooser.mow {
+			.previewLbl {
+				color: $mebis-teal-dark !important;	
+			}
+			.CustomColorButton:hover {
+				background-color: $mebis-teal-light !important;
+			}
+			.DialogButtonPanel {
+				.gwt-Button {
+	   				color: $mebis-teal-dark;	
+	   				&:hover {
+	   					color: $mebis-teal-dark;
+	   				}
+	   			}
+			}
+	}
