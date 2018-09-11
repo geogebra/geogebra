@@ -61,12 +61,15 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 
 	}
 
-	private void updateEditor(int x, int y) {
+	private void updateEditor(int x, int y, int width) {
 		if (editor == null) {
 			createGUI();
 		}
 		editor.setText(text.getText().getTextString());
 		editor.setPosition(x, y);
+		if (width > 0) {
+			editor.setWidth(width);
+		}
 	}
 
 	@Override
@@ -127,7 +130,7 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
 			int y = d.yLabel - view.getFontSize() - EuclidianStatic.EDITOR_MARGIN;
-			updateEditor(x, y);
+			updateEditor(x, y, (int) d.getBounds().getWidth());
 			if (create) {
 				view.setBoundingBox(d.getBoundingBox());
 				d.adjustBoundingBoxToText();

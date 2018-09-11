@@ -21,6 +21,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.factories.AwtFactory;
@@ -363,6 +364,12 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
+		// double minX = xLabel;
+		double maxX = labelRectangle.getMaxX();
+		// double minY = boundingBox.getRectangle().getMinY();
+		// double maxY = boundingBox.getRectangle().getMaxY();
+		// double mouseY = point.getY();
+		double mouseX = point.getX();
 		switch (handler) {
 		case TOP:
 			break;
@@ -371,6 +378,14 @@ public final class DrawText extends Drawable {
 		case RIGHT:
 			break;
 		case LEFT:
+			labelRectangle.setBounds((int) mouseX + EuclidianStatic.EDITOR_MARGIN,
+					(int) labelRectangle.getY(),
+					(int) (maxX - mouseX + EuclidianStatic.EDITOR_MARGIN),
+					(int) labelRectangle.getHeight());
+			GeoPointND startPoint = text.getStartPoint();
+			startPoint.setCoords(view.toRealWorldCoordX(mouseX),
+					startPoint.getInhomY(), 1.0);
+			text.update();
 			break;
 		default:
 			break;
