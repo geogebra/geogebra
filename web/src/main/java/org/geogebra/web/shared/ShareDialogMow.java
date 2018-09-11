@@ -71,8 +71,7 @@ public class ShareDialogMow extends DialogBoxW
 															getAppW()
 																	.getLocalization()
 																	.getPlain(
-																			obj.equals(
-																					Boolean.TRUE)
+																			obj.booleanValue()
 																							? "GroupShareOk"
 																							: "GroupShareFail",
 																			getGroupName()),
