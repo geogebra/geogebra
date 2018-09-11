@@ -7,6 +7,7 @@ import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -64,6 +65,7 @@ public class ShareDialogMow extends DialogBoxW
 									new AsyncOperation<Boolean>() {
 
 										public void callback(Boolean obj) {
+											Log.debug("in share: " + obj);
 											ToolTipManagerW.sharedInstance()
 													.showBottomMessage(
 															getAppW()
