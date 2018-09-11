@@ -445,6 +445,9 @@ public abstract class DockPanelW extends ResizeComposite
 
 		titleBarPanel = new FlowPanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
+		if (!app.isUnbundledOrWhiteboard()) {
+			titleBarPanel.addStyleName("TitleBarClassic");
+		}
 		titleBarPanel.addStyleName("cursor_drag");
 
 		// kbButtonSpace = new SimplePanel();

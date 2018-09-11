@@ -25,7 +25,7 @@
     overflow: visible!important;
 }
 .GeoGebraFrame .TitleBarPanel {
-    z-index: 11;
+    z-index: 60;
     left: auto!important;
     bottom: auto!important;
     max-width: 100%;
