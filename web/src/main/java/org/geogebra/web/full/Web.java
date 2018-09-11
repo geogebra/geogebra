@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.full.gui.laf.ChromeLookAndFeel;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
+import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.html5.Browser;
@@ -132,6 +133,9 @@ public class Web implements EntryPoint {
 
 			if ("bundle".equals(laf)) {
 				return new BundleLookAndFeel();
+			}
+			if ("mebis".equals(laf)) {
+				return new MebisLookAndFeel();
 			}
 
 			if ("chrome".equals(laf)) {

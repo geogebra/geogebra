@@ -59,7 +59,7 @@ public class GlobalHeader implements EventRenderable {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				new SignInButton(appW, 0, null).login();
+				((SignInButton) appW.getLAF().getSignInButton(appW)).login();
 			}
 		});
 		app.getLoginOperation().getView().add(this);
