@@ -1358,7 +1358,8 @@ public class TeXParser {
 					end + 1), fontInfos);
 		}
 		return new CharAtom(c, ignoreWhiteSpace,
-				TextStyle.getStyle(formula.textStyle));
+				formula.textStyle == null ? TextStyle.NONE
+						: TextStyle.getStyle(formula.textStyle));
 	}
 
 	private String getCommand() {
