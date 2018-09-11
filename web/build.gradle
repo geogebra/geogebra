@@ -208,6 +208,7 @@ task copyHtml {
         file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator")
         file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry")
         file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator")
+        file("war/notes-offline.html").text = english(appHtml("notes", false, true), "Notes")
       
         file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator")
         
