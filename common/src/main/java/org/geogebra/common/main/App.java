@@ -3724,7 +3724,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// AND-1342, IGR-1010
 		case MOB_STANDARD_VIEW_ZOOM_BUTTONS:
-			return prerelease;
+			return true;
 
 		// **********************************************************************
 		// MOBILE END
