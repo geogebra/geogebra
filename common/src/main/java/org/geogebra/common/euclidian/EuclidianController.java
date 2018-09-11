@@ -7730,10 +7730,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 				// lastMouseLoc is not updated outside the view, but the event
 				// contains values in that region too, so we clamp them
-				double ex = Math.max(0,
-						Math.min(view.getWidth(), event.getX())),
-						ey = Math.max(0,
-								Math.min(view.getHeight(), event.getY()));
+				double ex = MyMath.clamp(event.getX(), 0, view.getWidth()),
+						ey = MyMath.clamp(event.getY(), 0, view.getHeight());
 				// calc center coords
 				double centerX = bounds.getMinX() + bounds.getWidth() / 2,
 						centerY = bounds.getMinY() + bounds.getHeight() / 2;

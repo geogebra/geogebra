@@ -609,4 +609,19 @@ public final class MyMath {
 		return (s1 <= s2 && s2 <= e1) || (s1 <= e2 && e2 <= e1)
 				|| (s2 <= s1 && s1 <= e2);
 	}
+
+	/**
+	 * limits a number between two bounds
+	 * 
+	 * @param val
+	 *            number
+	 * @param min
+	 *            smallest value possible
+	 * @param max
+	 *            biggest value possible
+	 * @return clamped value
+	 */
+	public static double clamp(double val, double min, double max) {
+		return Math.max(min, Math.min(max, val));
+	}
 }

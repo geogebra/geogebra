@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 
 /**
  * 
@@ -463,7 +464,7 @@ public final class DrawImage extends Drawable {
 			return false;
 		}
 
-		return rect.intersects(classicBoundingBox);
+		return rect.intersects(getBoundingBox().getRectangle());
 	}
 
 	@Override
@@ -471,7 +472,7 @@ public final class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-		return rect.contains(classicBoundingBox);
+		return rect.contains(getBoundingBox().getRectangle());
 	}
 
 	/**
@@ -580,11 +581,10 @@ public final class DrawImage extends Drawable {
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		switch (handler) {
 		case BOTTOM:
-			if (eventY - getBoundingBox().getRectangle().getY() <= Math
-					.min(IMG_CROP_THRESHOLD, image.getHeight())
-					|| eventY > getBounds().getMaxY()) {
-				return;
-			}
+			eventY = (int) MyMath.clamp(eventY,
+					getBoundingBox().getRectangle().getMinY()
+							+ Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					getBounds().getMaxY());
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(),
 					getBoundingBox().getRectangle().getWidth(),
@@ -592,33 +592,29 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case TOP:
-			if (getBoundingBox().getRectangle().getMaxY() - eventY <= Math
-					.min(IMG_CROP_THRESHOLD, image.getHeight())
-					|| eventY < getBounds().getMinY()) {
-				return;
-			}
+			eventY = (int) MyMath.clamp(eventY, getBounds().getMinY(),
+					getBoundingBox().getRectangle().getMaxY()
+							- Math.min(IMG_CROP_THRESHOLD, image.getHeight()));
 			rect.setRect(getBoundingBox().getRectangle().getX(), eventY,
 					getBoundingBox().getRectangle().getWidth(),
 					getBoundingBox().getRectangle().getMaxY() - eventY);
 			originalRatio = Double.NaN;
 			break;
 		case LEFT:
-			if (getBoundingBox().getRectangle().getMaxX() - eventX <= Math
-					.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX < getBounds().getMinX()) {
-				return;
-			}
+			eventX = (int) MyMath.clamp(eventX,
+					getBounds().getMinX(),
+					getBoundingBox().getRectangle().getMaxX()
+							- Math.min(IMG_CROP_THRESHOLD, image.getWidth()));
 			rect.setRect(eventX, getBoundingBox().getRectangle().getY(),
 					getBoundingBox().getRectangle().getMaxX() - eventX,
 					getBoundingBox().getRectangle().getHeight());
 			originalRatio = Double.NaN;
 			break;
 		case RIGHT:
-			if (eventX - getBoundingBox().getRectangle().getX() <= Math
-					.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX > getBounds().getMaxX()) {
-				return;
-			}
+			eventX = (int) MyMath.clamp(eventX,
+					getBoundingBox().getRectangle().getMinX()
+							+ Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					getBounds().getMaxX());
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(),
 					eventX - getBoundingBox().getRectangle().getX(),
@@ -626,63 +622,61 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case BOTTOM_RIGHT:
-			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
-			newHeight = originalRatio * newWidth;
-			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX > getBounds().getMaxX()
-					|| getBoundingBox().getRectangle().getY()
-							+ newHeight > getBounds().getMaxY()) {
-				return;
-			}
+			newWidth = MyMath.clamp(
+					eventX - getBoundingBox().getRectangle().getMinX(),
+					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					getBounds().getMaxX()
+							- getBoundingBox().getRectangle().getMinX());
+			newHeight = MyMath.clamp(originalRatio * newWidth,
+					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					getBounds().getMaxY()
+							- getBoundingBox().getRectangle().getMinY());
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(), newWidth,
 					newHeight);
 			break;
 		case BOTTOM_LEFT:
-			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
-			newHeight = originalRatio * newWidth;
-			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX < getBounds().getMinX()
-					|| getBoundingBox().getRectangle().getY()
-							+ newHeight > getBounds().getMaxY()) {
-				return;
-			}
+			newWidth = MyMath.clamp(
+					getBoundingBox().getRectangle().getMaxX() - eventX,
+					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					getBoundingBox().getRectangle().getMaxX()
+							- getBounds().getMinX());
+			newHeight = MyMath.clamp(originalRatio * newWidth,
+					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					getBounds().getMaxY()
+							- getBoundingBox().getRectangle().getMinY());
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getY(), newWidth,
 					newHeight);
 			break;
 		case TOP_RIGHT:
-			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
-			newHeight = originalRatio * newWidth;
-			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX > getBounds().getMaxX()
-					|| getBoundingBox().getRectangle().getMaxY()
-							- newHeight < getBounds().getMinY()) {
-				return;
-			}
+			newWidth = MyMath.clamp(
+					eventX - getBoundingBox().getRectangle().getMinX(),
+					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					getBounds().getMaxX()
+							- getBoundingBox().getRectangle().getMinX());
+			newHeight = MyMath.clamp(originalRatio * newWidth,
+					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					getBoundingBox().getRectangle().getMaxY()
+							- getBounds().getMinY());
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth,
 					newHeight);
-			if (rect.getBounds().getMaxY() > getBounds().getMaxY()) {
-				return;
-			}
 			break;
 		case TOP_LEFT:
-			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
-			newHeight = originalRatio * newWidth;
-			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX < getBounds().getMinX()
-					|| getBoundingBox().getRectangle().getMaxY()
-							- newHeight < getBounds().getMinY()) {
-				return;
-			}
+			newWidth = MyMath.clamp(
+					getBoundingBox().getRectangle().getMaxX() - eventX,
+					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					getBoundingBox().getRectangle().getMaxX()
+							- getBounds().getMinX());
+			newHeight = MyMath.clamp(originalRatio * newWidth,
+					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					getBoundingBox().getRectangle().getMaxY()
+							- getBounds().getMinY());
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth, newHeight);
-			if (rect.getBounds().getMaxY() > getBounds().getMaxY()) {
-				return;
-			}
 			break;
 		default:
 			break;
