@@ -288,4 +288,9 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		return null;
 	}
 
+	@Override
+	public boolean isEditing() {
+		return lastText != null && lastText.isEditMode();
+	}
+
 }

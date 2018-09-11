@@ -88,5 +88,11 @@ public interface TextController {
 	 *            the new line height.
 	 */
 	void setEditorLineHeight(double d);
+
+	/**
+	 * 
+	 * @return if text editor is active.
+	 */
+	boolean isEditing();
 }
 

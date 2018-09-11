@@ -109,7 +109,7 @@ public final class DrawText extends Drawable {
 		}
 
 		String newText;
-		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
+		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL) && ctrl != null) {
 			newText = ctrl.wrapText(text.getTextString());
 		} else {
 			newText = text.getTextString();
@@ -252,7 +252,7 @@ public final class DrawText extends Drawable {
 	}
 
 	public void adjustBoundingBoxToText() {
-		GRectangle rect = ctrl.getEditorBounds();
+		GRectangle rect = ctrl != null ? ctrl.getEditorBounds() : null;
 		if (rect == null || labelRectangle == null) {
 			return;
 		}
