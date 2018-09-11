@@ -211,8 +211,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (editor.isEditing()) {
 			if (editor.textStartsWithEquals()
 					&& copyIntoEditorFromCellAt(point)) {
-
-				startEditDragging();
 				event.preventDefault();
 				return;
 			}
@@ -286,6 +284,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			selectedCellName = name;
 
 			// insert the geo label into the editor string
+			startEditDragging();
 			editor.addLabel(name);
 			return true;
 		}
