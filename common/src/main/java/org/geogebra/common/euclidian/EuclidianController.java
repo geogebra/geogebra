@@ -7718,44 +7718,42 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& event.isRightClick()) {
 			return;
 		}
-
+		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
 			GRectangle2D bounds = (getResizedShape() != null)
 					? getResizedShape().getBounds()
 					: view.getBoundingBox().getRectangle();
-
+			// bounds exist
 			if (bounds != null) {
 				if (lastMouseLoc == null) {
 					return;
 				}
-
 				// lastMouseLoc is not updated outside the view, but the event
 				// contains values in that region too, so we clamp them
 				double ex = Math.max(0,
 						Math.min(view.getWidth(), event.getX())),
 						ey = Math.max(0,
 								Math.min(view.getHeight(), event.getY()));
-
+				// calc center coords
 				double centerX = bounds.getMinX() + bounds.getWidth() / 2,
 						centerY = bounds.getMinY() + bounds.getHeight() / 2;
-
+				// create rotation point
 				if (rotationCenter == null) {
 					rotationCenter = new GeoPoint(
 							app.getKernel().getConstruction(),
 							view.toRealWorldCoordX(centerX),
 							view.toRealWorldCoordY(centerY), 1);
 				}
-
+				// calc rotation angle
 				NumberValue angle = new GeoNumeric(
 						app.getKernel().getConstruction(),
 						Math.atan2(-(ey - centerY), ex - centerX)
 								- Math.atan2(-(lastMouseLoc.getY() - centerY),
 										lastMouseLoc.getX() - centerX));
-
+				// do rotate geos
 				if (getResizedShape() != null || isMultiResize) {
 					dontClearSelection = true;
 					hideDynamicStylebar();
-
 					for (GeoElement geo : selection.getSelectedGeos()) {
 						((PointRotateable) geo).rotate(angle, rotationCenter);
 						geo.updateRepaint();
@@ -7764,22 +7762,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		} else {
+			// resize, single selection
 			if (getResizedShape() != null) {
 				setBoundingBoxCursor(getResizedShape());
 
 				if (getResizedShape().getGeoElement().isSelected()) {
 					dontClearSelection = true;
-
 					GPoint2D p = AwtFactory.getPrototype()
 							.newPoint2D(event.getX(), event.getY());
 					getResizedShape().updateByBoundingBoxResize(p,
 							view.getHitHandler());
 				}
-
 				hideDynamicStylebar();
 				view.repaintView();
 				return;
-			} else if (isMultiResize) {
+			}
+			// resize, multi-selection
+			else if (isMultiResize) {
 				handleResizeMultiple(event, view.getHitHandler());
 				return;
 			}
@@ -8275,11 +8274,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			boolean drag) {
 		// ensure no wrong state due to something went wrong
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
-
 		// reset
 		isMultiResize = false;
 		startBoundingBoxState = null;
-
+		// set handler
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED
 				&& view.getBoundingBox() != null) {
 			view.setHitHandler(view.getBoundingBox().getHitHandler(e.getX(),
@@ -10107,7 +10105,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
 			am.setTabOverGeos(true);
 		}
-
+		// handle video/audio/embeded/text release (mow)
 		if (handleVideoReleased()
 				|| (getTextController() != null && getTextController().handleTextReleased())) {
 			return;
@@ -10121,7 +10119,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			dl.onMouseUp(event.getX(), event.getY());
 			return;
 		}
-
 		// reset the center of rotation
 		if (rotationCenter != null) {
 			rotationCenter.remove();
@@ -10144,7 +10141,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 		}
-
+		// resize, single selection
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(AwtFactory.getPrototype()
 					.newPoint2D(event.getX(), event.getY()));
@@ -10155,13 +10152,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
-		} else if (isMultiResize) {
+		}
+		// resize, multi-selection
+		else if (isMultiResize) {
 			for (GeoElement geo : selection.getSelectedGeos()) {
 				((Drawable) view.getDrawableFor(geo)).updateGeo(AwtFactory
 						.getPrototype().newPoint2D(event.getX(), event.getY()));
 			}
 		}
-
+		// undo/redo for multi-selection
 		if (isMultiResize) {
 			storeUndoInfo();
 			isMultiResize = false;

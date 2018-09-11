@@ -290,7 +290,6 @@ public class BoundingBox {
 					rectangle.getMaxX() + HANDLER_RADIUS,
 					(rectangle.getMinY() + rectangle.getMaxY()) / 2
 							+ HANDLER_RADIUS);
-
 			if (nrHandlers == 9) {
 				// rotation handler
 				handlers.get(8).setFrameFromCenter(
