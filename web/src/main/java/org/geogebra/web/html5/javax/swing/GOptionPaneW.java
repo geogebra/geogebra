@@ -487,7 +487,7 @@ public class GOptionPaneW extends GDialogBox
 	public void showSaveDialog(String title,
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler, String okLabel) {
-
+		this.addStyleName(app.isWhiteboardActive() ? "mow" : "");
 		this.mMessage = "";
 		this.mTitle = title;
 		this.mOkLabel = okLabel;
