@@ -285,7 +285,6 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 		initPreview();
-
 	}
 
 	/**
@@ -796,13 +795,11 @@ public class DrawConic extends Drawable implements Previewable {
 				arcFiller = null;
 				fullAngle = true;
 			}
-
 			// set arc
 			circle = arc;
 			arc.setArc(mx - radius, my - yradius, 2.0 * radius, 2.0 * yradius,
 					Math.toDegrees(angSt), Math.toDegrees(angEnd - angSt),
 					GArc2D.OPEN);
-
 			// set general path for filling the arc to screen borders
 			if (conic.isFilled() && !fullAngle) {
 				if (gp == null) {
@@ -822,7 +819,6 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 		}
 		fillShape = circle;
-
 		// set label position
 		xLabel = (int) (mx - radius / 2.0);
 		yLabel = (int) (my - yradius * 0.85) + 20;
@@ -885,7 +881,6 @@ public class DrawConic extends Drawable implements Previewable {
 		default:
 			gp = null;
 		}
-
 	}
 
 	private void getInverseArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
@@ -896,7 +891,6 @@ public class DrawConic extends Drawable implements Previewable {
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(sp.getX(), view.getHeight());
-
 			break;
 
 		case 1: // left middle
@@ -908,9 +902,7 @@ public class DrawConic extends Drawable implements Previewable {
 			gp.lineTo(view.getWidth(), view.getHeight());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
-
 			gp.lineTo(ep.getX(), 0);
-
 			break;
 
 		case 3: // middle bottom
@@ -944,7 +936,6 @@ public class DrawConic extends Drawable implements Previewable {
 		default:
 			gp = null;
 		}
-
 	}
 
 	/**
@@ -1038,7 +1029,6 @@ public class DrawConic extends Drawable implements Previewable {
 	 * Update method for hyperbolas
 	 */
 	protected void updateHyperbola() {
-
 		// check if in view
 		Coords M;
 		if (isPreview) { // midpoint has been calculated in view coords
@@ -1149,7 +1139,6 @@ public class DrawConic extends Drawable implements Previewable {
 
 	/** set label coords */
 	protected void updateHyperbolaLabelCoords() {
-
 		labelCoords[0] = 2.0 * a;
 		// point on curve: y = b * sqrt(3) minus 20 pixels
 		labelCoords[1] = b * 1.7 - 20.0 / view.getYscale();
@@ -1159,7 +1148,6 @@ public class DrawConic extends Drawable implements Previewable {
 	 * reset paths for hyperbola
 	 */
 	protected void updateHyperbolaResetPaths() {
-
 		if (firstHyperbola) {
 			firstHyperbola = false;
 			points = PLOT_POINTS;
@@ -1200,12 +1188,10 @@ public class DrawConic extends Drawable implements Previewable {
 	protected void updateHyperbolaAddPoint(int index, double x1, double y1) {
 		hypRight.addPoint(index, x1, y1);
 		hypLeft.addPoint(index, -x1, y1);
-
 	}
 
 	/** build general paths of hyperbola wings and transform them */
 	protected void updateHyperboalSetTransformToPaths() {
-
 		hypLeft.transform(transform);
 		hypRight.transform(transform);
 	}
@@ -1569,7 +1555,6 @@ public class DrawConic extends Drawable implements Previewable {
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			return drawPoint == null ? null : drawPoint.getBounds();
-
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// shape is null for 3D ellipse
@@ -1650,7 +1635,6 @@ public class DrawConic extends Drawable implements Previewable {
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			g2.draw(fillShape);
-
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -1821,7 +1805,6 @@ public class DrawConic extends Drawable implements Previewable {
 				|| strokedShape2.intersects(hitX - hitThreshold,
 						hitY - hitThreshold, 2 * hitThreshold,
 						2 * hitThreshold);
-
 	}
 
 	/**
@@ -1988,7 +1971,6 @@ public class DrawConic extends Drawable implements Previewable {
 		default:
 			Log.debug("unknown conic type");
 		}
-
 		if (conic != null) {
 			conic.setLabelVisible(false);
 		}
@@ -2034,7 +2016,6 @@ public class DrawConic extends Drawable implements Previewable {
 						equation.getZ());
 				}
 			}
-
 			if (prevPoints.size() > 0) {
 				Coords p = view.getCoordsForView(
 						prevPoints.get(0).getInhomCoordsInD3());
@@ -2233,7 +2214,6 @@ public class DrawConic extends Drawable implements Previewable {
 		if (Double.isNaN(oldHeight)) {
 			oldHeight = getBoundingBox().getRectangle().getHeight();
 		}
-
 	}
 
 	/**
@@ -2246,7 +2226,6 @@ public class DrawConic extends Drawable implements Previewable {
 			stretchDirectionX = new GeoLine(conic.getConstruction(), 1, 0,
 					-view.toRealWorldCoordX(fixCornerX));
 		}
-
 		if (stretchDirectionY == null
 				&& handler != EuclidianBoundingBoxHandler.RIGHT
 				&& handler != EuclidianBoundingBoxHandler.LEFT) {
@@ -2273,10 +2252,9 @@ public class DrawConic extends Drawable implements Previewable {
 		 * this.update(); //
 		 * etBoundingBox().setRectangle(prewEllipse.getBounds()); return; }
 		 */
-
+		// init
 		int dx = (int) (p.getX() - fixCornerX);
 		int dy = (int) (p.getY() - fixCornerY);
-
 		double width = dx;
 		double height = dy;
 
@@ -2325,7 +2303,6 @@ public class DrawConic extends Drawable implements Previewable {
 				}
 			}
 		}
-
 		getBoundingBox().setRectangle(rect);
 	}
 
@@ -2342,7 +2319,6 @@ public class DrawConic extends Drawable implements Previewable {
 		fixCornerCoords(hitHandler);
 		int width = (int) (p.getX() - fixCornerX);
 		int height = (int) (p.getY() - fixCornerY);
-
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 
 		if (hitHandler == EuclidianBoundingBoxHandler.LEFT
@@ -2357,7 +2333,6 @@ public class DrawConic extends Drawable implements Previewable {
 						getBoundingBox().getRectangle().getHeight());
 			}
 		}
-
 		if (hitHandler == EuclidianBoundingBoxHandler.TOP
 				|| hitHandler == EuclidianBoundingBoxHandler.BOTTOM) {
 			if (height >= 0) {
@@ -2370,7 +2345,6 @@ public class DrawConic extends Drawable implements Previewable {
 						getBoundingBox().getRectangle().getWidth(), -height);
 			}
 		}
-
 		// with side handler dragging no circle anymore
 		setIsCircle(false);
 		proportion = Double.NaN;
@@ -2384,12 +2358,12 @@ public class DrawConic extends Drawable implements Previewable {
 			GPoint2D p) {
 		fixCornerCoords(hitHandler);
 		fixStretchDirection(hitHandler);
-
+		// get handler
 		EuclidianBoundingBoxHandler realHandler = hitHandler;
 		if (flipped) {
 			realHandler = flipHitHandler(realHandler);
 		}
-
+		// handle stretch
 		double ratio = 1;
 		switch (realHandler) {
 		case RIGHT:
@@ -2430,14 +2404,12 @@ public class DrawConic extends Drawable implements Previewable {
 			if (stretchDirectionX != null) {
 				applyStretch(stretchDirectionX, ratio);
 			}
-
 			if (stretchDirectionY != null) {
 				applyStretch(stretchDirectionY, ratio);
 			}
-
 			// with side handler dragging no circle anymore
 			setIsCircle(false);
-
+			// update bounding box
 			getBoundingBox().setRectangle(rectForRotatedEllipse());
 			conic.updateRepaint();
 		}
@@ -2575,7 +2547,6 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 			conic.getParentAlgorithm().update();
 			conic.update();
-
 		}
 	}
 
@@ -2584,10 +2555,10 @@ public class DrawConic extends Drawable implements Previewable {
 			int newWidth = (int) (p.getX() - fixCornerX);
 			int height = (int) (p.getY() - fixCornerY);
 			int newHeight = (int) (newWidth * oldHeight / oldWidth);
-
+			// calc ratio
 			double ratioWidth = newWidth / oldWidth;
 			double ratioHeight = newHeight / oldHeight;
-
+			// init points
 			double[] pointsX = new double[conic.getParentAlgorithm()
 					.getInput().length];
 			double[] pointsY = new double[conic.getParentAlgorithm()
@@ -2644,7 +2615,6 @@ public class DrawConic extends Drawable implements Previewable {
 			conic.getParentAlgorithm()
 					.update();
 			conic.update();
-
 		}
 	}
 
@@ -2690,7 +2660,6 @@ public class DrawConic extends Drawable implements Previewable {
 					coord[1] = view.toRealWorldCoordY(
 						startPointY
 								+ getBoundingBox().getRectangle().getWidth());
-		
 				} else {
 					coord[1] = view.toRealWorldCoordY(
 							getBoundingBox().getRectangle().getMaxY());
@@ -2766,7 +2735,6 @@ public class DrawConic extends Drawable implements Previewable {
 				|| Double.isNaN(endY)) {
 			return null;
 		}
-		
 		// coords of center
 		double centerX = (startX + endX) / 2;
 		double centerY = (startY + endY) / 2;
