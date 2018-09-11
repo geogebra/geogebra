@@ -1520,10 +1520,9 @@ public class EuclidianViewW extends EuclidianView implements
 		if (hasParentWindow()) {
 			return;
 		}
-
-		screenReader.read(text);
 		JavaScriptObject scrollState = JavaScriptObject.createObject();
 		int scrolltop = getScrollTop(scrollState);
+		screenReader.read(text);
 		g2p.getCanvas().getCanvasElement().focus();
 		setScrollTop(scrolltop, scrollState);
 	}

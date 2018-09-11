@@ -79,7 +79,6 @@ public class ReaderWidget extends SimplePanel {
 	}
 
 	private void focus() {
-		Log.debug("[SCR] screenReader widget is focused.");
 		getElement().focus();
 	}
 }
