@@ -220,16 +220,15 @@ public final class ToolTipManagerW {
 		if (appw.isExam() && appw.getExam().getStart() >= 0) {
 			this.helpURL = null;
 		}
-		if (helpURL != null && helpURL.length() > 0 && link != null
+		if (helpURL != null && helpURL.length() > 0
+				&& link != null
 				&& online) {
 
 			helpLabel = new Label();
 
 			if (link.equals(ToolTipLinkType.Help)) {
-
 				helpLabel.setText(app.getLocalization().getMenu("Help")
 						.toUpperCase(Locale.ROOT));
-
 			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
 				helpLabel.setText(app.getLocalization().getMenu("Share")
 						.toUpperCase(Locale.ROOT));
@@ -243,7 +242,8 @@ public final class ToolTipManagerW {
 			 * In "exam" mode the question mark is not shown
 			 */
 			if (!(appw.isExam() && appw.getExam().getStart() >= 0)
-					&& !app.isWhiteboardActive()) {
+					&& !app.isWhiteboardActive() && helpLinkURL != null
+					&& !" ".equals(helpLinkURL)) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
 		} else if (app.isUnbundled()) {
@@ -301,7 +301,6 @@ public final class ToolTipManagerW {
 					style.setTop((appw.getHeight() - 310), Unit.PX);
 				} else {
 					bottomInfoTipPanel.getElement().getStyle().clearTop();
-
 					if (!lastTipVisible && link != null) {
 						animateIn(appw);
 					} else {
@@ -382,7 +381,6 @@ public final class ToolTipManagerW {
 			@Override
 			public void run() {
 				hideBottomInfoToolTip();
-
 			}
 		};
 
@@ -401,7 +399,6 @@ public final class ToolTipManagerW {
 	 * Hide the bottom tooltip
 	 */
 	public void hideBottomInfoToolTip() {
-
 		if (app != null && app.isUnbundled() && !keyboardVisible
 				&& linkType != null) {
 			app.getPanel().getElement().getStyle().setOverflow(Overflow.HIDDEN);
