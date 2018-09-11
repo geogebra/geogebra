@@ -1513,7 +1513,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		super.wrapMouseReleasedND(e, true);
 		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D)) {
-			showDynamicStylebar();
+			if (mode == EuclidianConstants.MODE_MOVE) {
+				showDynamicStylebar();
+			}
 		}
 	}
 
