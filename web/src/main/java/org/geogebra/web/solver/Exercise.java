@@ -1,13 +1,5 @@
 package org.geogebra.web.solver;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
@@ -19,6 +11,15 @@ import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.DrawEquationW;
+
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.client.ScriptInjector;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class Exercise {
 
@@ -60,7 +61,7 @@ public class Exercise {
 				.setCallback(new Callback<Void, Exception>() {
 					@Override
 					public void onFailure(Exception reason) {
-
+						// network error
 					}
 
 					@Override
@@ -162,7 +163,13 @@ public class Exercise {
     }-*/;
 
     private native void newExercise(String s) /*-{
-    	$wnd.canvas.model.reset();
-    	$wnd.canvas.model.createElement('derivation', { eq: s, pos: { x: 'center', y: 50 } });
-    }-*/;
+		$wnd.canvas.model.reset();
+		$wnd.canvas.model.createElement('derivation', {
+			eq : s,
+			pos : {
+				x : 'center',
+				y : 50
+			}
+		});
+	}-*/;
 }

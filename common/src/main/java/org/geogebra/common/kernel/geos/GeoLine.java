@@ -1425,7 +1425,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public String getAssignmentOperator() {
 		return ": ";
-
 	}
 
 	@Override
@@ -1440,9 +1439,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			x1 = r * y - s * x;
 			y1 = q * x - p * y;
 			setCoords(x1 * y, y1 * y, q * z * x1 + s * z * y1);
-
 		}
-
 	}
 
 	/**
@@ -1457,8 +1454,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return asFunction;
 		}
 		GeoFunction ret;
-
-
 
 		// we get a dependent function if this line has a label or is dependent
 		if (isLabelSet() || !isIndependent()) {
@@ -2024,6 +2019,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
+	@Override
 	public Function getFunction(boolean forRoot) {
 		FunctionVariable fv = new FunctionVariable(kernel);
 

@@ -3,7 +3,6 @@ package org.geogebra.web.solver;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -33,6 +32,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -86,7 +86,8 @@ public class Solver {
 
 		FlowPanel editorFocusPanel = new FlowPanel();
 
-		mathField = new MathFieldW(null, editorFocusPanel, canvas, new SolverMathFieldListener(this), false, null);
+		mathField = new MathFieldW(null, editorFocusPanel, canvas,
+				new SolverMathFieldListener(this), false, null);
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);

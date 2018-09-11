@@ -13,6 +13,12 @@ public class ExerciseGenerator {
 
 		public final double[] solutions;
 
+		/**
+		 * @param equation
+		 *            equation to solve
+		 * @param solutions
+		 *            all solutions
+		 */
 		public Exercise(String equation, double... solutions) {
 			this.equation = equation;
 			this.solutions = solutions;
@@ -32,6 +38,11 @@ public class ExerciseGenerator {
 		return ret;
 	}
 
+	/**
+	 * @param level
+	 *            difficulty 1 to 4; other values = random difficulty
+	 * @return random exercise with given difficulty
+	 */
 	public static Exercise getExercise(int level) {
 		int type;
 		double a, b, c, d, e;
@@ -195,7 +206,7 @@ public class ExerciseGenerator {
 			a = randIntNZ(1, 9);
 			b = randIntNZ(1, 9);
 			c = randIntNZ(-9, 9);
-			return new Exercise( + a + "/x - " + b + " = " + c, b + a / c);
+			return new Exercise(a + "/x - " + b + " = " + c, b + a / c);
 
 		case 22:
 			a = randIntNZ(1, 9);
@@ -308,28 +319,29 @@ public class ExerciseGenerator {
 		case 35:
 			double disc;
 			do {
-				a = randint(1,9);
-				b = randint(1,9);
-				c = randint(1,9);
-				d = randint(1,8);
+				a = randint(1, 9);
+				b = randint(1, 9);
+				c = randint(1, 9);
+				d = randint(1, 8);
 
 				if (b == d) {
 					d++;
 				}
 
-				e = randIntNZ(-3,3);
+				e = randIntNZ(-3, 3);
 				disc = Math.pow(b * e + d * e - a - c, 2) - 4 * e * (e * b * d - a * d - c * b);
 			} while (disc < 0 || !DoubleUtil.isInteger(Math.sqrt(disc)));
 
-			return new Exercise(a+"/(x + " + b + ") + " + c + "/(x + " + d + ") = " + e,
+			return new Exercise(
+					a + "/(x + " + b + ") + " + c + "/(x + " + d + ") = " + e,
 					(a - b * e + c - d * e + Math.sqrt(disc)) / (2 * e),
 					(a - b * e + c - d * e - Math.sqrt(disc)) / (2 * e));
 
 		case 36:
-			a = randint(1,9);
-			b = randint(1,9);
-			c = randint(1,9);
-			d = randint(1,9);
+			a = randint(1, 9);
+			b = randint(1, 9);
+			c = randint(1, 9);
+			d = randint(1, 9);
 
 			if (DoubleUtil.isEqual(a + b, c + d)) {
 				a++;
@@ -339,9 +351,9 @@ public class ExerciseGenerator {
 					(a * b - c * d) / (a + b - c - d));
 
 		case 37:
-			a = randint(1,9);
-			b = randint(2,9);
-			c = randint(1,9);
+			a = randint(1, 9);
+			b = randint(2, 9);
+			c = randint(1, 9);
 
 			return new Exercise("(x + " + a + ")^2 = (" + b + " x + " + c + ")^2",
 					(a - c) / (b - 1), (-a - c) / (b + 1));

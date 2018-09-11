@@ -66,17 +66,9 @@ public class ShareDialogMow extends DialogBoxW
 
 										public void callback(Boolean obj) {
 											Log.debug("in share: " + obj);
-											ToolTipManagerW.sharedInstance()
-													.showBottomMessage(
-															getAppW()
-																	.getLocalization()
-																	.getPlain(
-																			obj.booleanValue()
-																							? "GroupShareOk"
-																							: "GroupShareFail",
-																			getGroupName()),
-															true, getAppW());
+											showTooltip(obj);
 										}
+
 									});
 					hide();
 				}
@@ -85,6 +77,14 @@ public class ShareDialogMow extends DialogBoxW
 
 		public String getGroupName() {
 			return groupName;
+		}
+
+		protected void showTooltip(Boolean success) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					getAppW().getLocalization()
+							.getPlain(success.booleanValue() ? "GroupShareOk"
+									: "GroupShareFail", getGroupName()),
+					true, getAppW());
 		}
 	}
 

@@ -2398,6 +2398,8 @@ public class DrawConic extends Drawable implements Previewable {
 				flipped = !flipped;
 			}
 			break;
+		case UNDEFINED:
+			break;
 		}
 
 		if (ratio != 0) {

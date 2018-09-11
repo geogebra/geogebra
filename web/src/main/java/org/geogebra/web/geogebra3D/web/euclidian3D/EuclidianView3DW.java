@@ -123,12 +123,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-	private void initAriaDefaults() {
-		Element elem = g2p.getCanvas().getElement();
-		elem.setAttribute("role", "figure");
-		elem.setAttribute("aria-label", "3D View");
-
-	}
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController euclidiancontroller) {
 
@@ -180,6 +174,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		settingsChanged(es);
 		es.addListener(this);
 		addScreenReader();
+	}
+
+	private void initAriaDefaults() {
+		Element elem = g2p.getCanvas().getElement();
+		elem.setAttribute("role", "figure");
+		elem.setAttribute("aria-label", "3D View");
 	}
 
 	@Override

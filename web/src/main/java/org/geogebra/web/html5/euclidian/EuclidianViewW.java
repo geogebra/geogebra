@@ -200,12 +200,6 @@ public class EuclidianViewW extends EuclidianView implements
 		initAriaDefaults();
 	}
 
-	private void initAriaDefaults() {
-		Element elem = g2p.getCanvas().getElement();
-		elem.setAttribute("role", "figure");
-		elem.setAttribute("aria-label", "Graphics View " + evNo);
-
-	}
 	/**
 	 * @param euclidiancontroller
 	 *            controller
@@ -231,6 +225,12 @@ public class EuclidianViewW extends EuclidianView implements
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(evPanel, euclidiancontroller, viewNo, settings);
 		initClickStartHandler();
+	}
+
+	private void initAriaDefaults() {
+		Element elem = g2p.getCanvas().getElement();
+		elem.setAttribute("role", "figure");
+		elem.setAttribute("aria-label", "Graphics View " + evNo);
 	}
 
 	@Override
