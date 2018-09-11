@@ -1198,6 +1198,9 @@ $duration: 0.2s;
 		 button {
    			color: $mebis-teal-dark !important;	
    		}
+   		select:focus:not([readonly]) {
+   			    border: 1px $mebis-teal-dark solid;
+   		}
 	}
 
 	.MaterialDialogBox.mow, 
