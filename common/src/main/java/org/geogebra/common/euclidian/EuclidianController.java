@@ -10102,7 +10102,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// handle video/audio/embeded/text release (mow)
 		if (handleVideoReleased()
-				|| (getTextController() != null && getTextController().handleTextReleased())) {
+				|| (getTextController() != null
+						&& getTextController().handleTextReleased(draggingOccured))) {
 			return;
 		}
 

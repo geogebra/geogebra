@@ -63,9 +63,12 @@ public interface TextController {
 	/**
 	 * Handles pointer release on text object.
 	 * 
+	 * @param drag
+	 *            true if release is happened after drag.
+	 * 
 	 * @return true if release is handled.
 	 */
-	boolean handleTextReleased();
+	boolean handleTextReleased(boolean drag);
 
 	/**
 	 *

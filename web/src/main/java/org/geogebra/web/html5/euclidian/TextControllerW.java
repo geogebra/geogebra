@@ -263,18 +263,24 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	public void handleTextPressed() {
 		lastText = getHit();
 
-		if (lastText != null) {
-			lastText.processEditMode();
-		}
 	}
 
 	@Override
-	public boolean handleTextReleased() {
-		if (lastText != null && lastText.isEditMode()) {
-			edit(lastText);
-			lastText = null;
-			return true;
+	public boolean handleTextReleased(boolean drag) {
+		if (lastText != null) {
+			if (drag) {
+				lastText.setReadyToEdit();
+				return true;
+			}
+			lastText.processEditMode();
+
+			if (lastText.isEditMode()) {
+				edit(lastText);
+				lastText = null;
+				return true;
+			}
 		}
+
 		return false;
 
 	}
