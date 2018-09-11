@@ -4779,4 +4779,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		return true;
 	}
 
+	public boolean showPlaneOutlineIfNeeded() {
+		return !isARDrawing();
+	}
+
 }

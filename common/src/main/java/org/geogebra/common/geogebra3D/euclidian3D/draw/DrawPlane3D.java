@@ -457,15 +457,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChanged()) {
-
 			if (!getView3D().viewChangedByTranslate()
 					&& !getView3D().viewChangedByZoom()) { // only rotation
 				boolean oldViewDirectionIsParallel = viewDirectionIsParallel;
-				checkViewDirectionIsParallel(); // done in setWaitForUpdate()
-												// too
+				checkViewDirectionIsParallel();
 				if (oldViewDirectionIsParallel != viewDirectionIsParallel) {
 					// maybe have to update the outline
-					setWaitForUpdate();
+					setWaitForUpdate(false);
 				}
 				return;
 			}
@@ -477,10 +475,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	public void setWaitForUpdate() {
+		setWaitForUpdate(true);
+	}
+
+	public void setWaitForUpdate(boolean checkViewDirection) {
 
 		super.setWaitForUpdate();
 		setMinMax();
-		checkViewDirectionIsParallel();
+		if (checkViewDirection) {
+			checkViewDirectionIsParallel();
+		}
 	}
 
 	/**
@@ -579,12 +583,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	protected void checkViewDirectionIsParallel() {
-		if (DoubleUtil.isZero(getPlane().getCoordSys().getEquationVector()
-				.dotproduct(getView3D().getEyePosition()))) {
-			viewDirectionIsParallel = true;
-		} else {
-			viewDirectionIsParallel = false;
-		}
+		viewDirectionIsParallel = getView3D().showPlaneOutlineIfNeeded() &&
+				DoubleUtil.isZero(getPlane().getCoordSys().getEquationVector().dotproduct
+						(getView3D().getEyePosition()));
 	}
 
 	@Override
