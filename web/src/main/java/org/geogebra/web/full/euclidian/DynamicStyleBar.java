@@ -1,5 +1,7 @@
 package org.geogebra.web.full.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -239,5 +241,20 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			closeLabelPopup();
 		}
 		super.setVisible(v);
+	}
+
+	@Override
+	protected boolean hasVisibleGeos(ArrayList<GeoElement> geoList) {
+		if (ev.checkHitForStylebar()) {
+			for (GeoElement geo : geoList) {
+				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()
+						&& !geo.isAxis()
+						&& ev.getHits().contains(geo)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return super.hasVisibleGeos(geoList);
 	}
 }

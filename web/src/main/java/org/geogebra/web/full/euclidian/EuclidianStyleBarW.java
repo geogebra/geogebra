@@ -254,6 +254,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
+	protected boolean hasVisibleGeos(ArrayList<GeoElement> geoList) {
+		for (GeoElement geo : geoList) {
+			if (isVisibleInThisView(geo) && geo.isEuclidianVisible()
+					&& !geo.isAxis()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
@@ -279,17 +289,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 			boolean hasGeosInThisView = false;
 			SelectionManager selection = ev.getApplication()
 					.getSelectionManager();
-			for (GeoElement geo : selection.getSelectedGeos()) {
-				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()
-						&& !geo.isAxis()) {
-					hasGeosInThisView = true;
-					break;
-				}
-			}
-			for (GeoElement geo : ec.getJustCreatedGeos()) {
-				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
-					hasGeosInThisView = true;
-					break;
+			hasGeosInThisView = hasVisibleGeos(selection.getSelectedGeos());
+			if (!hasGeosInThisView) {
+				for (GeoElement geo : ec.getJustCreatedGeos()) {
+					if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
+						hasGeosInThisView = true;
+						break;
+					}
 				}
 			}
 			if (hasGeosInThisView) {
