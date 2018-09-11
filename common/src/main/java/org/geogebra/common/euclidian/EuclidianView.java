@@ -6579,4 +6579,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.showBackground = showBackground;
 	}
 
+    /**
+     *
+     * @return true if stylebar needs to check selected geo still in hit
+     */
+	public boolean checkHitForStylebar() {
+		return false;
+	}
+
 }

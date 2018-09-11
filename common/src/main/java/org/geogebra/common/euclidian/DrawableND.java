@@ -168,4 +168,8 @@ public abstract class DrawableND {
 		return null;
 	}
 
+	public boolean is3D() {
+		return false;
+	}
+
 }

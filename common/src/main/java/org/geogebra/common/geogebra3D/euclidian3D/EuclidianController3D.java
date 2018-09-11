@@ -86,6 +86,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -1511,6 +1512,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		super.wrapMouseReleasedND(e, true);
+		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D)) {
+			showDynamicStylebar();
+		}
 	}
 
 	@Override

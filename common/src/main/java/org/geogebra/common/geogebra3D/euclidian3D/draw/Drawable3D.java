@@ -2045,4 +2045,9 @@ public abstract class Drawable3D extends DrawableND {
 			getView3D().getRenderer().getGeometryManager().endPacking();
 		}
 	}
+
+	@Override
+	public boolean is3D() {
+		return true;
+	}
 }

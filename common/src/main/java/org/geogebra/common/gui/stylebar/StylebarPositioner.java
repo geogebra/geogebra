@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
@@ -55,19 +55,33 @@ public class StylebarPositioner {
 
 	private boolean hasVisibleGeos(List<GeoElement> geoList) {
 		for (GeoElement geo : geoList) {
-			if (geo.isVisibleInView(euclidianView.getViewID())
-					&& geo.isEuclidianVisible() && !geo.isAxis()) {
+			if (isVisible(geo)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+	private boolean hasVisibleGeosInHits(List<GeoElement> geoList) {
+		for (GeoElement geo : geoList) {
+			if (isVisible(geo) && euclidianView.getHits().contains(geo)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isVisible(GeoElement geo) {
+		return geo.isVisibleInView(euclidianView.getViewID())
+				&& geo.isEuclidianVisible() && !geo.isAxis();
+	}
+
 	private List<GeoElement> createActiveGeoList() {
 		List<GeoElement> selectedGeos = selectionManager.getSelectedGeos();
 		List<GeoElement> justCreatedGeos = euclidianView
 				.getEuclidianController().getJustCreatedGeos();
-		if (hasVisibleGeos(selectedGeos) || hasVisibleGeos(justCreatedGeos)) {
+		if ((euclidianView.checkHitForStylebar() ? hasVisibleGeosInHits(selectedGeos) :
+				hasVisibleGeos(selectedGeos)) ||  hasVisibleGeos(justCreatedGeos)) {
 			selectedGeos.addAll(justCreatedGeos);
 			return selectedGeos;
 		}
@@ -77,10 +91,10 @@ public class StylebarPositioner {
 	@SuppressWarnings({ "MethodWithTooManyParameters", "OverlyComplexMethod",
 			"OverlyLongMethod", "ReturnOfNull" })
 	private GPoint getStylebarPositionForDrawable(GRectangle2D gRectangle2D,
-			boolean hasBoundingBox, boolean isPoint, boolean isFunction,
+			boolean hasBoundingBox, boolean isPoint, boolean noUseOfRectangle,
 			int popupHeight, int popupWidth, GRectangle canvasRect) {
 		if (gRectangle2D == null) {
-			if (!isFunction || isPoint) {
+			if (!noUseOfRectangle || isPoint) {
 				return null;
 			}
 		}
@@ -95,7 +109,7 @@ public class StylebarPositioner {
 		// final int BOTTOM_MARGIN = 7 * MARGIN;
 		double top;
 
-		if (isFunction) {
+		if (noUseOfRectangle) {
 			GPoint mouseLoc = euclidianView.getEuclidianController()
 					.getMouseLoc();
 			if (mouseLoc == null) {
@@ -126,7 +140,7 @@ public class StylebarPositioner {
 		}
 
 		double left;
-		if (isFunction) {
+		if (noUseOfRectangle) {
 			left = euclidianView.getEuclidianController().getMouseLoc().x
 					+ MARGIN;
 		} else {
@@ -321,11 +335,11 @@ public class StylebarPositioner {
 	@SuppressWarnings("WeakerAccess")
 	public GPoint getPositionFor(GeoElement geo, int stylebarHeight,
 			int stylebarWidth, GRectangle canvasRect) {
-		Drawable dr = (Drawable) euclidianView.getDrawableND(geo);
+		DrawableND dr = euclidianView.getDrawableND(geo);
 		if (dr != null) {
 			return getStylebarPositionForDrawable(
 					dr.getBoundsForStylebarPosition(),
-					!(dr instanceof DrawLine), dr instanceof DrawPoint, false,
+					!(dr instanceof DrawLine), dr instanceof DrawPoint, dr.is3D(),
 					stylebarHeight, stylebarWidth, canvasRect);
 		}
 		// noinspection ReturnOfNull
@@ -347,7 +361,7 @@ public class StylebarPositioner {
 			// show style bar.
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
 					&& app.getMode() == EuclidianConstants.MODE_SELECT) {
-				Drawable dr = (Drawable) euclidianView.getDrawableND(geo);
+				DrawableND dr = euclidianView.getDrawableND(geo);
 				if (dr != null) {
 					GPoint position = getStylebarPositionForDrawable(
 							dr.getBoundsForStylebarPosition(),

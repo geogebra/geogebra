@@ -4773,4 +4773,10 @@ public abstract class EuclidianView3D extends EuclidianView
     public boolean isAREnabled() {
 	    return mIsAREnabled;
     }
+
+	@Override
+    public boolean checkHitForStylebar() {
+		return true;
+	}
+
 }
