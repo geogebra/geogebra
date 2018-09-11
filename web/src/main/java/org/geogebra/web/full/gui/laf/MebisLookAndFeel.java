@@ -1,18 +1,17 @@
 package org.geogebra.web.full.gui.laf;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.browser.MebisSignInButton;
 import org.geogebra.web.shared.SignInButton;
-import org.geogebra.web.shared.ggtapi.BASEURL;
 
 /**
- * For offline browser
+ * LAF for Mebis environment
  */
 public class MebisLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, 0,
-				BASEURL.getCallbackUrl().replace("file://", "app://"));
+		return new MebisSignInButton(app);
 	}
 
 }

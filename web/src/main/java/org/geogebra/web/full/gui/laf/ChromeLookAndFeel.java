@@ -1,5 +1,9 @@
 package org.geogebra.web.full.gui.laf;
 
+/**
+ * LAF for offline chrome apps
+ *
+ */
 public class ChromeLookAndFeel extends GLookAndFeel {
 
 	@Override
