@@ -8055,7 +8055,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								EuclidianBoundingBoxHandler.BOTTOM);
 						dr.updateGeo(point);
 					}
-				} else {
+				} else if (bounds != null) {
 					// the size of the element wasn't changed so we recalculate
 					// the min points
 					newMinX = newMinX

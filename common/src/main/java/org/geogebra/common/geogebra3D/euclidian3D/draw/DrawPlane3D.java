@@ -583,9 +583,10 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	protected void checkViewDirectionIsParallel() {
-		viewDirectionIsParallel = getView3D().showPlaneOutlineIfNeeded() &&
-				DoubleUtil.isZero(getPlane().getCoordSys().getEquationVector().dotproduct
-						(getView3D().getEyePosition()));
+		viewDirectionIsParallel = getView3D().showPlaneOutlineIfNeeded()
+				&& DoubleUtil
+						.isZero(getPlane().getCoordSys().getEquationVector()
+								.dotproduct(getView3D().getEyePosition()));
 	}
 
 	@Override

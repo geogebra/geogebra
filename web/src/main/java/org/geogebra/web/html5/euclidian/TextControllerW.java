@@ -145,7 +145,10 @@ public class TextControllerW
 		view.repaint();
 	}
 
-	private void doUpdateBoundingBox() {
+	/**
+	 * Update bounding box and repaint.
+	 */
+	void doUpdateBoundingBox() {
 		DrawText d = (DrawText) view.getDrawableFor(text);
 		if (d != null) {
 			d.adjustBoundingBoxToText();
@@ -171,7 +174,6 @@ public class TextControllerW
 		}
 		return editor.getBounds();
 	}
-
 
 	@Override
 	public void setEditorFont(GFont font) {
@@ -213,6 +215,7 @@ public class TextControllerW
 	 *
 	 * @param row
 	 *            row to wrap.
+	 * @return list of short rows
 	 */
 	public ArrayList<String> wrapRow(String row) {
 		String[] words = row.split(" ");

@@ -80,8 +80,10 @@ public class StylebarPositioner {
 		List<GeoElement> selectedGeos = selectionManager.getSelectedGeos();
 		List<GeoElement> justCreatedGeos = euclidianView
 				.getEuclidianController().getJustCreatedGeos();
-		if ((euclidianView.checkHitForStylebar() ? hasVisibleGeosInHits(selectedGeos) :
-				hasVisibleGeos(selectedGeos)) ||  hasVisibleGeos(justCreatedGeos)) {
+		boolean selectedGeosVisible = euclidianView.checkHitForStylebar()
+				? hasVisibleGeosInHits(selectedGeos)
+				: hasVisibleGeos(selectedGeos);
+		if (selectedGeosVisible || hasVisibleGeos(justCreatedGeos)) {
 			selectedGeos.addAll(justCreatedGeos);
 			return selectedGeos;
 		}

@@ -17,7 +17,6 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,6 +32,12 @@ public class Exercise {
 	private int initialComplexity;
 	private int previousComplexity;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param rootPanel
+	 *            parent panel
+	 */
 	Exercise(AppWsolver app, AbsolutePanel rootPanel) {
 		this.app = app;
 		this.rootPanel = rootPanel;
