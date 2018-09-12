@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.media.MediaURLParser;
@@ -12,7 +13,7 @@ import org.geogebra.common.media.MediaURLParser;
  * @author laszlo
  *
  */
-public abstract class GeoMedia extends GeoWidget {
+public abstract class GeoMedia extends GeoWidget implements Translateable {
 	/** Source of the media, available for subclasses too */
 	protected String src;
 
@@ -164,6 +165,20 @@ public abstract class GeoMedia extends GeoWidget {
 
 	@Override
 	public boolean isPinnable() {
+		return true;
+	}
+
+	@Override
+	public void translate(Coords v) {
+		for (int i = 0; i < corner.length; i++) {
+			if (corner[i] != null) {
+				corner[i].translate(v);
+			}
+		}
+	}
+
+	@Override
+	public boolean isTranslateable() {
 		return true;
 	}
 }

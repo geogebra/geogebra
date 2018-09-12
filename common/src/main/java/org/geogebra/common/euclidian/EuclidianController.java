@@ -12521,7 +12521,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (!dr.hasRotationHandler()) {
 					hasRotationHandler = false;
 				}
-				GRectangle2D bounds = dr.getBoundingBox().getRectangle();
+				GRectangle2D bounds = dr.getBoundingBox() != null
+						? dr.getBoundingBox().getRectangle()
+						: dr.getBounds();
 				if (bounds != null) {
 					if (bounds.getMinX() < minX) {
 						minX = bounds.getMinX();
