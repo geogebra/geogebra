@@ -3149,7 +3149,7 @@ __GGB__keysVar["ja"].menu = {
     "exam_activity": "\u30ef\u30fc\u30af\u30b7\u30fc\u30c8",
     "exam_alert": "\u8b66\u544a",
     "exam_calctype_3D_graphing": "\u7a7a\u9593\u56f3\u5f62",
-    "exam_calctype_3D_graphing_desc": "\u6570\u5024\u8a08\u7b97\u30012 D \u30b0\u30e9\u30d5\u4f5c\u6210\u3001\u7a7a\u9593\u56f3\u5f62",
+    "exam_calctype_3D_graphing_desc": "\u6570\u5024\u8a08\u7b97\u3001\u30b0\u30e9\u30d5\u4f5c\u6210\u3001\u7a7a\u9593\u56f3\u5f62",
     "exam_calctype_3D_graphing_short": "\u7a7a\u9593\u56f3\u5f62",
     "exam_calctype_3D_sym_graphing": "\u6570\u5f0f\u51e6\u7406\u53ef\u80fd\u306a\u7a7a\u9593\u56f3\u5f62",
     "exam_calctype_3D_sym_graphing_desc": "\u6570\u5024\u8a08\u7b97\u3068\u6570\u5f0f\u51e6\u7406 (CAS) \u30012 D \u30b0\u30e9\u30d5\u4f5c\u6210\u3001\u7a7a\u9593\u56f3\u5f62",
