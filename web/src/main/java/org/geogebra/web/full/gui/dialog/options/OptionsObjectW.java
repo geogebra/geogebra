@@ -201,7 +201,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			// set label visible checkbox
 			if (isEqualMode) {
-				labelMode.setSelectedIndex(geo0.getLabelMode());
+				labelMode.setSelectedIndex(
+						ShowLabelModel.getDropdownIndex(geo0));
 			} else {
 				labelMode.setSelectedIndex(-1);
 			}
@@ -213,7 +214,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public void autoShowCaption() {
 			GeoElement geo0 = model.getGeoAt(0);
 			geo0.setLabelVisible(true);
-			geo0.setLabelMode(GeoElement.LABEL_CAPTION);
+			geo0.setLabelMode(GeoElementND.LABEL_CAPTION);
 			model.updateProperties();
 		}
 

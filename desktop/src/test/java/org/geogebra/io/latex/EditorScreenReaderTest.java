@@ -183,7 +183,7 @@ public class EditorScreenReaderTest {
 
 	@Test
 	public void testReaderSqrtPi() {
-		checkReader("sqrt("+Unicode.pi+")",
+		checkReader("sqrt(" + Unicode.pi + ")",
 				"start of formula start square root pi end square root",
 				"start of square root before pi", "end of square root after pi",
 				"end of formula start square root pi end square root");
