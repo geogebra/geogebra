@@ -40,7 +40,9 @@ public abstract class SolutionStep {
 
 	public boolean shouldSkip() {
 		return getType() == SolutionStepType.DETERMINE_THE_DEFINED_RANGE
-				|| getType() == SolutionStepType.FIND_UNDEFINED_POINTS;
+				|| getType() == SolutionStepType.FIND_UNDEFINED_POINTS
+				|| getType() == SolutionStepType.SOLUTION
+				|| getType() == SolutionStepType.SOLUTIONS;
 	}
 
 	public boolean shouldSkipSubsteps() {
@@ -75,12 +77,30 @@ public abstract class SolutionStep {
 	 * @return complexity of solution
 	 */
 	public int getComplexity() {
+		if (shouldSkip()) {
+			return 0;
+		}
+
+		if (getType() == SolutionStepType.SUBSTEP_WRAPPER) {
+			return 1;
+		}
+
 		int complexity = 1;
+		if (getType() == SolutionStepType.WRAPPER
+				|| getType() == SolutionStepType.GROUP_WRAPPER
+				|| getType() == SolutionStepType.SOLVE_FOR) {
+			complexity = 0;
+		}
 
 		if (substeps != null) {
+			if (substeps.get(0).shouldSkipSubsteps()) {
+				return 2;
+			}
+
 			for (SolutionStep step : substeps) {
 				complexity += step.getComplexity();
 			}
+			return complexity;
 		}
 
 		return complexity;
