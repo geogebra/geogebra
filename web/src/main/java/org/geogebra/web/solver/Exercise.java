@@ -27,6 +27,9 @@ public class Exercise {
 	private AbsolutePanel rootPanel;
 	private VerticalPanel dataPanel;
 
+	private ProgressBar progressBar;
+	private Canvas hint;
+
 	private int initialComplexity;
 	private int previousComplexity;
 
@@ -36,20 +39,40 @@ public class Exercise {
 	}
 
 	void setupApplication() {
+		dataPanel = new VerticalPanel();
+		dataPanel.setWidth("400px");
+
 		StandardButton exerciseButton = new StandardButton("Generate new exercise!", app);
+		exerciseButton.setStyleName("solverButton");
+
 		exerciseButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				String s = ExerciseGenerator.getExercise(-1).equation;
-				newExercise(s);
-				initialComplexity = -1;
-				onCanvasChanged(s);
+				generateNewExercise();
 			}
 		});
 
-		rootPanel.add(exerciseButton);
+		dataPanel.add(exerciseButton);
 
-		dataPanel = new VerticalPanel();
+		progressBar = new ProgressBar();
+		dataPanel.add(progressBar);
+
+		StandardButton hintButton = new StandardButton("Show/Hide next step", app);
+		hintButton.setStyleName("solverButton");
+
+		hintButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick(Widget source) {
+				hint.setVisible(!hint.isVisible());
+			}
+		});
+
+		dataPanel.add(hintButton);
+
+		hint = Canvas.createIfSupported();
+		hint.setVisible(false);
+		dataPanel.add(hint);
+
 		rootPanel.add(dataPanel);
 
 		FlowPanel gmDiv = new FlowPanel();
@@ -72,27 +95,23 @@ public class Exercise {
 				}).inject();
 	}
 
+	private void generateNewExercise() {
+		String s = ExerciseGenerator.getExercise(-1).equation;
+		newExercise(s);
+		initialComplexity = -1;
+		onCanvasChanged(s);
+	}
+
 	private void onCanvasChanged(String lastEquation) {
-		dataPanel.clear();
-
 		StepNode expression = StepNode.getStepTree(lastEquation, app.getKernel().getParser());
-		String currentStep = expression.toLaTeXString(app.getLocalization());
-
-		dataPanel.add(new HTML("<h1>Current equation: " + lastEquation + "</h1>"));
-		Canvas c1 = Canvas.createIfSupported();
-		DrawEquationW.paintOnCanvas(app, currentStep, c1, 40, GColor.MAGENTA, true);
-		dataPanel.add(c1);
 
 		SolutionBuilder sb = new SolutionBuilder();
 		((StepTransformable) expression).toSolvable().solve(new StepVariable("x"), sb);
 		int complexity = sb.getSteps().getComplexity();
-		dataPanel.add(new HTML("<h1>Complexity: " + complexity));
 
 		if (initialComplexity == -1) {
 			initialComplexity = complexity;
 		}
-
-		ProgressBar progressBar = new ProgressBar();
 
 		progressBar.setMax(initialComplexity);
 		progressBar.setValue(initialComplexity - complexity);
@@ -107,16 +126,11 @@ public class Exercise {
 			progressBar.setProgress("good");
 		}
 
-		dataPanel.add(progressBar);
-
 		previousComplexity = complexity;
 
 		String nextStep = getNextStep(sb.getSteps());
 
-		dataPanel.add(new HTML("<h1>Next step: </h1>"));
-		Canvas c2 = Canvas.createIfSupported();
-		DrawEquationW.paintOnCanvas(app, nextStep, c2, 40, GColor.MAGENTA, true);
-		dataPanel.add(c2);
+		DrawEquationW.paintOnCanvas(app, nextStep, hint, 40, GColor.BLACK, true);
 	}
 
 	private String getNextStep(SolutionStep ss) {
@@ -156,6 +170,7 @@ public class Exercise {
 		function initCanvas() {
             $wnd.canvas = new $wnd.gmath.Canvas('#gm-div');
             $wnd.canvas.model.on('el_changed', onChangedCallback);
+            e.@org.geogebra.web.solver.Exercise::generateNewExercise()();
 		}
 
         function onChangedCallback(event) {

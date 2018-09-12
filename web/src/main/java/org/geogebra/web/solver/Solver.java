@@ -116,7 +116,7 @@ public class Solver {
 		editorPanel.add(editorFocusPanel);
 
 		StandardButton solveButton = new StandardButton("Compute", app);
-		solveButton.setStyleName("solveButton");
+		solveButton.setStyleName("solverButton");
 		solveButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
