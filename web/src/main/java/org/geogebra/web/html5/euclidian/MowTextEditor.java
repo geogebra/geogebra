@@ -162,7 +162,8 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 		if (bounds == null) {
 			bounds = AwtFactory.getPrototype().newRectangle();
 		}
-		bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop(), getOffsetWidth(), getOffsetHeight());
+		bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop(), getOffsetWidth(),
+				getOffsetHeight());
 		return bounds;
 	}
 

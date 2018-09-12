@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
@@ -17,6 +18,8 @@ import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -31,7 +34,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
  * @author laszlo
  *
  */
-public class TextControllerW implements TextController, FocusHandler, BlurHandler, KeyDownHandler {
+public class TextControllerW
+		implements TextController, FocusHandler, BlurHandler, KeyDownHandler {
 	private MowTextEditor editor;
 	private AppW app;
 	private EuclidianViewW view;
@@ -58,7 +62,26 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		editor.addKeyDownHandler(this);
 		editor.addFocusHandler(this);
 		editor.addBlurHandler(this);
+	}
 
+	@Override
+	public void onKeyDown(KeyDownEvent event) {
+		updateBoundingBox();
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		editor.hide();
+		view.setBoundingBox(null);
+		String content = editor.getText();
+		if (!StringUtil.empty(content)) {
+			text.cancelEditMode();
+			text.setTextString(content);
+			text.update();
+			text.updateRepaint();
+		} else {
+			text.remove();
+		}
 	}
 
 	private void updateEditor(int x, int y, int width) {
@@ -99,29 +122,11 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	}
 
 	@Override
-	public void onBlur(BlurEvent event) {
-		editor.hide();
-		view.setBoundingBox(null);
-		String content = editor.getText();
-		if (!StringUtil.empty(content)) {
-			text.cancelEditMode();
-			text.setTextString(content);
-			text.update();
-			text.updateRepaint();
-		} else {
-			text.remove();
-		}
-	}
-
-	@Override
 	public void edit(GeoText geo) {
 		edit(geo, false);
 	}
 
 	private void edit(GeoText geo, boolean create) {
-		// if (geo.isEditMode()) {
-		// return;
-		// }
 		geo.setEditMode();
 		this.text = geo;
 		text.update();
@@ -132,13 +137,31 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 			int y = d.yLabel - view.getFontSize() - EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(x, y, (int) d.getBounds().getWidth());
 			if (create) {
-				view.setBoundingBox(d.getBoundingBox());
-				d.adjustBoundingBoxToText();
+				updateBoundingBox();
 			}
 		}
 		editor.show();
 		editor.requestFocus();
 		view.repaint();
+	}
+
+	private void doUpdateBoundingBox() {
+		DrawText d = (DrawText) view.getDrawableFor(text);
+		if (d != null) {
+			d.adjustBoundingBoxToText();
+			view.setBoundingBox(d.getBoundingBox());
+		}
+		view.repaint();
+	}
+
+	private void updateBoundingBox() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				doUpdateBoundingBox();
+			}
+		});
 	}
 
 	@Override
@@ -149,10 +172,6 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 		return editor.getBounds();
 	}
 
-	@Override
-	public void onKeyDown(KeyDownEvent arg0) {
-		text.updateRepaint();
-	}
 
 	@Override
 	public void setEditorFont(GFont font) {
@@ -275,13 +294,19 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 				lastText.setReadyToEdit();
 				return true;
 			}
-			lastText.processEditMode();
 
-			if (lastText.isEditMode()) {
-				edit(lastText);
-				lastText = null;
-				return true;
+			if (app.getMode() == EuclidianConstants.MODE_MEDIA_TEXT) {
+				lastText.setEditMode();
+				edit(lastText, true);
+			} else {
+				lastText.processEditMode();
+				if (lastText.isEditMode()) {
+					edit(lastText);
+				}
 			}
+
+			lastText = null;
+			return true;
 		}
 
 		return false;
@@ -301,5 +326,4 @@ public class TextControllerW implements TextController, FocusHandler, BlurHandle
 	public boolean isEditing() {
 		return lastText != null && lastText.isEditMode();
 	}
-
 }
