@@ -1,10 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -119,6 +114,11 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -295,6 +295,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Augmented Reality
 	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
+	private boolean mISAREditMode;
 
 	/**
 	 * common constructor
@@ -4753,6 +4754,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			mIsARDrawing = isARDrawing;
 			if (isARDrawing) {
 				getRenderer().setScaleFactor();
+				mISAREditMode = isARDrawing;    // temporary solution
 			}
 			updateMatrix();
 			reset();
@@ -4773,6 +4775,10 @@ public abstract class EuclidianView3D extends EuclidianView
     public boolean isAREnabled() {
 	    return mIsAREnabled;
     }
+
+    public boolean isAREditMode() {
+	    return mISAREditMode;
+	}
 
 	@Override
     public boolean checkHitForStylebar() {
