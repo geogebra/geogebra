@@ -75,7 +75,7 @@ class StepInformation extends HorizontalPanel {
             add(container);
 
             stepsButton = new StandardButton("Show Steps", app);
-            stepsButton.setStyleName("solveButton");
+            stepsButton.setStyleName("solverButton");
             stepsButton.addFastClickHandler(new FastClickHandler() {
                 @Override
                 public void onClick(Widget source) {
