@@ -2199,4 +2199,19 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return DoubleUtil.isZero(inhom.getZ());
 	}
 
+	/**
+	 * Increments path parameter
+	 * 
+	 * @param a
+	 *            increment
+	 */
+	public void addToPathParameter(double a) {
+		PathParameter parameter = getPathParameter();
+		parameter.t += a;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+	}
+
 }

@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -1641,12 +1640,12 @@ public abstract class GlobalKeyDispatcher {
 					}
 
 					// update point on path
-					else if (geo.isGeoPoint() && !geo.isGeoElement3D()) {
-						GeoPoint p = (GeoPoint) geo;
+					else if (geo instanceof GeoPointND) {
+						GeoPointND p = (GeoPointND) geo;
 						if (p.isPointOnPath()) {
 							p.addToPathParameter(
 									changeVal * p.getAnimationStep());
-							ScreenReader.readGeoMoved(p);
+							ScreenReader.readGeoMoved((GeoElement) p);
 						}
 					}
 				}
