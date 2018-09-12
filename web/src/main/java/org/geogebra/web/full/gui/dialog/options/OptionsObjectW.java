@@ -225,7 +225,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			labelMode.addItem(localize("Name")); // index 0
 			labelMode.addItem(localize("NameAndValue")); // index 1
 			labelMode.addItem(localize("Value")); // index 2
-			labelMode.addItem(localize("Caption")); // index 3 Michael
+			labelMode.addItem(localize("Caption")); // index 3
+			labelMode.addItem(localize("CaptionAndValue")); // index 4
 			labelMode.setSelectedIndex(selectedIndex);
 		}
 	}
