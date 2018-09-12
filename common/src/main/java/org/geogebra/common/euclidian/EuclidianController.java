@@ -6565,16 +6565,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					EuclidianBoundingBoxHandler handler = view.getBoundingBox()
 							.getHitHandler(event.getX(), event.getY(),
 									app.getCapturingThreshold(event.getType()));
-
+					// set handler and cursor
 					view.setHitHandler(handler);
 					setBoundingBoxCursor(null);
-
 					// if handler is UNDEFINED the side of the bounding box
 					// was hit
 					if (handler == EuclidianBoundingBoxHandler.UNDEFINED) {
 						setDragCursor();
 					}
-
 					return;
 				}
 			}
@@ -7757,7 +7755,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// resize, single selection
 			if (getResizedShape() != null) {
 				setBoundingBoxCursor(getResizedShape());
-
+				// resize selected geo
 				if (getResizedShape().getGeoElement().isSelected()) {
 					dontClearSelection = true;
 					GPoint2D p = AwtFactory.getPrototype()
@@ -7923,18 +7921,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void handleResizeMultiple(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
-
 		// if for some reason there was no state initialized
 		if (startBoundingBoxState == null) {
 			startBoundingBoxState = new BoundingBoxResizeState(
 					view.getBoundingBox().getRectangle(),
 					selection.getSelectedGeos(), view);
 		}
-
 		// calculate dragged distance
 		double distX = event.getX() - startPosition.getX();
 		double distY = event.getY() - startPosition.getY();
-
 		switch (handler) {
 		case TOP_LEFT:
 		case BOTTOM_RIGHT:
@@ -7947,12 +7942,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default:
 			break;
 		}
-
+		// calc boundingbox width/heigth
 		double bbWidth = startBoundingBoxState.getRectangle().getWidth(),
 				bbHeight = startBoundingBoxState.getRectangle().getHeight(),
 				bbMinX = startBoundingBoxState.getRectangle().getMinX(),
 				bbMinY = startBoundingBoxState.getRectangle().getMinY();
-
 		switch (handler) {
 		case RIGHT:
 		case TOP_RIGHT:
@@ -7992,7 +7986,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
-
 			// calculate new positions relative to bounding box
 			double newMinX = startBoundingBoxState.getRatios()[i][0] * bbWidth,
 					newMaxX = startBoundingBoxState.getRatios()[i][1] * bbWidth,
@@ -8000,13 +7993,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							* bbHeight,
 					newMaxY = startBoundingBoxState.getRatios()[i][3]
 							* bbHeight;
-
+			// handle segments
 			if (dr instanceof DrawSegment) {
 				// segments must be handled differently (by translating the
 				// points separately)
 				GeoSegment seg = (GeoSegment) geo;
 				double dStartX = 0, dEndX = 0, dStartY = 0, dEndY = 0;
-
+				// width threshold not reached
 				if (!thresholdXReached) {
 					if (seg.getEndPoint().getX()
 							- seg.getStartPoint().getX() > 0) {
@@ -8027,7 +8020,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						dStartY = newMaxY + bbMinY - dr.getBounds().getMaxY();
 					}
 				}
-
 				if (dStartX != 0 || dStartY != 0) {
 					seg.getStartPoint()
 							.translate(new Coords(dStartX / view.getXscale(),
@@ -8278,7 +8270,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setHitHandler(view.getBoundingBox().getHitHandler(e.getX(),
 					e.getY(), app.getCapturingThreshold(e.getType())));
 		}
-
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
 			return;
@@ -8295,6 +8286,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setDragCursor();
 			return;
 		}
+		// bounding box handler hit
 		if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 			if (d != null) {

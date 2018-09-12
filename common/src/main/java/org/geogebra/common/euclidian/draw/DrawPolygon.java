@@ -54,7 +54,6 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  */
 public class DrawPolygon extends Drawable implements Previewable {
-
 	private GeoPolygon poly;
 	private boolean isVisible;
 	private boolean labelVisible;
@@ -97,7 +96,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		for (int i = 0; i < 8; i++) {
 			extraCoords[i] = new Coords(0, 0);
 		}
-
 		update();
 	}
 
@@ -112,10 +110,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public DrawPolygon(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
-
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
-
 		updatePreview();
 	}
 
@@ -252,7 +248,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 														// default/hatching/image
 														// as
 			// appropriate
-
 			if (geo.doHighlighting()) {
 				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
@@ -353,7 +348,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 								nearestY = y1;
 								dist = d;
 							}
-
 						}
 					}
 
@@ -389,7 +383,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
-
 			fill(g2, (geo.isInverseFill() ? getShape() : gp));
 
 			g2.setPaint(getObjectColor());
@@ -606,7 +599,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
-
 		poly.setEuclidianVisible(false);
 		poly.updateRepaint();
 		if (isCornerHandler(handler)) {
@@ -739,15 +731,16 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 			it.next();
 		}
-
+		// init poly
 		prewPolygon.reset();
-
+		// move to start point
 		prewPolygon.moveTo(pointsX[0], pointsY[0]);
+		// draw segments
 		for (int index = 1; index < pointsX.length; index++) {
 			prewPolygon.lineTo(pointsX[index], pointsY[index]);
 		}
 		prewPolygon.closePath();
-
+		// set new bounding box
 		getBoundingBox().setRectangle(prewPolygon.getBounds());
 	}
 
@@ -877,7 +870,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		extraCoords[3].setX(view.getXmin());
 		extraCoords[3].setY(view.getYmax());
-
 	}
 
 	private void drawPolygonConvex(Coords[] vertices, int length,
@@ -897,7 +889,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 			view.toScreenCoords(coords);
 			gpTriangularize.lineTo(coords[0], coords[1]);
 		}
-
 		// we have to move back manually to apex since we may have new fan to
 		// draw
 		gpTriangularize.moveTo(startX, startY);

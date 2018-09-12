@@ -48,7 +48,6 @@ import org.geogebra.common.util.MyMath;
  * @author Markus
  */
 public final class DrawImage extends Drawable {
-
 	private GeoImage geoImage;
 	private boolean isVisible;
 	private MyImage image;

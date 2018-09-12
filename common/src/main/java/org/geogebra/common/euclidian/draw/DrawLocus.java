@@ -45,7 +45,6 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class DrawLocus extends Drawable {
-
 	private static final int BITMAP_PADDING = 10;
 
 	private GeoLocusND<? extends MyPoint> locus;
@@ -360,7 +359,6 @@ public class DrawLocus extends Drawable {
 				getBoundingBox().getRectangle());
 		update();
 		getBoundingBox().setRectangle(getBounds2D());
-
 	}
 
 	/**
@@ -375,7 +373,6 @@ public class DrawLocus extends Drawable {
 	 */
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
 			GPoint2D p, GRectangle2D gRectangle2D) {
-
 		// save the original rates when scaling first time
 		((GeoLocus) geo).saveOriginalRates(gRectangle2D);
 

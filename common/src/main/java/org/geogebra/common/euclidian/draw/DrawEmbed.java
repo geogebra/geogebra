@@ -22,7 +22,6 @@ import org.geogebra.common.main.App.ExportType;
  * Drawable for embedded apps
  */
 public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
-
 	private BoundingBox boundingBox;
 	private GRectangle2D bounds;
 	private double originalRatio = Double.NaN;
@@ -127,7 +126,6 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
-
 	}
 
 	@Override
@@ -180,7 +178,6 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
-
 		getBoundingBox().resize(this, p, handler);
 	}
 
@@ -231,12 +228,10 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public void remove() {
 		view.getApplication().getEmbedManager().remove(this);
-
 	}
 
 	@Override
 	public boolean isFixedRatio() {
 		return false;
 	}
-
 }
