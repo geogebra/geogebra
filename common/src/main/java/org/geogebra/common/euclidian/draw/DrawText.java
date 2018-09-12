@@ -40,7 +40,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public final class DrawText extends Drawable {
 
-	private static final int MIN_EDITOR_WIDTH = 80;
+	private static final int MIN_EDITOR_WIDTH = 100;
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
@@ -378,13 +378,13 @@ public final class DrawText extends Drawable {
 		case RIGHT:
 			break;
 		case LEFT:
-			labelRectangle.setBounds((int) mouseX + EuclidianStatic.EDITOR_MARGIN,
-					(int) labelRectangle.getY(),
-					(int) (maxX - mouseX + EuclidianStatic.EDITOR_MARGIN),
+			if ((maxX - mouseX) < MIN_EDITOR_WIDTH) {
+				return;
+			}
+			labelRectangle.setSize((int) (maxX - mouseX + EuclidianStatic.EDITOR_MARGIN),
 					(int) labelRectangle.getHeight());
 			GeoPointND startPoint = text.getStartPoint();
-			startPoint.setCoords(view.toRealWorldCoordX(mouseX),
-					startPoint.getInhomY(), 1.0);
+			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
 			text.update();
 			break;
 		default:
