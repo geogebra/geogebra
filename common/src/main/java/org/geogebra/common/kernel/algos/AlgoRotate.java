@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Rotateable;
 
 /**
@@ -36,7 +35,6 @@ import org.geogebra.common.kernel.geos.Rotateable;
  */
 public class AlgoRotate extends AlgoTransformation {
 
-	private Rotateable out;
 	private GeoNumberValue angle;
 	private GeoElement angleGeo;
 
@@ -61,9 +59,6 @@ public class AlgoRotate extends AlgoTransformation {
 
 		// create output object
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof PointRotateable) {
-			out = (PointRotateable) outGeo;
-		}
 
 		setInputOutput();
 		compute();
@@ -120,7 +115,10 @@ public class AlgoRotate extends AlgoTransformation {
 		if (!outGeo.isDefined()) {
 			return;
 		}
-		out.rotate(angle);
+
+		if (outGeo instanceof Rotateable) {
+			((Rotateable) outGeo).rotate(angle);
+		}
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
@@ -128,8 +126,6 @@ public class AlgoRotate extends AlgoTransformation {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("ARotatedByAngleB",
 				"%0 rotated by angle %1",
 				inGeo.getLabel(tpl), angleGeo.getLabel(tpl));
@@ -139,10 +135,6 @@ public class AlgoRotate extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList)) {
-			out = (Rotateable) outGeo;
-		}
-
 	}
 
 	@Override
