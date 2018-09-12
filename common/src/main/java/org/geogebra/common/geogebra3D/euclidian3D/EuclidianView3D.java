@@ -295,7 +295,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Augmented Reality
 	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
-	private boolean mISAREditMode;
 
 	/**
 	 * common constructor
@@ -4754,7 +4753,6 @@ public abstract class EuclidianView3D extends EuclidianView
 			mIsARDrawing = isARDrawing;
 			if (isARDrawing) {
 				getRenderer().setScaleFactor();
-				mISAREditMode = isARDrawing;    // temporary solution
 			}
 			updateMatrix();
 			reset();
@@ -4775,10 +4773,6 @@ public abstract class EuclidianView3D extends EuclidianView
     public boolean isAREnabled() {
 	    return mIsAREnabled;
     }
-
-    public boolean isAREditMode() {
-	    return mISAREditMode;
-	}
 
 	@Override
     public boolean checkHitForStylebar() {
