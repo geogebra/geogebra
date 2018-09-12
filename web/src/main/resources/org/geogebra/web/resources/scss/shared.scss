@@ -206,4 +206,25 @@
 	.GeoGebraImagePanel{
 		height: 100%;
 	}
+
+	.practiceProgressBar {
+		progress[value] {
+			width: 250px;
+			height: 25px;
+
+			border-radius: 15px;
+
+			&[progress="good"]::-moz-progress-bar {
+				 background-color: #4CAF50;
+			}
+
+			&[progress="medium"]::-moz-progress-bar {
+				background-color: #ffff00;;
+			}
+
+			&[progress="bad"]::-moz-progress-bar {
+				background-color: #FF1744;
+			}
+		}
+	}
 }

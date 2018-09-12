@@ -27,6 +27,7 @@ public class Exercise {
 	private AbsolutePanel rootPanel;
 	private VerticalPanel dataPanel;
 
+	private int initialComplexity;
 	private int previousComplexity;
 
 	Exercise(AppWsolver app, AbsolutePanel rootPanel) {
@@ -41,7 +42,7 @@ public class Exercise {
 			public void onClick(Widget source) {
 				String s = ExerciseGenerator.getExercise(-1).equation;
 				newExercise(s);
-				previousComplexity = -1;
+				initialComplexity = -1;
 				onCanvasChanged(s);
 			}
 		});
@@ -87,26 +88,26 @@ public class Exercise {
 		int complexity = sb.getSteps().getComplexity();
 		dataPanel.add(new HTML("<h1>Complexity: " + complexity));
 
-		if (previousComplexity != -1) {
-			String text;
-			GColor color;
-			if (previousComplexity < complexity) {
-				if (complexity - previousComplexity < 5) {
-					text = "\\text{OK}";
-					color = GColor.YELLOW;
-				} else {
-					text = "\\text{I don't think so}";
-					color = GColor.RED;
-				}
-			} else {
-				text = "\\text{GOOD}";
-				color = GColor.GREEN;
-			}
-
-			Canvas c3 = Canvas.createIfSupported();
-			DrawEquationW.paintOnCanvas(app, text, c3, 40, color, true);
-			dataPanel.add(c3);
+		if (initialComplexity == -1) {
+			initialComplexity = complexity;
 		}
+
+		ProgressBar progressBar = new ProgressBar();
+
+		progressBar.setMax(initialComplexity);
+		progressBar.setValue(initialComplexity - complexity);
+
+		if (previousComplexity < complexity) {
+			if (complexity - previousComplexity < 5) {
+				progressBar.setProgress("medium");
+			} else {
+				progressBar.setProgress("bad");
+			}
+		} else {
+			progressBar.setProgress("good");
+		}
+
+		dataPanel.add(progressBar);
 
 		previousComplexity = complexity;
 
