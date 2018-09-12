@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.layout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -210,12 +212,18 @@ public class DockManagerW extends DockManager {
 					currentParent.setRightComponentCheckEmpty(splitPanes[i]);
 				}
 			}
+			// sort panels right to left: needed for fullscreen button
+			Arrays.sort(dpData, new Comparator<DockPanelData>() {
 
+				public int compare(DockPanelData o1, DockPanelData o2) {
+					return o1.getEmbeddedDef().compareTo(o2.getEmbeddedDef());
+				}
+			});
 			// now insert the dock panels
-			for (int i = 0; i < dpData.length; ++i) {
-				DockPanelW panel = getPanel(dpData[i].getViewId());
+			for (DockPanelData dpItem : dpData) {
+				DockPanelW panel = getPanel(dpItem.getViewId());
 				// skip panels which will not be drawn in the main window
-				if (!dpData[i].isVisible() || dpData[i].isOpenInFrame()
+				if (!dpItem.isVisible() || dpItem.isOpenInFrame()
 				// eg run "no 3D" with 3D View open in saved settings
 						|| panel == null) {
 					continue;
@@ -231,7 +239,7 @@ public class DockManagerW extends DockManager {
 				// }
 
 				DockSplitPaneW currentParent = rootPane;
-				String[] directions = dpData[i].getEmbeddedDef().split(",");
+				String[] directions = dpItem.getEmbeddedDef().split(",");
 
 				/*
 				 * Get the parent split pane of this dock panel and ignore the
@@ -262,7 +270,7 @@ public class DockManagerW extends DockManager {
 					currentParent.setRightComponentCheckEmpty(panel);
 				}
 
-				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
+				panel.setEmbeddedSize(dpItem.getEmbeddedSize());
 
 				panel.updatePanel(true);
 
@@ -271,22 +279,22 @@ public class DockManagerW extends DockManager {
 				// maybe wrong if onResize makes things wrong
 				if (currentParent
 						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
-					panel.setHeight(dpData[i].getEmbeddedSize() + "px");
+					panel.setHeight(dpItem.getEmbeddedSize() + "px");
 				} else {
-					panel.setWidth(dpData[i].getEmbeddedSize() + "px");
+					panel.setWidth(dpItem.getEmbeddedSize() + "px");
 				}
 
 				if (currentParent
 						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 					int panelDim = panel.getEstimatedSize().getWidth();
 					sph.put(currentParent, sph.get(currentParent)
-							+ dpData[i].getEmbeddedSize());
+							+ dpItem.getEmbeddedSize());
 					spw.put(currentParent,
 							Math.max(spw.get(currentParent), panelDim));
 				} else {
 					int panelDim = panel.getEstimatedSize().getHeight();
 					spw.put(currentParent, spw.get(currentParent)
-							+ dpData[i].getEmbeddedSize());
+							+ dpItem.getEmbeddedSize());
 					sph.put(currentParent,
 							Math.max(sph.get(currentParent), panelDim));
 				}
@@ -300,12 +308,12 @@ public class DockManagerW extends DockManager {
 						if (oldParent
 								.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 							sph.put(oldParent, sph.get(oldParent)
-									+ dpData[i].getEmbeddedSize());
+									+ dpItem.getEmbeddedSize());
 							spw.put(oldParent, Math.max(spw.get(oldParent),
 									spw.get(otherParent)));
 						} else {
 							spw.put(oldParent, spw.get(oldParent)
-									+ dpData[i].getEmbeddedSize());
+									+ dpItem.getEmbeddedSize());
 							sph.put(oldParent, Math.max(sph.get(oldParent),
 									spw.get(otherParent)));
 						}
