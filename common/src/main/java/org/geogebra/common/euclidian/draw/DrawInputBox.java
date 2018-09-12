@@ -547,6 +547,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		return view.getTextField(getGeoInputBox(), this);
 	}
 
+	/**
+	 * @return UI box
+	 */
 	GBox getBox() {
 		return view.getBoxForTextField();
 	}
@@ -564,6 +567,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		return null;
 	}
 
+	/**
+	 * @return input box
+	 */
 	GeoInputBox getGeoInputBox() {
 		return geoInputBox;
 	}

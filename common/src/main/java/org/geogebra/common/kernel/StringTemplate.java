@@ -1992,6 +1992,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return !localizeCmds && stringType != StringType.GEOGEBRA;
 	}
 
+	/**
+	 * @param v
+	 *            expression
+	 * @param valueMode
+	 *            whether to print value rather than definition
+	 * @return serialized expression
+	 */
 	protected String expToString(ExpressionValue v, boolean valueMode) {
 		return valueMode ? v.toValueString(this) : v.toString(this);
 	}
@@ -2012,6 +2019,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return null;
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @return multiplication sign
+	 */
 	protected String multiplicationSign(Localization loc) {
 		switch (stringType) {
 		case LATEX:
@@ -2031,6 +2043,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return space denoting multiplication
+	 */
 	protected String multiplicationSpace() {
 		// wide space for multiplication space in LaTeX
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
