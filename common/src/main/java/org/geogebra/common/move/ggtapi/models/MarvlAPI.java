@@ -265,8 +265,24 @@ public class MarvlAPI implements BackendAPI {
 		}
 
 		performRequest("GET",
-				"/users/" + model.getUserId() + "/materials?limit=20&order=" + orderStr(order),
+				"/users/" + model.getUserId() + "/materials?order="
+						+ orderStr(order),
 				null, userMaterialsCB);
+	}
+
+	@Override
+	public void getSharedMaterials(final MaterialCallbackI sharedMaterialsCB,
+			MaterialRequest.Order order) {
+		if (model == null) {
+			sharedMaterialsCB.onError(new Exception("No user signed in"));
+			return;
+		}
+
+		performRequest("GET",
+				"/users/" + model.getUserId()
+						+ "/materials?type=shared_with&order="
+						+ orderStr(order),
+				null, sharedMaterialsCB);
 	}
 
 	private static String orderStr(Order order) {

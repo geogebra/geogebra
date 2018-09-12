@@ -182,7 +182,7 @@ public interface BackendAPI {
 	void getFeaturedMaterials(MaterialCallbackI callback);
 
 	/**
-	 * Get materials of currently logged in user.
+	 * Get materials of currently logged in user
 	 * 
 	 * @param cb
 	 *            callback
@@ -190,6 +190,17 @@ public interface BackendAPI {
 	 *            order
 	 */
 	void getUsersOwnMaterials(MaterialCallbackI cb, MaterialRequest.Order order);
+
+	/**
+	 * Get materials shared with currently logged in user
+	 * 
+	 * @param cb
+	 *            callback
+	 * @param order
+	 *            order
+	 */
+	void getSharedMaterials(final MaterialCallbackI cb,
+			MaterialRequest.Order order);
 
 	/**
 	 * Uploads the actual opened application to ggt

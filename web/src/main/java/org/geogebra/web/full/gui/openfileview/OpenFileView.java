@@ -71,6 +71,7 @@ public class OpenFileView extends MyHeaderPanel
 	private FlowPanel materialPanel;
 	private MaterialCallbackI ggtMaterialsCB;
 	private MaterialCallbackI userMaterialsCB;
+	private MaterialCallbackI sharedMaterialsCB;
 	// info panel
 	private FlowPanel infoPanel;
 	private Label caption;
@@ -101,6 +102,7 @@ public class OpenFileView extends MyHeaderPanel
 	private void initGUI() {
 		this.setStyleName("openFileView");
 		this.userMaterialsCB = getUserMaterialsCB();
+		this.sharedMaterialsCB = getUserMaterialsCB();
 		this.ggtMaterialsCB = getGgtMaterialsCB();
 		initHeader();
 		initContentPanel();
@@ -330,6 +332,8 @@ public class OpenFileView extends MyHeaderPanel
 			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getUsersOwnMaterials(this.userMaterialsCB,
 							order);
+			app.getLoginOperation().getGeoGebraTubeAPI()
+					.getSharedMaterials(this.sharedMaterialsCB, order);
 		} else {
 			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
