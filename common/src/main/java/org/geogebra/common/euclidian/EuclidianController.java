@@ -8049,9 +8049,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				} else {
 					// the position of the maxX and maxY from the old minX and
 					// minY
-					double maxXFromOld = dr.getBounds().getMinX()
+					double maxXFromOld = dr.getBoundingBox().getRectangle()
+							.getMinX()
 							+ (newMaxX - newMinX),
-							maxYFromOld = dr.getBounds().getMinY()
+							maxYFromOld = dr.getBoundingBox().getRectangle()
+									.getMinY()
 									+ (newMaxY - newMinY);
 					// resize to new width
 					GPoint2D point = AwtFactory.getPrototype()
@@ -8071,10 +8073,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// positions
 					// (minX) and then apply translate
 					double dx = thresholdXReached ? 0
-							: (newMinX + bbMinX - dr.getBounds().getMinX()),
+							: (newMinX + bbMinX
+									- dr.getBoundingBox().getRectangle()
+											.getMinX()),
 							dy = thresholdYReached ? 0
 									: (newMinY + bbMinY
-											- dr.getBounds().getMinY());
+											- dr.getBoundingBox().getRectangle()
+													.getMinY());
 					if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
 						((Translateable) geo).translate(new Coords(
 								dx / view.getXscale(), -dy / view.getYscale()));

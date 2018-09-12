@@ -36,17 +36,19 @@ public class BoundingBoxResizeState {
 
 			for (int i = 0; i < geos.size(); i++) {
 				Drawable dr = (Drawable) view.getDrawableFor(geos.get(i));
-
-				ratios[i][0] = (dr.getBounds().getMinX()
+				GRectangle2D bounds = dr.getBoundingBox() != null
+						? dr.getBoundingBox().getRectangle()
+						: dr.getBounds();
+				ratios[i][0] = (bounds.getMinX()
 						- view.getBoundingBox().getRectangle().getMinX())
 						/ view.getBoundingBox().getRectangle().getWidth();
-				ratios[i][1] = (dr.getBounds().getMaxX()
+				ratios[i][1] = (bounds.getMaxX()
 						- view.getBoundingBox().getRectangle().getMinX())
 						/ view.getBoundingBox().getRectangle().getWidth();
-				ratios[i][2] = (dr.getBounds().getMinY()
+				ratios[i][2] = (bounds.getMinY()
 						- view.getBoundingBox().getRectangle().getMinY())
 						/ view.getBoundingBox().getRectangle().getHeight();
-				ratios[i][3] = (dr.getBounds().getMaxY()
+				ratios[i][3] = (bounds.getMaxY()
 						- view.getBoundingBox().getRectangle().getMinY())
 						/ view.getBoundingBox().getRectangle().getHeight();
 			}
