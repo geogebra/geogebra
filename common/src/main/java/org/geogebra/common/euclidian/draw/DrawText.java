@@ -364,7 +364,7 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		// double minX = xLabel;
+		double minX = labelRectangle.getMinX();
 		double maxX = labelRectangle.getMaxX();
 		// double minY = boundingBox.getRectangle().getMinY();
 		// double maxY = boundingBox.getRectangle().getMaxY();
@@ -376,6 +376,12 @@ public final class DrawText extends Drawable {
 		case BOTTOM:
 			break;
 		case RIGHT:
+			if ((mouseX - minX) < MIN_EDITOR_WIDTH) {
+				return;
+			}
+			labelRectangle.setSize((int) (mouseX - minX + EuclidianStatic.EDITOR_MARGIN),
+					(int) labelRectangle.getHeight());
+			text.update();
 			break;
 		case LEFT:
 			if ((maxX - mouseX) < MIN_EDITOR_WIDTH) {
