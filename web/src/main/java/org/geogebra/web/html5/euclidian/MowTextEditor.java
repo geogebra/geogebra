@@ -10,6 +10,12 @@ import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 
 /**
  * Class for editing in-place text on whiteboard.
@@ -17,7 +23,8 @@ import com.google.gwt.dom.client.Style.Unit;
  * @author laszlo
  *
  */
-public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
+public class MowTextEditor extends AdvancedFlowPanel
+		implements Persistable, MouseUpHandler, MouseDownHandler, MouseMoveHandler {
 	private GRectangle bounds;
 	private GFont editorFont;
 
@@ -29,6 +36,9 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 		setAttribute("contenteditable", "true");
 		getWidget().addStyleName("mowTextEditor");
 		setWidth(80);
+		addMouseDownHandler(this);
+		addMouseUpHandler(this);
+		addMouseMoveHandler(this);
 	}
 
 	/**
@@ -177,6 +187,21 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable {
 		setWidth((int) rect.getWidth());
 		setHeight((int) rect.getHeight());
 		bounds.setBounds(rect.getBounds());
+	}
+
+	@Override
+	public void onMouseMove(MouseMoveEvent event) {
+		event.stopPropagation();
+	}
+
+	@Override
+	public void onMouseDown(MouseDownEvent event) {
+		event.stopPropagation();
+	}
+
+	@Override
+	public void onMouseUp(MouseUpEvent event) {
+		event.stopPropagation();
 	}
 
 }
