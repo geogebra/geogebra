@@ -640,10 +640,14 @@ enum FractionSteps implements SimplificationStepGenerator {
 		if (sn.isOperation(Operation.PLUS)) {
 			StepOperation so = (StepOperation) sn;
 
-			StepExpression newDenominator = StepConstant.create(1);
+			StepExpression newDenominator = null;
 			for (StepExpression operand : so) {
 				if (operand.getDenominator() != null) {
-					newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
+					if (newDenominator == null) {
+						newDenominator = operand.getDenominator();
+					} else {
+						newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
+					}
 				}
 			}
 
