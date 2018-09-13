@@ -265,7 +265,8 @@ public class MarvlAPI implements BackendAPI {
 		}
 
 		performRequest("GET",
-				"/users/" + model.getUserId() + "/materials?order="
+				"/users/" + model.getUserId()
+						+ "/materials?limit=30&embed=creator&order="
 						+ orderStr(order),
 				null, userMaterialsCB);
 	}
@@ -280,7 +281,7 @@ public class MarvlAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?type=shared_with&order="
+						+ "/materials?type=shared_with&embed=creator&order="
 						+ orderStr(order),
 				null, sharedMaterialsCB);
 	}
