@@ -71,7 +71,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		infoPanel.setStyleName("cardInfoPanel");
 		cardTitle = new Label(getMaterial().getTitle());
 		cardTitle.setStyleName("cardTitle");
-		cardAuthor = new Label(getMaterial().getAuthor());
+		cardAuthor = new Label("".equals(getMaterial().getAuthor())
+				? getMaterial().getCreator().getDisplayname()
+				: getMaterial().getAuthor());
 		cardAuthor.setStyleName("cardAuthor");
 		moreBtn = new ContextMenuButtonMaterialCard(app, getMaterial(), this);
 		// panel for visibility state

@@ -120,7 +120,24 @@ public class JSONParserGGT {
 			material.setLocalID(getInt(obj, "localID", -1));
 			material.setAutosaveTimestamp(getInt(obj, "autoSaveTimestamp", 0));
 		}
+		if (obj.has("creator")) {
+			setCreator(material, obj);
+		}
 		return material;
+	}
+
+	private static void setCreator(Material material, JSONObject obj) {
+		try {
+			JSONObject creatorObj = obj.getJSONObject("creator");
+
+			String username = getString(creatorObj, "username");
+			int id = getInt(creatorObj, "id", -1);
+			String displayname = getString(creatorObj, "displayname");
+			material.setCreator(new UserPublic(username, id, displayname));
+
+		} catch (Throwable t) {
+			Log.debug(t.getMessage());
+		}
 	}
 
 	private static boolean getBoolean(JSONObject obj, String string,

@@ -124,6 +124,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 	private long dateCreated;
 	private int creator_id;
+	private UserPublic creator;
 
 	/**
 	 * @param id
@@ -816,5 +817,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setCreatorId(int creator_id) {
 		this.creator_id = creator_id;
+	}
+
+	public UserPublic getCreator() {
+		return creator;
+	}
+
+	public void setCreator(UserPublic creator) {
+		this.creator = creator;
 	}
 }
