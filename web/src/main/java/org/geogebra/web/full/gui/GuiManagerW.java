@@ -218,6 +218,12 @@ public class GuiManagerW extends GuiManager
 			mainMenuBar.getMenubar().updateSelection();
 		}
 
+		if (getApp().has(Feature.MOW_TOOLBAR_REFACTOR)
+				&& getApp().isWhiteboardActive()) {
+			(getApp().getAppletFrame()).updateUndoRedoMOW();
+			return;
+		}
+
 		if (getApp().has(Feature.MOW_TOOLBAR)
 				&& getApp().isWhiteboardActive()) {
 			(getApp().getAppletFrame()).updateMOWToorbar();

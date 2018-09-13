@@ -841,7 +841,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			insert(toolbarMow, 0);
 		}
-
+		add(toolbarMow.getUndoRedoButtons());
 		add(toolbarMow.getPageControlButton());
 
 		/*
@@ -998,6 +998,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		mowToolbar.update();
+	}
+
+	/**
+	 * Update undo/redo in MOW toolbar
+	 */
+	public void updateUndoRedoMOW() {
+		if (toolbarMow == null) {
+			return;
+		}
+		toolbarMow.updateUndoRedoActions();
 	}
 
 	/**

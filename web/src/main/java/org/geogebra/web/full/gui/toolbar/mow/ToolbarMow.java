@@ -10,6 +10,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -31,6 +32,12 @@ public class ToolbarMow extends FlowPanel
 	private StandardButton pageControlButton;
 	private PageListPanel pageControlPanel;
 	private boolean isOpen = true;
+	/** panel containing undo and redo */
+	private PersistablePanel undoRedoPanel;
+	/** undo button */
+	protected StandardButton btnUndo;
+	/** redo button */
+	protected StandardButton btnRedo;
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	private final static int FLOATING_BTNS_WIDTH = 80;
 
@@ -66,6 +73,7 @@ public class ToolbarMow extends FlowPanel
 		toolbarPanel = new FlowPanel();
 		toolbarPanel.addStyleName("toolbarMowPanel");
 		add(toolbarPanel);
+		createUndoRedoButtons();
 		createPageControlButton();
 	}
 
@@ -167,6 +175,10 @@ public class ToolbarMow extends FlowPanel
 	public void onClick(Widget source) {
 		if (source == pageControlButton) {
 			openPagePanel();
+		} else if (source == btnUndo) {
+			appW.getGuiManager().undo();
+		} else if (source == btnRedo) {
+			appW.getGuiManager().redo();
 		}
 	}
 
@@ -185,5 +197,51 @@ public class ToolbarMow extends FlowPanel
 		}
 		pageControlPanel.open();
 		appW.getPageController().updatePreviewImage();
+	}
+
+	private void createUndoRedoButtons() {
+		undoRedoPanel = new PersistablePanel();
+		undoRedoPanel.addStyleName("undoRedoPanel");
+		undoRedoPanel.addStyleName("undoRedoPositionMow");
+		// create buttons
+		btnUndo = new StandardButton(
+				MaterialDesignResources.INSTANCE.undo_border(), null,24,appW);
+		btnUndo.addStyleName("flatButton");
+		btnUndo.addFastClickHandler(this);
+		btnRedo = new StandardButton(
+				MaterialDesignResources.INSTANCE.redo_border(), null, 24,
+				appW);
+		btnRedo.addFastClickHandler(this);
+		btnRedo.addStyleName("flatButton");
+		btnRedo.addStyleName("buttonActive");
+		undoRedoPanel.add(btnUndo);
+		undoRedoPanel.add(btnRedo);
+	}
+
+	/**
+	 * update style of undo+redo buttons
+	 */
+	public void updateUndoRedoActions() {
+		if (appW.getKernel().undoPossible()) {
+			btnUndo.addStyleName("buttonActive");
+			btnUndo.removeStyleName("buttonInactive");
+		} else {
+			btnUndo.removeStyleName("buttonActive");
+			btnUndo.addStyleName("buttonInactive");
+		}
+		if (appW.getKernel().redoPossible()) {
+			btnRedo.removeStyleName("hideButton");
+		} else {
+			btnRedo.addStyleName("hideButton");
+		}
+	}
+
+	/**
+	 * get the undo/redo panel
+	 * 
+	 * @return undo/redo panel
+	 */
+	public PersistablePanel getUndoRedoButtons() {
+		return undoRedoPanel;
 	}
 }
