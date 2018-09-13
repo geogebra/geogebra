@@ -662,25 +662,30 @@ public class SelectionManager {
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree, ev);
 
-		Iterator<GeoElement> it = tree.iterator();
 		int selectionSize = selectedGeos.size();
+		GeoElement first = tree.first();
 
 		if (selectionSize == 0) {
-			if (it.hasNext()) {
-				addSelectedGeo(it.next());
+			if (first != null) {
+				addSelectedGeo(first);
 			}
 			return false;
 		}
 
-		if (selectionSize == 1) {
-			GeoElement selected = selectedGeos.get(0);
-			GeoElement next = tree.higher(selected);
-			removeSelectedGeo(selected);
-			if (next != null) {
-				addSelectedGeo(next);
-			}
+		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+		GeoElement next = tree.higher(lastSelected);
+
+		for (GeoElement geo : selectedGeos) {
+			removeSelectedGeo(geo);
 		}
-		return false;
+
+		if (next != null) {
+			addSelectedGeo(next);
+		} else {
+			addSelectedGeo(first);
+		}
+
+		return true;
 	}
 
 	/**
