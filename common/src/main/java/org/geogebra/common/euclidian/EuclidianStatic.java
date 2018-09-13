@@ -668,7 +668,10 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		if (!app.has(Feature.MOW_TEXT_TOOL)) {
+		if (app.has(Feature.MOW_TEXT_TOOL)) {
+			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
+					(int) ret.getWidth(), (int) ret.getHeight());
+		} else {
 			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		}
 		return ret;
