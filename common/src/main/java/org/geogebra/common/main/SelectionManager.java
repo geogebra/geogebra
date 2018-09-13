@@ -689,6 +689,41 @@ public class SelectionManager {
 	}
 
 	/**
+	 * Selects last geo in a particular order.
+	 * 
+	 * @param ev
+	 *            The Euclidian View that has the geos to select.
+	 */
+	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
+		if (!kernel.getApplication().has(Feature.SELECT_NEXT_GEO_IN_VIEW)) {
+			selectLastGeo0(ev);
+			return;
+		}
+
+		if (selectedGeos.size() != 1) {
+			return;
+		}
+		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
+		filterGeosForView(tree, ev);
+
+		int selectionSize = selectedGeos.size();
+		GeoElement last = tree.last();
+
+		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+		GeoElement prev = tree.lower(lastSelected);
+
+		for (GeoElement geo : selectedGeos) {
+			removeSelectedGeo(geo);
+		}
+
+		if (prev != null) {
+			addSelectedGeo(prev);
+		} else {
+			addSelectedGeo(last);
+		}
+	}
+
+	/**
 	 * Select geo next to the selected one in construction order. If none is
 	 * selected before, first geo is selected.
 	 * 
@@ -870,7 +905,7 @@ public class SelectionManager {
 	 *            view that should get focus after (if we did not selct
 	 *            textfield)
 	 */
-	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
+	final public void selectLastGeo0(EuclidianViewInterfaceCommon ev) {
 		if (selectedGeos.size() != 1) {
 			return;
 		}

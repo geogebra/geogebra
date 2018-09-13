@@ -178,7 +178,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
-		if (selection.getSelectedGeos().size() != 1) {
+		if (selection.getSelectedGeos().size() != 1 || !app.isUnbundled()) {
 			return false;
 		}
 		GeoElement geo = selection.getSelectedGeos().get(0);
