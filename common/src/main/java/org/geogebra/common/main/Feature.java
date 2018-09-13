@@ -249,6 +249,9 @@ public enum Feature {
 	/** GGB-2416 */
 	SHARE_DIALOG_MAT_DESIGN,
 
+	/** GGB-2488 */
+	SELECT_NEXT_GEO_IN_VIEW,
+
 	/** MOB-1722 */
 	MOB_EXPORT_STL,
 

@@ -645,6 +645,45 @@ public class SelectionManager {
 	}
 
 	/**
+	 * Selects next geo in a particular order.
+	 * 
+	 * @param ev
+	 *            The Euclidian View that has the geos to select.
+	 * @param cycle
+	 *            Whether selection from last geo should jump to first.
+	 * @return if select was successful or not.
+	 */
+	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev,
+			boolean cycle) {
+		if (!kernel.getApplication().has(Feature.SELECT_NEXT_GEO_IN_VIEW)) {
+			return selectNextGeo0(ev, cycle);
+		}
+
+		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
+		filterGeosForView(tree, ev);
+
+		Iterator<GeoElement> it = tree.iterator();
+		int selectionSize = selectedGeos.size();
+
+		if (selectionSize == 0) {
+			if (it.hasNext()) {
+				addSelectedGeo(it.next());
+			}
+			return false;
+		}
+
+		if (selectionSize == 1) {
+			GeoElement selected = selectedGeos.get(0);
+			GeoElement next = tree.higher(selected);
+			removeSelectedGeo(selected);
+			if (next != null) {
+				addSelectedGeo(next);
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Select geo next to the selected one in construction order. If none is
 	 * selected before, first geo is selected.
 	 * 
@@ -656,7 +695,7 @@ public class SelectionManager {
 	 * 
 	 * @return whether the operation is successful (e.g. in case of no cycle)
 	 */
-	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev,
+	final public boolean selectNextGeo0(EuclidianViewInterfaceCommon ev,
 			boolean cycle) {
 
 		TreeSet<GeoElement> tree = getTabbingSet();
@@ -666,7 +705,7 @@ public class SelectionManager {
 
 		// remove geos that don't have isSelectionAllowed()==true
 		// or are not visible in the view
-		filterInvisible(tree, ev);
+		filterGeosForView(tree, ev);
 
 		Iterator<GeoElement> it = tree.iterator();
 
@@ -787,7 +826,7 @@ public class SelectionManager {
 		return true;
 	}
 
-	private void filterInvisible(TreeSet<GeoElement> tree,
+	private void filterGeosForView(TreeSet<GeoElement> tree,
 			EuclidianViewInterfaceCommon ev) {
 		boolean avShowing = kernel.getApplication().getGuiManager() != null
 				&& this.kernel.getApplication().getGuiManager()
@@ -836,7 +875,7 @@ public class SelectionManager {
 
 		tree = new TreeSet<>(tree);
 
-		filterInvisible(tree, ev);
+		filterGeosForView(tree, ev);
 
 		Iterator<GeoElement> it = tree.iterator();
 		while (it.hasNext()) {
