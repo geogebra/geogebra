@@ -84,15 +84,14 @@ public class TextControllerW
 		}
 	}
 
-	private void updateEditor(int x, int y, int width) {
+	private void updateEditor(int x, int y, int width, int height) {
 		if (editor == null) {
 			createGUI();
 		}
 		editor.setText(text.getText().getTextString());
 		editor.setPosition(x, y);
-		if (width > 0) {
-			editor.setWidth(width);
-		}
+		editor.setWidth(width);
+		editor.setHeight(height);
 	}
 
 	@Override
@@ -135,7 +134,9 @@ public class TextControllerW
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
 			int y = d.yLabel - view.getFontSize() - EuclidianStatic.EDITOR_MARGIN;
-			updateEditor(x, y, (int) d.getBounds().getWidth());
+			int width = (int) d.getBounds().getWidth() - 2 * EuclidianStatic.EDITOR_MARGIN;
+			int height = (int) d.getBounds().getHeight() - 2 * EuclidianStatic.EDITOR_MARGIN;
+			updateEditor(x, y, width, height);
 			if (create) {
 				updateBoundingBox();
 			}
