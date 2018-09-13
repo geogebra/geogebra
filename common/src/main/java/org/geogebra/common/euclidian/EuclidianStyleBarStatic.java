@@ -647,7 +647,6 @@ public class EuclidianStyleBarStatic {
 					app);
 
 			if (evs != null) {
-
 				changed = evs.setShowAxes(!evs.getShowAxis(0));
 			} else {
 				changed = ev.setShowAxes(!ev.getShowXaxis(), true);

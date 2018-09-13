@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.util;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -14,7 +16,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Extends GWT ToggleButton to support tooltips and Icon image data.
  * 
  */
-public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
+public class MyToggleButtonW extends ToggleButton
+		implements MouseDownHandler, TouchEndHandler {
 
 	private HandlerRegistration actionListener;
 	private boolean ignoreTab = false;
@@ -108,6 +111,9 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 		setDown(false);
 		addStyleName("MyToggleButton");
 		addMouseDownHandler(this);
+
+		// fix for touch
+		addDomHandler(this, TouchEndEvent.getType());
 	}
 
 	/**
@@ -181,6 +187,12 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 		event.stopPropagation();
 	}
 
+	public void onTouchEnd(TouchEndEvent event) {
+		setDown(!isDown());
+		ValueChangeEvent.fire(this, isDown());
+		event.stopPropagation();
+	}
+
 	@Override
 	protected void onAttach() {
 		super.onAttach();
@@ -207,5 +219,4 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 	public void setIgnoreTab() {
 		this.ignoreTab = true;
 	}
-
 }
