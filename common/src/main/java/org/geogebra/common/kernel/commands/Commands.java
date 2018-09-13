@@ -614,6 +614,8 @@ public enum Commands implements CommandsConstants,
 
 	InverseNormal(TABLE_PROBABILITY),
 
+	nCr(TABLE_PROBABILITY),
+
 	Binomial(TABLE_PROBABILITY),
 
 	BinomialDist(TABLE_PROBABILITY),
@@ -1196,7 +1198,6 @@ public enum Commands implements CommandsConstants,
 	// TABLE_SIMPLE_NAME
 	// =============================================================
 
-	nCr(TABLE_SIMPLE_NAME),
 	mean(TABLE_SIMPLE_NAME),
 	mad(TABLE_SIMPLE_NAME);
 
@@ -1270,8 +1271,7 @@ public enum Commands implements CommandsConstants,
 		case FitLine:
 			return FitLineY;
 		case BinomialCoefficient:
-		case nCr:
-			return Binomial;
+			return nCr;
 		case RandomBetween:
 			return Random;
 		case TaylorPolynomial:
@@ -1317,32 +1317,6 @@ public enum Commands implements CommandsConstants,
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * @param commandName
-	 *            command
-	 * @return command in scientific calculator
-	 */
-	public static String getSimpleName(String commandName) {
-		Commands simpleNamedCommand = null;
-
-		if (Binomial.name().equals(commandName)) {
-			simpleNamedCommand = nCr;
-		} else if (Mean.name().equals(commandName)) {
-			simpleNamedCommand = mean;
-		} else if (SD.name().equals(commandName)) {
-			simpleNamedCommand = stdev;
-		} else if (SampleSD.name().equals(commandName)) {
-			simpleNamedCommand = stdevp;
-		} else if (MAD.name().equals(commandName)) {
-			simpleNamedCommand = mad;
-		}
-
-		if (simpleNamedCommand != null) {
-			return simpleNamedCommand.name();
-		}
-		return commandName;
 	}
 
 	public boolean isAlias() {

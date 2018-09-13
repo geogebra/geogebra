@@ -18,7 +18,7 @@ public final class SciCalcCommandFilterFactory {
                 Commands.stdev,
                 Commands.SampleSD,
                 Commands.nPr,
-                Commands.Binomial,
+                Commands.nCr,
                 Commands.MAD
         );
         return commandFilter;

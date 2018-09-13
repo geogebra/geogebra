@@ -78,7 +78,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Binomial;
+		return Commands.nCr;
 	}
 
 	@Override
