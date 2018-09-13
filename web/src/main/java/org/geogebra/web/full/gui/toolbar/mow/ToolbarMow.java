@@ -14,6 +14,21 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class ToolbarMow extends FlowPanel implements MyModeChangedListener {
 	private AppW appW;
 	private HeaderMow header;
+	private FlowPanel toolbarPanel;
+
+	/**
+	 * Tab ids.
+	 */
+	enum TabIds {
+		/** tab one */
+		PEN,
+
+		/** tab two */
+		TOOLS,
+
+		/** tab three */
+		MEDIA
+	}
 
 	/**
 	 * constructor
@@ -23,13 +38,27 @@ public class ToolbarMow extends FlowPanel implements MyModeChangedListener {
 	 */
 	public ToolbarMow(AppW app) {
 		this.appW = app;
-		header = new HeaderMow(this, app);
+		header = new HeaderMow(this, appW);
 		add(header);
+		initGui();
+	}
+
+	private void initGui() {
 		addStyleName("toolbarMow");
+		toolbarPanel = new FlowPanel();
+		toolbarPanel.addStyleName("toolbarMowPanel");
+		add(toolbarPanel);
+	}
+
+	/**
+	 * @param tab
+	 *            id of tab
+	 */
+	public void tabSwitch(TabIds tab) {
+		// TODO switch tab and toolbar panel
 	}
 
 	public void onModeChange(int mode) {
 		// TODO
 	}
-
 }

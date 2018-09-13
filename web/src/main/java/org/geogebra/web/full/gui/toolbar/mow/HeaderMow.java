@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -41,7 +42,6 @@ public class HeaderMow extends FlowPanel
 		initGui();
 	}
 
-
 	private void initGui() {
 		addStyleName("headerMow");
 		content = new FlowPanel();
@@ -54,6 +54,9 @@ public class HeaderMow extends FlowPanel
 	private void createCenter() {
 		center = new FlowPanel();
 		center.addStyleName("center");
+		center.addStyleName("indicatorLeft");
+		center.getElement().setInnerHTML(center.getElement().getInnerHTML()
+				+ "<div class=\"indicator\"></div>");
 		penPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.mow_pen_panel(), "Pen");
 		penPanelBtn.addStyleName("flatButton");
@@ -73,6 +76,7 @@ public class HeaderMow extends FlowPanel
 	private StandardButton createButton(SVGResource resource, String tooltip) {
 		StandardButton button = new StandardButton(resource, null, 24, appW);
 		button.setTitle(appW.getLocalization().getMenu(tooltip));
+		button.addFastClickHandler(this);
 		return button;
 	}
 
@@ -89,6 +93,30 @@ public class HeaderMow extends FlowPanel
 	}
 
 	public void onClick(Widget source) {
-		// TODO
+		if (source == penPanelBtn) {
+			tabSwitch(TabIds.PEN);
+		} else if (source == toolsPanelBtn) {
+			tabSwitch(TabIds.TOOLS);
+		} else if (source == mediaPanelBtn) {
+			tabSwitch(TabIds.MEDIA);
+		}
+	}
+
+	private void tabSwitch(TabIds tab) {
+		center.setStyleName("center");
+		switch (tab) {
+		case PEN:
+			center.addStyleName("indicatorLeft");
+			break;
+		case TOOLS:
+			center.addStyleName("indicatorCenter");
+			break;
+		case MEDIA:
+			center.addStyleName("indicatorRight");
+			break;
+		default:
+			break;
+		}
+		toolbar.tabSwitch(tab);
 	}
 }
