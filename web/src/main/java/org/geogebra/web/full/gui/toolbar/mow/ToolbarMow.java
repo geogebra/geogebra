@@ -25,6 +25,7 @@ public class ToolbarMow extends FlowPanel implements MyModeChangedListener {
 		this.appW = app;
 		header = new HeaderMow(this, app);
 		add(header);
+		addStyleName("toolbarMow");
 	}
 
 	public void onModeChange(int mode) {

@@ -1,0 +1,40 @@
+@import 'colors';
+
+.GeoGebraFrame{
+	$toolbarWidth: 600px;
+	$toolbarHeight: 56px;
+
+	.headerMow {
+		bottom: 300px;
+	    position: relative;
+	    background-color: $mow_toolbar;
+	    width: $toolbarWidth;
+	    margin: 0px auto 0px auto;
+	    
+	    .content {
+	    	height: $toolbarHeight; 	
+	    	
+	    	.button {
+			    position: relative;	
+			    &:hover img{
+					opacity: 1;
+				}	
+			}	    	
+	    	.center {
+	    		position: absolute;
+			    top: 0px;
+			    width: 144px;
+			    margin: 4px auto 4px auto;
+			    display: flex;
+			    left: 0;
+			    right: 0;
+	    	}
+	    	.openCloseBtn {
+    			float: right;	
+    			margin: 10px 6px;
+	    	}
+	    }
+	}
+}
+
+

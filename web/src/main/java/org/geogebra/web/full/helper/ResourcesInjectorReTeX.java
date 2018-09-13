@@ -16,6 +16,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 	protected void injectResourcesGUI() {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 		StyleInjector.inject(GuiResources.INSTANCE.mowStyle());
+		StyleInjector.inject(GuiResources.INSTANCE.mowToolbarStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.openScreenStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.fonts());

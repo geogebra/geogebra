@@ -877,31 +877,6 @@
 			z-index: $z_mow_foreground;
 		 }		
 	}
-
-	.headerMow {
-		bottom: 300px;
-	    position: relative;
-	    background-color: $mow_toolbar;
-	    width: $toolbarWidth;
-	    
-	    .content {
-	    	height: $toolbarHeight; 	
-	    	
-	    	.button {
-			    position: relative;	
-			}	    	
-	    	.center {
-	    		position: absolute;
-			    top: 0px;
-			    margin: 4px 0px 4px 0px;
-			    left: calc(50% - 108px);
-			    display: inline-flex;
-	    	}
-	    	.openCloseBtn {
-    			float: right;	
-	    	}
-	    }
-	}
 }
 
 
