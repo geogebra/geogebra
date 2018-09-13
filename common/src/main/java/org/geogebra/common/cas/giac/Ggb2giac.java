@@ -59,7 +59,9 @@ public class Ggb2giac {
 		// TRAC-3348
 		p("Assume.2", "[[assume(%0)],%1][1]");
 
-		p("nCr.2", "simplify(binomial(%0,%1))");
+		String binomCommand = "simplify(binomial(%0,%1))";
+		p("nCr.2", binomCommand);
+		p("Binomial.2", binomCommand);
 
 		p("BinomialDist.3",
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
