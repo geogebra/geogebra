@@ -400,7 +400,7 @@ public abstract class Drawable extends DrawableND {
 			// sets labelRectangle
 			EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif(), textFont, labelRectangle);
+					isSerif(), textFont, labelRectangle, geo);
 		} else {
 			// text with indices
 			// label description has changed, search for possible indices

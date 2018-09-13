@@ -611,11 +611,13 @@ public class EuclidianStatic {
 	 *            font
 	 * @param ret
 	 *            return value
+	 * @param geo
+	 *            geo                  
 	 * @return border of resulting text drawing
 	 */
 	public final static GRectangle drawMultiLineText(App app, String labelDesc,
 			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
-			GFont textFont, GRectangle ret) {
+			GFont textFont, GRectangle ret, GeoElement geo) {
 
 		int lines = 0;
 		int fontSize = textFont.getSize();
@@ -672,12 +674,8 @@ public class EuclidianStatic {
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
 			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
 					(int) ret.getWidth(), (int) ret.getHeight());
-			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
-			if (selGeos != null && selGeos.size() > 0) {
-				GeoElement geo = selGeos.get(0);
-				if (geo.isGeoText()) {
-					((GeoText) geo).setTextHeight(height);
-				}
+			if (geo != null) {
+				((GeoText) geo).setTextHeight(height);
 			}
 		} else {
 			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
