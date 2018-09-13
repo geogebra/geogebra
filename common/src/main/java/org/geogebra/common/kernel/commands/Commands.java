@@ -1271,6 +1271,7 @@ public enum Commands implements CommandsConstants,
 		case FitLine:
 			return FitLineY;
 		case BinomialCoefficient:
+		case Binomial:
 			return nCr;
 		case RandomBetween:
 			return Random;
