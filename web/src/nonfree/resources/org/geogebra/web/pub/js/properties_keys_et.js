@@ -119,7 +119,6 @@ __GGB__keysVar["et"].command = {
     "Bernoulli.Syntax": "[ <T\xf5en\xe4osus>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
     "Binomial": "Binoomkordaja",
     "Binomial.Syntax": "[ <Arv n>, <Arv r> ]",
-    "Binomial.SyntaxCAS": "[ <Arv>, <Arv> ]",
     "BinomialDist": "Binoomjaotus",
     "BinomialDist.Syntax": "[ <Katsete arv>, <Edu t\xf5en\xe4osus> ]\n[ <Katsete arv>, <Edu t\xf5en\xe4osus>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]\n[ <Katsete arv>, <Edu t\xf5en\xe4osus>, <Edukate katsete arv>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
     "BinomialDist.SyntaxCAS": "[ <Katsete arv>, <Edu t\xf5en\xe4osus>, <Muutuja v\xe4\xe4rtus>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["et"].command = {
     "ZoomIn.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "V\xe4henda",
     "ZoomOut.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Arv n>, <Arv r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["et"].menu = {
     "GeneratePstricks": "Loo kood",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra foorum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

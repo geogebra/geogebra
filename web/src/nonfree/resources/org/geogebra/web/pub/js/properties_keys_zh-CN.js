@@ -119,7 +119,6 @@ __GGB__keysVar["zh-CN"].command = {
     "Bernoulli.Syntax": "[ <\u6982\u7387>, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
     "Binomial": "\u7ec4\u5408\u6570",
     "Binomial.Syntax": "[ <\u6570\u5b57 n>, <\u6570\u5b57 r> ]",
-    "Binomial.SyntaxCAS": "[ <\u6570\u5b57n>, <\u6570\u5b57r> ]",
     "BinomialDist": "\u4e8c\u9879\u5206\u5e03",
     "BinomialDist.Syntax": "[ <\u8bd5\u9a8c\u6b21\u6570>, <\u6210\u529f\u6982\u7387> ]\n[ <\u8bd5\u9a8c\u6b21\u6570>, <\u6210\u529f\u6982\u7387>, <\u662f\u5426\u7d2f\u79ef? true|false> ]\n[ <\u8bd5\u9a8c\u6b21\u6570>, <\u6210\u529f\u6982\u7387>, <\u53d8\u91cf\u503c>, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
     "BinomialDist.SyntaxCAS": "[ <\u8bd5\u9a8c\u6b21\u6570>, <\u6210\u529f\u6982\u7387>, <\u53d8\u91cf\u503c>, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["zh-CN"].command = {
     "ZoomIn.Syntax": "[ <\u7f29\u653e\u56e0\u5b50> ]\n[ <\u7f29\u653e\u56e0\u5b50>, <\u4e2d\u5fc3\u70b9)> ]\n[ <x\u6700\u5c0f\u503c>, <y\u6700\u5c0f\u503c>, <x\u6700\u5927\u503c>, <y\u6700\u5927\u503c> ]",
     "ZoomOut": "\u7f29\u5c0f",
     "ZoomOut.Syntax": "[ <\u7f29\u653e\u56e0\u5b50> ]\n[ <\u7f29\u653e\u56e0\u5b50>, <\u4e2d\u5fc3\u70b9> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u6570\u5b57 n>, <\u6570\u5b57 r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "GeneratePstricks": "\u751f\u6210 PSTricks \u4ee3\u7801",
     "GeoGebra3DGrapher": "GeoGebra 3D \u56fe\u5f62\u8ba1\u7b97\u5668",
     "GeoGebra3DGrapher.short": "3D \u7ed8\u56fe",
+    "GeoGebraCASCalculator": "GeoGebra CAS \u8ba1\u7b97\u5668",
     "GeoGebraForum": "\u8bba\u575b",
     "GeoGebraGeometry": "GeoGebra \u51e0\u4f55",
     "GeoGebraGraphingCalculator": "GeoGebra \u56fe\u5f62\u8ba1\u7b97\u5668",
@@ -2629,7 +2631,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "SharedByA": "\u5206\u4eab\u8005: %0",
     "Show": "\u663e\u793a",
     "ShowAas2DView": "\u521b\u5efa %0 \u7684\u5e73\u9762\u89c6\u56fe",
-    "ShowAllObjects": "\u663e\u793a\u6240\u6709\u5bf9\u8c61",
+    "ShowAllObjects": "\u9002\u5408\u7a97\u53e3",
     "ShowAtTop": "\u7f6e\u9876\u663e\u793a",
     "ShowAutomatically": "\u81ea\u52a8\u663e\u793a",
     "ShowAxes": "\u663e\u793a\u5750\u6807\u8f74",

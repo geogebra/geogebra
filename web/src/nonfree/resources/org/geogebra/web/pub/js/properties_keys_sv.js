@@ -119,7 +119,6 @@ __GGB__keysVar["sv"].command = {
     "Bernoulli.Syntax": "[ <Sannolikhet>, <true | false (kumulativt eller ej)> ]",
     "Binomial": "BinomialKoefficient",
     "Binomial.Syntax": "[ <Tal>, <Tal> ]",
-    "Binomial.SyntaxCAS": "[ <Tal>, <Tal> ]",
     "BinomialDist": "Binomialf\xf6rdelning",
     "BinomialDist.Syntax": "[ <Antal f\xf6rs\xf6k>, <Sannolikhet att lyckas> ]\n[ <Antal f\xf6rs\xf6k>, <Sannolikhet att lyckas>, <true | false (kumulativt eller ej)> ]\n[ <Antal f\xf6rs\xf6k>, <Sannolikhet att lyckas>, <Variabelv\xe4rde>, <true | false (kumulativt eller ej)> ]",
     "BinomialDist.SyntaxCAS": "[ <Antal f\xf6rs\xf6k>, <Sannolikhet att lyckas>, <Variabelv\xe4rde>, <true | false (kumulativt eller ej)> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["sv"].command = {
     "ZoomIn.Syntax": "[ <Skalfaktor> ]\n[ <Skalfaktor>, <Centrumpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomaUt",
     "ZoomOut.Syntax": "[ <Skalfaktor> ]\n[ <Skalfaktor>, <Centrumpunkt> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Tal>, <Tal> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["sv"].menu = {
     "GeneratePstricks": "Generera PSTricks",
     "GeoGebra3DGrapher": "GeoGebras 3D-Grafritare",
     "GeoGebra3DGrapher.short": "3D-Grafritare",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometri",
     "GeoGebraGraphingCalculator": "GeoGebras Grafr\xe4knare",

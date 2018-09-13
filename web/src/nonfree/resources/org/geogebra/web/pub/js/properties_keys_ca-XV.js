@@ -119,7 +119,6 @@ __GGB__keysVar["ca-XV"].command = {
     "Bernoulli.Syntax": "[ <Probabilitat>, <Acumulada true/false> ]",
     "Binomial": "NombreCombinatori",
     "Binomial.Syntax": "[ <Nombre>, <Nombre> ]",
-    "Binomial.SyntaxCAS": "[ <Nombre>, <Nombre> ]",
     "BinomialDist": "DistBinomial",
     "BinomialDist.Syntax": "[ <Nombre de repeticions>, <Probabilitat d'\xe8xit> ]\n[ <Nombre de repeticions>, <Probabilitat d'\xe8xit>, <Acumulada true/false> ]\n[ <Nombre de repeticions>, <Probabilitat d'\xe8xit>, <Valor de la variable>, <Acumulada true/false> ]",
     "BinomialDist.SyntaxCAS": "[ <Nombre de repeticions>, <Probabilitat d'\xe8xit>, x, <Acumulada true/false> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["ca-XV"].command = {
     "ZoomIn.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]\n[ <x m\xednima>, <y m\xednima>, <x m\xe0xima>, <y m\xe0xima> ]",
     "ZoomOut": "Allunya",
     "ZoomOut.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Nombre>, <Nombre> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "GeneratePstricks": "Genera PSTricks per a LaTeX",
     "GeoGebra3DGrapher": "GeoGebra - Gr\xe0fics 3D",
     "GeoGebra3DGrapher.short": "Calculadora 3D",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "F\xf2rum del GeoGebra",
     "GeoGebraGeometry": "Geometria de GeoGebra",
     "GeoGebraGraphingCalculator": "Calculadora gr\xe0fica GeoGebra",

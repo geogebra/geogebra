@@ -119,7 +119,6 @@ __GGB__keysVar["it"].command = {
     "Bernoulli.Syntax": "[ <Probabilit\xe0>, <Booleano Cumulativa> ]",
     "Binomial": "CoefficienteBinomiale",
     "Binomial.Syntax": "[ <Numero n>, <Numero k> ]",
-    "Binomial.SyntaxCAS": "[ <Numero>, <Numero> ]",
     "BinomialDist": "Binomiale",
     "BinomialDist.Syntax": "[ <Numero di prove>, <Probabilit\xe0 di successo> ]\n[ <Numero di prove>, <Probabilit\xe0 di successo>, <Booleano Cumulativa> ]\n[ <Numero di prove>, <Probabilit\xe0 di successo>, <Valore variabile>, <Booleano Cumulativa> ]",
     "BinomialDist.SyntaxCAS": "[ <Numero di prove>, <Probabilit\xe0 di successo>, <Valore variabile>, <Booleano cumulativa> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["it"].command = {
     "ZoomIn.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomIndietro",
     "ZoomOut.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Numero n>, <Numero k> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["it"].menu = {
     "GeneratePstricks": "Genera codice PSTricks",
     "GeoGebra3DGrapher": "Calcolatrice Grafica 3D GeoGebra",
     "GeoGebra3DGrapher.short": "Calcolatrice 3D",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Forum di GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometria",
     "GeoGebraGraphingCalculator": "Calcolatrice Grafica GeoGebra",

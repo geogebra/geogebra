@@ -119,7 +119,6 @@ __GGB__keysVar["hu"].command = {
     "Bernoulli.Syntax": "[ <Val\xf3sz\xedn\u0171s\xe9g>, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]",
     "Binomial": "Binomi\xe1lisEgy\xfctthat\xf3",
     "Binomial.Syntax": "[ <Sz\xe1m (n)>, <Sz\xe1m (k)> ]",
-    "Binomial.SyntaxCAS": "[ <Sz\xe1m (n)>, <Sz\xe1m (k)> ]",
     "BinomialDist": "Binomi\xe1lisEloszl\xe1s",
     "BinomialDist.Syntax": "[ <K\xeds\xe9rletek sz\xe1ma>, <Siker val\xf3sz\xedn\u0171s\xe9ge> ]\n[ <K\xeds\xe9rletek sz\xe1ma>, <Siker val\xf3sz\xedn\u0171s\xe9ge>, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]\n[ <K\xeds\xe9rletek sz\xe1ma>, <Siker val\xf3sz\xedn\u0171s\xe9ge>, <V\xe1ltoz\xf3 \xe9rt\xe9ke>, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]",
     "BinomialDist.SyntaxCAS": "[ <K\xeds\xe9rletek sz\xe1ma>, <Siker val\xf3sz\xedn\u0171s\xe9ge>, <V\xe1ltoz\xf3 \xe9rt\xe9ke>, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["hu"].command = {
     "ZoomIn.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Kicsiny\xedt\xe9s",
     "ZoomOut.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Sz\xe1m (n)>, <Sz\xe1m (k)> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["hu"].menu = {
     "GeneratePstricks": "PSTricks k\xf3d gener\xe1l\xe1sa",
     "GeoGebra3DGrapher": "GeoGebra 3D rajzol\xf3",
     "GeoGebra3DGrapher.short": "3D rajzol\xf3",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra F\xf3rum",
     "GeoGebraGeometry": "GeoGebra geometria",
     "GeoGebraGraphingCalculator": "GeoGebra grafikus sz\xe1mol\xf3g\xe9p",

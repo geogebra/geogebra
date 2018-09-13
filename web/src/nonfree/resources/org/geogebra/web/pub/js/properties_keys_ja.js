@@ -119,7 +119,6 @@ __GGB__keysVar["ja"].command = {
     "Bernoulli.Syntax": "[ <\u78ba\u7387>, <Boolean Cumulative> ]",
     "Binomial": "BinomialCoefficient",
     "Binomial.Syntax": "[ <\u6570\u5024>, <\u6570\u5024> ]",
-    "Binomial.SyntaxCAS": "[ <\u6570\u5024>, <\u6570\u5024> ]",
     "BinomialDist": "BinomialDist",
     "BinomialDist.Syntax": "[ <\u8a66\u884c\u56de\u6570>, <Probability of Success> ]\n[ <\u8a66\u884c\u56de\u6570>, <Probability of Success>, <Boolean Cumulative> ]\n[ <\u8a66\u884c\u56de\u6570>, <Probability of Success>, <\u5909\u6570\u5024>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <\u8a66\u884c\u56de\u6570>, <\u6210\u529f\u306e\u78ba\u7387>, <\u5909\u6570\u5024>, <Boolean Cumulative> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["ja"].command = {
     "ZoomIn.Syntax": "[ <\u500d\u7387> ]\n[ <\u500d\u7387>, <\u4e2d\u5fc3\u70b9> ]\n[ <x\u6700\u5c0f>, <y\u6700\u5c0f>, <x\u6700\u5927>, <y\u6700\u5927> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <\u500d\u7387> ]\n[ <\u500d\u7387>, <\u4e2d\u5fc3\u70b9> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u6570\u5024>, <\u6570\u5024> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["ja"].menu = {
     "GeneratePstricks": "\u30b3\u30fc\u30c9\u3092\u751f\u6210",
     "GeoGebra3DGrapher": "GeoGebra \u7a7a\u9593\u56f3\u5f62",
     "GeoGebra3DGrapher.short": "3 D \u8a08\u7b97\u5668",
+    "GeoGebraCASCalculator": "GeoGebra CAS (\u6570\u5f0f\u51e6\u7406)",
     "GeoGebraForum": "GeoGebra \u30d5\u30a9\u30fc\u30e9\u30e0",
     "GeoGebraGeometry": "GeoGebra \u5e7e\u4f55",
     "GeoGebraGraphingCalculator": "GeoGebra \u30b0\u30e9\u30d5\u4f5c\u6210",

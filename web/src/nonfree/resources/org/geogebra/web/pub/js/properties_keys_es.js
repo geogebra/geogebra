@@ -119,7 +119,6 @@ __GGB__keysVar["es"].command = {
     "Bernoulli.Syntax": "[ <Probabilidad>, <Acumulada o no (true/false)> ]",
     "Binomial": "N\xfameroCombinatorio",
     "Binomial.Syntax": "[ <N\xfamero n (o valor num\xe9rico)>, <N\xfamero r (o valor num\xe9rico)> ]",
-    "Binomial.SyntaxCAS": "[ <N\xfamero n (o valor num\xe9rico)>, <N\xfamero r (o valor num\xe9rico)> ]",
     "BinomialDist": "Distribuci\xf3nBinomial",
     "BinomialDist.Syntax": "[ <N\xfamero de ensayos>, <Probabilidad de \xe9xito> ]\n[ <N\xfamero de ensayos>, <Probabilidad de \xe9xito>, <Acumulada o no (true/false)> ]\n[ <N\xfamero de ensayos>, <Probabilidad de \xe9xito>, <Valor>, <Acumulada o no (true/false)> ]",
     "BinomialDist.SyntaxCAS": "[ <N\xfamero de ensayos>, <Probabilidad de \xe9xito>, <Valor de variable>, <Acumulada o no (true/false)> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["es"].command = {
     "ZoomIn.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Punto (centro)> ]\n[ <M\xedn x>, <M\xedn y>, <M\xe1x x>, <M\xe1x y> ]",
     "ZoomOut": "ZoomAleja",
     "ZoomOut.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Punto (centro)> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <N\xfamero n (o valor num\xe9rico)>, <N\xfamero r (o valor num\xe9rico)> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["es"].menu = {
     "GeneratePstricks": "Genera c\xf3digo",
     "GeoGebra3DGrapher": "GeoGebra Calculadora 3D",
     "GeoGebra3DGrapher.short": "Calculadora 3D",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Foro de GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometr\xeda",
     "GeoGebraGraphingCalculator": "Calculadora Gr\xe1fica GeoGebra",

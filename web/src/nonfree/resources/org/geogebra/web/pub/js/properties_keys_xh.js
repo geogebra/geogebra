@@ -119,7 +119,6 @@ __GGB__keysVar["xh"].command = {
     "Bernoulli.Syntax": "[ <Amathuba>, <iBoolean Cumulative> ]",
     "Binomial": "iBinomialCoefficient",
     "Binomial.Syntax": "[ <Inani n>, <Inani r> ]",
-    "Binomial.SyntaxCAS": "[ <Inani>, <Inani> ]",
     "BinomialDist": "iBinomialDist",
     "BinomialDist.Syntax": "[ <Amathuba okulinga>, <Amathuba okuphumelela> ]\n[ <Amathuba okulinga>, <Amathuba okuphumelela>, <Boolean Cumulative> ]\n[ <Amathuba okulinga>, <Amathuba okuphumelela>, <Ixabiso Lonobumba>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["xh"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Ichaphaza Lasembindini> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Bhekelisa",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Ichaphaza Lasembindini> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Inani n>, <Inani r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["xh"].menu = {
     "GeneratePstricks": "Generate code",
     "GeoGebra3DGrapher": "Isibalimanani esiveza amacal'amathathu eJiyo",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Iforam ye-Geogebra",
     "GeoGebraGeometry": "iGeometry kaJiyo",
     "GeoGebraGraphingCalculator": "Isixhobo sokubala sokwenza igrafu",

@@ -119,7 +119,6 @@ __GGB__keysVar["da"].command = {
     "Bernoulli.Syntax": "[ <sandsynlighed>, <Akkumuleret? True/False> ]",
     "Binomial": "nCr",
     "Binomial.Syntax": "[ <n>, <r> ]",
-    "Binomial.SyntaxCAS": "[ <n>, <r> ]",
     "BinomialDist": "Binomialfordeling",
     "BinomialDist.Syntax": "[ <antal udtagne>, <sandsynlighed for succes> ]\n[ <antal udtagne>, <sandsynlighed for succes>, <Akkumuleret? True/False> ]\n[ <antal udtagne>, <sandsynlighed for succes>, <Antal successer>, <Akkumuleret? True/False> ]",
     "BinomialDist.SyntaxCAS": "[ <Antal udtagne>, <Sandsynlighed for succes>, <Variable V\xe6rdi>, <Akkumulerede? True/False> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["da"].command = {
     "ZoomIn.Syntax": "[ <Skalerings Faktor> ]\n[ <Skalerings Faktor>, <Center Punkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomUd",
     "ZoomOut.Syntax": "[ <Skalerings Faktor> ]\n[ <Skalerings Faktor>, <Center Punkt> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <n>, <r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["da"].menu = {
     "GeneratePstricks": "Lav PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Graftegner",
     "GeoGebra3DGrapher.short": "3D V\xe6rkt\xf8j",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometri",
     "GeoGebraGraphingCalculator": "GeoGebra Grafisk lommeregner",

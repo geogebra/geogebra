@@ -119,7 +119,6 @@ __GGB__keysVar["cy"].command = {
     "Bernoulli.Syntax": "[ <Tebygolrwydd>, <Cronnus Boolean> ]",
     "Binomial": "CyfernodBinomial",
     "Binomial.Syntax": "[ <Rhif>, <Rhif> ]",
-    "Binomial.SyntaxCAS": "[ <Rhif>, <Rhif> ]",
     "BinomialDist": "DosranBinomaidd",
     "BinomialDist.Syntax": "[ <Nifer y Treialon>, <Tebygolrwydd Llwyddiant> ]\n[ <Nifer y Treialon>, <Tebygolrwydd Llwyddiant>, <Booleaidd Cronnus> ]\n[ <Nifer y Treialon>, <Tebygolrwydd Llwyddiant>, <Gwerth Newidyn>, <Booleaidd Cronnus> ]",
     "BinomialDist.SyntaxCAS": "[ <nifer o dreialon>, <Tebygolrwydd o Lwyddiant>, x, <Cronnus Boolean> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["cy"].command = {
     "ZoomIn.Syntax": "[ <Ffactor Graddfa> ]\n[ <Ffactor Graddfa>, <Canolbwynt> ]\n[ <Min x>, <Min y>, <Macs x>, <Macs y> ]",
     "ZoomOut": "ChwyddoAllan",
     "ZoomOut.Syntax": "[ <Ffactor Graddfa> ]\n[ <Ffactor Graddfa>, <Canolbwynt> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Rhif>, <Rhif> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["cy"].menu = {
     "GeneratePstricks": "Cynhyrchu cod PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Fforwm GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

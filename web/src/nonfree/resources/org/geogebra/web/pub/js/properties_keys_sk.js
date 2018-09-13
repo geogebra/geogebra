@@ -119,7 +119,6 @@ __GGB__keysVar["sk"].command = {
     "Bernoulli.Syntax": "[ <Pravdepodobnos\u0165>, <Logicky kumulat\xedvne> ]",
     "Binomial": "Binomick\xfdKoeficient",
     "Binomial.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo k> ]",
-    "Binomial.SyntaxCAS": "[ <\u010c\xedslo>, <\u010c\xedslo> ]",
     "BinomialDist": "Binomick\xe9Rozdelenie",
     "BinomialDist.Syntax": "[ <Po\u010det pokusov>, <Pravdepodobnos\u0165 \xfaspechu> ]\n[ <Po\u010det pokusov>, <Pravdepodobnos\u0165 \xfaspechu>, <Logicky kumulat\xedvne> ]\n[ <Po\u010det pokusov>, <Pravdepodobnos\u0165 \xfaspechu>, <Po\u010det \xfaspechov>, <Logicky kumulat\xedvne> ]",
     "BinomialDist.SyntaxCAS": "[ <Po\u010det pokusov>, <Pravdepodobnos\u0165 \xfaspechu>, x, <Logicky kumulat\xedvne> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["sk"].command = {
     "ZoomIn.Syntax": "[ <Faktor> ]\n[ <Faktor>, <Stred> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Oddiali\u0165",
     "ZoomOut.Syntax": "[ <Factor> ]\n[ <Factor>, <Stred> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo k> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["sk"].menu = {
     "GeneratePstricks": "Generova\u0165 PSTricky",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra F\xf3rum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

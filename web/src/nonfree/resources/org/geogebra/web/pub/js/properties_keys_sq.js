@@ -119,7 +119,6 @@ __GGB__keysVar["sq"].command = {
     "Bernoulli.Syntax": "[ <Probabilitet>, <Grumbullim Bulean> ]",
     "Binomial": "KoeficientiBinomial",
     "Binomial.Syntax": "[ <Numer>, <Numer> ]",
-    "Binomial.SyntaxCAS": "[ <Numer>, <Numer> ]",
     "BinomialDist": "ShperndarjeBinomiale",
     "BinomialDist.Syntax": "[ <Numri i Provave>, <Probabiliteti i Suksesit> ]\n[ <Numri i Provave>, <Probabiliteti i Suksesit>, <Grumbullim Bulean> ]\n[ <Numri i Provave>, <Probabiliteti i Suksesit>, <Vlera e Variablit>, <Grumbullim Bulean> ]",
     "BinomialDist.SyntaxCAS": "[ <Numri i Provave>, <Probabiliteti i Suksesit>, <Vlera e Variablit>, <Grumbullim Bulean> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["sq"].command = {
     "ZoomIn.Syntax": "[ <Faktori Zmadhues> ]\n[ <Faktori Zmadhues>, <Pika Qender> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Zvogelim",
     "ZoomOut.Syntax": "[ <Faktori Zvogelues> ]\n[ <Faktori Zvogeues>, <Pika Qender> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Numer>, <Numer> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["sq"].menu = {
     "GeneratePstricks": "Gjeneroj Kodin",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

@@ -119,7 +119,6 @@ __GGB__keysVar["vi"].command = {
     "Bernoulli.Syntax": "[ <X\xe1c su\u1ea5t>, <T\xedch l\u0169y Boolean> ]",
     "Binomial": "H\u1ec7S\u1ed1Nh\u1ecbTh\u1ee9c",
     "Binomial.Syntax": "[ <S\u1ed1>, <S\u1ed1> ]",
-    "Binomial.SyntaxCAS": "[ <S\u1ed1>, <S\u1ed1> ]",
     "BinomialDist": "PhanPhoiNhiThuc",
     "BinomialDist.Syntax": "[ <S\u1ed1 c\xe1c ph\xe9p th\u1eed>, <X\xe1c su\u1ea5t th\xe0nh c\xf4ng> ]\n[ <S\u1ed1 c\xe1c ph\xe9p th\u1eed>, <X\xe1c su\u1ea5t th\xe0nh c\xf4ng>, <T\xedch l\u0169y Boolean> ]\n[ <S\u1ed1 c\xe1c ph\xe9p th\u1eed>, <X\xe1c su\u1ea5t th\xe0nh c\xf4ng>, <Gi\xe1 tr\u1ecb bi\u1ebfn>, <T\xedch l\u0169y Boolean> ]",
     "BinomialDist.SyntaxCAS": "[ <S\u1ed1 c\xe1c ph\xe9p th\u1eed>, <X\xe1c su\u1ea5t th\xe0nh c\xf4ng>, <Gi\xe1 tr\u1ecb bi\u1ebfn>, <T\xedch l\u0169y Boolean> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["vi"].command = {
     "ZoomIn.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]\n[ <GTNN x>, <GTNN y>, <GTLN x>, <GTLN y> ]",
     "ZoomOut": "PhongTo",
     "ZoomOut.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <S\u1ed1>, <S\u1ed1> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["vi"].menu = {
     "GeneratePstricks": "T\u1ea1o PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Di\u1ec5n \u0111\xe0n GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

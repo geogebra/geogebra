@@ -119,7 +119,6 @@ __GGB__keysVar["pl"].command = {
     "Bernoulli.Syntax": "[ <Prawdopodobie\u0144stwo>, <Czy Skumulowany> ]",
     "Binomial": "SymbolNewtona",
     "Binomial.Syntax": "[ <Liczba n>, <Liczba r> ]",
-    "Binomial.SyntaxCAS": "[ <Liczba>, <Liczba> ]",
     "BinomialDist": "Rozk\u0142adDwumianowy",
     "BinomialDist.Syntax": "[ <Liczba pr\xf3b>, <Prawdopodobie\u0144stwo Sukcesu> ]\n[ <Liczba pr\xf3b>, <Prawdopodobie\u0144stwo Sukcesu>, <Czy Skumulowany> ]\n[ <Liczba pr\xf3b>, <Prawdopodobie\u0144stwo Sukcesu>, <Liczba Sukces\xf3w>, <Czy Skumulowany> ]",
     "BinomialDist.SyntaxCAS": "[ <Liczba pr\xf3b>, <Prawdopodobie\u0144stwo Sukcesu>, x, <Czy Skumulowany> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["pl"].command = {
     "ZoomIn.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "OddalWidok",
     "ZoomOut.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Liczba n>, <Liczba r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["pl"].menu = {
     "GeneratePstricks": "Wygenerowa\u0107 PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "Graphing Calculator",

@@ -119,7 +119,6 @@ __GGB__keysVar["nn"].command = {
     "Bernoulli.Syntax": "[ <Sannsyn>, <Boolsk kumulativ> ]",
     "Binomial": "nCr",
     "Binomial.Syntax": "[ <Tal n>, <Tal r> ]",
-    "Binomial.SyntaxCAS": "[ <Tal>, <Tal> ]",
     "BinomialDist": "FordelingBinomial",
     "BinomialDist.Syntax": "[ <Tal p\xe5 fors\xf8k>, <Sannsyn for treff> ]\n[ <Tal p\xe5 fors\xf8k>, <Sannsyn for treff>, <Boolsk kumulativ> ]\n[ <Tal p\xe5 fors\xf8k>, <Sannsyn for treff>, <Tal p\xe5 treff>, <Boolsk kumulativ> ]",
     "BinomialDist.SyntaxCAS": "[ <Tal p\xe5 treff>, <Sannsyn for treff>, <Variabelverdi>, <Boolsk kumulativ> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["nn"].command = {
     "ZoomIn.Syntax": "[ <Skaleringsfaktor> ]\n[ <Skaleringsfaktor>, <Sentrumspunkt> ]\n[ <Min x>, <Min y>, <Maks x>, <Maks y> ]",
     "ZoomOut": "ZoomUt",
     "ZoomOut.Syntax": "[ <Skaleringsfaktor> ]\n[ <Skaleringsfaktor>, <Sentrumspunkt> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Tal n>, <Tal r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["nn"].menu = {
     "GeneratePstricks": "Generer PSTricks (for grafikk i LaTeX)",
     "GeoGebra3DGrapher": "GeoGebra 3D-grafteiknar",
     "GeoGebra3DGrapher.short": "3D-kalkulator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometri",
     "GeoGebraGraphingCalculator": "GeoGebra grafisk kalkulator",

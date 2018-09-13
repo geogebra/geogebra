@@ -119,7 +119,6 @@ __GGB__keysVar["ko"].command = {
     "Bernoulli.Syntax": "[ <\ud655\ub960>, <\ub204\uc801 true|false> ]",
     "Binomial": "\uc870\ud569",
     "Binomial.Syntax": "[ <\uc218 n>, <\uc218 r> ]",
-    "Binomial.SyntaxCAS": "[ <\uc218>, <\uc218> ]",
     "BinomialDist": "\uc774\ud56d\ubd84\ud3ec",
     "BinomialDist.Syntax": "[ <\uc2dc\ud589\ud69f\uc218>, <\uc131\uacf5\ud655\ub960> ]\n[ <\uc2dc\ud589\ud69f\uc218>, <\uc131\uacf5\ud655\ub960>, <\ub204\uc801 true|false> ]\n[ <\uc2dc\ud589\ud69f\uc218>, <\uc131\uacf5\ud655\ub960>, <\ubcc0\ub7c9>, <\ub204\uc801 true|false> ]",
     "BinomialDist.SyntaxCAS": "[ <\uc2dc\ud589\ud69f\uc218>, <\uc131\uacf5\ud655\ub960>, <\ubcc0\ub7c9>, <\ub204\uc801 true|false> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["ko"].command = {
     "ZoomIn.Syntax": "[ <\ub2e8\uc704> ]\n[ <\ub2e8\uc704>, <\uc911\uc2ec\uc810> ]\n[ <\ucd5c\uc18c x>, <\ucd5c\uc18c y>, <\ucd5c\ub300 x>, <\ucd5c\ub300 y> ]",
     "ZoomOut": "\uc791\uac8c\ubcf4\uae30",
     "ZoomOut.Syntax": "[ <\ub2e8\uc704> ]\n[ <\ub2e8\uc704>, <\uc911\uc2ec\uc810> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\uc218 n>, <\uc218 r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["ko"].menu = {
     "GeneratePstricks": "PSTricks \ucf54\ub4dc \ub9cc\ub4e4\uae30",
     "GeoGebra3DGrapher": "\uc9c0\uc624\uc9c0\ube0c\ub77c 3\ucc28\uc6d0 \uadf8\ub798\ud53d \uacc4\uc0b0\uae30",
     "GeoGebra3DGrapher.short": "3\ucc28\uc6d0 \uacc4\uc0b0\uae30",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "\uc9c0\uc624\uc9c0\ube0c\ub77c \ud3ec\ub7fc",
     "GeoGebraGeometry": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uae30\ud558",
     "GeoGebraGraphingCalculator": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uadf8\ub798\ud53d \uacc4\uc0b0\uae30",

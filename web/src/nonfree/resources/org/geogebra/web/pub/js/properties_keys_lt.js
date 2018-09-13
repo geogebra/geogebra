@@ -119,7 +119,6 @@ __GGB__keysVar["lt"].command = {
     "Bernoulli.Syntax": "[ <Tikimyb\u0117>, <Login\u0117 vert\u0117> ]",
     "Binomial": "BinominisKoeficientas",
     "Binomial.Syntax": "[ <Skai\u010dius>, <Skai\u010dius> ]",
-    "Binomial.SyntaxCAS": "[ <Skai\u010dius>, <Skai\u010dius> ]",
     "BinomialDist": "Binominis",
     "BinomialDist.Syntax": "[ <Bandym\u0173 skai\u010dius>, <S\u0117km\u0117s tikimyb\u0117> ]\n[ <Bandym\u0173 skai\u010dius>, <S\u0117km\u0117s tikimyb\u0117>, <Login\u0117 vert\u0117> ]\n[ <Bandym\u0173 skai\u010dius>, <S\u0117km\u0117s tikimyb\u0117>, <Kintamasis>, <Login\u0117 vert\u0117> ]",
     "BinomialDist.SyntaxCAS": "[ <Bandym\u0173 skai\u010dius>, <S\u0117km\u0117s tikimyb\u0117>, <Kintamasis>, <Login\u0117 vert\u0117> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["lt"].command = {
     "ZoomIn.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Tolinti",
     "ZoomOut.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Skai\u010dius>, <Skai\u010dius> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["lt"].menu = {
     "GeneratePstricks": "Generuoti PSTricks kod\u0105",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra forumas",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

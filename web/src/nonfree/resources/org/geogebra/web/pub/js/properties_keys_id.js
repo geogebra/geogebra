@@ -119,7 +119,6 @@ __GGB__keysVar["id"].command = {
     "Bernoulli.Syntax": "[ <Probabilitas>, <Boolean Kumulatif> ]",
     "Binomial": "KoefisienBinomial",
     "Binomial.Syntax": "[ <Angka>, <Angka> ]",
-    "Binomial.SyntaxCAS": "[ <Angka>, <Angka> ]",
     "BinomialDist": "DistribusiBinomial",
     "BinomialDist.Syntax": "[ <Banyaknya Percobaan>, <Probabilitas Keberhasilan> ]\n[ <Banyaknya Percobaan>, <Probabilitas Keberhasilan>, <Boolean Kumulatif> ]\n[ <Banyaknya Percobaan>, <Probabilitas Keberhasilan>, <Nilai Variabel>, <Boolean Kumulatif> ]",
     "BinomialDist.SyntaxCAS": "[ <Banyaknya Percobaan>, <Probabilitas sukses>, <Nilai Variabel>, <Kumulatif Boolean> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["id"].command = {
     "ZoomIn.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Tengah> ]\n[ <Min x>, <Min y>, <Maks x>, <Maks y> ]",
     "ZoomOut": "Perkecil",
     "ZoomOut.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Tengah> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Angka>, <Angka> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["id"].menu = {
     "GeneratePstricks": "Hasilkan kode PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Forum GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

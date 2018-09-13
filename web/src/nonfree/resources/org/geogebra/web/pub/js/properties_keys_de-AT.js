@@ -119,7 +119,6 @@ __GGB__keysVar["de-AT"].command = {
     "Bernoulli.Syntax": "[ <Wahrscheinlichkeit>, <Wahrheitswert Verteilungsfunktion> ]",
     "Binomial": "BinomialKoeffizient",
     "Binomial.Syntax": "[ <Zahl n>, <Zahl k> ]",
-    "Binomial.SyntaxCAS": "[ <Zahl n>, <Zahl k> ]",
     "BinomialDist": "Binomial",
     "BinomialDist.Syntax": "[ <Anzahl der Versuche>, <Erfolgswahrscheinlichkeit> ]\n[ <Anzahl der Versuche>, <Erfolgswahrscheinlichkeit>, <Wahrheitswert Verteilungsfunktion> ]\n[ <Anzahl der Versuche>, <Erfolgswahrscheinlichkeit>, <Anzahl der Erfolge>, <Wahrheitswert Verteilungsfunktion> ]",
     "BinomialDist.SyntaxCAS": "[ <Anzahl der Versuche>, <Erfolgswahrscheinlichkeit>, <Wert der Variablen>, <Wahrheitswert Verteilungsfunktion> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["de-AT"].command = {
     "ZoomIn.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Zahl n>, <Zahl k> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["de-AT"].menu = {
     "GeneratePstricks": "Erzeuge PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Grafikrechner",
     "GeoGebra3DGrapher.short": "3D Rechner",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometrie",
     "GeoGebraGraphingCalculator": "GeoGebra Grafikrechner",

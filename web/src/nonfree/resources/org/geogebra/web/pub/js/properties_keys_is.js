@@ -119,7 +119,6 @@ __GGB__keysVar["is"].command = {
     "Bernoulli.Syntax": "[ <L\xedkindi>, <Dreififall> ]",
     "Binomial": "Tv\xedli\xf0ustu\xf0ull",
     "Binomial.Syntax": "[ <Tala n>, <Tala r> ]",
-    "Binomial.SyntaxCAS": "[ <Tala>, <Tala> ]",
     "BinomialDist": "Tv\xedli\xf0udreifing",
     "BinomialDist.Syntax": "[ <Fj\xf6ldi tilrauna>, <L\xedkur \xe1 happi> ]\n[ <Fj\xf6ldi tilrauna>, <L\xedkur \xe1 happi>, <Dreififall> ]\n[ <Fj\xf6ldi tilrauna>, <L\xedkur \xe1 happi>, <Fj\xf6ldi happa>, <Dreififall> ]",
     "BinomialDist.SyntaxCAS": "[ <Fj\xf6ldi tilrauna>, <L\xedkur \xe1 happi>, <Gildi breytu>, <Dreififall> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["is"].command = {
     "ZoomIn.Syntax": "[ <Sk\xf6lun> ]\n[ <Sk\xf6lun>, <Mi\xf0punktur> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\xdeysja\xdat",
     "ZoomOut.Syntax": "[ <Sk\xf6lun> ]\n[ <Sk\xf6lun>, <Mi\xf0punktur> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Tala n>, <Tala r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["is"].menu = {
     "GeneratePstricks": "B\xfaa til PSTricks k\xf3\xf0a",
     "GeoGebra3DGrapher": "GeoGebra 3D",
     "GeoGebra3DGrapher.short": "3D (\xfer\xedv\xeddd)",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Spjallbor\xf0 GeoGebra",
     "GeoGebraGeometry": "GeoGebra R\xfamfr\xe6\xf0i",
     "GeoGebraGraphingCalculator": "GeoGebra graf\xedskur vasareiknir",

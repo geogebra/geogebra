@@ -119,7 +119,6 @@ __GGB__keysVar["ta"].command = {
     "Bernoulli.Syntax": "[ <Probability>, <Boolean Cumulative> ]",
     "Binomial": "\u0b88\u0bb0\u0bc1\u0bb1\u0bc1\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bcd\u0b95\u0bc1\u0ba3\u0b95\u0bae\u0bcd",
     "Binomial.Syntax": "[ <\u0b8e\u0ba3\u0bcd n>, <\u0b8e\u0ba3\u0bcd r> ]",
-    "Binomial.SyntaxCAS": "[ <\u0b8e\u0ba3\u0bcd>, <\u0b8e\u0ba3\u0bcd> ]",
     "BinomialDist": "BinomialDist",
     "BinomialDist.Syntax": "[ <Number of Trials>, <Probability of Success> ]\n[ <Number of Trials>, <Probability of Success>, <Boolean Cumulative> ]\n[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["ta"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u0b8e\u0ba3\u0bcd n>, <\u0b8e\u0ba3\u0bcd r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["ta"].menu = {
     "GeneratePstricks": "PSTricks \u0b95\u0bc1\u0bb1\u0bbf\u0baf\u0bbf\u0ba9\u0bc8 \u0b89\u0bb0\u0bc1\u0bb5\u0bbe\u0b95\u0bcd\u0b95\u0bc1\u0b95",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

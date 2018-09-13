@@ -119,7 +119,6 @@ __GGB__keysVar["kn"].command = {
     "Bernoulli.Syntax": "[ <Probability>, <Boolean Cumulative> ]",
     "Binomial": "BinomialCoefficient",
     "Binomial.Syntax": "[ <Number n>, <Number r> ]",
-    "Binomial.SyntaxCAS": "[ <\u0cb8\u0c82\u0c96\u0ccd\u0caf\u0cc6>, <\u0cb8\u0c82\u0c96\u0ccd\u0caf\u0cc6> ]",
     "BinomialDist": "BinomialDist",
     "BinomialDist.Syntax": "[ <Number of Trials>, <Probability of Success> ]\n[ <Number of Trials>, <Probability of Success>, <Boolean Cumulative> ]\n[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <\u0caa\u0cb0\u0cbf\u0cd5\u0c95\u0ccd\u0cb7\u0cc6\u0c97\u0cb3 \u0cb8\u0c82\u0c96\u0ccd\u0caf\u0cc6>, <\u0c97\u0cc6\u0cb2\u0ccd\u0cb2\u0cc1\u0cb5 \u0cb8\u0c82\u0cad\u0cbe\u0cb5\u0ccd\u0caf\u0ca4\u0cc6>, <\u0cae\u0cbe\u0cb0\u0ccd\u0caa\u0cc1\u0c95 \u0cae\u0ccc\u0cb2\u0ccd\u0caf>, <\u0cac\u0cc2\u0cb2\u0cbf\u0caf\u0ca8\u0ccd \u0cb8\u0c82\u0c9a\u0cbf\u0ca4> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["kn"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\u0c95\u0cc1\u0c97\u0ccd\u0c97\u0cbf\u0cb8\u0cc1",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Number n>, <Number r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["kn"].menu = {
     "GeneratePstricks": "Generate code",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "\u0c9c\u0cbf\u0caf\u0ccb\u0c9c\u0cc0\u0cac\u0ccd\u0cb0\u0cbe \u0cb5\u0cc7\u0ca6\u0cbf\u0c95\u0cc6",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

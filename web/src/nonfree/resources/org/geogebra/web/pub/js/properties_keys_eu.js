@@ -119,7 +119,6 @@ __GGB__keysVar["eu"].command = {
     "Bernoulli.Syntax": "[ <Probabilitatea>, <Metatu Boolearra> ]",
     "Binomial": "KoefizienteBinomiala",
     "Binomial.Syntax": "[ <n Zenbakia>, <r Zenbakia> ]",
-    "Binomial.SyntaxCAS": "[ <Zenbakia>, <Zenbakia> ]",
     "BinomialDist": "Binomiala",
     "BinomialDist.Syntax": "[ <Zenbat Saiakuntza>, <Aldeko Kasuaren Probabilitatea> ]\n[ <Zenbat Saiakuntza>, <Aldeko Kasuaren Probabilitatea>, <Metatu Boolearra> ]\n[ <Zenbat Saiakuntza>, <Aldeko Kasuaren Probabilitatea>, <Balio Aldakorra>, <Metatu Boolearra> ]",
     "BinomialDist.SyntaxCAS": "[ <Zenbat Saiakuntza>, <Aldeko Kasuaren Probabilitatea>, <Balio Aldakorra>, <Metatu Boolearra> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["eu"].command = {
     "ZoomIn.Syntax": "[ <Eskala-faktorea> ]\n[ <Eskala-faktorea>, <Zentroa (puntua)> ]\n[ <x Min>, <y Min>, <x Max>, <y Max> ]",
     "ZoomOut": "Txikiagotu",
     "ZoomOut.Syntax": "[ <Eskala-faktorea> ]\n[ <Eskala-faktorea>, <Zentroa (puntua)> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <n Zenbakia>, <r Zenbakia> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["eu"].menu = {
     "GeneratePstricks": "Sortu PSTricks kodea LaTeX-erako",
     "GeoGebra3DGrapher": "GeoGebra 3D Kalkulagailu Grafikoa",
     "GeoGebra3DGrapher.short": "3D Kalkulagailua",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Foroa",
     "GeoGebraGeometry": "GeoGebra Geometria",
     "GeoGebraGraphingCalculator": "GeoGebraren Kalkulagailu Grafikoa",

@@ -119,7 +119,6 @@ __GGB__keysVar["eo"].command = {
     "Bernoulli.Syntax": "[ <Probablo>, <Bulea Akumuli> ]",
     "Binomial": "BinomaKoeficiento",
     "Binomial.Syntax": "[ <Nombro n>, <Nombro k> ]",
-    "Binomial.SyntaxCAS": "[ <Nombro>, <Nombro> ]",
     "BinomialDist": "DunomialaDistribuo",
     "BinomialDist.Syntax": "[ <Number of Trials>, <Probability of Success> ]\n[ <Number of Trials>, <Probability of Success>, <Boolean Cumulative> ]\n[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["eo"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Malzomi",
     "ZoomOut.Syntax": "[ <Skalfaktoro> ]\n[ <Skalfaktoro>, <Centra Punkto> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Nombro n>, <Nombro k> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["eo"].menu = {
     "GeneratePstricks": "Generi kodon",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forumo",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

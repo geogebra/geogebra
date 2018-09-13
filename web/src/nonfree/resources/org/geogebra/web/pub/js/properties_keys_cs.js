@@ -119,7 +119,6 @@ __GGB__keysVar["cs"].command = {
     "Bernoulli.Syntax": "[ <Pravd\u011bpodobnost>, <Kumulativn\xed (logick\xe1 hodnota)> ]",
     "Binomial": "KombinacniCislo",
     "Binomial.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
-    "Binomial.SyntaxCAS": "[ <\u010c\xedslo>, <\u010c\xedslo> ]",
     "BinomialDist": "Binomicke",
     "BinomialDist.Syntax": "[ <Po\u010det pokus\u016f>, <Pravd\u011bpodobnost \xfasp\u011bchu> ]\n[ <Po\u010det pokus\u016f>, <Pravd\u011bpodobnost \xfasp\u011bchu>, <Kumulativn\xed (logick\xe1 hodnota)> ]\n[ <Po\u010det pokus\u016f>, <Pravd\u011bpodobnost \xfasp\u011bchu>, <Po\u010det \xfasp\u011bch\u016f>, <Kumulativn\xed (logick\xe1 hodnota)> ]",
     "BinomialDist.SyntaxCAS": "[ <Po\u010det pokus\u016f>, <Pravd\u011bpodobnost \xfasp\u011bchu>, x, <Kumulativn\xed (logick\xe1 hodnota)> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["cs"].command = {
     "ZoomIn.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Zmensit",
     "ZoomOut.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["cs"].menu = {
     "GeneratePstricks": "Generovat PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Grafy",
     "GeoGebra3DGrapher.short": "3D Grafy",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Forum GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometrie",
     "GeoGebraGraphingCalculator": "GeoGebra grafick\xfd kalkul\xe1tor",
@@ -2308,7 +2310,7 @@ __GGB__keysVar["cs"].menu = {
     "PdfErrorText": "Bohu\u017eel do\u0161lo k chyb\u011b. Zkuste pros\xedm jin\xfd soubor.",
     "PdfLoadText": "Soubor se na\u010d\xedt\xe1, m\u016f\u017ee to chv\xedli trvat.",
     "Pen": "Pero",
-    "Pen.Help": "Pi\u0161te do n\xe1kresny. Barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",
+    "Pen.Help": "Pi\u0161te nebo kreslete, barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",
     "PenStroke": "TahPera",
     "Pencil": "Tu\u017eka",
     "Pencil.Help": "Kreslete do n\xe1kresny. Barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",

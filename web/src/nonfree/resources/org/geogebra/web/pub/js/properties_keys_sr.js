@@ -119,7 +119,6 @@ __GGB__keysVar["sr"].command = {
     "Bernoulli.Syntax": "[ <Verovatno\u0107a>, <Kumulativno (logi\u010dka vrednost)> ]",
     "Binomial": "BinomniKoeficijent",
     "Binomial.Syntax": "[ <broj>, <broj> ]",
-    "Binomial.SyntaxCAS": "[ <Broj>, <Broj> ]",
     "BinomialDist": "BinomnaRaspodela",
     "BinomialDist.Syntax": "[ <Broj poku\u0161aja>, <Verovatno\u0107a uspeha> ]\n[ <Broj poku\u0161aja>, <Verovatno\u0107a uspeha>, <Kumulativno (logi\u010dka vrednost)> ]\n[ <Broj poku\u0161aja>, <Verovatno\u0107a uspeha>, <Vrednost promenljive>, <Kumulativno (logi\u010dka vrednost)> ]",
     "BinomialDist.SyntaxCAS": "[ <Broj poku\u0161aja>, <Verovatno\u0107a uspeha>, <Vrednost promenljive>, <Kumulativno (logi\u010dka vrednost)> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["sr"].command = {
     "ZoomIn.Syntax": "[ <faktor pove\u0107anja> ]\n[ <faktor pove\u0107anja>, <centralna ta\u010dka> ]\n[ <min x>, <min y>, <max x>, <max y> ]",
     "ZoomOut": "Smanjenje",
     "ZoomOut.Syntax": "[ <faktor smanjenja> ]\n[ <faktor smanjenja>, <centralna ta\u010dka> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <broj>, <broj> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["sr"].menu = {
     "GeneratePstricks": "Generi\u0161i PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

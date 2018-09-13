@@ -119,7 +119,6 @@ __GGB__keysVar["ro"].command = {
     "Bernoulli.Syntax": "[ <Probabilitate>, <Boolean Cumulat> ]",
     "Binomial": "CoeficientBinomial",
     "Binomial.Syntax": "[ <Num\u0103r n>, <Num\u0103r r> ]",
-    "Binomial.SyntaxCAS": "[ <Num\u0103r>, <Num\u0103r> ]",
     "BinomialDist": "BinomialDist",
     "BinomialDist.Syntax": "[ <Num\u0103r de \xeencerc\u0103ri>, <Probabilitatea de succes> ]\n[ <Num\u0103r de \xeencerc\u0103ri>, <Probabilitatea de succes>, <Boolean cumulativ> ]\n[ <Num\u0103r de \xeencerc\u0103ri>, <Probabilitatea de succes>, <Valoare variabil\u0103>, <Boolean cumulativ> ]",
     "BinomialDist.SyntaxCAS": "[ <Numar de Incercari>, <Probabilitate de Succes>, <Valoarea Variabilei>, <Cumulativ Boolean> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["ro"].command = {
     "ZoomIn.Syntax": "[ <Factor scalare> ]\n[ <Factor scalare>, <Punct centru> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\xcendep\u0103rtare",
     "ZoomOut.Syntax": "[ <Factor dimensiune> ]\n[ <Factor dimensiune>, <Punct centru> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Num\u0103r n>, <Num\u0103r r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["ro"].menu = {
     "GeneratePstricks": "Genereaz\u0103 cod",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Forumul GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

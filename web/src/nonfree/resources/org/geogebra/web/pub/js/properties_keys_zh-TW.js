@@ -119,7 +119,6 @@ __GGB__keysVar["zh-TW"].command = {
     "Bernoulli.Syntax": "[ <\u6a5f\u7387>, <\u662f\u5426\u7d2f\u7a4d\uff1f> ]",
     "Binomial": "BinomialCoefficient",
     "Binomial.Syntax": "[ <\u6578\u503c n>, <\u6578\u503c r> ]",
-    "Binomial.SyntaxCAS": "[ <\u6578\u503c>, <\u6578\u503c> ]",
     "BinomialDist": "BinomialDist",
     "BinomialDist.Syntax": "[ <\u8a66\u9a57\u6b21\u6578>, <\u6210\u529f\u6a5f\u7387> ]\n[ <\u8a66\u9a57\u6b21\u6578>, <\u6210\u529f\u6a5f\u7387>, <\u662f\u5426\u7d2f\u7a4d\uff1f> ]\n[ <\u8a66\u9a57\u6b21\u6578>, <\u6210\u529f\u6a5f\u7387>, <\u8b8a\u6578\u503c>, <\u662f\u5426\u7d2f\u7a4d\uff1f> ]",
     "BinomialDist.SyntaxCAS": "[ <\u8a66\u9a57\u6b21\u6578>, <\u6210\u529f\u6a5f\u7387>, <\u8b8a\u6578\u503c>, <\u7d2f\u7a4d\uff1f> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["zh-TW"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u6578\u503c n>, <\u6578\u503c r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "GeneratePstricks": "\u7522\u751f PSTricks \u683c\u5f0f\u6a94",
     "GeoGebra3DGrapher": "GeoGebra \u7acb\u9ad4\u7e6a\u5716",
     "GeoGebra3DGrapher.short": "\u7acb\u9ad4\u5716",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra \u8a0e\u8ad6\u5340",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra \u7e6a\u5716\u8a08\u7b97\u6a5f",

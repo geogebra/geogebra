@@ -119,7 +119,6 @@ __GGB__keysVar["mr"].command = {
     "Bernoulli.Syntax": "[ <\u0938\u0902\u092d\u093e\u0935\u094d\u092f\u0924\u093e>, <\u092c\u0942\u0932\u093f\u092f\u0928 \u0938\u0902\u091a\u092f\u0940> ]",
     "Binomial": "\u0926\u094d\u0935\u093f\u092a\u0926\u0938\u0939\u0917\u0941\u0923\u0915",
     "Binomial.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e>, <\u0938\u0902\u0916\u094d\u092f\u093e> ]",
-    "Binomial.SyntaxCAS": "[ <\u0938\u0902\u0916\u094d\u092f\u093e>, <\u0938\u0902\u0916\u094d\u092f\u093e> ]",
     "BinomialDist": "\u0926\u094d\u0935\u093f\u092a\u0926\u0935\u093f\u0924\u0930\u0923",
     "BinomialDist.Syntax": "[ <\u092a\u094d\u0930\u092f\u0924\u094d\u0928\u093e\u0902\u091a\u0940 \u0938\u0902\u0916\u094d\u092f\u093e>, <\u092f\u0936\u093e\u091a\u0940 \u0938\u0902\u092d\u093e\u0935\u094d\u092f\u0924\u093e> ]\n[ <\u092a\u094d\u0930\u092f\u0924\u094d\u0928\u093e\u0902\u091a\u0940 \u0938\u0902\u0916\u094d\u092f\u093e>, <\u092f\u0936\u093e\u091a\u0940 \u0938\u0902\u092d\u093e\u0935\u094d\u092f\u0924\u093e>, <\u092c\u0942\u0932\u093f\u092f\u0928 \u0938\u0902\u091a\u092f\u0940> ]\n[ <\u092a\u094d\u0930\u092f\u0924\u094d\u0928\u093e\u0902\u091a\u0940 \u0938\u0902\u0916\u094d\u092f\u093e>, <\u092f\u0936\u093e\u091a\u0940 \u0938\u0902\u092d\u093e\u0935\u094d\u092f\u0924\u093e>, <\u091a\u0932\u093e\u091a\u0940 \u0915\u093f\u0902\u092e\u0924>, <\u092c\u0942\u0932\u093f\u092f\u0928 \u0938\u0902\u091a\u092f\u0940> ]",
     "BinomialDist.SyntaxCAS": "[ <\u092a\u094d\u0930\u092f\u0924\u094d\u0928\u093e\u0902\u091a\u0940 \u0938\u0902\u0916\u094d\u092f\u093e>, <\u092f\u0936\u093e\u091a\u0940 \u0938\u0902\u092d\u093e\u0935\u094d\u092f\u0924\u093e>, <\u091a\u0932\u093e\u091a\u0940 \u0915\u093f\u0902\u092e\u0924>, <\u092c\u0942\u0932\u093f\u092f\u0928 \u0938\u0902\u091a\u092f\u0940> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["mr"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e>, <\u0938\u0902\u0916\u094d\u092f\u093e> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["mr"].menu = {
     "GeneratePstricks": "Generate PSTricks code",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

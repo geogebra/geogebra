@@ -119,7 +119,6 @@ __GGB__keysVar["gl"].command = {
     "Bernoulli.Syntax": "[ <Probabilidade>, <Acumula (Booleana)> ]",
     "Binomial": "N\xfameroCombinatorio",
     "Binomial.Syntax": "[ <N\xfamero n>, <N\xfamero k> ]",
-    "Binomial.SyntaxCAS": "[ <N\xfamero>, <N\xfamero> ]",
     "BinomialDist": "Distribuci\xf3nBinomial",
     "BinomialDist.Syntax": "[ <N\xfamero de ensaios>, <Probabilidade de \xe9xito> ]\n[ <N\xfamero de ensaios>, <Probabilidade de \xe9xito>, <Acumula (Booleana)> ]\n[ <N\xfamero de ensaios>, <Probabilidade de \xe9xito>, <Valor da variable>, <Acumula (Booleana)> ]",
     "BinomialDist.SyntaxCAS": "[ <N\xfamero de ensaios>, <Probabilidade de \xe9xito>, <Valor da variable>, <Acumula (Booleana)> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["gl"].command = {
     "ZoomIn.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Centro> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomAfasta",
     "ZoomOut.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Centro> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <N\xfamero n>, <N\xfamero k> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["gl"].menu = {
     "GeneratePstricks": "Xerar c\xf3digo PSTricks",
     "GeoGebra3DGrapher": "Graficador GeoGebra 3D",
     "GeoGebra3DGrapher.short": "Graficador 3D",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Foro GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "Calculadora Gr\xe1fica GeoGebra",

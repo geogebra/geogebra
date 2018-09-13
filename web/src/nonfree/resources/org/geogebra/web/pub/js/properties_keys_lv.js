@@ -119,7 +119,6 @@ __GGB__keysVar["lv"].command = {
     "Bernoulli.Syntax": "[ <Varb\u016bt\u012bba>, <Boolean Cumulative> ]",
     "Binomial": "Binomi\u0101laisKoeficients",
     "Binomial.Syntax": "[ <Skaitlis n>, <Skaitlis r> ]",
-    "Binomial.SyntaxCAS": "[ <Skaitlis>, <Skaitlis> ]",
     "BinomialDist": "Binomi\u0101lSadal\u012bjums",
     "BinomialDist.Syntax": "[ <M\u0113\u0123in\u0101jumu skaits>, <Veiksmes varb\u016bt\u012bba> ]\n[ <M\u0113\u0123in\u0101jumu skaits>, <Veiksmes varb\u016bt\u012bba>, <Boolean Cumulative> ]\n[ <M\u0113\u0123in\u0101jumu skaits>, <Veiksmes varb\u016bt\u012bba>, <Main\u012bg\u0101 v\u0113rt\u012bba>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <M\u0113\u0123in\u0101jumu skaits>, <Veiksmes varb\u016bt\u012bba>, <Main\u012bg\u0101 v\u0113rt\u012bba>, <Boolean Cumulative> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["lv"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Samazin\u0101t",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Skaitlis n>, <Skaitlis r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["lv"].menu = {
     "GeneratePstricks": "\u0122ener\u0113t kodu",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forums",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

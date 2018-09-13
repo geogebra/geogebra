@@ -119,7 +119,6 @@ __GGB__keysVar["tr"].command = {
     "Bernoulli.Syntax": "[ <\u0130htimal>, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]",
     "Binomial": "BinomKatsay\u0131s\u0131",
     "Binomial.Syntax": "[ <Say\u0131 n>, <Say\u0131 r> ]",
-    "Binomial.SyntaxCAS": "[ <Say\u0131>, <Say\u0131> ]",
     "BinomialDist": "BinomDa\u011f\u0131l\u0131m",
     "BinomialDist.Syntax": "[ <Deneme Say\u0131s\u0131>, <Ba\u015far\u0131 \u0130htimali> ]\n[ <Deneme Say\u0131s\u0131>, <Ba\u015far\u0131 \u0130htimali>, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]\n[ <Deneme Say\u0131s\u0131>, <Ba\u015far\u0131 \u0130htimali>, <De\u011fi\u015fken De\u011feri>, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]",
     "BinomialDist.SyntaxCAS": "[ <Deneme Say\u0131s\u0131>, <Ba\u015far\u0131 \u0130htimali>, <De\u011fi\u015fken De\u011feri>, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["tr"].command = {
     "ZoomIn.Syntax": "[ <\xd6l\xe7ek Fakt\xf6r\xfc> ]\n[ <\xd6l\xe7ek Fakt\xf6r\xfc>, <Merkez Nokta> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Uzakla\u015ft\u0131r",
     "ZoomOut.Syntax": "[ <\xd6l\xe7ek Fakt\xf6r\xfc> ]\n[ <\xd6l\xe7ek Fakt\xf6r\xfc>, <Merkez Nokta> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Say\u0131 n>, <Say\u0131 r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["tr"].menu = {
     "GeneratePstricks": "PSTricks \xfcret",
     "GeoGebra3DGrapher": "GeoGebra 3D Grafik Hesap Makinesi",
     "GeoGebra3DGrapher.short": "3D Hesap Makinesi",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometri",
     "GeoGebraGraphingCalculator": "GeoGebra Grafik Hesap Makinesi",

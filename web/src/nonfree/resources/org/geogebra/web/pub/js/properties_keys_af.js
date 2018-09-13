@@ -119,7 +119,6 @@ __GGB__keysVar["af"].command = {
     "Bernoulli.Syntax": "[ <Waarskynlikheid>, <Boolean Kumulatief> ]",
     "Binomial": "BinomiaalKo\xebffisi\xebnt",
     "Binomial.Syntax": "[ <Getal n>, <Getal r> ]",
-    "Binomial.SyntaxCAS": "[ <Getal>, <Getal> ]",
     "BinomialDist": "BinomiaalDist",
     "BinomialDist.Syntax": "[ <Aantal Eksperimente>, <Waarskynlikheid van Sukses> ]\n[ <Aantal Eksperimente>, <Waarskynlikheid van Sukses>, <Boolean Kumulatiewe> ]\n[ <Aantal Eksperimente>, <Waarskynlikheid van Sukses>, <Variable Value>, <Boolean Kumulatiewe> ]",
     "BinomialDist.SyntaxCAS": "[ <Aantal Proewe>, <Waarskynlikheid van Sukses>, <Veranderlike Waarde>, <Boolean Kumulatief> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["af"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Getal n>, <Getal r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["af"].menu = {
     "GeneratePstricks": "Generate code",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

@@ -119,7 +119,6 @@ __GGB__keysVar["ms"].command = {
     "Bernoulli.Syntax": "[ <Kebarangkalian>, <Longgokan Boolean> ]",
     "Binomial": "PekaliBinomial",
     "Binomial.Syntax": "[ <Nombor n>, <Nombor r> ]",
-    "Binomial.SyntaxCAS": "[ <Nombor>, <Nombor> ]",
     "BinomialDist": "TaburanBinomial",
     "BinomialDist.Syntax": "[ <Bilangan Percubaan>, <Kebarangkalian Kejayaan> ]\n[ <Bilangan Percubaan>, <Kebarangkalian Kejayaan>, <Longgokan Boolean> ]\n[ <Bilangan Percubaan>, <Kebarangkalian Kejayaan>, <Nilai Pembolehubah>, <Longgokan Boolean> ]",
     "BinomialDist.SyntaxCAS": "[ <Bilangan Percubaan>, <Kebarangkalian Kejayaan>, <Nilai Pembolehubah>, <Longgokan Boolean> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["ms"].command = {
     "ZoomIn.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Pusat> ]\n[ <Minimum x>, <Minimum y>, <Maks x>, <Maks y> ]",
     "ZoomOut": "ZumKeluar",
     "ZoomOut.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Pusat> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Nombor n>, <Nombor r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["ms"].menu = {
     "GeneratePstricks": "Menjana kod",
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Forum GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

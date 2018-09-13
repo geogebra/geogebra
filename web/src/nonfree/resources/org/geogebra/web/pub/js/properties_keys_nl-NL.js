@@ -119,7 +119,6 @@ __GGB__keysVar["nl-NL"].command = {
     "Bernoulli.Syntax": "[ <Kans>, <Logisch Cumulatief> ]",
     "Binomial": "Binomiaalco\xebffici\xebnt",
     "Binomial.Syntax": "[ <Getal>, <Getal> ]",
-    "Binomial.SyntaxCAS": "[ <Getal>, <Getal> ]",
     "BinomialDist": "BinomialeVerdeling",
     "BinomialDist.Syntax": "[ <Aantal Experimenten>, <Kans op Succes> ]\n[ <Aantal Experimenten>, <Kans op Succes>, <Logisch Cumulatief> ]\n[ <Aantal Experimenten>, <Kans op Succes>, <Waarde Variabele>, <Logisch Cumulatief> ]",
     "BinomialDist.SyntaxCAS": "[ <Aantal Bernouilli experimenten>, <Kans op succes>, <Toevalsveranderlijke>, <Cumulatieve Distributie> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["nl-NL"].command = {
     "ZoomIn.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Getal>, <Getal> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "GeneratePstricks": "Genereer PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D grafisch rekenmachine",
     "GeoGebra3DGrapher.short": "3D rekenmachine",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Meetkunde",
     "GeoGebraGraphingCalculator": "GeoGebra grafisch rekenmachine",

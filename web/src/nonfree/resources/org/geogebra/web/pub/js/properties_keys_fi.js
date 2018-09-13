@@ -119,7 +119,6 @@ __GGB__keysVar["fi"].command = {
     "Bernoulli.Syntax": "[ <Todenn\xe4k\xf6isyys>, <Totuusarvo: kertym\xe4/ei> ]",
     "Binomial": "Binomikerroin",
     "Binomial.Syntax": "[ <Luku n>, <Luku> ]",
-    "Binomial.SyntaxCAS": "[ <Luku>, <Luku> ]",
     "BinomialDist": "Binomijakauma",
     "BinomialDist.Syntax": "[ <Toistojen m\xe4\xe4r\xe4 n>, <Suotuisan tn p> ]\n[ <Toistojen m\xe4\xe4r\xe4 n>, <Suotuisan tn p>, <Totuusarvo: kertym\xe4/ei> ]\n[ <Toistojen m\xe4\xe4r\xe4 n>, <Suotuisan tn p>, <Muuttujan arvo>, <Totuusarvo: kertym\xe4/ei> ]",
     "BinomialDist.SyntaxCAS": "[ <Toistojen m\xe4\xe4r\xe4 n>, <Suotuisan tn p>, <Muuttujan arvo>, <Totuusarvo: kertym\xe4/ei> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["fi"].command = {
     "ZoomIn.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Loitonna",
     "ZoomOut.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Luku n>, <Luku> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["fi"].menu = {
     "GeneratePstricks": "Luo PSTricks-koodi",
     "GeoGebra3DGrapher": "GeoGebra 3D graafinen laskin",
     "GeoGebra3DGrapher.short": "3D-laskin",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometria",
     "GeoGebraGraphingCalculator": "GeoGebra graafinen laskin",

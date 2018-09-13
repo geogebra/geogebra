@@ -119,7 +119,6 @@ __GGB__keysVar["he"].command = {
     "Bernoulli.Syntax": "[ <Probability>, <Boolean Cumulative> ]",
     "Binomial": "BinomialCoefficient",
     "Binomial.Syntax": "[ <Number n>, <Number r> ]",
-    "Binomial.SyntaxCAS": "[ <Number>, <Number> ]",
     "BinomialDist": "BinomialDist",
     "BinomialDist.Syntax": "[ <Number of Trials>, <Probability of Success> ]\n[ <Number of Trials>, <Probability of Success>, <Boolean Cumulative> ]\n[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
     "BinomialDist.SyntaxCAS": "[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["he"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Number n>, <Number r> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["he"].menu = {
     "GeneratePstricks": "\u05d9\u05e6\u05d5\u05e8 PSTricks\u200f",
     "GeoGebra3DGrapher": "\u05de\u05e1\u05e8\u05d8\u05d8  \u200f\u200e3D\u200f \u05e9\u05dc \u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4",
     "GeoGebra3DGrapher.short": "\u05de\u05d7\u05e9\u05d1\u05d5\u05df 3D\u200f",
+    "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "\u05e4\u05d5\u05e8\u05d5\u05dd \u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4",
     "GeoGebraGeometry": "\u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4 \u05d2\u05d0\u05d5\u05de\u05d8\u05e8\u05d9\u05d4",
     "GeoGebraGraphingCalculator": "\u05de\u05d7\u05e9\u05d1\u05d5\u05df \u05d2\u05e8\u05e4\u05d9 \u05e9\u05dc \u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4",

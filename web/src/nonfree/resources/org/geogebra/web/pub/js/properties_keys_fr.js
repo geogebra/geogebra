@@ -119,7 +119,6 @@ __GGB__keysVar["fr"].command = {
     "Bernoulli.Syntax": "[ <Probabilit\xe9>, <Bool\xe9en Cumul> ]",
     "Binomial": "Combinaison",
     "Binomial.Syntax": "[ <Nombre n>, <Nombre p> ]",
-    "Binomial.SyntaxCAS": "[ <Nombre n>, <Nombre p> ]",
     "BinomialDist": "Binomiale",
     "BinomialDist.Syntax": "[ <Nombre d'essais>, <Probabilit\xe9 du Succ\xe8s> ]\n[ <Nombre d'essais>, <Probabilit\xe9 du Succ\xe8s>, <Bool\xe9en Cumul> ]\n[ <Nombre d'essais>, <Probabilit\xe9 du Succ\xe8s>, <Nombre Succ\xe8s>, <Bool\xe9en Cumul> ]",
     "BinomialDist.SyntaxCAS": "[ <Nombre d'essais>, <Probabilit\xe9 du Succ\xe8s>, <Nombre Succ\xe8s>, <Bool\xe9en Cumul> ]",
@@ -1119,6 +1118,8 @@ __GGB__keysVar["fr"].command = {
     "ZoomIn.Syntax": "[ <Facteur> ]\n[ <Facteur>, <Centre> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "R\xe9duire",
     "ZoomOut.Syntax": "[ <Facteur de r\xe9duction> ]\n[ <Facteur de r\xe9duction>, <Centre> ]",
+    "nCr": "nCr",
+    "nCr.Syntax": "[ <Nombre n>, <Nombre p> ]",
 };
 
 
@@ -1865,6 +1866,7 @@ __GGB__keysVar["fr"].menu = {
     "GeneratePstricks": "G\xe9n\xe9rer le code PSTricks",
     "GeoGebra3DGrapher": "GeoGebra Calculatrice Graphique 3D",
     "GeoGebra3DGrapher.short": "Calculatrice 3D",
+    "GeoGebraCASCalculator": "GeoGebra Calcul Formel",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra G\xe9om\xe9trie",
     "GeoGebraGraphingCalculator": "GeoGebra Calculatrice Graphique",
