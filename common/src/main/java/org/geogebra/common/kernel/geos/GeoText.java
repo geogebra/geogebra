@@ -118,6 +118,8 @@ public class GeoText extends GeoElement
 
 	private EditMode editMode;
 
+	private int textHeight;
+
 	private enum EditMode {
 		None, Ready, Edit
 	}
@@ -1512,6 +1514,14 @@ public class GeoText extends GeoElement
 		default:
 			break;
 		}
+	}
+
+	public void setTextHeight(int height) {
+		textHeight = height;
+	}
+
+	public int getTextHeight() {
+		return textHeight;
 	}
 
 }

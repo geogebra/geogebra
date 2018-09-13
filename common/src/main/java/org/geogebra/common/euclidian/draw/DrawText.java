@@ -381,7 +381,7 @@ public final class DrawText extends Drawable {
 		case TOP:
 			break;
 		case BOTTOM:
-			if ((mouseY - minY) < 20) {
+			if ((mouseY - minY) < text.getTextHeight()) {
 				return;
 			}
 			int h = (int) (mouseY - minY + EuclidianStatic.EDITOR_MARGIN);

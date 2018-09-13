@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -671,6 +672,13 @@ public class EuclidianStatic {
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
 			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
 					(int) ret.getWidth(), (int) ret.getHeight());
+			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
+			if (selGeos != null && selGeos.size() > 0) {
+				GeoElement geo = selGeos.get(0);
+				if (geo.isGeoText()) {
+					((GeoText) geo).setTextHeight(height);
+				}
+			}
 		} else {
 			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		}
