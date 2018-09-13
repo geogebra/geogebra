@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -26,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ShareDialogMow extends DialogBoxW
-		implements FastClickHandler, SetLabels, SaveListener {
+		implements FastClickHandler, SetLabels, SaveListener, EventRenderable {
 	private AppW appW;
 	private FlowPanel dialog;
 	private FlowPanel groupContent;
@@ -107,6 +110,7 @@ public class ShareDialogMow extends DialogBoxW
 		setGlassEnabled(false);
 		addStyleName("mowShareDialog");
 		buildGUI();
+		app.getLoginOperation().getView().add(this);
 	}
 
 	/**
@@ -199,4 +203,12 @@ public class ShareDialogMow extends DialogBoxW
 	public void setCallback(MaterialCallbackI materialCallbackI) {
 		this.callback = materialCallbackI;
 	}
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LogOutEvent) {
+			hide();
+		}
+	}
+
 }
