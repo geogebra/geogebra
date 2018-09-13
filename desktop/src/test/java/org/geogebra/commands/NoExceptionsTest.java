@@ -320,11 +320,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdBinomial() {
-		t("BinomialCoefficient[ n1, n1 ]");
-	}
-
-	@Test
 	public void cmdBoxPlot() {
 		t("BoxPlot[ n2, n4, list2 ]");
 		t("BoxPlot[ n2, n4, list2, true ]");

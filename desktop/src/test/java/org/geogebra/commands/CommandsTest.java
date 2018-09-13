@@ -2132,4 +2132,16 @@ public class CommandsTest extends AlgebraTest {
 		t("IndexOf(Text(\"x = \\pm \\frac{1}{2}\"),ShowSteps(Solve(eq)))>0", "true");
 	}
 
+	@Test
+	public void cmdBinomial() {
+		t("BinomialCoefficient[ 5, -1 ]", "0");
+		t("BinomialCoefficient[ 5, 1 ]", "5");
+	}
+
+	@Test
+	public void cmdnCr() {
+		t("nCr[ 5, -1 ]", "0");
+		t("nCr[ 5, 1 ]", "5");
+	}
+
 }

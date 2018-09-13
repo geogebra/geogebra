@@ -376,7 +376,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testBinomialCoefficient() {
-		testCat("BinomialCoefficient");
+		testCat("nCr.2");
 	}
 
 	@Test
