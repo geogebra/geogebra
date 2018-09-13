@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.MOWToolbar;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -86,6 +87,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private DockPanelW dockPanelKB;
 	private HeaderPanel lastBG;
 	private MOWToolbar mowToolbar;
+	private ToolbarMow toolbarMow;
 	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
 
@@ -776,7 +778,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	public void attachToolbar(AppW app1) {
 		if (app1.has(Feature.MOW_TOOLBAR)) {
-			attachMOWToolbar(app1);
+			if (app1.has(Feature.MOW_TOOLBAR_REFACTOR)) {
+				attachToolbarMow(app1);
+			} else {
+				attachMOWToolbar(app1);
+			}
 			attachOpenMenuButton();
 			if (app1.has(Feature.MOW_MULTI_PAGE)) {
 				initPageControlPanel(app1);
@@ -824,6 +830,27 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			// set pen as start tool
 			app1.setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 		}
+	}
+
+	private void attachToolbarMow(AppW app1) {
+		if (toolbarMow == null) {
+			toolbarMow = new ToolbarMow(app1);
+		}
+		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
+			add(toolbarMow);
+		} else {
+			insert(toolbarMow, 0);
+		}
+
+		/*
+		 * add(mowToolbar.getUndoRedoButtons()); if
+		 * (app1.has(Feature.MOW_MULTI_PAGE)) {
+		 * add(mowToolbar.getPageControlButton()); } int currentMode =
+		 * mowToolbar.getCurrentMode(); if (currentMode != -1) {
+		 * app1.setMode(currentMode, ModeSetter.TOOLBAR); } else { // set pen as
+		 * start tool app1.setMode(EuclidianConstants.MODE_PEN,
+		 * ModeSetter.TOOLBAR); }
+		 */
 	}
 
 	/**
