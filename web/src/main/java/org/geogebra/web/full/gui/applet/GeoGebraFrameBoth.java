@@ -842,6 +842,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			insert(toolbarMow, 0);
 		}
 
+		add(toolbarMow.getPageControlButton());
+
 		/*
 		 * add(mowToolbar.getUndoRedoButtons()); if
 		 * (app1.has(Feature.MOW_MULTI_PAGE)) {
@@ -858,6 +860,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	public MOWToolbar getMOWToolbar() {
 		return mowToolbar;
+	}
+
+	/**
+	 * @return MOW toolbar
+	 */
+	public ToolbarMow getToolbarMow() {
+		return toolbarMow;
 	}
 
 	@Override

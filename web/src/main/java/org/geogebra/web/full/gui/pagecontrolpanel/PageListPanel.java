@@ -10,6 +10,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.MOWToolbar;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -44,6 +45,7 @@ public class PageListPanel
 	private GeoGebraFrameBoth frame;
 	private EuclidianDockPanelW dockPanel;
 	private MOWToolbar mowToolbar;
+	private ToolbarMow toolbarMow;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
 	private StandardButton plusButton;
@@ -61,7 +63,11 @@ public class PageListPanel
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		if (app.isWhiteboardActive()) {
-			this.mowToolbar = frame.getMOWToolbar();
+			if (app.has(Feature.MOW_TOOLBAR_REFACTOR)) {
+				this.toolbarMow = frame.getToolbarMow();
+			} else {
+				this.mowToolbar = frame.getMOWToolbar();
+			}
 		}
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
@@ -152,6 +158,9 @@ public class PageListPanel
 			if (mowToolbar != null) {
 				mowToolbar.showPageControlButton(false);
 			}
+			if (toolbarMow != null) {
+				toolbarMow.showPageControlButton(false);
+			}
 		}
 		setVisible(true);
 		setLabels();
@@ -195,7 +204,11 @@ public class PageListPanel
 	protected void onClose() {
 		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 		if (app.isWhiteboardActive()) {
-			mowToolbar.showPageControlButton(true);
+			if (app.has(Feature.MOW_TOOLBAR_REFACTOR)) {
+				toolbarMow.showPageControlButton(true);
+			} else {
+				mowToolbar.showPageControlButton(true);
+			}
 			dockPanel.showZoomPanel();
 		}
 		setVisible(false);
