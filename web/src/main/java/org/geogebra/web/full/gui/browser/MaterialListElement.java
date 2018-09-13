@@ -96,7 +96,7 @@ public class MaterialListElement extends FlowPanel
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.setMaterialSimple(m);
 		this.localMaterial = isLocal;
-		this.ownMaterial = app.getLoginOperation().owns(m);
+		this.ownMaterial = app.getLoginOperation().getGeoGebraTubeAPI().owns(m);
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {
@@ -684,7 +684,7 @@ public class MaterialListElement extends FlowPanel
 		} else {
 			this.title.setText(this.getMaterial().getTitle());
 		}
-		if (!app.getLoginOperation().owns(mat)) {
+		if (!app.getLoginOperation().getGeoGebraTubeAPI().owns(mat)) {
 			this.sharedBy.setText(this.getMaterial().getAuthor());
 		}
 		this.background.clear();

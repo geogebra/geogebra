@@ -287,7 +287,7 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	}
 
 	private void deleteFromTube(final Material mat, final Runnable onDelete) {
-		if (!getApp().getLoginOperation().owns(mat)) {
+		if (!getApp().getLoginOperation().getGeoGebraTubeAPI().owns(mat)) {
 			delete(mat, true, onDelete);
 			return;
 		}

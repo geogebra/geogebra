@@ -267,4 +267,11 @@ public interface BackendAPI {
 	 */
 	void getGroups(String materialID, AsyncOperation<List<String>> asyncOperation);
 
+	/**
+	 * @param mat
+	 *            material
+	 * @return true if user owns the given material
+	 */
+	boolean owns(Material mat);
+
 }

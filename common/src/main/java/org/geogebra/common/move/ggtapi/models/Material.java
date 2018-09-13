@@ -123,6 +123,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private String fileName;
 
 	private long dateCreated;
+	private int creator_id;
 
 	/**
 	 * @param id
@@ -139,6 +140,7 @@ public class Material implements Comparable<Material>, Serializable {
 		this.autoSaveTimestamp = -1;
 		this.author = "";
 		this.author_id = -1;
+		this.creator_id = -1;
 		this.url = "";
 		this.url_direct = "";
 		this.language = "";
@@ -806,5 +808,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setDateCreated(long dateCreated) {
 		this.dateCreated = dateCreated;
+	}
+
+	public int getCreatorId() {
+		return creator_id;
+	}
+
+	public void setCreatorId(int creator_id) {
+		this.creator_id = creator_id;
 	}
 }

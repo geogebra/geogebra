@@ -79,6 +79,7 @@ public class JSONParserGGT {
 		material.setSharingKey(sharingKey);
 		material.setAuthor(getString(obj, "author"));
 		material.setAuthorId(getInt(obj, "author_id", -1));
+		material.setCreatorId(getInt(obj, "creator_id", -1));
 		material.setURL(getString(obj, "url"));
 		material.setURLdirect(getString(obj, "url_direct"));
 		String thumbUrl = getString(obj, "thumbUrl");

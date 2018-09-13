@@ -174,7 +174,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * @return whether user is the owner of a material
 	 */
 	public boolean owns(Material mat) {
-		Log.debug("AuthorID: " + mat.getAuthorID());
 		return mat.getAuthorID() <= 0
 				|| mat.getAuthorID() == getModel().getUserId();
 	}

@@ -82,7 +82,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		// build info panel
 		infoPanel.add(cardTitle);
 		infoPanel.add(
-				app.getLoginOperation().owns(getMaterial()) ? visibilityPanel
+				app.getLoginOperation().getGeoGebraTubeAPI().owns(getMaterial())
+						? visibilityPanel
 				: cardAuthor);
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);

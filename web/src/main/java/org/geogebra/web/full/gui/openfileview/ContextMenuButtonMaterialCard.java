@@ -45,12 +45,12 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	@Override
 	protected void initPopup() {
 		super.initPopup();
-		if (app.getLoginOperation().owns(material)) {
+		if (app.getLoginOperation().getGeoGebraTubeAPI().owns(material)) {
 			addShareItem();
 			addRenameItem();
 		}
 		addCopyItem();
-		if (app.getLoginOperation().owns(material)) {
+		if (app.getLoginOperation().getGeoGebraTubeAPI().owns(material)) {
 			addDeleteItem();
 		}
 	}
