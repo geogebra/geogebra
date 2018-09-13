@@ -460,7 +460,7 @@ public class MarvlAPI implements BackendAPI {
 	@Override
 	public boolean owns(Material mat) {
 		Log.debug("CreatorId: " + mat.getCreatorId());
-		return mat.getCreator().getId() <= 0
-				|| mat.getCreator().getId() == model.getUserId();
+		return mat.getCreator() != null && (mat.getCreator().getId() <= 0
+				|| mat.getCreator().getId() == model.getUserId());
 	}
 }

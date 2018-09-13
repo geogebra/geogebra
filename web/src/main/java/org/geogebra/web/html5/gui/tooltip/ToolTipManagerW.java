@@ -365,9 +365,8 @@ public final class ToolTipManagerW {
 			return;
 		}
 		blockToolTip = false;
-		showBottomInfoToolTip(StringUtil.toHTMLString(text), "", null, appw, appw
-				.getAppletFrame()
-				.isKeyboardShowing());
+		showBottomInfoToolTip(StringUtil.toHTMLString(text), "", null, appw,
+				appw != null && appw.getAppletFrame().isKeyboardShowing());
 
 		blockToolTip = true;
 		if (closeAutomatic) {

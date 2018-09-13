@@ -72,6 +72,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		cardTitle = new Label(getMaterial().getTitle());
 		cardTitle.setStyleName("cardTitle");
 		cardAuthor = new Label("".equals(getMaterial().getAuthor())
+				&& getMaterial().getCreator() != null
 				? getMaterial().getCreator().getDisplayname()
 				: getMaterial().getAuthor());
 		cardAuthor.setStyleName("cardAuthor");
