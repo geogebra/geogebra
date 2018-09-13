@@ -12,8 +12,16 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 
+/**
+ * Default sign in button: opens GGB signin in a popup.
+ *
+ */
 public class SignInButton extends Button implements EventRenderable {
+	/** application */
 	protected final App app;
+	/**
+	 * Interval for checking login cookie (when popup comunication not possible)
+	 */
 	protected Timer loginChecker;
 
 	private WindowReference signInDialog = null;

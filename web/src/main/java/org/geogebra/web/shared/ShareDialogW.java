@@ -1,6 +1,7 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -27,16 +28,22 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Share dialog for classic
+ *
+ */
 public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
-	protected AppW app;
+	/**
+	 * Application
+	 */
 	private VerticalPanel contentPanel;
 	private HorizontalPanel iconPanel;
 	private VerticalPanel emailPanel;
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private Button btSendMail;
 	private Button btCancel;
-	String shareURL = "";
+	private String shareURL = "";
 	private TextBox recipient;
 	private TextArea message;
 	private Localization loc;
@@ -156,12 +163,13 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
 
 		// Edmodo
-		String title = (app.getActiveMaterial() == null
-				|| StringUtil.empty(app.getActiveMaterial().getTitle()))
+		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		String title = (activeMaterial == null
+				|| StringUtil.empty(activeMaterial.getTitle()))
 						? app.getKernel().getConstruction().getTitle()
-				: app.getActiveMaterial().getTitle();
-		String sourceDesc = (app.getActiveMaterial() != null) ? "&source="
-				+ app.getActiveMaterial().getId() + "&desc=" + title : "";
+						: activeMaterial.getTitle();
+		String sourceDesc = (activeMaterial != null)
+				? "&source=" + activeMaterial.getId() + "&desc=" + title : "";
 		Anchor edmodolink = new Anchor(
 				new NoDragImage(SharedResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
@@ -246,9 +254,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						app.copyTextToSystemClipboard(
-								getURL());
-						link.selectAll();
+						copyLinkToClipboard();
 					}
 				});
 
@@ -257,6 +263,14 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		copyLinkPanel.add(copyToClipboardIcon);
 
 		return copyLinkPanel;
+	}
+
+	/**
+	 * Copy sharing link to clipboard
+	 */
+	protected void copyLinkToClipboard() {
+		app.copyTextToSystemClipboard(getURL());
+		link.selectAll();
 	}
 
 	private VerticalPanel getEmailPanel() {
@@ -332,7 +346,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 			Log.debug("send mail to: " + recipient.getText());
 			app.getLoginOperation()
 					.getGeoGebraTubeAPI()
-					.shareMaterial(app.getActiveMaterial(),
+					.shareMaterial(((AppW) app).getActiveMaterial(),
 							recipient.getText(), message.getText(),
 							new MaterialCallback() {
 								//

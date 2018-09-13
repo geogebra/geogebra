@@ -27,12 +27,24 @@ import com.google.gwt.user.client.ui.Widget;
 public class DialogBoxW extends GDialogBox {
 	
 	private ErrorHandler eh;
+	/** Cancel button */
 	FastButton cancelButton;
 
 	/**
 	 * creates a {@link DialogBox}
-	 * @param autoHide {@code true} if the dialog should be automatically hidden when the user clicks outside of it
-	 * @param modal {@code true}  if keyboard and mouse events for widgets not contained by the dialog should be ignored
+	 * 
+	 * @param autoHide
+	 *            {@code true} if the dialog should be automatically hidden when
+	 *            the user clicks outside of it
+	 * @param modal
+	 *            {@code true} if keyboard and mouse events for widgets not
+	 *            contained by the dialog should be ignored
+	 * @param eh
+	 *            error handler
+	 * @param root
+	 *            root for positioning
+	 * @param app
+	 *            application
 	 */
 	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh,
 			Panel root, App app) {
@@ -50,7 +62,13 @@ public class DialogBoxW extends GDialogBox {
 	}
 	
 	/**
-	 * creates a {@link DialogBox} with {@code autoHide = false} and {@code modal = true}.
+	 * creates a {@link DialogBox} with {@code autoHide = false} and
+	 * {@code modal = true}.
+	 * 
+	 * @param root
+	 *            root for positioning
+	 * @param app
+	 *            app
 	 */
 	public DialogBoxW(Panel root, App app) {
 		this(false, true, null, root, app);

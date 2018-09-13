@@ -16,6 +16,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Panel showing user avatar + a signout popup.
+ */
 public class ProfilePanel extends FlowPanel {
 	private Image profileImage;
 	private FlowPanel optionsPanel;

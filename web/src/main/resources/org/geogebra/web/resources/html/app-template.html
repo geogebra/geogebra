@@ -16,7 +16,7 @@ if (!window.console.log) window.console.log = function () { };
 
 var latestVersion="5.0.474.0";
 var module = "web3d";
-var lookAndFeel = "";
+var defaultParams = {};
 var prerelease = false;
 var debug = false;
 var startDelay = 0;
@@ -472,38 +472,38 @@ function insertScript(){
 		resizeStart();
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if(e("ggw")){
-			if(lookAndFeel){
-				e("ggw").setAttribute("data-param-laf",lookAndFeel);
+			for (var key in defaultParams) {
+				e("ggw").setAttribute("data-param-" + key, defaultParams[i]);
 			}
-			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease){
+			if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
 				setPrerelease(prerelease || "true");
 			}
-			if(getURLparam("debug") || debug || isLocalhost()){
+			if (getURLparam("debug") || debug || isLocalhost()) {
 				setDebug(debug || true);
 				
 			}
-			if(location.host.indexOf("alpha") == 0){
+			if (location.host.indexOf("alpha") == 0) {
 				setPrerelease("canary");
-				e("ggw").setAttribute("data-param-materialsApi",location.protocol+"//"+location.host+"/api/json.php");
-				e("ggw").setAttribute("data-param-loginApi","https://"+location.host+"/api/login.php");
+				e("ggw").setAttribute("data-param-materialsApi", location.protocol+"//"+location.host+"/api/json.php");
+				e("ggw").setAttribute("data-param-loginApi", "https://"+location.host+"/api/login.php");
 			}
-			if(isLocalhost()){
+			if (isLocalhost()) {
 				codebase = "./";
 			}
 		}
 		
-		if(tubeid){
-			if(e("ggw")){
-				e("ggw").setAttribute("data-param-tubeid",tubeid);
-				if(window.appID){
-					e("ggw").setAttribute("data-param-perspective",names[appID]);
+		if (tubeid) {
+			if (e("ggw")) {
+				e("ggw").setAttribute("data-param-tubeid", tubeid);
+				if (window.appID) {
+					e("ggw").setAttribute("data-param-perspective", names[appID]);
 				}
 				var previewDiv = document.createElement("div");
-				previewDiv.id= "ggbsplash";
-				previewDiv.style.zIndex=1000;
+				previewDiv.id = "ggbsplash";
+				previewDiv.style.zIndex = 1000;
 				var preview = document.createElement("img");
-				preview.style.margin="auto";
-				preview.style.position="absolute";
+				preview.style.margin = "auto";
+				preview.style.position = "absolute";
 				
 				var xhr = new XMLHttpRequest();
 				var materialHost = isLocalhost() ? "https://beta.geogebra.org":"";
@@ -529,8 +529,8 @@ function insertScript(){
 		}
 		else if(getPerspective()){			
 			var pName = getPerspective();
-			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
-				if(e("perspectivesBox")){
+			if (pName.substring(0,6) == "search" || pName.substring(0,4) == "exam") {
+				if (e("perspectivesBox")) {
 					e("perspectivesBox").style.display = "none";
 				}
 				wait || perspective(pName);
@@ -538,8 +538,8 @@ function insertScript(){
 			else{
 				perspective(names[pName],pName);
 			}
-			document.body.className += " "+pName;
-			document.body.className += " "+module;
+			document.body.className += " " + pName;
+			document.body.className += " " + module;
 			wait || insertScript();
 			showStartScreen();
 			return;
