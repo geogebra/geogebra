@@ -14,7 +14,7 @@ public interface ZoomPanelResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_fullscreen_exit_black_18px.svg")
 	SVGResource fullscreen_exit_black18();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_gps_fixed_black_18px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_home_black_24px.svg")
 	SVGResource home_zoom_black18();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_zoom_in_black_24px.svg")
