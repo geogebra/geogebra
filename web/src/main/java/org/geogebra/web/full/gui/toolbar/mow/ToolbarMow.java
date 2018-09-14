@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.MyModeChangedListener;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -25,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ToolbarMow extends FlowPanel
-		implements MyModeChangedListener, FastClickHandler {
+		implements MyModeChangedListener, FastClickHandler, SetLabels {
 	private AppW appW;
 	private HeaderMow header;
 	private FlowPanel toolbarPanel;
@@ -90,6 +91,7 @@ public class ToolbarMow extends FlowPanel
 		add(toolbarPanel);
 		createUndoRedoButtons();
 		createPageControlButton();
+		setLabels();
 	}
 
 	private void createPageControlButton() {
@@ -258,5 +260,14 @@ public class ToolbarMow extends FlowPanel
 	 */
 	public PersistablePanel getUndoRedoButtons() {
 		return undoRedoPanel;
+	}
+
+	@Override
+	public void setLabels() {
+		pageControlButton
+				.setTitle(appW.getLocalization().getMenu("PageControl"));
+		btnUndo.setTitle(appW.getLocalization().getMenu("Undo"));
+		btnRedo.setTitle(appW.getLocalization().getMenu("Redo"));
+		header.setLabels();
 	}
 }

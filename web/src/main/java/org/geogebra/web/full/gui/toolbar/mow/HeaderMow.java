@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class HeaderMow extends FlowPanel
-		implements FastClickHandler {
+		implements FastClickHandler, SetLabels {
 	private AppW appW;
 	private ToolbarMow toolbar;
 	private FlowPanel content;
@@ -171,5 +172,15 @@ public class HeaderMow extends FlowPanel
 	public static ImageResourcePrototype getIcon(SVGResource resource) {
 		return new ImageResourcePrototype(null, resource.getSafeUri(), 0, 0, 24,
 				24, false, false);
+	}
+
+	@Override
+	public void setLabels() {
+		penPanelBtn.setTitle(appW.getLocalization().getMenu("Pen"));
+		toolsPanelBtn.setTitle(appW.getLocalization().getMenu("Tools"));
+		mediaPanelBtn
+				.setTitle(appW.getLocalization().getMenu("ToolCategory.Media"));
+		openCloseBtn.setTitle(appW.getLocalization()
+				.getMenu(toolbar.isOpen() ? "Open" : "Close"));
 	}
 }

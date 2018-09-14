@@ -1385,6 +1385,9 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.getToolBar().buildGui();
 			toolbarPanel.setLabels();
 		}
+		if ((((AppWFull) app).getAppletFrame()).getToolbarMow() != null) {
+			(((AppWFull) app).getAppletFrame()).getToolbarMow().setLabels();
+		}
 		resetMenu();
 
 		if (constProtocolNavigationMap != null) {
