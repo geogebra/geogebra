@@ -185,6 +185,7 @@ public class ExamDialog {
 			startExamForAndroidWebview(mainWidget);
 		} else {
 			// start exam button
+			startPanel.setVisible(true);
 			btnOk.setText(loc.getMenu("exam_start_button"));
 			btnOk.addClickHandler(new ClickHandler() {
 				@Override
