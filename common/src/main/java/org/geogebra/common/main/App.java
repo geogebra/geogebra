@@ -1,13 +1,6 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
+import com.himamis.retex.editor.share.util.Unicode;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
@@ -97,7 +90,14 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3997,7 +3997,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// in web (not tablet apps yet)
 		// File -> Enter Exam Mode
 		case EXAM_TABLET:
-			return prerelease;
+			return !isUnbundledOrWhiteboard();
 
 		case SAVE_SETTINGS_TO_FILE:
 			// not enabled for linux

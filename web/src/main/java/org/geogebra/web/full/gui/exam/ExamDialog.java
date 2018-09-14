@@ -397,9 +397,8 @@ public class ExamDialog {
 					setLockTaskDialog();
 					return;
 				}
-				// go to full screen
+				// go to full screen also block screen saver
 				updateFullscreenStatusOn();
-				keepScreenOn();
 				// set wifi & bluetooth off if needed
 				setWifiOffIfNeeded();
 				setBluetoothOffIfNeeded();
@@ -581,9 +580,4 @@ public class ExamDialog {
 	private static native void exitAppJs()/*-{
 		$wnd.GeoGebraExamAndroidJsBinder.exitApp();
 	}-*/;
-
-	private static native void keepScreenOn()/*-{
-		$wnd.GeoGebraExamAndroidJsBinder.keepScreenOn();
-	}-*/;
-
 }
