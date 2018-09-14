@@ -12,6 +12,7 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.DialogUtil;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -50,6 +51,7 @@ public class SaveDialogMow extends DialogBoxW
 		this.addStyleName("saveDialogMow");
 		initGUI();
 		initActions();
+		DialogUtil.hideOnLogout(app, this);
 	}
 
 	private void initGUI() {
