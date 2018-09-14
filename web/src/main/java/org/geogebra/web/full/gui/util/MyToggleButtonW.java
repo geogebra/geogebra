@@ -111,7 +111,6 @@ public class MyToggleButtonW extends ToggleButton
 		setDown(false);
 		addStyleName("MyToggleButton");
 		addMouseDownHandler(this);
-
 		// fix for touch
 		addDomHandler(this, TouchEndEvent.getType());
 	}
