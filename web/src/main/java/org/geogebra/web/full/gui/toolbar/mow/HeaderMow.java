@@ -106,6 +106,7 @@ public class HeaderMow extends FlowPanel
 		content.add(openCloseBtn);
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == penPanelBtn) {
 			tabSwitch(TabIds.PEN);

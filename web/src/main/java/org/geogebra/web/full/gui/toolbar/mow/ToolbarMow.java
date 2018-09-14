@@ -183,17 +183,12 @@ public class ToolbarMow extends FlowPanel
 		// TODO switch tab and toolbar panel
 	}
 
-	/**
-	 * @param mode
-	 *            tool id
-	 */
+	@Override
 	public void onModeChange(int mode) {
 		// TODO
 	}
 
-	/**
-	 * click handler
-	 */
+	@Override
 	public void onClick(Widget source) {
 		if (source == pageControlButton) {
 			openPagePanel();
