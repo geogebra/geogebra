@@ -687,7 +687,7 @@ public class SelectionManager {
 
 		if (selectionSize == 0) {
 			if (first != null) {
-				addSelectedGeo(first);
+				addSelectedGeo(first, ev);
 			}
 			return false;
 		}
@@ -698,9 +698,9 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (next != null) {
-			addSelectedGeo(next);
+			addSelectedGeo(next, ev);
 		} else {
-			addSelectedGeo(first);
+			addSelectedGeo(first, ev);
 		}
 
 		return true;
@@ -729,18 +729,25 @@ public class SelectionManager {
 
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement prev = tree.lower(lastSelected);
-
-		for (GeoElement geo : selectedGeos) {
-			removeSelectedGeo(geo);
-		}
+		removeAllSelectedGeos();
 
 		if (prev != null) {
-			addSelectedGeo(prev);
+			addSelectedGeo(prev, ev);
 		} else {
-			addSelectedGeo(last);
+			addSelectedGeo(last, ev);
 		}
 	}
 
+	private void addSelectedGeo(GeoElement geo, EuclidianViewInterfaceCommon ev) {
+		addSelectedGeo(geo);
+		if (geo instanceof GeoInputBox) {
+			kernel.getApplication().getActiveEuclidianView()
+					.focusAndShowTextField((GeoInputBox) geo);
+		} else {
+			ev.requestFocus();
+		}
+		
+	}
 	/**
 	 * Select geo next to the selected one in construction order. If none is
 	 * selected before, first geo is selected.
