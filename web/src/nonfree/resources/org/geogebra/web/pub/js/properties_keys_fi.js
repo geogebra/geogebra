@@ -1350,6 +1350,7 @@ __GGB__keysVar["fi"].menu = {
     "ByLayering": "Kerrostamalla",
     "CAS": "CAS",
     "CAS.AutomaticRename": "Nimi %0 on jo k\xe4yt\xf6ss\xe4. Vaihdettiin nimeksi %1",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>CAS-n\xe4kym\xe4n pikaohje</b></p><table border=\"1\"><tr><td>Enter </td><td>Laskee sy\xf6tteen</td></tr><tr><td>; </td><td>Vaientaa tulosteen</td></tr><tr><td>Ctrl + Enter </td><td>Laskee numeerisesti</td></tr><tr><td>Alt + Enter </td><td>Tarkista sy\xf6tteen</td></tr><tr><td>Escape</td><td>Tyhjent\xe4\xe4 sy\xf6tteen</td></tr><tr><td>$</td><td>Edellinen tuloste (dynaaminen viite)</td></tr><tr><td>#</td><td>Edellinen tuloste (staattinen viite)</td></tr><tr><td>$3</td><td>Kolmannen solun tuloste (dynaaminen viite)</td></tr><tr><td>#3</td><td>Kolmannen solun tuloste (staattinen viite)</td></tr><tr><td>F1</td><td>Ohje nykyiselle komennolle</td></tr><tr><td>TAB</td><td>N\xe4yt\xe4 seuraava vastaava komento</td></tr></table><p><br><b>Komentojen Automaattinen T\xe4ydent\xe4minen</b><br>Kahden ensimm\xe4isen kirjaimen j\xe4lkeen GeoGebra t\xe4ydent\xe4\xe4 komennon.</p><table border=\"1\"><tr><td>Enter </td><td>Hyv\xe4ksyy ehdotetun komennon</td></tr><tr><td>Toinen kirjain</td><td>Mukauttaa ehdotettua komentoa</td></tr></table></body></html>",
     "CASInitializing": "CAS alustetaan",
     "CASPlot": "Kuvio",

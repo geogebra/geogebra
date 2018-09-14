@@ -1350,6 +1350,7 @@ __GGB__keysVar["es-UY"].menu = {
     "ByLayering": "Por capas",
     "CAS": "C\xe1lculo Simb\xf3lico (CAS)",
     "CAS.AutomaticRename": "El nombre %0 ya existe; se lo reemplaz\xf3 por %1",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Usando la Vista CAS de Algebra Simb\xf3lica</b></p><table border=\"1\"><tr><td>Intro </td><td>Eval\xfaa entrada</td></tr><tr><td>; </td><td>Suprime salida</td></tr><tr><td>Ctrl + Intro </td><td>Eval\xfaa en modo num\xe9rico</td></tr><tr><td>Alt + Intro </td><td>Controla entrada</td></tr><tr><td>Escape</td><td>Borra entrada</td></tr><tr><td>$</td><td>Salida previa (referencia din\xe1mica)</td></tr><tr><td>#</td><td>Salida previa (referencia est\xe1tica)</td></tr><tr><td>$3</td><td>Salida de 3ra celda (referencia din\xe1mica)</td></tr><tr><td>#3</td><td>Salida de 3ra celda (referencia est\xe1tica)</td></tr><tr><td>F1</td><td>Ayuda sobre el comando en uso</td></tr><tr><td>TAB</td><td>Muestra el siguiente comando acorde</td></tr></table><p><br><b>Auto-Completado de Comandos</b><br>Tras anotar las primeras dos letras de un comando<br>aparecer\xe1 su nombre completo.</p><table border=\"1\"><tr><td>Intro </td><td>Acepta el comando propuesto</td></tr><tr><td>Otra letra</td><td>Ajusta el comando propuesto</td></tr></table></body></html>",
     "CASInitializing": "Inicializando CAS",
     "CASPlot": "Representa",

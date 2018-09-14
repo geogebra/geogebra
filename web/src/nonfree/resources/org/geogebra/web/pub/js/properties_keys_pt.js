@@ -1350,6 +1350,7 @@ __GGB__keysVar["pt"].menu = {
     "ByLayering": "Por camadas",
     "CAS": "C\xe1lculo Simb\xf3lico (CAS)",
     "CAS.AutomaticRename": "O nome %0 j\xe1 est\xe1 em uso e ele ser\xe1 trocado para %1",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Ajuda para o comando atual</td></tr><tr><td>TAB</td><td>Exibir pr\xf3ximo comando</td></tr></table><p><br><b>Autocompletamento de Comandos</b><br>Ap\xf3s digitar as primeiras duas letras de um comando,<br>o GeoGebra ir\xe1 completar o comando para voc\xea.</p><table border=\"1\"><tr><td>Enter </td><td>Aceita o comando proposto</td></tr><tr><td>Uma outra letra</td><td>Adapta o comando proposto</td></tr></table></body></html>",
     "CASInitializing": "Inicializando CAS",
     "CASPlot": "Desenhar",

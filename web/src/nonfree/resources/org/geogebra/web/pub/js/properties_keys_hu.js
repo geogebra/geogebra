@@ -1350,6 +1350,7 @@ __GGB__keysVar["hu"].menu = {
     "ByLayering": "R\xe9tegenk\xe9nt",
     "CAS": "CAS - komputeralgebra",
     "CAS.AutomaticRename": "%0 n\xe9v m\xe1r haszn\xe1latban van, %1 lesz az \xfaj elnevez\xe9s.",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>CAS n\xe9zet haszn\xe1lata</b></p><table border=\"1\"><tr><td>Enter </td><td>Bemenet lez\xe1r\xe1sa</td></tr><tr><td>; </td><td>Kimenet el\u0151h\xedv\xe1sa</td></tr><tr><td>Ctrl + Enter </td><td>Numerikus ki\xe9rt\xe9kel\xe9s</td></tr><tr><td>Alt + Enter </td><td>Bemenet ellen\u0151rz\xe9se</td></tr><tr><td>Escape</td><td>Bemenet t\xf6rl\xe9se</td></tr><tr><td>$</td><td>El\u0151z\u0151 kimenet (dinamikus hivatkoz\xe1s)</td></tr><tr><td>#</td><td>El\u0151z\u0151 kimenet (statikus hivatkoz\xe1s)</td></tr><tr><td>$3</td><td>3. cella kimenete (dinamikus hivatkoz\xe1s)</td></tr><tr><td>#3</td><td>3, cella kimenete (statikus hivatkoz\xe1s)</td></tr><tr><td>F1</td><td>Aktu\xe1lis parancs s\xfag\xf3ja</td></tr><tr><td>TAB</td><td>K\xf6vetkez\u0151 parancs mutat\xe1sa</td></tr></table><p><br><b>Automatikus parnacskieg\xe9sz\xedt\xe9s</b><br>A parancs els\u0151 k\xe9t bet\u0171j\xe9nek be\xedr\xe1sa ut\xe1n<br> a GeoGebra kieg\xe9sz\xedti a parancsot.</p><table border=\"1\"><tr><td>Enter </td><td>Felaj\xe1nlott parancs elfogad\xe1sa</td></tr><tr><td>M\xe1s billenty\u0171</td><td>Felaj\xe1nlott parancs \xe1t\xedr\xe1sa</td></tr></table></body></html>",
     "CASInitializing": "CAS inicializ\xe1l\xe1s",
     "CASPlot": "\xc1br\xe1zol",

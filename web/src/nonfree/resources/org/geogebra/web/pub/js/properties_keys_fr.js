@@ -1350,6 +1350,7 @@ __GGB__keysVar["fr"].menu = {
     "ByLayering": "Par calque",
     "CAS": "Calcul formel",
     "CAS.AutomaticRename": "Le nom %0 est d\xe9j\xe0 utilis\xe9 et a \xe9t\xe9 remplac\xe9 par %1",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Utilisation Calcul formel</b></p><table border=\"1\"><tr><td>Entr\xe9e </td><td>Evalue la saisie</td></tr><tr><td>; </td><td>Supprime la sortie</td></tr><tr><td>Ctrl + Entr\xe9e </td><td>Evaluation num\xe9rique</td></tr><tr><td>Alt + Entr\xe9e </td><td>Valide la saisie</td></tr><tr><td>Echap</td><td>Efface la saisie</td></tr><tr><td>$</td><td>Sortie pr\xe9c\xe9dente(r\xe9f\xe9rence dynamique)</td></tr><tr><td>#</td><td>Sortie pr\xe9c\xe9dente(r\xe9f\xe9rence statique)</td></tr><tr><td>$3</td><td>Sortie de la 3\xe8me ligne (r\xe9f\xe9rence dynamique)</td></tr><tr><td>#3</td><td>Sortie de la 3\xe8me ligne (r\xe9f\xe9rence statique)</td></tr><tr><td>F1</td><td>Aide pour la commande actuelle</td></tr><tr><td>TAB</td><td>Afficher la commande suivante</td></tr></table><p><br><b>Auto-Compl\xe9tion des Commandes</b><br>Apr\xe8s avoir saisi les deux premi\xe8res lettres de la commande<br>GeoGebra devrait compl\xe9ter la commande pour vous.</p><table border=\"1\"><tr><td>Entr\xe9e </td><td>Accepter la commande propos\xe9e</td></tr><tr><td>Autre lettre</td><td>Adapter la commande propos\xe9e</td></tr></table></body></html>",
     "CASInitializing": "Initialisation CAS",
     "CASPlot": "Repr\xe9senter",

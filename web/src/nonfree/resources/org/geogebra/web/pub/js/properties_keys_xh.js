@@ -1350,6 +1350,7 @@ __GGB__keysVar["xh"].menu = {
     "ByLayering": "Nge layering",
     "CAS": "iCAS",
     "CAS.AutomaticRename": "Igama u %0 selisentyenziswa kwaye litshintshiwe langu %1",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Usebenzisa iCAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Tshekisha okufakileyo</td></tr><tr><td>Baleka</td><td>Cima okufakileyo</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Uncedo ngalomyalelo</td></tr><tr><td>TAB</td><td>Bonisa omnye umyalelo ohambisanayo nalo</td></tr></table><p><br><b>Auto-Isiphelo semiyalelo</b><br>Emva kokutaypa oonobumba ababini bokuqala bomyalelo<br>UJiyoJebra uzakugqibezelela lomyalelo.</p><table border=\"1\"><tr><td>Faka </td><td>Yamkela lomyalelo ucetywayo</td></tr><tr><td>Omnye unobumba</td><td>Ilungisa umyalelo ocetywayo</td></tr></table></body></html>",
     "CASInitializing": "iCAS iqala uqalolutsha",
     "CASPlot": "Igrafu",

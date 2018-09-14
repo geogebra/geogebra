@@ -1350,6 +1350,7 @@ __GGB__keysVar["si"].menu = {
     "ByLayering": "By layering",
     "CAS": "CAS",
     "CAS.AutomaticRename": "%0 \u0dc4\u0dd2 \u0db1\u0db8 \u0daf\u0dd0\u0db1\u0da7\u0db8\u0dad\u0dca \u0db7\u0dcf\u0dc0\u0dd2\u0dad\u0dba\u0dda \u0db4\u0dc0\u0dad\u0dd2\u0db1 \u0d85\u0dad\u0dbb %1 \u0da7 \u0dc0\u0dd9\u0db1\u0dc3\u0dca \u0d9a\u0dbb \u0d87\u0dad",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
     "CASInitializing": "CAS \u0d85\u0dbb\u0db9\u0db1\u0dc0\u0dcf",
     "CASPlot": "Plot",

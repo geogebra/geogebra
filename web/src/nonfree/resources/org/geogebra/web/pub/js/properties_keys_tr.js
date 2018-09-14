@@ -1350,6 +1350,7 @@ __GGB__keysVar["tr"].menu = {
     "ByLayering": "Katmanla\u015ft\u0131rarak",
     "CAS": "CAS",
     "CAS.AutomaticRename": "%0 ad\u0131 halen kullan\u0131lmakta ve %1 olarak de\u011fi\u015ftirildi",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>yard\u0131m\u0131- \u015fimdiki komut i\xe7in</td></tr><tr><td>TAB</td><td>Sonraki uyan komutu g\xf6ster</td></tr></table><p><br><b>Komutlar\u0131n otomatik tamamlanmas\u0131</b><br>Bir komutun ilk iki harfini yazd\u0131ktan sonra<br>GeoGebra sizin i\xe7in komutu tamamlar.</p><table border=\"1\"><tr><td>Girin </td><td>\xf6nerilen komutu kabul edin</td></tr><tr><td>Ba\u015fka bir harf</td><td>\xf6nerilen komuta uyarlar</td></tr></table></body></html>",
     "CASInitializing": "CAS Ba\u015flat\u0131l\u0131yor",
     "CASPlot": "\xc7izim",

@@ -1350,6 +1350,7 @@ __GGB__keysVar["es-ES"].menu = {
     "ByLayering": "Por capas",
     "CAS": "C\xe1lculo Simb\xf3lico (CAS)",
     "CAS.AutomaticRename": "El nombre %0 ya existe; se lo reemplaz\xf3 por %1",
+    "CASCalculator": "CAS Calculator",
     "CASFieldHelp": "<html><body><p><b>Usando la Vista CAS de \xc1lgebra Simb\xf3lica</b></p><table border=\"1\"><tr><td>Intro </td><td>Evaluar entrada</td></tr><tr><td>; </td><td>Suprimir salida</td></tr><tr><td>Ctrl + Intro </td><td>Evaluar en modo num\xe9rico</td></tr><tr><td>Alt + Intro </td><td>Controlar entrada</td></tr><tr><td>Escape</td><td>Borrar entrada</td></tr><tr><td>$</td><td>Salida previa (referencia din\xe1mica)</td></tr><tr><td>#</td><td>Salida previa (referencia est\xe1tica)</td></tr><tr><td>$3</td><td>Salida de tercera celda (referencia din\xe1mica)</td></tr><tr><td>#3</td><td>Salida de tercera celda (referencia est\xe1tica)</td></tr><tr><td>F1</td><td>Ayuda sobre el comando en uso</td></tr><tr><td>TAB</td><td>Muestra el siguiente comando correspondiente</td></tr></table><p><br><b>Auto-completado de Comandos</b><br>Tras anotar las dos primeras letras de un comando<br>GeoGebra completar\xe1 el comando autom\xe1ticamente.</p><table border=\"1\"><tr><td>Intro </td><td>Aceptar el comando propuesto</td></tr><tr><td>Otra letra</td><td>Adaptar el comando propuesto</td></tr></table></body></html>",
     "CASInitializing": "Inicializando CAS",
     "CASPlot": "Representa",
