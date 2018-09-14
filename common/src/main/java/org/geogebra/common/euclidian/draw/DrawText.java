@@ -380,41 +380,40 @@ public final class DrawText extends Drawable {
 		GeoPointND startPoint;
 		int h;
 		switch (handler) {
-			case TOP:
-				if ((maxY - mouseY) < text.getTextHeight()) {
-					return;
-				}
-				startPoint = text.getStartPoint();
-				startPoint.setCoords(startPoint.getInhomX(), view.toRealWorldCoordY(mouseY), 1.0);
-				h = (int) (maxY - mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN);
-				labelRectangle.setSize((int) labelRectangle.getWidth(), h);
-				break;
-			case BOTTOM:
-				if ((mouseY - minY) < text.getTextHeight()) {
-					return;
-				}
-				h = (int) (mouseY - minY + EuclidianStatic.EDITOR_MARGIN);
-				labelRectangle.setSize((int) labelRectangle.getWidth(),
-						h);
-				break;
-			case RIGHT:
-				if ((mouseX - minX) < MIN_EDITOR_WIDTH) {
-					return;
-				}
-				labelRectangle.setSize((int) (mouseX - minX + EuclidianStatic.EDITOR_MARGIN),
-						(int) labelRectangle.getHeight());
-				break;
-			case LEFT:
-				if ((maxX - mouseX) < MIN_EDITOR_WIDTH) {
-					return;
-				}
-				labelRectangle.setSize((int) (maxX - mouseX + EuclidianStatic.EDITOR_MARGIN),
-						(int) labelRectangle.getHeight());
-				startPoint = text.getStartPoint();
-				startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
-				break;
-			default:
-				break;
+		case TOP:
+			if ((maxY - mouseY) < text.getTextHeight()) {
+				return;
+			}
+			startPoint = text.getStartPoint();
+			startPoint.setCoords(startPoint.getInhomX(), view.toRealWorldCoordY(mouseY), 1.0);
+			h = (int) (maxY - mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN);
+			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
+			break;
+		case BOTTOM:
+			if ((mouseY - minY) < text.getTextHeight()) {
+				return;
+			}
+			h = (int) (mouseY - minY + EuclidianStatic.EDITOR_MARGIN);
+			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
+			break;
+		case RIGHT:
+			if ((mouseX - minX) < MIN_EDITOR_WIDTH) {
+				return;
+			}
+			labelRectangle.setSize((int) (mouseX - minX + EuclidianStatic.EDITOR_MARGIN),
+					(int) labelRectangle.getHeight());
+			break;
+		case LEFT:
+			if ((maxX - mouseX) < MIN_EDITOR_WIDTH) {
+				return;
+			}
+			labelRectangle.setSize((int) (maxX - mouseX + EuclidianStatic.EDITOR_MARGIN),
+					(int) labelRectangle.getHeight());
+			startPoint = text.getStartPoint();
+			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
+			break;
+		default:
+			break;
 		}
 		text.update();
 	}
