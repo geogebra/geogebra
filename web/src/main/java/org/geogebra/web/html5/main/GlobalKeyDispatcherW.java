@@ -583,7 +583,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	// $wnd.console.log($wnd.document.activeElement);
 	// }-*/;
 
-
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();

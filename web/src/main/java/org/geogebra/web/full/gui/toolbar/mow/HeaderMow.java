@@ -97,7 +97,7 @@ public class HeaderMow extends FlowPanel
 		openCloseBtn.addStyleName("button");
 		openCloseBtn.addStyleName("openCloseBtn");
 		openCloseBtn.setTitle(appW.getLocalization().getMenu("Close"));
-		ClickStartHandler.init(openCloseBtn, new ClickStartHandler(true,true) {
+		ClickStartHandler.init(openCloseBtn, new ClickStartHandler(true, true) {
 			
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {

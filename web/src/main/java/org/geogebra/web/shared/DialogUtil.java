@@ -6,6 +6,10 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * Helper for share / save dialog.
+ *
+ */
 public class DialogUtil {
 
 	/**
@@ -15,6 +19,9 @@ public class DialogUtil {
 	 *            popup to be hidden on logout
 	 */
 	public static void hideOnLogout(AppW app, final GPopupPanel listener) {
+		if (app.getLoginOperation() == null) {
+			return;
+		}
 		app.getLoginOperation().getView().add(new EventRenderable() {
 			@Override
 			public void renderEvent(BaseEvent event) {

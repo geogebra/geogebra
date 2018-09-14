@@ -228,8 +228,7 @@ public class ToolbarMow extends FlowPanel
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(this);
 		btnRedo = new StandardButton(
-				MaterialDesignResources.INSTANCE.redo_border(), null, 24,
-				appW);
+				MaterialDesignResources.INSTANCE.redo_border(), null, 24, appW);
 		btnRedo.addFastClickHandler(this);
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
