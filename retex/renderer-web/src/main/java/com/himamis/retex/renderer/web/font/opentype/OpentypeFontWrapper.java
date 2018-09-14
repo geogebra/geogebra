@@ -61,6 +61,23 @@ public class OpentypeFontWrapper implements FontWrapper {
 	}
 
 	@Override
+	public native JavaScriptObject getPath(String c, int size) /*-{
+        var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+        // font not loaded yet
+        if (!font) {
+            return;
+        }
+
+        var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
+
+        glyph.size = size;
+        glyph.unitsPerEm = font[0];
+
+        return glyph;
+    }-*/;
+
+	@Override
 	public native void drawGlyph(String c, int x, int y, int size,
 			Context2d ctx) /*-{
 		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
@@ -70,14 +87,12 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var path = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
 
-		path.fill = ctx.fillStyle;
-		path.stroke = null;
-		path.strokeWidth = 1;
-		path.size = size;
+		glyph.size = size;
+		glyph.unitsPerEm = font[0];
 
-		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(*)(path, x, y, ctx);
+		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(*)(glyph, x, y, ctx);
 	}-*/;
 
 	@Override
@@ -97,78 +112,54 @@ public class OpentypeFontWrapper implements FontWrapper {
 		}
 
 		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(text);
-		return [ glyph[1], glyph[2], glyph[3], glyph[4] ];
-	}-*/;
 
-	@Override
-	public native JavaScriptObject getGlyphOutline(String c, int size) /*-{
-		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
-
-		// font not loaded yet
-		if (!font) {
-			return;
-		}
-
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
-
-		glyph.stroke = null;
-		glyph.strokeWidth = 1;
-		glyph.size = size;
-		return glyph;
+		return [ glyph[1] / font[0], glyph[2] / font[0], glyph[3] / font[0], glyph[4] / font[0] ];
 	}-*/;
 
 	private native JavaScriptObject getGlyph(String c) /*-{
 		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
-		return font[charToGlyphIndex(c)];
-
-		function charToGlyphIndex(c) {
-			var code = c.codePointAt(0);
-			for (i = 0; i < font.length; i += 1) {
-				var glyph = font[i];
-				for (j = 0; j < font[0].length; j += 1) {
-					if (glyph[0][j] === code) {
-						return i;
-					}
+		var code = c.codePointAt(0);
+		for (i = 1; i < font.length; i += 1) {
+			var glyph = font[i];
+			for (j = 0; j < glyph[0].length; j += 1) {
+				if (glyph[0][j] === code) {
+					return font[i];
 				}
 			}
-
-			return 0;
 		}
+
+		return null;
 	}-*/;
 
 	public static native void drawPath(JavaScriptObject path, int x, int y,
 			Canvas ctx) /*-{
-		var xScale = path.size / 1000;
-		var yScale = path.size / 1000;
+		var xScale = path.size / path.unitsPerEm;
+		var yScale = path.size / path.unitsPerEm;
 
 		ctx.beginPath();
-		for (i = 0; i < path[5].length; i += 1) {
-			var cmd = path[5][i];
-			if (cmd[0] === 0) {
-				ctx.moveTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
-			} else if (cmd[0] === 1) {
-				ctx.lineTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
-			} else if (cmd[0] === 2) {
-				ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
-						x + cmd[1] * xScale, y + cmd[2] * yScale);
-			} else if (cmd[0] === 3) {
-				ctx.bezierCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale, x
-						+ cmd[5] * xScale, y + cmd[6] * yScale, x + cmd[1]
-						* xScale, y + cmd[2] * yScale);
+		var j = 0;
+		for (i = 0; i < path[6].length; i += 1) {
+			var cmd = path[6][i];
+			if (cmd[0] === 'M') {
+				ctx.moveTo(x + path[5][j] * xScale, y + path[5][j+1] * yScale);
+				j += 2;
+			} else if (cmd[0] === 'L') {
+				ctx.lineTo(x + path[5][j] * xScale, y + path[5][j+1] * yScale);
+				j += 2;
+			} else if (cmd[0] === 'Q') {
+				ctx.quadraticCurveTo(x + path[5][j + 2] * xScale, y + path[5][j + 3] * yScale,
+						x + path[5][j] * xScale, y + path[5][j+1] * yScale);
+				j += 4;
+			} else if (cmd[0] === 'C') {
+				ctx.bezierCurveTo(x + path[5][j + 2] * xScale, y + path[5][j + 3] * yScale,
+						x + path[5][j + 4] * xScale, y + path[5][j + 5] * yScale,
+						x + path[5][j] * xScale, y + path[5][j + 1] * yScale);
+				j += 6;
 			}
 		}
 		ctx.closePath();
 
-		if (path.fill) {
-			ctx.fillStyle = path.fill;
-			ctx.fill();
-		}
-
-		if (path.stroke) {
-			ctx.strokeStyle = path.stroke;
-			ctx.lineWidth = path.strokeWidth;
-			ctx.stroke();
-		}
+		ctx.fill();
 	}-*/;
 }

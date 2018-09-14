@@ -63,7 +63,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 
 	public OpentypeFont(String name, int style, int size) {
 		super(name, style, size);
-		fontLoadCallbacks = new ArrayList<FontLoadCallback>();
+		fontLoadCallbacks = new ArrayList<>();
 	}
 
 	@Override
@@ -138,31 +138,9 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 			throw new Error("font not loaded yet");
 		}
 
-		JavaScriptObject outline = wrap.getGlyphOutline(s, font.getSize());
-		double xMin = xMin(outline);
-		double xMax = xMax(outline);
-		double yMin = yMin(outline);
-		double yMax = yMax(outline);
-		Rectangle2D rect = FactoryProvider.getInstance().getGeomFactory()
-				.createRectangle2D(xMin, yMin, xMax - xMin, yMax - yMin);
+		JavaScriptObject outline = wrap.getPath(s, font.getSize());
+		Rectangle2D rect = wrap.measureGlyph(s);
 		return new ShapeW(outline, rect);
 	}
-
-	private native double xMin(JavaScriptObject outline) /*-{
-		return outline[1] / 1000;
-	}-*/;
-
-	private native double xMax(JavaScriptObject outline) /*-{
-		return outline[2] / 1000;
-	}-*/;
-
-	private native double yMin(JavaScriptObject outline) /*-{
-		return outline[3] / 1000;
-	}-*/;
-
-	private native double yMax(JavaScriptObject outline) /*-{
-		return outline[4] / 1000;
-	}-*/;
-
 
 }

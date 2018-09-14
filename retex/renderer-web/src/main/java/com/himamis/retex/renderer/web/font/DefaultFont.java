@@ -109,7 +109,7 @@ public class DefaultFont extends FontW implements FontWrapper {
 		return new Rectangle2DW(0, -height, width, height);
 	}
 
-	public JavaScriptObject getGlyphOutline(String s, int size) {
+	public JavaScriptObject getPath(String s, int size) {
 		return getGlyphOutlineNative(s, size, getCssFontString());
 	}
 

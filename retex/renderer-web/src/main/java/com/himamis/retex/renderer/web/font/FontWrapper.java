@@ -67,6 +67,6 @@ public interface FontWrapper {
 	 * @param size
 	 * @return object that can be drawn to canvas with object.draw(ctx)
 	 */
-	JavaScriptObject getGlyphOutline(String c, int size);
+	JavaScriptObject getPath(String c, int size);
 
 }
