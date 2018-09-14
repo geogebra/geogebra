@@ -108,7 +108,11 @@ public class KeyboardInputAdapter {
         adapters.add(new StringInput() {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
-                typeCharacter(mfi, input.charAt(0));
+				// fix for Mac calling typeCharacter twice for special
+				// characters with ^
+				if (input.charAt(0) != '^') {
+					typeCharacter(mfi, input.charAt(0));
+				}
             }
 
             @Override

@@ -658,7 +658,7 @@ public class InputController {
 
 	/**
 	 * Insert symbol.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -756,7 +756,7 @@ public class InputController {
 
 	/**
 	 * Delete container, move its content to the parent.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -824,7 +824,7 @@ public class InputController {
 
 	/**
 	 * Remove character left to the cursor
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -866,7 +866,7 @@ public class InputController {
 
 	/**
 	 * Delete a character to the right of the cursor
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -958,7 +958,7 @@ public class InputController {
 
 	/**
 	 * set ret to characters (no digit) around cursor
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @param ret
@@ -999,7 +999,7 @@ public class InputController {
 
 	/**
 	 * Delete selection.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return success
@@ -1155,7 +1155,7 @@ public class InputController {
 
 	/**
 	 * Select next argument in suggested command.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return success
@@ -1176,7 +1176,7 @@ public class InputController {
 
 	/**
 	 * Select first argument in suggested command.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return success
@@ -1249,7 +1249,7 @@ public class InputController {
 
 	/**
 	 * Handle tab key.
-	 * 
+	 *
 	 * @param shiftDown
 	 *            whether shift is pressed
 	 */
