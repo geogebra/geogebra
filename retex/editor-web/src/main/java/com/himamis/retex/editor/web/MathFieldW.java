@@ -823,12 +823,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					// so flatten the result and send just the last character
 					String data = Korean.flattenKorean(event.getData());
 
-					// also convert to compatibility Jamo
-					// as that's what the editor expects
-					insertString("" + Korean.convertToCompatibilityJamo(
-							data.charAt(data.length() - 1)));
-					// logNative("onCompositionUpdate" + event.getData());
-
+					// fix for swedish
+					if (!"^".equals(data)) {
+						// also convert to compatibility Jamo
+						// as that's what the editor expects
+						insertString("" + Korean.convertToCompatibilityJamo(
+								data.charAt(data.length() - 1)));
+						// logNative("onCompositionUpdate" + event.getData());
+					}
 				}
 			});
 
