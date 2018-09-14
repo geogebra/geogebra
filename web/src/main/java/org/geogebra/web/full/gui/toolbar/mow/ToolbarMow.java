@@ -252,8 +252,6 @@ public class ToolbarMow extends FlowPanel
 	}
 
 	/**
-	 * get the undo/redo panel
-	 * 
 	 * @return undo/redo panel
 	 */
 	public PersistablePanel getUndoRedoButtons() {

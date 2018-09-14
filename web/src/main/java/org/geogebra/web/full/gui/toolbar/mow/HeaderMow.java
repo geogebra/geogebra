@@ -10,7 +10,9 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -59,8 +61,9 @@ public class HeaderMow extends FlowPanel
 		center = new FlowPanel();
 		center.addStyleName("center");
 		center.addStyleName("indicatorLeft");
-		center.getElement().setInnerHTML(center.getElement().getInnerHTML()
-				+ "<div class=\"indicator\"></div>");
+		Element indicator = DOM.createDiv();
+		indicator.addClassName("indicator");
+		center.getElement().insertFirst(indicator);
 		penPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.mow_pen_panel(), "Pen");
 		penPanelBtn.addStyleName("flatButton");
@@ -89,7 +92,8 @@ public class HeaderMow extends FlowPanel
 				getIcon(MaterialDesignResources.INSTANCE
 						.toolbar_close_portrait_white())),
 				appW);
-		openCloseBtn.setStyleName("flatButton button");
+		openCloseBtn.setStyleName("flatButton");
+		openCloseBtn.addStyleName("button");
 		openCloseBtn.addStyleName("openCloseBtn");
 		openCloseBtn.setTitle(appW.getLocalization().getMenu("Close"));
 		ClickStartHandler.init(openCloseBtn, new ClickStartHandler(true,true) {
