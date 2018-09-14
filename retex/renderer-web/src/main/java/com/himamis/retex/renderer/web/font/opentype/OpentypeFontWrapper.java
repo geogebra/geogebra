@@ -62,8 +62,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 	
 	@Override
 	public native void drawGlyph(String c, int x, int y, int size, Context2d ctx) /*-{
-		var that = this;
-		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
 		// font not loaded yet
 		if (!font) {
@@ -89,8 +88,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 	}
 
 	private native JsArrayNumber measureNative(String text) /*-{
-		var that = this;
-		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
 		// font not loaded yet
 		if (!font) {
@@ -103,8 +101,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 	@Override
 	public native JavaScriptObject getGlyphOutline(String c, int size) /*-{
-		var that = this;
-		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
 		// font not loaded yet
 		if (!font) {
@@ -113,30 +110,29 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
 
-        glyph.stroke = null;
-        glyph.strokeWidth = 1;
-        glyph.size = size;
+		glyph.stroke = null;
+		glyph.strokeWidth = 1;
+		glyph.size = size;
 		return glyph;
 	}-*/;
 
 	private native JavaScriptObject getGlyph(String c) /*-{
-        var that = this;
-        var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
-        return font[charToGlyphIndex(c)];
+		return font[charToGlyphIndex(c)];
 
-        function charToGlyphIndex(c) {
-            var code = c.codePointAt(0);
-            for (i = 0; i < font.length; i += 1) {
-                var glyph = font[i];
-                for (j = 0; j < font[0].length; j += 1) {
-                    if (glyph[0][j] === code) {
-                        return i;
-                    }
-                }
-            }
+		function charToGlyphIndex(c) {
+			var code = c.codePointAt(0);
+			for (i = 0; i < font.length; i += 1) {
+				var glyph = font[i];
+				for (j = 0; j < font[0].length; j += 1) {
+					if (glyph[0][j] === code) {
+						return i;
+					}
+				}
+			}
 
-            return 0;
+			return 0;
 		}
 	}-*/;
 
@@ -152,15 +148,15 @@ public class OpentypeFontWrapper implements FontWrapper {
 			} else if (cmd[0] === 1) {
 				ctx.lineTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
 			} else if (cmd[0] === 2) {
-                ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
-                    x + cmd[1] * xScale, y + cmd[2] * yScale);
+				ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
+					x + cmd[1] * xScale, y + cmd[2] * yScale);
 			} else if (cmd[0] === 3) {
 				ctx.bezierCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
 					x + cmd[5] * xScale, y + cmd[6] * yScale,
 					x + cmd[1] * xScale, y + cmd[2] * yScale);
 			}
 		}
-        ctx.closePath();
+		ctx.closePath();
 
 		if (path.fill) {
 			ctx.fillStyle = path.fill;
