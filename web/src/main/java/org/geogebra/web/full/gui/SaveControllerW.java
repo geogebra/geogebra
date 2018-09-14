@@ -7,11 +7,14 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -32,7 +35,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  * @author laszlo
  *
  */
-public class SaveControllerW implements SaveController {
+public class SaveControllerW implements SaveController, EventRenderable {
 
 	private AppW app;
 	private Localization loc;
@@ -51,6 +54,7 @@ public class SaveControllerW implements SaveController {
 	public SaveControllerW(AppW app) {
 		this.app = app;
 		loc = app.getLocalization();
+		app.getLoginOperation().getView().add(this);
 	}
 
 	/**
@@ -436,5 +440,11 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public void setRunAfterSave(AsyncOperation<Boolean> runAfterSave) {
 		this.runAfterSave = runAfterSave;
+	}
+
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LogOutEvent && listener != null) {
+			listener.hide();
+		}
 	}
 }
