@@ -3,8 +3,10 @@
 .GeoGebraFrame{
 	$toolbarWidth: 600px;
 	$toolbarHeight: 56px;
+	$submenuHeight: 300px;
 	$z_mow_toolbar: 51;
 	$z_mow_toolbar_panel: 50;
+	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	
 	.toolbarMow {
 	    bottom: 300px;
@@ -74,10 +76,19 @@
 	
 		.toolbarMowPanel {
 			background-color: lightgrey;
-			height: 245px;
+			height: 244px;
 			z-index: $z_mow_toolbar_panel;
 		}
 	}
+
+	.showMowSubmenu { 
+	    bottom: $submenuHeight;
+	    transition: $mowsubmenu-transition;
+	} 
+	.hideMowSubmenu { 
+	    bottom: $toolbarHeight;
+	    transition: $mowsubmenu-transition;
+	} 
 }
 
 

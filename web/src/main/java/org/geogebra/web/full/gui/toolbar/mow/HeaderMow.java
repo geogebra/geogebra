@@ -1,14 +1,18 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -81,14 +85,20 @@ public class HeaderMow extends FlowPanel
 	}
 
 	private void createRight() {
-		openCloseBtn = new MyToggleButton(appW);
-		openCloseBtn.setUpfaceDownfaceImg(
-				MaterialDesignResources.INSTANCE.toolbar_open_portrait_white(),
-				MaterialDesignResources.INSTANCE
-						.toolbar_close_portrait_white());
+		openCloseBtn = new MyToggleButton(new Image(
+				getIcon(MaterialDesignResources.INSTANCE
+						.toolbar_close_portrait_white())),
+				appW);
 		openCloseBtn.setStyleName("flatButton button");
 		openCloseBtn.addStyleName("openCloseBtn");
-		openCloseBtn.setTitle(appW.getLocalization().getMenu("Open"));
+		openCloseBtn.setTitle(appW.getLocalization().getMenu("Close"));
+		ClickStartHandler.init(openCloseBtn, new ClickStartHandler(true,true) {
+			
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				onOpenClose();
+			}
+		});
 		content.add(openCloseBtn);
 	}
 
@@ -118,5 +128,42 @@ public class HeaderMow extends FlowPanel
 			break;
 		}
 		toolbar.tabSwitch(tab);
+	}
+
+	/**
+	 * on open/close toolbar
+	 */
+	public void onOpenClose() {
+		toolbar.setStyleName(
+				toolbar.isOpen() ? "hideMowSubmenu" : "showMowSubmenu");
+		toggleCloseButton();
+		toolbar.setOpen(!toolbar.isOpen());
+		toolbar.addStyleName("toolbarMow");
+	}
+
+	/**
+	 * Toggles the open/close icon for open/close button
+	 */
+	public void toggleCloseButton() {
+		Image upFace = new Image(getIcon(MaterialDesignResources.INSTANCE
+				.toolbar_open_portrait_white()));
+		upFace.getElement().setAttribute("draggable", "false");
+		Image downFace = new Image(getIcon(MaterialDesignResources.INSTANCE
+				.toolbar_close_portrait_white()));
+		downFace.getElement().setAttribute("draggable", "false");
+		openCloseBtn.getUpFace().setImage(toolbar.isOpen() ? upFace : downFace);
+		openCloseBtn.setTitle(
+				appW.getLocalization()
+						.getMenu(toolbar.isOpen() ? "Open" : "Close"));
+	}
+
+	/**
+	 * @param resource
+	 *            svg source
+	 * @return image resource
+	 */
+	public static ImageResourcePrototype getIcon(SVGResource resource) {
+		return new ImageResourcePrototype(null, resource.getSafeUri(), 0, 0, 24,
+				24, false, false);
 	}
 }

@@ -68,6 +68,21 @@ public class ToolbarMow extends FlowPanel
 		initGui();
 	}
 
+	/**
+	 * @return true if toolbar is open
+	 */
+	public boolean isOpen() {
+		return isOpen;
+	}
+
+	/**
+	 * @param isOpen
+	 *            true if toolbar is open
+	 */
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+
 	private void initGui() {
 		addStyleName("toolbarMow");
 		toolbarPanel = new FlowPanel();
