@@ -357,7 +357,7 @@ public class JLMContext2d extends Context2d {
 
 	final public native void fillOpentype(JavaScriptObject path) /*-{
 		path.fill = this.fillStyle;
-        @com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(*)(path, 0, 0, this);
+		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(path, 0, 0, this);
 	}-*/;
 	
 }
