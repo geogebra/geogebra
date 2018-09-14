@@ -44,6 +44,7 @@
 package com.himamis.retex.renderer.web.font.opentype;
 
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
@@ -60,21 +61,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 	}
 	
 	@Override
-	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
-		drawGlyphNative(c, x, y, size, ctx);
-	}
-
-	@Override
-	public Rectangle2D measureGlyph(String c) {
-		JsArrayNumber obj = JavaScriptObject.createArray(4).cast();
-		measureNative(c, obj);
-		Rectangle2D ret = FactoryProvider.getInstance().getGeomFactory()
-				.createRectangle2D(obj.get(0), obj.get(1),
-						obj.get(2) - obj.get(0), obj.get(3) - obj.get(1));
-		return ret;
-	}
-
-	private native void measureNative(String text, JsArrayNumber arr) /*-{
+	public native void drawGlyph(String c, int x, int y, int size, Context2d ctx) /*-{
 		var that = this;
 		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
@@ -83,43 +70,25 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var glyph = font.charToGlyph(text);
-		arr[0] = glyph.xMin;
-		arr[1] = glyph.yMin;
-		arr[2] = glyph.xMax;
-
-		arr[3] = glyph.yMax;
-	}-*/;
-
-	private native void drawGlyphNative(String c, int x, int y, int size, Context2d ctx) /*-{
-		var that = this;
-		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
-
-		// font not loaded yet
-		if (!font) {
-			return;
-		}
-
-		var path = font.getPath(c, x, y, size);
+		var path = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
 
 		path.fill = ctx.fillStyle;
 		path.stroke = null;
 		path.strokeWidth = 1;
+		path.size = size;
 
-		path.draw(ctx);
+		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(*)(path, x, y, ctx);
 	}-*/;
 
-	/**
-	 * 
-	 * @param c
-	 * @param size
-	 * @return object that can be drawn to canvas with object.draw(ctx)
-	 */
-	public JavaScriptObject getGlyphOutline(String c, int size) {
-		return getGlyphNative(c, size);
+	@Override
+	public Rectangle2D measureGlyph(String c) {
+		JsArrayNumber obj = measureNative(c);
+		return FactoryProvider.getInstance().getGeomFactory()
+				.createRectangle2D(obj.get(0), obj.get(1),
+						obj.get(2) - obj.get(0), obj.get(3) - obj.get(1));
 	}
 
-	private native JavaScriptObject getGlyphNative(String c, int size) /*-{
+	private native JsArrayNumber measureNative(String text) /*-{
 		var that = this;
 		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
@@ -128,18 +97,80 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var path = font.getPath(c, 0, 0, size);
-
-		var glyph = font.charToGlyph(c);
-
-		path.xMin = glyph.xMin / 1000;
-		path.yMin = glyph.yMin / 1000;
-		path.xMax = glyph.xMax / 1000;
-		path.yMax = glyph.yMax / 1000;
-
-		path.stroke = null;
-		path.strokeWidth = 1;
-		return path;
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(text);
+		return [glyph[1], glyph[2], glyph[3], glyph[4]];
 	}-*/;
 
+	@Override
+	public native JavaScriptObject getGlyphOutline(String c, int size) /*-{
+		var that = this;
+		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
+
+        glyph.stroke = null;
+        glyph.strokeWidth = 1;
+        glyph.size = size;
+		return glyph;
+	}-*/;
+
+	private native JavaScriptObject getGlyph(String c) /*-{
+        var that = this;
+        var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+        return font[charToGlyphIndex(c)];
+
+        function charToGlyphIndex(c) {
+            var code = c.codePointAt(0);
+            for (i = 0; i < font.length; i += 1) {
+                var glyph = font[i];
+                for (j = 0; j < font[0].length; j += 1) {
+                    if (glyph[0][j] === code) {
+                        return i;
+                    }
+                }
+            }
+
+            return 0;
+		}
+	}-*/;
+
+	public static native void drawPath(JavaScriptObject path, int x, int y, Canvas ctx) /*-{
+		var xScale = path.size / 1000;
+		var yScale = path.size / 1000;
+
+    	ctx.beginPath();
+		for (i = 0; i < path[5].length; i += 1) {
+			var cmd = path[5][i];
+			if (cmd[0] === 0) {
+				ctx.moveTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
+			} else if (cmd[0] === 1) {
+				ctx.lineTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
+			} else if (cmd[0] === 2) {
+				ctx.bezierCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
+					x + cmd[5] * xScale, y + cmd[6] * yScale,
+					x + cmd[1] * xScale, y + cmd[2] * yScale);
+			} else if (cmd[0] === 3) {
+				ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
+					x + cmd[1] * xScale, y + cmd[2] * yScale);
+			}
+		}
+        ctx.closePath();
+
+		if (path.fill) {
+			ctx.fillStyle = path.fill;
+			ctx.fill();
+		}
+
+		if (path.stroke) {
+			ctx.strokeStyle = path.stroke;
+			ctx.lineWidth = path.strokeWidth;
+			ctx.stroke();
+		}
+	}-*/;
 }

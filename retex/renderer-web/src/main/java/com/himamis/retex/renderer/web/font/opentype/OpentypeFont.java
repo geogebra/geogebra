@@ -149,19 +149,19 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 	}
 
 	private native double xMin(JavaScriptObject outline) /*-{
-		return outline.xMin;
+		return outline[1] / 1000;
 	}-*/;
 
 	private native double xMax(JavaScriptObject outline) /*-{
-		return outline.xMax;
+		return outline[2] / 1000;
 	}-*/;
 
 	private native double yMin(JavaScriptObject outline) /*-{
-		return outline.yMin;
+		return outline[3] / 1000;
 	}-*/;
 
 	private native double yMax(JavaScriptObject outline) /*-{
-		return outline.yMax;
+		return outline[4] / 1000;
 	}-*/;
 
 

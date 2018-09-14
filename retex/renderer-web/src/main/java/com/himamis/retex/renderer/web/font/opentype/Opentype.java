@@ -55,7 +55,6 @@ import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.resources.client.TextResource;
 import com.himamis.retex.renderer.web.font.FontLoaderWrapper;
 import com.himamis.retex.renderer.web.font.FontW;
-import com.himamis.retex.renderer.web.resources.js.JsResources;
 import com.himamis.retex.renderer.web.resources.xml.XmlResources;
 
 public class Opentype implements FontLoaderWrapper {
@@ -77,10 +76,8 @@ public class Opentype implements FontLoaderWrapper {
 	private String fontBaseUrl = GWT.getModuleBaseURL();
 
 	private Opentype() {
-		ScriptInjector.fromString(JsResources.INSTANCE.opentypeJs().getText())
-				.setRemoveTag(false).inject();
-		listeners = new ArrayList<OpentypeFontStatusListener>();
-		fonts = new HashMap<String, FontContainer>();
+		listeners = new ArrayList<>();
+		fonts = new HashMap<>();
 	}
 
 	public void addListener(OpentypeFontStatusListener listener) {
@@ -100,8 +97,7 @@ public class Opentype implements FontLoaderWrapper {
 		// removed
 		// from the list throughout the iteration.
 		// see OpentypeFont::onFontLoaded(..)
-		List<OpentypeFontStatusListener> copyList = new ArrayList<OpentypeFontStatusListener>(
-				listeners);
+		List<OpentypeFontStatusListener> copyList = new ArrayList<>(listeners);
 
 		for (OpentypeFontStatusListener listener : copyList) {
 			listener.onFontLoaded(fontWrapper, familyName);
@@ -195,26 +191,10 @@ public class Opentype implements FontLoaderWrapper {
 
 	private native void nativeParseFont(String familyName, boolean frame) /*-{
 		var that = this;
-		var base64EncodedData = (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
-		var decodedArrayBuffer = that.@com.himamis.retex.renderer.web.font.opentype.Opentype::base64ToArrayBuffer(Ljava/lang/String;)(base64EncodedData)
-		var font = opentype.parse(decodedArrayBuffer);
-		if (!font.supported) {
-			that.@com.himamis.retex.renderer.web.font.opentype.Opentype::fireFontInactiveEvent(Ljava/lang/Object;Ljava/lang/String;)("Parse error: font not supported", familyName);
-		} else {
-			that.@com.himamis.retex.renderer.web.font.opentype.Opentype::setFontIsLoaded(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(familyName, font);
-			that.@com.himamis.retex.renderer.web.font.opentype.Opentype::fireFontActiveEvent(Ljava/lang/String;)(font.familyName);
+		var font = (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
 
-		}
-	}-*/;
-
-	private native JavaScriptObject base64ToArrayBuffer(String base64) /*-{
-		var binaryString = $wnd.atob(base64);
-		var length = binaryString.length;
-		var bytes = new Uint8Array(length);
-		for (var i = 0; i < length; i++) {
-			bytes[i] = binaryString.charCodeAt(i);
-		}
-		return bytes.buffer;
+		that.@com.himamis.retex.renderer.web.font.opentype.Opentype::setFontIsLoaded(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(familyName, font);
+		that.@com.himamis.retex.renderer.web.font.opentype.Opentype::fireFontActiveEvent(Ljava/lang/String;)(font.familyName);
 	}-*/;
 
 	@Override

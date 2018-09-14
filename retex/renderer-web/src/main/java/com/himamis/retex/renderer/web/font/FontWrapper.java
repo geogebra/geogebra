@@ -61,6 +61,12 @@ public interface FontWrapper {
 
 	Rectangle2D measureGlyph(String string);
 
+	/**
+	 *
+	 * @param c
+	 * @param size
+	 * @return object that can be drawn to canvas with object.draw(ctx)
+	 */
 	JavaScriptObject getGlyphOutline(String c, int size);
 
 }
