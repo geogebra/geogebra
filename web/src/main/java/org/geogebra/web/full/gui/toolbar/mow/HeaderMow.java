@@ -140,7 +140,8 @@ public class HeaderMow extends FlowPanel
 	 */
 	public void onOpenClose() {
 		toolbar.setStyleName(
-				toolbar.isOpen() ? "hideMowSubmenu" : "showMowSubmenu");
+				toolbar.isOpen() ? "hideMowToolbarPanel"
+						: "showMowToolbarPanel");
 		toggleCloseButton();
 		toolbar.setOpen(!toolbar.isOpen());
 		toolbar.addStyleName("toolbarMow");
