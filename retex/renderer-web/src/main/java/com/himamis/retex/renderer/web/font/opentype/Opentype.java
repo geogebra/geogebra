@@ -190,11 +190,10 @@ public class Opentype implements FontLoaderWrapper {
 	}
 
 	private native void nativeParseFont(String familyName, boolean frame) /*-{
-		var that = this;
 		var font = (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
 
-		that.@com.himamis.retex.renderer.web.font.opentype.Opentype::setFontIsLoaded(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(familyName, font);
-		that.@com.himamis.retex.renderer.web.font.opentype.Opentype::fireFontActiveEvent(Ljava/lang/String;)(font.familyName);
+		this.@com.himamis.retex.renderer.web.font.opentype.Opentype::setFontIsLoaded(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(familyName, font);
+		this.@com.himamis.retex.renderer.web.font.opentype.Opentype::fireFontActiveEvent(Ljava/lang/String;)(familyName);
 	}-*/;
 
 	@Override
