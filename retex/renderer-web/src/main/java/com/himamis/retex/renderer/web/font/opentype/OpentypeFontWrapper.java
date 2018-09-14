@@ -43,6 +43,7 @@
  */
 package com.himamis.retex.renderer.web.font.opentype;
 
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -69,14 +70,14 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var path = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
+		var path = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
 
 		path.fill = ctx.fillStyle;
 		path.stroke = null;
 		path.strokeWidth = 1;
 		path.size = size;
 
-		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(path, x, y, ctx);
+		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(*)(path, x, y, ctx);
 	}-*/;
 
 	@Override
@@ -95,7 +96,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(text);
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(text);
 		return [ glyph[1], glyph[2], glyph[3], glyph[4] ];
 	}-*/;
 
@@ -108,7 +109,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
 
 		glyph.stroke = null;
 		glyph.strokeWidth = 1;
@@ -144,21 +145,17 @@ public class OpentypeFontWrapper implements FontWrapper {
 		ctx.beginPath();
 		for (i = 0; i < path[5].length; i += 1) {
 			var cmd = path[5][i];
-			switch (cmd) {
-			case 0:
+			if (cmd[0] === 0) {
 				ctx.moveTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
-				break;
-			case 1:
+			} else if (cmd[0] === 1) {
 				ctx.lineTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
-			case 2:
+			} else if (cmd[0] === 2) {
 				ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
 						x + cmd[1] * xScale, y + cmd[2] * yScale);
-				break;
-			case 3:
+			} else if (cmd[0] === 3) {
 				ctx.bezierCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale, x
 						+ cmd[5] * xScale, y + cmd[6] * yScale, x + cmd[1]
 						* xScale, y + cmd[2] * yScale);
-				break;
 			}
 		}
 		ctx.closePath();
