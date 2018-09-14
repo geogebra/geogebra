@@ -3734,6 +3734,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_SCIENTIFIC_CALC_IN_APPS_MENU:
 			return prerelease;
 
+		// AND-1323, IGR-987
+		case MOB_CAS_CALC_IN_APPS_MENU:
+			return prerelease;
 
 		// **********************************************************************
 		// MOBILE END
