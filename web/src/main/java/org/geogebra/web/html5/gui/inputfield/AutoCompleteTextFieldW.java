@@ -1043,8 +1043,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
 					e.isShiftKeyDown());
-			GeoElement next = app.getSelectionManager().getSelectedGeos()
-					.get(0);
+			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
+			GeoElement next = selGeos.isEmpty() ? null : selGeos.get(0);
 			if (next instanceof GeoInputBox) {
 				app.getActiveEuclidianView().focusTextField((GeoInputBox) next);
 			} else {
