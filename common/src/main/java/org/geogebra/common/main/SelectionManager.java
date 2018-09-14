@@ -231,6 +231,28 @@ public class SelectionManager {
 	}
 
 	/**
+	 * Removes all geos from selection.
+	 */
+	final public void removeAllSelectedGeos() {
+		if (selectedGeos.isEmpty()) {
+			return;
+		}
+
+		for (GeoElement geo : selectedGeos) {
+			// On desktop selectedGeos.remove(geo) here throws an exception,
+			// so first iterate over, do stuff and then clear the array is the proper way.
+
+			kernel.getApplication().getEventDispatcher().dispatchEvent(EventType.DESELECT, geo);
+			geo.setSelected(false);
+		}
+
+		selectedGeos.clear();
+		updateSelection();
+		kernel.notifyRepaint();
+
+	}
+
+	/**
 	 * @return list of selected geos
 	 */
 	public final ArrayList<GeoElement> getSelectedGeos() {
@@ -649,14 +671,12 @@ public class SelectionManager {
 	 * 
 	 * @param ev
 	 *            The Euclidian View that has the geos to select.
-	 * @param cycle
-	 *            Whether selection from last geo should jump to first.
+	 * 
 	 * @return if select was successful or not.
 	 */
-	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev,
-			boolean cycle) {
+	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
 		if (!kernel.getApplication().has(Feature.SELECT_NEXT_GEO_IN_VIEW)) {
-			return selectNextGeo0(ev, cycle);
+			return selectNextGeo0(ev, true);
 		}
 
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
@@ -675,9 +695,7 @@ public class SelectionManager {
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement next = tree.higher(lastSelected);
 
-		for (GeoElement geo : selectedGeos) {
-			removeSelectedGeo(geo);
-		}
+		removeAllSelectedGeos();
 
 		if (next != null) {
 			addSelectedGeo(next);

@@ -1042,7 +1042,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 
 			app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
-					e.isShiftKeyDown(), true);
+					e.isShiftKeyDown());
 			GeoElement next = app.getSelectionManager().getSelectedGeos()
 					.get(0);
 			if (next instanceof GeoInputBox) {

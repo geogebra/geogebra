@@ -538,7 +538,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
-					event.isShiftKeyDown(), true);
+					event.isShiftKeyDown());
 			keydownPreventsDefaultKeypressTAB = EuclidianViewW
 					.checkTabPress(success);
 
@@ -583,13 +583,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	// $wnd.console.log($wnd.document.activeElement);
 	// }-*/;
 
-	/**
-	 * This method is almost the same as GlobalKeyDispatcher.handleTab, just is
-	 * also return a value whether the operation was successful in case of no
-	 * cycle
-	 */
+
 	@Override
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 
 		if (am == null) {
@@ -615,8 +611,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			forceRet = true;
 		}
 
-		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView(),
-				false);
+		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView());
 
 		return hasNext || forceRet;
 	}

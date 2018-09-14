@@ -189,8 +189,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown,
-			boolean cycle) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 
 		app.getActiveEuclidianView().closeDropdowns();
 
@@ -215,7 +214,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		}
 
 		if (useTab) {
-			super.handleTab(isControlDown, isShiftDown, cycle);
+			super.handleTab(isControlDown, isShiftDown);
 			return true;
 		}
 

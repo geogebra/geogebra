@@ -397,7 +397,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case TAB:
 			if (app.isDesktop()) {
-				consumed = handleTab(isControlDown, isShiftDown, true);
+				consumed = handleTab(isControlDown, isShiftDown);
 			}
 
 			break;
@@ -1058,19 +1058,18 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether control is down
 	 * @param isShiftDown
 	 *            whether shift is down
-	 * @param cycle
-	 *            whether to cycle back
 	 * @return whether key was consumed
 	 */
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown,
-			boolean cycle) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 
-		app.getActiveEuclidianView().closeDropdowns();
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		ev.closeDropdowns();
 
 		if (isShiftDown) {
-			selection.selectLastGeo(app.getActiveEuclidianView());
+			selection.selectLastGeo(ev);
 		} else {
-			selection.selectNextGeo(app.getActiveEuclidianView(), false);
+			selection.selectNextGeo(ev);
 		}
 
 		return true;
