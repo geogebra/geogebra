@@ -93,9 +93,6 @@ public enum Feature {
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
 
-	/** MOW-166 */
-	MOW_AXES_STYLE_SUBMENU,
-
 	/** MOW-55 */
 	MOW_BOUNDING_BOXES,
 

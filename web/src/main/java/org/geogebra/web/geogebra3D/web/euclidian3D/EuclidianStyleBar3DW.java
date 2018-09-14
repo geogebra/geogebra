@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -223,8 +224,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			getView().setViewShowAllObjects(true, false);
 			break;
 		case 2: // standard view orientation
-			getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
-					EuclidianView3D.ANGLE_ROT_XOY, false);
+			getView().setRotAnimation(EuclidianView3DInterface.ANGLE_ROT_OZ,
+					EuclidianView3DInterface.ANGLE_ROT_XOY, false);
 			break;
 
 		// views parallel to axes
