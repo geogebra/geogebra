@@ -152,11 +152,11 @@ public class OpentypeFontWrapper implements FontWrapper {
 			} else if (cmd[0] === 1) {
 				ctx.lineTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
 			} else if (cmd[0] === 2) {
+                ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
+                    x + cmd[1] * xScale, y + cmd[2] * yScale);
+			} else if (cmd[0] === 3) {
 				ctx.bezierCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
 					x + cmd[5] * xScale, y + cmd[6] * yScale,
-					x + cmd[1] * xScale, y + cmd[2] * yScale);
-			} else if (cmd[0] === 3) {
-				ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
 					x + cmd[1] * xScale, y + cmd[2] * yScale);
 			}
 		}
