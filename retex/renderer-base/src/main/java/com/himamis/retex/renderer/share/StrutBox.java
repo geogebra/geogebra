@@ -53,7 +53,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class StrutBox extends Box {
 
-	private static StrutBox empty = new StrutBox();
+	// private static StrutBox empty = new StrutBox();
 
 	public StrutBox() {
 		this(0., 0., 0., 0.);
@@ -68,7 +68,10 @@ public class StrutBox extends Box {
 	}
 
 	public static StrutBox getEmpty() {
-		return empty;
+		// causes problems
+		// return empty;
+		// revert to old code
+		return new StrutBox();
 	}
 
 	public void draw(Graphics2DInterface g2, double x, double y) {
