@@ -43,7 +43,6 @@
  */
 package com.himamis.retex.renderer.web.font.opentype;
 
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -59,9 +58,10 @@ public class OpentypeFontWrapper implements FontWrapper {
 	public OpentypeFontWrapper(JavaScriptObject impl) {
 		this.impl = impl;
 	}
-	
+
 	@Override
-	public native void drawGlyph(String c, int x, int y, int size, Context2d ctx) /*-{
+	public native void drawGlyph(String c, int x, int y, int size,
+			Context2d ctx) /*-{
 		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
 		// font not loaded yet
@@ -82,9 +82,9 @@ public class OpentypeFontWrapper implements FontWrapper {
 	@Override
 	public Rectangle2D measureGlyph(String c) {
 		JsArrayNumber obj = measureNative(c);
-		return FactoryProvider.getInstance().getGeomFactory()
-				.createRectangle2D(obj.get(0), obj.get(1),
-						obj.get(2) - obj.get(0), obj.get(3) - obj.get(1));
+		return FactoryProvider.getInstance().getGeomFactory().createRectangle2D(
+				obj.get(0), obj.get(1), obj.get(2) - obj.get(0),
+				obj.get(3) - obj.get(1));
 	}
 
 	private native JsArrayNumber measureNative(String text) /*-{
@@ -136,29 +136,30 @@ public class OpentypeFontWrapper implements FontWrapper {
 		}
 	}-*/;
 
-	public static native void drawPath(JavaScriptObject path, int x, int y, Canvas ctx) /*-{
+	public static native void drawPath(JavaScriptObject path, int x, int y,
+			Canvas ctx) /*-{
 		var xScale = path.size / 1000;
 		var yScale = path.size / 1000;
 
 		ctx.beginPath();
 		for (i = 0; i < path[5].length; i += 1) {
 			var cmd = path[5][i];
-			switch(cmd) {
+			switch (cmd) {
 			case 0:
 				ctx.moveTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
-			break;
+				break;
 			case 1:
 				ctx.lineTo(x + cmd[1] * xScale, y + cmd[2] * yScale);
 			case 2:
 				ctx.quadraticCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale,
 						x + cmd[1] * xScale, y + cmd[2] * yScale);
-			break;
+				break;
 			case 3:
 				ctx.bezierCurveTo(x + cmd[3] * xScale, y + cmd[4] * yScale, x
 						+ cmd[5] * xScale, y + cmd[6] * yScale, x + cmd[1]
 						* xScale, y + cmd[2] * yScale);
-			break;
-
+				break;
+			}
 		}
 		ctx.closePath();
 
