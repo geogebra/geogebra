@@ -622,14 +622,14 @@ final class PredefinedCommands {
 				return PredefMacros.xarrow_macro(tp, args, Kind.Right);
 			}
 		},
-		xleftandrightarrow(1, 1) {
+		xleftrightarrows(1, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp,
 					final String[] args) {
 				return PredefMacros.xarrow_macro(tp, args, Kind.LeftAndRight);
 			}
 		},
-		xrightandleft(1, 1) {
+		xrightleftarrows(1, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp,
 					final String[] args) {
@@ -659,7 +659,7 @@ final class PredefinedCommands {
 						Kind.LeftRightHarpoons);
 			}
 		},
-		xlr(1, 1) {
+		xleftrightarrow(1, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp,
 					final String[] args) {
