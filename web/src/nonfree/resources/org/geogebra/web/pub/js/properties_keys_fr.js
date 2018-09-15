@@ -1118,7 +1118,7 @@ __GGB__keysVar["fr"].command = {
     "ZoomIn.Syntax": "[ <Facteur> ]\n[ <Facteur>, <Centre> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "R\xe9duire",
     "ZoomOut.Syntax": "[ <Facteur de r\xe9duction> ]\n[ <Facteur de r\xe9duction>, <Centre> ]",
-    "nCr": "nCr",
+    "nCr": "Cbin",
     "nCr.Syntax": "[ <Nombre n>, <Nombre p> ]",
 };
 

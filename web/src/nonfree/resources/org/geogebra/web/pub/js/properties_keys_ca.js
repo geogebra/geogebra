@@ -353,7 +353,7 @@ __GGB__keysVar["ca"].command = {
     "FitLogistic": "RegLog\xedstica",
     "FitLogistic.Syntax": "[ <Llista de Punts> ]",
     "FitPoly": "RegPolin\xf2mica",
-    "FitPoly.Syntax": "[ <Llista de Punts>, <Grau del Polinomi> ]",
+    "FitPoly.Syntax": "[ <Llista de Punts>, <Grau del Polinomi> ]\n[ <Funci\xf3 a m\xe0 al\xe7ada>, <Grau del Polinomi> ]",
     "FitPow": "RegPotencial",
     "FitPow.Syntax": "[ <Llista de Punts> ]",
     "FitSin": "RegSin",
