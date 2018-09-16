@@ -20,7 +20,7 @@ public class ResourceLoaderA implements ResourceLoader {
 	@Override
 	public InputStream loadResource(String path) throws ResourceParseException {
 		try {
-			return mAssetManager.open(BaseObjectHelper.getPath(path));
+			return mAssetManager.open(path);
 		} catch (IOException e) {
 			throw new ResourceParseException("Could not load resource.", e);
 		}
