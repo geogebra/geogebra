@@ -14,4 +14,9 @@ public class MebisLookAndFeel extends GLookAndFeel {
 		return new MebisSignInButton(app);
 	}
 
+	@Override
+	public boolean hasLoginButton() {
+		return false;
+	}
+
 }

@@ -120,11 +120,6 @@ public class LoginOperationW extends LogInOperation {
 	}
 
 	@Override
-	public boolean hasLoginButton() {
-		return StringUtil.empty(app.getArticleElement().getParamLoginURL());
-	}
-
-	@Override
 	public void showLogoutUI() {
 		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
 			Window.open(app.getArticleElement().getParamLogoutURL(), "_blank",

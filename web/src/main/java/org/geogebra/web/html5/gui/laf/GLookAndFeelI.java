@@ -60,4 +60,9 @@ public interface GLookAndFeelI {
 	boolean isGraphingExamSupported();
 
 	boolean hasHeader();
+
+	/**
+	 * @return whether login/logout button should be inside the app
+	 */
+	boolean hasLoginButton();
 }

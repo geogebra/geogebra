@@ -227,4 +227,10 @@ public class GLookAndFeel implements GLookAndFeelI {
 		return true;
 	}
 
+	@Override
+	public boolean hasLoginButton() {
+		// only in web
+		return true;
+	}
+
 }

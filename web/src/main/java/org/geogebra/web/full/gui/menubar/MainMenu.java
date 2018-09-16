@@ -499,7 +499,7 @@ public class MainMenu extends FlowPanel
 
 	private boolean hasLoginButton() {
 		return app.enableFileFeatures() && (app.getLoginOperation() == null
-				|| app.getLoginOperation().hasLoginButton());
+				|| app.getLAF().hasLoginButton());
 	}
 
 	private void removeUserSignIn() {
