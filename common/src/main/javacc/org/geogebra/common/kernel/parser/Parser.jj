@@ -223,28 +223,6 @@ public class Parser implements ParserInterface{
 
 		return new MyDouble(kernel, val);
 	}
-	
-	private MyDouble parseDouble(String image, boolean percent) {
-		double val = MyDouble.parseDouble(loc, image);
-		if (percent) {
-			val = val * 0.01;
-		}
-		if (ExternalCASParsing || GeoGebraCASParsing) {
-			// preserve string from CAS: it may have higher
-			// precision than double
-			return new MySpecialDouble(kernel, val, percent ? image + "%" : image);
-		}
-
-		return new MyDouble(kernel, val);
-	}
-	
-	private double parseDoubleZeroOnNull(Token c) {
-		return c == null ? 0.0d : parseDouble(c);
-	}
-	
-	private double parseDouble(Token c) {
-		return MyDouble.parseDouble(loc, c.image);
-	}
 
 }
 PARSER_END(Parser)
@@ -317,11 +295,8 @@ TOKEN :  {
   | < IMAGINARY: ("\u03af") > // imaginary constant
   // 02da is "Ring Above", Alt-k in iPad
   // 00ba is Masculine ordinal indicator Alt-zero on OSX
-  | < DEGREE_SYMBOL:   ( "\u00b0" | "\u02da" | "\u00ba") >
-  | < DEGREE:   ( <DEGREE_SYMBOL> | "deg") >
+  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" | "deg") >
   | < GRADIAN:   ( "\u1D4D") > // superscript g
-  | < ANGLE_MINUTES:   ( "\u2032" | "'") >
-  | < ANGLE_SECONDS:   ( "\u2033" | "\u2032\u2032" | "''") >
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
   | < DERIVATIVE: "'" >
@@ -1628,57 +1603,15 @@ Command spreadsheetRange():
 ExpressionValue myDouble():
 {
     Token c;
-    Token c2 = null;
-    Token s = null;
     Token percent = null;
-    Token degree = null;
-    Token minutes = null;
-    Token seconds = null;
     MyDouble d;
 }
 {
    (
-     (c = <FLOAT> | c = <EFLOAT>)
-     (percent ="%" 
-     | (degree = <DEGREE_SYMBOL>)
-       ((c2 = <FLOAT>)
-        ((minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
-         |(<ANGLE_SECONDS>)
-        )
-       )?
-     | (minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
-     | seconds = <ANGLE_SECONDS>
-     )?
+     (c = <FLOAT> | c = <EFLOAT>)(percent ="%")?
     )
   {
-  	 String image = c.image.replaceFirst("e", "E");
-  	 boolean isAngle = false;
-  	 double vd = 0, vm = 0, vs = 0;
-  	 if (degree != null) {
-  	 	isAngle = true;
-  		vd = MyDouble.parseDouble(loc, image);
-  		if (c2 != null) {
-  			if (minutes != null) {
-  				vm = parseDouble(c2);
-  				vs = parseDoubleZeroOnNull(s);
-  			} else {
-  				vs = parseDouble(c2);
-  			}
-  		}
-  	 } else if (minutes != null) {
-  	 	isAngle = true;
-  		vm = MyDouble.parseDouble(loc, image);
-  		vs = parseDoubleZeroOnNull(s);
-  	 } else if (seconds != null) {
-  	 	isAngle = true;
-  	 	vs = MyDouble.parseDouble(loc, image);
-  	 }
-  	 if (isAngle) {
-  		MyDouble ret = new MyDouble(kernel, (vd + (vm + vs / 60.0d) / 60.0d) * Math.PI / 180.0d);
-  		ret.setAngle();
-  		return ret;
-  	 }
-     return parseDouble(image, percent != null);
+     return parseDouble(c, percent != null);
     }
 |
     (c = <DEGREE>)
