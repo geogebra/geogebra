@@ -53,26 +53,8 @@ public class ResourceLoaderD implements ResourceLoader {
 
 	@Override
 	public InputStream loadResource(String path) throws ResourceParseException {
-		InputStream is = FactoryProviderDesktop.class.getResourceAsStream(
+		return FactoryProviderDesktop.class.getResourceAsStream(
 				"/com/himamis/retex/renderer/desktop/" + path);
-		if (is != null) {
-			//System.out.println("absolute path used for:" + path);
-			return is;
-		}
-		is = FactoryProviderDesktop.class.getResourceAsStream(
-				"/com/himamis/retex/renderer/desktop/greek/" + path);
-		if (is != null) {
-			// System.out.println("absolute path used for:" + path);
-			return is;
-		}
-		is = FactoryProviderDesktop.class.getResourceAsStream(
-				"/com/himamis/retex/renderer/desktop/cyrillic/" + path);
-		if (is != null) {
-			// System.out.println("absolute path used for:" + path);
-			return is;
-		}
-
-		return FactoryProviderDesktop.class.getResourceAsStream(path);
 	}
 
 }
