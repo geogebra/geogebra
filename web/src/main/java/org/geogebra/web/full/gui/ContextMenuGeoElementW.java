@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Command;
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.ContextMenuGeoElement;
@@ -43,7 +41,10 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
-import java.util.ArrayList;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Command;
 
 /**
  * @author gabor
@@ -758,7 +759,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * update edit menu item
 	 */
 	protected void updateEditItems() {
-
+		// overridden in subclass
 	}
 
 	private void addPin() {
@@ -1238,11 +1239,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		wrappedPopup.show(p);
 		focusDeferred();
 	}
-
-	// public void reInit(ArrayList<GeoElement> geos, GPoint location) {
-	// initPopup((AppW) this.app, geos);
-	// addOtherItems();
-	// }
 
 	@Override
 	public void removeFromDOM() {

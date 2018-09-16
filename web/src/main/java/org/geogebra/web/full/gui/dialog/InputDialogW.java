@@ -4,6 +4,7 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -396,6 +397,21 @@ public class InputDialogW extends InputDialog
 		}
 	}
 
+	protected void actionPerformedSimple(DomEvent e) {
+		Object source = e.getSource();
+
+		try {
+			if (source == btOK || sourceShouldHandleOK(source)) {
+				processInput();
+			} else if (source == btCancel) {
+				setVisible(false);
+			}
+		} catch (Exception ex) {
+			// do nothing on uninitializedValue
+			setVisible(false);
+		}
+	}
+
 	protected void resetMode() {
 		// only needed for texts
 
@@ -498,4 +514,33 @@ public class InputDialogW extends InputDialog
 	public void resetError() {
 		showError(null);
 	}
+
+	private void processInput() {
+		// avoid labeling of num
+		final Construction cons = app.getKernel().getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		getInputHandler().processInput(inputPanel.getText(), this,
+				new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
+
+						if (ok) {
+							toolAction();
+						}
+						setVisible(!ok);
+					}
+				});
+	}
+
+	/**
+	 * Callback for tool dialogs
+	 */
+	protected void toolAction() {
+		// overridden in subclasses
+	}
+
 }
