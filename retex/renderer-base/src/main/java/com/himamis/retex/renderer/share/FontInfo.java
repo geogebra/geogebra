@@ -92,7 +92,6 @@ public class FontInfo {
 
 	// font
 	private Font font;
-	private final Object base;
 	private final String path;
 
 	private final Map<CharCouple, Character> lig = new HashMap<CharCouple, Character>();
@@ -120,12 +119,11 @@ public class FontInfo {
 	protected final String ttVersion;
 	protected final String itVersion;
 
-	public FontInfo(int fontId, Object base, String path, int unicode,
+	public FontInfo(int fontId, String path, int unicode,
 			double xHeight,
 			double space, double quad, String boldVersion, String romanVersion, String ssVersion,
 			String ttVersion, String itVersion) {
 		this.fontId = fontId;
-		this.base = base;
 		this.path = path;
 		this.xHeight = xHeight;
 		this.space = space;

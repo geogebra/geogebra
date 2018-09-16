@@ -172,7 +172,6 @@ public class DefaultTeXFontParser {
 	private Map<String, CharFont[]> parsedTextStyles;
 
 	private Element root;
-	private Object base = null;
 
 	static {
 		// string-to-constant mappings
@@ -196,17 +195,6 @@ public class DefaultTeXFontParser {
 	}
 
 	public DefaultTeXFontParser(Object file, String name) throws ResourceParseException {
-		resource = new Resource();
-		parserAdapter = new ParserAdapter();
-		try {
-			root = parserAdapter.createParserAndParseFile(file, true, true);
-		} catch (Exception e) { // JDOMException or IOException
-			throw new XMLResourceParseException(name, e);
-		}
-	}
-
-	public DefaultTeXFontParser(Object base, Object file, String name) throws ResourceParseException {
-		this.base = base;
 		resource = new Resource();
 		parserAdapter = new ParserAdapter();
 		try {
@@ -268,7 +256,7 @@ public class DefaultTeXFontParser {
 		String path = name.substring(0, name.lastIndexOf("/") + 1) + fontName;
 
 		// create FontInfo-object
-		FontInfo info = new FontInfo(Font_ID.indexOf(fontId), base, path,
+		FontInfo info = new FontInfo(Font_ID.indexOf(fontId), path,
 				unicode, xHeight, space,
 				quad, bold, roman, ss, tt, it);
 
