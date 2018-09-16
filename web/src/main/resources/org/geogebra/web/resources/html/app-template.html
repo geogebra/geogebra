@@ -473,7 +473,7 @@ function insertScript(){
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if(e("ggw")){
 			for (var key in defaultParams) {
-				e("ggw").setAttribute("data-param-" + key, defaultParams[i]);
+				e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
 			}
 			if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
 				setPrerelease(prerelease || "true");

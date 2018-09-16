@@ -17,14 +17,13 @@ public abstract class InputDialog implements ErrorHandler {
 	private String initString;
 	private InputHandler inputHandler;
 	protected String inputText = null;
-	protected ArrayList<GeoElement> tempArrayList = new ArrayList<>();
 
 	protected void processInputHandler(AsyncOperation<Boolean> callback) {
 		getInputHandler().processInput(inputText, this, callback);
 	}
 
 	protected void openProperties(App app, GeoElement geo) {
-		tempArrayList.clear();
+		ArrayList<GeoElement> tempArrayList = new ArrayList<>(1);
 		tempArrayList.add(geo);
 		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
 				tempArrayList);
