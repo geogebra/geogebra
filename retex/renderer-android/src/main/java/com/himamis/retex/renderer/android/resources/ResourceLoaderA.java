@@ -3,7 +3,6 @@ package com.himamis.retex.renderer.android.resources;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.himamis.retex.renderer.android.BaseObjectHelper;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.platform.resources.ResourceLoader;
 
