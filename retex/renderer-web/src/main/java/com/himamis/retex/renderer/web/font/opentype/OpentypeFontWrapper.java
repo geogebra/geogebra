@@ -62,24 +62,6 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 	@Override
 	public native JavaScriptObject getPath(String c, int size) /*-{
-        var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
-
-        // font not loaded yet
-        if (!font) {
-            return;
-        }
-
-        var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
-
-        glyph.size = size;
-        glyph.unitsPerEm = font[0];
-
-        return glyph;
-    }-*/;
-
-	@Override
-	public native void drawGlyph(String c, int x, int y, int size,
-			Context2d ctx) /*-{
 		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
 
 		// font not loaded yet
@@ -87,12 +69,41 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(c);
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
+
+		if (!glyph) {
+			return;
+		}
 
 		glyph.size = size;
 		glyph.unitsPerEm = font[0];
 
-		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(*)(glyph, x, y, ctx);
+		return glyph;
+	}-*/;
+
+	@Override
+	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
+		drawGlyphNative(c, x, y, size, ctx);
+	}
+
+
+	public native void drawGlyphNative(String c, double x, double y,
+			double size, Context2d ctx) /*-{
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
+
+		if (glyph) {
+			glyph.size = size;
+			glyph.unitsPerEm = font[0];
+
+			@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(glyph, x, y, ctx);
+		}
 	}-*/;
 
 	@Override
@@ -111,9 +122,10 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return;
 		}
 
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(*)(text);
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(text);
 
-		return [ glyph[1] / font[0], glyph[2] / font[0], glyph[3] / font[0], glyph[4] / font[0] ];
+		return [ glyph[1] / font[0], glyph[2] / font[0], glyph[3] / font[0],
+				glyph[4] / font[0] ];
 	}-*/;
 
 	private native JavaScriptObject getGlyph(String c) /*-{
@@ -134,6 +146,11 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 	public static native void drawPath(JavaScriptObject path, int x, int y,
 			Canvas ctx) /*-{
+
+		if (!path) {
+			return;
+		}
+
 		var xScale = path.size / path.unitsPerEm;
 		var yScale = path.size / path.unitsPerEm;
 
@@ -142,19 +159,25 @@ public class OpentypeFontWrapper implements FontWrapper {
 		for (i = 0; i < path[6].length; i += 1) {
 			var cmd = path[6][i];
 			if (cmd[0] === 'M') {
-				ctx.moveTo(x + path[5][j] * xScale, y + path[5][j+1] * yScale);
+				ctx
+						.moveTo(x + path[5][j] * xScale, y + path[5][j + 1]
+								* yScale);
 				j += 2;
 			} else if (cmd[0] === 'L') {
-				ctx.lineTo(x + path[5][j] * xScale, y + path[5][j+1] * yScale);
+				ctx
+						.lineTo(x + path[5][j] * xScale, y + path[5][j + 1]
+								* yScale);
 				j += 2;
 			} else if (cmd[0] === 'Q') {
-				ctx.quadraticCurveTo(x + path[5][j + 2] * xScale, y + path[5][j + 3] * yScale,
-						x + path[5][j] * xScale, y + path[5][j+1] * yScale);
+				ctx.quadraticCurveTo(x + path[5][j + 2] * xScale, y
+						+ path[5][j + 3] * yScale, x + path[5][j] * xScale, y
+						+ path[5][j + 1] * yScale);
 				j += 4;
 			} else if (cmd[0] === 'C') {
-				ctx.bezierCurveTo(x + path[5][j + 2] * xScale, y + path[5][j + 3] * yScale,
-						x + path[5][j + 4] * xScale, y + path[5][j + 5] * yScale,
-						x + path[5][j] * xScale, y + path[5][j + 1] * yScale);
+				ctx.bezierCurveTo(x + path[5][j + 2] * xScale, y
+						+ path[5][j + 3] * yScale, x + path[5][j + 4] * xScale,
+						y + path[5][j + 5] * yScale, x + path[5][j] * xScale, y
+								+ path[5][j + 1] * yScale);
 				j += 6;
 			}
 		}
