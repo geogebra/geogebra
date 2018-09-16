@@ -39,14 +39,6 @@
         <MapStyle code="small" textStyle="mathnormal"/>
         <MapStyle code="unicode" textStyle="mathnormal"/>
     </DefaultTextStyleMapping>
-    <SymbolMappings>
-        <Mapping include="fonts/base/jlm_base.map.xml"/>
-        <Mapping include="fonts/base/jlm_amssymb.map.xml"/>
-        <Mapping include="fonts/base/jlm_amsfonts.map.xml"/>
-        <Mapping include="fonts/maths/jlm_stmaryrd.map.xml"/>
-        <Mapping include="fonts/maths/jlm_special.map.xml"/>
-        <Mapping include="greek/fonts/jlm_greek.map.xml"/>
-    </SymbolMappings>
     <FontDescriptions>
         <Metrics include="fonts/maths/jlm_msbm10.xml"/>
         <Metrics include="fonts/base/jlm_cmex10.xml"/>
