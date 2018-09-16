@@ -4,7 +4,8 @@ import com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration;
 import com.himamis.retex.renderer.share.greek.GreekRegistration;
 
 public class BaseObjectHelper {
-	public static String getPath(Object base, String name) {
+	public static String getPath(String name) {
+		/*
 		String ret = null;
 		if (base == CyrillicRegistration.class) {
 			ret = "cyrillic/" + name;
@@ -13,6 +14,7 @@ public class BaseObjectHelper {
 		} else {
 			ret = name;
 		}
+		*/
 		return ret;
 	}
 }

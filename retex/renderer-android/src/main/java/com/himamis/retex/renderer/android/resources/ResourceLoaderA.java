@@ -10,16 +10,17 @@ import com.himamis.retex.renderer.share.platform.resources.ResourceLoader;
 import android.content.res.AssetManager;
 
 public class ResourceLoaderA implements ResourceLoader {
-	
+
 	private AssetManager mAssetManager;
-	
+
 	public ResourceLoaderA(AssetManager assetManager) {
 		mAssetManager = assetManager;
 	}
 
-	public InputStream loadResource(Object base, String path) throws ResourceParseException {
+	@Override
+	public InputStream loadResource(String path) throws ResourceParseException {
 		try {
-			return mAssetManager.open(BaseObjectHelper.getPath(base, path));
+			return mAssetManager.open(BaseObjectHelper.getPath(path));
 		} catch (IOException e) {
 			throw new ResourceParseException("Could not load resource.", e);
 		}
