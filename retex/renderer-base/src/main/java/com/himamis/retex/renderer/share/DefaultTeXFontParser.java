@@ -187,7 +187,7 @@ public class DefaultTeXFontParser {
 	public DefaultTeXFontParser() throws ResourceParseException {
 		resource = new Resource();
 		parserAdapter = new ParserAdapter();
-		Object file = resource.loadResource(DefaultTeXFontParser.class, RESOURCE_NAME);
+		Object file = resource.loadResource(RESOURCE_NAME);
 		try {
 			root = parserAdapter.createParserAndParseFile(file, true, true);
 		} catch (Exception e) { // JDOMException or IOException
@@ -306,13 +306,8 @@ public class DefaultTeXFontParser {
 			for (int i = 0; i < list.getLength(); i++) {
 				// get required string attribute
 				String include = getAttrValueAndCheckIfNotNull("include", list.item(i).castToElement());
-				if (base == null) {
-					parseFontDescriptions(fi,
-							resource.loadResource(DefaultTeXFontParser.class, include), include);
-				} else {
-					parseFontDescriptions(fi,
-							resource.loadResource(base, include), include);
-				}
+				parseFontDescriptions(fi,
+						resource.loadResource(include), include);
 			}
 		}
 	}
@@ -322,13 +317,13 @@ public class DefaultTeXFontParser {
 		if (!syms.isNull()) { // element present
 			// get required string attribute
 			String include = getAttrValueAndCheckIfNotNull("include", syms);
-			SymbolAtom.addSymbolAtom(resource.loadResource(base, include), include);
+			SymbolAtom.addSymbolAtom(resource.loadResource(include), include);
 		}
 		Element settings = root.getElementsByTagName("FormulaSettings").item(0).castToElement();
 		if (!settings.isNull()) { // element present
 			// get required string attribute
 			String include = getAttrValueAndCheckIfNotNull("include", settings);
-			TeXFormula.addSymbolMappings(resource.loadResource(base, include), include);
+			TeXFormula.addSymbolMappings(resource.loadResource(include), include);
 		}
 	}
 
@@ -361,17 +356,9 @@ public class DefaultTeXFontParser {
 		}
 	}
 
-	// public static void registerFonts(boolean b) {
-	// shouldRegisterFonts = b;
-	// }
-
 	public static Font createFont(String name) throws ResourceParseException {
-		return createFont(null, name);
-	}
-
-	public static Font createFont(Object base, String name) throws ResourceParseException {
 		FontAdapter fontAdapter = new FontAdapter();
-		return fontAdapter.loadFont(base, name);
+		return fontAdapter.loadFont(name);
 	}
 
 	public Map<String, CharFont> parseSymbolMappings() {

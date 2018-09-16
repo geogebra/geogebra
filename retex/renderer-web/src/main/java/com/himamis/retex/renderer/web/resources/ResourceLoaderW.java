@@ -46,9 +46,7 @@ package com.himamis.retex.renderer.web.resources;
 import java.util.HashMap;
 
 import com.google.gwt.resources.client.TextResource;
-import com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
-import com.himamis.retex.renderer.share.greek.GreekRegistration;
 import com.himamis.retex.renderer.share.platform.resources.ResourceLoader;
 import com.himamis.retex.renderer.web.resources.xml.XmlResources;
 
@@ -56,31 +54,22 @@ public class ResourceLoaderW implements ResourceLoader {
 
 	private static final XmlResources XML_RESOURCES = XmlResources.INSTANCE;
 	private static HashMap<String, TextResource> map = new HashMap<String, TextResource>();
+
 	static {
 		initResources();
 	}
+
 	@Override
-	public Object loadResource(Object base, String path)
+	public Object loadResource(String path)
 			throws ResourceParseException {
 		// base object is either a class or null
-		String fullPath = getPath((Class<?>) base) + path;
-		if (!map.containsKey(fullPath)) {
+		if (!map.containsKey(path)) {
 			throw new ResourceParseException(
 					"Resource not found, please regenerate XmlResource file and ResourceLoader.getResource() methods"
-							+ fullPath);
+							+ path);
 		}
-		return map.get(fullPath).getText();
 
-	}
-
-	private static String getPath(Class<?> clazz) {
-		if (CyrillicRegistration.class.equals(clazz)) {
-			return "cyrillic/";
-	}
-		if (GreekRegistration.class.equals(clazz)) {
-			return "greek/";
-		}
-		return "";
+		return map.get(path).getText();
 	}
 
 	public static void addResource(String path, TextResource res) {
@@ -91,7 +80,7 @@ public class ResourceLoaderW implements ResourceLoader {
 	 * This method was generated based on the available source xml at that time.
 	 * Please regenerate this if you add/delete/rename xmls.
 	 */
-	private static final void initResources() {
+	private static void initResources() {
 
 		addResource("cyrillic/fonts/jlm_wnbx10.xml",
 				XML_RESOURCES.fontsjlm_wnbx10());
@@ -116,15 +105,6 @@ public class ResourceLoaderW implements ResourceLoader {
 
 		addResource("cyrillic/fonts/jlm_wntt10.xml",
 				XML_RESOURCES.fontsjlm_wntt10());
-
-		addResource("cyrillic/fonts/language_cyrillic.xml",
-				XML_RESOURCES.fontslanguage_cyrillic());
-
-		addResource("cyrillic/fonts/mappings_cyrillic.xml",
-				XML_RESOURCES.fontsmappings_cyrillic());
-
-		addResource("cyrillic/fonts/symbols_cyrillic.xml",
-				XML_RESOURCES.fontssymbols_cyrillic());
 
 		addResource("DefaultTeXFont.xml", XML_RESOURCES.DefaultTeXFont());
 
@@ -258,15 +238,6 @@ public class ResourceLoaderW implements ResourceLoader {
 
 		addResource("greek/fonts/jlm_fctrpg.xml",
 				XML_RESOURCES.fontsjlm_fctrpg());
-
-		addResource("greek/fonts/language_greek.xml",
-				XML_RESOURCES.fontslanguage_greek());
-
-		addResource("greek/fonts/mappings_greek.xml",
-				XML_RESOURCES.fontsmappings_greek());
-
-		addResource("greek/fonts/symbols_greek.xml",
-				XML_RESOURCES.fontssymbols_greek());
 
 		addResource("TeXFormulaSettings.xml",
 				XML_RESOURCES.TeXFormulaSettings());

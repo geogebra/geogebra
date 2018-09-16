@@ -343,11 +343,7 @@ public class FontInfo {
 
 	public Font getFont() {
 		if (font == null) {
-			if (base == null) {
-				font = DefaultTeXFontParser.createFont(path);
-			} else {
-				font = DefaultTeXFontParser.createFont(base, path);
-			}
+			font = DefaultTeXFontParser.createFont(path);
 		}
 		return font;
 	}
@@ -355,5 +351,4 @@ public class FontInfo {
 	public static Font getFont(int id) {
 		return fonts.get(id).getFont();
 	}
-
 }

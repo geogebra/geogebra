@@ -43,9 +43,7 @@
  */
 package com.himamis.retex.renderer.web.font;
 
-import com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
-import com.himamis.retex.renderer.share.greek.GreekRegistration;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
 
@@ -58,13 +56,13 @@ public class FontLoaderW implements FontLoader {
 	}
 
 	@Override
-	public Font loadFont(Object fontInt, String name)
+	public Font loadFont(String name)
 			throws ResourceParseException {
 		String fontName = extractFileName(name);
-		String pathName = getPrefix(fontInt) + name;
-		AsyncLoadedFont font = fontLoaderWrapper.createNativeFont(pathName,
+		String pathName = "font/" + name;
+
+		return fontLoaderWrapper.createNativeFont(pathName,
 				fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
-		return font;
 	}
 
 	private static String extractFileName(String filePathName) {
@@ -84,15 +82,5 @@ public class FontLoaderW implements FontLoader {
 		}
 
 		return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0);
-	}
-
-	private static String getPrefix(Object fontInt) {
-		String prefix = "";
-		if (CyrillicRegistration.class.equals(fontInt)) {
-			prefix = "cyrillic/";
-		} else if (GreekRegistration.class.equals(fontInt)) {
-			prefix = "greek/";
-		}
-		return "font/" + prefix;
 	}
 }

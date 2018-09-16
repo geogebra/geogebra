@@ -9,9 +9,9 @@ public class SymbolMappings {
 															// jlm_cmmi10_unchanged
 	private static final int DOT_CHAR = 46; // default 58
 
-	private static Map<String, CharFont> map = new HashMap<String, CharFont>();
-	static {
+	private static Map<String, CharFont> map = new HashMap<>();
 
+	static {
 		add("comma", 59, "jlm_cmmi10_unchanged");
 		add("ldotp", DOT_CHAR, DOT_FONT);
 		add("cdotp", 162, "jlm_cmsy10");
@@ -626,13 +626,13 @@ public class SymbolMappings {
 		add("bigparallel", 134, "jlm_stmary10");
 		add("biginterleave", 135, "jlm_stmary10");
 		add("bignplus", 136, "jlm_stmary10");
+
 		// special
 		add("euro", 69, "jlm_special");
 		add("texteuro", 101, "jlm_special");
 		add("textmu", 109, "jlm_special");
-	}
 
-	public static void addCyrilic() {
+		// Cyrillic
 		add("dotlessi", 305, "jlm_wnr10");
 		add("CYRA", 1040, "jlm_wnr10");
 		add("CYRB", 1041, "jlm_wnr10");
@@ -726,9 +726,8 @@ public class SymbolMappings {
 		add("cyrfita", 1139, "jlm_wnr10");
 		add("cyrbreve", 774, "jlm_wnr10");
 		add("cyrddot", 776, "jlm_wnr10");
-	}
 
-	public static void addGreek() {
+		// Greek
 		add("\u0374", 884, "jlm_fcmrpg");
 		add("\u0375", 885, "jlm_fcmrpg");
 		add("\u037A", 890, "jlm_fcmrpg");

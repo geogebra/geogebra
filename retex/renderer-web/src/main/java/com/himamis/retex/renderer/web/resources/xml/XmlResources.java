@@ -80,15 +80,6 @@ public interface XmlResources extends ClientBundle {
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/cyrillic/fonts/jlm_wntt10.xml")
 	public TextResource fontsjlm_wntt10();
 
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/cyrillic/fonts/language_cyrillic.xml")
-	public TextResource fontslanguage_cyrillic();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/cyrillic/fonts/mappings_cyrillic.xml")
-	public TextResource fontsmappings_cyrillic();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/cyrillic/fonts/symbols_cyrillic.xml")
-	public TextResource fontssymbols_cyrillic();
-
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/DefaultTeXFont.xml")
 	public TextResource DefaultTeXFont();
 
@@ -223,16 +214,6 @@ public interface XmlResources extends ClientBundle {
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/jlm_fctrpg.xml")
 	public TextResource fontsjlm_fctrpg();
-
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/language_greek.xml")
-	public TextResource fontslanguage_greek();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/mappings_greek.xml")
-	public TextResource fontsmappings_greek();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/symbols_greek.xml")
-	public TextResource fontssymbols_greek();
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/TeXFormulaSettings.xml")
 	public TextResource TeXFormulaSettings();

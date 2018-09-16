@@ -55,5 +55,5 @@ public interface ResourceLoader {
 	 *            the path to the resource
 	 * @return resource
 	 */
-	public Object loadResource(Object base, String path) throws ResourceParseException;
+	public Object loadResource(String path) throws ResourceParseException;
 }

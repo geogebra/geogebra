@@ -79,7 +79,7 @@ public class GlueSettingsParser {
 			setStyleMappings();
 			ParserAdapter parserAdapter = new ParserAdapter();
 			Resource resource = new Resource();
-			Object input = resource.loadResource(GlueSettingsParser.class, RESOURCE_NAME);
+			Object input = resource.loadResource(RESOURCE_NAME);
 			root = parserAdapter.createParserAndParseFile(input, true, true);
 			parseGlueTypes();
 		} catch (Exception e) { // JDOMException or IOException

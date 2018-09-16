@@ -52,7 +52,7 @@ import com.himamis.retex.renderer.share.platform.resources.ResourceLoader;
 public class ResourceLoaderD implements ResourceLoader {
 
 	@Override
-	public InputStream loadResource(Object base, String path) throws ResourceParseException {
+	public InputStream loadResource(String path) throws ResourceParseException {
 		InputStream is = FactoryProviderDesktop.class.getResourceAsStream(
 				"/com/himamis/retex/renderer/desktop/" + path);
 		if (is != null) {
@@ -72,10 +72,6 @@ public class ResourceLoaderD implements ResourceLoader {
 			return is;
 		}
 
-
-		if (base != null) {
-			return ((Class<?>) base).getResourceAsStream(path);
-		}
 		return FactoryProviderDesktop.class.getResourceAsStream(path);
 	}
 

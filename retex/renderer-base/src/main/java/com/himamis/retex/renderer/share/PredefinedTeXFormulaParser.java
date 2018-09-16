@@ -75,7 +75,7 @@ public class PredefinedTeXFormulaParser {
 	}
 
 	public PredefinedTeXFormulaParser(String PredefFile, String type) throws ResourceParseException {
-		this(new Resource().loadResource(PredefinedTeXFormulaParser.class, PredefFile), type);
+		this(new Resource().loadResource(PredefFile), type);
 	}
 
 	public void parse(Map predefinedTeXFormulas) {

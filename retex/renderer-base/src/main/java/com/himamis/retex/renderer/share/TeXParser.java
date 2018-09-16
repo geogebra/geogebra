@@ -1279,9 +1279,6 @@ public class TeXParser {
 		char c = convertToRomanNumber(c0);
 		if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
 			Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-			if (!isLoading && !TeXFont.loadedAlphabets.contains(block)) {
-				TeXFont.addAlphabet(TeXFont.registeredAlphabets.get(block));
-			}
 
 			String symbolName = TeXFormula.symbolMappings[c];
 			if (symbolName == null

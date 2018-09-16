@@ -59,11 +59,11 @@ public class FontLoaderD implements FontLoader {
 	private static boolean shouldRegisterFonts = true;
 
 	@Override
-	public Font loadFont(Object base, String name) throws ResourceParseException {
+	public Font loadFont(String name) throws ResourceParseException {
 
 		FactoryProvider.getInstance()
 				.debug("loadFont():" + name);
-		InputStream fontIn = (InputStream) new Resource().loadResource(base, name);
+		InputStream fontIn = (InputStream) new Resource().loadResource(name);
 		try {
 			java.awt.Font f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
 					.deriveFont((float) PIXELS_PER_POINT * FONT_SCALE_FACTOR);
@@ -74,25 +74,7 @@ public class FontLoaderD implements FontLoader {
 			 * dynamic load then
 			 */
 			if (shouldRegisterFonts) {
-
 				graphicEnv.registerFont(f);
-
-				// try {
-				// Method registerFontMethod =
-				// graphicEnv.getClass().getMethod("registerFont", new Class[] {
-				// Font.class });
-				// if ((Boolean) registerFontMethod.invoke(graphicEnv, new
-				// Object[] { f }) == Boolean.FALSE) {
-				// System.err.println("Cannot register the font " +
-				// f.getFontName());
-				// }
-				// } catch (Exception ex) {
-				// if (!registerFontExceptionDisplayed) {
-				// System.err.println("Warning: Jlatexmath: Could not access to
-				// registerFont. Please update to java 6");
-				// registerFontExceptionDisplayed = true;
-				// }
-				// }
 			}
 			return new FontD(f);
 		} catch (Exception e) {

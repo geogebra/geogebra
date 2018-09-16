@@ -97,7 +97,6 @@ public class TeXFont {
 	protected static final int WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
 
 	public static List<Character.UnicodeBlock> loadedAlphabets = new ArrayList<Character.UnicodeBlock>();
-	public static Map<Character.UnicodeBlock, AlphabetRegistration> registeredAlphabets = new HashMap<Character.UnicodeBlock, AlphabetRegistration>();
 
 	protected double factor = 1;
 
@@ -164,56 +163,6 @@ public class TeXFont {
 		isSs = ss;
 		isTt = tt;
 		isIt = it;
-	}
-
-	public static void addTeXFontDescription(Object base, Object in,
-			String name, AlphabetRegistration reg)
-			throws ResourceParseException {
-		DefaultTeXFontParser dtfp = new DefaultTeXFontParser(base, in, name);
-		dtfp.parseFontDescriptions(fontInfo);
-		dtfp.parseExtraPath();
-		textStyleMappings.putAll(dtfp.parseTextStyleMappings());
-		symbolMappings.putAll(reg.getMap());
-	}
-
-	public static void addAlphabet(Object base,
-			Character.UnicodeBlock[] alphabet, String language,
-			AlphabetRegistration reg) throws ResourceParseException {
-		boolean b = false;
-		for (int i = 0; !b && i < alphabet.length; i++) {
-			b = loadedAlphabets.contains(alphabet[i]) || b;
-		}
-		if (!b) {
-			TeXParser.isLoading = true;
-			Object res = new Resource().loadResource(base, language);
-			// System.out.println(
-			// "ADDING ALPHABET " + language + ":" + res + "," + base);
-			addTeXFontDescription(base, res, language, reg);
-			for (int i = 0; i < alphabet.length; i++) {
-				loadedAlphabets.add(alphabet[i]);
-			}
-			// System.out.println("ADDED");
-			TeXParser.isLoading = false;
-		}
-	}
-
-	public static void addAlphabet(AlphabetRegistration reg) {
-		try {
-			if (reg != null) {
-				TeXFont.addAlphabet(reg.getPackage(), reg.getUnicodeBlock(),
-						reg.getTeXFontFileName(), reg);
-			}
-		} catch (FontAlreadyLoadedException e) {
-		} catch (AlphabetRegistrationException e) {
-			System.err.println(e.toString());
-		}
-	}
-
-	public static void registerAlphabet(AlphabetRegistration reg) {
-		Character.UnicodeBlock[] blocks = reg.getUnicodeBlock();
-		for (int i = 0; i < blocks.length; i++) {
-			registeredAlphabets.put(blocks[i], reg);
-		}
 	}
 
 	public TeXFont copy() {

@@ -57,13 +57,11 @@ import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.TeXConstants.Muskip;
 import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.character.Character;
-import com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration;
 import com.himamis.retex.renderer.share.exception.FormulaNotFoundException;
 import com.himamis.retex.renderer.share.exception.InvalidAtomTypeException;
 import com.himamis.retex.renderer.share.exception.InvalidUnitException;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
-import com.himamis.retex.renderer.share.greek.GreekRegistration;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -131,18 +129,6 @@ public class TeXFormula {
 		new PredefMacros();
 
 		parser.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
-
-		try {
-			//TeXFont.registerAlphabet((AlphabetRegistration) Class.forName(
-			//		"com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration").newInstance());
-			//TeXFont.registerAlphabet((AlphabetRegistration) Class.forName(
-			//		"com.himamis.retex.renderer.share.greek.GreekRegistration").newInstance());
-			TeXFont.registerAlphabet(new CyrillicRegistration());
-			TeXFont.registerAlphabet(new GreekRegistration());
-		} catch (Exception e) {
-		}
-
-		// setDefaultDPI();
 	}
 
 	public static void addSymbolMappings(String file) throws ResourceParseException {
@@ -169,26 +155,6 @@ public class TeXFormula {
 
 		return infos;
 	}
-
-	/**
-	 * Set the DPI of target
-	 * 
-	 * @param dpi the target DPI
-	 */
-//	public static void setDPITarget(double dpi) {
-//		PIXELS_PER_POINT = dpi / 72f;
-//	}
-
-	/**
-	 * Set the default target DPI to the screen dpi (only if we're in non-headless mode)
-	 */
-	//public static void setDefaultDPI() {
-		// TODO
-		/*
-		 * if (!GraphicsEnvironment.isHeadless()) { setDPITarget((double)
-		 * Toolkit.getDefaultToolkit().getScreenResolution()); }
-		 */
-	//}
 
 	// the root atom of the "atom tree" that represents the formula
 	public Atom root = null;

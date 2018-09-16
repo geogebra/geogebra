@@ -56,10 +56,6 @@ public class Resource {
 	}
 
 	public Object loadResource(String path) throws ResourceParseException {
-		return resourceLoader.loadResource(null, path);
-	}
-
-	public Object loadResource(Object base, String path) {
-		return resourceLoader.loadResource(base, path);
+		return resourceLoader.loadResource(path);
 	}
 }

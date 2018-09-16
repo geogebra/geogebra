@@ -52,5 +52,5 @@ public interface FontLoader {
 	// https://github.com/opencollab/jlatexmath/issues/32
 	static final int FONT_SCALE_FACTOR = 100;
 
-	public Font loadFont(Object fontInt, String name) throws ResourceParseException;
+	public Font loadFont(String name) throws ResourceParseException;
 }

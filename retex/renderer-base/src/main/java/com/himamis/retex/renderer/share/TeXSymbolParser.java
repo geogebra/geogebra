@@ -68,7 +68,7 @@ public class TeXSymbolParser {
 	private Element root;
 
 	public TeXSymbolParser() throws ResourceParseException {
-		this(new Resource().loadResource(TeXSymbolParser.class, RESOURCE_NAME), RESOURCE_NAME);
+		this(new Resource().loadResource(RESOURCE_NAME), RESOURCE_NAME);
 	}
 
 	public TeXSymbolParser(Object file, String name) throws ResourceParseException {

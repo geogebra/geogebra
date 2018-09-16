@@ -64,7 +64,7 @@ public class TeXFormulaSettingsParser {
 	private Element root;
 
 	public TeXFormulaSettingsParser() throws ResourceParseException {
-		this(new Resource().loadResource(TeXFormulaSettingsParser.class, RESOURCE_NAME), RESOURCE_NAME);
+		this(new Resource().loadResource(RESOURCE_NAME), RESOURCE_NAME);
 	}
 
 	public TeXFormulaSettingsParser(Object file, String name) throws ResourceParseException {

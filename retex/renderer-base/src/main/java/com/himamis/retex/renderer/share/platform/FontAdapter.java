@@ -65,11 +65,7 @@ public class FontAdapter {
 	}
 
 	public Font loadFont(String name) throws ResourceParseException {
-		return loadFont(null, name);
-	}
-
-	public Font loadFont(Object fontType, String name) throws ResourceParseException {
-		return fontLoader.loadFont(fontType, name);
+		return fontLoader.loadFont(name);
 	}
 
 	public Font createFont(String name, int style, int size) {
