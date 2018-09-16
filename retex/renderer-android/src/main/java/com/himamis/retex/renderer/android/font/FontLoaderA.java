@@ -1,6 +1,5 @@
 package com.himamis.retex.renderer.android.font;
 
-import com.himamis.retex.renderer.android.BaseObjectHelper;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
