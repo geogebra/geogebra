@@ -236,16 +236,6 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * Switches to angle degree/minutes/seconds mode (to use degrees)
-	 * 
-	 * @return reference to self
-	 */
-	public MyDouble setAngleDegreeMinutesSeconds() {
-		degreeMinutesSeconds = true;
-		return setAngle();
-	}
-
-	/**
 	 * @return whether this is angle
 	 */
 	public boolean isAngle() {
@@ -261,7 +251,7 @@ public class MyDouble extends ValidExpression
 	 * @return random MyDouble
 	 */
 	final public MyDouble random() {
-		val = kernel.getApplication().getRandomNumber();
+		set(kernel.getApplication().getRandomNumber());
 		angleDim = 0;
 		return this;
 	}
@@ -448,7 +438,7 @@ public class MyDouble extends ValidExpression
 	 * @return cos(this)
 	 */
 	final public MyDouble cos() {
-		val = Math.cos(val);
+		set(Math.cos(val));
 		angleDim = 0;
 		checkZero();
 		return this;
@@ -458,7 +448,7 @@ public class MyDouble extends ValidExpression
 	 * @return sin(this)
 	 */
 	final public MyDouble sin() {
-		val = Math.sin(val);
+		set(Math.sin(val));
 		angleDim = 0;
 		checkZero();
 		return this;
@@ -469,7 +459,7 @@ public class MyDouble extends ValidExpression
 	 */
 	private void checkZero() {
 		if (DoubleUtil.isZero(val)) {
-			val = 0;
+			set(0);
 		}
 	}
 
@@ -482,9 +472,9 @@ public class MyDouble extends ValidExpression
 		// Math.tan() gives a very large number for tan(pi/2)
 		// but should be undefined for pi/2, 3pi/2, 5pi/2, etc.
 		if (DoubleUtil.isEqual(Math.abs(val) % Math.PI, Kernel.PI_HALF)) {
-			val = Double.NaN;
+			set(Double.NaN);
 		} else {
-			val = Math.tan(val);
+			set(Math.tan(val));
 			checkZero();
 		}
 		angleDim = 0;
@@ -541,7 +531,7 @@ public class MyDouble extends ValidExpression
 	 * @return log(this)
 	 */
 	final public MyDouble log() {
-		val = Math.log(val);
+		set(Math.log(val));
 		angleDim = 0;
 		return this;
 	}
@@ -552,7 +542,7 @@ public class MyDouble extends ValidExpression
 	 * @return log_base(this)
 	 */
 	final public MyDouble log(NumberValue base) {
-		val = Math.log(val) / Math.log(base.getDouble());
+		set(Math.log(val) / Math.log(base.getDouble()));
 		angleDim = 0;
 		return this;
 	}
@@ -561,7 +551,7 @@ public class MyDouble extends ValidExpression
 	 * @return erf(this)
 	 */
 	final public MyDouble erf() {
-		val = MyMath2.erf(0.0, 1.0, val);
+		set(MyMath2.erf(0.0, 1.0, val));
 		angleDim = 0;
 		return this;
 	}
@@ -570,7 +560,7 @@ public class MyDouble extends ValidExpression
 	 * @return inverf(this)
 	 */
 	final public MyDouble inverf() {
-		val = MyMath2.inverf(val);
+		set(MyMath2.inverf(val));
 		angleDim = 0;
 		return this;
 	}
@@ -581,7 +571,7 @@ public class MyDouble extends ValidExpression
 	 * @return polygamma(this,order)
 	 */
 	final public MyDouble polygamma(NumberValue order) {
-		val = MyMath2.polyGamma(order, val);
+		set(MyMath2.polyGamma(order, val));
 		angleDim = 0;
 		return this;
 	}
@@ -590,7 +580,7 @@ public class MyDouble extends ValidExpression
 	 * @return psi(this)
 	 */
 	final public MyDouble psi() {
-		val = MyMath2.psi(val);
+		set(MyMath2.psi(val));
 		angleDim = 0;
 		return this;
 	}
@@ -599,7 +589,7 @@ public class MyDouble extends ValidExpression
 	 * @return log_10(this)
 	 */
 	final public MyDouble log10() {
-		val = Math.log(val) / MyMath.LOG10;
+		set(Math.log(val) / MyMath.LOG10);
 		angleDim = 0;
 		return this;
 	}
@@ -608,7 +598,7 @@ public class MyDouble extends ValidExpression
 	 * @return log_2(this)
 	 */
 	final public MyDouble log2() {
-		val = Math.log(val) / MyMath.LOG2;
+		set(Math.log(val) / MyMath.LOG2);
 		angleDim = 0;
 		return this;
 	}
@@ -617,7 +607,7 @@ public class MyDouble extends ValidExpression
 	 * @return exp(this)
 	 */
 	final public MyDouble exp() {
-		val = Math.exp(val);
+		set(Math.exp(val));
 		angleDim = 0;
 		return this;
 	}
@@ -626,7 +616,7 @@ public class MyDouble extends ValidExpression
 	 * @return sqrt(this)
 	 */
 	final public MyDouble sqrt() {
-		val = Math.sqrt(val);
+		set(Math.sqrt(val));
 		angleDim = 0;
 		return this;
 	}
@@ -635,7 +625,7 @@ public class MyDouble extends ValidExpression
 	 * @return cbrt(this)
 	 */
 	final public MyDouble cbrt() {
-		val = MyMath.cbrt(val);
+		set(MyMath.cbrt(val));
 		angleDim = 0;
 		return this;
 	}
@@ -645,14 +635,14 @@ public class MyDouble extends ValidExpression
 	 *            difference to be added to value
 	 */
 	final public void add(double a) {
-		val += a;
+		set(val + a);
 	}
 
 	/**
 	 * @return abs(this)
 	 */
 	final public MyDouble abs() {
-		val = Math.abs(val);
+		set(Math.abs(val));
 		return this;
 	}
 
@@ -754,7 +744,7 @@ public class MyDouble extends ValidExpression
 	 * @return sgn(this)
 	 */
 	final public MyDouble sgn() {
-		val = MyMath.sgn(val);
+		set(MyMath.sgn(val));
 		angleDim = 0;
 		return this;
 	}
@@ -763,7 +753,7 @@ public class MyDouble extends ValidExpression
 	 * @return cosh(this)
 	 */
 	final public MyDouble cosh() {
-		val = MyMath.cosh(val);
+		set(MyMath.cosh(val));
 		angleDim = 0;
 		return this;
 	}
@@ -772,7 +762,7 @@ public class MyDouble extends ValidExpression
 	 * @return sinh(this)
 	 */
 	final public MyDouble sinh() {
-		val = MyMath.sinh(val);
+		set(MyMath.sinh(val));
 		angleDim = 0;
 		return this;
 	}
@@ -781,7 +771,7 @@ public class MyDouble extends ValidExpression
 	 * @return tanh(this)
 	 */
 	final public MyDouble tanh() {
-		val = MyMath.tanh(val);
+		set(MyMath.tanh(val));
 		angleDim = 0;
 		return this;
 	}
@@ -790,7 +780,7 @@ public class MyDouble extends ValidExpression
 	 * @return acosh(this)
 	 */
 	final public MyDouble acosh() {
-		val = MyMath.acosh(val);
+		set(MyMath.acosh(val));
 		angleDim = 0;
 		return this;
 	}
@@ -799,7 +789,7 @@ public class MyDouble extends ValidExpression
 	 * @return asinh(this)
 	 */
 	final public MyDouble asinh() {
-		val = MyMath.asinh(val);
+		set(MyMath.asinh(val));
 		angleDim = 0;
 		return this;
 	}
@@ -808,7 +798,7 @@ public class MyDouble extends ValidExpression
 	 * @return csc(this)
 	 */
 	final public MyDouble csc() {
-		val = MyMath.csc(val);
+		set(MyMath.csc(val));
 		angleDim = 0;
 		return this;
 	}
@@ -817,7 +807,7 @@ public class MyDouble extends ValidExpression
 	 * @return sec(this)
 	 */
 	final public MyDouble sec() {
-		val = MyMath.sec(val);
+		set(MyMath.sec(val));
 		angleDim = 0;
 		return this;
 	}
@@ -826,7 +816,7 @@ public class MyDouble extends ValidExpression
 	 * @return cot(this)
 	 */
 	final public MyDouble cot() {
-		val = MyMath.cot(val);
+		set(MyMath.cot(val));
 		angleDim = 0;
 		return this;
 	}
@@ -835,7 +825,7 @@ public class MyDouble extends ValidExpression
 	 * @return csch(this)
 	 */
 	final public MyDouble csch() {
-		val = MyMath.csch(val);
+		set(MyMath.csch(val));
 		angleDim = 0;
 		return this;
 	}
@@ -844,7 +834,7 @@ public class MyDouble extends ValidExpression
 	 * @return sech(this)
 	 */
 	final public MyDouble sech() {
-		val = MyMath.sech(val);
+		set(MyMath.sech(val));
 		angleDim = 0;
 		return this;
 	}
@@ -853,7 +843,7 @@ public class MyDouble extends ValidExpression
 	 * @return coth(this)
 	 */
 	final public MyDouble coth() {
-		val = MyMath.coth(val);
+		set(MyMath.coth(val));
 		angleDim = 0;
 		return this;
 	}
@@ -862,7 +852,7 @@ public class MyDouble extends ValidExpression
 	 * @return atanh(this)
 	 */
 	final public MyDouble atanh() {
-		val = MyMath.atanh(val);
+		set(MyMath.atanh(val));
 		angleDim = 0;
 		return this;
 	}
@@ -871,7 +861,7 @@ public class MyDouble extends ValidExpression
 	 * @return atanh(this)
 	 */
 	final public MyDouble cosineIntegral() {
-		val = MyMath2.ci(val);
+		set(MyMath2.ci(val));
 		angleDim = 0;
 		return this;
 	}
@@ -880,7 +870,7 @@ public class MyDouble extends ValidExpression
 	 * @return atanh(this)
 	 */
 	final public MyDouble sineIntegral() {
-		val = MyMath2.si(val);
+		set(MyMath2.si(val));
 		angleDim = 0;
 		return this;
 	}
@@ -889,7 +879,7 @@ public class MyDouble extends ValidExpression
 	 * @return atanh(this)
 	 */
 	final public MyDouble expIntegral() {
-		val = MyMath2.ei(val);
+		set(MyMath2.ei(val));
 		angleDim = 0;
 		return this;
 	}
@@ -898,7 +888,7 @@ public class MyDouble extends ValidExpression
 	 * @return this!
 	 */
 	final public MyDouble factorial() {
-		val = MyMath2.factorial(val);
+		set(MyMath2.factorial(val));
 		angleDim = 0;
 		return this;
 	}
@@ -907,7 +897,7 @@ public class MyDouble extends ValidExpression
 	 * @return gamma(this)
 	 */
 	final public MyDouble gamma() {
-		val = MyMath2.gamma(val);
+		set(MyMath2.gamma(val));
 		angleDim = 0;
 		return this;
 	}
@@ -918,7 +908,7 @@ public class MyDouble extends ValidExpression
 	 * @return value of lt(this)
 	 */
 	final public MyDouble apply(Evaluatable lt) {
-		val = lt.value(val);
+		set(lt.value(val));
 		angleDim = 0; // want function to return numbers eg f(x) = sin(x),
 						// f(45^o)
 		return this;
@@ -1089,7 +1079,7 @@ public class MyDouble extends ValidExpression
 	 * @return gammaIncompleteRegularized(lt,this)
 	 */
 	public ExpressionValue gammaIncompleteRegularized(NumberValue lt) {
-		val = MyMath2.gammaIncompleteRegularized(lt.getDouble(), val);
+		set(MyMath2.gammaIncompleteRegularized(lt.getDouble(), val));
 		angleDim = 0;
 		return this;
 	}
@@ -1100,7 +1090,7 @@ public class MyDouble extends ValidExpression
 	 * @return gammaIncomplete(lt,this)
 	 */
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
-		val = MyMath2.gammaIncomplete(lt.getDouble(), val);
+		set(MyMath2.gammaIncomplete(lt.getDouble(), val));
 		angleDim = 0;
 		return this;
 	}
@@ -1111,7 +1101,7 @@ public class MyDouble extends ValidExpression
 	 * @return beta(lt,this)
 	 */
 	public ExpressionValue beta(NumberValue lt) {
-		val = MyMath2.beta(val, lt.getDouble());
+		set(MyMath2.beta(val, lt.getDouble()));
 		angleDim = 0;
 		return this;
 	}
@@ -1123,7 +1113,7 @@ public class MyDouble extends ValidExpression
 	 */
 	public ExpressionValue betaIncomplete(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
-		val = MyMath2.betaIncomplete(vec.getX(), vec.getY(), val);
+		set(MyMath2.betaIncomplete(vec.getX(), vec.getY(), val));
 		angleDim = 0;
 		return this;
 	}
@@ -1135,7 +1125,7 @@ public class MyDouble extends ValidExpression
 	 */
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
-		val = MyMath2.betaIncompleteRegularized(vec.getX(), vec.getY(), val);
+		set(MyMath2.betaIncompleteRegularized(vec.getX(), vec.getY(), val));
 		angleDim = 0;
 		return this;
 	}
