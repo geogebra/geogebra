@@ -381,34 +381,37 @@ public final class DrawText extends Drawable {
 		int h;
 		switch (handler) {
 		case TOP:
-			if ((maxY - mouseY) < text.getTextHeight()) {
-				return;
+			h = (int) (maxY - mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN);
+			if (h < text.getTextHeight()) {
+				h = text.getTextHeight();
+				mouseY = maxY - text.getTextHeight() + fontSize + EuclidianStatic.EDITOR_MARGIN;
 			}
+			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
 			startPoint = text.getStartPoint();
 			startPoint.setCoords(startPoint.getInhomX(), view.toRealWorldCoordY(mouseY), 1.0);
-			h = (int) (maxY - mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN);
-			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
 			break;
 		case BOTTOM:
 			if ((mouseY - minY) < text.getTextHeight()) {
-				return;
+				mouseY = minY + text.getTextHeight();
 			}
 			h = (int) (mouseY - minY + EuclidianStatic.EDITOR_MARGIN);
 			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
 			break;
 		case RIGHT:
 			if ((mouseX - minX) < MIN_EDITOR_WIDTH) {
-				return;
+				mouseX = MIN_EDITOR_WIDTH + minX;
 			}
 			labelRectangle.setSize((int) (mouseX - minX + EuclidianStatic.EDITOR_MARGIN),
 					(int) labelRectangle.getHeight());
 			break;
 		case LEFT:
-			if ((maxX - mouseX) < MIN_EDITOR_WIDTH) {
-				return;
+			int width = (int) (maxX - mouseX);
+			if (width < MIN_EDITOR_WIDTH) {
+				mouseX = maxX - MIN_EDITOR_WIDTH;
+				width = MIN_EDITOR_WIDTH;
 			}
-			labelRectangle.setSize((int) (maxX - mouseX + EuclidianStatic.EDITOR_MARGIN),
-					(int) labelRectangle.getHeight());
+			width += EuclidianStatic.EDITOR_MARGIN;
+			labelRectangle.setSize(width, (int) labelRectangle.getHeight());
 			startPoint = text.getStartPoint();
 			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
 			break;
