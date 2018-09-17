@@ -35,7 +35,9 @@ public class ColorChooserDialog extends DialogBoxW
 	public ColorChooserDialog(AppW app, final GColor originalColor,
 			final ColorChangeHandler handler) {
 		super(false, true, null, app.getPanel(), app);
-		addStyleName(app.isWhiteboardActive() ? "mow" : "");
+		if (app.isWhiteboardActive()) {
+			addStyleName("mow");
+		}
 		this.handler = handler;
 		this.originalColor = originalColor;
 
