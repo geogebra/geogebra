@@ -163,6 +163,10 @@ public class Opentype implements FontLoaderWrapper {
 			return;
 		}
 
+		// force different version from CDN
+		// change if the fonts are updated
+		path = path + "?v=2";
+
 		ScriptInjector.fromUrl(path).setWindow(ScriptInjector.TOP_WINDOW)
 				.setRemoveTag(true)
 				.setCallback(new Callback<Void, Exception>() {
