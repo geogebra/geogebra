@@ -1674,7 +1674,7 @@ ExpressionValue myDouble():
   	 }
   	 if (isAngle) {
   		MyDouble ret = new MyDouble(kernel, (vd + (vm + vs / 60.0d) / 60.0d) * Math.PI / 180.0d);
-  		ret.setAngle();
+  		ret.setAngleDegreeMinutesSeconds();
   		return ret;
   	 }
      return parseDouble(image, percent != null);

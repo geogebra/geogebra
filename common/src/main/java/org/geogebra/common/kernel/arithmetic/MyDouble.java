@@ -50,6 +50,7 @@ public class MyDouble extends ValidExpression
 
 	private double val;
 	private int angleDim = 0;
+	private boolean degreeMinutesSeconds = false;
 
 	/**
 	 * kernel
@@ -232,6 +233,16 @@ public class MyDouble extends ValidExpression
 	public MyDouble setAngle() {
 		angleDim = 1;
 		return this;
+	}
+
+	/**
+	 * Switches to angle degree/minutes/seconds mode (to use degrees)
+	 * 
+	 * @return reference to self
+	 */
+	public MyDouble setAngleDegreeMinutesSeconds() {
+		degreeMinutesSeconds = true;
+		return setAngle();
 	}
 
 	/**
