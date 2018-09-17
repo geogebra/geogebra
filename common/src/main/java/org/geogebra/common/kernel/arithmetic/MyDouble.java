@@ -50,7 +50,6 @@ public class MyDouble extends ValidExpression
 
 	private double val;
 	private int angleDim = 0;
-	private boolean degreeMinutesSeconds = false;
 
 	/**
 	 * kernel

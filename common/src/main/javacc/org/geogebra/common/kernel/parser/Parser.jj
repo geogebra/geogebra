@@ -208,10 +208,6 @@ public class Parser implements ParserInterface{
    private ExpressionValue ifVectorsEnabled(ExpressionValue def){
      return enableVectors ? def : new MyDouble(kernel,Double.NaN);
  }
-
-	private MyDouble parseDouble(Token c, boolean percent) {
-		return parseDouble(c.image.replaceFirst("e", "E"), percent);
-	}
 	
 	private MyDouble parseDouble(String image, boolean percent) {
 		double val = MyDouble.parseDouble(loc, image);
