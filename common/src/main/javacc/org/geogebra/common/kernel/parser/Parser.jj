@@ -210,7 +210,10 @@ public class Parser implements ParserInterface{
  }
 
 	private MyDouble parseDouble(Token c, boolean percent) {
-		String image = c.image.replaceFirst("e", "E");
+		return parseDouble(c.image.replaceFirst("e", "E"), percent);
+	}
+	
+	private MyDouble parseDouble(String image, boolean percent) {
 		double val = MyDouble.parseDouble(loc, image);
 		if (percent) {
 			val = val * 0.01;
@@ -222,6 +225,20 @@ public class Parser implements ParserInterface{
 		}
 
 		return new MyDouble(kernel, val);
+	}
+	
+	private double parseDoubleZeroOnNull(Token c) {
+		return c == null ? 0.0d : parseDouble(c);
+	}
+	
+	private double parseDouble(Token c) {
+		return MyDouble.parseDouble(loc, c.image);
+	}
+	
+	private MyDouble newSpecialDegree() {
+	  	MyDouble d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
+        	d.setAngle();
+        	return d;
 	}
 
 }
@@ -295,8 +312,11 @@ TOKEN :  {
   | < IMAGINARY: ("\u03af") > // imaginary constant
   // 02da is "Ring Above", Alt-k in iPad
   // 00ba is Masculine ordinal indicator Alt-zero on OSX
-  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" | "deg") >
+  | < DEGREE_SYMBOL:   ( "\u00b0" | "\u02da" | "\u00ba") >
+  | < DEGREE:   ("deg") >
   | < GRADIAN:   ( "\u1D4D") > // superscript g
+  | < ANGLE_MINUTES:   ( "\u2032" | "'") >
+  | < ANGLE_SECONDS:   ( "\u2033" | "\u2032\u2032" | "''") >
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
   | < DERIVATIVE: "'" >
@@ -1603,18 +1623,64 @@ Command spreadsheetRange():
 ExpressionValue myDouble():
 {
     Token c;
+    Token c2 = null;
+    Token s = null;
     Token percent = null;
+    Token degree = null;
+    Token minutes = null;
+    Token seconds = null;
     MyDouble d;
 }
 {
    (
-     (c = <FLOAT> | c = <EFLOAT>)(percent ="%")?
+     (c = <FLOAT> | c = <EFLOAT>)
+     (percent ="%" 
+     | (degree = <DEGREE_SYMBOL>)
+       ((c2 = <FLOAT>)
+        ((minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
+         |(<ANGLE_SECONDS>)
+        )
+       )?
+     | (minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
+     | seconds = <ANGLE_SECONDS>
+     )?
     )
   {
-     return parseDouble(c, percent != null);
+  	 String image = c.image.replaceFirst("e", "E");
+  	 boolean isAngle = false;
+  	 double vd = 0, vm = 0, vs = 0;
+  	 if (degree != null) {
+  	 	// if e.g. 3° (no minute no second) we need to do 3*° for CAS 
+  		if (c2 == null) {
+  		    d = newSpecialDegree();
+  			return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
+  		} 
+ 		// at least 3°5' or 3°5'' (or 3°5'7'')
+  		isAngle = true;
+  		vd = MyDouble.parseDouble(loc, image);
+  		if (minutes != null) {
+  			vm = parseDouble(c2);
+  			vs = parseDoubleZeroOnNull(s);
+  		} else {
+  			vs = parseDouble(c2);
+  		}
+  	 } else if (minutes != null) {
+  	 	isAngle = true;
+  		vm = MyDouble.parseDouble(loc, image);
+  		vs = parseDoubleZeroOnNull(s);
+  	 } else if (seconds != null) {
+  	 	isAngle = true;
+  	 	vs = MyDouble.parseDouble(loc, image);
+  	 }
+  	 if (isAngle) {
+  		MyDouble ret = new MyDouble(kernel, (vd + (vm + vs / 60.0d) / 60.0d) * Math.PI / 180.0d);
+  		ret.setAngle();
+  		return ret;
+  	 }
+     return parseDouble(image, percent != null);
     }
 |
-    (c = <DEGREE>)
+    (c = <DEGREE> | c = <DEGREE_SYMBOL>)
     {  // constant for degree to radians
     if(c.image.length() ==3)
     {
@@ -1623,9 +1689,7 @@ ExpressionValue myDouble():
 			return geo;
 		}
     }
-        d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
-        d.setAngle();
-        return d;
+        return newSpecialDegree();
     }
 |
     <RAD>
