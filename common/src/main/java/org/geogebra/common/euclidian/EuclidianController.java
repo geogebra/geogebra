@@ -9895,7 +9895,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (view.getSelectionRectangle() != null) {
 					view.setSelectionRectangle(null);
 					// hit found
-					if (hits != null) {
+					if (hits != null && hits.size() > 0) {
 						selection.setSelectedGeos(hits, true);
 						// single selection
 						if (hits.size() == 1) {
