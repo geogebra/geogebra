@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
@@ -29,7 +28,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
@@ -176,7 +174,9 @@ public class MainMenu extends FlowPanel
 
 		initAriaStackPanel();
 
-		initLogoMenu();
+		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			this.menuPanel.addStyleName("menuPanel");
+		}
 
 		if (app.enableFileFeatures()) {
 			if (app.isUnbundledOrWhiteboard()) {
@@ -286,66 +286,24 @@ public class MainMenu extends FlowPanel
 		this.add(menuPanel);
 	}
 
-	private void initLogoMenu() {
-		if (!app.isUnbundled()) {
-			if (app.isWhiteboardActive()) {
-				ImageResource icon = MaterialDesignResources.INSTANCE
-						.mebis();
-				logoMenu = new GMenuBar("", app);
-				logoMenu.setStyleName("logoMenu");
-				this.menuPanel.add(logoMenu,
-						getHTML(icon, ""),
-						true);
-			} else {
-				this.menuPanel.addStyleName("menuPanel");
-			}
-		} else {
-			AppType appType = app.getSettings().getToolbarSettings().getType();
-			SVGResource icon = appType.equals(AppType.GRAPHING_CALCULATOR)
-					? MaterialDesignResources.INSTANCE.graphing()
-					: (appType.equals(AppType.GRAPHER_3D)
-							? MaterialDesignResources.INSTANCE.graphing3D()
-							: MaterialDesignResources.INSTANCE.geometry());
-			logoMenu = new GMenuBar("", app);
-			logoMenu.setStyleName("logoMenu");
-			this.menuPanel.add(logoMenu,
-					getHTML(icon, appType.equals(AppType.GRAPHING_CALCULATOR)
-							? app.getLocalization()
-									.getMenu("GeoGebraGraphingCalculator")
-							: appType.equals(AppType.GRAPHER_3D)
-									? app.getLocalization()
-											.getMenu("GeoGebra3DGrapher")
-									: app.getLocalization()
-											.getMenu("GeoGebraGeometry")),
-					true);
-		}
-	}
-
 	private void initAriaStackPanel() {
 		this.menuPanel = new AriaStackPanel() {
 			@Override
 			public void showStack(int index) {
-				if (app.isUnbundledOrWhiteboard() && index == 0) {
-					super.showStack(1);
-					expandStack(1);
-				} else {
-					if (app.isUnbundledOrWhiteboard()) {
-						int selected = getSelectedIndex();
-						collapseStack(getSelectedIndex());
-						if (selected == index) {
-							closeAll();
-							return;
-						}
-						expandStack(index);
+				if (app.isUnbundledOrWhiteboard()) {
+					int selected = getSelectedIndex();
+					collapseStack(getSelectedIndex());
+					if (selected == index) {
+						closeAll();
+						return;
 					}
-					super.showStack(index);
+					expandStack(index);
 				}
+				super.showStack(index);
+
 				dispatchOpenEvent();
 
-				if (app.isUnbundledOrWhiteboard() && index == 0) {
-					app.getGuiManager().setDraggingViews(
-							isViewDraggingMenu(menus.get(1)), false);
-				} else if (index < menus.size()) {
+				if (index < menus.size()) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
@@ -372,10 +330,6 @@ public class MainMenu extends FlowPanel
 						app.toggleMenu();
 						return;
 					} else if (index >= 0) {
-						if (this.getWidget(index) == logoMenu) {
-							app.toggleMenu();
-							return;
-						}
 						if (this.getWidget(index) == settingsMenu) {
 							app.getDialogManager().showPropertiesDialog(
 									OptionType.GLOBAL, null);
@@ -403,11 +357,11 @@ public class MainMenu extends FlowPanel
 			}
 
 			private void setStackText(int index, boolean expand) {
-				if (index < 1 || index > menuImgs.size()) {
+				if (index < 0 || index > menuImgs.size()) {
 					return;
 				}
 
-				SVGResource img = menuImgs.get(index - 1);
+				SVGResource img = menuImgs.get(index);
 				GMenuBar menu = getMenuAt(index);
 				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
 						+ menu.getMenuTitle().substring(1);
@@ -804,8 +758,10 @@ public class MainMenu extends FlowPanel
 	 * Focuses the first item of the Main Menu
 	 */
 	public void focusFirst() {
-		menuPanel.showStack(0);
-		getMenuAt(0).focus();
+		if (menuPanel.getSelectedIndex() != 0) {
+			menuPanel.showStack(0);
+			getMenuAt(0).focus();
+		}
 	}
 
 	@Override

@@ -165,29 +165,6 @@ $classicToolbar: 50px;
 				margin: 0px;
 			}
 		
-			// GeoGebra logo
-			&.gwt-StackPanelItem-first {
-				height: 56px;
-				background-color: $white;
-				
-				img {
-					opacity: 1;
-					top: 10px;
-					height: 36px;
-					width: 36px;
-					margin: 0px;
-					left: 6%;
-				}
-				
-				span {
-					font-size: 100%;
-				}
-			
-				&:hover {
-					background-color: $white;
-				}
-			}
-		
 			&.gwt-StackPanelItem-selected {
 				span {
 					color: $black;
@@ -207,8 +184,10 @@ $classicToolbar: 50px;
 			   background-color: white;
 		}
 		
-		.gwt-StackPanel .gwt-StackPanelItem-selected { 
-			border-top: 1px solid $burger-menu-border;	
+		.gwt-StackPanel .gwt-StackPanelItem-selected {
+			&:not(.gwt-StackPanelItem-first) {
+				border-top: 1px solid $burger-menu-border;
+			}
 			img {
 				opacity: 0.87;
 			}
@@ -247,12 +226,6 @@ $classicToolbar: 50px;
 		&.mow {
 			.gwt-StackPanel .gwt-StackPanelItem {
 				min-width: 255px;
-				
-				&.gwt-StackPanelItem-first img {
-					height: 46px;	
-					width: 218px;	
-					top: 7px;
-				}
 			}
 		}
 
