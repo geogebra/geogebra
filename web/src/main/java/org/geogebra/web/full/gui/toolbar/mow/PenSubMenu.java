@@ -41,8 +41,6 @@ public class PenSubMenu extends SubMenuPanel {
 	private StandardButton pen;
 	private StandardButton eraser;
 	private StandardButton highlighter;
-	// TODO please remove me if MOW_HIGHLIGHTER_TOOL feature is released!!!
-	private StandardButton move;
 	private StandardButton select;
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
@@ -96,17 +94,10 @@ public class PenSubMenu extends SubMenuPanel {
 		} else {
 			eraser.addStyleName("plusMarginLeft");
 		}
-		move = createButton(EuclidianConstants.MODE_MOVE);
 		select = createButton(app.has(Feature.MOW_SELECTION_TOOL)
 				? EuclidianConstants.MODE_SELECT_MOW
 				: EuclidianConstants.MODE_SELECT);
-		if (app.has(Feature.MOW_HIGHLIGHTER_TOOL)) {
-			penPanel.add(
-					LayoutUtilW.panelRow(select, pen, eraser, highlighter));
-		} else {
-			penPanel.add(LayoutUtilW.panelRow(move, pen,
-				select, eraser));
-		}
+		penPanel.add(LayoutUtilW.panelRow(select, pen, eraser, highlighter));
 	}
 
 	/**
@@ -222,17 +213,6 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 	}
 
-	/*
-	 * @Override public void onClick(Widget source) { if (source == pen) {
-	 * app.setMode(EuclidianConstants.MODE_PEN); } else if (source == eraser) {
-	 * app.setMode(EuclidianConstants.MODE_ERASER); } else if (source == move) {
-	 * app.setMode(EuclidianConstants.MODE_MOVE); } else if (source == select) {
-	 * app.setMode(EuclidianConstants.MODE_SELECT); } else if (source ==
-	 * btnCustomColor) { openColorDialog(); } else if (source == highlighter) {
-	 * app.setMode(EuclidianConstants.MODE_HIGHLIGHTER); } closeFloatingMenus();
-	 * }
-	 */
-
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
@@ -272,12 +252,6 @@ public class PenSubMenu extends SubMenuPanel {
 		preview.setVisible(false);
 	}
 
-	private void doSelectMove() {
-		reset();
-		move.getElement().setAttribute("selected", "true");
-		slider.getElement().setAttribute("disabled", "true");
-	}
-
 	private void doSelectSelect() {
 		reset();
 		select.getElement().setAttribute("selected", "true");
@@ -290,7 +264,6 @@ public class PenSubMenu extends SubMenuPanel {
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "false");
-		move.getElement().setAttribute("selected", "false");
 		select.getElement().setAttribute("selected", "false");
 		highlighter.getElement().setAttribute("selected", "false");
 		setColorsEnabled(false);
@@ -376,9 +349,7 @@ public class PenSubMenu extends SubMenuPanel {
 	@Override
 	public void setMode(int mode) {
 		reset();
-		if (mode == EuclidianConstants.MODE_MOVE) {
-			doSelectMove();
-		} else if (mode == EuclidianConstants.MODE_SELECT
+		if (mode == EuclidianConstants.MODE_SELECT
 				|| mode == EuclidianConstants.MODE_SELECT_MOW) {
 			doSelectSelect();
 		} else if (mode == EuclidianConstants.MODE_ERASER) {
