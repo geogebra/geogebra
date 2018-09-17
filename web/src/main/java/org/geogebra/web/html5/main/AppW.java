@@ -343,6 +343,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getArticleElement().getParamScaleContainerClass());
 			if (parent != null) {
 				scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
+				if (parent != getScalerParent()) {
+					resizeContainer();
+				}
 			}
 		} else if (!getArticleElement().getParamDisableAutoScale()) {
 			int border = 0;
@@ -354,16 +357,23 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
 			scaleTo(width, Window.getClientHeight());
-			if (articleElement.getParentElement() != null && articleElement
-					.getParentElement().getParentElement() != null) {
-				Style style = articleElement.getParentElement()
-						.getParentElement().getStyle();
-				double scale = articleElement.getScaleX();
-				style.setWidth(getWidth() * scale, Unit.PX);
-				style.setHeight(getHeight() * scale, Unit.PX);
-			}
+			resizeContainer();
 		}
 		recalculateEnvironments();
+	}
+
+	private void resizeContainer() {
+		if (getScalerParent() != null) {
+			Style style = getScalerParent().getStyle();
+			double scale = articleElement.getScaleX();
+			style.setWidth(getWidth() * scale, Unit.PX);
+			style.setHeight(getHeight() * scale, Unit.PX);
+		}
+	}
+
+	private Element getScalerParent() {
+		return articleElement.getParentElement() == null ? null
+				: articleElement.getParentElement().getParentElement();
 	}
 
 	private void scaleTo(int width, int height) {
