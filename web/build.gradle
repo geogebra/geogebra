@@ -169,9 +169,10 @@ task copyHtml {
             .replace("<!--SPLASH STYLE-->", file(templateDir + "splash-style.css").text)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--LANG-->", "en")
+            .replace("<!--VENDOR-->", "GeoGebra")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
-        def appHtml = { appID, prerelease, offline = false ->
+        def appHtml = { appID, prerelease, offline=false, vendor="GeoGebra" ->
             def header = appID == "notes" ? "" : file(templateDir+"app-header-beta.html").text
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
@@ -180,6 +181,7 @@ task copyHtml {
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text.replace('$height', offline ? '0' : '64px')+file(templateDir+"app-style.css").text)
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--VENDOR-->", vendor)
         }
         def english = {raw, appName ->
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
@@ -208,7 +210,7 @@ task copyHtml {
         file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator")
         file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry")
         file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator")
-        file("war/notes-offline.html").text = english(appHtml("notes", false, true), "Notes")
+        file("war/notes-offline.html").text = english(appHtml("notes", false, true, "Mebis"), "Notes")
       
         file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator")
         
