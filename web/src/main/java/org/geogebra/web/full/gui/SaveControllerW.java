@@ -80,6 +80,7 @@ public class SaveControllerW implements SaveController {
 		if (mat == null) {
 			return;
 		}
+		getAppW().setTubeId(mat.getSharingKeyOrId());
 		setSaveType(mat.getType());
 		this.autoSaveCallback = autoSaveCB;
 		saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
