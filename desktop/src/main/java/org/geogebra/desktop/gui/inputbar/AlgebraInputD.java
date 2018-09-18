@@ -35,7 +35,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App.InputPosition;
@@ -432,8 +431,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		app.setScrollToShow(true);
 		try {
 			EvalInfo info = new EvalInfo(true, true).withSliders(true)
-					.addDegree(app.getKernel()
-							.getAngleUnit() == Kernel.ANGLE_DEGREE);
+					.addDegree(app.getKernel().getAngleUnitUsesDegrees());
 			AsyncOperation<GeoElementND[]> callback =
 					new InputBarCallback(app, inputField, input,
 							app.getKernel().getConstructionStep());

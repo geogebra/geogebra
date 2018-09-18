@@ -45,6 +45,8 @@ import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Advanced options for the options dialog.
  */
@@ -84,6 +86,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 
 	/** */
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
+			angleUnitRadioDegreesMinutesSeconds,
 			continuityRadioOn, continuityRadioOff,
 			usePathAndRegionParametersRadioOn,
 			usePathAndRegionParametersRadioOff, rightAngleRadio1,
@@ -310,6 +313,13 @@ public class OptionsAdvancedD implements OptionPanelD,
 		angleUnitPanel.add(angleUnitRadioRadian);
 		angleUnitButtonGroup.add(angleUnitRadioRadian);
 
+		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+			angleUnitRadioDegreesMinutesSeconds = new JRadioButton();
+			angleUnitRadioDegreesMinutesSeconds.addActionListener(this);
+			angleUnitPanel.add(angleUnitRadioDegreesMinutesSeconds);
+			angleUnitButtonGroup.add(angleUnitRadioDegreesMinutesSeconds);
+		}
+
 		// cbReturnAngleInverseTrig = new JCheckBox();
 		// cbReturnAngleInverseTrig.addActionListener(this);
 		// angleUnitPanel.add(cbReturnAngleInverseTrig);
@@ -422,10 +432,16 @@ public class OptionsAdvancedD implements OptionPanelD,
 		cbUseLocalDigits.setSelected(loc.isUsingLocalizedDigits());
 		cbUseLocalLabels.setSelected(loc.isUsingLocalizedLabels());
 
-		angleUnitRadioDegree.setSelected(
-				app.getKernel().degreesMode());
-		angleUnitRadioRadian.setSelected(
-				!app.getKernel().degreesMode());
+		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+			int angleUnit = app.getKernel().getAngleUnit();
+			angleUnitRadioDegree.setSelected(angleUnit == Kernel.ANGLE_DEGREE);
+			angleUnitRadioRadian.setSelected(angleUnit == Kernel.ANGLE_RADIANT);
+			angleUnitRadioDegreesMinutesSeconds.setSelected(
+					angleUnit == Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		} else {
+			angleUnitRadioDegree.setSelected(app.getKernel().degreesMode());
+			angleUnitRadioRadian.setSelected(!app.getKernel().degreesMode());
+		}
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
@@ -603,6 +619,11 @@ public class OptionsAdvancedD implements OptionPanelD,
 			app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
+		} else if (source == angleUnitRadioDegreesMinutesSeconds
+				&& app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+			app.getKernel().updateConstruction(false);
+			app.setUnsaved();
 		} else if (source == continuityRadioOn) {
 			app.getKernel().setContinuous(true);
 			app.getKernel().updateConstruction(false);
@@ -761,6 +782,10 @@ public class OptionsAdvancedD implements OptionPanelD,
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("AngleUnit")));
 		angleUnitRadioDegree.setText(loc.getMenu("Degree"));
 		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
+		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+			angleUnitRadioDegreesMinutesSeconds
+					.setText(Unicode.DEGREES_MINUTES_SECONDS);
+		}
 
 		continuityPanel
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Continuity")));
@@ -972,6 +997,9 @@ public class OptionsAdvancedD implements OptionPanelD,
 		angleUnitPanel.setFont(font);
 		angleUnitRadioDegree.setFont(font);
 		angleUnitRadioRadian.setFont(font);
+		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+			angleUnitRadioDegreesMinutesSeconds.setFont(font);
+		}
 
 		continuityPanel.setFont(font);
 		continuityRadioOn.setFont(font);

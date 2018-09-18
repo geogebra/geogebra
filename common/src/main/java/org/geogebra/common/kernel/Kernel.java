@@ -2746,7 +2746,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *
 	 * @return true if angle unit wants degree symbol automatically added
 	 */
-	final public boolean angleUnitUsesDegrees(int unit) {
+	final public static boolean angleUnitUsesDegrees(int unit) {
 		return unit == Kernel.ANGLE_DEGREE
 				|| unit == Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
 	}

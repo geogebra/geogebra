@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -23,6 +24,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author csilla
@@ -187,9 +189,26 @@ public class OptionsAlgebraW
 			angleUnit.clear();
 			angleUnit.addItem(getApp().getLocalization().getMenu("Degree"));
 			angleUnit.addItem(getApp().getLocalization().getMenu("Radiant"));
-			angleUnit.setSelectedIndex(
-					getApp().getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT
-							? 1 : 0);
+			if (getApp().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+				angleUnit.addItem(Unicode.DEGREES_MINUTES_SECONDS);
+				int index;
+				switch (getApp().getKernel().getAngleUnit()) {
+				case Kernel.ANGLE_RADIANT:
+					index = 1;
+					break;
+				case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
+					index = 2;
+					break;
+				case Kernel.ANGLE_DEGREE:
+				default:
+					index = 0;
+					break;
+				}
+				angleUnit.setSelectedIndex(index);
+			} else {
+				angleUnit.setSelectedIndex(getApp().getKernel()
+						.getAngleUnit() == Kernel.ANGLE_RADIANT ? 1 : 0);
+			}
 			getApp().getKernel().updateConstruction(false);
 			getApp().setUnsaved();
 		}
@@ -246,8 +265,26 @@ public class OptionsAlgebraW
 				getApp().getKernel().updateConstruction(false);
 			} else if (source == getAngleUnit()) {
 				int i = getAngleUnit().getSelectedIndex();
-				getApp().getKernel().setAngleUnit(
-						i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
+				if (getApp().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+					int unit;
+					switch (i) {
+					case 1:
+						unit = Kernel.ANGLE_RADIANT;
+						break;
+					case 2:
+						unit = Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
+						break;
+					case 0:
+					default:
+						unit = Kernel.ANGLE_DEGREE;
+						break;
+					}
+					getApp().getKernel().setAngleUnit(unit);
+				} else {
+					getApp().getKernel()
+							.setAngleUnit(i == 0 ? Kernel.ANGLE_DEGREE
+									: Kernel.ANGLE_RADIANT);
+				}
 				getApp().getKernel().updateConstruction(false);
 				getApp().setUnsaved();
 			}

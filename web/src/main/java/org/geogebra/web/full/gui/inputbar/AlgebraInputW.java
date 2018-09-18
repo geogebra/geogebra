@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.inputbar;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -335,8 +334,7 @@ public class AlgebraInputW extends FlowPanel
 
 			};
 			EvalInfo info = new EvalInfo(true, true).withSliders(true)
-					.addDegree(app.getKernel()
-							.getAngleUnit() == Kernel.ANGLE_DEGREE)
+					.addDegree(app.getKernel().getAngleUnitUsesDegrees())
 					.withUserEquation(true);
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
