@@ -98,4 +98,14 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		}
 	}
 
+	@Override
+	public boolean equals(Object d) {
+		return super.equals(d);
+	}
+
+	@Override
+	public int hashCode() {
+		return Double.hashCode(getDouble());
+	}
+
 }

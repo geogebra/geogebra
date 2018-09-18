@@ -1163,7 +1163,7 @@ public class MyDouble extends ValidExpression
 
 	@Override
 	public int hashCode() {
-		return Double.valueOf(val).hashCode();
+		return Double.hashCode(val);
 	}
 
 	@Override
