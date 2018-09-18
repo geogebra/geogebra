@@ -191,6 +191,14 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_pen_32();
 
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
+	@Override
+	SVGResource mode_pen();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_teal.svg")
+	@Override
+	SVGResource mode_pen_teal();
+
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_point.svg")
 	@Override
 	SVGResource mode_point_32();
@@ -254,6 +262,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_select.svg")
 	@Override
 	SVGResource mode_select_32();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_select_teal.svg")
+	@Override
+	SVGResource mode_select_teal();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_semicircle.svg")
 	@Override
@@ -533,6 +545,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_black.svg")
 	SVGResource mode_eraser_32();
 
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_teal.svg")
+	SVGResource mode_eraser_teal();
+
 	// Whiteboard
 
 	@Override
@@ -562,6 +578,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")
 	SVGResource mode_highlighter_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter_teal.svg")
+	SVGResource mode_highlighter_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf.svg")

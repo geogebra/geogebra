@@ -1794,6 +1794,11 @@ public class GuiManagerW extends GuiManager
 			return mode;
 		}
 
+		if (getApp().has(Feature.MOW_TOOLBAR_REFACTOR)) {
+			(getApp().getAppletFrame()).setToorbarMowMode(mode);
+			return mode;
+		}
+
 		if (getApp().has(Feature.MOW_TOOLBAR)) {
 			(getApp().getAppletFrame()).setMOWToorbarMode(mode);
 			return mode;

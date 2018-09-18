@@ -7,6 +7,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_select_32();
 
+	ResourcePrototype mode_select_teal();
+
 	ResourcePrototype mode_angle_32();
 
 	ResourcePrototype mode_anglefixed_32();
@@ -265,6 +267,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_eraser_32();
 
+	ResourcePrototype mode_eraser_teal();
+
 	ResourcePrototype help_32();
 
 	ResourcePrototype mode_geogebra_32();
@@ -279,8 +283,14 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_highlighter_32();
 
+	ResourcePrototype mode_highlighter_teal();
+
 	ResourcePrototype mode_pdf_32();
 
 	ResourcePrototype mode_extension();
+
+	ResourcePrototype mode_pen();
+
+	ResourcePrototype mode_pen_teal();
 
 }

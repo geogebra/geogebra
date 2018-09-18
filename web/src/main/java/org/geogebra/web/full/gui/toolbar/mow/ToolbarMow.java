@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
@@ -39,6 +40,9 @@ public class ToolbarMow extends FlowPanel
 	protected StandardButton btnUndo;
 	/** redo button */
 	protected StandardButton btnRedo;
+	private PenSubMenu penPanel;
+	private PenSubMenu penPanel2;
+
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	private final static int FLOATING_BTNS_WIDTH = 80;
 
@@ -91,7 +95,17 @@ public class ToolbarMow extends FlowPanel
 		add(toolbarPanel);
 		createUndoRedoButtons();
 		createPageControlButton();
+		createPanels();
+		// setMode(appW.getMode());
 		setLabels();
+	}
+
+	private void createPanels() {
+		toolbarPanel.addStyleName("mowSubmenuScrollPanel");
+		toolbarPanel.addStyleName("slideLeft");
+		penPanel = new PenSubMenu(appW);
+		penPanel.setMode(EuclidianConstants.MODE_PEN);
+		toolbarPanel.add(penPanel);
 	}
 
 	private void createPageControlButton() {
@@ -268,5 +282,13 @@ public class ToolbarMow extends FlowPanel
 		btnUndo.setTitle(appW.getLocalization().getMenu("Undo"));
 		btnRedo.setTitle(appW.getLocalization().getMenu("Redo"));
 		header.setLabels();
+	}
+
+	/**
+	 * @param mode
+	 *            id of tool
+	 */
+	public void setMode(int mode) {
+		penPanel.setMode(mode);
 	}
 }

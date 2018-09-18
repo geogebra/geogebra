@@ -3,17 +3,18 @@
 .GeoGebraFrame{
 	$toolbarWidth: 600px;
 	$toolbarHeight: 56px;
-	$toolbarPanelHeight: 300px;
+	$toolbarPanelHeight: 212px;
 	$z_mow_toolbar: 51;
 	$z_mow_toolbar_panel: 50;
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	
 	.toolbarMow {
-	    bottom: 300px;
+	    bottom: 212px;
 	    position: relative;
 	    width: $toolbarWidth;
 	    z-index: $z_mow_toolbar;
 	    margin: 0px auto;
+	        box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
 
 		.headerMow {
 		    background-color: $mow_toolbar;
@@ -75,9 +76,43 @@
 		}
 	
 		.toolbarMowPanel {
-			background-color: lightgrey;
-			height: 244px;
+			background-color: white;
+			height: 156px;
 			z-index: $z_mow_toolbar_panel;
+			width: 100% !important;
+			
+			.panelRow {
+				padding: 0px;		
+			}
+		
+			.penSubMenu {
+   				padding: 8px 10px 3px 8px;
+    			width: 582px;
+
+				.penPanel {
+					width: 144px;
+				}
+			
+				.colorPanel {
+				    position: absolute;
+				    left: 142px;
+				    margin: 0px;
+				    bottom: 84px;
+				}
+			
+				.sizePanel {
+				    position: absolute;
+				    left: 174px;
+				    top: 92px;
+				}
+			}
+		
+		 	&.mowSubmenuScrollPanel {
+		 		position: relative;
+			    display: flex;
+			    top: 0px;
+			    width: 300%;
+		 	}
 		}
 	}
 
@@ -89,6 +124,51 @@
 	    bottom: $toolbarHeight;
 	    transition: $mowsubmenu-transition;
 	} 
+
+	.toolButton {
+		margin: 0px !important;
+	    border-radius: 4px;
+	    height: 72px;
+	    margin-right: 8px !important;	
+	    
+		img {
+			padding: 8px 20px;		
+		    opacity: 0.54;	
+		}
+	
+		.gwt-Label {
+			color: $text-secondary;	
+			font-size: 12px;
+		    margin: 0px !important;
+		    width: 64px;
+		    min-height: 28px;
+		    height: fit-content;
+		    text-align: center;
+		    vertical-align: top;
+		    line-height: 14px;
+		    padding-bottom: 4px;
+		    position: relative;
+    		top: -4px;
+		}
+	
+		&:hover {
+			img {
+				opacity: 1;	
+			} 	
+			.gwt-Label {
+				color: $text-primary;	
+			}			
+		} 
+	}
+
+	.toolButton[selected=true]{
+		img {
+			opacity: 1;	
+		} 
+		.gwt-Label {
+			color: $mebis-teal;	
+		}
+	}
 }
 
 

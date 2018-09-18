@@ -5,7 +5,7 @@
 
 	$toolbarWidth: 600px;
 	$toolbarHeight: 56px;
-	$submenuHeight: 178px;
+	$submenuHeight: 212px;
 	$pagecontrolpanelWidth: 269px;
 	$spaceHeight: calc(188px + 16px);
 	$always_on_top: 60;
@@ -32,7 +32,7 @@
 ******************/	
 	.mowToolbar {
 		position: relative;
-		height: 182px;
+		height: 212px;
 		overflow: hidden;
 		/** explicit non-transparent to hide EV content */
 		background-color: $mow_toolbar;
@@ -217,7 +217,7 @@
 		display: flex;
 		top: $toolbarHeight;
 		width: 300%;
-		height: 123px;
+		height: 212px;
 		z-index: $z_mow_toolbar;
 	}
 	.mowSubMenu {
@@ -239,7 +239,7 @@
 	}
 	.penSubMenu {
 		.penPanel {
-			width: 105px;
+			width: 144px;
 			margin: 0px;
 			.plusMarginLeft{ 
             	margin-left: 16px !important; 
@@ -250,7 +250,7 @@
 		}
 		.colorPanel {
 			position: absolute;
-			left: 150px; 
+			left: 144px;
 			margin: 0px;
 			.panelRow {
               	padding: 0px;
@@ -299,6 +299,10 @@
 		 width: 30px;
 		 height: 30px;
 		 border: 1px solid $tool-border !important;
+		 img {
+		 	opacity: 0.54;	
+		 }	
+		 
 		 &:hover {
 		 	img {
 		 		opacity: 1;

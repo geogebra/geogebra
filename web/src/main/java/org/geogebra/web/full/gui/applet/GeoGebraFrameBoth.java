@@ -1021,6 +1021,17 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		mowToolbar.setMode(mode);
 	}
 
+	/**
+	 * @param mode
+	 *            new mode for MOW toolbar
+	 */
+	public void setToorbarMowMode(int mode) {
+		if (toolbarMow == null) {
+			return;
+		}
+		toolbarMow.setMode(mode);
+	}
+
 	private void setKeyboardShowing(boolean keyboardShowing) {
 		this.keyboardShowing = keyboardShowing;
 	}

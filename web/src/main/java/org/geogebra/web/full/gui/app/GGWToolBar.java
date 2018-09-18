@@ -765,7 +765,8 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_parallel_32();
 
 		case EuclidianConstants.MODE_PEN:
-			return resourceBundle.mode_pen_32();
+			return app.isWhiteboardActive() ? resourceBundle.mode_pen()
+					: resourceBundle.mode_pen_32();
 
 		case EuclidianConstants.MODE_POINT:
 			return resourceBundle.mode_point_32();
@@ -1000,6 +1001,36 @@ public class GGWToolBar extends Composite
 			return AppResources.INSTANCE.empty();
 		}
 
+	}
+
+	/**
+	 * @param resourceBundle
+	 *            image resource
+	 * @param mode
+	 *            tool id
+	 * @param app
+	 *            see {@link AppW}
+	 * @return colored img for selected on tool
+	 */
+	public static ResourcePrototype getColoredImageForMode(
+			ToolbarResources resourceBundle, int mode, AppW app) {
+		switch (mode) {
+		case EuclidianConstants.MODE_PEN:
+			return resourceBundle.mode_pen_teal();
+			
+		case EuclidianConstants.MODE_SELECT_MOW:
+		case EuclidianConstants.MODE_SELECT:
+			return resourceBundle.mode_select_teal();
+		
+		case EuclidianConstants.MODE_ERASER:
+			return resourceBundle.mode_eraser_teal();
+
+		case EuclidianConstants.MODE_HIGHLIGHTER:
+			return resourceBundle.mode_highlighter_teal();
+
+		default:
+			return AppResources.INSTANCE.empty();
+		}
 	}
 
 	/**

@@ -7,18 +7,15 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PenPreview;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
@@ -35,13 +32,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class PenSubMenu extends SubMenuPanel {
+public class PenSubMenu extends SubMenuPanel implements FastClickHandler {
 	private static final int MAX_ERASER_SIZE = 100;
 	private static final int ERASER_STEP = 20;
-	private StandardButton pen;
-	private StandardButton eraser;
-	private StandardButton highlighter;
-	private StandardButton select;
+	private ToolButton pen;
+	private ToolButton eraser;
+	private ToolButton highlighter;
+	private ToolButton select;
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
@@ -76,27 +73,12 @@ public class PenSubMenu extends SubMenuPanel {
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
 		penPanel.addStyleName("penPanel");
-		pen = createButton(EuclidianConstants.MODE_PEN);
-		// pen gets a separate icon here so it can show the selected color
-		NoDragImage im = new NoDragImage(
-				ImgResourceHelper.safeURI(
-						ToolbarSvgResourcesSync.INSTANCE.mode_pen_black_32()),
-				32);
-		// im.addStyleName("opacityFixForOldIcons");
-		pen.getUpFace().setImage(im);
-		pen.addStyleName("plusMarginLeft");
-		eraser = createButton(EuclidianConstants.MODE_ERASER);
-		highlighter = createButton(EuclidianConstants.MODE_HIGHLIGHTER);
-		highlighter.addStyleName("highlighterBtn");
-		if (app.has(Feature.MOW_HIGHLIGHTER_TOOL)) {
-			highlighter.addStyleName("plusMarginLeft");
-			eraser.addStyleName("eraserBtn");
-		} else {
-			eraser.addStyleName("plusMarginLeft");
-		}
-		select = createButton(app.has(Feature.MOW_SELECTION_TOOL)
-				? EuclidianConstants.MODE_SELECT_MOW
-				: EuclidianConstants.MODE_SELECT);
+		pen = new ToolButton(EuclidianConstants.MODE_PEN, 24, app, this);
+		eraser = new ToolButton(EuclidianConstants.MODE_ERASER, 24, app, this);
+		highlighter = new ToolButton(EuclidianConstants.MODE_HIGHLIGHTER, 24,
+				app, this);
+		select = new ToolButton(EuclidianConstants.MODE_SELECT_MOW, 24, app,
+				this);
 		penPanel.add(LayoutUtilW.panelRow(select, pen, eraser, highlighter));
 	}
 
@@ -215,6 +197,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
+		pen.setSelected(true);
 		setColorsEnabled(true);
 		selectColor(lastSelectedPenColor);
 		slider.setValue((double) lastPenThickness);
@@ -227,6 +210,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void doSelectHighlighter() {
 		highlighter.getElement().setAttribute("selected", "true");
+		highlighter.setSelected(true);
 		setColorsEnabled(true);
 		selectColor(lastSelectedHighlighterColor);
 		slider.setValue((double) lastHighlighterThinckness);
@@ -241,6 +225,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private void doSelectEraser() {
 		reset();
 		eraser.getElement().setAttribute("selected", "true");
+		eraser.setSelected(true);
 		setColorsEnabled(false);
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_ERASER_SIZE, false);
@@ -255,6 +240,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private void doSelectSelect() {
 		reset();
 		select.getElement().setAttribute("selected", "true");
+		select.setSelected(true);
 		slider.getElement().setAttribute("disabled", "true");
 	}
 
@@ -263,9 +249,13 @@ public class PenSubMenu extends SubMenuPanel {
 	 */
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
+		pen.setSelected(false);
 		eraser.getElement().setAttribute("selected", "false");
+		eraser.setSelected(false);
 		select.getElement().setAttribute("selected", "false");
+		select.setSelected(false);
 		highlighter.getElement().setAttribute("selected", "false");
+		highlighter.setSelected(false);
 		setColorsEnabled(false);
 	}
 
