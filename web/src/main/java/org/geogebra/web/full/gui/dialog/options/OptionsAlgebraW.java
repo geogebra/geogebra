@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author csilla
@@ -190,7 +189,8 @@ public class OptionsAlgebraW
 			angleUnit.addItem(getApp().getLocalization().getMenu("Degree"));
 			angleUnit.addItem(getApp().getLocalization().getMenu("Radiant"));
 			if (getApp().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-				angleUnit.addItem(Unicode.DEGREES_MINUTES_SECONDS);
+				angleUnit.addItem(getApp().getLocalization()
+						.getMenu("DegreesMinutesSeconds"));
 				int index;
 				switch (getApp().getKernel().getAngleUnit()) {
 				case Kernel.ANGLE_RADIANT:

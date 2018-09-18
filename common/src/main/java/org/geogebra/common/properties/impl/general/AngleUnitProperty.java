@@ -1,7 +1,5 @@
 package org.geogebra.common.properties.impl.general;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -24,7 +22,8 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
         super(localization, "AngleUnit");
         this.kernel = kernel;
         if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-            setValuesAndLocalize(new String[]{"Degree", "Radiant", Unicode.DEGREES_MINUTES_SECONDS});
+			setValuesAndLocalize(new String[] { "Degree", "Radiant",
+					"DegreesMinutesSeconds" });
         } else {
             setValuesAndLocalize(new String[]{"Degree", "Radiant"});
         }

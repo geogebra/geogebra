@@ -45,8 +45,6 @@ import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 /**
  * Advanced options for the options dialog.
  */
@@ -784,7 +782,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
 		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
 			angleUnitRadioDegreesMinutesSeconds
-					.setText(Unicode.DEGREES_MINUTES_SECONDS);
+					.setText(loc.getMenu("DegreesMinutesSeconds"));
 		}
 
 		continuityPanel
