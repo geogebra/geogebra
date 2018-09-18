@@ -593,7 +593,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	@Override
 	public boolean owns(Material mat) {
-		Log.debug("AuthorId: " + mat.getAuthorID());
 		return mat.getAuthorID() <= 0
 				|| mat.getAuthorID() == client.getModel().getUserId();
 	}
