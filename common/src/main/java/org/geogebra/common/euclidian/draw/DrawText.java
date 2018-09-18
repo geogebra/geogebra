@@ -415,6 +415,22 @@ public final class DrawText extends Drawable {
 			startPoint = text.getStartPoint();
 			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
 			break;
+		case BOTTOM_LEFT:
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
+			break;
+		case TOP_RIGHT:
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
+			break;
+		case TOP_LEFT:
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
+			break;
+		case BOTTOM_RIGHT:
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
+			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
+			break;
 		default:
 			break;
 		}
