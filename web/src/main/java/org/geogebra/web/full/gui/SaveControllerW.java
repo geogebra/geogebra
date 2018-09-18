@@ -219,7 +219,8 @@ public class SaveControllerW implements SaveController {
 							} else {
 								materialCallback = newMaterialCB(base64, false);
 							}
-							doUploadToGgt(getAppW().getTubeId(), visibility,
+							String key = parseResponse.get(0).getSharingKeyOrId();
+							doUploadToGgt(key, visibility,
 									base64,
 									materialCallback);
 						} else {

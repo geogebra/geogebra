@@ -384,7 +384,9 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				ArrayList<Material> result = new ArrayList<>();
 				ArrayList<Chapter> meta = JSONParserGGT.prototype
 						.parseResponse(response, result);
-				cb.onLoaded(result, meta);
+				if (cb != null) {
+					cb.onLoaded(result, meta);
+				}
 
 			}
 
