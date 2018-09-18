@@ -142,6 +142,7 @@ public class Material implements Comparable<Material>, Serializable {
 		this.author = "";
 		this.author_id = -1;
 		this.creator_id = -1;
+		this.creator = new UserPublic();
 		this.url = "";
 		this.url_direct = "";
 		this.language = "";
