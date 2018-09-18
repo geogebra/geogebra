@@ -72,7 +72,6 @@ public class TextControllerW
 	@Override
 	public void onBlur(BlurEvent event) {
 		editor.hide();
-		view.setBoundingBox(null);
 		String content = editor.getText();
 		if (!StringUtil.empty(content)) {
 			text.cancelEditMode();
