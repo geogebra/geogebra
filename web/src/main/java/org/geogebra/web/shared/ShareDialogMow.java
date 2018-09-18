@@ -1,6 +1,7 @@
 package org.geogebra.web.shared;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
@@ -60,10 +61,11 @@ public class ShareDialogMow extends DialogBoxW
 				@Override
 				public void onClick(final ClickEvent event) {
 					getAppW().getLoginOperation().getGeoGebraTubeAPI()
-							.setShared(getAppW().getActiveMaterial(),
+							.setShared(material,
 									getGroupName(), true,
 									new AsyncOperation<Boolean>() {
 
+										@Override
 										public void callback(Boolean obj) {
 											Log.debug("in share: " + obj);
 											showTooltip(obj);
@@ -140,10 +142,9 @@ public class ShareDialogMow extends DialogBoxW
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		groupInfoLbl = new Label("");
-		/*
-		 * groupNames = new ArrayList<>( Arrays.asList("Group1", "Group2",
-		 * "Group3", "Group4"));
-		 */
+
+		groupNames = new ArrayList<>(Arrays.asList("Group1", "Group2", "Group3", "Group4"));
+
 		if (groupNames.isEmpty()) {
 			groupInfoLbl
 					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
