@@ -1350,7 +1350,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "ByLayering": "Per capes",
     "CAS": "CAS",
     "CAS.AutomaticRename": "El nom %0 ja existia i s'ha canviat a %1.",
-    "CASCalculator": "CAS Calculator",
+    "CASCalculator": "Calculadora CAS",
     "CASFieldHelp": "<html><body><p><b>Finestra del CAS en \xfas</b></p><table border=\"1\"><tr><td>Retorn </td><td>Avalua l\'entrada</td></tr><tr><td>; </td><td>Suprimeix el resultat</td></tr><tr><td>Ctrl + Retorn </td><td>Avalua en mode num\xe8ric</td></tr><tr><td>Alt + Retorn </td><td>Revisa l\'entrada</td></tr><tr><td>Esc</td><td>Esborra l\'entrada</td></tr><tr><td>$</td><td>Resultat anterior (refer\xe8ncia din\xe0mica)</td></tr><tr><td>#</td><td>Resultat anterior (refer\xe8ncia est\xe0tica)</td></tr><tr><td>$3</td><td>Resultat de la 3a cel\xb7la (refer\xe8ncia din\xe0mica)</td></tr><tr><td>#3</td><td>Resultat de la 3a cel\xb7la (refer\xe8ncia est\xe0tica)</td></tr><tr><td>F1</td><td>Ajuda per a l\'ordre actual</td></tr><tr><td>Tab</td><td>Mostra l\'ordre seg\xfcent que coincideix</td></tr></table><p><br><b>Autocompleci\xf3 d\'ordres</b><br>Quan s\'escriuen les dues primeres lletres d\'una ordre<br>el GeoGebra la completar\xe0.</p><table border=\"1\"><tr><td>Retorn </td><td>Accepta l\'ordre proposada</td></tr><tr><td>Una altra lletra</td><td>Adapta l\'ordre proposada</td></tr></table></body></html>",
     "CASInitializing": "S'est\xe0 iniciant el CAS",
     "CASPlot": "Representa el contingut d'una cel\xb7la del CAS",
