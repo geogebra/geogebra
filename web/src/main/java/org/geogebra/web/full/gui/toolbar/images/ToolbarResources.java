@@ -85,6 +85,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_image_mow_32();
 
+	ResourcePrototype mode_image_mow_teal();
+
 	ResourcePrototype mode_integral_32();
 
 	ResourcePrototype mode_intersect_32();
@@ -178,6 +180,10 @@ public interface ToolbarResources {
 	ResourcePrototype mode_tangent_32();
 
 	ResourcePrototype mode_text_32();
+
+	ResourcePrototype mode_media_text();
+
+	ResourcePrototype mode_media_text_teal();
 
 	ResourcePrototype mode_textfieldaction_32();
 
@@ -287,15 +293,23 @@ public interface ToolbarResources {
 
 	ResourcePrototype help_32();
 
-	ResourcePrototype mode_geogebra_32();
+	ResourcePrototype mode_graphing_32();
+
+	ResourcePrototype mode_graphing_teal();
 
 	ResourcePrototype mode_photo_32();
 
 	ResourcePrototype mode_video_32();
 
+	ResourcePrototype mode_video_teal();
+
 	ResourcePrototype mode_audio_32();
 
+	ResourcePrototype mode_audio_teal();
+
 	ResourcePrototype mode_camera_32();
+
+	ResourcePrototype mode_camera_teal();
 
 	ResourcePrototype mode_highlighter_32();
 
@@ -303,7 +317,11 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_pdf_32();
 
+	ResourcePrototype mode_pdf_teal();
+
 	ResourcePrototype mode_extension();
+
+	ResourcePrototype mode_extension_teal();
 
 	ResourcePrototype mode_pen();
 

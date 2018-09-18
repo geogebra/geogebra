@@ -777,7 +777,7 @@ public class ControllerTest {
 
 	@Test
 	public void geoGebraTool() {
-		app.setMode(EuclidianConstants.MODE_GEOGEBRA); // TODO 117
+		app.setMode(EuclidianConstants.MODE_GRAPHING); // TODO 117
 	}
 
 	@Test

@@ -841,11 +841,12 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_tangent_32();
 
 		case EuclidianConstants.MODE_TEXT:
-		case EuclidianConstants.MODE_MEDIA_TEXT:
 			return resourceBundle.mode_text_32();
 
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+		case EuclidianConstants.MODE_MEDIA_TEXT:
+			return resourceBundle.mode_media_text();
 
+		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
 			return resourceBundle.mode_textfieldaction_32();
 
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -988,11 +989,11 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_AUDIO:
 			return resourceBundle.mode_audio_32();
 
-		case EuclidianConstants.MODE_GEOGEBRA:
-			return resourceBundle.mode_geogebra_32();
+		case EuclidianConstants.MODE_GRAPHING:
+			return resourceBundle.mode_graphing_32();
 
 		case EuclidianConstants.MODE_EXTENSION:
-			return resourceBundle.mode_extension(); // TODO
+			return resourceBundle.mode_extension();
 
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();
@@ -1051,6 +1052,30 @@ public class GGWToolBar extends Composite
 
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 			return resourceBundle.mode_shape_ellipse_teal();
+
+		case EuclidianConstants.MODE_MEDIA_TEXT:
+			return resourceBundle.mode_media_text_teal();
+
+		case EuclidianConstants.MODE_IMAGE:
+			return resourceBundle.mode_image_mow_teal();
+
+		case EuclidianConstants.MODE_VIDEO:
+			return resourceBundle.mode_video_teal();
+
+		case EuclidianConstants.MODE_CAMERA:
+			return resourceBundle.mode_camera_teal();
+
+		case EuclidianConstants.MODE_AUDIO:
+			return resourceBundle.mode_audio_teal();
+
+		case EuclidianConstants.MODE_PDF:
+			return resourceBundle.mode_pdf_teal();
+
+		case EuclidianConstants.MODE_EXTENSION:
+			return resourceBundle.mode_extension_teal();
+
+		case EuclidianConstants.MODE_GRAPHING:
+			return resourceBundle.mode_graphing_teal();
 
 		default:
 			return AppResources.INSTANCE.empty();

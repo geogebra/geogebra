@@ -413,7 +413,7 @@ public final class EuclidianConstants {
 	/** Audio */
 	public static final int MODE_AUDIO = 116;
 	/** Geogebra */
-	public static final int MODE_GEOGEBRA = 117;
+	public static final int MODE_GRAPHING = 117;
 	/** Camera */
 	public static final int MODE_CAMERA = 118;
 	/** PDF tool */
@@ -884,8 +884,8 @@ public final class EuclidianConstants {
 			return "Camera";
 		case EuclidianConstants.MODE_AUDIO:
 			return "Audio";
-		case EuclidianConstants.MODE_GEOGEBRA:
-			return "GeoGebra";
+		case EuclidianConstants.MODE_GRAPHING:
+			return "Graphing";
 		case EuclidianConstants.MODE_PDF:
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:

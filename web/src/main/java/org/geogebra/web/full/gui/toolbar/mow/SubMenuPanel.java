@@ -266,7 +266,7 @@ public abstract class SubMenuPanel extends FlowPanel
 						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))
 				|| (mode == EuclidianConstants.MODE_PDF
 						&& !app.has(Feature.MOW_PDF_TOOL))
-				|| (mode == EuclidianConstants.MODE_GEOGEBRA
+				|| (mode == EuclidianConstants.MODE_GRAPHING
 						&& !app.has(Feature.MOW_GEOGEBRA_TOOL))
 				|| (mode == EuclidianConstants.MODE_EXTENSION
 						&& !app.has(Feature.MOW_EMBED_EXTENSION));
@@ -355,7 +355,7 @@ public abstract class SubMenuPanel extends FlowPanel
 				&& mode != EuclidianConstants.MODE_SELECT_MOW)
 				|| (mode > 110 && mode != EuclidianConstants.MODE_VIDEO
 						&& mode != EuclidianConstants.MODE_AUDIO
-						&& mode != EuclidianConstants.MODE_GEOGEBRA
+						&& mode != EuclidianConstants.MODE_GRAPHING
 						&& mode != EuclidianConstants.MODE_EXTENSION
 						&& mode != EuclidianConstants.MODE_CAMERA
 						&& mode != EuclidianConstants.MODE_HIGHLIGHTER

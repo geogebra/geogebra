@@ -129,12 +129,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_image_32();
 
-	/**
-	 * @return image collection for mow as we open the file chooser
-	 */
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image_mow.svg")
-	SVGResource mode_image_mow_32();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_intersect.svg")
 	@Override
 	SVGResource mode_intersect_32();
@@ -286,6 +280,14 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_text.svg")
 	@Override
 	SVGResource mode_text_32();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text.svg")
+	@Override
+	SVGResource mode_media_text();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text_teal.svg")
+	@Override
+	SVGResource mode_media_text_teal();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_textfieldaction.svg")
 	@Override
@@ -505,6 +507,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_orthogonalthreed_32();
 
+	/** Whiteboard icons */
+
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_line_black.svg")
 	SVGResource mode_shape_line_32();
@@ -581,7 +585,15 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_teal.svg")
 	SVGResource mode_eraser_teal();
 
-	// Whiteboard
+	/**
+	 * @return image collection for mow as we open the file chooser
+	 */
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image_mow.svg")
+	SVGResource mode_image_mow_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image_mow_teal.svg")
+	SVGResource mode_image_mow_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
@@ -592,20 +604,36 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	ImageResource mode_photo_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra_black.svg")
-	SVGResource mode_geogebra_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_graphing_black.svg")
+	SVGResource mode_graphing_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_graphing_teal.svg")
+	SVGResource mode_graphing_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_black.svg")
 	SVGResource mode_video_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_teal.svg")
+	SVGResource mode_video_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera_black.svg")
 	SVGResource mode_camera_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera_teal.svg")
+	SVGResource mode_camera_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_black.svg")
 	SVGResource mode_audio_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_teal.svg")
+	SVGResource mode_audio_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")
@@ -620,7 +648,15 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_pdf_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf_teal.svg")
+	SVGResource mode_pdf_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
 	SVGResource mode_extension();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension_teal.svg")
+	SVGResource mode_extension_teal();
 
 }

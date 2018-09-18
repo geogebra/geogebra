@@ -1,0 +1,13 @@
+<svg id="Text" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <title>Text_Tool</title>
+  <path d="M23,7V1H17V3H7V1H1V7H3V17H1v6H7V21H17v2h6V17H21V7ZM3,3H5V5H3ZM5,21H3V19H5Zm12-2H7V17H5V7H7V5H17V7h2V17H17Zm4,2H19V19h2ZM19,5V3h2V5Z"/>
+  <path class="cls-1" d="M0,0H24V24H0Z"/>
+  <path d="M16,8H8v2h3v7h2V10h3Z"/>
+</svg>

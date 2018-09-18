@@ -389,7 +389,7 @@ public class MOWToolbar extends FlowPanel {
 				|| mode == EuclidianConstants.MODE_VIDEO
 				|| mode == EuclidianConstants.MODE_CAMERA
 				|| mode == EuclidianConstants.MODE_AUDIO
-				|| mode == EuclidianConstants.MODE_GEOGEBRA
+				|| mode == EuclidianConstants.MODE_GRAPHING
 				|| mode == EuclidianConstants.MODE_EXTENSION
 				|| mode == EuclidianConstants.MODE_PDF) {
 			return mediaMenu;
