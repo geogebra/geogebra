@@ -673,7 +673,8 @@ public class EuclidianStatic {
 
 		if (app.has(Feature.MOW_TEXT_TOOL)) {
 			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
-					(int) ret.getWidth(), (int) ret.getHeight());
+					(int) ret.getWidth(),
+					Math.max((int) ret.getHeight(), height + 2 * EDITOR_MARGIN));
 			if (geo != null) {
 				((GeoText) geo).setTextHeight(height);
 			}
