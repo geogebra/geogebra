@@ -61,6 +61,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		this.shareURL = shareURL;
 		this.anchor = anchor;
 		initGui();
+		DialogUtil.hideOnLogout(app, this);
 	}
 
 	private void initGui() {
