@@ -305,7 +305,7 @@ TOKEN :  {
   // 02da is "Ring Above", Alt-k in iPad
   // 00ba is Masculine ordinal indicator Alt-zero on OSX
   | < DEGREE_SYMBOL:   ( "\u00b0" | "\u02da" | "\u00ba") >
-  | < DEGREE:   ("deg") >
+  | < DEGREE_WORD:   ("deg") >
   | < GRADIAN:   ( "\u1D4D") > // superscript g
   | < ANGLE_MINUTES:   ( "\u2032" | "'") >
   | < ANGLE_SECONDS:   ( "\u2033" | "\u2032\u2032" | "''") >
@@ -1688,7 +1688,7 @@ ExpressionValue myDouble():
      return parseDouble(image, percent != null);
     }
 |
-    (c = <DEGREE> | c = <DEGREE_SYMBOL>)
+    (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)
     {  // constant for degree to radians
     if(c.image.length() ==3)
     {
