@@ -4783,4 +4783,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		return !isARDrawing();
 	}
 
+	@Override
+	public boolean canMoveFunctions() {
+		return false;
+	}
+
 }

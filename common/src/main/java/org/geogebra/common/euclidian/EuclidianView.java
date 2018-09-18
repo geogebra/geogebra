@@ -6587,4 +6587,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return false;
 	}
 
+	/**
+	 *
+	 * @return true if this kind of view can move functions (false for 3D)
+	 */
+    public boolean canMoveFunctions() {
+		return true;
+    }
 }

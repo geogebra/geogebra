@@ -724,4 +724,8 @@ abstract public class ObjectSettingsModel {
             }
         }
     }
+
+    public boolean hasFixUnfixFunctionProperty() {
+        return app.getActiveEuclidianView().canMoveFunctions();
+    }
 }
