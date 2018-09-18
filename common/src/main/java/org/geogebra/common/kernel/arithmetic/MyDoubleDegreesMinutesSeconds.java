@@ -12,39 +12,36 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
-	private double degrees, minutes, seconds;
-	private boolean hasDegrees, hasMinutes, hasSeconds;
-
 	private StringBuilder sb = new StringBuilder();
 
 	/**
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param value
+	 *            value
 	 * @param degrees
 	 *            value for degrees
-	 * @param hasDegrees
-	 *            whether it has degrees in definition
 	 * @param minutes
 	 *            value for minutes
-	 * @param hasMinutes
-	 *            whether it has minutes in definition
 	 * @param seconds
 	 *            value for seconds
-	 * @param hasSeconds
-	 *            whether it has seconds in definition
 	 */
-	public MyDoubleDegreesMinutesSeconds(Kernel kernel, double degrees,
-			boolean hasDegrees, double minutes, boolean hasMinutes,
-			double seconds, boolean hasSeconds) {
-		super(kernel, (degrees + (minutes + seconds / 60.0d) / 60.0d) * Math.PI
-				/ 180.0d);
-		this.degrees = degrees;
-		this.hasDegrees = hasDegrees;
-		this.minutes = minutes;
-		this.hasMinutes = hasMinutes;
-		this.seconds = seconds;
-		this.hasSeconds = hasSeconds;
+	public MyDoubleDegreesMinutesSeconds(Kernel kernel, double value,
+			String degrees, String minutes, String seconds) {
+		super(kernel, value);
+		if (degrees != null) {
+			sb.append(degrees);
+			sb.append(Unicode.DEGREE_CHAR);
+		}
+		if (minutes != null) {
+			sb.append(minutes);
+			sb.append(Unicode.MINUTES);
+		}
+		if (seconds != null) {
+			sb.append(seconds);
+			sb.append(Unicode.SECONDS);
+		}
 		setAngle();
 	}
 
@@ -56,12 +53,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	public MyDoubleDegreesMinutesSeconds(
 			MyDoubleDegreesMinutesSeconds myDouble) {
 		super(myDouble);
-		this.degrees = myDouble.degrees;
-		this.hasDegrees = myDouble.hasDegrees;
-		this.minutes = myDouble.minutes;
-		this.hasMinutes = myDouble.hasMinutes;
-		this.seconds = myDouble.seconds;
-		this.hasSeconds = myDouble.hasSeconds;
+		sb.append(myDouble.sb);
 		setAngle();
 	}
 
@@ -72,35 +64,38 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		sb.setLength(0);
-		if (hasDegrees) {
-			sb.append(kernel.format(degrees, tpl));
-			sb.append(Unicode.DEGREE_CHAR);
-		}
-		if (hasMinutes) {
-			sb.append(kernel.format(minutes, tpl));
-			sb.append(Unicode.MINUTES);
-		}
-		if (hasSeconds) {
-			sb.append(kernel.format(seconds, tpl));
-			sb.append(Unicode.SECONDS);
-		}
 		return sb.toString();
 	}
 
 	@Override
 	public void set(double val) {
 		super.set(val);
+		sb.setLength(0);
+
 		double d = val * 180.0 / Math.PI;
 		int dI = (int) d;
-		degrees = dI;
-		this.hasDegrees = dI != 0;
-		double m = (d - degrees) * 60.0;
+		if (dI != 0) {
+			sb.append(kernel.format(dI, StringTemplate.defaultTemplate));
+			sb.append(Unicode.DEGREE_CHAR);
+		}
+
+		double m = (d - dI) * 60.0;
 		int mI = (int) m;
-		minutes = mI;
-		this.hasMinutes = mI != 0;
-		seconds = (m - minutes) * 60.0;
-		this.hasSeconds = DoubleUtil.isZero(seconds, Kernel.MAX_PRECISION);
+		if (mI != 0) {
+			sb.append(kernel.format(mI, StringTemplate.defaultTemplate));
+			sb.append(Unicode.MINUTES);
+		}
+
+		double seconds = (m - mI) * 60.0;
+		if (!DoubleUtil.isZero(seconds, Kernel.MAX_PRECISION)) {
+			sb.append(kernel.format(seconds, StringTemplate.defaultTemplate));
+			sb.append(Unicode.SECONDS);
+		}
+		
+		if (sb.length() == 0) {
+			sb.append("0");
+			sb.append(Unicode.DEGREE_CHAR);
+		}
 	}
 
 }
