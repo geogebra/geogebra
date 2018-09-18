@@ -425,11 +425,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 					String.valueOf(expanded));
 			btnMenu.getElement().removeAttribute("aria-pressed");
 
-			if (!expanded) {
-				btnMenu.getElement().removeClassName("selected");
-			} else {
-				btnMenu.getElement().addClassName("selected");
-			}
+			Dom.toggleClass(btnMenu, "selected", expanded);
 		}
 	}
 
