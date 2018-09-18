@@ -178,7 +178,7 @@ public class Opentype implements FontLoaderWrapper {
 
 					@Override
 					public void onSuccess(Void result) {
-						nativeParseFont(familyName, false);
+						parseFont(familyName, false);
 					}
 				}).inject();
 	}
@@ -187,17 +187,21 @@ public class Opentype implements FontLoaderWrapper {
 			TextResource resource) {
 		if (resource.getName().equals(familyName)) {
 			ScriptInjector.fromString(resource.getText()).inject();
-			nativeParseFont(familyName, true);
+			parseFont(familyName, true);
 			return true;
 		}
 		return false;
 	}
 
-	private native void nativeParseFont(String familyName, boolean frame) /*-{
-		var font = (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
+	private void parseFont(String familyName, boolean frame) {
+		JavaScriptObject font = getFontNative(familyName, frame);
+		setFontIsLoaded(familyName, font);
+		fireFontActiveEvent(familyName);
+	}
 
-		this.@com.himamis.retex.renderer.web.font.opentype.Opentype::setFontIsLoaded(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(familyName, font);
-		this.@com.himamis.retex.renderer.web.font.opentype.Opentype::fireFontActiveEvent(Ljava/lang/String;)(familyName);
+	private native JavaScriptObject getFontNative(String familyName,
+			boolean frame) /*-{
+		return (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
 	}-*/;
 
 	@Override
