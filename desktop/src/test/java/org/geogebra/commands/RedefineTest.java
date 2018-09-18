@@ -5,8 +5,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.Assert;
@@ -290,6 +292,21 @@ public class RedefineTest extends Assert {
 		Assert.assertEquals(AlgebraTest.unicode("c: y^2 = (x^2 - 3^2) / x^2"),
 				get("c").getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true)));
+	}
+
+	@Test
+	public void derivativeShouldNotThrowCircularException() {
+		t("f(x)=x^2", "x^(2)");
+		t("f'(x)=f'", "(2 * x)");
+		ap.changeGeoElement(get("f'"), "f'(x)", true, true,
+				new TestErrorHandler(),
+				new AsyncOperation<GeoElementND>() {
+			@Override
+			public void callback(GeoElementND obj) {
+				// TODO Auto-generated method stub
+				
+			}});
+		t("f'(x)", "(2 * x)");
 	}
 
 }

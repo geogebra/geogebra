@@ -387,6 +387,7 @@ public class AlgebraProcessor {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
+			replaceDerivative(ve, geo);
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -401,6 +402,38 @@ public class AlgebraProcessor {
 							"Please check your input") + ":\n"
 							+ newValue);
 		}
+	}
+
+	/**
+	 * Replace f' by ExNode(f, Operation.Derivative, 1) in new definition of f'.
+	 * 
+	 * @param ve
+	 *            new definition
+	 * @param geo
+	 *            geo to be replaced by definition
+	 */
+	private void replaceDerivative(ValidExpression ve, final GeoElementND geo) {
+		if (geo.getLabelSimple() != null && geo.getLabelSimple().endsWith("'")
+				&& geo.getParentAlgorithm() instanceof AlgoDependentFunction) {
+			ve.traverse(new Traversing() {
+
+				public ExpressionValue process(ExpressionValue ev) {
+					if (ev == geo) {
+						ExpressionNode en = ((AlgoDependentFunction) geo
+								.getParentAlgorithm()).getExpression().unwrap()
+										.wrap();
+						// f'(x) => f'
+						if (en.getOperation() == Operation.FUNCTION
+								&& en.getRight() instanceof FunctionVariable) {
+							en = en.getLeft().wrap();
+						}
+						return en.deepCopy(kernel);
+					}
+					return ev;
+				}
+			});
+		}
+
 	}
 
 	/**
@@ -3425,7 +3458,8 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * set whether structure parsing is enabled
+	 * @param enableStructures
+	 *            whether structure parsing is enabled
 	 */
 	public void setEnableStructures(boolean enableStructures) {
 		this.structuresEnabled = enableStructures;
