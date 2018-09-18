@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
@@ -68,6 +69,10 @@ public class MainMenu extends FlowPanel
 	private PerspectivesMenuW perspectivesMenu;
 	private PerspectivesMenuUnbundledW perspectiveMenuUnbundled;
 	// private boolean leftSide = false;
+	/**
+	 * same as AppW.smallScreen()
+	 */
+	public boolean smallScreen = false;
 	/**
 	 * Menus
 	 */
@@ -172,10 +177,14 @@ public class MainMenu extends FlowPanel
 		menuTitles.clear();
 		menuImgs.clear();
 
-		initAriaStackPanel();
+		smallScreen = app.isUnbundled()
+				&& AppW.smallScreen(app.getArticleElement());
 
+		initAriaStackPanel();
 		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 			this.menuPanel.addStyleName("menuPanel");
+		} else if (smallScreen) {
+			initLogoMenu();
 		}
 
 		if (app.enableFileFeatures()) {
@@ -286,24 +295,54 @@ public class MainMenu extends FlowPanel
 		this.add(menuPanel);
 	}
 
+	private void initLogoMenu() {
+		AppType appType = app.getSettings().getToolbarSettings().getType();
+		SVGResource icon = appType.equals(AppType.GRAPHING_CALCULATOR)
+				? MaterialDesignResources.INSTANCE.graphing()
+				: (appType.equals(AppType.GRAPHER_3D)
+						? MaterialDesignResources.INSTANCE.graphing3D()
+						: MaterialDesignResources.INSTANCE.geometry());
+		logoMenu = new GMenuBar("", app);
+		logoMenu.setStyleName("logoMenu");
+		this.menuPanel.add(logoMenu,
+				getHTML(icon,
+						appType.equals(AppType.GRAPHING_CALCULATOR)
+								? app.getLocalization()
+										.getMenu("GeoGebraGraphingCalculator")
+								: appType.equals(AppType.GRAPHER_3D)
+										? app.getLocalization()
+												.getMenu("GeoGebra3DGrapher")
+										: app.getLocalization()
+												.getMenu("GeoGebraGeometry")),
+				true);
+	}
+
 	private void initAriaStackPanel() {
 		this.menuPanel = new AriaStackPanel() {
 			@Override
 			public void showStack(int index) {
-				if (app.isUnbundledOrWhiteboard()) {
-					int selected = getSelectedIndex();
-					collapseStack(getSelectedIndex());
-					if (selected == index) {
-						closeAll();
-						return;
+				if (smallScreen && index == 0) {
+					super.showStack(1);
+					expandStack(1);
+				} else {
+					if (app.isUnbundledOrWhiteboard()) {
+						int selected = getSelectedIndex();
+						collapseStack(getSelectedIndex());
+						if (selected == index) {
+							closeAll();
+							return;
+						}
+						expandStack(index);
 					}
-					expandStack(index);
+					super.showStack(index);
 				}
-				super.showStack(index);
 
 				dispatchOpenEvent();
 
-				if (index < menus.size()) {
+				if (smallScreen && index == 0) {
+					app.getGuiManager().setDraggingViews(
+							isViewDraggingMenu(menus.get(1)), false);
+				} else if (index < menus.size()) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
@@ -330,6 +369,10 @@ public class MainMenu extends FlowPanel
 						app.toggleMenu();
 						return;
 					} else if (index >= 0) {
+						if (this.getWidget(index) == logoMenu) {
+							app.toggleMenu();
+							return;
+						}
 						if (this.getWidget(index) == settingsMenu) {
 							app.getDialogManager().showPropertiesDialog(
 									OptionType.GLOBAL, null);
@@ -357,11 +400,12 @@ public class MainMenu extends FlowPanel
 			}
 
 			private void setStackText(int index, boolean expand) {
-				if (index < 0 || index > menuImgs.size()) {
+				int step = smallScreen ? 1 : 0;
+				if (index < step || index > menuImgs.size()) {
 					return;
 				}
 
-				SVGResource img = menuImgs.get(index);
+				SVGResource img = menuImgs.get(index - step);
 				GMenuBar menu = getMenuAt(index);
 				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
 						+ menu.getMenuTitle().substring(1);

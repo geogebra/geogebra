@@ -311,3 +311,31 @@ $classicToolbar: 50px;
 			
 	}
 }
+
+@media screen and (max-width: 600px) {
+	.GeoGebraFrame {
+		.floatingMenu:not(.mow) {
+			.gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first {
+				height: 56px;
+				background-color: $white;
+                              
+				img {
+					opacity: 1;
+					top: 10px;
+					height: 36px;
+					width: 36px;
+					margin: 0px;
+					left: 6%;
+				}
+                               
+				span {
+					font-size: 100%;
+				}
+	                       
+				&:hover {
+					background-color: $white;
+				}
+			}
+		}
+	}
+}

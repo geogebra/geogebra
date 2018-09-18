@@ -1429,6 +1429,17 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void resetMenuIfScreenChanged() {
+		if (mainMenuBar != null && mainMenuBar.getMenubar() != null
+				&& mainMenuBar.getMenubar().smallScreen != AppW
+				.smallScreen(((AppW) app).getArticleElement())) {
+			mainMenuBar.removeMenus();
+			mainMenuBar.init(getApp());
+			updateGlobalOptions();
+		}
+	}
+
+	@Override
 	public void updateGlobalOptions() {
 		if (propertiesView != null) {
 			((PropertiesViewW) this.getPropertiesView())

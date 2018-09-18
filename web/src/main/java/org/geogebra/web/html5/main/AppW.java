@@ -448,12 +448,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				: laf2.getVersion(dimension, ae.getDataParamAppName());
 	}
 
+	/**
+	 * handler for window resize
+	 */
 	protected final void windowResized() {
 		for (MouseTouchGestureControllerW mtg : this.euclidianHandlers) {
 			mtg.calculateEnvironment();
 		}
 		if (this.getGuiManager() != null) {
 			getGuiManager().setPixelRatio(getPixelRatio());
+			if (isUnbundled()) {
+				getGuiManager().resetMenuIfScreenChanged();
+			}
 		}
 		if (this.zoomPanel != null) {
 			zoomPanel.updateFullscreen();
