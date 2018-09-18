@@ -1335,6 +1335,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		euclidianVisible = geo.euclidianVisible;
 		visibleInView3D = geo.visibleInView3D;
+		algebraLabelVisible = geo.algebraLabelVisible;
 		setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 	}
 
