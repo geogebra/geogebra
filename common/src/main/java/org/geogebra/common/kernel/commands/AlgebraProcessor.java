@@ -681,7 +681,7 @@ public class AlgebraProcessor {
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
 				.withSliders(autoCreateSliders)
 				.addDegree(addDegreesIfKernelInDegrees && app.getKernel()
-						.getAngleUnit() == Kernel.ANGLE_DEGREE);
+						.getAngleUnitUsesDegrees());
 
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
 				info, callback0);

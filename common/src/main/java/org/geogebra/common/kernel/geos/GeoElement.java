@@ -67,6 +67,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -7459,10 +7460,14 @@ public abstract class GeoElement extends ConstructionElement
 				return true;
 			}
 		}
-		if (definition.unwrap() instanceof ExpressionNode) {
+		ExpressionValue unwrap = definition.unwrap();
+		if (unwrap instanceof ExpressionNode) {
 			return false;
 		}
-		if (definition.unwrap() instanceof NumberValue) {
+		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if (unwrap instanceof NumberValue) {
 			double val = evaluateDouble();
 			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);

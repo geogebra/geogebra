@@ -1,6 +1,9 @@
 package org.geogebra.common.properties.impl.general;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
@@ -20,18 +23,49 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
     public AngleUnitProperty(Kernel kernel, Localization localization) {
         super(localization, "AngleUnit");
         this.kernel = kernel;
-        setValuesAndLocalize(new String[]{"Degree", "Radiant"});
+        if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+            setValuesAndLocalize(new String[]{"Degree", "Radiant", Unicode.DEGREES_MINUTES_SECONDS});
+        } else {
+            setValuesAndLocalize(new String[]{"Degree", "Radiant"});
+        }
     }
 
     @Override
     protected void setValueSafe(String value, int index) {
-        int angleUnit = index == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT;
+        int angleUnit;
+        switch (index) {
+            case 1:
+                angleUnit = Kernel.ANGLE_RADIANT;
+                break;
+            case 2:
+                if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+                    angleUnit = Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
+                } else {
+                    angleUnit = Kernel.ANGLE_DEGREE;
+                }
+                break;
+            case 0:
+            default:
+                angleUnit = Kernel.ANGLE_DEGREE;
+                break;
+        }
         kernel.setAngleUnit(angleUnit);
 		kernel.updateConstruction(false);
     }
 
     @Override
     public int getIndex() {
-        return kernel.getAngleUnit() == Kernel.ANGLE_DEGREE ? 0 : 1;
+        switch (kernel.getAngleUnit()) {
+            case Kernel.ANGLE_RADIANT:
+                return 1;
+            case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
+                if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+                    return 2;
+                }
+                return 0;
+            case Kernel.ANGLE_DEGREE:
+            default:
+                return 0;
+        }
     }
 }

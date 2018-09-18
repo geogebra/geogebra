@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -1801,6 +1802,12 @@ public class MyXMLHandler implements DocHandler {
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
 		} else if ("radiant".equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
+		} else if ("degreesMinutesSeconds".equals(angleUnit)) {
+		    if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+                kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+            } else {
+                kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
+            }
 		} else {
 			return false;
 		}

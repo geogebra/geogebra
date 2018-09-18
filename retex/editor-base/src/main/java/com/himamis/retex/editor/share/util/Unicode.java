@@ -34,6 +34,7 @@ public class Unicode {
 	final public static char SECONDS = '\u2033';
 
 	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
+	final public static String DEGREES_MINUTES_SECONDS = DEGREE_CHAR+" "+MINUTES+" "+SECONDS;
 
 	final public static char e_GRAVE = '\u00E8';
 	final public static char e_ACUTE = '\u00E9';

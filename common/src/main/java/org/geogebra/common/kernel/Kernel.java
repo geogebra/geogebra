@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -207,6 +208,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	final public static int COORD_CARTESIAN_3D = 6;
 	/** Coord system: 3D spherical polar */
 	final public static int COORD_SPHERICAL = 7;
+	/** Angle type: degrees/minutes/Seconds */
+	final public static int ANGLE_DEGREES_MINUTES_SECONDS = 8;
 
 	/** 2*Pi */
 	final public static double PI_2 = 2.0 * Math.PI;
@@ -328,6 +331,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private boolean loadingMode;
 
 	private final StringBuilder sbFormatAngle = new StringBuilder(40);
+	private MyDoubleDegreesMinutesSeconds.Value valueDegreesMinutesSeconds;
 
 	private boolean arcusFunctionCreatesAngle;
 	private ArrayList<AlgoElement> renameListenerAlgos;
@@ -2551,6 +2555,75 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 				return sbFormatAngle;
 			}
+
+			if (getAngleUnit() == Kernel.ANGLE_DEGREES_MINUTES_SECONDS) {
+				if (valueDegreesMinutesSeconds == null) {
+					valueDegreesMinutesSeconds = new MyDoubleDegreesMinutesSeconds.Value();
+				}
+				if (!unbounded) {
+					phi = phi % (2*Math.PI);
+					if (phi < 0) {
+						phi += 2*Math.PI;
+					}
+				}
+				valueDegreesMinutesSeconds.set(phi, Kernel.MAX_PRECISION);
+				if (!unbounded) {
+					valueDegreesMinutesSeconds.degrees = valueDegreesMinutesSeconds.degrees % 360;
+				}
+				valueDegreesMinutesSeconds.seconds = DoubleUtil.checkInteger
+						(valueDegreesMinutesSeconds.seconds);
+				valueDegreesMinutesSeconds.checkMinutesOrSecondsEqual60(Kernel.MAX_PRECISION);
+
+				if (getLocalization().isRightToLeftDigits(tpl)) {
+					if (tpl.hasCASType()) {
+						if (valueDegreesMinutesSeconds.needsMinus) {
+							sbFormatAngle.append(Unicode.MINUS);
+						}
+						sbFormatAngle.append("pi/180*(");
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
+						sbFormatAngle.append("/3600+");
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
+						sbFormatAngle.append("/60+");
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
+						sbFormatAngle.append(")");
+					} else {
+						sbFormatAngle.append(Unicode.SECONDS);
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
+						sbFormatAngle.append(Unicode.MINUTES);
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
+						sbFormatAngle.append(Unicode.DEGREE_CHAR);
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
+						if (valueDegreesMinutesSeconds.needsMinus) {
+							sbFormatAngle.append(Unicode.MINUS);
+						}
+					}
+				} else {
+					if (tpl.hasCASType()) {
+						if (valueDegreesMinutesSeconds.needsMinus) {
+							sbFormatAngle.append(Unicode.MINUS);
+						}
+						sbFormatAngle.append("(");
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
+						sbFormatAngle.append("+");
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
+						sbFormatAngle.append("/60+");
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
+						sbFormatAngle.append("/3600)*pi/180");
+					} else {
+						if (valueDegreesMinutesSeconds.needsMinus) {
+							sbFormatAngle.append(Unicode.MINUS);
+						}
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
+						sbFormatAngle.append(Unicode.DEGREE_CHAR);
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
+						sbFormatAngle.append(Unicode.MINUTES);
+						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
+						sbFormatAngle.append(Unicode.SECONDS);
+					}
+				}
+				return sbFormatAngle;
+			}
+
 			// RADIANS
 			sbFormatAngle.append(format(phi, tpl));
 
@@ -2646,17 +2719,36 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * 
 	 * @param unit
-	 *            Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT
+	 *            Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT or Kernel.ANGLE_DEGREES_MINUTES_SECONDS
 	 */
 	final public void setAngleUnit(int unit) {
 		angleUnit = unit;
 	}
 
 	/**
-	 * @return Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT
+	 * @return Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT or Kernel.ANGLE_DEGREES_MINUTES_SECONDS
 	 */
 	final public int getAngleUnit() {
 		return angleUnit;
+	}
+
+	/**
+	 *
+	 * @return true if angle unit wants degree symbol automatically added
+	 */
+	final public boolean getAngleUnitUsesDegrees() {
+		return angleUnitUsesDegrees(angleUnit);
+	}
+
+	/**
+	 * @param unit
+	 *            angle unit
+	 *
+	 * @return true if angle unit wants degree symbol automatically added
+	 */
+	final public boolean angleUnitUsesDegrees(int unit) {
+		return unit == Kernel.ANGLE_DEGREE
+				|| unit == Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
 	}
 
 	/**
@@ -4722,8 +4814,23 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		// angle unit
 		sb.append("\t<angleUnit val=\"");
-		sb.append(
-				getAngleUnit() == Kernel.ANGLE_RADIANT ? "radiant" : "degree");
+		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+		    switch (getAngleUnit()) {
+                case Kernel.ANGLE_RADIANT:
+                    sb.append("radiant");
+                    break;
+                case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
+                    sb.append("degreesMinutesSeconds");
+                    break;
+                case Kernel.ANGLE_DEGREE:
+                default:
+                    sb.append("degree");
+                    break;
+            }
+        } else {
+            sb.append(
+                    getAngleUnit() == Kernel.ANGLE_RADIANT ? "radiant" : "degree");
+        }
 		sb.append("\"/>\n");
 
 		// algebra style

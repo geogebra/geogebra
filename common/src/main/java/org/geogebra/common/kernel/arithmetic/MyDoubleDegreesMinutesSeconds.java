@@ -12,7 +12,34 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
+	public static class Value {
+		public int degrees, minutes;
+		public double seconds;
+		public boolean needsMinus;
+
+		public void set(double val, double precision) {
+			needsMinus = DoubleUtil.isGreater(0, val, precision);
+			double d = Math.abs(val * 180.0 / Math.PI);
+            degrees = (int) d;
+			double m = (d - degrees) * 60.0;
+            minutes = (int) m;
+			seconds = (m - minutes) * 60.0;
+		}
+
+		public void checkMinutesOrSecondsEqual60(double precision) {
+			if (DoubleUtil.isEqual(seconds, 60, precision)) {
+				minutes++;
+                seconds = 0;
+            }
+            if (minutes >= 60) {
+				minutes-=60;
+				degrees++;
+			}
+		}
+	}
+
 	private StringBuilder sb = new StringBuilder();
+	private Value vDMS;
 
 	/**
 	 * 
@@ -72,27 +99,29 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		super.set(val);
 		sb.setLength(0);
 
-		double d = val * 180.0 / Math.PI;
-		int dI = (int) d;
-		if (dI != 0) {
-			sb.append(kernel.format(dI, StringTemplate.defaultTemplate));
+		if (vDMS == null) {
+			vDMS = new Value();
+		}
+		vDMS.set(val, Kernel.MAX_PRECISION);
+		vDMS.checkMinutesOrSecondsEqual60(Kernel.MAX_PRECISION);
+
+		if (vDMS.needsMinus) {
+			sb.append(Unicode.MINUS);
+		}
+		if (vDMS.degrees != 0) {
+			sb.append(kernel.format(vDMS.degrees, StringTemplate.defaultTemplate));
 			sb.append(Unicode.DEGREE_CHAR);
 		}
-
-		double m = (d - dI) * 60.0;
-		int mI = (int) m;
-		if (mI != 0) {
-			sb.append(kernel.format(mI, StringTemplate.defaultTemplate));
+		if (vDMS.minutes != 0) {
+			sb.append(kernel.format(vDMS.minutes, StringTemplate.defaultTemplate));
 			sb.append(Unicode.MINUTES);
 		}
-
-		double seconds = (m - mI) * 60.0;
-		if (!DoubleUtil.isZero(seconds, Kernel.MAX_PRECISION)) {
-			sb.append(kernel.format(seconds, StringTemplate.defaultTemplate));
+		if (!DoubleUtil.isZero(vDMS.seconds, Kernel.MAX_PRECISION)) {
+			sb.append(kernel.format(vDMS.seconds, StringTemplate.defaultTemplate));
 			sb.append(Unicode.SECONDS);
 		}
 		
-		if (sb.length() == 0) {
+		if (sb.length() == 0 || (vDMS.needsMinus && sb.length() == 1)) {
 			sb.append("0");
 			sb.append(Unicode.DEGREE_CHAR);
 		}
