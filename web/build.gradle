@@ -41,7 +41,7 @@ sourceSets {
 }
 
 if(hasProperty("eclipse")){
-	eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
 }
 
 dependencies {
@@ -154,14 +154,14 @@ task copyHtml {
     doLast {
         String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
         String html = file(templateDir + "app-template.html").text
-		String splash = file(templateDir + "classic-splash.html").text
-		
-		["algebra","graphics","spreadsheet","cas","probability","3d","exam"].each{
-			def iconText = file("../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_"+it+".svg").text
-			splash = splash.replace("<!--ICON:"+it.toUpperCase()+"-->", 
-				"data:image/svg+xml;base64,"+iconText.bytes.encodeBase64().toString())
+        String splash = file(templateDir + "classic-splash.html").text
+        
+        ["algebra","graphics","spreadsheet","cas","probability","3d","exam"].each{
+            def iconText = file("../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_"+it+".svg").text
+            splash = splash.replace("<!--ICON:"+it.toUpperCase()+"-->", 
+                "data:image/svg+xml;base64,"+iconText.bytes.encodeBase64().toString())
 
-		}
+        }
         def classicHtml = { prerelease, offline ->
             
            def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
@@ -229,17 +229,19 @@ task copyHtml {
 task createSolverHtml {
     String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
     String solver = file(templateDir + "solver-template.html").text
-    
-    file("war/solver-template.html").text = solver
             .replace("<!--HEADER-->", file(templateDir + "app-header-beta.html").text)
             .replace("<!--TRY APP-->", "Try App")
             .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-    file("war/solver.html").text = file("war/solver-template.html").text
+    // for server rendering
+    file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
+    file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
+    // for direct use autotest
+    file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")
             .replace("<!--APP TYPE-->", "solver")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
-    file("war/exercise.html").text = file("war/solver-template.html").text
+    file("war/exercise.html").text = solver
             .replace("<!--APP NAME-->", "Exercise app")
             .replace("<!--APP TYPE-->", "practice")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
@@ -332,13 +334,13 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
 }
 
 task createDraftBundleZip (type: Zip) {
-	description 'Creates the Math Apps Bundle file.'
-	destinationDir = file(warDirRel)
-	baseName = "geogebra-bundle"
-	from compileGwt {
-		include ("web3d/**")
-		into "GeoGebra/HTML5/5.0"
-	}
+    description 'Creates the Math Apps Bundle file.'
+    destinationDir = file(warDirRel)
+    baseName = "geogebra-bundle"
+    from compileGwt {
+        include ("web3d/**")
+        into "GeoGebra/HTML5/5.0"
+    }
 }
 
 // https://issues.gradle.org/browse/GRADLE-2778
@@ -363,8 +365,8 @@ pmd {
 }
 
 cpd {
-	ignoreFailures = true
-	minimumTokenCount = 100
+    ignoreFailures = true
+    minimumTokenCount = 100
 }
 
 tasks.withType(de.aaschmid.gradle.plugins.cpd.Cpd) {

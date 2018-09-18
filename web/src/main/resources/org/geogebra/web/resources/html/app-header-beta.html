@@ -25,7 +25,7 @@ function hideAppPicker(e){
 }
 document.body.addEventListener("mousedown", hideAppPicker);
 window.addEventListener("load", function(){
-	if(!appOnline){
+	if(window.appOnline === false){
 		document.getElementById("headerID").parentElement.style.display = "none";
 	}
 });
