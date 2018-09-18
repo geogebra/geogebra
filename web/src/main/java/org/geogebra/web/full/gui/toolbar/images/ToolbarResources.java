@@ -249,21 +249,37 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_shape_line_32();
 
+	ResourcePrototype mode_shape_line_teal();
+
 	ResourcePrototype mode_shape_triangle_32();
+
+	ResourcePrototype mode_shape_triangle_teal();
 
 	ResourcePrototype mode_shape_square_32();
 
+	ResourcePrototype mode_shape_square_teal();
+
 	ResourcePrototype mode_shape_rectangle_32();
+
+	ResourcePrototype mode_shape_rectangle_teal();
 
 	ResourcePrototype mode_shape_rectangle_round_edges_32();
 
 	ResourcePrototype mode_shape_polygon_32();
 
+	ResourcePrototype mode_shape_polygon_teal();
+
 	ResourcePrototype mode_shape_freeform_32();
+
+	ResourcePrototype mode_shape_freeform_teal();
 
 	ResourcePrototype mode_shape_circle_32();
 
+	ResourcePrototype mode_shape_circle_teal();
+
 	ResourcePrototype mode_shape_ellipse_32();
+	
+	ResourcePrototype mode_shape_ellipse_teal();
 
 	ResourcePrototype mode_eraser_32();
 

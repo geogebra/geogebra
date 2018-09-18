@@ -1028,6 +1028,30 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			return resourceBundle.mode_highlighter_teal();
 
+		case EuclidianConstants.MODE_SHAPE_LINE:
+			return resourceBundle.mode_shape_line_teal();
+
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			return resourceBundle.mode_shape_triangle_teal();
+
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+			return resourceBundle.mode_shape_square_teal();
+			
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+			return resourceBundle.mode_shape_rectangle_teal();
+
+		case EuclidianConstants.MODE_SHAPE_POLYGON:
+			return resourceBundle.mode_shape_polygon_teal();
+
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+			return resourceBundle.mode_shape_freeform_teal();
+
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+			return resourceBundle.mode_shape_circle_teal();
+
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+			return resourceBundle.mode_shape_ellipse_teal();
+
 		default:
 			return AppResources.INSTANCE.empty();
 		}

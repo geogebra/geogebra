@@ -510,16 +510,32 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_line_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_line_teal.svg")
+	SVGResource mode_shape_line_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_triangle_black.svg")
 	SVGResource mode_shape_triangle_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_triangle_teal.svg")
+	SVGResource mode_shape_triangle_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_square_black.svg")
 	SVGResource mode_shape_square_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_square_teal.svg")
+	SVGResource mode_shape_square_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rectangle_black.svg")
 	SVGResource mode_shape_rectangle_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rectangle_teal.svg")
+	SVGResource mode_shape_rectangle_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rounded_rectangle_black.svg")
@@ -530,16 +546,32 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_polygon_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_polygon_teal.svg")
+	SVGResource mode_shape_polygon_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_black.svg")
 	SVGResource mode_shape_freeform_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_teal.svg")
+	SVGResource mode_shape_freeform_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_circle_black.svg")
 	SVGResource mode_shape_circle_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_circle_teal.svg")
+	SVGResource mode_shape_circle_teal();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_ellipse_black.svg")
 	SVGResource mode_shape_ellipse_32();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_ellipse_teal.svg")
+	SVGResource mode_shape_ellipse_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_black.svg")
