@@ -4114,8 +4114,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case GRAPH_EXAM_MODE:
 			return true;
 
+		/** GGB-2488 */
 		case SELECT_NEXT_GEO_IN_VIEW:
-			return canary;
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
