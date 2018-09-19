@@ -12,7 +12,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	private StringBuilder sb = new StringBuilder();
-	private Value vDMS;
+	private Value vDMS = new Value();
 
 	/**
 	 * 
@@ -20,18 +20,54 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	 *
 	 */
 	public static class Value {
-		private int degrees;
-		private int minutes;
+		private double degrees;
+		private double minutes;
 		private double seconds;
 		private boolean needsMinus;
+		private boolean showDegrees;
+		private boolean showMinutes;
+		private boolean showSeconds;
 
-		private void set(double val, double precision) {
-			needsMinus = DoubleUtil.isGreater(0, val, precision);
-			double d = Math.abs(val * 180.0 / Math.PI);
-			degrees = (int) d;
-			double m = (d - degrees) * 60.0;
-			minutes = (int) m;
-			seconds = (m - minutes) * 60.0;
+		/**
+		 * set values
+		 * 
+		 * @param degrees
+		 *            degrees
+		 * @param showDegrees
+		 *            if show degrees when turned into string
+		 * @param minutes
+		 *            minutes
+		 * @param showMinutes
+		 *            if show minutes when turned into string
+		 * @param seconds
+		 *            seconds
+		 * @param showSeconds
+		 *            if show seconds when turned into string
+		 */
+		public void set(double degrees, boolean showDegrees, double minutes,
+				boolean showMinutes, double seconds, boolean showSeconds) {
+			needsMinus = degrees < 0;
+			this.degrees = Math.abs(degrees);
+			this.minutes = minutes;
+			this.seconds = seconds;
+			this.showDegrees = showDegrees;
+			this.showMinutes = showMinutes;
+			this.showSeconds = showSeconds;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 *            value
+		 */
+		public void set(Value value) {
+			needsMinus = value.needsMinus;
+			this.degrees = value.degrees;
+			this.minutes = value.minutes;
+			this.seconds = value.seconds;
+			this.showDegrees = value.showDegrees;
+			this.showMinutes = value.showMinutes;
+			this.showSeconds = value.showSeconds;
 		}
 
 		/**
@@ -45,6 +81,10 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		 *            if needs to be bounded
 		 */
 		public void set(double val, double precision, boolean unbounded) {
+			showDegrees = true;
+			showMinutes = true;
+			showSeconds = true;
+
 			double phi = val;
 			if (!unbounded) {
 				phi = phi % (2 * Math.PI);
@@ -52,31 +92,29 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 					phi += 2 * Math.PI;
 				}
 			}
-			set(phi, precision);
+
+			needsMinus = DoubleUtil.isGreater(0, phi, precision);
+			double d = Math.abs(phi * 180.0 / Math.PI);
+			degrees = (int) d;
+			double m = (d - degrees) * 60.0;
+			int mI = (int) m;
+			seconds = (m - mI) * 60.0;
+
 			if (!unbounded) {
-				setBounded();
+				degrees = degrees % 360;
 			}
-			checkInteger();
-			checkMinutesOrSecondsEqual60(precision);
-		}
 
-		private void setBounded() {
-			degrees = degrees % 360;
-		}
-		
-		private void checkInteger() {
 			seconds = DoubleUtil.checkInteger(seconds);
-		}
 
-		private void checkMinutesOrSecondsEqual60(double precision) {
 			if (DoubleUtil.isEqual(seconds, 60, precision)) {
-				minutes++;
+				mI++;
 				seconds = 0;
 			}
-			if (minutes >= 60) {
-				minutes -= 60;
+			if (mI >= 60) {
+				mI -= 60;
 				degrees++;
 			}
+			minutes = mI;
 		}
 
 		/**
@@ -103,12 +141,18 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 					sbFormatAngle.append(kernel.format(degrees, tpl));
 					sbFormatAngle.append(")");
 				} else {
-					sbFormatAngle.append(Unicode.SECONDS);
-					sbFormatAngle.append(kernel.format(seconds, tpl));
-					sbFormatAngle.append(Unicode.MINUTES);
-					sbFormatAngle.append(kernel.format(minutes, tpl));
-					sbFormatAngle.append(Unicode.DEGREE_CHAR);
-					sbFormatAngle.append(kernel.format(degrees, tpl));
+					if (showSeconds) {
+						sbFormatAngle.append(Unicode.SECONDS);
+						sbFormatAngle.append(kernel.format(seconds, tpl));
+					}
+					if (showMinutes) {
+						sbFormatAngle.append(Unicode.MINUTES);
+						sbFormatAngle.append(kernel.format(minutes, tpl));
+					}
+					if (showDegrees) {
+						sbFormatAngle.append(Unicode.DEGREE_CHAR);
+						sbFormatAngle.append(kernel.format(degrees, tpl));
+					}
 					if (needsMinus) {
 						sbFormatAngle.append(Unicode.MINUS);
 					}
@@ -129,79 +173,46 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 					if (needsMinus) {
 						sbFormatAngle.append(Unicode.MINUS);
 					}
-					sbFormatAngle.append(kernel.format(degrees, tpl));
-					sbFormatAngle.append(Unicode.DEGREE_CHAR);
-					sbFormatAngle.append(kernel.format(minutes, tpl));
-					sbFormatAngle.append(Unicode.MINUTES);
-					sbFormatAngle.append(kernel.format(seconds, tpl));
-					sbFormatAngle.append(Unicode.SECONDS);
+					if (showDegrees) {
+						sbFormatAngle.append(kernel.format(degrees, tpl));
+						sbFormatAngle.append(Unicode.DEGREE_CHAR);
+					}
+					if (showMinutes) {
+						sbFormatAngle.append(kernel.format(minutes, tpl));
+						sbFormatAngle.append(Unicode.MINUTES);
+					}
+					if (showSeconds) {
+						sbFormatAngle.append(kernel.format(seconds, tpl));
+						sbFormatAngle.append(Unicode.SECONDS);
+					}
 				}
 			}
 		}
-
-		/**
-		 * 
-		 * @param sb
-		 *            string
-		 * @param kernel
-		 *            kernel
-		 */
-		public void format(StringBuilder sb, Kernel kernel) {
-			if (needsMinus) {
-				sb.append(Unicode.MINUS);
-			}
-			if (degrees != 0) {
-				sb.append(
-						kernel.format(degrees, StringTemplate.defaultTemplate));
-				sb.append(Unicode.DEGREE_CHAR);
-			}
-			if (minutes != 0) {
-				sb.append(
-						kernel.format(minutes, StringTemplate.defaultTemplate));
-				sb.append(Unicode.MINUTES);
-			}
-			if (!DoubleUtil.isZero(seconds, Kernel.MAX_PRECISION)) {
-				sb.append(
-						kernel.format(seconds, StringTemplate.defaultTemplate));
-				sb.append(Unicode.SECONDS);
-			}
-
-			if (sb.length() == 0 || (needsMinus && sb.length() == 1)) {
-				sb.append("0");
-				sb.append(Unicode.DEGREE_CHAR);
-			}
-		}
-
 	}
 
 	/**
 	 * 
 	 * @param kernel
 	 *            kernel
-	 * @param value
-	 *            value
 	 * @param degrees
 	 *            value for degrees
+	 * @param hasDegrees
+	 *            whether it has degrees in definition
 	 * @param minutes
 	 *            value for minutes
+	 * @param hasMinutes
+	 *            whether it has minutes in definition
 	 * @param seconds
 	 *            value for seconds
+	 * @param hasSeconds
+	 *            whether it has seconds in definition
 	 */
-	public MyDoubleDegreesMinutesSeconds(Kernel kernel, double value,
-			String degrees, String minutes, String seconds) {
-		super(kernel, value);
-		if (degrees != null) {
-			sb.append(degrees);
-			sb.append(Unicode.DEGREE_CHAR);
-		}
-		if (minutes != null) {
-			sb.append(minutes);
-			sb.append(Unicode.MINUTES);
-		}
-		if (seconds != null) {
-			sb.append(seconds);
-			sb.append(Unicode.SECONDS);
-		}
+	public MyDoubleDegreesMinutesSeconds(Kernel kernel, double degrees,
+			boolean hasDegrees, double minutes, boolean hasMinutes,
+			double seconds, boolean hasSeconds) {
+		super(kernel, (degrees + (minutes + seconds / 60.0d) / 60.0d) * Math.PI
+				/ 180.0d);
+		vDMS.set(degrees, hasDegrees, minutes, hasMinutes, seconds, hasSeconds);
 		setAngle();
 	}
 
@@ -213,7 +224,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	public MyDoubleDegreesMinutesSeconds(
 			MyDoubleDegreesMinutesSeconds myDouble) {
 		super(myDouble);
-		sb.append(myDouble.sb);
+		vDMS.set(myDouble.vDMS);
 		setAngle();
 	}
 
@@ -224,6 +235,8 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		sb.setLength(0);
+		vDMS.format(sb, tpl, kernel);
 		return sb.toString();
 	}
 
@@ -231,12 +244,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	public void set(double val) {
 		super.set(val);
 		sb.setLength(0);
-
-		if (vDMS == null) {
-			vDMS = new Value();
-		}
-		vDMS.set(val, Kernel.MAX_PRECISION, false);
-		vDMS.format(sb, kernel);
+		vDMS.set(val, Kernel.MAX_PRECISION, true);
 	}
 
 	@Override
