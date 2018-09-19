@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
-import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -26,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ToolbarMow extends FlowPanel
-		implements MyModeChangedListener, FastClickHandler, SetLabels {
+		implements FastClickHandler, SetLabels {
 	private AppW appW;
 	private HeaderMow header;
 	private FlowPanel toolbarPanel;
@@ -223,13 +222,8 @@ public class ToolbarMow extends FlowPanel
 				toolbarPanelContent.addStyleName("slideLeft");
 				break;
 			}
-			setMode(getCurrentPanel().getFirstMode());
+			setMode(getCurrentPanel().getLastSelectedMode());
 		}
-	}
-
-	@Override
-	public void onModeChange(int mode) {
-		// TODO
 	}
 
 	@Override
@@ -330,6 +324,7 @@ public class ToolbarMow extends FlowPanel
 	 *            id of tool
 	 */
 	public void setMode(int mode) {
+		getCurrentPanel().setLastSelectedMode(mode);
 		getCurrentPanel().setMode(mode);
 	}
 }
