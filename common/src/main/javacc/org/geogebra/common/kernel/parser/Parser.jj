@@ -307,7 +307,7 @@ TOKEN :  {
   | < DEGREE_SYMBOL:   ( "\u00b0" | "\u02da" | "\u00ba") >
   | < DEGREE_WORD:   ("deg") >
   | < GRADIAN:   ( "\u1D4D") > // superscript g
-  | < ANGLE_MINUTES:   ( "\u2032" | "'") >
+  | < ANGLE_MINUTES:   ( "\u2032" ) >
   | < ANGLE_SECONDS:   ( "\u2033" | "\u2032\u2032" | "''") >
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
@@ -1629,11 +1629,11 @@ ExpressionValue myDouble():
      ((percent ="%")
      | ((degree = <DEGREE_SYMBOL>)
        ((c2 = <FLOAT>)
-        ((minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
+        ((minutes = <ANGLE_MINUTES> | minutes = "'")((s = <FLOAT>)(<ANGLE_SECONDS>))?
          |(<ANGLE_SECONDS>)
         )
        )?)
-     | ((minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?)
+     | ((minutes = <ANGLE_MINUTES> | minutes = "'")((s = <FLOAT>)(<ANGLE_SECONDS>))?)
      | (seconds = <ANGLE_SECONDS>)
      )?
     )
