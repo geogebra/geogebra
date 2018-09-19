@@ -2574,53 +2574,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 						.checkInteger(valueDegreesMinutesSeconds.seconds);
 				valueDegreesMinutesSeconds.checkMinutesOrSecondsEqual60(Kernel.MAX_PRECISION);
 
-				if (getLocalization().isRightToLeftDigits(tpl)) {
-					if (tpl.hasCASType()) {
-						if (valueDegreesMinutesSeconds.needsMinus) {
-							sbFormatAngle.append(Unicode.MINUS);
-						}
-						sbFormatAngle.append("pi/180*(");
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
-						sbFormatAngle.append("/3600+");
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
-						sbFormatAngle.append("/60+");
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
-						sbFormatAngle.append(")");
-					} else {
-						sbFormatAngle.append(Unicode.SECONDS);
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
-						sbFormatAngle.append(Unicode.MINUTES);
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
-						sbFormatAngle.append(Unicode.DEGREE_CHAR);
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
-						if (valueDegreesMinutesSeconds.needsMinus) {
-							sbFormatAngle.append(Unicode.MINUS);
-						}
-					}
-				} else {
-					if (tpl.hasCASType()) {
-						if (valueDegreesMinutesSeconds.needsMinus) {
-							sbFormatAngle.append(Unicode.MINUS);
-						}
-						sbFormatAngle.append("(");
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
-						sbFormatAngle.append("+");
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
-						sbFormatAngle.append("/60+");
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
-						sbFormatAngle.append("/3600)*pi/180");
-					} else {
-						if (valueDegreesMinutesSeconds.needsMinus) {
-							sbFormatAngle.append(Unicode.MINUS);
-						}
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.degrees, tpl));
-						sbFormatAngle.append(Unicode.DEGREE_CHAR);
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.minutes, tpl));
-						sbFormatAngle.append(Unicode.MINUTES);
-						sbFormatAngle.append(format(valueDegreesMinutesSeconds.seconds, tpl));
-						sbFormatAngle.append(Unicode.SECONDS);
-					}
-				}
+				valueDegreesMinutesSeconds.format(sbFormatAngle, tpl, this);
 				return sbFormatAngle;
 			}
 

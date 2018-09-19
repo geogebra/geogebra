@@ -39,9 +39,59 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 				degrees++;
 			}
 		}
+
+		public void format(StringBuilder sbFormatAngle, StringTemplate tpl,
+				Kernel kernel) {
+			if (kernel.getLocalization().isRightToLeftDigits(tpl)) {
+				if (tpl.hasCASType()) {
+					if (needsMinus) {
+						sbFormatAngle.append(Unicode.MINUS);
+					}
+					sbFormatAngle.append("pi/180*(");
+					sbFormatAngle.append(kernel.format(seconds, tpl));
+					sbFormatAngle.append("/3600+");
+					sbFormatAngle.append(kernel.format(minutes, tpl));
+					sbFormatAngle.append("/60+");
+					sbFormatAngle.append(kernel.format(degrees, tpl));
+					sbFormatAngle.append(")");
+				} else {
+					sbFormatAngle.append(Unicode.SECONDS);
+					sbFormatAngle.append(kernel.format(seconds, tpl));
+					sbFormatAngle.append(Unicode.MINUTES);
+					sbFormatAngle.append(kernel.format(minutes, tpl));
+					sbFormatAngle.append(Unicode.DEGREE_CHAR);
+					sbFormatAngle.append(kernel.format(degrees, tpl));
+					if (needsMinus) {
+						sbFormatAngle.append(Unicode.MINUS);
+					}
+				}
+			} else {
+				if (tpl.hasCASType()) {
+					if (needsMinus) {
+						sbFormatAngle.append(Unicode.MINUS);
+					}
+					sbFormatAngle.append("(");
+					sbFormatAngle.append(kernel.format(degrees, tpl));
+					sbFormatAngle.append("+");
+					sbFormatAngle.append(kernel.format(minutes, tpl));
+					sbFormatAngle.append("/60+");
+					sbFormatAngle.append(kernel.format(seconds, tpl));
+					sbFormatAngle.append("/3600)*pi/180");
+				} else {
+					if (needsMinus) {
+						sbFormatAngle.append(Unicode.MINUS);
+					}
+					sbFormatAngle.append(kernel.format(degrees, tpl));
+					sbFormatAngle.append(Unicode.DEGREE_CHAR);
+					sbFormatAngle.append(kernel.format(minutes, tpl));
+					sbFormatAngle.append(Unicode.MINUTES);
+					sbFormatAngle.append(kernel.format(seconds, tpl));
+					sbFormatAngle.append(Unicode.SECONDS);
+				}
+			}
+		}
+
 	}
-
-
 
 	/**
 	 * 
