@@ -396,8 +396,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// real(3) should return 3
 			return arg.evaluateDouble();
 		} else {
-			polynomialOrDie(arg, op, op == Operation.XCOORD ? "x(" : "real(");
-			return Double.NaN;
+			throw polynomialOrDie(arg, op,
+					op == Operation.XCOORD ? "x(" : "real(");
 		}
 
 	}
@@ -422,9 +422,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// imaginary(3) should return 0
 			return 0;
 		} else {
-			polynomialOrDie(arg, op,
+			throw polynomialOrDie(arg, op,
 					op == Operation.YCOORD ? "y(" : "imaginary(");
-			return Double.NaN;
 		}
 	}
 
@@ -441,8 +440,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (lt instanceof GeoLine) {
 			return ((GeoLine) lt).z;
 		}
-		polynomialOrDie(lt, Operation.YCOORD, "z(");
-		return Double.NaN;
+		throw polynomialOrDie(lt, Operation.YCOORD, "z(");
 	}
 
 	/**
