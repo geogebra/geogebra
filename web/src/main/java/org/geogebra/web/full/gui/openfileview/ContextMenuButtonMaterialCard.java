@@ -106,7 +106,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
-				card.updateVisibility(result.get(0).getVisibility());
+				updateCardVisibility(result);
 			}
 
 			@Override
@@ -115,9 +115,14 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 			}
 		});
 		dialog.show();
-		// GroupShareDialog dialog = new GroupShareDialog(app, card);
-		// dialog.center();
-		// hide();
+	}
+
+	/**
+	 * @param result
+	 *            single material after visibility change
+	 */
+	protected void updateCardVisibility(List<Material> result) {
+		card.updateVisibility(result.get(0).getVisibility());
 	}
 
 	/**

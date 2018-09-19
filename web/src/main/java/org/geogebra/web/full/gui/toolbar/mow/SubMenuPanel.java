@@ -37,6 +37,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * Here goes the toolbar contents ie the buttons
 	 */
 	FlowPanel contentPanel;
+	private int lastSelectedMode = -1;
 
 	/**
 	 * group panel
@@ -59,8 +60,6 @@ public abstract class SubMenuPanel extends FlowPanel
 			setWidth(((columns) * BUTTON_WIDTH) + "px");
 		}
 	}
-
-	private int lastSelectedMode = -1;
 
 	/**
 	 * 

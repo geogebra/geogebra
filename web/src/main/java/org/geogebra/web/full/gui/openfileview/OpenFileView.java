@@ -48,6 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class OpenFileView extends MyHeaderPanel
 		implements BrowseViewI, OpenFileListener, EventRenderable {
+	private static final int HEADER_HEIGHT = 44;
 	/**
 	 * application
 	 */
@@ -540,7 +541,8 @@ public class OpenFileView extends MyHeaderPanel
 			headerPanel.getElement().getParentElement().getStyle()
 					.setDisplay(visible ? Display.BLOCK : Display.NONE);
 		}
-		contentPanel.getElement().getStyle().setTop(visible ? 44 : 0, Unit.PX);
+		contentPanel.getElement().getStyle().setTop(visible ? HEADER_HEIGHT : 0,
+				Unit.PX);
 	}
 
 	@Override
