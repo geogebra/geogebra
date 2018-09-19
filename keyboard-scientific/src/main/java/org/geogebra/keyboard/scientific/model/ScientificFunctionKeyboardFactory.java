@@ -26,7 +26,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
         RowImpl row = functionKeyboard.nextRow(6.2f);
         addInputButton(row, buttonFactory, "\u00B0");
-        addInputButton(row, buttonFactory, "\u2032");
+        addInputButton(row, buttonFactory, "'");
         addInputButton(row, buttonFactory, "\u2033");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addTranslateInputCommandButton(row, buttonFactory, "mean", "mean", 1.0f);

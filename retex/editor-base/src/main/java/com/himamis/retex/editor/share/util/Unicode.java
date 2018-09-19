@@ -30,7 +30,7 @@ public class Unicode {
 
 	// degrees, minutes, seconds
 	final public static char DEGREE_CHAR = '\u00b0';
-	final public static char MINUTES = '\u2032';
+	final public static char MINUTES = '\'';
 	final public static char SECONDS = '\u2033';
 
 	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
