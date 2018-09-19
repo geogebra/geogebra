@@ -183,13 +183,20 @@ public abstract class MediaDialog extends OptionDialog
 	 * @return url with https prefix
 	 */
 	protected String getUrlWithProtocol() {
-		String url = inputField.getText().trim();
+		return addProtocol(getInput());
+	}
+
+	protected static String addProtocol(String url) {
 		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
 
 		if (!url.startsWith(HTTPS) && !url.startsWith("data:")) {
 			value = HTTPS + value;
 		}
 		return value;
+	}
+
+	protected String getInput() {
+		return inputField.getText().trim();
 	}
 
 	/**

@@ -130,9 +130,8 @@ public class EmbedManagerW implements EmbedManager {
 		html.getElement().setId(id);
 		scaler.add(html);
 		scaler.setHeight("100%");
-		html.setHeight("100%");
-		html.setWidth("100%");
 		addToGraphics(scaler);
+
 		html.setUrl(drawEmbed.getGeoEmbed().getURL());
 		widgets.put(drawEmbed, html);
 	}

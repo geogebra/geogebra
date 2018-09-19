@@ -854,6 +854,11 @@
 		position: absolute;
 		border-style: none;
 		z-index: $z_mow_video;
+		.gwt-Frame{
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	.mowWidget.background {

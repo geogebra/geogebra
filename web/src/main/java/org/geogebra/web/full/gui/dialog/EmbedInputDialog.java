@@ -18,6 +18,10 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.DOM;
+
 /**
  * @author csilla
  *
@@ -46,21 +50,23 @@ public class EmbedInputDialog extends MediaDialog
 	@Override
 	protected void processInput() {
 		if (appW.getGuiManager() != null) {
-			String url = getUrlWithProtocol();
-			inputField.getTextComponent().setText(url);
-			addEmbed(MediaURLParser.getEmbedURL(url));
+			String input = getInput();
+			addEmbed(MediaURLParser.getEmbedURL(input));
 		}
 	}
 
 	/**
 	 * Adds the GeoEmbed instance.
 	 * 
-	 * @param url
-	 *            embed URL
+	 * @param input
+	 *            embed URL or code
 	 */
-	void addEmbed(String url) {
+	void addEmbed(String input) {
 		resetError();
-
+		String url = extractURL(input);
+		if (!input.startsWith("<")) {
+			inputField.getTextComponent().setText(url);
+		}
 		if (GeoGebraURLParser.isGeoGebraURL(url)) {
 			getGeoGebraTubeAPI().getItem(
 					GeoGebraURLParser.getIDfromURL(url),
@@ -84,6 +90,18 @@ public class EmbedInputDialog extends MediaDialog
 		}
 
 		app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
+	}
+
+	private static String extractURL(String input) {
+		if (input.startsWith("<")) {
+			Element el = DOM.createDiv();
+			el.setInnerHTML(input);
+			NodeList<Element> frames = el.getElementsByTagName("iframe");
+			if (frames.getLength() > 0) {
+				return addProtocol(frames.getItem(0).getAttribute("src"));
+			}
+		}
+		return addProtocol(input);
 	}
 
 	private GeoGebraTubeAPI getGeoGebraTubeAPI() {
