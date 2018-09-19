@@ -101,7 +101,6 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initGUI() {
-		Log.debug("user: " + app.getLoginOperation().getModel().getUserId());
 		this.setStyleName("openFileView");
 		this.userMaterialsCB = getUserMaterialsCB();
 		this.sharedMaterialsCB = getSharedMaterialsCB();
@@ -548,6 +547,7 @@ public class OpenFileView extends MyHeaderPanel
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			updateMaterials();
+			close();
 		}
 	}
 
