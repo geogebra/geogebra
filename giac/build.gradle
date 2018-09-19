@@ -375,7 +375,9 @@ model {
             targetPlatform 'win64'
             targetPlatform 'linux32' // this will be fixed in Gradle 2.4 (-> linux32)
             targetPlatform 'linux64'
-            targetPlatform 'osx_amd64'
+            if (Os.isFamily(Os.FAMILY_MAC)) {
+                targetPlatform 'osx_amd64'
+            }
             targetPlatform 'androideabi'
             targetPlatform 'androidx86'
 
