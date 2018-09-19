@@ -39,7 +39,7 @@ public class VideoInputDialog extends MediaDialog {
 			if (videoURL.isValid()) {
 				addVideo(videoURL);
 			} else {
-				showError("error");
+				showError("InvalidInput");
 			}
 		}
 	}

@@ -40,7 +40,7 @@ public class AudioInputDialog extends MediaDialog {
 					if (ok) {
 						addAudio();
 					} else {
-						showError("error");
+						showError("InvalidInput");
 					}
 				}
 			});

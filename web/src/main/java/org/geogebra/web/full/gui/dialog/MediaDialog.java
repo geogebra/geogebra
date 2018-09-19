@@ -175,8 +175,7 @@ public abstract class MediaDialog extends OptionDialog
 	 */
 	public void setLabels() {
 		inputLabel.setText(appW.getLocalization().getMenu("Link"));
-		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
-				+ appW.getLocalization().getError("InvalidInput"));
+		errorLabel.setText(""); // actual error set in showError
 		updateButtonLabels("Insert");
 	}
 
@@ -219,6 +218,8 @@ public abstract class MediaDialog extends OptionDialog
 	public void showError(String msg) {
 		inputPanel.setStyleName("mowMediaDialogContent");
 		inputPanel.addStyleName("errorState");
+		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
+				+ appW.getLocalization().getError(msg));
 		setPrimaryButtonEnabled(false);
 	}
 

@@ -6,12 +6,15 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.media.EmbedURLChecker;
+import org.geogebra.common.media.EmbedURLChecker.URLStatus;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
@@ -19,7 +22,8 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
  * @author csilla
  *
  */
-public class EmbedInputDialog extends MediaDialog {
+public class EmbedInputDialog extends MediaDialog
+		implements AsyncOperation<URLStatus> {
 
 	/**
 	 * @param app
@@ -67,6 +71,7 @@ public class EmbedInputDialog extends MediaDialog {
 								ArrayList<Chapter> meta) {
 							app.getEmbedManager()
 									.embed(result.get(0).getBase64());
+							hide();
 						}
 
 						@Override
@@ -75,16 +80,10 @@ public class EmbedInputDialog extends MediaDialog {
 						}
 					});
 		} else {
-			GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-			ge.setUrl(url);
-			ge.setAppName("extension");
-			ge.initPosition(app.getActiveEuclidianView());
-			ge.setEmbedId(app.getEmbedManager().nextID());
-			ge.setLabel(null);
+			EmbedURLChecker.checkEmbedURL(url.replace("+", "%2B"), this);
 		}
 
 		app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
-		hide();
 	}
 
 	private GeoGebraTubeAPI getGeoGebraTubeAPI() {
@@ -92,4 +91,19 @@ public class EmbedInputDialog extends MediaDialog {
 				false,
 				((AppW) app).getArticleElement());
 	}
+
+	public void callback(URLStatus obj) {
+		if (obj.getErrorKey() == null) {
+			GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+			ge.setUrl(obj.getUrl());
+			ge.setAppName("extension");
+			ge.initPosition(app.getActiveEuclidianView());
+			ge.setEmbedId(app.getEmbedManager().nextID());
+			ge.setLabel(null);
+			hide();
+		} else {
+			showError(obj.getErrorKey());
+		}
+	}
+
 }
