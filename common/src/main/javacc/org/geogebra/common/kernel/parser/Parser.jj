@@ -1626,15 +1626,15 @@ ExpressionValue myDouble():
 {
    (
      (c = <FLOAT> | c = <EFLOAT>)
-     (percent ="%" 
-     | (degree = <DEGREE_SYMBOL>)
+     ((percent ="%")
+     | ((degree = <DEGREE_SYMBOL>)
        ((c2 = <FLOAT>)
         ((minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
          |(<ANGLE_SECONDS>)
         )
-       )?
-     | (minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?
-     | seconds = <ANGLE_SECONDS>
+       )?)
+     | ((minutes = <ANGLE_MINUTES>)((s = <FLOAT>)(<ANGLE_SECONDS>))?)
+     | (seconds = <ANGLE_SECONDS>)
      )?
     )
   {
