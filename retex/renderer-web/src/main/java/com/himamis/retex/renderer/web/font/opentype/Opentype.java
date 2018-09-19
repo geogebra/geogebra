@@ -162,7 +162,10 @@ public class Opentype implements FontLoaderWrapper {
 						XmlResources.INSTANCE.jlm_cmex10())) {
 			return;
 		}
-
+		if (getFontNative(familyName, false) != null) {
+			parseFont(familyName, false);
+			return;
+		}
 		// force different version from CDN
 		// change if the fonts are updated
 		path = path + "?v=2";
@@ -201,7 +204,8 @@ public class Opentype implements FontLoaderWrapper {
 
 	private native JavaScriptObject getFontNative(String familyName,
 			boolean frame) /*-{
-		return (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
+		var lib = (frame ? window : $wnd).__JLM_GWT_FONTS__;
+		return lib ? lib[familyName] : null;
 	}-*/;
 
 	@Override
