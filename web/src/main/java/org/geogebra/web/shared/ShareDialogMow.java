@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
@@ -143,7 +142,8 @@ public class ShareDialogMow extends DialogBoxW
 				.getUserGroups();
 		groupInfoLbl = new Label("");
 
-		groupNames = new ArrayList<>(Arrays.asList("Group1", "Group2", "Group3", "Group4"));
+		// groupNames = new ArrayList<>(Arrays.asList("Group1", "Group2", "Group3",
+		// "Group4"));
 
 		if (groupNames.isEmpty()) {
 			groupInfoLbl
