@@ -14,13 +14,18 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	private StringBuilder sb = new StringBuilder();
 	private Value vDMS;
 
+	/**
+	 * 
+	 * Class for degrees/minutes/seconds
+	 *
+	 */
 	public static class Value {
-		public int degrees;
-		public int minutes;
-		public double seconds;
-		public boolean needsMinus;
+		private int degrees;
+		private int minutes;
+		private double seconds;
+		private boolean needsMinus;
 
-		public void set(double val, double precision) {
+		private void set(double val, double precision) {
 			needsMinus = DoubleUtil.isGreater(0, val, precision);
 			double d = Math.abs(val * 180.0 / Math.PI);
 			degrees = (int) d;
@@ -29,7 +34,41 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 			seconds = (m - minutes) * 60.0;
 		}
 
-		public void checkMinutesOrSecondsEqual60(double precision) {
+		/**
+		 * set value
+		 * 
+		 * @param val
+		 *            value
+		 * @param precision
+		 *            precision for rounding
+		 * @param unbounded
+		 *            if needs to be bounded
+		 */
+		public void set(double val, double precision, boolean unbounded) {
+			double phi = val;
+			if (!unbounded) {
+				phi = phi % (2 * Math.PI);
+				if (phi < 0) {
+					phi += 2 * Math.PI;
+				}
+			}
+			set(phi, precision);
+			if (!unbounded) {
+				setBounded();
+			}
+			checkInteger();
+			checkMinutesOrSecondsEqual60(precision);
+		}
+
+		private void setBounded() {
+			degrees = degrees % 360;
+		}
+		
+		private void checkInteger() {
+			seconds = DoubleUtil.checkInteger(seconds);
+		}
+
+		private void checkMinutesOrSecondsEqual60(double precision) {
 			if (DoubleUtil.isEqual(seconds, 60, precision)) {
 				minutes++;
 				seconds = 0;
@@ -40,6 +79,15 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 			}
 		}
 
+		/**
+		 * 
+		 * @param sbFormatAngle
+		 *            string
+		 * @param tpl
+		 *            string template
+		 * @param kernel
+		 *            kernel
+		 */
 		public void format(StringBuilder sbFormatAngle, StringTemplate tpl,
 				Kernel kernel) {
 			if (kernel.getLocalization().isRightToLeftDigits(tpl)) {
@@ -88,6 +136,39 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 					sbFormatAngle.append(kernel.format(seconds, tpl));
 					sbFormatAngle.append(Unicode.SECONDS);
 				}
+			}
+		}
+
+		/**
+		 * 
+		 * @param sb
+		 *            string
+		 * @param kernel
+		 *            kernel
+		 */
+		public void format(StringBuilder sb, Kernel kernel) {
+			if (needsMinus) {
+				sb.append(Unicode.MINUS);
+			}
+			if (degrees != 0) {
+				sb.append(
+						kernel.format(degrees, StringTemplate.defaultTemplate));
+				sb.append(Unicode.DEGREE_CHAR);
+			}
+			if (minutes != 0) {
+				sb.append(
+						kernel.format(minutes, StringTemplate.defaultTemplate));
+				sb.append(Unicode.MINUTES);
+			}
+			if (!DoubleUtil.isZero(seconds, Kernel.MAX_PRECISION)) {
+				sb.append(
+						kernel.format(seconds, StringTemplate.defaultTemplate));
+				sb.append(Unicode.SECONDS);
+			}
+
+			if (sb.length() == 0 || (needsMinus && sb.length() == 1)) {
+				sb.append("0");
+				sb.append(Unicode.DEGREE_CHAR);
 			}
 		}
 
@@ -154,29 +235,8 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		if (vDMS == null) {
 			vDMS = new Value();
 		}
-		vDMS.set(val, Kernel.MAX_PRECISION);
-		vDMS.checkMinutesOrSecondsEqual60(Kernel.MAX_PRECISION);
-
-		if (vDMS.needsMinus) {
-			sb.append(Unicode.MINUS);
-		}
-		if (vDMS.degrees != 0) {
-			sb.append(kernel.format(vDMS.degrees, StringTemplate.defaultTemplate));
-			sb.append(Unicode.DEGREE_CHAR);
-		}
-		if (vDMS.minutes != 0) {
-			sb.append(kernel.format(vDMS.minutes, StringTemplate.defaultTemplate));
-			sb.append(Unicode.MINUTES);
-		}
-		if (!DoubleUtil.isZero(vDMS.seconds, Kernel.MAX_PRECISION)) {
-			sb.append(kernel.format(vDMS.seconds, StringTemplate.defaultTemplate));
-			sb.append(Unicode.SECONDS);
-		}
-		
-		if (sb.length() == 0 || (vDMS.needsMinus && sb.length() == 1)) {
-			sb.append("0");
-			sb.append(Unicode.DEGREE_CHAR);
-		}
+		vDMS.set(val, Kernel.MAX_PRECISION, false);
+		vDMS.format(sb, kernel);
 	}
 
 	@Override

@@ -2560,20 +2560,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				if (valueDegreesMinutesSeconds == null) {
 					valueDegreesMinutesSeconds = new MyDoubleDegreesMinutesSeconds.Value();
 				}
-				if (!unbounded) {
-					phi = phi % (2 * Math.PI);
-					if (phi < 0) {
-						phi += 2 * Math.PI;
-					}
-				}
-				valueDegreesMinutesSeconds.set(phi, Kernel.MAX_PRECISION);
-				if (!unbounded) {
-					valueDegreesMinutesSeconds.degrees = valueDegreesMinutesSeconds.degrees % 360;
-				}
-				valueDegreesMinutesSeconds.seconds = DoubleUtil
-						.checkInteger(valueDegreesMinutesSeconds.seconds);
-				valueDegreesMinutesSeconds.checkMinutesOrSecondsEqual60(Kernel.MAX_PRECISION);
-
+				valueDegreesMinutesSeconds.set(phi, Kernel.MAX_PRECISION,
+						unbounded);
 				valueDegreesMinutesSeconds.format(sbFormatAngle, tpl, this);
 				return sbFormatAngle;
 			}
