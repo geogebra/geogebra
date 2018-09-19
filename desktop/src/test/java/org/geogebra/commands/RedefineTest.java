@@ -299,13 +299,12 @@ public class RedefineTest extends Assert {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
 		ap.changeGeoElement(get("f'"), "f'(x)", true, true,
-				new TestErrorHandler(),
-				new AsyncOperation<GeoElementND>() {
-			@Override
-			public void callback(GeoElementND obj) {
-				// TODO Auto-generated method stub
-				
-			}});
+				new TestErrorHandler(), new AsyncOperation<GeoElementND>() {
+					@Override
+					public void callback(GeoElementND obj) {
+						// no callback
+					}
+				});
 		t("f'(x)", "(2 * x)");
 	}
 

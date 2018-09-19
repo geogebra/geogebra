@@ -118,6 +118,20 @@ public class AlgebraStyleTest extends AlgebraTest {
 	}
 
 	@Test
+	public void twoRowsAlgebraGraphingDerivative() {
+		app.getSettings().getCasSettings().setEnabled(false);
+		checkRows("f(x)=x^2", 1);
+		checkRows("f'", 1);
+	}
+
+	@Test
+	public void twoRowsAlgebraGraphingDerivativeArg() {
+		app.getSettings().getCasSettings().setEnabled(false);
+		checkRows("f(x)=x^2", 1);
+		checkRows("f'(x)", 1);
+	}
+
+	@Test
 	public void checkEquationExplicit() {
 		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_EXPLICIT,
 				"x^2 + 4y^2 = 1");
