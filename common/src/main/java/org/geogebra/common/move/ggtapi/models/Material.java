@@ -48,7 +48,7 @@ public class Material implements Comparable<Material>, Serializable {
 	/**
 	 * URL to the author's profile in GeoGebraTube.
 	 */
-	private int author_id;
+	private int authorID;
 	/**
 	 * Id of the person who stored material to local device
 	 */
@@ -63,7 +63,7 @@ public class Material implements Comparable<Material>, Serializable {
 	 * URL to the material itself (link to student page for materials of type
 	 * ggb, download link for ggt, or external link for link).
 	 */
-	private String url_direct;
+	private String urlDirect;
 
 	/**
 	 * Two letter language code of the material.
@@ -77,7 +77,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private String thumbnail;
 	private boolean thumbnailIsBase64 = false;
 
-	private String preview_url;
+	private String previewUrl;
 
 	/**
 	 * true if a material is featured, false otherwise.
@@ -123,7 +123,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private String fileName;
 
 	private long dateCreated;
-	private int creator_id;
+	private int creatorID;
 	private UserPublic creator;
 
 	/**
@@ -140,11 +140,11 @@ public class Material implements Comparable<Material>, Serializable {
 		this.timestamp = -1;
 		this.autoSaveTimestamp = -1;
 		this.author = "";
-		this.author_id = -1;
-		this.creator_id = -1;
+		this.authorID = -1;
+		this.creatorID = -1;
 		this.creator = new UserPublic();
 		this.url = "";
-		this.url_direct = "";
+		this.urlDirect = "";
 		this.language = "";
 		this.featured = false;
 		this.likes = -1;
@@ -232,7 +232,7 @@ public class Material implements Comparable<Material>, Serializable {
 	 *         for link).
 	 */
 	public String getURLdirect() {
-		return this.url_direct;
+		return this.urlDirect;
 	}
 
 	public String getLanguage() {
@@ -333,7 +333,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public void setAuthorId(int author_id) {
-		this.author_id = author_id;
+		this.authorID = author_id;
 	}
 
 	public void setURL(String url) {
@@ -341,15 +341,15 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public void setURLdirect(String url_direct) {
-		this.url_direct = url_direct;
+		this.urlDirect = url_direct;
 	}
 
 	public void setPreviewURL(String preview_url) {
-		this.preview_url = preview_url;
+		this.previewUrl = preview_url;
 	}
 
 	public String getPreviewURL() {
-		return preview_url;
+		return previewUrl;
 	}
 
 	public void setLanguage(String language) {
@@ -458,10 +458,10 @@ public class Material implements Comparable<Material>, Serializable {
 		sb.append(this.url);
 		sb.append("\n");
 		sb.append("URL_DIRECT: ");
-		sb.append(this.url_direct);
+		sb.append(this.urlDirect);
 		sb.append("\n");
 		sb.append("preview URL: ");
-		sb.append(this.preview_url);
+		sb.append(this.previewUrl);
 		sb.append("\n");
 		sb.append("Thumbnail: ");
 		sb.append(this.thumbnail);
@@ -487,11 +487,11 @@ public class Material implements Comparable<Material>, Serializable {
 		JSONObject ret = new JSONObject();
 		putString(ret, "thumbnail", thumbnail);
 		// putString(ret,"-type", TODO);
-		putString(ret, "author_id", author_id + "");
+		putString(ret, "author_id", authorID + "");
 		putString(ret, "language", language);
 		putString(ret, "author", author);
 		putString(ret, "description", description);
-		putString(ret, "url_direct", url_direct);
+		putString(ret, "url_direct", urlDirect);
 		putString(ret, "featured", featured + "");
 		putString(ret, "timestamp", timestamp + "");
 		putString(ret, "url", url);
@@ -673,7 +673,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public int getAuthorID() {
-		return this.author_id;
+		return this.authorID;
 	}
 
 	public boolean isFavorite() {
@@ -813,11 +813,11 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public int getCreatorId() {
-		return creator_id;
+		return creatorID;
 	}
 
 	public void setCreatorId(int creator_id) {
-		this.creator_id = creator_id;
+		this.creatorID = creator_id;
 	}
 
 	public UserPublic getCreator() {
