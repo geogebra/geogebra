@@ -14341,7 +14341,12 @@ gen _vers(const gen & g,GIAC_CONTEXT){
     theta2 = 360 ;
     // logo instruction
     if (g.type==_VECT && !g._VECTptr->empty()){
-      vecteur & v = *g._VECTptr;
+      vecteur v = *g._VECTptr;
+      bool seg=false;
+      if (v.back()==at_segment){
+	v.pop_back();
+	seg=true;
+      }
       if (v.size()<2)
 	return RAND_MAX; // setdimerr(contextptr);
       if (v[0].type==_INT_)
@@ -14377,13 +14382,13 @@ gen _vers(const gen & g,GIAC_CONTEXT){
 	}
 	while (theta2<0)
 	  theta2 += 360;
-	radius = giacmin(r,512) | (giacmin(theta1,360) << 9) | (giacmin(theta2,360) << 18 );
+	radius = giacmin(r,512) | (giacmin(theta1,360) << 9) | (giacmin(theta2,360) << 18 ) | (seg?(1<<28):0);
       }
       else {// angle 1=0
 	theta2 = theta1;
 	if (theta2<0)
 	  theta2 += 360;
-	radius = giacmin(r,512) | (giacmin(theta2,360) << 18 );
+	radius = giacmin(r,512) | (giacmin(theta2,360) << 18 ) | (seg?(1<<28):0);
       }
       return radius;
     }

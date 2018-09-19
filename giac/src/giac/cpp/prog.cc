@@ -1216,7 +1216,16 @@ namespace giac {
     gen newa,newc;
     replace_keywords(a,((embedd&&c.type==_VECT)?makevecteur(c):c),newa,newc,contextptr);
     //cout << c._SYMBptr->sommet << endl;
-    if (python_compat(contextptr) && !c.is_symb_of_sommet(at_local)){
+    bool cloc=newc.is_symb_of_sommet(at_local),glob=false;
+    gen clocg;
+    if (cloc){
+      clocg=newc._SYMBptr->feuille;
+      if (clocg.type==_VECT && !clocg._VECTptr->empty()){
+	clocg=clocg._VECTptr->front();
+	glob=clocg.type==_VECT && clocg._VECTptr->size()==2 && clocg._VECTptr->front().type==_VECT && clocg._VECTptr->front()._VECTptr->empty();
+      }
+    }
+    if (python_compat(contextptr) && (!cloc || glob) ){
       vecteur res1,non_decl,res3,res4,Newa=gen2vecteur(newa);
       for (int i=0;i<int(Newa.size());++i){
 	if (Newa[i].is_symb_of_sommet(at_equal))
@@ -1261,7 +1270,10 @@ namespace giac {
       }
       if (!non_decl.empty()){
 	*logptr(contextptr) << gettext("Auto-declared local variables : ") << gen(non_decl,_SEQ__VECT) << endl;
-	newc=symb_local(non_decl,newc,contextptr);
+	if (glob)
+	  newc=symb_local(makesequence(non_decl,clocg._VECTptr->back()),newc._SYMBptr->feuille._VECTptr->back(),contextptr);
+	else
+	  newc=symb_local(non_decl,newc,contextptr);
       }
     }
     symbolic g=symbolic(at_program,gen(makevecteur(newa,b,newc),_SEQ__VECT));
@@ -1272,7 +1284,7 @@ namespace giac {
       // check that a local variable name does not shadow a parameter name
       gen & newcf=newc._SYMBptr->feuille;
       if (newcf.type==_VECT && newcf._VECTptr->size()==2){
-	gen & vars = newcf._VECTptr->front();
+	gen & vars = newcf._VECTptr->front(); // local vars, back is global vars
 	gen inters=_intersect(gen(makevecteur(vars,newa),_SEQ__VECT),contextptr);
 	if (inters.type==_VECT && !inters._VECTptr->empty()){
 	  inters.subtype=_SEQ__VECT;

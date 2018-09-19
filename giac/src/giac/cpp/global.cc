@@ -5162,6 +5162,7 @@ unsigned int ConvertUTF8toUTF16 (
     "plotpolar",
     "pow2exp",
     "powexpand",
+    "propFrac",
     "propfrac",
     "quote",
     "regroup",
