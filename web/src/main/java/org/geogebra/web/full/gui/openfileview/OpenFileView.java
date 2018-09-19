@@ -78,8 +78,10 @@ public class OpenFileView extends MyHeaderPanel
 	private Label caption;
 	private Label info;
 
-	private boolean materialListEmpty = true;
-	private boolean sharedMatListEmpty = true;
+	private boolean[] materialListEmpty = { true, true };
+	private static int TYPE_USER = 0;
+	private static int TYPE_SHARED = 1;
+
 	private Order order = Order.timestamp;
 	private static Order[] map = new Order[] { Order.title, Order.created,
 			Order.timestamp };
@@ -103,8 +105,8 @@ public class OpenFileView extends MyHeaderPanel
 
 	private void initGUI() {
 		this.setStyleName("openFileView");
-		this.userMaterialsCB = getUserMaterialsCB();
-		this.sharedMaterialsCB = getSharedMaterialsCB();
+		this.userMaterialsCB = getUserMaterialsCB(TYPE_USER);
+		this.sharedMaterialsCB = getUserMaterialsCB(TYPE_SHARED);
 		this.ggtMaterialsCB = getGgtMaterialsCB();
 		initHeader();
 		initContentPanel();
@@ -118,7 +120,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	protected void addContent() {
 		contentPanel.clear();
-		if (materialListEmpty && sharedMatListEmpty) {
+		if (materialListEmpty[TYPE_USER] && materialListEmpty[TYPE_SHARED]) {
 			showEmptyListNotification();
 			setExtendedButtonStyle();
 			infoPanel.add(buttonPanel);
@@ -450,13 +452,13 @@ public class OpenFileView extends MyHeaderPanel
 		return false;
 	}
 
-	private MaterialCallback getUserMaterialsCB() {
+	private MaterialCallback getUserMaterialsCB(final int type) {
 		return new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
 					ArrayList<Chapter> meta) {
-				addUsersMaterials(parseResponse);
+				addUsersMaterials(parseResponse, type);
 				addContent();
 			}
 		};
@@ -467,34 +469,11 @@ public class OpenFileView extends MyHeaderPanel
 	 * 
 	 * @param matList
 	 *            List of materials
+	 * @param type
+	 *            TYPE_USER or TYPE_SHARED
 	 */
-	public void addUsersMaterials(final List<Material> matList) {
-		materialListEmpty = matList.isEmpty();
-		for (int i = 0; i < matList.size(); i++) {
-			addMaterial(matList.get(i));
-		}
-	}
-
-	private MaterialCallback getSharedMaterialsCB() {
-		return new MaterialCallback() {
-
-			@Override
-			public void onLoaded(final List<Material> parseResponse,
-					ArrayList<Chapter> meta) {
-				addSharedMaterials(parseResponse);
-				addContent();
-			}
-		};
-	}
-
-	/**
-	 * Adds the given {@link Material materials}.
-	 * 
-	 * @param matList
-	 *            List of shared materials
-	 */
-	public void addSharedMaterials(final List<Material> matList) {
-		sharedMatListEmpty = matList.isEmpty();
+	protected void addUsersMaterials(final List<Material> matList, int type) {
+		materialListEmpty[type] = matList.isEmpty();
 		for (int i = 0; i < matList.size(); i++) {
 			addMaterial(matList.get(i));
 		}
@@ -505,7 +484,7 @@ public class OpenFileView extends MyHeaderPanel
 			@Override
 			public void onError(final Throwable exception) {
 				exception.printStackTrace();
-				Log.debug(exception.getMessage());
+				Log.warn(exception.getMessage());
 			}
 
 			@Override
@@ -527,7 +506,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
-		materialListEmpty = matList.isEmpty();
+		materialListEmpty[TYPE_USER] = matList.isEmpty();
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
 				addMaterial(mat);
