@@ -7942,7 +7942,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default:
 			break;
 		}
-		// calc boundingbox width/heigth
+		// calc boundingbox width/height
 		double bbWidth = startBoundingBoxState.getRectangle().getWidth(),
 				bbHeight = startBoundingBoxState.getRectangle().getHeight(),
 				bbMinX = startBoundingBoxState.getRectangle().getMinX(),
@@ -8030,7 +8030,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							.translate(new Coords(dEndX / view.getXscale(),
 									-dEndY / view.getYscale()));
 				}
-				seg.updateRepaint();
 			} else {
 				GRectangle2D bounds = dr.getBounds();
 				if (dr.getBoundingBox() != null) {
@@ -8042,7 +8041,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					double maxXFromOld = bounds.getMinX() + (newMaxX - newMinX),
 							maxYFromOld = bounds.getMinY()
 									+ (newMaxY - newMinY);
-					// resize to new width
+					// resize to new width and height
 					GPoint2D point = AwtFactory.getPrototype()
 							.newPoint2D(maxXFromOld, maxYFromOld);
 					if (point.getX() != 0 && !thresholdXReached) {
@@ -8073,10 +8072,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
 						((Translateable) geo).translate(new Coords(
 								dx / view.getXscale(), -dy / view.getYscale()));
-						geo.updateRepaint();
 					}
 				}
 			}
+			// last update for drawable
+			dr.update();
 		}
 	}
 
