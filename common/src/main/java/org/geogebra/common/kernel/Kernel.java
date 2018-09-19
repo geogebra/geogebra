@@ -2561,17 +2561,17 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 					valueDegreesMinutesSeconds = new MyDoubleDegreesMinutesSeconds.Value();
 				}
 				if (!unbounded) {
-					phi = phi % (2*Math.PI);
+					phi = phi % (2 * Math.PI);
 					if (phi < 0) {
-						phi += 2*Math.PI;
+						phi += 2 * Math.PI;
 					}
 				}
 				valueDegreesMinutesSeconds.set(phi, Kernel.MAX_PRECISION);
 				if (!unbounded) {
 					valueDegreesMinutesSeconds.degrees = valueDegreesMinutesSeconds.degrees % 360;
 				}
-				valueDegreesMinutesSeconds.seconds = DoubleUtil.checkInteger
-						(valueDegreesMinutesSeconds.seconds);
+				valueDegreesMinutesSeconds.seconds = DoubleUtil
+						.checkInteger(valueDegreesMinutesSeconds.seconds);
 				valueDegreesMinutesSeconds.checkMinutesOrSecondsEqual60(Kernel.MAX_PRECISION);
 
 				if (getLocalization().isRightToLeftDigits(tpl)) {
@@ -2717,9 +2717,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
 	 * @param unit
-	 *            Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT or Kernel.ANGLE_DEGREES_MINUTES_SECONDS
+	 *            Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT or
+	 *            Kernel.ANGLE_DEGREES_MINUTES_SECONDS
 	 */
 	final public void setAngleUnit(int unit) {
 		angleUnit = unit;

@@ -11,35 +11,37 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class MyDoubleDegreesMinutesSeconds extends MyDouble {
+	private StringBuilder sb = new StringBuilder();
+	private Value vDMS;
 
 	public static class Value {
-		public int degrees, minutes;
+		public int degrees;
+		public int minutes;
 		public double seconds;
 		public boolean needsMinus;
 
 		public void set(double val, double precision) {
 			needsMinus = DoubleUtil.isGreater(0, val, precision);
 			double d = Math.abs(val * 180.0 / Math.PI);
-            degrees = (int) d;
+			degrees = (int) d;
 			double m = (d - degrees) * 60.0;
-            minutes = (int) m;
+			minutes = (int) m;
 			seconds = (m - minutes) * 60.0;
 		}
 
 		public void checkMinutesOrSecondsEqual60(double precision) {
 			if (DoubleUtil.isEqual(seconds, 60, precision)) {
 				minutes++;
-                seconds = 0;
-            }
-            if (minutes >= 60) {
-				minutes-=60;
+				seconds = 0;
+			}
+			if (minutes >= 60) {
+				minutes -= 60;
 				degrees++;
 			}
 		}
 	}
 
-	private StringBuilder sb = new StringBuilder();
-	private Value vDMS;
+
 
 	/**
 	 * 

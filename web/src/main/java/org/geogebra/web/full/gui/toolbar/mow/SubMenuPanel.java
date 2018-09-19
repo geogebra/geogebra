@@ -150,7 +150,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		GroupPanel group = new GroupPanel();
 		for (Integer mode : menu) {
 			if (app.isModeValid(mode)) {
-				ToolButton btn = new ToolButton(mode, 24, app, this);
+				ToolButton btn = new ToolButton(mode, app, this);
 				group.add(btn);
 				col++;
 			}

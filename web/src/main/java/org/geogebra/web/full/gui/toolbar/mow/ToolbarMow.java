@@ -260,7 +260,7 @@ public class ToolbarMow extends FlowPanel
 		undoRedoPanel.addStyleName("undoRedoPositionMow");
 		// create buttons
 		btnUndo = new StandardButton(
-				MaterialDesignResources.INSTANCE.undo_border(), null,24,appW);
+				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(this);
 		btnRedo = new StandardButton(

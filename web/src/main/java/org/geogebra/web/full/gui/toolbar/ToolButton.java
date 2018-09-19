@@ -18,14 +18,12 @@ public class ToolButton extends StandardButton {
 	/**
 	 * @param mode
 	 *            tool mode
-	 * @param size
-	 *            of tool
 	 * @param app
 	 *            see {@link AppW}
 	 * @param panel
 	 *            which contains the button
 	 */
-	public ToolButton(int mode, int size, AppW app, SubMenuPanel panel) {
+	public ToolButton(int mode, AppW app, SubMenuPanel panel) {
 		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode,
 				app),
 				app.getLocalization().getMenu(

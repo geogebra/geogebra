@@ -186,6 +186,7 @@ public class MyToggleButtonW extends ToggleButton
 		event.stopPropagation();
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		setDown(!isDown());
 		ValueChangeEvent.fire(this, isDown());

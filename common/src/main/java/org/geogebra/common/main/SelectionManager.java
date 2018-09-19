@@ -748,6 +748,7 @@ public class SelectionManager {
 		}
 		
 	}
+
 	/**
 	 * Select geo next to the selected one in construction order. If none is
 	 * selected before, first geo is selected.

@@ -71,11 +71,11 @@ public class PenSubMenu extends SubMenuPanel {
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
 		penPanel.addStyleName("penPanel");
-		pen = new ToolButton(EuclidianConstants.MODE_PEN, 24, app, this);
-		eraser = new ToolButton(EuclidianConstants.MODE_ERASER, 24, app, this);
-		highlighter = new ToolButton(EuclidianConstants.MODE_HIGHLIGHTER, 24,
+		pen = new ToolButton(EuclidianConstants.MODE_PEN, app, this);
+		eraser = new ToolButton(EuclidianConstants.MODE_ERASER, app, this);
+		highlighter = new ToolButton(EuclidianConstants.MODE_HIGHLIGHTER,
 				app, this);
-		select = new ToolButton(EuclidianConstants.MODE_SELECT_MOW, 24, app,
+		select = new ToolButton(EuclidianConstants.MODE_SELECT_MOW, app,
 				this);
 		penPanel.add(LayoutUtilW.panelRow(select, pen, eraser, highlighter));
 	}
