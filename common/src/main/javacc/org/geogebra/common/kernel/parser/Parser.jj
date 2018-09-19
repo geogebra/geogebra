@@ -1624,18 +1624,21 @@ ExpressionValue myDouble():
     MyDouble d;
 }
 {
-   (
+   LOOKAHEAD(2)(
      (c = <FLOAT> | c = <EFLOAT>)
      ((percent ="%")
-     | ((degree = <DEGREE_SYMBOL>)
-       ((c2 = <FLOAT>)
-        ((minutes = <ANGLE_MINUTES> | minutes = "'")((s = <FLOAT>)(<ANGLE_SECONDS>))?
+     | LOOKAHEAD(3)((degree = <DEGREE_SYMBOL>)
+       (c2 = <FLOAT>)
+        (LOOKAHEAD(3)(minutes = <ANGLE_MINUTES> | minutes = "'")(s = <FLOAT>)(<ANGLE_SECONDS>)
+         |(minutes = <ANGLE_MINUTES> | minutes = "'")
          |(<ANGLE_SECONDS>)
         )
-       )?)
-     | ((minutes = <ANGLE_MINUTES> | minutes = "'")((s = <FLOAT>)(<ANGLE_SECONDS>))?)
+       )
+     | (degree = <DEGREE_SYMBOL>)
+     | LOOKAHEAD(3)(minutes = <ANGLE_MINUTES> | minutes = "'")(s = <FLOAT>)(<ANGLE_SECONDS>)
+     | (minutes = <ANGLE_MINUTES> | minutes = "'")
      | (seconds = <ANGLE_SECONDS>)
-     )?
+     )
     )
   {
   	 String image = c.image.replaceFirst("e", "E");
@@ -1684,6 +1687,12 @@ ExpressionValue myDouble():
   		return new MyDoubleDegreesMinutesSeconds(kernel, vd, hasDegrees, vm, hasMinutes, vs, hasSeconds);
   	 }
      return parseDouble(image, percent != null);
+    }  
+|     
+    (c = <FLOAT> | c = <EFLOAT>)
+    {
+    String image = c.image.replaceFirst("e", "E");
+    return parseDouble(image, false);
     }
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)
