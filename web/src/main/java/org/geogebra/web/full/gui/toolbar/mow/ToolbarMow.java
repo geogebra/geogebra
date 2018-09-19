@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
@@ -31,6 +30,7 @@ public class ToolbarMow extends FlowPanel
 	private AppW appW;
 	private HeaderMow header;
 	private FlowPanel toolbarPanel;
+	private FlowPanel toolbarPanelContent;
 	private StandardButton pageControlButton;
 	private PageListPanel pageControlPanel;
 	private boolean isOpen = true;
@@ -41,7 +41,9 @@ public class ToolbarMow extends FlowPanel
 	/** redo button */
 	protected StandardButton btnRedo;
 	private PenSubMenu penPanel;
-	private PenSubMenu penPanel2;
+	private ToolsSubMenu toolsPanel;
+	private MediaSubMenu mediaPanel;
+	private TabIds currentTab;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	private final static int FLOATING_BTNS_WIDTH = 80;
@@ -101,11 +103,17 @@ public class ToolbarMow extends FlowPanel
 	}
 
 	private void createPanels() {
-		toolbarPanel.addStyleName("mowSubmenuScrollPanel");
-		toolbarPanel.addStyleName("slideLeft");
+		toolbarPanelContent = new FlowPanel();
+		toolbarPanelContent.addStyleName("mowSubmenuScrollPanel");
+		toolbarPanelContent.addStyleName("slideLeft");
+		currentTab = TabIds.PEN;
 		penPanel = new PenSubMenu(appW);
-		penPanel.setMode(EuclidianConstants.MODE_PEN);
-		toolbarPanel.add(penPanel);
+		toolsPanel = new ToolsSubMenu(appW);
+		mediaPanel = new MediaSubMenu(appW);
+		toolbarPanelContent.add(penPanel);
+		toolbarPanelContent.add(toolsPanel);
+		toolbarPanelContent.add(mediaPanel);
+		toolbarPanel.add(toolbarPanelContent);
 	}
 
 	private void createPageControlButton() {
@@ -196,7 +204,27 @@ public class ToolbarMow extends FlowPanel
 	 *            id of tab
 	 */
 	public void tabSwitch(TabIds tab) {
-		// TODO switch tab and toolbar panel
+		if (tab != currentTab) {
+			currentTab = tab;
+			toolbarPanelContent.removeStyleName("slideLeft");
+			toolbarPanelContent.removeStyleName("slideCenter");
+			toolbarPanelContent.removeStyleName("slideRight");
+			switch (tab) {
+			case PEN:
+				toolbarPanelContent.addStyleName("slideLeft");
+				break;
+			case TOOLS:
+				toolbarPanelContent.addStyleName("slideCenter");
+				break;
+			case MEDIA:
+				toolbarPanelContent.addStyleName("slideRight");
+				break;
+			default:
+				toolbarPanelContent.addStyleName("slideLeft");
+				break;
+			}
+			setMode(getCurrentPanel().getFirstMode());
+		}
 	}
 
 	@Override
@@ -284,11 +312,24 @@ public class ToolbarMow extends FlowPanel
 		header.setLabels();
 	}
 
+	private SubMenuPanel getCurrentPanel() {
+		switch (currentTab) {
+		case PEN:
+			return penPanel;
+		case TOOLS:
+			return toolsPanel;
+		case MEDIA:
+			return mediaPanel;
+		default:
+			return penPanel;
+		}
+	}
+
 	/**
 	 * @param mode
 	 *            id of tool
 	 */
 	public void setMode(int mode) {
-		penPanel.setMode(mode);
+		getCurrentPanel().setMode(mode);
 	}
 }

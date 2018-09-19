@@ -76,61 +76,60 @@
 		}
 	
 		.toolbarMowPanel {
-			background-color: white;
-			height: 156px;
-			z-index: $z_mow_toolbar_panel;
-			width: 100% !important;
+			overflow: hidden;
 			
-			.panelRow {
-				padding: 0px;		
+			.mowSubmenuScrollPanel {
+				background-color: white;
+				height: 156px;
+				z-index: $z_mow_toolbar_panel;
+				width: 300%;
+				position: relative;
+    			top: 0px;
+				
+				.panelRow {
+					padding: 0px;		
+				}
+			
+				.penSubMenu {
+	   				padding: 8px 10px 3px 8px;
+	    			width: 582px;
+	
+					.penPanel {
+						width: 144px;
+					}
+				
+					.colorPanel {
+					    position: absolute;
+					    left: 142px;
+					    margin: 0px;
+					    bottom: 84px;
+					}
+				
+					.sizePanel {
+					    position: absolute;
+					    left: 174px;
+					    top: 92px;
+					}
+				}
+		
+			 	.toolsSubMenu, .mediaSubMenu {
+			 		.panelRow {
+						padding: 0px;
+					}
+			 		.groupPanel {
+					    width: 416px !important;
+					    height: 144px;
+					    display: block;
+			    		margin: 8px auto 4px auto;	
+			    		padding: 0px;
+			    			    
+					    .toolButton {
+					    	display: inline-block;	
+					    	vertical-align: bottom;
+					    }
+					}	
+			 	}
 			}
-		
-			.penSubMenu {
-   				padding: 8px 10px 3px 8px;
-    			width: 582px;
-
-				.penPanel {
-					width: 144px;
-				}
-			
-				.colorPanel {
-				    position: absolute;
-				    left: 142px;
-				    margin: 0px;
-				    bottom: 84px;
-				}
-			
-				.sizePanel {
-				    position: absolute;
-				    left: 174px;
-				    top: 92px;
-				}
-			}
-		
-		 	.toolsSubMenu, .mediaSubMenu {
-		 		.panelRow {
-					padding: 0px;
-				}
-		 		.groupPanel {
-				    width: 376px !important;
-				    height: 144px;
-				    display: block;
-		    		margin: 8px auto 4px auto;	
-		    		padding: 0px;
-		    			    
-				    .toolButton {
-				    	display: inline-block;	
-				    	vertical-align: bottom;
-				    }
-				}	
-		 	}
-		
-		 	&.mowSubmenuScrollPanel {
-		 		position: relative;
-			    display: flex;
-			    top: 0px;
-			    width: 300%;
-		 	}
 		}
 	}
 

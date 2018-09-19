@@ -12,13 +12,12 @@ import org.geogebra.web.html5.main.AppW;
  *
  */
 public class MediaSubMenu extends SubMenuPanel {
-
 	/**
 	 * @param app
 	 *            application
 	 */
 	public MediaSubMenu(AppW app) {
-		super(app/* , true */);
+		super(app);
 		addStyleName("mediaSubMenu");
 	}
 
@@ -38,15 +37,13 @@ public class MediaSubMenu extends SubMenuPanel {
 	 * Chooses text mode - for development.
 	 * 
 	 * @param app
-	 *            {@link AppW}
+	 *            see {@link AppW}
 	 * 
 	 * @return the text mode for the tool.
 	 */
 	public static int getTextMode(AppW app) {
-		if (app.has(Feature.MOW_TEXT_TOOL)) {
-			return EuclidianConstants.MODE_MEDIA_TEXT;
-		}
-
-		return EuclidianConstants.MODE_TEXT;
+		return app.has(Feature.MOW_TEXT_TOOL)
+				? EuclidianConstants.MODE_MEDIA_TEXT
+				: EuclidianConstants.MODE_TEXT;
 	}
 }

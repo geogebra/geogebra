@@ -11,14 +11,13 @@ import org.geogebra.web.html5.main.AppW;
  * 
  */
 public class ToolsSubMenu extends SubMenuPanel {
-
 	/**
 	 * 
 	 * @param app
 	 *            ggb app.
 	 */
 	public ToolsSubMenu(AppW app) {
-		super(app/* , true */);
+		super(app);
 		addStyleName("toolsSubMenu");
 	}
 
