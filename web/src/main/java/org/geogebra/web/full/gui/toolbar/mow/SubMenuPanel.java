@@ -6,12 +6,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -162,9 +159,10 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @param toolbarString
 	 *            The toolbar definition string
 	 */
-	protected void addModesToToolbar(String toolbarString) {
-		addModesToToolbar(contentPanel, toolbarString);
-	}
+	/*
+	 * protected void addModesToToolbar(String toolbarString) {
+	 * addModesToToolbar(contentPanel, toolbarString); }
+	 */
 
 	/**
 	 * Adds tool buttons to an arbitrary panel depending on a toolbar definition
@@ -198,7 +196,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		GroupPanel group = new GroupPanel();
 		for (Integer mode : menu) {
 			if (app.isModeValid(mode)) {
-				StandardButton btn = createButton(mode);
+				ToolButton btn = new ToolButton(mode, 24, app, this);
 				group.add(btn);
 				col++;
 			}
@@ -214,32 +212,22 @@ public abstract class SubMenuPanel extends FlowPanel
 	 *            The mode the button will stand for.
 	 * @return Newly created toolbar button to set its mode.
 	 */
-	protected StandardButton createButton(int mode) {
-		NoDragImage im = new NoDragImage(AppResources.INSTANCE.empty(), 32);
-		GGWToolBar.getImageResource(mode, app, im);
-		// opacity hack: old icons don't need opacity, new ones do
-		if (imageNeedsOpacity(mode)) {
-			im.addStyleName("opacityFixForOldIcons");
-		}
-		StandardButton button = new StandardButton(null, "", 32, app);
-		button.getUpFace().setImage(im);
-		button.setBtnImage(im);
-		button.addFastClickHandler(this);
-		button.addStyleName("mowToolButton");
-		if (modeAvailable(mode)) {
-			button.addStyleName("inactiveToolButton");
-		}
-		String altText = app.getLocalization()
-				.getMenu(EuclidianConstants.getModeText(mode)) + ". "
-				+ app.getToolHelp(mode);
-		button.setTitle(app.getLocalization()
-				.getMenu(EuclidianConstants.getModeText(mode)));
-		button.setAltText(altText);
-		button.getElement().setAttribute("mode", mode + "");
-		button.getElement().setId("mode" + mode);
-		return button;
-	}
-
+	/*
+	 * protected StandardButton createButton(int mode) { NoDragImage im = new
+	 * NoDragImage(AppResources.INSTANCE.empty(), 32);
+	 * GGWToolBar.getImageResource(mode, app, im); // opacity hack: old icons
+	 * don't need opacity, new ones do if (imageNeedsOpacity(mode)) {
+	 * im.addStyleName("opacityFixForOldIcons"); } StandardButton button = new
+	 * StandardButton(null, "", 32, app); button.getUpFace().setImage(im);
+	 * button.setBtnImage(im); button.addFastClickHandler(this);
+	 * button.addStyleName("mowToolButton"); if (modeAvailable(mode)) {
+	 * button.addStyleName("inactiveToolButton"); } String altText =
+	 * app.getLocalization() .getMenu(EuclidianConstants.getModeText(mode)) +
+	 * ". " + app.getToolHelp(mode); button.setTitle(app.getLocalization()
+	 * .getMenu(EuclidianConstants.getModeText(mode)));
+	 * button.setAltText(altText); button.getElement().setAttribute("mode", mode
+	 * + ""); button.getElement().setId("mode" + mode); return button; }
+	 */
 	/**
 	 * 
 	 * @return true if submenu has info panel.
@@ -257,20 +245,19 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * public void setInfo(boolean info) { this.info = info; }
 	 */
 
-	private boolean modeAvailable(int mode) {
-		return (mode == EuclidianConstants.MODE_VIDEO
-				&& !app.has(Feature.MOW_VIDEO_TOOL))
-				|| (mode == EuclidianConstants.MODE_AUDIO
-						&& !app.has(Feature.MOW_AUDIO_TOOL))
-				|| (mode == EuclidianConstants.MODE_CAMERA
-						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))
-				|| (mode == EuclidianConstants.MODE_PDF
-						&& !app.has(Feature.MOW_PDF_TOOL))
-				|| (mode == EuclidianConstants.MODE_GRAPHING
-						&& !app.has(Feature.MOW_GEOGEBRA_TOOL))
-				|| (mode == EuclidianConstants.MODE_EXTENSION
-						&& !app.has(Feature.MOW_EMBED_EXTENSION));
-	}
+	/*
+	 * private boolean modeAvailable(int mode) { return (mode ==
+	 * EuclidianConstants.MODE_VIDEO && !app.has(Feature.MOW_VIDEO_TOOL)) ||
+	 * (mode == EuclidianConstants.MODE_AUDIO &&
+	 * !app.has(Feature.MOW_AUDIO_TOOL)) || (mode ==
+	 * EuclidianConstants.MODE_CAMERA &&
+	 * !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) || (mode ==
+	 * EuclidianConstants.MODE_PDF && !app.has(Feature.MOW_PDF_TOOL)) || (mode
+	 * == EuclidianConstants.MODE_GRAPHING &&
+	 * !app.has(Feature.MOW_GEOGEBRA_TOOL)) || (mode ==
+	 * EuclidianConstants.MODE_EXTENSION &&
+	 * !app.has(Feature.MOW_EMBED_EXTENSION)); }
+	 */
 
 	/**
 	 * Initializes the submenu when it is opened from MOWToolbar.
@@ -380,9 +367,11 @@ public abstract class SubMenuPanel extends FlowPanel
 				if (modeID != mode) {
 					w.getWidget(j).getElement().setAttribute("selected",
 							"false");
+					((ToolButton) w.getWidget(j)).setSelected(false);
 				} else {
 					w.getWidget(j).getElement().setAttribute("selected",
 							"true");
+					((ToolButton) w.getWidget(j)).setSelected(true);
 				}
 			}
 		}

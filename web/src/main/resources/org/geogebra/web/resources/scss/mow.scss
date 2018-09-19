@@ -272,9 +272,24 @@
 	.toolsSubMenu {
 		.mowSubMenuContent {
 			overflow-x: scroll;
-			overflow-y: hidden !important;
+			overflow-y: hidden !important;	
+			
 			.panelRow {
-				//width: 1540px;
+				padding: 0px;
+			}
+		
+			.groupPanel {
+				width: 416px !important;
+				height: 144px;
+				display: block;
+		  		margin: 8px auto 4px auto;	
+		  		padding: 0px;
+		    			    
+				 .toolButton {
+				    display: inline-block;	
+				    vertical-align: bottom;
+				    margin: 0px 20px !important;
+				 }
 			}	
 		}
 	}

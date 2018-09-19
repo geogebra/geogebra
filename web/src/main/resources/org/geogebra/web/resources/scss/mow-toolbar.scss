@@ -107,6 +107,24 @@
 				}
 			}
 		
+		 	.toolsSubMenu {
+		 		.panelRow {
+					padding: 0px;
+				}
+		 		.groupPanel {
+				    width: 376px !important;
+				    height: 144px;
+				    display: block;
+		    		margin: 8px auto 4px auto;	
+		    		padding: 0px;
+		    			    
+				    .toolButton {
+				    	display: inline-block;	
+				    	vertical-align: bottom;
+				    }
+				}	
+		 	}
+		
 		 	&.mowSubmenuScrollPanel {
 		 		position: relative;
 			    display: flex;

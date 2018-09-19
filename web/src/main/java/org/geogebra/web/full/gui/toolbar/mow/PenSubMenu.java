@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
-import java.util.Vector;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -32,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class PenSubMenu extends SubMenuPanel implements FastClickHandler {
+public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_ERASER_SIZE = 100;
 	private static final int ERASER_STEP = 20;
 	private ToolButton pen;
@@ -188,12 +186,11 @@ public class PenSubMenu extends SubMenuPanel implements FastClickHandler {
 				LayoutUtilW.panelRow(penPanel, colorPanel, sizePanel));
 	}
 
-	@Override
-	protected void addModeMenu(FlowPanel panel, Vector<Integer> menu) {
-		if (app.isModeValid(menu.get(0).intValue())) {
-			panel.add(createButton(menu.get(0).intValue()));
-		}
-	}
+	/*
+	 * @Override protected void addModeMenu(FlowPanel panel, Vector<Integer>
+	 * menu) { if (app.isModeValid(menu.get(0).intValue())) {
+	 * panel.add(createButton(menu.get(0).intValue())); } }
+	 */
 
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");

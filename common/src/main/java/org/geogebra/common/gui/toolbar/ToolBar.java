@@ -338,10 +338,6 @@ public class ToolBar {
 	 */
 	public static String getMOWMediaToolBarDefString(App app) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_MOVE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SELECT);
-		sb.append(" | ");
 		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
 				: EuclidianConstants.MODE_TEXT);
 		sb.append(" ");
@@ -369,11 +365,6 @@ public class ToolBar {
 	 */
 	public static String getMOWToolsDefString() {
 		StringBuilder sb = new StringBuilder();
-		// Move, Select
-		sb.append(EuclidianConstants.MODE_MOVE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SELECT);
-		sb.append(" | ");
 		// Shapes
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		sb.append(" ");
