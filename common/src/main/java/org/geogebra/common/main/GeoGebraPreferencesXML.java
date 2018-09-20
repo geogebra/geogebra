@@ -86,7 +86,9 @@ public class GeoGebraPreferencesXML {
 
 				+ "<decimals val=\""
 				+ ((app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-						&& app.isUnbundledGeometry()) ? 1 : 2)
+						&& app.isUnbundledGeometry())
+								? Kernel.STANDARD_PRINT_DECIMALS_GEOMETRY
+								: Kernel.STANDARD_PRINT_DECIMALS)
 				+ "\"/>"
 				+ "<angleUnit val=\"degree\"/>"
 

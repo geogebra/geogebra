@@ -232,7 +232,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private MySpecialDouble eulerConstant;
 
 	/** print precision */
-	public static final int STANDARD_PRINT_DECIMALS = 2;
+	public static final int STANDARD_PRINT_DECIMALS = 10;
+	/** print precision for Geometry app */
+	public static final int STANDARD_PRINT_DECIMALS_GEOMETRY = 1;
 	// private double PRINT_PRECISION = 1E-2;
 	private NumberFormatAdapter nf;
 	private final ScientificFormatAdapter sf;
