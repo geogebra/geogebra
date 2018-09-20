@@ -1141,7 +1141,7 @@ __GGB__keysVar["it"].error = {
     "ExponentMustBeInteger": "Gli esponenti devono essere interi.",
     "FileFormatUnknown": "Formato di file sconosciuto",
     "FileNotFound": "Non \xe8 possibile trovare il file",
-    "FrameLoadError": "This web page does not support embedding.",
+    "FrameLoadError": "Non \xe8 possibile incorporare elementi in questa pagina Web",
     "FunctionExpected": "Attesa funzione",
     "IllegalAddition": "Addizione non valida",
     "IllegalArgument": "Argomento non valido",

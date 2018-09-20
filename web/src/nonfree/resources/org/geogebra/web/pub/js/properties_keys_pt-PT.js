@@ -3255,7 +3255,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "parallel": "paralela",
     "pasteLink": "Colar Liga\xe7\xe3o",
     "pdf": "Portable Document Format",
-    "pdfClickOrDrag": "Clique para selecionar o ficheiro  ou arraste e solte o arquivo PDF aqui",
+    "pdfClickOrDrag": "Clique para selecionar o ficheiro ou arraste e solte o arquivo PDF aqui",
     "pdfDialogTitle": "Inserir p\xe1gina do PDF",
     "permission.photos": "O GeoGebra precisa de acesso \xe0 sua biblioteca de fotos para gravar uma imagem.",
     "permission.photos.denied": "N\xe3o \xe9 poss\xedvel aceder \xe0s fotos",
