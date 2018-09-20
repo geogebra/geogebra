@@ -11,8 +11,7 @@ import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * panel for postioning widgets in Graphics
@@ -20,7 +19,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class GBoxW extends GBox {
 
-	private HorizontalPanel impl;
+	private SimplePanel impl;
 	private EuclidianController ec;
 
 	/**
@@ -29,8 +28,8 @@ public class GBoxW extends GBox {
 	 */
 	public GBoxW(EuclidianController ec) {
 		this.ec = ec;
-		impl = new HorizontalPanel();
-		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		impl = new SimplePanel();
+		// impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		impl.getElement().getStyle().setZIndex(50);
 	}
 
@@ -39,7 +38,7 @@ public class GBoxW extends GBox {
 	 *            box
 	 * @return underlying panel
 	 */
-	public static HorizontalPanel getImpl(GBox box) {
+	public static SimplePanel getImpl(GBox box) {
 		if (!(box instanceof GBoxW)) {
 			return null;
 		}
@@ -48,8 +47,7 @@ public class GBoxW extends GBox {
 
 	@Override
 	public void add(AutoCompleteTextField textField) {
-		impl.add((AutoCompleteTextFieldW) textField);
-
+		impl.setWidget((AutoCompleteTextFieldW) textField);
 	}
 
 	@Override
