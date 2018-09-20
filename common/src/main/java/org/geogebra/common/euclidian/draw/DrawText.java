@@ -393,10 +393,10 @@ public final class DrawText extends Drawable {
 					1.0);
 			break;
 		case BOTTOM:
-			if ((mouseY - minY) < text.getTextHeight()) {
-				mouseY = minY + text.getTextHeight();
+			if (mouseY - minY < text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN) {
+				mouseY = minY + text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN;
 			}
-			h = (int) (mouseY - minY + EuclidianStatic.EDITOR_MARGIN);
+			h = (int) (mouseY - minY);
 			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
 			break;
 		case RIGHT:
