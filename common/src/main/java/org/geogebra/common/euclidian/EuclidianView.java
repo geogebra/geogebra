@@ -6594,4 +6594,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
     public boolean canMoveFunctions() {
 		return true;
     }
+
+	/**
+	 *
+	 * @return true if view can show different styles for points (false for 3D)
+	 */
+	public boolean canShowPointStyle() {
+    	return true;
+	}
 }

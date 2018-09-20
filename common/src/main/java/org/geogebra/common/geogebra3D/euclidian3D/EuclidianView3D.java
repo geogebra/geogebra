@@ -4788,4 +4788,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		return false;
 	}
 
+	@Override
+	public boolean canShowPointStyle() {
+		return false;
+	}
+
 }
