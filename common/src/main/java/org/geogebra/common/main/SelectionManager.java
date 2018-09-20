@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
@@ -740,11 +741,21 @@ public class SelectionManager {
 
 	private void addSelectedGeo(GeoElement geo, EuclidianViewInterfaceCommon ev) {
 		addSelectedGeo(geo);
-		if (geo instanceof GeoInputBox) {
-			kernel.getApplication().getActiveEuclidianView()
-					.focusAndShowTextField((GeoInputBox) geo);
+		int viewID = geo.getViewSet().size() > 0 ? geo.getViewSet().get(0) : -1;
+		EuclidianViewInterfaceCommon view = null;
+		App app1 = geo.getKernel().getApplication();
+		if (viewID == App.VIEW_EUCLIDIAN2) {
+			view = app1.getEuclidianView2(1);
+		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
+			view = app1.getEuclidianView3D();
 		} else {
-			ev.requestFocus();
+			view = app1.getEuclidianView1();
+		}
+
+		if (geo instanceof GeoInputBox) {
+			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
+		} else {
+			view.requestFocus();
 		}
 		
 	}
@@ -913,8 +924,8 @@ public class SelectionManager {
 			} else {
 				boolean visibleInView = (isView3D && geo.isVisibleInView3D())
 						|| geo.isVisibleInView(viewId);
-				remove = !avShowing && (!geo.isEuclidianVisible()
-						|| !visibleInView);
+				// remove = !avShowing && (!geo.isEuclidianVisible() || !visibleInView);
+				remove = !avShowing && (!geo.isEuclidianVisible());
 			}
 
 			if (remove) {
