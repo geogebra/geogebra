@@ -1507,13 +1507,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void wrapMouseReleased(AbstractEvent e) {
-		if (!isDraggingOccuredBeyondThreshold() && !app.isControlDown(e)) {
+		boolean draggingOccured = isDraggingOccuredBeyondThreshold();
+		if (!draggingOccured && !app.isControlDown(e)) {
 			view3D.switchMoveCursor();
 		}
 
 		super.wrapMouseReleasedND(e, true);
 		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D)) {
-			if (mode == EuclidianConstants.MODE_MOVE) {
+			if (!draggingOccured && mode == EuclidianConstants.MODE_MOVE) {
 				showDynamicStylebar();
 			}
 		}
