@@ -248,8 +248,9 @@ model {
                     // Gradle is including "sensible default" include paths that are based on the host OS that break cross-compilation
                     // The only fix as I see it is to clear out all includes except the ones that point to protos
                     // SEE https://github.com/gradle/gradle-native/issues/614
+                    // isystem args also removed, see https://github.com/gradle/gradle-native/issues/583
                     for (int i = args.size() - 1; i >= 0; i--) {
-                        if (args[i].equals("-I") && !args[i+1].startsWith("$rootDir")) {
+                        if ((args[i].equals("-I") || args[i].equals("-isystem")) && !args[i+1].startsWith("$rootDir")) {
                             args.remove(i + 1);
                             args.remove(i);
                         }
