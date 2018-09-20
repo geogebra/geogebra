@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -64,6 +65,7 @@ public class PageListController implements PageListControllerInterface,
 
 	private DragController dragCtrl;
 	private CardListInterface listener;
+	private String tubeId;
 
 	/**
 	 * @param app
@@ -116,11 +118,28 @@ public class PageListController implements PageListControllerInterface,
 	private void loadSlide(int i) {
 		try {
 			// load last status of file
+			saveTubeId();
 			app.resetPerspectiveParam();
 			app.loadGgbFile(slides.get(i).getFile(), true);
+			restoreTubeId();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void saveTubeId() {
+		Material mat = app.getActiveMaterial();
+		tubeId = mat != null ? mat.getSharingKeyOrId() : null;
+		Log.debug("[TUBEID] saved: " + tubeId);
+	}
+
+	private void restoreTubeId() {
+		if (tubeId == null) {
+			return;
+		}
+		app.setTubeId(tubeId);
+		Log.debug("[TUBEID] restored: " + tubeId);
 	}
 
 	/**
@@ -460,10 +479,12 @@ public class PageListController implements PageListControllerInterface,
 	 *            index of page to load
 	 */
 	public void loadNewPage(int index) {
+		saveTubeId();
 		savePreviewCard(selectedCard);
 		((AppWFull) app).loadEmptySlide();
 		setCardSelected(index);
 		updatePreviewImage();
+		restoreTubeId();
 	}
 
 	@Override
