@@ -27,6 +27,10 @@ public class AreaW
 		shapes.addAll(s);
 	}
 
+	public AreaW() {
+		//
+	}
+
 	public Rectangle2D getBounds2DX() {
 
 		double minX = Double.MAX_VALUE;
@@ -85,8 +89,6 @@ public class AreaW
 				((ShapeW)shape).translate(x, y);
 			} else if (shape instanceof Rectangle2DW) {
 				((Rectangle2DW) shape).translate(x, y);
-			} else {
-				FactoryProvider.getInstance().debug("other type");
 			}
 		}
 		

@@ -116,4 +116,9 @@ public class FontD implements Font {
 		return impl.getName();
 	}
 
+	// @Override
+	public boolean canDisplay(char ch) {
+		return impl.canDisplay(ch);
+	}
+
 }

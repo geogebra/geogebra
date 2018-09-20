@@ -57,6 +57,10 @@ public class AreaD extends java.awt.geom.Area
 		super(s);
 	}
 
+	public AreaD() {
+		super();
+	}
+
 	public Rectangle2D getBounds2DX() {
 		return new Rectangle2DD(super.getBounds2D());
 	}

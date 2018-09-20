@@ -80,5 +80,9 @@ public class GeomFactoryGWT extends GeomFactory {
 		return ret;
 	}
 
+	// @Override
+	public Area newArea() {
+		return new AreaW();
+	}
 
 }
