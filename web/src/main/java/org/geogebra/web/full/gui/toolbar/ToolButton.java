@@ -56,4 +56,12 @@ public class ToolButton extends StandardButton {
 				: GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE,
 						mode, appW));
 	}
+
+	/**
+	 * set localized label of buttons
+	 */
+	public void setLabel() {
+		this.setLabel(appW.getLocalization().getMenu(
+				EuclidianConstants.getModeText(mode)));
+	}
 }

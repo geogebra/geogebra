@@ -462,4 +462,12 @@ public class PenSubMenu extends SubMenuPanel {
 				|| mode == EuclidianConstants.MODE_ERASER
 				|| mode == EuclidianConstants.MODE_HIGHLIGHTER;
 	}
+
+	@Override
+	public void setLabels() {
+		pen.setLabel();
+		select.setLabel();
+		eraser.setLabel();
+		highlighter.setLabel();
+	}
 }

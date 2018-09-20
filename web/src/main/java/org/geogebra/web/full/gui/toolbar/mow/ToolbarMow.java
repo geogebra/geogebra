@@ -314,6 +314,9 @@ public class ToolbarMow extends FlowPanel
 		btnUndo.setTitle(appW.getLocalization().getMenu("Undo"));
 		btnRedo.setTitle(appW.getLocalization().getMenu("Redo"));
 		header.setLabels();
+		penPanel.setLabels();
+		toolsPanel.setLabels();
+		mediaPanel.setLabels();
 	}
 
 	private SubMenuPanel getCurrentPanel() {

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbar.mow;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Feature;
@@ -22,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public abstract class SubMenuPanel extends FlowPanel
-		implements FastClickHandler {
+		implements FastClickHandler, SetLabels {
 	/**
 	 * panel row
 	 */
@@ -211,6 +212,16 @@ public abstract class SubMenuPanel extends FlowPanel
 							"true");
 					((ToolButton) w.getWidget(j)).setSelected(true);
 				}
+			}
+		}
+	}
+
+	@Override
+	public void setLabels() {
+		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
+			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
+			for (int j = 0; j < w.getWidgetCount(); j++) {
+				((ToolButton) w.getWidget(j)).setLabel();
 			}
 		}
 	}
