@@ -381,14 +381,16 @@ public final class DrawText extends Drawable {
 		int h;
 		switch (handler) {
 		case TOP:
-			h = (int) (maxY - mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN);
-			if (h < text.getTextHeight()) {
-				h = text.getTextHeight();
-				mouseY = maxY - text.getTextHeight() + fontSize + EuclidianStatic.EDITOR_MARGIN;
+			h = (int) (maxY - mouseY);
+			if (h < text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN) {
+				h = text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN;
+				mouseY = maxY - h;
 			}
 			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
 			startPoint = text.getStartPoint();
-			startPoint.setCoords(startPoint.getInhomX(), view.toRealWorldCoordY(mouseY), 1.0);
+			startPoint.setCoords(startPoint.getInhomX(),
+					view.toRealWorldCoordY(mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN),
+					1.0);
 			break;
 		case BOTTOM:
 			if ((mouseY - minY) < text.getTextHeight()) {
