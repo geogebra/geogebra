@@ -75,6 +75,7 @@ public class ZoomPanelMow extends FlowPanel
 	 */
 	public void deselectDragBtn() {
 		getDragPadBtn().removeStyleName("selected");
+		getAppW().setMode(EuclidianConstants.MODE_SELECT_MOW);
 	}
 
 	private void addDragPadButton() {
@@ -87,6 +88,9 @@ public class ZoomPanelMow extends FlowPanel
 			public void onClick(Widget source) {
 				getAppW().setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
 				getDragPadBtn().addStyleName("selected");
+				if (getAppW().isMenuShowing()) {
+					getAppW().toggleMenu();
+				}
 			}
 		};
 		dragPadBtn.addFastClickHandler(handlerHome);
@@ -120,6 +124,7 @@ public class ZoomPanelMow extends FlowPanel
 			@Override
 			public void onClick(Widget source) {
 				getZoomController().onHomePressed();
+				deselectDragBtn();
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
@@ -143,6 +148,7 @@ public class ZoomPanelMow extends FlowPanel
 			@Override
 			public void onClick(Widget source) {
 				getZoomController().onZoomOutPressed();
+				deselectDragBtn();
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
@@ -158,6 +164,7 @@ public class ZoomPanelMow extends FlowPanel
 			@Override
 			public void onClick(Widget source) {
 				getZoomController().onZoomInPressed();
+				deselectDragBtn();
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);

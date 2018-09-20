@@ -37,7 +37,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * Here goes the toolbar contents ie the buttons
 	 */
 	FlowPanel contentPanel;
-	private int lastSelectedMode = -1;
 
 	/**
 	 * group panel
@@ -220,23 +219,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @return first mode; to be selected once this submenu is opened
 	 */
 	public abstract int getFirstMode();
-
-	/**
-	 * @return last selected tool
-	 */
-	public int getLastSelectedMode() {
-		return lastSelectedMode == -1 ? getFirstMode() : lastSelectedMode;
-	}
-
-	/**
-	 * @param selectedMode
-	 *            id of tool
-	 */
-	public void setLastSelectedMode(int selectedMode) {
-		if (isValidMode(selectedMode)) {
-			this.lastSelectedMode = selectedMode;
-		}
-	}
 
 	/**
 	 * @param mode

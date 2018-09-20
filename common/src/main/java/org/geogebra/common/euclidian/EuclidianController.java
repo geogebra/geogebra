@@ -10168,6 +10168,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (handleVideoReleased()) {
 			return;
 		}
+		if (app.isWhiteboardActive()
+				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
+				&& !draggingOccured) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		}
 		if (getTextController() != null
 				&& getTextController().handleTextReleased(draggingOccured)) {
 			showDynamicStylebar();

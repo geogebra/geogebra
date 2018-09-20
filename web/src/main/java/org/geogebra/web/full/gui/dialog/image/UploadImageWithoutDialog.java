@@ -41,11 +41,11 @@ public class UploadImageWithoutDialog {
 	/**
 	 * sets move mode after image mode was cancelled
 	 */
-	public void setMoveMode() {
+	public void setSelectMode() {
 		if (!(app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
 				&& app.getMode() == EuclidianConstants.MODE_IMAGE)) {
 			return;
 		}
-		app.setMode(EuclidianConstants.MODE_MOVE);
+		app.setMode(EuclidianConstants.MODE_SELECT_MOW);
 	}
 }

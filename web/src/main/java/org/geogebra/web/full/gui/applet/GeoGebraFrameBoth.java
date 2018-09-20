@@ -30,6 +30,7 @@ import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -953,6 +954,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			@Override
 			public void onClick(Widget source) {
 				onMenuButtonPressed();
+				if (getApplication().isWhiteboardActive()) {
+					deselectDragBtn();
+				}
 			}
 		});
 
@@ -1008,6 +1012,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		toolbarMow.updateUndoRedoActions();
+	}
+
+	/**
+	 * deselect drag button
+	 */
+	public void deselectDragBtn() {
+		if (((AppWFull) app).getZoomPanelMow() != null
+				&& app.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			((AppWFull) app).getZoomPanelMow().deselectDragBtn();
+		}
 	}
 
 	/**

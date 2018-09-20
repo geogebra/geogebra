@@ -114,7 +114,7 @@ public class UploadImagePanel extends VerticalPanel {
 
 	private void setMoveMode() {
 		if (uploadImageWithoutDialog != null) {
-			uploadImageWithoutDialog.setMoveMode();
+			uploadImageWithoutDialog.setSelectMode();
 		}
 	}
 

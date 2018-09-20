@@ -140,6 +140,7 @@ public class HeaderMow extends FlowPanel
 	 * on open/close toolbar
 	 */
 	public void onOpenClose() {
+		toolbar.getFrame().deselectDragBtn();
 		toolbar.setStyleName(
 				toolbar.isOpen() ? "hideMowToolbarPanel"
 						: "showMowToolbarPanel");

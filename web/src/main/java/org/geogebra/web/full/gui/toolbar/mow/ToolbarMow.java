@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -223,7 +224,7 @@ public class ToolbarMow extends FlowPanel
 				toolbarPanelContent.addStyleName("slideLeft");
 				break;
 			}
-			appW.setMode(getCurrentPanel().getLastSelectedMode());
+			appW.setMode(getCurrentPanel().getFirstMode());
 		}
 	}
 
@@ -236,6 +237,14 @@ public class ToolbarMow extends FlowPanel
 		} else if (source == btnRedo) {
 			appW.getGuiManager().redo();
 		}
+		getFrame().deselectDragBtn();
+	}
+
+	/**
+	 * @return the frame with casting.
+	 */
+	GeoGebraFrameBoth getFrame() {
+		return (((AppWFull) appW).getAppletFrame());
 	}
 
 	/**
@@ -327,9 +336,9 @@ public class ToolbarMow extends FlowPanel
 	public void setMode(int mode) {
 		if (((AppWFull) appW).getZoomPanelMow() != null
 				&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
-			((AppWFull) appW).getZoomPanelMow().deselectDragBtn();
+			((AppWFull) appW).getZoomPanelMow().getDragPadBtn()
+					.removeStyleName("selected");
 		}
-		getCurrentPanel().setLastSelectedMode(mode);
 		getCurrentPanel().setMode(mode);
 	}
 }
