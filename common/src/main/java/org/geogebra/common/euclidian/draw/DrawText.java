@@ -40,7 +40,14 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public final class DrawText extends Drawable {
 
-	private static final int MIN_EDITOR_WIDTH = 100;
+	/**
+	 * minimum height of width
+	 */
+	public static final int MIN_EDITOR_WIDTH = 100;
+	/**
+	 * minimum height of editor
+	 */
+	public static final int MIN_EDITOR_HEIGHT = 20;
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
@@ -345,10 +352,13 @@ public final class DrawText extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		if (text.isEditMode() && labelRectangle.getWidth() < MIN_EDITOR_WIDTH) {
+		if (text.isEditMode() && (labelRectangle.getWidth() < MIN_EDITOR_WIDTH
+				|| labelRectangle.getHeight() < MIN_EDITOR_HEIGHT)) {
 			labelRectangle.setBounds((int) labelRectangle.getX(),
-					(int) labelRectangle.getY(), MIN_EDITOR_WIDTH,
-					(int) labelRectangle.getHeight());
+					(int) labelRectangle.getY(),
+					(int) Math.max(labelRectangle.getWidth(), MIN_EDITOR_WIDTH),
+					(int) Math.max(labelRectangle.getHeight(),
+							MIN_EDITOR_HEIGHT));
 		}
 		return labelRectangle;
 	}

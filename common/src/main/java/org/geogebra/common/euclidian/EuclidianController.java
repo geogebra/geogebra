@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
@@ -3439,8 +3440,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// threshold for custom or default size
 		boolean customSize = (app.has(Feature.MOW_TEXT_TOOL)
 				&& textRectangleShape != null
-				&& textRectangleShape.getWidth() > 50
-				&& textRectangleShape.getHeight() > 20);
+				&& textRectangleShape.getWidth() > DrawText.MIN_EDITOR_WIDTH
+				&& textRectangleShape.getHeight() > DrawText.MIN_EDITOR_HEIGHT);
 
 		if (hits.isEmpty()) {
 			if (selPreview) {
@@ -10172,7 +10173,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (getTextController() != null
 				&& getTextController().handleTextReleased(draggingOccured)
 				&& !draggingOccured) {
-			showDynamicStylebar();
+			if (selection.getSelectedGeos().size() == 1) {
+				showDynamicStylebar();
+			}
 			return;
 		}
 
