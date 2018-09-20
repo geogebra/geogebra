@@ -24,8 +24,7 @@ public class MediaSubMenu extends SubMenuPanel {
 	@Override
 	protected void createContentPanel() {
 		super.createContentPanel();
-		super.createPanelRow(ToolBar
-				.getMOWMediaToolBarDefString(app));
+		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app));
 	}
 
 	@Override
@@ -45,5 +44,16 @@ public class MediaSubMenu extends SubMenuPanel {
 		return app.has(Feature.MOW_TEXT_TOOL)
 				? EuclidianConstants.MODE_MEDIA_TEXT
 				: EuclidianConstants.MODE_TEXT;
+	}
+
+	@Override
+	public boolean isValidMode(int mode) {
+		return mode == getTextMode(app) || mode == EuclidianConstants.MODE_IMAGE
+				|| mode == EuclidianConstants.MODE_CAMERA
+				|| mode == EuclidianConstants.MODE_VIDEO
+				|| mode == EuclidianConstants.MODE_AUDIO
+				|| mode == EuclidianConstants.MODE_GRAPHING
+				|| mode == EuclidianConstants.MODE_PDF
+				|| mode == EuclidianConstants.MODE_EXTENSION;
 	}
 }

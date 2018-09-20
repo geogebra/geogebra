@@ -454,4 +454,12 @@ public class PenSubMenu extends SubMenuPanel {
 			slider.setValue((double) lastPenThickness);
 		}
 	}
+
+	@Override
+	public boolean isValidMode(int mode) {
+		return mode == EuclidianConstants.MODE_SELECT_MOW
+				|| mode == EuclidianConstants.MODE_PEN
+				|| mode == EuclidianConstants.MODE_ERASER
+				|| mode == EuclidianConstants.MODE_HIGHLIGHTER;
+	}
 }

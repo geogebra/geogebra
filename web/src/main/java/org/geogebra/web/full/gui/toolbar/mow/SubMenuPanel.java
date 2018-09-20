@@ -229,10 +229,19 @@ public abstract class SubMenuPanel extends FlowPanel
 	}
 
 	/**
-	 * @param lastSelectedMode
+	 * @param selectedMode
 	 *            id of tool
 	 */
-	public void setLastSelectedMode(int lastSelectedMode) {
-		this.lastSelectedMode = lastSelectedMode;
+	public void setLastSelectedMode(int selectedMode) {
+		if (isValidMode(selectedMode)) {
+			this.lastSelectedMode = selectedMode;
+		}
 	}
+
+	/**
+	 * @param mode
+	 *            id of tool
+	 * @return true if mode is valid for the panel
+	 */
+	public abstract boolean isValidMode(int mode);
 }

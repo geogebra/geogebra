@@ -913,6 +913,18 @@ public final class EuclidianConstants {
 
 	/**
 	 * @param mode
+	 *            tool id
+	 * @return true if tool id is shape
+	 */
+	static public boolean isShapeMode(int mode) {
+		return mode == MODE_SHAPE_FREEFORM || mode == MODE_SHAPE_SQUARE
+				|| mode == MODE_SHAPE_CIRCLE || mode == MODE_SHAPE_ELLIPSE
+				|| mode == MODE_SHAPE_POLYGON || mode == MODE_SHAPE_RECTANGLE
+				|| mode == MODE_SHAPE_TRIANGLE || mode == MODE_SHAPE_LINE;
+	}
+
+	/**
+	 * @param mode
 	 *            mode number
 	 * @param app
 	 *            temp parameter to remove (TODO)

@@ -31,4 +31,9 @@ public class ToolsSubMenu extends SubMenuPanel {
 	public int getFirstMode() {
 		return EuclidianConstants.MODE_SHAPE_RECTANGLE;
 	}
+
+	@Override
+	public boolean isValidMode(int mode) {
+		return EuclidianConstants.isShapeMode(mode);
+	}
 }
