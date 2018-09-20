@@ -94,6 +94,12 @@ public class TextControllerW
 	}
 
 	@Override
+	public void resizeEditor(int width, int height) {
+		editor.setWidth(width);
+		editor.setHeight(height);
+	}
+
+	@Override
 	public GeoText createText(GeoPointND loc, boolean rw) {
 		if (loc == null) {
 			return null;
@@ -132,9 +138,12 @@ public class TextControllerW
 		DrawText d = (DrawText) view.getDrawableFor(geo);
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
-			int y = d.yLabel - view.getFontSize() - EuclidianStatic.EDITOR_MARGIN;
-			int width = (int) d.getBounds().getWidth() - 2 * EuclidianStatic.EDITOR_MARGIN;
-			int height = (int) d.getBounds().getHeight() - 2 * EuclidianStatic.EDITOR_MARGIN;
+			int y = d.yLabel - view.getFontSize()
+					- EuclidianStatic.EDITOR_MARGIN;
+			int width = (int) d.getBounds().getWidth()
+					- 2 * EuclidianStatic.EDITOR_MARGIN;
+			int height = (int) d.getBounds().getHeight()
+					- 2 * EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(x, y, width, height);
 			if (create) {
 				updateBoundingBox();

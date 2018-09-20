@@ -97,5 +97,15 @@ public interface TextController {
 	 * @return if text editor is active.
 	 */
 	boolean isEditing();
+
+	/**
+	 * update editor size
+	 * 
+	 * @param width
+	 *            to set
+	 * @param height
+	 *            to set
+	 */
+	void resizeEditor(int width, int height);
 }
 

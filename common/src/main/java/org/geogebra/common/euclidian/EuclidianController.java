@@ -351,6 +351,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * y-coordinates of the points that define scaleConic
 	 */
 	protected double[] originalPointY;
+	/**
+	 * preview rectangle shape for text tool
+	 */
+	GRectangle textRectangleShape;
 
 	protected Object detachFrom;
 	protected boolean freehandModePrepared = false;
@@ -3424,11 +3428,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final boolean text(Hits hits, boolean selPreview) {
-		if (getTextController() != null && getTextController().getHit() != null) {
+		if (getTextController() != null && getTextController().getHit() != null
+				&& !app.has(Feature.MOW_TEXT_TOOL)) {
 			return false;
 		}
+
 		GeoPointND loc = null; // location
 		boolean rw = true;
+
+		// threshold for custom or default size
+		boolean customSize = (app.has(Feature.MOW_TEXT_TOOL)
+				&& textRectangleShape != null
+				&& textRectangleShape.getWidth() > 50
+				&& textRectangleShape.getHeight() > 20);
 
 		if (hits.isEmpty()) {
 			if (selPreview) {
@@ -3436,8 +3448,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			// create new Point
-			loc = new GeoPoint(kernel.getConstruction());
-			rw = companion.setCoordsToMouseLoc(loc);
+			if (customSize) {
+				loc = new GeoPoint(kernel.getConstruction(),
+						textRectangleShape.getX(), textRectangleShape.getY(),
+						1);
+			} else {
+				loc = new GeoPoint(kernel.getConstruction());
+				rw = companion.setCoordsToMouseLoc(loc);
+			}
 		} else {
 			// points needed
 			addSelectedPoint(hits, 1, false, selPreview);
@@ -3446,8 +3464,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoPointND[] points = getSelectedPointsND();
 				loc = points[0];
 			} else if (!selPreview) {
-				loc = new GeoPoint(kernel.getConstruction());
-				rw = companion.setCoordsToMouseLoc(loc);
+				if (customSize) {
+					loc = new GeoPoint(kernel.getConstruction(),
+							textRectangleShape.getX(),
+							textRectangleShape.getY(), 1);
+				} else {
+					loc = new GeoPoint(kernel.getConstruction());
+					rw = companion.setCoordsToMouseLoc(loc);
+				}
 			}
 		}
 
@@ -3460,6 +3484,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoText t = getTextController().createText(loc, rw);
 			if (t != null) {
 				memorizeJustCreatedGeos(t.asArray());
+			}
+			if (textRectangleShape != null) {
+				if (customSize) {
+					getTextController().resizeEditor(
+							(int) textRectangleShape.getWidth(),
+							(int) textRectangleShape.getHeight());
+				}
+				textRectangleShape.setFrame(0, 0, 0, 0);
+				view.setShapeRectangle(null);
+				view.repaintView();
 			}
 			return true;
 		}
@@ -8535,6 +8569,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+		// preview shape for mow text tool
+		if (mode == EuclidianConstants.MODE_MEDIA_TEXT
+				&& app.has(Feature.MOW_TEXT_TOOL)) {
+			view.setBoundingBox(null);
+			updateTextRectangle(event);
+			view.setShapeRectangle(textRectangleShape);
+			view.repaintView();
+		}
 
 		if (!shouldCancelDrag()) {
 			if (shouldSetToFreehandMode()) {
@@ -8562,6 +8604,33 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (view.getPreviewDrawable() != null
 				&& event.getType() == PointerEventType.TOUCH) {
 			this.view.updatePreviewableForProcessMode();
+		}
+	}
+
+	private void updateTextRectangle(AbstractEvent event) {
+		if (textRectangleShape == null) {
+			textRectangleShape = AwtFactory.getPrototype().newRectangle();
+		}
+
+		int width = event.getX() - startPosition.getX();
+		int height = event.getY() - startPosition.getY();
+
+		if (height >= 0) {
+			if (width >= 0) {
+				textRectangleShape.setBounds(startPosition.getX(),
+						startPosition.getY(), width, height);
+			} else { // width < 0
+				textRectangleShape.setBounds(startPosition.getX() + width,
+						startPosition.getY(), -width, height);
+			}
+		} else { // height < 0
+			if (width >= 0) {
+				textRectangleShape.setBounds(startPosition.getX(),
+						startPosition.getY() + height, width, -height);
+			} else { // width < 0
+				textRectangleShape.setBounds(startPosition.getX() + width,
+						startPosition.getY() + height, -width, -height);
+			}
 		}
 	}
 
@@ -10096,9 +10165,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			am.setTabOverGeos(true);
 		}
 		// handle video/audio/embeded/text release (mow)
-		if (handleVideoReleased()
-				|| (getTextController() != null
-						&& getTextController().handleTextReleased(draggingOccured))) {
+		if (handleVideoReleased()) {
+			return;
+		}
+		if (getTextController() != null
+				&& getTextController().handleTextReleased(draggingOccured)) {
+			showDynamicStylebar();
 			return;
 		}
 
