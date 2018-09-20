@@ -68,6 +68,7 @@ public class MarvlAPI implements BackendAPI {
 			guser.setUserName(user.getString("username"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
+			guser.setStudent(!"true".equals(user.getString("isTeacher")));
 			if (user.has("allGroups")) {
 				JSONArray classList = user.getJSONArray("allGroups");
 				guser.setGroups(stringList(classList));
@@ -461,5 +462,10 @@ public class MarvlAPI implements BackendAPI {
 	public boolean owns(Material mat) {
 		return mat.getCreator().getId() <= 0
 				|| mat.getCreator().getId() == model.getUserId();
+	}
+
+	@Override
+	public boolean canUserShare(boolean student) {
+		return !student;
 	}
 }

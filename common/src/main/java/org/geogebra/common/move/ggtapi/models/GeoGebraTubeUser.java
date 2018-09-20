@@ -26,6 +26,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String gender;
 	private ArrayList<String> groups;
 	private boolean shibbolethAuth;
+	private boolean student = false;
 
 	/**
 	 * Creates a new user with the specified login token
@@ -247,5 +248,13 @@ public class GeoGebraTubeUser extends BaseModel {
 	 */
 	public void setShibbolethAuth(boolean shibbolethAuth) {
 		this.shibbolethAuth = shibbolethAuth;
+	}
+
+	public boolean isStudent() {
+		return student;
+	}
+
+	public void setStudent(boolean student) {
+		this.student = student;
 	}
 }

@@ -199,4 +199,10 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		// only in web
 	}
 
+	public boolean canUserShare() {
+		return this.getGeoGebraTubeAPI()
+				.canUserShare(getModel().getLoggedInUser() == null
+				|| getModel().getLoggedInUser().isStudent());
+	}
+
 }

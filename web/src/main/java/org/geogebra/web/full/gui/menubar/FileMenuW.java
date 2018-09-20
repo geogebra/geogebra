@@ -8,7 +8,11 @@ import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LogOutEvent;
+import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -37,8 +41,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends GMenuBar implements BooleanRenderable {
-	
+public class FileMenuW extends GMenuBar
+		implements BooleanRenderable, EventRenderable {
+
 	private static final double PADDING = 24;
 	/** Canvas line height */
 	protected static final int LINE_HEIGHT = 24;
@@ -49,22 +54,23 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private Localization loc;
 	/** file chooser */
 	FileChooser fileChooser;
-	
+
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public FileMenuW(final AppW app) {
 		super("file", app);
 		this.loc = app.getLocalization();
 		this.newConstruction = new AsyncOperation<Boolean>() {
-			
+
 			@Override
 			public void callback(Boolean active) {
 				// ignore active: don't save means we want new construction
 				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();
-				
+
 				if (!app.isUnbundledOrWhiteboard()) {
 					app.showPerspectivesPopup();
 				}
@@ -81,7 +87,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 		initActions();
 	}
-	
+
 	/**
 	 * @return whether native JS function for sharing is present
 	 */
@@ -109,7 +115,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		getApp().getLAF().toggleFullscreen(false);
 		ExamEnvironment exam = getApp().getExam();
 		exam.exit();
-		boolean examFile = getApp().getArticleElement().hasDataParamEnableGraphing();
+		boolean examFile = getApp().getArticleElement()
+				.hasDataParamEnableGraphing();
 		String buttonText = null;
 		AsyncOperation<String[]> handler = null;
 		AsyncOperation<String[]> welcomeHandler = null;
@@ -145,7 +152,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			exam.setHasGraph(true);
 			boolean supportsCAS = getApp().getSettings().getCasSettings()
 					.isEnabled();
-			boolean supports3D = getApp().getSettings().getEuclidian(-1).isEnabled();
+			boolean supports3D = getApp().getSettings().getEuclidian(-1)
+					.isEnabled();
 			if (!supports3D && supportsCAS) {
 				showFinalLog(loc.getMenu("ExamCAS"), buttonText, handler);
 			} else if (!supports3D && !supportsCAS) {
@@ -159,8 +167,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			} else {
 				showFinalLog(loc.getMenu("exam_log_header") + " "
 								+ getApp().getVersionString(),
-						buttonText,
-						welcomeHandler);
+						buttonText, welcomeHandler);
 			}
 		} else {
 			handler = new AsyncOperation<String[]>() {
@@ -171,8 +178,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			};
 			buttonText = loc.getMenu("OK");
 			showFinalLog(loc.getMenu("exam_log_header") + " "
-							+ getApp().getVersionString(),
-					buttonText, handler);
+					+ getApp().getVersionString(), buttonText, handler);
 		}
 		resetAfterExam();
 	}
@@ -237,7 +243,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		getApp().getExam().getLog(loc, getApp().getSettings(),
 				canvasLogBuilder);
-			Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
+		Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
 
 	}
 
@@ -284,19 +290,22 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.add_black()
 								.getSafeUri().asString(),
-				loc.getMenu("New"), true), true, new MenuCommand(getApp()) {
+						loc.getMenu("New"), true),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						fileNew();
 					}
-		});
+				});
 
 		// open menu is always visible in menu
-		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.search_black().getSafeUri()
-						.asString(),
-				loc.getMenu("Open"), true), true, new MenuCommand(getApp()) {
+		addItem(MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.search_black()
+								.getSafeUri().asString(),
+						loc.getMenu("Open"), true),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -316,13 +325,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.save_black()
 									.getSafeUri().asString(),
-					loc.getMenu("Save"), true), true, new MenuCommand(getApp()) {
-		
+					loc.getMenu("Save"), true), true,
+					new MenuCommand(getApp()) {
+
 						@Override
 						public void doExecute() {
 							getApp().getGuiManager().save();
 						}
-			});			
+					});
 		}
 		addSeparator();
 		if (!getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)) {
@@ -338,31 +348,32 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 					});
 		}
-		shareItem = addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.share_black().getSafeUri()
-						.asString(),
-					loc.getMenu("Share"), true), true, new MenuCommand(getApp()) {
+		shareItem = addItem(
+				MainMenu.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.share_black()
+								.getSafeUri().asString(),
+						loc.getMenu("Share"), true),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						share(getApp(), null);
 					}
-			});
-		if (getApp().getLAF().exportSupported() && !getApp().isUnbundledOrWhiteboard()) {
+				});
+		if (getApp().getLAF().exportSupported()
+				&& !getApp().isUnbundledOrWhiteboard()) {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.file_download_black()
 							.getSafeUri().asString(),
-					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true),
-					true, new ExportMenuW(getApp()), true);
+					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true), true,
+					new ExportMenuW(getApp()), true);
 		}
-		if (getApp().getLAF().printSupported()
-				&& (!getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)
-						|| getApp().has(Feature.MOW_BACKGROUND))) {
+		if (getApp().getLAF().printSupported()) {
 			printItem = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(
 							MaterialDesignResources.INSTANCE.print_black()
 									.getSafeUri().asString(),
-					loc.getMenu("PrintPreview"), true),
+							loc.getMenu("PrintPreview"), true),
 					true, new MenuCommand(getApp()) {
 
 						@Override
@@ -370,14 +381,23 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							((DialogManagerW) getApp().getDialogManager())
 									.showPrintPreview();
 						}
-			});
+					});
 			// updatePrintMenu();
 			addItem(printItem);
 		}
-	    getApp().getNetworkOperation().getView().add(this);
-	    if (!getApp().getNetworkOperation().isOnline()) {
-	    	render(false);    	
-	    }
+		getApp().getNetworkOperation().getView().add(this);
+		if (!getApp().getNetworkOperation().isOnline()) {
+			render(false);
+		}
+		if (getApp().getLoginOperation() != null) {
+			getApp().getLoginOperation().getView().add(this);
+		}
+		updateShareButton();
+	}
+
+	private void updateShareButton() {
+		shareItem.setVisible(getApp().getLoginOperation() != null
+				&& getApp().getLoginOperation().canUserShare());
 	}
 
 	/**
@@ -454,7 +474,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (getApp().isUnbundledGraphing()
 				&& getApp().has(Feature.GRAPH_EXAM_MODE)) {
 			new ExamExitConfirmDialog(getApp(), new AsyncOperation<String>() {
-					@Override
+				@Override
 				public void callback(String obj) {
 					if ("exit".equals(obj)) {
 						exitAndResetExamGraphing();
@@ -478,17 +498,26 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 
 	/**
-	 * @param online wether the application is online
-	 * renders a the online - offline state of the FileMenu
+	 * @param online
+	 *            wether the application is online renders a the online -
+	 *            offline state of the FileMenu
 	 */
 	@Override
 	public void render(boolean online) {
 		shareItem.setEnabled(online);
-	    if (!online) {
+		if (!online) {
 			shareItem.setTitle(loc.getMenu("Offline"));
 		} else {
 			shareItem.setTitle("");
 		}
-    }
+	}
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
+			updateShareButton();
+		}
+
+	}
 
 }

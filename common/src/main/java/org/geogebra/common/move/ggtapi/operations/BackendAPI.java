@@ -274,4 +274,6 @@ public interface BackendAPI {
 	 */
 	boolean owns(Material mat);
 
+	boolean canUserShare(boolean b);
+
 }

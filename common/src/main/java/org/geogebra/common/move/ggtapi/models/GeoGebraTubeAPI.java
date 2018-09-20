@@ -598,4 +598,9 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		return mat.getAuthorID() <= 0
 				|| mat.getAuthorID() == client.getModel().getUserId();
 	}
+
+	@Override
+	public boolean canUserShare(boolean student) {
+		return true;
+	}
 }

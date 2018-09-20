@@ -46,7 +46,9 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	protected void initPopup() {
 		super.initPopup();
 		if (app.getLoginOperation().getGeoGebraTubeAPI().owns(material)) {
-			addShareItem();
+			if (app.getLoginOperation().canUserShare()) {
+				addShareItem();
+			}
 			addRenameItem();
 		}
 		addCopyItem();
