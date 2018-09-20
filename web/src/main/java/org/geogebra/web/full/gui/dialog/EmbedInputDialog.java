@@ -106,10 +106,10 @@ public class EmbedInputDialog extends MediaDialog
 
 	private GeoGebraTubeAPI getGeoGebraTubeAPI() {
 		return new GeoGebraTubeAPIW(((AppW) app).getClientInfo(),
-				false,
-				((AppW) app).getArticleElement());
+				false, ((AppW) app).getArticleElement());
 	}
 
+	@Override
 	public void callback(URLStatus obj) {
 		if (obj.getErrorKey() == null) {
 			GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());

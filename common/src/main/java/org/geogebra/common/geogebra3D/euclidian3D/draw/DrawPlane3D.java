@@ -478,8 +478,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		setWaitForUpdate(true);
 	}
 
-	public void setWaitForUpdate(boolean checkViewDirection) {
-
+	private void setWaitForUpdate(boolean checkViewDirection) {
 		super.setWaitForUpdate();
 		setMinMax();
 		if (checkViewDirection) {

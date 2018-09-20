@@ -79,8 +79,8 @@ public class OpenFileView extends MyHeaderPanel
 	private Label info;
 
 	private boolean[] materialListEmpty = { true, true };
-	private static int TYPE_USER = 0;
-	private static int TYPE_SHARED = 1;
+	private static final int TYPE_USER = 0;
+	private static final int TYPE_SHARED = 1;
 
 	private Order order = Order.timestamp;
 	private static Order[] map = new Order[] { Order.title, Order.created,
