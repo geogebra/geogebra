@@ -51,17 +51,17 @@ public final class DrawText3D extends Drawable3DCurves {
 
 	@Override
 	protected void updateLabel() {
-
-		GeoText text = (GeoText) getGeoElement();
-		if (wasLaTeX != text.isLaTeX()) {
-			label.setWaitForReset();
+		if (getView3D().drawsLabels()) {
+			GeoText text = (GeoText) getGeoElement();
+			if (wasLaTeX != text.isLaTeX()) {
+				label.setWaitForReset();
+			}
+			wasLaTeX = text.isLaTeX();
+			label.update(text.getTextString(), getFont(),
+					getGeoElement().getBackgroundColor(),
+					getGeoElement().getObjectColor(), getLabelPosition(),
+					getLabelOffsetX(), -getLabelOffsetY());
 		}
-		wasLaTeX = text.isLaTeX();
-		label.update(text.getTextString(), getFont(),
-				getGeoElement().getBackgroundColor(),
-				getGeoElement().getObjectColor(), getLabelPosition(),
-				getLabelOffsetX(), -getLabelOffsetY());
-
 	}
 
 	@Override
