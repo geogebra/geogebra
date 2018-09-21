@@ -820,7 +820,8 @@ task emConfigureMpfr {
     doLast {
         exec {
             commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; " +
-                "$emscriptenDir/emconfigure $mpfrSourceDir/configure --build=none --host=none --disable-assembly " +
+                "$emscriptenDir/emconfigure $mpfrSourceDir/configure " + 
+                "--build=none --host=none --disable-assembly "
                 "--with-gmp-lib=$gmpSourceDir/.libs --with-gmp-include=$gmpSourceDir"
             workingDir mpfrSourceDir
         }
@@ -840,6 +841,7 @@ task emMakeMpfr {
 
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
-task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
+task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo',
+        'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
 }
