@@ -475,6 +475,8 @@ public enum Commands implements CommandsConstants,
 
 	Mean(TABLE_STATISTICS),
 
+	mean(TABLE_STATISTICS),
+
 	Variance(TABLE_STATISTICS),
 
 	SD(TABLE_STATISTICS),
@@ -1198,7 +1200,6 @@ public enum Commands implements CommandsConstants,
 	// TABLE_SIMPLE_NAME
 	// =============================================================
 
-	mean(TABLE_SIMPLE_NAME),
 	mad(TABLE_SIMPLE_NAME);
 
 	private int table;

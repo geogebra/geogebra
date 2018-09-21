@@ -15,6 +15,7 @@ public final class SciCalcCommandFilterFactory {
         CommandFilterSet commandFilter = new CommandFilterSet();
         commandFilter.addAllowedCommands(
                 Commands.Mean,
+                Commands.mean,
                 Commands.stdev,
                 Commands.SampleSD,
                 Commands.nPr,

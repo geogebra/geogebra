@@ -718,6 +718,7 @@ public abstract class CommandDispatcher {
 			case LogNormal:
 			case Logistic:
 			case Mean:
+			case mean:
 			case MeanX:
 			case MeanY:
 			case Median:

@@ -47,6 +47,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case ContingencyTable:
 			return new CmdContingencyTable(kernel);
 		case Mean:
+		case mean:
 			return new CmdMean(kernel);
 		case var:
 		case Variance:

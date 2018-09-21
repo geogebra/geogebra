@@ -36,6 +36,6 @@ public class AlgoMean extends AlgoStats1D {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Mean;
+		return Commands.mean;
 	}
 }
