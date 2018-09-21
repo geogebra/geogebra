@@ -195,10 +195,16 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		// only in web
 	}
 
+	/**
+	 * Show logout popup (in MOW)
+	 */
 	public void showLogoutUI() {
 		// only in web
 	}
 
+	/**
+	 * @return whether current user can share materials
+	 */
 	public boolean canUserShare() {
 		return this.getGeoGebraTubeAPI()
 				.canUserShare(getModel().getLoggedInUser() == null

@@ -8618,15 +8618,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (height >= 0) {
 			if (width >= 0) {
-				textRectangleShape.setBounds(startPosition.getX(), startPosition.getY(), width, height);
+				textRectangleShape.setBounds(startPosition.getX(),
+						startPosition.getY(), width, height);
 			} else { // width < 0
-				textRectangleShape.setBounds(startPosition.getX() + width, startPosition.getY(), -width, height);
+				textRectangleShape.setBounds(startPosition.getX() + width,
+						startPosition.getY(), -width, height);
 			}
 		} else { // height < 0
 			if (width >= 0) {
-				textRectangleShape.setBounds(startPosition.getX(), startPosition.getY() + height, width, -height);
+				textRectangleShape.setBounds(startPosition.getX(),
+						startPosition.getY() + height, width, -height);
 			} else { // width < 0
-				textRectangleShape.setBounds(startPosition.getX() + width, startPosition.getY() + height, -width, -height);
+				textRectangleShape.setBounds(startPosition.getX() + width,
+						startPosition.getY() + height, -width, -height);
 			}
 		}
 	}

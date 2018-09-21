@@ -671,13 +671,11 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		if (app.has(Feature.MOW_TEXT_TOOL)) {
+		if (app.has(Feature.MOW_TEXT_TOOL) && geo instanceof GeoText) {
 			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
 					(int) ret.getWidth(),
 					Math.max((int) ret.getHeight(), height + 2 * EDITOR_MARGIN));
-			if (geo != null) {
-				((GeoText) geo).setTextHeight(height);
-			}
+			((GeoText) geo).setTextHeight(height);
 		} else {
 			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		}
