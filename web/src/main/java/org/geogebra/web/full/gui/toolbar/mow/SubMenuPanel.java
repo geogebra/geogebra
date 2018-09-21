@@ -43,7 +43,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * group panel
 	 */
 	protected static class GroupPanel extends FlowPanel {
-		private static final int BUTTON_WIDTH = 64;
+		private static final int BUTTON_WIDTH = 104;
 
 		/**
 		 * constructor
