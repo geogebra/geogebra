@@ -1460,6 +1460,9 @@ public abstract class Localization {
 			case SD:
 			case stdev:
 				return Commands.SD.name();
+			case SampleSD:
+			case stdevp:
+				return Commands.SampleSD.name();
 			default:
 				return null;
 		}
