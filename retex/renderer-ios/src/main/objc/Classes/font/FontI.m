@@ -101,4 +101,8 @@
     return nil;
 }
 
+- (jboolean)canDisplayWithChar:(jchar)ch {
+    return true;
+}
+
 @end

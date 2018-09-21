@@ -31,4 +31,8 @@
     return nil;
 }
 
+- (id<RXArea>)newArea {
+    return nil;
+}
+
 @end
