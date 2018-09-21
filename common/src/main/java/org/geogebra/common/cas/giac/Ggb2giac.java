@@ -1004,7 +1004,7 @@ public class Ggb2giac {
 		p("Max.N",
 				"[[ggbmaxarg:=%],when(type(ggbmaxarg)==DOM_LIST,when(type((ggbmaxarg)[0])==DOM_LIST,?,max(ggbmaxarg)),?)][1]");
 		p("MatrixRank.1", "rank(%0)");
-		p("Mean.1", "mean(%0)");
+		p("mean.1", "mean(%0)");
 		p("Median.1", "median(%0)");
 		p("Min.N",
 				"[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST,when(type((ggbminarg)[0])==DOM_LIST,?,min(ggbminarg)),?)][1]");
@@ -1168,7 +1168,7 @@ public class Ggb2giac {
 				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2==true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
 		p("SampleVariance.1",
 				" [[ggbsvans:=%0],[ggbsvans:=normal(variance(ggbsvans)*size(ggbsvans)/(size(ggbsvans)-1))],ggbsvans][2]");
-		p("SampleSD.1", "normal(stddevp(%0))");
+		p("stdevp.1", "normal(stddevp(%0))");
 		p("Sequence.1", "when(round(%0)<1,{},seq(1,round(%0),1))");
 		p("Sequence.2", "seq(round(%0),round(%1),1)");
 		p("Sequence.4", "seq(%0,%1,%2,%3)");
@@ -1187,7 +1187,7 @@ public class Ggb2giac {
 				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,%1)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
-		p("SD.1", "normal(stddev(%0))");
+		p("stdev.1", "normal(stddev(%0))");
 
 		// removed,Shuffle[{1,2}] kills Giac
 		p("Shuffle.1", "randperm(%0)");
