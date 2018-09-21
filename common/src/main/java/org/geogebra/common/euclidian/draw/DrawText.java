@@ -418,7 +418,6 @@ public final class DrawText extends Drawable {
 			int w = (int) (mouseX - minX);
 			if (w < MIN_EDITOR_WIDTH) {
 				w = MIN_EDITOR_WIDTH;
-				mouseX = MIN_EDITOR_WIDTH + minX;
 			}
 			labelRectangle.setSize(w,
 					(int) labelRectangle.getHeight());
