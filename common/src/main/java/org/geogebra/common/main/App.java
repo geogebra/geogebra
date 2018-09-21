@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -72,6 +73,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -1170,17 +1172,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            string builder
 	 */
 	public void getKeyboardXML(StringBuilder sb) {
-		sb.append("<keyboard width=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardWidth());
-		sb.append("\" height=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardHeight());
-		sb.append("\" opacity=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardOpacity());
-		sb.append("\" language=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardLocale());
-		sb.append("\" show=\"");
-		sb.append(getSettings().getKeyboard().isShowKeyboardOnStart());
-		sb.append("\"/>");
+		// desktop only
 	}
 
 	/**
@@ -5229,5 +5221,21 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public ShareController getShareController() {
 		return null;
+	}
+
+	/**
+	 * @param keyboardSettings
+	 * 
+	 *            ent settings
+	 */
+	public AbstractSettings getKeyboardSettings(
+			AbstractSettings keyboardSettings) {
+		return new AbstractSettings() {
+			// no-op
+		};
+	}
+
+	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
+		// only desktop
 	}
 }

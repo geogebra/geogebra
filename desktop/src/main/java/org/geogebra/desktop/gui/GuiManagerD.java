@@ -72,7 +72,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -133,6 +132,7 @@ import org.geogebra.desktop.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
+import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
@@ -2804,7 +2804,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public VirtualKeyboardD getVirtualKeyboard() {
 		if (virtualKeyboard == null) {
-			KeyboardSettings settings = getApp().getSettings().getKeyboard();
+			KeyboardSettings settings = (KeyboardSettings) getApp()
+					.getSettings().getKeyboard();
 			virtualKeyboard = new VirtualKeyboardD((getApp()),
 					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
 					(float) settings.getKeyboardOpacity());

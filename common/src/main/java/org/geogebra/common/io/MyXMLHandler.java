@@ -74,7 +74,6 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -677,23 +676,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void handleKeyboard(LinkedHashMap<String, String> attrs) {
-		// TODO what if GuiManager is null?
-		try {
-			int width = Integer.parseInt(attrs.get("width"));
-			KeyboardSettings kbs = app.getSettings().getKeyboard();
-			kbs.setKeyboardWidth(width);
-			int height = Integer.parseInt(attrs.get("height"));
-			kbs.setKeyboardHeight(height);
-			double opacity = Double.parseDouble(attrs.get("opacity"));
-			kbs.setKeyboardOpacity(opacity);
-			boolean showOnStart = Boolean.parseBoolean(attrs.get("show"));
-			kbs.setShowKeyboardOnStart(showOnStart);
-			kbs.setKeyboardLocale(attrs.get("language"));
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			Log.error("error in element <keyboard>");
-		}
-
+		app.updateKeyboardSettings(attrs);
 	}
 
 	private void startMacroElement(String eName,

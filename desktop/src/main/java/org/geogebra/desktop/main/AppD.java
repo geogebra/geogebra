@@ -72,6 +72,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -159,6 +160,7 @@ import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
@@ -5358,6 +5360,61 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		BufferedImage img2 = ImageManagerD.toBufferedImage(img1);
 		return StringUtil.pngMarker + GgbAPID.base64encode(img2, 72);
+	}
+
+	/**
+	 * Append XML describing the keyboard to given string builder
+	 *
+	 * @param sb
+	 *            string builder
+	 */
+	@Override
+	public void getKeyboardXML(StringBuilder sb) {
+		sb.append("<keyboard width=\"");
+		sb.append(((KeyboardSettings) getSettings().getKeyboard())
+				.getKeyboardWidth());
+		sb.append("\" height=\"");
+		sb.append(((KeyboardSettings) getSettings().getKeyboard())
+				.getKeyboardHeight());
+		sb.append("\" opacity=\"");
+		sb.append(((KeyboardSettings) getSettings().getKeyboard())
+				.getKeyboardOpacity());
+		sb.append("\" language=\"");
+		sb.append(((KeyboardSettings) getSettings().getKeyboard())
+				.getKeyboardLocale());
+		sb.append("\" show=\"");
+		sb.append(((KeyboardSettings) getSettings().getKeyboard())
+				.isShowKeyboardOnStart());
+		sb.append("\"/>");
+	}
+
+	@Override
+	public AbstractSettings getKeyboardSettings(
+			AbstractSettings keyboardSettings) {
+		if (keyboardSettings == null) {
+			return new KeyboardSettings();
+		}
+		return new KeyboardSettings(keyboardSettings.getListeners());
+	}
+
+	@Override
+	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
+		try {
+			int width = Integer.parseInt(attrs.get("width"));
+			KeyboardSettings kbs = (KeyboardSettings) getSettings()
+					.getKeyboard();
+			kbs.setKeyboardWidth(width);
+			int height = Integer.parseInt(attrs.get("height"));
+			kbs.setKeyboardHeight(height);
+			double opacity = Double.parseDouble(attrs.get("opacity"));
+			kbs.setKeyboardOpacity(opacity);
+			boolean showOnStart = Boolean.parseBoolean(attrs.get("show"));
+			kbs.setShowKeyboardOnStart(showOnStart);
+			kbs.setKeyboardLocale(attrs.get("language"));
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			Log.error("error in element <keyboard>");
+		}
 	}
 
 }

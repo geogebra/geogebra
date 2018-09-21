@@ -44,12 +44,12 @@ import javax.swing.WindowConstants;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.MyResourceBundle;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -267,7 +267,8 @@ public class VirtualKeyboardD extends JFrame
 		// if (buttonSize < 20) buttonSize = 20;
 
 		updateButtons();
-		KeyboardSettings kbs = app.getSettings().getKeyboard();
+		KeyboardSettings kbs = (KeyboardSettings) app.getSettings()
+				.getKeyboard();
 		kbs.keyboardResized(windowWidth, windowHeight);
 	}
 
@@ -1271,8 +1272,8 @@ public class VirtualKeyboardD extends JFrame
 		Locale locale;
 
 		if (appD != null) {
-			String locName = appD.getSettings().getKeyboard()
-					.getKeyboardLocale();
+			String locName = ((KeyboardSettings) appD.getSettings()
+					.getKeyboard()).getKeyboardLocale();
 			if (locName == null) {
 				locale = appD.getLocale();
 			} else {

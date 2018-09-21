@@ -33,7 +33,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Util;
@@ -43,6 +42,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
 
 /**
@@ -471,7 +471,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		 * .setSelected(settings.getLayout().isAllowingStyleBar());
 		 */
 
-		KeyboardSettings kbs = settings.getKeyboard();
+		KeyboardSettings kbs = (KeyboardSettings) settings.getKeyboard();
 		cbKeyboardShowAutomatic.setSelected(kbs.isShowKeyboardOnStart());
 
 		tfKeyboardWidth.setText(Integer.toString(kbs.getKeyboardWidth()));
@@ -510,7 +510,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 		// .setSelected(app.getKernel().getInverseTrigReturnsAngle());
 
 		int selectedIndex = 0;
-		String loc1 = settings.getKeyboard().getKeyboardLocale();
+		String loc1 = ((KeyboardSettings) settings.getKeyboard())
+				.getKeyboardLocale();
 		if (loc1 != null) {
 			// look for index in locale list and add 1 to compensate default
 			// entry
@@ -659,14 +660,14 @@ public class OptionsAdvancedD implements OptionPanelD,
 		} else if (source == cbKeyboardLanguage) {
 			int index = cbKeyboardLanguage.getSelectedIndex();
 			if (index == 0) {
-				settings.getKeyboard()
+				((KeyboardSettings) settings.getKeyboard())
 						.setKeyboardLocale(app.getLocale().toString());
 			} else {
-				settings.getKeyboard().setKeyboardLocale(
+				((KeyboardSettings) settings.getKeyboard()).setKeyboardLocale(
 						KeyboardSettings.getLocale(index - 1));
 			}
 		} else if (source == cbKeyboardShowAutomatic) {
-			settings.getKeyboard().setShowKeyboardOnStart(
+			((KeyboardSettings) settings.getKeyboard()).setShowKeyboardOnStart(
 					cbKeyboardShowAutomatic.isSelected());
 		} else if (source == tfKeyboardWidth || source == tfKeyboardHeight) {
 			changeWidthOrHeight(source);
@@ -703,7 +704,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == slOpacity) {
-			settings.getKeyboard()
+			((KeyboardSettings) settings.getKeyboard())
 					.setKeyboardOpacity(slOpacity.getValue() / 100.0f);
 		}
 	}
@@ -726,7 +727,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	}
 
 	private void changeWidthOrHeight(Object source) {
-		KeyboardSettings kbs = settings.getKeyboard();
+		KeyboardSettings kbs = ((KeyboardSettings) settings.getKeyboard());
 		if (source == tfKeyboardHeight) {
 			try {
 				int windowHeight = Integer.parseInt(tfKeyboardHeight.getText());
@@ -851,7 +852,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 		int selectedIndex = cbKeyboardLanguage.getSelectedIndex();
 
 		if (selectedIndex == -1) {
-			String loc1 = settings.getKeyboard().getKeyboardLocale();
+			String loc1 = ((KeyboardSettings) settings.getKeyboard())
+					.getKeyboardLocale();
 			if (loc1 == null) {
 				selectedIndex = 0;
 			} else {

@@ -31,7 +31,7 @@ public class Settings {
 
 	private ApplicationSettings applicationSettings;
 
-	private KeyboardSettings keyboardSettings;
+	private AbstractSettings keyboardSettings;
 
 	private DataCollectionSettings dataCollectionSettings;
 
@@ -135,10 +135,7 @@ public class Settings {
 		}
 
 		if (keyboardSettings == null) {
-			keyboardSettings = new KeyboardSettings();
-		} else {
-			keyboardSettings = new KeyboardSettings(
-					keyboardSettings.getListeners());
+			keyboardSettings = app.getKeyboardSettings(keyboardSettings);
 		}
 
 		if (casSettings == null) {
@@ -341,7 +338,7 @@ public class Settings {
 	/**
 	 * @return desktop keyboard settings
 	 */
-	public final KeyboardSettings getKeyboard() {
+	public final AbstractSettings getKeyboard() {
 		return keyboardSettings;
 	}
 

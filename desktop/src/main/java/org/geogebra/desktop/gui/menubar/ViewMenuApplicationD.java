@@ -8,13 +8,13 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.ConstructionProtocolDockPanel;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 @SuppressWarnings("serial")
@@ -56,7 +56,8 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		if (!app.isApplet()) {
 			cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
 			cbShowKeyboard.setIcon(app.getMenuIcon(GuiResourcesD.KEYBOARD));
-			KeyboardSettings kbs = app.getSettings().getKeyboard();
+			KeyboardSettings kbs = (KeyboardSettings) app.getSettings()
+					.getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
 				VirtualKeyboardD vk = ((GuiManagerD) app.getGuiManager())

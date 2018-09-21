@@ -1,8 +1,10 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.desktop.main;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
