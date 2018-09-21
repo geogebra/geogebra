@@ -85,7 +85,7 @@ public class GeomFactoryDesktop extends GeomFactory {
 		return new AreaD((java.awt.Shape) s);
 	}
 
-	// @Override
+	@Override
 	public Area newArea() {
 		return new AreaD();
 	}
