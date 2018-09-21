@@ -492,6 +492,9 @@ public enum Commands implements CommandsConstants,
 
 	SampleSD(TABLE_STATISTICS),
 
+	/* alias for SampleSD */
+	stdevp(TABLE_STATISTICS),
+
 	Median(TABLE_STATISTICS),
 
 	Q1(TABLE_STATISTICS),
@@ -993,9 +996,6 @@ public enum Commands implements CommandsConstants,
 
 	InflectionPoint(TABLE_ENGLISH),
 
-	/* alias for SampleSD */
-	stdevp(TABLE_ENGLISH),
-
 	/* alias for Variance */
 	var(TABLE_ENGLISH),
 
@@ -1288,8 +1288,6 @@ public enum Commands implements CommandsConstants,
 			return QuadricSide;
 		case DelaunayTriangulation:
 			return DelauneyTriangulation;
-		case stdevp:
-			return SampleSD;
 		default:
 			break;
 		}

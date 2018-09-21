@@ -18,6 +18,7 @@ public final class SciCalcCommandFilterFactory {
                 Commands.mean,
                 Commands.stdev,
                 Commands.SampleSD,
+                Commands.stdevp,
                 Commands.nPr,
                 Commands.nCr,
                 Commands.Binomial,
