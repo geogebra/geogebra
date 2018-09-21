@@ -38,9 +38,6 @@ public abstract class DrawEquation implements DrawEquationI {
 	public static StringBuilder getJLMCommands() {
 		StringBuilder initJLM = new StringBuilder();
 
-		// https://dev.geogebra.org/trac/changeset/47736
-		initJLM.append("\\newcommand{\\pcdot}{\\space} ");
-
 		HashMap<String, GColor> ggbCols = GeoGebraColorConstants
 				.getGeoGebraColors();
 
