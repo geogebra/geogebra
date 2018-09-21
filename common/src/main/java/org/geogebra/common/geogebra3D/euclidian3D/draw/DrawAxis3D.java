@@ -81,6 +81,8 @@ public class DrawAxis3D extends DrawLine3D {
 
 	@Override
 	protected void updateLabel() {
+		// make sure we won't use packing for labels
+		getView3D().getRenderer().getGeometryManager().endPacking();
 
 		// draw numbers
 		GeoAxisND axis = (GeoAxisND) getGeoElement();
