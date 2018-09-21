@@ -1,5 +1,8 @@
 package org.geogebra.common.main.settings;
 
+/**
+ * Config for CAS Calculator app
+ */
 public class AppConfigCas extends AppConfigGraphing {
 
     @Override

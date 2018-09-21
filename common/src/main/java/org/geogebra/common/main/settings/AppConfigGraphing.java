@@ -5,6 +5,9 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
+/**
+ * Config for Graphing Calculator app
+ */
 public class AppConfigGraphing implements AppConfig {
 
 	@Override
@@ -17,7 +20,6 @@ public class AppConfigGraphing implements AppConfig {
 			dp.makeVisible();
 			dp.setLocation("1");
 		}
-
 	}
 
 	@Override

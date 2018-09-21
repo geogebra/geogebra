@@ -1,5 +1,8 @@
 package org.geogebra.common.main.settings;
 
+/**
+ * Config for Scientific Calculator app
+ */
 public class AppConfigScientific extends AppConfigGraphing {
 
     @Override
