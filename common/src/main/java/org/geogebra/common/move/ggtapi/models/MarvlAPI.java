@@ -43,7 +43,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void getItem(String id, MaterialCallbackI callback) {
-		this.performRequest("GET", "/materials/" + id, null, callback);
+		performRequest("GET", "/materials/" + id, null, callback);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class MarvlAPI implements BackendAPI {
 			guser.setUserName(user.getString("username"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
-			guser.setStudent(!"true".equals(user.getString("isTeacher")));
+			guser.setStudent(!"1".equals(user.getString("isTeacher")));
 			if (user.has("allGroups")) {
 				JSONArray classList = user.getJSONArray("allGroups");
 				guser.setGroups(stringList(classList));
