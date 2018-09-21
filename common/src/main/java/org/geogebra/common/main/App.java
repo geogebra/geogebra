@@ -5225,8 +5225,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	/**
 	 * @param keyboardSettings
-	 * 
-	 *            ent settings
+	 *            parent settings
 	 */
 	public AbstractSettings getKeyboardSettings(
 			AbstractSettings keyboardSettings) {
@@ -5235,6 +5234,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		};
 	}
 
+	/**
+	 * @param attrs
+	 *            XML attributes
+	 */
 	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
 		// only desktop
 	}
