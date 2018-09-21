@@ -128,10 +128,12 @@ public class OpentypeFontWrapper implements FontWrapper {
 				glyph[4] / font[0] ];
 	}-*/;
 
-	private native JavaScriptObject getGlyph(String c) /*-{
-		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+	private JavaScriptObject getGlyph(String c) {
+		return getGlyph(impl, c.codePointAt(0));
+	}
 
-		var code = c.codePointAt(0);
+	private static native JavaScriptObject getGlyph(JavaScriptObject font,
+			int code) /*-{
 		for (i = 1; i < font.length; i += 1) {
 			var glyph = font[i];
 			for (j = 0; j < glyph[0].length; j += 1) {
