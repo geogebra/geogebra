@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: #00a8d5"><title>mode_shape_polygon_black</title><g id="mode_shape_polygon"><path d="M12,3.11,2.6,9.94,6.19,21H17.81L21.4,9.94ZM16.36,19H7.64L4.95,10.71,12,5.58l7.05,5.12Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: #00a8d5">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" d="m12,2l-10.5,7.64l4,12.36l13,0l4,-12.36l-10.5,-7.64m5,18l-10,0l-3.15,-9.6l8.15,-5.93l8.15,5.93l-3.15,9.6m-6.69,-11l0.19,0l-0.19,0z"/>
+ </g>
+</svg>
