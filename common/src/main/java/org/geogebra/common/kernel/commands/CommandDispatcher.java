@@ -745,6 +745,7 @@ public abstract class CommandDispatcher {
 			case Row:
 			case SD:
 			case MAD:
+			case mad:
 			case SDX:
 			case SDY:
 			case Sxx:

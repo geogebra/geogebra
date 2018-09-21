@@ -750,7 +750,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())
 					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
-				if (comm.isAlias()) {
+				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
 					putInTranslateCommandTable(comm, null);
 				}
 				continue;
@@ -793,7 +793,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
 					Commands.englishToInternal(comm).name());
 		}
-		if (comm.isAlias()) {
+		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
 			return;
 		}
 

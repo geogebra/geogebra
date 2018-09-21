@@ -36,6 +36,6 @@ public class AlgoMeanAbsoluteDeviation extends AlgoStats1D {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.MAD;
+		return Commands.mad;
 	}
 }

@@ -483,6 +483,8 @@ public enum Commands implements CommandsConstants,
 
 	MAD(TABLE_STATISTICS),
 
+	mad(TABLE_STATISTICS),
+
 	SampleVariance(TABLE_STATISTICS),
 
 	SampleSD(TABLE_STATISTICS),
@@ -1194,13 +1196,7 @@ public enum Commands implements CommandsConstants,
 
 	RoundedPolygon(TABLE_ENGLISH), // TODO move to TABLE_GEOMETRY
 
-	ShowSteps(TABLE_ALGEBRA),
-
-	// =============================================================
-	// TABLE_SIMPLE_NAME
-	// =============================================================
-
-	mad(TABLE_SIMPLE_NAME);
+	ShowSteps(TABLE_ALGEBRA);
 
 	private int table;
 
@@ -1320,9 +1316,5 @@ public enum Commands implements CommandsConstants,
 		}
 		return null;
 	}
-
-	public boolean isAlias() {
-	    return table == TABLE_ENGLISH || table == TABLE_SIMPLE_NAME;
-    }
 
 }

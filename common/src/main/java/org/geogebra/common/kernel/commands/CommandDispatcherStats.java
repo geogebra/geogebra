@@ -56,6 +56,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case SD:
 			return new CmdSD(kernel);
 		case MAD:
+		case mad:
 			return new CmdMAD(kernel);
 		case SampleVariance:
 			return new CmdSampleVariance(kernel);
