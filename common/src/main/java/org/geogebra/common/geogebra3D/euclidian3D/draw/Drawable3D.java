@@ -330,6 +330,8 @@ public abstract class Drawable3D extends DrawableND {
 			}
 
 			if (isLabelVisible()) {
+				// make sure we won't use packing for labels
+				getView3D().getRenderer().getGeometryManager().endPacking();
 				if (labelWaitForUpdate) {
 					updateLabel();
 					updateLabelPosition();
