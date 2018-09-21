@@ -481,6 +481,9 @@ public enum Commands implements CommandsConstants,
 
 	SD(TABLE_STATISTICS),
 
+	/* alias for SD */
+	stdev(TABLE_STATISTICS),
+
 	MAD(TABLE_STATISTICS),
 
 	mad(TABLE_STATISTICS),
@@ -989,9 +992,6 @@ public enum Commands implements CommandsConstants,
 	DelaunayTriangulation(TABLE_ENGLISH),
 
 	InflectionPoint(TABLE_ENGLISH),
-
-	/* alias for SD */
-	stdev(TABLE_ENGLISH),
 
 	/* alias for SampleSD */
 	stdevp(TABLE_ENGLISH),
