@@ -33,4 +33,8 @@ public class AppConfigMixedReality extends AppConfigDefault {
 		return true;
 	}
 
+	@Override
+	public int getDefaultPrintDecimals() {
+		return 2;
+	}
 }

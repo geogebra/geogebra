@@ -30,4 +30,6 @@ public interface AppConfig {
 
 	boolean shouldKeepRatioEuclidian();
 
+	int getDefaultPrintDecimals();
+
 }

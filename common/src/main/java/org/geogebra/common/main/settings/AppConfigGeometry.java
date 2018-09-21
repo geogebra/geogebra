@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
@@ -84,5 +85,10 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public boolean shouldKeepRatioEuclidian() {
 		return true;
+	}
+
+	@Override
+	public int getDefaultPrintDecimals() {
+		return Kernel.STANDARD_PRINT_DECIMALS_GEOMETRY;
 	}
 }
