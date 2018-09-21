@@ -3,10 +3,8 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
@@ -61,8 +59,6 @@ public abstract class Localization {
 	/** zero (different in eg Arabic) */
 	private char unicodeZero = '0';
 
-	private Set<Commands> duplicatedCommands;
-
 	/**
 	 * eg Function.sin
 	 */
@@ -82,11 +78,6 @@ public abstract class Localization {
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
 		this.maxFigures = maxFigures;
-		initDuplicatedCommands();
-	}
-
-	private void initDuplicatedCommands() {
-		duplicatedCommands = new HashSet<>(Arrays.asList(Commands.Binomial));
 	}
 
 	/**
@@ -1434,8 +1425,9 @@ public abstract class Localization {
 		Commands toTest = Commands.stringToCommand(internalName);
 		// Log.debug("toTest = " + toTest + " " + toTest.getClass());
 
-		if (isDuplicatedCommand(toTest)) {
-			return getMainCommandName(toTest);
+        String mainCommandName = getMainCommandName(toTest);
+		if (mainCommandName != null) {
+			return mainCommandName;
 		}
 
 		for (Commands c : Commands.values()) {
@@ -1460,13 +1452,10 @@ public abstract class Localization {
 		return internalName;
 	}
 
-	private boolean isDuplicatedCommand(Commands command) {
-		return duplicatedCommands.contains(command);
-	}
-
 	private String getMainCommandName(Commands command) {
 		switch (command) {
 			case Binomial:
+			case nCr:
 				return Commands.nCr.name();
 			default:
 				return null;
