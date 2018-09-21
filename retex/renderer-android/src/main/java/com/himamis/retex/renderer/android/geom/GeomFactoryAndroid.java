@@ -36,4 +36,9 @@ public class GeomFactoryAndroid extends GeomFactory {
 		return null;
 	}
 
+	@Override
+	public Area newArea() {
+		return null;
+	}
+
 }

@@ -55,6 +55,6 @@ public abstract class GeomFactory {
 
 	public abstract Area createArea(Shape rect);
 
-	// public abstract Area newArea();
+	public abstract Area newArea();
 
 }

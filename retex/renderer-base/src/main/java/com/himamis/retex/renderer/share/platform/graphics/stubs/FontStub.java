@@ -34,4 +34,9 @@ public class FontStub implements Font {
 		return null;
 	}
 
+    @Override
+    public boolean canDisplay(char ch) {
+        return true;
+    }
+
 }

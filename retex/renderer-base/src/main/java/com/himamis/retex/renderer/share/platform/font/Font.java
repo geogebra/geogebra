@@ -76,6 +76,6 @@ public interface Font {
 
 	public Shape getGlyphOutline(FontRenderContext frc, String valueOf);
 
-	// boolean canDisplay(char ch);
+	boolean canDisplay(char ch);
 
 }
