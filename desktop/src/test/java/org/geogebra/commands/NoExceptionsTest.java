@@ -1384,6 +1384,18 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdstdev() {
+		t("stdev[ list1 ]");
+		t("stdev[ list1, list1 ]");
+	}
+
+	@Test
+	public void cmdstdevp() {
+		t("stdevp[ list1 ]");
+		t("stdevp[ list1, list1 ]");
+	}
+
+	@Test
 	public void cmdSampleSDX() {
 		t("SampleSDX[ ptlist1 ]");
 	}

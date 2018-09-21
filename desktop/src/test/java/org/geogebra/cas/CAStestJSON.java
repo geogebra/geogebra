@@ -678,7 +678,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testMean() {
-		testCat("Mean");
+		testCat("mean.1");
 	}
 
 	@Test
