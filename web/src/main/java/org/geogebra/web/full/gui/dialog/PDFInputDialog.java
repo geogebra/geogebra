@@ -393,9 +393,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	@Override
 	public void hide() {
-		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
-				ModeSetter.TOOLBAR);
 		super.hide();
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+				ModeSetter.TOOLBAR);
 	}
 
 	/**

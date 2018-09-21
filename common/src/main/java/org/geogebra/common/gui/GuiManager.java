@@ -870,7 +870,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 		getApp().getActiveEuclidianView().getEuclidianController().clearSelections();
 		getApp().getActiveEuclidianView().getEuclidianController()
 				.memorizeJustCreatedGeos(geos);
-		getApp().setMoveMode();
+		if (!app.isWhiteboardActive()) {
+			getApp().setMoveMode();
+		}
 		getApp().getActiveEuclidianView().resetMode();
 
 	}

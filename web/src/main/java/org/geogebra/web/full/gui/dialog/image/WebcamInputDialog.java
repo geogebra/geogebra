@@ -38,7 +38,6 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	public WebcamInputDialog(AppW app) {
 		super(app.getPanel(), app);
 		this.appW = app;
-
 		initGUI();
 		initActions();
 	}
@@ -143,7 +142,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 			this.webcamInputPanel.stopVideo();
 		}
 		appW.getImageManager().setPreventAuxImage(false);
-		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
 				ModeSetter.TOOLBAR);
 		super.hide();
 	}
@@ -151,7 +150,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	@Override
 	public void hide(boolean autoClosed, boolean setFocus) {
 		super.hide(autoClosed, setFocus);
-		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
 				ModeSetter.TOOLBAR);
 	}
 

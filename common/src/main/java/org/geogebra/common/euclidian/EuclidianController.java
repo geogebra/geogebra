@@ -976,7 +976,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 					@Override
 					public void run() {
-						app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
+						app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+								ModeSetter.DOCK_PANEL);
 					}
 				});
 
@@ -984,7 +985,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(TestGeo.GEOIMAGE, tempArrayList),
 						false);
-				// initNewMode(newMode, false);
+				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+						ModeSetter.DOCK_PANEL);
 				return;
 			}
 

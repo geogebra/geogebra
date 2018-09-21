@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -122,6 +123,7 @@ public class TextControllerW
 		t.setLabel(null);
 		edit(t, true);
 		app.getKernel().notifyRepaint();
+		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		return t;
 	}
 

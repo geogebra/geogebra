@@ -75,7 +75,7 @@ public class EmbedInputDialog extends MediaDialog
 						@Override
 						public void onLoaded(List<Material> result,
 								ArrayList<Chapter> meta) {
-							app.getEmbedManager()
+							getApplication().getEmbedManager()
 									.embed(result.get(0).getBase64());
 							hide();
 						}
@@ -88,8 +88,13 @@ public class EmbedInputDialog extends MediaDialog
 		} else {
 			EmbedURLChecker.checkEmbedURL(url.replace("+", "%2B"), this);
 		}
+	}
 
-		app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
+	@Override
+	public void hide() {
+		super.hide();
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+				ModeSetter.TOOLBAR);
 	}
 
 	private static String extractURL(String input) {
