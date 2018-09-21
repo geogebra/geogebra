@@ -1459,7 +1459,7 @@ public abstract class Localization {
 				return Commands.nCr.name();
 			case SD:
 			case stdev:
-				return Commands.stdev.name();
+				return Commands.SD.name();
 			default:
 				return null;
 		}
