@@ -1118,8 +1118,13 @@ __GGB__keysVar["sl"].command = {
     "ZoomIn.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161\u010dna to\u010dka> ]\n[ <min x>, <min y>, <maks x>, <maks y> ]",
     "ZoomOut": "Pomanj\u0161evanje",
     "ZoomOut.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161\u010dna to\u010dka> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u0161tevilo>, <\u0161tevilo> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
+    "stdevp": "stdevp",
 };
 
 

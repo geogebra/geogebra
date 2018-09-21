@@ -1118,8 +1118,13 @@ __GGB__keysVar["ro"].command = {
     "ZoomIn.Syntax": "[ <Factor scalare> ]\n[ <Factor scalare>, <Punct centru> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\xcendep\u0103rtare",
     "ZoomOut.Syntax": "[ <Factor dimensiune> ]\n[ <Factor dimensiune>, <Punct centru> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Num\u0103r n>, <Num\u0103r r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
+    "stdevp": "stdevp",
 };
 
 

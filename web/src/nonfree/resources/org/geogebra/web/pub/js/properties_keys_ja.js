@@ -1118,8 +1118,13 @@ __GGB__keysVar["ja"].command = {
     "ZoomIn.Syntax": "[ <\u500d\u7387> ]\n[ <\u500d\u7387>, <\u4e2d\u5fc3\u70b9> ]\n[ <x\u6700\u5c0f>, <y\u6700\u5c0f>, <x\u6700\u5927>, <y\u6700\u5927> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <\u500d\u7387> ]\n[ <\u500d\u7387>, <\u4e2d\u5fc3\u70b9> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u6570\u5024>, <\u6570\u5024> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u5ea6\u6570\u306e\u30ea\u30b9\u30c8> ]",
+    "stdevp": "stdevp",
 };
 
 

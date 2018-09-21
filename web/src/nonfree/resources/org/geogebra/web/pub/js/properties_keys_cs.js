@@ -1118,8 +1118,13 @@ __GGB__keysVar["cs"].command = {
     "ZoomIn.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Zmensit",
     "ZoomOut.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
+    "stdevp": "stdevp",
 };
 
 

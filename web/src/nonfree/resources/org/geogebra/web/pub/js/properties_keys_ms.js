@@ -1118,8 +1118,13 @@ __GGB__keysVar["ms"].command = {
     "ZoomIn.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Pusat> ]\n[ <Minimum x>, <Minimum y>, <Maks x>, <Maks y> ]",
     "ZoomOut": "ZumKeluar",
     "ZoomOut.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Pusat> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Nombor n>, <Nombor r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Senarai Data Mentah> ]\n[ <Senarai Nombor>, <Senarai Kekerapan> ]",
+    "stdevp": "stdevp",
 };
 
 

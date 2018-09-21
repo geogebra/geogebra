@@ -1118,8 +1118,13 @@ __GGB__keysVar["lv"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Samazin\u0101t",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Skaitlis n>, <Skaitlis r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Datu saraksts> ]\n[ <Skait\u013cu Saraksts>, <Bie\u017eumu Saraksts> ]",
+    "stdevp": "stdevp",
 };
 
 

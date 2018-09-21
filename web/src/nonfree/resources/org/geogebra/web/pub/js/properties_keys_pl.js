@@ -1118,8 +1118,13 @@ __GGB__keysVar["pl"].command = {
     "ZoomIn.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "OddalWidok",
     "ZoomOut.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Liczba n>, <Liczba r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Lista Liczb> ]\n[ <Lista Liczb>, <Lista Cz\u0119sto\u015bci> ]",
+    "stdevp": "stdevp",
 };
 
 

@@ -1118,8 +1118,13 @@ __GGB__keysVar["fi"].command = {
     "ZoomIn.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Loitonna",
     "ZoomOut.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Luku n>, <Luku> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Raakadatalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
+    "stdevp": "stdevp",
 };
 
 

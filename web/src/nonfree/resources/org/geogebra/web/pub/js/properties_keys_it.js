@@ -1118,8 +1118,13 @@ __GGB__keysVar["it"].command = {
     "ZoomIn.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomIndietro",
     "ZoomOut.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Numero n>, <Numero k> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Lista di frequenze> ]",
+    "stdevp": "stdevp",
 };
 
 

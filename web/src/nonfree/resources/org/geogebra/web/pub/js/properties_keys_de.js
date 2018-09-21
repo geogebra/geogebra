@@ -1118,8 +1118,13 @@ __GGB__keysVar["de"].command = {
     "ZoomIn.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Zahl n>, <Zahl k> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
+    "stdevp": "stdevp",
 };
 
 

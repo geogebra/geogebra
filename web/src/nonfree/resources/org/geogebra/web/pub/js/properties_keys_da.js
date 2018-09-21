@@ -1118,8 +1118,13 @@ __GGB__keysVar["da"].command = {
     "ZoomIn.Syntax": "[ <Skalerings Faktor> ]\n[ <Skalerings Faktor>, <Center Punkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomUd",
     "ZoomOut.Syntax": "[ <Skalerings Faktor> ]\n[ <Skalerings Faktor>, <Center Punkt> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <n>, <r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Liste med R\xe5 Data> ]\n[ <Liste med tal>, <Liste med hyppigheder> ]",
+    "stdevp": "stdevp",
 };
 
 

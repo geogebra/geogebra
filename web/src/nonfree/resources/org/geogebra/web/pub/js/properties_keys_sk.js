@@ -1118,8 +1118,13 @@ __GGB__keysVar["sk"].command = {
     "ZoomIn.Syntax": "[ <Faktor> ]\n[ <Faktor>, <Stred> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Oddiali\u0165",
     "ZoomOut.Syntax": "[ <Factor> ]\n[ <Factor>, <Stred> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo k> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Zoznam zdrojov\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
+    "stdevp": "stdevp",
 };
 
 

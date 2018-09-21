@@ -1118,8 +1118,13 @@ __GGB__keysVar["sq"].command = {
     "ZoomIn.Syntax": "[ <Faktori Zmadhues> ]\n[ <Faktori Zmadhues>, <Pika Qender> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Zvogelim",
     "ZoomOut.Syntax": "[ <Faktori Zvogelues> ]\n[ <Faktori Zvogeues>, <Pika Qender> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Numer>, <Numer> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste e Numrave>, <Liste e Frekuencave> ]",
+    "stdevp": "stdevp",
 };
 
 

@@ -1118,8 +1118,13 @@ __GGB__keysVar["zh-CN"].command = {
     "ZoomIn.Syntax": "[ <\u7f29\u653e\u56e0\u5b50> ]\n[ <\u7f29\u653e\u56e0\u5b50>, <\u4e2d\u5fc3\u70b9)> ]\n[ <x\u6700\u5c0f\u503c>, <y\u6700\u5c0f\u503c>, <x\u6700\u5927\u503c>, <y\u6700\u5927\u503c> ]",
     "ZoomOut": "\u7f29\u5c0f",
     "ZoomOut.Syntax": "[ <\u7f29\u653e\u56e0\u5b50> ]\n[ <\u7f29\u653e\u56e0\u5b50>, <\u4e2d\u5fc3\u70b9> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "\u7ec4\u5408\u6570",
     "nCr.Syntax": "[ <\u6570\u5b57 n>, <\u6570\u5b57 r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <\u539f\u59cb\u6570\u636e\u5217\u8868> ]\n[ <\u6570\u5b57\u5217\u8868>, <\u9891\u6570\u5217\u8868> ]",
+    "stdevp": "stdevp",
 };
 
 
@@ -3180,7 +3185,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "exam_lock_button": "\u9501\u5b9a\u5e94\u7528",
     "exam_log_airplane_mode_off": "\u98de\u884c\u6a21\u5f0f\u5df2\u5173\u95ed",
     "exam_log_airplane_mode_on": "\u98de\u884c\u6a21\u5f0f\u5df2\u6253\u5f00",
-    "exam_log_bluetooth_disabled": "\u84dd\u7259\u7981\u7528",
+    "exam_log_bluetooth_disabled": "\u84dd\u7259\u5173\u95ed",
     "exam_log_bluetooth_enabled": "\u84dd\u7259\u542f\u7528",
     "exam_log_header": "\u68c0\u6d4b\u8be6\u60c5",
     "exam_log_pin": "\u5e94\u7528\u88ab\u56fa\u5b9a",
@@ -3188,7 +3193,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "exam_log_screen_on": "\u5c4f\u5e55\u6253\u5f00",
     "exam_log_show_screen_to_teacher": "\u5411\u8001\u5e08\u5c55\u793a\u6b64\u5c4f\u5e55",
     "exam_log_unpin": "\u5e94\u7528\u89e3\u9664\u56fa\u5b9a",
-    "exam_log_wifi_disabled": "WiFi\u7981\u7528",
+    "exam_log_wifi_disabled": "WiFi\u5173\u95ed",
     "exam_log_wifi_enabled": "WiFi\u542f\u7528",
     "exam_log_window_entered": "\u91cd\u65b0\u8fdb\u5165\u68c0\u6d4b\u7a97\u53e3",
     "exam_log_window_left": "\u68c0\u6d4b\u7a97\u53e3\u672a\u5173",

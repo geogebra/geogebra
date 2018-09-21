@@ -1118,8 +1118,13 @@ __GGB__keysVar["sr"].command = {
     "ZoomIn.Syntax": "[ <faktor pove\u0107anja> ]\n[ <faktor pove\u0107anja>, <centralna ta\u010dka> ]\n[ <min x>, <min y>, <max x>, <max y> ]",
     "ZoomOut": "Smanjenje",
     "ZoomOut.Syntax": "[ <faktor smanjenja> ]\n[ <faktor smanjenja>, <centralna ta\u010dka> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <broj>, <broj> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <lista neobra\u0111enih podataka> ]\n[ <lista brojeva>, <lista frekvencija> ]",
+    "stdevp": "stdevp",
 };
 
 

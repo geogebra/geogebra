@@ -1118,8 +1118,13 @@ __GGB__keysVar["vi"].command = {
     "ZoomIn.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]\n[ <GTNN x>, <GTNN y>, <GTLN x>, <GTLN y> ]",
     "ZoomOut": "PhongTo",
     "ZoomOut.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <S\u1ed1>, <S\u1ed1> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch t\u1ea7n s\u1ed1> ]",
+    "stdevp": "stdevp",
 };
 
 

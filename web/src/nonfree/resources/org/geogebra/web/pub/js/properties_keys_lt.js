@@ -1118,8 +1118,13 @@ __GGB__keysVar["lt"].command = {
     "ZoomIn.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Tolinti",
     "ZoomOut.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Skai\u010dius>, <Skai\u010dius> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Da\u017eni\u0173 s\u0105ra\u0161as> ]",
+    "stdevp": "stdevp",
 };
 
 

@@ -1118,8 +1118,13 @@ __GGB__keysVar["et"].command = {
     "ZoomIn.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "V\xe4henda",
     "ZoomOut.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Arv n>, <Arv r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
+    "stdevp": "stdevp",
 };
 
 

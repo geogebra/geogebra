@@ -1118,8 +1118,13 @@ __GGB__keysVar["hu"].command = {
     "ZoomIn.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Kicsiny\xedt\xe9s",
     "ZoomOut.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Sz\xe1m (n)>, <Sz\xe1m (k)> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
+    "stdevp": "stdevp",
 };
 
 

@@ -1118,8 +1118,13 @@ __GGB__keysVar["ne"].command = {
     "ZoomIn.Syntax": "[ <\u0928\u093e\u092a\u094b \u0916\u0923\u094d\u0921> ]\n[ <\u0928\u093e\u092a\u094b \u0916\u0923\u094d\u0921>, <\u0915\u0947\u0928\u094d\u0926\u094d\u0930\u092c\u093f\u0928\u094d\u0926\u0941> ]\n[ <\u0928\u094d\u092f\u0941\u0928\u0924\u092e x>, <\u0928\u094d\u092f\u0928\u0924\u092e y>, <\u0909\u091a\u094d\u091a\u0924\u092e x>, <\u0909\u091a\u094d\u091a\u0924\u092e y> ]",
     "ZoomOut": "\u0920\u0941\u0932\u094b\u092a\u093e\u0930\u094d\u0928\u0941",
     "ZoomOut.Syntax": "[ <\u0928\u093e\u092a\u094b \u0916\u0923\u094d\u0921> ]\n[ <\u0928\u093e\u092a\u094b \u0916\u0923\u094d\u0921>, <\u0915\u0947\u0928\u094d\u0926\u094d\u0930\u092c\u093f\u0928\u094d\u0926\u0941> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u0938\u0901\u0916\u094d\u092f\u093e>, <\u0938\u0901\u0916\u094d\u092f\u093e> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "stdevp": "stdevp",
 };
 
 

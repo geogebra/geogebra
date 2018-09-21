@@ -1118,8 +1118,13 @@ __GGB__keysVar["mn"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\u0411\u0430\u0433\u0430\u0441\u0433\u0430\u0436\u0425\u0430\u0440",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <n \u0442\u043e\u043e>, <r \u0442\u043e\u043e> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <\u0411\u043e\u043b\u043e\u0432\u0441\u0440\u0443\u0443\u043b\u0430\u0430\u0433\u04af\u0439 \u04e9\u0433\u04e9\u0433\u0434\u043b\u0438\u0439\u043d \u0434\u0430\u0440\u0430\u0430\u043b\u0430\u043b> ]\n[ <\u0422\u043e\u043e\u043d\u0443\u0443\u0434\u044b\u043d \u0434\u0430\u0440\u0430\u0430\u043b\u0430\u043b>, <\u0414\u0430\u0432\u0442\u0430\u043c\u0436\u0443\u0443\u0434\u044b\u043d \u0434\u0430\u0440\u0430\u0430\u043b\u0430\u043b> ]",
+    "stdevp": "stdevp",
 };
 
 

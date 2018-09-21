@@ -1118,8 +1118,13 @@ __GGB__keysVar["pt"].command = {
     "ZoomIn.Syntax": "[ <Fator de Escala> ]\n[ <Fator de Escala>, <Centro> ]\n[ <x M\xednimo>, <y M\xednimo>, <x M\xe1ximo>, <y M\xe1ximo> ]",
     "ZoomOut": "Reduzir",
     "ZoomOut.Syntax": "[ <Fator de Escala> ]\n[ <Fator de Escala>, <Centro> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <N\xfamero n>, <N\xfamero r> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Lista dos Dados Brutos> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
+    "stdevp": "stdevp",
 };
 
 

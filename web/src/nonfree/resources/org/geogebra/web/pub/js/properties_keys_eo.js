@@ -1118,8 +1118,13 @@ __GGB__keysVar["eo"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Malzomi",
     "ZoomOut.Syntax": "[ <Skalfaktoro> ]\n[ <Skalfaktoro>, <Centra Punkto> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Nombro n>, <Nombro k> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <Listo de Krudaj Datumoj> ]\n[ <Listo de Nombroj>, <Listo de Oftoj> ]",
+    "stdevp": "stdevp",
 };
 
 

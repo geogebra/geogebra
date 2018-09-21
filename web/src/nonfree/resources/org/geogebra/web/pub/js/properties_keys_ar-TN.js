@@ -1118,8 +1118,13 @@ __GGB__keysVar["ar-TN"].command = {
     "ZoomIn.Syntax": "[ <\u0639\u0627\u0645\u0644> ]\n[ <\u0639\u0627\u0645\u0644>, <\u0645\u0631\u0643\u0632> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\u062a\u0640\u0635\u063a\u064a\u0631",
     "ZoomOut.Syntax": "[ <\u0639\u0627\u0645\u0644> ]\n[ <\u0639\u0627\u0645\u0644>, <\u0645\u0631\u0643\u0632> ]",
+    "mad": "mad",
+    "mean": "mean",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u0639\u062f\u062f \u0637\u0628\u064a\u0639\u064a>, <\u0639\u062f\u062f \u0631> ]",
+    "stdev": "stdev",
+    "stdev.Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0628\u064a\u0627\u0646\u0627\u062a \u062e\u0627\u0645> ]\n[ <\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u062f\u0627\u062f>, <\u0642\u0627\u0626\u0645\u0629 \u062a\u0631\u062f\u062f\u0627\u062a> ]",
+    "stdevp": "stdevp",
 };
 
 
