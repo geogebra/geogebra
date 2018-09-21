@@ -65,7 +65,7 @@ public class PageListController implements PageListControllerInterface,
 
 	private DragController dragCtrl;
 	private CardListInterface listener;
-	private String tubeId;
+	private Material activeMaterial = null;
 
 	/**
 	 * @param app
@@ -118,28 +118,30 @@ public class PageListController implements PageListControllerInterface,
 	private void loadSlide(int i) {
 		try {
 			// load last status of file
-			saveTubeId();
+			saveMaterialProperties();
 			app.resetPerspectiveParam();
 			app.loadGgbFile(slides.get(i).getFile(), true);
-			restoreTubeId();
+			restoreMaterialProperties();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void saveTubeId() {
-		Material mat = app.getActiveMaterial();
-		tubeId = mat != null ? mat.getSharingKeyOrId() : null;
-		Log.debug("[TUBEID] saved: " + tubeId);
+	private String getTubeId() {
+		return activeMaterial != null ? activeMaterial.getSharingKeyOrId() : null;
 	}
 
-	private void restoreTubeId() {
-		if (tubeId == null) {
+	private void saveMaterialProperties() {
+		activeMaterial = app.getActiveMaterial();
+	}
+
+	private void restoreMaterialProperties() {
+		if (activeMaterial == null) {
 			return;
 		}
-		app.setTubeId(tubeId);
-		Log.debug("[TUBEID] restored: " + tubeId);
+		app.setTubeId(getTubeId());
+		app.getKernel().getConstruction().setTitle(activeMaterial.getTitle());
 	}
 
 	/**
@@ -479,12 +481,12 @@ public class PageListController implements PageListControllerInterface,
 	 *            index of page to load
 	 */
 	public void loadNewPage(int index) {
-		saveTubeId();
+		saveMaterialProperties();
 		savePreviewCard(selectedCard);
 		((AppWFull) app).loadEmptySlide();
 		setCardSelected(index);
 		updatePreviewImage();
-		restoreTubeId();
+		restoreMaterialProperties();
 	}
 
 	@Override
