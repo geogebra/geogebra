@@ -36,12 +36,12 @@ public abstract class FontFactory {
 	public abstract FontLoader createFontLoader();
 
 	/**
-	 * overridden in web
+	 * overridden in desktop https://github.com/opencollab/jlatexmath/issues/32
 	 * 
 	 * @return scale factor
 	 */
 	public int getFontScaleFactor() {
-		return FontLoader.FONT_SCALE_FACTOR;
+		return 1;
 
 	}
 

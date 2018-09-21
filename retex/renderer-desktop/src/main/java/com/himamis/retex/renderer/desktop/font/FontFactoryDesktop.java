@@ -73,4 +73,15 @@ public class FontFactoryDesktop extends FontFactory {
 	public FontLoader createFontLoader() {
 		return new FontLoaderD();
 	}
+
+	/**
+	 * https://github.com/opencollab/jlatexmath/issues/32
+	 * 
+	 * @return scale factor
+	 */
+	@Override
+	public int getFontScaleFactor() {
+		return FontLoader.FONT_SCALE_FACTOR;
+
+	}
 }
