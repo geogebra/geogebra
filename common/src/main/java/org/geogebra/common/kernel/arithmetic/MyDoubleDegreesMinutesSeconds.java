@@ -50,7 +50,8 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 			this.degrees = Math.abs(degrees);
 			this.minutes = minutes;
 			this.seconds = seconds;
-			this.showDegrees = showDegrees;
+			// at least one of degrees/minutes/seconds needs to be shown
+			this.showDegrees = showDegrees || (!showMinutes && !showSeconds);
 			this.showMinutes = showMinutes;
 			this.showSeconds = showSeconds;
 		}
