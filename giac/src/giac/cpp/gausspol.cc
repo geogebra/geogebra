@@ -5989,6 +5989,18 @@ namespace giac {
 	  return true;
 	}
       }
+      if (d%4==0 && with_sqrt){
+	gen e=algebraic_EXTension(makevecteur(1,0),makevecteur(1,0,-2));
+	gen an=1,extra_div=1;
+	factorization f;
+	polynome p_content(p.dim);
+	if (ext_factor(p,e,an,p_content,f,complexmode,extra_div) && an==1 && extra_div==1){
+	  for (size_t i=0;i<f.size();++i){
+	    v.push_back(f[i].fact);
+	  }
+	  return true;
+	}
+      }
       if (p.coord.back().value==1){
 	// product of cyclotomic(n) where n divides 2d and does not divide d
 	gen dd=_minus(makesequence(idivis(2*d,context0),idivis(d,context0)),context0);

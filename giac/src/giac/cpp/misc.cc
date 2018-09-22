@@ -93,8 +93,15 @@ namespace giac {
     gen f(v[0]),x,a,b;
     a=v[1];
     b=v[2];
-    if (s==3)
+    if (s==3){
       x=vx_var;
+      if (a.is_symb_of_sommet(at_equal)){
+	x=a._SYMBptr->feuille[0];
+	a=a._SYMBptr->feuille[1];
+	if (b.is_symb_of_sommet(at_equal))
+	  b=b._SYMBptr->feuille[1];
+      }
+    }
     else 
       x=v[3];
     if (x.type!=_IDNT)
@@ -1164,8 +1171,14 @@ namespace giac {
   static define_unary_function_eval (__froot,&_froot,_froot_s);
   define_unary_function_ptr5( at_froot ,alias_at_froot,&__froot,0,true);
 
-  gen _roots(const gen & g,GIAC_CONTEXT){
-    if ( g.type==_STRNG && g.subtype==-1) return  g;
+  gen _roots(const gen & g_,GIAC_CONTEXT){
+    if ( g_.type==_STRNG && g_.subtype==-1) return g_;
+    gen eq=0;
+    gen g(g_);
+    if (g.type==_VECT && g._VECTptr->size()==3 && g._VECTptr->back()==at_equal && g.subtype==_SEQ__VECT){
+      eq=(*g._VECTptr)[1];
+      g=makesequence(g._VECTptr->front(),eq);
+    }
     gen r=_froot(g,contextptr);
     if (r.type!=_VECT || (r._VECTptr->size() % 2) )
       return gensizeerr(contextptr);
@@ -1174,7 +1187,7 @@ namespace giac {
     int s=int(v.size()/2);
     for (int i=0;i<s;++i){
       if (v[2*i+1].val>0)
-	res.push_back(makevecteur(v[2*i],v[2*i+1]));
+	res.push_back(makevecteur(eq==0?v[2*i]:symb_equal(eq,v[2*i]),v[2*i+1]));
     }
     return res;
   }

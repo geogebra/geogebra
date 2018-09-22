@@ -5146,6 +5146,7 @@ unsigned int ConvertUTF8toUTF16 (
     "factoriser_entier",
     "factoriser_sur_C",
     "ifactor",
+    "list2exp",
     "lncollect",
     "lnexpand",
     "mathml",
