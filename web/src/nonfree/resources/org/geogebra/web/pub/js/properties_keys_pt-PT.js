@@ -1119,12 +1119,12 @@ __GGB__keysVar["pt-PT"].command = {
     "ZoomOut": "Reduzir",
     "ZoomOut.Syntax": "[ <Fator de Escala> ]\n[ <Fator de Escala>, <Ponto Central> ]",
     "mad": "mad",
-    "mean": "mean",
+    "mean": "m\xe9dia",
     "nCr": "nCr",
     "nCr.Syntax": "[ <N\xfamero n>, <N\xfamero r> ]",
-    "stdev": "stdev",
+    "stdev": "devstd",
     "stdev.Syntax": "[ <Lista de Dados n\xe3o Classificados> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
-    "stdevp": "stdevp",
+    "stdevp": "devpst",
 };
 
 
@@ -1146,7 +1146,7 @@ __GGB__keysVar["pt-PT"].error = {
     "ExponentMustBeInteger": "O expoente deve ser um n\xfamero inteiro.",
     "FileFormatUnknown": "O formato deste ficheiro \xe9 desconhecido.",
     "FileNotFound": "Ficheiro n\xe3o encontrado.",
-    "FrameLoadError": "This web page does not support embedding.",
+    "FrameLoadError": "Esta p\xe1gina da web n\xe3o suporta incorpora\xe7\xe3o.",
     "FunctionExpected": "Entre com uma fun\xe7\xe3o",
     "IllegalAddition": "Adi\xe7\xe3o inv\xe1lida.",
     "IllegalArgument": "Argumento inv\xe1lido",
@@ -1588,7 +1588,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "DefinitionAndValue": "Defini\xe7\xe3o & Valor",
     "Degree": "Grau",
     "DegreeUnit": "grau",
-    "DegreesMinutesSeconds": "Degrees, minutes, seconds",
+    "DegreesMinutesSeconds": "Graus, minutos, segundos",
     "DegreesOfFreedom.short": "gl",
     "DegreesOfFreedom1.short": "gl1",
     "DegreesOfFreedom2.short": "gl2",

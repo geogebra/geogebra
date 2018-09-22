@@ -353,7 +353,7 @@ __GGB__keysVar["nl"].command = {
     "FitLogistic": "LogistischeRegr",
     "FitLogistic.Syntax": "[ <Lijst van punten> ]",
     "FitPoly": "VeeltermRegr",
-    "FitPoly.Syntax": "[ <Lijst met punten>, <Graad van veelterm> ]",
+    "FitPoly.Syntax": "[ <Lijst met punten>, <Graad van veelterm> ]\n[ <Vrije vorm>, <Graad van veelterm> ]",
     "FitPow": "MachtsRegr",
     "FitPow.Syntax": "[ <Lijst met punten> ]",
     "FitSin": "SinRegr",
@@ -1118,13 +1118,13 @@ __GGB__keysVar["nl"].command = {
     "ZoomIn.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
-    "mad": "mad",
-    "mean": "mean",
+    "mad": "gaa",
+    "mean": "gemidd",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Getal n>, <Getal r> ]",
-    "stdev": "stdev",
+    "stdev": "stafw",
     "stdev.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met waarnemingsgetallen>, <Lijst met frequenties> ]",
-    "stdevp": "stdevp",
+    "stdevp": "stafwp",
 };
 
 

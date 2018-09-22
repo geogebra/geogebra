@@ -1118,13 +1118,13 @@ __GGB__keysVar["nl-NL"].command = {
     "ZoomIn.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
-    "mad": "mad",
-    "mean": "mean",
+    "mad": "gaa",
+    "mean": "gemidd",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Getal>, <Getal> ]",
-    "stdev": "stdev",
+    "stdev": "stafw",
     "stdev.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
-    "stdevp": "stdevp",
+    "stdevp": "stafwp",
 };
 
 
