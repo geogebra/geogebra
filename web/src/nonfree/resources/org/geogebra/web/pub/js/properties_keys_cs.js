@@ -1119,7 +1119,7 @@ __GGB__keysVar["cs"].command = {
     "ZoomOut": "Zmensit",
     "ZoomOut.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]",
     "mad": "mad",
-    "mean": "mean",
+    "mean": "prumer",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
     "stdev": "stdev",
