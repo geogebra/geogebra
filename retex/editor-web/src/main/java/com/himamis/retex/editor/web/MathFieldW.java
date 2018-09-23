@@ -77,7 +77,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
-import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
@@ -160,7 +160,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
-		mathFieldInternal.setType(TeXFormula.SANSSERIF);
+		mathFieldInternal.setType(TeXFont.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
 		instances.add(this);

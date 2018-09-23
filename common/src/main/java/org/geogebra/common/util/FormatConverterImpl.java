@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.Kernel;
 
 import com.himamis.retex.editor.share.editor.FormatConverter;
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.TeXParser;
 
 /**
  * Convert expressions from Presentation MathML / LaTeX to simple ggb syntax
@@ -50,9 +49,9 @@ public class FormatConverterImpl implements FormatConverter {
 	private String convertLaTeXtoGGB(String latexExpression) {
 		kernel.getApplication().getDrawEquation()
 				.checkFirstCall(kernel.getApplication());
-		TeXFormula tf = new TeXFormula();
-		TeXParser tp = new TeXParser(latexExpression, tf);
-		tp.parse();
+		TeXFormula tf = new TeXFormula(latexExpression);
+		// TeXParser tp = new TeXParser(latexExpression, tf);
+		// tp.parse();
 		return new TeXAtomSerializer(null).serialize(tf.root);
 	}
 

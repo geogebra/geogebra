@@ -91,6 +91,13 @@ public class TeXFont {
 
 	protected static final int WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
 
+	public static final int SERIF = TeXFormula.SERIF;
+	public static final int SANSSERIF = TeXFormula.SANSSERIF;
+	public static final int BOLD = TeXFormula.BOLD;
+	public static final int ITALIC = TeXFormula.ITALIC;
+	public static final int ROMAN = TeXFormula.ROMAN;
+	public static final int TYPEWRITER = TeXFormula.TYPEWRITER;
+
 	public static List<Character.UnicodeBlock> loadedAlphabets = new ArrayList<Character.UnicodeBlock>();
 
 	protected double factor = 1;

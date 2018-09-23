@@ -324,6 +324,10 @@ public class TeXParser {
 		this.ignoreWhiteSpace = space;
 	}
 
+	public TeXParser(String tex) {
+		this(tex, new TeXFormula(tex));
+	}
+
 	/**
 	 * Reset the parser with a new latex expression
 	 * 
@@ -1711,5 +1715,10 @@ public class TeXParser {
 		}
 
 		return c;
+	}
+
+	// TODO remove after jlm v2 merge
+	public Atom getAtomFromUnicode(char unicode, boolean b) {
+		return convertCharacter(unicode, b);
 	}
 }

@@ -411,9 +411,9 @@ public class SerializeLaTeX {
 
 	private static void checkLaTeX(String string, String string2,
 			BracketsAdapter ad) {
-		TeXFormula tf = new TeXFormula();
-		TeXParser tp = new TeXParser(string, tf);
-		tp.parse();
+		TeXFormula tf = new TeXFormula(string);
+		// TeXParser tp = new TeXParser(string);
+		// tp.parse();
 		Assert.assertEquals(string2,
 				new TeXAtomSerializer(ad).serialize(tf.root));
 	}
@@ -443,8 +443,8 @@ public class SerializeLaTeX {
 			MathFormula mf = parser2.parse(input);
 			Assert.assertNotNull(mf);
 			String tex = TeXSerializer.serialize(mf.getRootComponent());
-			TeXFormula tf = new TeXFormula();
-			TeXParser tp = new TeXParser(tex, tf);
+			// TeXFormula tf = new TeXFormula();
+			TeXParser tp = new TeXParser(tex);
 			tp.parse();
 			return mf;
 		} catch (Exception e) {

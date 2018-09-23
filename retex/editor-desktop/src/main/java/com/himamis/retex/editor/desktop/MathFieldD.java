@@ -56,7 +56,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
-import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
 
 public class MathFieldD extends JLabel implements MathField {
@@ -78,7 +78,7 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal = new MathFieldInternal(this, false);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
-		mathFieldInternal.setType(TeXFormula.SANSSERIF);
+		mathFieldInternal.setType(TeXFont.SANSSERIF);
 		mathFieldInternal.setSize(36);
 		this.setVerticalAlignment(SwingConstants.TOP);
 		Timer t = new Timer(500, new ActionListener() {

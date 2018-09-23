@@ -13,6 +13,7 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -27,7 +28,7 @@ public class MathFieldController {
 	private TeXSerializer texSerializer;
 
 	private double size = 16;
-	private int type = TeXFormula.SERIF;
+	private int type = TeXFont.SERIF;
 
 	private GraphicsStub graphics;
 	private TeXBuilder texBuilder;

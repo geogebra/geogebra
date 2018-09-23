@@ -60,7 +60,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.TeXParser;
 
 /**
  * <h3>GgbAPI - API for PlugLets</h3>
@@ -1082,9 +1081,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void evalLaTeX(String input, int mode) {
 		app.getDrawEquation().checkFirstCall(app);
-		TeXFormula tf = new TeXFormula();
-		TeXParser tp = new TeXParser(input, tf);
-		tp.parse();
+		TeXFormula tf = new TeXFormula(input);
+		// TeXParser tp = new TeXParser(input, tf);
+		// tp.parse();
 		BracketsAdapter ad = mode == 1 ? new BracketsAdapter() : null;
 		evalCommand(new TeXAtomSerializer(ad).serialize(tf.root));
 	}

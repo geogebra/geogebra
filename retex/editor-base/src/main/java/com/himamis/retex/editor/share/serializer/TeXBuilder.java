@@ -22,7 +22,6 @@ import com.himamis.retex.renderer.share.SelectionAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TeXConstants;
-import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -126,17 +125,29 @@ public class TeXBuilder {
 		return ret;
 	}
 
+	// private Atom newCharAtom(char unicode) {
+	// if (parser == null) {
+	// TeXFormula tf = new TeXFormula();
+	// parser = new TeXParser("", tf);
+	// }
+	// Atom ret = parser.convertCharacter(unicode, false);
+	// if (ret instanceof SymbolAtom) {
+	// ret = ret.duplicate();
+	// }
+	// return ret;
+	// }
+
 	private Atom newCharAtom(char unicode) {
 		if (parser == null) {
-			TeXFormula tf = new TeXFormula();
-			parser = new TeXParser("", tf);
+			parser = new TeXParser("");
 		}
-		Atom ret = parser.convertCharacter(unicode, false);
+		Atom ret = parser.getAtomFromUnicode(unicode, false);
 		if (ret instanceof SymbolAtom) {
 			ret = ret.duplicate();
 		}
 		return ret;
 	}
+
 
 	private Atom space() {
 		return new SpaceAtom();
@@ -171,8 +182,10 @@ public class TeXBuilder {
 			addArg(row, argument.getArgument(i));
 		}
 		return new FencedAtom(row,
-				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING, true),
-				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING, true));
+				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING,
+						true),
+				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING,
+						true));
 	}
 
 	private Atom buildFunction(MathFunction argument) {
