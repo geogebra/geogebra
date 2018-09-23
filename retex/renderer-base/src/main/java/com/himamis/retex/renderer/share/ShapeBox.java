@@ -45,53 +45,52 @@
 
 package com.himamis.retex.renderer.share;
 
-
 import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
- * Responsible for creating a box containing a delimiter symbol that exists
- * in different sizes.
+ * Responsible for creating a box containing a delimiter symbol that exists in
+ * different sizes.
  */
 public class ShapeBox extends Box {
 
-    private Shape shape;
+	private Shape shape;
 
-    public ShapeBox(final Shape shape) {
-        this.shape = shape;
+	public ShapeBox(final Shape shape) {
+		this.shape = shape;
 		final Rectangle2D rect = shape.getBounds2DX();
-        this.height = rect.getHeight();
-        this.depth = 0.;
-        this.width = rect.getWidth();
-    }
+		this.height = rect.getHeight();
+		this.depth = 0.;
+		this.width = rect.getWidth();
+	}
 
 	public void draw(Graphics2DInterface g2, double x, double y) {
-        startDraw(g2, x, y);
-        g2.translate(x, y);
-        g2.fill(shape);
-        g2.translate(-x, -y);
-        endDraw(g2);
-    }
+		startDraw(g2, x, y);
+		g2.translate(x, y);
+		g2.fill(shape);
+		g2.translate(-x, -y);
+		endDraw(g2);
+	}
 
-    public int getLastFontId() {
-        return 0;
-    }
+	public int getLastFontId() {
+		return 0;
+	}
 
-    public String toString() {
-        return super.toString();
-    }
+	public String toString() {
+		return super.toString();
+	}
 
-    public static Box create(final Box b) {
-        final Area a = b.getArea();
-        if (a != null) {
-            final ShapeBox sb = new ShapeBox(a);
-            sb.setDepth(b.getDepth());
-            sb.setHeight(b.getHeight());
-            sb.setWidth(b.getWidth());
-            return sb;
-        }
-        return b;
-    }
+	public static Box create(final Box b) {
+		final Area a = b.getArea();
+		if (a != null) {
+			final ShapeBox sb = new ShapeBox(a);
+			sb.setDepth(b.getDepth());
+			sb.setHeight(b.getHeight());
+			sb.setWidth(b.getWidth());
+			return sb;
+		}
+		return b;
+	}
 }

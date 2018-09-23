@@ -48,7 +48,8 @@ package com.himamis.retex.renderer.share;
 import com.himamis.retex.renderer.share.character.Character;
 
 /**
- * An atom representing whitespace. The dimension values can be set using different unit types.
+ * An atom representing whitespace. The dimension values can be set using
+ * different unit types.
  */
 final public class LaTeXAtom extends Atom {
 
@@ -63,29 +64,40 @@ final public class LaTeXAtom extends Atom {
 		env.getTeXFont().setRoman(true);
 		double sc = env.getTeXFont().getScaleFactor();
 
-		TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
+		TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap
+				.get(Character.UnicodeBlock.BASIC_LATIN);
 		if (fontInfos != null) {
-			TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, null);
+			TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN,
+					null);
 		}
-		RowAtom rat = (RowAtom) ((RomanAtom) new TeXFormula("\\mathrm{XETL}").root).base;
+		RowAtom rat = (RowAtom) ((RomanAtom) new TeXFormula(
+				"\\mathrm{XETL}").root).base;
 		if (fontInfos != null) {
-			TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, fontInfos);
+			TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN,
+					fontInfos);
 		}
 
 		HorizontalBox hb = new HorizontalBox(rat.getLastAtom().createBox(env));
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.35f * sc, 0, 0).createBox(env));
-		double f = new SpaceAtom(TeXLength.Unit.EX, 0.45f * sc, 0, 0).createBox(env).getWidth();
-		double f1 = new SpaceAtom(TeXLength.Unit.EX, 0.5f * sc, 0, 0).createBox(env).getWidth();
-		CharBox A = new CharBox(env.getTeXFont().getChar('A', "mathnormal", env.supStyle().getStyle()));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.35f * sc, 0, 0)
+				.createBox(env));
+		double f = new SpaceAtom(TeXLength.Unit.EX, 0.45f * sc, 0, 0)
+				.createBox(env).getWidth();
+		double f1 = new SpaceAtom(TeXLength.Unit.EX, 0.5f * sc, 0, 0)
+				.createBox(env).getWidth();
+		CharBox A = new CharBox(env.getTeXFont().getChar('A', "mathnormal",
+				env.supStyle().getStyle()));
 		A.setShift(-f);
 		hb.add(A);
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0)
+				.createBox(env));
 		hb.add(rat.getLastAtom().createBox(env));
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0)
+				.createBox(env));
 		Box E = rat.getLastAtom().createBox(env);
 		E.setShift(f1);
 		hb.add(E);
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0).createBox(env));
+		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15f * sc, 0, 0)
+				.createBox(env));
 		hb.add(rat.getLastAtom().createBox(env));
 		return hb;
 	}

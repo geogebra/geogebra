@@ -45,9 +45,6 @@
 
 package com.himamis.retex.renderer.share;
 
-
-
-
 /**
  * An empty atom.
  */

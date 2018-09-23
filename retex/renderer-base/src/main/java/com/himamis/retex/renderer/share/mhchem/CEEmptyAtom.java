@@ -56,19 +56,20 @@ import com.himamis.retex.renderer.share.TeXEnvironment;
  */
 public class CEEmptyAtom extends Atom {
 
-    private static CEEmptyAtom instance = new CEEmptyAtom();
+	private static CEEmptyAtom instance = new CEEmptyAtom();
 
-    public CEEmptyAtom() {
-        type = TeXConstants.TYPE_ORDINARY;
-    }
+	public CEEmptyAtom() {
+		type = TeXConstants.TYPE_ORDINARY;
+	}
 
-    public static CEEmptyAtom get() {
-        return instance;
-    }
+	public static CEEmptyAtom get() {
+		return instance;
+	}
 
-    public Box createBox(TeXEnvironment env) {
-        return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0., 0.);
-    }
+	public Box createBox(TeXEnvironment env) {
+		return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0.,
+				0.);
+	}
 
 	@Override
 	public Atom duplicate() {

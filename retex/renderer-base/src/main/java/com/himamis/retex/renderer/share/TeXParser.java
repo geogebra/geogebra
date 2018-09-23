@@ -124,7 +124,6 @@ public class TeXParser {
 
 	protected static boolean isLoading = false;
 
-
 	/**
 	 * Create a new TeXParser
 	 *
@@ -151,7 +150,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(boolean isPartial, String parseString, TeXFormula formula) {
+	public TeXParser(boolean isPartial, String parseString,
+			TeXFormula formula) {
 		this(parseString, formula, false);
 		this.isPartial = isPartial;
 		firstpass();
@@ -172,7 +172,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(boolean isPartial, String parseString, TeXFormula formula, boolean firstpass) {
+	public TeXParser(boolean isPartial, String parseString, TeXFormula formula,
+			boolean firstpass) {
 		this.formula = formula;
 		this.isPartial = isPartial;
 		if (parseString != null) {
@@ -202,7 +203,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(String parseString, TeXFormula formula, boolean firstpass) {
+	public TeXParser(String parseString, TeXFormula formula,
+			boolean firstpass) {
 		this(false, parseString, formula, firstpass);
 	}
 
@@ -223,7 +225,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa, boolean firstpass) {
+	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa,
+			boolean firstpass) {
 		this(isPartial, parseString, (TeXFormula) aoa, firstpass);
 		arrayMode = true;
 	}
@@ -248,7 +251,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa, boolean firstpass, boolean space) {
+	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa,
+			boolean firstpass, boolean space) {
 		this(isPartial, parseString, (TeXFormula) aoa, firstpass, space);
 		arrayMode = true;
 	}
@@ -291,7 +295,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(boolean isPartial, String parseString, TeXFormula formula, boolean firstpass, boolean space) {
+	public TeXParser(boolean isPartial, String parseString, TeXFormula formula,
+			boolean firstpass, boolean space) {
 		this(isPartial, parseString, formula, firstpass);
 		this.ignoreWhiteSpace = space;
 	}
@@ -313,7 +318,8 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(String parseString, TeXFormula formula, boolean firstpass, boolean space) {
+	public TeXParser(String parseString, TeXFormula formula, boolean firstpass,
+			boolean space) {
 		this(false, parseString, formula, firstpass);
 		this.ignoreWhiteSpace = space;
 	}
@@ -503,7 +509,8 @@ public class TeXParser {
 				case ESCAPE:
 					spos = pos;
 					com = getCommand();
-					if ("newcommand".equals(com) || "renewcommand".equals(com)) {
+					if ("newcommand".equals(com)
+							|| "renewcommand".equals(com)) {
 						args = getOptsArgs(2, 2);
 						mac = MacroInfo.Commands.get(com);
 						try {
@@ -521,7 +528,8 @@ public class TeXParser {
 						args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
 						args[0] = com;
 						try {
-							parseString.replace(spos, pos, (String) mac.invoke(this, args));
+							parseString.replace(spos, pos,
+									(String) mac.invoke(this, args));
 						} catch (ParseException e) {
 							if (!isPartial) {
 								throw e;
@@ -535,14 +543,19 @@ public class TeXParser {
 						mac = MacroInfo.Commands.get(args[1] + "@env");
 						if (mac == null) {
 							if (!isPartial) {
-								throw new ParseException("Unknown environment: " + args[1] + " at position " + getLine()
+								throw new ParseException("Unknown environment: "
+										+ args[1] + " at position " + getLine()
 										+ ":" + getCol());
 							}
 						} else {
 							try {
-								String[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
-								String grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
-								String expr = "{\\makeatletter \\" + args[1] + "@env";
+								String[] optarg = getOptsArgs(mac.nbArgs - 1,
+										0);
+								String grp = getGroup(
+										"\\begin{" + args[1] + "}",
+										"\\end{" + args[1] + "}");
+								String expr = "{\\makeatletter \\" + args[1]
+										+ "@env";
 								for (int i = 1; i <= mac.nbArgs - 1; i++) {
 									expr += "{" + optarg[i] + "}";
 								}
@@ -579,7 +592,8 @@ public class TeXParser {
 					pos = spos;
 					break;
 				case DEGREE:
-					// surround in {} so that it works if there's a following character
+					// surround in {} so that it works if there's a following
+					// character
 					parseString.replace(pos, pos + 1, "^{\\circ}");
 					len = parseString.length();
 					pos++;
@@ -846,8 +860,8 @@ public class TeXParser {
 					group--;
 					pos++;
 					if (group == -1) {
-						throw new ParseException(
-								"Found a closing '" + R_GROUP + "' without an opening '" + L_GROUP + "'!");
+						throw new ParseException("Found a closing '" + R_GROUP
+								+ "' without an opening '" + L_GROUP + "'!");
 					}
 					return;
 				case SUPER_SCRIPT:
@@ -863,14 +877,16 @@ public class TeXParser {
 					break;
 				case '&':
 					if (!arrayMode) {
-						throw new ParseException("Character '&' is only available in array mode !");
+						throw new ParseException(
+								"Character '&' is only available in array mode !");
 					}
 					((ArrayOfAtoms) formula).addCol();
 					pos++;
 					break;
 				case PRIME:
 					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.get("prime")));
+						formula.add(new CumulativeScriptsAtom(getLastAtom(),
+								null, SymbolAtom.get("prime")));
 					} else {
 						formula.add(convertCharacter(PRIME, true));
 					}
@@ -878,7 +894,8 @@ public class TeXParser {
 					break;
 				case BACKPRIME:
 					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.get("backprime")));
+						formula.add(new CumulativeScriptsAtom(getLastAtom(),
+								null, SymbolAtom.get("backprime")));
 					} else {
 						formula.add(convertCharacter(BACKPRIME, true));
 					}
@@ -886,8 +903,10 @@ public class TeXParser {
 					break;
 				case DQUOTE:
 					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.get("prime")));
-						formula.add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.get("prime")));
+						formula.add(new CumulativeScriptsAtom(getLastAtom(),
+								null, SymbolAtom.get("prime")));
+						formula.add(new CumulativeScriptsAtom(getLastAtom(),
+								null, SymbolAtom.get("prime")));
 					} else {
 						formula.add(convertCharacter(PRIME, true));
 						formula.add(convertCharacter(PRIME, true));
@@ -1061,7 +1080,8 @@ public class TeXParser {
 					buf.append(' ');
 				}
 				c = parseString.charAt(--pos);
-				if (isValidCharacterInCommand(prev) && isValidCharacterInCommand(c)) {
+				if (isValidCharacterInCommand(prev)
+						&& isValidCharacterInCommand(c)) {
 					oc = cc = 0;
 				}
 			}
@@ -1117,7 +1137,8 @@ public class TeXParser {
 			if (isPartial) {
 				return buf.toString();
 			}
-			throw new ParseException("The token " + open + " must be closed by " + close);
+			throw new ParseException(
+					"The token " + open + " must be closed by " + close);
 		}
 
 		return buf.substring(0, buf.length() - pos + startC);
@@ -1201,11 +1222,12 @@ public class TeXParser {
 				 * if a \\ or a \cr is encountered at the same level as \over we
 				 * must break the argument
 				 */
-				if (pos < len && parseString.charAt(pos) == '\\' && ogroup == 1) {
+				if (pos < len && parseString.charAt(pos) == '\\'
+						&& ogroup == 1) {
 					ogroup--;
 					pos--;
-				} else if (pos < len - 1 && parseString.charAt(pos) == 'c' && parseString.charAt(pos + 1) == 'r'
-						&& ogroup == 1) {
+				} else if (pos < len - 1 && parseString.charAt(pos) == 'c'
+						&& parseString.charAt(pos + 1) == 'r' && ogroup == 1) {
 					ogroup--;
 					pos--;
 				}
@@ -1272,25 +1294,31 @@ public class TeXParser {
 			if (c0 >= 945 && c0 <= 969) {
 				return SymbolAtom.get(TeXFormula.symbolMappings[c0]);
 			} else if (c0 >= 913 && c0 <= 937) {
-				return new TeXFormula(TeXFormula.symbolFormulaMappings[c0]).root;
+				return new TeXFormula(
+						TeXFormula.symbolFormulaMappings[c0]).root;
 			}
 		}
 
 		char c = convertToRomanNumber(c0);
-		if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
+		if (((c < '0' || c > '9') && (c < 'a' || c > 'z')
+				&& (c < 'A' || c > 'Z'))) {
 			Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
 
 			String symbolName = TeXFormula.symbolMappings[c];
-			if (symbolName == null
-					&& (TeXFormula.symbolFormulaMappings == null || TeXFormula.symbolFormulaMappings[c] == null)) {
+			if (symbolName == null && (TeXFormula.symbolFormulaMappings == null
+					|| TeXFormula.symbolFormulaMappings[c] == null)) {
 				TeXFormula.FontInfos fontInfos = null;
-				boolean isLatin = Character.UnicodeBlock.BASIC_LATIN.equals(block);
-				if ((isLatin && TeXFormula.isRegisteredBlock(Character.UnicodeBlock.BASIC_LATIN)) || !isLatin) {
+				boolean isLatin = Character.UnicodeBlock.BASIC_LATIN
+						.equals(block);
+				if ((isLatin && TeXFormula
+						.isRegisteredBlock(Character.UnicodeBlock.BASIC_LATIN))
+						|| !isLatin) {
 					fontInfos = TeXFormula.getExternalFont(block);
 				}
 				if (fontInfos != null) {
 					if (oneChar) {
-						return new JavaFontRenderingAtom(Character.toString(c), fontInfos);
+						return new JavaFontRenderingAtom(Character.toString(c),
+								fontInfos);
 					}
 					int start = pos++;
 					int end = len - 1;
@@ -1302,16 +1330,18 @@ public class TeXParser {
 						}
 						pos++;
 					}
-					return new JavaFontRenderingAtom(parseString.substring(start, end + 1), fontInfos);
+					return new JavaFontRenderingAtom(
+							parseString.substring(start, end + 1), fontInfos);
 				}
 
 				if (!isPartial) {
 					throw new ParseException(
-							"Unknown character : '" + Character.toString(c) + "' (or " + ((int) c) + ")");
+							"Unknown character : '" + Character.toString(c)
+									+ "' (or " + ((int) c) + ")");
 				}
 				return new ColorAtom(new RomanAtom(new TeXFormula(
-						"\\text{(Unknown char " + ((int) c) + ")}").root),
-						null, ColorUtil.RED);
+						"\\text{(Unknown char " + ((int) c) + ")}").root), null,
+						ColorUtil.RED);
 			}
 			if (!ignoreWhiteSpace) {// we are in text mode
 				if (TeXFormula.symbolTextMappings[c] != null) {
@@ -1327,10 +1357,11 @@ public class TeXParser {
 			try {
 				return SymbolAtom.get(symbolName);
 			} catch (SymbolNotFoundException e) {
-				throw new ParseException("The character '"
-						+ Character.toString(c)
-						+ "' was mapped to an unknown symbol with the name '"
-						+ symbolName + "'!", e);
+				throw new ParseException(
+						"The character '" + Character.toString(c)
+								+ "' was mapped to an unknown symbol with the name '"
+								+ symbolName + "'!",
+						e);
 			}
 		}
 		// alphanumeric character
@@ -1345,18 +1376,18 @@ public class TeXParser {
 			int end = len - 1;
 			while (pos < len) {
 				c = parseString.charAt(pos);
-				if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
+				if (((c < '0' || c > '9') && (c < 'a' || c > 'z')
+						&& (c < 'A' || c > 'Z'))) {
 					end = --pos;
 					break;
 				}
 				pos++;
 			}
-			return new JavaFontRenderingAtom(parseString.substring(start,
-					end + 1), fontInfos);
+			return new JavaFontRenderingAtom(
+					parseString.substring(start, end + 1), fontInfos);
 		}
-		return new CharAtom(c, ignoreWhiteSpace,
-				formula.textStyle == null ? TextStyle.NONE
-						: TextStyle.getStyle(formula.textStyle));
+		return new CharAtom(c, ignoreWhiteSpace, formula.textStyle == null
+				? TextStyle.NONE : TextStyle.getStyle(formula.textStyle));
 	}
 
 	private String getCommand() {
@@ -1365,7 +1396,8 @@ public class TeXParser {
 
 		while (pos < len) {
 			ch = parseString.charAt(pos);
-			if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z') && (atIsLetter == 0 || ch != '@')) {
+			if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z')
+					&& (atIsLetter == 0 || ch != '@')) {
 				break;
 			}
 
@@ -1411,7 +1443,9 @@ public class TeXParser {
 
 		// not a valid command or symbol or predefined TeXFormula found
 		if (!isPartial) {
-			throw new ParseException("Unknown symbol or command or predefined TeXFormula: '" + command + "'");
+			throw new ParseException(
+					"Unknown symbol or command or predefined TeXFormula: '"
+							+ command + "'");
 		}
 		return new ColorAtom(
 				new RomanAtom(new TeXFormula("\\backslash " + command).root),
@@ -1587,7 +1621,8 @@ public class TeXParser {
 			int len = com.length();
 			while (pos < len) {
 				c = com.charAt(pos);
-				if (!java.lang.Character.isLetter(c) && (atIsLetter == 0 || c != '@')) {
+				if (!java.lang.Character.isLetter(c)
+						&& (atIsLetter == 0 || c != '@')) {
 					break;
 				}
 				pos++;
@@ -1608,7 +1643,8 @@ public class TeXParser {
 	 * @return the validity of the name
 	 */
 	public final boolean isValidCharacterInCommand(char ch) {
-		return java.lang.Character.isLetter(ch) || (atIsLetter != 0 && ch == '@');
+		return java.lang.Character.isLetter(ch)
+				|| (atIsLetter != 0 && ch == '@');
 	}
 
 	private final void skipWhiteSpace() {

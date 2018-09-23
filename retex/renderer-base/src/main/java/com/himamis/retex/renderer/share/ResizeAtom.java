@@ -63,14 +63,15 @@ public class ResizeAtom extends Atom {
 		ret.base = base;
 		ret.wunit = wunit;
 		ret.hunit = hunit;
-		ret.w=w;
-		ret.h=h;
+		ret.w = w;
+		ret.h = h;
 		ret.keepaspectratio = keepaspectratio;
-		
+
 		return setFields(ret);
 	}
 
-	public ResizeAtom(Atom base, String ws, String hs, boolean keepaspectratio) {
+	public ResizeAtom(Atom base, String ws, String hs,
+			boolean keepaspectratio) {
 		this.type = base.type;
 		this.base = base;
 		this.keepaspectratio = keepaspectratio;

@@ -69,7 +69,8 @@ public class HorizontalRule extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public HorizontalRule(double thickness, double width, double s, boolean trueShift) {
+	public HorizontalRule(double thickness, double width, double s,
+			boolean trueShift) {
 		height = thickness;
 		this.width = width;
 		if (trueShift) {

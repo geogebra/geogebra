@@ -61,7 +61,8 @@ import com.himamis.retex.renderer.share.platform.parser.NodeList;
  */
 public class TeXSymbolParser {
 
-	public static final String RESOURCE_NAME = "TeXSymbols.xml", DELIMITER_ATTR = "del", TYPE_ATTR = "type";
+	public static final String RESOURCE_NAME = "TeXSymbols.xml",
+			DELIMITER_ATTR = "del", TYPE_ATTR = "type";
 
 	private static Map<String, Integer> typeMappings = new HashMap<String, Integer>();
 
@@ -71,9 +72,11 @@ public class TeXSymbolParser {
 		this(new Resource().loadResource(RESOURCE_NAME), RESOURCE_NAME);
 	}
 
-	public TeXSymbolParser(Object file, String name) throws ResourceParseException {
+	public TeXSymbolParser(Object file, String name)
+			throws ResourceParseException {
 		try {
-			root = new ParserAdapter().createParserAndParseFile(file, true, true);
+			root = new ParserAdapter().createParserAndParseFile(file, true,
+					true);
 			// set possible valid symbol type mappings
 			setTypeMappings();
 		} catch (Exception e) { // JDOMException or IOException
@@ -88,19 +91,20 @@ public class TeXSymbolParser {
 		for (int i = 0; i < list.getLength(); i++) {
 			Element symbol = list.item(i).castToElement();
 			// retrieve and check required attributes
-			String name = getAttrValueAndCheckIfNotNull("name", symbol), type = getAttrValueAndCheckIfNotNull(
-					TYPE_ATTR, symbol);
+			String name = getAttrValueAndCheckIfNotNull("name", symbol),
+					type = getAttrValueAndCheckIfNotNull(TYPE_ATTR, symbol);
 			// retrieve optional attribute
 			String del = symbol.getAttribute(DELIMITER_ATTR);
 			boolean isDelimiter = (del != null && "true".equals(del));
 			// check if type is known
 			Object typeVal = typeMappings.get(type);
 			if (typeVal == null) {
-				throw new XMLResourceParseException(RESOURCE_NAME, "Symbol", "type", "has an unknown value '"
-						+ type + "'!");
+				throw new XMLResourceParseException(RESOURCE_NAME, "Symbol",
+						"type", "has an unknown value '" + type + "'!");
 			}
 			// add symbol to the hash table
-			res.put(name, new SymbolAtom(name, ((Integer) typeVal).intValue(), isDelimiter));
+			res.put(name, new SymbolAtom(name, ((Integer) typeVal).intValue(),
+					isDelimiter));
 		}
 		return res;
 	}
@@ -116,11 +120,12 @@ public class TeXSymbolParser {
 		typeMappings.put("acc", TeXConstants.TYPE_ACCENT);
 	}
 
-	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
-			throws ResourceParseException {
+	private static String getAttrValueAndCheckIfNotNull(String attrName,
+			Element element) throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) {
-			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+			throw new XMLResourceParseException(RESOURCE_NAME,
+					element.getTagName(), attrName, null);
 		}
 		return attrValue;
 	}

@@ -49,20 +49,22 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class NewEnvironmentMacro extends NewCommandMacro {
 
-	public static void addNewEnvironment(String name, String begdef, String enddef, int nbArgs)
-			throws ParseException {
+	public static void addNewEnvironment(String name, String begdef,
+			String enddef, int nbArgs) throws ParseException {
 		// if (macrocode.get(name + "@env") != null)
 		// throw new ParseException("Environment " + name +
 		// " already exists ! Use renewenvironment instead ...");
-		addNewCommand(name + "@env", begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
+		addNewCommand(name + "@env",
+				begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
 	}
 
-	public static void addReNewEnvironment(String name, String begdef, String enddef, int nbArgs)
-			throws ParseException {
+	public static void addReNewEnvironment(String name, String begdef,
+			String enddef, int nbArgs) throws ParseException {
 		if (macrocode.get(name + "@env") == null) {
 			throw new ParseException("Environment " + name
 					+ "is not defined ! Use newenvironment instead ...");
 		}
-		addReNewCommand(name + "@env", begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
+		addReNewCommand(name + "@env",
+				begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
 	}
 }

@@ -49,7 +49,8 @@ package com.himamis.retex.renderer.share;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
 /**
- * Represents a character together with its font, font ID and metric information.
+ * Represents a character together with its font, font ID and metric
+ * information.
  */
 public class Char {
 

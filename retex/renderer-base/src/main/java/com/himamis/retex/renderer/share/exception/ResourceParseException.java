@@ -47,7 +47,8 @@
 package com.himamis.retex.renderer.share.exception;
 
 /**
- * Signals that an error occurred while loading the necessary resources into memory.
+ * Signals that an error occurred while loading the necessary resources into
+ * memory.
  */
 @SuppressWarnings("serial")
 public class ResourceParseException extends JMathTeXException {

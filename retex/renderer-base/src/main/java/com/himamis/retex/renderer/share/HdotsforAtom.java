@@ -56,9 +56,9 @@ public class HdotsforAtom extends MulticolumnAtom {
 
 	@Override
 	final public Atom duplicate() {
-		
+
 		HdotsforAtom ret = new HdotsforAtom();
-		
+
 		ret.n = n;
 		ret.align = align;
 		ret.w = w;
@@ -67,7 +67,7 @@ public class HdotsforAtom extends MulticolumnAtom {
 		ret.afterVlines = afterVlines;
 		ret.row = row;
 		ret.col = col;
-		
+
 		ret.coeff = coeff;
 
 		return setFields(ret);

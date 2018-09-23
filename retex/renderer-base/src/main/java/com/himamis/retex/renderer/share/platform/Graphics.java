@@ -68,7 +68,8 @@ public class Graphics {
 		return createColor(red, green, blue);
 	}
 
-	public BasicStroke createBasicStroke(double width, int cap, int join, double miterLimit) {
+	public BasicStroke createBasicStroke(double width, int cap, int join,
+			double miterLimit) {
 		return graphicsFactory.createBasicStroke(width, cap, join, miterLimit);
 	}
 

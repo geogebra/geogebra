@@ -50,13 +50,13 @@ public abstract class GraphicsFactory {
 	static public int CURSOR_GREEN = 66;
 	static public int CURSOR_BLUE = 161;
 
+	public abstract BasicStroke createBasicStroke(double width, int cap,
+			int join, double miterLimit);
 
-	public abstract BasicStroke createBasicStroke(double width, int cap, int join, double miterLimit);
-	
 	public abstract Color createColor(int red, int green, int blue);
 
 	public abstract Image createImage(int width, int height, int type);
-	
+
 	public abstract Transform createTransform();
 
 	public Image createImage(String path) {
@@ -64,5 +64,5 @@ public abstract class GraphicsFactory {
 		// for \includegraphcs
 		return null;
 	}
-	
+
 }

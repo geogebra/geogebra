@@ -17,161 +17,165 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class GraphicsStub implements Graphics2DInterface {
 
-    private Stroke stroke;
-    private Color color;
-    private Font font;
-    private List<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform> transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
-    private com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform currentTransform;
+	private Stroke stroke;
+	private Color color;
+	private Font font;
+	private List<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform> transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
+	private com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform currentTransform;
 
-    public GraphicsStub() {
-        transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
-        reset();
-    }
+	public GraphicsStub() {
+		transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
+		reset();
+	}
 
-    public void reset() {
-        transformList.clear();
-        currentTransform = new com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform();
-        font = new FontStub();
-        color = new ColorStub();
-        stroke = new StrokeStub();
-    }
+	public void reset() {
+		transformList.clear();
+		currentTransform = new com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform();
+		font = new FontStub();
+		color = new ColorStub();
+		stroke = new StrokeStub();
+	}
 
-    @Override
-    public void setStroke(Stroke stroke) {
-        this.stroke = stroke;
-    }
+	@Override
+	public void setStroke(Stroke stroke) {
+		this.stroke = stroke;
+	}
 
-    @Override
-    public Stroke getStroke() {
-        return stroke;
-    }
+	@Override
+	public Stroke getStroke() {
+		return stroke;
+	}
 
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
-    }
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
+	}
 
-    @Override
-    public Color getColor() {
-        return color;
-    }
+	@Override
+	public Color getColor() {
+		return color;
+	}
 
-    @Override
-    public Transform getTransform() {
-        return currentTransform;
-    }
+	@Override
+	public Transform getTransform() {
+		return currentTransform;
+	}
 
-    @Override
-    public void saveTransformation() {
-        transformList.add((com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform) currentTransform.createClone());
-    }
+	@Override
+	public void saveTransformation() {
+		transformList
+				.add((com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform) currentTransform
+						.createClone());
+	}
 
-    @Override
-    public void restoreTransformation() {
-        if (transformList.size() > 0) {
-            currentTransform = transformList.remove(transformList.size() - 1);
-        }
-    }
+	@Override
+	public void restoreTransformation() {
+		if (transformList.size() > 0) {
+			currentTransform = transformList.remove(transformList.size() - 1);
+		}
+	}
 
-    @Override
-    public Font getFont() {
-        return font;
-    }
+	@Override
+	public Font getFont() {
+		return font;
+	}
 
-    @Override
-    public void setFont(Font font) {
-        this.font = font;
-    }
+	@Override
+	public void setFont(Font font) {
+		this.font = font;
+	}
 
-    @Override
-    public void fillRect(int x, int y, int width, int height) {
-        // stub
-    }
+	@Override
+	public void fillRect(int x, int y, int width, int height) {
+		// stub
+	}
 
-    @Override
+	@Override
 	public void fill(Shape rectangle) {
-        // stub
-    }
+		// stub
+	}
 
-    @Override
-    public void draw(Rectangle2D rectangle) {
-        // stub
-    }
+	@Override
+	public void draw(Rectangle2D rectangle) {
+		// stub
+	}
 
-    @Override
-    public void draw(RoundRectangle2D rectangle) {
-        // stub
-    }
+	@Override
+	public void draw(RoundRectangle2D rectangle) {
+		// stub
+	}
 
-    @Override
-    public void draw(Line2D line) {
-        // stub
-    }
+	@Override
+	public void draw(Line2D line) {
+		// stub
+	}
 
-    @Override
-    public void drawChars(char[] data, int offset, int length, int x, int y) {
-        // stub
-    }
+	@Override
+	public void drawChars(char[] data, int offset, int length, int x, int y) {
+		// stub
+	}
 
-    @Override
-    public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
-        // stub
-    }
+	@Override
+	public void drawArc(int x, int y, int width, int height, int startAngle,
+			int arcAngle) {
+		// stub
+	}
 
-    @Override
-    public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
-        // stub
-    }
+	@Override
+	public void fillArc(int x, int y, int width, int height, int startAngle,
+			int arcAngle) {
+		// stub
+	}
 
-    @Override
-    public void translate(double x, double y) {
-        currentTransform.translate(x, y);
-    }
+	@Override
+	public void translate(double x, double y) {
+		currentTransform.translate(x, y);
+	}
 
-    @Override
-    public void scale(double x, double y) {
-        currentTransform.scale(x, y);
-    }
+	@Override
+	public void scale(double x, double y) {
+		currentTransform.scale(x, y);
+	}
 
-    @Override
-    public void rotate(double theta, double x, double y) {
-        currentTransform.rotate(theta, x, y);
-    }
+	@Override
+	public void rotate(double theta, double x, double y) {
+		currentTransform.rotate(theta, x, y);
+	}
 
-    @Override
-    public void rotate(double theta) {
-        currentTransform.rotate(theta);
-    }
+	@Override
+	public void rotate(double theta) {
+		currentTransform.rotate(theta);
+	}
 
-    @Override
-    public void drawImage(Image image, int x, int y) {
-        // stub
-    }
+	@Override
+	public void drawImage(Image image, int x, int y) {
+		// stub
+	}
 
-    @Override
-    public void drawImage(Image image, Transform transform) {
-        // stub
-    }
+	@Override
+	public void drawImage(Image image, Transform transform) {
+		// stub
+	}
 
-    @Override
-    public FontRenderContext getFontRenderContext() {
-        // stub
-        return null;
-    }
+	@Override
+	public FontRenderContext getFontRenderContext() {
+		// stub
+		return null;
+	}
 
-    @Override
-    public void setRenderingHint(int key, int value) {
-        // stub
-    }
+	@Override
+	public void setRenderingHint(int key, int value) {
+		// stub
+	}
 
-    @Override
-    public int getRenderingHint(int key) {
-        // stub
-        return 0;
-    }
+	@Override
+	public int getRenderingHint(int key) {
+		// stub
+		return 0;
+	}
 
-    @Override
-    public void dispose() {
-        // stub
-    }
+	@Override
+	public void dispose() {
+		// stub
+	}
 }

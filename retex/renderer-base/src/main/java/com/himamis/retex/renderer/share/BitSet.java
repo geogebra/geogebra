@@ -56,7 +56,8 @@ public class BitSet {
 	/**
 	 * Sets the bit indexed at bitIndex to 1.
 	 * 
-	 * @param bitIndex the bit index to set to 1
+	 * @param bitIndex
+	 *            the bit index to set to 1
 	 */
 	public void setBit(int bitIndex) {
 		bitSet |= (1 << bitIndex);
@@ -64,7 +65,8 @@ public class BitSet {
 
 	/**
 	 * 
-	 * @param bitIndex index of the bit
+	 * @param bitIndex
+	 *            index of the bit
 	 * @return true if the bit is set to 1, false otherwise
 	 */
 	public boolean getBit(int bitIndex) {

@@ -59,7 +59,8 @@ public class Geom {
 		geomFactory = FactoryProvider.getInstance().getGeomFactory();
 	}
 
-	public Rectangle2D createRectangle2D(double x, double y, double w, double h) {
+	public Rectangle2D createRectangle2D(double x, double y, double w,
+			double h) {
 		return geomFactory.createRectangle2D(x, y, w, h);
 	}
 
@@ -71,8 +72,8 @@ public class Geom {
 		return geomFactory.createLine2D(0, 0, 0, 0);
 	}
 
-	public RoundRectangle2D createRoundRectangle2D(double x, double y, double w, double h, double arcw,
-			double arch) {
+	public RoundRectangle2D createRoundRectangle2D(double x, double y, double w,
+			double h, double arcw, double arch) {
 		return geomFactory.createRoundRectangle2D(x, y, w, h, arcw, arch);
 	}
 

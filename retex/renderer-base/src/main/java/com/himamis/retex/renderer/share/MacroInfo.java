@@ -51,7 +51,8 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class MacroInfo {
 
-	public static HashMap<String, MacroInfo> Commands = new HashMap<String, MacroInfo>(300);
+	public static HashMap<String, MacroInfo> Commands = new HashMap<String, MacroInfo>(
+			300);
 	public static HashMap<String, Object> Packages = new HashMap<String, Object>();
 
 	public int nbArgs;
@@ -78,15 +79,17 @@ public class MacroInfo {
 		this(null, nbArgs);
 	}
 
-	public Object invoke(final TeXParser tp, final String[] args) throws ParseException {
+	public Object invoke(final TeXParser tp, final String[] args)
+			throws ParseException {
 		try {
-			
-			return macro.executeMacro(tp,  args);
-			
+
+			return macro.executeMacro(tp, args);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ParseException("Problem with command " + args[0] + " at position " + tp.getLine() + ":"
-					+ tp.getCol() + "\n" + e.getMessage());
+			throw new ParseException("Problem with command " + args[0]
+					+ " at position " + tp.getLine() + ":" + tp.getCol() + "\n"
+					+ e.getMessage());
 		}
 	}
 }

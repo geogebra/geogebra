@@ -61,8 +61,9 @@ public interface Graphics2DInterface {
 	public Color getColor();
 
 	public Transform getTransform();
-	
+
 	public void saveTransformation();
+
 	public void restoreTransformation();
 
 	public Font getFont();
@@ -74,7 +75,7 @@ public interface Graphics2DInterface {
 	public void fill(Shape rectangle);
 
 	public void draw(Rectangle2D rectangle);
-	
+
 	public void draw(RoundRectangle2D rectangle);
 
 	public void draw(Line2D line);
@@ -83,7 +84,7 @@ public interface Graphics2DInterface {
 
 	public void drawArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle);
-	
+
 	public void fillArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle);
 
@@ -92,17 +93,17 @@ public interface Graphics2DInterface {
 	public void scale(double x, double y);
 
 	public void rotate(double theta, double x, double y);
-	
+
 	public void rotate(double theta);
 
 	public void drawImage(Image image, int x, int y);
-	
+
 	public void drawImage(Image image, Transform transform);
 
 	public FontRenderContext getFontRenderContext();
-	
+
 	public void setRenderingHint(int key, int value);
-	
+
 	public int getRenderingHint(int key);
 
 	public void dispose();

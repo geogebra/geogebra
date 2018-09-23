@@ -47,5 +47,5 @@ package com.himamis.retex.renderer.share;
 
 public interface Substitution {
 
-    Atom get(Atom a);
+	Atom get(Atom a);
 }

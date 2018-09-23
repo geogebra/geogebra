@@ -50,26 +50,27 @@ import com.himamis.retex.renderer.share.platform.parser.ParserFactory;
 import com.himamis.retex.renderer.share.platform.resources.ResourceLoaderFactory;
 
 public abstract class FactoryProvider {
-	
+
 	private static FactoryProvider INSTANCE;
-	
+
 	private GeomFactory geomFactory;
 	private FontFactory fontFactory;
 	private GraphicsFactory graphicsFactory;
 	private ParserFactory parserFactory;
 	private ResourceLoaderFactory resourceLoaderFactory;
-	
+
 	protected abstract GeomFactory createGeomFactory();
-	
+
 	protected abstract FontFactory createFontFactory();
-	
+
 	protected abstract GraphicsFactory createGraphicsFactory();
-	
+
 	protected abstract ParserFactory createParserFactory();
-	
+
 	protected abstract ResourceLoaderFactory createResourceLoaderFactory();
-	
-	protected FactoryProvider() { }
+
+	protected FactoryProvider() {
+	}
 
 	public GeomFactory getGeomFactory() {
 		if (geomFactory == null) {
@@ -91,7 +92,7 @@ public abstract class FactoryProvider {
 		}
 		return graphicsFactory;
 	}
-	
+
 	public ParserFactory getParserFactory() {
 		if (parserFactory == null) {
 			parserFactory = createParserFactory();

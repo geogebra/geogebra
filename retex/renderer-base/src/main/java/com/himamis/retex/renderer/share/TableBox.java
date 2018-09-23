@@ -23,6 +23,7 @@ public class TableBox extends Box {
 		this.height = content.height;
 		this.depth = content.depth;
 	}
+
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		if (rectangles != null) {
@@ -36,8 +37,7 @@ public class TableBox extends Box {
 				Rectangle2D rectangleI = rectangles.get(i);
 				Rectangle2D rect = FactoryProvider.getInstance()
 						.getGeomFactory()
-						.createRectangle2D(
-								rectangleI.getX() + x,
+						.createRectangle2D(rectangleI.getX() + x,
 								rectangleI.getY() + y - (height + depth) / 2,
 								rectangleI.getWidth(), rectangleI.getHeight());
 				g2.fill(rect);

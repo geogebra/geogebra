@@ -47,8 +47,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * An atom representing another atom vertically centered with respect to the axis (determined by a
- * general TeXFont parameter)
+ * An atom representing another atom vertically centered with respect to the
+ * axis (determined by a general TeXFont parameter)
  */
 public class VCenteredAtom extends Atom {
 
@@ -68,7 +68,8 @@ public class VCenteredAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		Box b = atom.createBox(env);
 
-		double total = b.getHeight() + b.getDepth(), axis = env.getTeXFont().getAxisHeight(env.getStyle());
+		double total = b.getHeight() + b.getDepth(),
+				axis = env.getTeXFont().getAxisHeight(env.getStyle());
 
 		// center on axis
 		b.setShift(-(total / 2) - axis);

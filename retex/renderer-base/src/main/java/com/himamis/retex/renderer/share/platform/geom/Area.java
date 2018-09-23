@@ -10,6 +10,4 @@ public interface Area extends Shape {
 
 	void translate(double d, double e);
 
-
-
 }

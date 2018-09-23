@@ -9,20 +9,20 @@ import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class FontStub implements Font {
 
-    @Override
-    public Font deriveFont(Map<TextAttribute, Object> map) {
-        return this;
-    }
+	@Override
+	public Font deriveFont(Map<TextAttribute, Object> map) {
+		return this;
+	}
 
-    @Override
-    public Font deriveFont(int type) {
-        return this;
-    }
+	@Override
+	public Font deriveFont(int type) {
+		return this;
+	}
 
-    @Override
-    public boolean isEqual(Font f) {
-        return false;
-    }
+	@Override
+	public boolean isEqual(Font f) {
+		return false;
+	}
 
 	@Override
 	public int getScale() {
@@ -34,9 +34,9 @@ public class FontStub implements Font {
 		return null;
 	}
 
-    @Override
-    public boolean canDisplay(char ch) {
-        return true;
-    }
+	@Override
+	public boolean canDisplay(char ch) {
+		return true;
+	}
 
 }

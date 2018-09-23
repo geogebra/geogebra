@@ -63,7 +63,8 @@ public class FcscoreBox extends Box {
 
 	private Line2D line;
 
-	public FcscoreBox(int N, double h, double thickness, double space, boolean strike) {
+	public FcscoreBox(int N, double h, double thickness, double space,
+			boolean strike) {
 		this.N = N;
 		this.width = N * (thickness + space) + 2 * space;
 		this.height = h;
@@ -85,15 +86,16 @@ public class FcscoreBox extends Box {
 		final double sy = transf.getScaleY();
 		double s = 1;
 		if (sx == sy) {
-			// There are rounding problems due to scale factor: lines could have different
+			// There are rounding problems due to scale factor: lines could have
+			// different
 			// spacing...
 			// So the increment (space+thickness) is done in using integer.
 			s = sx;
 			g2.scale(1 / sx, 1 / sy);
 		}
-		
-		g2.setStroke(graphics.createBasicStroke((s * thickness), BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER));
+
+		g2.setStroke(graphics.createBasicStroke((s * thickness),
+				BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		double th = thickness / 2.0;
 		double xx = x + space;
 		xx = (xx * s + (space / 2.0) * s);
@@ -107,7 +109,8 @@ public class FcscoreBox extends Box {
 
 		if (strike) {
 
-			line.setLine((x + space) * s, (y - height / 2.f) * s, xx - s * space / 2, (y - height / 2.f) * s);
+			line.setLine((x + space) * s, (y - height / 2.f) * s,
+					xx - s * space / 2, (y - height / 2.f) * s);
 			g2.draw(line);
 		}
 

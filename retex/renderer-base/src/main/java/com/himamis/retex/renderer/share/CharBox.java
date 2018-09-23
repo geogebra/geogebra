@@ -66,9 +66,11 @@ public class CharBox extends Box {
 	private final char[] arr = new char[1];
 
 	/**
-	 * Create a new CharBox that will represent the character defined by the given Char-object.
+	 * Create a new CharBox that will represent the character defined by the
+	 * given Char-object.
 	 * 
-	 * @param c a Char-object containing the character's font information.
+	 * @param c
+	 *            a Char-object containing the character's font information.
 	 */
 	public CharBox(Char c) {
 		cf = c.getCharFont();
@@ -90,7 +92,7 @@ public class CharBox extends Box {
 		g2.saveTransformation();
 		g2.translate(x, y);
 		Font font = FontInfo.getFont(cf.fontId);
-		
+
 		// https://github.com/opencollab/jlatexmath/issues/32
 		int fontScale = font.getScale();
 

@@ -49,7 +49,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * An atom representing a "big operator" (or an atom that acts as one) together with its limits.
+ * An atom representing a "big operator" (or an atom that acts as one) together
+ * with its limits.
  */
 public class BigOperatorAtom extends Atom {
 
@@ -68,16 +69,20 @@ public class BigOperatorAtom extends Atom {
 
 	@Override
 	final public Atom duplicate() {
-		return setFields(new BigOperatorAtom(base, under, over, limits, limitsSet));
+		return setFields(
+				new BigOperatorAtom(base, under, over, limits, limitsSet));
 	}
 
 	/**
-	 * Creates a new BigOperatorAtom from the given atoms. The default rules the positioning of the
-	 * limits will be applied.
+	 * Creates a new BigOperatorAtom from the given atoms. The default rules the
+	 * positioning of the limits will be applied.
 	 *
-	 * @param base atom representing the big operator
-	 * @param under atom representing the under limit
-	 * @param over atom representing the over limit
+	 * @param base
+	 *            atom representing the big operator
+	 * @param under
+	 *            atom representing the under limit
+	 * @param over
+	 *            atom representing the over limit
 	 */
 	public BigOperatorAtom(Atom base, Atom under, Atom over) {
 		this.base = base;
@@ -87,13 +92,18 @@ public class BigOperatorAtom extends Atom {
 	}
 
 	/**
-	 * Creates a new BigOperatorAtom from the given atoms. Limits will be drawn according to the
-	 * "limits"-value
+	 * Creates a new BigOperatorAtom from the given atoms. Limits will be drawn
+	 * according to the "limits"-value
 	 *
-	 * @param base atom representing the big operator
-	 * @param under atom representing the under limit
-	 * @param over atom representing the over limit
-	 * @param limits whether limits should be drawn over and under the base (&lt;-&gt; as scripts)
+	 * @param base
+	 *            atom representing the big operator
+	 * @param under
+	 *            atom representing the under limit
+	 * @param over
+	 *            atom representing the over limit
+	 * @param limits
+	 *            whether limits should be drawn over and under the base
+	 *            (&lt;-&gt; as scripts)
 	 */
 	public BigOperatorAtom(Atom base, Atom under, Atom over, boolean limits) {
 		this(base, under, over);
@@ -101,7 +111,8 @@ public class BigOperatorAtom extends Atom {
 		limitsSet = true;
 	}
 
-	private BigOperatorAtom(Atom base, Atom under, Atom over, boolean limits, boolean limitsSet) {
+	private BigOperatorAtom(Atom base, Atom under, Atom over, boolean limits,
+			boolean limitsSet) {
 		this(base, under, over, limits);
 		this.limitsSet = limitsSet;
 	}
@@ -127,10 +138,13 @@ public class BigOperatorAtom extends Atom {
 			}
 		}
 
-		if ((limitsSet && !limits) || (!limitsSet && style >= TeXConstants.STYLE_TEXT)
+		if ((limitsSet && !limits)
+				|| (!limitsSet && style >= TeXConstants.STYLE_TEXT)
 				|| (base.type_limits == TeXConstants.SCRIPT_NOLIMITS)
-				|| (base.type_limits == TeXConstants.SCRIPT_NORMAL && style >= TeXConstants.STYLE_TEXT)) {
-			// if explicitly set to not display as limits or if not set and style
+				|| (base.type_limits == TeXConstants.SCRIPT_NORMAL
+						&& style >= TeXConstants.STYLE_TEXT)) {
+			// if explicitly set to not display as limits or if not set and
+			// style
 			// is not display, then attach over and under as regular sub- en
 			// superscript
 			if (bbase != null) {

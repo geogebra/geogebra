@@ -49,7 +49,8 @@ package com.himamis.retex.renderer.share.exception;
 import com.himamis.retex.renderer.share.TeXSymbolParser;
 
 /**
- * Signals that a symbol, that was not defined as a delimiter, was used as a delimiter.
+ * Signals that a symbol, that was not defined as a delimiter, was used as a
+ * delimiter.
  * 
  * @author Kurt Vermeulen
  */
@@ -57,13 +58,17 @@ import com.himamis.retex.renderer.share.TeXSymbolParser;
 public class InvalidDelimiterException extends JMathTeXException {
 
 	public InvalidDelimiterException(String symbolName) {
-		super("The symbol with the name '" + symbolName + "' is not defined as a delimiter ("
-				+ TeXSymbolParser.DELIMITER_ATTR + "='true') in '" + TeXSymbolParser.RESOURCE_NAME + "'!");
+		super("The symbol with the name '" + symbolName
+				+ "' is not defined as a delimiter ("
+				+ TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
+				+ TeXSymbolParser.RESOURCE_NAME + "'!");
 	}
 
 	protected InvalidDelimiterException(char ch, String symbolName) {
-		super("The character '" + ch + "' is mapped to a symbol with the name '" + symbolName
-				+ "', but that symbol is not defined as a delimiter (" + TeXSymbolParser.DELIMITER_ATTR
-				+ "='true') in '" + TeXSymbolParser.RESOURCE_NAME + "'!");
+		super("The character '" + ch + "' is mapped to a symbol with the name '"
+				+ symbolName
+				+ "', but that symbol is not defined as a delimiter ("
+				+ TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
+				+ TeXSymbolParser.RESOURCE_NAME + "'!");
 	}
 }

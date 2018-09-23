@@ -56,11 +56,11 @@ public class SmashedAtom extends Atom {
 	@Override
 	final public Atom duplicate() {
 		SmashedAtom ret = new SmashedAtom();
-		
+
 		ret.at = at;
 		ret.h = h;
 		ret.d = d;
-		
+
 		return setFields(ret);
 	}
 

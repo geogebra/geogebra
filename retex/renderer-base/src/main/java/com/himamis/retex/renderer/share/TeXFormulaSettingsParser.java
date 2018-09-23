@@ -67,32 +67,40 @@ public class TeXFormulaSettingsParser {
 		this(new Resource().loadResource(RESOURCE_NAME), RESOURCE_NAME);
 	}
 
-	public TeXFormulaSettingsParser(Object file, String name) throws ResourceParseException {
+	public TeXFormulaSettingsParser(Object file, String name)
+			throws ResourceParseException {
 		try {
-			root = new ParserAdapter().createParserAndParseFile(file, true, true);
+			root = new ParserAdapter().createParserAndParseFile(file, true,
+					true);
 		} catch (Exception e) { // JDOMException or IOException
 			throw new XMLResourceParseException(name, e);
 		}
 	}
 
-	public void parseSymbolToFormulaMappings(String[] mappings, String[] textMappings)
-			throws ResourceParseException {
-		Element charToSymbol = root.getElementsByTagName("CharacterToFormulaMappings").item(0)
+	public void parseSymbolToFormulaMappings(String[] mappings,
+			String[] textMappings) throws ResourceParseException {
+		Element charToSymbol = root
+				.getElementsByTagName("CharacterToFormulaMappings").item(0)
 				.castToElement();
 		if (!charToSymbol.isNull()) {
-			addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
+			addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings,
+					textMappings);
 		}
 	}
 
-	public void parseSymbolMappings(String[] mappings, String[] textMappings) throws ResourceParseException {
-		Element charToSymbol = root.getElementsByTagName("CharacterToSymbolMappings").item(0).castToElement();
-		if (!charToSymbol.isNull()) {
-			addToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
-		}
-	}
-
-	private static void addToMap(NodeList mapList, String[] tableMath, String[] tableText)
+	public void parseSymbolMappings(String[] mappings, String[] textMappings)
 			throws ResourceParseException {
+		Element charToSymbol = root
+				.getElementsByTagName("CharacterToSymbolMappings").item(0)
+				.castToElement();
+		if (!charToSymbol.isNull()) {
+			addToMap(charToSymbol.getElementsByTagName("Map"), mappings,
+					textMappings);
+		}
+	}
+
+	private static void addToMap(NodeList mapList, String[] tableMath,
+			String[] tableText) throws ResourceParseException {
 		for (int i = 0; i < mapList.getLength(); i++) {
 			Element map = mapList.item(i).castToElement();
 			String ch = map.getAttribute("char");
@@ -100,16 +108,19 @@ public class TeXFormulaSettingsParser {
 			String text = map.getAttribute("text");
 			// both attributes are required!
 			if ("".equals(ch)) {
-				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", null);
+				throw new XMLResourceParseException(RESOURCE_NAME,
+						map.getTagName(), "char", null);
 			} else if ("".equals(symbol)) {
-				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "symbol", null);
+				throw new XMLResourceParseException(RESOURCE_NAME,
+						map.getTagName(), "symbol", null);
 			}
 
 			if (ch.length() == 1) {// valid element found
 				tableMath[ch.charAt(0)] = symbol;
 			} else {
 				// only single-character mappings allowed, ignore others
-				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char",
+				throw new XMLResourceParseException(RESOURCE_NAME,
+						map.getTagName(), "char",
 						"must have a value that contains exactly 1 character!");
 			}
 
@@ -119,8 +130,8 @@ public class TeXFormulaSettingsParser {
 		}
 	}
 
-	private static void addFormulaToMap(NodeList mapList, String[] tableMath, String[] tableText)
-			throws ResourceParseException {
+	private static void addFormulaToMap(NodeList mapList, String[] tableMath,
+			String[] tableText) throws ResourceParseException {
 		for (int i = 0; i < mapList.getLength(); i++) {
 			Element map = mapList.item(i).castToElement();
 			String ch = map.getAttribute("char");
@@ -128,15 +139,18 @@ public class TeXFormulaSettingsParser {
 			String text = map.getAttribute("text");
 			// both attributes are required!
 			if ("".equals(ch)) {
-				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", null);
+				throw new XMLResourceParseException(RESOURCE_NAME,
+						map.getTagName(), "char", null);
 			} else if ("".equals(formula)) {
-				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "formula", null);
+				throw new XMLResourceParseException(RESOURCE_NAME,
+						map.getTagName(), "formula", null);
 			}
 			if (ch.length() == 1) {// valid element found
 				tableMath[ch.charAt(0)] = formula;
 			} else {
 				// only single-character mappings allowed, ignore others
-				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char",
+				throw new XMLResourceParseException(RESOURCE_NAME,
+						map.getTagName(), "char",
 						"must have a value that contains exactly 1 character!");
 			}
 

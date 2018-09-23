@@ -68,7 +68,8 @@ public class StrikeThroughAtom extends Atom {
 		double axis = tf.getAxisHeight(style);
 		double drt = tf.getDefaultRuleThickness(style);
 		Box b = at.createBox(env);
-		HorizontalRule rule = new HorizontalRule(drt, b.getWidth(), -axis + drt, false);
+		HorizontalRule rule = new HorizontalRule(drt, b.getWidth(), -axis + drt,
+				false);
 		HorizontalBox hb = new HorizontalBox();
 		hb.add(b);
 		hb.add(new StrutBox(-b.getWidth(), 0, 0, 0));

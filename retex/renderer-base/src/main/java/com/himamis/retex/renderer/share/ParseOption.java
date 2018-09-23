@@ -49,7 +49,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Parse command options, e.g. \includegraphics[width=1cm,height=2in,keepaspectratio]{...}
+ * Parse command options, e.g.
+ * \includegraphics[width=1cm,height=2in,keepaspectratio]{...}
  */
 public final class ParseOption {
 

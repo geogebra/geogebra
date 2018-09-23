@@ -85,18 +85,23 @@ public class Glue {
 	}
 
 	/**
-	 * Creates a box representing the glue type according to the "glue rules" based on the atom
-	 * types between which the glue must be inserted.
+	 * Creates a box representing the glue type according to the "glue rules"
+	 * based on the atom types between which the glue must be inserted.
 	 *
-	 * @param lType left atom type
-	 * @param rType right atom type
-	 * @param env the TeXEnvironment
+	 * @param lType
+	 *            left atom type
+	 * @param rType
+	 *            right atom type
+	 * @param env
+	 *            the TeXEnvironment
 	 * @return a box containing representing the glue
 	 */
 	public static Box get(int lType, int rType, TeXEnvironment env) {
 		// types > INNER are considered of type ORD for glue calculations
-		int l = (lType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : lType);
-		int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : rType);
+		int l = (lType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY
+				: lType);
+		int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY
+				: rType);
 
 		// search right glue-type in "glue-table"
 		int glueType = glueTable[l][r][env.getStyle() / 2];
@@ -109,6 +114,7 @@ public class Glue {
 		// use "quad" from a font marked as an "mu font"
 		double quad = tf.getQuad(env.getStyle(), tf.getMuFontId());
 
-		return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad, (shrink / 18.0f) * quad);
+		return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad,
+				(shrink / 18.0f) * quad);
 	}
 }

@@ -61,5 +61,6 @@ public interface RoundRectangle2D {
 
 	public double getHeight();
 
-	public void setRoundRectangle(double x, double y, double w, double h, double arcw, double arch);
+	public void setRoundRectangle(double x, double y, double w, double h,
+			double arcw, double arch);
 }

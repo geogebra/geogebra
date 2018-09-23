@@ -106,7 +106,8 @@ class VerticalBox extends Box {
 
 	private void recalculateWidth(Box b) {
 		leftMostPos = Math.min(leftMostPos, b.shift);
-		rightMostPos = Math.max(rightMostPos, b.shift + (b.width > 0 ? b.width : 0));
+		rightMostPos = Math.max(rightMostPos,
+				b.shift + (b.width > 0 ? b.width : 0));
 		width = rightMostPos - leftMostPos;
 	}
 
@@ -138,11 +139,13 @@ class VerticalBox extends Box {
 
 	@Override
 	public int getLastFontId() {
-		// iterate from the last child box (the lowest) to the first (the highest)
+		// iterate from the last child box (the lowest) to the first (the
+		// highest)
 		// untill a font id is found that's not equal to NO_FONT
 		int fontId = TeXFont.NO_FONT;
-		for (ListIterator it = children.listIterator(children.size()); fontId == TeXFont.NO_FONT
-				&& it.hasPrevious();) {
+		for (ListIterator it = children
+				.listIterator(children.size()); fontId == TeXFont.NO_FONT
+						&& it.hasPrevious();) {
 			fontId = ((Box) it.previous()).getLastFontId();
 		}
 

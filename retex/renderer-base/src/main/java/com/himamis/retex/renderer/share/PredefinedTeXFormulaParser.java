@@ -65,16 +65,19 @@ public class PredefinedTeXFormulaParser {
 	private Element root;
 	private String type;
 
-	public PredefinedTeXFormulaParser(Object file, String type) throws ResourceParseException {
+	public PredefinedTeXFormulaParser(Object file, String type)
+			throws ResourceParseException {
 		try {
 			this.type = type;
-			root = new ParserAdapter().createParserAndParseFile(file, true, true);
+			root = new ParserAdapter().createParserAndParseFile(file, true,
+					true);
 		} catch (Exception e) { // JDOMException or IOException
 			throw new XMLResourceParseException("", e);
 		}
 	}
 
-	public PredefinedTeXFormulaParser(String PredefFile, String type) throws ResourceParseException {
+	public PredefinedTeXFormulaParser(String PredefFile, String type)
+			throws ResourceParseException {
 		this(new Resource().loadResource(PredefFile), type);
 	}
 
@@ -87,29 +90,34 @@ public class PredefinedTeXFormulaParser {
 			for (int i = 0; i < list.getLength(); i++) {
 				Element formula = list.item(i).castToElement();
 				// get required string attribute
-				String enabled = getAttrValueAndCheckIfNotNull("enabled", formula);
+				String enabled = getAttrValueAndCheckIfNotNull("enabled",
+						formula);
 				if ("true".equals(enabled)) { // parse this formula
 					// get required string attribute
-					String name = getAttrValueAndCheckIfNotNull("name", formula);
+					String name = getAttrValueAndCheckIfNotNull("name",
+							formula);
 
 					// parse and build the formula and add it to the table
 					if ("TeXFormula".equals(this.type)) {
-						predefinedTeXFormulas.put(name, new TeXFormulaParser(name, formula,
-								this.type).parse());
+						predefinedTeXFormulas.put(name,
+								new TeXFormulaParser(name, formula, this.type)
+										.parse());
 					} else {
-						predefinedTeXFormulas.put(name, new TeXFormulaParser(name, formula,
-								this.type).parse());
+						predefinedTeXFormulas.put(name,
+								new TeXFormulaParser(name, formula, this.type)
+										.parse());
 					}
 				}
 			}
 		}
 	}
 
-	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
-			throws ResourceParseException {
+	private static String getAttrValueAndCheckIfNotNull(String attrName,
+			Element element) throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) {
-			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+			throw new XMLResourceParseException(RESOURCE_NAME,
+					element.getTagName(), attrName, null);
 		}
 		return attrValue;
 	}

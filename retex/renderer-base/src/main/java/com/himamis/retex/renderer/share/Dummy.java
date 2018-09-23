@@ -47,10 +47,11 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * Used by RowAtom. The "textSymbol"-property and the type of an atom can change (according to the
- * TeX-algorithms used). Or this atom can be replaced by a ligature, (if it was a CharAtom). But
- * atoms cannot be changed, otherwise different boxes could be made from the same TeXFormula, and
- * that is not desired! This "dummy atom" makes sure that changes to an atom (during the
+ * Used by RowAtom. The "textSymbol"-property and the type of an atom can change
+ * (according to the TeX-algorithms used). Or this atom can be replaced by a
+ * ligature, (if it was a CharAtom). But atoms cannot be changed, otherwise
+ * different boxes could be made from the same TeXFormula, and that is not
+ * desired! This "dummy atom" makes sure that changes to an atom (during the
  * createBox-method of a RowAtom) will be reset.
  */
 public class Dummy {
@@ -64,7 +65,8 @@ public class Dummy {
 	/**
 	 * Creates a new Dummy for the given atom.
 	 *
-	 * @param a an atom
+	 * @param a
+	 *            an atom
 	 */
 	public Dummy(Atom a) {
 		el = a;
@@ -73,7 +75,8 @@ public class Dummy {
 	/**
 	 * Changes the type of the atom
 	 *
-	 * @param t the new type
+	 * @param t
+	 *            the new type
 	 */
 	public void setType(int t) {
 		type = t;
@@ -126,7 +129,8 @@ public class Dummy {
 	/**
 	 * Changes this atom into the given "ligature atom".
 	 *
-	 * @param a the ligature atom
+	 * @param a
+	 *            the ligature atom
 	 */
 	public void changeAtom(FixedCharAtom a) {
 		textSymbol = false;
@@ -139,8 +143,7 @@ public class Dummy {
 			((CharSymbol) el).markAsTextSymbol();
 		}
 		Box b = el.createBox(rs);
-		if (textSymbol)
-		 {
+		if (textSymbol) {
 			((CharSymbol) el).removeMark(); // atom remains unchanged!
 		}
 		return b;

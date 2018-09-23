@@ -47,43 +47,44 @@ package com.himamis.retex.renderer.share;
 
 public final class ParsedString {
 
-    private final String s;
-    private final int len;
-    private final int pos;
-    private final int line;
-    private final int col;
-    private final boolean stop;
+	private final String s;
+	private final int len;
+	private final int pos;
+	private final int line;
+	private final int col;
+	private final boolean stop;
 
-    public ParsedString(final String s, final int len, final int pos, final int line, final int col, final boolean stop) {
-        this.s = s;
-        this.len = len;
-        this.pos = pos;
-        this.line = line;
-        this.col = col;
-        this.stop = stop;
-    }
+	public ParsedString(final String s, final int len, final int pos,
+			final int line, final int col, final boolean stop) {
+		this.s = s;
+		this.len = len;
+		this.pos = pos;
+		this.line = line;
+		this.col = col;
+		this.stop = stop;
+	}
 
-    public String getString() {
-        return s;
-    }
+	public String getString() {
+		return s;
+	}
 
-    public int getLen() {
-        return len;
-    }
+	public int getLen() {
+		return len;
+	}
 
-    public int getPos() {
-        return pos;
-    }
+	public int getPos() {
+		return pos;
+	}
 
-    public int getLine() {
-        return line;
-    }
+	public int getLine() {
+		return line;
+	}
 
-    public int getCol() {
-        return col;
-    }
+	public int getCol() {
+		return col;
+	}
 
-    public boolean getStop() {
-        return stop;
-    }
+	public boolean getStop() {
+		return stop;
+	}
 }

@@ -50,48 +50,48 @@ import java.util.Map;
 
 public final class TextStyle {
 
-    public final static int NONE = -1;
-    public final static int MATHNORMAL = 0;
-    public final static int MATHFRAK = 1;
-    public final static int MATHCAL = 2;
-    public final static int MATHBB = 3;
-    public final static int MATHSCR = 4;
-    public final static int MATHDS = 5;
-    public final static int OLDSTYLENUMS = 6;
+	public final static int NONE = -1;
+	public final static int MATHNORMAL = 0;
+	public final static int MATHFRAK = 1;
+	public final static int MATHCAL = 2;
+	public final static int MATHBB = 3;
+	public final static int MATHSCR = 4;
+	public final static int MATHDS = 5;
+	public final static int OLDSTYLENUMS = 6;
 
-    public final static int NUMBERS = 0;
-    public final static int CAPITALS = 1;
-    public final static int SMALL = 2;
-    public final static int UNICODE = 3;
+	public final static int NUMBERS = 0;
+	public final static int CAPITALS = 1;
+	public final static int SMALL = 2;
+	public final static int UNICODE = 3;
 
-    private final static TextStyle[][] styles = new TextStyle[7][4];
+	private final static TextStyle[][] styles = new TextStyle[7][4];
 
-    static {
-        add(MATHNORMAL, NUMBERS, "jlm_cmr10", (char)48);
-        add(MATHNORMAL, CAPITALS, "jlm_cmmi10", (char)65);
-        add(MATHNORMAL, SMALL, "jlm_cmmi10", (char)97);
-        add(MATHNORMAL, UNICODE, "jlm_cmmi10", (char)0);
-        add(MATHFRAK, NUMBERS, "jlm_eufm10", (char)48);
-        add(MATHFRAK, CAPITALS, "jlm_eufm10", (char)65);
-        add(MATHFRAK, SMALL, "jlm_eufm10", (char)97);
-        add(MATHCAL, CAPITALS, "jlm_cmsy10", (char)65);
-        add(MATHBB, CAPITALS, "jlm_msbm10", (char)65);
-        add(MATHSCR, CAPITALS, "jlm_rsfs10", (char)65);
-        add(MATHDS, CAPITALS, "jlm_dsrom10", (char)65);
-        add(OLDSTYLENUMS, CAPITALS, "jlm_cmmi10", (char)48);
-    }
+	static {
+		add(MATHNORMAL, NUMBERS, "jlm_cmr10", (char) 48);
+		add(MATHNORMAL, CAPITALS, "jlm_cmmi10", (char) 65);
+		add(MATHNORMAL, SMALL, "jlm_cmmi10", (char) 97);
+		add(MATHNORMAL, UNICODE, "jlm_cmmi10", (char) 0);
+		add(MATHFRAK, NUMBERS, "jlm_eufm10", (char) 48);
+		add(MATHFRAK, CAPITALS, "jlm_eufm10", (char) 65);
+		add(MATHFRAK, SMALL, "jlm_eufm10", (char) 97);
+		add(MATHCAL, CAPITALS, "jlm_cmsy10", (char) 65);
+		add(MATHBB, CAPITALS, "jlm_msbm10", (char) 65);
+		add(MATHSCR, CAPITALS, "jlm_rsfs10", (char) 65);
+		add(MATHDS, CAPITALS, "jlm_dsrom10", (char) 65);
+		add(OLDSTYLENUMS, CAPITALS, "jlm_cmmi10", (char) 48);
+	}
 
-    private static Map<String, Integer> names = new HashMap<String, Integer>() {
-        {
-            put("mathnormal", MATHNORMAL);
-            put("mathfrak", MATHFRAK);
-            put("mathcal", MATHCAL);
-            put("mathbb", MATHBB);
-            put("mathscr", MATHSCR);
-            put("mathds", MATHDS);
-            put("oldstylenums", OLDSTYLENUMS);
-        }
-    };
+	private static Map<String, Integer> names = new HashMap<String, Integer>() {
+		{
+			put("mathnormal", MATHNORMAL);
+			put("mathfrak", MATHFRAK);
+			put("mathcal", MATHCAL);
+			put("mathbb", MATHBB);
+			put("mathscr", MATHSCR);
+			put("mathds", MATHDS);
+			put("oldstylenums", OLDSTYLENUMS);
+		}
+	};
 
 	// XXX remove
 	private static Map<Integer, String> reverseNames = new HashMap<Integer, String>() {
@@ -106,33 +106,33 @@ public final class TextStyle {
 		}
 	};
 
-    private final int fontId;
-    private final char start;
+	private final int fontId;
+	private final char start;
 
-    private TextStyle(final int fontId, final char start) {
-        this.fontId = fontId;
-        this.start = start;
-    }
+	private TextStyle(final int fontId, final char start) {
+		this.fontId = fontId;
+		this.start = start;
+	}
 
-    public int getFontId() {
-        return fontId;
-    }
+	public int getFontId() {
+		return fontId;
+	}
 
-    public char getStart() {
-        return start;
-    }
+	public char getStart() {
+		return start;
+	}
 
-    public static TextStyle[] get(final String style) {
-        return styles[TextStyle.getStyle(style)];
-    }
+	public static TextStyle[] get(final String style) {
+		return styles[TextStyle.getStyle(style)];
+	}
 
-    public static int getStyle(final String style) {
-        final Integer i = names.get(style);
-        if (i != null) {
-            return i.intValue();
-        }
-        return MATHNORMAL;
-    }
+	public static int getStyle(final String style) {
+		final Integer i = names.get(style);
+		if (i != null) {
+			return i.intValue();
+		}
+		return MATHNORMAL;
+	}
 
 	// XXX
 	public static String getStyle(final int style) {
@@ -143,21 +143,21 @@ public final class TextStyle {
 		return reverseNames.get(MATHNORMAL);
 	}
 
-    public static TextStyle[] get(final int style) {
-        return styles[style];
-    }
+	public static TextStyle[] get(final int style) {
+		return styles[style];
+	}
 
-    public static TextStyle getDefault(final int kind) {
-        return styles[MATHNORMAL][kind];
-    }
+	public static TextStyle getDefault(final int kind) {
+		return styles[MATHNORMAL][kind];
+	}
 
-    public static TextStyle[] getDefault() {
-        return styles[MATHNORMAL];
-    }
+	public static TextStyle[] getDefault() {
+		return styles[MATHNORMAL];
+	}
 
-    public static TextStyle get(final int style, final int type) {
-        return styles[style][type];
-    }
+	public static TextStyle get(final int style, final int type) {
+		return styles[style][type];
+	}
 
 	// fontId = "jlm_cmr10" for example
 	private static void add(final int style, final int type,

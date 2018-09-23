@@ -81,7 +81,8 @@ public class JavaFontRenderingAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (fontInfos == null) {
-			return new JavaFontRenderingBox(str, type1, TeXFont.getSizeFactor(env.getStyle()));
+			return new JavaFontRenderingBox(str, type1,
+					TeXFont.getSizeFactor(env.getStyle()));
 		}
 		TeXFont dtf = (TeXFont) env.getTeXFont();
 		int type = dtf.isIt ? Font.ITALIC : Font.PLAIN;

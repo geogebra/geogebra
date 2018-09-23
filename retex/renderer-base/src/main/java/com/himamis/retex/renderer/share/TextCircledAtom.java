@@ -66,7 +66,8 @@ public class TextCircledAtom extends Atom {
 		Box circle = SymbolAtom.get("bigcirc").createBox(env);
 		circle.setShift(-0.07f * SpaceAtom.getFactor(TeXLength.Unit.EX, env));
 		Box box = at.createBox(env);
-		HorizontalBox hb = new HorizontalBox(box, circle.getWidth(), TeXConstants.Align.CENTER);
+		HorizontalBox hb = new HorizontalBox(box, circle.getWidth(),
+				TeXConstants.Align.CENTER);
 		hb.add(new StrutBox(-hb.getWidth(), 0, 0, 0));
 		hb.add(circle);
 		return hb;

@@ -49,9 +49,10 @@ package com.himamis.retex.renderer.share;
 import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
- * An atom representing another atom with an atom above it (if not null) seperated by a kern and in
- * a smaller size depending on "overScriptSize" and/or an atom under it (if not null) seperated by a
- * kern and in a smaller size depending on "underScriptSize"
+ * An atom representing another atom with an atom above it (if not null)
+ * seperated by a kern and in a smaller size depending on "overScriptSize"
+ * and/or an atom under it (if not null) seperated by a kern and in a smaller
+ * size depending on "underScriptSize"
  */
 public class UnderOverAtom extends Atom {
 
@@ -75,14 +76,12 @@ public class UnderOverAtom extends Atom {
 	final public Atom duplicate() {
 		UnderOverAtom ret = new UnderOverAtom(base, under, over, underSpace,
 				overSpace, overUnit, underScriptSize, overScriptSize);
-		
-		
+
 		return setFields(ret);
 	}
 
 	public UnderOverAtom(Atom base, Atom underOver, Unit underOverUnit,
-			double underOverSpace,
-			boolean underOverScriptSize, boolean over) {
+			double underOverSpace, boolean underOverScriptSize, boolean over) {
 		this.base = base;
 		// TODO: split into two different classes?
 
@@ -107,8 +106,7 @@ public class UnderOverAtom extends Atom {
 
 	public UnderOverAtom(Atom base, Atom under, Unit underUnit,
 			double underSpace, boolean underScriptSize, Atom over,
-			Unit overUnit,
-			double overSpace, boolean overScriptSize) {
+			Unit overUnit, double overSpace, boolean overScriptSize) {
 
 		this.base = base;
 		this.under = under;
@@ -165,7 +163,8 @@ public class UnderOverAtom extends Atom {
 		Box c = changeWidth(b, max);
 		vBox.add(c);
 
-		// calculate future height of the vertical box (to make sure that the base
+		// calculate future height of the vertical box (to make sure that the
+		// base
 		// stays on the baseline!)
 		double h = vBox.getHeight() + vBox.getDepth() - c.getDepth();
 

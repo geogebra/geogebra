@@ -33,9 +33,4 @@ public class CursorAtom extends Atom {
 		return new CursorBox(cb, height, color);
 	}
 
-
-
-
-
-
 }

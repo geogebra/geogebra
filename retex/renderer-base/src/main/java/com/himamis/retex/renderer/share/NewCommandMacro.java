@@ -55,21 +55,26 @@ public class NewCommandMacro implements Macro {
 	protected static HashMap<String, String> macrocode = new HashMap<String, String>();
 	protected static HashMap<String, String> macroreplacement = new HashMap<String, String>();
 
-	public static void addNewCommand(String name, String code, int nbargs) throws ParseException {
+	public static void addNewCommand(String name, String code, int nbargs)
+			throws ParseException {
 		// if (macrocode.get(name) != null)
 		// throw new ParseException("Command " + name +
 		// " already exists ! Use renewcommand instead ...");
 		macrocode.put(name, code);
-		MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs));
+		MacroInfo.Commands.put(name,
+				new MacroInfo(new NewCommandMacro(), nbargs));
 	}
 
-	public static void addNewCommand(String name, String code, int nbargs, String def) throws ParseException {
+	public static void addNewCommand(String name, String code, int nbargs,
+			String def) throws ParseException {
 		if (macrocode.get(name) != null) {
-			throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
+			throw new ParseException("Command " + name
+					+ " already exists ! Use renewcommand instead ...");
 		}
 		macrocode.put(name, code);
 		macroreplacement.put(name, def);
-		MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs, 1));
+		MacroInfo.Commands.put(name,
+				new MacroInfo(new NewCommandMacro(), nbargs, 1));
 	}
 
 	public static boolean isMacro(String name) {
@@ -78,10 +83,12 @@ public class NewCommandMacro implements Macro {
 
 	public static void addReNewCommand(String name, String code, int nbargs) {
 		if (macrocode.get(name) == null) {
-			throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
+			throw new ParseException("Command " + name
+					+ " is not defined ! Use newcommand instead ...");
 		}
 		macrocode.put(name, code);
-		MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs));
+		MacroInfo.Commands.put(name,
+				new MacroInfo(new NewCommandMacro(), nbargs));
 	}
 
 	@Override

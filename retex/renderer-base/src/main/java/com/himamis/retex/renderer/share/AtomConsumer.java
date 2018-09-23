@@ -47,57 +47,66 @@ package com.himamis.retex.renderer.share;
 
 public interface AtomConsumer {
 
-    /**Initialize the consumer
-     * @return true if the consumer must be pushed on the stack
-     */
-    boolean init(TeXParser tp);
+	/**
+	 * Initialize the consumer
+	 * 
+	 * @return true if the consumer must be pushed on the stack
+	 */
+	boolean init(TeXParser tp);
 
-    /**Add an atom to the consumer
-     */
-    void add(TeXParser tp, Atom a);
+	/**
+	 * Add an atom to the consumer
+	 */
+	void add(TeXParser tp, Atom a);
 
-    /**Get the last atom
-     */
-    Atom getLastAtom();
+	/**
+	 * Get the last atom
+	 */
+	Atom getLastAtom();
 
-    /**Close the consumer if this one is waiting for more atoms
-     * Useful to close stuff like "...\over x&amp;..." or "x^2&amp;..." in an array
-     */
-    boolean close(TeXParser tp);
+	/**
+	 * Close the consumer if this one is waiting for more atoms Useful to close
+	 * stuff like "...\over x&amp;..." or "x^2&amp;..." in an array
+	 */
+	boolean close(TeXParser tp);
 
-    /**
-     * @return true if this consumer can be closed (see close)
-     */
-    boolean isClosable();
+	/**
+	 * @return true if this consumer can be closed (see close)
+	 */
+	boolean isClosable();
 
-    /**Steal the RowAtom if one
-     * Useful to get numerator in "num \over x&amp;..."
-     */
-    RowAtom steal(TeXParser tp);
+	/**
+	 * Steal the RowAtom if one Useful to get numerator in "num \over x&amp;..."
+	 */
+	RowAtom steal(TeXParser tp);
 
-    /**
-     * @return true if this consumer is an array and accept &amp;, \cr or \\
-     */
-    boolean isArray();
+	/**
+	 * @return true if this consumer is an array and accept &amp;, \cr or \\
+	 */
+	boolean isArray();
 
-    /**
-     * @return true if this consumer is accepting &amp;
-     */
-    boolean isAmpersandAllowed();
+	/**
+	 * @return true if this consumer is accepting &amp;
+	 */
+	boolean isAmpersandAllowed();
 
-    /**
-     * Useful to handle cases like "\matrix{...}", here we mustn't push a RowAtom for the argument
-     * @return true if this consumer is handling macro argument
-     */
-    boolean isHandlingArg();
+	/**
+	 * Useful to handle cases like "\matrix{...}", here we mustn't push a
+	 * RowAtom for the argument
+	 * 
+	 * @return true if this consumer is handling macro argument
+	 */
+	boolean isHandlingArg();
 
-    /**
-     * When this consumer is handling arg then this method is called when a { is encountered
-     */
-    void lbrace(TeXParser tp);
+	/**
+	 * When this consumer is handling arg then this method is called when a { is
+	 * encountered
+	 */
+	void lbrace(TeXParser tp);
 
-    /**
-     * When this consumer is handling arg then this method is called when a } is encountered
-     */
-    void rbrace(TeXParser tp);
+	/**
+	 * When this consumer is handling arg then this method is called when a } is
+	 * encountered
+	 */
+	void rbrace(TeXParser tp);
 }

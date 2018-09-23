@@ -57,7 +57,7 @@ import com.himamis.retex.renderer.share.DefaultTeXFontParser;
 public class FormulaNotFoundException extends JMathTeXException {
 
 	public FormulaNotFoundException(String name) {
-		super("There's no predefined TeXFormula with the name '" + name + "' defined in '"
-				+ DefaultTeXFontParser.RESOURCE_NAME + "'!");
+		super("There's no predefined TeXFormula with the name '" + name
+				+ "' defined in '" + DefaultTeXFontParser.RESOURCE_NAME + "'!");
 	}
 }

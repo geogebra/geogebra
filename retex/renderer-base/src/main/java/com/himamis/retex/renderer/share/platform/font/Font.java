@@ -65,9 +65,9 @@ public interface Font {
 	 * constants (except PLAIN) for mixed styles.
 	 */
 	public static final int ITALIC = 2;
-	
-	public Font deriveFont(Map<TextAttribute,Object> map);
-	
+
+	public Font deriveFont(Map<TextAttribute, Object> map);
+
 	public Font deriveFont(int type);
 
 	public boolean isEqual(Font f);

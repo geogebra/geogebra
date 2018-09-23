@@ -47,7 +47,8 @@
 package com.himamis.retex.renderer.share.exception;
 
 /**
- * Signals that an unknown symbol type constant or a symbol of the wrong type was used.
+ * Signals that an unknown symbol type constant or a symbol of the wrong type
+ * was used.
  * 
  * @author Kurt Vermeulen
  */

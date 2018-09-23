@@ -61,7 +61,8 @@ public class DdotsAtom extends Atom {
 		double w = ldots.getWidth();
 		Box dot = SymbolAtom.get("ldotp").createBox(env);
 		HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.Align.LEFT);
-		HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.Align.CENTER);
+		HorizontalBox hb2 = new HorizontalBox(dot, w,
+				TeXConstants.Align.CENTER);
 		HorizontalBox hb3 = new HorizontalBox(dot, w, TeXConstants.Align.RIGHT);
 		Box pt4 = new SpaceAtom(TeXLength.Unit.MU, 0, 4, 0).createBox(env);
 		VerticalBox vb = new VerticalBox();

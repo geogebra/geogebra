@@ -57,6 +57,6 @@ public abstract class ParserFactory {
 	 * 
 	 * public abstract TeXFontParser createTeXFontParser(String name);
 	 */
-	
+
 	public abstract Parser createParser();
 }

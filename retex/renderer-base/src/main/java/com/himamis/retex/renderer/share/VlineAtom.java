@@ -92,7 +92,8 @@ public class VlineAtom extends Atom {
 
 	public double getWidth(TeXEnvironment env) {
 		if (n != 0) {
-			double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+			double drt = env.getTeXFont()
+					.getDefaultRuleThickness(env.getStyle());
 			return drt * (3 * n - 2);
 		}
 		return 0;
@@ -101,7 +102,8 @@ public class VlineAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (n != 0) {
-			double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+			double drt = env.getTeXFont()
+					.getDefaultRuleThickness(env.getStyle());
 			Box b = new HorizontalRule(height, drt, shift);
 			Box sep = new StrutBox(2 * drt, 0, 0, 0);
 			HorizontalBox hb = new HorizontalBox();

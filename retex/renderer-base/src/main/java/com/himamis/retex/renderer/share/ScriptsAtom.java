@@ -56,7 +56,8 @@ import com.himamis.retex.renderer.share.TeXConstants.Align;
 public class ScriptsAtom extends Atom {
 
 	// TeX constant: what's the use???
-	private final static SpaceAtom SCRIPT_SPACE = new SpaceAtom(TeXLength.Unit.POINT, 0.5f, 0, 0);
+	private final static SpaceAtom SCRIPT_SPACE = new SpaceAtom(
+			TeXLength.Unit.POINT, 0.5f, 0, 0);
 
 	// base atom
 	private final Atom base;
@@ -68,7 +69,8 @@ public class ScriptsAtom extends Atom {
 
 	@Override
 	final public Atom duplicate() {
-		return setFields(new ScriptsAtom(base, subscript, superscript, align == TeXConstants.Align.LEFT));
+		return setFields(new ScriptsAtom(base, subscript, superscript,
+				align == TeXConstants.Align.LEFT));
 	}
 
 	public ScriptsAtom(Atom base, Atom sub, Atom sup) {

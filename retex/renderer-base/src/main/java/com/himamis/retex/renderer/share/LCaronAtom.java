@@ -63,13 +63,17 @@ public class LCaronAtom extends Atom {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		CharBox A = new CharBox(env.getTeXFont().getChar("textapos", env.getStyle()));
-		CharBox L = new CharBox(env.getTeXFont().getChar(upper ? 'L' : 'l', "mathnormal", env.getStyle()));
+		CharBox A = new CharBox(
+				env.getTeXFont().getChar("textapos", env.getStyle()));
+		CharBox L = new CharBox(env.getTeXFont().getChar(upper ? 'L' : 'l',
+				"mathnormal", env.getStyle()));
 		HorizontalBox hb = new HorizontalBox(L);
 		if (upper) {
-			hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3f, 0, 0).createBox(env));
+			hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3f, 0, 0)
+					.createBox(env));
 		} else {
-			hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.13f, 0, 0).createBox(env));
+			hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.13f, 0, 0)
+					.createBox(env));
 		}
 		hb.add(A);
 		return hb;

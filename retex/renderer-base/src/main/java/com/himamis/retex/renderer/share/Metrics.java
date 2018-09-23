@@ -47,7 +47,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * Contains the metrics for 1 character: width, height, depth and italic correction.
+ * Contains the metrics for 1 character: width, height, depth and italic
+ * correction.
  */
 public class Metrics {
 
@@ -57,7 +58,8 @@ public class Metrics {
 	private final double i;
 	private final double s;
 
-	public Metrics(double w, double h, double d, double i, double factor, double size) {
+	public Metrics(double w, double h, double d, double i, double factor,
+			double size) {
 		this.w = w * factor;
 		this.h = h * factor;
 		this.d = d * factor;

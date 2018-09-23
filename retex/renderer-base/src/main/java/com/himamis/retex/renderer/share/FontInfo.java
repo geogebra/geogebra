@@ -119,10 +119,9 @@ public class FontInfo {
 	protected final String ttVersion;
 	protected final String itVersion;
 
-	public FontInfo(int fontId, String path, int unicode,
-			double xHeight,
-			double space, double quad, String boldVersion, String romanVersion, String ssVersion,
-			String ttVersion, String itVersion) {
+	public FontInfo(int fontId, String path, int unicode, double xHeight,
+			double space, double quad, String boldVersion, String romanVersion,
+			String ssVersion, String ttVersion, String itVersion) {
 		this.fontId = fontId;
 		this.path = path;
 		this.xHeight = xHeight;
@@ -146,18 +145,24 @@ public class FontInfo {
 
 	/**
 	 *
-	 * @param left left character
-	 * @param right right character
-	 * @param k kern value
+	 * @param left
+	 *            left character
+	 * @param right
+	 *            right character
+	 * @param k
+	 *            kern value
 	 */
 	public void addKern(char left, char right, double k) {
 		kern.put(new CharCouple(left, right), new Double(k));
 	}
 
 	/**
-	 * @param left left character
-	 * @param right right character
-	 * @param ligChar ligature to replace left and right character
+	 * @param left
+	 *            left character
+	 * @param right
+	 *            right character
+	 * @param ligChar
+	 *            ligature to replace left and right character
 	 */
 	public void addLigature(char left, char right, char ligChar) {
 		lig.put(new CharCouple(left, right), new Character(ligChar));
@@ -237,7 +242,8 @@ public class FontInfo {
 	}
 
 	/**
-	 * @return the skew character of the font (for the correct positioning of accents)
+	 * @return the skew character of the font (for the correct positioning of
+	 *         accents)
 	 */
 	public char getSkewChar() {
 		return skewChar;

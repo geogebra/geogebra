@@ -68,8 +68,6 @@ public class GraphicsAtom extends Atom {
 
 	}
 
-
-
 	public Box createBox(TeXEnvironment env) {
 
 		env.isColored = true;

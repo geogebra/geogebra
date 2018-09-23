@@ -47,41 +47,42 @@ package com.himamis.retex.renderer.share;
 
 public class MathchoiceAtom extends Atom {
 
-    private final Atom d;
-    private final Atom t;
-    private final Atom s;
-    private final Atom ss;
+	private final Atom d;
+	private final Atom t;
+	private final Atom s;
+	private final Atom ss;
 
-    public MathchoiceAtom(final Atom d, final Atom t, final Atom s, final Atom ss) {
-        this.d = d;
-        this.t = t;
-        this.s = s;
-        this.ss = ss;
-    }
+	public MathchoiceAtom(final Atom d, final Atom t, final Atom s,
+			final Atom ss) {
+		this.d = d;
+		this.t = t;
+		this.s = s;
+		this.ss = ss;
+	}
 
-    public Atom chose(TeXEnvironment env) {
-        final int style = env.getStyle();
-        switch (style) {
-        case TeXConstants.STYLE_DISPLAY:
-        case TeXConstants.STYLE_DISPLAY + 1:
-            return d;
-        case TeXConstants.STYLE_TEXT:
-        case TeXConstants.STYLE_TEXT + 1:
-            return t;
-        case TeXConstants.STYLE_SCRIPT:
-        case TeXConstants.STYLE_SCRIPT + 1:
-            return s;
-        case TeXConstants.STYLE_SCRIPT_SCRIPT:
-        case TeXConstants.STYLE_SCRIPT_SCRIPT + 1:
-            return ss;
-        default:
-            return d;
-        }
-    }
+	public Atom chose(TeXEnvironment env) {
+		final int style = env.getStyle();
+		switch (style) {
+		case TeXConstants.STYLE_DISPLAY:
+		case TeXConstants.STYLE_DISPLAY + 1:
+			return d;
+		case TeXConstants.STYLE_TEXT:
+		case TeXConstants.STYLE_TEXT + 1:
+			return t;
+		case TeXConstants.STYLE_SCRIPT:
+		case TeXConstants.STYLE_SCRIPT + 1:
+			return s;
+		case TeXConstants.STYLE_SCRIPT_SCRIPT:
+		case TeXConstants.STYLE_SCRIPT_SCRIPT + 1:
+			return ss;
+		default:
+			return d;
+		}
+	}
 
-    public Box createBox(TeXEnvironment env) {
-        return chose(env).createBox(env);
-    }
+	public Box createBox(TeXEnvironment env) {
+		return chose(env).createBox(env);
+	}
 
 	@Override
 	public Atom duplicate() {

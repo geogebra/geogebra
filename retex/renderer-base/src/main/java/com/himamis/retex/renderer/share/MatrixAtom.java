@@ -61,11 +61,16 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 @SuppressWarnings("javadoc")
 public class MatrixAtom extends Atom {
 
-	final public static SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1f, 0.0f, 0.0f);
-	final public static SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM, 0.5f, 0.0f, 0.0f);
-	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 1f, 0.0f);
-	final public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 0.4f, 0.0f);
-	final public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 0.4f, 0.0f);
+	final public static SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1f,
+			0.0f, 0.0f);
+	final public static SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM,
+			0.5f, 0.0f, 0.0f);
+	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX,
+			0.0f, 1f, 0.0f);
+	final public static SpaceAtom vsep_ext_top = new SpaceAtom(
+			TeXLength.Unit.EX, 0.0f, 0.4f, 0.0f);
+	final public static SpaceAtom vsep_ext_bot = new SpaceAtom(
+			TeXLength.Unit.EX, 0.0f, 0.4f, 0.0f);
 
 	public static final int ARRAY = 0;
 	public static final int MATRIX = 1;
@@ -86,7 +91,8 @@ public class MatrixAtom extends Atom {
 	private ArrayList<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
 	private ArrayList<Color> colors = new ArrayList<Color>();
 
-	final private static SpaceAtom align = new SpaceAtom(TeXConstants.Muskip.MED);
+	final private static SpaceAtom align = new SpaceAtom(
+			TeXConstants.Muskip.MED);
 
 	@Override
 	final public Atom duplicate() {
@@ -98,7 +104,7 @@ public class MatrixAtom extends Atom {
 		ret.spaceAround = spaceAround;
 		ret.rectangles = rectangles;
 		ret.colors = colors;
-		
+
 		return setFields(ret);
 	}
 
@@ -106,7 +112,8 @@ public class MatrixAtom extends Atom {
 	 * Creates an empty matrix
 	 *
 	 */
-	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, String options, boolean spaceAround) {
+	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, String options,
+			boolean spaceAround) {
 		this.isPartial = isPartial;
 		this.matrix = array;
 		this.type = ARRAY;
@@ -134,7 +141,8 @@ public class MatrixAtom extends Atom {
 		this(isPartial, array, type, false);
 	}
 
-	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, int type, boolean spaceAround) {
+	public MatrixAtom(boolean isPartial, ArrayOfAtoms array, int type,
+			boolean spaceAround) {
 		this.isPartial = isPartial;
 		this.matrix = array;
 		this.type = type;
@@ -278,7 +286,8 @@ public class MatrixAtom extends Atom {
 
 		switch (type) {
 		case ARRAY:
-			// Array : hsep_col/2 elem hsep_col elem hsep_col ... hsep_col elem hsep_col/2
+			// Array : hsep_col/2 elem hsep_col elem hsep_col ... hsep_col elem
+			// hsep_col/2
 			i = 1;
 			if (position[0] == TeXConstants.Align.NONE) {
 				arr[1] = new StrutBox(0.0f, 0.0f, 0.0f, 0.0f);
@@ -304,7 +313,8 @@ public class MatrixAtom extends Atom {
 			return arr;
 		case MATRIX:
 		case SMALLMATRIX:
-			// Simple matrix : (hsep_col/2 or 0) elem hsep_col elem hsep_col ... hsep_col elem
+			// Simple matrix : (hsep_col/2 or 0) elem hsep_col elem hsep_col ...
+			// hsep_col elem
 			// (hsep_col/2 or 0)
 			arr[0] = nullBox;
 			arr[col] = arr[0];
@@ -316,12 +326,13 @@ public class MatrixAtom extends Atom {
 			return arr;
 		case ALIGNED:
 		case ALIGN:
-			// Align env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft \medskip el_rgt hsep
+			// Align env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft
+			// \medskip el_rgt hsep
 			// ... hsep elem hsep
 			Align = align.createBox(env);
 			if (w != Double.POSITIVE_INFINITY) {
-				h = Math.max((w - width - (col / 2) * Align.getWidth()) / Math.floor((col + 3) / 2),
-						0);
+				h = Math.max((w - width - (col / 2) * Align.getWidth())
+						/ Math.floor((col + 3) / 2), 0);
 				AlignSep = new StrutBox(h, 0.0f, 0.0f, 0.0f);
 			} else {
 				AlignSep = hsep.createBox(env);
@@ -339,7 +350,8 @@ public class MatrixAtom extends Atom {
 			break;
 		case ALIGNEDAT:
 		case ALIGNAT:
-			// Alignat env. : hsep=(textwidth-matWidth)/2 and hsep elem ... elem hsep
+			// Alignat env. : hsep=(textwidth-matWidth)/2 and hsep elem ... elem
+			// hsep
 			if (w != Double.POSITIVE_INFINITY) {
 				h = Math.max((w - width) / 2, 0);
 			} else {
@@ -360,12 +372,13 @@ public class MatrixAtom extends Atom {
 
 			break;
 		case FLALIGN:
-			// flalign env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft \medskip el_rgt hsep
+			// flalign env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft
+			// \medskip el_rgt hsep
 			// ... hsep elem hsep
 			Align = align.createBox(env);
 			if (w != Double.POSITIVE_INFINITY) {
-				h = Math.max((w - width - (col / 2) * Align.getWidth()) /  Math.floor((col - 1) / 2),
-						0);
+				h = Math.max((w - width - (col / 2) * Align.getWidth())
+						/ Math.floor((col - 1) / 2), 0);
 				AlignSep = new StrutBox(h, 0.0f, 0.0f, 0.0f);
 			} else {
 				AlignSep = hsep.createBox(env);
@@ -432,10 +445,12 @@ public class MatrixAtom extends Atom {
 				boxarr[i][j] = (at == null) ? nullBox : at.createBox(env);
 
 				lineDepth[i] = Math.max(boxarr[i][j].getDepth(), lineDepth[i]);
-				lineHeight[i] = Math.max(boxarr[i][j].getHeight(), lineHeight[i]);
+				lineHeight[i] = Math.max(boxarr[i][j].getHeight(),
+						lineHeight[i]);
 
 				if (boxarr[i][j].type != TeXConstants.TYPE_MULTICOLUMN) {
-					rowWidth[j] = Math.max(boxarr[i][j].getWidth(), rowWidth[j]);
+					rowWidth[j] = Math.max(boxarr[i][j].getWidth(),
+							rowWidth[j]);
 				} else {
 					((MulticolumnAtom) at).setRowColumn(i, j);
 					listMulti.add((MulticolumnAtom) at);
@@ -516,8 +531,8 @@ public class MatrixAtom extends Atom {
 										.getGeomFactory().createRectangle2D(
 												hb.getWidth() - sepWidth / 2,
 												vb.getHeight() + vb.getDepth()
-												- Vsep.getHeight()
-												- thickness / 2,
+														- Vsep.getHeight()
+														- thickness / 2,
 												rowWidth[j] + sepWidth
 														+ thickness,
 												lineHeight[i] + lineDepth[i]
@@ -605,7 +620,8 @@ public class MatrixAtom extends Atom {
 		return new TableBox(vb, rectangles, colors);
 	}
 
-	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, double[] rowWidth, int i, int j) {
+	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep,
+			double[] rowWidth, int i, int j) {
 		double w = 0;
 		MulticolumnAtom mca = (MulticolumnAtom) matrix.get(i, j);
 		int k, n = mca.getSkipped();
@@ -620,7 +636,8 @@ public class MatrixAtom extends Atom {
 		Box b = mca.createBox(env);
 		double bw = b.getWidth();
 		if (bw > w) {
-			// It isn't a good idea but for the moment I have no other solution !
+			// It isn't a good idea but for the moment I have no other solution
+			// !
 			w = 0;
 		}
 

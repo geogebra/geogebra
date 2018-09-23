@@ -67,7 +67,8 @@ public final class BreakFormula {
 		HorizontalBox second = null;
 		Stack<Position> positions = new Stack<Position>();
 		HorizontalBox hbox = hbox0;
-		while (hbox.width > width && (canBreak(positions, hbox, width)) != hbox.width) {
+		while (hbox.width > width
+				&& (canBreak(positions, hbox, width)) != hbox.width) {
 			Position pos = positions.pop();
 			HorizontalBox[] hboxes = pos.hbox.split(pos.index - 1);
 			first = hboxes[0];
@@ -101,7 +102,8 @@ public final class BreakFormula {
 		return newBox;
 	}
 
-	private static double canBreak(Stack<Position> stack, HorizontalBox hbox, double width) {
+	private static double canBreak(Stack<Position> stack, HorizontalBox hbox,
+			double width) {
 		List<Box> children = hbox.children;
 		double[] cumWidth = new double[children.size() + 1];
 		cumWidth[0] = 0;
@@ -112,8 +114,10 @@ public final class BreakFormula {
 				int pos = getBreakPosition(hbox, i);
 				if (box instanceof HorizontalBox) {
 					Stack<Position> newStack = new Stack<Position>();
-					double w = canBreak(newStack, (HorizontalBox) box, width - cumWidth[i]);
-					if (w != box.width && (cumWidth[i] + w <= width || pos == -1)) {
+					double w = canBreak(newStack, (HorizontalBox) box,
+							width - cumWidth[i]);
+					if (w != box.width
+							&& (cumWidth[i] + w <= width || pos == -1)) {
 						stack.push(new Position(i - 1, hbox));
 						stack.addAll(newStack);
 						return cumWidth[i] + w;

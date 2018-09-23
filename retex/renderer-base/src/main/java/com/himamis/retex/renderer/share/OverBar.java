@@ -47,7 +47,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * A box representing another box with a horizontal rule above it, with appropriate kerning.
+ * A box representing another box with a horizontal rule above it, with
+ * appropriate kerning.
  */
 public class OverBar extends VerticalBox {
 

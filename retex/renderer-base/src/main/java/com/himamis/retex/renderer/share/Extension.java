@@ -47,8 +47,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * Represents an extension character that is defined by Char-objects of it's 4 possible parts (null
- * means part not present).
+ * Represents an extension character that is defined by Char-objects of it's 4
+ * possible parts (null means part not present).
  */
 public class Extension {
 

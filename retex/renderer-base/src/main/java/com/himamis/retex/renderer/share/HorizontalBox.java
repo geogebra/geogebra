@@ -65,7 +65,8 @@ public class HorizontalBox extends Box {
 		if (w != Double.POSITIVE_INFINITY) {
 			double rest = w - b.getWidth();
 			if (rest > 0) {
-				if (alignment == TeXConstants.Align.CENTER || alignment == TeXConstants.Align.NONE) {
+				if (alignment == TeXConstants.Align.CENTER
+						|| alignment == TeXConstants.Align.NONE) {
 					StrutBox s = new StrutBox(rest / 2, 0, 0, 0);
 					add(s);
 					add(b);
@@ -113,7 +114,8 @@ public class HorizontalBox extends Box {
 		for (Box box : children) {
 			/*
 			 * int i = children.indexOf(box); if (breakPositions != null &&
-			 * breakPositions.indexOf(i) != -1) { box.markForDEBUG = java.awt.Color.BLUE; }
+			 * breakPositions.indexOf(i) != -1) { box.markForDEBUG =
+			 * java.awt.Color.BLUE; }
 			 */
 
 			box.draw(g2, xPos, y + box.shift);
@@ -140,17 +142,23 @@ public class HorizontalBox extends Box {
 		// curPos += b.getWidth();
 		// width = Math.max(width, curPos);
 		width += b.getWidth();
-		height = Math.max((children.size() == 0 ? Double.NEGATIVE_INFINITY : height), b.height - b.shift);
-		depth = Math.max((children.size() == 0 ? Double.NEGATIVE_INFINITY : depth), b.depth + b.shift);
+		height = Math.max(
+				(children.size() == 0 ? Double.NEGATIVE_INFINITY : height),
+				b.height - b.shift);
+		depth = Math.max(
+				(children.size() == 0 ? Double.NEGATIVE_INFINITY : depth),
+				b.depth + b.shift);
 	}
 
 	@Override
 	public int getLastFontId() {
-		// iterate from the last child box to the first untill a font id is found
+		// iterate from the last child box to the first untill a font id is
+		// found
 		// that's not equal to NO_FONT
 		int fontId = TeXFont.NO_FONT;
-		for (ListIterator it = children.listIterator(children.size()); fontId == TeXFont.NO_FONT
-				&& it.hasPrevious();) {
+		for (ListIterator it = children
+				.listIterator(children.size()); fontId == TeXFont.NO_FONT
+						&& it.hasPrevious();) {
 			fontId = ((Box) it.previous()).getLastFontId();
 		}
 

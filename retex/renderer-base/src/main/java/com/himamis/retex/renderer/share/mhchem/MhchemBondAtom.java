@@ -52,35 +52,34 @@ import com.himamis.retex.renderer.share.TeXFont;
  *
  */
 
-
 /**
  * An atom to represent a bond (used in mhchem)
  */
 public class MhchemBondAtom extends Atom {
 
-    private final int n;
-    private final int pos;
+	private final int n;
+	private final int pos;
 
-    public MhchemBondAtom(int n, int pos) {
-        this.n = n;
-        this.pos = pos;
-        this.type = TeXConstants.TYPE_RELATION;
-    }
+	public MhchemBondAtom(int n, int pos) {
+		this.n = n;
+		this.pos = pos;
+		this.type = TeXConstants.TYPE_RELATION;
+	}
 
-    public MhchemBondAtom(int n) {
-        this(n, -1);
-    }
+	public MhchemBondAtom(int n) {
+		this(n, -1);
+	}
 
-    public Box createBox(TeXEnvironment env) {
-        final Box equals = Symbols.EQUALS.createBox(env);
-        final TeXFont tf = env.getTeXFont();
-        final int style = env.getStyle();
-        final double drt = tf.getDefaultRuleThickness(style);
-        final double axis = tf.getAxisHeight(style);
-        final double space = 2. * (equals.getHeight() - axis - drt);
+	public Box createBox(TeXEnvironment env) {
+		final Box equals = Symbols.EQUALS.createBox(env);
+		final TeXFont tf = env.getTeXFont();
+		final int style = env.getStyle();
+		final double drt = tf.getDefaultRuleThickness(style);
+		final double axis = tf.getAxisHeight(style);
+		final double space = 2. * (equals.getHeight() - axis - drt);
 
-        return new MhchemBondBox(n, pos, axis, drt, space, equals.getWidth());
-    }
+		return new MhchemBondBox(n, pos, axis, drt, space, equals.getWidth());
+	}
 
 	@Override
 	public Atom duplicate() {

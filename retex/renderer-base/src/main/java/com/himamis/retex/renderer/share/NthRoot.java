@@ -80,7 +80,8 @@ public class NthRoot extends Atom {
 		// calculate minimum clearance clr
 		double clr, drt = tf.getDefaultRuleThickness(style);
 		if (style < TeXConstants.STYLE_TEXT) {
-			clr = tf.getXHeight(style, tf.getChar(sqrtSymbol, style).getFontCode());
+			clr = tf.getXHeight(style,
+					tf.getChar(sqrtSymbol, style).getFontCode());
 		} else {
 			clr = drt;
 		}
@@ -89,10 +90,12 @@ public class NthRoot extends Atom {
 		// cramped style for the formula under the root sign
 		Box bs = base.createBox(env.crampStyle());
 		HorizontalBox b = new HorizontalBox(bs);
-		b.add(new SpaceAtom(TeXLength.Unit.MU, 1, 0, 0).createBox(env.crampStyle()));
+		b.add(new SpaceAtom(TeXLength.Unit.MU, 1, 0, 0)
+				.createBox(env.crampStyle()));
 		// create root sign
 		double totalH = b.getHeight() + b.getDepth();
-		Box rootSign = DelimiterFactory.create(sqrtSymbol, env, totalH + clr + drt);
+		Box rootSign = DelimiterFactory.create(sqrtSymbol, env,
+				totalH + clr + drt);
 
 		// add half the excess to clr
 		double delta = rootSign.getDepth() - (totalH + clr);

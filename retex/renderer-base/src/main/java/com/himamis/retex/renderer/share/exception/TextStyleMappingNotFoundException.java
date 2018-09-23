@@ -57,8 +57,8 @@ import com.himamis.retex.renderer.share.DefaultTeXFontParser;
 public class TextStyleMappingNotFoundException extends JMathTeXException {
 
 	public TextStyleMappingNotFoundException(String styleName) {
-		super("No mapping found for the text style '" + styleName + "'! " + "Insert a <"
-				+ DefaultTeXFontParser.STYLE_MAPPING_EL + ">-element in '"
-				+ DefaultTeXFontParser.RESOURCE_NAME + "'.");
+		super("No mapping found for the text style '" + styleName + "'! "
+				+ "Insert a <" + DefaultTeXFontParser.STYLE_MAPPING_EL
+				+ ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.");
 	}
 }

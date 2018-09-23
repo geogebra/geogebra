@@ -72,7 +72,8 @@ public class FontAdapter {
 		return fontFactory.createFont(name, style, size);
 	}
 
-	public TextLayout createTextLayout(String string, Font font, FontRenderContext fontRenderContext) {
+	public TextLayout createTextLayout(String string, Font font,
+			FontRenderContext fontRenderContext) {
 		return fontFactory.createTextLayout(string, font, fontRenderContext);
 	}
 

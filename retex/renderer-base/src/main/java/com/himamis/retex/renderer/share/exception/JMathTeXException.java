@@ -47,7 +47,8 @@
 package com.himamis.retex.renderer.share.exception;
 
 /**
- * Superclass of all the possible (public) exceptions that can be thrown in this package.
+ * Superclass of all the possible (public) exceptions that can be thrown in this
+ * package.
  * 
  * @author Kurt Vermeulen
  */

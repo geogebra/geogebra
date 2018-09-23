@@ -91,12 +91,14 @@ public class GlueSettingsParser {
 		styleMappings.put("display", TeXConstants.STYLE_DISPLAY / 2);
 		styleMappings.put("text", TeXConstants.STYLE_TEXT / 2);
 		styleMappings.put("script", TeXConstants.STYLE_SCRIPT / 2);
-		styleMappings.put("script_script", TeXConstants.STYLE_SCRIPT_SCRIPT / 2); // autoboxing
+		styleMappings.put("script_script",
+				TeXConstants.STYLE_SCRIPT_SCRIPT / 2); // autoboxing
 	}
 
 	private void parseGlueTypes() throws ResourceParseException {
 		List<Glue> glueTypesList = new ArrayList<Glue>();
-		Element types = root.getElementsByTagName("GlueTypes").item(0).castToElement();
+		Element types = root.getElementsByTagName("GlueTypes").item(0)
+				.castToElement();
 		int defaultIndex = -1;
 		int index = 0;
 		if (!types.isNull()) { // element present
@@ -134,7 +136,8 @@ public class GlueSettingsParser {
 		}
 	}
 
-	private static Glue createGlue(Element type, String name) throws ResourceParseException {
+	private static Glue createGlue(Element type, String name)
+			throws ResourceParseException {
 		final String[] names = { "space", "stretch", "shrink" };
 		double[] values = new double[names.length];
 		for (int i = 0; i < names.length; i++) {
@@ -146,7 +149,8 @@ public class GlueSettingsParser {
 					val = Double.parseDouble(attrVal);
 				}
 			} catch (NumberFormatException e) {
-				throw new XMLResourceParseException(RESOURCE_NAME, "GlueType", names[i],
+				throw new XMLResourceParseException(RESOURCE_NAME, "GlueType",
+						names[i],
 						"has an invalid real value '" + attrVal + "'!");
 			}
 			values[i] = val;
@@ -172,13 +176,15 @@ public class GlueSettingsParser {
 	public int[][][] createGlueTable() throws ResourceParseException {
 		int size = typeMappings.size();
 		int[][][] table = new int[size][size][styleMappings.size()];
-		Element glueTable = root.getElementsByTagName("GlueTable").item(0).castToElement();
+		Element glueTable = root.getElementsByTagName("GlueTable").item(0)
+				.castToElement();
 		if (!glueTable.isNull()) { // element present
 			// iterate all the "Glue"-elements
 			NodeList list = glueTable.getElementsByTagName("Glue");
 			for (int i = 0; i < list.getLength(); i++) {
 				Element glue = list.item(i).castToElement();
-				// retrieve required attribute values and throw exception if they're not set
+				// retrieve required attribute values and throw exception if
+				// they're not set
 				String left = getAttrValueAndCheckIfNotNull("lefttype", glue);
 				String right = getAttrValueAndCheckIfNotNull("righttype", glue);
 				String type = getAttrValueAndCheckIfNotNull("gluetype", glue);
@@ -186,7 +192,8 @@ public class GlueSettingsParser {
 				NodeList listG = glue.getElementsByTagName("Style");
 				for (int j = 0; j < listG.getLength(); j++) {
 					Element style = listG.item(j).castToElement();
-					String styleName = getAttrValueAndCheckIfNotNull("name", style);
+					String styleName = getAttrValueAndCheckIfNotNull("name",
+							style);
 					// retrieve mappings
 					Object l = typeMappings.get(left);
 					Object r = typeMappings.get(right);
@@ -198,27 +205,29 @@ public class GlueSettingsParser {
 					checkMapping(val, "Glue", "gluetype", type);
 					checkMapping(st, "Style", "name", styleName);
 					// put value in table
-					table[((Integer) l).intValue()][((Integer) r).intValue()][((Integer) st).intValue()] = ((Integer) val)
-							.intValue();
+					table[((Integer) l).intValue()][((Integer) r)
+							.intValue()][((Integer) st)
+									.intValue()] = ((Integer) val).intValue();
 				}
 			}
 		}
 		return table;
 	}
 
-	private static void checkMapping(Object val, String elementName, String attrName, String attrValue)
-			throws ResourceParseException {
+	private static void checkMapping(Object val, String elementName,
+			String attrName, String attrValue) throws ResourceParseException {
 		if (val == null) {
-			throw new XMLResourceParseException(RESOURCE_NAME, elementName, attrName,
-					"has an unknown value '" + attrValue + "'!");
+			throw new XMLResourceParseException(RESOURCE_NAME, elementName,
+					attrName, "has an unknown value '" + attrValue + "'!");
 		}
 	}
 
-	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
-			throws ResourceParseException {
+	private static String getAttrValueAndCheckIfNotNull(String attrName,
+			Element element) throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) {
-			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+			throw new XMLResourceParseException(RESOURCE_NAME,
+					element.getTagName(), attrName, null);
 		}
 		return attrValue;
 	}

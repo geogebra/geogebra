@@ -55,7 +55,8 @@ import com.himamis.retex.renderer.share.TeXConstants.Muskip;
 import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
- * An atom representing whitespace. The dimension values can be set using different unit types.
+ * An atom representing whitespace. The dimension values can be set using
+ * different unit types.
  */
 public class SpaceAtom extends Atom {
 
@@ -85,7 +86,7 @@ public class SpaceAtom extends Atom {
 
 	private static UnitConversion[] unitConversions = new UnitConversion[] {
 
-	new UnitConversion() {// EM
+			new UnitConversion() {// EM
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return env.getTeXFont().getEM(env.getStyle());
@@ -95,7 +96,8 @@ public class SpaceAtom extends Atom {
 			new UnitConversion() {// EX
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return env.getTeXFont().getXHeight(env.getStyle(), env.getLastFontId());
+					return env.getTeXFont().getXHeight(env.getStyle(),
+							env.getLastFontId());
 				}
 			},
 
@@ -131,14 +133,16 @@ public class SpaceAtom extends Atom {
 			new UnitConversion() {// CM
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return (28.346456693f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+					return (28.346456693f * TeXFormula.PIXELS_PER_POINT)
+							/ env.getSize();
 				}
 			},
 
 			new UnitConversion() {// MM
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return (2.8346456693f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+					return (2.8346456693f * TeXFormula.PIXELS_PER_POINT)
+							/ env.getSize();
 				}
 			},
 
@@ -152,33 +156,38 @@ public class SpaceAtom extends Atom {
 			new UnitConversion() {// SP
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return (65536 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+					return (65536 * TeXFormula.PIXELS_PER_POINT)
+							/ env.getSize();
 				}
 			},
 
 			new UnitConversion() {// PT (or Standard Anglo-American point)
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return (.9962640099f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+					return (.9962640099f * TeXFormula.PIXELS_PER_POINT)
+							/ env.getSize();
 				}
 			},
 
 			new UnitConversion() {// DD
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return (1.0660349422f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+					return (1.0660349422f * TeXFormula.PIXELS_PER_POINT)
+							/ env.getSize();
 				}
 			},
 
 			new UnitConversion() {// CC
 				@Override
 				public double getPixelConversion(TeXEnvironment env) {
-					return (12.7924193070f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+					return (12.7924193070f * TeXFormula.PIXELS_PER_POINT)
+							/ env.getSize();
 				}
 			}, new UnitConversion() {// X8
 				public double getPixelConversion(TeXEnvironment env) {
-				                 return env.getTeXFont().getDefaultRuleThickness(env.getStyle());
-				             }
+					return env.getTeXFont()
+							.getDefaultRuleThickness(env.getStyle());
+				}
 			} };
 
 	// whether a hard space should be represented
@@ -198,14 +207,14 @@ public class SpaceAtom extends Atom {
 	@Override
 	final public Atom duplicate() {
 		SpaceAtom ret = new SpaceAtom();
-		
+
 		ret.blankSpace = blankSpace;
 		ret.blankType = blankType;
 		ret.width = width;
 		ret.height = height;
 		ret.depth = depth;
 		ret.unit = unit;
-		
+
 		return setFields(ret);
 	}
 

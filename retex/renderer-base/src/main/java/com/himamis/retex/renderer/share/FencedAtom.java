@@ -51,8 +51,8 @@ package com.himamis.retex.renderer.share;
 import java.util.List;
 
 /**
- * An atom representing a base atom surrounded with delimiters that change their size according to
- * the height of the base.
+ * An atom representing a base atom surrounded with delimiters that change their
+ * size according to the height of the base.
  */
 public class FencedAtom extends Atom {
 
@@ -77,9 +77,12 @@ public class FencedAtom extends Atom {
 	/**
 	 * Creates a new FencedAtom from the given base and delimiters
 	 *
-	 * @param base the base to be surrounded with delimiters
-	 * @param l the left delimiter
-	 * @param r the right delimiter
+	 * @param base
+	 *            the base to be surrounded with delimiters
+	 * @param l
+	 *            the left delimiter
+	 * @param r
+	 *            the right delimiter
 	 */
 	public FencedAtom(Atom base, SymbolAtom l, SymbolAtom r) {
 		this(base, l, null, r);
@@ -111,9 +114,11 @@ public class FencedAtom extends Atom {
 	}
 
 	/**
-	 * Centers the given box with resprect to the given axis, by setting an appropriate shift value.
+	 * Centers the given box with resprect to the given axis, by setting an
+	 * appropriate shift value.
 	 *
-	 * @param box box to be vertically centered with respect to the axis
+	 * @param box
+	 *            box to be vertically centered with respect to the axis
 	 */
 	private static void center(Box box, double axis) {
 		double h = box.getHeight(), total = h + box.getDepth();
@@ -124,10 +129,13 @@ public class FencedAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		Box content = base.createBox(env);
-		double shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXLength.Unit.POINT, env);
+		double shortfall = DELIMITER_SHORTFALL
+				* SpaceAtom.getFactor(TeXLength.Unit.POINT, env);
 		double axis = tf.getAxisHeight(env.getStyle());
-		double delta = Math.max(content.getHeight() - axis, content.getDepth() + axis);
-		double minHeight = Math.max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);
+		double delta = Math.max(content.getHeight() - axis,
+				content.getDepth() + axis);
+		double minHeight = Math.max((delta / 500) * DELIMITER_FACTOR,
+				2 * delta - shortfall);
 
 		// construct box
 		HorizontalBox hBox = new HorizontalBox();
@@ -136,7 +144,8 @@ public class FencedAtom extends Atom {
 			for (int i = 0; i < middle.size(); i++) {
 				MiddleAtom at = middle.get(i);
 				if (at.base instanceof SymbolAtom) {
-					Box b = DelimiterFactory.create(((SymbolAtom) at.base).getName(), env, minHeight);
+					Box b = DelimiterFactory.create(
+							((SymbolAtom) at.base).getName(), env, minHeight);
 					center(b, axis);
 					at.box = b;
 				}
@@ -155,7 +164,8 @@ public class FencedAtom extends Atom {
 
 		// glue between left delimiter and content (if not whitespace)
 		if (!(base instanceof SpaceAtom)) {
-			hBox.add(Glue.get(TeXConstants.TYPE_OPENING, base.getLeftType(), env));
+			hBox.add(Glue.get(TeXConstants.TYPE_OPENING, base.getLeftType(),
+					env));
 		}
 
 		// add content
@@ -163,7 +173,8 @@ public class FencedAtom extends Atom {
 
 		// glue between right delimiter and content (if not whitespace)
 		if (!(base instanceof SpaceAtom)) {
-			hBox.add(Glue.get(base.getRightType(), TeXConstants.TYPE_CLOSING, env));
+			hBox.add(Glue.get(base.getRightType(), TeXConstants.TYPE_CLOSING,
+					env));
 		}
 
 		// right delimiter

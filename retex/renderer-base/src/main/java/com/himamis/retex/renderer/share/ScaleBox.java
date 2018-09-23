@@ -59,10 +59,10 @@ public class ScaleBox extends Box {
 		this.box = b;
 		this.xscl = (Double.isNaN(xscl) || Double.isInfinite(xscl)) ? 0 : xscl;
 		this.yscl = (Double.isNaN(yscl) || Double.isInfinite(yscl)) ? 0 : yscl;
-		width = b.width *  Math.abs(this.xscl);
-		height = this.yscl > 0 ? b.height *  this.yscl : -b.depth *  this.yscl;
-		depth = this.yscl > 0 ? b.depth *  this.yscl : -b.height *  this.yscl;
-		shift = b.shift *  this.yscl;
+		width = b.width * Math.abs(this.xscl);
+		height = this.yscl > 0 ? b.height * this.yscl : -b.depth * this.yscl;
+		depth = this.yscl > 0 ? b.depth * this.yscl : -b.height * this.yscl;
+		shift = b.shift * this.yscl;
 	}
 
 	public ScaleBox(Box b, double factor) {

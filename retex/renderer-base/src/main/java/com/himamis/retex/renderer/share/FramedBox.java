@@ -76,7 +76,8 @@ public class FramedBox extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public FramedBox(Box box, double thickness, double space, Color line, Color bg) {
+	public FramedBox(Box box, double thickness, double space, Color line,
+			Color bg) {
 		this(box, thickness, space);
 		this.line = line;
 		this.bg = bg;
@@ -85,23 +86,27 @@ public class FramedBox extends Box {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Stroke st = g2.getStroke();
-		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
+				BasicStroke.JOIN_MITER));
 		double th = thickness / 2;
 		if (bg != null) {
 			Color prev = g2.getColor();
 			g2.setColor(bg);
-			rectangle.setRectangle(x + th, y - height + th, width - thickness, height + depth - thickness);
+			rectangle.setRectangle(x + th, y - height + th, width - thickness,
+					height + depth - thickness);
 			g2.fill(rectangle);
 			g2.setColor(prev);
 		}
 		if (line != null) {
 			Color prev = g2.getColor();
 			g2.setColor(line);
-			rectangle.setRectangle(x + th, y - height + th, width - thickness, height + depth - thickness);
+			rectangle.setRectangle(x + th, y - height + th, width - thickness,
+					height + depth - thickness);
 			g2.draw(rectangle);
 			g2.setColor(prev);
 		} else {
-			rectangle.setRectangle(x + th, y - height + th, width - thickness, height + depth - thickness);
+			rectangle.setRectangle(x + th, y - height + th, width - thickness,
+					height + depth - thickness);
 			g2.draw(rectangle);
 		}
 		// drawDebug(g2, x, y);

@@ -49,8 +49,8 @@ package com.himamis.retex.renderer.share;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
- * A box representing another box with a delimiter box and a script box above or under it, with
- * script and delimiter seperated by a kern.
+ * A box representing another box with a delimiter box and a script box above or
+ * under it, with script and delimiter seperated by a kern.
  */
 public class OverUnderBox extends Box {
 
@@ -68,11 +68,15 @@ public class OverUnderBox extends Box {
 	/**
 	 * the parameter boxes must have an equal width!!
 	 * 
-	 * @param b base box to be drawn on the baseline
-	 * @param d delimiter box
-	 * @param script subscript or superscript box
-	 * @param over true : draws delimiter and script box above the base box, false : under the base
-	 *        box
+	 * @param b
+	 *            base box to be drawn on the baseline
+	 * @param d
+	 *            delimiter box
+	 * @param script
+	 *            subscript or superscript box
+	 * @param over
+	 *            true : draws delimiter and script box above the base box,
+	 *            false : under the base box
 	 */
 	public OverUnderBox(Box b, Box d, Box script, double kern, boolean over) {
 		base = b;
@@ -83,10 +87,10 @@ public class OverUnderBox extends Box {
 
 		// calculate metrics of the box
 		width = b.getWidth();
-		height = b.height + (over ? d.getWidth() : 0)
-				+ (over && script != null ? script.height + script.depth + kern : 0);
-		depth = b.depth + (over ? 0 : d.getWidth())
-				+ (!over && script != null ? script.height + script.depth + kern : 0);
+		height = b.height + (over ? d.getWidth() : 0) + (over && script != null
+				? script.height + script.depth + kern : 0);
+		depth = b.depth + (over ? 0 : d.getWidth()) + (!over && script != null
+				? script.height + script.depth + kern : 0);
 	}
 
 	@Override
@@ -113,7 +117,8 @@ public class OverUnderBox extends Box {
 
 		yVar = y + base.depth;
 		if (!over) { // draw delimiter and script under base box
-			double transX = x + (del.getHeight() + del.depth) * 0.75, transY = yVar;
+			double transX = x + (del.getHeight() + del.depth) * 0.75,
+					transY = yVar;
 			g2.saveTransformation();
 			g2.translate(transX, transY);
 			g2.rotate(Math.PI / 2);

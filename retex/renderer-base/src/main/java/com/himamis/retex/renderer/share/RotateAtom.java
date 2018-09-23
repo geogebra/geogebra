@@ -70,9 +70,9 @@ public class RotateAtom extends Atom {
 		ret.yunit = yunit;
 		ret.x = x;
 		ret.y = y;
-		
+
 		return setFields(ret);
-		
+
 	}
 
 	public RotateAtom(Atom base, String angle, String option) {

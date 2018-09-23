@@ -54,74 +54,78 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class MhchemBondParser {
 
-    private final String parseString;
+	private final String parseString;
 
-    public MhchemBondParser(final String parseString) {
-        this.parseString = parseString;
-    }
+	public MhchemBondParser(final String parseString) {
+		this.parseString = parseString;
+	}
 
-    public Atom get() throws ParseException {
-        switch (parseString.length()) {
-        case 1: {
-            final char c = parseString.charAt(0);
-            if (c == '-' || c == '1') {
-                return new MhchemBondAtom(1, -1);
-            } else if (c == '=' || c == '2') {
-                return new MhchemBondAtom(2, -1);
-            } else if (c == '#' || c == '3') {
-                return new MhchemBondAtom(3, -1);
-            } else if (c == '~') {
-                return new MhchemBondAtom(1, 0);
-            }
-            break;
-        }
-        case 2: {
-            final char c1 = parseString.charAt(0);
-            final char c2 = parseString.charAt(1);
-            if (c1 == '~') {
-                if (c2 == '-') {
-                    return new MhchemBondAtom(2, 0);
-                } else if (c2 == '=') {
-                    return new MhchemBondAtom(3, 0);
-                }
-            } else if (c1 == '-') {
-                if (c2 == '>') {
-                    return Symbols.RIGHTARROW;
-                }
-            } else if (c1 == '<') {
-                if (c2 == '-') {
-                    return Symbols.LEFTARROW;
-                }
-            }
-            break;
-        }
-        case 3: {
-            final char c1 = parseString.charAt(0);
-            final char c2 = parseString.charAt(1);
-            final char c3 = parseString.charAt(2);
-            if (c1 == '~' && c2 == '-' && c3 == '-') {
-                return new MhchemBondAtom(3, 0);
-            } else if (c1 == '-' && c2 == '~' && c3 == '-') {
-                return new MhchemBondAtom(3, 1);
-            } else if (c1 == '.' && c2 == '.' && c3 == '.') {
-                final Atom d = Symbols.CDOTP.changeType(TeXConstants.TYPE_ORDINARY);
-                return new RowAtom(d, d, d).changeType(TeXConstants.TYPE_RELATION);
-            }
-            break;
-        }
-        case 4: {
-            final char c1 = parseString.charAt(0);
-            final char c2 = parseString.charAt(1);
-            final char c3 = parseString.charAt(2);
-            final char c4 = parseString.charAt(3);
-            if (c1 == '.' && c2 == '.' && c3 == '.' && c4 == '.') {
-                final Atom d = Symbols.CDOTP.changeType(TeXConstants.TYPE_ORDINARY);
-                return new RowAtom(d, d, d, d).changeType(TeXConstants.TYPE_RELATION);
-            }
-            break;
-        }
-        }
+	public Atom get() throws ParseException {
+		switch (parseString.length()) {
+		case 1: {
+			final char c = parseString.charAt(0);
+			if (c == '-' || c == '1') {
+				return new MhchemBondAtom(1, -1);
+			} else if (c == '=' || c == '2') {
+				return new MhchemBondAtom(2, -1);
+			} else if (c == '#' || c == '3') {
+				return new MhchemBondAtom(3, -1);
+			} else if (c == '~') {
+				return new MhchemBondAtom(1, 0);
+			}
+			break;
+		}
+		case 2: {
+			final char c1 = parseString.charAt(0);
+			final char c2 = parseString.charAt(1);
+			if (c1 == '~') {
+				if (c2 == '-') {
+					return new MhchemBondAtom(2, 0);
+				} else if (c2 == '=') {
+					return new MhchemBondAtom(3, 0);
+				}
+			} else if (c1 == '-') {
+				if (c2 == '>') {
+					return Symbols.RIGHTARROW;
+				}
+			} else if (c1 == '<') {
+				if (c2 == '-') {
+					return Symbols.LEFTARROW;
+				}
+			}
+			break;
+		}
+		case 3: {
+			final char c1 = parseString.charAt(0);
+			final char c2 = parseString.charAt(1);
+			final char c3 = parseString.charAt(2);
+			if (c1 == '~' && c2 == '-' && c3 == '-') {
+				return new MhchemBondAtom(3, 0);
+			} else if (c1 == '-' && c2 == '~' && c3 == '-') {
+				return new MhchemBondAtom(3, 1);
+			} else if (c1 == '.' && c2 == '.' && c3 == '.') {
+				final Atom d = Symbols.CDOTP
+						.changeType(TeXConstants.TYPE_ORDINARY);
+				return new RowAtom(d, d, d)
+						.changeType(TeXConstants.TYPE_RELATION);
+			}
+			break;
+		}
+		case 4: {
+			final char c1 = parseString.charAt(0);
+			final char c2 = parseString.charAt(1);
+			final char c3 = parseString.charAt(2);
+			final char c4 = parseString.charAt(3);
+			if (c1 == '.' && c2 == '.' && c3 == '.' && c4 == '.') {
+				final Atom d = Symbols.CDOTP
+						.changeType(TeXConstants.TYPE_ORDINARY);
+				return new RowAtom(d, d, d, d)
+						.changeType(TeXConstants.TYPE_RELATION);
+			}
+			break;
+		}
+		}
 
-        return new RomanAtom(new RowAtom(Symbols.QUESTION, Symbols.QUESTION));
-    }
+		return new RomanAtom(new RowAtom(Symbols.QUESTION, Symbols.QUESTION));
+	}
 }

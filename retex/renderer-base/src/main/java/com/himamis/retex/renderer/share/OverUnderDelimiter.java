@@ -50,8 +50,8 @@ import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.exception.InvalidUnitException;
 
 /**
- * A box representing another atom with a delimiter and a script above or under it, with script and
- * delimiter seperated by a kern.
+ * A box representing another atom with a delimiter and a script above or under
+ * it, with script and delimiter seperated by a kern.
  */
 public class OverUnderDelimiter extends Atom {
 
@@ -70,7 +70,8 @@ public class OverUnderDelimiter extends Atom {
 
 	@Override
 	final public Atom duplicate() {
-		return setFields(new OverUnderDelimiter(base, script,symbol, kern, over));
+		return setFields(
+				new OverUnderDelimiter(base, script, symbol, kern, over));
 	}
 
 	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s,
@@ -84,8 +85,8 @@ public class OverUnderDelimiter extends Atom {
 		this.over = over;
 	}
 
-	private OverUnderDelimiter(Atom base, Atom script, SymbolAtom s, SpaceAtom kern, boolean over)
-			throws InvalidUnitException {
+	private OverUnderDelimiter(Atom base, Atom script, SymbolAtom s,
+			SpaceAtom kern, boolean over) throws InvalidUnitException {
 		type = TeXConstants.TYPE_INNER;
 		this.base = base;
 		this.script = script;
@@ -109,7 +110,8 @@ public class OverUnderDelimiter extends Atom {
 
 		Box scriptBox = null;
 		if (script != null) {
-			scriptBox = script.createBox((over ? env.supStyle() : env.subStyle()));
+			scriptBox = script
+					.createBox((over ? env.supStyle() : env.subStyle()));
 		}
 
 		// create centered horizontal box if smaller than maximum width
@@ -120,10 +122,12 @@ public class OverUnderDelimiter extends Atom {
 
 		del = new VerticalBox(del, max, TeXConstants.Align.CENTER);
 		if (scriptBox != null && max - scriptBox.getWidth() > TeXFormula.PREC) {
-			scriptBox = new HorizontalBox(scriptBox, max, TeXConstants.Align.CENTER);
+			scriptBox = new HorizontalBox(scriptBox, max,
+					TeXConstants.Align.CENTER);
 		}
 
-		return new OverUnderBox(b, del, scriptBox, kern.createBox(env).getHeight(), over);
+		return new OverUnderBox(b, del, scriptBox,
+				kern.createBox(env).getHeight(), over);
 	}
 
 	private static double getMaxWidth(Box b, Box del, Box script) {

@@ -46,7 +46,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * Responsible for creating a box containing a delimiter symbol that exists in different sizes.
+ * Responsible for creating a box containing a delimiter symbol that exists in
+ * different sizes.
  */
 public class XLeftRightArrowFactory {
 
@@ -82,10 +83,12 @@ public class XLeftRightArrowFactory {
 		hb.add(new ScaleAtom(MINUS, sf, 1).createBox(env));
 
 		if (left) {
-			hb.add(0, new SpaceAtom(TeXLength.Unit.MU, -3.5f, 0, 0).createBox(env));
+			hb.add(0, new SpaceAtom(TeXLength.Unit.MU, -3.5f, 0, 0)
+					.createBox(env));
 			hb.add(0, arr);
 		} else {
-			hb.add(new SpaceAtom(TeXLength.Unit.MU, -2f * sf - 2f, 0, 0).createBox(env));
+			hb.add(new SpaceAtom(TeXLength.Unit.MU, -2f * sf - 2f, 0, 0)
+					.createBox(env));
 			hb.add(arr);
 		}
 
@@ -102,7 +105,8 @@ public class XLeftRightArrowFactory {
 
 		if (width < swidth) {
 			HorizontalBox hb = new HorizontalBox(left);
-			hb.add(new StrutBox(-Math.min(swidth - width, left.getWidth()), 0, 0, 0));
+			hb.add(new StrutBox(-Math.min(swidth - width, left.getWidth()), 0,
+					0, 0));
 			hb.add(right);
 			return hb;
 		}

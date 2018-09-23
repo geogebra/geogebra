@@ -47,7 +47,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * Represents a specific character in a specific font (identified by its font ID).
+ * Represents a specific character in a specific font (identified by its font
+ * ID).
  */
 public class CharFont {
 

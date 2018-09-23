@@ -48,7 +48,6 @@
 
 package com.himamis.retex.renderer.share;
 
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -83,47 +82,54 @@ public abstract class Box {
 	final public static boolean DEBUG = false;
 
 	/**
-	 * Factory providing platform independent implementations of forms used for drawing.
+	 * Factory providing platform independent implementations of forms used for
+	 * drawing.
 	 */
 	protected final Geom geom;
 
 	/**
-	 * Factory providing platform independent implementations of graphics related objects.
+	 * Factory providing platform independent implementations of graphics
+	 * related objects.
 	 */
 	protected final Graphics graphics;
 
 	/**
-	 * The foreground color of the whole box. Child boxes can override this color. If it's null and
-	 * it has a parent box, the foreground color of the parent will be used. If it has no parent,
-	 * the foreground color of the component on which it will be painted, will be used.
+	 * The foreground color of the whole box. Child boxes can override this
+	 * color. If it's null and it has a parent box, the foreground color of the
+	 * parent will be used. If it has no parent, the foreground color of the
+	 * component on which it will be painted, will be used.
 	 */
 	protected Color foreground;
 
 	/**
-	 * The background color of the whole box. Child boxes can paint a background on top of this
-	 * background. If it's null, no background will be painted.
+	 * The background color of the whole box. Child boxes can paint a background
+	 * on top of this background. If it's null, no background will be painted.
 	 */
 	protected Color background;
 
 	private Color prevColor; // used temporarily in startDraw and endDraw
 
 	/**
-	 * The width of this box, i.e. the value that will be used for further calculations.
+	 * The width of this box, i.e. the value that will be used for further
+	 * calculations.
 	 */
 	protected double width = 0;
 
 	/**
-	 * The height of this box, i.e. the value that will be used for further calculations.
+	 * The height of this box, i.e. the value that will be used for further
+	 * calculations.
 	 */
 	protected double height = 0;
 
 	/**
-	 * The depth of this box, i.e. the value that will be used for further calculations.
+	 * The depth of this box, i.e. the value that will be used for further
+	 * calculations.
 	 */
 	protected double depth = 0;
 
 	/**
-	 * The shift amount: the meaning depends on the particular kind of box (up, down, left, right)
+	 * The shift amount: the meaning depends on the particular kind of box (up,
+	 * down, left, right)
 	 */
 	protected double shift = 0;
 
@@ -140,7 +146,8 @@ public abstract class Box {
 	/**
 	 * Inserts the given box at the end of the list of child boxes.
 	 *
-	 * @param b the box to be inserted
+	 * @param b
+	 *            the box to be inserted
 	 */
 	public void add(Box b) {
 		children.add(b);
@@ -149,27 +156,31 @@ public abstract class Box {
 	/**
 	 * Inserts the given box at the given position in the list of child boxes.
 	 *
-	 * @param pos the position at which to insert the given box
-	 * @param b the box to be inserted
+	 * @param pos
+	 *            the position at which to insert the given box
+	 * @param b
+	 *            the box to be inserted
 	 */
 	public void add(int pos, Box b) {
 		children.add(pos, b);
 	}
 
 	/**
-	 * Creates an empty box (no children) with all dimensions set to 0 and no foreground and
-	 * background color set (default values will be used: null)
+	 * Creates an empty box (no children) with all dimensions set to 0 and no
+	 * foreground and background color set (default values will be used: null)
 	 */
 	protected Box() {
 		this(null, null);
 	}
 
 	/**
-	 * Creates an empty box (no children) with all dimensions set to 0 and sets the foreground and
-	 * background color of the box.
+	 * Creates an empty box (no children) with all dimensions set to 0 and sets
+	 * the foreground and background color of the box.
 	 *
-	 * @param fg the foreground color
-	 * @param bg the background color
+	 * @param fg
+	 *            the foreground color
+	 * @param bg
+	 *            the background color
 	 */
 	protected Box(Color fg, Color bg) {
 		foreground = fg;
@@ -221,7 +232,8 @@ public abstract class Box {
 	/**
 	 * Set the width for this box.
 	 *
-	 * @param w the width
+	 * @param w
+	 *            the width
 	 */
 	public void setWidth(double w) {
 		width = w;
@@ -230,7 +242,8 @@ public abstract class Box {
 	/**
 	 * Set the depth for this box.
 	 *
-	 * @param d the depth
+	 * @param d
+	 *            the depth
 	 */
 	public void setDepth(double d) {
 		depth = d;
@@ -239,7 +252,8 @@ public abstract class Box {
 	/**
 	 * Set the height for this box.
 	 *
-	 * @param h the height
+	 * @param h
+	 *            the height
 	 */
 	public void setHeight(double h) {
 		height = h;
@@ -248,35 +262,44 @@ public abstract class Box {
 	/**
 	 * Set the shift amount for this box.
 	 *
-	 * @param s the shift amount
+	 * @param s
+	 *            the shift amount
 	 */
 	public void setShift(double s) {
 		shift = s;
 	}
 
 	/**
-	 * Paints this box at the given coordinates using the given graphics context.
+	 * Paints this box at the given coordinates using the given graphics
+	 * context.
 	 *
-	 * @param g2 the graphics (2D) context to use for painting
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
+	 * @param g2
+	 *            the graphics (2D) context to use for painting
+	 * @param x
+	 *            the x-coordinate
+	 * @param y
+	 *            the y-coordinate
 	 */
 	public abstract void draw(Graphics2DInterface g2, double x, double y);
 
 	/**
-	 * Get the id of the font that will be used the last when this box will be painted.
+	 * Get the id of the font that will be used the last when this box will be
+	 * painted.
 	 *
 	 * @return the id of the last font that will be used.
 	 */
 	public abstract int getLastFontId();
 
 	/**
-	 * Stores the old color setting, draws the background of the box (if not null) and sets the
-	 * foreground color (if not null).
+	 * Stores the old color setting, draws the background of the box (if not
+	 * null) and sets the foreground color (if not null).
 	 *
-	 * @param g2 the graphics (2D) context
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
+	 * @param g2
+	 *            the graphics (2D) context
+	 * @param x
+	 *            the x-coordinate
+	 * @param y
+	 *            the y-coordinate
 	 */
 	protected void startDraw(Graphics2DInterface g2, double x, double y) {
 		// old color
@@ -284,7 +307,8 @@ public abstract class Box {
 		if (background != null) { // draw background
 			g2.setColor(background);
 			// was commented out https://jira.geogebra.org/browse/TRAC-4421
-			g2.fill(geom.createRectangle2D(x, y - height, width, height + depth));
+			g2.fill(geom.createRectangle2D(x, y - height, width,
+					height + depth));
 		}
 		if (foreground == null) {
 			g2.setColor(prevColor); // old foreground color
@@ -307,8 +331,8 @@ public abstract class Box {
 				g2.setColor(c);
 			}
 			g2.setStroke(graphics.createBasicStroke(
-					 (Math.abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_MITER));
+					(Math.abs(1 / g2.getTransform().getScaleX())),
+					BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 			if (width < 0) {
 				x1 += width;
 				width = -width;
@@ -345,7 +369,8 @@ public abstract class Box {
 	/**
 	 * Restores the previous color setting.
 	 *
-	 * @param g2 the graphics (2D) context
+	 * @param g2
+	 *            the graphics (2D) context
 	 */
 	protected void endDraw(Graphics2DInterface g2) {
 		g2.setColor(prevColor);
@@ -372,7 +397,7 @@ public abstract class Box {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		append(sb, 0);
 		return sb.toString();

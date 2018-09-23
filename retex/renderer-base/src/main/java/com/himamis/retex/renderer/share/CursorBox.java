@@ -17,6 +17,7 @@ public class CursorBox extends Box {
 		this.height = content.height * coeff;
 		this.depth = content.depth * coeff;
 	}
+
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		if (CursorBox.blink) {

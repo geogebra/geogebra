@@ -47,8 +47,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * An atom representing exactly one alphanumeric character and the text style in which it should be
- * drawn.
+ * An atom representing exactly one alphanumeric character and the text style in
+ * which it should be drawn.
  */
 public class CharAtom extends CharSymbol {
 
@@ -65,11 +65,13 @@ public class CharAtom extends CharSymbol {
 	}
 
 	/**
-	 * Creates a CharAtom that will represent the given character in the given text style. Null for
-	 * the text style means the default text style.
+	 * Creates a CharAtom that will represent the given character in the given
+	 * text style. Null for the text style means the default text style.
 	 * 
-	 * @param c the alphanumeric character
-	 * @param textStyle the text style in which the character should be drawn
+	 * @param c
+	 *            the alphanumeric character
+	 * @param textStyle
+	 *            the text style in which the character should be drawn
 	 */
 	public CharAtom(char c, int textStyle) {
 		this.c = c;
@@ -122,7 +124,8 @@ public class CharAtom extends CharSymbol {
 	}
 
 	/*
-	 * Get the Char-object representing this character ("c") in the right text style
+	 * Get the Char-object representing this character ("c") in the right text
+	 * style
 	 */
 	private Char getChar(TeXFont tf, int style, boolean smallCap) {
 		char chr = c;

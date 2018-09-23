@@ -46,7 +46,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * An atom representing a middle atom which must be rounded by a left and right delimiter.
+ * An atom representing a middle atom which must be rounded by a left and right
+ * delimiter.
  */
 public class MiddleAtom extends Atom {
 

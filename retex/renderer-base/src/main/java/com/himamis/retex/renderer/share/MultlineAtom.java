@@ -52,7 +52,8 @@ import com.himamis.retex.renderer.share.TeXConstants.Align;
  */
 public class MultlineAtom extends Atom {
 
-	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0.0f, 1.0f, 0.0f);
+	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX,
+			0.0f, 1.0f, 0.0f);
 	public static final int MULTLINE = 0;
 	public static final int GATHER = 1;
 	public static final int GATHERED = 2;
@@ -104,7 +105,8 @@ public class MultlineAtom extends Atom {
 
 		if (column.row > 1) {
 			at = column.get(column.row - 1, 0);
-			alignment = type1 == GATHER ? TeXConstants.Align.CENTER : TeXConstants.Align.RIGHT;
+			alignment = type1 == GATHER ? TeXConstants.Align.CENTER
+					: TeXConstants.Align.RIGHT;
 			if (at.alignment != Align.NONE) {
 				alignment = at.alignment;
 			}

@@ -227,7 +227,7 @@ public class ColorAtom extends Atom implements Row {
 
 	private static void initColors() {
 		Colors = new HashMap<String, Color>();
-				
+
 		Colors.put("black", ColorUtil.BLACK);
 		Colors.put("white", ColorUtil.WHITE);
 		Colors.put("red", ColorUtil.RED);

@@ -77,11 +77,11 @@ public class SymbolAtom extends CharSymbol {
 	@Override
 	final public Atom duplicate() {
 		SymbolAtom ret = new SymbolAtom(name, delimiter);
-		
+
 		ret.unicode = unicode;
-		
+
 		ret.textSymbol = textSymbol;
-		
+
 		return setFields(ret);
 	}
 
@@ -100,10 +100,12 @@ public class SymbolAtom extends CharSymbol {
 		validSymbolTypes.setBit(TeXConstants.TYPE_ACCENT);
 	}
 
-	public SymbolAtom(SymbolAtom s, int type) throws InvalidSymbolTypeException {
+	public SymbolAtom(SymbolAtom s, int type)
+			throws InvalidSymbolTypeException {
 		if (!validSymbolTypes.getBit(type)) {
-			throw new InvalidSymbolTypeException("The symbol type was not valid! "
-					+ "Use one of the symbol type constants from the class 'TeXConstants'.");
+			throw new InvalidSymbolTypeException(
+					"The symbol type was not valid! "
+							+ "Use one of the symbol type constants from the class 'TeXConstants'.");
 		}
 		name = s.name;
 		this.type = type;
@@ -115,12 +117,15 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	/**
-	 * Constructs a new symbol. This used by "TeXSymbolParser" and the symbol types are guaranteed
-	 * to be valid.
+	 * Constructs a new symbol. This used by "TeXSymbolParser" and the symbol
+	 * types are guaranteed to be valid.
 	 *
-	 * @param name symbol name
-	 * @param type symbol type constant
-	 * @param del whether the symbol is a delimiter
+	 * @param name
+	 *            symbol name
+	 * @param type
+	 *            symbol type constant
+	 * @param del
+	 *            whether the symbol is a delimiter
 	 */
 	public SymbolAtom(String name, int type, boolean del) {
 		this.name = name;
@@ -166,12 +171,14 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	/**
-	 * Looks up the name in the table and returns the corresponding SymbolAtom representing the
-	 * symbol (if it's found).
+	 * Looks up the name in the table and returns the corresponding SymbolAtom
+	 * representing the symbol (if it's found).
 	 *
-	 * @param name the name of the symbol
+	 * @param name
+	 *            the name of the symbol
 	 * @return a SymbolAtom representing the found symbol
-	 * @throws SymbolNotFoundException if no symbol with the given name was found
+	 * @throws SymbolNotFoundException
+	 *             if no symbol with the given name was found
 	 */
 	public static SymbolAtom get(String name) throws SymbolNotFoundException {
 		SymbolAtom obj = symbols.get(name);
@@ -200,10 +207,14 @@ public class SymbolAtom extends CharSymbol {
 		Char c = tf.getChar(name, style);
 		Box cb = new CharBox(c);
 		cb.setAtom(this);
-		if (env.getSmallCap() && unicode != 0 && Character.isLowerCase(unicode)) {
+		if (env.getSmallCap() && unicode != 0
+				&& Character.isLowerCase(unicode)) {
 			try {
-				cb = new ScaleBox(new CharBox(tf.getChar(
-						TeXFormula.symbolTextMappings[Character.toUpperCase(unicode)], style)), 0.8, 0.8);
+				cb = new ScaleBox(
+						new CharBox(tf
+								.getChar(TeXFormula.symbolTextMappings[Character
+										.toUpperCase(unicode)], style)),
+						0.8, 0.8);
 			} catch (SymbolMappingNotFoundException e) {
 			}
 		}

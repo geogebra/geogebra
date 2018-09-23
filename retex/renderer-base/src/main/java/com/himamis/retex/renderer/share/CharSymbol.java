@@ -47,14 +47,14 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * An common superclass for atoms that represent one single character and access the font
- * information.
+ * An common superclass for atoms that represent one single character and access
+ * the font information.
  */
 public abstract class CharSymbol extends Atom {
 
 	/**
-	 * Mrow will mark certain CharSymbol atoms as a text symbol. Msubsup wil use this property for a
-	 * certain spacing rule.
+	 * Mrow will mark certain CharSymbol atoms as a text symbol. Msubsup wil use
+	 * this property for a certain spacing rule.
 	 */
 	protected boolean textSymbol = false;
 
@@ -82,10 +82,11 @@ public abstract class CharSymbol extends Atom {
 	}
 
 	/**
-	 * Get the CharFont-object that uniquely identifies the character that is represented by this
-	 * atom.
+	 * Get the CharFont-object that uniquely identifies the character that is
+	 * represented by this atom.
 	 * 
-	 * @param tf the TeXFont containing all font related information
+	 * @param tf
+	 *            the TeXFont containing all font related information
 	 * @return a CharFont
 	 */
 	public abstract CharFont getCharFont(TeXFont tf);

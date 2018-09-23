@@ -52,9 +52,9 @@ import com.himamis.retex.renderer.share.TeXLength.Unit;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
- * Contains the used TeXFont-object, color settings and the current style in which a formula must be
- * drawn. It's used in the createBox-methods. Contains methods that apply the style changing rules
- * for subformula's.
+ * Contains the used TeXFont-object, color settings and the current style in
+ * which a formula must be drawn. It's used in the createBox-methods. Contains
+ * methods that apply the style changing rules for subformula's.
  */
 public class TeXEnvironment {
 
@@ -99,8 +99,7 @@ public class TeXEnvironment {
 	}
 
 	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
-			Color c, int textStyle,
-			boolean smallCap) {
+			Color c, int textStyle, boolean smallCap) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
 		this.tf = tf;
@@ -137,11 +136,13 @@ public class TeXEnvironment {
 	}
 
 	protected TeXEnvironment copy() {
-		return new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
+		return new TeXEnvironment(style, scaleFactor, tf, background, color,
+				textStyle, smallCap);
 	}
 
 	protected TeXEnvironment copy(TeXFont tf) {
-		TeXEnvironment te = new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
+		TeXEnvironment te = new TeXEnvironment(style, scaleFactor, tf,
+				background, color, textStyle, smallCap);
 		te.textwidth = textwidth;
 		te.interline = interline;
 		te.interlineUnit = interlineUnit;
@@ -264,7 +265,8 @@ public class TeXEnvironment {
 
 	/**
 	 *
-	 * @param c the background color to be set
+	 * @param c
+	 *            the background color to be set
 	 */
 	public void setBackground(Color c) {
 		background = c;
@@ -272,7 +274,8 @@ public class TeXEnvironment {
 
 	/**
 	 *
-	 * @param c the foreground color to be set
+	 * @param c
+	 *            the foreground color to be set
 	 */
 	public void setColor(Color c) {
 		color = c;
@@ -307,7 +310,8 @@ public class TeXEnvironment {
 	}
 
 	public int getLastFontId() {
-		// if there was no last font id (whitespace boxes only), use default "mu font"
+		// if there was no last font id (whitespace boxes only), use default "mu
+		// font"
 		return (lastFontId == TeXFont.NO_FONT ? tf.getMuFontId() : lastFontId);
 	}
 

@@ -63,13 +63,15 @@ public class AccentedAtom extends Atom {
 	// base atom
 	protected Atom base = null;
 	protected Atom underbase = null;
-	
+
 	@Override
 	final public Atom duplicate() {
-		return setFields(new AccentedAtom(base, accent, changeSize, acc, underbase));
+		return setFields(
+				new AccentedAtom(base, accent, changeSize, acc, underbase));
 	}
-	
-	private AccentedAtom(Atom base, SymbolAtom accent, boolean changeSize, boolean acc, Atom underbase) {
+
+	private AccentedAtom(Atom base, SymbolAtom accent, boolean changeSize,
+			boolean acc, Atom underbase) {
 		this.base = base;
 		this.accent = accent;
 		this.changeSize = changeSize;
@@ -77,9 +79,8 @@ public class AccentedAtom extends Atom {
 		this.underbase = underbase;
 	}
 
-
-
-	public AccentedAtom(Atom base, Atom accent) throws InvalidSymbolTypeException {
+	public AccentedAtom(Atom base, Atom accent)
+			throws InvalidSymbolTypeException {
 		this.base = base;
 		if (base instanceof AccentedAtom) {
 			underbase = ((AccentedAtom) base).underbase;
@@ -95,21 +96,27 @@ public class AccentedAtom extends Atom {
 		this.acc = true;
 	}
 
-	public AccentedAtom(Atom base, Atom accent, boolean changeSize) throws InvalidSymbolTypeException {
+	public AccentedAtom(Atom base, Atom accent, boolean changeSize)
+			throws InvalidSymbolTypeException {
 		this(base, accent);
 		this.changeSize = changeSize;
 	}
 
 	/**
-	 * Creates an AccentedAtom from a base atom and an accent symbol defined by its name
+	 * Creates an AccentedAtom from a base atom and an accent symbol defined by
+	 * its name
 	 *
-	 * @param base base atom
-	 * @param accentName name of the accent symbol to be put over the base atom
-	 * @throws InvalidSymbolTypeException if the symbol is not defined as an accent ('acc')
-	 * @throws SymbolNotFoundException if there's no symbol defined with the given name
+	 * @param base
+	 *            base atom
+	 * @param accentName
+	 *            name of the accent symbol to be put over the base atom
+	 * @throws InvalidSymbolTypeException
+	 *             if the symbol is not defined as an accent ('acc')
+	 * @throws SymbolNotFoundException
+	 *             if there's no symbol defined with the given name
 	 */
-	public AccentedAtom(Atom base, String accentName) throws InvalidSymbolTypeException,
-			SymbolNotFoundException {
+	public AccentedAtom(Atom base, String accentName)
+			throws InvalidSymbolTypeException, SymbolNotFoundException {
 		accent = SymbolAtom.get(accentName);
 		if (accent.type == TeXConstants.TYPE_ACCENT) {
 			this.base = base;
@@ -119,26 +126,32 @@ public class AccentedAtom extends Atom {
 				underbase = base;
 			}
 		} else {
-			throw new InvalidSymbolTypeException("The symbol with the name '" + accentName
-					+ "' is not defined as an accent (" + TeXSymbolParser.TYPE_ATTR + "='acc') in '"
+			throw new InvalidSymbolTypeException("The symbol with the name '"
+					+ accentName + "' is not defined as an accent ("
+					+ TeXSymbolParser.TYPE_ATTR + "='acc') in '"
 					+ TeXSymbolParser.RESOURCE_NAME + "'!");
 		}
 	}
 
 	/**
-	 * Creates an AccentedAtom from a base atom and an accent symbol defined as a TeXFormula. This
-	 * is used for parsing MathML.
+	 * Creates an AccentedAtom from a base atom and an accent symbol defined as
+	 * a TeXFormula. This is used for parsing MathML.
 	 *
-	 * @param base base atom
-	 * @param acc TeXFormula representing an accent (SymbolAtom)
-	 * @throws InvalidTeXFormulaException if the given TeXFormula does not represent a single
-	 *         SymbolAtom (type "TeXConstants.TYPE_ACCENT")
-	 * @throws InvalidSymbolTypeException if the symbol is not defined as an accent ('acc')
+	 * @param base
+	 *            base atom
+	 * @param acc
+	 *            TeXFormula representing an accent (SymbolAtom)
+	 * @throws InvalidTeXFormulaException
+	 *             if the given TeXFormula does not represent a single
+	 *             SymbolAtom (type "TeXConstants.TYPE_ACCENT")
+	 * @throws InvalidSymbolTypeException
+	 *             if the symbol is not defined as an accent ('acc')
 	 */
-	public AccentedAtom(Atom base, TeXFormula acc) throws InvalidTeXFormulaException,
-			InvalidSymbolTypeException {
+	public AccentedAtom(Atom base, TeXFormula acc)
+			throws InvalidTeXFormulaException, InvalidSymbolTypeException {
 		if (acc == null) {
-			throw new InvalidTeXFormulaException("The accent TeXFormula can't be null!");
+			throw new InvalidTeXFormulaException(
+					"The accent TeXFormula can't be null!");
 		}
 		Atom root = acc.root;
 		if (root instanceof SymbolAtom) {
@@ -165,7 +178,8 @@ public class AccentedAtom extends Atom {
 		int style = env.getStyle();
 
 		// set base in cramped style
-		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env.crampStyle()));
+		Box b = (base == null ? new StrutBox(0, 0, 0, 0)
+				: base.createBox(env.crampStyle()));
 
 		double u = b.getWidth();
 		double s = 0;
@@ -186,7 +200,9 @@ public class AccentedAtom extends Atom {
 
 		// calculate delta
 		double ec = -SpaceAtom.getFactor(TeXLength.Unit.MU, env);
-		double delta = acc ? ec : Math.min(b.getHeight(), tf.getXHeight(style, ch.getFontCode()));
+		double delta = acc ? ec
+				: Math.min(b.getHeight(),
+						tf.getXHeight(style, ch.getFontCode()));
 
 		// create vertical box
 		VerticalBox vBox = new VerticalBox();

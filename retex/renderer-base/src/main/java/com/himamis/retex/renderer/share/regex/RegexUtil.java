@@ -48,13 +48,13 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 public class RegexUtil {
 
 	public static String quoteReplacement(String s) {
-		
+
 		// eg \textit
 		// https://help.geogebra.org/topic/textit-en-textbf-behaviour
 		if (s == null) {
 			throw new ParseException("null argument");
 		}
-		
+
 		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1)) {
 			return s;
 		}

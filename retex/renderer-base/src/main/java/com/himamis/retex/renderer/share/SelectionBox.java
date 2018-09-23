@@ -20,6 +20,7 @@ public class SelectionBox extends Box {
 		this.height = content.height;
 		this.depth = content.depth;
 	}
+
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		content.draw(g2, x, y);
@@ -42,26 +43,25 @@ public class SelectionBox extends Box {
 				+ g2.getTransform().getShearY() * (x + content.width)
 				+ g2.getTransform().getTranslateY();
 		if (touchSelection) {
-		g2.saveTransformation();
+			g2.saveTransformation();
 
-		g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
+			g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
 			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
-				DIAMETER * x, DIAMETER * y - DIAMETER * content.height,
-				DIAMETER * x, DIAMETER * y + DIAMETER * content.depth));
+					DIAMETER * x, DIAMETER * y - DIAMETER * content.height,
+					DIAMETER * x, DIAMETER * y + DIAMETER * content.depth));
 			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
-				DIAMETER * (x + content.width),
-				DIAMETER * y - DIAMETER * content.height,
-				DIAMETER * (x + content.width),
-				DIAMETER * (y + content.depth)));
-		g2.drawArc((int) (DIAMETER * x - 5),
-				(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
-				DIAMETER,
-				0, 360);
-		g2.drawArc((int) (DIAMETER * x + DIAMETER * content.width - 5),
-				(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
-				DIAMETER, 0, 360);
+					DIAMETER * (x + content.width),
+					DIAMETER * y - DIAMETER * content.height,
+					DIAMETER * (x + content.width),
+					DIAMETER * (y + content.depth)));
+			g2.drawArc((int) (DIAMETER * x - 5),
+					(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
+					DIAMETER, 0, 360);
+			g2.drawArc((int) (DIAMETER * x + DIAMETER * content.width - 5),
+					(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
+					DIAMETER, 0, 360);
 
-		g2.restoreTransformation();
+			g2.restoreTransformation();
 		}
 		g2.setStroke(old);
 

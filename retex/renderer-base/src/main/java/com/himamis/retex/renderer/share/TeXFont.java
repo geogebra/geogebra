@@ -47,18 +47,13 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.character.Character;
-import com.himamis.retex.renderer.share.exception.AlphabetRegistrationException;
-import com.himamis.retex.renderer.share.exception.FontAlreadyLoadedException;
-import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.exception.SymbolMappingNotFoundException;
 import com.himamis.retex.renderer.share.exception.TextStyleMappingNotFoundException;
 import com.himamis.retex.renderer.share.exception.XMLResourceParseException;
-import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
 /**
@@ -247,7 +242,6 @@ public class TeXFont {
 	public Char getChar(char c, String textStyle, int style)
 			throws TextStyleMappingNotFoundException {
 
-
 		Object mapping = textStyleMappings.get(textStyle);
 		if (mapping == null) {
 			throw new TextStyleMappingNotFoundException(textStyle);
@@ -429,8 +423,7 @@ public class TeXFont {
 
 	public double getSpace(int style) {
 		int spaceFontId = generalSettings
-				.get(DefaultTeXFontParser.SPACEFONTID_ATTR)
-				.intValue();
+				.get(DefaultTeXFontParser.SPACEFONTID_ATTR).intValue();
 		FontInfo info = fontInfo.get(spaceFontId);
 		return info
 				.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);

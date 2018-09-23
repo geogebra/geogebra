@@ -84,16 +84,18 @@ public class RotateBox extends Box {
 		double c = Math.cos(this.angle);
 		shiftX = (x * (1 - c) + y * s);
 		shiftY = (y * (1 - c) - x * s);
-		xmax =  Math.max(-height * s,
-				Math.max(depth * s, Math.max(width * c + depth * s, width * c - height * s)))
+		xmax = Math
+				.max(-height * s, Math.max(depth * s, Math
+						.max(width * c + depth * s, width * c - height * s)))
 				+ shiftX;
-		xmin =  Math.min(-height * s,
-				Math.min(depth * s, Math.min(width * c + depth * s, width * c - height * s)))
+		xmin = Math
+				.min(-height * s, Math.min(depth * s, Math
+						.min(width * c + depth * s, width * c - height * s)))
 				+ shiftX;
-		ymax =  Math.max(height * c,
-				Math.max(-depth * c, Math.max(width * s - depth * c, width * s + height * c)));
-		ymin =  Math.min(height * c,
-				Math.min(-depth * c, Math.min(width * s - depth * c, width * s + height * c)));
+		ymax = Math.max(height * c, Math.max(-depth * c,
+				Math.max(width * s - depth * c, width * s + height * c)));
+		ymin = Math.min(height * c, Math.min(-depth * c,
+				Math.min(width * s - depth * c, width * s + height * c)));
 		width = xmax - xmin;
 		height = ymax + shiftY;
 		depth = -ymin - shiftY;

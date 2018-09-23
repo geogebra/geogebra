@@ -119,13 +119,13 @@ public class ArrayOfAtoms extends TeXFormula {
 		}
 
 		/*
-		 * Thanks to Juan Enrique Escobar Robles for this patch which let the user have empty
-		 * columns
+		 * Thanks to Juan Enrique Escobar Robles for this patch which let the
+		 * user have empty columns
 		 */
 		for (int i = 0; i < row; i++) {
 			int j = array.get(i).size();
-			if (j != col && array.get(i).get(0) != null
-					&& array.get(i).get(0).type != TeXConstants.TYPE_INTERTEXT) {
+			if (j != col && array.get(i).get(0) != null && array.get(i)
+					.get(0).type != TeXConstants.TYPE_INTERTEXT) {
 				LinkedList<Atom> r = array.get(i);
 				for (; j < col; j++) {
 					r.add(null);
@@ -137,6 +137,7 @@ public class ArrayOfAtoms extends TeXFormula {
 	public LinkedList<Atom> get(int row) {
 		return array.get(row);
 	}
+
 	public Atom get(int i, int j) {
 		return array.get(i).get(j);
 	}

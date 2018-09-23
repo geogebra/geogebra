@@ -46,7 +46,8 @@
 package com.himamis.retex.renderer.share;
 
 /**
- * An atom representing a modification of style in a formula (e.g. textstyle or displaystyle).
+ * An atom representing a modification of style in a formula (e.g. textstyle or
+ * displaystyle).
  */
 public class TextStyleAtom extends Atom {
 

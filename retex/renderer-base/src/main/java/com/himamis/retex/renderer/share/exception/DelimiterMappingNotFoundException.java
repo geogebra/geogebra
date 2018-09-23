@@ -57,8 +57,9 @@ import com.himamis.retex.renderer.share.TeXFormulaSettingsParser;
 public class DelimiterMappingNotFoundException extends JMathTeXException {
 
 	public DelimiterMappingNotFoundException(char delimiter) {
-		super("No mapping found for the character '" + delimiter + "'! " + "Insert a <"
-				+ TeXFormulaSettingsParser.CHARTODEL_MAPPING_EL + ">-element in '"
-				+ TeXFormulaSettingsParser.RESOURCE_NAME + "'.");
+		super("No mapping found for the character '" + delimiter + "'! "
+				+ "Insert a <" + TeXFormulaSettingsParser.CHARTODEL_MAPPING_EL
+				+ ">-element in '" + TeXFormulaSettingsParser.RESOURCE_NAME
+				+ "'.");
 	}
 }
