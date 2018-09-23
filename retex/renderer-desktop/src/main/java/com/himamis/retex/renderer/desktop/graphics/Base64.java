@@ -14,10 +14,11 @@ import java.util.Arrays;
  *
  * On byte arrays the encoder is about 20% faster than Jakarta Commons Base64
  * Codec for encode and about 50% faster for decoding large arrays. This
- * implementation is about twice as fast on very small arrays (&lt; 30 bytes). If
- * source/destination is a <code>String</code> this version is about three times
- * as fast due to the fact that the Commons Codec result has to be recoded to a
- * <code>String</code> from <code>byte[]</code>, which is very expensive.<br>
+ * implementation is about twice as fast on very small arrays (&lt; 30 bytes).
+ * If source/destination is a <code>String</code> this version is about three
+ * times as fast due to the fact that the Commons Codec result has to be recoded
+ * to a <code>String</code> from <code>byte[]</code>, which is very expensive.
+ * <br>
  * <br>
  *
  * This encode/decode algorithm doesn't create any temporary arrays as many

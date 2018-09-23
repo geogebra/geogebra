@@ -50,8 +50,8 @@ public class RoundRectangle2DD extends RoundRectangle2D.Double implements
 
 	private static final long serialVersionUID = 1L;
 
-	public RoundRectangle2DD(double x, double y,
-			double w, double h, double arcw, double arch) {
+	public RoundRectangle2DD(double x, double y, double w, double h,
+			double arcw, double arch) {
 		setRoundRect(x, y, w, h, arcw, arch);
 	}
 
@@ -70,7 +70,8 @@ public class RoundRectangle2DD extends RoundRectangle2D.Double implements
 	}
 
 	@Override
-	public void setRoundRectangle(double x, double y, double w, double h, double arcw, double arch) {
+	public void setRoundRectangle(double x, double y, double w, double h,
+			double arcw, double arch) {
 		setRoundRect(x, y, w, h, arcw, arch);
 	}
 }

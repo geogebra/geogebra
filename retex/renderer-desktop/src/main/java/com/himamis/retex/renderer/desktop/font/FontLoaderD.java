@@ -61,13 +61,14 @@ public class FontLoaderD implements FontLoader {
 	@Override
 	public Font loadFont(String name) throws ResourceParseException {
 
-		FactoryProvider.getInstance()
-				.debug("loadFont():" + name);
+		FactoryProvider.getInstance().debug("loadFont():" + name);
 		InputStream fontIn = (InputStream) new Resource().loadResource(name);
 		try {
-			java.awt.Font f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
+			java.awt.Font f = java.awt.Font
+					.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
 					.deriveFont((float) PIXELS_PER_POINT * FONT_SCALE_FACTOR);
-			GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			GraphicsEnvironment graphicEnv = GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
 
 			/**
 			 * The following fails under java 1.5 graphicEnv.registerFont(f);
@@ -78,8 +79,8 @@ public class FontLoaderD implements FontLoader {
 			}
 			return new FontD(f);
 		} catch (Exception e) {
-			throw new XMLResourceParseException(
-					"FontLoader" + ": FontLoader '" + name + "'. Error message: " + e.getMessage());
+			throw new XMLResourceParseException("FontLoader" + ": FontLoader '"
+					+ name + "'. Error message: " + e.getMessage());
 		} finally {
 			try {
 				if (fontIn != null) {

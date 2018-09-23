@@ -81,7 +81,8 @@ public class FontD implements Font {
 
 	private static Map<java.awt.font.TextAttribute, Object> helper = new HashMap<java.awt.font.TextAttribute, Object>();
 
-	private static Map<java.awt.font.TextAttribute, Object> convertMap(Map<TextAttribute, Object> map) {
+	private static Map<java.awt.font.TextAttribute, Object> convertMap(
+			Map<TextAttribute, Object> map) {
 		helper.clear();
 		for (TextAttribute key : map.keySet()) {
 			helper.put(((TextAttributeD) key).getTextAttribute(), map.get(key));
@@ -91,9 +92,9 @@ public class FontD implements Font {
 
 	@Override
 	public boolean isEqual(Font f) {
-		return impl.equals(((FontD)f).impl);
+		return impl.equals(((FontD) f).impl);
 	}
-	
+
 	@Override
 	public int getScale() {
 		return FontLoader.FONT_SCALE_FACTOR;

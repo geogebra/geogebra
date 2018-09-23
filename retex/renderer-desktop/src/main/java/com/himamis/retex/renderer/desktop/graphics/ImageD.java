@@ -49,9 +49,10 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class ImageD extends BufferedImage implements Image {
-	
+
 	public ImageD(BufferedImage image) {
-		super(image.getColorModel(), image.copyData(null), image.isAlphaPremultiplied(), null);
+		super(image.getColorModel(), image.copyData(null),
+				image.isAlphaPremultiplied(), null);
 	}
 
 	public ImageD(int width, int height, int imageType) {

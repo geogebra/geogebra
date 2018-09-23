@@ -70,8 +70,7 @@ public class AreaD extends java.awt.geom.Area
 	}
 
 	public com.himamis.retex.renderer.share.platform.geom.Area duplicate() {
-		return (com.himamis.retex.renderer.share.platform.geom.Area) super
-				.clone();
+		return (com.himamis.retex.renderer.share.platform.geom.Area) super.clone();
 	}
 
 	public void add(com.himamis.retex.renderer.share.platform.geom.Area a) {

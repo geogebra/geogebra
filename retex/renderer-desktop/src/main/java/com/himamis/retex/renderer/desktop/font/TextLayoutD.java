@@ -50,9 +50,9 @@ import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 public class TextLayoutD implements TextLayout {
-	
+
 	private java.awt.font.TextLayout layout;
-	
+
 	public TextLayoutD(String string, java.awt.Font font,
 			java.awt.font.FontRenderContext fontRenderContext) {
 		layout = new java.awt.font.TextLayout(string, font, fontRenderContext);
@@ -70,7 +70,7 @@ public class TextLayoutD implements TextLayout {
 			Graphics2DD g2 = (Graphics2DD) graphics;
 			layout.draw(g2.getImpl(), x, y);
 		}
-		
+
 	}
 
 }

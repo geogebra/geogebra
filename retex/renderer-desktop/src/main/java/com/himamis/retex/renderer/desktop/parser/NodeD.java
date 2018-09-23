@@ -48,9 +48,9 @@ import com.himamis.retex.renderer.share.platform.parser.Element;
 import com.himamis.retex.renderer.share.platform.parser.Node;
 
 public class NodeD implements Node {
-	
+
 	private org.w3c.dom.Node impl;
-	
+
 	public NodeD(org.w3c.dom.Node impl) {
 		this.impl = impl;
 	}

@@ -49,8 +49,8 @@ public class BasicStrokeD extends BasicStroke implements
 		com.himamis.retex.renderer.share.platform.graphics.BasicStroke {
 
 	public BasicStrokeD(BasicStroke basicStroke) {
-		this(basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke
-				.getMiterLimit());
+		this(basicStroke.getLineWidth(), basicStroke.getEndCap(),
+				basicStroke.getLineJoin(), basicStroke.getMiterLimit());
 	}
 
 	public BasicStrokeD(double width, int cap, int join, double miterlimit) {

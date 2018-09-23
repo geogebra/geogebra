@@ -48,9 +48,9 @@ import com.himamis.retex.renderer.share.platform.parser.NamedNodeMap;
 import com.himamis.retex.renderer.share.platform.parser.NodeList;
 
 public class ElementD extends NodeD implements Element {
-	
+
 	private org.w3c.dom.Element impl;
-	
+
 	public ElementD(org.w3c.dom.Element impl) {
 		super(impl);
 		this.impl = impl;
@@ -60,12 +60,12 @@ public class ElementD extends NodeD implements Element {
 	public NodeList getElementsByTagName(String name) {
 		return new NodeListD(impl.getElementsByTagName(name));
 	}
-	
+
 	@Override
 	public String getAttribute(String name) {
 		return impl.getAttribute(name);
 	}
-	
+
 	@Override
 	public String getTagName() {
 		return impl.getTagName();

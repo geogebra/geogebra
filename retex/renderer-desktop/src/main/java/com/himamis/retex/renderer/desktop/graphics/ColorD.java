@@ -45,10 +45,11 @@ package com.himamis.retex.renderer.desktop.graphics;
 
 import java.awt.Color;
 
-public class ColorD extends Color implements com.himamis.retex.renderer.share.platform.graphics.Color {
+public class ColorD extends Color
+		implements com.himamis.retex.renderer.share.platform.graphics.Color {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public ColorD(Color color) {
 		this(color.getRed(), color.getGreen(), color.getBlue());
 	}

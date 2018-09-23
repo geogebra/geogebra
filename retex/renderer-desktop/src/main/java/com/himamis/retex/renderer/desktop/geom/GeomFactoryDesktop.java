@@ -61,13 +61,14 @@ public class GeomFactoryDesktop extends GeomFactory {
 	}
 
 	@Override
-	public Rectangle2D createRectangle2D(double x, double y, double width, double height) {
+	public Rectangle2D createRectangle2D(double x, double y, double width,
+			double height) {
 		return new Rectangle2DD(x, y, width, height);
 	}
 
 	@Override
-	public RoundRectangle2D createRoundRectangle2D(double x, double y,
-			double w, double h, double arcw, double arch) {
+	public RoundRectangle2D createRoundRectangle2D(double x, double y, double w,
+			double h, double arcw, double arch) {
 		return new RoundRectangle2DD(x, y, w, h, arcw, arch);
 	}
 
@@ -89,7 +90,5 @@ public class GeomFactoryDesktop extends GeomFactory {
 	public Area newArea() {
 		return new AreaD();
 	}
-
-
 
 }

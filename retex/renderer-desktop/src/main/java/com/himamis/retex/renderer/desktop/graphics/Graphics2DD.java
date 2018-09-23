@@ -124,8 +124,7 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(
-			com.himamis.retex.renderer.share.platform.geom.Shape s) {
+	public void fill(com.himamis.retex.renderer.share.platform.geom.Shape s) {
 		impl.fill((Shape) s);
 	}
 
@@ -151,12 +150,14 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+	public void drawArc(int x, int y, int width, int height, int startAngle,
+			int arcAngle) {
 		impl.drawArc(x, y, width, height, startAngle, arcAngle);
 	}
 
 	@Override
-	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+	public void fillArc(int x, int y, int width, int height, int startAngle,
+			int arcAngle) {
 		impl.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 
@@ -203,7 +204,6 @@ public class Graphics2DD implements Graphics2DInterface {
 		}
 	}
 
-
 	private static BufferedImage base64ToBufferedImage(ImageBase64 image) {
 		String pngBase64 = image.getBase64();
 
@@ -219,8 +219,7 @@ public class Graphics2DD implements Graphics2DInterface {
 		byte[] imageData = Base64.decode(pngBase64);
 
 		try {
-			return ImageIO
-					.read(new ByteArrayInputStream(imageData));
+			return ImageIO.read(new ByteArrayInputStream(imageData));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -240,7 +239,8 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void setRenderingHint(int key, int value) {
-		impl.setRenderingHint(getNativeRenderingKey(key), getNativeRenderingValue(value));
+		impl.setRenderingHint(getNativeRenderingKey(key),
+				getNativeRenderingValue(value));
 	}
 
 	@Override
@@ -287,7 +287,6 @@ public class Graphics2DD implements Graphics2DInterface {
 			return -1;
 		}
 	}
-
 
 	@Override
 	public void saveTransformation() {

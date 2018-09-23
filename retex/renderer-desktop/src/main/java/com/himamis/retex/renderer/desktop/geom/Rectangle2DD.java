@@ -53,11 +53,11 @@ public class Rectangle2DD extends Rectangle2D.Double
 	public Rectangle2DD(Rectangle2D rectangle) {
 		setRect(rectangle);
 	}
-	
+
 	public Rectangle2DD(double x, double y, double width, double height) {
 		setRect(x, y, width, height);
 	}
-	
+
 	public Object getNativeObject() {
 		return this;
 	}

@@ -47,9 +47,9 @@ import com.himamis.retex.renderer.share.platform.parser.NamedNodeMap;
 import com.himamis.retex.renderer.share.platform.parser.Node;
 
 public class NamedNodeMapD implements NamedNodeMap {
-	
+
 	private org.w3c.dom.NamedNodeMap impl;
-	
+
 	public NamedNodeMapD(org.w3c.dom.NamedNodeMap impl) {
 		this.impl = impl;
 	}

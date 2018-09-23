@@ -68,7 +68,8 @@ public class ParserD implements Parser {
 		return new DocumentD(document);
 	}
 
-	private org.w3c.dom.Document tryParse(InputStream is) throws ResourceParseException {
+	private org.w3c.dom.Document tryParse(InputStream is)
+			throws ResourceParseException {
 		try {
 			return factory.newDocumentBuilder().parse(is);
 		} catch (Exception ex) {

@@ -51,19 +51,22 @@ public class TextAttributeProviderD implements TextAttributeProvider {
 	@Override
 	public TextAttribute getTextAttribute(String name) {
 		try { // to avoid problems with Java 1.5
-            return new TextAttributeD((java.awt.font.TextAttribute) TextAttribute.class.getField(name).get(TextAttribute.class));
-        } catch (Exception e) { 
-        	return null;
-        }
+			return new TextAttributeD(
+					(java.awt.font.TextAttribute) TextAttribute.class
+							.getField(name).get(TextAttribute.class));
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public Integer getTextAttributeValue(String name) {
 		try {
-			return (Integer) (TextAttribute.class.getField(name).get(TextAttribute.class));
+			return (Integer) (TextAttribute.class.getField(name)
+					.get(TextAttribute.class));
 		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 }

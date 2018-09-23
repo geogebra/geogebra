@@ -46,9 +46,9 @@ package com.himamis.retex.renderer.desktop.parser;
 import com.himamis.retex.renderer.share.platform.parser.Attr;
 
 public class AttrD extends NodeD implements Attr {
-	
+
 	public org.w3c.dom.Attr impl;
-	
+
 	public AttrD(org.w3c.dom.Attr impl) {
 		super(impl);
 		this.impl = impl;

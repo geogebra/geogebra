@@ -38,4 +38,3 @@ public class GeneralPathD implements ShapeD {
 	}
 
 }
-

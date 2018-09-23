@@ -56,22 +56,22 @@ import com.himamis.retex.renderer.share.platform.parser.ParserFactory;
 import com.himamis.retex.renderer.share.platform.resources.ResourceLoaderFactory;
 
 public class FactoryProviderDesktop extends FactoryProvider {
-	
+
 	@Override
 	protected FontFactory createFontFactory() {
 		return new FontFactoryDesktop();
 	}
-	
+
 	@Override
 	protected GeomFactory createGeomFactory() {
 		return new GeomFactoryDesktop();
 	}
-	
+
 	@Override
 	protected GraphicsFactory createGraphicsFactory() {
 		return new GraphicsFactoryDesktop();
 	}
-	
+
 	@Override
 	protected ParserFactory createParserFactory() {
 		return new ParserFactoryDesktop();
