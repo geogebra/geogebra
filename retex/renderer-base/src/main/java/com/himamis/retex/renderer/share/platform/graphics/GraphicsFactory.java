@@ -44,26 +44,7 @@
 package com.himamis.retex.renderer.share.platform.graphics;
 
 public abstract class GraphicsFactory {
-	// old
-	/*
-	 * static public int CURSOR_RED = 96; static public int CURSOR_GREEN = 96;
-	 * static public int CURSOR_BLUE = 255;
-	 */
-	// teal default
-	/*
-	 * static public int CURSOR_RED = 0; static public int CURSOR_GREEN = 168;
-	 * static public int CURSOR_BLUE = 168;
-	 */
-	// teal dark
-	/*
-	 * static public int CURSOR_RED = 0; static public int CURSOR_GREEN = 141;
-	 * static public int CURSOR_BLUE = 141;
-	 */
-	// purple default
-	/*
-	 * static public int CURSOR_RED = 101; static public int CURSOR_GREEN = 87;
-	 * static public int CURSOR_BLUE = 210;
-	 */
+
 	// purple dark
 	static public int CURSOR_RED = 76;
 	static public int CURSOR_GREEN = 66;
@@ -77,5 +58,11 @@ public abstract class GraphicsFactory {
 	public abstract Image createImage(int width, int height, int type);
 	
 	public abstract Transform createTransform();
+
+	public Image createImage(String path) {
+		// Overridden in desktop only
+		// for \includegraphcs
+		return null;
+	}
 	
 }
