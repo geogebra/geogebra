@@ -154,8 +154,7 @@ public class Opentype implements FontLoaderWrapper {
 	private void loadJavascriptFont(String path0, final String familyName) {
 		String path = path0.substring(0, path0.length() - 3);
 		path = path + "js";
-		if (checkPreloadNative(familyName,
-				XmlResources.INSTANCE.jlm_cmss10())
+		if (checkPreloadNative(familyName, XmlResources.INSTANCE.jlm_cmss10())
 				|| checkPreloadNative(familyName,
 						XmlResources.INSTANCE.jlm_cmsy10())
 				|| checkPreloadNative(familyName,
@@ -204,9 +203,9 @@ public class Opentype implements FontLoaderWrapper {
 
 	private native JavaScriptObject getFontNative(String familyName,
 			boolean frame) /*-{
-		var lib = (frame ? window : $wnd).__JLM_GWT_FONTS__;
-		return lib ? lib[familyName] : null;
-	}-*/;
+							var lib = (frame ? window : $wnd).__JLM_GWT_FONTS__;
+							return lib ? lib[familyName] : null;
+							}-*/;
 
 	@Override
 	public FontW createNativeFont(String pathName, String fontName, int style,

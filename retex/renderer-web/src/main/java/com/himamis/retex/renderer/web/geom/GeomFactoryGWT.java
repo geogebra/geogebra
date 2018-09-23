@@ -59,13 +59,14 @@ public class GeomFactoryGWT extends GeomFactory {
 	}
 
 	@Override
-	public Rectangle2D createRectangle2D(double x, double y, double w, double h) {
+	public Rectangle2D createRectangle2D(double x, double y, double w,
+			double h) {
 		return new Rectangle2DW(x, y, w, h);
 	}
 
 	@Override
-	public RoundRectangle2D createRoundRectangle2D(double x, double y, double w, double h, double arcw,
-			double arch) {
+	public RoundRectangle2D createRoundRectangle2D(double x, double y, double w,
+			double h, double arcw, double arch) {
 		return new RoundRectangle2DW(x, y, w, h, arcw, arch);
 	}
 

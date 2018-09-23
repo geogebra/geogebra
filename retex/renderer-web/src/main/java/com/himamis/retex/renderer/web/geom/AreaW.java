@@ -86,12 +86,12 @@ public class AreaW
 		for (int i = 0; i < n; i++) {
 			Shape shape = shapes.get(i);
 			if (shape instanceof ShapeW) {
-				((ShapeW)shape).translate(x, y);
+				((ShapeW) shape).translate(x, y);
 			} else if (shape instanceof Rectangle2DW) {
 				((Rectangle2DW) shape).translate(x, y);
 			}
 		}
-		
+
 	}
 
 }

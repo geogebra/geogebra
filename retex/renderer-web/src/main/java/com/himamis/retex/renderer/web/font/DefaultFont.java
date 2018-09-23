@@ -115,20 +115,20 @@ public class DefaultFont extends FontW implements FontWrapper {
 
 	private native JavaScriptObject getGlyphOutlineNative(String s, int size,
 			String font) /*-{
-		var ret = {};
-		ret.draw = function(ctx) {
-
-			try {
-				ctx.setFont(font);
-			} catch (e) {
-				// invisible frame in FF throws this
-			}
-			ctx.fillText(s, 0, 0);
-
-		}
-
-		return ret;
-
-	}-*/;
+							var ret = {};
+							ret.draw = function(ctx) {
+							
+							try {
+							ctx.setFont(font);
+							} catch (e) {
+							// invisible frame in FF throws this
+							}
+							ctx.fillText(s, 0, 0);
+							
+							}
+							
+							return ret;
+							
+							}-*/;
 
 }

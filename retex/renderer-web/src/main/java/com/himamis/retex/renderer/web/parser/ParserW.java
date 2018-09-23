@@ -56,7 +56,8 @@ public class ParserW implements Parser {
 		try {
 			return new DocumentW(XMLParser.parse((String) input));
 		} catch (DOMParseException exception) {
-			ResourceParseException rpe = new ResourceParseException("Could not parse resource", exception);
+			ResourceParseException rpe = new ResourceParseException(
+					"Could not parse resource", exception);
 			throw rpe;
 		}
 	}

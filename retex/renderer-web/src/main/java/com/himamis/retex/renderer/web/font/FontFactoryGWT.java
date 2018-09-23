@@ -52,7 +52,7 @@ import com.himamis.retex.renderer.share.platform.font.TextLayout;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 public class FontFactoryGWT extends FontFactory {
-	
+
 	private FontLoaderWrapper fontLoaderWrapper = Opentype.INSTANCE;
 
 	@Override
@@ -61,7 +61,8 @@ public class FontFactoryGWT extends FontFactory {
 	}
 
 	@Override
-	public TextLayout createTextLayout(String string, Font font, FontRenderContext fontRenderContext) {
+	public TextLayout createTextLayout(String string, Font font,
+			FontRenderContext fontRenderContext) {
 		return new TextLayoutW(string, font, fontRenderContext);
 	}
 

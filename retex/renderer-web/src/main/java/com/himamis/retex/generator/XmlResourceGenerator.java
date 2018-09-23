@@ -14,8 +14,7 @@ import com.google.gwt.user.rebind.SourceWriter;
 import com.google.gwt.user.rebind.StringSourceWriter;
 import com.himamis.retex.renderer.web.resources.xml.XmlResource;
 
-public class XmlResourceGenerator extends AbstractResourceGenerator
-{
+public class XmlResourceGenerator extends AbstractResourceGenerator {
 
 	@Override
 	public String createAssignment(TreeLogger logger, ResourceContext context,

@@ -185,8 +185,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(
-			com.himamis.retex.renderer.share.platform.geom.Shape s) {
+	public void fill(com.himamis.retex.renderer.share.platform.geom.Shape s) {
 		context.fill(s);
 	}
 
@@ -220,8 +219,8 @@ public class Graphics2DW implements Graphics2DInterface {
 		context.lineTo(x + width - radius, y);
 		context.quadraticCurveTo(x + width, y, x + width, y + radius);
 		context.lineTo(x + width, y + height - radius);
-		context.quadraticCurveTo(x + width, y + height, x + width - radius, y
-				+ height);
+		context.quadraticCurveTo(x + width, y + height, x + width - radius,
+				y + height);
 		context.lineTo(x + radius, y + height);
 		context.quadraticCurveTo(x, y + height, x, y + height - radius);
 		context.lineTo(x, y + radius);
@@ -258,7 +257,8 @@ public class Graphics2DW implements Graphics2DInterface {
 		private FontW font;
 		private ColorW color;
 
-		public FontDrawContext(Graphics2DW graphics, String text, int x, int y) {
+		public FontDrawContext(Graphics2DW graphics, String text, int x,
+				int y) {
 			this.graphics = graphics;
 			this.text = text;
 			this.x = x;
@@ -272,7 +272,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		public void doDraw() {
 			FontW oldFont = graphics.getFont();
 			ColorW oldColor = graphics.getColor();
-			
+
 			graphics.saveTransformation();
 			graphics.setFont(font);
 			graphics.setColor(color);
@@ -307,7 +307,8 @@ public class Graphics2DW implements Graphics2DInterface {
 			// Count all the drawing requests which will be processed after the
 			// main drawing process has finished. After that in all the font
 			// callbacks (error or loaded) check if there are any requests
-			// waiting to be executed. If there aren't any, drawing has finished.
+			// waiting to be executed. If there aren't any, drawing has
+			// finished.
 
 			charDrawingRequests += 1;
 			font.addFontLoadedCallback(new FontLoadCallback() {
@@ -331,21 +332,22 @@ public class Graphics2DW implements Graphics2DInterface {
 			fillTextInternal(text, x, y);
 		}
 	}
-	
-	public void setDrawingFinishedCallback(DrawingFinishedCallback drawingFinishedCallback) {
+
+	public void setDrawingFinishedCallback(
+			DrawingFinishedCallback drawingFinishedCallback) {
 		this.drawingFinishedCallback = drawingFinishedCallback;
 	}
-	
+
 	public void maybeNotifyDrawingFinishedCallback(boolean async) {
 		if (!hasUnprocessedCharDrawingRequests()) {
 			notifyDrawingFinishedCallback(async);
 		}
 	}
-	
+
 	private boolean hasUnprocessedCharDrawingRequests() {
 		return charDrawingRequests > 0;
 	}
-	
+
 	private void notifyDrawingFinishedCallback(boolean async) {
 		if (drawingFinishedCallback != null) {
 			drawingFinishedCallback.onDrawingFinished(async);
@@ -379,7 +381,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 		context.translate2(x, y);
 		context.scale2(width / 2.0, height / 2.0);
-		
+
 		context.arc(1, 1, 1, startAngle, arcAngle);
 		context.restoreTransform();
 	}
@@ -388,7 +390,6 @@ public class Graphics2DW implements Graphics2DInterface {
 	public void translate(double x, double y) {
 		context.translate2(x, y);
 	}
-
 
 	@Override
 	public void scale(double x, double y) {
@@ -409,12 +410,12 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, final int x, final int y) {
-		
+
 		if (image instanceof ImageBase64) {
 			String base64 = ((ImageBase64) image).getBase64();
 			final com.google.gwt.user.client.ui.Image img = new com.google.gwt.user.client.ui.Image();
 			img.getElement().setAttribute("src", base64);
-			
+
 			img.addLoadHandler(new LoadHandler() {
 				public void onLoad(LoadEvent event) {
 					context.drawImage(ImageElement.as(img.getElement()), x, y);
@@ -422,7 +423,6 @@ public class Graphics2DW implements Graphics2DInterface {
 			});
 
 			context.drawImage(ImageElement.as(img.getElement()), x, y);
-
 
 			// ImageElement img2 = ImageElement.as(img.getElement());
 			// context.drawImage(img2, x, y);
@@ -469,12 +469,13 @@ public class Graphics2DW implements Graphics2DInterface {
 	 *            transformation matrix
 	 */
 	protected void setTransform(AffineTransform transform) {
-	
+
 		double dp = context.getDevicePixelRatio();
-		
-		context.setTransform2(transform.getScaleX() * dp, transform.getShearY() * dp,
-				transform.getShearX() * dp, transform.getScaleY() * dp,
-				transform.getTranslateX() * dp, transform.getTranslateY() * dp);
+
+		context.setTransform2(transform.getScaleX() * dp,
+				transform.getShearY() * dp, transform.getShearX() * dp,
+				transform.getScaleY() * dp, transform.getTranslateX() * dp,
+				transform.getTranslateY() * dp);
 	}
 
 	@Override

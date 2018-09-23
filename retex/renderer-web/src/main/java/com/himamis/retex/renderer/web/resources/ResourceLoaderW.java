@@ -60,8 +60,7 @@ public class ResourceLoaderW implements ResourceLoader {
 	}
 
 	@Override
-	public Object loadResource(String path)
-			throws ResourceParseException {
+	public Object loadResource(String path) throws ResourceParseException {
 		// base object is either a class or null
 		if (!map.containsKey(path)) {
 			throw new ResourceParseException(

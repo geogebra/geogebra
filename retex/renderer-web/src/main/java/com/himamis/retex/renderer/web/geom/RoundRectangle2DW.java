@@ -54,7 +54,8 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 	private double arcW;
 	private double arcH;
 
-	public RoundRectangle2DW(double x, double y, double width, double height, double arcw, double arch) {
+	public RoundRectangle2DW(double x, double y, double width, double height,
+			double arcw, double arch) {
 		setRoundRectangle(x, y, width, height, arcw, arch);
 	}
 
@@ -113,7 +114,8 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 	}
 
 	@Override
-	public void setRoundRectangle(double x, double y, double width, double height, double arcW, double arcH) {
+	public void setRoundRectangle(double x, double y, double width,
+			double height, double arcW, double arcH) {
 		this.x = x;
 		this.y = y;
 		this.width = width;

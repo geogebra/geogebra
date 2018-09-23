@@ -56,13 +56,12 @@ public class FontLoaderW implements FontLoader {
 	}
 
 	@Override
-	public Font loadFont(String name)
-			throws ResourceParseException {
+	public Font loadFont(String name) throws ResourceParseException {
 		String fontName = extractFileName(name);
 		String pathName = "font/" + name;
 
-		return fontLoaderWrapper.createNativeFont(pathName,
-				fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
+		return fontLoaderWrapper.createNativeFont(pathName, fontName,
+				Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
 	}
 
 	private static String extractFileName(String filePathName) {
