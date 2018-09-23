@@ -1,4 +1,4 @@
-package org.geogebra.common.io.latex;
+package com.himamis.retex.renderer.share.serialize;
 
 /**
  * Transforms brackets in expression

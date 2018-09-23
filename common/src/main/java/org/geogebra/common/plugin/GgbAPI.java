@@ -19,8 +19,6 @@ import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
-import org.geogebra.common.io.latex.BracketsAdapter;
-import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -60,6 +58,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.BracketsAdapter;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * <h3>GgbAPI - API for PlugLets</h3>

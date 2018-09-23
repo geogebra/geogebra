@@ -1,8 +1,7 @@
-package org.geogebra.common.io.latex;
+package com.himamis.retex.renderer.share.serialize;
 
 import java.util.HashMap;
 
-import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;

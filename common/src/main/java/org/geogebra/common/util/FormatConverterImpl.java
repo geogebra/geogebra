@@ -1,11 +1,11 @@
 package org.geogebra.common.util;
 
 import org.geogebra.common.io.MathMLParser;
-import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.geogebra.common.kernel.Kernel;
 
 import com.himamis.retex.editor.share.editor.FormatConverter;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * Convert expressions from Presentation MathML / LaTeX to simple ggb syntax

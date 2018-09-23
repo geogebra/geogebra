@@ -3,8 +3,6 @@ package org.geogebra.io.latex;
 import java.text.Normalizer;
 
 import org.geogebra.commands.AlgebraTest;
-import org.geogebra.common.io.latex.BracketsAdapter;
-import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,6 +21,8 @@ import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.serialize.BracketsAdapter;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 public class SerializeLaTeX {
 	static Parser parser;
