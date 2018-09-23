@@ -43,6 +43,13 @@
  */
 package com.himamis.retex.renderer.desktop.graphics;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
@@ -70,6 +77,36 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 	@Override
 	public Transform createTransform() {
 		return new TransformD();
+	}
+
+	@Override
+	public Image createImage(String path) {
+
+		BufferedImage bimage;
+
+		if (path.startsWith("https://")) {
+			try {
+				URL url = new URL(path);
+				bimage = ImageIO.read(url);
+				return new ImageD(bimage);
+			} catch (Exception e) {
+				// MalformedURLException
+				// IOException
+				e.printStackTrace();
+				return null;
+			}
+
+		}
+
+		final File f = new File(path);
+		try {
+			bimage = ImageIO.read(f);
+			return new ImageD(bimage);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }
