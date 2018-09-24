@@ -15,8 +15,8 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
-import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -40,19 +40,17 @@ public class DrawEquationW extends DrawEquation {
 
 	@Override
 	public GDimension drawEquation(App app1, GeoElementND geo,
-			final GGraphics2D g2,
-	        int x, int y, String latexString0, GFont font, boolean serif,
-	        final GColor fgColor, GColor bgColor, boolean useCache,
-			boolean updateAgain, final Runnable callback) {
+			final GGraphics2D g2, int x, int y, String latexString0, GFont font,
+			boolean serif, final GColor fgColor, GColor bgColor,
+			boolean useCache, boolean updateAgain, final Runnable callback) {
 
-			String eqstring = latexString0;
+		String eqstring = latexString0;
 
 		TeXIcon icon = createIcon(eqstring, convertColor(fgColor), font,
-				font.getLaTeXStyle(serif),
-				null, null, app1);
+				font.getLaTeXStyle(serif), null, null, app1);
 
-			Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
-			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
+		Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
+		g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
 			@Override
 			public void onDrawingFinished(boolean async) {
@@ -137,7 +135,7 @@ public class DrawEquationW extends DrawEquation {
 
 		return paintOnCanvas(app, text0, c0, fontSize, fgColor, serif);
 	}
-	
+
 	/**
 	 * @param app
 	 *            has access to LaTeX and pixel ratio
@@ -153,8 +151,8 @@ public class DrawEquationW extends DrawEquation {
 	 *            whether to use serif font
 	 * @return canvas
 	 */
-	public static Canvas paintOnCanvas(AppW app, String text0,
-			Canvas c0, int fontSize, final GColor fgColor, boolean serif) {
+	public static Canvas paintOnCanvas(AppW app, String text0, Canvas c0,
+			int fontSize, final GColor fgColor, boolean serif) {
 
 		Canvas c = c0;
 		if (c == null) {
@@ -216,8 +214,13 @@ public class DrawEquationW extends DrawEquation {
 		ensureJLMFactoryExists();
 		if (initJLaTeXMath == null) {
 
-			StringBuilder initJLM = DrawEquation.getJLMCommands();
-			initJLaTeXMath = new TeXFormula(initJLM.toString());
+			// StringBuilder initJLM = DrawEquation.getJLMCommands();
+			// initJLaTeXMath = new TeXFormula(initJLM.toString());
+			initJLaTeXMath = new Object();
+
+			// make \fcolorbox margin compatible with jlm v1
+			TeXLength.put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
+
 		}
 	}
 

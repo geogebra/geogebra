@@ -25,23 +25,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
@@ -59,23 +59,26 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class HorizontalBox extends Box {
 
+	private double curPos = 0; // NOPMD
 	protected List<Integer> breakPositions;
+	protected ArrayList<Box> children = new ArrayList<Box>();
 
-	public HorizontalBox(Box b, double w, Align alignment) {
+	public HorizontalBox(Box b, double w, TeXConstants.Align alignment) {
+		children = new ArrayList<Box>();
 		if (w != Double.POSITIVE_INFINITY) {
 			double rest = w - b.getWidth();
 			if (rest > 0) {
 				if (alignment == TeXConstants.Align.CENTER
 						|| alignment == TeXConstants.Align.NONE) {
-					StrutBox s = new StrutBox(rest / 2, 0, 0, 0);
+					StrutBox s = new StrutBox(rest / 2, 0., 0., 0.);
 					add(s);
 					add(b);
 					add(s);
 				} else if (alignment == TeXConstants.Align.LEFT) {
 					add(b);
-					add(new StrutBox(rest, 0, 0, 0));
+					add(new StrutBox(rest, 0., 0., 0.));
 				} else if (alignment == TeXConstants.Align.RIGHT) {
-					add(new StrutBox(rest, 0, 0, 0));
+					add(new StrutBox(rest, 0., 0., 0.));
 					add(b);
 				} else {
 					add(b);
@@ -89,7 +92,14 @@ public class HorizontalBox extends Box {
 	}
 
 	public HorizontalBox(Box b) {
+		if (b == null) {
+			return;
+		}
 		add(b);
+	}
+
+	public HorizontalBox(int n) {
+		children = new ArrayList<Box>(n);
 	}
 
 	public HorizontalBox() {
@@ -100,14 +110,13 @@ public class HorizontalBox extends Box {
 		super(fg, bg);
 	}
 
-	public HorizontalBox cloneBox() {
+	private HorizontalBox cloneBox() {
 		HorizontalBox b = new HorizontalBox(foreground, background);
 		b.shift = shift;
 
 		return b;
 	}
 
-	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		double xPos = x;
@@ -117,23 +126,49 @@ public class HorizontalBox extends Box {
 			 * breakPositions.indexOf(i) != -1) { box.markForDEBUG =
 			 * java.awt.Color.BLUE; }
 			 */
-
+			if (box instanceof HVruleBox) {
+				((HVruleBox) box).setWHD(width, height, depth);
+			}
 			box.draw(g2, xPos, y + box.shift);
 			xPos += box.getWidth();
 		}
 		endDraw(g2);
 	}
 
-	@Override
-	public final void add(Box b) {
-		recalculate(b);
-		super.add(b);
+	public Area getArea() {
+		final Area area = geom.createArea();
+
+		double afX = 0;
+		final double afY = 0;
+
+		for (final Box b : children) {
+			if (b instanceof StrutBox) {
+				afX += b.getWidth();
+			} else {
+				final Area a = b.getArea();
+				if (a == null) {
+					return null;
+				}
+				a.translate(afX, afY);
+				area.add(a);
+				afX += b.getWidth();
+			}
+		}
+		return area;
 	}
 
-	@Override
+	public final void add(Box b) {
+		recalculate(b);
+		children.add(b);
+		b.parent = this;
+		b.elderParent = elderParent;
+	}
+
 	public final void add(int pos, Box b) {
 		recalculate(b);
-		super.add(pos, b);
+		children.add(pos, b);
+		b.parent = this;
+		b.elderParent = elderParent;
 	}
 
 	private void recalculate(Box b) {
@@ -143,24 +178,21 @@ public class HorizontalBox extends Box {
 		// width = Math.max(width, curPos);
 		width += b.getWidth();
 		height = Math.max(
-				(children.size() == 0 ? Double.NEGATIVE_INFINITY : height),
+				(children.isEmpty() ? Double.NEGATIVE_INFINITY : height),
 				b.height - b.shift);
 		depth = Math.max(
-				(children.size() == 0 ? Double.NEGATIVE_INFINITY : depth),
+				(children.isEmpty() ? Double.NEGATIVE_INFINITY : depth),
 				b.depth + b.shift);
 	}
 
-	@Override
-	public int getLastFontId() {
-		// iterate from the last child box to the first untill a font id is
-		// found
+	public Font_ID getLastFontId() {
+		// iterate from the last child box to the first until a font id is found
 		// that's not equal to NO_FONT
-		int fontId = TeXFont.NO_FONT;
+		Font_ID fontId = null;
 		for (ListIterator it = children
-				.listIterator(children.size()); fontId == TeXFont.NO_FONT
-						&& it.hasPrevious();) {
+				.listIterator(children.size()); fontId == null
+						&& it.hasPrevious();)
 			fontId = ((Box) it.previous()).getLastFontId();
-		}
 
 		return fontId;
 	}
@@ -181,8 +213,8 @@ public class HorizontalBox extends Box {
 	}
 
 	private HorizontalBox[] split(int position, int shift) {
-		HorizontalBox hb1 = cloneBox();
-		HorizontalBox hb2 = cloneBox();
+		final HorizontalBox hb1 = cloneBox();
+		final HorizontalBox hb2 = cloneBox();
 		for (int i = 0; i <= position; i++) {
 			hb1.add(children.get(i));
 		}
@@ -202,31 +234,7 @@ public class HorizontalBox extends Box {
 		return new HorizontalBox[] { hb1, hb2 };
 	}
 
-	@Override
-	public void getPath(double x, double y, ArrayList<Integer> list) {
-
-		double xPos = 0;
-		for (Box box : children) {
-			if (xPos + box.getWidth() > x) {
-				if (box instanceof StrutBox) {
-					xPos += box.getWidth();
-					continue;
-				}
-				int idx = children.indexOf(box);
-				list.add(idx);
-				box.getPath(x - xPos, y, list);
-				return;
-			}
-			xPos += box.getWidth();
-		}
-		if (children.get(children.size() - 1) instanceof StrutBox) {
-			list.add(children.size() - 2);
-			children.get(children.size() - 2).getPath(x, y, list);
-			return;
-		}
-		if (x > xPos) {
-			list.add(children.size());
-			children.get(children.size() - 1).getPath(x - xPos, y, list);
-		}
+	ArrayList<Box> getChildren() {
+		return children;
 	}
 }

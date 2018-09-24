@@ -142,6 +142,14 @@ public class ColorAtom extends Atom implements Row {
 		return background;
 	}
 
+	protected Color getFg() {
+		return color;
+	}
+
+	protected Color getBg() {
+		return background;
+	}
+
 	public static Color getColor(String s) {
 		Graphics graphics = new Graphics();
 		if (s != null) {

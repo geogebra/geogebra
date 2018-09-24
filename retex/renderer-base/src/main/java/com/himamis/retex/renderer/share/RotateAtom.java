@@ -2,7 +2,7 @@
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2009-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,30 +24,28 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
 
 import java.util.Map;
-
-import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
  * An atom representing a rotated Atom.
@@ -57,7 +55,8 @@ public class RotateAtom extends Atom {
 	private Atom base;
 	private double angle;
 	private int option = -1;
-	private Unit xunit, yunit;
+	private TeXLength.Unit xunit;
+	private TeXLength.Unit yunit;
 	private double x, y;
 
 	@Override
@@ -75,50 +74,61 @@ public class RotateAtom extends Atom {
 
 	}
 
-	public RotateAtom(Atom base, String angle, String option) {
-		this.type = base.type;
-		this.base = base;
-		this.angle = Double.parseDouble(angle);
-		this.option = RotateBox.getOrigin(option);
+	public RotateAtom() {
+		//
 	}
 
-	public RotateAtom(Atom base, double angle, String option) {
-		this.type = base.type;
+	public RotateAtom(Atom base, double angle, Map<String, String> map) {
 		this.base = base;
 		this.angle = angle;
-		Map<String, String> map = ParseOption.parseMap(option);
 		if (map.containsKey("origin")) {
 			this.option = RotateBox.getOrigin(map.get("origin"));
 		} else {
+			TeXParser tp = null;
 			if (map.containsKey("x")) {
-				Object[] xinfo = SpaceAtom.getLength(map.get("x"));
-				this.xunit = (Unit) xinfo[0];
-				this.x = (Double) xinfo[1];
+				tp = new TeXParser();
+				tp.setParseString(map.get("x"));
+				final TeXLength lenX = tp.getLength();
+				this.xunit = lenX.getUnit();
+				this.x = lenX.getL();
 			} else {
 				this.xunit = TeXLength.Unit.POINT;
-				this.x = 0;
+				this.x = 0.;
 			}
 			if (map.containsKey("y")) {
-				Object[] yinfo = SpaceAtom.getLength(map.get("y"));
-				this.yunit = (Unit) yinfo[0];
-				this.y = (Double) yinfo[1];
+				if (tp == null) {
+					tp = new TeXParser();
+				}
+				tp.setParseString(map.get("y"));
+				final TeXLength lenY = tp.getLength();
+				this.xunit = lenY.getUnit();
+				this.x = lenY.getL();
 			} else {
 				this.yunit = TeXLength.Unit.POINT;
-				this.y = 0;
+				this.y = 0.;
 			}
 		}
 	}
 
-	private RotateAtom() {
-	}
-
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (option != -1) {
 			return new RotateBox(base.createBox(env), angle, option);
+		} else {
+			return new RotateBox(base.createBox(env), angle,
+					x * TeXLength.getFactor(xunit, env),
+					y * TeXLength.getFactor(yunit, env));
 		}
-		return new RotateBox(base.createBox(env), angle,
-				x * SpaceAtom.getFactor(xunit, env),
-				y * SpaceAtom.getFactor(yunit, env));
+	}
+
+	public int getLeftType() {
+		return base.getLeftType();
+	}
+
+	public int getRightType() {
+		return base.getRightType();
+	}
+
+	public int getLimits() {
+		return base.getLimits();
 	}
 }

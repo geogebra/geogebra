@@ -24,100 +24,108 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
-
-import com.himamis.retex.renderer.share.TeXConstants.Align;
 
 /**
  * An atom representing a vertical row of other atoms.
  */
 public class MultlineAtom extends Atom {
 
-	final public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX,
-			0.0f, 1.0f, 0.0f);
+	public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0., 1.,
+			0.);
 	public static final int MULTLINE = 0;
 	public static final int GATHER = 1;
 	public static final int GATHERED = 2;
 
 	private ArrayOfAtoms column;
-	private int type1;
-	private boolean isPartial;
+	private int type;
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(new MultlineAtom(isPartial, column, type));
-	}
-
-	public MultlineAtom(boolean isPartial, ArrayOfAtoms column, int type) {
-		this.isPartial = isPartial;
-		this.column = column;
-		this.type1 = type;
+	public Atom duplicate() {
+		return setFields(new MultlineAtom(column, type));
 	}
 
 	public MultlineAtom(ArrayOfAtoms column, int type) {
-		this(false, column, type);
+		this.column = column;
+		this.type = type;
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
+		if (type == GATHERED) {
+			return new ArrayAtom(column, ArrayOptions.getEmpty())
+					.createBox(env);
+		}
+		Box[] boxes = new Box[column.row];
+		for (int i = 0; i < column.row; ++i) {
+			boxes[i] = column.get(i, 0).createBox(env);
+		}
 		double tw = env.getTextwidth();
-		if (tw == Double.POSITIVE_INFINITY || type1 == GATHERED) {
-			return new MatrixAtom(isPartial, column, "").createBox(env);
+		if (tw == Double.POSITIVE_INFINITY) {
+			tw = -Double.POSITIVE_INFINITY;
+			for (int i = 0; i < column.row; ++i) {
+				tw = Math.max(tw, boxes[i].getWidth());
+			}
 		}
 
-		VerticalBox vb = new VerticalBox();
+		final VerticalBox vb = new VerticalBox();
 		Atom at = column.get(0, 0);
-		Align alignment = type1 == GATHER ? TeXConstants.Align.CENTER
-				: TeXConstants.Align.LEFT;
-		if (at.alignment != Align.NONE) {
-			alignment = at.alignment;
+		TeXConstants.Align atAlignment = at.getAlignment();
+		TeXConstants.Align alignment;
+		if (atAlignment != TeXConstants.Align.NONE) {
+			alignment = atAlignment;
+		} else {
+			alignment = type == GATHER ? TeXConstants.Align.CENTER
+					: TeXConstants.Align.LEFT;
 		}
-		vb.add(new HorizontalBox(at.createBox(env), tw, alignment));
+
+		vb.add(new HorizontalBox(boxes[0], tw, alignment));
 		Box Vsep = vsep_in.createBox(env);
 		for (int i = 1; i < column.row - 1; i++) {
 			at = column.get(i, 0);
-			alignment = TeXConstants.Align.CENTER;
-			if (at.alignment != Align.NONE) {
-				alignment = at.alignment;
-			}
+			atAlignment = at.getAlignment();
+			alignment = atAlignment == TeXConstants.Align.NONE
+					? TeXConstants.Align.CENTER : atAlignment;
 			vb.add(Vsep);
-			vb.add(new HorizontalBox(at.createBox(env), tw, alignment));
+			vb.add(new HorizontalBox(boxes[i], tw, alignment));
 		}
 
 		if (column.row > 1) {
 			at = column.get(column.row - 1, 0);
-			alignment = type1 == GATHER ? TeXConstants.Align.CENTER
-					: TeXConstants.Align.RIGHT;
-			if (at.alignment != Align.NONE) {
-				alignment = at.alignment;
+			atAlignment = at.getAlignment();
+			if (atAlignment != TeXConstants.Align.NONE) {
+				alignment = atAlignment;
+			} else {
+				alignment = type == GATHER ? TeXConstants.Align.CENTER
+						: TeXConstants.Align.RIGHT;
 			}
 			vb.add(Vsep);
-			vb.add(new HorizontalBox(at.createBox(env), tw, alignment));
+			vb.add(new HorizontalBox(boxes[column.row - 1], tw, alignment));
 		}
 
-		double height = vb.getHeight() + vb.getDepth();
-		vb.setHeight(height / 2);
-		vb.setDepth(height / 2);
+		final double height = vb.getHeight() + vb.getDepth();
+		vb.setHeight(height / 2.);
+		vb.setDepth(height / 2.);
 
 		return vb;
 	}
+
 }

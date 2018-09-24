@@ -63,9 +63,9 @@ public final class Symbols {
 			TeXConstants.TYPE_OPENING);
 	public static final SymbolAtom RANGLE = new SymbolAtom("rangle",
 			TeXConstants.TYPE_CLOSING);
-	// public static final SymbolAtom INT =
-	// (SymbolAtom)SymbolAtom.get("intop").changeLimits(TeXConstants.SCRIPT_NOLIMITS);
-	// public static final SymbolAtom INTOP = SymbolAtom.get("intop");
+	public static final SymbolAtom INT = (SymbolAtom) SymbolAtom.get("intop")
+			.changeLimits(TeXConstants.SCRIPT_NOLIMITS);
+	public static final SymbolAtom INTOP = SymbolAtom.get("intop");
 	public static final SymbolAtom OINT = (SymbolAtom) SymbolAtom.get("oint")
 			.changeLimits(TeXConstants.SCRIPT_NOLIMITS);
 	public static final SymbolAtom EQUALS = SymbolAtom.get("equals");
@@ -79,7 +79,7 @@ public final class Symbols {
 	public static final SymbolAtom DOT = SymbolAtom.get("dot");
 	public static final SymbolAtom DDOT = SymbolAtom.get("ddot");
 	public static final SymbolAtom NOT = SymbolAtom.get("not");
-	// public static final SymbolAtom WITH = SymbolAtom.get("&");
+	public static final SymbolAtom WITH = SymbolAtom.get("&");
 	public static final SymbolAtom SIM = SymbolAtom.get("sim");
 	public static final SymbolAtom VEE = SymbolAtom.get("vee");
 	public static final SymbolAtom VEC = SymbolAtom.get("vec");
@@ -103,6 +103,7 @@ public final class Symbols {
 	public static final SymbolAtom GRAVE = SymbolAtom.get("grave");
 	public static final SymbolAtom CHECK = SymbolAtom.get("check");
 	public static final SymbolAtom MATHRING = SymbolAtom.get("mathring");
+	public static final SymbolAtom APOSTROPHE = SymbolAtom.get("textapos");
 	public static final SymbolAtom PRIME = SymbolAtom.get("prime");
 	public static final SymbolAtom BACKPRIME = SymbolAtom.get("backprime");
 	public static final SymbolAtom SLASH = SymbolAtom.get("slash");

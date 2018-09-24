@@ -80,6 +80,7 @@ public final class ArrayOptions {
 			return separator;
 		}
 
+		@Override
 		public String toString() {
 			String a = "";
 			switch (alignment) {
@@ -211,6 +212,7 @@ public final class ArrayOptions {
 		return this;
 	}
 
+	@Override
 	public String toString() {
 		String s = "";
 		boolean first = true;

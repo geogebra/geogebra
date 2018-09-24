@@ -46,6 +46,7 @@
 package com.himamis.retex.renderer.share.mhchem;
 
 import com.himamis.retex.renderer.share.Box;
+import com.himamis.retex.renderer.share.Font_ID;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -85,8 +86,7 @@ public class MhchemBondBox extends Box {
 		}
 	}
 
-	public int getLastFontId() {
-		return 0;
+	public Font_ID getLastFontId() {
+		return Font_ID.jlm_msbm10;
 	}
-
 }

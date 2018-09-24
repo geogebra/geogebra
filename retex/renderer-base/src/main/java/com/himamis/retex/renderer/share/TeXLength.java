@@ -70,6 +70,12 @@ public class TeXLength {
 
 	private static final Map<String, TeXLength> map = new HashMap<String, TeXLength>() {
 		{
+
+			// value compatible with JLaTeXMath v1
+			// put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
+			// to change it, do this in your code
+			// TeXLength.put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
+			// changed for v2 to be more correct
 			put("fboxsep", new TeXLength(Unit.PT, 3.));
 			put("scriptspace", new TeXLength(Unit.PT, 0.5));
 			put("nulldelimiterspace", new TeXLength(Unit.PT, 1.2));
@@ -120,7 +126,7 @@ public class TeXLength {
 	}
 
 	public static TeXLength getNone() {
-		return zero;
+		return none;
 	}
 
 	public static double getFactor(Unit unit, TeXEnvironment env) {
@@ -138,7 +144,7 @@ public class TeXLength {
 			return (12. * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 		case MU:
 			final TeXFont tf = env.getTeXFont();
-			return tf.getQuad(env.getStyle(), tf.getMuFontId()) / 18.;
+			return tf.getQuad(env.getStyle(), TeXFont.MUFONT) / 18.;
 		case CM:
 			return (28.346456693 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 		case MM:
@@ -192,5 +198,9 @@ public class TeXLength {
 
 	public String toString() {
 		return l + "_" + unit;
+	}
+
+	public static void put(String s, TeXLength len) {
+		map.put(s, len);
 	}
 }

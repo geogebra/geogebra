@@ -86,7 +86,6 @@ public class MathchoiceAtom extends Atom {
 
 	@Override
 	public Atom duplicate() {
-		return new MathchoiceAtom(d.duplicate(), t.duplicate(), s.duplicate(),
-				ss.duplicate());
+		return setFields(new MathchoiceAtom(d, t, s, ss));
 	}
 }

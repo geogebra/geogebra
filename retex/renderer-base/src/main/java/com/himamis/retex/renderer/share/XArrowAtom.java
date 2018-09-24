@@ -59,7 +59,7 @@ public class XArrowAtom extends XAtom {
 
 	@Override
 	public Atom duplicate() {
-		return new XArrowAtom(over, under, minW, kind);
+		return setFields(new XArrowAtom(over, under, minW, kind));
 	}
 
 	public XArrowAtom(Atom over, Atom under, TeXLength minW, Kind kind) {

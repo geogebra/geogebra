@@ -25,35 +25,31 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.character.Character;
-import com.himamis.retex.renderer.share.exception.SymbolMappingNotFoundException;
-import com.himamis.retex.renderer.share.exception.TextStyleMappingNotFoundException;
-import com.himamis.retex.renderer.share.exception.XMLResourceParseException;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
 /**
@@ -62,43 +58,75 @@ import com.himamis.retex.renderer.share.platform.font.Font;
  */
 public class TeXFont {
 
-	public static final int NO_FONT = -1;
-
-	private static String[] defaultTextStyleMappings;
-
 	/**
 	 * No extension part for that kind (TOP,MID,REP or BOT)
 	 */
 	protected static final int NONE = -1;
+
+	private final static int[] OFFSETS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+			29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+			46, 47, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 58, 59, 60, 61, 62, 63, 64, 0,
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+			20, 21, 22, 23, 24, 25, 91, 92, 93, 94, 95, 96, 0, 1, 2, 3, 4, 5, 6,
+			7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+			25 };
+	private final static int[] KINDS = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+			3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2,
+			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 
 	protected final static int NUMBERS = 0;
 	protected final static int CAPITALS = 1;
 	protected final static int SMALL = 2;
 	protected final static int UNICODE = 3;
 
-	// Number of font ids in a single font description file.
-	// private static final int NUMBER_OF_FONT_IDS = 256;
+	public static final Font_ID MUFONT = Font_ID.jlm_cmsy10;
+	public static final Font_ID SPACEFONT = Font_ID.jlm_cmr10;
 
-	private static Map<String, CharFont[]> textStyleMappings;
-	private static Map<String, CharFont> symbolMappings;
-	public static ArrayList<FontInfo> fontInfo = new ArrayList<FontInfo>();
-	private static Map<String, Double> parameters;
-	private static Map<String, Number> generalSettings;
+	public static final double TEXTFACTOR = 1.0;
+	public static final double SCRIPTFACTOR = 0.7;
+	public static final double SCRIPTSCRIPTFACTOR = 0.5;
 
-	// private static boolean magnificationEnable = true;
+	static Map<String, CharFont> symbolMappings;
+	public static Map<Font_ID, FontInfo> fontInfo = new HashMap<>();
+
+	static Map<String, Double> parameters = new HashMap<String, Double>() {
+		{
+			put("num1", 0.676508);
+			put("num2", 0.393732);
+			put("num3", 0.443731);
+			put("denom1", 0.685951);
+			put("denom2", 0.344841);
+			put("sup1", 0.412892);
+			put("sup2", 0.362892);
+			put("sup3", 0.288889);
+			put("sub1", 0.15);
+			put("sub2", 0.247217);
+			put("supdrop", 0.386108);
+			put("subdrop", 0.05);
+			put("axisheight", 0.25);
+			put("defaultrulethickness", 0.039999);
+			put("bigopspacing1", 0.111112);
+			put("bigopspacing2", 0.166667);
+			put("bigopspacing3", 0.2);
+			put("bigopspacing4", 0.6);
+			put("bigopspacing5", 0.1);
+		}
+	};
 
 	protected static final int TOP = 0, MID = 1, REP = 2, BOT = 3;
 
 	protected static final int WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
 
-	public static final int SERIF = TeXFormula.SERIF;
-	public static final int SANSSERIF = TeXFormula.SANSSERIF;
-	public static final int BOLD = TeXFormula.BOLD;
-	public static final int ITALIC = TeXFormula.ITALIC;
-	public static final int ROMAN = TeXFormula.ROMAN;
-	public static final int TYPEWRITER = TeXFormula.TYPEWRITER;
-
-	public static List<Character.UnicodeBlock> loadedAlphabets = new ArrayList<Character.UnicodeBlock>();
+	public static final int SERIF = 0;
+	public static final int SANSSERIF = 1;
+	public static final int BOLD = 2;
+	public static final int ITALIC = 4;
+	public static final int ROMAN = 8;
+	public static final int TYPEWRITER = 16;
 
 	protected double factor = 1;
 
@@ -108,43 +136,11 @@ public class TeXFont {
 	public boolean isTt = false;
 	public boolean isIt = false;
 
-	static {
-		DefaultTeXFontParser parser = new DefaultTeXFontParser();
-		// load LATIN block
-		loadedAlphabets.add(Character.UnicodeBlock.of('a'));
-		// fonts + font descriptions
-		parser.parseFontDescriptions(fontInfo);
-		// general font parameters
-		parameters = parser.parseParameters();
-		// text style mappings
-		textStyleMappings = parser.parseTextStyleMappings();
-		// default text style : style mappings
-		defaultTextStyleMappings = parser.parseDefaultTextStyleMappings();
-		// symbol mappings
-		symbolMappings = parser.parseSymbolMappings();
-		// general settings
-		generalSettings = parser.parseGeneralSettings();
-		generalSettings.put("textfactor", 1);
-
-		// check if mufontid exists
-		int muFontId = generalSettings.get(DefaultTeXFontParser.MUFONTID_ATTR)
-				.intValue();
-		if (muFontId < 0 || muFontId >= fontInfo.size()
-				|| fontInfo.get(muFontId) == null) {
-			throw new XMLResourceParseException(
-					DefaultTeXFontParser.RESOURCE_NAME,
-					DefaultTeXFontParser.GEN_SET_EL,
-					DefaultTeXFontParser.MUFONTID_ATTR,
-					"contains an unknown font id!");
-		}
-	}
-
 	private final double size; // standard size
 
-	public static Font getFont(int fontId) {
+	public static Font getFont(Font_ID fontId) {
 		FontInfo info = fontInfo.get(fontId);
-		Font font = info.getFont();
-		return font;
+		return info.getFont();
 	}
 
 	public TeXFont(double pointSize) {
@@ -213,105 +209,80 @@ public class TeXFont {
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
-	private Char getChar(char c, CharFont[] cf, int style) {
+	private Char getChar(char c, TextStyle[] styles, int style) {
 		int kind, offset;
-		if (c >= '0' && c <= '9') {
-			kind = NUMBERS;
-			offset = c - '0';
-		} else if (c >= 'a' && c <= 'z') {
-			kind = SMALL;
-			offset = c - 'a';
-		} else if (c >= 'A' && c <= 'Z') {
-			kind = CAPITALS;
-			offset = c - 'A';
+		if (c < OFFSETS.length) {
+			kind = KINDS[c];
+			offset = OFFSETS[c];
 		} else {
-			kind = UNICODE;
+			kind = TextStyle.UNICODE;
 			offset = c;
 		}
 
 		// if the mapping for the character's range, then use the default style
-		if (cf[kind] == null) {
-			return getDefaultChar(c, style);
+		if (styles[kind] == null) {
+			styles = TextStyle.getDefault();
 		}
-		return getChar(
-				new CharFont((char) (cf[kind].c + offset), cf[kind].fontId),
-				style);
+		return getChar(new CharFont((char) (styles[kind].getStart() + offset),
+				styles[kind].getFontId()), style);
 	}
 
-	public Char getChar(char c, int textStyle0, int style)
-			throws TextStyleMappingNotFoundException {
-		// XXX
-		String textStyle = TextStyle.getStyle(textStyle0);
-
-		return getChar(c, textStyle, style);
+	public Char getChar(char c, int style) {
+		;
+		return getChar(c, TextStyle.get(TextStyle.MATHNORMAL), style);
 	}
 
-	public Char getChar(char c, String textStyle, int style)
-			throws TextStyleMappingNotFoundException {
-
-		Object mapping = textStyleMappings.get(textStyle);
-		if (mapping == null) {
-			throw new TextStyleMappingNotFoundException(textStyle);
-		}
-		return getChar(c, (CharFont[]) mapping, style);
+	public Char getChar(char c, int textStyle, int style) {
+		return getChar(c, TextStyle.get(textStyle), style);
 	}
 
 	public Char getChar(CharFont cf0, int style) {
 		double fsize = getSizeFactor(style);
-		int id = isBold ? cf0.boldFontId : cf0.fontId;
+		Font_ID id = isBold ? cf0.boldFontId : cf0.fontId;
+		// FactoryProvider.getInstance()
+		// .debug("getChar" + id + " " + fontInfo.size());
 		FontInfo info = fontInfo.get(id);
 		CharFont cf = cf0;
 		if (isBold && cf.fontId == cf.boldFontId) {
-			id = info.getBoldId();
+			id = id.getBoldId();
 			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id, style);
+			cf = new CharFont(cf.c, id);
 		}
 		if (isRoman) {
-			id = info.getRomanId();
+			id = id.getRomanId();
 			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id, style);
+			cf = new CharFont(cf.c, id);
 		}
 		if (isSs) {
-			id = info.getSsId();
+			id = id.getSsId();
 			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id, style);
+			cf = new CharFont(cf.c, id);
 		}
 		if (isTt) {
-			id = info.getTtId();
+			id = id.getTtId();
 			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id, style);
+			cf = new CharFont(cf.c, id);
 		}
 		if (isIt) {
-			id = info.getItId();
+			id = id.getItId();
 			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id, style);
+			cf = new CharFont(cf.c, id);
 		}
 		Font font = info.getFont();
 		return new Char(cf.c, font, id, getMetrics(cf, factor * fsize));
 	}
 
-	public Char getChar(String symbolName, int style)
-			throws SymbolMappingNotFoundException {
-		Object obj = symbolMappings.get(symbolName);
+	public Char getChar(String symbolName, int style) {
+		CharFont obj = Configuration.get().getFontMapping().get(symbolName);
 		if (obj == null) {// no symbol mapping found!
-			// for (Entry<String, CharFont> e : symbolMappings.entrySet()) {
-			// System.out.println(e.getKey() + " , " + e.getValue());
-			// }
-			throw new SymbolMappingNotFoundException(symbolName);
-		}
-		return getChar((CharFont) obj, style);
-	}
 
-	public Char getDefaultChar(char c, int style) {
-		// these default text style mappings will always exist,
-		// because it's checked during parsing
-		if (c >= '0' && c <= '9') {
-			return getChar(c, defaultTextStyleMappings[NUMBERS], style);
-		} else if (c >= 'a' && c <= 'z') {
-			return getChar(c, defaultTextStyleMappings[SMALL], style);
-		} else {
-			return getChar(c, defaultTextStyleMappings[CAPITALS], style);
+			// XXX
+			FactoryProvider.getInstance()
+					.debug("no symbol mapping found in getChar()");
+			return null;
+			// throw new SymbolMappingNotFoundException(symbolName);
 		}
+		return getChar(obj, style);
 	}
 
 	public double getDefaultRuleThickness(int style) {
@@ -331,7 +302,7 @@ public class TeXFont {
 
 	public Extension getExtension(Char c, int style) {
 		Font f = c.getFont();
-		int fc = c.getFontCode();
+		Font_ID fc = c.getFontCode();
 		double s = getSizeFactor(style);
 
 		// construct Char for every part
@@ -378,11 +349,6 @@ public class TeXFont {
 				size * TeXFormula.PIXELS_PER_POINT, size);
 	}
 
-	public int getMuFontId() {
-		return generalSettings.get(DefaultTeXFontParser.MUFONTID_ATTR)
-				.intValue();
-	}
-
 	public Char getNextLarger(Char c, int style) {
 		FontInfo info = fontInfo.get(c.getFontCode());
 		CharFont ch = info.getNextLarger(c.getChar());
@@ -406,13 +372,13 @@ public class TeXFont {
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public double getQuad(int style, int fontCode) {
+	public double getQuad(int style, Font_ID fontCode) {
 		FontInfo info = fontInfo.get(fontCode);
 		return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
 	public double getQuad(int style) {
-		return getQuad(style, getMuFontId());
+		return getQuad(style, MUFONT);
 	}
 
 	public double getSize() {
@@ -420,18 +386,15 @@ public class TeXFont {
 	}
 
 	public double getSkew(CharFont cf, int style) {
-		FontInfo info = fontInfo.get(cf.fontId);
-		char skew = info.getSkewChar();
-		if (skew == -1) {
+		if (cf.fontId.skewChar == -1) {
 			return 0;
 		}
-		return getKern(cf, new CharFont(skew, cf.fontId), style);
+		return getKern(cf, new CharFont((char) cf.fontId.skewChar, cf.fontId),
+				style);
 	}
 
 	public double getSpace(int style) {
-		int spaceFontId = generalSettings
-				.get(DefaultTeXFontParser.SPACEFONTID_ATTR).intValue();
-		FontInfo info = fontInfo.get(spaceFontId);
+		FontInfo info = fontInfo.get(SPACEFONT);
 		return info
 				.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
@@ -471,7 +434,7 @@ public class TeXFont {
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public double getXHeight(int style, int fontCode) {
+	public double getXHeight(int style, Font_ID fontCode) {
 		FontInfo info = fontInfo.get(fontCode);
 		return info
 				.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
@@ -526,7 +489,7 @@ public class TeXFont {
 		return isSs;
 	}
 
-	public boolean hasSpace(int font) {
+	public boolean hasSpace(Font_ID font) {
 		FontInfo info = fontInfo.get(font);
 		return info.hasSpace();
 	}
@@ -568,11 +531,11 @@ public class TeXFont {
 		if (style < TeXConstants.STYLE_TEXT) {
 			return 1;
 		} else if (style < TeXConstants.STYLE_SCRIPT) {
-			return generalSettings.get("textfactor").doubleValue();
+			return TEXTFACTOR;
 		} else if (style < TeXConstants.STYLE_SCRIPT_SCRIPT) {
-			return generalSettings.get("scriptfactor").doubleValue();
+			return SCRIPTFACTOR;
 		} else {
-			return generalSettings.get("scriptscriptfactor").doubleValue();
+			return SCRIPTSCRIPTFACTOR;
 		}
 	}
 
@@ -582,10 +545,12 @@ public class TeXFont {
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public FontInfo getFontInfo(final int i) {
-		// XXX
-		// return Configuration.get().getFontInfo(i);
-		return TeXFont.fontInfo.get(i);
+	public FontInfo getFontInfo(final Font_ID i) {
+		return Configuration.get().getFontInfo(i);
 	}
 
+	public double getDefaultXHeight(int style) {
+		return getFontInfo(SPACEFONT)
+				.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+	}
 }

@@ -115,7 +115,7 @@ public class FramedBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		return box.getLastFontId();
 	}
 }

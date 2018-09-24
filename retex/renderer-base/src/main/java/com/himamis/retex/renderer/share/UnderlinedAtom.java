@@ -49,7 +49,7 @@ package com.himamis.retex.renderer.share;
 /**
  * An atom representing another atom with a line under it.
  */
-class UnderlinedAtom extends Atom {
+public class UnderlinedAtom extends Atom {
 
 	// the base to be underlined
 	private final Atom base;

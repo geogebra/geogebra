@@ -24,23 +24,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -51,6 +51,8 @@ package com.himamis.retex.renderer.share;
 public class CedillaAtom extends Atom {
 
 	private Atom base;
+	private static final SymbolAtom CEDILLA = SymbolAtom
+			.get("jlatexmathcedilla");
 
 	@Override
 	final public Atom duplicate() {
@@ -61,24 +63,25 @@ public class CedillaAtom extends Atom {
 		this.base = base;
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base.createBox(env);
 		VerticalBox vb = new VerticalBox();
 		vb.add(b);
-		Char ch = env.getTeXFont().getChar("jlatexmathcedilla", env.getStyle());
+		Char ch = env.getTeXFont().getChar(CEDILLA.getCf(), env.getStyle());
 		double italic = ch.getItalic();
 		Box cedilla = new CharBox(ch);
 		Box y;
 		if (Math.abs(italic) > TeXFormula.PREC) {
-			y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
-			y.add(cedilla);
+			HorizontalBox hb = new HorizontalBox(
+					new StrutBox(-italic, 0, 0, 0));
+			hb.add(cedilla);
+			y = hb;
 		} else {
 			y = cedilla;
 		}
 
 		Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.Align.CENTER);
-		double x = 0.4 * SpaceAtom.getFactor(TeXLength.Unit.MU, env);
+		double x = 0.4 * TeXLength.getFactor(TeXLength.Unit.MU, env);
 		vb.add(new StrutBox(0, -x, 0, 0));
 		vb.add(ce);
 		double f = vb.getHeight() + vb.getDepth();

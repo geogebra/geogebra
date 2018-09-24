@@ -3407,4 +3407,12 @@ public final class Character {
 		return x;
 	}
 
+	public static boolean isUpperCase(char ch) {
+		return java.lang.Character.isUpperCase(ch);
+	}
+
+	public static char toLowerCase(char ch) {
+		return java.lang.Character.toLowerCase(ch);
+	}
+
 }

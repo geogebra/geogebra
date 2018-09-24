@@ -56,16 +56,17 @@ import com.himamis.retex.renderer.share.TeXEnvironment;
  */
 public class CEEmptyAtom extends Atom {
 
-	private static CEEmptyAtom instance = new CEEmptyAtom();
+	// private static CEEmptyAtom instance = new CEEmptyAtom();
 
 	public CEEmptyAtom() {
 		type = TeXConstants.TYPE_ORDINARY;
 	}
 
 	public static CEEmptyAtom get() {
-		return instance;
+		return new CEEmptyAtom();
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0.,
 				0.);
@@ -73,7 +74,6 @@ public class CEEmptyAtom extends Atom {
 
 	@Override
 	public Atom duplicate() {
-		// XXX
-		return this;
+		return setFields(new CEEmptyAtom());
 	}
 }

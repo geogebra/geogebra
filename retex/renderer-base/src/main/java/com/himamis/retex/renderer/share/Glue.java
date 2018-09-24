@@ -59,16 +59,36 @@ public class Glue {
 	private final String name;
 
 	// contains the different glue types
-	private static Glue[] glueTypes;
+	private static Glue[] glueTypes = { new Glue(0.0, 0.0, 0.0, "default"),
+			new Glue(3.0, 0.0, 0.0, "thin"), new Glue(4.0, 2.0, 4.0, "med"),
+			new Glue(5.0, 5.0, 0.0, "thick") };
 
 	// the glue table representing the "glue rules" (as in TeX)
-	private static final int[][][] glueTable;
-
-	static {
-		GlueSettingsParser parser = new GlueSettingsParser();
-		glueTypes = parser.getGlueTypes();
-		glueTable = parser.createGlueTable();
-	}
+	private static final int[][][] glueTable = {
+			{ { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 2, 2, 0, 0 }, { 3, 3, 0, 0 },
+					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 1, 1, 0, 0 } },
+			{ { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 3, 3, 0, 0 },
+					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 1, 1, 0, 0 } },
+			{ { 2, 2, 0, 0 }, { 2, 2, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 2, 2, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 2, 2, 0, 0 } },
+			{ { 3, 3, 0, 0 }, { 3, 3, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 3, 3, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 3, 3, 0, 0 } },
+			{ { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 0, 0, 0, 0 } },
+			{ { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 2, 2, 0, 0 }, { 3, 3, 0, 0 },
+					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
+					{ 1, 1, 0, 0 } },
+			{ { 1, 1, 0, 0 }, { 2, 2, 0, 0 }, { 0, 0, 0, 0 }, { 3, 3, 0, 0 },
+					{ 1, 1, 0, 0 }, { 1, 1, 0, 0 }, { 2, 2, 0, 0 },
+					{ 3, 3, 0, 0 } },
+			{ { 1, 1, 0, 0 }, { 1, 1, 1, 1 }, { 2, 2, 0, 0 }, { 3, 3, 0, 0 },
+					{ 1, 1, 0, 0 }, { 0, 0, 0, 0 }, { 1, 1, 0, 0 },
+					{ 1, 1, 0, 0 } } };
 
 	public Glue(double space, double stretch, double shrink, String name) {
 		this.space = space;
@@ -112,7 +132,7 @@ public class Glue {
 	private Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		// use "quad" from a font marked as an "mu font"
-		double quad = tf.getQuad(env.getStyle(), tf.getMuFontId());
+		double quad = tf.getQuad(env.getStyle(), TeXFont.MUFONT);
 
 		return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad,
 				(shrink / 18.0f) * quad);

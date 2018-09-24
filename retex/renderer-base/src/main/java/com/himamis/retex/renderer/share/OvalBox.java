@@ -80,7 +80,7 @@ public class OvalBox extends FramedBox {
 	}
 
 	@Override
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		return box.getLastFontId();
 	}
 }

@@ -108,7 +108,7 @@ public abstract class FactoryProvider {
 	}
 
 	public void debug(Object string) {
-		System.out.println("[ReTeX] " + string);
+		System.out.println("[JLM] " + string);
 
 	}
 

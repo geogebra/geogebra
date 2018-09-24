@@ -25,30 +25,30 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 /* Modified by Calixte Denizet */
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.TeXLength.Unit;
+import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
@@ -59,7 +59,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class TeXEnvironment {
 
 	// colors
-	private Color background = null, color = null;
+	private Color background = null;
+	private Color color = null;
 
 	// current style
 	private int style = TeXConstants.STYLE_DISPLAY;
@@ -67,60 +68,66 @@ public class TeXEnvironment {
 	// TeXFont used
 	private TeXFont tf;
 
+	// Java Font to use
+	private Font javaFont;
+
 	// last used font
-	private int lastFontId = TeXFont.NO_FONT;
+	private Font_ID lastFontId;
 
 	private double textwidth = Double.POSITIVE_INFINITY;
 
-	private int textStyle;
+	private int textStyle = TextStyle.NONE;
 	private boolean smallCap;
-	private double scaleFactor = 1;
-	private Unit interlineUnit;
+	private double scaleFactor = 1.;
+	private TeXLength.Unit interlineUnit;
 	private double interline;
 
 	public boolean isColored = false;
 
-	public TeXEnvironment(int style, TeXFont tf) {
-		this(style, tf, null, null);
+	public TeXEnvironment(int style, TeXFont tf, int textStyle) {
+		this(style, tf, null, null, textStyle);
 	}
 
-	public TeXEnvironment(int style, TeXFont tf, Unit widthUnit,
-			double textwidth) {
-		this(style, tf, null, null);
-		this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
+	public TeXEnvironment(int style, TeXFont tf, TeXLength.Unit widthUnit,
+			double textwidth, int textStyle) {
+		this(style, tf, null, null, textStyle);
+		this.textwidth = textwidth * TeXLength.getFactor(widthUnit, this);
 	}
 
-	private TeXEnvironment(int style, TeXFont tf, Color bg, Color c) {
+	private TeXEnvironment(int style, TeXFont tf, Color bg, Color c,
+			int textStyle) {
 		this.style = style;
 		this.tf = tf;
 		background = bg;
 		color = c;
-		setInterline(TeXLength.Unit.EX, 1f);
+		this.textStyle = textStyle;
+		setInterline(TeXLength.Unit.EX, 1.);
 	}
 
 	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
-			Color c, int textStyle, boolean smallCap) {
+			Color c, int textStyle, boolean smallCap, Font javaFont) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
 		this.tf = tf;
 		this.textStyle = textStyle;
 		this.smallCap = smallCap;
-		background = bg;
-		color = c;
-		setInterline(TeXLength.Unit.EX, 1f);
+		this.javaFont = javaFont;
+		this.background = bg;
+		this.color = c;
+		setInterline(TeXLength.Unit.EX, 1.);
 	}
 
-	public void setInterline(Unit unit, double len) {
+	public void setInterline(TeXLength.Unit unit, double len) {
 		this.interline = len;
 		this.interlineUnit = unit;
 	}
 
 	public double getInterline() {
-		return interline * SpaceAtom.getFactor(interlineUnit, this);
+		return interline * TeXLength.getFactor(interlineUnit, this);
 	}
 
-	public void setTextwidth(Unit widthUnit, double textwidth) {
-		this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
+	public void setTextwidth(TeXLength.Unit widthUnit, double textwidth) {
+		this.textwidth = textwidth * TeXLength.getFactor(widthUnit, this);
 	}
 
 	public double getTextwidth() {
@@ -137,12 +144,12 @@ public class TeXEnvironment {
 
 	protected TeXEnvironment copy() {
 		return new TeXEnvironment(style, scaleFactor, tf, background, color,
-				textStyle, smallCap);
+				textStyle, smallCap, javaFont);
 	}
 
 	protected TeXEnvironment copy(TeXFont tf) {
 		TeXEnvironment te = new TeXEnvironment(style, scaleFactor, tf,
-				background, color, textStyle, smallCap);
+				background, color, textStyle, smallCap, javaFont);
 		te.textwidth = textwidth;
 		te.interline = interline;
 		te.interlineUnit = interlineUnit;
@@ -154,7 +161,7 @@ public class TeXEnvironment {
 	 */
 	public TeXEnvironment crampStyle() {
 		TeXEnvironment s = copy();
-		s.style = (style % 2 == 1 ? style : style + 1);
+		s.style = style | 1;
 		return s;
 	}
 
@@ -164,7 +171,37 @@ public class TeXEnvironment {
 	 */
 	public TeXEnvironment denomStyle() {
 		TeXEnvironment s = copy();
-		s.style = 2 * (style / 2) + 1 + 2 - 2 * (style / 6);
+		s.style = style <= 3 ? ((style & 2) + 3) : 7;
+		return s;
+	}
+
+	/**
+	 *
+	 * @return a copy of the environment, but in numerator style.
+	 */
+	public TeXEnvironment numStyle() {
+		TeXEnvironment s = copy();
+		s.style = (style <= 5 ? 2 : 0) + style;
+		return s;
+	}
+
+	/**
+	 *
+	 * @return a copy of the environment, but in subscript style.
+	 */
+	public TeXEnvironment subStyle() {
+		TeXEnvironment s = copy();
+		s.style = style <= 3 ? 5 : 7;
+		return s;
+	}
+
+	/**
+	 *
+	 * @return a copy of the environment, but in superscript style.
+	 */
+	public TeXEnvironment supStyle() {
+		TeXEnvironment s = copy();
+		s.style = (style <= 3 ? 4 : 6) + (style & 1);
 		return s;
 	}
 
@@ -216,6 +253,17 @@ public class TeXEnvironment {
 	}
 
 	/**
+	 * @return the current java Font
+	 */
+	public Font getJavaFont() {
+		return javaFont;
+	}
+
+	public void setJavaFont(Font javaFont) {
+		this.javaFont = javaFont;
+	}
+
+	/**
 	 * @return the current textStyle
 	 */
 	public boolean getSmallCap() {
@@ -235,20 +283,10 @@ public class TeXEnvironment {
 	}
 
 	/**
-	 *
-	 * @return a copy of the environment, but in numerator style.
-	 */
-	public TeXEnvironment numStyle() {
-		TeXEnvironment s = copy();
-		s.style = style + 2 - 2 * (style / 6);
-		return s;
-	}
-
-	/**
 	 * Resets the color settings.
 	 *
 	 */
-	public void reset() {
+	public void resetColors() {
 		color = null;
 		background = null;
 	}
@@ -281,46 +319,17 @@ public class TeXEnvironment {
 		color = c;
 	}
 
-	/**
-	 *
-	 * @return a copy of the environment, but in subscript style.
-	 */
-	public TeXEnvironment subStyle() {
-		TeXEnvironment s = copy();
-		s.style = 2 * (style / 4) + 4 + 1;
-		return s;
-	}
-
-	/**
-	 *
-	 * @return a copy of the environment, but in superscript style.
-	 */
-	public TeXEnvironment supStyle() {
-		TeXEnvironment s = copy();
-		s.style = 2 * (style / 4) + 4 + (style % 2);
-		return s;
-	}
-
 	public double getSpace() {
 		return tf.getSpace(style) * tf.getScaleFactor();
 	}
 
-	public void setLastFontId(int id) {
+	public void setLastFontId(Font_ID id) {
 		lastFontId = id;
 	}
 
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		// if there was no last font id (whitespace boxes only), use default "mu
 		// font"
-		return (lastFontId == TeXFont.NO_FONT ? tf.getMuFontId() : lastFontId);
-	}
-
-	/**
-	 * Resets the color settings.
-	 *
-	 */
-	public void resetColors() {
-		color = null;
-		background = null;
+		return (lastFontId == null ? TeXFont.MUFONT : lastFontId);
 	}
 }

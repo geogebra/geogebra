@@ -47,22 +47,35 @@ package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 /**
  * A box representing a box containing a graphics.
  */
 public class GraphicsBox extends Box {
 
+	public final static int BILINEAR = 0;
+	public final static int NEAREST_NEIGHBOR = 1;
+	public final static int BICUBIC = 2;
+
 	private Image image;
 	private double scl;
+	private int interp = -1;
 
 	public GraphicsBox(Image image, double width, double height, double size) {
+		this(image, width, height, size,
+				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+	}
+
+	public GraphicsBox(Image image, double width, double height, double size,
+			final int interpolation) {
 		this.image = image;
 		this.width = width;
 		this.height = height;
 		this.scl = 1 / size;
 		depth = 0;
 		shift = 0;
+
 	}
 
 	public void draw(Graphics2DInterface g2, double x, double y) {
@@ -71,14 +84,23 @@ public class GraphicsBox extends Box {
 
 		g2.saveTransformation();
 
+		int oldKey = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+		if (interp != -1) {
+			oldKey = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interp);
+		}
+
 		g2.translate(x, y - height);
 		g2.scale(scl, scl);
 		g2.drawImage(image, 0, 0);
 		g2.restoreTransformation();
+		if (interp != -1 && oldKey != -1) {
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldKey);
+		}
 
 	}
 
-	public int getLastFontId() {
-		return 0;
+	public Font_ID getLastFontId() {
+		return Font_ID.jlm_msbm10;
 	}
 }

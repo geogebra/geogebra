@@ -1,8 +1,8 @@
 /* TeXParser.java
  * =========================================================================
- * This file is part of the JLaTeXMath Library - http://forge.scilab.org/p/jlatexmath
+ * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,993 +24,2123 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.himamis.retex.renderer.share.character.Character;
-import com.himamis.retex.renderer.share.exception.FormulaNotFoundException;
 import com.himamis.retex.renderer.share.exception.ParseException;
-import com.himamis.retex.renderer.share.exception.SymbolNotFoundException;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
- * This class implements a parser for LaTeX' formulas.
+ * This class implements a parser for LaTeX formulas.
  */
 public class TeXParser {
 
-	TeXFormula formula;
-
-	private StringBuilder parseString;
+	protected ArrayDeque<AtomConsumer> stack;
+	protected ArrayDeque<ParsedString> stringStack;
+	protected ArrayDeque<Boolean> modeStack;
+	protected String parseString;
+	protected int cpos = -1;
 	protected int pos;
-	private int spos;
-	private int line;
-	private int col;
-	private int len;
-	private int group;
-	private boolean insertion;
-	private int atIsLetter;
-	private boolean arrayMode;
-	private boolean ignoreWhiteSpace = true;
-	private boolean isPartial;
-	// the escape character
-	private static final char ESCAPE = '\\';
+	protected int prevpos;
+	protected int line;
+	protected int col;
+	protected int len;
+	protected int stopPos = -1;
+	protected boolean ignoreWhiteSpace = true;
+	protected CharMapping charMapping = CharMapping.getDefault();
+	private Configuration configuration = Configuration.get();
+	private Map<String, String> xmlMap;
 
-	// grouping characters (for parsing)
-	private static final char L_GROUP = '{';
-	private static final char R_GROUP = '}';
-	private static final char L_BRACK = '[';
-	private static final char R_BRACK = ']';
-	private static final char DOLLAR = '$';
-	private static final char DQUOTE = '\"';
+	// TODO: handle correctly partial stuff
+	protected boolean isPartial;
 
-	// Percent char for comments
-	private static final char PERCENT = '%';
+	// 00 01 02 03 04 05 06 07 08 09
+	private static final int[] HEX_ARRAY = { 16, 16, 16, 16, 16, 16, 16, 16, 16,
+			16, // 00
+			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 10
+			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 20
+			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 30
+			16, 16, 16, 16, 16, 16, 16, 16, 0, 1, // 40
+			2, 3, 4, 5, 6, 7, 8, 9, 16, 16, // 50
+			16, 16, 16, 16, 16, 10, 11, 12, 13, 14, // 60
+			15, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 70
+			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 80
+			16, 16, 16, 16, 16, 16, 16, 10, 11, 12, // 90
+			13, 14, 15 }; // 100
 
-	// script characters (for parsing)
-	private static final char SUB_SCRIPT = '_';
-	private static final char SUPER_SCRIPT = '^';
-	private static final char PRIME = '\'';
-	private static final char BACKPRIME = '\u2035';
-	private static final char DEGREE = '\u00B0';
-	private static final char SUPZERO = '\u2070';
-	private static final char SUPONE = '\u00B9';
-	private static final char SUPTWO = '\u00B2';
-	private static final char SUPTHREE = '\u00B3';
-	private static final char SUPFOUR = '\u2074';
-	private static final char SUPFIVE = '\u2075';
-	private static final char SUPSIX = '\u2076';
-	private static final char SUPSEVEN = '\u2077';
-	private static final char SUPEIGHT = '\u2078';
-	private static final char SUPNINE = '\u2079';
-	private static final char SUPPLUS = '\u207A';
-	private static final char SUPMINUS = '\u207B';
-	private static final char SUPEQUAL = '\u207C';
-	private static final char SUPLPAR = '\u207D';
-	private static final char SUPRPAR = '\u207E';
-	private static final char SUPN = '\u207F';
-	private static final char SUBZERO = '\u2080';
-	private static final char SUBONE = '\u2081';
-	private static final char SUBTWO = '\u2082';
-	private static final char SUBTHREE = '\u2083';
-	private static final char SUBFOUR = '\u2084';
-	private static final char SUBFIVE = '\u2085';
-	private static final char SUBSIX = '\u2086';
-	private static final char SUBSEVEN = '\u2087';
-	private static final char SUBEIGHT = '\u2088';
-	private static final char SUBNINE = '\u2089';
-	private static final char SUBPLUS = '\u208A';
-	private static final char SUBMINUS = '\u208B';
-	private static final char SUBEQUAL = '\u208C';
-	private static final char SUBLPAR = '\u208D';
-	private static final char SUBRPAR = '\u208E';
+	public static final int MAX_DEC = 6;
+	public static final boolean MATH_MODE = true;
+	public static final boolean TEXT_MODE = false;
 
-	protected static boolean isLoading = false;
+	private static final double[] POWTEN = { 1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6,
+			1e7 };
 
-	/**
-	 * Create a new TeXParser
-	 *
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param formula
-	 *            the formula where to put the atoms
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(String parseString, TeXFormula formula) {
-		this(parseString, formula, true);
-	}
+	private static final class DoubleOrInt {
 
-	/**
-	 * Create a new TeXParser
-	 *
-	 * @param isPartial
-	 *            if true certains exceptions are not thrown
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param formula
-	 *            the formula where to put the atoms
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(boolean isPartial, String parseString,
-			TeXFormula formula) {
-		this(parseString, formula, false);
-		this.isPartial = isPartial;
-		firstpass();
-	}
+		final int i;
+		final double f;
+		final boolean isdouble;
 
-	/**
-	 * Create a new TeXParser with or without a first pass
-	 *
-	 * @param isPartial
-	 *            if true certains exceptions are not thrown
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param formula
-	 *            the output formula
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(boolean isPartial, String parseString, TeXFormula formula,
-			boolean firstpass) {
-		this.formula = formula;
-		this.isPartial = isPartial;
-		if (parseString != null) {
-			this.parseString = new StringBuilder(parseString);
-			this.len = parseString.length();
-			this.pos = 0;
-			if (firstpass) {
-				firstpass();
-			}
-		} else {
-			this.parseString = null;
-			this.pos = 0;
-			this.len = 0;
+		public DoubleOrInt(final int i) {
+			this.i = i;
+			this.f = 0.;
+			isdouble = false;
+		}
+
+		public DoubleOrInt(final double f) {
+			this.f = f;
+			this.i = 0;
+			isdouble = true;
+		}
+
+		public double getDouble() {
+			return isdouble ? f : (double) i;
+		}
+
+		public int getInt() {
+			return isdouble ? (int) f : i;
+		}
+
+		@Override
+		public String toString() {
+			return "number: " + (isdouble ? f : i);
 		}
 	}
 
-	/**
-	 * Create a new TeXParser with or without a first pass
-	 *
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param formula
-	 *            formula
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(String parseString, TeXFormula formula,
-			boolean firstpass) {
-		this(false, parseString, formula, firstpass);
+	public TeXParser(boolean isPartial, String parseString) {
+		initStack();
+		this.stringStack = new ArrayDeque<>();
+		this.isPartial = isPartial;
+		if (parseString != null) {
+			this.parseString = parseString;
+			this.len = parseString.length();
+		} else {
+			this.parseString = null;
+			this.len = 0;
+		}
+		this.line = 1;
+		this.pos = 0;
+		this.col = -1;
+	}
+
+	public TeXParser(String parseString) {
+		this(false, parseString);
+	}
+
+	public TeXParser(boolean withStack) {
+		if (withStack) {
+			initStack();
+			this.stringStack = new ArrayDeque<>();
+		}
+		this.line = 1;
+		this.pos = 0;
+		this.col = -1;
+	}
+
+	public TeXParser(String parseString, int pos, int line, int col) {
+		stack = new ArrayDeque<>();
+		this.stringStack = new ArrayDeque<>();
+		this.parseString = parseString;
+		this.len = parseString.length();
+		this.line = line;
+		this.pos = pos;
+		this.col = col;
+	}
+
+	public TeXParser() {
+		this(false);
+	}
+
+	public static double parseDouble(final String s) {
+		final TeXParser tp = new TeXParser(s);
+		return tp.getDecimal();
+	}
+
+	private final void initStack() {
+		stack = new ArrayDeque<>();
+		addConsumer(new GroupConsumer(TeXConstants.Opener.NONE));
+	}
+
+	void setXMLMap(final Map<String, String> map) {
+		this.xmlMap = map;
+	}
+
+	public Map<String, String> getXMLMap() {
+		return xmlMap;
+	}
+
+	public boolean isPartial() {
+		return this.isPartial;
+	}
+
+	public void setParseString(final String parseString) {
+		this.parseString = parseString;
+		this.len = parseString.length();
+		this.line = 1;
+		this.pos = 0;
+		this.col = -1;
+	}
+
+	public void reset(final String parseString) {
+		this.stack.clear();
+		this.stringStack.clear();
+		this.isPartial = isPartial;
+		if (parseString != null) {
+			this.parseString = parseString;
+			this.len = parseString.length();
+		} else {
+			this.parseString = null;
+			this.len = 0;
+		}
+		this.line = 1;
+		this.pos = 0;
+		this.col = -1;
+	}
+
+	public void setLine(final int line) {
+		this.line = line;
 	}
 
 	/**
-	 * Create a new TeXParser in the context of an array. When the parser meets
-	 * a &amp; a new atom is added in the current line and when a \\ is met, a
-	 * new line is created.
-	 *
-	 * @param isPartial
-	 *            if true certains exceptions are not thrown
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param aoa
-	 *            an ArrayOfAtoms where to put the elements
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
+	 * Get the number of the current line
 	 */
-	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa,
-			boolean firstpass) {
-		this(isPartial, parseString, (TeXFormula) aoa, firstpass);
-		arrayMode = true;
-	}
-
-	/**
-	 * Create a new TeXParser in the context of an array. When the parser meets
-	 * a &amp; a new atom is added in the current line and when a \\ is met, a
-	 * new line is created.
-	 *
-	 * @param isPartial
-	 *            if true certains exceptions are not thrown
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param aoa
-	 *            an ArrayOfAtoms where to put the elements
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @param space
-	 *            a boolean to indicate if the parser must ignore or not the
-	 *            white space
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa,
-			boolean firstpass, boolean space) {
-		this(isPartial, parseString, (TeXFormula) aoa, firstpass, space);
-		arrayMode = true;
-	}
-
-	/**
-	 * Create a new TeXParser in the context of an array. When the parser meets
-	 * a &amp; a new atom is added in the current line and when a \\ is met, a
-	 * new line is created.
-	 *
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param aoa
-	 *            an ArrayOfAtoms where to put the elements
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(String parseString, ArrayOfAtoms aoa, boolean firstpass) {
-		this(false, parseString, (TeXFormula) aoa, firstpass);
-	}
-
-	/**
-	 * Create a new TeXParser which ignores or not the white spaces, it's useful
-	 * for mbox command
-	 *
-	 * @param isPartial
-	 *            if true certains exceptions are not thrown
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param formula
-	 *            formula
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @param space
-	 *            a boolean to indicate if the parser must ignore or not the
-	 *            white space
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(boolean isPartial, String parseString, TeXFormula formula,
-			boolean firstpass, boolean space) {
-		this(isPartial, parseString, formula, firstpass);
-		this.ignoreWhiteSpace = space;
-	}
-
-	/**
-	 * Create a new TeXParser which ignores or not the white spaces, it's useful
-	 * for mbox command
-	 *
-	 * @param parseString
-	 *            the string to be parsed
-	 * @param formula
-	 *            formula
-	 * @param firstpass
-	 *            a boolean to indicate if the parser must replace the
-	 *            user-defined macros by their content
-	 * @param space
-	 *            a boolean to indicate if the parser must ignore or not the
-	 *            white space
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXParser(String parseString, TeXFormula formula, boolean firstpass,
-			boolean space) {
-		this(false, parseString, formula, firstpass);
-		this.ignoreWhiteSpace = space;
-	}
-
-	public TeXParser(String tex) {
-		this(tex, new TeXFormula(tex));
-	}
-
-	/**
-	 * Reset the parser with a new latex expression
-	 * 
-	 * @param latex
-	 *            latex string
-	 */
-	public void reset(String latex) {
-		parseString = new StringBuilder(latex);
-		len = parseString.length();
-		formula.root = null;
-		pos = 0;
-		spos = 0;
-		line = 0;
-		col = 0;
-		group = 0;
-		insertion = false;
-		atIsLetter = 0;
-		arrayMode = false;
-		ignoreWhiteSpace = true;
-		firstpass();
-	}
-
-	/**
-	 * @return true if we get a partial formula
-	 */
-	public boolean getIsPartial() {
-		return isPartial;
-	}
-
-	/**
-	 * @return the number of the current line
-	 */
-	public int getLine() {
+	public final int getLine() {
 		return line;
 	}
 
 	/**
-	 * @return the number of the current column
+	 * Get the number of the current column
 	 */
-	public int getCol() {
-		return pos - col - 1;
+	public final int getCol() {
+		return pos - col;
 	}
 
 	/**
-	 * @return the last atom of the current formula
+	 * Get the number of the current column
 	 */
-	public Atom getLastAtom() {
-		Atom at = formula.root;
-		if (at instanceof RowAtom) {
-			return ((RowAtom) at).getLastAtom();
+	public final int getPrevCol() {
+		return prevpos - col;
+	}
+
+	/**
+	 * Get the position in the parsed string
+	 */
+	public final int getPos() {
+		return pos;
+	}
+
+	public final int[] getStopInfo() {
+		return new int[] { stopPos, line, col };
+	}
+
+	public final void setStopPos(int stopPos) {
+		this.stopPos = stopPos;
+	}
+
+	public void stop() {
+		setStopPos(pos);
+		pos = len;
+	}
+
+	public CharMapping getCharMapping() {
+		return charMapping;
+	}
+
+	public void setCharMapping(CharMapping cm) {
+		this.charMapping = cm;
+	}
+
+	/**
+	 * Get the position in the parsed string
+	 */
+	public String getParsedString() {
+		return parseString;
+	}
+
+	public void addString(final String s) {
+		addString(s, false);
+	}
+
+	public void addString(final String s, final boolean stop) {
+		if (stringStack.size() >= 4096) {
+			throw new ParseException(this, "Recursion level too high");
 		}
-		formula.root = null;
-		return at;
+		stringStack
+				.push(new ParsedString(parseString, len, pos, line, col, stop));
+		parseString = s;
+		len = s.length();
+		pos = 0;
+		line = 1;
+		col = -1;
 	}
 
-	/**
-	 * @return the atom represented by the current formula
-	 */
-	public Atom getFormulaAtom() {
-		Atom at = formula.root;
-		formula.root = null;
-		return at;
+	public void popString() {
+		final ParsedString ps = stringStack.pop();
+		parseString = ps.getString();
+		len = ps.getLen();
+		pos = ps.getPos();
 	}
 
-	/**
-	 * Put an atom in the current formula
-	 * 
-	 * @param at
-	 *            atom
-	 */
-	public void addAtom(Atom at) {
-		formula.add(at);
+	public boolean removeString() {
+		while (!stringStack.isEmpty()) {
+			final ParsedString ps = stringStack.pop();
+			parseString = ps.getString();
+			len = ps.getLen();
+			pos = ps.getPos();
+			if (ps.getStop()) {
+				// we stop the parsing
+				// and go back where parse() has been called
+				close();
+				return false;
+			}
+			if (pos < len) {
+				line = ps.getLine();
+				col = ps.getCol();
+				return true;
+			}
+		}
+		return false;
 	}
 
-	/**
-	 * Indicate if the character @ can be used in the command's name
-	 */
-	public void makeAtLetter() {
-		atIsLetter++;
+	public void pushMode(final boolean mode) {
+		if (modeStack == null) {
+			modeStack = new ArrayDeque<>();
+		}
+		modeStack.push(ignoreWhiteSpace);
+		ignoreWhiteSpace = mode;
 	}
 
-	/**
-	 * Indicate if the character @ can be used in the command's name
-	 */
-	public void makeAtOther() {
-		atIsLetter--;
+	public void popMode() {
+		ignoreWhiteSpace = modeStack.pop().booleanValue();
 	}
 
-	/**
-	 * @return a boolean indicating if the character @ is considered as a letter
-	 *         or not
-	 */
-	public boolean isAtLetter() {
-		return (atIsLetter != 0);
+	public boolean isHandlingArg() {
+		return stack.peek().isHandlingArg();
 	}
 
-	/**
-	 * @return a boolean indicating if the parser is used to parse an array or
-	 *         not
-	 */
 	public boolean isArrayMode() {
-		return arrayMode;
+		return stack.peek().isArray();
 	}
 
-	public void setArrayMode(boolean arrayMode) {
-		this.arrayMode = arrayMode;
+	public boolean setMathMode() {
+		final boolean b = ignoreWhiteSpace;
+		ignoreWhiteSpace = true;
+		return b;
 	}
 
-	/**
-	 * @return a boolean indicating if the parser must ignore white spaces
-	 */
-	public boolean isIgnoreWhiteSpace() {
-		return ignoreWhiteSpace;
+	public boolean setTextMode() {
+		final boolean b = ignoreWhiteSpace;
+		ignoreWhiteSpace = false;
+		return b;
 	}
 
-	/**
-	 * @return a boolean indicating if the parser is in math mode
-	 */
+	public void setMathMode(boolean b) {
+		ignoreWhiteSpace = b;
+	}
+
 	public boolean isMathMode() {
 		return ignoreWhiteSpace;
 	}
 
-	/**
-	 * @return the current position in the parsed string
-	 */
-	public int getPos() {
-		return pos;
+	public boolean isTextMode() {
+		return !ignoreWhiteSpace;
 	}
 
-	/**
-	 * Rewind the current parsed string
-	 * 
-	 * @param n
-	 *            the number of character to be rewinded
-	 * @return the new position in the parsed string
-	 */
-	public int rewind(int n) {
-		pos -= n;
-		return pos;
+	public boolean isAmpersandAllowed() {
+		return stack.peek().isAmpersandAllowed();
 	}
 
-	public String getStringFromCurrentPos() {
-		return parseString.substring(pos);
+	public char getChar() {
+		return pos < len ? parseString.charAt(pos) : '\0';
 	}
 
-	public void finish() {
-		pos = parseString.length();
-	}
-
-	/**
-	 * Add a new row when the parser is in array mode
-	 * 
-	 * @throws ParseException
-	 *             if the parser is not in array mode
-	 */
-	public void addRow() throws ParseException {
-		if (!arrayMode) {
-			throw new ParseException("You can add a row only in array mode !");
+	public void closeConsumer(Atom a) throws ParseException {
+		stack.pop();
+		if (stack.isEmpty()) {
+			addConsumer(new GroupConsumer(TeXConstants.Opener.NONE, a));
+		} else {
+			addToConsumer(a);
 		}
-		((ArrayOfAtoms) formula).addRow();
 	}
 
-	public void cellColor(Color color) throws ParseException {
-		if (!arrayMode) {
-			throw new ParseException(
-					"You can use cellcolor only in array mode !");
+	public AtomConsumer pop() {
+		if (!stack.isEmpty()) {
+			return stack.pop();
 		}
-		((ArrayOfAtoms) formula).cellColor(color);
+		return null;
 	}
 
-	private void firstpass() throws ParseException {
+	public AtomConsumer peek() {
+		if (!stack.isEmpty()) {
+			return stack.peek();
+		}
+		return null;
+	}
 
-		if (len != 0) {
-			char ch;
-			String com;
-			int spos;
-			String[] args;
-			MacroInfo mac;
+	public void addConsumer(final AtomConsumer ac) {
+		stack.push(ac);
+	}
+
+	public void addToConsumer(Atom a) {
+		stack.peek().add(this, a);
+	}
+
+	public Atom get() {
+		if (stack.isEmpty()) {
+			return EmptyAtom.get();
+		}
+		return flush();
+	}
+
+	public void cancelPrevPos() {
+		prevpos = -1;
+	}
+
+	public int getPrevPos() {
+		return prevpos;
+	}
+
+	public void parse() throws ParseException {
+		while (pos < len || removeString()) {
+			final char c = parseString.charAt(pos);
+			switch (c) {
+			case '\u0000':
+			case '\u0001':
+			case '\u0002':
+			case '\u0003':
+			case '\u0004':
+			case '\u0005':
+			case '\u0006':
+			case '\u0007':
+			case '\u0008':
+			case '\u0009':
+				++pos;
+				break;
+			case '\n':
+				newLine();
+				skipWhites();
+				break;
+			case '\u000B':
+			case '\u000C':
+			case '\r':
+			case '\u000E':
+			case '\u000F':
+			case '\u0010':
+			case '\u0011':
+			case '\u0012':
+			case '\u0013':
+			case '\u0014':
+			case '\u0015':
+			case '\u0016':
+			case '\u0017':
+			case '\u0018':
+			case '\u0019':
+			case '\u001A':
+			case '\u001B':
+			case '\u001C':
+			case '\u001D':
+			case '\u001E':
+			case '\u001F':
+				++pos;
+				break;
+			case ' ':
+				++pos;
+				if (isTextMode()) { // We are in a mbox
+					// TODO: erreur ici: il faut ajouter l'un puis l'autre (meme
+					// flux)
+					// faire attention a bien avoir un rowatom ou truc du
+					// genre...
+					addToConsumer(
+							new RowAtom(new SpaceAtom(), BreakMarkAtom.get()));
+					skipPureWhites();
+				}
+				break;
+			case '$':
+				++pos;
+				processDollar();
+				break;
+			case '%':
+				++line;
+				col = pos++;
+
+				// We've a comment
+				++pos;
+				skipUntilCr();
+				break;
+			case '&':
+				close();
+				if (isAmpersandAllowed()) {
+					++pos;
+					addToConsumer(EnvArray.ColSep.get());
+				} else {
+					throw new ParseException(this,
+							"Character '&' is only available in array mode !");
+				}
+				break;
+			case '!':
+			case '(':
+			case ')':
+			case '*':
+			case '+':
+			case ',':
+			case '-':
+			case '.':
+			case '/':
+			case ':':
+			case ';':
+			case '<':
+			case '=':
+			case '>':
+			case '?':
+			case '`':
+			case '#':
+			case '@':
+				++pos;
+				charMapping.replaceUnsafe(c, this);
+				break;
+			case '\'':
+				++pos;
+				if (isTextMode()) {
+					charMapping.replaceUnsafe('\'', this);
+				} else {
+					cumSupSymbols(Symbols.PRIME);
+				}
+				break;
+			case '\"':
+				++pos;
+				charMapping.replaceUnsafe('\'', this);
+				charMapping.replaceUnsafe('\'', this);
+				break;
+			case '[':
+				++pos;
+				charMapping.replaceUnsafe('[', this);
+				break;
+			case '\\':
+				cpos = pos;
+				prevpos = pos;
+				final String command = getCommand();
+				if (!command.isEmpty()) {
+					processCommand(command);
+				}
+				cpos = -1;
+				break;
+			case ']':
+				++pos;
+				if (!processRSqBracket()) {
+					charMapping.replaceUnsafe(']', this);
+				}
+				break;
+			case '^':
+				++pos;
+				processSubSup('^');
+				break;
+			case '_':
+				++pos;
+				processSubSup('_');
+				break;
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+				++pos;
+				convertASCIIChar(c, false);
+				break;
+			case '{':
+				++pos;
+				processLBrace();
+				break;
+			case '|':
+				++pos;
+				charMapping.replaceUnsafe('|', this);
+				break;
+			case '}':
+				++pos;
+				processRBrace();
+				break;
+			case '~':
+				++pos;
+				addToConsumer(new SpaceAtom());
+				break;
+			default:
+				++pos;
+				convertCharacter(c, false);
+				break;
+			}
+		}
+	}
+
+	public static Atom getAtomForLatinStr(final String s,
+			final boolean mathMode) {
+		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+				.getFont(Character.UnicodeBlock.BASIC_LATIN);
+		if (f != null) {
+			return new JavaFontRenderingAtom(s, f);
+		}
+
+		final int N = s.length();
+		final RowAtom ra = new RowAtom(N);
+		for (int i = 0; i < N; ++i) {
+			final char c = s.charAt(i);
+			ra.add(new CharAtom(c, mathMode));
+		}
+
+		return ra.simplify();
+	}
+
+	public static RowAtom getAtomForLatinStr(final String s, final RowAtom ra,
+			final boolean mathMode) {
+		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+				.getFont(Character.UnicodeBlock.BASIC_LATIN);
+		if (f != null) {
+			ra.add(new JavaFontRenderingAtom(s, f));
+			return ra;
+		}
+
+		for (int i = 0; i < s.length(); ++i) {
+			final char c = s.charAt(i);
+			ra.add(new CharAtom(c, mathMode));
+		}
+
+		return ra;
+	}
+
+	public static Atom getAtomForLatinStr(final String s, final int textStyle,
+			final boolean math) {
+		final RowAtom ra = new RowAtom(s.length());
+		for (int i = 0; i < s.length(); ++i) {
+			final char c = s.charAt(i);
+			ra.add(new CharAtom(c, textStyle, math));
+		}
+
+		return ra.simplify();
+	}
+
+	public int getNumberOf(final char c) {
+		int n = 1;
+		while (++pos < len) {
+			final char cc = parseString.charAt(pos);
+			if (cc != c) {
+				return n;
+			}
+			++n;
+		}
+		return n;
+	}
+
+	public char getArgAsCharFromCode() {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				skipPureWhites();
+				final char r = getCharFromCode();
+				skipPureWhites();
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '}') {
+						++pos;
+						return r;
+					} else {
+						throw new ParseException(this,
+								"A closing '}' expected");
+					}
+				}
+				return r;
+			}
+
+			final char r = getCharFromCode();
+			skipPureWhites();
+			return r;
+		}
+		throw new ParseException(this, "A char code expected");
+	}
+
+	public char getCharFromCode() {
+		if (pos < len) {
+			prevpos = pos;
+			char c = parseString.charAt(pos);
+			if (c == '0') {
+				++pos;
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == 'x' || c == 'X') {
+						++pos;
+						return getCharHex();
+					}
+					return getCharOct();
+				}
+			} else if (c == 'x' || c == 'X') {
+				++pos;
+				return getCharHex();
+			} else {
+				return getCharDec();
+			}
+		}
+		throw new ParseException(this, "Invalid char code");
+	}
+
+	private char getCharHex() {
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			int acc = getHex(c);
+			if (acc == 16) {
+				throw new ParseException(this,
+						"An hexadecimal number expected");
+			}
+			int ncomp = 1;
+			++pos;
 			while (pos < len) {
-				ch = parseString.charAt(pos);
+				c = parseString.charAt(pos);
+				final int n = getHex(c);
+				if (n == 16) {
+					cancelPrevPos();
+					return (char) acc;
+				}
+				acc = (acc << 4) | n;
+				++pos;
+				if (ncomp == 3) {
+					cancelPrevPos();
+					return (char) acc;
+				}
+				++ncomp;
+			}
+			cancelPrevPos();
+			return (char) acc;
+		}
+		cancelPrevPos();
+		return 0;
+	}
 
-				switch (ch) {
-				case ESCAPE:
-					spos = pos;
-					com = getCommand();
-					if ("newcommand".equals(com)
-							|| "renewcommand".equals(com)) {
-						args = getOptsArgs(2, 2);
-						mac = MacroInfo.Commands.get(com);
-						try {
-							mac.invoke(this, args);
-						} catch (ParseException e) {
-							if (!isPartial) {
-								throw e;
+	public TeXLength[] getDimensions() {
+		// we are looking for keywords: width, height, depth followed by a
+		// length
+		TeXLength w = null;
+		TeXLength h = null;
+		TeXLength d = null;
+		skipPureWhites();
+		while (pos + 4 < len && (w == null || h == null || d == null)) {
+			final char c = parseString.charAt(pos);
+			if (c == 'w' && parseString.charAt(pos + 1) == 'i'
+					&& parseString.charAt(pos + 2) == 'd'
+					&& parseString.charAt(pos + 3) == 't'
+					&& parseString.charAt(pos + 4) == 'h') {
+				pos += 5;
+				skipPureWhites();
+				w = getLength();
+			} else if (c == 'h' && pos + 5 < len
+					&& parseString.charAt(pos + 1) == 'e'
+					&& parseString.charAt(pos + 2) == 'i'
+					&& parseString.charAt(pos + 3) == 'g'
+					&& parseString.charAt(pos + 4) == 'h'
+					&& parseString.charAt(pos + 5) == 't') {
+				pos += 6;
+				skipPureWhites();
+				h = getLength();
+			} else if (c == 'd' && parseString.charAt(pos + 1) == 'e'
+					&& parseString.charAt(pos + 2) == 'p'
+					&& parseString.charAt(pos + 3) == 't'
+					&& parseString.charAt(pos + 4) == 'h') {
+				pos += 5;
+				skipPureWhites();
+				d = getLength();
+			} else {
+				break;
+			}
+			skipPureWhites();
+		}
+		return new TeXLength[] { w, h, d };
+	}
+
+	private char getCharDec() {
+		// 65535 = 0xFFFF
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c >= '1' && c <= '9') {
+				int acc = c - '0';
+				int ncomp = 1;
+				++pos;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c < '0' || c > '9') {
+						cancelPrevPos();
+						return (char) acc;
+					}
+					if (ncomp == 4) {
+						if (acc > 6553) {
+							cancelPrevPos();
+							return (char) acc;
+						}
+						if (acc == 6553) {
+							if (c >= '0' && c <= '5') {
+								++pos;
+								cancelPrevPos();
+								return (char) (10 * acc + c - '0');
+							}
+							cancelPrevPos();
+							return 6553;
+						}
+						++pos;
+						cancelPrevPos();
+						return (char) (10 * acc + c - '0');
+					}
+					++pos;
+					acc = 10 * acc + c - '0';
+					++ncomp;
+				}
+				cancelPrevPos();
+				return (char) acc;
+			}
+		}
+		cancelPrevPos();
+		return 0;
+	}
+
+	private char getCharOct() {
+		// 0177777 = 0xFFFF
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c >= '0' && c <= '7') {
+				int acc = c - '0';
+				boolean one = acc == 1;
+				int ncomp = 1;
+				++pos;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c < '0' || c > '7') {
+						cancelPrevPos();
+						return (char) acc;
+					}
+					acc = 8 * acc + c - '0';
+					if (ncomp == 4) {
+						++pos;
+						if (one && pos < len) {
+							c = parseString.charAt(pos);
+							if (c >= '0' && c <= '7') {
+								++pos;
+								cancelPrevPos();
+								return (char) (8 * acc + c - '0');
 							}
 						}
-						parseString.delete(spos, pos);
-						len = parseString.length();
-						pos = spos;
-					} else if (NewCommandMacro.isMacro(com)) {
-						mac = MacroInfo.Commands.get(com);
-						args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
-						args[0] = com;
-						try {
-							parseString.replace(spos, pos,
-									(String) mac.invoke(this, args));
-						} catch (ParseException e) {
-							if (!isPartial) {
-								throw e;
-							}
-							spos += com.length() + 1;
+						cancelPrevPos();
+						return (char) acc;
+					}
+					++pos;
+					++ncomp;
+				}
+				cancelPrevPos();
+				return (char) acc;
+			}
+		}
+		cancelPrevPos();
+		return 0;
+	}
+
+	public RowAtom steal() {
+		return stack.peek().steal(this);
+	}
+
+	public Atom getLastAtom() {
+		return stack.peek().getLastAtom();
+	}
+
+	public void cumSupSymbols(Atom... syms) {
+		final RowAtom ra = new RowAtom(syms);
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (convSup(c, ra)) {
+				++pos;
+			} else {
+				break;
+			}
+		}
+		processSubSup('^');
+		addToConsumer(new CumulativeScriptsAtom(ra));
+	}
+
+	public void cumSubSymbols(Atom... syms) {
+		final RowAtom ra = new RowAtom(syms);
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (convSub(c, ra)) {
+				++pos;
+			} else {
+				break;
+			}
+		}
+		processSubSup('_');
+		addToConsumer(new CumulativeScriptsAtom(ra));
+	}
+
+	private boolean convSup(final char c, final RowAtom ra) {
+		switch (c) {
+		case CharMapping.APOSTROPHE:
+			ra.add(Symbols.PRIME);
+			break;
+		case CharMapping.SUPZERO:
+			ra.add(new CharAtom('0', isMathMode()));
+			break;
+		case CharMapping.SUPONE:
+			ra.add(new CharAtom('1', isMathMode()));
+			break;
+		case CharMapping.SUPTWO:
+			ra.add(new CharAtom('2', isMathMode()));
+			break;
+		case CharMapping.SUPTHREE:
+			ra.add(new CharAtom('3', isMathMode()));
+			break;
+		case CharMapping.SUPFOUR:
+			ra.add(new CharAtom('4', isMathMode()));
+			break;
+		case CharMapping.SUPFIVE:
+			ra.add(new CharAtom('5', isMathMode()));
+			break;
+		case CharMapping.SUPSIX:
+			ra.add(new CharAtom('6', isMathMode()));
+			break;
+		case CharMapping.SUPSEVEN:
+			ra.add(new CharAtom('7', isMathMode()));
+			break;
+		case CharMapping.SUPEIGHT:
+			ra.add(new CharAtom('8', isMathMode()));
+			break;
+		case CharMapping.SUPNINE:
+			ra.add(new CharAtom('9', isMathMode()));
+			break;
+		case CharMapping.SUPPLUS:
+			ra.add(charMapping.get('+', this));
+			break;
+		case CharMapping.SUPMINUS:
+			ra.add(charMapping.get('-', this));
+			break;
+		case CharMapping.SUPEQUAL:
+			ra.add(charMapping.get('=', this));
+			break;
+		case CharMapping.SUPLPAR:
+			ra.add(charMapping.get('(', this));
+			break;
+		case CharMapping.SUPRPAR:
+			ra.add(charMapping.get(')', this));
+			break;
+		case CharMapping.SUPN:
+			ra.add(new CharAtom('n', isMathMode()));
+			break;
+		default:
+			return false;
+		}
+		return true;
+	}
+
+	private boolean convSub(final char c, final RowAtom ra) {
+		switch (c) {
+		case CharMapping.SUBZERO:
+			ra.add(new CharAtom('0', isMathMode()));
+			break;
+		case CharMapping.SUBONE:
+			ra.add(new CharAtom('1', isMathMode()));
+			break;
+		case CharMapping.SUBTWO:
+			ra.add(new CharAtom('2', isMathMode()));
+			break;
+		case CharMapping.SUBTHREE:
+			ra.add(new CharAtom('3', isMathMode()));
+			break;
+		case CharMapping.SUBFOUR:
+			ra.add(new CharAtom('4', isMathMode()));
+			break;
+		case CharMapping.SUBFIVE:
+			ra.add(new CharAtom('5', isMathMode()));
+			break;
+		case CharMapping.SUBSIX:
+			ra.add(new CharAtom('6', isMathMode()));
+			break;
+		case CharMapping.SUBSEVEN:
+			ra.add(new CharAtom('7', isMathMode()));
+			break;
+		case CharMapping.SUBEIGHT:
+			ra.add(new CharAtom('8', isMathMode()));
+			break;
+		case CharMapping.SUBNINE:
+			ra.add(new CharAtom('9', isMathMode()));
+			break;
+		case CharMapping.SUBPLUS:
+			ra.add(charMapping.get('+', this));
+			break;
+		case CharMapping.SUBMINUS:
+			ra.add(charMapping.get('-', this));
+			break;
+		case CharMapping.SUBEQUAL:
+			ra.add(charMapping.get('=', this));
+			break;
+		case CharMapping.SUBLPAR:
+			ra.add(charMapping.get('(', this));
+			break;
+		case CharMapping.SUBRPAR:
+			ra.add(charMapping.get(')', this));
+			break;
+		default:
+			return false;
+		}
+		return true;
+	}
+
+	protected static final boolean isRomanLetter(final char c) {
+		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+	}
+
+	public String getCommand() {
+		++pos;
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (isRomanLetter(c)) {
+				final int spos = pos++;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (!isRomanLetter(c)) {
+						final String com = parseString.substring(spos, pos);
+						if (c == ' ') {
+							// skip the white just after the command
+							++pos;
 						}
-						len = parseString.length();
-						pos = spos;
-					} else if ("begin".equals(com)) {
-						args = getOptsArgs(1, 0);
-						mac = MacroInfo.Commands.get(args[1] + "@env");
-						if (mac == null) {
-							if (!isPartial) {
-								throw new ParseException("Unknown environment: "
-										+ args[1] + " at position " + getLine()
-										+ ":" + getCol());
+						return com;
+					}
+					++pos;
+				}
+				return parseString.substring(spos);
+			}
+			++pos;
+			return Character.toString(c);
+		}
+		return "";
+	}
+
+	public String getCommandWithBackslash() {
+		final int spos = pos++;
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (isRomanLetter(c)) {
+				++pos;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (!isRomanLetter(c)) {
+						return parseString.substring(spos, pos);
+					}
+					++pos;
+				}
+				return parseString.substring(spos);
+			}
+			++pos;
+			return parseString.substring(spos, pos);
+		}
+		return "";
+	}
+
+	public boolean hasOption() {
+		skipPureWhites();
+		if (pos < len && parseString.charAt(pos) == '[') {
+			++pos;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean hasOptionNoWhites() {
+		if (pos < len && parseString.charAt(pos) == '[') {
+			++pos;
+			return true;
+		}
+		return false;
+	}
+
+	public void skipWhites() {
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '\n') {
+				newLine();
+			} else if (c > ' ') {
+				return;
+			} else {
+				++pos;
+			}
+		}
+	}
+
+	private static final boolean isWhite(final char c) {
+		return c == ' ' || c == '\t' || c == '\r';
+	}
+
+	public void skipSeparator(final char ch) {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == ch) {
+				++pos;
+				skipPureWhites();
+				return;
+			}
+		}
+		throw new ParseException(this, "Expect a '" + ch + "'");
+	}
+
+	public void skipSeparators(final String seps) {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			for (int i = 0; i < seps.length(); ++i) {
+				if (seps.charAt(i) == c) {
+					++pos;
+					skipPureWhites();
+					return;
+				}
+			}
+		}
+		throw new ParseException(this, "Expect one of \"" + seps + "\"");
+	}
+
+	protected final void newLine() {
+		++line;
+		col = pos++;
+	}
+
+	public void skipPureWhites() {
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (!isWhite(c)) {
+				return;
+			}
+			++pos;
+		}
+	}
+
+	public void skipUntilCr() {
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '\n') {
+				newLine();
+				return;
+			}
+			++pos;
+		}
+	}
+
+	public String getString(final char stop) {
+		final int spos = pos++;
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == stop) {
+				final String o = parseString.substring(spos, pos);
+				++pos;
+				return o;
+			}
+			++pos;
+		}
+		return parseString.substring(spos);
+	}
+
+	public Map<String, String> getOptionAsMap() {
+		final Map<String, String> map = new HashMap<>();
+		skipPureWhites();
+		if (pos < len) {
+			if (parseString.charAt(pos) == '[') {
+				++pos;
+				skipPureWhites();
+				String key = null;
+				int spos = pos;
+				int epos = -1;
+				while (pos < len) {
+					final char c = parseString.charAt(pos);
+					switch (c) {
+					case '=':
+						if (key != null) {
+							throw new ParseException(this,
+									"Invalid '=' in options");
+						}
+						key = getStringForKV(spos, epos);
+						++pos;
+						skipPureWhites();
+						spos = pos;
+						break;
+					case ',':
+					case ';':
+						final String k = getStringForKV(spos, epos);
+						if (key == null) {
+							if (!k.isEmpty()) {
+								map.put(k, null);
 							}
 						} else {
-							try {
-								String[] optarg = getOptsArgs(mac.nbArgs - 1,
-										0);
-								String grp = getGroup(
-										"\\begin{" + args[1] + "}",
-										"\\end{" + args[1] + "}");
-								String expr = "{\\makeatletter \\" + args[1]
-										+ "@env";
-								for (int i = 1; i <= mac.nbArgs - 1; i++) {
-									expr += "{" + optarg[i] + "}";
-								}
-								expr += "{" + grp + "}\\makeatother}";
-								parseString.replace(spos, pos, expr);
-								len = parseString.length();
-								pos = spos;
-							} catch (ParseException e) {
-								if (!isPartial) {
-									throw e;
-								}
+							map.put(key, k);
+						}
+						key = null;
+						++pos;
+						skipPureWhites();
+						spos = pos;
+						break;
+					case ']':
+						if (key == null) {
+							if (spos == pos) {
+								++pos;
+								return map;
 							}
+							map.put(getStringForKV(spos, epos), null);
+						} else {
+							map.put(key, getStringForKV(spos, epos));
 						}
-					} else if ("makeatletter".equals(com)) {
-						atIsLetter++;
-					} else if ("makeatother".equals(com)) {
-						atIsLetter--;
+						++pos;
+						return map;
+					case ' ':
+					case '\t':
+						epos = pos;
+						++pos;
+						skipPureWhites();
+						break;
+					default:
+						epos = -1;
+						++pos;
 					}
-					break;
-				case PERCENT:
-					spos = pos++;
-					char chr;
-					while (pos < len) {
-						chr = parseString.charAt(pos++);
-						if (chr == '\r' || chr == '\n') {
-							break;
-						}
-					}
-					if (pos < len) {
-						pos--;
-					}
-					parseString.replace(spos, pos, "");
-					len = parseString.length();
-					pos = spos;
-					break;
-				case DEGREE:
-					// surround in {} so that it works if there's a following
-					// character
-					parseString.replace(pos, pos + 1, "^{\\circ}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPTWO:
-					parseString.replace(pos, pos + 1, cumsup(2));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPTHREE:
-					parseString.replace(pos, pos + 1, cumsup(3));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPONE:
-					parseString.replace(pos, pos + 1, cumsup(1));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPZERO:
-					parseString.replace(pos, pos + 1, cumsup(0));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPFOUR:
-					parseString.replace(pos, pos + 1, cumsup(4));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPFIVE:
-					parseString.replace(pos, pos + 1, cumsup(5));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPSIX:
-					parseString.replace(pos, pos + 1, cumsup(6));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPSEVEN:
-					parseString.replace(pos, pos + 1, cumsup(7));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPEIGHT:
-					parseString.replace(pos, pos + 1, cumsup(8));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPNINE:
-					parseString.replace(pos, pos + 1, cumsup(9));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPPLUS:
-					parseString.replace(pos, pos + 1, cumsup("+"));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPMINUS:
-					parseString.replace(pos, pos + 1, cumsup("-"));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPEQUAL:
-					parseString.replace(pos, pos + 1, cumsup("="));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPLPAR:
-					parseString.replace(pos, pos + 1, cumsup("("));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPRPAR:
-					parseString.replace(pos, pos + 1, cumsup(")"));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPN:
-					parseString.replace(pos, pos + 1, cumsup("n"));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBTWO:
-					parseString.replace(pos, pos + 1, cumsub(2));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBTHREE:
-					parseString.replace(pos, pos + 1, cumsub(3));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBONE:
-					parseString.replace(pos, pos + 1, cumsub(1));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBZERO:
-					parseString.replace(pos, pos + 1, cumsub(0));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBFOUR:
-					parseString.replace(pos, pos + 1, cumsub(4));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBFIVE:
-					parseString.replace(pos, pos + 1, cumsub(5));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBSIX:
-					parseString.replace(pos, pos + 1, cumsub(6));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBSEVEN:
-					parseString.replace(pos, pos + 1, cumsub(7));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBEIGHT:
-					parseString.replace(pos, pos + 1, cumsub(8));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBNINE:
-					parseString.replace(pos, pos + 1, cumsub(9));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBPLUS:
-					parseString.replace(pos, pos + 1, cumsub("+"));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBMINUS:
-					parseString.replace(pos, pos + 1, cumsub("-"));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBEQUAL:
-					parseString.replace(pos, pos + 1, cumsub("="));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBLPAR:
-					parseString.replace(pos, pos + 1, cumsub("("));
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBRPAR:
-					parseString.replace(pos, pos + 1, cumsub(")"));
-					len = parseString.length();
-					pos++;
-					break;
-				default:
-					pos++;
-				}
-
-			}
-			pos = 0;
-			len = parseString.length();
-		}
-	}
-
-	private String cumsup(int i) {
-		return cumsup(i + "");
-	}
-
-	private String cumsup(String s) {
-		return "\\jlatexmathcumsup{" + s + "}";
-	}
-
-	private String cumsub(int i) {
-		return cumsub(i + "");
-	}
-
-	private String cumsub(String s) {
-		return "\\jlatexmathcumsub{" + s + "}";
-	}
-
-	/**
-	 * Parse the input string
-	 * 
-	 * @throws ParseException
-	 *             if an error is encountered during parsing
-	 */
-	public void parse() throws ParseException {
-		if (len != 0) {
-			char ch;
-			while (pos < len) {
-				ch = parseString.charAt(pos);
-
-				switch (ch) {
-				case '\n':
-					line++;
-					col = pos;
-					//$FALL-THROUGH$
-				case '\t':
-				case '\r':
-					pos++;
-					break;
-				case ' ':
-					pos++;
-					if (!ignoreWhiteSpace) {// We are in a mbox
-						formula.add(new SpaceAtom());
-						formula.add(new BreakMarkAtom());
-						while (pos < len) {
-							ch = parseString.charAt(pos);
-							if (ch != ' ' || ch != '\t' || ch != '\r') {
-								break;
-							}
-							pos++;
-						}
-					}
-					break;
-				case DOLLAR:
-					pos++;
-					if (!ignoreWhiteSpace) {// We are in a mbox
-						int style = TeXConstants.STYLE_TEXT;
-						boolean doubleDollar = false;
-						if (parseString.charAt(pos) == DOLLAR) {
-							style = TeXConstants.STYLE_DISPLAY;
-							doubleDollar = true;
-							pos++;
-						}
-						TeXFormula dollarFormula = new TeXFormula(this,
-								getDollarGroup(DOLLAR), false);
-						if (dollarFormula.root == null) {
-							dollarFormula = new TeXFormula(this,
-									"\\textcolor{red}{?}", false);
-						}
-						formula.add(new MathAtom(dollarFormula.root, style));
-
-						if (doubleDollar) {
-							if (parseString.charAt(pos) == DOLLAR) {
-								pos++;
-							}
-						}
-					}
-					break;
-				case ESCAPE:
-					Atom at = processEscape();
-					formula.add(at);
-					if (arrayMode && at instanceof HlineAtom) {
-						((ArrayOfAtoms) formula).addRow();
-					}
-					if (insertion) {
-						insertion = false;
-					}
-					break;
-				case L_GROUP:
-					Atom atom = getArgument();
-					if (atom != null) {
-						atom.type = TeXConstants.TYPE_ORDINARY;
-					}
-					formula.add(atom);
-					break;
-				case R_GROUP:
-					group--;
-					pos++;
-					if (group == -1) {
-						throw new ParseException("Found a closing '" + R_GROUP
-								+ "' without an opening '" + L_GROUP + "'!");
-					}
-					return;
-				case SUPER_SCRIPT:
-					formula.add(getScripts(ch));
-					break;
-				case SUB_SCRIPT:
-					if (ignoreWhiteSpace) {
-						formula.add(getScripts(ch));
-					} else {
-						formula.add(new UnderscoreAtom());
-						pos++;
-					}
-					break;
-				case '&':
-					if (!arrayMode) {
-						throw new ParseException(
-								"Character '&' is only available in array mode !");
-					}
-					((ArrayOfAtoms) formula).addCol();
-					pos++;
-					break;
-				case PRIME:
-					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(),
-								null, SymbolAtom.get("prime")));
-					} else {
-						formula.add(convertCharacter(PRIME, true));
-					}
-					pos++;
-					break;
-				case BACKPRIME:
-					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(),
-								null, SymbolAtom.get("backprime")));
-					} else {
-						formula.add(convertCharacter(BACKPRIME, true));
-					}
-					pos++;
-					break;
-				case DQUOTE:
-					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(),
-								null, SymbolAtom.get("prime")));
-						formula.add(new CumulativeScriptsAtom(getLastAtom(),
-								null, SymbolAtom.get("prime")));
-					} else {
-						formula.add(convertCharacter(PRIME, true));
-						formula.add(convertCharacter(PRIME, true));
-					}
-					pos++;
-					break;
-				default:
-					formula.add(convertCharacter(ch, false));
-					pos++;
 				}
 			}
 		}
-
-		if (formula.root == null && !arrayMode) {
-			formula.add(new EmptyAtom());
-		}
+		return map;
 	}
 
-	private Atom getScripts(char f) throws ParseException {
-		pos++;
-		Atom first = getArgument();
-		Atom second = null;
-		char s = '\0';
+	private String getStringForKV(final int spos, final int epos) {
+		return parseString.substring(spos, epos != -1 ? epos : pos);
+	}
 
+	public String getOptionAsString() {
+		skipPureWhites();
 		if (pos < len) {
-			s = parseString.charAt(pos);
+			final char c = parseString.charAt(pos);
+			if (c == '[') {
+				++pos;
+				return getString(']');
+			}
 		}
+		return "";
+	}
 
-		if (f == SUPER_SCRIPT && s == SUPER_SCRIPT) {
-			second = first;
-			first = null;
-		} else if (f == SUB_SCRIPT && s == SUPER_SCRIPT) {
-			pos++;
-			second = getArgument();
-		} else if (f == SUPER_SCRIPT && s == SUB_SCRIPT) {
-			pos++;
-			second = first;
-			first = getArgument();
-		} else if (f == SUPER_SCRIPT && s != SUB_SCRIPT) {
-			second = first;
-			first = null;
+	public String getArgAsString() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				return getString('}');
+			}
 		}
+		throw new ParseException(this,
+				"An argument expected between curly braces");
+	}
 
-		Atom at;
-		if (formula.root instanceof RowAtom) {
-			at = ((RowAtom) formula.root).getLastAtom();
-		} else if (formula.root == null) {
-			at = new PhantomAtom(new CharAtom('M', TextStyle.MATHNORMAL), false,
-					true, true);
-		} else {
-			at = formula.root;
-			formula.root = null;
-		}
-
-		if (at.getRightType() == TeXConstants.TYPE_BIG_OPERATOR) {
-			return new BigOperatorAtom(at, first, second);
-		} else if (at instanceof OverUnderDelimiter) {
-			if (((OverUnderDelimiter) at).isOver()) {
-				if (second != null) {
-					((OverUnderDelimiter) at).addScript(second);
-					return new ScriptsAtom(at, first, null);
+	public String getArgAsCommandName() {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				skipPureWhites();
+				final int spos = pos;
+				c = parseString.charAt(pos);
+				if (isRomanLetter(c)) {
+					while (pos < len) {
+						c = parseString.charAt(pos);
+						if (!isRomanLetter(c)) {
+							if (c == '}') {
+								return parseString.substring(spos, pos++);
+							}
+							throw new ParseException(this,
+									"A closing '}' expected");
+						}
+						++pos;
+					}
+					return parseString.substring(spos);
 				}
-			} else if (first != null) {
-				((OverUnderDelimiter) at).addScript(first);
-				return new ScriptsAtom(at, null, second);
 			}
 		}
+		throw new ParseException(this, "A name expected between curly braces");
+	}
 
-		return new ScriptsAtom(at, first, second);
+	public int getPositiveInteger(final char stop) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c >= '0' && c <= '9') {
+				++pos;
+				int acc = c - '0';
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c >= '0' && c <= '9') {
+						++pos;
+						acc = 10 * acc + c - '0';
+					} else if (c == stop) {
+						++pos;
+						return acc;
+					} else if (isWhite(c)) {
+						++pos;
+						skipPureWhites();
+					} else {
+						throw new ParseException(this,
+								"A positive integer expected");
+					}
+				}
+
+				return acc;
+			} else if (c == stop) {
+				++pos;
+			}
+		}
+		return -1;
+	}
+
+	public int getPositiveInteger() {
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c >= '0' && c <= '9') {
+				++pos;
+				int acc = c - '0';
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c >= '0' && c <= '9') {
+						++pos;
+						acc = 10 * acc + c - '0';
+					} else {
+						return acc;
+					}
+				}
+
+				return acc;
+			}
+		}
+		throw new ParseException(this, "Expect a positive integer");
+	}
+
+	public int getOptionAsPositiveInteger(int def) {
+		final int r = getOptionAsPositiveInteger();
+		return r == -1 ? def : r;
+	}
+
+	public int getOptionAsPositiveInteger() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '[') {
+				++pos;
+				return getPositiveInteger(']');
+			}
+		}
+		return -1;
+	}
+
+	public int getArgAsPositiveInteger() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				return getPositiveInteger('}');
+			} else if (c >= '0' && c <= '9') {
+				++pos;
+				return c - '0';
+			}
+		}
+		throw new ParseException(this,
+				"A positive integer expected as argument");
+	}
+
+	public String getArgAsCommand() {
+		return getArgAsCommand(false);
+	}
+
+	public String getArgAsCommand(boolean isLength) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '\\') {
+						final String command = getCommand();
+						skipPureWhites();
+						if (pos < len) {
+							c = parseString.charAt(pos);
+							if (c == '}') {
+								++pos;
+								return command;
+							}
+							throw new ParseException(this,
+									"A closing '}' expected");
+						}
+						return command;
+					}
+				}
+				throw new ParseException(this,
+						"Not a " + (isLength ? "length" : "command") + "name");
+			} else if (c == '\\') {
+				return getCommand();
+			}
+		}
+		throw new ParseException(this,
+				"Not a " + (isLength ? "length" : "command") + "name");
+	}
+
+	public Color getColor(final char stop) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == stop) {
+				++pos;
+				return ColorUtil.BLACK;
+			}
+			prevpos = pos;
+			if (c == '#') {
+				++pos;
+				cancelPrevPos();
+				return getHexColor(stop);
+			} else if ((c >= '0' && c <= '9') || (c == '.') || (c == '-')
+					|| (c == '+')) {
+				ArrayList<DoubleOrInt> arr = new ArrayList<>(4);
+				arr.add(getDoubleOrInteger());
+				skipPureWhites();
+				while (pos < len) {
+					c = parseString.charAt(pos++);
+					if (c == ',' || c == ';') {
+						skipPureWhites();
+						arr.add(getDoubleOrInteger());
+						skipPureWhites();
+					} else if (c == stop) {
+						switch (arr.size()) {
+						case 1:
+							final DoubleOrInt n = arr.get(0);
+							if (n.isdouble) {
+								final int g = (int) (255. * clamp(n.f) + 0.5)
+										* 0x010101;
+								cancelPrevPos();
+								return FactoryProvider.getInstance()
+										.getGraphicsFactory().createColor(g);
+							}
+
+							cancelPrevPos();
+							// we've 123456 which could be #123456
+							// 123 => 3 + 2 * 16 + 1 * 16^2
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory()
+									.createColor(convertIntToHex(n.i));
+						case 3:
+							final DoubleOrInt R = arr.get(0);
+							final DoubleOrInt G = arr.get(1);
+							final DoubleOrInt B = arr.get(2);
+							if (!R.isdouble && !G.isdouble && !B.isdouble) {
+								final int Ri = clamp(R.i);
+								final int Gi = clamp(G.i);
+								final int Bi = clamp(B.i);
+
+								cancelPrevPos();
+								return FactoryProvider.getInstance()
+										.getGraphicsFactory().createColor(
+												(Ri << 16) | (Gi << 8) | Bi);
+							}
+
+							final int Rf = (int) (255. * clamp(R.getDouble())
+									+ 0.5);
+							final int Gf = (int) (255. * clamp(G.getDouble())
+									+ 0.5);
+							final int Bf = (int) (255. * clamp(B.getDouble())
+									+ 0.5);
+
+							cancelPrevPos();
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory()
+									.createColor((Rf << 16) | (Gf << 8) | Bf);
+						case 4:
+							final double C = clamp(arr.get(0).getDouble());
+							final double M = clamp(arr.get(1).getDouble());
+							final double Y = clamp(arr.get(2).getDouble());
+							final double K = clamp(arr.get(3).getDouble());
+
+							cancelPrevPos();
+							return Colors.conv(C, M, Y, K);
+						default:
+							throw new ParseException(this,
+									"Invalid color definition");
+						}
+					} else {
+						// We have a number followed by a character (not a stop)
+						// if the number is an int and the character is a letter
+						// a-f then we have an hex number
+						final DoubleOrInt n = arr.get(0);
+						if (n.isdouble) {
+							throw new ParseException(this,
+									"Invalid character in color definition: "
+											+ c);
+						}
+
+						int h = getHex(c);
+						if (h == 16) {
+							throw new ParseException(this,
+									"Invalid character in color definition: "
+											+ c);
+						}
+						int x = convertIntToHex(n.i) * 16 + h;
+						while (pos < len) {
+							c = parseString.charAt(pos);
+							h = getHex(c);
+							if (h == 16) {
+								if (c == stop) {
+									++pos;
+									cancelPrevPos();
+									return FactoryProvider.getInstance()
+											.getGraphicsFactory()
+											.createColor(x);
+								}
+								throw new ParseException(this,
+										"Invalid character in color definition: "
+												+ c);
+							}
+							x = (x << 4) | h;
+							++pos;
+						}
+						cancelPrevPos();
+						return FactoryProvider.getInstance()
+								.getGraphicsFactory().createColor(x);
+					}
+				}
+			}
+
+			if (c == 'r') {
+				// maybe rgb(...) or rgba(...)
+				final int spos = pos;
+				final Color color = getRGB(stop);
+				if (color != null) {
+					cancelPrevPos();
+					return color;
+				}
+				pos = spos;
+			} else if (c == 'h') {
+				// maybe hsl(...) or hsla(...)
+				final int spos = pos;
+				final Color color = getHSL(stop);
+				if (color != null) {
+					cancelPrevPos();
+					return color;
+				}
+				pos = spos;
+			}
+
+			// We don't have a number or a dot
+			// So we probably have a color name
+			final int spos = pos;
+			final String name = getString(stop).trim();
+			final Color color = Colors.getFromName(name);
+			if (color == null) {
+				try {
+					final Color ret = ColorUtil.decode("#" + name);
+					cancelPrevPos();
+					return ret;
+				} catch (NumberFormatException e) {
+					throw new ParseException(this, "Invalid color: " + name);
+				}
+			}
+			cancelPrevPos();
+			return color;
+		}
+		throw new ParseException(this, "Invalid color: " + parseString);
+	}
+
+	private Color getHexColor(final char stop) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			int acc = getHex(c);
+			if (acc == 16) {
+				throw new ParseException(this,
+						"An hexadecimal number expected");
+			}
+			int ncomp = 1;
+			++pos;
+			while (pos < len) {
+				c = parseString.charAt(pos);
+				final int n = getHex(c);
+				if (n == 16) {
+					if (c == stop) {
+						if (ncomp == 3) {
+							++pos;
+							// we've #RGB and we want #RRGGBB
+							// RRGGBB = R0G0B << 4 | R0G0B
+							final int R = acc & 0xF00;
+							final int G = acc & 0x0F0;
+							final int B = acc & 0x00F;
+							final int R0G0B = (R << 8) | (G << 4) | B;
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory()
+									.createColor((R0G0B << 4) | R0G0B);
+						} else if (ncomp == 4) {
+							++pos;
+							// we've #RGBA and we want #RRGGBBAA
+							// AARRGGBB = 0AR0G0B << 4 | 0AR0G0B
+							final int R = acc & 0xF000;
+							final int G = acc & 0x0F00;
+							final int B = acc & 0x00F0;
+							final int A = acc & 0x000F;
+							final int OAOROGOB = (A << 24) | (R << 4) | G
+									| (B >> 4);
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory().createColor(
+											(OAOROGOB << 4) | OAOROGOB, true);
+						}
+						throw new ParseException(this,
+								"An hexadecimal number #RGB or #RRGGBB expected");
+					}
+					throw new ParseException(this,
+							"An hexadecimal number expected");
+				}
+				acc = (acc << 4) | n;
+				if (ncomp == 5) {
+					// we already have 6 digits
+					++pos;
+					if (pos < len) {
+						c = parseString.charAt(pos);
+						if (c == stop) {
+							++pos;
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory().createColor(acc);
+						} else {
+							// check for 8 digits and return color with alpha
+							if (pos + 2 < len) {
+								final int m = getHex(c);
+								if (m < 16) {
+									c = parseString.charAt(pos + 1);
+									final int p = getHex(c);
+									if (p < 16) {
+										pos += 2;
+										c = parseString.charAt(pos);
+										if (c == stop) {
+											++pos;
+											acc = acc | (m << 28) | (p << 24);
+											return FactoryProvider.getInstance()
+													.getGraphicsFactory()
+													.createColor(acc, true);
+										}
+									}
+								}
+							}
+						}
+					}
+					throw new ParseException(this,
+							"An hexadecimal number #RGB or #RRGGBB expected");
+				}
+				++ncomp;
+				++pos;
+			}
+		}
+		throw new ParseException(this,
+				"An hexadecimal number #RGB or #RRGGBB expected");
+	}
+
+	private ArrayList<DoubleOrInt> getComponentsAsNum(final int min,
+			final int max, final char stop) {
+		skipPureWhites();
+		final ArrayList<DoubleOrInt> arr = new ArrayList<>(max);
+		int ncomp = 0;
+		while (pos < len) {
+			arr.add(getDoubleOrInteger());
+			++ncomp;
+			skipPureWhites();
+			if (pos < len) {
+				char c = parseString.charAt(pos);
+				if (c == ',' || c == ';') {
+					++pos;
+					skipPureWhites();
+				} else if (c == ')') {
+					if (ncomp < min) {
+						throw new ParseException(this,
+								"Invalid number of components");
+					} else {
+						++pos;
+						skipPureWhites();
+						if (pos < len) {
+							c = parseString.charAt(pos);
+							if (c == stop) {
+								++pos;
+								break;
+							} else {
+								throw new ParseException(this,
+										"Invalid char " + c);
+							}
+						}
+						throw new ParseException(this,
+								"A '" + stop + "' expected");
+					}
+				}
+			}
+			if (ncomp == max) {
+				throw new ParseException(this, "Invalid number of components");
+			}
+		}
+		return arr;
+	}
+
+	private Color getRGB(final char stop) {
+		// gb(0,0,0).length = 9
+		if (pos + 9 < len) {
+			if (parseString.charAt(pos + 1) == 'g'
+					&& parseString.charAt(pos + 2) == 'b') {
+				final boolean rgba = parseString.charAt(pos + 3) == 'a';
+				final int ncomp = rgba ? 4 : 3;
+				pos += ncomp;
+				skipPureWhites();
+				if (pos < len) {
+					final char c = parseString.charAt(pos);
+					if (c == '(') {
+						++pos;
+						final ArrayList<DoubleOrInt> arr = getComponentsAsNum(
+								ncomp, ncomp, stop);
+						final DoubleOrInt R = arr.get(0);
+						final DoubleOrInt G = arr.get(1);
+						final DoubleOrInt B = arr.get(2);
+						int RGB;
+						if (!R.isdouble && !G.isdouble && !B.isdouble) {
+							final int Ri = clamp(R.i);
+							final int Gi = clamp(G.i);
+							final int Bi = clamp(B.i);
+							RGB = (Ri << 16) | (Gi << 8) | Bi;
+						} else {
+							final int Rf = (int) (255. * clamp(R.getDouble())
+									+ 0.5);
+							final int Gf = (int) (255. * clamp(G.getDouble())
+									+ 0.5);
+							final int Bf = (int) (255. * clamp(B.getDouble())
+									+ 0.5);
+							RGB = (Rf << 16) | (Gf << 8) | Bf;
+						}
+
+						if (rgba) {
+							final int A = (int) (255.
+									* clamp(arr.get(3).getDouble()) + 0.5);
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory()
+									.createColor((A << 24) | RGB, true);
+						} else {
+							return FactoryProvider.getInstance()
+									.getGraphicsFactory().createColor(RGB);
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private Color getHSL(final char stop) {
+		// sl(0,0,0).length = 9
+		if (pos + 9 < len) {
+			if (parseString.charAt(pos + 1) == 's'
+					&& parseString.charAt(pos + 2) == 'l') {
+				final boolean hsla = parseString.charAt(pos + 3) == 'a';
+				final int ncomp = hsla ? 4 : 3;
+				pos += ncomp;
+				skipPureWhites();
+				if (pos < len) {
+					final char c = parseString.charAt(pos);
+					if (c == '(') {
+						++pos;
+						final ArrayList<DoubleOrInt> arr = getComponentsAsNum(
+								ncomp, ncomp, stop);
+						final double H = arr.get(0).getDouble();
+						final double S = clamp(arr.get(1).getDouble());
+						final double L = clamp(arr.get(2).getDouble());
+
+						if (ncomp == 3) {
+							return Colors.convHSL(H, S, L);
+						} else {
+							final double A = clamp(arr.get(3).getDouble());
+							return Colors.convHSL(H, S, L, A);
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Color getArgAsColor() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				return getColor('}');
+			}
+		}
+		throw new ParseException(this, "A color expected as argument");
+	}
+
+	public Color getOptionAsColor() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '[') {
+				++pos;
+				return getColor(']');
+			}
+		}
+		return null;
 	}
 
 	/**
-	 * Get the contents between two delimiters
-	 * 
-	 * @param openclose
-	 *            the opening and closing character (such $)
-	 * @return the enclosed contents
-	 * @throws ParseException
-	 *             if the contents are badly enclosed
+	 * Convert an integer like 1234 into 0x1234 0x1234 = 4 + 3*16 + 2 * 16^2 + 1
+	 * * 16^3
 	 */
-	public String getDollarGroup(char openclose) throws ParseException {
-		int spos = pos;
-		char ch;
-
-		do {
-			ch = parseString.charAt(pos++);
-			if (ch == ESCAPE) {
-				pos++;
-			}
-		} while (pos < len && ch != openclose);
-
-		if (ch == openclose) {
-			return parseString.substring(spos, pos - 1);
+	public static int convertIntToHex(int x) {
+		int p = 16;
+		int acc = x % 10;
+		while (x > 10) {
+			x /= 10;
+			acc += p * (x % 10);
+			p <<= 4;
 		}
-		return parseString.substring(spos, pos);
+
+		return acc;
+	}
+
+	private static int clamp(final int n) {
+		return Math.min(255, Math.max(n, 0));
+	}
+
+	private static double clamp(final double n) {
+		return Math.min(1., Math.max(n, 0.));
+	}
+
+	private static int getHex(final char c) {
+		return (c <= 'f') ? HEX_ARRAY[c] : 16;
+	}
+
+	private int getMacroArgNumber() {
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c >= '1' && c <= '9') {
+				++pos;
+				int acc = c - '0';
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c >= '0' && c <= '9') {
+						++pos;
+						acc = 10 * acc + c - '0';
+					} else {
+						break;
+					}
+				}
+				return acc;
+			}
+		}
+		return 0;
+	}
+
+	public void processDollar() {
+		AtomConsumer com;
+		if (pos < len) {
+			final char cc = parseString.charAt(pos);
+			if (cc == '$') {
+				++pos;
+				com = Commands.getDollarDollar();
+			} else {
+				com = Commands.getDollar();
+			}
+		} else {
+			com = Commands.getDollar();
+		}
+		if (com.init(this)) {
+			addConsumer(com);
+		}
+	}
+
+	public void processCommand(final String command) throws ParseException {
+		// We must begin with Commands because some commands overwrite
+		// a symbol (e.g. \int overwrites int symbol)
+		if (!Commands.exec(this, command) && !SymbolAtom.put(this, command)
+				&& !NewCommandMacro.exec(this, command)
+				&& !JLMPackage.exec(this, command)) {
+			if (command.length() == 1) {
+				// UnicodeMapping.get(command.charAt(0));
+				if (SymbolAtom.put(this, command)) {
+					return;
+				}
+			} else if (setLength(command)) {
+				return;
+			}
+
+			throw new ParseException(this, "Unknown command: " + command,
+					"\\backslash{" + command + "}");
+		}
+	}
+
+	public static List<String> getAllCommands() {
+		// AlphabetManager.get().addBlock(Character.UnicodeBlock.CYRILLIC);
+		final List<String> all = new ArrayList<String>();
+		Commands.getAll(all);
+		SymbolAtom.getAll(all);
+
+		return all;
+	}
+
+	public void processSubSup(final char f) throws ParseException {
+		if (!stack.isEmpty()) {
+			final AtomConsumer ac = stack.peek();
+			if (ac instanceof SubSupCom) {
+				((SubSupCom) ac).setState(this, f);
+				return;
+			}
+		}
+		final SubSupCom ssc = new SubSupCom(f);
+		ssc.init(this);
+		addConsumer(ssc);
+	}
+
+	public boolean isWaitingForSup() {
+		if (!stack.isEmpty()) {
+			final AtomConsumer ac = stack.peek();
+			if (ac instanceof SubSupCom) {
+				final SubSupCom ssc = (SubSupCom) ac;
+				return ssc.isWaitingForSup();
+			} else if (ac instanceof GroupConsumer) {
+				stack.pop();
+				final AtomConsumer ac1 = stack.peek();
+				boolean r = false;
+				if (ac1 instanceof SubSupCom) {
+					final SubSupCom ssc = (SubSupCom) ac1;
+					r = ssc.isWaitingForSup();
+				}
+				stack.push(ac);
+				return r;
+			}
+		}
+		return false;
+	}
+
+	public void processLBrace() {
+		if (isHandlingArg()) {
+			stack.peek().lbrace(this);
+		} else {
+			addConsumer(new GroupConsumer(TeXConstants.Opener.LBRACE));
+		}
+	}
+
+	public void processRBrace() {
+		close();
+		if (stack.isEmpty()) {
+			throw new ParseException(this,
+					"Closing '}' doesn't match any opening '{'");
+		} else if (isHandlingArg()) {
+			stack.peek().rbrace(this);
+		} else {
+			final AtomConsumer ac = stack.peek();
+			if (!(ac instanceof GroupConsumer)) {
+				throw new ParseException(this,
+						"Closing '}' doesn't match any opening '{'");
+			} else if (!((GroupConsumer) ac).close(this,
+					TeXConstants.Opener.LBRACE)) {
+				throw new ParseException(this,
+						"Closing '}' is not matching an opening '{'");
+			}
+		}
+	}
+
+	public boolean hasGroupConsumer(final TeXConstants.Opener opener) {
+		final AtomConsumer ac = stack.peek();
+		if ((ac instanceof GroupConsumer)) {
+			final GroupConsumer gc = (GroupConsumer) ac;
+			if (gc.getOpener() == opener) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasGroupConsumer() {
+		return stack.peek() instanceof GroupConsumer;
+	}
+
+	private GroupConsumer getGroupConsumerOption() {
+		for (AtomConsumer ac : stack) {
+			if ((ac instanceof GroupConsumer)) {
+				final GroupConsumer gc = (GroupConsumer) ac;
+				if (gc.getOpener() == TeXConstants.Opener.LSQBRACKET) {
+					return gc;
+				}
+				return null;
+			}
+			if (!ac.isClosable()) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	public boolean processRSqBracket() {
+		if (!stack.isEmpty()) {
+			final GroupConsumer gc = getGroupConsumerOption();
+			if (gc == null) {
+				return false;
+			}
+			close();
+			gc.close(this, TeXConstants.Opener.LSQBRACKET);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isColumn() {
+		if (stack.isEmpty()) {
+			return false;
+		}
+		return stack.peek() instanceof Column;
+	}
+
+	public void close() {
+		// Some consumers are waiting for data (like SubSupCom)
+		// and when we encounter for example a '}' must close it
+		// x_2} => SubSupCom is waiting for a '^' but we've a '}'
+		// or { x \over y_2} => close the y_ and close the \over
+		if (!stack.isEmpty()) {
+			AtomConsumer ac = stack.peek();
+			while (ac.close(this) && !stack.isEmpty()) {
+				ac = stack.peek();
+			}
+		}
+	}
+
+	private Atom flush() {
+		close();
+		while (!stack.isEmpty()) {
+			AtomConsumer ac = stack.pop();
+			if (ac.close(this)) {
+				ac = stack.pop();
+			}
+			if (ac instanceof GroupConsumer) {
+				final Atom a = ((GroupConsumer) ac).getAtom();
+				if (stack.isEmpty()) {
+					return a;
+				} else {
+					final int size = stack.size();
+					// make an attempt to push the atom in the top consumer
+					addToConsumer(a);
+					final int nsize = stack.size();
+
+					if (nsize > size) {
+						// oups ! the stack size increased
+						// we remove the added elements and the top consumer
+						// since
+						// this one is not able to close itself...
+						for (int i = 0; i < nsize - size + 1; ++i) {
+							stack.pop();
+						}
+					}
+				}
+			}
+		}
+		return EmptyAtom.get();
+	}
+
+	public Env.Begin getBegin() {
+		// when we've a \begin{foo}, a begin is pushed on the stack and
+		// maybe followed by other consumers (added in the pre-stuff)
+		// which will be closed by post-stuff so when we've a \end{foo}
+		// we must get the first matching environment.
+		for (AtomConsumer ac : stack) {
+			if (ac instanceof Env.Begin) {
+				return (Env.Begin) ac;
+			}
+		}
+		return null;
 	}
 
 	/**
 	 * Get the contents between two delimiters
-	 * 
+	 *
 	 * @param open
 	 *            the opening character
 	 * @param close
@@ -1019,706 +2149,868 @@ public class TeXParser {
 	 * @throws ParseException
 	 *             if the contents are badly enclosed
 	 */
-	public String getGroup(char open, char close) throws ParseException {
-		if (pos == len) {
-			return null;
-		}
+	public String getGroup(final char open, final char close) {
+		final int spos = pos;
+		int group = 1;
 
-		int group, spos;
-		char ch = parseString.charAt(pos);
-
-		if (pos < len && ch == open) {
-			group = 1;
-			spos = pos;
-			while (pos < len - 1 && group != 0) {
-				pos++;
-				ch = parseString.charAt(pos);
-				if (ch == open) {
-					group++;
-				} else if (ch == close) {
-					group--;
-				} else if (ch == ESCAPE && pos != len - 1) {
-					pos++;
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == open) {
+				++group;
+				++pos;
+			} else if (c == close) {
+				if (group == 1) {
+					return parseString.substring(spos, pos);
 				}
+				++pos;
+				--group;
+			} else if (c == '\\') {
+				pos += 2;
+			} else {
+				++pos;
 			}
-
-			pos++;
-
-			if (group != 0) {
-				return parseString.substring(spos + 1, pos);
-			}
-
-			return parseString.substring(spos + 1, pos - 1);
 		}
-		throw new ParseException("missing '" + open + "'!");
+
+		throw new ParseException(this, "missing '" + close + "'!");
 	}
 
 	/**
-	 * Get the contents between two strings as in \begin{foo}...\end{foo}
-	 * 
+	 * Get the contents between double quotes
+	 *
 	 * @param open
-	 *            the opening string
+	 *            the opening character
 	 * @param close
-	 *            the closing string
+	 *            the closing character
 	 * @return the enclosed contents
 	 * @throws ParseException
 	 *             if the contents are badly enclosed
 	 */
-	public String getGroup(String open, String close) throws ParseException {
-		int group = 1;
-		int ol = open.length(), cl = close.length();
-		boolean lastO = isValidCharacterInCommand(open.charAt(ol - 1));
-		boolean lastC = isValidCharacterInCommand(close.charAt(cl - 1));
-		int oc = 0, cc = 0;
-		int startC = 0;
-		char prev = '\0';
-		StringBuilder buf = new StringBuilder();
+	public String getPureString() {
+		final int spos = pos;
 
-		while (pos < len && group != 0) {
-			char c = parseString.charAt(pos);
-			char c1;
-
-			if (prev != ESCAPE && c == ' ') {// Trick to handle case where close
-												// == "\end {foo}"
-				while (pos < len && parseString.charAt(pos++) == ' ') {
-					buf.append(' ');
-				}
-				c = parseString.charAt(--pos);
-				if (isValidCharacterInCommand(prev)
-						&& isValidCharacterInCommand(c)) {
-					oc = cc = 0;
-				}
-			}
-
-			if (c == open.charAt(oc)) {
-				oc++;
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '\"') {
+				return parseString.substring(spos, pos++);
+			} else if (c == '\\') {
+				pos += 2;
 			} else {
-				oc = 0;
+				++pos;
 			}
-
-			if (c == close.charAt(cc)) {
-				if (cc == 0) {
-					startC = pos;
-				}
-				cc++;
-			} else {
-				cc = 0;
-			}
-
-			if (pos + 1 < len) {
-				c1 = parseString.charAt(pos + 1);
-
-				if (oc == ol) {
-					if (!lastO || !isValidCharacterInCommand(c1)) {
-						group++;
-					}
-					oc = 0;
-				}
-
-				if (cc == cl) {
-					if (!lastC || !isValidCharacterInCommand(c1)) {
-						group--;
-					}
-					cc = 0;
-				}
-			} else {
-				if (oc == ol) {
-					group++;
-					oc = 0;
-				}
-				if (cc == cl) {
-					group--;
-					cc = 0;
-				}
-			}
-
-			prev = c;
-			buf.append(c);
-			pos++;
 		}
 
-		if (group != 0) {
-			if (isPartial) {
-				return buf.toString();
-			}
-			throw new ParseException(
-					"The token " + open + " must be closed by " + close);
-		}
-
-		return buf.substring(0, buf.length() - pos + startC);
+		throw new ParseException(this, "missing \" !");
 	}
 
-	/**
-	 * Get the argument of a command in his atomic format
-	 * 
-	 * @return the corresponding atom
-	 * @throws ParseException
-	 *             if the argument is incorrect
-	 */
-	public Atom getArgument() throws ParseException {
-		skipWhiteSpace();
-		char ch;
+	public String getGroupAsArgument() {
+		skipPureWhites();
 		if (pos < len) {
-			ch = parseString.charAt(pos);
-		} else {
-			return new EmptyAtom();
-		}
-		if (ch == L_GROUP) {
-			TeXFormula tf = new TeXFormula();
-			TeXFormula sformula = this.formula;
-			this.formula = tf;
-			pos++;
-			group++;
-			parse();
-			this.formula = sformula;
-			if (this.formula.root == null) {
-				RowAtom at = new RowAtom();
-				at.add(tf.root);
-				return at;
+			final char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				final String s = getGroup('{', '}');
+				++pos;
+				return s;
 			}
-			return tf.root;
 		}
-
-		if (ch == ESCAPE) {
-			Atom at = processEscape();
-			if (insertion) {
-				insertion = false;
-				return getArgument();
-			}
-			return at;
-		}
-
-		Atom at = convertCharacter(ch, true);
-		pos++;
-		return at;
+		throw new ParseException(this, "Expect a '{'");
 	}
 
-	public String getOverArgument() throws ParseException {
-		if (pos == len) {
-			return null;
+	public String getOptionAsCode() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '[') {
+				++pos;
+				final String s = getGroup('[', ']');
+				++pos;
+				return s;
+			}
 		}
+		throw new ParseException(this, "Expect a '['");
+	}
 
-		int ogroup = 1, spos;
-		char ch = '\0';
+	public ArrayList<String> getArgsAsStrings(final int nargs) {
+		final ArrayList<String> args = new ArrayList<String>(nargs);
+		for (int i = 0; i < nargs; ++i) {
+			skipPureWhites();
+			if (pos < len) {
+				final char c = parseString.charAt(pos);
+				if (c == '{') {
+					++pos;
+					args.add(getGroup('{', '}'));
+					++pos;
+				} else if (c == '\\') {
+					args.add(getCommandWithBackslash());
+				} else {
+					args.add(Character.toString(c));
+					++pos;
+				}
+			}
+		}
+		if (args.size() != nargs) {
+			throw new ParseException(this,
+					"Invalid number of arguments: " + nargs + " expected");
+		}
+		return args;
+	}
 
-		spos = pos;
-		while (pos < len && ogroup != 0) {
-			ch = parseString.charAt(pos);
-			switch (ch) {
-			case L_GROUP:
-				ogroup++;
-				break;
-			case '&':
-				/*
-				 * if a & is encountered at the same level as \over we must
-				 * break the argument
-				 */
-				if (ogroup == 1) {
-					ogroup--;
+	public TeXLength getArgAsLength() {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				final TeXLength l = getLength();
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '}') {
+						++pos;
+						return Double.isNaN(l.getL()) ? TeXLength.getZero() : l;
+					}
+					throw new ParseException(this, "A closing '}' expected");
+				}
+			} else if ((c >= '0' && c <= '9') || (c == '.') || (c == '-')
+					|| (c == '+')) {
+				return getLength();
+			}
+		}
+		throw new ParseException(this, "A length expected");
+	}
+
+	public TeXLength getArgAsLengthOrExcl() {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			TeXLength l = null;
+			if (c == '{') {
+				++pos;
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '!') {
+						++pos;
+						if (pos < len) {
+							c = parseString.charAt(pos);
+							if (c != '}') {
+								throw new ParseException(this,
+										"A closing '}' expected");
+							}
+							++pos;
+							return null;
+						}
+						throw new ParseException(this,
+								"A closing '}' expected");
+					} else {
+						l = getLength();
+						if (pos < len) {
+							c = parseString.charAt(pos);
+							if (c != '}') {
+								throw new ParseException(this,
+										"A closing '}' expected");
+							}
+							++pos;
+						}
+					}
+				}
+			} else if ((c >= '0' && c <= '9') || (c == '.') || (c == '-')
+					|| (c == '+')) {
+				l = getLength();
+			}
+			if (l != null) {
+				return l;
+			}
+		}
+		throw new ParseException(this, "A length expected");
+	}
+
+	public TeXLength getOptionAsLength(TeXLength def) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '[') {
+				++pos;
+				final TeXLength l = getLength();
+				if (Double.isNaN(l.getL())) {
+					if (pos < len) {
+						c = parseString.charAt(pos);
+						if (c == ']') {
+							++pos;
+							return def;
+						}
+					}
+					throw new ParseException(this, "A closing ']' expected");
+				}
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == ']') {
+						++pos;
+						return l;
+					}
+					throw new ParseException(this, "A closing ']' expected");
+				}
+			}
+		}
+		return def;
+	}
+
+	public char getOptionAsChar() {
+		return getAsChar('[', ']');
+	}
+
+	public char getArgAsChar() {
+		return getAsChar('{', '}');
+	}
+
+	public char getAsChar(final char open, final char close) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == open) {
+				++pos;
+				if (pos < len) {
+					final char r = parseString.charAt(pos++);
+					if (pos < len) {
+						c = parseString.charAt(pos);
+						if (c == close) {
+							++pos;
+							return r;
+						}
+						throw new ParseException(this,
+								"A closing '" + close + "' expected");
+					}
+				}
+				throw new ParseException(this,
+						"A closing '" + close + "' expected");
+			}
+		}
+		return '\0';
+	}
+
+	public boolean setLength(final String com) {
+		if (TeXLength.isLengthName(com)) {
+			skipPureWhites();
+			if (pos < len) {
+				final char c = parseString.charAt(pos);
+				if (c == '=') {
+					++pos;
+					skipPureWhites();
+					final TeXLength l = getLength(TeXLength.Unit.NONE);
+					TeXLength.setLength(com, l);
+					cancelPrevPos();
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public TeXLength getLength() {
+		return getLength(TeXLength.Unit.PT);
+	}
+
+	public TeXLength getLength(final TeXLength.Unit def) {
+		// TODO: handle case where length is \foo (ie no number before)
+		final double x = getDecimal();
+		skipPureWhites();
+		if (pos + 1 < len) {
+			final char c = parseString.charAt(pos++);
+			char cn = parseString.charAt(pos++);
+			switch (c) {
+			case '\\':
+				final int spos = pos;
+				final String name = getCommand();
+				final TeXLength l = TeXLength.getLength(name, x);
+				if (l != null) {
+					return l;
+				}
+				pos = spos;
+				return new TeXLength(def, x);
+			case 'b':
+				if (cn == 'p') { // bp
+					return new TeXLength(TeXLength.Unit.POINT, x);
 				}
 				break;
-			case R_GROUP:
-				ogroup--;
+			case 'c':
+				if (cn == 'c') { // cc
+					return new TeXLength(TeXLength.Unit.CC, x);
+				}
+				if (cn == 'm') { // cm
+					return new TeXLength(TeXLength.Unit.CM, x);
+				}
 				break;
-			case ESCAPE:
-				pos++;
-				/*
-				 * if a \\ or a \cr is encountered at the same level as \over we
-				 * must break the argument
-				 */
-				if (pos < len && parseString.charAt(pos) == '\\'
-						&& ogroup == 1) {
-					ogroup--;
-					pos--;
-				} else if (pos < len - 1 && parseString.charAt(pos) == 'c'
-						&& parseString.charAt(pos + 1) == 'r' && ogroup == 1) {
-					ogroup--;
-					pos--;
+			case 'd':
+				if (cn == 'd') { // dd
+					return new TeXLength(TeXLength.Unit.DD, x);
+				}
+				break;
+			case 'e':
+				if (cn == 'm') { // em
+					return new TeXLength(TeXLength.Unit.EM, x);
+				}
+				if (cn == 'x') { // ex
+					return new TeXLength(TeXLength.Unit.EX, x);
+				}
+				break;
+			case 'i':
+				if (cn == 'n') { // in
+					return new TeXLength(TeXLength.Unit.IN, x);
+				}
+				break;
+			case 'm':
+				if (cn == 'u') { // mu
+					return new TeXLength(TeXLength.Unit.MU, x);
+				}
+				if (cn == 'm') { // mm
+					return new TeXLength(TeXLength.Unit.MM, x);
+				}
+				break;
+			case 'p':
+				if (cn == 'c') { // pc
+					return new TeXLength(TeXLength.Unit.PICA, x);
+				}
+				if (cn == 't') { // pt
+					return new TeXLength(TeXLength.Unit.PT, x);
+				}
+				if (cn == 'x') { // px
+					return new TeXLength(TeXLength.Unit.PIXEL, x);
+				}
+				if (cn == 'i') {
+					if (pos + 1 < len) {
+						cn = parseString.charAt(pos);
+						if (cn == 'c' && parseString.charAt(pos + 1) == 'a') { // pica
+							pos += 2;
+							return new TeXLength(TeXLength.Unit.PICA, x);
+						} else if (cn == 'x') { // pixel
+							if (pos + 2 < len
+									&& parseString.charAt(pos + 1) == 'e'
+									&& parseString.charAt(pos + 2) == 'l') {
+								pos += 3;
+								return new TeXLength(TeXLength.Unit.PIXEL, x);
+							}
+							++pos;
+							return new TeXLength(TeXLength.Unit.PIXEL, x);
+						}
+					}
+				}
+				break;
+			case 's':
+				if (cn == 'p') { // sp
+					return new TeXLength(TeXLength.Unit.SP, x);
 				}
 				break;
 			}
-			pos++;
+			pos -= 2;
 		}
-
-		if (ogroup >= 2) {
-			// end of string reached, but not processed properly
-			throw new ParseException("Illegal end,  missing '}' !");
-		}
-
-		String str;
-		if (ogroup == 0) {
-			str = parseString.substring(spos, pos - 1);
-		} else {
-			str = parseString.substring(spos, pos);
-			ch = '\0';
-		}
-
-		if (ch == '&' || ch == '\\' || ch == R_GROUP) {
-			pos--;
-		}
-
-		return str;
+		return new TeXLength(def, x);
 	}
 
-	public Object[] getLength() throws ParseException {
-		if (pos == len) {
-			return null;
+	private DoubleOrInt getDoubleOrInteger() {
+		char c = parseString.charAt(pos);
+		final boolean negative = c == '-';
+		if (negative || c == '+') {
+			++pos;
 		}
 
-		int spos;
-		char ch = '\0';
-
-		skipWhiteSpace();
-		spos = pos;
-		while (pos < len && ch != ' ') {
-			ch = parseString.charAt(pos++);
+		if (pos < len) {
+			c = parseString.charAt(pos);
+			if (c >= '0' && c <= '9') {
+				int intPart = c - '0';
+				++pos;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c >= '0' && c <= '9') {
+						intPart = 10 * intPart + c - '0';
+					} else {
+						if (c == '.') {
+							++pos;
+							double x = intPart + getDecimalPart();
+							if (pos < len) {
+								c = parseString.charAt(pos);
+								if (c == '%') {
+									++pos;
+									x /= 100.;
+								}
+							}
+							return new DoubleOrInt(negative ? -x : x);
+						} else if (c == '%') {
+							++pos;
+							final double x = (intPart) / 100.;
+							return new DoubleOrInt(negative ? -x : x);
+						} else {
+							return new DoubleOrInt(
+									negative ? -intPart : intPart);
+						}
+					}
+					++pos;
+				}
+				return new DoubleOrInt(negative ? -intPart : intPart);
+			} else if (c == '.') {
+				++pos;
+				double x = getDecimalPart();
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '%') {
+						++pos;
+						x /= 100.;
+					}
+				}
+				return new DoubleOrInt(negative ? -x : x);
+			}
 		}
-		skipWhiteSpace();
 
-		return SpaceAtom.getLength(parseString.substring(spos, pos - 1));
+		throw new ParseException(this, "Not a valid number");
+	}
+
+	public double getOptionAsDecimal() {
+		return getOptionAsDecimal(Double.NaN);
+	}
+
+	public double getOptionAsDecimal(final double def) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '[') {
+				++pos;
+				skipPureWhites();
+				double x = getDecimal();
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '%') {
+						x /= 100.;
+						++pos;
+						if (pos < len) {
+							c = parseString.charAt(pos);
+						} else {
+							throw new ParseException(this,
+									"A closing ']' expected");
+						}
+					}
+					if (isWhite(c)) {
+						++pos;
+						skipPureWhites();
+						c = parseString.charAt(pos);
+					}
+					if (c != ']') {
+						throw new ParseException(this,
+								"A closing ']' expected");
+					}
+					++pos;
+					return x;
+				}
+				throw new ParseException(this, "A closing ']' expected");
+			}
+		}
+		return def;
+	}
+
+	public double getArgAsDecimal() {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				skipPureWhites();
+				double x = getDecimal();
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					if (c == '%') {
+						x /= 100.;
+						++pos;
+						if (pos < len) {
+							c = parseString.charAt(pos);
+						} else {
+							throw new ParseException(this,
+									"A closing '}' expected");
+						}
+					}
+					if (isWhite(c)) {
+						++pos;
+						skipPureWhites();
+						c = parseString.charAt(pos);
+					}
+					if (c != '}') {
+						throw new ParseException(this,
+								"A closing '}' expected");
+					}
+					++pos;
+					return x;
+				}
+				throw new ParseException(this, "A closing '}' expected");
+			} else if ((c >= '0' && c <= '9') || (c == '.') || (c == '-')
+					|| (c == '+')) {
+				return getDecimal();
+			}
+		}
+		throw new ParseException(this, "A number expected");
+	}
+
+	public void getArgAsDecimals(final double[] res, final int resLen) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				for (int i = 0; i < resLen; ++i) {
+					++pos;
+					skipPureWhites();
+					res[i] = getDecimal();
+					if (pos < len) {
+						if (parseString.charAt(pos) == '%') {
+							++pos;
+							res[i] /= 100.;
+						}
+					} else {
+						throw new ParseException(this, "Expect a \'}\'");
+					}
+					skipPureWhites();
+					if (pos < len) {
+						c = parseString.charAt(pos);
+						if (c == '}') {
+							++pos;
+							if (i != resLen - 1) {
+								throw new ParseException(this,
+										"Expect " + res.length + " numbers");
+							}
+							return;
+						} else if (c != ',' && c != ';') {
+							throw new ParseException(this,
+									"Invalid character \'" + c
+											+ "\' in list of numbers: expect a \',\' or \';\'");
+						}
+					}
+				}
+				throw new ParseException(this, "Expect a \'}\'");
+			}
+		}
+		throw new ParseException(this, "Expect a \'{\'");
+	}
+
+	public void getArgAsPositiveIntegers(final int[] res, final int resLen) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				for (int i = 0; i < resLen; ++i) {
+					++pos;
+					skipPureWhites();
+					res[i] = getPositiveInteger();
+					skipPureWhites();
+					if (pos < len) {
+						c = parseString.charAt(pos);
+						if (c == '}') {
+							++pos;
+							if (i != resLen - 1) {
+								throw new ParseException(this,
+										"Expect " + res.length + " numbers");
+							}
+							return;
+						} else if (c != ',' && c != ';') {
+							throw new ParseException(this,
+									"Invalid character \'" + c
+											+ "\' in list of numbers: expect a \',\' or \';\'");
+						}
+					}
+					throw new ParseException(this, "Expect a \'}\'");
+				}
+				return;
+			}
+		}
+		throw new ParseException(this, "Expect a \'{\'");
+	}
+
+	public int getArgAsHexNumber(final int numLen) {
+		skipPureWhites();
+		if (pos < len) {
+			char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				skipPureWhites();
+				if (pos < len) {
+					c = parseString.charAt(pos);
+					int acc = getHex(c);
+					if (acc == 16) {
+						throw new ParseException(this,
+								"An hexadecimal number expected");
+					}
+					for (int i = 1; i < numLen; ++i) {
+						++pos;
+						if (pos < len) {
+							c = parseString.charAt(pos);
+							final int n = getHex(c);
+							if (n == 16) {
+								throw new ParseException(this,
+										"An hexadecimal number expected");
+							}
+							acc = (acc << 4) | n;
+						}
+					}
+					++pos;
+					skipPureWhites();
+					if (pos < len) {
+						c = parseString.charAt(pos);
+						if (c == '}') {
+							++pos;
+							return acc;
+						}
+					}
+					throw new ParseException(this, "Expect a \'}\'");
+				}
+				throw new ParseException(this, "Expect a hex number");
+			}
+		}
+		throw new ParseException(this, "Expect a \'{\'");
+	}
+
+	public double getDecimal() {
+		return getDecimal(Double.NaN);
+	}
+
+	public double getDecimal(double def) {
+		char c = parseString.charAt(pos);
+		final boolean negative = c == '-';
+		if (negative || c == '+') {
+			++pos;
+		}
+
+		if (pos < len) {
+			c = parseString.charAt(pos);
+			if (c >= '0' && c <= '9') {
+				int intPart = c - '0';
+				++pos;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c >= '0' && c <= '9') {
+						intPart = 10 * intPart + c - '0';
+					} else {
+						double x = intPart;
+						if (c == '.') {
+							++pos;
+							x += getDecimalPart();
+						}
+						return negative ? -x : x;
+					}
+					++pos;
+				}
+				final double x = intPart;
+				return negative ? -x : x;
+			} else if (c == '.') {
+				++pos;
+				final double x = getDecimalPart();
+				return negative ? -x : x;
+			}
+		}
+		return def;
+	}
+
+	private void skipNumbers() {
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c < '0' || c > '9') {
+				return;
+			}
+			++pos;
+		}
+		return;
+	}
+
+	private double getDecimalPart() {
+		if (pos < len) {
+			char c = parseString.charAt(pos++);
+			if (c >= '0' && c <= '9') {
+				int ndec = 1;
+				int decPart = c - '0';
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if (c >= '0' && c <= '9') {
+						++ndec;
+						decPart = 10 * decPart + c - '0';
+						++pos;
+						if (ndec == MAX_DEC) {
+							skipNumbers();
+							return decPart / POWTEN[MAX_DEC];
+						}
+					} else {
+						break;
+					}
+				}
+				return decPart / POWTEN[ndec];
+			}
+		}
+		return 0.;
+	}
+
+	public void convertASCIIChar(final char c, final boolean oneChar) {
+		addToConsumer(convertASCIICharToAtom(c, oneChar));
+	}
+
+	public Atom convertASCIICharToAtom(final char c, final boolean oneChar) {
+		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+				.getBasicLatinFont();
+		if (f == null) {
+			return new CharAtom(c, isMathMode());
+		} else {
+			String r;
+			if (oneChar) {
+				r = Character.toString(c);
+			} else {
+				final int start = pos - 1;
+				while (pos < len) {
+					final char cc = parseString.charAt(pos);
+					if ((cc < '0' || cc > '9') && !isRomanLetter(cc)) {
+						break;
+					}
+					++pos;
+				}
+				r = parseString.substring(start, pos);
+			}
+			return new JavaFontRenderingAtom(r, f);
+		}
 	}
 
 	/**
 	 * Convert a character in the corresponding atom in using the file
 	 * TeXFormulaSettings.xml for non-alphanumeric characters
-	 * 
-	 * @param c0
+	 *
+	 * @param c
 	 *            the character to be converted
-	 * @param oneChar
-	 *            one char
 	 * @return the corresponding atom
 	 * @throws ParseException
 	 *             if the character is unknown
 	 */
-	public Atom convertCharacter(char c0, boolean oneChar)
+	public void convertCharacter(char c, final boolean oneChar)
 			throws ParseException {
-		if (ignoreWhiteSpace) {// The Unicode Greek letters in math mode are not
-								// drawn with the
-								// Greek font
-			if (c0 >= 945 && c0 <= 969) {
-				return SymbolAtom.get(TeXFormula.symbolMappings[c0]);
-			} else if (c0 >= 913 && c0 <= 937) {
-				return new TeXFormula(
-						TeXFormula.symbolFormulaMappings[c0]).root;
-			}
-		}
-
-		char c = convertToRomanNumber(c0);
-		if (((c < '0' || c > '9') && (c < 'a' || c > 'z')
-				&& (c < 'A' || c > 'Z'))) {
-			Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-
-			String symbolName = TeXFormula.symbolMappings[c];
-			if (symbolName == null && (TeXFormula.symbolFormulaMappings == null
-					|| TeXFormula.symbolFormulaMappings[c] == null)) {
-				TeXFormula.FontInfos fontInfos = null;
-				boolean isLatin = Character.UnicodeBlock.BASIC_LATIN
-						.equals(block);
-				if ((isLatin && TeXFormula
-						.isRegisteredBlock(Character.UnicodeBlock.BASIC_LATIN))
-						|| !isLatin) {
-					fontInfos = TeXFormula.getExternalFont(block);
-				}
-				if (fontInfos != null) {
-					if (oneChar) {
-						return new JavaFontRenderingAtom(Character.toString(c),
-								fontInfos);
+		if (!charMapping.replace(c, this)) {
+			final Character.UnicodeBlock block = UnicodeMapping.get(c);
+			String r;
+			if (oneChar) {
+				r = Character.toString(c);
+			} else {
+				final int start = pos - 1;
+				while (pos < len) {
+					c = parseString.charAt(pos);
+					if ((c != ' ' && !UnicodeMapping.get(c).equals(block))
+							|| charMapping.hasMapping(c)) {
+						break;
 					}
-					int start = pos++;
-					int end = len - 1;
+					++pos;
+				}
+				r = parseString.substring(start, pos);
+			}
+
+			final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+					.getExternalFont(block);
+			addToConsumer(new JavaFontRenderingAtom(r, f));
+		}
+	}
+
+	public Atom getAtomFromUnicode(char c, final boolean oneChar) {
+		if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
+				|| (c >= 'A' && c <= 'Z')) {
+			return convertASCIICharToAtom(c, oneChar);
+		}
+		Atom a = charMapping.getAtom(c, isMathMode());
+		if (a == null) {
+			final Character.UnicodeBlock block = UnicodeMapping.get(c);
+			a = charMapping.getAtom(c, isMathMode());
+			if (a == null) {
+				String r;
+				if (oneChar) {
+					r = Character.toString(c);
+				} else {
+					final int start = pos - 1;
 					while (pos < len) {
 						c = parseString.charAt(pos);
-						if (!Character.UnicodeBlock.of(c).equals(block)) {
-							end = --pos;
+						if ((c != ' ' && !UnicodeMapping.get(c).equals(block))
+								|| charMapping.hasMapping(c)) {
 							break;
 						}
-						pos++;
+						++pos;
 					}
-					return new JavaFontRenderingAtom(
-							parseString.substring(start, end + 1), fontInfos);
+					r = parseString.substring(start, pos);
 				}
-
-				if (!isPartial) {
-					throw new ParseException(
-							"Unknown character : '" + Character.toString(c)
-									+ "' (or " + ((int) c) + ")");
-				}
-				return new ColorAtom(new RomanAtom(new TeXFormula(
-						"\\text{(Unknown char " + ((int) c) + ")}").root), null,
-						ColorUtil.RED);
-			}
-			if (!ignoreWhiteSpace) {// we are in text mode
-				if (TeXFormula.symbolTextMappings[c] != null) {
-					return SymbolAtom.get(TeXFormula.symbolTextMappings[c])
-							.setUnicode(c);
-				}
-			}
-			if (TeXFormula.symbolFormulaMappings != null
-					&& TeXFormula.symbolFormulaMappings[c] != null) {
-				return new TeXFormula(TeXFormula.symbolFormulaMappings[c]).root;
-			}
-
-			try {
-				return SymbolAtom.get(symbolName);
-			} catch (SymbolNotFoundException e) {
-				throw new ParseException(
-						"The character '" + Character.toString(c)
-								+ "' was mapped to an unknown symbol with the name '"
-								+ symbolName + "'!",
-						e);
+				final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+						.getExternalFont(block);
+				a = new JavaFontRenderingAtom(r, f);
 			}
 		}
-		// alphanumeric character
-		TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap
-				.get(Character.UnicodeBlock.BASIC_LATIN);
-		if (fontInfos != null) {
-			if (oneChar) {
-				return new JavaFontRenderingAtom(Character.toString(c),
-						fontInfos);
-			}
-			int start = pos++;
-			int end = len - 1;
-			while (pos < len) {
-				c = parseString.charAt(pos);
-				if (((c < '0' || c > '9') && (c < 'a' || c > 'z')
-						&& (c < 'A' || c > 'Z'))) {
-					end = --pos;
-					break;
-				}
-				pos++;
-			}
-			return new JavaFontRenderingAtom(
-					parseString.substring(start, end + 1), fontInfos);
-		}
-		return new CharAtom(c, ignoreWhiteSpace, formula.textStyle == null
-				? TextStyle.NONE : TextStyle.getStyle(formula.textStyle));
+		return a;
 	}
 
-	private String getCommand() {
-		int pos1 = ++pos;
-		char ch = '\0';
+	public ArrayOptions getArrayOptions() {
+		skipPureWhites();
+		if (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c == '{') {
+				++pos;
+				final ArrayOptions options = new ArrayOptions();
+				parseArrayOptions(options);
+				options.close();
+				return options;
+			}
+		}
+		return ArrayOptions.getEmpty();
+	}
 
+	private void parseArrayOptions(final ArrayOptions options) {
+		// https://en.wikibooks.org/wiki/LaTeX/Tables
 		while (pos < len) {
-			ch = parseString.charAt(pos);
-			if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z')
-					&& (atIsLetter == 0 || ch != '@')) {
+			final char c = parseString.charAt(pos);
+			switch (c) {
+			case 'c':
+				++pos;
+				options.addAlignment(TeXConstants.Align.CENTER);
 				break;
-			}
-
-			pos++;
-		}
-
-		if (ch == '\0') {
-			return "";
-		}
-
-		if (pos == pos1) {
-			pos++;
-		}
-
-		String com = parseString.substring(pos1, pos);
-		if ("cr".equals(com) && pos < len && parseString.charAt(pos) == ' ') {
-			pos++;
-		}
-
-		return com;
-	}
-
-	private Atom processEscape() throws ParseException {
-		spos = pos;
-		String command = getCommand();
-
-		if (command.length() == 0) {
-			return new EmptyAtom();
-		}
-
-		if (MacroInfo.Commands.get(command) != null) {
-			return processCommands(command);
-		}
-
-		try {
-			return TeXFormula.get(command).root;
-		} catch (FormulaNotFoundException e) {
-			try {
-				return SymbolAtom.get(command);
-			} catch (SymbolNotFoundException e1) {
-			}
-		}
-
-		// not a valid command or symbol or predefined TeXFormula found
-		if (!isPartial) {
-			throw new ParseException(
-					"Unknown symbol or command or predefined TeXFormula: '"
-							+ command + "'");
-		}
-		return new ColorAtom(
-				new RomanAtom(new TeXFormula("\\backslash " + command).root),
-				null, ColorUtil.RED);
-	}
-
-	private void insert(int beg, int end, String formula) {
-		parseString.replace(beg, end, formula);
-		len = parseString.length();
-		pos = beg;
-		insertion = true;
-	}
-
-	/**
-	 * Get the arguments ant the options of a command
-	 * 
-	 * @param nbArgs
-	 *            the number of arguments of the command
-	 * @param opts
-	 *            must be 1 if the options are found before the first argument
-	 *            and must be 2 if they must be found before the second argument
-	 * @return an array containing arguments and at the end the options are put
-	 */
-	/* Should be improved */
-	public String[] getOptsArgs(int nbArgs, int opts) {
-		// A maximum of 10 options can be passed to a command
-		String[] args = new String[nbArgs + 10 + 1];
-		if (nbArgs != 0) {
-
-			// We get the options just after the command name
-			if (opts == 1) {
-				int j = nbArgs + 1;
-				try {
-					for (; j < nbArgs + 11; j++) {
-						skipWhiteSpace();
-						args[j] = getGroup(L_BRACK, R_BRACK);
-					}
-				} catch (ParseException e) {
-					args[j] = null;
-				}
-			}
-
-			// We get the first argument
-			skipWhiteSpace();
-			try {
-				args[1] = getGroup(L_GROUP, R_GROUP);
-			} catch (ParseException e) {
-				if (parseString.charAt(pos) != '\\') {
-					args[1] = "" + parseString.charAt(pos);
-					pos++;
-				} else {
-					args[1] = getCommandWithArgs(getCommand());
-				}
-			}
-
-			// We get the options after the first argument
-			if (opts == 2) {
-				int j = nbArgs + 1;
-				try {
-					for (; j < nbArgs + 11; j++) {
-						skipWhiteSpace();
-						args[j] = getGroup(L_BRACK, R_BRACK);
-					}
-				} catch (ParseException e) {
-					args[j] = null;
-				}
-			}
-
-			// We get the next arguments
-			for (int i = 2; i <= nbArgs; i++) {
-				skipWhiteSpace();
-				try {
-					args[i] = getGroup(L_GROUP, R_GROUP);
-				} catch (ParseException e) {
-					if (parseString.charAt(pos) != '\\') {
-						args[i] = "" + parseString.charAt(pos);
-						pos++;
-					} else {
-						args[i] = getCommandWithArgs(getCommand());
-					}
-				}
-			}
-
-			if (ignoreWhiteSpace) {
-				skipWhiteSpace();
-			}
-		}
-		return args;
-	}
-
-	/**
-	 * return a string with command and options and args
-	 * 
-	 * @param command
-	 *            name of command
-	 * @return
-	 * @author Juan Enrique Escobar Robles
-	 */
-	private String getCommandWithArgs(String command) {
-		if ("left".equals(command)) {
-			return getGroup("\\left", "\\right");
-		}
-
-		MacroInfo mac = MacroInfo.Commands.get(command);
-		if (mac != null) {
-			int mac_opts = 0;
-			if (mac.hasOptions) {
-				mac_opts = mac.posOpts;
-			}
-
-			String[] mac_args = getOptsArgs(mac.nbArgs, mac_opts);
-			StringBuilder mac_arg = new StringBuilder("\\");
-			mac_arg.append(command);
-			for (int j = 0; j < mac.posOpts; j++) {
-				String arg_t = mac_args[mac.nbArgs + j + 1];
-				if (arg_t != null) {
-					mac_arg.append("[").append(arg_t).append("]");
-				}
-			}
-
-			for (int j = 0; j < mac.nbArgs; j++) {
-				String arg_t = mac_args[j + 1];
-				if (arg_t != null) {
-					mac_arg.append("{").append(arg_t).append("}");
-				}
-			}
-
-			return mac_arg.toString();
-		}
-
-		return "\\" + command;
-	}
-
-	/**
-	 * Processes the given TeX command (by parsing following command arguments
-	 * in the parse string).
-	 */
-	private Atom processCommands(String command) throws ParseException {
-		MacroInfo mac = MacroInfo.Commands.get(command);
-		int opts = 0;
-		if (mac.hasOptions) {
-			opts = mac.posOpts;
-		}
-
-		String[] args = getOptsArgs(mac.nbArgs, opts);
-		args[0] = command;
-
-		if (NewCommandMacro.isMacro(command)) {
-			String ret = (String) mac.invoke(this, args);
-			insert(spos, pos, ret);
-			return null;
-		}
-
-		return (Atom) mac.invoke(this, args);
-	}
-
-	/**
-	 * Test the validity of the name of a command. It must contains only alpha
-	 * characters and eventually a @ if makeAtletter activated
-	 * 
-	 * @param com
-	 *            the command's name
-	 * @return the validity of the name
-	 */
-	public final boolean isValidName(String com) {
-		if (com == null || "".equals(com)) {
-			return false;
-		}
-
-		char c = '\0';
-		if (com.charAt(0) == '\\') {
-			int pos = 1;
-			int len = com.length();
-			while (pos < len) {
-				c = com.charAt(pos);
-				if (!java.lang.Character.isLetter(c)
-						&& (atIsLetter == 0 || c != '@')) {
-					break;
-				}
-				pos++;
-			}
-		} else {
-			return false;
-		}
-
-		return java.lang.Character.isLetter(c);
-	}
-
-	/**
-	 * Test the validity of a character in a command. It must contains only
-	 * alpha characters and eventually a @ if makeAtletter activated
-	 * 
-	 * @param ch
-	 *            character
-	 * @return the validity of the name
-	 */
-	public final boolean isValidCharacterInCommand(char ch) {
-		return java.lang.Character.isLetter(ch)
-				|| (atIsLetter != 0 && ch == '@');
-	}
-
-	private final void skipWhiteSpace() {
-		char c;
-		while (pos < len) {
-			c = parseString.charAt(pos);
-			if (c != ' ' && c != '\t' && c != '\n' && c != '\r') {
+			case 'l':
+				++pos;
+				options.addAlignment(TeXConstants.Align.LEFT);
 				break;
+			case 'r':
+				++pos;
+				options.addAlignment(TeXConstants.Align.RIGHT);
+				break;
+			case '|':
+				options.addVline(getNumberOf('|'));
+				break;
+			case '@':
+				// TODO: handle that in ArrayAtom
+				// @{\pi} \pi is the column separator
+				++pos;
+				final String code = getGroupAsArgument();
+				final SingleAtomConsumer cons = new SingleAtomConsumer();
+				addConsumer(cons);
+				addString(code, true /*
+										 * to come back here after the code has
+										 * been parsed
+										 */);
+				parse();
+				pop(); // remove cons from the stack
+				final Atom sep = cons.get();
+				options.addSeparator(sep);
+				break;
+			case '*':
+				// *{num}{str}
+				// *{3}{c|} <=> c|c|c|
+				++pos;
+				final int num = getArgAsPositiveInteger();
+				final String str = getGroupAsArgument();
+				final StringBuffer buf = new StringBuffer(str.length() * num);
+				for (int i = 0; i < num; ++i) {
+					buf.append(str);
+				}
+				addString(buf.toString());
+				parseArrayOptions(options);
+				popString();
+				break;
+			case ' ':
+			case '\t':
+				++pos;
+				break;
+			case '}':
+				++pos;
+				return;
+			default:
+				++pos;
+				options.addAlignment(TeXConstants.Align.CENTER);
 			}
-			if (c == '\n') {
-				line++;
-				col = pos;
-			}
-			pos++;
 		}
-	}
-
-	/**
-	 * The aim of this method is to convert foreign number into roman ones !
-	 */
-	private static char convertToRomanNumber(char c) {
-		if (c == 0x66b) {// Arabic dot
-			return '.';
-		} else if (0x660 <= c && c <= 0x669) {// Arabic
-			return (char) (c - (char) 0x630);
-		} else if (0x6f0 <= c && c <= 0x6f9) {// Arabic
-			return (char) (c - (char) 0x6c0);
-		} else if (0x966 <= c && c <= 0x96f) {// Devanagari
-			return (char) (c - (char) 0x936);
-		} else if (0x9e6 <= c && c <= 0x9ef) {// Bengali
-			return (char) (c - (char) 0x9b6);
-		} else if (0xa66 <= c && c <= 0xa6f) {// Gurmukhi
-			return (char) (c - (char) 0xa36);
-		} else if (0xae6 <= c && c <= 0xaef) {// Gujarati
-			return (char) (c - (char) 0xab6);
-		} else if (0xb66 <= c && c <= 0xb6f) {// Oriya
-			return (char) (c - (char) 0xb36);
-		} else if (0xc66 <= c && c <= 0xc6f) {// Telugu
-			return (char) (c - (char) 0xc36);
-		} else if (0xd66 <= c && c <= 0xd6f) {// Malayalam
-			return (char) (c - (char) 0xd36);
-		} else if (0xe50 <= c && c <= 0xe59) {// Thai
-			return (char) (c - (char) 0xe20);
-		} else if (0xed0 <= c && c <= 0xed9) {// Lao
-			return (char) (c - (char) 0xea0);
-		} else if (0xf20 <= c && c <= 0xf29) {// Tibetan
-			return (char) (c - (char) 0xe90);
-		} else if (0x1040 <= c && c <= 0x1049) {// Myanmar
-			return (char) (c - (char) 0x1010);
-		} else if (0x17e0 <= c && c <= 0x17e9) {// Khmer
-			return (char) (c - (char) 0x17b0);
-		} else if (0x1810 <= c && c <= 0x1819) {// Mongolian
-			return (char) (c - (char) 0x17e0);
-		} else if (0x1b50 <= c && c <= 0x1b59) {// Balinese
-			return (char) (c - (char) 0x1b20);
-		} else if (0x1bb0 <= c && c <= 0x1bb9) {// Sundanese
-			return (char) (c - (char) 0x1b80);
-		} else if (0x1c40 <= c && c <= 0x1c49) {// Lepcha
-			return (char) (c - (char) 0x1c10);
-		} else if (0x1c50 <= c && c <= 0x1c59) {// Ol Chiki
-			return (char) (c - (char) 0x1c20);
-		} else if (0xa8d0 <= c && c <= 0xa8d9) {// Saurashtra
-			return (char) (c - (char) 0xa8a0);
-		}
-
-		return c;
-	}
-
-	// TODO remove after jlm v2 merge
-	public Atom getAtomFromUnicode(char unicode, boolean b) {
-		return convertCharacter(unicode, b);
 	}
 }

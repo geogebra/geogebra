@@ -49,6 +49,7 @@ package com.himamis.retex.renderer.share;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.platform.FontAdapter;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
 /**
@@ -60,8 +61,6 @@ public class FontInfo {
 	 * Maximum number of character codes in a TeX font.
 	 */
 	public static final int NUMBER_OF_CHAR_CODES = 256;
-
-	private static Map<Integer, FontInfo> fonts = new HashMap<Integer, FontInfo>();
 
 	private class CharCouple {
 
@@ -88,59 +87,35 @@ public class FontInfo {
 	}
 
 	// ID
-	private final int fontId;
+	public final Font_ID fontId;
 
 	// font
 	private Font font;
-	private final String path;
 
-	private final Map<CharCouple, Character> lig = new HashMap<CharCouple, Character>();
-	private final Map<CharCouple, Double> kern = new HashMap<CharCouple, Double>();
+	private final Map<CharCouple, Character> lig = new HashMap<>();
+	private final Map<CharCouple, Double> kern = new HashMap<>();
 	private double[][] metrics;
 	private CharFont[] nextLarger;
 	private int[][] extensions;
 	private HashMap<Character, Character> unicode = null;
 
-	// skew character of the font (used for positioning accents)
-	private char skewChar = (char) -1;
-
 	// general parameters for this font
-	private final double xHeight;
-	private final double space;
-	private final double quad;
-	private int boldId;
-	private int romanId;
-	private int ssId;
-	private int ttId;
-	private int itId;
-	protected final String boldVersion;
-	protected final String romanVersion;
-	protected final String ssVersion;
-	protected final String ttVersion;
-	protected final String itVersion;
+	public Font_ID boldId;
+	public Font_ID romanId;
+	public Font_ID ssId;
+	public Font_ID ttId;
+	public Font_ID itId;
 
-	public FontInfo(int fontId, String path, int unicode, double xHeight,
-			double space, double quad, String boldVersion, String romanVersion,
-			String ssVersion, String ttVersion, String itVersion) {
+	public FontInfo(Font_ID fontId) {
 		this.fontId = fontId;
-		this.path = path;
-		this.xHeight = xHeight;
-		this.space = space;
-		this.quad = quad;
-		this.boldVersion = boldVersion;
-		this.romanVersion = romanVersion;
-		this.ssVersion = ssVersion;
-		this.ttVersion = ttVersion;
-		this.itVersion = itVersion;
 		int num = NUMBER_OF_CHAR_CODES;
-		if (unicode != 0) {
-			this.unicode = new HashMap<Character, Character>(unicode);
-			num = unicode;
+		if (fontId.unicode != 0) {
+			this.unicode = new HashMap<>(fontId.unicode);
+			num = fontId.unicode;
 		}
 		metrics = new double[num][];
 		nextLarger = new CharFont[num];
 		extensions = new int[num][];
-		fonts.put(fontId, this);
 	}
 
 	/**
@@ -195,7 +170,6 @@ public class FontInfo {
 		if (unicode == null) {
 			return metrics[c];
 		}
-		// XXX
 		return metrics[unicode.get(c)];
 	}
 
@@ -203,7 +177,6 @@ public class FontInfo {
 		if (unicode == null) {
 			return metrics[c][0];
 		}
-		// XXX
 		return metrics[unicode.get(c)][0];
 	}
 
@@ -211,7 +184,6 @@ public class FontInfo {
 		if (unicode == null) {
 			return metrics[c][1];
 		}
-		// XXX
 		return metrics[unicode.get(c)][1];
 	}
 
@@ -219,7 +191,6 @@ public class FontInfo {
 		if (unicode == null) {
 			return metrics[c][2];
 		}
-		// XXX
 		return metrics[unicode.get(c)][2];
 	}
 
@@ -238,27 +209,19 @@ public class FontInfo {
 	}
 
 	public double getQuad(double factor) {
-		return quad * factor;
-	}
-
-	/**
-	 * @return the skew character of the font (for the correct positioning of
-	 *         accents)
-	 */
-	public char getSkewChar() {
-		return skewChar;
+		return fontId.quad * factor;
 	}
 
 	public double getSpace(double factor) {
-		return space * factor;
+		return fontId.space * factor;
 	}
 
 	public double getXHeight(double factor) {
-		return xHeight * factor;
+		return fontId.xHeight * factor;
 	}
 
 	public boolean hasSpace() {
-		return space > TeXFormula.PREC;
+		return fontId.space > TeXFormula.PREC;
 	}
 
 	public void setExtension(char ch, int[] ext) {
@@ -285,7 +248,7 @@ public class FontInfo {
 		}
 	}
 
-	public void setNextLarger(char ch, char larger, int fontLarger) {
+	public void setNextLarger(char ch, char larger, Font_ID fontLarger) {
 		if (unicode == null) {
 			nextLarger[ch] = new CharFont(larger, fontLarger);
 		} else if (!unicode.containsKey(ch)) {
@@ -297,62 +260,14 @@ public class FontInfo {
 		}
 	}
 
-	public void setSkewChar(char c) {
-		skewChar = c;
-	}
-
-	public int getId() {
+	public Font_ID getId() {
 		return fontId;
-	}
-
-	public int getBoldId() {
-		return boldId;
-	}
-
-	public int getRomanId() {
-		return romanId;
-	}
-
-	public int getTtId() {
-		return ttId;
-	}
-
-	public int getItId() {
-		return itId;
-	}
-
-	public int getSsId() {
-		return ssId;
-	}
-
-	public void setSsId(int id) {
-		ssId = id == -1 ? fontId : id;
-	}
-
-	public void setTtId(int id) {
-		ttId = id == -1 ? fontId : id;
-	}
-
-	public void setItId(int id) {
-		itId = id == -1 ? fontId : id;
-	}
-
-	public void setRomanId(int id) {
-		romanId = id == -1 ? fontId : id;
-	}
-
-	public void setBoldId(int id) {
-		boldId = id == -1 ? fontId : id;
 	}
 
 	public Font getFont() {
 		if (font == null) {
-			font = DefaultTeXFontParser.createFont(path);
+			font = new FontAdapter().loadFont(fontId.path + ".ttf");
 		}
 		return font;
-	}
-
-	public static Font getFont(int id) {
-		return fonts.get(id).getFont();
 	}
 }

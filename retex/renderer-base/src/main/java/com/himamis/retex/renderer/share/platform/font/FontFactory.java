@@ -37,7 +37,8 @@ public abstract class FontFactory {
 	public abstract FontLoader createFontLoader();
 
 	/**
-	 * overridden in desktop https://github.com/opencollab/jlatexmath/issues/32
+	 * overridden in desktop to avoid bad shapes in SVG export
+	 * https://github.com/opencollab/jlatexmath/issues/32
 	 * 
 	 * @return scale factor
 	 */

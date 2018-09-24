@@ -24,23 +24,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -51,8 +51,8 @@ package com.himamis.retex.renderer.share;
  */
 public class MiddleAtom extends Atom {
 
-	public Atom base;
-	public Box box = new StrutBox(0, 0, 0, 0);
+	private Atom base;
+	private Box box = StrutBox.getEmpty();
 
 	@Override
 	final public Atom duplicate() {
@@ -63,12 +63,19 @@ public class MiddleAtom extends Atom {
 		base = at;
 	}
 
-	public MiddleAtom(Atom base, Box box) {
-		this.base = base;
+	public MiddleAtom(Atom at, Box box0) {
+		base = at;
+		box = box0;
+	}
+
+	public Atom getBase() {
+		return base;
+	}
+
+	public void setBox(final Box box) {
 		this.box = box;
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		return box;
 	}

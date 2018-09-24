@@ -50,25 +50,29 @@ package com.himamis.retex.renderer.share;
  */
 public class EmptyAtom extends Atom {
 
-	private static EmptyAtom instance = new EmptyAtom();
+	// private static EmptyAtom instance = new EmptyAtom();
 
 	public EmptyAtom() {
 	}
 
 	public static EmptyAtom get() {
-		return instance;
+		// return instance;
+		return new EmptyAtom();
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return StrutBox.getEmpty();
 	}
 
+	@Override
 	public Atom changeLimits(final int lim) {
 		Atom a = this.duplicate();
 		a.type_limits = lim;
 		return a;
 	}
 
+	@Override
 	public Atom changeType(final int type) {
 		final Atom a = this.duplicate();
 		a.type = type;
@@ -76,7 +80,7 @@ public class EmptyAtom extends Atom {
 	}
 
 	@Override
-	final public Atom duplicate() {
+	public Atom duplicate() {
 		return setFields(new EmptyAtom());
 	}
 

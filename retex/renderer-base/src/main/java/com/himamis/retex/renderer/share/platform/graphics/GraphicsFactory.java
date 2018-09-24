@@ -44,7 +44,26 @@
 package com.himamis.retex.renderer.share.platform.graphics;
 
 public abstract class GraphicsFactory {
-
+	// old
+	/*
+	 * static public int CURSOR_RED = 96; static public int CURSOR_GREEN = 96;
+	 * static public int CURSOR_BLUE = 255;
+	 */
+	// teal default
+	/*
+	 * static public int CURSOR_RED = 0; static public int CURSOR_GREEN = 168;
+	 * static public int CURSOR_BLUE = 168;
+	 */
+	// teal dark
+	/*
+	 * static public int CURSOR_RED = 0; static public int CURSOR_GREEN = 141;
+	 * static public int CURSOR_BLUE = 141;
+	 */
+	// purple default
+	/*
+	 * static public int CURSOR_RED = 101; static public int CURSOR_GREEN = 87;
+	 * static public int CURSOR_BLUE = 210;
+	 */
 	// purple dark
 	static public int CURSOR_RED = 76;
 	static public int CURSOR_GREEN = 66;
@@ -59,9 +78,42 @@ public abstract class GraphicsFactory {
 
 	public abstract Transform createTransform();
 
+	public Color createColor(int rgb) {
+		int red = (rgb >> 16) & 0xFF;
+		int green = (rgb >> 8) & 0xFF;
+		int blue = (rgb >> 0) & 0xFF;
+		return createColor(red, green, blue);
+
+	}
+
+	public Color createColor(double r, double g, double b) {
+		return createColor((int) (r * 255), (int) (g * 255), (int) (b * 255));
+	}
+
+	public Color createColor(int r, int g, int b, int alpha) {
+		// XXX alpha ignored, TODO
+		return createColor(r, g, b);
+	}
+
+	public Color createColor(double r, double g, double b, double a) {
+		return createColor((int) r * 255, (int) g * 255, (int) b * 255,
+				(int) a * 255);
+	}
+
+	public Color createColor(int rgba, boolean hasAlpha) {
+		if (!hasAlpha) {
+			return createColor(rgba);
+		}
+		int alpha = (rgba >> 24) & 0xFF;
+		int red = (rgba >> 16) & 0xFF;
+		int green = (rgba >> 8) & 0xFF;
+		int blue = (rgba >> 0) & 0xFF;
+		return createColor(red, green, blue, alpha);
+
+	}
+
 	public Image createImage(String path) {
-		// Overridden in desktop only
-		// for \includegraphcs
+		// implemented in desktop only
 		return null;
 	}
 

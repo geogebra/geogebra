@@ -15,7 +15,8 @@ public class SelectionBox extends Box {
 
 	public SelectionBox(Box content) {
 		this.content = content;
-		this.children.add(content);
+		// XXX
+		// this.children.add(content);
 		this.width = content.width;
 		this.height = content.height;
 		this.depth = content.depth;
@@ -68,8 +69,7 @@ public class SelectionBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
-		// TODO Auto-generated method stub
+	public Font_ID getLastFontId() {
 		return content.getLastFontId();
 	}
 

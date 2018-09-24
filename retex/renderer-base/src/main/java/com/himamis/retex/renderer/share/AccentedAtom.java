@@ -3,7 +3,7 @@
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
  * Copyright (C) 2004-2007 Universiteit Gent
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2009-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,30 +25,28 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.exception.InvalidSymbolTypeException;
-import com.himamis.retex.renderer.share.exception.InvalidTeXFormulaException;
-import com.himamis.retex.renderer.share.exception.SymbolNotFoundException;
 
 /**
  * An atom representing another atom with an accent symbol above it.
@@ -57,49 +55,21 @@ public class AccentedAtom extends Atom {
 
 	// accent symbol
 	private final SymbolAtom accent;
-	private boolean acc = false;
-	private boolean changeSize = true;
 
 	// base atom
-	protected Atom base = null;
-	protected Atom underbase = null;
+	protected final Atom base;
+
+	// extra skew
+	protected double skew = Double.NaN;
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(
-				new AccentedAtom(base, accent, changeSize, acc, underbase));
+	public Atom duplicate() {
+		return setFields(new AccentedAtom(base, (SymbolAtom) accent));
 	}
 
-	private AccentedAtom(Atom base, SymbolAtom accent, boolean changeSize,
-			boolean acc, Atom underbase) {
+	public AccentedAtom(Atom base, SymbolAtom accent) {
 		this.base = base;
 		this.accent = accent;
-		this.changeSize = changeSize;
-		this.acc = acc;
-		this.underbase = underbase;
-	}
-
-	public AccentedAtom(Atom base, Atom accent)
-			throws InvalidSymbolTypeException {
-		this.base = base;
-		if (base instanceof AccentedAtom) {
-			underbase = ((AccentedAtom) base).underbase;
-		} else {
-			underbase = base;
-		}
-
-		if (!(accent instanceof SymbolAtom)) {
-			throw new InvalidSymbolTypeException("Invalid accent");
-		}
-
-		this.accent = (SymbolAtom) accent;
-		this.acc = true;
-	}
-
-	public AccentedAtom(Atom base, Atom accent, boolean changeSize)
-			throws InvalidSymbolTypeException {
-		this(base, accent);
-		this.changeSize = changeSize;
 	}
 
 	/**
@@ -115,138 +85,90 @@ public class AccentedAtom extends Atom {
 	 * @throws SymbolNotFoundException
 	 *             if there's no symbol defined with the given name
 	 */
-	public AccentedAtom(Atom base, String accentName)
-			throws InvalidSymbolTypeException, SymbolNotFoundException {
-		accent = SymbolAtom.get(accentName);
-		if (accent.type == TeXConstants.TYPE_ACCENT) {
-			this.base = base;
-			if (base instanceof AccentedAtom) {
-				underbase = ((AccentedAtom) base).underbase;
-			} else {
-				underbase = base;
-			}
-		} else {
-			throw new InvalidSymbolTypeException("The symbol with the name '"
-					+ accentName + "' is not defined as an accent ("
-					+ TeXSymbolParser.TYPE_ATTR + "='acc') in '"
-					+ TeXSymbolParser.RESOURCE_NAME + "'!");
-		}
+	public AccentedAtom(Atom base, String accentName) {
+		this(base, SymbolAtom.get(accentName));
 	}
 
-	/**
-	 * Creates an AccentedAtom from a base atom and an accent symbol defined as
-	 * a TeXFormula. This is used for parsing MathML.
-	 *
-	 * @param base
-	 *            base atom
-	 * @param acc
-	 *            TeXFormula representing an accent (SymbolAtom)
-	 * @throws InvalidTeXFormulaException
-	 *             if the given TeXFormula does not represent a single
-	 *             SymbolAtom (type "TeXConstants.TYPE_ACCENT")
-	 * @throws InvalidSymbolTypeException
-	 *             if the symbol is not defined as an accent ('acc')
-	 */
-	public AccentedAtom(Atom base, TeXFormula acc)
-			throws InvalidTeXFormulaException, InvalidSymbolTypeException {
-		if (acc == null) {
-			throw new InvalidTeXFormulaException(
-					"The accent TeXFormula can't be null!");
-		}
-		Atom root = acc.root;
-		if (root instanceof SymbolAtom) {
-			accent = (SymbolAtom) root;
-			if (accent.type == TeXConstants.TYPE_ACCENT) {
-				this.base = base;
-			} else {
-				throw new InvalidSymbolTypeException(
-						"The accent TeXFormula represents a single symbol with the name '"
-								+ accent.getName()
-								+ "', but this symbol is not defined as an accent ("
-								+ TeXSymbolParser.TYPE_ATTR + "='acc') in '"
-								+ TeXSymbolParser.RESOURCE_NAME + "'!");
-			}
-		} else {
-			throw new InvalidTeXFormulaException(
-					"The accent TeXFormula does not represent a single symbol!");
-		}
+	public void setSkew(final double skew) {
+		this.skew = skew;
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
-		TeXFont tf = env.getTeXFont();
-		int style = env.getStyle();
+		final TeXFont tf = env.getTeXFont();
+		final int style = env.getStyle();
 
-		// set base in cramped style
-		Box b = (base == null ? new StrutBox(0, 0, 0, 0)
-				: base.createBox(env.crampStyle()));
-
-		double u = b.getWidth();
-		double s = 0;
-		if (underbase instanceof CharSymbol) {
-			s = tf.getSkew(((CharSymbol) underbase).getCharFont(tf), style);
+		// set base in cramped style and remove italic correction
+		Box b = base.createBox(env.crampStyle());
+		double italic = 0.;
+		if (!mustAddItalicCorrection()) {
+			italic = base.getItalic(env);
 		}
 
-		// retrieve best Char from the accent symbol
-		Char ch = tf.getChar(accent.getName(), style);
-		while (tf.hasNextLarger(ch)) {
-			Char larger = tf.getNextLarger(ch, style);
-			if (larger.getWidth() <= u) {
-				ch = larger;
-			} else {
-				break;
-			}
+		double u = b.getWidth() + italic;
+		double s;
+		final Atom trueBase = getBase();
+		if (trueBase instanceof CharSymbol) {
+			s = tf.getSkew(((CharSymbol) trueBase).getCharFont(tf), style);
+		} else {
+			s = 0.;
 		}
 
-		// calculate delta
-		double ec = -SpaceAtom.getFactor(TeXLength.Unit.MU, env);
-		double delta = acc ? ec
-				: Math.min(b.getHeight(),
-						tf.getXHeight(style, ch.getFontCode()));
+		if (!Double.isNaN(skew)) {
+			s = skew * TeXLength.getFactor(TeXLength.Unit.MU, env) - s;
+		}
+
+		// TODO: maybe we've a bug here
+		// we take xheight for the accent and not for its extension... wait and
+		// see
+		final double delta = Math.min(b.getHeight(), accent.getXHeight(env));
 
 		// create vertical box
 		VerticalBox vBox = new VerticalBox();
 
 		// accent
-		Box y;
-		double italic = ch.getItalic();
-		Box cb = new CharBox(ch);
-		if (acc) {
-			cb = accent.createBox(changeSize ? env.subStyle() : env);
-		}
-
-		if (Math.abs(italic) > TeXFormula.PREC) {
-			y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
-			y.add(cb);
-		} else {
-			y = cb;
-		}
+		Box y = accent.getNextLarger(env, u);
 
 		// if diff > 0, center accent, otherwise center base
-		double diff = (u - y.getWidth()) / 2;
-		y.setShift(s + (diff > 0 ? diff : 0));
-		if (diff < 0) {
-			b = new HorizontalBox(b, y.getWidth(), TeXConstants.Align.CENTER);
-		}
+		y.setShift(s + (u - y.getWidth()) / 2.);
+		y.setWidth(0.);
 		vBox.add(y);
 
 		// kern
-		vBox.add(new StrutBox(0, changeSize ? -delta : -b.getHeight(), 0, 0));
+		vBox.add(new StrutBox(0., -delta, 0., 0.));
 		// base
 		vBox.add(b);
 
 		// set height and depth vertical box
-		double total = vBox.getHeight() + vBox.getDepth(), d = b.getDepth();
+		final double total = vBox.getHeight() + vBox.getDepth();
+		final double d = b.getDepth();
 		vBox.setDepth(d);
 		vBox.setHeight(total - d);
 
-		if (diff < 0) {
-			HorizontalBox hb = new HorizontalBox(new StrutBox(diff, 0, 0, 0));
-			hb.add(vBox);
-			hb.setWidth(u);
-			return hb;
-		}
-
 		return vBox;
 	}
+
+	public int getLeftType() {
+		return base.getLeftType();
+	}
+
+	public int getRightType() {
+		return base.getRightType();
+	}
+
+	public int getLimits() {
+		return base.getLimits();
+	}
+
+	public Atom getBase() {
+		return base.getBase();
+	}
+
+	public boolean mustAddItalicCorrection() {
+		return base.mustAddItalicCorrection();
+	}
+
+	public boolean setAddItalicCorrection(boolean b) {
+		return base.setAddItalicCorrection(b);
+	}
+
 }

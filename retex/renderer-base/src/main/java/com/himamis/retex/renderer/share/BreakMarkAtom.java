@@ -55,15 +55,16 @@ public class BreakMarkAtom extends Atom {
 		return setFields(new BreakMarkAtom());
 	}
 
-	private final static BreakMarkAtom instance = new BreakMarkAtom();
+	// private final static BreakMarkAtom instance = new BreakMarkAtom();
 
 	BreakMarkAtom() {
 	}
 
 	public static BreakMarkAtom get() {
-		return instance;
+		return new BreakMarkAtom();
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return StrutBox.getEmpty();
 	}

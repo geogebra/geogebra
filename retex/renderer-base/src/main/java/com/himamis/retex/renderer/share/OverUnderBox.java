@@ -95,7 +95,7 @@ public class OverUnderBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		drawDebug(g2, x, y);
+		// drawDebug(g2, x, y);
 		base.draw(g2, x, y);
 
 		double yVar = y - base.height - del.getWidth();
@@ -134,7 +134,7 @@ public class OverUnderBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		return base.getLastFontId();
 	}
 }

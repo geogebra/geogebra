@@ -93,14 +93,17 @@ public class RowAtom extends Atom implements Row {
 	};
 
 	protected RowAtom() {
+		// FactoryProvider.getInstance().debug("creating RowAtom1");
 		this.elements = new ArrayList<Atom>();
 	}
 
 	protected RowAtom(final ArrayList<Atom> elements) {
+		// FactoryProvider.getInstance().debug("creating RowAtom2");
 		this.elements = elements;
 	}
 
-	protected RowAtom(final int size) {
+	public RowAtom(final int size) {
+		// FactoryProvider.getInstance().debug("creating RowAtom3");
 		this.elements = new ArrayList<Atom>(size);
 	}
 
@@ -204,6 +207,7 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		HorizontalBox hBox = new HorizontalBox(env.getColor(),
@@ -230,7 +234,6 @@ public class RowAtom extends Atom implements Row {
 				}
 			}
 
-			// XXX
 			// if (at instanceof DynamicAtom) {
 			// // TODO: ecrire des tests pr ce truc
 			// // mettre le jlmDynamic au debut, au milieu et a la fin
@@ -323,6 +326,7 @@ public class RowAtom extends Atom implements Row {
 		return hBox;
 	}
 
+	@Override
 	public void setPreviousAtom(Dummy prev) {
 		previousAtom = prev;
 	}
@@ -353,6 +357,7 @@ public class RowAtom extends Atom implements Row {
 		return elements;
 	}
 
+	@Override
 	public String toString() {
 		String s = "RowAtom {";
 		for (Atom e : elements) {
@@ -360,11 +365,6 @@ public class RowAtom extends Atom implements Row {
 		}
 		s += "}";
 		return s;
-	}
-
-	public Atom getElement(int i) {
-		return i < elements.size() ? elements.get(i) : null;
-
 	}
 
 	@Override
@@ -376,6 +376,10 @@ public class RowAtom extends Atom implements Row {
 		ret.previousAtom = previousAtom;
 
 		return setFields(ret);
+	}
+
+	public Atom getElement(int i) {
+		return i < elements.size() ? elements.get(i) : null;
 	}
 
 }

@@ -57,7 +57,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 public class HorizontalRule extends Box {
 
 	private Color color = null;
-	private double speShift = 0;
+	protected double speShift = 0;
 
 	private Rectangle2D rectangle;
 
@@ -108,8 +108,8 @@ public class HorizontalRule extends Box {
 		g2.setColor(old);
 	}
 
+	@Override
 	public Area getArea() {
-
 		Rectangle2D rect = geom.createRectangle2D(0, -height + speShift, width,
 				height);
 		Area area = geom.createArea(rect);
@@ -117,7 +117,7 @@ public class HorizontalRule extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
-		return TeXFont.NO_FONT;
+	public Font_ID getLastFontId() {
+		return null;
 	}
 }

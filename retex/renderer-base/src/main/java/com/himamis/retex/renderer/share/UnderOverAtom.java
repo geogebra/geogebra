@@ -3,7 +3,7 @@
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
  * Copyright (C) 2004-2007 Universiteit Gent
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2009-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,28 +25,26 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
-
-import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
  * An atom representing another atom with an atom above it (if not null)
@@ -62,11 +60,8 @@ public class UnderOverAtom extends Atom {
 	private final Atom over;
 
 	// kern between base and under- and overscript
-	private final double underSpace;
-	private final double overSpace;
-
-	// units for the kerns
-	private final Unit overUnit;
+	private final TeXLength underSpace;
+	private final TeXLength overSpace;
 
 	// whether the under- and overscript should be drawn in a smaller size
 	private final boolean underScriptSize;
@@ -74,71 +69,60 @@ public class UnderOverAtom extends Atom {
 
 	@Override
 	final public Atom duplicate() {
-		UnderOverAtom ret = new UnderOverAtom(base, under, over, underSpace,
-				overSpace, overUnit, underScriptSize, overScriptSize);
+		UnderOverAtom ret;
+		if (under != null) {
+			ret = new UnderOverAtom(base, under, underSpace, underScriptSize,
+					false);
+
+		} else {
+			ret = new UnderOverAtom(base, over, overSpace, overScriptSize,
+					true);
+
+		}
 
 		return setFields(ret);
 	}
 
-	public UnderOverAtom(Atom base, Atom underOver, Unit underOverUnit,
-			double underOverSpace, boolean underOverScriptSize, boolean over) {
+	public UnderOverAtom(Atom base, Atom underOver, TeXLength underOverSpace,
+			boolean underOverScriptSize, boolean over) {
 		this.base = base;
-		// TODO: split into two different classes?
-
 		if (over) {
 			this.under = null;
-			this.underSpace = 0.0f;
+			this.underSpace = TeXLength.getZero();
 			this.underScriptSize = false;
 			this.over = underOver;
-			this.overUnit = underOverUnit;
 			this.overSpace = underOverSpace;
 			this.overScriptSize = underOverScriptSize;
 		} else {
 			this.under = underOver;
 			this.underSpace = underOverSpace;
 			this.underScriptSize = underOverScriptSize;
-			this.overSpace = 0.0f;
+			this.overSpace = TeXLength.getZero();
 			this.over = null;
-			this.overUnit = Unit.EM;
 			this.overScriptSize = false;
 		}
 	}
 
-	public UnderOverAtom(Atom base, Atom under, Unit underUnit,
-			double underSpace, boolean underScriptSize, Atom over,
-			Unit overUnit, double overSpace, boolean overScriptSize) {
-
-		this.base = base;
-		this.under = under;
-		this.underSpace = underSpace;
-		this.underScriptSize = underScriptSize;
-		this.over = over;
-		this.overUnit = overUnit;
-		this.overSpace = overSpace;
-		this.overScriptSize = overScriptSize;
-	}
-
-	public UnderOverAtom(Atom base, Atom under, Atom over, double underSpace,
-			double overSpace, Unit overUnit, boolean underScriptSize,
+	public UnderOverAtom(Atom base, Atom under, TeXLength underSpace,
+			boolean underScriptSize, Atom over, TeXLength overSpace,
 			boolean overScriptSize) {
 		this.base = base;
 		this.under = under;
 		this.underSpace = underSpace;
 		this.underScriptSize = underScriptSize;
 		this.over = over;
-		this.overUnit = overUnit;
 		this.overSpace = overSpace;
 		this.overScriptSize = overScriptSize;
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		// create boxes in right style and calculate maximum width
-		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env));
-		Box o = null, u = null;
+		Box b = (base == null ? StrutBox.getEmpty() : base.createBox(env));
+		Box o = null;
+		Box u = null;
 		double max = b.getWidth();
 		if (over != null) {
-			o = over.createBox(overScriptSize ? env.subStyle() : env);
+			o = over.createBox(overScriptSize ? env.supStyle() : env);
 			max = Math.max(max, o.getWidth());
 		}
 		if (under != null) {
@@ -155,8 +139,7 @@ public class UnderOverAtom extends Atom {
 		// overscript + space
 		if (over != null) {
 			vBox.add(changeWidth(o, max));
-			// unit will be valid (checked in constructor)
-			vBox.add(new SpaceAtom(overUnit, 0, overSpace, 0).createBox(env));
+			vBox.add(new StrutBox(0., overSpace.getValue(env), 0., 0.));
 		}
 
 		// base
@@ -170,8 +153,7 @@ public class UnderOverAtom extends Atom {
 
 		// underscript + space
 		if (under != null) {
-			// unit will be valid (checked in constructor)
-			vBox.add(new SpaceAtom(overUnit, 0, underSpace, 0).createBox(env));
+			vBox.add(new StrutBox(0., underSpace.getValue(env), 0., 0.));
 			vBox.add(changeWidth(u, max));
 		}
 
@@ -182,19 +164,27 @@ public class UnderOverAtom extends Atom {
 	}
 
 	private static Box changeWidth(Box b, double maxWidth) {
-		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
-			return new HorizontalBox(b, maxWidth, TeXConstants.Align.CENTER);
+		if (b != null) {
+			if (Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
+				return new HorizontalBox(b, maxWidth,
+						TeXConstants.Align.CENTER);
+			} else {
+				b.setHeight(Math.max(b.getHeight(), 0.));
+				b.setDepth(Math.max(b.getDepth(), 0.));
+			}
 		}
 		return b;
 	}
 
-	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
-	@Override
 	public int getRightType() {
 		return base.getRightType();
+	}
+
+	public int getLimits() {
+		return base.getLimits();
 	}
 }

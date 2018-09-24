@@ -64,7 +64,7 @@ public class ReflectBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		drawDebug(g2, x, y);
+		// drawDebug(g2, x, y);
 		g2.translate(x, y);
 		g2.scale(-1, 1);
 		box.draw(g2, -width, 0);
@@ -73,7 +73,7 @@ public class ReflectBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		return box.getLastFontId();
 	}
 }

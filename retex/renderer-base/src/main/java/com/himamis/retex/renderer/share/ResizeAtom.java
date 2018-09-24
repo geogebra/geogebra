@@ -24,28 +24,26 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
-
-import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
  * An atom representing a scaled Atom.
@@ -53,7 +51,8 @@ import com.himamis.retex.renderer.share.TeXLength.Unit;
 public class ResizeAtom extends Atom {
 
 	private Atom base;
-	private Unit wunit, hunit;
+	private TeXLength.Unit wunit;
+	private TeXLength.Unit hunit;
 	private double w, h;
 	private boolean keepaspectratio;
 
@@ -70,64 +69,70 @@ public class ResizeAtom extends Atom {
 		return setFields(ret);
 	}
 
-	public ResizeAtom(Atom base, String ws, String hs,
+	private ResizeAtom() {
+		//
+	}
+
+	public ResizeAtom(Atom base, TeXLength width, TeXLength height,
 			boolean keepaspectratio) {
-		this.type = base.type;
 		this.base = base;
 		this.keepaspectratio = keepaspectratio;
-		Object[] w = SpaceAtom.getLength(ws == null ? "" : ws);
-		Object[] h = SpaceAtom.getLength(hs == null ? "" : hs);
-		if (w.length != 2) {
-			this.wunit = Unit.NONE;
+		if (width == null) {
+			this.wunit = TeXLength.Unit.NONE;
+			this.w = 0;
 		} else {
-			this.wunit = (Unit) w[0];
-			this.w = (Double) w[1];
+			this.wunit = width.getUnit();
+			this.w = width.getL();
 		}
-		if (h.length != 2) {
-			this.hunit = Unit.NONE;
+		if (height == null) {
+			this.hunit = TeXLength.Unit.NONE;
+			this.h = 0;
 		} else {
-			this.hunit = (Unit) h[0];
-			this.h = (Double) h[1];
+			this.hunit = height.getUnit();
+			this.h = height.getL();
 		}
 	}
 
-	public ResizeAtom() {
-		// TODO Auto-generated constructor stub
+	public ResizeAtom(Atom base, TeXLength width, TeXLength height) {
+		this(base, width, height, width == null || height == null);
 	}
 
-	@Override
+	public Box createBox(TeXEnvironment env) {
+		Box bbox = base.createBox(env);
+		if (wunit == TeXLength.Unit.NONE && hunit == TeXLength.Unit.NONE) {
+			return bbox;
+		} else {
+			double xscl = 1.;
+			double yscl = 1.;
+			if (wunit != TeXLength.Unit.NONE && hunit != TeXLength.Unit.NONE) {
+				xscl = w * TeXLength.getFactor(wunit, env) / bbox.width;
+				yscl = h * TeXLength.getFactor(hunit, env) / bbox.height;
+				if (keepaspectratio) {
+					xscl = Math.min(xscl, yscl);
+					yscl = xscl;
+				}
+			} else if (wunit != TeXLength.Unit.NONE
+					&& hunit == TeXLength.Unit.NONE) {
+				xscl = w * TeXLength.getFactor(wunit, env) / bbox.width;
+				yscl = xscl;
+			} else {
+				yscl = h * TeXLength.getFactor(hunit, env) / bbox.height;
+				xscl = yscl;
+			}
+
+			return new ScaleBox(bbox, xscl, yscl);
+		}
+	}
+
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
-	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		Box bbox = base.createBox(env);
-		if (wunit == Unit.NONE && hunit == Unit.NONE) {
-			return bbox;
-		}
-		double xscl = 1;
-		double yscl = 1;
-		if (wunit != Unit.NONE && hunit != Unit.NONE) {
-			xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
-			yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
-			if (keepaspectratio) {
-				xscl = Math.min(xscl, yscl);
-				yscl = xscl;
-			}
-		} else if (wunit != Unit.NONE && hunit == Unit.NONE) {
-			xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
-			yscl = xscl;
-		} else {
-			yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
-			xscl = yscl;
-		}
-
-		return new ScaleBox(bbox, xscl, yscl);
+	public int getLimits() {
+		return base.getLimits();
 	}
 }

@@ -24,23 +24,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -50,7 +50,6 @@ package com.himamis.retex.renderer.share;
  */
 public class VlineAtom extends Atom {
 
-	private final static VlineAtom empty = new VlineAtom(0);
 	private double height;
 	private double shift;
 	private int n;
@@ -64,14 +63,14 @@ public class VlineAtom extends Atom {
 		this.n = n;
 	}
 
-	public static VlineAtom getEmpty() {
-		return empty;
-	}
-
-	private VlineAtom(double height, double shift, int n) {
+	public VlineAtom(double height, double shift, int n) {
 		this.height = height;
 		this.shift = shift;
 		this.n = n;
+	}
+
+	public static VlineAtom getEmpty() {
+		return new VlineAtom(0);
 	}
 
 	public void setHeight(double height) {
@@ -92,11 +91,15 @@ public class VlineAtom extends Atom {
 
 	public double getWidth(TeXEnvironment env) {
 		if (n != 0) {
-			double drt = env.getTeXFont()
+			final double drt = env.getTeXFont()
 					.getDefaultRuleThickness(env.getStyle());
 			return drt * (3 * n - 2);
 		}
-		return 0;
+		return 0.;
+	}
+
+	public boolean isEmpty() {
+		return n == 0;
 	}
 
 	@Override
@@ -104,21 +107,29 @@ public class VlineAtom extends Atom {
 		if (n != 0) {
 			double drt = env.getTeXFont()
 					.getDefaultRuleThickness(env.getStyle());
-			Box b = new HorizontalRule(height, drt, shift);
-			Box sep = new StrutBox(2 * drt, 0, 0, 0);
-			HorizontalBox hb = new HorizontalBox();
-			for (int i = 0; i < n - 1; i++) {
-				hb.add(b);
-				hb.add(sep);
-			}
-
-			if (n > 0) {
-				hb.add(b);
-			}
-
-			return hb;
+			/*
+			 * Box b = new HorizontalRule(height, drt, shift); Box sep = new
+			 * StrutBox(2 * drt, 0, 0, 0); HorizontalBox hb = new
+			 * HorizontalBox(); for (int i = 0; i < n - 1; i++) { hb.add(b);
+			 * hb.add(sep); } hb.add(b);
+			 * 
+			 * return hb;
+			 */
+			return new VlineBox(n, drt);
 		}
 
-		return new StrutBox(0, 0, 0, 0);
+		return StrutBox.getEmpty();
+	}
+
+	@Override
+	public String toString() {
+		if (n == 0) {
+			return ".";
+		}
+		String s = "";
+		for (int i = 0; i < n; ++i) {
+			s += "|";
+		}
+		return s;
 	}
 }

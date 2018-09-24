@@ -53,20 +53,24 @@ package com.himamis.retex.renderer.share;
 public class CharFont {
 
 	public char c;
-	public int fontId;
-	public int boldFontId;
+	public Font_ID fontId;
+	public Font_ID boldFontId;
 
-	public CharFont(char ch, int f) {
+	public CharFont(char ch, Font_ID f) {
 		this(ch, f, f);
 	}
 
-	public int getFontId() {
-		return fontId;
-	}
-
-	public CharFont(char ch, int f, int bf) {
+	public CharFont(char ch, Font_ID f, Font_ID bf) {
 		c = ch;
 		fontId = f;
 		boldFontId = bf;
+	}
+
+	public Font_ID getFontId() {
+		return fontId;
+	}
+
+	public String toString() {
+		return c + "";
 	}
 }

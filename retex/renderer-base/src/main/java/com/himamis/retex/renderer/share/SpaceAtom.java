@@ -25,33 +25,29 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 /* Modified by Calixte Denizet */
 
 package com.himamis.retex.renderer.share;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.himamis.retex.renderer.share.TeXConstants.Muskip;
 import com.himamis.retex.renderer.share.TeXLength.Unit;
 
 /**
@@ -59,136 +55,6 @@ import com.himamis.retex.renderer.share.TeXLength.Unit;
  * different unit types.
  */
 public class SpaceAtom extends Atom {
-
-	private static Map<String, TeXLength.Unit> units = new HashMap<String, TeXLength.Unit>();
-	static {
-		units.put("em", TeXLength.Unit.EM);
-		units.put("ex", TeXLength.Unit.EX);
-		units.put("px", TeXLength.Unit.PIXEL);
-		units.put("pix", TeXLength.Unit.PIXEL);
-		units.put("pixel", TeXLength.Unit.PIXEL);
-		units.put("pt", TeXLength.Unit.PT);
-		units.put("bp", TeXLength.Unit.POINT);
-		units.put("pica", TeXLength.Unit.PICA);
-		units.put("pc", TeXLength.Unit.PICA);
-		units.put("mu", TeXLength.Unit.MU);
-		units.put("cm", TeXLength.Unit.CM);
-		units.put("mm", TeXLength.Unit.MM);
-		units.put("in", TeXLength.Unit.IN);
-		units.put("sp", TeXLength.Unit.SP);
-		units.put("dd", TeXLength.Unit.DD);
-		units.put("cc", TeXLength.Unit.CC);
-	}
-
-	private static interface UnitConversion { // NOPMD
-		public double getPixelConversion(TeXEnvironment env);
-	}
-
-	private static UnitConversion[] unitConversions = new UnitConversion[] {
-
-			new UnitConversion() {// EM
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return env.getTeXFont().getEM(env.getStyle());
-				}
-			},
-
-			new UnitConversion() {// EX
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return env.getTeXFont().getXHeight(env.getStyle(),
-							env.getLastFontId());
-				}
-			},
-
-			new UnitConversion() {// PIXEL
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return 1 / env.getSize();
-				}
-			},
-
-			new UnitConversion() {// BP (or PostScript point)
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return TeXFormula.PIXELS_PER_POINT / env.getSize();
-				}
-			},
-
-			new UnitConversion() {// PICA
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (12 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-				}
-			},
-
-			new UnitConversion() {// MU
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					TeXFont tf = env.getTeXFont();
-					return tf.getQuad(env.getStyle(), tf.getMuFontId()) / 18;
-				}
-			},
-
-			new UnitConversion() {// CM
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (28.346456693f * TeXFormula.PIXELS_PER_POINT)
-							/ env.getSize();
-				}
-			},
-
-			new UnitConversion() {// MM
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (2.8346456693f * TeXFormula.PIXELS_PER_POINT)
-							/ env.getSize();
-				}
-			},
-
-			new UnitConversion() {// IN
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (72 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-				}
-			},
-
-			new UnitConversion() {// SP
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (65536 * TeXFormula.PIXELS_PER_POINT)
-							/ env.getSize();
-				}
-			},
-
-			new UnitConversion() {// PT (or Standard Anglo-American point)
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (.9962640099f * TeXFormula.PIXELS_PER_POINT)
-							/ env.getSize();
-				}
-			},
-
-			new UnitConversion() {// DD
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (1.0660349422f * TeXFormula.PIXELS_PER_POINT)
-							/ env.getSize();
-				}
-			},
-
-			new UnitConversion() {// CC
-				@Override
-				public double getPixelConversion(TeXEnvironment env) {
-					return (12.7924193070f * TeXFormula.PIXELS_PER_POINT)
-							/ env.getSize();
-				}
-			}, new UnitConversion() {// X8
-				public double getPixelConversion(TeXEnvironment env) {
-					return env.getTeXFont()
-							.getDefaultRuleThickness(env.getStyle());
-				}
-			} };
 
 	// whether a hard space should be represented
 	private boolean blankSpace;
@@ -206,64 +72,42 @@ public class SpaceAtom extends Atom {
 
 	@Override
 	final public Atom duplicate() {
-		SpaceAtom ret = new SpaceAtom();
-
+		SpaceAtom ret = (SpaceAtom) setFields(
+				new SpaceAtom(unit, width, height, depth));
 		ret.blankSpace = blankSpace;
 		ret.blankType = blankType;
-		ret.width = width;
-		ret.height = height;
-		ret.depth = depth;
-		ret.unit = unit;
-
-		return setFields(ret);
+		return ret;
 	}
 
 	public SpaceAtom() {
 		blankSpace = true;
 	}
 
-	public SpaceAtom(Muskip type) {
+	public SpaceAtom(TeXConstants.Muskip type) {
 		blankSpace = true;
 		blankType = type;
 	}
 
-	public SpaceAtom(Unit unit, double width, double height, double depth) {
+	public SpaceAtom(TeXLength.Unit unit, double width, double height,
+			double depth) {
 		this.unit = unit;
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
 	}
 
-	public static Unit getUnit(String unit) {
-		Unit u = units.get(unit);
-		return u == null ? TeXLength.Unit.PIXEL : u;
+	public SpaceAtom(TeXLength.Unit unit, double width) {
+		this.unit = unit;
+		this.width = width;
+		this.height = 0.;
+		this.depth = 0.;
 	}
 
-	public static Object[] getLength(String lgth) {
-		if (lgth == null) {
-			return new Object[] { TeXLength.Unit.PIXEL, 0d };
-		}
-
-		int i = 0;
-		for (; i < lgth.length() && !Character.isLetter(lgth.charAt(i)); i++) {
-			;
-		}
-		double f = 0;
-		try {
-			f = Double.parseDouble(lgth.substring(0, i));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			return new Object[] { Unit.EM, Double.NaN };
-		}
-
-		Unit unit;
-		if (i != lgth.length()) {
-			unit = getUnit(lgth.substring(i).toLowerCase());
-		} else {
-			unit = TeXLength.Unit.PIXEL;
-		}
-
-		return new Object[] { unit, f };
+	public SpaceAtom(TeXLength l) {
+		this.unit = l.getUnit();
+		this.width = l.getL();
+		this.height = 0.;
+		this.depth = 0.;
 	}
 
 	public static boolean isNegative(TeXConstants.Muskip skip) {
@@ -272,7 +116,6 @@ public class SpaceAtom extends Atom {
 				|| skip == TeXConstants.Muskip.NEGTHICK;
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (blankSpace) {
 			if (blankType == TeXConstants.Muskip.NONE) {
@@ -305,12 +148,18 @@ public class SpaceAtom extends Atom {
 		}
 	}
 
-	public static double getFactor(Unit unit, TeXEnvironment env) {
-		return unitConversions[unit.ordinal()].getPixelConversion(env);
-	}
-
 	private final double conv(final double x, final TeXLength.Unit unit,
 			final TeXEnvironment env) {
 		return x == 0. ? 0. : x * TeXLength.getFactor(unit, env);
 	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public Unit getUnit() {
+		return unit;
+	}
+
+
 }

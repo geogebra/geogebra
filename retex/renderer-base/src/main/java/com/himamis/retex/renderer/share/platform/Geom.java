@@ -80,4 +80,8 @@ public class Geom {
 	public Point2D createPoint2D(double x, double y) {
 		return geomFactory.createPoint2D(x, y);
 	}
+
+	public Area createArea() {
+		return geomFactory.newArea();
+	}
 }

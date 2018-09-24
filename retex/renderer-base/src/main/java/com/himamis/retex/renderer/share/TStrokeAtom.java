@@ -24,23 +24,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -50,48 +50,50 @@ package com.himamis.retex.renderer.share;
  */
 public class TStrokeAtom extends Atom {
 
+	private static final SymbolAtom BAR = SymbolAtom.get("bar");
 	private boolean upper;
-
-	@Override
-	final public Atom duplicate() {
-		return setFields(new TStrokeAtom(upper));
-	}
 
 	public TStrokeAtom(boolean upper) {
 		this.upper = upper;
 	}
 
 	@Override
+	final public Atom duplicate() {
+		return setFields(new TStrokeAtom(upper));
+	}
+
 	public Box createBox(TeXEnvironment env) {
-		Char ch = env.getTeXFont().getChar("bar", env.getStyle());
+		Char ch = env.getTeXFont().getChar(BAR.getCf(), env.getStyle());
 		double italic = ch.getItalic();
-		CharBox T = new CharBox(env.getTeXFont().getChar(upper ? 'T' : 't',
-				"mathnormal", env.getStyle()));
+		CharBox T = new CharBox(
+				env.getTeXFont().getChar(upper ? 'T' : 't', env.getStyle()));
 		CharBox B = new CharBox(ch);
 		Box y;
 		if (Math.abs(italic) > TeXFormula.PREC) {
-			y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
-			y.add(B);
+			HorizontalBox hb = new HorizontalBox(
+					new StrutBox(-italic, 0, 0, 0));
+			hb.add(B);
+			y = hb;
 		} else {
 			y = B;
 		}
 		Box b = new HorizontalBox(y, T.getWidth(), TeXConstants.Align.CENTER);
 		VerticalBox vb = new VerticalBox();
 		vb.add(T);
-		vb.add(new StrutBox(0, -0.5f * T.getHeight(), 0, 0));
+		vb.add(new StrutBox(0, -0.5 * T.getHeight(), 0, 0));
 		vb.add(b);
 		return vb;
 	}
 }
 /*
- * if (upper) hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.7f, 0,
- * 0).createBox(env)); else hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3f, 0,
+ * if (upper) hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.7, 0,
+ * 0).createBox(env)); else hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3, 0,
  * 0).createBox(env)); hb.add(A); return hb; }
  * 
  * public Box createBox(TeXEnvironment env) { Box b = base.createBox(env);
  * VerticalBox vb = new VerticalBox(); vb.add(b); Char ch =
  * env.getTeXFont().getChar("ogonek", env.getStyle()); double italic =
- * ch.getItalic(); double x = new SpaceAtom(TeXLength.Unit.MU, 1f, 0,
+ * ch.getItalic(); double x = new SpaceAtom(TeXLength.Unit.MU, 1., 0,
  * 0).createBox(env).getWidth(); Box ogonek = new CharBox(ch); Box y; if
  * (Math.abs(italic) > TeXFormula.PREC) { y = new HorizontalBox(new
  * StrutBox(-italic, 0, 0, 0)); y.add(ogonek); } else y = ogonek;

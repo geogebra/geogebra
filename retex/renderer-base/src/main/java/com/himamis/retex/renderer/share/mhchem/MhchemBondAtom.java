@@ -1,12 +1,3 @@
-package com.himamis.retex.renderer.share.mhchem;
-
-import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.Box;
-import com.himamis.retex.renderer.share.Symbols;
-import com.himamis.retex.renderer.share.TeXConstants;
-import com.himamis.retex.renderer.share.TeXEnvironment;
-import com.himamis.retex.renderer.share.TeXFont;
-
 /* MhchemBondAtom.java
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
@@ -52,6 +43,15 @@ import com.himamis.retex.renderer.share.TeXFont;
  *
  */
 
+package com.himamis.retex.renderer.share.mhchem;
+
+import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.Box;
+import com.himamis.retex.renderer.share.Symbols;
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXEnvironment;
+import com.himamis.retex.renderer.share.TeXFont;
+
 /**
  * An atom to represent a bond (used in mhchem)
  */
@@ -83,7 +83,6 @@ public class MhchemBondAtom extends Atom {
 
 	@Override
 	public Atom duplicate() {
-		// XXX
-		return this;
+		return new MhchemBondAtom(n, pos);
 	}
 }

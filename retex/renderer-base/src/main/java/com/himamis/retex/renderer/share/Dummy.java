@@ -25,23 +25,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -57,9 +57,7 @@ package com.himamis.retex.renderer.share;
 public class Dummy {
 
 	private Atom el;
-
 	private boolean textSymbol = false;
-
 	private int type = -1;
 
 	/**
@@ -69,6 +67,8 @@ public class Dummy {
 	 *            an atom
 	 */
 	public Dummy(Atom a) {
+		// FactoryProvider.getInstance()
+		// .debug("creating dummy, a = " + a.getClass());
 		el = a;
 	}
 
@@ -85,7 +85,8 @@ public class Dummy {
 	/**
 	 * Changes the type of the atom
 	 *
-	 * @return the type
+	 * @param t
+	 *            the new type
 	 */
 	public int getType() {
 		return type;
@@ -117,10 +118,6 @@ public class Dummy {
 
 	/**
 	 * This method will only be called if isCharSymbol returns true.
-	 * 
-	 * @param tf
-	 *            text font
-	 * @return char font
 	 */
 	public CharFont getCharFont(TeXFont tf) {
 		return ((CharSymbol) el).getCharFont(tf);
@@ -159,12 +156,11 @@ public class Dummy {
 
 	// only for Row-elements
 	public void setPreviousAtom(Dummy prev) {
-		if (el instanceof Row) {
+		if (el instanceof Row)
 			((Row) el).setPreviousAtom(prev);
-		}
 	}
 
-	public Atom getAtom() {
-		return el;
+	public String toString() {
+		return "Dummy: " + el.toString();
 	}
 }

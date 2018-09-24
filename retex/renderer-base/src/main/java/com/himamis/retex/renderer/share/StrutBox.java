@@ -53,8 +53,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class StrutBox extends Box {
 
-	// private static StrutBox empty = new StrutBox();
-
 	public StrutBox() {
 		this(0., 0., 0., 0.);
 	}
@@ -68,9 +66,6 @@ public class StrutBox extends Box {
 	}
 
 	public static StrutBox getEmpty() {
-		// causes problems
-		// return empty;
-		// revert to old code
 		return new StrutBox();
 	}
 
@@ -78,23 +73,9 @@ public class StrutBox extends Box {
 		// no visual effect
 	}
 
-	public int getLastFontId() {
-		return TeXFont.NO_FONT;
+	public Font_ID getLastFontId() {
+		return null;
 	}
-
-	/*
-	 * public void setWidth(double w) { throw new
-	 * ParseException("StrutBox.setWidth"); }
-	 * 
-	 * public void setDepth(double d) { throw new
-	 * ParseException("StrutBox.setDepth"); }
-	 * 
-	 * public void setHeight(double h) { throw new
-	 * ParseException("StrutBox.setHeight"); }
-	 * 
-	 * public void setShift(double s) { throw new
-	 * ParseException("StrutBox.setShift"); }
-	 */
 
 	public String toString() {
 		return "StrutBox: " + width + ":" + height + ":" + depth + ":" + shift;

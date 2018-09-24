@@ -24,55 +24,64 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
+
+import com.himamis.retex.renderer.share.commands.Command0A;
 
 /**
  * An atom representing ddots.
  */
 public class DdotsAtom extends Atom {
 
+	public DdotsAtom() {
+		this.type = TeXConstants.TYPE_INNER;
+	}
+
 	@Override
 	final public Atom duplicate() {
 		return setFields(new DdotsAtom());
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
-		Box ldots = TeXFormula.get("ldots").root.createBox(env);
-		double w = ldots.getWidth();
-		Box dot = SymbolAtom.get("ldotp").createBox(env);
-		HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.Align.LEFT);
-		HorizontalBox hb2 = new HorizontalBox(dot, w,
+		final Box ldots = ((Command0A) Commands.getUnsafe("ldots")).newI(null)
+				.createBox(env);
+		final double w = ldots.getWidth();
+		final Box dot = Symbols.LDOTP.createBox(env);
+		final HorizontalBox hb1 = new HorizontalBox(dot, w,
+				TeXConstants.Align.LEFT);
+		final HorizontalBox hb2 = new HorizontalBox(dot, w,
 				TeXConstants.Align.CENTER);
-		HorizontalBox hb3 = new HorizontalBox(dot, w, TeXConstants.Align.RIGHT);
-		Box pt4 = new SpaceAtom(TeXLength.Unit.MU, 0, 4, 0).createBox(env);
-		VerticalBox vb = new VerticalBox();
+		final HorizontalBox hb3 = new HorizontalBox(dot, w,
+				TeXConstants.Align.RIGHT);
+		final Box pt4 = new SpaceAtom(TeXLength.Unit.MU, 0, 4, 0)
+				.createBox(env);
+		final VerticalBox vb = new VerticalBox();
 		vb.add(hb1);
 		vb.add(pt4);
 		vb.add(hb2);
 		vb.add(pt4);
 		vb.add(hb3);
 
-		double h = vb.getHeight() + vb.getDepth();
+		final double h = vb.getHeight() + vb.getDepth();
 		vb.setHeight(h);
 		vb.setDepth(0);
 

@@ -67,18 +67,18 @@ public final class TextStyle {
 	private final static TextStyle[][] styles = new TextStyle[7][4];
 
 	static {
-		add(MATHNORMAL, NUMBERS, "jlm_cmr10", (char) 48);
-		add(MATHNORMAL, CAPITALS, "jlm_cmmi10", (char) 65);
-		add(MATHNORMAL, SMALL, "jlm_cmmi10", (char) 97);
-		add(MATHNORMAL, UNICODE, "jlm_cmmi10", (char) 0);
-		add(MATHFRAK, NUMBERS, "jlm_eufm10", (char) 48);
-		add(MATHFRAK, CAPITALS, "jlm_eufm10", (char) 65);
-		add(MATHFRAK, SMALL, "jlm_eufm10", (char) 97);
-		add(MATHCAL, CAPITALS, "jlm_cmsy10", (char) 65);
-		add(MATHBB, CAPITALS, "jlm_msbm10", (char) 65);
-		add(MATHSCR, CAPITALS, "jlm_rsfs10", (char) 65);
-		add(MATHDS, CAPITALS, "jlm_dsrom10", (char) 65);
-		add(OLDSTYLENUMS, CAPITALS, "jlm_cmmi10", (char) 48);
+		add(MATHNORMAL, NUMBERS, Font_ID.jlm_cmr10, (char) 48);
+		add(MATHNORMAL, CAPITALS, Font_ID.jlm_cmmi10, (char) 65);
+		add(MATHNORMAL, SMALL, Font_ID.jlm_cmmi10, (char) 97);
+		add(MATHNORMAL, UNICODE, Font_ID.jlm_cmmi10, (char) 0);
+		add(MATHFRAK, NUMBERS, Font_ID.jlm_eufm10, (char) 48);
+		add(MATHFRAK, CAPITALS, Font_ID.jlm_eufm10, (char) 65);
+		add(MATHFRAK, SMALL, Font_ID.jlm_eufm10, (char) 97);
+		add(MATHCAL, CAPITALS, Font_ID.jlm_cmsy10, (char) 65);
+		add(MATHBB, CAPITALS, Font_ID.jlm_msbm10, (char) 65);
+		add(MATHSCR, CAPITALS, Font_ID.jlm_rsfs10, (char) 65);
+		add(MATHDS, CAPITALS, Font_ID.jlm_dsrom10, (char) 65);
+		add(OLDSTYLENUMS, CAPITALS, Font_ID.jlm_cmmi10, (char) 48);
 	}
 
 	private static Map<String, Integer> names = new HashMap<String, Integer>() {
@@ -93,28 +93,15 @@ public final class TextStyle {
 		}
 	};
 
-	// XXX remove
-	private static Map<Integer, String> reverseNames = new HashMap<Integer, String>() {
-		{
-			put(MATHNORMAL, "mathnormal");
-			put(MATHFRAK, "mathfrak");
-			put(MATHCAL, "mathcal");
-			put(MATHBB, "mathbb");
-			put(MATHSCR, "mathscr");
-			put(MATHDS, "mathds");
-			put(OLDSTYLENUMS, "oldstylenums");
-		}
-	};
-
-	private final int fontId;
+	private final Font_ID fontId;
 	private final char start;
 
-	private TextStyle(final int fontId, final char start) {
+	private TextStyle(final Font_ID fontId, final char start) {
 		this.fontId = fontId;
 		this.start = start;
 	}
 
-	public int getFontId() {
+	public Font_ID getFontId() {
 		return fontId;
 	}
 
@@ -134,15 +121,6 @@ public final class TextStyle {
 		return MATHNORMAL;
 	}
 
-	// XXX
-	public static String getStyle(final int style) {
-		final String s = reverseNames.get(style);
-		if (s != null) {
-			return s;
-		}
-		return reverseNames.get(MATHNORMAL);
-	}
-
 	public static TextStyle[] get(final int style) {
 		return styles[style];
 	}
@@ -159,14 +137,8 @@ public final class TextStyle {
 		return styles[style][type];
 	}
 
-	// fontId = "jlm_cmr10" for example
 	private static void add(final int style, final int type,
-			final String fontId, final char start) {
-		// XXX
-		// styles[style][type] = new
-		// TextStyle(Configuration.get().getFontId(fontId), start);
-		styles[style][type] = new TextStyle(
-				DefaultTeXFontParser.Font_ID.indexOf(fontId), start);
-
+			final Font_ID fontId, final char start) {
+		styles[style][type] = new TextStyle(fontId, start);
 	}
 }

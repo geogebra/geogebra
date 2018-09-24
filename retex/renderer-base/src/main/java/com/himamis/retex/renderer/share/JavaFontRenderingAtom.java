@@ -1,4 +1,4 @@
-/* ScaleAtom.java
+/* JavaFontRenderingAtom.java
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -24,28 +24,27 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.TeXFormula.FontInfos;
 import com.himamis.retex.renderer.share.platform.FontAdapter;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
@@ -54,58 +53,80 @@ import com.himamis.retex.renderer.share.platform.font.Font;
  */
 public class JavaFontRenderingAtom extends Atom {
 
-	private String str;
-	private int type1;
-	private TeXFormula.FontInfos fontInfos;
+	private final String str;
+	private final int style;
+	private final ExternalFontManager.FontSSSF f;
+	private final Font font;
+
+	private final static FontAdapter fontAdapter = new FontAdapter();
+
+	private JavaFontRenderingAtom(final String str, final int style,
+			final ExternalFontManager.FontSSSF f, final Font font) {
+		this.str = str;
+		this.style = style;
+		this.f = f;
+		this.font = font;
+	}
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(new JavaFontRenderingAtom(str, type, fontInfos));
+	public Atom duplicate() {
+		return setFields(new JavaFontRenderingAtom(str, style, f, font));
 	}
 
-	public JavaFontRenderingAtom(String str, int type) {
-		this.str = str;
-		this.type1 = type;
+	public JavaFontRenderingAtom(final String str, final int style) {
+		this(str, style, null, null);
 	}
 
-	public JavaFontRenderingAtom(String str, TeXFormula.FontInfos fontInfos) {
-		this(str, 0);
-		this.fontInfos = fontInfos;
+	public JavaFontRenderingAtom(final String str,
+			final ExternalFontManager.FontSSSF f) {
+		this(str, -1, f, null);
 	}
 
-	private JavaFontRenderingAtom(String str, int type, FontInfos fontInfos) {
-		this(str, type);
-		this.fontInfos = fontInfos;
+	public JavaFontRenderingAtom(final String str) {
+		this(str, -1, null, null);
+	}
+
+	public JavaFontRenderingAtom(final String str, final Font font) {
+		this(str, -1, null, font);
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		if (fontInfos == null) {
-			return new JavaFontRenderingBox(str, type1,
-					TeXFont.getSizeFactor(env.getStyle()));
-		}
-		TeXFont dtf = (TeXFont) env.getTeXFont();
-		int type = dtf.isIt ? Font.ITALIC : Font.PLAIN;
-		type = type | (dtf.isBold ? Font.BOLD : 0);
-		boolean kerning = dtf.isRoman;
-		Font font;
-		FontAdapter fontAdapter = new FontAdapter();
-		if (dtf.isSs) {
-			if (fontInfos.sansserif == null) {
-				font = fontAdapter.createFont(fontInfos.serif, Font.PLAIN, 10);
+		final double factor = TeXFont.getSizeFactor(env.getStyle());
+		if (f == null) {
+			if (style == -1) {
+				final TeXFont dtf = env.getTeXFont();
+				int style = dtf.isIt ? Font.ITALIC : Font.PLAIN;
+				style = style | (dtf.isBold ? Font.BOLD : 0);
+				return new JavaFontRenderingBox(str, style, factor, font,
+						dtf.isRoman);
 			} else {
-				font = fontAdapter.createFont(fontInfos.sansserif, Font.PLAIN,
-						10);
+				return new JavaFontRenderingBox(str, style, factor, font);
 			}
 		} else {
-			if (fontInfos.serif == null) {
-				font = fontAdapter.createFont(fontInfos.sansserif, Font.PLAIN,
-						10);
+			final TeXFont dtf = env.getTeXFont();
+			int style = dtf.isIt ? Font.ITALIC : Font.PLAIN;
+			style = style | (dtf.isBold ? Font.BOLD : 0);
+			Font font;
+
+			final String ss = f.getSS();
+			final String sf = f.getSF();
+			if (dtf.isSs) {
+				if (ss == null) {
+					font = fontAdapter.createFont(sf, Font.PLAIN, 10);
+				} else {
+					font = fontAdapter.createFont(ss, Font.PLAIN, 10);
+				}
 			} else {
-				font = fontAdapter.createFont(fontInfos.serif, Font.PLAIN, 10);
+				if (sf == null) {
+					font = fontAdapter.createFont(ss, Font.PLAIN, 10);
+				} else {
+					font = fontAdapter.createFont(sf, Font.PLAIN, 10);
+				}
 			}
+			return new JavaFontRenderingBox(str, style, factor, font,
+					dtf.isRoman);
 		}
-		return new JavaFontRenderingBox(str, type,
-				TeXFont.getSizeFactor(env.getStyle()), font, kerning);
 	}
+
 }

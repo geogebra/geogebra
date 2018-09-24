@@ -2,7 +2,7 @@
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2009-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,61 +24,123 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
-import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
+import java.util.Map;
+
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 /**
  * An atom representing an atom containing a graphic.
  */
 public class GraphicsAtom extends Atom {
 
-	private ImageBase64 image = null;
-	private HasForegroundColor c;
-	private int w, h;
-
+	private Image bimage;
 	private Atom base;
+	private boolean first = true;
+	private int interp = -1;
 
-	public GraphicsAtom(int width, int height, String base64PNG) {
-		image = new ImageBase64(base64PNG, width, height);
-		base = this;
-
-		w = image.getWidth();
-		h = image.getHeight();
-
+	public GraphicsAtom(final String path, final Map<String, String> option) {
+		bimage = FactoryProvider.getInstance().getGraphicsFactory()
+				.createImage(path);
+		buildAtom(option);
 	}
 
+	private GraphicsAtom(Image bimage2, Atom base2, int interp2,
+			boolean first2) {
+		this.bimage = bimage;
+		this.base = base2;
+		this.interp = interp;
+		this.first = first;
+	}
+
+	protected void buildAtom(final Map<String, String> options) {
+		base = this;
+		final boolean hasWidth = options.containsKey("width");
+		final boolean hasHeight = options.containsKey("height");
+		if (hasWidth || hasHeight) {
+			TeXLength width = null;
+			TeXLength height = null;
+			final TeXParser tp = new TeXParser();
+			if (hasWidth) {
+				tp.setParseString(options.get("width"));
+				width = tp.getLength();
+			}
+			if (hasHeight) {
+				tp.setParseString(options.get("height"));
+				height = tp.getLength();
+			}
+
+			base = new ResizeAtom(base, width, height,
+					options.containsKey("keepaspectratio"));
+		}
+		if (options.containsKey("scale")) {
+			final double scl = TeXParser.parseDouble(options.get("scale"));
+			if (!Double.isNaN(scl)) {
+				base = new ScaleAtom(base, scl, scl);
+			}
+		}
+		if (options.containsKey("angle")) {
+			final double angle = TeXParser.parseDouble(options.get("angle"));
+			if (!Double.isNaN(angle)) {
+				base = new RotateAtom(base, angle, options);
+			}
+		}
+		if (options.containsKey("interpolation")) {
+			final String meth = options.get("interpolation");
+			if (meth.equalsIgnoreCase("bilinear")) {
+				interp = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+			} else if (meth.equalsIgnoreCase("bicubic")) {
+				interp = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+			} else if (meth.equalsIgnoreCase("nearest_neighbor")) {
+				interp = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+			}
+		}
+	}
+
+	@Override
 	public Box createBox(TeXEnvironment env) {
+		if (bimage != null) {
+			if (first) {
+				first = false;
+				return base.createBox(env);
+			}
+			env.isColored = true;
+			final double width = bimage.getWidth()
+					* TeXLength.getFactor(TeXLength.Unit.PIXEL, env);
+			final double height = bimage.getHeight()
+					* TeXLength.getFactor(TeXLength.Unit.PIXEL, env);
+			return new GraphicsBox(bimage, width, height, env.getSize(),
+					interp);
+		}
 
-		env.isColored = true;
-		double width = w * SpaceAtom.getFactor(TeXLength.Unit.PIXEL, env);
-		double height = h * SpaceAtom.getFactor(TeXLength.Unit.PIXEL, env);
-
-		return new GraphicsBox(image, width, height, env.getSize());
+		return TeXParser.getAtomForLatinStr("No such image file", false)
+				.createBox(env);
 	}
 
 	@Override
 	public Atom duplicate() {
-		return new GraphicsAtom(w, h, image.getBase64());
+		return setFields(new GraphicsAtom(bimage, base, interp, first));
 	}
 }

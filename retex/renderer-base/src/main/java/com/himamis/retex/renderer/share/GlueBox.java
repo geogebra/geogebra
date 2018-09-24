@@ -67,7 +67,7 @@ public class GlueBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
-		return TeXFont.NO_FONT;
+	public Font_ID getLastFontId() {
+		return null;
 	}
 }

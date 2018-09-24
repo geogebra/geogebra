@@ -2,7 +2,7 @@
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2010 DENIZET Calixte
+ * Copyright (C) 2010-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,28 +24,26 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
-
-import com.himamis.retex.renderer.share.TeXConstants.Align;
 
 /**
  * An atom used in array mode to write on several columns.
@@ -53,46 +51,36 @@ import com.himamis.retex.renderer.share.TeXConstants.Align;
 public class MulticolumnAtom extends Atom {
 
 	protected int n;
-	protected Align align;
+	protected ArrayOptions options;
 	protected double w = 0;
 	protected Atom cols;
-	protected int beforeVlines;
-	protected int afterVlines;
 	protected int row, col;
 
 	@Override
 	public Atom duplicate() {
-		MulticolumnAtom ret = new MulticolumnAtom();
-		ret.n = n;
-		ret.align = align;
+		MulticolumnAtom ret = new MulticolumnAtom(n, options, cols);
 		ret.w = w;
-		ret.cols = cols;
-		ret.beforeVlines = beforeVlines;
-		ret.afterVlines = afterVlines;
 		ret.row = row;
 		ret.col = col;
 		return setFields(ret);
 	}
 
-	public MulticolumnAtom(int n, String align, Atom cols) {
+	public MulticolumnAtom(int n, ArrayOptions options, Atom cols) {
 		this.n = n >= 1 ? n : 1;
 		this.cols = cols;
-		this.align = parseAlign(align);
-	}
-
-	protected MulticolumnAtom() {
+		this.options = options;
 	}
 
 	public void setWidth(double w) {
 		this.w = w;
 	}
 
-	public int getSkipped() {
-		return n;
+	public double getWidth() {
+		return w;
 	}
 
-	public boolean hasRightVline() {
-		return afterVlines != 0;
+	public int getSkipped() {
+		return n;
 	}
 
 	public void setRowColumn(int i, int j) {
@@ -108,59 +96,16 @@ public class MulticolumnAtom extends Atom {
 		return col;
 	}
 
-	private Align parseAlign(String str) {
-		int pos = 0;
-		int len = str.length();
-		Align align = TeXConstants.Align.CENTER;
-		boolean first = true;
-		while (pos < len) {
-			char c = str.charAt(pos);
-			switch (c) {
-			case 'l':
-				align = TeXConstants.Align.LEFT;
-				first = false;
-				break;
-			case 'r':
-				align = TeXConstants.Align.RIGHT;
-				first = false;
-				break;
-			case 'c':
-				align = TeXConstants.Align.CENTER;
-				first = false;
-				break;
-			case '|':
-				if (first) {
-					beforeVlines = 1;
-				} else {
-					afterVlines = 1;
-				}
-				while (++pos < len) {
-					c = str.charAt(pos);
-					if (c != '|') {
-						pos--;
-						break;
-					}
-					if (first) {
-						beforeVlines++;
-					} else {
-						afterVlines++;
-					}
-				}
-			}
-			pos++;
-		}
-		return align;
+	public ArrayOptions getOptions() {
+		return options;
 	}
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		Box b;
-		if (w == 0) {
-			b = cols.createBox(env);
-		} else {
-			b = new HorizontalBox(cols.createBox(env), w, align);
-		}
+	public boolean mustBeRecreated() {
+		return false;
+	}
 
+	public Box createBox(TeXEnvironment env) {
+		Box b = cols.createBox(env);
 		b.type = TeXConstants.TYPE_MULTICOLUMN;
 		return b;
 	}

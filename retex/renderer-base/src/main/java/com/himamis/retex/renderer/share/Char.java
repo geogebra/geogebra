@@ -57,9 +57,9 @@ public class Char {
 	private final char c;
 	private final Font font;
 	private final Metrics m;
-	private final int fontCode;
+	private final Font_ID fontCode;
 
-	public Char(char c, Font f, int fc, Metrics m) {
+	public Char(char c, Font f, Font_ID fc, Metrics m) {
 		font = f;
 		fontCode = fc;
 		this.c = c;
@@ -78,7 +78,7 @@ public class Char {
 		return font;
 	}
 
-	public int getFontCode() {
+	public Font_ID getFontCode() {
 		return fontCode;
 	}
 

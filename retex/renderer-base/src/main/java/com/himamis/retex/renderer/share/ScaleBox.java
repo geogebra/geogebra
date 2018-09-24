@@ -71,19 +71,21 @@ public class ScaleBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		drawDebug(g2, x, y);
+		// drawDebug(g2, x, y);
 		if (xscl != 0 && yscl != 0) {
 			double dec = xscl < 0 ? width : 0;
+			g2.saveTransformation();
 			g2.translate(x + dec, y);
 			g2.scale(xscl, yscl);
 			box.draw(g2, 0, 0);
-			g2.scale(1 / xscl, 1 / yscl);
-			g2.translate(-x - dec, -y);
+			// g2.scale(1 / xscl, 1 / yscl);
+			// g2.translate(-x - dec, -y);
+			g2.restoreTransformation();
 		}
 	}
 
 	@Override
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		return box.getLastFontId();
 	}
 }

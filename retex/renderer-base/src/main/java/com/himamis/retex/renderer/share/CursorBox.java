@@ -12,7 +12,8 @@ public class CursorBox extends Box {
 	public CursorBox(Box content, double coeff, Color color) {
 		super(color, null);
 		this.content = content;
-		this.children.add(content);
+		// XXX
+		// this.children.add(content);
 		this.width = 0;
 		this.height = content.height * coeff;
 		this.depth = content.depth * coeff;
@@ -36,7 +37,7 @@ public class CursorBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
+	public Font_ID getLastFontId() {
 		return content.getLastFontId();
 	}
 }

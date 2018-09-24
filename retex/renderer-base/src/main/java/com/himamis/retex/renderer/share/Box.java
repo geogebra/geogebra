@@ -25,23 +25,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 /* Modified by Calixte Denizet */
@@ -49,7 +49,6 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import com.himamis.retex.renderer.share.platform.Geom;
 import com.himamis.retex.renderer.share.platform.Graphics;
@@ -107,7 +106,8 @@ public abstract class Box {
 	 */
 	protected Color background;
 
-	private Color prevColor; // used temporarily in startDraw and endDraw
+	// used temporarily in startDraw and endDraw
+	private Color prevColor;
 
 	/**
 	 * The width of this box, i.e. the value that will be used for further
@@ -135,35 +135,11 @@ public abstract class Box {
 
 	protected int type = -1;
 
-	/**
-	 * List of child boxes
-	 */
-	protected LinkedList<Box> children = new LinkedList<Box>();
+	protected Box parent;
+	protected Box elderParent;
+
 	protected Color markForDEBUG;
-
-	private Atom atom;
-
-	/**
-	 * Inserts the given box at the end of the list of child boxes.
-	 *
-	 * @param b
-	 *            the box to be inserted
-	 */
-	public void add(Box b) {
-		children.add(b);
-	}
-
-	/**
-	 * Inserts the given box at the given position in the list of child boxes.
-	 *
-	 * @param pos
-	 *            the position at which to insert the given box
-	 * @param b
-	 *            the box to be inserted
-	 */
-	public void add(int pos, Box b) {
-		children.add(pos, b);
-	}
+	protected Atom atom;
 
 	/**
 	 * Creates an empty box (no children) with all dimensions set to 0 and no
@@ -189,6 +165,36 @@ public abstract class Box {
 		graphics = new Graphics();
 	}
 
+	public Area getArea() {
+		return null;
+	}
+
+	public void setParent(Box parent) {
+		this.parent = parent;
+	}
+
+	public Box getParent() {
+		return parent;
+	}
+
+	public Box setBg(Color bg) {
+		background = bg;
+		return this;
+	}
+
+	public Box setFg(Color fg) {
+		foreground = fg;
+		return this;
+	}
+
+	public void setElderParent(Box elderParent) {
+		this.elderParent = elderParent;
+	}
+
+	public Box getElderParent() {
+		return elderParent;
+	}
+
 	/**
 	 * Get the width of this box.
 	 *
@@ -209,6 +215,10 @@ public abstract class Box {
 	 */
 	public double getHeight() {
 		return height;
+	}
+
+	public void addToWidth(double w) {
+		width += w;
 	}
 
 	/**
@@ -288,7 +298,7 @@ public abstract class Box {
 	 *
 	 * @return the id of the last font that will be used.
 	 */
-	public abstract int getLastFontId();
+	public abstract Font_ID getLastFontId();
 
 	/**
 	 * Stores the old color setting, draws the background of the box (if not
@@ -305,8 +315,7 @@ public abstract class Box {
 		// old color
 		prevColor = g2.getColor();
 		if (background != null) { // draw background
-			g2.setColor(background);
-			// was commented out https://jira.geogebra.org/browse/TRAC-4421
+			// g2.setColor(background);
 			g2.fill(geom.createRectangle2D(x, y - height, width,
 					height + depth));
 		}
@@ -315,7 +324,7 @@ public abstract class Box {
 		} else {
 			g2.setColor(foreground); // overriding foreground color
 		}
-		drawDebug(g2, x, y);
+		// drawDebug(g2, x, y);
 	}
 
 	protected void drawDebug(Graphics2DInterface g2, double x, double y,
@@ -360,12 +369,6 @@ public abstract class Box {
 		}
 	}
 
-	protected void drawDebug(Graphics2DInterface g2, double x, double y) {
-		if (DEBUG) {
-			drawDebug(g2, x, y, true);
-		}
-	}
-
 	/**
 	 * Restores the previous color setting.
 	 *
@@ -376,71 +379,35 @@ public abstract class Box {
 		g2.setColor(prevColor);
 	}
 
-	public void getPath(double x, double y, ArrayList<Integer> list) {
-		list.add(0);
-		if (children.size() > 0) {
-			children.get(0).getPath(x, y, list);
-		}
-	}
-
-	public boolean getSelectedPath(ArrayList<Integer> list, int depth) {
-		for (int idx = 0; idx < children.size(); idx++) {
-			if (children.get(idx).getSelectedPath(list, depth + 1)) {
-				list.add(idx);
-				return true;
-			}
-		}
-		if (this instanceof CursorBox) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		append(sb, 0);
-		return sb.toString();
+		return super.toString() + ": w=" + width + ";h=" + height + ";d="
+				+ depth + ";s=" + shift;
 	}
 
-	private void append(StringBuilder sb, int offset) {
-		for (int i = 0; i < offset; i++) {
-			sb.append("  ");
-		}
-		if (this instanceof CharBox) {
-			sb.append(toString());
-		} else {
-			sb.append(getClass().getSimpleName().replace("Box", ""));
-		}
-		sb.append("\n");
-		for (int i = 0; i < children.size(); i++) {
-			children.get(i).append(sb, offset + 1);
-		}
-
-	}
-
-	public Box getChild(int i) {
-		return children.get(i);
-	}
-
-	public Integer getCount() {
-		return children.size();
+	public void setAtom(final Atom atom) {
+		this.atom = atom;
 	}
 
 	public Atom getAtom() {
-		return atom;
+		return this.atom;
 	}
 
-	public Box setAtom(Atom parent) {
-		atom = parent;
-		return this;
+	public void getPath(double x, double y, ArrayList<Integer> list) {
+		// unimplemented, needed for experimental branch of the editor
 	}
 
-	public Area getArea() {
+	public Box getChild(int i) {
+		// unimplemented, needed for experimental branch of the editor
 		return null;
 	}
 
-	public void addToWidth(double w) {
-		width += w;
+	public int getCount() {
+		// unimplemented, needed for experimental branch of the editor
+		return 0;
 	}
+
+	public void getSelectedPath(ArrayList<Integer> list, int i) {
+		// unimplemented, needed for experimental branch of the editor
+	}
+
 }

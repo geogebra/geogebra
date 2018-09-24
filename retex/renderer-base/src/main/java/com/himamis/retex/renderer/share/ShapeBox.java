@@ -74,8 +74,8 @@ public class ShapeBox extends Box {
 		endDraw(g2);
 	}
 
-	public int getLastFontId() {
-		return 0;
+	public Font_ID getLastFontId() {
+		return null;
 	}
 
 	public String toString() {

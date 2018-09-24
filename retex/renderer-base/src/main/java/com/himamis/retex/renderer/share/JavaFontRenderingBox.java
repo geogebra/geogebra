@@ -103,7 +103,8 @@ public class JavaFontRenderingBox extends Box {
 		this.width = ((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
 	}
 
-	public JavaFontRenderingBox(String str, int type, double size) {
+	public JavaFontRenderingBox(final String str, final int type,
+			final double size, final Font font) {
 		this(str, type, size, font, true);
 	}
 
@@ -113,7 +114,7 @@ public class JavaFontRenderingBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		drawDebug(g2, x, y);
+		// drawDebug(g2, x, y);
 		g2.translate(x, y);
 		g2.scale(0.1 * size, 0.1 * size);
 		text.draw(g2, 0, 0);
@@ -122,7 +123,7 @@ public class JavaFontRenderingBox extends Box {
 	}
 
 	@Override
-	public int getLastFontId() {
-		return 0;
+	public Font_ID getLastFontId() {
+		return Font_ID.jlm_msbm10;
 	}
 }

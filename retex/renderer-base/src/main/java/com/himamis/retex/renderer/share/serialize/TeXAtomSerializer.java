@@ -1,7 +1,5 @@
 package com.himamis.retex.renderer.share.serialize;
 
-import java.util.HashMap;
-
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
@@ -23,7 +21,6 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  *
  */
 public class TeXAtomSerializer {
-	private static HashMap<String, String> mappings;
 	private BracketsAdapter adapter;
 
 	/**
@@ -47,12 +44,11 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof NthRoot) {
 			NthRoot frac = (NthRoot) root;
-			if (frac.getRoot() instanceof EmptyAtom) {
+			if (frac.getRoot() == null) {
 				return "sqrt(" + serialize(frac.getBase()) + ")";
 			}
 			return "nroot(" + serialize(frac.getBase()) + ","
 					+ serialize(frac.getRoot()) + ")";
-			// return "+";
 		}
 		if (root instanceof CharAtom) {
 			CharAtom ch = (CharAtom) root;
@@ -87,13 +83,15 @@ public class TeXAtomSerializer {
 			return "";
 		}
 		if (root instanceof SymbolAtom) {
-			if (mappings == null) {
-				initMappings();
-			}
+
 			SymbolAtom ch = (SymbolAtom) root;
-			return mappings.get(ch.getName()) == null ? ch.getName()
-					: mappings.get(ch.getName());
-			// return "+";
+
+			// return mappings.get(ch.getName()) == null ? ch.getName()
+			// : mappings.get(ch.getName());
+
+			// eg "+"
+			return ch.getUnicode() + "";
+
 		}
 		if (root instanceof RowAtom) {
 			RowAtom row = (RowAtom) root;
@@ -104,6 +102,7 @@ public class TeXAtomSerializer {
 			return sb.toString();
 		}
 		FactoryProvider.getInstance().debug("Unknown atom:" + root);
+		FactoryProvider.getInstance().printStacktrace();
 		return "?";
 	}
 
@@ -128,30 +127,30 @@ public class TeXAtomSerializer {
 		return sb.toString();
 	}
 
-	private static void initMappings() {
-		mappings = new HashMap<>();
-		mappings.put("plus", "+");
-		mappings.put("minus", "-");
-		mappings.put("equals", "=");
-		mappings.put("lbrack", "(");
-		mappings.put("rbrack", ")");
-		mappings.put("lsqbrack", "[");
-		mappings.put("rsqbrack", "]");
-		mappings.put("lbrace", "{");
-		mappings.put("rbrace", "}");
-		mappings.put("normaldot", ".");
-		mappings.put("comma", ",");
-		mappings.put("ge", ">=");
-		mappings.put("le", "<=");
-		mappings.put("geq", ">=");
-		mappings.put("leq", "<=");
-		mappings.put("lt", "<");
-		mappings.put("gt", ">");
-		mappings.put("cdot", "*");
-		mappings.put("times", "*");
-		// mappings.put("theta", Unicode.theta_STRING);
-		for (Greek greek : Greek.values()) {
-			mappings.put(greek.name(), greek.unicode + "");
-		}
-	}
+	// private static void initMappings() {
+	// mappings = new HashMap<>();
+	// mappings.put("plus", "+");
+	// mappings.put("minus", "-");
+	// mappings.put("equals", "=");
+	// mappings.put("lbrack", "(");
+	// mappings.put("rbrack", ")");
+	// mappings.put("lsqbrack", "[");
+	// mappings.put("rsqbrack", "]");
+	// mappings.put("lbrace", "{");
+	// mappings.put("rbrace", "}");
+	// mappings.put("normaldot", ".");
+	// mappings.put("comma", ",");
+	// mappings.put("ge", ">=");
+	// mappings.put("le", "<=");
+	// mappings.put("geq", ">=");
+	// mappings.put("leq", "<=");
+	// mappings.put("lt", "<");
+	// mappings.put("gt", ">");
+	// mappings.put("cdot", "*");
+	// mappings.put("times", "*");
+	// // mappings.put("theta", Unicode.theta_STRING);
+	// for (Greek greek : Greek.values()) {
+	// mappings.put(greek.name(), greek.unicode + "");
+	// }
+	// }
 }
