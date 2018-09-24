@@ -1011,6 +1011,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					new GeoNumeric(kernel.getConstruction()), false);
 			slider.setIntervalMin(0);
 			slider.setIntervalMax(1);
+			slider.setAutoStep(false);
 			slider.setAnimationStep(0.01);
 			slider.setLabel(null);
 			slider.setValue(1);
