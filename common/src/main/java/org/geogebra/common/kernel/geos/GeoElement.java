@@ -7687,7 +7687,7 @@ public abstract class GeoElement extends ConstructionElement
 	public boolean addAuralCaption(StringBuilder sb) {
 		String caption0 = getCaptionSimple();
 		if (caption0 != null && !"".equals(caption)) {
-			sb.append(caption0);
+			sb.append(getCaption(StringTemplate.defaultTemplate));
 			sb.append(". ");
 			return true;
 		}

@@ -3,10 +3,9 @@ package org.geogebra.web.full.gui;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.full.gui.layout.GUITabs;
-import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
@@ -120,7 +119,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void focusZoom(boolean first) {
-		EuclidianDockPanelW dp = getEuclidianPanel();
+		EuclidianDockPanelWAbstract dp = getEuclidianPanel();
 		if (first) {
 			dp.focusNextGUIElement();
 		} else {
@@ -129,9 +128,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		setTabOverGeos(false);
 	}
 
-	private EuclidianDockPanelW getEuclidianPanel() {
-		return (EuclidianDockPanelW) gm.getLayout().getDockManager()
-				.getPanel(App.VIEW_EUCLIDIAN);
+	private EuclidianDockPanelWAbstract getEuclidianPanel() {
+		return (EuclidianDockPanelWAbstract) gm.getLayout().getDockManager()
+				.getPanel(app.getActiveEuclidianView().getViewID());
 	}
 
 	private void focusSettings() {

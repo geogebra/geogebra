@@ -2915,28 +2915,52 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public void addAuralOperations(Localization loc, StringBuilder sb) {
-		if (isPointOnPath()) {
+		addAuralArrows(loc, sb, this);
+		super.addAuralOperations(loc, sb);
+	}
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @param sb
+	 *            string builder
+	 * @param point
+	 *            point
+	 */
+	public static void addAuralArrows(Localization loc, StringBuilder sb,
+			GeoPointND point) {
+		if (point.isPointOnPath()) {
 			sb.append(loc.getMenuDefault("PressPlusMinusToMove",
 					"Press plus and minus to move the object"));
-		} else if (isIndependent() || isPointInRegion()) {
+		} else if (point.isIndependent() || point.isPointInRegion()) {
 			sb.append(loc.getMenuDefault("PressArrowsToMove",
 					"Press the arrow keys to move the object"));
 		}
 		if (sb.length() > 0 && sb.charAt(sb.length() - 1) != '.') {
 			sb.append(".");
 		}
-		super.addAuralOperations(loc, sb);
 	}
 
 	@Override
 	public String getAuralTextForMove() {
-		Localization loc = kernel.getLocalization();
+		return pointMovedAural(kernel.getLocalization(), this);
+	}
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @param geoPoint
+	 *            point
+	 * @return description of new position
+	 */
+	public static String pointMovedAural(Localization loc,
+			GeoPointND geoPoint) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(loc.getMenuDefault("Point", "point"));
 		sb.append(" ");
 		sb.append(loc.getMenuDefault("MovedTo", "moved to"));
 		sb.append(" ");
-		sb.append(getValueForInputBar());
+		sb.append(geoPoint.getValueForInputBar());
 		return sb.toString();
 	}
 }

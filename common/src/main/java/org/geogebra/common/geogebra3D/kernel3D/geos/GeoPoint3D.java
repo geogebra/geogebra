@@ -70,6 +70,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -2212,6 +2213,17 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// update point relative to path
 		path.pathChanged(this);
 		updateCoords();
+	}
+
+	@Override
+	public void addAuralOperations(Localization loc, StringBuilder sb) {
+		GeoPoint.addAuralArrows(loc, sb, this);
+		super.addAuralOperations(loc, sb);
+	}
+
+	@Override
+	public String getAuralTextForMove() {
+		return GeoPoint.pointMovedAural(kernel.getLocalization(), this);
 	}
 
 }

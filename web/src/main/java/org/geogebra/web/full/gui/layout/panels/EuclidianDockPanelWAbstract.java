@@ -34,6 +34,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * panel with home,+,-,fullscreen btns
 	 */
 	ZoomPanel zoomPanel;
+	/** Zoom panel for MOW */
 	ZoomPanelMow mowZoomPanel;
 
 	/**
@@ -168,7 +169,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		 */
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
 			this(dockPanel, new AbsolutePanel());
-			getElement().setAttribute("role", "application");
 		}
 
 		/**
@@ -186,6 +186,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			absoluteEuclidianPanel.getElement().getStyle()
 					.setOverflow(Overflow.VISIBLE);
 			checkFocus();
+			getElement().setAttribute("role", "application");
 		}
 
 		@Override

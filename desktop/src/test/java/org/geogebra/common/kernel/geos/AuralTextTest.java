@@ -30,6 +30,12 @@ public class AuralTextTest {
 	}
 
 	@Test
+	public void point3DAural() {
+		aural("(1,1,1)", "Point", "arrow", "edit");
+		aural("Point(zAxis)", "Point", "plus and minus", "edit");
+	}
+
+	@Test
 	public void numberAural() {
 		aural("Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
