@@ -17,6 +17,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -62,12 +63,7 @@ public class LaTeXView extends View {
         }
     };
 
-    private Runnable mRequestLayout = new Runnable() {
-        @Override
-        public void run() {
-            requestLayout();
-        }
-    };
+    private Runnable mRequestLayout = new RequestLayoutAction(this);
 
     public LaTeXView(Context context) {
         super(context);
@@ -316,6 +312,24 @@ public class LaTeXView extends View {
 
     private void requestViewLayout() {
         post(mRequestLayout);
+    }
+
+    /**
+     * Static Runnable for wrapping the View.requestLayout() action by using a WeakReference to the
+     * LaTeXView.
+     * Solution to memory leak issues occurring on devices running on API < 24
+     */
+    private static class RequestLayoutAction implements Runnable {
+        private WeakReference<View> latexView;
+
+        RequestLayoutAction(View view) {
+            latexView = new WeakReference<>(view);
+        }
+
+        @Override
+        public void run() {
+            latexView.get().requestLayout();
+        }
     }
 
     private void cleanFormula() {
