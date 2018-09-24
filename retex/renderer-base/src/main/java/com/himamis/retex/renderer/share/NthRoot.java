@@ -93,9 +93,11 @@ public class NthRoot extends Atom {
 		double totalH = b.getHeight() + b.getDepth();
 		Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env,
 				totalH + clr + drt);
-		if (rootSign instanceof CharBox) {
-			rootSign = ShapeBox.create(rootSign);
-		}
+		
+		// XXX removing helps with xarrow commands in web
+		// if (rootSign instanceof CharBox) {
+		// rootSign = ShapeBox.create(rootSign);
+		// }
 
 		// add half the excess to clr
 		double delta = rootSign.getDepth() - (totalH + clr);
