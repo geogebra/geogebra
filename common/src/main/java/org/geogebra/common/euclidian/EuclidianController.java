@@ -8115,6 +8115,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// last update for drawable
 			dr.update();
 		}
+		view.repaintView();
 	}
 
 	/**
