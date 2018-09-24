@@ -95,18 +95,22 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		ArrayList<GeoElement> inputList = new ArrayList<>();
-		inputList.add(geoList);
-		if (geoList2 != null) {
-			inputList.add(geoList2);
-		}
-		if (Truncate != null) {
-			inputList.add(Truncate);
-		}
+		if (geoList.wasDefinedWithCurlyBrackets()) {
+			ArrayList<GeoElement> inputList = new ArrayList<>();
+			inputList.add(geoList);
+			if (geoList2 != null) {
+				inputList.add(geoList2);
+			}
+			if (Truncate != null) {
+				inputList.add(Truncate);
+			}
 
-		input = new GeoElement[inputList.size()];
-		inputList.toArray(input);
-		inputList.clear();
+			input = new GeoElement[inputList.size()];
+			inputList.toArray(input);
+			inputList.clear();
+		} else {
+			input = geoList.elementsAsArray();
+		}
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement

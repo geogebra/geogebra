@@ -3353,4 +3353,11 @@ public class GeoList extends GeoElement
 	public boolean wasDefinedWithCurlyBrackets() {
 		return wasDefinedWithCurlyBrackets;
 	}
+
+	/**
+	 * @return new array with elements
+	 */
+	public GeoElement[] elementsAsArray() {
+		return elements.toArray(new GeoElement[size()]);
+	}
 }

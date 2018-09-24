@@ -177,10 +177,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			sb.setLength(0);
 		}
 
-		if (geoList.wasDefinedWithCurlyBrackets()) {
-            tpl.leftCurlyBracket(sb);
-        }
-
 		if (input.length > 0) {
 			for (int i = 0; i < input.length - 1; i++) {
 				sb.append(input[i].getLabel(tpl));
@@ -188,10 +184,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			}
 			sb.append(input[input.length - 1].getLabel(tpl));
 		}
-
-		if (geoList.wasDefinedWithCurlyBrackets()) {
-            tpl.rightCurlyBracket(sb);
-        }
 
 		return sb.toString();
 	}
