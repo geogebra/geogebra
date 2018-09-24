@@ -137,9 +137,7 @@ public class PenSubMenu extends SubMenuPanel {
 		sizePanel.addStyleName("sizePanel");
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
 		slider.addStyleName("mowOptionsSlider");
-		slider.setMinimum(EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE, false);
-		slider.setMaximum(EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE, false);
-		slider.setStep(EuclidianConstants.DEFAULT_PEN_STEP);
+		setSliderRange(true);
 		slider.setWidth(300);
 		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
@@ -151,6 +149,15 @@ public class PenSubMenu extends SubMenuPanel {
 				sliderValueChanged(event.getValue());
 			}
 		});
+	}
+
+	private void setSliderRange(boolean isPen) {
+		slider.setMinimum(
+				isPen ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE : 1, false);
+		slider.setMaximum(isPen ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
+				: MAX_ERASER_SIZE, false);
+		slider.setStep(
+				isPen ? EuclidianConstants.DEFAULT_PEN_STEP : ERASER_STEP);
 	}
 
 	/**
@@ -197,6 +204,7 @@ public class PenSubMenu extends SubMenuPanel {
 		pen.setSelected(true);
 		setColorsEnabled(true);
 		selectColor(lastSelectedPenColor);
+		setSliderRange(true);
 		slider.setValue((double) lastPenThickness);
 		getPenGeo().setLineThickness(lastPenThickness);
 		getPenGeo().setLineOpacity(255);
@@ -210,6 +218,7 @@ public class PenSubMenu extends SubMenuPanel {
 		highlighter.setSelected(true);
 		setColorsEnabled(true);
 		selectColor(lastSelectedHighlighterColor);
+		setSliderRange(true);
 		slider.setValue((double) lastHighlighterThinckness);
 		getPenGeo().setLineThickness(lastHighlighterThinckness);
 		getPenGeo()
@@ -224,9 +233,7 @@ public class PenSubMenu extends SubMenuPanel {
 		eraser.getElement().setAttribute("selected", "true");
 		eraser.setSelected(true);
 		setColorsEnabled(false);
-		slider.setMinimum(1, false);
-		slider.setMaximum(MAX_ERASER_SIZE, false);
-		slider.setStep(ERASER_STEP);
+		setSliderRange(false);
 		int delSize = app.getActiveEuclidianView().getSettings()
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
