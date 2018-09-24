@@ -19,6 +19,8 @@ public class AreaW
 
 	private ArrayList<Shape> shapes = new ArrayList<>();
 
+	double scale = 1;
+
 	public AreaW(Shape s) {
 		shapes.add(s);
 	}
@@ -50,7 +52,8 @@ public class AreaW
 
 		}
 
-		return new Rectangle2DW(minX, minY, maxX - minX, maxY - minY);
+		return new Rectangle2DW(minX * scale, minY * scale,
+				(maxX - minX) * scale, (maxY - minY) * scale);
 	}
 
 	public void add(Area a) {
@@ -63,9 +66,18 @@ public class AreaW
 
 	public void fill(JLMContext2d ctx) {
 
+		if (scale != 1) {
+			ctx.saveTransform();
+			ctx.scale2(scale, scale);
+		}
+
 		int n = shapes.size();
 		for (int i = 0; i < n; i++) {
 			ctx.fill(shapes.get(i));
+		}
+
+		if (scale != 1) {
+			ctx.restoreTransform();
 		}
 
 	}
@@ -79,9 +91,15 @@ public class AreaW
 	 */
 	public void scale(double x) {
 		FactoryProvider.getInstance().debug("AreaW.scale not implemented " + x);
+		scale *= x;
 	}
 
 	public void translate(double x, double y) {
+		if (scale != 1) {
+			FactoryProvider.getInstance()
+					.debug("warning: AreaW.translate not implemented when scale != 1"
+							+ scale + " " + x + " " + y);
+		}
 		int n = shapes.size();
 		for (int i = 0; i < n; i++) {
 			Shape shape = shapes.get(i);

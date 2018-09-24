@@ -95,9 +95,9 @@ public class NthRoot extends Atom {
 				totalH + clr + drt);
 		
 		// XXX removing helps with xarrow commands in web
-		// if (rootSign instanceof CharBox) {
-		// rootSign = ShapeBox.create(rootSign);
-		// }
+		if (rootSign instanceof CharBox) {
+			rootSign = ShapeBox.create(rootSign);
+		}
 
 		// add half the excess to clr
 		double delta = rootSign.getDepth() - (totalH + clr);
