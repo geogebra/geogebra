@@ -90,7 +90,6 @@ public class AreaW
 	 * not needed in web
 	 */
 	public void scale(double x) {
-		FactoryProvider.getInstance().debug("AreaW.scale not implemented " + x);
 		scale *= x;
 	}
 
