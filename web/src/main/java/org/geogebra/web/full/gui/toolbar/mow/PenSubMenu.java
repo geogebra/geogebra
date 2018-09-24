@@ -152,8 +152,8 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	private void setSliderRange(boolean isPen) {
-		slider.setMinimum(
-				isPen ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE : 1, false);
+		// same min for pen and highlighter
+		slider.setMinimum(EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE, false);
 		slider.setMaximum(isPen ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
 				: MAX_ERASER_SIZE, false);
 		slider.setStep(

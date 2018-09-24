@@ -688,7 +688,7 @@ public class SelectionManager {
 
 		if (selectionSize == 0) {
 			if (first != null) {
-				addSelectedGeo(first, ev);
+				addSelectedGeo(first);
 			}
 			return false;
 		}
@@ -699,9 +699,9 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (next != null) {
-			addSelectedGeo(next, ev);
+			addSelectedGeo(next);
 		} else {
-			addSelectedGeo(first, ev);
+			addSelectedGeo(first);
 		}
 
 		return true;
@@ -733,13 +733,13 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (prev != null) {
-			addSelectedGeo(prev, ev);
+			addSelectedGeo(prev);
 		} else {
-			addSelectedGeo(last, ev);
+			addSelectedGeo(last);
 		}
 	}
 
-	private void addSelectedGeo(GeoElement geo, EuclidianViewInterfaceCommon ev) {
+	private void addSelectedGeo(GeoElement geo) {
 		addSelectedGeo(geo);
 		int viewID = geo.getViewSet().size() > 0 ? geo.getViewSet().get(0) : -1;
 		EuclidianViewInterfaceCommon view = null;
@@ -912,8 +912,6 @@ public class SelectionManager {
 		TreeSet<GeoElement> copy = new TreeSet<>(tree);
 
 		Iterator<GeoElement> it = copy.iterator();
-		int viewId = ev.getViewID();
-		boolean isView3D = App.isView3D(viewId);
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 
@@ -922,8 +920,8 @@ public class SelectionManager {
 			if (!geo.isSelectionAllowed(ev)) {
 				remove = true;
 			} else {
-				boolean visibleInView = (isView3D && geo.isVisibleInView3D())
-						|| geo.isVisibleInView(viewId);
+				// boolean visibleInView = (isView3D && geo.isVisibleInView3D())
+				// || geo.isVisibleInView(viewId);
 				// remove = !avShowing && (!geo.isEuclidianVisible() || !visibleInView);
 				remove = !avShowing && (!geo.isEuclidianVisible());
 			}

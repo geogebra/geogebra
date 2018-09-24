@@ -148,7 +148,6 @@ public class TeXBuilder {
 		return ret;
 	}
 
-
 	private Atom space() {
 		return new SpaceAtom();
 	}
