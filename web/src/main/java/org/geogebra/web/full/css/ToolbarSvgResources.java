@@ -281,6 +281,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_text_32();
 
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_text_teal.svg")
+	@Override
+	SVGResource mode_text_32_teal();
+
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text.svg")
 	@Override
 	SVGResource mode_media_text();

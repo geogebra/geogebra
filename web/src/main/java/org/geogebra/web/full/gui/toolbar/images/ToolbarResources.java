@@ -181,6 +181,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_text_32();
 
+	ResourcePrototype mode_text_32_teal();
+
 	ResourcePrototype mode_media_text();
 
 	ResourcePrototype mode_media_text_teal();

@@ -1056,6 +1056,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_MEDIA_TEXT:
 			return resourceBundle.mode_media_text_teal();
 
+		case EuclidianConstants.MODE_TEXT:
+			return resourceBundle.mode_text_32_teal();
+
 		case EuclidianConstants.MODE_IMAGE:
 			return resourceBundle.mode_image_mow_teal();
 
