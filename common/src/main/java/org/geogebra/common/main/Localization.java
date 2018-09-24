@@ -1465,7 +1465,7 @@ public abstract class Localization {
 				return Commands.SampleSD.name();
 			case MAD:
 			case mad:
-				return Commands.mad.name();
+				return Commands.MAD.name();
 			default:
 				return null;
 		}
