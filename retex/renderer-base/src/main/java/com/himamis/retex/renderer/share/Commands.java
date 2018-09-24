@@ -1990,6 +1990,7 @@ public class Commands {
 		map.put("&", new Replacement("\\textampersand"));
 		map.put("%", new Replacement("\\textpercent"));
 		map.put("$", new Replacement("\\textdollar"));
+		map.put("dollar", map.get("$"));
 
 	}
 
