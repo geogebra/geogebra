@@ -1119,12 +1119,17 @@ __GGB__keysVar["lt"].command = {
     "ZoomOut": "Tolinti",
     "ZoomOut.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Da\u017eni\u0173 s\u0105ra\u0161as> ]",
+    "mean.SyntaxCAS": "[ <Skai\u010di\u0173 s\u0105ra\u0161as> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Skai\u010dius>, <Skai\u010dius> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Da\u017eni\u0173 s\u0105ra\u0161as> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Da\u017eni\u0173 s\u0105ra\u0161as> ]",
+    "stdevp.SyntaxCAS": "[ <Skai\u010di\u0173 s\u0105ra\u0161as> ]",
 };
 
 

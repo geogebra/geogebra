@@ -1119,12 +1119,17 @@ __GGB__keysVar["sk"].command = {
     "ZoomOut": "Oddiali\u0165",
     "ZoomOut.Syntax": "[ <Factor> ]\n[ <Factor>, <Stred> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Zoznam zdrojov\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
+    "mean.SyntaxCAS": "[ <Zoznam \u010d\xedsel> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo k> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Zoznam zdrojov\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Zoznam zdrojov\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
+    "stdevp.SyntaxCAS": "[ <Zoznam \u010d\xedsel> ]",
 };
 
 

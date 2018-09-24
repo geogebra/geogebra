@@ -1119,12 +1119,17 @@ __GGB__keysVar["vi"].command = {
     "ZoomOut": "PhongTo",
     "ZoomOut.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch c\xe1c t\u1ea7n s\u1ed1> ]",
+    "mean.SyntaxCAS": "[ <Danh s\xe1ch c\xe1c s\u1ed1> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <S\u1ed1>, <S\u1ed1> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch t\u1ea7n s\u1ed1> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch t\u1ea7n s\u1ed1> ]",
+    "stdevp.SyntaxCAS": "[ <Danh s\xe1ch c\xe1c s\u1ed1> ]",
 };
 
 

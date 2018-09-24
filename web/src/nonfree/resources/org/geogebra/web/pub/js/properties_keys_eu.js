@@ -1119,12 +1119,17 @@ __GGB__keysVar["eu"].command = {
     "ZoomOut": "Txikiagotu",
     "ZoomOut.Syntax": "[ <Eskala-faktorea> ]\n[ <Eskala-faktorea>, <Zentroa (puntua)> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
+    "mean.SyntaxCAS": "[ <Zenbakien Zerrenda> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <n Zenbakia>, <r Zenbakia> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
+    "stdevp.SyntaxCAS": "[ <Zenbakien Zerrenda> ]",
 };
 
 

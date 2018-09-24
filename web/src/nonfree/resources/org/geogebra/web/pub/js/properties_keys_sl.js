@@ -1119,12 +1119,17 @@ __GGB__keysVar["sl"].command = {
     "ZoomOut": "Pomanj\u0161evanje",
     "ZoomOut.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161\u010dna to\u010dka> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
+    "mean.SyntaxCAS": "[ <seznam \u0161tevil> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u0161tevilo>, <\u0161tevilo> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
+    "stdevp.SyntaxCAS": "[ <seznam \u0161tevil> ]",
 };
 
 

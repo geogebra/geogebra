@@ -1119,12 +1119,17 @@ __GGB__keysVar["nl"].command = {
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
     "mad": "gaa",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "gemidd",
+    "mean.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met waarnemingsgetallen>, <Lijst met frequenties> ]",
+    "mean.SyntaxCAS": "[ <Lijst met getallen> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Getal n>, <Getal r> ]",
     "stdev": "stafw",
     "stdev.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met waarnemingsgetallen>, <Lijst met frequenties> ]",
     "stdevp": "stafwp",
+    "stdevp.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met waarnemingsgetallen>, <Lijst met frequenties> ]",
+    "stdevp.SyntaxCAS": "[ <Lijst met waarnemingsgetallen> ]",
 };
 
 
@@ -1880,7 +1885,7 @@ __GGB__keysVar["nl"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra grafisch rekenmachine",
     "GeoGebraMaterials": "GeoGebra Materiaal",
     "GeoGebraProperties": "GeoGebra eigenschappen",
-    "GeoGebraScientificCalculator": "GeoGebra Wetenschappelijk rekenmachine",
+    "GeoGebraScientificCalculator": "GeoGebra wetensch rekenmachine",
     "GeogebraToAsymptoteExport": "Exporteer GeoGebra naar Asymptote",
     "GeometricObjects": "Meetkundige objecten",
     "Geometry": "Meetkunde",

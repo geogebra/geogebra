@@ -1119,12 +1119,17 @@ __GGB__keysVar["ca"].command = {
     "ZoomOut": "Allunya",
     "ZoomOut.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Llista de totes les dades> ]\n[ <Llista de dades>, <Llista de freq\xfc\xe8ncies> ]",
+    "mean.SyntaxCAS": "[ <Llista de nombres> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Nombre>, <Nombre> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Llista de totes les dades> ]\n[ <Llista de dades>, <Llista de freq\xfc\xe8ncies> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Llista de totes les dades> ]\n[ <Llista de dades>, <Llista de freq\xfc\xe8ncies> ]",
+    "stdevp.SyntaxCAS": "[ <Llista de nombres> ]",
 };
 
 

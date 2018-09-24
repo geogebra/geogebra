@@ -1119,12 +1119,17 @@ __GGB__keysVar["eo"].command = {
     "ZoomOut": "Malzomi",
     "ZoomOut.Syntax": "[ <Skalfaktoro> ]\n[ <Skalfaktoro>, <Centra Punkto> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Listo de Krudaj Datumoj> ]\n[ <Listo de Nombroj>, <Listo de Oftoj> ]",
+    "mean.SyntaxCAS": "[ <Listo de nombroj> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Nombro n>, <Nombro k> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Listo de Krudaj Datumoj> ]\n[ <Listo de Nombroj>, <Listo de Oftoj> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Listo de Krudaj Datumoj> ]\n[ <Listo de Nombroj>, <Listo de Oftoj> ]",
+    "stdevp.SyntaxCAS": "[ <Listo de nombroj> ]",
 };
 
 

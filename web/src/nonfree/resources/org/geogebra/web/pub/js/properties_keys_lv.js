@@ -1119,12 +1119,17 @@ __GGB__keysVar["lv"].command = {
     "ZoomOut": "Samazin\u0101t",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Datu Saraksts> ]\n[ <Skait\u013cu Saraksts>, <Bie\u017eumu Saraksts> ]",
+    "mean.SyntaxCAS": "[ <Skait\u013cu Saraksts> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Skaitlis n>, <Skaitlis r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Datu saraksts> ]\n[ <Skait\u013cu Saraksts>, <Bie\u017eumu Saraksts> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Datu Saraksts> ]\n[ <Skait\u013cu Saraksts>, <Bie\u017eumu Saraksts> ]",
+    "stdevp.SyntaxCAS": "[ <Skait\u013cu Saraksts> ]",
 };
 
 

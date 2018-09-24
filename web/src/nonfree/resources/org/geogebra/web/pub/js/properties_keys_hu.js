@@ -1119,12 +1119,17 @@ __GGB__keysVar["hu"].command = {
     "ZoomOut": "Kicsiny\xedt\xe9s",
     "ZoomOut.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
+    "mean.SyntaxCAS": "[ <Sz\xe1mok list\xe1ja> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Sz\xe1m (n)>, <Sz\xe1m (k)> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
+    "stdevp.SyntaxCAS": "[ <Sz\xe1mok list\xe1ja> ]",
 };
 
 

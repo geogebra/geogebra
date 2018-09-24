@@ -1119,12 +1119,17 @@ __GGB__keysVar["fr"].command = {
     "ZoomOut": "R\xe9duire",
     "ZoomOut.Syntax": "[ <Facteur de r\xe9duction> ]\n[ <Facteur de r\xe9duction>, <Centre> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Liste de donn\xe9es brutes> ]\n[ <Liste de nombres>, <Liste d'effectifs> ]",
+    "mean.SyntaxCAS": "[ <Liste Nombres> ]",
     "nCr": "Cbin",
     "nCr.Syntax": "[ <Nombre n>, <Nombre p> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Liste de donn\xe9es brutes> ]\n[ <Liste des valeurs>, <Liste des effectifs> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Liste de donn\xe9es brutes> ]\n[ <Liste des valeurs>, <Liste des effectifs> ]",
+    "stdevp.SyntaxCAS": "[ <Liste de donn\xe9es brutes> ]",
 };
 
 

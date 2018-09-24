@@ -1119,12 +1119,17 @@ __GGB__keysVar["ro"].command = {
     "ZoomOut": "\xcendep\u0103rtare",
     "ZoomOut.Syntax": "[ <Factor dimensiune> ]\n[ <Factor dimensiune>, <Punct centru> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
+    "mean.SyntaxCAS": "[ <List\u0103 de numere> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Num\u0103r n>, <Num\u0103r r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
+    "stdevp.SyntaxCAS": "[ <List\u0103 Numere> ]",
 };
 
 

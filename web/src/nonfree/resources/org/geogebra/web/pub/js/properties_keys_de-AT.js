@@ -1119,12 +1119,17 @@ __GGB__keysVar["de-AT"].command = {
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
+    "mean.SyntaxCAS": "[ <Liste von Zahlen> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Zahl n>, <Zahl k> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
+    "stdevp.SyntaxCAS": "[ <Liste von Zahlen> ]",
 };
 
 

@@ -1119,12 +1119,17 @@ __GGB__keysVar["fi"].command = {
     "ZoomOut": "Loitonna",
     "ZoomOut.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
+    "mean.SyntaxCAS": "[ <Lukulista> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Luku n>, <Luku> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Raakadatalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
+    "stdevp.SyntaxCAS": "[ <Lukulista> ]",
 };
 
 

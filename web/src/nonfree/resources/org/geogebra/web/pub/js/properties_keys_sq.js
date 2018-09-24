@@ -1119,12 +1119,17 @@ __GGB__keysVar["sq"].command = {
     "ZoomOut": "Zvogelim",
     "ZoomOut.Syntax": "[ <Faktori Zvogelues> ]\n[ <Faktori Zvogeues>, <Pika Qender> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Liste te Dhenash te Paperunuara> ]\n[ <Liste e Numrave>, <Liste e Frekuencave> ]",
+    "mean.SyntaxCAS": "[ <Liste e Numrave> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Numer>, <Numer> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste e Numrave>, <Liste e Frekuencave> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste e Numrave>, <Liste e Frekuencave> ]",
+    "stdevp.SyntaxCAS": "[ <Liste e Numrave> ]",
 };
 
 

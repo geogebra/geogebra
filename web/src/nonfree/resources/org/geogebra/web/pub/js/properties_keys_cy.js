@@ -1119,12 +1119,17 @@ __GGB__keysVar["cy"].command = {
     "ZoomOut": "ChwyddoAllan",
     "ZoomOut.Syntax": "[ <Ffactor Graddfa> ]\n[ <Ffactor Graddfa>, <Canolbwynt> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "mean.SyntaxCAS": "[ <List of Numbers> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Rhif>, <Rhif> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "stdevp.SyntaxCAS": "[ <List of Numbers> ]",
 };
 
 

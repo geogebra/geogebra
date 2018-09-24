@@ -1119,12 +1119,17 @@ __GGB__keysVar["id"].command = {
     "ZoomOut": "Perkecil",
     "ZoomOut.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Tengah> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
+    "mean.SyntaxCAS": "[ <Daftar Angka> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Angka>, <Angka> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
+    "stdevp.SyntaxCAS": "[ <Daftar Angka> ]",
 };
 
 

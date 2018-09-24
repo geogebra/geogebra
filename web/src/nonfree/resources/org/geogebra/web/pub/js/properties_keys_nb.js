@@ -1119,12 +1119,17 @@ __GGB__keysVar["nb"].command = {
     "ZoomOut": "ZoomUt",
     "ZoomOut.Syntax": "[ <Skaleringsfaktor> ]\n[ <Skaleringsfaktor>, <Sentrumspunkt> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med verdier (n) eller klassegrenser (n+1)>, <Liste med frekvenser (n)> ]",
+    "mean.SyntaxCAS": "[ <Liste med tall> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Tall n>, <Tall r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med tall>, <Liste med frekvenser> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med tall>, <Liste med frekvenser> ]",
+    "stdevp.SyntaxCAS": "[ <Liste med tall> ]",
 };
 
 

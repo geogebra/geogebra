@@ -1119,12 +1119,17 @@ __GGB__keysVar["bn"].command = {
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "mean.SyntaxCAS": "[ <List of Numbers> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Number n>, <Number r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "stdevp.SyntaxCAS": "[ <List of Numbers> ]",
 };
 
 

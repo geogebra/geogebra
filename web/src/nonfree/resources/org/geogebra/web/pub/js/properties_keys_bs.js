@@ -1119,12 +1119,17 @@ __GGB__keysVar["bs"].command = {
     "ZoomOut": "Umanjenje",
     "ZoomOut.Syntax": "[ <Koeficijent umanjenja> ]\n[ <Koeficijent umanjenja>, <Ta\u010dka-centar> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Lista ulaznih podataka> ]\n[ <Lista brojeva>, <Lista frekvencija> ]",
+    "mean.SyntaxCAS": "[ <Lista brojeva> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Broj n>, <Broj k> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Lista ulaznih podataka> ]\n[ <Lista brojeva>, <Lista frekvencija> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Lista ulaznih podataka> ]\n[ <Lista brojeva>, <Lista frekvencija> ]",
+    "stdevp.SyntaxCAS": "[ <Lista brojeva> ]",
 };
 
 

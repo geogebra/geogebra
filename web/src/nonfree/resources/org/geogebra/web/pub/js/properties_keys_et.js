@@ -1119,12 +1119,17 @@ __GGB__keysVar["et"].command = {
     "ZoomOut": "V\xe4henda",
     "ZoomOut.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
+    "mean.SyntaxCAS": "[ <Arvude loend> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Arv n>, <Arv r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
+    "stdevp.SyntaxCAS": "[ <Arvude loend> ]",
 };
 
 

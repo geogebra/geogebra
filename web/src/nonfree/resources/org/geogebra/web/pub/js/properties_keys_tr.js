@@ -1119,12 +1119,17 @@ __GGB__keysVar["tr"].command = {
     "ZoomOut": "Uzakla\u015ft\u0131r",
     "ZoomOut.Syntax": "[ <\xd6l\xe7ek Fakt\xf6r\xfc> ]\n[ <\xd6l\xe7ek Fakt\xf6r\xfc>, <Merkez Nokta> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
+    "mean.SyntaxCAS": "[ <Say\u0131 Listesi> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Say\u0131 n>, <Say\u0131 r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
+    "stdevp.SyntaxCAS": "[ <Say\u0131 Listesi> ]",
 };
 
 

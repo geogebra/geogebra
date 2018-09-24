@@ -1119,12 +1119,17 @@ __GGB__keysVar["ko"].command = {
     "ZoomOut": "\uc791\uac8c\ubcf4\uae30",
     "ZoomOut.Syntax": "[ <\ub2e8\uc704> ]\n[ <\ub2e8\uc704>, <\uc911\uc2ec\uc810> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <\uc6d0\uc790\ub8cc\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\ub3c4\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "mean.SyntaxCAS": "[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "nCr": "\uc870\ud569",
     "nCr.Syntax": "[ <\uc218 n>, <\uc218 r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <\uc6d0\uc790\ub8cc\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\ub3c4\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <\uc6d0\uc790\ub8cc\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\ub3c4\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "stdevp.SyntaxCAS": "[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
 };
 
 

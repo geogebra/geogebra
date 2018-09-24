@@ -1119,12 +1119,17 @@ __GGB__keysVar["cs"].command = {
     "ZoomOut": "Zmensit",
     "ZoomOut.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "prumer",
+    "mean.Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
+    "mean.SyntaxCAS": "[ <Seznam \u010d\xedsel> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
+    "stdevp.SyntaxCAS": "[ <Seznam \u010d\xedsel> ]",
 };
 
 

@@ -1119,12 +1119,17 @@ __GGB__keysVar["it"].command = {
     "ZoomOut": "ZoomIndietro",
     "ZoomOut.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Lista frequenze> ]",
+    "mean.SyntaxCAS": "[ <Lista di numeri> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Numero n>, <Numero k> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Lista di frequenze> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Lista di frequenze> ]",
+    "stdevp.SyntaxCAS": "[ <Lista di numeri> ]",
 };
 
 

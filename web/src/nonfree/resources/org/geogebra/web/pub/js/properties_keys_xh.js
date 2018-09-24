@@ -1119,12 +1119,17 @@ __GGB__keysVar["xh"].command = {
     "ZoomOut": "Bhekelisa",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Ichaphaza Lasembindini> ]",
     "mad": "mad",
+    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "mean": "mean",
+    "mean.Syntax": "[ <uLuhlu lwe Raw Data> ]\n[ <Uluhlu lwaManani>, <Uluhlu lweeFrequencies> ]",
+    "mean.SyntaxCAS": "[ <Uluhlu lwaManani> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <Inani n>, <Inani r> ]",
     "stdev": "stdev",
     "stdev.Syntax": "[ <uluhlu lweData engahlelwanga> ]\n[ <uluhlu lwamanani>, <uluhlulweefrequensi> ]",
     "stdevp": "stdevp",
+    "stdevp.Syntax": "[ <Uluhlu LweData> ]\n[ <Uluhlu Lwamanani>, <List of Frequencies> ]",
+    "stdevp.SyntaxCAS": "[ <Uluhlu Lwamanani> ]",
 };
 
 
