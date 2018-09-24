@@ -879,7 +879,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testSampleSD() {
-		testCat("SampleSD");
+		testCat("stdevp.1");
 	}
 
 	@Test
@@ -889,7 +889,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testSD() {
-		testCat("SD");
+		testCat("stdev.1");
 	}
 
 	@Test
