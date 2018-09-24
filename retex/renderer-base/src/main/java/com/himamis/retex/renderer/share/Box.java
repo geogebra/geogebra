@@ -315,7 +315,7 @@ public abstract class Box {
 		// old color
 		prevColor = g2.getColor();
 		if (background != null) { // draw background
-			// g2.setColor(background);
+			g2.setColor(background);
 			g2.fill(geom.createRectangle2D(x, y - height, width,
 					height + depth));
 		}
