@@ -1198,6 +1198,11 @@ public enum Commands implements CommandsConstants,
 
 	ShowSteps(TABLE_ALGEBRA);
 
+	public static Commands[] RENAMED = {
+			Commands.BinomialCoefficient, Commands.Mean, Commands.SD,
+			Commands.SampleSD, Commands.MAD
+	};
+
 	private int table;
 
 	Commands(int table) {

@@ -979,6 +979,14 @@ public abstract class App implements UpdateSelection, AppInterface {
 		initTranslatedCommands();
 		String s;
 		String cmdLower = StringUtil.toLowerCaseUS(cmd);
+
+		for (Commands c : Commands.RENAMED) {
+			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(c.name()))
+					.equals(cmdLower)) {
+				return Commands.englishToInternal(c).name();
+			}
+		}
+
 		Commands[] values = Commands.values();
 		for (Commands c : values) {
 			s = Commands.englishToInternal(c).name();
