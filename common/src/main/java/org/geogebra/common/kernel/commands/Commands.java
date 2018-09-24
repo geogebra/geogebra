@@ -1288,6 +1288,14 @@ public enum Commands implements CommandsConstants,
 			return QuadricSide;
 		case DelaunayTriangulation:
 			return DelauneyTriangulation;
+		case Mean:
+			return mean;
+		case SD:
+			return stdev;
+		case SampleSD:
+			return stdevp;
+		case MAD:
+			return mad;
 		default:
 			break;
 		}
