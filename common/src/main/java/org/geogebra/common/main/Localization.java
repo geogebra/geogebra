@@ -1452,7 +1452,7 @@ public abstract class Localization {
 		return internalName;
 	}
 
-	private String getMainCommandName(Commands command) {
+	static private String getMainCommandName(Commands command) {
 		switch (command) {
 			case Binomial:
 			case nCr:
@@ -1463,6 +1463,9 @@ public abstract class Localization {
 			case SampleSD:
 			case stdevp:
 				return Commands.SampleSD.name();
+			case MAD:
+			case mad:
+				return Commands.mad.name();
 			default:
 				return null;
 		}
