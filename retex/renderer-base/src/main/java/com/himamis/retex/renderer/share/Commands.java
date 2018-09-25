@@ -501,77 +501,23 @@ public class Commands {
 				ArrayAtom.FLALIGN, ArrayOptions.getEmpty()));
 		map.put("end@flalign", new EnvArray.End("flalign"));
 		map.put("begin@alignat", new EnvArray.Begin("alignat",
-				ArrayAtom.ALIGNAT, ArrayOptions.getEmpty()) {
-			@Override
-			public boolean init(TeXParser tp) {
-				n = tp.getArgAsPositiveInteger();
-				if (n <= 0) {
-					throw new ParseException(tp,
-							"Invalid argument in alignat environment");
-				}
-				aoa = new ArrayOfAtoms(ArrayAtom.ALIGNAT);
-				tp.addConsumer(this);
-				tp.addConsumer(aoa);
-				return false;
-			}
-		});
+				ArrayAtom.ALIGNAT, ArrayOptions.getEmpty()));
 		map.put("end@alignat", new EnvArray.End("alignat"));
 		map.put("begin@alignedat", new EnvArray.Begin("alignedat",
-				ArrayAtom.ALIGNEDAT, ArrayOptions.getEmpty()) {
-			@Override
-			public boolean init(TeXParser tp) {
-				n = tp.getArgAsPositiveInteger();
-				if (n <= 0) {
-					throw new ParseException(tp,
-							"Invalid argument in alignedat environment");
-				}
-				aoa = new ArrayOfAtoms(ArrayAtom.ALIGNEDAT);
-				tp.addConsumer(this);
-				tp.addConsumer(aoa);
-				return false;
-			}
-		});
+				ArrayAtom.ALIGNEDAT, ArrayOptions.getEmpty()));
 		map.put("end@alignedat", new EnvArray.End("alignedat"));
 		map.put("begin@multline",
-				new EnvArray.Begin("multline", -1, ArrayOptions.getEmpty()) {
-					@Override
-					public boolean init(TeXParser tp) {
-						final boolean r = super.init(tp);
-						aoa.setOneColumn(true);
-						return false;
-					}
-				});
+				new EnvArray.Begin("multline", -1, ArrayOptions.getEmpty()));
 		map.put("end@multline", new EnvArray.End("multline"));
-		map.put("begin@subarray", new EnvArray.Begin("subarray", -1) {
-			@Override
-			public boolean init(TeXParser tp) {
-				final boolean r = super.init(tp);
-				aoa.setOneColumn(true);
-				return false;
-			}
-		});
+		map.put("begin@subarray", new EnvArray.Begin("subarray", -1));
 		map.put("end@subarray", new EnvArray.End("subarray"));
 		map.put("substack", new CommandSubstack());
 		map.put("displaylines", new CommandDisplaylines());
 		map.put("begin@gather",
-				new EnvArray.Begin("gather", -1, ArrayOptions.getEmpty()) {
-					@Override
-					public boolean init(TeXParser tp) {
-						final boolean r = super.init(tp);
-						aoa.setOneColumn(true);
-						return false;
-					}
-				});
+				new EnvArray.Begin("gather", -1, ArrayOptions.getEmpty()));
 		map.put("end@gather", new EnvArray.End("gather"));
 		map.put("begin@gathered",
-				new EnvArray.Begin("gathered", -1, ArrayOptions.getEmpty()) {
-					@Override
-					public boolean init(TeXParser tp) {
-						final boolean r = super.init(tp);
-						aoa.setOneColumn(true);
-						return false;
-					}
-				});
+				new EnvArray.Begin("gathered", -1, ArrayOptions.getEmpty()));
 		map.put("end@gathered", new EnvArray.End("gathered"));
 		map.put("begin@pmatrix", new EnvArray.Begin("pmatrix", ArrayAtom.MATRIX,
 				ArrayOptions.getEmpty()));

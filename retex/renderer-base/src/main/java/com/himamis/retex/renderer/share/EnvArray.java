@@ -139,14 +139,41 @@ public class EnvArray {
 		}
 
 		@Override
-		public boolean init(TeXParser tp) {
+		final public boolean init(TeXParser tp) {
+
+			if ("alignedat".equals(name) || "alignat".equals(name)) {
+				n = tp.getArgAsPositiveInteger();
+				if (n <= 0) {
+					throw new ParseException(tp,
+							"Invalid argument in "+name+" environment");
+				}
+				aoa = new ArrayOfAtoms("alignedat".equals(name)
+						? ArrayAtom.ALIGNEDAT : ArrayAtom.ALIGNAT);
+				tp.addConsumer(this);
+				tp.addConsumer(aoa);
+				return false;
+			}
+
 			if (opt == null) {
 				opt = tp.getArrayOptions();
 			}
 			aoa = new ArrayOfAtoms(type);
 			tp.addConsumer(this);
 			tp.addConsumer(aoa);
-			return false;
+			switch (name) {
+			default:
+
+				return false;
+
+			case "multiline":
+			case "subarray":
+			case "gather":
+			case "gathered":
+				aoa.setOneColumn(true);
+				return false;
+
+			}
+
 		}
 
 		public final String getName() {
