@@ -101,18 +101,27 @@ public class ZoomController {
 
 	/** Home button handler. */
 	public void onHomePressed() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
 		app.getActiveEuclidianView().setStandardView(true);
 		app.getAccessibilityManager().focusMenu();
 	}
 
 	/** Zoom In button handler. */
 	public void onZoomInPressed() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
 		app.getActiveEuclidianView().getEuclidianController().zoomInOut(false,
 				false);
 	}
 
 	/** Zoom Out button handler. */
 	public void onZoomOutPressed() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
 		app.getActiveEuclidianView().getEuclidianController().zoomInOut(false,
 				true);
 	}
@@ -238,6 +247,9 @@ public class ZoomController {
 	 */
 	protected void onFullscreenPressed(final Element elem,
 			final StandardButton fullscreenBtn) {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
 		final Element container;
 		final boolean ipad = Browser.isIPad();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
