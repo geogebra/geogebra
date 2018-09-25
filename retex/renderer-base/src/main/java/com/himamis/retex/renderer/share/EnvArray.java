@@ -238,7 +238,13 @@ public class EnvArray {
 
 		@Override
 		public Command duplicate() {
-			return new End(name, op, cl);
+			return new EnvArray.End(name, op, cl) {
+				@Override
+				public Atom newI(TeXParser tp, EnvArray.Begin beg) {
+					return new AlignAtom(beg.aoa, false);
+				}
+			};
+
 		}
 	}
 }
