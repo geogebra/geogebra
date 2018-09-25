@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 
 /**
@@ -39,4 +40,8 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 		return "Tutorial3D";
 	}
 
+	@Override
+	public int getDefaultPrintDecimals() {
+		return Kernel.STANDARD_PRINT_DECIMALS_SHORT;
+	}
 }
