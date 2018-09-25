@@ -48,8 +48,11 @@
 
 package com.himamis.retex.renderer.share;
 
+
 import java.util.ArrayList;
 import java.util.BitSet;
+
+import com.himamis.retex.renderer.share.dynamic.DynamicAtom;
 
 /**
  * An atom representing a horizontal row of other atoms, to be seperated by
@@ -93,17 +96,14 @@ public class RowAtom extends Atom implements Row {
 	};
 
 	protected RowAtom() {
-		// FactoryProvider.getInstance().debug("creating RowAtom1");
 		this.elements = new ArrayList<Atom>();
 	}
 
 	protected RowAtom(final ArrayList<Atom> elements) {
-		// FactoryProvider.getInstance().debug("creating RowAtom2");
 		this.elements = elements;
 	}
 
 	public RowAtom(final int size) {
-		// FactoryProvider.getInstance().debug("creating RowAtom3");
 		this.elements = new ArrayList<Atom>(size);
 	}
 
@@ -207,7 +207,6 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		HorizontalBox hBox = new HorizontalBox(env.getColor(),
@@ -234,24 +233,24 @@ public class RowAtom extends Atom implements Row {
 				}
 			}
 
-			// if (at instanceof DynamicAtom) {
-			// // TODO: ecrire des tests pr ce truc
-			// // mettre le jlmDynamic au debut, au milieu et a la fin
-			// final DynamicAtom da = (DynamicAtom) at;
-			// if (da.getInsertMode()) {
-			// final Atom a = da.getAtom();
-			// if (a instanceof RowAtom) {
-			// final ArrayList<Atom> els = ((RowAtom) a).getElements();
-			// if (!els.isEmpty()) {
-			// at = els.get(0);
-			// elements.addAll(i + 1, els.subList(1, els.size()));
-			// N += els.size() - 1;
-			// }
-			// } else {
-			// at = a;
-			// }
-			// }
-			// }
+			if (at instanceof DynamicAtom) {
+				// TODO: ecrire des tests pr ce truc
+				// mettre le jlmDynamic au debut, au milieu et a la fin
+				final DynamicAtom da = (DynamicAtom) at;
+				if (da.getInsertMode()) {
+					final Atom a = da.getAtom();
+					if (a instanceof RowAtom) {
+						final ArrayList<Atom> els = ((RowAtom) a).getElements();
+						if (!els.isEmpty()) {
+							at = els.get(0);
+							elements.addAll(i + 1, els.subList(1, els.size()));
+							N += els.size() - 1;
+						}
+					} else {
+						at = a;
+					}
+				}
+			}
 
 			if (at instanceof MathchoiceAtom) {
 				at = ((MathchoiceAtom) at).chose(env);
@@ -326,7 +325,6 @@ public class RowAtom extends Atom implements Row {
 		return hBox;
 	}
 
-	@Override
 	public void setPreviousAtom(Dummy prev) {
 		previousAtom = prev;
 	}
@@ -357,7 +355,6 @@ public class RowAtom extends Atom implements Row {
 		return elements;
 	}
 
-	@Override
 	public String toString() {
 		String s = "RowAtom {";
 		for (Atom e : elements) {
@@ -374,12 +371,11 @@ public class RowAtom extends Atom implements Row {
 		ret.elements = elements;
 		ret.lookAtLastAtom = lookAtLastAtom;
 		ret.previousAtom = previousAtom;
-
+		ret.shape = shape;
 		return setFields(ret);
 	}
 
 	public Atom getElement(int i) {
 		return i < elements.size() ? elements.get(i) : null;
 	}
-
 }
