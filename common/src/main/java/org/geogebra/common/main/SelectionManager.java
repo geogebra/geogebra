@@ -688,7 +688,7 @@ public class SelectionManager {
 
 		if (selectionSize == 0) {
 			if (first != null) {
-				addSelectedGeo(first);
+				addSelectedGeoForEV(first);
 			}
 			return false;
 		}
@@ -699,9 +699,9 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (next != null) {
-			addSelectedGeo(next);
+			addSelectedGeoForEV(next);
 		} else {
-			addSelectedGeo(first);
+			addSelectedGeoForEV(first);
 		}
 
 		return true;
@@ -733,13 +733,13 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (prev != null) {
-			addSelectedGeo(prev);
+			addSelectedGeoForEV(prev);
 		} else {
-			addSelectedGeo(last);
+			addSelectedGeoForEV(last);
 		}
 	}
 
-	private void addSelectedGeo(GeoElement geo) {
+	private void addSelectedGeoForEV(GeoElement geo) {
 		addSelectedGeo(geo);
 		int viewID = geo.getViewSet().size() > 0 ? geo.getViewSet().get(0) : -1;
 		EuclidianViewInterfaceCommon view = null;

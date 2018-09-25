@@ -1006,7 +1006,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 				selPreview);
 
 		if (selGeos() == 1) {
-			GeoElement polyhedron = getSelectedGeos()[0];
 			GeoNumeric slider = GeoNumeric.setSliderFromDefault(
 					new GeoNumeric(kernel.getConstruction()), false);
 			slider.setIntervalMin(0);
@@ -1016,7 +1015,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			slider.setLabel(null);
 			slider.setValue(1);
 			slider.update();
-
+			GeoElement polyhedron = getSelectedGeos()[0];
 			return new GeoElement[] { kernel.getManager3D().polyhedronNet(null,
 					polyhedron, slider, null, null)[0] // no bottom face, no
 														// pivot segments
