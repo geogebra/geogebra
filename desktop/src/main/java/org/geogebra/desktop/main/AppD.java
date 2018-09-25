@@ -493,7 +493,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// init kernel
 		initFactories();
 		initKernel();
-		kernel.setPrintDecimals(Kernel.STANDARD_PRINT_DECIMALS);
+		kernel.setPrintDecimals(getConfig().getDefaultPrintDecimals());
 
 		// init settings
 		initSettings();
