@@ -41,6 +41,9 @@ public class DrawEquationD extends DrawEquation {
 
 	@Override
 	public void checkFirstCall(App app) {
+
+		ensureJLMFactoryExists();
+
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
 			drawEquationJLaTeXMathFirstCall = false;
@@ -53,9 +56,6 @@ public class DrawEquationD extends DrawEquation {
 						new TeXLength(TeXLength.Unit.EM, 0.65));
 
 				StringBuilder initJLM = getJLMCommands();
-				if (FactoryProvider.getInstance() == null) {
-					FactoryProvider.setInstance(new FactoryProviderDesktop());
-				}
 				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
@@ -68,6 +68,12 @@ public class DrawEquationD extends DrawEquation {
 
 		}
 
+	}
+
+	private static void ensureJLMFactoryExists() {
+		if (FactoryProvider.getInstance() == null) {
+			FactoryProvider.setInstance(new FactoryProviderDesktop());
+		}
 	}
 
 	@Override
