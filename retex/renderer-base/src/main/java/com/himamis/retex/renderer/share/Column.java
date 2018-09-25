@@ -51,12 +51,12 @@ public class Column extends Command {
 
 	protected ArrayOfAtoms aoa;
 
-	public Column(ArrayOfAtoms aoa2) {
-		this.aoa = aoa;
-	}
-
 	public Column() {
 		//
+	}
+
+	public Column(ArrayOfAtoms aoa2) {
+		this.aoa = aoa2;
 	}
 
 	@Override
@@ -100,5 +100,4 @@ public class Column extends Command {
 
 		return true;
 	}
-
 }

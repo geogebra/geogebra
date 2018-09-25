@@ -67,7 +67,6 @@ public class EnvArray {
 	}
 
 	public static final class RowSep extends EmptyAtom {
-		// private static RowSep instance = new RowSep();
 
 		private RowSep() {
 		}

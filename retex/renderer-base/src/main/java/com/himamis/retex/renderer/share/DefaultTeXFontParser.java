@@ -66,13 +66,6 @@ import com.himamis.retex.renderer.share.platform.parser.NodeList;
  */
 public class DefaultTeXFontParser {
 
-	// /**
-	// * if the register font cannot be found, we display an error message but
-	// we do it only once
-	// */
-	// private static boolean registerFontExceptionDisplayed = false;
-	// private static boolean shouldRegisterFonts = true;
-
 	private static interface CharChildParser { // NOPMD
 		public void parse(Element el, char ch, FontInfo info)
 				throws XMLResourceParseException;

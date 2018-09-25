@@ -127,30 +127,4 @@ public class TeXAtomSerializer {
 		return sb.toString();
 	}
 
-	// private static void initMappings() {
-	// mappings = new HashMap<>();
-	// mappings.put("plus", "+");
-	// mappings.put("minus", "-");
-	// mappings.put("equals", "=");
-	// mappings.put("lbrack", "(");
-	// mappings.put("rbrack", ")");
-	// mappings.put("lsqbrack", "[");
-	// mappings.put("rsqbrack", "]");
-	// mappings.put("lbrace", "{");
-	// mappings.put("rbrace", "}");
-	// mappings.put("normaldot", ".");
-	// mappings.put("comma", ",");
-	// mappings.put("ge", ">=");
-	// mappings.put("le", "<=");
-	// mappings.put("geq", ">=");
-	// mappings.put("leq", "<=");
-	// mappings.put("lt", "<");
-	// mappings.put("gt", ">");
-	// mappings.put("cdot", "*");
-	// mappings.put("times", "*");
-	// // mappings.put("theta", Unicode.theta_STRING);
-	// for (Greek greek : Greek.values()) {
-	// mappings.put(greek.name(), greek.unicode + "");
-	// }
-	// }
 }

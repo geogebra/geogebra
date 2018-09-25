@@ -50,8 +50,6 @@ package com.himamis.retex.renderer.share;
  */
 public class EmptyAtom extends Atom {
 
-	// private static EmptyAtom instance = new EmptyAtom();
-
 	public EmptyAtom() {
 	}
 

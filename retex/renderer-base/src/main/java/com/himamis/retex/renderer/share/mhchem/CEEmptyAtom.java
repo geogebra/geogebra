@@ -56,8 +56,6 @@ import com.himamis.retex.renderer.share.TeXEnvironment;
  */
 public class CEEmptyAtom extends Atom {
 
-	// private static CEEmptyAtom instance = new CEEmptyAtom();
-
 	public CEEmptyAtom() {
 		type = TeXConstants.TYPE_ORDINARY;
 	}
