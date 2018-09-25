@@ -1119,7 +1119,7 @@ __GGB__keysVar["nl-NL"].command = {
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
     "mad": "gaa",
-    "mad.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "mad.Syntax": "[ <Ljst met waarnemingsgetallen> ]\n[ <Lijst met waarden>, <Lijst met frequenties> ]",
     "mean": "gemidd",
     "mean.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
     "mean.SyntaxCAS": "[ <Lijst van getallen> ]",
