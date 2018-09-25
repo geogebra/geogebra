@@ -181,7 +181,7 @@ public class SerializeLaTeX {
 		checkLaTeX("4+x", "4+x");
 		checkLaTeX("4-x", "4-x");
 		checkLaTeX("\\frac{4}{x}", "(4)/(x)");
-		checkLaTeX("4 \\times x", "4*x");
+		checkLaTeX("4 \\times x", "4" + Unicode.MULTIPLY + "x");
 
 		checkLaTeX("\\frac{x+y}{x-y}", "(x+y)/(x-y)");
 		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
@@ -195,15 +195,16 @@ public class SerializeLaTeX {
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
 				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
 		checkLaTeX("\\frac{x^2}{m^2}+\\frac{y^2}{n^2}\\ge2",
-				"(x^(2))/(m^(2))+(y^(2))/(n^(2))>=2");
-		checkLaTeX("a\\leq b", "a<=b");
+				"(x^(2))/(m^(2))+(y^(2))/(n^(2))" + Unicode.GREATER_EQUAL
+						+ "2");
+		checkLaTeX("a\\leq b", "a" + Unicode.LESS_EQUAL + "b");
 		checkLaTeX("f\\left(x\\right)=\\sin\\left(x\\right)", "f(x)=sin(x)");
 		checkLaTeX("r\\ =\\ g^{\\theta}",
 				"r = g^(" + Unicode.theta_STRING + ")");
 		checkLaTeX("7\\cdot 6", "7*6");
-		checkLaTeX("7\\times 6", "7*6");
-		checkLaTeX("\\left \\alpha + \\beta \\right",
-				Unicode.alpha + "+" + Unicode.beta);
+		checkLaTeX("7\\times 6", "7" + Unicode.MULTIPLY + "6");
+		checkLaTeX("\\left( \\alpha + \\beta \\right)",
+				"(" + Unicode.alpha + "+" + Unicode.beta + ")");
 	}
 
 	@Test

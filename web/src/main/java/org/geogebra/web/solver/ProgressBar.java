@@ -2,8 +2,14 @@ package org.geogebra.web.solver;
 
 import com.google.gwt.user.client.ui.HTML;
 
+/**
+ * Progressbar using native HTML5 element
+ */
 public class ProgressBar extends HTML {
 
+	/**
+	 * Create new progress bar.
+	 */
 	public ProgressBar() {
 		super("<progress></progress>");
 		addStyleName("practiceProgressBar");

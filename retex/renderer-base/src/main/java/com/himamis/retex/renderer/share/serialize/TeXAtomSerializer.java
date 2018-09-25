@@ -85,12 +85,11 @@ public class TeXAtomSerializer {
 		if (root instanceof SymbolAtom) {
 
 			SymbolAtom ch = (SymbolAtom) root;
-
-			// return mappings.get(ch.getName()) == null ? ch.getName()
-			// : mappings.get(ch.getName());
-
-			// eg "+"
-			return ch.getUnicode() + "";
+			String out = ch.getUnicode() + "";
+			if ("\u00b7".equals(out)) {
+				return "*";
+			}
+			return out;
 
 		}
 		if (root instanceof RowAtom) {
