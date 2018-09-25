@@ -487,44 +487,19 @@ public class Commands {
 
 		map.put("begin@matrix", new EnvArray.Begin("matrix", ArrayAtom.MATRIX,
 				ArrayOptions.getEmpty()));
-		map.put("end@matrix", new EnvArray.End("matrix") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				return new SMatrixAtom(beg.aoa, false);
-			}
-		});
+		map.put("end@matrix", new EnvArray.End("matrix"));
 		map.put("begin@smallmatrix", new EnvArray.Begin("smallmatrix",
 				ArrayAtom.SMALLMATRIX, ArrayOptions.getEmpty()));
-		map.put("end@smallmatrix", new EnvArray.End("smallmatrix") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				return new SMatrixAtom(beg.aoa, true);
-			}
-		});
+		map.put("end@smallmatrix", new EnvArray.End("smallmatrix"));
 		map.put("begin@align", new EnvArray.Begin("align", ArrayAtom.ALIGN,
 				ArrayOptions.getEmpty()));
-		map.put("end@align", new EnvArray.End("align") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				return new AlignAtom(beg.aoa, false);
-			}
-		});
+		map.put("end@align", new EnvArray.End("align"));
 		map.put("begin@aligned", new EnvArray.Begin("aligned",
 				ArrayAtom.ALIGNED, ArrayOptions.getEmpty()));
-		map.put("end@aligned", new EnvArray.End("aligned") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				return new AlignAtom(beg.aoa, true);
-			}
-		});
+		map.put("end@aligned", new EnvArray.End("aligned"));
 		map.put("begin@flalign", new EnvArray.Begin("flalign",
 				ArrayAtom.FLALIGN, ArrayOptions.getEmpty()));
-		map.put("end@flalign", new EnvArray.End("flalign") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				return new FlalignAtom(beg.aoa);
-			}
-		});
+		map.put("end@flalign", new EnvArray.End("flalign"));
 		map.put("begin@alignat", new EnvArray.Begin("alignat",
 				ArrayAtom.ALIGNAT, ArrayOptions.getEmpty()) {
 			@Override
@@ -540,16 +515,7 @@ public class Commands {
 				return false;
 			}
 		});
-		map.put("end@alignat", new EnvArray.End("alignat") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				if (2 * beg.n != beg.aoa.col) {
-					throw new ParseException(tp,
-							"Bad number of equations in alignat environment !");
-				}
-				return new AlignAtAtom(beg.aoa, false);
-			}
-		});
+		map.put("end@alignat", new EnvArray.End("alignat"));
 		map.put("begin@alignedat", new EnvArray.Begin("alignedat",
 				ArrayAtom.ALIGNEDAT, ArrayOptions.getEmpty()) {
 			@Override
@@ -565,16 +531,7 @@ public class Commands {
 				return false;
 			}
 		});
-		map.put("end@alignedat", new EnvArray.End("alignedat") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				if (2 * beg.n != beg.aoa.col) {
-					throw new ParseException(tp,
-							"Bad number of equations in alignedat environment !");
-				}
-				return new AlignAtAtom(beg.aoa, true);
-			}
-		});
+		map.put("end@alignedat", new EnvArray.End("alignedat"));
 		map.put("begin@multline",
 				new EnvArray.Begin("multline", -1, ArrayOptions.getEmpty()) {
 					@Override
@@ -584,15 +541,7 @@ public class Commands {
 						return false;
 					}
 				});
-		map.put("end@multline", new EnvArray.End("multline") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
-			}
-		});
+		map.put("end@multline", new EnvArray.End("multline"));
 		map.put("begin@subarray", new EnvArray.Begin("subarray", -1) {
 			@Override
 			public boolean init(TeXParser tp) {
@@ -601,15 +550,7 @@ public class Commands {
 				return false;
 			}
 		});
-		map.put("end@subarray", new EnvArray.End("subarray") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new SubarrayAtom(beg.getAOA(), beg.getOptions());
-			}
-		});
+		map.put("end@subarray", new EnvArray.End("subarray"));
 		map.put("substack", new CommandSubstack());
 		map.put("displaylines", new CommandDisplaylines());
 		map.put("begin@gather",
@@ -621,15 +562,7 @@ public class Commands {
 						return false;
 					}
 				});
-		map.put("end@gather", new EnvArray.End("gather") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
-			}
-		});
+		map.put("end@gather", new EnvArray.End("gather"));
 		map.put("begin@gathered",
 				new EnvArray.Begin("gathered", -1, ArrayOptions.getEmpty()) {
 					@Override
@@ -639,15 +572,7 @@ public class Commands {
 						return false;
 					}
 				});
-		map.put("end@gathered", new EnvArray.End("gathered") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new MultlineAtom(beg.aoa, MultlineAtom.GATHERED);
-			}
-		});
+		map.put("end@gathered", new EnvArray.End("gathered"));
 		map.put("begin@pmatrix", new EnvArray.Begin("pmatrix", ArrayAtom.MATRIX,
 				ArrayOptions.getEmpty()));
 		map.put("end@pmatrix", new EnvArray.End("pmatrix", "lbrack", "rbrack"));

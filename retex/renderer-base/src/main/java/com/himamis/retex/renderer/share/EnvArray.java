@@ -195,7 +195,7 @@ public class EnvArray {
 		}
 
 		@Override
-		public boolean init(TeXParser tp) {
+		final public boolean init(TeXParser tp) {
 			tp.close();
 			final AtomConsumer ac = tp.pop();
 			if (ac instanceof ArrayOfAtoms) {
@@ -233,18 +233,76 @@ public class EnvArray {
 		}
 
 		public Atom newI(TeXParser tp, Begin beg) {
-			return new ArrayAtom(beg.aoa, beg.opt, true);
+			switch (name) {
+			case "align":
+				return new AlignAtom(beg.aoa, false);
+			case "cases":
+				final SymbolAtom op1 = Symbols.LBRACE;
+				final SymbolAtom cl1 = Symbols.RBRACE;
+
+				// XXX
+				return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
+						op1, null, cl1);
+			// return new FencedAtom(super.newI(tp, beg), op, null, cl);
+
+			case "matrix":
+				return new SMatrixAtom(beg.aoa, false);
+
+			case "smallmatrix":
+				return new SMatrixAtom(beg.aoa, true);
+
+			case "aligned":
+				return new AlignAtom(beg.aoa, true);
+
+			case "flalign":
+				return new FlalignAtom(beg.aoa);
+
+			case "alignat":
+				if (2 * beg.n != beg.aoa.col) {
+					throw new ParseException(tp,
+							"Bad number of equations in alignat environment !");
+				}
+				return new AlignAtAtom(beg.aoa, false);
+
+			case "alignedat":
+				if (2 * beg.n != beg.aoa.col) {
+					throw new ParseException(tp,
+							"Bad number of equations in alignedat environment !");
+				}
+				return new AlignAtAtom(beg.aoa, true);
+
+			case "multiline":
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
+
+			case "subarray":
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new SubarrayAtom(beg.getAOA(), beg.getOptions());
+
+			case "gather":
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
+
+			case "gathered":
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new MultlineAtom(beg.aoa, MultlineAtom.GATHERED);
+
+			default:
+				return new ArrayAtom(beg.aoa, beg.opt, true);
+			}
 		}
 
 		@Override
 		public Command duplicate() {
-			return new EnvArray.End(name, op, cl) {
-				@Override
-				public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-					return new AlignAtom(beg.aoa, false);
-				}
-			};
-
+			return new EnvArray.End(name, op, cl);
 		}
 	}
 }
