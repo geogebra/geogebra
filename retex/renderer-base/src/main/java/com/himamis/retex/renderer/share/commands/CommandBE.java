@@ -81,19 +81,7 @@ public class CommandBE {
 
 		@Override
 		public Command duplicate() {
-
-			final Begin that = this;
-
-			Begin ret = new Begin() {
-				@Override
-				public boolean init(TeXParser tp) {
-					return that.init(tp);
-				}
-
-			};
-
-			return ret;
-
+			return new Begin();
 		}
 
 	}
@@ -130,19 +118,7 @@ public class CommandBE {
 
 		@Override
 		public Command duplicate() {
-
-			final End that = this;
-
-			End ret = new End() {
-				@Override
-				public boolean init(TeXParser tp) {
-					return that.init(tp);
-				}
-
-			};
-
-			return ret;
-
+			return new End();
 		}
 
 	}
