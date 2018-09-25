@@ -89,7 +89,7 @@ public class ShadowBox extends FramedBox {
 				y - height + th + shadowRule, shadowRule,
 				depth + height - 2 * shadowRule - th);
 		g2.fill(rectangle);
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 		g2.setStroke(st);
 	}
 

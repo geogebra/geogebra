@@ -205,7 +205,7 @@ public class RotateBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x0, double y0) {
-		// drawDebug(g2, x0, y0);
+		drawDebug(g2, x0, y0);
 		box.drawDebug(g2, x0, y0, true);
 		double y = y0 - shiftY;
 		double x = x0 + shiftX - xmin;

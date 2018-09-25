@@ -71,7 +71,7 @@ public class ScaleBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 		if (xscl != 0 && yscl != 0) {
 			double dec = xscl < 0 ? width : 0;
 			g2.saveTransformation();

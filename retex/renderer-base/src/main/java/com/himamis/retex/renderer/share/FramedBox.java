@@ -109,7 +109,7 @@ public class FramedBox extends Box {
 					height + depth - thickness);
 			g2.draw(rectangle);
 		}
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 		g2.setStroke(st);
 		box.draw(g2, x + space + thickness, y);
 	}

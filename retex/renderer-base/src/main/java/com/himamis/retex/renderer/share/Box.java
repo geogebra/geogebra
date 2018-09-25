@@ -324,7 +324,7 @@ public abstract class Box {
 		} else {
 			g2.setColor(foreground); // overriding foreground color
 		}
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 	}
 
 	protected void drawDebug(Graphics2DInterface g2, double x, double y,
@@ -366,6 +366,12 @@ public abstract class Box {
 				}
 			}
 			g2.setStroke(st);
+		}
+	}
+
+	protected void drawDebug(Graphics2DInterface g2, double x, double y) {
+		if (DEBUG) {
+			drawDebug(g2, x, y, true);
 		}
 	}
 

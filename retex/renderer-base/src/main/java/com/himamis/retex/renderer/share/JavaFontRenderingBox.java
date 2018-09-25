@@ -114,7 +114,7 @@ public class JavaFontRenderingBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 		g2.translate(x, y);
 		g2.scale(0.1 * size, 0.1 * size);
 		text.draw(g2, 0, 0);

@@ -75,7 +75,7 @@ public class OvalBox extends FramedBox {
 		roundRectangle.setRoundRectangle(x + th, y - height + th,
 				width - thickness, height + depth - thickness, r, r);
 		g2.draw(roundRectangle);
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 		g2.setStroke(st);
 	}
 

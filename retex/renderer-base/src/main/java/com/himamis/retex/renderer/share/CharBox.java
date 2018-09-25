@@ -94,7 +94,7 @@ public class CharBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		// drawDebug(g2, x, y);
+		drawDebug(g2, x, y);
 		g2.saveTransformation();
 		g2.translate(x, y);
 		Font font = TeXFont.getFont(cf.fontId);
