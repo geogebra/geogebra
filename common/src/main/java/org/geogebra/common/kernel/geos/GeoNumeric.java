@@ -2018,25 +2018,26 @@ public class GeoNumeric extends GeoElement
 		return false;
 	}
 
-	private void addAuralSliderValue(StringBuilder sb) {
+	private void addAuralSliderValue(ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
 		sb.append(getLabelDelimiterWithSpace());
 		sb.append(toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Override
-	public void addAuralName(Localization loc, StringBuilder sb) {
+	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
 		if (!isSliderable()) {
+			super.addAuralName(loc, sb);
 			return;
 		}
 		sb.append(loc.getMenuDefault("Slider", "Slider"));
-		sb.append(" ");
+		sb.appendSpace();
 		addAuralSliderValue(sb);
-		sb.append(". ");
+		sb.appendDot();
 	}
 
 	@Override
-	public void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		if (!isSliderable()) {
 			return;
 		}
@@ -2048,16 +2049,16 @@ public class GeoNumeric extends GeoElement
 			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
 					"Press space to start animation"));
 		}
-		sb.append(". ");
+		sb.appendDot();
 		if (getIntervalMax() != getValue()) {
 			sb.append(loc.getMenuDefault("PressUpToIncrease",
 					"Press up arrow to increase the value"));
-			sb.append(". ");
+			sb.appendDot();
 		}
 		if (getIntervalMin() != getValue()) {
 			sb.append(loc.getMenuDefault("PressDownToDecrease",
 					"Press down arrow to decrease the value"));
-			sb.append(". ");
+			sb.appendDot();
 		}
 		super.addAuralOperations(loc, sb);
 
@@ -2070,15 +2071,15 @@ public class GeoNumeric extends GeoElement
 		}
 
 		Localization loc = kernel.getLocalization();
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralCaption(sb);
-		sb.append(" ");
+		sb.appendSpace();
 		if (isAnimating()) {
 			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
 		} else {
 			sb.append(loc.getMenuDefault("AnimationStarted", "animation is started"));
 		}
-		sb.append(".");
+		sb.appendDot();
 		return sb.toString();
 	}
 
@@ -2087,7 +2088,7 @@ public class GeoNumeric extends GeoElement
 	 * @return the current value as readable, aural text.
 	 */
 	public String getAuralCurrentValue() {
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralSliderValue(sb);
 		return sb.toString();
 	}

@@ -504,27 +504,27 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public void addAuralType(Localization loc, StringBuilder sb) {
+	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(loc.getMenuDefault("Checkbox", "Checkbox"));
-		sb.append(" ");
+		sb.appendSpace();
 	}
 
 	@Override
-	public void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		if (getBoolean()) {
 			sb.append(
 					loc.getMenuDefault("PressSpaceCheckboxOff", "Press space to uncheck checkbox"));
 		} else {
 			sb.append(loc.getMenuDefault("PressSpaceCheckboxOn", "Press space to check checkbox"));
 		}
-		sb.append(". ");
+		sb.appendDot();
 		super.addAuralOperations(loc, sb);
 	}
 
 	@Override
 	public String getAuralTextForSpace() {
 		Localization loc = kernel.getLocalization();
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralName(loc, sb);
 		if (getBoolean()) {
 			sb.append(loc.getMenuDefault("Checked", "checked"));

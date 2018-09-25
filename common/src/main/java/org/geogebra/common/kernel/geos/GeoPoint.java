@@ -2914,7 +2914,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		addAuralArrows(loc, sb, this);
 		super.addAuralOperations(loc, sb);
 	}
@@ -2927,7 +2927,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @param point
 	 *            point
 	 */
-	public static void addAuralArrows(Localization loc, StringBuilder sb,
+	public static void addAuralArrows(Localization loc, ScreenReaderBuilder sb,
 			GeoPointND point) {
 		if (point.isPointOnPath()) {
 			sb.append(loc.getMenuDefault("PressPlusMinusToMove",
@@ -2936,9 +2936,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sb.append(loc.getMenuDefault("PressArrowsToMove",
 					"Press the arrow keys to move the object"));
 		}
-		if (sb.length() > 0 && sb.charAt(sb.length() - 1) != '.') {
-			sb.append(".");
-		}
+		sb.appendDot();
 	}
 
 	@Override

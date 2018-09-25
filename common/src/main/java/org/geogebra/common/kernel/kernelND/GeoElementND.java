@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -1445,7 +1446,7 @@ public interface GeoElementND extends ExpressionValue {
 	 *            StringBuilder to add to.
 	 * @return true if caption was added - i.e. when it is not empty.
 	 */
-	boolean addAuralCaption(StringBuilder sb);
+	boolean addAuralCaption(ScreenReaderBuilder sb);
 
 	/**
 	 * add geo type for reader.
@@ -1456,7 +1457,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
-	void addAuralType(Localization loc, StringBuilder sb);
+	void addAuralType(Localization loc, ScreenReaderBuilder sb);
 
 	/**
 	 * add geo type and its label for reader.
@@ -1467,7 +1468,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
-	void addAuralLabel(Localization loc, StringBuilder sb);
+	void addAuralLabel(Localization loc, ScreenReaderBuilder sb);
 
 	/**
 	 * add Caption for reader if defined, type and label otherwise.
@@ -1478,7 +1479,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
-	void addAuralName(Localization loc, StringBuilder sb);
+	void addAuralName(Localization loc, ScreenReaderBuilder sb);
 
 	/**
 	 * Add content aural description if any.
@@ -1489,7 +1490,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
-	void addAuralContent(Localization loc, StringBuilder sb);
+	void addAuralContent(Localization loc, ScreenReaderBuilder sb);
 
 	/**
 	 * Add aural text for status of the geo.
@@ -1500,7 +1501,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
-	void addAuralStatus(Localization loc, StringBuilder sb);
+	void addAuralStatus(Localization loc, ScreenReaderBuilder sb);
 
 	/**
 	 * Add aural text for the possible operations of the geo.
@@ -1510,7 +1511,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
-	void addAuralOperations(Localization loc, StringBuilder sb);
+	void addAuralOperations(Localization loc, ScreenReaderBuilder sb);
 
 	/**
 	 * 

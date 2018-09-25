@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -363,11 +364,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			}
 		}
 
-		// Application.debug("v=\n"+v+"\ninhom="+inhom);
-
 		// sets the drawing matrix to coords
 		getDrawingMatrix().setOrigin(getCoords());
-
 	}
 
 	/**
@@ -2216,7 +2214,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		GeoPoint.addAuralArrows(loc, sb, this);
 		super.addAuralOperations(loc, sb);
 	}

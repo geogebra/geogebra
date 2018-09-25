@@ -7684,30 +7684,30 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public boolean addAuralCaption(StringBuilder sb) {
+	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		String caption0 = getCaptionSimple();
 		if (caption0 != null && !"".equals(caption)) {
 			sb.append(getCaption(StringTemplate.defaultTemplate));
-			sb.append(". ");
+			sb.appendDot();
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void addAuralType(Localization loc, StringBuilder sb) {
+	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(translatedTypeStringForAlgebraView());
-		sb.append(" ");
+		sb.appendSpace();
 	}
 
 	@Override
-	public void addAuralLabel(Localization loc, StringBuilder sb) {
+	public void addAuralLabel(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
-		sb.append(". ");
+		sb.appendDot();
 	}
 
 	@Override
-	public void addAuralName(Localization loc, StringBuilder sb) {
+	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
 		addAuralType(loc, sb);
 		if (!addAuralCaption(sb)) {
 			addAuralLabel(loc, sb);
@@ -7715,38 +7715,32 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public void addAuralContent(Localization loc, StringBuilder sb) {
+	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
 		// implement this if geo has a content like items.
 	}
 
 	@Override
-	public void addAuralStatus(Localization loc, StringBuilder sb) {
+	public void addAuralStatus(Localization loc, ScreenReaderBuilder sb) {
 		// Implement this if geo has status. (pressed, checked, etc)
 	}
 
 	@Override
 	public String getAuralText() {
 		Localization loc = kernel.getLocalization();
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralName(loc, sb);
-		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
-			sb.append(" ");
-		}
+		sb.appendSpace();
 		addAuralStatus(loc, sb);
-		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
-			sb.append(" ");
-		}
+		sb.appendSpace();
 		addAuralContent(loc, sb);
-		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
-			sb.append(" ");
-		}
+		sb.appendSpace();
 		addAuralOperations(loc, sb);
-		sb.append(".");
+		sb.appendDot();
 		return sb.toString();
 	}
 
 	@Override
-	public void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		App app = kernel.getApplication();
 		if (getScript(EventType.CLICK) != null
 				&& getScript(EventType.CLICK).getText().length() > 0) {
@@ -7762,8 +7756,8 @@ public abstract class GeoElement extends ConstructionElement
 					sb.append(loc.getMenuDefault("PressSlashToShow", "Press / to show object"));
 				}
 				}
-			sb.append(" ");
-			}
+			sb.appendSpace();
+		}
 		if (app.showToolBar() && !isGeoInputBox()) {
 			if (isGeoButton() || isPenStroke()) {
 				sb.append(loc.getMenuDefault("PressEnterToOpenSettings",

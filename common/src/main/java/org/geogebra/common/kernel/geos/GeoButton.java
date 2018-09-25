@@ -319,14 +319,14 @@ public class GeoButton extends GeoWidget
 	}
 
 	@Override
-	public void addAuralStatus(Localization loc, StringBuilder sb) {
+	public void addAuralStatus(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(loc.getMenuDefault("Selected", "selected"));
 	}
 
 	@Override
 	public String getAuralTextForSpace() {
 		Localization loc = kernel.getLocalization();
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralName(loc, sb);
 		sb.append(" ");
 		sb.append(loc.getMenuDefault("Pressed", "pressed"));
