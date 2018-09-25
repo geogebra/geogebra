@@ -598,35 +598,35 @@ public class Colors {
 				// GeoGebra colors below
 
 				// not in jlm2
-				put("lightorange", g.createColor(16773077));
-				put("lightviolet", g.createColor(14725375));
+				// put("lightorange", g.createColor(16773077));
+				// put("lightviolet", g.createColor(14725375));
 
 				// different to jlm2
-				put("turquoise", g.createColor(11529966));
-				put("aqua", g.createColor(12375270));
-				put("lightblue", g.createColor(8224255));
-				put("darkgray", g.createColor(2105376));
-				put("darkblue", g.createColor(1849787));
-				put("lightgray", g.createColor(10526880));
-				put("lightyellow", g.createColor(16775885));
-				put("lime", g.createColor(12582656));
-				put("lightpurple", g.createColor(13421823));
-				put("violet", g.createColor(8323327));
-				put("lightgreen", g.createColor(13693120));
-				put("brown", g.createColor(10040064));
-				put("orange", g.createColor(16744192));
-				put("purple", g.createColor(8388736));
-				put("silver", g.createColor(4210752));
-				put("maroon", g.createColor(8388608));
+				// put("turquoise", g.createColor(11529966));
+				// put("aqua", g.createColor(12375270));
+				// put("lightblue", g.createColor(8224255));
+				// put("darkgray", g.createColor(2105376));
+				// put("darkblue", g.createColor(1849787));
+				// put("lightgray", g.createColor(10526880));
+				// put("lightyellow", g.createColor(16775885));
+				// put("lime", g.createColor(12582656));
+				// put("lightpurple", g.createColor(13421823));
+				// put("violet", g.createColor(8323327));
+				// put("lightgreen", g.createColor(13693120));
+				// put("brown", g.createColor(10040064));
+				// put("orange", g.createColor(16744192));
+				// put("purple", g.createColor(8388736));
+				// put("silver", g.createColor(4210752));
+				// put("maroon", g.createColor(8388608));
 
 				// same as jlm2
 
-				put("pink", g.createColor(16761035));
-				put("darkgreen", g.createColor(25600));
-				put("gold", g.createColor(16766720));
-				put("crimson", g.createColor(14423100));
-				put("gray", g.createColor(8421504));
-				put("indigo", g.createColor(4915330));
+				// put("pink", g.createColor(16761035));
+				// put("darkgreen", g.createColor(25600));
+				// put("gold", g.createColor(16766720));
+				// put("crimson", g.createColor(14423100));
+				// put("gray", g.createColor(8421504));
+				// put("indigo", g.createColor(4915330));
 
 				// same as jlm2, also in jlm v1
 				// put("black", g.createColor(0));
