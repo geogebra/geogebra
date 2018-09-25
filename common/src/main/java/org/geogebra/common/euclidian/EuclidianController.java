@@ -231,7 +231,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public GPoint mouseLoc;
 	private EuclidianView view;
 	protected EuclidianPen pen;
-	public double oldDistance;
+	private double oldDistance;
 	private boolean wasBoundingBoxHit;
 	private boolean isMultiResize;
 	private BoundingBoxResizeState startBoundingBoxState;
@@ -11666,11 +11666,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
 			multitouchMode = ScaleMode.zoomY;
-			oldDistance = y1 - y2;
+			setOldDistance(y1 - y2);
 			scale = view.getYscale();
 		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
 			multitouchMode = ScaleMode.zoomX;
-			oldDistance = x1 - x2;
+			setOldDistance(x1 - x2);
 			scale = this.view.getXscale();
 		} else if (hits1.size() > 0 && hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)
@@ -11725,7 +11725,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	final public void twoTouchStartCommon(double x1, double y1, double x2,
 			double y2) {
-		this.oldDistance = MyMath.length(x1 - x2, y1 - y2);
+		this.setOldDistance(MyMath.length(x1 - x2, y1 - y2));
 	}
 
 	public void twoTouchMove(double x1, double y1, double x2, double y2) {
@@ -11782,7 +11782,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if ((x1 == x2 && y1 == y2) || this.oldDistance == 0) {
+		if ((x1 == x2 && y1 == y2) || this.getOldDistance() == 0) {
 			return;
 		}
 
@@ -11791,7 +11791,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (scale == 0) {
 				return;
 			}
-			double newRatioY = scale * (y1 - y2) / this.oldDistance;
+			double newRatioY = scale * (y1 - y2) / this.getOldDistance();
 			view.setCoordSystem(view.getXZero(), view.getYZero(),
 					view.getXscale(), newRatioY);
 			break;
@@ -11799,13 +11799,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (scale == 0) {
 				return;
 			}
-			double newRatioX = scale * (x1 - x2) / oldDistance;
+			double newRatioX = scale * (x1 - x2) / getOldDistance();
 			view.setCoordSystem(view.getXZero(), view.getYZero(), newRatioX,
 					view.getYscale());
 			break;
 		case circle3Points:
 			double dist = MyMath.length(x1 - x2, y1 - y2);
-			scale = dist / oldDistance;
+			scale = dist / getOldDistance();
 			int i = 0;
 
 			for (GeoPointND p : scaleConic.getFreeInputPoints(view)) {
@@ -11821,7 +11821,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		case circle2Points:
 			double dist2P = MyMath.length(x1 - x2, y1 - y2);
-			scale = dist2P / oldDistance;
+			scale = dist2P / getOldDistance();
 
 			// index 0 is the midpoint, index 1 is the point on the circle
 			GeoPointND p = scaleConic.getFreeInputPoints(view).get(1);
@@ -11835,7 +11835,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		case circleRadius:
 			double distR = MyMath.length(x1 - x2, y1 - y2);
-			scale = distR / oldDistance;
+			scale = distR / getOldDistance();
 
 			circleRadius.setValue(scale * originalRadius);
 			circleRadius.updateCascade();
@@ -11868,13 +11868,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		centerX = (int) (x1 + x2) / 2;
 		centerY = (int) (y1 + y2) / 2;
 
-		if (this.oldDistance > 0) {
+		if (this.getOldDistance() > 0) {
 			newDistance = MyMath.length(x1 - x2, y1 - y2);
 
 			if (Math.abs(newDistance
-					- this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
-				onPinch(centerX, centerY, newDistance / this.oldDistance);
-				this.oldDistance = newDistance;
+					- this.getOldDistance()) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
+				onPinch(centerX, centerY, newDistance / this.getOldDistance());
+				this.setOldDistance(newDistance);
 			}
 		}
 	}
@@ -12654,5 +12654,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	public void resetPointCreated() {
 		this.pointCreated = null;
+	}
+
+	public double getOldDistance() {
+		return oldDistance;
+	}
+
+	public void setOldDistance(double oldDistance) {
+		this.oldDistance = oldDistance;
 	}
 }

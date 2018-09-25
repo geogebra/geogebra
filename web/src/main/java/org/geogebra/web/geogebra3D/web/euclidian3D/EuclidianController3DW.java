@@ -253,10 +253,10 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		// check zoom difference
 		double newZoomDistance = 0;
 		double zoomDiff = 0;
-		if (this.oldDistance > 0) {
+		if (this.getOldDistance() > 0) {
 			newZoomDistance = MyMath.length(x1 - x2, y1 - y2);
 
-			zoomDiff = Math.abs(newZoomDistance - this.oldDistance);
+			zoomDiff = Math.abs(newZoomDistance - this.getOldDistance());
 			if (zoomDiff < MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
 				zoomDiff = 0;
 			}
@@ -281,14 +281,14 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			// update values
 			oldCenterX3D = centerX;
 			oldCenterY3D = centerY;
-			this.oldDistance = newZoomDistance;
+			this.setOldDistance(newZoomDistance);
 		} else if (zoomDiff > 0) {
-			onPinch(centerX, centerY, newZoomDistance / this.oldDistance);
+			onPinch(centerX, centerY, newZoomDistance / this.getOldDistance());
 
 			// update values
 			oldCenterX3D = centerX;
 			oldCenterY3D = centerY;
-			this.oldDistance = newZoomDistance;
+			this.setOldDistance(newZoomDistance);
 		}
 	}
 

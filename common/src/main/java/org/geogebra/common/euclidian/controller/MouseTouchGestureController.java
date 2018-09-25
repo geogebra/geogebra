@@ -112,7 +112,7 @@ public class MouseTouchGestureController {
 		int y1 = (int) y1d;
 		int y2 = (int) y2d;
 
-		if ((x1 == x2 && y1 == y2) || ec.oldDistance == 0) {
+		if ((x1 == x2 && y1 == y2) || ec.getOldDistance() == 0) {
 			return;
 		}
 
@@ -121,7 +121,7 @@ public class MouseTouchGestureController {
 			if (scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
-			double newRatioY = this.scale * (y1 - y2) / ec.oldDistance;
+			double newRatioY = this.scale * (y1 - y2) / ec.getOldDistance();
 			ec.getView().setCoordSystem(ec.getView().getXZero(),
 					ec.getView().getYZero(), ec.getView().getXscale(),
 					newRatioY);
@@ -130,14 +130,14 @@ public class MouseTouchGestureController {
 			if (this.scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
-			double newRatioX = this.scale * (x1 - x2) / ec.oldDistance;
+			double newRatioX = this.scale * (x1 - x2) / ec.getOldDistance();
 			ec.getView().setCoordSystem(ec.getView().getXZero(),
 					ec.getView().getYZero(), newRatioX,
 					ec.getView().getYscale());
 			break;
 		case circle3Points:
 			double dist = MyMath.length(x1 - x2, y1 - y2);
-			this.scale = dist / ec.oldDistance;
+			this.scale = dist / ec.getOldDistance();
 			int i = 0;
 
 			for (GeoPointND p : scaleConic.getFreeInputPoints(ec.getView())) {
@@ -153,7 +153,7 @@ public class MouseTouchGestureController {
 			break;
 		case circle2Points:
 			double dist2P = MyMath.length(x1 - x2, y1 - y2);
-			this.scale = dist2P / ec.oldDistance;
+			this.scale = dist2P / ec.getOldDistance();
 
 			// index 0 is the midpoint, index 1 is the point on the circle
 			GeoPointND p = scaleConic.getFreeInputPoints(ec.getView()).get(1);
@@ -167,7 +167,7 @@ public class MouseTouchGestureController {
 			break;
 		case circleRadius:
 			double distR = MyMath.length(x1 - x2, y1 - y2);
-			this.scale = distR / ec.oldDistance;
+			this.scale = distR / ec.getOldDistance();
 			GeoNumeric newRadius = new GeoNumeric(
 					ec.getKernel().getConstruction(),
 					this.scale * this.originalRadius);
@@ -180,7 +180,7 @@ public class MouseTouchGestureController {
 			break;
 		case circleFormula:
 			double distF = MyMath.length(x1 - x2, y1 - y2);
-			this.scale = distF / ec.oldDistance;
+			this.scale = distF / ec.getOldDistance();
 
 			scaleConic.halfAxes[0] = this.scale * this.originalRadius;
 			scaleConic.halfAxes[1] = this.scale * this.originalRadius;
@@ -300,11 +300,11 @@ public class MouseTouchGestureController {
 
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
 			this.multitouchMode = MultitouchMode.zoomY;
-			ec.oldDistance = y1 - y2;
+			ec.setOldDistance(y1 - y2);
 			this.scale = ec.getView().getYscale();
 		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
 			this.multitouchMode = MultitouchMode.zoomX;
-			ec.oldDistance = x1 - x2;
+			ec.setOldDistance(x1 - x2);
 			this.scale = ec.getView().getXscale();
 		} else if (hits1.size() > 0 && hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)

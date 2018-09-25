@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 
 @SuppressWarnings("javadoc")
 public enum Commands implements CommandsConstants,
@@ -1198,7 +1200,7 @@ public enum Commands implements CommandsConstants,
 
 	ShowSteps(TABLE_ALGEBRA);
 
-	public static Commands[] RENAMED = {
+	private static final Commands[] RENAMED = {
 			Commands.BinomialCoefficient, Commands.Mean, Commands.SD,
 			Commands.SampleSD, Commands.MAD
 	};
@@ -1323,6 +1325,16 @@ public enum Commands implements CommandsConstants,
 		for (Commands c : Commands.values()) {
 			if (c.getCommand().equals(str)) {
 				return c;
+			}
+		}
+		return null;
+	}
+
+	public static String getRenamed(String cmdLower, Localization loc) {
+		for (Commands c : Commands.RENAMED) {
+			if (StringUtil.toLowerCaseUS(loc.getCommand(c.name()))
+					.equals(cmdLower)) {
+				return Commands.englishToInternal(c).name();
 			}
 		}
 		return null;
