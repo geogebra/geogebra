@@ -26,6 +26,7 @@ import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -51,12 +52,11 @@ public class DrawEquationD extends DrawEquation {
 				TeXLength.put("fboxsep",
 						new TeXLength(TeXLength.Unit.EM, 0.65));
 
-				// StringBuilder initJLM = getJLMCommands();
+				StringBuilder initJLM = getJLMCommands();
 				if (FactoryProvider.getInstance() == null) {
 					FactoryProvider.setInstance(new FactoryProviderDesktop());
 				}
-				// initJLaTeXMath = new TeXFormula(initJLM.toString());
-				initJLaTeXMath = new Object();
+				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
 			// make sure cache doesn't get too big
