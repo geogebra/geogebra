@@ -1015,8 +1015,7 @@ public class Commands {
 						TeXParser.getAtomForLatinStr("def", true)));
 			}
 		});
-		map.put("shoveleft", new CommandShoveLeft() {
-		});
+		map.put("shoveleft", new CommandShoveLeft());
 		map.put("shoveright", new CommandShoveRight());
 
 		map.put("hdotsfor", new Command0AImpl() {
