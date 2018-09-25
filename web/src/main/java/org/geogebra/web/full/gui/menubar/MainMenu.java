@@ -358,7 +358,6 @@ public class MainMenu extends FlowPanel
 						getMenuAt(getSelectedIndex()).selectItem(null);
 					}
 				} else if (eventType == Event.ONCLICK) {
-
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
 					if (app.getNetworkOperation().isOnline()
