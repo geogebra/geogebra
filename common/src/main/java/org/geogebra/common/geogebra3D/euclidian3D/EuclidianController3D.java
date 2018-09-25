@@ -727,8 +727,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			view3D.getToSceneMatrix().mul(view3D.getPickPoint(mouseLoc))
 					.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
 							view3D.getViewDirection(), tmpCoords);
-			xRW = tmpCoords.getX();
-			yRW = tmpCoords.getY();
+			setRwCoords(tmpCoords);
 
 			// apply 2D method
 			singleIntersectionPoint = ((EuclidianControllerFor3DCompanion) companion)
@@ -3436,8 +3435,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void calcRWcoords() {
 		Coords point = view3D.getPickPoint(mouseLoc);
 		view3D.toSceneCoords3D(point);
-		xRW = point.getX();
-		yRW = point.getY();
+		setRwCoords(point);
 	}
 
 	@Override

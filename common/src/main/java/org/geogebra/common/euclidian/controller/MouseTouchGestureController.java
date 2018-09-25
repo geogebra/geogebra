@@ -149,7 +149,7 @@ public class MouseTouchGestureController {
 				p.updateCascade();
 				i++;
 			}
-			ec.kernel.notifyRepaint();
+			ec.getKernel().notifyRepaint();
 			break;
 		case circle2Points:
 			double dist2P = MyMath.length(x1 - x2, y1 - y2);
@@ -163,19 +163,20 @@ public class MouseTouchGestureController {
 					+ (originalPointY[1] - midpoint[1]) * scale;
 			p.setCoords(newX, newY, 1.0);
 			p.updateCascade();
-			ec.kernel.notifyRepaint();
+			ec.getKernel().notifyRepaint();
 			break;
 		case circleRadius:
 			double distR = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = distR / ec.oldDistance;
-			GeoNumeric newRadius = new GeoNumeric(ec.kernel.getConstruction(),
+			GeoNumeric newRadius = new GeoNumeric(
+					ec.getKernel().getConstruction(),
 					this.scale * this.originalRadius);
 
 			((AlgoSphereNDPointRadius) scaleConic.getParentAlgorithm())
 					.setRadius(newRadius);
 			scaleConic.updateCascade();
-			ec.kernel.notifyUpdate(scaleConic);
-			ec.kernel.notifyRepaint();
+			ec.getKernel().notifyUpdate(scaleConic);
+			ec.getKernel().notifyRepaint();
 			break;
 		case circleFormula:
 			double distF = MyMath.length(x1 - x2, y1 - y2);
@@ -184,8 +185,8 @@ public class MouseTouchGestureController {
 			scaleConic.halfAxes[0] = this.scale * this.originalRadius;
 			scaleConic.halfAxes[1] = this.scale * this.originalRadius;
 			scaleConic.updateCascade();
-			ec.kernel.notifyUpdate(scaleConic);
-			ec.kernel.notifyRepaint();
+			ec.getKernel().notifyUpdate(scaleConic);
+			ec.getKernel().notifyRepaint();
 			break;
 		case moveLine:
 			// ignore minimal changes of finger-movement
@@ -241,10 +242,10 @@ public class MouseTouchGestureController {
 			lineToMove.getStartPoint().updateCascade();
 			lineToMove.getEndPoint().updateCascade();
 
-			ec.kernel.notifyUpdate(lineToMove.getStartPoint());
-			ec.kernel.notifyUpdate(lineToMove.getEndPoint());
+			ec.getKernel().notifyUpdate(lineToMove.getStartPoint());
+			ec.getKernel().notifyUpdate(lineToMove.getEndPoint());
 
-			ec.kernel.notifyRepaint();
+			ec.getKernel().notifyRepaint();
 
 			break;
 		default:
@@ -356,10 +357,11 @@ public class MouseTouchGestureController {
 			this.multitouchMode = MultitouchMode.moveLine;
 			lineToMove = (GeoLine) hits1.get(0);
 
-			GeoPoint touch1 = new GeoPoint(ec.kernel.getConstruction(), ec
+			GeoPoint touch1 = new GeoPoint(ec.getKernel().getConstruction(), ec
 					.getView().toRealWorldCoordX(x1), ec.getView()
 					.toRealWorldCoordY(y1), 1);
-			GeoPoint touch2 = new GeoPoint(ec.kernel.getConstruction(), ec
+			GeoPoint touch2 = new GeoPoint(ec.getKernel().getConstruction(),
+					ec
 					.getView().toRealWorldCoordX(x2), ec.getView()
 					.toRealWorldCoordY(y2), 1);
 

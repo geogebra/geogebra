@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolarLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Manager3DInterface;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -44,28 +45,28 @@ public class EuclidianControllerFor3DCompanion
 
 		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()) {
 			// at least one 3D geo
-			if (orientation == ec.kernel.getSpace()) {
+			if (orientation == ec.getKernel().getSpace()) {
 				// space is default orientation for 3D objects
-				return ec.kernel.getManager3D().angle3D(null, A, B, C);
+				return getManager3D().angle3D(null, A, B, C);
 			}
 			// use view orientation
-			return ec.kernel.getManager3D().angle3D(null, A, B, C, orientation);
+			return getManager3D().angle3D(null, A, B, C, orientation);
 		}
 
 		// 2D geos
-		if (orientation == ec.kernel.getXOYPlane()) {
+		if (orientation == ec.getKernel().getXOYPlane()) {
 			// xOy plane is default orientation for 2D objects
 			return super.createAngle(A, B, C);
 		}
 
 		// use view orientation
-		return ec.kernel.getManager3D().angle3D(null, A, B, C, orientation);
+		return getManager3D().angle3D(null, A, B, C, orientation);
 	}
 
 	@Override
 	protected GeoElement[] createAngles(GeoPolygon p) {
 		if (p.isGeoElement3D()) {
-			return ec.kernel.getManager3D().angles3D(null, p, true);
+			return getManager3D().angles3D(null, p, true);
 		}
 
 		return super.createAngles(p);
@@ -77,23 +78,23 @@ public class EuclidianControllerFor3DCompanion
 
 		if (v1.isGeoElement3D() || v2.isGeoElement3D()) {
 			// at least one 3D geo
-			if (orientation == ec.kernel.getSpace()) {
+			if (orientation == ec.getKernel().getSpace()) {
 				// space is default orientation for 3D objects
-				return ec.kernel.getManager3D().angle3D(null, v1, v2);
+				return getManager3D().angle3D(null, v1, v2);
 			}
 
 			// use view orientation
-			return ec.kernel.getManager3D().angle3D(null, v1, v2, orientation);
+			return getManager3D().angle3D(null, v1, v2, orientation);
 		}
 
 		// 2D polygon
-		if (orientation == ec.kernel.getXOYPlane()) {
+		if (orientation == ec.getKernel().getXOYPlane()) {
 			// xOy plane is default orientation for 2D objects
 			return super.createAngle(v1, v2);
 		}
 
 		// use view orientation
-		return ec.kernel.getManager3D().angle3D(null, v1, v2, orientation);
+		return getManager3D().angle3D(null, v1, v2, orientation);
 	}
 
 	@Override
@@ -101,17 +102,17 @@ public class EuclidianControllerFor3DCompanion
 			boolean clockWise) {
 		GeoDirectionND direction = ec.getView().getDirection();
 
-		if (direction == ec.kernel.getXOYPlane()
-				|| direction == ec.kernel.getSpace()) { // use xOy plane
+		if (direction == ec.getKernel().getXOYPlane()
+				|| direction == ec.getKernel().getSpace()) { // use xOy plane
 			if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
-				return (GeoAngle) ec.kernel.getManager3D().angle(null, p1, p2,
-						a, ec.kernel.getXOYPlane(), !clockWise)[0];
+				return (GeoAngle) getManager3D().angle(null, p1, p2,
+						a, ec.getKernel().getXOYPlane(), !clockWise)[0];
 			}
 
 			return super.createAngle(p1, p2, a, clockWise);
 		}
 
-		return (GeoAngle) ec.kernel.getManager3D().angle(null, p1, p2, a,
+		return (GeoAngle) getManager3D().angle(null, p1, p2, a,
 				direction, !clockWise)[0];
 	}
 
@@ -121,29 +122,29 @@ public class EuclidianControllerFor3DCompanion
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
 			// at least one 3D geo
-			if (orientation == ec.kernel.getSpace()) {
+			if (orientation == ec.getKernel().getSpace()) {
 				// space is default orientation for 3D objects
-				return ec.kernel.getManager3D().createLineAngle(g, h);
+				return getManager3D().createLineAngle(g, h);
 			}
 
 			// use view orientation
-			return ec.kernel.getManager3D().createLineAngle(g, h, orientation);
+			return getManager3D().createLineAngle(g, h, orientation);
 		}
 
 		// 2D geos
-		if (orientation == ec.kernel.getXOYPlane()) {
+		if (orientation == ec.getKernel().getXOYPlane()) {
 			// xOy plane is default orientation for 2D objects
 			return super.createLineAngle(g, h);
 		}
 
 		// use view orientation
-		return ec.kernel.getManager3D().createLineAngle(g, h, orientation);
+		return getManager3D().createLineAngle(g, h, orientation);
 	}
 
 	@Override
 	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
 		if (geo.isGeoElement3D() || vec.isGeoElement3D()) {
-			return ec.kernel.getManager3D().translate3D(null, geo, vec);
+			return getManager3D().translate3D(null, geo, vec);
 		}
 
 		return super.translate(geo, vec);
@@ -152,7 +153,7 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement[] mirrorAtPoint(GeoElement geo, GeoPointND point) {
 		if (geo.isGeoElement3D() || point.isGeoElement3D()) {
-			return ec.kernel.getManager3D().mirror3D(null, geo, point);
+			return getManager3D().mirror3D(null, geo, point);
 		}
 
 		return super.mirrorAtPoint(geo, point);
@@ -161,7 +162,7 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement[] mirrorAtLine(GeoElement geo, GeoLineND line) {
 		if (geo.isGeoElement3D() || line.isGeoElement3D()) {
-			return ec.kernel.getManager3D().mirror3D(null, geo, line);
+			return getManager3D().mirror3D(null, geo, line);
 		}
 
 		return super.mirrorAtLine(geo, line);
@@ -171,7 +172,7 @@ public class EuclidianControllerFor3DCompanion
 	public GeoElement[] dilateFromPoint(GeoElement geo, GeoNumberValue num,
 			GeoPointND point) {
 		if (geo.isGeoElement3D() || point.isGeoElement3D()) {
-			return ec.kernel.getManager3D().dilate3D(null, geo, num, point);
+			return getManager3D().dilate3D(null, geo, num, point);
 		}
 
 		return super.dilateFromPoint(geo, num, point);
@@ -206,10 +207,10 @@ public class EuclidianControllerFor3DCompanion
 		// first hit is a line
 		if (a.isGeoLine()) {
 			if (b.isGeoLine()) {
-				point = (GeoPoint3D) ec.kernel.getManager3D().intersect(null,
+				point = (GeoPoint3D) getManager3D().intersect(null,
 						(GeoLineND) a, (GeoLineND) b);
 			} else if (b.isGeoConic()) {
-				point = ec.kernel.getManager3D().intersectLineConicSingle(null,
+				point = getManager3D().intersectLineConicSingle(null,
 						(GeoLineND) a, (GeoConicND) b, ec.xRW, ec.yRW,
 						ec.getView().getInverseMatrix());
 			} else {
@@ -219,11 +220,11 @@ public class EuclidianControllerFor3DCompanion
 		// first hit is a conic
 		else if (a.isGeoConic()) {
 			if (b.isGeoLine()) {
-				point = ec.kernel.getManager3D().intersectLineConicSingle(null,
+				point = getManager3D().intersectLineConicSingle(null,
 						(GeoLineND) b, (GeoConicND) a, ec.xRW, ec.yRW,
 						ec.getView().getInverseMatrix());
 			} else if (b.isGeoConic() && !a.isEqual(b)) {
-				point = ec.kernel.getManager3D().intersectConicsSingle(null,
+				point = getManager3D().intersectConicsSingle(null,
 						(GeoConicND) a, (GeoConicND) b, ec.xRW, ec.yRW,
 						ec.getView().getInverseMatrix());
 			} else {
@@ -245,7 +246,7 @@ public class EuclidianControllerFor3DCompanion
 
 	@Override
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
-		return new GeoElement[] { (GeoElement) ec.kernel.getManager3D()
+		return new GeoElement[] { (GeoElement) getManager3D()
 				.orthogonalLine3D(null, point, line,
 						ec.getView().getDirection()) };
 	}
@@ -258,7 +259,7 @@ public class EuclidianControllerFor3DCompanion
 		GeoElement geo = path.toGeoElement();
 		if (geo.isGeoElement3D() || (geo.isGeoList()
 				&& ((GeoList) geo).containsGeoElement3D())) {
-			return ec.kernel.getManager3D().point3D(label, path, x,
+			return getManager3D().point3D(label, path, x,
 					y, z, !forPreviewable, coords2D);
 		}
 
@@ -270,7 +271,7 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement midpoint(GeoSegmentND segment) {
 		if (segment.isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D().midpoint(null,
+			return (GeoElement) getManager3D().midpoint(null,
 					segment);
 		}
 
@@ -280,7 +281,7 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement midpoint(GeoConicND conic) {
 		if (conic.isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D().center(null, conic);
+			return (GeoElement) getManager3D().center(null, conic);
 		}
 
 		return super.midpoint(conic);
@@ -290,7 +291,7 @@ public class EuclidianControllerFor3DCompanion
 	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
 			AlgoMidpoint3D algo = new AlgoMidpoint3D(
-					ec.kernel.getConstruction(), p1, p2);
+					ec.getKernel().getConstruction(), p1, p2);
 			return algo.getPoint();
 		}
 
@@ -301,11 +302,12 @@ public class EuclidianControllerFor3DCompanion
 	public GeoElement[] regularPolygon(GeoPointND geoPoint1,
 			GeoPointND geoPoint2, GeoNumberValue value) {
 		if (geoPoint1.isGeoElement3D() || geoPoint2.isGeoElement3D()) {
-			return ec.kernel.getManager3D().regularPolygon(null, geoPoint1,
+			return getManager3D().regularPolygon(null, geoPoint1,
 					geoPoint2, value, ec.getView().getDirection());
 		}
 
-		return ec.kernel.getAlgoDispatcher().regularPolygon(null, geoPoint1,
+		return ec.getKernel().getAlgoDispatcher().regularPolygon(null,
+				geoPoint1,
 				geoPoint2, value);
 	}
 
@@ -337,7 +339,7 @@ public class EuclidianControllerFor3DCompanion
 	 * @return circle in the current plane
 	 */
 	protected GeoElement[] createCircle2For3D(GeoPointND p0, GeoPointND p1) {
-		return new GeoElement[] { ec.kernel.getManager3D().circle3D(null, p0,
+		return new GeoElement[] { getManager3D().circle3D(null, p0,
 				p1, ec.getView().getDirection()) };
 	}
 
@@ -363,14 +365,14 @@ public class EuclidianControllerFor3DCompanion
 	 */
 	protected GeoConicND circleFor3D(Construction cons, GeoPointND center,
 			GeoNumberValue radius) {
-		return ec.kernel.getManager3D().circle3D(null, center, radius,
+		return getManager3D().circle3D(null, center, radius,
 				ec.getView().getDirection());
 	}
 
 	@Override
 	protected GeoElement[] angularBisector(GeoLineND g, GeoLineND h) {
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
-			return ec.kernel.getManager3D().angularBisector3D(null, g, h);
+			return getManager3D().angularBisector3D(null, g, h);
 		}
 
 		return super.angularBisector(g, h);
@@ -380,7 +382,7 @@ public class EuclidianControllerFor3DCompanion
 	protected GeoElement angularBisector(GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()) {
-			return ec.kernel.getManager3D().angularBisector3D(null, A, B, C);
+			return getManager3D().angularBisector3D(null, A, B, C);
 		}
 
 		return super.angularBisector(A, B, C);
@@ -392,7 +394,7 @@ public class EuclidianControllerFor3DCompanion
 		GeoDirectionND orientation = ec.getView().getDirection();
 
 		// use view orientation
-		return (GeoElement) ec.kernel.getManager3D().circleArcSector3D(null, A,
+		return (GeoElement) getManager3D().circleArcSector3D(null, A,
 				B, C, orientation, type);
 	}
 
@@ -401,7 +403,7 @@ public class EuclidianControllerFor3DCompanion
 		GeoDirectionND orientation = ec.getView().getDirection();
 
 		// use view orientation
-		return (GeoElement) ec.kernel.getManager3D().semicircle3D(null, A, B,
+		return (GeoElement) getManager3D().semicircle3D(null, A, B,
 				orientation);
 	}
 
@@ -409,7 +411,7 @@ public class EuclidianControllerFor3DCompanion
 	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D().circumcircleArc3D(null,
+			return (GeoElement) getManager3D().circumcircleArc3D(null,
 					p1, p2, p3);
 		}
 
@@ -420,7 +422,7 @@ public class EuclidianControllerFor3DCompanion
 	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D()
+			return (GeoElement) getManager3D()
 					.circumcircleSector3D(null, p1, p2, p3);
 		}
 
@@ -429,24 +431,24 @@ public class EuclidianControllerFor3DCompanion
 
 	@Override
 	protected GeoElement[] tangent(GeoPointND a, GeoConicND c) {
-		return ec.kernel.getManager3D().tangent3D(null, a, c);
+		return getManager3D().tangent3D(null, a, c);
 	}
 
 	@Override
 	protected GeoElement[] tangent(GeoLineND l, GeoConicND c) {
-		return ec.kernel.getManager3D().tangent3D(null, l, c);
+		return getManager3D().tangent3D(null, l, c);
 	}
 
 	@Override
 	protected GeoElement[] tangent(GeoConicND c1, GeoConicND c2) {
-		return ec.kernel.getManager3D().commonTangents3D(null, c1, c2);
+		return getManager3D().commonTangents3D(null, c1, c2);
 	}
 
 	@Override
 	protected GeoElementND polarLine(GeoPointND P, GeoConicND c) {
 		if (P.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoPolarLine3D algo = new AlgoPolarLine3D(
-					ec.kernel.getConstruction(), null, c, P);
+					ec.getKernel().getConstruction(), null, c, P);
 			return algo.getLine();
 		}
 
@@ -455,23 +457,23 @@ public class EuclidianControllerFor3DCompanion
 
 	@Override
 	protected GeoElement diameterLine(GeoLineND l, GeoConicND c) {
-		return ec.kernel.getManager3D().diameterLine3D(null, l, c);
+		return getManager3D().diameterLine3D(null, l, c);
 	}
 
 	@Override
 	protected GeoElement diameterLine(GeoVectorND v, GeoConicND c) {
-		return ec.kernel.getManager3D().diameterLine3D(null, v, c);
+		return getManager3D().diameterLine3D(null, v, c);
 	}
 
 	@Override
 	protected GeoElement lineBisector(GeoSegmentND segment) {
-		return ec.kernel.getManager3D().lineBisector3D(null, segment,
+		return getManager3D().lineBisector3D(null, segment,
 				ec.getView().getDirection());
 	}
 
 	@Override
 	protected GeoElement lineBisector(GeoPointND a, GeoPointND b) {
-		return ec.kernel.getManager3D().lineBisector3D(null, a, b,
+		return getManager3D().lineBisector3D(null, a, b,
 				ec.getView().getDirection());
 	}
 
@@ -479,7 +481,7 @@ public class EuclidianControllerFor3DCompanion
 	protected GeoConicND conic5(GeoPointND[] points) {
 		for (int i = 0; i < 5; i++) {
 			if (points[i].isGeoElement3D()) {
-				return ec.kernel.getManager3D().conic3D(null, points);
+				return getManager3D().conic3D(null, points);
 			}
 		}
 
@@ -489,14 +491,14 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoConicND ellipseHyperbola(GeoPointND a, GeoPointND b,
 			GeoPointND c, int type) {
-		return ec.kernel.getManager3D().ellipseHyperbola3D(null, a, b, c,
+		return getManager3D().ellipseHyperbola3D(null, a, b, c,
 				ec.getView().getDirection(), type);
 	}
 
 	@Override
 	protected GeoConicND parabola(GeoPointND a, GeoLineND l) {
 		if (a.isGeoElement3D() || l.isGeoElement3D()) {
-			return ec.kernel.getManager3D().parabola3D(null, a, l);
+			return getManager3D().parabola3D(null, a, l);
 		}
 
 		return super.parabola(a, l);
@@ -505,9 +507,9 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement vectorPoint(GeoPointND a, GeoVectorND v) {
 		if (a.isGeoElement3D() || v.isGeoElement3D()) {
-			GeoPointND endPoint = (GeoPointND) ec.kernel.getManager3D()
+			GeoPointND endPoint = (GeoPointND) getManager3D()
 					.translate3D(null, a, v)[0];
-			return ec.kernel.getManager3D().vector3D(null, a, endPoint);
+			return getManager3D().vector3D(null, a, endPoint);
 		}
 
 		return super.vectorPoint(a, v);
@@ -516,9 +518,13 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement locus(GeoPointND a, GeoPointND b) {
 		if (a.isGeoElement3D() || b.isGeoElement3D()) {
-			return ec.kernel.getManager3D().locus3D(null, a, b);
+			return getManager3D().locus3D(null, a, b);
 		}
 
 		return super.locus(a, b);
+	}
+
+	private Manager3DInterface getManager3D() {
+		return ec.getKernel().getManager3D();
 	}
 }

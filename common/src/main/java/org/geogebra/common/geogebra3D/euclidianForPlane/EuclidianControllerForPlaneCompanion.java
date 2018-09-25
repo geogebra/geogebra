@@ -73,7 +73,7 @@ public class EuclidianControllerForPlaneCompanion
 		((GeoElement) ec.movedGeoPoint).updateCascade();
 
 		if (repaint) {
-			ec.kernel.notifyRepaint();
+			ec.getKernel().notifyRepaint();
 		}
 	}
 
@@ -83,7 +83,7 @@ public class EuclidianControllerForPlaneCompanion
 
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 
-		GeoPointND ret = ec.kernel.getManager3D().point3DIn(null,
+		GeoPointND ret = ec.getKernel().getManager3D().point3DIn(null,
 				ec.getView().getPlaneContaining(), coords, !forPreviewable,
 				false);
 		return ret;
@@ -109,8 +109,7 @@ public class EuclidianControllerForPlaneCompanion
 	protected void processModeLock(GeoPointND point) {
 		Coords coords = ec.getView().getCoordsForView(
 				point.getInhomCoordsInD3());
-		ec.xRW = coords.getX();
-		ec.yRW = coords.getY();
+		ec.setRwCoords(coords);
 	}
 
 	@Override
@@ -118,8 +117,7 @@ public class EuclidianControllerForPlaneCompanion
 		GeoPointND p = createNewPoint(true, path, false);
 		((GeoElement) p).update();
 		Coords coords = ec.getView().getCoordsForView(p.getInhomCoordsInD3());
-		ec.xRW = coords.getX();
-		ec.yRW = coords.getY();
+		ec.setRwCoords(coords);
 	}
 
 	@Override
@@ -144,7 +142,7 @@ public class EuclidianControllerForPlaneCompanion
 	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi,
 			GeoPointND Q) {
 
-		return ec.kernel.getManager3D().rotate3D(null, geoRot, phi, Q,
+		return ec.getKernel().getManager3D().rotate3D(null, geoRot, phi, Q,
 				ec.getView().getDirection());
 
 	}

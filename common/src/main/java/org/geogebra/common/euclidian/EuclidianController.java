@@ -227,7 +227,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public GeoPointND movedGeoPoint;
 	protected GeoElement resultedGeo;
 	public boolean draggingBeyondThreshold = false;
-	public Kernel kernel;
+	protected Kernel kernel;
 	public GPoint mouseLoc;
 	private EuclidianView view;
 	protected EuclidianPen pen;
@@ -4285,6 +4285,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void calcRWcoords() {
 		xRW = (mouseLoc.x - view.getXZero()) * view.getInvXscale();
 		yRW = (view.getYZero() - mouseLoc.y) * view.getInvYscale();
+	}
+
+	public void setRwCoords(Coords tmpCoords3) {
+		xRW = tmpCoords3.getX();
+		yRW = tmpCoords3.getY();
 	}
 
 	final protected void setMouseLocation(AbstractEvent event) {

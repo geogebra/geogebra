@@ -155,8 +155,7 @@ public class EuclidianController3DCompanion
 			// capturing points
 			checkPointCapturingXY(tmpCoords2);
 
-			ec.xRW = tmpCoords2.getX();
-			ec.yRW = tmpCoords2.getY();
+			ec.setRwCoords(tmpCoords2);
 			super.movePoint(repaint, ec3D.mouseEvent);
 
 			ec3D.view3D.getCursor3D()
@@ -362,7 +361,8 @@ public class EuclidianController3DCompanion
 					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE) {
 				return null;
 			}
-			point3D = (GeoPoint3D) ec.kernel.getManager3D().point3D(null, 0, 0,
+			point3D = (GeoPoint3D) ec.getKernel().getManager3D().point3D(null,
+					0, 0,
 					0, false);
 		} else {
 			point3D = createNewFreePoint(complex);
