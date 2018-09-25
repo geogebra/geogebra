@@ -60,7 +60,7 @@ public class CommandUnicode extends Command {
 	public boolean init(TeXParser tp) {
 		final String opt1 = tp.getOptionAsString();
 		final String opt2 = tp.getOptionAsString();
-		final char ch = tp.getArgAsCharFromCode();
+		final char ch = (char) tp.getArgAsCharFromCode();
 		TeXLength[] hd = null;
 		Font font = null;
 		String fontName = null;

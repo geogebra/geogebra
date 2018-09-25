@@ -59,4 +59,8 @@ public final class UnicodeMapping {
 		}
 		return u;
 	}
+
+	public static Character.UnicodeBlock get(final int c) {
+		return Character.UnicodeBlock.of(c);
+	}
 }

@@ -711,14 +711,14 @@ public class TeXParser {
 		return n;
 	}
 
-	public char getArgAsCharFromCode() {
+	public int getArgAsCharFromCode() {
 		skipPureWhites();
 		if (pos < len) {
 			char c = parseString.charAt(pos);
 			if (c == '{') {
 				++pos;
 				skipPureWhites();
-				final char r = getCharFromCode();
+				final int r = getCharFromCode();
 				skipPureWhites();
 				if (pos < len) {
 					c = parseString.charAt(pos);
@@ -733,14 +733,14 @@ public class TeXParser {
 				return r;
 			}
 
-			final char r = getCharFromCode();
+			final int r = getCharFromCode();
 			skipPureWhites();
 			return r;
 		}
 		throw new ParseException(this, "A char code expected");
 	}
 
-	public char getCharFromCode() {
+	public int getCharFromCode() {
 		if (pos < len) {
 			prevpos = pos;
 			char c = parseString.charAt(pos);
@@ -764,33 +764,48 @@ public class TeXParser {
 		throw new ParseException(this, "Invalid char code");
 	}
 
-	private char getCharHex() {
+	private int getCharHex() {
+		// max is 0x10FFFF
 		if (pos < len) {
 			char c = parseString.charAt(pos);
-			int acc = getHex(c);
-			if (acc == 16) {
-				throw new ParseException(this,
-						"An hexadecimal number expected");
+			int acc;
+			int ncomp;
+			if (c == '0') {
+				++pos;
+				skipZeros();
+				acc = 0;
+				ncomp = 0;
+			} else {
+				acc = getHex(c);
+				if (acc == 16) {
+					throw new ParseException(this,
+							"An hexadecimal number expected");
+				}
+				ncomp = 1;
+				++pos;
 			}
-			int ncomp = 1;
-			++pos;
 			while (pos < len) {
 				c = parseString.charAt(pos);
 				final int n = getHex(c);
 				if (n == 16) {
 					cancelPrevPos();
-					return (char) acc;
+					return acc;
 				}
-				acc = (acc << 4) | n;
-				++pos;
-				if (ncomp == 3) {
+				if (ncomp == 5) {
+					if (acc > 0x10FFF) {
+						cancelPrevPos();
+						return acc;
+					}
+					++pos;
 					cancelPrevPos();
-					return (char) acc;
+					return acc = (acc << 4) | n;
 				}
+				++pos;
+				acc = (acc << 4) | n;
 				++ncomp;
 			}
 			cancelPrevPos();
-			return (char) acc;
+			return acc;
 		}
 		cancelPrevPos();
 		return 0;
@@ -836,85 +851,89 @@ public class TeXParser {
 		return new TeXLength[] { w, h, d };
 	}
 
-	private char getCharDec() {
-		// 65535 = 0xFFFF
+	private int getCharDec() {
+		// 1114111 = 0x10FFFF
 		if (pos < len) {
 			char c = parseString.charAt(pos);
 			if (c >= '1' && c <= '9') {
-				int acc = c - '0';
+				int acc = (int) (c - '0');
 				int ncomp = 1;
 				++pos;
 				while (pos < len) {
 					c = parseString.charAt(pos);
 					if (c < '0' || c > '9') {
 						cancelPrevPos();
-						return (char) acc;
+						return acc;
 					}
-					if (ncomp == 4) {
-						if (acc > 6553) {
+					if (ncomp == 6) {
+						if (acc > 111411) {
 							cancelPrevPos();
-							return (char) acc;
+							return acc;
 						}
-						if (acc == 6553) {
-							if (c >= '0' && c <= '5') {
+						if (acc == 111411) {
+							if (c >= '0' && c <= '1') {
 								++pos;
 								cancelPrevPos();
-								return (char) (10 * acc + c - '0');
+								return 10 * acc + (int) (c - '0');
 							}
 							cancelPrevPos();
-							return 6553;
+							return 111411;
 						}
 						++pos;
 						cancelPrevPos();
-						return (char) (10 * acc + c - '0');
+						return 10 * acc + (int) (c - '0');
 					}
 					++pos;
-					acc = 10 * acc + c - '0';
+					acc = 10 * acc + (int) (c - '0');
 					++ncomp;
 				}
 				cancelPrevPos();
-				return (char) acc;
+				return acc;
 			}
 		}
 		cancelPrevPos();
 		return 0;
 	}
 
-	private char getCharOct() {
-		// 0177777 = 0xFFFF
+	private int getCharOct() {
+		// 04177777 = 0x10FFFF
 		if (pos < len) {
 			char c = parseString.charAt(pos);
-			if (c >= '0' && c <= '7') {
-				int acc = c - '0';
-				boolean one = acc == 1;
-				int ncomp = 1;
+			int acc;
+			int ncomp;
+			if (c == '0') {
 				++pos;
-				while (pos < len) {
-					c = parseString.charAt(pos);
-					if (c < '0' || c > '7') {
+				skipZeros();
+				acc = 0;
+				ncomp = 0;
+			} else if (c >= '1' && c <= '7') {
+				++pos;
+				acc = (int) (c - '0');
+				ncomp = 1;
+			} else {
+				return 0;
+			}
+			while (pos < len) {
+				c = parseString.charAt(pos);
+				if (c < '0' || c > '7') {
+					cancelPrevPos();
+					return acc;
+				}
+				if (ncomp == 6) {
+					if (acc > 0417777) {
 						cancelPrevPos();
-						return (char) acc;
-					}
-					acc = 8 * acc + c - '0';
-					if (ncomp == 4) {
-						++pos;
-						if (one && pos < len) {
-							c = parseString.charAt(pos);
-							if (c >= '0' && c <= '7') {
-								++pos;
-								cancelPrevPos();
-								return (char) (8 * acc + c - '0');
-							}
-						}
-						cancelPrevPos();
-						return (char) acc;
+						return acc;
 					}
 					++pos;
-					++ncomp;
+					cancelPrevPos();
+					return (acc << 3) | (int) (c - '0');
 				}
-				cancelPrevPos();
-				return (char) acc;
+				++pos;
+				acc = (acc << 3) | (int) (c - '0');
+				++ncomp;
 			}
+			cancelPrevPos();
+			return acc;
 		}
 		cancelPrevPos();
 		return 0;
@@ -1146,6 +1165,16 @@ public class TeXParser {
 			} else {
 				++pos;
 			}
+		}
+	}
+
+	public void skipZeros() {
+		while (pos < len) {
+			final char c = parseString.charAt(pos);
+			if (c != '0') {
+				return;
+			}
+			++pos;
 		}
 	}
 
@@ -2898,6 +2927,16 @@ public class TeXParser {
 
 			final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
 					.getExternalFont(block);
+			addToConsumer(new JavaFontRenderingAtom(r, f));
+		}
+	}
+
+	public void convertCharacter(int c) throws ParseException {
+		if (!charMapping.replace(c, this)) {
+			final Character.UnicodeBlock block = UnicodeMapping.get(c);
+			final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+					.getExternalFont(block);
+			final String r = new String(new int[] { c }, 0, 1);
 			addToConsumer(new JavaFontRenderingAtom(r, f));
 		}
 	}

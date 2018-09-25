@@ -385,8 +385,7 @@ public class Commands {
 
 		map.put("dfrac", new CommandDFrac());
 
-		map.put("tfrac", new CommandTFrac() {
-		});
+		map.put("tfrac", new CommandTFrac());
 		map.put("dbinom", new CommandDBinom());
 
 		map.put("tbinom", new CommandTBinom());
@@ -599,12 +598,17 @@ public class Commands {
 		map.put("char", new Command0AImpl() {
 			@Override
 			public boolean init(TeXParser tp) {
-				final char c = tp.getArgAsCharFromCode();
-				if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
-						|| (c >= 'A' && c <= 'Z')) {
-					tp.convertASCIIChar(c, true);
+				final int c = tp.getArgAsCharFromCode();
+				if (c <= 65535) {
+					final char cc = (char) c;
+					if ((cc >= '0' && cc <= '9') || (cc >= 'a' && cc <= 'z')
+							|| (cc >= 'A' && cc <= 'Z')) {
+						tp.convertASCIIChar(cc, true);
+					} else {
+						tp.convertCharacter(cc, true);
+					}
 				} else {
-					tp.convertCharacter(c, true);
+					tp.convertCharacter(c);
 				}
 				return false;
 			}
