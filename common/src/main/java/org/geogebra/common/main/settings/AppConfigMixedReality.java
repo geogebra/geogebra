@@ -32,9 +32,4 @@ public class AppConfigMixedReality extends AppConfigDefault {
 	public boolean isSimpleMaterialPicker() {
 		return true;
 	}
-
-	@Override
-	public int getDefaultPrintDecimals() {
-		return 2;
-	}
 }

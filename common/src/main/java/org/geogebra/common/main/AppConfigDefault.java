@@ -82,6 +82,6 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public int getDefaultPrintDecimals() {
-		return Kernel.STANDARD_PRINT_DECIMALS;
+		return Kernel.STANDARD_PRINT_DECIMALS_SHORT;
 	}
 }
