@@ -259,7 +259,7 @@ public class EnvArray {
 			return new FencedAtom(mat, op, cl);
 		}
 
-		public Atom newI(TeXParser tp, Begin beg) {
+		final public Atom newI(TeXParser tp, Begin beg) {
 			switch (name) {
 			case "align":
 				return new AlignAtom(beg.aoa, false);

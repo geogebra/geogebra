@@ -471,14 +471,7 @@ public class Commands {
 						.addSeparator(
 								new SpaceAtom(TeXConstants.Muskip.NEGTHIN))
 						.addAlignment(TeXConstants.Align.LEFT).close()));
-		map.put("end@cases", new EnvArray.End("cases") {
-			@Override
-			public Atom newI(TeXParser tp, EnvArray.Begin beg) {
-				final SymbolAtom op = Symbols.LBRACE;
-				final SymbolAtom cl = Symbols.RBRACE;
-				return new FencedAtom(super.newI(tp, beg), op, null, cl);
-			}
-		});
+		map.put("end@cases", new EnvArray.End("cases"));
 		map.put("matrix", new CommandMatrix() {
 		});
 		map.put("array", map.get("matrix"));
