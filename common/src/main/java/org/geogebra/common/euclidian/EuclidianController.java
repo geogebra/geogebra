@@ -10194,8 +10194,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			dl.onMouseUp(event.getX(), event.getY());
 			return;
 		}
-		// reset the center of rotation
-		if (rotationCenter != null) {
+		// reset the center of rotation for bounding box; don't delete center
+		// for "move around point"
+		if (rotationCenter != null && !rotationCenter.isLabelSet()) {
 			rotationCenter.remove();
 			rotationCenter = null;
 		}
