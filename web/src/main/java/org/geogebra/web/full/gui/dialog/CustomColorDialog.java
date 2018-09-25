@@ -106,8 +106,9 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		public PreviewPanel(GColor oColor) {
 			setStyleName("CustomColorPreview");
 			title = new Label();
-			title.addStyleName(
-					getApplication().isWhiteboardActive() ? "previewLbl" : "");
+			if (getApplication().isWhiteboardActive()) {
+				title.addStyleName("previewLbl");
+			}
 			add(title);
 			canvas = Canvas.createIfSupported();
 			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
