@@ -164,7 +164,10 @@ public class EnvArray {
 
 		@Override
 		public Command duplicate() {
-			return new Begin(name, type, opt);
+			Begin ret = new Begin(name, type, opt);
+			ret.aoa = aoa;
+			ret.n = n;
+			return ret;
 		}
 	}
 
