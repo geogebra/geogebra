@@ -25,23 +25,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -49,59 +49,153 @@ package com.himamis.retex.renderer.share;
 /**
  * Represents glue by its 3 components. Contains the "glue rules".
  */
-public class Glue {
+public final class Glue {
+
+	private static final Glue THIN = new Glue(3., 0., 0.);
+	private static final Glue MED = new Glue(4., 4., 2.);
+	private static final Glue THICK = new Glue(5., 0., 5.);
+
+	private static final int ORD = 0;
+	private static final int OP = 1;
+	private static final int BIN = 2;
+	private static final int REL = 3;
+	private static final int OPEN = 4;
+	private static final int CLOSE = 5;
+	private static final int PUNCT = 6;
+	private static final int INNER = 7;
+
+	private static final int DISPLAY = 0;
+	private static final int TEXT = 1;
+	private static final int SCRIPT = 2;
+	private static final int SCRIPT_SCRIPT = 3;
+
+	// the glue table representing the "glue rules" (as in TeXBook p. 170)
+	private static final Glue[] glues = new Glue[256];
+
+	static {
+		glues[index(ORD, OP, DISPLAY)] = THIN;
+		glues[index(ORD, OP, TEXT)] = THIN;
+		glues[index(ORD, OP, SCRIPT)] = THIN;
+		glues[index(ORD, OP, SCRIPT_SCRIPT)] = THIN;
+
+		glues[index(ORD, BIN, DISPLAY)] = MED;
+		glues[index(ORD, BIN, TEXT)] = MED;
+
+		glues[index(ORD, REL, DISPLAY)] = THICK;
+		glues[index(ORD, REL, TEXT)] = THICK;
+
+		glues[index(ORD, INNER, DISPLAY)] = THIN;
+		glues[index(ORD, INNER, TEXT)] = THIN;
+
+		glues[index(OP, ORD, DISPLAY)] = THIN;
+		glues[index(OP, ORD, TEXT)] = THIN;
+		glues[index(OP, ORD, SCRIPT)] = THIN;
+		glues[index(OP, ORD, SCRIPT_SCRIPT)] = THIN;
+
+		glues[index(OP, OP, DISPLAY)] = THIN;
+		glues[index(OP, OP, TEXT)] = THIN;
+		glues[index(OP, OP, SCRIPT)] = THIN;
+		glues[index(OP, OP, SCRIPT_SCRIPT)] = THIN;
+
+		glues[index(OP, REL, DISPLAY)] = THICK;
+		glues[index(OP, REL, TEXT)] = THICK;
+
+		glues[index(OP, INNER, DISPLAY)] = THIN;
+		glues[index(OP, INNER, TEXT)] = THIN;
+
+		glues[index(BIN, ORD, DISPLAY)] = MED;
+		glues[index(BIN, ORD, TEXT)] = MED;
+
+		glues[index(BIN, OP, DISPLAY)] = MED;
+		glues[index(BIN, OP, TEXT)] = MED;
+
+		glues[index(BIN, OPEN, DISPLAY)] = MED;
+		glues[index(BIN, OPEN, TEXT)] = MED;
+
+		glues[index(BIN, INNER, DISPLAY)] = MED;
+		glues[index(BIN, INNER, TEXT)] = MED;
+
+		glues[index(REL, ORD, DISPLAY)] = THICK;
+		glues[index(REL, ORD, TEXT)] = THICK;
+
+		glues[index(REL, OP, DISPLAY)] = THICK;
+		glues[index(REL, OP, TEXT)] = THICK;
+
+		glues[index(REL, OPEN, DISPLAY)] = THICK;
+		glues[index(REL, OPEN, TEXT)] = THICK;
+
+		glues[index(REL, INNER, DISPLAY)] = THICK;
+		glues[index(REL, INNER, TEXT)] = THICK;
+
+		glues[index(CLOSE, OP, DISPLAY)] = THIN;
+		glues[index(CLOSE, OP, TEXT)] = THIN;
+		glues[index(CLOSE, OP, SCRIPT)] = THIN;
+		glues[index(CLOSE, OP, SCRIPT_SCRIPT)] = THIN;
+
+		glues[index(CLOSE, BIN, DISPLAY)] = THIN;
+		glues[index(CLOSE, BIN, TEXT)] = THIN;
+
+		glues[index(CLOSE, REL, DISPLAY)] = THICK;
+		glues[index(CLOSE, REL, TEXT)] = THICK;
+
+		glues[index(CLOSE, INNER, DISPLAY)] = THIN;
+		glues[index(CLOSE, INNER, TEXT)] = THIN;
+
+		glues[index(PUNCT, ORD, DISPLAY)] = THIN;
+		glues[index(PUNCT, ORD, TEXT)] = THIN;
+
+		glues[index(PUNCT, OP, DISPLAY)] = MED;
+		glues[index(PUNCT, OP, TEXT)] = MED;
+
+		glues[index(PUNCT, REL, DISPLAY)] = THICK;
+		glues[index(PUNCT, REL, TEXT)] = THICK;
+
+		glues[index(PUNCT, OPEN, DISPLAY)] = THIN;
+		glues[index(PUNCT, OPEN, TEXT)] = THIN;
+
+		glues[index(PUNCT, CLOSE, DISPLAY)] = THIN;
+		glues[index(PUNCT, CLOSE, TEXT)] = THIN;
+
+		glues[index(PUNCT, PUNCT, DISPLAY)] = MED;
+		glues[index(PUNCT, PUNCT, TEXT)] = MED;
+
+		glues[index(PUNCT, INNER, DISPLAY)] = THICK;
+		glues[index(PUNCT, INNER, TEXT)] = THICK;
+
+		glues[index(INNER, ORD, DISPLAY)] = THIN;
+		glues[index(INNER, ORD, TEXT)] = THIN;
+
+		glues[index(INNER, OP, DISPLAY)] = THIN;
+		glues[index(INNER, OP, TEXT)] = THIN;
+		glues[index(INNER, OP, SCRIPT)] = THIN;
+		glues[index(INNER, OP, SCRIPT_SCRIPT)] = THIN;
+
+		glues[index(INNER, BIN, DISPLAY)] = MED;
+		glues[index(INNER, BIN, TEXT)] = MED;
+
+		glues[index(INNER, REL, DISPLAY)] = THICK;
+		glues[index(INNER, REL, TEXT)] = THICK;
+
+		glues[index(INNER, OPEN, DISPLAY)] = THIN;
+		glues[index(INNER, OPEN, TEXT)] = THIN;
+
+		glues[index(INNER, PUNCT, DISPLAY)] = THIN;
+		glues[index(INNER, PUNCT, TEXT)] = THIN;
+
+		glues[index(INNER, INNER, DISPLAY)] = THIN;
+		glues[index(INNER, INNER, TEXT)] = THIN;
+	}
 
 	// the glue components
 	private final double space;
 	private final double stretch;
 	private final double shrink;
 
-	private final String name;
-
-	// contains the different glue types
-	private static Glue[] glueTypes = { new Glue(0.0, 0.0, 0.0, "default"),
-			new Glue(3.0, 0.0, 0.0, "thin"), new Glue(4.0, 2.0, 4.0, "med"),
-			new Glue(5.0, 5.0, 0.0, "thick") };
-
-	// the glue table representing the "glue rules" (as in TeX)
-	private static final int[][][] glueTable = {
-			{ { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 2, 2, 0, 0 }, { 3, 3, 0, 0 },
-					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 1, 1, 0, 0 } },
-			{ { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 3, 3, 0, 0 },
-					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 1, 1, 0, 0 } },
-			{ { 2, 2, 0, 0 }, { 2, 2, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 2, 2, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 2, 2, 0, 0 } },
-			{ { 3, 3, 0, 0 }, { 3, 3, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 3, 3, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 3, 3, 0, 0 } },
-			{ { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 0, 0, 0, 0 } },
-			{ { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 2, 2, 0, 0 }, { 3, 3, 0, 0 },
-					{ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-					{ 1, 1, 0, 0 } },
-			{ { 1, 1, 0, 0 }, { 2, 2, 0, 0 }, { 0, 0, 0, 0 }, { 3, 3, 0, 0 },
-					{ 1, 1, 0, 0 }, { 1, 1, 0, 0 }, { 2, 2, 0, 0 },
-					{ 3, 3, 0, 0 } },
-			{ { 1, 1, 0, 0 }, { 1, 1, 1, 1 }, { 2, 2, 0, 0 }, { 3, 3, 0, 0 },
-					{ 1, 1, 0, 0 }, { 0, 0, 0, 0 }, { 1, 1, 0, 0 },
-					{ 1, 1, 0, 0 } } };
-
-	public Glue(double space, double stretch, double shrink, String name) {
+	private Glue(final double space, final double stretch,
+			final double shrink) {
 		this.space = space;
 		this.stretch = stretch;
 		this.shrink = shrink;
-		this.name = name;
-	}
-
-	/**
-	 * Name of this glue object.
-	 */
-	public String getName() {
-		return this.name;
 	}
 
 	/**
@@ -116,25 +210,32 @@ public class Glue {
 	 *            the TeXEnvironment
 	 * @return a box containing representing the glue
 	 */
-	public static Box get(int lType, int rType, TeXEnvironment env) {
+	public static Box get(final int lType, final int rType,
+			final TeXEnvironment env) {
 		// types > INNER are considered of type ORD for glue calculations
-		int l = (lType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY
-				: lType);
-		int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY
-				: rType);
+		final int l = (lType > TeXConstants.TYPE_INNER
+				? TeXConstants.TYPE_ORDINARY : lType);
+		final int r = (rType > TeXConstants.TYPE_INNER
+				? TeXConstants.TYPE_ORDINARY : rType);
 
 		// search right glue-type in "glue-table"
-		int glueType = glueTable[l][r][env.getStyle() / 2];
-
-		return glueTypes[glueType].createBox(env);
+		final Glue g = glues[index(l, r, env.getStyle() >> 1)];
+		return g == null ? null : g.createBox(env);
 	}
 
-	private Box createBox(TeXEnvironment env) {
-		TeXFont tf = env.getTeXFont();
+	private Box createBox(final TeXEnvironment env) {
+		final TeXFont tf = env.getTeXFont();
 		// use "quad" from a font marked as an "mu font"
-		double quad = tf.getQuad(env.getStyle(), TeXFont.MUFONT);
+		final double f = tf.getQuad(env.getStyle(), TeXFont.MUFONT) / 18.;
 
-		return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad,
-				(shrink / 18.0f) * quad);
+		return new GlueBox(space * f, stretch * f, shrink * f);
+	}
+
+	private static final int index(final int i, final int j, final int k) {
+		return i | (j << 3) | (k << 6);
+	}
+
+	public String toString() {
+		return "Glue: " + space;
 	}
 }
