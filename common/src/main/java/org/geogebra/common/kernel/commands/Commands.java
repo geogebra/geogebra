@@ -1201,8 +1201,8 @@ public enum Commands implements CommandsConstants,
 	ShowSteps(TABLE_ALGEBRA);
 
 	private static final Commands[] RENAMED = {
-			Commands.BinomialCoefficient, Commands.Mean, Commands.SD,
-			Commands.SampleSD, Commands.MAD
+			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,
+			Commands.SD, Commands.SampleSD, Commands.MAD
 	};
 
 	private int table;
