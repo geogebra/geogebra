@@ -62,7 +62,7 @@ public class AccentedAtom extends Atom {
 
 	@Override
 	public Atom duplicate() {
-		return setFields(new AccentedAtom(base, (SymbolAtom) accent));
+		return setFields(new AccentedAtom(base, accent));
 	}
 
 	public AccentedAtom(Atom base, SymbolAtom accent) {
@@ -87,6 +87,7 @@ public class AccentedAtom extends Atom {
 		this.skew = skew;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final TeXFont tf = env.getTeXFont();
 		final int style = env.getStyle();
@@ -141,26 +142,32 @@ public class AccentedAtom extends Atom {
 		return vBox;
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public int getLimits() {
 		return base.getLimits();
 	}
 
+	@Override
 	public Atom getBase() {
 		return base.getBase();
 	}
 
+	@Override
 	public boolean mustAddItalicCorrection() {
 		return base.mustAddItalicCorrection();
 	}
 
+	@Override
 	public boolean setAddItalicCorrection(boolean b) {
 		return base.setAddItalicCorrection(b);
 	}

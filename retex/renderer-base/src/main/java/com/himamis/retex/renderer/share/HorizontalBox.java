@@ -117,6 +117,7 @@ public class HorizontalBox extends Box {
 		return b;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		double xPos = x;
@@ -135,6 +136,7 @@ public class HorizontalBox extends Box {
 		endDraw(g2);
 	}
 
+	@Override
 	public Area getArea() {
 		final Area area = geom.createArea();
 
@@ -185,6 +187,7 @@ public class HorizontalBox extends Box {
 				b.depth + b.shift);
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		// iterate from the last child box to the first until a font id is found
 		// that's not equal to NO_FONT

@@ -64,22 +64,27 @@ public class Env {
 			this.args = args;
 		}
 
+		@Override
 		public Atom getLastAtom() {
 			return base.getLastAtom();
 		}
 
+		@Override
 		public boolean init(TeXParser tp) {
 			return false;
 		}
 
+		@Override
 		public void add(TeXParser tp, Atom a) {
 			base.add(a);
 		}
 
+		@Override
 		public boolean close(TeXParser tp) {
 			return false;
 		}
 
+		@Override
 		public boolean isClosable() {
 			return false;
 		}
@@ -92,6 +97,7 @@ public class Env {
 			return name;
 		}
 
+		@Override
 		public RowAtom steal(TeXParser tp) {
 			final RowAtom ra = base;
 			base = new RowAtom();
@@ -102,21 +108,26 @@ public class Env {
 			return base.simplify();
 		}
 
+		@Override
 		public boolean isArray() {
 			return false;
 		}
 
+		@Override
 		public boolean isAmpersandAllowed() {
 			return false;
 		}
 
+		@Override
 		public boolean isHandlingArg() {
 			return false;
 		}
 
+		@Override
 		public void lbrace(TeXParser tp) {
 		}
 
+		@Override
 		public void rbrace(TeXParser tp) {
 		}
 	}

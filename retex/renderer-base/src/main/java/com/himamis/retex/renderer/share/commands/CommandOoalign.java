@@ -52,12 +52,14 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandOoalign extends CommandMatrix {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		super.init(tp);
 		aoa.setOneColumn(true);
 		return true;
 	}
 
+	@Override
 	public Atom newI(TeXParser tp) {
 		if (aoa.col == 0) {
 			return EmptyAtom.get();
@@ -65,6 +67,7 @@ public class CommandOoalign extends CommandMatrix {
 		return new OoalignAtom(aoa);
 	}
 
+	@Override
 	public Command duplicate() {
 		CommandOoalign ret = new CommandOoalign();
 

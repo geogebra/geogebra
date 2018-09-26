@@ -58,6 +58,7 @@ public class HeightDepthAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box b = base.createBox(env);
 		b.setHeight(height.getValue(env));

@@ -104,6 +104,7 @@ public class MulticolumnAtom extends Atom {
 		return false;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = cols.createBox(env);
 		b.type = TeXConstants.TYPE_MULTICOLUMN;

@@ -71,6 +71,7 @@ public class SmashedAtom extends Atom {
 		this.at = at;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = at.createBox(env);
 		if (h) {

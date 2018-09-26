@@ -50,6 +50,7 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public abstract class Command0A extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		tp.addToConsumer(newI(tp));
 		return false;
@@ -57,6 +58,7 @@ public abstract class Command0A extends Command {
 
 	public abstract Atom newI(TeXParser tp);
 
+	@Override
 	public Command duplicate() {
 		// No need to clone it since with a 0 args command we can't have
 		// \foo{\foo...

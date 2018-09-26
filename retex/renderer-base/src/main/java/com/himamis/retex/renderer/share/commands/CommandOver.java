@@ -56,6 +56,7 @@ public class CommandOver extends Command {
 	protected Atom num;
 	protected RowAtom den;
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final RowAtom at = tp.steal();
 		this.num = at != null ? at.simplify() : EmptyAtom.get();
@@ -63,25 +64,30 @@ public class CommandOver extends Command {
 		return true;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		den.add(a);
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return den.getLastAtom();
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		final RowAtom ra = den;
 		den = new RowAtom();
 		return ra;
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		tp.closeConsumer(newI(tp, this.num, this.den.simplify()));
 		return true;
 	}
 
+	@Override
 	public boolean isClosable() {
 		return true;
 	}

@@ -68,6 +68,7 @@ public class MiddleAtom extends Atom {
 		box = box0;
 	}
 
+	@Override
 	public Atom getBase() {
 		return base;
 	}
@@ -76,6 +77,7 @@ public class MiddleAtom extends Atom {
 		this.box = box;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return box;
 	}

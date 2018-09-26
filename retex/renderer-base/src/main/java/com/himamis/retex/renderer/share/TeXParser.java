@@ -856,7 +856,7 @@ public class TeXParser {
 		if (pos < len) {
 			char c = parseString.charAt(pos);
 			if (c >= '1' && c <= '9') {
-				int acc = (int) (c - '0');
+				int acc = c - '0';
 				int ncomp = 1;
 				++pos;
 				while (pos < len) {
@@ -874,17 +874,17 @@ public class TeXParser {
 							if (c >= '0' && c <= '1') {
 								++pos;
 								cancelPrevPos();
-								return 10 * acc + (int) (c - '0');
+								return 10 * acc + c - '0';
 							}
 							cancelPrevPos();
 							return 111411;
 						}
 						++pos;
 						cancelPrevPos();
-						return 10 * acc + (int) (c - '0');
+						return 10 * acc + c - '0';
 					}
 					++pos;
-					acc = 10 * acc + (int) (c - '0');
+					acc = 10 * acc + c - '0';
 					++ncomp;
 				}
 				cancelPrevPos();
@@ -908,7 +908,7 @@ public class TeXParser {
 				ncomp = 0;
 			} else if (c >= '1' && c <= '7') {
 				++pos;
-				acc = (int) (c - '0');
+				acc = c - '0';
 				ncomp = 1;
 			} else {
 				return 0;
@@ -926,10 +926,10 @@ public class TeXParser {
 					}
 					++pos;
 					cancelPrevPos();
-					return (acc << 3) | (int) (c - '0');
+					return (acc << 3) | c - '0';
 				}
 				++pos;
-				acc = (acc << 3) | (int) (c - '0');
+				acc = (acc << 3) | c - '0';
 				++ncomp;
 			}
 			cancelPrevPos();

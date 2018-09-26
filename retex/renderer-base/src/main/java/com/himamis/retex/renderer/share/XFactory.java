@@ -217,7 +217,7 @@ public class XFactory {
 		final double drt = tf.getDefaultRuleThickness(style);
 		final Area aeq = equals.getArea();
 		aeq.translate(-0.055 * factor, 0d);
-		final Area a = (Area) aeq.duplicate();
+		final Area a = aeq.duplicate();
 		for (int i = 1; i < N; ++i) {
 			a.translate(w, 0d);
 			aeq.add(a);

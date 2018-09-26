@@ -75,6 +75,7 @@ public class CancelBox extends Box {
 		this.shift = b.shift;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		b.draw(g2, x, y);
 		startDraw(g2, x, y);
@@ -121,6 +122,7 @@ public class CancelBox extends Box {
 		endDraw(g2);
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return b.getLastFontId();
 	}

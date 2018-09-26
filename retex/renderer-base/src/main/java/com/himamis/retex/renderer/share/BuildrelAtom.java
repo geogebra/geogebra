@@ -74,6 +74,7 @@ public class BuildrelAtom extends Atom {
 		this(base, over, true);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		// create boxes in right style and calculate maximum width
 		Box b = base.createBox(env);

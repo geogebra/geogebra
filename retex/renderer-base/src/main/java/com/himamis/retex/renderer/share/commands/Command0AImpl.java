@@ -50,11 +50,13 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class Command0AImpl extends Command0A {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		tp.addToConsumer(newI(tp));
 		return false;
 	}
 
+	@Override
 	public Atom newI(TeXParser tp) {
 		return null;
 	}

@@ -61,6 +61,7 @@ public class FcscoreAtom extends Atom {
 		this.N = N;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final double factor = 12 * TeXLength.getFactor(TeXLength.Unit.MU, env);
 

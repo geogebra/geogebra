@@ -87,6 +87,7 @@ public class CommandDefinecolor extends Command {
 			11) {
 		{
 			put("gray", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					final float gray = (float) clamp(tp.getArgAsDecimal());
 					return FactoryProvider.getInstance().getGraphicsFactory()
@@ -94,12 +95,14 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("wave", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					final double waveLen = tp.getArgAsDecimal();
 					return Colors.convWave(waveLen);
 				}
 			});
 			put("rgb", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
 					clampf(3);
@@ -108,6 +111,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("RGB", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsPositiveIntegers(ints, 3);
 					clampi(3);
@@ -116,6 +120,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("rgba", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 4);
 					clampf(4);
@@ -125,6 +130,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("RGBA", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsPositiveIntegers(ints, 4);
 					clampi(4);
@@ -133,6 +139,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("cmyk", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 4);
 					clampf(4);
@@ -141,6 +148,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("hsl", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
 					doubles[1] = clamp(doubles[1]);
@@ -149,6 +157,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("hsla", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
 					doubles[1] = clamp(doubles[1]);
@@ -159,6 +168,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("hsb", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
 					doubles[1] = clamp(doubles[1]);
@@ -167,6 +177,7 @@ public class CommandDefinecolor extends Command {
 				}
 			});
 			put("HTML", new Converter() {
+				@Override
 				public Color to(TeXParser tp) {
 					final int c = tp.getArgAsHexNumber(6);
 					return FactoryProvider.getInstance().getGraphicsFactory()
@@ -188,6 +199,7 @@ public class CommandDefinecolor extends Command {
 		throw new ParseException(tp, "Invalid color model: " + model);
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final String name = tp.getArgAsString().trim();
 		if (!name.isEmpty()) {
@@ -206,6 +218,7 @@ public class CommandDefinecolor extends Command {
 		return false;
 	}
 
+	@Override
 	public Command duplicate() {
 		return new CommandDefinecolor();
 

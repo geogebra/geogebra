@@ -161,6 +161,7 @@ public class VRowAtom extends Atom {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		VerticalBox vb = new VerticalBox();
 		if (halign != TeXConstants.Align.NONE) {

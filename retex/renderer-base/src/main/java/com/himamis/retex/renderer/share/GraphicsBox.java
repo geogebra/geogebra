@@ -78,6 +78,7 @@ public class GraphicsBox extends Box {
 
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		// System.err.println("drawing image " + image.getWidth() + " "
 		// + image.getHeight() + " " + ((ImageBase64) image).getBase64());
@@ -100,6 +101,7 @@ public class GraphicsBox extends Box {
 
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return Font_ID.jlm_msbm10;
 	}

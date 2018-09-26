@@ -65,6 +65,7 @@ public class MhchemArrowConsumer implements AtomConsumer {
 		this.arrow = arrow;
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		if (tp.hasOptionNoWhites()) {
 			tp.addConsumer(this);
@@ -75,6 +76,7 @@ public class MhchemArrowConsumer implements AtomConsumer {
 		return false;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		if (sup == null) {
 			sup = a;
@@ -117,39 +119,48 @@ public class MhchemArrowConsumer implements AtomConsumer {
 		return null;
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return null;
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		tp.closeConsumer(get());
 		return true;
 	}
 
+	@Override
 	public boolean isClosable() {
 		return true;
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		close(tp);
 		return tp.steal();
 	}
 
+	@Override
 	public boolean isArray() {
 		return false;
 	}
 
+	@Override
 	public boolean isAmpersandAllowed() {
 		return false;
 	}
 
+	@Override
 	public boolean isHandlingArg() {
 		return false;
 	}
 
+	@Override
 	public void lbrace(TeXParser tp) {
 	}
 
+	@Override
 	public void rbrace(TeXParser tp) {
 	}
 }

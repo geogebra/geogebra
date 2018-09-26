@@ -55,11 +55,13 @@ public final class Replacement extends Command {
 		this.code = code;
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		tp.addString(code);
 		return false;
 	}
 
+	@Override
 	public Command duplicate() {
 		// No need to clone it since with a 0 args command we can't have
 		// \foo{\foo...

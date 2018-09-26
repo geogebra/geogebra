@@ -5,6 +5,7 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandRenewCommand extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final String name = tp.getArgAsCommand();
 		final int nbargs = tp.getOptionAsPositiveInteger(0);

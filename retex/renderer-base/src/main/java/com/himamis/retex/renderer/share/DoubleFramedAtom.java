@@ -59,6 +59,7 @@ public class DoubleFramedAtom extends FBoxAtom {
 		return setFields(new DoubleFramedAtom(base));
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbase = base.createBox(env);
 		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());

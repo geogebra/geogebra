@@ -120,6 +120,7 @@ public final class CharMapping {
 			this(c, SymbolAtom.get(sym), null);
 		}
 
+		@Override
 		public void map(TeXParser tp, boolean mathMode) {
 			tp.addToConsumer(get(mathMode));
 		}
@@ -160,6 +161,7 @@ public final class CharMapping {
 			this(sym, null);
 		}
 
+		@Override
 		public void map(TeXParser tp, boolean mathMode) {
 			if (!mathMode) {
 				if (text == null) {
@@ -188,6 +190,7 @@ public final class CharMapping {
 			this.sup = sup;
 		}
 
+		@Override
 		public void map(final TeXParser tp, final boolean mathMode) {
 			if (sup) {
 				tp.cumSupSymbols(new CharAtom(c, tp.isMathMode()));
@@ -297,6 +300,7 @@ public final class CharMapping {
 
 	private void initMappings() {
 		put('\u00B0', new Mapping() {
+			@Override
 			public void map(final TeXParser tp, final boolean mathMode) {
 				tp.cumSupSymbols(Symbols.CIRC);
 			}

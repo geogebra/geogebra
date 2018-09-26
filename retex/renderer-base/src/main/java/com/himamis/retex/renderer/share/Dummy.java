@@ -160,6 +160,7 @@ public class Dummy {
 			((Row) el).setPreviousAtom(prev);
 	}
 
+	@Override
 	public String toString() {
 		return "Dummy: " + el.toString();
 	}

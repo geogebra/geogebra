@@ -65,6 +65,7 @@ public class CommandLMR {
 		ArrayList<MiddleAtom> middles;
 		RowAtom base;
 
+		@Override
 		public void add(TeXParser tp, Atom a) {
 			if (left == null) {
 				left = a;
@@ -80,12 +81,14 @@ public class CommandLMR {
 			}
 		}
 
+		@Override
 		public RowAtom steal(TeXParser tp) {
 			final RowAtom ra = base;
 			base = new RowAtom();
 			return ra;
 		}
 
+		@Override
 		public Atom getLastAtom() {
 			return base.getLastAtom();
 		}
@@ -124,11 +127,13 @@ public class CommandLMR {
 
 	public static class CommandMiddle extends Command {
 
+		@Override
 		public boolean init(TeXParser tp) {
 			tp.close();
 			return true;
 		}
 
+		@Override
 		public void add(TeXParser tp, Atom middle) {
 			tp.pop(); // remove this from the stack
 			final AtomConsumer ac = tp.peek();
@@ -150,11 +155,13 @@ public class CommandLMR {
 
 	public static class CommandRight extends Command {
 
+		@Override
 		public boolean init(TeXParser tp) {
 			tp.close();
 			return true;
 		}
 
+		@Override
 		public void add(TeXParser tp, Atom close) {
 			tp.pop(); // remove this from the stack
 			final AtomConsumer ac = tp.peek();

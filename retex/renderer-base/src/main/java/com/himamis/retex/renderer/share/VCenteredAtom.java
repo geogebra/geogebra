@@ -73,6 +73,7 @@ public class VCenteredAtom extends Atom {
 		this(atom, true);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box b = base.createBox(env);
 		final double axis = env.getTeXFont().getAxisHeight(env.getStyle());
@@ -84,42 +85,52 @@ public class VCenteredAtom extends Atom {
 		return hbox ? new HorizontalBox(b) : b;
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public int getLimits() {
 		return base.getLimits();
 	}
 
+	@Override
 	public double getItalic(TeXEnvironment env) {
 		return base.getItalic(env);
 	}
 
+	@Override
 	public double getXHeight(TeXEnvironment env) {
 		return base.getXHeight(env);
 	}
 
+	@Override
 	public boolean isMathMode() {
 		return base.isMathMode();
 	}
 
+	@Override
 	public void setMathMode(final boolean mathMode) {
 		base.setMathMode(mathMode);
 	}
 
+	@Override
 	public boolean mustAddItalicCorrection() {
 		return base.mustAddItalicCorrection();
 	}
 
+	@Override
 	public boolean setAddItalicCorrection(boolean b) {
 		return base.setAddItalicCorrection(b);
 	}
 
+	@Override
 	public Atom getBase() {
 		return base.getBase();
 	}

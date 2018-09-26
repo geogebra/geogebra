@@ -196,6 +196,7 @@ public class TeXLength {
 		return map.containsKey(name);
 	}
 
+	@Override
 	public String toString() {
 		return l + "_" + unit;
 	}

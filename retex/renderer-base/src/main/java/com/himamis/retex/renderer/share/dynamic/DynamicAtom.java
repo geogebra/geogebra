@@ -101,6 +101,7 @@ public class DynamicAtom extends Atom {
 		return a;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (converter != null) {
 			if (refreshed) {

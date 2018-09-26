@@ -7,6 +7,7 @@ import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 
 public class CommandJlmCursor extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		double size = tp.getArgAsDecimal();
 

@@ -134,6 +134,7 @@ class VerticalBox extends Box {
 		recalculateWidth(b);
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		double yPos = y - height;
@@ -148,6 +149,7 @@ class VerticalBox extends Box {
 		endDraw(g2);
 	}
 
+	@Override
 	public Area getArea() {
 		// final Area area = new Area();
 		final Area area = geom.createArea();
@@ -181,6 +183,7 @@ class VerticalBox extends Box {
 		return children.size();
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		// iterate from the last child box (the lowest) to the first (the
 		// highest)

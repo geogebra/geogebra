@@ -75,13 +75,14 @@ public class CommandGenfrac extends Command {
 		//
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		if (left == null) {
 			left = a;
 		} else if (right == null) {
 			right = a;
 			l = tp.getArgAsLength();
-			style = Math.max(0, (int) tp.getArgAsPositiveInteger());
+			style = Math.max(0, tp.getArgAsPositiveInteger());
 		} else if (num == null) {
 			num = a;
 		} else {

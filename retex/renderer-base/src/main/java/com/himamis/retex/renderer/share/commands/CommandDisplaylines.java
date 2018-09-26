@@ -52,12 +52,14 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandDisplaylines extends CommandMatrix {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		super.init(tp);
 		aoa.setOneColumn(true);
 		return true;
 	}
 
+	@Override
 	public Atom newI(TeXParser tp) {
 		if (aoa.col == 0) {
 			return EmptyAtom.get();
@@ -66,6 +68,7 @@ public class CommandDisplaylines extends CommandMatrix {
 		return new MultlineAtom(aoa, MultlineAtom.GATHER);
 	}
 
+	@Override
 	public Command duplicate() {
 		CommandDisplaylines ret = new CommandDisplaylines();
 

@@ -64,6 +64,7 @@ public class CommandOverwithdelims extends Command {
 	public CommandOverwithdelims() {
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final RowAtom at = tp.steal();
 		this.num = at != null ? at.simplify() : EmptyAtom.get();
@@ -71,16 +72,19 @@ public class CommandOverwithdelims extends Command {
 		return true;
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		final RowAtom ra = den;
 		den = new RowAtom();
 		return ra;
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return den.getLastAtom();
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		if (left == null) {
 			left = a;
@@ -91,6 +95,7 @@ public class CommandOverwithdelims extends Command {
 		}
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		Atom r;
 		if (left instanceof BigDelimiterAtom) {
@@ -110,6 +115,7 @@ public class CommandOverwithdelims extends Command {
 		return true;
 	}
 
+	@Override
 	public boolean isClosable() {
 		return true;
 	}
@@ -118,6 +124,7 @@ public class CommandOverwithdelims extends Command {
 		return new FractionAtom(num, den, true);
 	}
 
+	@Override
 	public Command duplicate() {
 		CommandOverwithdelims ret = new CommandOverwithdelims();
 

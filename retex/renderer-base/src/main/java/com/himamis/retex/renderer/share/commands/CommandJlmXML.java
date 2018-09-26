@@ -6,6 +6,7 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandJlmXML extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final Map<String, String> map = tp.getXMLMap();
 		String str = tp.getArgAsString();

@@ -110,6 +110,7 @@ public class RotateAtom extends Atom {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (option != -1) {
 			return new RotateBox(base.createBox(env), angle, option);
@@ -120,14 +121,17 @@ public class RotateAtom extends Atom {
 		}
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public int getLimits() {
 		return base.getLimits();
 	}

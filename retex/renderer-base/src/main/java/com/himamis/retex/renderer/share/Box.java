@@ -385,6 +385,7 @@ public abstract class Box {
 		g2.setColor(prevColor);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + ": w=" + width + ";h=" + height + ";d="
 				+ depth + ";s=" + shift;

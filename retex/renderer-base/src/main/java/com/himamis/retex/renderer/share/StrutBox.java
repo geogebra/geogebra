@@ -69,14 +69,17 @@ public class StrutBox extends Box {
 		return new StrutBox();
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		// no visual effect
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		return "StrutBox: " + width + ":" + height + ":" + depth + ":" + shift;
 	}

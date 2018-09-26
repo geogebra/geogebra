@@ -65,6 +65,7 @@ public class CumulativeScriptsAtom extends Atom {
 		return base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return base.createBox(env);
 	}

@@ -57,11 +57,13 @@ public class CommandMatrix extends Command {
 	protected ArrayOfAtoms aoa;
 	protected boolean hasLBrace = false;
 
+	@Override
 	public boolean init(TeXParser tp) {
 		aoa = new ArrayOfAtoms(ArrayAtom.MATRIX);
 		return true;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		aoa.add(tp, a);
 		if (!hasLBrace) {
@@ -69,30 +71,37 @@ public class CommandMatrix extends Command {
 		}
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		return aoa.steal(tp);
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return aoa.getLastAtom();
 	}
 
+	@Override
 	public boolean isArray() {
 		return true;
 	}
 
+	@Override
 	public boolean isAmpersandAllowed() {
 		return true;
 	}
 
+	@Override
 	public boolean isHandlingArg() {
 		return true;
 	}
 
+	@Override
 	public void lbrace(TeXParser tp) {
 		hasLBrace = true;
 	}
 
+	@Override
 	public void rbrace(TeXParser tp) {
 		aoa.checkDimensions();
 		tp.closeConsumer(newI(tp));

@@ -58,10 +58,12 @@ public class AlignedAtom extends Atom {
 		this.alignment = alignment;
 	}
 
+	@Override
 	public TeXConstants.Align getAlignment() {
 		return alignment;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return base.createBox(env);
 	}

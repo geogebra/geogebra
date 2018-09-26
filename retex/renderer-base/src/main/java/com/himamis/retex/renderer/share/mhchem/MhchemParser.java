@@ -92,11 +92,13 @@ public class MhchemParser extends TeXParser {
 			super(TeXConstants.Opener.NONE);
 		}
 
+		@Override
 		public void add(TeXParser tp, Atom a) {
 			tp.stop();
 			super.add(tp, a);
 		}
 
+		@Override
 		public boolean close(TeXParser tp, final TeXConstants.Opener opener) {
 			tp.stop();
 			return super.close(tp, opener);
@@ -275,6 +277,7 @@ public class MhchemParser extends TeXParser {
 		return null;
 	}
 
+	@Override
 	public void parse() throws ParseException {
 		while (pos < len || removeString()) {
 			final char c = parseString.charAt(pos);

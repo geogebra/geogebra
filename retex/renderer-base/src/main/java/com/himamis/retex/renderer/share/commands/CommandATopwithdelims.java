@@ -11,6 +11,7 @@ public class CommandATopwithdelims extends CommandOverwithdelims {
 		return new FractionAtom(num, den, false);
 	}
 
+	@Override
 	public Command duplicate() {
 		CommandATopwithdelims ret = new CommandATopwithdelims();
 

@@ -61,10 +61,12 @@ public class CommandChoose extends CommandOver {
 		this.R = R;
 	}
 
+	@Override
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new FencedAtom(new FractionAtom(a, b, false), L, R);
 	}
 
+	@Override
 	public Command duplicate() {
 		return new CommandChoose(L, R);
 

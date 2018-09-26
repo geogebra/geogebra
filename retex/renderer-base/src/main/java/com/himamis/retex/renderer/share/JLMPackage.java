@@ -116,7 +116,7 @@ public abstract class JLMPackage {
 		if (commands != null) {
 			final PackagedCommand com = commands.get(name);
 			if (com != null) {
-				return (AtomConsumer) com.duplicate();
+				return com.duplicate();
 			}
 		}
 		return null;
@@ -126,7 +126,7 @@ public abstract class JLMPackage {
 		if (commands != null) {
 			final PackagedCommand com = commands.get(name);
 			if (com != null) {
-				final AtomConsumer cons = (AtomConsumer) com.duplicate();
+				final AtomConsumer cons = com.duplicate();
 				if (cons.init(tp)) {
 					tp.addConsumer(cons);
 				}

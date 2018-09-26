@@ -52,44 +52,55 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public abstract class Command implements AtomConsumer /* ,Cloneable */ {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		return true;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return null;
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		return false;
 	}
 
+	@Override
 	public boolean isClosable() {
 		return false;
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		return null;
 	}
 
+	@Override
 	public boolean isArray() {
 		return false;
 	}
 
+	@Override
 	public boolean isAmpersandAllowed() {
 		return false;
 	}
 
+	@Override
 	public boolean isHandlingArg() {
 		return false;
 	}
 
+	@Override
 	public void lbrace(TeXParser tp) {
 	}
 
+	@Override
 	public void rbrace(TeXParser tp) {
 	}
 

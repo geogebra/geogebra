@@ -64,6 +64,7 @@ public class SMatrixAtom extends ArrayAtom {
 		this.small = small;
 	}
 
+	@Override
 	public double[] getColumnSep(TeXEnvironment env, double width) {
 		final int row = matrix.row;
 		final int col = matrix.col;
@@ -80,6 +81,7 @@ public class SMatrixAtom extends ArrayAtom {
 		return seps;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (small) {
 			env = env.copy();

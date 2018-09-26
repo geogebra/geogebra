@@ -61,6 +61,7 @@ public class IddotsAtom extends Atom {
 		this.type = TeXConstants.TYPE_INNER;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box ldots = ((Command0A) Commands.getUnsafe("ldots")).newI(null)
 				.createBox(env);

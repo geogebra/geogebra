@@ -70,6 +70,7 @@ public class CommandOpName extends Command {
 		this(name, null, limits);
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		Atom a;
 		if (post == null) {

@@ -5,6 +5,7 @@ import com.himamis.retex.renderer.share.mhchem.MhchemBondParser;
 
 public class CommandBond extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final String code = tp.getGroupAsArgument();
 		final MhchemBondParser mbp = new MhchemBondParser(code);

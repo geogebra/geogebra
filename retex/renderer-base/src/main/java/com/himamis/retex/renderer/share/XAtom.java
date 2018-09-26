@@ -66,6 +66,7 @@ public abstract class XAtom extends Atom {
 		this(over, under, TeXLength.getZero());
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box O = over != null ? over.createBox(env.supStyle())
 				: StrutBox.getEmpty();

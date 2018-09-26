@@ -235,6 +235,7 @@ public final class Glue {
 		return i | (j << 3) | (k << 6);
 	}
 
+	@Override
 	public String toString() {
 		return "Glue: " + space;
 	}

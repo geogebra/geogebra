@@ -62,6 +62,7 @@ public class RaiseAtom extends Atom {
 		this.d = d;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box bbox = base.createBox(env);
 		bbox.setShift(-r.getValue(env));
@@ -80,14 +81,17 @@ public class RaiseAtom extends Atom {
 		return hbox;
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public int getLimits() {
 		return base.getLimits();
 	}

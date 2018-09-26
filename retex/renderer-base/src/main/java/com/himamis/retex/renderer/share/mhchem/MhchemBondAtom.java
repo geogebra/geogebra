@@ -70,6 +70,7 @@ public class MhchemBondAtom extends Atom {
 		this(n, -1);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box equals = Symbols.EQUALS.createBox(env);
 		final TeXFont tf = env.getTeXFont();

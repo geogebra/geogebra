@@ -89,6 +89,7 @@ public class OverUnderDelimiter extends Atom {
 		return over;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = (base == null ? StrutBox.getEmpty() : base.createBox(env));
 		Box del = DelimiterFactory.create(symbol.getCf(), env, b.getWidth());
@@ -123,6 +124,7 @@ public class OverUnderDelimiter extends Atom {
 		return max;
 	}
 
+	@Override
 	public int getLimits() {
 		return base.getLimits();
 	}

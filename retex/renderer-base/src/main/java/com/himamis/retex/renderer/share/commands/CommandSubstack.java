@@ -54,12 +54,14 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandSubstack extends CommandMatrix {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		super.init(tp);
 		aoa.setOneColumn(true);
 		return true;
 	}
 
+	@Override
 	public Atom newI(TeXParser tp) {
 		if (aoa.col == 0) {
 			return EmptyAtom.get();
@@ -68,6 +70,7 @@ public class CommandSubstack extends CommandMatrix {
 				new ArrayOptions(1).addAlignment(TeXConstants.Align.CENTER));
 	}
 
+	@Override
 	public Command duplicate() {
 		CommandSubstack ret = new CommandSubstack();
 

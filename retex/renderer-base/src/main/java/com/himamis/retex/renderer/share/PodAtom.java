@@ -57,6 +57,7 @@ public class PodAtom extends Atom {
 		this.lrpar = lrpar;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final HorizontalBox hb = new HorizontalBox(lrpar ? 4 : 2);
 		final double l = env.getStyle() == TeXConstants.STYLE_DISPLAY ? 18. : x;

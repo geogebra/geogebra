@@ -62,6 +62,7 @@ public class CommandTextStyleTeX extends Command {
 		this.style = style;
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		f = ExternalFontManager.get()
 				.getFont(Character.UnicodeBlock.BASIC_LATIN);
@@ -73,20 +74,24 @@ public class CommandTextStyleTeX extends Command {
 		return true;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		ts.add(a);
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		final RowAtom ra = ts;
 		ts = new RowAtom();
 		return ra;
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return ts.getLastAtom();
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		if (f != null) {
 			ExternalFontManager.get().put(Character.UnicodeBlock.BASIC_LATIN,

@@ -116,6 +116,7 @@ public class SpaceAtom extends Atom {
 				|| skip == TeXConstants.Muskip.NEGTHICK;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (blankSpace) {
 			if (blankType == TeXConstants.Muskip.NONE) {

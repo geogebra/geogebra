@@ -49,10 +49,12 @@ public final class SingleAtomConsumer implements AtomConsumer {
 
 	private Atom a;
 
+	@Override
 	public boolean init(TeXParser tp) {
 		return true;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		this.a = a;
 	}
@@ -64,37 +66,46 @@ public final class SingleAtomConsumer implements AtomConsumer {
 		return a;
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return null;
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		return false;
 	}
 
+	@Override
 	public boolean isClosable() {
 		return false;
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		return null;
 	}
 
+	@Override
 	public boolean isArray() {
 		return false;
 	}
 
+	@Override
 	public boolean isAmpersandAllowed() {
 		return false;
 	}
 
+	@Override
 	public boolean isHandlingArg() {
 		return false;
 	}
 
+	@Override
 	public void lbrace(TeXParser tp) {
 	}
 
+	@Override
 	public void rbrace(TeXParser tp) {
 	}
 }

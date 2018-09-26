@@ -62,6 +62,7 @@ public class OgonekAtom extends Atom {
 		return setFields(new OgonekAtom(base));
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base.createBox(env);
 		VerticalBox vb = new VerticalBox();

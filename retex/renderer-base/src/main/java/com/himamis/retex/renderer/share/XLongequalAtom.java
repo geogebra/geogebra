@@ -55,6 +55,7 @@ public class XLongequalAtom extends XAtom {
 		super(over, under);
 	}
 
+	@Override
 	public Box createExtension(TeXEnvironment env, double width) {
 		return XFactory.createXEqual(env, width);
 	}

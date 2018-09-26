@@ -5,6 +5,7 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandImageBase64 extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		int width = tp.getArgAsPositiveInteger();
 		int height = tp.getArgAsPositiveInteger();

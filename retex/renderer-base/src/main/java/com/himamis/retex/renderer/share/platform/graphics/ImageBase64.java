@@ -55,10 +55,12 @@ public class ImageBase64 implements Image {
 		this.height = height;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public int getHeight() {
 		return height;
 	}
@@ -67,6 +69,7 @@ public class ImageBase64 implements Image {
 		return base64PNG;
 	}
 
+	@Override
 	public Graphics2DInterface createGraphics2D() {
 		return null;
 	}

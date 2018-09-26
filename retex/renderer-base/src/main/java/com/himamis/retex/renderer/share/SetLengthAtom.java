@@ -56,6 +56,7 @@ public class SetLengthAtom extends Atom {
 		this.name = name;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXLength.setLength(name, l);
 		return StrutBox.getEmpty();

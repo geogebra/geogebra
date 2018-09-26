@@ -49,6 +49,7 @@ public interface Rectangle2D extends Shape {
 
 	}
 
+	@Override
 	Rectangle2D getBounds2DX();
 
 	public double getX();

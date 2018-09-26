@@ -73,34 +73,42 @@ public class TypedAtom extends Atom {
 		this(lrType, lrType, atom);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return base.createBox(env);
 	}
 
+	@Override
 	public int getLeftType() {
 		return leftType;
 	}
 
+	@Override
 	public int getRightType() {
 		return rightType;
 	}
 
+	@Override
 	public boolean isMathMode() {
 		return base.isMathMode();
 	}
 
+	@Override
 	public void setMathMode(final boolean mathMode) {
 		base.setMathMode(mathMode);
 	}
 
+	@Override
 	public boolean mustAddItalicCorrection() {
 		return base.mustAddItalicCorrection();
 	}
 
+	@Override
 	public boolean setAddItalicCorrection(boolean b) {
 		return base.setAddItalicCorrection(b);
 	}
 
+	@Override
 	public Atom getBase() {
 		return base.getBase();
 	}

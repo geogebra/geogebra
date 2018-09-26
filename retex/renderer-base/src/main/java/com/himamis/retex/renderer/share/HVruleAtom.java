@@ -64,6 +64,7 @@ public class HVruleAtom extends Atom {
 		this.hor = hor;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final double w = width == null ? Double.NaN : width.getValue(env);
 		final double h = height == null ? Double.NaN : height.getValue(env);

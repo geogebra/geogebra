@@ -61,6 +61,7 @@ public class TextCircledAtom extends Atom {
 		this.at = at;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box circle = SymbolAtom.get("bigcirc").createBox(env);
 		circle.setShift(-0.07 * TeXLength.getFactor(TeXLength.Unit.EX, env));

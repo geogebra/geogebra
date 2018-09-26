@@ -70,6 +70,7 @@ public class OoalignAtom extends Atom {
 		this.column = column;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final int N = column.size();
 		if (N == 0) {

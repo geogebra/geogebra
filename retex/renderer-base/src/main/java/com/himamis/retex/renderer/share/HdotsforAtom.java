@@ -67,10 +67,12 @@ public class HdotsforAtom extends MulticolumnAtom {
 		this.coeff = coeff;
 	}
 
+	@Override
 	public boolean mustBeRecreated() {
 		return true;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box sp = new StrutBox(coeff * thin.createBox(env).getWidth(), 0, 0, 0);
 		HorizontalBox db = new HorizontalBox(sp);

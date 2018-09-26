@@ -71,6 +71,7 @@ public class FBoxAtom extends Atom {
 		this(base, null, null);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box bbase = base.createBox(env);
 		final double drt = env.getTeXFont()

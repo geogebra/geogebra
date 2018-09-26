@@ -97,6 +97,7 @@ public class ResizeAtom extends Atom {
 		this(base, width, height, width == null || height == null);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
 		if (wunit == TeXLength.Unit.NONE && hunit == TeXLength.Unit.NONE) {
@@ -124,14 +125,17 @@ public class ResizeAtom extends Atom {
 		}
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public int getLimits() {
 		return base.getLimits();
 	}

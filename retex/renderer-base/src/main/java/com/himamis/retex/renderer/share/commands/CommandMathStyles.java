@@ -64,22 +64,26 @@ public class CommandMathStyles {
 			this.opener = opener;
 		}
 
+		@Override
 		public final boolean init(TeXParser tp) {
 			tp.pushMode(TeXParser.MATH_MODE);
 			ra = new RowAtom();
 			return true;
 		}
 
+		@Override
 		public void add(TeXParser tp, Atom a) {
 			ra.add(a);
 		}
 
+		@Override
 		public RowAtom steal(TeXParser tp) {
 			final RowAtom _ra = ra;
 			ra = new RowAtom();
 			return _ra;
 		}
 
+		@Override
 		public Atom getLastAtom() {
 			return ra.getLastAtom();
 		}
@@ -109,6 +113,7 @@ public class CommandMathStyles {
 			this.err = err;
 		}
 
+		@Override
 		public final boolean init(TeXParser tp) {
 			tp.close();
 			final AtomConsumer ac = tp.peek();

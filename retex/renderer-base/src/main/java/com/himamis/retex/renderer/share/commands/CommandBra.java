@@ -66,11 +66,13 @@ public class CommandBra extends Command1A {
 		this.right = right;
 	}
 
+	@Override
 	public Atom newI(TeXParser tp, Atom a) {
 		final ArrayList<MiddleAtom> middles = new ArrayList<MiddleAtom>();
 		if (a instanceof RowAtom) {
 			final RowAtom ra = (RowAtom) a;
 			ra.substitute(new Substitution() {
+				@Override
 				public Atom get(Atom a) {
 					if (a == Symbols.VERT) {
 						final MiddleAtom ma = new MiddleAtom(a);
@@ -90,6 +92,7 @@ public class CommandBra extends Command1A {
 		return new FencedAtom(a, left, middles, right);
 	}
 
+	@Override
 	public Command duplicate() {
 		return new CommandBra(left, right);
 

@@ -100,6 +100,7 @@ public class FencedAtom extends Atom {
 		return box;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final TeXFont tf = env.getTeXFont();
 		Box content = base.createBox(env);
@@ -164,15 +165,18 @@ public class FencedAtom extends Atom {
 		return hBox;
 	}
 
+	@Override
 	public int getLeftType() {
 		return TeXConstants.TYPE_OPENING;
 
 	}
 
+	@Override
 	public int getRightType() {
 		return TeXConstants.TYPE_CLOSING;
 	}
 
+	@Override
 	public String toString() {
 		return "FencedAtom: left: " + left + " base: " + base + " right: "
 				+ right;
@@ -191,6 +195,7 @@ public class FencedAtom extends Atom {
 		return right;
 	}
 
+	@Override
 	public Atom getBase() {
 		return base;
 	}

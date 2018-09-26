@@ -63,6 +63,7 @@ public class CedillaAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base.createBox(env);
 		VerticalBox vb = new VerticalBox();

@@ -61,6 +61,7 @@ public class DdotsAtom extends Atom {
 		return setFields(new DdotsAtom());
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box ldots = ((Command0A) Commands.getUnsafe("ldots")).newI(null)
 				.createBox(env);

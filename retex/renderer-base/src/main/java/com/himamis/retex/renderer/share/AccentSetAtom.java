@@ -74,6 +74,7 @@ public class AccentSetAtom extends Atom {
 		this.accent = accent;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final TeXFont tf = env.getTeXFont();
 		final int style = env.getStyle();

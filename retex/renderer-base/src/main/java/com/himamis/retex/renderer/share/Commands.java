@@ -1337,6 +1337,7 @@ public class Commands {
 		map.put("cfrac", new CommandCFrac());
 
 		map.put("setlength", new Command0AImpl() {
+			@Override
 			public boolean init(TeXParser tp) {
 				final String name = tp.getArgAsCommand(true);
 				TeXLength newLength = tp.getArgAsLength();

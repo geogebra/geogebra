@@ -69,6 +69,7 @@ public class HlineAtom extends Atom {
 		this.shift = shift;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final double drt = env.getTeXFont()
 				.getDefaultRuleThickness(env.getStyle());

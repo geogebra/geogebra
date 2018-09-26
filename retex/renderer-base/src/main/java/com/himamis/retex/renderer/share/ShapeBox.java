@@ -66,6 +66,7 @@ public class ShapeBox extends Box {
 		this.width = rect.getWidth();
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		g2.translate(x, y);
@@ -74,10 +75,12 @@ public class ShapeBox extends Box {
 		endDraw(g2);
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		return super.toString();
 	}

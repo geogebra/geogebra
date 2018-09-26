@@ -65,6 +65,7 @@ public class SubarrayAtom extends Atom {
 		this.options = options;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final TeXConstants.Align alignment = options.hasAlignment()
 				? options.getAlignment(0) : TeXConstants.Align.CENTER;

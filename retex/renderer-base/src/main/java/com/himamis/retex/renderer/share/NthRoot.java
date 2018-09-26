@@ -69,6 +69,7 @@ public class NthRoot extends Atom {
 		this.root = root;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		// first create a simple square root construction
 		TeXFont tf = env.getTeXFont();
@@ -142,6 +143,7 @@ public class NthRoot extends Atom {
 		return root;
 	}
 
+	@Override
 	public Atom getBase() {
 		return base;
 	}

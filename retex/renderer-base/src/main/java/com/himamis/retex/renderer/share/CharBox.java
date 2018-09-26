@@ -88,6 +88,7 @@ public class CharBox extends Box {
 		depth = c.getDepth();
 	}
 
+	@Override
 	public void addToWidth(final double x) {
 		width += x;
 	}
@@ -130,6 +131,7 @@ public class CharBox extends Box {
 		g2.restoreTransformation();
 	}
 
+	@Override
 	public Area getArea() {
 		// final Font font = Configuration.get().getFont(cf.fontId);
 		FontInfo info = TeXFont.fontInfo.get(cf.fontId);
@@ -145,10 +147,12 @@ public class CharBox extends Box {
 		return a;
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return cf.fontId;
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "; char=" + cf.c;
 	}

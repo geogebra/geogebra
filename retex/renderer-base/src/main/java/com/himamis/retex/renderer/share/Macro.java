@@ -100,11 +100,11 @@ public class Macro {
 					if (n >= '1' && n <= '9') {
 						totalLength += (pos - 2) - fpos;
 						chunks.add(code.substring(fpos, pos - 2));
-						int x = (int) (n - '0');
+						int x = n - '0';
 						while (pos < len) {
 							n = code.charAt(pos);
 							if (n >= '0' && n <= '9') {
-								x = 10 * x + (int) (n - '0');
+								x = 10 * x + n - '0';
 								++pos;
 							} else {
 								break;

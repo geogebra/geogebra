@@ -69,6 +69,7 @@ public class MultlineAtom extends Atom {
 		this.type = type;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (type == GATHERED) {
 			return new ArrayAtom(column, ArrayOptions.getEmpty())

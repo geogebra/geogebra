@@ -80,6 +80,7 @@ public class MathchoiceAtom extends Atom {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return chose(env).createBox(env);
 	}

@@ -55,6 +55,7 @@ public class XMapstoAtom extends XAtom {
 		super(over, under);
 	}
 
+	@Override
 	public Box createExtension(TeXEnvironment env, double width) {
 		final CharBox left = (CharBox) Symbols.MAPSTOCHAR.createBox(env);
 		final double leftLB = 0.056;

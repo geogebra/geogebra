@@ -57,6 +57,7 @@ public class UnderscoreAtom extends Atom {
 	public UnderscoreAtom() {
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final double drt = env.getTeXFont()
 				.getDefaultRuleThickness(env.getStyle());

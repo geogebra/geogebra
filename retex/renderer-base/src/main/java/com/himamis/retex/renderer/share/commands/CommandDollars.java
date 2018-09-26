@@ -64,6 +64,7 @@ public class CommandDollars {
 			this.style = style;
 		}
 
+		@Override
 		public boolean init(TeXParser tp) {
 			tp.close();
 			final AtomConsumer ac = tp.peek();
@@ -79,20 +80,24 @@ public class CommandDollars {
 			return true;
 		}
 
+		@Override
 		public void add(TeXParser tp, Atom a) {
 			ra.add(a);
 		}
 
+		@Override
 		public Atom getLastAtom() {
 			return ra.getLastAtom();
 		}
 
+		@Override
 		public RowAtom steal(TeXParser tp) {
 			final RowAtom _ra = ra;
 			ra = new RowAtom();
 			return _ra;
 		}
 
+		@Override
 		public Command duplicate() {
 			Dollar ret = new Dollar(dollar, style);
 			ret.ra = ra;

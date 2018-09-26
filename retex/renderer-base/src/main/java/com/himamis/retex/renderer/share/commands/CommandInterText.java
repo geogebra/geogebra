@@ -13,6 +13,7 @@ public class CommandInterText extends Command {
 
 	boolean mode;
 
+	@Override
 	public boolean init(TeXParser tp) {
 		if (!tp.isArrayMode()) {
 			throw new ParseException(tp,
@@ -22,6 +23,7 @@ public class CommandInterText extends Command {
 		return true;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		tp.setMathMode(mode);
 		a = new TextStyleAtom(a, TextStyle.MATHNORMAL);

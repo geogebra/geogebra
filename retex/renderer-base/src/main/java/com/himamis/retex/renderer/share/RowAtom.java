@@ -207,6 +207,7 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		HorizontalBox hBox = new HorizontalBox(env.getColor(),
@@ -325,6 +326,7 @@ public class RowAtom extends Atom implements Row {
 		return hBox;
 	}
 
+	@Override
 	public void setPreviousAtom(Dummy prev) {
 		previousAtom = prev;
 	}
@@ -355,6 +357,7 @@ public class RowAtom extends Atom implements Row {
 		return elements;
 	}
 
+	@Override
 	public String toString() {
 		String s = "RowAtom {";
 		for (Atom e : elements) {

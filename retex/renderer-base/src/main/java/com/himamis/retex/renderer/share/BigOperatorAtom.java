@@ -88,6 +88,7 @@ public class BigOperatorAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (over == null && under == null) {
 			return base.createBox(env);

@@ -66,6 +66,7 @@ public class CommandColonFoo {
 			this.sym = sym;
 		}
 
+		@Override
 		public boolean init(TeXParser tp) {
 			final RowAtom at = new RowAtom(CENTERED_COLON);
 			at.add(SymbolAtom.get(sym));
@@ -74,6 +75,7 @@ public class CommandColonFoo {
 			return false;
 		}
 
+		@Override
 		public Command duplicate() {
 			return new ColonFoo(sym);
 
@@ -88,6 +90,7 @@ public class CommandColonFoo {
 			this.sym = sym;
 		}
 
+		@Override
 		public boolean init(TeXParser tp) {
 			final RowAtom at = new RowAtom(SymbolAtom.get(sym), CENTERED_COLON);
 			tp.addToConsumer(at.changeType(TeXConstants.TYPE_RELATION));
@@ -95,6 +98,7 @@ public class CommandColonFoo {
 			return false;
 		}
 
+		@Override
 		public Command duplicate() {
 			return new FooColon(sym);
 
@@ -114,6 +118,7 @@ public class CommandColonFoo {
 			this(null);
 		}
 
+		@Override
 		public boolean init(TeXParser tp) {
 			final RowAtom at = new RowAtom(CENTERED_COLON, CENTERED_COLON);
 			if (sym != null) {
@@ -124,6 +129,7 @@ public class CommandColonFoo {
 			return false;
 		}
 
+		@Override
 		public Command duplicate() {
 			return new ColonColonFoo(sym);
 
@@ -139,6 +145,7 @@ public class CommandColonFoo {
 			this.sym = sym;
 		}
 
+		@Override
 		public boolean init(TeXParser tp) {
 			final RowAtom at = new RowAtom(SymbolAtom.get(sym), CENTERED_COLON,
 					CENTERED_COLON);
@@ -147,6 +154,7 @@ public class CommandColonFoo {
 			return false;
 		}
 
+		@Override
 		public Command duplicate() {
 			return new FooColonColon(sym);
 

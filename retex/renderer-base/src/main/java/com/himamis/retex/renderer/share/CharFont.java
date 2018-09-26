@@ -70,6 +70,7 @@ public class CharFont {
 		return fontId;
 	}
 
+	@Override
 	public String toString() {
 		return c + "";
 	}

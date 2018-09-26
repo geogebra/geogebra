@@ -61,50 +61,62 @@ class PackagedCommand extends Command {
 		return pack;
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		return com.init(tp);
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		com.add(tp, a);
 	}
 
+	@Override
 	public Command duplicate() {
 		return new PackagedCommand(com, pack);
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return com.getLastAtom();
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		return com.close(tp);
 	}
 
+	@Override
 	public boolean isClosable() {
 		return com.isClosable();
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		return com.steal(tp);
 	}
 
+	@Override
 	public boolean isArray() {
 		return com.isArray();
 	}
 
+	@Override
 	public boolean isAmpersandAllowed() {
 		return com.isAmpersandAllowed();
 	}
 
+	@Override
 	public boolean isHandlingArg() {
 		return com.isHandlingArg();
 	}
 
+	@Override
 	public void lbrace(TeXParser tp) {
 		com.lbrace(tp);
 	}
 
+	@Override
 	public void rbrace(TeXParser tp) {
 		com.rbrace(tp);
 	}

@@ -59,8 +59,9 @@ public class CommandRomNum extends Command {
 		this.u = u;
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
-		int num = (int) tp.getArgAsPositiveInteger();
+		int num = tp.getArgAsPositiveInteger();
 		String roman = "";
 		for (int i = 0; i < NUMBERS.length; i++) {
 			while (num >= NUMBERS[i]) {

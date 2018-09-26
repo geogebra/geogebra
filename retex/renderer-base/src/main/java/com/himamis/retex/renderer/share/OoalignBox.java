@@ -68,6 +68,7 @@ public class OoalignBox extends Box {
 		}
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		for (final Box b : boxes) {
@@ -76,6 +77,7 @@ public class OoalignBox extends Box {
 		endDraw(g2);
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return boxes.get(boxes.size() - 1).getLastFontId();
 	}

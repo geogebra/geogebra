@@ -237,6 +237,7 @@ public class ArrayAtom extends Atom {
 	 * return vb; }
 	 */
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final int row = matrix.row;
 		final int col = matrix.col;
@@ -281,7 +282,7 @@ public class ArrayAtom extends Atom {
 					mcat.setRowColumn(i, j);
 					listMulti.add(mcat);
 					final int n = mcat.getSkipped();
-					final double w = b.getWidth() / (double) n;
+					final double w = b.getWidth() / n;
 					for (int k = j; k < j + n; ++k) {
 						colWidth[k] = Math.max(colWidth[k], w);
 					}
@@ -306,7 +307,7 @@ public class ArrayAtom extends Atom {
 			w += colWidth[N] + hseps[2 * N];
 			final double boxW = boxarr[r][c].getWidth();
 			if (boxW > w) {
-				final double extraW = (boxW - w) / (double) n;
+				final double extraW = (boxW - w) / n;
 				for (int j = c; j < c + n; ++j) {
 					colWidth[j] += extraW;
 				}

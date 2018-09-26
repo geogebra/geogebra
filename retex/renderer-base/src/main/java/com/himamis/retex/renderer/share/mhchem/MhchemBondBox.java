@@ -70,6 +70,7 @@ public class MhchemBondBox extends Box {
 		this.width = width;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		y -= height;
 		for (int i = 0; i < n; ++i) {
@@ -86,6 +87,7 @@ public class MhchemBondBox extends Box {
 		}
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return Font_ID.jlm_msbm10;
 	}

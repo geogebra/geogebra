@@ -154,6 +154,7 @@ public class SymbolAtom extends CharSymbol {
 		return cf;
 	}
 
+	@Override
 	public Char getChar(TeXEnvironment env) {
 		final TeXFont tf = env.getTeXFont();
 		final int style = env.getStyle();
@@ -186,6 +187,7 @@ public class SymbolAtom extends CharSymbol {
 		return b;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
@@ -205,6 +207,7 @@ public class SymbolAtom extends CharSymbol {
 		return cb;
 	}
 
+	@Override
 	public CharFont getCharFont(TeXFont tf) {
 		// style doesn't matter here
 		return tf.getChar(cf, TeXConstants.STYLE_DISPLAY).getCharFont();
@@ -217,18 +220,21 @@ public class SymbolAtom extends CharSymbol {
 		return (SymbolAtom) a;
 	}
 
+	@Override
 	public Atom changeLimits(final int lim) {
 		final Atom a = this.duplicate();
 		a.type_limits = lim;
 		return a;
 	}
 
+	@Override
 	public Atom changeType(final int type) {
 		final Atom a = this.duplicate();
 		a.type = type;
 		return a;
 	}
 
+	@Override
 	public String toString() {
 		return "Symbol: " + cf.toString();
 	}

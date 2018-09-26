@@ -73,47 +73,58 @@ public class GroupConsumer implements AtomConsumer {
 		return ra.simplify();
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		return false;
 	}
 
+	@Override
 	public void add(TeXParser tp, Atom a) {
 		ra.add(a);
 	}
 
+	@Override
 	public Atom getLastAtom() {
 		return ra.getLastAtom();
 	}
 
+	@Override
 	public boolean close(TeXParser tp) {
 		return false;
 	}
 
+	@Override
 	public boolean isClosable() {
 		return false;
 	}
 
+	@Override
 	public RowAtom steal(TeXParser tp) {
 		final RowAtom _ra = ra;
 		ra = new RowAtom();
 		return _ra;
 	}
 
+	@Override
 	public boolean isArray() {
 		return false;
 	}
 
+	@Override
 	public boolean isAmpersandAllowed() {
 		return false;
 	}
 
+	@Override
 	public boolean isHandlingArg() {
 		return false;
 	}
 
+	@Override
 	public void lbrace(TeXParser tp) {
 	}
 
+	@Override
 	public void rbrace(TeXParser tp) {
 	}
 }

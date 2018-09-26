@@ -76,12 +76,14 @@ public class CellBox extends Box {
 		}
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		box.draw(g2, x + left, y);
 		endDraw(g2);
 	}
 
+	@Override
 	public Font_ID getLastFontId() {
 		return box.getLastFontId();
 	}

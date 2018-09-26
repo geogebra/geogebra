@@ -6,6 +6,7 @@ import com.himamis.retex.renderer.share.mhchem.MhchemParser;
 
 public class CommandCE extends Command {
 
+	@Override
 	public boolean init(TeXParser tp) {
 		final String code = tp.getGroupAsArgument();
 		final MhchemParser mp = new MhchemParser(code);

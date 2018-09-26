@@ -59,6 +59,7 @@ public class CommandCr extends Command {
 		this.cmd = cmd;
 	}
 
+	@Override
 	public boolean init(TeXParser tp) {
 		if (!tp.isColumn()) {
 			tp.close();
@@ -81,6 +82,7 @@ public class CommandCr extends Command {
 		return false;
 	}
 
+	@Override
 	public Command duplicate() {
 		return new CommandCr(cmd);
 

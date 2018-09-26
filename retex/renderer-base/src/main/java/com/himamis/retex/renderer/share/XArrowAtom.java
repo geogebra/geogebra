@@ -71,6 +71,7 @@ public class XArrowAtom extends XAtom {
 		this(over, under, TeXLength.getZero(), kind);
 	}
 
+	@Override
 	public Box createExtension(TeXEnvironment env, double width) {
 		switch (kind) {
 		case Left:

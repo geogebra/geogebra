@@ -68,6 +68,7 @@ public class GraphicsAtomBase64 extends Atom {
 
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 
 		env.isColored = true;
