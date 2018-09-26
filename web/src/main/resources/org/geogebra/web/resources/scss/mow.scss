@@ -269,29 +269,6 @@
 			cursor: default;
 		}
 	}
-	.toolsSubMenu, .mediaSubMenu {
-		.mowSubMenuContent {
-			overflow-x: scroll;
-			overflow-y: hidden !important;	
-			
-			.panelRow {
-				padding: 0px;
-			}
-		
-			.groupPanel {
-				height: 144px;
-				display: block;
-		  		margin: 8px auto 4px auto;	
-		  		padding: 0px;
-		    			    
-				 .toolButton {
-				    display: inline-block;	
-				    vertical-align: bottom;
-				    margin: 0px 20px !important;
-				 }
-			}	
-		}
-	}
 
 /*****************
 *   STYLEBAR
