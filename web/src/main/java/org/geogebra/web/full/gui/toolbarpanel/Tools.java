@@ -10,9 +10,9 @@ import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -269,8 +269,7 @@ public class Tools extends FlowPanel implements SetLabels {
 			int size = (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) ? 24 : 32;
 			final StandardButton btn = new StandardButton(
-					ToolbarSvgResourcesSync.INSTANCE.mode_tool_32(), null,
-					size, getApp());
+					AppResources.INSTANCE.empty(), null, size, getApp());
 			GGWToolBar.getImageResource(mode, app, btn);
 			AriaHelper.hide(btn);
 			btn.setTitle(getApp().getToolName(mode));

@@ -546,7 +546,7 @@ public class GGWToolBar extends Composite
 				return;
 			}
 		}
-		GWT.runAsync(new RunAsyncCallback() {
+		GWT.runAsync(GGWToolBar.class, new RunAsyncCallback() {
 
 			@Override
 			public void onFailure(Throwable reason) {

@@ -3,9 +3,13 @@ package org.geogebra.web.full.gui.toolbar;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.toolbar.mow.SubMenuPanel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 
 /**
  * @author csilla
@@ -24,8 +28,7 @@ public class ToolButton extends StandardButton {
 	 *            which contains the button
 	 */
 	public ToolButton(int mode, AppW app, SubMenuPanel panel) {
-		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode,
-				app),
+		super(AppResources.INSTANCE.empty(),
 				app.getLocalization().getMenu(
 						EuclidianConstants.getModeText(mode)),
 				24, app);
@@ -34,6 +37,7 @@ public class ToolButton extends StandardButton {
 		addStyleName("toolButton");
 		setAccessible();
 		this.addFastClickHandler(panel);
+		setSelected(false); // update icon
 	}
 	
 	private void setAccessible() {
@@ -49,12 +53,25 @@ public class ToolButton extends StandardButton {
 	 * @param selected
 	 *            true if tool is selected -> use teal img
 	 */
-	public void setSelected(boolean selected) {
-		this.setIcon(selected
-				? GGWToolBar.getColoredImageForMode(
-						ToolbarSvgResources.INSTANCE, mode, appW)
-				: GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE,
-						mode, appW));
+	public void setSelected(final boolean selected) {
+		final int iconMode = mode;
+		final AppW app = appW;
+		GWT.runAsync(GGWToolBar.class, new RunAsyncCallback() {
+
+			@Override
+			public void onFailure(Throwable reason) {
+				// failed loading toolbar
+			}
+
+			@Override
+			public void onSuccess() {
+				setIcon(selected
+						? GGWToolBar.getColoredImageForMode(
+								ToolbarSvgResources.INSTANCE, iconMode, app)
+						: GGWToolBar.getImageURLNotMacro(
+								ToolbarSvgResources.INSTANCE, iconMode, app));
+			}
+		});
 	}
 
 	/**
