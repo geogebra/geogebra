@@ -1,10 +1,7 @@
 @import 'colors';
 
 .GeoGebraFrame{
-
-	$toolbarWidth: 600px;
 	$pagecontrolpanelWidth: 269px;
-	$spaceHeight: calc(188px + 16px);
 	$always_on_top: 60;
 	
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
@@ -21,39 +18,7 @@
 	$z_mow_video: 50;
 	$z_mow_video_background: 12;
 	$z_mow_foreground: 50;
-	$z_mow_toolbar: 51;
-	$z_mow_toolbar_slider: 54;
 	
-/*****************
-*   TOOLBAR
-******************/	
-	.mowToolbar {
-		position: relative;
-		height: 212px;
-		overflow: hidden;
-		/** explicit non-transparent to hide EV content */
-		background-color: $mow_toolbar;
-		
-		border-radius: 2px;
-		border-bottom-right-radius: 0px;
-		border-bottom-left-radius: 0px;
-		
-		box-shadow: 0px -4px 6px 0px $black-28;
-		z-index: $z_mow_toolbar;
-
-		img {
-			width: 32px;
-			opacity: 0.54;	
-		}
-	}
-	
-	.BigScreen {
-		width: $toolbarWidth;
-	} 
-	.SmallScreen {
-		width: 100%;
-	} 
-
 /*****************
 *   STYLEBAR
 ******************/	
