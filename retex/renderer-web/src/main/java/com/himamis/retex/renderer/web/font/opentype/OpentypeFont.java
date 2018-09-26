@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.himamis.retex.renderer.share.CharFont;
+import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
@@ -141,6 +143,31 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		JavaScriptObject outline = wrap.getPath(s, font.getSize());
 		Rectangle2D rect = wrap.measureGlyph(s);
 		return new ShapeW(outline, rect);
+	}
+
+	// @Override
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
+		FontW font = this;// (FontW) frc.getFont();
+		FontWrapper wrap = font.getFontWrapper();
+
+		if (wrap == null) {
+			throw new Error("font not loaded yet");
+		}
+
+		JavaScriptObject outline = wrap.getGlyphOutline(cf + "",
+				font.getSize());
+
+		double height = TeXFont.fontInfo.get(cf.fontId).getHeight(cf.c);
+		double width = TeXFont.fontInfo.get(cf.fontId).getWidth(cf.c);
+
+		Rectangle2D rect = FactoryProvider.getInstance().getGeomFactory()
+				.createRectangle2D(0, 0, width, height);
+		return new ShapeW(outline, rect);
+	}
+
+	// @Override
+	public boolean canDisplay(int c) {
+		return true;
 	}
 
 }

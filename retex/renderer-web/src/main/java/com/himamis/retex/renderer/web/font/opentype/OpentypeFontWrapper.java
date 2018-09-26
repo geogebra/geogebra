@@ -61,24 +61,24 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 	@Override
 	public native JavaScriptObject getPath(String c, int size) /*-{
-																var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
-																
-																// font not loaded yet
-																if (!font) {
-																return;
-																}
-																
-																var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
-																
-																if (!glyph) {
-																return;
-																}
-																
-																glyph.size = size;
-																glyph.unitsPerEm = font[0];
-																
-																return glyph;
-																}-*/;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
+
+		if (!glyph) {
+			return;
+		}
+
+		glyph.size = size;
+		glyph.unitsPerEm = font[0];
+
+		return glyph;
+	}-*/;
 
 	@Override
 	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
@@ -87,22 +87,22 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 	public native void drawGlyphNative(String c, double x, double y,
 			double size, Context2d ctx) /*-{
-										var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
-										
-										// font not loaded yet
-										if (!font) {
-										return;
-										}
-										
-										var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
-										
-										if (glyph) {
-										glyph.size = size;
-										glyph.unitsPerEm = font[0];
-										
-										@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(glyph, x, y, ctx);
-										}
-										}-*/;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
+
+		if (glyph) {
+			glyph.size = size;
+			glyph.unitsPerEm = font[0];
+
+			@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(glyph, x, y, ctx);
+		}
+	}-*/;
 
 	@Override
 	public Rectangle2D measureGlyph(String c) {
@@ -113,18 +113,18 @@ public class OpentypeFontWrapper implements FontWrapper {
 	}
 
 	private native JsArrayNumber measureNative(String text) /*-{
-															var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
-															
-															// font not loaded yet
-															if (!font) {
-															return;
-															}
-															
-															var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(text);
-															
-															return [ glyph[1] / font[0], glyph[2] / font[0], glyph[3] / font[0],
-															glyph[4] / font[0] ];
-															}-*/;
+		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(text);
+
+		return [ glyph[1] / font[0], glyph[2] / font[0], glyph[3] / font[0],
+				glyph[4] / font[0] ];
+	}-*/;
 
 	private JavaScriptObject getGlyph(String c) {
 		return getGlyph(impl, c.codePointAt(0));
@@ -132,57 +132,82 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 	private static native JavaScriptObject getGlyph(JavaScriptObject font,
 			int code) /*-{
-						for (i = 1; i < font.length; i += 1) {
-						var glyph = font[i];
-						for (j = 0; j < glyph[0].length; j += 1) {
-						if (glyph[0][j] === code) {
-						return font[i];
-						}
-						}
-						}
-						
-						return null;
-						}-*/;
+		for (i = 1; i < font.length; i += 1) {
+			var glyph = font[i];
+			for (j = 0; j < glyph[0].length; j += 1) {
+				if (glyph[0][j] === code) {
+					return font[i];
+				}
+			}
+		}
+
+		return null;
+	}-*/;
 
 	public static native void drawPath(JavaScriptObject path, int x, int y,
 			Canvas ctx) /*-{
-						
-						if (!path) {
-						return;
-						}
-						
-						var xScale = path.size / path.unitsPerEm;
-						var yScale = path.size / path.unitsPerEm;
-						
-						ctx.beginPath();
-						var j = 0;
-						for (i = 0; i < path[6].length; i += 1) {
-						var cmd = path[6][i];
-						if (cmd[0] === 'M') {
-						ctx
+
+		if (!path) {
+			return;
+		}
+
+		var xScale = path.size / path.unitsPerEm;
+		var yScale = path.size / path.unitsPerEm;
+
+		ctx.beginPath();
+		var j = 0;
+		for (i = 0; i < path[6].length; i += 1) {
+			var cmd = path[6][i];
+			if (cmd[0] === 'M') {
+				ctx
 						.moveTo(x + path[5][j] * xScale, y + path[5][j + 1]
 								* yScale);
-						j += 2;
-						} else if (cmd[0] === 'L') {
-						ctx
+				j += 2;
+			} else if (cmd[0] === 'L') {
+				ctx
 						.lineTo(x + path[5][j] * xScale, y + path[5][j + 1]
 								* yScale);
-						j += 2;
-						} else if (cmd[0] === 'Q') {
-						ctx.quadraticCurveTo(x + path[5][j + 2] * xScale, y
+				j += 2;
+			} else if (cmd[0] === 'Q') {
+				ctx.quadraticCurveTo(x + path[5][j + 2] * xScale, y
 						+ path[5][j + 3] * yScale, x + path[5][j] * xScale, y
 						+ path[5][j + 1] * yScale);
-						j += 4;
-						} else if (cmd[0] === 'C') {
-						ctx.bezierCurveTo(x + path[5][j + 2] * xScale, y
+				j += 4;
+			} else if (cmd[0] === 'C') {
+				ctx.bezierCurveTo(x + path[5][j + 2] * xScale, y
 						+ path[5][j + 3] * yScale, x + path[5][j + 4] * xScale,
 						y + path[5][j + 5] * yScale, x + path[5][j] * xScale, y
 								+ path[5][j + 1] * yScale);
-						j += 6;
-						}
-						}
-						ctx.closePath();
-						
-						ctx.fill();
-						}-*/;
+				j += 6;
+			}
+		}
+		ctx.closePath();
+
+		ctx.fill();
+	}-*/;
+
+	/**
+	 * @param c
+	 * @param size
+	 * @return object that can be drawn to canvas with object.draw(ctx)
+	 */
+	public JavaScriptObject getGlyphOutline(String c, int size) {
+		return getGlyphNative(c, size);
+	}
+
+	private native JavaScriptObject getGlyphNative(String c, int size) /*-{
+		var that = this;
+		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+
+		// font not loaded yet
+		if (!font) {
+			return;
+		}
+
+		var path = font.getPath(c, 0, 0, size);
+
+		path.stroke = null;
+		path.strokeWidth = 1;
+		return path;
+	}-*/;
 }

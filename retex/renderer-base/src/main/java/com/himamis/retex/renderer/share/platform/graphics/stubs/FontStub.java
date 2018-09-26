@@ -2,6 +2,7 @@ package com.himamis.retex.renderer.share.platform.graphics.stubs;
 
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
@@ -36,6 +37,14 @@ public class FontStub implements Font {
 
 	@Override
 	public boolean canDisplay(char ch) {
+		return true;
+	}
+
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
+		return null;
+	}
+
+	public boolean canDisplay(int c) {
 		return true;
 	}
 

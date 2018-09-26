@@ -46,6 +46,7 @@ package com.himamis.retex.renderer.desktop.font;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
@@ -120,6 +121,14 @@ public class FontD implements Font {
 	@Override
 	public boolean canDisplay(char ch) {
 		return impl.canDisplay(ch);
+	}
+
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
+		return createGlyphVector(frc, cf.c + "").getGlyphOutline(0);
+	}
+
+	public boolean canDisplay(int c) {
+		return impl.canDisplay(c);
 	}
 
 }

@@ -75,4 +75,6 @@ public interface FontWrapper {
 	 */
 	JavaScriptObject getPath(String c, int size);
 
+	JavaScriptObject getGlyphOutline(String c, int size);
+
 }

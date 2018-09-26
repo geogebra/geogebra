@@ -45,6 +45,7 @@ package com.himamis.retex.renderer.web.font;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
@@ -115,20 +116,32 @@ public class DefaultFont extends FontW implements FontWrapper {
 
 	private native JavaScriptObject getGlyphOutlineNative(String s, int size,
 			String font) /*-{
-							var ret = {};
-							ret.draw = function(ctx) {
-							
-							try {
-							ctx.setFont(font);
-							} catch (e) {
-							// invisible frame in FF throws this
-							}
-							ctx.fillText(s, 0, 0);
-							
-							}
-							
-							return ret;
-							
-							}-*/;
+		var ret = {};
+		ret.draw = function(ctx) {
+
+			try {
+				ctx.setFont(font);
+			} catch (e) {
+				// invisible frame in FF throws this
+			}
+			ctx.fillText(s, 0, 0);
+
+		}
+
+		return ret;
+
+	}-*/;
+
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
+		return null;
+	}
+
+	public boolean canDisplay(int c) {
+		return true;
+	}
+
+	public JavaScriptObject getGlyphOutline(String c, int size) {
+		return null;
+	}
 
 }

@@ -78,4 +78,8 @@ public interface Font {
 
 	public boolean canDisplay(char ch);
 
+	// public Shape getGlyphOutline(FontRenderContext frc, CharFont cf);
+
+	// public boolean canDisplay(int c);
+
 }
