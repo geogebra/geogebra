@@ -162,7 +162,7 @@ public class TextControllerW
 	void doUpdateBoundingBox() {
 		DrawText d = (DrawText) view.getDrawableFor(text);
 		if (d != null) {
-			d.adjustBoundingBoxToText();
+			d.adjustBoundingBoxToText(getEditorBounds());
 			view.setBoundingBox(d.getBoundingBox());
 		}
 		view.repaint();

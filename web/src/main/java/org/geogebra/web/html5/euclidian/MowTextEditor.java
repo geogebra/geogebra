@@ -85,7 +85,7 @@ public class MowTextEditor extends AdvancedFlowPanel
 	 *            to set.
 	 */
 	public void setHeight(int height) {
-		getElement().getStyle().setHeight(height, Unit.PX);
+		getElement().getStyle().setProperty("minHeight", height, Unit.PX);
 	}
 
 	/**

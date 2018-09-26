@@ -74,7 +74,6 @@ public final class DrawText extends Drawable {
 	private BoundingBox boundingBox;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
-	private TextController ctrl;
 
 	/**
 	 * Creates new DrawText
@@ -88,7 +87,6 @@ public final class DrawText extends Drawable {
 		this.view = view;
 		this.text = text;
 		geo = text;
-		ctrl = view.getEuclidianController().getTextController();
 
 		textFont = view.getApplication().getPlainFontCommon()
 				.deriveFont(GFont.PLAIN, view.getFontSize());
@@ -117,6 +115,7 @@ public final class DrawText extends Drawable {
 		}
 
 		String newText;
+		TextController ctrl = view.getEuclidianController().getTextController();
 		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL) && ctrl != null) {
 			newText = ctrl.wrapText(text.getTextString());
 		} else {
@@ -201,7 +200,6 @@ public final class DrawText extends Drawable {
 			ctrl.setEditorLineHeight(textFont.getSize() * 1.5);
 			ctrl.setEditorColor(geo.getObjectColor());
 		}
-
 	}
 
 	@Override
@@ -255,13 +253,11 @@ public final class DrawText extends Drawable {
 
 	/**
 	 * Adjust bounding box to editor/text bounds.
+	 * 
+	 * @param rect
+	 *            editor bounds
 	 */
-	public void adjustBoundingBoxToText() {
-		GRectangle rect = null;
-		if (ctrl != null) {
-			rect = ctrl.getEditorBounds();
-		}
-
+	public void adjustBoundingBoxToText(GRectangle rect) {
 		if (rect == null || labelRectangle == null) {
 			return;
 		}
