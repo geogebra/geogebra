@@ -78,6 +78,7 @@ public class CharAtom extends CharSymbol {
 	public CharAtom(char c, int textStyle, boolean mathMode) {
 		this.c = c;
 		this.textStyle = textStyle;
+		this.mathMode = mathMode;
 	}
 
 	public CharAtom(char c, boolean mathMode) {
