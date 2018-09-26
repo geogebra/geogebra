@@ -132,6 +132,8 @@ public class CAStestJSON {
 				String cat = "general";
 				if (test.has("cat")) {
 					cat = test.getString("cat");
+				} else {
+					Assert.fail("Missing category:" + testVal.toString());
 				}
 				if (!testcases.containsKey(cat)) {
 					testcases.put(cat, new ArrayList<CasTest>());

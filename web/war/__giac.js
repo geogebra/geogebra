@@ -2267,7 +2267,7 @@ var __giac = [ {},
 { cat:"IFactor", cmd:"IFactor(x^4+1)", result:"(x\u00B2 - sqrt(2) x + 1) (x\u00B2 + sqrt(2) x + 1)|OR|(x\u00B2 + sqrt(2) x + 1) (x\u00B2 - sqrt(2) x + 1)" },
 { cat:"CFactor", cmd:"CFactor((((-1)) / 4 * a^(4)) + (1 / 12 * b^(4)) - ((1 / 2 * a^(2)) * b^(2)) + ((2 / 3 * a^(3)) * b),a-b)", result:"-(a - b)\u00B3 (3a + b) / 12", notes:"bad syntax" },
 { cat:"Plane.3", cmd:"Plane((0,0,0),(1,2,3),(3,4,-1))", result:"x (-14) + y 10 + z (-2) = 0", notes:"TRAC-4516" },
-{ cat":"Integral", cmd:"Integral(1 - tanh(x), 0, infinity)", result:"ln(2)" },
+{ cat:"Integral", cmd:"Integral(1 - tanh(x), 0, infinity)", result:"ln(2)" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },

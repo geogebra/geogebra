@@ -18,17 +18,16 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.Feature;
-
-import java.util.Iterator;
-import java.util.TreeSet;
 
 /**
  * 
@@ -79,8 +78,6 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 	private void copyExistingStyle() {
 		// Search for the first circle with the same radius and use its color settings
-
-		GeoNumberValue r = this.r;
 		if (r == null) {
 			return;
 		}
@@ -116,7 +113,14 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		}
 	}
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param rgeo
+	 *            radius
+	 */
 	protected AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
 			GeoSegmentND rgeo) {
 
@@ -197,7 +201,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 			sphereND.setSphereND(M, r.getDouble());
 			break;
 		case TYPE_SEGMENT:
-			sphereND.setSphereND(M, (GeoSegment) rgeo);
+			sphereND.setSphereND(M, (GeoSegmentND) rgeo);
 			break;
 		}
 	}

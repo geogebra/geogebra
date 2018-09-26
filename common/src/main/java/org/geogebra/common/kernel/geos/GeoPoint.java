@@ -2934,14 +2934,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 					"Press plus and minus to move the object"));
 		} else if (point.isIndependent() || point.isPointInRegion()) {
 			String moveFree = "Press the arrow keys to move the object";
-			if(point.isGeoElement3D()){
+			if (point.isGeoElement3D()) {
 				sb.append(loc.getMenuDefault("PressArrowsPageUpToMove",
 						moveFree + " in x and y, PageUp, PageDown to move in z"));
-			}else{
+			} else {
 				sb.append(loc.getMenuDefault("PressArrowsToMove",
 						moveFree));
 			}
-			
 		}
 		sb.appendDot();
 	}
