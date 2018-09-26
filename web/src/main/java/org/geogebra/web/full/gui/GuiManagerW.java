@@ -218,15 +218,8 @@ public class GuiManagerW extends GuiManager
 			mainMenuBar.getMenubar().updateSelection();
 		}
 
-		if (getApp().has(Feature.MOW_TOOLBAR_REFACTOR)
-				&& getApp().isWhiteboardActive()) {
+		if (getApp().isWhiteboardActive()) {
 			(getApp().getAppletFrame()).updateUndoRedoMOW();
-			return;
-		}
-
-		if (getApp().has(Feature.MOW_TOOLBAR)
-				&& getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).updateMOWToorbar();
 			return;
 		}
 
@@ -1805,13 +1798,8 @@ public class GuiManagerW extends GuiManager
 			return mode;
 		}
 
-		if (getApp().has(Feature.MOW_TOOLBAR_REFACTOR)) {
+		if (getApp().isWhiteboardActive()) {
 			(getApp().getAppletFrame()).setToorbarMowMode(mode);
-			return mode;
-		}
-
-		if (getApp().has(Feature.MOW_TOOLBAR)) {
-			(getApp().getAppletFrame()).setMOWToorbarMode(mode);
 			return mode;
 		}
 

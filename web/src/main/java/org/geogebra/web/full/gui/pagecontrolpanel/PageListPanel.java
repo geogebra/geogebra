@@ -9,7 +9,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.full.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -44,7 +43,6 @@ public class PageListPanel
 	private AppW app;
 	private GeoGebraFrameBoth frame;
 	private EuclidianDockPanelW dockPanel;
-	private MOWToolbar mowToolbar;
 	private ToolbarMow toolbarMow;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
@@ -62,13 +60,7 @@ public class PageListPanel
 		this.frame = ((AppWFull) app).getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		if (app.isWhiteboardActive()) {
-			if (app.has(Feature.MOW_TOOLBAR_REFACTOR)) {
-				this.toolbarMow = frame.getToolbarMow();
-			} else {
-				this.mowToolbar = frame.getMOWToolbar();
-			}
-		}
+		this.toolbarMow = frame.getToolbarMow();
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
 		initGUI();
@@ -155,9 +147,6 @@ public class PageListPanel
 	public void open() {
 		if (app.isWhiteboardActive()) {
 			dockPanel.hideZoomPanel();
-			if (mowToolbar != null) {
-				mowToolbar.showPageControlButton(false);
-			}
 			if (toolbarMow != null) {
 				toolbarMow.showPageControlButton(false);
 			}
@@ -204,11 +193,7 @@ public class PageListPanel
 	protected void onClose() {
 		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 		if (app.isWhiteboardActive()) {
-			if (app.has(Feature.MOW_TOOLBAR_REFACTOR)) {
-				toolbarMow.showPageControlButton(true);
-			} else {
-				mowToolbar.showPageControlButton(true);
-			}
+			toolbarMow.showPageControlButton(true);
 			dockPanel.showZoomPanel();
 		}
 		setVisible(false);

@@ -287,11 +287,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	public void onResize() {
 		super.onResize();
-		if (((AppWFull) app).getAppletFrame().getMOWToolbar() != null
-				&& app.isWhiteboardActive()) {
-			((AppWFull) app).getAppletFrame().getMOWToolbar()
-					.updateFloatingButtonsPosition();
-		}
 	}
 
 	@Override

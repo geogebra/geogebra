@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -25,7 +24,6 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
-import org.geogebra.web.full.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
@@ -87,7 +85,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private int keyboardHeight;
 	private DockPanelW dockPanelKB;
 	private HeaderPanel lastBG;
-	private MOWToolbar mowToolbar;
 	private ToolbarMow toolbarMow;
 	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
@@ -778,16 +775,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            application
 	 */
 	public void attachToolbar(AppW app1) {
-		if (app1.has(Feature.MOW_TOOLBAR)) {
-			if (app1.has(Feature.MOW_TOOLBAR_REFACTOR)) {
-				attachToolbarMow(app1);
-			} else {
-				attachMOWToolbar(app1);
-			}
+		if (app1.isWhiteboardActive()) {
+			attachToolbarMow(app1);
 			attachOpenMenuButton();
-			if (app1.has(Feature.MOW_MULTI_PAGE)) {
-				initPageControlPanel(app1);
-			}
+			initPageControlPanel(app1);
 			return;
 		}
 
@@ -810,29 +801,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
-	private void attachMOWToolbar(AppW app1) {
-		if (mowToolbar == null) {
-			mowToolbar = new MOWToolbar(app1);
-		}
-		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
-			add(mowToolbar);
-		} else {
-			insert(mowToolbar, 0);
-		}
-
-		add(mowToolbar.getUndoRedoButtons());
-		if (app1.has(Feature.MOW_MULTI_PAGE)) {
-			add(mowToolbar.getPageControlButton());
-		}
-		int currentMode = mowToolbar.getCurrentMode();
-		if (currentMode != -1) {
-			app1.setMode(currentMode, ModeSetter.TOOLBAR);
-		} else {
-			// set pen as start tool
-			app1.setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
-		}
-	}
-
 	private void attachToolbarMow(AppW app1) {
 		if (toolbarMow == null) {
 			toolbarMow = new ToolbarMow(app1);
@@ -844,23 +812,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 		add(toolbarMow.getUndoRedoButtons());
 		add(toolbarMow.getPageControlButton());
-
-		/*
-		 * add(mowToolbar.getUndoRedoButtons()); if
-		 * (app1.has(Feature.MOW_MULTI_PAGE)) {
-		 * add(mowToolbar.getPageControlButton()); } int currentMode =
-		 * mowToolbar.getCurrentMode(); if (currentMode != -1) {
-		 * app1.setMode(currentMode, ModeSetter.TOOLBAR); } else { // set pen as
-		 * start tool app1.setMode(EuclidianConstants.MODE_PEN,
-		 * ModeSetter.TOOLBAR); }
-		 */
-	}
-
-	/**
-	 * @return MOW toolbar
-	 */
-	public MOWToolbar getMOWToolbar() {
-		return mowToolbar;
 	}
 
 	/**
@@ -997,16 +948,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	/**
 	 * Update undo/redo in MOW toolbar
 	 */
-	public void updateMOWToorbar() {
-		if (mowToolbar == null) {
-			return;
-		}
-		mowToolbar.update();
-	}
-
-	/**
-	 * Update undo/redo in MOW toolbar
-	 */
 	public void updateUndoRedoMOW() {
 		if (toolbarMow == null) {
 			return;
@@ -1022,17 +963,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& app.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
 			((AppWFull) app).getZoomPanelMow().deselectDragBtn();
 		}
-	}
-
-	/**
-	 * @param mode
-	 *            new mode for MOW toolbar
-	 */
-	public void setMOWToorbarMode(int mode) {
-		if (mowToolbar == null) {
-			return;
-		}
-		mowToolbar.setMode(mode);
 	}
 
 	/**
@@ -1058,7 +988,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	@Override
 	public void initPageControlPanel(AppW app1) {
-		if (!app1.has(Feature.MOW_MULTI_PAGE)) {
+		if (!app1.isWhiteboardActive()) {
 			return;
 		}
 		if (pageListPanel == null) {
