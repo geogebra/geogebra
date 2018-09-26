@@ -103,6 +103,41 @@
 					    left: 142px;
 					    margin: 0px;
 					    bottom: 84px;
+					    
+					    .mowColorButton {
+							 width: 32px;
+							 height: 32px;
+							 border-radius: 2px;
+							 margin: 6px;
+							 cursor: pointer;
+							 
+							 &:hover {
+							 	opacity: 0.65;
+							 }
+							
+							&.mowColorButton-selected {
+								width: 38px;
+								height: 38px;
+								margin: 3px !important;
+								border-radius: 2px;
+							}
+						}
+					
+						.mowColorPlusButton {
+							 width: 30px;
+							 height: 30px;
+							 border: 1px solid $tool-border !important;
+							 img {
+							 	opacity: 0.54;	
+							 }	
+							 
+							 &:hover {
+							 	img {
+							 		opacity: 1;
+							 	}
+					    		border: 1px solid $mow_highlight !important;
+							 }
+						}
 					}
 				
 					.sizePanel {

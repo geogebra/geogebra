@@ -293,42 +293,6 @@
 		}
 	}
 
-	.mowColorButton {
-		 width: 32px;
-		 height: 32px;
-		 border-radius: 2px;
-		 margin: 6px !important;
-		 cursor: pointer;
-		 &:hover {
-		 	opacity: 0.65;
-		 }
-	}
-	.mowColorButton-selected {
-		width: 38px;
-		height: 38px;
-		margin: 3px !important;
-		border-radius: 2px;
-	}
-	.mowColorPlusButton {
-		 width: 30px;
-		 height: 30px;
-		 border: 1px solid $tool-border !important;
-		 img {
-		 	opacity: 0.54;	
-		 }	
-		 
-		 &:hover {
-		 	img {
-		 		opacity: 1;
-		 	}
-    		border: 1px solid $mow_highlight !important;
-		 }
-	}
-	.mowColorPlusButton  img {
-	 	padding: 3px;	 
-	}
-	
-
 	.mowSubMenu .mowSubMenuContent .mowOptionsSlider { 
 		.preview {
 			position: absolute;
@@ -375,43 +339,7 @@
     			}
     	}
 	}
-	
-/*****************
-*   INFOPANEL
-******************/	
-/*		
-	.mowSubMenuInfo {
-		position: absolute;
-		top: 10px;
-		width: 290px;
-		img {
-			margin-top: 5px;
-			margin-left: 0px;
-		}
-	}
-	
-	.mowInfoLabel {
-		position: absolute;
-		padding-left: 50px !important;
-		padding-top: 5px;
-		padding-right: 30px;
-		max-width: 210px;
-		b {
-			font-weight: bold !important;
-		}
-	}
-		
-	.mowQuestionMark {
-		position: absolute;
-		top: 10px;
-	    right: 0px;
-		width: 24px;
-		height:24px;
-		cursor: pointer;
-		}
-	
-	*/
-	
+
 /*****************
 *   STYLEBAR
 ******************/	
