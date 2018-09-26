@@ -1457,15 +1457,6 @@ public abstract class Localization {
 			case Binomial:
 			case nCr:
 				return Commands.nCr.name();
-			case SD:
-			case stdev:
-				return Commands.SD.name();
-			case SampleSD:
-			case stdevp:
-				return Commands.SampleSD.name();
-			case MAD:
-			case mad:
-				return Commands.MAD.name();
 			default:
 				return null;
 		}
