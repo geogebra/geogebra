@@ -2526,8 +2526,20 @@ namespace giac {
 #endif
     }
     if (g.type==_VECT && !g._VECTptr->empty() && 
-	(g._VECTptr->back().type==_INT_ || g._VECTptr->back().type==_DOUBLE_)){
+	(g._VECTptr->back().type==_INT_ || g._VECTptr->back().type==_DOUBLE_ || g._VECTptr->back().type==_FRAC)){
       vecteur v=*g._VECTptr;
+      if (v.size()==2 && v.front().type==_SPOL1){
+	const sparse_poly1 & s=*v.front()._SPOL1ptr;
+	sparse_poly1::const_iterator it=s.begin(),itend=s.end();
+	gen n=v.back();
+	for (;it!=itend;++it){
+	  if (it->exponent==n)
+	    return it->coeff;
+	  if (is_greater(it->exponent,n,contextptr))
+	    return 0;
+	}
+	return undef;
+      }
       is_integral(v.back());
       if (v.back().val<0)
 	return gendimerr(contextptr);

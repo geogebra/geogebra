@@ -1135,7 +1135,7 @@ namespace giac {
       return false;
     } // end a==minus_inf
     if (b==plus_inf){
-      gen ga=subst(g,x,x+a,false,contextptr);
+      gen ga_orig=subst(g,x,x+a,false,contextptr),ga(ga_orig);
       // additional check for int(t^n/(exp(alpha*t)-1),t,0,inf)=n!/alpha^(n+1)*Zeta(n+1)
       vecteur vax=rlvarx(ga,x);
       if (vax.size()==2 && vax.front()==x && vax.back().is_symb_of_sommet(at_exp)){
@@ -1214,6 +1214,7 @@ namespace giac {
 	  }
 	} // end if (is_linear_wrt(expo...))
       } // end varx.size()==2
+      ga=ga_orig;
       int eo=is_even_odd(ga,x,contextptr);
       if (eo==1){ 
 	vecteur singu=find_singularities(g,*x._IDNTptr,0 /* real singularities*/,contextptr);

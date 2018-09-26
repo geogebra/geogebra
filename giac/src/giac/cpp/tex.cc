@@ -1170,6 +1170,9 @@ namespace giac {
       }
       else
 	zoom(m,M,1/0.8);
+      // include origin if not too far
+      if ( (m>-M/10 && m<M/2) || (m<-M/10 && m>M/2) )
+	m=-M/10;
     }
   }
 
