@@ -113,7 +113,8 @@ public class MowTextEditor extends AdvancedFlowPanel
 	public String getText() {
 		String html = getElement().getInnerHTML();
 
-		return html.replace("<div>", "\n").replace("</div>", "").replace("<br>", "\n");
+		return html.replace("<div>", "\n").replace("</div>", "")
+				.replace("<br>", "\n").replace("</p>", "\n").replace("<p>", "");
 	}
 
 	/**
