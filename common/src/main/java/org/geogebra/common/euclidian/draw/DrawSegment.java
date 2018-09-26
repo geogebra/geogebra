@@ -573,13 +573,8 @@ public class DrawSegment extends Drawable implements Previewable {
 				&& line.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold))
 				|| (getBoundingBox() != null
-						&& getBoundingBox().getRectangle() != null
 						&& getBoundingBox() == view.getBoundingBox()
-						&& getBoundingBox().getRectangle().intersects(
-								x - hitThreshold, y - hitThreshold,
-								2 * hitThreshold, 2 * hitThreshold)
-						&& getBoundingBox().hitSideOfBoundingBox(x, y,
-								hitThreshold));
+						&& getBoundingBox().hit(x, y, hitThreshold));
 	}
 
 	@Override

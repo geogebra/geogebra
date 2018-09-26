@@ -431,13 +431,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// or from sides of boundingBox
 			if (wasSegmentHit
 					|| (getBoundingBox() != null
-							&& getBoundingBox().getRectangle() != null
 							&& getBoundingBox() == view.getBoundingBox()
-							&& getBoundingBox().getRectangle().intersects(
-									x - hitThreshold, y - hitThreshold,
-									2 * hitThreshold, 2 * hitThreshold))
-							&& getBoundingBox().hitSideOfBoundingBox(x, y,
-									hitThreshold)) {
+							&& getBoundingBox().hit(x, y,
+									hitThreshold))) {
 				poly.setLastHitType(HitType.ON_BOUNDARY);
 				return true;
 			} 
@@ -450,12 +446,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
 						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))
 				|| (getBoundingBox() != null
-						&& getBoundingBox().getRectangle() != null
-						&& getBoundingBox().getRectangle().intersects(
-								x - hitThreshold, y - hitThreshold,
-								2 * hitThreshold, 2 * hitThreshold)
-						&& getBoundingBox().hitSideOfBoundingBox(x, y,
-								hitThreshold));
+						&& getBoundingBox().hit(x, y, hitThreshold));
 	}
 
 	@Override

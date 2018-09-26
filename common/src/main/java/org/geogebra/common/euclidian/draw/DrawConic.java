@@ -1749,13 +1749,8 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
 		return getBoundingBox() != null
-				&& getBoundingBox().getRectangle() != null
 				&& getBoundingBox() == view.getBoundingBox()
-				&& getBoundingBox().getRectangle().intersects(
-						hitX - hitThreshold, hitY - hitThreshold,
-						2 * hitThreshold, 2 * hitThreshold)
-				&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY,
-						hitThreshold);
+				&& getBoundingBox().hit(hitX, hitY, hitThreshold);
 	}
 
 	/**
@@ -1833,13 +1828,9 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		return (strokedShape.intersects(hitX - hitThreshold,
 				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold))
-				|| (getBoundingBox() != null
-						&& getBoundingBox().getRectangle() != null
+				|| (getBoundingBox() != null				
 						&& getBoundingBox() == view.getBoundingBox()
-						&& getBoundingBox().getRectangle().intersects(
-								hitX - hitThreshold, hitY - hitThreshold,
-								2 * hitThreshold, 2 * hitThreshold)
-						&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY,
+						&& getBoundingBox().hit(hitX, hitY,
 								hitThreshold));
 	}
 

@@ -676,4 +676,23 @@ public class BoundingBox {
 			return null;
 		}
 	}
+
+	/**
+	 * @param hitX
+	 *            screen x-coord
+	 * @param hitY
+	 *            screen y-coord
+	 * @param hitThreshold
+	 *            threshold
+	 * @return whether side or handler was hit
+	 */
+	public boolean hit(int hitX, int hitY, int hitThreshold) {
+		if (hitHandlers(hitX, hitY, hitThreshold) >= 0) {
+			return true;
+		}
+		return getRectangle() != null
+				&& getRectangle().intersects(hitX - hitThreshold,
+				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
+				&& hitSideOfBoundingBox(hitX, hitY, hitThreshold);
+	}
 }
