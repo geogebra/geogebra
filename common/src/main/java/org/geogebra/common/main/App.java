@@ -4115,6 +4115,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SELECT_NEXT_GEO_IN_VIEW:
 			return true;
 
+        /** GGB-2255 */
+        case GEOMETRIC_DISCOVERY:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

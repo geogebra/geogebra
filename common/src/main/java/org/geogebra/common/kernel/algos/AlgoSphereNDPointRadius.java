@@ -25,6 +25,10 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
+
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * 
@@ -67,7 +71,51 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
+
+		if (kernel.getApplication().has(Feature.GEOMETRIC_DISCOVERY) && r.getLabelSimple() != null) {
+			copyExistingStyle();
+		}
 	}
+
+	private void copyExistingStyle() {
+		// Search for the first circle with the same radius and use its color settings
+
+		GeoNumberValue r = this.r;
+		if (r == null) {
+			return;
+		}
+		String rl = r.getLabelSimple();
+		if (rl == null) {
+			return;
+		}
+
+		TreeSet<GeoElement> geoSet = cons.getGeoSetConstructionOrder();
+
+		Iterator<GeoElement> it = geoSet.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			AlgoElement ae = geo.getParentAlgorithm();
+			if (ae instanceof AlgoSphereNDPointRadius && !ae.equals(this.sphereND)) {
+				AlgoSphereNDPointRadius sphereND2 = (AlgoSphereNDPointRadius) ae;
+				GeoNumberValue r2 = sphereND2.r;
+				if (r2 != null) {
+					String r2l = r2.getLabelSimple();
+					if (r2l != null && r2l.equals(rl)) {
+						// unsure if all of these are required or there is a simpler way...
+						this.sphereND.setObjColor(geo.getObjectColor());
+						this.sphereND.setBackgroundColor(geo.getBackgroundColor());
+						this.sphereND.setDecorationType(geo.getDecorationType());
+						this.sphereND.setAlphaValue(geo.getAlphaValue());
+						this.sphereND.setLineOpacity(geo.getLineOpacity());
+						this.sphereND.setLineThickness(geo.getLineThickness());
+						this.sphereND.setLineType(geo.getLineType());
+						return;
+					}
+				}
+			}
+		}
+	}
+
 
 	protected AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
 			GeoSegmentND rgeo) {
