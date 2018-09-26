@@ -46,8 +46,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.exception.InvalidSymbolTypeException;
-
 /**
  * An atom representing another atom with an accent symbol above it.
  */
@@ -80,10 +78,6 @@ public class AccentedAtom extends Atom {
 	 *            base atom
 	 * @param accentName
 	 *            name of the accent symbol to be put over the base atom
-	 * @throws InvalidSymbolTypeException
-	 *             if the symbol is not defined as an accent ('acc')
-	 * @throws SymbolNotFoundException
-	 *             if there's no symbol defined with the given name
 	 */
 	public AccentedAtom(Atom base, String accentName) {
 		this(base, SymbolAtom.get(accentName));
