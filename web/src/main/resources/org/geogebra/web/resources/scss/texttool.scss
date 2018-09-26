@@ -10,6 +10,9 @@
 		left: 300px;	
 		padding: 2px;
 		word-wrap: break-word;
+		/* selection needed for iOS */
+		-webkit-user-select: text;
+		user-select: text;
 		
 		p {
 			margin: 0;
