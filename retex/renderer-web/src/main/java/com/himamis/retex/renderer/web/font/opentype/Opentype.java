@@ -167,7 +167,7 @@ public class Opentype implements FontLoaderWrapper {
 		}
 		// force different version from CDN
 		// change if the fonts are updated
-		path = path + "?v=2";
+		path = path + "?v=3";
 
 		ScriptInjector.fromUrl(path).setWindow(ScriptInjector.TOP_WINDOW)
 				.setRemoveTag(true)
@@ -203,9 +203,9 @@ public class Opentype implements FontLoaderWrapper {
 
 	private native JavaScriptObject getFontNative(String familyName,
 			boolean frame) /*-{
-							var lib = (frame ? window : $wnd).__JLM2_GWT_FONTS__;
-							return lib ? lib[familyName] : null;
-							}-*/;
+		var lib = (frame ? window : $wnd).__JLM2_GWT_FONTS__;
+		return lib ? lib[familyName] : null;
+	}-*/;
 
 	@Override
 	public FontW createNativeFont(String pathName, String fontName, int style,
