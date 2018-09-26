@@ -6,6 +6,7 @@
 	$toolbarPanelHeight: 212px;
 	$z_mow_toolbar: 51;
 	$z_mow_toolbar_panel: 50;
+	$z_mow_toolbar_slider: 54;
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	
 	.toolbarMow {
@@ -144,6 +145,52 @@
 					    position: absolute;
 					    left: 174px;
 					    top: 92px;
+					    
+					    .mowOptionsSlider { 
+							.preview {
+								position: absolute;
+								display: inline-block;
+								padding-left: 30px;
+								top: -2px;
+							} 
+							.gwt-Label {
+								display: none;
+							} 
+							.ui-slider-horizontal {
+								height: 5px;
+								background-color: $slider-background;
+								box-shadow: none;
+								cursor: pointer;
+							}
+							.ui-slider-handle,
+							.ui-slider-handle.ui-state-hover,
+					    	.ui-slider-handle.ui-state-active,
+					    	.ui-slider-handle.ui-state-focus  {
+						        cursor: pointer;
+						        position: absolute;
+						        top: -5px !important;
+						        left: 0%;
+						        width: 15px !important;
+						        height: 15px !important;
+						        margin-left: -8px !important;
+						        border-radius: 50% !important;
+						        border: none !important;
+						        box-shadow: none !important;
+						        transition: all .2s ease;
+						        user-select: none;
+						        z-index: $z_mow_toolbar_slider;
+						        
+						        span{
+						        	border: none !important;
+						        }
+					    	}
+					    	&[disabled = true]{
+					    		opacity: 0.3;
+					    		.ui-slider-horizontal, .ui-slider-handle{
+					    			cursor: default;
+					    		}
+					    	}
+					    }
 					}
 				}
 		
