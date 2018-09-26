@@ -56,6 +56,8 @@ public class LabelManager {
 	 *            label
 	 * @param kernel
 	 *            kernel
+	 * @param geo
+	 *            element
 	 * @return whether label can be parsed, is not reserved name and does not
 	 *         start with $
 	 */
