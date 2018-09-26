@@ -216,7 +216,7 @@ public class TextControllerW
 	private int getCurrentWidth() {
 		DrawText d = (DrawText) view.getDrawableFor(text);
 		if (d == null || d.getBounds() == null) {
-			return DrawText.getMinEditorWidth();
+			return DrawText.MIN_EDITOR_WIDTH;
 		}
 		return (int) d.getBounds().getWidth();
 	}

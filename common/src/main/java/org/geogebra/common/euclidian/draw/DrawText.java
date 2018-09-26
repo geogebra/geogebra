@@ -250,13 +250,7 @@ public final class DrawText extends Drawable {
 				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
 			}
-
 		}
-
-	}
-
-	public static int getMinEditorWidth() {
-		return MIN_EDITOR_WIDTH;
 	}
 
 	/**
@@ -381,11 +375,12 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		updateByBoundingBoxResize(point, handler, true);
+		prepareBoundingBoxResize(point, handler);
+		text.update();
 	}
 
-	private void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler,
-			boolean updateText) {
+	private void prepareBoundingBoxResize(GPoint2D point,
+			EuclidianBoundingBoxHandler handler) {
 		double minX = labelRectangle.getMinX();
 		double maxX = labelRectangle.getMaxX();
 		double minY = labelRectangle.getMinY();
@@ -434,26 +429,23 @@ public final class DrawText extends Drawable {
 			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
 			break;
 		case BOTTOM_LEFT:
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT, false);
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM, false);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
 			break;
 		case TOP_RIGHT:
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT, false);
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP, false);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
 			break;
 		case TOP_LEFT:
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT, false);
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP, false);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
 			break;
 		case BOTTOM_RIGHT:
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT, false);
-			this.updateByBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM, false);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
+			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
 			break;
 		default:
 			break;
-		}
-		if (updateText) {
-			text.update();
 		}
 	}
 }
