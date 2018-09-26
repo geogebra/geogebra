@@ -2,10 +2,7 @@
 
 .GeoGebraFrame{
 
-
 	$toolbarWidth: 600px;
-	$toolbarHeight: 56px;
-	$submenuHeight: 212px;
 	$pagecontrolpanelWidth: 269px;
 	$spaceHeight: calc(188px + 16px);
 	$always_on_top: 60;
@@ -119,17 +116,7 @@
 				cursor: pointer;	
 			}
 		} 
-		
 	}
-	
-	.showMowSubmenu { 
-	    bottom: $submenuHeight;
-	    transition: $mowsubmenu-transition;
-	} 
-	.hideMowSubmenu { 
-	    bottom: $toolbarHeight;
-	    transition: $mowsubmenu-transition;
-	} 
 	
 	.BigScreen {
 		width: $toolbarWidth;
@@ -137,59 +124,6 @@
 	.SmallScreen {
 		width: 100%;
 	} 
-	
-	.opacityFixForOldIcons {
-		opacity: 1 !important;
-	}
-	
-	.mowToolButton {
-		position: relative;
-	    display: inline-block;
-	    border-radius: 5px;
-	    border: 1px solid $tool-border;
-	    background-color: $white;
-	    padding: 3px;
-	    margin: 3px !important;
-	    width: 32px;
-	    height: 32px;
-	    
-	    &.highlighterBtn, &.eraserBtn {
-	    	img {
-	    		width: 24px !important;
-	    		height: 24px !important;
-    			padding: 4px;
-    		}
-    	}
-	}
-	.mowToolButton[selected=true]{
-		padding: 2px;
-    	border: 2px solid $mow_highlight;
-	}
-	.mowToolButton[selected=false] {
-			border: 1px solid $tool-border;
-			
-			&:hover {
-				border: 1px solid $mow_highlight;
-	 		}
-		}
-	
-	.inactiveToolButton {
-			opacity: 0.5;
-			cursor: default !important;
-			&[selected = true] {
-				padding: 3px;
-				border: 1px solid $tool-border;
-			}
-			&[selected = false]{
-				border: 1px solid $tool-border;
-				&:hover {
-					border: 1px solid $tool-border;
-				}
-			}
-		}
-	.icon24_padding{
-		padding: 4px;
-	}
 
 /*****************
 *   STYLEBAR
