@@ -192,6 +192,14 @@
 					    	}
 					    }
 					}
+				
+					.disabled, .disabled:hover {
+						opacity: 0.3;
+						img {
+							opacity: 0.3;
+						}
+						cursor: default;
+					}
 				}
 		
 			 	.toolsSubMenu, .mediaSubMenu {

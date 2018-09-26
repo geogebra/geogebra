@@ -237,38 +237,6 @@
 			margin: 0px;
 		}
 	}
-	.penSubMenu {
-		.penPanel {
-			width: 144px;
-			margin: 0px;
-			.plusMarginLeft{ 
-            	margin-left: 16px !important; 
-              } 
-            .panelRow {
-              	padding: 0px;
-              }
-		}
-		.colorPanel {
-			position: absolute;
-			left: 144px;
-			margin: 0px;
-			.panelRow {
-              	padding: 0px;
-           }
-		} 
-		.sizePanel {
-			position: absolute;
-			left: 153px; 
-	    	top: 70px;
-		}
-		.disabled, .disabled:hover {
-			opacity: 0.3;
-			img {
-				opacity: 0.3;
-			}
-			cursor: default;
-		}
-	}
 
 /*****************
 *   STYLEBAR
