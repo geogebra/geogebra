@@ -131,22 +131,6 @@
 	    transition: $mowsubmenu-transition;
 	} 
 	
-	.slideLeft {
-		@extend .mowSubmenuScrollPanel;
-		left: 0px !important;
-    	transition: left 0.3s ease;
-	}
-	.slideCenter {
-		@extend .mowSubmenuScrollPanel;
-		left: -100% !important;
-   		transition: left 0.3s ease;
-	}
-	.slideRight {
-		@extend .mowSubmenuScrollPanel;
-		left: -200% !important;
-   		transition: left 0.3s ease;
-	}
-	
 	.BigScreen {
 		width: $toolbarWidth;
 	} 
@@ -205,37 +189,6 @@
 		}
 	.icon24_padding{
 		padding: 4px;
-	}
-
-/*****************
-*   SUBMENU
-******************/	
-		
-	.mowSubmenuScrollPanel {
-		background-color: $white;
-		position: relative;
-		display: flex;
-		top: $toolbarHeight;
-		width: 300%;
-		height: 212px;
-		z-index: $z_mow_toolbar;
-	}
-	.mowSubMenu {
-		width: calc(100% /3);
-		overflow: hidden;	
-	}
-	.mowSubMenuContent {
-		width: 100%;
-		height: 100%;
-		background-color: $white;
-		.panelRow {
-				padding: 8px 16px 8px 16px;
-				margin: 0px;
-			}
-		.groupPanel {
-			padding-right: 16px;
-			margin: 0px;
-		}
 	}
 
 /*****************
