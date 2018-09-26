@@ -2414,6 +2414,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Power": "\u5e42",
     "Preferences": "\u8bbe\u7f6e",
     "PreferencesOfA": "\u8bbe\u7f6e - %0",
+    "PressArrowsPageUpToMove": "\u6309\u7bad\u5934\u952e\u79fb\u52a8\u5bf9\u8c61",
     "PressArrowsToGo": "\u6309\u5411\u4e0a\u548c\u5411\u4e0b\u7bad\u5934\u952e\u8f6c\u5230\u4e0d\u540c\u9009\u9879.",
     "PressArrowsToMove": "\u6309\u7bad\u5934\u952e\u79fb\u52a8\u5bf9\u8c61",
     "PressDownToDecrease": "\u6309\u5411\u4e0b\u952e\u2193\u51cf\u5c0f\u6570\u503c",

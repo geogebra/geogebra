@@ -2414,6 +2414,7 @@ __GGB__keysVar["eu"].menu = {
     "Power": "Potentzia",
     "Preferences": "Hobespenak",
     "PreferencesOfA": "Hobespenak - %0",
+    "PressArrowsPageUpToMove": "Sakatu gezi-teklak objektua mugitzeko",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Sakatu gezi-teklak objektua mugitzeko",
     "PressDownToDecrease": "Sakatu behera gezia balioa txikitzeko",

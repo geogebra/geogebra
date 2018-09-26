@@ -2414,6 +2414,7 @@ __GGB__keysVar["tr"].menu = {
     "Power": "\xdcs",
     "Preferences": "Tercihler",
     "PreferencesOfA": "Tercihler - %0",
+    "PressArrowsPageUpToMove": "Nesneyi ta\u015f\u0131mak i\xe7in y\xf6n tu\u015flar\u0131na bas\u0131n\u0131z",
     "PressArrowsToGo": "Farkl\u0131 se\xe7eneklere gitmek i\xe7in a\u015fa\u011f\u0131 ve yukar\u0131 y\xf6n tu\u015flar\u0131na bas\u0131n.",
     "PressArrowsToMove": "Nesneyi ta\u015f\u0131mak i\xe7in y\xf6n tu\u015flar\u0131na bas\u0131n\u0131z",
     "PressDownToDecrease": "De\u011feri d\xfc\u015f\xfcrmek i\xe7in a\u015fa\u011f\u0131 y\xf6n tu\u015funa bas\u0131n\u0131z",

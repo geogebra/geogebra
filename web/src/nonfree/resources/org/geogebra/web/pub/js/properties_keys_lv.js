@@ -2414,6 +2414,7 @@ __GGB__keysVar["lv"].menu = {
     "Power": "Sp\u0113ks",
     "Preferences": "Izv\u0113les",
     "PreferencesOfA": "Izv\u0113les - %0",
+    "PressArrowsPageUpToMove": "Press the arrow keys to move the object in x and y directions or PageUp, PageDown to move in z.",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Press the arrow keys to move the object",
     "PressDownToDecrease": "Press down arrow to decrease the value",

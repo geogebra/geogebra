@@ -2414,6 +2414,7 @@ __GGB__keysVar["sl"].menu = {
     "Power": "Potenca",
     "Preferences": "Nastavitve",
     "PreferencesOfA": "Nastavitve - %0",
+    "PressArrowsPageUpToMove": "S pu\u0161\u010dicami premikamo objekt",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "S pu\u0161\u010dicami premikamo objekt",
     "PressDownToDecrease": "S pu\u0161\u010dico navzdol zmanj\u0161ujemo vrednost",

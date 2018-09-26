@@ -2414,6 +2414,7 @@ __GGB__keysVar["is"].menu = {
     "Power": "Veldi",
     "Preferences": "Kj\xf6rstillingar",
     "PreferencesOfA": "Kj\xf6rstillingar - %0",
+    "PressArrowsPageUpToMove": "Nota\xf0u \xf6rvarhnappa til a\xf0 hreyfa hlutinn",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Nota\xf0u \xf6rvarhnappa til a\xf0 hreyfa hlutinn",
     "PressDownToDecrease": "Veldu \xf6r sem v\xedsar ni\xf0ur til a\xf0 l\xe6kka gildi\xf0",

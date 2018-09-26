@@ -2414,6 +2414,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Power": "Potencia",
     "Preferences": "Preferencias",
     "PreferencesOfA": "Preferencias - %0",
+    "PressArrowsPageUpToMove": "Pulsa las teclas de flechas para mover el objeto",
     "PressArrowsToGo": "Presiona las flechas arriba y abajo para diferentes opciones.",
     "PressArrowsToMove": "Pulsa las teclas de flechas para mover el objeto",
     "PressDownToDecrease": "Pulsa la flecha hacia abajo para disminuir el valor",

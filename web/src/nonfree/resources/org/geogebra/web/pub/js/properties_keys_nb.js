@@ -2414,6 +2414,7 @@ __GGB__keysVar["nb"].menu = {
     "Power": "Potens",
     "Preferences": "Innstillinger",
     "PreferencesOfA": "Innstillinger - %0",
+    "PressArrowsPageUpToMove": "Trykk p\xe5 piltastene for \xe5 flytte objektet",
     "PressArrowsToGo": "Trykk p\xe5 oppover- og og nedoverpil for \xe5 finne ulike muligheter.",
     "PressArrowsToMove": "Trykk p\xe5 piltastene for \xe5 flytte objektet",
     "PressDownToDecrease": "Trykk nedoverpil for \xe5 redusere verdien",

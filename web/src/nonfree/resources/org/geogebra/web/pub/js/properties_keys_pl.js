@@ -2414,6 +2414,7 @@ __GGB__keysVar["pl"].menu = {
     "Power": "Si\u0142a",
     "Preferences": "Preferencje",
     "PreferencesOfA": "Ustawienia - %0",
+    "PressArrowsPageUpToMove": "Naciskaj klawisze strza\u0142ek, aby przenie\u015b\u0107 obiekt",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Naciskaj klawisze strza\u0142ek, aby przenie\u015b\u0107 obiekt",
     "PressDownToDecrease": "Naci\u015bnij klawisz Strza\u0142ka w d\xf3\u0142, aby zmniejszy\u0107 warto\u015b\u0107",

@@ -2414,6 +2414,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Power": "\u6b21\u65b9",
     "Preferences": "\u8a2d\u5b9a",
     "PreferencesOfA": "\u8a2d\u5b9a - %0",
+    "PressArrowsPageUpToMove": "Press the arrow keys to move the object in x and y directions or PageUp, PageDown to move in z.",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Press the arrow keys to move the object",
     "PressDownToDecrease": "Press down arrow to decrease the value",

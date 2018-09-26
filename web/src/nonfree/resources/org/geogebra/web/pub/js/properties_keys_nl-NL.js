@@ -2414,6 +2414,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Power": "Macht",
     "Preferences": "Voorkeuren",
     "PreferencesOfA": "Voorkeuren - %0",
+    "PressArrowsPageUpToMove": "Klik op de pijltoetsen om het object te verplaatsen",
     "PressArrowsToGo": "Gebruik de op en neer pijlen om voor de verschillende opties.",
     "PressArrowsToMove": "Klik op de pijltoetsen om het object te verplaatsen",
     "PressDownToDecrease": "Klik op de pijl naar onder om de waarde te verminderen",

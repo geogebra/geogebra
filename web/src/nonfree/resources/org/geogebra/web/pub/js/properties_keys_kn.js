@@ -2414,6 +2414,7 @@ __GGB__keysVar["kn"].menu = {
     "Power": "Power",
     "Preferences": "\u0c85\u0cad\u0cbf\u0cae\u0cbe\u0ca8\u0c97\u0cb3\u0cc1",
     "PreferencesOfA": "\u0c85\u0cad\u0cbf\u0cae\u0cbe\u0ca8\u0c97\u0cb3\u0cc1 - %0",
+    "PressArrowsPageUpToMove": "Press the arrow keys to move the object in x and y directions or PageUp, PageDown to move in z.",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Press the arrow keys to move the object",
     "PressDownToDecrease": "Press down arrow to decrease the value",

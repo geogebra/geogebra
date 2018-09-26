@@ -2414,6 +2414,7 @@ __GGB__keysVar["sr"].menu = {
     "Power": "Stepen",
     "Preferences": "Pode\u0161avanja",
     "PreferencesOfA": "Prilago\u0111avanje - %0",
+    "PressArrowsPageUpToMove": "Press the arrow keys to move the object in x and y directions or PageUp, PageDown to move in z.",
     "PressArrowsToGo": "Press up arrow and down arrow to go to different options.",
     "PressArrowsToMove": "Press the arrow keys to move the object",
     "PressDownToDecrease": "Press down arrow to decrease the value",

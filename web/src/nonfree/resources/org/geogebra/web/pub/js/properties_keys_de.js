@@ -2414,6 +2414,7 @@ __GGB__keysVar["de"].menu = {
     "Power": "Potenz",
     "Preferences": "Eigenschaften",
     "PreferencesOfA": "Eigenschaften - %0",
+    "PressArrowsPageUpToMove": "Dr\xfccke die Pfeiltasten, um das Objekt zu bewegen",
     "PressArrowsToGo": "Dr\xfccke den aufw\xe4rts und abw\xe4rts Pfeil, um zu verschiedenen Optionen zu gelangen.",
     "PressArrowsToMove": "Dr\xfccke die Pfeiltasten, um das Objekt zu bewegen",
     "PressDownToDecrease": "Dr\xfccke den abw\xe4rts Pfeil, um den Wert zu erniedrigen",

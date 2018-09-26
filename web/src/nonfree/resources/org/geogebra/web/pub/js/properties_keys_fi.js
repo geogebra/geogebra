@@ -2414,6 +2414,7 @@ __GGB__keysVar["fi"].menu = {
     "Power": "Aste",
     "Preferences": "Asetukset",
     "PreferencesOfA": "Asetukset - %0",
+    "PressArrowsPageUpToMove": "Paina nuolin\xe4pp\xe4imi\xe4 liikutellaksesi objekteja",
     "PressArrowsToGo": "Valitse eri vaihtoehtoja painamalla nuoli yl\xf6s tai alas.",
     "PressArrowsToMove": "Paina nuolin\xe4pp\xe4imi\xe4 liikutellaksesi objekteja",
     "PressDownToDecrease": "Paina nuoli alas pienent\xe4\xe4ksesi arvoa",

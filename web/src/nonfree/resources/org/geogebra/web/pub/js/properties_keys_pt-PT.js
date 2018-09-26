@@ -2414,6 +2414,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Power": "Pot\xeancia",
     "Preferences": "Configura\xe7\xf5es",
     "PreferencesOfA": "Configura\xe7\xf5es - %0",
+    "PressArrowsPageUpToMove": "Pressione as setas para cima para  mover o objeto",
     "PressArrowsToGo": "Pressione a seta para cima e a seta para baixo para acessar diferentes op\xe7\xf5es.",
     "PressArrowsToMove": "Pressione as setas para cima para  mover o objeto",
     "PressDownToDecrease": "Pressione a seta para baixo para diminuir o valor",

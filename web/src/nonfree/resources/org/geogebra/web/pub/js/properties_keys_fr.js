@@ -2414,6 +2414,7 @@ __GGB__keysVar["fr"].menu = {
     "Power": "puissance",
     "Preferences": "Pr\xe9f\xe9rences",
     "PreferencesOfA": "Pr\xe9f\xe9rences - %0",
+    "PressArrowsPageUpToMove": "Presser les touches fl\xe9ch\xe9es pour d\xe9placer objet",
     "PressArrowsToGo": "Utiliser les fl\xe8ches haut et bas pour parcourir les diff\xe9rentes options.",
     "PressArrowsToMove": "Presser les touches fl\xe9ch\xe9es pour d\xe9placer objet",
     "PressDownToDecrease": "Presser Fl\xe8che Bas pour diminuer la valeur",

@@ -2414,6 +2414,7 @@ __GGB__keysVar["ca"].menu = {
     "Power": "Pot\xe8ncia",
     "Preferences": "Prefer\xe8ncies",
     "PreferencesOfA": "Prefer\xe8ncies - %0",
+    "PressArrowsPageUpToMove": "Premeu les fletxes del teclat per moure l'objecte",
     "PressArrowsToGo": "Premeu les fletxes amunt i avall per anar a les diferents opcions.",
     "PressArrowsToMove": "Premeu les fletxes del teclat per moure l'objecte",
     "PressDownToDecrease": "Press down arrow to decrease the value",
