@@ -841,9 +841,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		HashMap<String, String> toLoad = new HashMap<>();
 		for (Entry<String, String> entry : archive.entrySet()) {
-			if (getImageManager().getExternalImage(entry.getKey(),
-					this) == null) {
-				maybeProcessImage(entry.getKey(), entry.getValue(), toLoad);
+
+			String key = entry.getKey();
+
+			if (getImageManager().getExternalImage(key, this) == null) {
+				maybeProcessImage(key, entry.getValue(), toLoad);
 			}
 		}
 		if (getEmbedManager() != null) {
