@@ -70,7 +70,7 @@ public class FontA implements Font {
 		return 1;
 	}
 
-    @Override
+    // @Override omit - this method will be removed from Font soon
     public Shape getGlyphOutline(FontRenderContext frc, String valueOf) {
         return null;
     }
