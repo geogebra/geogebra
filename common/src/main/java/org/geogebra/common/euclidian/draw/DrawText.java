@@ -117,7 +117,7 @@ public final class DrawText extends Drawable {
 		String newText;
 		TextController ctrl = view.getEuclidianController().getTextController();
 		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL) && ctrl != null) {
-			newText = ctrl.wrapText(text.getTextString());
+			newText = ctrl.wrapText(text.getTextString(), this);
 		} else {
 			newText = text.getTextString();
 		}

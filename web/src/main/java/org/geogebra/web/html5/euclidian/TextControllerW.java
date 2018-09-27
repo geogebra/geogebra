@@ -203,18 +203,17 @@ public class TextControllerW
 	}
 
 	@Override
-	public String wrapText(String txt) {
+	public String wrapText(String txt, DrawText d) {
 		String editText = txt.replace("&nbsp;", " ");
 		String[] rows = editText.split("\n");
 		ArrayList<String> wrappedRows = new ArrayList<>();
 		for (int i = 0; i < rows.length; i++) {
-			wrappedRows.addAll(wrapRow(rows[i]));
+			wrappedRows.addAll(wrapRow(rows[i], d));
 		}
 		return StringUtil.join("\n", wrappedRows);
 	}
 
-	private int getCurrentWidth() {
-		DrawText d = (DrawText) view.getDrawableFor(text);
+	private int getCurrentWidth(DrawText d) {
 		if (d == null || d.getBounds() == null) {
 			return DrawText.MIN_EDITOR_WIDTH;
 		}
@@ -228,9 +227,9 @@ public class TextControllerW
 	 *            row to wrap.
 	 * @return list of short rows
 	 */
-	public ArrayList<String> wrapRow(String row) {
+	public ArrayList<String> wrapRow(String row, DrawText d) {
 		String[] words = row.split(" ");
-		int rowLength = getCurrentWidth() - 2 * EuclidianStatic.EDITOR_MARGIN;
+		int rowLength = getCurrentWidth(d) - 2 * EuclidianStatic.EDITOR_MARGIN;
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
@@ -269,6 +268,9 @@ public class TextControllerW
 	}
 
 	private String wrapWord(String word, ArrayList<String> wrappedRow, int rowLength) {
+		if (word.length() < 1) {
+			return "";
+		}
 		String currWord = "";
 		char nextChar = word.charAt(0);
 		for (int i = 1; i < word.length(); i++) {

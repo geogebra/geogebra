@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -81,8 +82,11 @@ public interface TextController {
 	 * 
 	 * @param editText
 	 *            text to wrap.
+	 * @param d
+	 *            drawable
+	 * @return wrapped text
 	 */
-	String wrapText(String editText);
+	String wrapText(String editText, DrawText d);
 
 	/**
 	 * Sets the line height of the editor
