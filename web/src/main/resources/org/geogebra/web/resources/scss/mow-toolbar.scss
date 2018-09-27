@@ -140,7 +140,7 @@
 							 margin: 6px;
 							 cursor: pointer;
 							 
-							 &:hover {
+							 &:hover:not(.disabled) {
 							 	opacity: 0.65;
 							 }
 							
@@ -149,6 +149,13 @@
 								height: 38px;
 								margin: 3px !important;
 								border-radius: 2px;
+							}
+							&.disabled, .disabled:hover {
+								opacity: 0.3;
+								img {
+									opacity: 0.3;
+								}
+								cursor: default;
 							}
 						}
 					
@@ -160,7 +167,7 @@
 							 	opacity: 0.54;	
 							 }	
 							 
-							 &:hover {
+							 &:hover:not(.disabled) {
 							 	img {
 							 		opacity: 1;
 							 	}
@@ -184,7 +191,7 @@
 							.gwt-Label {
 								display: none;
 							} 
-							.ui-slider-horizontal {
+							/*.ui-slider-horizontal {
 								height: 5px;
 								background-color: $slider-background;
 								box-shadow: none;
@@ -211,22 +218,14 @@
 						        span{
 						        	border: none !important;
 						        }
-					    	}
+					    	}*/
 					    	&[disabled = true]{
 					    		opacity: 0.3;
-					    		.ui-slider-horizontal, .ui-slider-handle{
-					    			cursor: default;
-					    		}
+					    		input[type=range]::-webkit-slider-thumb:hover {
+									cursor: default !important;
+								}
 					    	}
 					    }
-					}
-				
-					.disabled, .disabled:hover {
-						opacity: 0.3;
-						img {
-							opacity: 0.3;
-						}
-						cursor: default;
 					}
 				}
 		

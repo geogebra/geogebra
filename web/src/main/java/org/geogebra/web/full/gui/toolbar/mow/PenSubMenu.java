@@ -193,12 +193,6 @@ public class PenSubMenu extends SubMenuPanel {
 				LayoutUtilW.panelRow(penPanel, colorPanel, sizePanel));
 	}
 
-	/*
-	 * @Override protected void addModeMenu(FlowPanel panel, Vector<Integer>
-	 * menu) { if (app.isModeValid(menu.get(0).intValue())) {
-	 * panel.add(createButton(menu.get(0).intValue())); } }
-	 */
-
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
 		pen.setSelected(true);
@@ -264,17 +258,6 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	/**
-	 * @param colorStr
-	 *            color string
-	 */
-	/*
-	 * public void setPenIconColor(String colorStr) { // set background of pen
-	 * icon to selected color
-	 * pen.getElement().getFirstChildElement().getNextSiblingElement()
-	 * .setAttribute("style", "background-color: " + colorStr); }
-	 */
-
-	/**
 	 * @param idx
 	 *            index
 	 */
@@ -284,7 +267,6 @@ public class PenSubMenu extends SubMenuPanel {
 				getPenGeo().setObjColor(penColor[i]);
 				if (colorsEnabled) {
 					btnColor[i].addStyleName("mowColorButton-selected");
-					// setPenIconColor(penColor[i].toString());
 					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
 						getPenGeo().setLineOpacity(
 								EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
@@ -303,9 +285,6 @@ public class PenSubMenu extends SubMenuPanel {
 	// remember and set a color that was picked from color chooser
 	private void selectColor(GColor color) {
 		getPenGeo().setObjColor(color);
-		/*
-		 * if (colorsEnabled) { setPenIconColor(color.toString()); }
-		 */
 		updatePreview();
 	}
 
