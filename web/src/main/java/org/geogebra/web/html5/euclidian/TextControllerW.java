@@ -213,7 +213,7 @@ public class TextControllerW
 		return StringUtil.join("\n", wrappedRows);
 	}
 
-	private int getCurrentWidth(DrawText d) {
+	private static int getCurrentWidth(DrawText d) {
 		if (d == null || d.getBounds() == null) {
 			return DrawText.MIN_EDITOR_WIDTH;
 		}
@@ -225,11 +225,13 @@ public class TextControllerW
 	 *
 	 * @param row
 	 *            row to wrap.
+	 * @param drawText
+	 *            drawable
 	 * @return list of short rows
 	 */
-	public ArrayList<String> wrapRow(String row, DrawText d) {
+	public ArrayList<String> wrapRow(String row, DrawText drawText) {
 		String[] words = row.split(" ");
-		int rowLength = getCurrentWidth(d) - 2 * EuclidianStatic.EDITOR_MARGIN;
+		int rowLength = getCurrentWidth(drawText) - 2 * EuclidianStatic.EDITOR_MARGIN;
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();

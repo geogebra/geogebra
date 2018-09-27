@@ -4290,6 +4290,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		yRW = (view.getYZero() - mouseLoc.y) * view.getInvYscale();
 	}
 
+	/**
+	 * Update cursor RW coords from point
+	 * 
+	 * @param tmpCoords3
+	 *            inhom coordinates of a point
+	 */
 	public void setRwCoords(Coords tmpCoords3) {
 		xRW = tmpCoords3.getX();
 		yRW = tmpCoords3.getY();
