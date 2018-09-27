@@ -8109,7 +8109,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					newMinY = newMinY
 							- (bounds.getHeight() - (newMaxY - newMinY));
 				}
-				if (bounds != null) {
+				if (bounds != null && bounds.getMinX() + bounds.getWidth() <= bbMinX + bbWidth) {
 					// calculate the difference between the new and old
 					// positions (minX) and then apply translate
 					double dx = thresholdXReached ? 0
