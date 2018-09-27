@@ -94,4 +94,24 @@ public class StringUtilTest {
 				.getIDfromURL("https://www.geogebra.org/m/mAukGjbN"));
 	}
 
+	@Test
+	public void testNewlines() {
+		String in = "a\n\n\n\nb";
+		String out = "<div>a</div><div><br></div><div><br></div><div><br></div><div>b</div>";
+		compatibleNewlines(in, out);
+	}
+
+	@Test
+	public void testNewlinesTrailing() {
+		String in = "\n\na\nb";
+		String out = "<div><br></div><div><br></div><div>a</div><div>b</div>";
+		compatibleNewlines(in, out);
+	}
+
+	private static void compatibleNewlines(String in, String out) {
+		Assert.assertEquals(out, StringUtil.newlinesToHTML(in));
+		Assert.assertEquals(StringUtil.toJavaString(in),
+				StringUtil.toJavaString(StringUtil.htmlToNewlines(out)));
+	}
+
 }

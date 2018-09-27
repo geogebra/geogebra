@@ -1777,4 +1777,32 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	public static boolean emptyOrZero(String tubeId) {
 		return empty(tubeId) || "0".equals(tubeId);
 	}
+
+	/**
+	 * @param text
+	 *            ASCII string
+	 * @return HTML lines wrapped in divs, empty lines encoded as
+	 *         &lt;div>&ltbr>&lt/div>
+	 */
+	public static String newlinesToHTML(String text) {
+		String[] lines = text.split("\n");
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < lines.length; i++) {
+			sb.append("<div>");
+			sb.append(lines[i].isEmpty() ? "<br>" : lines[i]);
+			sb.append("</div>");
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * @param html
+	 *            raw HTML
+	 * @return ASCII string; ends of divs and paragraphs replaced by \n
+	 */
+	public static String htmlToNewlines(String html) {
+		return html.replace("<br></div>", "\n").replaceAll("</div>(.)", "\n$1")
+				.replace("<br>", "\n").replace("</p>", "\n")
+				.replaceAll("</?[^>]+>", "");
+	}
 }

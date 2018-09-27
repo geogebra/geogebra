@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.util.Persistable;
@@ -95,15 +96,7 @@ public class MowTextEditor extends AdvancedFlowPanel
 	 *            to set.
 	 */
 	public void setText(String text) {
-		String[] lines = text.split("\n");
-		StringBuilder sb = new StringBuilder();
-		sb.append(lines[0]);
-		for (int i = 1; i < lines.length; i++) {
-			sb.append("<div>");
-			sb.append(lines[i]);
-			sb.append("</div>");
-		}
-		getElement().setInnerHTML(sb.toString());
+		getElement().setInnerHTML(StringUtil.newlinesToHTML(text));
 	}
 
 	/**
@@ -112,9 +105,7 @@ public class MowTextEditor extends AdvancedFlowPanel
 	 */
 	public String getText() {
 		String html = getElement().getInnerHTML();
-
-		return html.replace("<div>", "\n").replace("</div>", "")
-				.replace("<br>", "\n").replace("</p>", "\n").replace("<p>", "");
+		return StringUtil.htmlToNewlines(html);
 	}
 
 	/**
