@@ -428,7 +428,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	protected final void setModelViewIdentity() {
 		projectionMatrix.getForGL(tmpFloat16);
-		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+		glCopyToMatrixLocation(tmpFloat16);
+	}
+
+	/**
+	 * copy values to GL matrix location
+	 * 
+	 * @param values
+	 *            values
+	 */
+	protected void glCopyToMatrixLocation(float[] values) {
+		glUniformMatrix4fv(matrixLocation, values);
 	}
 
 	abstract protected void glUniformMatrix4fv(Object location, float[] values);
@@ -472,7 +482,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void setMatrixView() {
 		tmpMatrix1.setMul(projectionMatrix, renderer.getToScreenMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
-		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+		glCopyToMatrixLocation(tmpFloat16);
 	}
 
     @Override
@@ -512,7 +522,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);
 		tmpMatrix1.getForGL(tmpFloat16);
 
-		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+		glCopyToMatrixLocation(tmpFloat16);
 	}
 
 	@Override
@@ -520,7 +530,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix1.setMul(projectionMatrix, renderer.getMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
 
-		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+		glCopyToMatrixLocation(tmpFloat16);
 	}
 
 	@Override
