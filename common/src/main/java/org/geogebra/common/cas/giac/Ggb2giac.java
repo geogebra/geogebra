@@ -62,6 +62,7 @@ public class Ggb2giac {
 		String binomCommand = "simplify(binomial(%0,%1))";
 		p("nCr.2", binomCommand);
 		p("Binomial.2", binomCommand);
+		p("BinomialCoefficient.2", binomCommand);
 
 		p("BinomialDist.3",
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
@@ -1005,6 +1006,7 @@ public class Ggb2giac {
 				"[[ggbmaxarg:=%],when(type(ggbmaxarg)==DOM_LIST,when(type((ggbmaxarg)[0])==DOM_LIST,?,max(ggbmaxarg)),?)][1]");
 		p("MatrixRank.1", "rank(%0)");
 		p("mean.1", "mean(%0)");
+		p("Mean.1", "mean(%0)");
 		p("Median.1", "median(%0)");
 		p("Min.N",
 				"[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST,when(type((ggbminarg)[0])==DOM_LIST,?,min(ggbminarg)),?)][1]");
@@ -1169,6 +1171,7 @@ public class Ggb2giac {
 		p("SampleVariance.1",
 				" [[ggbsvans:=%0],[ggbsvans:=normal(variance(ggbsvans)*size(ggbsvans)/(size(ggbsvans)-1))],ggbsvans][2]");
 		p("stdevp.1", "normal(stddevp(%0))");
+		p("SampleSD.1", "normal(stddevp(%0))");
 		p("Sequence.1", "when(round(%0)<1,{},seq(1,round(%0),1))");
 		p("Sequence.2", "seq(round(%0),round(%1),1)");
 		p("Sequence.4", "seq(%0,%1,%2,%3)");
@@ -1188,6 +1191,7 @@ public class Ggb2giac {
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,%1)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		p("stdev.1", "normal(stddev(%0))");
+		p("SD.1", "normal(stddev(%0))");
 
 		// removed,Shuffle[{1,2}] kills Giac
 		p("Shuffle.1", "randperm(%0)");
