@@ -379,6 +379,7 @@ public class CAStestJSON {
 	@Test
 	public void testBinomialCoefficient() {
 		testCat("nCr.2");
+		testCat("BinomialCoefficient.2");
 	}
 
 	@Test
@@ -681,6 +682,7 @@ public class CAStestJSON {
 	@Test
 	public void testMean() {
 		testCat("mean.1");
+		testCat("Mean.1");
 	}
 
 	@Test
@@ -882,6 +884,7 @@ public class CAStestJSON {
 	@Test
 	public void testSampleSD() {
 		testCat("stdevp.1");
+		testCat("SampleSD.1");
 	}
 
 	@Test
@@ -892,6 +895,7 @@ public class CAStestJSON {
 	@Test
 	public void testSD() {
 		testCat("stdev.1");
+		testCat("SD.1");
 	}
 
 	@Test
