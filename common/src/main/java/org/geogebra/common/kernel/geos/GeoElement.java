@@ -3029,6 +3029,11 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getFreeLabel(final String suggestedLabel) {
+		return getFreeLabel(suggestedLabel, false);
+	}
+
+	@Override
+	public String getFreeLabel(final String suggestedLabel, boolean areOnlyLatinLettersEnabled) {
 		if (suggestedLabel != null) {
 			if ("x".equals(suggestedLabel) || "y".equals(suggestedLabel)) {
 				return getDefaultLabel(false);
@@ -3042,7 +3047,13 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// standard case: get default label
-		return getDefaultLabel(false);
+		return getDefaultLabel(false, areOnlyLatinLettersEnabled);
+	}
+
+	private String getDefaultLabel(
+			final boolean isInteger,
+			final boolean areOnlyLatinLettersEnabled) {
+		return getDefaultLabel(null, isInteger, areOnlyLatinLettersEnabled);
 	}
 
 	/**
@@ -3126,6 +3137,13 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return default label
 	 */
 	protected String getDefaultLabel(char[] chars2, final boolean isInteger) {
+		return getDefaultLabel(chars2, isInteger, false);
+	}
+
+	private String getDefaultLabel(
+			char[] chars2,
+			final boolean isInteger,
+			final boolean areOnlyLatinLettersEnabled) {
 		char[] chars = chars2;
 		if (chars == null) {
 			if (isGeoPoint() && !(this instanceof GeoTurtle)) {
@@ -3182,7 +3200,11 @@ public abstract class GeoElement extends ConstructionElement
 			} else if (isGeoVector() || evaluatesTo3DVector()) {
 				chars = vectorLabels;
 			} else if (isGeoAngle()) {
-				chars = Greek.getGreekLowerCaseNoPi();
+				if (areOnlyLatinLettersEnabled) {
+					chars = lowerCaseLabels;
+				} else {
+					chars = Greek.getGreekLowerCaseNoPi();
+				}
 			} else if (isGeoText()) {
 				return defaultNumberedLabel("text", false); // Name.text
 			} else if (isGeoImage()) {

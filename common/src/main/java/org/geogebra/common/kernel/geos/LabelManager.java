@@ -14,6 +14,20 @@ import org.geogebra.common.util.StringUtil;
  */
 public class LabelManager {
 
+	private static LabelManager instance;
+	private boolean areOnlyLatinLettersEnabled;
+
+	/**
+	 * Getter for the instance of this singleton class.
+	 * @return the single instance of this class.
+	 */
+	public static LabelManager getInstance() {
+		if (instance == null) {
+			instance = new LabelManager();
+		}
+		return instance;
+	}
+
 	/**
 	 * Checks whether name can be used as label Parser.parseLabel takes care of
 	 * checking unicode ranges and indices; this only checks for reserved names
@@ -220,6 +234,17 @@ public class LabelManager {
 	}
 
 	/**
+	 * Sets the label for a GeoElementND
+	 * @param label
+	 *          The label to be set.
+	 * @param element
+	 *          The GeoElementND that will get the label.
+	 */
+	public void setLabel(String label, GeoElementND element) {
+		element.setLabel(element.getFreeLabel(label, areOnlyLatinLettersEnabled));
+	}
+
+	/**
 	 * search through labels to find a free one, eg
 	 * 
 	 * A, B, C, ...
@@ -284,5 +309,15 @@ public class LabelManager {
 		}
 
 		return labelToUse;
+	}
+
+	/**
+	 * Enables or disables the use of other than latin letters in the labels.
+	 * @param enableLatinLettersOnly
+	 *          If true then only latin letters will be used in the labels,
+	 *          otherwise all kind of letters are enabled.
+	 */
+	public void enableLatinLettersOnly(boolean enableLatinLettersOnly) {
+		this.areOnlyLatinLettersEnabled = enableLatinLettersOnly;
 	}
 }

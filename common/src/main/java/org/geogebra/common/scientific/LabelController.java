@@ -1,6 +1,7 @@
 package org.geogebra.common.scientific;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
 
 /**
  * Handles showing and hiding the label for the Scientific Calculator
@@ -29,7 +30,7 @@ public class LabelController {
 
 	private void updateLabel(GeoElement element, boolean show) {
 		element.setAlgebraLabelVisible(show);
-		element.setLabel(element.getFreeLabel(show ? null : PREFIX));
+		LabelManager.getInstance().setLabel(show ? null : PREFIX, element);
 		element.setDescriptionNeedsUpdateInAV(true);
 		element.getKernel().notifyUpdate(element);
 	}

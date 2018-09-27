@@ -937,6 +937,17 @@ public interface GeoElementND extends ExpressionValue {
 	String getFreeLabel(String suggestedLabel);
 
 	/**
+	 * Get a free label. The algorithm tries the suggestedLabel first
+	 *
+	 * @param suggestedLabel
+	 *            label to be tried first
+	 * @param areOnlyLatinLettersEnabled
+	 *            if true, the label will consist of latin letters only
+	 * @return free label -- either suggestedLabel or suggestedLabel_index
+	 */
+	String getFreeLabel(String suggestedLabel, boolean areOnlyLatinLettersEnabled);
+
+	/**
 	 * if an object has a fixed descendent, we want to set it undefined
 	 */
 	void removeOrSetUndefinedIfHasFixedDescendent();
