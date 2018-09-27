@@ -40,10 +40,12 @@ public class FontStub implements Font {
 		return true;
 	}
 
+	@Override
 	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
 		return null;
 	}
 
+	@Override
 	public boolean canDisplay(int c) {
 		return true;
 	}

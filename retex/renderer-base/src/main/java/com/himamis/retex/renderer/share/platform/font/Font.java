@@ -45,6 +45,7 @@ package com.himamis.retex.renderer.share.platform.font;
 
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public interface Font {
@@ -78,8 +79,8 @@ public interface Font {
 
 	public boolean canDisplay(char ch);
 
-	// public Shape getGlyphOutline(FontRenderContext frc, CharFont cf);
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf);
 
-	// public boolean canDisplay(int c);
+	public boolean canDisplay(int c);
 
 }
