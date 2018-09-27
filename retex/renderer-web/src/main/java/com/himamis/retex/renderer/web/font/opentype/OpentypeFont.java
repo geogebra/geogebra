@@ -145,7 +145,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		return new ShapeW(outline, rect);
 	}
 
-	// @Override
+	@Override
 	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
 		FontW font = this;// (FontW) frc.getFont();
 		FontWrapper wrap = font.getFontWrapper();
@@ -165,7 +165,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		return new ShapeW(outline, rect);
 	}
 
-	// @Override
+	@Override
 	public boolean canDisplay(int c) {
 		return true;
 	}

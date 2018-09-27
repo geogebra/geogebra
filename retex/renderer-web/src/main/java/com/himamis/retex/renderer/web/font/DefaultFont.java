@@ -132,10 +132,12 @@ public class DefaultFont extends FontW implements FontWrapper {
 
 	}-*/;
 
+	@Override
 	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
 		return null;
 	}
 
+	@Override
 	public boolean canDisplay(int c) {
 		return true;
 	}

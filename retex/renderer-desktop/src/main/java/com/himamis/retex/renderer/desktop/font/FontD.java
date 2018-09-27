@@ -123,10 +123,12 @@ public class FontD implements Font {
 		return impl.canDisplay(ch);
 	}
 
+	@Override
 	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
 		return createGlyphVector(frc, cf.c + "").getGlyphOutline(0);
 	}
 
+	@Override
 	public boolean canDisplay(int c) {
 		return impl.canDisplay(c);
 	}
