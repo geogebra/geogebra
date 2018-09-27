@@ -3046,8 +3046,12 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		}
 
-		// standard case: get default label
-		return getDefaultLabel(false, areOnlyLatinLettersEnabled);
+		if (areOnlyLatinLettersEnabled) {
+            return getDefaultLabel(false, true);
+        } else {
+            // standard case: get default label
+            return getDefaultLabel(false);
+        }
 	}
 
 	private String getDefaultLabel(
