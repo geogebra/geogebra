@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -45,7 +46,15 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class SelectionManager {
 	/** list of selected geos */
-	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
+	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>() {
+		@Override
+		public boolean add(GeoElement el) {
+			if (el == null) {
+				Log.printStacktrace("NULL added");
+			}
+			return super.add(el);
+		}
+	};
 
 	private final Kernel kernel;
 

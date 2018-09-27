@@ -97,7 +97,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	public void initPopup(ArrayList<GeoElement> geos) {
 		wrappedPopup.clearItems();
-		if (geos == null || geos.size() == 0) {
+		if (geos == null || geos.size() == 0 || !geos.get(0).isLabelSet()) {
 			return;
 		}
 		this.setGeos(geos);
@@ -150,6 +150,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addForAllItems() {
+		if (getGeo() == null) {
+			return;
+		}
 		if (hasWhiteboardContextMenu()) {
 			addRename();
 			addEditItems();
@@ -157,9 +160,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addPinAndFixObject();
 		}
 
-		if (getGeo() == null) {
-			return;
-		}
 		// SHOW, HIDE
 
 		// G.Sturr 2010-5-14: allow menu to show spreadsheet trace for

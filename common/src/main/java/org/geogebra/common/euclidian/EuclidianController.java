@@ -3440,10 +3440,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean rw = true;
 
 		// threshold for custom or default size
-		boolean customSize = (app.has(Feature.MOW_TEXT_TOOL)
-				&& textRectangleShape != null
-				&& textRectangleShape.getWidth() > DrawText.MIN_EDITOR_WIDTH
-				&& textRectangleShape.getHeight() > DrawText.MIN_EDITOR_HEIGHT);
+		boolean customSize = app.has(Feature.MOW_TEXT_TOOL)
+				&& textRectangleShape != null;
 
 		if (hits.isEmpty()) {
 			if (selPreview) {
@@ -3452,9 +3450,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			// create new Point
 			if (customSize) {
-				loc = new GeoPoint(kernel.getConstruction(),
-						textRectangleShape.getX(), textRectangleShape.getY(),
-						1);
+				loc = customTextPosition();
 			} else {
 				loc = new GeoPoint(kernel.getConstruction());
 				rw = companion.setCoordsToMouseLoc(loc);
@@ -3468,9 +3464,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				loc = points[0];
 			} else if (!selPreview) {
 				if (customSize) {
-					loc = new GeoPoint(kernel.getConstruction(),
-							textRectangleShape.getX(),
-							textRectangleShape.getY(), 1);
+					loc = customTextPosition();
 				} else {
 					loc = new GeoPoint(kernel.getConstruction());
 					rw = companion.setCoordsToMouseLoc(loc);
@@ -3491,10 +3485,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (textRectangleShape != null) {
 				if (customSize) {
 					getTextController().resizeEditor(
-							(int) textRectangleShape.getWidth(),
-							(int) textRectangleShape.getHeight());
+							Math.max(DrawText.MIN_EDITOR_WIDTH,
+									(int) textRectangleShape.getWidth()),
+							Math.max(DrawText.MIN_EDITOR_HEIGHT,
+									(int) textRectangleShape.getHeight()));
 				}
-				textRectangleShape.setFrame(0, 0, 0, 0);
+				textRectangleShape = null;
 				view.setShapeRectangle(null);
 				view.repaintView();
 			}
@@ -3506,6 +3502,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return false;
+	}
+
+	private GeoPointND customTextPosition() {
+		return new GeoPoint(kernel.getConstruction(), textRectangleShape.getX(),
+				textRectangleShape.getY() + app.getFontSize()
+						+ EuclidianStatic.EDITOR_MARGIN,
+				1);
 	}
 
 	/**
@@ -6908,7 +6911,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		moveMode = MOVE_NONE;
 		
 		// do not move if there's a selected geo that's locked
-		if (selection.containsLockedGeo()) {
+		if (geo == null || selection.containsLockedGeo()) {
 			return;
 		}
 
@@ -7170,11 +7173,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					GeoPoint loc2 = new GeoPoint(loc);
 					movedGeoText.setNeedsUpdatedBoundingBox(true);
 					movedGeoText.update();
-					loc2.setCoords(movedGeoText.getBoundingBox().getX(),
-							movedGeoText.getBoundingBox().getY(), 1.0);
+					if (movedGeoText.getBoundingBox() != null) {
+						loc2.setCoords(movedGeoText.getBoundingBox().getX(),
+								movedGeoText.getBoundingBox().getY(), 1.0);
 
-					transformCoordsOffset[0] = loc2.inhomX - xRW;
-					transformCoordsOffset[1] = loc2.inhomY - yRW;
+						transformCoordsOffset[0] = loc2.inhomX - xRW;
+						transformCoordsOffset[1] = loc2.inhomY - yRW;
+					}
 				}
 			} else {
 				// for relative locations label has to be moved
