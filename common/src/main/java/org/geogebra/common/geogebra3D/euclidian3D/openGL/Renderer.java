@@ -38,28 +38,6 @@ public abstract class Renderer implements RendererInterface {
 	private RendererType type;
 
 	public static final int MOUSE_PICK_DEPTH = 10;
-	/** max latitude viewed -- must be factor of 9 */
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
-	public static final double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
-			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
-
-	public static final int EXPORT_IMAGE_EQUIRECT_HEIGHT = 2000;
-	public static final int EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECT_HEIGHT
-			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
-
-	public static final int EXPORT_IMAGE_EQUIRECT_WIDTH = 2
-			* EXPORT_IMAGE_EQUIRECT_HEIGHT;
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
-
-	public static final int EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECT_WIDTH
-			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
-
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0
-			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
-
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN = Math
-			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI
-					/ 360.0);
 
 	// layers
 	/** shift for planes layer to avoid z-fighting */
@@ -115,8 +93,6 @@ public abstract class Renderer implements RendererInterface {
 	public boolean needExportImage = false;
 
 	private boolean exportImageForThumbnail = false;
-
-	private boolean exportImageEquirectangular = false;
 
 	protected boolean waitForUpdateClearColor = false;
 
@@ -242,14 +218,6 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
-	 * @return true if is exporting equirectangular image
-	 */
-	public boolean isExportingImageEquirectangular() {
-		return exportImageEquirectangular;
-	}
-
-	/**
 	 * set runnable to do a 3D export on next frame
 	 * 
 	 * @param runnable
@@ -263,10 +231,6 @@ public abstract class Renderer implements RendererInterface {
 	 * draw the scene
 	 */
 	public void drawScene() {
-
-		if (exportImageEquirectangular) {
-			view3D.setProjectionEquirectangular();
-		}
 
 		// update 3D controller
 		((EuclidianController3D) view3D.getEuclidianController())
@@ -293,7 +257,7 @@ public abstract class Renderer implements RendererInterface {
 		updateViewAndDrawables();
 		// Log.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
 
-		if (needExportImage && !exportImageEquirectangular) {
+		if (needExportImage) {
 			selectFBO();
 		}
 
@@ -315,51 +279,7 @@ public abstract class Renderer implements RendererInterface {
 
 		// time = System.currentTimeMillis();
 
-		if (exportImageEquirectangular) {
-
-			setExportImageDimension(EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT,
-					EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT);
-			selectFBO();
-			initExportImageEquirectangularTiles();
-
-			for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
-				// update view
-				// view3D.setEquirectangularAngle(-EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_ELEMENT
-				// * i);
-				view3D.setEquirectangularAngle(
-						-i * EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA);
-
-				// left eye
-				clearColorBuffer();
-				clearDepthBuffer();
-				setDrawLeft();
-				setView();
-				draw();
-				setExportImageEquirectangularTileLeft(i);
-
-				// right eye
-				clearColorBuffer();
-				clearDepthBuffer();
-				setDrawRight();
-				setView();
-				draw();
-				setExportImageEquirectangularTileRight(i);
-
-				setColorMask(true, true, true, true);
-
-			}
-
-			setExportImageEquirectangularFromTiles();
-			exportImageEquirectangular();
-			unselectFBO();
-			setNeedExportImage(false);
-
-			exportImageEquirectangular = false;
-
-			return;
-
-		} else if (view3D
-				.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 
 			// left eye
 			setDrawLeft();
@@ -411,33 +331,6 @@ public abstract class Renderer implements RendererInterface {
 		}
 
 	}
-
-	/**
-	 * export equirectangular image
-	 */
-	abstract protected void exportImageEquirectangular();
-
-	/**
-	 * init tiles array
-	 */
-	abstract protected void initExportImageEquirectangularTiles();
-
-	/**
-	 * create equirectangular image i-th tile, left eye
-	 */
-	abstract protected void setExportImageEquirectangularTileLeft(int i);
-
-	/**
-	 * create equirectangular image i-th tile, right eye
-	 */
-	abstract protected void setExportImageEquirectangularTileRight(int i);
-
-	/**
-	 * concatenates tiles to create equirectangular image
-	 */
-	abstract protected void setExportImageEquirectangularFromTiles();
-
-	// private double exportImageEquirectangularAngle = 0;
 
 	/**
 	 * says that an export image is needed, and call immediate display
@@ -1559,7 +1452,6 @@ public abstract class Renderer implements RendererInterface {
 					viewPersp();
 					break;
 				case EuclidianView3D.PROJECTION_GLASSES:
-				case EuclidianView3D.PROJECTION_EQUIRECTANGULAR:
 					viewGlasses();
 					break;
 				case EuclidianView3D.PROJECTION_OBLIQUE:
@@ -1599,32 +1491,15 @@ public abstract class Renderer implements RendererInterface {
 			}
 
 			perspFocus[i] = -eyeToScreenDistance[i] + view3D.getScreenZOffset();
-			// App.error(""+ view3D.getScreenZOffset());
 
-			if (exportImageEquirectangular) {
-				// frustum: top and bottom
-				perspTop[i] = EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN
-						* perspNear[i];
-				perspBottom[i] = -perspTop[i];
+			// ratio so that distance on screen plane are not changed
+			perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];
 
-				// ratio to see vertical angle of 45 degrees
-				perspDistratio[i] = perspTop[i] / getTop();
-
-				// frustum: right and left
-				perspRight[i] = perspNear[i]
-						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN;
-				perspLeft[i] = -perspRight[i];
-
-			} else {
-				// ratio so that distance on screen plane are not changed
-				perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];
-
-				// frustum
-				perspLeft[i] = getLeft() * perspDistratio[i];
-				perspRight[i] = getRight() * perspDistratio[i];
-				perspBottom[i] = getBottom() * perspDistratio[i];
-				perspTop[i] = getTop() * perspDistratio[i];
-			}
+			// frustum
+			perspLeft[i] = getLeft() * perspDistratio[i];
+			perspRight[i] = getRight() * perspDistratio[i];
+			perspBottom[i] = getBottom() * perspDistratio[i];
+			perspTop[i] = getTop() * perspDistratio[i];
 
 			// distance camera-far plane
 			perspFar[i] = perspNear[i] + getVisibleDepth();
@@ -1802,9 +1677,8 @@ public abstract class Renderer implements RendererInterface {
 	 */
 	public double getEyeToScreenDistance() {
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
-				|| view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
 				|| view3D
-						.getProjection() == EuclidianView3D.PROJECTION_EQUIRECTANGULAR) {
+						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 			return eyeToScreenDistance[EYE_LEFT];
 		}
 

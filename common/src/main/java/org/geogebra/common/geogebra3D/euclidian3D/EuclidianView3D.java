@@ -1,5 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -115,11 +120,6 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 /**
  * Class for 3D view
  *
@@ -167,10 +167,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	final static public int PROJECTION_ORTHOGRAPHIC = 0;
 	final static public int PROJECTION_PERSPECTIVE = 1;
 	final static public int PROJECTION_GLASSES = 2;
-	// DrawList3D();
 	final static public int PROJECTION_OBLIQUE = 3;
-	// DrawList3D();
-	final static public int PROJECTION_EQUIRECTANGULAR = 4;
 	public static final int CURSOR_DEFAULT = 0;
 
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
@@ -3679,13 +3676,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		projectionPerspectiveEyeDistance[0] = distanceLeft;
 		projectionPerspectiveEyeDistance[1] = distanceRight;
 		if (projection != PROJECTION_PERSPECTIVE
-				&& projection != PROJECTION_GLASSES
-				&& projection != PROJECTION_EQUIRECTANGULAR) {
+				&& projection != PROJECTION_GLASSES) {
 			projection = PROJECTION_PERSPECTIVE;
 		}
 		updateProjectionPerspectiveEyeDistance();
-		if (projection == PROJECTION_GLASSES
-				|| projection == PROJECTION_EQUIRECTANGULAR) { // also update
+		if (projection == PROJECTION_GLASSES) { // also update
 			// eyes
 			// separation
 			renderer.updateGlassesValues();
@@ -3719,56 +3714,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 		setProjectionValues(PROJECTION_GLASSES);
 		setCursor(EuclidianCursor.TRANSPARENT);
-	}
-
-	/**
-	 * Set projection to equirectangular.
-	 */
-	public void setProjectionEquirectangular() {
-		// updateProjectionPerspectiveEyeDistance();
-		double d = renderer.getVisibleDepth() / 2 + 100;
-		renderer.setNear(d, d);
-
-		eyeX[1] = 10;
-		eyeX[0] = -eyeX[1];
-
-		renderer.updateGlassesValues();
-
-		if (getCompanion().isPolarized()) {
-			renderer.setWaitForSetStencilLines();
-		} else {
-			renderer.setWaitForDisableStencilLines();
-		}
-		setProjectionValues(PROJECTION_EQUIRECTANGULAR);
-		setCursor(EuclidianCursor.TRANSPARENT);
-
-		// set view origin
-		setXZero(0);
-		setYZero(0);
-		setZZero(0);
-
-		// no horizontal angle
-		b = 0;
-
-		// update
-		updateMatrix();
-		setViewChangedByTranslate();
-		setWaitForUpdate();
-
-	}
-
-	/**
-	 * @param angle
-	 *            equirectangular angle
-	 */
-	public void setEquirectangularAngle(double angle) {
-		// change angle
-		a = angle;
-
-		// update
-		updateMatrix();
-		setViewChangedByRotate();
-		setWaitForUpdate();
 	}
 
 	public boolean isGlassesGrayScaled() {

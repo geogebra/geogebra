@@ -46,10 +46,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	protected BufferedImage bi;
 
-	private BufferedImage[] equirectangularTilesLeft;
-
-	private BufferedImage[] equirectangularTilesRight;
-
 	/**
 	 * Constructor
 	 * 
@@ -353,19 +349,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 	}
 
 	@Override
-	protected void exportImageEquirectangular() {
-
-		if (bi == null) {
-			Log.error("image null");
-		} else {
-			ImageSelection imgSel = new ImageSelection(bi);
-			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
-					null);
-		}
-		getRendererImpl().endNeedExportImage();
-	}
-
-	@Override
 	protected void setDepthFunc() {
 		getGL().glDepthFunc(GL.GL_LEQUAL); // less or equal for
 												// transparency
@@ -523,88 +506,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 	@Override
 	protected void setGIFEncoder(Object gifEncoder) {
 		this.gifEncoder = (FrameCollector) gifEncoder;
-	}
-
-	@Override
-	protected void initExportImageEquirectangularTiles() {
-		if (equirectangularTilesLeft == null) {
-			equirectangularTilesLeft = new BufferedImage[EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS];
-			equirectangularTilesRight = new BufferedImage[EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS];
-		}
-	}
-
-	@Override
-	protected void setExportImageEquirectangularTileLeft(int i) {
-		setExportImage();
-		equirectangularTilesLeft[i] = bi;
-	}
-
-	@Override
-	protected void setExportImageEquirectangularTileRight(int i) {
-		setExportImage();
-		equirectangularTilesRight[i] = bi;
-	}
-
-	private void setRGBFromTile(int i, int x, int y, int xTile, int yTile) {
-		bi.setRGB(x, y, equirectangularTilesLeft[i].getRGB(xTile, yTile));
-		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECT_HEIGHT,
-				equirectangularTilesRight[i].getRGB(xTile, yTile));
-	}
-
-	private void setWhite(int x, int y) {
-		bi.setRGB(x, y, INT_RGB_WHITE);
-		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECT_HEIGHT, INT_RGB_WHITE);
-	}
-
-	@Override
-	protected void setExportImageEquirectangularFromTiles() {
-		bi = new BufferedImage(EXPORT_IMAGE_EQUIRECT_WIDTH,
-				EXPORT_IMAGE_EQUIRECT_HEIGHT * 2,
-				BufferedImage.TYPE_INT_RGB);
-
-		int shiftY = (EXPORT_IMAGE_EQUIRECT_HEIGHT
-				- EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT) / 2;
-		int shiftAlpha = EXPORT_IMAGE_EQUIRECT_HEIGHT / 2;
-		for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
-			int shiftX = i * EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT;
-			for (int x = 0; x < EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT; x++) {
-				// top white
-				for (int y = 0; y < shiftY; y++) {
-					setWhite(x + shiftX, y);
-				}
-
-				// first line will be missed by alpha
-				setRGBFromTile(i, x + shiftX, shiftY, x, 0);
-
-				// middle line
-				setRGBFromTile(i, x + shiftX, shiftAlpha, x,
-						EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT / 2);
-
-				// angle - tangent match
-				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT
-						/ 2; yAlpha++) {
-					double alpha = ((double) (2 * yAlpha
-							* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
-							/ EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT;
-					int y = (int) (EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT
-							* Math.tan(alpha * Math.PI / 180)
-							/ (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
-					setRGBFromTile(i, x + shiftX, shiftAlpha + yAlpha, x,
-							EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT / 2
-									+ y);
-					setRGBFromTile(i, x + shiftX, shiftAlpha - yAlpha, x,
-							EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT / 2
-									- y);
-				}
-
-				// bottom white
-				for (int y = EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT
-						+ shiftY; y < EXPORT_IMAGE_EQUIRECT_HEIGHT; y++) {
-					setWhite(x + shiftX, y);
-				}
-
-			}
-		}
 	}
 
 	/**
