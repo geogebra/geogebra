@@ -373,4 +373,17 @@ public class ScreenReader {
 		sb.append(rightStr);
 		sb.append(ScreenReader.getEndFraction(loc));
 	}
+
+	/**
+	 * Reads information about the play button on EV.
+	 * 
+	 * @param app
+	 *            the application.
+	 */
+	public static void readEVPlay(App app) {
+		Localization loc = app.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getMenu("PlayButton"));
+		readText(sb.toString(), app);
+	}
 }

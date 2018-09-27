@@ -73,7 +73,17 @@ public final class AccessibilityManagerNoGui
 
 	@Override
 	public boolean handleTabExitGeos(boolean forward) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean leaveAnimationButton(boolean forward) {
+		return false;
+	}
+
+	@Override
+	public void setPlaySelectedIfVisible(boolean b) {
+		// TODO Auto-generated method stub
+
 	}
 }

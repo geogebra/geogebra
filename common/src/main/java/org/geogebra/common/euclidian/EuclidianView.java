@@ -75,6 +75,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -403,6 +404,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** show coords of view corners */
 	private boolean showAxesCornerCoords = true;
 
+	private boolean animationButtonSelected = false;
 	/**
 	 * Whether axes numbers should be shown
 	 */
@@ -6601,5 +6603,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public boolean canShowPointStyle() {
     	return true;
+	}
+
+	public boolean isAnimationButtonSelected() {
+		return kernel.needToShowAnimationButton() && animationButtonSelected;
+	}
+
+	public void setAnimationButtonSelected(boolean value) {
+		this.animationButtonSelected = value;
+		setAnimationButtonsHighlighted(value);
+		if (value) {
+			ScreenReader.readEVPlay(app);
+		}
 	}
 }

@@ -112,4 +112,20 @@ public interface AccessibilityManagerInterface {
 	 * @return true if the situation is handled here.
 	 */
 	boolean handleTabExitGeos(boolean forward);
+
+	/**
+	 * 
+	 * @param forward
+	 *            true for TAB, false for Shift+TAB
+	 * @return true if tab selection leaves the animation button.
+	 */
+	public boolean leaveAnimationButton(boolean forward);
+
+	/**
+	 * Selects/unselects EV play if available.
+	 * 
+	 * @param b
+	 *            to set.
+	 */
+	public void setPlaySelectedIfVisible(boolean b);
 }

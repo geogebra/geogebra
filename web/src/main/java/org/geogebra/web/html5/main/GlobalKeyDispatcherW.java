@@ -586,7 +586,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
-
 		if (am == null) {
 			return false;
 		}
@@ -602,9 +601,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (isShiftDown) {
-			selection.selectLastGeo(app.getActiveEuclidianView());
+			if (!am.leaveAnimationButton(false)) {
+				selection.selectLastGeo(app.getActiveEuclidianView());
+			}
+
 			return true;
 		}
+		am.setPlaySelectedIfVisible(false);
 		boolean forceRet = false;
 		if (selection.getSelectedGeos().size() == 0) {
 			forceRet = true;

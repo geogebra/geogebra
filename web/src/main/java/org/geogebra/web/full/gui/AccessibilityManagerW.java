@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -246,6 +247,36 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean handleTabExitGeos(boolean forward) {
+		if (!app.has(Feature.TAB_ON_EV_PLAY)) {
+			return false;
+		}
+
+		if (!app.getKernel().needToShowAnimationButton()) {
+			return false;
+		}
+
+		setPlaySelectedIfVisible(true);
+		return true;
+	}
+
+	@Override
+	public void setPlaySelectedIfVisible(boolean b) {
+		if (app.getKernel().needToShowAnimationButton()) {
+			app.getActiveEuclidianView().setAnimationButtonSelected(b);
+		}
+	}
+
+	@Override
+	public boolean leaveAnimationButton(boolean forward) {
+		if (!app.getActiveEuclidianView().isAnimationButtonSelected()) {
+			return false;
+		}
+		if (!forward) {
+			focusLastGeo();
+			setPlaySelectedIfVisible(false);
+			return true;
+		}
+
 		return false;
 	}
 }
