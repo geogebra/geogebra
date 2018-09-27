@@ -203,6 +203,7 @@ public class PenSubMenu extends SubMenuPanel {
 		getPenGeo().setLineThickness(lastPenThickness);
 		getPenGeo().setLineOpacity(255);
 		slider.getElement().setAttribute("disabled", "false");
+		slider.disableSlider(false);
 		preview.setVisible(true);
 		updatePreview();
 	}
@@ -218,6 +219,7 @@ public class PenSubMenu extends SubMenuPanel {
 		getPenGeo()
 				.setLineOpacity(EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
 		slider.getElement().setAttribute("disabled", "false");
+		slider.disableSlider(false);
  		preview.setVisible(true);
 		updatePreview();
 	}
@@ -232,6 +234,7 @@ public class PenSubMenu extends SubMenuPanel {
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
 		slider.getElement().setAttribute("disabled", "false");
+		slider.disableSlider(false);
 		preview.setVisible(false);
 	}
 
@@ -240,6 +243,7 @@ public class PenSubMenu extends SubMenuPanel {
 		select.getElement().setAttribute("selected", "true");
 		select.setSelected(true);
 		slider.getElement().setAttribute("disabled", "true");
+		slider.disableSlider(true);
 	}
 
 	/**

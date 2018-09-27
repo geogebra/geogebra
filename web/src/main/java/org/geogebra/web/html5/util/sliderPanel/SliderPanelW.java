@@ -60,6 +60,16 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	/**
+	 * disable slider
+	 * 
+	 * @param disable
+	 *            true if slider should be disabled
+	 */
+	public void disableSlider(boolean disable) {
+		((SliderW) slider).disableSlider(disable);
+	}
+
+	/**
 	 * @param min
 	 *            slider minimum
 	 * @param degrees

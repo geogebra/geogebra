@@ -49,6 +49,20 @@ public class SliderW extends FocusWidget implements SliderWI {
 		return Double.valueOf(getRangeValue(range));
 	}
 
+	/**
+	 * disable range input
+	 * 
+	 * @param disable
+	 *            true if range should be disabled
+	 */
+	public void disableSlider(boolean disable) {
+		if (disable) {
+			range.setAttribute("disabled", "true");
+		} else {
+			range.removeAttribute("disabled");
+		}
+	}
+
 	private native String getRangeValue(Element rangeEl) /*-{
 		return rangeEl.value;
 	}-*/;
