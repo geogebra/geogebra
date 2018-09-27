@@ -243,4 +243,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void cancelAnchor() {
 		anchor = null;
 	}
+
+	@Override
+	public boolean handleTabExitGeos(boolean forward) {
+		return false;
+	}
 }

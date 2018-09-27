@@ -4119,6 +4119,10 @@ public abstract class App implements UpdateSelection, AppInterface {
         case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
+		/** GGB-2525 */
+		case TAB_ON_EV_PLAY:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

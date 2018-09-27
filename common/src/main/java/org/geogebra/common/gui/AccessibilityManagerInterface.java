@@ -103,4 +103,13 @@ public interface AccessibilityManagerInterface {
 	 * menu.
 	 */
 	void focusAnchorOrMenu();
+
+	/**
+	 * Called if tab selection leaves the first or last geo.
+	 * 
+	 * @param forward
+	 *            true for TAB, false for Shift+TAB
+	 * @return true if the situation is handled here.
+	 */
+	boolean handleTabExitGeos(boolean forward);
 }

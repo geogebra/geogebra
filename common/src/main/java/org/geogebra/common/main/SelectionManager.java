@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -692,15 +693,15 @@ public class SelectionManager {
 			}
 			return false;
 		}
-
+		
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement next = tree.higher(lastSelected);
 
 		removeAllSelectedGeos();
-
+		
 		if (next != null) {
 			addSelectedGeoForEV(next);
-		} else {
+		} else if (!getAccessibilityManager().handleTabExitGeos(true)) {
 			addSelectedGeoForEV(first);
 		}
 
@@ -734,14 +735,16 @@ public class SelectionManager {
 
 		if (prev != null) {
 			addSelectedGeoForEV(prev);
-		} else {
+		} else if (!getAccessibilityManager().handleTabExitGeos(false)) {
 			addSelectedGeoForEV(last);
 		}
 	}
 
 	private void addSelectedGeoForEV(GeoElement geo) {
 		addSelectedGeo(geo);
-		int viewID = geo.getViewSet().size() > 0 ? geo.getViewSet().get(0) : -1;
+		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
+				? geo.getViewSet().get(0)
+				: -1;
 		EuclidianViewInterfaceCommon view = null;
 		App app1 = geo.getKernel().getApplication();
 		if (viewID == App.VIEW_EUCLIDIAN2) {
@@ -1347,6 +1350,10 @@ public class SelectionManager {
 		for (GeoElement geo : selectedGeos) {
 			kernel.notifyUpdateHightlight(geo);
 		}
+	}
+
+	private AccessibilityManagerInterface getAccessibilityManager() {
+		return kernel.getApplication().getAccessibilityManager();
 	}
 }
 

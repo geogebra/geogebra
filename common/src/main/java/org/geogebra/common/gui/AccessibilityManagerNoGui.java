@@ -70,4 +70,10 @@ public final class AccessibilityManagerNoGui
 		// not needed
 
 	}
+
+	@Override
+	public boolean handleTabExitGeos(boolean forward) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
