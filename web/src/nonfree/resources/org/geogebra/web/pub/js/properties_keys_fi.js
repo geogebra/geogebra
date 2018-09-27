@@ -1151,7 +1151,7 @@ __GGB__keysVar["fi"].error = {
     "ExponentMustBeInteger": "Kaikkien eksponenttien on oltava kokonaislukuja",
     "FileFormatUnknown": "Tuntematon tiedostomuoto",
     "FileNotFound": "Tiedostoa ei l\xf6ydy",
-    "FrameLoadError": "This web page does not support embedding.",
+    "FrameLoadError": "T\xe4m\xe4 sivusto ei salli upotuksia.",
     "FunctionExpected": "Funktiota odotetaan",
     "IllegalAddition": "Kelvoton yhteenlasku",
     "IllegalArgument": "Kelvoton argumentti",
