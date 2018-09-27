@@ -105,4 +105,15 @@
     return true;
 }
 
+- (id<RXShape>)getGlyphOutlineWithRXFontRenderContext:(id<RXFontRenderContext>)frc
+                                       withRXCharFont:(RXCharFont *)cf {
+    return nil;
+}
+
+- (jboolean)canDisplayWithInt:(jint)c {
+    return true;
+}
+
+
+
 @end
