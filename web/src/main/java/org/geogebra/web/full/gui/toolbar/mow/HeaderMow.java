@@ -133,6 +133,9 @@ public class HeaderMow extends FlowPanel
 		default:
 			break;
 		}
+		if (!toolbar.isOpen()) {
+			onOpenClose();
+		}
 		toolbar.tabSwitch(tab);
 	}
 
