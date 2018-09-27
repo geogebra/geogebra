@@ -71,8 +71,10 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		compute();
 
-		if (kernel.getApplication().has(Feature.GEOMETRIC_DISCOVERY) && r.getLabelSimple() != null) {
-			autoColor();
+		if (kernel.getApplication().has(Feature.GEOMETRIC_DISCOVERY)) {
+			if (r.getLabelSimple() != null || r.getParentAlgorithm() instanceof AlgoRadius) {
+				autoColor();
+			}
 		}
 	}
 
@@ -85,6 +87,13 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		}
 		String rl = r.getLabelSimple();
 		if (rl == null) {
+			if (!(r.getParentAlgorithm() instanceof AlgoRadius)) {
+				return;
+			}
+			// Circle(<Point>, Radius(<Circle>)) case
+			AlgoRadius ar = (AlgoRadius) r.getParentAlgorithm();
+			GeoQuadricND c = ar.getQuadricOrConic();
+			copyStyle(c);
 			return;
 		}
 
@@ -100,14 +109,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 				if (r2 != null) {
 					String r2l = r2.getLabelSimple();
 					if (r2l != null && r2l.equals(rl)) {
-						// unsure if all of these are required or there is a simpler way...
-						this.sphereND.setObjColor(geo.getObjectColor());
-						this.sphereND.setBackgroundColor(geo.getBackgroundColor());
-						this.sphereND.setDecorationType(geo.getDecorationType());
-						this.sphereND.setAlphaValue(geo.getAlphaValue());
-						this.sphereND.setLineOpacity(geo.getLineOpacity());
-						this.sphereND.setLineThickness(geo.getLineThickness());
-						this.sphereND.setLineType(geo.getLineType());
+						copyStyle(geo);
 						return;
 					}
 				}
@@ -116,6 +118,17 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		// Otherwise do auto-coloring by using the next color.
 		this.sphereND.setObjColor(cons.getConstructionDefaults().getNextColor());
+	}
+
+	private void copyStyle(GeoElement from) {
+		// unsure if all of these are required or there is a simpler way...
+		this.sphereND.setObjColor(from.getObjectColor());
+		this.sphereND.setBackgroundColor(from.getBackgroundColor());
+		this.sphereND.setDecorationType(from.getDecorationType());
+		this.sphereND.setAlphaValue(from.getAlphaValue());
+		this.sphereND.setLineOpacity(from.getLineOpacity());
+		this.sphereND.setLineThickness(from.getLineThickness());
+		this.sphereND.setLineType(from.getLineType());
 	}
 
 	/**
