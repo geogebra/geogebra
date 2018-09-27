@@ -4207,12 +4207,32 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// overridden in web
 	}
 
+	private boolean handlePressAnimationButton() {
+		if (!getActiveEuclidianView().isAnimationButtonSelected()) {
+			return false;
+		}
+		AnimationManager animMgr = kernel.getAnimatonManager();
+		String text = "";
+		if (animMgr.isRunning()) {
+			animMgr.stopAnimation();
+		} else {
+			animMgr.startAnimation();
+		}
+
+		ScreenReader.readAnimationState(this);
+		return true;
+	}
+
 	/**
 	 * handle space key hitted
 	 *
 	 * @return true if key is consumed
 	 */
 	public boolean handleSpaceKey() {
+		if (handlePressAnimationButton()) {
+			return true;
+		}
+
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);

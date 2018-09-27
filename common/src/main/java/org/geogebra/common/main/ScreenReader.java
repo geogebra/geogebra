@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -382,8 +383,35 @@ public class ScreenReader {
 	 */
 	public static void readEVPlay(App app) {
 		Localization loc = app.getLocalization();
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		sb.append(loc.getMenu("PlayButton"));
+		sb.appendDot();
+		if (app.getKernel().getAnimatonManager().isRunning()) {
+			sb.append(
+					loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
+		} else {
+			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
+					"Press space to start animation"));
+		}
+		sb.appendDot();
 		readText(sb.toString(), app);
+	}
+
+	/**
+	 * Reads information about the animation state.
+	 * 
+	 * @param app
+	 *            the application.
+	 */
+	public static void readAnimationState(App app) {
+		String text = "";
+		Localization loc = app.getLocalization();
+		if (app.getKernel().getAnimatonManager().isRunning()) {
+			text = loc.getMenuDefault("AnimationStarted", "animation is started");
+		} else {
+			text = loc.getMenuDefault("AnimationStopped", "animation is stopped");
+		}
+		ScreenReader.readText(text, app);
+
 	}
 }
