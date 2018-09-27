@@ -72,12 +72,14 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		compute();
 
 		if (kernel.getApplication().has(Feature.GEOMETRIC_DISCOVERY) && r.getLabelSimple() != null) {
-			copyExistingStyle();
+			autoColor();
 		}
 	}
 
-	private void copyExistingStyle() {
-		// Search for the first circle with the same radius and use its color settings
+	private void autoColor() {
+		// Search for the first circle with the same radius and use its color settings.
+		// If not found, then use the next color (same as for functions).
+		// This code will run for both the Circle with radius and the Compass tool.
 		if (r == null) {
 			return;
 		}
@@ -111,6 +113,9 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 				}
 			}
 		}
+
+		// Otherwise do auto-coloring by using the next color.
+		this.sphereND.setObjColor(cons.getConstructionDefaults().getNextColor());
 	}
 
 	/**

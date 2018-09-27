@@ -556,6 +556,8 @@ public class ConstructionDefaults {
 		setDefaultLineStyle(conic);
 		conic.setAlphaValue(DEFAULT_CONIC_ALPHA);
 		conic.setDefaultGeoType(DEFAULT_CONIC);
+		// don't set this to true: color incrementing will be done twice
+		// conic.setAutoColor(true);
 		defaultGeoElements.put(DEFAULT_CONIC, conic);
 
 		// conic sector
