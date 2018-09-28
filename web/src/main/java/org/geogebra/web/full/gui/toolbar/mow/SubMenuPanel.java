@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -30,10 +29,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	protected FlowPanel panelRow;
 	/** app **/
 	AppW app;
-	/**
-	 * Scrollpanel to larger toolbars like 'Tools'
-	 */
-	ScrollPanel scrollPanel;
 	/**
 	 * Here goes the toolbar contents ie the buttons
 	 */
@@ -77,17 +72,15 @@ public abstract class SubMenuPanel extends FlowPanel
 	protected void createGUI() {
 		addStyleName("mowSubMenu");
 		createContentPanel();
-		add(scrollPanel);
 	}
 
 	/**
 	 * Creates the scrollable panel of contents.
 	 */
 	protected void createContentPanel() {
-		scrollPanel = new ScrollPanel();
-		scrollPanel.addStyleName("mowSubMenuContent");
 		contentPanel = new FlowPanel();
-		scrollPanel.add(contentPanel);
+		contentPanel.addStyleName("mowSubMenuContent");
+		add(contentPanel);
 	}
 
 	/**
@@ -168,14 +161,12 @@ public abstract class SubMenuPanel extends FlowPanel
 
 	@Override
 	public void onClick(Widget source) {
-		int pos = scrollPanel.getHorizontalScrollPosition();
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
 		if (mode == EuclidianConstants.MODE_IMAGE) {
 			// set css before file picker
 			setMode(mode);
 		}
 		app.setMode(mode);
-		scrollPanel.setHorizontalScrollPosition(pos);
 		closeFloatingMenus();
 	}
 
