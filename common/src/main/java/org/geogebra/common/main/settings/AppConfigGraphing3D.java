@@ -44,4 +44,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public int getDefaultPrintDecimals() {
 		return Kernel.STANDARD_PRINT_DECIMALS_SHORT;
 	}
+
+	@Override
+	public boolean hasSingleEuclidianViewWhichIs3D() {
+		return true;
+	}
 }

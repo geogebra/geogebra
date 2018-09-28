@@ -87,4 +87,9 @@ public class AppConfigGraphing implements AppConfig {
 	public int getDefaultPrintDecimals() {
 		return Kernel.STANDARD_PRINT_DECIMALS;
 	}
+
+	@Override
+	public boolean hasSingleEuclidianViewWhichIs3D() {
+		return false;
+	}
 }

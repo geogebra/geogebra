@@ -84,4 +84,9 @@ public class AppConfigDefault implements AppConfig {
 	public int getDefaultPrintDecimals() {
 		return Kernel.STANDARD_PRINT_DECIMALS_SHORT;
 	}
+
+	@Override
+	public boolean hasSingleEuclidianViewWhichIs3D() {
+		return false;
+	}
 }

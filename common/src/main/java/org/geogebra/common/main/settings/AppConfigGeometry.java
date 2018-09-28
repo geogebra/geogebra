@@ -91,4 +91,9 @@ public class AppConfigGeometry implements AppConfig {
 	public int getDefaultPrintDecimals() {
 		return Kernel.STANDARD_PRINT_DECIMALS_GEOMETRY;
 	}
+
+	@Override
+	public boolean hasSingleEuclidianViewWhichIs3D() {
+		return false;
+	}
 }

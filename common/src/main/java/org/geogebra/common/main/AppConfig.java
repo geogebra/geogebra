@@ -32,4 +32,6 @@ public interface AppConfig {
 
 	int getDefaultPrintDecimals();
 
+	boolean hasSingleEuclidianViewWhichIs3D();
+
 }
