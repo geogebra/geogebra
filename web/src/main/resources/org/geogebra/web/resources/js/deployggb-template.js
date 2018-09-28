@@ -454,7 +454,8 @@ var GGBApplet = function() {
 //            var views = {"is3D":false,"AV":false,"SV":false,"CV":false,"EV2":false,"CP":false,"PC":false,"DA":false,"FI":false,"PV":false,"macro":false};
 
             var previewUrl = (item.previewUrl === undefined) ? tubeurl+"/files/material-"+item.id+".png" : item.previewUrl;
-            applet.setPreviewImage(previewUrl, tubeurl+"/images/GeoGebra_loading.png", tubeurl+"/images/applet_play.png");
+            // user setting of preview URL has precedence
+            applet.setPreviewImage(previewImagePath || previewUrl, tubeurl+"/images/GeoGebra_loading.png", tubeurl+"/images/applet_play.png");
 
             successCallback();
         };
