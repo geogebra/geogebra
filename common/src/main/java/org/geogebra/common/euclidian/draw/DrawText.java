@@ -365,7 +365,8 @@ public final class DrawText extends Drawable {
 	}
 
 	private boolean isWhiteboardText() {
-		return view.getApplication().has(Feature.MOW_TEXT_TOOL);
+		return view.getApplication().has(Feature.MOW_TEXT_TOOL)
+				&& text.isIndependent() && !text.isLaTeX();
 	}
 
 	@Override

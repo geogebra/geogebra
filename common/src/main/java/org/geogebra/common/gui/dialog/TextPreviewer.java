@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -126,6 +127,7 @@ public abstract class TextPreviewer {
 	public boolean updatePreviewText(GeoText targetGeo, String inputValue,
 			boolean isLaTeXset, boolean mayDetectLaTeX) {
 		boolean isLaTeX = isLaTeXset;
+		Log.printStacktrace(mayDetectLaTeX + "detect");
 		if (mayDetectLaTeX && !isLaTeXset) {
 			isLaTeX = isLaTeX || guessLaTeX(inputValue);
 		}

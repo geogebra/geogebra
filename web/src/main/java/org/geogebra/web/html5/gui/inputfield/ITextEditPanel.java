@@ -14,4 +14,6 @@ public interface ITextEditPanel {
 
 	void ensureLaTeX();
 
+	void updatePreviewPanel(boolean b);
+
 }

@@ -116,7 +116,7 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
-	private EditMode editMode;
+	private EditMode editMode = EditMode.None;
 
 	private int textHeight;
 

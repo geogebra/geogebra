@@ -433,6 +433,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	@Override
 	public void updatePreviewPanel() {
+		updatePreviewPanel(false);
+	}
+	
+	@Override
+	public void updatePreviewPanel(boolean byUser) {
 		if (previewer == null) {
 			return;
 		}
@@ -441,7 +446,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		boolean isLaTeX = previewer
 				.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
 						editor.getDynamicTextList(), isLatex()), isLatex(),
-						mayDetectLaTeX);
+						byUser && mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
 			btnLatex.setValue(true);
 			if (model.getEditGeo() != null) {
@@ -452,16 +457,12 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	@Override
 	public void setEditorText(ArrayList<DynamicTextElement> list) {
-
 		editor.setText(list);
-
 	}
 
 	@Override
 	public void setEditorText(String text) {
-
 		editor.setText(text);
-
 	}
 
 	@Override

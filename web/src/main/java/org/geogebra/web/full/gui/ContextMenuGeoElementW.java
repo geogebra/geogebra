@@ -607,7 +607,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addPinAndFixObject() {
-		if (!hasWhiteboardContextMenu()) {
+		if (!hasWhiteboardContextMenu() || app.isWhiteboardActive()) {
 			return;
 		}
 
@@ -616,10 +616,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		boolean fixable = geo.isFixable();
 		if (!(pinnable || fixable)) {
 			return;
-		}
-
-		if (!app.isWhiteboardActive()) {
-			wrappedPopup.addSeparator();
 		}
 
 		if (pinnable) {

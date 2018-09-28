@@ -139,21 +139,7 @@ public class TextEditPanel extends VerticalPanel
 	 */
 	@Override
 	public void updatePreviewPanel() {
-
-		if (previewer == null) {
-			return;
-		}
-		boolean wasLaTeX = isLatex();
-		String inputValue = dTProcessor.buildGeoGebraString(editor.getDynamicTextList(), isLatex());
-		boolean isLaTeX = previewer
-				.updatePreviewText(editGeo, handleUnderscores(app, inputValue, false),
-						isLatex(), mayDetectLaTeX);
-		if (!wasLaTeX && isLaTeX) {
-			btnLatex.setValue(true);
-			if (editGeo != null) {
-				editGeo.setLaTeX(true, false);
-			}
-		}
+		updatePreviewPanel(false);
 	}
 
 	/**
@@ -450,6 +436,25 @@ public class TextEditPanel extends VerticalPanel
 		if (isLatex()) {
 			t.setSerifFont(true);
 		}
+	}
+
+	public void updatePreviewPanel(boolean byUser) {
+		if (previewer == null) {
+			return;
+		}
+		boolean wasLaTeX = isLatex();
+		String inputValue = dTProcessor
+				.buildGeoGebraString(editor.getDynamicTextList(), isLatex());
+		boolean isLaTeX = previewer.updatePreviewText(editGeo,
+				handleUnderscores(app, inputValue, false), isLatex(),
+				byUser && mayDetectLaTeX);
+		if (!wasLaTeX && isLaTeX) {
+			btnLatex.setValue(true);
+			if (editGeo != null) {
+				editGeo.setLaTeX(true, false);
+			}
+		}
+
 	}
 
 }

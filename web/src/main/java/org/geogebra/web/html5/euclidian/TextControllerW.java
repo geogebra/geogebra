@@ -109,17 +109,11 @@ public class TextControllerW
 		app.getSelectionManager().addSelectedGeo(t);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);
-		if (rw) {
-			Coords coords = loc.getInhomCoordsInD3();
-			t.setRealWorldLoc(view.toRealWorldCoordX(coords.getX()),
-					view.toRealWorldCoordY(coords.getY()));
-			t.setAbsoluteScreenLocActive(false);
-		} else {
-			Coords coords = loc.getInhomCoordsInD3();
-			t.setAbsoluteScreenLoc((int) coords.getX(), (int) coords.getY());
-			t.setAbsoluteScreenLocActive(true);
-
-		}
+		// always use RW coords, ignore rw argument
+		Coords coords = loc.getInhomCoordsInD3();
+		t.setRealWorldLoc(view.toRealWorldCoordX(coords.getX()),
+				view.toRealWorldCoordY(coords.getY()));
+		t.setAbsoluteScreenLocActive(false);
 		t.setLabel(null);
 		edit(t, true);
 		app.getKernel().notifyRepaint();
@@ -133,6 +127,9 @@ public class TextControllerW
 	}
 
 	private void edit(GeoText geo, boolean create) {
+		if (geo.isLaTeX() || !geo.isIndependent()) {
+			return;
+		}
 		geo.setEditMode();
 		this.text = geo;
 		text.update();

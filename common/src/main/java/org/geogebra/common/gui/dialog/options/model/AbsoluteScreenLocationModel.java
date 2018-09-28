@@ -64,7 +64,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 		}
 		geo.setAbsoluteScreenLocActive(value);
 		geo.updateRepaint();
-
 	}
 
 	@Override
@@ -81,8 +80,8 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 		} else if (!geo.isPinnable()) {
 			return false;
 		}
-
-		return true;
+		// whiteboard: no abs position for texts or images
+		return !geo.getKernel().getApplication().isWhiteboardActive();
 	}
 
 }

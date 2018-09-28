@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 public class MowTextEditor extends AdvancedFlowPanel
 		implements Persistable, MouseUpHandler, MouseDownHandler, MouseMoveHandler {
 	private GRectangle bounds;
-	private GFont editorFont;
 
 	/**
 	 * constructor
@@ -119,8 +118,6 @@ public class MowTextEditor extends AdvancedFlowPanel
 			return;
 		}
 
-		editorFont = font;
-
 		getWidget().getElement().getStyle().setProperty("font",
 				((GFontW) font).getFullFontString());
 	}
@@ -133,13 +130,6 @@ public class MowTextEditor extends AdvancedFlowPanel
 	 */
 	public void setLineHeight(double h) {
 		this.getWidget().getElement().getStyle().setLineHeight(h, Unit.PX);
-	}
-
-	/**
-	 * Gets editor font.
-	*/
-	public GFont getFont() {
-		return editorFont;
 	}
 
 	/**

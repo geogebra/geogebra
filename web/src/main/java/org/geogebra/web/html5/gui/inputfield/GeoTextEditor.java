@@ -101,7 +101,7 @@ public class GeoTextEditor extends RichTextArea {
 		addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				editPanel.updatePreviewPanel();
+				editPanel.updatePreviewPanel(true);
 			}
 		});
 
@@ -121,7 +121,7 @@ public class GeoTextEditor extends RichTextArea {
 					break;
 
 				default:
-					editPanel.updatePreviewPanel();
+					editPanel.updatePreviewPanel(true);
 				}
 			}
 		});
@@ -268,7 +268,7 @@ public class GeoTextEditor extends RichTextArea {
 				updateFonts();
 			}
 		});
-		editPanel.updatePreviewPanel();
+		editPanel.updatePreviewPanel(true);
 		Log.debug("Paste! ");
 	}
 
