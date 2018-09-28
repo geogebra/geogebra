@@ -13,7 +13,7 @@ public class CommandTextColor extends Command1A {
 		//
 	}
 
-	public CommandTextColor(Color fg2) {
+	public CommandTextColor(Color fg) {
 		this.fg = fg;
 	}
 
