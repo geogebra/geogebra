@@ -13,7 +13,6 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -186,23 +185,23 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		if (playOnly) {
 			btnPlay = new MyToggleButtonW(
 					new ImageResourcePrototype(null,
-							SharedResources.INSTANCE.play_black()
+							GuiResourcesSimple.INSTANCE.play_black()
 									.getSafeUri(),
 							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false,
 							false),
 					new ImageResourcePrototype(null,
-							SharedResources.INSTANCE.pause_black()
+							GuiResourcesSimple.INSTANCE.pause_black()
 									.getSafeUri(),
 							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false, false));
 			btnPlay.getUpHoveringFace()
 					.setImage(new Image(
 					new ImageResourcePrototype(null,
-									SharedResources.INSTANCE.play_purple()
+									GuiResourcesSimple.INSTANCE.play_purple()
 									.getSafeUri(),
 							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false, false)));
 			btnPlay.getDownHoveringFace().setImage(
 					new Image(new ImageResourcePrototype(null,
-							SharedResources.INSTANCE.pause_purple()
+							GuiResourcesSimple.INSTANCE.pause_purple()
 									.getSafeUri(),
 							0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE, false, false)));
 			btnPlay.setIgnoreTab();

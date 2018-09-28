@@ -175,4 +175,16 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/music.svg")
 	SVGResource mow_ruling_music();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_black_24px.svg")
+	SVGResource play_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_purple_24px.svg")
+	SVGResource play_purple();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
+	SVGResource pause_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/pause_purple.svg")
+	SVGResource pause_purple();
 }

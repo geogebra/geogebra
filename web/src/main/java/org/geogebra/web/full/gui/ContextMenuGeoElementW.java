@@ -37,10 +37,10 @@ import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -258,7 +258,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			GCheckBoxMenuItem cbItem;
 			String img;
 			if (app.isUnbundled() || hasWhiteboardContextMenu()) {
-				img = SharedResources.INSTANCE.play_black().getSafeUri()
+				img = GuiResourcesSimple.INSTANCE.play_black().getSafeUri()
 						.asString();
 			} else {
 				img = AppResources.INSTANCE.empty().getSafeUri().asString();
