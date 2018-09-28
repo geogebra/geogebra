@@ -3737,7 +3737,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// MOB-1803
 		case MOB_ANGLE_DEGREES_MINUTES_SECONDS:
-			return prerelease;
+			return true;
 
 		// **********************************************************************
 		// MOBILE END
