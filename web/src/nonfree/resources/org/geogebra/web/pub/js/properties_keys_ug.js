@@ -712,7 +712,7 @@ __GGB__keysVar["ug"].command = {
     "Pyramid.Syntax": "[ <\u0643\u06c6\u067e \u062a\u06d5\u0631\u06d5\u067e\u0644\u0649\u0643>, <\u0686\u0648\u0642\u0642\u0627 \u0646\u06c7\u0642\u062a\u0627> ]\n[ <\u0643\u06c6\u067e \u062a\u06d5\u0631\u06d5\u067e\u0644\u0649\u0643>, <\u0626\u06d0\u06af\u0649\u0632\u0644\u0649\u0643\u0649> ]\n[ <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627>, ... ]",
     "Q1": "Q1",
     "Q1.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
-    "Q3": "Q3",
+    "Q3": "Quartile3",
     "Q3.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "QuadricSide": "\u064a\u0627\u0646\u060c\u064a\u0627\u0642",
     "QuadricSide.Syntax": "[ <\u0626\u0649\u0643\u0643\u0649\u0646\u0686\u0649 \u062f\u06d5\u0631\u0649\u062c\u0649\u0644\u0649\u0643 \u0626\u06d5\u06af\u0631\u0649 \u0633\u0649\u0631\u062a> ]",
