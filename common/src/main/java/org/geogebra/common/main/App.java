@@ -3725,7 +3725,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// MOB-1753
 		case MOB_QUICK_STYLE_BAR_3D:
-			return prerelease;
+			return true;
 
 		// AND-1217, IGR-931
 		case MOB_SCIENTIFIC_CALC_IN_APPS_MENU:
