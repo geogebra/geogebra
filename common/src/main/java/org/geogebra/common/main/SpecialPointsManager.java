@@ -37,7 +37,7 @@ import org.geogebra.common.plugin.EventType;
  *
  */
 public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener,
-        ParentAlgorithmProviderDelegate {
+		ParentAlgorithmProviderDelegate {
 
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
@@ -268,9 +268,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			retList) {
 		element.removeAlgorithm(algoElement);
 		add(algoElement.getOutput(), retList);
-        for (GeoElement output : algoElement.getOutput()) {
-            setParentAlgorithm(output, algoElement);
-        }
+		for (GeoElement output : algoElement.getOutput()) {
+			setParentAlgorithm(output, algoElement);
+		}
 	}
 
 	private static void add(GeoElement[] geos1,
@@ -334,12 +334,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void setParentAlgorithm(GeoElement geo, AlgoElement algo) {
-	    specPointAlgos.put(geo, algo);
-        geo.setParentAlgorithmProviderDelegate(this);
-    }
+		specPointAlgos.put(geo, algo);
+		geo.setParentAlgorithmProviderDelegate(this);
+	}
 
-    @Override
-    public AlgoElement getParentAlgorithm(GeoElement geo) {
-        return specPointAlgos.get(geo);
-    }
+	@Override
+	public AlgoElement getParentAlgorithm(GeoElement geo) {
+		return specPointAlgos.get(geo);
+	}
 }

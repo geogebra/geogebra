@@ -1985,19 +1985,22 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	final public AlgoElement getParentAlgorithm() {
-	    if (parentAlgorithmProviderDelegate != null) {
-	        return parentAlgorithmProviderDelegate.getParentAlgorithm(this);
-        }
+		if (parentAlgorithmProviderDelegate != null) {
+			return parentAlgorithmProviderDelegate.getParentAlgorithm(this);
+		}
 		return algoParent;
 	}
 
-    /**
-     * set a delegate for providing parent algorithm
-     * @param delegate delegate
-     */
-    public void setParentAlgorithmProviderDelegate(ParentAlgorithmProviderDelegate delegate) {
-        parentAlgorithmProviderDelegate = delegate;
-    }
+	/**
+	 * set a delegate for providing parent algorithm
+	 * 
+	 * @param delegate
+	 *            delegate
+	 */
+	public void setParentAlgorithmProviderDelegate(
+			ParentAlgorithmProviderDelegate delegate) {
+		parentAlgorithmProviderDelegate = delegate;
+	}
 
 	@Override
 	public void setDrawAlgorithm(final DrawInformationAlgo algorithm) {
