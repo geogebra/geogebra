@@ -4207,13 +4207,14 @@ public abstract class App implements UpdateSelection, AppInterface {
 		if (!getActiveEuclidianView().isAnimationButtonSelected()) {
 			return false;
 		}
+
 		AnimationManager animMgr = kernel.getAnimatonManager();
 		if (animMgr.isRunning()) {
 			animMgr.stopAnimation();
 		} else {
 			animMgr.startAnimation();
 		}
-
+		getActiveEuclidianView().repaintView();
 		ScreenReader.readAnimationState(this);
 		return true;
 	}

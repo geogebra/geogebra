@@ -134,6 +134,7 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2280,8 +2281,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return play image
 	 */
 	public ImageElement getPlayImage() {
-		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.icons_play_circle());
+		return ImageManagerW.getInternalImage(SharedResources.INSTANCE.play_black());
 	}
 
 	/**
@@ -2289,7 +2289,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public ImageElement getPauseImage() {
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
+				SharedResources.INSTANCE.pause_black());
 	}
 
 	/**
@@ -2297,7 +2297,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public ImageElement getPlayImageHover() {
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.icons_play_circle_hover());
+				SharedResources.INSTANCE.play_purple());
 	}
 
 	/**
@@ -2305,7 +2305,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public ImageElement getPauseImageHover() {
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
+				SharedResources.INSTANCE.pause_purple());
 	}
 
 	// ============================================
