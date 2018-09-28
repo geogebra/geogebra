@@ -144,7 +144,7 @@ public class LoginOperationW extends LogInOperation {
 			@Override
 			public void onLoad(LoadEvent event) {
 				asyncOperation.callback(true);
-				fr.removeFromParent();
+				// fr.removeFromParent();
 			}
 
 		});

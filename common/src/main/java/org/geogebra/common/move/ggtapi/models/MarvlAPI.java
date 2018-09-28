@@ -225,7 +225,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void performTokenLogin(LogInOperation op, String token) {
-		this.authorizeUser(new GeoGebraTubeUser(""), op, true);
+		performCookieLogin(op);
 	}
 
 	@Override
