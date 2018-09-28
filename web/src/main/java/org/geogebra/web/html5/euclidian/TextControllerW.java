@@ -140,7 +140,7 @@ public class TextControllerW
 		DrawText d = (DrawText) view.getDrawableFor(geo);
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
-			int y = d.yLabel - view.getFontSize()
+			int y = d.yLabel - d.getFontSize()
 					- EuclidianStatic.EDITOR_MARGIN;
 			int width = (int) d.getBounds().getWidth()
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
@@ -235,23 +235,26 @@ public class TextControllerW
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
-
+		GeoText txt = (GeoText) drawText.getGeoElement();
+		GFont font = app.getFontCanDisplay(txt.getTextString(),
+				txt.isSerifFont(), txt.getFontStyle(), drawText.getFontSize());
 		for (i = 0; i < words.length; i++) {
 			currRow = tempRow;
 			if (i > 0) {
 				tempRow = tempRow.concat(" ");
 			}
 			tempRow = tempRow.concat(words[i]);
-			int currLength = getLength(tempRow);
+			int currLength = getLength(tempRow, font);
 
 			if (currLength > rowLength) {
 				if ("".equals(currRow)) {
-					tempRow = wrapWord(tempRow, wrappedRow, rowLength);
+					tempRow = wrapWord(tempRow, wrappedRow, rowLength, font);
 				} else {
 					wrappedRow.add(currRow);
 					tempRow = words[i];
-					if (getLength(tempRow) > rowLength) {
-						tempRow = wrapWord(tempRow, wrappedRow, rowLength);
+					if (getLength(tempRow, font) > rowLength) {
+						tempRow = wrapWord(tempRow, wrappedRow, rowLength,
+								font);
 					}
 				}
 			}
@@ -261,15 +264,15 @@ public class TextControllerW
 		return wrappedRow;
 	}
 
-	private int getLength(String txt) {
-		GFont textFont = view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN,
-				view.getFontSize());
+	private int getLength(String txt, GFont font) {
 		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen()
 				.getFontRenderContext();
-		return fontRenderContext.measureText(txt, ((GFontW) textFont).getFullFontString());
+		return fontRenderContext.measureText(txt,
+				((GFontW) font).getFullFontString());
 	}
 
-	private String wrapWord(String word, ArrayList<String> wrappedRow, int rowLength) {
+	private String wrapWord(String word, ArrayList<String> wrappedRow,
+			int rowLength, GFont font) {
 		if (word.length() < 1) {
 			return "";
 		}
@@ -278,7 +281,7 @@ public class TextControllerW
 		for (int i = 1; i < word.length(); i++) {
 			currWord += nextChar;
 			nextChar = word.charAt(i);
-			if (getLength(currWord + nextChar) > rowLength) {
+			if (getLength(currWord + nextChar, font) > rowLength) {
 				wrappedRow.add(currWord);
 				currWord = "";
 			}

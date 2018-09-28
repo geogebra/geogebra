@@ -1330,6 +1330,13 @@ public enum Commands implements CommandsConstants,
 		return null;
 	}
 
+	/**
+	 * @param cmdLower
+	 *            lower-case command name
+	 * @param loc
+	 *            localization
+	 * @return internal command if it was renamed
+	 */
 	public static String getRenamed(String cmdLower, Localization loc) {
 		for (Commands c : Commands.RENAMED) {
 			if (StringUtil.toLowerCaseUS(loc.getCommand(c.name()))

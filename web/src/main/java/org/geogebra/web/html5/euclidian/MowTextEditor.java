@@ -120,6 +120,7 @@ public class MowTextEditor extends AdvancedFlowPanel
 		}
 
 		editorFont = font;
+
 		getWidget().getElement().getStyle().setProperty("font",
 				((GFontW) font).getFullFontString());
 	}

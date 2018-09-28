@@ -306,8 +306,7 @@ public final class DrawText extends Drawable {
 
 	private boolean doUpdateFontSize() {
 		// text's font size is relative to the global font size
-		int newFontSize = (int) Math.max(4,
-				view.getFontSize() * text.getFontSizeMultiplier());
+		int newFontSize = getFontSize();
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 
@@ -443,5 +442,13 @@ public final class DrawText extends Drawable {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * @return font size
+	 */
+	public int getFontSize() {
+		return (int) Math.max(4,
+				view.getFontSize() * text.getFontSizeMultiplier());
 	}
 }

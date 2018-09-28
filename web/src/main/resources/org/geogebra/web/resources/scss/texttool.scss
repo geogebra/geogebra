@@ -17,5 +17,9 @@
 		p {
 			margin: 0;
 		}
+		* {
+			font-style: inherit;
+			font-weight: inherit;
+		}
 	}
 }

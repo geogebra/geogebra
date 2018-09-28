@@ -4208,7 +4208,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return false;
 		}
 		AnimationManager animMgr = kernel.getAnimatonManager();
-		String text = "";
 		if (animMgr.isRunning()) {
 			animMgr.stopAnimation();
 		} else {
