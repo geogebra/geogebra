@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
+import org.geogebra.common.kernel.ParentAlgorithmProviderDelegate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
@@ -343,6 +344,8 @@ public abstract class GeoElement extends ConstructionElement
 	/** parent algorithm */
 	@Weak
 	protected AlgoElement algoParent = null;
+    @Weak
+    private ParentAlgorithmProviderDelegate parentAlgorithmProviderDelegate = null;
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
 	/** directly dependent algos */
@@ -350,8 +353,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
-
-	private boolean hasParentAlgoStoredInCons;
 
 	/**
 	 * Fill types of elements
@@ -497,7 +498,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
-		hasParentAlgoStoredInCons = c.isStoreAlgosActive();
 		c.addUsedType(this.getGeoClassType());
 		graphicsadapter = kernel.getApplication()
 				.newGeoElementGraphicsAdapter();
@@ -1985,8 +1985,19 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	final public AlgoElement getParentAlgorithm() {
+	    if (parentAlgorithmProviderDelegate != null) {
+	        return parentAlgorithmProviderDelegate.getParentAlgorithm(this);
+        }
 		return algoParent;
 	}
+
+    /**
+     * set a delegate for providing parent algorithm
+     * @param delegate delegate
+     */
+    public void setParentAlgorithmProviderDelegate(ParentAlgorithmProviderDelegate delegate) {
+        parentAlgorithmProviderDelegate = delegate;
+    }
 
 	@Override
 	public void setDrawAlgorithm(final DrawInformationAlgo algorithm) {
@@ -2075,14 +2086,6 @@ public abstract class GeoElement extends ConstructionElement
 	public boolean isMoveable(final EuclidianViewInterfaceSlim view) {
 		return view.isMoveable(this);
 	}
-
-    /**
-     *
-     * @return if parent algo was stored in construction
-     */
-	public boolean hasParentAlgoStoredInCons() {
-	    return hasParentAlgoStoredInCons;
-    }
 
 	@Override
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",

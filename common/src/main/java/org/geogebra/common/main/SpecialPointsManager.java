@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
@@ -10,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ParentAlgorithmProviderDelegate;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
@@ -34,15 +36,15 @@ import org.geogebra.common.plugin.EventType;
  * Special point manager.
  *
  */
-public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener {
+public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener,
+        ParentAlgorithmProviderDelegate {
 
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
-	/** Special points for preview points */
-	private List<AlgoElement> specPointAlgos = new ArrayList<>();
-
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
 	private boolean isUpdating = false;
+
+	private TreeMap<GeoElement, AlgoElement> specPointAlgos;
 
 	/**
 	 * @param kernel
@@ -50,6 +52,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 */
 	public SpecialPointsManager(Kernel kernel) {
 		this.kernel = kernel;
+		specPointAlgos = new TreeMap<>();
 		App app = kernel.getApplication();
 		app.getSelectionManager().addListener(this);
 		app.getEventDispatcher().addEventListener(this);
@@ -241,7 +244,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				AlgoElement parent = output.getParentAlgorithm();
 				element.removeAlgorithm(parent);
 				secondElement.removeAlgorithm(parent);
-				specPointAlgos.add(parent);
+				setParentAlgorithm(output, parent);
 			}
 			add(elements, retList);
 		} catch (Throwable exception) {
@@ -265,7 +268,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			retList) {
 		element.removeAlgorithm(algoElement);
 		add(algoElement.getOutput(), retList);
-		specPointAlgos.add(algoElement);
+        for (GeoElement output : algoElement.getOutput()) {
+            setParentAlgorithm(output, algoElement);
+        }
 	}
 
 	private static void add(GeoElement[] geos1,
@@ -327,4 +332,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			listener.specialPointsChanged(this, specPoints);
 		}
 	}
+
+	private void setParentAlgorithm(GeoElement geo, AlgoElement algo) {
+	    specPointAlgos.put(geo, algo);
+        geo.setParentAlgorithmProviderDelegate(this);
+    }
+
+    @Override
+    public AlgoElement getParentAlgorithm(GeoElement geo) {
+        return specPointAlgos.get(geo);
+    }
 }

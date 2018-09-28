@@ -507,14 +507,6 @@ public enum TestGeo {
 		}
 	},
 
-    /** Test for HAS_STORED_PARENT_ALGO */
-    HAS_STORED_PARENT_ALGO {
-        @Override
-        public boolean check(Object ob) {
-            return ob instanceof GeoElement && ((GeoElement) ob).hasParentAlgoStoredInCons();
-        }
-    },
-
 	/** Test for TRANSFORMABLE */
 	TRANSFORMABLE {
 		@Override
