@@ -2474,6 +2474,16 @@ namespace giac {
 	v=v2;
 	rvarsize=int(v2.size());
       }
+      if (rvarsize==2){
+	e2=simplifier(e,contextptr);
+	v2.clear();
+	v2.push_back(gen_x);
+	rlvarx(e2,gen_x,v2);
+	if (v2.size()==1 || (v2.size()==2 && taille(v2[1],100)<taille(v[1],100))){
+	  e=e2;
+	  v=v2;
+	}
+      }
     }
     vecteur rvar=v;
     gen fu,fx;
