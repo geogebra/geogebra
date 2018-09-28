@@ -351,6 +351,8 @@ public abstract class GeoElement extends ConstructionElement
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
+	private boolean hasParentAlgoStoredInCons;
+
 	/**
 	 * Fill types of elements
 	 * 
@@ -495,6 +497,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
+		hasParentAlgoStoredInCons = c.isStoreAlgosActive();
 		c.addUsedType(this.getGeoClassType());
 		graphicsadapter = kernel.getApplication()
 				.newGeoElementGraphicsAdapter();
@@ -2072,6 +2075,14 @@ public abstract class GeoElement extends ConstructionElement
 	public boolean isMoveable(final EuclidianViewInterfaceSlim view) {
 		return view.isMoveable(this);
 	}
+
+    /**
+     *
+     * @return if parent algo was stored in construction
+     */
+	public boolean hasParentAlgoStoredInCons() {
+	    return hasParentAlgoStoredInCons;
+    }
 
 	@Override
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",

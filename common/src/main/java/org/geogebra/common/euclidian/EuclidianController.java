@@ -8372,7 +8372,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (drag) {
 			moveableList = viewHits.getMoveableHits(view);
 		} else {
-			moveableList = viewHits;
+			moveableList = viewHits.getStoredParentAlgoHits();
 		}
 		Hits topHits = moveableList.getTopHits();
 

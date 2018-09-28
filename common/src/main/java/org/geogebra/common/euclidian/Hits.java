@@ -520,6 +520,14 @@ public class Hits extends ArrayList<GeoElement> {
 		return getMoveables(view, TestGeo.MOVEABLE, null);
 	}
 
+    /**
+     *
+     * @return hits with stored parent algos
+     */
+    final public Hits getStoredParentAlgoHits() {
+        return getMoveables(null, TestGeo.HAS_STORED_PARENT_ALGO, null);
+    }
+
 	/**
 	 * PointRotateable
 	 * 
@@ -569,35 +577,44 @@ public class Hits extends ArrayList<GeoElement> {
 			switch (test) {
 			case MOVEABLE:
 				// moveable object
-				if (geo.isMoveable(view)) {
-					moveableList.add(geo);
-					// Application.debug("moveable GeoElement = "+geo);
-				}
-				// point with changeable parent coords
-				else if (geo.isGeoPoint()) {
-					GeoPointND point = (GeoPointND) geo;
-					if (point.hasChangeableCoordParentNumbers()) {
-						moveableList.add((GeoElement) point);
-					}
-				}
-				// not a point, but has moveable input points
-				else if (geo.hasMoveableInputPoints(view)) {
-					moveableList.add(geo);
-				}
+                if (geo.hasParentAlgoStoredInCons()) {
+                    if (geo.isMoveable(view)) {
+                        moveableList.add(geo);
+                        // Application.debug("moveable GeoElement = "+geo);
+                    }
+                    // point with changeable parent coords
+                    else if (geo.isGeoPoint()) {
+                        GeoPointND point = (GeoPointND) geo;
+                        if (point.hasChangeableCoordParentNumbers()) {
+                            moveableList.add((GeoElement) point);
+                        }
+                    }
+                    // not a point, but has moveable input points
+                    else if (geo.hasMoveableInputPoints(view)) {
+                        moveableList.add(geo);
+                    }
+                }
 				break;
 
 			case ROTATEMOVEABLE:
 				// check for circular definition
-				if (geo.isRotateMoveable()) {
-					if (rotCenter == null || !geo.isParentOf(rotCenter)) {
-						moveableList.add(geo);
-					}
-
-				} else if (geo.hasMoveableInputPoints(view)) {
-					moveableList.add(geo);
-				}
-
+                if (geo.hasParentAlgoStoredInCons()) {
+                    if (geo.isRotateMoveable()) {
+                        if (rotCenter == null || !geo.isParentOf(rotCenter)) {
+                            moveableList.add(geo);
+                        }
+                    } else if (geo.hasMoveableInputPoints(view)) {
+                        moveableList.add(geo);
+                    }
+                }
 				break;
+
+            case HAS_STORED_PARENT_ALGO:
+                if (geo.hasParentAlgoStoredInCons()) {
+                    moveableList.add(geo);
+                }
+                break;
+
 			default:
 				break;
 			}
