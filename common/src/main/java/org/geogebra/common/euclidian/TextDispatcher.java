@@ -517,7 +517,6 @@ public class TextDispatcher {
 	 * Returns the projected point of P on line g (or nearest for a Segment)
 	 */
 	final private GeoPointND closestPoint(GeoPointND P, Path g) {
-
 		Construction cons = kernel.getConstruction();
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();

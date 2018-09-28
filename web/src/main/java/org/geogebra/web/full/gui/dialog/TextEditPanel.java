@@ -47,6 +47,7 @@ public class TextEditPanel extends VerticalPanel
 
 	private AppW app;
 	private DynamicTextProcessor dTProcessor;
+	/** editor */
 	protected GeoTextEditor editor;
 	private FlowPanel toolBar;
 	private TextPreviewPanelW previewer;
@@ -192,7 +193,6 @@ public class TextEditPanel extends VerticalPanel
 				// close a symbol table
 			}
 		}
-
 	}
 
 	@Override
@@ -249,6 +249,9 @@ public class TextEditPanel extends VerticalPanel
 		return editGeo;
 	}
 
+	/**
+	 * @return whether latex toggle button is checked
+	 */
 	public boolean isLatex() {
 		return btnLatex.getValue();
 	}
@@ -265,6 +268,9 @@ public class TextEditPanel extends VerticalPanel
 		return btnItalic.getValue();
 	}
 
+	/**
+	 * @return editor area
+	 */
 	public GeoTextEditor getTextArea() {
 		return editor;
 	}
@@ -274,7 +280,6 @@ public class TextEditPanel extends VerticalPanel
 	// ======================================================
 
 	private void createToolBar() {
-
 		btnInsert = new ToggleButton(Unicode.alpha + "");
 		btnInsert.addClickHandler(this);
 
@@ -331,13 +336,16 @@ public class TextEditPanel extends VerticalPanel
 		toolBar.getElement().getStyle().setFontSize(80, Unit.PCT);
 		toolBar.add(leftPanel);
 		// toolBar.add(rightPanel);
-
 	}
 
 	// ======================================================
 	// Text Handlers
 	// ======================================================
 
+	/**
+	 * @param text
+	 *            content as HTML
+	 */
 	public void setText(String text) {
 		editor.setHTML(text);
 	}
@@ -359,7 +367,6 @@ public class TextEditPanel extends VerticalPanel
 	 *            GeoText
 	 */
 	public void setText(GeoText geo) {
-
 		ArrayList<DynamicTextElement> list = dTProcessor
 				.buildDynamicTextList(geo);
 
@@ -383,7 +390,6 @@ public class TextEditPanel extends VerticalPanel
 		}
 
 		updatePreviewPanel();
-
 	}
 
 	/**
@@ -438,6 +444,7 @@ public class TextEditPanel extends VerticalPanel
 		}
 	}
 
+	@Override
 	public void updatePreviewPanel(boolean byUser) {
 		if (previewer == null) {
 			return;
@@ -454,7 +461,6 @@ public class TextEditPanel extends VerticalPanel
 				editGeo.setLaTeX(true, false);
 			}
 		}
-
 	}
 
 }

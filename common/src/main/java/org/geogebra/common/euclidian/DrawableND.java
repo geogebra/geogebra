@@ -85,7 +85,6 @@ public abstract class DrawableND {
 	 * 3D : update at next frame
 	 */
 	public void setWaitForUpdate() {
-
 		update();
 	}
 
@@ -96,9 +95,7 @@ public abstract class DrawableND {
 	 *            TODO
 	 */
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-
 		setWaitForUpdate();
-
 	}
 
 	/**

@@ -856,7 +856,6 @@ public class EuclidianControllerCompanion {
 	 * @return locus
 	 */
 	protected GeoElement locus(GeoPointND a, GeoPointND b) {
-
 		return ec.getAlgoDispatcher().locus(null, a, b);
 	}
 

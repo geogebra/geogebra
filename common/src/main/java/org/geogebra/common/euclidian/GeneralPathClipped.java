@@ -367,7 +367,6 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	private void updateBounds(MyPoint p) {
-
 		if (bounds == null) {
 			bounds = oldBounds != null ? oldBounds
 					: AwtFactory.getPrototype().newRectangle2D();

@@ -95,7 +95,6 @@ public class EuclidianDraw {
 	 * @return drawable for given GeoElement
 	 */
 	public static DrawableND newDrawable(EuclidianView ev, GeoElementND geo) {
-
 		DrawableND d = null;
 		switch (geo.getGeoClassType()) {
 		default:

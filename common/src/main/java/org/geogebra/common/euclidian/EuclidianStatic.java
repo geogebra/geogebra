@@ -336,7 +336,6 @@ public class EuclidianStatic {
 	 * @return str split on $ but not \$
 	 */
 	private static String[] blockSplit(String str) {
-
 		// http://stackoverflow.com/questions/2709839/how-do-i-express-but-not-preceded-by-in-a-java-regular-expression
 		// negative lookbehind
 		// return str.split("(?<!\\\\)$");

@@ -106,14 +106,12 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	@Override
 	public void corner(double[] pos) {
-
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		corner(p[0], p[1]);
 	}
 
 	private void corner(double x0, double y0) {
-
 		int w = view.getWidth();
 		int h = view.getHeight();
 		GPoint2D pt = getCurrentPoint();

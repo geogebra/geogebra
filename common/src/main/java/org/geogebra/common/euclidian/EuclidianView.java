@@ -559,7 +559,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/** @return point styles */
 	public static final Integer[] getPointStyles() {
-
 		Integer[] ret = new Integer[pointStyles.length];
 
 		for (int i = 0; i < pointStyles.length; i++) {
@@ -703,7 +702,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public int getPointCapturingMode() {
-
 		if (settings != null) {
 			return settings.getPointCapturingMode();
 		}
@@ -818,7 +816,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
-
 		if (updatingBounds) {
 			return;
 		}
@@ -1216,7 +1213,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if segment is on / close to view
 	 */
 	public boolean isSegmentOffView(double[] p1, double[] p2) {
-
 		double tolerance = EuclidianStatic.CLIP_DISTANCE / getYscale();
 
 		// bottom
@@ -2254,7 +2250,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public MyButton getHitButton(GPoint p, PointerEventType type) {
-
 		DrawableIterator it = allDrawableList.getIterator();
 		Drawable d = null;
 
@@ -2551,7 +2546,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private void setFontPoint(GFont fontPoint) {
-
 		this.fontPoint = fontPoint;
 	}
 
@@ -2616,7 +2610,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            13 or 26
 	 */
 	public void setBooleanSize(int size) {
-
 		// only 13 and 26 currently allowed
 		app.setCheckboxSize(size);
 
@@ -4375,7 +4368,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-
 		companion.settingsChanged(settings);
 
 		if (styleBar != null) {
@@ -4607,7 +4599,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 
 	public GPoint getMaximumLabelSize(GGraphics2D g2) {
-
 		GPoint max = new GPoint(0, 0);
 
 		g2.setFont(getFontAxes());
@@ -4776,7 +4767,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            true for preferences
 	 */
 	public void startXML(StringBuilder sbxml, boolean asPreference) {
-
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sbxml.append("<euclidianView>\n");
 
@@ -5673,7 +5663,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public final boolean setAnimationButtonsHighlighted(boolean flag) {
-
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
 			return false;
@@ -5684,7 +5673,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		highlightAnimationButtons = flag;
 		return true;
-
 	}
 
 	/**
@@ -5747,7 +5735,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            true if should be repainted after
 	 */
 	protected void initView(boolean repaint) {
-
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
@@ -5851,7 +5838,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return new style
 	 */
 	public static int getBoldAxes(boolean bold, int axesLineStyle) {
-
 		if (bold) {
 			return axesLineStyle | EuclidianStyleConstants.AXES_BOLD;
 		}
@@ -6270,7 +6256,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void closeDropDowns(int x, int y) {
-
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
@@ -6593,22 +6578,29 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *
 	 * @return true if this kind of view can move functions (false for 3D)
 	 */
-    public boolean canMoveFunctions() {
+	public boolean canMoveFunctions() {
 		return true;
-    }
+	}
 
 	/**
 	 *
 	 * @return true if view can show different styles for points (false for 3D)
 	 */
 	public boolean canShowPointStyle() {
-    	return true;
+		return true;
 	}
 
+	/**
+	 * @return whether animation button is focused
+	 */
 	public boolean isAnimationButtonSelected() {
 		return kernel.needToShowAnimationButton() && animationButtonSelected;
 	}
 
+	/**
+	 * @param value
+	 *            whether animation button is focused
+	 */
 	public void setAnimationButtonSelected(boolean value) {
 		this.animationButtonSelected = value;
 		setAnimationButtonsHighlighted(value);

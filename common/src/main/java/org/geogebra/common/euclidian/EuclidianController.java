@@ -604,7 +604,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return 2D, 3D or plane companion
 	 */
 	public EuclidianControllerCompanion getCompanion() {
-
 		// attempted fix for
 		// java.lang.NullPointerException
 		// at

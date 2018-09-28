@@ -700,7 +700,6 @@ public class EuclidianStyleBarStatic {
 	 * @return table text
 	 */
 	public static AlgoTableText updateTableText(Object[] geos, int mode) {
-
 		AlgoTableText tableText = null;
 		if (geos == null || geos.length == 0 || EuclidianView.isPenMode(mode)) {
 			return tableText;
@@ -940,7 +939,6 @@ public class EuclidianStyleBarStatic {
 	 * @return true if the "fix position" button should be fixed for geo
 	 */
 	final static public boolean checkSelectedFixPosition(GeoElement geo) {
-
 		if (geo instanceof AbsoluteScreenLocateable && !geo.isGeoList()) {
 			AbsoluteScreenLocateable locateable = (AbsoluteScreenLocateable) geo
 					.getGeoElementForPropertiesDialog();
@@ -962,9 +960,7 @@ public class EuclidianStyleBarStatic {
 	 * @return true if the "fix object" button should be fixed for geo
 	 */
 	final static public boolean checkSelectedFixObject(GeoElement geo) {
-
 		return geo.isLocked();
-
 	}
 
 	/**
@@ -1002,7 +998,6 @@ public class EuclidianStyleBarStatic {
 	 * @return index to select label mode
 	 */
 	public static int getIndexForLabelMode(GeoElement geo, App app) {
-
 		if (geo.isDefaultGeo()) {
 
 			// check if default geo use default label

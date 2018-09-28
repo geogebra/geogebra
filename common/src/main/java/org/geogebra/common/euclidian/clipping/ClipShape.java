@@ -148,7 +148,6 @@ public class ClipShape {
 		 * 
 		 */
 		public void lineTo(double x, double y) {
-
 			if (uncommittedPoints.size() > 0) {
 				double[] last = uncommittedPoints.peek();
 				// are we adding the same point?

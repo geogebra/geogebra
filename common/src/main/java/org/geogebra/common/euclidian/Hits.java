@@ -670,7 +670,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 
 	final protected Hits getHits(TestGeo geoclass, boolean other, Hits result) {
-
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			boolean success = geoclass.check(get(i));
@@ -887,7 +886,6 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	final private boolean containsGeoNumeric() {
-
 		for (int i = 0; i < size(); i++) {
 			if (get(i).isGeoNumeric()) {
 				return true;

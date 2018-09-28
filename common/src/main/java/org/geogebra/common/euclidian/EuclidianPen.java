@@ -278,7 +278,6 @@ public class EuclidianPen implements GTimerListener {
 	 *            last object created with pen
 	 */
 	public void setPenGeo(GeoElement penGeo) {
-
 		if (penGeo == null) {
 			lastAlgo = null;
 		} else if (penGeo.getParentAlgorithm() instanceof AlgoStrokeInterface) {
@@ -397,7 +396,6 @@ public class EuclidianPen implements GTimerListener {
 	 *            event
 	 */
 	public void addPointPenMode(AbstractEvent e) {
-
 		// if a PolyLine is selected, we can append to it.
 
 		ArrayList<GeoElement> selGeos = app.getSelectionManager()

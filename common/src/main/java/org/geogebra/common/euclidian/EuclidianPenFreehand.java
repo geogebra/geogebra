@@ -83,7 +83,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double syy = 0;
 
 		protected Inertia() {
-
+			// no public constructor
 		}
 
 		protected void copyValuesFrom(Inertia inertia) {
@@ -286,7 +286,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * @return geo that fits current points + new point
 	 */
 	protected GeoElement checkShapes(int x, int y) {
-
 		initShapeRecognition(x, y);
 		// AbstractApplication.debug(penPoints);
 		// if recognize_shape option is checked
@@ -402,7 +401,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * creates a polygon if possible
 	 */
 	private boolean createPolygon() {
-
 		GeoElement polygon = null;
 
 		int n = getPolygonal();
@@ -657,7 +655,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		boolean reversed;
 
 		protected RecoSegment() {
-
+			// no public constructor
 		}
 	}
 
@@ -953,7 +951,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	private GeoElement try_closed_polygon(int nsides) {
-
 		if (recognizer_queue_length < nsides) {
 			return null;
 		}

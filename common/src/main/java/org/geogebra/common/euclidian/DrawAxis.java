@@ -51,7 +51,6 @@ public class DrawAxis {
 	 *            graphics
 	 */
 	protected void drawAxes(GGraphics2D g2) {
-
 		// TRAC-5292
 		// problem exporting to PDF
 		// GGB-766

@@ -439,7 +439,6 @@ public class HatchingHandler {
 	}
 
 	private String drawBricksSVG(double angle, int xInt, int yInt) {
-
 		svgReset();
 
 		if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)) {
@@ -549,7 +548,6 @@ public class HatchingHandler {
 	}
 
 	private void drawHoneycomb(double dist, GGraphics2D g2d) {
-
 		double centerX = (dist * Math.sqrt(3) / 2);
 		path.moveTo(centerX, dist);
 		path.lineTo(centerX, 2 * dist);
@@ -574,7 +572,6 @@ public class HatchingHandler {
 	}
 
 	private String drawHoneycombSVG(double dist) {
-
 		double centerX = (dist * Math.sqrt(3) / 2);
 		double width = centerX + centerX;
 
@@ -657,7 +654,6 @@ public class HatchingHandler {
 	}
 
 	private String drawHatchingSVG(double angle, double y, int xInt, int yInt) {
-
 		svgReset();
 		if (angle == 0) { // horizontal
 
