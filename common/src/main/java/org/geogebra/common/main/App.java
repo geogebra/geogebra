@@ -3884,10 +3884,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** MOW-150 */
 		case MOW_ROTATION_HANDLER:
 			return prerelease && whiteboard;
-			
-		/** MOW-612 */
-		case MOW_TOOLBAR_REFACTOR:
-			return prerelease && whiteboard;
 
 		// **********************************************************************
 		// MOW END

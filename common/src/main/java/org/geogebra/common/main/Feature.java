@@ -276,9 +276,6 @@ public enum Feature {
 	/** MOW-150 */
 	MOW_ROTATION_HANDLER,
 
-	/** MOW-612 */
-	MOW_TOOLBAR_REFACTOR,
-
 	/** AND-1304 */
 	MOB_LIST_TOOL,
 
