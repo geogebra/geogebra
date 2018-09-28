@@ -60,29 +60,29 @@
 					    left: 50%;
 					    opacity: 0.85;	
 				    }
-		    	}
-		    
+				}
+
 				.center.indicatorLeft {
 					.indicator {
-						transform: translate(calc(50% - 66px),0);
+						transform: translateX(50%) translateX(-66px);
 					}	
 				}
 				.center.indicatorCenter {
 					.indicator {
-						transform: translate(calc(50% - 18px),0);
+						transform: translateX(50%) translateX(-18px);
 					}	
 				}
 				.center.indicatorRight {
 					.indicator {
-						transform: translate(calc(50% + 30px),0);
+						transform: translateX(50%) translateX(30px);
 					}	
-				}		    
-		    
-		    	.openCloseBtn {
-	    			float: right;	
-	    			margin: 10px 6px;
-		    	}
-		    }
+				}
+
+				.openCloseBtn {
+					float: right;	
+					margin: 10px 6px;
+				}
+			}
 		}
 	
 		.toolbarMowPanel {
