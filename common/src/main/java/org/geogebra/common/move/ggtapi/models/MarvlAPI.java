@@ -212,8 +212,14 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public boolean performCookieLogin(LogInOperation op) {
-		this.authorizeUser(new GeoGebraTubeUser(""), op, true);
+	public boolean performCookieLogin(final LogInOperation op) {
+		op.passiveLogin(new AsyncOperation<Boolean>() {
+
+			public void callback(Boolean obj) {
+				authorizeUser(new GeoGebraTubeUser(""), op, true);
+			}
+		});
+
 		return true;
 	}
 

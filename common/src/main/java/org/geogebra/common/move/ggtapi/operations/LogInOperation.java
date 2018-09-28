@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -209,6 +210,14 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		return this.getGeoGebraTubeAPI()
 				.canUserShare(getModel().getLoggedInUser() == null
 				|| getModel().getLoggedInUser().isStudent());
+	}
+
+	/**
+	 * @param asyncOperation
+	 *            callback after passive login is done
+	 */
+	public void passiveLogin(AsyncOperation<Boolean> asyncOperation) {
+		asyncOperation.callback(true);
 	}
 
 }

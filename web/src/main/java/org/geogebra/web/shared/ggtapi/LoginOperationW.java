@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -14,7 +15,11 @@ import org.geogebra.web.shared.SignInButton;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
@@ -125,5 +130,27 @@ public class LoginOperationW extends LogInOperation {
 			Window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
 					"menubar=off,width=450,height=350");
 		}
+	}
+
+	@Override
+	public void passiveLogin(final AsyncOperation<Boolean> asyncOperation) {
+		if (StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
+			asyncOperation.callback(true);
+			return;
+		}
+		final Frame fr = new Frame();
+		fr.addLoadHandler(new LoadHandler() {
+
+			@Override
+			public void onLoad(LoadEvent event) {
+				asyncOperation.callback(true);
+				fr.removeFromParent();
+			}
+
+		});
+		fr.setVisible(false);
+		fr.setUrl(
+				app.getArticleElement().getParamLoginURL() + "&isPassive=true");
+		RootPanel.get().add(fr);
 	}
 }
