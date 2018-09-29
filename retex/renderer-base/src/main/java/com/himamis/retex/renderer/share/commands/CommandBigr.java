@@ -49,7 +49,6 @@ import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.BigDelimiterAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TeXParser;
-import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class CommandBigr extends Command {
 
@@ -67,7 +66,8 @@ public class CommandBigr extends Command {
 			a = new BigDelimiterAtom((SymbolAtom) a, size);
 			a.setType(type);
 		} else {
-			throw new ParseException(tp, "A symbol expected");
+			// do nothing (jlm1 compatibility)
+			// throw new ParseException(tp, "A symbol expected");
 		}
 		tp.closeConsumer(a);
 	}
