@@ -265,7 +265,7 @@ public class EnvArray {
 				return new AlignAtom(beg.aoa, false);
 			case "cases":
 				final SymbolAtom op1 = Symbols.LBRACE;
-				final SymbolAtom cl1 = Symbols.RBRACE;
+				final SymbolAtom cl1 = null;
 
 				// XXX
 				return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
