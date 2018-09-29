@@ -1191,6 +1191,7 @@ public class Commands {
 		map.put("overrightarrow", new CommandOverRightArrow());
 
 		map.put("ogonek", new CommandOgonek());
+		map.put("k", new CommandOgonek());
 
 		map.put("tcaron", new Command0A() {
 			@Override
