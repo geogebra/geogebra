@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import com.himamis.retex.renderer.share.TeXFont;
+
 /**
  * Platform independent Font
  *
@@ -107,13 +109,13 @@ public abstract class GFont {
 	public int getLaTeXStyle(boolean serif) {
 		int style = 0;
 		if (isBold()) {
-			style = style | 2; // TeXFormula.BOLD;
+			style = style | TeXFont.BOLD;
 		}
 		if (isItalic()) {
-			style = style | 4; // TeXFormula.ITALIC;
+			style = style | TeXFont.ITALIC;
 		}
 		if (!serif) {
-			style = style | 1; // TeXFormula.SANSSERIF;
+			style = style | TeXFont.SANSSERIF;
 		}
 
 		return style;
