@@ -33,9 +33,14 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 public abstract class DrawEquation implements DrawEquationI {
 
 	/**
-	 * @return \newcommand definitions for GeoGebra specific commands
+	 * @return \newcommand definitions for GeoGebra specific commands and do
+	 *         other initialization
 	 */
 	public static StringBuilder getJLMCommands() {
+
+		// make \fcolorbox margin compatible with jlm v1
+		TeXLength.put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
+
 		StringBuilder initJLM = new StringBuilder();
 
 		HashMap<String, GColor> ggbCols = GeoGebraColorConstants

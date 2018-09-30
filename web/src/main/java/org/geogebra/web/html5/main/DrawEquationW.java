@@ -17,7 +17,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -217,9 +216,6 @@ public class DrawEquationW extends DrawEquation {
 
 			StringBuilder initJLM = DrawEquation.getJLMCommands();
 			initJLaTeXMath = new TeXFormula(initJLM.toString());
-
-			// make \fcolorbox margin compatible with jlm v1
-			TeXLength.put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
 
 		}
 	}

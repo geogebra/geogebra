@@ -27,7 +27,6 @@ import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -50,10 +49,6 @@ public class DrawEquationD extends DrawEquation {
 
 			// initialise definitions
 			if (initJLaTeXMath == null) {
-
-				// make \fcolorbox margin compatible with jlm v1
-				TeXLength.put("fboxsep",
-						new TeXLength(TeXLength.Unit.EM, 0.65));
 
 				StringBuilder initJLM = getJLMCommands();
 				initJLaTeXMath = new TeXFormula(initJLM.toString());
