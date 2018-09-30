@@ -1236,6 +1236,7 @@ public class Commands {
 			}
 		});
 		map.put("cedilla", new CommandCedilla());
+		map.put("c", new CommandCedilla());
 
 		map.put("~", new CommandTilde1());
 
