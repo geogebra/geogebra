@@ -4,12 +4,16 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyResource;
 
 /**
  * This property controls the current positioning of the grid
  */
-public class GraphicsPositionProperty implements ActionsEnumerableProperty {
+@SuppressWarnings("unused")
+public class GraphicsPositionProperty
+		implements ActionsEnumerableProperty,
+		Property /* redundancy needed for iOS, see IGR-1023 */ {
 
     private Localization localization;
     private EuclidianView euclidianView;
