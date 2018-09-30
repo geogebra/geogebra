@@ -1091,6 +1091,12 @@ public class TeXParser {
 		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 	}
 
+	public void eatWhite() {
+		if (parseString.charAt(pos) == ' ') {
+			++pos;
+		}
+	}
+
 	public String getCommand() {
 		++pos;
 		if (pos < len) {
@@ -1100,12 +1106,7 @@ public class TeXParser {
 				while (pos < len) {
 					c = parseString.charAt(pos);
 					if (!isRomanLetter(c)) {
-						final String com = parseString.substring(spos, pos);
-						if (c == ' ') {
-							// skip the white just after the command
-							++pos;
-						}
-						return com;
+						return parseString.substring(spos, pos);
 					}
 					++pos;
 				}
@@ -2034,7 +2035,12 @@ public class TeXParser {
 		if (isHandlingArg()) {
 			stack.peek().lbrace(this);
 		} else {
-			addConsumer(new GroupConsumer(TeXConstants.Opener.LBRACE));
+			if (pos < len && parseString.charAt(pos) == '}') {
+				++pos;
+				addToConsumer(new EmptyAtom());
+			} else {
+				addConsumer(new GroupConsumer(TeXConstants.Opener.LBRACE));
+			}
 		}
 	}
 

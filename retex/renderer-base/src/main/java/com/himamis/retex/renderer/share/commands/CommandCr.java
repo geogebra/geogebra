@@ -61,6 +61,9 @@ public class CommandCr extends Command {
 
 	@Override
 	public boolean init(TeXParser tp) {
+		if (cmd.equals("cr")) {
+			tp.eatWhite();
+		}
 		if (!tp.isColumn()) {
 			tp.close();
 		}
