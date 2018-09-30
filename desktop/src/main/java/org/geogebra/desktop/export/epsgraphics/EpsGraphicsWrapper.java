@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GAffineTransformD;
@@ -43,6 +44,8 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 
 	private EpsGraphicsD impl;
 	private LinkedList<GAffineTransform> transformationStack = new LinkedList<>();
+
+	GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 
 	public EpsGraphicsWrapper(EpsGraphicsD impl) {
 		this.impl = impl;
@@ -105,6 +108,37 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 			impl.fill(new GGenericRectangle2DD(
 					(java.awt.geom.Rectangle2D) rectangle));
 		}
+	}
+
+	// @Override
+	public void startDrawing() {
+		path.reset();
+	}
+
+	// @Override
+	public void moveTo(double x, double y) {
+		path.moveTo(x, y);
+	}
+
+	// @Override
+	public void lineTo(double x, double y) {
+		path.lineTo(x, y);
+	}
+
+	// @Override
+	public void quadraticCurveTo(double x, double y, double x1, double y1) {
+		path.quadTo(x, y, x1, y1);
+	}
+
+	// @Override
+	public void bezierCurveTo(double x, double y, double x1, double y1,
+			double x2, double y2) {
+		path.curveTo(x1, y1, x1, y1, x2, y2);
+	}
+
+	// @Override
+	public void finishDrawing() {
+		impl.draw(path);
 	}
 
 	@Override

@@ -30,4 +30,6 @@ public interface GGeneralPath extends GShape {
 	public abstract void curveTo(double x1, double y1, double x2, double y2,
 			double x3, double y3);
 
+	public abstract void quadTo(double x, double y, double x1, double y1);
+
 }

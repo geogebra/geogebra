@@ -159,4 +159,10 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		impl.curveTo(x1, y1, x2, y2, x3, y3);
 
 	}
+
+	@Override
+	public void quadTo(double x1, double y1, double x2, double y2) {
+		impl.quadTo(x1, y1, x2, y2);
+
+	}
 }
