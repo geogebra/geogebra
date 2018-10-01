@@ -3,7 +3,6 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
@@ -11,7 +10,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.ParentAlgorithmProviderDelegate;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
@@ -36,15 +34,17 @@ import org.geogebra.common.plugin.EventType;
  * Special point manager.
  *
  */
-public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener,
-		ParentAlgorithmProviderDelegate {
+public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener {
 
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
 	private boolean isUpdating = false;
-
-	private TreeMap<GeoElement, AlgoElement> specPointAlgos;
+    /**
+     * storing the special points parent algos: needed for iOS as GeoElement as only weak
+     * reference to its parent algo
+     */
+	private List<AlgoElement> specPointAlgos;
 
 	/**
 	 * @param kernel
@@ -52,7 +52,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 */
 	public SpecialPointsManager(Kernel kernel) {
 		this.kernel = kernel;
-		specPointAlgos = new TreeMap<>();
+		specPointAlgos = new ArrayList<>();
 		App app = kernel.getApplication();
 		app.getSelectionManager().addListener(this);
 		app.getEventDispatcher().addEventListener(this);
@@ -61,7 +61,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private List<GeoElement> getSpecPoints(GeoElement geo0,
 			List<GeoElement> selectedGeos) {
-		specPointAlgos.clear();
+
+        specPointAlgos.clear();
+        // we set parent algorithm to null due to weak reference in iOS
+        if (specPoints != null) {
+            for (GeoElement geo : specPoints) {
+                geo.setParentAlgorithm(null);
+            }
+        }
 		specPoints = null;
 		GeoElement geo = (geo0 == null && selectedGeos != null
 				&& selectedGeos.size() > 0) ? selectedGeos.get(0) : geo0;
@@ -244,7 +251,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				AlgoElement parent = output.getParentAlgorithm();
 				element.removeAlgorithm(parent);
 				secondElement.removeAlgorithm(parent);
-				setParentAlgorithm(output, parent);
+				storeAlgo(parent);
 			}
 			add(elements, retList);
 		} catch (Throwable exception) {
@@ -268,9 +275,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			retList) {
 		element.removeAlgorithm(algoElement);
 		add(algoElement.getOutput(), retList);
-		for (GeoElement output : algoElement.getOutput()) {
-			setParentAlgorithm(output, algoElement);
-		}
+		storeAlgo(algoElement);
 	}
 
 	private static void add(GeoElement[] geos1,
@@ -333,13 +338,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
-	private void setParentAlgorithm(GeoElement geo, AlgoElement algo) {
-		specPointAlgos.put(geo, algo);
-		geo.setParentAlgorithmProviderDelegate(this);
+	private void storeAlgo(AlgoElement algo) {
+	    // we need to store parent algos due to weak reference in iOS
+		specPointAlgos.add(algo);
 	}
 
-	@Override
-	public AlgoElement getParentAlgorithm(GeoElement geo) {
-		return specPointAlgos.get(geo);
-	}
+
 }

@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.ParentAlgorithmProviderDelegate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
@@ -290,8 +289,6 @@ public abstract class GeoElement extends ConstructionElement
 	/** parent algorithm */
 	@Weak
 	protected AlgoElement algoParent = null;
-    @Weak
-    private ParentAlgorithmProviderDelegate parentAlgorithmProviderDelegate = null;
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
 	/** directly dependent algos */
@@ -1933,21 +1930,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	final public AlgoElement getParentAlgorithm() {
-		if (parentAlgorithmProviderDelegate != null) {
-			return parentAlgorithmProviderDelegate.getParentAlgorithm(this);
-		}
 		return algoParent;
-	}
-
-	/**
-	 * set a delegate for providing parent algorithm
-	 *
-	 * @param delegate
-	 *            delegate
-	 */
-	public void setParentAlgorithmProviderDelegate(
-			ParentAlgorithmProviderDelegate delegate) {
-		parentAlgorithmProviderDelegate = delegate;
 	}
 
 	@Override
