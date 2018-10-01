@@ -6509,6 +6509,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void drawStringWithOutline(GGraphics2D g2, String text, double x,
 			double y, GColor col) {
+
+		// default implementation, no outline
+		// don't change, used when no outline wanted
 		g2.setColor(col);
 		g2.drawString(text, x, y);
 	}

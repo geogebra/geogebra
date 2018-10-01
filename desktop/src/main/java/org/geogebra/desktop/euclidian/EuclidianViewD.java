@@ -1005,20 +1005,21 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	public void drawStringWithOutline(GGraphics2D g2, String text, double x,
+	public void drawStringWithOutline(GGraphics2D g2c, String text, double x,
 			double y, GColor col) {
 		
 		// no outline if label color == background color
-		if (g2 instanceof GGraphics2DD && !col.equals(getBackgroundCommon())
+		if (!app.isExporting() && g2c instanceof GGraphics2DD
+				&& !col.equals(getBackgroundCommon())
 				&& !app.fileVersionBefore(LABEL_OUTLINES_FROM)) {
-			g2.setColor(getBackgroundCommon());
-			g2.drawString(text, x + 1, y);
-			g2.drawString(text, x - 1, y);
-			g2.drawString(text, x, y + 1);
-			g2.drawString(text, x, y - 1);
+			g2c.setColor(getBackgroundCommon());
+			g2c.drawString(text, x + 1, y);
+			g2c.drawString(text, x - 1, y);
+			g2c.drawString(text, x, y + 1);
+			g2c.drawString(text, x, y - 1);
 		}
-		g2.setColor(col);
-		g2.drawString(text, x, y);
+		// default (no outline)
+		super.drawStringWithOutline(g2c, text, x, y, col);
 	}
 
 }

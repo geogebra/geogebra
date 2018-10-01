@@ -1643,19 +1643,26 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// Unicode doesn't work in PDF Export currently
 		// so draw in LaTeX (uses shapes)
-		if (appW.isExporting()
-				&& ExportType.PDF_HTML5.equals(appW.getExportType())
-				&& !StringUtil.isASCII(text)) {
-			// different corner for LaTeX
-			int offsetY = getFontSize();
+		if (appW.isExporting()) {
 
-			// no callback as we're exporting
-			// so font will be loaded already
-			appW.getDrawEquation().drawEquation(appW, null, g2c, (int) x,
-					(int) (y - offsetY), text, g2c.getFont(), false, col,
-					getBackgroundCommon(), true, false, null);
+			// PDF export doesn't support Unicode
+			// so use LaTeX when
+			if (ExportType.PDF_HTML5.equals(appW.getExportType())
+					&& !StringUtil.isASCII(text)) {
+				// different corner for LaTeX
+				int offsetY = getFontSize();
 
-			return;
+				// no callback as we're exporting
+				// so font will be loaded already
+				appW.getDrawEquation().drawEquation(appW, null, g2c, (int) x,
+						(int) (y - offsetY), text, g2c.getFont(), false, col,
+						getBackgroundCommon(), true, false, null);
+
+				return;
+			}
+
+			// no outline when exporting
+			super.drawStringWithOutline(g2c, text, x, y, col);
 		}
 
 		// no outline if label color == background color
@@ -1669,8 +1676,9 @@ public class EuclidianViewW extends EuclidianView implements
 			g2.drawStringStroke(text, x, y);
 			g2.getContext().setLineJoin(old);
 		}
-		g2c.setColor(col);
-		g2c.drawString(text, x, y);
+
+		// default (no outline)
+		super.drawStringWithOutline(g2c, text, x, y, col);
 	}
 
 	/**
