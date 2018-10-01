@@ -193,6 +193,7 @@ public final class DrawText extends Drawable {
 
 		if (isWhiteboardText() && boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
+			text.setBoundingBoxForWhiteboard(getBounds());
 		}
 
 		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
@@ -209,7 +210,7 @@ public final class DrawText extends Drawable {
 
 			if (bg != null) {
 
-				// needed to calculate labelRectangle
+				// nee0ded to calculate labelRectangle
 				if (isLaTeX) {
 					drawMultilineLaTeX(view.getTempGraphics2D(textFont),
 							textFont, geo.getObjectColor(),
@@ -348,6 +349,10 @@ public final class DrawText extends Drawable {
 					(int) Math.max(labelRectangle.getWidth(), MIN_EDITOR_WIDTH),
 					(int) Math.max(labelRectangle.getHeight(),
 							MIN_EDITOR_HEIGHT));
+		} else if (view.getApplication().has(Feature.MOW_TEXT_TOOL)) {
+			if (text.getBoundingBoxForWhiteboard() != null) {
+				labelRectangle.setBounds(text.getBoundingBoxForWhiteboard());
+			}
 		}
 		return labelRectangle;
 	}
@@ -357,7 +362,11 @@ public final class DrawText extends Drawable {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
 				boundingBox = new BoundingBox(false, false);
-				boundingBox.setRectangle(getBounds());
+				if (text.getBoundingBoxForWhiteboard() != null) {
+					boundingBox.setRectangle(text.getBoundingBoxForWhiteboard());
+				} else {
+					boundingBox.setRectangle(getBounds());
+				}
 			}
 			return boundingBox;
 		}

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -1393,6 +1394,23 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
+	private boolean handleBoundingBox(LinkedHashMap<String, String> attrs) {
+		if (!app.has(Feature.MOW_TEXT_TOOL)) {
+			return false;
+		}
+
+		if (!(geo instanceof GeoText)) {
+			Log.error("wrong element type for <boundingBox>: " + geo.getClass());
+			return false;
+		}
+		
+		GRectangle rect = AwtFactory.getPrototype().newRectangle(
+				Integer.parseInt(attrs.get("x")), Integer.parseInt(attrs.get("y")),
+				Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
+		((GeoText) geo).setBoundingBoxForWhiteboard(rect);
+		return true;
+	}
+
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {
 		if (!geo.isGeoConic() && !geo.isGeoQuadric()) {
 			Log.error("wrong element type for <matrix>: " + geo.getClass());
@@ -1879,6 +1897,9 @@ public class ConsElementXMLHandler {
 					break;
 				} else if ("bgColor".equals(eName)) {
 					handleBgColor(attrs);
+					break;
+				} else if ("boundingBox".equals(eName)) {
+					handleBoundingBox(attrs);
 					break;
 				}
 

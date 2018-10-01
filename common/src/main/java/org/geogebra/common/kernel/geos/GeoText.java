@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -37,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -119,6 +121,7 @@ public class GeoText extends GeoElement
 	private EditMode editMode = EditMode.None;
 
 	private int textHeight;
+	private GRectangle boundingBoxForWhiteboard;
 
 	private enum EditMode {
 		None, Ready, Edit
@@ -661,7 +664,30 @@ public class GeoText extends GeoElement
 
 		// store location of text (and possible labelOffset)
 		sb.append(getXMLlocation());
+		getBoudingBoxForWhiteboardXML(sb);
 		getScriptTags(sb);
+
+	}
+
+	private void getBoudingBoxForWhiteboardXML(StringBuilder sb) {
+		if (!kernel.getApplication().has(Feature.MOW_TEXT_TOOL)) {
+			return;
+		}
+
+		if (boundingBoxForWhiteboard == null) {
+			Log.debug("No bounding box for text " + getTextString() + "!");
+			return;
+		}
+		sb.append("\t<boundingBox");
+		sb.append(" x=\"");
+		sb.append(boundingBoxForWhiteboard.getX());
+		sb.append("\" y=\"");
+		sb.append(boundingBoxForWhiteboard.getY());
+		sb.append("\" width=\"");
+		sb.append(boundingBoxForWhiteboard.getWidth());
+		sb.append("\" height=\"");
+		sb.append(boundingBoxForWhiteboard.getHeight());
+		sb.append("\"/>\n");
 
 	}
 
@@ -672,7 +698,6 @@ public class GeoText extends GeoElement
 		StringBuilder sb = new StringBuilder();
 
 		if (hasAbsoluteScreenLocation) {
-			sb.append("\t<absoluteScreenLocation x=\"");
 			sb.append(labelOffsetX);
 			sb.append("\" y=\"");
 			sb.append(labelOffsetY);
@@ -1522,6 +1547,24 @@ public class GeoText extends GeoElement
 
 	public int getTextHeight() {
 		return textHeight;
+	}
+
+	/**
+	 * 
+	 * @return the bounding box for whiteboard.
+	 */
+	public GRectangle getBoundingBoxForWhiteboard() {
+		return boundingBoxForWhiteboard;
+	}
+
+	/**
+	 * Sets the bounding box for whiteboard.
+	 * 
+	 * @param rect
+	 *            to set.
+	 */
+	public void setBoundingBoxForWhiteboard(GRectangle rect) {
+		this.boundingBoxForWhiteboard = rect;
 	}
 
 }
