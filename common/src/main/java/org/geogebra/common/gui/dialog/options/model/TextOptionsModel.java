@@ -27,6 +27,7 @@ public class TextOptionsModel extends OptionsModel {
 	private Localization loc;
 	private DynamicTextProcessor dTProcessor;
 	private GeoText editGeo;
+	private OptionsMenu optionsMenu;
 
 	public interface ITextOptionsListener extends PropertyListener {
 
@@ -59,6 +60,7 @@ public class TextOptionsModel extends OptionsModel {
 		loc = app.getLocalization();
 		dTProcessor = new DynamicTextProcessor(app);
 		editGeo = null;
+		optionsMenu = new OptionsMenu(loc);
 	}
 
 	@Override
@@ -129,15 +131,15 @@ public class TextOptionsModel extends OptionsModel {
 		int selItem = -1;
 
 		int decimals = geo0.getPrintDecimals();
-		if (decimals > 0 && decimals < OptionsMenu.decimalsLookupLength()
+		if (decimals > 0 && decimals < optionsMenu.decimalsLookupLength()
 				&& !geo0.useSignificantFigures()) {
-			selItem = OptionsMenu.decimalsLookup(decimals);
+			selItem = optionsMenu.decimalsLookup(decimals);
 		}
 
 		int figures = geo0.getPrintFigures();
-		if (figures > 0 && figures < OptionsMenu.figuresLookupLength()
+		if (figures > 0 && figures < optionsMenu.figuresLookupLength()
 				&& geo0.useSignificantFigures()) {
-			selItem = OptionsMenu.figuresLookup(figures);
+			selItem = optionsMenu.figuresLookup(figures);
 		}
 
 		listener.selectDecimalPlaces(selItem);
@@ -235,12 +237,12 @@ public class TextOptionsModel extends OptionsModel {
 			if (decimals < 8) // decimal places
 			{
 				// Application.debug("decimals"+roundingMenuLookup[decimals]+"");
-				text.setPrintDecimals(OptionsMenu.roundingMenuLookup(decimals),
+				text.setPrintDecimals(optionsMenu.roundingMenuLookup(decimals),
 						true);
 			} else // significant figures
 			{
 				// Application.debug("figures"+roundingMenuLookup[decimals]+"");
-				text.setPrintFigures(OptionsMenu.roundingMenuLookup(decimals),
+				text.setPrintFigures(optionsMenu.roundingMenuLookup(decimals),
 						true);
 			}
 			((GeoElement) text).updateRepaint();

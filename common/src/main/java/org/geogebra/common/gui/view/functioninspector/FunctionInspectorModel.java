@@ -69,6 +69,7 @@ public class FunctionInspectorModel {
 	private EuclidianView activeEV;
 	private IFunctionInspectorListener listener;
 	protected final Localization loc;
+	private OptionsMenu optionsMenu;
 
 	public enum Colors {
 		GEO, GEO2, EVEN_ROW, GRID
@@ -155,6 +156,7 @@ public class FunctionInspectorModel {
 
 		this.app = app;
 		loc = app.getLocalization();
+		optionsMenu = new OptionsMenu(loc);
 		kernel = app.getKernel();
 		this.listener = listener;
 		cons = kernel.getConstruction();
@@ -1110,12 +1112,12 @@ public class FunctionInspectorModel {
 	public void applyDecimalPlaces(int index) {
 		if (index < 8) // decimal places
 		{
-			printDecimals = OptionsMenu.roundingMenuLookup(index);
+			printDecimals = optionsMenu.roundingMenuLookup(index);
 			printFigures = -1;
 		} else // significant figures
 		{
 			printDecimals = -1;
-			printFigures = OptionsMenu.roundingMenuLookup(index);
+			printFigures = optionsMenu.roundingMenuLookup(index);
 		}
 		listener.changedNumberFormat();
 	}

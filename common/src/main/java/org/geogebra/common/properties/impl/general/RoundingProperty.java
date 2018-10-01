@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class RoundingProperty extends AbstractEnumerableProperty {
 
     private App app;
+    private OptionsMenu optionsMenu;
     private int figuresIndex;
 
     /**
@@ -25,6 +26,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
         super(localization, "Rounding");
 
         this.app = app;
+        this.optionsMenu = new OptionsMenu(localization);
         setupValues(localization);
     }
 
@@ -47,12 +49,12 @@ public class RoundingProperty extends AbstractEnumerableProperty {
 
     @Override
     public int getIndex() {
-        return OptionsMenu.getMenuDecimalPosition(app.getKernel(), true);
+        return optionsMenu.getMenuDecimalPosition(app.getKernel(), true);
     }
 
     @Override
     protected void setValueSafe(String value, int index) {
         boolean figures = index >= figuresIndex;
-        OptionsMenu.setRounding(app, figures ? index + 1 : index, figures);
+        optionsMenu.setRounding(app, figures ? index + 1 : index, figures);
     }
 }
