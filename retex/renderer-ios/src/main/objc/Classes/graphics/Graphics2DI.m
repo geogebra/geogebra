@@ -231,4 +231,38 @@
     }
 }
 
+- (void)startDrawing {
+    
+}
+
+- (void)moveToWithDouble:(jdouble)x
+              withDouble:(jdouble)y {
+    
+}
+
+- (void)lineToWithDouble:(jdouble)x
+              withDouble:(jdouble)y {
+    
+}
+
+- (void)quadraticCurveToWithDouble:(jdouble)x
+                        withDouble:(jdouble)y
+                        withDouble:(jdouble)x1
+                        withDouble:(jdouble)y1 {
+    
+}
+
+- (void)bezierCurveToWithDouble:(jdouble)x
+                     withDouble:(jdouble)y
+                     withDouble:(jdouble)x1
+                     withDouble:(jdouble)y1
+                     withDouble:(jdouble)x2
+                     withDouble:(jdouble)y2 {
+    
+}
+
+- (void)finishDrawing {
+    
+}
+
 @end
