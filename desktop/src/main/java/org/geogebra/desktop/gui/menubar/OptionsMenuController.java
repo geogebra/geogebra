@@ -16,11 +16,13 @@ public class OptionsMenuController {
 	private App app;
 	Kernel kernel;
 	private MenuFactory menuFactory;
+	private OptionsMenu optionsMenu;
 
 	public OptionsMenuController(App app, MenuFactory menuFactory) {
 		this.app = app;
 		kernel = app.getKernel();
 		this.menuFactory = menuFactory;
+		this.optionsMenu = new OptionsMenu(app.getLocalization());
 	}
 
 	public void processActionPerformed(String cmd) {
@@ -186,7 +188,7 @@ public class OptionsMenuController {
 			return;
 		}
 
-		int pos = OptionsMenu.getMenuDecimalPosition(kernel, false);
+		int pos = optionsMenu.getMenuDecimalPosition(kernel, false);
 
 		try {
 			menuDecimalPlaces.setSelected(pos);

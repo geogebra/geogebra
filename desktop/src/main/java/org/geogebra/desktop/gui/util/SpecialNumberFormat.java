@@ -27,6 +27,7 @@ public class SpecialNumberFormat implements ActionListener {
 
 	private AppD app;
 	private SpecialNumberFormatInterface invoker;
+	private OptionsMenu optionsMenu;
 
 	private JMenu menuDecimalPlaces;
 
@@ -47,6 +48,7 @@ public class SpecialNumberFormat implements ActionListener {
 
 		this.app = app;
 		this.invoker = invoker;
+		this.optionsMenu = new OptionsMenu(app.getLocalization());
 	}
 
 	public int getPrintFigures() {
@@ -110,13 +112,13 @@ public class SpecialNumberFormat implements ActionListener {
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < OptionsMenu.figuresLookupLength()) {
-				pos = OptionsMenu.figuresLookup(printFigures);
+					&& printFigures < optionsMenu.figuresLookupLength()) {
+				pos = optionsMenu.figuresLookup(printFigures);
 			}
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < OptionsMenu.decimalsLookupLength()) {
-				pos = OptionsMenu.decimalsLookup(printDecimals);
+					&& printDecimals < optionsMenu.decimalsLookupLength()) {
+				pos = optionsMenu.decimalsLookup(printDecimals);
 			}
 		}
 

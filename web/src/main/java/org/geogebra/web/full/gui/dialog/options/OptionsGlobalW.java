@@ -68,11 +68,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
+		private OptionsMenu optionsMenu;
 
 		/**
 		 * constructor
 		 */
 		protected GlobalTab() {
+			optionsMenu = new OptionsMenu(app.getLocalization());
 			createGUI();
 			updateGUI();
 			if (app.isUnbundledOrWhiteboard()) {
@@ -112,7 +114,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 						// TODO copypasted from RoundingProperty
 						int index = roundingList.getSelectedIndex();
 						boolean figures = index >= 8;
-						OptionsMenu.setRounding(app,
+						optionsMenu.setRounding(app,
 								figures ? index + 1 : index, figures);
 						app.setUnsaved();
 					} catch (Exception e) {
@@ -244,7 +246,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 */
 		void setRoundingInComboBox() {
 			roundingList.setSelectedIndex(
-					OptionsMenu.getMenuDecimalPosition(app.getKernel(), true));
+					optionsMenu.getMenuDecimalPosition(app.getKernel(), true));
 		}
 
 		private void addRestoreSettingsBtn() {
