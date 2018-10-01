@@ -926,7 +926,7 @@ __GGB__keysVar["ug"].command = {
     "Solutions.SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]",
     "Solve": "Solve",
     "Solve.Syntax": "[ <Equation> ]",
-    "Solve.SyntaxCAS": "[ <Equation in x> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]",
+    "Solve.SyntaxCAS": "[ <Equation in x> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]\n[ <\u200bList of Parametric Equations>, <\u200bList of Variables> ]\n[ <\u200bEquation>, <\u200bVariable>, <\u200bList of assumptions> ]",
     "SolveCubic": "\u0626\u06c8\u0686\u0649\u0646\u0686\u0649\u060c\u062f\u06d5\u0631\u0649\u062c\u0649\u0644\u0649\u0643\u060c\u0643\u06c6\u067e\u060c\u0626\u06d5\u0632\u0627\u0644\u0649\u0642\u0646\u0649\u060c\u064a\u06d0\u0634\u0649\u0634",
     "SolveCubic.SyntaxCAS": "[ <\u0626\u06c8\u0686\u0649\u0646\u0686\u0649 \u062f\u06d5\u0631\u0649\u062c\u0649\u0644\u0649\u0643 \u0643\u06c6\u067e \u0626\u06d5\u0632\u0627\u0644\u0649\u0642> ]",
     "SolveODE": "SolveODE",

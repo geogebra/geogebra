@@ -926,7 +926,7 @@ __GGB__keysVar["it"].command = {
     "Solutions.SyntaxCAS": "[ <Equazione> ]\n[ <Equazione>, <Variabile> ]\n[ <Lista di equazioni>, <Lista di variabili> ]",
     "Solve": "Risolvi",
     "Solve.Syntax": "[ <Equazione> ]",
-    "Solve.SyntaxCAS": "[ <Equazione in x> ]\n[ <Equazione>, <Variabile> ]\n[ <Lista di equazioni>, <Lista di variabili> ]",
+    "Solve.SyntaxCAS": "[ <Equazione in x> ]\n[ <Equazione>, <Variabile> ]\n[ <Lista di equazioni>, <Lista di variabili> ]\n[ <Lista di equazioni parametriche>, <Lista di variabili> ]\n[ <Equazione>, <Variabile>, <Lista condizioni> ]",
     "SolveCubic": "RisolviCubica",
     "SolveCubic.SyntaxCAS": "[ <Polinomio cubico> ]",
     "SolveODE": "RisolviEDO",

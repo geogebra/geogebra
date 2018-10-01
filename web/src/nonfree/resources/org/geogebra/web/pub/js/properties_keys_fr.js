@@ -710,7 +710,7 @@ __GGB__keysVar["fr"].command = {
     "ProveDetails.Syntax": "[ <Expression> ]",
     "Pyramid": "Pyramide",
     "Pyramid.Syntax": "[ <Polygone>, <Point> ]\n[ <Polygone>, <Hauteur> ]\n[ <Point>, <Point>, <Point>, <Point>, ... ]",
-    "Q1": "Q1",
+    "Q1": "Quartile1",
     "Q1.Syntax": "[ <Liste de donn\xe9es brutes> ]\n[ <Liste de nombres>, <Liste d'effectifs> ]",
     "Q3": "Q3",
     "Q3.Syntax": "[ <Liste de donn\xe9es brutes> ]\n[ <Liste de nombres>, <Liste d'effectifs> ]",
