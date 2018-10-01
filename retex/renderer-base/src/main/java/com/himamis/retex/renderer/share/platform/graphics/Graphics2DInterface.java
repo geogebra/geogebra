@@ -107,4 +107,17 @@ public interface Graphics2DInterface {
 	public int getRenderingHint(int key);
 
 	public void dispose();
+
+	// void startDrawing();
+
+	// void moveTo(double x, double y);
+
+	// void lineTo(double x, double y);
+
+	// void quadraticCurveTo(double x, double y, double x1, double y1);
+
+	// void bezierCurveTo(double x, double y, double x1, double y1, double x2,
+	// double y2);
+
+	// void finishDrawing();
 }

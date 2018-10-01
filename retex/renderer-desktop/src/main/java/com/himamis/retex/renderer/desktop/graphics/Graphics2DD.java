@@ -47,6 +47,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -73,7 +74,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 public class Graphics2DD implements Graphics2DInterface {
 
 	private Graphics2D impl;
-	private LinkedList<TransformD> transformationStack = new LinkedList<TransformD>();
+	private LinkedList<TransformD> transformationStack = new LinkedList<>();
+	private GeneralPath path;
 
 	public Graphics2DD(Graphics2D impl) {
 		this.impl = impl;
@@ -126,6 +128,37 @@ public class Graphics2DD implements Graphics2DInterface {
 	@Override
 	public void fill(com.himamis.retex.renderer.share.platform.geom.Shape s) {
 		impl.fill((Shape) s);
+	}
+
+	// @Override
+	public void startDrawing() {
+		path = new GeneralPath();
+	}
+
+	// @Override
+	public void moveTo(double x, double y) {
+		path.moveTo(x, y);
+	}
+
+	// @Override
+	public void lineTo(double x, double y) {
+		path.lineTo(x, y);
+	}
+
+	// @Override
+	public void quadraticCurveTo(double x, double y, double x1, double y1) {
+		path.quadTo(x, y, x1, y1);
+	}
+
+	// @Override
+	public void bezierCurveTo(double x, double y, double x1, double y1,
+			double x2, double y2) {
+		path.curveTo(x, y, x1, y1, x2, y2);
+	}
+
+	// @Override
+	public void finishDrawing() {
+		impl.fill(path);
 	}
 
 	@Override
