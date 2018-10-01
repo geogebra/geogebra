@@ -734,6 +734,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						.toLowerCaseUS(getLocalization().getCommand(s));
 				revTranslateCommandTable.put(lowerCaseCmd, s);
 			}
+			// add renamed commands
+			for (Commands c : Commands.RENAMED) {
+				String lowerCaseCmd = StringUtil
+						.toLowerCaseUS(getLocalization().getCommand(c.name()));
+				revTranslateCommandTable.put(lowerCaseCmd,
+						Commands.englishToInternal(c).name());
+			}
 		}
 		return revTranslateCommandTable.get(cmdLower);
 		// return null;
