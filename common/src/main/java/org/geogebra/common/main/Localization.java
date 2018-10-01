@@ -59,6 +59,9 @@ public abstract class Localization {
 	/** zero (different in eg Arabic) */
 	private char unicodeZero = '0';
 
+	private int[] decimalPlaces = {0, 1, 2, 3, 4, 5, 10, 15};
+	private int[] significantFigures = {3, 5, 10, 15};
+
 	/**
 	 * eg Function.sin
 	 */
@@ -77,7 +80,7 @@ public abstract class Localization {
 	 */
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
-		this.maxFigures = maxFigures;
+		this.significantFigures[significantFigures.length - 1] = maxFigures;
 	}
 
 	/**
@@ -109,6 +112,38 @@ public abstract class Localization {
 		}
 
 		return fontSizeStrings;
+	}
+
+	/**
+	 * @return the decimal places in this localization
+	 */
+	public int[] getDecimalPlaces() {
+		return decimalPlaces;
+	}
+
+	/**
+	 * Set the decimal places for this localization
+	 *
+	 * @param decimalPlaces decimal places
+	 */
+	public void setDecimalPlaces(int[] decimalPlaces) {
+		this.decimalPlaces = decimalPlaces;
+	}
+
+	/**
+	 * @return the sigificant figures in this localization
+	 */
+	public int[] getSignificantFigures() {
+		return significantFigures;
+	}
+
+	/**
+	 * Set the significant figures in this localization
+	 *
+	 * @param significantFigures significant figures
+	 */
+	public void setSignificantFigures(int[] significantFigures) {
+		this.significantFigures = significantFigures;
 	}
 
 	/**
@@ -800,24 +835,24 @@ public abstract class Localization {
 	 * @return rounding menu items
 	 */
 	public String[] getRoundingMenu() {
-		String[] strDecimalSpaces = { getPlain("ADecimalPlaces", "0"),
-				getPlain("ADecimalPlace", "1"), getPlain("ADecimalPlaces", "2"),
-				getPlain("ADecimalPlaces", "3"),
-				getPlain("ADecimalPlaces", "4"),
-				getPlain("ADecimalPlaces", "5"),
-				getPlain("ADecimalPlaces", "10"),
-				getPlain("ADecimalPlaces", "15"), ROUNDING_MENU_SEPARATOR,
-				getPlain("ASignificantFigures", "3"),
-				getPlain("ASignificantFigures", "5"),
-				getPlain("ASignificantFigures", "10"),
-				getPlain("ASignificantFigures", maxFigures + "") };
-
-		// zero is singular in eg French
-		if (!isZeroPlural(getLanguage())) {
-			strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
+		List<String> list = new ArrayList<>();
+		for (int i = 0; i < decimalPlaces.length; i++) {
+			String key = "ADecimalPlaces";
+			// zero is singular in eg French
+			if (decimalPlaces[i] == 0 && !isZeroPlural(getLanguage())) {
+				key = "ADecimalPlace";
+			}
+			list.add(getPlain(key, String.valueOf(decimalPlaces[i])));
+		}
+		list.add(ROUNDING_MENU_SEPARATOR);
+		for (int i = 0; i < significantFigures.length; i++) {
+			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures[i])));
 		}
 
-		return strDecimalSpaces;
+		String[] array = new String[list.size()];
+		list.toArray(array);
+
+		return array;
 	}
 
 	/**
