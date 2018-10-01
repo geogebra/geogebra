@@ -189,33 +189,33 @@ public class Graphics2DW implements Graphics2DInterface {
 		context.fill(s);
 	}
 
-	// @Override
+	@Override
 	public void startDrawing() {
 		context.beginPath();
 	}
 
-	// @Override
+	@Override
 	public void moveTo(double x, double y) {
 		context.moveTo(x, y);
 	}
 
-	// @Override
+	@Override
 	public void lineTo(double x, double y) {
 		context.lineTo(x, y);
 	}
 
-	// @Override
+	@Override
 	public void quadraticCurveTo(double x, double y, double x1, double y1) {
 		context.quadraticCurveTo(x, y, x1, y1);
 	}
 
-	// @Override
+	@Override
 	public void bezierCurveTo(double x, double y, double x1, double y1,
 			double x2, double y2) {
 		context.bezierCurveTo(x, y, x1, y1, x2, y2);
 	}
 
-	// @Override
+	@Override
 	public void finishDrawing() {
 		context.closePath();
 		context.fill();
