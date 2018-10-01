@@ -3769,6 +3769,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public AppConfig getConfig() {
+		if (articleElement == null) {
+			return new AppConfigDefault();
+		}
 		if ("graphing".equals(articleElement.getDataParamAppName())) {
 			return new AppConfigGraphing();
 		}
