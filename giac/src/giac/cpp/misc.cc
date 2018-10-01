@@ -7451,6 +7451,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return symbolic(at_superieur_egal,g._SYMBptr->feuille);
     if (g._SYMBptr->sommet==at_inferieur_strict)
       return symbolic(at_inferieur_egal,g._SYMBptr->feuille);
+    if (g._SYMBptr->sommet==at_different)
+      return 1;
     return symbolic(g._SYMBptr->sommet,strict2large(g._SYMBptr->feuille));
   }
 

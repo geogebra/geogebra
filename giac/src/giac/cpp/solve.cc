@@ -667,7 +667,7 @@ namespace giac {
       if (a.type==_VECT)
 	v=mergevecteur(v,*a._VECTptr);
       else 
-	if (!is_undef(a)) v.push_back(a);
+	if (!is_undef(a) && !a.is_symb_of_sommet(at_fsolve)) v.push_back(a);
       return;
 #else
 #ifndef NO_STDEXCEPT

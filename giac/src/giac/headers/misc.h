@@ -283,6 +283,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_isnan ;
   extern const unary_function_ptr * const  at_draw_string ;
   extern const unary_function_ptr * const  at_dtype ;
+  gen _charpoly(const gen & args,GIAC_CONTEXT);
 
   std::string fetch(const std::string & url);
 #ifndef NO_NAMESPACE_GIAC
