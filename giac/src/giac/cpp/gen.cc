@@ -9617,6 +9617,8 @@ namespace giac {
   }
 
   static bool modified_islesscomplexthanf(const gen& a,const gen& b){
+    if (a.type!=b.type && (a.type<=_CPLX || b.type<=_CPLX))
+      return a.type<b.type;
     if (a.is_symb_of_sommet(at_neg))
       return modified_islesscomplexthanf(a._SYMBptr->feuille,b);
     if (b.is_symb_of_sommet(at_neg))
