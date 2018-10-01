@@ -62,13 +62,13 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private List<GeoElement> getSpecPoints(GeoElement geo0,
 			List<GeoElement> selectedGeos) {
 
-        specPointAlgos.clear();
         // we set parent algorithm to null due to weak reference in iOS
         if (specPoints != null) {
             for (GeoElement geo : specPoints) {
                 geo.setParentAlgorithm(null);
             }
         }
+        specPointAlgos.clear();
 		specPoints = null;
 		GeoElement geo = (geo0 == null && selectedGeos != null
 				&& selectedGeos.size() > 0) ? selectedGeos.get(0) : geo0;
