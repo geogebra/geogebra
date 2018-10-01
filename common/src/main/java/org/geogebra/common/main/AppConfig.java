@@ -34,4 +34,13 @@ public interface AppConfig {
 
 	boolean hasSingleEuclidianViewWhichIs3D();
 
+	/**
+	 * @return the decimal places that this app uses.
+	 */
+	int[] getDecimalPlaces();
+
+	/**
+	 * @return the significant places that this app uses.
+	 */
+	int[] getSignificantFigures();
 }

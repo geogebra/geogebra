@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -599,6 +600,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public LowerCaseDictionary newLowerCaseDictionary() {
 		return new LowerCaseDictionary(new NormalizerMinimal());
+	}
+
+	/**
+	 * Call this after localization is available.
+	 */
+	protected void initLocalization() {
+		Localization localization = getLocalization();
+		AppConfig config = getConfig();
+		localization.setDecimalPlaces(config.getDecimalPlaces());
+		localization.setSignificantFigures(config.getSignificantFigures());
 	}
 
 	/**
@@ -4117,6 +4128,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GGB-2525 */
 		case TAB_ON_EV_PLAY:
+			return prerelease;
+
+		/** MOB-1372 */
+		case MOB_DEFAULT_ROUNDING_13:
 			return prerelease;
 
 		default:

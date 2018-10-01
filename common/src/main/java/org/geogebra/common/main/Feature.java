@@ -304,6 +304,9 @@ public enum Feature {
 	GEOMETRIC_DISCOVERY,
 
 	/** GGB-2525 */
-	TAB_ON_EV_PLAY
+	TAB_ON_EV_PLAY,
+
+	/** MOB-1372 */
+	MOB_DEFAULT_ROUNDING_13
 }
 

@@ -233,6 +233,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/** print precision */
 	public static final int STANDARD_PRINT_DECIMALS = 10;
+	/** print precision for Graphing app */
+	public static final int STANDARD_PRINT_DECIMALS_GRAPHING = 13;
 	/** print precision for Geometry app */
 	public static final int STANDARD_PRINT_DECIMALS_GEOMETRY = 1;
 

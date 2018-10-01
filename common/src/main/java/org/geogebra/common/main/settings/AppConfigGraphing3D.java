@@ -49,4 +49,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public boolean hasSingleEuclidianViewWhichIs3D() {
 		return true;
 	}
+
+	@Override
+	public int[] getDecimalPlaces() {
+		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
+	}
 }
