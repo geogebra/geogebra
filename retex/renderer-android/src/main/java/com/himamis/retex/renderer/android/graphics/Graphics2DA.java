@@ -296,4 +296,34 @@ public class Graphics2DA implements Graphics2DInterface {
 		mCanvas.restore();
 		mScaleStack.popScaleValues();
 	}
+
+    @Override
+    public void startDrawing() {
+
+    }
+
+    @Override
+    public void moveTo(double x, double y) {
+
+    }
+
+    @Override
+    public void lineTo(double x, double y) {
+
+    }
+
+    @Override
+    public void quadraticCurveTo(double x, double y, double x1, double y1) {
+
+    }
+
+    @Override
+    public void bezierCurveTo(double x, double y, double x1, double y1, double x2, double y2) {
+
+    }
+
+    @Override
+    public void finishDrawing() {
+
+    }
 }

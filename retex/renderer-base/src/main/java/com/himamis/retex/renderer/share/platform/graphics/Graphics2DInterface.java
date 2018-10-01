@@ -108,16 +108,15 @@ public interface Graphics2DInterface {
 
 	public void dispose();
 
-	// void startDrawing();
+	void startDrawing();
 
-	// void moveTo(double x, double y);
+	void moveTo(double x, double y);
 
-	// void lineTo(double x, double y);
+	void lineTo(double x, double y);
 
-	// void quadraticCurveTo(double x, double y, double x1, double y1);
+	void quadraticCurveTo(double x, double y, double x1, double y1);
 
-	// void bezierCurveTo(double x, double y, double x1, double y1, double x2,
-	// double y2);
+	void bezierCurveTo(double x, double y, double x1, double y1, double x2, double y2);
 
-	// void finishDrawing();
+	void finishDrawing();
 }

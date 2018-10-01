@@ -179,32 +179,38 @@ public class GraphicsStub implements Graphics2DInterface {
 		// stub
 	}
 
+    @Override
 	public void startDrawing() {
 		// stub
 
 	}
 
+    @Override
 	public void moveTo(double x, double y) {
 		// stub
 
 	}
 
+    @Override
 	public void lineTo(double x, double y) {
 		// stub
 
 	}
 
+    @Override
 	public void quadraticCurveTo(double x, double y, double x1, double y1) {
 		// stub
 
 	}
 
+    @Override
 	public void bezierCurveTo(double x, double y, double x1, double y1,
 			double x2, double y2) {
 		// stub
 
 	}
 
+    @Override
 	public void finishDrawing() {
 		// stub
 
