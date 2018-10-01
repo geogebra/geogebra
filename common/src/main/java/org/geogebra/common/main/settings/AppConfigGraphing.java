@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.LabelType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
@@ -108,5 +109,10 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public int[] getSignificantFigures() {
 		return new int[] {3, 5, 10, 15};
+	}
+
+	@Override
+	public char[] getAngleLabels() {
+		return LabelType.greekLowerCaseLabels;
 	}
 }

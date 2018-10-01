@@ -132,60 +132,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	// private static int geoElementID = Integer.MIN_VALUE;
 
-	/**
-	 * Default point labels
-	 */
-	private static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
-			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-			'T', 'U', 'V', 'W', 'Z' };
-
-	private static final char[] functionLabels = { 'f', 'g', 'h', 'p', 'q', 'r',
-			's', 't' };
-
-	private static final char[] lineLabels = { 'f', 'g', 'h', 'i', 'j', 'k',
-			'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'a', 'b', 'c', 'd', 'e' };
-
-	private static final char[] vectorLabels = { 'u', 'v', 'w', 'a', 'b', 'c',
-			'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q',
-			'r', 's', 't' };
-
-	private static final char[] conicLabels = { 'c', 'd', 'e', 'f', 'g', 'h',
-			'k', 'p', 'q', 'r', 's', 't' };
-
-	private static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
-			'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-			's', 't', 'u', 'v', 'w' };
-
-	private static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l',
-			'm', };
-
-	// private static final char[] arabicOLD = { '\u0623', '\u0628', '\u062a',
-	// '\u062b', '\u062c', '\u062d', '\u062e', '\u062f', '\u0630',
-	// '\u0631', '\u0632', '\u0633', '\u0634', '\u0635', '\u0636',
-	// '\u0637', '\u0638', '\u0639', '\u063a', '\u0641', '\u0642',
-	// '\u0643', '\u0644', '\u0645', '\u0646', '\u0647', // needs this too
-	// // '\u0640' (see
-	// // later on)
-	// '\u0648', '\u064a' };
-
-	private static final char[] arabic = { '\u0627', '\u0644', '\u0641',
-			'\u0628', '\u062C', '\u062F',
-
-			// needs this too '\u0640' (see later on)
-			'\u0647',
-
-			'\u0648', '\u0632',
-			'\u062D', '\u0637', '\u06CC', '\u06A9', '\u0644', '\u0645',
-			'\u0646', '\u0633', '\u0639', '\u0641', '\u0635', '\u0642',
-			'\u0631', '\u0634', '\u062A', '\u062B', '\u062E', '\u0630',
-			'\u0636', '\u0638', '\u063A', '\u0623', '\u0628', '\u062C',
-			'\u062F' };
-
-	private static final char[] yiddish = { '\u05D0', '\u05D1', '\u05D2',
-			'\u05D3', '\u05D4', '\u05D5', '\u05D6', '\u05D7', '\u05D8',
-			'\u05DB', '\u05DC', '\u05DE', '\u05E0', '\u05E1', '\u05E2',
-			'\u05E4', '\u05E6', '\u05E7', '\u05E8', '\u05E9', '\u05EA' };
-
 	private int tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
 	/** should only be used directly in subclasses */
 	protected String label;
@@ -353,6 +299,8 @@ public abstract class GeoElement extends ConstructionElement
 
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
+
+	private LabelManager labelManager;
 
 	/**
 	 * Fill types of elements
@@ -1993,7 +1941,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * set a delegate for providing parent algorithm
-	 * 
+	 *
 	 * @param delegate
 	 *            delegate
 	 */
@@ -3046,11 +2994,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getFreeLabel(final String suggestedLabel) {
-		return getFreeLabel(suggestedLabel, false);
-	}
-
-	@Override
-	public String getFreeLabel(final String suggestedLabel, boolean areOnlyLatinLettersEnabled) {
 		if (suggestedLabel != null) {
 			if ("x".equals(suggestedLabel) || "y".equals(suggestedLabel)) {
 				return getDefaultLabel(false);
@@ -3063,18 +3006,8 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		}
 
-		if (areOnlyLatinLettersEnabled) {
-            return getDefaultLabel(false, true);
-        } else {
-            // standard case: get default label
-            return getDefaultLabel(false);
-        }
-	}
-
-	private String getDefaultLabel(
-			final boolean isInteger,
-			final boolean areOnlyLatinLettersEnabled) {
-		return getDefaultLabel(null, isInteger, areOnlyLatinLettersEnabled);
+		// standard case: get default label
+		return getDefaultLabel(false);
 	}
 
 	/**
@@ -3158,13 +3091,6 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return default label
 	 */
 	protected String getDefaultLabel(char[] chars2, final boolean isInteger) {
-		return getDefaultLabel(chars2, isInteger, false);
-	}
-
-	private String getDefaultLabel(
-			char[] chars2,
-			final boolean isInteger,
-			final boolean areOnlyLatinLettersEnabled) {
 		char[] chars = chars2;
 		if (chars == null) {
 			if (isGeoPoint() && !(this instanceof GeoTurtle)) {
@@ -3176,14 +3102,14 @@ public abstract class GeoElement extends ConstructionElement
 						chars = Greek.getGreekUpperCase();
 					} else if (getLoc().languageIs(Language.Arabic.locale)) {
 						// Arabic / Arabic (Morocco)
-						chars = arabic;
+						chars = LabelType.arabic;
 					} else if (getLoc().languageIs(Language.Yiddish.locale)) {
-						chars = yiddish;
+						chars = LabelType.yiddish;
 					} else {
-						chars = pointLabels;
+						chars = LabelType.pointLabels;
 					}
 				} else {
-					chars = pointLabels;
+					chars = LabelType.pointLabels;
 				}
 
 				final GeoPointND point = (GeoPointND) this;
@@ -3195,7 +3121,7 @@ public abstract class GeoElement extends ConstructionElement
 				}
 
 			} else if (isGeoFunction()) {
-				chars = functionLabels;
+				chars = LabelType.functionLabels;
 			} else if (isGeoLine()) {
 				// name "edge" for segments from polyhedron
 				if (getMetasLength() == 1
@@ -3210,22 +3136,18 @@ public abstract class GeoElement extends ConstructionElement
 					} while (!cons.isFreeLabel(str));
 					return str;
 				}
-				chars = lineLabels;
+				chars = LabelType.lineLabels;
 			} else if (isPenStroke()) {
 				// needs to come before PolyLine (subclass)
 				return defaultNumberedLabel("penStroke", false); // Name.penStroke
 			} else if (isGeoPolyLine()) {
-				chars = lineLabels;
+				chars = LabelType.lineLabels;
 			} else if (isGeoConic()) {
-				chars = conicLabels;
+				chars = LabelType.conicLabels;
 			} else if (isGeoVector() || evaluatesTo3DVector()) {
-				chars = vectorLabels;
+				chars = LabelType.vectorLabels;
 			} else if (isGeoAngle()) {
-				if (areOnlyLatinLettersEnabled) {
-					chars = lowerCaseLabels;
-				} else {
-					chars = Greek.getGreekLowerCaseNoPi();
-				}
+				chars = getLabelManager().getAngleLabels();
 			} else if (isGeoText()) {
 				return defaultNumberedLabel("text", false); // Name.text
 			} else if (isGeoImage()) {
@@ -3264,9 +3186,9 @@ public abstract class GeoElement extends ConstructionElement
 				return getIndexLabel(kernel.getLocalization()
 						.getMenu("Name." + (list.isMatrix() ? "matrix" : "list")));
 			} else if (isInteger && isGeoNumeric()) {
-				chars = integerLabels;
+				chars = LabelType.integerLabels;
 			} else {
-				chars = lowerCaseLabels;
+				chars = LabelType.lowerCaseLabels;
 			}
 		}
 
@@ -7639,7 +7561,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected String getPointVectorDefault(String var) {
 		return getDefaultLabel(!Character.isLowerCase(var.charAt(0))
-				? GeoElement.pointLabels : null, false);
+				? LabelType.pointLabels : null, false);
 	}
 
 	// @Override
@@ -7834,6 +7756,17 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isWhollyIn2DView(EuclidianView ev) {
 		return true;
+	}
+
+	/**
+	 * Initializes the labelManager field with the LabelManager instance from the App
+	 * @return the initialized labelManager field
+	 */
+	private LabelManager getLabelManager() {
+		if (labelManager == null) {
+			labelManager = kernel.getApplication().getLabelManager();
+		}
+		return labelManager;
 	}
 
 }

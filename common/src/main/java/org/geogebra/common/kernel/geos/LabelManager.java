@@ -14,19 +14,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class LabelManager {
 
-	private static LabelManager instance;
-	private boolean areOnlyLatinLettersEnabled;
-
-	/**
-	 * Getter for the instance of this singleton class.
-	 * @return the single instance of this class.
-	 */
-	public static LabelManager getInstance() {
-		if (instance == null) {
-			instance = new LabelManager();
-		}
-		return instance;
-	}
+	private char[] angleLabels;
 
 	/**
 	 * Checks whether name can be used as label Parser.parseLabel takes care of
@@ -234,17 +222,6 @@ public class LabelManager {
 	}
 
 	/**
-	 * Sets the label for a GeoElementND
-	 * @param label
-	 *          The label to be set.
-	 * @param element
-	 *          The GeoElementND that will get the label.
-	 */
-	public void setLabel(String label, GeoElementND element) {
-		element.setLabel(element.getFreeLabel(label, areOnlyLatinLettersEnabled));
-	}
-
-	/**
 	 * search through labels to find a free one, eg
 	 * 
 	 * A, B, C, ...
@@ -312,12 +289,18 @@ public class LabelManager {
 	}
 
 	/**
-	 * Enables or disables the use of other than latin letters in the labels.
-	 * @param enableLatinLettersOnly
-	 *          If true then only latin letters will be used in the labels,
-	 *          otherwise all kind of letters are enabled.
+	 * Sets the characters which will be used as the labels of the angles.
+	 * @param angleLabels the character array that includes the characters for the angle.
 	 */
-	public void enableLatinLettersOnly(boolean enableLatinLettersOnly) {
-		this.areOnlyLatinLettersEnabled = enableLatinLettersOnly;
+	public void setAngleLabels(char[] angleLabels) {
+		this.angleLabels = angleLabels;
+	}
+
+	/**
+	 * Returns the characters which are used as the labels of the angles.
+	 * @return the character array that includes the characters for the angles.
+	 */
+	public char[] getAngleLabels() {
+		return angleLabels;
 	}
 }

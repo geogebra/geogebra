@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.LabelType;
 
 public class AppConfigDefault implements AppConfig {
 
@@ -98,5 +99,10 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public int[] getSignificantFigures() {
 		return new int[] {3, 5, 10, 15};
+	}
+
+	@Override
+	public char[] getAngleLabels() {
+		return LabelType.greekLowerCaseLabels;
 	}
 }

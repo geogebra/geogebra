@@ -4,29 +4,29 @@ import org.geogebra.common.io.layout.DockPanelData;
 
 public interface AppConfig {
 
-	public void adjust(DockPanelData dp);
+	void adjust(DockPanelData dp);
 
-	public String getAVTitle();
+	String getAVTitle();
 
-	public int getLineDisplayStyle();
+	int getLineDisplayStyle();
 
-	public String getAppTitle();
+	String getAppTitle();
 
-	public String getAppName();
+	String getAppName();
 
-	public String getAppNameShort();
+	String getAppNameShort();
 
-	public String getTutorialKey();
+	String getTutorialKey();
 
-	public boolean showKeyboardHelpButton();
+	boolean showKeyboardHelpButton();
 
-	public boolean showObjectSettingsFromAV();
+	boolean showObjectSettingsFromAV();
 
-	public boolean isSimpleMaterialPicker();
+	boolean isSimpleMaterialPicker();
 
-	public boolean hasPreviewPoints();
+	boolean hasPreviewPoints();
 
-	public boolean allowsSuggestions();
+	boolean allowsSuggestions();
 
 	boolean shouldKeepRatioEuclidian();
 
@@ -34,13 +34,18 @@ public interface AppConfig {
 
 	boolean hasSingleEuclidianViewWhichIs3D();
 
-	/**
-	 * @return the decimal places that this app uses.
-	 */
-	int[] getDecimalPlaces();
+    /**
+     * @return the decimal places that this app uses.
+     */
+    int[] getDecimalPlaces();
 
-	/**
-	 * @return the significant places that this app uses.
-	 */
-	int[] getSignificantFigures();
+    /**
+     * @return the significant places that this app uses.
+     */
+    int[] getSignificantFigures();
+
+    /**
+     * @return the array of characters that can be used for the angle labels.
+     */
+	char[] getAngleLabels();
 }

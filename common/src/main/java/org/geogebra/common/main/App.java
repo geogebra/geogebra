@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -410,6 +411,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
+	private LabelManager labelManager;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -428,11 +430,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public App(Versions version) {
 		this();
 		this.version = version;
+		initLabels();
 	}
 
 	protected void init() {
 		companion = newAppCompanion();
 		resetUniqueId();
+	}
+
+	private void initLabels() {
+		getLabelManager().setAngleLabels(getConfig().getAngleLabels());
 	}
 
 	/**
@@ -5284,5 +5291,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
 		// only desktop
+	}
+
+	/**
+	 * Initializes and returns the LabelManager instance
+	 * @return the LabelManager instance
+	 */
+	public LabelManager getLabelManager() {
+		if (labelManager == null) {
+			labelManager = new LabelManager();
+		}
+		return labelManager;
 	}
 }

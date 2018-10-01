@@ -1,5 +1,7 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.kernel.geos.LabelType;
+
 /**
  * Config for Scientific Calculator app
  */
@@ -29,4 +31,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean allowsSuggestions() {
 		return false;
 	}
+
+    @Override
+    public char[] getAngleLabels() {
+        return LabelType.lowerCaseLabels;
+    }
 }
