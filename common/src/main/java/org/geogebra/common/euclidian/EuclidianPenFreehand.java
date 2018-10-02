@@ -1211,8 +1211,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	private GeoElement tryCircle() {
-		GeoConicND circle = getCircleThreePoints();
-		if (circle != null) {
+		ArrayList<GeoElement> circlePlusPoint = getCircleThreePoints();
+		if (circlePlusPoint != null) {
+			GeoConicND circle = (GeoConicND) circlePlusPoint.get(0);
 			circle.setIsShape(true);
 			if (app.isWhiteboardActive()) {
 				return circle;
@@ -1224,7 +1225,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			m.setEuclidianVisible(false);
 
 			// point on the circle
-			GeoPoint p = circle.getPointsOnConic(1).get(0);
+			GeoPoint p = (GeoPoint) circlePlusPoint.get(1);
 			p.setLabel(null);
 			p.setEuclidianVisible(false);
 
@@ -1240,7 +1241,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/**
 	 * @return circle through three points
 	 */
-	protected GeoConicND getCircleThreePoints() {
+	protected ArrayList<GeoElement> getCircleThreePoints() {
 		Inertia s = new Inertia();
 		this.calc_inertia(0, penPoints.size() - 1, s);
 		if (i_det(s) > CIRCLE_MIN_DET) {
@@ -1252,7 +1253,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		return null;
 	}
 
-	private GeoConicND makeACircle(double x, double y, double r) {
+	private ArrayList<GeoElement> makeACircle(double x, double y, double r) {
 		ArrayList<GPoint> temp = new ArrayList<>();
 		int npts, i = 0;
 		npts = (int) (2 * r);
@@ -1304,7 +1305,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		// circle.setObjColor(penColor);
 		circle.updateRepaint();
 
-		return circle;
+		ArrayList<GeoElement> ret = new ArrayList<>();
+
+		ret.add(circle);
+		ret.add(p1);
+
+		return ret;
 	}
 
 	private void calc_inertia(int start, int end, Inertia s) {
