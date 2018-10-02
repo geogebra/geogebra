@@ -3757,6 +3757,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_ANGLE_DEGREES_MINUTES_SECONDS:
 			return true;
 
+		/** MOB-1372 */
+		case MOB_DEFAULT_ROUNDING_13:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
@@ -4135,10 +4139,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GGB-2525 */
 		case TAB_ON_EV_PLAY:
-			return prerelease;
-
-		/** MOB-1372 */
-		case MOB_DEFAULT_ROUNDING_13:
 			return prerelease;
 
 		default:
