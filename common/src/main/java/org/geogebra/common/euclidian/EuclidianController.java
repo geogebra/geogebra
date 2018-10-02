@@ -8030,10 +8030,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		}
 
-		bbWidth = Math.max(bbWidth, BoundingBox.SIDE_THRESHOLD);
-		bbHeight = Math.max(bbHeight, BoundingBox.SIDE_THRESHOLD);
-		boolean thresholdXReached = (bbWidth <= BoundingBox.SIDE_THRESHOLD);
-		boolean thresholdYReached = (bbHeight <= BoundingBox.SIDE_THRESHOLD);
+		// Calculate the minimum width and height of the bounding box
+		int widthThreshold = BoundingBox.SIDE_THRESHOLD;
+		int heightThreshold = BoundingBox.SIDE_THRESHOLD;
+		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
+			GeoElement geo = selection.getSelectedGeos().get(i);
+			Drawable dr = (Drawable) view.getDrawableFor(geo);
+			widthThreshold = Math.max(widthThreshold, dr.getWidthThreshold());
+			heightThreshold = Math.max(heightThreshold, dr.getHeightThreshold());
+		}
+		bbWidth = Math.max(bbWidth, widthThreshold);
+		bbHeight = Math.max(bbHeight, heightThreshold);
+		boolean thresholdXReached = (bbWidth <= widthThreshold);
+		boolean thresholdYReached = (bbHeight <= heightThreshold);
 
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
