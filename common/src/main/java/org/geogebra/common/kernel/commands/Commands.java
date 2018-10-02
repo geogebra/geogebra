@@ -503,7 +503,11 @@ public enum Commands implements CommandsConstants,
 
 	Q1(TABLE_STATISTICS),
 
+	Quartile1(TABLE_ENGLISH),
+
 	Q3(TABLE_STATISTICS),
+
+	Quartile3(TABLE_ENGLISH),
 
 	Mode(TABLE_STATISTICS),
 

@@ -66,8 +66,10 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case Median:
 			return new CmdMedian(kernel);
 		case Q1:
+		case Quartile1:
 			return new CmdQ1(kernel);
 		case Q3:
+		case Quartile3:
 			return new CmdQ3(kernel);
 		case Mode:
 			return new CmdMode(kernel);

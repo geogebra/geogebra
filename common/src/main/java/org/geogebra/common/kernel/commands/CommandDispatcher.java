@@ -732,6 +732,8 @@ public abstract class CommandDispatcher {
 			case Poisson:
 			case Q1:
 			case Q3:
+			case Quartile1:
+			case Quartile3:
 			case RSquare:
 			case RandomDiscrete:
 			case RandomElement:

@@ -314,7 +314,8 @@ public abstract class CommandProcessor {
 	/**
 	 * Resolve arguments of a command that has a local numeric variable at the
 	 * position varPos. Initializes the variable with the NumberValue at
-	 * initPos.
+	 * initPos. Check that vars between initPos and lastCheckPos are not
+	 * depending on the local var.
 	 * 
 	 * @param c
 	 *            command
@@ -322,6 +323,8 @@ public abstract class CommandProcessor {
 	 *            position of variable
 	 * @param initPos
 	 *            position of initial value
+	 * @param lastCheckPos
+	 *            last arg that may *not* depend on var (-1 to skip the check)
 	 * @return Array of arguments
 	 */
 	protected final GeoElement[] resArgsLocalNumVar(Command c, int varPos,
