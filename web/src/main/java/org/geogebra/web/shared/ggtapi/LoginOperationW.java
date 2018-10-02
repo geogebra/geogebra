@@ -150,7 +150,8 @@ public class LoginOperationW extends LogInOperation {
 		});
 		fr.setVisible(false);
 		fr.setUrl(
-				app.getArticleElement().getParamLoginURL() + "&isPassive=true");
+				app.getArticleElement().getParamLoginURL()
+						+ "%3FisPassive=true&isPassive=true");
 		RootPanel.get().add(fr);
 	}
 }
