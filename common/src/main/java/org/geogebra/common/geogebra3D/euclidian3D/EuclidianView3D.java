@@ -870,11 +870,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void updateTranslationMatrix() {
 		if (mIsARDrawing) {
 			double zMin;
-			if (axis[AXIS_Z].isEuclidianVisible()) {
+			if (getShowAxis(AXIS_Z)) {
 				zMin = getZmin();
 			} else {
-				updateObjectsBounds(true, true);
-				zMin = boundsMin.getZ();
+				if (updateObjectsBounds(true, true)) {
+					zMin = boundsMin.getZ();
+				} else {
+					zMin = 0;
+				}
 			}
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
