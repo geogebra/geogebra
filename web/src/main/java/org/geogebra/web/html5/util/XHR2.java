@@ -52,12 +52,12 @@ public class XHR2 extends XMLHttpRequest {
 				if (xhr.status === 200) {
 					callback.@org.geogebra.common.move.ggtapi.models.AjaxCallback::onSuccess(Ljava/lang/String;)(xhr.responseText);
 				} else {
-					callback.@org.geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.statusText);
+					callback.@org.geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.status + ":" + xhr.statusText);
 				}
 			}
 		};
 		xhr.onerror = function(e) {
-			callback.@org.geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.statusText);
+			callback.@org.geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.status + ":" + xhr.statusText);
 		}
 	}-*/;
 

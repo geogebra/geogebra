@@ -738,7 +738,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final void openMaterial(final String id, final Runnable onError) {
+	public final void openMaterial(final String id,
+			final AsyncOperation<String> onError) {
 		if (getLoginOperation() != null
 				&& getLoginOperation().getGeoGebraTubeAPI()
 						.isCheckDone()) {
@@ -776,7 +777,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 * @param onError
 	 *            error callback
 	 */
-	public final void doOpenMaterial(String id, final Runnable onError) {
+	public final void doOpenMaterial(String id,
+			final AsyncOperation<String> onError) {
 		getLoginOperation().getGeoGebraTubeAPI()
 				.getItem(id, new MaterialCallback() {
 
@@ -800,13 +802,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 							}
 							setActiveMaterial(material);
 						} else {
-							onError.run();
+							onError.callback("LoadFileFailed");
 						}
 					}
 
 					@Override
 					public final void onError(Throwable error) {
-						onError.run();
+						Log.printStacktrace(error.getMessage());
+						onError.callback(error.getMessage().contains("401")
+								? "Please log in!" : "LoadFileFailed");
 					}
 				});
 	}

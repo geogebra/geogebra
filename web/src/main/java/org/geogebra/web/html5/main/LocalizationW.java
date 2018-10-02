@@ -94,7 +94,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(getCommandLocaleString(), key, "command");
 
 		if (ret == null || "".equals(ret)) {
-			Log.printStacktrace("command key not found: " + key);
+			Log.debug("command key not found: " + key);
 			return key;
 		}
 

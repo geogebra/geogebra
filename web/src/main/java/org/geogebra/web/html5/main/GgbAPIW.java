@@ -920,12 +920,11 @@ public class GgbAPIW extends GgbAPI {
 	 *            material ID
 	 */
 	public void openMaterial(final String material) {
-		((AppW) app).openMaterial(material, new Runnable() {
+		((AppW) app).openMaterial(material, new AsyncOperation<String>() {
 
 			@Override
-			public void run() {
-				Log.debug("Loading failed for id" + material);
-
+			public void callback(String err) {
+				Log.debug("Loading failed for id" + material + ": " + err);
 			}
 		});
 	}

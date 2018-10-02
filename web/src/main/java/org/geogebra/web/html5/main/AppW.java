@@ -1358,7 +1358,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param onError
 	 *            callback for errors
 	 */
-	public void openMaterial(String id, Runnable onError) {
+	public void openMaterial(String id, AsyncOperation<String> onError) {
 		// only with GUI
 	}
 
