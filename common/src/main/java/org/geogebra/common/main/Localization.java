@@ -31,7 +31,6 @@ public abstract class Localization {
 	static final public String ROUNDING_MENU_SEPARATOR = "---";
 
 	// Giac works to 13 sig digits (for "double" calculations)
-	private int maxFigures = 15;
 	private int dimension = 2;
 
 	private StringBuilder sbOrdinal = new StringBuilder();

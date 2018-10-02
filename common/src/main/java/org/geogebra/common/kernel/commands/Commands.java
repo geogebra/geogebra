@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
+import java.util.HashMap;
+
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -1200,7 +1202,7 @@ public enum Commands implements CommandsConstants,
 
 	ShowSteps(TABLE_ALGEBRA);
 
-	public static final Commands[] RENAMED = {
+	private static final Commands[] RENAMED = {
 			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,
 			Commands.SD, Commands.SampleSD, Commands.MAD
 	};
@@ -1345,6 +1347,23 @@ public enum Commands implements CommandsConstants,
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @param revTranslateCommandTable
+	 *            reverse lookup table
+	 * @param loc
+	 *            localization
+	 */
+	public static void addRenamed(
+			HashMap<String, String> revTranslateCommandTable,
+			Localization loc) {
+		for (Commands c : Commands.RENAMED) {
+			String lowerCaseCmd = StringUtil
+					.toLowerCaseUS(loc.getCommand(c.name()));
+			revTranslateCommandTable.put(lowerCaseCmd,
+					Commands.englishToInternal(c).name());
+		}
 	}
 
 }

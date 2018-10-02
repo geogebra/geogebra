@@ -15,13 +15,13 @@ public abstract class ProbabilityCalculatorStyleBar {
 
 	/** probabililty calculator */
 	private ProbabilityCalculatorView probCalc;
-	protected OptionsMenu optionsMenu;
+	private OptionsMenu optionsMenu;
 
 	protected ProbabilityCalculatorStyleBar(App app,
 			ProbabilityCalculatorView probCalc) {
 		this.probCalc = probCalc;
 		this.app = app;
-		this.optionsMenu = new OptionsMenu(app.getLocalization());
+		this.setOptionsMenu(new OptionsMenu(app.getLocalization()));
 	}
 	protected App getApp() {
 		return app;
@@ -32,6 +32,14 @@ public abstract class ProbabilityCalculatorStyleBar {
 	 */
 	public ProbabilityCalculatorView getProbCalc() {
 		return probCalc;
+	}
+
+	protected OptionsMenu getOptionsMenu() {
+		return optionsMenu;
+	}
+
+	protected void setOptionsMenu(OptionsMenu optionsMenu) {
+		this.optionsMenu = optionsMenu;
 	}
 
 }

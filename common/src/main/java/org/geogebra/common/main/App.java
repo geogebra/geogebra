@@ -75,7 +75,6 @@ import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;

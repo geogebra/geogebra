@@ -274,13 +274,13 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < optionsMenu.figuresLookupLength()) {
-				pos = optionsMenu.figuresLookup(printFigures);
+					&& printFigures < getOptionsMenu().figuresLookupLength()) {
+				pos = getOptionsMenu().figuresLookup(printFigures);
 			}
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < optionsMenu.decimalsLookupLength()) {
-				pos = optionsMenu.decimalsLookup(printDecimals);
+					&& printDecimals < getOptionsMenu().decimalsLookupLength()) {
+				pos = getOptionsMenu().decimalsLookup(printDecimals);
 			}
 		}
 

@@ -343,5 +343,4 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		specPointAlgos.add(algo);
 	}
 
-
 }

@@ -4,28 +4,28 @@ import com.himamis.retex.editor.share.util.Greek;
 
 public class LabelType {
 
-    public static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
+	static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
             'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
             'T', 'U', 'V', 'W', 'Z' };
 
-    public static final char[] functionLabels = { 'f', 'g', 'h', 'p', 'q', 'r',
+	static final char[] functionLabels = { 'f', 'g', 'h', 'p', 'q', 'r',
             's', 't' };
 
-    public static final char[] lineLabels = { 'f', 'g', 'h', 'i', 'j', 'k',
+	static final char[] lineLabels = { 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'a', 'b', 'c', 'd', 'e' };
 
     public static final char[] vectorLabels = { 'u', 'v', 'w', 'a', 'b', 'c',
             'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q',
             'r', 's', 't' };
 
-    public static final char[] conicLabels = { 'c', 'd', 'e', 'f', 'g', 'h',
+	static final char[] conicLabels = { 'c', 'd', 'e', 'f', 'g', 'h',
             'k', 'p', 'q', 'r', 's', 't' };
 
     public static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
             'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
             's', 't', 'u', 'v', 'w' };
 
-    public static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l',
+	static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l',
             'm', };
 
     public static final char[] greekLowerCaseLabels = Greek.getGreekLowerCaseNoPi();
@@ -39,7 +39,7 @@ public class LabelType {
     // // later on)
     // '\u0648', '\u064a' };
 
-    public static final char[] arabic = { '\u0627', '\u0644', '\u0641',
+	static final char[] arabic = { '\u0627', '\u0644', '\u0641',
             '\u0628', '\u062C', '\u062F',
 
             // needs this too '\u0640' (see later on)
@@ -52,7 +52,7 @@ public class LabelType {
             '\u0636', '\u0638', '\u063A', '\u0623', '\u0628', '\u062C',
             '\u062F' };
 
-    public static final char[] yiddish = { '\u05D0', '\u05D1', '\u05D2',
+	static final char[] yiddish = { '\u05D0', '\u05D1', '\u05D2',
             '\u05D3', '\u05D4', '\u05D5', '\u05D6', '\u05D7', '\u05D8',
             '\u05DB', '\u05DC', '\u05DE', '\u05E0', '\u05E1', '\u05E2',
             '\u05E4', '\u05E6', '\u05E7', '\u05E8', '\u05E9', '\u05EA' };
