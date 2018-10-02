@@ -137,7 +137,9 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		FontWrapper wrap = font.getFontWrapper();
 
 		if (wrap == null) {
-			throw new Error("font not loaded yet");
+			 // fail gracefully when font not loaded 
+			// will be tried again when font loaded on callback
+			return null;
 		}
 
 		JavaScriptObject outline = wrap.getPath(s, font.getSize());

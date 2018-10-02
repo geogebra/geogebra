@@ -77,8 +77,7 @@ public class GeomFactoryGWT extends GeomFactory {
 
 	@Override
 	public Area createArea(Shape s) {
-		AreaW ret = new AreaW(s);
-		return ret;
+		return s == null ? new AreaW() : new AreaW(s);
 	}
 
 	@Override
