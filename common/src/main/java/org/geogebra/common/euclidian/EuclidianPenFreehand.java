@@ -338,9 +338,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 			GeoElement geoCircle = geoCirclePlusPoint.get(0);
 
-			ArrayList<GeoPointND> points = ((GeoConic) geoCirclePlusPoint
-					.get(0))
-					.getPointsOnConic();
+			ArrayList<GeoPointND> points = ((GeoConicND) geoCirclePlusPoint
+					.get(0)).getPointsOnConic();
 
 			if (points == null || points.size() < 3) {
 				resetInitialPoint();
@@ -461,7 +460,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * @return the conic that fits best to the given points; null in case that
 	 *         there are too few points or the thresholds cannot be fulfilled
 	 */
-	protected GeoConic makeAConic() {
+	protected GeoConicND makeAConic() {
 		// disable ellipse for whiteboard
 		if (app.isWhiteboardActive()) {
 			return null;
@@ -542,7 +541,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return null;
 		}
 
-		GeoConic conic = new GeoConic(this.app.getKernel().getConstruction(),
+		GeoConicND conic = new GeoConic(this.app.getKernel().getConstruction(),
 				coeffs);
 
 		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(), 0,
@@ -579,7 +578,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					pointOnConic.getInhomX(), pointOnConic.getInhomY(), 1);
 			additionalPoint.setEuclidianVisible(false);
 
-			conic = (GeoConic) this.app.getKernel().getAlgoDispatcher()
+			conic = this.app.getKernel().getAlgoDispatcher()
 					.ellipseHyperbola(null, f0, f1, additionalPoint, type);
 		} else {
 			conic.remove();
@@ -1302,7 +1301,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		geos[0].setEuclidianVisible(true);
 		circle.remove();
 		algo.remove();
-		circle = (GeoConic) geos[0];
+		circle = (GeoConicND) geos[0];
 		// circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// circle.setLineType(penLineStyle);
 		// circle.setObjColor(penColor);
