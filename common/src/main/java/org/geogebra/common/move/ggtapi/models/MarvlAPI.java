@@ -474,4 +474,9 @@ public class MarvlAPI implements BackendAPI {
 	public boolean canUserShare(boolean student) {
 		return !student;
 	}
+
+	@Override
+	public boolean anonymousOpen() {
+		return false;
+	}
 }

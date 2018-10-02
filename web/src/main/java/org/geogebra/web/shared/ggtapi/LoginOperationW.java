@@ -2,6 +2,7 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -58,7 +59,6 @@ public class LoginOperationW extends LogInOperation {
 							//later if event.origin....
 							if (event.data) {
 								try {
-									data = $wnd.JSON.parse(event.data);
 									if (data.action === "logintoken") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
 									}
@@ -116,7 +116,7 @@ public class LoginOperationW extends LogInOperation {
 
 	private void processCookie() {
 		Log.debug("COOKIE LOGIN");
-		getGeoGebraTubeAPI().performCookieLogin(this);
+		doPerformTokenLogin(new GeoGebraTubeUser(""), false);
 	}
 
 	@Override

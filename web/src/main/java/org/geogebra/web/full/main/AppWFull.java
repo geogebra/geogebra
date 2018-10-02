@@ -750,25 +750,47 @@ public class AppWFull extends AppW implements HasKeyboard {
 						ArticleElement.isEnableUsageStats());
 			}
 			toOpen = id;
+			// not logged in to Mebis while opening shared link: show login
+			// dialog first
+			if (!getLoginOperation().isLoggedIn() && !getLoginOperation()
+					.getGeoGebraTubeAPI().anonymousOpen()) {
+				getLoginOperation().showLoginDialog();
+				getLoginOperation().getView().add(new EventRenderable() {
 
-			getLoginOperation().getView().add(new EventRenderable() {
-
-				@Override
-				public final void renderEvent(BaseEvent event) {
-					Log.debug("received:" + event);
-					if (event instanceof LoginEvent
-							|| event instanceof StayLoggedOutEvent
-							|| event instanceof TubeAvailabilityCheckEvent) {
-						if (toOpen != null && toOpen.length() > 0) {
-							doOpenMaterial(toOpen, onError);
-							toOpen = "";
+					@Override
+					public final void renderEvent(BaseEvent event) {
+						if (event instanceof LoginEvent
+								&& !((LoginEvent) event).isAutomatic()) {
+							checkOpen(onError);
 						}
 					}
-				}
-			});
+				});
+			} else {
+				getLoginOperation().getView().add(new EventRenderable() {
+
+					@Override
+					public final void renderEvent(BaseEvent event) {
+						if (event instanceof LoginEvent
+								|| event instanceof StayLoggedOutEvent
+								|| event instanceof TubeAvailabilityCheckEvent) {
+							checkOpen(onError);
+						}
+					}
+				});
+			}
 			Log.debug("listening");
 		}
+	}
 
+	/**
+	 * @param onError
+	 *            error handler
+	 */
+	protected void checkOpen(final AsyncOperation<String> onError) {
+		if (toOpen != null && toOpen.length() > 0) {
+			doOpenMaterial(toOpen, onError);
+			toOpen = "";
+		}
 	}
 
 	/**
@@ -808,9 +830,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 					@Override
 					public final void onError(Throwable error) {
-						Log.printStacktrace(error.getMessage());
 						onError.callback(error.getMessage().contains("401")
-								? "Please log in!" : "LoadFileFailed");
+								? "NotAuthorized" : "LoadFileFailed");
 					}
 				});
 	}

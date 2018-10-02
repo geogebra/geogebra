@@ -274,6 +274,16 @@ public interface BackendAPI {
 	 */
 	boolean owns(Material mat);
 
-	boolean canUserShare(boolean b);
+	/**
+	 * @param student
+	 *            whether user is a student
+	 * @return whether user can share files
+	 */
+	boolean canUserShare(boolean student);
+
+	/**
+	 * @return whether anonymous user can open shared links
+	 */
+	boolean anonymousOpen();
 
 }
