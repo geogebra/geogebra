@@ -30,7 +30,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
- * Handling text editor in Euclidian View.
+ * Handling text editor in Euclidian getView().
  *
  * @author laszlo
  *
@@ -39,7 +39,6 @@ public class TextControllerW
 		implements TextController, FocusHandler, BlurHandler, KeyDownHandler {
 	private MowTextEditor editor;
 	private AppW app;
-	private EuclidianViewW view;
 
 	/** GeoText to edit */
 	GeoText text;
@@ -53,12 +52,14 @@ public class TextControllerW
 	 */
 	public TextControllerW(AppW app) {
 		this.app = app;
-		this.view = (EuclidianViewW) (app.getActiveEuclidianView());
 	}
 
+	private EuclidianViewW getView() {
+		return (EuclidianViewW) (app.getActiveEuclidianView());
+	}
 	private void createGUI() {
 		editor = new MowTextEditor();
-		AbsolutePanel evPanel = view.getAbsolutePanel();
+		AbsolutePanel evPanel = getView().getAbsolutePanel();
 		evPanel.add(editor);
 		editor.addKeyDownHandler(this);
 		editor.addFocusHandler(this);
@@ -111,8 +112,8 @@ public class TextControllerW
 		t.setAbsoluteScreenLocActive(false);
 		// always use RW coords, ignore rw argument
 		Coords coords = loc.getInhomCoordsInD3();
-		t.setRealWorldLoc(view.toRealWorldCoordX(coords.getX()),
-				view.toRealWorldCoordY(coords.getY()));
+		t.setRealWorldLoc(getView().toRealWorldCoordX(coords.getX()),
+				getView().toRealWorldCoordY(coords.getY()));
 		t.setAbsoluteScreenLocActive(false);
 		t.setLabel(null);
 		edit(t, true);
@@ -134,7 +135,7 @@ public class TextControllerW
 		this.text = geo;
 		text.update();
 
-		DrawText d = (DrawText) view.getDrawableFor(geo);
+		DrawText d = (DrawText) getView().getDrawableFor(geo);
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
 			int y = d.yLabel - d.getFontSize()
@@ -150,19 +151,19 @@ public class TextControllerW
 		}
 		editor.show();
 		editor.requestFocus();
-		view.repaint();
+		getView().repaint();
 	}
 
 	/**
 	 * Update bounding box and repaint.
 	 */
 	void doUpdateBoundingBox() {
-		DrawText d = (DrawText) view.getDrawableFor(text);
+		DrawText d = (DrawText) getView().getDrawableFor(text);
 		if (d != null) {
 			d.adjustBoundingBoxToText(getEditorBounds());
-			view.setBoundingBox(d.getBoundingBox());
+			getView().setBoundingBox(d.getBoundingBox());
 		}
-		view.repaint();
+		getView().repaint();
 	}
 
 	private void updateBoundingBox() {
@@ -262,7 +263,7 @@ public class TextControllerW
 	}
 
 	private int getLength(String txt, GFont font) {
-		GFontRenderContextW fontRenderContext = (GFontRenderContextW) view.getGraphicsForPen()
+		GFontRenderContextW fontRenderContext = (GFontRenderContextW) getView().getGraphicsForPen()
 				.getFontRenderContext();
 		return fontRenderContext.measureText(txt,
 				((GFontW) font).getFullFontString());
@@ -322,19 +323,16 @@ public class TextControllerW
 					edit(lastText);
 				}
 			}
-
 			lastText = null;
 			return true;
 		}
-
 		return false;
-
 	}
 
 	@Override
 	public GeoText getHit() {
 		Hits ret = new Hits();
-		if (view.getHits().containsGeoText(ret)) {
+		if (getView().getHits().containsGeoText(ret)) {
 			return (GeoText) (ret.get(0));
 		}
 		return null;
@@ -343,5 +341,15 @@ public class TextControllerW
 	@Override
 	public boolean isEditing() {
 		return lastText != null && lastText.isEditMode();
+	}
+
+	@Override
+	public void reset() {
+		if (editor == null) {
+			return;
+		}
+		onBlur(null);
+		editor.removeFromParent();
+		editor = null;
 	}
 }

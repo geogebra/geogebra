@@ -117,6 +117,7 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	private void loadSlide(int i) {
 		try {
+			app.getEuclidianView1().getEuclidianController().getTextController().reset();
 			// load last status of file
 			saveMaterialProperties();
 			app.resetPerspectiveParam();

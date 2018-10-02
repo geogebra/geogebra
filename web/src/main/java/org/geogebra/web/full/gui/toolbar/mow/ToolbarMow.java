@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -254,8 +255,11 @@ public class ToolbarMow extends FlowPanel
 		if (appW.isMenuShowing()) {
 			appW.toggleMenu();
 		}
-		appW.getActiveEuclidianView().getEuclidianController()
-				.widgetsToBackground();
+		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
+		ec.widgetsToBackground();
+		if (ec.getTextController() != null) {
+			ec.getTextController().reset();
+		}
 		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWFull) appW).getAppletFrame()
 					.getPageControlPanel();

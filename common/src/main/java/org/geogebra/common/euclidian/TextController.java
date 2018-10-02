@@ -111,5 +111,10 @@ public interface TextController {
 	 *            to set
 	 */
 	void resizeEditor(int width, int height);
+
+	/**
+	 * Resets controller for new construction.
+	 */
+	void reset();
 }
 
