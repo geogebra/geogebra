@@ -1,12 +1,14 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.io.Serializable;
+
 /**
  * MarvlAPI supplies creator of material
  * 
  * @author Alicia
  *
  */
-public class UserPublic {
+public class UserPublic implements Serializable {
 	private String username;
 	private int id;
 	private String displayname;
