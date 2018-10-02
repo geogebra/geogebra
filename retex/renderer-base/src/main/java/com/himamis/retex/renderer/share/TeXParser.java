@@ -2939,7 +2939,14 @@ public class TeXParser {
 
 	public void convertCharacter(int c) throws ParseException {
 		if (!charMapping.replace(c, this)) {
-			final Character.UnicodeBlock block = UnicodeMapping.get(c);
+			Character.UnicodeBlock block = UnicodeMapping.get(c);
+
+			if (block == null) {
+				FactoryProvider.getInstance().debug("unknown character " + c);
+				c = '\ufffd';
+				block = UnicodeMapping.get(c);
+			}
+
 			final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
 					.getExternalFont(block);
 			final String r = new String(new int[] { c }, 0, 1);
