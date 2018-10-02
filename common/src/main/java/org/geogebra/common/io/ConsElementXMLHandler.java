@@ -376,17 +376,23 @@ public class ConsElementXMLHandler {
 		}
 		CoordStyle v = (CoordStyle) geo;
 		String style = attrs.get("style");
-		if ("cartesian".equals(style)) {
+		switch (style) {
+		case "cartesian":
 			v.setCartesian();
-		} else if ("polar".equals(style)) {
+			break;
+		case "polar":
 			v.setPolar();
-		} else if ("complex".equals(style)) {
+			break;
+		case "complex":
 			v.setComplex();
-		} else if ("cartesian3d".equals(style)) {
+			break;
+		case "cartesian3d":
 			v.setCartesian3D();
-		} else if ("spherical".equals(style)) {
+			break;
+		case "spherical":
 			v.setSpherical();
-		} else {
+			break;
+		default:
 			Log.error("unknown style in <coordStyle>: " + style);
 			return false;
 		}
@@ -964,32 +970,33 @@ public class ConsElementXMLHandler {
 		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
 		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
 				&& !"".equals(attrs.get("barNumber"))) {
-			if (attrs.get("key").equals("barAlpha")) {
+			switch (attrs.get("key")) {
+			case "barAlpha":
 				algo.setBarAlpha(Float.parseFloat(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barHatchDistance")) {
+			case "barHatchDistance":
 				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barFillType")) {
+			case "barFillType":
 				algo.setBarFillType(
 						FillType.values()[Integer.parseInt(attrs.get("value"))],
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barHatchAngle")) {
+			case "barHatchAngle":
 				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barImage")) {
+			case "barImage":
 				algo.setBarImage(attrs.get("value"),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barSymbol")) {
+			case "barSymbol":
 				algo.setBarSymbol(attrs.get("value"),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barColor")) {
+			case "barColor":
 				String[] c = attrs.get("value").split(",");
 				algo.setBarColor(
 						GColor.newColor(Integer.parseInt(c[0].substring(5)),
@@ -1403,7 +1410,7 @@ public class ConsElementXMLHandler {
 			Log.error("wrong element type for <boundingBox>: " + geo.getClass());
 			return false;
 		}
-		
+
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(
 				Integer.parseInt(attrs.get("x")), Integer.parseInt(attrs.get("y")),
 				Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
@@ -1859,279 +1866,223 @@ public class ConsElementXMLHandler {
 		if (scriptType != null) {
 			handleScript(attrs, scriptType);
 		} else {
-			switch (MyXMLHandler.firstChar(eName)) {
-			case 'a':
-				if ("auxiliary".equals(eName)) {
-					handleAuxiliary(attrs);
-					break;
-				}
-				if ("autocolor".equals(eName)) {
-					handleAutocolor(attrs);
-					break;
-				} else if ("animation".equals(eName)) {
-					handleAnimation(attrs);
-					break;
-				} else if ("arcSize".equals(eName)) {
-					handleArcSize(attrs);
-					break;
-				} else if ("allowReflexAngle".equals(eName)) {
-					handleAllowReflexAngle(attrs);
-					break;
-				} else if ("absoluteScreenLocation".equals(eName)) {
-					handleAbsoluteScreenLocation(attrs, true);
-					break;
-				} else if ("angleStyle".equals(eName)) {
-					handleAngleStyle(attrs);
-					break;
-				} else if ("audio".equals(eName)) {
-					handleAudio(attrs);
-					break;
-				} else if ("algebra".equals(eName)) {
-					handleAlgebra(attrs);
-					break;
-				}
-
-			case 'b':
-				if ("breakpoint".equals(eName)) {
-					handleBreakpoint(attrs);
-					break;
-				} else if ("bgColor".equals(eName)) {
-					handleBgColor(attrs);
-					break;
-				} else if ("boundingBox".equals(eName)) {
-					handleBoundingBox(attrs);
-					break;
-				}
-
-			case 'c':
-				if ("coords".equals(eName)) {
-					handleCoords(attrs);
-					break;
-				} else if ("coordStyle".equals(eName)) {
-					handleCoordStyle(attrs);
-					break;
-				} else if ("caption".equals(eName)) {
-					handleCaption(attrs);
-					break;
-				} else if ("condition".equals(eName)) {
-					handleCondition(attrs);
-					break;
-				} else if ("checkbox".equals(eName)) {
-					handleCheckbox(attrs);
-					break;
-				} else if ("coefficients".equals(eName)) {
-					handleCoefficients(attrs);
-					break;
-				} else if ("comboBox".equals(eName)) {
-					handleComboBox(attrs);
-					break;
-				} else if ("cropBox".equals(eName)) {
-					handleCropBox(attrs);
-					break;
-				} else if ("curveParam".equals(eName)) {
-					handleCurveParam(attrs);
-					break;
-				} else if ("casMap".equals(eName)) {
-					xmlHandler.casMapForElement();
-					break;
-				}
-
-			case 'd':
-				if ("decoration".equals(eName)) {
-					handleDecoration(attrs);
-					break;
-				} else if ("decimals".equals(eName)) {
-					handleTextDecimals(attrs);
-					break;
-				} else if ("dimensions".equals(eName)) {
-					handleDimensions(attrs);
-					break;
-				}
-
-			case 'e':
-				if ("eqnStyle".equals(eName)) {
-					handleEqnStyle(attrs);
-					break;
-				} else if ("eigenvectors".equals(eName)) {
-					handleEigenvectors(attrs);
-					break;
-				} else if ("emphasizeRightAngle".equals(eName)) {
-					handleEmphasizeRightAngle(attrs);
-					break;
-				} else if ("embed".equals(eName)) {
-					handleEmbed(attrs);
-					break;
-				}
-
-			case 'f':
-				if ("fixed".equals(eName)) {
-					handleFixed(attrs);
-					break;
-				} else if ("file".equals(eName)) {
-					handleFile(attrs);
-					break;
-				} else if ("font".equals(eName)) {
-					handleTextFont(attrs);
-					break;
-				} else if ("forceReflexAngle".equals(eName)) {
-					handleForceReflexAngle(attrs);
-					break;
-				} else if ("fading".equals(eName)) {
-					handleFading(attrs);
-					break;
-				}
-			case 'i':
-				if ("isLaTeX".equals(eName)) {
-					handleIsLaTeX(attrs);
-					break;
-				} else if ("inBackground".equals(eName)) {
-					handleInBackground(attrs);
-					break;
-				} else if ("interpolate".equals(eName)) {
-					handleInterpolate(attrs);
-					break;
-				} else if ("isShape".equals(eName)) {
-					handleIsShape(attrs);
-					break;
-				} else if ("centered".equals(eName)) {
-					handleCentered(attrs);
-					break;
-				}
-
-			case 'k':
-				if ("keepTypeOnTransform".equals(eName)) {
-					handleKeepTypeOnTransform(attrs);
-					break;
-				}
-
-			case 'l':
-				if ("lineStyle".equals(eName)) {
-					handleLineStyle(attrs);
-					break;
-				} else if ("labelOffset".equals(eName)) {
-					handleLabelOffset(attrs);
-					break;
-				} else if ("labelMode".equals(eName)) {
-					handleLabelMode(attrs);
-					break;
-				} else if ("layer".equals(eName)) {
-					handleLayer(attrs);
-					break;
-				} else if ("linkedGeo".equals(eName)) {
-					handleLinkedGeo(attrs);
-					break;
-				} else if ("length".equals(eName)) {
-					handleLength(attrs);
-					break;
-				} else if ("listType".equals(eName)) {
-					handleListType(attrs);
-					break;
-				} else if ("listener".equals(eName)) {
-					handleListeners(attrs);
-					break;
-				} else if ("levelOfDetailQuality".equals(eName)) {
-					handleLevelOfDetailQuality(attrs);
-					break;
-				}
-
-			case 'm':
-				if ("matrix".equals(eName)) {
-					handleMatrix(attrs);
-					break;
-				}
-
-			case 'o':
-				if ("objColor".equals(eName)) {
-					handleObjColor(attrs);
-					break;
-				} else if ("outlyingIntersections".equals(eName)) {
-					handleOutlyingIntersections(attrs);
-					break;
-				} /*
-					 * else if ("objCoords".equals(eName)) { ok =
-					 * handleObjCoords(attrs); break; }
-					 */
-
-			case 'p':
-				if ("pointSize".equals(eName)) {
-					handlePointSize(attrs);
-					break;
-				}
-
-				else if ("pointStyle".equals(eName)) {
-					handlePointStyle(attrs);
-					break;
-				}
-				/*
-				 * should not be needed else if ("pathParameter".equals(eName))
-				 * { ok = handlePathParameter(attrs); break; }
-				 */
-			case 's':
-				if ("show".equals(eName)) {
-					handleShow(attrs);
-					break;
-				} else if ("showOnAxis".equals(eName)) {
-					handleShowOnAxis(attrs);
-					break;
-				} else if ("startPoint".equals(eName)) {
-					handleStartPoint(attrs);
-					break;
-				} else if ("slider".equals(eName)) {
-					handleSlider(attrs);
-					break;
-				} else if ("symbolic".equals(eName)) {
-					handleSymbolic(attrs);
-					break;
-				} else if ("slopeTriangleSize".equals(eName)) {
-					handleSlopeTriangleSize(attrs);
-					break;
-				} else if ("significantfigures".equals(eName)) {
-					handleTextFigures(attrs);
-					break;
-				} else if ("spreadsheetTrace".equals(eName)) {
-					handleSpreadsheetTrace(attrs);
-					break;
-				} else if ("showTrimmed".equals(eName)) {
-					handleShowTrimmed(attrs);
-					break;
-				} else if ("selectionAllowed".equals(eName)) {
-					handleSelectionAllowed(attrs);
-					break;
-				} else if ("selectedIndex".equals(eName)) {
-					handleSelectedIndex(attrs);
-					break;
-				}
-
-			case 't':
-				if ("trace".equals(eName)) {
-					handleTrace(attrs);
-					break;
-				} else if ("tooltipMode".equals(eName)) {
-					handleTooltipMode(attrs);
-					break;
-				} else if ("tag".equals(eName)) {
-					handleExtraTag(attrs);
-					break;
-				} else if ("tags".equals(eName)) {
-					// ignore
-					break;
-				}
-
-			case 'u':
-				if ("userinput".equals(eName)) {
-					handleUserInput(attrs);
-					break;
-				}
-
-			case 'v':
-				if ("value".equals(eName)) {
-					handleValue(attrs);
-					break;
-				} else if ("video".equals(eName)) {
-					handleVideo(attrs);
-					break;
-				}
-
+			switch (eName) {
+			case "auxiliary":
+				handleAuxiliary(attrs);
+				break;
+			case "autocolor":
+				handleAutocolor(attrs);
+				break;
+			case "animation":
+				handleAnimation(attrs);
+				break;
+			case "arcSize":
+				handleArcSize(attrs);
+				break;
+			case "allowReflexAngle":
+				handleAllowReflexAngle(attrs);
+				break;
+			case "absoluteScreenLocation":
+				handleAbsoluteScreenLocation(attrs, true);
+				break;
+			case "angleStyle":
+				handleAngleStyle(attrs);
+				break;
+			case "audio":
+				handleAudio(attrs);
+				break;
+			case "algebra":
+				handleAlgebra(attrs);
+				break;
+			case "breakpoint":
+				handleBreakpoint(attrs);
+				break;
+			case "bgColor":
+				handleBgColor(attrs);
+				break;
+			case "boundingBox":
+				handleBoundingBox(attrs);
+				break;
+			case "coords":
+				handleCoords(attrs);
+				break;
+			case "coordStyle":
+				handleCoordStyle(attrs);
+				break;
+			case "caption":
+				handleCaption(attrs);
+				break;
+			case "condition":
+				handleCondition(attrs);
+				break;
+			case "checkbox":
+				handleCheckbox(attrs);
+				break;
+			case "coefficients":
+				handleCoefficients(attrs);
+				break;
+			case "comboBox":
+				handleComboBox(attrs);
+				break;
+			case "cropBox":
+				handleCropBox(attrs);
+				break;
+			case "curveParam":
+				handleCurveParam(attrs);
+				break;
+			case "casMap":
+				xmlHandler.casMapForElement();
+				break;
+			case "decoration":
+				handleDecoration(attrs);
+				break;
+			case "decimals":
+				handleTextDecimals(attrs);
+				break;
+			case "dimensions":
+				handleDimensions(attrs);
+				break;
+			case "eqnStyle":
+				handleEqnStyle(attrs);
+				break;
+			case "eigenvectors":
+				handleEigenvectors(attrs);
+				break;
+			case "emphasizeRightAngle":
+				handleEmphasizeRightAngle(attrs);
+				break;
+			case "embed":
+				handleEmbed(attrs);
+				break;
+			case "fixed":
+				handleFixed(attrs);
+				break;
+			case "file":
+				handleFile(attrs);
+				break;
+			case "font":
+				handleTextFont(attrs);
+				break;
+			case "forceReflexAngle":
+				handleForceReflexAngle(attrs);
+				break;
+			case "fading":
+				handleFading(attrs);
+				break;
+			case "isLaTeX":
+				handleIsLaTeX(attrs);
+				break;
+			case "inBackground":
+				handleInBackground(attrs);
+				break;
+			case "interpolate":
+				handleInterpolate(attrs);
+				break;
+			case "isShape":
+				handleIsShape(attrs);
+				break;
+			case "centered":
+				handleCentered(attrs);
+				break;
+			case "keepTypeOnTransform":
+				handleKeepTypeOnTransform(attrs);
+				break;
+			case "lineStyle":
+				handleLineStyle(attrs);
+				break;
+			case "labelOffset":
+				handleLabelOffset(attrs);
+				break;
+			case "labelMode":
+				handleLabelMode(attrs);
+				break;
+			case "layer":
+				handleLayer(attrs);
+				break;
+			case "linkedGeo":
+				handleLinkedGeo(attrs);
+				break;
+			case "length":
+				handleLength(attrs);
+				break;
+			case "listType":
+				handleListType(attrs);
+				break;
+			case "listener":
+				handleListeners(attrs);
+				break;
+			case "levelOfDetailQuality":
+				handleLevelOfDetailQuality(attrs);
+				break;
+			case "matrix":
+				handleMatrix(attrs);
+				break;
+			case "objColor":
+				handleObjColor(attrs);
+				break;
+			case "outlyingIntersections":
+				handleOutlyingIntersections(attrs);
+				break;
+			case "pointSize":
+				handlePointSize(attrs);
+				break;
+			case "pointStyle":
+				handlePointStyle(attrs);
+				break;
+			case "show":
+				handleShow(attrs);
+				break;
+			case "showOnAxis":
+				handleShowOnAxis(attrs);
+				break;
+			case "startPoint":
+				handleStartPoint(attrs);
+				break;
+			case "slider":
+				handleSlider(attrs);
+				break;
+			case "symbolic":
+				handleSymbolic(attrs);
+				break;
+			case "slopeTriangleSize":
+				handleSlopeTriangleSize(attrs);
+				break;
+			case "significantfigures":
+				handleTextFigures(attrs);
+				break;
+			case "spreadsheetTrace":
+				handleSpreadsheetTrace(attrs);
+				break;
+			case "showTrimmed":
+				handleShowTrimmed(attrs);
+				break;
+			case "selectionAllowed":
+				handleSelectionAllowed(attrs);
+				break;
+			case "selectedIndex":
+				handleSelectedIndex(attrs);
+				break;
+			case "trace":
+				handleTrace(attrs);
+				break;
+			case "tooltipMode":
+				handleTooltipMode(attrs);
+				break;
+			case "tag":
+				handleExtraTag(attrs);
+				break;
+			case "tags":
+				// ignore
+				break;
+			case "userinput":
+				handleUserInput(attrs);
+				break;
+			case "value":
+				handleValue(attrs);
+				break;
+			case "video":
+				handleVideo(attrs);
+				break;
 			default:
 				Log.error("unknown tag in <element>: " + eName);
 			}
@@ -2167,11 +2118,7 @@ public class ConsElementXMLHandler {
 
 	private void processLinkedGeoList() {
 		try {
-			Iterator<GeoExpPair> it = linkedGeoList.iterator();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-
+			for (GeoExpPair pair : linkedGeoList) {
 				((GeoInputBox) pair.getGeo())
 						.setLinkedGeo(xmlHandler.kernel.lookupLabel(pair.exp));
 			}
@@ -2252,11 +2199,8 @@ public class ConsElementXMLHandler {
 
 	private void processAnimatingList() {
 		try {
-			Iterator<GeoElement> it = animatingList.iterator();
-
-			while (it.hasNext()) {
-				GeoElement geo1 = it.next();
-				geo1.setAnimating(true);
+			for (GeoElement geo : animatingList) {
+				geo.setAnimating(true);
 			}
 		} catch (RuntimeException e) {
 			addError("Invalid animating: " + e.toString());

@@ -66,78 +66,44 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		boolean ok = true;
 		// EuclidianView3DInterface ev = app.getEuclidianView3D();
 
-		switch (eName.charAt(0)) {
-
-		case 'a':
-			if ("axesColor".equals(eName)) {
-				// ok = handleAxesColor(ev, attrs);
-				break;
-			} else if ("axis".equals(eName)) {
-				ok = handleAxis(evSet, attrs);
-				break;
-			}
-
-		case 'b':
-			if ("bgColor".equals(eName)) {
-				ok = handleBgColor(evSet, attrs);
-				break;
-			}
-
-		case 'c':
-			if ("coordSystem".equals(eName)) {
-				ok = handleCoordSystem3D((EuclidianSettings3D) evSet, attrs);
-				break;
-			} else if ("clipping".equals(eName)) {
-				ok = handleClipping((EuclidianSettings3D) evSet, attrs);
-				break;
-			}
-
-		case 'e':
-			if ("evSettings".equals(eName)) {
-				ok = handleEvSettings(evSet, attrs);
-				break;
-			}
-
-		case 'g':
-			if ("grid".equals(eName)) {
-				ok = handleGrid(evSet, attrs);
-				break;
-			}
-			/*
-			 * else if ("gridColor".equals(eName)) { ok = handleGridColor(ev,
-			 * attrs); break; }
-			 */
-
-		case 'l':
-			if ("light".equals(eName)) {
-				ok = handleLight((EuclidianSettings3D) evSet, attrs);
-				break;
-			} else if ("labelStyle".equals(eName)) {
-				ok = handleLabelStyle(evSet, attrs);
-				break;
-			}
-
-		case 'p':
-			if ("plate".equals(eName) || "plane".equals(eName)) {
-				ok = handlePlate((EuclidianSettings3D) evSet, attrs);
-				break;
-			} else if ("projection".equals(eName)) {
-				ok = handleProjection((EuclidianSettings3D) evSet, attrs);
-				break;
-			}
-
-		case 'y':
-			if ("yAxisVertical".equals(eName)) {
-				ok = handleYAxisIsUp((EuclidianSettings3D) evSet, attrs);
-				break;
-			}
-
-			/*
-			 * 
-			 * case 's': if ("size".equals(eName)) { ok = handleEvSize(ev,
-			 * attrs); break; }
-			 */
-
+		switch (eName) {
+		case "axesColor":
+			// ok = handleAxesColor(ev, attrs);
+			break;
+		case "axis":
+			ok = handleAxis(evSet, attrs);
+			break;
+		case "bgColor":
+			ok = handleBgColor(evSet, attrs);
+			break;
+		case "coordSystem":
+			ok = handleCoordSystem3D((EuclidianSettings3D) evSet, attrs);
+			break;
+		case "clipping":
+			ok = handleClipping((EuclidianSettings3D) evSet, attrs);
+			break;
+		case "evSettings":
+			ok = handleEvSettings(evSet, attrs);
+			break;
+		case "grid":
+			ok = handleGrid(evSet, attrs);
+			break;
+		case "light":
+			ok = handleLight((EuclidianSettings3D) evSet, attrs);
+			break;
+		case "labelStyle":
+			ok = handleLabelStyle(evSet, attrs);
+			break;
+		case "plate":
+		case "plane":
+			ok = handlePlate((EuclidianSettings3D) evSet, attrs);
+			break;
+		case "projection":
+			ok = handleProjection((EuclidianSettings3D) evSet, attrs);
+			break;
+		case "yAxisVertical":
+			ok = handleYAxisIsUp((EuclidianSettings3D) evSet, attrs);
+			break;
 		default:
 			Log.error("unknown tag in <euclidianView3D>: " + eName);
 		}
@@ -399,12 +365,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	@Override
 	protected boolean startEuclidianViewElementSwitch(String eName,
-			LinkedHashMap<String, String> attrs, char firstChar) {
+			LinkedHashMap<String, String> attrs) {
 		if ("transformForPlane".equals(eName)) {
 			return handleTransformForPlane((EuclidianSettingsForPlane) evSet, attrs);
 		}
 
-		return super.startEuclidianViewElementSwitch(eName, attrs, firstChar);
+		return super.startEuclidianViewElementSwitch(eName, attrs);
 	}
 
 	private static boolean handleTransformForPlane(EuclidianSettingsForPlane ev,

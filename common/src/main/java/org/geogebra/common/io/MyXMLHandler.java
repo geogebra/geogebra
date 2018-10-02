@@ -621,28 +621,37 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void startGeoGebraElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		if ("euclidianView".equals(eName)) {
+		switch (eName) {
+		case "euclidianView":
 			mode = MODE_EUCLIDIAN_VIEW;
 			resetEVsettingsNeeded = true;
-		} else if ("euclidianView3D".equals(eName)) {
+			break;
+		case "euclidianView3D":
 			mode = MODE_EUCLIDIAN_VIEW3D;
 			resetEVsettingsNeeded = true;
-		} else if ("algebraView".equals(eName)) {
+			break;
+		case "algebraView":
 			mode = MODE_ALGEBRA_VIEW;
-		} else if ("kernel".equals(eName)) {
+			break;
+		case "kernel":
 			// default value
 			// (make sure old files work)
 			kernel.setUsePathAndRegionParameters(PathRegionHandling.ON);
 			mode = MODE_KERNEL;
-		} else if ("spreadsheetView".equals(eName)) {
+			break;
+		case "spreadsheetView":
 			mode = MODE_SPREADSHEET_VIEW;
-		} else if ("dataCollectionView".equals(eName)) {
+			break;
+		case "dataCollectionView":
 			mode = MODE_DATA_COLLECTION_VIEW;
-		} else if ("scripting".equals(eName)) {
+			break;
+		case "scripting":
 			startScriptingElement(attrs);
-		} else if ("probabilityCalculator".equals(eName)) {
+			break;
+		case "probabilityCalculator":
 			mode = MODE_PROBABILITY_CALCULATOR;
-		} else if ("gui".equals(eName)) {
+			break;
+		case "gui":
 			mode = MODE_GUI;
 			hasGuiElement = true;
 			isPreferencesXML = false;
@@ -651,26 +660,33 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspective = new Perspective("tmp");
 			tmp_perspectives.clear();
 
-		} else if ("macro".equals(eName)) {
+			break;
+		case "macro":
 			mode = MODE_MACRO;
 			initMacro(attrs);
-		} else if ("assignment".equals(eName)) {
+			break;
+		case "assignment":
 			mode = MODE_ASSIGNMENT;
 			initExercise(attrs);
-		} else if ("construction".equals(eName)) {
+			break;
+		case "construction":
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
-		} else if ("casSession".equals(eName)) {
+			break;
+		case "casSession":
 			// old <casSession> is now <cascell> in <construction>
 			// not used anymore after 2011-08-16
 			mode = MODE_CONSTRUCTION;
 			constMode = MODE_CONST_CAS_CELL;
-		} else if ("keyboard".equals(eName)) {
+			break;
+		case "keyboard":
 			handleKeyboard(attrs);
-		} else if ("defaults".equals(eName)) {
+			break;
+		case "defaults":
 			mode = MODE_DEFAULTS;
 			constMode = MODE_DEFAULTS;
-		} else {
+			break;
+		default:
 			Log.error("unknown tag in <geogebra>: " + eName);
 		}
 	}
@@ -752,90 +768,64 @@ public class MyXMLHandler implements DocHandler {
 	 *            element name
 	 * @param attrs
 	 *            attributes
-	 * @param firstChar
-	 *            first character of element name
 	 * @return true if ok
 	 */
 	protected boolean startEuclidianViewElementSwitch(String eName,
-			LinkedHashMap<String, String> attrs, char firstChar) {
+			LinkedHashMap<String, String> attrs) {
 
 		boolean ok = true;
 
-		switch (firstChar) {
-		case 'a':
-			if ("axesColor".equals(eName)) {
-				ok = handleAxesColor(evSet, attrs);
-				break;
-			} else if ("axis".equals(eName)) {
-				ok = handleAxis(evSet, attrs);
-				break;
-			}
-
-		case 'b':
-			if ("bgColor".equals(eName)) {
-				ok = handleBgColor(evSet, attrs);
-				break;
-			}
-
-		case 'c':
-			if ("coordSystem".equals(eName)) {
-				ok = handleCoordSystem(evSet, attrs);
-				break;
-			}
-
-		case 'e':
-			if ("evSettings".equals(eName)) {
-				ok = handleEvSettings(evSet, attrs);
-				break;
-			}
-
-		case 'g':
-			if ("grid".equals(eName)) {
-				ok = handleGrid(evSet, attrs);
-				break;
-			} else if ("gridColor".equals(eName)) {
-				ok = handleGridColor(evSet, attrs);
-				break;
-			}
-		case 'l':
-			if ("lineStyle".equals(eName)) {
-				ok = handleLineStyle(evSet, attrs);
-				break;
-			} else if ("labelStyle".equals(eName)) {
-				ok = handleLabelStyle(evSet, attrs);
-				break;
-			}
-		case 'r':
-			if ("rulerColor".equals(eName)) {
-				ok = handleRulerColor(evSet, attrs);
-				break;
-			} else if ("rulerType".equals(eName)) {
-				ok = handleRulerType(evSet, attrs);
-				break;
-			}
-		case 's':
-			if ("size".equals(eName)) {
-				ok = handleEvSize(evSet, attrs);
-				break;
-			}
+		switch (eName) {
+		case "axesColor":
+			ok = handleAxesColor(evSet, attrs);
 			break;
-		case 'v':
-			if ("viewNumber".equals(eName)) {
-				/*
-				 * moved earlier, must check first int number =
-				 * Integer.parseInt((String) attrs.get("viewNo"));
-				 * if(number==2){ viewNo=number; }
-				 */
-				ok = true;
-				break;
-			} else if ("viewId".equals(eName)) {
-				/*
-				 * moved earlier, must check first if for EuclidianViewForPlane
-				 */
-				ok = true;
-				break;
-			}
-
+		case "axis":
+			ok = handleAxis(evSet, attrs);
+			break;
+		case "bgColor":
+			ok = handleBgColor(evSet, attrs);
+			break;
+		case "coordSystem":
+			ok = handleCoordSystem(evSet, attrs);
+			break;
+		case "evSettings":
+			ok = handleEvSettings(evSet, attrs);
+			break;
+		case "grid":
+			ok = handleGrid(evSet, attrs);
+			break;
+		case "gridColor":
+			ok = handleGridColor(evSet, attrs);
+			break;
+		case "lineStyle":
+			ok = handleLineStyle(evSet, attrs);
+			break;
+		case "labelStyle":
+			ok = handleLabelStyle(evSet, attrs);
+			break;
+		case "rulerColor":
+			ok = handleRulerColor(evSet, attrs);
+			break;
+		case "rulerType":
+			ok = handleRulerType(evSet, attrs);
+			break;
+		case "size":
+			ok = handleEvSize(evSet, attrs);
+			break;
+		case "viewNumber":
+			/*
+			 * moved earlier, must check first int number =
+			 * Integer.parseInt((String) attrs.get("viewNo"));
+			 * if(number==2){ viewNo=number; }
+			 */
+			ok = true;
+			break;
+		case "viewId":
+			/*
+			 * moved earlier, must check first if for EuclidianViewForPlane
+			 */
+			ok = true;
+			break;
 		default:
 			Log.error("unknown tag in <euclidianView>: " + eName);
 		}
@@ -870,7 +860,7 @@ public class MyXMLHandler implements DocHandler {
 			evSet.reset();
 		}
 
-		if (!startEuclidianViewElementSwitch(eName, attrs, firstChar(eName))) {
+		if (!startEuclidianViewElementSwitch(eName, attrs)) {
 			Log.error("error in <euclidianView>: " + eName);
 		}
 	}
@@ -882,43 +872,28 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (firstChar(eName)) {
-
-		case 'l':
-			if ("layout".equals(eName)) {
-				ok = handleSpreadsheetLayout(attrs);
-				break;
-			}
-
-		case 'p':
-			if ("prefCellSize".equals(eName)) {
-				ok = handleSpreadsheetCellSize(attrs);
-				break;
-			}
-
-		case 's':
-			if ("size".equals(eName)) {
-				ok = handleSpreadsheetSize(attrs);
-				break;
-			}
-			if ("spreadsheetColumn".equals(eName)) {
-				ok = handleSpreadsheetColumn(attrs);
-				break;
-			}
-			if ("spreadsheetRow".equals(eName)) {
-				ok = handleSpreadsheetRow(attrs);
-				break;
-			}
-			if ("selection".equals(eName)) {
-				ok = handleSpreadsheetInitalSelection(attrs);
-				break;
-			}
-
-			if ("spreadsheetCellFormat".equals(eName)) {
-				ok = handleSpreadsheetFormat(attrs);
-				break;
-			}
-
+		switch (eName) {
+		case "layout":
+			ok = handleSpreadsheetLayout(attrs);
+			break;
+		case "prefCellSize":
+			ok = handleSpreadsheetCellSize(attrs);
+			break;
+		case "size":
+			ok = handleSpreadsheetSize(attrs);
+			break;
+		case "spreadsheetColumn":
+			ok = handleSpreadsheetColumn(attrs);
+			break;
+		case "spreadsheetRow":
+			ok = handleSpreadsheetRow(attrs);
+			break;
+		case "selection":
+			ok = handleSpreadsheetInitalSelection(attrs);
+			break;
+		case "spreadsheetCellFormat":
+			ok = handleSpreadsheetFormat(attrs);
+			break;
 		default:
 			Log.error("unknown tag in <spreadsheetView>: " + eName);
 		}
@@ -953,28 +928,19 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (firstChar(eName)) {
-
-		case 'd':
-			if ("distribution".equals(eName)) {
-				ok = handleProbabilityDistribution(attrs);
-				break;
-			}
-		case 'i':
-			if ("interval".equals(eName)) {
-				ok = handleProbabilityInterval(attrs);
-				break;
-			}
-		case 's':
-			if ("statisticsCollection".equals(eName)) {
-				ok = handleStatisticsCollection(attrs);
-				break;
-			}
-		case 'e':
-			if ("entry".equals(eName)) {
-				ok = handleEntry(attrs);
-				break;
-			}
+		switch (eName) {
+		case "distribution":
+			ok = handleProbabilityDistribution(attrs);
+			break;
+		case "interval":
+			ok = handleProbabilityInterval(attrs);
+			break;
+		case "statisticsCollection":
+			ok = handleStatisticsCollection(attrs);
+			break;
+		case "entry":
+			ok = handleEntry(attrs);
+			break;
 		default:
 			Log.error("unknown tag in <probabilityCalculator>: " + eName);
 		}
@@ -1101,22 +1067,16 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (firstChar(eName)) {
-		case 'a':
-			if ("auxiliary".equals(eName)) {
-				ok = handleAlgebraViewShowAuxiliaryObjects(attrs);
-				break;
-			}
-		case 'c':
-			if ("collapsed".equals(eName)) {
-				ok = handleAlgebraViewCollapsedNodes(attrs);
-				break;
-			}
-		case 'm':
-			if ("mode".equals(eName)) {
-				ok = handleAlgebraViewMode(attrs);
-				break;
-			}
+		switch (eName) {
+		case "auxiliary":
+			ok = handleAlgebraViewShowAuxiliaryObjects(attrs);
+			break;
+		case "collapsed":
+			ok = handleAlgebraViewCollapsedNodes(attrs);
+			break;
+		case "mode":
+			ok = handleAlgebraViewMode(attrs);
+			break;
 		default:
 			Log.error("unknown tag in <algebraView>: " + eName);
 		}
@@ -1745,30 +1705,44 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void startKernelElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		if ("angleUnit".equals(eName)) {
+		switch (eName) {
+		case "angleUnit":
 			handleAngleUnit(attrs);
-		} else if ("algebraStyle".equals(eName)) { // G.Sturr 2009-10-18
+			break;
+		case "algebraStyle":
 			handleAlgebraStyle(attrs);
-		} else if ("coordStyle".equals(eName)) {
+			break;
+		case "coordStyle":
 			handleKernelCoordStyle(attrs);
-		} else if ("angleFromInvTrig".equals(eName)) {
+			break;
+		case "angleFromInvTrig":
 			handleKernelInvTrig(attrs);
-		} else if ("continuous".equals(eName)) {
+			break;
+		case "continuous":
 			handleKernelContinuous(attrs);
-		} else if ("usePathAndRegionParameters".equals(eName)) {
+			break;
+		case "usePathAndRegionParameters":
 			handleKernelUsePathAndRegionParameters(attrs);
-		} else if ("decimals".equals(eName)) {
+			break;
+		case "decimals":
 			handleKernelDecimals(attrs);
-		} else if ("significantfigures".equals(eName)) {
+			break;
+		case "significantfigures":
 			handleKernelFigures(attrs);
-		} else if ("startAnimation".equals(eName)) {
+			break;
+		case "startAnimation":
 			handleKernelStartAnimation(attrs);
-		} else if ("localization".equals(eName)) {
+			break;
+		case "localization":
 			handleKernelLocalization(attrs);
-		} else if ("casSettings".equals(eName)) {
+			break;
+		case "casSettings":
 			handleCasSettings(attrs);
-		} else if (!"uses3D".equals(eName)) {
-			Log.error("unknown tag in <kernel>: " + eName);
+			break;
+		default:
+			if (!"uses3D".equals(eName)) {
+				Log.error("unknown tag in <kernel>: " + eName);
+			}
 		}
 	}
 
@@ -1921,73 +1895,53 @@ public class MyXMLHandler implements DocHandler {
 	private void startGuiElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
-		switch (firstChar(eName)) {
-		case 'c':
-			if ("consProtColumns".equals(eName)) {
-				ok = handleConsProtColumns(app, attrs);
-			} else if ("consProtocol".equals(eName)) {
-				ok = handleConsProtocol(attrs);
-			} else if ("consProtNavigationBar".equals(eName)) {
-				ok = handleConsProtNavigationBar(app, attrs);
-			}
+		switch (eName) {
+		case "consProtColumns":
+			ok = handleConsProtColumns(app, attrs);
 			break;
-		case 'd':
-			if ("dataAnalysis".equals(eName)) {
-				ok = handleDataAnalysis(attrs);
-			}
+		case "consProtocol":
+			ok = handleConsProtocol(attrs);
 			break;
-		case 'f':
-			if ("font".equals(eName)) {
-				ok = handleFont(app, attrs);
-			}
+		case "consProtNavigationBar":
+			ok = handleConsProtNavigationBar(app, attrs);
 			break;
-		case 'g':
-			// assume old graphicsSettings tag for JLM font (unused, ignore)
+		case "dataAnalysis":
+			ok = handleDataAnalysis(attrs);
+			break;
+		case "font":
+			ok = handleFont(app, attrs);
+			break;
+		case "graphicsSettings":
 			ok = true;
 			break;
-		case 'm':
-			if ("menuFont".equals(eName)) {
-				ok = handleMenuFont(app, attrs);
-			}
+		case "menuFont":
+			ok = handleMenuFont(app, attrs);
 			break;
-
-		case 'l':
-			if ("labelingStyle".equals(eName)) {
-				ok = handleLabelingStyle(app, attrs);
-			}
+		case "labelingStyle":
+			ok = handleLabelingStyle(app, attrs);
 			break;
-
-		case 'p':
-			if ("perspectives".equals(eName)) {
-				mode = MODE_GUI_PERSPECTIVES;
-				tmp_perspectives.clear();
-			}
+		case "perspectives":
+			mode = MODE_GUI_PERSPECTIVES;
+			tmp_perspectives.clear();
 			break;
-
-		case 's':
-			if ("show".equals(eName)) {
-				ok = handleGuiShow(app, attrs);
-			} else if ("splitDivider".equals(eName)) {
-				ok = compLayout.handleSplitDivider(attrs);
-			} else if ("settings".equals(eName)) {
-				ok = handleGuiSettings(app, attrs);
-			}
+		case "show":
+			ok = handleGuiShow(app, attrs);
 			break;
-
-		case 't':
-			if ("toolbar".equals(eName)) {
-				ok = handleToolbar(attrs);
-			} else if ("tooltipSettings".equals(eName)) {
-				ok = handleTooltipSettings(app, attrs);
-			}
+		case "splitDivider":
+			ok = compLayout.handleSplitDivider(attrs);
 			break;
-
-		case 'w':
-			if ("window".equals(eName)) {
-				ok = handleWindowSize(app, attrs);
-			}
+		case "settings":
+			ok = handleGuiSettings(app, attrs);
 			break;
-
+		case "toolbar":
+			ok = handleToolbar(attrs);
+			break;
+		case "tooltipSettings":
+			ok = handleTooltipSettings(app, attrs);
+			break;
+		case "window":
+			ok = handleWindowSize(app, attrs);
+			break;
 		default:
 			Log.error("unknown tag in <gui>: " + eName);
 		}
@@ -2429,43 +2383,25 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (firstChar(eName)) {
-		case 'd':
-			if ("dockBar".equals(eName)) {
-				ok = handleDockBar(attrs);
-				break;
-			}
-
-		case 'i':
-			if ("input".equals(eName)) {
-				ok = handleAlgebraInput(attrs);
-				break;
-			}
-
-		case 'p':
-			if ("panes".equals(eName)) {
-				mode = MODE_GUI_PERSPECTIVE_PANES;
-				break;
-			}
-
-		case 's':
-			if ("show".equals(eName)) {
-				ok = handleGuiShow(app, attrs);
-				break;
-			}
-
-		case 't':
-			if ("toolbar".equals(eName)) {
-				ok = handleToolbar(attrs);
-				break;
-			}
-
-		case 'v':
-			if ("views".equals(eName)) {
-				mode = MODE_GUI_PERSPECTIVE_VIEWS;
-				break;
-			}
-
+		switch (eName) {
+		case "dockBar":
+			ok = handleDockBar(attrs);
+			break;
+		case "input":
+			ok = handleAlgebraInput(attrs);
+			break;
+		case "panes":
+			mode = MODE_GUI_PERSPECTIVE_PANES;
+			break;
+		case "show":
+			ok = handleGuiShow(app, attrs);
+			break;
+		case "toolbar":
+			ok = handleToolbar(attrs);
+			break;
+		case "views":
+			mode = MODE_GUI_PERSPECTIVE_VIEWS;
+			break;
 		default:
 			Log.debug("unknown tag in <perspective>: " + eName);
 		}
@@ -2914,14 +2850,9 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		boolean ok = true;
-		switch (firstChar(eName)) {
-		case 'e':
-			if ("expression".equals(eName)) {
-				ok = handleCasCellOutput(attrs);
-				break;
-			}
-
-		default:
+		if ("expression".equals(eName)) {
+			ok = handleCasCellOutput(attrs);
+		} else {
 			Log.error("unknown tag in <outputCell>: " + eName);
 		}
 
@@ -2939,20 +2870,9 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		boolean ok = true;
-		switch (firstChar(eName)) {
-		case 'e':
-			if ("expression".equals(eName)) {
-				ok = handleCasCellInput(attrs);
-				break;
-			}
-
-			// case 'c':
-			// if ("color".equals(eName)) {
-			// ok = handleCASPairColor(attrs);
-			// break;
-			// }
-
-		default:
+		if ("expression".equals(eName)) {
+			ok = handleCasCellInput(attrs);
+		} else {
 			Log.error("unknown tag in <inputCell>: " + eName);
 		}
 
@@ -3229,13 +3149,6 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	static char firstChar(String eName) {
-		if (eName == null || eName.length() == 0) {
-			return '?';
-		}
-		return eName.charAt(0);
-	}
-
 	/**
 	 * expects r, g, b attributes to build a color
 	 * 
@@ -3323,12 +3236,9 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	protected GeoPointND handleAbsoluteStartPoint(
 			LinkedHashMap<String, String> attrs) {
-		double x = Double.NaN;
-		double y = Double.NaN;
-		double z = Double.NaN;
-		x = StringUtil.parseDouble(attrs.get("x"));
-		y = StringUtil.parseDouble(attrs.get("y"));
-		z = StringUtil.parseDouble(attrs.get("z"));
+		double x = StringUtil.parseDouble(attrs.get("x"));
+		double y = StringUtil.parseDouble(attrs.get("y"));
+		double z = StringUtil.parseDouble(attrs.get("z"));
 		GeoPoint p = new GeoPoint(cons);
 		p.setCoords(x, y, z);
 		return p;
