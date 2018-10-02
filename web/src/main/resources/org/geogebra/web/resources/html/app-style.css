@@ -174,14 +174,14 @@
 }
 
 .GeoGebraFrame .toolbar .toolsPanel {
-    padding: 0px 16px 14px 16px;
+    padding: 8px 16px 14px 16px;
 }
 
 .GeoGebraFrame .toolbar .toolsPanel .catLabel {
     cursor: default;
-    height: 48px;
-    line-height: 56px;
+    line-height: 24px;
     font-size: 100%;
+    margin: 8px 0px;
 }
 
 .GeoGebraFrame .toolbar .toolsPanel .button {

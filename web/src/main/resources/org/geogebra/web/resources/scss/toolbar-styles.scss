@@ -237,9 +237,8 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 		}	
 	
-		.toolsPanel {
-		
-			padding: 0px 16px 14px 16px;
+		.toolsPanel {		
+			padding: 8px 16px 14px 16px;
 			
 			&.customToolbar {
 				padding: 16px 16px 14px 16px;
@@ -247,9 +246,9 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			
 			.catLabel {
 				cursor: default;
-				height: 48px;
-				line-height: 56px;
-				font-size: 100%;
+			    line-height: 24px;
+			    font-size: 100%;
+			    margin: 8px 0px;
 			}
 			
 			.categoryPanel {
@@ -289,6 +288,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			.toolButton {
 				margin: 0px !important;
 				vertical-align: top;
+				margin-bottom: 4px;
 			
 				img, img:hover {
 					opacity: 1;	
@@ -296,6 +296,10 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			
 				&[selected=true] .gwt-Label {
 				    color: $purple-dark;
+				}
+				
+				.gwt-Label {
+					padding-bottom: 0px;	
 				}
 			}
 	
