@@ -84,7 +84,8 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	 *            application
 	 */
 	public SliderDialogW(final AppW app, int x, int y) {
-		super(false, true, null, app.getPanel(), app);
+		super(false, true, null, app.getPanel(), app,
+				app.has(Feature.DIALOG_DESIGN));
 
 		//super(app.getFrame(), false);
 		this.app = app;

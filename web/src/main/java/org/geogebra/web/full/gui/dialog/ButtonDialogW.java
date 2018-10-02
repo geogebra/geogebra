@@ -54,7 +54,8 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	 *            whether this is for inputbox
 	 */
 	public ButtonDialogW(final AppW app, int x, int y, boolean inputBox) {
-		super(false, true, null, app.getPanel(), app);
+		super(false, true, null, app.getPanel(), app,
+				app.has(Feature.DIALOG_DESIGN));
 
 		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, inputBox);

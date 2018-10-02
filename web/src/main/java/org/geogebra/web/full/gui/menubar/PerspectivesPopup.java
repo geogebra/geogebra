@@ -1,5 +1,16 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.gui.Layout;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.gui.ImageFactory;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.DialogBoxW;
+
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,17 +22,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-
-import org.geogebra.common.gui.Layout;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.ImageFactory;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.DialogBoxW;
 
 /**
  * Apps Picker Dialog for new Start screen (GGB-992)
@@ -39,7 +39,8 @@ public class PerspectivesPopup {
 	 */
 	public PerspectivesPopup(final AppWFull app) {
 		this.app = app;
-		box = new DialogBoxW(true, false, null, app.getPanel(), app) {
+		box = new DialogBoxW(true, false, null, app.getPanel(), app,
+				app.has(Feature.DIALOG_DESIGN)) {
 			@Override
 			public void setPopupPosition(int left, int top) {
 				super.setPopupPosition(left,

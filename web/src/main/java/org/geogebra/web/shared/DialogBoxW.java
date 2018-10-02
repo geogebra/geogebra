@@ -45,12 +45,14 @@ public class DialogBoxW extends GDialogBox {
 	 *            root for positioning
 	 * @param app
 	 *            application
+	 * @param matDesign
+	 *            whether to use material design
 	 */
 	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh,
-			Panel root, App app) {
+			Panel root, App app, boolean matDesign) {
 		super(autoHide, modal, root, app);
 		addResizeHandler();
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (matDesign) {
 			this.setStyleName("MaterialDialogBox");
 		} else {
 			this.addStyleName("DialogBox");
@@ -71,7 +73,7 @@ public class DialogBoxW extends GDialogBox {
 	 *            app
 	 */
 	public DialogBoxW(Panel root, App app) {
-		this(false, true, null, root, app);
+		this(false, true, null, root, app, app.has(Feature.DIALOG_DESIGN));
 	}
 
 	/**

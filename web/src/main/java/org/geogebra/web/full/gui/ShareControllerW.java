@@ -9,17 +9,10 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.menubar.FileMenuW;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
-import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.ShareLinkDialog;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -119,7 +112,6 @@ public class ShareControllerW implements ShareController {
 	private AsyncOperation<Boolean> getShareCallback() {
 		return new AsyncOperation<Boolean>() {
 			protected ShareLinkDialog shareDialog;
-			protected ShareDialogW sd;
 			protected ShareDialogMow mowShareDialog;
 
 			@Override
@@ -127,51 +119,22 @@ public class ShareControllerW implements ShareController {
 				if (!active) {
 					return;
 				}
-				NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
-						.geogebraLogo().getSafeUri().asString());
-				PushButton geogebrabutton = new PushButton(geogebraimg,
-						new ClickHandler() {
 
-							@Override
-							public void onClick(ClickEvent event) {
-								if (!FileMenuW.nativeShareSupported()) {
-									getAppW().uploadToGeoGebraTube();
-								} else {
-									getAppW().getGgbApi().getBase64(true,
-											getShareStringHandler());
-								}
-								if (getAppW()
-										.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
-									shareDialog.hide();
-								} else {
-									sd.hide();
-								}
-							}
-
-						});
 				String sharingKey = "";
 				if (getAppW().getActiveMaterial() != null && getAppW()
 						.getActiveMaterial().getSharingKey() != null) {
 					sharingKey = getAppW().getActiveMaterial().getSharingKey();
 				}
-				if (getAppW().has(Feature.SHARE_DIALOG_MAT_DESIGN)
-						&& getAppW().isUnbundled()) {
+				if (!getAppW().isWhiteboardActive()) {
 					shareDialog = new ShareLinkDialog(getAppW(),
 							getAppW().getCurrentURL(sharingKey, true),
 							getAnchor());
 					shareDialog.setVisible(true);
 					shareDialog.center();
-				} else if (getAppW().has(Feature.MOW_SHARE_DIALOG)
-						&& getAppW().isWhiteboardActive()) {
+				} else {
 					mowShareDialog = new ShareDialogMow(getAppW(),
 							getAppW().getCurrentURL(sharingKey, true), null);
 					mowShareDialog.show();
-				} else {
-					sd = new ShareDialogW(getAppW(), getAnchor(),
-							geogebrabutton,
-							getAppW().getCurrentURL(sharingKey, true));
-					sd.setVisible(true);
-					sd.center();
 				}
 			}
 		};

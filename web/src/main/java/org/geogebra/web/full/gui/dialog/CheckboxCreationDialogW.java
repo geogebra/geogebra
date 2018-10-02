@@ -150,7 +150,8 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	 */
 	public CheckboxCreationDialogW(AppW app, GPoint loc2,
 			GeoBoolean geoBoolean) {
-		super(false, false, null, app.getPanel(), app);
+		super(false, false, null, app.getPanel(), app,
+				app.has(Feature.DIALOG_DESIGN));
 
 		this.app = app;
 		this.loc = app.getLocalization();

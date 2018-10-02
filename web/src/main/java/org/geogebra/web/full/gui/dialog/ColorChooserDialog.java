@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
@@ -34,7 +35,8 @@ public class ColorChooserDialog extends DialogBoxW
 	 */
 	public ColorChooserDialog(AppW app, final GColor originalColor,
 			final ColorChangeHandler handler) {
-		super(false, true, null, app.getPanel(), app);
+		super(false, true, null, app.getPanel(), app,
+				app.has(Feature.DIALOG_DESIGN));
 		if (app.isWhiteboardActive()) {
 			addStyleName("mow");
 		}

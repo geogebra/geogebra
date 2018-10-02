@@ -56,7 +56,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	 *            parent widget
 	 */
 	public ShareLinkDialog(AppW app, String shareURL, Widget anchor) {
-		super(app.getPanel(), app);
+		super(false, true, null, app.getPanel(), app, true);
 		this.app = app;
 		this.shareURL = shareURL;
 		this.anchor = anchor;
@@ -71,6 +71,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		setGlassEnabled(false);
 		addCloseHandler(new CloseHandler<GPopupPanel>() {
 
+			@Override
 			public void onClose(CloseEvent<GPopupPanel> event) {
 				if (anchor != null) {
 					anchor.removeStyleName("selected");
@@ -208,7 +209,8 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		printBtn.setText(localize("Print"));
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
-		shareHelp.setText(localize("ShareLinkHelpTxt"));
+		shareHelp.setText(localize(app.isWhiteboardActive()
+				? "ShareLinkHelpTxtMebis" : "ShareLinkHelpTxt"));
 	}
 
 	private String localize(String id) {

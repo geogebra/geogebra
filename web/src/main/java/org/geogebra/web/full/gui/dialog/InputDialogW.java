@@ -83,7 +83,7 @@ public class InputDialogW extends InputDialog
 					app);
 		} else {
 			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel(),
-					app);
+					app, app.has(Feature.DIALOG_DESIGN));
 		}
 	}
 
@@ -153,7 +153,8 @@ public class InputDialogW extends InputDialog
 
 		public DialogBoxKbW(boolean b, boolean modal, InputDialogW inputDialogW,
 				Panel panel, App app) {
-			super(b, modal, inputDialogW, panel, app);
+			super(b, modal, inputDialogW, panel, app,
+					app.has(Feature.DIALOG_DESIGN));
 		}
 
 	}
