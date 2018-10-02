@@ -374,12 +374,18 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 			double endInterval) {
 		ArrayList<GeoPoint> pointList = new ArrayList<>();
 
+		Function fun0 = getFun(0);
+		Function fun1 = getFun(1);
+		if (fun0 == null || fun1 == null) {
+			return pointList;
+		}
+
 		double step = (endInterval - startInterval) / (n + 1);
 
 		for (double i = 0, v = startInterval; i < n; i++, v += step) {
 			double[] point = new double[2];
-			point[0] = getFun(0).value(v);
-			point[1] = getFun(1).value(v);
+			point[0] = fun0.value(v);
+			point[1] = fun1.value(v);
 			pointList.add(new GeoPoint(this.cons, point[0], point[1], 1));
 		}
 
