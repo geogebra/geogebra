@@ -28,6 +28,8 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
+  extern int intvar_counter;
+  extern int realvar_counter;
   vecteur lvarfracpow(const gen & e);
   std::string print_intvar_counter(GIAC_CONTEXT);
   std::string print_realvar_counter(GIAC_CONTEXT);

@@ -57,8 +57,8 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
   // FIXME intvar_counter should be contextized
-  static int intvar_counter=0;
-  static int realvar_counter=0;
+  int intvar_counter=0;
+  int realvar_counter=0;
   string print_intvar_counter(GIAC_CONTEXT){
     if (intvar_counter<0)
       return print_INT_(-intvar_counter);

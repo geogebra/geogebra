@@ -311,6 +311,9 @@ namespace giac {
 
   gen _restart(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    intvar_counter=0;
+    realvar_counter=0;
+    if (args==at_solve) return 1;
     init_context((context *) ((void *) contextptr));
     gen res= _rm_all_vars(args,contextptr);
     *logptr(contextptr) << "============== restarted ===============" << endl;
