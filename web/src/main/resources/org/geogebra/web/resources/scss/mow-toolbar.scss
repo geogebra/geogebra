@@ -234,10 +234,12 @@
 	} 
 
 	.toolButton {
+		display: inline-block;
 		margin: 0px !important;
 	    border-radius: 4px;
 	    height: 72px;
 	    margin-right: 8px !important;	
+	    cursor: pointer;
 	    
 		img {
 			padding: 8px 20px;		

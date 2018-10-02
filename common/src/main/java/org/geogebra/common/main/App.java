@@ -4140,6 +4140,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TAB_ON_EV_PLAY:
 			return prerelease;
 
+		/** GGB-2538 */
+		case TOOLS_WITH_NAMES:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

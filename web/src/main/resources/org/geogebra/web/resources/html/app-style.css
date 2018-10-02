@@ -177,7 +177,7 @@
     padding: 0px 16px 14px 16px;
 }
 
-.GeoGebraFrame .toolbar .toolsPanel .gwt-Label {
+.GeoGebraFrame .toolbar .toolsPanel .catLabel {
     cursor: default;
     height: 48px;
     line-height: 56px;

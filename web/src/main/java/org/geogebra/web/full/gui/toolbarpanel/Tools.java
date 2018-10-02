@@ -10,9 +10,11 @@ import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -212,6 +214,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
 		private ArrayList<StandardButton> toolBtnList;
+		private ArrayList<ToolButton> toolButtonList;
 
 		public CategoryPanel(ToolCategorization.Category cat) {
 			super();
@@ -223,14 +226,24 @@ public class Tools extends FlowPanel implements SetLabels {
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
 			toolBtnList = new ArrayList<>();
+			toolButtonList = new ArrayList<>();
 			Vector<Integer> tools = toolbarItem.getMenu();
 			for (Integer mode : tools) {
 				if (app.isModeValid(mode)) {
-					StandardButton btn = getButton(mode);
-					toolBtnList.add(btn);
-					toolsPanel.add(btn);
-					if (mode == EuclidianConstants.MODE_MOVE) {
-						setMoveButton(btn);
+					if (app.has(Feature.TOOLS_WITH_NAMES)) {
+						ToolButton btn = new ToolButton(mode, app);
+						toolButtonList.add(btn);
+						toolsPanel.add(btn);
+						if (mode == EuclidianConstants.MODE_MOVE) {
+							setMoveButton(btn);
+						}
+					} else {
+						StandardButton btn = getButton(mode);
+						toolBtnList.add(btn);
+						toolsPanel.add(btn);
+						if (mode == EuclidianConstants.MODE_MOVE) {
+							setMoveButton(btn);
+						}
 					}
 				}
 				add(toolsPanel);
@@ -240,6 +253,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		private void initGui() {
 			categoryLabel = new Label(
 					getmToolCategorization().getLocalizedHeader(category));
+			categoryLabel.setStyleName("catLabel");
 			add(categoryLabel);
 			AriaHelper.hide(categoryLabel);
 
@@ -248,14 +262,24 @@ public class Tools extends FlowPanel implements SetLabels {
 			ArrayList<Integer> tools = getmToolCategorization().getTools(
 					getmToolCategorization().getCategories().indexOf(category));
 			toolBtnList = new ArrayList<>();
+			toolButtonList = new ArrayList<>();
 			ToolBar.parseToolbarString(
 					app.getGuiManager().getToolbarDefinition());
 			for (int i = 0; i < tools.size(); i++) {
-				StandardButton btn = getButton(tools.get(i));
-				toolBtnList.add(btn);
-				toolsPanel.add(btn);
-				if (tools.get(i) == EuclidianConstants.MODE_MOVE) {
-					setMoveButton(btn);
+				if (app.has(Feature.TOOLS_WITH_NAMES)) {
+					ToolButton btn = new ToolButton(tools.get(i), app);
+					toolButtonList.add(btn);
+					toolsPanel.add(btn);
+					if (tools.get(i) == EuclidianConstants.MODE_MOVE) {
+						setMoveButton(btn);
+					}
+				} else {
+					StandardButton btn = getButton(tools.get(i));
+					toolBtnList.add(btn);
+					toolsPanel.add(btn);
+					if (tools.get(i) == EuclidianConstants.MODE_MOVE) {
+						setMoveButton(btn);
+					}
 				}
 			}
 			add(toolsPanel);
@@ -299,6 +323,9 @@ public class Tools extends FlowPanel implements SetLabels {
 			// update tooltips of tools
 			ArrayList<Integer> tools = getmToolCategorization().getTools(
 					getmToolCategorization().getCategories().indexOf(category));
+			if (app.has(Feature.TOOLS_WITH_NAMES)) {
+				return;
+			}
 			for (int i = 0; i < tools.size(); i++) {
 				String title = getApp().getLocalization()
 						.getMenu(EuclidianConstants.getModeText(tools.get(i)));

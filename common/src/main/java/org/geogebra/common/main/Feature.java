@@ -307,6 +307,9 @@ public enum Feature {
 	TAB_ON_EV_PLAY,
 
 	/** MOB-1372 */
-	MOB_DEFAULT_ROUNDING_13
+	MOB_DEFAULT_ROUNDING_13,
+
+	/** GGB-2538 */
+	TOOLS_WITH_NAMES
 }
 

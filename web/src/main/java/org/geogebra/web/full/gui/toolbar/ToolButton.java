@@ -28,18 +28,31 @@ public class ToolButton extends StandardButton {
 	 *            which contains the button
 	 */
 	public ToolButton(int mode, AppW app, SubMenuPanel panel) {
-		super(AppResources.INSTANCE.empty(),
-				app.getLocalization().getMenu(
-						EuclidianConstants.getModeText(mode)),
-				24, app);
-		this.mode = mode;
-		this.appW = app;
-		addStyleName("toolButton");
-		setAccessible();
+		this(mode, app);
 		this.addFastClickHandler(panel);
-		setSelected(false); // update icon
 	}
 	
+	/**
+	 * @param mode
+	 *            tool mode
+	 * @param app
+	 *            see {@link AppW}
+	 */
+	public ToolButton(int mode, AppW app) {
+		super(AppResources.INSTANCE.empty(), app.getLocalization()
+				.getMenu(EuclidianConstants.getModeText(mode)), 24, app);
+		this.mode = mode;
+		this.appW = app;
+		setStyleName("toolButton");
+		setAccessible();
+		setSelected(false); // update icon
+
+	}
+
+	public AppW getApp() {
+		return appW;
+	}
+
 	private void setAccessible() {
 		String altText = appW.getLocalization()
 				.getMenu(EuclidianConstants.getModeText(mode)) + ". "
