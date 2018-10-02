@@ -329,14 +329,17 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * creates a circle if possible
 	 */
 	private boolean createCircle() {
-		GeoElement geoCircle;
+		ArrayList<GeoElement> geoCirclePlusPoint;
 		if (tryCircleThroughExistingPoints() != null) {
 			return true;
-		} else if ((geoCircle = getCircleThreePoints()) != null) {
+		} else if ((geoCirclePlusPoint = getCircleThreePoints()) != null) {
 
 			boolean recreate = false;
 
-			ArrayList<GeoPointND> points = ((GeoConic) geoCircle)
+			GeoElement geoCircle = geoCirclePlusPoint.get(0);
+
+			ArrayList<GeoPointND> points = ((GeoConic) geoCirclePlusPoint
+					.get(0))
 					.getPointsOnConic();
 
 			if (points == null || points.size() < 3) {
