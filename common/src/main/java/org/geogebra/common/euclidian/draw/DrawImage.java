@@ -76,9 +76,9 @@ public final class DrawImage extends Drawable {
 	 */
 	private double imagecropRatioY = Double.NaN;
 	/**
-	 * the image should have at least 100px width
+	 * the image should have at least 50px width
 	 */
-	public final static int IMG_WIDTH_THRESHOLD = 100;
+	public final static int IMG_WIDTH_THRESHOLD = 50;
 	/**
 	 * the croped image should have at least 50px width
 	 */
@@ -281,6 +281,16 @@ public final class DrawImage extends Drawable {
 				getBoundingBox().setRectangle(getBounds());
 			}
 		}
+	}
+
+	@Override
+	public int getWidthThreshold() {
+		return IMG_WIDTH_THRESHOLD;
+	}
+
+	@Override
+	public int getHeightThreshold() {
+		return IMG_WIDTH_THRESHOLD;
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {

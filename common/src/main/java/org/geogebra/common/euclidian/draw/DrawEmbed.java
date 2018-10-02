@@ -26,6 +26,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	private GRectangle2D bounds;
 	private double originalRatio = Double.NaN;
 	private GeoEmbed geoEmbed;
+	private final static int EMBED_SIZE_THRESHOLD = 100;
 
 	/**
 	 * @param ev
@@ -62,6 +63,16 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		if (boundingBox != null) {
 			boundingBox.setRectangle(bounds);
 		}
+	}
+
+	@Override
+	public int getWidthThreshold() {
+		return EMBED_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public int getHeightThreshold() {
+		return EMBED_SIZE_THRESHOLD;
 	}
 
 	@Override

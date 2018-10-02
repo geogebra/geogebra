@@ -29,7 +29,6 @@ public class BoundingBox {
 	private int nrHandlers = 8;
 	private boolean isCropBox = false;
 	private boolean isImage = false;
-	private final static int VIDEO_SIZE_THRESHOLD = 100;
 	private static final int ROTATION_HANDLER_DISTANCE = 25;
 	/**
 	 * size of handler
@@ -516,10 +515,11 @@ public class BoundingBox {
 		int newWidth = 1;
 		int newHeight = 1;
 		boolean fixRatio = video.isFixedRatio();
+		int sizeTreshold = ((Drawable) video).getWidthThreshold();
 		switch (handler) {
 		case TOP_RIGHT:
 			newWidth = eventX - video.getLeft();
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+			if (newWidth <= sizeTreshold) {
 				return;
 			}
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
@@ -532,7 +532,7 @@ public class BoundingBox {
 
 		case BOTTOM_RIGHT:
 			newWidth = eventX - video.getLeft();
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+			if (newWidth <= sizeTreshold) {
 				return;
 			}
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
@@ -543,7 +543,7 @@ public class BoundingBox {
 
 		case TOP_LEFT:
 			newWidth = video.getWidth() + video.getLeft() - eventX;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+			if (newWidth <= sizeTreshold) {
 				return;
 			}
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
@@ -555,7 +555,7 @@ public class BoundingBox {
 
 		case BOTTOM_LEFT:
 			newWidth = video.getWidth() + video.getLeft() - eventX;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+			if (newWidth <= sizeTreshold) {
 				return;
 			}
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
@@ -567,7 +567,7 @@ public class BoundingBox {
 
 		case RIGHT:
 			newWidth = eventX - video.getLeft();
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+			if (newWidth <= sizeTreshold) {
 				return;
 			}
 			video.setWidth(newWidth);
@@ -585,7 +585,7 @@ public class BoundingBox {
 
 		case LEFT:
 			newWidth = video.getWidth() + video.getLeft() - eventX;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+			if (newWidth <= sizeTreshold) {
 				return;
 			}
 			video.setWidth(newWidth);
@@ -604,7 +604,7 @@ public class BoundingBox {
 
 		case TOP:
 			newHeight = video.getHeight() + video.getTop() - eventY;
-			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
+			if (newHeight <= sizeTreshold) {
 				return;
 			}
 			video.setHeight(newHeight);
@@ -623,7 +623,7 @@ public class BoundingBox {
 
 		case BOTTOM:
 			newHeight = eventY - video.getTop();
-			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
+			if (newHeight <= sizeTreshold) {
 				return;
 			}
 			video.setHeight(newHeight);

@@ -181,6 +181,16 @@ public class DrawAudio extends Drawable {
 		}
 	}
 
+	@Override
+	public int getWidthThreshold() {
+		return geoAudio.getWidth();
+	}
+
+	@Override
+	public int getHeightThreshold() {
+		return geoAudio.getHeight();
+	}
+
 	private void drawPlay(GGraphics2D g2) {
 		g2.setColor(playHovered ? PLAY_HOVER_COLOR : PLAY_COLOR);
 		int size = getPlaySize();

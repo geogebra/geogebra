@@ -31,6 +31,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	private int top;
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
+	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
 	/** Threshold correction for resizing handler capturing */
 	public static final int HANDLER_THRESHOLD = -4;
@@ -56,6 +57,16 @@ public class DrawVideo extends Drawable implements DrawWidget {
 			app.getVideoManager().updatePlayer(video);
 		}
 		setMetrics();
+	}
+
+	@Override
+	public int getWidthThreshold() {
+		return VIDEO_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public int getHeightThreshold() {
+		return VIDEO_SIZE_THRESHOLD;
 	}
 
 	private void setMetrics() {
