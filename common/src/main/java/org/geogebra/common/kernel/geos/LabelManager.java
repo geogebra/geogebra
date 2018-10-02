@@ -4,8 +4,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
 
@@ -74,9 +72,11 @@ public class LabelManager {
 			// parseLabel for "A B" returns "A", check equality
 			return label.trim()
 					.equals(kernel.getAlgebraProcessor().parseLabel(label));
-		} catch (ParseException e) {
+		} catch (Exception e) {
+			// eg ParseException
 			return false;
-		} catch (BracketsError e) {
+		} catch (Error e) {
+			// eg TokenMgrError, BracketsError
 			return false;
 		}
 	}
