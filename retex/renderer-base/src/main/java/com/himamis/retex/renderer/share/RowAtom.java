@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 
 import com.himamis.retex.renderer.share.dynamic.DynamicAtom;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * An atom representing a horizontal row of other atoms, to be seperated by
@@ -319,8 +320,12 @@ public class RowAtom extends Atom implements Row {
 			}
 		}
 
-		if (shape) {
-			return ShapeBox.create(hBox);
+		// ShapeBox causes problems in web when fonts aren't loaded
+		// and also isn't necessary there anyway
+		if (!FactoryProvider.getInstance().isHTML5()) {
+			if (shape) {
+				return ShapeBox.create(hBox);
+			}
 		}
 
 		return hBox;

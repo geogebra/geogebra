@@ -46,6 +46,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+
 /**
  * An atom representing an nth-root construction.
  */
@@ -94,9 +96,14 @@ public class NthRoot extends Atom {
 		double totalH = b.getHeight() + b.getDepth();
 		Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env,
 				totalH + clr + drt);
-		// if (rootSign instanceof CharBox) {
-		// rootSign = ShapeBox.create(rootSign);
-		// }
+
+		// ShapeBox causes problems in web when fonts aren't loaded
+		// and also isn't necessary there anyway
+		if (!FactoryProvider.getInstance().isHTML5()) {
+			if (rootSign instanceof CharBox) {
+				rootSign = ShapeBox.create(rootSign);
+			}
+		}
 
 		// add half the excess to clr
 		double delta = rootSign.getDepth() - (totalH + clr);

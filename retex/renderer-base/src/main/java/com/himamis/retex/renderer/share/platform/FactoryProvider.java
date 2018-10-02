@@ -129,4 +129,12 @@ public abstract class FactoryProvider {
 		}
 	}
 
+	/**
+	 * 
+	 * @return true for renderer-web only
+	 */
+	public boolean isHTML5() {
+		return false;
+	}
+
 }

@@ -109,4 +109,9 @@ public class FactoryProviderGWT extends FactoryProvider {
 		$wnd.console.trace();
 	}-*/;
 
+	@Override
+	public boolean isHTML5() {
+		return true;
+	}
+
 }

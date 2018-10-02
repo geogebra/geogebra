@@ -48,6 +48,8 @@
 
 package com.himamis.retex.renderer.share; // NOPMD
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+
 /**
  * Responsible for creating a box containing a delimiter symbol that exists in
  * different sizes.
@@ -146,6 +148,11 @@ public class DelimiterFactory {
 				}
 			}
 
+			// ShapeBox causes problems in web when fonts aren't loaded
+			// and also isn't necessary there anyway
+			if (FactoryProvider.getInstance().isHTML5()) {
+				return vBox;
+			}
 			return ShapeBox.create(vBox);
 		} else {
 			// no extensions, so return tallest possible character
