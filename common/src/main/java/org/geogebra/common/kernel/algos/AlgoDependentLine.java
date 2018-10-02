@@ -94,7 +94,8 @@ public class AlgoDependentLine extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables();
+		input = equation.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 
 		setOutputLength(1);
 		setOutput(0, g);

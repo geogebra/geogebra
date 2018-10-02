@@ -135,7 +135,7 @@ public class Resolution implements ExpressionValue {
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		// TODO Auto-generated method stub
 		return null;
 	}

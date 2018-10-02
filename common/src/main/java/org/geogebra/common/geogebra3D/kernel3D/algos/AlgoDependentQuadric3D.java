@@ -100,7 +100,8 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables();
+		input = equation.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 
 		setOnlyOutput(quadric);
 		setDependencies(); // done by AlgoElement

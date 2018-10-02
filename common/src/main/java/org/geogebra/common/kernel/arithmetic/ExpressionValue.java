@@ -133,7 +133,7 @@ public interface ExpressionValue {
 	/**
 	 * @return set of GeoElement variables
 	 */
-	public HashSet<GeoElement> getVariables();
+	public HashSet<GeoElement> getVariables(SymbolicMode mode);
 
 	@Override
 	@Deprecated

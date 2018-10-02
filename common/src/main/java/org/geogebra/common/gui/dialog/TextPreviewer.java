@@ -230,7 +230,8 @@ public abstract class TextPreviewer {
 			// eg just an x in the "empty box"
 			// (otherwise leads to NPE so
 			// cons.removeFromConstructionList(textAlgo); doesn't get called
-			if (((ExpressionNode) exp).getGeoElementVariables() == null) {
+			if (((ExpressionNode) exp).getGeoElementVariables(
+					kernel.isResolveUnkownVarsAsDummyGeos()) == null) {
 				// can't make an AlgoDependentText
 				return isLaTeX;
 			}

@@ -163,7 +163,9 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		kernel = f.getKernel();
 		FunctionVariable fvar = f.getFunctionVariable();
 
-		java.util.HashSet<GeoElement> hash = f.getVariables(); // Get a,b,c,...
+		java.util.HashSet<GeoElement> hash = f
+				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos()); // Get
+																		// a,b,c,...
 																// to array
 		if (hash == null) {
 			// throw (new Exception("No gliders/parameters in

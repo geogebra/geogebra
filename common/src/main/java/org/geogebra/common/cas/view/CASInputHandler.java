@@ -452,7 +452,8 @@ public class CASInputHandler {
 			// case it is not
 			if ("0".equals(casResult) || "false".equals(casResult)) {
 				ValidExpression ve = cellValue.getEvalVE();
-				HashSet<GeoElement> vars = ve.getVariables();
+				HashSet<GeoElement> vars = ve
+						.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
 				if (!vars.isEmpty()) {
 					Iterator<GeoElement> it = vars.iterator();
 					while (it.hasNext()) {
@@ -661,7 +662,8 @@ public class CASInputHandler {
 					String casResult = cas.getCurrentCAS()
 							.evaluateRaw(inputStr.toString());
 					HashSet<GeoElement> cellVars = selCellValue.getInputVE()
-							.getVariables();
+							.getVariables(
+									kernel.isResolveUnkownVarsAsDummyGeos());
 					Iterator<GeoElement> it = cellVars.iterator();
 					while (it.hasNext()) {
 						GeoElement curr = it.next();
@@ -669,7 +671,9 @@ public class CASInputHandler {
 						if (curr instanceof GeoCasCell) {
 							// we should use only the variables from output
 							HashSet<GeoElement> currCellVars = ((GeoCasCell) curr)
-									.getOutputValidExpression().getVariables();
+									.getOutputValidExpression()
+									.getVariables(kernel
+											.isResolveUnkownVarsAsDummyGeos());
 							Iterator<GeoElement> currIt = currCellVars
 									.iterator();
 							if (vars.isEmpty()) {

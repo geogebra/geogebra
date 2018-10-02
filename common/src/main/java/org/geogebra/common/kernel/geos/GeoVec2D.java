@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
@@ -1238,7 +1239,7 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		return null;
 	}
 

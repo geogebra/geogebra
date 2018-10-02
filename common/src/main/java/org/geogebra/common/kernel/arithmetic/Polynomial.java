@@ -544,11 +544,11 @@ public class Polynomial implements HasDebugString {
 		return coeff;
 	}
 
-	private HashSet<GeoElement> getVariables() {
+	private HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> temp, vars = new HashSet<>();
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
-			temp = i.next().getCoefficient().getVariables();
+			temp = i.next().getCoefficient().getVariables(mode);
 			if (temp != null) {
 				vars.addAll(temp);
 			}
@@ -560,7 +560,8 @@ public class Polynomial implements HasDebugString {
 	 * @return whether this depends on geos
 	 */
 	public boolean isConstant() {
-		HashSet<GeoElement> vars = getVariables();
+		HashSet<GeoElement> vars = getVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 		return (vars == null || vars.size() == 0);
 	}
 

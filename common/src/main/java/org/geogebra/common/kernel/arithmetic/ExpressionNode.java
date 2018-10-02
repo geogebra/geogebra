@@ -373,7 +373,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final private void simplifyAndEvalCommands(EvalInfo info) {
 		// don't evaluate any commands for the CAS here
-		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
+		if (kernel.isResolveUnkownVarsAsDummyGeos() == SymbolicMode.SYMBOLIC) {
 			return;
 		}
 
@@ -513,7 +513,8 @@ public class ExpressionNode extends ValidExpression
 	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue();
+			left = ((Variable) left).resolveAsExpressionValue(
+					kernel.isResolveUnkownVarsAsDummyGeos());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -528,7 +529,8 @@ public class ExpressionNode extends ValidExpression
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue();
+				right = ((Variable) right).resolveAsExpressionValue(
+						kernel.isResolveUnkownVarsAsDummyGeos());
 			} else {
 				right.resolveVariables(info);
 			}
@@ -1259,13 +1261,13 @@ public class ExpressionNode extends ValidExpression
 	 * Returns all GeoElement objects in the subtree
 	 */
 	@Override
-	final public HashSet<GeoElement> getVariables() {
+	final public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		if (leaf) {
-			return left.getVariables();
+			return left.getVariables(mode);
 		}
 
-		HashSet<GeoElement> leftVars = left.getVariables();
-		HashSet<GeoElement> rightVars = right.getVariables();
+		HashSet<GeoElement> leftVars = left.getVariables(mode);
+		HashSet<GeoElement> rightVars = right.getVariables(mode);
 		if (leftVars == null) {
 			return rightVars;
 		} else if (rightVars == null) {
@@ -1279,8 +1281,8 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @return GeoElement variables
 	 */
-	final public GeoElement[] getGeoElementVariables() {
-		HashSet<GeoElement> varset = getVariables();
+	final public GeoElement[] getGeoElementVariables(SymbolicMode mode) {
+		HashSet<GeoElement> varset = getVariables(mode);
 		if (varset == null) {
 			return null;
 		}
@@ -3293,13 +3295,15 @@ public class ExpressionNode extends ValidExpression
 			return null;
 		}
 		if (leaf) {
-			return left.getVariables();
+			return left.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
 		}
 		if (isConditional()) {
 			return new HashSet<>();
 		}
-		HashSet<GeoElement> leftVars = left.getVariables();
-		HashSet<GeoElement> rightVars = right.getVariables();
+		HashSet<GeoElement> leftVars = left
+				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+		HashSet<GeoElement> rightVars = right
+				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
 		if (leftVars == null) {
 			return rightVars;
 		} else if (rightVars == null) {

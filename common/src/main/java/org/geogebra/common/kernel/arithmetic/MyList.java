@@ -909,11 +909,11 @@ public class MyList extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> varSet = new HashSet<>();
 		int size = listElements.size();
 		for (int i = 0; i < size; i++) {
-			HashSet<GeoElement> s = listElements.get(i).getVariables();
+			HashSet<GeoElement> s = listElements.get(i).getVariables(mode);
 			if (s != null) {
 				varSet.addAll(s);
 			}

@@ -1906,7 +1906,8 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            definition
 	 */
 	protected void setInputFrom(ExpressionNode unwrap) {
-		input = unwrap.getGeoElementVariables();
+		input = unwrap.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 		if (input == null) {
 			input = new GeoElement[0];
 		}

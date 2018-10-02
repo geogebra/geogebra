@@ -91,7 +91,8 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables();
+		input = equation.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 
 		setOnlyOutput(p);
 		setDependencies(); // done by AlgoElement

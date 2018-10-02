@@ -121,8 +121,10 @@ public abstract class CASSubDialog {
 	 */
 	protected void initData(GeoCasCell cell) {
 		HashSet<GeoElement> vars = new HashSet<>();
-		if (cell.getInputVE().getVariables() != null) {
-			for (GeoElement var : cell.getInputVE().getVariables()) {
+		if (cell.getInputVE().getVariables(
+				cell.getKernel().isResolveUnkownVarsAsDummyGeos()) != null) {
+			for (GeoElement var : cell.getInputVE().getVariables(
+					cell.getKernel().isResolveUnkownVarsAsDummyGeos())) {
 				addVariables(var, vars);
 			}
 		}
@@ -176,7 +178,8 @@ public abstract class CASSubDialog {
 		if (var instanceof GeoCasCell) {
 			ValidExpression ve = ((GeoCasCell) var).getOutputValidExpression();
 			if (ve != null) {
-				vars.addAll(ve.getVariables());
+				vars.addAll(ve.getVariables(
+						var.getKernel().isResolveUnkownVarsAsDummyGeos()));
 			}
 		} else {
 			vars.add(var);

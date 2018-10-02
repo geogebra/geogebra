@@ -264,12 +264,12 @@ public class MyVecNode extends ValidExpression
 
 	/** returns all GeoElement objects in the both coordinate subtrees */
 	@Override
-	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> temp, varset = x.getVariables();
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+		HashSet<GeoElement> temp, varset = x.getVariables(mode);
 		if (varset == null) {
 			varset = new HashSet<>();
 		}
-		temp = y.getVariables();
+		temp = y.getVariables(mode);
 		if (temp != null) {
 			varset.addAll(temp);
 		}

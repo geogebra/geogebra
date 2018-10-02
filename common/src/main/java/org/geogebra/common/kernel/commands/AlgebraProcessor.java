@@ -2094,7 +2094,8 @@ public class AlgebraProcessor {
 		String label = fun.getLabel();
 		GeoFunction f;
 
-		GeoElement[] vars = fun.getGeoElementVariables();
+		GeoElement[] vars = fun.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 		boolean isIndependent = true;
 		for (int i = 0; vars != null && i < vars.length; i++) {
 			if (Inspecting.dynamicGeosFinder.check(vars[i])) {
@@ -2417,7 +2418,8 @@ public class AlgebraProcessor {
 		String label = fun.getLabel();
 		GeoFunctionNVar gf;
 
-		GeoElement[] vars = fun.getGeoElementVariables();
+		GeoElement[] vars = fun.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 		boolean isIndependent = (vars == null || vars.length == 0);
 
 		if (isIndependent) {

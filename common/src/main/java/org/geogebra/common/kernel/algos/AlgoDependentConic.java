@@ -91,7 +91,8 @@ public class AlgoDependentConic extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables();
+		input = equation.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 
 		super.setOutputLength(1);
 		super.setOutput(0, conic);

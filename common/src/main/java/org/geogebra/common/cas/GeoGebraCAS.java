@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
@@ -281,13 +282,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	@Override
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
-			StringTemplate tpl) {
-		return getCASCommand(name, args, symbolic, tpl, true);
+			StringTemplate tpl, SymbolicMode mode) {
+		return getCASCommand(name, args, symbolic, tpl, true, mode);
 	}
 
 	final synchronized private String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
-			StringTemplate tpl, boolean allowOutsourcing) {
+			StringTemplate tpl, boolean allowOutsourcing,
+			SymbolicMode symbolicMode) {
 		StringBuilder sbCASCommand = new StringBuilder(80);
 
 		// build command key as name + ".N"
@@ -354,7 +356,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			for (int i = 0; i < listOfEqus.size(); i++) {
 				// get variables of current equation
 				HashSet<GeoElement> varsInCurrEqu = listOfEqus.getListElement(i)
-						.getVariables();
+						.getVariables(symbolicMode);
 				// add to set of vars form equations
 				for (GeoElement geo : varsInCurrEqu) {
 					varsInEqus
@@ -393,7 +395,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						.geoCeListLookup(str);
 				// get variables of obtained equation
 				HashSet<GeoElement> varsFromEquOfCurrVars = node == null
-						? new HashSet<GeoElement>() : node.getVariables();
+						? new HashSet<GeoElement>()
+						: node.getVariables(symbolicMode);
 				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<>(
 						varsFromEquOfCurrVars.size());
 				// collect labels of variables from obtained equation
@@ -490,7 +493,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				for (int k = 0; k < listOfEqus.size(); k++) {
 					// get current equation
 					HashSet<GeoElement> varsInEqu = listOfEqus.getListElement(k)
-							.getVariables();
+							.getVariables(symbolicMode);
 					Iterator<GeoElement> it = varsInEqu.iterator();
 					boolean contains = false;
 					// check if current equation contains only var which is not
@@ -766,12 +769,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						.singularWSdirectCommand(sbCASCommand.toString());
 				if (retval == null || "".equals(retval)) {
 					// if there was a problem, try again without using Singular:
-					return getCASCommand(name, args, symbolic, tpl, false);
+					return getCASCommand(name, args, symbolic, tpl, false,
+							symbolicMode);
 				}
 				return retval;
 			} catch (Throwable e) {
 				// try again without Singular:
-				return getCASCommand(name, args, symbolic, tpl, false);
+				return getCASCommand(name, args, symbolic, tpl, false,
+						symbolicMode);
 			}
 		}
 
@@ -895,7 +900,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				.getLeft() instanceof Equation) {
 			Equation equation = (Equation) ((ExpressionNode) listElement)
 					.getLeft();
-			HashSet<GeoElement> vars = equation.getVariables();
+			HashSet<GeoElement> vars = equation
+					.getVariables(((ExpressionNode) listElement).getKernel()
+							.isResolveUnkownVarsAsDummyGeos());
 			equation.initEquation();
 			// assume can accept only equation in first degree and with one
 			// variable
@@ -937,11 +944,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// TODO Auto-generated method stub
 		boolean contains = true;
 		// fix for GGB-134
-		boolean oldFlag = listOfVars.getKernel()
+		SymbolicMode oldFlag = listOfVars.getKernel()
 				.isResolveUnkownVarsAsDummyGeos();
-		listOfVars.getKernel().setResolveUnkownVarsAsDummyGeos(true);
-		HashSet<GeoElement> varsInEqu = listElement.getVariables();
-		listOfVars.getKernel().setResolveUnkownVarsAsDummyGeos(oldFlag);
+		listOfVars.getKernel()
+				.setSymbolicMode(SymbolicMode.SYMBOLIC);
+		HashSet<GeoElement> varsInEqu = listElement
+				.getVariables(SymbolicMode.SYMBOLIC);
+		listOfVars.getKernel().setSymbolicMode(oldFlag);
 		if (varsInEqu != null) {
 			contains = false;
 			Iterator<GeoElement> it = varsInEqu.iterator();

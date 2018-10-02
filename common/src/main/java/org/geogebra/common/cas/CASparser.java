@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
@@ -150,9 +151,9 @@ public class CASparser implements CASParserInterface {
 			}
 		}
 		// resolve variables of valid expression
-		kernel.setResolveUnkownVarsAsDummyGeos(true);
+		kernel.setSymbolicMode(SymbolicMode.SYMBOLIC);
 		ev.resolveVariables(new EvalInfo(false));
-		kernel.setResolveUnkownVarsAsDummyGeos(false);
+		kernel.setSymbolicMode(SymbolicMode.NONE);
 
 		Set<String> nonFunctions = new TreeSet<>();
 		NonFunctionCollector c = NonFunctionCollector

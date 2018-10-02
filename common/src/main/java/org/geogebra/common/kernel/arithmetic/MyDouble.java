@@ -934,7 +934,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	final public HashSet<GeoElement> getVariables() {
+	final public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		return null;
 	}
 

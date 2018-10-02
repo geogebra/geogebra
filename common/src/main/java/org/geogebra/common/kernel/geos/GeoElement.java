@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -3846,7 +3847,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * final flag, it will break the update mechanism.
 	 */
 	@Override
-	public final HashSet<GeoElement> getVariables() {
+	public final HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		final HashSet<GeoElement> ret = new HashSet<>();
 		ret.add(this);
 		return ret;
@@ -7021,7 +7022,8 @@ public abstract class GeoElement extends ConstructionElement
 
 		GeoText ret;
 
-		if (node.getGeoElementVariables() == null) {
+		if (node.getGeoElementVariables(
+				kernel.isResolveUnkownVarsAsDummyGeos()) == null) {
 			// no variables in expression node : compute only once
 			ret = new GeoText(cons);
 			AlgoDependentText.nodeToGeoText(node, ret, ret.getStringTemplate());

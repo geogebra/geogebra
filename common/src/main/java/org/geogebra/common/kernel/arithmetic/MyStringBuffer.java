@@ -101,7 +101,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		return null;
 	}
 

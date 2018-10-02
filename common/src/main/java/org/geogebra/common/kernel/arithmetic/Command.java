@@ -246,7 +246,7 @@ public class Command extends ValidExpression
 		switch (tpl.getStringType()) {
 		case GIAC:
 			return (kernel.getGeoGebraCAS()).getCASCommand(name, args, symbolic,
-					tpl);
+					tpl, kernel.isResolveUnkownVarsAsDummyGeos());
 		case LATEX:
 			if (sbToString == null) {
 				sbToString = new StringBuilder();
@@ -254,7 +254,8 @@ public class Command extends ValidExpression
 			sbToString.setLength(0);
 			if ("Integral".equals(name)) {
 				sbToString.append("\\int");
-				Set<GeoElement> vars = getArgument(0).getVariables();
+				Set<GeoElement> vars = getArgument(0)
+						.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
 				String var = "x";
 				if (vars != null && !vars.isEmpty()) {
 					Iterator<GeoElement> ite = vars.iterator();
@@ -487,7 +488,7 @@ public class Command extends ValidExpression
 		// while command processing (see evaluate())
 
 		// CAS parsing case: we need to resolve arguments also
-		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
+		if (kernel.isResolveUnkownVarsAsDummyGeos() == SymbolicMode.SYMBOLIC) {
 			for (int i = 0; i < args.size(); i++) {
 				args.get(i).resolveVariables(info);
 			}
@@ -657,11 +658,11 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> set = new HashSet<>();
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
-			Set<GeoElement> s = args.get(i).getVariables();
+			Set<GeoElement> s = args.get(i).getVariables(mode);
 			if (s != null) {
 				set.addAll(s);
 			}

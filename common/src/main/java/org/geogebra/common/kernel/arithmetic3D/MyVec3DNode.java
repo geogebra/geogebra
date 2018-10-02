@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -275,16 +276,16 @@ public class MyVec3DNode extends ValidExpression
 
 	/** returns all GeoElement objects in the both coordinate subtrees */
 	@Override
-	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> temp, varset = x.getVariables();
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+		HashSet<GeoElement> temp, varset = x.getVariables(mode);
 		if (varset == null) {
 			varset = new HashSet<>();
 		}
-		temp = y.getVariables();
+		temp = y.getVariables(mode);
 		if (temp != null) {
 			varset.addAll(temp);
 		}
-		temp = z.getVariables();
+		temp = z.getVariables(mode);
 		if (temp != null) {
 			varset.addAll(temp);
 		}

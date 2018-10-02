@@ -6,6 +6,7 @@ import java.util.Set;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 
@@ -142,7 +143,7 @@ public interface GeoGebraCasInterface {
 	 */
 	public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, final boolean symbolic,
-			StringTemplate tpl);
+			StringTemplate tpl, SymbolicMode mode);
 
 	/**
 	 * Returns the internal names of all the commands available in the current

@@ -680,7 +680,8 @@ public class ParametricProcessor {
 			}
 			// check that variables in right branch are all independent to avoid
 			// circular definitions
-			HashSet<GeoElement> rightVars = en.getRight().getVariables();
+			HashSet<GeoElement> rightVars = en.getRight()
+					.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
 			if (rightVars != null) {
 				Iterator<GeoElement> it = rightVars.iterator();
 				while (it.hasNext()) {

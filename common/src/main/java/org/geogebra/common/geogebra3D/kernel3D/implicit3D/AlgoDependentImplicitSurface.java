@@ -62,7 +62,8 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	@Override
 	protected void setInputOutput() {
 		if (input == null) {
-			input = equation.getGeoElementVariables();
+			input = equation.getGeoElementVariables(
+					kernel.isResolveUnkownVarsAsDummyGeos());
 		}
 
 		if (getOutputLength() == 0) {

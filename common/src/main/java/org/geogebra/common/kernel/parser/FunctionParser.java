@@ -158,7 +158,8 @@ public class FunctionParser {
 		// create variable object for label to make sure
 		// to handle lables like $A$1 correctly and keep the expression
 		Variable geoVar = new Variable(kernel, label);
-		ExpressionValue geoExp = geoVar.resolveAsExpressionValue();
+		ExpressionValue geoExp = geoVar.resolveAsExpressionValue(
+				kernel.isResolveUnkownVarsAsDummyGeos());
 
 		// numer of arguments
 

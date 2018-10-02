@@ -923,7 +923,8 @@ public class GeoCasCell extends GeoElement
 						.add(fv.toString(StringTemplate.defaultTemplate));
 			}
 		}
-		HashSet<GeoElement> geoVars = ve.getVariables();
+		HashSet<GeoElement> geoVars = ve
+				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
 		if (geoVars != null) {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
@@ -995,7 +996,8 @@ public class GeoCasCell extends GeoElement
 						.toString(StringTemplate.defaultTemplate);
 			}
 
-			Iterator<GeoElement> it = cmd.getArgument(0).getVariables()
+			Iterator<GeoElement> it = cmd.getArgument(0)
+					.getVariables(kernel.isResolveUnkownVarsAsDummyGeos())
 					.iterator();
 			while (it.hasNext()) {
 				GeoElement em = it.next();

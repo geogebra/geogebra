@@ -104,7 +104,7 @@ public class MyBoolean extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		return null;
 	}
 

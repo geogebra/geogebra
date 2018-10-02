@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
@@ -304,7 +305,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private boolean wantAnimationStarted = false;
 
 	// setResolveUnkownVarsAsDummyGeos
-	private boolean resolveUnkownVarsAsDummyGeos = false;
+	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 
 	private boolean updateEVAgain = false; // used for DrawEquationWeb and
 											// DrawText in GGW
@@ -2873,12 +2874,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets whether unknown variables should be resolved as GeoDummyVariable
 	 * objects.
 	 * 
-	 * @param resolveUnkownVarsAsDummyGeos
+	 * @param symbolicMode
 	 *            whether to resolve vars as dummies
 	 */
-	public final void setResolveUnkownVarsAsDummyGeos(
-			boolean resolveUnkownVarsAsDummyGeos) {
-		this.resolveUnkownVarsAsDummyGeos = resolveUnkownVarsAsDummyGeos;
+	public final void setSymbolicMode(SymbolicMode symbolicMode) {
+		this.symbolicMode = symbolicMode;
 	}
 
 	/**
@@ -2887,8 +2887,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @see #setSilentMode(boolean)
 	 */
-	public final boolean isResolveUnkownVarsAsDummyGeos() {
-		return resolveUnkownVarsAsDummyGeos;
+	public final SymbolicMode isResolveUnkownVarsAsDummyGeos() {
+		return symbolicMode;
 	}
 
 	/**
@@ -3504,10 +3504,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return GeoElement with given label
 	 */
 	final public GeoElement lookupLabel(String label, boolean autoCreate,
-			boolean useDummies) {
+			SymbolicMode useDummies) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 
-		if ((geo == null) && useDummies) {
+		if ((geo == null) && useDummies == SymbolicMode.SYMBOLIC) {
 			// lookup CAS variables too
 			geo = lookupCasCellLabel(label);
 

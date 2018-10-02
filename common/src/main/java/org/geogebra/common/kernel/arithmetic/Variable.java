@@ -84,8 +84,9 @@ public class Variable extends ValidExpression {
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object.
 	 */
-	private GeoElement resolve(boolean throwError) {
-		return resolve(!kernel.isResolveUnkownVarsAsDummyGeos(), throwError);
+	private GeoElement resolve(boolean throwError, SymbolicMode mode) {
+		return resolve(
+				mode == SymbolicMode.NONE, throwError, mode);
 	}
 
 	/**
@@ -100,9 +101,9 @@ public class Variable extends ValidExpression {
 	 * @return GeoElement with same label
 	 */
 	protected GeoElement resolve(boolean allowAutoCreateGeoElement,
-			boolean throwError) {
+			boolean throwError, SymbolicMode mode) {
 		// keep bound CAS variables when resolving a CAS expression
-		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
+		if (mode == SymbolicMode.SYMBOLIC) {
 			// resolve unknown variable as dummy geo to keep its name and
 			// avoid an "unknown variable" error message
 			return new GeoDummyVariable(kernel.getConstruction(), name);
@@ -111,7 +112,7 @@ public class Variable extends ValidExpression {
 		// lookup variable name, create missing variables automatically if
 		// allowed
 		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement,
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				mode);
 		if (geo != null || !throwError) {
 			return geo;
 		}
@@ -130,14 +131,14 @@ public class Variable extends ValidExpression {
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */
-	final public ExpressionValue resolveAsExpressionValue() {
-		GeoElement geo = resolve(false);
+	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode) {
+		GeoElement geo = resolve(false, mode);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
 			}
 			ExpressionValue ret = replacement(kernel, name);
-			return ret instanceof Variable ? resolve(true) : ret;
+			return ret instanceof Variable ? resolve(true, mode) : ret;
 		}
 
 		// spreadsheet dollar sign reference
@@ -362,9 +363,9 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> ret = new HashSet<>();
-		ret.add(resolve(true));
+		ret.add(resolve(true, mode));
 		return ret;
 	}
 
@@ -417,7 +418,7 @@ public class Variable extends ValidExpression {
 
 	@Override
 	public boolean hasCoords() {
-		GeoElement ge = kernel.lookupLabel(name, false, true);
+		GeoElement ge = kernel.lookupLabel(name, false, SymbolicMode.NONE);
 		if (ge != null && !(ge instanceof GeoDummyVariable)) {
 			return ge.hasCoords();
 		}

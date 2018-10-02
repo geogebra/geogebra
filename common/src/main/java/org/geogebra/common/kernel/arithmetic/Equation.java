@@ -253,7 +253,9 @@ public class Equation extends ValidExpression implements EquationValue {
 			// avoid auto creation of GeoElement when lhs is a single variable
 			// e.g. A4 = x^2
 			Variable leftVar = (Variable) lhs.getLeft();
-			lhs.setLeft(leftVar.resolve(false, true)); // don't allow auto
+			lhs.setLeft(leftVar.resolve(false, true,
+					kernel.isResolveUnkownVarsAsDummyGeos())); // don't allow
+																// auto
 														// creation of variables
 		} else {
 			// standard case for lhs
@@ -351,12 +353,14 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	/**
+	 * @param mode
+	 *            symbolic mode
 	 * @return GeoElement variables
 	 */
-	final public GeoElement[] getGeoElementVariables() {
+	final public GeoElement[] getGeoElementVariables(SymbolicMode mode) {
 		Set<GeoElement> varSet;
-		Set<GeoElement> leftVars = lhs.getVariables();
-		Set<GeoElement> rightVars = rhs.getVariables();
+		Set<GeoElement> leftVars = lhs.getVariables(mode);
+		Set<GeoElement> rightVars = rhs.getVariables(mode);
 		if (leftVars == null) {
 			varSet = rightVars;
 		} else if (rightVars == null) {
@@ -446,9 +450,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> leftVars = lhs.getVariables();
-		HashSet<GeoElement> rightVars = rhs.getVariables();
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+		HashSet<GeoElement> leftVars = lhs.getVariables(mode);
+		HashSet<GeoElement> rightVars = rhs.getVariables(mode);
 		if (leftVars == null) {
 			return rightVars;
 		} else if (rightVars == null) {

@@ -508,16 +508,16 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables() {
-		return expression.getVariables();
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+		return expression.getVariables(mode);
 	}
 
 	/**
 	 * 
 	 * @return GeoElements acting as variables
 	 */
-	public final GeoElement[] getGeoElementVariables() {
-		return expression.getGeoElementVariables();
+	public final GeoElement[] getGeoElementVariables(SymbolicMode mode) {
+		return expression.getGeoElementVariables(mode);
 	}
 
 	@Override
