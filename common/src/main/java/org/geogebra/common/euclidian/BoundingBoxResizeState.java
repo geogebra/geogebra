@@ -15,6 +15,8 @@ public class BoundingBoxResizeState {
 	private GRectangle2D rect;
 	private double[][] ratios;
 	private double widthHeightRatio = 1;
+	private int widthThreshold = BoundingBox.SIDE_THRESHOLD;
+	private int heightThreshold = BoundingBox.SIDE_THRESHOLD;
 
 	/**
 	 * @param rect
@@ -33,6 +35,14 @@ public class BoundingBoxResizeState {
 			widthHeightRatio = rect.getWidth() / rect.getHeight();
 			for (int i = 0; i < geos.size(); i++) {
 				Drawable dr = (Drawable) view.getDrawableFor(geos.get(i));
+				// check and update thresholds
+				if (dr.getWidthThreshold() > widthThreshold) {
+					widthThreshold = dr.getWidthThreshold();
+				}
+				if (dr.getHeightThreshold() > heightThreshold) {
+					heightThreshold = dr.getHeightThreshold();
+				}
+				// calculate the min/max coordinates
 				GRectangle2D bounds = dr.getBoundingBox() != null
 						? dr.getBoundingBox().getRectangle()
 						: dr.getBounds();
@@ -71,5 +81,19 @@ public class BoundingBoxResizeState {
 	 */
 	public double getWidthHeightRatio() {
 		return this.widthHeightRatio;
+	}
+
+	/**
+	 * @return minimum width of the bounding box based on the selected elements
+	 */
+	public int getWidthThreshold() {
+		return widthThreshold;
+	}
+
+	/**
+	 * @return minimum height of the bounding box based on the selected elements
+	 */
+	public int getHeightThreshold() {
+		return heightThreshold;
 	}
 }
