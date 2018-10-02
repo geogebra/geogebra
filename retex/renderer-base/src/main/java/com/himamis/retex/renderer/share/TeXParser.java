@@ -1092,7 +1092,7 @@ public class TeXParser {
 	}
 
 	public void eatWhite() {
-		if (parseString.charAt(pos) == ' ') {
+		if (pos < parseString.length() && parseString.charAt(pos) == ' ') {
 			++pos;
 		}
 	}
