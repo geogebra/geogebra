@@ -290,8 +290,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	private static native boolean isChromeWebapp() /*-{
 		// check if the app is running in chrome and is installed (has an id)
-		// the function is defined in app.html
-		return $doc.isChromeWebapp();
+		// the function is defined in app.html (but not for applets)
+		return $doc.isChromeWebapp && $doc.isChromeWebapp();
 	}-*/;
 
 	private static native String getSystemClipboardChromeWebapp() /*-{
