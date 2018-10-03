@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -681,7 +682,7 @@ public class ParametricProcessor {
 			// check that variables in right branch are all independent to avoid
 			// circular definitions
 			HashSet<GeoElement> rightVars = en.getRight()
-					.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+					.getVariables(SymbolicMode.NONE);
 			if (rightVars != null) {
 				Iterator<GeoElement> it = rightVars.iterator();
 				while (it.hasNext()) {

@@ -18,6 +18,7 @@ import java.util.Iterator;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -557,11 +558,13 @@ public class Polynomial implements HasDebugString {
 	}
 
 	/**
+	 * @param info
+	 *            flag for symbolic vars
 	 * @return whether this depends on geos
 	 */
-	public boolean isConstant() {
+	public boolean isConstant(EvalInfo info) {
 		HashSet<GeoElement> vars = getVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				info.getSymbolicMode());
 		return (vars == null || vars.size() == 0);
 	}
 

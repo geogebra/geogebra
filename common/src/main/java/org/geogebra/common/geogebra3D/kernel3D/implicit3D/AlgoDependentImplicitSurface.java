@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -63,7 +64,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	protected void setInputOutput() {
 		if (input == null) {
 			input = equation.getGeoElementVariables(
-					kernel.isResolveUnkownVarsAsDummyGeos());
+					SymbolicMode.NONE);
 		}
 
 		if (getOutputLength() == 0) {

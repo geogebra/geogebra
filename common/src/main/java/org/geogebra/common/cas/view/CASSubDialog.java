@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -122,9 +123,9 @@ public abstract class CASSubDialog {
 	protected void initData(GeoCasCell cell) {
 		HashSet<GeoElement> vars = new HashSet<>();
 		if (cell.getInputVE().getVariables(
-				cell.getKernel().isResolveUnkownVarsAsDummyGeos()) != null) {
+				SymbolicMode.NONE) != null) {
 			for (GeoElement var : cell.getInputVE().getVariables(
-					cell.getKernel().isResolveUnkownVarsAsDummyGeos())) {
+					SymbolicMode.NONE)) {
 				addVariables(var, vars);
 			}
 		}
@@ -178,8 +179,7 @@ public abstract class CASSubDialog {
 		if (var instanceof GeoCasCell) {
 			ValidExpression ve = ((GeoCasCell) var).getOutputValidExpression();
 			if (ve != null) {
-				vars.addAll(ve.getVariables(
-						var.getKernel().isResolveUnkownVarsAsDummyGeos()));
+				vars.addAll(ve.getVariables(SymbolicMode.NONE));
 			}
 		} else {
 			vars.add(var);

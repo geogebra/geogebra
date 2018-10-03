@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
@@ -92,7 +93,7 @@ public class AlgoDependentConic extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = equation.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				SymbolicMode.NONE);
 
 		super.setOutputLength(1);
 		super.setOutput(0, conic);

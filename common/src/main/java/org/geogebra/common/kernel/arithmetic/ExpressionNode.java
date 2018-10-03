@@ -373,7 +373,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final private void simplifyAndEvalCommands(EvalInfo info) {
 		// don't evaluate any commands for the CAS here
-		if (kernel.isResolveUnkownVarsAsDummyGeos() == SymbolicMode.SYMBOLIC) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC) {
 			return;
 		}
 
@@ -514,7 +514,7 @@ public class ExpressionNode extends ValidExpression
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue(
-					kernel.isResolveUnkownVarsAsDummyGeos());
+					info.getSymbolicMode());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -3295,15 +3295,15 @@ public class ExpressionNode extends ValidExpression
 			return null;
 		}
 		if (leaf) {
-			return left.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+			return left.getVariables(SymbolicMode.NONE);
 		}
 		if (isConditional()) {
 			return new HashSet<>();
 		}
 		HashSet<GeoElement> leftVars = left
-				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+				.getVariables(SymbolicMode.NONE);
 		HashSet<GeoElement> rightVars = right
-				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+				.getVariables(SymbolicMode.NONE);
 		if (leftVars == null) {
 			return rightVars;
 		} else if (rightVars == null) {

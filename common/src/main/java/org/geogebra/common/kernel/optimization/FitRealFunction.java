@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
  http://www.geogebra.org
@@ -164,7 +165,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		FunctionVariable fvar = f.getFunctionVariable();
 
 		java.util.HashSet<GeoElement> hash = f
-				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos()); // Get
+				.getVariables(SymbolicMode.NONE); // Get
 																		// a,b,c,...
 																// to array
 		if (hash == null) {

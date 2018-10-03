@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 
 /**
  *
@@ -101,7 +102,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	@Override
 	protected void setInputOutput() {
 		input = equation.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				SymbolicMode.NONE);
 
 		setOnlyOutput(quadric);
 		setDependencies(); // done by AlgoElement

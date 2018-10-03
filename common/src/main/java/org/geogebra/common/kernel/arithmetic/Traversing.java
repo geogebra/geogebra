@@ -840,7 +840,7 @@ public interface Traversing {
 		private void replaceVar(Variable v, GeoClass geoClass) {
 			String name = v.getName(StringTemplate.defaultTemplate);
 			ExpressionValue replace = kernel.lookupLabel(name, true,
-					kernel.isResolveUnkownVarsAsDummyGeos());
+					SymbolicMode.NONE);
 			if (replace == null) {
 				replace = Variable.replacement(kernel, name);
 			}

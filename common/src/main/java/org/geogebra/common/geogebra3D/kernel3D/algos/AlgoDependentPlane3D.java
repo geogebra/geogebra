@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -92,7 +93,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 	@Override
 	protected void setInputOutput() {
 		input = equation.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				SymbolicMode.NONE);
 
 		setOnlyOutput(p);
 		setDependencies(); // done by AlgoElement

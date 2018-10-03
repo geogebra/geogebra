@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+
 /**
  * Flags and auxiliary information used for evaluation of an expression
  */
@@ -18,6 +20,7 @@ public class EvalInfo {
 	private boolean fractions = false;
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
+	private SymbolicMode symbolicMode;
 
 	/**
 	 * @param labelOut
@@ -264,6 +267,19 @@ public class EvalInfo {
 	 */
 	public boolean updateRandom() {
 		return updateRandom;
+	}
+
+	public EvalInfo withSymbolicMode(SymbolicMode symbolic) {
+		if (symbolicMode == symbolic) {
+			return this;
+		}
+		EvalInfo copy = copy();
+		copy.symbolicMode = symbolic;
+		return copy;
+	}
+
+	public SymbolicMode getSymbolicMode() {
+		return symbolicMode;
 	}
 
 }

@@ -180,7 +180,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 
-		boolean isIndependent = lhs.isConstant();
+		boolean isIndependent = lhs.isConstant(info);
 
 		if (isIndependent) {
 			xx = lhs.getCoeffValue("xx");
@@ -224,7 +224,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 
-		boolean isIndependent = lhs.isConstant();
+		boolean isIndependent = lhs.isConstant(info);
 
 		if (isIndependent) {
 			// get coefficients
@@ -258,7 +258,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		if (app.has(Feature.IMPLICIT_SURFACES) || equ.isForcedQuadric() || equ.isForcedPlane()) {
 			Polynomial lhs = equ.getNormalForm();
 			boolean isIndependent = !equ.isFunctionDependent()
-					&& lhs.isConstant() && !equ.hasVariableDegree();
+					&& lhs.isConstant(info) && !equ.hasVariableDegree();
 
 			if (kernel.getApplication().getActiveEuclidianView()
 					.isEuclidianView3D() || equ.isForcedSurface()

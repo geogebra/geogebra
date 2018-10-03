@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -231,7 +232,7 @@ public abstract class TextPreviewer {
 			// (otherwise leads to NPE so
 			// cons.removeFromConstructionList(textAlgo); doesn't get called
 			if (((ExpressionNode) exp).getGeoElementVariables(
-					kernel.isResolveUnkownVarsAsDummyGeos()) == null) {
+					SymbolicMode.NONE) == null) {
 				// can't make an AlgoDependentText
 				return isLaTeX;
 			}

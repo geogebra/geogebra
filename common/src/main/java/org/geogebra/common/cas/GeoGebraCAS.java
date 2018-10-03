@@ -458,7 +458,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					boolean linear = false;
 					// check if equation can be used with assume
 					if (!contains) {
-						linear = isLinear(listOfEqus.getListElement(k));
+						linear = isLinear(listOfEqus.getListElement(k),
+								symbolicMode);
 					}
 
 					// if contains other vars as parameters
@@ -510,7 +511,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					boolean linear = false;
 					// check if we could use equation with assume
 					if (!contains) {
-						linear = isLinear(listOfEqus.getItem(k));
+						linear = isLinear(listOfEqus.getItem(k), symbolicMode);
 					}
 					// the current equation is an assumption
 					if (!contains && linear) {
@@ -895,14 +896,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return translation;
 	}
 
-	private static boolean isLinear(ExpressionValue listElement) {
+	private static boolean isLinear(ExpressionValue listElement,
+			SymbolicMode mode) {
 		if (listElement.isExpressionNode() && ((ExpressionNode) listElement)
 				.getLeft() instanceof Equation) {
 			Equation equation = (Equation) ((ExpressionNode) listElement)
 					.getLeft();
 			HashSet<GeoElement> vars = equation
-					.getVariables(((ExpressionNode) listElement).getKernel()
-							.isResolveUnkownVarsAsDummyGeos());
+					.getVariables(mode);
 			equation.initEquation();
 			// assume can accept only equation in first degree and with one
 			// variable
@@ -936,12 +937,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 		return false;
-
 	}
 
 	private static boolean isEquation(ExpressionValue listElement,
 			MyList listOfVars) {
-		// TODO Auto-generated method stub
 		boolean contains = true;
 		// fix for GGB-134
 		SymbolicMode oldFlag = listOfVars.getKernel()

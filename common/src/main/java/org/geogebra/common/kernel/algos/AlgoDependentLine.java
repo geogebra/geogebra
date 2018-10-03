@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
@@ -95,7 +96,7 @@ public class AlgoDependentLine extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = equation.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				SymbolicMode.NONE);
 
 		setOutputLength(1);
 		setOutput(0, g);

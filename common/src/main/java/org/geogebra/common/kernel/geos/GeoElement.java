@@ -7022,8 +7022,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		GeoText ret;
 
-		if (node.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos()) == null) {
+		if (node.getGeoElementVariables(SymbolicMode.NONE) == null) {
 			// no variables in expression node : compute only once
 			ret = new GeoText(cons);
 			AlgoDependentText.nodeToGeoText(node, ret, ret.getStringTemplate());

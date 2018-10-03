@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplace
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandRemover;
@@ -997,8 +998,7 @@ public class GeoCasCell extends GeoElement
 			}
 
 			Iterator<GeoElement> it = cmd.getArgument(0)
-					.getVariables(kernel.isResolveUnkownVarsAsDummyGeos())
-					.iterator();
+					.getVariables(SymbolicMode.NONE).iterator();
 			while (it.hasNext()) {
 				GeoElement em = it.next();
 				if (kernel.lookupLabel(

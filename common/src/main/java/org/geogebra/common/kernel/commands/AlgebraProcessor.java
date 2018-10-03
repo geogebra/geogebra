@@ -2095,7 +2095,7 @@ public class AlgebraProcessor {
 		GeoFunction f;
 
 		GeoElement[] vars = fun.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				info.getSymbolicMode());
 		boolean isIndependent = true;
 		for (int i = 0; vars != null && i < vars.length; i++) {
 			if (Inspecting.dynamicGeosFinder.check(vars[i])) {
@@ -2419,7 +2419,7 @@ public class AlgebraProcessor {
 		GeoFunctionNVar gf;
 
 		GeoElement[] vars = fun.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+				info.getSymbolicMode());
 		boolean isIndependent = (vars == null || vars.length == 0);
 
 		if (isIndependent) {
@@ -2677,7 +2677,7 @@ public class AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isExplicit = equ.isExplicit("y");
-		boolean isIndependent = lhs.isConstant();
+		boolean isIndependent = lhs.isConstant(info);
 		if (isIndependent) {
 			// get coefficients
 			a = lhs.getCoeffValue("x");
@@ -2750,7 +2750,7 @@ public class AlgebraProcessor {
 		boolean isExplicit = equ.isExplicit("y");
 		boolean isSpecific = !isExplicit
 				&& (equ.isExplicit("yy") || equ.isExplicit("xx"));
-		boolean isIndependent = lhs.isConstant();
+		boolean isIndependent = lhs.isConstant(info);
 
 		if (isIndependent) {
 			a = lhs.getCoeffValue("xx");
@@ -2802,7 +2802,8 @@ public class AlgebraProcessor {
 			ExpressionNode definition, EvalInfo info) {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
-		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
+		boolean isIndependent = !equ.isFunctionDependent()
+				&& lhs.isConstant(info)
 				&& !equ.hasVariableDegree()
 				&& (equ.isPolynomial() || !equ.inspect(Inspecting.dynamicGeosFinder));
 		GeoImplicit poly;
