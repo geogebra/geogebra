@@ -95,7 +95,25 @@ namespace giac {
     bool save_complex_mode=complex_mode(contextptr);
     complex_mode(true,contextptr);
     gen res=subst(e,x,newx,false,contextptr);
-    res=eval(res,1,contextptr);
+    // avoid rewrite of fractional powers
+    vecteur v=lop(newx,at_pow);
+    int i=0;
+    for (;i<v.size();++i){
+      gen tmp=v[i];
+      if (tmp.is_symb_of_sommet(at_pow)){
+	tmp=tmp._SYMBptr->feuille;
+	if (tmp.type==_VECT && tmp._VECTptr->size()==2){
+	  tmp=tmp._VECTptr->back();
+	  if (tmp.type==_FRAC && tmp._FRACptr->den.type==_INT_ ){
+	    tmp=tmp._FRACptr->den;
+	    if (tmp.val % 2==1)
+	      break;
+	  }
+	}
+      }
+    }				 
+    if (i==v.size()) 
+      res=eval(res,1,contextptr);
     complex_mode(save_complex_mode,contextptr);
     return res;
   }
