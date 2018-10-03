@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.inputbar;
 
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -75,8 +77,14 @@ public final class WarningErrorHandler implements ErrorHandler {
 		return input.getCommand();
 	}
 
-	public static String getUndefinedValiables() {
-		return undefinedVariables;
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return undefined vars or null in symbolic mode
+	 */
+	public static String getUndefinedValiables(Kernel kernel) {
+		return kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC ? null
+				: undefinedVariables;
 	}
 
 	public static void setUndefinedValiables(String undefinedValiables) {

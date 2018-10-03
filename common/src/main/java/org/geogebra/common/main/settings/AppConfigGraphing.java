@@ -114,4 +114,9 @@ public class AppConfigGraphing implements AppConfig {
 	public char[] getAngleLabels() {
 		return LabelType.greekLowerCaseLabels;
 	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return false;
+	}
 }

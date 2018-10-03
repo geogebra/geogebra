@@ -43,7 +43,8 @@ public class AppConfigDefault implements AppConfig {
 	 */
 	public static boolean isUnbundledOrNotes(String appName) {
 		return "graphing".equals(appName) || "geometry".equals(appName)
-				|| "notes".equals(appName) || "3d".equals(appName);
+				|| "cas".equals(appName) || "notes".equals(appName)
+				|| "3d".equals(appName) || "scientific".equals(appName);
 	}
 
 	@Override
@@ -104,5 +105,9 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public char[] getAngleLabels() {
 		return LabelType.greekLowerCaseLabels;
+	}
+
+	public boolean isCASEnabled() {
+		return true;
 	}
 }

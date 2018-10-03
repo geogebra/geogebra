@@ -1988,7 +1988,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void enableCAS(boolean enable) {
 		if (!app.isUnbundled()) {
-			app.getSettings().getCasSettings().setEnabled(enable);
+			app.enableCAS(enable);
 		}
 	}
 

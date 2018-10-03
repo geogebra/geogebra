@@ -25,4 +25,9 @@ public class AppConfigCas extends AppConfigGraphing {
         return "";
     }
 
+	@Override
+	public boolean isCASEnabled() {
+		return true;
+	}
+
 }

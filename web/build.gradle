@@ -69,6 +69,14 @@ dependencies {
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
+ext.appSpecs = [[id:'classic', title:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
+	[id:'graphing', title:'Graphing Calculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico'],
+	[id:'3d', title:'3D Graphing Calculator'],
+	[id:'cas', title:'CAS Calculator'],
+	[id:'scientific', title:'Scientific Calculator'],
+	[id:'geometry', title:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
+	[id:'notes', title:'Notes', exe:'MebisNotes', pkg:'Mebis_Notes',  releases: 'Releases-notes', icon: 'notes.ico', 'vendor': "Mebis"]]
+
 gwt {
     gwtVersion = gwtCompilerVersion
 
@@ -200,29 +208,14 @@ task copyHtml {
         if(!file("war/debug.css").exists()){
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
-        file("war/graphing-template.html").text = appHtml("graphing", false)
-        file("war/geometry-template.html").text = appHtml("geometry", false)
-        file("war/3d-template.html").text = appHtml("3d", false)
-        file("war/graphing-template-beta.html").text = appHtml("graphing", true)
-        file("war/geometry-template-beta.html").text = appHtml("geometry", true)
-        file("war/3d-template-beta.html").text = appHtml("3d", true)
-        file("war/notes-template.html").text = appHtml("notes", true)
-        file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator")
-        file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry")
-        file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator")
-        file("war/notes-offline.html").text = english(appHtml("notes", false, true, "Mebis"), "Notes")
-      
-        file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator")
-        
-        file("war/graphing.html").text = english(appHtml("graphing", true), "Graphing Calculator")
-        
-        file("war/geometry.html").text = english(appHtml("geometry", true), "Geometry")
-        
-        file("war/3d.html").text = english(appHtml("3d", true), "3D Graphing Calculator")
-        
-        file("war/notes.html").text = english(appHtml("notes", true), "Notes")
-        
-        file("war/notes-canary.html").text = english(appHtml("notes", "\"canary\""), "Notes")
+		appSpecs.each({app-> if(app.id != "classic") {
+			println app.id
+            file("war/${app.id}-template.html").text = appHtml(app.id, false)
+			file("war/${app.id}-template-beta.html").text = appHtml(app.id, true)
+			file("war/${app.id}-offline.html").text = english(appHtml(app.id, false, true, app.vendor ?: "GeoGebra"), app.title)
+			file("war/${app.id}.html").text = english(appHtml(app.id, true), app.title)
+			file("war/${app.id}-canary.html").text = english(appHtml(app.id, "\"canary\""), app.title)
+		}});
     }
 }
 

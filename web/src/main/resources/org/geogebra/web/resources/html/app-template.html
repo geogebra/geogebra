@@ -14,7 +14,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion="5.0.474.0";
+var latestVersion="5.0.502.0";
 var module = "web3d";
 var defaultParams = {};
 var prerelease = false;
@@ -74,8 +74,10 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 				if(id == "exam-cas"){
 					e("ggw").setAttribute("data-param-enableCAS","true");
 					e("ggw").setAttribute("data-param-enable3D","false");
-				}				
-				e("ggw").setAttribute("data-param-perspective",id);
+				}
+				if (!window.appID || window.appID == "classic") {
+					e("ggw").setAttribute("data-param-perspective", id);
+				}
 			}
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
@@ -99,7 +101,7 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
-			var unbundled = name == "graphing" || name == "geometry" || name == "whiteboard" || name == "notes" || name == "3d";
+			var unbundled = name == "graphing" || name == "geometry" || name == "whiteboard" || name == "notes" || name == "3d" || name == "cas" || name == "scientific";
 			if(name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)){
 				name = "classic#" + name;
 			}
@@ -219,6 +221,9 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		if(window.appID === "geometry"){
 			changeMetaTitle(props.menu["Geometry"]  || "Geometry");
 		}
+		if(window.appID === "CAS"){
+			changeMetaTitle(props.menu["CASCalcultor"]  || "CAS Calculator"); //TODO ggbtrans
+		}
 		if(window.appID === "3D"){
 			changeMetaTitle(props.menu["Graphing3D"]  || "3D Graphing Calculator");
 		}
@@ -318,19 +323,18 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 			}
 			l10n.setAttribute("src", codebase + module+"/js/properties_keys_"+lang+".js");
 		}
-		
-		
 	}
-function insertScript(){
-	var app = document.createElement("script");		
-	app.setAttribute("src",codebase+module+"/js/webfont.js");
-	document.head.appendChild(app);
-		
-	app = document.createElement("script");
-	app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
-	window.setTimeout(function(){
+
+	function insertScript(){
+		var app = document.createElement("script");
+		app.setAttribute("src",codebase+module+"/js/webfont.js");
 		document.head.appendChild(app);
-				},startDelay);
+
+		app = document.createElement("script");
+		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
+		window.setTimeout(function(){
+			document.head.appendChild(app);
+		}, startDelay);
 	}
 
 	function isLocalhost(){
@@ -341,7 +345,7 @@ function insertScript(){
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang));
 	}
-	
+
 	function installWorker(){
 			window.GGBT_offlineRequestHandler = (function() {
 		    "use strict";
@@ -445,7 +449,7 @@ function insertScript(){
 		installWorker();
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		var tubeid = getURLparam("id");
-		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry|3d|whiteboard|notes)\/([a-zA-Z0-9]+)/);
+		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry|3d|whiteboard|notes|cas|scientific)\/([a-zA-Z0-9]+)/);
 		if(checkId && !names[checkId[2]]){
 			tubeid = checkId[2];
 			if(checkId[1] == "o"){
@@ -495,9 +499,6 @@ function insertScript(){
 		if (tubeid) {
 			if (e("ggw")) {
 				e("ggw").setAttribute("data-param-tubeid", tubeid);
-				if (window.appID) {
-					e("ggw").setAttribute("data-param-perspective", names[appID]);
-				}
 				var previewDiv = document.createElement("div");
 				previewDiv.id = "ggbsplash";
 				previewDiv.style.zIndex = 1000;
@@ -536,7 +537,7 @@ function insertScript(){
 				wait || perspective(pName);
 			}
 			else{
-				perspective(names[pName],pName);
+				perspective(names[pName], pName);
 			}
 			document.body.className += " " + pName;
 			document.body.className += " " + module;

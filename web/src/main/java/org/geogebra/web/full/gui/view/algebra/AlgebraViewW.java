@@ -1786,7 +1786,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				inputPanelLatex.previewValue(geos[0]);
 			}
 		} else {
-			if (WarningErrorHandler.getUndefinedValiables() != null) {
+			if (WarningErrorHandler.getUndefinedValiables(kernel) != null) {
 				inputPanelLatex.buildSuggestions(null);
 			} else {
 				inputPanelLatex.clearPreviewAndSuggestions();

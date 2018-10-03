@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -56,10 +57,12 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.AppConfigMixedReality;
+import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
@@ -1818,14 +1821,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * 
-	 * @return true if no CAS View available at all (unbundled apps)
-	 */
-	protected boolean isCASDisabledForApp() {
-		return isUnbundled();
-	}
-
-	/**
-	 * 
 	 * @return true if no 3D is available at all (graphing, geometry, whiteboard)
 	 */
 	protected boolean is3DDisabledForApp() {
@@ -1843,12 +1838,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void setViewsEnabled() {
-		if (isCASDisabledForApp()) {
+		if (!getConfig().isCASEnabled()) {
 			getSettings().getCasSettings().setEnabled(false);
 		} else if (getArticleElement().getDataParamEnableCAS(false)
 				|| !getArticleElement().getDataParamEnableCAS(true)) {
 			getSettings().getCasSettings().setEnabled(
 					getArticleElement().getDataParamEnableCAS(false));
+		}
+		if (isUnbundled() && getSettings().getCasSettings().isEnabled()) {
+			getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC);
 		}
 
 		if (is3DDisabledForApp()) {
@@ -3767,17 +3765,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (articleElement == null) {
 			return new AppConfigDefault();
 		}
-		if ("graphing".equals(articleElement.getDataParamAppName())) {
+		switch(articleElement.getDataParamAppName()){
+		case "graphing":
 			return new AppConfigGraphing();
-		}
-		if ("geometry".equals(articleElement.getDataParamAppName())) {
+		case"geometry":
 			return new AppConfigGeometry();
-		}
-		if ("3d".equals(articleElement.getDataParamAppName())) {
+		case "3d":
 			return new AppConfigGraphing3D();
-		}
-		if ("mr".equals(articleElement.getDataParamAppName())) {
+		case "mr":
 			return new AppConfigMixedReality();
+		case "cas":
+			return new AppConfigCas();
+		case "scientific":
+			return new AppConfigScientific();
 		}
 		return new AppConfigDefault();
 	}
