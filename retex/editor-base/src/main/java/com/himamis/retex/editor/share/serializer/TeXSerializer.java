@@ -60,10 +60,11 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append(selection_end);
 		}
 
+		// now removed - instead use \cdot{} rather than \cdot
 		// safety space after operator / symbol
-		if (mathCharacter.isOperator() || mathCharacter.isSymbol()) {
-			stringBuilder.append(' ');
-		}
+		// if (mathCharacter.isOperator() || mathCharacter.isSymbol()) {
+		// stringBuilder.append(' ');
+		// }
 	}
 
 	/**
