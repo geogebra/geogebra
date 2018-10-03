@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.browser.TabletSignInButton;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInButton;
@@ -81,7 +82,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public boolean examSupported(boolean tablet) {
-		return tablet;
+		return tablet && Browser.isAndroid();
 	}
 
 	@Override
