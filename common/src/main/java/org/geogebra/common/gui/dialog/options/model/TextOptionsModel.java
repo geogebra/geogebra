@@ -332,6 +332,7 @@ public class TextOptionsModel extends OptionsModel {
 		}
 
 		editGeo.setLaTeX(isLatex, updateAlgo);
+		editGeo.updateRepaint();
 		listener.updatePreview();
 		storeUndoInfo();
 	}

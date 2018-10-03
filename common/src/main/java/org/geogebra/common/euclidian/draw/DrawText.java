@@ -191,9 +191,13 @@ public final class DrawText extends Drawable {
 					-labelRectangle.getHeight() * view.getInvYscale());
 		}
 
-		if (isWhiteboardText() && boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
-			text.setBoundingBoxForWhiteboard(getBounds());
+		if (boundingBox != null) {
+			if (isWhiteboardText()) {
+				boundingBox.setRectangle(getBounds());
+				text.setBoundingBoxForWhiteboard(getBounds());
+			} else {
+				boundingBox.resetBoundingBox();
+			}
 		}
 
 		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
