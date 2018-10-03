@@ -53,7 +53,10 @@ public class Ggb2giac {
 		p("Row.1", "?");
 		p("Cell.2", "?");
 
-		p("Append.2", "append(%0,%1)");
+		// flatten1 is non-recursive
+		p("Append.2",
+				"when(type(%0)==DOM_LIST,append(%0,%1),flatten1({%0,%1}))");
+		
 		// simplify() to make sure Binomial[n,1] gives n
 
 		// TRAC-3348
