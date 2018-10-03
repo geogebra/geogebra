@@ -340,6 +340,9 @@ public class Tools extends FlowPanel implements SetLabels {
 			ArrayList<Integer> tools = getmToolCategorization().getTools(
 					getmToolCategorization().getCategories().indexOf(category));
 			if (app.has(Feature.TOOLS_WITH_NAMES)) {
+				for (int i = 0; i < tools.size(); i++) {
+					toolButtonList.get(i).setLabel();
+				}
 				return;
 			}
 			for (int i = 0; i < tools.size(); i++) {

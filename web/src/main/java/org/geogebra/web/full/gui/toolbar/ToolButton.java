@@ -87,7 +87,10 @@ public class ToolButton extends StandardButton {
 	 * set localized label of buttons
 	 */
 	public void setLabel() {
-		this.setLabel(appW.getLocalization().getMenu(
+		setLabel(appW.getLocalization().getMenu(
 				EuclidianConstants.getModeText(mode)));
+		setAltText(appW.getLocalization().getMenu(
+				EuclidianConstants.getModeText(mode))
+				+ ". " + appW.getToolHelp(mode));
 	}
 }
