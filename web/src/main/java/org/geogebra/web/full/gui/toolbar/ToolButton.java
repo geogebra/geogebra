@@ -49,10 +49,6 @@ public class ToolButton extends StandardButton {
 
 	}
 
-	public AppW getApp() {
-		return appW;
-	}
-
 	private void setAccessible() {
 		String altText = appW.getLocalization()
 				.getMenu(EuclidianConstants.getModeText(mode)) + ". "

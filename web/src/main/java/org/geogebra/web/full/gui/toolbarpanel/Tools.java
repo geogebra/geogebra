@@ -231,7 +231,7 @@ public class Tools extends FlowPanel implements SetLabels {
 			for (Integer mode : tools) {
 				if (app.isModeValid(mode)) {
 					if (app.has(Feature.TOOLS_WITH_NAMES)) {
-						ToolButton btn = new ToolButton(mode, app);
+						ToolButton btn = getToolButton(mode);
 						toolButtonList.add(btn);
 						toolsPanel.add(btn);
 						if (mode == EuclidianConstants.MODE_MOVE) {
@@ -267,7 +267,7 @@ public class Tools extends FlowPanel implements SetLabels {
 					app.getGuiManager().getToolbarDefinition());
 			for (int i = 0; i < tools.size(); i++) {
 				if (app.has(Feature.TOOLS_WITH_NAMES)) {
-					ToolButton btn = new ToolButton(tools.get(i), app);
+					ToolButton btn = getToolButton(tools.get(i));
 					toolButtonList.add(btn);
 					toolsPanel.add(btn);
 					if (tools.get(i) == EuclidianConstants.MODE_MOVE) {
@@ -302,6 +302,22 @@ public class Tools extends FlowPanel implements SetLabels {
 				btn.addStyleName("plusPadding");
 			}
 			btn.getElement().setAttribute("mode", mode + "");
+			btn.setIgnoreTab();
+			btn.addFastClickHandler(new FastClickHandler() {
+
+				@Override
+				public void onClick(Widget source) {
+					getApp().setMode(mode);
+					showTooltip(mode);
+					getApp().updateDynamicStyleBars();
+				}
+			});
+			return btn;
+		}
+
+		private ToolButton getToolButton(final int mode) {
+			final ToolButton btn = new ToolButton(mode, getApp());
+			AriaHelper.hide(btn);
 			btn.setIgnoreTab();
 			btn.addFastClickHandler(new FastClickHandler() {
 
