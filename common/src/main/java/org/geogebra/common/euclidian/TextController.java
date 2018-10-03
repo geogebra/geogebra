@@ -20,11 +20,9 @@ public interface TextController {
 	 * 
 	 * @param loc
 	 *            Text location.
-	 * @param rw
-	 *            specifies if RealWorld coordinates are used.
 	 * @return the created GeoText object.
 	 */
-	GeoText createText(GeoPointND loc, boolean rw);
+	GeoText createText(GeoPointND loc);
 
 	/**
 	 * Edit text

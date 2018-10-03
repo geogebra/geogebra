@@ -3477,7 +3477,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return false;
 			}
 
-			GeoText t = getTextController().createText(loc, rw);
+			GeoText t = getTextController().createText(loc);
 			if (t != null) {
 				memorizeJustCreatedGeos(t.asArray());
 			}

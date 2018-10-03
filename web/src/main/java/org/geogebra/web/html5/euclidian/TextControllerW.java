@@ -102,7 +102,7 @@ public class TextControllerW
 	}
 
 	@Override
-	public GeoText createText(GeoPointND loc, boolean rw) {
+	public GeoText createText(GeoPointND loc) {
 		if (loc == null) {
 			return null;
 		}
