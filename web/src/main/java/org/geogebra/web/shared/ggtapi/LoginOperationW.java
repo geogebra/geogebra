@@ -58,6 +58,7 @@ public class LoginOperationW extends LogInOperation {
 							var data;
 							//later if event.origin....
 							if (event.data) {
+								data = $wnd.JSON.parse(event.data);
 								try {
 									if (data.action === "logintoken") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
