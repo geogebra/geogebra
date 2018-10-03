@@ -42,7 +42,7 @@ public class LabelType {
 	static final char[] arabic = { '\u0627', '\u0644', '\u0641',
             '\u0628', '\u062C', '\u062F',
 
-            // needs this too '\u0640' (see later on)
+			// needs this too '\u0640' (see LabelManager.getNextIndexedLabel())
             '\u0647',
 
             '\u0648', '\u0632',
