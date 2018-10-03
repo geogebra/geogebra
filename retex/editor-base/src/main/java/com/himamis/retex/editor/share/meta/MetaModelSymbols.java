@@ -67,8 +67,9 @@ class MetaModelSymbols {
 		collection.addComponent(createOperator("*", "\\cdot{}", '*'));
 		collection.addComponent(createOperator("/"));
 		collection.addComponent(createOperator("\\"));
-		collection.addComponent(createOperator("'"));
-		collection.addComponent(createOperator("!"));
+		// removed GGB-2539
+		// collection.addComponent(createOperator("'"));
+		// collection.addComponent(createOperator("!"));
 		collection.addComponent(createOperator(":"));
 		collection.addComponent(createOperator("="));
 		collection.addComponent(createOperator("<"));
