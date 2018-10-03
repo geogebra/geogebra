@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1906,8 +1907,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            definition
 	 */
 	protected void setInputFrom(ExpressionNode unwrap) {
-		input = unwrap.getGeoElementVariables(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+		input = unwrap.getGeoElementVariables(SymbolicMode.NONE);
 		if (input == null) {
 			input = new GeoElement[0];
 		}

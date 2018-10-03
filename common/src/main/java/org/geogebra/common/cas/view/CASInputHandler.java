@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
@@ -453,7 +454,7 @@ public class CASInputHandler {
 			if ("0".equals(casResult) || "false".equals(casResult)) {
 				ValidExpression ve = cellValue.getEvalVE();
 				HashSet<GeoElement> vars = ve
-						.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+						.getVariables(SymbolicMode.NONE);
 				if (!vars.isEmpty()) {
 					Iterator<GeoElement> it = vars.iterator();
 					while (it.hasNext()) {
@@ -662,8 +663,7 @@ public class CASInputHandler {
 					String casResult = cas.getCurrentCAS()
 							.evaluateRaw(inputStr.toString());
 					HashSet<GeoElement> cellVars = selCellValue.getInputVE()
-							.getVariables(
-									kernel.isResolveUnkownVarsAsDummyGeos());
+							.getVariables(SymbolicMode.NONE);
 					Iterator<GeoElement> it = cellVars.iterator();
 					while (it.hasNext()) {
 						GeoElement curr = it.next();
@@ -672,8 +672,7 @@ public class CASInputHandler {
 							// we should use only the variables from output
 							HashSet<GeoElement> currCellVars = ((GeoCasCell) curr)
 									.getOutputValidExpression()
-									.getVariables(kernel
-											.isResolveUnkownVarsAsDummyGeos());
+									.getVariables(SymbolicMode.NONE);
 							Iterator<GeoElement> currIt = currCellVars
 									.iterator();
 							if (vars.isEmpty()) {

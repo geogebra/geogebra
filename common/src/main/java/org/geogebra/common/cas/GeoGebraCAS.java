@@ -943,13 +943,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			MyList listOfVars) {
 		boolean contains = true;
 		// fix for GGB-134
-		SymbolicMode oldFlag = listOfVars.getKernel()
-				.isResolveUnkownVarsAsDummyGeos();
-		listOfVars.getKernel()
-				.setSymbolicMode(SymbolicMode.SYMBOLIC);
 		HashSet<GeoElement> varsInEqu = listElement
 				.getVariables(SymbolicMode.SYMBOLIC);
-		listOfVars.getKernel().setSymbolicMode(oldFlag);
 		if (varsInEqu != null) {
 			contains = false;
 			Iterator<GeoElement> it = varsInEqu.iterator();

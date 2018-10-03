@@ -20,7 +20,7 @@ public class EvalInfo {
 	private boolean fractions = false;
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
-	private SymbolicMode symbolicMode;
+	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 
 	/**
 	 * @param labelOut

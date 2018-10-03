@@ -466,7 +466,7 @@ public class ExpressionNode extends ValidExpression
 		case POWER: // eg e^x
 			if ((left instanceof NumberValue)
 					&& MyDouble.exactEqual(left.evaluateDouble(), Math.E)) {
-				GeoElement geo = kernel.lookupLabel("e");
+				GeoElement geo = getEulerConst(info);
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace e^x with exp(x)
@@ -483,7 +483,7 @@ public class ExpressionNode extends ValidExpression
 		case MINUS: // eg 1 - e or e - 1
 			if ((left instanceof NumberValue)
 					&& MyDouble.exactEqual(left.evaluateDouble(), Math.E)) {
-				GeoElement geo = kernel.lookupLabel("e");
+				GeoElement geo = getEulerConst(info);
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace 'e' with exp(1)
@@ -494,7 +494,7 @@ public class ExpressionNode extends ValidExpression
 				}
 			} else if ((right instanceof NumberValue)
 					&& MyDouble.exactEqual(right.evaluateDouble(), Math.E)) {
-				GeoElement geo = kernel.lookupLabel("e");
+				GeoElement geo = getEulerConst(info);
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace 'e' with exp(1)
@@ -508,6 +508,10 @@ public class ExpressionNode extends ValidExpression
 		default:
 			break;
 		}
+	}
+
+	private GeoElement getEulerConst(EvalInfo info) {
+		return kernel.lookupLabel("e", false, info.getSymbolicMode());
 	}
 
 	private void doResolveVariables(EvalInfo info) {
@@ -530,7 +534,7 @@ public class ExpressionNode extends ValidExpression
 		if (right != null) {
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue(
-						kernel.isResolveUnkownVarsAsDummyGeos());
+						info.getSymbolicMode());
 			} else {
 				right.resolveVariables(info);
 			}

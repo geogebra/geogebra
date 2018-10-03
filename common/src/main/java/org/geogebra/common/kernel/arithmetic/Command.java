@@ -246,7 +246,7 @@ public class Command extends ValidExpression
 		switch (tpl.getStringType()) {
 		case GIAC:
 			return (kernel.getGeoGebraCAS()).getCASCommand(name, args, symbolic,
-					tpl, kernel.isResolveUnkownVarsAsDummyGeos());
+					tpl, SymbolicMode.NONE);
 		case LATEX:
 			if (sbToString == null) {
 				sbToString = new StringBuilder();
@@ -255,7 +255,7 @@ public class Command extends ValidExpression
 			if ("Integral".equals(name)) {
 				sbToString.append("\\int");
 				Set<GeoElement> vars = getArgument(0)
-						.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+						.getVariables(SymbolicMode.NONE);
 				String var = "x";
 				if (vars != null && !vars.isEmpty()) {
 					Iterator<GeoElement> ite = vars.iterator();

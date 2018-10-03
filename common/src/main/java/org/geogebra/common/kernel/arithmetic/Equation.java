@@ -254,7 +254,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			// e.g. A4 = x^2
 			Variable leftVar = (Variable) lhs.getLeft();
 			lhs.setLeft(leftVar.resolve(false, true,
-					kernel.isResolveUnkownVarsAsDummyGeos())); // don't allow
+					SymbolicMode.NONE)); // don't allow
 																// auto
 														// creation of variables
 		} else {
@@ -481,7 +481,8 @@ public class Equation extends ValidExpression implements EquationValue {
 	@Override
 	public void resolveVariables(EvalInfo info) {
 		if ("X".equals(lhs.toString(StringTemplate.defaultTemplate))
-				&& kernel.lookupLabel("X") == null) {
+				&& kernel.lookupLabel("X", false,
+						info.getSymbolicMode()) == null) {
 			return;
 		}
 		lhs.resolveVariables(info);

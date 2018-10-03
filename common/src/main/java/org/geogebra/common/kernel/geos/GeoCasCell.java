@@ -924,8 +924,7 @@ public class GeoCasCell extends GeoElement
 						.add(fv.toString(StringTemplate.defaultTemplate));
 			}
 		}
-		HashSet<GeoElement> geoVars = ve
-				.getVariables(kernel.isResolveUnkownVarsAsDummyGeos());
+		HashSet<GeoElement> geoVars = ve.getVariables(SymbolicMode.NONE);
 		if (geoVars != null) {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);

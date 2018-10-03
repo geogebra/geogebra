@@ -151,10 +151,8 @@ public class CASparser implements CASParserInterface {
 			}
 		}
 		// resolve variables of valid expression
-		kernel.setSymbolicMode(SymbolicMode.SYMBOLIC);
 		ev.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC));
-		kernel.setSymbolicMode(SymbolicMode.NONE);
 
 		Set<String> nonFunctions = new TreeSet<>();
 		NonFunctionCollector c = NonFunctionCollector

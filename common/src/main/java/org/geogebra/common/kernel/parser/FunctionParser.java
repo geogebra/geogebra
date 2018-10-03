@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -158,8 +159,8 @@ public class FunctionParser {
 		// create variable object for label to make sure
 		// to handle lables like $A$1 correctly and keep the expression
 		Variable geoVar = new Variable(kernel, label);
-		ExpressionValue geoExp = geoVar.resolveAsExpressionValue(
-				kernel.isResolveUnkownVarsAsDummyGeos());
+		ExpressionValue geoExp = geoVar
+				.resolveAsExpressionValue(SymbolicMode.NONE);
 
 		// numer of arguments
 

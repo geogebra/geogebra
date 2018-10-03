@@ -2887,7 +2887,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @see #setSilentMode(boolean)
 	 */
-	public final SymbolicMode isResolveUnkownVarsAsDummyGeos() {
+	public final SymbolicMode getSymbolicMode() {
 		return symbolicMode;
 	}
 
@@ -3469,7 +3469,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return may return null
 	 */
 	final public GeoElement lookupLabel(String label) {
-		return lookupLabel(label, false, isResolveUnkownVarsAsDummyGeos());
+		return lookupLabel(label, false, SymbolicMode.NONE);
 	}
 
 	/**
