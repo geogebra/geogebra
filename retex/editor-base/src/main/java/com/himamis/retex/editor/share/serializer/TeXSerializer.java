@@ -5,7 +5,6 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.renderer.share.util.LaTeXUtil;
 
 /**
  * Serializes internal format into TeX format.
@@ -19,6 +18,11 @@ public class TeXSerializer extends SerializerAdapter {
 
 	private static final String characterMissing = "\\nbsp ";
 	private boolean lineBreakEnabled = false;
+
+	private static final String escapeableSymbols[] = { "%", "$", "#", "&", "{",
+			"}", "_" };
+	private static final String replaceableSymbols[][] = { { "~", "^", "\\" },
+			{ "\u223C ", "\\^{\\ } ", "\\backslash{}" } };
 
 	/**
 	 * Creates new TeX serializer
@@ -46,14 +50,12 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\\\\\vspace{0}");
 		} else {
 			String texName = mathCharacter.getTexName();
-			if (LaTeXUtil.isSymbolEscapeable(texName)) {
+			if (isSymbolEscapeable(texName)) {
 				// escape special symbols
 				stringBuilder.append('\\');
 				stringBuilder.append(texName);
-			} else if (LaTeXUtil.isReplaceableSymbol(texName)) {
-				stringBuilder.append(LaTeXUtil.replaceSymbol(texName));
 			} else {
-				stringBuilder.append(texName);
+				stringBuilder.append(replaceSymbol(texName));
 			}
 		}
 		if (mathCharacter == currentSelEnd) {
@@ -354,5 +356,24 @@ public class TeXSerializer extends SerializerAdapter {
 		StringBuilder b = new StringBuilder();
 		new TeXSerializer().serialize(ms, b);
 		return b.toString();
+	}
+
+	private static boolean isSymbolEscapeable(String symbol) {
+		for (String escapeableSymbol : escapeableSymbols) {
+			if (escapeableSymbol.equals(symbol)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static String replaceSymbol(String symbol) {
+		for (int i = 0; i < replaceableSymbols[0].length; i++) {
+			if (replaceableSymbols[0][i].equals(symbol)) {
+				return replaceableSymbols[1][i];
+			}
+		}
+		return symbol;
 	}
 }
