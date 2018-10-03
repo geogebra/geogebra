@@ -48,7 +48,7 @@ package org.geogebra.common.kernel.parser;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.*;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
-import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -119,7 +119,7 @@ public class Parser implements ParserInterface{
      /**
      * Parses a String and returns a ValidExpression Object
      */
-    public ValidExpression parseGeoGebraCAS(String parseString, GeoCasCell cell) throws ParseException {
+    public ValidExpression parseGeoGebraCAS(String parseString, GeoSymbolicI cell) throws ParseException {
         myReInit( parseString );
         // parse x^2 + y^2 as an expression and don't throw Incomplete Equation error
         GeoGebraCASParsing = true;
@@ -479,7 +479,7 @@ ValidExpression buildValidExpression() :
 /**
  *  parse GeoGebra CAS input
  */
-ValidExpression buildCASExpression(GeoCasCell cell) :
+ValidExpression buildCASExpression(GeoSymbolicI cell) :
 {
     ValidExpression ve;
     Token l = new Token();
@@ -795,7 +795,7 @@ ExpressionNode functionExpressionnode():
 /**
  * CAS function =   label(var) := expressionnode
  */
-FunctionNVar casFunction(GeoCasCell cell):
+FunctionNVar casFunction(GeoSymbolicI cell):
 {
     ExpressionNode rhs,cond = null;
     Token funName = null;

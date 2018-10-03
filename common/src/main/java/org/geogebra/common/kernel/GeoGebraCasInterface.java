@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 
 /**
  * Interface for GeoGebraCAS
@@ -169,5 +170,8 @@ public interface GeoGebraCasInterface {
 	 * Make sure CAS is initialized
 	 */
 	public void initCurrentCAS();
+
+	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
+			Kernel kernel);
 
 }

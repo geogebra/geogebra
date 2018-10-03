@@ -34,9 +34,9 @@ import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
@@ -74,7 +74,7 @@ public class CASparser implements CASParserInterface {
 
 	@Override
 	public ValidExpression parseGeoGebraCASInput(final String exp,
-			GeoCasCell cell) throws CASException {
+			GeoSymbolicI cell) throws CASException {
 		CASException c;
 		try {
 			return parser.parseGeoGebraCAS(exp, cell);
@@ -92,7 +92,7 @@ public class CASparser implements CASParserInterface {
 
 	@Override
 	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
-			final String inValue, Kernel kernel, GeoCasCell cell)
+			final String inValue, Kernel kernel, GeoSymbolicI cell)
 			throws CASException {
 		if (inValue == null || inValue.length() == 0) {
 			return null;

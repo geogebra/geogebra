@@ -76,7 +76,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 
 public class GeoCasCell extends GeoElement
-		implements VarString, TextProperties {
+		implements VarString, TextProperties, GeoSymbolicI {
 	private static final int TOOLTIP_SCREEN_WIDTH = 80;
 
 	/**
@@ -845,17 +845,7 @@ public class GeoCasCell extends GeoElement
 	 */
 	private ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
 			final String inValue) {
-		try {
-			return (kernel.getGeoGebraCAS()).getCASparser()
-					.parseGeoGebraCASInputAndResolveDummyVars(inValue,
-							getKernel(), this);
-		} catch (CASException c) {
-			setError(c.getKey());
-			return null;
-		} catch (Throwable e) {
-
-			return null;
-		}
+		return kernel.getGeoGebraCAS().parseOutput(inValue, this, kernel);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.StringTemplate;
  * Dummy GeoElement to be used for symbolic variable resolving for the GeoGebra
  * CAS.
  * 
- * @see org.geogebra.common.kernel.Kernel#setSymbolicMode(boolean)
+ * @see org.geogebra.common.kernel.arithmetic.SymbolicMode
  * @author Markus Hohenwarter
  */
 public class GeoDummyVariable extends GeoNumeric {

@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
@@ -1077,6 +1078,21 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public ArrayList<String> getVarSwaps() {
 		return varSwaps;
+	}
+
+	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
+			Kernel kernel) {
+		try {
+			return (kernel.getGeoGebraCAS()).getCASparser()
+					.parseGeoGebraCASInputAndResolveDummyVars(inValue, kernel,
+							geoCasCell);
+		} catch (CASException c) {
+			geoCasCell.setError(c.getKey());
+			return null;
+		} catch (Throwable e) {
+
+			return null;
+		}
 	}
 
 }

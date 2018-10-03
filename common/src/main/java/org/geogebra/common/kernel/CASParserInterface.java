@@ -2,7 +2,7 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 
 /**
  * Interface for CAS parser
@@ -23,7 +23,7 @@ public interface CASParserInterface {
 	 *             if something goes wrong (invalid input)
 	 */
 	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue,
-			Kernel kernel, GeoCasCell cell) throws CASException;
+			Kernel kernel, GeoSymbolicI cell) throws CASException;
 
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
@@ -36,8 +36,8 @@ public interface CASParserInterface {
 	 * @throws CASException
 	 *             something goes wrong
 	 */
-	ValidExpression parseGeoGebraCASInput(final String inValue, GeoCasCell cell)
-			throws CASException;
+	ValidExpression parseGeoGebraCASInput(final String inValue,
+			GeoSymbolicI cell) throws CASException;
 
 	/**
 	 * Replace variables with dummy objects

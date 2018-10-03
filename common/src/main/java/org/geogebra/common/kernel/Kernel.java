@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -5172,8 +5173,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
 			}
-			if (geo.isGeoCasCell() && algo == null) {
-				((GeoCasCell) geo).computeOutput();
+			if (geo instanceof GeoSymbolicI && algo == null) {
+				((GeoSymbolicI) geo).computeOutput();
 			}
 			al.add(geo);
 		}

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -56,6 +57,7 @@ import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
@@ -69,6 +71,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -87,6 +90,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -803,7 +807,6 @@ public class AlgebraProcessor {
 				// ex.printStackTrace();
 				// do nothing
 			}
-
 			if (geoElements != null) {
 				kernel.getConstruction().registerFunctionVariable(null);
 
@@ -919,6 +922,41 @@ public class AlgebraProcessor {
 		runCallback(callback0, geos, step);
 		return geos;
 
+	}
+
+	private GeoElement evalSymbolic(ValidExpression ve) {
+		GeoSymbolic sym = new GeoSymbolic(kernel.getConstruction());
+
+		ve.resolveVariables(
+				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC));
+		ExpressionNode replaced = ve.traverse(new Traversing(){
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
+						.getElementWithSameName() != null) {
+					return ((GeoDummyVariable) ev).getElementWithSameName();
+				}
+				return ev;
+			}}).wrap();
+		sym.setDefinition(replaced);
+
+		HashSet<GeoElement> vars = replaced.getVariables(SymbolicMode.SYMBOLIC);
+		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
+		if (vars != null) {
+			for (GeoElement var : vars) {
+				if (!(var instanceof GeoDummyVariable)) {
+					noDummyVars.add(var);
+				}
+			}
+		}
+		if (noDummyVars.size() > 0) {
+			new AlgoDependentSymbolic(cons, sym,
+					noDummyVars).compute();
+		} else {
+			sym.computeOutput();
+		}
+		sym.setLabel(ve.getLabel());
+		return sym;
 	}
 
 	/**
@@ -1132,6 +1170,7 @@ public class AlgebraProcessor {
 							: ve.toString(StringTemplate.defaultTemplate),
 					loc, handler);
 		} catch (Exception ex) {
+			Log.debug(ex);
 			Log.debug("Exception" + ex.getLocalizedMessage());
 			ErrorHelper.handleException(ex, app, handler);
 		} finally {
@@ -2842,6 +2881,9 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
+		if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC) {
+			return new GeoElement[] { evalSymbolic(node) };
+		}
 		// command is leaf: process command
 		if (n.isLeaf()) {
 			ExpressionValue leaf = n.getLeft();
