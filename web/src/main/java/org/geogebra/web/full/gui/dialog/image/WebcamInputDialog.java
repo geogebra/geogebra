@@ -9,9 +9,6 @@ import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -87,13 +84,8 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	}
 
 	@Override
-	protected void addResizeHandler() {
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				resize();
-			}
-		});
+	protected void onWindowResize() {
+		resize();
 	}
 
 	/**

@@ -96,22 +96,26 @@ public class DialogBoxW extends GDialogBox {
 		}
 	}
 
-	/**
-	 * add resizeHandler to center the dialog
-	 */
-	protected void addResizeHandler() {
+	private void addResizeHandler() {
 	    Window.addResizeHandler(new ResizeHandler() {
 			
 			@Override
 			public void onResize(ResizeEvent event) {
-				if (DialogBoxW.this.isShowing()) {
-					if (!(DialogBoxW.this instanceof HasKeyboardPopup)) {
-						centerAndResize(0);
-					}
-				}
+				onWindowResize();
 			}
 		});
     }
+
+	/**
+	 * Update position when window is resized
+	 */
+	protected void onWindowResize() {
+		if (DialogBoxW.this.isShowing()) {
+			if (!(DialogBoxW.this instanceof HasKeyboardPopup)) {
+				centerAndResize(0);
+			}
+		}
+	}
 
 	/**
 	 * closes the dialog

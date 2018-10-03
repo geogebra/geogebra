@@ -13,10 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -78,7 +75,6 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 				}
 			}
 		});
-		addResizeHandler();
 		mainPanel = new FlowPanel();
 		// panel with link text field
 		linkPanel = new FlowPanel();
@@ -182,18 +178,12 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	@Override
-	protected void addResizeHandler() {
+	protected void onWindowResize() {
 		if (anchor == null) {
-			super.addResizeHandler();
+			super.onWindowResize();
 		} else {
-			Window.addResizeHandler(new ResizeHandler() {
-
-				@Override
-				public void onResize(ResizeEvent event) {
-					setPopupPosition(anchor.getAbsoluteLeft() - 474,
+			setPopupPosition(anchor.getAbsoluteLeft() - 474,
 							anchor.getAbsoluteTop() - 27);
-				}
-			});
 		}
 	}
 

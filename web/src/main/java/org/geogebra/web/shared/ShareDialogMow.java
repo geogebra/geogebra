@@ -129,7 +129,6 @@ public class ShareDialogMow extends DialogBoxW
 		dialog.add(buttonPanel);
 		this.add(dialog);
 		setLabels();
-		addResizeHandler();
 	}
 
 	private void buildGroupsList() {
