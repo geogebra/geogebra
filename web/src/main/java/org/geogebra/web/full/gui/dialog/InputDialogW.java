@@ -148,12 +148,27 @@ public class InputDialogW extends InputDialog
 
 	}
 
+	/**
+	 * Dialog with keyboard support
+	 */
 	public static class DialogBoxKbW extends DialogBoxW
 			implements HasKeyboardPopup {
 
-		public DialogBoxKbW(boolean b, boolean modal, InputDialogW inputDialogW,
+		/**
+		 * @param autoHide
+		 *            automatically hide
+		 * @param modal
+		 *            modal
+		 * @param inputDialogW
+		 *            input dialog
+		 * @param panel
+		 *            root panel for positioning
+		 * @param app
+		 *            app
+		 */
+		public DialogBoxKbW(boolean autoHide, boolean modal, InputDialogW inputDialogW,
 				Panel panel, App app) {
-			super(b, modal, inputDialogW, panel, app,
+			super(autoHide, modal, inputDialogW, panel, app,
 					app.has(Feature.DIALOG_DESIGN));
 		}
 

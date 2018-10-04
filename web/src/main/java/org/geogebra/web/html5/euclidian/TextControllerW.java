@@ -57,6 +57,7 @@ public class TextControllerW
 	private EuclidianViewW getView() {
 		return (EuclidianViewW) (app.getActiveEuclidianView());
 	}
+
 	private void createGUI() {
 		editor = new MowTextEditor();
 		AbsolutePanel evPanel = getView().getAbsolutePanel();

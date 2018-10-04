@@ -110,10 +110,8 @@ public class DialogBoxW extends GDialogBox {
 	 * Update position when window is resized
 	 */
 	protected void onWindowResize() {
-		if (DialogBoxW.this.isShowing()) {
-			if (!(DialogBoxW.this instanceof HasKeyboardPopup)) {
+		if (isShowing() && !(this instanceof HasKeyboardPopup)) {
 				centerAndResize(0);
-			}
 		}
 	}
 

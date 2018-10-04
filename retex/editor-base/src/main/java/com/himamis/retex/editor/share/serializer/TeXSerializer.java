@@ -19,9 +19,9 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String characterMissing = "\\nbsp ";
 	private boolean lineBreakEnabled = false;
 
-	private static final String escapeableSymbols[] = { "%", "$", "#", "&", "{",
+	private static final String[] escapeableSymbols = { "%", "$", "#", "&", "{",
 			"}", "_" };
-	private static final String replaceableSymbols[][] = { { "~", "^", "\\" },
+	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
 			{ "\u223C ", "\\^{\\ } ", "\\backslash{}" } };
 
 	/**

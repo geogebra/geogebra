@@ -921,7 +921,6 @@ public class AlgebraProcessor {
 				info);
 		runCallback(callback0, geos, step);
 		return geos;
-
 	}
 
 	private GeoElement evalSymbolic(ValidExpression ve) {
@@ -929,7 +928,7 @@ public class AlgebraProcessor {
 
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC));
-		ExpressionNode replaced = ve.traverse(new Traversing(){
+		ExpressionNode replaced = ve.traverse(new Traversing() {
 			@Override
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
@@ -937,7 +936,8 @@ public class AlgebraProcessor {
 					return ((GeoDummyVariable) ev).getElementWithSameName();
 				}
 				return ev;
-			}}).wrap();
+			}
+		}).wrap();
 		sym.setDefinition(replaced);
 
 		HashSet<GeoElement> vars = replaced.getVariables(SymbolicMode.SYMBOLIC);

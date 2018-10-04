@@ -30,6 +30,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 		super(c);
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.UNKNOWN;
 	}
@@ -90,14 +91,14 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 		return HitType.NONE;
 	}
 
+	@Override
 	public void setError(String key) {
-		// TODO Auto-generated method stub
-
+		// TODO deal with errors on parsing
 	}
 
+	@Override
 	public void setAssignmentType(AssignmentType assignmentType) {
-		// TODO Auto-generated method stub
-
+		// compatibility with CAS view, do nothing
 	}
 
 	@Override

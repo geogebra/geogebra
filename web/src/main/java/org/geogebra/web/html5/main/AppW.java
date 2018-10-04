@@ -3765,7 +3765,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (articleElement == null) {
 			return new AppConfigDefault();
 		}
-		switch(articleElement.getDataParamAppName()){
+		switch (articleElement.getDataParamAppName()) {
 		case "graphing":
 			return new AppConfigGraphing();
 		case"geometry":

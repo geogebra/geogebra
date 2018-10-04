@@ -9,11 +9,25 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 
+/**
+ * Algo for updating GeoSymbolic when dependencies change
+ * 
+ * @author Zbynek
+ *
+ */
 public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 
 	private GeoSymbolic symbolic;
 	private ArrayList<GeoElement> vars;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param symbolic
+	 *            symbolic variable
+	 * @param vars
+	 *            parent variables
+	 */
 	public AlgoDependentSymbolic(Construction c, GeoSymbolic symbolic,
 			ArrayList<GeoElement> vars) {
 		super(c);

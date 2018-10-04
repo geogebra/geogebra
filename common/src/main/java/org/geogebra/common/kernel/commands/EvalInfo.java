@@ -269,6 +269,11 @@ public class EvalInfo {
 		return updateRandom;
 	}
 
+	/**
+	 * @param symbolic
+	 *            symbolic mode
+	 * @return this or copy with given symbolic mode
+	 */
 	public EvalInfo withSymbolicMode(SymbolicMode symbolic) {
 		if (symbolicMode == symbolic) {
 			return this;
