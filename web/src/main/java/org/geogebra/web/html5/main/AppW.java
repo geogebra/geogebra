@@ -1846,7 +1846,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getArticleElement().getDataParamEnableCAS(false));
 		}
 		if (isUnbundled() && getSettings().getCasSettings().isEnabled()) {
-			getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC);
+			getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		}
 
 		if (is3DDisabledForApp()) {

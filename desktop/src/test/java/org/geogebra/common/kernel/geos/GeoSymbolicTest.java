@@ -17,7 +17,7 @@ public class GeoSymbolicTest {
 	@BeforeClass
 	public static void setup(){
 		app = AlgebraTest.createApp();
-		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC);
+		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 

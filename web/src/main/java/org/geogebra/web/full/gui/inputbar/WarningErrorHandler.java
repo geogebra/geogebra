@@ -83,7 +83,7 @@ public final class WarningErrorHandler implements ErrorHandler {
 	 * @return undefined vars or null in symbolic mode
 	 */
 	public static String getUndefinedValiables(Kernel kernel) {
-		return kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC ? null
+		return kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV ? null
 				: undefinedVariables;
 	}
 

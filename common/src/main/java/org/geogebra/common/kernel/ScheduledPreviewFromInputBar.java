@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -136,7 +137,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(validInput);
 
-			if (!isCASeval(ve)) {
+			if (!isCASeval(ve)
+					&& kernel.getSymbolicMode() != SymbolicMode.SYMBOLIC_AV) {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
@@ -190,6 +192,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				}
 			} else {
 				Log.debug("cas cell ");
+				if (validInput.equals(input)) {
+					validation.resetError();
+				}
 				kernel.notifyUpdatePreviewFromInputBar(null);
 			}
 			// concurrent evaluation with CAS may set validInput to null

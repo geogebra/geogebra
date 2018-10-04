@@ -1,5 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
 public enum SymbolicMode {
-	NONE, SYMBOLIC
+	NONE, SYMBOLIC, SYMBOLIC_AV
 }

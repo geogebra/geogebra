@@ -488,7 +488,7 @@ public class Command extends ValidExpression
 		// while command processing (see evaluate())
 
 		// CAS parsing case: we need to resolve arguments also
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC) {
+		if (info.getSymbolicMode() != SymbolicMode.NONE) {
 			for (int i = 0; i < args.size(); i++) {
 				args.get(i).resolveVariables(info);
 			}

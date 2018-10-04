@@ -373,7 +373,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final private void simplifyAndEvalCommands(EvalInfo info) {
 		// don't evaluate any commands for the CAS here
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC) {
+		if (info.getSymbolicMode() != SymbolicMode.NONE) {
 			return;
 		}
 
@@ -1283,6 +1283,8 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
+	 * @param mode
+	 *            whether to resolve vars in symbolic or numeric mode
 	 * @return GeoElement variables
 	 */
 	final public GeoElement[] getGeoElementVariables(SymbolicMode mode) {

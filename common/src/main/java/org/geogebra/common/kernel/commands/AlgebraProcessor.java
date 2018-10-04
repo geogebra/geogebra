@@ -359,7 +359,8 @@ public class AlgebraProcessor {
 			boolean redefineIndependent, boolean storeUndoInfo,
 			ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
 			EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
-					redefineIndependent);
+				redefineIndependent)
+						.withSymbolicMode(app.getKernel().getSymbolicMode());
 			changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(true), storeUndoInfo, callback, handler);
 	}
@@ -685,7 +686,8 @@ public class AlgebraProcessor {
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
 				.withSliders(autoCreateSliders)
 				.addDegree(addDegreesIfKernelInDegrees && app.getKernel()
-						.getAngleUnitUsesDegrees());
+						.getAngleUnitUsesDegrees())
+				.withSymbolicMode(kernel.getSymbolicMode());
 
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
 				info, callback0);
@@ -924,10 +926,10 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement evalSymbolic(ValidExpression ve) {
-		GeoSymbolic sym = new GeoSymbolic(kernel.getConstruction());
+
 
 		ve.resolveVariables(
-				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC));
+				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		ExpressionNode replaced = ve.traverse(new Traversing() {
 			@Override
 			public ExpressionValue process(ExpressionValue ev) {
@@ -938,9 +940,10 @@ public class AlgebraProcessor {
 				return ev;
 			}
 		}).wrap();
-		sym.setDefinition(replaced);
 
-		HashSet<GeoElement> vars = replaced.getVariables(SymbolicMode.SYMBOLIC);
+
+		HashSet<GeoElement> vars = replaced
+				.getVariables(SymbolicMode.SYMBOLIC_AV);
 		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
 		if (vars != null) {
 			for (GeoElement var : vars) {
@@ -949,10 +952,15 @@ public class AlgebraProcessor {
 				}
 			}
 		}
+		GeoSymbolic sym;
 		if (noDummyVars.size() > 0) {
-			new AlgoDependentSymbolic(cons, sym,
-					noDummyVars).compute();
+			AlgoDependentSymbolic ads = new AlgoDependentSymbolic(cons,
+					replaced,
+					noDummyVars);
+			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
+			sym = new GeoSymbolic(cons);
+			sym.setDefinition(replaced);
 			sym.computeOutput();
 		}
 		sym.setLabel(ve.getLabel());
@@ -2881,7 +2889,7 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
 			return new GeoElement[] { evalSymbolic(node) };
 		}
 		// command is leaf: process command

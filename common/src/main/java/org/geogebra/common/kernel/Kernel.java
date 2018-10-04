@@ -3502,13 +3502,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            Label of element we are looking for
 	 * @param autoCreate
 	 *            true iff new geo should be created if missing
+	 * @param resMode
+	 *            variable resolution mode
 	 * @return GeoElement with given label
 	 */
 	final public GeoElement lookupLabel(String label, boolean autoCreate,
-			SymbolicMode useDummies) {
+			SymbolicMode resMode) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 
-		if ((geo == null) && useDummies == SymbolicMode.SYMBOLIC) {
+		if ((geo == null) && resMode != SymbolicMode.NONE) {
 			// lookup CAS variables too
 			geo = lookupCasCellLabel(label);
 
