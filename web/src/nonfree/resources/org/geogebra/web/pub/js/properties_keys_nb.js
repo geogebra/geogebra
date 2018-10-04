@@ -3210,6 +3210,7 @@ __GGB__keysVar["nb"].menu = {
     "exam_menu_entry": "Pr\xf8vermodul",
     "exam_menu_exit": "Avslutt pr\xf8vemodul",
     "exam_not_supported": "Pr\xf8vemodus i GeoGebra er dessverre bare mulig i Android 5 eller senere versjoner.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "Det er dessverre bare st\xf8tte for pr\xf8vemodus i GeoGebra p\xe5 iOS 9.3.2 eller senere versjoner.",
     "exam_pin": "L\xe5s skjermen til denne appen",
     "exam_prepare_header": "Gj\xf8r klart for pr\xf8vemodus",

@@ -3210,6 +3210,7 @@ __GGB__keysVar["fr"].menu = {
     "exam_menu_entry": "Examen",
     "exam_menu_exit": "Quitter Examen",
     "exam_not_supported": "D\xe9sol\xe9, GeoGebra ne peut travailler en Mode Examen qu'avec Android version 5 ou ult\xe9rieures.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "D\xe9sol\xe9, GeoGebra ne peut travailler en Mode Examen qu'avec iOS 9.3.2 ou versions ult\xe9rieures.",
     "exam_pin": "\xc9pingler l'application",
     "exam_prepare_header": "Pr\xe9paration Mode Examen",

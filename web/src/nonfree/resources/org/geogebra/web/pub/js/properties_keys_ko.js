@@ -3210,6 +3210,7 @@ __GGB__keysVar["ko"].menu = {
     "exam_menu_entry": "\ud3c9\uac00 \ubaa8\ub4dc",
     "exam_menu_exit": "\ud3c9\uac00 \uc885\ub8cc",
     "exam_not_supported": "\uc9c0\uc624\uc9c0\ube0c\ub77c \ud3c9\uac00 \ubaa8\ub4dc\ub294 Android 5\ub098 \uadf8 \uc774\ud6c4\uc758 \ubc84\uc804\uc5d0\uc11c\ub9cc \uc9c0\uc6d0\ub429\ub2c8\ub2e4.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "\uc9c0\uc624\uc9c0\ube0c\ub77c \ud3c9\uac00 \ubaa8\ub4dc\ub294 iOS 9.3.2\ub098 \uadf8 \uc774\ud6c4\uc758 \ubc84\uc804\uc5d0\uc11c\ub9cc \uc9c0\uc6d0\ub429\ub2c8\ub2e4.",
     "exam_pin": "Pin \uc571",
     "exam_prepare_header": "\ud3c9\uac00 \ubaa8\ub4dc \uc900\ube44",

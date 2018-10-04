@@ -3210,6 +3210,7 @@ __GGB__keysVar["is"].menu = {
     "exam_menu_entry": "Pr\xf3fhamur",
     "exam_menu_exit": "H\xe6tta \xed pr\xf3fham",
     "exam_not_supported": "\xdev\xed mi\xf0ur er GeoGebra \xed pr\xf3fham einungis \xed bo\xf0i fyrir Android 5 e\xf0a n\xfdrri \xfatg\xe1fur.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "GeoGebra pr\xf3fhamur b\xfd\xf0st \xfev\xed mi\xf0ur einungis fyrir iOS 9.3.2 e\xf0a seinni \xfatg\xe1fur.",
     "exam_pin": "L\xe6sa \xe1 skj\xe1",
     "exam_prepare_header": "Undirb\xfaa pr\xf3fham",

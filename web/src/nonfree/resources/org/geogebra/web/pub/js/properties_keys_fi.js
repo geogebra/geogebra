@@ -3210,6 +3210,7 @@ __GGB__keysVar["fi"].menu = {
     "exam_menu_entry": "Koe",
     "exam_menu_exit": "Poistu koetilasta",
     "exam_not_supported": "GeoGebran koetila on k\xe4ytett\xe4viss\xe4 vain Android 5:ss\xe4 tai uudemmissa versioissa.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "Valitan, GeoGebran koetila toimii vain iOS:n 9.3.2 ja sit\xe4 uudemmissa versioissa.",
     "exam_pin": "Kiinnit\xe4 App",
     "exam_prepare_header": "Valmistele koetila",

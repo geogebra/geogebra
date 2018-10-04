@@ -3210,6 +3210,7 @@ __GGB__keysVar["sl"].menu = {
     "exam_menu_entry": "Na\u010din za preverjanje",
     "exam_menu_exit": "Izhod iz na\u010dina re\u0161evanja nalog",
     "exam_not_supported": "GeoGebra Preverjanje je podprto le za Android 5 ali kasnej\u0161e verzije.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "\u017dal je preverjanje v GeoGebri mogo\u010de le na iOS 9.3.2 ali kasnej\u0161ih verzijah.",
     "exam_pin": "Pripni aplikacijo",
     "exam_prepare_header": "Pripravi preverjanje",

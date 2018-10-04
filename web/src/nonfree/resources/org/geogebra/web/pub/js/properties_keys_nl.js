@@ -3210,6 +3210,7 @@ __GGB__keysVar["nl"].menu = {
     "exam_menu_entry": "Examenmodus",
     "exam_menu_exit": "Examenmodus afsluiten",
     "exam_not_supported": "Sorry, de GeoGebra Examenmodus wordt enkel ondersteund op Android 5 of recentere versies.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "Sorry, GeoGebra Examenmodus wordt enkel ondersteund door iOS 9.3.2 en latere versies.",
     "exam_pin": "Pin App",
     "exam_prepare_header": "Bereid deExamen modus voor",

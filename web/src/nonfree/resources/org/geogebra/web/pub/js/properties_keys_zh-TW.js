@@ -3210,6 +3210,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "exam_menu_entry": "\u6e2c\u9a57\u6a21\u5f0f",
     "exam_menu_exit": "\u7d50\u675f\u6e2c\u9a57",
     "exam_not_supported": "Sorry, GeoGebra Exam Mode is supported only on Android 5 or later versions.",
+    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
     "exam_not_supported_ios": "Sorry, GeoGebra Exam Mode is supported only on iOS 9.3.2 or later versions.",
     "exam_pin": "Pin App",
     "exam_prepare_header": "Prepare Exam Mode",
