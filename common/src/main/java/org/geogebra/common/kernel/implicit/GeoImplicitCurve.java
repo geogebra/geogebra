@@ -616,7 +616,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void set(GeoElementND geo) {
-		ExpressionValue unwrapped = geo.getDefinition().unwrap();
+		ExpressionValue unwrapped = geo.getDefinition() == null ? null
+				: geo.getDefinition().unwrap();
 		if (unwrapped instanceof Equation) {
 			Equation copied = ((Equation) unwrapped).deepCopy(kernel);
 			copied.initEquation();
