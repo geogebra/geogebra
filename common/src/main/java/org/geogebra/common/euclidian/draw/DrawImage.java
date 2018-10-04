@@ -796,7 +796,7 @@ public final class DrawImage extends Drawable {
 
 		double newWidth = 1;
 		double newHeight = 1;
-		double rwEventX = view.toRealWorldCoordX(eventX);
+		int widthThreshold = Math.min(IMG_WIDTH_THRESHOLD, image.getWidth());
 		if (A == null) {
 			A = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(A, 1);
@@ -811,50 +811,47 @@ public final class DrawImage extends Drawable {
 		}
 		switch (handler) {
 		case TOP_RIGHT:
-			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			B.setX(rwEventX);
-			newWidth = rwEventX - D.getInhomX();
+			newWidth = Math.max(eventX - view.toScreenCoordXd(A.getInhomX()),
+					widthThreshold);
+			B.setX(view.toRealWorldCoordX(
+					view.toScreenCoordXd(A.getInhomX()) + newWidth));
 			newHeight = -originalRatio * newWidth;
 			B.updateCoords();
 			B.updateRepaint();
 			D.setX(A.getInhomX());
-			D.setY(A.getInhomY() - newHeight);
+			D.setY(view.toRealWorldCoordY(
+					view.toScreenCoordYd(A.getInhomY()) + newHeight));
 			D.updateCoords();
 			D.updateRepaint();
 			setCorner(D, 2);
 			break;
 		case TOP_LEFT:
-			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			A.setX(rwEventX);
+			newWidth = Math.max(view.toScreenCoordXd(B.getInhomX()) - eventX,
+					widthThreshold);
+			A.setX(view.toRealWorldCoordX(
+					view.toScreenCoordXd(B.getInhomX()) - newWidth));
 			A.updateCoords();
 			A.updateRepaint();
-			D.setX(rwEventX);
-			newWidth = B.getInhomX() - rwEventX;
 			newHeight = -originalRatio * newWidth;
-			D.setY(B.getInhomY() - newHeight);
+			D.setX(A.getInhomX());
+			D.setY(view.toRealWorldCoordY(
+					view.toScreenCoordYd(B.getInhomY()) + newHeight));
 			D.updateCoords();
 			D.updateRepaint();
 			setCorner(D, 2);
 			break;
 		case BOTTOM_RIGHT:
-			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
+			newWidth = Math.max(eventX - view.toScreenCoordXd(A.getInhomX()),
+					widthThreshold);
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
 			setCorner(D, 2);
-			B.setX(rwEventX);
-			newWidth = rwEventX - D.getInhomX();
 			newHeight = -originalRatio * newWidth;
-			B.setY(D.getInhomY() + newHeight);
+			B.setX(view.toRealWorldCoordX(
+					view.toScreenCoordXd(A.getInhomX()) + newWidth));
+			B.setY(view.toRealWorldCoordY(
+					view.toScreenCoordYd(D.getInhomY()) - newHeight));
 			B.updateCoords();
 			B.updateRepaint();
 			A.setY(B.getInhomY());
@@ -862,14 +859,13 @@ public final class DrawImage extends Drawable {
 			A.updateRepaint();
 			break;
 		case BOTTOM_LEFT:
-			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			A.setX(rwEventX);
-			newWidth = B.getInhomX() - rwEventX;
+			newWidth = Math.max(view.toScreenCoordXd(B.getInhomX()) - eventX,
+					widthThreshold);
+			A.setX(view.toRealWorldCoordX(
+					view.toScreenCoordXd(B.getInhomX()) - newWidth));
 			newHeight = -originalRatio * newWidth;
-			A.setY(D.getInhomY() + newHeight);
+			A.setY(view.toRealWorldCoordY(
+					view.toScreenCoordYd(D.getInhomY()) - newHeight));
 			A.updateCoords();
 			A.updateRepaint();
 			B.setY(A.getInhomY());
@@ -881,11 +877,10 @@ public final class DrawImage extends Drawable {
 			setCorner(D, 2);
 			break;
 		case RIGHT:
-			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			B.setX(rwEventX);
+			newWidth = Math.max(eventX - view.toScreenCoordXd(A.getInhomX()),
+					widthThreshold);
+			B.setX(view.toRealWorldCoordX(
+					view.toScreenCoordXd(A.getInhomX()) + newWidth));
 			B.updateCoords();
 			B.updateRepaint();
 			D.setX(A.getInhomX());
@@ -895,11 +890,10 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case LEFT:
-			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			A.setX(rwEventX);
+			newWidth = Math.max(view.toScreenCoordXd(B.getInhomX()) - eventX,
+					widthThreshold);
+			A.setX(view.toRealWorldCoordX(
+					view.toScreenCoordXd(B.getInhomX()) - newWidth));
 			A.updateCoords();
 			A.updateRepaint();
 			D.setX(A.getInhomX());
@@ -909,11 +903,10 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case TOP:
-			if (view.toScreenCoordYd(A.getInhomY()) - eventY <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			D.setY(view.toRealWorldCoordY(eventY));
+			newHeight = Math.max(view.toScreenCoordYd(A.getInhomY()) - eventY,
+					widthThreshold);
+			D.setY(view.toRealWorldCoordX(
+					view.toScreenCoordXd(A.getInhomY()) + newHeight));
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
@@ -921,18 +914,17 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case BOTTOM:
-			if (eventY - view.toScreenCoordYd(D.getInhomY()) <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
+			newHeight = Math.max(eventY - view.toScreenCoordYd(D.getInhomY()),
+					widthThreshold);
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
 			setCorner(D, 2);
-			A.setY(view.toRealWorldCoordY(eventY));
+			A.setY(view.toRealWorldCoordX(
+					view.toScreenCoordXd(D.getInhomY()) - newHeight));
 			A.updateCoords();
 			A.updateRepaint();
-			B.setY(view.toRealWorldCoordY(eventY));
+			B.setY(A.getInhomY());
 			B.updateCoords();
 			B.updateRepaint();
 			originalRatio = Double.NaN;
