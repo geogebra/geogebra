@@ -4072,14 +4072,14 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SURFACE_2D:
 			return prerelease;
 
-		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
-			return true;
-
 		case CENTER_STANDARD_VIEW:
 			return true;
 
 		case FLOATING_SETTINGS:
 			return isUnbundledOrWhiteboard();
+
+		case SYMBOLIC_AV:
+			return canary;
 
 		/** GGB-2005 */
 		case TOOLTIP_DESIGN:
@@ -4091,10 +4091,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** GGB-1986 */
 		case DIALOG_DESIGN:
 			return isUnbundledOrWhiteboard();
-
-		/** MOW-390 GGB */
-		case WHOLE_PAGE_DRAG:
-			return true;
 
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
@@ -4119,9 +4115,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GBB-2374 */
 		case MAT_DESIGN_HEADER:
-			return true;
-
-		case SHARE_DIALOG_MAT_DESIGN:
 			return true;
 
 		/** GBB-2394 */

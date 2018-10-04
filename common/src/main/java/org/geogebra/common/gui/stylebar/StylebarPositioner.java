@@ -251,8 +251,7 @@ public class StylebarPositioner {
 			}
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
-				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
+		if (app.getMode() == EuclidianConstants.MODE_SELECT) {
 			if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
 				return getPositionForSelection(stylebarHeight, stylebarWidth,
 						canvasRect);

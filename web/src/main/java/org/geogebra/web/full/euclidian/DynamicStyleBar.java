@@ -157,8 +157,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		this.getElement().getStyle().setTop(-10000, Unit.PX);
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
-				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
+		if (app.getMode() == EuclidianConstants.MODE_SELECT) {
 			GRectangle selectionRectangle = app.getActiveEuclidianView().getSelectionRectangle();
 			if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) || selectionRectangle != null) {
 				setPosition(

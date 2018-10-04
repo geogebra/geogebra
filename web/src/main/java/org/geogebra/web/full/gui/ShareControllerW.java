@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
@@ -92,9 +91,7 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {
-		if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN) || app.has(Feature.MOW_SHARE_DIALOG)) {
-			app.getSaveController().saveActiveMaterial(shareCallback);
-		}
+		app.getSaveController().saveActiveMaterial(shareCallback);
 	}
 
 	private void loginForShare() {

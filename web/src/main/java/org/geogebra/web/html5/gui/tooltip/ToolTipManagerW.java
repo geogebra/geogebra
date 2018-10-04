@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
@@ -316,8 +315,7 @@ public final class ToolTipManagerW {
 			}
 		}
 		lastTipVisible = true;
-		if ((appw.has(Feature.SHARE_DIALOG_MAT_DESIGN)
-				&& link == ToolTipLinkType.ViewSavedFile)
+		if ((link == ToolTipLinkType.ViewSavedFile)
 				|| (link == ToolTipLinkType.Help && helpURL != null
 						&& helpURL.length() > 0)) {
 				scheduleHideBottom();

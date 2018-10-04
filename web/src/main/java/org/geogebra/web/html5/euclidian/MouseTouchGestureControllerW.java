@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -431,8 +430,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	private boolean isWholePageDrag() {
-		boolean result = app.has(Feature.WHOLE_PAGE_DRAG)
-				&& ec.getMode() == EuclidianConstants.MODE_MOVE
+		boolean result = ec.getMode() == EuclidianConstants.MODE_MOVE
 				&& !app.isShiftDragZoomEnabled()
 				&& ec.getView().getHits().isEmpty();
 		return result;

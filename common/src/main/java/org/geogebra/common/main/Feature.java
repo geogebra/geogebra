@@ -131,9 +131,6 @@ public enum Feature {
 
 	SHOW_STEPS,
 
-	/** GGB-1907 */
-	DYNAMIC_STYLEBAR_SELECTION_TOOL,
-
 	/** GGB-1910 */
 	LABEL_SETTING_ON_STYLEBAR,
 
@@ -175,9 +172,6 @@ public enum Feature {
 
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
-
-	/** MOW-390 GGB */
-	WHOLE_PAGE_DRAG,
 
 	/** GGB-650 */
 	GGB_WEB_ASSEMBLY,
@@ -242,9 +236,6 @@ public enum Feature {
 
 	/** GGB-2375 */
 	INPUT_BOX_LINE_UP_BETTER,
-
-	/** GGB-2416 */
-	SHARE_DIALOG_MAT_DESIGN,
 
 	/** GGB-2488 */
 	SELECT_NEXT_GEO_IN_VIEW,
@@ -313,6 +304,9 @@ public enum Feature {
 	MOB_DEFAULT_ROUNDING_13,
 
 	/** GGB-2538 */
-	TOOLS_WITH_NAMES
+	TOOLS_WITH_NAMES,
+
+	/** GGB-2542 */
+	SYMBOLIC_AV
 }
 
