@@ -2,7 +2,6 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -86,10 +85,13 @@ public class TextControllerW
 		}
 	}
 
-	private void updateEditor(int x, int y, int width, int height) {
+	private void updateEditor(GFont font, int x, int y, int width, int height) {
 		if (editor == null) {
 			createGUI();
 		}
+		editor.setFont(font);
+		editor.setLineHeight(font.getSize() * 1.5);
+		editor.setColor(text.getObjectColor());
 		editor.setText(text.getText().getTextString());
 		editor.setPosition(x, y);
 		editor.setWidth(width);
@@ -128,6 +130,10 @@ public class TextControllerW
 		edit(geo, false);
 	}
 
+	private DrawText getDrawText(GeoText geo) {
+		return (DrawText) getView().getDrawableFor(geo);
+	}
+
 	private void edit(GeoText geo, boolean create) {
 		if (geo.isLaTeX() || !geo.isIndependent()) {
 			return;
@@ -136,7 +142,7 @@ public class TextControllerW
 		this.text = geo;
 		text.update();
 
-		DrawText d = (DrawText) getView().getDrawableFor(geo);
+		DrawText d = getDrawText(geo);
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
 			int y = d.yLabel - d.getFontSize()
@@ -145,7 +151,7 @@ public class TextControllerW
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
 			int height = (int) d.getBounds().getHeight()
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
-			updateEditor(x, y, width, height);
+			updateEditor(d.getTextFont(), x, y, width, height);
 			if (create) {
 				updateBoundingBox();
 			}
@@ -159,7 +165,7 @@ public class TextControllerW
 	 * Update bounding box and repaint.
 	 */
 	void doUpdateBoundingBox() {
-		DrawText d = (DrawText) getView().getDrawableFor(text);
+		DrawText d = getDrawText(text);
 		if (d != null) {
 			d.adjustBoundingBoxToText(getEditorBounds());
 			getView().setBoundingBox(d.getBoundingBox());
@@ -183,22 +189,6 @@ public class TextControllerW
 			return null;
 		}
 		return editor.getBounds();
-	}
-
-	@Override
-	public void setEditorFont(GFont font) {
-		if (editor == null) {
-			return;
-		}
-		editor.setFont(font);
-	}
-
-	@Override
-	public void setEditorLineHeight(double h) {
-		if (editor == null) {
-			return;
-		}
-		editor.setLineHeight(h);
 	}
 
 	@Override
@@ -286,14 +276,6 @@ public class TextControllerW
 			}
 		}
 		return currWord + nextChar;
-	}
-
-	@Override
-	public void setEditorColor(GColor color) {
-		if (editor == null) {
-			return;
-		}
-		editor.setColor(color);
 	}
 
 	@Override

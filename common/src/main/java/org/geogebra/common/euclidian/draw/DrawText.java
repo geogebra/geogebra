@@ -199,12 +199,6 @@ public final class DrawText extends Drawable {
 				boundingBox.resetBoundingBox();
 			}
 		}
-
-		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
-			ctrl.setEditorFont(textFont);
-			ctrl.setEditorLineHeight(textFont.getSize() * 1.5);
-			ctrl.setEditorColor(geo.getObjectColor());
-		}
 	}
 
 	@Override
@@ -461,5 +455,12 @@ public final class DrawText extends Drawable {
 	public int getFontSize() {
 		return (int) Math.max(4,
 				view.getFontSize() * text.getFontSizeMultiplier());
+	}
+
+	/**
+	 * @return the textFont
+	 */
+	public GFont getTextFont() {
+		return textFont;
 	}
 }

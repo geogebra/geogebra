@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -39,22 +37,6 @@ public interface TextController {
 	public GRectangle getEditorBounds();
 
 	/**
-	 * Sets editor font.
-	 * 
-	 * @param font
-	 *            to set.
-	 */
-	void setEditorFont(GFont font);
-
-	/**
-	 * Sets editor color.
-	 * 
-	 * @param color
-	 *            to set.
-	 */
-	void setEditorColor(GColor color);
-
-	/**
 	 * Handles pointer press on text object.
 	 */
 	void handleTextPressed();
@@ -85,15 +67,6 @@ public interface TextController {
 	 * @return wrapped text
 	 */
 	String wrapText(String editText, DrawText d);
-
-	/**
-	 * Sets the line height of the editor
-	 * 
-	 * @param d
-	 *            the new line height.
-	 */
-	void setEditorLineHeight(double d);
-
 	/**
 	 * 
 	 * @return if text editor is active.
