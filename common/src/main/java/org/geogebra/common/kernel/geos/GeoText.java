@@ -121,8 +121,8 @@ public class GeoText extends GeoElement
 	private EditMode editMode = EditMode.None;
 
 	private int textHeight;
-	private GRectangle boundingBoxForWhiteboard;
-
+	private GRectangle mowBoundingBox;
+	private boolean mowBoundingBoxJustLoaded = false;
 	private enum EditMode {
 		None, Ready, Edit
 	}
@@ -674,19 +674,19 @@ public class GeoText extends GeoElement
 			return;
 		}
 
-		if (boundingBoxForWhiteboard == null) {
+		if (mowBoundingBox == null) {
 			Log.debug("No bounding box for text " + getTextString() + "!");
 			return;
 		}
 		sb.append("\t<boundingBox");
 		sb.append(" x=\"");
-		sb.append(boundingBoxForWhiteboard.getX());
+		sb.append(mowBoundingBox.getX());
 		sb.append("\" y=\"");
-		sb.append(boundingBoxForWhiteboard.getY());
+		sb.append(mowBoundingBox.getY());
 		sb.append("\" width=\"");
-		sb.append(boundingBoxForWhiteboard.getWidth());
+		sb.append(mowBoundingBox.getWidth());
 		sb.append("\" height=\"");
-		sb.append(boundingBoxForWhiteboard.getHeight());
+		sb.append(mowBoundingBox.getHeight());
 		sb.append("\"/>\n");
 
 	}
@@ -1554,8 +1554,8 @@ public class GeoText extends GeoElement
 	 * 
 	 * @return the bounding box for whiteboard.
 	 */
-	public GRectangle getBoundingBoxForWhiteboard() {
-		return boundingBoxForWhiteboard;
+	public GRectangle getMowBoundingBox() {
+		return mowBoundingBox;
 	}
 
 	/**
@@ -1564,8 +1564,25 @@ public class GeoText extends GeoElement
 	 * @param rect
 	 *            to set.
 	 */
-	public void setBoundingBoxForWhiteboard(GRectangle rect) {
-		this.boundingBoxForWhiteboard = rect;
+	public void setMowBoundingBox(GRectangle rect) {
+		this.mowBoundingBox = rect;
+	}
+
+	/**
+	 * @return true if the bounding box is just loaded from material.
+	 */
+	public boolean isMowBoundingBoxJustLoaded() {
+		return mowBoundingBoxJustLoaded;
+	}
+
+	/**
+	 * Sets if the bounding box is just loaded from material.
+	 * 
+	 * @param b
+	 *            to set.
+	 */
+	public void setMowBoundingBoxJustLoaded(boolean b) {
+		this.mowBoundingBoxJustLoaded = b;
 	}
 
 }

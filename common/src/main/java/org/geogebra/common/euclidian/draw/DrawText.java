@@ -194,7 +194,7 @@ public final class DrawText extends Drawable {
 		if (boundingBox != null) {
 			if (isWhiteboardText()) {
 				boundingBox.setRectangle(getBounds());
-				text.setBoundingBoxForWhiteboard(getBounds());
+				text.setMowBoundingBox(getBounds());
 			} else {
 				boundingBox.resetBoundingBox();
 			}
@@ -354,8 +354,9 @@ public final class DrawText extends Drawable {
 					(int) Math.max(labelRectangle.getHeight(),
 							MIN_EDITOR_HEIGHT));
 		} else if (view.getApplication().has(Feature.MOW_TEXT_TOOL)) {
-			if (text.getBoundingBoxForWhiteboard() != null) {
-				labelRectangle.setBounds(text.getBoundingBoxForWhiteboard());
+			if (text.isMowBoundingBoxJustLoaded()) {
+				labelRectangle.setBounds(text.getMowBoundingBox());
+				text.setMowBoundingBoxJustLoaded(false);
 			}
 		}
 		return labelRectangle;
@@ -366,11 +367,7 @@ public final class DrawText extends Drawable {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
 				boundingBox = new BoundingBox(false, false);
-				if (text.getBoundingBoxForWhiteboard() != null) {
-					boundingBox.setRectangle(text.getBoundingBoxForWhiteboard());
-				} else {
-					boundingBox.setRectangle(getBounds());
-				}
+				boundingBox.setRectangle(getBounds());
 			}
 			return boundingBox;
 		}

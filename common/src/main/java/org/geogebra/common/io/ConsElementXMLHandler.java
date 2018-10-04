@@ -1414,7 +1414,9 @@ public class ConsElementXMLHandler {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(
 				Integer.parseInt(attrs.get("x")), Integer.parseInt(attrs.get("y")),
 				Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
-		((GeoText) geo).setBoundingBoxForWhiteboard(rect);
+		GeoText text = (GeoText) geo;
+		text.setMowBoundingBox(rect);
+		text.setMowBoundingBoxJustLoaded(true);
 		return true;
 	}
 
