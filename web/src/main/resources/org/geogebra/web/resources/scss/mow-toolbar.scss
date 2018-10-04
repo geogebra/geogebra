@@ -124,12 +124,12 @@
 	    			width: 582px;
 	
 					.penPanel {
-						width: 144px;
+						width: 160px;
 					}
 				
 					.colorPanel {
 					    position: absolute;
-					    left: 142px;
+					    left: 160px;
 					    margin: 0px;
 					    bottom: 84px;
 					    
@@ -178,7 +178,7 @@
 				
 					.sizePanel {
 					    position: absolute;
-					    left: 174px;
+					    left: 180px;
 					    top: 92px;
 					    
 					    .mowOptionsSlider { 
@@ -216,7 +216,7 @@
 					    .toolButton {
 					    	display: inline-block;	
 					    	vertical-align: bottom;
-						    margin: 0px 20px !important;
+						    margin: 0px 12px !important;
 						 }
 					}	
 			 	}
@@ -237,12 +237,11 @@
 		display: inline-block;
 		margin: 0px !important;
 	    border-radius: 4px;
-	    height: 72px;
-	    margin-right: 8px !important;	
+	    height: 72px;	
 	    cursor: pointer;
 	    
 		img {
-			padding: 8px 20px;		
+			padding: 8px 28px;		
 		    opacity: 0.54;	
 		}
 	
@@ -250,7 +249,7 @@
 			color: $text-secondary;	
 			font-size: 12px;
 		    margin: 0px !important;
-		    width: 64px;
+		    width: 80px;
 		    height: 28px;
 		    text-align: center;
 		    vertical-align: top;
