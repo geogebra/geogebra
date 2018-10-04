@@ -171,6 +171,15 @@ public interface GeoGebraCasInterface {
 	 */
 	public void initCurrentCAS();
 
+	/**
+	 * @param inValue
+	 *            output in GeoGebra syntax
+	 * @param geoCasCell
+	 *            CAS / AV cell
+	 * @param kernel
+	 *            kernel
+	 * @return parsed expression
+	 */
 	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
 			Kernel kernel);
 

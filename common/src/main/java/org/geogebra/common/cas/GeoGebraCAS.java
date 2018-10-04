@@ -1080,6 +1080,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return varSwaps;
 	}
 
+	@Override
 	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
 			Kernel kernel) {
 		try {
@@ -1090,7 +1091,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			geoCasCell.setError(c.getKey());
 			return null;
 		} catch (Throwable e) {
-
 			return null;
 		}
 	}

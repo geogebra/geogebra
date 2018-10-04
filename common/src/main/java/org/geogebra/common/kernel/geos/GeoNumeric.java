@@ -2093,6 +2093,7 @@ public class GeoNumeric extends GeoElement
 		return sb.toString();
 	}
 
+	@Override
 	public Function getFunction(boolean b) {
 		return new Function(wrap(), new FunctionVariable(kernel));
 	}

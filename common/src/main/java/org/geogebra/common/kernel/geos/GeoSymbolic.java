@@ -49,8 +49,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 
 	@Override
 	public void set(GeoElementND geo) {
-		// TODO Auto-generated method stub
-
+		reuseDefinition(geo);
+		if (geo instanceof GeoSymbolic) {
+			value = ((GeoSymbolic) geo).getValue();
+		}
 	}
 
 	@Override

@@ -4748,6 +4748,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sb.append(isContinuous());
 		sb.append("\"/>\n");
 
+		if (symbolicMode == SymbolicMode.SYMBOLIC_AV) {
+			sb.append("\t<symbolic val=\"true\"/>\n");
+		}
+
 		sb.append("\t<usePathAndRegionParameters val=\"");
 		sb.append(usePathAndRegionParameters.getXML());
 		sb.append("\"/>\n");

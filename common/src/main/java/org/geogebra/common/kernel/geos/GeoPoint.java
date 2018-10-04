@@ -705,6 +705,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @param a
 	 *            increment
 	 */
+	@Override
 	public void addToPathParameter(double a) {
 		PathParameter parameter = getPathParameter();
 		parameter.t += a;

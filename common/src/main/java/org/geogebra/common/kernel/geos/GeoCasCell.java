@@ -174,10 +174,7 @@ public class GeoCasCell extends GeoElement
 		substList = new ArrayList<>();
 	}
 
-	/**
-	 * @param assignmentType
-	 *            the {@link AssignmentType} to set
-	 */
+	@Override
 	public void setAssignmentType(AssignmentType assignmentType) {
 		this.assignmentType = assignmentType;
 	}
@@ -2154,10 +2151,7 @@ public class GeoCasCell extends GeoElement
 		}
 	}
 
-	/**
-	 * Computes the output of this CAS cell based on its current input settings.
-	 * Note that this will also change a corresponding twinGeo.
-	 */
+	@Override
 	final public void computeOutput() {
 		// do not compute output if this cell is used as a text cell
 		if (!useAsText) {
@@ -2765,10 +2759,7 @@ public class GeoCasCell extends GeoElement
 
 	}
 
-	/**
-	 * @param error
-	 *            error message
-	 */
+	@Override
 	public void setError(final String error) {
 		this.error = error;
 		clearStrings();
@@ -3597,19 +3588,16 @@ public class GeoCasCell extends GeoElement
 
 	@Override
 	public boolean useSignificantFigures() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean justFontSize() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isLaTeXTextCommand() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

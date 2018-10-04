@@ -123,6 +123,7 @@ public class GeoText extends GeoElement
 	private int textHeight;
 	private GRectangle mowBoundingBox;
 	private boolean mowBoundingBoxJustLoaded = false;
+
 	private enum EditMode {
 		None, Ready, Edit
 	}
