@@ -1509,6 +1509,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
+		resetTextTool();
 	}
 
 	private void updatePerspective(Perspective p) {
