@@ -125,4 +125,17 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 		setValue(casOutput);
 	}
 
+	@Override
+	public String toString(StringTemplate tpl) {
+		if (value == null) {
+			return "?";
+		}
+		return getLabelSimple() + " = " + value.toString(tpl);
+	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
+		return true;
+	}
+
 }

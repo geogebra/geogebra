@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,6 +41,16 @@ public class GeoSymbolicTest {
 	public void dependentExpression() {
 		t("a=p+q", "p + q");
 		t("b=2*a", "2 * p + 2 * q");
+	}
+
+	@Test
+	public void latex() {
+		t("a=sqrt(8)", "sqrt(2) * 2");
+		GeoElement geo1 = app.getKernel().lookupLabel("a");
+		String text = geo1.getLaTeXAlgebraDescription(
+				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
+				StringTemplate.latexTemplate);
+		Assert.assertEquals("a \\, = \\,\\sqrt{2} \\cdot 2", text);
 	}
 
 }
