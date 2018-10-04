@@ -22,6 +22,7 @@ import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
 
 import java.util.ArrayList;
 
@@ -124,6 +125,11 @@ public class PropertiesFactory {
 					.add(new GraphicsPositionProperty(app));
 		}
         propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
+
+        if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
+            propertyList.add(new PlaneVisibilityProperty(localization, euclidianSettings));
+        }
+
         propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
 
         if (!"3D".equals(app.getVersion().getAppName())) {
