@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
@@ -45,7 +46,7 @@ public class DrawablesTest {
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
 				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
-				"audio", "video", "embed" };
+				"audio", "video", "embed", "symbolic" };
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);
 		GeoAudio au = new GeoAudio(app.getKernel().getConstruction());
@@ -54,6 +55,9 @@ public class DrawablesTest {
 		video.setLabel("video");
 		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
 		embed.setLabel("embed");
+		GeoSymbolic symbolic = new GeoSymbolic(
+				app.getKernel().getConstruction());
+		symbolic.setLabel("symbolic");
 		TreeSet<GeoClass> types = new TreeSet<>();
 		for (int i = 0; i < def.length; i++) {
 			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
@@ -86,6 +90,7 @@ public class DrawablesTest {
 		case IMPLICIT_SURFACE_3D:
 		case AXIS:
 		case AXIS3D:
+		case SYMBOLIC:
 			return true;
 		}
 		return false;
