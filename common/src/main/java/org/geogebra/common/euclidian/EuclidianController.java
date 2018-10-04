@@ -8042,11 +8042,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
 			// calculate new positions relative to bounding box
-			double newMinX = startBoundingBoxState.getRatios()[i][0] * bbWidth,
-					newMaxX = startBoundingBoxState.getRatios()[i][1] * bbWidth,
-					newMinY = startBoundingBoxState.getRatios()[i][2]
+			double newMinX = startBoundingBoxState.getRatios(i)[0] * bbWidth,
+					newMaxX = startBoundingBoxState.getRatios(i)[1] * bbWidth,
+					newMinY = startBoundingBoxState.getRatios(i)[2]
 							* bbHeight,
-					newMaxY = startBoundingBoxState.getRatios()[i][3]
+					newMaxY = startBoundingBoxState.getRatios(i)[3]
 							* bbHeight;
 			// handle segments
 			if (dr instanceof DrawSegment) {
@@ -8099,25 +8099,49 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// resize to new width and height
 					GPoint2D point = AwtFactory.getPrototype()
 							.newPoint2D(maxXFromOld, maxYFromOld);
-					if (point.getX() != 0 && !thresholdXReached) {
+					if ((newMaxX - newMinX) != bounds.getWidth()
+							&& !thresholdXReached) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.RIGHT);
 						dr.updateGeo(point);
 					}
-					if (point.getY() != 0 && !thresholdYReached) {
+					if ((newMaxY - newMinY) != bounds.getHeight()
+							&& !thresholdYReached) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.BOTTOM);
 						dr.updateGeo(point);
 					}
-				} else if (bounds != null) {
-					// the size of the element wasn't changed so we recalculate
-					// the min points
-					newMinX = newMinX
-							- (bounds.getWidth() - (newMaxX - newMinX));
-					newMinY = newMinY
-							- (bounds.getHeight() - (newMaxY - newMinY));
 				}
 				if (bounds != null) {
+					// if the geo wasn't resized in a direction & the divisor
+					// isn't 0, recalculate the minimum coordinates
+					// the + 1 makes sure this happens even if the final size
+					// is miscalculated, maybe caused by roundings (ie. images)
+					if ((bounds.getWidth() <= dr.getWidthThreshold() + 1)
+							&& (startBoundingBoxState.getRectangle().getWidth()
+									- startBoundingBoxState.getWidth(i)) != 0) {
+						double ratioX = (bbWidth - bounds.getWidth())
+								/ (startBoundingBoxState.getRectangle()
+										.getWidth()
+										- startBoundingBoxState.getWidth(i));
+						newMinX = startBoundingBoxState.getRatios(i)[0]
+								* startBoundingBoxState.getRectangle()
+										.getWidth()
+								* ratioX;
+					}
+					if ((bounds.getHeight() <= dr.getHeightThreshold() + 1)
+							&& (startBoundingBoxState.getRectangle().getHeight()
+									- startBoundingBoxState
+											.getHeight(i)) != 0) {
+						double ratioY = (bbHeight - bounds.getHeight())
+								/ (startBoundingBoxState.getRectangle()
+										.getHeight()
+										- startBoundingBoxState.getHeight(i));
+						newMinY = startBoundingBoxState.getRatios(i)[2]
+								* startBoundingBoxState.getRectangle()
+										.getHeight()
+								* ratioY;
+					}
 					// calculate the difference between the new and old
 					// positions (minX) and then apply translate
 					double dx = thresholdXReached ? 0
