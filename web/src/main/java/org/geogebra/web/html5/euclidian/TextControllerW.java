@@ -285,12 +285,18 @@ public class TextControllerW
 
 	@Override
 	public void handleTextPressed() {
+		if (!isTextHandlingMode()) {
+			return;
+		}
 		lastText = getHit();
-
 	}
 
 	@Override
 	public boolean handleTextReleased(boolean drag) {
+		if (!isTextHandlingMode()) {
+			return false;
+		}
+
 		if (lastText != null) {
 			if (drag) {
 				lastText.setReadyToEdit();
@@ -310,6 +316,12 @@ public class TextControllerW
 			return true;
 		}
 		return false;
+	}
+
+	private boolean isTextHandlingMode() {
+		int mode = app.getMode();
+		return (mode == EuclidianConstants.MODE_MEDIA_TEXT || mode == EuclidianConstants.MODE_SELECT
+				|| mode == EuclidianConstants.MODE_SELECT_MOW);
 	}
 
 	@Override
