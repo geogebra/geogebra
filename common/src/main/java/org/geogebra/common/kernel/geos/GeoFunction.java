@@ -2952,7 +2952,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return false;
 	}
 
-	public Function getFunction(boolean b) {
+	@Override
+	public Function getFunction(boolean forRoot) {
 		return fun;
 	}
 }

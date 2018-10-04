@@ -46,11 +46,22 @@ public class GeoSymbolicTest {
 	@Test
 	public void latex() {
 		t("a=sqrt(8)", "sqrt(2) * 2");
-		GeoElement geo1 = app.getKernel().lookupLabel("a");
-		String text = geo1.getLaTeXAlgebraDescription(
+		String text = getLatex("a");
+		Assert.assertEquals("a \\, = \\,\\sqrt{2} \\cdot 2", text);
+	}
+
+	private static String getLatex(String string) {
+		GeoElement geo1 = app.getKernel().lookupLabel(string);
+		return geo1.getLaTeXAlgebraDescription(
 				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
-		Assert.assertEquals("a \\, = \\,\\sqrt{2} \\cdot 2", text);
+	}
+
+	@Test
+	public void variables() {
+		t("f(x,y)=x+y", "x + y");
+		Assert.assertEquals("f\\left(x, y \\right) \\, = \\,x + y",
+				getLatex("f"));
 	}
 
 }

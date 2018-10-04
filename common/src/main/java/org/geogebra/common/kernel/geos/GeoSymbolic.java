@@ -1,10 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -13,6 +16,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	private ExpressionValue value;
+	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 
 	public ExpressionValue getValue() {
 		return value;
@@ -50,7 +54,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	@Override
 	public void set(GeoElementND geo) {
 		reuseDefinition(geo);
+		fVars.clear();
 		if (geo instanceof GeoSymbolic) {
+			fVars.addAll(((GeoSymbolic) geo).fVars);
 			value = ((GeoSymbolic) geo).getValue();
 		}
 	}
@@ -130,12 +136,53 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 		if (value == null) {
 			return "?";
 		}
-		return getLabelSimple() + " = " + value.toString(tpl);
+		StringBuilder sb = new StringBuilder();
+		appendAssignmentLHS(sb, tpl);
+		sb.append(" = ");
+		sb.append(value.toString(tpl));
+		return sb.toString();
+	}
+
+	@Override
+	public String getAssignmentLHS(StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		appendAssignmentLHS(sb, tpl);
+		return sb.toString();
+	}
+
+	private void appendAssignmentLHS(StringBuilder sb, StringTemplate tpl) {
+		sb.append(getLabelSimple());
+		if (!fVars.isEmpty()) {
+			sb.append(tpl.leftBracket());
+			appendVarString(sb, tpl);
+			sb.append(tpl.rightBracket());
+		}
+	}
+
+	private StringBuilder appendVarString(StringBuilder sb,
+			final StringTemplate tpl) {
+		for (int i = 0; i < fVars.size() - 1; i++) {
+			sb.append(fVars.get(i).toString(tpl));
+			sb.append(", ");
+		}
+		sb.append(fVars.get(fVars.size() - 1).toString(tpl));
+		return sb;
 	}
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
 		return true;
+	}
+
+	/**
+	 * @param functionVariables
+	 *            function variables
+	 */
+	public void setVariables(FunctionVariable[] functionVariables) {
+		fVars.clear();
+		for (FunctionVariable fv : functionVariables) {
+			fVars.add(fv.deepCopy(kernel));
+		}
 	}
 
 }

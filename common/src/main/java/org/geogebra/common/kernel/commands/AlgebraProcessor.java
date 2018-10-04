@@ -959,7 +959,12 @@ public class AlgebraProcessor {
 					noDummyVars);
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
+
 			sym = new GeoSymbolic(cons);
+			if (replaced.unwrap() instanceof FunctionNVar) {
+				sym.setVariables(((FunctionNVar) replaced.unwrap())
+						.getFunctionVariables());
+			}
 			sym.setDefinition(replaced);
 			sym.computeOutput();
 		}
