@@ -7,6 +7,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
@@ -126,8 +127,10 @@ public class PropertiesFactory {
 		}
         propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
 
-        if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
-            propertyList.add(new PlaneVisibilityProperty(localization, euclidianSettings));
+        if (app.has(Feature.MOB_SHOW_HIDE_PLANE)) {
+            if (activeView.isEuclidianView3D()) {
+                propertyList.add(new PlaneVisibilityProperty(localization, (EuclidianSettings3D) euclidianSettings));
+            }
         }
 
         propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));

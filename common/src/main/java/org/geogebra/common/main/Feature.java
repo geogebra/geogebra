@@ -288,6 +288,9 @@ public enum Feature {
 	/** AND-1342, IGR-1010 */
 	MOB_STANDARD_VIEW_ZOOM_BUTTONS,
 
+    /** MOB-1833 */
+    MOB_SHOW_HIDE_PLANE,
+
 	/** MOB-1753 */
 	MOB_QUICK_STYLE_BAR_3D,
 

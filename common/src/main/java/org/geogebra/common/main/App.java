@@ -3740,6 +3740,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_STANDARD_VIEW_ZOOM_BUTTONS:
 			return true;
 
+		// MOB-1833
+		case MOB_SHOW_HIDE_PLANE:
+			return prerelease;
+
 		// MOB-1753
 		case MOB_QUICK_STYLE_BAR_3D:
 			return true;
