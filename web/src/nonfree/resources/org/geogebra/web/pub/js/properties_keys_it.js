@@ -3210,7 +3210,7 @@ __GGB__keysVar["it"].menu = {
     "exam_menu_entry": "Modalit\xe0 Esame",
     "exam_menu_exit": "Esci dall'Esame",
     "exam_not_supported": "La modalit\xe0 Esame di GeoGebra \xe8 disponibile solo per Android 5 e versioni successive.",
-    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
+    "exam_not_supported_chromebook": "Ci spiace, la modalit\xe0 Esame di questa app GeoGebra non \xe8 al momento supportata sui ChromeBook.",
     "exam_not_supported_ios": "La modalit\xe0 Esame di GeoGebra \xe8 supportata solo per iOS 9.3.2 o versioni successive.",
     "exam_pin": "Blocca App",
     "exam_prepare_header": "Preparazione della modalit\xe0 Esame",

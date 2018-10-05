@@ -3210,7 +3210,7 @@ __GGB__keysVar["de-AT"].menu = {
     "exam_menu_entry": "Pr\xfcfungsmodus",
     "exam_menu_exit": "Pr\xfcfung beenden",
     "exam_not_supported": "Der GeoGebra Pr\xfcfngsmodus wird erst ab Android 5 or neueren Versionen unterst\xfctzt.",
-    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
+    "exam_not_supported_chromebook": "GeoGebra Exam Mode is not available in this app on ChromeBooks.",
     "exam_not_supported_ios": "Es tut uns leid, GeoGebra Pr\xfcfungsmodus wird nur von iOS 9.3.2 oder neueren Versionen unterst\xfctzt.",
     "exam_pin": "App anheften",
     "exam_prepare_header": "Pr\xfcfungsmodus vorbereiten",

@@ -3210,7 +3210,7 @@ __GGB__keysVar["tr"].menu = {
     "exam_menu_entry": "S\u0131nav Modu",
     "exam_menu_exit": "S\u0131navdan \xc7\u0131k",
     "exam_not_supported": "\xdczg\xfcn\xfcz, GeoGebra S\u0131nav Modu sadece Android 5 veya sonraki s\xfcr\xfcmler \xfczerinde desteklenmektedir.",
-    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
+    "exam_not_supported_chromebook": "GeoGebra Exam Mode is not available in this app on ChromeBooks.",
     "exam_not_supported_ios": "\xdczg\xfcn\xfcz, GeoGebra S\u0131nav Modu sadece iOS 9.3.2 veya sonraki s\xfcr\xfcmlerde desteklenmektedir.",
     "exam_pin": "Eri\u015fim Uygulamas\u0131",
     "exam_prepare_header": "S\u0131nav Modu Haz\u0131rl\u0131k",

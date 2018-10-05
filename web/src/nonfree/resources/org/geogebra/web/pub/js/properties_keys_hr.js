@@ -3210,7 +3210,7 @@ __GGB__keysVar["hr"].menu = {
     "exam_menu_entry": "Ispitni na\u010din",
     "exam_menu_exit": "Izlaz iz ispita",
     "exam_not_supported": "Na\u017ealost GeoGebria Ispit podr\u017ean je samo za Android 5 ili novije ina\u010dice",
-    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
+    "exam_not_supported_chromebook": "GeoGebra Exam Mode is not available in this app on ChromeBooks.",
     "exam_not_supported_ios": "\u017dao nam je, GeoGebra Ispit podr\u017eana je samo za iOS 9.3.2 ili novije ina\u010dice.",
     "exam_pin": "Zaka\u010dite App",
     "exam_prepare_header": "Pripremite ispit",

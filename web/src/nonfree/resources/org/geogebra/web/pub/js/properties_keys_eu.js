@@ -3210,7 +3210,7 @@ __GGB__keysVar["eu"].menu = {
     "exam_menu_entry": "Azterketa-modua",
     "exam_menu_exit": "Irten Azterketatik",
     "exam_not_supported": "Sentitzen dugu, GeoGebra-azterketa Modua Android 5 edo bertsio berraigoetan soilik dago erabilgarri.",
-    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
+    "exam_not_supported_chromebook": "GeoGebra Exam Mode is not available in this app on ChromeBooks.",
     "exam_not_supported_ios": "Barka, GeoGebraren Azterketa Modua erabiltzeko, beharrezkoa duzu iOS 9.3.2 edo bertsio berriagoa.",
     "exam_pin": "Atxiki Aplikazioa Pantailari",
     "exam_prepare_header": "Gertatu Azterketa-modua",

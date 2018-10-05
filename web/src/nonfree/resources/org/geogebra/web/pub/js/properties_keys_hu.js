@@ -3210,7 +3210,7 @@ __GGB__keysVar["hu"].menu = {
     "exam_menu_entry": "Exam Mode",
     "exam_menu_exit": "Kil\xe9p\xe9s a vizsga \xfczemm\xf3db\xf3l",
     "exam_not_supported": "A GeoGebra vizsga m\xf3d csak Android 5-\xf6n vagy k\xe9s\u0151bbi verzi\xf3kon m\u0171k\xf6dik.",
-    "exam_not_supported_chromebook": "Sorry, GeoGebra Exam Mode on this app is not supported on ChromeBooks so far.",
+    "exam_not_supported_chromebook": "GeoGebra Exam Mode is not available in this app on ChromeBooks.",
     "exam_not_supported_ios": "A GeoGebra vizsga m\xf3dot csak iOS 9.3.2 vagy k\xe9s\u0151bbi verzi\xf3k t\xe1mogatj\xe1k.",
     "exam_pin": "Pin App",
     "exam_prepare_header": "Prepare Exam Mode",
