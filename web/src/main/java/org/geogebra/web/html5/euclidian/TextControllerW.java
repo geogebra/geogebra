@@ -73,6 +73,14 @@ public class TextControllerW
 
 	@Override
 	public void onBlur(BlurEvent event) {
+		stopEditing();
+	}
+
+	@Override
+	public void stopEditing() {
+		if (editor == null || !editor.isVisible()) {
+			return;
+		}
 		editor.hide();
 		String content = editor.getText();
 		if (!StringUtil.empty(content)) {
@@ -343,7 +351,7 @@ public class TextControllerW
 		if (editor == null) {
 			return;
 		}
-		onBlur(null);
+		stopEditing();
 		editor.removeFromParent();
 		editor = null;
 	}

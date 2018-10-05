@@ -74,6 +74,11 @@ public interface TextController {
 	boolean isEditing();
 
 	/**
+	 * Stops the current editor.
+	 */
+	void stopEditing();
+
+	/**
 	 * update editor size
 	 * 
 	 * @param width

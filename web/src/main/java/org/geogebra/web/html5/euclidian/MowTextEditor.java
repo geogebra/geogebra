@@ -55,6 +55,11 @@ public class MowTextEditor extends AdvancedFlowPanel
 		getWidget().addStyleName("hidden");
 	}
 
+	@Override
+	public boolean isVisible() {
+		return !getWidget().getStyleName().contains("hidden");
+	}
+
 	/**
 	 * Sets position of the editor.
 	 * 

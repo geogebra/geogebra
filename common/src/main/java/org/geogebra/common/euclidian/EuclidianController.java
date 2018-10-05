@@ -11036,6 +11036,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
+		if (getTextController() != null) {
+			getTextController().stopEditing();
+		}
+
 		if (isTextfieldHasFocus()) {
 			return;
 		}
