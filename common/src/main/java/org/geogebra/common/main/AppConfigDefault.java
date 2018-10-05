@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.LabelType;
 
 public class AppConfigDefault implements AppConfig {
 
@@ -103,8 +102,8 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public char[] getAngleLabels() {
-		return LabelType.greekLowerCaseLabels;
+	public boolean isGreekAngleLabels() {
+		return true;
 	}
 
 	public boolean isCASEnabled() {

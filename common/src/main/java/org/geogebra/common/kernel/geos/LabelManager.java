@@ -290,10 +290,13 @@ public class LabelManager {
 
 	/**
 	 * Sets the characters which will be used as the labels of the angles.
-	 * @param angleLabels the character array that includes the characters for the angle.
+	 * 
+	 * @param greek
+	 *            whether the characters for the angle should be greek.
 	 */
-	public void setAngleLabels(char[] angleLabels) {
-		this.angleLabels = angleLabels;
+	public void setAngleLabels(boolean greek) {
+		this.angleLabels = greek ? LabelType.greekLowerCaseLabels
+				: LabelType.lowerCaseLabels;
 	}
 
 	/**

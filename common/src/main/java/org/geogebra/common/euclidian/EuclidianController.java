@@ -8099,13 +8099,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// resize to new width and height
 					GPoint2D point = AwtFactory.getPrototype()
 							.newPoint2D(maxXFromOld, maxYFromOld);
-					if ((newMaxX - newMinX) != bounds.getWidth()
+					if (!DoubleUtil.isEqual(newMaxX - newMinX,
+							bounds.getWidth())
 							&& !thresholdXReached) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.RIGHT);
 						dr.updateGeo(point);
 					}
-					if ((newMaxY - newMinY) != bounds.getHeight()
+					if (!DoubleUtil.isEqual(newMaxY - newMinY,
+							bounds.getHeight())
 							&& !thresholdYReached) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.BOTTOM);

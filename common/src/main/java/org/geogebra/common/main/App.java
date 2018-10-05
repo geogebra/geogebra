@@ -438,7 +438,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	private void initLabels() {
-		getLabelManager().setAngleLabels(getConfig().getAngleLabels());
+		getLabelManager().setAngleLabels(getConfig().isGreekAngleLabels());
 	}
 
 	/**

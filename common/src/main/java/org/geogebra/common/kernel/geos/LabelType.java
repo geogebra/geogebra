@@ -21,14 +21,14 @@ public class LabelType {
 	static final char[] conicLabels = { 'c', 'd', 'e', 'f', 'g', 'h',
             'k', 'p', 'q', 'r', 's', 't' };
 
-	public static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
+	static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
             'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
             's', 't', 'u', 'v', 'w' };
 
 	static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l',
             'm', };
 
-    public static final char[] greekLowerCaseLabels = Greek.getGreekLowerCaseNoPi();
+	static final char[] greekLowerCaseLabels = Greek.getGreekLowerCaseNoPi();
 
     // private static final char[] arabicOLD = { '\u0623', '\u0628', '\u062a',
     // '\u062b', '\u062c', '\u062d', '\u062e', '\u062f', '\u0630',

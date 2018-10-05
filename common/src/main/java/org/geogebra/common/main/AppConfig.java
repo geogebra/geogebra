@@ -47,7 +47,7 @@ public interface AppConfig {
     /**
      * @return the array of characters that can be used for the angle labels.
      */
-	char[] getAngleLabels();
+	boolean isGreekAngleLabels();
 
 	boolean isCASEnabled();
 }
