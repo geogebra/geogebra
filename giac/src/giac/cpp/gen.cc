@@ -51,7 +51,7 @@ using namespace std;
 #include "solve.h"
 #include "csturm.h"
 #include "sparse.h"
-#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB || defined FXCG || defined GIAC_GGB
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB || defined FXCG || defined GIAC_GGB || defined USE_GMP_REPLACEMENTS
 inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
 #else
 #include "graphtheory.h"
@@ -4178,6 +4178,8 @@ namespace giac {
       return a;
     if (is_exactly_zero(b)) 
       return a;
+    if (a.type==_DOUBLE_ || a.type==_REAL || a.type==_FLOAT_)
+      return gensizeerr(context0);
     gen res=makemodquoted(0,0);
     if ( (b.type==_INT_) || (b.type==_ZINT) )
       *res._MODptr=smod(a,b);
@@ -10775,7 +10777,7 @@ namespace giac {
     case _INT___INT_: 
       return smod(a.val,b.val);
     case _ZINT__INT_: 
-      return smod(modulo(*a._ZINTptr,b.val),b.val);
+      return smod(modulo(*a._ZINTptr,absint(b.val)),b.val);
     case _INT___ZINT: case _ZINT__ZINT: 
       _ZINTsmod(a,b,rem);
       return(rem);

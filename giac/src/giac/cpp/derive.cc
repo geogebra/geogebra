@@ -650,8 +650,11 @@ namespace giac {
       return gen(derivative(*args._VECTptr),_POLY1__VECT);
     if (args.type==_VECT)
       v=plotpreprocess(gen(*args._VECTptr,_SEQ__VECT),contextptr);
-    else
+    else {
+      if (args==vx_var) // special handling for x(t):=t^2; x'
+	return _derive(eval(args,1,contextptr),contextptr);
       v=plotpreprocess(makesequence(args,vx_var),contextptr);
+    }
     if (v.size()>1 && v[1].is_symb_of_sommet(at_unquote))
       v[1]=eval(v[1],1,contextptr);
     if (is_undef(v))

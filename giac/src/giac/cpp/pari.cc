@@ -385,6 +385,8 @@ namespace giac {
   }
 
   static string pariprint(const gen & e,int varnum,GIAC_CONTEXT){
+    int py=python_compat(contextptr);
+    python_compat(0,contextptr);
     int save_maple_mode=xcas_mode(contextptr);
     xcas_mode(contextptr)=1;
     string res;
@@ -424,6 +426,7 @@ namespace giac {
       res=e.print(contextptr);
     }
     xcas_mode(contextptr)=save_maple_mode;
+    python_compat(py,contextptr);
     return res;
   }
   

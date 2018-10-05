@@ -3953,7 +3953,7 @@ index_status(yyextra)=0;(*yylval)=gen(at_product); return T_UNARY_OP;
 "_me_" (*yylval) = symbolic(at_unit,makevecteur(9.1093897e-31,_kg_unit)); index_status(yyextra)=0; return T_SYMBOL; 
 "_qe_" (*yylval) = symbolic(at_unit,makevecteur(1.60217733e-19,_C_unit)); index_status(yyextra)=0; return T_SYMBOL; 
 "_h_" (*yylval) = symbolic(at_unit,makevecteur(6.6260755e-34,_J_unit*_s_unit)); index_status(yyextra)=0; return T_SYMBOL; 
-"_G_" (*yylval) = symbolic(at_unit,makevecteur(6.67259e-11,unitpow(_m_unit,3)*unitpow(_s_unit,-2)*unitpow(_kg_unit,-1))); index_status(yyextra)=0; return T_SYMBOL; 
+"_G_" (*yylval) = symbolic(at_unit,makevecteur(6.67408e-11,unitpow(_m_unit,3)*unitpow(_s_unit,-2)*unitpow(_kg_unit,-1))); index_status(yyextra)=0; return T_SYMBOL; 
 "_mu0_" (*yylval) = symbolic(at_unit,makevecteur(1.25663706144e-6,_H_unit/_m_unit)); index_status(yyextra)=0; return T_SYMBOL; 
 "_epsilon0_" (*yylval) = symbolic(at_unit,makevecteur(8.85418781761e-12,_F_unit/_m_unit)); index_status(yyextra)=0; return T_SYMBOL; 
 "_sigma_" (*yylval) = symbolic(at_unit,makevecteur( 5.67051e-8,_W_unit*unitpow(_m_unit,-2)*unitpow(_K_unit,-4))); index_status(yyextra)=0; return T_SYMBOL; 

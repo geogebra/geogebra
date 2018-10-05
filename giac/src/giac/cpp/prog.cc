@@ -9529,7 +9529,7 @@ namespace giac {
   const mksa_unit __me_unit={9.1093897e-31,0,1,0,0,0,0,0}; 
   const mksa_unit __qe_unit={1.60217733e-19,0,0,1,1,0,0,0};
   const mksa_unit __h__unit={6.6260755e-34,2,1,-1,0,0,0,0}; 
-  const mksa_unit __G_unit={6.67259e-11,3,-1,-2,0,0,0,0}; 
+  const mksa_unit __G_unit={6.67408e-11,3,-1,-2,0,0,0,0}; 
   const mksa_unit __mu0_unit={1.25663706144e-6,1,1,-2,-2,0,0,0}; 
   const mksa_unit __epsilon0_unit={8.85418781761e-12,-3,-1,4,2,0,0,0}; 
   const mksa_unit __sigma_unit={ 5.67051e-8,0,1,-3,0,-4,0,0}; 

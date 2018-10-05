@@ -45,7 +45,7 @@ using namespace std;
 #include "quater.h"
 #include "sparse.h"
 #include "giacintl.h"
-#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB || defined FXCG || defined GIAC_GGB
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB || defined FXCG || defined GIAC_GGB || defined USE_GMP_REPLACEMENTS
 inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
 inline giac::gen _graph_charpoly(const giac::gen &g,const giac::context *){ return g;}
 #else
@@ -5330,11 +5330,13 @@ static define_unary_function_eval (__bitxor,&_bitxor,_bitxor_s);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_INT_)
       return ~g.val;
+#if !defined(USE_GMP_REPLACEMENTS)
     if (g.type==_ZINT){
       ref_mpz_t *  e = new ref_mpz_t;
       mpz_com(e->z,*g._ZINTptr);
       return e;
     }
+#endif
     return gensizeerr();
   }
   static const char _bitnot_s []="bitnot";
