@@ -14,14 +14,26 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Symbolic geo for CAS computations in AV
+ * 
+ * @author Zbynek
+ */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 
+	/**
+	 * @return output expression
+	 */
 	public ExpressionValue getValue() {
 		return value;
 	}
 
+	/**
+	 * @param value
+	 *            output expression
+	 */
 	public void setValue(ExpressionValue value) {
 		this.value = value;
 	}

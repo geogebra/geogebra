@@ -422,6 +422,7 @@ public class AlgebraProcessor {
 				&& geo.getParentAlgorithm() instanceof AlgoDependentFunction) {
 			ve.traverse(new Traversing() {
 
+				@Override
 				public ExpressionValue process(ExpressionValue ev) {
 					if (ev == geo) {
 						ExpressionNode en = ((AlgoDependentFunction) geo

@@ -20,14 +20,19 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdDerivative extends CommandProcessor {
 
+	private Commands cmd;
+
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param cmd
+	 *            command
 	 */
-	public CmdDerivative(Kernel kernel) {
+	public CmdDerivative(Kernel kernel, Commands cmd) {
 		super(kernel);
+		this.cmd = cmd;
 	}
 
 	@Override
@@ -224,6 +229,12 @@ public class CmdDerivative extends CommandProcessor {
 	 */
 	public GeoElement derivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, GeoNumberValue n, EvalInfo info) {
+		if (cmd == Commands.NDerivative
+				|| !app.getSettings().getCasSettings().isEnabled()) {
+			AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n,
+					true, new EvalInfo(false));
+			return algo.getResult();
+		}
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, info);
 		return algo.getResult();
 	}

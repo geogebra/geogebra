@@ -198,7 +198,7 @@ public class AlgoDerivative extends AlgoCasBase {
 
 		if (f instanceof GeoFunctionNVar) {
 			FunctionNVar inFun = ((GeoFunctionNVar) f).getFunction();
-			if (!kernel.useCASforDerivatives()) {
+			if (!kernel.useCASforDerivatives() || secret) {
 
 				// fast general non-CAS method, output form not so nice
 				FunctionVariable[] fVars = inFun.getFunctionVariables();
@@ -217,7 +217,9 @@ public class AlgoDerivative extends AlgoCasBase {
 				}
 
 				inFun = inFun.getDerivativeNoCAS(fv, orderInt);
-
+				if (secret) {
+					inFun.setSecret(this);
+				}
 				((GeoFunctionNVar) g).setFunction(inFun);
 				((GeoFunctionNVar) g).setDefined(true);
 				return;

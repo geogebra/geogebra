@@ -654,7 +654,7 @@ public class MyDouble extends ValidExpression
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise floor(60degrees) gives
 		// 59degrees
-		if (angleDim == 1 && kernel.angleUnitUsesDegrees(angleUnit)) {
+		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
 			set(Kernel.PI_180 * Math
 					.floor(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
@@ -672,7 +672,7 @@ public class MyDouble extends ValidExpression
 	final public MyDouble ceil(int angleUnit) {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241deg) fails
-		if (angleDim == 1 && kernel.angleUnitUsesDegrees(angleUnit)) {
+		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
 			set(Kernel.PI_180 * Math
 					.ceil(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
@@ -689,7 +689,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public MyDouble round(int angleUnit) {
 		// angle in degrees
-		if (angleDim == 1 && kernel.angleUnitUsesDegrees(angleUnit)) {
+		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
 			set(Kernel.PI_180 * MyDouble.doRound(val * Kernel.CONST_180_PI));
 		} else {
 			// number or angle in radians

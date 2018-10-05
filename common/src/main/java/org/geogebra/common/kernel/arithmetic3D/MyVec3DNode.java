@@ -274,18 +274,18 @@ public class MyVec3DNode extends ValidExpression
 		return true;
 	}
 
-	/** returns all GeoElement objects in the both coordinate subtrees */
+	/** returns all GeoElement objects all coordinate subtrees */
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> temp, varset = x.getVariables(mode);
+	public HashSet<GeoElement> getVariables(SymbolicMode symbolicMode) {
+		HashSet<GeoElement> temp, varset = x.getVariables(symbolicMode);
 		if (varset == null) {
 			varset = new HashSet<>();
 		}
-		temp = y.getVariables(mode);
+		temp = y.getVariables(symbolicMode);
 		if (temp != null) {
 			varset.addAll(temp);
 		}
-		temp = z.getVariables(mode);
+		temp = z.getVariables(symbolicMode);
 		if (temp != null) {
 			varset.addAll(temp);
 		}

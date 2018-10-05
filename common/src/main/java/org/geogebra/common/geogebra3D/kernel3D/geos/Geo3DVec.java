@@ -447,7 +447,7 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+	public HashSet<GeoElement> getVariables(SymbolicMode symbolicMode) {
 		return null;
 	}
 
@@ -702,6 +702,9 @@ final public class Geo3DVec extends ValidExpression
 				Double.NaN);
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}

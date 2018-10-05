@@ -164,6 +164,8 @@ public class CmdTableText extends CommandProcessor {
 	 * 
 	 * @param label
 	 *            label for output
+	 * @param arg
+	 *            arguments
 	 * @param list
 	 *            input matrix
 	 * @param args

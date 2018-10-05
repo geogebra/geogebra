@@ -131,6 +131,8 @@ public interface ExpressionValue {
 	public ExpressionValue evaluate(StringTemplate tpl);
 
 	/**
+	 * @param mode
+	 *            symbolic mode
 	 * @return set of GeoElement variables
 	 */
 	public HashSet<GeoElement> getVariables(SymbolicMode mode);

@@ -9,6 +9,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 
+/**
+ * ShowSteps(Solve/Simplify/Derivative//Expand/Factor(...))
+ */
 public class CmdShowSteps extends CommandProcessor {
 
 	/**

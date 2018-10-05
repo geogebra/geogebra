@@ -514,6 +514,8 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * 
+	 * @param mode
+	 *            symbolic mode
 	 * @return GeoElements acting as variables
 	 */
 	public final GeoElement[] getGeoElementVariables(SymbolicMode mode) {

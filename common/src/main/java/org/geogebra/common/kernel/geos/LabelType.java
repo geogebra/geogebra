@@ -14,14 +14,14 @@ public class LabelType {
 	static final char[] lineLabels = { 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'a', 'b', 'c', 'd', 'e' };
 
-    public static final char[] vectorLabels = { 'u', 'v', 'w', 'a', 'b', 'c',
+	static final char[] vectorLabels = { 'u', 'v', 'w', 'a', 'b', 'c',
             'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q',
             'r', 's', 't' };
 
 	static final char[] conicLabels = { 'c', 'd', 'e', 'f', 'g', 'h',
             'k', 'p', 'q', 'r', 's', 't' };
 
-    public static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
+	public static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
             'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
             's', 't', 'u', 'v', 'w' };
 

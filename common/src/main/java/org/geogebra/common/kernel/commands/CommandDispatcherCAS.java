@@ -37,17 +37,12 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case IntegralBetween:
 		case NIntegral:
 			return new CmdIntegral(kernel, c);
-
+		case Derivative:
 		case NDerivative:
-			return new CmdNDerivative(kernel);
-
+			return new CmdDerivative(kernel, c);
 		}
 
 		if (!app.getSettings().getCasSettings().isEnabled()) {
-
-			if (Commands.Derivative.equals(c)) {
-				return new CmdNDerivative(kernel);
-			}
 			return null;
 		}
 
@@ -70,8 +65,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdSurdText(kernel);
 		case ParametricDerivative:
 			return new CmdParametricDerivative(kernel);
-		case Derivative:
-			return new CmdDerivative(kernel);
 		case TrigExpand:
 			return new CmdTrigExpand(kernel);
 		case TrigCombine:

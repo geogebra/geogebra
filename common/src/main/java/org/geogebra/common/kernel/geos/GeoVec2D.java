@@ -1239,7 +1239,7 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+	public HashSet<GeoElement> getVariables(SymbolicMode symbolicMode) {
 		return null;
 	}
 

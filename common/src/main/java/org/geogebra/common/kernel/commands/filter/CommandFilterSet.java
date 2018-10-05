@@ -13,10 +13,17 @@ class CommandFilterSet implements CommandFilter {
 
     private Set<Commands> allowedCommands;
 
+	/**
+	 * New command filter
+	 */
     CommandFilterSet() {
         allowedCommands = new HashSet<>();
     }
 
+	/**
+	 * @param commands
+	 *            allowed commands
+	 */
     void addAllowedCommands(Commands... commands) {
         allowedCommands.addAll(Arrays.asList(commands));
     }

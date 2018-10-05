@@ -98,6 +98,8 @@ public class Variable extends ValidExpression {
 	 * @param throwError
 	 *            when true, error is thrown when geo not found. Otherwise null
 	 *            is returned in such case.
+	 * @param mode
+	 *            symbolic mode
 	 * @return GeoElement with same label
 	 */
 	protected GeoElement resolve(boolean allowAutoCreateGeoElement,
@@ -127,6 +129,9 @@ public class Variable extends ValidExpression {
 	 * according GeoElement object. For absolute spreadsheet reference names
 	 * like A$1 or $A$1 a special ExpressionNode wrapper object is returned that
 	 * preserves this special name for displaying of the expression.
+	 * 
+	 * @param mode
+	 *            symbolic mode
 	 * 
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
