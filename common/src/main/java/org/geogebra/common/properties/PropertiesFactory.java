@@ -1,5 +1,7 @@
 package org.geogebra.common.properties;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
@@ -24,8 +26,6 @@ import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
-
-import java.util.ArrayList;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -118,18 +118,18 @@ public class PropertiesFactory {
     public static Property[] createGraphicsProperties(App app, Localization localization) {
         EuclidianView activeView = app.getActiveEuclidianView();
         EuclidianSettings euclidianSettings = activeView.getSettings();
-        Property[] properties;
         ArrayList<Property> propertyList = new ArrayList<>();
 
-		if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
-			propertyList
-					.add(new GraphicsPositionProperty(app));
-		}
+        if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
+            propertyList
+                    .add(new GraphicsPositionProperty(app));
+        }
         propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
 
         if (app.has(Feature.MOB_SHOW_HIDE_PLANE)) {
             if (activeView.isEuclidianView3D()) {
-                propertyList.add(new PlaneVisibilityProperty(localization, (EuclidianSettings3D) euclidianSettings));
+                propertyList.add(new PlaneVisibilityProperty(localization,
+                        (EuclidianSettings3D) euclidianSettings));
             }
         }
 
@@ -141,7 +141,7 @@ public class PropertiesFactory {
 
         propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
         propertyList.add(new LabelsPropertyCollection(app, localization, euclidianSettings));
-        properties = new Property[propertyList.size()];
+        Property[] properties = new Property[propertyList.size()];
 
         return propertyList.toArray(properties);
     }

@@ -379,6 +379,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				textBottom, false);
 	}
 
+	private int getTextBottom() {
+		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
+	}
+
 	@Override
 	public void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();
@@ -437,6 +441,17 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
+		if (isLatexString(text)) {
+			drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
+		} else {
+			g2.setPaint(geo.getObjectColor());
+
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
+					xLabel, yLabel + getTextBottom(), false, null, null);
+		}
+	}
+
 	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
 		int mt = measureTextWidth(text, g2.getFont(), g2);
@@ -483,8 +498,15 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	@Override
-	protected void showWidget() {
+	public void setWidgetVisible(boolean show) {
+		if (geo.isEuclidianVisible() && view.isVisibleInThisView(geo) && show) {
+			showWidget();
+		} else {
+			hideWidget();
+		}
+	}
 
+	private void showWidget() {
 		view.cancelBlur();
 		getBox().revalidate();
 		getBox().setVisible(true);
@@ -531,7 +553,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	@Override
+	/**
+	 * Hide the widget.
+	 */
 	protected void hideWidget() {
 		if (!isSelectedForInput()) {
 			return;

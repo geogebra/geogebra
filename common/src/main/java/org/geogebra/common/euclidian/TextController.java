@@ -67,8 +67,8 @@ public interface TextController {
 	 * @return wrapped text
 	 */
 	String wrapText(String editText, DrawText d);
+
 	/**
-	 * 
 	 * @return if text editor is active.
 	 */
 	boolean isEditing();

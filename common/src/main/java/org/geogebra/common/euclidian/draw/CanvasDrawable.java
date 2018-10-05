@@ -41,12 +41,38 @@ public abstract class CanvasDrawable extends Drawable {
 				&& text.trim().endsWith("$");
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param geo0
+	 *            geoelement
+	 * @param font
+	 *            font
+	 * @param text
+	 *            content
+	 * @return size
+	 */
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
 		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param geo0
+	 *            geoelement
+	 * @param font
+	 *            font
+	 * @param text
+	 *            content
+	 * @param x
+	 *            screen x-coord
+	 * @param y
+	 *            screen y-coord
+	 * @return size
+	 */
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y) {
 		App app = view.getApplication();
@@ -81,6 +107,15 @@ public abstract class CanvasDrawable extends Drawable {
 				false);
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param geo0
+	 *            geoelement
+	 * @param text
+	 *            text
+	 * @return whether it's LaTeX
+	 */
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
 			String text) {
 		boolean latex = false;
@@ -129,6 +164,12 @@ public abstract class CanvasDrawable extends Drawable {
 		boxHeight = getPreferredHeight();
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param latex
+	 *            whether the label is latex
+	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && geo.doHighlighting()) {
 			if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
@@ -143,24 +184,8 @@ public abstract class CanvasDrawable extends Drawable {
 		}
 	}
 
-	protected int getTextBottom() {
-		return (getPreferredHeight() / 2)
-				+ (int) (getLabelFontSize() * 0.4);
-	}
-
 	private int getH() {
 		return (int) (getLabelFontSize() * 1.2 + HIGHLIGHT_MARGIN);
-	}
-
-	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
-		if (isLatexString(text)) {
-			drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
-		} else {
-			g2.setPaint(geo.getObjectColor());
-
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					xLabel, yLabel + getTextBottom(), false, null, null);
-		}
 	}
 
 	/**
@@ -293,20 +318,12 @@ public abstract class CanvasDrawable extends Drawable {
 		this.geo = geo;
 	}
 
-	protected abstract void showWidget();
-
-	protected abstract void hideWidget();
-
 	/**
 	 * @param show
 	 *            whether to show or hide the widget
 	 */
 	public void setWidgetVisible(boolean show) {
-		if (geo.isEuclidianVisible() && view.isVisibleInThisView(geo) && show) {
-			showWidget();
-		} else {
-			hideWidget();
-		}
+		// only for InputBox
 	}
 
 	/**
@@ -315,4 +332,5 @@ public abstract class CanvasDrawable extends Drawable {
 	public GRectangle getHitRect() {
 		return labelRectangle;
 	}
+
 }

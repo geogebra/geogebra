@@ -15,7 +15,8 @@ public class PlaneVisibilityProperty extends AbstractProperty implements Boolean
      * @param localization      this is used to localize the name
      * @param euclidianSettings euclidian settings
      */
-    public PlaneVisibilityProperty(Localization localization, EuclidianSettings3D euclidianSettings) {
+    public PlaneVisibilityProperty(Localization localization,
+            EuclidianSettings3D euclidianSettings) {
         super(localization, "ShowPlane");
         this.euclidianSettings = euclidianSettings;
     }

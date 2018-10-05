@@ -1062,10 +1062,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		int fontSize = (int) (view.getFontSize()
 				* geoList.getFontSizeMultiplier());
 		setLabelFontSize(fontSize);
-		if (!geo.doHighlighting()) {
-			hideWidget();
-		}
-		// box.setVisible(isVisible);
 
 		if (!isVisible) {
 			return;
@@ -1073,8 +1069,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		// eg size changed etc
 		labelDesc = getLabelText();
-
-		// box.validate();
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
@@ -1191,8 +1185,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		return (int) (layout.getDescent());
 	}
 
-	@Override
-	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
+	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 
 		int textBottom = boxTop + getTextBottom();
 		boolean latex = isLatexString(text);
@@ -1248,8 +1241,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		boxHeight = getPreferredHeight();
 	}
 
-	@Override
-	protected int getTextBottom() {
+	private int getTextBottom() {
 		return isLatexString(selectedText) ? boxHeight - selectedHeight / 2
 				: (getPreferredHeight() + getMultipliedFontSize())
 						/ 2;
@@ -1339,16 +1331,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	public int getTotalHeight() {
 		int h = labelSize.getY();
 		return h > boxHeight ? h : boxHeight;
-	}
-
-	@Override
-	protected void showWidget() {
-		// no widget
-	}
-
-	@Override
-	protected void hideWidget() {
-		// no widget
 	}
 
 	/**
