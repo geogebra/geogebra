@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
@@ -95,7 +96,12 @@ public class FunctionExpander implements Traversing {
 							.traverse(this);
 					fv = ((FunctionalNVar) geo).getFunction()
 							.getFunctionVariables();
-						}
+				} else if (geo instanceof GeoSymbolic) {
+					en2 = (ExpressionNode) ((GeoSymbolic) geo).getValue().wrap()
+							.getCopy(((GeoSymbolic) geo).getKernel())
+							.traverse(this);
+					fv = ((GeoSymbolic) geo).getFunctionVariables();
+				}
 				if (geo instanceof GeoCasCell) {
 					ValidExpression ve = ((GeoCasCell) geo)
 							.getOutputValidExpression();

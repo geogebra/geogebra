@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
@@ -190,7 +191,8 @@ public class FunctionParser {
 			}
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION,
 					myList.getListElement(0));
-		} else if (geo instanceof GeoFunctionNVar) {
+		} else if (geo instanceof GeoFunctionNVar
+				|| geo instanceof GeoSymbolic) {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR,
 					myList);
 		} else if (geo.isGeoCurveCartesian()

@@ -20,6 +20,8 @@ public class GeoSymbolicTest {
 		app = AlgebraTest.createApp();
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		ap = app.getKernel().getAlgebraProcessor();
+		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
+				StringTemplate.defaultTemplate, app.getKernel());
 	}
 
 	public static void t(String input, String... expected) {
@@ -62,6 +64,22 @@ public class GeoSymbolicTest {
 		t("f(x,y)=x+y", "x + y");
 		Assert.assertEquals("f\\left(x, y \\right) \\, = \\,x + y",
 				getLatex("f"));
+	}
+
+	@Test
+	public void plugVariables() {
+		t("f(x,y)=x+y", "x + y");
+		t("r=f(a+b,a-b)", "2 * a");
+	}
+
+	@Test
+	public void commands() {
+		t("Derivative(a*x^3)", "3 * a * x^(2)");
+	}
+
+	@Test
+	public void nestedCommands() {
+		t("Derivative(Derivative(a*x^3))", "6 * a * x");
 	}
 
 }

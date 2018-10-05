@@ -926,14 +926,26 @@ public class AlgebraProcessor {
 		return geos;
 	}
 
-	private GeoElement evalSymbolic(ValidExpression ve) {
+	private GeoElement evalSymbolic(final ValidExpression ve) {
+		GeoElement sym = evalSymbolicNoLabel(ve);
+		sym.setLabel(ve.getLabel());
+		return sym;
+	}
 
-
+	/**
+	 * @param ve
+	 *            input expression
+	 * @return processed geo
+	 */
+	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		ExpressionNode replaced = ve.traverse(new Traversing() {
 			@Override
 			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof Command && ev != ve.unwrap()) {
+					return evalSymbolicNoLabel(ev);
+				}
 				if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
 						.getElementWithSameName() != null) {
 					return ((GeoDummyVariable) ev).getElementWithSameName();
@@ -941,7 +953,6 @@ public class AlgebraProcessor {
 				return ev;
 			}
 		}).wrap();
-
 
 		HashSet<GeoElement> vars = replaced
 				.getVariables(SymbolicMode.SYMBOLIC_AV);
@@ -969,7 +980,6 @@ public class AlgebraProcessor {
 			sym.setDefinition(replaced);
 			sym.computeOutput();
 		}
-		sym.setLabel(ve.getLabel());
 		return sym;
 	}
 
