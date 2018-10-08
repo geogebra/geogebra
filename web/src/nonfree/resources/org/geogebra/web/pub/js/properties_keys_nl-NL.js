@@ -3258,6 +3258,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "math_apps": "GeoGebra Klassiek",
     "max": "max",
     "min": "min",
+    "mow.myfiles": "My Files",
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",

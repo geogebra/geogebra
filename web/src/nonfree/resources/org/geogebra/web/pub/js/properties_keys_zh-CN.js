@@ -3258,6 +3258,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "math_apps": "GeoGebra \u7ecf\u5178",
     "max": "\u6700\u5927",
     "min": "\u6700\u5c0f",
+    "mow.myfiles": "\u6211\u7684\u6587\u4ef6",
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
