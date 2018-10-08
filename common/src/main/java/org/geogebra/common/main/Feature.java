@@ -307,6 +307,9 @@ public enum Feature {
 	TOOLS_WITH_NAMES,
 
 	/** GGB-2542 */
-	SYMBOLIC_AV
+	SYMBOLIC_AV,
+
+    /** AND-1389 */
+    AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS
 }
 
