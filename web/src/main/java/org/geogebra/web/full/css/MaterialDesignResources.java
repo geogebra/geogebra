@@ -419,6 +419,18 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource exam_graphing();
 
 	// MOW resources
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/arrow-alt-circle-down.svg")
+	SVGResource download();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file_plus.svg")
+	SVGResource file_plus();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file.svg")
+	SVGResource file();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/folder-open.svg")
+	SVGResource folder_open();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_gesture_white_24px.svg")
 	SVGResource mow_pen_panel();
 

@@ -41,9 +41,8 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * 
  */
-public class MainMenu extends FlowPanel
-		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler,
-		KeyDownHandler {
+public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
+		BooleanRenderable, TabHandler, KeyDownHandler {
 
 	/**
 	 * Appw app
@@ -190,18 +189,25 @@ public class MainMenu extends FlowPanel
 		if (app.enableFileFeatures()) {
 			if (app.isUnbundledOrWhiteboard()) {
 				menus.add(fileMenu);
-				this.menuPanel.add(fileMenu, getExpandCollapseHTML(
+				this.menuPanel
+						.add(fileMenu,
+								getExpandCollapseHTML(
+										app.isWhiteboardActive()
+												? MaterialDesignResources.INSTANCE
+														.file()
+												: MaterialDesignResources.INSTANCE
+														.insert_file_black(),
+										"File"),
+								true);
+			} else {
+				this.menuPanel.add(fileMenu, getHTML(
 						MaterialDesignResources.INSTANCE.insert_file_black(),
 						"File"), true);
-			} else {
-				this.menuPanel.add(fileMenu,
-						getHTML(MaterialDesignResources.INSTANCE
-								.insert_file_black(), "File"),
-						true);
 			}
 		}
 		if (enableGraph) {
-			if (app.isUnbundledOrWhiteboard() && !app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (app.isUnbundledOrWhiteboard()
+					&& !app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 				createEditMenu();
 				menus.add(editMenu);
 				this.menuPanel.add(editMenu,
@@ -218,25 +224,27 @@ public class MainMenu extends FlowPanel
 
 			if (app.isUnbundledOrWhiteboard()) {
 				menus.add(downloadMenu);
-				this.menuPanel
-						.add(downloadMenu,
-								getExpandCollapseHTML(
-										MaterialDesignResources.INSTANCE
-												.file_download_black(),
-										"DownloadAs"),
-								true);
-				if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
-				this.menuPanel.add(perspectiveMenuUnbundled,
-						getExpandCollapseHTML(MaterialDesignResources.INSTANCE
-								.geogebra_black(), "Apps"),
+				this.menuPanel.add(downloadMenu,
+						getExpandCollapseHTML(app.isWhiteboardActive()
+								? MaterialDesignResources.INSTANCE.download()
+								: MaterialDesignResources.INSTANCE
+										.file_download_black(),
+								"DownloadAs"),
 						true);
+				if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+					this.menuPanel.add(perspectiveMenuUnbundled,
+							getExpandCollapseHTML(
+									MaterialDesignResources.INSTANCE
+											.geogebra_black(),
+									"Apps"),
+							true);
 				}
 			} else {
-				this.menuPanel.add(perspectivesMenu,
-						getHTML(MaterialDesignResources.INSTANCE
-								.geogebra_black(),
-								"Perspectives"),
-						true);
+				this.menuPanel
+						.add(perspectivesMenu,
+								getHTML(MaterialDesignResources.INSTANCE
+										.geogebra_black(), "Perspectives"),
+								true);
 			}
 
 			if (!app.isUnbundledOrWhiteboard()) {
@@ -248,17 +256,16 @@ public class MainMenu extends FlowPanel
 		}
 
 		if (!app.isUnbundledOrWhiteboard()) {
-			this.menuPanel.add(settingsMenu,
-					getHTML(MaterialDesignResources.INSTANCE.gear(),
-							app.getLocalization().getMenu("Settings")),
-					true);
-		} else {
 			this.menuPanel
 					.add(settingsMenu,
-							getSingleMenuHTML(
-									MaterialDesignResources.INSTANCE.gear(),
+							getHTML(MaterialDesignResources.INSTANCE.gear(),
 									app.getLocalization().getMenu("Settings")),
 							true);
+		} else {
+			this.menuPanel.add(settingsMenu,
+					getSingleMenuHTML(MaterialDesignResources.INSTANCE.gear(),
+							app.getLocalization().getMenu("Settings")),
+					true);
 
 		}
 		if (!app.getLAF().isSmart() && enableGraph
@@ -408,8 +415,7 @@ public class MainMenu extends FlowPanel
 				GMenuBar menu = getMenuAt(index);
 				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
 						+ menu.getMenuTitle().substring(1);
-				if (menu == userMenu
-						&& app.getLoginOperation().isLoggedIn()) {
+				if (menu == userMenu && app.getLoginOperation().isLoggedIn()) {
 					title = app.getLoginOperation().getUserName();
 				}
 
@@ -757,9 +763,8 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void addSignInMenu() {
-		this.menuPanel
-				.add(this.signInMenu,
-						getHTML(MaterialDesignResources.INSTANCE.signin_black(),
+		this.menuPanel.add(this.signInMenu,
+				getHTML(MaterialDesignResources.INSTANCE.signin_black(),
 						app.getLocalization().getMenu("SignIn")),
 				true);
 	}

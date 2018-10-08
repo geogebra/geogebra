@@ -288,9 +288,14 @@ public class FileMenuW extends GMenuBar
 		// this is enabled always
 		addItem(MainMenu
 				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.add_black()
+						getApp().isWhiteboardActive()
+								? MaterialDesignResources.INSTANCE.file_plus()
+										.getSafeUri().asString()
+								: MaterialDesignResources.INSTANCE.add_black()
 								.getSafeUri().asString(),
-						loc.getMenu("New"), true),
+						loc.getMenu(getApp().isWhiteboardActive()
+								? "mow.newFile" : "New"),
+						true),
 				true, new MenuCommand(getApp()) {
 
 					@Override
@@ -302,9 +307,15 @@ public class FileMenuW extends GMenuBar
 		// open menu is always visible in menu
 		addItem(MainMenu
 				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.search_black()
+						getApp().isWhiteboardActive()
+								? MaterialDesignResources.INSTANCE.folder_open()
+										.getSafeUri().asString()
+								: MaterialDesignResources.INSTANCE
+										.search_black()
 								.getSafeUri().asString(),
-						loc.getMenu("Open"), true),
+						loc.getMenu(getApp().isWhiteboardActive()
+								? "mow.myfiles" : "Open"),
+						true),
 				true, new MenuCommand(getApp()) {
 
 					@Override

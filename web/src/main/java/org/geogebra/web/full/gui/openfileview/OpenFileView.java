@@ -167,7 +167,7 @@ public class OpenFileView extends MyHeaderPanel
 	private void initButtonPanel() {
 		buttonPanel = new FlowPanel();
 		newFileBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.add_black(),
+				MaterialDesignResources.INSTANCE.file_plus(),
 				localize("mow.newFile"), 18, app);
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
