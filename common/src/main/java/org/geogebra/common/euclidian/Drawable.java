@@ -163,12 +163,6 @@ public abstract class Drawable extends DrawableND {
 	public abstract GeoElement getGeoElement();
 
 	/**
-	 * @param geo
-	 *            referenced geo
-	 */
-	public abstract void setGeoElement(GeoElement geo);
-
-	/**
 	 * @return bounding box construction
 	 */
 	public abstract BoundingBox getBoundingBox();

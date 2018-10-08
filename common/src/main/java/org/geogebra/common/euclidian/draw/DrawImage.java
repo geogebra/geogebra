@@ -516,11 +516,6 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(

@@ -152,11 +152,6 @@ public class DrawPointPlot extends Drawable {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
-	@Override
 	public void update() {
 
 		isVisible = geo.isEuclidianVisible();

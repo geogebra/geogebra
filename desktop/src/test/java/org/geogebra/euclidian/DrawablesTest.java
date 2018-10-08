@@ -63,7 +63,7 @@ public class DrawablesTest {
 			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
 			DrawableND draw = app.getEuclidianView1().newDrawable(geo);
 			Assert.assertEquals(geo.getDefinitionForInputBar(),
-					ignore(geo.getGeoClassType()), draw == null);
+					expectDrawableFor(geo), draw != null);
 			types.add(geo.getGeoClassType());
 		}
 		XmlTest.testCurrentXML(app);
@@ -78,8 +78,8 @@ public class DrawablesTest {
 
 	}
 
-	private boolean ignore(GeoClass type) {
-		switch (type) {
+	private static boolean expectDrawableFor(GeoElementND type) {
+		switch (type.getGeoClassType()) {
 		case NET:
 		case POLYHEDRON:
 		case PLANE3D:
@@ -90,9 +90,8 @@ public class DrawablesTest {
 		case IMPLICIT_SURFACE_3D:
 		case AXIS:
 		case AXIS3D:
-		case SYMBOLIC:
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 }

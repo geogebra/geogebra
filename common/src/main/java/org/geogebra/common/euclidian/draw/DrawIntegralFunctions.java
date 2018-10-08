@@ -224,11 +224,6 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
 		return null;

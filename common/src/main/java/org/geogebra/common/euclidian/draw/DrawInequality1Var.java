@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -27,7 +26,7 @@ import org.geogebra.common.util.DoubleUtil;
  * @author Zbynek
  * 
  */
-public class DrawInequality1Var extends Drawable {
+public class DrawInequality1Var extends SetDrawable {
 
 	/** ratio of dot radius and line thickness */
 	public static final double DOT_RADIUS = 1;

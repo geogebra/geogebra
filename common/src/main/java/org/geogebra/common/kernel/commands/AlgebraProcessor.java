@@ -2548,6 +2548,9 @@ public class AlgebraProcessor {
 		if (!enableStructures()) {
 			throw new MyError(loc, "InvalidInput");
 		}
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
+			return evalSymbolic(equ).asArray();
+		}
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable

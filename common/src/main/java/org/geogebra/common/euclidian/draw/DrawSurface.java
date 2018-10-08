@@ -168,12 +168,6 @@ public class DrawSurface extends Drawable {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
 		return null;

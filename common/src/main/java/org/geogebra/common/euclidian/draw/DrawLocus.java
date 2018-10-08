@@ -305,11 +305,6 @@ public class DrawLocus extends Drawable {
 		return geo;
 	}
 
-	@Override
-	final public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */

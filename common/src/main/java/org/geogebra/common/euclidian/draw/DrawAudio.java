@@ -362,11 +362,6 @@ public class DrawAudio extends Drawable {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		return null;
 	}

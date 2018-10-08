@@ -133,11 +133,6 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(false, false);

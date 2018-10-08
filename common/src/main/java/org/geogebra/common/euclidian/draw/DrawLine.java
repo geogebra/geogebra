@@ -26,7 +26,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -46,7 +45,7 @@ import org.geogebra.common.util.MyMath;
 /**
  * Draws a line or a ray.
  */
-public class DrawLine extends Drawable implements Previewable {
+public class DrawLine extends SetDrawable implements Previewable {
 
 	// clipping attributes
 	private static final int LEFT = 0;

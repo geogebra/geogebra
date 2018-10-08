@@ -52,7 +52,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  * @version 2011-01-10
  */
-public final class DrawPoint extends Drawable {
+public final class DrawPoint extends SetDrawable {
 
 	private int HIGHLIGHT_OFFSET;
 

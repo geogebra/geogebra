@@ -331,11 +331,6 @@ public class DrawTurtle extends Drawable {
 		return geo;
 	}
 
-	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */

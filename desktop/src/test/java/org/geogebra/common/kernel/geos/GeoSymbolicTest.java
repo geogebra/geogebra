@@ -40,6 +40,11 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void equation() {
+		t("x+y=p", "x + y = p");
+	}
+
+	@Test
 	public void dependentExpression() {
 		t("a=p+q", "p + q");
 		t("b=2*a", "2 * p + 2 * q");

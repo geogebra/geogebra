@@ -313,11 +313,6 @@ public abstract class CanvasDrawable extends Drawable {
 		return geo;
 	}
 
-	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
 	/**
 	 * @param show
 	 *            whether to show or hide the widget

@@ -136,14 +136,6 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		if (geo.isGeoVideo()) {
-			this.geo = geo;
-			video = (GeoVideo) geo;
-		}
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(false, false);

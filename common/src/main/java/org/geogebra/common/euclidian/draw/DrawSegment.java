@@ -25,7 +25,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -48,7 +47,7 @@ import org.geogebra.common.util.MyMath;
  * 
  * @author Markus Hohenwarter
  */
-public class DrawSegment extends Drawable implements Previewable {
+public class DrawSegment extends SetDrawable implements Previewable {
 
 	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
 			AwtFactory.getPrototype().newPoint2D() };

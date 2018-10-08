@@ -460,11 +460,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return geo;
 	}
 
-	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */

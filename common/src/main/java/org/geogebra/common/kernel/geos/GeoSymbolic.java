@@ -22,6 +22,9 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
+	private String casOutputString;
+	private GeoElement twinGeo;
+	private boolean twinUpToDate = false;
 
 	/**
 	 * @return output expression
@@ -44,6 +47,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	 */
 	public GeoSymbolic(Construction c) {
 		super(c);
+		this.setEuclidianVisible(false);
 	}
 
 	@Override
@@ -98,7 +102,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 
 	@Override
 	protected boolean showInEuclidianView() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -137,9 +141,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
 				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
 				null, kernel);
+		this.casOutputString = s;
 		ExpressionValue casOutput = kernel.getGeoGebraCAS().parseOutput(s, this,
 				kernel);
 		setValue(casOutput);
+		twinUpToDate = false;
 	}
 
 	@Override
@@ -201,6 +207,26 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	 */
 	public FunctionVariable[] getFunctionVariables() {
 		return fVars.toArray(new FunctionVariable[fVars.size()]);
+	}
+
+	/**
+	 * @return geo for drawing
+	 */
+	public GeoElementND getTwinGeo() {
+		if (twinUpToDate) {
+			return twinGeo;
+		}
+		GeoElementND newTwin = casOutputString == null ? null
+				: kernel.getAlgebraProcessor()
+						.evaluateToGeoElement(this.casOutputString, false);
+		if (twinGeo != null && newTwin != null) {
+			twinGeo.set(newTwin);
+			newTwin.setVisualStyle(twinGeo);
+		} else {
+			twinGeo = newTwin == null ? null : newTwin.toGeoElement();
+		}
+		twinUpToDate = true;
+		return newTwin;
 	}
 
 }

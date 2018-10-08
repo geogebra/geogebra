@@ -219,11 +219,6 @@ public final class DrawBoolean extends Drawable {
 		return geo;
 	}
 
-	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
 	/**
 	 * Replcement for Swing component
 	 * 

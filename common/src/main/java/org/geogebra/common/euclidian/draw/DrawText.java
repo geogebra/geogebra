@@ -298,11 +298,6 @@ public final class DrawText extends Drawable {
 		return geo;
 	}
 
-	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
 	private boolean doUpdateFontSize() {
 		// text's font size is relative to the global font size
 		int newFontSize = getFontSize();

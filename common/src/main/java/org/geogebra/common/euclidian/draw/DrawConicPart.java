@@ -662,11 +662,6 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
-
-	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
 		return null;

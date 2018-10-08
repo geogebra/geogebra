@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
@@ -20,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  * Drawable for drawing inequalities like x &lt; sin(y) or y &lt; x^3. Never
  * stands on its own, always part of DrawInequality tree
  */
-class DrawParametricInequality extends Drawable {
+class DrawParametricInequality extends SetDrawable {
 
 	private Inequality paramIneq;
 	private GeneralPathClippedForCurvePlotter gp;

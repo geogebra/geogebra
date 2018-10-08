@@ -61,6 +61,7 @@ import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -341,6 +342,8 @@ public class EuclidianDraw {
 		case EMBED:
 			d = new DrawEmbed(ev, (GeoEmbed) geo);
 			break;
+		case SYMBOLIC:
+			d = new DrawSymbolic(ev, (GeoSymbolic) geo);
 		}
 		return d;
 	}

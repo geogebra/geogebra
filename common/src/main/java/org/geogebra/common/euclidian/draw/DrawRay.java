@@ -26,7 +26,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
@@ -44,7 +43,7 @@ import org.geogebra.common.util.MyMath;
  * 
  * @author Markus Hohenwarter
  */
-public class DrawRay extends Drawable implements Previewable {
+public class DrawRay extends SetDrawable implements Previewable {
 
 	private GeoLineND ray;
 

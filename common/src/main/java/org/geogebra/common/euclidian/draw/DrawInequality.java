@@ -39,7 +39,7 @@ public class DrawInequality extends Drawable {
 	/** true if label is visible */
 	boolean labelVisible;
 
-	private Drawable drawable;
+	private SetDrawable drawable;
 	private Operation operation = Operation.NO_OPERATION;
 	private DrawInequality left;
 	private DrawInequality right;
@@ -683,11 +683,6 @@ public class DrawInequality extends Drawable {
 	public boolean isInside(GRectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
 	}
 
 	@Override

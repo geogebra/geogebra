@@ -32,7 +32,6 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -71,7 +70,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus
  */
-public class DrawConic extends Drawable implements Previewable {
+public class DrawConic extends SetDrawable implements Previewable {
 
 	/** plotpoints per quadrant for hyperbola */
 	protected static final int PLOT_POINTS = 32;
