@@ -66,6 +66,17 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testPrime() {
+		checkCannon("f'''(x)/2", "(f'''(x))/(2)");
+	}
+
+	@Test
+	public void testCyclometric() {
+		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
+				"cos^(-1)(1)/(2)");
+	}
+
+	@Test
 	public void testDiv() {
 		checkCannon("1/n^2", "(1)/(n^(2))");
 		checkCannon("1/n_2", "(1)/(n_{2})");

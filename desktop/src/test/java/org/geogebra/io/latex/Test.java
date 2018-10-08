@@ -122,7 +122,7 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p.parse("Distance[A,B]/2");
+			MathFormula f = p.parse("f'(x)/2");
 			mathField.setFormula(f);
 			// insertString(mathField, "Plane[<7>,<7>]");
 			for (int i = 0; i < 1; i++) {
