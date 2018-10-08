@@ -82,4 +82,10 @@ public class GeoSymbolicTest {
 		t("Derivative(Derivative(a*x^3))", "6 * a * x");
 	}
 
+	@Test
+	public void sequence() {
+		t("2*Sequence(Mod(n,3),n,1,5)", "{2, 4, 0, 2, 4}");
+		t("Sequence(Mod(n,3),n,1,5)", "{1, 2, 0, 1, 2}");
+	}
+
 }
