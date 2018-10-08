@@ -76,7 +76,7 @@ public class FontA implements Font {
         return null;
     }
 
-    @Override
+    // @Override omit - this method will be removed from Font soon
     public boolean canDisplay(char ch) {
         return true;
     }
