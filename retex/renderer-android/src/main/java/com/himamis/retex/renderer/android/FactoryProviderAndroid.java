@@ -37,7 +37,7 @@ public class FactoryProviderAndroid extends FactoryProvider {
 		return new GraphicsFactoryAndroid();
 	}
 
-	@Override
+	//@Override
 	protected ParserFactory createParserFactory() {
 		return new ParserFactoryAndroid();
 	}
