@@ -42,7 +42,7 @@ public class FactoryProviderAndroid extends FactoryProvider {
 		return new ParserFactoryAndroid();
 	}
 
-	@Override
+	//@Override
 	protected ResourceLoaderFactory createResourceLoaderFactory() {
 		return new ResourceLoaderFactoryAndroid(mAssetManager);
 	}
