@@ -507,6 +507,7 @@ public class ExamEnvironment {
 		case LimitAbove:
 		case Degree:
 		case Coefficients:
+		case CompleteSquare:
 		case PartialFractions:
 		case SolveODE:
 		case ImplicitDerivative:
