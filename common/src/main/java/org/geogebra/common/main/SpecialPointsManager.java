@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.CmdIntersect;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
@@ -155,7 +154,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 						(geo).getFunctionExpression(), false,
 						true);
 		if (xAxis && (poly == null || poly.getDegree() > 0)) {
-			if (!(geo).isPolynomialFunction(true)
+			if (!geo.isPolynomialFunction(true)
 					&& geo.isDefined()) {
 				EuclidianViewInterfaceCommon view = kernel.getApplication()
 						.getActiveEuclidianView();
@@ -264,12 +263,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
 		return (geo instanceof GeoFunction || geo instanceof EquationValue)
-				&& !(geo instanceof GeoSegment)
+				&& !(geo.isGeoSegment())
 				&& geo.isVisible() && geo.isDefined()
 				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
 	}
 
-	private boolean hasIntersectsBetween(GeoElementND element) {
+	private static boolean hasIntersectsBetween(GeoElementND element) {
 		return element instanceof EquationValue || element instanceof Functional;
 	}
 

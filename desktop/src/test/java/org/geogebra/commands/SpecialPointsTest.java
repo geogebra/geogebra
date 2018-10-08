@@ -28,6 +28,13 @@ public class SpecialPointsTest {
 	}
 
 	@Test
+	public void specialPointsForSegment() {
+		t("s:Segment((-1,-1),(1,1))");
+		updateSpecialPoints("s");
+		Assert.assertEquals(0, numberOfSpecialPoints());
+	}
+
+	@Test
 	public void specialPointsForTrig() {
 		t("ZoomIn(-4pi-1,-2,4pi+1,2)");
 		t("f(x)=sin(x)");
@@ -57,6 +64,9 @@ public class SpecialPointsTest {
 	}
 
 	private static int numberOfSpecialPoints() {
+		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
+			return 0;
+		}
 		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
 	}
 
