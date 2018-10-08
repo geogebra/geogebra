@@ -35,17 +35,17 @@ public class RedefineTest extends Assert {
 	}
 
 	private static void t(String input, String expected) {
-		CommandsTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	private static void t(String input, String expected, StringTemplate tpl) {
-		CommandsTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
 				tpl);
 	}
 
 	public static void t(String s, String[] expected) {
-		CommandsTest.testSyntaxSingle(s, expected, ap,
+		AlgebraTest.testSyntaxSingle(s, expected, ap,
 				StringTemplate.xmlTemplate);
 	}
 

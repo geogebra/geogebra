@@ -3,6 +3,9 @@ package org.geogebra.commands;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -99,5 +102,49 @@ public class AlgebraTest extends Assert {
 						"Textfield", "GetTime", "UpdateConstruction",
 						"SelectObjects", "Turtle", "Function", "Checkbox" })
 				.contains(cmdName);
+	}
+
+	/**
+	 * @param s
+	 *            input
+	 * @param expected
+	 *            expected output
+	 * @param proc
+	 *            algebra processor
+	 * @param tpl
+	 *            template
+	 */
+	public static void testSyntaxSingle(String s, String[] expected,
+			AlgebraProcessor proc, StringTemplate tpl) {
+		Throwable t = null;
+		GeoElementND[] result = null;
+		try {
+			result = proc.processAlgebraCommandNoExceptionHandling(s, false,
+					TestErrorHandler.INSTANCE, false, null);
+		} catch (Throwable e) {
+			t = e;
+		}
+
+		if (t != null) {
+			t.printStackTrace();
+		}
+		if (t instanceof AssertionError) {
+			throw (AssertionError) t;
+		}
+		assertNull(t);
+		Assert.assertNotNull(s, result);
+		// for (int i = 0; i < result.length; i++) {
+		// String actual = result[i].toValueString(tpl);
+		// System.out.println("\"" + actual + "\",");
+		// }
+		Assert.assertEquals(s + " count:", expected.length, result.length);
+
+		for (int i = 0; i < expected.length; i++) {
+			String actual = result[i].toValueString(tpl);
+			if (expected[i] != null) {
+				Assert.assertEquals(s + ":" + actual, expected[i], actual);
+			}
+		}
+		System.out.print("+");
 	}
 }

@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.commands.AlgebraTest;
-import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -25,7 +24,7 @@ public class GeoSymbolicTest {
 	}
 
 	public static void t(String input, String... expected) {
-		CommandsTest.testSyntaxSingle(input, expected, ap,
+		AlgebraTest.testSyntaxSingle(input, expected, ap,
 				StringTemplate.testTemplate);
 	}
 

@@ -2,7 +2,7 @@ package org.geogebra.euclidian;
 
 import java.util.TreeSet;
 
-import org.geogebra.commands.CommandsTest;
+import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -22,8 +22,8 @@ public class DrawablesTest {
 	private static AppDNoGui app;
 
 	@BeforeClass
-	public static void setuApp() {
-		app = CommandsTest.createApp();
+	public static void setupApp() {
+		app = AlgebraTest.createApp();
 	}
 
 	@Test

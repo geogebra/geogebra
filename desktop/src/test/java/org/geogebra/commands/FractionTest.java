@@ -14,7 +14,7 @@ public class FractionTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 	}
 
 	@Test
@@ -25,7 +25,7 @@ public class FractionTest {
 		t("Simplify(a!)", "1 / 3 * gamma(1 / 3)");
 	}
 
-	private void t(String string, String string2) {
+	private static void t(String string, String string2) {
 		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(string, false,
 						new TestErrorHandler(),

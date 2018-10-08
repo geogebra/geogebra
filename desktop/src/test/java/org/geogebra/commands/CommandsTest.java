@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -41,20 +40,11 @@ public class CommandsTest extends AlgebraTest {
 	static AlgebraProcessor ap;
 	private static String syntax;
 
-	private static void t(String input, String expected) {
-		testSyntax(input, new String[] { expected }, app, ap,
-				StringTemplate.xmlTemplate);
+	public static void tRound(String s, String... expected) {
+		testSyntax(s, expected, app, ap, StringTemplate.editTemplate);
 	}
 
-	private static void t(String input, String expected, StringTemplate tpl) {
-		testSyntax(input, new String[] { expected }, app, ap, tpl);
-	}
-
-	public static void t(String s, String[] expected, StringTemplate tpl) {
-		testSyntax(s, expected, app, ap, tpl);
-	}
-
-	public static void t(String s, String[] expected) {
+	public static void t(String s, String... expected) {
 		testSyntax(s, expected, app, ap, StringTemplate.xmlTemplate);
 	}
 
@@ -96,51 +86,8 @@ public class CommandsTest extends AlgebraTest {
 			 * catch (Throwable e) { App.error("CAS error " + e); }
 			 */
 		}
-		testSyntaxSingle(s, expected, proc, tpl);
-	}
-
-	/**
-	 * @param s
-	 *            input
-	 * @param expected
-	 *            expected output
-	 * @param proc
-	 *            algebra processor
-	 * @param tpl
-	 *            template
-	 */
-	public static void testSyntaxSingle(String s, String[] expected,
-			AlgebraProcessor proc, StringTemplate tpl) {
-		Throwable t = null;
-		GeoElementND[] result = null;
-		try {
-			result = proc.processAlgebraCommandNoExceptionHandling(s, false,
-					TestErrorHandler.INSTANCE, false, null);
-		} catch (Throwable e) {
-			t = e;
-		}
 		syntaxes--;
-		if (t != null) {
-			t.printStackTrace();
-		}
-		if (t instanceof AssertionError) {
-			throw (AssertionError) t;
-		}
-		assertNull(t);
-		Assert.assertNotNull(s, result);
-		// for (int i = 0; i < result.length; i++) {
-		// String actual = result[i].toValueString(tpl);
-		// System.out.println("\"" + actual + "\",");
-		// }
-		Assert.assertEquals(s + " count:", expected.length, result.length);
-
-		for (int i = 0; i < expected.length; i++) {
-			String actual = result[i].toValueString(tpl);
-			if (expected[i] != null) {
-				Assert.assertEquals(s + ":" + actual, expected[i], actual);
-			}
-		}
-		System.out.print("+");
+		testSyntaxSingle(s, expected, proc, tpl);
 	}
 
 	private static int syntaxes = -1000;
@@ -324,8 +271,7 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void cmdDataFunction() {
 		t("DataFunction[]", "DataFunction[{}, {},x]");
-		t("DataFunction[]", new String[] { "DataFunction[x]" },
-				StringTemplate.defaultTemplate);
+		tRound("DataFunction[]", new String[] { "DataFunction[x]" });
 	}
 
 	@Test
@@ -352,8 +298,8 @@ public class CommandsTest extends AlgebraTest {
 	public void cmdIntegralInfinite() {
 		t("f=Normal(50,3,x,false)",
 				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((3.141592653589793 * 2))))");
-		t("norm:=Integral[f,-inf,50 ]", "0.5", StringTemplate.editTemplate);
-		t("nnorm:=Integral[f,50,inf ]", "0.5", StringTemplate.editTemplate);
+		tRound("norm:=Integral[f,-inf,50 ]", "0.5");
+		tRound("nnorm:=Integral[f,50,inf ]", "0.5");
 	}
 
 	@Test
@@ -371,22 +317,17 @@ public class CommandsTest extends AlgebraTest {
 		t("h5(x):=If(x>=2,x^2, x<2, 1/x)",
 				"If[x " + Unicode.GREATER_EQUAL + " 2, x^(2), x < 2, 1 / x]");
 		for (String cmd : new String[] { "Integral", "NIntegral" }) {
-			t(cmd + "(h(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
-					StringTemplate.editTemplate);
-			t(cmd + "(h2(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
-					StringTemplate.editTemplate);
-			t(cmd + "(h3(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
-					StringTemplate.editTemplate);
-			t(cmd + "(h4(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
-					StringTemplate.editTemplate);
-			t(cmd + "(h5(x),1,3)", "7.02648", StringTemplate.editTemplate);
+			tRound(cmd + "(h(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
+			tRound(cmd + "(h2(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
+			tRound(cmd + "(h3(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
+			tRound(cmd + "(h4(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
+			tRound(cmd + "(h5(x),1,3)", "7.02648");
 		}
 		t("Integral(If(x^2>1,1,x>7,0,0),-1,1)", "0");
 		t("Integral(If(x^2>1,1,x>7,0,0),-2,2)", "2");
 		t("Integral(If(x>2,1,2),0,2.01)", "4.01");
 		t("Integral(If(x^4>1,1,0),-2,2)", "2");
-		t("Integral(If(x>2,3,x>1,2,1),0.99,3.01)", "5.04",
-				StringTemplate.editTemplate);
+		tRound("Integral(If(x>2,3,x>1,2,1),0.99,3.01)", "5.04");
 	}
 
 	@Test
@@ -411,8 +352,7 @@ public class CommandsTest extends AlgebraTest {
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
 		intersect("x^2+y^2=25", "x y=12", true, "(3, 4)", "(-3, -4)",
 				"(-4, -3)", "(4, 3)");
-		t("Intersect[x^2+y^2=25,(x-6)^2+ y^2=25, 1]", "(3, 4)",
-				StringTemplate.editTemplate);
+		tRound("Intersect[x^2+y^2=25,(x-6)^2+ y^2=25, 1]", "(3, 4)");
 		intersect("x=y", "sin(x)", false, "(0, 0)");
 		intersect("x=y", "(2,2)", false, "(2, 2)");
 		intersect("x", "(2,2)", false, "(2, 2)");
@@ -454,8 +394,7 @@ public class CommandsTest extends AlgebraTest {
 			boolean closest, String... results) {
 		app.getKernel().clearConstruction(true);
 		app.getKernel().getConstruction().setSuppressLabelCreation(false);
-		t("its:=Intersect(" + arg1 + "," + arg2 + ")", results,
-				StringTemplate.editTemplate);
+		tRound("its:=Intersect(" + arg1 + "," + arg2 + ")", results);
 		GeoElement geo = get("its") == null ? get("its_1") : get("its");
 		boolean symmetric = geo != null
 				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)
@@ -464,20 +403,17 @@ public class CommandsTest extends AlgebraTest {
 								.getGeoClassType() == geo.getParentAlgorithm()
 										.getOutput(1).getGeoClassType());
 		if (symmetric) {
-			t("Intersect(" + arg2 + "," + arg1 + ")", results,
-					StringTemplate.editTemplate);
+			tRound("Intersect(" + arg2 + "," + arg1 + ")", results);
 		}
 		if (num) {
-			t("Intersect(" + arg1 + "," + arg2 + ",1)", results[0],
-					StringTemplate.defaultTemplate);
+			tRound("Intersect(" + arg1 + "," + arg2 + ",1)", results[0]);
 			if (symmetric) {
-				t("Intersect(" + arg2 + "," + arg1 + ",1)", results[0],
-						StringTemplate.defaultTemplate);
+				tRound("Intersect(" + arg2 + "," + arg1 + ",1)", results[0]);
 			}
 		}
 		if (closest) {
-			t("Intersect(" + arg1 + "," + arg2 + "," + results[0] + ")",
-					results[0], StringTemplate.defaultTemplate);
+			tRound("Intersect(" + arg1 + "," + arg2 + "," + results[0] + ")",
+					results[0]);
 		}
 	}
 
@@ -489,9 +425,8 @@ public class CommandsTest extends AlgebraTest {
 						"(-1.4142135623730951, -1.4142135623730951)" });
 		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4], 1, 1]",
 				"(1.4142135623730951, 1.4142135623730956)");
-		t("Intersect[sin(x), cos(x), 0, 2pi]",
-				new String[] { "(0.7854, 0.70711)", "(3.92699, -0.70711)" },
-				StringTemplate.editTemplate);
+		tRound("Intersect[sin(x), cos(x), 0, 2pi]",
+				new String[] { "(0.7854, 0.70711)", "(3.92699, -0.70711)" });
 	}
 
 	@Test
@@ -514,20 +449,16 @@ public class CommandsTest extends AlgebraTest {
 	public void cmdMaximize() {
 		t("slider:=Slider[0,5]", "0");
 		t("Maximize[ 5-(3-slider)^2, slider ]", "3");
-		t("ptPath:=Point[(x-3)^2+(y-4)^2=25]", "(0, 0)",
-				StringTemplate.defaultTemplate);
-		t("Maximize[ y(ptPath), ptPath ]", "(3, 9)",
-				StringTemplate.defaultTemplate);
+		tRound("ptPath:=Point[(x-3)^2+(y-4)^2=25]", "(0, 0)");
+		tRound("Maximize[ y(ptPath), ptPath ]", "(3, 9)");
 	}
 
 	@Test
 	public void cmdMinimize() {
 		t("slider:=Slider[0,5]", "0");
 		t("Minimize[ 5+(3-slider)^2, slider ]", "3");
-		t("ptPath:=Point[(x-3)^2+(y-4)^2=25]", "(0, 0)",
-				StringTemplate.defaultTemplate);
-		t("Minimize[ y(ptPath), ptPath ]", "(3, -1)",
-				StringTemplate.defaultTemplate);
+		tRound("ptPath:=Point[(x-3)^2+(y-4)^2=25]", "(0, 0)");
+		tRound("Minimize[ y(ptPath), ptPath ]", "(3, -1)");
 	}
 
 	@Test
@@ -617,16 +548,14 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdDifference() {
-		t("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
+		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
 				new String[] { "3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
-						"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1" },
-				StringTemplate.defaultTemplate);
-		t("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
+						"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1" });
+		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
 				new String[] { "3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
 						"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
 						"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
-						"2", "1", "1", "1", "2", "2", "1" },
-				StringTemplate.defaultTemplate);
+						"2", "1", "1", "1", "2", "2", "1" });
 	}
 
 	@Test
@@ -695,7 +624,7 @@ public class CommandsTest extends AlgebraTest {
 		t("Product[ 1..10,  5 ]", "120");
 		t("Product[ {1,2,3},  {100,1,2} ]", "18");
 		t("Product[ {{1,2,3},  {100,1,2}} ]", "{100, 2, 6}");
-		t("Product[ k/(k+1),k,1,7 ]", "0.125", StringTemplate.editTemplate);
+		tRound("Product[ k/(k+1),k,1,7 ]", "0.125");
 		t("Product[{x,y}]", "(x * y)");
 		t("Product[ Sequence({{1,k},{0,1}},k,1,10) ]", "{{1, 55}, {0, 1}}");
 		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
@@ -714,11 +643,9 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdExtremum() {
-		t("Extremum[ sin(x), 1, 7 ]",
-				new String[] { "(1.5708, 1)", "(4.71239, -1)" },
-				StringTemplate.editTemplate);
-		t("Extremum[ x^3-3x ]", new String[] { "(-1, 2)", "(1, -2)" },
-				StringTemplate.editTemplate);
+		tRound("Extremum[ sin(x), 1, 7 ]",
+				new String[] { "(1.5708, 1)", "(4.71239, -1)" });
+		tRound("Extremum[ x^3-3x ]", new String[] { "(-1, 2)", "(1, -2)" });
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
@@ -760,10 +687,8 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdVolume() {
-		t("Volume[Cube[(0,0,1),(0,1,0)]]", eval("sqrt(8)"),
-				StringTemplate.editTemplate);
-		t("Volume[Sphere[(0,0,1),4]]", eval("4/3*pi*4^3"),
-				StringTemplate.editTemplate);
+		tRound("Volume[Cube[(0,0,1),(0,1,0)]]", eval("sqrt(8)"));
+		tRound("Volume[Sphere[(0,0,1),4]]", eval("4/3*pi*4^3"));
 	}
 
 	@Test
@@ -774,29 +699,24 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdCone() {
-		t("Cone[x^2+y^2=9,4]",
-				new String[] { eval("12*pi"), "X = (0, 0, 4)", eval("pi*15"), },
-				StringTemplate.editTemplate);
-		t("Cone[(0,0,0),(0,0,4),3]", new String[] { eval("12*pi"),
-				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", eval("pi*15"), },
-				StringTemplate.editTemplate);
-		t("Cone[(0,0,0),Vector[(0,0,4)],pi/4]",
-				new String[] { indices("x^2 + y^2 - 1z^2 = 0") },
-				StringTemplate.editTemplate);
+		tRound("Cone[x^2+y^2=9,4]",
+				new String[] { eval("12*pi"), "X = (0, 0, 4)",
+						eval("pi*15"), });
+		tRound("Cone[(0,0,0),(0,0,4),3]", new String[] { eval("12*pi"),
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", eval("pi*15"), });
+		tRound("Cone[(0,0,0),Vector[(0,0,4)],pi/4]",
+				new String[] { indices("x^2 + y^2 - 1z^2 = 0") });
 	}
 
 	@Test
 	public void cmdCylinder() {
-		t("Cylinder[x^2+y^2=9,4]", new String[] { eval("36*pi"),
-				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"), },
-				StringTemplate.editTemplate);
-		t("Cylinder[(0,0,0),(0,0,4),3]", new String[] { eval("36*pi"),
+		tRound("Cylinder[x^2+y^2=9,4]", new String[] { eval("36*pi"),
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"), });
+		tRound("Cylinder[(0,0,0),(0,0,4),3]", new String[] { eval("36*pi"),
 				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
-				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24") },
-				StringTemplate.editTemplate);
-		t("Cylinder[(0,0,0),Vector[(0,0,4)],1]",
-				new String[] { indices("x^2 + y^2 + 0z^2 = 1") },
-				StringTemplate.editTemplate);
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24") });
+		tRound("Cylinder[(0,0,0),Vector[(0,0,4)],1]",
+				new String[] { indices("x^2 + y^2 + 0z^2 = 1") });
 	}
 
 	@Test
@@ -807,27 +727,21 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdInfiniteCylinder() {
-		t("InfiniteCylinder[(1,1),(1,1,2),1]",
-				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"),
-				StringTemplate.editTemplate);
-		t("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]",
-				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"),
-				StringTemplate.editTemplate);
-		t("InfiniteCylinder[xAxis,1]", indices("y^2 + z^2 = 1"),
-				StringTemplate.editTemplate);
+		tRound("InfiniteCylinder[(1,1),(1,1,2),1]",
+				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
+		tRound("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]",
+				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
+		tRound("InfiniteCylinder[xAxis,1]", indices("y^2 + z^2 = 1"));
 	}
 
 	@Test
 	public void cmdInfiniteCone() {
-		t("InfiniteCone[(1,1),(1,1,2),45deg]",
-				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"),
-				StringTemplate.editTemplate);
-		t("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]",
-				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"),
-				StringTemplate.editTemplate);
-		t("InfiniteCone[(1,1),xAxis,45deg]",
-				indices("-1x^2 + y^2 + z^2 + 2x - 2y = 0"),
-				StringTemplate.editTemplate);
+		tRound("InfiniteCone[(1,1),(1,1,2),45deg]",
+				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
+		tRound("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]",
+				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
+		tRound("InfiniteCone[(1,1),xAxis,45deg]",
+				indices("-1x^2 + y^2 + z^2 + 2x - 2y = 0"));
 	}
 
 	@Test
@@ -855,7 +769,7 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdQuadricSide() {
-		t("Side[Cone[x^2+y^2=9,4]]", eval("15pi"), StringTemplate.editTemplate);
+		tRound("Side[Cone[x^2+y^2=9,4]]", eval("15pi"));
 	}
 
 	@Test
@@ -866,14 +780,14 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdNet() {
-		t("Net[Cube[(0,0,2),(0,0,0)],1]",
+		tRound("Net[Cube[(0,0,2),(0,0,0)],1]",
 				new String[] { "24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
 						"(2, 0, 2)", "(0, 0, 4)", "(2, 0, 4)", "(2, 0, 6)",
 						"(0, 0, 6)", "(-2, 0, 2)", "(-2, 0, 0)", "(0, 0, -2)",
 						"(2, 0, -2)", "(4, 0, 0)", "(4, 0, 2)", "4", "4", "4",
 						"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
-						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2" },
-				StringTemplate.editTemplate);
+						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+						"2" });
 		t("Net[Tetrahedron[(0,0,1),(0,1,0),(1,0,0)],Segment[(0,0,1),(0,1,0)]]",
 				new String[] { "NaN", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
 						"(NaN, NaN, NaN)", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
@@ -887,35 +801,29 @@ public class CommandsTest extends AlgebraTest {
 		// 3D
 		t("IntersectPath[x+y+z=1,x+y-z=1]",
 				"X = (1, 0, 0) + " + Unicode.lambda + " (-2, 2, 0)");
-		t("IntersectPath[x^2+y^2+z^2=4,x+y-z=1]",
-				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t), 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))",
-				StringTemplate.editTemplate);
-		t("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
+		tRound("IntersectPath[x^2+y^2+z^2=4,x+y-z=1]",
+				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t), 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))");
+		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
 				new String[] { "1", "(2, 2, 0)", "(1, 2, 0)", "(1, 1, 0)",
-						"(2, 1, 0)", "1", "1", "1", "1" },
-				StringTemplate.editTemplate);
-		t("IntersectPath[Polygon[(0,0),(2,0),4],x+y=3]", eval("sqrt(2)"),
-				StringTemplate.editTemplate);
+						"(2, 1, 0)", "1", "1", "1", "1" });
+		tRound("IntersectPath[Polygon[(0,0),(2,0),4],x+y=3]", eval("sqrt(2)"));
 		// 2D
-		t("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],x+y=3]",
-				eval("sqrt(2)"), StringTemplate.editTemplate);
-		t("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
+		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],x+y=3]",
+				eval("sqrt(2)"));
+		tRound("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
 				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)", "1",
-						"1", "1", "1" },
-				StringTemplate.editTemplate);
-		t("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]",
-				new String[] { "2", "2", "2", "2" },
-				StringTemplate.editTemplate);
-		t("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
-				eval("sqrt(8)"), StringTemplate.editTemplate);
-		t("IntersectPath[Segment[(0,0),(2,2)],(x-2)^2+(y-2)^2=2]",
-				eval("sqrt(2)"), StringTemplate.editTemplate);
-		t("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]",
-				eval("sqrt(.5)"), StringTemplate.editTemplate);
-		t("IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
+						"1", "1", "1" });
+		tRound("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]",
+				new String[] { "2", "2", "2", "2" });
+		tRound("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
+				eval("sqrt(8)"));
+		tRound("IntersectPath[Segment[(0,0),(2,2)],(x-2)^2+(y-2)^2=2]",
+				eval("sqrt(2)"));
+		tRound("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]",
+				eval("sqrt(.5)"));
+		tRound("IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
 				new String[] { "1.73205", "(1.41421, 0, 0)", "(0, 1.41421, 0)",
-						"(0, 0, 1.41421)", "2", "2", "2" },
-				StringTemplate.editTemplate);
+						"(0, 0, 1.41421)", "2", "2", "2" });
 	}
 
 	private static String indices(String string) {
@@ -947,18 +855,15 @@ public class CommandsTest extends AlgebraTest {
 	}
 
 	private static void platonicTest(String string, int deg, String[] dodeca) {
-		t(string + "[(1;" + deg + "deg),(0,0)]", dodeca,
-				StringTemplate.editTemplate);
-		t(string + "[(1;" + deg + "deg),(0,0),(1,0)]", dodeca,
-				StringTemplate.editTemplate);
+		tRound(string + "[(1;" + deg + "deg),(0,0)]", dodeca);
+		tRound(string + "[(1;" + deg + "deg),(0,0),(1,0)]", dodeca);
 		String[] dodeca1 = new String[dodeca.length + 1];
 		dodeca1[0] = dodeca[0];
 		dodeca1[1] = "(1, 0, 0)";
 		for (int i = 2; i < dodeca1.length; i++) {
 			dodeca1[i] = dodeca[i - 1];
 		}
-		t(string + "[(1;" + deg + "deg),(0,0),Vector[(0,0,1)]]", dodeca1,
-				StringTemplate.editTemplate);
+		tRound(string + "[(1;" + deg + "deg),(0,0),Vector[(0,0,1)]]", dodeca1);
 	}
 
 	@Test
@@ -991,40 +896,34 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void cmdPyramid() {
 
-		t("Pyramid[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
+		tRound("Pyramid[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
 				new String[] { eval("1/6"), "0.5", "0.5", eval("sqrt(3)/2"),
 						"0.5", "1", eval("sqrt(2)"), "1", "1", eval("sqrt(2)"),
-						eval("sqrt(2)"), },
-				StringTemplate.editTemplate);
-		t("Pyramid[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
+						eval("sqrt(2)"), });
+		tRound("Pyramid[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
 				new String[] { eval("1/6"), "0.5", eval("sqrt(3)/2"), "0.5",
-						"1", eval("sqrt(2)"), eval("sqrt(2)"), },
-				StringTemplate.editTemplate);
-		t("Pyramid[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
+						"1", eval("sqrt(2)"), eval("sqrt(2)"), });
+		tRound("Pyramid[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
 				new String[] { "24", "(0, 0, 4)", "9.60469", "9.60469",
-						"9.60469", "9.60469", "5", "5", "5", "5" },
-				StringTemplate.editTemplate);
+						"9.60469", "9.60469", "5", "5", "5", "5" });
 	}
 
 	@Test
 	public void cmdPrism() {
-		t("Prism[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
+		tRound("Prism[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
 				new String[] { "0.5", "(1, 0, 1)", "(0, 1, 1)", "0.5", "1",
 						eval("sqrt(2)"), "1", "0.5", "1", eval("sqrt(2)"), "1",
-						"1", "1", "1", "1", eval("sqrt(2)"), "1" },
-				StringTemplate.editTemplate);
-		t("Prism[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
+						"1", "1", "1", "1", eval("sqrt(2)"), "1" });
+		tRound("Prism[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
 				new String[] { "0.5", "(1, 0, 1)", "(0, 1, 1)", "1",
 						eval("sqrt(2)"), "1", "0.5", "1", "1", "1", "1",
-						eval("sqrt(2)"), "1" },
-				StringTemplate.editTemplate);
-		t("Prism[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
+						eval("sqrt(2)"), "1" });
+		tRound("Prism[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
 				new String[] { "72", "(-3, 0, 4)", "(0, -3, 4)", "(3, 0, 4)",
 						"(0, 3, 4)", eval("12sqrt(2)"), eval("12sqrt(2)"),
 						eval("12sqrt(2)"), eval("12sqrt(2)"), "18", "4", "4",
 						"4", "4", eval("3sqrt(2)"), eval("3sqrt(2)"),
-						eval("3sqrt(2)"), eval("3sqrt(2)") },
-				StringTemplate.editTemplate);
+						eval("3sqrt(2)"), eval("3sqrt(2)") });
 	}
 
 	@Test
@@ -1052,41 +951,36 @@ public class CommandsTest extends AlgebraTest {
 				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 0, -1)");
 		t("PerpendicularLine[(1,1,1),y=0,xOyPlane]",
 				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 1, 0)");
-		t("PerpendicularLine[(1,1,1),y=0,space]",
-				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 0.70711, 0.70711)",
-				StringTemplate.editTemplate);
+		tRound("PerpendicularLine[(1,1,1),y=0,space]",
+				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 0.70711, 0.70711)");
 		t("PerpendicularLine[x=1,y=1]",
 				"X = (1, 1, 0) + " + Unicode.lambda + " (0, 0, 1)");
 	}
 
 	@Test
 	public void testExpIntegral() {
-		t("expIntegral(5)", "40.18528", StringTemplate.editTemplate);
-		t("expIntegral(5+0i)", "40.18528 + 0" + Unicode.IMAGINARY,
-				StringTemplate.editTemplate);
+		tRound("expIntegral(5)", "40.18528");
+		tRound("expIntegral(5+0i)", "40.18528 + 0" + Unicode.IMAGINARY);
 	}
 
 	@Test
 	public void testInverseTrigDegree() {
-		t("asind(0.5)", "30\u00B0", StringTemplate.editTemplate);
-		t("acosd(0.5)", "60\u00B0", StringTemplate.editTemplate);
-		t("atand(1)", "45\u00B0", StringTemplate.editTemplate);
-		t("asind(0.317)", "18.48159\u00B0", StringTemplate.editTemplate);
-		t("acosd(0.317)", "71.51841\u00B0", StringTemplate.editTemplate);
-		t("atand(0.317)", "17.58862\u00B0", StringTemplate.editTemplate);
+		tRound("asind(0.5)", "30\u00B0");
+		tRound("acosd(0.5)", "60\u00B0");
+		tRound("atand(1)", "45\u00B0");
+		tRound("asind(0.317)", "18.48159\u00B0");
+		tRound("acosd(0.317)", "71.51841\u00B0");
+		tRound("atand(0.317)", "17.58862\u00B0");
 	}
 
 	@Test
 	public void cmdSpline() {
 		String theSpline = "(If(t < 0.38743, 0.88246t^3 + 0t^2 + 2.44868t, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377), If(t < 0.38743, -5.43794t^3 + 0t^2 + 3.39737t, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623))";
-		t("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline),
-				StringTemplate.editTemplate);
-		t("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline),
-				StringTemplate.editTemplate);
-		t("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]", unicode(theSpline),
-				StringTemplate.editTemplate);
-		t("Spline[{(0,0),(1,1),(1,1),(3,0)},4]", "?",
-				StringTemplate.editTemplate);
+		tRound("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline));
+		tRound("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline));
+		tRound("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]",
+				unicode(theSpline));
+		tRound("Spline[{(0,0),(1,1),(1,1),(3,0)},4]", "?");
 	}
 
 	@Test
@@ -1186,16 +1080,15 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdFit() {
-		t("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]", unicode("1x^2 + 0x + 1 * 1"),
-				StringTemplate.editTemplate);
-		t("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
-				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"),
-				StringTemplate.editTemplate);
+		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
+				unicode("1x^2 + 0x + 1 * 1"));
+		tRound("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
+				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"));
 		t("a=Slider[0,10]", "0");
 		t("b=Slider[0,10]", "0");
 		t("c=Slider[0,10]", "0");
-		t("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]", unicode("1x^2 + 0x + 1"),
-				StringTemplate.editTemplate);
+		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
+				unicode("1x^2 + 0x + 1"));
 	}
 
 	@Test
@@ -1224,30 +1117,24 @@ public class CommandsTest extends AlgebraTest {
 	public void cmdMirrorPlane() {
 		t("e:x-z=0", "x - z = 0");
 		t("Reflect[Vector[(0,1)],e]", "(0, 1, 0)");
-		t("Reflect[Curve[(t,t^3),t,0,5],e]", unicode("(0t, t^3, 1t)"),
-				StringTemplate.editTemplate);
-		t("Reflect[y=x^2,e]", unicode("X = (0, 0, 0) + (0, 0.25 t^2, -0.5 t)"),
-				StringTemplate.editTemplate);
-		t("Reflect[Polygon[(0,0),(0,1),4],e]", "1",
-				StringTemplate.editTemplate);
+		tRound("Reflect[Curve[(t,t^3),t,0,5],e]", unicode("(0t, t^3, 1t)"));
+		tRound("Reflect[y=x^2,e]",
+				unicode("X = (0, 0, 0) + (0, 0.25 t^2, -0.5 t)"));
+		tRound("Reflect[Polygon[(0,0),(0,1),4],e]", "1");
 		t("Reflect[Polyline[(0,0),(0,1),(1,1)],e]", "2");
 		t("Reflect[Line[(0,0),(0,1)],e]",
 				"X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
-		t("Reflect[x+y,e]", "(0u + 1 (u + v), v, 1u + 0 (u + v))",
-				StringTemplate.editTemplate);
+		tRound("Reflect[x+y,e]", "(0u + 1 (u + v), v, 1u + 0 (u + v))");
 		t("Reflect[(1,0),e]", "(0, 0, 1)");
 		t("Reflect[x^3+y^3=0,e]", "?");
 		t("picT=ToolImage[2]", new String[0]);
 		t("Reflect[picT,e]", "picT'");
-		t("Reflect[xAxis,e]",
-				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 0, 1)"),
-				StringTemplate.editTemplate);
-		t("Reflect[yAxis,e]",
-				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)"),
-				StringTemplate.editTemplate);
-		t("Reflect[zAxis,e]",
-				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (1, 0, 0)"),
-				StringTemplate.editTemplate);
+		tRound("Reflect[xAxis,e]",
+				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 0, 1)"));
+		tRound("Reflect[yAxis,e]",
+				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)"));
+		tRound("Reflect[zAxis,e]",
+				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (1, 0, 0)"));
 	}
 
 	@Test
@@ -1261,7 +1148,7 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void testComplexFunctions() {
 		t("f(x)=x^2", "x^(2)");
-		t("f(i)", "-1 + 0" + Unicode.IMAGINARY, StringTemplate.editTemplate);
+		tRound("f(i)", "-1 + 0" + Unicode.IMAGINARY);
 		t("f((3,4))", "9");
 		t("g: x > 1", "x > 1");
 		t("g((3,4))", "true");
@@ -1269,22 +1156,20 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void testRootsRedefine() {
-		t("Roots[sin(x),-1,4]", new String[] { "(0, 0)", "(3.14159, 0)" },
-				StringTemplate.editTemplate);
-		t("A", "(0, 0)", StringTemplate.editTemplate);
-		t("B", "(3.14159, 0)", StringTemplate.editTemplate);
-		t("A = Roots[sin(x),-1,4.2]", new String[] { "(0, 0)", "(3.14159, 0)" },
-				StringTemplate.editTemplate);
-		t("A", "(0, 0)", StringTemplate.editTemplate);
-		t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
+		tRound("Roots[sin(x),-1,4]", new String[] { "(0, 0)", "(3.14159, 0)" });
+		tRound("A", "(0, 0)");
+		tRound("B", "(3.14159, 0)");
+		tRound("A = Roots[sin(x),-1,4.2]",
+				new String[] { "(0, 0)", "(3.14159, 0)" });
+		tRound("A", "(0, 0)");
+		tRound("Object[\"B\"]", "(3.14159, 0)");
 	}
 
 	@Test
 	public void cmdRoot() {
-		t("Root[ x^3-x ]", new String[] { "(-1, 0)", "(0, 0)", "(1, 0)" },
-				StringTemplate.defaultTemplate);
-		t("Root[ sin(x*pi), 1.3 ]", "(1, 0)", StringTemplate.defaultTemplate);
-		t("Root[ sin(x*pi), -3,3 ]", "(0, 0)", StringTemplate.defaultTemplate);
+		tRound("Root[ x^3-x ]", new String[] { "(-1, 0)", "(0, 0)", "(1, 0)" });
+		tRound("Root[ sin(x*pi), 1.3 ]", "(1, 0)");
+		tRound("Root[ sin(x*pi), -3,3 ]", "(0, 0)");
 		t("a:=4/5", "0.8");
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
@@ -1317,8 +1202,7 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdNDerivative() {
-		t("NDerivative[x^2]", unicode("NDerivative(x^2)"),
-				StringTemplate.defaultTemplate);
+		tRound("NDerivative[x^2]", unicode("NDerivative(x^2)"));
 	}
 
 	@Test
@@ -1389,29 +1273,26 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdSolutions() {
-		t("Solutions[ x^2=3 ]", "{-1.73, 1.73}",
-				StringTemplate.defaultTemplate);
+		tRound("Solutions[ x^2=3 ]", "{-1.73205, 1.73205}");
 		t("Solutions[ 5x=4 ]", "{4 / 5}");
-		t("Solutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
-				+ Unicode.DEGREE_CHAR + "}", StringTemplate.defaultTemplate);
+		tRound("Solutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
+				+ Unicode.DEGREE_CHAR + "}");
 	}
 
 	@Test
 	public void cmdNSolutions() {
-		t("NSolutions[ x^2=3 ]", "{-1.73, 1.73}",
-				StringTemplate.defaultTemplate);
+		tRound("NSolutions[ x^2=3 ]", "{-1.73205, 1.73205}");
 		t("NSolutions[ 5x=4 ]", "{0.8}");
-		t("NSolutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
-				+ Unicode.DEGREE_CHAR + "}", StringTemplate.defaultTemplate);
+		tRound("NSolutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
+				+ Unicode.DEGREE_CHAR + "}");
 	}
 
 	@Test
 	public void cmdVertex() {
 		t("Vertex[ x^2/9+y^2/4 =1 ]",
 				new String[] { "(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)" });
-		t("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
-				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421), (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189), (1.30208, 0.55189)}",
-				StringTemplate.editTemplate);
+		tRound("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
+				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421), (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189), (1.30208, 0.55189)}");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
 				new String[] { "(0, 0)", "(1, 0)", "(0, 1)" });
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]", "(1, 0)");
@@ -1440,14 +1321,12 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdNSolve() {
-		t("NSolve[ x^2=3 ]", "{x = -1.73205, x = 1.73205}",
-				StringTemplate.editTemplate);
+		tRound("NSolve[ x^2=3 ]", "{x = -1.73205, x = 1.73205}");
 		t("NSolve[ x^2=-1 ]", "{}");
-		t("NSolve[ erf(x)=0.5 ]", "{x = 0.47694}", StringTemplate.editTemplate);
-		t("NSolve[ sin(x)=0 ]",
+		tRound("NSolve[ erf(x)=0.5 ]", "{x = 0.47694}");
+		tRound("NSolve[ sin(x)=0 ]",
 				"{x = 0" + Unicode.DEGREE_CHAR + ", x = 180"
-						+ Unicode.DEGREE_CHAR + "}",
-				StringTemplate.editTemplate);
+						+ Unicode.DEGREE_CHAR + "}");
 		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0*" + Unicode.DEGREE_CHAR
 				+ ", y = 0*" + Unicode.DEGREE_CHAR + "}}");
 	}
@@ -1471,16 +1350,12 @@ public class CommandsTest extends AlgebraTest {
 	private static void prob(String cmd, String params, String pdf, String cdf,
 			int skip) {
 		app.getKernel().getConstruction().setFileLoading(false);
-		t("cdf1=" + cmd + "(" + params + ",x)", unicode(cdf),
-				StringTemplate.editTemplate);
+		tRound("cdf1=" + cmd + "(" + params + ",x)", unicode(cdf));
 		app.getKernel().getConstruction().setFileLoading(true);
-		t("pdf1=" + cmd + "(" + params + ",x)", unicode(pdf),
-				StringTemplate.editTemplate);
+		tRound("pdf1=" + cmd + "(" + params + ",x)", unicode(pdf));
 		app.getKernel().getConstruction().setFileLoading(false);
-		t("pdf=" + cmd + "(" + params + ",x,false)", unicode(pdf),
-				StringTemplate.editTemplate);
-		t("cdf=" + cmd + "(" + params + ",x,true)", unicode(cdf),
-				StringTemplate.editTemplate);
+		tRound("pdf=" + cmd + "(" + params + ",x,false)", unicode(pdf));
+		tRound("cdf=" + cmd + "(" + params + ",x,true)", unicode(cdf));
 		for (int i = -1; i < 5; i++) {
 			t("cdf(" + i + ")==" + cmd + "(" + params + "," + i + ",true)",
 					"true");
@@ -1612,15 +1487,13 @@ public class CommandsTest extends AlgebraTest {
 	private static void intProb(String cmd, String args, String val, String pf,
 			String cdf) {
 		t("ZoomIn[0,0,100,100]", new String[0]);
-		t(cmd + "(" + args + "," + val + ",false)", pf,
-				StringTemplate.editTemplate);
-		t(cmd + "(" + args + "," + val + ",true)", cdf,
-				StringTemplate.editTemplate);
+		tRound(cmd + "(" + args + "," + val + ",false)", pf);
+		tRound(cmd + "(" + args + "," + val + ",true)", cdf);
 
-		t(cmd + "(" + args + ")", "1", StringTemplate.editTemplate);
-		t(cmd + "(" + args + ",false)", "1", StringTemplate.editTemplate);
+		tRound(cmd + "(" + args + ")", "1");
+		tRound(cmd + "(" + args + ",false)", "1");
 
-		t(cmd + "(" + args + ",true)>1", "true", StringTemplate.editTemplate);
+		tRound(cmd + "(" + args + ",true)>1", "true");
 	}
 
 	@Test
@@ -1682,7 +1555,7 @@ public class CommandsTest extends AlgebraTest {
 		t("a=1", "1");
 		t("b=1", "1");
 		t("ab+1", "2");
-		t("ab" + Unicode.pi + "+1", "4.14159", StringTemplate.editTemplate);
+		tRound("ab" + Unicode.pi + "+1", "4.14159");
 	}
 
 	@Test
@@ -1719,17 +1592,17 @@ public class CommandsTest extends AlgebraTest {
 		img.getCorner(0).setCoords(0, 0, 1);
 		img.getCorner(1).setCoords(10, 0, 1);
 		img.getCorner(1).updateCascade();
-		t("Corner(picT,1)", "(0, 0)", StringTemplate.defaultTemplate);
-		t("Corner(picT,2)", "(10, 0)", StringTemplate.defaultTemplate);
-		t("Corner(picT,3)", "(10, 10)", StringTemplate.defaultTemplate);
-		t("Corner(picT,4)", "(0, 10)", StringTemplate.defaultTemplate);
+		tRound("Corner(picT,1)", "(0, 0)");
+		tRound("Corner(picT,2)", "(10, 0)");
+		tRound("Corner(picT,3)", "(10, 10)");
+		tRound("Corner(picT,4)", "(0, 10)");
 		EuclidianView view = app.getActiveEuclidianView();
 		view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale(),
 				view.getYscale() * 2);
-		t("Corner(picT,1)", "(0, 0)", StringTemplate.defaultTemplate);
-		t("Corner(picT,2)", "(10, 0)", StringTemplate.defaultTemplate);
-		t("Corner(picT,3)", "(10, 10)", StringTemplate.defaultTemplate);
-		t("Corner(picT,4)", "(0, 10)", StringTemplate.defaultTemplate);
+		tRound("Corner(picT,1)", "(0, 0)");
+		tRound("Corner(picT,2)", "(10, 0)");
+		tRound("Corner(picT,3)", "(10, 10)");
+		tRound("Corner(picT,4)", "(0, 10)");
 	}
 
 	@Test
@@ -1809,11 +1682,9 @@ public class CommandsTest extends AlgebraTest {
 				new String[] { "NSolveODE[{y1', y2'}, 0, {a, b}, 20]",
 						"NSolveODE[{y1', y2'}, 0, {a, b}, 20]" });
 
-		t("x1 = l sin(y(Point(nint_1, 0)))", "-1.91785",
-				StringTemplate.editTemplate);
-		t("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732",
-				StringTemplate.editTemplate);
-		t("Segment((0, 0), (x1, y1))", "2", StringTemplate.editorTemplate);
+		tRound("x1 = l sin(y(Point(nint_1, 0)))", "-1.91785");
+		tRound("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732");
+		tRound("Segment((0, 0), (x1, y1))", "2");
 		// undefined testcase
 		t("yu1'(t, y1, y2) = ?", "NaN");
 		t("yu2'(t, y1, y2) = ?", "NaN");
@@ -1825,10 +1696,9 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void cmdLength() {
 		t("Length[ Curve(3t,4t,t,0,10), 2, 3 ]", "5");
-		t("Length[ Curve(3t,4t,t,0,10), (3,5),(6,9) ]", "5",
-				StringTemplate.editTemplate);
+		tRound("Length[ Curve(3t,4t,t,0,10), (3,5),(6,9) ]", "5");
 		t("Length[ 3/4x, 0, 4 ]", "5");
-		t("Length[ 3/4x, (0,1), (4,4) ]", "5", StringTemplate.editTemplate);
+		tRound("Length[ 3/4x, (0,1), (4,4) ]", "5");
 		t("Length[ Segment((1,0),(0,0))]", "1");
 		t("Length[ Segment((3,4,12),(0,0))]", "13");
 		t("Length[ CircleArc((0,0),(1/pi,0),(0,1))]", "0.5");
@@ -1901,11 +1771,10 @@ public class CommandsTest extends AlgebraTest {
 		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 2 ]", "x^(2)");
 		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 3 ]", "x^(2)");
 		// this one falls back to Polynomial()
-		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 4 ]",
-				unicode("0x^3 + x^2 + 0x"), StringTemplate.editTemplate);
-		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
-				unicode("0x^4 + 0x^3 + x^2 + 0x + 0"),
-				StringTemplate.editTemplate);
+		tRound("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 4 ]",
+				unicode("0x^3 + x^2 + 0x"));
+		tRound("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
+				unicode("0x^4 + 0x^3 + x^2 + 0x + 0"));
 		t("FitPoly[ Function({0,4,0,1,4,9,16}), 1 ]", "(4 * x) - 2");
 	}
 
@@ -1931,16 +1800,14 @@ public class CommandsTest extends AlgebraTest {
 	public void cmdMAD() {
 		t("MAD( {1,2,3,4,5} )", "1.2"); // (2+1+1+2)/5 =1.2
 		t("MAD( 1, 3 )", "1"); // (1+1)/2 =1
-		t("MAD({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524",
-				StringTemplate.editTemplate);
+		tRound("MAD({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524");
 	}
 
 	@Test
 	public void cmdmad() {
 		t("mad( {1,2,3,4,5} )", "1.2"); // (2+1+1+2)/5 =1.2
 		t("mad( 1, 3 )", "1"); // (1+1)/2 =1
-		t("mad({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524",
-				StringTemplate.editTemplate);
+		tRound("mad({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524");
 	}
 
 	@Test
@@ -2012,7 +1879,7 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void cmdPoint() {
 		t("Point[ xAxis ]", "(0, 0)");
-		t("Point[ x^2+y^2=1, 0.25]", "(0, -1)", StringTemplate.editTemplate);
+		tRound("Point[ x^2+y^2=1, 0.25]", "(0, -1)");
 		t("Point[ (1,1),Vector((3,4))]", "(4, 5)");
 		t("Point[ {1,2}]", "(1, 2)");
 		t("Point[ 0x < 1]", "(0, 0)");
