@@ -13,12 +13,9 @@ import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.web.resources.xml.XmlResources;
 
 public class MockApp {
 	public static AppWFull mockApplet(TestArticleElement ae) {
-		GwtMockito.useProviderForType(XmlResources.class,
-				new TextResourceProvider());
 		GwtMockito.useProviderForType(PopupImpl.class,
 				new FakeProvider<PopupImpl>() {
 

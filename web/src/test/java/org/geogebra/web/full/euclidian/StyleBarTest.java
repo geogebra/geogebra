@@ -11,10 +11,9 @@ import org.junit.runner.RunWith;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.parser.NodeW;
 
 @RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ TextAreaElement.class, NodeW.class })
+@WithClassesToStub({ TextAreaElement.class })
 public class StyleBarTest {
 
 	@Test
