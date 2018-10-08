@@ -48,7 +48,6 @@
 
 package com.himamis.retex.renderer.share;
 
-
 import java.util.ArrayList;
 import java.util.BitSet;
 
@@ -306,7 +305,7 @@ public class RowAtom extends Atom implements Row {
 			hBox.add(b);
 
 			// set last used fontId (for next atom)
-			env.setLastFontId(b.getLastFontId());
+			env.setLastFont(b.getLastFont());
 
 			// insert kern
 			if (Math.abs(kern) > TeXFormula.PREC) {
@@ -322,10 +321,11 @@ public class RowAtom extends Atom implements Row {
 
 		// ShapeBox causes problems in web when fonts aren't loaded
 		// and also isn't necessary there anyway
-		if (!FactoryProvider.getInstance().isHTML5()) {
-			if (shape) {
-				return ShapeBox.create(hBox);
-			}
+		if (FactoryProvider.getInstance().isHTML5()) {
+			return hBox;
+		}
+		if (shape) {
+			return ShapeBox.create(hBox);
 		}
 
 		return hBox;

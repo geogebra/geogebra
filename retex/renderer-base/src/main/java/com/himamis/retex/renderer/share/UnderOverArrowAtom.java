@@ -45,6 +45,10 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.xarrows.XLeftArrow;
+import com.himamis.retex.renderer.share.xarrows.XLeftRightArrow;
+import com.himamis.retex.renderer.share.xarrows.XRightArrow;
+
 /**
  * An atom representing an other atom with an extensible arrow or doublearrow
  * over or under it.
@@ -89,10 +93,14 @@ public class UnderOverArrowAtom extends Atom {
 		Box arrow;
 
 		if (dble) {
-			arrow = XLeftRightArrowFactory.create(env, b.getWidth());
+			arrow = new XLeftRightArrow(b.getWidth());
 			sep = 4 * sep;
 		} else {
-			arrow = XLeftRightArrowFactory.create(left, env, b.getWidth());
+			if (left) {
+				arrow = new XLeftArrow(b.getWidth());
+			} else {
+				arrow = new XRightArrow(b.getWidth());
+			}
 			sep = -sep;
 		}
 

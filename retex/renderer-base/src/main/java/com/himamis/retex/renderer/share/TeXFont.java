@@ -46,9 +46,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
@@ -61,7 +58,7 @@ public class TeXFont {
 	/**
 	 * No extension part for that kind (TOP,MID,REP or BOT)
 	 */
-	protected static final int NONE = -1;
+	public static final char NONE = '\0';
 
 	private final static int[] OFFSETS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
 			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
@@ -83,39 +80,32 @@ public class TeXFont {
 	protected final static int SMALL = 2;
 	protected final static int UNICODE = 3;
 
-	public static final Font_ID MUFONT = Font_ID.jlm_cmsy10;
-	public static final Font_ID SPACEFONT = Font_ID.jlm_cmr10;
+	public static final FontInfo MUFONT = Configuration.getFonts().cmsy10;
+	public static final FontInfo SPACEFONT = Configuration.getFonts().cmr10;
 
 	public static final double TEXTFACTOR = 1.0;
 	public static final double SCRIPTFACTOR = 0.7;
 	public static final double SCRIPTSCRIPTFACTOR = 0.5;
 
-	static Map<String, CharFont> symbolMappings;
-	public static Map<Font_ID, FontInfo> fontInfo = new HashMap<>();
-
-	static Map<String, Double> parameters = new HashMap<String, Double>() {
-		{
-			put("num1", 0.676508);
-			put("num2", 0.393732);
-			put("num3", 0.443731);
-			put("denom1", 0.685951);
-			put("denom2", 0.344841);
-			put("sup1", 0.412892);
-			put("sup2", 0.362892);
-			put("sup3", 0.288889);
-			put("sub1", 0.15);
-			put("sub2", 0.247217);
-			put("supdrop", 0.386108);
-			put("subdrop", 0.05);
-			put("axisheight", 0.25);
-			put("defaultrulethickness", 0.039999);
-			put("bigopspacing1", 0.111112);
-			put("bigopspacing2", 0.166667);
-			put("bigopspacing3", 0.2);
-			put("bigopspacing4", 0.6);
-			put("bigopspacing5", 0.1);
-		}
-	};
+	private static final double AXISHEIGHT = 0.25;
+	private static final double BIGOPSPACING1 = 0.111112;
+	private static final double BIGOPSPACING2 = 0.166667;
+	private static final double BIGOPSPACING3 = 0.2;
+	private static final double BIGOPSPACING4 = 0.6;
+	private static final double BIGOPSPACING5 = 0.1;
+	private static final double DEFAULTRULETHICKNESS = 0.039999;
+	private static final double DENOM1 = 0.685951;
+	private static final double DENOM2 = 0.344841;
+	private static final double NUM1 = 0.676508;
+	private static final double NUM2 = 0.393732;
+	private static final double NUM3 = 0.443731;
+	private static final double SUB1 = 0.15;
+	private static final double SUB2 = 0.247217;
+	private static final double SUBDROP = 0.05;
+	private static final double SUP1 = 0.412892;
+	private static final double SUP2 = 0.362892;
+	private static final double SUP3 = 0.288889;
+	private static final double SUPDROP = 0.386108;
 
 	protected static final int TOP = 0, MID = 1, REP = 2, BOT = 3;
 
@@ -137,11 +127,6 @@ public class TeXFont {
 	public boolean isIt = false;
 
 	private final double size; // standard size
-
-	public static Font getFont(Font_ID fontId) {
-		FontInfo info = fontInfo.get(fontId);
-		return info.getFont();
-	}
 
 	public TeXFont(double pointSize) {
 		size = pointSize;
@@ -180,32 +165,31 @@ public class TeXFont {
 	}
 
 	public double getAxisHeight(int style) {
-		return getParameter("axisheight") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return AXISHEIGHT * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing1(int style) {
-		return getParameter("bigopspacing1") * getSizeFactor(style)
+		return BIGOPSPACING1 * getSizeFactor(style)
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing2(int style) {
-		return getParameter("bigopspacing2") * getSizeFactor(style)
+		return BIGOPSPACING2 * getSizeFactor(style)
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing3(int style) {
-		return getParameter("bigopspacing3") * getSizeFactor(style)
+		return BIGOPSPACING3 * getSizeFactor(style)
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing4(int style) {
-		return getParameter("bigopspacing4") * getSizeFactor(style)
+		return BIGOPSPACING4 * getSizeFactor(style)
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing5(int style) {
-		return getParameter("bigopspacing5") * getSizeFactor(style)
+		return BIGOPSPACING5 * getSizeFactor(style)
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
@@ -224,11 +208,10 @@ public class TeXFont {
 			styles = TextStyle.getDefault();
 		}
 		return getChar(new CharFont((char) (styles[kind].getStart() + offset),
-				styles[kind].getFontId()), style);
+				styles[kind].getFont()), style);
 	}
 
 	public Char getChar(char c, int style) {
-		;
 		return getChar(c, TextStyle.get(TextStyle.MATHNORMAL), style);
 	}
 
@@ -238,42 +221,34 @@ public class TeXFont {
 
 	public Char getChar(CharFont cf0, int style) {
 		double fsize = getSizeFactor(style);
-		Font_ID id = isBold ? cf0.boldFontId : cf0.fontId;
-		// FactoryProvider.getInstance()
-		// .debug("getChar" + id + " " + fontInfo.size());
-		FontInfo info = fontInfo.get(id);
+		FontInfo info = isBold ? cf0.boldFontInfo : cf0.fontInfo;
 		CharFont cf = cf0;
-		if (isBold && cf.fontId == cf.boldFontId) {
-			id = id.getBoldId();
-			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id);
+		if (isBold && cf.fontInfo == cf.boldFontInfo) {
+			info = info.getBold();
+			cf = new CharFont(cf.c, info);
 		}
 		if (isRoman) {
-			id = id.getRomanId();
-			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id);
+			info = info.getRoman();
+			cf = new CharFont(cf.c, info);
 		}
 		if (isSs) {
-			id = id.getSsId();
-			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id);
+			info = info.getSs();
+			cf = new CharFont(cf.c, info);
 		}
 		if (isTt) {
-			id = id.getTtId();
-			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id);
+			info = info.getTt();
+			cf = new CharFont(cf.c, info);
 		}
 		if (isIt) {
-			id = id.getItId();
-			info = fontInfo.get(id);
-			cf = new CharFont(cf.c, id);
+			info = info.getIt();
+			cf = new CharFont(cf.c, info);
 		}
 		Font font = info.getFont();
-		return new Char(cf.c, font, id, getMetrics(cf, factor * fsize));
+		return new Char(cf.c, font, info, getMetrics(cf, factor * fsize));
 	}
 
 	public Char getChar(String symbolName, int style) {
-		CharFont obj = Configuration.get().getFontMapping().get(symbolName);
+		CharFont obj = Configuration.getFontMapping().get(symbolName);
 		if (obj == null) {// no symbol mapping found!
 
 			// XXX
@@ -286,35 +261,31 @@ public class TeXFont {
 	}
 
 	public double getDefaultRuleThickness(int style) {
-		return getParameter("defaultrulethickness") * getSizeFactor(style)
+		return DEFAULTRULETHICKNESS * getSizeFactor(style)
 				* TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getDenom1(int style) {
-		return getParameter("denom1") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return DENOM1 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getDenom2(int style) {
-		return getParameter("denom2") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return DENOM2 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public Extension getExtension(Char c, int style) {
 		Font f = c.getFont();
-		Font_ID fc = c.getFontCode();
+		FontInfo info = c.getFontInfo();
 		double s = getSizeFactor(style);
 
-		// construct Char for every part
-		FontInfo info = fontInfo.get(fc);
-		int[] ext = info.getExtension(c.getChar());
+		char[] ext = info.getExtension(c.getChar());
 		Char[] parts = new Char[ext.length];
 		for (int i = 0; i < ext.length; i++) {
 			if (ext[i] == NONE) {
 				parts[i] = null;
 			} else {
-				parts[i] = new Char((char) ext[i], f, fc,
-						getMetrics(new CharFont((char) ext[i], fc), s));
+				parts[i] = new Char(ext[i], f, info,
+						getMetrics(new CharFont(ext[i], info), s));
 			}
 		}
 
@@ -322,8 +293,8 @@ public class TeXFont {
 	}
 
 	public double getKern(CharFont left, CharFont right, int style) {
-		if (left.fontId == right.fontId) {
-			FontInfo info = fontInfo.get(left.fontId);
+		if (left.fontInfo == right.fontInfo) {
+			FontInfo info = left.fontInfo;
 			return info.getKern(left.c, right.c,
 					getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 		}
@@ -331,15 +302,15 @@ public class TeXFont {
 	}
 
 	public CharFont getLigature(CharFont left, CharFont right) {
-		if (left.fontId == right.fontId) {
-			FontInfo info = fontInfo.get(left.fontId);
+		if (left.fontInfo == right.fontInfo) {
+			FontInfo info = left.fontInfo;
 			return info.getLigature(left.c, right.c);
 		}
 		return null;
 	}
 
 	private static Metrics getMetrics(CharFont cf, double size) {
-		FontInfo info = fontInfo.get(cf.fontId);
+		FontInfo info = cf.fontInfo;
 		double[] m = info.getMetrics(cf.c);
 		if (m == null) {
 			return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT,
@@ -350,30 +321,26 @@ public class TeXFont {
 	}
 
 	public Char getNextLarger(Char c, int style) {
-		FontInfo info = fontInfo.get(c.getFontCode());
+		FontInfo info = c.getFontInfo();
 		CharFont ch = info.getNextLarger(c.getChar());
-		FontInfo newInfo = fontInfo.get(ch.fontId);
-		return new Char(ch.c, newInfo.getFont(), ch.fontId,
+		FontInfo newInfo = ch.fontInfo;
+		return new Char(ch.c, newInfo.getFont(), ch.fontInfo,
 				getMetrics(ch, getSizeFactor(style)));
 	}
 
 	public double getNum1(int style) {
-		return getParameter("num1") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return NUM1 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getNum2(int style) {
-		return getParameter("num2") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return NUM2 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getNum3(int style) {
-		return getParameter("num3") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return NUM3 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public double getQuad(int style, Font_ID fontCode) {
-		FontInfo info = fontInfo.get(fontCode);
+	public double getQuad(int style, FontInfo info) {
 		return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
@@ -386,56 +353,47 @@ public class TeXFont {
 	}
 
 	public double getSkew(CharFont cf, int style) {
-		if (cf.fontId.skewChar == -1) {
+		if (cf.fontInfo.skewChar == -1) {
 			return 0;
 		}
-		return getKern(cf, new CharFont((char) cf.fontId.skewChar, cf.fontId),
+		return getKern(cf, new CharFont(cf.fontInfo.skewChar, cf.fontInfo),
 				style);
 	}
 
 	public double getSpace(int style) {
-		FontInfo info = fontInfo.get(SPACEFONT);
-		return info
+		return SPACEFONT
 				.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
 	public double getSub1(int style) {
-		return getParameter("sub1") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUB1 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getSub2(int style) {
-		return getParameter("sub2") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUB2 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getSubDrop(int style) {
-		return getParameter("subdrop") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUBDROP * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getSup1(int style) {
-		return getParameter("sup1") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUP1 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getSup2(int style) {
-		return getParameter("sup2") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUP2 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getSup3(int style) {
-		return getParameter("sup3") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUP3 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getSupDrop(int style) {
-		return getParameter("supdrop") * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return SUPDROP * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public double getXHeight(int style, Font_ID fontCode) {
-		FontInfo info = fontInfo.get(fontCode);
+	public double getXHeight(int style, FontInfo info) {
 		return info
 				.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
@@ -445,7 +403,7 @@ public class TeXFont {
 	}
 
 	public boolean hasNextLarger(Char c) {
-		FontInfo info = fontInfo.get(c.getFontCode());
+		FontInfo info = c.getFontInfo();
 		return (info.getNextLarger(c.getChar()) != null);
 	}
 
@@ -489,42 +447,13 @@ public class TeXFont {
 		return isSs;
 	}
 
-	public boolean hasSpace(Font_ID font) {
-		FontInfo info = fontInfo.get(font);
+	public boolean hasSpace(FontInfo info) {
 		return info.hasSpace();
 	}
 
 	public boolean isExtensionChar(Char c) {
-		FontInfo info = fontInfo.get(c.getFontCode());
+		FontInfo info = c.getFontInfo();
 		return info.getExtension(c.getChar()) != null;
-	}
-
-	// public static void setMathSizes(double ds, double ts, double ss, double
-	// sss) {
-	// if (magnificationEnable) {
-	// generalSettings.put("scriptfactor", Math.abs(ss / ds));
-	// generalSettings.put("scriptscriptfactor", Math.abs(sss / ds));
-	// generalSettings.put("textfactor", Math.abs(ts / ds));
-	// TeXIcon.defaultSize = Math.abs(ds);
-	// }
-	// }
-
-	// public static void setMagnification(double mag) {
-	// if (magnificationEnable) {
-	// TeXIcon.magFactor = mag / 1000f;
-	// }
-	// }
-
-	// public static void enableMagnification(boolean b) {
-	// magnificationEnable = b;
-	// }
-
-	private static double getParameter(String parameterName) {
-		Object param = parameters.get(parameterName);
-		if (param == null) {
-			return 0;
-		}
-		return ((Double) param).doubleValue();
 	}
 
 	public static double getSizeFactor(int style) {
@@ -540,17 +469,12 @@ public class TeXFont {
 	}
 
 	public double getMHeight(int style) {
-		return getFontInfo(TextStyle.getDefault(TextStyle.CAPITALS).getFontId())
-				.getHeight('M') * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
-	}
-
-	public FontInfo getFontInfo(final Font_ID i) {
-		return Configuration.get().getFontInfo(i);
+		return TextStyle.getDefault(TextStyle.CAPITALS).getFont().getHeight('M')
+				* getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getDefaultXHeight(int style) {
-		return getFontInfo(SPACEFONT)
+		return SPACEFONT
 				.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 }

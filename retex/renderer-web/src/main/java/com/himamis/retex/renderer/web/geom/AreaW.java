@@ -33,6 +33,7 @@ public class AreaW
 		//
 	}
 
+	@Override
 	public Rectangle2D getBounds2DX() {
 
 		double minX = Double.MAX_VALUE;
@@ -56,10 +57,12 @@ public class AreaW
 				(maxX - minX) * scale, (maxY - minY) * scale);
 	}
 
+	@Override
 	public void add(Area a) {
 		shapes.addAll(((AreaW) a).getShapes());
 	}
 
+	@Override
 	public Area duplicate() {
 		return new AreaW(shapes);
 	}
@@ -89,10 +92,12 @@ public class AreaW
 	/**
 	 * not needed in web
 	 */
+	@Override
 	public void scale(double x) {
 		scale *= x;
 	}
 
+	@Override
 	public void translate(double x, double y) {
 		if (scale != 1) {
 			FactoryProvider.getInstance()

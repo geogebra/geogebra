@@ -54,6 +54,7 @@ import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class GraphicsFactoryDesktop extends GraphicsFactory {
@@ -107,6 +108,11 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 			return null;
 		}
 
+	}
+
+	@Override
+	public Stroke createBasicStroke(double width, float[] dashes) {
+		return new BasicStrokeD(width, dashes);
 	}
 
 }

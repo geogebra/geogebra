@@ -24,23 +24,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -50,25 +50,26 @@ import java.util.Stack;
 
 public final class BreakFormula {
 
-	public static Box split(Box box, double width, double interline) {
+	public static Box split(Box box, double width, double interline,
+			TeXConstants.Align align) {
 		if (box instanceof HorizontalBox) {
-			return split((HorizontalBox) box, width, interline);
+			return split((HorizontalBox) box, width, interline, align);
 		} else if (box instanceof VerticalBox) {
-			return split((VerticalBox) box, width, interline);
+			return split((VerticalBox) box, width, interline, align);
 		} else {
 			return box;
 		}
 	}
 
-	public static Box split(HorizontalBox hbox0, double width,
-			double interline) {
+	public static Box split(HorizontalBox hbox, double width, double interline,
+			TeXConstants.Align align) {
 		VerticalBox vbox = new VerticalBox();
 		HorizontalBox first;
 		HorizontalBox second = null;
 		Stack<Position> positions = new Stack<Position>();
-		HorizontalBox hbox = hbox0;
+		double w = -1;
 		while (hbox.width > width
-				&& (canBreak(positions, hbox, width)) != hbox.width) {
+				&& (w = canBreak(positions, hbox, width)) != hbox.width) {
 			Position pos = positions.pop();
 			HorizontalBox[] hboxes = pos.hbox.split(pos.index - 1);
 			first = hboxes[0];
@@ -81,22 +82,31 @@ public final class BreakFormula {
 				first = hboxes[0];
 				second = hboxes[1];
 			}
-			vbox.add(first, interline);
+			if (align != TeXConstants.Align.NONE) {
+				vbox.add(new HorizontalBox(first, width, align), interline);
+			} else {
+				vbox.add(first, interline);
+			}
 			hbox = second;
 		}
 
 		if (second != null) {
-			vbox.add(second, interline);
+			if (align != TeXConstants.Align.NONE) {
+				vbox.add(new HorizontalBox(second, width, align), interline);
+			} else {
+				vbox.add(second, interline);
+			}
 			return vbox;
 		}
 
 		return hbox;
 	}
 
-	private static Box split(VerticalBox vbox, double width, double interline) {
+	private static Box split(VerticalBox vbox, double width, double interline,
+			TeXConstants.Align align) {
 		VerticalBox newBox = new VerticalBox();
 		for (Box box : vbox.children) {
-			newBox.add(split(box, width, interline));
+			newBox.add(split(box, width, interline, align));
 		}
 
 		return newBox;

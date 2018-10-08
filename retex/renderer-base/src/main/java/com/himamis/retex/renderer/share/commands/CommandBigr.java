@@ -65,9 +65,6 @@ public class CommandBigr extends Command {
 		if (a instanceof SymbolAtom) {
 			a = new BigDelimiterAtom((SymbolAtom) a, size);
 			a.setType(type);
-		} else {
-			// do nothing (jlm1 compatibility)
-			// throw new ParseException(tp, "A symbol expected");
 		}
 		tp.closeConsumer(a);
 	}

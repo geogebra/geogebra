@@ -53,6 +53,7 @@ public class BasicStrokeW implements BasicStroke {
 	private int cap;
 	private int join;
 	private double miterLimit;
+	private float[] dashes;
 
 	public BasicStrokeW(double width, int cap, int join, double miterLimit) {
 		this.width = width;
@@ -67,6 +68,15 @@ public class BasicStrokeW implements BasicStroke {
 		this.cap = getLineCap(LineCap.valueOf(cap.toUpperCase()));
 		this.join = getLineJoin(LineJoin.valueOf(join.toUpperCase()));
 		this.miterLimit = miterLimit;
+	}
+
+	public BasicStrokeW(double width2, float[] dashes2) {
+		this.width = width2;
+		this.dashes = dashes2;
+		this.cap = CAP_BUTT;
+		this.join = JOIN_MITER;
+		this.miterLimit = 10;
+
 	}
 
 	public double getWidth() {
@@ -135,5 +145,9 @@ public class BasicStrokeW implements BasicStroke {
 		default:
 			return CAP_BUTT;
 		}
+	}
+
+	public float[] getDash() {
+		return dashes;
 	}
 }

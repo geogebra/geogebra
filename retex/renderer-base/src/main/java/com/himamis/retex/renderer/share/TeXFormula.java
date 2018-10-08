@@ -155,15 +155,14 @@ public class TeXFormula {
 	 */
 	TeXFormula(final String s, final boolean isPartial) throws ParseException {
 		parser = new TeXParser(isPartial, s);
-		parser.parse();
-		root = parser.get();
+		run();
 	}
 
 	public TeXFormula(final String s, final Map<String, String> xmlMap)
 			throws ParseException {
 		parser = new TeXParser(false, s);
 		parser.setXMLMap(xmlMap);
-		parser.parse();
+		run();
 	}
 
 	/**
@@ -183,6 +182,10 @@ public class TeXFormula {
 			throws ParseException {
 		this.textStyle = TextStyle.getStyle(textStyle);
 		parser = new TeXParser(false, s);
+		run();
+	}
+
+	protected void run() {
 		parser.parse();
 		root = parser.get();
 	}
@@ -253,8 +256,7 @@ public class TeXFormula {
 	public void setLaTeX(final String ltx) throws ParseException {
 		parser.reset(ltx);
 		if (ltx != null && ltx.length() != 0) {
-			parser.parse();
-			root = parser.get();
+			run();
 		}
 	}
 
@@ -321,12 +323,7 @@ public class TeXFormula {
 		private Integer type;
 		private Color fgcolor;
 		private boolean trueValues = false;
-		private TeXLength.Unit widthUnit = TeXLength.Unit.NONE;
-		private Double textWidth;
 		private TeXConstants.Align align;
-		private boolean isMaxWidth = false;
-		private TeXLength.Unit interLineUnit = TeXLength.Unit.NONE;
-		private Double interLineSpacing;
 
 		/**
 		 * Specify the style for rendering the given TeXFormula
@@ -401,73 +398,9 @@ public class TeXFormula {
 		 *            the alignment
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setWidth(final TeXLength.Unit widthUnit,
-				final double textWidth, final TeXConstants.Align align) {
-			this.widthUnit = widthUnit;
-			this.textWidth = textWidth;
+		public TeXIconBuilder setAlign(final TeXConstants.Align align) {
 			this.align = align;
 			trueValues = true;
-			return this;
-		}
-
-		/**
-		 * Specifies whether the width is the exact or the maximum width
-		 * 
-		 * @param isMaxWidth
-		 *            whether the width is a maximum width
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setIsMaxWidth(final boolean isMaxWidth) {
-			if (widthUnit == TeXLength.Unit.NONE) {
-				throw new IllegalStateException(
-						"Cannot set 'isMaxWidth' without having specified a width!");
-			}
-			if (isMaxWidth) {
-				// NOTE: Currently isMaxWidth==true does not work with
-				// ALIGN_CENTER or ALIGN_RIGHT (see HorizontalBox ctor)
-				// The case (1) we don't support by setting align := ALIGN_LEFT
-				// here is this:
-				// \text{hello world\\hello} with align=ALIGN_CENTER (but forced
-				// to ALIGN_LEFT) and isMaxWidth==true results in:
-				// [hello world]
-				// [hello ]
-				// and NOT:
-				// [hello world]
-				// [ hello ]
-				// However, this case (2) is currently not supported anyway
-				// (ALIGN_CENTER with isMaxWidth==false):
-				// [ hello world ]
-				// [ hello ]
-				// and NOT:
-				// [ hello world ]
-				// [ hello ]
-				// => until (2) is solved, we stick with the hack to set align
-				// := ALIGN_LEFT!
-				this.align = TeXConstants.Align.LEFT;
-			}
-			this.isMaxWidth = isMaxWidth;
-			return this;
-		}
-
-		/**
-		 * Specify the inter line spacing unit and value. NOTE: this is required
-		 * for automatic linebreaks to work!
-		 * 
-		 * @param interLineUnit
-		 *            the unit
-		 * @param interLineSpacing
-		 *            the value
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setInterLineSpacing(
-				final TeXLength.Unit interLineUnit,
-				final double interLineSpacing) {
-			if (widthUnit == TeXLength.Unit.NONE) {
-				throw new IllegalStateException(
-						"Cannot set inter line spacing without having specified a width!");
-			}
-			this.interLineUnit = interLineUnit;
-			this.interLineSpacing = interLineSpacing;
 			return this;
 		}
 
@@ -488,38 +421,18 @@ public class TeXFormula {
 			}
 			TeXFont font = (type == null) ? new TeXFont(size)
 					: createFont(size, type);
-			TeXEnvironment te;
-			if (widthUnit != TeXLength.Unit.NONE) {
-				te = new TeXEnvironment(style, font, widthUnit, textWidth,
-						textStyle);
-			} else {
-				te = new TeXEnvironment(style, font, textStyle);
-			}
-
-			if (interLineUnit != TeXLength.Unit.NONE) {
-				te.setInterline(interLineUnit, interLineSpacing);
-			}
+			TeXEnvironment te = new TeXEnvironment(style, font, textStyle);
 
 			Box box = createBox(te);
 			TeXIcon ti;
-			if (widthUnit != TeXLength.Unit.NONE) {
-				HorizontalBox hb;
-				if (interLineUnit != TeXLength.Unit.NONE) {
-					double il = interLineSpacing
-							* TeXLength.getFactor(interLineUnit, te);
-					Box b = BreakFormula.split(box, te.getTextwidth(), il);
-					hb = new HorizontalBox(b,
-							isMaxWidth ? b.getWidth() : te.getTextwidth(),
-							align);
-				} else {
-					hb = new HorizontalBox(box,
-							isMaxWidth ? box.getWidth() : te.getTextwidth(),
-							align);
-				}
-				ti = new TeXIcon(hb, size, trueValues);
-			} else {
-				ti = new TeXIcon(box, size, trueValues);
+			final double textwidth = TeXLength.getLength("textwidth", te);
+			if (!Double.isInfinite(textwidth) && !Double.isNaN(textwidth)) {
+				final double baselineskip = TeXLength.getLength("baselineskip",
+						te);
+				box = BreakFormula.split(box, textwidth, baselineskip, align);
 			}
+			ti = new TeXIcon(box, size, trueValues);
+
 			if (fgcolor != null) {
 				ti.setForeground(fgcolor);
 			}
@@ -561,33 +474,14 @@ public class TeXFormula {
 	}
 
 	public TeXIcon createTeXIcon(int style, double size,
-			TeXLength.Unit widthUnit, double textwidth,
 			TeXConstants.Align align) {
-		return createTeXIcon(style, size, 0, widthUnit, textwidth, align);
+		return createTeXIcon(style, size, 0, align);
 	}
 
 	public TeXIcon createTeXIcon(int style, double size, int type,
-			TeXLength.Unit widthUnit, double textwidth,
 			TeXConstants.Align align) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
-				.setWidth(widthUnit, textwidth, align).build();
-	}
-
-	public TeXIcon createTeXIcon(int style, double size,
-			TeXLength.Unit widthUnit, double textwidth,
-			TeXConstants.Align align, TeXLength.Unit interlineUnit,
-			double interline) {
-		return createTeXIcon(style, size, 0, widthUnit, textwidth, align,
-				interlineUnit, interline);
-	}
-
-	public TeXIcon createTeXIcon(int style, double size, int type,
-			TeXLength.Unit widthUnit, double textwidth,
-			TeXConstants.Align align, TeXLength.Unit interlineUnit,
-			double interline) {
-		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
-				.setWidth(widthUnit, textwidth, align)
-				.setInterLineSpacing(interlineUnit, interline).build();
+				.setAlign(align).build();
 	}
 
 	// public void createImage(String format, int style, double size, String

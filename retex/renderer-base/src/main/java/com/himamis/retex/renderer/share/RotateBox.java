@@ -216,7 +216,7 @@ public class RotateBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return box.getLastFontId();
+	public FontInfo getLastFont() {
+		return box.getLastFont();
 	}
 }

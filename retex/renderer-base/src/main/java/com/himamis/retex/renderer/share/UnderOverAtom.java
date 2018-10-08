@@ -135,7 +135,7 @@ public class UnderOverAtom extends Atom {
 		VerticalBox vBox = new VerticalBox();
 
 		// last font used by the base (for Mspace atoms following)
-		env.setLastFontId(b.getLastFontId());
+		env.setLastFont(b.getLastFont());
 
 		// overscript + space
 		if (over != null) {

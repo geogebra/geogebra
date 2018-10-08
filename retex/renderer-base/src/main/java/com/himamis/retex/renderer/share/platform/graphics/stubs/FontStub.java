@@ -31,18 +31,13 @@ public class FontStub implements Font {
 	}
 
 	@Override
-	public Shape getGlyphOutline(FontRenderContext frc, String valueOf) {
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
 		return null;
 	}
 
 	@Override
 	public boolean canDisplay(char ch) {
 		return true;
-	}
-
-	@Override
-	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
-		return null;
 	}
 
 	@Override

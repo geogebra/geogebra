@@ -67,18 +67,18 @@ public final class TextStyle {
 	private final static TextStyle[][] styles = new TextStyle[7][4];
 
 	static {
-		add(MATHNORMAL, NUMBERS, Font_ID.jlm_cmr10, (char) 48);
-		add(MATHNORMAL, CAPITALS, Font_ID.jlm_cmmi10, (char) 65);
-		add(MATHNORMAL, SMALL, Font_ID.jlm_cmmi10, (char) 97);
-		add(MATHNORMAL, UNICODE, Font_ID.jlm_cmmi10, (char) 0);
-		add(MATHFRAK, NUMBERS, Font_ID.jlm_eufm10, (char) 48);
-		add(MATHFRAK, CAPITALS, Font_ID.jlm_eufm10, (char) 65);
-		add(MATHFRAK, SMALL, Font_ID.jlm_eufm10, (char) 97);
-		add(MATHCAL, CAPITALS, Font_ID.jlm_cmsy10, (char) 65);
-		add(MATHBB, CAPITALS, Font_ID.jlm_msbm10, (char) 65);
-		add(MATHSCR, CAPITALS, Font_ID.jlm_rsfs10, (char) 65);
-		add(MATHDS, CAPITALS, Font_ID.jlm_dsrom10, (char) 65);
-		add(OLDSTYLENUMS, CAPITALS, Font_ID.jlm_cmmi10, (char) 48);
+		add(MATHNORMAL, NUMBERS, Configuration.getFonts().cmr10, (char) 48);
+		add(MATHNORMAL, CAPITALS, Configuration.getFonts().cmmi10, (char) 65);
+		add(MATHNORMAL, SMALL, Configuration.getFonts().cmmi10, (char) 97);
+		add(MATHNORMAL, UNICODE, Configuration.getFonts().cmmi10, (char) 0);
+		add(MATHFRAK, NUMBERS, Configuration.getFonts().eufm10, (char) 48);
+		add(MATHFRAK, CAPITALS, Configuration.getFonts().eufm10, (char) 65);
+		add(MATHFRAK, SMALL, Configuration.getFonts().eufm10, (char) 97);
+		add(MATHCAL, CAPITALS, Configuration.getFonts().cmsy10, (char) 65);
+		add(MATHBB, CAPITALS, Configuration.getFonts().msbm10, (char) 65);
+		add(MATHSCR, CAPITALS, Configuration.getFonts().rsfs10, (char) 65);
+		add(MATHDS, CAPITALS, Configuration.getFonts().dsrom10, (char) 65);
+		add(OLDSTYLENUMS, CAPITALS, Configuration.getFonts().cmmi10, (char) 48);
 	}
 
 	private static Map<String, Integer> names = new HashMap<String, Integer>() {
@@ -93,16 +93,16 @@ public final class TextStyle {
 		}
 	};
 
-	private final Font_ID fontId;
+	private final FontInfo font;
 	private final char start;
 
-	private TextStyle(final Font_ID fontId, final char start) {
-		this.fontId = fontId;
+	private TextStyle(final FontInfo font, final char start) {
+		this.font = font;
 		this.start = start;
 	}
 
-	public Font_ID getFontId() {
-		return fontId;
+	public FontInfo getFont() {
+		return font;
 	}
 
 	public char getStart() {
@@ -138,7 +138,7 @@ public final class TextStyle {
 	}
 
 	private static void add(final int style, final int type,
-			final Font_ID fontId, final char start) {
+			final FontInfo fontId, final char start) {
 		styles[style][type] = new TextStyle(fontId, start);
 	}
 }

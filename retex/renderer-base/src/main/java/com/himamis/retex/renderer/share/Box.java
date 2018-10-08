@@ -72,9 +72,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
  * {@link #startDraw(Graphics2DInterface, double, double)} and end with calling
  * the method {@link #endDraw(Graphics2DInterface)} to set and restore the
  * color's that must be used for painting the box and to draw the
- * background!</b> They must also implement the abstract
- * {@link #getLastFontId()} method (the last font that will be used when this
- * box will be painted).
+ * background!</b> They must also implement the abstract {@link #getLastFont()}
+ * method (the last font that will be used when this box will be painted).
  */
 public abstract class Box {
 
@@ -298,7 +297,7 @@ public abstract class Box {
 	 *
 	 * @return the id of the last font that will be used.
 	 */
-	public abstract Font_ID getLastFontId();
+	public abstract FontInfo getLastFont();
 
 	/**
 	 * Stores the old color setting, draws the background of the box (if not

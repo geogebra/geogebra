@@ -65,16 +65,6 @@ public interface FontWrapper {
 	 */
 	void drawGlyph(String c, int x, int y, int size, Context2d ctx);
 
-	Rectangle2D measureGlyph(String string);
-
-	/**
-	 *
-	 * @param c
-	 * @param size
-	 * @return object that can be drawn to canvas with object.draw(ctx)
-	 */
-	JavaScriptObject getPath(String c, int size);
-
 	JavaScriptObject getGlyphOutline(String c, int size);
 
 }

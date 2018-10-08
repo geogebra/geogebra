@@ -79,7 +79,7 @@ public class MultlineAtom extends Atom {
 		for (int i = 0; i < column.row; ++i) {
 			boxes[i] = column.get(i, 0).createBox(env);
 		}
-		double tw = env.getTextwidth();
+		double tw = TeXLength.getTextwidth(env);
 		if (tw == Double.POSITIVE_INFINITY) {
 			tw = -Double.POSITIVE_INFINITY;
 			for (int i = 0; i < column.row; ++i) {

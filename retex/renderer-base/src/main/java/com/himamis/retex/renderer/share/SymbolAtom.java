@@ -91,7 +91,7 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	public SymbolAtom(String name, int type) {
-		this.cf = Configuration.get().getFontMapping().get(name);
+		this.cf = Configuration.getFontMapping().get(name);
 		if (cf == null) {
 			FactoryProvider.getInstance().debug("missing " + name);
 		}
@@ -121,7 +121,7 @@ public class SymbolAtom extends CharSymbol {
 	 * @return a SymbolAtom representing the found symbol
 	 */
 	public static SymbolAtom get(final String name, final boolean mathMode) {
-		SymbolAtom sa = Configuration.get().getSymbolAtoms().get(name);
+		SymbolAtom sa = Configuration.getSymbolAtoms().get(name);
 		if (!mathMode && sa != null) {
 			sa = (SymbolAtom) sa.duplicate();
 			sa.mathMode = false;
@@ -131,7 +131,7 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	public static boolean put(final TeXParser tp, final String name) {
-		SymbolAtom sa = Configuration.get().getSymbolAtoms().get(name);
+		SymbolAtom sa = Configuration.getSymbolAtoms().get(name);
 		if (sa == null) {
 			return false;
 		}
@@ -240,7 +240,7 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	public static void getAll(final List<String> l) {
-		for (final String k : Configuration.get().getSymbolAtoms().keySet()) {
+		for (final String k : Configuration.getSymbolAtoms().keySet()) {
 			l.add(k);
 		}
 	}

@@ -47,10 +47,9 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
-import com.himamis.retex.renderer.share.exception.XMLResourceParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
 
@@ -62,7 +61,8 @@ public class FontLoaderD implements FontLoader {
 	public Font loadFont(String name) throws ResourceParseException {
 
 		FactoryProvider.getInstance().debug("loadFont():" + name);
-		InputStream fontIn = (InputStream) new Resource().loadResource(name);
+		InputStream fontIn = FactoryProviderDesktop.class.getResourceAsStream(
+				"/com/himamis/retex/renderer/desktop/" + name);
 		try {
 			java.awt.Font f = java.awt.Font
 					.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
@@ -79,7 +79,7 @@ public class FontLoaderD implements FontLoader {
 			}
 			return new FontD(f);
 		} catch (Exception e) {
-			throw new XMLResourceParseException("FontLoader" + ": FontLoader '"
+			throw new ResourceParseException("FontLoader" + ": FontLoader '"
 					+ name + "'. Error message: " + e.getMessage());
 		} finally {
 			try {

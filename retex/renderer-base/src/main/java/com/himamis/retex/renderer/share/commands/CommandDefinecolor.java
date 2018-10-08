@@ -57,28 +57,20 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class CommandDefinecolor extends Command {
 
 	private static abstract class Converter {
-		final static double[] doubles = new double[4];
-		final static int[] ints = new int[4];
+		final double[] doubles = new double[4];
+		final int[] ints = new int[4];
 
 		abstract Color to(TeXParser tp);
 
-		static double clamp(final double n) {
-			return Math.min(1., Math.max(n, 0.));
-		}
-
-		static int clamp(final int n) {
-			return Math.min(255, Math.max(n, 0));
-		}
-
-		static void clampf(final int l) {
+		void clampf(final int l) {
 			for (int i = 0; i < l; ++i) {
-				doubles[i] = clamp(doubles[i]);
+				doubles[i] = Colors.clamp(doubles[i]);
 			}
 		}
 
-		static void clampi(final int l) {
+		void clampi(final int l) {
 			for (int i = 0; i < l; ++i) {
-				ints[i] = clamp(ints[i]);
+				ints[i] = Colors.clamp(ints[i]);
 			}
 		}
 	}
@@ -89,7 +81,7 @@ public class CommandDefinecolor extends Command {
 			put("gray", new Converter() {
 				@Override
 				public Color to(TeXParser tp) {
-					final float gray = (float) clamp(tp.getArgAsDecimal());
+					final double gray = Colors.clamp(tp.getArgAsDecimal());
 					return FactoryProvider.getInstance().getGraphicsFactory()
 							.createColor(gray, gray, gray);
 				}
@@ -151,8 +143,8 @@ public class CommandDefinecolor extends Command {
 				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
-					doubles[1] = clamp(doubles[1]);
-					doubles[2] = clamp(doubles[2]);
+					doubles[1] = Colors.clamp(doubles[1]);
+					doubles[2] = Colors.clamp(doubles[2]);
 					return Colors.convHSL(doubles[0], doubles[1], doubles[2]);
 				}
 			});
@@ -160,9 +152,9 @@ public class CommandDefinecolor extends Command {
 				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
-					doubles[1] = clamp(doubles[1]);
-					doubles[2] = clamp(doubles[2]);
-					doubles[3] = clamp(doubles[3]);
+					doubles[1] = Colors.clamp(doubles[1]);
+					doubles[2] = Colors.clamp(doubles[2]);
+					doubles[3] = Colors.clamp(doubles[3]);
 					return Colors.convHSL(doubles[0], doubles[1], doubles[2],
 							doubles[3]);
 				}
@@ -171,8 +163,8 @@ public class CommandDefinecolor extends Command {
 				@Override
 				public Color to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
-					doubles[1] = clamp(doubles[1]);
-					doubles[2] = clamp(doubles[2]);
+					doubles[1] = Colors.clamp(doubles[1]);
+					doubles[2] = Colors.clamp(doubles[2]);
 					return Colors.convHSB(doubles[0], doubles[1], doubles[2]);
 				}
 			});
@@ -223,5 +215,4 @@ public class CommandDefinecolor extends Command {
 		return new CommandDefinecolor();
 
 	}
-
 }

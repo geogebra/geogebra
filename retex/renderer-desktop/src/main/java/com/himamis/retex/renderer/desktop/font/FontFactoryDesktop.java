@@ -75,7 +75,8 @@ public class FontFactoryDesktop extends FontFactory {
 	}
 
 	/**
-	 * https://github.com/opencollab/jlatexmath/issues/32
+	 * 
+	 * // https://github.com/opencollab/jlatexmath/issues/32
 	 * 
 	 * @return scale factor
 	 */
@@ -84,4 +85,5 @@ public class FontFactoryDesktop extends FontFactory {
 		return FontLoader.FONT_SCALE_FACTOR;
 
 	}
+
 }

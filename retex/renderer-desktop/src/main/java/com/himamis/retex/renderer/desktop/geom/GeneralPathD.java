@@ -33,6 +33,7 @@ public class GeneralPathD implements ShapeD {
 		return ((GeneralPathD) gp).impl;
 	}
 
+	@Override
 	public Rectangle2D getBounds2DX() {
 		return new Rectangle2DD(impl.getBounds2D());
 	}

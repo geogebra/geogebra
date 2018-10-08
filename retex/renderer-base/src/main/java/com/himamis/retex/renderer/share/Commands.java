@@ -571,6 +571,12 @@ public class Commands {
 				return new SpaceAtom(TeXLength.Unit.EM, 0.5, 0., 0.);
 			}
 		});
+		map.put("enskip", new Command0A() {
+			@Override
+			public Atom newI(TeXParser tp) {
+				return new SpaceAtom(TeXLength.Unit.EM, 0.5, 0., 0.);
+			}
+		});
 		map.put("quad", new Command0A() {
 			@Override
 			public Atom newI(TeXParser tp) {
@@ -599,7 +605,11 @@ public class Commands {
 			@Override
 			public boolean init(TeXParser tp) {
 				final int c = tp.getArgAsCharFromCode();
-				if (c <= 65535) {
+				if (c == 0) {
+					throw new ParseException(tp,
+							"Invalid character in \\char: 0.");
+				}
+				if (c <= 0xFFFF) {
 					final char cc = (char) c;
 					if ((cc >= '0' && cc <= '9') || (cc >= 'a' && cc <= 'z')
 							|| (cc >= 'A' && cc <= 'Z')) {
@@ -870,6 +880,8 @@ public class Commands {
 
 		map.put("boxed", new CommandBoxed());
 
+		map.put("dbox", new CommandDBox());
+
 		map.put("fcolorbox", new CommandFColorBox());
 
 		map.put("colorbox", new CommandColorBox());
@@ -886,6 +898,16 @@ public class Commands {
 		map.put("doublebox", new CommandDoubleBox());
 
 		map.put("ovalbox", new CommandOvalBox());
+
+		map.put("cornersize", new Command0AImpl() {
+			@Override
+			public boolean init(TeXParser tp) {
+				final double cs = tp.getArgAsDecimal();
+				tp.addToConsumer(new SetLengthAtom(
+						new TeXLength(TeXLength.Unit.NONE, cs), "cornersize"));
+				return false;
+			}
+		});
 
 		map.put("shadowbox", new CommandShadowBox());
 
@@ -1337,6 +1359,15 @@ public class Commands {
 		map.put("sfrac", new CommandSfrac());
 
 		map.put("cfrac", new CommandCFrac());
+
+		map.put("the", new Command0AImpl() {
+			@Override
+			public boolean init(TeXParser tp) {
+				final String name = tp.getArgAsCommand(true);
+				tp.addToConsumer(new TheAtom(name));
+				return false;
+			}
+		});
 
 		map.put("setlength", new Command0AImpl() {
 			@Override

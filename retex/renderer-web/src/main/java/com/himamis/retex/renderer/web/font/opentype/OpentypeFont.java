@@ -48,7 +48,6 @@ import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.CharFont;
-import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
@@ -65,7 +64,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 
 	public OpentypeFont(String name, int style, int size) {
 		super(name, style, size);
-		fontLoadCallbacks = new ArrayList<>();
+		fontLoadCallbacks = new ArrayList<FontLoadCallback>();
 	}
 
 	@Override
@@ -128,43 +127,36 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		fontLoadCallbacks = null;
 	}
 
+	@Override
 	public int getScale() {
 		return 1;
 	}
 
-	public Shape getGlyphOutline(FontRenderContext frc, String s) {
-		FontW font = this;// (FontW) frc.getFont();
-		FontWrapper wrap = font.getFontWrapper();
-
-		if (wrap == null) {
-			 // fail gracefully when font not loaded 
-			// will be tried again when font loaded on callback
-			return null;
-		}
-
-		JavaScriptObject outline = wrap.getPath(s, font.getSize());
-		Rectangle2D rect = wrap.measureGlyph(s);
-		return new ShapeW(outline, rect);
-	}
-
 	@Override
 	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
-		FontW font = this;// (FontW) frc.getFont();
+		FontW font = this;
 		FontWrapper wrap = font.getFontWrapper();
 
 		if (wrap == null) {
-			throw new Error("font not loaded yet");
+			// fail gracefully when font not loaded
+			// will be tried again when font loaded on callback
+			return null;
 		}
 
 		JavaScriptObject outline = wrap.getGlyphOutline(cf + "",
 				font.getSize());
 
-		double height = TeXFont.fontInfo.get(cf.fontId).getHeight(cf.c);
-		double width = TeXFont.fontInfo.get(cf.fontId).getWidth(cf.c);
+		double height = cf.fontInfo.getHeight(cf.c);
+		double width = cf.fontInfo.getWidth(cf.c);
 
 		Rectangle2D rect = FactoryProvider.getInstance().getGeomFactory()
 				.createRectangle2D(0, 0, width, height);
 		return new ShapeW(outline, rect);
+	}
+
+	@Override
+	public boolean canDisplay(char ch) {
+		return true;
 	}
 
 	@Override

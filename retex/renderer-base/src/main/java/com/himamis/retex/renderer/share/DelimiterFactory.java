@@ -154,6 +154,7 @@ public class DelimiterFactory {
 				return vBox;
 			}
 			return ShapeBox.create(vBox);
+
 		} else {
 			// no extensions, so return tallest possible character
 			return new CharBox(c);

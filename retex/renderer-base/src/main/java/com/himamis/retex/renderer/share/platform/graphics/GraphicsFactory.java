@@ -43,6 +43,8 @@
  */
 package com.himamis.retex.renderer.share.platform.graphics;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+
 public abstract class GraphicsFactory {
 	// old
 	/*
@@ -115,6 +117,13 @@ public abstract class GraphicsFactory {
 	public Image createImage(String path) {
 		// implemented in desktop only
 		return null;
+	}
+
+	public Stroke createBasicStroke(double width, float[] dashes) {
+		// not implemented in iOS/Android
+		FactoryProvider.getInstance().debug("dashed lines not implemented");
+		return createBasicStroke(width, BasicStroke.CAP_BUTT,
+				BasicStroke.JOIN_MITER, 0);
 	}
 
 }

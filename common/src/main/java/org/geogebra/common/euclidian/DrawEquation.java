@@ -229,15 +229,15 @@ public abstract class DrawEquation implements DrawEquationI {
 		try {
 			formula = new TeXFormula(text);
 
-			if (maxWidth == null) {
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
-			} else {
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, TeXLength.Unit.CM,
-						maxWidth.intValue(), TeXConstants.Align.LEFT,
-						TeXLength.Unit.CM, lineSpace.doubleValue());
-			}
+			// if (maxWidth == null) {
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, fgColor);
+			// } else {
+			// icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+			// font.getSize() + 3, TeXLength.Unit.CM,
+			// maxWidth.intValue(), TeXConstants.Align.LEFT,
+			// TeXLength.Unit.CM, lineSpace.doubleValue());
+			// }
 		} catch (final Error e) {
 			e.printStackTrace();
 			Log.debug("MyError LaTeX parse exception:" + e.getMessage() + "\n"
@@ -248,9 +248,11 @@ public abstract class DrawEquation implements DrawEquationI {
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, style, fgColor);
 
-			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-					TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
-					TeXLength.Unit.CM, 0.5f);
+			// formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+			// TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
+			// TeXLength.Unit.CM, 0.5f);
+			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 4,
+					TeXConstants.Align.LEFT);
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -312,15 +314,15 @@ public abstract class DrawEquation implements DrawEquationI {
 		try {
 			formula = new TeXFormula(text);
 
-			if (maxWidth == null) {
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, convertColor(fgColor));
-			} else {
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, TeXLength.Unit.CM,
-						maxWidth.intValue(), TeXConstants.Align.LEFT,
-						TeXLength.Unit.CM, lineSpace.doubleValue());
-			}
+			// if (maxWidth == null) {
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, convertColor(fgColor));
+			// } else {
+			// icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+			// font.getSize() + 3, TeXLength.Unit.CM,
+			// maxWidth.intValue(), TeXConstants.Align.LEFT,
+			// TeXLength.Unit.CM, lineSpace.doubleValue());
+			// }
 		} catch (final MyError e) {
 			// e.printStackTrace();
 			// Application.debug("MyError LaTeX parse exception:
@@ -331,9 +333,11 @@ public abstract class DrawEquation implements DrawEquationI {
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, style, convertColor(fgColor));
 
-			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-					TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
-					TeXLength.Unit.CM, 0.5f);
+			// formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+			// TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
+			// TeXLength.Unit.CM, 0.5f);
+			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 4f,
+					TeXConstants.Align.LEFT);
 
 		} catch (final Exception e) {
 			// e.printStackTrace();

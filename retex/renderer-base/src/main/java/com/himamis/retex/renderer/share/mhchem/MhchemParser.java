@@ -366,7 +366,7 @@ public class MhchemParser extends TeXParser {
 					charMapping.replaceUnsafe('\'', this);
 				} else {
 					// For this kind of syms, need to modify SubSupCom
-					cumSupSymbols(Symbols.APOSTROPHE);
+					cumSupSymbols(Symbols.PRIME);
 				}
 				break;
 			case '(':

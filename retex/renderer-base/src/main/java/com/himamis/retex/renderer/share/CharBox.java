@@ -98,7 +98,7 @@ public class CharBox extends Box {
 		drawDebug(g2, x, y);
 		g2.saveTransformation();
 		g2.translate(x, y);
-		Font font = TeXFont.getFont(cf.fontId);
+		Font font = cf.fontInfo.getFont();
 
 		// https://github.com/opencollab/jlatexmath/issues/32
 		int fontScale = font.getScale();
@@ -134,10 +134,12 @@ public class CharBox extends Box {
 	@Override
 	public Area getArea() {
 		// final Font font = Configuration.get().getFont(cf.fontId);
-		FontInfo info = TeXFont.fontInfo.get(cf.fontId);
+		FontInfo info = cf.fontInfo;
 		Font font = info.getFont();
 
-		final Shape s = font.getGlyphOutline(FRC, String.valueOf(cf.c));
+		// can be null (if font not loaded - HTML5)
+		final Shape s = font.getGlyphOutline(FRC, cf);
+
 		final Area a = geom.createArea(s);
 		final double x = size / FactoryProvider.getInstance().getFontFactory()
 				.getFontScaleFactor();
@@ -148,8 +150,8 @@ public class CharBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return cf.fontId;
+	public FontInfo getLastFont() {
+		return cf.fontInfo;
 	}
 
 	@Override

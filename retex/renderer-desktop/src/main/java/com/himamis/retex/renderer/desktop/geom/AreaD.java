@@ -61,29 +61,35 @@ public class AreaD extends java.awt.geom.Area
 		super();
 	}
 
+	@Override
 	public Rectangle2D getBounds2DX() {
 		return new Rectangle2DD(super.getBounds2D());
 	}
 
+	@Override
 	public void add(Area a) {
 		super.add(a);
 	}
 
+	@Override
 	public com.himamis.retex.renderer.share.platform.geom.Area duplicate() {
 		java.awt.geom.Area clone = (Area) super.clone();
 		java.awt.Shape s = clone;
 		return new AreaD(s);
 	}
 
+	@Override
 	public void add(com.himamis.retex.renderer.share.platform.geom.Area a) {
 		super.add((Area) a);
 
 	}
 
+	@Override
 	public void scale(double x) {
 		transform(AffineTransform.getScaleInstance(x, x));
 	}
 
+	@Override
 	public void translate(double x, double y) {
 		transform(AffineTransform.getTranslateInstance(x, y));
 	}

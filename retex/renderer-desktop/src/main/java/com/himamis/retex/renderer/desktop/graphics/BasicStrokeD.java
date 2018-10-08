@@ -57,4 +57,9 @@ public class BasicStrokeD extends BasicStroke implements
 		super((float) width, cap, join, (float) miterlimit);
 	}
 
+	public BasicStrokeD(double thickness, float[] dashes) {
+		super((float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+				10f, dashes, 0f);
+	}
+
 }

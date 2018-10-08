@@ -45,6 +45,7 @@ package com.himamis.retex.renderer.share.platform.resources;
 
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 
+// TODO: remove as part of Android / iOS cleanup
 public interface ResourceLoader {
 
 	/**

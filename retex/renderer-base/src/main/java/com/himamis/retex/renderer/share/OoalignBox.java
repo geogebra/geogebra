@@ -78,7 +78,7 @@ public class OoalignBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return boxes.get(boxes.size() - 1).getLastFontId();
+	public FontInfo getLastFont() {
+		return boxes.get(boxes.size() - 1).getLastFont();
 	}
 }

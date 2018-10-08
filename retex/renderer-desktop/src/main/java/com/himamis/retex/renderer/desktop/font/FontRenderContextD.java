@@ -57,6 +57,7 @@ public class FontRenderContextD extends java.awt.font.FontRenderContext
 		this.impl = frc;
 	}
 
+	@Override
 	public Font getFont() {
 		// not used, web only
 		return null;

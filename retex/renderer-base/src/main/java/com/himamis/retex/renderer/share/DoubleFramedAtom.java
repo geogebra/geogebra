@@ -62,7 +62,7 @@ public class DoubleFramedAtom extends FBoxAtom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbase = base.createBox(env);
-		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+		double drt = TeXLength.getLength("fboxrule", env);
 		double space = TeXLength.getLength("fboxsep", env);
 		double sspace = 1.5 * drt
 				+ 0.5 * TeXLength.getFactor(TeXLength.Unit.POINT, env);

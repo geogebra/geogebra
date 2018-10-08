@@ -70,19 +70,19 @@ public class TeXLength {
 
 	private static final Map<String, TeXLength> map = new HashMap<String, TeXLength>() {
 		{
-
-			// value compatible with JLaTeXMath v1
-			// put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
-			// to change it, do this in your code
-			// TeXLength.put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
-			// changed for v2 to be more correct
 			put("fboxsep", new TeXLength(Unit.PT, 3.));
+			put("fboxrule", new TeXLength(Unit.PT, 0.4));
 			put("scriptspace", new TeXLength(Unit.PT, 0.5));
 			put("nulldelimiterspace", new TeXLength(Unit.PT, 1.2));
 			put("delimitershortfall", new TeXLength(Unit.PT, 5.));
 			put("delimiterfactor", new TeXLength(Unit.NONE, 901.));
-			// put("textwidth", new TeXLength(Unit.NONE,
-			// Double.POSITIVE_INFINITY));
+			put("dashlength", new TeXLength(Unit.PT, 6.));
+			put("dashdash", new TeXLength(Unit.PT, 3.));
+			put("shadowsize", new TeXLength(Unit.PT, 4.));
+			put("cornersize", new TeXLength(Unit.NONE, 0.5));
+			put("baselineskip", new TeXLength(Unit.EX, 1.));
+			put("textwidth",
+					new TeXLength(Unit.NONE, Double.POSITIVE_INFINITY));
 		}
 	};
 
@@ -135,7 +135,7 @@ public class TeXLength {
 			return env.getTeXFont().getEM(env.getStyle());
 		case EX:
 			return env.getTeXFont().getXHeight(env.getStyle(),
-					env.getLastFontId());
+					env.getLastFont());
 		case PIXEL:
 			return 1. / env.getSize();
 		case POINT:
@@ -196,12 +196,91 @@ public class TeXLength {
 		return map.containsKey(name);
 	}
 
+	public static Atom getLength(final String name) {
+		return map.get(name).toAtom();
+	}
+
+	public static double getTextwidth(TeXEnvironment env) {
+		return TeXLength.getLength("textwidth", env);
+	}
+
+	public String unitToString() {
+		switch (unit) {
+		case EM:
+			return "em";
+		case EX:
+			return "ex";
+		case PIXEL:
+			return "pixel";
+		case POINT:
+			return "bp";
+		case PICA:
+			return "pica";
+		case MU:
+			return "mu";
+		case CM:
+			return "cm";
+		case MM:
+			return "mm";
+		case IN:
+			return "in";
+		case SP:
+			return "sp";
+		case PT:
+			return "pt";
+		case DD:
+			return "dd";
+		case CC:
+			return "cc";
+		case X8:
+			return "x8";
+		default:
+			return "";
+		}
+	}
+
 	@Override
 	public String toString() {
-		return l + "_" + unit;
+		return Double.toString(getL()) + unitToString();
+	}
+
+	private static int getIntPart(double x) {
+		return (int) (x >= 0. ? Math.floor(x) : -Math.floor(-x));
+	}
+
+	private static int getDecPart(double x) {
+		final double frac = Math.abs(x - getIntPart(x));
+		int part = (int) Math.round(frac * Math.pow(10, TeXParser.MAX_DEC));
+		while (part != 0 && (part % 10 == 0)) {
+			part /= 10;
+		}
+		return part;
+	}
+
+	public Atom toAtom() {
+		RowAtom ra = new RowAtom();
+		final double l = getL();
+		final int frac = TeXLength.getDecPart(l);
+		final int inte = TeXLength.getIntPart(l);
+		if (inte < 0) {
+			ra.add(Symbols.MINUS);
+			TeXParser.getAtomForNumber(-inte, ra, true);
+		} else {
+			TeXParser.getAtomForNumber(inte, ra, true);
+		}
+		if (frac != 0) {
+			ra.add(Symbols.NORMALDOT);
+			TeXParser.getAtomForNumber(frac, ra, true);
+		}
+		final String u = unitToString();
+		if (!u.isEmpty()) {
+			ra.add(new RomanAtom(TeXParser.getAtomForLatinStr(u, false)));
+		}
+		return ra;
 	}
 
 	public static void put(String s, TeXLength len) {
 		map.put(s, len);
 	}
+
 }

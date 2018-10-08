@@ -43,6 +43,7 @@
  */
 package com.himamis.retex.renderer.share.platform.resources;
 
+// TODO: remove as part of Android / iOS cleanup
 public interface ResourceLoaderFactory {
 
 	public ResourceLoader createResourceLoader();

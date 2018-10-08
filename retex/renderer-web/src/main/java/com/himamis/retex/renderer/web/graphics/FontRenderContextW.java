@@ -64,6 +64,7 @@ public class FontRenderContextW implements FontRenderContext {
 		return width;
 	}
 
+	@Override
 	public FontW getFont() {
 		return graphics.getFont();
 	}

@@ -100,6 +100,7 @@ public class Rectangle2DW implements Rectangle2D {
 		this.height = height;
 	}
 
+	@Override
 	public com.himamis.retex.renderer.share.platform.geom.Rectangle2D getBounds2DX() {
 		return this;
 	}

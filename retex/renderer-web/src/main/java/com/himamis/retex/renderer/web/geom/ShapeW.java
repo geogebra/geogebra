@@ -30,6 +30,7 @@ public class ShapeW implements Shape {
 		ctx.translate2(-tx, -ty);
 	}
 
+	@Override
 	public Rectangle2D getBounds2DX() {
 		return rect;
 	}

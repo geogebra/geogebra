@@ -80,8 +80,11 @@ public class GeomFactoryDesktop extends GeomFactory {
 	@Override
 	public Area createArea(Shape s) {
 		if (s instanceof GeneralPathD) {
-			GeneralPath gp = GeneralPathD.getAwtGeneralPath(((GeneralPathD) s));
+			GeneralPath gp = GeneralPathD.getAwtGeneralPath((s));
 			return new AreaD(gp);
+		}
+		if (s == null) {
+			return new AreaD();
 		}
 		return new AreaD((java.awt.Shape) s);
 	}

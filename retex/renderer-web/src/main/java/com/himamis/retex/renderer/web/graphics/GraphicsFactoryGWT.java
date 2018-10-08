@@ -47,6 +47,7 @@ import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
 
@@ -71,6 +72,11 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 	@Override
 	public Transform createTransform() {
 		return new AffineTransform();
+	}
+
+	@Override
+	public Stroke createBasicStroke(double width, float[] dashes) {
+		return new BasicStrokeW(width, dashes);
 	}
 
 }

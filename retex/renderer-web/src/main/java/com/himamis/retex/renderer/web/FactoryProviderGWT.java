@@ -47,13 +47,9 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
-import com.himamis.retex.renderer.share.platform.parser.ParserFactory;
-import com.himamis.retex.renderer.share.platform.resources.ResourceLoaderFactory;
 import com.himamis.retex.renderer.web.font.FontFactoryGWT;
 import com.himamis.retex.renderer.web.geom.GeomFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
-import com.himamis.retex.renderer.web.parser.ParserFactoryGWT;
-import com.himamis.retex.renderer.web.resources.ResourceLoaderFactoryGWT;
 
 public class FactoryProviderGWT extends FactoryProvider {
 
@@ -73,16 +69,6 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	@Override
-	protected ParserFactory createParserFactory() {
-		return new ParserFactoryGWT();
-	}
-
-	@Override
-	protected ResourceLoaderFactory createResourceLoaderFactory() {
-		return new ResourceLoaderFactoryGWT();
-	}
-
-	@Override
 	public void debug(Object string) {
 		if (string instanceof Throwable) {
 			debugN((Throwable) string);
@@ -92,12 +78,12 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	private native void debugN(String string) /*-{
-		$wnd.console && $wnd.console.log("[LaTeX] " + string);
-	}-*/;
+												$wnd.console && $wnd.console.log("[ReTeX] " + string);
+												}-*/;
 
 	private native void debugN(Throwable string) /*-{
-		$wnd.console && $wnd.console.log("[LaTeX]", string);
-	}-*/;
+													$wnd.console && $wnd.console.log("[ReTeX]", string);
+													}-*/;
 
 	@Override
 	public void printStacktrace() {
@@ -106,10 +92,9 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	private native void traceNative() /*-{
-		$wnd.console.trace();
-	}-*/;
+										$wnd.console.trace();
+										}-*/;
 
-	@Override
 	public boolean isHTML5() {
 		return true;
 	}

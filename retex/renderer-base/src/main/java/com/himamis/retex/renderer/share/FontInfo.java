@@ -3,7 +3,7 @@
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
  * Copyright (C) 2004-2007 Universiteit Gent
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2009-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,29 +25,26 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.himamis.retex.renderer.share.platform.FontAdapter;
 import com.himamis.retex.renderer.share.platform.font.Font;
@@ -60,62 +57,53 @@ public class FontInfo {
 	/**
 	 * Maximum number of character codes in a TeX font.
 	 */
-	public static final int NUMBER_OF_CHAR_CODES = 256;
-
-	private class CharCouple {
-
-		private final char left, right;
-
-		CharCouple(char l, char r) {
-			left = l;
-			right = r;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (!(o instanceof CharCouple)) {
-				return false;
-			}
-			CharCouple ligo = (CharCouple) o;
-			return left == ligo.left && right == ligo.right;
-		}
-
-		@Override
-		public int hashCode() {
-			return left + (right << 16);
-		}
-	}
-
-	// ID
-	public final Font_ID fontId;
+	private static final int NUMBER_OF_CHAR_CODES = 256;
 
 	// font
-	private Font font;
+	protected Font font;
+	protected final int size;
+	protected final String path;
+	protected boolean loaded = false;
 
-	private final Map<CharCouple, Character> lig = new HashMap<>();
-	private final Map<CharCouple, Double> kern = new HashMap<>();
-	private double[][] metrics;
-	private CharFont[] nextLarger;
-	private int[][] extensions;
-	private HashMap<Character, Character> unicode = null;
+	protected final double[][] metrics;
+
+	// skew character of the font (used for positioning accents)
+	protected final char skewChar;
 
 	// general parameters for this font
-	public Font_ID boldId;
-	public Font_ID romanId;
-	public Font_ID ssId;
-	public Font_ID ttId;
-	public Font_ID itId;
+	protected final double xHeight;
+	protected final double space;
+	protected final double quad;
 
-	public FontInfo(Font_ID fontId) {
-		this.fontId = fontId;
-		int num = NUMBER_OF_CHAR_CODES;
-		if (fontId.unicode != 0) {
-			this.unicode = new HashMap<>(fontId.unicode);
-			num = fontId.unicode;
-		}
-		metrics = new double[num][];
-		nextLarger = new CharFont[num];
-		extensions = new int[num][];
+	protected FontInfo bold;
+	protected FontInfo roman;
+	protected FontInfo ss;
+	protected FontInfo tt;
+	protected FontInfo it;
+
+	protected CharFont[][] lig;
+	protected double[][] kern;
+	protected CharFont[] nextLarger;
+	protected char[][] extensions;
+
+	public FontInfo(int size, String path, double xHeight, double space,
+			double quad, char skewChar) {
+		this.path = path;
+		this.xHeight = xHeight;
+		this.space = space;
+		this.quad = quad;
+		this.skewChar = skewChar;
+		this.size = size == 0 ? NUMBER_OF_CHAR_CODES : size;
+		this.metrics = new double[this.size][];
+	}
+
+	public void setDependencies(FontInfo bold, FontInfo roman, FontInfo ss,
+			FontInfo tt, FontInfo it) {
+		this.bold = bold == null ? this : bold;
+		this.roman = roman == null ? this : roman;
+		this.ss = ss == null ? this : ss;
+		this.tt = tt == null ? this : tt;
+		this.it = it == null ? this : it;
 	}
 
 	/**
@@ -127,8 +115,14 @@ public class FontInfo {
 	 * @param k
 	 *            kern value
 	 */
-	public void addKern(char left, char right, double k) {
-		kern.put(new CharCouple(left, right), new Double(k));
+	public void addKern(final char left, final char right, final double k) {
+		if (kern == null) {
+			kern = new double[size][];
+		}
+		if (kern[left] == null) {
+			kern[left] = new double[size];
+		}
+		kern[left][right] = k;
 	}
 
 	/**
@@ -139,135 +133,188 @@ public class FontInfo {
 	 * @param ligChar
 	 *            ligature to replace left and right character
 	 */
-	public void addLigature(char left, char right, char ligChar) {
-		lig.put(new CharCouple(left, right), new Character(ligChar));
-	}
-
-	public int[] getExtension(char ch) {
-		if (unicode == null) {
-			return extensions[ch];
+	public void addLigature(final char left, final char right,
+			final char ligChar) {
+		if (lig == null) {
+			lig = new CharFont[size][];
 		}
-		return extensions[unicode.get(ch)];
-	}
-
-	public double getKern(char left, char right, double factor) {
-		Object obj = kern.get(new CharCouple(left, right));
-		if (obj == null) {
-			return 0;
+		if (lig[left] == null) {
+			lig[left] = new CharFont[size];
 		}
-		return ((Double) obj).doubleValue() * factor;
+		lig[left][right] = new CharFont(ligChar, this);
 	}
 
-	public CharFont getLigature(char left, char right) {
-		Object obj = lig.get(new CharCouple(left, right));
-		if (obj == null) {
+	public char[] getExtension(final char c) {
+		init();
+		if (extensions == null) {
 			return null;
 		}
-		return new CharFont(((Character) obj).charValue(), fontId);
+		return extensions[c];
 	}
 
-	public double[] getMetrics(char c) {
-		if (unicode == null) {
-			return metrics[c];
+	public double getKern(final char left, final char right,
+			final double factor) {
+		init();
+		if (kern == null || kern[left] == null) {
+			return 0.;
 		}
-		return metrics[unicode.get(c)];
+
+		return kern[left][right] * factor;
+	}
+
+	public CharFont getLigature(final char left, final char right) {
+		init();
+		if (lig == null || lig[left] == null) {
+			return null;
+		}
+		return lig[left][right];
+	}
+
+	public double[] getMetrics(final char c) {
+		init();
+		return metrics[c];
 	}
 
 	public double getWidth(final char c) {
-		if (unicode == null) {
-			return metrics[c][0];
-		}
-		return metrics[unicode.get(c)][0];
+		init();
+		return metrics[c][0];
 	}
 
 	public double getHeight(final char c) {
-		if (unicode == null) {
-			return metrics[c][1];
-		}
-		return metrics[unicode.get(c)][1];
+		init();
+		return metrics[c][1];
 	}
 
 	public double getDepth(final char c) {
-		if (unicode == null) {
-			return metrics[c][2];
-		}
-		return metrics[unicode.get(c)][2];
+		init();
+		return metrics[c][2];
 	}
 
 	public double getItalic(final char c) {
-		if (unicode == null) {
-			return metrics[c][3];
+		init();
+		return metrics[c][3];
+	}
+
+	public CharFont getNextLarger(final char c) {
+		init();
+		if (nextLarger == null) {
+			return null;
 		}
-		return metrics[unicode.get(c)][3];
+		return nextLarger[c];
 	}
 
-	public CharFont getNextLarger(char ch) {
-		if (unicode == null) {
-			return nextLarger[ch];
+	/**
+	 * @return the skew character of the font (for the correct positioning of
+	 *         accents)
+	 */
+	public double getSkew(final char c, final double factor) {
+		init();
+		if (skewChar != '\0') {
+			return getKern(c, skewChar, factor);
 		}
-		return nextLarger[unicode.get(ch)];
+		return 0.;
 	}
 
-	public double getQuad(double factor) {
-		return fontId.quad * factor;
-	}
-
-	public double getSpace(double factor) {
-		return fontId.space * factor;
-	}
-
-	public double getXHeight(double factor) {
-		return fontId.xHeight * factor;
-	}
-
-	public boolean hasSpace() {
-		return fontId.space > TeXFormula.PREC;
-	}
-
-	public void setExtension(char ch, int[] ext) {
-		if (unicode == null) {
-			extensions[ch] = ext;
-		} else if (!unicode.containsKey(ch)) {
-			char s = (char) unicode.size();
-			unicode.put(ch, s);
-			extensions[s] = ext;
-		} else {
-			extensions[unicode.get(ch)] = ext;
+	public void setExtension(final char c, final char[] ext) {
+		if (extensions == null) {
+			extensions = new char[size][];
 		}
+		extensions[c] = ext;
 	}
 
 	public void setMetrics(char c, double[] arr) {
-		if (unicode == null) {
-			metrics[c] = arr;
-		} else if (!unicode.containsKey(c)) {
-			char s = (char) unicode.size();
-			unicode.put(c, s);
-			metrics[s] = arr;
-		} else {
-			metrics[unicode.get(c)] = arr;
+		metrics[c] = arr;
+	}
+
+	public void setNextLarger(final char c, final char larger,
+			final FontInfo fontLarger) {
+		if (nextLarger == null) {
+			nextLarger = new CharFont[size];
+		}
+		nextLarger[c] = new CharFont(larger, fontLarger);
+	}
+
+	public void setInfo(char c, double[] metrics, char[] ligatures,
+			char[] kernCode, double[] kernValue, FontInfo nextLarger,
+			char nextLargerChar, char[] extension) {
+		setMetrics(c, metrics);
+		if (ligatures != null) {
+			for (int i = 0; i < ligatures.length; i += 2) {
+				addLigature(c, ligatures[i], ligatures[i + 1]);
+			}
+		}
+		if (kernCode != null) {
+			for (int i = 0; i < kernCode.length; ++i) {
+				addKern(c, kernCode[i], kernValue[i]);
+			}
+		}
+		if (nextLarger != null) {
+			setNextLarger(c, nextLargerChar, nextLarger);
+		}
+		if (extension != null) {
+			setExtension(c, extension);
 		}
 	}
 
-	public void setNextLarger(char ch, char larger, Font_ID fontLarger) {
-		if (unicode == null) {
-			nextLarger[ch] = new CharFont(larger, fontLarger);
-		} else if (!unicode.containsKey(ch)) {
-			char s = (char) unicode.size();
-			unicode.put(ch, s);
-			nextLarger[s] = new CharFont(larger, fontLarger);
-		} else {
-			nextLarger[unicode.get(ch)] = new CharFont(larger, fontLarger);
+	protected final void init() {
+		if (!loaded) {
+			initMetrics();
+			loaded = true;
 		}
 	}
 
-	public Font_ID getId() {
-		return fontId;
+	protected void initMetrics() {
 	}
 
-	public Font getFont() {
+	public double getQuad(final double factor) {
+		return quad * factor;
+	}
+
+	public final double getSpace(final double factor) {
+		return space * factor;
+	}
+
+	public final double getXHeight(final double factor) {
+		return xHeight * factor;
+	}
+
+	public final boolean hasSpace() {
+		return space > TeXFormula.PREC;
+	}
+
+	public final char getSkewChar() {
+		return skewChar;
+	}
+
+	public final FontInfo getBold() {
+		return bold;
+	}
+
+	public final FontInfo getRoman() {
+		return roman;
+	}
+
+	public final FontInfo getTt() {
+		return tt;
+	}
+
+	public final FontInfo getIt() {
+		return it;
+	}
+
+	public final FontInfo getSs() {
+		return ss;
+	}
+
+	public final Font getFont() {
 		if (font == null) {
-			font = new FontAdapter().loadFont(fontId.path + ".ttf");
+			font = new FontAdapter().loadFont(path + ".ttf");
 		}
 		return font;
+	}
+
+	@Override
+	public String toString() {
+		return "FontInfo: " + path;
 	}
 }

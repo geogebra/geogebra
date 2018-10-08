@@ -59,12 +59,15 @@ public class FramedBox extends Box {
 	protected Box box;
 	protected double thickness;
 	protected double space;
+	protected double dashlength;
+	protected double dashdash;
 	private Color line;
 	private Color bg;
 
 	private Rectangle2D rectangle;
 
-	public FramedBox(Box box, double thickness, double space) {
+	public FramedBox(Box box, double thickness, double space, Color line,
+			Color bg, double dashlength, double dashdash) {
 		this.box = box;
 		this.width = box.width + 2 * thickness + 2 * space;
 		this.height = box.height + thickness + space;
@@ -72,22 +75,42 @@ public class FramedBox extends Box {
 		this.shift = box.shift;
 		this.thickness = thickness;
 		this.space = space;
+		this.line = line;
+		this.bg = bg;
+		this.dashlength = dashlength;
+		this.dashdash = dashdash;
 
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
+	public FramedBox(Box box, double thickness, double space) {
+		this(box, thickness, space, null, null, Double.NaN, Double.NaN);
+	}
+
+	public FramedBox(Box box, double thickness, double space, double dashlength,
+			double dashdash) {
+		this(box, thickness, space, null, null, dashlength, dashdash);
+	}
+
 	public FramedBox(Box box, double thickness, double space, Color line,
 			Color bg) {
-		this(box, thickness, space);
-		this.line = line;
-		this.bg = bg;
+		this(box, thickness, space, line, bg, Double.NaN, Double.NaN);
 	}
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Stroke st = g2.getStroke();
-		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER));
+		// g2.setStroke(graphics.createBasicStroke(thickness,
+		// BasicStroke.CAP_BUTT,
+		// BasicStroke.JOIN_MITER));
+		if (Double.isNaN(dashlength) || Double.isNaN(dashdash)) {
+			g2.setStroke(graphics.createBasicStroke(thickness,
+					BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+		} else {
+			float[] dashes = new float[] { (float) dashdash,
+					(float) (dashlength - dashdash) };
+			g2.setStroke(graphics.createBasicStroke(thickness, dashes));
+		}
 		double th = thickness / 2;
 		if (bg != null) {
 			Color prev = g2.getColor();
@@ -115,7 +138,7 @@ public class FramedBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return box.getLastFontId();
+	public FontInfo getLastFont() {
+		return box.getLastFont();
 	}
 }

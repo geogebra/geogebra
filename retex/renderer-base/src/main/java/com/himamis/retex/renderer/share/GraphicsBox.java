@@ -102,7 +102,7 @@ public class GraphicsBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return Font_ID.jlm_msbm10;
+	public FontInfo getLastFont() {
+		return Configuration.getFonts().msbm10;
 	}
 }

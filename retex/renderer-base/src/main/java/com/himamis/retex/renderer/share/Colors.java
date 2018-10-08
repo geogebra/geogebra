@@ -732,6 +732,14 @@ public class Colors {
 		all.put(name, color);
 	}
 
+	public static int clamp(final int n) {
+		return Math.min(255, Math.max(n, 0));
+	}
+
+	public static double clamp(final double n) {
+		return Math.min(1., Math.max(n, 0.));
+	}
+
 	public static Color conv(final double c, final double m, final double y,
 			final double k) {
 		final double kk = 255. * (1. - k);
@@ -745,8 +753,8 @@ public class Colors {
 	public static Color convHSB(final double h, final double s,
 			final double l) {
 		final double h1 = normH(h);
-		return FactoryProvider.getInstance().getGraphicsFactory().createColor(
-				ColorUtil.HSBtoRGB((float) h1, (float) s, (float) l));
+		return FactoryProvider.getInstance().getGraphicsFactory()
+				.createColor(ColorUtil.HSBtoRGB(h1, s, l));
 	}
 
 	public static Color convHSL(final double h, final double s, final double l,

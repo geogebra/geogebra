@@ -75,11 +75,9 @@ public interface Font {
 
 	public int getScale();
 
-	public Shape getGlyphOutline(FontRenderContext frc, String valueOf);
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf);
 
 	public boolean canDisplay(char ch);
-
-	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf);
 
 	public boolean canDisplay(int c);
 

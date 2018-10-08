@@ -47,6 +47,7 @@ import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class Graphics {
@@ -87,6 +88,10 @@ public class Graphics {
 
 	public Transform createTransform() {
 		return graphicsFactory.createTransform();
+	}
+
+	public Stroke createBasicStroke(double thickness, float[] dashes) {
+		return graphicsFactory.createBasicStroke(thickness, dashes);
 	}
 
 }

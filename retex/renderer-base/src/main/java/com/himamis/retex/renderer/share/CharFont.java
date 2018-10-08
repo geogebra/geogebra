@@ -52,22 +52,22 @@ package com.himamis.retex.renderer.share;
  */
 public class CharFont {
 
-	public char c;
-	public Font_ID fontId;
-	public Font_ID boldFontId;
+	public final char c;
+	public final FontInfo fontInfo;
+	public final FontInfo boldFontInfo;
 
-	public CharFont(char ch, Font_ID f) {
+	public CharFont(char ch, FontInfo f) {
 		this(ch, f, f);
 	}
 
-	public CharFont(char ch, Font_ID f, Font_ID bf) {
+	public CharFont(char ch, FontInfo f, FontInfo bf) {
 		c = ch;
-		fontId = f;
-		boldFontId = bf;
+		fontInfo = f;
+		boldFontInfo = bf;
 	}
 
-	public Font_ID getFontId() {
-		return fontId;
+	public FontInfo getFontInfo() {
+		return fontInfo;
 	}
 
 	@Override

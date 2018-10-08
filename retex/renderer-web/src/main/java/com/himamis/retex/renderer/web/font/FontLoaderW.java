@@ -58,10 +58,9 @@ public class FontLoaderW implements FontLoader {
 	@Override
 	public Font loadFont(String name) throws ResourceParseException {
 		String fontName = extractFileName(name);
-		String pathName = "font/" + name;
-
-		return fontLoaderWrapper.createNativeFont(pathName, fontName,
-				Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
+		AsyncLoadedFont font = fontLoaderWrapper.createNativeFont(name,
+				fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
+		return font;
 	}
 
 	private static String extractFileName(String filePathName) {

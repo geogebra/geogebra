@@ -177,7 +177,7 @@ public class ScriptsAtom extends Atom {
 
 			HorizontalBox hor = new HorizontalBox(b);
 
-			Font_ID lastFontId = b.getLastFontId();
+			FontInfo lastFontId = b.getLastFont();
 			// if no last font found (whitespace box), use default "mu font"
 			if (lastFontId == null) {
 				lastFontId = TeXFont.MUFONT;
@@ -195,7 +195,7 @@ public class ScriptsAtom extends Atom {
 				final CharAtom ca = (CharAtom) trueBase;
 				shiftUp = shiftDown = 0.;
 				CharFont cf = ca.getCharFont(tf);
-				if ((!ca.isMarkedAsTextSymbol() || !tf.hasSpace(cf.fontId))
+				if ((!ca.isMarkedAsTextSymbol() || !tf.hasSpace(cf.fontInfo))
 						&& subscript != null) {
 					delta = tf.getChar(cf, style).getItalic();
 				}

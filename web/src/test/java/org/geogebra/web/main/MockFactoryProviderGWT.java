@@ -9,7 +9,6 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 public class MockFactoryProviderGWT extends FactoryProviderGWT {
 
 
-	@Override
 	protected ParserFactory createParserFactory() {
 		// TODO Auto-generated method stub
 		return new ParserFactory() {

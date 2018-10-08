@@ -45,6 +45,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.xarrows.XMapsTo;
+
 /**
  * An atom representing an extensible left or right arrow to handle xleftarrow
  * and xrightarrow commands in LaTeX.
@@ -57,18 +59,7 @@ public class XMapstoAtom extends XAtom {
 
 	@Override
 	public Box createExtension(TeXEnvironment env, double width) {
-		final CharBox left = (CharBox) Symbols.MAPSTOCHAR.createBox(env);
-		final double leftLB = 0.056;
-		final double leftW = 0.040;
-		final double bodyLW = 0.;
-		final double roundLW = 0.028;
-		final CharBox right = (CharBox) Symbols.RIGHTARROW.createBox(env);
-		final double rightLB = 0.057;
-		final double rightW = 0.853;
-		final double bodyRW = 0.769;
-		final double roundRW = 0.033;
-		return XFactory.createExtension(env, left, leftLB, leftW, bodyLW,
-				roundLW, right, rightLB, rightW, bodyRW, roundRW, width);
+		return new XMapsTo(width);
 	}
 
 	@Override

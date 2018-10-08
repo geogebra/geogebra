@@ -106,8 +106,9 @@ public class FontD implements Font {
 				.createGlyphVector((java.awt.font.FontRenderContext) frc, s));
 	}
 
-	public Shape getGlyphOutline(FontRenderContext frc, String s) {
-		return createGlyphVector(frc, s).getGlyphOutline(0);
+	@Override
+	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
+		return createGlyphVector(frc, cf.c + "").getGlyphOutline(0);
 	}
 
 	public int getSize() {
@@ -121,11 +122,6 @@ public class FontD implements Font {
 	@Override
 	public boolean canDisplay(char ch) {
 		return impl.canDisplay(ch);
-	}
-
-	@Override
-	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
-		return createGlyphVector(frc, cf.c + "").getGlyphOutline(0);
 	}
 
 	@Override

@@ -164,6 +164,8 @@ public class VRowAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		VerticalBox vb = new VerticalBox();
+		Box interline = new StrutBox(0.,
+				TeXLength.getLength("baselineskip", env), 0., 0.);
 		if (halign != TeXConstants.Align.NONE) {
 			double maxWidth = -Double.POSITIVE_INFINITY;
 			ArrayList<Box> boxes = new ArrayList<>();
@@ -174,7 +176,6 @@ public class VRowAtom extends Atom {
 					maxWidth = b.getWidth();
 				}
 			}
-			Box interline = new StrutBox(0, env.getInterline(), 0, 0);
 
 			// convert atoms to boxes and add to the horizontal box
 			for (ListIterator it = boxes.listIterator(); it.hasNext();) {
@@ -185,8 +186,6 @@ public class VRowAtom extends Atom {
 				}
 			}
 		} else {
-			Box interline = new StrutBox(0, env.getInterline(), 0, 0);
-
 			// convert atoms to boxes and add to the horizontal box
 			for (ListIterator it = elements.listIterator(); it.hasNext();) {
 				vb.add(((Atom) it.next()).createBox(env));

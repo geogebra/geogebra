@@ -134,7 +134,7 @@ public class OverUnderBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return base.getLastFontId();
+	public FontInfo getLastFont() {
+		return base.getLastFont();
 	}
 }

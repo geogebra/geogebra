@@ -45,6 +45,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.xarrows.XLongEqual;
+
 /**
  * An atom representing an extensible left or right arrow to handle xleftarrow
  * and xrightarrow commands in LaTeX.
@@ -57,7 +59,7 @@ public class XLongequalAtom extends XAtom {
 
 	@Override
 	public Box createExtension(TeXEnvironment env, double width) {
-		return XFactory.createXEqual(env, width);
+		return new XLongEqual(width);
 	}
 
 	@Override

@@ -74,7 +74,6 @@ public class TeXParser {
 	protected int stopPos = -1;
 	protected boolean ignoreWhiteSpace = true;
 	protected CharMapping charMapping = CharMapping.getDefault();
-	private Configuration configuration = Configuration.get();
 	private Map<String, String> xmlMap;
 
 	// TODO: handle correctly partial stuff
@@ -472,12 +471,12 @@ public class TeXParser {
 			case ' ':
 				++pos;
 				if (isTextMode()) { // We are in a mbox
-					// TODO: erreur ici: il faut ajouter l'un puis l'autre (meme
-					// flux)
-					// faire attention a bien avoir un rowatom ou truc du
-					// genre...
-					addToConsumer(
-							new RowAtom(new SpaceAtom(), BreakMarkAtom.get()));
+					if (peek() instanceof GroupConsumer) {
+						addToConsumer(new SpaceAtom());
+						addToConsumer(BreakMarkAtom.get());
+					} else {
+						addToConsumer(new SpaceAtom());
+					}
 					skipPureWhites();
 				}
 				break;
@@ -669,6 +668,37 @@ public class TeXParser {
 		}
 
 		return ra.simplify();
+	}
+
+	public static RowAtom getAtomForNumber(int n, final RowAtom ra,
+			final boolean mathMode) {
+		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
+				.getFont(Character.UnicodeBlock.BASIC_LATIN);
+		if (f != null) {
+			ra.add(new JavaFontRenderingAtom(Integer.toString(n), f));
+			return ra;
+		}
+		final int zero = '0';
+		if (n <= 99) {
+			final int unit = n % 10;
+			if (n <= 9) {
+				ra.add(new CharAtom((char) (zero + unit), mathMode));
+				return ra;
+			}
+			final int ten = n / 10;
+			ra.add(new CharAtom((char) (zero + ten), mathMode),
+					new CharAtom((char) (zero + unit), mathMode));
+			return ra;
+		}
+		char[] digits = new char[(int) Math.ceil(Math.log10(n))];
+		for (int i = digits.length - 1; i >= 0; --i) {
+			digits[i] = (char) (zero + (n % 10));
+			n /= 10;
+		}
+		for (int i = 0; i < digits.length; ++i) {
+			ra.add(new CharAtom(digits[i], mathMode));
+		}
+		return ra;
 	}
 
 	public static RowAtom getAtomForLatinStr(final String s, final RowAtom ra,
@@ -1527,8 +1557,8 @@ public class TeXParser {
 						case 1:
 							final DoubleOrInt n = arr.get(0);
 							if (n.isdouble) {
-								final int g = (int) (255. * clamp(n.f) + 0.5)
-										* 0x010101;
+								final int g = (int) (255. * Colors.clamp(n.f)
+										+ 0.5) * 0x010101;
 								cancelPrevPos();
 								return FactoryProvider.getInstance()
 										.getGraphicsFactory().createColor(g);
@@ -1545,9 +1575,9 @@ public class TeXParser {
 							final DoubleOrInt G = arr.get(1);
 							final DoubleOrInt B = arr.get(2);
 							if (!R.isdouble && !G.isdouble && !B.isdouble) {
-								final int Ri = clamp(R.i);
-								final int Gi = clamp(G.i);
-								final int Bi = clamp(B.i);
+								final int Ri = Colors.clamp(R.i);
+								final int Gi = Colors.clamp(G.i);
+								final int Bi = Colors.clamp(B.i);
 
 								cancelPrevPos();
 								return FactoryProvider.getInstance()
@@ -1555,22 +1585,26 @@ public class TeXParser {
 												(Ri << 16) | (Gi << 8) | Bi);
 							}
 
-							final int Rf = (int) (255. * clamp(R.getDouble())
-									+ 0.5);
-							final int Gf = (int) (255. * clamp(G.getDouble())
-									+ 0.5);
-							final int Bf = (int) (255. * clamp(B.getDouble())
-									+ 0.5);
+							final int Rf = (int) (255.
+									* Colors.clamp(R.getDouble()) + 0.5);
+							final int Gf = (int) (255.
+									* Colors.clamp(G.getDouble()) + 0.5);
+							final int Bf = (int) (255.
+									* Colors.clamp(B.getDouble()) + 0.5);
 
 							cancelPrevPos();
 							return FactoryProvider.getInstance()
 									.getGraphicsFactory()
 									.createColor((Rf << 16) | (Gf << 8) | Bf);
 						case 4:
-							final double C = clamp(arr.get(0).getDouble());
-							final double M = clamp(arr.get(1).getDouble());
-							final double Y = clamp(arr.get(2).getDouble());
-							final double K = clamp(arr.get(3).getDouble());
+							final double C = Colors
+									.clamp(arr.get(0).getDouble());
+							final double M = Colors
+									.clamp(arr.get(1).getDouble());
+							final double Y = Colors
+									.clamp(arr.get(2).getDouble());
+							final double K = Colors
+									.clamp(arr.get(3).getDouble());
 
 							cancelPrevPos();
 							return Colors.conv(C, M, Y, K);
@@ -1814,23 +1848,24 @@ public class TeXParser {
 						final DoubleOrInt B = arr.get(2);
 						int RGB;
 						if (!R.isdouble && !G.isdouble && !B.isdouble) {
-							final int Ri = clamp(R.i);
-							final int Gi = clamp(G.i);
-							final int Bi = clamp(B.i);
+							final int Ri = Colors.clamp(R.i);
+							final int Gi = Colors.clamp(G.i);
+							final int Bi = Colors.clamp(B.i);
 							RGB = (Ri << 16) | (Gi << 8) | Bi;
 						} else {
-							final int Rf = (int) (255. * clamp(R.getDouble())
-									+ 0.5);
-							final int Gf = (int) (255. * clamp(G.getDouble())
-									+ 0.5);
-							final int Bf = (int) (255. * clamp(B.getDouble())
-									+ 0.5);
+							final int Rf = (int) (255.
+									* Colors.clamp(R.getDouble()) + 0.5);
+							final int Gf = (int) (255.
+									* Colors.clamp(G.getDouble()) + 0.5);
+							final int Bf = (int) (255.
+									* Colors.clamp(B.getDouble()) + 0.5);
 							RGB = (Rf << 16) | (Gf << 8) | Bf;
 						}
 
 						if (rgba) {
 							final int A = (int) (255.
-									* clamp(arr.get(3).getDouble()) + 0.5);
+									* Colors.clamp(arr.get(3).getDouble())
+									+ 0.5);
 							return FactoryProvider.getInstance()
 									.getGraphicsFactory()
 									.createColor((A << 24) | RGB, true);
@@ -1861,13 +1896,14 @@ public class TeXParser {
 						final ArrayList<DoubleOrInt> arr = getComponentsAsNum(
 								ncomp, ncomp, stop);
 						final double H = arr.get(0).getDouble();
-						final double S = clamp(arr.get(1).getDouble());
-						final double L = clamp(arr.get(2).getDouble());
+						final double S = Colors.clamp(arr.get(1).getDouble());
+						final double L = Colors.clamp(arr.get(2).getDouble());
 
 						if (ncomp == 3) {
 							return Colors.convHSL(H, S, L);
 						} else {
-							final double A = clamp(arr.get(3).getDouble());
+							final double A = Colors
+									.clamp(arr.get(3).getDouble());
 							return Colors.convHSL(H, S, L, A);
 						}
 					}
@@ -1915,14 +1951,6 @@ public class TeXParser {
 		}
 
 		return acc;
-	}
-
-	private static int clamp(final int n) {
-		return Math.min(255, Math.max(n, 0));
-	}
-
-	private static double clamp(final double n) {
-		return Math.min(1., Math.max(n, 0.));
 	}
 
 	private static int getHex(final char c) {

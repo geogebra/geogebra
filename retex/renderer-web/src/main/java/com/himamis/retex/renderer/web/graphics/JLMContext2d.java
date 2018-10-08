@@ -11,13 +11,12 @@ import com.himamis.retex.renderer.web.geom.ShapeW;
 
 /**
  * @author michael
- * 
+ *         <p>
  *         Shared class between JLaTeXMath and GeoGebra so that the transform
  *         can be shared https://jira.geogebra.org/browse/TRAC-5353
- * 
+ *         <p>
  *         Also originally: Added to allow ctx.fill("evenodd") (new winding rule
  *         from ggb50) ignored in IE9, IE10
- *
  */
 public class JLMContext2d extends Context2d {
 
@@ -41,9 +40,8 @@ public class JLMContext2d extends Context2d {
 												}-*/;
 
 	/**
-	 * 
 	 * draw with canvg
-	 * 
+	 *
 	 * @param SVG_XML_OR_PATH_TO_SVG
 	 * @param dx
 	 * @param dy
@@ -68,14 +66,14 @@ public class JLMContext2d extends Context2d {
 						//			});
 						
 						var cOpts = {
-						ignoreMouse : true,
-						ignoreAnimation : true,
-						ignoreDimensions : true,
-						ignoreClear : true,
-						offsetX : 0,//dx,
-						offsetY : 0,//dy,
-						scaleWidth : dw,
-						scaleHeight : dh
+						ignoreMouse: true,
+						ignoreAnimation: true,
+						ignoreDimensions: true,
+						ignoreClear: true,
+						offsetX: 0,//dx,
+						offsetY: 0,//dy,
+						scaleWidth: dw,
+						scaleHeight: dh
 						}
 						
 						this.translate(-dx, -dy);
@@ -93,12 +91,12 @@ public class JLMContext2d extends Context2d {
 			String style, double width, double height, double angle,
 			String fill) /*-{
 							var svg = {
-							"path" : path,
-							"width" : width,
-							"height" : height,
-							"style" : style,
-							"angle" : angle,
-							"fill" : fill,
+							"path": path,
+							"width": width,
+							"height": height,
+							"style": style,
+							"angle": angle,
+							"fill": fill,
 							};
 							//console.log("createPatternSVG", svg);
 							return this.createPatternSVG(svg, "repeating");
@@ -141,7 +139,7 @@ public class JLMContext2d extends Context2d {
 	public final native void saveTransform(double m00, double m10, double m01,
 			double m11, double m02, double m12) /*-{
 												
-												this.ggbTransformCache.push([ m00, m10, m01, m11, m02, m12 ]);
+												this.ggbTransformCache.push([m00, m10, m01, m11, m02, m12]);
 												
 												}-*/;
 
@@ -151,10 +149,10 @@ public class JLMContext2d extends Context2d {
 												this.ggbTransformCache = [];
 												}
 												
-												var t = [ this.m00_, this.m10_, this.m01_, this.m11_, this.m02_,
-												this.m12_ ];
+												var t = [this.m00_, this.m10_, this.m01_, this.m11_, this.m02_,
+												this.m12_];
 												
-												this.ggbTransformCache.push([ t[0], t[1], t[2], t[3], t[4], t[5] ]);
+												this.ggbTransformCache.push([t[0], t[1], t[2], t[3], t[4], t[5]]);
 												
 												this.save();
 												

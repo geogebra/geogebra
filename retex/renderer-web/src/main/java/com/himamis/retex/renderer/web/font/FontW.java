@@ -104,9 +104,4 @@ public abstract class FontW implements AsyncLoadedFont {
 				&& size == ((FontW) f).size;
 	}
 
-	@Override
-	public boolean canDisplay(char ch) {
-		return true;
-	}
-
 }

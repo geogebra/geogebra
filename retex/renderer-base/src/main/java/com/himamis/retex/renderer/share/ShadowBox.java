@@ -70,31 +70,31 @@ public class ShadowBox extends FramedBox {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		double th = thickness / 2;
+		startDraw(g2, x, y);
+		double th = thickness / 2.;
 		box.draw(g2, x + space + thickness, y);
 		Stroke st = g2.getStroke();
-		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER));
+		g2.setStroke(graphics.createBasicStroke((float) thickness,
+				BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		rectangle.setRectangle(x + th, y - height + th,
 				width - shadowRule - thickness,
 				height + depth - shadowRule - thickness);
 		g2.draw(rectangle);
-		double penth = Math.abs(1 / g2.getTransform().getScaleX());
-		g2.setStroke(graphics.createBasicStroke(penth, BasicStroke.CAP_BUTT,
+		g2.setStroke(graphics.createBasicStroke(0f, BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER));
-		rectangle.setRectangle(x + shadowRule - penth,
-				y + depth - shadowRule - penth, width - shadowRule, shadowRule);
+		rectangle.setRectangle(x + shadowRule, y + depth - shadowRule - th,
+				width - shadowRule, shadowRule + th);
 		g2.fill(rectangle);
-		rectangle.setRectangle(x + width - shadowRule - penth,
-				y - height + th + shadowRule, shadowRule,
-				depth + height - 2 * shadowRule - th);
+		rectangle.setRectangle(x + width - shadowRule - th,
+				y - height + shadowRule, shadowRule + th,
+				depth + height - 2 * shadowRule);
 		g2.fill(rectangle);
-		drawDebug(g2, x, y);
 		g2.setStroke(st);
+		endDraw(g2);
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return box.getLastFontId();
+	public FontInfo getLastFont() {
+		return box.getLastFont();
 	}
 }

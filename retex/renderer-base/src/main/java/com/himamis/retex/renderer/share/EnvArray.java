@@ -145,7 +145,7 @@ public class EnvArray {
 				n = tp.getArgAsPositiveInteger();
 				if (n <= 0) {
 					throw new ParseException(tp,
-							"Invalid argument in "+name+" environment");
+							"Invalid argument in " + name + " environment");
 				}
 				aoa = new ArrayOfAtoms("alignedat".equals(name)
 						? ArrayAtom.ALIGNEDAT : ArrayAtom.ALIGNAT);
@@ -265,11 +265,10 @@ public class EnvArray {
 				return new AlignAtom(beg.aoa, false);
 			case "cases":
 				final SymbolAtom op1 = Symbols.LBRACE;
-				final SymbolAtom cl1 = null;
 
-				// XXX
+				// XXX check
 				return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
-						op1, null, cl1);
+						op1, null, null);
 			// return new FencedAtom(super.newI(tp, beg), op, null, cl);
 
 			case "matrix":

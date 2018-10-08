@@ -328,6 +328,7 @@ public class ArrayAtom extends Atom {
 		vb.add(vsep_ext_top.createBox(env));
 		final double vsepH = Vsep.getHeight();
 		final double halfVsepH = vsepH / 2.;
+		final double textwidth = TeXLength.getTextwidth(env);
 
 		for (int i = 0; i < row; ++i) {
 			final HorizontalBox hb = new HorizontalBox();
@@ -345,8 +346,8 @@ public class ArrayAtom extends Atom {
 					hb.add(hlb);
 					break;
 				} else if (typ == TeXConstants.TYPE_INTERTEXT) {
-					double f = env.getTextwidth();
-					f = f == Double.POSITIVE_INFINITY ? colWidth[j] : f;
+					final double f = textwidth == Double.POSITIVE_INFINITY
+							? colWidth[j] : textwidth;
 					hb.add(new HorizontalBox(boxarr[i][j], f,
 							TeXConstants.Align.LEFT));
 					break;

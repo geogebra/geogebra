@@ -45,6 +45,8 @@ package com.himamis.retex.renderer.web.graphics;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
@@ -120,7 +122,35 @@ public class Graphics2DW implements Graphics2DInterface {
 		context.setLineJoin(basicStroke.getJSLineJoin());
 		context.setLineWidth(basicStroke.getWidth());
 		context.setMiterLimit(basicStroke.getMiterLimit());
+
+		float[] dasharr = basicStroke.getDash();
+		if (dasharr != null) {
+			JsArrayNumber jsarrn = JavaScriptObject.createArray().cast();
+			jsarrn.setLength(dasharr.length);
+			for (int i = 0; i < dasharr.length; i++) {
+				jsarrn.set(i, dasharr[i]);
+			}
+			setStrokeDash(context, jsarrn);
+		} else {
+			setStrokeDash(context, null);
+		}
 	}
+
+	public native void setStrokeDash(JLMContext2d ctx,
+			JsArrayNumber dasharray) /*-{
+										if (dasharray === undefined || dasharray === null) {
+										dasharray = [];
+										}
+										
+										if (typeof ctx.setLineDash === 'function') {
+										ctx.setLineDash(dasharray);
+										} else if (typeof ctx.mozDash !== 'undefined') {
+										ctx.mozDash = dasharray;
+										} else if (typeof ctx.webkitLineDash !== 'undefined') {
+										ctx.webkitLineDash = dasharray;
+										}
+										
+										}-*/;
 
 	@Override
 	public Stroke getStroke() {
@@ -449,6 +479,7 @@ public class Graphics2DW implements Graphics2DInterface {
 			img.getElement().setAttribute("src", base64);
 
 			img.addLoadHandler(new LoadHandler() {
+				@Override
 				public void onLoad(LoadEvent event) {
 					context.drawImage(ImageElement.as(img.getElement()), x, y);
 				}

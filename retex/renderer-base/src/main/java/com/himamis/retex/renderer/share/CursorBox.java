@@ -37,7 +37,7 @@ public class CursorBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return content.getLastFontId();
+	public FontInfo getLastFont() {
+		return content.getLastFont();
 	}
 }

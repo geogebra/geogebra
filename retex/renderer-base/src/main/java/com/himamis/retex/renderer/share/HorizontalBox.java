@@ -188,14 +188,14 @@ public class HorizontalBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
+	public FontInfo getLastFont() {
 		// iterate from the last child box to the first until a font id is found
 		// that's not equal to NO_FONT
-		Font_ID fontId = null;
+		FontInfo fontId = null;
 		for (ListIterator it = children
 				.listIterator(children.size()); fontId == null
 						&& it.hasPrevious();)
-			fontId = ((Box) it.previous()).getLastFontId();
+			fontId = ((Box) it.previous()).getLastFont();
 
 		return fontId;
 	}

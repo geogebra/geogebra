@@ -89,7 +89,7 @@ public class HorizontalRule extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
+	public FontInfo getLastFont() {
 		return null;
 	}
 }

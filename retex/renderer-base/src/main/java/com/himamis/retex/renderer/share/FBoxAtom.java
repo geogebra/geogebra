@@ -74,8 +74,7 @@ public class FBoxAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box bbase = base.createBox(env);
-		final double drt = env.getTeXFont()
-				.getDefaultRuleThickness(env.getStyle());
+		final double drt = TeXLength.getLength("fboxrule", env);
 		final double space = TeXLength.getLength("fboxsep", env);
 		if (bg == null) {
 			return new FramedBox(bbase, drt, space);

@@ -162,5 +162,4 @@ public class SpaceAtom extends Atom {
 		return unit;
 	}
 
-
 }

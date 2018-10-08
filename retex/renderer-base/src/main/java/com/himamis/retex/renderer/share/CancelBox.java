@@ -123,7 +123,7 @@ public class CancelBox extends Box {
 	}
 
 	@Override
-	public Font_ID getLastFontId() {
-		return b.getLastFontId();
+	public FontInfo getLastFont() {
+		return b.getLastFont();
 	}
 }

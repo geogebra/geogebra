@@ -45,6 +45,14 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.xarrows.XLeftArrow;
+import com.himamis.retex.renderer.share.xarrows.XLeftHarpoonDown;
+import com.himamis.retex.renderer.share.xarrows.XLeftHarpoonUp;
+import com.himamis.retex.renderer.share.xarrows.XLeftRightArrow;
+import com.himamis.retex.renderer.share.xarrows.XRightArrow;
+import com.himamis.retex.renderer.share.xarrows.XRightHarpoonDown;
+import com.himamis.retex.renderer.share.xarrows.XRightHarpoonUp;
+
 /**
  * An atom representing an extensible left or right arrow to handle xleftarrow
  * and xrightarrow commands in LaTeX.
@@ -75,81 +83,63 @@ public class XArrowAtom extends XAtom {
 	public Box createExtension(TeXEnvironment env, double width) {
 		switch (kind) {
 		case Left:
-			return XFactory.createArrow(true, env, width);
+			return new XLeftArrow(width);
 		case Right:
-			return XFactory.createArrow(false, env, width);
+			return new XRightArrow(width);
 		case LR:
-			return XFactory.createLeftRightArrow(env, width);
+			return new XLeftRightArrow(width);
 		case LeftAndRight: {
-			final Box right = XFactory.createArrow(false, env, width);
-			final Box left = XFactory.createArrow(true, env, width);
+			final Box right = new XRightArrow(width);
+			final Box left = new XLeftArrow(width);
 			final VerticalBox vb = new VerticalBox(left);
 			vb.add(right);
 			return vb;
 		}
 		case RightAndLeft: {
-			final Box right = XFactory.createArrow(false, env, width);
-			final Box left = XFactory.createArrow(true, env, width);
+			final Box right = new XRightArrow(width);
+			final Box left = new XLeftArrow(width);
 			final VerticalBox vb = new VerticalBox(right);
 			vb.add(left);
-			final double totalH = vb.getHeight() + vb.getDepth();
-			final double factor = env.getTeXFont().getQuad(env.getStyle());
-			final double height = 0.250 * factor + totalH / 2.;
-			final HorizontalBox hb = new HorizontalBox(vb);
-			hb.setHeight(height);
-			hb.setDepth(totalH - height);
-			return hb;
+			return vb;
 		}
 		case LeftHarpoonUp:
-			return XFactory.createHarpoon(true, true, env, width);
+			return new XLeftHarpoonUp(width);
 		case LeftHarpoonDown:
-			return XFactory.createHarpoon(false, true, env, width);
+			return new XLeftHarpoonDown(width);
 		case RightHarpoonUp:
-			return XFactory.createHarpoon(true, false, env, width);
+			return new XRightHarpoonUp(width);
 		case RightHarpoonDown:
-			return XFactory.createHarpoon(false, false, env, width);
+			return new XRightHarpoonDown(width);
 		case LeftRightHarpoons:
 		// /___________
 		// ___________
 		// /
 		{
-			final Box right = XFactory.createHarpoon(false, false, env, width);
-			final Box left = XFactory.createHarpoon(true, true, env, width);
+			final Box right = new XRightHarpoonDown(width);
+			final Box left = new XLeftHarpoonUp(width);
 			final VerticalBox vb = new VerticalBox(left);
 			vb.add(new StrutBox(0.,
 					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(right);
-			final double totalH = vb.getHeight() + vb.getDepth();
-			final double factor = env.getTeXFont().getQuad(env.getStyle());
-			final double height = 0.250 * factor + totalH / 2.;
-			final HorizontalBox hb = new HorizontalBox(vb);
-			hb.setHeight(height);
-			hb.setDepth(totalH - height);
-			return hb;
+			return vb;
 		}
 		case RightLeftHarpoons:
 		// ___________\
 		// ___________
 		// \
 		{
-			final Box right = XFactory.createHarpoon(true, false, env, width);
-			final Box left = XFactory.createHarpoon(false, true, env, width);
+			final Box right = new XRightHarpoonUp(width);
+			final Box left = new XLeftHarpoonDown(width);
 			final VerticalBox vb = new VerticalBox(right);
 			vb.add(new StrutBox(0.,
 					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(left);
-			final double totalH = vb.getHeight() + vb.getDepth();
-			final double factor = env.getTeXFont().getQuad(env.getStyle());
-			final double height = 0.250 * factor + totalH / 2.;
-			final HorizontalBox hb = new HorizontalBox(vb);
-			hb.setHeight(height);
-			hb.setDepth(totalH - height);
-			return hb;
+			return vb;
 		}
 		case RightSmallLeftHarpoons: {
-			final Box right = XFactory.createHarpoon(true, false, env, width);
+			final Box right = new XRightHarpoonUp(width);
 			final Box left = SymbolAtom.get("leftharpoondown").createBox(env);
 			final VerticalBox vb = new VerticalBox(right);
 			vb.add(new StrutBox(0.,
@@ -157,30 +147,18 @@ public class XArrowAtom extends XAtom {
 					0.));
 			vb.add(new HorizontalBox(left, right.getWidth(),
 					TeXConstants.Align.CENTER));
-			final double totalH = vb.getHeight() + vb.getDepth();
-			final double factor = env.getTeXFont().getQuad(env.getStyle());
-			final double height = 0.250 * factor + totalH / 2.;
-			final HorizontalBox hb = new HorizontalBox(vb);
-			hb.setHeight(height);
-			hb.setDepth(totalH - height);
-			return hb;
+			return vb;
 		}
 		case SmallRightLeftHarpoons: {
 			final Box right = SymbolAtom.get("rightharpoonup").createBox(env);
-			final Box left = XFactory.createHarpoon(false, true, env, width);
+			final Box left = new XLeftHarpoonDown(width);
 			final VerticalBox vb = new VerticalBox(new HorizontalBox(right,
 					left.getWidth(), TeXConstants.Align.CENTER));
 			vb.add(new StrutBox(0.,
 					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(left);
-			final double totalH = vb.getHeight() + vb.getDepth();
-			final double factor = env.getTeXFont().getQuad(env.getStyle());
-			final double height = 0.250 * factor + totalH / 2.;
-			final HorizontalBox hb = new HorizontalBox(vb);
-			hb.setHeight(height);
-			hb.setDepth(totalH - height);
-			return hb;
+			return vb;
 		}
 		default:
 			System.err.print(kind + " not implemented");

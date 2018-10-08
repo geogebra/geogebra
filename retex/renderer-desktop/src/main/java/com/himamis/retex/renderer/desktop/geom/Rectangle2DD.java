@@ -67,6 +67,7 @@ public class Rectangle2DD extends Rectangle2D.Double
 		setRect(x, y, width, height);
 	}
 
+	@Override
 	public com.himamis.retex.renderer.share.platform.geom.Rectangle2D getBounds2DX() {
 		return this;
 	}

@@ -129,4 +129,9 @@ public class JavaFontRenderingAtom extends Atom {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "JavaFontRenderingAtom: " + str + ", font=" + font;
+	}
+
 }
