@@ -1473,6 +1473,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public synchronized void setXML(String xml) {
 		app.setXML(xml, true);
+		app.updateViewSizes();
 	}
 
 	/**
