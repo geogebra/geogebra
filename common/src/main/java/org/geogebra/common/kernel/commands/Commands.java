@@ -1228,6 +1228,10 @@ public enum Commands implements CommandsConstants,
 	 */
 	public static Commands englishToInternal(Commands comm) {
 		switch (comm) {
+		case Quartile1:
+			return Q1;
+		case Quartile3:
+			return Q3;
 		case Polyline:
 			return PolyLine;
 		case Sxx:
