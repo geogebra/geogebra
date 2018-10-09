@@ -7979,21 +7979,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					view.getBoundingBox().getRectangle(),
 					selection.getSelectedGeos(), view);
 		}
-		// calculate dragged distance
-		double distX = event.getX() - startPosition.getX();
-		double distY = event.getY() - startPosition.getY();
-		switch (handler) {
-		case TOP_LEFT:
-		case BOTTOM_RIGHT:
-			distY = distX / startBoundingBoxState.getWidthHeightRatio();
-			break;
-		case TOP_RIGHT:
-		case BOTTOM_LEFT:
-			distY = -distX / startBoundingBoxState.getWidthHeightRatio();
-			break;
-		default:
-			break;
-		}
+		GPoint2D mouseDistance = getMouseDistance(event, handler);
+
 		// calc boundingbox width/height
 		double bbWidth = startBoundingBoxState.getRectangle().getWidth(),
 				bbHeight = startBoundingBoxState.getRectangle().getHeight(),
@@ -8003,13 +7990,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case RIGHT:
 		case TOP_RIGHT:
 		case BOTTOM_RIGHT:
-			bbWidth += distX;
+			bbWidth += mouseDistance.getX();
 			break;
 		case LEFT:
 		case TOP_LEFT:
 		case BOTTOM_LEFT:
-			bbWidth -= distX;
-			bbMinX += distX;
+			bbWidth -= mouseDistance.getX();
+			bbMinX += mouseDistance.getX();
 			break;
 		default:
 			break;
@@ -8018,25 +8005,50 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case TOP:
 		case TOP_LEFT:
 		case TOP_RIGHT:
-			bbHeight -= distY;
-			bbMinY += distY;
+			bbHeight -= mouseDistance.getY();
+			bbMinY += mouseDistance.getY();
 			break;
 		case BOTTOM:
 		case BOTTOM_LEFT:
 		case BOTTOM_RIGHT:
-			bbHeight += distY;
+			bbHeight += mouseDistance.getY();
 			break;
 		default:
 			break;
 		}
-
 		bbWidth = Math.max(bbWidth, startBoundingBoxState.getWidthThreshold());
 		bbHeight = Math.max(bbHeight,
 				startBoundingBoxState.getHeightThreshold());
+
 		boolean thresholdXReached = (bbWidth <= startBoundingBoxState
 				.getWidthThreshold());
 		boolean thresholdYReached = (bbHeight <= startBoundingBoxState
 				.getHeightThreshold());
+		if (thresholdXReached) {
+			// reset bounding box minx after threshold was reached
+			if (mouseDistance.getX() > 0
+					&& bbWidth < startBoundingBoxState.getRectangle()
+					.getWidth()) {
+				bbMinX = view.getBoundingBox().getRectangle().getMaxX()
+						- bbWidth;
+			}
+		} else if (startBoundingBoxState.lastThresholdX) {
+			// always finish last resize when threshold is reached
+			startBoundingBoxState.lastThresholdX = false;
+		}
+
+		if (thresholdYReached) {
+			// reset bounding box miny after threshold was reached
+			if (mouseDistance.getY() > 0
+					&& bbHeight < startBoundingBoxState.getRectangle()
+					.getHeight()) {
+				bbMinY = view.getBoundingBox().getRectangle().getMaxY()
+						- bbHeight;
+			}
+		} else if (startBoundingBoxState.lastThresholdY) {
+			// always finish last resize when threshold is reached
+			startBoundingBoxState.lastThresholdY = false;
+		}
 
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
@@ -8048,43 +8060,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							* bbHeight,
 					newMaxY = startBoundingBoxState.getRatios(i)[3]
 							* bbHeight;
-			// handle segments
 			if (dr instanceof DrawSegment) {
 				// segments must be handled differently (by translating the
 				// points separately)
-				GeoSegment seg = (GeoSegment) geo;
-				double dStartX = 0, dEndX = 0, dStartY = 0, dEndY = 0;
-				// width threshold not reached
-				if (!thresholdXReached) {
-					if (seg.getEndPoint().getX()
-							- seg.getStartPoint().getX() > 0) {
-						dStartX = newMinX + bbMinX - dr.getBounds().getMinX();
-						dEndX = newMaxX + bbMinX - dr.getBounds().getMaxX();
-					} else {
-						dEndX = newMinX + bbMinX - dr.getBounds().getMinX();
-						dStartX = newMaxX + bbMinX - dr.getBounds().getMaxX();
-					}
-				}
-				if (!thresholdYReached) {
-					if (seg.getEndPoint().getY()
-							- seg.getStartPoint().getY() < 0) {
-						dStartY = newMinY + bbMinY - dr.getBounds().getMinY();
-						dEndY = newMaxY + bbMinY - dr.getBounds().getMaxY();
-					} else {
-						dEndY = newMinY + bbMinY - dr.getBounds().getMinY();
-						dStartY = newMaxY + bbMinY - dr.getBounds().getMaxY();
-					}
-				}
-				if (dStartX != 0 || dStartY != 0) {
-					seg.getStartPoint()
-							.translate(new Coords(dStartX / view.getXscale(),
-									-dStartY / view.getYscale()));
-				}
-				if (dEndX != 0 || dEndY != 0) {
-					seg.getEndPoint()
-							.translate(new Coords(dEndX / view.getXscale(),
-									-dEndY / view.getYscale()));
-				}
+				handleResizeForSegment((GeoSegment) geo, dr, bbMinX, bbMinY,
+						newMinX, newMaxX, newMinY, newMaxY);
 			} else {
 				GRectangle2D bounds = dr.getBounds();
 				if (dr.getBoundingBox() != null) {
@@ -8101,14 +8081,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							.newPoint2D(maxXFromOld, maxYFromOld);
 					if (!DoubleUtil.isEqual(newMaxX - newMinX,
 							bounds.getWidth())
-							&& !thresholdXReached) {
+							&& !startBoundingBoxState.lastThresholdX) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.RIGHT);
 						dr.updateGeo(point);
 					}
 					if (!DoubleUtil.isEqual(newMaxY - newMinY,
 							bounds.getHeight())
-							&& !thresholdYReached) {
+							&& !startBoundingBoxState.lastThresholdY) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.BOTTOM);
 						dr.updateGeo(point);
@@ -8146,9 +8126,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					}
 					// calculate the difference between the new and old
 					// positions (minX) and then apply translate
-					double dx = thresholdXReached ? 0
+					double dx = startBoundingBoxState.lastThresholdX ? 0
 							: (newMinX + bbMinX - bounds.getMinX()),
-							dy = thresholdYReached ? 0
+							dy = startBoundingBoxState.lastThresholdY ? 0
 									: (newMinY + bbMinY - bounds.getMinY());
 					if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
 						((Translateable) geo).translate(new Coords(
@@ -8159,7 +8139,67 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// last update for drawable
 			dr.update();
 		}
+		startBoundingBoxState.lastThresholdX = thresholdXReached;
+		startBoundingBoxState.lastThresholdY = thresholdYReached;
 		view.repaintView();
+	}
+
+	/**
+	 * @return distance from the point the mouse was pressed
+	 **/
+	private GPoint2D getMouseDistance(AbstractEvent event,
+			EuclidianBoundingBoxHandler handler) {
+		double distX = event.getX() - startPosition.getX();
+		double distY = event.getY() - startPosition.getY();
+		switch (handler) {
+		case TOP_LEFT:
+		case BOTTOM_RIGHT:
+			distY = distX / startBoundingBoxState.getWidthHeightRatio();
+			break;
+		case TOP_RIGHT:
+		case BOTTOM_LEFT:
+			distY = -distX / startBoundingBoxState.getWidthHeightRatio();
+			break;
+		default:
+			break;
+		}
+		return AwtFactory.getPrototype().newPoint2D(distX, distY);
+	}
+
+	/**
+	 * handle resize for segments
+	 **/
+	private void handleResizeForSegment(GeoSegment seg, Drawable dr,
+			double bbMinX, double bbMinY, double newMinX, double newMaxX,
+			double newMinY, double newMaxY) {
+		double dStartX = 0, dEndX = 0, dStartY = 0, dEndY = 0;
+		// thresholds not reached
+		if (!startBoundingBoxState.lastThresholdX) {
+			if (seg.getEndPoint().getX() - seg.getStartPoint().getX() > 0) {
+				dStartX = newMinX + bbMinX - dr.getBounds().getMinX();
+				dEndX = newMaxX + bbMinX - dr.getBounds().getMaxX();
+			} else {
+				dEndX = newMinX + bbMinX - dr.getBounds().getMinX();
+				dStartX = newMaxX + bbMinX - dr.getBounds().getMaxX();
+			}
+		}
+		if (!startBoundingBoxState.lastThresholdY) {
+			if (seg.getEndPoint().getY() - seg.getStartPoint().getY() < 0) {
+				dStartY = newMinY + bbMinY - dr.getBounds().getMinY();
+				dEndY = newMaxY + bbMinY - dr.getBounds().getMaxY();
+			} else {
+				dEndY = newMinY + bbMinY - dr.getBounds().getMinY();
+				dStartY = newMaxY + bbMinY - dr.getBounds().getMaxY();
+			}
+		}
+		if (dStartX != 0 || dStartY != 0) {
+			seg.getStartPoint().translate(new Coords(dStartX / view.getXscale(),
+					-dStartY / view.getYscale()));
+		}
+		if (dEndX != 0 || dEndY != 0) {
+			seg.getEndPoint().translate(new Coords(dEndX / view.getXscale(),
+					-dEndY / view.getYscale()));
+		}
 	}
 
 	/**

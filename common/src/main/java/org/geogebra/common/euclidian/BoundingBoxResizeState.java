@@ -19,6 +19,15 @@ public class BoundingBoxResizeState {
 	private int heightThreshold = BoundingBox.SIDE_THRESHOLD;
 
 	/**
+	 * thresholdXReached from last update
+	 */
+	public boolean lastThresholdX = false;
+	/**
+	 * thresholdYReached from last update
+	 */
+	public boolean lastThresholdY = false;
+
+	/**
 	 * @param rect
 	 *            bounding box rectangle
 	 * @param geos
