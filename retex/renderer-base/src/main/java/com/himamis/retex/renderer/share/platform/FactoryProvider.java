@@ -43,6 +43,7 @@
  */
 package com.himamis.retex.renderer.share.platform;
 
+import com.himamis.retex.renderer.share.Configuration;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
@@ -93,6 +94,7 @@ public abstract class FactoryProvider {
 
 	public static void setInstance(FactoryProvider factory) {
 		INSTANCE = factory;
+		Configuration.getFontMapping();
 	}
 
 	public static FactoryProvider getInstance() {
