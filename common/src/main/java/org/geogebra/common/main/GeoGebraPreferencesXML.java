@@ -97,6 +97,7 @@ public class GeoGebraPreferencesXML {
 						: Kernel.ALGEBRA_STYLE_VALUE)
 
 				+ "\"/>"
+				+ "<algebraView><mode val=\"3\"/></algebraView>"
 
 				+ "<coordStyle val=\"0\"/>"
 				+ "<localization digits=\"false\" labels=\"true\"/>"

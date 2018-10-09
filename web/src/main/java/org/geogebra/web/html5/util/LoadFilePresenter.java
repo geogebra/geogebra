@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
@@ -283,8 +282,6 @@ public class LoadFilePresenter {
 		app.getEuclidianViewpanel().deferredOnResize();
 
 		app.appSplashCanNowHide();
-		// TODO this should probably go to default XML
-		app.getSettings().getAlgebra().setTreeMode(SortMode.ORDER);
 
 		app.updateToolBar();
 		app.focusLost(null, null);

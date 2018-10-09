@@ -143,6 +143,9 @@ public class Settings {
 		} else {
 			casSettings = new CASSettings(casSettings.getListeners());
 		}
+		if (!app.getConfig().isCASEnabled()) {
+			casSettings.setEnabled(false);
+		}
 
 		if (probCalcSettings == null) {
 			probCalcSettings = new ProbabilityCalculatorSettings();
