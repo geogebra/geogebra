@@ -1795,9 +1795,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (toStringMode == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}
-		if (getDefinition() != null && (!kernel.getApplication().getSettings()
-				.getCasSettings().isEnabled()
-				|| toStringMode == GeoConicND.EQUATION_USER)) {
+		if (getDefinition() != null
+				&& toStringMode == GeoConicND.EQUATION_USER) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		if (type == CONIC_LINE) {

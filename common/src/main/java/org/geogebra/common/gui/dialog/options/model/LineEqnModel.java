@@ -38,9 +38,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 	}
 
 	public static boolean forceInputForm(App app, GeoElement geo) {
-		return (geo.getParentAlgorithm().getClassName() == Algos.Expression
-				|| geo.isIndependent())
-				|| !app.getSettings().getCasSettings().isEnabled();
+		return (geo.getParentAlgorithm() == null
+				|| geo.getParentAlgorithm().getClassName() == Algos.Expression)
+				&& !app.getSettings().getCasSettings().isEnabled();
 	}
 
 	private GeoLine getLineAt(int index) {

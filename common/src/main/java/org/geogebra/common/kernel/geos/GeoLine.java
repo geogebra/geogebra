@@ -1043,10 +1043,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			}
 			return sb;
 		}
-		if (!kernel.getApplication().getSettings().getCasSettings()
-				.isEnabled()) {
-			toStringMode = GeoLine.EQUATION_USER;
-		}
+
 		double[] P = new double[2];
 		double[] g = new double[3];
 		char op = '=';

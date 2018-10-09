@@ -2795,7 +2795,9 @@ public class AlgebraProcessor {
 			line.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		if (info.isForceUserEquation() && line instanceof EquationValue) {
+		if ((info.isForceUserEquation()
+				|| !app.getSettings().getCasSettings().isEnabled())
+				&& line instanceof EquationValue) {
 			((EquationValue) line).setToUser();
 		}
 		if (info.isLabelOutput()) {
@@ -3158,7 +3160,8 @@ public class AlgebraProcessor {
 				GeoElement[] results = processExpressionNode(en,
 						new EvalInfo(false));
 				GeoElement geo = results[0];
-				if (info.isForceUserEquation()
+				if ((info.isForceUserEquation()
+						|| !app.getSettings().getCasSettings().isEnabled())
 						&& Equation.isAlgebraEquation(geo)) {
 					((EquationValue) geo).setToUser();
 				}

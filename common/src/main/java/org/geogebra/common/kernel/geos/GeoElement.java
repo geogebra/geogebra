@@ -1367,7 +1367,10 @@ public abstract class GeoElement extends ConstructionElement
 		tooltipMode = geo.getTooltipMode();
 
 		// style of equation, coordinates, ...
-		if (getGeoClassType() == geo.getGeoClassType()) {
+		if (getGeoClassType() == geo.getGeoClassType()
+				&& (kernel.getApplication().getSettings() == null
+						|| kernel.getApplication().getSettings()
+								.getCasSettings().isEnabled())) {
 			toStringMode = geo.toStringMode;
 		}
 

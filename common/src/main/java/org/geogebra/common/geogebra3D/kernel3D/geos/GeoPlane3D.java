@@ -483,8 +483,7 @@ public class GeoPlane3D extends GeoElement3D
 
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		if ((toStringMode == GeoLine.EQUATION_USER || !kernel.getApplication()
-				.getSettings().getCasSettings().isEnabled())
+		if (toStringMode == GeoLine.EQUATION_USER
 				&& getDefinition() != null) {
 			return new StringBuilder(getDefinition().toValueString(tpl));
 		}
