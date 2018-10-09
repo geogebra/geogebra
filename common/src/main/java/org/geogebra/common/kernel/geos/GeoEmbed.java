@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
@@ -11,7 +12,8 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Geo for embedded apps
  */
-public class GeoEmbed extends GeoWidget implements GeoFrame, Furniture {
+public class GeoEmbed extends GeoWidget
+		implements GeoFrame, Furniture, Translateable {
 
 	private boolean defined = true;
 	private int embedID;
@@ -284,4 +286,17 @@ public class GeoEmbed extends GeoWidget implements GeoFrame, Furniture {
 		return true;
 	}
 
+	@Override
+	public void translate(Coords v) {
+		for (int i = 0; i < corner.length; i++) {
+			if (corner[i] != null) {
+				corner[i].translate(v);
+			}
+		}
+	}
+
+	@Override
+	public boolean isTranslateable() {
+		return true;
+	}
 }
