@@ -77,7 +77,7 @@ public class EmbedURLChecker {
 					boolean frame = json.getBoolean("frameAllowed");
 					callback.callback(
 							frame ? new URLStatus(null)
-									.withUrl(json.getString("url"))
+									.withUrl(url)
 									: new URLStatus("FrameLoadError"));
 				} catch (JSONException e) {
 					callback.callback(new URLStatus("InavalidInput"));
