@@ -947,9 +947,12 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @return whether settings changed
 	 */
 	public boolean setShowAxes(boolean x, boolean y) {
-		boolean changedX = this.setShowAxis(0, x);
-		return this.setShowAxis(1, y) || changedX;
-		// settingChanged() is called from those above
+		boolean changedX = setShowAxisNoFireSettingChanged(0, x);
+		changedX = setShowAxisNoFireSettingChanged(1, y) || changedX;
+		if (changedX) {
+			settingChanged();
+		}
+		return changedX;
 	}
 
 	/**

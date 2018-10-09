@@ -271,12 +271,12 @@ public class LoadFilePresenter {
 		app.updateHeaderVisible();
 		app.setPreferredSize(
 				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
-		app.loadPreferences(p);
-		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
 		if (app.has(Feature.CENTER_STANDARD_VIEW)) {
-
 			app.ensureStandardView();
 		}
+		app.loadPreferences(p);
+		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
+
 
 		// default layout doesn't have a Graphics View 2
 		app.getEuclidianViewpanel().deferredOnResize();
