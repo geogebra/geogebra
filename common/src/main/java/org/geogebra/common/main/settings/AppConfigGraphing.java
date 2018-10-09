@@ -11,8 +11,11 @@ import org.geogebra.common.main.AppConfig;
  */
 public class AppConfigGraphing implements AppConfig {
 
-	/** Remove this when Feature.MOB_DEFAULT_ROUNDING_13 is removed */
-	final public static boolean FEATURE_DEFAULT_ROUNDING_13 = false;
+	/**
+	 * Remove this when Feature.MOB_DEFAULT_ROUNDING_13 is removed don't make
+	 * final, kills Android build
+	 */
+	public static boolean FEATURE_DEFAULT_ROUNDING_13 = false;
 
 	@Override
 	public void adjust(DockPanelData dp) {
