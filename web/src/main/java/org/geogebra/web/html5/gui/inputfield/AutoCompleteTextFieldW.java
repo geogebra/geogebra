@@ -934,7 +934,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		ArrayList<GeoElement> sel = app.getSelectionManager().getSelectedGeos();
 		GeoElement curr = sel.size() != 0 ? sel.get(0) : null;
-		if (Browser.isTabletBrowser()
+		if (Browser.isTabletBrowser() && !app.isWhiteboardActive()
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != 0
@@ -1057,7 +1057,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private void handleTabletKeyboard(KeyDownEvent e) {
 		if (!(Browser.isTabletBrowser()
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
-				|| usedForInputBox()) {
+				|| usedForInputBox() || app.isWhiteboardActive()) {
 			return;
 		} 
 		int keyCode = e.getNativeKeyCode();
