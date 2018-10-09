@@ -3258,7 +3258,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "math_apps": "GeoGebra Cl\xe1ssico",
     "max": "Max",
     "min": "Min",
-    "mow.myfiles": "My Files",
+    "mow.myfiles": "Meus Ficheiros",
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
