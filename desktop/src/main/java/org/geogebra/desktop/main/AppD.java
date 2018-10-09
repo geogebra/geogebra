@@ -4579,7 +4579,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public CASFactory getCASFactory() {
 		CASFactory ret = CASFactory.getPrototype();
 
-		if (ret == null) {
+		if (!CASFactory.isInitialized()) {
 			ret = new CASFactoryD();
 			CASFactory.setPrototype(ret);
 		}

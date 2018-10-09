@@ -557,7 +557,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			StringUtil.setPrototypeIfNull(new StringUtil());
 		}
 
-		if (CASFactory.getPrototype() == null) {
+		if (!CASFactory.isInitialized()) {
 			CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
 		}
 

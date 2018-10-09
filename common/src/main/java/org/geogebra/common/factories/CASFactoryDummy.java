@@ -11,4 +11,9 @@ public class CASFactoryDummy extends CASFactory {
 		return new CASDummy(p);
 	}
 
+	@Override
+	public boolean isEnabled() {
+		return false;
+	}
+
 }
