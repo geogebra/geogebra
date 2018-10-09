@@ -22,12 +22,12 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		if (!app.getSettings().getCasSettings().isEnabled()) {
+		GeoElement geo = getGeoAt(index);
+		if (LineEqnModel.forceInputForm(app, geo)) {
 			return false;
 		}
-		Object geo = getObjectAt(index);
 		if (!(geo instanceof GeoPlaneND)
-				|| ((GeoElement) geo).getDefinition() == null) {
+				|| geo.getDefinition() == null) {
 			return false;
 		}
 

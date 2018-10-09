@@ -3,6 +3,8 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.main.App;
@@ -23,16 +25,22 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		if (!app.getSettings().getCasSettings().isEnabled()) {
+		boolean valid = true;
+		GeoElement geo = getGeoAt(index);
+		if (forceInputForm(app, geo)) {
 			return false;
 		}
-		boolean valid = true;
-		Object geo = getObjectAt(index);
 		if (!(geo instanceof GeoLine) || geo instanceof GeoSegment) {
 			valid = false;
 		}
 
 		return valid;
+	}
+
+	public static boolean forceInputForm(App app, GeoElement geo) {
+		return (geo.getParentAlgorithm().getClassName() == Algos.Expression
+				|| geo.isIndependent())
+				|| !app.getSettings().getCasSettings().isEnabled();
 	}
 
 	private GeoLine getLineAt(int index) {
@@ -51,7 +59,6 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 		getListener()
 				.setSelectedIndex(equalMode ? eqnValues.indexOf(value0) : -1);
-
 	}
 
 	@Override

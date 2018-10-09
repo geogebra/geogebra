@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -31,7 +32,8 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		if (!app.getSettings().getCasSettings().isEnabled()) {
+		GeoElement geo = getGeoAt(index);
+		if (LineEqnModel.forceInputForm(app, geo)) {
 			return false;
 		}
 		return isValid(getObjectAt(index));
