@@ -22,7 +22,7 @@ public class SuggestionRootExtremum extends Suggestion {
 	}
 
 	@Override
-	public void execute(GeoElementND geo) {
+	public void runCommands(GeoElementND geo) {
 		// reported typecast error
 		// reported NPE
 		if (!(geo instanceof GeoFunction)
@@ -40,13 +40,13 @@ public class SuggestionRootExtremum extends Suggestion {
 		}
 		if (poly == null || poly.getDegree() > 1) {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Extremum[" + geo.getLabelSimple() + "]", true);
+					"Extremum[" + geo.getLabelSimple() + "]", false);
 		}
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Intersect[" + geo.getLabelSimple() + ","
 							+ geo.getKernel().getLocalization().getMenu("yAxis")
 							+ "]",
-					true);
+					false);
 	}
 
 	/**

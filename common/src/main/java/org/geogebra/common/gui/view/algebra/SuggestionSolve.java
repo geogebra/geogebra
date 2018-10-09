@@ -32,10 +32,11 @@ public class SuggestionSolve extends Suggestion {
 		return "{" + StringUtil.join(", ", labels) + "," + geo.getLabelSimple()
 				+ "}";
 	}
+
 	@Override
-	public void execute(GeoElementND geo) {
+	protected void runCommands(GeoElementND geo) {
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				"Solve[" + getLabels(geo) + "]", true);
+				"Solve[" + getLabels(geo) + "]", false);
 	}
 
 	public static Suggestion get(GeoElement geo) {

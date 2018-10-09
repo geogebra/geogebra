@@ -21,7 +21,7 @@ public class SuggestionSlider extends Suggestion {
 	}
 
 	@Override
-	public void execute(GeoElementND geo) {
+	protected void runCommands(GeoElementND geo) {
 		Log.debug("creating slider");
 	}
 

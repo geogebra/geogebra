@@ -32,8 +32,25 @@ abstract public class Suggestion {
 			GeoElement[] input);
 
 	abstract public String getCommand(Localization loc);
-	
-	abstract public void execute(GeoElementND geo);
+
+	/**
+	 * This method runs the necessary commands to execute this suggestion.
+	 * Implement the main logic of suggestions here.
+	 * Calling store undo info is not necessary inside this method.
+	 *
+	 * @param geo geo element to perform the suggestion on
+	 */
+	abstract protected void runCommands(GeoElementND geo);
+
+	/**
+	 * Execute this suggestion.
+	 *
+	 * @param geo the geo element to perform the suggestion on
+	 */
+	public final void execute(GeoElementND geo) {
+		runCommands(geo);
+		geo.getKernel().storeUndoInfo();
+	}
 
 	public boolean isAutoSlider() {
 		return false;
