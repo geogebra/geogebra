@@ -71,9 +71,11 @@ public class SerializeLaTeX {
 	}
 
 	@Test
-	public void testCyclometric() {
+	public void testInverseTrig() {
 		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
-				"cos^(-1)(1)/(2)");
+				"(cos^(-1)(1))/(2)");
+		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
+				"cos^(-1) (1)/(2)");
 	}
 
 	@Test
@@ -189,6 +191,7 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testParseLaTeX() {
+		// Configuration.getFontMapping();
 		checkLaTeX("4+x", "4+x");
 		checkLaTeX("4-x", "4-x");
 		checkLaTeX("\\frac{4}{x}", "(4)/(x)");
@@ -460,6 +463,7 @@ public class SerializeLaTeX {
 			tp.parse();
 			return mf;
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 		return null;

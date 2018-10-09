@@ -134,15 +134,28 @@ public class InputController {
 	 * Insert braces (), [], {}, "".
 	 */
 	public void newBraces(EditorState editorState, char ch) {
-		String casName = ArgumentHelper.readCharacters(editorState);
+		int initialOffset = editorState.getCurrentOffset();
+		MathComponent last = editorState.getCurrentField()
+				.getArgument(initialOffset - 1);
+		MathComponent exponent = last instanceof MathFunction
+				&& ((MathFunction) last).getName() == Tag.SUPERSCRIPT ? last
+						: null;
+		if (exponent != null) {
+			initialOffset--;
+		}
+		String casName = ArgumentHelper.readCharacters(editorState,
+				initialOffset);
 		if (ch == FUNCTION_OPEN_KEY && Tag.lookup(casName) != null) {
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, false);
+			newFunction(editorState, casName);
 
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
 				&& metaModel.isFunction(casName)) {
+			if (exponent != null) {
+				bkspCharacter(editorState);
+			}
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, ch == '[');
+			newFunction(editorState, casName, 0, ch == '[', exponent);
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
@@ -173,9 +186,8 @@ public class InputController {
 	 * @param name
 	 *            function
 	 */
-	public void newFunction(EditorState editorState, String name,
-			boolean square) {
-		newFunction(editorState, name, 0, square);
+	public void newFunction(EditorState editorState, String name) {
+		newFunction(editorState, name, 0, false, null);
 	}
 
 	/**
@@ -185,7 +197,7 @@ public class InputController {
 	 *            function
 	 */
 	public void newFunction(EditorState editorState, String name, int initial,
-			boolean square) {
+			boolean square, MathComponent exponent) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		// add extra braces for sqrt, nthroot and fraction
@@ -230,6 +242,9 @@ public class InputController {
 				nameS.addArgument(new MathCharacter(
 						metaModel.getCharacter(name.charAt(i) + "")));
 			}
+			if (exponent != null) {
+				nameS.addArgument(exponent);
+			}
 			function = new MathFunction(meta);
 			function.setArgument(0, nameS);
 		}
@@ -260,7 +275,7 @@ public class InputController {
 				editorState.setCurrentField((MathSequence) array.getParent());
 				editorState.resetSelection();
 				editorState.setCurrentOffset(array.getParentIndex() + 1);
-				newFunction(editorState, name, initial, square);
+				newFunction(editorState, name, initial, square, null);
 				return;
 			}
 		} else {
@@ -358,7 +373,7 @@ public class InputController {
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
-		newFunction(editorState, script, false);
+		newFunction(editorState, script);
 	}
 
 	/**
@@ -1112,10 +1127,10 @@ public class InputController {
 				newScript(editorState, "_");
 				handled = true;
 			} else if (allowFrac && ch == '/') {
-				newFunction(editorState, "frac", 1, false);
+				newFunction(editorState, "frac", 1, false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
-				newFunction(editorState, "sqrt", 0, false);
+				newFunction(editorState, "sqrt", 0, false, null);
 				handled = true;
 			} else if (meta.isArrayOpenKey(ch)) {
 				newArray(editorState, 1, ch, false);

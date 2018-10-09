@@ -117,9 +117,10 @@ public class ArgumentHelper {
 	 *            current editor state
 	 * @return last string of characters
 	 */
-	public static String readCharacters(EditorState editorState) {
+	public static String readCharacters(EditorState editorState,
+			int initialOffset) {
 		StringBuilder stringBuilder = new StringBuilder();
-		int offset = editorState.getCurrentOffset();
+		int offset = initialOffset;
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.getArgument(offset) instanceof MathCharacter
 				&& ((MathCharacter) currentField.getArgument(offset))
