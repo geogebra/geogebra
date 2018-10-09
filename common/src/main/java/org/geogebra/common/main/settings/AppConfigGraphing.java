@@ -12,7 +12,7 @@ import org.geogebra.common.main.AppConfig;
 public class AppConfigGraphing implements AppConfig {
 
 	/** Remove this when Feature.MOB_DEFAULT_ROUNDING_13 is removed */
-	public static boolean FEATURE_DEFAULT_ROUNDING_13 = false;
+	final public static boolean FEATURE_DEFAULT_ROUNDING_13 = false;
 
 	@Override
 	public void adjust(DockPanelData dp) {
