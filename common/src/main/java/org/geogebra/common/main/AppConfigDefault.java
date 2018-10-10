@@ -109,4 +109,9 @@ public class AppConfigDefault implements AppConfig {
 	public boolean isCASEnabled() {
 		return true;
 	}
+
+	@Override
+	public String getPreferencesKey() {
+		return "";
+	}
 }

@@ -59,4 +59,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public boolean isCASEnabled() {
 		return true;
 	}
+
+	@Override
+	public String getPreferencesKey() {
+		return "_3d";
+	}
 }

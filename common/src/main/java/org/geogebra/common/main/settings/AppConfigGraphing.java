@@ -121,4 +121,9 @@ public class AppConfigGraphing implements AppConfig {
 	public boolean isCASEnabled() {
 		return false;
 	}
+
+	@Override
+	public String getPreferencesKey() {
+		return "_graphing";
+	}
 }

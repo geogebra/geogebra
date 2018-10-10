@@ -62,6 +62,7 @@ import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.AppConfigMixedReality;
+import org.geogebra.common.main.settings.AppConfigNotes;
 import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.media.VideoManager;
@@ -2240,10 +2241,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGuiManager() != null) {
 			getGuiManager().setLabels();
 		}
-		// if (rbplain != null) {
 		kernel.updateLocalAxesNames();
 		kernel.setViewsLabels();
-		// }
 		updateCommandDictionary();
 		String key = getConfig().getAppTitle();
 		getArticleElement().getElement().setAttribute("aria-label",
@@ -3779,6 +3778,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			return new AppConfigCas();
 		case "scientific":
 			return new AppConfigScientific();
+		case "notes":
+			return new AppConfigNotes();
 		}
 		return new AppConfigDefault();
 	}

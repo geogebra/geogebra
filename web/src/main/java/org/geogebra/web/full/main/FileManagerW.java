@@ -221,7 +221,8 @@ public class FileManagerW extends FileManager {
 				final Material mat = createMaterial(s,
 				        System.currentTimeMillis() / 1000);
 				try {
-					stockStore.setItem(AUTO_SAVE_KEY, mat.toJson().toString());
+					stockStore.setItem(getAutosaveKey(),
+							mat.toJson().toString());
 				} catch (Exception e) {
 					Log.warn("Autosave failed");
 				}
@@ -229,6 +230,13 @@ public class FileManagerW extends FileManager {
 		};
 
 		getApp().getGgbApi().getBase64(true, base64saver);
+	}
+
+	/**
+	 * @return local storage key for preferences
+	 */
+	protected String getAutosaveKey() {
+		return AUTO_SAVE_KEY + app.getConfig().getPreferencesKey();
 	}
 
 	@Override
@@ -249,7 +257,7 @@ public class FileManagerW extends FileManager {
 						return null;
 					}
 				}
-				return stockStore.getItem(AUTO_SAVE_KEY);
+				return stockStore.getItem(getAutosaveKey());
 			}
 		}
 		return null;
@@ -276,7 +284,7 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null) {
 			return;
 		}
-		this.stockStore.removeItem(AUTO_SAVE_KEY);
+		this.stockStore.removeItem(getAutosaveKey());
 	}
 
 	@Override

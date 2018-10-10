@@ -30,4 +30,9 @@ public class AppConfigCas extends AppConfigGraphing {
 		return true;
 	}
 
+	@Override
+	public String getPreferencesKey() {
+		return "_cas";
+	}
+
 }

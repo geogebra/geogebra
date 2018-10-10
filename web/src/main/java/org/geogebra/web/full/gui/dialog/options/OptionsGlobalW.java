@@ -347,7 +347,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * Reset defaults
 		 */
 		protected void resetDefault() {
-			GeoGebraPreferencesW.getPref().clearPreferences();
+			GeoGebraPreferencesW.getPref().clearPreferences(app);
 
 			// reset defaults for GUI, views etc
 			// this has to be called before load XML preferences,

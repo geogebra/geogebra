@@ -116,4 +116,9 @@ public class AppConfigGeometry implements AppConfig {
 	public boolean isCASEnabled() {
 		return false;
 	}
+
+	@Override
+	public String getPreferencesKey() {
+		return "_geometry";
+	}
 }

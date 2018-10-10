@@ -50,4 +50,6 @@ public interface AppConfig {
 	boolean isGreekAngleLabels();
 
 	boolean isCASEnabled();
+
+	String getPreferencesKey();
 }

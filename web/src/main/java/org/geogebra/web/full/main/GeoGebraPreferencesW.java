@@ -28,14 +28,19 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	/**
 	 * Remove all preferences from storage
 	 */
-	public void clearPreferences() {
+	public void clearPreferences(App app) {
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
 		if (stockStore != null) {
-			stockStore.removeItem(XML_USER_PREFERENCES);
-			stockStore.removeItem(XML_DEFAULT_OBJECT_PREFERENCES);
+			stockStore.removeItem(getPrefKey(app));
+			stockStore.removeItem(getDefaultsKey(app));
 		}
 
+	}
+
+	private static String getPrefKey(App app) {
+		return GeoGebraPreferences.XML_USER_PREFERENCES
+				+ app.getConfig().getPreferencesKey();
 	}
 
 	/**
@@ -60,12 +65,12 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
 		if (stockStore != null) {
-			stockStore.setItem(XML_USER_PREFERENCES, xml);
+			stockStore.setItem(getPrefKey(app), xml);
 			StringBuilder sb = new StringBuilder();
 			app.getKernel().getConstruction().getConstructionDefaults()
 					.getDefaultsXML(sb);
 			String objectPrefsXML = sb.toString();
-			stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
+			stockStore.setItem(getDefaultsKey(app), objectPrefsXML);
 		}
 	}
 
@@ -83,7 +88,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		stockStore = Storage.getLocalStorageIfSupported();
 		// if (stockStore != null) {
 		String xml = stockStore == null ? null
-				: stockStore.getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
+				: stockStore.getItem(getPrefKey(app));
 		if (xml != null) {
 			app.setXML(xml, false);
 		} else {
@@ -113,7 +118,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 			return;
 		}
 		String xmlDef = stockStore
-				.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
+				.getItem(getDefaultsKey(app));
 		boolean eda = app.getKernel().getElementDefaultAllowed();
 		app.getKernel().setElementDefaultAllowed(true);
 		if (xmlDef != null) {
@@ -121,5 +126,10 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		}
 		app.getKernel().setElementDefaultAllowed(eda);
 
+	}
+
+	private static String getDefaultsKey(App app) {
+		return GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES
+				+ app.getConfig().getPreferencesKey();
 	}
 }
