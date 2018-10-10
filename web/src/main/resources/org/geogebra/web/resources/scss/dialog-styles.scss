@@ -1223,3 +1223,20 @@ $duration: 0.2s;
 			border-bottom: 1px solid $mebis-teal-dark;
 		}
 	}
+
+	.shareDialogMow {
+		.selGrLbl {
+			font-size: 100% !important;
+			margin-top: 0px !important;
+			margin-bottom: 8px;
+		}
+		
+		.DialogButtonPanel {
+				.button {
+	   				color: $mebis-teal-dark !important;	
+	   				&:hover {
+	   					color: $mebis-teal-dark !important;
+	   				}
+	   			}
+			}
+	}

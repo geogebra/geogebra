@@ -267,6 +267,9 @@ public enum Feature {
 	/** MOW-150 */
 	MOW_ROTATION_HANDLER,
 
+	/** MOW-626 */
+	MOW_JOINT_SHARE_DIALOG,
+
 	/** AND-1304 */
 	MOB_LIST_TOOL,
 
