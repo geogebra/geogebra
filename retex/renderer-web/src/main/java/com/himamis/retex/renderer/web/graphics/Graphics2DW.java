@@ -138,19 +138,19 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	public native void setStrokeDash(JLMContext2d ctx,
 			JsArrayNumber dasharray) /*-{
-										if (dasharray === undefined || dasharray === null) {
-										dasharray = [];
-										}
-										
-										if (typeof ctx.setLineDash === 'function') {
-										ctx.setLineDash(dasharray);
-										} else if (typeof ctx.mozDash !== 'undefined') {
-										ctx.mozDash = dasharray;
-										} else if (typeof ctx.webkitLineDash !== 'undefined') {
-										ctx.webkitLineDash = dasharray;
-										}
-										
-										}-*/;
+		if (dasharray === undefined || dasharray === null) {
+			dasharray = [];
+		}
+
+		if (typeof ctx.setLineDash === 'function') {
+			ctx.setLineDash(dasharray);
+		} else if (typeof ctx.mozDash !== 'undefined') {
+			ctx.mozDash = dasharray;
+		} else if (typeof ctx.webkitLineDash !== 'undefined') {
+			ctx.webkitLineDash = dasharray;
+		}
+
+	}-*/;
 
 	@Override
 	public Stroke getStroke() {
