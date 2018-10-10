@@ -132,6 +132,6 @@ public class MathFunction extends MathContainer {
 
 	@Override
 	protected String getSimpleName() {
-		return "Fn" + meta.getTexName();
+		return "Fn" + meta.getName();
 	}
 }

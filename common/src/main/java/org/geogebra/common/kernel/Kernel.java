@@ -4667,7 +4667,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	final public MyDouble convertIndexToNumber(String str) {
 		int i = 0;
 		while ((i < str.length())
-				&& !StringUtil.isSuperscriptDigit(str.charAt(i))) {
+				&& !Unicode.isSuperscriptDigit(str.charAt(i))) {
 			i++;
 		}
 

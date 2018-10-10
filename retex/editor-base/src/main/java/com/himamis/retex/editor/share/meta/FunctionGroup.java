@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.share.meta;
 
 import com.himamis.retex.editor.share.input.Character;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Group of custom functions not described in the .xml file.
@@ -37,13 +38,19 @@ public class FunctionGroup implements MetaGroup {
 	public static boolean isAcceptable(String functionName) {
         // Accept only functions that consist of no special characters
 		String stem = functionName;
-		while (stem.endsWith("'")) {
+		while (stem.length() > 0
+				&& primeOrPower(stem.charAt(stem.length() - 1))) {
 			stem = stem.substring(0, stem.length() - 1);
 		}
 		return !"".equals(stem)
 				&& Character.areLettersOrDigits(stem)
 				&& containsLetter(stem);
     }
+
+	private static boolean primeOrPower(char c) {
+		return c == '\'' || c == Unicode.SUPERSCRIPT_MINUS
+				|| Unicode.isSuperscriptDigit(c);
+	}
 
 	private static boolean containsLetter(String functionName) {
 		for (int i = 0; i < functionName.length(); i++) {

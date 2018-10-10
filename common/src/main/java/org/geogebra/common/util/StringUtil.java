@@ -1705,17 +1705,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
-	 * @param c
-	 *            character
-	 * @return whether char is superscript digit
-	 */
-	final public static boolean isSuperscriptDigit(final char c) {
-		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
-				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
-				|| (c == Unicode.SUPERSCRIPT_3);
-	}
-
-	/**
 	 * @param symbolsStartValue
 	 *            first symbol
 	 * @param symbolsNumber

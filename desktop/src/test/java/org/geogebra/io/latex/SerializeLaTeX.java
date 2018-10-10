@@ -14,6 +14,7 @@ import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -76,6 +77,15 @@ public class SerializeLaTeX {
 				"(cos^(-1)(1))/(2)");
 		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
 				"cos^(-1) (1)/(2)");
+	}
+
+	@Test
+	public void testInverseTrigEditor() {
+		testEditor("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
+				"MathSequence[FnAPPLY[MathSequence[c, o, s, "
+						+ Unicode.SUPERSCRIPT_MINUS + ", "
+						+ Unicode.SUPERSCRIPT_1 + "], MathSequence[1]], /, 2]",
+				true);
 	}
 
 	@Test
@@ -409,15 +419,19 @@ public class SerializeLaTeX {
 	}
 
 	private static void testEditor(String input, String output) {
+		testEditor(input, output, false);
+	}
+
+	private static void testEditor(String input, String output, boolean raw) {
 		final MathFieldD mathField = new MathFieldD();
 
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		EditorState editorState = mathFieldInternal.getEditorState();
 
 		mathField.insertString(input);
-
-		Assert.assertEquals(output,
-				GeoGebraSerializer.serialize(editorState.getRootComponent()));
+		MathSequence rootComponent = editorState.getRootComponent();
+		Assert.assertEquals(output, raw ? rootComponent + ""
+				: GeoGebraSerializer.serialize(rootComponent));
 	}
 
 	private static void checkLaTeX(String string, String string2) {

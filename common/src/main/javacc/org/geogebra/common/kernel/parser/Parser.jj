@@ -1817,7 +1817,7 @@ ExpressionNode numberFunction():
       ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]")
            {
              int pos = c.image.length()-2;
-             while(pos >=0 && (StringUtil.isSuperscriptDigit(c.image.charAt(pos))||
+             while(pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))||
              Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))){
                pos--;
              }

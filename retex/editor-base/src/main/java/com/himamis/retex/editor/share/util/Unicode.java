@@ -219,4 +219,15 @@ public class Unicode {
 			+ CURRENCY_INDIAN_RUPEE + "" + CURRENCY_POUND + "" + CURRENCY_RUPEE
 			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON
 			+ "" + CURRENCY_YEN + "";
+
+	/**
+	 * @param c
+	 *            character
+	 * @return whether char is superscript digit
+	 */
+	final public static boolean isSuperscriptDigit(final char c) {
+		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
+				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
+				|| (c == Unicode.SUPERSCRIPT_3);
+	}
 }
