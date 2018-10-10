@@ -705,10 +705,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private GBufferedImage makeImage() {
-		return new GBufferedImageW(g2p.getOffsetWidth(),
-				g2p.getOffsetHeight(),
-				appW == null ? 1 : appW
-						.getPixelRatio(),
+		return new GBufferedImageW(g2p.getOffsetWidth(), g2p.getOffsetHeight(),
+				appW == null || appW.getPixelRatio() == 0 ? 1
+						: appW.getPixelRatio(),
 				false);
 	}
 
