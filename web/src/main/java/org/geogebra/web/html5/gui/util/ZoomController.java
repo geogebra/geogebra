@@ -266,14 +266,10 @@ public class ZoomController {
 				}
 				containerProps.clear();
 				containerProps.put("position", containerPositionBefore);
-				containerProps.put("marginLeft", container.getStyle().getMarginLeft());
-				containerProps.put("marginRight", container.getStyle().getMarginRight());
 				setContainerProp(container, "width", "100%");
 				setContainerProp(container, "height", "100%");
 				setContainerProp(container, "maxWidth", "100%");
 				setContainerProp(container, "maxHeight", "100%");
-				setContainerProp(container, "marginLeft", "0");
-				setContainerProp(container, "marginTop", "0");
 				setOldSize(app.getPreferredSize());
 				scaler.addClassName("fullscreen");
 				setCssScale(ae.getParentScaleX());
