@@ -3744,4 +3744,13 @@ public class GeoCasCell extends GeoElement
 		preferredRowNumber = -1;
 	}
 
+	public void setNeedsUpdatedBoundingBox(boolean b) {
+		//
+
+	}
+
+	public void calculateCornerPoint(GeoPoint corner, int double1) {
+		corner.setUndefined();
+	}
+
 }

@@ -297,6 +297,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
+		updateHitRect();
 		return hitRect.intersects(rect);
 	}
 
@@ -326,6 +327,17 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	public GRectangle getHitRect() {
 		return labelRectangle;
+	}
+
+	@Override
+	public GRectangle getBounds() {
+		updateHitRect();
+		return hitRect;
+	}
+
+	private void updateHitRect() {
+		hitRect.setBounds(geo.labelOffsetX, boxTop,
+				boxWidth + boxLeft - geo.labelOffsetX, boxHeight);
 	}
 
 }

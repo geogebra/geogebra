@@ -3360,4 +3360,13 @@ public class GeoList extends GeoElement
 	public GeoElement[] elementsAsArray() {
 		return elements.toArray(new GeoElement[size()]);
 	}
+
+	public void setNeedsUpdatedBoundingBox(boolean b) {
+		//
+
+	}
+
+	public void calculateCornerPoint(GeoPoint corner, int double1) {
+		corner.setUndefined();
+	}
 }

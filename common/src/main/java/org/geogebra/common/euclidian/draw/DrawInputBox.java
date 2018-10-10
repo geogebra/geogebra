@@ -268,8 +268,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		getBox().revalidate();
 
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
+		// xLabel = geo.labelOffsetX;
+		// yLabel = geo.labelOffsetY;
 		xLabel = getGeoInputBox().getScreenLocX(view);
 		yLabel = getGeoInputBox().getScreenLocY(view);
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredWidth(), getPreferredHeight());
@@ -597,4 +597,5 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	GeoInputBox getGeoInputBox() {
 		return geoInputBox;
 	}
+
 }

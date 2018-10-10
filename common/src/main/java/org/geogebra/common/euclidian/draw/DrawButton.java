@@ -130,4 +130,10 @@ public final class DrawButton extends Drawable {
 	public BoundingBox getBoundingBox() {
 		return null;
 	}
+
+	@Override
+	public GRectangle getBounds() {
+		return myButton.getBounds();
+	}
+
 }

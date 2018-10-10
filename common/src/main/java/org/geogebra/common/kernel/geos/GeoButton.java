@@ -333,4 +333,10 @@ public class GeoButton extends GeoWidget
 		sb.append(".");
 		return sb.toString();
 	}
+
+	public void setNeedsUpdatedBoundingBox(boolean b) {
+		//
+	}
+
+
 }

@@ -94,4 +94,8 @@ public interface TextProperties extends GeoElementND {
 	 */
 	public boolean isLaTeXTextCommand();
 
+	public void setNeedsUpdatedBoundingBox(boolean b);
+
+	public void calculateCornerPoint(GeoPoint corner, int double1);
+
 }
