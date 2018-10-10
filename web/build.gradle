@@ -209,10 +209,11 @@ task copyHtml {
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
 		appSpecs.each({app-> if(app.id != "classic") {
-			println app.id
-            file("war/${app.id}-template.html").text = appHtml(app.id, false)
+			// TODO notes features should go to stable, then we simplify this
+			file("war/${app.id}-template.html").text = appHtml(app.id, "notes".equals(app.id))
 			file("war/${app.id}-template-beta.html").text = appHtml(app.id, true)
-			file("war/${app.id}-offline.html").text = english(appHtml(app.id, false, true, app.vendor ?: "GeoGebra"), app.title)
+			// TODO notes features should go to stable, then we simplify this
+			file("war/${app.id}-offline.html").text = english(appHtml(app.id, "notes".equals(app.id), true, app.vendor ?: "GeoGebra"), app.title)
 			file("war/${app.id}.html").text = english(appHtml(app.id, true), app.title)
 			file("war/${app.id}-canary.html").text = english(appHtml(app.id, "\"canary\""), app.title)
 		}});
