@@ -2572,7 +2572,7 @@ namespace giac {
 	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
 	if (is_undef(g2))
 	  return g2;
-	if (is_zero(ratnormal(g1-g2,contextptr)))
+	if (g1==g2 || is_zero(ratnormal(g1-g2,contextptr)))
 	  return g1;
 	return gensizeerr("Unidirectional limits are distinct "+g2.print(contextptr)+","+g1.print(contextptr));
       }
