@@ -3289,6 +3289,7 @@ __GGB__keysVar["ms"].menu = {
     "resetConstruction": "Set Semula pembinaan",
     "search_geogebra_materials": "Cari Bahan-bahan GeoGebra",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Masukkan satu mesej pendek peribadi",
     "share_recipient": "Recipient",

@@ -3289,6 +3289,7 @@ __GGB__keysVar["de-AT"].menu = {
     "resetConstruction": "Konstruktion zur\xfccksetzen",
     "search_geogebra_materials": "GeoGebra Materialien suchen",
     "shareByLink": "Teilen mit Link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Nachricht",
     "share_message_text": "Erstellen Sie eine kurze pers\xf6nliche Nachricht",
     "share_recipient": "Empf\xe4nger/in",

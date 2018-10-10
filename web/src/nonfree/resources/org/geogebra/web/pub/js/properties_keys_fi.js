@@ -3289,6 +3289,7 @@ __GGB__keysVar["fi"].menu = {
     "resetConstruction": "Aloita piirros alusta",
     "search_geogebra_materials": "Hae GeoGebra Materiaaleista",
     "shareByLink": "Jaa linkill\xe4",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Kirjoita lyhyt viesti sinulta itselt\xe4si",
     "share_recipient": "Recipient",

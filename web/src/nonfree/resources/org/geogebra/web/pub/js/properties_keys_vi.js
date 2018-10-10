@@ -3289,6 +3289,7 @@ __GGB__keysVar["vi"].menu = {
     "resetConstruction": "x\xe1c l\u1eadp l\u1ea1i c\xe1ch d\u1ef1ng h\xecnh",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Nh\u1eadp tin nh\u1eafn c\xe1 nh\xe2n ng\u1eafn",
     "share_recipient": "Recipient",

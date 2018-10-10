@@ -3289,6 +3289,7 @@ __GGB__keysVar["tr"].menu = {
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",
     "search_geogebra_materials": "GeoGebra Kaynaklar\u0131n\u0131 Tara",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "K\u0131sa bir ki\u015fisel mesaj girin",
     "share_recipient": "Recipient",

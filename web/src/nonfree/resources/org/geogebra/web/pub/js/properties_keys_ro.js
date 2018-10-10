@@ -3289,6 +3289,7 @@ __GGB__keysVar["ro"].menu = {
     "resetConstruction": "Reseteaz\u0103 construc\u021bie",
     "search_geogebra_materials": "Caut\u0103 \xeen materiale GeoGebra",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Introduce\u0163i un scurt mesaj personal",
     "share_recipient": "Recipient",

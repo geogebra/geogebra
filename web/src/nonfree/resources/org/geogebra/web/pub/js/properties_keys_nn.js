@@ -3289,6 +3289,7 @@ __GGB__keysVar["nn"].menu = {
     "resetConstruction": "Tilbakestill figuren",
     "search_geogebra_materials": "S\xf8k ettet GeoGebra-materiell",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Skriv ei kort personleg melding",
     "share_recipient": "Recipient",

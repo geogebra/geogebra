@@ -3289,6 +3289,7 @@ __GGB__keysVar["sq"].menu = {
     "resetConstruction": "Rivendos Ndertimin",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Fut nje mesazh personal te shkurter",
     "share_recipient": "Recipient",

@@ -3289,6 +3289,7 @@ __GGB__keysVar["eu"].menu = {
     "resetConstruction": "Hasi eraikuntza berriro",
     "search_geogebra_materials": "GeoGebra-baliabideak  bilatu",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Idatzi mezu pertsonal laburra",
     "share_recipient": "Recipient",

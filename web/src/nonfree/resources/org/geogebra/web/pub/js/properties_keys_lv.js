@@ -3289,6 +3289,7 @@ __GGB__keysVar["lv"].menu = {
     "resetConstruction": "p\u0101rl\u0101d\u0113t konstrukcijas",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Ievadi \u0161iu person\u012bgo zi\u0146u",
     "share_recipient": "Recipient",

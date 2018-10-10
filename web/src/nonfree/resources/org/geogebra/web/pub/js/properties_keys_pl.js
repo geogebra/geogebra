@@ -3289,6 +3289,7 @@ __GGB__keysVar["pl"].menu = {
     "resetConstruction": "Reset konstrukcji",
     "search_geogebra_materials": "Szukaj materia\u0142\xf3w GeoGebra",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Wpisz kr\xf3tk\u0105 wiadomo\u015b\u0107",
     "share_recipient": "Recipient",

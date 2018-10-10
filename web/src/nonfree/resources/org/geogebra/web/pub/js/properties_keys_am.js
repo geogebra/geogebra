@@ -3289,6 +3289,7 @@ __GGB__keysVar["am"].menu = {
     "resetConstruction": "Reset construction",
     "search_geogebra_materials": "GeoGebra \u121b\u1274\u122a\u12eb\u120e\u127d \u1348\u120d\u130d",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",

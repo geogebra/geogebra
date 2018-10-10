@@ -3289,6 +3289,7 @@ __GGB__keysVar["lt"].menu = {
     "resetConstruction": "Atstatyti konstrukcij\u0105",
     "search_geogebra_materials": "GeoGebra pateik\u010di\u0173 paie\u0161ka",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "\u012eveskite trump\u0105 \u017einut\u0119",
     "share_recipient": "Recipient",

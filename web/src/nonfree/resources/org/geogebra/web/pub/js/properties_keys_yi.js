@@ -3289,6 +3289,7 @@ __GGB__keysVar["yi"].menu = {
     "resetConstruction": "\u05d0\u05b8\u05e0\u05d4\u05d9\u05d9\u05d1\u05df \u05e4\u05bf\u05d5\u05df \u05d3\u05d0\u05b8\u05e1 \u05e0\u05f2\u05b7",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",

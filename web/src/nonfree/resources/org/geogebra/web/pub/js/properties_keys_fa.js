@@ -3289,6 +3289,7 @@ __GGB__keysVar["fa"].menu = {
     "resetConstruction": "\u062a\u0627\u0632\u0647 \u0646\u0645\u0648\u062f\u0646 \u062a\u0631\u0633\u06cc\u0645",
     "search_geogebra_materials": "\u062c\u0633\u062a\u062c\u0648\u06cc \u0645\u062d\u0646\u0648\u0627\u06cc \u062c\u0626\u0648\u062c\u0628\u0631\u0627",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "\u067e\u06cc\u0627\u0645 \u062e\u0635\u0648\u0635\u06cc \u062e\u0648\u062f \u0631\u0627 \u0648\u0627\u0631\u062f \u0646\u0645\u0627\u0626\u06cc\u062f",
     "share_recipient": "Recipient",

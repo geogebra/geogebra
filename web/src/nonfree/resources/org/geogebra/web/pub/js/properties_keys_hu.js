@@ -3289,6 +3289,7 @@ __GGB__keysVar["hu"].menu = {
     "resetConstruction": "Szerkeszt\xe9s t\xf6rl\xe9se",
     "search_geogebra_materials": "GeoGebra anyagok keres\xe9se",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "\xcdrjon be egy r\xf6vid szem\xe9lyes \xfczenetet",
     "share_recipient": "Recipient",

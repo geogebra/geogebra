@@ -3289,6 +3289,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "resetConstruction": "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0628\u0646\u0627\u0621 \u0645\u0646 \u062c\u062f\u064a\u062f",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "\u0623\u062f\u062e\u0644 \u0631\u0633\u0627\u0644\u0629 \u0634\u062e\u0635\u064a\u0629 \u0642\u0635\u064a\u0631\u0629",
     "share_recipient": "Recipient",

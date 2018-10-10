@@ -3289,6 +3289,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "resetConstruction": "Reiniciar a constru\xe7\xe3o",
     "search_geogebra_materials": "Pesquisar nos materiais do GeoGebra",
     "shareByLink": "Partilhar por link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Escreva uma breve mensagem pessoal",
     "share_recipient": "Recipient",

@@ -3289,6 +3289,7 @@ __GGB__keysVar["sk"].menu = {
     "resetConstruction": "resetova\u0165 kon\u0161trukciu",
     "search_geogebra_materials": "Vyh\u013ead\xe1vanie medzi materi\xe1lmi",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Zadajte kr\xe1tku s\xfakromn\xfa spr\xe1vu",
     "share_recipient": "Recipient",

@@ -3289,6 +3289,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "resetConstruction": "Reinicia la construcci\xf3",
     "search_geogebra_materials": "Recerca de materials de GeoGebra",
     "shareByLink": "Comparteix amb un enlla\xe7",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Introdu\xefu un breu missatge personal",
     "share_recipient": "Recipient",

@@ -3289,6 +3289,7 @@ __GGB__keysVar["ta"].menu = {
     "resetConstruction": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc8 \u0bae\u0bc0\u0bb3 \u0b85\u0bae\u0bc8\u0b95\u0bcd\u0b95",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",

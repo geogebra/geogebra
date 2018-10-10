@@ -3289,6 +3289,7 @@ __GGB__keysVar["fil"].menu = {
     "resetConstruction": "Ulitin ang gawain",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Magpasok ng isang maikling personal na mensahe",
     "share_recipient": "Recipient",

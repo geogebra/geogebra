@@ -3289,6 +3289,7 @@ __GGB__keysVar["xh"].menu = {
     "resetConstruction": "Phinda ulungise uLwakhiwo",
     "search_geogebra_materials": "Khangela kwiziXhobo zeJiyoJebra",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Faka umyalezo wakho omfutshane",
     "share_recipient": "Recipient",

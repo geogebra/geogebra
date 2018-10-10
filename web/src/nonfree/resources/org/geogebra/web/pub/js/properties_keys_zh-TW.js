@@ -3289,6 +3289,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "resetConstruction": "\u91cd\u65b0\u958b\u59cb",
     "search_geogebra_materials": "\u641c\u5c0b\u5716\u6a94",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "\u8f38\u5165\u7c21\u77ed\u7684\u500b\u4eba\u8a0a\u606f",
     "share_recipient": "Recipient",

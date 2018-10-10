@@ -3289,6 +3289,7 @@ __GGB__keysVar["cs"].menu = {
     "resetConstruction": "znovunastaven\xed konstrukce",
     "search_geogebra_materials": "Hledat GeoGebra materi\xe1ly",
     "shareByLink": "Sd\xedlet odkaz",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Vlo\u017ete kr\xe1tk\xfd osobn\xed vzkaz",
     "share_recipient": "Recipient",

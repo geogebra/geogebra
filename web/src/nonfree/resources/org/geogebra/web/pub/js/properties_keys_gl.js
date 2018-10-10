@@ -3289,6 +3289,7 @@ __GGB__keysVar["gl"].menu = {
     "resetConstruction": "Reinicializar construci\xf3n",
     "search_geogebra_materials": "B\xfasqueda de Materiais GeoGebra",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Escriba unha curta mensaxe persoal",
     "share_recipient": "Recipient",

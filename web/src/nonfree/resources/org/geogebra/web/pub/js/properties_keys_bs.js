@@ -3289,6 +3289,7 @@ __GGB__keysVar["bs"].menu = {
     "resetConstruction": "Resetuj konstrukciju",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra Materijale",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Unesite kratku privatnu poruku",
     "share_recipient": "Recipient",

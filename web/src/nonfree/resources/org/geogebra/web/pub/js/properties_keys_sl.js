@@ -3289,6 +3289,7 @@ __GGB__keysVar["sl"].menu = {
     "resetConstruction": "Ponovno za\u010dni konstrukcijo",
     "search_geogebra_materials": "I\u0161\u010di GeoGebra primere",
     "shareByLink": "Deljeno s povezavo",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Vpi\u0161i kratko osebno sporo\u010dilo",
     "share_recipient": "Recipient",

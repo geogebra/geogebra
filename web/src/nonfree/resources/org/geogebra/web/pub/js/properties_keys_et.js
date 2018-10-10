@@ -3289,6 +3289,7 @@ __GGB__keysVar["et"].menu = {
     "resetConstruction": "Taasalusta konstruktsiooni",
     "search_geogebra_materials": "Otsi GeoGebra materjale",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Sisestage l\xfchike personaalne s\xf5num",
     "share_recipient": "Recipient",

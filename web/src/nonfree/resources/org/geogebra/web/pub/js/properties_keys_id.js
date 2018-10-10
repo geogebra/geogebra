@@ -3289,6 +3289,7 @@ __GGB__keysVar["id"].menu = {
     "resetConstruction": "Kembali ke kontruksi awal",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
+    "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
     "share_message_text": "Masukan pesan personal singkat",
     "share_recipient": "Recipient",
