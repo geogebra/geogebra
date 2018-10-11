@@ -35,6 +35,7 @@ public class ControllerTest {
 
 	@Before
 	public void clear() {
+		app.getSettings().getCasSettings().setEnabled(true);
 		events.clear();
 		reset();
 	}
@@ -138,6 +139,17 @@ public class ControllerTest {
 		t("b:y=-1");
 		click(50, 50);
 		checkContent("a: x = 1", "b: y = -1", "A = (1, -1)");
+	}
+
+	@Test
+	public void intersectToolAbs() {
+		app.setMode(EuclidianConstants.MODE_INTERSECT);
+		app.getSettings().getCasSettings().setEnabled(false);
+		t("f:abs(x-2)-2");
+		t("g:1-2x");
+		click(100, 100);
+		click(150, 250);
+		checkContent("f(x) = abs(x - 2) - 2", "g(x) = 1 - 2x", "A = (1, -1)");
 	}
 
 	@Test
