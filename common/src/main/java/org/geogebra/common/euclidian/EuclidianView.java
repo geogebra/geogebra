@@ -6611,4 +6611,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			ScreenReader.readEVPlay(app);
 		}
 	}
+
+    public boolean isAREnabled() {
+        return false;
+    }
 }
