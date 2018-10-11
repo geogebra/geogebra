@@ -214,6 +214,8 @@ public class ZoomController {
 			for (Entry<String, String> e : containerProps.entrySet()) {
 				if (!StringUtil.empty(e.getValue())) {
 					container.getStyle().setProperty(e.getKey(), e.getValue());
+				} else {
+					container.getStyle().clearProperty(e.getKey());
 				}
 			}
 		}
@@ -270,6 +272,8 @@ public class ZoomController {
 				setContainerProp(container, "height", "100%");
 				setContainerProp(container, "maxWidth", "100%");
 				setContainerProp(container, "maxHeight", "100%");
+				setContainerProp(container, "marginLeft", "0");
+				setContainerProp(container, "marginTop", "0");
 				setOldSize(app.getPreferredSize());
 				scaler.addClassName("fullscreen");
 				setCssScale(ae.getParentScaleX());
