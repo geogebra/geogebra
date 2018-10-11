@@ -1,14 +1,18 @@
 package org.geogebra.web.shared;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -20,11 +24,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShareDialogMow2 extends DialogBoxW
 		implements FastClickHandler, SetLabels, SaveListener {
 	private AppW appW;
-
 	private FlowPanel dialogContent;
 	private Label selGroupLbl;
 	private FlowPanel groupPanel;
 	private ScrollPanel scrollPanel;
+	private FlowPanel noGroupPanel;
+	private Label noGroupsLbl;
+	private Label noGroupsHelpLbl;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -42,16 +48,40 @@ public class ShareDialogMow2 extends DialogBoxW
 	private void buildGui() {
 		addStyleName("shareDialogMow");
 		dialogContent = new FlowPanel();
-		selGroupLbl = new Label();
-		selGroupLbl.addStyleName("selGrLbl");
-		dialogContent.add(selGroupLbl);
-		buildGroupPanel();
+		ArrayList<String> groupNames = app.getLoginOperation().getModel()
+				.getUserGroups();
+		if (groupNames.isEmpty()) {
+			buildNoGroupPanel();
+		} else {
+			buildGroupPanel();
+		}
 		buildButtonPanel();
 		add(dialogContent);
 		setLabels();
 	}
 
+	private void buildNoGroupPanel() {
+		noGroupPanel = new FlowPanel();
+		noGroupPanel.addStyleName("noGroupPanel");
+		SimplePanel groupImgHolder = new SimplePanel();
+		groupImgHolder.addStyleName("groupImgHolder");
+		NoDragImage groupImg = new NoDragImage(
+				SharedResources.INSTANCE.groups(), 48);
+		groupImgHolder.add(groupImg);
+		noGroupPanel.add(groupImgHolder);
+		noGroupsLbl = new Label();
+		noGroupsLbl.addStyleName("noGroupsLbl");
+		noGroupsHelpLbl = new Label();
+		noGroupsHelpLbl.addStyleName("noGroupsHelpLbl");
+		noGroupPanel.add(noGroupsLbl);
+		noGroupPanel.add(noGroupsHelpLbl);
+		dialogContent.add(noGroupPanel);
+	}
+
 	private void buildGroupPanel() {
+		selGroupLbl = new Label();
+		selGroupLbl.addStyleName("selGrLbl");
+		dialogContent.add(selGroupLbl);
 		groupPanel = new FlowPanel();
 		groupPanel.addStyleName("groupPanel");
 		scrollPanel = new ScrollPanel();
@@ -82,10 +112,17 @@ public class ShareDialogMow2 extends DialogBoxW
 	public void setLabels() {
 		getCaption().setText(app.getLocalization()
 				.getMenu("Share"));
-		selGroupLbl
+		if (selGroupLbl != null) {
+			selGroupLbl
 				.setText(app.getLocalization().getMenu("shareGroupHelpText"));
+		}
 		cancelBtn.setText(app.getLocalization().getMenu("Cancel"));
 		saveBtn.setText(appW.getLocalization().getMenu("Save"));
+		if (noGroupsLbl != null && noGroupsHelpLbl != null) {
+			noGroupsLbl.setText(app.getLocalization().getMenu("NoGroups"));
+			noGroupsHelpLbl
+					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
+		}
 	}
 
 	public void onClick(Widget source) {

@@ -1225,6 +1225,14 @@ $duration: 0.2s;
 	}
 
 	.shareDialogMow {
+		padding-right: 0px !important;
+		padding-left: 0px !important;
+		
+		.Caption {
+			padding-left: 24px !important;		
+			margin-bottom: 0px !important;
+		}
+	
 		.selGrLbl {
 			font-size: 100% !important;
 			margin-top: 0px !important;
@@ -1235,15 +1243,57 @@ $duration: 0.2s;
 			border-top: 1px solid $black-12;	
 			border-bottom: 1px solid $black-12;		
 		}
+	
+		.noGroupPanel {
+			width: 400px;
+			border-bottom: 1px solid $black-12;		
+			
+			.groupImgHolder {
+				margin-top: 16px !important;
+				width: 48px;
+				height: 48px;
+				padding: 12px;
+				border-radius: 50%;
+				background-color: $mow_grey_button;
+				display: block;
+				margin: 0px auto;
+				
+				img {
+					opacity: 0.54;	
+				}	
+			}
+		
+			.noGroupsLbl {
+			    font-size: 100% !important;
+			    margin-top: 16px !important;
+			    width: fit-content;
+			    display: block;
+			    margin: 0px auto;
+			    color: $text-primary !important;
+			}
+		
+			.noGroupsHelpLbl {
+			    width: 262px;
+			    height: fit-content;
+			    margin-top: 8px !important;
+			    margin-bottom: 20px !important;
+			    display: block;
+			    margin: 0px auto;
+			    font-size: 87% !important;
+			    text-align: center;
+			}
+		}
 		
 		.DialogButtonPanel {
-				.button {
-	   				color: $mebis-teal-dark !important;	
-	   				&:hover {
-	   					color: $mebis-teal-dark !important;
-	   				}
+			padding-right: 8px !important;
+			
+			.button {
+	   			color: $mebis-teal-dark !important;	
+	   			&:hover {
+	   				color: $mebis-teal-dark !important;
 	   			}
-			}
+	   		}
+		}
 	}
 
 	.groupButton {
