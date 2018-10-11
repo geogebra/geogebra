@@ -805,12 +805,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 
 		if (alignOnDecimalPoint) {
-			sb.append("\\left(\\hspace{-0.4em} \\begin{tabular}{r@{.}l}");
+			sb.append("\\left( \\begin{align}");
 			for (int i = 0; i < inputs.length; i++) {
-				inputs[i] = inputs[i].replace('.', '&');
+				inputs[i] = inputs[i].replace(".", "\\hspace{-0.2em} &.");
 			}
 		} else {
-			sb.append("\\left(\\hspace{-0.4em} \\begin{tabular}{r}");
+			sb.append("\\left( \\begin{align}");
 		}
 
 		for (int i = 0; i < inputs.length; i++) {
@@ -818,7 +818,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			sb.append(" \\\\ ");
 		}
 
-		sb.append("\\end{tabular}\\hspace{-0.2em} \\right)");
+		sb.append("\\end{align} \\right)");
 
 	}
 
