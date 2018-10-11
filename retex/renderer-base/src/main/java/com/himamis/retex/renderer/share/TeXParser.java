@@ -477,7 +477,9 @@ public class TeXParser {
 					} else {
 						addToConsumer(new SpaceAtom());
 					}
-					skipPureWhites();
+					// removed to make double spaces etc work inside \text{}
+					// like in jlm1
+					// skipPureWhites();
 				}
 				break;
 			case '$':
