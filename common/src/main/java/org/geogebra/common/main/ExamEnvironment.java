@@ -492,16 +492,18 @@ public class ExamEnvironment {
 			return loc.getCommandSyntaxCAS("NIntegral");
 		case LocusEquation:
 		case Envelope:
-		case TrigSimplify:
 		case Expand:
 		case Factor:
+		case Factors:
 		case IFactor:
+		case CFactor:
 		case Simplify:
 		case SurdText:
 		case ParametricDerivative:
 		case Derivative:
 		case TrigExpand:
 		case TrigCombine:
+		case TrigSimplify:
 		case Limit:
 		case LimitBelow:
 		case LimitAbove:
