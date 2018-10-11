@@ -185,6 +185,7 @@ public class ScriptArea extends TextArea
 	public void toggleDummyCursor(boolean cursor) {
 		this.dummyCursor = cursor;
 	}
+
 	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
 		setFocus(focus);

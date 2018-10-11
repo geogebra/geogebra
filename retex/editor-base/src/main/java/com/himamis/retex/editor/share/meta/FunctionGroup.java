@@ -22,6 +22,13 @@ public class FunctionGroup implements MetaGroup {
 		return getComponent(tag.toString(), false);
 	}
 
+	/**
+	 * @param name
+	 *            function name
+	 * @param square
+	 *            use [ rather than (
+	 * @return meta function
+	 */
 	MetaFunction getComponent(String name, boolean square) {
 		if (!isAcceptable(name)) {
 			return null;

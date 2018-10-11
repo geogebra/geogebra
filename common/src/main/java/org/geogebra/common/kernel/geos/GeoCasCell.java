@@ -2436,7 +2436,7 @@ public class GeoCasCell extends GeoElement
 				}
 			} catch (Throwable th2) {
 				th2.printStackTrace();
-				System.err.println("GeoCasCell.computeOutput(), GeoGebra eval: "
+				Log.warn("GeoCasCell.computeOutput(), GeoGebra eval: "
 						+ evalVE + "\n error: " + th2.getMessage());
 				success = false;
 			} finally {
@@ -3744,11 +3744,12 @@ public class GeoCasCell extends GeoElement
 		preferredRowNumber = -1;
 	}
 
+	@Override
 	public void setNeedsUpdatedBoundingBox(boolean b) {
 		//
-
 	}
 
+	@Override
 	public void calculateCornerPoint(GeoPoint corner, int double1) {
 		corner.setUndefined();
 	}

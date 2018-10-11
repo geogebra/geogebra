@@ -74,14 +74,7 @@ public class Korean {
 			return ch;
 		}
 
-		Character ret = getKoreanTailToLead().get(ch);
-
-		// if (ret == null) {
-		// System.err.println("possible problem with " + ch + " " +
-		// toHexString(ch));
-		// }
-
-		return ret;
+		return getKoreanTailToLead().get(ch);
 	}
 
 	private static HashMap<Character, Character> getKoreanTailToLead() {
@@ -1056,7 +1049,6 @@ public class Korean {
 
 		// case 1
 		// we already have Jamo lead + vowel as single unicode
-		// System.err.println("case 1 " + lastChar + " " + newChar);
 
 		if (Korean.isKoreanLeadPlusVowelChar(lastChar)
 				&& Korean.isKoreanTailChar(newChar, true)) {
@@ -1066,13 +1058,6 @@ public class Korean {
 
 			String replaceChar = Korean.unflattenKorean(strToFlatten)
 					.toString();
-
-			// System.err.println("flattening " + strToFlatten + " "
-			// + toHexString(strToFlatten));
-			//
-			// System.err.println("need to replace " + lastChar + " "
-			// + toHexString(lastChar) + " with " + replaceChar + " "
-			// + toHexString(replaceChar));
 
 			char c = replaceChar.charAt(0);
 
@@ -1089,11 +1074,6 @@ public class Korean {
 				&& Korean.isKoreanVowelChar(newChar, true)) {
 			String replaceChar = Korean.unflattenKorean(lastChar + "" + newChar)
 					.toString();
-			// System.err.println("need to replace " + lastChar + " "
-			// + toHexString(lastChar) + " with " + replaceChar + " "
-			// + toHexString(replaceChar));
-			// System.err.println("case 2 " + lastChar + " " + newChar);
-
 			char c = replaceChar.charAt(0);
 
 			ret[0] = c;
@@ -1116,8 +1096,6 @@ public class Korean {
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanVowelChar(newChar, true)) {
 
-			// System.err.println("case 4 " + lastChar + " " + newChar);
-
 			// not needed, useful for debugging
 			// newChar = Korean.convertFromCompatibilityJamo(newChar,
 			// false);
@@ -1129,16 +1107,7 @@ public class Korean {
 					Korean.tailToLead(lastCharFlat.charAt(2)) + "" + newChar)
 					.charAt(0);
 
-			// System.err.println(
-			// "test = "
-			// + Korean.tailToLead(lastCharFlat.charAt(2)));
-
 			if (Korean.tailToLead(lastCharFlat.charAt(2)) != null) {
-				// System.err.println("lastCharFlat = " + lastCharFlat + " "
-				// + toJavaString("" + lastCharFlat));
-				// System.err.println("newNewChar = " + newNewChar + " "
-				// + toJavaString("" + newNewChar));
-
 				ret[0] = newLastChar;
 				ret[1] = newNewChar;
 				return ret;
@@ -1146,9 +1115,6 @@ public class Korean {
 
 			String unmerged = unmergeDoubleCharacterToLeadTail(
 					lastCharFlat.charAt(2));
-
-			// System.err.println("Korean.tailToLead(unmerged.charAt(1)) = "
-			// + Korean.tailToLead(unmerged.charAt(1)));
 
 			newLastChar = Korean.unflattenKorean(
 					lastCharFlat.substring(0, 2) + "" + unmerged.charAt(0))
@@ -1169,25 +1135,16 @@ public class Korean {
 
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanTailChar(newChar, true)) {
-			// System.err.println("case 5 " + lastChar + " " + newChar);
 			char newChar1 = newChar;
 			newChar1 = Korean.convertFromCompatibilityJamo(newChar1, false);
 
-			// System.err.println("newChar = " + newChar);
-
 			char lastChar2 = lastCharFlat.charAt(2);
-			// System.err.println("lastChar2 = " + lastChar2);
 
 			// if this is length 1, merge succeeded
 			String doubleCheck = Korean
 					.mergeDoubleCharacters(lastChar2 + "" + newChar1);
 
-			// System.err.println("doubleCheck = " + doubleCheck + " "
-			// + doubleCheck.length());
-
 			if (doubleCheck.length() == 1) {
-				// System.err.println("merge check passed");
-
 				newChar1 = Korean
 						.unflattenKorean(
 								lastCharFlat.substring(0, 2) + "" + doubleCheck)
@@ -1196,9 +1153,7 @@ public class Korean {
 				ret[0] = newChar1;
 				ret[1] = 0;
 				return ret;
-
 			}
-
 		}
 
 		// case 6
@@ -1206,15 +1161,8 @@ public class Korean {
 		// case 1
 		// we already have Jamo lead + vowel as single unicode
 
-		// System.err.println("Korean.isKoreanLeadPlusVowelChar(lastChar) = "
-		// + Korean.isKoreanLeadPlusVowelChar(lastChar));
-		// System.err.println("Korean.isKoreanVowelChar(newChar, true) = "
-		// + Korean.isKoreanVowelChar(newChar, true));
-
 		if (Korean.isKoreanLeadPlusVowelChar(lastChar)
 				&& Korean.isKoreanVowelChar(newChar, true)) {
-
-			// System.err.println("case 6 " + lastChar + " " + newChar);
 
 			char lastChar1 = lastCharFlat.charAt(1);
 
@@ -1222,11 +1170,7 @@ public class Korean {
 			String doubleCheck = Korean.mergeDoubleCharacters(lastChar1 + ""
 					+ Korean.convertFromCompatibilityJamo(newChar, true));
 
-			// System.err.println("doubleCheck = " + doubleCheck);
-
 			if (doubleCheck.length() == 1) {
-				// System.err.println("merge check 2 passed");
-
 				char newChar1 = Korean
 						.unflattenKorean(
 								lastCharFlat.charAt(0) + "" + doubleCheck)
@@ -1235,9 +1179,7 @@ public class Korean {
 				ret[0] = newChar1;
 				ret[1] = 0;
 				return ret;
-
 			}
-
 		}
 
 		return ret;

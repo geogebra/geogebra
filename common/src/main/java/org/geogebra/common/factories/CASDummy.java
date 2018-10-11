@@ -29,5 +29,4 @@ public class CASDummy extends CASgiac implements CASGenericInterface {
 		return "?";
 	}
 
-
 }

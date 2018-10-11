@@ -78,7 +78,6 @@ public class EmbedURLChecker {
 				new AjaxCallback() {
 			@Override
 			public void onSuccess(String response) {
-						System.err.println(response);
 				try {
 					JSONObject json = new JSONObject(new JSONTokener(response));
 					if (json.has("error")) {
