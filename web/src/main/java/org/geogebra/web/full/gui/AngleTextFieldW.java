@@ -1,13 +1,20 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -16,7 +23,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Later this shall inherit from MyTextField instead of TextBox
  */
 
-public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
+public class AngleTextFieldW extends GTextBox
+		implements KeyUpHandler, KeyPressHandler, KeyDownHandler,
 		HasKeyboardTF {
 	/** app */
 	AppW app;
@@ -34,6 +42,8 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		this.app = app;
 		setVisibleLength(columns);
 		this.addKeyUpHandler(this);
+		this.addKeyPressHandler(this);
+		this.addKeyDownHandler(this);
 	}
 
 	@Override
@@ -87,13 +97,11 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 				setCursorPos(pos);
 			}
 		}
-
 		String oldText = getText();
-
 		// don't insert more than one degree sign or pi *in total*
 		if (oldText.indexOf(Unicode.DEGREE_CHAR) == -1
 				&& oldText.indexOf(Unicode.pi) == -1) {
-			int pos = oldText.length(); // getCaretPosition();
+			int pos = getCursorPos();
 			StringBuilder sb = new StringBuilder();
 			sb.append(oldText.substring(0, pos));
 			sb.append(insertString);
@@ -150,5 +158,110 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	@Override
 	public String getValue() {
 		return getText();
+	}
+
+	public void onKeyPress(KeyPressEvent e) {
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
+			e.preventDefault();
+			e.stopPropagation();
+			return;
+		}
+		if (Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
+				&& !app.isWhiteboardActive()
+				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
+				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_ENTER
+				&& e.getNativeEvent().getKeyCode() != 0) {
+			if (!Browser.isiOS()) {
+				setCursorPos(removeDummyCursor(), false);
+			}
+			insert(Character.toString(e.getCharCode()));
+			addDummyCursor();
+		}
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
+		handleTabletKeyboard(event);
+	}
+
+	private void handleTabletKeyboard(KeyDownEvent e) {
+		if (!(Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
+				|| app.isWhiteboardActive()) {
+			return;
+		}
+		int code = e.getNativeKeyCode();
+		if (code == 0 && Browser.isIPad()) {
+			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != -1) {
+				code = arrowType;
+			}
+		}
+		switch (code) {
+		case GWTKeycodes.KEY_BACKSPACE:
+			onBackSpace();
+			break;
+		case GWTKeycodes.KEY_LEFT:
+			onArrowLeft();
+			break;
+		case GWTKeycodes.KEY_RIGHT:
+			onArrowRight();
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void onArrowLeft() {
+		int caretPos = getCursorPos();
+		if (caretPos > 0) {
+			setCursorPos(caretPos - 1);
+		}
+	}
+
+	private void onArrowRight() {
+		int caretPos = getCursorPos();
+		if (caretPos < getText().length()) {
+			setCursorPos(caretPos + 1);
+		}
+	}
+
+	private void onBackSpace() {
+		int start = getCursorPos();
+		int end = start + getSelectionLength();
+
+		if (end - start < 1) {
+			end = getCursorPos();
+			start = end - 1;
+		}
+		if (start >= 0) {
+			int cpos = removeDummyCursor();
+			setSelectionRange(start, 1);
+			insert("");
+			addDummyCursor(cpos - 1);
+		}
+	}
+
+	/**
+	 * @param caretPos
+	 *            caret position
+	 * @param moveDummyCursor
+	 *            whether dummy cursor needs to be moved
+	 */
+	public void setCursorPos(int caretPos, boolean moveDummyCursor) {
+		if (dummyCursor && moveDummyCursor) {
+			if (caretPos == this.getText().length()) {
+				return;
+			}
+			removeDummyCursor();
+			addDummyCursor(caretPos);
+		} else {
+			setSelectionRange(caretPos, 0);
+		}
+	}
+
+	@Override
+	public void setCursorPos(int pos) {
+		setCursorPos(pos, true);
 	}
 }
