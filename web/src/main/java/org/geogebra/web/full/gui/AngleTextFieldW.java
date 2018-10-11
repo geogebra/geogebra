@@ -1,17 +1,11 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -127,56 +121,17 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	 * Enable onscreen keyboard
 	 */
 	public void enableGGBKeyboard() {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			return;
-		}
-
-		if (Browser.isTabletBrowser()) {
-			// avoid native keyboard opening
-			setReadOnly(true);
-		}
-
-		addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(AngleTextFieldW.this, app);
-			}
-		});
-
-		addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				FieldHandler.focusLost(AngleTextFieldW.this, app);
-			}
-		});
+		DummyCursor.enableGGBKeyboard(app, this);
 	}
 
 	@Override
 	public void addDummyCursor() {
-		if (dummyCursor) {
-			return;
-		}
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				int caretPos = getCursorPos();
-				addDummyCursor(caretPos);
-			}
-		});
+		DummyCursor.addDummyCursor(dummyCursor, this);
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		if (!dummyCursor) {
-			return -1;
-		}
-		String text = getText();
-		int cpos = getCursorPos();
-		text = text.substring(0, cpos) + text.substring(cpos + 1);
-
-		setValue(text);
-		dummyCursor = false;
-		return cpos;
+		return DummyCursor.removeDummyCursor(dummyCursor, this);
 	}
 
 	/**
@@ -184,15 +139,16 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	 *            position to insert dummy cursor
 	 */
 	public void addDummyCursor(int caretPos) {
-		if (dummyCursor) {
-			return;
-		}
-		String text = getText();
-		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
-
-		setValue(text);
-		setCursorPos(caretPos);
-		dummyCursor = true;
+		DummyCursor.addDummyCursor(caretPos, dummyCursor, this);
 	}
 
+	@Override
+	public void toggleDummyCursor(boolean cursor) {
+		this.dummyCursor = cursor;
+	}
+
+	@Override
+	public String getValue() {
+		return getText();
+	}
 }

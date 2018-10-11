@@ -134,12 +134,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		public void onKeyUp(KeyUpEvent e) {
 			e.stopPropagation();
 		}
-
-		@Override
-		protected void fieldFocus() {
-			super.fieldFocus();
-			selectAll();
-		}
 	}
 
 	/**

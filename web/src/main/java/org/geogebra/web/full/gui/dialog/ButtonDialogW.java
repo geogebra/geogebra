@@ -98,7 +98,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		tfCaption = ip.getTextComponent();
 		if (tfCaption != null) {
 			tfCaption.setAutoComplete(false);
-			tfCaption.enableGGBKeyboard();
 		}
 
 		VerticalPanel captionPanel = new VerticalPanel();

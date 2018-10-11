@@ -33,6 +33,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
+import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -47,9 +48,7 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -682,50 +681,17 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            cursor position
 	 */
 	public void addDummyCursor(int caretPos) {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			return;
-		}
-
-		if (dummyCursor || !Browser.isAndroid()) {
-			return;
-		}
-		String text = textField.getText();
-		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
-
-		textField.setValue(text);
-		textField.getValueBox().setCursorPos(caretPos);
-		dummyCursor = true;
+		DummyCursor.addDummyCursor(caretPos, dummyCursor, this);
 	}
 
 	@Override
 	public void addDummyCursor() {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			return;
-		}
-		if (dummyCursor || !Browser.isAndroid()) {
-			return;
-		}
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				int caretPos = getCaretPosition();
-				addDummyCursor(caretPos);
-			}
-		});
+		DummyCursor.addDummyCursor(dummyCursor, this);
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		if (!dummyCursor) {
-			return -1;
-		}
-		String text = textField.getText();
-		int cpos = getCaretPosition();
-		text = text.substring(0, cpos) + text.substring(cpos + 1);
-
-		textField.setValue(text);
-		dummyCursor = false;
-		return cpos;
+		return DummyCursor.removeDummyCursor(dummyCursor, this);
 	}
 
 	public boolean hasDummyCursor() {
@@ -1620,42 +1586,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * tablet.
 	 */
 	public void enableGGBKeyboard() {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			return;
-		}
-
-		if (Browser.isTabletBrowser()) {
-			// avoid native keyboard opening
-			getTextField().getValueBox().setReadOnly(true);
-		}
-
-		addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				fieldFocus();
-			}
-		});
-
-		addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				fieldBlur();
-			}
-		});
+		DummyCursor.enableGGBKeyboard(app, this);
 	}
 
-	/**
-	 * Handle focus.
-	 */
-	protected void fieldFocus() {
-		FieldHandler.focusGained(this, app);
-	}
-
-	/**
-	 * Handle blur.
-	 */
-    private void fieldBlur() {
-		FieldHandler.focusLost(this, app);
+	@Override
+	public void toggleDummyCursor(boolean cursor) {
+		this.dummyCursor = cursor;
 	}
 
 	/**
@@ -1675,13 +1611,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return textField.getValueBox().addKeyPressHandler(handler);
 	}
 
-	/**
-	 * @param handler
-	 *            Blurhandler attached to texbox
-	 */
-	public void addBlurHandler(BlurHandler handler) {
-		getTextBox().addBlurHandler(handler);
-
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return getTextBox().addBlurHandler(handler);
 	}
 
 	private boolean isTabEnabled() {
@@ -1826,5 +1758,30 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public Element getInputElement() {
 		return getTextField().getElement();
+	}
+
+	@Override
+	public void setReadOnly(boolean readonly) {
+		getTextField().getValueBox().setReadOnly(true);
+	}
+
+	@Override
+	public int getCursorPos() {
+		return getCaretPosition();
+	}
+
+	@Override
+	public void setCursorPos(int pos) {
+		getTextField().getValueBox().setCursorPos(pos);
+	}
+
+	@Override
+	public void setValue(String text) {
+		setText(text);
+	}
+
+	@Override
+	public String getValue() {
+		return getText(true);
 	}
 }

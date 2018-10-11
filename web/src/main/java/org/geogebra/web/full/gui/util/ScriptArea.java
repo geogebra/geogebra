@@ -2,16 +2,11 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -147,6 +142,7 @@ public class ScriptArea extends TextArea
 		}
 		if (Browser.isTabletBrowser()
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
+				&& !app.isWhiteboardActive()
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != 0) {
 			insertString(Character.toString(e.getCharCode()));
@@ -169,30 +165,12 @@ public class ScriptArea extends TextArea
 
 	@Override
 	public void addDummyCursor() {
-		if (dummyCursor || Browser.isIPad()) {
-			return;
-		}
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				int caretPos = getCursorPos();
-				addDummyCursor(caretPos);
-			}
-		});
+		DummyCursor.addDummyCursor(dummyCursor, this);
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		if (!dummyCursor || Browser.isIPad()) {
-			return -1;
-		}
-		String text = getText();
-		int cpos = getCursorPos();
-		text = text.substring(0, cpos) + text.substring(cpos + 1);
-
-		setValue(text);
-		dummyCursor = false;
-		return cpos;
+		return DummyCursor.removeDummyCursor(dummyCursor, this);
 	}
 
 	/**
@@ -200,17 +178,13 @@ public class ScriptArea extends TextArea
 	 *            caret position
 	 */
 	public void addDummyCursor(int caretPos) {
-		if (dummyCursor || Browser.isIPad()) {
-			return;
-		}
-		String text = getText();
-		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
-
-		setValue(text);
-		setCursorPos(caretPos);
-		dummyCursor = true;
+		DummyCursor.addDummyCursor(caretPos, dummyCursor, this);
 	}
 
+	@Override
+	public void toggleDummyCursor(boolean cursor) {
+		this.dummyCursor = cursor;
+	}
 	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
 		setFocus(focus);
@@ -236,33 +210,13 @@ public class ScriptArea extends TextArea
 	 * Enable keyboard.
 	 */
 	public void enableGGBKeyboard() {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			return;
-		}
-
-		if (Browser.isTabletBrowser()) {
-			// avoid native keyboard opening
-			setReadOnly(true);
-		}
-
-		addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(ScriptArea.this, app);
-			}
-		});
-
-		addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				FieldHandler.focusLost(ScriptArea.this, app);
-			}
-		});
+		DummyCursor.enableGGBKeyboard(app, this);
 	}
 
 	private void handleTabletKeyboard(KeyDownEvent e) {
 		if (!(Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))) {
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
+				|| app.isWhiteboardActive()) {
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();
@@ -316,4 +270,8 @@ public class ScriptArea extends TextArea
 		}
 	}
 
+	@Override
+	public String getValue() {
+		return getText();
+	}
 }
