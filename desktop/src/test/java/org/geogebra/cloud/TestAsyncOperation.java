@@ -6,10 +6,12 @@ import org.geogebra.common.util.debug.Log;
 public class TestAsyncOperation<S> implements AsyncOperation<S> {
 
 	private boolean done;
+	private S response;
 
 	@Override
 	public void callback(S obj) {
 		done = true;
+		response = obj;
 	}
 
 	/**
@@ -17,11 +19,12 @@ public class TestAsyncOperation<S> implements AsyncOperation<S> {
 	 * 
 	 * @param time
 	 *            timeout in seconds
+	 * @return response
 	 */
-	public void await(int time) {
+	public S await(int time) {
 		for (int i = 0; i < time * 5; i++) {
 			if (done) {
-				return;
+				return response;
 			}
 			try {
 				Thread.sleep(200);
@@ -29,6 +32,7 @@ public class TestAsyncOperation<S> implements AsyncOperation<S> {
 				Log.warn("cannot sleep");
 			}
 		}
+		return response;
 	}
 
 }
