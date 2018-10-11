@@ -346,7 +346,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Element parent = getParent(
 					getArticleElement().getParamScaleContainerClass());
 			if (parent != null) {
-				scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
+				scaleTo(parent.getOffsetWidth(),
+						Math.max(getArticleElement().getParamAllowUpscale()
+								? parent.getOffsetWidth() 
+								: 0, parent.getOffsetHeight()));
+				if (parent != this.getScalerParent()) {
+					resizeContainer();
+				}
 			}
 		} else if (!getArticleElement().getParamDisableAutoScale()) {
 			int border = 0;
