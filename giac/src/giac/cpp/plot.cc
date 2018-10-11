@@ -1323,14 +1323,24 @@ namespace giac {
 	      if (positif) // test is false, continue
 		continue;
 	      // test is true make the plot
-	      return plotfunc(tmp,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	      gen curres=plotfunc(tmp,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	      if (curres.type==_VECT)
+		res = mergevecteur(res,*curres._VECTptr);
+	      else
+		res.push_back(curres);
+	      return res;
 	    }
 	    if (ck_is_greater(function_xmin,l,contextptr)){
 	      // l <= borne_inf < borne_sup
 	      if (!positif) // test is false, continue
 		continue;
 	      // test is true we can compute the integral
-	      return plotfunc(tmp,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	      gen curres=plotfunc(tmp,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	      if (curres.type==_VECT)
+		res = mergevecteur(res,*curres._VECTptr);
+	      else
+		res.push_back(curres);
+	      return res;
 	    }
 	    // borne_inf<l<borne_sup
 	    if (positif){
