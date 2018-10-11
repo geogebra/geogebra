@@ -376,6 +376,7 @@ public class OptionsPanelW extends FlowPanel
 		lblBarWidth = new Label();
 		fldBarWidth = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
 		fldBarWidth.setEditable(true);
+		fldBarWidth.enableGGBKeyboard();
 		fldBarWidth.addKeyHandler(new PropertyKeyHandler(fldBarWidth));
 		fldBarWidth.addBlurHandler(this);
 
@@ -423,6 +424,7 @@ public class OptionsPanelW extends FlowPanel
 		lblXMin = new Label();
 		fldXMin = InputPanelW.newTextComponent(app);
 		fldXMin.setEditable(true);
+		fldXMin.enableGGBKeyboard();
 		fldXMin.addKeyHandler(new KeyHandler() {
 
 			@Override
@@ -442,6 +444,7 @@ public class OptionsPanelW extends FlowPanel
 
 		lblXMax = new Label();
 		fldXMax = InputPanelW.newTextComponent(app);
+		fldXMax.enableGGBKeyboard();
 		fldXMax.addKeyHandler(new KeyHandler() {
 
 			@Override
@@ -461,21 +464,25 @@ public class OptionsPanelW extends FlowPanel
 
 		lblYMin = new Label();
 		fldYMin = InputPanelW.newTextComponent(app);
+		fldYMin.enableGGBKeyboard();
 		fldYMin.addKeyHandler(new PropertyKeyHandler(fldYMin));
 		fldYMin.addBlurHandler(this);
 
 		lblYMax = new Label();
 		fldYMax = InputPanelW.newTextComponent(app);
+		fldYMax.enableGGBKeyboard();
 		fldYMax.addKeyHandler(new PropertyKeyHandler(fldYMax));
 		fldYMax.addBlurHandler(this);
 
 		lblXInterval = new Label();
 		fldXInterval = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
+		fldXInterval.enableGGBKeyboard();
 		fldXInterval.addKeyHandler(new PropertyKeyHandler(fldXInterval));
 		fldXInterval.addBlurHandler(this);
 
 		lblYInterval = new Label();
 		fldYInterval = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
+		fldYInterval.enableGGBKeyboard();
 		fldYInterval.addKeyHandler(new PropertyKeyHandler(fldYInterval));
 		fldYInterval.addBlurHandler(this);
 
