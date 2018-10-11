@@ -818,7 +818,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			sb.append(" \\\\ ");
 		}
 
-		sb.append("\\end{tabular}\\hspace{-0.4em} \\right)");
+		sb.append("\\end{tabular}\\hspace{-0.2em} \\right)");
 
 	}
 
