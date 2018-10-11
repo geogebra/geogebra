@@ -3526,13 +3526,11 @@ namespace giac {
       it->den.TDivRem(p,quo,rem,true);
       gen cur_deno(r2e(quo,l,contextptr));
       if (current.mult==1){
-	if (current.fact.lexsorted_degree()==1){
 	  // unitarize
 	  gen tmp(_lcoeff(makesequence(deno,xvar),contextptr));
-	  reste=ratnormal(reste/tmp,contextptr);
+	  reste=ratnormal(reste/tmp/cur_deno,contextptr);
 	  deno=recursive_normal(deno/tmp,contextptr);
-	}
-	res += reste/cur_deno/deno;
+	res += reste/deno;
       }
       else {
 	for (int i=0;i<current.mult;++i){
