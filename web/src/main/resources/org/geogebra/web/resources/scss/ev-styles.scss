@@ -540,11 +540,6 @@
 			}
 		}
 	}
-	.fullscreen-ipad {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-	}
 
 	input[type="text"], input[type="number"], .gwt-TextBox,
 	select, textarea,
@@ -726,4 +721,12 @@
 			color: $teal-light;
 		}
 	}
+}
+
+/* Outside of GeoGebraFrame */
+.fullscreen-ipad {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9999;
 }
