@@ -3262,6 +3262,7 @@ __GGB__keysVar["de-AT"].menu = {
     "mow.newFile": "Neue Datei",
     "mow.openFile": "Datei \xf6ffnen",
     "mow.openFileViewTitle": "Meine Dateien",
+    "noGroups": "Keine Gruppen",
     "of": "von",
     "off": "aus",
     "on": "An",

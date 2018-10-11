@@ -3262,6 +3262,7 @@ __GGB__keysVar["ko"].menu = {
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noGroups": "No Groups",
     "of": "\ucd1d",
     "off": "\uc0ac\uc6a9\uc548\ud568",
     "on": "\uc0ac\uc6a9",

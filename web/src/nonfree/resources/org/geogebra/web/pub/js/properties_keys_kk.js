@@ -3262,6 +3262,7 @@ __GGB__keysVar["kk"].menu = {
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noGroups": "No Groups",
     "of": "of",
     "off": "\u04e9\u0448\u0456\u0440\u0456\u043b\u0433\u0435\u043d",
     "on": "\u049a\u043e\u0441\u0443",

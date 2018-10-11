@@ -3262,6 +3262,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noGroups": "No Groups",
     "of": "\u0645\u0646",
     "off": "\u0625\u064a\u0642\u0627\u0641",
     "on": "\u062a\u0634\u063a\u064a\u0644",

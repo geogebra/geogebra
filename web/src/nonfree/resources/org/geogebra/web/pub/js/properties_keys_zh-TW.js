@@ -3262,6 +3262,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noGroups": "No Groups",
     "of": "of",
     "off": "\u95dc\u9589",
     "on": "\u555f\u52d5",

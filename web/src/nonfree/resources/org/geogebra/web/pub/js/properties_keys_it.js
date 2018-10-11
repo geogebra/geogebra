@@ -3262,6 +3262,7 @@ __GGB__keysVar["it"].menu = {
     "mow.newFile": "New File",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noGroups": "Non hai Gruppi",
     "of": "di",
     "off": "Disattiva",
     "on": "Attiva",
