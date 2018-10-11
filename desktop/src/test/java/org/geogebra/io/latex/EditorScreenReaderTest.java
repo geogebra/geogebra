@@ -148,6 +148,17 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
+	public void testQuotes() {
+		checkReader("\"a{b}c\"",
+				"start of formula \"a\\{b\\}c\"",
+				"start of quotes before a", "after a before \\{",
+				"after \\{ before b", "after b before \\}",
+				"after \\} before c",
+				"end of quotes after c",
+				"end of formula \"a\\{b\\}c\"");
+	}
+
+	@Test
 	public void testAbs() {
 		checkReader("abs(x+1)",
 				"start of formula start absolute value x plus 1 end absolute value",

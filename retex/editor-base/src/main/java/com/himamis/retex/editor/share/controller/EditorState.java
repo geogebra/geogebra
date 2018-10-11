@@ -368,7 +368,7 @@ public class EditorState {
 			while (MathFieldInternal.appendChar(sb, currentField, i)) {
 				i--;
 			}
-			if (sb.length() > 0) {
+			if (sb.length() > 0 && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.AFTER.toString(),
 							er.mathExpression(sb.reverse().toString()));
@@ -388,9 +388,13 @@ public class EditorState {
 			while (MathFieldInternal.appendChar(sb, currentField, i)) {
 				i++;
 			}
-			if (sb.length() > 0) {
-				return er.localize(ExpRelation.BEFORE.toString(),
-						er.mathExpression(sb.toString()));
+			if (sb.length() > 0 && !isInsideQuotes()) {
+				try {
+					return er.localize(ExpRelation.BEFORE.toString(),
+							er.mathExpression(sb.toString()));
+				} catch (Exception e) {
+					// no math alt text, fall back to reading as is
+				}
 			}
 		}
 		return describe(ExpRelation.BEFORE, parent, er);
@@ -433,6 +437,9 @@ public class EditorState {
 			}
 		}
 		if (prev instanceof MathArray) {
+			if (((MathArray) prev).getOpenKey() == '"') {
+				return "quotes";
+			}
 			return pattern == ExpRelation.BEFORE
 					|| pattern == ExpRelation.AFTER ? "parenthesis"
 							: "parentheses";
