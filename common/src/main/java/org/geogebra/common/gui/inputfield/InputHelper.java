@@ -66,10 +66,10 @@ public class InputHelper {
 				&& geos[0].getKernel().getConstructionStep() <= oldStep) {
 			return;
 		}
-		for (int i = 0; i < geos.length; i++) {
-			updateSymbolicMode(geos[i]);
-			if (geos[i] instanceof GeoText) {
-				GeoText text = (GeoText) geos[i];
+		for (GeoElementND geo : geos) {
+			updateSymbolicMode(geo);
+			if (geo instanceof GeoText) {
+				GeoText text = (GeoText) geo;
 				centerText(text, ev);
 			}
 		}
@@ -79,11 +79,11 @@ public class InputHelper {
 	/**
 	 * Sets the symbolic mode of the geo according to defaults (false for simple
 	 * fraction, true otherwise)
-	 * 
+	 *
 	 * @param geo
 	 *            geo element
 	 */
-	public static void updateSymbolicMode(GeoElementND geo) {
+	public static void initSymbolicMode(GeoElementND geo) {
 		if (geo instanceof HasSymbolicMode) {
 			// start with numeric mode for simple fractions like 7/2
 			if (geo instanceof GeoNumeric && geo.getDefinition() != null
@@ -93,9 +93,19 @@ public class InputHelper {
 				((HasSymbolicMode) geo).setSymbolicMode(true,
 						geo instanceof GeoText);
 			}
-			((HasSymbolicMode) geo).updateRepaint();
 		}
+	}
 
+	/**
+	 * Sets the symbolic mode of the geo according to defaults (false for simple
+	 * fraction, true otherwise), then requests a repaint.
+	 * 
+	 * @param geo
+	 *            geo element
+	 */
+	public static void updateSymbolicMode(GeoElementND geo) {
+		initSymbolicMode(geo);
+		geo.updateRepaint();
 	}
 
 	/**

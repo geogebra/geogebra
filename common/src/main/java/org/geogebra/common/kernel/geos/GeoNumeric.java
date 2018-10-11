@@ -27,6 +27,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -722,6 +723,7 @@ public class GeoNumeric extends GeoElement
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
+		InputHelper.initSymbolicMode(this);
 		if (symbolicMode && getDefinition() != null && getDefinition().isFraction()
 				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
