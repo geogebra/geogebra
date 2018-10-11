@@ -3742,7 +3742,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// MOB-1833
 		case MOB_SHOW_HIDE_PLANE:
-			return prerelease;
+			return true;
 
 		// MOB-1753
 		case MOB_QUICK_STYLE_BAR_3D:
