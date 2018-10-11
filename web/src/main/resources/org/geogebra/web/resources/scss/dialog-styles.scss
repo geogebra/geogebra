@@ -1230,6 +1230,11 @@ $duration: 0.2s;
 			margin-top: 0px !important;
 			margin-bottom: 8px;
 		}
+	
+		.groupPanel {
+			border-top: 1px solid $black-12;	
+			border-bottom: 1px solid $black-12;		
+		}
 		
 		.DialogButtonPanel {
 				.button {
@@ -1239,4 +1244,63 @@ $duration: 0.2s;
 	   				}
 	   			}
 			}
+	}
+
+	.groupButton {
+		cursor: pointer;
+		height: 92px;
+    	width: 90px;
+    	margin-bottom: 4px;
+    	display: inline-block;
+    	
+    	.content {
+    		height: 92px;
+    		width: 90px;
+    	}
+    	
+    	.groupImgHolder {
+    		width: 24px;
+    		height: 24px;
+    		padding: 10px !important;
+		    border-radius: 50% !important;
+		    border: 2px solid $black-24 !important;
+		    display: block !important;
+    		margin: 0px auto !important;
+			
+			.groupImg {
+	    		opacity: 0.54;
+			}	
+		}
+	
+		.groupName {
+		    margin-top: 8px !important;
+    		padding-bottom: 4px;
+		    font-size: 75% !important;
+		    height: 32px;
+		    text-align: center;
+		    line-height: 16px;
+		    overflow: hidden;
+		    cursor: pointer !important;
+		    position: relative;
+    		top: -20px;
+		}
+	
+		.checkMark {
+			padding: 1px !important;
+   			border-radius: 50%;
+			background-color: $mebis-teal !important;
+		    position: relative;
+		    top: -44px;
+    		right: -56px;
+    		visibility: hidden;
+		}
+	
+		&.selected {
+			.groupImgHolder {
+				border: 2px solid $mebis-teal !important;	
+			}
+			.checkMark {
+				visibility: visible;	
+			}
+		}
 	}

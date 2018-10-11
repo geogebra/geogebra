@@ -8,6 +8,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -22,6 +23,8 @@ public class ShareDialogMow2 extends DialogBoxW
 
 	private FlowPanel dialogContent;
 	private Label selGroupLbl;
+	private FlowPanel groupPanel;
+	private ScrollPanel scrollPanel;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -42,13 +45,30 @@ public class ShareDialogMow2 extends DialogBoxW
 		selGroupLbl = new Label();
 		selGroupLbl.addStyleName("selGrLbl");
 		dialogContent.add(selGroupLbl);
+		buildGroupPanel();
+		buildButtonPanel();
+		add(dialogContent);
+		setLabels();
+	}
+
+	private void buildGroupPanel() {
+		groupPanel = new FlowPanel();
+		groupPanel.addStyleName("groupPanel");
+		scrollPanel = new ScrollPanel();
+		groupPanel.add(scrollPanel);
+		FlowPanel groups = new FlowPanel();
+		groups.add(new GroupButtonMow(appW, "group group group group"));
+		groups.add(new GroupButtonMow(appW, "group group group group"));
+		scrollPanel.add(groups);
+		dialogContent.add(groupPanel);
+	}
+
+	private void buildButtonPanel() {
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
 		cancelBtn = addButton("Cancel");
 		saveBtn = addButton("Save");
 		dialogContent.add(buttonPanel);
-		add(dialogContent);
-		setLabels();
 	}
 
 	private StandardButton addButton(String transKey) {

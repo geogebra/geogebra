@@ -50,6 +50,9 @@ public interface SharedResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-group-24px.svg")
 	SVGResource groups();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/check_mark_white.svg")
+	SVGResource check_mark_white();
+
 	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
 	SassResource dialogStylesScss();
 
