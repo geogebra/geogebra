@@ -317,20 +317,23 @@ public abstract class Renderer implements RendererInterface {
 		// prepare correct color mask for next clear
 		setColorMask(true, true, true, true);
 
-		boolean nei = needExportImage;
-
-		exportImage();
-
-		if (nei) {
-			unselectFBO();
-		}
-
-		if (export3DRunnable != null) {
-			export3DRunnable.run();
-			export3DRunnable = null;
-		}
-
+        endOfDrawScene();
 	}
+
+	protected void endOfDrawScene() {
+        boolean nei = needExportImage;
+
+        exportImage();
+
+        if (nei) {
+            unselectFBO();
+        }
+
+        if (export3DRunnable != null) {
+            export3DRunnable.run();
+            export3DRunnable = null;
+        }
+    }
 
 	/**
 	 * says that an export image is needed, and call immediate display
