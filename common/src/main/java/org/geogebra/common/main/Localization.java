@@ -58,7 +58,7 @@ public abstract class Localization {
 	/** zero (different in eg Arabic) */
 	private char unicodeZero = '0';
 
-	private int[] decimalPlaces = {0, 1, 2, 3, 4, 5, 10, 15};
+	private int[] decimalPlaces = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFigures = {3, 5, 10, 15};
 
 	/**

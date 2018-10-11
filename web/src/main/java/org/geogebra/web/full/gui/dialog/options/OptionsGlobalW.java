@@ -113,7 +113,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					try {
 						// TODO copypasted from RoundingProperty
 						int index = roundingList.getSelectedIndex();
-						boolean figures = index >= 8;
+						boolean figures = index >= app.getLocalization()
+								.getDecimalPlaces().length;
 						optionsMenu.setRounding(app,
 								figures ? index + 1 : index, figures);
 						app.setUnsaved();

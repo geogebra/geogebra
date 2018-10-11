@@ -191,8 +191,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	final private static String[] strDecimalSpacesAC = { "0 decimals",
 			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
-			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-			"5 figures", "10 figures", "15 figures" };
+			"5 decimals", "10 decimals", "13 decimals", "15 decimals", "",
+			"3 figures", "5 figures", "10 figures", "15 figures" };
 
 	/** Singular web service (CAS) */
 	private SingularWebService singularWS;
@@ -3760,9 +3760,13 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_ANGLE_DEGREES_MINUTES_SECONDS:
 			return true;
 
-		/** MOB-1372 */
+		/** AND-1372 */
 		case MOB_DEFAULT_ROUNDING_13:
 			return true;
+
+		/** GGB-2537 */
+		case WEB_DEFAULT_ROUNDING_13:
+			return prerelease;
 
         /** AND-1389 */
         case AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS:
