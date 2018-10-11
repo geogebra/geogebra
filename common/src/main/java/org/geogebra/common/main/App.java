@@ -3766,7 +3766,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
         /** AND-1389 */
         case AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS:
-            return prerelease;
+            return true;
 
 		// **********************************************************************
 		// MOBILE END
