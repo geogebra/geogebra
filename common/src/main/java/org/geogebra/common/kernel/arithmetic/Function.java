@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -51,9 +52,11 @@ public class Function extends FunctionNVar
 	private ExpressionNode factorParentExp;
 
 	// factors of polynomial function
-	private LinkedList<PolyFunction> symbolicPolyFactorList;
+	private ArrayList<LinkedList<PolyFunction>> symbolicPolyFactorList = new ArrayList<>(
+			2);
 	private LinkedList<PolyFunction> numericPolyFactorList;
-	private boolean symbolicPolyFactorListDefined;
+	private ArrayList<Boolean> symbolicPolyFactorListDefined = new ArrayList<>(
+			2);
 	private ExpressionNode zeroExpr = new ExpressionNode(kernel,
 			new MyDouble(kernel, 0));
 
@@ -474,23 +477,33 @@ public class Function extends FunctionNVar
 	 */
 	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(
 			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
+		int rootIdx = rootFindingSimplification ? 1 : 0;
 		if (factorParentExp != expression) {
 			// new expression
 			factorParentExp = expression;
-
-			if (symbolicPolyFactorList == null) {
-				symbolicPolyFactorList = new LinkedList<>();
-			} else {
-				symbolicPolyFactorList.clear();
+			if (symbolicPolyFactorList.size() < 1) {
+				for (int i = 0; i < 2; i++) {
+					symbolicPolyFactorList.add(null);
+					symbolicPolyFactorListDefined.add(false);
+				}
 			}
-			symbolicPolyFactorListDefined = addPolynomialFactors(expression,
-					symbolicPolyFactorList, true, rootFindingSimplification,
-					assumeFalseIfCASNeeded);
+			if (symbolicPolyFactorList.get(rootIdx) == null) {
+				symbolicPolyFactorList.set(rootIdx,
+						new LinkedList<PolyFunction>());
+			} else {
+				symbolicPolyFactorList.get(rootIdx).clear();
+			}
+			symbolicPolyFactorListDefined.set(rootIdx, addPolynomialFactors(
+					expression,
+					symbolicPolyFactorList.get(rootIdx), true,
+					rootFindingSimplification,
+					assumeFalseIfCASNeeded));
 		}
 
-		if (symbolicPolyFactorListDefined
-				&& symbolicPolyFactorList.size() > 0) {
-			return symbolicPolyFactorList;
+		if (symbolicPolyFactorListDefined.size() > rootIdx
+				&& symbolicPolyFactorListDefined.get(rootIdx)
+				&& symbolicPolyFactorList.get(rootIdx).size() > 0) {
+			return symbolicPolyFactorList.get(rootIdx);
 		}
 		return null;
 	}

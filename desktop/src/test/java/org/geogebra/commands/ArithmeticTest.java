@@ -2,7 +2,9 @@ package org.geogebra.commands;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.desktop.main.AppDNoGui;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -119,6 +121,16 @@ public class ArithmeticTest extends AlgebraTest {
 	@Test
 	public void xcoordAsFunction() {
 		t("x((1,2))", "1");
+	}
+
+	@Test
+	public void absFunction() {
+		app.getSettings().getCasSettings().setEnabled(false);
+		t("f:abs(x+2)", "abs(x + 2)");
+		Assert.assertTrue(((GeoFunction) app.getKernel().lookupLabel("f"))
+				.isPolynomialFunction(true));
+		Assert.assertFalse(((GeoFunction) app.getKernel().lookupLabel("f"))
+				.isPolynomialFunction(false));
 	}
 
 	@Test
