@@ -3762,7 +3762,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** MOB-1372 */
 		case MOB_DEFAULT_ROUNDING_13:
-			return prerelease;
+			return true;
 
         /** AND-1389 */
         case AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS:
