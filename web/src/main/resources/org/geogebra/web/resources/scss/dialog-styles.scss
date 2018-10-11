@@ -1081,6 +1081,8 @@ $duration: 0.2s;
 					padding: 8px;
 	    			background-color: $mebis-teal;
 	    			border-radius: 50%;
+	    			display: block;
+    				margin: 0px auto;
 	    		}
 	    		
 	    		.gwt-Label {
@@ -1119,6 +1121,7 @@ $duration: 0.2s;
   		.shareHelpTxt {
   			font-size: 100%;
   			margin-top: 12px;	
+  			width: 478px;
   		}
   	
   		.DialogButtonPanel {
