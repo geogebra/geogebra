@@ -12,7 +12,7 @@ import org.geogebra.common.util.HttpRequest;
  * Binding for MARVL's meta API, checks whether a page can be embedded
  */
 public class EmbedURLChecker {
-	private static String SERVICE_URL = "https://groot.geogebra.org:5000/v1.0/meta?url=";
+	private String baseURL = "https://groot.geogebra.org:5000/v1.0/";
 
 	/**
 	 * Result of status check.
@@ -56,17 +56,29 @@ public class EmbedURLChecker {
 	}
 
 	/**
+	 * @param materialsAPIurl
+	 *            base URL
+	 */
+	public EmbedURLChecker(String materialsAPIurl) {
+		if (!materialsAPIurl.isEmpty()) {
+			this.baseURL = materialsAPIurl;
+		}
+	}
+
+	/**
 	 * @param url
 	 *            URL
 	 * @param callback
 	 *            webpage status handler handler
 	 */
-	public static void checkEmbedURL(final String url,
+	public void checkEmbedURL(final String url,
 			final AsyncOperation<URLStatus> callback) {
 		HttpRequest xhr = UtilFactory.getPrototype().newHttpRequest();
-		xhr.sendRequestPost("GET", SERVICE_URL + url, null, new AjaxCallback() {
+		xhr.sendRequestPost("GET", baseURL + "/meta?url=" + url, null,
+				new AjaxCallback() {
 			@Override
 			public void onSuccess(String response) {
+						System.err.println(response);
 				try {
 					JSONObject json = new JSONObject(new JSONTokener(response));
 					if (json.has("error")) {
