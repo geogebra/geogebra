@@ -373,7 +373,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		definitionPanel.clear();
 
 		canvas = latexToCanvas(text);
-		canvas.addStyleName("canvasDef");
+		if (canvas != null) {
+			canvas.addStyleName("canvasDef");
+		}
 		if (geo == null) {
 			Log.debug("CANVAS to DEF");
 		}

@@ -157,6 +157,9 @@ public class DrawEquationW extends DrawEquation {
 		Canvas c = c0;
 		if (c == null) {
 			c = Canvas.createIfSupported();
+			if (c == null) {
+				return null;
+			}
 		} else {
 			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
 					c.getCoordinateSpaceHeight());
