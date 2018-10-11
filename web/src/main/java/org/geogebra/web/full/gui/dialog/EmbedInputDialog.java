@@ -86,7 +86,7 @@ public class EmbedInputDialog extends MediaDialog
 						}
 					});
 		} else {
-			new EmbedURLChecker(appW.getArticleElement().getMaterialsAPIurl())
+			new EmbedURLChecker(appW.getArticleElement().getParamBackendURL())
 					.checkEmbedURL(url.replace("+", "%2B"), this);
 		}
 	}
