@@ -3525,8 +3525,15 @@ namespace giac {
       polynome p=it->mult==1?it->fact:pow(it->fact,it->mult),quo,rem;
       it->den.TDivRem(p,quo,rem,true);
       gen cur_deno(r2e(quo,l,contextptr));
-      if (current.mult==1)
+      if (current.mult==1){
+	if (current.fact.lexsorted_degree()==1){
+	  // unitarize
+	  gen tmp(_lcoeff(makesequence(deno,xvar),contextptr));
+	  reste=ratnormal(reste/tmp,contextptr);
+	  deno=recursive_normal(deno/tmp,contextptr);
+	}
 	res += reste/cur_deno/deno;
+      }
       else {
 	for (int i=0;i<current.mult;++i){
 	  gen tmp(_quorem(makesequence(reste,deno,xvar),contextptr));
