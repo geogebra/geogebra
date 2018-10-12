@@ -1894,6 +1894,7 @@ public class AlgebraProcessor {
 		}
 
 		processReplace(replaceable, ret, ve, info);
+		processDefaults(ret);
 
 		return ret;
 	}
@@ -2024,6 +2025,12 @@ public class AlgebraProcessor {
 			}
 		}
 
+	}
+
+	private void processDefaults(GeoElementND[] array) {
+		for (GeoElementND element: array) {
+			InputHelper.initSymbolicMode(element);
+		}
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
