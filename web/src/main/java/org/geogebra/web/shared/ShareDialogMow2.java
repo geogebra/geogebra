@@ -115,6 +115,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		return btn;
 	}
 
+	@Override
 	public void setLabels() {
 		getCaption().setText(app.getLocalization()
 				.getMenu("Share"));
@@ -131,6 +132,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		}
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == cancelBtn) {
 			hide();
