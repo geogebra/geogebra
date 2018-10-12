@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Try to expand the given function
@@ -100,13 +99,15 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
 					arbconst);
 
-			Log.debug("listOut = " + listOut);
-
-
-			if (listOut == null || listOut.length() == 0
-					|| "?".equals(listOut)) {
-				// eg Factors(f) when x=0
+			if (listOut == null || listOut.length() == 0) {
 				g.setUndefined();
+			} else if ("?".equals(listOut)) {
+				g.clear();
+				GeoList factor = new GeoList(cons);
+				factor.add(f.copy());
+				factor.add(new GeoNumeric(cons, 1));
+				g.setUndefined();
+				g.add(factor);
 			} else {
 				// read result back into list
 				g.set(kernel.getAlgebraProcessor().evaluateToList(listOut));
