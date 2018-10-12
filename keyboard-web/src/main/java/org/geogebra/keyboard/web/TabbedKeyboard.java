@@ -18,6 +18,10 @@ import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
+import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
+import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
+import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
+import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
@@ -81,6 +85,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 * has material tooltips
 	 */
 	boolean hasTooltips;
+	private boolean scientific;
 
 	/**
 	 * @param app
@@ -88,13 +93,15 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
 	 */
-	public TabbedKeyboard(App app, HasKeyboard appKeyboard) {
+	public TabbedKeyboard(App app, HasKeyboard appKeyboard,
+			boolean scientific) {
 		this.app = app;
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 		this.hasTooltips = app.has(Feature.TOOLTIP_DESIGN);
 		this.switcher = new KeyboardSwitcher(this);
+		this.scientific = scientific;
 	}
 
 	/**
@@ -127,7 +134,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	/**
 	 * (Re)build the UI.
 	 */
-	public void buildGUI() {
+	private void buildGUIGraphing() {
 		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(),
@@ -172,6 +179,40 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			keyboard.setVisible(false);
 			switcher.addSwitch(keyboard, "ABC");
 		}
+		layout();
+	}
+
+	private void buildGUIScientific() {
+		KeyboardFactory kbf = new KeyboardFactory();
+		this.tabs = new FlowPanel();
+
+		KeyPanelBase keyboard = buildPanel(
+				kbf.getImpl(new ScientificKeyboardFactory()), this);
+		tabs.add(keyboard);
+		//skip more button
+		switcher.addSwitch(keyboard, "123");
+		
+		keyboard = buildPanel(
+				kbf.getImpl(new ScientificFunctionKeyboardFactory()), this);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		switcher.addSwitch(keyboard, "f(x)");
+		upperKeys = new HashMap<>();
+		ScientificLettersKeyboardFactory letterFactory = new ScientificLettersKeyboardFactory();
+		letterFactory.setKeyboardDefinition(filter(locale.getKeyboardRow(1).replace("'", "")),
+				filter(locale.getKeyboardRow(2)),
+				filter(locale.getKeyboardRow(3)), ",'",
+				LetterKeyboardFactory.ACTION_SHIFT, null);
+		keyboard = buildPanel(
+				kbf.getImpl(letterFactory), this);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		switcher.addSwitch(keyboard, "ABC");
+
+		layout();
+	}
+
+	private void layout() {
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
@@ -595,6 +636,15 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 
 		clear();
 		buildGUI();
+	}
+
+	public void buildGUI() {
+		if (scientific) {
+			this.buildGUIScientific();
+		} else {
+			buildGUIGraphing();
+		}
+
 	}
 
 	@Override

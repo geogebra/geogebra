@@ -32,8 +32,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 * @param app
 	 *            keyboard context
 	 */
-	public OnscreenTabbedKeyboard(HasKeyboard app) {
-		super((AppW) app, app);
+	public OnscreenTabbedKeyboard(HasKeyboard app, boolean scientific) {
+		super((AppW) app, app, scientific);
 		buildGUI();
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 

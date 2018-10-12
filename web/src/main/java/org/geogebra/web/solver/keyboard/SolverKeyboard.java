@@ -15,7 +15,7 @@ public class SolverKeyboard extends TabbedKeyboard {
 	 *            keyboard context
 	 */
     public SolverKeyboard(App app, HasKeyboard appKeyboard) {
-        super(app, appKeyboard);
+		super(app, appKeyboard, false);
         switcher = new KeyboardSwitcher(this) {
             @Override
             public void addMoreButton() {

@@ -7,6 +7,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 evaluationDependsOn(':keyboard-base')
+evaluationDependsOn(':keyboard-scientific')
 evaluationDependsOn(':common')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':renderer-web')
@@ -20,6 +21,8 @@ buildscript {
 dependencies{
 	compile project(':keyboard-base'),
 	files(project(':keyboard-base').sourceSets.main.allSource.srcDirs),
+	project(':keyboard-scientific'),
+	files(project(':keyboard-scientific').sourceSets.main.allSource.srcDirs),
 	project(':common'), //needed for Unicode and Language
 	files(project(':common').sourceSets.main.allSource.srcDirs),
 	project(':web:dev'), //needed for Unicode and Language

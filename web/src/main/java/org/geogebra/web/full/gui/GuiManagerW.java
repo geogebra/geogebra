@@ -2152,7 +2152,9 @@ public class GuiManagerW extends GuiManager
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
-			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp());
+			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
+					"scientific".equals(getApp().getArticleElement()
+							.getDataParamAppName()));
 		}
 
 		if (textField != null) {

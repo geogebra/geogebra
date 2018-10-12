@@ -91,8 +91,18 @@ public class KeyboardFactory {
 	 * @return math keyboard
 	 */
 	public Keyboard createMathKeyboard() {
-		KeyboardModel model = mathKeyboardFactory.createKeyboardModel(defaultButtonFactory);
-		return new KeyboardImpl(model, null, null);
+		return getImpl(mathKeyboardFactory);
+	}
+
+	/**
+	 * @param modelFactory
+	 *            model factory
+	 * @return default implementation
+	 */
+	public Keyboard getImpl(KeyboardModelFactory modelFactory) {
+		return new KeyboardImpl(
+				modelFactory.createKeyboardModel(defaultButtonFactory), null,
+				null);
 	}
 
 	/**
@@ -101,8 +111,7 @@ public class KeyboardFactory {
 	 * @return function keyboard
 	 */
 	public Keyboard createFunctionsKeyboard() {
-		KeyboardModel model = functionKeyboardFactory.createKeyboardModel(defaultButtonFactory);
-		return new KeyboardImpl(model, null, null);
+		return getImpl(functionKeyboardFactory);
 	}
 
 	/**
@@ -164,8 +173,6 @@ public class KeyboardFactory {
 	 * @return special symbols keyboard
 	 */
 	public Keyboard createSpecialSymbolsKeyboard() {
-		KeyboardModel model = specialSymbolsKeyboardFactory
-				.createKeyboardModel(defaultButtonFactory);
-		return new KeyboardImpl(model, null, null);
+		return getImpl(specialSymbolsKeyboardFactory);
 	}
 }
