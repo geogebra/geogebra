@@ -1015,12 +1015,13 @@ $duration: 0.2s;
 		.chooseGrTxt {
 			color: $text-secondary;
 			font-size: 100%;
-    		margin: 0px 24px 10px 24px;	
+			margin: 0px 24px 10px 24px;	
 		}
 	
 		.noGrTxt {
 			@extend .chooseGrTxt;
-			margin-bottom: 0px;	
+			margin-bottom: 0px;
+			text-align: center; /* for IE*/
 		}
 	
 		.groupList {
