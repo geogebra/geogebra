@@ -36,7 +36,7 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public int getLineDisplayStyle() {
-		return GeoLine.EQUATION_EXPLICIT;
+		return GeoLine.EQUATION_IMPLICIT;
 	}
 
 	@Override

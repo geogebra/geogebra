@@ -293,14 +293,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public int getRelatedModeID() {
-		return toStringMode == Kernel.COORD_COMPLEX
+		return getToStringMode() == Kernel.COORD_COMPLEX
 				? EuclidianConstants.MODE_COMPLEX_NUMBER
 				: EuclidianConstants.MODE_POINT;
 	}
 
 	@Override
 	public String getTypeString() {
-		if (toStringMode == Kernel.COORD_COMPLEX) {
+		if (getToStringMode() == Kernel.COORD_COMPLEX) {
 			return "ComplexNumber";
 		}
 		return "Point";
@@ -348,7 +348,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		} else if (geo.isGeoVector()) {
 			GeoVector v = (GeoVector) geo;
 			setCoords(v.getX(), v.getY(), 1d);
-			setMode(v.getMode()); // complex etc
+			setMode(v.getToStringMode()); // complex etc
 		} else if (geo.isGeoNumeric()) {
 			GeoNumeric v = (GeoNumeric) geo;
 			setCoords(v.getDouble(), 0, 1d);
@@ -1443,7 +1443,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		addEqualSignToString(sbToString, toStringMode,
+		addEqualSignToString(sbToString, getToStringMode(),
 				tpl.getCoordStyle(kernel.getCoordStyle()));
 
 		sbToString.append(buildValueString(tpl).toString());
@@ -1533,7 +1533,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			String xStr = kernel.format(getInhomX(), tpl);
 			String yStr = kernel.format(getInhomY(), tpl);
 
-			if (toStringMode == Kernel.COORD_COMPLEX) {
+			if (getToStringMode() == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");
 				sbBuildValueString.append(xStr);
 				sbBuildValueString.append("+i*");
@@ -1556,14 +1556,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return sbBuildValueString;
 		}
 
-		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
+		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
 			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(),
 					getInhomY(), 0, sbBuildValueString);
-		} else if (getMode() == Kernel.COORD_SPHERICAL) {
+		} else if (getToStringMode() == Kernel.COORD_SPHERICAL) {
 			buildValueStringCoordSpherical(kernel, tpl, getInhomX(),
 					getInhomY(), 0, sbBuildValueString);
 		} else {
-			buildValueString(kernel, tpl, toStringMode, getInhomX(),
+			buildValueString(kernel, tpl, getToStringMode(), getInhomX(),
 					getInhomY(), sbBuildValueString);
 		}
 
@@ -1733,7 +1733,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public GeoVec2D getVector() {
 		GeoVec2D ret = new GeoVec2D(kernel, inhomX, inhomY);
-		ret.setMode(toStringMode);
+		ret.setMode(getToStringMode());
 		return ret;
 	}
 
@@ -1771,7 +1771,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		 */
 
 		// polar or cartesian coords
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
 			sb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
@@ -1844,7 +1844,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public boolean evaluatesToNonComplex2DVector() {
-		return this.getMode() != Kernel.COORD_COMPLEX;
+		return getToStringMode() != Kernel.COORD_COMPLEX;
 	}
 
 	@Override
@@ -2842,7 +2842,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public ValueType getValueType() {
-		return getMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
+		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
 				: ValueType.NONCOMPLEX2D;
 	}
 
@@ -2907,11 +2907,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return false;
 		}
 		return super.showToolTipText();
-	}
-
-	@Override
-	public int getToStringMode() {
-		return toStringMode;
 	}
 
 	@Override

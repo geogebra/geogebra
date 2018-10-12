@@ -762,7 +762,7 @@ public class ConstructionDefaults {
 		case POINT:
 			GeoPointND p = (GeoPointND) geo;
 
-			if (p.getMode() == Kernel.COORD_COMPLEX) {
+			if (p.getToStringMode() == Kernel.COORD_COMPLEX) {
 				type = DEFAULT_POINT_COMPLEX;
 			} else if (p.isIndependent()) {
 				type = DEFAULT_POINT_FREE;

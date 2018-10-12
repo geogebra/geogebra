@@ -164,10 +164,10 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	protected ExpressionValue vectorProduct(VectorNDValue v1,
 			VectorNDValue v2) {
 
-		if (v1.getMode() == Kernel.COORD_CARTESIAN_3D
-				|| v1.getMode() == Kernel.COORD_SPHERICAL
-				|| v2.getMode() == Kernel.COORD_CARTESIAN_3D
-				|| v2.getMode() == Kernel.COORD_SPHERICAL) {
+		if (v1.getToStringMode() == Kernel.COORD_CARTESIAN_3D
+				|| v1.getToStringMode() == Kernel.COORD_SPHERICAL
+				|| v2.getToStringMode() == Kernel.COORD_CARTESIAN_3D
+				|| v2.getToStringMode() == Kernel.COORD_SPHERICAL) {
 
 			// 3D vector product
 			Geo3DVec vec3D = new Geo3DVec(this.kernel);
@@ -191,8 +191,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		int cols = myList.getMatrixCols();
 
 		// 2D coords
-		if (rt.getMode() != Kernel.COORD_CARTESIAN_3D
-				&& rt.getMode() != Kernel.COORD_SPHERICAL) {
+		if (rt.getToStringMode() != Kernel.COORD_CARTESIAN_3D
+				&& rt.getToStringMode() != Kernel.COORD_SPHERICAL) {
 			if (rows == 3 && cols == 2) { // creates 3D vector from 2D coords
 				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x2 matrix * 3D vector / point

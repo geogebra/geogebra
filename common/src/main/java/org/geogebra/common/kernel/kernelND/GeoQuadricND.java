@@ -727,15 +727,6 @@ public abstract class GeoQuadricND extends GeoElement
 	}
 
 	/**
-	 * Returns equation mode (specific, implicit or explicit)
-	 * 
-	 * @return equation mode (one of EQUATION_* constants)
-	 */
-	public final int getToStringMode() {
-		return toStringMode;
-	}
-	
-	/**
 	 * Returns description of current specific equation
 	 * 
 	 * @return description of current specific equation

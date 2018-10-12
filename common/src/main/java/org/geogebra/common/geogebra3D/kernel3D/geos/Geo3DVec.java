@@ -642,7 +642,7 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	@Override
-	public int getMode() {
+	public int getToStringMode() {
 		return this.mode;
 	}
 

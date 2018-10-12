@@ -270,7 +270,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			return (GeoPointND) getManager3D().point3D(null,
 					point.getInhomX() + xOffset, point.getInhomY() + yOffset,
 					point.getInhomZ(),
-					point.getMode() == Kernel.COORD_CARTESIAN);
+					point.getToStringMode() == Kernel.COORD_CARTESIAN);
 		}
 
 		return super.copyFreePoint(point, view);

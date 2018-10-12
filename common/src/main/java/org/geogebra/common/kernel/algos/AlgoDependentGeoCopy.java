@@ -110,7 +110,8 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		// value
 		if (tpl.hasType(StringType.GEOGEBRA_XML) && !origGeo.isLabelSet()
 				&& origGeo instanceof GeoLine
-				&& ((GeoLine) origGeo).getMode() == GeoLine.PARAMETRIC) {
+				&& ((GeoLine) origGeo)
+						.getToStringMode() == GeoLine.PARAMETRIC) {
 			((GeoLine) origGeo).setMode(GeoLine.EQUATION_EXPLICIT);
 			String ret = ((GeoLine) origGeo).getLabel(tpl);
 			((GeoLine) origGeo).setMode(GeoLine.PARAMETRIC);

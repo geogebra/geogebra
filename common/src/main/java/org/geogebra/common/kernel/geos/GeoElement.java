@@ -161,7 +161,7 @@ public abstract class GeoElement extends ConstructionElement
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
 	/** cartesian, polar or complex */
-	public int toStringMode = Kernel.COORD_CARTESIAN;
+	protected int toStringMode = Kernel.COORD_CARTESIAN;
 	/** default (foreground) color */
 	protected GColor objColor = GColor.BLACK;
 	/** background color */
@@ -3103,7 +3103,7 @@ public abstract class GeoElement extends ConstructionElement
 				}
 
 				final GeoPointND point = (GeoPointND) this;
-				if (point.getMode() == Kernel.COORD_COMPLEX) {
+				if (point.getToStringMode() == Kernel.COORD_COMPLEX) {
 
 					// check through z_1, z_2, etc and return first one free
 					// (also checks z_{1} to avoid clash)
@@ -7805,7 +7805,10 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		pt.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1);
+	}
 
+	public final int getToStringMode() {
+		return toStringMode;
 	}
 
 }

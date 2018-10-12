@@ -152,13 +152,13 @@ public class VectorArithmetic {
 	private static ExpressionValue extractCoord(ExpressionNode exp, int i,
 			Kernel kernel) {
 		if (exp.getLeft() instanceof MyVecNode && ((MyVecNode) exp.getLeft())
-				.getMode() == Kernel.COORD_CARTESIAN) {
+				.getToStringMode() == Kernel.COORD_CARTESIAN) {
 			return i == 0 ? ((MyVecNode) exp.getLeft()).getX().wrap()
 					: (i == 1 ? ((MyVecNode) exp.getLeft()).getY().wrap()
 							: new ExpressionNode(kernel, 0));
 		}
 		if (exp.getLeft() instanceof MyVecNode && ((MyVecNode) exp.getLeft())
-				.getMode() == Kernel.COORD_POLAR) {
+				.getToStringMode() == Kernel.COORD_POLAR) {
 			if (i == 2) {
 				return new ExpressionNode(kernel, 0);
 			}
@@ -168,9 +168,9 @@ public class VectorArithmetic {
 		}
 		if (exp.getLeft() instanceof MyVec3DNode
 				&& (((MyVec3DNode) exp.getLeft())
-						.getMode() == Kernel.COORD_CARTESIAN
+						.getToStringMode() == Kernel.COORD_CARTESIAN
 						|| ((MyVec3DNode) exp.getLeft())
-								.getMode() == Kernel.COORD_CARTESIAN_3D)) {
+								.getToStringMode() == Kernel.COORD_CARTESIAN_3D)) {
 			return i == 0 ? ((MyVec3DNode) exp.getLeft()).getX().wrap()
 					: (i == 1 ? ((MyVec3DNode) exp.getLeft()).getY().wrap()
 							: ((MyVec3DNode) exp.getLeft()).getZ().wrap());

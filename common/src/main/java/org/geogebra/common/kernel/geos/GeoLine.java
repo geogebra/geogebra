@@ -1049,11 +1049,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		char op = '=';
 
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
-				&& toStringMode != EQUATION_USER)) {
+						&& getToStringMode() != EQUATION_USER)) {
 
 			String ret = "y = ?";
 
-			if (toStringMode == PARAMETRIC) {
+			if (getToStringMode() == PARAMETRIC) {
 				ret = "X = (?, ?)";
 			} else if (DoubleUtil.isZero(y)) {
 				// eg list = {x = ?}
@@ -1063,7 +1063,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return new StringBuilder(ret);
 		}
 
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case EQUATION_EXPLICIT: // /EQUATION
 			g[0] = x;
 			g[1] = y;
@@ -1097,11 +1097,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[2] = z;
 			if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 				return kernel.buildExplicitEquation(g, vars, op, tpl,
-						EQUATION_IMPLICIT_NON_CANONICAL == toStringMode);
+						EQUATION_IMPLICIT_NON_CANONICAL == getToStringMode());
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
 					false, false, op, tpl,
-					EQUATION_IMPLICIT_NON_CANONICAL == toStringMode);
+					EQUATION_IMPLICIT_NON_CANONICAL == getToStringMode());
 		case EQUATION_USER:
 			if (getDefinition() != null) {
 				return new StringBuilder(getDefinition().toValueString(tpl));
@@ -1167,7 +1167,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		getLineStyleXML(sb);
 
 		// prametric, explicit or implicit mode
-		XMLBuilder.appendEquationTypeLine(sb, toStringMode, parameter);
+		XMLBuilder.appendEquationTypeLine(sb, getToStringMode(), parameter);
 	}
 
 	/*
@@ -1862,12 +1862,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isParametric() {
-		return getMode() == GeoLine.PARAMETRIC;
+		return getToStringMode() == GeoLine.PARAMETRIC;
 	}
 
 	@Override
 	public ValueType getValueType() {
-		return getMode() == GeoLine.PARAMETRIC ? ValueType.PARAMETRIC2D
+		return getToStringMode() == GeoLine.PARAMETRIC ? ValueType.PARAMETRIC2D
 				: ValueType.EQUATION;
 	}
 
@@ -1935,7 +1935,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return toStringMode == GeoLine.EQUATION_USER && getDefinition() != null;
+		return getToStringMode() == GeoLine.EQUATION_USER
+				&& getDefinition() != null;
 	}
 
 	@Override

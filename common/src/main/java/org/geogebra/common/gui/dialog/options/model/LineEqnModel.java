@@ -81,7 +81,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public int getValueAt(int index) {
-		return getLineAt(index).getMode();
+		return getLineAt(index).getToStringMode();
 	}
 
 }

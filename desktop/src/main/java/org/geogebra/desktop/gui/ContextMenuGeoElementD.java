@@ -146,7 +146,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		CoordStyle point = (CoordStyle) getGeo();
-		int mode = point.getMode();
+		int mode = point.getToStringMode();
 		AbstractAction action;
 
 		switch (mode) {
@@ -228,7 +228,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		GeoLine line = (GeoLine) getGeo();
-		int mode = line.getMode();
+		int mode = line.getToStringMode();
 		AbstractAction action;
 		StringBuilder sb = new StringBuilder();
 

@@ -483,7 +483,7 @@ public class GeoPlane3D extends GeoElement3D
 
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		if (toStringMode == GeoLine.EQUATION_USER
+		if (getToStringMode() == GeoLine.EQUATION_USER
 				&& getDefinition() != null) {
 			return new StringBuilder(getDefinition().toValueString(tpl));
 		}
@@ -614,7 +614,7 @@ public class GeoPlane3D extends GeoElement3D
 
 		// grid line style
 		getLineStyleXML(sb);
-		XMLBuilder.appendEquationTypeLine(sb, toStringMode, null);
+		XMLBuilder.appendEquationTypeLine(sb, getToStringMode(), null);
 	}
 
 	@Override
@@ -947,12 +947,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return toStringMode == GeoLine.EQUATION_USER;
-	}
-
-	@Override
-	public int getToStringMode() {
-		return toStringMode;
+		return getToStringMode() == GeoLine.EQUATION_USER;
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public interface VectorNDValue extends ExpressionValue {
 	 * 
 	 * @return vector mode
 	 */
-	public int getMode();
+	public int getToStringMode();
 
 	/**
 	 * @return dimension

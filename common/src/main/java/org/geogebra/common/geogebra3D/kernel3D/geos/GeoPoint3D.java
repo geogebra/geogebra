@@ -959,7 +959,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			setCoords(p);
 			// TODO ? moveMode = p.getMoveMode();
 			updateCoords();
-			setMode(p.getMode()); // complex etc
+			setMode(p.getToStringMode()); // complex etc
 		}
 		/*
 		 * TODO else if (geo.isGeoVector()) { GeoVector v = (GeoVector) geo;
@@ -989,7 +989,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		GeoPoint.addEqualSignToString(sbToString, toStringMode,
+		GeoPoint.addEqualSignToString(sbToString, getToStringMode(),
 				tpl.getCoordStyle(kernel.getCoordStyle()));
 
 		sbToString.append(toValueString(tpl));
@@ -1015,14 +1015,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// boolean isVisibleInView2D = false;
 		Coords p = getInhomCoordsInD3();
 
-		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
+		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
 			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(),
 					p.getY(), p.getZ(), sbToString);
-		} else if (getMode() == Kernel.COORD_SPHERICAL) {
+		} else if (getToStringMode() == Kernel.COORD_SPHERICAL) {
 			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
 					p.getY(), p.getZ(), sbToString);
 		} else if (!DoubleUtil.isZero(p.getZ())) {
-			if (getMode() == Kernel.COORD_POLAR) {
+			if (getToStringMode() == Kernel.COORD_POLAR) {
 				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
 						p.getY(), p.getZ(), sbToString);
 			} else {
@@ -1030,7 +1030,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 						p.getY(), p.getZ(), sbToString);
 			}
 		} else {
-			GeoPoint.buildValueString(kernel, tpl, getMode(), p.getX(),
+			GeoPoint.buildValueString(kernel, tpl, getToStringMode(), p.getX(),
 					p.getY(), sbToString);
 		}
 
@@ -1106,7 +1106,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		super.getXMLtags(sb);
 
 		// polar or cartesian coords
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
 			sb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
@@ -1982,8 +1982,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 					// (xExpression, yExpression)
 					MyVec3DNode vn = (MyVec3DNode) en.getLeft();
 					hasPolarParentNumbers = vn
-							.getMode() == Kernel.COORD_SPHERICAL
-							|| vn.getMode() == Kernel.COORD_POLAR;
+							.getToStringMode() == Kernel.COORD_SPHERICAL
+							|| vn.getToStringMode() == Kernel.COORD_POLAR;
 
 					try {
 						// try to get free number variables used in coords for
@@ -2186,11 +2186,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			return getKernel().getLocalization().getMenu("Point") + " " + label;
 		}
 		return toString(tpl);
-	}
-
-	@Override
-	public int getToStringMode() {
-		return toStringMode;
 	}
 
 	@Override

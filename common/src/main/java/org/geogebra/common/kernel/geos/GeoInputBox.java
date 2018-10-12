@@ -226,7 +226,8 @@ public class GeoInputBox extends GeoButton {
 		} else if (linkedGeo.isGeoText()) {
 			defineText = "\"" + defineText + "\"";
 		} else if (linkedGeo.isGeoPoint()) {
-			if (((GeoPointND) linkedGeo).getMode() == Kernel.COORD_COMPLEX) {
+			if (((GeoPointND) linkedGeo)
+					.getToStringMode() == Kernel.COORD_COMPLEX) {
 
 				// make sure user can enter regular "i"
 				defineText = defineText.replace('i', Unicode.IMAGINARY);

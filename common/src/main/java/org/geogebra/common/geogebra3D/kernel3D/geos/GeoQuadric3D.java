@@ -1937,12 +1937,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		StringBuilder sbToValueString = new StringBuilder();
 		if (getDefinition() != null
-				&& (toStringMode == GeoConicND.EQUATION_USER)) {
+				&& (getToStringMode() == GeoConicND.EQUATION_USER)) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		switch (type) {
 		case QUADRIC_SPHERE:
-			if (toStringMode == GeoConicND.EQUATION_IMPLICIT) {
+			if (getToStringMode() == GeoConicND.EQUATION_IMPLICIT) {
 				return buildImplicitEquation(tpl);
 			}
 			buildSphereNDString(sbToValueString, tpl);
@@ -3420,7 +3420,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
 		getXMLtagsMatrix(sb);
 
-		XMLBuilder.appendEquationTypeConic(sb, this.toStringMode, null);
+		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), null);
 
 	}
 

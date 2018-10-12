@@ -375,7 +375,7 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	@Override
-	public int getMode() {
+	public int getToStringMode() {
 		return mode;
 	}
 

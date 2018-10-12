@@ -230,7 +230,7 @@ public class ParametricProcessor {
 			return ge.asArray();
 		}
 		if (fv.length < 2 && ev instanceof VectorValue) {
-			if (((VectorValue) ev).getMode() == Kernel.COORD_COMPLEX) {
+			if (((VectorValue) ev).getToStringMode() == Kernel.COORD_COMPLEX) {
 				if (!exp.getKernel().getApplication().has(Feature.SURFACE_2D)) {
 					throw new MyError(kernel.getApplication().getLocalization(),
 							"InvalidFunction");

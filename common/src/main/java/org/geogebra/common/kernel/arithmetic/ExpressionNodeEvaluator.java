@@ -523,9 +523,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// vector * vector (inner/dot product)
 			else if (rt instanceof VectorNDValue) {
-				if (((VectorNDValue) lt).getMode() == Kernel.COORD_COMPLEX
+				if (((VectorNDValue) lt)
+						.getToStringMode() == Kernel.COORD_COMPLEX
 						|| ((VectorNDValue) rt)
-								.getMode() == Kernel.COORD_COMPLEX) {
+								.getToStringMode() == Kernel.COORD_COMPLEX) {
 					// complex multiply
 					return complexMult((VectorNDValue) lt, (VectorNDValue) rt,
 							kernel);
@@ -951,7 +952,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// }
 			vec = ((VectorValue) lt).getVector();
 
-			if (vec.getMode() == Kernel.COORD_COMPLEX) {
+			if (vec.getToStringMode() == Kernel.COORD_COMPLEX) {
 
 				// complex power
 				GeoVec2D.complexPower(vec, ((NumberValue) rt), vec);
@@ -1132,7 +1133,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					if (fun.isBooleanFunction()) {
 						return new MyBoolean(kernel, fun.evaluate(pt) > 0);
 					}
-					if (pt.getMode() == Kernel.COORD_COMPLEX
+					if (pt.getToStringMode() == Kernel.COORD_COMPLEX
 							&& rt instanceof VectorValue) {
 						return fun.evalComplex(((VectorValue) rt).getVector());
 					}

@@ -43,7 +43,8 @@ public class CoordsModel extends MultipleOptionsModel {
 	@Override
 	public void updateProperties() {
 		CoordStyle geo0 = getCoordStyleAt(0);
-		getListener().setSelectedIndex(coordValues.indexOf(geo0.getMode()));
+		getListener()
+				.setSelectedIndex(coordValues.indexOf(geo0.getToStringMode()));
 
 	}
 

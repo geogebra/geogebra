@@ -521,7 +521,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		default: // continue below
 		}
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
 			sbBuildValueString.append("(");
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
@@ -572,7 +572,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	@Override
 	public GeoVec2D getVector() {
 		GeoVec2D ret = new GeoVec2D(kernel, x, y);
-		ret.setMode(toStringMode);
+		ret.setMode(getToStringMode());
 		return ret;
 	}
 
@@ -593,7 +593,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		getLineStyleXML(xmlsb);
 
 		// polar or cartesian coords
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
 			xmlsb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
@@ -628,12 +628,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public boolean evaluatesToNonComplex2DVector() {
-		return this.getMode() != Kernel.COORD_COMPLEX;
+		return this.getToStringMode() != Kernel.COORD_COMPLEX;
 	}
 
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
-		return this.getMode() != Kernel.COORD_COMPLEX;
+		return this.getToStringMode() != Kernel.COORD_COMPLEX;
 	}
 
 	/*
@@ -830,7 +830,8 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			sb.setLength(0);
 		}
 
-		return buildLatexString(kernel, sb, symbolic, tpl, toStringMode, x, y,
+		return buildLatexString(kernel, sb, symbolic, tpl, getToStringMode(), x,
+				y,
 				this);
 	}
 
@@ -1108,7 +1109,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public ValueType getValueType() {
-		return getMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
+		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
 				: ValueType.NONCOMPLEX2D;
 	}
 

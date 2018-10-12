@@ -64,7 +64,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		String label = n.getLabel();
 
 		double[] p = ((Vector3DValue) evaluate).getPointAsDouble();
-		int mode = ((Vector3DValue) evaluate).getMode();
+		int mode = ((Vector3DValue) evaluate).getToStringMode();
 		if (evaluate instanceof MyVecNDNode) {
 			// force vector for CAS vectors GGB-1492
 			if (((MyVecNDNode) evaluate).isCASVector()) {

@@ -462,7 +462,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            point
 	 */
 	private static void checkCoordCartesian(GeoPointND point) {
-		if (point.getMode() != Kernel.COORD_CARTESIAN) {
+		if (point.getToStringMode() != Kernel.COORD_CARTESIAN) {
 			point.setCartesian();
 			point.updateRepaint();
 		}
@@ -7272,7 +7272,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// make sure when a circle is dragged it stays in
 			// (x+2)^2+(y-3)^2=25 form
 			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_CIRCLE
-					&& movedGeoConic.toStringMode == GeoConicND.EQUATION_USER) {
+					&& movedGeoConic
+							.getToStringMode() == GeoConicND.EQUATION_USER) {
 				movedGeoConic.setToStringMode(GeoConicND.EQUATION_SPECIFIC);
 			}
 

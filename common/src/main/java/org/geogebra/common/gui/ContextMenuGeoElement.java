@@ -766,7 +766,8 @@ public abstract class ContextMenuGeoElement {
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
 			if (geo.isGeoLine()) {
-				return ((GeoLine) geo).getMode() != GeoLine.EQUATION_USER;
+				return ((GeoLine) geo)
+						.getToStringMode() != GeoLine.EQUATION_USER;
 			}
 			if (geo.isGeoPlane()) {
 				return ((GeoPlaneND) geo)

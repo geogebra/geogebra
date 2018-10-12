@@ -138,16 +138,6 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		toStringMode = mode;
 	}
 
-	/**
-	 * get the coord style
-	 * 
-	 * @return coord style
-	 */
-	@Override
-	public int getMode() {
-		return toStringMode;
-	}
-
 	@Override
 	public final boolean hasCoords() {
 		return true;

@@ -1792,11 +1792,11 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append(kernel.format(-coeffs[5], tpl));
 			return sb;
 		}
-		if (toStringMode == GeoConicND.EQUATION_PARAMETRIC) {
+		if (getToStringMode() == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}
 		if (getDefinition() != null
-				&& toStringMode == GeoConicND.EQUATION_USER) {
+				&& getToStringMode() == GeoConicND.EQUATION_USER) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		if (type == CONIC_LINE) {
@@ -1823,7 +1823,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			myVars = vars;
 		}
 
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case EQUATION_SPECIFIC:
 			if (!isSpecificPossible()) {
 				return kernel.buildImplicitEquation(coeffs, myVars,
@@ -3663,7 +3663,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
 		}
 		sb.append("/>\n");
-		XMLBuilder.appendEquationTypeConic(sb, this.toStringMode, parameter);
+		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), parameter);
 	}
 
 	@Override

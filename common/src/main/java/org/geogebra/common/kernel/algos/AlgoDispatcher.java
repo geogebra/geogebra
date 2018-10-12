@@ -2196,7 +2196,7 @@ public class AlgoDispatcher {
 			}
 
 			GeoPointND newPoint = point(null, path, locRW, false, false,
-					point.getMode() != Kernel.COORD_CARTESIAN_3D);
+					point.getToStringMode() != Kernel.COORD_CARTESIAN_3D);
 
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, (GeoElement) newPoint);

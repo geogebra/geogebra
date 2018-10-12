@@ -37,7 +37,7 @@ public interface VectorValue extends VectorNDValue {
 	 * @return Kernel.COORD_*
 	 */
 	@Override
-	public int getMode();
+	public int getToStringMode();
 
 	/**
 	 * Sets coord mode

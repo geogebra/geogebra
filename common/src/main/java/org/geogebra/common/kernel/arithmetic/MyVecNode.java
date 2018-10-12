@@ -258,7 +258,7 @@ public class MyVecNode extends ValidExpression
 
 	/** POLAR or CARTESIAN */
 	@Override
-	public int getMode() {
+	public int getToStringMode() {
 		return mode;
 	}
 

@@ -346,13 +346,13 @@ public class GeoVector3D extends GeoVec4D
 			sb.setLength(0);
 		}
 
-		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
+		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
 			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(),
 					getY(), getZ(), sb, this, symbolic);
 			return sb.toString();
 		}
 
-		if (getMode() == Kernel.COORD_SPHERICAL) {
+		if (getToStringMode() == Kernel.COORD_SPHERICAL) {
 			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(),
 					getZ(), sb);
 			return sb.toString();
@@ -360,7 +360,7 @@ public class GeoVector3D extends GeoVec4D
 
 		// cartesian 2D / polar / complex not possible
 		if (!DoubleUtil.isZero(getZ())) {
-			if (getMode() == Kernel.COORD_POLAR) {
+			if (getToStringMode() == Kernel.COORD_POLAR) {
 				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(),
 						getY(), getZ(), sb);
 			} else {
@@ -372,7 +372,7 @@ public class GeoVector3D extends GeoVec4D
 
 		// cartesian 2D / polar / complex are possible
 		return GeoVector.buildLatexString(kernel, sb, symbolic, tpl,
-				toStringMode, getX(), getY(), this);
+				getToStringMode(), getX(), getY(), this);
 
 	}
 
@@ -384,7 +384,7 @@ public class GeoVector3D extends GeoVec4D
 		super.getXMLtags(sbXml);
 
 		// polar or cartesian coords
-		switch (toStringMode) {
+		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
 			sbXml.append("\t<coordStyle style=\"polar\"/>\n");
 			break;

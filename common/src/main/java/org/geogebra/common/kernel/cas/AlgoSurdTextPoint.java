@@ -97,7 +97,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 
 	@Override
 	public final void compute() {
-		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
+		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
 		if (input[0].isDefined()) {
 			sbp.setLength(0);
@@ -106,7 +106,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 				sbp.append(" \\left( ");
 			}
 
-			int coordMode = p.getMode();
+			int coordMode = p.getToStringMode();
 			if (coordMode == Kernel.COORD_CARTESIAN_3D
 					|| coordMode == Kernel.COORD_SPHERICAL) {
 				// we want 3D coords

@@ -2395,7 +2395,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            point
 	 */
 	private static void checkCoordCartesian3D(GeoPointND point) {
-		if (point.getMode() != Kernel.COORD_CARTESIAN_3D) {
+		if (point.getToStringMode() != Kernel.COORD_CARTESIAN_3D) {
 			point.setCartesian3D();
 			point.updateRepaint();
 		}

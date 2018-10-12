@@ -100,12 +100,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void updateCoordsFrom2D(boolean doPathOrRegion);
 
 	/**
-	 * @return mode (complex / polar / cartesian / etc.)
-	 */
-	@Override
-	public int getMode();
-
-	/**
 	 * @return true if all coords are finite
 	 */
 	public boolean isFinite();

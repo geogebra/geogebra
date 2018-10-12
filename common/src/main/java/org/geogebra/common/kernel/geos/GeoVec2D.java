@@ -424,8 +424,8 @@ final public class GeoVec2D extends ValidExpression
 	public static void add(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		c.x = a.x + b.x;
 		c.y = a.y + b.y;
-		if (a.getMode() == Kernel.COORD_COMPLEX
-				|| b.getMode() == Kernel.COORD_COMPLEX) {
+		if (a.getToStringMode() == Kernel.COORD_COMPLEX
+				|| b.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
 		}
 	}
@@ -443,7 +443,7 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {
 
-		if (a.getMode() == Kernel.COORD_COMPLEX) {
+		if (a.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.x = a.x + b.getDouble();
 			c.y = a.y;
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -531,7 +531,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            result
 	 */
 	public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {
-		if (a.getMode() == Kernel.COORD_COMPLEX) {
+		if (a.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.x = b.getDouble() - a.x;
 			c.y = -a.y;
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -553,7 +553,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            result
 	 */
 	public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {
-		if (a.getMode() == Kernel.COORD_COMPLEX) {
+		if (a.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.x = a.x - b.getDouble();
 			c.y = a.y;
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -589,8 +589,8 @@ final public class GeoVec2D extends ValidExpression
 	public static void sub(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		c.x = a.x - b.x;
 		c.y = a.y - b.y;
-		if (a.getMode() == Kernel.COORD_COMPLEX
-				|| b.getMode() == Kernel.COORD_COMPLEX) {
+		if (a.getToStringMode() == Kernel.COORD_COMPLEX
+				|| b.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
 		}
 	}
@@ -1229,7 +1229,7 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	@Override
-	public int getMode() {
+	public int getToStringMode() {
 		return mode;
 	}
 

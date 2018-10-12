@@ -3294,10 +3294,10 @@ public class AlgebraProcessor {
 		}
 		GeoVec2D p = ((VectorValue) evaluate).getVector();
 
-		boolean polar = p.getMode() == Kernel.COORD_POLAR;
+		boolean polar = p.getToStringMode() == Kernel.COORD_POLAR;
 
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
-		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
+		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
 		GeoVec3D[] ret = new GeoVec3D[1];
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);

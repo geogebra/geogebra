@@ -24,7 +24,7 @@ public interface CoordStyle {
 	public void setSpherical();
 
 	/** @return toStringMode */
-	public int getMode();
+	public int getToStringMode();
 
 	/**
 	 * set toStringMode

@@ -1968,7 +1968,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isInputForm() {
-		return toStringMode == GeoLine.EQUATION_USER;
+		return getToStringMode() == GeoLine.EQUATION_USER;
 	}
 
 	@Override

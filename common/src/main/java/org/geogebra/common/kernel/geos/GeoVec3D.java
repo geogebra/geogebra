@@ -185,15 +185,7 @@ public abstract class GeoVec3D extends GeoElement
 	 * @return true if using POLAR style
 	 */
 	final public boolean isPolar() {
-		return toStringMode == Kernel.COORD_POLAR;
-	}
-
-	/**
-	 * @return currently used coordstyle
-	 */
-	@Override
-	public int getMode() {
-		return toStringMode;
+		return getToStringMode() == Kernel.COORD_POLAR;
 	}
 
 	/**
