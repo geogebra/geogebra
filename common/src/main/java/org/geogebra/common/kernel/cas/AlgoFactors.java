@@ -102,6 +102,7 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			if (listOut == null || listOut.length() == 0) {
 				g.setUndefined();
 			} else if ("?".equals(listOut)) {
+				g.clear();
 				GeoList factor = new GeoList(cons);
 				factor.add(f.copy());
 				factor.add(new GeoNumeric(cons, 1));
