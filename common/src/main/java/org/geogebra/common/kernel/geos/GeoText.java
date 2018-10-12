@@ -1031,6 +1031,7 @@ public class GeoText extends GeoElement
 	 * @param n
 	 *            index of corner (1 for lower left, then anticlockwise)
 	 */
+	@Override
 	public void calculateCornerPoint(GeoPoint result, int n) {
 		// adapted from GeoImage by Michael Borcherds 2007-11-26
 		if (hasAbsoluteScreenLocation || boundingBox == null) {
@@ -1101,6 +1102,7 @@ public class GeoText extends GeoElement
 	 * @param needsUpdatedBoundingBox
 	 *            true to make sure this object upates itself
 	 */
+	@Override
 	public final void setNeedsUpdatedBoundingBox(
 			boolean needsUpdatedBoundingBox) {
 		this.needsUpdatedBoundingBox = needsUpdatedBoundingBox;

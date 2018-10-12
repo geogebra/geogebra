@@ -30,10 +30,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -7760,53 +7757,9 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * For Input Boxes and Buttons
-	 * 
-	 * @param pt
-	 *            point to set
-	 * @param cornerNumber
-	 *            1,2,3,4,5
+	 * @return complex / polar/ cartesian for points an vectors, implicit /
+	 *         explitic / parametric / ... for equations
 	 */
-	public void calculateCornerPoint(GeoPoint pt, int cornerNumber) {
-		EuclidianView ev = kernel.getApplication().getEuclidianView1();
-		DrawableND drawer = ev.getDrawableFor(this);
-
-		if (!(drawer instanceof Drawable)) {
-			// file loading (null) or 3D (Drawable3D)
-			pt.setUndefined();
-			return;
-		}
-		GRectangle bounds = ((Drawable) drawer).getBounds();
-
-		double x, y;
-
-		switch (cornerNumber) {
-		default:
-		case 1:
-			x = bounds.getMinX();
-			y = bounds.getMaxY();
-			break;
-		case 2:
-			x = bounds.getMaxX();
-			y = bounds.getMaxY();
-			break;
-		case 3:
-			x = bounds.getMaxX();
-			y = bounds.getMinY();
-			break;
-		case 4:
-			x = bounds.getMinX();
-			y = bounds.getMinY();
-			break;
-		case 5:
-			pt.setCoords(bounds.getMaxX() - bounds.getMinX(),
-					bounds.getMaxY() - bounds.getMinY(), 1);
-			return;
-		}
-
-		pt.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1);
-	}
-
 	public final int getToStringMode() {
 		return toStringMode;
 	}
