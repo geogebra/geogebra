@@ -1090,9 +1090,9 @@ public class Ggb2giac {
 						+ "when((%0)[0]=='*',"
 						+ "when((%0)[2][0]=='inv'||length(%0)>2,getNum(%0),getNum(factor(ggbnumerans))),"
 						+ "getNum(factor(ggbnumerans))  )" + ")][1]");
-
+		String numericInit = "[[ggbnumans:=?],[ggbnumans:=%0],when(dim(lname(ggbnumans))==0||count_eq(unicode0176u,lname(ggbnumans))>0,";
 		p("Numeric.1",
-				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0||count_eq(unicode0176u,lname(ggbnumans))>0,"
+				numericInit
 						+
 						// normal() so that Numeric(x+x/2) works
 						// check for unicode0176u so that
@@ -1100,10 +1100,10 @@ public class Ggb2giac {
 						// is better when returning degrees from inverse trig
 						"evalf(ggbnumans)" + "," +
 						// #4537
-						"normal(evalf(regroup(ggbnumans)))" + ")][1]");
+						"normal(evalf(regroup(ggbnumans)))" + ")][2]");
 
 		p("Numeric.2",
-				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0||lname(ggbnumans)==[unicode0176u],"
+				numericInit
 						+
 						// normal() so that Numeric(x+x/2) works
 						// check for unicode0176u so that
@@ -1111,7 +1111,7 @@ public class Ggb2giac {
 						// is better when returning degrees from inverse trig
 						"evalf(ggbnumans,%1)" + "," +
 						// #4537
-						"normal(evalf(regroup(ggbnumans),%1))" + ")][1]");
+						"normal(evalf(regroup(ggbnumans),%1))" + ")][2]");
 
 		// using sub twice in opposite directions seems to fix #2198,though
 		// it's sort of magic
