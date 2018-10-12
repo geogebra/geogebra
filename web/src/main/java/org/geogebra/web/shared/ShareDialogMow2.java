@@ -53,7 +53,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		if (groupNames.isEmpty()) {
 			buildNoGroupPanel();
 		} else {
-			buildGroupPanel();
+			buildGroupPanel(groupNames);
 		}
 		buildButtonPanel();
 		add(dialogContent);
@@ -78,7 +78,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		dialogContent.add(noGroupPanel);
 	}
 
-	private void buildGroupPanel() {
+	private void buildGroupPanel(ArrayList<String> groupNames) {
 		selGroupLbl = new Label();
 		selGroupLbl.addStyleName("selGrLbl");
 		dialogContent.add(selGroupLbl);
@@ -87,8 +87,14 @@ public class ShareDialogMow2 extends DialogBoxW
 		scrollPanel = new ScrollPanel();
 		groupPanel.add(scrollPanel);
 		FlowPanel groups = new FlowPanel();
-		groups.add(new GroupButtonMow(appW, "group group group group"));
-		groups.add(new GroupButtonMow(appW, "group group group group"));
+		// ONLY FOR TESTING -> needs to be removed
+		/*
+		 * for (int i = 0; i < 40; i++) { groups.add( new GroupButtonMow(appW,
+		 * "group group group " + i)); }
+		 */
+		for (String group : groupNames) {
+			groups.add(new GroupButtonMow(appW, group));
+		}
 		scrollPanel.add(groups);
 		dialogContent.add(groupPanel);
 	}

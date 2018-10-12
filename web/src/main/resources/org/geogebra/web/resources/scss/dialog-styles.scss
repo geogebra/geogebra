@@ -1240,11 +1240,16 @@ $duration: 0.2s;
 			font-size: 100% !important;
 			margin-top: 0px !important;
 			margin-bottom: 8px;
+			margin-left: 24px;
 		}
-	
+		
 		.groupPanel {
 			border-top: 1px solid $black-12;	
 			border-bottom: 1px solid $black-12;		
+			max-height: 206px;
+		    overflow: auto;
+		    width: 486px;
+    		padding: 16px 0px 6px 12px;
 		}
 	
 		.noGroupPanel {
@@ -1303,8 +1308,8 @@ $duration: 0.2s;
 		cursor: pointer;
 		height: 92px;
     	width: 90px;
-    	margin-bottom: 4px;
-    	display: inline-block;
+    	margin: 0px 2px 10px 2px;
+    	display: inline-flex;
     	
     	.content {
     		height: 92px;
