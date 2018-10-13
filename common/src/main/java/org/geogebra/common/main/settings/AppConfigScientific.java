@@ -1,5 +1,7 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.io.layout.Perspective;
+
 /**
  * Config for Scientific Calculator app
  */
@@ -34,4 +36,14 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean isGreekAngleLabels() {
 		return false;
     }
+
+	@Override
+	public String getForcedPerspective() {
+		return Perspective.SCIENTIFIC + "";
+	}
+
+	@Override
+	public boolean hasToolsInSidePanel() {
+		return false;
+	}
 }

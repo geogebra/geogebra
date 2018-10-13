@@ -131,9 +131,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365));
 	}
 
-	/**
-	 * (Re)build the UI.
-	 */
 	private void buildGUIGraphing() {
 		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
@@ -638,13 +635,15 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		buildGUI();
 	}
 
+	/**
+	 * (Re)build the UI.
+	 */
 	public void buildGUI() {
 		if (scientific) {
-			this.buildGUIScientific();
+			buildGUIScientific();
 		} else {
 			buildGUIGraphing();
 		}
-
 	}
 
 	@Override

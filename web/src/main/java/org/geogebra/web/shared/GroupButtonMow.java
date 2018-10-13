@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,19 +15,15 @@ import com.google.gwt.user.client.ui.SimplePanel;
  *
  */
 public class GroupButtonMow extends FlowPanel {
-	private AppW appW;
 	private FlowPanel contentPanel;
 	private Label groupLbl;
 	private boolean selected;
 
 	/**
-	 * @param app
-	 *            see {@link AppW}
 	 * @param groupName
 	 *            name of the group
 	 */
-	public GroupButtonMow(AppW app, String groupName) {
-		this.appW = app;
+	public GroupButtonMow(String groupName) {
 		this.selected = false;
 		buildGui(groupName);
 		addClickHandler();

@@ -114,4 +114,14 @@ public class AppConfigDefault implements AppConfig {
 	public String getPreferencesKey() {
 		return "";
 	}
+
+	@Override
+	public String getForcedPerspective() {
+		return null;
+	}
+
+	@Override
+	public boolean hasToolsInSidePanel() {
+		return false;
+	}
 }

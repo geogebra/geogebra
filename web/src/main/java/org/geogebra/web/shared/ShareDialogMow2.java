@@ -93,7 +93,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		 * "group group group " + i)); }
 		 */
 		for (String group : groupNames) {
-			groups.add(new GroupButtonMow(appW, group));
+			groups.add(new GroupButtonMow(group));
 		}
 		scrollPanel.add(groups);
 		dialogContent.add(groupPanel);

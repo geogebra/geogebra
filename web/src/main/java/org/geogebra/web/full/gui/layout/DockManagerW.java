@@ -18,7 +18,6 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -2011,14 +2010,13 @@ public class DockManagerW extends DockManager {
 		if (old != null) {
 			layout.getDockManager().unRegisterPanel(old);
 		}
-		if (getApp().isUnbundled() && !getApp().has(Feature.MOW_TOOLBAR)) {
+		if (getApp().getConfig().hasToolsInSidePanel()) {
 			// register toolbar panel
 			layout.registerPanel(new ToolbarDockPanelW());
 		} else {
 			// register algebra view
 			layout.registerPanel(new AlgebraDockPanelW());
 		}
-
 	}
 
 	/**

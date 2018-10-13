@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -121,4 +122,15 @@ public class AppConfigGeometry implements AppConfig {
 	public String getPreferencesKey() {
 		return "_geometry";
 	}
+
+	@Override
+	public String getForcedPerspective() {
+		return Perspective.GEOMETRY + "";
+	}
+
+	@Override
+	public boolean hasToolsInSidePanel() {
+		return true;
+	}
+
 }

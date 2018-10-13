@@ -210,14 +210,8 @@ public class LoadFilePresenter {
 	}
 
 	private static String defaultPerspective(AppW app, String userPerspective) {
-		if (app.isUnbundledGraphing()) {
-			return Perspective.GRAPHING + "";
-		} else if (app.isUnbundledGeometry()) {
-			return Perspective.GEOMETRY + "";
-		} else if (app.isUnbundled3D()) {
-			return Perspective.GRAPHER_3D + "";
-		} else if (app.isWhiteboardActive()) {
-			return Perspective.NOTES + "";
+		if (app.getConfig().getForcedPerspective() != null) {
+			return app.getConfig().getForcedPerspective();
 		}
 		return userPerspective;
 	}

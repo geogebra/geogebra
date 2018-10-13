@@ -52,4 +52,8 @@ public interface AppConfig {
 	boolean isCASEnabled();
 
 	String getPreferencesKey();
+
+	String getForcedPerspective();
+
+	boolean hasToolsInSidePanel();
 }
