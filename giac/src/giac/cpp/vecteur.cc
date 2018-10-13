@@ -10382,6 +10382,7 @@ namespace giac {
     return a;
   }
 
+#ifndef USE_GMP_REPLACEMENTS
   static int randvar_count=0;
 
   gen find_randvars(const gen &g,gen_map &rv,GIAC_CONTEXT) {
@@ -10420,6 +10421,7 @@ namespace giac {
     }
     return g;
   } 
+#endif
 
   void vranm(int n,const gen & F,vecteur & res,GIAC_CONTEXT){
     gen f(F);
@@ -10794,6 +10796,7 @@ namespace giac {
       }
       return;
     }
+#ifndef USE_GMP_REPLACEMENTS
     if (f.type==_SYMB) {
       gen_map rv;
       randvar_count=0;
@@ -10815,6 +10818,7 @@ namespace giac {
         return;
       }
     }
+#endif
     for (int i=0;i<n;++i)
       res.push_back(eval(f,eval_level(contextptr),contextptr));
   }

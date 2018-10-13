@@ -282,6 +282,7 @@ namespace giac {
   static define_unary_function_eval (__UTPN,&_UTPN,_UTPN_s);
   define_unary_function_ptr5( at_UTPN ,alias_at_UTPN,&__UTPN,0,true);
 
+#ifndef USE_GMP_REPLACEMENTS
   gen randdiscrete(const vecteur &m,GIAC_CONTEXT) {
     int n;
     if (m.empty() || !m.front().is_integer() || (n=m.front().val)<1)
@@ -302,6 +303,7 @@ namespace giac {
   static const char _discreted_s []="discreted";
   static define_unary_function_eval (__discreted,&_discreted,_discreted_s);
   define_unary_function_ptr5( at_discreted,alias_at_discreted,&__discreted,0,true);
+#endif
 
   double randNorm(GIAC_CONTEXT){
     /*

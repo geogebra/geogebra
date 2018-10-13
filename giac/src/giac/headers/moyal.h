@@ -39,8 +39,10 @@ namespace giac {
   gen _Airy_Bi(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Airy_Bi ;
 
+#ifndef USE_GMP_REPLACEMENTS
   gen randdiscrete(const vecteur &m, GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_discreted ;
+#endif
 
   double randNorm(GIAC_CONTEXT);
   void randnorm2(double & r1,double & r2,GIAC_CONTEXT);

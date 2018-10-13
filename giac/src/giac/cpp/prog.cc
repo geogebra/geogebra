@@ -4147,6 +4147,7 @@ namespace giac {
   static define_unary_function_eval (__shuffle,&_shuffle,_shuffle_s);
   define_unary_function_ptr5( at_shuffle ,alias_at_shuffle,&__shuffle,0,true);
 
+#ifndef USE_GMP_REPLACEMENTS
   gen _sample(const gen & args,GIAC_CONTEXT){
     if (args.is_symb_of_sommet(at_discreted) || is_distribution(args)>0)
       return _rand(args,contextptr);
@@ -4177,6 +4178,7 @@ namespace giac {
   static const char _sample_s []="sample";
   static define_unary_function_eval (__sample,&_sample,_sample_s);
   define_unary_function_ptr5( at_sample ,alias_at_sample,&__sample,0,true);
+#endif
 
   gen _srand(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
