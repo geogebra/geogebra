@@ -4038,7 +4038,7 @@ namespace giac {
     if (a.is_symb_of_sommet(at_pow)){
       gen af=a._SYMBptr->feuille;
       if (af.type==_VECT && af._VECTptr->size()==2){
-	gen res=arg(af._VECTptr->front(),contextptr)*af._VECTptr->back();
+	gen res=im(ln(af._VECTptr->front(),contextptr)*af._VECTptr->back(),contextptr);
 	return _smod(makesequence(res,cst_two_pi),contextptr);
       }
     }
@@ -11445,9 +11445,9 @@ namespace giac {
       }
       if (l>digits+delta)
 	digits=l-delta;
-#ifndef GIAC_HAS_STO_38
+#ifdef HAVE_LIBMPFR // #ifndef GIAC_HAS_STO_38
       if (digits>14){
-#ifdef HAVE_LIBMPFR
+#if 1 // def HAVE_LIBMPFR
 	int nbits=digits2bits(digits);
 #ifdef HAVE_LIBPTHREAD
 	int locked=pthread_mutex_trylock(&mpfr_mutex);
@@ -11472,7 +11472,7 @@ namespace giac {
 	if (!res)
 	  return rg;
       } // end if (digits>14)
-#endif // GIAC_HAS_STO_38
+#endif // LIBMPFR was GIAC_HAS_STO_38
       double d;
 #if defined NSPIRE || defined FXCG
 #ifdef NSPIRE
