@@ -298,6 +298,9 @@ namespace giac {
   gen _all_trig_solutions(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_all_trig_solutions;
 
+  gen _increasing_power(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_increasing_power;
+
   gen _ntl_on(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_ntl_on;
 

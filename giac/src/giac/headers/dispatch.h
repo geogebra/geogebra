@@ -594,6 +594,8 @@ namespace giac {
     _GT_WEIGHTS = 148, // weights
     _GT_BIPARTITE = 149, // bipartite
     _GT_ACYCLIC = 150, // acyclic
+    _KDE_BANDWIDTH = 151, // bandwidth
+    _KDE_BINS = 152, // bins
   };
 
   enum mupad_operator {

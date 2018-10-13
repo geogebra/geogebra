@@ -575,6 +575,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "angle_radian"		(*yylval) = gen(at_angle_radian,0); index_status(yyextra)=0; return T_DIGITS;
 "approx_mode"		(*yylval) = gen(at_approx_mode,0); index_status(yyextra)=0; return T_DIGITS;
 "all_trig_solutions"		(*yylval) = gen(at_all_trig_solutions,1); index_status(yyextra)=0; return T_DIGITS;
+"increasing_power"		(*yylval) = gen(at_increasing_power,1); index_status(yyextra)=0; return T_DIGITS;
 "ntl_on"		(*yylval) = gen(at_ntl_on,1); index_status(yyextra)=0; return T_DIGITS;
 "complex_mode"		(*yylval) = gen(at_complex_mode,1); index_status(yyextra)=0; return T_DIGITS;
 "step_infolevel"		(*yylval) = gen(at_step_infolevel,1); index_status(yyextra)=0; return T_DIGITS;

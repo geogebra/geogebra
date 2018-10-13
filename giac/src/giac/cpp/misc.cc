@@ -1070,7 +1070,7 @@ namespace giac {
     if (is_zero(a))
       return b*x+c;
     // a*x^2+b*x+c -> a*(x+b/(2*a))^2+(b^2-4*a*c)/(4*a)
-    return a*pow(x+b/(2*a),2)+(4*a*c-pow(b,2))/(4*a);
+    return a*pow(x+symbolic(at_neg,(-b)/(2*a)),2)+(4*a*c-pow(b,2))/(4*a);
   }    
   static const char _canonical_form_s []="canonical_form";
   static define_unary_function_eval (__canonical_form,&_canonical_form,_canonical_form_s);

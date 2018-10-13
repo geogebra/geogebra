@@ -10382,6 +10382,45 @@ namespace giac {
     return a;
   }
 
+  static int randvar_count=0;
+
+  gen find_randvars(const gen &g,gen_map &rv,GIAC_CONTEXT) {
+    stringstream ss;
+    if (g.type==_IDNT) {
+      if (rv.find(g)!=rv.end())
+        return rv[g];
+      ss << " var" << randvar_count;
+      identificateur v(ss.str().c_str());
+      rv[g]=v;
+      ++randvar_count;
+      return v;
+    }
+    if (g.is_symb_of_sommet(at_discreted) || is_distribution(g)>0) {
+      ss << " tmp" << randvar_count;
+      identificateur t(ss.str().c_str());
+      ss.str("");
+      ss << " var" << randvar_count;
+      identificateur v(ss.str().c_str());
+      _eval(symbolic(at_sto,makesequence(g,t)),contextptr);
+      rv[t]=v;
+      ++randvar_count;
+      return v;
+    }
+    if (g.type==_SYMB) {
+      gen &f=g._SYMBptr->feuille;
+      if (f.type==_VECT) {
+        vecteur F;
+        F.reserve(f._VECTptr->size());
+        for (iterateur it=f._VECTptr->begin();it!=f._VECTptr->end();++it) {
+          F.push_back(find_randvars(*it,rv,contextptr));
+        }
+        return symbolic(g._SYMBptr->sommet,change_subtype(F,_SEQ__VECT));
+      }
+      return symbolic(g._SYMBptr->sommet,find_randvars(f,rv,contextptr));
+    }
+    return g;
+  } 
+
   void vranm(int n,const gen & F,vecteur & res,GIAC_CONTEXT){
     gen f(F);
     if (F.type==_USER)
@@ -10746,6 +10785,34 @@ namespace giac {
 	  }
 	  return;
 	}
+      }
+    }
+    if (f.is_symb_of_sommet(at_discreted)) {
+      const vecteur &args=*f._SYMBptr->feuille._VECTptr;
+      for (int i=0;i<n;++i) {
+        res.push_back(randdiscrete(args,contextptr));
+      }
+      return;
+    }
+    if (f.type==_SYMB) {
+      gen_map rv;
+      randvar_count=0;
+      gen e=find_randvars(f,rv,contextptr);
+      if (!rv.empty()) {
+        int nv=rv.size();
+        vecteur vars;
+        matrice R;
+        vars.reserve(nv);
+        R.reserve(nv);
+        for (gen_map::const_iterator it=rv.begin();it!=rv.end();++it) {
+          vars.push_back(it->second);
+          R.push_back(vranm(n,_eval(it->first,contextptr),contextptr));
+        }
+        R=mtran(R);
+        for (const_iterateur it=R.begin();it!=R.end();++it) {
+          res.push_back(_subs(makesequence(e,vars,*it),contextptr));
+        }
+        return;
       }
     }
     for (int i=0;i<n;++i)

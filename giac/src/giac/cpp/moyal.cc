@@ -282,6 +282,27 @@ namespace giac {
   static define_unary_function_eval (__UTPN,&_UTPN,_UTPN_s);
   define_unary_function_ptr5( at_UTPN ,alias_at_UTPN,&__UTPN,0,true);
 
+  gen randdiscrete(const vecteur &m,GIAC_CONTEXT) {
+    int n;
+    if (m.empty() || !m.front().is_integer() || (n=m.front().val)<1)
+      return gensizeerr(contextptr);
+    double ran1=giac_rand(contextptr)/(rand_max2+1.0);
+    double ran2=giac_rand(contextptr)/(rand_max2+1.0);
+    int i=std::floor(n*ran1);
+    int index=is_strictly_greater(m[i+1],ran2,contextptr)?i:m[n+i+1].val;
+    if (int(m.size()-1)==3*n)
+      return m[2*n+index+1];
+    return index+array_start(contextptr);
+  }
+
+  gen _discreted(const gen &g,GIAC_CONTEXT) {
+    if (g.type==_STRNG && g.subtype==-1) return g;
+    return symbolic(at_discreted,g);
+  }
+  static const char _discreted_s []="discreted";
+  static define_unary_function_eval (__discreted,&_discreted,_discreted_s);
+  define_unary_function_ptr5( at_discreted,alias_at_discreted,&__discreted,0,true);
+
   double randNorm(GIAC_CONTEXT){
     /*
     double d=rand()/(rand_max2+1.0);
@@ -3599,8 +3620,10 @@ namespace giac {
     switch (nd){
     case 4: case 5: case 11: case 12: case 14:
       return 1;
+#if 0 // Luka Marohnić comment: Furthermore, I propose excluding case 8 in distrib_nargs routine in moyal.cc. Namely, weibulld(k,lambda,theta) is evaluated to a real number, the value of Weibull PDF with k=a and lambda=b at point x=theta (not as a three-parameter Weibull). In contrast, weibulld(k,lambda) is a function and should be detected by is_distribution, but fails on the mentioned case 8. Perhaps distrib_nargs should return 2 on weibull distribution
     case 8:
       return 3;
+#endif
     default:
       return 2;
     }

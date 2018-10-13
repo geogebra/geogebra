@@ -3990,6 +3990,13 @@ namespace giac {
       return args._USERptr->rand(contextptr);
     if (args.is_symb_of_sommet(at_rootof))
       return vranm(1,args,contextptr)[0];
+    if (args.is_symb_of_sommet(at_discreted))
+      return vranm(1,args,contextptr)[0];
+    if (args.type==_VECT && args._VECTptr->front()==at_multinomial) {
+      vecteur v=*args._VECTptr;
+      v.insert(v.begin(),1);
+      return _randvector(v,contextptr)._VECTptr->at(0);
+    }
     int nd=is_distribution(args);
     if (nd==1 && args.type==_FUNC)
       return randNorm(contextptr);
@@ -4141,10 +4148,29 @@ namespace giac {
   define_unary_function_ptr5( at_shuffle ,alias_at_shuffle,&__shuffle,0,true);
 
   gen _sample(const gen & args,GIAC_CONTEXT){
-    if (args.type!=_VECT || args._VECTptr->size()!=2)
+    if (args.is_symb_of_sommet(at_discreted) || is_distribution(args)>0)
+      return _rand(args,contextptr);
+    if (args.type==_SYMB)
+      return _randvector(makesequence(1,args),contextptr)._VECTptr->front();
+    if (args.type!=_VECT || args._VECTptr->size()<2)
       return gensizeerr(contextptr);
-    gen a=args._VECTptr->front(),b=args._VECTptr->back();
-    if (a.type!=_VECT || !is_integral(b) || b.type==_ZINT || b.val<0)
+    vecteur &argv=*args._VECTptr;
+    gen a=argv.front(),b=argv.back();
+    if (a==at_multinomial) {
+      if (argv.size()==3) {
+        vecteur v=argv;
+        v.insert(v.begin(),1);
+        return _randvector(v,contextptr)._VECTptr->at(0);
+      } if (argv.size()==4 && b.is_integer()) {
+        return _randvector(makesequence(b,at_multinomial,argv[1],argv[2]),contextptr);
+      }
+      return gensizeerr(contextptr);
+    }
+    if (args._VECTptr->size()!=2 || !is_integral(b) || b.type==_ZINT || b.val<0)
+      return gensizeerr(contextptr);
+    if (a.is_symb_of_sommet(at_discreted) || is_distribution(a)>0 || a.type==_SYMB)
+      return _randvector(makesequence(b,a),contextptr);
+    if (a.type!=_VECT)
       return gensizeerr(contextptr);
     return _rand(makesequence(b,a),contextptr);
   }
@@ -6178,6 +6204,21 @@ namespace giac {
   static const char _all_trig_solutions_s []="all_trig_solutions";
   static define_unary_function_eval2 (__all_trig_solutions,&_all_trig_solutions,_all_trig_solutions_s,&printasDigits);
   define_unary_function_ptr( at_all_trig_solutions ,alias_at_all_trig_solutions ,&__all_trig_solutions);
+
+  gen _increasing_power(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    gen args(g);
+    if (g.type==_DOUBLE_)
+      args=int(g._DOUBLE_val);    
+    if (args.type!=_INT_)
+      return all_trig_sol(contextptr);
+    increasing_power((args.val)!=0,contextptr);
+    parent_cas_setup(contextptr);
+    return args;
+  }
+  static const char _increasing_power_s []="increasing_power";
+  static define_unary_function_eval2 (__increasing_power,&_increasing_power,_increasing_power_s,&printasDigits);
+  define_unary_function_ptr( at_increasing_power ,alias_at_increasing_power ,&__increasing_power);
 
   gen _ntl_on(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
