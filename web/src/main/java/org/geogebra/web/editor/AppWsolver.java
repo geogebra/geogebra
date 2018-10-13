@@ -152,7 +152,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
     @Override
     public double getInnerWidth() {
-        return 798;
+        return getWidth();
     }
 
 	public void setMathField(MathFieldW mathField) {

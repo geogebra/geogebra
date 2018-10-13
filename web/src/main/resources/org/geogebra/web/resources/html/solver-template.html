@@ -38,9 +38,6 @@
 	</style>
 	
     <script type="text/javascript">
-            function getContainer(){
-            	return document.getElementById("appContainer");
-            }
             translation = {};
             var script = document.createElement('script');
             script.src = codebase + "solver/solver.nocache.js";
@@ -51,6 +48,6 @@
 </head>
 <body dir="ltr" tabindex="-1" class="GeoGebraFrame">
 <!--HEADER-->
-<div id="appContainer" data-param-appType="<!--APP TYPE-->"></div>
+<article class="geogebraweb" id="ggw" data-param-appType="<!--APP TYPE-->"></article>
 </body>
 </html>

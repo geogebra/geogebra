@@ -4,7 +4,7 @@ import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
-import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
@@ -29,8 +29,8 @@ public class StepsEntry implements EntryPoint {
 	public void onModuleLoad() {
 		WebSimple.registerSuperdevExceptionHandler();
 
-		TestArticleElement articleElement = new TestArticleElement("true",
-				"Solver");
+		ArticleElement articleElement = ArticleElement.getGeoGebraMobileTags().get(0);
+
 		LoggerW.startLogger(articleElement);
 
 		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
@@ -49,11 +49,9 @@ public class StepsEntry implements EntryPoint {
 
 		app = new AppWsolver(articleElement, fr);
 
-		String type = getContainer().getAttribute("data-param-appType");
+		String type = articleElement.getAttribute("data-param-appType");
 
-		String id = "appContainer" + DOM.createUniqueId();
-		getContainer().setId(id);
-		rootPanel = RootPanel.get(id);
+		rootPanel = RootPanel.get("ggbApplet");
 
 		switchMode(type);
 	}
@@ -100,8 +98,4 @@ public class StepsEntry implements EntryPoint {
 			// shouldn't happen
 		}
 	}
-
-	private native Element getContainer() /*-{
-		return $wnd.getContainer();
-	}-*/;
 }

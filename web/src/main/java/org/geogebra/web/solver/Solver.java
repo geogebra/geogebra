@@ -3,6 +3,7 @@ package org.geogebra.web.solver;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -54,7 +55,7 @@ public class Solver {
 	private HorizontalPanel editorPanel;
 
 	private AbsolutePanel rootPanel;
-	private VerticalPanel solverPanel;
+	private FlowPanel solverPanel;
 	private VerticalPanel stepsPanel;
 
 	private WebStepGuiBuilder guiBuilder;
@@ -73,7 +74,7 @@ public class Solver {
 
 		Canvas canvas = Canvas.createIfSupported();
 
-		solverPanel = new VerticalPanel();
+		solverPanel = (FlowPanel) app.getAppletFrame();
 		solverPanel.addStyleName("solverPanel");
 
 		rootPanel.add(solverPanel);
@@ -95,8 +96,10 @@ public class Solver {
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
+				app.updateHeaderVisible();
 				mathField.setPixelRatio(Browser.getPixelRatio());
 				mathField.repaint();
+				keyboard.updateSize();
 			}
 		});
 
@@ -143,6 +146,13 @@ public class Solver {
 				} else {
 					keyboard.show();
 				}
+			}
+		});
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				keyboard.updateSize();
 			}
 		});
 	}

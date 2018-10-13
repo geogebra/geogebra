@@ -24,6 +24,19 @@
     width: 50%;
   }
 
+  @media screen and (max-width: 1300px) {
+    .solverPanel {
+      width: 650px;
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    .solverPanel {
+      width: 95%;
+    }
+  }
+
+
   .editorPanel {
     width: 100%;
     border: 1px solid blueviolet;
