@@ -11,8 +11,6 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -51,7 +49,7 @@ public class StepsEntry implements EntryPoint {
 
 		String type = articleElement.getAttribute("data-param-appType");
 
-		rootPanel = RootPanel.get("ggbApplet");
+		rootPanel = RootPanel.get("ggw");
 
 		switchMode(type);
 	}

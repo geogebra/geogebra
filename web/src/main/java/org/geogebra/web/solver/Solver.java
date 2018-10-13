@@ -55,7 +55,7 @@ public class Solver {
 	private HorizontalPanel editorPanel;
 
 	private AbsolutePanel rootPanel;
-	private FlowPanel solverPanel;
+	private VerticalPanel solverPanel;
 	private VerticalPanel stepsPanel;
 
 	private WebStepGuiBuilder guiBuilder;
@@ -74,7 +74,7 @@ public class Solver {
 
 		Canvas canvas = Canvas.createIfSupported();
 
-		solverPanel = (FlowPanel) app.getAppletFrame();
+		solverPanel = new VerticalPanel();
 		solverPanel.addStyleName("solverPanel");
 
 		rootPanel.add(solverPanel);
@@ -96,7 +96,7 @@ public class Solver {
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
-				app.updateHeaderVisible();
+				//app.updateHeaderVisible();
 				mathField.setPixelRatio(Browser.getPixelRatio());
 				mathField.repaint();
 				keyboard.updateSize();
