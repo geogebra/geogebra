@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.js;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.Dom;
@@ -17,7 +16,7 @@ import com.google.gwt.user.client.Window.Location;
 
 /**
  * @author gabor
- * 
+ *
  *         injects the javascript resources
  *
  */
@@ -59,9 +58,8 @@ public class ResourcesInjector {
 		if (!Browser.webWorkerSupported()) {
 			loadCodecs();
 		}
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.arrayBufferJs());
 		// strange, but iPad can blow it away again...
-		if (Browser.checkIfFallbackSetExplicitlyInArrayBufferJs()
+		if (Browser.zipjsLoadedWithoutWebWorkers()
 				&& Browser.webWorkerSupported()) {
 			loadCodecs();
 		}
@@ -69,21 +67,13 @@ public class ResourcesInjector {
 	}
 
 	/**
-	 * Load PAKO or Deflate
+	 * Load PAKO
 	 */
 	public static void loadCodecs() {
-		// if (AppW.USE_PAKO) {
-			Log.debug("loading zipjs/pako");
 		if (!PDFEncoderW.pakoLoaded()) {
-				JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
-			}
-			JavaScriptInjector
-					.inject(GuiResourcesSimple.INSTANCE.pakoCodecJs());
-		// } else {
-		// Log.debug("loading zipjs/inflate+deflate.js");
-		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
-		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
-		// }
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
+		}
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoCodecJs());
 	}
 
 	/** Works around https://bugzilla.mozilla.org/show_bug.cgi?id=548397 */
@@ -97,7 +87,7 @@ public class ResourcesInjector {
 	/**
 	 * Inject resources for GUI, overridden in ReTeX injector (to add JQuery +
 	 * JqueryUI for sliders)
-	 * 
+	 *
 	 */
 	protected void injectResourcesGUI() {
 		// overridden elsewhere
@@ -165,7 +155,7 @@ public class ResourcesInjector {
 
 	/**
 	 * Load Mathsans font if needed + additional fonts if specified by param.
-	 * 
+	 *
 	 * @param dataParamFontsCssUrl
 	 *            font CSS url
 	 */

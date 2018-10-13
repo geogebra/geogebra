@@ -46,12 +46,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/pako1.0.6_min.js")
 	TextResource pakoJs();
 
-	// @Source("org/geogebra/web/resources/js/zipjs/inflate.js")
-	// TextResource inflateJs();
-
-	@Source("org/geogebra/web/resources/js/zipjs/arraybuffer.js")
-	TextResource arrayBufferJs();
-
 	@Source("org/geogebra/web/resources/js/zipjs/zip-ext.js")
 	TextResource dataViewJs();
 

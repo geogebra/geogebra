@@ -131,13 +131,8 @@ public class Browser {
 	    return true;
 	}-*/;
 
-	public static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
-		if ($wnd.zip && $wnd.zip.useWebWorkers === false) {
-			//we set this explicitly in arraybuffer.js
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
-			return true;
-		}
-		return false;
+	public static native boolean zipjsLoadedWithoutWebWorkers() /*-{
+		return !!($wnd.zip && $wnd.zip.useWebWorkers === false);
 	}-*/;
 
 	/**
