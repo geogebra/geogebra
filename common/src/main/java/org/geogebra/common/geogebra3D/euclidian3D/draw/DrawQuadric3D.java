@@ -450,8 +450,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForItSelf();
 			if (shouldBePackedForManager()) {
-				drawPlanes[1].setSurfaceIndexNotVisible();
-				drawPlanes[1].setGeometryIndexNotVisible();
+			    if (drawPlanes[1] != null) {
+                    drawPlanes[1].setSurfaceIndexNotVisible();
+                    drawPlanes[1].setGeometryIndexNotVisible();
+                }
 			}
 			hideSurface();
 			hideLineIfNotNull();
@@ -941,9 +943,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	private void hidePlanesIfNotNull() {
 		if (shouldBePackedForManager() && drawPlanes != null) {
 			drawPlanes[0].setSurfaceIndexNotVisible();
-			drawPlanes[1].setSurfaceIndexNotVisible();
 			drawPlanes[0].setGeometryIndexNotVisible();
-			drawPlanes[1].setGeometryIndexNotVisible();
+            if (drawPlanes[1] != null) {
+                drawPlanes[1].setSurfaceIndexNotVisible();
+                drawPlanes[1].setGeometryIndexNotVisible();
+            }
 		}
 	}
 
@@ -1501,8 +1505,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 				drawPlanes[0].exportToPrinter3D(exportToPrinter3D,
 						exportSurface);
-				drawPlanes[1].exportToPrinter3D(exportToPrinter3D,
-						exportSurface);
+                if (drawPlanes[1] != null) {
+                    drawPlanes[1].exportToPrinter3D(exportToPrinter3D,
+                            exportSurface);
+                }
 				break;
 			case GeoQuadricNDConstants.QUADRIC_PLANE:
 				drawPlanes[0].exportToPrinter3D(exportToPrinter3D,
@@ -1552,7 +1558,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (shouldBePacked()) {
 			if (drawPlanes != null) {
 				drawPlanes[0].removePreviewFromGL();
-				drawPlanes[1].removePreviewFromGL();
+                if (drawPlanes[1] != null) {
+                    drawPlanes[1].removePreviewFromGL();
+                }
 			}
 			if (drawLine != null) {
 				drawLine.removePreviewFromGL();
@@ -1573,7 +1581,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
-			drawPlanes[1].setWaitForUpdateVisualStyle(prop);
+            if (drawPlanes[1] != null) {
+                drawPlanes[1].setWaitForUpdateVisualStyle(prop);
+            }
 			super.setWaitForUpdate();
 			break;
 
@@ -1609,7 +1619,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		super.updateGeometriesVisibility();
 		if (drawPlanes != null) {
 			drawPlanes[0].updateGeometriesVisibility();
-			drawPlanes[1].updateGeometriesVisibility();
+			if (drawPlanes[1] != null) {
+                drawPlanes[1].updateGeometriesVisibility();
+            }
 		}
 		if (drawLine != null) {
 			drawLine.updateGeometriesVisibility();
