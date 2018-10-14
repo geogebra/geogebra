@@ -3211,7 +3211,7 @@ __GGB__keysVar["cs"].menu = {
     "exam_menu_entry": "Zkou\u0161ka",
     "exam_menu_exit": "Ukon\u010dit zkou\u0161ku",
     "exam_not_supported": "Je n\xe1m l\xedto, ale zkou\u0161kov\xe9 prost\u0159ed\xed je dostupn\xe9 jen na Androidu verze 5 a v\xfd\u0161e.",
-    "exam_not_supported_chromebook": "GeoGebra Exam Mode is not available in this app on Chromebooks.",
+    "exam_not_supported_chromebook": "Zkou\u0161kov\xe9 prost\u0159ed\xed bohu\u017eel nen\xed dostupn\xe9 pro Chromebooky.",
     "exam_not_supported_ios": "Zkou\u0161kov\xe9 prost\u0159ed\xed GeoGebry je bohu\u017eel dostupn\xe9 jen na syst\xe9mu iOS 9.3.2 nebo nov\u011bj\u0161\xedm.",
     "exam_pin": "P\u0159ipnout aplikaci",
     "exam_prepare_header": "P\u0159ipravit zkou\u0161kov\xe9 prost\u0159ed\xed",
