@@ -66,7 +66,6 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.TextStyle;
 import com.himamis.retex.renderer.share.TextStyleAtom;
-import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class MhchemParser extends TeXParser {

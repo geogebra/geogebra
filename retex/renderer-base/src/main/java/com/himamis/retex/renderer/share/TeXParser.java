@@ -51,7 +51,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
