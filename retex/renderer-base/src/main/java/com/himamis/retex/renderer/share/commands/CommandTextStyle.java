@@ -46,15 +46,12 @@
 package com.himamis.retex.renderer.share.commands;
 
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.ExternalFontManager;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.TextStyleAtom;
-import com.himamis.retex.renderer.share.character.Character;
 
 public class CommandTextStyle extends Command {
 
-	final int style;
-	ExternalFontManager.FontSSSF f;
+	private final int style;
 
 	public CommandTextStyle(final int style) {
 		this.style = style;
@@ -62,33 +59,16 @@ public class CommandTextStyle extends Command {
 
 	@Override
 	public boolean init(TeXParser tp) {
-		f = ExternalFontManager.get()
-				.getFont(Character.UnicodeBlock.BASIC_LATIN);
-		if (f != null) {
-			ExternalFontManager.get().put(Character.UnicodeBlock.BASIC_LATIN,
-					null);
-		}
 		return true;
 	}
 
 	@Override
 	public void add(TeXParser tp, Atom a) {
-		if (f != null) {
-			ExternalFontManager.get().put(Character.UnicodeBlock.BASIC_LATIN,
-					f);
-		}
-
 		tp.closeConsumer(new TextStyleAtom(a, style));
 	}
 
 	@Override
 	public Command duplicate() {
-		CommandTextStyleTeX ret = new CommandTextStyleTeX(style);
-
-		ret.f = f;
-
-		return ret;
-
+		return new CommandTextStyleTeX(style);
 	}
-
 }

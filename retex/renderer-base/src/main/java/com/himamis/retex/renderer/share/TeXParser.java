@@ -656,12 +656,6 @@ public class TeXParser {
 
 	public static Atom getAtomForLatinStr(final String s,
 			final boolean mathMode) {
-		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-				.getFont(Character.UnicodeBlock.BASIC_LATIN);
-		if (f != null) {
-			return new JavaFontRenderingAtom(s, f);
-		}
-
 		final int N = s.length();
 		final RowAtom ra = new RowAtom(N);
 		for (int i = 0; i < N; ++i) {
@@ -674,12 +668,6 @@ public class TeXParser {
 
 	public static RowAtom getAtomForNumber(int n, final RowAtom ra,
 			final boolean mathMode) {
-		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-				.getFont(Character.UnicodeBlock.BASIC_LATIN);
-		if (f != null) {
-			ra.add(new JavaFontRenderingAtom(Integer.toString(n), f));
-			return ra;
-		}
 		final int zero = '0';
 		if (n <= 99) {
 			final int unit = n % 10;
@@ -705,13 +693,6 @@ public class TeXParser {
 
 	public static RowAtom getAtomForLatinStr(final String s, final RowAtom ra,
 			final boolean mathMode) {
-		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-				.getFont(Character.UnicodeBlock.BASIC_LATIN);
-		if (f != null) {
-			ra.add(new JavaFontRenderingAtom(s, f));
-			return ra;
-		}
-
 		for (int i = 0; i < s.length(); ++i) {
 			final char c = s.charAt(i);
 			ra.add(new CharAtom(c, mathMode));
@@ -2908,27 +2889,7 @@ public class TeXParser {
 	}
 
 	public Atom convertASCIICharToAtom(final char c, final boolean oneChar) {
-		final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-				.getBasicLatinFont();
-		if (f == null) {
-			return new CharAtom(c, isMathMode());
-		} else {
-			String r;
-			if (oneChar) {
-				r = Character.toString(c);
-			} else {
-				final int start = pos - 1;
-				while (pos < len) {
-					final char cc = parseString.charAt(pos);
-					if ((cc < '0' || cc > '9') && !isRomanLetter(cc)) {
-						break;
-					}
-					++pos;
-				}
-				r = parseString.substring(start, pos);
-			}
-			return new JavaFontRenderingAtom(r, f);
-		}
+		return new CharAtom(c, isMathMode());
 	}
 
 	/**
@@ -2961,9 +2922,7 @@ public class TeXParser {
 				r = parseString.substring(start, pos);
 			}
 
-			final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-					.getExternalFont(block);
-			addToConsumer(new JavaFontRenderingAtom(r, f));
+			addToConsumer(new JavaFontRenderingAtom(r));
 		}
 	}
 
@@ -2974,13 +2933,10 @@ public class TeXParser {
 			if (block == null) {
 				FactoryProvider.getInstance().debug("unknown character " + c);
 				c = '\ufffd';
-				block = UnicodeMapping.get(c);
 			}
 
-			final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-					.getExternalFont(block);
 			final String r = new String(new int[] { c }, 0, 1);
-			addToConsumer(new JavaFontRenderingAtom(r, f));
+			addToConsumer(new JavaFontRenderingAtom(r));
 		}
 	}
 
@@ -3009,9 +2965,8 @@ public class TeXParser {
 					}
 					r = parseString.substring(start, pos);
 				}
-				final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-						.getExternalFont(block);
-				a = new JavaFontRenderingAtom(r, f);
+
+				a = new JavaFontRenderingAtom(r);
 			}
 		}
 		return a;

@@ -52,7 +52,6 @@ import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.CharMapping;
 import com.himamis.retex.renderer.share.EnvArray;
-import com.himamis.retex.renderer.share.ExternalFontManager;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.GroupConsumer;
 import com.himamis.retex.renderer.share.MHeightAtom;
@@ -127,11 +126,7 @@ public class MhchemParser extends TeXParser {
 		public Atom convertASCIICharToAtom(final char c,
 				final boolean oneChar) {
 			if (!hasNormalGroupConsumer() && c >= 'a' && c <= 'z') {
-				final ExternalFontManager.FontSSSF f = ExternalFontManager.get()
-						.getBasicLatinFont();
-				if (f == null) {
-					return new MathCharAtom(c, isMathMode());
-				}
+				return new MathCharAtom(c, isMathMode());
 			}
 			return super.convertASCIICharToAtom(c, oneChar);
 		}

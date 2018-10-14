@@ -36,43 +36,7 @@ public class TestJlmDesktop extends JFrame {
 		Graphics2D g2 = (Graphics2D) g;
 		Graphics2DD g2d = new Graphics2DD(g2);
 
-		String[] texts = { "\\Huge{\\overleftarrow{aaaaaaa}}",
-				"\\Huge{\\overleftrightarrow{aaaaaaa}}",
-				"\\Huge{\\overleftarrow{a}}", "\\Huge{\\overleftrightarrow{a}}",
-				"\\Huge{A\\xhookrightarrow{aaaa}}B",
-				"\\Huge{A\\xhookrightarrow{aaa}}B",
-				"\\Huge{A\\xhookrightarrow{aa}}B",
-				"\\Huge{A\\xhookrightarrow{a}}B",
-				"\\Huge{A\\xhookrightarrow{}}B",
-				"\\Huge{A\\xhookleftarrow{aaaa}}B",
-				"\\Huge{A\\xhookleftarrow{aaa}}B",
-				"\\Huge{A\\xhookleftarrow{aa}}B",
-				"\\Huge{A\\xhookleftarrow{a}}B", "\\Huge{A\\xhookleftarrow{}}B",
-				"\\Huge{A\\xmapsto{aaaa}}B", "\\Huge{A\\xmapsto{}}B",
-				"\\Huge{A\\xlongequal{aaaa}}B", "\\Huge{A\\xlongequal{}}B",
-				"\\Huge{A\\xrightsmallleftharpoons{}}B",
-				"\\Huge{A\\xrightsmallleftharpoons{aaaa}}B",
-				"\\Huge{A\\xsmallrightleftharpoons{}}B",
-				"\\Huge{A\\xsmallrightleftharpoons{aaaa}}B",
-				"\\Huge{A\\xrightleftharpoons{}}B",
-				"\\Huge{A\\xrightleftharpoons{aaaa}}B",
-				"\\Huge{A\\xleftrightharpoons{}}B",
-				"\\Huge{A\\xleftrightharpoons{aaaa}}B",
-				"\\Huge{\\xrightharpoonup{}}",
-				"\\Huge{\\xrightharpoonup{aaaa}}",
-				"\\Huge{\\xrightharpoondown{}}",
-				"\\Huge{\\xrightharpoondown{aaaa}}",
-				"\\Huge{\\xleftharpoondown{}}",
-				"\\Huge{\\xleftharpoondown{aaaa}}",
-				"\\Huge{\\xleftharpoonup{}}", "\\Huge{\\xleftharpoonup{aaaa}}",
-				"\\Huge{\\xleftarrow{}}", "\\Huge{\\xleftarrow{aaaa}}",
-				"\\Huge{\\xrightarrow{}}", "\\Huge{\\xrightarrow{aaaa}}",
-				"\\Huge{\\xleftrightarrows{}}",
-				"\\Huge{A\\xleftrightarrows{aaaa}B}",
-				"\\Huge{\\xrightleftarrows{}}",
-				"\\Huge{\\xrightleftarrows{aaaa}}",
-				"\\Huge{A\\xleftrightarrow{}B}",
-				"\\Huge{A\\xleftrightarrow{aaaa}B}", };
+		String[] texts = { "\\mathfrak{alma}", "\u4E2D\u56FD\u7B2C\u4E00", "\\text{almaaa}almaaa" };
 
 		int y = 100;
 		for (String text : texts) {

@@ -55,45 +55,37 @@ public class JavaFontRenderingAtom extends Atom {
 
 	private final String str;
 	private final int style;
-	private final ExternalFontManager.FontSSSF f;
 	private final Font font;
 
 	private final static FontAdapter fontAdapter = new FontAdapter();
 
-	private JavaFontRenderingAtom(final String str, final int style,
-			final ExternalFontManager.FontSSSF f, final Font font) {
+	private JavaFontRenderingAtom(final String str, final int style, final Font font) {
 		this.str = str;
 		this.style = style;
-		this.f = f;
 		this.font = font;
 	}
 
 	@Override
 	public Atom duplicate() {
-		return setFields(new JavaFontRenderingAtom(str, style, f, font));
+		return setFields(new JavaFontRenderingAtom(str, style, font));
 	}
 
 	public JavaFontRenderingAtom(final String str, final int style) {
-		this(str, style, null, null);
-	}
-
-	public JavaFontRenderingAtom(final String str,
-			final ExternalFontManager.FontSSSF f) {
-		this(str, -1, f, null);
+		this(str, style, null);
 	}
 
 	public JavaFontRenderingAtom(final String str) {
-		this(str, -1, null, null);
+		this(str, -1, null);
 	}
 
 	public JavaFontRenderingAtom(final String str, final Font font) {
-		this(str, -1, null, font);
+		this(str, -1, font);
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		final double factor = TeXFont.getSizeFactor(env.getStyle());
-		if (f == null) {
+		if (font != null) {
 			if (style == -1) {
 				final TeXFont dtf = env.getTeXFont();
 				int style = dtf.isIt ? Font.ITALIC : Font.PLAIN;
@@ -109,20 +101,12 @@ public class JavaFontRenderingAtom extends Atom {
 			style = style | (dtf.isBold ? Font.BOLD : 0);
 			Font font;
 
-			final String ss = f.getSS();
-			final String sf = f.getSF();
+			final String ss = "SansSerif";
+			final String sf = "Serif";
 			if (dtf.isSs) {
-				if (ss == null) {
-					font = fontAdapter.createFont(sf, Font.PLAIN, 10);
-				} else {
-					font = fontAdapter.createFont(ss, Font.PLAIN, 10);
-				}
+				font = fontAdapter.createFont(ss, Font.PLAIN, 10);
 			} else {
-				if (sf == null) {
-					font = fontAdapter.createFont(ss, Font.PLAIN, 10);
-				} else {
-					font = fontAdapter.createFont(sf, Font.PLAIN, 10);
-				}
+				font = fontAdapter.createFont(sf, Font.PLAIN, 10);
 			}
 			return new JavaFontRenderingBox(str, style, factor, font,
 					dtf.isRoman);
