@@ -2905,7 +2905,6 @@ public class TeXParser {
 	public void convertCharacter(char c, final boolean oneChar)
 			throws ParseException {
 		if (!charMapping.replace(c, this)) {
-			final Character.UnicodeBlock block = UnicodeMapping.get(c);
 			String r;
 			if (oneChar) {
 				r = Character.toString(c);
@@ -2913,8 +2912,7 @@ public class TeXParser {
 				final int start = pos - 1;
 				while (pos < len) {
 					c = parseString.charAt(pos);
-					if ((c != ' ' && !UnicodeMapping.get(c).equals(block))
-							|| charMapping.hasMapping(c)) {
+					if (charMapping.hasMapping(c)) {
 						break;
 					}
 					++pos;
@@ -2928,9 +2926,8 @@ public class TeXParser {
 
 	public void convertCharacter(int c) throws ParseException {
 		if (!charMapping.replace(c, this)) {
-			Character.UnicodeBlock block = UnicodeMapping.get(c);
-
-			if (block == null) {
+			// TODO: double check
+			if (c > 0xfffd) {
 				FactoryProvider.getInstance().debug("unknown character " + c);
 				c = '\ufffd';
 			}
@@ -2947,7 +2944,6 @@ public class TeXParser {
 		}
 		Atom a = charMapping.getAtom(c, isMathMode());
 		if (a == null) {
-			final Character.UnicodeBlock block = UnicodeMapping.get(c);
 			a = charMapping.getAtom(c, isMathMode());
 			if (a == null) {
 				String r;
@@ -2957,8 +2953,7 @@ public class TeXParser {
 					final int start = pos - 1;
 					while (pos < len) {
 						c = parseString.charAt(pos);
-						if ((c != ' ' && !UnicodeMapping.get(c).equals(block))
-								|| charMapping.hasMapping(c)) {
+						if (charMapping.hasMapping(c)) {
 							break;
 						}
 						++pos;
