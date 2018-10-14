@@ -1,7 +1,8 @@
 package org.geogebra.web.solver;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
@@ -15,7 +16,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import java.util.List;
 
-class StepInformation extends HorizontalPanel {
+class StepInformation extends DockPanel {
 
     private WebStepGuiBuilder builder;
 
@@ -72,7 +73,7 @@ class StepInformation extends HorizontalPanel {
             renderedResult = builder.createRow(display, false);
             container.add(renderedResult);
 
-            add(container);
+            add(container, DockPanel.WEST);
 
             stepsButton = new StandardButton("Show Steps", app);
             stepsButton.setStyleName("solverButton");
@@ -82,9 +83,9 @@ class StepInformation extends HorizontalPanel {
                     showSteps();
                 }
             });
-            add(stepsButton);
+            add(stepsButton, DockPanel.EAST);
         } else {
-            add(builder.createRow(display, false));
+            add(builder.createRow(display, false), DockPanel.WEST);
         }
     }
 
@@ -103,6 +104,18 @@ class StepInformation extends HorizontalPanel {
             stepsButton.setLabel("Hide Steps");
             renderedSteps.setVisible(true);
             renderedResult.setVisible(false);
+        }
+    }
+
+    public void resize() {
+	    if (steps != null) {
+            if (Window.getClientWidth() < 500) {
+                add(container, DockPanel.NORTH);
+                add(stepsButton, DockPanel.SOUTH);
+            } else {
+                add(container, DockPanel.WEST);
+                add(stepsButton, DockPanel.EAST);
+            }
         }
     }
 }

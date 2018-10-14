@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
-public class AppWsolver extends AppW {
+public class AppWsolver extends AppW implements HasKeyboard {
     private GeoGebraFrameW frame;
 	private MathFieldW mathField;
 
@@ -162,5 +162,22 @@ public class AppWsolver extends AppW {
 	@Override
 	public double getWidth() {
     	return Window.getClientWidth();
+	}
+
+	@Override
+	public void updateKeyboardHeight() {
+		// do nothing yet
+	}
+
+	@Override
+	public double getInnerWidth() {
+		int width = Window.getClientWidth();
+		if (width > 1300) {
+			return width / 2;
+		} else if (width > 650) {
+			return 650;
+		} else {
+			return width;
+		}
 	}
 }

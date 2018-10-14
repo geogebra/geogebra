@@ -46,7 +46,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
-public class Solver implements HasKeyboard {
+public class Solver {
 
 	private AppWsolver app;
 	private JlmEditorLib library;
@@ -94,7 +94,7 @@ public class Solver implements HasKeyboard {
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
 
-		keyboard = new SolverKeyboard(app, this);
+		keyboard = new SolverKeyboard(app, app);
 
 		editorFocusPanel.setStyleName("editorFocusPanel");
 		editorFocusPanel.add(mathField.asWidget());
@@ -160,6 +160,12 @@ public class Solver implements HasKeyboard {
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.repaint();
 		keyboard.updateSize();
+
+		for (int i = 0; i < stepsPanel.getWidgetCount(); i++) {
+			if (stepsPanel.getWidget(i) instanceof StepInformation) {
+				((StepInformation) stepsPanel.getWidget(i)).resize();
+			}
+		}
 	}
 
 	void hideKeyboardAndCompute() {
@@ -291,37 +297,5 @@ public class Solver implements HasKeyboard {
 				sb.reset();
 			}
 		}
-	}
-
-	@Override
-	public void updateKeyboardHeight() {
-		// do nothing yet
-	}
-
-	@Override
-	public double getInnerWidth() {
-		int width = Window.getClientWidth();
-		if (width > 1300) {
-			return width / 2;
-		} else if (width > 650) {
-			return 650;
-		} else {
-			return width;
-		}
-	}
-
-	@Override
-	public Localization getLocalization() {
-		return app.getLocalization();
-	}
-
-	@Override
-	public boolean needsSmallKeyboard() {
-		return app.needsSmallKeyboard();
-	}
-
-	@Override
-	public void updateCenterPanelAndViews() {
-		app.updateCenterPanelAndViews();
 	}
 }

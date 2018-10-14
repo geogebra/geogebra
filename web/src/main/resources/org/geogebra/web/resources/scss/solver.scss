@@ -59,5 +59,6 @@
 
   .solverButton {
     @extend %primaryButton;
+    max-width: 150px;
   }
 }
