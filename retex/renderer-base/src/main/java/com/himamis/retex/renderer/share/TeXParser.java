@@ -2911,7 +2911,7 @@ public class TeXParser {
 				final int start = pos - 1;
 				while (pos < len) {
 					c = parseString.charAt(pos);
-					if (charMapping.hasMapping(c)) {
+					if (c < 0xFF || charMapping.hasMapping(c)) {
 						break;
 					}
 					++pos;
@@ -2925,8 +2925,7 @@ public class TeXParser {
 
 	public void convertCharacter(int c) throws ParseException {
 		if (!charMapping.replace(c, this)) {
-			// TODO: double check
-			if (c > 0xfffd) {
+			if (c > 0x10ffff) {
 				FactoryProvider.getInstance().debug("unknown character " + c);
 				c = '\ufffd';
 			}

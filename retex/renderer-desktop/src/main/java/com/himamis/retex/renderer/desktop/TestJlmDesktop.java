@@ -41,6 +41,7 @@ public class TestJlmDesktop extends JFrame {
 				"\\mathsf{\\mathit{\\mbox{\u03B3\u03B5\u03B9\u03AC \u03BA\u03CC\u03C3\u03BC\u03BF}}}",
 				"\\char{100000}", "\\char{48}",
 				// "\\char{0}", -> ParseException, as expected
+				"\\sqrt{\\frac{\\char{128512}}{2}}",
 		};
 
 		int y = 100;
