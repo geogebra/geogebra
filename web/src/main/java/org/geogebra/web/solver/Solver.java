@@ -14,8 +14,10 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
@@ -44,7 +46,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
-public class Solver {
+public class Solver implements HasKeyboard {
 
 	private AppWsolver app;
 	private JlmEditorLib library;
@@ -89,21 +91,10 @@ public class Solver {
 
 		mathField = new MathFieldW(null, editorFocusPanel, canvas,
 				new SolverMathFieldListener(this), false, null);
-		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
 
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				//app.updateHeaderVisible();
-				mathField.setPixelRatio(Browser.getPixelRatio());
-				mathField.repaint();
-				keyboard.updateSize();
-			}
-		});
-
-		keyboard = new SolverKeyboard(app, app);
+		keyboard = new SolverKeyboard(app, this);
 
 		editorFocusPanel.setStyleName("editorFocusPanel");
 		editorFocusPanel.add(mathField.asWidget());
@@ -149,12 +140,26 @@ public class Solver {
 			}
 		});
 
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(ResizeEvent event) {
+				resize();
+			}
+		});
+
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				keyboard.updateSize();
+				resize();
 			}
 		});
+	}
+
+	private void resize() {
+		app.updateHeaderVisible();
+		mathField.setPixelRatio(Browser.getPixelRatio());
+		mathField.repaint();
+		keyboard.updateSize();
 	}
 
 	void hideKeyboardAndCompute() {
@@ -286,5 +291,37 @@ public class Solver {
 				sb.reset();
 			}
 		}
+	}
+
+	@Override
+	public void updateKeyboardHeight() {
+		// do nothing yet
+	}
+
+	@Override
+	public double getInnerWidth() {
+		int width = Window.getClientWidth();
+		if (width > 1300) {
+			return width / 2;
+		} else if (width > 650) {
+			return 650;
+		} else {
+			return width;
+		}
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return app.getLocalization();
+	}
+
+	@Override
+	public boolean needsSmallKeyboard() {
+		return app.needsSmallKeyboard();
+	}
+
+	@Override
+	public void updateCenterPanelAndViews() {
+		app.updateCenterPanelAndViews();
 	}
 }

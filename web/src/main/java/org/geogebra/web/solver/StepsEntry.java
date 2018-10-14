@@ -1,5 +1,6 @@
 package org.geogebra.web.solver;
 
+import com.google.gwt.user.client.DOM;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.WebSimple;
@@ -19,15 +20,17 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 public class StepsEntry implements EntryPoint {
 
 	private AppWsolver app;
-	private RootPanel rootPanel;
 	private AbsolutePanel solverRoot;
 	private AbsolutePanel practiceRoot;
+
+	private GeoGebraFrameSimple geogebraFrame;
 
 	@Override
 	public void onModuleLoad() {
 		WebSimple.registerSuperdevExceptionHandler();
 
-		ArticleElement articleElement = ArticleElement.getGeoGebraMobileTags().get(0);
+		ArticleElement articleElement = ArticleElement.as(DOM.getElementById("ggw"));
+		articleElement.attr("marginTop", "64");
 
 		LoggerW.startLogger(articleElement);
 
@@ -43,13 +46,13 @@ public class StepsEntry implements EntryPoint {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 
-		GeoGebraFrameSimple fr = new GeoGebraFrameSimple(false);
+		geogebraFrame = new GeoGebraFrameSimple(true);
+		geogebraFrame.ae = articleElement;
 
-		app = new AppWsolver(articleElement, fr);
+		app = new AppWsolver(articleElement, geogebraFrame);
 
 		String type = articleElement.getAttribute("data-param-appType");
-
-		rootPanel = RootPanel.get("ggw");
+		RootPanel.get(articleElement.getId()).add(geogebraFrame);
 
 		switchMode(type);
 	}
@@ -69,7 +72,7 @@ public class StepsEntry implements EntryPoint {
 				solverRoot = new AbsolutePanel();
 				new Solver(app, solverRoot).setupApplication();
 
-				rootPanel.add(solverRoot);
+				geogebraFrame.add(solverRoot);
 			} else {
 				solverRoot.setVisible(true);
 			}
@@ -85,7 +88,7 @@ public class StepsEntry implements EntryPoint {
 				practiceRoot = new AbsolutePanel();
 				new Exercise(app, practiceRoot).setupApplication();
 
-				rootPanel.add(practiceRoot);
+				geogebraFrame.add(practiceRoot);
 			} else {
 				practiceRoot.setVisible(true);
 			}

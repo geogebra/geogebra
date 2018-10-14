@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
-public class AppWsolver extends AppW implements HasKeyboard {
+public class AppWsolver extends AppW {
     private GeoGebraFrameW frame;
 	private MathFieldW mathField;
 
@@ -145,16 +145,6 @@ public class AppWsolver extends AppW implements HasKeyboard {
         Log.debug("unimplemented");
     }
 
-    @Override
-    public void updateKeyboardHeight() {
-        // do nothing yet
-    }
-
-    @Override
-    public double getInnerWidth() {
-        return getWidth();
-    }
-
 	public void setMathField(MathFieldW mathField) {
 		this.mathField = mathField;
 	}
@@ -167,5 +157,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	@Override
 	public boolean isUnbundled() {
 		return true;
+	}
+
+	@Override
+	public double getWidth() {
+    	return Window.getClientWidth();
 	}
 }
