@@ -31,6 +31,11 @@ public class ShareDialogMow2 extends DialogBoxW
 	private FlowPanel noGroupPanel;
 	private Label noGroupsLbl;
 	private Label noGroupsHelpLbl;
+	private FlowPanel shareByLinkPanel;
+	private Label linkShareOnOffLbl;
+	private Label linkShareHelpLbl;
+	private ComponentSwitch shareSwitch;
+	private boolean isShareLinkOn = false;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -45,16 +50,29 @@ public class ShareDialogMow2 extends DialogBoxW
 		buildGui();
 	}
 
+	public boolean isShareLinkOn() {
+		return isShareLinkOn;
+	}
+
+	public void setShareLinkOn(boolean isShareLinkOn) {
+		this.isShareLinkOn = isShareLinkOn;
+	}
+
 	private void buildGui() {
 		addStyleName("shareDialogMow");
 		dialogContent = new FlowPanel();
+		// get list of groups of user
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
-		if (groupNames.isEmpty()) {
+		// user has no groups
+		if (/* groupNames.isEmpty() */ false) {
 			buildNoGroupPanel();
-		} else {
+		}
+		// show groups of user
+		else {
 			buildGroupPanel(groupNames);
 		}
+		buildShareByLinkPanel();
 		buildButtonPanel();
 		add(dialogContent);
 		setLabels();
@@ -88,15 +106,36 @@ public class ShareDialogMow2 extends DialogBoxW
 		groupPanel.add(scrollPanel);
 		FlowPanel groups = new FlowPanel();
 		// ONLY FOR TESTING -> needs to be removed
-		/*
-		 * for (int i = 0; i < 40; i++) { groups.add( new GroupButtonMow(appW,
-		 * "group group group " + i)); }
-		 */
+		for (int i = 0; i < 40; i++) {
+			groups.add(new GroupButtonMow("group group group " + i));
+		}
+
 		for (String group : groupNames) {
 			groups.add(new GroupButtonMow(group));
 		}
 		scrollPanel.add(groups);
 		dialogContent.add(groupPanel);
+	}
+
+	private void buildShareByLinkPanel() {
+		shareByLinkPanel = new FlowPanel();
+		shareByLinkPanel.addStyleName("shareByLink");
+		NoDragImage linkImg = new NoDragImage(
+				SharedResources.INSTANCE.mow_link_black(), 24);
+		linkImg.addStyleName("linkImg");
+		shareByLinkPanel.add(linkImg);
+		FlowPanel textPanel = new FlowPanel();
+		textPanel.addStyleName("textPanel");
+		linkShareOnOffLbl = new Label();
+		linkShareOnOffLbl.addStyleName("linkShareOnOff");
+		linkShareHelpLbl = new Label();
+		linkShareHelpLbl.addStyleName("linkShareHelp");
+		textPanel.add(linkShareOnOffLbl);
+		textPanel.add(linkShareHelpLbl);
+		shareByLinkPanel.add(textPanel);
+		shareSwitch = new ComponentSwitch();
+		shareByLinkPanel.add(shareSwitch);
+		dialogContent.add(shareByLinkPanel);
 	}
 
 	private void buildButtonPanel() {
@@ -130,6 +169,11 @@ public class ShareDialogMow2 extends DialogBoxW
 			noGroupsHelpLbl
 					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
 		}
+		linkShareOnOffLbl
+				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
+		linkShareHelpLbl
+				.setText(
+						app.getLocalization().getMenu("ShareLinkHelpTxt"));
 	}
 
 	@Override

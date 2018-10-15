@@ -47,6 +47,9 @@ public interface SharedResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-link-white-24px.svg")
 	SVGResource mow_link_white();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-link-black-24px.svg")
+	SVGResource mow_link_black();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-group-24px.svg")
 	SVGResource groups();
 

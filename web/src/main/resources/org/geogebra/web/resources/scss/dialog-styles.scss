@@ -1292,6 +1292,71 @@ $duration: 0.2s;
 			    text-align: center;
 			}
 		}
+	
+		.shareByLink {
+		    width: 460px;
+		    margin: 16px 20px 0px 24px;
+		    
+		    .linkImg {
+			    opacity: 0.54;
+			    margin: 4px 20px 2px 0px !important;
+			}
+		    
+		    .textPanel {
+			    position: relative;
+			    left: 50px;
+			    top: -34px;
+			    width: 240px;
+			    margin-right: 0px !important;
+			    
+			    .linkShareOnOff {
+				    margin-top: 0px !important;
+				    font-size: 75% !important;
+				    color: $text-primary !important;
+				    height: 16px;
+    				line-height: 16px;
+				}
+			
+				.linkShareHelp {
+				    margin-top: 0px !important;
+				    font-size: 70% !important;
+				    height: 16px;
+				    line-height: 16px;
+				}
+			}
+		
+			.switch {
+				width: 40px;
+				height: 24px;
+				position: relative;
+				top: -60px !important;
+				float: right;
+				
+				.track {
+				    content: "";
+				    display: inline-block;
+				    position: relative;
+				    width: 36px;
+				    height: 14px;
+				    background-color: #9ADAEC;
+				    border-radius: 15px;
+				    -webkit-transition: background 0.3s ease;
+				    transition: background 0.3s ease;
+				    vertical-align: middle;
+				}
+			
+				.thumb {
+				    width: 20px;
+				    height: 20px;
+				    background-color: #00A8D5;
+				    position: relative;
+				    top: -18px;
+				    left: 16px;
+				    border-radius: 50%;
+				    display: block;
+				}	
+			}
+		}
 		
 		.DialogButtonPanel {
 			padding-right: 8px !important;
