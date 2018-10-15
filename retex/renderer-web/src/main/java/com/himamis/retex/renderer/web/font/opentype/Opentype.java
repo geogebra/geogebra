@@ -212,7 +212,8 @@ public class Opentype implements FontLoaderWrapper {
 	}
 
 	private native JavaScriptObject getFontNative(String familyName) /*-{
-		return $wnd.__JLM2_GWT_FONTS__[familyName];
+		var lib = $wnd.__JLM_GWT_FONTS__;
+		return lib ? lib[familyName] : null;
 	}-*/;
 
 	@Override
