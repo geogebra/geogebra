@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -35,7 +36,6 @@ public class ShareDialogMow2 extends DialogBoxW
 	private Label linkShareOnOffLbl;
 	private Label linkShareHelpLbl;
 	private ComponentSwitch shareSwitch;
-	private boolean isShareLinkOn = false;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -54,15 +54,7 @@ public class ShareDialogMow2 extends DialogBoxW
 	 * @return true if share by link is active
 	 */
 	public boolean isShareLinkOn() {
-		return isShareLinkOn;
-	}
-
-	/**
-	 * @param isShareLinkOn
-	 *            true if share by link is active
-	 */
-	public void setShareLinkOn(boolean isShareLinkOn) {
-		this.isShareLinkOn = isShareLinkOn;
+		return shareSwitch.isSwitchOn();
 	}
 
 	private void buildGui() {
@@ -140,9 +132,24 @@ public class ShareDialogMow2 extends DialogBoxW
 		textPanel.add(linkShareOnOffLbl);
 		textPanel.add(linkShareHelpLbl);
 		shareByLinkPanel.add(textPanel);
-		shareSwitch = new ComponentSwitch(false);
+		shareSwitch = new ComponentSwitch(false, new AsyncOperation<Boolean>() {
+
+			public void callback(Boolean obj) {
+				updateShareByLinkPanel(obj.booleanValue());
+			}
+		});
 		shareByLinkPanel.add(shareSwitch);
 		dialogContent.add(shareByLinkPanel);
+	}
+
+	/**
+	 * update switch dependent UI
+	 * 
+	 * @param isSwitchOn
+	 *            true if switch is on
+	 */
+	public void updateShareByLinkPanel(boolean isSwitchOn) {
+
 	}
 
 	private void buildButtonPanel() {

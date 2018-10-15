@@ -1,6 +1,7 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -16,13 +17,19 @@ public class ComponentSwitch extends FlowPanel {
 	private SimplePanel track;
 	private SimplePanel thumb;
 	private boolean isSwitchOn;
+	private AsyncOperation<Boolean> callback;
 
 	/**
+	 * @param switchOn
+	 *            true if switch is on by default
+	 * @param callback
+	 *            function to update UI on switch update
 	 * 
 	 */
-	public ComponentSwitch(boolean switchOn) {
-		this.addStyleName("switch");
+	public ComponentSwitch(boolean switchOn, AsyncOperation<Boolean> callback) {
 		this.isSwitchOn = switchOn;
+		this.callback = callback;
+		this.addStyleName("switch");
 		this.addStyleName(switchOn ? "on" : "off");
 		track = new SimplePanel();
 		track.addStyleName("track");
@@ -65,6 +72,16 @@ public class ComponentSwitch extends FlowPanel {
 		} else {
 			this.removeStyleName("on");
 			this.addStyleName("off");
+		}
+		runCallback();
+	}
+
+	/**
+	 * run callback function
+	 */
+	public void runCallback() {
+		if (callback != null) {
+			callback.callback(isSwitchOn());
 		}
 	}
 }
