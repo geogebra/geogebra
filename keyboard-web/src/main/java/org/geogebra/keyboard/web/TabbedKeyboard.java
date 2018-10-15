@@ -270,8 +270,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			for (WeightedButton wb : row.getButtons()) {
 				if (!Action.NONE.name().equals(wb.getPrimaryActionName())) {
 					KeyBoardButtonBase button = makeButton(wb, bh);
+					addSecondary(button, wb);
 					keyboard.addToRow(index, button);
-					
 				}
 			}
 			index++;
@@ -359,9 +359,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				altText = locale.getAltText(wb.getAltText());
 			}
 
-			return new KeyBoardButtonBase(
-					locale.getFunction(name), altText, name,
-					b);
+			return new KeyBoardButtonBase(locale.getFunction(name), altText,
+					name, b);
 		case TRANSLATION_COMMAND_KEY:
 			return new KeyBoardButtonBase(
 					locale.getCommand(wb.getPrimaryActionName()),
@@ -371,6 +370,13 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		case TEXT:
 		default:
 			return textButton(wb, b);
+		}
+	}
+
+	private static void addSecondary(KeyBoardButtonBase btn,
+			WeightedButton wb) {
+		if (wb.getActionsSize() > 1) {
+			btn.setSecondaryAction(wb.getActionName(1));
 		}
 	}
 
@@ -771,34 +777,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				&& ((KeyBoardButtonFunctionalBase) btn).getAction() != null) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 
-			switch (button.getAction()) {
-				case CAPS_LOCK:
-					processShift();
-					break;
-				case BACKSPACE_DELETE:
-					processField.onBackSpace();
-					break;
-				case RETURN_ENTER:
-					// make sure enter is processed correctly
-					processField.onEnter();
-					if (processField.resetAfterEnter()) {
-						getUpdateKeyBoardListener().keyBoardNeeded(false, null);
-					}
-					break;
-				case LEFT_CURSOR:
-					processField.onArrow(KeyboardListener.ArrowType.left);
-					break;
-				case RIGHT_CURSOR:
-					processField.onArrow(KeyboardListener.ArrowType.right);
-					break;
-				case SWITCH_TO_SPECIAL_SYMBOLS:
-					selectSpecial();
-					break;
-				case SWITCH_TO_ABC:
-					selectAbc();
-					break;
-				case SWITCH_KEYBOARD:
-			}
+			process(button.getAction());
 		} else {
 			String text = btn.getFeedback();
 			if (Accents.isAccent(text)) {
@@ -820,8 +799,10 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				processAccent(null);
 				disableCapsLock();
 			}
-
 			processField.setFocus(true);
+		}
+		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
+			selectNumbers();
 		}
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -836,6 +817,38 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 						});
 			}
 		});
+	}
+
+	private void process(Action action) {
+		switch (action) {
+		case CAPS_LOCK:
+			processShift();
+			break;
+		case BACKSPACE_DELETE:
+			processField.onBackSpace();
+			break;
+		case RETURN_ENTER:
+			// make sure enter is processed correctly
+			processField.onEnter();
+			if (processField.resetAfterEnter()) {
+				getUpdateKeyBoardListener().keyBoardNeeded(false, null);
+			}
+			break;
+		case LEFT_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.left);
+			break;
+		case RIGHT_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.right);
+			break;
+		case SWITCH_TO_SPECIAL_SYMBOLS:
+			selectSpecial();
+			break;
+		case SWITCH_TO_ABC:
+			selectAbc();
+			break;
+		case SWITCH_KEYBOARD:
+		}
+
 	}
 
 	/**

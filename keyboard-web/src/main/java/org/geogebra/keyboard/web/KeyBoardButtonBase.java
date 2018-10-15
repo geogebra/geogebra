@@ -26,6 +26,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * the label that is displayed on the button
 	 */
 	protected Label label;
+	private String secondaryAction;
 
 	/**
 	 * @param caption
@@ -168,6 +169,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	/**
 	 * @param caption
 	 *            text of the button (also used as new feedback)
+	 * @param altText
+	 *            description for screen reader
 	 */
 	public final void setCaption(String caption, String altText) {
 		setCaption(caption, altText, caption);
@@ -178,5 +181,20 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 */
 	public String getFeedback() {
 		return this.feedback;
+	}
+
+	/**
+	 * @return secondary action
+	 */
+	public String getSecondaryAction() {
+		return secondaryAction;
+	}
+
+	/**
+	 * @param actionName
+	 *            secondary action name (see Action.getName()}
+	 */
+	public void setSecondaryAction(String actionName) {
+		this.secondaryAction = actionName;
 	}
 }

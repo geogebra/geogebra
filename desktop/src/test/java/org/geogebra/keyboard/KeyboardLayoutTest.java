@@ -19,7 +19,7 @@ public class KeyboardLayoutTest {
 				resources.append(
 						button.getResourceName()
 						+ ",");
-				actions.append(button.getActionName()
+				actions.append(button.getPrimaryActionName()
 						+ ",");
 			}
 		}
