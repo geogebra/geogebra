@@ -2925,11 +2925,6 @@ public class TeXParser {
 
 	public void convertCharacter(int c) throws ParseException {
 		if (!charMapping.replace(c, this)) {
-			if (c > 0x10ffff) {
-				FactoryProvider.getInstance().debug("unknown character " + c);
-				c = '\ufffd';
-			}
-
 			final String r = new String(new int[] { c }, 0, 1);
 			addToConsumer(new JavaFontRenderingAtom(r));
 		}
