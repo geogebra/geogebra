@@ -336,6 +336,22 @@ public abstract class UndoManager {
 				iterator.next();
 			}
 		}
+
+		// delete previous state if it's the same state
+		if (iterator.hasPrevious()) {
+			UndoCommand currentState = iterator.previous();
+			if (iterator.hasPrevious()) {
+				UndoCommand oldState = iterator.previous();
+				AppState current = currentState.getAppState();
+				if (current != null && current.equals(oldState.getAppState())) {
+					iterator.remove();
+					oldState.delete();
+				} else {
+					iterator.next();
+				}
+			}
+			iterator.next();
+		}
 		// debugStates();
 	}
 

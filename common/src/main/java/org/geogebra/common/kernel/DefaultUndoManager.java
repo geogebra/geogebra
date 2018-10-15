@@ -39,7 +39,26 @@ public class DefaultUndoManager extends UndoManager {
         public void delete() {
 			// overridden in subclases
         }
-    }
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
+
+			DefaultAppState that = (DefaultAppState) o;
+
+			return xml != null ? xml.equals(that.xml) : that.xml == null;
+		}
+
+		@Override
+		public int hashCode() {
+			return xml != null ? xml.hashCode() : 0;
+		}
+	}
 
 	/**
 	 * @param cons
