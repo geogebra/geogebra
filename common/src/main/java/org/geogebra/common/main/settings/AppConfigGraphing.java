@@ -138,4 +138,9 @@ public class AppConfigGraphing implements AppConfig {
 		return true;
 	}
 
+	@Override
+	public boolean hasScientificKeyboard() {
+		return false;
+	}
+
 }

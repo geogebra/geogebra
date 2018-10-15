@@ -56,4 +56,6 @@ public interface AppConfig {
 	String getForcedPerspective();
 
 	boolean hasToolsInSidePanel();
+
+	boolean hasScientificKeyboard();
 }

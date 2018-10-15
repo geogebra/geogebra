@@ -12,7 +12,7 @@ import org.geogebra.common.util.HttpRequest;
  * Binding for MARVL's meta API, checks whether a page can be embedded
  */
 public class EmbedURLChecker {
-	private String baseURL = "https://groot.geogebra.org:5000/v1.0/";
+	private String baseURL = "https://groot.geogebra.org:5000/v1.0";
 
 	/**
 	 * Result of status check.

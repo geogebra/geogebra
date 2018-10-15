@@ -46,4 +46,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasToolsInSidePanel() {
 		return false;
 	}
+
+	@Override
+	public boolean hasScientificKeyboard() {
+		return false;
+	}
 }

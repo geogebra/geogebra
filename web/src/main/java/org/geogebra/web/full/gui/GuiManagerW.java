@@ -2153,8 +2153,7 @@ public class GuiManagerW extends GuiManager
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
 			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
-					"scientific".equals(getApp().getArticleElement()
-							.getDataParamAppName()));
+					app.getConfig().hasScientificKeyboard());
 		}
 
 		if (textField != null) {
