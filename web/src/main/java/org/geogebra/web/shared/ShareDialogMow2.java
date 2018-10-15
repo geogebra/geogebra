@@ -51,14 +51,18 @@ public class ShareDialogMow2 extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
+	private String shareURL;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param shareURL
+	 *            share URL
 	 */
-	public ShareDialogMow2(AppW app) {
+	public ShareDialogMow2(AppW app, String shareURL) {
 		super(app.getPanel(), app);
 		this.appW = app;
+		this.shareURL = shareURL;
 		buildGui();
 	}
 
@@ -83,7 +87,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		// user has no groups
-		if (/* groupNames.isEmpty() */ false) {
+		if (/* groupNames.isEmpty() */ true) {
 			buildNoGroupPanel();
 		}
 		// show groups of user
@@ -167,7 +171,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		linkPanel.setStyleName("linkPanel");
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
-		linkBox.setText("to do get share url");
+		linkBox.setText(shareURL);
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
 		// build and add copy button
