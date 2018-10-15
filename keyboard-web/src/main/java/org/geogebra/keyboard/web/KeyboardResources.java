@@ -17,9 +17,6 @@ public interface KeyboardResources extends ClientBundle {
 	KeyboardResources INSTANCE = GWT.create(KeyboardResources.class);
 
 	// ONSCREENKEYBOARD
-	@Source("org/geogebra/common/icons/png/keyboard/view_close.png")
-	ImageResource keyboard_close();
-	
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_black_24px.svg")
 	SVGResource keyboard_more();
 	
@@ -39,18 +36,8 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/shift_black.png")
 	ImageResource keyboard_shift();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shiftDown.png")
-	ImageResource keyboard_shiftDownOld();
-
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shift.png")
-	ImageResource keyboard_shiftOld();
-
 	@Source("org/geogebra/common/icons/png/keyboard/backspace.png")
 	ImageResource keyboard_backspace();
-	
-	// backspace for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/backspace_black.png")
-	ImageResource keyboard_backspace_black();
 
 	// enter for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter_black.png")
