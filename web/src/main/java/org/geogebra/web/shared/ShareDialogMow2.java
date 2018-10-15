@@ -173,6 +173,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		copyBtn = new StandardButton(app.getLocalization().getMenu("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
+		copyBtn.addFastClickHandler(this);
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
 		shareByLinkPanel.add(linkPanel);
@@ -270,6 +271,11 @@ public class ShareDialogMow2 extends DialogBoxW
 			hide();
 		} else if (source == saveBtn) {
 			// TODO share functionality
+			hide();
+		} else if (source == copyBtn) {
+			linkBoxFocused = false;
+			app.copyTextToSystemClipboard(linkBox.getText());
+			focusLinkBox();
 			hide();
 		}
 	}
