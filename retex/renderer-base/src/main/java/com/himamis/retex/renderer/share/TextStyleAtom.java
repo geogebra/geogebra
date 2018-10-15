@@ -72,4 +72,9 @@ public class TextStyleAtom extends Atom {
 		env.setTextStyle(prevStyle);
 		return box;
 	}
+
+	@Override
+	public Atom getBase() {
+		return at;
+	}
 }

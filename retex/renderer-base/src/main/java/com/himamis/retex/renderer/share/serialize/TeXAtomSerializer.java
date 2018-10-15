@@ -1,16 +1,21 @@
 package com.himamis.retex.renderer.share.serialize;
 
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.BoldAtom;
+import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.ItAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
+import com.himamis.retex.renderer.share.StyleAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
+import com.himamis.retex.renderer.share.TextStyleAtom;
 import com.himamis.retex.renderer.share.TypedAtom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -79,7 +84,7 @@ public class TeXAtomSerializer {
 		if (root instanceof SpaceAtom) {
 			return " ";
 		}
-		if (root instanceof EmptyAtom) {
+		if (root instanceof EmptyAtom || root instanceof BreakMarkAtom) {
 			return "";
 		}
 		if (root instanceof SymbolAtom) {
@@ -100,8 +105,28 @@ public class TeXAtomSerializer {
 			}
 			return sb.toString();
 		}
-		FactoryProvider.getInstance().debug("Unknown atom:" + root);
-		FactoryProvider.getInstance().printStacktrace();
+		if (root instanceof BoldAtom) {
+			BoldAtom ba = (BoldAtom) root;
+			return serialize(ba.getBase());
+
+		}
+		if (root instanceof ItAtom) {
+			ItAtom ia = (ItAtom) root;
+			return serialize(ia.getBase());
+
+		}
+		if (root instanceof TextStyleAtom) {
+			TextStyleAtom tsa = (TextStyleAtom) root;
+			return serialize(tsa.getBase());
+
+		}
+		if (root instanceof StyleAtom) {
+			StyleAtom sa = (StyleAtom) root;
+			return serialize(sa.getBase());
+
+		}
+		FactoryProvider.getInstance().debug("Unknown atom:" + root.getClass());
+		// FactoryProvider.getInstance().printStacktrace();
 		return "?";
 	}
 

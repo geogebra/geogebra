@@ -72,4 +72,9 @@ public class StyleAtom extends Atom {
 		env.setStyle(sstyle);
 		return box;
 	}
+
+	@Override
+	public Atom getBase() {
+		return at;
+	}
 }
