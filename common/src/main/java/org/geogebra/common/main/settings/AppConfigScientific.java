@@ -49,6 +49,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean hasScientificKeyboard() {
-		return false;
+		return true;
 	}
 }
