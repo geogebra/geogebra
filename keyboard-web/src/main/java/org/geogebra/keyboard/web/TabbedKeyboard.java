@@ -290,7 +290,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			return;
 		}
 		KeyBoardButtonBase button = null;
-		double weightSum = 7; // initial guess
+		double weightSum = 6; // initial guess
 		for (Row row : keyboard.getLayout().getModel().getRows()) {
 			weightSum = Math.max(row.getRowWeightSum(), weightSum);
 		}

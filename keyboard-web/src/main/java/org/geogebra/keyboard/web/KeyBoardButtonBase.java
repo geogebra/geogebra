@@ -125,6 +125,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	/**
 	 * @param caption
 	 *            text of the button
+	 * @param altText
+	 *            description for screen reader
 	 * @param feedback1
 	 *            feedback of the button (to be inserted in textfield)
 	 */
@@ -132,6 +134,9 @@ public class KeyBoardButtonBase extends SimplePanel {
 
 		this.getElement().setAttribute("aria-label", altText);
 		this.caption = caption;
+		if (caption.length() > 5 && !caption.contains("_")) {
+			this.label.addStyleName("small");
+		}
 		if (feedback1 != null) {
 			this.feedback = feedback1;
 		}

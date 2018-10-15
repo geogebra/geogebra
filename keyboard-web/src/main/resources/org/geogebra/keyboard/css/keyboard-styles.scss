@@ -60,7 +60,7 @@ $purple-default: #6557D2;
 		top: 0px;
 		margin: 4px 4px 4px 5px;
 		right: 0px;
-    	cursor: pointer !important;
+		cursor: pointer !important;
 	}
 
 	/* special css for Springboard */
@@ -78,11 +78,11 @@ $purple-default: #6557D2;
 		font-family: geogebra-sans-serif, sans-serif;
 		padding: 5px 0;
 	}
-	
+
 	.KeyBoard {
 		position: relative;
 	}
-	
+
 	.TabbedKeyBoard.KeyBoard{
 		padding-top: 0;
 		background-color: $new-keyboard-background;
@@ -145,21 +145,32 @@ $purple-default: #6557D2;
 		border-bottom: 1px solid;
 		border-bottom-color: $new-keyboard-button-border; 
 		padding: 9px 0;
+
 		&.sub {
-    		padding: 6.5px;
+			padding: 6.5px;
 		}
+
 		&.sup {
 			padding: 5.5px;
 		}
+
 		img {
 			width: 24px;
 			height: 24px;
 		}
-	}
 
-	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
-		background-color: $new-functional-button;
-	}	
+		.small {
+			font-size: 80%;
+		}
+
+		&.colored{
+			background-color: $new-functional-button;
+		}
+
+		&.accentDown {
+			background-color: $new-functional-button;
+		}
+	}
 
 	.lowerHeight .KeyBoardButton {
 		height: 10px;
@@ -169,10 +180,6 @@ $purple-default: #6557D2;
 
 	.waves-effect.waves-keyboard .waves-ripple {
 		background-color: rgba(200, 200, 200, 0.65);
-	}
-
-	.KeyBoardButton.accentDown {
-		background-color: $new-functional-button;
 	}
 
 	.KeyBoardButton.supScript .gwt-Label {
@@ -223,10 +230,9 @@ $purple-default: #6557D2;
 
 	.lowerHeight .KeyBoardButton.enter {
 		height: 41px;
-	}
-
-	.lowerHeight .KeyBoardButton.enter img {
-		padding-top: 15px;
+		img {
+			padding-top: 15px;
+		}
 	}
 
 	.KeyBoardButton.enter img {
@@ -271,7 +277,6 @@ $purple-default: #6557D2;
 	 * SCALE CONTENT OF KEYBOARD
 	 */
 
-
 	.scale .keyBoardClosePanel {
 		top: -25px;
 		right: 0;
@@ -279,7 +284,6 @@ $purple-default: #6557D2;
 		height: 25px;
 	}
 
-	
 	.scale .KeyPanelRow, 
 	.scale .KeyBoardContentNumbers, 
 	.scale .KeyBoardContentSpecialChars,
@@ -366,41 +370,35 @@ $purple-default: #6557D2;
 		width: 100%;
 		height: 40px;
 		margin-bottom: 5px;
+
+		.switcherContents {
+			width: $tab123-width;
+			margin-left: auto;
+			margin-right: auto;
+			white-space: nowrap;
+		}
+		
+		.gwt-Button {
+			color: $black;
+			border: 0;
+			padding-left: 10px;
+			padding-right: 10px;
+			margin: 7px 4px 6px;
+			box-shadow: none;
+		}
+
+		.gwt-Button:active {
+			border: none;
+			background-color: transparent;
+		}
 	}
 
-	
-
-	.KeyboardSwitcher .switcherContents {
-		width: $tab123-width;
-		margin-left: auto;
-		margin-right: auto;
-		white-space: nowrap;
-
-	}
-
-
-	.scale.smallerFont .KeyboardSwitcher .switcherContents {
-	}
-	
 	.scale.normal .KeyboardSwitcher .switcherContents {
 		font-size: 100% !important;
 	}
 	
 	.scale .KeyboardSwitcher .switcherContents {
 		padding: 0;
-	}
-
-	.KeyboardSwitcher .gwt-Button {
-		color: $black;
-		border: 0;
-	    padding-left: 10px;
- 	   	padding-right: 10px;
-		margin: 7px 4px 6px;
-		box-shadow: none;
-	}
-	.KeyboardSwitcher .gwt-Button:active {
-		border: none;
-		background-color: transparent;
 	}
 
 	.scale .KeyboardSwitcher .gwt-Button {
@@ -410,28 +408,26 @@ $purple-default: #6557D2;
 		position: relative;
 		float: right;
 		width: 24px;
-    	height: 24px;
+		height: 24px;
 		padding: 4px;
 		margin: 4px 0px 4px 4px;
 		cursor: pointer !important;
 	}
 
-	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
-	}
-	
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
 		color: $purple-default;
 	}
-	
+
 	.KeyboardSwitcher .switcherContents > :first-child {
 		margin-left: -6px;
 	}
+
 	.scale .KeyboardSwitcher .switcherContents > :first-child {
 	}
-	
+
 	.KeyboardSwitcher .gwt-Button:hover {
-    	color: $purple-default;
-   	 	background-color: $switcher-background;
+		color: $purple-default;
+		background-color: $switcher-background;
 	}
 
 	.TabbedKeyBoard { 
@@ -446,7 +442,7 @@ $purple-default: #6557D2;
 		animation-name: addKeyBoard;
 		overflow: hidden;
 	}
-	
+
 	.TabbedKeyBoard.animatingOut {
 		animation-duration: 0.2s;
 		animation-name: removeKeyBoard;
@@ -457,7 +453,7 @@ $purple-default: #6557D2;
 		0% {max-height: 0;}
 		100% {max-height: 228px;}
 	}
-	
+
 	@keyframes removeKeyBoard {
 		0% {max-height: 228px;}
 		100% {max-height: 0;}
