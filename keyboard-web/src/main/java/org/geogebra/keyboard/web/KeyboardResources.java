@@ -94,6 +94,9 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/keyboard/fraction.svg")
 	SVGResource fraction();
 
+	@Source("org/geogebra/common/icons/svg/web/keyboard/inverse.svg")
+	SVGResource inverse();
+
 	@Source("org/geogebra/common/icons/svg/web/keyboard/abs.svg")
 	SVGResource abs();
 

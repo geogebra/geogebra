@@ -9,7 +9,6 @@ import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -342,8 +341,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	}
 
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
-		Log.error(wb.getActionName() + " : " + wb.getResourceName() + ":"
-				+ wb.getResourceType());
 		switch (wb.getResourceType()) {
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
@@ -507,6 +504,10 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					KeyboardResources.INSTANCE.fraction(),
 					Unicode.DIVIDE + "", bh, false, loc,
 					"altText.Fraction");
+		} else if (resourceName.equals(Resource.INVERSE.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.inverse(), "^-1", bh, false,
+					loc, "altText.Inverse");
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.xPower(),
