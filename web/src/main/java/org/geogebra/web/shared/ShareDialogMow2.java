@@ -10,6 +10,8 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -167,7 +169,6 @@ public class ShareDialogMow2 extends DialogBoxW
 		linkBox.setReadOnly(true);
 		linkBox.setText("to do get share url");
 		linkBox.setStyleName("linkBox");
-		focusLinkBox();
 		addLinkBoxHandlers();
 		// build and add copy button
 		copyBtn = new StandardButton(app.getLocalization().getMenu("Copy"),
@@ -222,6 +223,16 @@ public class ShareDialogMow2 extends DialogBoxW
 				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
 		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
 				? "SharedLinkHelpTxt" : "NotSharedLinkHelpTxt"));
+		linkPanel.setVisible(isSwitchOn);
+		if (isSwitchOn) {
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				@Override
+				public void execute() {
+					getLinkBox().selectAll();
+					getLinkBox().setFocus(true);
+				}
+			});
+		}
 	}
 
 	private void buildButtonPanel() {
