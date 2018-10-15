@@ -162,6 +162,14 @@ public class Opentype implements FontLoaderWrapper {
 						PreloadFontResources.INSTANCE.jlm_cmex10())) {
 			return;
 		}
+
+		// check if font .js loaded
+		// eg by another applet or deliberately pre-loaded
+		if (getFontNative(familyName) != null) {
+			parseFont(familyName);
+			return;
+		}
+
 		// force different version from CDN
 		// change if the fonts are updated
 		path = path + "?v=3";
