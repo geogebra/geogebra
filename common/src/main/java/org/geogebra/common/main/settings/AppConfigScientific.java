@@ -51,4 +51,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasScientificKeyboard() {
 		return true;
 	}
+
+	@Override
+	public boolean isEnableStructures() {
+		return false;
+	}
 }

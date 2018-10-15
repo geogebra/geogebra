@@ -133,4 +133,9 @@ public class AppConfigDefault implements AppConfig {
 	public boolean hasScientificKeyboard() {
 		return false;
 	}
+
+	@Override
+	public boolean isEnableStructures() {
+		return true;
+	}
 }

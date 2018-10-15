@@ -138,4 +138,9 @@ public class AppConfigGeometry implements AppConfig {
 		return false;
 	}
 
+	@Override
+	public boolean isEnableStructures() {
+		return true;
+	}
+
 }

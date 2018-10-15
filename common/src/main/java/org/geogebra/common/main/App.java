@@ -429,7 +429,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public App(Versions version) {
 		this();
 		this.version = version;
-		initLabels();
+		initParserSettings();
 	}
 
 	protected void init() {
@@ -437,8 +437,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 		resetUniqueId();
 	}
 
-	private void initLabels() {
+	/**
+	 * Update labels from app config. TODO don't call this from constructor so
+	 * that NPE check can be removed
+	 */
+	private void initParserSettings() {
 		getLabelManager().setAngleLabels(getConfig().isGreekAngleLabels());
+		if (getKernel() != null) {
+			getKernel().getAlgebraProcessor()
+				.setEnableStructures(getConfig().isEnableStructures());
+		}
 	}
 
 	/**
@@ -5245,6 +5253,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	protected void initSettings() {
 		settings = companion.newSettings();
+		initParserSettings();
 	}
 
 	/**

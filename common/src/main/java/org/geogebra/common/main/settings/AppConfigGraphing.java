@@ -143,4 +143,9 @@ public class AppConfigGraphing implements AppConfig {
 		return false;
 	}
 
+	@Override
+	public boolean isEnableStructures() {
+		return true;
+	}
+
 }
