@@ -678,15 +678,20 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean moveMoveFloatingButtonUp(int left, int width,
 			boolean isSmall) {
-		return getUnbundledToolbar().moveMoveFloatingButtonUpWithTooltip(left,
-				width,
-				isSmall);
+		if (getUnbundledToolbar() != null) {
+			return getUnbundledToolbar()
+					.moveMoveFloatingButtonUpWithTooltip(left,
+					width, isSmall);
+		}
+		return false;
 	}
 
 	@Override
 	public void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved) {
-		getUnbundledToolbar().moveMoveFloatingButtonDownWithTooltip(isSmall,
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().moveMoveFloatingButtonDownWithTooltip(isSmall,
 				wasMoved);
+		}
 	}
 
 	@Override
@@ -2467,14 +2472,18 @@ public class GuiManagerW extends GuiManager
 	}
 	
 	public void setUnbundledHeaderStyle(String style) {
-		getUnbundledToolbar().setHeaderStyle(style);
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().setHeaderStyle(style);
+		}
 	}
 
 	/**
 	 * init on click for exam info button
 	 */
 	public void initInfoBtnAction() {
-		getUnbundledToolbar().initInfoBtnAction();
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().initInfoBtnAction();
+		}
 	}
 
 	public void setGgwMenubar(GGWMenuBar ggwMenuBar) {
