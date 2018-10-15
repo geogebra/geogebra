@@ -52,38 +52,20 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/backspace_black.png")
 	ImageResource keyboard_backspace_black();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_backspace.png")
-	ImageResource keyboard_backspaceOld();
-
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter.png")
-	ImageResource keyboard_enter();
-	
 	// enter for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter_black.png")
 	ImageResource keyboard_enter_black();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowLeft.png")
-	ImageResource keyboard_arrowLeft();
-	
 	// left arrow for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowLeft_black.png")
 	ImageResource keyboard_arrowLeft_black();
-	
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight.png")
-	ImageResource keyboard_arrowRight();
 	
 	// right arrow for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight_black.png")
 	ImageResource keyboard_arrowRight_black();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_open.png")
-	ImageResource keyboard_show();
-
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_keyboard_black_24px.svg")
 	SVGResource keyboard_show_material();
-
-	@Source("org/geogebra/common/icons/png/keyboard/sqrt.png")
-	ImageResource sqrtPng();
 
 	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
 	SassResource keyboardStyle();
@@ -100,9 +82,6 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/d_dx.png")
 	ImageResource derivative();
 
-	@Source("org/geogebra/common/icons/png/keyboard/nroot.png")
-	ImageResource nroot();
-
 	@Source("org/geogebra/common/icons/svg/web/keyboard/square.svg")
 	SVGResource square();
 
@@ -111,6 +90,9 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/sqrt.svg")
 	SVGResource sqrt();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/fraction.svg")
+	SVGResource fraction();
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/abs.svg")
 	SVGResource abs();

@@ -9,6 +9,7 @@ import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -341,6 +342,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	}
 
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
+		Log.error(wb.getActionName() + " : " + wb.getResourceName() + ":"
+				+ wb.getResourceType());
 		switch (wb.getResourceType()) {
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
@@ -394,7 +397,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		if (name.equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
 			return accentButton(Accents.ACCENT_GRAVE, b);
 		}
+		if ((Unicode.DIVIDE + "").equals(name)) {
+			// division button in scientific
+			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
+		}
 		if ("/".equals(name)) {
+			// division button in graphing
 			return new KeyBoardButtonBase(Unicode.DIVIDE + "", b);
 		}
 		if ("|".equals(name)) {
@@ -494,6 +502,11 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Square");
 			
+		} else if (resourceName.equals(Resource.FRACTION.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.fraction(),
+					Unicode.DIVIDE + "", bh, false, loc,
+					"altText.Fraction");
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.xPower(),
@@ -555,6 +568,11 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					KeyboardResources.INSTANCE.floor(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Floor");
+		} else if (resourceName.equals(Resource.FLOOR.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.floor(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Floor");
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
 			return new KeyBoardButtonFunctionalBase(
@@ -570,6 +588,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		if ("ABC".equals(resourceName)) {
 			return new KeyBoardButtonFunctionalBase("ABC", bh,
 					Action.SWITCH_TO_ABC);
+		}
+		if ("ans".equals(resourceName)) {
+			return new KeyBoardButtonFunctionalBase("ans", bh, Action.ANS);
 		}
 		return new KeyBoardButtonBase(button.getPrimaryActionName(),
 				button.getPrimaryActionName(), bh);
