@@ -268,7 +268,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		int index = 0;
 		for (Row row : layout.getModel().getRows()) {
 			for (WeightedButton wb : row.getButtons()) {
-				if (!Action.NONE.name().equals(wb.getActionName())) {
+				if (!Action.NONE.name().equals(wb.getPrimaryActionName())) {
 					KeyBoardButtonBase button = makeButton(wb, bh);
 					keyboard.addToRow(index, button);
 					
@@ -298,7 +298,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		for (Row row : keyboard.getLayout().getModel().getRows()) {
 			double offset = 0;
 			for (WeightedButton wb : row.getButtons()) {
-				if (Action.NONE.name().equals(wb.getActionName())) {
+				if (Action.NONE.name().equals(wb.getPrimaryActionName())) {
 					offset = wb.getWeight();
 				} else {
 					button = keyboard.getButtons().get(buttonIndex);
@@ -313,7 +313,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				}
 			}
 			if (Action.NONE.name().equals(row.getButtons()
-					.get(row.getButtons().size() - 1).getActionName())) {
+					.get(row.getButtons().size() - 1).getPrimaryActionName())) {
 				button.getElement().getStyle().setMarginRight(
 						offset * baseSize + margins / 2, Unit.PX);
 			}
@@ -349,7 +349,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 						Language.getCurrency(keyboardLocale.toString()), b);
 			}
 
-			final String name = wb.getActionName();
+			final String name = wb.getPrimaryActionName();
 
 			String altText = wb.getAltText();
 			if (altText == null || altText.isEmpty()) {
@@ -363,8 +363,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					locale.getFunction(name), altText, name,
 					b);
 		case TRANSLATION_COMMAND_KEY:
-			return new KeyBoardButtonBase(locale.getCommand(wb.getActionName()),
-					wb.getActionName(), b);
+			return new KeyBoardButtonBase(
+					locale.getCommand(wb.getPrimaryActionName()),
+					wb.getPrimaryActionName(), b);
 		case DEFINED_CONSTANT:
 			return functionButton(wb, b);
 		case TEXT:
@@ -374,7 +375,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	}
 
 	private KeyBoardButtonBase textButton(WeightedButton wb, ButtonHandler b) {
-		String name = wb.getActionName();
+		String name = wb.getPrimaryActionName();
 		if (name.equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
 			return accentButton(Accents.ACCENT_ACUTE, b);
 		}
@@ -494,7 +495,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.square(),
-							button.getActionName(), bh, false, loc,
+					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Square");
 			
 		} else if (resourceName.equals(Resource.POWAB.name())) {
@@ -512,12 +513,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.ten_power(),
-							button.getActionName(), bh, false, loc,
+					button.getPrimaryActionName(), bh, false, loc,
 					"altText.PowTen");
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
 			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.e_power(),
-							button.getActionName(), bh, false, loc,
+					button.getPrimaryActionName(), bh, false, loc,
 					"altText.PowE");
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10",
@@ -534,16 +535,16 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (resourceName.equals(Resource.N_ROOT.name())) {
 			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.n_root(),
-							button.getActionName(), bh, false, loc,
+					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Root");
 		} else if (resourceName.equals(Resource.INTEGRAL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.integral(),
-					button.getActionName(), bh, loc, "Integral");
+					button.getPrimaryActionName(), bh, loc, "Integral");
 		} else if (resourceName.equals(Resource.DERIVATIVE.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.derivative(),
-					button.getActionName(), bh, loc, "Derivative");
+					button.getPrimaryActionName(), bh, loc, "Derivative");
 		} else if (resourceName.equals(Resource.ABS.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.abs(),
@@ -551,16 +552,18 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (resourceName.equals(Resource.CEIL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.ceil(),
-					button.getActionName(), bh, false, loc, "altText.Ceil");
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Ceil");
 		} else if (resourceName.equals(Resource.FLOOR.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.floor(),
-					button.getActionName(), bh, false, loc, "altText.Floor");
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Floor");
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.sqrt(),
-							button.getActionName(), bh, false, loc,
+					button.getPrimaryActionName(), bh, false, loc,
 					"altText.SquareRoot");
 		}
 		if (KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS.equals(resourceName)) {
@@ -572,8 +575,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			return new KeyBoardButtonFunctionalBase("ABC", bh,
 					Action.SWITCH_TO_ABC);
 		}
-		return new KeyBoardButtonBase(button.getActionName(),
-				button.getActionName(), bh);
+		return new KeyBoardButtonBase(button.getPrimaryActionName(),
+				button.getPrimaryActionName(), bh);
 	}
 
 	/**
