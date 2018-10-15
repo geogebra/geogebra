@@ -25,8 +25,4 @@ public enum ResourceType {
      */
     DEFINED_CONSTANT,
 
-    /**
-     * The resourse is a LaTeX formula
-     */
-    LATEX
 }

@@ -26,21 +26,6 @@ public class ButtonFactory {
 	}
 
 	/**
-	 * Creates an input button with LaTeX as resource.
-	 *
-	 * @param formula LaTeX formula
-	 * @param input the input from the button
-	 * @param weight weight of the button
-	 *
-	 * @return a button
-	 */
-	public WeightedButton createLatexInputButton(String formula, String input,
-			float weight) {
-		return new WeightedButtonImpl(formula, ResourceType.LATEX, input,
-				ActionType.INPUT, Background.STANDARD, modifiers, weight);
-	}
-
-	/**
 	 * Creates an input button with string as resource.
 	 *
 	 * @param name name of the button

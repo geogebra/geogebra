@@ -388,14 +388,11 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		if (name.equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
 			return accentButton(Accents.ACCENT_GRAVE, b);
 		}
-		if ("*".equals(name)) {
-			return new KeyBoardButtonBase(Unicode.MULTIPLY + "", b);
-		}
 		if ("/".equals(name)) {
 			return new KeyBoardButtonBase(Unicode.DIVIDE + "", b);
 		}
 		if ("|".equals(name)) {
-			return new KeyBoardButtonBase("|a|", "abs", b);
+			return new KeyBoardButtonBase("abs", "abs", b);
 		}
 		if ("-".equals(name)) {
 			return new KeyBoardButtonBase(Unicode.MINUS + "", b);
@@ -404,16 +401,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
 		}
 		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())
-				|| name.equals(Action.SWITCH_TO_ABC.name())) {
+				|| name.equals(Action.SWITCH_TO_ABC.name())
+				|| name.equals(Action.ANS.name())) {
 			return functionButton(wb, this);
-		}
-		if (("" + Unicode.LFLOOR).equals(name)) {
-			return new KeyBoardButtonBase(KeyboardConstants.FLOOR, name,
-					this);
-		}
-		if (("" + Unicode.LCEIL).equals(name)) {
-			return new KeyBoardButtonBase(KeyboardConstants.CEIL, name,
-					this);
 		}
 		if ("(".equals(name)) {
 			return new KeyBoardButtonBase("(", "()", b);
@@ -424,7 +414,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		if ("[".equals(name)) {
 			return new KeyBoardButtonBase("[", "[]", b);
 		}
-
+		String caption = wb.getResourceName();
 		String altText = wb.getAltText();
 
 		if (altText == null || altText.isEmpty()) {
@@ -436,7 +426,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			altText = locale.getAltText(altText);
 		}
 
-		return new KeyBoardButtonBase(name, altText, name, b);
+		return new KeyBoardButtonBase(caption, altText, name, b);
 	}
 
 	private static KeyBoardButtonBase accentButton(String accent,

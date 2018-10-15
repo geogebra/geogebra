@@ -80,16 +80,6 @@ public class Util {
 	}
 
 	/**
-	 * Adds a button to the row created by
-	 * {@link ButtonFactory#createLatexInputButton(String, String, float)}.
-	 */
-	public static void addLatexInputButton(RowImpl row, ButtonFactory buttonFactory,
-			String formula, String input) {
-		addButton(row,
-				buttonFactory.createLatexInputButton(formula, input, 1.0f));
-	}
-
-	/**
 	 * Calls {@link Util#addInputButton(RowImpl, ButtonFactory, String, float)}
 	 * with parameter {@code weight = 1.0f}.
 	 */
