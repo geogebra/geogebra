@@ -3,6 +3,9 @@ package org.geogebra.common.main;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * Config for Classic and derived apps (MR)
+ */
 public class AppConfigDefault implements AppConfig {
 
 	@Override
@@ -106,6 +109,7 @@ public class AppConfigDefault implements AppConfig {
 		return true;
 	}
 
+	@Override
 	public boolean isCASEnabled() {
 		return true;
 	}

@@ -49,13 +49,28 @@ public interface AppConfig {
      */
 	boolean isGreekAngleLabels();
 
+	/**
+	 * @return whether to allow CAS commands in AV
+	 */
 	boolean isCASEnabled();
 
+	/**
+	 * @return suffix for preferences (in web)
+	 */
 	String getPreferencesKey();
 
+	/**
+	 * @return preferred perspective ID or null if user setting should be used
+	 */
 	String getForcedPerspective();
 
+	/**
+	 * @return whether AV can switch to tools panel and back
+	 */
 	boolean hasToolsInSidePanel();
 
+	/**
+	 * @return whether to use scientific keyboard layout
+	 */
 	boolean hasScientificKeyboard();
 }

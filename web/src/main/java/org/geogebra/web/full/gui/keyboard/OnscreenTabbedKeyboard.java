@@ -31,6 +31,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	/**
 	 * @param app
 	 *            keyboard context
+	 * @param scientific
+	 *            whether to use scientific layout
 	 */
 	public OnscreenTabbedKeyboard(HasKeyboard app, boolean scientific) {
 		super((AppW) app, app, scientific);
