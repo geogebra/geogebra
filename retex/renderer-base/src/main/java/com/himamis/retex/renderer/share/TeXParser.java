@@ -442,7 +442,9 @@ public class TeXParser {
 				break;
 			case '\n':
 				newLine();
-				skipWhites();
+				// removed to make double spaces after a newline work inside
+				// \text{} like in jlm1
+				//skipWhites();
 				break;
 			case '\u000B':
 			case '\u000C':
