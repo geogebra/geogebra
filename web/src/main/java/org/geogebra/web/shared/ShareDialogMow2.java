@@ -176,6 +176,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
 		shareByLinkPanel.add(linkPanel);
+		linkPanel.setVisible(isShareLinkOn());
 	}
 
 	private void addLinkBoxHandlers() {
