@@ -1303,10 +1303,8 @@ $duration: 0.2s;
 		    
 		    .textPanel {
 			    position: relative;
-			    left: 50px;
-			    top: -34px;
 			    width: 240px;
-			    margin-right: 0px !important;
+			    display: inline-block;
 			    
 			    .linkShareOnOff {
 				    margin-top: 0px;
@@ -1328,8 +1326,9 @@ $duration: 0.2s;
 				width: 40px;
 				height: 24px;
 				position: relative;
-				top: -60px !important;
+				top: 7px;
 				float: right;
+				cursor: pointer;
 				
 				.track {
 				    content: "";
@@ -1337,7 +1336,6 @@ $duration: 0.2s;
 				    position: relative;
 				    width: 36px;
 				    height: 14px;
-				    background-color: #9ADAEC;
 				    border-radius: 15px;
 				    -webkit-transition: background 0.3s ease;
 				    transition: background 0.3s ease;
@@ -1347,13 +1345,32 @@ $duration: 0.2s;
 				.thumb {
 				    width: 20px;
 				    height: 20px;
-				    background-color: #00A8D5;
 				    position: relative;
 				    top: -18px;
-				    left: 16px;
 				    border-radius: 50%;
 				    display: block;
+				    transition: left 0.3s ease, background 0.3s ease;
 				}	
+			
+				&.on {
+					.track {
+						background-color: #9ADAEC;
+					}
+					.thumb {
+						left: 16px;
+			 			background-color: #00A8D5;
+			 		}
+				}
+			
+			 	&.off {
+			 		.track {
+						background-color: #c5c5c5;
+					}
+			 		.thumb {
+			 			left: 0px;
+			 			background-color: #f1f1f1;
+			 		}
+			 	}
 			}
 		}
 		

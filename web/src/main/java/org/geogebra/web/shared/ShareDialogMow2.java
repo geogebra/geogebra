@@ -140,7 +140,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		textPanel.add(linkShareOnOffLbl);
 		textPanel.add(linkShareHelpLbl);
 		shareByLinkPanel.add(textPanel);
-		shareSwitch = new ComponentSwitch();
+		shareSwitch = new ComponentSwitch(false);
 		shareByLinkPanel.add(shareSwitch);
 		dialogContent.add(shareByLinkPanel);
 	}
