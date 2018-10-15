@@ -60,7 +60,7 @@ public class GroupButtonMow extends FlowPanel {
 		contentPanel.add(groupImgHolder);
 		contentPanel.add(checkMark);
 		groupLbl = new Label(groupName);
-		groupLbl.addStyleName("groupName");
+		groupLbl.setStyleName("groupName");
 		contentPanel.add(groupLbl);
 		add(contentPanel);
 	}

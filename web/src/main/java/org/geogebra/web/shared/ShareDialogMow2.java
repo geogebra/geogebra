@@ -50,10 +50,17 @@ public class ShareDialogMow2 extends DialogBoxW
 		buildGui();
 	}
 
+	/**
+	 * @return true if share by link is active
+	 */
 	public boolean isShareLinkOn() {
 		return isShareLinkOn;
 	}
 
+	/**
+	 * @param isShareLinkOn
+	 *            true if share by link is active
+	 */
 	public void setShareLinkOn(boolean isShareLinkOn) {
 		this.isShareLinkOn = isShareLinkOn;
 	}
@@ -88,9 +95,9 @@ public class ShareDialogMow2 extends DialogBoxW
 		groupImgHolder.add(groupImg);
 		noGroupPanel.add(groupImgHolder);
 		noGroupsLbl = new Label();
-		noGroupsLbl.addStyleName("noGroupsLbl");
+		noGroupsLbl.setStyleName("noGroupsLbl");
 		noGroupsHelpLbl = new Label();
-		noGroupsHelpLbl.addStyleName("noGroupsHelpLbl");
+		noGroupsHelpLbl.setStyleName("noGroupsHelpLbl");
 		noGroupPanel.add(noGroupsLbl);
 		noGroupPanel.add(noGroupsHelpLbl);
 		dialogContent.add(noGroupPanel);
@@ -98,7 +105,7 @@ public class ShareDialogMow2 extends DialogBoxW
 
 	private void buildGroupPanel(ArrayList<String> groupNames) {
 		selGroupLbl = new Label();
-		selGroupLbl.addStyleName("selGrLbl");
+		selGroupLbl.setStyleName("selGrLbl");
 		dialogContent.add(selGroupLbl);
 		groupPanel = new FlowPanel();
 		groupPanel.addStyleName("groupPanel");
@@ -127,9 +134,9 @@ public class ShareDialogMow2 extends DialogBoxW
 		FlowPanel textPanel = new FlowPanel();
 		textPanel.addStyleName("textPanel");
 		linkShareOnOffLbl = new Label();
-		linkShareOnOffLbl.addStyleName("linkShareOnOff");
+		linkShareOnOffLbl.setStyleName("linkShareOnOff");
 		linkShareHelpLbl = new Label();
-		linkShareHelpLbl.addStyleName("linkShareHelp");
+		linkShareHelpLbl.setStyleName("linkShareHelp");
 		textPanel.add(linkShareOnOffLbl);
 		textPanel.add(linkShareHelpLbl);
 		shareByLinkPanel.add(textPanel);

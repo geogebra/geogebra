@@ -1233,13 +1233,12 @@ $duration: 0.2s;
 		padding-left: 0px !important;
 		
 		.Caption {
-			padding-left: 24px !important;		
-			margin-bottom: 0px !important;
+			padding-left: 24px !important;	
 		}
 	
 		.selGrLbl {
-			font-size: 100% !important;
-			margin-top: 0px !important;
+			font-size: 100%;
+			margin-top: 0px;
 			margin-bottom: 8px;
 			margin-left: 24px;
 		}
@@ -1273,22 +1272,22 @@ $duration: 0.2s;
 			}
 		
 			.noGroupsLbl {
-			    font-size: 100% !important;
-			    margin-top: 16px !important;
+			    font-size: 100%;
+			    margin-top: 16px;
 			    width: fit-content;
 			    display: block;
 			    margin: 0px auto;
-			    color: $text-primary !important;
+			    color: $text-primary;
 			}
 		
 			.noGroupsHelpLbl {
 			    width: 262px;
 			    height: fit-content;
-			    margin-top: 8px !important;
-			    margin-bottom: 20px !important;
+			    margin-top: 8px;
+			    margin-bottom: 20px;
 			    display: block;
 			    margin: 0px auto;
-			    font-size: 87% !important;
+			    font-size: 87%;
 			    text-align: center;
 			}
 		}
@@ -1310,16 +1309,16 @@ $duration: 0.2s;
 			    margin-right: 0px !important;
 			    
 			    .linkShareOnOff {
-				    margin-top: 0px !important;
-				    font-size: 75% !important;
-				    color: $text-primary !important;
+				    margin-top: 0px;
+				    font-size: 75%;
+				    color: $text-primary;
 				    height: 16px;
     				line-height: 16px;
 				}
 			
 				.linkShareHelp {
-				    margin-top: 0px !important;
-				    font-size: 70% !important;
+				    margin-top: 0px;
+				    font-size: 70%;
 				    height: 16px;
 				    line-height: 16px;
 				}
@@ -1386,11 +1385,11 @@ $duration: 0.2s;
     	.groupImgHolder {
     		width: 24px;
     		height: 24px;
-    		padding: 10px !important;
-		    border-radius: 50% !important;
-		    border: 2px solid $black-24 !important;
-		    display: block !important;
-    		margin: 0px auto !important;
+    		padding: 10px;
+		    border-radius: 50%;
+		    border: 2px solid $black-24;
+		    display: block;
+    		margin: 0px auto;
 			
 			.groupImg {
 	    		opacity: 0.54;
@@ -1398,22 +1397,22 @@ $duration: 0.2s;
 		}
 	
 		.groupName {
-		    margin-top: 8px !important;
+		    margin-top: 8px;
     		padding-bottom: 4px;
-		    font-size: 75% !important;
+		    font-size: 75%;
 		    height: 32px;
 		    text-align: center;
 		    line-height: 16px;
 		    overflow: hidden;
-		    cursor: pointer !important;
+		    cursor: pointer;
 		    position: relative;
     		top: -20px;
 		}
 	
 		.checkMark {
-			padding: 1px !important;
+			padding: 1px;
    			border-radius: 50%;
-			background-color: $mebis-teal !important;
+			background-color: $mebis-teal;
 		    position: relative;
 		    top: -44px;
     		right: -56px;
@@ -1422,7 +1421,7 @@ $duration: 0.2s;
 	
 		&.selected {
 			.groupImgHolder {
-				border: 2px solid $mebis-teal !important;	
+				border: 2px solid $mebis-teal;	
 			}
 			.checkMark {
 				visibility: visible;	
