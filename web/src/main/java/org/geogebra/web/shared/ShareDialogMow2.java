@@ -10,10 +10,15 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -36,6 +41,11 @@ public class ShareDialogMow2 extends DialogBoxW
 	private Label linkShareOnOffLbl;
 	private Label linkShareHelpLbl;
 	private ComponentSwitch shareSwitch;
+	private FlowPanel linkPanel;
+	private TextBox linkBox;
+	/** true if linkBox is focused */
+	protected boolean linkBoxFocused = true;
+	private StandardButton copyBtn;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -48,6 +58,13 @@ public class ShareDialogMow2 extends DialogBoxW
 		super(app.getPanel(), app);
 		this.appW = app;
 		buildGui();
+	}
+
+	/**
+	 * @return textfield containing share link
+	 */
+	public TextBox getLinkBox() {
+		return linkBox;
 	}
 
 	/**
@@ -139,7 +156,57 @@ public class ShareDialogMow2 extends DialogBoxW
 			}
 		});
 		shareByLinkPanel.add(shareSwitch);
+		buildLinkPanel();
 		dialogContent.add(shareByLinkPanel);
+	}
+
+	private void buildLinkPanel() {
+		linkPanel = new FlowPanel();
+		linkPanel.setStyleName("linkPanel");
+		linkBox = new TextBox();
+		linkBox.setReadOnly(true);
+		linkBox.setText("to do get share url");
+		linkBox.setStyleName("linkBox");
+		focusLinkBox();
+		addLinkBoxHandlers();
+		// build and add copy button
+		copyBtn = new StandardButton(app.getLocalization().getMenu("Copy"),
+				app);
+		copyBtn.setStyleName("copyButton");
+		linkPanel.add(linkBox);
+		linkPanel.add(copyBtn);
+		shareByLinkPanel.add(linkPanel);
+	}
+
+	private void addLinkBoxHandlers() {
+		linkBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				focusLinkBox();
+			}
+		});
+		linkBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				if (linkBoxFocused) {
+					getLinkBox().setFocus(true);
+					getLinkBox().setSelectionRange(0, 0);
+				}
+				linkBoxFocused = false;
+			}
+		});
+	}
+
+	/**
+	 * focus textBox and select text
+	 */
+	protected void focusLinkBox() {
+		linkBox.setFocus(true);
+		linkBox.setSelectionRange(0, 0);
+		linkBox.selectAll();
+		linkBoxFocused = true;
 	}
 
 	/**
@@ -149,7 +216,10 @@ public class ShareDialogMow2 extends DialogBoxW
 	 *            true if switch is on
 	 */
 	public void updateShareByLinkPanel(boolean isSwitchOn) {
-
+		linkShareOnOffLbl
+				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
+		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
+				? "SharedLinkHelpTxt" : "NotSharedLinkHelpTxt"));
 	}
 
 	private void buildButtonPanel() {
@@ -187,7 +257,10 @@ public class ShareDialogMow2 extends DialogBoxW
 				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
 		linkShareHelpLbl
 				.setText(
-						app.getLocalization().getMenu("ShareLinkHelpTxt"));
+						app.getLocalization()
+								.getMenu(isShareLinkOn() ? "SharedLinkHelpTxt"
+										: "NotSharedLinkHelpTxt"));
+		copyBtn.setText(app.getLocalization().getMenu("Copy"));
 	}
 
 	@Override

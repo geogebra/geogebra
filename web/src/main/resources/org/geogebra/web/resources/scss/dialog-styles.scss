@@ -1294,16 +1294,16 @@ $duration: 0.2s;
 	
 		.shareByLink {
 		    width: 460px;
-		    margin: 16px 20px 0px 24px;
+		    margin: 16px 8px 0px 24px;
 		    
 		    .linkImg {
 			    opacity: 0.54;
-			    margin: 4px 20px 2px 0px !important;
+			    margin: 0px 20px 0px 0px;
 			}
 		    
 		    .textPanel {
 			    position: relative;
-			    width: 240px;
+			    width: 356px;
 			    display: inline-block;
 			    
 			    .linkShareOnOff {
@@ -1316,7 +1316,7 @@ $duration: 0.2s;
 			
 				.linkShareHelp {
 				    margin-top: 0px;
-				    font-size: 70%;
+				    font-size: 63%;
 				    height: 16px;
 				    line-height: 16px;
 				}
@@ -1325,6 +1325,7 @@ $duration: 0.2s;
 			.switch {
 				width: 40px;
 				height: 24px;
+				margin-right: 12px;
 				position: relative;
 				top: 7px;
 				float: right;
@@ -1372,6 +1373,42 @@ $duration: 0.2s;
 			 		}
 			 	}
 			}
+		
+			.linkPanel {
+				margin-top: 12px;
+				display: inline-flex;
+						
+				.linkBox {
+					width: 350px;
+					padding: 8px 0 8px 0;
+					margin: 0;
+					border-radius: 0;
+				    border-bottom: 2px solid $mebis-teal-dark !important;
+				}
+				.linkBox::selection {
+	  				background: $mebis-teal-20;
+	  			}
+	  		
+	  			.copyButton {
+					cursor: pointer;
+					min-width: 64px;
+					height: 36px;
+					border-radius: 2px;
+					padding: 0 8px;
+					margin-left: 32px;
+					display: inline-flex;
+					align-items: center;       
+					justify-content: center;
+					vertical-align: middle;
+					color: $text-primary;
+					text-transform: uppercase;
+					transition: background-color 0.15s;
+					
+					&:hover {
+						background-color: $mow_card_background_hover;
+					}
+				}
+	  		}
 		}
 		
 		.DialogButtonPanel {

@@ -200,7 +200,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
 		shareHelp.setText(localize(app.isWhiteboardActive()
-				? "ShareLinkHelpTxtMebis" : "ShareLinkHelpTxt"));
+				? "ShareLinkHelpTxtMebis" : "SharedLinkHelpTxt"));
 	}
 
 	private String localize(String id) {
