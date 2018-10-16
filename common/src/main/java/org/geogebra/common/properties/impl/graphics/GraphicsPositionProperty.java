@@ -59,7 +59,6 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         this.localization = app.getLocalization();
         this.euclidianView = app.getActiveEuclidianView();
         uploadIcons();
-        localizeValues();
     }
 
     private void uploadIcons() {
@@ -74,6 +73,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
                     "StandardView",
                     "ShowAllObjects"
             };
+            localizeValues(values);
         }
         if (callbacks == null) {
             callbacks = new Runnable[]{
@@ -97,6 +97,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
                     "StandardView",
                     "ShowAllObjects"
             };
+            localizeValues(valuesAR);
         }
         if (callbacksAR == null) {
             callbacksAR = new Runnable[]{
@@ -111,11 +112,9 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     public Runnable[] getActions() {
         if (euclidianView.isAREnabled()) {
             uploadIconsForAR();
-            localizeValues();
             return callbacksAR;
         } else {
             uploadIcons();
-            localizeValues();
             return callbacks;
         }
     }
@@ -143,7 +142,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         }
     }
 
-    private void localizeValues() {
+    private void localizeValues(String[] values) {
         for (int i = 0; i < values.length; i++) {
             values[i] = localization.getMenu(values[i]);
         }
