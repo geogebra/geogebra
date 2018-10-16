@@ -114,6 +114,11 @@ public class AlgoCubic extends AlgoElement {
 
 		String equation = new AlgoCubicSwitch().getEquation((int) n.getDouble(), a, b, c);
 
+		if (equation == null) {
+			poly.setUndefined();
+			return;
+		}
+
 		equation = equation.replace("A", Astr);
 		equation = equation.replace("B", Bstr);
 		equation = equation.replace("C", Cstr);
