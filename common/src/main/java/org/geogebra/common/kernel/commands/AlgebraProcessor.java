@@ -185,6 +185,9 @@ public class AlgebraProcessor {
 		setEnableStructures(app.getConfig().isEnableStructures());
 	}
 
+	/**
+	 * @return command dispatcher
+	 */
 	public CommandDispatcher getCmdDispatcher() {
 		return cmdDispatcher;
 	}
@@ -843,8 +846,6 @@ public class AlgebraProcessor {
 					// Log.debug("not found: " + label);
 					sb.append(label);
 					sb.append(", ");
-				} else {
-					// Log.debug("found: " + label);
 				}
 			}
 
@@ -997,7 +998,6 @@ public class AlgebraProcessor {
 					noDummyVars);
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
-
 			sym = new GeoSymbolic(cons);
 			if (replaced.unwrap() instanceof FunctionNVar) {
 				sym.setVariables(((FunctionNVar) replaced.unwrap())
@@ -1037,7 +1037,6 @@ public class AlgebraProcessor {
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
 			final String cmd) throws Exception {
-
 		return parser.parseGeoGebraExpression(cmd);
 	}
 
@@ -1204,7 +1203,6 @@ public class AlgebraProcessor {
 							: ve.toString(StringTemplate.defaultTemplate),
 					loc, handler);
 		} catch (Exception ex) {
-			Log.debug(ex);
 			Log.debug("Exception" + ex.getLocalizedMessage());
 			ErrorHelper.handleException(ex, app, handler);
 		} finally {
@@ -2151,17 +2149,8 @@ public class AlgebraProcessor {
 					}
 					f.setLabel(label);
 					return array(f);
-
 				}
-
-				// AbstractApplication.debug(enLeft.operation+"");
-				// AbstractApplication.debug(enLeft.left.getClass()+"");
-				// AbstractApplication.debug(enLeft.right.getClass()+"");
-
 			}
-			// AbstractApplication.debug(left.getClass()+"");
-			// AbstractApplication.debug(right.getClass()+"");
-			// AbstractApplication.debug("");
 		} else if (en.getOperation().equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
@@ -2583,10 +2572,6 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			boolean allowConstant, EvalInfo info) throws MyError {
-		// AbstractApplication.debug("EQUATION: " + equ);
-		// AbstractApplication.debug("NORMALFORM POLYNOMIAL: " +
-		// equ.getNormalForm());
-
 		equ.initEquation();
 
 		// check no terms in z
@@ -2853,7 +2838,6 @@ public class AlgebraProcessor {
 			// Line or Conic
 			geo.setDefinition(definition);
 		}
-		// AbstractApplication.debug("User Input: "+equ);
 		setEquationLabelAndVisualStyle(geo, label, info);
 		return array(geo);
 	}
