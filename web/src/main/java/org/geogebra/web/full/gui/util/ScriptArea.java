@@ -22,10 +22,9 @@ public class ScriptArea extends TextArea
  implements KeyPressHandler,
 		KeyDownHandler, KeyUpHandler, HasKeyboardTF {
 
-	private boolean dummyCursor = false;
-
 	/** application */
 	protected AppW app;
+	private DummyCursor dummyCursor;
 
 	/**
 	 * Creates new script area
@@ -36,6 +35,7 @@ public class ScriptArea extends TextArea
 	public ScriptArea(AppW app) {
 		this.app = app;
 		setStyleName("scriptArea");
+		dummyCursor = new DummyCursor(this, app);
 		addKeyPressHandler(this);
 		addKeyDownHandler(this);
 		addKeyUpHandler(this);
@@ -93,7 +93,7 @@ public class ScriptArea extends TextArea
 	 *            whether dummy cursor needs to be moved
 	 */
 	public void setCursorPos(int caretPos, boolean moveDummyCursor) {
-		if (dummyCursor && moveDummyCursor) {
+		if (dummyCursor.isActive() && moveDummyCursor) {
 			if (caretPos == this.getText().length()) {
 				return;
 			}
@@ -165,12 +165,12 @@ public class ScriptArea extends TextArea
 
 	@Override
 	public void addDummyCursor() {
-		DummyCursor.addDummyCursor(dummyCursor, this);
+		dummyCursor.add();
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		return DummyCursor.removeDummyCursor(dummyCursor, this);
+		return dummyCursor.remove();
 	}
 
 	/**
@@ -178,12 +178,7 @@ public class ScriptArea extends TextArea
 	 *            caret position
 	 */
 	public void addDummyCursor(int caretPos) {
-		DummyCursor.addDummyCursor(caretPos, dummyCursor, this);
-	}
-
-	@Override
-	public void toggleDummyCursor(boolean cursor) {
-		this.dummyCursor = cursor;
+		dummyCursor.addAt(caretPos);
 	}
 
 	@Override
@@ -211,7 +206,7 @@ public class ScriptArea extends TextArea
 	 * Enable keyboard.
 	 */
 	public void enableGGBKeyboard() {
-		DummyCursor.enableGGBKeyboard(app, this);
+		dummyCursor.enableGGBKeyboard();
 	}
 
 	private void handleTabletKeyboard(KeyDownEvent e) {

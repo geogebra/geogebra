@@ -28,8 +28,7 @@ public class AngleTextFieldW extends GTextBox
 		HasKeyboardTF {
 	/** app */
 	AppW app;
-	/** Whether dummy cursor is needed (touch devices) */
-	boolean dummyCursor = false;
+	private DummyCursor dummyCursor;
 
 	/**
 	 * @param columns
@@ -41,6 +40,7 @@ public class AngleTextFieldW extends GTextBox
 		super();
 		this.app = app;
 		setVisibleLength(columns);
+		dummyCursor = new DummyCursor(this, app);
 		this.addKeyUpHandler(this);
 		this.addKeyPressHandler(this);
 		this.addKeyDownHandler(this);
@@ -129,17 +129,17 @@ public class AngleTextFieldW extends GTextBox
 	 * Enable onscreen keyboard
 	 */
 	public void enableGGBKeyboard() {
-		DummyCursor.enableGGBKeyboard(app, this);
+		dummyCursor.enableGGBKeyboard();
 	}
 
 	@Override
 	public void addDummyCursor() {
-		DummyCursor.addDummyCursor(dummyCursor, this);
+		dummyCursor.add();
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		return DummyCursor.removeDummyCursor(dummyCursor, this);
+		return dummyCursor.remove();
 	}
 
 	/**
@@ -147,12 +147,7 @@ public class AngleTextFieldW extends GTextBox
 	 *            position to insert dummy cursor
 	 */
 	public void addDummyCursor(int caretPos) {
-		DummyCursor.addDummyCursor(caretPos, dummyCursor, this);
-	}
-
-	@Override
-	public void toggleDummyCursor(boolean cursor) {
-		this.dummyCursor = cursor;
+		dummyCursor.addAt(caretPos);
 	}
 
 	@Override
@@ -250,7 +245,7 @@ public class AngleTextFieldW extends GTextBox
 	 *            whether dummy cursor needs to be moved
 	 */
 	public void setCursorPos(int caretPos, boolean moveDummyCursor) {
-		if (dummyCursor && moveDummyCursor) {
+		if (dummyCursor.isActive() && moveDummyCursor) {
 			if (caretPos == this.getText().length()) {
 				return;
 			}

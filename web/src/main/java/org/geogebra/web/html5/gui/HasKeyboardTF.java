@@ -29,12 +29,6 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	public int removeDummyCursor();
 
 	/**
-	 * @param dummyCursor
-	 *            true if dummyCursor active
-	 */
-	public void toggleDummyCursor(boolean dummyCursor);
-
-	/**
 	 * @param b
 	 *            set focus true or false
 	 */

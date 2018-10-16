@@ -140,7 +140,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private int actualFontSize = 14;
 
-	private boolean dummyCursor = false;
+	private DummyCursor dummyCursor;
 
     private boolean rightAltDown;
 	private boolean leftAltDown;
@@ -198,6 +198,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.app = app;
 		this.loc = app.getLocalization();
 		setAutoComplete(true);
+		dummyCursor = new DummyCursor(this, app);
 		this.handleEscapeKey = handleEscapeKey;
 		curWord = new StringBuilder();
 
@@ -663,7 +664,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            true, if needed to change the dummy cursor position too
 	 */
 	public void setCaretPosition(int caretPos, boolean moveDummyCursor) {
-		if (dummyCursor && moveDummyCursor) {
+		if (dummyCursor.isActive() && moveDummyCursor) {
 			if (caretPos == textField.getText().length()) {
 				return;
 			}
@@ -681,21 +682,21 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            cursor position
 	 */
 	public void addDummyCursor(int caretPos) {
-		DummyCursor.addDummyCursor(caretPos, dummyCursor, this);
+		dummyCursor.addAt(caretPos);
 	}
 
 	@Override
 	public void addDummyCursor() {
-		DummyCursor.addDummyCursor(dummyCursor, this);
+		dummyCursor.add();
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		return DummyCursor.removeDummyCursor(dummyCursor, this);
+		return dummyCursor.remove();
 	}
 
 	public boolean hasDummyCursor() {
-		return dummyCursor;
+		return dummyCursor.isActive();
 	}
 
 	@Override
@@ -1433,7 +1434,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public String getText() {
 		String text = textField.getText();
-		if (dummyCursor) {
+		if (dummyCursor.isActive()) {
 			int cpos = getCaretPosition();
 			text = text.substring(0, cpos) + text.substring(cpos + 1);
 		}
@@ -1586,12 +1587,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * tablet.
 	 */
 	public void enableGGBKeyboard() {
-		DummyCursor.enableGGBKeyboard(app, this);
-	}
-
-	@Override
-	public void toggleDummyCursor(boolean cursor) {
-		this.dummyCursor = cursor;
+		dummyCursor.enableGGBKeyboard();
 	}
 
 	/**

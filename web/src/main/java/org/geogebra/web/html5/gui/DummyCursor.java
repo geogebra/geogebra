@@ -16,17 +16,27 @@ import com.google.gwt.event.dom.client.FocusHandler;
  *
  */
 public class DummyCursor {
+	/** application */
+	protected AppW app;
+	/** text field */
+	protected HasKeyboardTF textField;
+	private boolean dummyCursor = false;
+
+	/**
+	 * @param textField
+	 *            text field that needs dummy cursor
+	 * @param app
+	 *            application
+	 */
+	public DummyCursor(HasKeyboardTF textField, AppW app) {
+		this.textField = textField;
+		this.app = app;
+	}
 
 	/**
 	 * adds a dummy cursor
-	 * 
-	 * @param dummyCursor
-	 *            true if dummy cursor is visible
-	 * @param textField
-	 *            the text field to add the dummy cursor to
 	 */
-	public static void addDummyCursor(final boolean dummyCursor,
-			final HasKeyboardTF textField) {
+	public void add() {
 		if (dummyCursor || Browser.isIPad()) {
 			return;
 		}
@@ -34,7 +44,7 @@ public class DummyCursor {
 			@Override
 			public void execute() {
 				int caretPos = textField.getCursorPos();
-				addDummyCursor(caretPos, dummyCursor, textField);
+				addAt(caretPos);
 			}
 		});
 	}
@@ -44,13 +54,8 @@ public class DummyCursor {
 	 * 
 	 * @param caretPos
 	 *            position to add the dummy cursor at
-	 * @param dummyCursor
-	 *            true if dummy cursor is visible
-	 * @param textField
-	 *            the textfield to add the dummy cursor to
 	 */
-	public static void addDummyCursor(int caretPos, boolean dummyCursor,
-			HasKeyboardTF textField) {
+	public void addAt(int caretPos) {
 		if (dummyCursor || Browser.isIPad()) {
 			return;
 		}
@@ -58,20 +63,15 @@ public class DummyCursor {
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 		textField.setValue(text);
 		textField.setCursorPos(caretPos);
-		textField.toggleDummyCursor(true);
+		dummyCursor = true;
 	}
 
 	/**
 	 * removes a dummy cursor
-	 * 
-	 * @param dummyCursor
-	 *            true if dummy cursor is visible
-	 * @param textField
-	 *            the text field to remove the dummy cursor from
+	 *
 	 * @return current cursor position
 	 */
-	public static int removeDummyCursor(boolean dummyCursor,
-			HasKeyboardTF textField) {
+	public int remove() {
 		if (!dummyCursor || Browser.isIPad()) {
 			return -1;
 		}
@@ -79,7 +79,7 @@ public class DummyCursor {
 		int cpos = textField.getCursorPos();
 		text = text.substring(0, cpos) + text.substring(cpos + 1);
 		textField.setValue(text);
-		textField.toggleDummyCursor(false);
+		dummyCursor = false;
 		return cpos;
 	}
 
@@ -87,13 +87,8 @@ public class DummyCursor {
 	 * enables the ggb keyboard, sets textfield to readonly to prevent native
 	 * keyboard
 	 * 
-	 * @param app
-	 *            application
-	 * @param textField
-	 *            text field to enable keyboard for
 	 */
-	public static void enableGGBKeyboard(final AppW app,
-			final HasKeyboardTF textField) {
+	public void enableGGBKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;
 		}
@@ -113,5 +108,12 @@ public class DummyCursor {
 				FieldHandler.focusLost(textField, app);
 			}
 		});
+	}
+
+	/**
+	 * @return true if dummyCursor is visible
+	 */
+	public boolean isActive() {
+		return dummyCursor;
 	}
 }
