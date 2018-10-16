@@ -93,7 +93,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         }
         if (valuesAR == null) {
             valuesAR = new String[]{
-                    "ReloadAR",
+                    "ar.restart",
                     "StandardView",
                     "ShowAllObjects"
             };
