@@ -160,6 +160,7 @@ public class AngleTextFieldW extends GTextBox
 		return getText();
 	}
 
+	@Override
 	public void onKeyPress(KeyPressEvent e) {
 		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();

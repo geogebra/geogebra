@@ -655,6 +655,9 @@ public class GuiManagerW extends GuiManager
 		});
 	}
 
+	/**
+	 * Update keyboard size.
+	 */
 	protected void resizeKeyboard() {
 		if (onScreenKeyboard != null) {
 			onScreenKeyboard.updateSize();
@@ -662,7 +665,7 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	public ToolBarW getGeneralToolbar() {
+	private ToolBarW getGeneralToolbar() {
 		return toolbarPanel.getToolBar();
 	}
 
@@ -866,6 +869,9 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
+	/**
+	 * @return whether input help panel is initialized
+	 */
 	public boolean hasInputHelpPanel() {
 		return inputHelpPanel != null;
 	}
@@ -2470,7 +2476,8 @@ public class GuiManagerW extends GuiManager
 				: getLayout().getDockManager().getRoot()
 				.getOrientation() == SwingConstants.VERTICAL_SPLIT;
 	}
-	
+
+	@Override
 	public void setUnbundledHeaderStyle(String style) {
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().setHeaderStyle(style);
@@ -2486,6 +2493,10 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
+	/**
+	 * @param ggwMenuBar
+	 *            menu
+	 */
 	public void setGgwMenubar(GGWMenuBar ggwMenuBar) {
 		mainMenuBar = ggwMenuBar;
 	}

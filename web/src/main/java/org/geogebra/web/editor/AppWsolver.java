@@ -173,7 +173,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	public double getInnerWidth() {
 		int width = Window.getClientWidth();
 		if (width > 1300) {
-			return width / 2;
+			return width / 2.0;
 		} else if (width > 650) {
 			return 650;
 		} else {
