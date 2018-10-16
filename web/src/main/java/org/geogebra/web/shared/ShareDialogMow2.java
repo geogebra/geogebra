@@ -94,7 +94,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		// user has no groups
-		if (/* groupNames.isEmpty() */ true) {
+		if (groupNames.isEmpty()) {
 			buildNoGroupPanel();
 		}
 		// show groups of user
@@ -135,10 +135,10 @@ public class ShareDialogMow2 extends DialogBoxW
 		groupPanel.add(scrollPanel);
 		FlowPanel groups = new FlowPanel();
 		// ONLY FOR TESTING -> needs to be removed
-		for (int i = 0; i < 40; i++) {
-			groups.add(new GroupButtonMow("group group group " + i));
-		}
-
+		/*
+		 * for (int i = 0; i < 40; i++) { groups.add(new
+		 * GroupButtonMow("group group group " + i)); }
+		 */
 		for (String group : groupNames) {
 			groups.add(new GroupButtonMow(group));
 		}
