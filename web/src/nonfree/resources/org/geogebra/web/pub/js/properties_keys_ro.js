@@ -2591,7 +2591,7 @@ __GGB__keysVar["ro"].menu = {
     "ScaleInCentimeter": "Scar\u0103 \xeen cm",
     "Scatterplot": "Grafic de dispersie",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "Script GeoGebra",
     "Scripting": "Scriptare",
     "Search": "Search",

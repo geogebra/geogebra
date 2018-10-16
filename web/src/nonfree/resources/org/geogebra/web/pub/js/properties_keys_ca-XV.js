@@ -2591,7 +2591,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "ScaleInCentimeter": "Escala en cm",
     "Scatterplot": "Diagrama de dispersi\xf3",
     "ScientificCalculator": "Calculadora cient\xedfica",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "Seq\xfc\xe8ncia d'ordres del GeoGebra",
     "Scripting": "Seq\xfc\xe8ncia d'ordres",
     "Search": "Cerca",

@@ -2591,7 +2591,7 @@ __GGB__keysVar["el"].menu = {
     "ScaleInCentimeter": "\u0392\u03ae\u03bc\u03b1 \u03bc\u03b5 cm",
     "Scatterplot": "\u0394\u03b9\u03ac\u03b3\u03c1\u03b1\u03bc\u03bc\u03b1 \u0394\u03b9\u03b1\u03c3\u03c0\u03bf\u03c1\u03ac\u03c2",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "\u0394\u03ad\u03c3\u03bc\u03b7 \u0395\u03bd\u03b5\u03c1\u03b3\u03b5\u03b9\u03ce\u03bd GeoGebra",
     "Scripting": "\u0394\u03ad\u03c3\u03bc\u03b7 \u0395\u03bd\u03b5\u03c1\u03b3\u03b5\u03b9\u03ce\u03bd",
     "Search": "\u0391\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7",

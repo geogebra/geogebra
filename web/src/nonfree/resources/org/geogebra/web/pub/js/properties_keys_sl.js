@@ -2591,7 +2591,7 @@ __GGB__keysVar["sl"].menu = {
     "ScaleInCentimeter": "Mera v cm",
     "Scatterplot": "Razpr\u0161eni diagram",
     "ScientificCalculator": "Znanstveno ra\u010dunalo",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "Skripta v Geogebri",
     "Scripting": "Skripte",
     "Search": "I\u0161\u010di",

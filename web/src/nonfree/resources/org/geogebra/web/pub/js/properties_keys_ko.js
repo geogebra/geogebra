@@ -2591,7 +2591,7 @@ __GGB__keysVar["ko"].menu = {
     "ScaleInCentimeter": "\ube44\uc728(cm)",
     "Scatterplot": "\uc0b0\uc810\ub3c4",
     "ScientificCalculator": "\uacf5\ud559\uc6a9 \uacc4\uc0b0\uae30",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc2a4\ud06c\ub9bd\ud2b8",
     "Scripting": "\uc2a4\ud06c\ub9bd\ud2b8",
     "Search": "\uac80\uc0c9",

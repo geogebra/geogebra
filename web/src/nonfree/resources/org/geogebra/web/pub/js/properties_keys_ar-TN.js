@@ -2591,7 +2591,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "ScaleInCentimeter": "\u0633\u0644\u0645 \u0628\u0627\u0644\u0635\u0646\u062a\u0645\u062a\u0631",
     "Scatterplot": "\u0645\u062e\u0637\u0637 \u0627\u0644\u062a\u0634\u062a\u062a",
     "ScientificCalculator": "\u0627\u0644\u062d\u0627\u0633\u0628\u0629 \u0627\u0644\u0639\u0644\u0645\u064a\u0629",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "\u0633\u0643\u0631\u064a\u0628\u062a \u062c\u064a\u0648\u062c\u0628\u0631\u0627\u0621",
     "Scripting": "\u0633\u0643\u0631\u064a\u0628\u062a",
     "Search": "\u0628\u062d\u062b",

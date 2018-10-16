@@ -2591,7 +2591,7 @@ __GGB__keysVar["eo"].menu = {
     "ScaleInCentimeter": "Skalo (cm)",
     "Scatterplot": "Scatterplot",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "GeoGebra-skripto",
     "Scripting": "Skriptado",
     "Search": "Search",

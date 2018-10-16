@@ -2591,7 +2591,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ScaleInCentimeter": "\u6bd4\u4f8b\u5c3a",
     "Scatterplot": "\u6563\u70b9\u56fe",
     "ScientificCalculator": "\u79d1\u5b66\u8ba1\u7b97\u5668",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "GeoGebra \u811a\u672c",
     "Scripting": "\u811a\u672c",
     "Search": "\u641c\u7d22",

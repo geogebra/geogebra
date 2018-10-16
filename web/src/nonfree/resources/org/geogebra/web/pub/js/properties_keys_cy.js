@@ -2591,7 +2591,7 @@ __GGB__keysVar["cy"].menu = {
     "ScaleInCentimeter": "Graddau mewn cm",
     "Scatterplot": "Graff gwasgariad",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "SgriptGeoGebra",
     "Scripting": "Sgriptio",
     "Search": "Search",

@@ -2591,7 +2591,7 @@ __GGB__keysVar["ne"].menu = {
     "ScaleInCentimeter": "\u0938\u0947\u0928\u094d\u091f\u093f\u092e\u093f\u091f\u0930\u092e\u093e \u0928\u093e\u092a",
     "Scatterplot": "\u0938\u094d\u0915\u092f\u093e\u091f\u0930\u092a\u094d\u0932\u091f",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "\u091c\u093f\u092f\u094b\u091c\u0947\u092c\u094d\u0930\u093e \u0938\u094d\u0915\u093f\u0943\u092a\u091f",
     "Scripting": "\u0938\u094d\u0915\u093f\u0943\u092a\u091f\u093f\u0919",
     "Search": "Search",

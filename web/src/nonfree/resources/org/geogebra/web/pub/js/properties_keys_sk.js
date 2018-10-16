@@ -2591,7 +2591,7 @@ __GGB__keysVar["sk"].menu = {
     "ScaleInCentimeter": "Mierka v cm",
     "Scatterplot": "Korela\u010dn\xfd diagram",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "skriptovanie",
     "Search": "Search",

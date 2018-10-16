@@ -2591,7 +2591,7 @@ __GGB__keysVar["hu"].menu = {
     "ScaleInCentimeter": "Ar\xe1ny cm-ben",
     "Scatterplot": "Pontok",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "Script",
     "Search": "Keres",

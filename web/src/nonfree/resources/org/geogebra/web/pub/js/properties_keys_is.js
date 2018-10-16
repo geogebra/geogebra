@@ -2591,7 +2591,7 @@ __GGB__keysVar["is"].menu = {
     "ScaleInCentimeter": "Kvar\xf0i \xed cm",
     "Scatterplot": "Punktarit",
     "ScientificCalculator": "Fr\xe6\xf0ilegur vasareiknir",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "GeoGebru forrit",
     "Scripting": "Forritun",
     "Search": "Search",

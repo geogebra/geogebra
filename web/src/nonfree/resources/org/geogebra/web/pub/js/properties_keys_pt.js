@@ -2591,7 +2591,7 @@ __GGB__keysVar["pt"].menu = {
     "ScaleInCentimeter": "Escala em cm",
     "Scatterplot": "Scatterplot",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "C\xf3digo GeoGebra",
     "Scripting": "Programa\xe7\xe3o",
     "Search": "Pesquisar",

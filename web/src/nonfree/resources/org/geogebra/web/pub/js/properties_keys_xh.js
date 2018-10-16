@@ -2591,7 +2591,7 @@ __GGB__keysVar["xh"].menu = {
     "ScaleInCentimeter": "iScale kwi cm",
     "Scatterplot": "iScatterplot",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "umbhalo weJiyoJebra",
     "Scripting": "Bhala",
     "Search": "Search",

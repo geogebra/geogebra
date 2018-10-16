@@ -2591,7 +2591,7 @@ __GGB__keysVar["fil"].menu = {
     "ScaleInCentimeter": "Iskalya sa cm",
     "Scatterplot": "Scatterplot",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "Iskrip sa GeoGebra",
     "Scripting": "Pag-iiskrip",
     "Search": "Search",

@@ -2591,7 +2591,7 @@ __GGB__keysVar["id"].menu = {
     "ScaleInCentimeter": "Skala dalam cm",
     "Scatterplot": "Scatterplot",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "Skrip GeoGebra",
     "Scripting": "Pembuatan Skrip",
     "Search": "Search",

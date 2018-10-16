@@ -2591,7 +2591,7 @@ __GGB__keysVar["sr"].menu = {
     "ScaleInCentimeter": "Razmera u cm",
     "Scatterplot": "x-y dijagram",
     "ScientificCalculator": "Scientific Calculator",
-    "ScientificCalculator.short": "Scientific",
+    "ScientificCalculator.short": "Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "Skripting",
     "Search": "Search",
