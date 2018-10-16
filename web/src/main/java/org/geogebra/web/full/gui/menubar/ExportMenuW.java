@@ -7,7 +7,6 @@ import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.dialog.ExportImageDialog;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
@@ -267,7 +266,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 			@Override
 			public void callback(String obj) {
-				String url = StringUtil.txtMarker + obj;
+				String url = Browser.addTxtMarker(obj);
 				app.getFileManager().showExportAsPictureDialog(url,
 						app.getExportTitle(), "txt", "Export", app);
 				dialogEvent(app, "export" + string);

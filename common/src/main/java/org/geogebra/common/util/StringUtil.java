@@ -26,6 +26,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	final static public String svgMarker = "data:image/svg+xml;base64,";
 	final static public String pdfMarker = "data:application/pdf;base64,";
 	final static public String txtMarker = "data:text/plain;charset=utf-8,";
+	// Shows as "unknown" in mobile Safari and gives options to copy/share
+	final static public String txtMarkerForSafari = "data:application/octet-stream,";
 	final static public String jpgMarker = "data:image/jpg;base64,";
 	final static public String ggbMarker = "data:application/vnd.geogebra.file;base64,";
 	final static public String gifMarker = "data:image/gif;base64,";

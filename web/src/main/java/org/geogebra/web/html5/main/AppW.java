@@ -3841,7 +3841,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if ("html".equals(extension)) {
 			url = StringUtil.htmlMarker + content;
 		} else {
-			url = StringUtil.txtMarker + content;
+			url = Browser.addTxtMarker(content);
 			// do we ever need this?
 			// url = StringUtil.txtMarker + URL.encodePathSegment(content);
 		}

@@ -2,6 +2,7 @@ package org.geogebra.web.html5;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -341,6 +342,10 @@ public class Browser {
 				.test($wnd.navigator.userAgent));
 	}-*/;
 
+	public static native boolean isMobileSafari()/*-{
+		return !!(/iPhone|iPad|iPod/i.test($wnd.navigator.userAgent));
+	}-*/;
+
 	/**
 	 * @return CSS pixel ratio
 	 */
@@ -373,7 +378,11 @@ public class Browser {
 		// can't use data:image/svg+xml;utf8 in IE11 / Edge
 		// so encode as Base64
 		return @org.geogebra.common.util.StringUtil::svgMarker
-				+ btoa(unescape(encodeURIComponent(svg)));
+				+ $wnd.btoa($wnd.unescape($wnd.encodeURIComponent(svg)));
+	}-*/;
+
+	public static native String encodeURIComponent(String txt) /*-{
+		return $wnd.encodeURIComponent(txt);
 	}-*/;
 
 	public static native void exportImage(String url, String title) /*-{
@@ -413,6 +422,11 @@ public class Browser {
 				@org.geogebra.common.util.StringUtil::txtMarker)) {
 			extension = "text/plain";
 			header = @org.geogebra.common.util.StringUtil::txtMarker;
+			base64encoded = false;
+		} else if (startsWith(url,
+				@org.geogebra.common.util.StringUtil::txtMarkerForSafari)) {
+			extension = "application/octet-stream";
+			header = @org.geogebra.common.util.StringUtil::txtMarkerForSafari;
 			base64encoded = false;
 		} else if (startsWith(url,
 				@org.geogebra.common.util.StringUtil::htmlMarker)) {
@@ -774,6 +788,12 @@ public class Browser {
 	public static boolean isMacOS() {
 		return Navigator.getUserAgent().contains("Macintosh")
 				|| Navigator.getUserAgent().contains("Mac OS");
+	}
+
+	public static String addTxtMarker(String txt) {
+		return isMobileSafari()
+				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
+				: StringUtil.txtMarker + txt;
 	}
 
 }
