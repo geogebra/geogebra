@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -52,17 +54,22 @@ public class ShareDialogMow2 extends DialogBoxW
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
 	private String shareURL;
+	private Material material;
+	private MaterialCallbackI callback;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
 	 * @param shareURL
 	 *            share URL
+	 * @param mat
+	 *            active material
 	 */
-	public ShareDialogMow2(AppW app, String shareURL) {
+	public ShareDialogMow2(AppW app, String shareURL, Material mat) {
 		super(app.getPanel(), app);
 		this.appW = app;
 		this.shareURL = shareURL;
+		this.material = mat == null ? app.getActiveMaterial() : mat;
 		buildGui();
 	}
 
@@ -155,15 +162,23 @@ public class ShareDialogMow2 extends DialogBoxW
 		textPanel.add(linkShareOnOffLbl);
 		textPanel.add(linkShareHelpLbl);
 		shareByLinkPanel.add(textPanel);
-		shareSwitch = new ComponentSwitch(false, new AsyncOperation<Boolean>() {
+		shareSwitch = new ComponentSwitch(isMatShared(material),
+				new AsyncOperation<Boolean>() {
 
 			public void callback(Boolean obj) {
-				updateShareByLinkPanel(obj.booleanValue());
+				onSwitch(obj.booleanValue());
 			}
 		});
 		shareByLinkPanel.add(shareSwitch);
 		buildLinkPanel();
 		dialogContent.add(shareByLinkPanel);
+	}
+
+	private static boolean isMatShared(Material mat) {
+		if (mat != null) {
+			return "S".equals(mat.getVisibility());
+		}
+		return false;
 	}
 
 	private void buildLinkPanel() {
@@ -222,7 +237,7 @@ public class ShareDialogMow2 extends DialogBoxW
 	 * @param isSwitchOn
 	 *            true if switch is on
 	 */
-	public void updateShareByLinkPanel(boolean isSwitchOn) {
+	public void onSwitch(boolean isSwitchOn) {
 		linkShareOnOffLbl
 				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
 		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
@@ -236,6 +251,19 @@ public class ShareDialogMow2 extends DialogBoxW
 					getLinkBox().setFocus(true);
 				}
 			});
+			// set from private -> shared
+			if (material != null && "P".equals(material.getVisibility())) {
+				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+						material.getSharingKeyOrId(), "S", material.getTitle(),
+						null, callback, material.getType());
+			}
+		} else {
+			// set from shared -> private
+			if (material != null && "S".equals(material.getVisibility())) {
+				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+						material.getSharingKeyOrId(), "P", material.getTitle(),
+						null, callback, material.getType());
+			}
 		}
 	}
 
@@ -299,5 +327,13 @@ public class ShareDialogMow2 extends DialogBoxW
 	public void show() {
 		super.show();
 		super.center();
+	}
+
+	/**
+	 * @param materialCallbackI
+	 *            callback for visibility change
+	 */
+	public void setCallback(MaterialCallbackI materialCallbackI) {
+		this.callback = materialCallbackI;
 	}
 }

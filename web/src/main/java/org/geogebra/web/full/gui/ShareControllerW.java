@@ -134,7 +134,8 @@ public class ShareControllerW implements ShareController {
 				} else {
 					if (getAppW().has(Feature.MOW_JOINT_SHARE_DIALOG)) {
 						shareDialogMow = new ShareDialogMow2(getAppW(),
-								getAppW().getCurrentURL(sharingKey, true));
+								getAppW().getCurrentURL(sharingKey, true),
+								null);
 						shareDialogMow.show();
 					} else {
 						mowShareDialog = new ShareDialogMow(getAppW(),
