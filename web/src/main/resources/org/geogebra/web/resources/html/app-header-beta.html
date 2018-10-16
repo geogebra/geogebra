@@ -2,11 +2,17 @@
 marginTop = window.appOnline ? 64 : 0;
 translation.tryApp="<!--TRY APP-->";
 translation.stay="<!--CONTINUE-->";
+
+function getAppPickers(){
+	return document.getElementsByClassName("popdown-button-container");
+}
 function toggleAppPicker(){
-	var style = document.getElementsByClassName("popdown-button-container")[0].style;
-	var wasHidden = style.display == "none";
-	style.display = wasHidden ? "block" : "none";
-	selectAppPicker(wasHidden);
+	if(getAppPickers()){
+		var style = getAppPickers()[0].style;
+		var wasHidden = style.display == "none";
+		style.display = wasHidden ? "block" : "none";
+		selectAppPicker(wasHidden);
+	}
 }
 function selectAppPicker(selected){
 	var btn = document.getElementsByClassName("appsBtn")[0];
@@ -20,8 +26,10 @@ function hideAppPicker(e){
 		}
 		src = src.parentElement;
 	}
-	document.getElementsByClassName("popdown-button-container")[0].style.display = "none";
-	selectAppPicker(false);
+	if(getAppPickers()){
+		getAppPickers()[0].style.display = "none";
+		selectAppPicker(false);
+	}
 }
 document.body.addEventListener("mousedown", hideAppPicker);
 window.addEventListener("load", function(){
