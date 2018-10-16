@@ -66,7 +66,8 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("scene = new THREE.Scene();\n");
 		sb.append("clock = new THREE.Clock();\n");
 
-		sb.append("var colladaDataURI = 'data:text/plain;charset=utf-8,");
+		sb.append("var colladaDataURI = '");
+		sb.append(StringUtil.txtMarker);
 		super.getScriptStart(sb);
 	}
 
