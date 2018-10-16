@@ -10926,6 +10926,28 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=3)
       return gensizeerr(contextptr);
     vecteur v = *g._VECTptr;
+    if (v[0].is_symb_of_sommet(at_not))
+      return when2sign(makevecteur(v[0]._SYMBptr->feuille,v[2],v[1]),contextptr);
+    if (v[0].is_symb_of_sommet(at_and) && v[0]._SYMBptr->feuille.type==_VECT){
+      vecteur vand=*v[0]._SYMBptr->feuille._VECTptr;
+      if (vand.size()==2)
+	return whentosign(makevecteur(vand[0],whentosign(makevecteur(vand[1],v[1],v[2]),contextptr),v[2]),contextptr);
+      if (vand.size()>2){
+	gen vandlast=vand.back();
+	vand.pop_back();
+	return whentosign(makevecteur(vandlast,whentosign(makevecteur(symbolic(at_and,vand),v[1],v[2]),contextptr),v[2]),contextptr);
+      }
+    }
+    if (v[0].is_symb_of_sommet(at_ou) && v[0]._SYMBptr->feuille.type==_VECT){
+      vecteur vor=*v[0]._SYMBptr->feuille._VECTptr;
+      if (vor.size()==2)
+	return whentosign(makevecteur(vor[0],v[1],whentosign(makevecteur(vor[1],v[1],v[2]),contextptr)),contextptr);
+      if (vor.size()>2){
+	gen vorlast=vor.back();
+	vor.pop_back();
+	return whentosign(makevecteur(vorlast,v[1],whentosign(makevecteur(symbolic(at_and,vor),v[1],v[2]),contextptr)),contextptr);
+      }
+    }
     if (is_equal(v[0]) || v[0].is_symb_of_sommet(at_same)){
       *logptr(contextptr) << gettext("Assuming false condition ") << v[0].print(contextptr) << endl;
       return v[2];
@@ -10949,6 +10971,8 @@ namespace giac {
   }
   const gen_op_context when2sign_tab[]={whentosign,0};
   gen when2sign(const gen & g,GIAC_CONTEXT){
+    if (equalposcomp(lidnt(g),unsigned_inf))
+      *logptr(contextptr) << gettext("when2sign does not work properly with infinities. Replace inf by Inf and run limit after.") << endl;
     return subst(g,when_tab,when2sign_tab,false,contextptr);
     /*
     vector< gen_op_context > when2sign_v(1,whentosign);
