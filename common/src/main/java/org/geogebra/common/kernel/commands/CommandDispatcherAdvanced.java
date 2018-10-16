@@ -3,13 +3,6 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.advanced.CmdAffineRatio;
 import org.geogebra.common.kernel.advanced.CmdApplyMatrix;
-import org.geogebra.common.kernel.advanced.CmdAreCollinear;
-import org.geogebra.common.kernel.advanced.CmdAreConcurrent;
-import org.geogebra.common.kernel.advanced.CmdAreConcyclic;
-import org.geogebra.common.kernel.advanced.CmdAreCongruent;
-import org.geogebra.common.kernel.advanced.CmdAreEqual;
-import org.geogebra.common.kernel.advanced.CmdAreParallel;
-import org.geogebra.common.kernel.advanced.CmdArePerpendicular;
 import org.geogebra.common.kernel.advanced.CmdAsymptote;
 import org.geogebra.common.kernel.advanced.CmdAttachCopyToView;
 import org.geogebra.common.kernel.advanced.CmdAxes;
@@ -53,7 +46,6 @@ import org.geogebra.common.kernel.advanced.CmdIntersection;
 import org.geogebra.common.kernel.advanced.CmdInvert;
 import org.geogebra.common.kernel.advanced.CmdIsInRegion;
 import org.geogebra.common.kernel.advanced.CmdIsPrime;
-import org.geogebra.common.kernel.advanced.CmdIsTangent;
 import org.geogebra.common.kernel.advanced.CmdIteration;
 import org.geogebra.common.kernel.advanced.CmdIterationList;
 import org.geogebra.common.kernel.advanced.CmdLeftRightSide;
@@ -68,8 +60,6 @@ import org.geogebra.common.kernel.advanced.CmdParameter;
 import org.geogebra.common.kernel.advanced.CmdPathParameter;
 import org.geogebra.common.kernel.advanced.CmdPolar;
 import org.geogebra.common.kernel.advanced.CmdPrimeFactors;
-import org.geogebra.common.kernel.advanced.CmdProve;
-import org.geogebra.common.kernel.advanced.CmdProveDetails;
 import org.geogebra.common.kernel.advanced.CmdReducedRowEchelonForm;
 import org.geogebra.common.kernel.advanced.CmdRootList;
 import org.geogebra.common.kernel.advanced.CmdRoots;
@@ -95,6 +85,7 @@ import org.geogebra.common.main.Feature;
  *
  */
 public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
+
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
@@ -244,32 +235,12 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdFlatten(kernel);
 		case Insert:
 			return new CmdInsert(kernel);
-		case Prove:
-			return new CmdProve(kernel);
-		case ProveDetails:
-			return new CmdProveDetails(kernel);
 		case DynamicCoordinates:
 			return new CmdDynamicCoordinates(kernel);
 		case Maximize:
 			return new CmdMaximize(kernel);
 		case Minimize:
 			return new CmdMinimize(kernel);
-		case AreCollinear:
-			return new CmdAreCollinear(kernel);
-		case IsTangent:
-			return new CmdIsTangent(kernel);
-		case AreParallel:
-			return new CmdAreParallel(kernel);
-		case AreConcyclic:
-			return new CmdAreConcyclic(kernel);
-		case ArePerpendicular:
-			return new CmdArePerpendicular(kernel);
-		case AreEqual:
-			return new CmdAreEqual(kernel);
-		case AreCongruent:
-			return new CmdAreCongruent(kernel);
-		case AreConcurrent:
-			return new CmdAreConcurrent(kernel);
 		case ToBase:
 			return new CmdToBase(kernel);
 		case FromBase:

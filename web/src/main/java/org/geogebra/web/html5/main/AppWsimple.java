@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -100,6 +101,12 @@ public class AppWsimple extends AppW {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
+		for(GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+			if (geo.hasScripts()) {
+				getAsyncManager().loadAllCommands();
+				break;
+			}
+		}
 
 		buildApplicationPanel();
 

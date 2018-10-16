@@ -105,6 +105,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
+import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -182,6 +183,10 @@ public class AlgebraProcessor {
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
+	}
+
+	public CommandDispatcher getCmdDispatcher() {
+		return cmdDispatcher;
 	}
 
 	/**
@@ -325,6 +330,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 				casCell.setError("RedefinitionFailed");
 				// app.showError(e.getMessage());
+			} catch (CommandNotLoadedError e) {
+				throw e;
 			} catch (Error er) {
 				app.getScriptManager().enableListeners();
 				throw er;
@@ -400,6 +407,8 @@ public class AlgebraProcessor {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (Exception e) {
 			handler.showError(e.getMessage());
+		} catch (CommandNotLoadedError e) {
+			throw e;
 		} catch (Error e) {
 			Log.debug("ERROR" + e.getMessage() + ":" + newValue);
 			e.printStackTrace();
@@ -412,7 +421,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Replace f' by ExNode(f, Operation.Derivative, 1) in new definition of f'.
-	 * 
+	 *
 	 * @param ve
 	 *            new definition
 	 * @param geo
@@ -445,7 +454,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
-	 * 
+	 *
 	 * @param geo
 	 *            old geo
 	 * @param newValue
@@ -455,7 +464,7 @@ public class AlgebraProcessor {
 	 *            change
 	 * @param storeUndoInfo
 	 *            true to makeundo step
-	 * 
+	 *
 	 * @param callback
 	 *            what to do with the changed geo
 	 * @param handler
@@ -605,7 +614,7 @@ public class AlgebraProcessor {
 	//
 	/**
 	 * normal usage ... default to show error dialog (Exceptions hidden)
-	 * 
+	 *
 	 * @param cmd
 	 *            string to process
 	 * @param storeUndo
@@ -625,7 +634,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Processes the string and hides all errors
-	 * 
+	 *
 	 * @param str
 	 *            string to process
 	 * @param storeUndo
@@ -745,7 +754,7 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
-		} catch (Error e) {
+		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		}
@@ -1002,7 +1011,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Run callbackl on new geos if there are any or empty array otherwise
-	 * 
+	 *
 	 * @param callback0
 	 *            callback
 	 * @param ret
@@ -1019,7 +1028,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * create valid expression (if possible) from command string
-	 * 
+	 *
 	 * @param cmd
 	 *            command
 	 * @return valid expression
@@ -1090,22 +1099,6 @@ public class AlgebraProcessor {
 		return null;
 	}
 
-	/**
-	 * @param ve
-	 *            expression to check for parametrics
-	 * @param undefinedVariables
-	 *            set of undefined variables
-	 * @return result of parametric evaluation if successfull
-	 */
-	/*
-	 * GeoElement[] checkParametricAfterUndefinedChanged( ValidExpression ve,
-	 * TreeSet<String> undefinedVariables) { replaceUndefinedVariables(ve,
-	 * undefinedVariables, false); GeoElement[] param2 =
-	 * getParamProcessor().checkParametricEquation(ve, undefinedVariables); if
-	 * (param2 != null) { return param2; } if (!undefinedVariables.isEmpty()) {
-	 * replaceUndefinedVariables(ve, undefinedVariables, true); } return null; }
-	 */
-
 	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
 			ErrorHandler eh) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
@@ -1140,14 +1133,14 @@ public class AlgebraProcessor {
 
 	/**
 	 * TODO figure out how to handle sliders here
-	 * 
+	 *
 	 * @param cmd
 	 *            command in presentation MathML
 	 * @param storeUndo
 	 *            whether to create an undo point
 	 * @param handler
 	 *            error handler
-	 * 
+	 *
 	 * @param autoCreateSliders
 	 *            whether sliders should be autocreated
 	 * @param callback0
@@ -1222,7 +1215,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Replaces undefined variables inside of expression
-	 * 
+	 *
 	 * @param ve
 	 *            expression
 	 * @param undefined
@@ -1243,7 +1236,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns
 	 * Double.NaN if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            string to process
 	 * @return result as double
@@ -1255,7 +1248,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns
 	 * Double.NaN if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            string to process
 	 * @param suppressErrors
@@ -1283,30 +1276,10 @@ public class AlgebraProcessor {
 				}
 			}
 			return nv.getDouble();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
-			}
-
-			if (forGeo != null) {
-				forGeo.setUndefined();
-			}
-
-			return Double.NaN;
-		} catch (MyError e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError(e);
-			}
-
-			if (forGeo != null) {
-				forGeo.setUndefined();
-			}
-
-			return Double.NaN;
-		} catch (Error e) {
-			e.printStackTrace();
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
+			t.printStackTrace();
 			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
 			}
@@ -1322,7 +1295,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoBoolean object.
 	 * Returns null if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            string to process
 	 * @param handler
@@ -1359,19 +1332,22 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, str, loc, handler);
+		} catch (CommandNotLoadedError e) {
+			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
 			handler.showError(loc.getError("InvalidInput"));
+		} finally {
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return bool;
 	}
 
 	/**
 	 * Parses given String str and tries to evaluate it to a List object.
 	 * Returns null if something went wrong. Michael Borcherds 2008-04-02
-	 * 
+	 *
 	 * @param str
 	 *            input string
 	 * @return resulting list
@@ -1398,15 +1374,10 @@ public class AlgebraProcessor {
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			// app.showError("CircularDefinition");
-		} catch (Exception e) {
-			e.printStackTrace();
-			// app.showError("InvalidInput", str);
-		} catch (MyError e) {
-			e.printStackTrace();
-			// app.showError(e);
-		} catch (Error e) {
-			e.printStackTrace();
-			// app.showError("InvalidInput", str);
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);
@@ -1416,7 +1387,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoFunction Returns
 	 * null if something went wrong. Michael Borcherds 2008-04-04
-	 * 
+	 *
 	 * @param str
 	 *            input string
 	 * @param suppressErrors
@@ -1430,7 +1401,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoFunction Returns
 	 * null if something went wrong. Michael Borcherds 2008-04-04
-	 * 
+	 *
 	 * @param str
 	 *            input string
 	 * @param suppressErrors
@@ -1469,18 +1440,10 @@ public class AlgebraProcessor {
 			if (!suppressErrors) {
 				app.localizeAndShowError("CircularDefinition");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
-			}
-		} catch (MyError e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError(e);
-			}
-		} catch (Error e) {
-			e.printStackTrace();
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
+			t.printStackTrace();
 			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
 			}
@@ -1540,7 +1503,7 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param str
 	 *            input string
 	 * @param suppressErrors
@@ -1602,18 +1565,10 @@ public class AlgebraProcessor {
 			if (!suppressErrors) {
 				app.localizeAndShowError("CircularDefinition");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
-			}
-		} catch (MyError e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError(e);
-			}
-		} catch (Error e) {
-			e.printStackTrace();
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
+			t.printStackTrace();
 			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
 			}
@@ -1626,7 +1581,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a NumberValue Returns
 	 * null if something went wrong. Michael Borcherds 2008-08-13
-	 * 
+	 *
 	 * @param str
 	 *            string to parse
 	 * @param suppressErrors
@@ -1642,7 +1597,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a NumberValue Returns
 	 * null if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            string to parse
 	 * @param handler
@@ -1675,6 +1630,8 @@ public class AlgebraProcessor {
 		} catch (MyError e) {
 			e.printStackTrace();
 			ErrorHelper.handleError(e, str, loc, handler);
+		} catch (CommandNotLoadedError e) {
+			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
 			ErrorHelper.handleException(new Exception(e), app, handler);
@@ -1687,7 +1644,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoPoint. Returns
 	 * null if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            string to process
 	 * @param handler
@@ -1724,6 +1681,8 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, str, loc, handler);
+		} catch (CommandNotLoadedError e) {
+			throw e;
 		} catch (Error e) {
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		}
@@ -1737,7 +1696,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoText. Returns
 	 * null if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            input string
 	 * @param createLabel
@@ -1762,19 +1721,11 @@ public class AlgebraProcessor {
 				Log.debug("CircularDefinition");
 				app.localizeAndShowError("CircularDefinition");
 			}
-		} catch (Exception e) {
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
 			if (showErrors) {
-				e.printStackTrace();
-				app.showError("InvalidInput", str);
-			}
-		} catch (MyError e) {
-			if (showErrors) {
-				e.printStackTrace();
-				app.showError(e);
-			}
-		} catch (Error e) {
-			if (showErrors) {
-				e.printStackTrace();
+				t.printStackTrace();
 				app.showError("InvalidInput", str);
 			}
 		}
@@ -1786,7 +1737,7 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoImplicitPoly
 	 * object. Returns null if something went wrong.
-	 * 
+	 *
 	 * @param str
 	 *            stringInput
 	 * @param showErrors
@@ -1805,18 +1756,10 @@ public class AlgebraProcessor {
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			app.localizeAndShowError("CircularDefinition");
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (showErrors) {
-				app.showError("InvalidInput", str);
-			}
-		} catch (MyError e) {
-			e.printStackTrace();
-			if (showErrors) {
-				app.showError(e);
-			}
-		} catch (Error e) {
-			e.printStackTrace();
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
+			t.printStackTrace();
 			if (showErrors) {
 				app.showError("InvalidInput", str);
 			}

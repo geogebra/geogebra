@@ -140,11 +140,11 @@ public class ImageInputDialogT extends UploadImageDialog {
 			if (this.cameraIsActive
 					&& !"".equals(this.pictureFromCameraString)) {
 				app.imageDropHappened("devicePicture",
-						this.pictureFromCameraString, "");
+						this.pictureFromCameraString);
 			} else if (!this.cameraIsActive
 					&& !"".equals(this.pictureFromFileString)) {
 				app.imageDropHappened("devicePicture",
-						this.pictureFromFileString, "");
+						this.pictureFromFileString);
 			}
 			hide();
 		} else if (source == cancelBtn) {

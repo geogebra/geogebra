@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.barycentric;
 
-import org.geogebra.common.main.AlgoCubicSwitchInterface;
-import org.geogebra.common.main.AlgoCubicSwitchParams;
-
 /**
  * The heavyweight part of AlgoCubic Based on data from Bernard Gibert
  * 
@@ -10,11 +7,7 @@ import org.geogebra.common.main.AlgoCubicSwitchParams;
  * @author Zbynek Konecny
  *
  */
-public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
-	/**
-	 * This class is instantiated for only technical reasons i.e. to be able to
-	 * run this part of code async
-	 */
+public class AlgoCubicSwitch {
 
 	private final static double r3 = Math.sqrt(3);
 
@@ -23,16 +16,10 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 	private double c2, c3, c4, c5, c6, c7, c8, c9, c10, c12, c14, c16, c18, c20;
 	private double S, cA3, cB3, cC3;
 
-	@Override
-	public String getEquation(AlgoCubicSwitchParams cp) {
-		return getEquation(cp.n, cp.a, cp.b, cp.c);
-	}
-
 	/**
 	 * Returns equation in case cubic is symmetric or antisymmetric
 	 */
-	private String symetricOrAntisymetric(int n, double a, double b, double c) {
-
+	public String getEquation(int n, double a, double b, double c) {
 		StringBuilder equation = new StringBuilder("0=0");
 		for (int p = 0; p < 3; p++) {
 			int q = (p + 1) % 3;
@@ -4401,13 +4388,5 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		default:
 			return new double[0];
 		}
-	}
-
-	@Override
-	public String getEquation(double n, double a, double b, double c) {
-
-		String equation = symetricOrAntisymetric((int) Math.round(n), a, b, c);
-
-		return equation;
 	}
 }

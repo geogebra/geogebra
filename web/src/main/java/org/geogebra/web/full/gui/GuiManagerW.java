@@ -423,7 +423,7 @@ public class GuiManagerW extends GuiManager
 						pngBase64end);
 
 				getApp().imageDropHappened("pastedFromClipboard.png",
-						base64, "");
+						base64);
 
 				return;
 			}

@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
@@ -46,7 +45,6 @@ public class AlgoKimberling extends AlgoElement {
 	public AlgoKimberling(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoNumberValue n) {
 		super(cons);
-		kernel.getApplication().getAlgoKimberlingWeights();
 		this.A = A;
 		this.B = B;
 		this.C = C;
@@ -87,7 +85,6 @@ public class AlgoKimberling extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
 		// Check if the points are aligned
 		double c = A.distance(B);
 		double b = C.distance(A);
@@ -98,21 +95,16 @@ public class AlgoKimberling extends AlgoElement {
 		c = c / m;
 		int k = (int) n.getDouble();
 
-		if (kernel.getApplication().getAlgoKimberlingWeights() == null) {
+		AlgoKimberlingWeights weights = new AlgoKimberlingWeights();
+
+		double wA = weights.weight(k, a, b, c);
+		double wB = weights.weight(k, b, c, a);
+		double wC = weights.weight(k, c, a, b);
+		double w = wA + wB + wC;
+		if (Double.isNaN(w) || DoubleUtil.isZero(w)) {
 			M.setUndefined();
 		} else {
-			double wA = kernel.getApplication().kimberlingWeight(
-					new AlgoKimberlingWeightsParams(k, a, b, c));
-			double wB = kernel.getApplication().kimberlingWeight(
-					new AlgoKimberlingWeightsParams(k, b, c, a));
-			double wC = kernel.getApplication().kimberlingWeight(
-					new AlgoKimberlingWeightsParams(k, c, a, b));
-			double w = wA + wB + wC;
-			if (Double.isNaN(w) || DoubleUtil.isZero(w)) {
-				M.setUndefined();
-			} else {
-				GeoPoint.setBarycentric(A, B, C, wA, wB, wC, w, M);
-			}
+			GeoPoint.setBarycentric(A, B, C, wA, wB, wC, w, M);
 		}
 	}
 }

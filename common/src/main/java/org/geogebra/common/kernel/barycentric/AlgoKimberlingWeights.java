@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.barycentric;
 
-import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
-import org.geogebra.common.main.AlgoKimberlingWeightsParams;
-
 /**
  * Most of the content of this class is moved here from AlgoKimberling, to
  * facilitate asyncronous running... comment from AlgoKimberling:
@@ -11,17 +8,12 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
  * perl script which was used to create this class.
  */
 
-public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
+public class AlgoKimberlingWeights {
 
 	private double a2, a3, a4, a5, a6, a7, a8, a9, a10;
 	private double b2, b3, b4, b5, b6, b7, b8, b9, b10;
 	private double c2, c3, c4, c5, c6, c7, c8, c9, c10;
 	private double Q, R, S, T, U, V, angleA, angleB, angleC;
-
-	/**
-	 * This class is instantiated for only technical reasons i.e. to be able to
-	 * run this part of code async in web
-	 */
 
 	private static double p(double a, double b) {
 		return Math.pow(a, b);
@@ -31,22 +23,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		return Math.sqrt(a);
 	}
 
-	/**
-	 * Making it possible to call the weight method from a JSNI setting where
-	 * the precision of primitive types may suffer at conversion
-	 * 
-	 * @param kw
-	 *            weight parameters
-	 * @return the same as weight(int,double,double,double)
-	 */
-	@Override
-	public double weight(AlgoKimberlingWeightsParams kw) {
-		return weight(kw.k, kw.a, kw.b, kw.c);
-	}
-
-	@Override
 	public double weight(int k, double a, double b, double c) {
-
 		a2 = a * a;
 		a3 = a * a2;
 		a4 = a * a3;

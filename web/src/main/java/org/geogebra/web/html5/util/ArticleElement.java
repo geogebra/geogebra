@@ -288,6 +288,15 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return getBoolDataParam("useBrowserForJS", false);
 	}
 
+	@Override
+	public String[] getDataParamPreloadModules() {
+		if (!hasAttribute("data-param-preloadModules")) {
+			return null;
+		}
+
+		return getAttribute("data-param-preloadModules").split(",");
+	}
+
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShiftDragZoomEnabled()
 	 */

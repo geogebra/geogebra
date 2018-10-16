@@ -130,6 +130,7 @@ public class LoadFilePresenter {
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
 			app.getScriptManager().ggbOnInit();
+			app.getAsyncManager().onResourceLoaded();
 		} else {
 			// only do this after app initialized
 			app.setUndoActive(undoActive);

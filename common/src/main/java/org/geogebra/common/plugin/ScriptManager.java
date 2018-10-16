@@ -137,7 +137,7 @@ public abstract class ScriptManager implements EventListener {
 		}
 
 		for (JsScript listener : listeners) {
-			callJavaScript(listener.getText(), args.toArray());
+			callJavaScript(listener.getText(), args.toArray(new String[0]));
 		}
 	}
 
@@ -472,7 +472,7 @@ public abstract class ScriptManager implements EventListener {
 		// overridden in platforms
 	}
 
-	abstract public void callJavaScript(String jsFunction, Object[] args);
+	abstract public void callJavaScript(String jsFunction, String[] args);
 
 	/**
 	 * @param jsFunction
@@ -482,16 +482,16 @@ public abstract class ScriptManager implements EventListener {
 	 * @param arg1
 	 *            second argument
 	 */
-	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
+	public void callJavaScript(String jsFunction, String arg0, String arg1) {
 		if (arg0 == null) {
-			callJavaScript(jsFunction, new Object[0]);
+			callJavaScript(jsFunction, new String[0]);
 			return;
 		}
 		if (arg1 == null) {
-			callJavaScript(jsFunction, new Object[] { arg0 });
+			callJavaScript(jsFunction, new String[] { arg0 });
 			return;
 		}
-		callJavaScript(jsFunction, new Object[] { arg0, arg1 });
+		callJavaScript(jsFunction, new String[] { arg0, arg1 });
 	}
 
 	// ------ getters for listeners -------------

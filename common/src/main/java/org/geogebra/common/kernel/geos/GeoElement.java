@@ -6344,6 +6344,10 @@ public abstract class GeoElement extends ConstructionElement
 	 * Scripting
 	 */
 
+	public boolean hasScripts() {
+		return scripts != null && scripts.length != 0;
+	}
+
 	/**
 	 * @param script
 	 *            script

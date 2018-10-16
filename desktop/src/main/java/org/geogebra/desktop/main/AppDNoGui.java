@@ -25,6 +25,7 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 //import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
@@ -39,10 +40,6 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import org.geogebra.common.main.AlgoCubicSwitchInterface;
-import org.geogebra.common.main.AlgoCubicSwitchParams;
-import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
-import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
@@ -77,6 +74,8 @@ import org.geogebra.desktop.geogebra3D.App3DCompanionD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
+import org.geogebra.desktop.kernel.commands.CommandDispatcher3DD;
+import org.geogebra.desktop.kernel.commands.CommandDispatcherD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -519,7 +518,7 @@ public class AppDNoGui extends App implements AppDI {
 	}
 
 	@Override
-	public void callAppletJavaScript(String string, Object[] args) {
+	public void callAppletJavaScript(String string, String[] args) {
 		// TODO Auto-generated method stub
 
 	}
@@ -663,34 +662,13 @@ public class AppDNoGui extends App implements AppDI {
 	}
 
 	@Override
-	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String cubicSwitch(AlgoCubicSwitchParams kw) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel k) {
-		return new CommandDispatcher(k) {
-			// abstract for some reason ...
-		};
+		return new CommandDispatcherD(k);
+	}
+
+	@Override
+	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
+		return new CommandDispatcher3DD(k);
 	}
 
 	@Override

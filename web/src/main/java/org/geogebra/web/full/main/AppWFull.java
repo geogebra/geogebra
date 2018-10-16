@@ -27,6 +27,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
@@ -910,10 +911,17 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (cmds != null) {
 			Log.debug("exectuing commands: " + cmds);
 
-			for (String cmd : cmds.split(";")) {
-				getKernel().getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionsOrErrors(cmd,
-								false);
+			for (final String cmd : cmds.split(";")) {
+				Runnable r = new Runnable() {
+					@Override
+					public void run() {
+						getKernel().getAlgebraProcessor()
+								.processAlgebraCommandNoExceptionsOrErrors(cmd,
+										false);
+					}
+				};
+
+				getAsyncManager().scheduleCallback(r);
 			}
 		}
 		removeSplash();
@@ -1394,6 +1402,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
+		for(GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+			if (geo.hasScripts()) {
+				getAsyncManager().loadAllCommands();
+				break;
+			}
+		}
+
 		closePerspectivesPopup();
 		if (!getLAF().isSmart()) {
 			removeSplash();

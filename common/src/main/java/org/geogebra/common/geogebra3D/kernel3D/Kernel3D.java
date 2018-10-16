@@ -23,7 +23,6 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoVectorPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.Manager3D;
 import org.geogebra.common.geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.AlgebraProcessor3D;
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAxis3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
@@ -47,7 +46,6 @@ import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -185,8 +183,7 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		CommandDispatcher cd = new CommandDispatcher3D(kernel);
-		return new AlgebraProcessor3D(kernel, cd);
+		return new AlgebraProcessor3D(kernel, app.getCommand3DDispatcher(kernel));
 	}
 
 	/** return all points of the current construction */

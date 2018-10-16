@@ -73,17 +73,14 @@ public class JsEval {
 	 * @param arg1
 	 *            second argument
 	 */
-	public static void callAppletJavaScript(String fun, Object arg0,
-			Object arg1) {
+	public static void callAppletJavaScript(String fun, String arg0,
+			String arg1) {
 		if (arg0 == null && arg1 == null) {
 			JsEval.callNativeJavaScript(fun);
 		} else if (arg0 != null && arg1 == null) {
-			// Log.debug("calling function: " + fun + "(" + arg0.toString()
-			// + ")");
-			JsEval.callNativeJavaScript(fun, arg0.toString());
+			JsEval.callNativeJavaScript(fun, arg0);
 		} else if (arg0 != null && arg1 != null) {
-			JsEval.callNativeJavaScriptMultiArg(fun, arg0.toString(),
-					arg1.toString());
+			JsEval.callNativeJavaScriptMultiArg(fun, arg0, arg1);
 		}
 
 	}

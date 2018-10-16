@@ -15,6 +15,8 @@ package org.geogebra.web.full.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
@@ -1848,6 +1850,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
+
+		FactoryProvider.setInstance(new FactoryProviderGWT());
+
 		mf = new MathFieldW(new FormatConverterImpl(kernel), latexItem, canvas,
 				getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),

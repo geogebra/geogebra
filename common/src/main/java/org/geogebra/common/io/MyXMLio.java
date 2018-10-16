@@ -20,6 +20,7 @@ import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
@@ -382,20 +383,20 @@ public abstract class MyXMLio {
 		try {
 			kernel.setLoadingMode(true);
 			if (settingsBatch && !isGGTOrDefaults) {
-				app.getSettings().beginBatch();
-				parseXML(handler, stream);
-				app.getSettings().endBatch();
+				try {
+					app.getSettings().beginBatch();
+					parseXML(handler, stream);
+				} finally {
+					app.getSettings().endBatch();
+				}
 			} else {
 				parseXML(handler, stream);
 			}
 			resetXMLParser();
 			kernel.setLoadingMode(false);
-		} catch (Error e) {
-			Log.error(e.getMessage());
-			if (!isGGTOrDefaults) {
-				throw e;
-			}
-		} catch (Exception e) {
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Error | Exception e) {
 			Log.error(e.getMessage());
 			if (!isGGTOrDefaults) {
 				throw e;

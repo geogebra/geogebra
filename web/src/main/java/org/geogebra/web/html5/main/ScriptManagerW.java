@@ -3,7 +3,6 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -12,7 +11,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class ScriptManagerW extends ScriptManager {
 
-	private String ggbApplet = ArticleElementInterface.DEFAULT_APPLET_ID;
+	private String ggbApplet;
 	private JavaScriptObject api;
 
 	/**
@@ -61,14 +60,13 @@ public class ScriptManagerW extends ScriptManager {
 				        null);
 			}
 			if (!standardJS || app.useBrowserForJavaScript()) {
+				final String param = ((AppW) app).getAppletId();
 
-				String param = ((AppW) app).getAppletId();
 				if (param == null || "".equals(param)) {
 					ggbOnInitStatic();
 				} else {
 					ggbOnInit(param, api);
 				}
-
 			}
 		} catch (Throwable t) {
 			Log.debug(t.getMessage());
@@ -78,6 +76,7 @@ public class ScriptManagerW extends ScriptManager {
 		if (articleid != null) {
 			AppW.appletOnLoad(articleid);
 		}
+
 		if (((AppW) app).getAppletFrame() != null
 		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
 			JsEval.runCallback(
@@ -92,28 +91,18 @@ public class ScriptManagerW extends ScriptManager {
 
 	}-*/;
 
-	private static String toString(Object o) {
-		return o == null ? null : o.toString();
-	}
-
 	@Override
-	public void callJavaScript(String jsFunction, Object[] args) {
+	public void callJavaScript(String jsFunction, String[] args) {
 		try {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {
-			if (args != null && args.length > 2) {
-				callListenerNativeArray(this.api, jsFunction, toString(args[0]),
-						toString(args[1]), toString(args[2]));
-				return;
-			}
 			if (args != null && args.length > 1) {
-				callListenerNativeArray(this.api, jsFunction, toString(args[0]),
-						toString(args[1]));
+				callListenerArray(this.api, jsFunction, args);
 				return;
 			}
 			String singleArg = args != null && args.length > 0
-					? (String) args[0] : null;
-			callListenerNative(this.api, jsFunction, singleArg, null);
+					? args[0] : null;
+			callListener(this.api, jsFunction, singleArg, null);
 			return;
 		}
 		app.callAppletJavaScript(jsFunction, args);
@@ -125,12 +114,11 @@ public class ScriptManagerW extends ScriptManager {
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
+	public void callJavaScript(String jsFunction, String arg0, String arg1) {
 		try {
 			if (jsFunction != null && jsFunction.length() > 0
 					&& jsFunction.charAt(0) <= '9') {
-				callListenerNative(this.api, jsFunction, toString(arg0),
-						toString(arg1));
+				callListener(this.api, jsFunction, arg0, arg1);
 				return;
 			}
 			JsEval.callAppletJavaScript(jsFunction, arg0, arg1);
@@ -141,6 +129,30 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
+	private void callListener(final JavaScriptObject api2,
+			final String jsFunction, final String arg0, final String arg1) {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				callListenerNative(api2, jsFunction, arg0, arg1);
+			}
+		};
+
+		((AppW) app).getAsyncManager().scheduleCallback(r);
+	}
+
+	private void callListenerArray(final JavaScriptObject api2,
+			final String jsFunction, final String... args) {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				callListenerNativeArray(api2, jsFunction, args);
+			}
+		};
+
+		((AppW) app).getAsyncManager().scheduleCallback(r);
+	}
+
 	private native void callListenerNative(JavaScriptObject api2,
 			String jsFunction, String arg0, String arg1) /*-{
 		api2.listeners[jsFunction * 1](arg0, arg1);
@@ -148,14 +160,8 @@ public class ScriptManagerW extends ScriptManager {
 	}-*/;
 
 	private native void callListenerNativeArray(JavaScriptObject api2,
-			String jsFunction, String arg0, String arg1, String arg2) /*-{
-		api2.listeners[jsFunction * 1]([ arg0, arg1, arg2 ]);
-
-	}-*/;
-
-	private native void callListenerNativeArray(JavaScriptObject api2,
-			String jsFunction, String arg0, String arg1) /*-{
-		api2.listeners[jsFunction * 1]([ arg0, arg1 ]);
+			String jsFunction, String... args) /*-{
+		api2.listeners[jsFunction * 1](args);
 
 	}-*/;
 
@@ -170,17 +176,17 @@ public class ScriptManagerW extends ScriptManager {
 
 		var api = {listeners:[]};
 		var getId = function(obj) {
-			if (typeof obj == 'string') {
+			if (typeof obj === 'string') {
 				return obj;
 			}
 			for(var i = 0;i<api.listeners.length;i++){
-				if(api.listeners[i]==obj){
+				if(api.listeners[i] === obj){
 					return i + "";
 				}
 			}
 			api.listeners[api.listeners.length]=obj;
 			return (api.listeners.length-1) + "";
-		}
+		};
 
 		api.getXML = function(objName) {
 			if (objName) {
@@ -213,15 +219,15 @@ public class ScriptManagerW extends ScriptManager {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getBase64()();
 			}
 
-		}
+		};
 
 		api.setBase64 = function(base64string, callback) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setBase64(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(base64string + "", callback);
-		}
+		};
 
 		api.openFile = function(filename, callback) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::openFile(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(base64string + "", callback);
-		}
+		};
 
 		api.login = function(token, ui) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::login(Ljava/lang/String;Z)(token  + "", !!ui);
@@ -244,11 +250,23 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.evalCommand = function(cmdString) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalCommand(Ljava/lang/String;)(cmdString + "");
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalCommandNoException(Ljava/lang/String;)(cmdString + "");
 		};
 
 		api.evalCommandGetLabels = function(cmdString) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalCommandGetLabels(Ljava/lang/String;)(cmdString + "");
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalCommandGetLabelsNoException(Ljava/lang/String;)(cmdString + "");
+		};
+
+		api.asyncEvalCommand = function(cmdString) {
+		    return new Promise(function(resolve, reject) {
+                ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::asyncEvalCommand(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(cmdString + "", resolve, reject);
+			})
+		};
+
+		api.asyncEvalCommandGetLabels = function(cmdString) {
+		    return new Promise(function(resolve, reject) {
+                ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::asyncEvalCommandGetLabels(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(cmdString + "", resolve, reject);
+			})
 		};
 
 		api.evalCommandCAS = function(cmdString) {
@@ -451,7 +469,7 @@ public class ScriptManagerW extends ScriptManager {
 		
 		api.getFrameRate = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFrameRate()();
-		}
+		};
 
 		api.renameObject = function(oldName, newName, force) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::renameObject(Ljava/lang/String;Ljava/lang/String;Z)(oldName + "",newName + "", !!force);
@@ -529,7 +547,7 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getScreenshotBase64(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
 		};
 
-		api.getThumbnailBase64 = function(callback) {
+		api.getThumbnailBase64 = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getThumbnailBase64()();
 		};
 
@@ -635,17 +653,17 @@ public class ScriptManagerW extends ScriptManager {
 			return [].concat(ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisUnits(I)(1 * arg1 || 1));
 		});
 
-		api.getAxisLabels = $entry(function(arg1, arg2, arg3, arg4) {
+		api.getAxisLabels = $entry(function(arg1) {
 			return [].concat(ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisLabels(I)(1 * arg1 || 1));
 		});
 
 		api.setPointCapture = function(view, capture) {
-			if(typeof capture == "undefined"){
+			if(typeof capture === "undefined"){
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointCapture(II)(1, view);
 			}else{
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointCapture(II)(view, capture);
 			}
-		}
+		};
 
 		api.getGridVisible = function(view) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getGridVisible(I)(view || 1);
@@ -876,32 +894,32 @@ public class ScriptManagerW extends ScriptManager {
 		api.getPNGBase64 = function(exportScale, transparent, dpi,
 				copyToClipboard) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZ)(exportScale, !!transparent, dpi, !!copyToClipboard);
-		}
+		};
 		
 		api.exportGIF = function(sliderLabel, scale, timeBetweenFrames, isLoop, filename, rotate) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportGIF(Ljava/lang/String;DDZLjava/lang/String;D)(sliderLabel, scale, timeBetweenFrames | 500, !!isLoop, filename, rotate | 0);
-		}
+		};
 
 		api.getFileJSON = function(thumbnail) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFileJSON(Z)(!!thumbnail);
-		}
+		};
 		
 		api.setFileJSON = function(zip) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFileJSON(Lcom/google/gwt/core/client/JavaScriptObject;)(zip);
-		}
+		};
 
 		api.setLanguage = function(lang) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang + "");
-		}
+		};
 
 		api.showTooltip = function(lang) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(lang + "");
-		}
+		};
 
 		api.remove = function() {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::removeApplet()();
 			$doc[ggbApplet] = $wnd[ggbApplet] = api = null;
-		}
+		};
 
 		api.getExerciseResult = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getExerciseResult()();
@@ -927,7 +945,7 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::checkSaved(Lcom/google/gwt/core/client/JavaScriptObject;)(path);
 		};
 
-		api.getCASObjectNumber = function(path) {
+		api.getCASObjectNumber = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCASObjectNumber()();
 		};
 

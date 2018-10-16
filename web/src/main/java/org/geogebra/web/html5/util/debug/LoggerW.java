@@ -71,7 +71,7 @@ public class LoggerW extends Log {
 		$wnd.console.log(s);
 	}-*/;
 
-	private native void printWebConsoleError(String s) /*-{
+	private native static void printWebConsoleError(String s) /*-{
 		$wnd.console.error(s);
 	}-*/;
 
@@ -124,4 +124,8 @@ public class LoggerW extends Log {
 			$wnd.console.trace(t);
 		}
 	}-*/;
+
+	public static void loaded(String string) {
+		printWebConsoleError("Loaded: " + string);
+	}
 }

@@ -121,7 +121,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 			String data = webcamInputPanel.getImageDataURL();
 			String name = "webcam";
 			if (data != null && !webcamInputPanel.isStreamEmpty()) {
-				appW.imageDropHappened(name, data, "");
+				appW.imageDropHappened(name, data);
 			}
 		} else if (source == closeBtn) {
 			hide();

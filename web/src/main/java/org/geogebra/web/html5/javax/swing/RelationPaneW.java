@@ -4,9 +4,13 @@ import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.Prover;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.util.debug.LoggerW;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -123,18 +127,29 @@ public class RelationPaneW extends GDialogBox
 	}
 
 	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource();
+	public void onClick(final ClickEvent event) {
+		final Object source = event.getSource();
 
 		if (source == btnOK) {
 			hide();
 		}
 
-		for (int i = 0; i < rels; ++i) {
-			if (source == btnCallbacks[i]) {
-				callbacks[i].action(this, i);
+		GWT.runAsync(Prover.class, new RunAsyncCallback() {
+			@Override
+			public void onFailure(Throwable reason) {
+
 			}
-		}
+
+			@Override
+			public void onSuccess() {
+				LoggerW.loaded("prover");
+				for (int i = 0; i < rels; ++i) {
+					if (source == btnCallbacks[i]) {
+						callbacks[i].action(RelationPaneW.this, i);
+					}
+				}
+			}
+		});
 	}
 
 	@Override

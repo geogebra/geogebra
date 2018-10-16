@@ -161,6 +161,11 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
+	public String[] getDataParamPreloadModules() {
+		return null;
+	}
+
+	@Override
 	public boolean getDataParamShiftDragZoomEnabled() {
 		return true;
 	}

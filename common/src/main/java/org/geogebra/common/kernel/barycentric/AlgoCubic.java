@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -50,7 +49,6 @@ public class AlgoCubic extends AlgoElement {
 	public AlgoCubic(Construction cons, String label, GeoPoint A, GeoPoint B,
 			GeoPoint C, GeoNumberValue e) {
 		super(cons);
-		kernel.getApplication().getAlgoCubicSwitch();
 		this.A = A;
 		this.B = B;
 		this.C = C;
@@ -91,12 +89,6 @@ public class AlgoCubic extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		if (kernel.getApplication().getAlgoCubicSwitch() == null) {
-			poly.setUndefined();
-			return;
-		}
-
 		// Check if the points are aligned
 		double c = A.distance(B);
 		double b = C.distance(A);
@@ -107,8 +99,6 @@ public class AlgoCubic extends AlgoElement {
 		double y2 = B.inhomY;
 		double x3 = C.inhomX;
 		double y3 = C.inhomY;
-
-		String equation = "";
 
 		double det = (-x2 + x3) * (y1 - y3) + (x1 - x3) * (y2 - y3);
 		if (DoubleUtil.isZero(det)) {
@@ -122,13 +112,7 @@ public class AlgoCubic extends AlgoElement {
 		String Cstr = "(" + (x2 - x1) / det + "*y  + " + (y1 - y2) / det
 				+ "*x - " + ((x2 - x1) * y2 + (y1 - y2) * x2) / det + ")";
 
-		equation = kernel.getApplication()
-				.cubicSwitch(new AlgoCubicSwitchParams(n.getDouble(), a, b, c));
-
-		if (equation == null) {
-			poly.setUndefined();
-			return;
-		}
+		String equation = new AlgoCubicSwitch().getEquation((int) n.getDouble(), a, b, c);
 
 		equation = equation.replace("A", Astr);
 		equation = equation.replace("B", Bstr);
@@ -140,9 +124,8 @@ public class AlgoCubic extends AlgoElement {
 		Parser parser = getKernel().getParser();
 		AlgebraProcessor algebraProcessor = getKernel().getAlgebraProcessor();
 
-		ValidExpression ve = null;
 		try {
-			ve = parser.parseGeoGebraExpression(equation);
+			ValidExpression ve = parser.parseGeoGebraExpression(equation);
 			GeoImplicit result = (GeoImplicit) (algebraProcessor
 					.processEquation((Equation) ve, ve.wrap(), true,
 							new EvalInfo(false))[0]);

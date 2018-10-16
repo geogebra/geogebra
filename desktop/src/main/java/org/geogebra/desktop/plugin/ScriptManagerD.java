@@ -66,7 +66,7 @@ public class ScriptManagerD extends ScriptManager {
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, Object[] args) {
+	public void callJavaScript(String jsFunction, String[] args) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(jsFunction);
 		sb.append("(");

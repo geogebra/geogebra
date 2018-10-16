@@ -13,7 +13,7 @@ import org.geogebra.common.plugin.ScriptType;
  * @author arno Class for JavaScript scripts
  */
 public class JsScript extends Script {
-	static HashMap<String, JsScript> nameToScript = new HashMap<>();
+	private static HashMap<String, JsScript> nameToScript = new HashMap<>();
 
 	/**
 	 * @param app
@@ -29,23 +29,12 @@ public class JsScript extends Script {
 	public boolean run(Event evt) throws ScriptError {
 		String label = evt.target.getLabel(StringTemplate.defaultTemplate);
 		boolean update = evt.type == EventType.UPDATE;
-		Object[] args;
 		try {
 			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
-				if (evt.argument == null) {
-					args = new Object[] {};
-				} else {
-					args = new Object[] { evt.argument };
-				}
-				app.callAppletJavaScript("ggb" + label, args);
+			    app.callAppletJavaScript("ggb" + label, evt.argument);
 			} else if (app.isHTML5Applet() && app.useBrowserForJavaScript()) {
 				String functionPrefix = update ? "ggbUpdate" : "ggb";
-				if (evt.argument == null) {
-					args = new Object[] {};
-				} else {
-					args = new Object[] { evt.argument };
-				}
-				app.callAppletJavaScript(functionPrefix + label, args);
+				app.callAppletJavaScript(functionPrefix + label, evt.argument);
 			} else {
 				app.evalJavaScript(app, text, evt.argument);
 			}

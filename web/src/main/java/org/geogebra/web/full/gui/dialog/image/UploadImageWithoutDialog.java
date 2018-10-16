@@ -35,7 +35,7 @@ public class UploadImageWithoutDialog {
 	public void insertImage() {
 		String data = uploadImagePanel.getImageDataURL();
 		String name = uploadImagePanel.getFileName();
-		app.imageDropHappened(name, data, "");
+		app.imageDropHappened(name, data);
 	}
 
 	/**

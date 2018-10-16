@@ -11,6 +11,7 @@ import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -1097,6 +1098,36 @@ public class GgbAPIW extends GgbAPI {
 			partresult.put("fraction", new JSONNumber(part.getFraction()));
 		}
 		return result.getJavaScriptObject();
+	}
+
+	public void asyncEvalCommand(String command, JavaScriptObject onSuccess,
+			JavaScriptObject onFailure) {
+		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
+	}
+
+	public void asyncEvalCommandGetLabels(String command, JavaScriptObject onSuccess,
+			JavaScriptObject onFailure) {
+		((AppW) app).getAsyncManager().asyncEvalCommandGetLabels(command, onSuccess, onFailure);
+	}
+
+	public synchronized boolean evalCommandNoException(String cmdString) {
+		try {
+			return super.evalCommand(cmdString);
+		} catch (CommandNotLoadedError e) {
+			Log.debug("Command not loaded yet. "
+					+ "Please try asyncEvalCommand(cmdString)");
+			return false;
+		}
+	}
+
+	public synchronized String evalCommandGetLabelsNoException(String cmdString) {
+		try {
+			return super.evalCommandGetLabels(cmdString);
+		} catch (CommandNotLoadedError e) {
+			Log.debug("Command not loaded yet. "
+					+ "Please try asyncEvalCommandGetLabels(cmdString, callback)");
+			return null;
+		}
 	}
 
 	/**

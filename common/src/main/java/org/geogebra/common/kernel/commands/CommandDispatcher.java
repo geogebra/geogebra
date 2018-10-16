@@ -50,20 +50,21 @@ public abstract class CommandDispatcher {
 	 **/
 	protected HashMap<String, CommandProcessor> cmdTable;
 	/** Similar to cmdTable, but for CAS */
+
 	/** dispatcher for discrete math */
-	protected CommandDispatcherInterface discreteDispatcher = null;
-
+	protected static CommandDispatcherInterface discreteDispatcher = null;
 	/** dispatcher for scripting commands */
-	protected CommandDispatcherInterface scriptingDispatcher = null;
-
+	protected static CommandDispatcherInterface scriptingDispatcher = null;
 	/** dispatcher for CAS commands */
-	protected CommandDispatcherInterface casDispatcher = null;
+	protected static CommandDispatcherInterface casDispatcher = null;
 	/** dispatcher for advanced commands */
-	protected CommandDispatcherInterface advancedDispatcher = null;
+	protected static CommandDispatcherInterface advancedDispatcher = null;
 	/** dispatcher for stats commands */
-	protected CommandDispatcherInterface statsDispatcher = null;
+	protected static CommandDispatcherInterface statsDispatcher = null;
 	/** dispatcher for steps commands */
-	protected CommandDispatcherInterface stepsDispatcher = null;
+	protected static CommandDispatcherInterface stepsDispatcher = null;
+	/** disptcher for prover commands */
+	protected static CommandDispatcherInterface proverDispatcher = null;
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
@@ -191,7 +192,6 @@ public abstract class CommandDispatcher {
 			cons.setSuppressLabelCreation(true);
 		}
 
-		GeoElement[] ret = null;
 		try {
 
 			// disable preview for commands using CAS
@@ -201,9 +201,7 @@ public abstract class CommandDispatcher {
 				return null;
 			}
 
-			ret = cmdProc.process(c, info);
-		} catch (MyError e) {
-			throw e;
+			return cmdProc.process(c, info);
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			Log.debug(e);
@@ -212,7 +210,6 @@ public abstract class CommandDispatcher {
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
-		return ret;
 	}
 
 	private CommandProcessor getProcessor(Command c) throws MyError {
@@ -449,19 +446,9 @@ public abstract class CommandDispatcher {
 			case IndexOf:
 			case Flatten:
 			case Insert:
-			case Prove:
-			case ProveDetails:
 			case DynamicCoordinates:
 			case Maximize:
 			case Minimize:
-			case AreCollinear:
-			case AreParallel:
-			case AreConcyclic:
-			case ArePerpendicular:
-			case AreEqual:
-			case AreCongruent:
-			case AreConcurrent:
-			case IsTangent:
 			case ToBase:
 			case FromBase:
 			case ContinuedFraction:
@@ -488,6 +475,21 @@ public abstract class CommandDispatcher {
 			case PresentValue:
 			case SVD:
 				return getAdvancedDispatcher().dispatch(command, kernel);
+
+			// prover
+			case Prove:
+			case ProveDetails:
+			case AreCollinear:
+			case AreParallel:
+			case AreConcyclic:
+			case ArePerpendicular:
+			case AreEqual:
+			case AreCongruent:
+			case AreConcurrent:
+			case IsTangent:
+			case LocusEquation:
+			case Envelope:
+				return getProverDispatcher().dispatch(command, kernel);
 
 			// basic
 
@@ -814,8 +816,6 @@ public abstract class CommandDispatcher {
 			case Solutions:
 			case NSolutions:
 				return getCASDispatcher().dispatch(command, kernel);
-			case LocusEquation:
-			case Envelope:
 			case Expand:
 			case Factor:
 			case IFactor:
@@ -854,52 +854,26 @@ public abstract class CommandDispatcher {
 		return null;
 	}
 
-	private CommandDispatcherInterface getStatsDispatcher() {
-		if (statsDispatcher == null) {
-			statsDispatcher = new CommandDispatcherStats();
-		}
-		return statsDispatcher;
-	}
+	/** @return dispatcher for stats commands */
+	public abstract CommandDispatcherInterface getStatsDispatcher();
 
 	/** @return dispatcher for discrete math */
-	protected CommandDispatcherInterface getDiscreteDispatcher() {
-		if (discreteDispatcher == null) {
-			discreteDispatcher = new CommandDispatcherDiscrete();
-		}
-		return discreteDispatcher;
-	}
+	public abstract CommandDispatcherInterface getDiscreteDispatcher();
 
 	/** @return dispatcher for CAS commands */
-	protected CommandDispatcherInterface getCASDispatcher() {
-		if (casDispatcher == null) {
-			casDispatcher = new CommandDispatcherCAS();
-		}
-		return casDispatcher;
-	}
+	public abstract CommandDispatcherInterface getCASDispatcher();
 
 	/** @return dispatcher for scripting commands */
-	protected CommandDispatcherInterface getScriptingDispatcher() {
-		if (scriptingDispatcher == null) {
-			scriptingDispatcher = new CommandDispatcherScripting();
-		}
-		return scriptingDispatcher;
-	}
+	public abstract CommandDispatcherInterface getScriptingDispatcher();
 
 	/** @return dispatcher for advanced commands */
-	protected CommandDispatcherInterface getAdvancedDispatcher() {
-		if (advancedDispatcher == null) {
-			advancedDispatcher = new CommandDispatcherAdvanced();
-		}
-		return advancedDispatcher;
-	}
+	public abstract CommandDispatcherInterface getAdvancedDispatcher();
 
 	/** @return dispatcher for steps commands */
-	protected CommandDispatcherInterface getStepsDispatcher() {
-		if (stepsDispatcher == null) {
-			stepsDispatcher = new CommandDispatcherSteps();
-		}
-		return stepsDispatcher;
-	}
+	public abstract CommandDispatcherInterface getStepsDispatcher();
+
+	/** @return dispatcher for prover commands */
+	public abstract CommandDispatcherInterface getProverDispatcher();
 
 	/**
 	 * @return dispatcher for basic commands

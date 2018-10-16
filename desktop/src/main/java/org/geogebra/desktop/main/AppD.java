@@ -130,6 +130,7 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
+import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -141,17 +142,11 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
-import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.main.AlgoCubicSwitchInterface;
-import org.geogebra.common.main.AlgoCubicSwitchParams;
-import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
-import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
@@ -220,6 +215,8 @@ import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
+import org.geogebra.desktop.kernel.commands.CommandDispatcher3DD;
+import org.geogebra.desktop.kernel.commands.CommandDispatcherD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -378,7 +375,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Construct application within Applet
 	 * 
 	 * @param args
-	 * @param appletImpl
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, boolean undoActive) {
@@ -401,7 +397,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * 
 	 * @param args
 	 * @param frame
-	 * @param appletImpl
 	 * @param comp
 	 * @param undoActive
 	 */
@@ -4288,7 +4283,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private OpenFromGGTOperation openFromGGTOperation;
 
 	@Override
-	public void callAppletJavaScript(String string, Object[] args) {
+	public void callAppletJavaScript(String string, String[] args) {
 		// not needed in desktop
 	}
 
@@ -4757,36 +4752,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return System.nanoTime() / 1000000d;
 	}
 
-	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	@Override
-	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		if (getKimberlingw() != null) {
-			return getKimberlingw();
-		}
-		return (setKimberlingw(new AlgoKimberlingWeights()));
-	}
-
-	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	@Override
-	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
-		return getAlgoKimberlingWeights().weight(kw);
-	}
-
-	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	@Override
-	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		if (getCubicw() != null) {
-			return getCubicw();
-		}
-		return (setCubicw(new AlgoCubicSwitch()));
-	}
-
-	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	@Override
-	public String cubicSwitch(AlgoCubicSwitchParams kw) {
-		return getAlgoCubicSwitch().getEquation(kw);
-	}
-
 	/**
 	 * Initializes the sign in Operation and tries to login in the user with the
 	 * stored token
@@ -4812,9 +4777,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel kernel2) {
-		return new CommandDispatcher(kernel2) {
-			// nothing to override
-		};
+		return new CommandDispatcherD(kernel2);
+	}
+
+	@Override
+	public CommandDispatcher3D getCommand3DDispatcher(Kernel kernel2) {
+		return new CommandDispatcher3DD(kernel2);
 	}
 
 	/**

@@ -3612,7 +3612,7 @@ public class MyXMLHandler implements DocHandler {
 			Log.error(msg);
 			e.printStackTrace();
 			errors.add(msg);
-		} catch (Error e) {
+		} catch (MyError e) {
 			String msg = "error in <expression>: label = " + label + ", exp = "
 					+ exp;
 			Log.error(msg);

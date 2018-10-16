@@ -19,6 +19,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
@@ -33,18 +34,12 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
-import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.AlgoCubicSwitchInterface;
-import org.geogebra.common.main.AlgoCubicSwitchParams;
-import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
-import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
@@ -136,6 +131,7 @@ import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
+import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 
@@ -153,7 +149,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -194,6 +189,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private SpreadsheetTableModelW tableModel;
 	private SoundManagerW soundManager;
 	private VideoManagerW videoManager;
+	private AsyncManager asyncManager;
 	protected DialogManager dialogManager = null;
 
 	protected MaterialsManagerI fm;
@@ -228,6 +224,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
 	private PageListControllerInterface pageController;
+
+	private String[] modulesToPreload;
 
 	/*
 	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
@@ -523,6 +521,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return videoManager;
 	}
 
+	public final AsyncManager getAsyncManager() {
+		if (asyncManager == null) {
+			asyncManager = new AsyncManager(this);
+			asyncManager.ensureModulesLoaded(articleElement.getDataParamPreloadModules());
+		}
+
+		return asyncManager;
+	}
+
+	public void commandsLoaded() {
+		getAsyncManager().onResourceLoaded();
+	}
+
 	@Override
 	public GgbAPIW getGgbApi() {
 		if (ggbapi == null) {
@@ -616,13 +627,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// ================================================
 
 	@Override
-	public void callAppletJavaScript(String fun, Object[] args) {
+	public void callAppletJavaScript(String fun, String... args) {
 		if (args == null || args.length == 0) {
 			JsEval.callNativeJavaScript(fun);
 		} else if (args.length == 1) {
-			Log.debug("calling function: " + fun + "(" + args[0].toString()
-					+ ")");
-			JsEval.callNativeJavaScript(fun, args[0].toString());
+			Log.debug("calling function: " + fun + "(" + args[0] + ")");
+			JsEval.callNativeJavaScript(fun, args[0]);
 		} else {
 			JsArrayString jsStrings = (JsArrayString) JavaScriptObject
 					.createArray();
@@ -634,8 +644,20 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public boolean loadXML(String xml) throws Exception {
-		getXMLio().processXMLString(xml, true, false);
+	public boolean loadXML(final String xml) throws Exception {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					getXMLio().processXMLString(xml, true, false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+
+		getAsyncManager().scheduleCallback(r);
+
 		return true;
 	}
 
@@ -762,19 +784,28 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            zip archive content
 	 * @param asSlide
 	 *            whether to reload just a slide
-	 * @throws Exception
-	 *             when loading fails
 	 */
-	public void loadGgbFile(GgbFile archiveContent, boolean asSlide) throws Exception {
-		AlgebraSettings algebraSettings = getSettings().getAlgebra();
-		algebraSettings.setModeChanged(false);
-		clearMedia();
+	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				AlgebraSettings algebraSettings = getSettings().getAlgebra();
+				algebraSettings.setModeChanged(false);
+				clearMedia();
 
-		loadFile(archiveContent, asSlide);
+				try {
+					loadFile(archiveContent, asSlide);
+				} catch (Exception e) {
+					// nothing
+				}
 
-		if (!algebraSettings.isModeChanged()) {
-			algebraSettings.setTreeMode(SortMode.TYPE);
-		}
+				if (!algebraSettings.isModeChanged()) {
+					algebraSettings.setTreeMode(SortMode.TYPE);
+				}
+			}
+		};
+
+		getAsyncManager().scheduleCallback(r);
 	}
 
 	/**
@@ -1213,10 +1244,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected boolean hasMacroToRestore() {
 		createStorage();
 		if (storage != null) {
-			StorageMap map = new StorageMap(storage);
-			if (map.containsKey(STORAGE_MACRO_ARCHIVE)) {
-				return true;
-			}
+			return storage.getItem(STORAGE_MACRO_ARCHIVE) != null;
 		}
 
 		return false;
@@ -1225,8 +1253,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected void restoreMacro() {
 		createStorage();
 		if (storage != null) {
-			StorageMap map = new StorageMap(storage);
-			if (map.containsKey(STORAGE_MACRO_ARCHIVE)) {
+			if (storage.getItem(STORAGE_MACRO_ARCHIVE) != null) {
 				getKernel().removeAllMacros();
 				String b64 = storage.getItem(STORAGE_MACRO_ARCHIVE);
 				getGgbApi().setBase64(b64);
@@ -1238,8 +1265,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		createStorage();
 
 		if (storage != null) {
-			StorageMap map = new StorageMap(storage);
-			if (map.containsKey(STORAGE_MACRO_KEY)) {
+			if (storage.getItem(STORAGE_MACRO_KEY) != null) {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
 					openMacro(macroName);
@@ -1428,103 +1454,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		if (getKimberlingw() != null) {
-			return getKimberlingw();
-		}
-
-		GWT.runAsync(new RunAsyncCallback() {
-			@Override
-			public void onSuccess() {
-				setKimberlingw(new AlgoKimberlingWeights());
-				setKimberlingWeightFunction(getKimberlingw());
-				getKernel().updateConstruction(false);
-			}
-
-			@Override
-			public void onFailure(Throwable reason) {
-				Log.warn("AlgoKimberlingWeights loading failure");
-			}
-		});
-		return getKimberlingw();
-	}
-
-	/**
-	 * @param kimberlingw
-	 *            weight function for TriangleCenter command
-	 */
-	public native void setKimberlingWeightFunction(
-			AlgoKimberlingWeightsInterface kimberlingw) /*-{
-		$wnd.geogebraKimberlingWeight = function(obj) {
-			return kimberlingw.@org.geogebra.common.main.AlgoKimberlingWeightsInterface::weight(Lorg/geogebra/common/main/AlgoKimberlingWeightsParams;)(obj);
-		}
-	}-*/;
-
-	@Override
-	public native double kimberlingWeight(
-			AlgoKimberlingWeightsParams kparams) /*-{
-
-		if ($wnd.geogebraKimberlingWeight) {
-			return $wnd.geogebraKimberlingWeight(kparams);
-		}
-
-		// should not execute!
-		return 0;
-
-	}-*/;
-
-	@Override
-	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		if (getCubicw() != null) {
-			return getCubicw();
-		}
-
-		GWT.runAsync(new RunAsyncCallback() {
-			@Override
-			public void onSuccess() {
-				setCubicw(new AlgoCubicSwitch());
-				setCubicSwitchFunction(getCubicw());
-				getKernel().updateConstruction(false);
-			}
-
-			@Override
-			public void onFailure(Throwable reason) {
-				Log.debug("AlgoKimberlingWeights loading failure");
-			}
-		});
-		return getCubicw();
-	}
-
-	/**
-	 * @param cubicw
-	 *            weights for Cubic command
-	 */
-	public native void setCubicSwitchFunction(
-			AlgoCubicSwitchInterface cubicw) /*-{
-		$wnd.geogebraCubicSwitch = function(obj) {
-			return cubicw.@org.geogebra.common.main.AlgoCubicSwitchInterface::getEquation(Lorg/geogebra/common/main/AlgoCubicSwitchParams;)(obj);
-		}
-	}-*/;
-
-	@Override
-	public native String cubicSwitch(AlgoCubicSwitchParams kparams) /*-{
-
-		if ($wnd.geogebraCubicSwitch) {
-			return $wnd.geogebraCubicSwitch(kparams);
-		}
-
-		// should not execute!
-		return 0;
-
-	}-*/;
-
-	@Override
-	public CommandDispatcher getCommandDispatcher(Kernel k) {
-		CommandDispatcher cmd = new CommandDispatcherW(k);
+	public CommandDispatcherW getCommandDispatcher(Kernel k) {
+		CommandDispatcherW cmd = new CommandDispatcherW(k);
 		if (!enableGraphing()) {
 			cmd.setEnabled(false);
 		}
 		return cmd;
+	}
+
+	@Override
+	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
+		return null;
 	}
 
 	/**
@@ -1588,12 +1528,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            - the file name of the image
 	 * @param fileStr
 	 *            - the image data url
-	 * @param notUsed
-	 *            - not used
 	 */
-	public void imageDropHappened(String imgFileName, String fileStr,
-			String notUsed) {
-
+	public void imageDropHappened(String imgFileName, String fileStr) {
 		String fn = ImageManagerW.getMD5FileName(imgFileName, fileStr);
 
 		createImageFromString(fn, fileStr, null, true);
@@ -1667,7 +1603,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (reader.readyState === reader.DONE) {
 				var fileStr = reader.result;
 				var fileName = fileToHandle.name;
-				appl.@org.geogebra.web.html5.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fileName, fileStr, fileStr);
+				appl.@org.geogebra.web.html5.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;)(fileName, fileStr);
 				if (callback != null) {
 					callback();
 				}
@@ -2440,19 +2376,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether jus a slide is loaded
 	 */
 	public abstract void afterLoadFileAppOrNot(boolean asSlide);
-
-	/**
-	 * Returns the tool name and tool help text for the given tool as an HTML
-	 * text that is useful for tooltips.
-	 * 
-	 * @param mode
-	 *            : tool ID
-	 */
-	@Override
-	public String getToolTooltipHTML(int mode) {
-		String toolTipHtml = super.getToolTooltipHTML(mode);
-		return toolTipHtml;
-	}
 
 	/**
 	 * Recalculate offsets/transforms for graphics events
@@ -3621,6 +3544,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 			@Override
 			public void onSuccess() {
+				LoggerW.loaded("export");
 				callback.callback(new GeoGebraToPstricksW(AppW.this));
 
 			}
@@ -3640,6 +3564,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 			@Override
 			public void onSuccess() {
+				LoggerW.loaded("export");
 				callback.callback(new GeoGebraToAsymptoteW(AppW.this));
 
 			}
@@ -3659,6 +3584,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 			@Override
 			public void onSuccess() {
+				LoggerW.loaded("export");
 				callback.callback(new GeoGebraToPgfW(AppW.this));
 
 			}

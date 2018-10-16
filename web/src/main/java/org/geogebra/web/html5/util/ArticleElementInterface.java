@@ -185,6 +185,12 @@ public interface ArticleElementInterface {
 	boolean getDataParamUseBrowserForJS();
 
 	/**
+	 *
+	 * @return the data-param-preloadModules (comma separated) (default: null)
+	 */
+	String[] getDataParamPreloadModules();
+
+	/**
 	 * @return the data-param-enableShiftDragZoom (default: true)
 	 */
 	boolean getDataParamShiftDragZoomEnabled();

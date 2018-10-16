@@ -387,7 +387,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private void insertImage() {
 		String data = previewSrc;
-		((AppW) app).imageDropHappened("pdf.svg", data, "");
+		((AppW) app).imageDropHappened("pdf.svg", data);
 		hide();
 	}
 

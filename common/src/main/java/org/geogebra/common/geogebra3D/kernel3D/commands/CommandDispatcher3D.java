@@ -17,18 +17,16 @@ import org.geogebra.common.util.debug.Log;
  * @author Mathieu
  * 
  */
-public class CommandDispatcher3D extends CommandDispatcher {
+public abstract class CommandDispatcher3D extends CommandDispatcher {
 
 	/** dispatcher for 3D commands */
-	private CommandDispatcherInterface commands3DDispatcher = null;
+	protected static CommandDispatcherInterface commands3DDispatcher = null;
 
-	/**
-	 * 
-	 * @param kernel
-	 *            kernel
-	 */
+	private CommandDispatcher commandDispatcher;
+
 	public CommandDispatcher3D(Kernel kernel) {
 		super(kernel);
+		commandDispatcher = kernel.getApplication().getCommandDispatcher(kernel);
 	}
 
 	@Override
@@ -252,10 +250,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Top:
 			case Ends:
 			case Surface:
-				return getCommands3DDispatcher().dispatch(command, kernel);
+				return get3DDispatcher().dispatch(command, kernel);
 			case Function:
 				if (app.areCommands3DEnabled()) {
-					return getCommands3DDispatcher().dispatch(command, kernel);
+					return get3DDispatcher().dispatch(command, kernel);
 				}
 				return getBasicDispatcher().dispatch(command, kernel);
 			default:
@@ -268,11 +266,41 @@ public class CommandDispatcher3D extends CommandDispatcher {
 	}
 
 	/** @return dispatcher for CAS commands */
-	protected CommandDispatcherInterface getCommands3DDispatcher() {
-		if (commands3DDispatcher == null) {
-			commands3DDispatcher = new CommandDispatcherCommands3D();
-		}
-		return commands3DDispatcher;
+	protected abstract CommandDispatcherInterface get3DDispatcher();
+
+	// a hacky solution to avoid code repetition
+	@Override
+	public CommandDispatcherInterface getDiscreteDispatcher() {
+		return commandDispatcher.getDiscreteDispatcher();
 	}
 
+	@Override
+	public CommandDispatcherInterface getScriptingDispatcher() {
+		return commandDispatcher.getScriptingDispatcher();
+	}
+
+	@Override
+	public CommandDispatcherInterface getAdvancedDispatcher() {
+		return commandDispatcher.getAdvancedDispatcher();
+	}
+
+	@Override
+	public CommandDispatcherInterface getCASDispatcher() {
+		return commandDispatcher.getCASDispatcher();
+	}
+
+	@Override
+	public CommandDispatcherInterface getStatsDispatcher() {
+		return commandDispatcher.getStatsDispatcher();
+	}
+
+	@Override
+	public CommandDispatcherInterface getStepsDispatcher() {
+		return commandDispatcher.getStepsDispatcher();
+	}
+
+	@Override
+	public CommandDispatcherInterface getProverDispatcher() {
+		return commandDispatcher.getProverDispatcher();
+	}
 }

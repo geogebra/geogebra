@@ -1,0 +1,46 @@
+package org.geogebra.common.kernel.commands;
+
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.*;
+
+public class CommandDispatcherProver implements CommandDispatcherInterface {
+
+    @Override
+    public CommandProcessor dispatch(Commands c, Kernel kernel) {
+        switch (c) {
+        case Prove:
+            return new CmdProve(kernel);
+        case ProveDetails:
+            return new CmdProveDetails(kernel);
+        case AreCollinear:
+            return new CmdAreCollinear(kernel);
+        case IsTangent:
+            return new CmdIsTangent(kernel);
+        case AreParallel:
+            return new CmdAreParallel(kernel);
+        case AreConcyclic:
+            return new CmdAreConcyclic(kernel);
+        case ArePerpendicular:
+            return new CmdArePerpendicular(kernel);
+        case AreEqual:
+            return new CmdAreEqual(kernel);
+        case AreCongruent:
+            return new CmdAreCongruent(kernel);
+        case AreConcurrent:
+            return new CmdAreConcurrent(kernel);
+        }
+
+        if (!kernel.getApplication().getSettings().getCasSettings().isEnabled()) {
+            return null;
+        }
+
+        switch (c) {
+        case LocusEquation:
+            return new CmdLocusEquation(kernel);
+        case Envelope:
+            return new CmdEnvelope(kernel);
+        default:
+            return null;
+        }
+    }
+}

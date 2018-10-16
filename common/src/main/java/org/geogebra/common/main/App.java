@@ -221,8 +221,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_NONE
 	 */
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-	private AlgoKimberlingWeightsInterface kimberlingw = null;
-	private AlgoCubicSwitchInterface cubicw = null;
+
 	/**
 	 * whether transparent cursor should be used while dragging
 	 */
@@ -3466,49 +3465,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return loginOperation;
 	}
 
-	/**
-	 * This method is to be overridden in subclasses In Web, this can run in
-	 * asyncronous mode
-	 *
-	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	 *
-	 * @return AlgoKimberlingWeightsInterface
-	 */
-	public abstract AlgoKimberlingWeightsInterface getAlgoKimberlingWeights();
-
-	/**
-	 * Needed for running part of AlgoKimberling async
-	 * <p/>
-	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	 *
-	 * @param kw
-	 *            kimberling weights
-	 * @return
-	 */
-	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
-
-	/**
-	 * This method is to be overridden in subclasses In Web, this can run in
-	 * asyncronous mode
-	 *
-	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	 *
-	 * @return AlgoCubicSwitchInterface
-	 */
-	public abstract AlgoCubicSwitchInterface getAlgoCubicSwitch();
-
-	/**
-	 * Needed for running part of AlgoKimberling async
-	 *
-	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	 *
-	 * @param cw
-	 *            cubic weights
-	 * @return cubic equation
-	 */
-	public abstract String cubicSwitch(AlgoCubicSwitchParams cw);
-
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
+
+	public abstract CommandDispatcher getCommand3DDispatcher(Kernel k);
 
 	/**
 	 * Should lose focus on Web applets, implement only where appropriate
@@ -4867,39 +4826,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	final public boolean useTransparentCursorWhenDragging() {
 		return useTransparentCursorWhenDragging;
-	}
-
-	public AlgoKimberlingWeightsInterface getKimberlingw() {
-		return kimberlingw;
-	}
-
-	/**
-	 * Set list of triangle center coefficients
-	 *
-	 * @param kimberlingw
-	 *            triangle center switch
-	 * @return triangle center switch
-	 */
-	public AlgoKimberlingWeightsInterface setKimberlingw(
-			AlgoKimberlingWeightsInterface kimberlingw) {
-		this.kimberlingw = kimberlingw;
-		return kimberlingw;
-	}
-
-	public AlgoCubicSwitchInterface getCubicw() {
-		return cubicw;
-	}
-
-	/**
-	 * Set list of cubic curve coefficients
-	 *
-	 * @param cubicw
-	 *            cubic curve switch
-	 * @return cubic curve switch
-	 */
-	public AlgoCubicSwitchInterface setCubicw(AlgoCubicSwitchInterface cubicw) {
-		this.cubicw = cubicw;
-		return cubicw;
 	}
 
 	/**

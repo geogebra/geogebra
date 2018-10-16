@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -27,6 +28,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianControllerFor3DW;
 import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
+import org.geogebra.web.geogebra3D.web.kernel3D.commands.CommandDispatcher3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -145,6 +147,15 @@ public class AppWapplet3D extends AppWFull {
 	public EuclidianController newEuclidianController(Kernel kernel1) {
 		return new EuclidianControllerFor3DW(kernel);
 
+	}
+
+	@Override
+	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
+		CommandDispatcher3DW cmd = new CommandDispatcher3DW(k);
+		if (!enableGraphing()) {
+			cmd.setEnabled(false);
+		}
+		return cmd;
 	}
 
 	@Override

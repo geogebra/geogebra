@@ -94,7 +94,7 @@ public class ImageInputDialog extends UploadImageDialog {
 			if (location != null && !location.isLabelSet()) {
 				location.setLabel(null);
 	    	}
-			app.imageDropHappened(name, data, "");
+			app.imageDropHappened(name, data);
 	    	hide();
 	    } else if (source == cancelBtn) {
 	      	app.getImageManager().setPreventAuxImage(false);
