@@ -1365,7 +1365,7 @@ var GGBAppletUtils = (function() {
 
         if (container) {
             myWidth = container.offsetWidth;
-            myHeight = Math.max(allowUpscale ? 0 : container.offsetWidth, container.offsetHeight);;
+            myHeight = Math.max(allowUpscale ? container.offsetWidth : 0, container.offsetHeight);;
         } else {
             if (window.innerWidth && document.documentElement.clientWidth) {
                 myWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
