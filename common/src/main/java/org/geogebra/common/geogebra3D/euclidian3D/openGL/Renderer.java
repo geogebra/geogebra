@@ -172,6 +172,10 @@ public abstract class Renderer implements RendererInterface {
 		return new Textures(this);
 	}
 
+	public void setARShouldRestart() {
+		// restart ARCore session. Override in RendererWithImplA.
+	}
+
 	/**
 	 * dummy renderer (when no GL available)
 	 */
