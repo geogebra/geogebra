@@ -66,7 +66,6 @@ public class DefaultUndoManager extends UndoManager {
 	 */
     public DefaultUndoManager(Construction cons) {
         super(cons);
-        iterator = undoInfoList.listIterator();
     }
 
     @Override
@@ -97,7 +96,8 @@ public class DefaultUndoManager extends UndoManager {
      */
     private synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
         AppState appStateToAdd = new DefaultAppState(undoXML.toString());
-		iterator.add(new UndoCommand(appStateToAdd));
+        UndoCommand command = new UndoCommand(appStateToAdd);
+        maybeStoreUndoCommand(command);
         pruneStateList();
         app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
     }

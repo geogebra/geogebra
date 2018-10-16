@@ -115,9 +115,6 @@ public class UndoManagerD extends UndoManager {
 	}
 
 	private void execute(Runnable undoSaveAction) {
-		if (iterator == null) {
-			return;
-		}
 		if (sync) {
 			undoSaveAction.run();
 		} else {
@@ -165,7 +162,8 @@ public class UndoManagerD extends UndoManager {
 
 					// insert undo info
 					AppState appStateToAdd = new AppStateDesktop(undoInfo);
-					iterator.add(new UndoCommand(appStateToAdd));
+					UndoCommand command = new UndoCommand(appStateToAdd);
+					maybeStoreUndoCommand(command);
 					pruneStateList();
 					app.getEventDispatcher().dispatchEvent(
 							new Event(EventType.STOREUNDO, null));

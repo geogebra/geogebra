@@ -156,4 +156,20 @@ public class UndoCommand {
 		}
 	}
 
+	/**
+	 * Returns true only if there is an app state that is equal to the other app state.
+	 * It also takes into account slide ids, as app state and slide id go together.
+	 *
+	 * @param other other undo command
+	 * @return true if states and slide ids are equal
+	 */
+	public boolean equalsState(UndoCommand other) {
+		if (appState == null || !appState.equals(other.appState)) {
+			return false;
+		}
+		if (slideID != null ? !slideID.equals(other.slideID) : other.slideID != null) {
+			return false;
+		}
+		return true;
+	}
 }

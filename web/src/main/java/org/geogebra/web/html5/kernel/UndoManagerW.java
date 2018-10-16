@@ -126,8 +126,8 @@ public class UndoManagerW extends UndoManager {
 		try {
 			// insert undo info
 			AppState appStateToAdd = new AppStateWeb(undoXML.toString());
-			iterator.add(
-					new UndoCommand(appStateToAdd, ((AppW) app).getSlideID()));
+			UndoCommand command = new UndoCommand(appStateToAdd, ((AppW) app).getSlideID());
+			maybeStoreUndoCommand(command);
 			pruneStateList();
 			app.getEventDispatcher().dispatchEvent(
 			        new Event(EventType.STOREUNDO, null));

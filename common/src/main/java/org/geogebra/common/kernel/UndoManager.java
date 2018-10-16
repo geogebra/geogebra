@@ -24,7 +24,7 @@ public abstract class UndoManager {
 	/** list of undo steps */
 	protected LinkedList<UndoCommand> undoInfoList;
 	/** invariant: iterator.previous() is current state */
-	public ListIterator<UndoCommand> iterator;
+	private ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
 
 	/**
@@ -44,6 +44,7 @@ public abstract class UndoManager {
 		construction = cons;
 		app = cons.getApplication();
 		undoInfoList = new LinkedList<>();
+		iterator = undoInfoList.listIterator();
 	}
 
 	/**
@@ -336,23 +337,26 @@ public abstract class UndoManager {
 				iterator.next();
 			}
 		}
+		// debugStates();
+	}
 
-		// delete previous state if it's the same state
+	/**
+	 * This stores the undo command, if the state changed.
+	 *
+	 * @param command the undo command to store
+	 * @return true if the command was stored
+	 */
+	final protected boolean maybeStoreUndoCommand(UndoCommand command) {
+		boolean equalsWithPrevious = false;
 		if (iterator.hasPrevious()) {
 			UndoCommand currentState = iterator.previous();
-			if (iterator.hasPrevious()) {
-				UndoCommand oldState = iterator.previous();
-				AppState current = currentState.getAppState();
-				if (current != null && current.equals(oldState.getAppState())) {
-					iterator.remove();
-					oldState.delete();
-				} else {
-					iterator.next();
-				}
-			}
 			iterator.next();
+			equalsWithPrevious = currentState.equalsState(command);
 		}
-		// debugStates();
+		if (!equalsWithPrevious) {
+			iterator.add(command);
+		}
+		return equalsWithPrevious;
 	}
 
 	/**
