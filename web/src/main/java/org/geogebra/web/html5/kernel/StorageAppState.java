@@ -37,4 +37,9 @@ public class StorageAppState implements AppState {
     public void delete() {
         storage.removeItem(key);
     }
+
+    @Override
+    public boolean equalsTo(AppState state) {
+        return state != null && getXml().equals(state.getXml());
+    }
 }

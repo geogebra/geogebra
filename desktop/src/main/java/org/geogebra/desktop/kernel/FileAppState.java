@@ -49,4 +49,9 @@ public class FileAppState implements AppState {
     public File getFile() {
         return file;
     }
+
+    @Override
+    public boolean equalsTo(AppState state) {
+        return false;
+    }
 }

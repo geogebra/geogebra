@@ -163,7 +163,7 @@ public class UndoCommand {
 	 * @return true if states and slide ids are equal
 	 */
 	public boolean equalsState(UndoCommand other) {
-		if (appState == null || !appState.equals(other.appState)) {
+		if (appState == null || !appState.equalsTo(other.appState)) {
 			return false;
 		}
 		if (slideID != null ? !slideID.equals(other.slideID) : other.slideID != null) {

@@ -10,4 +10,7 @@ public interface AppState {
 
     /** deletes this application state (i.e. deletes file) */
     void delete();
+
+    /** Check if contents of this app state equals to another */
+    boolean equalsTo(AppState state);
 }
