@@ -2,6 +2,8 @@ package org.geogebra.web.full.util.keyboard;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardListener;
+import org.geogebra.web.full.gui.AngleTextFieldW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
 import com.google.gwt.dom.client.Document;
@@ -40,7 +42,6 @@ public class GTextBoxProcessing implements KeyboardListener {
 
 	@Override
 	public void onBackSpace() {
-	
 		int start = field.getCursorPos();
 		int end = start + field.getSelectionLength();
 
@@ -52,11 +53,17 @@ public class GTextBoxProcessing implements KeyboardListener {
 
 		if (start >= 0) {
 			// cursor not at the beginning of text -> delete something
+			if (Browser.isAndroid() && field instanceof AngleTextFieldW) {
+				((AngleTextFieldW) field).removeDummyCursor();
+			}
 			String oldText = field.getText();
 			String newText = oldText.substring(0, start)
 					+ oldText.substring(end);
 			field.setText(newText);
 			field.setCursorPos(start);
+			if (Browser.isAndroid() && field instanceof AngleTextFieldW) {
+				((AngleTextFieldW) field).addDummyCursor();
+			}
 		}
 	}
 
@@ -73,13 +80,18 @@ public class GTextBoxProcessing implements KeyboardListener {
 	 *            text to be inserted
 	 */
 	private void insertAtEnd(String text) {
-		String oldText = field.getText();
 		int caretPos = field.getCursorPos();
-
+		if (Browser.isAndroid() && field instanceof AngleTextFieldW) {
+			caretPos = ((AngleTextFieldW) field).removeDummyCursor();
+		}
+		String oldText = field.getText();
 		String newText = oldText.substring(0, caretPos) + text
 				+ oldText.substring(caretPos);
 		field.setText(newText);
 		field.setCursorPos(caretPos + text.length());
+		if (Browser.isAndroid() && field instanceof AngleTextFieldW) {
+			((AngleTextFieldW) field).addDummyCursor();
+		}
 	}
 
 	@Override
