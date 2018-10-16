@@ -1,15 +1,12 @@
 package org.geogebra.web.html5.kernel;
 
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.UndoCommand;
-import org.geogebra.common.kernel.UndoManager;
+import org.geogebra.common.kernel.*;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.UUIDW;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -18,53 +15,10 @@ import com.google.gwt.storage.client.Storage;
  */
 public class UndoManagerW extends UndoManager {
 
-	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo"
-			+ UUIDW.randomUUID();
-	/** state counter */
-	static long nextKeyNum = 1;
-
 	/**
 	 * can be null (eg IE9 running locally)
 	 */
 	Storage storage;
-
-	/**
-	 * Storage state
-	 */
-	protected class AppStateWeb implements AppState {
-		private String key;
-		private String xml;
-
-		/**
-		 * @param xmls
-		 *            XML
-		 */
-		AppStateWeb(String xmls) {
-			if (storage != null) {
-				storage.setItem(key = TEMP_STORAGE_PREFIX + nextKeyNum++, xmls);
-			} else {
-				xml = xmls;
-			}
-		}
-
-		/**
-		 * @return XML
-		 */
-		public String getXml() {
-			if (storage == null) {
-				return xml;
-			}
-			return storage.getItem(key);
-		}
-
-		@Override
-		public void delete() {
-			xml = null;
-			if (storage != null) {
-				storage.removeItem(key);
-			}
-		}
-	}
 
 	/**
 	 * @param cons
@@ -125,7 +79,13 @@ public class UndoManagerW extends UndoManager {
 
 		try {
 			// insert undo info
-			AppState appStateToAdd = new AppStateWeb(undoXML.toString());
+			String undoXMLString = undoXML.toString();
+			AppState appStateToAdd = null;
+			if (storage != null) {
+				appStateToAdd = new StorageAppState(storage, undoXMLString);
+			} else {
+				appStateToAdd = new StringAppState(undoXMLString);
+			}
 			UndoCommand command = new UndoCommand(appStateToAdd, ((AppW) app).getSlideID());
 			maybeStoreUndoCommand(command);
 			pruneStateList();
@@ -152,7 +112,7 @@ public class UndoManagerW extends UndoManager {
 			app.setActiveSlide(slideID);
 			app.getEuclidianView1().setKeepCenter(false);
 			// load from file
-			String tempXML = ((AppStateWeb) info).getXml();
+			String tempXML = info.getXml();
 			if (tempXML == null) {
 				Log.error("Undo not supported.");
 			}
@@ -179,10 +139,5 @@ public class UndoManagerW extends UndoManager {
 		} catch (Error err) {
 			Log.error("Undo error:" + err.getMessage());
 		}
-	}
-
-	@Override
-	public String getXML(AppState state) {
-		return ((AppStateWeb) state).getXml();
 	}
 }

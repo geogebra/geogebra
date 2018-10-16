@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.common.kernel.UndoManager.AppState;
+import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.plugin.EventType;
 
 /**

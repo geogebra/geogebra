@@ -14,7 +14,6 @@ package org.geogebra.desktop.kernel;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
@@ -22,7 +21,7 @@ import java.security.PrivilegedAction;
 
 import javax.swing.DefaultListSelectionModel;
 
-import org.geogebra.common.jre.io.MyXMLioJre;
+import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.UndoCommand;
 import org.geogebra.common.kernel.UndoManager;
@@ -33,8 +32,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * UndoManager handles undo information for a Construction. It uses an undo info
  * list with construction snapshots in temporary files.
@@ -43,41 +40,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class UndoManagerD extends UndoManager {
 
-	/**
-	 * Desktop version of ap stat: wrapper for file
-	 * 
-	 */
-	protected static class AppStateDesktop implements AppState {
-		private File f;
-
-		/**
-		 * Wrap file into app state
-		 * 
-		 * @param f
-		 *            file
-		 */
-		AppStateDesktop(File f) {
-			this.f = f;
-		}
-
-		/**
-		 * Unwrap the file
-		 * 
-		 * @return file
-		 */
-		public File getFile() {
-			return f;
-		}
-
-		@Override
-		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-				"don't need to check return value" })
-		public void delete() {
-			f.delete();
-		}
-	}
-
-	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";
 	private boolean sync;
 
 	/**
@@ -158,10 +120,9 @@ public class UndoManagerD extends UndoManager {
 				try {
 					// perform the security-sensitive operation here
 					// save to file
-					File undoInfo = createTempFile(undoXML);
+					AppState appStateToAdd = new FileAppState(undoXML);
 
 					// insert undo info
-					AppState appStateToAdd = new AppStateDesktop(undoInfo);
 					UndoCommand command = new UndoCommand(appStateToAdd);
 					maybeStoreUndoCommand(command);
 					pruneStateList();
@@ -184,30 +145,6 @@ public class UndoManagerD extends UndoManager {
 	}
 
 	/**
-	 * Creates a temporary file containing the zipped undoXML.
-	 * 
-	 * @param undoXML
-	 *            XML string
-	 * @return temporary file
-	 * @throws IOException
-	 *             on file creation problem
-	 */
-	synchronized static File createTempFile(StringBuilder undoXML)
-			throws IOException {
-		// create temp file
-		File tempFile = File.createTempFile(TEMP_FILE_PREFIX, ".ggb");
-		// Remove when program ends
-		tempFile.deleteOnExit();
-
-		// create file
-		FileOutputStream fos = new FileOutputStream(tempFile);
-		MyXMLioJre.writeZipped(fos, undoXML);
-		fos.close();
-
-		return tempFile;
-	}
-
-	/**
 	 * restore info at position pos of undo list
 	 */
 	@Override
@@ -218,7 +155,7 @@ public class UndoManagerD extends UndoManager {
 
 		try {
 			// load from file
-			File tempFile = ((AppStateDesktop) info).getFile();
+			File tempFile = ((FileAppState) info).getFile();
 			is = new FileInputStream(tempFile);
 
 			// make sure objects are displayed in the correct View

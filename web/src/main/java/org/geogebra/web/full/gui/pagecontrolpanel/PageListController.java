@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import org.geogebra.common.kernel.UndoManager.AppState;
+import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -603,8 +603,7 @@ public class PageListController implements PageListControllerInterface,
 			GgbFile file = args.length < 2 ? new GgbFile()
 					: new GgbFile(args[1]);
 			if (state != null) {
-				file.put("geogebra.xml", app.getKernel().getConstruction()
-						.getUndoManager().getXML(state));
+				file.put("geogebra.xml", state.getXml());
 			}
 			if (idx >= 0) {
 				addNewPreviewCard(false, idx, file);

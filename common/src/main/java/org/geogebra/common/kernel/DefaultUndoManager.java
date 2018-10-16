@@ -15,52 +15,6 @@ public class DefaultUndoManager extends UndoManager {
 	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 
 	/**
-	 * Wrapper around string
-	 */
-    static protected class DefaultAppState implements AppState {
-        private String xml;
-
-		/**
-		 * @param xml
-		 *            wrapped XML
-		 */
-        DefaultAppState(String xml) {
-            this.xml = xml;
-        }
-
-		/**
-		 * @return wrapped XML
-		 */
-        public String getXml() {
-            return xml;
-        }
-
-        @Override
-        public void delete() {
-			// overridden in subclases
-        }
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (o == null || getClass() != o.getClass()) {
-				return false;
-			}
-
-			DefaultAppState that = (DefaultAppState) o;
-
-			return xml != null ? xml.equals(that.xml) : that.xml == null;
-		}
-
-		@Override
-		public int hashCode() {
-			return xml != null ? xml.hashCode() : 0;
-		}
-	}
-
-	/**
 	 * @param cons
 	 *            construction
 	 */
@@ -95,7 +49,7 @@ public class DefaultUndoManager extends UndoManager {
      *            string builder with construction XML
      */
     private synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
-        AppState appStateToAdd = new DefaultAppState(undoXML.toString());
+        AppState appStateToAdd = new StringAppState(undoXML.toString());
         UndoCommand command = new UndoCommand(appStateToAdd);
         maybeStoreUndoCommand(command);
         pruneStateList();
@@ -105,7 +59,7 @@ public class DefaultUndoManager extends UndoManager {
     @Override
 	protected void loadUndoInfo(AppState state, String slideID) {
         try {
-			processXML(((DefaultAppState) state).getXml(), false, null);
+			processXML(state.getXml(), false, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

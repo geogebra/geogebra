@@ -28,15 +28,6 @@ public abstract class UndoManager {
 	private boolean storeUndoInfoNeededForProperties = false;
 
 	/**
-	 * Interface for application state
-	 *
-	 */
-	public interface AppState {
-		/** deletes this application state (i.e. deletes file) */
-		void delete();
-	}
-
-	/**
 	 * @param cons
 	 *            construction
 	 */
@@ -411,6 +402,6 @@ public abstract class UndoManager {
 	 * @return XML of the checkpoint
 	 */
 	public String getXML(AppState state) {
-		return null;
+		return state.getXml();
 	}
 }

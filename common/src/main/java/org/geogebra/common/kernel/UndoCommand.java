@@ -2,7 +2,6 @@ package org.geogebra.common.kernel;
 
 import java.util.ListIterator;
 
-import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.plugin.EventType;
 
 /**
