@@ -665,12 +665,12 @@ public class GeoText extends GeoElement
 
 		// store location of text (and possible labelOffset)
 		sb.append(getXMLlocation());
-		getBoudingBoxForWhiteboardXML(sb);
+		getBoundingBoxForWhiteboardXML(sb);
 		getScriptTags(sb);
 
 	}
 
-	private void getBoudingBoxForWhiteboardXML(StringBuilder sb) {
+	private void getBoundingBoxForWhiteboardXML(StringBuilder sb) {
 		if (!kernel.getApplication().has(Feature.MOW_TEXT_TOOL)) {
 			return;
 		}
