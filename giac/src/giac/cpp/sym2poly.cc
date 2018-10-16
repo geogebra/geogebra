@@ -2178,6 +2178,7 @@ namespace giac {
 	identificateur x(" x");
 	vecteur w;
 	in_solve(symb_horner(mk,x),x,w,1,contextptr);
+	if (r.type!=_DOUBLE_ && r.type!=_CPLX && !w.empty()) return w.front();
 	for (unsigned k=0;k<w.size();++k){
 	  if (lop(w[k],at_rootof).empty()){
 	    gen wkd=evalf_double(w[k],1,contextptr);
