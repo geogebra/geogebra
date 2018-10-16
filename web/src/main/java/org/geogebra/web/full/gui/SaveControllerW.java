@@ -76,12 +76,10 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCB) {
-		Material mat = app.getActiveMaterial();
-		if (mat == null) {
+		if (checkActiveMaterial() == false) {
 			return;
 		}
-		getAppW().setTubeId(mat.getSharingKeyOrId());
-		setSaveType(mat.getType());
+		Material mat = app.getActiveMaterial();
 		this.autoSaveCallback = autoSaveCB;
 		saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
 	}
@@ -106,6 +104,16 @@ public class SaveControllerW implements SaveController {
 		}
 	}
 
+	private boolean checkActiveMaterial() {
+		Material mat = app.getActiveMaterial();
+		if (mat == null) {
+			return false;
+		}
+		getAppW().setTubeId(mat.getSharingKeyOrId());
+		setSaveType(mat.getType());
+		return true;
+	}
+
 	/**
 	 * Offline saving
 	 */
@@ -128,6 +136,10 @@ public class SaveControllerW implements SaveController {
 				.equals(app.getKernel().getConstruction().getTitle());
 		if (this.saveType != MaterialType.ggt) {
 			app.getKernel().getConstruction().setTitle(fileName);
+		}
+
+		if (!titleChanged) {
+			checkActiveMaterial();
 		}
 
 		final AsyncOperation<String> handler = new AsyncOperation<String>() {
