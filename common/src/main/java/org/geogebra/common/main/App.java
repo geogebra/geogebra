@@ -443,10 +443,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	private void initParserSettings() {
 		getLabelManager().setAngleLabels(getConfig().isGreekAngleLabels());
-		if (getKernel() != null) {
-			getKernel().getAlgebraProcessor()
-				.setEnableStructures(getConfig().isEnableStructures());
-		}
 	}
 
 	/**

@@ -181,6 +181,7 @@ public class AlgebraProcessor {
 		app = kernel.getApplication();
 		loc = app.getLocalization();
 		parser = kernel.getParser();
+		setEnableStructures(app.getConfig().isEnableStructures());
 	}
 
 	/**
