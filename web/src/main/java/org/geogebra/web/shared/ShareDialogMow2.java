@@ -256,6 +256,7 @@ public class ShareDialogMow2 extends DialogBoxW
 				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 						material.getSharingKeyOrId(), "S", material.getTitle(),
 						null, callback, material.getType());
+				material.setVisibility("S");
 			}
 		} else {
 			// set from shared -> private
@@ -263,6 +264,7 @@ public class ShareDialogMow2 extends DialogBoxW
 				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 						material.getSharingKeyOrId(), "P", material.getTitle(),
 						null, callback, material.getType());
+				material.setVisibility("P");
 			}
 		}
 	}
