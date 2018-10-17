@@ -24,6 +24,10 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 
 	private CommandDispatcher commandDispatcher;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CommandDispatcher3D(Kernel kernel) {
 		super(kernel);
 		commandDispatcher = kernel.getApplication().getCommandDispatcher(kernel);

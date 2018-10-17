@@ -4107,6 +4107,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TOOLS_WITH_NAMES:
 			return prerelease;
 
+		case VOICEOVER_APPLETS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
