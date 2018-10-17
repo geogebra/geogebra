@@ -18,6 +18,7 @@ import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
+import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
@@ -201,7 +202,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				filter(locale.getKeyboardRow(3)), ",'",
 				LetterKeyboardFactory.ACTION_SHIFT, null);
 		keyboard = buildPanel(
-				kbf.getImpl(letterFactory), this);
+				kbf.getImpl(letterFactory, new CapsLockModifier(upperKeys)),
+				this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, "ABC");

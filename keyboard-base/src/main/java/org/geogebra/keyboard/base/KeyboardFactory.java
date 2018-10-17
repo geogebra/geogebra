@@ -106,6 +106,21 @@ public class KeyboardFactory {
 	}
 
 	/**
+	 * @param modelFactory
+	 *            model factory
+	 * @param capsLock
+	 *            capslock modifier
+	 * @return keyboard
+	 */
+	public Keyboard getImpl(KeyboardModelFactory modelFactory,
+			CapsLockModifier capsLock) {
+		return new KeyboardImpl(
+				modelFactory.createKeyboardModel(
+						new ButtonFactory(new KeyModifier[] { capsLock })),
+				capsLock, null);
+	}
+
+	/**
 	 * Creates a function keyboard with the function buttons.
 	 *
 	 * @return function keyboard
