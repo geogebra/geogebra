@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -133,15 +134,41 @@ public class AlgebraController {
 
 	/**
 	 * Evaluate the text entered in input. Used in Android and iOS.
+	 *
+	 * @param input
+	 *            input string
+	 * @param errorHandler
+	 *            interface to handle errors from evaluating the input
+	 * @param cb
+	 * 			  callback
+	 * @return evaluation was successful
+	 */
+	public boolean onTextEntered(
+			String input,
+			ErrorHandler errorHandler,
+			final AsyncOperation<GeoElementND[]> cb) {
+
+		return onTextEntered(input, errorHandler, null, cb);
+	}
+
+	/**
+	 * Evaluate the text entered in input. Used in Android and iOS.
 	 * 
 	 * @param input
 	 *            input string
 	 * @param errorHandler
 	 *            interface to handle errors from evaluating the input
+	 * @param info
+	 * 			  additional information for the evaluation
+	 * @param cb
+	 * 			  callback
 	 * @return evaluation was successful
 	 */
-	public boolean onTextEntered(String input, ErrorHandler errorHandler,
-								 final AsyncOperation<GeoElementND[]> cb) {
+	public boolean onTextEntered(
+			String input,
+			ErrorHandler errorHandler,
+			EvalInfo info,
+			final AsyncOperation<GeoElementND[]> cb) {
 		GeoElementND[] geos;
 		try {
 
@@ -155,9 +182,26 @@ public class AlgebraController {
 				}
 			};
 
-			geos = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(input, isStoringUndo,
-							errorHandler, isAutoCreateSliders, true, callback);
+			if (info == null) {
+				geos = kernel
+						.getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(
+								input,
+								isStoringUndo,
+								errorHandler,
+								isAutoCreateSliders,
+								true,
+								callback);
+			} else {
+				geos = kernel
+						.getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(
+								input,
+								isStoringUndo,
+								errorHandler,
+								info.withSliders(isAutoCreateSliders),
+								callback);
+			}
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
