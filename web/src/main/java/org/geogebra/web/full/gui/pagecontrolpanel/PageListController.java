@@ -374,7 +374,7 @@ public class PageListController implements PageListControllerInterface,
 						pages.getJSONObject(i).getJSONArray("elements")
 								.getJSONObject(0).getString("id"))));
 			}
-			app.loadGgbFile(slides.get(0).getFile(), false);
+			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 					.update();

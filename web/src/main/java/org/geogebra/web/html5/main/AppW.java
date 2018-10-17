@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -789,23 +788,27 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				AlgebraSettings algebraSettings = getSettings().getAlgebra();
-				algebraSettings.setModeChanged(false);
-				clearMedia();
-
-				try {
-					loadFile(archiveContent, asSlide);
-				} catch (Exception e) {
-					// nothing
-				}
-
-				if (!algebraSettings.isModeChanged()) {
-					algebraSettings.setTreeMode(SortMode.TYPE);
-				}
+				loadFileWithoutErrorHandling(archiveContent, asSlide);
 			}
 		};
 
 		getAsyncManager().scheduleCallback(r);
+	}
+
+	public void loadFileWithoutErrorHandling(GgbFile archiveContent, boolean asSlide) {
+		AlgebraSettings algebraSettings = getSettings().getAlgebra();
+		algebraSettings.setModeChanged(false);
+		clearMedia();
+
+		try {
+			loadFile(archiveContent, asSlide);
+		} catch (Exception e) {
+			// nothing
+		}
+
+		if (!algebraSettings.isModeChanged()) {
+			algebraSettings.setTreeMode(SortMode.TYPE);
+		}
 	}
 
 	/**
