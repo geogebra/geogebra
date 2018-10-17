@@ -52,10 +52,7 @@ public class Browser {
 	 * @return true if iOS
 	 */
 	public static native boolean isiOS() /*-{
-		var userAgent = $wnd.navigator.userAgent;
-
-		return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
-
+		return !!(/iPhone|iPad|iPod/i.test($wnd.navigator.userAgent));
 	}-*/;
 
 	/**
@@ -340,10 +337,6 @@ public class Browser {
 	public static native boolean isMobile()/*-{
 		return !!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test($wnd.navigator.userAgent));
-	}-*/;
-
-	public static native boolean isMobileSafari()/*-{
-		return !!(/iPhone|iPad|iPod/i.test($wnd.navigator.userAgent));
 	}-*/;
 
 	/**
@@ -791,7 +784,7 @@ public class Browser {
 	}
 
 	public static String addTxtMarker(String txt) {
-		return isMobileSafari()
+		return isiOS()
 				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
 	}

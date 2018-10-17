@@ -129,4 +129,9 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		return getResources().styleBar_graphics3dView();
 	}
 
+	@Override
+	public Widget getCanvas() {
+		return null;
+	}
+
 }

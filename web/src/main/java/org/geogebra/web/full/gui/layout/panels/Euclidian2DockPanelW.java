@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.resources.SVGResource;
 
@@ -71,6 +72,9 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		// in EuclidianDockPanelW, EuclidianView is created automatically
 		if (app != null) {
 			app.getEuclidianView2(1);
+			if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
+				addVoiceoverTabber(euclidianpanel);
+			}
 		}
 
 		return euclidianpanel;

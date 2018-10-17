@@ -229,7 +229,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private void initAriaDefaults() {
 		Element elem = g2p.getCanvas().getElement();
-		elem.setAttribute("role", "figure");
+		elem.setAttribute("role", "application");
 		elem.setAttribute("aria-label", "Graphics View " + evNo);
 	}
 
