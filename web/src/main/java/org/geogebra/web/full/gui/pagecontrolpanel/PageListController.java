@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
@@ -117,7 +118,14 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	private void loadSlide(int i) {
 		try {
-			app.getEuclidianView1().getEuclidianController().getTextController().reset();
+			if (app.has(Feature.MOW_TEXT_TOOL)) {
+				TextController ctrl = app.getEuclidianView1().getEuclidianController()
+						.getTextController();
+				if (ctrl != null) {
+					ctrl.reset();
+				}
+			}
+
 			// load last status of file
 			saveMaterialProperties();
 			app.resetPerspectiveParam();
