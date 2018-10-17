@@ -518,7 +518,7 @@ public class AppDNoGui extends App implements AppDI {
 	}
 
 	@Override
-	public void callAppletJavaScript(String string, String[] args) {
+	public void callAppletJavaScript(String string, String... args) {
 		// TODO Auto-generated method stub
 
 	}
