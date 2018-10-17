@@ -215,8 +215,8 @@ import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
-import org.geogebra.desktop.kernel.commands.CommandDispatcher3DD;
-import org.geogebra.desktop.kernel.commands.CommandDispatcherD;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -4777,12 +4777,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel kernel2) {
-		return new CommandDispatcherD(kernel2);
+		return new CommandDispatcherJre(kernel2);
 	}
 
 	@Override
 	public CommandDispatcher3D getCommand3DDispatcher(Kernel kernel2) {
-		return new CommandDispatcher3DD(kernel2);
+		return new CommandDispatcher3DJre(kernel2);
 	}
 
 	/**

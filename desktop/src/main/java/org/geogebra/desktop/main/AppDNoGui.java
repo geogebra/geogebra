@@ -74,8 +74,8 @@ import org.geogebra.desktop.geogebra3D.App3DCompanionD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
-import org.geogebra.desktop.kernel.commands.CommandDispatcher3DD;
-import org.geogebra.desktop.kernel.commands.CommandDispatcherD;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -663,12 +663,12 @@ public class AppDNoGui extends App implements AppDI {
 
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel k) {
-		return new CommandDispatcherD(k);
+		return new CommandDispatcherJre(k);
 	}
 
 	@Override
 	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
-		return new CommandDispatcher3DD(k);
+		return new CommandDispatcher3DJre(k);
 	}
 
 	@Override

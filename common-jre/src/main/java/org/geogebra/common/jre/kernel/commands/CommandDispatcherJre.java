@@ -1,11 +1,11 @@
-package org.geogebra.desktop.kernel.commands;
+package org.geogebra.common.jre.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.*;
 
-public class CommandDispatcherD extends CommandDispatcher {
+public class CommandDispatcherJre extends CommandDispatcher {
 
-	public CommandDispatcherD(Kernel kernel2) {
+	public CommandDispatcherJre(Kernel kernel2) {
 		super(kernel2);
 	}
 
