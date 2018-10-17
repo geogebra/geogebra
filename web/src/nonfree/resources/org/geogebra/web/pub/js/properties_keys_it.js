@@ -3108,7 +3108,7 @@ __GGB__keysVar["it"].menu = {
     "altText.Floor": "Funzione parte intera inferiore",
     "altText.Fraction": "Frazione",
     "altText.Imaginaryi": "i immaginario",
-    "altText.Inverse": "Inverse",
+    "altText.Inverse": "Inverso",
     "altText.LeftArrow": "Freccia sinistra",
     "altText.LogB": "Logaritmo in base",
     "altText.PowE": "e elevato alla",

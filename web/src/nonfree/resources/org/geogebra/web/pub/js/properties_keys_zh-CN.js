@@ -3108,7 +3108,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "altText.Floor": "\u5411\u4e0b\u53d6\u6574\u51fd\u6570",
     "altText.Fraction": "\u5206\u6570",
     "altText.Imaginaryi": "\u865a\u6570 i",
-    "altText.Inverse": "Inverse",
+    "altText.Inverse": "\u5012\u6570",
     "altText.LeftArrow": "\u5411\u5de6\u952e",
     "altText.LogB": "\u5e95\u7684\u5bf9\u6570",
     "altText.PowE": "e\u7684n\u6b21\u65b9",
