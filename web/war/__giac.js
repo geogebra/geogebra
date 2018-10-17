@@ -2277,7 +2277,7 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral(1 - tanh(x), 0, infinity)", result:"ln(2)" },
 { cat:"Integral", cmd:"Integral(nroot(2x^3,5))", result:"5 / 8 nroot(2,5) nroot(x,5)\u00B3 x + c_0" },
 { cat:"Integral", cmd:"Integral(nroot(x^3,5))", result:"5 / 8 x nroot(x\u00B3,5) + c_0" },
-{ cat:"Integral", cmd:"NSolve(NIntegral(sqrt(sin(x)),x,1,a)=1,a=1)", result:"2.02", round:"2.02" },
+{ cat:"Integral", cmd:"NSolve(NIntegral(sqrt(sin(x)),x,1,a)=1,a=1)", result:"{a = 2.02}", round:"{a = 2.02}" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
