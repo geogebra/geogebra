@@ -1194,11 +1194,8 @@ public class AlgebraProcessor {
 		try {
 
 			geoElements = processValidExpression(ve, info);
-			if (geoElements != null) {
-				InputHelper.initSymbolicMode(geoElements[0]);
-				if (storeUndo) {
-					app.storeUndoInfo();
-				}
+			if (storeUndo && geoElements != null) {
+				app.storeUndoInfo();
 			}
 		} catch (MyError e) {
 			ErrorHelper.handleError(e,
