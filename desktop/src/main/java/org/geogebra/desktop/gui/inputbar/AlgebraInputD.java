@@ -41,7 +41,9 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraInputDropTargetListener;
@@ -112,7 +114,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						inputField.setBackground(Color.WHITE);
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(inputField.getText(),
-										new ErrorHandler() {
+										new ErrorLogger() {
 											@Override
 											public void resetError() {
 												showError(null);
@@ -161,6 +163,11 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 													String string,
 													AsyncOperation<String[]> callback) {
 												return false;
+											}
+
+											public void log(Throwable e) {
+												Log.debug("Preview:" + e
+														.getLocalizedMessage());
 											}
 
 										});

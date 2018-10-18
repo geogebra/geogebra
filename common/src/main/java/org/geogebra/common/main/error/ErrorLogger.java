@@ -3,7 +3,7 @@ package org.geogebra.common.main.error;
 /**
  * Adds raw exception handling to error handler
  */
-public interface ErrorLogger {
+public interface ErrorLogger extends ErrorHandler {
 
 	/**
 	 * Handle raw exception
