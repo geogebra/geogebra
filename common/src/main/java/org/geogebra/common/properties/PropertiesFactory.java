@@ -134,7 +134,7 @@ public class PropertiesFactory {
             }
         }
 
-        propertyList.add(new BackgroundProperty(app, localization));
+        // propertyList.add(new BackgroundProperty(app, localization));
 
         propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
 
