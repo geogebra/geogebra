@@ -748,8 +748,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 		clipPlanesMax[index] = (float) max;
 	}
 
-	final private void setClipPlanesToShader() {
-
+	@Override
+	final protected void updateClipPlanes() {
 		glUniform3fv(clipPlanesMinLocation, clipPlanesMin);
 		glUniform3fv(clipPlanesMaxLocation, clipPlanesMax);
 	}
@@ -757,7 +757,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void initRenderingValues() {
 		// clip planes
-		setClipPlanesToShader();
+		updateClipPlanes();
 
 		// layer
 		initLayer();

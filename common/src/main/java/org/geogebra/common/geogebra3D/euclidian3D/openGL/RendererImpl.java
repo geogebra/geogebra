@@ -200,4 +200,6 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 		return renderer.getTextures();
 	}
 
+	abstract protected void updateClipPlanes();
+
 }

@@ -22,6 +22,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -36,6 +37,9 @@ public class RendererImplGL2 extends RendererImpl
 	private RendererJogl jogl;
 
 	private GLU glu = new GLU();
+
+	private double[][] clipPlaneEquations;
+	private boolean clipPlanesNeedUpdate;
 
 	/**
 	 * Constructor
@@ -54,6 +58,11 @@ public class RendererImplGL2 extends RendererImpl
 		Log.debug(
 				"============== Renderer with old GL created (shaders failed)");
 		this.jogl = jogl;
+		clipPlaneEquations = new double[6][];
+		for (int n = 0; n < 6; n++) {
+			clipPlaneEquations[n] = new double[4];
+		}
+		clipPlanesNeedUpdate = true;
 	}
 
 	@Override
@@ -75,8 +84,22 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	private void setClipPlane(int n, double[] equation) {
-		if (jogl.getGL2() != null) {
-			jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n], equation, 0);
+		for (int i = 0; i < equation.length; i++) {
+			if (!DoubleUtil.isEqual(equation[i], clipPlaneEquations[n][i])) {
+				clipPlaneEquations[n][i] = equation[i];
+				clipPlanesNeedUpdate = true;
+			}
+		}
+	}
+
+	@Override
+	final protected void updateClipPlanes() {
+		if (clipPlanesNeedUpdate && jogl.getGL2() != null) {
+			for (int n = 0; n < 6; n++) {
+				jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n],
+						clipPlaneEquations[n], 0);
+			}
+			clipPlanesNeedUpdate = false;
 		}
 	}
 
@@ -544,8 +567,7 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void initRenderingValues() {
-		// TODO Auto-generated method stub
-
+		updateClipPlanes();
 	}
 
 	@Override
