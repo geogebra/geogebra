@@ -120,42 +120,20 @@ public class MyError extends java.lang.Error {
 	 * @return localized error
 	 */
 	protected String getError(String s) {
-		if (loc == null) {
+		String ret = loc == null ? s : loc.getError(s);
 
-			if ("UndefinedVariable".equals(s)) {
-				return "Undefined variable";
-			}
-			return s;
-		}
-
-		String ret = loc.getError(s);
-
-		// webSimple
+		// no loc, or running webSimple
 		if ("UndefinedVariable".equals(ret)) {
 			return "Undefined variable";
 		}
-
-		// webSimple
 		if ("ReplaceFailed".equals(ret)) {
 			return "Redefinition failed";
 		}
+		if("InvalidInput".equals(ret)){
+			return "Please check your input";
+		}
 
 		return ret;
-
-	}
-
-	/**
-	 * @param s
-	 *            key
-	 * @param default0
-	 *            default to return if no translation available
-	 * @return localized error
-	 */
-	protected String getErrorDefault(String s, String default0) {
-		if (loc == null) {
-			return default0;
-		}
-		return loc.getErrorDefault(s, default0);
 	}
 
 }
