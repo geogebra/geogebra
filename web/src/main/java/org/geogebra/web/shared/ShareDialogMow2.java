@@ -136,8 +136,8 @@ public class ShareDialogMow2 extends DialogBoxW
 		FlowPanel groups = new FlowPanel();
 		// ONLY FOR TESTING -> needs to be removed
 		/*
-		 * for (int i = 0; i < 40; i++) { groups.add(new
-		 * GroupButtonMow("group group group " + i)); }
+		 * for (int i = 0; i < 40; i++) { groups.add(new GroupButtonMow(appW,
+		 * "group group group " + i, material)); }
 		 */
 		for (String group : groupNames) {
 			groups.add(new GroupButtonMow(group));
@@ -251,21 +251,6 @@ public class ShareDialogMow2 extends DialogBoxW
 					getLinkBox().setFocus(true);
 				}
 			});
-			// set from private -> shared
-			if (material != null && "P".equals(material.getVisibility())) {
-				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-						material.getSharingKeyOrId(), "S", material.getTitle(),
-						null, callback, material.getType());
-				material.setVisibility("S");
-			}
-		} else {
-			// set from shared -> private
-			if (material != null && "S".equals(material.getVisibility())) {
-				app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-						material.getSharingKeyOrId(), "P", material.getTitle(),
-						null, callback, material.getType());
-				material.setVisibility("P");
-			}
 		}
 	}
 
@@ -315,7 +300,25 @@ public class ShareDialogMow2 extends DialogBoxW
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == saveBtn) {
-			// TODO share functionality
+			if (shareSwitch.isSwitchOn()) {
+				// set from private -> shared
+				if (material != null && "P".equals(material.getVisibility())) {
+					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+							material.getSharingKeyOrId(), "S",
+							material.getTitle(), null, callback,
+							material.getType());
+					material.setVisibility("S");
+				}
+			} else {
+				// set from shared -> private
+				if (material != null && "S".equals(material.getVisibility())) {
+					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+							material.getSharingKeyOrId(), "P",
+							material.getTitle(), null, callback,
+							material.getType());
+					material.setVisibility("P");
+				}
+			}
 			hide();
 		} else if (source == copyBtn) {
 			linkBoxFocused = false;

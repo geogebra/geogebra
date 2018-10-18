@@ -207,5 +207,4 @@ public class ShareDialogMow extends DialogBoxW
 		getAppW().getLoginOperation().getGeoGebraTubeAPI().setShared(material,
 				groupName, true, groupCallback);
 	}
-
 }
