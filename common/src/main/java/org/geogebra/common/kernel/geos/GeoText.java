@@ -1475,7 +1475,7 @@ public class GeoText extends GeoElement
 
 	@Override
 	public String getDefinitionForEditor() {
-		if (!this.isIndependent()) {
+		if (!this.isIndependent() || isLaTeX()) {
 			return super.getDefinitionForEditor();
 		}
 

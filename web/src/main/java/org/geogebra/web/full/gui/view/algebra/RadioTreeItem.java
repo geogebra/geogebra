@@ -15,8 +15,6 @@ package org.geogebra.web.full.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
@@ -30,6 +28,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -94,6 +93,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 /**
  * main -> marblePanel content controls
@@ -903,6 +904,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					.getInput(rawInput);
 			String newValue = isTextItem() ? "\"" + v + "\"" : v;
 			boolean valid = rawInput != null && rawInput.equals(newValue);
+			final boolean wasLaTeX = geo instanceof GeoText
+					&& ((GeoText) geo).isLaTeX();
 			// Formula Hacks ended.
 			if (geo != null) {
 				boolean redefine = !isMoveablePoint(geo);
@@ -921,6 +924,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 							public void callback(GeoElementND geo2) {
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
+								}
+								if (geo instanceof GeoText && wasLaTeX
+										&& geo.isIndependent()) {
+									((GeoText)geo).setLaTeX(true, false);
 								}
 								if (marblePanel != null) {
 									marblePanel.updateIcons(false);
