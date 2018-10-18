@@ -385,9 +385,8 @@ public class DrawAxis {
 		double xoffset = -4 - (fontsize / 4);
 		double yoffset = (fontsize / 2) - 1;
 		
-		boolean enableTicks = !view.getShowGrid(); // TODO what if axis and grid
-													// tick distances differ
-		
+		boolean enableTicks = !view.getShowGrid()
+				|| (view.axesNumberingDistances[0] != view.getGridDistances()[0]);
 		boolean[] drawMajorTicks = {
 				view.getAxisTickStyle(0) <= 1 && enableTicks,
 				view.getAxisTickStyle(1) <= 1 && enableTicks };
@@ -880,8 +879,9 @@ public class DrawAxis {
 			double xAxisStart) {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
 
-		boolean enableTicks = !view.getShowGrid(); // TODO what if grid and axes
-													// tick distances differ?
+		boolean enableTicks = !view.getShowGrid()
+				|| (view.axesNumberingDistances[0] != view.getGridDistances()[0]);
+
 		boolean[] drawMajorTicks = { view.getAxisTickStyle(0) <= 1 && enableTicks,
 				view.getAxisTickStyle(1) <= 1 && enableTicks };
 		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0 && enableTicks,
