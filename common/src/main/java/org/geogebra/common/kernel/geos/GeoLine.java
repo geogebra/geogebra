@@ -952,22 +952,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	final public void setMode(int mode) {
 		switch (mode) {
 		case PARAMETRIC:
-			toStringMode = PARAMETRIC;
-			break;
-
 		case EQUATION_EXPLICIT:
-			toStringMode = EQUATION_EXPLICIT;
-			break;
-
 		case EQUATION_IMPLICIT_NON_CANONICAL:
-			toStringMode = EQUATION_IMPLICIT_NON_CANONICAL;
-			break;
-
 		case EQUATION_GENERAL:
-			toStringMode = EQUATION_GENERAL;
-			break;
 		case EQUATION_USER:
-			toStringMode = EQUATION_USER;
+			toStringMode = mode;
 			break;
 
 		default:
