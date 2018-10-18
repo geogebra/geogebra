@@ -30,14 +30,15 @@ public class GroupButtonMow extends FlowPanel {
 	 *            see {@link AppW}
 	 * @param groupName
 	 *            name of the group
+	 * @param selected
 	 * @param callBack
 	 *            to add to selected/unselected groups list
 	 */
-	public GroupButtonMow(AppW app, String groupName,
+	public GroupButtonMow(AppW app, String groupName, boolean selected,
 			AsyncOperation<SimpleEntry<String, Boolean>> callBack) {
 		this.appW = app;
 		this.groupName = groupName;
-		this.selected = false;
+		this.selected = selected;
 		this.callBack = callBack;
 		buildGui();
 		addClickHandler();
@@ -74,6 +75,9 @@ public class GroupButtonMow extends FlowPanel {
 
 	private void buildGui() {
 		this.addStyleName("groupButton");
+		if (isSelected()) {
+			this.addStyleName("selected");
+		}
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("content");
 		SimplePanel groupImgHolder = new SimplePanel();
