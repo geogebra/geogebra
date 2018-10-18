@@ -10,11 +10,11 @@ import org.geogebra.common.properties.AbstractEnumerableProperty;
  */
 public class LabelingProperty extends AbstractEnumerableProperty {
 
-    private int[] labelingStyles = {
-            ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON,
-            ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF,
-            ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
-    };
+        private int[] labelingStyles = {
+                ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON,
+                ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF,
+                ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
+        };
 
     private App app;
 

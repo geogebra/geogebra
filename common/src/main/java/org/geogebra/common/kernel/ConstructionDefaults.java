@@ -244,6 +244,14 @@ public class ConstructionDefaults {
 	/** label visible based on default geos */
 	public static final int LABEL_VISIBLE_USE_DEFAULTS = 4;
 
+	// Background visibility
+	/** background visible none */
+	public static final int BACKGROUND_VISIBLE_NONE = 0;
+	/** background visible with dark tint */
+	public static final int BACKGROUND_VISIBLE_TRANSPARENT = 1;
+	/** background visible with color */
+	public static final int BACKGROUND_VISIBLE_OPAQUE = 2;
+
 	/** default font size multiplier */
 	public static final double DEFAULT_BUTTON_SIZE = 2;
 

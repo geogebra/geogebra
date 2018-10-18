@@ -20,6 +20,7 @@ import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
@@ -132,6 +133,8 @@ public class PropertiesFactory {
                         (EuclidianSettings3D) euclidianSettings));
             }
         }
+
+        propertyList.add(new BackgroundProperty(app, localization));
 
         propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
 
