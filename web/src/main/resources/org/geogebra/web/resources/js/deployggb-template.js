@@ -98,7 +98,7 @@ var GGBApplet = function() {
         parameters.width = Math.round(parameters.width);
     }
     var parseVersion =function(d){
-        return parseFloat(d)>4.0 ? parseFloat(d) : 5; 
+        return parseFloat(d)>4.0 ? parseFloat(d) : 5;
     };
     /**
      * Overrides the codebase for HTML5.
@@ -113,7 +113,7 @@ var GGBApplet = function() {
     /**
      * Java / Compiled codebase settings: not supported, empty implementation for compatibility
      */
-    applet.setJavaCodebase = applet.setJavaCodebaseVersion = applet.isCompiledInstalled 
+    applet.setJavaCodebase = applet.setJavaCodebaseVersion = applet.isCompiledInstalled
         = applet.setPreCompiledScriptPath = applet.setPreCompiledResourcePath = function() {};
 
     /**
@@ -340,7 +340,7 @@ var GGBApplet = function() {
     };
 
     var fetchParametersFromTube = function(successCallback, materialsApiURL) {
-        var tubeurl = materialsApiURL ?  materialsApiURL.substring(0, materialsApiURL.indexOf("/", 8)) 
+        var tubeurl = materialsApiURL ?  materialsApiURL.substring(0, materialsApiURL.indexOf("/", 8))
             : getTubeURL();
 
         // load ggbbase64 string and settings from API
@@ -387,7 +387,6 @@ var GGBApplet = function() {
             }
         },
 
-        // TODO: add prefapplet type (params:'type' API:'prefapplettype')
         // TODO: Read view settings from database
 
         success = function() {
@@ -450,8 +449,6 @@ var GGBApplet = function() {
             if (parseFloat(item.geogebra_format) >= 5.0) {
                 views.is3D = true;
             }
-
-//            var views = {"is3D":false,"AV":false,"SV":false,"CV":false,"EV2":false,"CP":false,"PC":false,"DA":false,"FI":false,"PV":false,"macro":false};
 
             var previewUrl = (item.previewUrl === undefined) ? tubeurl+"/files/material-"+item.id+".png" : item.previewUrl;
             // user setting of preview URL has precedence
@@ -736,7 +733,6 @@ var GGBApplet = function() {
             if (parseVersion(html5CodebaseVersion)>=5.0) {
 
                 // Workaround: Remove the preview image when the applet is fully loaded
-                
                 parameters.appletOnLoad = function(api) {
                     var preview = appletElem.querySelector(".ggb_preview");
                     if (preview) {
@@ -752,7 +748,6 @@ var GGBApplet = function() {
                     }
 
                     oriAppletOnload(api);
-                    
                 };
 
                 if (!preRendered) {
@@ -857,8 +852,8 @@ var GGBApplet = function() {
                 renderGGBElementOnTube(article, parameters);
             };
 
-            script.src=html5Codebase + html5CodebaseScript;
-            
+            script.src = html5Codebase + html5CodebaseScript;
+
             ggbHTML5LoadedCodebaseIsWebSimple = html5CodebaseIsWebSimple;
             ggbHTML5LoadedCodebaseVersion = html5CodebaseVersion;
             ggbHTML5LoadedScript = script.src;
@@ -1000,7 +995,7 @@ var GGBApplet = function() {
             for (i=0; i<appletElem.childNodes.length;i++) {
                 elems.push(appletElem.childNodes[i]);
             }
-           
+
             if (window.GGBT_wsf_view) {
                 var content = window.GGBT_wsf_view.renderFullScreen(appletElem, parameters.id);
                 var container = document.getElementById("fullscreencontainer");
@@ -1204,7 +1199,7 @@ var GGBApplet = function() {
         }
         var index = html5CodebaseVersion.indexOf("//");
         if (index > 0) {
-            codebase = html5CodebaseVersion;            
+            codebase = html5CodebaseVersion;
         } else if(index === 0) {
             codebase = protocol + html5CodebaseVersion;
         } else {
@@ -1320,7 +1315,7 @@ var GGBAppletUtils = (function() {
     function isFlexibleWorksheetEditor() {
         return (window.GGBT_wsf_edit !== undefined);
     }
-    
+
     function scaleElement(el, scale){
         if (scale != 1) {
             el.style.transformOrigin = "0% 0% 0px";
@@ -1338,8 +1333,6 @@ var GGBAppletUtils = (function() {
             if (el.querySelectorAll('.ggb_preview img')[1] !== undefined) {
               el.querySelectorAll('.ggb_preview img')[1].style.maxWidth = "initial"
             }
-
-
         } else {
             el.style.transform = "none";
             el.style.webkitTransform = "none";
@@ -1365,7 +1358,7 @@ var GGBAppletUtils = (function() {
 
         if (container) {
             myWidth = container.offsetWidth;
-            myHeight = Math.max(allowUpscale ? container.offsetWidth : 0, container.offsetHeight);;
+            myHeight = Math.max(allowUpscale ? container.offsetWidth : 0, container.offsetHeight);
         } else {
             if (window.innerWidth && document.documentElement.clientWidth) {
                 myWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
@@ -1572,7 +1565,7 @@ var GGBAppletUtils = (function() {
                 window.GGBT_wsf_view.setCloseBtnPosition(appletElem);
             }
 
-            if(article.parentElement && /fullscreen/.test(article.parentElement.className)){
+            if(article.parentElement && (/fullscreen/).test(article.parentElement.className)){
                 return; //fullscreen button inside applet pressed
             }
 
@@ -1594,10 +1587,10 @@ var GGBAppletUtils = (function() {
             if (scaleElem !== null && scaleElem.querySelector(".noscale") !== null) {
                 return;
             }
-            
+
             var appName = (parameters.id !== undefined ? parameters.id : "ggbApplet");
             var app = window[appName];
-            
+
             if ((app == null || !app.recalculateEnvironments) && scaleElem !== null && !scaleElem.className.match(/fullscreen/)) {
                 scaleElem.parentNode.style.transform = "";
                 if (!isNaN(scale) && scale !== 1) {
@@ -1638,414 +1631,414 @@ if(typeof define === "function" && define.amd){
 }
 
 GGBAppletUtils.makeModule = function(name, permutation){
-	function webModule() {
-		var I = 'bootstrap', J = 'begin', K = 'gwt.codesvr.'+name+'=', L = 'gwt.codesvr=', M = name, N = 'startup', 
-		O = 'DUMMY', P = 0, Q = 1, R = 'iframe', S = 'position:absolute; width:0; height:0; border:none; left: -1000px;', 
-		T = ' top: -1000px;', U = 'CSS1Compat', V = '<!doctype html>', W = '', X = '<html><head><\/head><body><\/body><\/html>',
-		Y = 'undefined', Z = 'readystatechange', $ = 10, _ = 'Chrome', ab = 'eval("', bb = '");', cb = 'script', 
-		db = 'javascript', eb = 'moduleStartup', fb = 'moduleRequested', gb = 'Failed to load ', hb = 'head', ib = 'meta',
-		jb = 'name', kb = name+'::', lb = '::', mb = 'gwt:property', nb = 'content', ob = '=', pb = 'gwt:onPropertyErrorFn',
-		qb = 'Bad handler "', rb = '" for "gwt:onPropertyErrorFn"', sb = 'gwt:onLoadErrorFn', tb = '" for "gwt:onLoadErrorFn"',
-		ub = '#', vb = '?', wb = '/', xb = 'img', yb = 'clear.cache.gif', zb = 'baseUrl', Ab = name+'.nocache.js', Bb = 'base',
-		Cb = '//', Db = 'user.agent', Eb = 'webkit', Fb = 'safari', Gb = 'msie', Hb = 11, Ib = 'ie10', Jb = 9, Kb = 'ie9',
-		Lb = 8, Mb = 'ie8', Nb = 'gecko', Ob = 'gecko1_8', Pb = 2, Qb = 3, Rb = 4, Sb = 'selectingPermutation',
-		Tb = ''+name+'.devmode.js', Ub = permutation, Vb = ':1', Wb = ':2', Xb = ':3', Yb = ':', 
-		Zb = '.cache.js', $b = 'loadExternalRefs', _b = 'end';
-		var o = window;
-		var p = document;
-		r(I, J);
-		function q() {
-			var a = o.location.search;
-			return a.indexOf(K) != -1 || a.indexOf(L) != -1
-		}
-		function r(a, b) {
+    function webModule() {
+        var I = 'bootstrap', J = 'begin', K = 'gwt.codesvr.'+name+'=', L = 'gwt.codesvr=', M = name, N = 'startup',
+        O = 'DUMMY', P = 0, Q = 1, R = 'iframe', S = 'position:absolute; width:0; height:0; border:none; left: -1000px;',
+        T = ' top: -1000px;', U = 'CSS1Compat', V = '<!doctype html>', W = '', X = '<html><head><\/head><body><\/body><\/html>',
+        Y = 'undefined', Z = 'readystatechange', $ = 10, _ = 'Chrome', ab = 'eval("', bb = '");', cb = 'script',
+        db = 'javascript', eb = 'moduleStartup', fb = 'moduleRequested', gb = 'Failed to load ', hb = 'head', ib = 'meta',
+        jb = 'name', kb = name+'::', lb = '::', mb = 'gwt:property', nb = 'content', ob = '=', pb = 'gwt:onPropertyErrorFn',
+        qb = 'Bad handler "', rb = '" for "gwt:onPropertyErrorFn"', sb = 'gwt:onLoadErrorFn', tb = '" for "gwt:onLoadErrorFn"',
+        ub = '#', vb = '?', wb = '/', xb = 'img', yb = 'clear.cache.gif', zb = 'baseUrl', Ab = name+'.nocache.js', Bb = 'base',
+        Cb = '//', Db = 'user.agent', Eb = 'webkit', Fb = 'safari', Gb = 'msie', Hb = 11, Ib = 'ie10', Jb = 9, Kb = 'ie9',
+        Lb = 8, Mb = 'ie8', Nb = 'gecko', Ob = 'gecko1_8', Pb = 2, Qb = 3, Rb = 4, Sb = 'selectingPermutation',
+        Tb = ''+name+'.devmode.js', Ub = permutation, Vb = ':1', Wb = ':2', Xb = ':3', Yb = ':',
+        Zb = '.cache.js', $b = 'loadExternalRefs', _b = 'end';
+        var o = window;
+        var p = document;
+        r(I, J);
+        function q() {
+            var a = o.location.search;
+            return a.indexOf(K) != -1 || a.indexOf(L) != -1
+        }
+        function r(a, b) {
 
-		}
-		webModule.__sendStats = r;
-		webModule.__moduleName = M;
-		webModule.__errFn = null;
-		webModule.__moduleBase = O;
-		webModule.__softPermutationId = P;
-		webModule.__computePropValue = null;
-		webModule.__getPropMap = null;
-		webModule.__installRunAsyncCode = function() {
-		};
-		webModule.__gwtStartLoadingFragment = function() {
-			return null
-		};
-		webModule.__gwt_isKnownPropertyValue = function() {
-			return false
-		};
-		webModule.__gwt_getMetaProperty = function() {
-			return null
-		};
-		var s = null;
-		var t = o.__gwt_activeModules = o.__gwt_activeModules || {};
-		t[M] = {
-			moduleName : M
-		};
-		webModule.__moduleStartupDone = function(e) {
-			var f = t[M].bindings;
-			t[M].bindings = function() {
-				var a = f ? f() : {};
-				var b = e[webModule.__softPermutationId];
-				for (var c = P; c < b.length; c++) {
-					var d = b[c];
-					a[d[P]] = d[Q]
-				}
-				return a
-			}
-		};
-		var u;
-		function v() {
-			w();
-			return u
-		}
-		function w() {
-			if (u) {
-				return
-			}
-			var a = p.createElement(R);
-			a.id = M;
-			a.style.cssText = S + T;
-			a.tabIndex = -1;
-			p.body.appendChild(a);
-			u = a.contentWindow.document;
-			u.open();
-			var b = document.compatMode == U ? V : W;
-			u.write(b + X);
-			u.close()
-		}
-		function A(k) {
-			function l(a) {
-				function b() {
-					if (typeof p.readyState == Y) {
-						return typeof p.body != Y && p.body != null
-					}
-					return /loaded|complete/.test(p.readyState)
-				}
-				var c = b();
-				if (c) {
-					a();
-					return
-				}
-				function d() {
-					if (!c) {
-						if (!b()) {
-							return
-						}
-						c = true;
-						a();
-						if (p.removeEventListener) {
-							p.removeEventListener(Z, d, false)
-						}
-						if (e) {
-							clearInterval(e)
-						}
-					}
-				}
-				if (p.addEventListener) {
-					p.addEventListener(Z, d, false)
-				}
-				var e = setInterval(function() {
-					d()
-				}, $)
-			}
-			function m(c) {
-				function d(a, b) {
-					a.removeChild(b)
-				}
-				var e = v();
-				var f = e.body;
-				var g;
-				if (navigator.userAgent.indexOf(_) > -1 && window.JSON) {
-					var h = e.createDocumentFragment();
-					h.appendChild(e.createTextNode(ab));
-					for (var i = P; i < c.length; i++) {
-						var j = window.JSON.stringify(c[i]);
-						h.appendChild(e
-								.createTextNode(j.substring(Q, j.length - Q)))
-					}
-					h.appendChild(e.createTextNode(bb));
-					g = e.createElement(cb);
-					g.language = db;
-					g.appendChild(h);
-					f.appendChild(g);
-					d(f, g)
-				} else {
-					for (var i = P; i < c.length; i++) {
-						g = e.createElement(cb);
-						g.language = db;
-						g.text = c[i];
-						f.appendChild(g);
-						d(f, g)
-					}
-				}
-			}
-			webModule.onScriptDownloaded = function(a) {
-				l(function() {
-					m(a)
-				})
-			};
+        }
+        webModule.__sendStats = r;
+        webModule.__moduleName = M;
+        webModule.__errFn = null;
+        webModule.__moduleBase = O;
+        webModule.__softPermutationId = P;
+        webModule.__computePropValue = null;
+        webModule.__getPropMap = null;
+        webModule.__installRunAsyncCode = function() {
+        };
+        webModule.__gwtStartLoadingFragment = function() {
+            return null
+        };
+        webModule.__gwt_isKnownPropertyValue = function() {
+            return false
+        };
+        webModule.__gwt_getMetaProperty = function() {
+            return null
+        };
+        var s = null;
+        var t = o.__gwt_activeModules = o.__gwt_activeModules || {};
+        t[M] = {
+            moduleName : M
+        };
+        webModule.__moduleStartupDone = function(e) {
+            var f = t[M].bindings;
+            t[M].bindings = function() {
+                var a = f ? f() : {};
+                var b = e[webModule.__softPermutationId];
+                for (var c = P; c < b.length; c++) {
+                    var d = b[c];
+                    a[d[P]] = d[Q]
+                }
+                return a
+            }
+        };
+        var u;
+        function v() {
+            w();
+            return u
+        }
+        function w() {
+            if (u) {
+                return
+            }
+            var a = p.createElement(R);
+            a.id = M;
+            a.style.cssText = S + T;
+            a.tabIndex = -1;
+            p.body.appendChild(a);
+            u = a.contentWindow.document;
+            u.open();
+            var b = document.compatMode == U ? V : W;
+            u.write(b + X);
+            u.close()
+        }
+        function A(k) {
+            function l(a) {
+                function b() {
+                    if (typeof p.readyState == Y) {
+                        return typeof p.body != Y && p.body != null
+                    }
+                    return /loaded|complete/.test(p.readyState)
+                }
+                var c = b();
+                if (c) {
+                    a();
+                    return
+                }
+                function d() {
+                    if (!c) {
+                        if (!b()) {
+                            return
+                        }
+                        c = true;
+                        a();
+                        if (p.removeEventListener) {
+                            p.removeEventListener(Z, d, false)
+                        }
+                        if (e) {
+                            clearInterval(e)
+                        }
+                    }
+                }
+                if (p.addEventListener) {
+                    p.addEventListener(Z, d, false)
+                }
+                var e = setInterval(function() {
+                    d()
+                }, $)
+            }
+            function m(c) {
+                function d(a, b) {
+                    a.removeChild(b)
+                }
+                var e = v();
+                var f = e.body;
+                var g;
+                if (navigator.userAgent.indexOf(_) > -1 && window.JSON) {
+                    var h = e.createDocumentFragment();
+                    h.appendChild(e.createTextNode(ab));
+                    for (var i = P; i < c.length; i++) {
+                        var j = window.JSON.stringify(c[i]);
+                        h.appendChild(e
+                                .createTextNode(j.substring(Q, j.length - Q)))
+                    }
+                    h.appendChild(e.createTextNode(bb));
+                    g = e.createElement(cb);
+                    g.language = db;
+                    g.appendChild(h);
+                    f.appendChild(g);
+                    d(f, g)
+                } else {
+                    for (var i = P; i < c.length; i++) {
+                        g = e.createElement(cb);
+                        g.language = db;
+                        g.text = c[i];
+                        f.appendChild(g);
+                        d(f, g)
+                    }
+                }
+            }
+            webModule.onScriptDownloaded = function(a) {
+                l(function() {
+                    m(a)
+                })
+            };
 
-			var n = p.createElement(cb);
-			n.src = k;
-			if (webModule.__errFn) {
-				n.onerror = function() {
-					webModule.__errFn(M, new Error(gb + code))
-				}
-			}
-			p.getElementsByTagName(hb)[P].appendChild(n)
-		}
-		webModule.__startLoadingFragment = function(a) {
-			return D(a)
-		};
-		webModule.__installRunAsyncCode = function(a) {
-			var b = v();
-			var c = b.body;
-			var d = b.createElement(cb);
-			d.language = db;
-			d.text = a;
-			c.appendChild(d);
-			c.removeChild(d)
-		};
-		function B() {
-			var c = {};
-			var d;
-			var e;
-			var f = p.getElementsByTagName(ib);
-			for (var g = P, h = f.length; g < h; ++g) {
-				var i = f[g], j = i.getAttribute(jb), k;
-				if (j) {
-					j = j.replace(kb, W);
-					if (j.indexOf(lb) >= P) {
-						continue
-					}
-					if (j == mb) {
-						k = i.getAttribute(nb);
-						if (k) {
-							var l, m = k.indexOf(ob);
-							if (m >= P) {
-								j = k.substring(P, m);
-								l = k.substring(m + Q)
-							} else {
-								j = k;
-								l = W
-							}
-							c[j] = l
-						}
-					} else if (j == pb) {
-						k = i.getAttribute(nb);
-						if (k) {
-							try {
-								d = eval(k)
-							} catch (a) {
-								alert(qb + k + rb)
-							}
-						}
-					} else if (j == sb) {
-						k = i.getAttribute(nb);
-						if (k) {
-							try {
-								e = eval(k)
-							} catch (a) {
-								alert(qb + k + tb)
-							}
-						}
-					}
-				}
-			}
-			__gwt_getMetaProperty = function(a) {
-				var b = c[a];
-				return b == null ? null : b
-			};
-			s = d;
-			webModule.__errFn = e
-		}
-		function C() {
-			function e(a) {
-				var b = a.lastIndexOf(ub);
-				if (b == -1) {
-					b = a.length
-				}
-				var c = a.indexOf(vb);
-				if (c == -1) {
-					c = a.length
-				}
-				var d = a.lastIndexOf(wb, Math.min(c, b));
-				return d >= P ? a.substring(P, d + Q) : W
-			}
-			function f(a) {
-				if (a.match(/^\w+:\/\//)) {
-				} else {
-					var b = p.createElement(xb);
-					b.src = a + yb;
-					a = e(b.src)
-				}
-				return a
-			}
-			function g() {
-				var a = __gwt_getMetaProperty(zb);
-				if (a != null) {
-					return a
-				}
-				return W
-			}
-			function h() {
-				var a = p.getElementsByTagName(cb);
-				for (var b = P; b < a.length; ++b) {
-					if (a[b].src.indexOf(Ab) != -1) {
-						return e(a[b].src)
-					}
-				}
-				return W
-			}
-			function i() {
-				var a = p.getElementsByTagName(Bb);
-				if (a.length > P) {
-					return a[a.length - Q].href
-				}
-				return W
-			}
-			function j() {
-				var a = p.location;
-				return a.href == a.protocol + Cb + a.host + a.pathname + a.search
-						+ a.hash
-			}
-			var k = g();
-			if (k == W) {
-				k = h()
-			}
-			if (k == W) {
-				k = i()
-			}
-			if (k == W && j()) {
-				k = e(p.location.href)
-			}
-			k = f(k);
-			return k
-		}
-		function D(a) {
-			if (a.match(/^\//)) {
-				return a
-			}
-			if (a.match(/^[a-zA-Z]+:\/\//)) {
-				return a
-			}
-			return webModule.__moduleBase + a
-		}
-		function F() {
-			var f = [];
-			var g = P;
-			function h(a, b) {
-				var c = f;
-				for (var d = P, e = a.length - Q; d < e; ++d) {
-					c = c[a[d]] || (c[a[d]] = [])
-				}
-				c[a[e]] = b
-			}
-			var i = [];
-			var j = [];
-			function k(a) {
-				var b = j[a](), c = i[a];
-				if (b in c) {
-					return b
-				}
-				var d = [];
-				for ( var e in c) {
-					d[c[e]] = e
-				}
-				if (s) {
-					s(a, d, b)
-				}
-				throw null
-			}
-			j[Db] = function() {
-				var a = navigator.userAgent.toLowerCase();
-				var b = p.documentMode;
-				if (function() {
-					return a.indexOf(Eb) != -1
-				}())
-					return Fb;
-				if (function() {
-					return a.indexOf(Gb) != -1 && (b >= $ && b < Hb)
-				}())
-					return Ib;
-				if (function() {
-					return a.indexOf(Gb) != -1 && (b >= Jb && b < Hb)
-				}())
-					return Kb;
-				if (function() {
-					return a.indexOf(Gb) != -1 && (b >= Lb && b < Hb)
-				}())
-					return Mb;
-				if (function() {
-					return a.indexOf(Nb) != -1 || b >= Hb
-				}())
-					return Ob;
-				return Fb
-			};
-			i[Db] = {
-				'gecko1_8' : P,
-				'ie10' : Q,
-				'ie8' : Pb,
-				'ie9' : Qb,
-				'safari' : Rb
-			};
-			__gwt_isKnownPropertyValue = function(a, b) {
-				return b in i[a]
-			};
-			webModule.__getPropMap = function() {
-				var a = {};
-				for ( var b in i) {
-					if (i.hasOwnProperty(b)) {
-						a[b] = k(b)
-					}
-				}
-				return a
-			};
-			webModule.__computePropValue = k;
-			o.__gwt_activeModules[M].bindings = webModule.__getPropMap;
+            var n = p.createElement(cb);
+            n.src = k;
+            if (webModule.__errFn) {
+                n.onerror = function() {
+                    webModule.__errFn(M, new Error(gb + code))
+                }
+            }
+            p.getElementsByTagName(hb)[P].appendChild(n)
+        }
+        webModule.__startLoadingFragment = function(a) {
+            return D(a)
+        };
+        webModule.__installRunAsyncCode = function(a) {
+            var b = v();
+            var c = b.body;
+            var d = b.createElement(cb);
+            d.language = db;
+            d.text = a;
+            c.appendChild(d);
+            c.removeChild(d)
+        };
+        function B() {
+            var c = {};
+            var d;
+            var e;
+            var f = p.getElementsByTagName(ib);
+            for (var g = P, h = f.length; g < h; ++g) {
+                var i = f[g], j = i.getAttribute(jb), k;
+                if (j) {
+                    j = j.replace(kb, W);
+                    if (j.indexOf(lb) >= P) {
+                        continue
+                    }
+                    if (j == mb) {
+                        k = i.getAttribute(nb);
+                        if (k) {
+                            var l, m = k.indexOf(ob);
+                            if (m >= P) {
+                                j = k.substring(P, m);
+                                l = k.substring(m + Q)
+                            } else {
+                                j = k;
+                                l = W
+                            }
+                            c[j] = l
+                        }
+                    } else if (j == pb) {
+                        k = i.getAttribute(nb);
+                        if (k) {
+                            try {
+                                d = eval(k)
+                            } catch (a) {
+                                alert(qb + k + rb)
+                            }
+                        }
+                    } else if (j == sb) {
+                        k = i.getAttribute(nb);
+                        if (k) {
+                            try {
+                                e = eval(k)
+                            } catch (a) {
+                                alert(qb + k + tb)
+                            }
+                        }
+                    }
+                }
+            }
+            __gwt_getMetaProperty = function(a) {
+                var b = c[a];
+                return b == null ? null : b
+            };
+            s = d;
+            webModule.__errFn = e
+        }
+        function C() {
+            function e(a) {
+                var b = a.lastIndexOf(ub);
+                if (b == -1) {
+                    b = a.length
+                }
+                var c = a.indexOf(vb);
+                if (c == -1) {
+                    c = a.length
+                }
+                var d = a.lastIndexOf(wb, Math.min(c, b));
+                return d >= P ? a.substring(P, d + Q) : W
+            }
+            function f(a) {
+                if (a.match(/^\w+:\/\//)) {
+                } else {
+                    var b = p.createElement(xb);
+                    b.src = a + yb;
+                    a = e(b.src)
+                }
+                return a
+            }
+            function g() {
+                var a = __gwt_getMetaProperty(zb);
+                if (a != null) {
+                    return a
+                }
+                return W
+            }
+            function h() {
+                var a = p.getElementsByTagName(cb);
+                for (var b = P; b < a.length; ++b) {
+                    if (a[b].src.indexOf(Ab) != -1) {
+                        return e(a[b].src)
+                    }
+                }
+                return W
+            }
+            function i() {
+                var a = p.getElementsByTagName(Bb);
+                if (a.length > P) {
+                    return a[a.length - Q].href
+                }
+                return W
+            }
+            function j() {
+                var a = p.location;
+                return a.href == a.protocol + Cb + a.host + a.pathname + a.search
+                        + a.hash
+            }
+            var k = g();
+            if (k == W) {
+                k = h()
+            }
+            if (k == W) {
+                k = i()
+            }
+            if (k == W && j()) {
+                k = e(p.location.href)
+            }
+            k = f(k);
+            return k
+        }
+        function D(a) {
+            if (a.match(/^\//)) {
+                return a
+            }
+            if (a.match(/^[a-zA-Z]+:\/\//)) {
+                return a
+            }
+            return webModule.__moduleBase + a
+        }
+        function F() {
+            var f = [];
+            var g = P;
+            function h(a, b) {
+                var c = f;
+                for (var d = P, e = a.length - Q; d < e; ++d) {
+                    c = c[a[d]] || (c[a[d]] = [])
+                }
+                c[a[e]] = b
+            }
+            var i = [];
+            var j = [];
+            function k(a) {
+                var b = j[a](), c = i[a];
+                if (b in c) {
+                    return b
+                }
+                var d = [];
+                for ( var e in c) {
+                    d[c[e]] = e
+                }
+                if (s) {
+                    s(a, d, b)
+                }
+                throw null
+            }
+            j[Db] = function() {
+                var a = navigator.userAgent.toLowerCase();
+                var b = p.documentMode;
+                if (function() {
+                    return a.indexOf(Eb) != -1
+                }())
+                    return Fb;
+                if (function() {
+                    return a.indexOf(Gb) != -1 && (b >= $ && b < Hb)
+                }())
+                    return Ib;
+                if (function() {
+                    return a.indexOf(Gb) != -1 && (b >= Jb && b < Hb)
+                }())
+                    return Kb;
+                if (function() {
+                    return a.indexOf(Gb) != -1 && (b >= Lb && b < Hb)
+                }())
+                    return Mb;
+                if (function() {
+                    return a.indexOf(Nb) != -1 || b >= Hb
+                }())
+                    return Ob;
+                return Fb
+            };
+            i[Db] = {
+                'gecko1_8' : P,
+                'ie10' : Q,
+                'ie8' : Pb,
+                'ie9' : Qb,
+                'safari' : Rb
+            };
+            __gwt_isKnownPropertyValue = function(a, b) {
+                return b in i[a]
+            };
+            webModule.__getPropMap = function() {
+                var a = {};
+                for ( var b in i) {
+                    if (i.hasOwnProperty(b)) {
+                        a[b] = k(b)
+                    }
+                }
+                return a
+            };
+            webModule.__computePropValue = k;
+            o.__gwt_activeModules[M].bindings = webModule.__getPropMap;
 
-			if (q()) {
-				return D(Tb)
-			}
-			var l;
-			try {
-				h([ Ob ], Ub);
-				h([ Ib ], Ub + Vb);
-				h([ Kb ], Ub + Wb);
-				h([ Fb ], Ub + Xb);
-				l = f[k(Db)];
-				var m = l.indexOf(Yb);
-				if (m != -1) {
-					g = parseInt(l.substring(m + Q), $);
-					l = l.substring(P, m)
-				}
-			} catch (a) {
-			}
-			webModule.__softPermutationId = g;
-			return D(l + Zb)
-		}
-		function G() {
-			if (!o.__gwt_stylesLoaded) {
-				o.__gwt_stylesLoaded = {}
-			}
-		}
-		B();
-		webModule.__moduleBase = "%MODULE_BASE%"+name+"/";
-		t[M].moduleBase = webModule.__moduleBase;
-		var H = F();
-		G();
+            if (q()) {
+                return D(Tb)
+            }
+            var l;
+            try {
+                h([ Ob ], Ub);
+                h([ Ib ], Ub + Vb);
+                h([ Kb ], Ub + Wb);
+                h([ Fb ], Ub + Xb);
+                l = f[k(Db)];
+                var m = l.indexOf(Yb);
+                if (m != -1) {
+                    g = parseInt(l.substring(m + Q), $);
+                    l = l.substring(P, m)
+                }
+            } catch (a) {
+            }
+            webModule.__softPermutationId = g;
+            return D(l + Zb)
+        }
+        function G() {
+            if (!o.__gwt_stylesLoaded) {
+                o.__gwt_stylesLoaded = {}
+            }
+        }
+        B();
+        webModule.__moduleBase = "%MODULE_BASE%" + name + "/";
+        t[M].moduleBase = webModule.__moduleBase;
+        var H = F();
+        G();
 
-		A(H);
-		return true
-	}
-	return webModule;
+        A(H);
+        return true
+    }
+    return webModule;
 }
 if (typeof window.web3d !== "function") {
-	web3d = GGBAppletUtils.makeModule("web3d",'%WEB3D_PERMUTATION%');
+    web3d = GGBAppletUtils.makeModule("web3d",'%WEB3D_PERMUTATION%');
 }
 if (typeof window.webSimple !== "function") {
-	webSimple = GGBAppletUtils.makeModule("webSimple",'%WEBSIMPLE_PERMUTATION%');
+    webSimple = GGBAppletUtils.makeModule("webSimple",'%WEBSIMPLE_PERMUTATION%');
 }
