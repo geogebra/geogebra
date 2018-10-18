@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
@@ -35,7 +36,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public int getLineDisplayStyle() {
-		return -1;
+		return GeoLine.EQUATION_EXPLICIT;
 	}
 
 	@Override

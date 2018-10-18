@@ -56,10 +56,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 				equalMode = false;
 			}
 		}
-		int value = value0 == GeoLine.EQUATION_IMPLICIT_NON_CANONICAL
-				? GeoLine.EQUATION_IMPLICIT : value0;
+
 		getListener()
-				.setSelectedIndex(equalMode ? eqnValues.indexOf(value) : -1);
+				.setSelectedIndex(equalMode ? eqnValues.indexOf(value0) : -1);
 	}
 
 	@Override
