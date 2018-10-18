@@ -58,63 +58,26 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         this.app = app;
         this.localization = app.getLocalization();
         this.euclidianView = app.getActiveEuclidianView();
-        uploadIcons();
-    }
-
-    private void uploadIcons() {
-        if (icons == null) {
-            icons = new PropertyResource[]{
-                    PropertyResource.ICON_STANDARD_VIEW,
-                    PropertyResource.ICON_ZOOM_TO_FIT
-            };
-        }
-        if (values == null) {
-            values = new String[]{
-                    "StandardView",
-                    "ShowAllObjects"
-            };
-            localizeValues(values);
-        }
-        if (callbacks == null) {
-            callbacks = new Runnable[]{
-                    callbacksAll[0],
-                    callbacksAll[1]
-            };
-        }
-    }
-
-    private void uploadIconsForAR() {
-        if (iconsAR == null) {
-            iconsAR = new PropertyResource[]{
-                    PropertyResource.ICON_RELOAD_AR,
-                    PropertyResource.ICON_STANDARD_VIEW,
-                    PropertyResource.ICON_ZOOM_TO_FIT
-            };
-        }
-        if (valuesAR == null) {
-            valuesAR = new String[]{
-                    "ar.restart",
-                    "StandardView",
-                    "ShowAllObjects"
-            };
-            localizeValues(valuesAR);
-        }
-        if (callbacksAR == null) {
-            callbacksAR = new Runnable[]{
-                    callbacksAll[2],
-                    callbacksAll[0],
-                    callbacksAll[1]
-            };
-        }
     }
 
     @Override
     public Runnable[] getActions() {
         if (euclidianView.isAREnabled()) {
-            uploadIconsForAR();
+            if (callbacksAR == null) {
+                callbacksAR = new Runnable[]{
+                        callbacksAll[2],
+                        callbacksAll[0],
+                        callbacksAll[1]
+                };
+            }
             return callbacksAR;
         } else {
-            uploadIcons();
+            if (callbacks == null) {
+                callbacks = new Runnable[]{
+                        callbacksAll[0],
+                        callbacksAll[1]
+                };
+            }
             return callbacks;
         }
     }
@@ -122,11 +85,22 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     @Override
     public PropertyResource[] getIcons() {
         if (euclidianView.isAREnabled()) {
-            uploadIconsForAR();
+            if (iconsAR == null) {
+                iconsAR = new PropertyResource[]{
+                        PropertyResource.ICON_RELOAD_AR,
+                        PropertyResource.ICON_STANDARD_VIEW,
+                        PropertyResource.ICON_ZOOM_TO_FIT
+                };
+            }
             return iconsAR;
 
         } else {
-            uploadIcons();
+            if (icons == null) {
+                icons = new PropertyResource[]{
+                        PropertyResource.ICON_STANDARD_VIEW,
+                        PropertyResource.ICON_ZOOM_TO_FIT
+                };
+            }
             return icons;
         }
     }
@@ -134,10 +108,23 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     @Override
     public String[] getValues() {
         if (euclidianView.isAREnabled()) {
-            uploadIconsForAR();
+            if (valuesAR == null) {
+                valuesAR = new String[]{
+                        "ar.restart",
+                        "StandardView",
+                        "ShowAllObjects"
+                };
+                localizeValues(valuesAR);
+            }
             return valuesAR;
         } else {
-            uploadIcons();
+            if (values == null) {
+                values = new String[]{
+                        "StandardView",
+                        "ShowAllObjects"
+                };
+                localizeValues(values);
+            }
             return values;
         }
     }
