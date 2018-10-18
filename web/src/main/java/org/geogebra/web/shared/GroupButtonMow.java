@@ -1,6 +1,10 @@
 package org.geogebra.web.shared;
 
+import java.util.AbstractMap.SimpleEntry;
+
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,17 +19,27 @@ import com.google.gwt.user.client.ui.SimplePanel;
  *
  */
 public class GroupButtonMow extends FlowPanel {
+	private AppW appW;
 	private FlowPanel contentPanel;
-	private Label groupLbl;
 	private boolean selected;
+	private AsyncOperation<SimpleEntry<String, Boolean>> callBack;
+	private String groupName;
 
 	/**
+	 * @param app
+	 *            see {@link AppW}
 	 * @param groupName
 	 *            name of the group
+	 * @param callBack
+	 *            to add to selected/unselected groups list
 	 */
-	public GroupButtonMow(String groupName) {
+	public GroupButtonMow(AppW app, String groupName,
+			AsyncOperation<SimpleEntry<String, Boolean>> callBack) {
+		this.appW = app;
+		this.groupName = groupName;
 		this.selected = false;
-		buildGui(groupName);
+		this.callBack = callBack;
+		buildGui();
 		addClickHandler();
 	}
 
@@ -44,14 +58,28 @@ public class GroupButtonMow extends FlowPanel {
 		this.selected = selected;
 	}
 
-	private void buildGui(String groupName) {
+	/**
+	 * @return callback
+	 */
+	public AsyncOperation<SimpleEntry<String, Boolean>> getCallBack() {
+		return callBack;
+	}
+
+	/**
+	 * @return group name
+	 */
+	public String getGroupName() {
+		return groupName;
+	}
+
+	private void buildGui() {
 		this.addStyleName("groupButton");
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("content");
 		SimplePanel groupImgHolder = new SimplePanel();
 		groupImgHolder.addStyleName("groupImgHolder");
-		NoDragImage groupImg = new NoDragImage(SharedResources.INSTANCE.groups(),
-				24);
+		NoDragImage groupImg = new NoDragImage(
+				SharedResources.INSTANCE.groups(), 24);
 		groupImg.addStyleName("groupImg");
 		groupImgHolder.add(groupImg);
 		NoDragImage checkMark = new NoDragImage(
@@ -59,7 +87,7 @@ public class GroupButtonMow extends FlowPanel {
 		checkMark.addStyleName("checkMark");
 		contentPanel.add(groupImgHolder);
 		contentPanel.add(checkMark);
-		groupLbl = new Label(groupName);
+		Label groupLbl = new Label(groupName);
 		groupLbl.setStyleName("groupName");
 		contentPanel.add(groupLbl);
 		add(contentPanel);
@@ -71,9 +99,18 @@ public class GroupButtonMow extends FlowPanel {
 			public void onClick(final ClickEvent event) {
 				updateToSelected();
 				setSelected(!isSelected());
-				// TODO select group
+				getCallBack().callback(
+						new SimpleEntry<>(
+						getGroupName(), isSelected()));
 			}
 		}, ClickEvent.getType());
+	}
+
+	/**
+	 * @return see {@link AppW}
+	 */
+	public AppW getAppW() {
+		return appW;
 	}
 
 	/**

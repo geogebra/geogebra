@@ -1,5 +1,7 @@
 package org.geogebra.web.shared;
 
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
@@ -7,7 +9,9 @@ import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -56,6 +60,7 @@ public class ShareDialogMow2 extends DialogBoxW
 	private String shareURL;
 	private Material material;
 	private MaterialCallbackI callback;
+	private java.util.HashMap<String, Boolean> changedGroups = new java.util.HashMap<>();
 
 	/**
 	 * @param app
@@ -135,15 +140,38 @@ public class ShareDialogMow2 extends DialogBoxW
 		groupPanel.add(scrollPanel);
 		FlowPanel groups = new FlowPanel();
 		// ONLY FOR TESTING -> needs to be removed
+
 		/*
 		 * for (int i = 0; i < 40; i++) { groups.add(new GroupButtonMow(appW,
-		 * "group group group " + i, material)); }
+		 * "group group group " + i, new
+		 * AsyncOperation<AbstractMap.SimpleEntry<String,Boolean>>() {
+		 * 
+		 * public void callback(SimpleEntry<String, Boolean> obj) {
+		 * updateChangedGroupList(obj); } })); }
 		 */
+
 		for (String group : groupNames) {
-			groups.add(new GroupButtonMow(group));
+			groups.add(new GroupButtonMow(appW, group,
+					new AsyncOperation<AbstractMap.SimpleEntry<String,Boolean>>() {
+
+				public void callback(SimpleEntry<String, Boolean> obj) {
+							updateChangedGroupList(obj);
+				}
+			}));
 		}
 		scrollPanel.add(groups);
 		dialogContent.add(groupPanel);
+	}
+	
+	/**
+	 * @param obj
+	 *            pair containing
+	 * 
+	 */
+	public void updateChangedGroupList(SimpleEntry<String, Boolean> obj) {
+		changedGroups.put(obj.getKey(), obj.getValue());
+		Log.debug(
+				"SET GROUP: " + obj.getKey() + " to value: " + obj.getValue());
 	}
 
 	private void buildShareByLinkPanel() {
@@ -319,6 +347,13 @@ public class ShareDialogMow2 extends DialogBoxW
 					material.setVisibility("P");
 				}
 			}
+			shareWithGroups(new AsyncOperation<Boolean>() {
+
+				@Override
+				public void callback(Boolean obj) {
+					showTooltip(obj);
+				}
+			});
 			hide();
 		} else if (source == copyBtn) {
 			linkBoxFocused = false;
@@ -340,5 +375,30 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	public void setCallback(MaterialCallbackI materialCallbackI) {
 		this.callback = materialCallbackI;
+	}
+
+	/**
+	 * @param groupCallback
+	 *            callback for share with group
+	 */
+	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
+		for (String group : changedGroups.keySet()) {
+			appW.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
+					group, changedGroups.get(group), groupCallback);
+		}
+	}
+
+	/**
+	 * @param success
+	 *            shared with group successful or not
+	 */
+	protected void showTooltip(Boolean success) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+				appW.getLocalization()
+						.getPlain(success.booleanValue() ? "GroupShareOk"
+								: "GroupShareFail",
+								String.valueOf(changedGroups.size()) + appW
+										.getLocalization().getMenu(" Group")),
+				true, appW);
 	}
 }
