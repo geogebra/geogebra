@@ -386,7 +386,7 @@ public class DrawAxis {
 		double yoffset = (fontsize / 2) - 1;
 		
 		boolean enableTicks = !view.getShowGrid()
-				|| (view.axesNumberingDistances[0] != view.getGridDistances()[0]);
+				|| (view.axesNumberingDistances[1] != view.getGridDistances()[1]);
 		boolean[] drawMajorTicks = {
 				view.getAxisTickStyle(0) <= 1 && enableTicks,
 				view.getAxisTickStyle(1) <= 1 && enableTicks };
