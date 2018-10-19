@@ -1928,9 +1928,17 @@ public abstract class Renderer implements RendererInterface {
 		// only for AR
 	}
 
-	public void setTransparentBackground(boolean transparentBackground) {
+	public void setTransparentBackground() {
 		// only for AR
 	}
+
+	public void setOpaqueBackground(float[] opaqueBackgroundColor) {
+		// only for AR
+	};
+
+	public void setNoneBackground() {
+		// only for AR
+	};
 
 	public void setBackgroundStyle(int backgroundStyle) {
 		mBackgroundStyle = backgroundStyle;
