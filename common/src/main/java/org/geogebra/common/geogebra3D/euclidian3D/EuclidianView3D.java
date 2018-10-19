@@ -4334,6 +4334,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (renderer != null) {
 			renderer.setWaitForUpdateClearColor();
 		}
+		if (isAREnabled()) {
+			renderer.setBackgroundColor();
+		}
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
 
 /**
- * 
+ *
  * Used for openGL display.
  * <p>
  * It provides:
@@ -22,9 +22,9 @@ import org.geogebra.common.main.App;
  * <li>methods for displaying {@link Drawable3D}, with painting parameters</li>
  * <li>methods for picking object</li>
  * </ul>
- * 
+ *
  * @author ggb3D
- * 
+ *
  */
 public abstract class Renderer implements RendererInterface {
 
@@ -151,7 +151,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
-	 * 
+	 *
 	 * @param view
 	 *            the {@link EuclidianView3D} linked to
 	 * @param type
@@ -167,7 +167,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new Textures object
 	 */
 	protected Textures newTextures() {
@@ -187,7 +187,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * set the list of {@link Drawable3D} to be drawn
-	 * 
+	 *
 	 * @param dl
 	 *            list of {@link Drawable3D}
 	 */
@@ -196,7 +196,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void updateViewAndDrawables() {
 
@@ -225,7 +225,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * set runnable to do a 3D export on next frame
-	 * 
+	 *
 	 * @param runnable
 	 *            export handler
 	 */
@@ -356,7 +356,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param scale
 	 *            scale
 	 * @return export image immediately
@@ -384,7 +384,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * says that an export image is needed, and call immediate display
-	 * 
+	 *
 	 * @param scale
 	 *            scale for export image
 	 * @param forThumbnail
@@ -406,7 +406,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * start animation for gif export
-	 * 
+	 *
 	 * @param gifEncoder
 	 *            gif encoder
 	 * @param num
@@ -445,7 +445,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * set gif encoder
-	 * 
+	 *
 	 * @param gifEncoder
 	 *            gif encoder
 	 */
@@ -455,7 +455,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * says that we need an export image with scale, width and height
-	 * 
+	 *
 	 * @param scale
 	 *            scale factor
 	 * @param w
@@ -467,7 +467,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * set export image width and height
-	 * 
+	 *
 	 * @param w
 	 *            width
 	 * @param h
@@ -547,7 +547,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * set value for the stencil function (equal to value)
-	 * 
+	 *
 	 * @param value
 	 *            stencil value
 	 */
@@ -594,7 +594,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * switch GL_LIGHT0 / GL_LIGHT1
-	 * 
+	 *
 	 * @param light
 	 *            GL_LIGHT0 or GL_LIGHT1
 	 */
@@ -712,7 +712,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * sets if clip planes have to be enabled
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -931,26 +931,26 @@ public abstract class Renderer implements RendererInterface {
 
 	/*
 	 * private void drawWireFrame() {
-	 * 
+	 *
 	 * getGL().glPushAttrib(GLlocal.GL_ALL_ATTRIB_BITS);
-	 * 
+	 *
 	 * getGL().glDepthMask(false); getGL().glPolygonMode(GLlocal.GL_FRONT,
 	 * GLlocal.GL_LINE);getGL().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
-	 * 
+	 *
 	 * getGL().glLineWidth(5f);
-	 * 
+	 *
 	 * getGL().glEnable(GLlocal.GL_LIGHTING);
 	 * getGL().glDisable(GLlocal.GL_LIGHT0);
 	 * getGL().glDisable(GLlocal.GL_CULL_FACE);
 	 * getGL().glDisable(GLlocal.GL_BLEND);
 	 * getGL().glEnable(GLlocal.GL_ALPHA_TEST);
-	 * 
+	 *
 	 * drawable3DLists.drawTransp(this);
 	 * drawable3DLists.drawTranspClosedNotCurved(this);
 	 * drawable3DLists.drawTranspClosedCurved(this); if
 	 * (drawable3DLists.containsClippedSurfaces()){ enableClipPlanesIfNeeded();
 	 * drawable3DLists.drawTranspClipped(this); disableClipPlanesIfNeeded(); }
-	 * 
+	 *
 	 * getGL().glPopAttrib(); }
 	 */
 
@@ -962,10 +962,10 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * sets the color
-	 * 
+	 *
 	 * @param color
 	 *            (r,g,b,a) vector
-	 * 
+	 *
 	 */
 	final public void setColor(Coords color) {
 		setColor((float) color.getX(), (float) color.getY(),
@@ -975,7 +975,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * sets the color
-	 * 
+	 *
 	 * @param color
 	 *            (r,g,b,a)
 	 */
@@ -986,7 +986,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * sets the color
-	 * 
+	 *
 	 * @param r
 	 *            red
 	 * @param g
@@ -995,7 +995,7 @@ public abstract class Renderer implements RendererInterface {
 	 *            blue
 	 * @param a
 	 *            alpha
-	 * 
+	 *
 	 */
 	abstract protected void setColor(float r, float g, float b, float a);
 
@@ -1003,7 +1003,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * sets the matrix in which coord sys the pencil draws.
-	 * 
+	 *
 	 * @param a_matrix
 	 *            the matrix
 	 */
@@ -1013,7 +1013,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * gets the matrix describing the coord sys used by the pencil.
-	 * 
+	 *
 	 * @return the matrix
 	 */
 	public CoordMatrix4x4 getMatrix() {
@@ -1036,7 +1036,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * draws a 3D cross cursor
-	 * 
+	 *
 	 * @param cursorType
 	 *            cursor type
 	 */
@@ -1057,7 +1057,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * Draw completing cursor for 3D input.
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 * @param out
@@ -1103,49 +1103,49 @@ public abstract class Renderer implements RendererInterface {
 
 	/*
 	 * draws the text s
-	 * 
+	 *
 	 * @param x x-coord
-	 * 
+	 *
 	 * @param y y-coord
-	 * 
+	 *
 	 * @param s text
-	 * 
+	 *
 	 * @param colored says if the text has to be colored
-	 * 
+	 *
 	 * public void drawText(float x, float y, String s, boolean colored){
-	 * 
-	 * 
+	 *
+	 *
 	 * //if (true) return;
-	 * 
+	 *
 	 * getGL().glMatrixMode(GLlocal.GL_TEXTURE); getGL().glLoadIdentity();
-	 * 
+	 *
 	 * getGL().glMatrixMode(GLlocal.GL_MODELVIEW);
-	 * 
-	 * 
+	 *
+	 *
 	 * initMatrix(); initMatrix(view3D.getUndoRotationMatrix());
-	 * 
-	 * 
+	 *
+	 *
 	 * textRenderer.begin3DRendering();
-	 * 
+	 *
 	 * if (colored) textRenderer.setColor(textColor);
-	 * 
-	 * 
+	 *
+	 *
 	 * float textScaleFactor = DEFAULT_TEXT_SCALE_FACTOR/((float)
 	 * view3D.getScale());
-	 * 
-	 * 
+	 *
+	 *
 	 * if (x<0) x=x-(s.length()-0.5f)*8; //TODO adapt to police size
-	 * 
+	 *
 	 * textRenderer.draw3D(s, x*textScaleFactor,//w / -2.0f * textScaleFactor,
 	 * y*textScaleFactor,//h / -2.0f * textScaleFactor, 0, textScaleFactor);
-	 * 
+	 *
 	 * textRenderer.end3DRendering();
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * resetMatrix(); //initMatrix(m_view3D.getUndoRotationMatrix());
 	 * resetMatrix(); //initMatrix();
-	 * 
+	 *
 	 * }
 	 */
 
@@ -1154,44 +1154,44 @@ public abstract class Renderer implements RendererInterface {
 
 	/*
 	 * double displayTime = 0; int nbFrame = 0; double fps = 0;
-	 * 
+	 *
 	 * private void drawFPS(){
-	 * 
+	 *
 	 * if (displayTime==0) displayTime = System.currentTimeMillis();
-	 * 
+	 *
 	 * nbFrame++;
-	 * 
+	 *
 	 * double newDisplayTime = System.currentTimeMillis();
-	 * 
-	 * 
+	 *
+	 *
 	 * //displayTime = System.currentTimeMillis(); if (newDisplayTime >
 	 * displayTime+1000){
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * fps = 1000*nbFrame/(newDisplayTime - displayTime); displayTime =
 	 * newDisplayTime; nbFrame = 0; }
-	 * 
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
+	 *
 	 * getGL().glMatrixMode(GLlocal.GL_TEXTURE); getGL().glLoadIdentity();
-	 * 
+	 *
 	 * getGL().glMatrixMode(GLlocal.GL_MODELVIEW);
-	 * 
+	 *
 	 * getGL().glPushMatrix(); getGL().glLoadIdentity();
-	 * 
-	 * 
+	 *
+	 *
 	 * textRenderer.begin3DRendering();
-	 * 
-	 * 
+	 *
+	 *
 	 * textRenderer.setColor(Color.BLACK);
-	 * 
-	 * 
+	 *
+	 *
 	 * textRenderer.draw3D("FPS="+ ((int) fps),left,bottom,0,1);
-	 * 
+	 *
 	 * textRenderer.end3DRendering();
-	 * 
+	 *
 	 * getGL().glPopMatrix(); }
 	 */
 
@@ -1210,14 +1210,14 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return light position
 	 */
 	abstract protected float[] getLightPosition();
 
 	/**
 	 * set light position
-	 * 
+	 *
 	 * @param values
 	 *            attribute values
 	 */
@@ -1225,7 +1225,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * set light ambiant and diffuse values (white lights)
-	 * 
+	 *
 	 */
 	abstract protected void setLightAmbiantDiffuse(float ambiant0,
 			float diffuse0, float ambiant1, float diffuse1);
@@ -1275,7 +1275,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new geometry manager
 	 */
 	abstract protected Manager createManager();
@@ -1302,7 +1302,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * Used for dip density devices
-	 * 
+	 *
 	 * @return height in pixels
 	 */
 	public int getWidthInPixels() {
@@ -1323,7 +1323,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * Used for dip density devices
-	 * 
+	 *
 	 * @return height in pixels
 	 */
 	public int getHeightInPixels() {
@@ -1345,7 +1345,7 @@ public abstract class Renderer implements RendererInterface {
 	/**
 	 * for a line described by (o,v), return the min and max parameters to draw
 	 * the line
-	 * 
+	 *
 	 * @param minmax
 	 *            initial interval
 	 * @param o
@@ -1377,7 +1377,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * return the intersection of intervals [minmax] and [v1,v2]
-	 * 
+	 *
 	 * @param minmax
 	 *            initial interval
 	 * @param v1
@@ -1472,13 +1472,13 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * Set Up An Ortho View regarding left, right, bottom, front values
-	 * 
+	 *
 	 */
 	abstract protected void viewOrtho();
 
 	/**
 	 * Update perspective for eye position.
-	 * 
+	 *
 	 * @param left
 	 *            left eye distance
 	 * @param right
@@ -1521,7 +1521,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return coords of the eye (in real coords) when perspective projection
 	 */
 	public Coords getPerspEye() {
@@ -1529,7 +1529,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return eyes separation (half of, in real coords)
 	 */
 	public double getEyeSep() {
@@ -1592,7 +1592,7 @@ public abstract class Renderer implements RendererInterface {
 	abstract protected void viewOblique();
 
 	/**
-	 * 
+	 *
 	 * @return x oblique factor
 	 */
 	public double getObliqueX() {
@@ -1600,7 +1600,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return y oblique factor
 	 */
 	public double getObliqueY() {
@@ -1613,7 +1613,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * Set Up An Ortho View after setting left, right, bottom, front values
-	 * 
+	 *
 	 * @param x
 	 *            left
 	 * @param y
@@ -1622,7 +1622,7 @@ public abstract class Renderer implements RendererInterface {
 	 *            width
 	 * @param h
 	 *            height
-	 * 
+	 *
 	 */
 	public void setView(int x, int y, int w, int h) {
 		left = x - w / 2;
@@ -1681,7 +1681,7 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * Double.POSITIVE_INFINITY for parallel projections
-	 * 
+	 *
 	 * @return eye to screen distance
 	 */
 	public double getEyeToScreenDistance() {
@@ -1695,7 +1695,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param val
 	 *            value
 	 * @return first power of 2 greater than val
@@ -1800,7 +1800,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return hitting
 	 */
 	public Hitting getHitting() {
@@ -1815,7 +1815,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the 3D view attached
 	 */
 	final public EuclidianView3D getView() {
@@ -1896,7 +1896,7 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
@@ -1939,6 +1939,10 @@ public abstract class Renderer implements RendererInterface {
 	public void setNoneBackground() {
 		// only for AR
 	}
+
+	public void setBackgroundColor() {
+	    // only for AR
+    };
 
 	public void setBackgroundStyle(int backgroundStyle) {
 		mBackgroundStyle = backgroundStyle;
