@@ -79,7 +79,9 @@ public class GraphicsPropertiesList extends PropertiesList {
                     }
                 }
 
-                propertyList.add(new BackgroundProperty(mApp, mLocalization));
+                if (mApp.has(Feature.MOB_BACKGROUND_PROPERTY)) {
+                    propertyList.add(new BackgroundProperty(mApp, mLocalization));
+                }
 
                 propertyList.add(new GridVisibilityProperty(mLocalization, euclidianSettings));
 

@@ -285,6 +285,9 @@ public enum Feature {
     /** MOB-1833 */
     MOB_SHOW_HIDE_PLANE,
 
+	/** AND-1400 */
+	MOB_BACKGROUND_PROPERTY,
+
 	/** MOB-1753 */
 	MOB_QUICK_STYLE_BAR_3D,
 
