@@ -49,7 +49,16 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
-import org.geogebra.common.kernel.*;
+import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.GeoGebraCasInterface;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.Relation;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -69,6 +78,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -4110,6 +4120,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case VOICEOVER_APPLETS:
 			return prerelease;
 
+		/** GGB-2517 */
+		case TOOLBAR_FROM_APPCONFIG:
+			return prerelease;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4862,7 +4875,13 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public ToolCategorization createToolCategorization() {
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
-		getSettings().getToolbarSettings().setFrom(getVersion());
+		ToolbarSettings set = getSettings().getToolbarSettings();
+
+		if (has(Feature.TOOLBAR_FROM_APPCONFIG)) {
+			set.setFrom(getConfig(), getVersion().isPhone());
+		} else {
+			set.setFrom(getVersion());
+		}
 		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 

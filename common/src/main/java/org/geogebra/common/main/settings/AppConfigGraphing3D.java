@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.Kernel;
@@ -69,5 +70,10 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public String getForcedPerspective() {
 		return Perspective.GRAPHER_3D + "";
+	}
+	
+	@Override
+	public AppType getToolbarType() {
+		return AppType.GRAPHER_3D;
 	}
 }

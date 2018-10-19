@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import org.geogebra.common.main.AppConfig;
 
 /**
  * settings for the toolbar
@@ -117,6 +118,7 @@ public class ToolbarSettings extends AbstractSettings {
 			break;
 		case WEB_GEOMETRY:
 		case WEB_GEOMETRY_OFFLINE:
+		case WINDOWS_STORE:
 			type = ToolCategorization.AppType.GEOMETRY_CALC;
 			break;
 		case WEB_3D_GRAPHING:
@@ -126,6 +128,22 @@ public class ToolbarSettings extends AbstractSettings {
 			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
 			break;
 		}
+	}
 
+	/**
+	 * Update toolbar type for app config.
+	 * 
+	 * @param config
+	 *            the application config.
+	 * @param phone
+	 *            determines if the app runs on phone.
+	 */
+	public void setFrom(AppConfig config, boolean phone) {
+		if (config == null) {
+			return;
+		}
+
+		type = config.getToolbarType();
+		phoneApp = phone;
 	}
 }

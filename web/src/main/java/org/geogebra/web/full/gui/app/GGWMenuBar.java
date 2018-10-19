@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.app;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.main.AppW;
 
@@ -33,7 +36,13 @@ public class GGWMenuBar extends Composite {
 	 *            application to init menus
 	 */
 	public void init(AppW app) {
-		app.getSettings().getToolbarSettings().setFrom(app.getVersion());
+		ToolbarSettings set = app.getSettings().getToolbarSettings();
+		Versions ver = app.getVersion();
+		if (app.has(Feature.TOOLBAR_FROM_APPCONFIG)) {
+			set.setFrom(app.getConfig(), ver.isPhone());
+		} else {
+			set.setFrom(ver);
+		}
 		menubar = (MainMenu) app.getLAF().getMenuBar(app);
 
 		ggbmenubarwrapper.add(menubar);

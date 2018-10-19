@@ -133,6 +133,14 @@ public interface GeoGebraConstants {
 			return false;
 		}
 
+		/**
+		 * 
+		 * @return true if this is a phone version.
+		 */
+		public boolean isPhone() {
+			return "i".equals(platform);
+		}
+
 	}
 
 	/**

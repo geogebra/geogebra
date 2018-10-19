@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.Kernel;
@@ -148,4 +149,8 @@ public class AppConfigGraphing implements AppConfig {
 		return true;
 	}
 
+	@Override
+	public AppType getToolbarType() {
+		return AppType.GRAPHING_CALCULATOR;
+	}
 }

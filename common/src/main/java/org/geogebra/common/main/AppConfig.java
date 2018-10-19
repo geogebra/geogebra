@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 
 public interface AppConfig {
@@ -79,4 +80,11 @@ public interface AppConfig {
 	 *         enabled
 	 */
 	boolean isEnableStructures();
+
+	/**
+	 * 
+	 * @return the toolbar type of the current app.
+	 */
+	AppType getToolbarType();
+
 }
