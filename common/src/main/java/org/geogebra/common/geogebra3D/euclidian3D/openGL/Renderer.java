@@ -1934,11 +1934,11 @@ public abstract class Renderer implements RendererInterface {
 
 	public void setOpaqueBackground(float[] opaqueBackgroundColor) {
 		// only for AR
-	};
+	}
 
 	public void setNoneBackground() {
 		// only for AR
-	};
+	}
 
 	public void setBackgroundStyle(int backgroundStyle) {
 		mBackgroundStyle = backgroundStyle;

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -15,8 +17,10 @@ import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
 
-import java.util.ArrayList;
-
+/**
+ * List of properties for graphics views
+ *
+ */
 public class GraphicsPropertiesList extends PropertiesList {
 
     private App mApp;
@@ -37,7 +41,8 @@ public class GraphicsPropertiesList extends PropertiesList {
         if (mApp.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
             propertyList.add(new GraphicsPositionProperty(mApp));
         }
-        propertyList.add(new AxesVisibilityProperty(mLocalization, euclidianSettings));
+		propertyList.add(
+				new AxesVisibilityProperty(mLocalization, euclidianSettings));
 
         if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE)) {
             if (activeView.isEuclidianView3D()) {
@@ -46,14 +51,18 @@ public class GraphicsPropertiesList extends PropertiesList {
             }
         }
 
-        propertyList.add(new GridVisibilityProperty(mLocalization, euclidianSettings));
+		propertyList.add(
+				new GridVisibilityProperty(mLocalization, euclidianSettings));
 
         if (!"3D".equals(mApp.getVersion().getAppName())) {
-            propertyList.add(new GridStyleProperty(mLocalization, euclidianSettings));
+			propertyList.add(
+					new GridStyleProperty(mLocalization, euclidianSettings));
         }
 
-        propertyList.add(new DistancePropertyCollection(mApp, mLocalization, euclidianSettings));
-        propertyList.add(new LabelsPropertyCollection(mApp, mLocalization, euclidianSettings));
+		propertyList.add(new DistancePropertyCollection(mApp, mLocalization,
+				euclidianSettings));
+		propertyList.add(new LabelsPropertyCollection(mApp, mLocalization,
+				euclidianSettings));
 
         mProperties = new Property[propertyList.size()];
         propertyList.toArray(mProperties);
@@ -70,7 +79,8 @@ public class GraphicsPropertiesList extends PropertiesList {
                 if (mApp.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
                     propertyList.add(new GraphicsPositionProperty(mApp));
                 }
-                propertyList.add(new AxesVisibilityProperty(mLocalization, euclidianSettings));
+				propertyList.add(new AxesVisibilityProperty(mLocalization,
+						euclidianSettings));
 
                 if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE)) {
                     if (activeView.isEuclidianView3D()) {
@@ -83,14 +93,18 @@ public class GraphicsPropertiesList extends PropertiesList {
                     propertyList.add(new BackgroundProperty(mApp, mLocalization));
                 }
 
-                propertyList.add(new GridVisibilityProperty(mLocalization, euclidianSettings));
+				propertyList.add(new GridVisibilityProperty(mLocalization,
+						euclidianSettings));
 
                 if (!"3D".equals(mApp.getVersion().getAppName())) {
-                    propertyList.add(new GridStyleProperty(mLocalization, euclidianSettings));
+					propertyList.add(new GridStyleProperty(mLocalization,
+							euclidianSettings));
                 }
 
-                propertyList.add(new DistancePropertyCollection(mApp, mLocalization, euclidianSettings));
-                propertyList.add(new LabelsPropertyCollection(mApp, mLocalization, euclidianSettings));
+				propertyList.add(new DistancePropertyCollection(mApp,
+						mLocalization, euclidianSettings));
+				propertyList.add(new LabelsPropertyCollection(mApp,
+						mLocalization, euclidianSettings));
 
                 propertiesListARView = new Property[propertyList.size()];
                 propertyList.toArray(propertiesListARView);
