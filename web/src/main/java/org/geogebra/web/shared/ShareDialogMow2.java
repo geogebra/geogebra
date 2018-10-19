@@ -427,7 +427,7 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	protected void getGroupsSharedWith() {
 		appW.getLoginOperation().getGeoGebraTubeAPI()
-				.getGroups(String.valueOf(material.getId()),
+				.getGroups(material.getSharingKeyOrId(),
 						new AsyncOperation<List<String>>() {
 
 							@Override
