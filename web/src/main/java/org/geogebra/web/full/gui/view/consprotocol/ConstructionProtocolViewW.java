@@ -29,7 +29,6 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -509,11 +508,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	/*
 	 * Add a number column to show the id.
 	 */
-	private static Column<RowData, Number> getColumnId() {
-		Cell<Number> idCell = new NumberCell();
-		Column<RowData, Number> idColumn = new Column<RowData, Number>(idCell) {
+	private static Column<RowData, Integer> getColumnId() {
+		Cell<Integer> idCell = new IntegerCell();
+		Column<RowData, Integer> idColumn = new Column<RowData, Integer>(
+				idCell) {
 			@Override
-			public Number getValue(RowData object) {
+			public Integer getValue(RowData object) {
 				return object.getIndex();
 			}
 		};
