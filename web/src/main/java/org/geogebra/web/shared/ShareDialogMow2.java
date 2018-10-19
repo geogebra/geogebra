@@ -92,6 +92,7 @@ public class ShareDialogMow2 extends DialogBoxW
 	 *            list of group with which the material was shared
 	 */
 	public void setSharedGroups(List<String> sharedGroups) {
+		Log.debug("SHARED GROUP LIST: " + sharedGroups);
 		this.sharedGroups = sharedGroups;
 	}
 
