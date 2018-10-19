@@ -110,6 +110,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		// ONLY FOR TESTING
+
 		/*
 		 * groupNames = new ArrayList<>(Arrays.asList("group 1", "group 2",
 		 * "group 3", "group 4", "group 5"));
@@ -375,6 +376,8 @@ public class ShareDialogMow2 extends DialogBoxW
 					material.setVisibility("P");
 				}
 			}
+			Log.debug("SHARE WITH GROUP START");
+			Log.debug("NR TO SHARE: " + changedGroups.size());
 			shareWithGroups(new AsyncOperation<Boolean>() {
 
 				@Override
@@ -411,6 +414,8 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
 		for (String group : changedGroups.keySet()) {
+			Log.debug("SHARE WITH GROUP: " + group + " is shared: "
+					+ changedGroups.get(group));
 			appW.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
 					group, changedGroups.get(group), groupCallback);
 		}
