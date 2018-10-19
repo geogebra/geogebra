@@ -318,8 +318,8 @@ public class RendererImplGL2 extends RendererImpl
 
 	}
 
-	private int orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear,
-			orthoFar;
+	private int orthoLeft, orthoRight, orthoBottom, orthoTop;
+	private double orthoFar, orthoNear;
 
 	/*
 	 * (non-Javadoc)
