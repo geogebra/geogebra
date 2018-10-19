@@ -1330,7 +1330,7 @@ public abstract class Renderer implements RendererInterface {
 		return getHeight();
 	}
 
-	public int getVisibleDepth() {
+	final public double getVisibleDepth() {
 		return getWidth() * 2;
 	} // keep visible objects at twice center-to-right distance
 

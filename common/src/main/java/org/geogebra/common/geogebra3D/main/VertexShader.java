@@ -90,7 +90,8 @@ public class VertexShader {
 
 					+ "  // set layer a z-shift \n"
 					+ "  float fLayer = float(layer + att_layer);\n"
-					+ "  gl_Position.z = gl_Position.z - 0.0004 * fLayer; \n"
+                    // depth buffer is usually 16 bits, so we can't go under 2^-16 ~ 0.000152
+                    + "  gl_Position.z = gl_Position.z - 0.0008 * fLayer * gl_Position.w; \n"
 
 					+ "  if (labelRendering == 1){ // use special origin for labels\n"
 					+ "      realWorldCoords = labelOrigin;\n"
