@@ -29,6 +29,34 @@ public class GraphicsPropertiesList extends PropertiesList {
         mApp = app;
         mLocalization = localization;
         mEuclidianView = mApp.getActiveEuclidianView();
+
+        EuclidianView activeView = mApp.getActiveEuclidianView();
+        EuclidianSettings euclidianSettings = activeView.getSettings();
+        ArrayList<Property> propertyList = new ArrayList<>();
+
+        if (mApp.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
+            propertyList.add(new GraphicsPositionProperty(mApp));
+        }
+        propertyList.add(new AxesVisibilityProperty(mLocalization, euclidianSettings));
+
+        if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE)) {
+            if (activeView.isEuclidianView3D()) {
+                propertyList.add(new PlaneVisibilityProperty(mLocalization,
+                        (EuclidianSettings3D) euclidianSettings));
+            }
+        }
+
+        propertyList.add(new GridVisibilityProperty(mLocalization, euclidianSettings));
+
+        if (!"3D".equals(mApp.getVersion().getAppName())) {
+            propertyList.add(new GridStyleProperty(mLocalization, euclidianSettings));
+        }
+
+        propertyList.add(new DistancePropertyCollection(mApp, mLocalization, euclidianSettings));
+        propertyList.add(new LabelsPropertyCollection(mApp, mLocalization, euclidianSettings));
+
+        mProperties = new Property[propertyList.size()];
+        propertyList.toArray(mProperties);
     }
 
     @Override
@@ -67,35 +95,6 @@ public class GraphicsPropertiesList extends PropertiesList {
             }
             return propertiesListARView;
         } else {
-            if (mProperties == null) {
-                EuclidianView activeView = mApp.getActiveEuclidianView();
-                EuclidianSettings euclidianSettings = activeView.getSettings();
-                ArrayList<Property> propertyList = new ArrayList<>();
-
-                if (mApp.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
-                    propertyList.add(new GraphicsPositionProperty(mApp));
-                }
-                propertyList.add(new AxesVisibilityProperty(mLocalization, euclidianSettings));
-
-                if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE)) {
-                    if (activeView.isEuclidianView3D()) {
-                        propertyList.add(new PlaneVisibilityProperty(mLocalization,
-                                (EuclidianSettings3D) euclidianSettings));
-                    }
-                }
-
-                propertyList.add(new GridVisibilityProperty(mLocalization, euclidianSettings));
-
-                if (!"3D".equals(mApp.getVersion().getAppName())) {
-                    propertyList.add(new GridStyleProperty(mLocalization, euclidianSettings));
-                }
-
-                propertyList.add(new DistancePropertyCollection(mApp, mLocalization, euclidianSettings));
-                propertyList.add(new LabelsPropertyCollection(mApp, mLocalization, euclidianSettings));
-
-                mProperties = new Property[propertyList.size()];
-                propertyList.toArray(mProperties);
-            }
             return mProperties;
         }
     }
