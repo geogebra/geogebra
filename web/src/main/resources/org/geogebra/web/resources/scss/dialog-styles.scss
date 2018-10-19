@@ -1234,6 +1234,7 @@ $duration: 0.2s;
 		
 		.Caption {
 			padding-left: 24px !important;	
+			margin-bottom: 0px !important;
 		}
 	
 		.selGrLbl {
@@ -1266,7 +1267,7 @@ $duration: 0.2s;
 				margin-top: 16px;
 				
 				img {
-					opacity: 0.54;	
+					opacity: 0.38;	
 				}	
 			}
 		
@@ -1288,16 +1289,17 @@ $duration: 0.2s;
 			    margin-bottom: 20px;
 			    font-size: 87%;
 			    text-align: center;
+			    color: $text-secondary;
 			}
 		}
 	
 		.shareByLink {
-		    width: 460px;
+		    width: 474px;
 		    margin: 16px 8px 0px 24px;
 		    
 		    .linkImg {
 			    opacity: 0.54;
-			    margin: 0px 20px 0px 0px;
+			    margin: 0px 32px 2px 0px;
 			}
 		    
 		    .textPanel {
@@ -1307,7 +1309,7 @@ $duration: 0.2s;
 			    
 			    .linkShareOnOff {
 				    margin-top: 0px;
-				    font-size: 75%;
+				    font-size: 100%;
 				    color: $text-primary;
 				    height: 16px;
     				line-height: 16px;
@@ -1315,16 +1317,17 @@ $duration: 0.2s;
 			
 				.linkShareHelp {
 				    margin-top: 0px;
-				    font-size: 63%;
+				    font-size: 87%;
 				    height: 16px;
 				    line-height: 16px;
+				    color: $text-secondary;
 				}
 			}
 		
 			.switch {
 				width: 40px;
 				height: 24px;
-				margin-right: 12px;
+				margin-right: 16px;
 				position: relative;
 				top: 7px;
 				float: right;
@@ -1374,11 +1377,11 @@ $duration: 0.2s;
 			}
 		
 			.linkPanel {
-				margin-top: 12px;
+				margin-top: 16px;
 				display: inline-flex;
 						
 				.linkBox {
-					width: 350px;
+					width: 362px;
 					padding: 8px 0 8px 0;
 					margin: 0;
 					border-radius: 0;
