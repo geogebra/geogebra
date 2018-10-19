@@ -9,7 +9,7 @@ public interface PropertyCollection extends Property {
     /**
      * Returns the properties that belong to this property group.
      *
-     * @return an array of properties.
+     * @return a list of properties.
      */
-    Property[] getProperties();
+    PropertiesList getProperties();
 }

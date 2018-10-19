@@ -4,6 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractProperty;
+import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class LabelsPropertyCollection extends AbstractProperty
 		implements PropertyCollection {
 
-	private Property[] collection;
+    private PropertiesList collection;
 
 	/**
 	 * Constructs a labels property collection.
@@ -39,12 +40,13 @@ public class LabelsPropertyCollection extends AbstractProperty
             properties.add(new AxisLabelProperty(localization, euclidianSettings, "zAxis", 2));
         }
 
-		collection = new Property[properties.size()];
-		collection = properties.toArray(collection);
+        Property[] p = new Property[properties.size()];
+        properties.toArray(p);
+        collection = new PropertiesList(p);
 	}
 
-	@Override
-	public Property[] getProperties() {
-		return collection;
-	}
+    @Override
+    public PropertiesList getProperties() {
+        return collection;
+    }
 }
