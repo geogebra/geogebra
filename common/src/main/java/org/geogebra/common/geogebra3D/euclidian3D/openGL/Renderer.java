@@ -1932,7 +1932,7 @@ public abstract class Renderer implements RendererInterface {
 		// only for AR
 	}
 
-	public void setOpaqueBackground(float[] opaqueBackgroundColor) {
+	public void setOpaqueBackground() {
 		// only for AR
 	}
 

@@ -49,8 +49,7 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 				break;
 			case 2:
 				// set background color white
-				euclidianView3D.getRenderer()
-						.setOpaqueBackground(new float[] { 1, 1, 1, 1 });
+				euclidianView3D.getRenderer().setOpaqueBackground();
 				euclidianView3D.getRenderer().setBackgroundStyle(
 						ConstructionDefaults.BACKGROUND_VISIBLE_OPAQUE);
 				break;
