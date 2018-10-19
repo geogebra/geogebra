@@ -42,12 +42,13 @@ public class MyParseError extends MyError {
 	/**
 	 * @param loc
 	 *            localization
+	 * @param message
+	 *            primary message (translation key)
 	 * @param strs
-	 *            lines of the error
+	 *            parts of the error (space separated)
 	 */
-	public MyParseError(Localization loc, String[] strs) {
-		// set localized message
-		super(loc, strs);
+	public MyParseError(Localization loc, String message, String... strs) {
+		super(loc, message, strs);
 	}
 
 	@Override

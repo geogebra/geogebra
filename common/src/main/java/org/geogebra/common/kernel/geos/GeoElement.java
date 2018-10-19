@@ -2493,8 +2493,7 @@ public abstract class GeoElement extends ConstructionElement
 			setLabel(newLabel); // now we rename
 			return true;
 		} else {
-			final String[] str = { "NameUsed", newLabel };
-			throw new MyError(getLoc(), str);
+			throw new MyError(getLoc(), "NameUsed", newLabel);
 		}
 	}
 

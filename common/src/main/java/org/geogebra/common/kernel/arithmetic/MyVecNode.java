@@ -135,15 +135,13 @@ public class MyVecNode extends ValidExpression
 		// check if both ExpressionNodes represent NumberValues
 		ExpressionValue evx = x.evaluate(tpl);
 		if (!(evx instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evx.wrap().toString(tpl) };
 			throw new MyParseError(kernel.getApplication().getLocalization(),
-					str);
+					"NumberExpected", evx.wrap().toString(tpl));
 		}
 		ExpressionValue evy = y.evaluate(tpl);
 		if (!(evy instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evy.wrap().toString(tpl) };
 			throw new MyParseError(kernel.getApplication().getLocalization(),
-					str);
+					"NumberExpected", evy.wrap().toString(tpl));
 		}
 
 		if (mode == Kernel.COORD_POLAR) {

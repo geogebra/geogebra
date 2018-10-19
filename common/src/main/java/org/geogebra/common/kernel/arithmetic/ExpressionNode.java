@@ -1100,7 +1100,7 @@ public class ExpressionNode extends ValidExpression
 				expr = expr.replace(func.getFunctionVariables()[i], ev).wrap();
 			}
 		} else {
-			throw new MyError(loc, new String[] { "IllegalArgumentNumber" });
+			throw new MyError(loc, "IllegalArgumentNumber");
 		}
 
 		if (equ.isFunctionDependent()) {

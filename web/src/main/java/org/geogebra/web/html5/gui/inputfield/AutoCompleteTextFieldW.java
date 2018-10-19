@@ -726,7 +726,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		// show help if available
 		if (help != null) {
-			app.showError(new MyError(loc,
+			app.showError(MyError.forCommand(loc,
 					loc.getMenu("Syntax") + ":\n" + help, cmd, null));
 		} else if (app.getGuiManager() != null) {
 			app.getGuiManager().openCommandHelp(null);

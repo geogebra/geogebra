@@ -177,8 +177,8 @@ public class FunctionParser {
 				return derivativeNode(kernel, geoExp, order,
 						geo.isGeoCurveCartesian(), myList.getListElement(0));
 			}
-			String[] str = { "FunctionExpected", funcName };
-			throw new MyParseError(kernel.getLocalization(), str);
+			throw new MyParseError(kernel.getLocalization(), "FunctionExpected",
+					funcName);
 
 		}
 		if (geo instanceof Evaluatable) {// function
@@ -266,8 +266,8 @@ public class FunctionParser {
 					list.getListElement(1), list.getListElement(2));
 
 		}
-		String[] str = { "FunctionExpected", funcName };
-		throw new MyParseError(kernel.getLocalization(), str);
+		throw new MyParseError(kernel.getLocalization(), "FunctionExpected",
+				funcName);
 
 	}
 

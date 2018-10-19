@@ -294,7 +294,8 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleValue(LinkedHashMap<String, String> attrs) {
+	private boolean handleValue(LinkedHashMap<String, String> attrs,
+			ArrayList<String> errors) {
 		boolean isBoolean = geo.isGeoBoolean();
 		boolean isNumber = geo.isGeoNumeric();
 		// GGB-244 something that was formerly just a number is now a segment:
@@ -340,6 +341,7 @@ public class ConsElementXMLHandler {
 			}
 			return true;
 		} catch (RuntimeException e) {
+			errors.add(e.getLocalizedMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -1858,7 +1860,7 @@ public class ConsElementXMLHandler {
 	 *            attributes
 	 */
 	protected void startGeoElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			LinkedHashMap<String, String> attrs, ArrayList<String> errors) {
 		if (geo == null) {
 			Log.error("no element set for <" + eName + ">");
 			return;
@@ -2080,7 +2082,7 @@ public class ConsElementXMLHandler {
 				handleUserInput(attrs);
 				break;
 			case "value":
-				handleValue(attrs);
+				handleValue(attrs, errors);
 				break;
 			case "video":
 				handleVideo(attrs);

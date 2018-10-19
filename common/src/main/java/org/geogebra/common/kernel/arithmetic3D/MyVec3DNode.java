@@ -140,18 +140,18 @@ public class MyVec3DNode extends ValidExpression
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		ExpressionValue evx = x.evaluate(tpl);
 		if (!(evx instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evx.wrap().toString(tpl) };
-			throw new MyParseError(kernel.getLocalization(), str);
+			throw new MyParseError(kernel.getLocalization(), "NumberExpected",
+					evx.wrap().toString(tpl));
 		}
 		ExpressionValue evy = y.evaluate(tpl);
 		if (!(evy instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evy.wrap().toString(tpl) };
-			throw new MyParseError(kernel.getLocalization(), str);
+			throw new MyParseError(kernel.getLocalization(), "NumberExpected",
+					evy.wrap().toString(tpl));
 		}
 		ExpressionValue evz = z.evaluate(tpl);
 		if (!(evz instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evz.wrap().toString(tpl) };
-			throw new MyParseError(kernel.getLocalization(), str);
+			throw new MyParseError(kernel.getLocalization(), "NumberExpected",
+					evz.wrap().toString(tpl));
 		}
 
 		if (mode == Kernel.COORD_SPHERICAL) {

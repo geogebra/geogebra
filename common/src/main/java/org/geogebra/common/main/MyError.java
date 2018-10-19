@@ -53,25 +53,41 @@ public class MyError extends java.lang.Error {
 	 *            associated command name
 	 * @param cause
 	 *            cause
+	 * @return command error
 	 */
-	public MyError(Localization loc0, String errorName, String commandName,
+	public static MyError forCommand(Localization loc0, String errorName,
+			String commandName,
 			Throwable cause) {
 		// set localized message
-		super(errorName, cause);
-		this.loc = loc0;
-		this.commandName = commandName;
+		MyError ret = new MyError(errorName, cause);
+		ret.loc = loc0;
+		ret.commandName = commandName;
+		return ret;
 	}
 
 	/**
 	 * @param loc0
 	 *            localization
+	 * @param message
+	 *            primary message
 	 * @param strs
-	 *            lines of the error
+	 *            parts of the error (space separated)
 	 */
-	public MyError(Localization loc0, String[] strs) {
+	public MyError(Localization loc0, String message, String... strs) {
+		super(message);
 		this.loc = loc0;
 		// set localized message
 		this.strs = strs;
+	}
+
+	/**
+	 * @param errorName
+	 *            translateable error name
+	 * @param cause
+	 *            cause
+	 */
+	public MyError(String errorName, Throwable cause) {
+		super(errorName, cause);
 	}
 
 	/**
@@ -83,16 +99,15 @@ public class MyError extends java.lang.Error {
 
 	@Override
 	public String getLocalizedMessage() {
-		if (strs == null) {
-			return getError(getMessage());
-		}
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
-		sb.append(getError(strs[0]));
-		sb.append(" \n");
-		for (int i = 1; i < strs.length; i++) {
-			sb.append(getError(strs[i]));
-			sb.append(" ");
+		sb.append(getError(getMessage()));
+		if(strs != null){
+			sb.append(" \n");
+			for (String part : strs) {
+				sb.append(part);
+				sb.append(" ");
+			}
 		}
 		return sb.toString();
 	}
@@ -103,9 +118,8 @@ public class MyError extends java.lang.Error {
 
 		sb.append(getClass().toString());
 		sb.append(": ");
-		if (strs == null) {
-			sb.append(getError(getMessage()));
-		} else {
+		sb.append(getError(getMessage()));
+		if (strs != null) {
 			for (int i = 0; i < strs.length; i++) {
 				sb.append(getError(strs[i]));
 				sb.append(" : ");

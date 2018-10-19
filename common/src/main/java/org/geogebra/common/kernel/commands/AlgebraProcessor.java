@@ -556,8 +556,7 @@ public class AlgebraProcessor {
 				callback.callback(result[0]);
 			}
 		} else {
-			String[] str = { "NameUsed", newLabel };
-			throw new MyError(loc, str);
+			throw new MyError(loc, "NameUsed", newLabel);
 		}
 
 		cons.registerFunctionVariable(null);
@@ -1853,10 +1852,9 @@ public class AlgebraProcessor {
 				GeoElement geo = kernel.lookupLabel(labels[i]);
 				if (geo != null) {
 					if (geo.isProtected(EventType.UPDATE)) {
-						String[] strs = { "IllegalAssignment",
-								"AssignmentToFixed", ":\n",
-								geo.getLongDescription() };
-						throw new MyError(loc, strs);
+						throw new MyError(loc, "IllegalAssignment",
+								loc.getError("AssignmentToFixed"), ":\n",
+								geo.getLongDescription());
 					}
 					// replace (overwrite or redefine) geo
 					if (firstTime) { // only one geo can be replaced
@@ -2655,8 +2653,7 @@ public class AlgebraProcessor {
 		if (equ.getRHS().containsFreeFunctionVariable(Unicode.theta_STRING)
 				|| equ.getRHS()
 						.containsFreeFunctionVariable(Unicode.theta_STRING)) {
-			String[] errors = { "InvalidEquation" };
-			throw new MyError(loc, errors);
+			throw new MyError(loc, "InvalidEquation");
 		}
 
 	}

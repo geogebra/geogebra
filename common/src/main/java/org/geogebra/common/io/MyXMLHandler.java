@@ -89,6 +89,8 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -293,9 +295,13 @@ public class MyXMLHandler implements DocHandler {
 	@Override
 	final public void endDocument() throws SAXException {
 		if (errors.size() > 0) {
-			String[] a = new String[errors.size()];
-			errors.toArray(a);
-			app.showError(new MyError(loc, a));
+			StringBuilder sb= new StringBuilder();
+			for (String error : errors) {
+				sb.append(Unicode.CENTER_DOT).append(' ').append(error)
+						.append('\n');
+			}
+			app.showError(
+					new MyError(loc, "LoadFileFailed", sb.toString()));
 		}
 		if (mode == MODE_INVALID) {
 			throw new SAXException(
@@ -2933,7 +2939,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_DEFAULT_GEO:
-			this.geoHandler.startGeoElement(eName, attrs);
+			this.geoHandler.startGeoElement(eName, attrs, errors);
 			break;
 
 		default:
@@ -2971,7 +2977,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_CONST_GEO_ELEMENT:
-			this.geoHandler.startGeoElement(eName, attrs);
+			this.geoHandler.startGeoElement(eName, attrs, errors);
 			break;
 
 		case MODE_CONST_COMMAND:

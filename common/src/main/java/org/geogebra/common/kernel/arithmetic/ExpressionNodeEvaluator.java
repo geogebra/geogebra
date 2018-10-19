@@ -642,7 +642,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handlePlus(ExpressionValue lt, ExpressionValue rt,
 			StringTemplate tpl, boolean holdsLaTeXtext) {
-		String[] str;
 		MyDouble num;
 		GeoVec2D vec;
 		MyStringBuffer msb;
@@ -741,10 +740,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial + polynomial
 		else {
-			str = new String[] { "IllegalAddition", lt.toString(errorTemplate),
-					"+", rt.toString(errorTemplate) };
 			Log.error(lt.getValueType() + "+" + rt.getValueType());
-			throw new MyError(loc, str);
+			throw new MyError(loc, "IllegalAddition",
+					lt.toString(errorTemplate), "+",
+					rt.toString(errorTemplate));
 		}
 
 	}
@@ -766,7 +765,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleDivide(ExpressionValue lt, ExpressionValue rt,
 			ExpressionValue left, ExpressionValue right) {
 		// sin(number)
-		String[] str;
 		MyDouble num;
 		GeoVec2D vec;
 		if (rt instanceof NumberValue) {
@@ -786,10 +784,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						(GeoFunction) lt, right, true);
 			}
 			else {
-				str = new String[] { "IllegalDivision",
+				throw new MyError(loc, "IllegalDivision",
 						lt.toString(errorTemplate), "/",
-						rt.toString(errorTemplate) };
-				throw new MyError(loc, str);
+						rt.toString(errorTemplate));
 			}
 		}
 		// polynomial / polynomial
@@ -816,9 +813,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return GeoFunction.applyNumberSymb(Operation.DIVIDE,
 					(GeoFunction) rt, left, false);
 		} else {
-			str = new String[] { "IllegalDivision", lt.toString(errorTemplate),
-					"/", rt.toString(errorTemplate) };
-			throw new MyError(loc, str);
+			throw new MyError(loc, "IllegalDivision",
+					lt.toString(errorTemplate), "/",
+					rt.toString(errorTemplate));
 		}
 	}
 
@@ -832,7 +829,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return result
 	 */
 	public ExpressionValue handleMinus(ExpressionValue lt, ExpressionValue rt) {
-		String[] str;
 		MyDouble num;
 		GeoVec2D vec;
 		// number - number
@@ -885,11 +881,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial - polynomial
 		else {
-			str = new String[] { "IllegalSubtraction",
-					lt.toString(errorTemplate), "-",
-					rt.toString(errorTemplate) };
 			Log.error(lt.getValueType() + " - " + rt.getValueType());
-			throw new MyError(loc, str);
+			throw new MyError(loc, "IllegalSubtraction",
+					lt.toString(errorTemplate), "-",
+					rt.toString(errorTemplate));
 		}
 	}
 
@@ -907,7 +902,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handlePower(ExpressionValue lt, ExpressionValue rt,
 			ExpressionValue right) {
-		String[] str;
 		MyDouble num;
 		GeoVec2D vec, vec2;
 		// number ^ number
@@ -1009,9 +1003,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// polynomial ^ number
 		else {
 			Log.error(lt.getValueType() + "^" + rt.getValueType());
-			str = new String[] { "IllegalExponent", lt.toString(errorTemplate),
-					"^", rt.toString(errorTemplate) };
-			throw new MyError(loc, str);
+			throw new MyError(loc, "IllegalExponent",
+					lt.toString(errorTemplate), "^",
+					rt.toString(errorTemplate));
 		}
 	}
 
@@ -1088,7 +1082,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleFunction(ExpressionValue lt,
 			ExpressionValue rt, ExpressionValue left) {
-		String[] str;
 		// function(number)
 		if (rt instanceof NumberValue) {
 			if (lt instanceof Evaluatable) {
@@ -1149,8 +1142,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 		// + " rt: " + rt + ", " + rt.getClass());
-		str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
-		throw new MyError(loc, str);
+		throw new MyError(loc, "IllegalArgument", rt.toString(errorTemplate));
 
 	}
 
@@ -1226,8 +1218,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass() +
 		// " rt: " + rt + ", " + rt.getClass());
-		String[] str3 = { "IllegalArgument", rt.toString(errorTemplate) };
-		throw new MyError(loc, str3);
+		throw new MyError(loc, "IllegalArgument", rt.toString(errorTemplate));
 	}
 
 	/**
@@ -1242,9 +1233,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *             (always)
 	 */
 	public ExpressionValue illegalBoolean(ExpressionValue arg, String opname) {
-		String[] str = new String[] { "IllegalBoolean", opname,
-				arg.toString(errorTemplate) };
-		throw new MyError(loc, str);
+		throw new MyError(loc, "IllegalBoolean", opname,
+				arg.toString(errorTemplate));
 	}
 
 	/**
@@ -1262,10 +1252,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError illegalArgument(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
-		String[] str = new String[] { "IllegalArgument", opname,
+		return new MyError(loc, "IllegalArgument", opname,
 				lt.toString(errorTemplate), ",", rt.toString(errorTemplate),
-				")" };
-		return new MyError(loc, str);
+				")");
 	}
 
 	/**
@@ -1278,9 +1267,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *             (always)
 	 */
 	public MyError illegalArgument(ExpressionValue arg) {
-		String[] str = new String[] { "IllegalArgument",
-				arg.toString(errorTemplate) };
-		return new MyError(loc, str);
+		return new MyError(loc, "IllegalArgument", arg.toString(errorTemplate));
 	}
 
 	/**
@@ -1300,9 +1287,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError illegalBinary(ExpressionValue lt, ExpressionValue rt,
 			String type, String opname) {
-		String[] str = new String[] { type, lt.toString(errorTemplate), opname,
-				rt.toString(errorTemplate) };
-		return new MyError(loc, str);
+		return new MyError(loc, type, lt.toString(errorTemplate), opname,
+				rt.toString(errorTemplate));
 
 	}
 
@@ -1321,10 +1307,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError illegalComparison(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
-		String[] str = new String[] { "IllegalComparison",
+		return new MyError(loc, "IllegalComparison",
 				lt.toString(errorTemplate), opname,
-				rt.toString(errorTemplate) };
-		return new MyError(loc, str);
+				rt.toString(errorTemplate));
 
 	}
 
@@ -1343,10 +1328,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError illegalListOp(ExpressionValue lt, ExpressionValue rt,
 			String opname) {
-		String[] str = new String[] { "IllegalListOperation",
+		return new MyError(loc, "IllegalListOperation",
 				lt.toString(errorTemplate), opname,
-				rt.toString(errorTemplate) };
-		return new MyError(loc, str);
+				rt.toString(errorTemplate));
 
 	}
 
@@ -1387,9 +1371,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError polynomialOrDie(ExpressionValue lt, Operation op,
 			String prefix, String suffix) {
-		String[] strings = new String[] { "IllegalArgument", prefix,
-				lt.toString(errorTemplate), suffix };
-		return new MyError(loc, strings);
+		return new MyError(loc, "IllegalArgument", prefix,
+				lt.toString(errorTemplate), suffix);
 
 	}
 
@@ -1575,8 +1558,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return error for a,b where b is not a condition
 	 */
 	public MyError illegalCondition(ExpressionValue condition) {
-		return new MyError(getKernel().getLocalization(),
-				new String[] { "InvalidInput" });
+		return new MyError(getKernel().getLocalization(), "InvalidInput");
 	}
 
 }

@@ -277,9 +277,8 @@ public abstract class CommandProcessor {
 		if (geos != null) {
 			return geos;
 		}
-		String[] str = { "IllegalArgument",
-				arg.toString(StringTemplate.defaultTemplate) };
-		throw new MyError(loc, str);
+		throw new MyError(loc, "IllegalArgument",
+				arg.toString(StringTemplate.defaultTemplate));
 	}
 
 	/**
@@ -726,7 +725,7 @@ public abstract class CommandProcessor {
 		errorSb.append(loc.getMenu("Syntax"));
 		errorSb.append(":\n");
 		errorSb.append(loc.getCommandSyntax(cmd));
-		return new MyError(loc, errorSb.toString(), cmd, null);
+		return MyError.forCommand(loc, errorSb.toString(), cmd, null);
 	}
 
 	/**
@@ -747,7 +746,7 @@ public abstract class CommandProcessor {
 		}
 
 		getCommandSyntax(errorSb, loc, cmd.getName(), argNumber);
-		return new MyError(loc, errorSb.toString(), cmd.getName(), null);
+		return MyError.forCommand(loc, errorSb.toString(), cmd.getName(), null);
 	}
 
 	/**
@@ -800,8 +799,8 @@ public abstract class CommandProcessor {
 	 * @return change dependent error
 	 */
 	static MyError chDepErr(App app1, GeoElement geo) {
-		String[] strs = { "ChangeDependent", geo.getLongDescription() };
-		return new MyError(app1.getLocalization(), strs);
+		return new MyError(app1.getLocalization(), "ChangeDependent",
+				geo.getLongDescription());
 	}
 
 	/**
