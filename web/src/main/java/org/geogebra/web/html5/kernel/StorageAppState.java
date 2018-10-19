@@ -1,8 +1,9 @@
 package org.geogebra.web.html5.kernel;
 
-import com.google.gwt.storage.client.Storage;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.web.html5.util.UUIDW;
+
+import com.google.gwt.storage.client.Storage;
 
 /**
  * App State based on web storage
@@ -25,10 +26,15 @@ public class StorageAppState implements AppState {
      */
     public StorageAppState(Storage storage, String xml) {
         this.storage = storage;
-        storage.setItem(key = TEMP_STORAGE_PREFIX + nextKeyNum++, xml);
+		storage.setItem(key = TEMP_STORAGE_PREFIX + nextKeyNum, xml);
+		increment();
     }
 
-    @Override
+	private void increment() {
+		nextKeyNum++;
+	}
+
+	@Override
     public String getXml() {
         return storage.getItem(key);
     }

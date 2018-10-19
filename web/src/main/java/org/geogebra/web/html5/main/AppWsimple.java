@@ -101,7 +101,8 @@ public class AppWsimple extends AppW {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
-		for(GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+		for (GeoElement geo : kernel.getConstruction()
+				.getGeoSetConstructionOrder()) {
 			if (geo.hasScripts()) {
 				getAsyncManager().loadAllCommands();
 				break;

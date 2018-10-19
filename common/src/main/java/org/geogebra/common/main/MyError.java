@@ -102,7 +102,7 @@ public class MyError extends java.lang.Error {
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
 		sb.append(getError(getMessage()));
-		if(strs != null){
+		if (strs != null) {
 			sb.append(" \n");
 			for (String part : strs) {
 				sb.append(part);

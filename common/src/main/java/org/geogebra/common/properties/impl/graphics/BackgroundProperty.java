@@ -38,20 +38,27 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
         // after settings
         EuclidianView3D euclidianView3D = (EuclidianView3D) app.getActiveEuclidianView();
         if (euclidianView3D.isAREnabled()) {
-            switch (index) {
-                case 0:
-                    euclidianView3D.getRenderer().setNoneBackground();
-                    euclidianView3D.getRenderer().setBackgroundStyle(ConstructionDefaults.BACKGROUND_VISIBLE_NONE);
-                    break;
-                case 1:
-                    euclidianView3D.getRenderer().setTransparentBackground();
-                    euclidianView3D.getRenderer().setBackgroundStyle(ConstructionDefaults.BACKGROUND_VISIBLE_TRANSPARENT);
-                    break;
-                case 2:
-                    euclidianView3D.getRenderer().setOpaqueBackground(new float[]{1, 1, 1, 1}); // set background color white
-                    euclidianView3D.getRenderer().setBackgroundStyle(ConstructionDefaults.BACKGROUND_VISIBLE_OPAQUE);
-                    break;
-            }
+			switch (index) {
+			case 0:
+				euclidianView3D.getRenderer().setNoneBackground();
+				euclidianView3D.getRenderer().setBackgroundStyle(
+						ConstructionDefaults.BACKGROUND_VISIBLE_NONE);
+				break;
+			case 1:
+				euclidianView3D.getRenderer().setTransparentBackground();
+				euclidianView3D.getRenderer().setBackgroundStyle(
+						ConstructionDefaults.BACKGROUND_VISIBLE_TRANSPARENT);
+				break;
+			case 2:
+				// set background color white
+				euclidianView3D.getRenderer()
+						.setOpaqueBackground(new float[] { 1, 1, 1, 1 });
+				euclidianView3D.getRenderer().setBackgroundStyle(
+						ConstructionDefaults.BACKGROUND_VISIBLE_OPAQUE);
+				break;
+			default:
+				break;
+			}
         }
     }
 

@@ -31,6 +31,7 @@ public class GroupButtonMow extends FlowPanel {
 	 * @param groupName
 	 *            name of the group
 	 * @param selected
+	 *            whether it's selected initially
 	 * @param callBack
 	 *            to add to selected/unselected groups list
 	 */

@@ -4,6 +4,7 @@ import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.SaveController.SaveListener;
@@ -414,11 +415,11 @@ public class ShareDialogMow2 extends DialogBoxW
 	 *            callback for share with group
 	 */
 	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
-		for (String group : changedGroups.keySet()) {
-			Log.debug("SHARE WITH GROUP: " + group + " is shared: "
-					+ changedGroups.get(group));
+		for (Entry<String, Boolean> group : changedGroups.entrySet()) {
+			Log.debug("SHARE WITH GROUP: " + group.getKey() + " is shared: "
+					+ group.getValue());
 			appW.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
-					group, changedGroups.get(group), groupCallback);
+					group.getKey(), group.getValue(), groupCallback);
 		}
 	}
 
