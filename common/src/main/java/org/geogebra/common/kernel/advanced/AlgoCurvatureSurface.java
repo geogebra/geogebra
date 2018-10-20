@@ -2,10 +2,9 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -28,37 +27,14 @@ public class AlgoCurvatureSurface extends AlgoElement {
 	private GeoPointND A;
 	private GeoFunctionNVar f;
 	// partial derivatives
-	private GeoFunctionNVar fx;
-	private GeoFunctionNVar fxx;
-	private GeoFunctionNVar fy;
-	private GeoFunctionNVar fyy;
-	private GeoFunctionNVar fxy;
+	private ExpressionNode fx;
+	private ExpressionNode fxx;
+	private ExpressionNode fy;
+	private ExpressionNode fyy;
+	private ExpressionNode fxy;
 	private GeoNumeric n; // output
+	private ExpressionNode lastExpression;
 
-	private AlgoDerivative algoCASfx;
-	private AlgoDerivative algoCASfxx;
-	private AlgoDerivative algoCASfy;
-	private AlgoDerivative algoCASfyy;
-	private AlgoDerivative algoCASfxy;
-
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            output label
-	 * @param A
-	 *            point
-	 * @param f
-	 *            2var function
-	 */
-	public AlgoCurvatureSurface(Construction cons, String label, GeoPointND A,
-			GeoFunctionNVar f) {
-		this(cons, A, f);
-
-		if (label != null) {
-			n.setLabel(label);
-		}
-	}
 
 	/**
 	 * @param cons
@@ -76,55 +52,26 @@ public class AlgoCurvatureSurface extends AlgoElement {
 
 		n = new GeoNumeric(cons);
 
-		FunctionVariable[] vars = f.getFunctionVariables();
+		setInputOutput();
+		compute();
+	}
 
+	private void expand() {
+		FunctionVariable[] vars = f.getFunctionVariables();
 		if (vars.length != 2) {
 			return;
 		}
 
-		GeoNumeric x = new GeoNumeric(cons);
-		// x.setLocalVariableLabel("x");
-		x.setLocalVariableLabel(vars[0].getSetVarString());
-
-		GeoNumeric y = new GeoNumeric(cons);
-		// y.setLocalVariableLabel("y");
-		y.setLocalVariableLabel(vars[1].getSetVarString());
-
-		GeoNumeric one = new GeoNumeric(cons, 1);
-		EvalInfo info = new EvalInfo(false);
+		FunctionVariable x = vars[0];
+		FunctionVariable y = vars[1];
 		// First derivative of function f
-		algoCASfx = new AlgoDerivative(cons, f, x, one, false, info);
-		cons.removeFromConstructionList(algoCASfx);
-		this.fx = (GeoFunctionNVar) algoCASfx.getResult();
+		fx = f.getFunction().derivative(x, kernel).wrap();
+		fy = f.getFunction().derivative(y, kernel).wrap();
 
 		// Second derivative of function f
-		algoCASfxx = new AlgoDerivative(cons, fx, x, one, false, info);
-		cons.removeFromConstructionList(algoCASfxx);
-		this.fxx = (GeoFunctionNVar) algoCASfxx.getResult();
-
-		// First derivative of function f
-		algoCASfy = new AlgoDerivative(cons, f, y, one, false, info);
-		cons.removeFromConstructionList(algoCASfy);
-		this.fy = (GeoFunctionNVar) algoCASfy.getResult();
-
-		// Second derivative of function f
-		algoCASfyy = new AlgoDerivative(cons, fy, y, one, false, info);
-		cons.removeFromConstructionList(algoCASfyy);
-		this.fyy = (GeoFunctionNVar) algoCASfyy.getResult();
-
-		// Second derivative of function f
-		algoCASfxy = new AlgoDerivative(cons, fx, y, one, false, info);
-		cons.removeFromConstructionList(algoCASfxy);
-		this.fxy = (GeoFunctionNVar) algoCASfxy.getResult();
-
-		// Log.debug("x' = "+ fx.toString(StringTemplate.defaultTemplate));
-		// Log.debug("x'' = "+ fxx.toString(StringTemplate.defaultTemplate));
-		// Log.debug("y' = "+ fy.toString(StringTemplate.defaultTemplate));
-		// Log.debug("y'' = "+ fyy.toString(StringTemplate.defaultTemplate));
-		// Log.debug("fxy = "+ fxy.toString(StringTemplate.defaultTemplate));
-
-		setInputOutput();
-		compute();
+		this.fxx = fx.derivative(x, kernel).wrap();
+		this.fyy = fy.derivative(y, kernel).wrap();
+		this.fxy = fx.derivative(y, kernel).wrap();
 	}
 
 	@Override
@@ -132,15 +79,13 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		return Commands.Curvature;
 	}
 
-	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = (GeoElement) A;
 		input[1] = f;
 
-		super.setOutputLength(1);
-		super.setOutput(0, n);
+		setOnlyOutput(n);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -153,7 +98,10 @@ public class AlgoCurvatureSurface extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
+		if (f.getFunctionExpression() != lastExpression) {
+			expand();
+			lastExpression = f.getFunctionExpression();
+		}
 		if (!A.isFinite() || fx == null || fxx == null || fy == null
 				|| fyy == null || fxy == null) {
 			n.setUndefined();
@@ -164,13 +112,14 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		double y = A.getInhomY();
 		// don't need z, take point vertically above if not on surface
 
-		double[] xy = { x, y };
+		f.getFunctionVariables()[0].set(x);
+		f.getFunctionVariables()[1].set(y);
 
-		double fxEval = fx.evaluate(xy);
-		double fyEval = fy.evaluate(xy);
-		double fxxEval = fxx.evaluate(xy);
-		double fyyEval = fyy.evaluate(xy);
-		double fxyEval = fxy.evaluate(xy);
+		double fxEval = fx.evaluateDouble();
+		double fyEval = fy.evaluateDouble();
+		double fxxEval = fxx.evaluateDouble();
+		double fyyEval = fyy.evaluateDouble();
+		double fxyEval = fxy.evaluateDouble();
 
 		double top = (fxxEval * fyyEval - fxyEval * fxyEval);
 		double bottomSqrt = 1 + fxEval * fxEval + fyEval * fyEval;
@@ -178,25 +127,6 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		double k = top / (bottomSqrt * bottomSqrt);
 
 		n.setValue(k);
-
-	}
-
-	@Override
-	public void remove() {
-		if (removed) {
-			return;
-		}
-		super.remove();
-		((GeoElement) A).removeAlgorithm(algoCASfx);
-		f.removeAlgorithm(algoCASfx);
-		((GeoElement) A).removeAlgorithm(algoCASfxx);
-		f.removeAlgorithm(algoCASfxx);
-		((GeoElement) A).removeAlgorithm(algoCASfy);
-		f.removeAlgorithm(algoCASfy);
-		((GeoElement) A).removeAlgorithm(algoCASfyy);
-		f.removeAlgorithm(algoCASfyy);
-		((GeoElement) A).removeAlgorithm(algoCASfxy);
-		f.removeAlgorithm(algoCASfxy);
 	}
 
 }
