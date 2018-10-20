@@ -927,7 +927,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 								}
 								if (geo instanceof GeoText && wasLaTeX
 										&& geo.isIndependent()) {
-									((GeoText)geo).setLaTeX(true, false);
+									((GeoText) geo).setLaTeX(true, false);
 								}
 								if (marblePanel != null) {
 									marblePanel.updateIcons(false);

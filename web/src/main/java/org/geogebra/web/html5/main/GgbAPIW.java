@@ -1110,6 +1110,11 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAsyncManager().asyncEvalCommandGetLabels(command, onSuccess, onFailure);
 	}
 
+	/**
+	 * Try to evaluate command only once, might fail if the command is not loaded
+	 * @param cmdString command to evaluate
+	 * @return whether the evaluation succeeded
+	 */
 	public synchronized boolean evalCommandNoException(String cmdString) {
 		try {
 			return super.evalCommand(cmdString);
@@ -1120,6 +1125,11 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * Try to evaluate command only once, might fail if the command is not loaded
+	 * @param cmdString command to evaluate
+	 * @return comma separated list of labels of the resulting Geos
+	 */
 	public synchronized String evalCommandGetLabelsNoException(String cmdString) {
 		try {
 			return super.evalCommandGetLabels(cmdString);

@@ -143,7 +143,7 @@ public class MyError extends java.lang.Error {
 		if ("ReplaceFailed".equals(ret)) {
 			return "Redefinition failed";
 		}
-		if("InvalidInput".equals(ret)){
+		if ("InvalidInput".equals(ret)) {
 			return "Please check your input";
 		}
 

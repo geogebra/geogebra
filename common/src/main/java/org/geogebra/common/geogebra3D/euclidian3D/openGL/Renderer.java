@@ -1942,7 +1942,7 @@ public abstract class Renderer implements RendererInterface {
 
 	public void setBackgroundColor() {
 	    // only for AR
-    };
+    }
 
 	public void setBackgroundStyle(int backgroundStyle) {
 		mBackgroundStyle = backgroundStyle;

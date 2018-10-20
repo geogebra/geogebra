@@ -1402,7 +1402,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
-		for(GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
 			if (geo.hasScripts()) {
 				getAsyncManager().loadAllCommands();
 				break;

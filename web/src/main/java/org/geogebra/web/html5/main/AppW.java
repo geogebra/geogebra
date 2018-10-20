@@ -520,6 +520,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return videoManager;
 	}
 
+	/**
+	 * Use the async manager's schedule method when you try to access
+	 * parts of the code that have been split by the GWT compiler
+	 * @return the instance of the AsyncManager
+	 */
 	public final AsyncManager getAsyncManager() {
 		if (asyncManager == null) {
 			asyncManager = new AsyncManager(this);
@@ -779,6 +784,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
+	 * Try loading a file until it succeeds (all modules are loaded)
 	 * @param archiveContent
 	 *            zip archive content
 	 * @param asSlide
@@ -795,6 +801,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		getAsyncManager().scheduleCallback(r);
 	}
 
+	/**
+	 * Try loading a file only once (might fail with CommandNotLoadedError)
+	 * @param archiveContent
+	 *            zip archive content
+	 * @param asSlide
+	 *            whether to reload just a slide
+	 */
 	public void loadFileWithoutErrorHandling(GgbFile archiveContent, boolean asSlide) {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);

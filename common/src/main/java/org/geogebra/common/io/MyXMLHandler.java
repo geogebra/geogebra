@@ -295,7 +295,7 @@ public class MyXMLHandler implements DocHandler {
 	@Override
 	final public void endDocument() throws SAXException {
 		if (errors.size() > 0) {
-			StringBuilder sb= new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			for (String error : errors) {
 				sb.append(Unicode.CENTER_DOT).append(' ').append(error)
 						.append('\n');

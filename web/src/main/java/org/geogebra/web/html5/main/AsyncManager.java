@@ -26,16 +26,27 @@ public class AsyncManager {
 
 	private List<Runnable> callbacks;
 
+	/**
+	 * @param app Application
+	 */
 	public AsyncManager(AppW app) {
 		this.app = app;
 		callbacks = new ArrayList<>();
 	}
 
+	/**
+	 * Try executing r until it succeeds
+	 * @param r code that requires modules that might've not been loaded yet
+	 */
 	public void scheduleCallback(Runnable r) {
 		callbacks.add(r);
 		onResourceLoaded();
 	}
 
+	/**
+	 * Check if all modules are loaded. If not, throw error and
+	 * ensure they will be before the next async callback is evaluated
+	 */
 	public void loadAllCommands() {
 		try {
 			final CommandDispatcher cmdDispatcher = app.getKernel()
@@ -52,6 +63,13 @@ public class AsyncManager {
 		}
 	}
 
+
+	/**
+	 * Ensure that all the specified modules are loaded before
+	 * any other code inside async callback is run
+	 * @param modules modules to preload
+	 *                   (null -> preload all specified in defaultPreload)
+	 */
 	public void ensureModulesLoaded(String[] modules) {
 		final CommandDispatcher cmdDispatcher = app.getKernel()
 				.getAlgebraProcessor().getCmdDispatcher();
@@ -93,6 +111,12 @@ public class AsyncManager {
 		callbacks.add(0, r);
 	}
 
+	/**
+	 * Asynchronously evaluate a command
+	 * @param command command to evaluate
+	 * @param onSuccess function to be called when the execution succeeds
+	 * @param onFailure function to be called when the execution fails
+	 */
 	public void asyncEvalCommand(final String command, final JavaScriptObject onSuccess,
 			final JavaScriptObject onFailure) {
 		Runnable r = new Runnable() {
@@ -110,6 +134,13 @@ public class AsyncManager {
 		scheduleCallback(r);
 	}
 
+	/**
+	 * Asynchronously evaluate a command
+	 * @param command command to evaluate
+	 * @param onSuccess function to be called when the execution succeeds
+	 *                     (with the labels of the created Geos)
+	 * @param onFailure function to be called if the execution fails
+	 */
 	public void asyncEvalCommandGetLabels(final String command, final JavaScriptObject onSuccess,
 			final JavaScriptObject onFailure) {
 		Runnable r = new Runnable() {
@@ -132,6 +163,11 @@ public class AsyncManager {
 		}
 	}-*/;
 
+	/**
+	 * Split module has finished loading: try to run scheduled
+	 * callbacks, until all of them have succeeded, or one requires
+	 * additional modules
+	 */
 	public void onResourceLoaded() {
 		Log.debug("resource loaded called");
 		while (callbacks.size() > 0) {
