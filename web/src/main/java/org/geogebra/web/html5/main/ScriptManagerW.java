@@ -97,12 +97,12 @@ public class ScriptManagerW extends ScriptManager {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {
 			if (args != null && args.length > 1) {
-				callListenerArray(this.api, jsFunction, args);
+				callListenerNativeArray(this.api, jsFunction, args);
 				return;
 			}
 			String singleArg = args != null && args.length > 0
 					? args[0] : null;
-			callListener(this.api, jsFunction, singleArg, null);
+			callListenerNative(this.api, jsFunction, singleArg, null);
 			return;
 		}
 		app.callAppletJavaScript(jsFunction, args);
@@ -118,7 +118,7 @@ public class ScriptManagerW extends ScriptManager {
 		try {
 			if (jsFunction != null && jsFunction.length() > 0
 					&& jsFunction.charAt(0) <= '9') {
-				callListener(this.api, jsFunction, arg0, arg1);
+				callListenerNative(this.api, jsFunction, arg0, arg1);
 				return;
 			}
 			JsEval.callAppletJavaScript(jsFunction, arg0, arg1);
@@ -127,30 +127,6 @@ public class ScriptManagerW extends ScriptManager {
 			Log.warn("Error in user script: " + jsFunction + " : "
 					+ t.getMessage());
 		}
-	}
-
-	private void callListener(final JavaScriptObject api2,
-			final String jsFunction, final String arg0, final String arg1) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				callListenerNative(api2, jsFunction, arg0, arg1);
-			}
-		};
-
-		((AppW) app).getAsyncManager().scheduleCallback(r);
-	}
-
-	private void callListenerArray(final JavaScriptObject api2,
-			final String jsFunction, final String... args) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				callListenerNativeArray(api2, jsFunction, args);
-			}
-		};
-
-		((AppW) app).getAsyncManager().scheduleCallback(r);
 	}
 
 	private native void callListenerNative(JavaScriptObject api2,
