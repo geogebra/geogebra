@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.cas.AlgoAsymptoteFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,7 +15,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Asymptote[ &lt;GeoConic> ]
  */
-public class CmdAsymptote extends CommandProcessor {
+public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
