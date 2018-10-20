@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherCommand
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
@@ -23,7 +24,7 @@ public class CommandDispatcher3DW extends CommandDispatcher3D {
 			GWT.runAsync(CommandDispatcher3D.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
-
+					Log.error("Loading failed for 3D commands");
 				}
 
 				@Override

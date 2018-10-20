@@ -83,6 +83,8 @@ public class AsyncManager {
 					case "CAS":
 						cmdDispatcher.getCASDispatcher();
 						break;
+					default:
+						Log.debug("Tring to preload nonexistent module: " + module);
 					}
 				}
 			}

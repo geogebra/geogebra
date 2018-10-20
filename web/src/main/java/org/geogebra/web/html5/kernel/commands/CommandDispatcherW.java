@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcherStats;
 import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
@@ -39,7 +40,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
-
+							Log.error("Loading failed for discrete commands");
 						}
 
 						@Override
@@ -63,7 +64,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
-
+							Log.error("Loading failed for scripting commands");
 						}
 
 						@Override
@@ -88,7 +89,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
-
+							Log.error("Loading failed for advanced commands");
 						}
 
 						@Override
@@ -111,7 +112,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 			GWT.runAsync(CommandDispatcherCAS.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
-
+					Log.error("Loading failed for CAS commands");
 				}
 
 				@Override
@@ -134,7 +135,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 			GWT.runAsync(CommandDispatcherStats.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
-
+					Log.error("Loading failed for stats commands");
 				}
 
 				@Override
@@ -157,7 +158,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 			GWT.runAsync(CommandDispatcherSteps.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
-
+					Log.error("Loading failed for steps commands");
 				}
 
 				@Override
@@ -180,7 +181,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 			GWT.runAsync(Prover.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
-
+					Log.error("Loading failed for prover commands");
 				}
 
 				@Override
