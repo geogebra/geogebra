@@ -333,7 +333,7 @@ public class StepHelper {
 					return so;
 				}
 			} else if (so.isOperation(Operation.MINUS)) {
-				return StepNode.minus(getOne(so, op));
+				return minus(getOne(so, op));
 			} else if (so.isOperation(Operation.PLUS)) {
 				for (StepExpression operand : so) {
 					StepExpression root = getOne(operand, op);
@@ -368,7 +368,7 @@ public class StepHelper {
 				underAbs.setColor(++colorTracker[0]);
 
 				if (isNegative(underAbs, si.getLeftBound(), si.getRightBound(), variable)) {
-					StepExpression result = StepNode.minus(so.getOperand(0));
+					StepExpression result = minus(so.getOperand(0));
 					result.setColor(colorTracker[0]);
 					steps.add(SolutionStepType.IS_NEGATIVE_IN, underAbs, sl);
 					return result;
@@ -397,7 +397,7 @@ public class StepHelper {
 		} else if (Double.isInfinite(b.getValue()) && b.getValue() > 0) {
 			evaluateAt = StepNode.add(a, 10);
 		} else {
-			evaluateAt = StepNode.divide(StepNode.add(a, b), 2);
+			evaluateAt = divide(StepNode.add(a, b), 2);
 		}
 
 		return x.getValueAt(variable, evaluateAt.getValue()) < 0;
@@ -459,7 +459,7 @@ public class StepHelper {
 		if (!isZero(integerA) && !isZero(integerB)) {
 			constant = StepConstant.create(StepNode.lcm(integerA, integerB));
 		} else {
-			constant = StepNode.multiply(integerA, integerB);
+			constant = multiply(integerA, integerB);
 		}
 
 		StepExpression GCD = simpleGCD(aFactored, bFactored);

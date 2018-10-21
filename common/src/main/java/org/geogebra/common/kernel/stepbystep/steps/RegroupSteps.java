@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
@@ -971,8 +970,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 							long valA = Math.round(bases.get(i).getValue());
 							long valB = Math.round(bases.get(j).getValue());
 
-							double baseA = Math.pow(valA, 1.0 / StepNode.getIntegerPower(valA));
-							double baseB = Math.pow(valB, 1.0 / StepNode.getIntegerPower(valB));
+							double baseA = Math.pow(valA, 1.0 / getIntegerPower(valA));
+							double baseB = Math.pow(valB, 1.0 / getIntegerPower(valB));
 
 							if (isEqual(baseA, baseB)) {
 								if (!isEqual(bases.get(i), baseA)) {
@@ -994,7 +993,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < bases.size(); i++) {
 					if (basesToConvert.contains(bases.get(i))) {
 						long value = Math.round(bases.get(i).getValue());
-						double exponent = StepNode.getIntegerPower(value);
+						double exponent = getIntegerPower(value);
 						double base = Math.pow(value, 1 / exponent);
 
 						StepExpression result = power(StepConstant.create(base), exponent);

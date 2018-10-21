@@ -88,11 +88,9 @@ public class GraphicsPropertiesList extends PropertiesList {
 				propertyList.add(new AxesVisibilityProperty(mLocalization,
 						euclidianSettings));
 
-                if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE)) {
-                    if (activeView.isEuclidianView3D()) {
-                        propertyList.add(new PlaneVisibilityProperty(mLocalization,
-                                (EuclidianSettings3D) euclidianSettings));
-                    }
+                if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE) && activeView.isEuclidianView3D()) {
+                    propertyList.add(new PlaneVisibilityProperty(mLocalization,
+                        (EuclidianSettings3D) euclidianSettings));
                 }
 
                 if (mApp.has(Feature.MOB_BACKGROUND_PROPERTY)) {
