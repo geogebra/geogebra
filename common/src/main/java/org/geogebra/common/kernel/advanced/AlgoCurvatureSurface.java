@@ -35,7 +35,6 @@ public class AlgoCurvatureSurface extends AlgoElement {
 	private GeoNumeric n; // output
 	private ExpressionNode lastExpression;
 
-
 	/**
 	 * @param cons
 	 *            construction

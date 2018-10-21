@@ -17,8 +17,7 @@ public class BracketsError extends MyError {
 	 *            parsed string
 	 */
 	public BracketsError(Localization loc, String input) {
-		super(loc, "UnbalancedBrackets");
-
+		super(loc, "UnbalancedBrackets", input);
 	}
 
 }

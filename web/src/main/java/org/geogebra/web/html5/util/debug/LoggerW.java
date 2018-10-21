@@ -126,6 +126,6 @@ public class LoggerW extends Log {
 	}-*/;
 
 	public static void loaded(String string) {
-		printWebConsoleError("Loaded: " + string);
+		debug("Loaded: " + string);
 	}
 }

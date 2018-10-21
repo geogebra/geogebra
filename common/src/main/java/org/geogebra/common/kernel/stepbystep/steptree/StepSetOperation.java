@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import org.geogebra.common.main.Localization;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import org.geogebra.common.main.Localization;
 
 public class StepSetOperation extends StepLogical implements Iterable<StepLogical> {
 
@@ -31,9 +31,10 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 
 	public void addOperand(StepLogical sl) {
 		if (sl != null) {
-			if (isSetOperation(SetOperation.UNION) && sl.isSetOperation(SetOperation.UNION) ||
-					isSetOperation(SetOperation.INTERSECT) &&
-							sl.isSetOperation(SetOperation.INTERSECT)) {
+			if (isSetOperation(SetOperation.UNION)
+					&& sl.isSetOperation(SetOperation.UNION)
+					|| isSetOperation(SetOperation.INTERSECT)
+							&& sl.isSetOperation(SetOperation.INTERSECT)) {
 				for (StepLogical operand : (StepSetOperation) sl) {
 					addOperand(operand);
 				}
@@ -184,8 +185,8 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 				}
 				return si.toString();
 			case DIFFERENCE:
-				return operands.get(0).toLaTeXString(loc, colored) + " \\setminus " +
-						operands.get(1).toLaTeXString(loc, colored);
+			return operands.get(0).toLaTeXString(loc, colored) + " \\setminus "
+					+ operands.get(1).toLaTeXString(loc, colored);
 
 		}
 		return "";

@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import org.geogebra.common.main.Localization;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.geogebra.common.main.Localization;
 
 public class SolutionLine extends SolutionStep {
 
@@ -72,13 +72,13 @@ public class SolutionLine extends SolutionStep {
 			substeps = new ArrayList<>();
 		}
 
-		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine &&
-				((SolutionLine) s).parameters == null) {
+		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine
+				&& ((SolutionLine) s).parameters == null) {
 			SolutionLine line = (SolutionLine) s;
 
 			for (int i = 1; i < substeps.size(); i++) {
-				if (substeps.get(i) instanceof SolutionLine &&
-						line.type == ((SolutionLine) substeps.get(i)).type) {
+				if (substeps.get(i) instanceof SolutionLine
+						&& line.type == ((SolutionLine) substeps.get(i)).type) {
 					if (line.colors != null) {
 						((SolutionLine) substeps.get(i)).colors.addAll(line.colors);
 					}

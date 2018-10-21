@@ -1,13 +1,17 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
-
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 enum ExpandSteps implements SimplificationStepGenerator {
 
@@ -18,8 +22,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.noOfOperands() != 2 || !so.getOperand(0).isSum() ||
-						!so.getOperand(1).isSum()) {
+				if (so.noOfOperands() != 2 || !so.getOperand(0).isSum()
+						|| !so.getOperand(1).isSum()) {
 					return sn.iterateThrough(this, sb, tracker);
 				}
 
@@ -30,8 +34,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					return sn.iterateThrough(this, sb, tracker);
 				}
 
-				if (first.getOperand(0).equals(second.getOperand(0)) &&
-						first.getOperand(1).equals(second.getOperand(1).negate())) {
+				if (first.getOperand(0).equals(second.getOperand(0))
+						&& first.getOperand(1).equals(second.getOperand(1).negate())) {
 					first.getOperand(0).setColor(tracker.getColorTracker());
 					second.getOperand(0).setColor(tracker.incColorTracker());
 					first.getOperand(1).setColor(tracker.getColorTracker());
@@ -50,8 +54,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					return new StepOperation(Operation.PLUS, sum);
 				}
 
-				if (first.getOperand(1).equals(second.getOperand(1)) &&
-						first.getOperand(0).equals(second.getOperand(0).negate())) {
+				if (first.getOperand(1).equals(second.getOperand(1))
+						&& first.getOperand(0).equals(second.getOperand(0).negate())) {
 					first.getOperand(1).setColor(tracker.getColorTracker());
 					second.getOperand(1).setColor(tracker.incColorTracker());
 					first.getOperand(0).setColor(tracker.getColorTracker());
@@ -100,8 +104,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.POWER) && so.getOperand(0).isSum() &&
-						so.getOperand(1).getValue() > 0 && so.getOperand(1).isInteger()) {
+				if (so.isOperation(Operation.POWER) && so.getOperand(0).isSum()
+						&& so.getOperand(1).getValue() > 0 && so.getOperand(1).isInteger()) {
 					StepOperation sum = (StepOperation) so.getOperand(0);
 
 					if (so.getOperand(1).getValue() + sum.noOfOperands() < 6) {
@@ -128,8 +132,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 				operand.setColor(tracker.incColorTracker());
 			}
 
-			if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2 &&
-					sum.getOperand(1).isNegative()) {
+			if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2
+					&& sum.getOperand(1).isNegative()) {
 				sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
 
 				return new StepOperation(Operation.PLUS, power(sum.getOperand(0), 2),
@@ -179,7 +183,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 
 	DEFAULT_EXPAND {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
 					RegroupSteps.DEFAULT_REGROUP,
 					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
@@ -216,9 +221,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			}
 
 			if (first != null && second != null && (first.isSum() || second.isSum())) {
-				if (!(strongExpand != null && strongExpand
-						|| first.isInteger() && remaining == null ||
-						tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
+				if (!(strongExpand != null && strongExpand || first.isInteger() && remaining == null
+						|| tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
 					return sn;
 				}
 
@@ -244,8 +248,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					StepOperation soFirst = (StepOperation) first;
 					StepOperation soSecond = (StepOperation) second;
 
-					StepExpression[] terms = new StepExpression[soFirst.noOfOperands() *
-							soSecond.noOfOperands()];
+					StepExpression[] terms = new StepExpression[soFirst.noOfOperands()
+							* soSecond.noOfOperands()];
 					for (int i = 0; i < soFirst.noOfOperands(); i++) {
 						for (int j = 0; j < soSecond.noOfOperands(); j++) {
 							terms[i * soSecond.noOfOperands() + j] = multiply(

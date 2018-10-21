@@ -151,13 +151,15 @@ public enum SolutionStepType {
 			"$%0 \\in \\left[-1, 1\\right]$ for all $%1 \\in \\mathbb{R}$"),
 
 	NO_SOLUTION_ARCSIN("NoSolutionArcsin",
-			"$%0 \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ for all $%1 \\in \\mathbb{R}$"),
+			"$%0 \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ "
+					+ "for all $%1 \\in \\mathbb{R}$"),
 
 	NO_SOLUTION_ARCCOS("NoSolutionArccos",
 			"$%0 \\in \\left[0, \\pi\\right]$ for all $%1 \\in \\mathbb{R}$"),
 
 	NO_SOLUTION_ARCTAN("NoSolutionArctan",
-			"$%0 \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ for all $%1 \\in \\mathbb{R}$"),
+			"$%0 \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ "
+					+ "for all $%1 \\in \\mathbb{R}$"),
 
 	REPLACE_WITH("ReplaceAWithB", "Replace %0 with %1"),
 
@@ -303,7 +305,8 @@ public enum SolutionStepType {
 	FACTOR_SQUARE("FactorSquare", "Factor out the perfect square"),
 
 	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum", "Expand product",
-			"Multiply everything in the first parentheses with everything in the second parentheses"),
+			"Multiply everything in the first parentheses with "
+					+ "everything in the second parentheses"),
 
 	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum", "Expand product",
 			"Multiply %0 with everything in the parentheses"),
@@ -340,19 +343,21 @@ public enum SolutionStepType {
 	BINOM_CUBED_DIFF_FACTOR("BinomCubed",
 			"Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
 
-	IS_POSITIVE_IN_INEQUALITY("IsPositiveInInequality", "%0 is positive in %1, because there are " +
-			"an even number of negative values in the product"),
+	IS_POSITIVE_IN_INEQUALITY("IsPositiveInInequality",
+			"%0 is positive in %1, because there are "
+					+ "an even number of negative values in the product"),
 
-	IS_NEGATIVE_IN_INEQUALITY("IsNegativeInInequality", "%0 is negative in %1, because there are " +
-			"an odd number of negative values in the product"),
+	IS_NEGATIVE_IN_INEQUALITY("IsNegativeInInequality",
+			"%0 is negative in %1, because there are "
+					+ "an odd number of negative values in the product"),
 
 	IS_ZERO_IN("IsZeroIn", "%0 is zero in %1, because at least one of the multiplicands is zero"),
 
 	IS_INVALID_IN("IsInvalidIn", "%0 is invalid in %1, because there is a zero in the denominator"),
 
 	FACTOR_QUADRATIC("FactorQuadratic", "Factor the expression using $x_{1}, x_{2}$",
-			"Use $ax^2+bx+c = a\\left(x - x_{1}\\right)\\left(x - x_{2}\\right)$ " +
-					"to factor the expression"),
+			"Use $ax^2+bx+c = a\\left(x - x_{1}\\right)\\left(x - x_{2}\\right)$ "
+					+ "to factor the expression"),
 
 	FACTOR_OUT("FactorOutA", "Factor common", "Factor out %0"),
 
@@ -373,8 +378,8 @@ public enum SolutionStepType {
 	DISTRIBUTE_POWER_OVER_PRODUCT("DistributePowerOverProduct", "Distribute power over product"),
 
 	SQUARE_ROOT_MULTIPLIED_BY_ITSELF("SquareRootMultipliedByItself",
-			"When the square root of an expression in multiplied by itself, " +
-					"the result is that expression"),
+			"When the square root of an expression in multiplied by itself, "
+					+ "the result is that expression"),
 
 	EXPAND_ROOT("ExpandRoot",
 			"Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
@@ -480,12 +485,12 @@ public enum SolutionStepType {
 			"$\\frac{d}{dx} \\left[k \\cdot f(x) \\right] = k \\cdot \\frac{d}{dx} f(x)$"),
 
 	DIFF_PRODUCT("ProductRule", "Use the product rule",
-			"$\\frac{d}{dx}\\left[f(x) \\cdot g(x)\\right] = \\frac{d}{dx} f(x) \\cdot g(x) + f" +
-					"(x) \\cdot \\frac{d}{dx} g(x)$"),
+			"$\\frac{d}{dx}\\left[f(x) \\cdot g(x)\\right] = \\frac{d}{dx} f(x) \\cdot g(x) + f"
+					+ "(x) \\cdot \\frac{d}{dx} g(x)$"),
 
 	DIFF_FRACTION("QuotientRule", "Use the quotient rule",
-			"$\\frac{d}{dx} \\frac{f(x)}{g(x)} = \\frac{\\frac{d}{dx} f(x) \\cdot g(x) - f(x) " +
-					"\\cdot \\frac{d}{dx} g(x)}{(g(x))^2}$"),
+			"$\\frac{d}{dx} \\frac{f(x)}{g(x)} = \\frac{\\frac{d}{dx} f(x) \\cdot g(x) - f(x) "
+					+ "\\cdot \\frac{d}{dx} g(x)}{(g(x))^2}$"),
 
 	DIFF_VARIABLE("DifferentiateVariable", "Use the power rule", "$\\frac{d}{dx} x = 1$"),
 
@@ -533,11 +538,12 @@ public enum SolutionStepType {
 			"$\\frac{d}{dx} e^{u(x)} = e^{u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ROOT_CHAIN("RootRuleChain", "Use the root rule",
-			"$\\frac{d}{dx} \\sqrt[n]{u(x)} = \\frac{1}{n \\sqrt[n]{(u(x))^{n-1}}} \\cdot " +
-					"\\frac{d}{dx} u(x)$"),
+			"$\\frac{d}{dx} \\sqrt[n]{u(x)} = \\frac{1}{n \\sqrt[n]{(u(x))^{n-1}}} \\cdot "
+					+ "\\frac{d}{dx} u(x)$"),
 
-	DIFF_LOG_CHAIN("LogRuleChain", "Use the log rule", "$\\frac{d}{dx} \\log_{a}(u(x)) " +
-			"= \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)$"),
+	DIFF_LOG_CHAIN("LogRuleChain", "Use the log rule",
+			"$\\frac{d}{dx} \\log_{a}(u(x)) "
+					+ "= \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_NATURAL_LOG_CHAIN("NaturalLogRuleChain", "Use the log rule",
 			"$\\frac{d}{dx} \\ln(u(x)) = \\frac{1}{u(x)} \\cdot \\frac{d}{dx} u(x)$"),
@@ -552,12 +558,12 @@ public enum SolutionStepType {
 			"$\\frac{d}{dx} tan(u(x)) = \\frac{1}{cos^2(u(x))} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ARCSIN_CHAIN("ArcsinRuleChain", "Use the rules of inverse trigonometric funtions",
-			"$\\frac{d}{dx} arcsin(u(x)) " +
-					"= \\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)$"),
+			"$\\frac{d}{dx} arcsin(u(x)) "
+					+ "= \\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ARCCOS_CHAIN("ArccosRuleChain", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} " +
-					"\\cdot \\frac{d}{dx} u(x)"),
+			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} "
+					+ "\\cdot \\frac{d}{dx} u(x)"),
 
 	DIFF_ARCTAN_CHAIN("ArctanRuleChain", "Use the rules of inverse trigonometric funtions",
 			"\\frac{d}{dx} arctan(u(x)) = \\frac{1}{(u(x))^2+1} \\cdot \\frac{d}{dx} u(x)"),

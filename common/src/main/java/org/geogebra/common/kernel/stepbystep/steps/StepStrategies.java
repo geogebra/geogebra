@@ -212,7 +212,6 @@ public class StepStrategies {
 				SolveSteps.EXPAND, 
 		};
 
-
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 

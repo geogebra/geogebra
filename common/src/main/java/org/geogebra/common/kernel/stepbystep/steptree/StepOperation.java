@@ -1,12 +1,17 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-
-import java.util.*;
 
 public class StepOperation extends StepExpression implements Iterable<StepExpression> {
 
@@ -92,8 +97,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	private static boolean requiresDot(StepExpression a, StepExpression b) {
 		return b.nonSpecialConstant() || (a instanceof StepVariable && a.equals(b))
 				|| a.isInteger() && b.isFraction()
-				|| (b.isOperation(Operation.POWER) &&
-						requiresDot(a, ((StepOperation) b).getOperand(0)));
+				|| (b.isOperation(Operation.POWER)
+						&& requiresDot(a, ((StepOperation) b).getOperand(0)));
 	}
 
 	public int noOfOperands() {
@@ -190,8 +195,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		if (obj instanceof StepOperation) {
 			StepOperation so = (StepOperation) obj;
 
-			return so.operation == operation && so.operands.length == operands.length &&
-					Arrays.equals(getSortedOperandList(), so.getSortedOperandList());
+			return so.operation == operation && so.operands.length == operands.length
+					&& Arrays.equals(getSortedOperandList(), so.getSortedOperandList());
 		}
 
 		return false;

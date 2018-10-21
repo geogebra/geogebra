@@ -8,8 +8,8 @@ public abstract class StepLogical extends StepNode {
 	public abstract boolean contains(StepExpression se);
 
 	public boolean isSetOperation(SetOperation operation) {
-		return this instanceof StepSetOperation &&
-				((StepSetOperation) this).getOperation() == operation;
+		return this instanceof StepSetOperation
+				&& ((StepSetOperation) this).getOperation() == operation;
 	}
 
 }

@@ -71,8 +71,9 @@ public class StepInterval extends StepLogical {
 	public boolean equals(Object obj) {
 		if (obj instanceof StepInterval) {
 			StepInterval si = (StepInterval) obj;
-			return si.leftClosed == leftClosed && si.rightClosed == rightClosed &&
-					si.leftBound.equals(leftBound) && si.rightBound.equals(rightBound);
+			return si.leftClosed == leftClosed && si.rightClosed == rightClosed
+					&& si.leftBound.equals(leftBound)
+					&& si.rightBound.equals(rightBound);
 		}
 		return false;
 	}
@@ -109,10 +110,10 @@ public class StepInterval extends StepLogical {
 		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
 			return "\\mathbb{R}";
 		}
-		return loc.intervalStartBracket(leftClosed, StringTemplate.latexTemplate) +
-				leftBound.toLaTeXString(loc, colored) + "," +
-				rightBound.toLaTeXString(loc, colored) +
-				loc.intervalEndBracket(rightClosed, StringTemplate.latexTemplate);
+		return loc.intervalStartBracket(leftClosed, StringTemplate.latexTemplate)
+				+ leftBound.toLaTeXString(loc, colored) + ","
+				+ rightBound.toLaTeXString(loc, colored)
+				+ loc.intervalEndBracket(rightClosed, StringTemplate.latexTemplate);
 	}
 
 	@Override

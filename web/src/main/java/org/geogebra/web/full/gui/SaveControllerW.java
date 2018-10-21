@@ -76,7 +76,7 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCB) {
-		if (checkActiveMaterial() == false) {
+		if (!checkActiveMaterial()) {
 			return;
 		}
 		Material mat = app.getActiveMaterial();

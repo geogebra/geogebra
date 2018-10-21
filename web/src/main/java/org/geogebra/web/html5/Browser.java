@@ -771,6 +771,9 @@ public class Browser {
 		}
 	}-*/;
 
+	/**
+	 * @return whether current browser is Chrome
+	 */
 	public static boolean isChrome() {
 		return Navigator.getUserAgent().matches(".*Chrome/.*");
 	}
@@ -783,6 +786,11 @@ public class Browser {
 				|| Navigator.getUserAgent().contains("Mac OS");
 	}
 
+	/**
+	 * @param txt
+	 *            plaiin text file in UTF-8
+	 * @return valid data URL, browser dependent
+	 */
 	public static String addTxtMarker(String txt) {
 		return isiOS()
 				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)

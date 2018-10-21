@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -9,8 +11,6 @@ import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
-
-import java.util.List;
 
 public abstract class StepSolvable extends StepTransformable {
 
@@ -37,8 +37,8 @@ public abstract class StepSolvable extends StepTransformable {
 	public abstract StepSolvable swapSides();
 
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
-		return LHS.countNonConstOperation(operation, variable) +
-				RHS.countNonConstOperation(operation, variable);
+		return LHS.countNonConstOperation(operation, variable)
+				+ RHS.countNonConstOperation(operation, variable);
 	}
 
 	public int countOperation(Operation operation) {

@@ -1,17 +1,33 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.SolveFailedException;
-import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialSum;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.lcm;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquationSystem;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepLogical;
+import org.geogebra.common.kernel.stepbystep.steptree.StepMatrix;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 
 public class SystemSteps {
 
@@ -24,8 +40,8 @@ public class SystemSteps {
 		StepVariable minVariable = null;
 		for (int i = 0; i < ses.size(); i++) {
 			for (StepVariable variable : variables) {
-				if (ses.getEquation(i).LHS.isConstantIn(variable) &&
-						ses.getEquation(i).RHS.isConstantIn(variable)) {
+				if (ses.getEquation(i).LHS.isConstantIn(variable)
+						&& ses.getEquation(i).RHS.isConstantIn(variable)) {
 					continue;
 				}
 
@@ -34,8 +50,8 @@ public class SystemSteps {
 							tempSystem.getEquation(i).solve(variable, tempSteps);
 					int complexity = tempSteps.getSteps().getComplexity();
 
-					if (minSolutions == -1 || minSolutions > solutions.size() ||
-							(minSolutions == solutions.size() && minComplexity > complexity)) {
+					if (minSolutions == -1 || minSolutions > solutions.size()
+							|| (minSolutions == solutions.size() && minComplexity > complexity)) {
 						eqIndex = i;
 						minVariable = variable;
 						minSolutions = solutions.size();
@@ -96,7 +112,8 @@ public class SystemSteps {
 				StepSolvable tempEquation = replaceAll(equation, solution1, tempSteps)
 						.expand(tempSteps);
 
-				solution1.addVariableSolutionPair((StepVariable) tempEquation.LHS, tempEquation.RHS);
+				solution1.addVariableSolutionPair((StepVariable) tempEquation.LHS,
+						tempEquation.RHS);
 				finalSolutions.add(solution1);
 
 				steps.addGroup(header, tempSteps, solution1);
@@ -131,8 +148,7 @@ public class SystemSteps {
 
 	private static boolean contains(StepEquation se, StepSolution ss) {
 		for (Map.Entry<StepVariable, StepNode> pair : ss.getVariableSolutionPairs()) {
-			if (se.LHS.isConstantIn(pair.getKey()) ||
-					se.RHS.isConstantIn(pair.getKey())) {
+			if (se.LHS.isConstantIn(pair.getKey()) || se.RHS.isConstantIn(pair.getKey())) {
 				return true;
 			}
 		}
@@ -200,16 +216,15 @@ public class SystemSteps {
 		StepVariable eliminate = eliminateY ? y : x;
 		StepVariable substitute = eliminateY ? x : y;
 		StepExpression eliminateValue = null;
-		StepExpression substituteValue = null;
 
 		StepExpression coefficientOne;
 		StepExpression coefficientTwo;
 		if (eliminateY) {
-			StepExpression lcmy = StepHelper.LCM(y0, y1);
+			StepExpression lcmy = StepHelper.lcm(y0, y1);
 			coefficientOne = lcmy.quotient(y0);
 			coefficientTwo = lcmy.quotient(y1);
 		} else {
-			StepExpression lcmx = StepHelper.LCM(x0, x1);
+			StepExpression lcmx = StepHelper.lcm(x0, x1);
 			coefficientOne = lcmx.quotient(x0);
 			coefficientTwo = lcmx.quotient(x1);
 		}
@@ -245,7 +260,7 @@ public class SystemSteps {
 			return solutionsAdded;
 		}
 
-		substituteValue = (StepExpression) solutionsAdded.get(0).getValue();
+		StepExpression substituteValue = (StepExpression) solutionsAdded.get(0).getValue();
 
 		SolutionBuilder[] options = new SolutionBuilder[2];
 		SolutionLine[] headers = new SolutionLine[2];
@@ -393,7 +408,7 @@ public class SystemSteps {
 			for (int i = 0; i < ses.getEquations().length; i++) {
 				StepExpression GCD = matrix.get(i, 0);
 				for (int j = 1; j <= variables.size(); j++) {
-					GCD = StepHelper.GCD(GCD, matrix.get(i, j));
+					GCD = StepHelper.gcd(GCD, matrix.get(i, j));
 				}
 				if (!isOne(GCD)) {
 					matrix = matrix.divideRow(i, GCD, steps);

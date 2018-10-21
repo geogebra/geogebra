@@ -1,17 +1,40 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.plugin.Operation;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialRoot;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.simplifiedProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.abs;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.closeToAnInteger;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.gcd;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.getIntegerPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOdd;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.largestNthPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.lcm;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
+import org.geogebra.common.plugin.Operation;
 
 enum RegroupSteps implements SimplificationStepGenerator {
 
@@ -61,8 +84,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 
 				boolean[] found = new boolean[so.noOfOperands()];
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (so.getOperand(i).isOperation(Operation.MINUS) &&
-							((StepOperation) so.getOperand(i)).getOperand(0)
+					if (so.getOperand(i).isOperation(Operation.MINUS)
+							&& ((StepOperation) so.getOperand(i)).getOperand(0)
 									.isOperation(Operation.PLUS)) {
 						StepOperation innerSum =
 								(StepOperation) ((StepOperation) so.getOperand(i)).getOperand(0);
@@ -91,8 +114,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					}
 
 					for (int j = i + 1; !found[i] && j < so.noOfOperands(); j++) {
-						if (so.getOperand(i).equals(so.getOperand(j).negate()) ||
-								so.getOperand(j).equals(so.getOperand(i).negate())) {
+						if (so.getOperand(i).equals(so.getOperand(j).negate())
+								|| so.getOperand(j).equals(so.getOperand(i).negate())) {
 							so.getOperand(i).setColor(tracker.getColorTracker());
 							so.getOperand(j).setColor(tracker.getColorTracker());
 							sb.add(SolutionStepType.ELIMINATE_OPPOSITES, tracker.incColorTracker());
@@ -147,8 +170,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 						if (so.getOperand(i).isOperation(Operation.NROOT)) {
 							double currentRoot =
 									((StepOperation) so.getOperand(i)).getOperand(1).getValue();
-							if (closeToAnInteger(currentRoot) &&
-									!isEqual(commonRoot, currentRoot)) {
+							if (closeToAnInteger(currentRoot)
+									&& !isEqual(commonRoot, currentRoot)) {
 								StepExpression argument =
 										((StepOperation) so.getOperand(i)).getOperand(0);
 
@@ -419,8 +442,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 				if (so.getOperand(1).isOperation(Operation.PLUS)) {
 					StepOperation sum = (StepOperation) so.getOperand(1);
 
-					if (sum.noOfOperands() == 2 && (sum.getOperand(0).containsSquareRoot() ||
-							sum.getOperand(1).containsSquareRoot())) {
+					if (sum.noOfOperands() == 2 && (sum.getOperand(0).containsSquareRoot()
+							|| sum.getOperand(1).containsSquareRoot())) {
 						StepExpression toMultiply;
 
 						if (sum.getOperand(0).isNegative()) {
@@ -515,7 +538,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 
 						if (newPower != 0) {
 							newOperands[i] = power(StepConstant.create(Math
-											.pow(irrationals.get(i).getValue(), ((double) 1) / newPower)),
+									.pow(irrationals.get(i).getValue(), ((double) 1) / newPower)),
 									newPower);
 
 							irrationals.get(i).setColor(tracker.getColorTracker());
@@ -560,8 +583,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			if (sn.isOperation(Operation.POWER) &&
-					((StepOperation) sn).getOperand(0).isOperation(Operation.NROOT)) {
+			if (sn.isOperation(Operation.POWER)
+					&& ((StepOperation) sn).getOperand(0).isOperation(Operation.NROOT)) {
 				StepOperation power = (StepOperation) sn;
 				StepOperation root = (StepOperation) power.getOperand(0);
 
@@ -738,9 +761,9 @@ enum RegroupSteps implements SimplificationStepGenerator {
 			List<StepExpression> constantList = new ArrayList<>();
 			double constantSum = 0;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				if (coefficients[i] != null && variables[i] == null &&
-						(coefficients[i].nonSpecialConstant() ||
-						tracker.isDecimalSimplify() && coefficients[i].specialConstant())) {
+				if (coefficients[i] != null && variables[i] == null
+						&& (coefficients[i].nonSpecialConstant() || tracker.isDecimalSimplify()
+								&& coefficients[i].specialConstant())) {
 					constantList.add(coefficients[i]);
 					constantSum += coefficients[i].getValue();
 					used[i] = true;
@@ -942,8 +965,9 @@ enum RegroupSteps implements SimplificationStepGenerator {
 				List<StepExpression> basesToConvert = new ArrayList<>();
 				for (int i = 0; i < bases.size(); i++) {
 					for (int j = i + 1; j < bases.size(); j++) {
-						if (bases.get(i).isInteger() && bases.get(j).isInteger() &&
-								(!isEqual(exponents.get(i), 1) || !isEqual(exponents.get(j), 1))) {
+						if (bases.get(i).isInteger() && bases.get(j).isInteger()
+								&& (!isEqual(exponents.get(i), 1)
+										|| !isEqual(exponents.get(j), 1))) {
 							long valA = Math.round(bases.get(i).getValue());
 							long valB = Math.round(bases.get(j).getValue());
 
@@ -1144,8 +1168,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			if (sn.isOperation(Operation.POWER) &&
-					((StepOperation) sn).getOperand(0).isOperation(Operation.NROOT)) {
+			if (sn.isOperation(Operation.POWER)
+					&& ((StepOperation) sn).getOperand(0).isOperation(Operation.NROOT)) {
 				StepOperation so = (StepOperation) sn;
 
 				StepExpression exponent1 = so.getOperand(1);
@@ -1175,13 +1199,12 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-
 	SIMPLIFY_ROOT_OF_POWER {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			if (sn.isOperation(Operation.NROOT) &&
-					((StepOperation) sn).getOperand(0).isOperation(Operation.POWER)) {
+			if (sn.isOperation(Operation.NROOT)
+					&& ((StepOperation) sn).getOperand(0).isOperation(Operation.POWER)) {
 				StepOperation so = (StepOperation) sn;
 
 				StepExpression exponent1 = so.getOperand(1);
@@ -1199,8 +1222,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 
 					StepExpression result;
 
-					if (gcd.isEven() && (exponent2 == null || !exponent2.isEven()) &&
-							!(argument.canBeEvaluated() && argument.getValue() > 0)) {
+					if (gcd.isEven() && (exponent2 == null || !exponent2.isEven())
+							&& !(argument.canBeEvaluated() && argument.getValue() > 0)) {
 						result = nonTrivialRoot(nonTrivialPower(abs(argument), exponent2),
 								exponent1);
 						sb.add(SolutionStepType.REDUCE_ROOT_AND_POWER_EVEN, gcd);
@@ -1299,7 +1322,6 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-
 	SIMPLE_POWERS {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
@@ -1341,8 +1363,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.NROOT)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getOperand(1).isEven() && so.getOperand(0).nonSpecialConstant() &&
-						so.getOperand(0).isNegative()) {
+				if (so.getOperand(1).isEven() && so.getOperand(0).nonSpecialConstant()
+						&& so.getOperand(0).isNegative()) {
 					StepExpression result = StepConstant.UNDEFINED;
 
 					so.setColor(tracker.getColorTracker());

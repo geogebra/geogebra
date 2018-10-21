@@ -1,23 +1,38 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.plugin.Operation;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.makeProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.gcd;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.plugin.Operation;
 
 enum FactorSteps implements SimplificationStepGenerator {
 
 	SPLIT_PRODUCTS {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS) &&
-					!tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			if (sn.isOperation(Operation.PLUS)
+					&& !tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
 				StepOperation so = (StepOperation) sn;
 
 				List<StepExpression> commonBases = new ArrayList<>();
@@ -106,7 +121,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_COMMON {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -139,8 +155,9 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 					for (int j = 0; j < commonBases.size(); j++) {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
-							if (commonBases.get(j).equals(currentBases.get(i).get(k)) &&
-									commonExponents.get(j).equals(currentExponents.get(i).get(k))) {
+							if (commonBases.get(j).equals(currentBases.get(i).get(k))
+									&& commonExponents.get(j)
+											.equals(currentExponents.get(i).get(k))) {
 								currentBases.get(i).get(k).setColor(commonColor);
 								currentExponents.get(i).get(k).setColor(commonColor);
 								currentExponents.get(i).set(k, null);
@@ -173,7 +190,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_INTEGER {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -232,7 +250,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	COMPLETING_THE_SQUARE {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -285,7 +304,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_BINOM_SQUARED {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn instanceof StepOperation) {
 				StepOperation so = (StepOperation) sn;
 
@@ -378,7 +398,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_BINOM_CUBED {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -427,7 +448,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_DIFFERENCE_OF_SQUARES {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -469,7 +491,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_DIFFERENCE_AND_SUM_OF_CUBES {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -524,7 +547,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	REORGANIZE_POLYNOMIAL {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -565,8 +589,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 				for (long i = -constant; i <= constant; i++) {
 					for (long j = 1; j <= highestOrder; j++) {
-						if (i != 0 && constant % i == 0 && highestOrder % j == 0 &&
-								isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
+						if (i != 0 && constant % i == 0 && highestOrder % j == 0
+								&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
 
 							List<StepExpression> terms = new ArrayList<>();
 							for (int k = polynomialForm.length - 1; k > 0; k--) {
@@ -599,9 +623,10 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_POLYNOMIAL {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS) &&
-					tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			if (sn.isOperation(Operation.PLUS)
+					&& tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
 				StepOperation so = (StepOperation) sn;
 
 				StepVariable var = so.getListOfVariables().get(0);
@@ -622,8 +647,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 				for (long i = -constant; i <= constant; i++) {
 					for (long j = 1; j <= highestOrder; j++) {
-						if (i != 0 && constant % i == 0 && highestOrder % j == 0 &&
-								isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
+						if (i != 0 && constant % i == 0 && highestOrder % j == 0
+								&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
 
 							StepExpression[] factored = new StepExpression[polynomialForm.length];
 
@@ -641,7 +666,6 @@ enum FactorSteps implements SimplificationStepGenerator {
 											innerSum);
 								}
 
-
 								integerForm[k - 1] += i * integerForm[k] / j;
 							}
 
@@ -658,7 +682,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_BINOM_STRATEGY {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					COMPLETING_THE_SQUARE,
 					FACTOR_BINOM_SQUARED,
@@ -670,7 +695,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_POLYNOMIALS {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					REORGANIZE_POLYNOMIAL,
 					FACTOR_POLYNOMIAL,
@@ -684,7 +710,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_COMMON_SUBSTEP {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					SPLIT_PRODUCTS,
 					FACTOR_COMMON,
@@ -697,7 +724,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_STRATEGY {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 					FactorSteps.FACTOR_COMMON_SUBSTEP,
 					RegroupSteps.REGROUP_SUMS,
@@ -733,7 +761,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 	DEFAULT_FACTOR {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 					RegroupSteps.WEAK_REGROUP,
 					FactorSteps.FACTOR_STRATEGY

@@ -1,19 +1,42 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import org.geogebra.common.kernel.CASException;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.kernel.stepbystep.solution.*;
-import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.plugin.Operation;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
+import org.geogebra.common.kernel.CASException;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.stepbystep.solution.HasLaTeX;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
+import org.geogebra.common.kernel.stepbystep.solution.TableElement;
+import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
+import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryInteger;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
+import org.geogebra.common.kernel.stepbystep.steptree.StepLogical;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.plugin.Operation;
 
 public class StepHelper {
 
@@ -220,8 +243,8 @@ public class StepHelper {
 
 					if (so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
 							|| so.isOperation(Operation.DIVIDE)
-							&& so.getOperand(0).isConstantIn(var) ||
-							(so.isTrigonometric() || so.isInverseTrigonometric())
+									&& so.getOperand(0).isConstantIn(var)
+							|| (so.isTrigonometric() || so.isInverseTrigonometric())
 									&& !so.isConstantIn(var)) {
 						return so;
 					}
@@ -335,7 +358,7 @@ public class StepHelper {
 	}
 
 	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl,
-			StepVariable variable, SolutionBuilder steps, int colorTracker[]) {
+			StepVariable variable, SolutionBuilder steps, int[] colorTracker) {
 		if (se instanceof StepOperation && sl instanceof StepInterval) {
 			StepOperation so = (StepOperation) se;
 			StepInterval si = (StepInterval) sl;
@@ -418,7 +441,7 @@ public class StepHelper {
 		}
 	}
 
-	public static StepExpression LCM(StepExpression a, StepExpression b) {
+	public static StepExpression lcm(StepExpression a, StepExpression b) {
 		if (isZero(a) || isZero(b)) {
 			return null;
 		}
@@ -522,7 +545,7 @@ public class StepHelper {
 		return nonTrivialProduct(result, simpleGCD(nonIntegerA, nonIntegerB));
 	}
 
-	public static StepExpression GCD(StepExpression a, StepExpression b) {
+	public static StepExpression gcd(StepExpression a, StepExpression b) {
 		if (isZero(a)) {
 			return b;
 		}
@@ -587,8 +610,8 @@ public class StepHelper {
 
 			for (List<HasLaTeX> row : table.rows) {
 				if (row.get(j) == TableElement.ZERO) {
-					if (denominator != null &&
-							denominator.containsExpression((StepExpression) row.get(0))) {
+					if (denominator != null
+							&& denominator.containsExpression((StepExpression) row.get(0))) {
 						isInvalid = true;
 					}
 					isZero = true;
@@ -645,8 +668,8 @@ public class StepHelper {
 		}
 
 		for (int i = 0; i < intervals.size() - 1; i++) {
-			if (intervals.get(i).getRightBound().equals(intervals.get(i + 1).getLeftBound()) &&
-					intervals.get(i).isClosedRight()) {
+			if (intervals.get(i).getRightBound().equals(intervals.get(i + 1).getLeftBound())
+					&& intervals.get(i).isClosedRight()) {
 				intervals.set(i, new StepInterval(intervals.get(i).getLeftBound(),
 						intervals.get(i + 1).getRightBound(), intervals.get(i).isClosedLeft(),
 						intervals.get(i + 1).isClosedRight()));

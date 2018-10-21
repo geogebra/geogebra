@@ -28,6 +28,12 @@ public class GraphicsPropertiesList extends PropertiesList {
     private EuclidianView mEuclidianView;
     private Property[] propertiesListARView;
 
+	/**
+	 * @param app
+	 *            app
+	 * @param localization
+	 *            localization
+	 */
     public GraphicsPropertiesList(App app, Localization localization) {
         super(null);
         mApp = app;
@@ -110,9 +116,8 @@ public class GraphicsPropertiesList extends PropertiesList {
                 propertyList.toArray(propertiesListARView);
             }
             return propertiesListARView;
-        } else {
-            return mProperties;
         }
+		return mProperties;
     }
 
 }

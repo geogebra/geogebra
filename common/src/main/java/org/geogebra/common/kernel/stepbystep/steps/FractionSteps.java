@@ -1,5 +1,24 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.makeFraction;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.gcd;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepOperation.add;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
@@ -9,19 +28,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.makeFraction;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepOperation.add;
-
 enum FractionSteps implements SimplificationStepGenerator {
-
 
 	SPLIT_FRACTIONS {
 		@Override
@@ -36,8 +43,8 @@ enum FractionSteps implements SimplificationStepGenerator {
 				StepExpression numeratorRemainder = numerator.getNonInteger();
 				StepExpression denominatorRemainder = denominator.getNonInteger();
 
-				if (!isOne(denominatorCoefficient) &&
-						(!isOne(numeratorRemainder) || !isOne(denominatorRemainder))) {
+				if (!isOne(denominatorCoefficient)
+						&& (!isOne(numeratorRemainder) || !isOne(denominatorRemainder))) {
 					StepExpression firstPart = divide(numeratorCoefficient, denominatorCoefficient);
 					StepExpression secondPart = divide(numeratorRemainder, denominatorRemainder);
 					StepExpression result = multiply(firstPart, secondPart);
@@ -131,8 +138,8 @@ enum FractionSteps implements SimplificationStepGenerator {
 				StepOperation factored = (StepOperation) FactorSteps.FACTOR_STRATEGY
 						.apply(so, temp, new RegroupTracker());
 
-				if (!isOne(StepHelper.weakGCD(factored.getOperand(0), factored.getOperand(1))) &&
-						!so.equals(factored)) {
+				if (!isOne(StepHelper.weakGCD(factored.getOperand(0), factored.getOperand(1)))
+						&& !so.equals(factored)) {
 					sb.addGroup(SolutionStepType.FACTOR, temp, factored, sn);
 
 					tracker.incColorTracker();
@@ -232,8 +239,8 @@ enum FractionSteps implements SimplificationStepGenerator {
 						StepExpression common =
 								exponentsNumerator.get(i).getCommon(exponentsDenominator.get(j));
 
-						if (basesNumerator.get(i).equals(basesDenominator.get(j)) &&
-								!isZero(common)) {
+						if (basesNumerator.get(i).equals(basesDenominator.get(j))
+								&& !isZero(common)) {
 							basesNumerator.get(i).setColor(tracker.getColorTracker());
 							exponentsNumerator.get(i).setColor(tracker.getColorTracker());
 
@@ -313,8 +320,8 @@ enum FractionSteps implements SimplificationStepGenerator {
 					return result;
 				}
 
-				if (so.getOperand(0).isInteger() && so.getOperand(1).isInteger() &&
-						so.getOperand(0).integerDivisible(so.getOperand(1))) {
+				if (so.getOperand(0).isInteger() && so.getOperand(1).isInteger()
+						&& so.getOperand(0).integerDivisible(so.getOperand(1))) {
 					StepExpression result = so.getOperand(0).quotient(so.getOperand(1));
 					so.setColor(tracker.getColorTracker());
 					result.setColor(tracker.getColorTracker());
@@ -564,7 +571,6 @@ enum FractionSteps implements SimplificationStepGenerator {
 		}
 	},
 
-
 	ADD_FRACTIONS {
         @Override
         public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
@@ -646,7 +652,7 @@ enum FractionSteps implements SimplificationStepGenerator {
 					if (newDenominator == null) {
 						newDenominator = operand.getDenominator();
 					} else {
-						newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
+						newDenominator = StepHelper.lcm(newDenominator, operand.getDenominator());
 					}
 				}
 			}

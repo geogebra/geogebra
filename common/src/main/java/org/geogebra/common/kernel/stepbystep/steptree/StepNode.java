@@ -1,16 +1,22 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.*;
-import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.kernel.stepbystep.solution.HasLaTeX;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.Operation;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
+import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.stepbystep.solution.HasLaTeX;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.Operation;
 
 public abstract class StepNode implements HasLaTeX {
 
@@ -40,10 +46,11 @@ public abstract class StepNode implements HasLaTeX {
 	 */
 	public static StepTransformable convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
+			ExpressionNode en = (ExpressionNode) ev;
 			StepExpression left =
-					(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					(StepExpression) convertExpression(en.getLeft());
 			StepExpression right =
-					(StepExpression) convertExpression(((ExpressionNode) ev).getRight());
+					(StepExpression) convertExpression(en.getRight());
 
 			switch (((ExpressionNode) ev).getOperation()) {
 				case NO_OPERATION:
@@ -56,13 +63,13 @@ public abstract class StepNode implements HasLaTeX {
 				case ARCSIN:
 				case ARCCOS:
 				case ARCTAN:
-					return applyOp(((ExpressionNode) ev).getOperation(), left);
+					return applyOp(en.getOperation(), left);
 				case SQRT:
 					return root(left, 2);
 				case MINUS:
 					return add(left, StepNode.minus(right));
 				case PLUSMINUS:
-					if (((ExpressionNode) ev).getRight() instanceof MyNumberPair) {
+					if (en.getRight() instanceof MyNumberPair) {
 						return plusminus(left);
 					}
 					return add(left, plusminus(right));
@@ -87,15 +94,13 @@ public abstract class StepNode implements HasLaTeX {
 				case GREATER_EQUAL:
 					return new StepInequality(left, right, false, false);
 				case ARBCONST:
-					return new StepArbitraryInteger("k",
-							(int) ((ExpressionNode) ev).getLeft().evaluateDouble());
+					return new StepArbitraryInteger("k", (int) en.getLeft().evaluateDouble());
 				case MULTIPLY:
-					if (((ExpressionNode) ev).getLeft() instanceof MyDouble &&
-							((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
+					if (en.getLeft() instanceof MyDouble && en.getLeft().evaluateDouble() == -1) {
 						return minus(right);
 					}
 				default:
-					return StepOperation.create(((ExpressionNode) ev).getOperation(), left, right);
+					return StepOperation.create(en.getOperation(), left, right);
 			}
 		}
 		if (ev instanceof Equation) {

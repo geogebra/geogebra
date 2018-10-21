@@ -63,7 +63,6 @@ public class AsyncManager {
 		}
 	}
 
-
 	/**
 	 * Ensure that all the specified modules are loaded before
 	 * any other code inside async callback is run

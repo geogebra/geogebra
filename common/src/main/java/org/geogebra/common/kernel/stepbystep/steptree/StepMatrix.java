@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
@@ -8,8 +10,6 @@ import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-
-import java.util.Arrays;
 
 public class StepMatrix extends StepTransformable {
 
@@ -42,7 +42,6 @@ public class StepMatrix extends StepTransformable {
 		result = 31 * result + (isAugmented ? 1 : 0);
 		return result;
 	}
-
 
 	@Override
 	public void setColor(int color) {
@@ -246,8 +245,8 @@ public class StepMatrix extends StepTransformable {
 		@Override
 		public String toLaTeXString(Localization loc, boolean colored) {
 			if (colored && color != 0) {
-				return "\\fgcolor{" + StepMatrix.this.getColorHex() + "}{\\begin{vmatrix}" +
-						convertToString(loc, false) + "\\end{vmatrix}}";
+				return "\\fgcolor{" + StepMatrix.this.getColorHex() + "}{\\begin{vmatrix}"
+						+ convertToString(loc, false) + "\\end{vmatrix}}";
 			}
 
 			return "\\begin{vmatrix}" + convertToString(loc, colored) + "\\end{vmatrix}";

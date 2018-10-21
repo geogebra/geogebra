@@ -36,8 +36,8 @@ public class StepArbitraryInteger extends StepExpression {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof StepArbitraryInteger) {
-			return ((StepArbitraryInteger) obj).label.equals(label) &&
-					((StepArbitraryInteger) obj).index == index;
+			return ((StepArbitraryInteger) obj).label.equals(label)
+					&& ((StepArbitraryInteger) obj).index == index;
 		}
 
 		return false;

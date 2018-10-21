@@ -20,7 +20,7 @@ public class DummyCursor {
 	protected AppW app;
 	/** text field */
 	protected HasKeyboardTF textField;
-	private boolean dummyCursor = false;
+	private boolean dummyActive = false;
 
 	/**
 	 * @param textField
@@ -37,7 +37,7 @@ public class DummyCursor {
 	 * adds a dummy cursor
 	 */
 	public void add() {
-		if (dummyCursor || Browser.isIPad()) {
+		if (dummyActive || Browser.isIPad()) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -56,14 +56,14 @@ public class DummyCursor {
 	 *            position to add the dummy cursor at
 	 */
 	public void addAt(int caretPos) {
-		if (dummyCursor || Browser.isIPad()) {
+		if (dummyActive || Browser.isIPad()) {
 			return;
 		}
 		String text = textField.getValue();
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 		textField.setValue(text);
 		textField.setCursorPos(caretPos);
-		dummyCursor = true;
+		dummyActive = true;
 	}
 
 	/**
@@ -72,14 +72,14 @@ public class DummyCursor {
 	 * @return current cursor position
 	 */
 	public int remove() {
-		if (!dummyCursor || Browser.isIPad()) {
+		if (!dummyActive || Browser.isIPad()) {
 			return -1;
 		}
 		String text = textField.getValue();
 		int cpos = textField.getCursorPos();
 		text = text.substring(0, cpos) + text.substring(cpos + 1);
 		textField.setValue(text);
-		dummyCursor = false;
+		dummyActive = false;
 		return cpos;
 	}
 
@@ -114,6 +114,6 @@ public class DummyCursor {
 	 * @return true if dummyCursor is visible
 	 */
 	public boolean isActive() {
-		return dummyCursor;
+		return dummyActive;
 	}
 }

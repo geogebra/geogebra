@@ -1,9 +1,13 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.main.Localization;
-
-import java.util.*;
 
 public class StepSolution extends StepNode {
 
@@ -128,11 +132,11 @@ public class StepSolution extends StepNode {
 
 		if (getValue() != null) {
 			if (getValue() instanceof StepExpression) {
-				solution = getVariable().toLaTeXString(loc, colored) + " = " +
-						getValue().toLaTeXString(loc, colored);
+				solution = getVariable().toLaTeXString(loc, colored) + " = "
+						+ getValue().toLaTeXString(loc, colored);
 			} else {
-				solution = getVariable().toLaTeXString(loc, colored) + " \\in " +
-						getValue().toLaTeXString(loc, colored);
+				solution = getVariable().toLaTeXString(loc, colored) + " \\in "
+						+ getValue().toLaTeXString(loc, colored);
 			}
 		} else {
 			StringBuilder variablesString = new StringBuilder();
@@ -157,9 +161,8 @@ public class StepSolution extends StepNode {
 				}
 			}
 
-			solution =
-					"\\left(" + variablesString.toString() + "\\right) = \\left(" + valuesString +
-							"\\right)";
+			solution = "\\left(" + variablesString.toString() + "\\right) = \\left(" + valuesString
+					+ "\\right)";
 		}
 
 		for (StepSolvable condition : conditions) {
@@ -168,7 +171,6 @@ public class StepSolution extends StepNode {
 			}
 			conditionsString.append(condition.toLaTeXString(loc, colored));
 		}
-
 
 		if ("".equals(conditionsString.toString())) {
 			return solution;

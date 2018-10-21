@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.text.DecimalFormat;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-
-import java.text.DecimalFormat;
 
 public final class StepConstant extends StepExpression {
 
@@ -39,9 +39,9 @@ public final class StepConstant extends StepExpression {
 		if (obj instanceof StepConstant) {
 			StepConstant se = (StepConstant) obj;
 
-			return Double.isNaN(se.value) && Double.isNaN(value) ||
-					Double.isInfinite(se.value) && Double.isInfinite(value) ||
-					isEqual(se.value, value);
+			return Double.isNaN(se.value) && Double.isNaN(value)
+					|| Double.isInfinite(se.value) && Double.isInfinite(value)
+					|| isEqual(se.value, value);
 		}
 
 		return false;
@@ -158,8 +158,8 @@ public final class StepConstant extends StepExpression {
 
 	@Override
 	public boolean specialConstant() {
-		return isEqual(value, Math.PI) || isEqual(value, Math.E) ||
-						Double.isInfinite(value) || Double.isNaN(value);
+		return isEqual(value, Math.PI) || isEqual(value, Math.E) || Double.isInfinite(value)
+				|| Double.isNaN(value);
 	}
 
 	@Override

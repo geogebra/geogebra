@@ -1,19 +1,31 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.SolveFailedException;
-import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.plugin.Operation;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.plugin.Operation;
 
 enum InequalitySteps implements SolveStepGenerator<StepInequality> {
 
@@ -193,8 +205,8 @@ enum InequalitySteps implements SolveStepGenerator<StepInequality> {
 		@Override
 		public Result apply(StepInequality si, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if (!isZero(si.RHS) || !(si.LHS.isOperation(Operation.MULTIPLY) ||
-					si.LHS.isOperation(Operation.DIVIDE))) {
+			if (!isZero(si.RHS) || !(si.LHS.isOperation(Operation.MULTIPLY)
+					|| si.LHS.isOperation(Operation.DIVIDE))) {
 				return null;
 			}
 

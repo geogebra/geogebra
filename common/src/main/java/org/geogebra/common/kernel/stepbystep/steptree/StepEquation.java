@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
@@ -11,8 +13,6 @@ import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.List;
 
 public class StepEquation extends StepSolvable {
 
@@ -128,12 +128,11 @@ public class StepEquation extends StepSolvable {
 				String casCommand;
 				if (tracker.isApproximate() != null && tracker.isApproximate()) {
 					Log.error("approximating");
-					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = " +
-							solution + ")";
+					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = "
+							+ solution + ")";
 				} else {
-					casCommand =
-							"CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution +
-									")";
+					casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = "
+							+ solution + ")";
 				}
 
 				String withAssumptions = StepHelper

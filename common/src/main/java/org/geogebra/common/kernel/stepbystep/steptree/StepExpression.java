@@ -1,15 +1,15 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public abstract class StepExpression extends StepTransformable
 		implements Comparable<StepExpression> {
@@ -545,7 +545,7 @@ public abstract class StepExpression extends StepTransformable
 					|| so.isOperation(Operation.MINUS)) {
 				StepExpression power = null;
 				for (StepExpression operand : so) {
-					power = StepHelper.GCD(power, operand.getPower());
+					power = StepHelper.gcd(power, operand.getPower());
 				}
 				return power;
 			}
@@ -568,7 +568,7 @@ public abstract class StepExpression extends StepTransformable
 					|| so.isOperation(Operation.MINUS)) {
 				StepExpression root = StepConstant.create(1);
 				for (StepExpression operand : so) {
-					root = StepHelper.LCM(root, operand.getRoot());
+					root = StepHelper.lcm(root, operand.getRoot());
 				}
 				return root;
 			}
@@ -646,8 +646,8 @@ public abstract class StepExpression extends StepTransformable
 			return false;
 		}
 
-		return isOperation(Operation.MINUS) &&
-				((StepOperation) this).getOperand(0).containsExpression(expr);
+		return isOperation(Operation.MINUS)
+				&& ((StepOperation) this).getOperand(0).containsExpression(expr);
 	}
 
 	/**
@@ -684,8 +684,8 @@ public abstract class StepExpression extends StepTransformable
 				StepExpression remainder = getNonInteger().remainder(expr.getNonInteger());
 
 				if (isZero(remainder)) {
-					double value = coeffA.getValue() -
-							coeffB.getValue() * Math.floor(coeffA.getValue() / coeffB.getValue());
+					double value = coeffA.getValue()
+							- coeffB.getValue() * Math.floor(coeffA.getValue() / coeffB.getValue());
 
 					if (value != 0) {
 						return nonTrivialProduct(value, expr.getNonInteger().deepCopy());
@@ -873,8 +873,8 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public boolean integerDivisible(StepExpression expr) {
-		return isInteger() &&
-				(expr == null || expr.isInteger() && isEqual(getValue() % expr.getValue(), 0));
+		return isInteger()
+				&& (expr == null || expr.isInteger() && isEqual(getValue() % expr.getValue(), 0));
 	}
 
 	public boolean isEven() {
@@ -951,14 +951,14 @@ public abstract class StepExpression extends StepTransformable
 	 * @return whether the current node is a square
 	 */
 	public boolean isSquare() {
-		return nonSpecialConstant() && getValue() > 0 ||
-				isOperation(Operation.POWER) && ((StepOperation) this).getOperand(1).isEven();
+		return nonSpecialConstant() && getValue() > 0
+				|| isOperation(Operation.POWER) && ((StepOperation) this).getOperand(1).isEven();
 	}
 
 	public boolean isCube() {
-		return isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isCube() ||
-				nonSpecialConstant() ||
-				isOperation(Operation.POWER) && isEqual(((StepOperation) this).getOperand(1), 3);
+		return isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isCube()
+				|| nonSpecialConstant()
+				|| isOperation(Operation.POWER) && isEqual(((StepOperation) this).getOperand(1), 3);
 	}
 
 	/**
@@ -1004,13 +1004,13 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public boolean isNaturalLog() {
-		return isOperation(Operation.LOG) &&
-				((StepOperation) this).getOperand(0).equals(StepConstant.E);
+		return isOperation(Operation.LOG)
+				&& ((StepOperation) this).getOperand(0).equals(StepConstant.E);
 	}
 
 	public boolean isFraction() {
-		return isOperation(Operation.DIVIDE) ||
-				isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isFraction();
+		return isOperation(Operation.DIVIDE) || isOperation(Operation.MINUS)
+				&& ((StepOperation) this).getOperand(0).isFraction();
 	}
 
 	@Override

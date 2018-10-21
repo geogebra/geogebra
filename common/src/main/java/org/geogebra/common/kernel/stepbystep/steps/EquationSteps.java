@@ -64,8 +64,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 				return new Result(StepSolution.simpleSolution(variable, se.LHS, tracker));
 			}
 
-			if (se.LHS.isConstantIn(variable) &&
-					se.RHS.isConstantIn(variable)) {
+			if (se.LHS.isConstantIn(variable) && se.RHS.isConstantIn(variable)) {
 				steps.add(SolutionStepType.STATEMENT_IS_FALSE);
 				return new Result();
 			}
@@ -78,9 +77,9 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if ((se.LHS.isNegative() && se.RHS.isNegative()) ||
-					(isZero(se.LHS) && se.RHS.isNegative()) ||
-					(se.LHS.isNegative() && isZero(se.RHS))) {
+			if ((se.LHS.isNegative() && se.RHS.isNegative())
+					|| (isZero(se.LHS) && se.RHS.isNegative())
+					|| (se.LHS.isNegative() && isZero(se.RHS))) {
 				StepExpression newLHS = isZero(se.LHS) ? se.LHS : se.LHS.negate();
 				StepExpression newRHS = isZero(se.RHS) ? se.RHS : se.RHS.negate();
 
@@ -150,8 +149,8 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 				tracker.addCondition(new StepEquation(a, StepConstant.create(0)).setInequation());
 			}
 
-			if (discriminant.sign() <= 0 &&
-					!(discriminant.canBeEvaluated() && discriminant.getValue() > 0)) {
+			if (discriminant.sign() <= 0
+					&& !(discriminant.canBeEvaluated() && discriminant.getValue() > 0)) {
 				tracker.addCondition(
 						new StepInequality(discriminant, StepConstant.create(0), false, false));
 			}
@@ -255,7 +254,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			}
 
 			if (!se.RHS.isConstant() && se.RHS.getDenominator() != null) {
-				commonDenominator = StepHelper.LCM(se.RHS.getDenominator(), commonDenominator);
+				commonDenominator = StepHelper.lcm(se.RHS.getDenominator(), commonDenominator);
 			}
 
 			return new Result(se.multiply(commonDenominator, steps));
@@ -266,8 +265,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if (StepHelper.shouldReciprocate(se.LHS) &&
-					StepHelper.shouldReciprocate(se.RHS)) {
+			if (StepHelper.shouldReciprocate(se.LHS) && StepHelper.shouldReciprocate(se.RHS)) {
 				return new Result(se.reciprocate(steps));
 			}
 
@@ -320,20 +318,20 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			coeffSineSquared = bothSides.findCoefficient(sineSquared);
 			coeffCosineSquared = bothSides.findCoefficient(cosineSquared);
 
-			if (coeffSine != null && coeffCosine == null && coeffSineSquared != null &&
-					coeffCosineSquared != null) {
+			if (coeffSine != null && coeffCosine == null && coeffSineSquared != null
+					&& coeffCosineSquared != null) {
 				result = result.replace(cosineSquared, subtract(1, sineSquared), steps);
 				result = result.regroup(steps);
 			}
 
-			if (coeffSine == null && coeffCosine != null && coeffSineSquared != null &&
-					coeffCosineSquared != null) {
+			if (coeffSine == null && coeffCosine != null && coeffSineSquared != null
+					&& coeffCosineSquared != null) {
 				result = result.replace(sineSquared, subtract(1, cosineSquared), steps);
 				result = result.regroup(steps);
 			}
 
-			if (coeffSine != null && coeffCosine != null && coeffSineSquared == null &&
-					coeffCosineSquared == null) {
+			if (coeffSine != null && coeffCosine != null && coeffSineSquared == null
+					&& coeffCosineSquared == null) {
 				if (!isZero(result.LHS.findExpression(sine))) {
 					result = result.addOrSubtract(result.LHS.findExpression(cosine), steps);
 					result = result.addOrSubtract(result.RHS.findExpression(sine), steps);
@@ -589,8 +587,8 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			if (absNum == 2 && (isZero(nonAbsDiff))) {
 				StepSolvable result = se.addOrSubtract(nonAbsDiff, steps);
 
-				if (result.RHS.countNonConstOperation(Operation.ABS, variable) >
-						result.LHS.countNonConstOperation(Operation.ABS, variable)) {
+				if (result.RHS.countNonConstOperation(Operation.ABS, variable) > result.LHS
+						.countNonConstOperation(Operation.ABS, variable)) {
 					result = result.swapSides();
 				}
 
@@ -677,8 +675,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 
 				if (se.LHS.equals(variable) && se.RHS.isOperation(Operation.PLUSMINUS)) {
 					argument = ((StepOperation) se.RHS).getOperand(0);
-				} else if (se.RHS.equals(variable) &&
-						se.LHS.isOperation(Operation.PLUSMINUS)) {
+				} else if (se.RHS.equals(variable) && se.LHS.isOperation(Operation.PLUSMINUS)) {
 					argument = ((StepOperation) se.LHS).getOperand(0);
 				}
 
@@ -707,9 +704,9 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if (se.LHS.isOperation(Operation.ABS) && se.RHS.isOperation(Operation.ABS) ||
-					se.RHS.isOperation(Operation.ABS) && se.LHS.isConstantIn(variable) ||
-					se.LHS.isOperation(Operation.ABS) && se.RHS.isConstantIn(variable)) {
+			if (se.LHS.isOperation(Operation.ABS) && se.RHS.isOperation(Operation.ABS)
+					|| se.RHS.isOperation(Operation.ABS) && se.LHS.isConstantIn(variable)
+					|| se.LHS.isOperation(Operation.ABS) && se.RHS.isConstantIn(variable)) {
 
 				se.LHS.setColor(1);
 				se.RHS.setColor(2);
@@ -797,8 +794,8 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			StepExpression linear = diff.findCoefficient(variable);
 			StepExpression constant = diff.findConstantIn(variable);
 
-			if (!isOne(cubic) || quadratic == null ||
-					!power(quadratic, 2).regroup().equals(multiply(3, linear).regroup())) {
+			if (!isOne(cubic) || quadratic == null
+					|| !power(quadratic, 2).regroup().equals(multiply(3, linear).regroup())) {
 				return null;
 			}
 
@@ -817,8 +814,8 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 
 	public static List<StepSolution> checkSolutions(StepSolvable se, List<StepSolution> solutions,
 			SolutionBuilder steps, SolveTracker tracker) {
-		if (tracker.getRestriction().equals(StepInterval.R) &&
-				tracker.getUndefinedPoints().emptySet() && !tracker.shouldCheck()) {
+		if (tracker.getRestriction().equals(StepInterval.R)
+				&& tracker.getUndefinedPoints().emptySet() && !tracker.shouldCheck()) {
 			return solutions;
 		}
 

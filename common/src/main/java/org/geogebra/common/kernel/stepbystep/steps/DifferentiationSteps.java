@@ -1,18 +1,33 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.cos;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.differentiate;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.logarithm;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.sin;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
-
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_SUM {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -38,7 +53,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_CONSTANT {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -62,12 +78,13 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	CONSTANT_COEFFICIENT {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getOperand(0).isOperation(Operation.MULTIPLY) ||
-						so.getOperand(0).isOperation(Operation.MINUS)) {
+				if (so.getOperand(0).isOperation(Operation.MULTIPLY)
+						|| so.getOperand(0).isOperation(Operation.MINUS)) {
 					StepOperation product = (StepOperation) so.getOperand(0);
 					StepVariable variable = (StepVariable) so.getOperand(1);
 
@@ -93,7 +110,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_PRODUCT {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -132,7 +150,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_FRACTION {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -164,7 +183,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_POLYNOMIAL {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -211,7 +231,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_EXPONENTIAL {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -268,7 +289,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_ROOT {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -302,7 +324,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_LOG {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -353,7 +376,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_TRIGO {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -409,7 +433,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_INVERSE_TRIGO {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -446,11 +471,9 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 						}
 					}
 
-
 					if (!argument.equals(variable)) {
 						result = multiply(result, differentiate(argument, variable));
 					}
-
 
 					if (result != null) {
 						trigo.setColor(tracker.getColorTracker());
@@ -467,7 +490,8 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DEFAULT_DIFFERENTIATE {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 							RegroupSteps.DEFAULT_REGROUP,
 							DifferentiationSteps.DIFFERENTIATE_CONSTANT,

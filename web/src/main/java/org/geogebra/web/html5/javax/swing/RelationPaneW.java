@@ -5,6 +5,7 @@ import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -137,7 +138,7 @@ public class RelationPaneW extends GDialogBox
 		GWT.runAsync(Prover.class, new RunAsyncCallback() {
 			@Override
 			public void onFailure(Throwable reason) {
-
+				Log.warn("prover not loaded");
 			}
 
 			@Override

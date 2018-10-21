@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SolutionUtils {
 
@@ -87,7 +87,7 @@ public class SolutionUtils {
 		case FACTOR_GCD:
 			return translated.replace("%2", "%" + (n - 1))
 					.replace("%1", "%" + (n - 2))
-					.replace("%0", getList(0, n-2));
+					.replace("%0", getList(0, n - 2));
 		default:
 			return translated;
 		}

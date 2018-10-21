@@ -39,8 +39,8 @@ enum SolveSteps implements SolveStepGenerator {
 		@Override
 		public Result apply(StepSolvable se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if (tracker.shouldCheck() || !tracker.getRestriction().equals(StepInterval.R) ||
-					!tracker.getUndefinedPoints().emptySet()) {
+			if (tracker.shouldCheck() || !tracker.getRestriction().equals(StepInterval.R)
+					|| !tracker.getUndefinedPoints().emptySet()) {
 				return null;
 			}
 

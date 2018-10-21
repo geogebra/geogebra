@@ -26,7 +26,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	NEGATIVE_ARGUMENT {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 				StepExpression argument = so.getOperand(0);
@@ -65,7 +66,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	SPLIT_FRACTIONS_WITH_PI {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 				StepExpression argument = so.getOperand(0);
@@ -99,8 +101,9 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 				double value = ratio < 0 ? Math.ceil(ratio) : Math.floor(ratio);
 
 				if (value != 0) {
-					StepExpression newNumerator = nonTrivialProduct(numerator.getValue() -
-							2 * value * denominator.getValue(), StepConstant.PI);
+					StepExpression newNumerator = nonTrivialProduct(
+							numerator.getValue() - 2 * value * denominator.getValue(),
+							StepConstant.PI);
 
 					StepExpression result = add(divide(newNumerator, denominator),
 							nonTrivialProduct(2 * value, StepConstant.PI));
@@ -119,7 +122,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	REWRITING_RULES {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric() && ((StepOperation) sn).getOperand(0).isSum()) {
 				StepOperation so = (StepOperation) sn;
 				StepOperation argument = (StepOperation) so.getOperand(0);
@@ -240,7 +244,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	EXTRACT_PERIOD {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 				StepExpression argument = so.getOperand(0);
@@ -323,7 +328,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	ELIMINATE_PERIOD {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric() && ((StepOperation) sn).getOperand(0).isSum()) {
 				StepOperation so = (StepOperation) sn;
 				StepOperation argument = (StepOperation) so.getOperand(0);
@@ -365,7 +371,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	SUBTRACT_PERIOD {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 				StepExpression argument = so.getOperand(0);
@@ -381,12 +388,12 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 						tracker.incColorTracker();
 
 						return applyOp(so.getOperation(), add(argument,
-								nonTrivialProduct(Math.floor(-value/periodVal) + 1, period)));
+								nonTrivialProduct(Math.floor(-value / periodVal) + 1, period)));
 					} else if (value > periodVal) {
 						tracker.incColorTracker();
 
 						return applyOp(so.getOperation(), subtract(argument,
-								nonTrivialProduct(Math.floor(value/periodVal), period)));
+								nonTrivialProduct(Math.floor(value / periodVal), period)));
 					}
 				}
 			}
@@ -397,7 +404,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	REDUCE_TO_FIRST_QUADRANT {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 				StepExpression argument = so.getOperand(0);
@@ -469,7 +477,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	EVALUATE_TRIGONOMETRIC {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isTrigonometric() || sn.isInverseTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 
@@ -492,7 +501,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	REDUCE_TO_FIRST_QUADRANT_SS {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					FractionSteps.ADD_INTEGER_FRACTIONS,
 					TrigonometricSteps.REDUCE_TO_FIRST_QUADRANT,
@@ -505,7 +515,8 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 	SIMPLIFY_TRIGONOMETRIC {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					TrigonometricSteps.NEGATIVE_ARGUMENT,
 					TrigonometricSteps.EVALUATE_TRIGONOMETRIC,

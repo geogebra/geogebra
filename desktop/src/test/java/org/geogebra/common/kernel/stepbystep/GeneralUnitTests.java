@@ -144,7 +144,7 @@ public class GeneralUnitTests {
     }
 
     public void GCD(String a, String b, String c) {
-        Assert.assertEquals(c, StepHelper.GCD(convert(a), convert(b)).toString());
+        Assert.assertEquals(c, StepHelper.gcd(convert(a), convert(b)).toString());
     }
 
     public void findVariable(String a, String b, String c) {
