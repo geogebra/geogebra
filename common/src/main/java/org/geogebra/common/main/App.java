@@ -135,8 +135,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public static final int VIEW_CONSTRUCTION_PROTOCOL = 32;
 	/** id for probability calculator view */
 	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
-	/** id for table view */
-	public static final int VIEW_TABLE_OF_VALUES = 128;
 	/**
 	 * id for data analysis view, ie multi/single/two variable analysisis tools
 	 */
@@ -173,6 +171,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public static final int VIEW_TABLE_MODEL = 9000;
 	/** data collection view (web only) */
 	public static final int VIEW_DATA_COLLECTION = 43;
+	/** id for table view */
+	public static final int VIEW_TABLE_OF_VALUES = 8192;
 	public static final int DEFAULT_THRESHOLD = 3;
 	public static final int DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER = 3;
 	/**
