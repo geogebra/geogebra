@@ -33,12 +33,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 		this.kernel = kernel;
 		this.evaluatables = new ArrayList<>();
 		this.listeners = new ArrayList<>();
-		this.columns = new LinkedList<>();
-		this.doubleColumns = new LinkedList<>();
 		this.builder = new StringBuilder();
 
+		this.columns = new LinkedList<>();
+		this.doubleColumns = new LinkedList<>();
 		this.header = new LinkedList<>();
-		this.header.add("x");
+		this.values = new double[0];
+
+		initializeModel();
 	}
 
 	@Override
@@ -183,9 +185,33 @@ class SimpleTableValuesModel implements TableValuesModel {
 		for (int i = 0; i < columns.size(); i++) {
 			columns.set(i, new String[values.length]);
 		}
-		for (int i = 0; i < doubleColumns.size(); i++) {
+		Double[] valuesColumn = new Double[values.length];
+		for (int i = 0; i < values.length; i++) {
+			valuesColumn[i] = values[i];
+		}
+		doubleColumns.set(0, valuesColumn);
+		for (int i = 1; i < doubleColumns.size(); i++) {
 			doubleColumns.set(i, new Double[values.length]);
 		}
+		notifyDatasetChanged();
+	}
+
+	private void initializeModel() {
+		columns.add(new String[0]);
+		doubleColumns.add(new Double[0]);
+		header.add("x");
+	}
+
+	/**
+	 * Clears and initializes the model.
+	 */
+	void clearModel() {
+		columns.clear();
+		doubleColumns.clear();
+		header.clear();
+		evaluatables.clear();
+		values = new double[0];
+		initializeModel();
 		notifyDatasetChanged();
 	}
 

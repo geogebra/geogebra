@@ -152,6 +152,11 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
+	public void clearView() {
+		model.clearModel();
+	}
+
+	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 	}
 
@@ -174,10 +179,6 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void reset() {
-	}
-
-	@Override
-	public void clearView() {
 	}
 
 	@Override
