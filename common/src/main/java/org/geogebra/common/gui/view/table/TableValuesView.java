@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -25,8 +26,8 @@ public class TableValuesView implements TableValues {
 	/**
 	 * Create a new Table Value View.
 	 */
-	public TableValuesView() {
-		this.model = new SimpleTableValuesModel();
+	public TableValuesView(Kernel kernel) {
+		this.model = new SimpleTableValuesModel(kernel);
 		this.elements = new ArrayList<>();
 	}
 
@@ -94,7 +95,10 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void update(GeoElement geo) {
-		// update column
+		if (geo instanceof Evaluatable) {
+			Evaluatable evaluatable = (Evaluatable) geo;
+			model.updateEvaluatable(evaluatable);
+		}
 	}
 
 	@Override
