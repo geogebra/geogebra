@@ -27,6 +27,13 @@ public interface TableValuesListener {
 	void notifyColumnAdded(int column);
 
 	/**
+	 * Notified when the header of the column has changed.
+	 *
+	 * @param column the index of the column
+	 */
+	void notifyColumnHeaderChanged(int column);
+
+	/**
 	 * Notified when the whole dataset changed.
 	 */
 	void notifyDatasetChanged();

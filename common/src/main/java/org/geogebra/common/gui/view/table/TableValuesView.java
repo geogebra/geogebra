@@ -90,7 +90,10 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void rename(GeoElement geo) {
-		// update header
+		if (geo instanceof Evaluatable) {
+			Evaluatable evaluatable = (Evaluatable) geo;
+			model.updateEvaluatableName(evaluatable);
+		}
 	}
 
 	@Override

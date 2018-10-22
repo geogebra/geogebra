@@ -41,4 +41,12 @@ public interface TableValuesModel {
 	 * @return the value of the table at the specified location
 	 */
 	String getCellAt(int row, int column);
+
+	/**
+	 * Return the header for the specified column.
+	 *
+	 * @param column the index of the header
+	 * @return the header string
+	 */
+	String getHeaderAt(int column);
 }
