@@ -27,42 +27,42 @@ public interface TableValues extends View {
 	 *
 	 * @param valuesMin lower value of x-values
 	 */
-	void setValuesMin(float valuesMin);
+	void setValuesMin(double valuesMin);
 
 	/**
 	 * Get the lower value of the x-values.
 	 *
 	 * @return the lower value of x-values
 	 */
-	float getValuesMin();
+	double getValuesMin();
 
 	/**
 	 * Set the upper value of the x-values.
 	 *
 	 * @param valuesMax upper value of x-values
 	 */
-	void setValuesMax(float valuesMax);
+	void setValuesMax(double valuesMax);
 
 	/**
 	 * Get the upper value of the x-values.
 	 *
 	 * @return the upper value of x-values
 	 */
-	float getValuesMax();
+	double getValuesMax();
 
 	/**
 	 * Set the step of the x-values.
 	 *
 	 * @param valuesStep step of the x-values
 	 */
-	void setValuesStep(float valuesStep);
+	void setValuesStep(double valuesStep);
 
 	/**
 	 * Get the step of the x-values/
 	 *
 	 * @return the step of the x-values
 	 */
-	float getValuesStep();
+	double getValuesStep();
 
 	/**
 	 * Get the table values model. Objects can register themselves

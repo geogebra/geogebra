@@ -20,7 +20,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private List<TableValuesListener> listeners;
 	private List<Evaluatable> evaluatables;
-	private float[] values;
+	private double[] values;
 	private Kernel kernel;
 	private StringBuilder builder;
 
@@ -160,7 +160,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 *
 	 * @param values x-values
 	 */
-	void setValues(float[] values) {
+	void setValues(double[] values) {
 		this.values = values;
 		ListIterator<String[]> iterator = columns.listIterator();
 		while (iterator.hasNext()) {

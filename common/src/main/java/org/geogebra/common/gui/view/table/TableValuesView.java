@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.DoubleUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.List;
  */
 public class TableValuesView implements TableValues {
 
-	private float valuesMin = -2.0f;
-	private float valuesMax = 2.0f;
-	private float valuesStep = 1.0f;
+	private double valuesMin = -2.0f;
+	private double valuesMax = 2.0f;
+	private double valuesStep = 1.0f;
 
 	private SimpleTableValuesModel model;
 	private List<GeoElement> elements;
@@ -29,6 +30,7 @@ public class TableValuesView implements TableValues {
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
 		this.elements = new ArrayList<>();
+		updateModelValues();
 	}
 
 	@Override
@@ -44,33 +46,77 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void setValuesMin(float valuesMin) {
+	public void setValuesMin(double valuesMin) {
+		assertValidValues(valuesMin, valuesMax, valuesStep);
 		this.valuesMin = valuesMin;
+		updateModelValues();
 	}
 
 	@Override
-	public float getValuesMin() {
+	public double getValuesMin() {
 		return valuesMin;
 	}
 
 	@Override
-	public void setValuesMax(float valuesMax) {
+	public void setValuesMax(double valuesMax) {
+		assertValidValues(valuesMin, valuesMax, valuesStep);
 		this.valuesMax = valuesMax;
+		updateModelValues();
 	}
 
 	@Override
-	public float getValuesMax() {
+	public double getValuesMax() {
 		return valuesMax;
 	}
 
 	@Override
-	public void setValuesStep(float valuesStep) {
+	public void setValuesStep(double valuesStep) {
+		assertValidValues(valuesMin, valuesMax, valuesStep);
 		this.valuesStep = valuesStep;
+		updateModelValues();
 	}
 
 	@Override
-	public float getValuesStep() {
+	public double getValuesStep() {
 		return valuesStep;
+	}
+
+	private void assertValidValues(double valuesMin, double valuesMax, double valuesStep) {
+		if (!isFinite(valuesMin) && !isFinite(valuesMax)) {
+			throw new RuntimeException("Values min and/or max are invalid");
+		}
+		if (valuesMin > valuesMax) {
+			throw new RuntimeException("Values min is greater than values max");
+		}
+		if (Double.isNaN(valuesStep) || Double.isInfinite(valuesStep) || valuesStep <= 0) {
+			throw new RuntimeException("Values step is invalid");
+		}
+	}
+
+	private boolean isFinite(double x) {
+		return !Double.isInfinite(x) && !Double.isNaN(x);
+	}
+
+	private void updateModelValues() {
+		double[] values = calulateValues();
+		model.setValues(values);
+	}
+
+	private double[] calulateValues() {
+		double[] values;
+		if (valuesMin == valuesMax) {
+			values = new double[] { valuesMin };
+		} else {
+			double stepsDouble = (valuesMax - valuesMin) / valuesStep;
+			int stepsInt = (int) Math.round(stepsDouble);
+			int steps = DoubleUtil.isInteger(stepsDouble) ? stepsInt : stepsInt + 1;
+			values = new double[steps + 1];
+			values[steps] = valuesMax;
+			for (int i = 0; i < steps; i++) {
+				values[i] = valuesMin + i * valuesStep;
+			}
+		}
+		return values;
 	}
 
 	@Override
