@@ -477,13 +477,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addButtons();
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// do nothing
-			}
-		});
+		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	protected void setActionCommands() {

@@ -19,10 +19,12 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -38,6 +40,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -174,11 +178,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 		// create options button
 		btnOptions = new MyToggleButtonW(new NoDragImage(GuiResources.INSTANCE
 				.menu_icon_options().getSafeUri().asString(), 18));
-
-		btnOptions.addClickHandler(new ClickHandler() {
+		ClickStartHandler.initDefaults(btnOptions, true, false);
+		btnOptions.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				actionPerformed(btnOptions);
 			}
 		});
@@ -408,11 +412,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		fldStart = new AutoCompleteTextFieldW(4, app);
 		fldStart.setText("" + (int) getModel().getSettings().getClassStart());
-
+		addInsertHandler(fldStart);
 		fldWidth = new AutoCompleteTextFieldW(4, app);
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);
 		fldWidth.setText("" + (int) getModel().getSettings().getClassWidth());
+		addInsertHandler(fldWidth);
 
 		manualClassesPanel = new FlowPanel();
 		manualClassesPanel.add(LayoutUtilW.panelRow(lblStart, fldStart,
@@ -453,6 +458,20 @@ public class DataDisplayPanelW extends FlowPanel implements
 			}
 		});
 
+	}
+
+	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		field.enableGGBKeyboard();
+		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+			@Override
+			public void onInsert(String text) {
+				int cursorPos = field.removeDummyCursor();
+				actionPerformed(field);
+				if (Browser.isAndroid() || Browser.isIPad()) {
+					field.addDummyCursor(cursorPos);
+				}
+			}
+		});
 	}
 
 	private void createExportMenu() {

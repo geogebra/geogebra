@@ -377,7 +377,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
 	    	fldParameterArray[i].setColumns(4);
 	    	fldParameterArray[i].addKeyUpHandler(this);
-			fldParameterArray[i].enableGGBKeyboard();
 	    	fldParameterArray[i].addBlurHandler(this);
 			addInsertHandler(fldParameterArray[i]);
 	    	fldParameterArray[i].getTextBox().setTabIndex(i + 1);
@@ -395,7 +394,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldLow = new AutoCompleteTextFieldW(app);
 	    fldLow.setColumns(4);
 	    fldLow.addKeyUpHandler(this);
-		fldLow.enableGGBKeyboard();
 	    fldLow.addBlurHandler(this);
 		addInsertHandler(fldLow);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
@@ -403,7 +401,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(4);
 	    fldHigh.addKeyUpHandler(this);
-		fldHigh.enableGGBKeyboard();
 	    fldHigh.addBlurHandler(this);
 		addInsertHandler(fldHigh);
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
@@ -412,7 +409,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		fldResult.setForeground(GColor.BLACK);
 	    fldResult.setColumns(6);
 	    fldResult.addKeyUpHandler(this);
-		fldResult.enableGGBKeyboard();
 	    fldResult.addBlurHandler(this);
 		addInsertHandler(fldResult);
 	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
@@ -993,7 +989,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
-
+		field.enableGGBKeyboard();
 		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
 			@Override
 			public void onInsert(String text) {

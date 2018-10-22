@@ -508,7 +508,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		fldNullHyp = new AutoCompleteTextFieldW(app);
 		fldNullHyp.setColumns(fieldWidth);
 		((AutoCompleteTextFieldW) fldNullHyp).addKeyUpHandler(this);
-		((AutoCompleteTextFieldW) fldNullHyp).enableGGBKeyboard();
 		this.addInsertHandler((AutoCompleteTextFieldW) fldNullHyp);
 		addNextTabIndex((AutoCompleteTextFieldW) fldNullHyp);
 
@@ -516,7 +515,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
 		((AutoCompleteTextFieldW) fldConfLevel).addKeyUpHandler(this);
-		((AutoCompleteTextFieldW) fldConfLevel).enableGGBKeyboard();
 		this.addInsertHandler((AutoCompleteTextFieldW) fldConfLevel);
 
 		addNextTabIndex((AutoCompleteTextFieldW) fldConfLevel);
@@ -525,7 +523,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
 		((AutoCompleteTextFieldW) fldSigma).addKeyUpHandler(this);
-		((AutoCompleteTextFieldW) fldSigma).enableGGBKeyboard();
 		this.addInsertHandler((AutoCompleteTextFieldW) fldSigma);
 
 		addNextTabIndex((AutoCompleteTextFieldW) fldSigma);
@@ -542,7 +539,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
 			((AutoCompleteTextFieldW) fldSampleStat1[i]).addKeyUpHandler(this);
-			((AutoCompleteTextFieldW) fldSampleStat1[i]).enableGGBKeyboard();
 			this.addInsertHandler((AutoCompleteTextFieldW) fldSampleStat1[i]);
 
 			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat1[i]);
@@ -560,7 +556,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
 			((AutoCompleteTextFieldW) fldSampleStat2[i]).addKeyUpHandler(this);
-			((AutoCompleteTextFieldW) fldSampleStat2[i]).enableGGBKeyboard();
 			this.addInsertHandler((AutoCompleteTextFieldW) fldSampleStat2[i]);
 
 			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat2[i]);
@@ -636,6 +631,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		field.enableGGBKeyboard();
 		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
 			@Override
 			public void onInsert(String text) {
