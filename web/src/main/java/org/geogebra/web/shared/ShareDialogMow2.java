@@ -102,6 +102,7 @@ public class ShareDialogMow2 extends DialogBoxW
 			groups.add(new GroupButtonMow(appW, sharedGroup, true,
 					new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
 
+						@Override
 						public void callback(SimpleEntry<String, Boolean> obj) {
 							updateChangedGroupList(obj);
 						}
@@ -114,6 +115,7 @@ public class ShareDialogMow2 extends DialogBoxW
 				groups.add(new GroupButtonMow(appW, group, false,
 						new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
 
+							@Override
 							public void callback(
 									SimpleEntry<String, Boolean> obj) {
 								updateChangedGroupList(obj);
@@ -218,9 +220,10 @@ public class ShareDialogMow2 extends DialogBoxW
 		shareSwitch = new ComponentSwitch(isMatShared(material),
 				new AsyncOperation<Boolean>() {
 
-			public void callback(Boolean obj) {
-				onSwitch(obj.booleanValue());
-			}
+					@Override
+					public void callback(Boolean obj) {
+						onSwitch(obj.booleanValue());
+					}
 		});
 		shareByLinkPanel.add(shareSwitch);
 		buildLinkPanel();

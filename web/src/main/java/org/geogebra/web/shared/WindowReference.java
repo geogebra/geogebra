@@ -25,7 +25,7 @@ public final class WindowReference implements EventRenderable {
 	 * The window object itself.
 	 */
 	JavaScriptObject wnd = null;
-	/*
+	/**
 	 * To check that window is open or not
 	 */
 	AnimationHandle requestAnimationFrame;
@@ -35,6 +35,9 @@ public final class WindowReference implements EventRenderable {
 	 */
 	static volatile WindowReference instance = null;
 
+	/**
+	 * Login operation
+	 */
 	static volatile LoginOperationW lOW;
 
 	private static Object lock = new Object();
@@ -60,7 +63,10 @@ public final class WindowReference implements EventRenderable {
 	}-*/;
 	
 	/**
-	 * @param app Application
+	 * @param app
+	 *            Application
+	 * @param callback
+	 *            callback URL param
 	 * @return reference to this object
 	 */
 	public static WindowReference createSignInWindow(App app, String callback) {
@@ -68,7 +74,7 @@ public final class WindowReference implements EventRenderable {
 			synchronized (lock) {
 				if (instance == null) {
 					instance = new WindowReference();
-					lOW = ((LoginOperationW) app.getLoginOperation());
+					lOW = (LoginOperationW) app.getLoginOperation();
 				}
 			}
 			instance.wnd = createWindowReference(
@@ -134,6 +140,9 @@ public final class WindowReference implements EventRenderable {
 		}
 	}
 
+	/**
+	 * Remove all global state.
+	 */
 	void cleanWindowReferences() {
 		requestAnimationFrame.cancel();
 		synchronized (lock) {
