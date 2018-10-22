@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import java.util.HashMap;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
@@ -142,7 +143,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public int getDataParamCapturingThreshold() {
-		return 0;
+		return App.DEFAULT_THRESHOLD;
 	}
 
 	@Override
