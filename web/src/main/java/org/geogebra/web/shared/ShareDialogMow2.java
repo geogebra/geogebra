@@ -11,7 +11,6 @@ import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -89,15 +88,40 @@ public class ShareDialogMow2 extends DialogBoxW
 	}
 
 	/**
-	 * @param sharedGroups
+	 * @param sharedGroupList
 	 *            list of group with which the material was shared
 	 */
-	public void setSharedGroups(List<String> sharedGroups) {
-		Log.debug("SHARED GROUP LIST: " + sharedGroups);
-		this.sharedGroups.clear();
-		for (int i = 0; i < sharedGroups.size(); i++) {
-			this.sharedGroups.add(sharedGroups.get(i));
+	public void updateOnSharedGroups(List<String> sharedGroupList) {
+		this.sharedGroups = sharedGroupList;
+		ArrayList<String> groupNames = app.getLoginOperation().getModel()
+				.getUserGroups();
+		scrollPanel.clear();
+		FlowPanel groups = new FlowPanel();
+		// first add button for groups with which material was already shared
+		for (String sharedGroup : sharedGroups) {
+			groups.add(new GroupButtonMow(appW, sharedGroup, true,
+					new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
+
+						public void callback(SimpleEntry<String, Boolean> obj) {
+							updateChangedGroupList(obj);
+						}
+					}));
 		}
+
+		// then add other existent groups of user
+		for (String group : groupNames) {
+			if (!containsSharedGroupList(group)) {
+				groups.add(new GroupButtonMow(appW, group, false,
+						new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
+
+							public void callback(
+									SimpleEntry<String, Boolean> obj) {
+								updateChangedGroupList(obj);
+							}
+						}));
+			}
+		}
+		scrollPanel.add(groups);
 	}
 
 	/**
@@ -114,22 +138,13 @@ public class ShareDialogMow2 extends DialogBoxW
 		// get list of groups of user
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
-		Log.debug("GET GROUP LIST: " + groupNames);
-		// ONLY FOR TESTING
-
-		/*
-		 * groupNames = new ArrayList<>(Arrays.asList("group 1", "group 2",
-		 * "group 3", "group 4", "group 5", "group 1", "group 2", "group 3",
-		 * "group 4", "group 5", "group 1", "group 2", "group 3", "group 4",
-		 * "group 5", "group 1", "group 2", "group 3", "group 4", "group 5"));
-		 */
 		// user has no groups
 		if (groupNames.isEmpty()) {
 			buildNoGroupPanel();
 		}
 		// show groups of user
 		else {
-			buildGroupPanel(groupNames);
+			buildGroupPanel();
 		}
 		buildShareByLinkPanel();
 		buildButtonPanel();
@@ -155,7 +170,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		dialogContent.add(noGroupPanel);
 	}
 
-	private void buildGroupPanel(ArrayList<String> groupNames) {
+	private void buildGroupPanel() {
 		selGroupLbl = new Label();
 		selGroupLbl.setStyleName("selGrLbl");
 		dialogContent.add(selGroupLbl);
@@ -163,34 +178,6 @@ public class ShareDialogMow2 extends DialogBoxW
 		groupPanel.addStyleName("groupPanel");
 		scrollPanel = new ScrollPanel();
 		groupPanel.add(scrollPanel);
-		FlowPanel groups = new FlowPanel();
-		Log.debug("SELECTED GROUPs: " + sharedGroups);
-		// first add button for groups with which material was already shared
-		for (String sharedGroup : sharedGroups) {
-			Log.debug("CREATE SELECTED GROUP: " + sharedGroup);
-			groups.add(new GroupButtonMow(appW, sharedGroup, true,
-					new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
-
-						public void callback(SimpleEntry<String, Boolean> obj) {
-							updateChangedGroupList(obj);
-						}
-					}));
-		}
-		// then add other existent groups of user
-		for (String group : groupNames) {
-			Log.debug("CREATE GROUP: " + group);
-			if (!containsSharedGroupList(group)) {
-				groups.add(new GroupButtonMow(appW, group, false,
-						new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
-
-							public void callback(
-									SimpleEntry<String, Boolean> obj) {
-								updateChangedGroupList(obj);
-							}
-						}));
-			}
-		}
-		scrollPanel.add(groups);
 		dialogContent.add(groupPanel);
 	}
 	
@@ -210,8 +197,6 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	public void updateChangedGroupList(SimpleEntry<String, Boolean> obj) {
 		changedGroups.put(obj.getKey(), obj.getValue());
-		Log.debug(
-				"SET GROUP: " + obj.getKey() + " to value: " + obj.getValue());
 	}
 
 	private void buildShareByLinkPanel() {
@@ -387,8 +372,6 @@ public class ShareDialogMow2 extends DialogBoxW
 					material.setVisibility("P");
 				}
 			}
-			Log.debug("SHARE WITH GROUP START");
-			Log.debug("NR TO SHARE: " + changedGroups.size());
 			shareWithGroups(new AsyncOperation<Boolean>() {
 
 				@Override
@@ -425,8 +408,6 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
 		for (Entry<String, Boolean> group : changedGroups.entrySet()) {
-			Log.debug("SHARE WITH GROUP: " + group.getKey() + " is shared: "
-					+ group.getValue());
 			appW.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
 					group.getKey(), group.getValue(), groupCallback);
 		}
@@ -443,7 +424,7 @@ public class ShareDialogMow2 extends DialogBoxW
 							@Override
 							public void callback(List<String> obj) {
 								if (obj != null) {
-									setSharedGroups(obj);
+									updateOnSharedGroups(obj);
 								}
 							}
 						});
@@ -456,10 +437,8 @@ public class ShareDialogMow2 extends DialogBoxW
 	protected void showTooltip(Boolean success) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 				appW.getLocalization()
-						.getPlain(success.booleanValue() ? "GroupShareOk"
-								: "GroupShareFail",
-								String.valueOf(changedGroups.size()) + appW
-										.getLocalization().getMenu(" Group")),
+						.getMenu(success.booleanValue() ? "GroupShareOk"
+								: "GroupShareFail"),
 				true, appW);
 	}
 }
