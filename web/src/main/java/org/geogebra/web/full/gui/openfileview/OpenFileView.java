@@ -420,6 +420,11 @@ public class OpenFileView extends MyHeaderPanel
 			Widget wgt = materialPanel.getWidget(i);
 			if (wgt instanceof MaterialCard
 					&& isBefore(material, ((MaterialCard) wgt).getMaterial())) {
+				if (((MaterialCard) wgt).getMaterial().getSharingKeyOrId()
+						.equals(material.getSharingKeyOrId())) {
+					// don't add the same material twice
+					return;
+				}
 				materialPanel.insert(new MaterialCard(material, app), i);
 				return;
 			}
