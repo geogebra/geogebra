@@ -135,6 +135,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public static final int VIEW_CONSTRUCTION_PROTOCOL = 32;
 	/** id for probability calculator view */
 	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
+	/** id for table view */
+	public static final int VIEW_TABLE_OF_VALUES = 128;
 	/**
 	 * id for data analysis view, ie multi/single/two variable analysisis tools
 	 */
