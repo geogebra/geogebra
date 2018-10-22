@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Variable;
@@ -25,6 +26,8 @@ import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Class for building function nodes from parser
@@ -125,6 +128,18 @@ public class FunctionParser {
 					myList.size());
 			if (op != null) {
 				return buildOpNode(op, myList);
+			}
+
+			// pi(1.3)
+			if (Unicode.PI_STRING.equals(funcName) || "pi".equals(funcName)) {
+
+				ExpressionNode expr = new ExpressionNode(kernel,
+						new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING),
+						Operation.MULTIPLY_OR_FUNCTION,
+						toFunctionArgument(myList, funcName));
+				undecided.add(expr);
+				return expr;
+
 			}
 			// function name does not exist: return command
 			Command cmd = new Command(kernel, funcName, true, !GiacParsing);
