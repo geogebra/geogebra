@@ -85,16 +85,17 @@ public class GraphicsPropertiesList extends PropertiesList {
                 if (mApp.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
                     propertyList.add(new GraphicsPositionProperty(mApp));
                 }
+
+                if (mApp.has(Feature.MOB_BACKGROUND_PROPERTY)) {
+                    propertyList.add(new BackgroundProperty(mApp, mLocalization));
+                }
+
 				propertyList.add(new AxesVisibilityProperty(mLocalization,
 						euclidianSettings));
 
                 if (mApp.has(Feature.MOB_SHOW_HIDE_PLANE) && activeView.isEuclidianView3D()) {
                     propertyList.add(new PlaneVisibilityProperty(mLocalization,
                         (EuclidianSettings3D) euclidianSettings));
-                }
-
-                if (mApp.has(Feature.MOB_BACKGROUND_PROPERTY)) {
-                    propertyList.add(new BackgroundProperty(mApp, mLocalization));
                 }
 
 				propertyList.add(new GridVisibilityProperty(mLocalization,
