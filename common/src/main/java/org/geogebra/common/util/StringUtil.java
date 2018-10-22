@@ -1796,4 +1796,28 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				.replace("<br>", "\n").replace("</p>", "\n")
 				.replaceAll("</?[^>]+>", "");
 	}
+
+	/**
+	 * 
+	 * @param sb
+	 *            StringBuilder
+	 * @param ch
+	 *            Unicode character to append (might be more than one char eg
+	 *            &#x1D5AA)
+	 */
+	public static void appendUnicode(StringBuilder sb, int ch) {
+
+		if (ch <= 0xffff) {
+			sb.append((char) ch);
+		} else {
+
+			// eg &#x1D5AA (doesn't fit in a single char)
+			char[] chars = Character.toChars(ch);
+
+			for (int i = 0; i < chars.length; i++) {
+				sb.append(chars[i]);
+			}
+		}
+
+	}
 }

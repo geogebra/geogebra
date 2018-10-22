@@ -257,10 +257,10 @@ public class QDParser {
 					} else if ("apos".equals(cent)) {
 						sb.append('\'');
 					} else if (cent.startsWith("#x")) {
-						sb.append(
-								(char) Integer.parseInt(cent.substring(2), 16));
+						StringUtil.appendUnicode(sb, Integer.parseInt(cent.substring(2), 16));			
 					} else if (cent.charAt(0) == '#') {
-						sb.append((char) Integer.parseInt(cent.substring(1)));
+						StringUtil.appendUnicode(sb,
+								Integer.parseInt(cent.substring(1)));
 					// Insert custom entity definitions here
 					} else {
 						exc("Unknown entity: &" + cent + ";", line, col);
