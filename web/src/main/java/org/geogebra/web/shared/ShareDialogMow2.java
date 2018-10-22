@@ -111,11 +111,14 @@ public class ShareDialogMow2 extends DialogBoxW
 		// get list of groups of user
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
+		Log.debug("GET GROUP LIST: " + groupNames);
 		// ONLY FOR TESTING
 
 		/*
 		 * groupNames = new ArrayList<>(Arrays.asList("group 1", "group 2",
-		 * "group 3", "group 4", "group 5"));
+		 * "group 3", "group 4", "group 5", "group 1", "group 2", "group 3",
+		 * "group 4", "group 5", "group 1", "group 2", "group 3", "group 4",
+		 * "group 5", "group 1", "group 2", "group 3", "group 4", "group 5"));
 		 */
 		// user has no groups
 		if (groupNames.isEmpty()) {
