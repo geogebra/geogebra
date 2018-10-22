@@ -94,7 +94,10 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	public void setSharedGroups(List<String> sharedGroups) {
 		Log.debug("SHARED GROUP LIST: " + sharedGroups);
-		this.sharedGroups = sharedGroups;
+		this.sharedGroups.clear();
+		for (int i = 0; i < sharedGroups.size(); i++) {
+			this.sharedGroups.add(sharedGroups.get(i));
+		}
 	}
 
 	/**
@@ -161,8 +164,10 @@ public class ShareDialogMow2 extends DialogBoxW
 		scrollPanel = new ScrollPanel();
 		groupPanel.add(scrollPanel);
 		FlowPanel groups = new FlowPanel();
+		Log.debug("SELECTED GROUPs: " + sharedGroups);
 		// first add button for groups with which material was already shared
 		for (String sharedGroup : sharedGroups) {
+			Log.debug("CREATE SELECTED GROUP: " + sharedGroup);
 			groups.add(new GroupButtonMow(appW, sharedGroup, true,
 					new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
 
@@ -173,6 +178,7 @@ public class ShareDialogMow2 extends DialogBoxW
 		}
 		// then add other existent groups of user
 		for (String group : groupNames) {
+			Log.debug("CREATE GROUP: " + group);
 			if (!containsSharedGroupList(group)) {
 				groups.add(new GroupButtonMow(appW, group, false,
 						new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
