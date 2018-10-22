@@ -19,24 +19,27 @@ public class TableValuesView implements TableValues {
 	private float valuesMax = 2.0f;
 	private float valuesStep = 1.0f;
 
-	private TableValuesModel model;
+	private SimpleTableValuesModel model;
 	private List<GeoElement> elements;
 
 	/**
 	 * Create a new Table Value View.
 	 */
 	public TableValuesView() {
+		this.model = new SimpleTableValuesModel();
 		this.elements = new ArrayList<>();
 	}
 
 	@Override
-	public void showColumn(Evaluatable element) {
-
+	public void showColumn(Evaluatable evaluatable) {
+		if (elements.contains(evaluatable)) {
+			model.addEvaluatable(evaluatable);
+		}
 	}
 
 	@Override
-	public void hideColumn(Evaluatable element) {
-
+	public void hideColumn(Evaluatable evaluatable) {
+		model.removeEvaluatable(evaluatable);
 	}
 
 	@Override
