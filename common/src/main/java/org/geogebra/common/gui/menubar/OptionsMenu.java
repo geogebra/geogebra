@@ -11,6 +11,10 @@ public class OptionsMenu {
 
 	private Localization localization;
 
+	/**
+	 * @param localization
+	 *            localization
+	 */
 	public OptionsMenu(Localization localization) {
 		this.localization = localization;
 	}
@@ -43,6 +47,11 @@ public class OptionsMenu {
 		return pos;
 	}
 
+	/**
+	 * @param i
+	 *            number of figures
+	 * @return menu index
+	 */
 	public int figuresLookup(int i) {
 		int[] significantFigures = localization.getSignificantFigures();
 		int[] decimalPlaces = localization.getDecimalPlaces();
@@ -54,11 +63,19 @@ public class OptionsMenu {
 		return -1;
 	}
 
+	/**
+	 * @return number of "significant figures" items
+	 */
 	public int figuresLookupLength() {
 		int[] significantFigures = localization.getSignificantFigures();
 		return significantFigures[significantFigures.length - 1] + 1;
 	}
 
+	/**
+	 * @param i
+	 *            number of decimals
+	 * @return menu item
+	 */
 	public int decimalsLookup(int i) {
 		int[] decimalPlaces = localization.getDecimalPlaces();
 		for (int index = 0; index < decimalPlaces.length; index++) {
@@ -69,19 +86,26 @@ public class OptionsMenu {
 		return -1;
 	}
 
+	/**
+	 * @return number of "decimal places" items
+	 */
 	public int decimalsLookupLength() {
 		int[] decimalPlaces = localization.getDecimalPlaces();
 		return decimalPlaces[decimalPlaces.length - 1] + 1;
 	}
 
+	/**
+	 * @param i
+	 *            menu item index
+	 * @return decimal places or significant figures
+	 */
 	public int roundingMenuLookup(int i) {
 		int[] decimals = localization.getDecimalPlaces();
 		int[] significant = localization.getSignificantFigures();
 		if (i < decimals.length) {
 			return decimals[i];
-		} else {
-			return significant[i - decimals.length - 1];
 		}
+		return significant[i - decimals.length - 1];
 	}
 
 	/**
