@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class TableValuesView implements TableValues {
 
-	private double valuesMin = -2.0f;
-	private double valuesMax = 2.0f;
-	private double valuesStep = 1.0f;
+	private double valuesMin = -2.0;
+	private double valuesMax = 2.0;
+	private double valuesStep = 1.0;
 
 	private SimpleTableValuesModel model;
 	private List<GeoElement> elements;
