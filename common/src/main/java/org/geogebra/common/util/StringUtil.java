@@ -274,22 +274,24 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 		// convert every single character and append it to sb
 		int len = str.length();
-		for (int i = 0; i < len; i++) {
-			char c = str.charAt(i);
 
-			if (c <= '\u001f') {
+		// support for high Unicode characters
+		// https://stackoverflow.com/questions/24501020/how-can-i-convert-a-java-string-to-xml-entities-for-versions-of-unicode-beyond-3
+		for (int i = 0; i < len; i = str.offsetByCodePoints(i, 1)) {
+			int c = str.codePointAt(i);
+
+			if (c <= '\u001f' || c >= 0x10000) {
 				// #2399 all apart from U+0009, U+000A, U+000D are invalid in
 				// XML
 				// none should appear anyway, but encode to be safe
 
-				// eg &#10;
-				sb.append("&#");
-				sb.append(((int) c));
+				// eg &#x0A;
+				sb.append("&#x");
+				sb.append(Integer.toHexString(c));
 				sb.append(';');
 
-				if (c != '\n' && c != 13) {
-					Log.warn("Control character being written to XML: "
-							+ ((int) c));
+				if (c <= '\u001f' && c != '\n' && c != '\r') {
+					Log.warn("Control character being written to XML: " + c);
 				}
 
 			} else {
@@ -312,7 +314,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 					break;
 
 				default:
-					sb.append(c);
+					sb.append((char) c);
 				}
 			}
 		}
