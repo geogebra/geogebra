@@ -8,13 +8,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * TableValuesModel implementation. Uses caching to store values.
  */
 class SimpleTableValuesModel implements TableValuesModel {
 
+	private List<Double[]> doubleColumns;
 	private List<String[]> columns;
 	private List<String> header;
 
@@ -34,6 +34,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		this.evaluatables = new ArrayList<>();
 		this.listeners = new ArrayList<>();
 		this.columns = new LinkedList<>();
+		this.doubleColumns = new LinkedList<>();
 		this.builder = new StringBuilder();
 
 		this.header = new LinkedList<>();
@@ -65,17 +66,31 @@ class SimpleTableValuesModel implements TableValuesModel {
 		String[] valuesColumn = columns.get(column);
 		String value = valuesColumn[row];
 		if (value == null) {
-			Evaluatable evaluatable = evaluatables.get(column);
-			double x = values[row];
-			value = getValue(evaluatable, x);
+			double doubleValue = getValueAt(row, column);
+			value = format(doubleValue);
 			valuesColumn[row] = value;
 		}
 		return value;
 	}
 
-	private String getValue(Evaluatable evaluatable, double x) {
-		double value = evaluatable.value(x);
-		return kernel.format(value, StringTemplate.defaultTemplate);
+	double getValueAt(int row, int column) {
+		Double[] valuesColumn = doubleColumns.get(column);
+		Double value = valuesColumn[row];
+		if (value == null) {
+			value = evaluateAt(row, column);
+			valuesColumn[row] = value;
+		}
+		return value;
+	}
+
+	private double evaluateAt(int row, int column) {
+		Evaluatable evaluatable = evaluatables.get(column);
+		double x = values[row];
+		return evaluatable.value(x);
+	}
+
+	private String format(double x) {
+		return kernel.format(x, StringTemplate.defaultTemplate);
 	}
 
 	@Override
@@ -91,6 +106,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void addEvaluatable(Evaluatable evaluatable) {
 		evaluatables.add(evaluatable);
 		columns.add(new String[values.length]);
+		doubleColumns.add(new Double[values.length]);
 		addHeader(evaluatable);
 		notifyColumnAdded(evaluatables.size());
 	}
@@ -123,6 +139,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			int index = evaluatables.indexOf(evaluatable);
 			evaluatables.remove(evaluatable);
 			columns.remove(index);
+			doubleColumns.remove(index);
 			header.remove(index);
 			notifyColumnRemoved(index);
 		}
@@ -137,6 +154,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			columns.set(index, new String[values.length]);
+			doubleColumns.set(index, new Double[values.length]);
 			notifyColumnChanged(index);
 		}
 	}
@@ -162,42 +180,51 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 */
 	void setValues(double[] values) {
 		this.values = values;
-		ListIterator<String[]> iterator = columns.listIterator();
-		while (iterator.hasNext()) {
-			iterator.next();
-			iterator.set(new String[values.length]);
+		for (int i = 0; i < columns.size(); i++) {
+			columns.set(i, new String[values.length]);
+		}
+		for (int i = 0; i < doubleColumns.size(); i++) {
+			doubleColumns.set(i, new Double[values.length]);
 		}
 		notifyDatasetChanged();
 	}
 
+	/**
+	 * Get the x-values of the model.
+	 *
+	 * @return x-values
+	 */
+	double[] getValues() {
+		return values;
+	}
 
 	private void notifyColumnRemoved(int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnRemoved(column);
+			listener.notifyColumnRemoved(this, column);
 		}
 	}
 
 	private void notifyColumnAdded(int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnAdded(column);
+			listener.notifyColumnAdded(this, column);
 		}
 	}
 
 	private void notifyColumnChanged(int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnChanged(column);
+			listener.notifyColumnChanged(this, column);
 		}
 	}
 
 	private void notifyColumnHeaderChanged(int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnHeaderChanged(column);
+			listener.notifyColumnHeaderChanged(this, column);
 		}
 	}
 
 	private void notifyDatasetChanged() {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyDatasetChanged();
+			listener.notifyDatasetChanged(this);
 		}
 	}
 }

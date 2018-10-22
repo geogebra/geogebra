@@ -31,6 +31,7 @@ public class TableValuesView implements TableValues {
 		this.model = new SimpleTableValuesModel(kernel);
 		this.elements = new ArrayList<>();
 		updateModelValues();
+		model.registerListener(new TableValuesPoints(kernel.getConstruction()));
 	}
 
 	@Override
