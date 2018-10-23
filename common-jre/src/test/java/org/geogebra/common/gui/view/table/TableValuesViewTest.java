@@ -157,6 +157,17 @@ public class TableValuesViewTest extends BaseUnitTest {
     }
 
     @Test
+    public void testInvalidGetValues() {
+        view.setValues(-10, 10, 2);
+
+        GeoElementFactory factory = getElementFactory();
+        GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
+        showColumn(function);
+
+        Assert.assertEquals("?", model.getCellAt(0, 1));
+    }
+
+    @Test
     public void testGetValuesChaningValues() {
         view.setValues(0, 10, 2);
         GeoElementFactory factory = getElementFactory();
