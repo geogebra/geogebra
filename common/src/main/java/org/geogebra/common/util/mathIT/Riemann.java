@@ -365,6 +365,15 @@ public final class Riemann {
 			sum[0] = 1;
 			sum[1] = 0;
 			return sum;
+		} else if (abs(s[0] - 0.5) < EPSILON && abs(s[1]) > 10) {
+			double temp = abs(s[1]);
+			double[] ret = multiply(z(temp), exp(new double[] {0, -theta(temp)}));
+
+			if (s[1] < 0) {
+				ret[1] = -ret[1];
+			}
+
+			return ret;
 		} else {
 			// Algorithm according to Borwein et al (2008), p 35:
 			sum[0] = dkn[0];
@@ -604,12 +613,8 @@ public final class Riemann {
 	 * @see #theta(double)
 	 */
 	public static double z(double t) {
-		if (abs(t) < 10) {
-			double[] s = { 0.5, t };
-			return -Complex.abs(zeta(s));
-		}
 		double theta = theta(t);
-		long m = (long) sqrt(abs(t) / (2 * PI));
+		long m = (long) sqrt(t / (2 * PI));
 		double sum = 0;
 		for (long n = 1; n <= m; n++) {
 			sum += cos(theta - t * log(n)) / sqrt(n);
@@ -617,7 +622,7 @@ public final class Riemann {
 		sum *= 2;
 
 		// correction term (Edwards 1974, pp 154):
-		double p = sqrt(abs(t) / (2 * PI)) % 1; // fractional part
+		double p = sqrt(t / (2 * PI)) % 1; // fractional part
 		double R = 0; // pow(2*PI/t, 0.25) * cos(2*PI * (p*p - p - 1./16)) /
 						// cos(2*PI*p);
 
