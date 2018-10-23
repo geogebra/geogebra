@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
+import org.geogebra.common.Stopwatch;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -177,6 +178,31 @@ public class TableValuesViewTest extends BaseUnitTest {
 
         view.setValues(2.5, 22.3, 1.3);
         Assert.assertEquals("1.95", model.getCellAt(1, 1));
+    }
+
+    @Test
+    public void testCachingOfGetValues() {
+        int maxStep = 20;
+        view.setValues(1, maxStep, 1);
+        GeoElementFactory factory = getElementFactory();
+        GeoFunction function = factory.createFunction("g(x) = zeta(zeta(x))");
+        showColumn(function);
+
+        Stopwatch stopwatch = new Stopwatch();
+
+        stopwatch.start();
+        for (int i = 0; i < maxStep; i++) {
+            model.getCellAt(i, 1);
+        }
+        long elapsed = stopwatch.stop();
+
+        stopwatch.start();
+        for (int i = 0; i < maxStep; i++) {
+            model.getCellAt(i, 1);
+        }
+        long cachedElapsed = stopwatch.stop();
+
+        Assert.assertTrue("Querying with the cache is not at least 10 times faster", elapsed / 10 > cachedElapsed);
     }
 
     @Test
