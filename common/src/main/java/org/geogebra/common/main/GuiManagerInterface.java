@@ -124,6 +124,8 @@ public interface GuiManagerInterface {
 
 	View getPropertiesView();
 
+	View getTableValuesView();
+
 	boolean hasProbabilityCalculator();
 
 	void getDataCollectionViewXML(StringBuilder sb, boolean asPreference);
