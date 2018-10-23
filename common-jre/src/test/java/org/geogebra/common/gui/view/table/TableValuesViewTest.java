@@ -203,7 +203,7 @@ public class TableValuesViewTest extends BaseUnitTest {
         long cachedElapsed = stopwatch.stop();
 
         Assert.assertTrue("Querying with the cache is not at least 10 times faster",
-                elapsed / 10 > cachedElapsed);
+                elapsed / 10.0 > cachedElapsed);
     }
 
     @Test
