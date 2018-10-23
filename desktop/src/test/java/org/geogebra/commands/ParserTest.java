@@ -81,6 +81,13 @@ public class ParserTest {
 		checkSameStructure("A(1;pi/2)", "(1;pi/2)");
 	}
 
+	@Test
+	public void testPiMultiplication() {
+		checkSameStructure(Unicode.PI_STRING + "(1.3)",
+				Unicode.PI_STRING + " 1.3");
+		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
+	}
+
 	private static void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));

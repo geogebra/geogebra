@@ -132,14 +132,9 @@ public class FunctionParser {
 
 			// pi(1.3)
 			if (Unicode.PI_STRING.equals(funcName) || "pi".equals(funcName)) {
-
-				ExpressionNode expr = new ExpressionNode(kernel,
-						new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING),
-						Operation.MULTIPLY_OR_FUNCTION,
-						toFunctionArgument(myList, funcName));
-				undecided.add(expr);
-				return expr;
-
+				MyDouble pi = new MySpecialDouble(kernel, Math.PI,
+						Unicode.PI_STRING);
+				return multiplication(pi, undecided, myList, funcName);
 			}
 			// function name does not exist: return command
 			Command cmd = new Command(kernel, funcName, true, !GiacParsing);
@@ -177,7 +172,6 @@ public class FunctionParser {
 		Variable geoVar = new Variable(kernel, label);
 		ExpressionValue geoExp = geoVar
 				.resolveAsExpressionValue(SymbolicMode.NONE);
-
 		// numer of arguments
 
 		if (order > 0) { // derivative
@@ -235,12 +229,18 @@ public class FunctionParser {
 		}
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
+
+		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private ExpressionNode multiplication(ExpressionValue geoExp,
+			ArrayList<ExpressionNode> undecided, MyList myList,
+			String funcName) {
 		ExpressionNode expr = new ExpressionNode(kernel, geoExp,
 				Operation.MULTIPLY_OR_FUNCTION,
 				toFunctionArgument(myList, funcName));
 		undecided.add(expr);
 		return expr;
-
 	}
 
 	/**
