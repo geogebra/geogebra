@@ -146,18 +146,22 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
+		// ignore
 	}
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
+		// ignore
 	}
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
+		// ignore
 	}
 
 	@Override
 	public void repaintView() {
+		// ignore
 	}
 
 	@Override
@@ -167,10 +171,12 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void reset() {
+		// ignore
 	}
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
+		// ignore
 	}
 
 	@Override
@@ -185,13 +191,16 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void startBatchUpdate() {
+		// ignore
 	}
 
 	@Override
 	public void endBatchUpdate() {
+		// ignore
 	}
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// ignore
 	}
 }

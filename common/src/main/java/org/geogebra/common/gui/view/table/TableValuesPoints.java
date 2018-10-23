@@ -45,6 +45,7 @@ class TableValuesPoints implements TableValuesListener {
 
 	@Override
 	public void notifyColumnHeaderChanged(TableValuesModel model, int column) {
+		// Ignore header changed notification
 	}
 
 	@Override
