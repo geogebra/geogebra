@@ -12,6 +12,9 @@ dependencies {
 	compile project(':common')
 	compile project(':giac-jni')
 	compile project(':editor-base')
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
 }
 
 findbugs{

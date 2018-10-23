@@ -23,11 +23,13 @@ public interface TableValues extends View {
 	void hideColumn(Evaluatable evaluatable);
 
 	/**
-	 * Set the lower value of the x-values.
+	 * Set the values parameters.
 	 *
 	 * @param valuesMin lower value of x-values
+	 * @param valuesMax upper value of x-values
+	 * @param valuesStep step of the x-values
 	 */
-	void setValuesMin(double valuesMin);
+	void setValues(double valuesMin, double valuesMax, double valuesStep);
 
 	/**
 	 * Get the lower value of the x-values.
@@ -37,25 +39,11 @@ public interface TableValues extends View {
 	double getValuesMin();
 
 	/**
-	 * Set the upper value of the x-values.
-	 *
-	 * @param valuesMax upper value of x-values
-	 */
-	void setValuesMax(double valuesMax);
-
-	/**
 	 * Get the upper value of the x-values.
 	 *
 	 * @return the upper value of x-values
 	 */
 	double getValuesMax();
-
-	/**
-	 * Set the step of the x-values.
-	 *
-	 * @param valuesStep step of the x-values
-	 */
-	void setValuesStep(double valuesStep);
 
 	/**
 	 * Get the step of the x-values/

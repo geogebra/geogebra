@@ -47,9 +47,11 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void setValuesMin(double valuesMin) {
+	public void setValues(double valuesMin, double valuesMax, double valuesStep) {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
 		this.valuesMin = valuesMin;
+		this.valuesMax = valuesMax;
+		this.valuesStep = valuesStep;
 		updateModelValues();
 	}
 
@@ -59,22 +61,8 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void setValuesMax(double valuesMax) {
-		assertValidValues(valuesMin, valuesMax, valuesStep);
-		this.valuesMax = valuesMax;
-		updateModelValues();
-	}
-
-	@Override
 	public double getValuesMax() {
 		return valuesMax;
-	}
-
-	@Override
-	public void setValuesStep(double valuesStep) {
-		assertValidValues(valuesMin, valuesMax, valuesStep);
-		this.valuesStep = valuesStep;
-		updateModelValues();
 	}
 
 	@Override

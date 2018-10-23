@@ -86,7 +86,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private double evaluateAt(int row, int column) {
-		Evaluatable evaluatable = evaluatables.get(column);
+		Evaluatable evaluatable = evaluatables.get(column - 1);
 		double x = values[row];
 		return evaluatable.value(x);
 	}
@@ -123,8 +123,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (evaluatable instanceof GeoElementND) {
 			GeoElementND element = (GeoElementND) evaluatable;
 			builder.setLength(0);
+			builder.append(element.getLabelSimple());
 			builder.append("(");
-			builder.append(element.getLabel(StringTemplate.defaultTemplate));
+			builder.append("x");
 			builder.append(")");
 		}
 
@@ -140,10 +141,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			evaluatables.remove(evaluatable);
-			columns.remove(index);
-			doubleColumns.remove(index);
-			header.remove(index);
-			notifyColumnRemoved(index);
+			int column = index + 1;
+			columns.remove(column);
+			doubleColumns.remove(column);
+			header.remove(column);
+			notifyColumnRemoved(column);
 		}
 	}
 
@@ -157,7 +159,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			int index = evaluatables.indexOf(evaluatable);
 			columns.set(index, new String[values.length]);
 			doubleColumns.set(index, new Double[values.length]);
-			notifyColumnChanged(index);
+			notifyColumnChanged(index + 1);
 		}
 	}
 
@@ -171,7 +173,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			int index = evaluatables.indexOf(evaluatable);
 			String newName = getHeaderName(evaluatable);
 			header.set(index, newName);
-			notifyColumnHeaderChanged(index);
+			notifyColumnHeaderChanged(index + 1);
 		}
 	}
 

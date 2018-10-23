@@ -50,10 +50,10 @@ class TableValuesPoints implements TableValuesListener {
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
-		for (int i = points.size() - 1; i >= 0; i--) {
+		for (int i = points.size() - 1; i >= 1; i--) {
 			removePoints(i);
 		}
-		for (int i = 0; i < simpleModel.getColumnCount(); i++) {
+		for (int i = 1; i < simpleModel.getColumnCount(); i++) {
 			addPoints(simpleModel, i);
 		}
 	}
@@ -66,14 +66,14 @@ class TableValuesPoints implements TableValuesListener {
 			GeoPoint point = new GeoPoint(construction, values[row], value, 1.0);
 			list.add(point);
 		}
-		points.add(column, list);
+		points.add(column - 1, list);
 	}
 
 	private void removePoints(int column) {
-		List<GeoPoint> list = points.get(column);
+		List<GeoPoint> list = points.get(column - 1);
 		for (GeoPoint point: list) {
 			construction.removeFromConstructionList(point);
 		}
-		points.remove(column);
+		points.remove(column - 1);
 	}
 }
