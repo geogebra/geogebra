@@ -421,11 +421,16 @@ public class DrawAngle extends Drawable implements Previewable {
 				break;
 			case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 			case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
-				double[] n2 = new double[2]; // actual angle for arrow point
-				double[] n = new double[2]; // adjusted to rotate arrow slightly
-				double[] v = new double[2]; // adjusted to rotate arrow slightly
 
-				double rotateangle = 0.25d; // rotate arrow slightly
+				// actual angle for arrow point
+				double[] n2 = new double[2];
+
+				// adjusted to rotate arrow slightly
+				double[] n = new double[2];
+				double[] v = new double[2];
+
+				// angle to rotate arrow
+				double rotateangle = 8d / arcSize;
 
 				if (geo.getDecorationType() == GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE) {
 					n2[0] = Math.cos(angSt);
