@@ -359,17 +359,11 @@ public final class Riemann {
 			// use the reflection functional equation zeta(s) = chi(s)
 			// zeta(1-s):
 			return multiply(chi(s), zeta(subtract(ONE_, s)));
-		} else if (s[0] > 42) {
+		} else if (s[0] > 56) {
 			// pointless to calculate as the algorithm below is incorrect
 			// for larger numbers due to numerical errors
 			sum[0] = 1;
-			if (s[0] < 58) {
-				// this linear interpolation helps hide the discontinuity
-				double[] temp = new double[] { 42, s[1] };
-				double[] approx = zeta(temp);
-				sum[0] = ((58 - s[0]) * approx[0] + s[0] - 42) / 16;
-				sum[1] = ((58 - s[0]) * approx[1] + s[0] - 42) / 16;
-			}
+			sum[1] = 0;
 			return sum;
 		} else {
 			// Algorithm according to Borwein et al (2008), p 35:
