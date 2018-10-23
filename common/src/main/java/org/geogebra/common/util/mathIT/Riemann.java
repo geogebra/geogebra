@@ -158,20 +158,6 @@ public final class Riemann {
 		return f;
 	}
 
-	/** Coefficients as defined in Borwein et al (2008), p 35. */
-	private static double dOverN(int k, int n) {
-		double d_k = 0;
-		for (int i = 0; i <= k; i++) {
-			d_k += dterm(n, i);
-		}
-		return d_k;
-	}
-
-	private static double dterm(int n, int i) {
-		return factorial(n + i - 1) * pow(4, i)
-				/ (factorial(n - i) * factorial(2 * i));
-	}
-
 	/**
 	 * Riemann zeta function &#950;(<i>s</i>) for <i>s</i> &#8712;
 	 * <span style="font-size:large;">&#8450;</span>. It is computed by
@@ -345,23 +331,45 @@ public final class Riemann {
 			// negative evens return zero, zeta(-2n) = 0:
 			return sum;
 		} else if (s[0] < 0) { // actually: s[0] < 0.5, but the result is not
-								// satisfactory ...
+			// satisfactory ...
 			// use the reflection functional equation zeta(s) = chi(s)
 			// zeta(1-s):
 			return multiply(chi(s), zeta(subtract(ONE_, s)));
+		} else if (s[0] > 42) {
+			// pointless to calculate as the algorithm below is incorrect
+			// for larger numbers due to numerical errors
+			sum[0] = 1;
+			if (s[0] < 58) {
+				// this linear interpolation helps hide the discontinuity
+				double[] temp = new double[] { 42, s[1] };
+				double[] approx = zeta(temp);
+				sum[0] = ((58 - s[0]) * approx[0] + s[0] - 42) / 16;
+				sum[1] = ((58 - s[0]) * approx[1] + s[0] - 42) / 16;
+			}
+			return sum;
 		} else {
 			// Algorithm according to Borwein et al (2008), p 35:
-			int n = 70; // should not be greater than 75, because overflow in
-						// factorial method
-			double dnn = n * dOverN(n, n);
-			double dkn = 0;
-			for (int k = 0; k < n; k++) {
-				dkn += dterm(n, k);
-				sum = add(sum,
-						divide((k % 2 == 0 ? -1 : 1) * (n * dkn - dnn),
-								power(k + 1, s)));
+			int n = 70;
 
+			double dnn = 0;
+			double dterm = 1;
+			for (int k = 1; k <= n; k++) {
+				dterm *= 2.0 * (n + k - 1) * (n - k + 1) / ((2 * k - 1) * k);
+				dnn += dterm;
 			}
+
+			double dkn = 1 - dnn;
+			int plusminus = -1;
+
+			sum[0] = -dkn;
+			dterm = 1;
+			for (int k = 1; k < n; k++) {
+				dterm *= 2.0 * (n + k - 1) * (n - k + 1) / ((2 * k - 1) * k);
+				dkn += dterm;
+				plusminus = -plusminus;
+				sum = add(sum, divide(plusminus * dkn, power(k + 1, s)));
+			}
+
 			sum = divide(sum,
 					multiply(dnn,
 					subtract(ONE_, power(2, subtract(ONE_, s)))));
