@@ -295,7 +295,8 @@ public class ShareDialogMow2 extends DialogBoxW
 	 */
 	public void onSwitch(boolean isSwitchOn) {
 		linkShareOnOffLbl
-				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
+				.setText(app.getLocalization().getMenu(
+						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
 		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
 				? "SharedLinkHelpTxt" : "NotSharedLinkHelpTxt"));
 		linkPanel.setVisible(isSwitchOn);
