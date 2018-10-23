@@ -104,6 +104,7 @@ public abstract class Command implements AtomConsumer /* ,Cloneable */ {
 	public void rbrace(TeXParser tp) {
 	}
 
+	// XXX TODO: remove this and all implementations (now unused)
 	public abstract Command duplicate();
 
 }

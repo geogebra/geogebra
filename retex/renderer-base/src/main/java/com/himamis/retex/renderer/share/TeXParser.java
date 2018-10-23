@@ -48,7 +48,6 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.exception.ParseException;
@@ -1985,7 +1984,7 @@ public class TeXParser {
 		// a symbol (e.g. \int overwrites int symbol)
 		if (!Commands.exec(this, command) && !SymbolAtom.put(this, command)
 				&& !NewCommandMacro.exec(this, command)
-				&& !JLMPackage.exec(this, command)) {
+		/* XXX && !JLMPackage.exec(this, command) */) {
 			if (command.length() == 1) {
 				// UnicodeMapping.get(command.charAt(0));
 				if (SymbolAtom.put(this, command)) {
@@ -2000,14 +1999,14 @@ public class TeXParser {
 		}
 	}
 
-	public static List<String> getAllCommands() {
-		// AlphabetManager.get().addBlock(Character.UnicodeBlock.CYRILLIC);
-		final List<String> all = new ArrayList<String>();
-		Commands.getAll(all);
-		SymbolAtom.getAll(all);
-
-		return all;
-	}
+	// XXX
+	// public static List<String> getAllCommands() {
+	// final List<String> all = new ArrayList<String>();
+	// Commands.getAll(all);
+	// SymbolAtom.getAll(all);
+	//
+	// return all;
+	// }
 
 	public void processSubSup(final char f) throws ParseException {
 		if (!stack.isEmpty()) {

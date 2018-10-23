@@ -46,9 +46,10 @@
 package com.himamis.retex.renderer.share.commands;
 
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.Reusable;
 import com.himamis.retex.renderer.share.TeXParser;
 
-public abstract class Command0A extends Command {
+public abstract class Command0A extends Command implements Reusable {
 
 	@Override
 	public boolean init(TeXParser tp) {
