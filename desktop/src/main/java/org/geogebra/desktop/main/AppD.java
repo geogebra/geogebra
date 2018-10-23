@@ -2281,11 +2281,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 *             error
 	 */
 	@Override
-	public BufferedImage getExportImage(double maxX, double maxY)
+	public MyImageJre getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
-		return GBufferedImageD.getAwtBufferedImage(
-				getActiveEuclidianViewExportImage(maxX, maxY));
+		return new MyImageD(GBufferedImageD.getAwtBufferedImage(
+				getActiveEuclidianViewExportImage(maxX, maxY)));
 	}
 
 	// **************************************************************************

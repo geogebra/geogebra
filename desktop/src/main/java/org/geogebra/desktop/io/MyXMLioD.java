@@ -182,8 +182,8 @@ public class MyXMLioD extends MyXMLioJre {
 
 	@Override
 	final protected MyImageJre getExportImage(double width, double height) {
-		return new MyImageD(((AppDI) app).getExportImage(THUMBNAIL_PIXELS_X,
-				THUMBNAIL_PIXELS_Y));
+		return ((AppDI) app).getExportImage(THUMBNAIL_PIXELS_X,
+				THUMBNAIL_PIXELS_Y);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package org.geogebra.desktop.headless;
 
 import java.awt.Font;
-import java.awt.Image;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -826,7 +825,7 @@ public class AppDNoGui extends App implements AppDI {
 		// TODO Auto-generated method stub
 	}
 
-	public Image getExportImage(double thumbnailPixelsX,
+	public MyImageJre getExportImage(double thumbnailPixelsX,
 			double thumbnailPixelsY) {
 		// TODO Auto-generated method stub
 		return null;

@@ -459,9 +459,9 @@ public class GeoGebraFileChooser extends JFileChooser
 				// Update preview for saving a ggb file
 				else if (fileChooser
 						.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA_SAVE) {
-					tmpImage = new MyImageD(
+					tmpImage = (MyImageD)
 							app.getExportImage(MyXMLio.THUMBNAIL_PIXELS_X,
-									MyXMLio.THUMBNAIL_PIXELS_Y));
+									MyXMLio.THUMBNAIL_PIXELS_Y);
 					// TODO: show file size info?
 					fileLabel.setText(null);
 				}
