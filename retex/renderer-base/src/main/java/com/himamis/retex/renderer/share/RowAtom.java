@@ -51,7 +51,6 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayList;
 import java.util.BitSet;
 
-import com.himamis.retex.renderer.share.dynamic.DynamicAtom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -233,25 +232,25 @@ public class RowAtom extends Atom implements Row {
 					}
 				}
 			}
-
-			if (at instanceof DynamicAtom) {
-				// TODO: ecrire des tests pr ce truc
-				// mettre le jlmDynamic au debut, au milieu et a la fin
-				final DynamicAtom da = (DynamicAtom) at;
-				if (da.getInsertMode()) {
-					final Atom a = da.getAtom();
-					if (a instanceof RowAtom) {
-						final ArrayList<Atom> els = ((RowAtom) a).getElements();
-						if (!els.isEmpty()) {
-							at = els.get(0);
-							elements.addAll(i + 1, els.subList(1, els.size()));
-							N += els.size() - 1;
-						}
-					} else {
-						at = a;
-					}
-				}
-			}
+			// XXX
+			// if (at instanceof DynamicAtom) {
+			// // TODO: ecrire des tests pr ce truc
+			// // mettre le jlmDynamic au debut, au milieu et a la fin
+			// final DynamicAtom da = (DynamicAtom) at;
+			// if (da.getInsertMode()) {
+			// final Atom a = da.getAtom();
+			// if (a instanceof RowAtom) {
+			// final ArrayList<Atom> els = ((RowAtom) a).getElements();
+			// if (!els.isEmpty()) {
+			// at = els.get(0);
+			// elements.addAll(i + 1, els.subList(1, els.size()));
+			// N += els.size() - 1;
+			// }
+			// } else {
+			// at = a;
+			// }
+			// }
+			// }
 
 			if (at instanceof MathchoiceAtom) {
 				at = ((MathchoiceAtom) at).chose(env);

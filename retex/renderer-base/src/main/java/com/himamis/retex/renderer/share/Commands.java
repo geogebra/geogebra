@@ -49,7 +49,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.commands.*;
-import com.himamis.retex.renderer.share.dynamic.DynamicAtom;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -1046,21 +1045,22 @@ public class Commands {
 					return false;
 				}
 			};
-		case "jlmDynamic":
-			return new Command0AImpl() {
-				@Override
-				public boolean init(TeXParser tp) {
-					if (DynamicAtom.hasAnExternalConverterFactory()) {
-						final char opt = tp.getOptionAsChar();
-						final String arg = tp.getGroupAsArgument();
-						tp.addToConsumer(new DynamicAtom(arg, opt));
-
-						return false;
-					}
-					throw new ParseException(tp,
-							"No ExternalConverterFactory set !");
-				}
-			};
+		// XXX
+		// case "jlmDynamic":
+		// return new Command0AImpl() {
+		// @Override
+		// public boolean init(TeXParser tp) {
+		// if (DynamicAtom.hasAnExternalConverterFactory()) {
+		// final char opt = tp.getOptionAsChar();
+		// final String arg = tp.getGroupAsArgument();
+		// tp.addToConsumer(new DynamicAtom(arg, opt));
+		//
+		// return false;
+		// }
+		// throw new ParseException(tp,
+		// "No ExternalConverterFactory set !");
+		// }
+		// };
 		case "doteq":
 			return new Command0A() {
 				@Override
