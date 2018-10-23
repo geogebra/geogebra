@@ -65,6 +65,38 @@ public final class Riemann {
 	 */
 	public static final double EPSILON = 1e-6;
 
+	// calculate infinite series to n terms
+	private static final int maxTermNo = 70;
+
+	private static final double[] dkn = new double[maxTermNo];
+
+	private static final double dnn;
+
+	static {
+		double dterm[] = new double[maxTermNo + 1];
+		double tempdnn = 0;
+
+		dterm[0] = 1;
+		for (int k = 1; k <= maxTermNo; k++) {
+			dterm[k] = dterm[k - 1] * 2.0 * (maxTermNo + k - 1)
+					* (maxTermNo - k + 1) / ((2 * k - 1) * k);
+			tempdnn += dterm[k];
+		}
+
+		dnn = tempdnn;
+
+		double tempdkn = 1 - dnn;
+
+		dkn[0] = -tempdkn;
+
+		int plusminus = 1;
+		for (int k = 1; k < maxTermNo; k++) {
+			tempdkn += dterm[k];
+			dkn[k] = plusminus * tempdkn;
+			plusminus = -plusminus;
+		}
+	}
+
 	// Suppresses default constructor, ensuring non-instantiability.
 	private Riemann() {
 	}
@@ -148,14 +180,6 @@ public final class Riemann {
 		result = multiply(result, power(PI, subtract(s, ONE_)));
 		result = multiply(result, power(2, s));
 		return result;
-	}
-
-	private static double factorial(int n) {
-		double f = 1;
-		for (int i = 2; i <= n; i++) {
-			f *= i;
-		}
-		return f;
 	}
 
 	/**
@@ -349,25 +373,9 @@ public final class Riemann {
 			return sum;
 		} else {
 			// Algorithm according to Borwein et al (2008), p 35:
-			int n = 70;
-
-			double dnn = 0;
-			double dterm = 1;
-			for (int k = 1; k <= n; k++) {
-				dterm *= 2.0 * (n + k - 1) * (n - k + 1) / ((2 * k - 1) * k);
-				dnn += dterm;
-			}
-
-			double dkn = 1 - dnn;
-			int plusminus = -1;
-
-			sum[0] = -dkn;
-			dterm = 1;
-			for (int k = 1; k < n; k++) {
-				dterm *= 2.0 * (n + k - 1) * (n - k + 1) / ((2 * k - 1) * k);
-				dkn += dterm;
-				plusminus = -plusminus;
-				sum = add(sum, divide(plusminus * dkn, power(k + 1, s)));
+			sum[0] = dkn[0];
+			for (int k = 1; k < maxTermNo; k++) {
+				sum = add(sum, divide(dkn[k], power(k + 1, s)));
 			}
 
 			sum = divide(sum,
@@ -807,7 +815,4 @@ public final class Riemann {
 				+ 31 / (80640 * t * t * t * t * t)
 				+ 127 / (430080 * t * t * t * t * t * t * t);
 	}
-
-	/** For test purposes. */
-
 }
