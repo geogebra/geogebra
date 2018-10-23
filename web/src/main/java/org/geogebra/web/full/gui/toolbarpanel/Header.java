@@ -51,6 +51,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private PersistableToggleButton btnMenu;
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
+	private MyToggleButton btnTableView;
 	private MyToggleButton btnClose;
 	private boolean open = true;
 	private Image imgClose;
@@ -127,6 +128,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		createAlgebraButton();
 		createToolsButton();
+		createTableViewButton();
 
 		center = new FlowPanel();
 		center.addStyleName("center");
@@ -138,6 +140,10 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		indicator.addClassName("indicator");
 		center.getElement().insertFirst(indicator);
 		center.add(btnTools);
+		if (app.has(Feature.TABLE_VIEW)) {
+			center.add(btnTableView);
+			center.addStyleName("threeTab");
+		}
 
 		contents.add(center);
 	}
@@ -185,6 +191,26 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnTools.setIgnoreTab();
 	}
 
+	private void createTableViewButton() {
+		btnTableView = new MyToggleButton(new NoDragImage(
+				MaterialDesignResources.INSTANCE.toolbar_table_view(), 24),
+				app);
+		btnTableView.addStyleName("tabButton");
+		ClickStartHandler.init(btnTableView,
+				new ClickStartHandler(false, true) {
+
+					@Override
+					public void onClickStart(int x, int y,
+							PointerEventType type) {
+						onTableViewPressed();
+					}
+				});
+
+		btnTableView.addKeyDownHandler(this);
+		AriaHelper.hide(btnTableView);
+		btnTableView.setIgnoreTab();
+	}
+
 	/**
 	 * Handler for Algebra button.
 	 */
@@ -199,7 +225,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	/**
-	 * Handler for button.
+	 * Handler for tools button.
 	 */
 	protected void onToolsPressed() {
 		if (!open) {
@@ -209,6 +235,19 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
 		toolbarPanel.openTools(open);
+	}
+
+	/**
+	 * Handler for table view button.
+	 */
+	protected void onTableViewPressed() {
+		if (!open) {
+			toolbarPanel.setFadeTabs(false);
+		}
+		app.setKeyboardNeeded(false);
+		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().showKeyboardButton(false);
+		toolbarPanel.openTableView(open);
 	}
 
 	/**
@@ -291,6 +330,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	void setLabels() {
 		setTitle(btnMenu, "Menu");
 		setTitle(btnTools, "Tools");
+		if (btnTableView != null) {
+			setTitle(btnTableView, "Table");
+		}
 		setTitle(btnAlgebra, app.getConfig().getAVTitle());
 		setTitle(btnClose, isOpen() ? "Close" : "Open");
 		setTitle(btnUndo, "Undo");
@@ -309,6 +351,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
 		setAltText(btnAlgebra, app.getConfig().getAVTitle());
 		setAltText(btnTools, "Tools");
+		if (btnTableView != null) {
+			setAltText(btnTableView, "Table");
+		}
 		setAltText(btnUndo, "Undo");
 		setAltText(btnRedo, "Redo");
 	}
@@ -320,33 +365,37 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	/**
-	 * Switch to algebra panel
+	 * @param tabId
+	 *            tab id
 	 */
-	void selectAlgebra() {
-		if (center == null) {
-			return;
-		}
-		center.removeStyleName("indicatorRight");
-		center.addStyleName("indicatorLeft");
-		btnAlgebra.addStyleName("selected");
-		btnTools.removeStyleName("selected");
-
-		toolbarPanel.setSelectedTabId(TabIds.ALGEBRA);
-	}
-
-	/**
-	 * Switch to tools panel
-	 */
-	void selectTools() {
+	void selectTab(TabIds tabId) {
 		if (center == null) {
 			return;
 		}
 		center.removeStyleName("indicatorLeft");
-		center.addStyleName("indicatorRight");
+		center.removeStyleName("indicatorCenter");
+		center.removeStyleName("indicatorRight");
 		btnAlgebra.removeStyleName("selected");
-		btnTools.addStyleName("selected");
-
-		toolbarPanel.setSelectedTabId(TabIds.TOOLS);
+		btnTools.removeStyleName("selected");
+		btnTableView.removeStyleName("selected");
+		switch (tabId) {
+		case ALGEBRA:
+			center.addStyleName("indicatorLeft");
+			btnAlgebra.addStyleName("selected");
+			break;
+		case TOOLS:
+			center.addStyleName(app.has(Feature.TABLE_VIEW) ? "indicatorCenter"
+					: "indicatorRight");
+			btnTools.addStyleName("selected");
+			break;
+		case TABLE:
+			center.addStyleName("indicatorRight");
+			btnTableView.addStyleName("selected");
+			break;
+		default:
+			break;
+		}
+		toolbarPanel.setSelectedTabId(tabId);
 	}
 
 	private void createRightSide() {

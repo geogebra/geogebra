@@ -77,6 +77,30 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 		
+			.center.threeTab {
+				left: calc(50% - 126px);
+				
+				.indicator {
+					left: calc(50%);
+				}
+			}
+		
+			.center.threeTab.indicatorLeft {
+				.indicator {
+					transform: translateX(50%) translateX(-66px);
+				}	
+			}
+			.center.threeTab.indicatorCenter {
+				.indicator {
+					transform: translateX(50%) translateX(-18px);
+				}	
+			}
+			.center.threeTab.indicatorRight {
+				.indicator {
+					transform: translateX(50%) translateX(30px);
+				}	
+			}
+		
 			.center.indicatorLeft {
 				.indicator {
 					transform: translateX(50%) translateX(-18px);
@@ -183,6 +207,11 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				display: table-cell;
 				top: calc(50% - 64px);
 				height: 84px !important;
+				
+				&.threeTab {
+					left: 0px;
+					top: calc(50% - 86px);
+				}
 
 				.tabButton {
 					margin-left: 10px !important;	

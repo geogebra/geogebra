@@ -72,7 +72,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		ALGEBRA,
 
 		/** tab two */
-		TOOLS
+		TOOLS,
+
+		/** tab three */
+		TABLE
 	}
 
 	/** Header of the panel with buttons and tabs */
@@ -610,7 +613,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            decides if tab should fade during animation.
 	 */
 	public void openAlgebra(boolean fade) {
-		header.selectAlgebra();
+		header.selectTab(TabIds.ALGEBRA);
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
@@ -634,7 +637,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			return;
 		}
 		ToolTipManagerW.hideAllToolTips();
-		header.selectTools();
+		header.selectTab(TabIds.TOOLS);
 		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
@@ -642,6 +645,27 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		tabTools.setActive(true);
 		setFadeTabs(fade);
 		updateMoveButton();
+	}
+
+	/**
+	 * Opens tools tab.
+	 * 
+	 * @param fade
+	 *            decides if tab should fade during animation.
+	 */
+	public void openTableView(boolean fade) {
+		if (!app.showToolBar()) {
+			openAlgebra(fade);
+			return;
+		}
+		ToolTipManagerW.hideAllToolTips();
+		header.selectTab(TabIds.TABLE);
+		open();
+		/*
+		 * main.removeStyleName("algebra"); main.addStyleName("tools");
+		 * tabAlgebra.setActive(false); tabTools.setActive(true);
+		 * setFadeTabs(fade); updateMoveButton();
+		 */
 	}
 
 	/**

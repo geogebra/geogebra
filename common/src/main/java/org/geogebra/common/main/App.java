@@ -4129,6 +4129,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** GGB-2517 */
 		case TOOLBAR_FROM_APPCONFIG:
 			return prerelease;
+
+		/** APPS-19 */
+		case TABLE_VIEW:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
