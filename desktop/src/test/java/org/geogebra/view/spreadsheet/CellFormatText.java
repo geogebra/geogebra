@@ -4,7 +4,7 @@ import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

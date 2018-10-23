@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

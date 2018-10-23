@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.Test;
 

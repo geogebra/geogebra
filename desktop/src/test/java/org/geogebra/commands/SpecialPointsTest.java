@@ -1,6 +1,6 @@
 package org.geogebra.commands;
 
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;

@@ -3,7 +3,7 @@ package org.geogebra.cas;
 import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 
 public class CASViewNoGui extends CASView {
 

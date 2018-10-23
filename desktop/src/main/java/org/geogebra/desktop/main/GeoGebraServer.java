@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.util.HttpRequestD;
 
 import com.sun.net.httpserver.HttpExchange;

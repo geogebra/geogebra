@@ -1,7 +1,7 @@
 package org.geogebra.io.latex;
 
 import org.geogebra.common.main.ScreenReader;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.BeforeClass;

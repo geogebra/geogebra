@@ -1,6 +1,6 @@
 package org.geogebra.main;
 
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Test;
 

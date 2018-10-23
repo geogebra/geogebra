@@ -5,7 +5,7 @@ import org.geogebra.common.gui.dialog.ToolInputOutputListener;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

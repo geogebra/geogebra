@@ -5,7 +5,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

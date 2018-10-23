@@ -138,6 +138,9 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
+import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -211,12 +214,11 @@ import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
+import org.geogebra.desktop.headless.AppDI;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
-import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
-import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -2074,7 +2076,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public final MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		MyImageD im = ImageManagerD.getExternalImage(filename);
+		MyImageJre im = ImageManagerD.getExternalImage(filename);
 		return im;
 	}
 

@@ -9,7 +9,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.export.GraphicExportDialog;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

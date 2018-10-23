@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
-import org.geogebra.desktop.main.AppDI;
+import org.geogebra.desktop.headless.AppDI;
 import org.geogebra.desktop.util.UtilD;
 
 /**

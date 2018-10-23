@@ -1,4 +1,4 @@
-package org.geogebra.desktop.main;
+package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;

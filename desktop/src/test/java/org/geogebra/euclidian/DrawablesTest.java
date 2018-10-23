@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.io.XmlTest;
 import org.junit.Assert;
 import org.junit.BeforeClass;

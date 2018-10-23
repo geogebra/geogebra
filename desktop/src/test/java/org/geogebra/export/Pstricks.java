@@ -13,7 +13,7 @@ import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPdfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.euclidian.TestEvent;
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package org.geogebra.desktop.main;
+package org.geogebra.desktop.headless;
 
 import java.awt.Image;
 

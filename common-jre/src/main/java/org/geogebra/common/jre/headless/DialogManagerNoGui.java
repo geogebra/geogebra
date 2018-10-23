@@ -1,4 +1,4 @@
-package org.geogebra.desktop.main;
+package org.geogebra.common.jre.headless;
 
 import java.util.ArrayList;
 
@@ -104,7 +104,6 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 
 					@Override
 					public void callback(Boolean ok) {
-
 
 					}
 				});

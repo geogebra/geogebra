@@ -1,4 +1,4 @@
-package org.geogebra.desktop.main;
+package org.geogebra.desktop.headless;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -33,6 +33,12 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.headless.DialogManagerNoGui;
+import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
+import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
+import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -74,9 +80,10 @@ import org.geogebra.desktop.geogebra3D.App3DCompanionD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
-import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
-import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
+import org.geogebra.desktop.main.GFileHandler;
+import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.SpreadsheetTableModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -295,7 +302,7 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		MyImageD im = ImageManagerD.getExternalImage(filename);
+		MyImageJre im = ImageManagerD.getExternalImage(filename);
 		return im;
 	}
 

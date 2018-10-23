@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.Test;
 

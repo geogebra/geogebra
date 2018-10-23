@@ -10,6 +10,7 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Charsets;
+import org.geogebra.desktop.headless.AppDI;
 
 public class GFileHandler {
 	public static boolean loadXML(App app, InputStream is, boolean isMacroFile)
