@@ -159,13 +159,17 @@ public final class Riemann {
 	}
 
 	/** Coefficients as defined in Borwein et al (2008), p 35. */
-	private static double d(int k, int n) {
+	private static double dOverN(int k, int n) {
 		double d_k = 0;
 		for (int i = 0; i <= k; i++) {
-			d_k += factorial(n + i - 1) * pow(4, i)
-					/ (factorial(n - i) * factorial(2 * i));
+			d_k += dterm(n, i);
 		}
-		return n * d_k;
+		return d_k;
+	}
+
+	private static double dterm(int n, int i) {
+		return factorial(n + i - 1) * pow(4, i)
+				/ (factorial(n - i) * factorial(2 * i));
 	}
 
 	/**
@@ -349,13 +353,17 @@ public final class Riemann {
 			// Algorithm according to Borwein et al (2008), p 35:
 			int n = 70; // should not be greater than 75, because overflow in
 						// factorial method
-
+			double dnn = n * dOverN(n, n);
+			double dkn = 0;
 			for (int k = 0; k < n; k++) {
+				dkn += dterm(n, k);
 				sum = add(sum,
-						divide((k % 2 == 0 ? -1 : 1) * (d(k, n) - d(n, n)),
+						divide((k % 2 == 0 ? -1 : 1) * (n * dkn - dnn),
 								power(k + 1, s)));
+
 			}
-			sum = divide(sum, multiply(d(n, n),
+			sum = divide(sum,
+					multiply(dnn,
 					subtract(ONE_, power(2, subtract(ONE_, s)))));
 		}
 		return sum;
