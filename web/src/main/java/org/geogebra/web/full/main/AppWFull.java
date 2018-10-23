@@ -552,7 +552,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				&& getGuiManager() instanceof GuiManagerW
 				&& ((GuiManagerW) getGuiManager())
 						.getUnbundledToolbar() != null) {
-			((GuiManagerW) getGuiManager()).getUnbundledToolbar().getTabTools()
+			((GuiManagerW) getGuiManager()).getUnbundledToolbar()
 					.updateContent();
 		}
 	}
@@ -1435,7 +1435,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 						updatePerspectiveForUnbundled(current);
 					}
 					((GuiManagerW) getGuiManager()).getUnbundledToolbar()
-							.getTabTools().updateContent();
+							.updateContent();
 				}
 			}
 		}

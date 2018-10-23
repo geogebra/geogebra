@@ -7,6 +7,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -86,6 +87,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private StandardButton moveBtn;
 	private Integer lastOpenWidth = null;
 	private AlgebraTab tabAlgebra = null;
+	private TableTab tabTable = null;
 	private ToolsTab tabTools = null;
 	private TabIds selectedTabId;
 	private boolean closedByUser = false;
@@ -229,8 +231,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
 		tabTools = new ToolsTab(this);
+
 		add(tabAlgebra);
 		add(tabTools);
+		if (app.has(Feature.TABLE_VIEW)) {
+			tabTable = new TableTab(this);
+			add(tabTable);
+		}
 		addMoveBtn();
 		add(main);
 		ClickStartHandler.initDefaults(main, false, true);
@@ -282,6 +289,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.setTitle(altText);
 		moveBtn.setAltText(altText);
 		moveBtn.setStyleName("moveFloatingBtn");
+		if (tabTable != null) {
+			moveBtn.addStyleName("moveBtnMiddleTab");
+		}
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
 		moveBtn.setIgnoreTab();
@@ -613,16 +623,27 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            decides if tab should fade during animation.
 	 */
 	public void openAlgebra(boolean fade) {
-		header.selectTab(TabIds.ALGEBRA);
-		open();
-		main.addStyleName("algebra");
-		main.removeStyleName("tools");
-
-		tabAlgebra.setActive(true);
-		tabTools.setActive(false);
-		setFadeTabs(fade);
+		if (this.getSelectedTabId() == TabIds.TABLE) {
+			tabTools.setVisible(false);
+		}
+		switchTab(TabIds.ALGEBRA, fade);
 		hideMoveFloatingButton();
 		setMoveMode();
+	}
+
+	private void switchTab(TabIds tab, boolean fade) {
+		ToolTipManagerW.hideAllToolTips();
+		header.selectTab(tab);
+		open();
+		Dom.toggleClass(main, "algebra", tab == TabIds.ALGEBRA);
+		Dom.toggleClass(main, "tools", tab == TabIds.TOOLS);
+		Dom.toggleClass(main, "table", tab == TabIds.TABLE);
+		tabAlgebra.setActive(tab == TabIds.ALGEBRA);
+		tabTools.setActive(tab == TabIds.TOOLS);
+		if (tabTable != null) {
+			tabTable.setActive(tab == TabIds.TABLE);
+		}
+		setFadeTabs(fade);
 	}
 
 	/**
@@ -636,14 +657,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			openAlgebra(fade);
 			return;
 		}
+		tabTools.setVisible(true);
 		ToolTipManagerW.hideAllToolTips();
-		header.selectTab(TabIds.TOOLS);
-		open();
-		main.removeStyleName("algebra");
-		main.addStyleName("tools");
-		tabAlgebra.setActive(false);
-		tabTools.setActive(true);
-		setFadeTabs(fade);
+
+		switchTab(TabIds.TOOLS, fade);
+
+
 		updateMoveButton();
 	}
 
@@ -658,20 +677,18 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			openAlgebra(fade);
 			return;
 		}
-		ToolTipManagerW.hideAllToolTips();
-		header.selectTab(TabIds.TABLE);
-		open();
-		/*
-		 * main.removeStyleName("algebra"); main.addStyleName("tools");
-		 * tabAlgebra.setActive(false); tabTools.setActive(true);
-		 * setFadeTabs(fade); updateMoveButton();
-		 */
+
+		if (this.getSelectedTabId() == TabIds.ALGEBRA) {
+			tabTools.setVisible(false);
+		}
+
+		switchTab(TabIds.TABLE, fade);
 	}
 
 	/**
 	 * @return tool tab
 	 */
-	public ToolsTab getTabTools() {
+	private ToolsTab getTabTools() {
 		return tabTools;
 	}
 
@@ -711,6 +728,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		if (tabTools != null) {
 			tabTools.onResize();
+		}
+
+		if (tabTable != null) {
+			tabTable.onResize();
 		}
 	}
 
@@ -904,6 +925,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			moveBtn.setTitle(altText);
 			moveBtn.setAltText(altText);
 		}
+		if (tabTable != null) {
+			tabTable.setLabels();
+		}
 	}
 
 	/**
@@ -951,5 +975,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			openAlgebra(true);
 		}
 		return isAlgebraViewActive() && tabAlgebra.focusInput();
+	}
+
+	public void updateContent() {
+		getTabTools().updateContent();
 	}
 }

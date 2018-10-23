@@ -386,7 +386,9 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					background: $purple-dark;
 				}
 			}
-		
+			.moveBtnMiddleTab{
+				right: calc(33.3% + 12px)
+			}
 			.showMoveBtn {
 				@extend .moveFloatingBtn;
 				opacity: 1;	 
@@ -415,7 +417,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 			.moveMoveBtnUp {
-				bottom: calc(12px + 80px);
+				bottom: 12px + 80px;
 				transition: $movebtn-transition;
 			}
 			.moveMoveBtnDown {
@@ -423,7 +425,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				transition: $movebtn-transition;
 			}
 			.moveMoveBtnUpSmall {
-				bottom: calc(68px + 48px);
+				bottom: 68px + 48px;
 				transition: $movebtn-transition;
 			}
 			.moveMoveBtnDownSmall {
@@ -456,7 +458,27 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			left: -100%;
 			transition: $tab-transition;
 		}
-	
+		
+		.table {
+			position: absolute;
+			left: -200%;
+			transition: $tab-transition;
+		}
+		.emptyTablePanel {
+			width: 50%;
+			text-align: center;
+		}
+		.emptyTablePanel div{
+			margin: auto;
+			text-align: center;
+		}
+		.emptyTableImage {
+			background-color: $gray;
+			border-radius: 50%;
+			padding: 24px;
+			margin: auto;
+			margin: 12px auto;
+		}
 		.main >* {
 			position: absolute !important;
 			display: inline-block;

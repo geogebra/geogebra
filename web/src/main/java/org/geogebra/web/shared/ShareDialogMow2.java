@@ -298,7 +298,7 @@ public class ShareDialogMow2 extends DialogBoxW
 				.setText(app.getLocalization().getMenu(
 						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
 		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
-				? "SharedLinkHelpTxt" : "NotSharedLinkHelpTxt"));
+				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
 		linkPanel.setVisible(isSwitchOn);
 		if (isSwitchOn) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
