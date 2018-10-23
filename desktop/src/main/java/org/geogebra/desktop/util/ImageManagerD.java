@@ -36,6 +36,7 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
@@ -158,7 +159,7 @@ public class ImageManagerD extends ImageManager {
 		return img;
 	}
 
-	public void addExternalImage(String fileName0, MyImageD img) {
+	public void addExternalImage(String fileName0, MyImageJre img) {
 		Log.error("adding " + fileName0);
 		if (fileName0 != null && img != null) {
 			String fileName = fileName0;
@@ -171,7 +172,7 @@ public class ImageManagerD extends ImageManager {
 
 			fileName = fileName.replace(".GIF", ".png");
 			Log.debug("storing " + fileName + " " + img.isSVG());
-			externalImageTable.put(fileName, img);
+			externalImageTable.put(fileName, (MyImageD) img);
 		}
 	}
 

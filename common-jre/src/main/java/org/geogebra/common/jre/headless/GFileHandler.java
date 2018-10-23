@@ -1,4 +1,4 @@
-package org.geogebra.desktop.main;
+package org.geogebra.common.jre.headless;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -10,7 +10,6 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Charsets;
-import org.geogebra.desktop.headless.AppDI;
 
 public class GFileHandler {
 	public static boolean loadXML(App app, InputStream is, boolean isMacroFile)

@@ -139,6 +139,8 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.headless.AppDI;
+import org.geogebra.common.jre.headless.GFileHandler;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.util.Base64;
@@ -214,7 +216,6 @@ import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
-import org.geogebra.desktop.headless.AppDI;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
@@ -2076,12 +2077,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public final MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		MyImageJre im = ImageManagerD.getExternalImage(filename);
+		MyImageD im = ImageManagerD.getExternalImage(filename);
 		return im;
 	}
 
 	@Override
-	public void addExternalImage(String filename, MyImageD image) {
+	public void addExternalImage(String filename, MyImageJre image) {
 		imageManager.addExternalImage(filename, image);
 	}
 

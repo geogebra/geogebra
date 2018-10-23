@@ -33,10 +33,12 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.headless.DialogManagerNoGui;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.jre.headless.GFileHandler;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
@@ -77,11 +79,9 @@ import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.geogebra3D.App3DCompanionD;
-import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
-import org.geogebra.desktop.main.GFileHandler;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.SpreadsheetTableModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -104,7 +104,7 @@ import org.geogebra.desktop.util.StringUtilD;
  */
 public class AppDNoGui extends App implements AppDI {
 	private GgbAPI ggbapi;
-	private LocalizationD loc;
+	private Localization loc;
 	private SpreadsheetTableModelD tableModel;
 	private DrawEquationD drawEquation;
 	private boolean is3Dactive;
@@ -373,25 +373,21 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void setWaitCursor() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void updateStyleBars() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void updateDynamicStyleBars() {
 		// not implemented here
-
 	}
 
 	@Override
 	public void set1rstMode() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -425,7 +421,6 @@ public class AppDNoGui extends App implements AppDI {
 			e.printStackTrace();
 			showError("LoadFileFailed");
 		}
-
 	}
 
 	@Override
@@ -443,13 +438,11 @@ public class AppDNoGui extends App implements AppDI {
 				@Override
 				public void setErrorDialogsActive(boolean flag) {
 					// TODO Auto-generated method stub
-
 				}
 
 				@Override
 				public void refreshViews() {
 					// TODO Auto-generated method stub
-
 				}
 
 				@Override
@@ -527,19 +520,16 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void callAppletJavaScript(String string, String... args) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void updateMenubar() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void updateUI() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -828,7 +818,7 @@ public class AppDNoGui extends App implements AppDI {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
-	public void addExternalImage(String name, MyImageD img) {
+	public void addExternalImage(String name, MyImageJre img) {
 		// TODO Auto-generated method stub
 	}
 
