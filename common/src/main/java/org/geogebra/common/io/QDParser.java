@@ -257,7 +257,8 @@ public class QDParser {
 					} else if ("apos".equals(cent)) {
 						sb.append('\'');
 					} else if (cent.startsWith("#x")) {
-						StringUtil.appendUnicode(sb, Integer.parseInt(cent.substring(2), 16));			
+						StringUtil.appendUnicode(sb,
+								Integer.parseInt(cent.substring(2), 16));
 					} else if (cent.charAt(0) == '#') {
 						StringUtil.appendUnicode(sb,
 								Integer.parseInt(cent.substring(1)));

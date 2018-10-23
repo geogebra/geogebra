@@ -85,8 +85,10 @@ public class GraphicsPropertiesList extends PropertiesList {
                             if (i == 0) {
                                 propertiesListARView[i] = mProperties[i];
                             } else {
-                                // i = 1 -> BackgroundProperty added below GraphicsPositionProperty
-                                propertiesListARView[i] = new BackgroundProperty(mApp, mLocalization);
+								// i = 1 -> BackgroundProperty added below
+								// GraphicsPositionProperty
+								propertiesListARView[i] = new BackgroundProperty(
+										mApp, mLocalization);
                             }
                         }
                     }

@@ -65,7 +65,7 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof RomanAtom) {
 			RomanAtom ch = (RomanAtom) root;
-			return serialize(ch.getBase());
+			return serialize(ch.getTrueBase());
 		}
 		if (root instanceof ScriptsAtom) {
 			ScriptsAtom ch = (ScriptsAtom) root;
