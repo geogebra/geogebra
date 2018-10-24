@@ -6,9 +6,11 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.InputDialogTableView;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -50,9 +52,16 @@ public class ContextMenuAVItemMore implements SetLabels {
 		buildGUI();
 	}
 
+	/**
+	 * @return see {@link AppW}
+	 */
+	public AppW getApp() {
+		return app;
+	}
+
 	private void buildGUI() {
 		wrappedPopup.clearItems();
-		if (item.geo.hasTableOfValues()) {
+		if (item.geo.hasTableOfValues() && app.has(Feature.TABLE_VIEW)) {
 			addTableOfValuesItem();
 		}
 		addDuplicateItem();
@@ -78,11 +87,11 @@ public class ContextMenuAVItemMore implements SetLabels {
 		String img = MaterialDesignResources.INSTANCE.toolbar_table_view_black()
 				.getSafeUri().asString();
 		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getMenu("CreateTableValues"), true), true, new Command() {
+				loc.getMenu("TableOfValues"), true), true, new Command() {
 
 					@Override
 					public void execute() {
-						// TODO open dialog or table of values view
+						new InputDialogTableView(getApp()).show();
 					}
 				});
 		wrappedPopup.addItem(mi);
