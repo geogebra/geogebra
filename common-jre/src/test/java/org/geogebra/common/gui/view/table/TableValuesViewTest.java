@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
+import org.geogebra.common.OrderingComparison;
 import org.geogebra.common.Stopwatch;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -9,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.util.DoubleUtil;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -215,7 +215,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		Assert.assertThat(
 				"Querying with the cache is not at least 10 times faster",
-				elapsed, Matchers.greaterThan(cachedElapsed * 10));
+				elapsed, OrderingComparison.greaterThan(cachedElapsed * 10));
     }
 
     @Test
