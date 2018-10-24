@@ -1,17 +1,16 @@
 package org.geogebra.web.solver;
 
-import com.google.gwt.user.client.DOM;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -39,8 +38,6 @@ public class StepsEntry implements EntryPoint {
 		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
-		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
-		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
 
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());

@@ -80,13 +80,9 @@ public class KeyBoardButtonBase extends SimplePanel {
 		this(caption, caption, handler);
 	}
 
-	private native void addWave(Element element) /*-{
-		$wnd.Waves.initialized || $wnd.Waves.displayEffect({
-			"duration" : 100
-		});
-		$wnd.Waves.initialized = true;
-		$wnd.Waves.attach(element);
-	}-*/;
+	private void addWave(Element element) {
+		element.addClassName("ripple");
+	}
 
 	/**
 	 * Constructor for subclass {@link KeyBoardButtonFunctionalBase}
