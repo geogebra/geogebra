@@ -30,6 +30,7 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -67,6 +68,10 @@ public class EmbedManagerW implements EmbedManager {
 	public void add(final DrawEmbed drawEmbed) {
 		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			addExtension(drawEmbed);
+			if (content.get(drawEmbed.getEmbedID()) != null) {
+				setContent(widgets.get(drawEmbed).getElement(),
+						content.get(drawEmbed.getEmbedID()));
+			}
 			return;
 		}
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(
@@ -113,6 +118,19 @@ public class EmbedManagerW implements EmbedManager {
 		widgets.put(drawEmbed, fr);
 	}
 
+	private native void setContent(Element element, String string) /*-{
+		$wnd.setTimeout(function() {
+			element.contentWindow.postMessage({
+				command : 'loadFromJSON',
+				gmm_id : 3,
+				args : {
+					json : string
+				}
+			}, 'https://graspablemath.com');
+		}, 5000);
+
+	}-*/;
+
 	private void addToGraphics(FlowPanel scaler) {
 		FlowPanel container = new FlowPanel();
 		container.add(scaler);
@@ -134,7 +152,46 @@ public class EmbedManagerW implements EmbedManager {
 
 		html.setUrl(drawEmbed.getGeoEmbed().getURL());
 		widgets.put(drawEmbed, html);
+		addListeners(html.getElement(), drawEmbed.getEmbedID());
 	}
+
+	/**
+	 * @param embedID
+	 *            embed ID
+	 * @param embedContent
+	 *            JSON encoded content
+	 */
+	protected void storeContent(int embedID, String embedContent) {
+		this.content.put(embedID, embedContent);
+	}
+
+	private native void addListeners(Element element, int id) /*-{
+		$wnd.setTimeout(function() {
+			element.contentWindow.postMessage({
+				command : 'listen',
+				gmm_id : 1,
+				eventType : 'undoable-action'
+			}, 'https://graspablemath.com');
+		}, 5000);
+		var that = this;
+		window
+				.addEventListener(
+						'message',
+						function(msg) {
+							if (msg.data && msg.data.is_event) {
+								element.contentWindow.postMessage({
+									command : 'getAsJSON',
+									gmm_id : 2
+								}, 'https://graspablemath.com');
+							} else {
+								$wnd.console.log(msg);
+								if (msg.data && msg.data.gmm_id == 2) {
+									$wnd.console.log("store", msg.data.result);
+									that.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id,msg.data.result);
+								}
+							}
+						});
+	}-*/;
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
 			final TestArticleElement parameters) {
@@ -210,7 +267,11 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void persist() {
 		for (Entry<DrawEmbed, Widget> e : widgets.entrySet()) {
-			content.put(e.getKey().getEmbedID(), getContent(e.getValue()));
+			if (e.getValue() instanceof GeoGebraFrameBoth) {
+				content.put(e.getKey().getEmbedID(),
+						getContent((GeoGebraFrameBoth) e.getValue()));
+			}
+			// extensions have to update state asynchronously
 		}
 	}
 
@@ -236,13 +297,11 @@ public class EmbedManagerW implements EmbedManager {
 		}
 	}
 
-	private static String getContent(Widget value) {
-		if (value instanceof GeoGebraFrameBoth) {
-			return JSON.stringify(
-				((GeoGebraFrameBoth) value).getApplication().getGgbApi()
-						.getFileJSON(false));
-		}
-		return ""; // TODO get JSON from extension
+	private static String getContent(GeoGebraFrameBoth value) {
+
+		return JSON.stringify(
+				value.getApplication().getGgbApi().getFileJSON(false));
+
 	}
 
 	@Override
