@@ -52,6 +52,9 @@ public class ContextMenuAVItemMore implements SetLabels {
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
+		if (item.geo.hasTableOfValues()) {
+			addTableOfValuesItem();
+		}
 		addDuplicateItem();
 		addDeleteItem();
 		// wrappedPopup.addSeparator();
@@ -69,6 +72,20 @@ public class ContextMenuAVItemMore implements SetLabels {
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
 		focusDeferred();
+	}
+
+	private void addTableOfValuesItem() {
+		String img = MaterialDesignResources.INSTANCE.toolbar_table_view_black()
+				.getSafeUri().asString();
+		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
+				loc.getMenu("CreateTableValues"), true), true, new Command() {
+
+					@Override
+					public void execute() {
+						// TODO open dialog or table of values view
+					}
+				});
+		wrappedPopup.addItem(mi);
 	}
 
 	private void addDuplicateItem() {

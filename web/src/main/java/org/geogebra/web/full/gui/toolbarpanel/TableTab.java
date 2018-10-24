@@ -33,7 +33,8 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 		this.emptyPanel = new FlowPanel();
 		this.emptyPanel.addStyleName("emptyTablePanel");
 		this.emptyImage = new NoDragImage(
-				MaterialDesignResources.INSTANCE.toolbar_table_view(), 72);
+				MaterialDesignResources.INSTANCE.toolbar_table_view_white(),
+				72);
 		this.emptyImage.addStyleName("emptyTableImage");
 		this.emptyLabel = new Label();
 		this.emptyInfo = new Label();

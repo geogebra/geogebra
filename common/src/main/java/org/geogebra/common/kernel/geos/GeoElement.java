@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
@@ -416,6 +417,13 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public int getDefaultGeoType() {
 		return defaultGeoType;
+	}
+
+	/**
+	 * @return true if geo is function or line
+	 */
+	public boolean hasTableOfValues() {
+		return this instanceof Functional && !this.isLimitedPath();
 	}
 
 	/**

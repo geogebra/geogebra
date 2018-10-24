@@ -193,7 +193,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void createTableViewButton() {
 		btnTableView = new MyToggleButton(new NoDragImage(
-				MaterialDesignResources.INSTANCE.toolbar_table_view(), 24),
+				MaterialDesignResources.INSTANCE.toolbar_table_view_white(),
+				24),
 				app);
 		btnTableView.addStyleName("tabButton");
 		ClickStartHandler.init(btnTableView,
