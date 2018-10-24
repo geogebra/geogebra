@@ -6052,6 +6052,20 @@ unsigned int ConvertUTF8toUTF16 (
       pythonmode=true;
       pythoncompat=true;
     }
+    if (pythoncompat){
+      int pos=s_orig.find("{");
+      if (pos>=0 && pos<sss)
+	pythonmode=true;
+      pos=s_orig.find("}");
+      if (pos>=0 && pos<sss)
+	pythonmode=true;
+      pos=s_orig.find("//");
+      if (pos>=0 && pos<sss)
+	pythonmode=true;
+      pos=s_orig.find(":");
+      if (pos>=0 && pos<sss-1 && s_orig[pos+1]!=';')
+	pythonmode=true;
+    }
     for (first=0;!pythonmode && first<sss;){
       int pos=s_orig.find(":]");
       if (pos>=0 && pos<sss){
@@ -6172,7 +6186,9 @@ unsigned int ConvertUTF8toUTF16 (
 	    if (ch==';')
 	      ++c3;
 	  }
-	  if (p<cs && c1 && c3==0){
+	  if (p<cs 
+	      //&& c1 
+	      && c3==0){
 	    // table initialization, replace {} by table( ) , 
 	    // cur=cur.substr(0,pos)+"table("+cur.substr(pos+1,p-pos-1)+")"+cur.substr(p+1,cs-pos-1);
 	    cur=cur.substr(0,pos)+"{/"+replace_deuxpoints_egal(cur.substr(pos+1,p-1-pos))+"/}"+cur.substr(p+1,cs-pos-1);
