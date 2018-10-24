@@ -346,11 +346,7 @@ public final class Riemann {
 	 */
 	public static double[] zeta(double[] s) {
 		double[] sum = new double[2];
-		if (Math.abs(s[0] - 1 / 2) < 1) {
-			sum[0] = z(s[1]);
-			sum[1] = 0;
-			return sum;
-		}
+
 		if (abs(s[0] - 1) < EPSILON && abs(s[1]) < EPSILON) {
 			sum[0] = Double.POSITIVE_INFINITY;
 			sum[1] = Double.POSITIVE_INFINITY; // in fact: not defined!!
