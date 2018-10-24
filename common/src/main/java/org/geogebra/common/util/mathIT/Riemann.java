@@ -54,8 +54,11 @@ import static org.geogebra.common.util.mathIT.Complex.subtract;
  * complex number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>
  * and the Riemann-Siegel functions <i>Z</i> and &theta;.
  *
- * @author Andreas de Vries
- * @version 2.01
+ * @author Andreas de Vries, GeoGebra
+ * 
+ *         forked from
+ *         https://github.com/vriesa/mathIT/blob/master/src/org/mathIT/numbers/
+ *         Riemann.java
  */
 public final class Riemann {
 	/**
@@ -367,7 +370,8 @@ public final class Riemann {
 			return sum;
 		} else if (abs(s[0] - 0.5) < EPSILON && abs(s[1]) > 10) {
 			double temp = abs(s[1]);
-			double[] ret = multiply(z(temp), exp(new double[] {0, -theta(temp)}));
+			double[] ret = multiply(z(temp),
+					exp(new double[] { 0, -theta(temp) }));
 
 			if (s[1] < 0) {
 				ret[1] = -ret[1];
@@ -382,8 +386,7 @@ public final class Riemann {
 			}
 
 			sum = divide(sum,
-					multiply(dnn,
-					subtract(ONE_, power(2, subtract(ONE_, s)))));
+					multiply(dnn, subtract(ONE_, power(2, subtract(ONE_, s)))));
 		}
 		return sum;
 	}
