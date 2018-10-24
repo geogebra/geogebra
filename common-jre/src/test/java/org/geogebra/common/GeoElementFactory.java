@@ -1,6 +1,7 @@
 package org.geogebra.common;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -24,5 +25,9 @@ public class GeoElementFactory {
         Kernel kernel = unitTest.getKernel();
         AlgebraProcessor processor = kernel.getAlgebraProcessor();
         return processor.evaluateToFunction(definition, true);
+    }
+
+    public GeoFunction createFunction(Function function) {
+        return new GeoFunction(unitTest.getConstruction(), function);
     }
 }

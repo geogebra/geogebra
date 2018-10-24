@@ -4,6 +4,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.Stopwatch;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -14,8 +15,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.mockito.stubbing.Answer;
 
 public class TableValuesViewTest extends BaseUnitTest {
 
@@ -24,6 +27,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Mock
     private TableValuesListener listener;
+
+    @Mock
+    private Function function;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -182,24 +188,28 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testCachingOfGetValues() {
-        int maxStep = 20;
-        view.setValues(1, maxStep, 1);
+        final long sleepTime = 10;
+        Mockito.when(function.value(1.0)).then(new Answer<Double>() {
+            @Override
+            public Double answer(InvocationOnMock invocation) throws Throwable {
+                Thread.sleep(sleepTime);
+                return 0.0;
+            }
+        });
+        view.setValues(1, 2, 1);
+
         GeoElementFactory factory = getElementFactory();
-        GeoFunction function = factory.createFunction("g(x) = zeta(zeta(x))");
-        showColumn(function);
+        GeoFunction geoFunction = factory.createFunction(function);
+        showColumn(geoFunction);
 
         Stopwatch stopwatch = new Stopwatch();
 
         stopwatch.start();
-        for (int i = 0; i < maxStep; i++) {
-            model.getCellAt(i, 1);
-        }
+        model.getCellAt(0, 1);
         long elapsed = stopwatch.stop();
 
         stopwatch.start();
-        for (int i = 0; i < maxStep; i++) {
-            model.getCellAt(i, 1);
-        }
+        model.getCellAt(0, 1);
         long cachedElapsed = stopwatch.stop();
 
         Assert.assertTrue("Querying with the cache is not at least 10 times faster",
