@@ -34,20 +34,26 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 		this.emptyPanel.addStyleName("emptyTablePanel");
 		this.emptyImage = new NoDragImage(
 				MaterialDesignResources.INSTANCE.toolbar_table_view_white(),
-				72);
+				56);
 		this.emptyImage.addStyleName("emptyTableImage");
 		this.emptyLabel = new Label();
+		this.emptyLabel.addStyleName("emptyTableLabel");
 		this.emptyInfo = new Label();
 		emptyPanel.add(emptyImage);
 		emptyPanel.add(emptyLabel);
 		emptyPanel.add(emptyInfo);
+
 		this.setWidget(emptyPanel);
+		emptyPanel.getElement().getParentElement()
+				.addClassName("tableViewParent");
 	}
 
 	@Override
 	public void setLabels() {
-		emptyLabel.setText(app.getLocalization().getMenu("EmptyTable"));
-		emptyInfo.setText(app.getLocalization().getMenu("EmptyTableInfo"));
+		emptyLabel.setText(
+				app.getLocalization().getMenu("TableValuesEmptyTitle"));
+		emptyInfo.setText(
+				app.getLocalization().getMenu("TableValuesEmptyDescription"));
 	}
 
 	@Override
