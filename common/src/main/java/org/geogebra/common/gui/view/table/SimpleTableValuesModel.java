@@ -1,13 +1,13 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * TableValuesModel implementation. Uses caching to store values.
@@ -75,6 +75,13 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return value;
 	}
 
+	/**
+	 * @param row
+	 *            row index
+	 * @param column
+	 *            column index
+	 * @return function value
+	 */
 	double getValueAt(int row, int column) {
 		Double[] valuesColumn = doubleColumns.get(column);
 		Double value = valuesColumn[row];
@@ -122,7 +129,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		builder.setLength(0);
 		if (evaluatable instanceof GeoElementND) {
 			GeoElementND element = (GeoElementND) evaluatable;
-			builder.setLength(0);
 			builder.append(element.getLabelSimple());
 			builder.append("(");
 			builder.append("x");
