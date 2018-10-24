@@ -24,15 +24,27 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Dialog manager for tests.
+ * 
+ * @author Zbynek
+ */
 public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 
 	private String[] inputs;
 	private int position = 0;
 
+	/**
+	 * @param app
+	 *            app
+	 * @param inputs
+	 *            prefilled inputs
+	 */
 	public DialogManagerNoGui(App app, String[] inputs) {
 		this.app = app;
 		this.inputs = inputs;
 	}
+
 	@Override
 	public boolean showFunctionInspector(GeoFunction geoFunction) {
 		// TODO Auto-generated method stub
@@ -62,7 +74,7 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 				new AsyncOperation<Boolean>() {
 
 					public void callback(Boolean obj) {
-
+								// ignore
 					}
 				});
 
@@ -104,10 +116,9 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 
 					@Override
 					public void callback(Boolean ok) {
-
+						// ignore
 					}
 				});
-
 	}
 
 	@Override
@@ -179,21 +190,21 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void showError(String msg) {
 		throw new RuntimeException(msg);
 	}
 
+	@Override
 	public void showCommandError(String command, String message) {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
 	public String getCurrentCommand() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -203,10 +214,14 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		return false;
 	}
 
+	@Override
 	public void resetError() {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @return next prefilled input
+	 */
 	private String getInput() {
 		return inputs[position++];
 	}

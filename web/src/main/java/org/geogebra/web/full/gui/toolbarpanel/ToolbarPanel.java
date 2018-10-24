@@ -661,8 +661,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		ToolTipManagerW.hideAllToolTips();
 
 		switchTab(TabIds.TOOLS, fade);
-
-
 		updateMoveButton();
 	}
 

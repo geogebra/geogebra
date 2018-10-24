@@ -45,7 +45,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	}
 
 	@Override
-	public void setLabels(){
+	public void setLabels() {
 		emptyLabel.setText(app.getLocalization().getMenu("EmptyTable"));
 		emptyInfo.setText(app.getLocalization().getMenu("EmptyTableInfo"));
 	}

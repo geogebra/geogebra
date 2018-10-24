@@ -44,7 +44,7 @@ public class GFileHandler {
 					sb.append("\n");
 
 					while ((str = reader.readLine()) != null) {
-						sb.append(str + "\n");
+						sb.append(str).append('\n');
 					}
 
 					reader.close();

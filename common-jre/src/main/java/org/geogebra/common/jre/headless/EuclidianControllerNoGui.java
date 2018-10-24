@@ -7,6 +7,12 @@ import org.geogebra.common.main.App;
 
 public class EuclidianControllerNoGui extends EuclidianController {
 
+	/**
+	 * @param app
+	 *            app
+	 * @param kernel1
+	 *            kernel
+	 */
 	public EuclidianControllerNoGui(App app, Kernel kernel1) {
 		super(app);
 		kernel = kernel1;

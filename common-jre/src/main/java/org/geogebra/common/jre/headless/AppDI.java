@@ -1,6 +1,5 @@
 package org.geogebra.common.jre.headless;
 
-
 import org.geogebra.common.jre.gui.MyImageJre;
 
 public interface AppDI {
