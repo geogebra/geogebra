@@ -262,18 +262,11 @@ public class ItemControls extends FlowPanel
 
 			updateSuggestions(radioTreeItem.geo);
 
-			if (radioTreeItem.getPButton() != null) {
-				add(radioTreeItem.getPButton());
-			}
 			if (showX) {
 				add(hasMoreMenu() ? getMoreButton() : getDeleteButton());
 			}
 
 			setVisible(true);
-
-			if (!getController().isEditing()) {
-				radioTreeItem.maybeSetPButtonVisibility(false);
-			}
 
 			radioTreeItem.getAV().setActiveTreeItem(radioTreeItem);
 			ret = true;

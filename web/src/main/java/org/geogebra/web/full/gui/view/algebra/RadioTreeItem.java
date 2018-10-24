@@ -52,7 +52,6 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.inputfield.InputSuggestions;
 import org.geogebra.web.full.gui.layout.GUITabs;
-import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
@@ -86,7 +85,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -455,7 +453,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.addValuePanel();
 			plainTextItem.add(outputPanel);
 		}
-		// updateFont(plainTextItem);
+
 		content.add(plainTextItem);
 	}
 
@@ -576,7 +574,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					new DOMIndexHTMLBuilder(getPlainTextItem(), app));
 			updateItemColor();
-			// updateFont(getPlainTextItem());
 			rebuildPlaintextContent();
 		}
 	}
@@ -615,18 +612,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void setFirst(boolean first) {
 		this.first = first;
 		updateButtonPanelPosition();
-	}
-
-	/**
-	 * Method to be overridden in InputTreeItem
-	 * 
-	 * @param str
-	 *            GeoGebra input
-	 * @param latexx
-	 *            LaTeX value
-	 */
-	public void addToHistory(String str, String latexx) {
-		// override
 	}
 
 	/**
@@ -725,7 +710,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					getFontSize());
 
 			content.add(canvas);
-			return;
 		}
 	}
 
@@ -817,7 +801,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			controls.setVisible(true);
 			updateButtonPanelPosition();
 		}
-		maybeSetPButtonVisibility(true);
+
 		return true;
 	}
 
@@ -1207,41 +1191,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return;
 		}
 
-		boolean accurate = true; // used for testing the new code
-		if (styleBarCanHide()) {
-			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
-					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
-							.getAbsolutePanel();
-
-			if (accurate) { // new code
-				controls.reposition();
-
-			} else { // old code
-
-				if (algebraPanel != null
-						&& algebraPanel.getOffsetWidth() > algebraPanel
-								.getElement().getClientWidth()) {
-					controls.addStyleName(
-							"positionedObjectStyleBar_scrollbarVisible");
-					controls.removeStyleName("positionedObjectStyleBar");
-				} else {
-					controls.addStyleName("positionedObjectStyleBar");
-					controls.removeStyleName(
-							"positionedObjectStyleBar_scrollbarVisible");
-				}
-
-			}
-		} else {
-			if (accurate) {
-				controls.reposition();
-				// controls.getElement().getStyle().setRight(visibleRight,
-				// Unit.PX);
-			} else {
-				controls.removeStyleName("positionedObjectStyleBar");
-				controls.removeStyleName(
-						"positionedObjectStyleBar_scrollbarVisible");
-			}
-		}
+		controls.reposition();
 	}
 
 	protected AlgebraViewW getAV() {
@@ -1256,22 +1206,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * This method shall only be called when we are not doing editing, so this
-	 * is for the delete button at selection
-	 */
-	protected PushButton getPButton() {
-		return null;
-	}
-
-	/**
-	 * @param bool
-	 *            whether pbutton should be visible
-	 */
-	protected void maybeSetPButtonVisibility(boolean bool) {
-		// only show the delete button, but not the extras
-	}
-
-	/**
 	 * Scroll into view.
 	 */
 	public void scrollIntoView() {
@@ -1282,7 +1216,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Remove the controls.
 	 */
 	public void removeCloseButton() {
-		this.maybeSetPButtonVisibility(true);
 		if (controls != null) {
 			controls.setVisible(false);
 		}
@@ -1330,7 +1263,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
 				updateGUIfocus(false);
 			}
-
 		}
 	}
 
@@ -1364,8 +1296,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            whether this ite is selected
 	 */
 	public void selectItem(boolean selected) {
-		// Log.printStacktrace("[RTI] selectItem: " + selected);
-
 		if (controls != null) {
 			controls.show(!controller.hasMultiGeosSelected() && selected);
 			controls.updateSuggestions(geo);
@@ -1388,9 +1318,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (marblePanel != null) {
 			marblePanel.setHighlighted(selected);
 		}
-		if (!selected
-		// && geo != AVSelectionController.get(app).getLastSelectedGeo()
-		) {
+		if (!selected) {
 			controls.reset();
 		}
 	}
@@ -1555,15 +1483,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (canvas != null) {
 			canvas.setVisible(false);
 		}
-		// if (dummyLabel.getElement() != null) {
-		// if (dummyLabel.getElement().hasParentElement()) {
-		// in theory, this is done in insertFirst,
-		// just making sure here as well
-		// dummyLabel.getElement().removeFromParent();
-		// }
+
 		content.insert(dummyLabel, 0);
 		removeOutput();
-		// }
 
 		if (btnClearInput != null) {
 			btnClearInput.removeFromParent();
@@ -1736,7 +1658,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (app.isUnbundled()) {
 			return;
 		}
-		// expandSize(getWidthForEdit());
+
 		if (styleBarCanHide() && (!getAlgebraDockPanel().isStyleBarVisible())) {
 			stylebarShown = getAlgebraDockPanel().isStyleBarPanelShown();
 			getAlgebraDockPanel().showStyleBarPanel(false);
@@ -2078,16 +2000,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected void clearInput() {
 		setText("");
-	}
-
-	/**
-	 * @param key
-	 *            2,3,4 for F2, F3, F4
-	 * @param geoElement
-	 *            geo
-	 */
-	public void handleFKey(int key, GeoElement geoElement) {
-		// TODO Auto-generated method stub
 	}
 
 	protected void updateGUIfocus(boolean blurtrue) {

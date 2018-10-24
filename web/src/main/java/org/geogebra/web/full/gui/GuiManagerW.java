@@ -2347,21 +2347,6 @@ public class GuiManagerW extends GuiManager
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 
-	/**
-	 * @param fkey
-	 *            key index (2,3,4)
-	 * @param geo
-	 *            selected element
-	 */
-	public void handleFKeyForAlgebra(int fkey, GeoElement geo) {
-		if (getApp().showView(App.VIEW_ALGEBRA)
-				&& ((AlgebraViewW) getApp().getAlgebraView())
-				.getInputTreeItem() != null) {
-			((AlgebraViewW) getApp().getAlgebraView()).getInputTreeItem()
-			.handleFKey(fkey, geo);
-		}
-	}
-
 	@Override
 	public void replaceInputSelection(String string) {
 		if (getApp().showView(App.VIEW_ALGEBRA)
