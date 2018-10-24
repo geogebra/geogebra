@@ -12,6 +12,17 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Charsets;
 
 public class GFileHandler {
+	/**
+	 * @param app
+	 *            app
+	 * @param is
+	 *            stream
+	 * @param isMacroFile
+	 *            macro?
+	 * @return whether successfully loaded
+	 * @throws Exception
+	 *             for invalid XML; MyErrors are ignored
+	 */
 	public static boolean loadXML(App app, InputStream is, boolean isMacroFile)
 			throws Exception {
 		try {

@@ -208,6 +208,7 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		return null;
 	}
 
+	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		// TODO Auto-generated method stub
