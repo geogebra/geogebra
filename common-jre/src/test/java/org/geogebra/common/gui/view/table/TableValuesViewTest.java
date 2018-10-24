@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.util.DoubleUtil;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -188,7 +189,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testCachingOfGetValues() {
-        final long sleepTime = 10;
+		final long sleepTime = 10;
         Mockito.when(function.value(1.0)).then(new Answer<Double>() {
             @Override
             public Double answer(InvocationOnMock invocation) throws Throwable {
@@ -212,8 +213,9 @@ public class TableValuesViewTest extends BaseUnitTest {
         model.getCellAt(0, 1);
         long cachedElapsed = stopwatch.stop();
 
-        Assert.assertTrue("Querying with the cache is not at least 10 times faster",
-                elapsed / 10.0 > cachedElapsed);
+		Assert.assertThat(
+				"Querying with the cache is not at least 10 times faster",
+				elapsed, Matchers.greaterThan(cachedElapsed * 10));
     }
 
     @Test
