@@ -7,12 +7,8 @@ subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
 	apply plugin: 'idea'
-	apply plugin: 'jacoco'
-	jacoco {
-		toolVersion = "0.8.1"
-	}
 
-		eclipse.project {
+	eclipse.project {
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
 	}
 
