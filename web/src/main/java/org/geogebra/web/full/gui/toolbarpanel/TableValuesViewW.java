@@ -23,7 +23,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private ScrollPanel main;
 	private Label emptyLabel;
 	private Label emptyInfo;
-	private NoDragImage emptyImage;
 	private FlowPanel emptyPanel;
 	private AppW app;
 	
@@ -70,12 +69,19 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private void buildEmptyPanel() {
 		this.emptyPanel = new FlowPanel();
 		this.emptyPanel.addStyleName("emptyTablePanel");
-		this.emptyImage = new NoDragImage(
-				MaterialDesignResources.INSTANCE.toolbar_table_view_white(), 72);
-		this.emptyImage.addStyleName("emptyTableImage");
+		NoDragImage emptyImage = new NoDragImage(
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black(),
+				56);
+		emptyImage.getElement().setAttribute("role", "decoration");
+		emptyImage.addStyleName("emptyTableImage");
+		FlowPanel emptyImageWrap = new FlowPanel();
+		emptyImageWrap.add(emptyImage);
 		this.emptyLabel = new Label();
+		this.emptyLabel.addStyleName("emptyTableLabel");
 		this.emptyInfo = new Label();
-		emptyPanel.add(emptyImage);
+		this.emptyInfo.addStyleName("emptyTableInfo");
+		emptyImageWrap.addStyleName("emptyTableImageWrap");
+		emptyPanel.add(emptyImageWrap);
 		emptyPanel.add(emptyLabel);
 		emptyPanel.add(emptyInfo);
 	}

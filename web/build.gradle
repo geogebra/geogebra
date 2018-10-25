@@ -327,6 +327,28 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
 
+task runCodeServer(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
+	description 'Starts a codeserver'
+	doFirst{
+		file("./build/gwt/temp").mkdirs()
+		file("./build/gwt/launcher").mkdirs()
+	}
+	main 'com.google.gwt.dev.codeserver.CodeServer'
+	maxHeapSize '4096m'
+	classpath ((configurations.compile as Set<String>)
+		+ (sourceSets.main.allSource.srcDirs as Set<String>)
+		+ (jar.archivePath as String))
+	workingDir file(warDirRel)
+	args '-logLevel', 'TRACE',
+		'-port', '9876',
+		'-style', 'PRETTY',
+		'-bindAddress', project.findProperty("gbind") ?: 'localhost',
+		'-workDir', file("./build/gwt/temp").getAbsolutePath(),
+		'-launcherDir', file("./build/gwt/launcher").getAbsolutePath(),
+		devModule
+	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
+}
+
 task createDraftBundleZip (type: Zip) {
     description 'Creates the Math Apps Bundle file.'
     destinationDir = file(warDirRel)
