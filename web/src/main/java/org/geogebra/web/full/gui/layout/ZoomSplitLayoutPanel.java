@@ -4,6 +4,8 @@
 
 package org.geogebra.web.full.gui.layout;
 
+import org.geogebra.web.html5.util.ArticleElementInterface;
+
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -60,7 +62,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	private static Element glassElem = null;
 
 	private final int splitterSize;
-	private double zoom;
+	private ArticleElementInterface ai;
 
   class HSplitter extends Splitter {
     public HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
@@ -139,7 +141,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		}
 
 		public double getZoom() {
-			return this.splitPanel.zoom;
+			return 1 / this.splitPanel.ai.getScaleX();
 		}
 
 		@Override
@@ -413,8 +415,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	 * Construct a new {@link SplitLayoutPanel} with the default splitter size
 	 * of 8px.
 	 */
-  public ZoomSplitLayoutPanel(double zoom) {
-    this(DEFAULT_SPLITTER_SIZE, zoom);
+	public ZoomSplitLayoutPanel(ArticleElementInterface ai) {
+		this(DEFAULT_SPLITTER_SIZE, ai);
   }
 
   /**
@@ -423,11 +425,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    *
    * @param splitterSize the size of the splitter in pixels
    */
-  public ZoomSplitLayoutPanel(int splitterSize, double zoom) {
+	public ZoomSplitLayoutPanel(int splitterSize, ArticleElementInterface ai) {
     super(Unit.PX);
     this.splitterSize = splitterSize;
     setStyleName("gwt-SplitLayoutPanel");
-    this.zoom = zoom;
+		this.ai = ai;
 
   }
 

@@ -72,7 +72,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 *            application
 	 */
 	public DockSplitPaneW(int newOrientation, AppW app) {
-		super(1 / app.getArticleElement().getScaleX());
+		super(app.getArticleElement());
 		this.app = app;
 		setOrientation(newOrientation);
 		setResizeWeight(0.5);
