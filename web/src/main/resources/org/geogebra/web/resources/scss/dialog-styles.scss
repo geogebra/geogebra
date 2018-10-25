@@ -1324,58 +1324,6 @@ $duration: 0.2s;
 				}
 			}
 		
-			/*.switch {
-				width: 40px;
-				height: 24px;
-				margin-right: 16px;
-				position: relative;
-				top: 7px;
-				float: right;
-				cursor: pointer;
-				
-				.track {
-				    content: "";
-				    display: inline-block;
-				    position: relative;
-				    width: 36px;
-				    height: 14px;
-				    border-radius: 15px;
-				    -webkit-transition: background 0.3s ease;
-				    transition: background 0.3s ease;
-				    vertical-align: middle;
-				}
-			
-				.thumb {
-				    width: 20px;
-				    height: 20px;
-				    position: relative;
-				    top: -18px;
-				    border-radius: 50%;
-				    display: block;
-				    transition: left 0.3s ease, background 0.3s ease;
-				}	
-			
-				&.on {
-					.track {
-						background-color: #9ADAEC;
-					}
-					.thumb {
-						left: 16px;
-			 			background-color: #00A8D5;
-			 		}
-				}
-			
-			 	&.off {
-			 		.track {
-						background-color: #c5c5c5;
-					}
-			 		.thumb {
-			 			left: 0px;
-			 			background-color: #f1f1f1;
-			 		}
-			 	}
-			}
-		*/
 			.linkPanel {
 				margin-top: 16px;
 				display: inline-flex;
