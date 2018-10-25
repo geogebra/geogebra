@@ -353,6 +353,9 @@ public class ZoomController {
 	 *            show/hide home button
 	 */
 	public void updateHomeButton(StandardButton homeBtn) {
+		if (app.getActiveEuclidianView() == null) {
+			return;
+		}
 		if (app.getActiveEuclidianView().isCoordSystemTranslatedByAnimation()) {
 			return;
 		}
