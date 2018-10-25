@@ -60,4 +60,10 @@ public interface TableValues extends View {
 	 * @return the table values model
 	 */
 	TableValuesModel getTableValuesModel();
+
+	/**
+	 * 
+	 * @return true if no table values yet.
+	 */
+	boolean isEmpty();
 }

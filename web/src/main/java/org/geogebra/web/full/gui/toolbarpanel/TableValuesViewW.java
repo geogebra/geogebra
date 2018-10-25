@@ -43,14 +43,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		main.add(table);
 	}
 
-	/**
-	 * 
-	 * @return true if view is empty.
-	 */
-	public boolean isEmpty() {
-		return true;
-	}
-
 	@SuppressWarnings("unused")
 	private void buildTable() {
 		for (int i = 0; i < 10; i++) {
@@ -90,8 +82,10 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		emptyLabel.setText(app.getLocalization().getMenu("TableValuesEmptyTitle"));
-		emptyInfo.setText(app.getLocalization().getMenu("TableValuesEmptyDescription"));
+		if (emptyPanel != null) {
+			emptyLabel.setText(app.getLocalization().getMenu("TableValuesEmptyTitle"));
+			emptyInfo.setText(app.getLocalization().getMenu("TableValuesEmptyDescription"));
+		}
 	}
 
 }

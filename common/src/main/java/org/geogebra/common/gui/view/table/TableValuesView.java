@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
@@ -8,9 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.DoubleUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The TableValuesView implementation.
@@ -202,4 +202,10 @@ public class TableValuesView implements TableValues {
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// ignore
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return model == null || model.getColumnCount() == 1;
+	}
+
 }
