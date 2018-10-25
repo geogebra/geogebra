@@ -34,27 +34,29 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 	 *            error label of input field
 	 * @param defaultValue
 	 *            default text of input text field
+	 * @param width
+	 *            of input text field
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue) {
+			String errorTxt, String defaultValue, int width) {
 		this.appW = app;
 		this.labelTxt = labelTxt;
 		this.errorTxt = errorTxt;
-		buildGui(placeholder);
+		buildGui(placeholder, width);
 		if (defaultValue != null && !defaultValue.isEmpty()) {
 			setInputText(defaultValue);
 		}
 	}
 
-	private void buildGui(String placeholder) {
+	private void buildGui(String placeholder, int width) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", appW, 1, 25, false);
+		inputTextField = new InputPanelW("", appW, 1, width, false);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
-		labelText.addStyleName("inputLabel");
+		labelText.setStyleName("inputLabel");
 		// placeholder if there is any
 		if (placeholder != null && !placeholder.isEmpty()) {
 			inputTextField.getTextComponent().getTextBox().getElement()
@@ -74,7 +76,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 
 	private void addErrorLabel(FlowPanel root) {
 		errorLabel = new Label();
-		errorLabel.addStyleName("errorLabel");
+		errorLabel.setStyleName("errorLabel");
 		root.add(errorLabel);
 	}
 

@@ -28,6 +28,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
+		StyleInjector.inject(GuiResources.INSTANCE.componentStyles());
 		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
 		StyleInjector.inject(GuiResources.INSTANCE.settingsStyleScss());
 

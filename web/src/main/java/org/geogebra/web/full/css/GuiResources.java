@@ -414,4 +414,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/print.scss")
 	SassResource printStyle();
 
+	@Source("org/geogebra/web/resources/scss/component-styles.scss")
+	SassResource componentStyles();
+
 }

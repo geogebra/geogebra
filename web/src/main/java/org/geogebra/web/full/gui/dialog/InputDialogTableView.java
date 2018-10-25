@@ -56,7 +56,7 @@ public class InputDialogTableView extends DialogBoxW
 	private ComponentInputField addTextField(String labelText, String defaultValue) {
 		ComponentInputField field = new ComponentInputField(appW, null,
 				labelText,
-				null, defaultValue);
+				null, defaultValue, 20);
 		contentPanel.add(field);
 		return field;
 	}

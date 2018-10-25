@@ -1,0 +1,89 @@
+@import 'colors';
+
+.GeoGebraFrame {
+	
+	/* SWITCHER COMPONENT */
+	.switch {
+		width: 40px;
+		height: 24px;
+		margin-right: 16px;
+		position: relative;
+		top: 7px;
+		float: right;
+		cursor: pointer;
+				
+		.track {
+			content: "";
+			display: inline-block;
+			position: relative;
+			width: 36px;
+			height: 14px;
+			border-radius: 15px;
+			-webkit-transition: background 0.3s ease;
+			transition: background 0.3s ease;
+			vertical-align: middle;
+		}
+				
+		.thumb {
+			width: 20px;
+			height: 20px;
+			position: relative;
+			top: -18px;
+			border-radius: 50%;
+			display: block;
+			transition: left 0.3s ease, background 0.3s ease;
+		}	
+				
+		&.on {
+			.track {
+				background-color: #9ADAEC;
+			}
+			.thumb {
+				left: 16px;
+				background-color: #00A8D5;
+			}
+		}
+				
+		&.off {
+			.track {
+				background-color: #c5c5c5;
+			}
+			.thumb {
+				left: 0px;
+				background-color: #f1f1f1;
+			}
+		}
+	}
+
+	/* INPUT TEXT FIELD COMPONENT */
+	.inputTextField {
+		margin-top: 6px;
+		margin-bottom: 8px;
+		display: inline-block;
+		
+		.inputLabel {
+			font-size: 75%;
+		    color: rgba(0,0,0,0.54);
+		}
+	
+		.textField {
+		    margin-top: 6px;
+		}
+	
+		.AutoCompleteTextFieldW {
+		    margin-right: 16px;
+		    margin-bottom: 0px !important;
+		    border-radius: 0px;
+		    border: none;
+		    border-bottom: 1px solid $black-42;
+		    
+		    input[type="text"] {
+			    border: none !important;
+			    box-shadow: none !important;
+			    height: 22px;
+			    margin: 0px;
+			    padding: 0px 0px 8px 0px;
+			}
+		}
+	}
+}
