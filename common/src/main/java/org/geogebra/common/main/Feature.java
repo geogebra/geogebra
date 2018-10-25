@@ -325,6 +325,9 @@ public enum Feature {
 	TOOLBAR_FROM_APPCONFIG,
 	
 	/** APPS-19 */
-	TABLE_VIEW
+	TABLE_VIEW,
+
+	/** G3D-13  **/
+	DOWNLOAD_ARCORE
 }
 

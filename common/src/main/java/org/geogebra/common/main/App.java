@@ -4134,6 +4134,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TABLE_VIEW:
 			return prerelease;
 
+		/** G3D-6**/
+			case DOWNLOAD_ARCORE:
+				return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
