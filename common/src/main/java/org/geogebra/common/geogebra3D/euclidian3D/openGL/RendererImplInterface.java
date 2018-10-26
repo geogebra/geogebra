@@ -70,6 +70,8 @@ public interface RendererImplInterface {
 
 	public abstract void setView();
 
+    void glViewPort();
+
 	public abstract void setStencilLines();
 
 	public abstract void viewOrtho();
