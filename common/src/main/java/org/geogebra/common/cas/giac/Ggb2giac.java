@@ -102,16 +102,15 @@ public class Ggb2giac {
 		// [ggbans:=%0] first in case something goes wrong,eg CFactor[sqrt(21)
 		// -2sqrt(7) x <complexi>+3sqrt(3) x^2 <complexi>+6x^3]
 		p("CFactor.1",
-				"[with_sqrt(0),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],with_sqrt(1),ggbcfactans][4]");
+				"[[ggbcfactans:=%0],[ggbcfactans:=ggbcfactor(ggbcfactans,x,0,1)],ggbcfactans][2]");
 		p("CFactor.2",
-				"[with_sqrt(0),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,ggb_is_variable(%1))],with_sqrt(1),ggbcfactans][4]");
+				"[[ggbcfactans:=%0],[ggbcfactans:=ggbcfactor(ggbcfactans,ggb_is_variable(%1),0,1)],ggbcfactans][2]");
 
 		// factor over complex irrationals
 		p("CIFactor.1",
-				// "[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
-				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
+				"[[ggbcfactans:=%0],[ggbcfactans:=ggbcfactor(ggbcfactans,x,1,1)],ggbcfactans][2]");
 		p("CIFactor.2",
-				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,ggb_is_variable(%1))],ggbcfactans][3]");
+				"[[ggbcfactans:=%0],[ggbcfactans:=ggbcfactor(ggbcfactans,ggb_is_variable(%1),1,1)],ggbcfactans][2]");
 
 		p("ChiSquared.2",
 				// "chisquare_cdf(%0,%1)");
@@ -283,16 +282,21 @@ public class Ggb2giac {
 				"[[[ggbinflfun:=%0],[ggbinflvar:=when(size(lname(ggbinflfun) intersect [x])==0,lname(ggbinflfun)[0],x)],[ggbinflans:=extrema(diff(%0,ggbinflvar))]],map(ggbinflans,it->point(it,normal(regroup(subst(ggbinflfun,ggbinflvar,it)))))][1]");
 		// factor over rationals
 		// add x so that Factor[(-k x^2+4k x+x^3)] gives a nicer answer
+		//p("Factor.1",
+		// "[with_sqrt(0),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then
+		// ggbfacans:=ifactor(ggbfacans); else
+		// ggbfacans:=factor(lncollect(ggbfacans),x);
+		// fi],with_sqrt(1),ggbfacans][4]");
 		p("Factor.1",
-				"[with_sqrt(0),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(lncollect(ggbfacans),x); fi],with_sqrt(1),ggbfacans][4]");
+				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=ggbfactor(lncollect(ggbfacans),x, 0, 1); fi],ggbfacans][2]");
 		p("Factor.2",
-				"[with_sqrt(0),[ggbfacans:=%0],[ggbfacans:=factor(ggbfacans,ggb_is_variable(%1))],with_sqrt(1),ggbfacans][4]");
+				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),0,1)],ggbfacans][2]");
 
 		// factor over irrationals
 		p("IFactor.1",
-				"[with_sqrt(1),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],ggbfacans][3]");
+				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=ggbfactor(ggbfacans,x,1,1); fi],ggbfacans][2]");
 		p("IFactor.2",
-				"[with_sqrt(1),[ggbfacans:=%0],[ggbfacans:=factor(ggbfacans,ggb_is_variable(%1))],ggbfacans][3]");
+				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),1,1)],ggbfacans][2]");
 
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",

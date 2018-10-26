@@ -143,6 +143,17 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a=='='||a=='%=',true,false)"),
 
 		/**
+		 * wrap factor() in eg with_sqrt(0), with_sqrt(1)
+		 */
+		GGB_FACTOR("ggbfactor", "ggbfactor(a, b, c, d):=[with_sqrt(c), factor(a, b), with_sqrt(d)][1]"),
+
+		/**
+		 * wrap cfactor() in eg with_sqrt(0), with_sqrt(1)
+		 */
+		GGB_CFACTOR("ggbcfactor",
+				"ggbcfactor(a, b, c, d):=[with_sqrt(c), cfactor(a, b), with_sqrt(d)][1]"),
+
+		/**
 		 * returns "?" if expression has more than one variable otherwise
 		 * returns the variable
 		 * 
