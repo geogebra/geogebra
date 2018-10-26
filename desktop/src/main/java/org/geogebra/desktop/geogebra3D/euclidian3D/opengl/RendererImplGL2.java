@@ -930,4 +930,8 @@ public class RendererImplGL2 extends RendererImpl
 			float[] cameraPerspective, float[] modelMatrix, float scaleFactor) {
 		// used only with shaders
 	}
+
+	public void glViewPort() {
+		// used only with shaders
+	}
 }
