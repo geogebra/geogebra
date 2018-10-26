@@ -16,6 +16,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TableUtils;
 
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -36,13 +42,28 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private CellTable<RowData> headerTable;
 	private CellTable<RowData> table;
 	private FlowPanel main;
+	private FlowPanel tvPanel;
 	private Label emptyLabel;
 	private Label emptyInfo;
 	private FlowPanel emptyPanel;
 	private AppW app;
 	private ScrollPanel scrollPanel;
 	private List<RowData> rows = new ArrayList<>();
+	private ScrollPanel holderPanel;
+	private OuterPanel outerScrollPanel;
 	
+	/**
+	 * @author laszlo
+	 *
+	 */
+	public class OuterPanel extends ScrollPanel {
+
+		@Override
+		public void onResize() {
+			setHeaderSizes();
+		}
+	}
+
 	private class RowData {
 		private int row;
 
@@ -59,22 +80,13 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		/**
 		 * 
-		 * @param column
-		 *            the col
+		 * @param col
+		 *            the column
 		 * @return the cell value
 		 */
-		public String getValue() {
-			return getTableValuesModel().getCellAt(row, 1);
+		public String getValue(int col) {
+			return getTableValuesModel().getCellAt(row, col);
 		}
-
-		public int getRow() {
-			return row;
-		}
-
-		public void setRow(int row) {
-			this.row = row;
-		}
-
 	}
 	/**
 	 * @param app1
@@ -84,20 +96,93 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		super(app1.getKernel());
 		this.app = app1;
 		createGUI();
+	}
 
+	/**
+	 * Sync header sizes with content column widths
+	 */
+	protected void setHeaderSizes() {
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				// TODO Auto-generated method stub
+				NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody")
+						.getItem(0).getElementsByTagName("tr");
+				if (tableRows.getLength() == 0) {
+					return;
+				}
+
+				NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
+
+				for (int i = 0; i < table.getColumnCount(); i++) {
+					int w = firstRow.getItem(i).getOffsetWidth();
+					headerTable.setColumnWidth(i, w + "px");
+				}
+
+				int tableWidth = table.getOffsetWidth();
+				headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
+
+			}
+
+		});
 	}
 
 	private void createGUI() {
 		main = new FlowPanel();
+		tvPanel = new FlowPanel();
+		scrollPanel = new ScrollPanel();
+		scrollPanel.addStyleName("tvScrollPanel");
 		headerTable = new CellTable<>();
 		table = new CellTable<>();
+
 		if (app.has(Feature.TABLE_VIEW_TEST_DATA)) {
 			addTestData();
 		}
 
 		buildTable();
-		// scrollPanel = new ScrollPanel(table);
-		// main.add(scrollPanel);
+		scrollPanel.setWidget(table);
+
+		tvPanel.add(scrollPanel);
+		tvPanel.addStyleName("tvPanel");
+		main.add(tvPanel);
+	}
+
+	private void addHeader() {
+		headerTable = new CellTable<>();
+		TableUtils.clear(headerTable);
+		addColumnsForTable(headerTable);
+		headerTable.addStyleName("tvHeader");
+		headerTable.addStyleName("tvTable");
+
+		holderPanel = new ScrollPanel();
+		final FlowPanel innerHolderPanel = new FlowPanel();
+		innerHolderPanel.add(headerTable);
+		holderPanel.add(innerHolderPanel);
+		holderPanel.addStyleName("tvHeaderHolderPanel");
+
+		tvPanel.add(holderPanel);
+
+		outerScrollPanel = new OuterPanel(); // used for horizontal
+												// scrolling
+		outerScrollPanel.addStyleName("outerScrollPanel");
+		outerScrollPanel.add(tvPanel);
+		table.addStyleName("hiddenheader");
+
+		scrollPanel.addScrollHandler(new ScrollHandler() {
+			@Override
+			public void onScroll(ScrollEvent event) {
+				int scrollPosition = scrollPanel.getHorizontalScrollPosition();
+				if (innerHolderPanel.getOffsetWidth() < scrollPanel.getOffsetWidth()
+						+ scrollPosition) {
+					innerHolderPanel
+							.setWidth((scrollPanel.getOffsetWidth() + scrollPosition) + "px");
+				}
+				holderPanel.setHorizontalScrollPosition(scrollPosition);
+			}
+		});
+
 	}
 
 	private GeoFunction createFunction(String definition) {
@@ -107,26 +192,23 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private void addTestData() {
-		GeoFunction sinx = createFunction("sin(x)");
+		GeoFunction sinx = createFunction("2*x");
 		sinx.setLabel("f");
 		GeoFunction cosx = createFunction("cos(x)");
 		add(sinx);
 		cosx.setLabel("g");
 		add(cosx);
-		setValues(-1, 1, 0.5);
+		setValues(0, 100, 1);
 		showColumn(sinx);
 		showColumn(cosx);
 	}
 
 	private void buildTable() {
-		TableUtils.clear(headerTable);
-		addColumnsForTable(headerTable);
-		main.add(headerTable);
+		addHeader();
+		table.addStyleName("tvTable");
 		TableUtils.clear(table);
 		addValuesForTable(table);
 		tableInit();
-		main.add(table);
-
 	}
 
 	private void buildData() {
@@ -142,11 +224,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		table.setVisibleRange(0, rows.size());
 		table.setRowData(0, rows);
 		table.setVisible(true);
-	}
-
-	private void addValues() {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -205,12 +282,16 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return nameColumn;
 	}
 
-	private static Column<RowData, SafeHtml> getColumnValue(final int idx) {
+	private static Column<RowData, SafeHtml> getColumnValue(final int col) {
 		Column<RowData, SafeHtml> column = new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
-				return SafeHtmlUtils.fromTrustedString(object.getValue());
+				SafeHtmlBuilder sb = new SafeHtmlBuilder();
+				sb.append(SafeHtmlUtils.fromTrustedString("<div>"));
+				sb.append(SafeHtmlUtils.fromSafeConstant(object.getValue(col)));
+				sb.append(SafeHtmlUtils.fromTrustedString("</div>"));
+				return sb.toSafeHtml();
 			}
 
 		};
@@ -238,7 +319,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		for (int column = 0; column < m.getColumnCount(); column++) {
 			Column<RowData, ?> col = getColumnValue(column);
 			tb.addColumn(col);
-			}
+		}
 	}
 
+	/**
+	 * Sets height of the view.
+	 * 
+	 * @param height
+	 *            to set.
+	 */
+	public void setHeight(int height) {
+		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight(),
+				Unit.PX);
+	}
 }

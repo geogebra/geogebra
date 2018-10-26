@@ -56,6 +56,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 		}
 		setWidth(2 * w + "px");
 		getElement().getStyle().setLeft(2 * w, Unit.PX);
+		view.setHeight(getOffsetHeight());
 	}
 
 }

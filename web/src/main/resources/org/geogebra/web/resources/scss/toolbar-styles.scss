@@ -520,7 +520,78 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			position: absolute !important;
 			display: inline-block;
 		}
+		
+		.tvHeader {
+			thead th {
+				text-shadow: none;
+				color: #666666;
+				border-bottom: 2px solid #666666;
+				text-align: center;
+				background-color: #f8f8f8;
+				font-weight: normal;
+				width: 50px;
+			}
+		
+			thead th:FIRST-CHILD{
+				max-width: 16px;
+			}
+			tbody {display: none;}
+		}
+		
+		
+		.tvTable td:FIRST-CHILD{
+			max-width: 35px;
+			min-width: 35px;
+		}
+		
+		.tvTable td {
+			min-width: 50px;
+			max-width: 100px;
+		}
+	
+		
+		.tvScrollPanel {
+			width: 50%;
+		}
 
+		.tvScrollPanel td {
+			border-right: 1px solid $black-15;
+		}
+		
+		.tvScrollPanel td div {
+			min-height: 35px;
+		}
+		
+		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableEvenRowCell {
+				background: $black-10;
+		}
+	
+	.tvPanel .tvScrollPanel{
+		flex-grow: 1;
+		/*overflow-x: hidden !important;*/
+		overflow-y: auto !important;
 	}
 
+	.outerScrollPanel{
+		/*overflow-y: hidden !important;*/
+		overflow: hidden !important;
+	}
+
+	.outerScrollPanel > div{
+		height: 100%;
+	}
+
+	/*needed for vertical scrolling*/
+	.tvScrollPanel div, .tvPanel{
+		height: 100%;
+	}
+
+	.tvHeaderHolderPanel{
+		background-color: #F8F8F8;
+		overflow: hidden !important;
+	}
+		
+	
+	
+	}
 }
