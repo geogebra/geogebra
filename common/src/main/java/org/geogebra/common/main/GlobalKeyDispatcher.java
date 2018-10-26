@@ -1635,6 +1635,10 @@ public abstract class GlobalKeyDispatcher {
 										1 / numStep);
 							}
 						}
+
+						// stop animation if slider dragged
+						num.setAnimating(false);
+
 						num.setValue(newValue);
 					}
 
