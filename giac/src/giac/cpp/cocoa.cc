@@ -3891,7 +3891,7 @@ namespace giac {
       q[i].coord.push_back(T_unsigned<modint,tdeg_t>(c,monom));
       // push in heap
       if (g[G[i]].coord.size()>1){
-	heap_t<tdeg_t> current={i,int(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
+	heap_t<tdeg_t> current={i,unsigned(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
 	H.push_back(current);
 	push_heap(H.begin(),H.end(),key);
       }
@@ -3996,7 +3996,7 @@ namespace giac {
       q[i].coord.push_back(T_unsigned<modint,tdeg_t>(1,monom));
       // push in heap
       if (g[G[i]].coord.size()>1){
-	heap_t<tdeg_t> current={i,int(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
+	heap_t<tdeg_t> current={i,unsigned(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
 	H.push_back(unsigned(H_.size()));
 	H_.push_back(current);
 	keyheap.ptr=&H_.front();
@@ -10793,7 +10793,7 @@ namespace giac {
 	}
 	heap_t<tdeg_t> current = { i, unsigned(q[i].size()) - 1, pos, newmonom };
 #else
-	heap_t<tdeg_t> current = { i, unsigned(q[i].size()) - 1, pos, (*gGi.expo)[gGi.coord[pos].u] + monom };
+	heap_t<tdeg_t> current = { i, unsigned(q[i].size()) - 1, unsigned(pos), (*gGi.expo)[gGi.coord[pos].u] + monom };
 #endif
 	H.push_back(hashgcd_U(H_.size()));
 	H_.push_back(current);
@@ -11779,7 +11779,7 @@ namespace giac {
       int colonnes=N,debut=0,step=Bs/(th+1)+1,fin;
       for (int j=0;j<=th;debut+=step,++j){
 	fin=giacmin(debut+step,Bs);
-	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,Rhashptr,&Rdegpos,env,debut,fin,N,Kcols,&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1};
+	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,Rhashptr,&Rdegpos,env,debut,fin,int(N),int(Kcols),&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1};
 	buchberger_param[j]=tmp;
 	bool res=true;
 	// CERR << "write " << j << " " << p << endl;

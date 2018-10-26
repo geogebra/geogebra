@@ -201,10 +201,9 @@ correct_input : exp T_END_INPUT { $$=vecteur(1,$1); }
 	      ;
 
 exp	: T_NUMBER		{$$ = $1;}
-	| T_NUMBER T_SYMBOL %prec T_IMPMULT	{if (is_one($1)) $$=$2; else $$=symbolic(at_prod,gen(makevecteur($1,$2),_SEQ__VECT));}
-	| T_NUMBER T_SYMBOL T_POW T_NUMBER %prec T_IMPMULT	{if (is_one($1)) $$=symb_pow($2,$4); else $$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$4)),_SEQ__VECT));}
-	| T_NUMBER T_SYMBOL T_SQ %prec T_IMPMULT	{$$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$3)) ,_SEQ__VECT));}
-	| T_NUMBER T_LITERAL %prec T_IMPMULT	{if (is_one($1)) $$=$2; else	$$=symbolic(at_prod,gen(makevecteur($1,$2) ,_SEQ__VECT));}
+	| T_NUMBER symbol_or_literal %prec T_IMPMULT	{if (is_one($1)) $$=$2; else $$=symbolic(at_prod,gen(makevecteur($1,$2),_SEQ__VECT));}
+	| T_NUMBER symbol_or_literal T_POW T_NUMBER %prec T_IMPMULT	{if (is_one($1)) $$=symb_pow($2,$4); else $$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$4)),_SEQ__VECT));}
+	| T_NUMBER symbol_or_literal T_SQ %prec T_IMPMULT	{$$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$3)) ,_SEQ__VECT));}
 	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR	{ $$ =$1*symbolic(*$2._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto($4):$4); }
 	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR T_POW T_NUMBER	{ $$ =$1*symb_pow(symbolic(*$2._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto($4):$4),$7); }
 	/* | T_LITERAL T_NUMBER	{$$=symbolic(at_prod,makevecteur($1,$2));} */
@@ -718,6 +717,8 @@ symbol	: T_SYMBOL { $$=$1; }
 	| TI_HASH exp {$$=symbolic(*$1._FUNCptr,$2); }
 	;
 
+symbol_or_literal: T_SYMBOL { $$=$1; }
+	| T_LITERAL { $$=$1; }
 
 entete	: /* empty */ { $$=makevecteur(vecteur(0),vecteur(0)); }
 	| entete local	{ vecteur v1 =gen2vecteur($1); vecteur v2=gen2vecteur($2); $$=makevecteur(mergevecteur(gen2vecteur(v1[0]),gen2vecteur(v2[0])),mergevecteur(gen2vecteur(v1[1]),gen2vecteur(v2[1]))); }
