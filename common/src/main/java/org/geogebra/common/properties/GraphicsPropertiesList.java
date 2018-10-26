@@ -76,7 +76,10 @@ public class GraphicsPropertiesList extends PropertiesList {
     public Property[] getPropertiesList() {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
             if (propertiesListARView == null) {
-                if (mApp.has(Feature.MOB_BACKGROUND_PROPERTY)) {
+                if (mApp.has(Feature.MOB_BACKGROUND_PROPERTY) && mApp.has(Feature
+                        .MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
+                    // MOB_STANDARD_VIEW_ZOOM_BUTTONS checked here just in case it would be
+                    // temporarily removed
                     propertiesListARView = new Property[mProperties.length + 1];
                     for (int i = 0; i < propertiesListARView.length; i++) {
                         if (i > 1) {
