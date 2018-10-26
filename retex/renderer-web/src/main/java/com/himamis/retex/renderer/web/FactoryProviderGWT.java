@@ -78,12 +78,12 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	private native void debugN(String string) /*-{
-												$wnd.console && $wnd.console.log("[ReTeX] " + string);
-												}-*/;
+		$wnd.console && $wnd.console.log("[LaTeX] " + string);
+	}-*/;
 
 	private native void debugN(Throwable string) /*-{
-													$wnd.console && $wnd.console.log("[ReTeX]", string);
-													}-*/;
+		$wnd.console && $wnd.console.log("[LaTeX]", string);
+	}-*/;
 
 	@Override
 	public void printStacktrace() {
@@ -92,8 +92,8 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	private native void traceNative() /*-{
-										$wnd.console.trace();
-										}-*/;
+		$wnd.console.trace();
+	}-*/;
 
 	public boolean isHTML5() {
 		return true;
