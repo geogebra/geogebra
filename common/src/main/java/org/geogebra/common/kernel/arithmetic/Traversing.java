@@ -198,8 +198,10 @@ public interface Traversing {
 					ExpressionValue arg = en.getLeft().unwrap();
 					// Log.debug("arg " + arg.toString() + " " + arg.getClass()
 					// + " " + arg.evaluateDouble());
-					if (arg.isLeaf() && arg.isConstant() && !DoubleUtil
-							.isInteger(180 * arg.evaluateDouble() / Math.PI)) {
+					if (!(arg instanceof MyDoubleDegreesMinutesSeconds)
+							&& arg.isLeaf() && arg.isConstant()
+							&& !DoubleUtil.isInteger(
+									180 * arg.evaluateDouble() / Math.PI)) {
 
 						ExpressionNode argDegrees = new ExpressionNode(kernel,
 								arg, Operation.MULTIPLY,
