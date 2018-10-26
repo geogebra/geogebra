@@ -321,13 +321,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-			enlargeBounds(min, max, boundsMin, boundsMax);
-			break;
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			if (getGeoElement() instanceof GeoQuadric3DPart) {
-				enlargeBounds(min, max, boundsMin, boundsMax);
-			}
+			enlargeBounds(min, max, boundsMin, boundsMax);
 			break;
 		}
 	}
@@ -746,30 +742,52 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			double r1 = quadric.getHalfAxis(0);
 			double r2 = quadric.getHalfAxis(1);
 
+			boundsMin.set(Double.POSITIVE_INFINITY);
+			boundsMax.set(Double.NEGATIVE_INFINITY);
 			if (min * max < 0) {
 				if (getView3D().useClippingCube()) {
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min, 1f);
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, max, 1f);
+					Coords bottomCenter = surface.cone(this, center, ev1, ev2,
+							ev3, r1, r2, 0, 2 * Math.PI, min, 1f);
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
+							ev1, ev2, r1 * min, r2 * min);
+					bottomCenter = surface.cone(this, center, ev1, ev2, ev3, r1,
+							r2, 0, 2 * Math.PI, max, 1f);
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
+							ev1, ev2, r1 * max, r2 * max);
 				} else {
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min, (float) ((-9 * min - max) / (min - max)));
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, max, (float) ((-9 * max - min) / (max - min)));
+					Coords bottomCenter = surface.cone(this, center, ev1, ev2,
+							ev3, r1, r2, 0, 2 * Math.PI, min,
+							(float) ((-9 * min - max) / (min - max)));
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
+							ev1, ev2, r1 * min, r2 * min);
+					bottomCenter = surface.cone(this, center, ev1, ev2, ev3, r1,
+							r2, 0, 2 * Math.PI, max,
+							(float) ((-9 * max - min) / (max - min)));
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
+							ev1, ev2, r1 * max, r2 * max);
 				}
 			} else {
 				if (getView3D().useClippingCube()) {
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min, max, false, false);
+					Coords[] centers = surface.cone(this, center, ev1, ev2, ev3,
+							r1, r2, 0, 2 * Math.PI, min, max, false, false);
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0],
+							ev1, ev2, r1 * min, r2 * min);
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1],
+							ev1, ev2, r1 * max, r2 * max);
 				} else {
 					double delta = (max - min) / 10;
 					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, min + delta, max - delta, false, false);
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+					Coords[] centers = surface.cone(this, center, ev1, ev2, ev3,
+							r1, r2, 0,
 							2 * Math.PI, min, min + delta, true, false);
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0],
+							ev1, ev2, r1 * min, r2 * min);
+					centers = surface.cone(this, center, ev1, ev2, ev3, r1, r2,
+							0,
 							2 * Math.PI, max - delta, max, false, true);
+					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1],
+							ev1, ev2, r1 * max, r2 * max);
 				}
 			}
 		}
@@ -876,7 +894,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			double radius2 = quadric.getHalfAxis(1);
 			longitude = renderer.getGeometryManager().getLongitude(radius,
 					getView3D().getMaxScale());
-			Coords bottomCenter = surface.cylinder(this, center, ev1, ev2,
+			Coords[] centers = surface.cylinder(this, center, ev1, ev2,
 					ev3, radius, radius2, 0, 2 * Math.PI,
 					quadric.getMinParameter(1), quadric.getMaxParameter(1),
 					false, false, longitude);
@@ -885,7 +903,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			boundsMax.set(Double.NEGATIVE_INFINITY);
 			enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
 					radius, radius);
-			enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
+			enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1], ev1,
 					ev2, radius, radius);
 
 		} else {
@@ -903,19 +921,31 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 			longitude = renderer.getGeometryManager().getLongitude(radius,
 					getView3D().getMaxScale());
+			boundsMin.set(Double.POSITIVE_INFINITY);
+			boundsMax.set(Double.NEGATIVE_INFINITY);
 			if (getView3D().useClippingCube()) {
-				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
-						2 * Math.PI, min, max, false, false, longitude);
+				Coords[] centers = surface.cylinder(this, center, ev1, ev2, ev3,
+						r1, r2, 0, 2 * Math.PI, min, max, false, false,
+						longitude);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0], ev1,
+						ev2, r1, r2);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1], ev1,
+						ev2, r1, r2);
 			} else {
 				double delta = (max - min) / 10;
 				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
 						2 * Math.PI, min + delta, max - delta, false, false, longitude);
-				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
+				Coords[] centers = surface.cylinder(this, center, ev1, ev2, ev3,
+						r1, r2, 0,
 						2 * Math.PI, min, min + delta, true, false, longitude);
-				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
-						2 * Math.PI, max - delta, max, false, true, longitude);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0], ev1,
+						ev2, r1, r2);
+				centers = surface.cylinder(this, center, ev1, ev2, ev3, r1,
+						r2, 0, 2 * Math.PI, max - delta, max, false, true,
+						longitude);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1], ev1,
+						ev2, r1, r2);
 			}
-
 		}
 
 		setSurfaceIndex(surface.end());

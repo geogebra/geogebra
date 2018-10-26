@@ -68,6 +68,8 @@ public class PlotterSurface {
 
 	protected Coords center2 = new Coords(4);
 
+	private final Coords[] centers = new Coords[] { center1, center2 };
+
 	private Coords n = new Coords(4);
 
 	/** texture coord for out (alpha = 0) */
@@ -1337,7 +1339,8 @@ public class PlotterSurface {
 	 * @param maxFading
 	 *            use fading for max
 	 */
-	public void cone(Drawable3D drawable, Coords center, Coords vx, Coords vy, Coords vz,
+	public Coords[] cone(Drawable3D drawable, Coords center, Coords vx,
+			Coords vy, Coords vz,
 			double r1, double r2, double start, double extent, double min,
 			double max, boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
@@ -1423,6 +1426,7 @@ public class PlotterSurface {
 			manager.endGeometry();
 		}
 
+		return centers;
 	}
 
 	/**
@@ -1455,7 +1459,8 @@ public class PlotterSurface {
 	 *            longitude
 	 * @return center at max height
 	 */
-	public Coords cylinder(Drawable3D drawable, Coords center, Coords vx, Coords vy,
+	public Coords[] cylinder(Drawable3D drawable, Coords center, Coords vx,
+			Coords vy,
 			Coords vz, double r1, double r2, double start, double extent,
 			double min, double max, boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
@@ -1519,7 +1524,7 @@ public class PlotterSurface {
 			manager.endGeometry();
 		}
 
-		return center2;
+		return centers;
 
 	}
 
