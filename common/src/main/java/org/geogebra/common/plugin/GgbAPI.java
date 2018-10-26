@@ -1748,6 +1748,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			app.examWelcome();
 			return;
 		}
+		
+		if (code.startsWith("+") || code.startsWith("-")) {
+			PerspectiveDecoder.decodeSimple(app, code);
+			return;
+		}
+		
 		// the exam setting is certainly false
 		if (code.startsWith("<")) {
 			try {
@@ -1756,7 +1762,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 								+ "</perspectives></gui></geogebra>");
 				app.getGuiManager().updateGUIafterLoadFile(true, false);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return;

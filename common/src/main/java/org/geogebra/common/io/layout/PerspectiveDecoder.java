@@ -263,4 +263,18 @@ public class PerspectiveDecoder {
 		return size(en.getLeft(), horizontal);
 
 	}
+
+	/**
+	 * 
+	 * @param code
+	 *            eg "+A" to open Algebra View
+	 */
+	public static void decodeSimple(App app, String code) {
+		boolean open = code.startsWith("+");
+
+		DockPanelData view = viewCodes.get(code.charAt(1) + "");
+
+		app.getGuiManager().setShowView(open, view.getViewId());
+
+	}
 }
