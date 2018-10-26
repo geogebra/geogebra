@@ -1897,6 +1897,14 @@ public class ProverBotanasMethod {
 			}
 		}
 
+		PVariable[] moverVars = new PVariable[2];
+		try {
+			moverVars = ((SymbolicParametersBotanaAlgo) mover).getBotanaVars(mover);
+		} catch (NoSymbolicParametersException e) {
+			Log.debug("Cannot get Botana variables for " + mover);
+			return null;
+		}
+
 		/* free point support */
 		/*
 		 * Note that sometimes free points can be on a path, but they are
@@ -1912,7 +1920,17 @@ public class ProverBotanasMethod {
 				Log.debug("Cannot get Botana variables for " + freePoint);
 				return null;
 			}
+
 			boolean condition = !mover.equals(freePoint);
+
+			if (condition) {
+				/* add non-degeneracy condition freePoint != mover, based on an idea by Pavel Pech */
+				PPolynomial v = new PPolynomial(new PVariable(k));
+				PPolynomial ndg = PPolynomial.sqrDistance(moverVars[0], moverVars[1], vars[0], vars[1]).multiply(v).
+						subtract(new PPolynomial(1));
+				as.addPolynomial(ndg);
+			}
+
 			if (!implicit) {
 				condition &= !tracer.equals(freePoint);
 			}
