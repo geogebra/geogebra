@@ -65,6 +65,9 @@ public class DrawSlider extends Drawable {
 
 	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 
+	// use blue "halo" when blob is white
+	private GColor blueHalo;
+
 	/**
 	 * Creates new drawable for slider
 	 * 
@@ -169,12 +172,23 @@ public class DrawSlider extends Drawable {
 			g2.setStroke(objStroke);
 			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
 					line.getP2().getX(), line.getP2().getY());
+			GColor selColor = geo.getSelColor();
 			g2.setPaint(geo.getSelColor());
 			if (geo.doHighlighting()) {
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);
 				g2.draw(circleHighlight);
 			} else {
+				if (selColor.getRed() == 255 && selColor.getGreen() == 255
+						&& selColor.getBlue() == 255) {
+
+					if (blueHalo == null) {
+						blueHalo = GColor.newColor(0x84, 0xbe, 0xe9,
+								selColor.getAlpha());
+					}
+					// use blue "halo" when blob is white
+					g2.setPaint(blueHalo);
+				}
 				g2.fill(circleOuter);
 				g2.setStroke(borderStroke);
 				g2.draw(circleOuter);
