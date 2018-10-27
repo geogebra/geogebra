@@ -563,7 +563,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		if (app.has(Feature.LABEL_SETTING_ON_STYLEBAR) && isDynamicStylebar()) {
-			addLabelButton();
+			add(getLabelPopup());
 		}
 
 		if (app.isUnbundledOrWhiteboard()) {
@@ -706,17 +706,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return (((AppWFull) app).getAppletFrame());
 	}
 
-	/**
-	 * add label settings button to dynamic stylebar
-	 */
-	protected void addLabelButton() {
-		createLabelPopup();
-		add(btnLabel);
-	}
-
 	protected void closeLabelPopup() {
-		if (btnLabel.getMyPopup().isShowing()) {
-			btnLabel.getMyPopup().hide();
+		if (getLabelPopup().getMyPopup().isShowing()) {
+			getLabelPopup().getMyPopup().hide();
 		}
 	}
 
@@ -857,11 +849,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			createCloseViewBtn();
 		}
-		createLabelPopup();
 	}
 
-	private void createLabelPopup() {
-		btnLabel = new LabelSettingsPopup(app);
+
+	private LabelSettingsPopup getLabelPopup() {
+		if (btnLabel == null) {
+			btnLabel = new LabelSettingsPopup(app);
+		}
+
+		return btnLabel;
 	}
 
 	protected class ProjectionPopup extends PopupMenuButtonW {
@@ -1995,7 +1991,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
 		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
 		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
-		btnLabel.setLabels();
+		getLabelPopup().setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
 		if (btnCrop != null) {
