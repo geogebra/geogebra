@@ -323,7 +323,7 @@ public enum Feature {
 
 	/** GGB-2517 */
 	TOOLBAR_FROM_APPCONFIG,
-	
+
 	/** APPS-19 */
 	TABLE_VIEW,
 
@@ -331,6 +331,9 @@ public enum Feature {
 	TABLE_VIEW_TEST_DATA,
 
 	/** G3D-13 **/
-	DOWNLOAD_ARCORE
+	DOWNLOAD_ARCORE,
+
+	/** automatically add NDG conditions in locus equations */
+	LOCUSEQU_AUTO_NDG
 }
 

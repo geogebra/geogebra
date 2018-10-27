@@ -4115,6 +4115,10 @@ public abstract class App implements UpdateSelection, AppInterface {
         case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
+		/** automatically add NDG conditions in locus equations */
+		case LOCUSEQU_AUTO_NDG:
+			return prerelease;
+
 		/** GGB-2525 */
 		case TAB_ON_EV_PLAY:
 			return prerelease;

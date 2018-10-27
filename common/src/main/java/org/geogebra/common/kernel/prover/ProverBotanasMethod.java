@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.adapters.DependentNumberAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -1923,7 +1924,7 @@ public class ProverBotanasMethod {
 
 			boolean condition = !mover.equals(freePoint);
 
-			if (condition) {
+			if (k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG) && condition) {
 				/* add non-degeneracy condition freePoint != mover, based on an idea by Pavel Pech */
 				PPolynomial v = new PPolynomial(new PVariable(k));
 				PPolynomial ndg = PPolynomial.sqrDistance(moverVars[0], moverVars[1], vars[0], vars[1]).multiply(v).
