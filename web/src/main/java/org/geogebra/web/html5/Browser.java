@@ -47,12 +47,25 @@ public class Browser {
 	/**
 	 * Check if browser is Safari on iOS
 	 * 
+	 * check isiOS() && isSafari() if you want just iOS browser & not webview
+	 * 
 	 * (Note: returns true for Chrome on iOS as that's really an iOS Webview)
 	 * 
-	 * @return true if iOS
+	 * @return true if iOS (WebView or Safari browser)
 	 */
 	public static native boolean isiOS() /*-{
 		return !!(/iPhone|iPad|iPod/i.test($wnd.navigator.userAgent));
+	}-*/;
+
+	/**
+	 * Check if browser is Safari
+	 * 
+	 * check isiOS() && isSafari() if you want just iOS browser & not webview
+	 * 
+	 * @return true if Safari browser
+	 */
+	private static native boolean isSafari() /*-{
+		return !!(/safari/.test($wnd.navigator.userAgent));
 	}-*/;
 
 	/**
@@ -788,11 +801,11 @@ public class Browser {
 
 	/**
 	 * @param txt
-	 *            plaiin text file in UTF-8
+	 *            plain text file in UTF-8
 	 * @return valid data URL, browser dependent
 	 */
 	public static String addTxtMarker(String txt) {
-		return isiOS()
+		return isiOS() && isSafari()
 				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
 	}
