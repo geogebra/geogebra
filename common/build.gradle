@@ -24,11 +24,6 @@ dependencies {
         exclude module: 'jsr305'
         exclude module: 'jcip-annotations'
     }
-	compile "org.symcomp:openmath:1.4.0"
-	compile "org.symcomp:scscp:1.4.0"
-	// compile "org:symcomp:1.4.0:sources"
-	/// compile "org.antlr:antlr:3.5"
-	runtime "org.antlr:antlr-runtime:3.5"
 }
 
 sourceSets {
