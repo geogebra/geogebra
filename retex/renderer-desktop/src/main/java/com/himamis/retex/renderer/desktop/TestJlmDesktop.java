@@ -37,7 +37,7 @@ public class TestJlmDesktop extends JFrame {
 		Graphics2DD g2d = new Graphics2DD(g2);
 
 		String[] texts = {
-				"1+2+3 \\\\ 1+\\bgcolor{red}{2+}3 \\\\ 1\\bgcolor{red}{+2}+3 \\\\ 1+\\bgcolor{red}{2}+3",
+				"1+\\bgcolor{red}{2+\\fgcolor{blue}{+a\\bgcolor{green}{+c+d}+3+}}4",
 		};
 
 		int y = 100;

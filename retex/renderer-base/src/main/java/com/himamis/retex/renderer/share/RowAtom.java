@@ -50,6 +50,7 @@ package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Stack;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -209,23 +210,45 @@ public class RowAtom extends Atom implements Row {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
-		HorizontalBox hBox = new HorizontalBox(env.getColor(),
-				env.getBackground());
-		int N = elements.size();
+
+		Stack<HorizontalBox> hBox = new Stack<>();
+		hBox.push(new HorizontalBox(env.getColor(),
+				env.getBackground()));
 
 		env.resetColors();
 
 		Dummy prevAtom = null;
 
-		for (int i = 0; i < N; ++i) {
-			Atom at = elements.get(i);
+		ArrayList<Atom> elementsCopy = new ArrayList<>(elements);
+
+		for (int i = 0; i < elementsCopy.size(); ++i) {
+			Atom at = elementsCopy.get(i);
+
+			if (at == null) {
+				HorizontalBox box = hBox.pop();
+				hBox.peek().add(box);
+				continue;
+			}
+
+			if (at instanceof ColorAtom) {
+				ColorAtom ca = (ColorAtom) at;
+
+				hBox.push(new HorizontalBox(ca.getColor(), ca.getBackground()));
+
+				elementsCopy.remove(i);
+				elementsCopy.addAll(i, ca.elements.elements);
+				elementsCopy.add(i + ca.elements.elements.size(), null);
+
+				at = elementsCopy.get(i);
+			}
+
 			boolean markAdded = false;
 			if (at instanceof BreakMarkAtom) {
 				// skip the BreakMarkAtoms
 				markAdded = true;
 				++i;
-				for (; i < N; ++i) {
-					at = elements.get(i);
+				for (; i < elementsCopy.size(); ++i) {
+					at = elementsCopy.get(i);
 					if (!(at instanceof BreakMarkAtom)) {
 						break;
 					}
@@ -233,7 +256,7 @@ public class RowAtom extends Atom implements Row {
 			}
 
 			if (at instanceof CursorAtom) {
-				hBox.add(at.createBox(env));
+				hBox.peek().add(at.createBox(env));
 				continue;
 			}
 
@@ -242,13 +265,18 @@ public class RowAtom extends Atom implements Row {
 			}
 
 			Dummy curAtom = new Dummy(at);
-			Atom nextAtom = i + 1 < N ? elements.get(i + 1) : null;
+			Atom nextAtom = null;
+			for (int j = i + 1; j < elementsCopy.size(); j++) {
+				if (elementsCopy.get(j) != null) {
+					nextAtom = elementsCopy.get(j);
+				}
+			}
 			double kern = 0.;
 
 			changeToOrd(curAtom, prevAtom, nextAtom);
 
-			for (int j = i + 1; j < N; ++j) {
-				nextAtom = elements.get(j);
+			for (int j = i + 1; j < elementsCopy.size(); ++j) {
+				nextAtom = elementsCopy.get(j);
 				if (curAtom.isCharSymbol()
 						&& (nextAtom instanceof CharSymbol)
 						&& curAtom.getRightType() == TeXConstants.TYPE_ORDINARY
@@ -276,24 +304,24 @@ public class RowAtom extends Atom implements Row {
 				final Box glue = Glue.get(prevAtom.getRightType(),
 						curAtom.getLeftType(), env);
 				if (glue != null) {
-					hBox.add(glue);
+					hBox.peek().add(glue);
 				}
 			}
 
 			if (markAdded || (at instanceof CharAtom
 					&& Character.isDigit(((CharAtom) at).getCharacter()))) {
-				hBox.addBreakPosition(hBox.children.size());
+				hBox.peek().addBreakPosition(hBox.peek().children.size());
 			}
 
 			final Box b = curAtom.createBox(env);
-			hBox.add(b);
+			hBox.peek().add(b);
 
 			// set last used fontId (for next atom)
 			env.setLastFont(b.getLastFont());
 
 			// insert kern
 			if (Math.abs(kern) > TeXFormula.PREC) {
-				hBox.add(new StrutBox(kern, 0., 0., 0.));
+				hBox.peek().add(new StrutBox(kern, 0., 0., 0.));
 			}
 
 			// kerns do not interfere with the normal glue-rules without kerns
@@ -305,13 +333,13 @@ public class RowAtom extends Atom implements Row {
 		// ShapeBox causes problems in web when fonts aren't loaded
 		// and also isn't necessary there anyway
 		if (FactoryProvider.getInstance().isHTML5()) {
-			return hBox;
+			return hBox.peek();
 		}
 		if (shape) {
-			return ShapeBox.create(hBox);
+			return ShapeBox.create(hBox.peek());
 		}
 
-		return hBox;
+		return hBox.peek();
 	}
 
 	@Override

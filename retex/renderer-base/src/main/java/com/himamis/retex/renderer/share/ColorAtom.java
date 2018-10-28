@@ -150,6 +150,10 @@ public class ColorAtom extends Atom implements Row {
 		return background;
 	}
 
+	public RowAtom getElements() {
+		return elements;
+	}
+
 	public static Color getColor(String s) {
 		Graphics graphics = new Graphics();
 		if (s != null) {
