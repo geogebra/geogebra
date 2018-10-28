@@ -158,14 +158,13 @@ public class ColorAtom extends Atom implements Row {
 				if (s.charAt(0) == '#') {
 					return ColorUtil.decode(s);
 				} else if (s.indexOf(',') != -1 || s.indexOf(';') != -1) {
-					StringTokenizer toks = new StringTokenizer(s, ";,");
-					int n = toks.countTokens();
-					if (n == 3) {
+					String[] toks = s.split(";,");
+					if (toks.length == 3) {
 						// RGB model
 						try {
-							String R = toks.nextToken().trim();
-							String G = toks.nextToken().trim();
-							String B = toks.nextToken().trim();
+							String R = toks[0].trim();
+							String G = toks[1].trim();
+							String B = toks[2].trim();
 
 							double r = Double.parseDouble(R);
 							double g = Double.parseDouble(G);
@@ -187,17 +186,17 @@ public class ColorAtom extends Atom implements Row {
 						} catch (NumberFormatException e) {
 							return ColorUtil.BLACK;
 						}
-					} else if (n == 4) {
+					} else if (toks.length == 4) {
 						// CMYK model
 						try {
 							double c = Double
-									.parseDouble(toks.nextToken().trim());
+									.parseDouble(toks[0].trim());
 							double m = Double
-									.parseDouble(toks.nextToken().trim());
+									.parseDouble(toks[1].trim());
 							double y = Double
-									.parseDouble(toks.nextToken().trim());
+									.parseDouble(toks[2].trim());
 							double k = Double
-									.parseDouble(toks.nextToken().trim());
+									.parseDouble(toks[3].trim());
 
 							c = Math.min(1, Math.max(0, c));
 							m = Math.min(1, Math.max(0, m));
