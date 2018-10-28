@@ -36,12 +36,8 @@ public class TestJlmDesktop extends JFrame {
 		Graphics2D g2 = (Graphics2D) g;
 		Graphics2DD g2d = new Graphics2DD(g2);
 
-		String[] texts = { "\\mathfrak{alma}", "\u4E2D\u56FD\u7B2C\u4E00",
-				"\\text{almaaa}almaaa",
-				"\\mathsf{\\mathit{\\mbox{\u03B3\u03B5\u03B9\u03AC \u03BA\u03CC\u03C3\u03BC\u03BF}}}",
-				"\\char{100000}", "\\char{48}",
-				// "\\char{0}", -> ParseException, as expected
-				"\\sqrt{\\frac{\\char{128512}}{2}}",
+		String[] texts = {
+				"1+2+3 \\\\ 1+\\bgcolor{red}{2+}3 \\\\ 1\\bgcolor{red}{+2}+3 \\\\ 1+\\bgcolor{red}{2}+3",
 		};
 
 		int y = 100;

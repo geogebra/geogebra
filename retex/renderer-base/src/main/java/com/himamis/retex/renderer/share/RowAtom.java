@@ -216,7 +216,6 @@ public class RowAtom extends Atom implements Row {
 		env.resetColors();
 
 		Dummy prevAtom = null;
-		Box prevBox = null;
 
 		for (int i = 0; i < N; ++i) {
 			Atom at = elements.get(i);
@@ -232,25 +231,11 @@ public class RowAtom extends Atom implements Row {
 					}
 				}
 			}
-			// XXX
-			// if (at instanceof DynamicAtom) {
-			// // TODO: ecrire des tests pr ce truc
-			// // mettre le jlmDynamic au debut, au milieu et a la fin
-			// final DynamicAtom da = (DynamicAtom) at;
-			// if (da.getInsertMode()) {
-			// final Atom a = da.getAtom();
-			// if (a instanceof RowAtom) {
-			// final ArrayList<Atom> els = ((RowAtom) a).getElements();
-			// if (!els.isEmpty()) {
-			// at = els.get(0);
-			// elements.addAll(i + 1, els.subList(1, els.size()));
-			// N += els.size() - 1;
-			// }
-			// } else {
-			// at = a;
-			// }
-			// }
-			// }
+
+			if (at instanceof CursorAtom) {
+				hBox.add(at.createBox(env));
+				continue;
+			}
 
 			if (at instanceof MathchoiceAtom) {
 				at = ((MathchoiceAtom) at).chose(env);
@@ -264,7 +249,7 @@ public class RowAtom extends Atom implements Row {
 
 			for (int j = i + 1; j < N; ++j) {
 				nextAtom = elements.get(j);
-				if (nextAtom != null && curAtom.isCharSymbol()
+				if (curAtom.isCharSymbol()
 						&& (nextAtom instanceof CharSymbol)
 						&& curAtom.getRightType() == TeXConstants.TYPE_ORDINARY
 						&& LIG_KERN_SET.get(nextAtom.getLeftType())) {
@@ -314,7 +299,6 @@ public class RowAtom extends Atom implements Row {
 			// kerns do not interfere with the normal glue-rules without kerns
 			if (!curAtom.isKern()) {
 				prevAtom = curAtom;
-				prevBox = b;
 			}
 		}
 
