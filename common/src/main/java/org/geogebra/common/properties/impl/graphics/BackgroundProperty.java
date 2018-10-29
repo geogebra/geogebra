@@ -1,7 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
@@ -10,10 +10,10 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 
 	private App app;
 
-	private int[] backgroundStyles = new int[] {
-			ConstructionDefaults.BACKGROUND_VISIBLE_NONE,
-			ConstructionDefaults.BACKGROUND_VISIBLE_TRANSPARENT,
-			ConstructionDefaults.BACKGROUND_VISIBLE_OPAQUE };
+	private Renderer.BackgroundStyle[] backgroundStyles = new Renderer.BackgroundStyle[] {
+			Renderer.BackgroundStyle.None,
+			Renderer.BackgroundStyle.Transparent,
+			Renderer.BackgroundStyle.Opaque};
 
 	/**
 	 * Constructs an AbstractEnumerableProperty
@@ -27,7 +27,7 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 		super(localization, "Background");
 		this.app = app;
 
-		setValuesAndLocalize(new String[] { "None", "Transparent", "Opaque" });
+		setValuesAndLocalize(new String[] { "Camera", "Filter", "Opaque Color" });
 	}
 
 	@Override
@@ -38,20 +38,16 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 		if (euclidianView3D.isAREnabled()) {
 			switch (index) {
 			case 0:
-				euclidianView3D.getRenderer().setNoneBackground();
 				euclidianView3D.getRenderer().setBackgroundStyle(
-						ConstructionDefaults.BACKGROUND_VISIBLE_NONE);
+						Renderer.BackgroundStyle.None);
 				break;
 			case 1:
-				euclidianView3D.getRenderer().setTransparentBackground();
 				euclidianView3D.getRenderer().setBackgroundStyle(
-						ConstructionDefaults.BACKGROUND_VISIBLE_TRANSPARENT);
+						Renderer.BackgroundStyle.Transparent);
 				break;
 			case 2:
-				// set background color white
-				euclidianView3D.getRenderer().setOpaqueBackground();
 				euclidianView3D.getRenderer().setBackgroundStyle(
-						ConstructionDefaults.BACKGROUND_VISIBLE_OPAQUE);
+						Renderer.BackgroundStyle.Opaque);
 				break;
 			default:
 				break;
@@ -61,7 +57,7 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 
 	@Override
 	public int getIndex() {
-		int backgroundState = app.getEuclidianView3D().getRenderer()
+		Renderer.BackgroundStyle backgroundState = app.getEuclidianView3D().getRenderer()
 				.getBackgroundStyle();
 		for (int i = 0; i < backgroundStyles.length; i++) {
 			if (backgroundState == backgroundStyles[i]) {

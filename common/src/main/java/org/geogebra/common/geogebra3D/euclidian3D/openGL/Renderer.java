@@ -147,7 +147,12 @@ public abstract class Renderer implements RendererInterface {
 	private float[] arCameraPerspective;
 	private float arScaleFactor;
 
-	private int mBackgroundStyle;
+	/**
+	 * background type (only for AR)
+	 */
+	public enum BackgroundStyle {
+		None, Transparent, Opaque
+	}
 
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
@@ -1928,27 +1933,16 @@ public abstract class Renderer implements RendererInterface {
 		// only for AR
 	}
 
-	public void setTransparentBackground() {
-		// only for AR
-	}
-
-	public void setOpaqueBackground() {
-		// only for AR
-	}
-
-	public void setNoneBackground() {
-		// only for AR
-	}
-
 	public void setBackgroundColor() {
 	    // only for AR
     }
 
-	public void setBackgroundStyle(int backgroundStyle) {
-		mBackgroundStyle = backgroundStyle;
+	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
+        // only for AR
 	}
 
-	public int getBackgroundStyle() {
-		return mBackgroundStyle;
+	public BackgroundStyle getBackgroundStyle() {
+        // only for AR
+		return null;
 	}
 }
