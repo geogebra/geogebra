@@ -15,6 +15,9 @@ public class BaseUnitTest {
     private AppCommon app;
     private GeoElementFactory elementFactory;
 
+    /**
+     * Setup test class before every test.
+     */
     @Before
     public void setup() {
         app = new AppCommon();
@@ -23,18 +26,38 @@ public class BaseUnitTest {
         elementFactory = new GeoElementFactory(this);
     }
 
+    /**
+     * Get the kernel.
+     *
+     * @return kernel
+     */
     protected Kernel getKernel() {
         return kernel;
     }
 
+    /**
+     * Get the construction.
+     *
+     * @return construction
+     */
     protected Construction getConstruction() {
         return construction;
     }
 
+    /**
+     * Get the app.
+     *
+     * @return app
+     */
     protected AppCommon getApp() {
         return app;
     }
 
+    /**
+     * Get the geo element factory. Use this class to create GeoElements.
+     *
+     * @return geo element factory
+     */
     protected GeoElementFactory getElementFactory() {
         return elementFactory;
     }

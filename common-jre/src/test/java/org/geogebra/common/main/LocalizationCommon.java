@@ -5,9 +5,17 @@ import org.geogebra.common.jre.main.LocalizationJre;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Common Localization class, used for testing.
+ */
 public class LocalizationCommon extends LocalizationJre {
 
-    public LocalizationCommon(int dimension) {
+    /**
+     * Construct a LocalizationCommon object.
+     *
+     * @param dimension the dimension of the app
+     */
+    LocalizationCommon(int dimension) {
         super(dimension);
     }
 

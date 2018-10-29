@@ -21,6 +21,9 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.stubbing.Answer;
 
+/**
+ * Test class for TableValuesView.
+ */
 public class TableValuesViewTest extends BaseUnitTest {
 
     private TableValues view;

@@ -25,10 +25,16 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 
+/**
+ * Common App class used for testing.
+ */
 public class AppCommon extends App {
 
     private LocalizationCommon localization;
 
+    /**
+     * Construct an AppCommon.
+     */
     public AppCommon() {
         initFactories();
         initKernel();
@@ -42,7 +48,7 @@ public class AppCommon extends App {
         super.initLocalization();
     }
 
-    protected void initFactories() {
+    private void initFactories() {
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
     }
 
