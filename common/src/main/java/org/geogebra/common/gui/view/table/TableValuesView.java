@@ -26,6 +26,8 @@ public class TableValuesView implements TableValues {
 
 	/**
 	 * Create a new Table Value View.
+	 *
+	 * @param kernel kernel
 	 */
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
@@ -69,14 +71,14 @@ public class TableValuesView implements TableValues {
 		return valuesStep;
 	}
 
-	private void assertValidValues(double valuesMin, double valuesMax, double valuesStep) {
-		if (!isFinite(valuesMin) && !isFinite(valuesMax)) {
+	private void assertValidValues(double min, double max, double step) {
+		if (!isFinite(min) && !isFinite(max)) {
 			throw new RuntimeException("Values min and/or max are invalid");
 		}
-		if (valuesMin > valuesMax) {
+		if (min > max) {
 			throw new RuntimeException("Values min is greater than values max");
 		}
-		if (Double.isNaN(valuesStep) || Double.isInfinite(valuesStep) || valuesStep <= 0) {
+		if (Double.isNaN(step) || Double.isInfinite(step) || step <= 0) {
 			throw new RuntimeException("Values step is invalid");
 		}
 	}
