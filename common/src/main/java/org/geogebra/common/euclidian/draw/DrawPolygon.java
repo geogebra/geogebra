@@ -33,9 +33,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -47,7 +44,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -59,10 +55,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean labelVisible;
 
 	private GeneralPathClipped gp;
-	private GeneralPathClipped gpTriangularize;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
-	private Coords[] extraCoords;
 
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN;
@@ -73,10 +67,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
-	private double[][] fanCoords;
 	private boolean fillShape = false;
 
-	private static final int FAN_DELTA = 10;
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	/**
@@ -92,10 +84,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.poly = poly;
 		geo = poly;
 
-		extraCoords = new Coords[8];
-		for (int i = 0; i < 8; i++) {
-			extraCoords[i] = new Coords(0, 0);
-		}
 		update();
 	}
 
@@ -130,14 +118,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 			gp.closePath();
 			fillShape = false;
 
-			if (!getView().getApplication().has(Feature.POLYGON_TRIANGULATION)
-					|| isAllPointsOnScreen()) {
 			if (geo.isInverseFill()) {
 				createShape();
-				fillShape = true;
-			}
-			} else {
-				triangularize();
 				fillShape = true;
 			}
 
@@ -177,7 +159,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private void createShape() {
 		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
-
 	}
 
 	private Coords getCoords(int i) {
@@ -241,13 +222,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public void draw(GGraphics2D g2) {
-
 		if (isVisible) {
-			fill(g2, (fillShape ? getShape() : gp)); // fill
-														// using
-														// default/hatching/image
-														// as
-			// appropriate
+			// fill using default/hatching/image as appropriate
+			fill(g2, (fillShape ? getShape() : gp));
 			if (geo.doHighlighting()) {
 				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
@@ -286,12 +263,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
 		if (isVisible) {
-			// double xRW = view.toRealWorldCoordX(mx);
-			// double yRW = view.toRealWorldCoordY(my);
-			// Application.debug(xRW+" "+yRW);
-
-			int mx = view.toScreenCoordX(xRW);
-			int my = view.toScreenCoordY(yRW);
+			int mx;
+			int my;
 
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
@@ -418,7 +391,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// check if one of sides was hit
 			for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
 				DrawableND d = view.getDrawableFor(geoSegmentND);
-				if (d != null && d instanceof DrawSegment
+				if (d instanceof DrawSegment
 						&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
 					wasSegmentHit = true;
 					break;
@@ -791,265 +764,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		prewPolygon.closePath();
 
 		getBoundingBox().setRectangle(prewPolygon.getBounds());
-	}
-
-	private final void calculateCorners() {
-		calculateViewCorners();
-		calculateBounds();
-	}
-
-	private final void calculateBounds() {
-		double xmin = Double.MAX_VALUE;
-		double ymin = Double.MAX_VALUE;
-		double xmax = -Double.MAX_VALUE;
-		double ymax = -Double.MAX_VALUE;
-
-		for (int i = 0; i < poly.getPointsLength(); i++) {
-			double x = poly.getPointX(i);
-			double y = poly.getPointY(i);
-
-			if (x < xmin) {
-				xmin = x;
-			}
-
-			if (x > xmax) {
-				xmax = x;
-			}
-
-			if (y < ymin) {
-				ymin = y;
-			}
-			if (y > ymax) {
-				ymax = y;
-			}
-
-		}
-
-		xmin = xmin < extraCoords[0].getX() ? xmin : extraCoords[0].getX();
-		xmax = xmax > extraCoords[2].getX() ? xmax : extraCoords[2].getX();
-
-		ymin = ymin < extraCoords[0].getY() ? ymin : extraCoords[0].getY();
-		ymax = ymax > extraCoords[2].getY() ? ymax : extraCoords[2].getY();
-
-		extraCoords[4].setX(xmin);
-		extraCoords[4].setY(ymin);
-
-		extraCoords[5].setX(xmax);
-		extraCoords[5].setY(ymin);
-
-		extraCoords[6].setX(xmax);
-		extraCoords[6].setY(ymax);
-
-		extraCoords[7].setX(xmin);
-		extraCoords[7].setY(ymax);
-	}
-
-	private void calculateViewCorners() {
-		extraCoords[0].setX(view.getXmin());
-		extraCoords[0].setY(view.getYmin());
-
-		extraCoords[1].setX(view.getXmax());
-		extraCoords[1].setY(view.getYmin());
-
-		extraCoords[2].setX(view.getXmax());
-		extraCoords[2].setY(view.getYmax());
-
-		extraCoords[3].setX(view.getXmin());
-		extraCoords[3].setY(view.getYmax());
-	}
-
-	private void drawPolygonConvex(Coords[] vertices, int length,
-			boolean reverse) {
-		Log.debug("[POLY] drawPolygonConvex: " + reverse);
-		Coords coordsApex = vertices[0];
-		coords[0] = coordsApex.getX();
-		coords[1] = coordsApex.getY();
-		view.toScreenCoords(coords);
-		double startX = coords[0];
-		double startY = coords[1];
-		gpTriangularize.moveTo(coords[0], coords[1]);
-		for (int i = length - 1; i < 0; i--) {
-			Coords coord = vertices[i];
-			coords[0] = coord.getX();
-			coords[1] = coord.getY();
-			view.toScreenCoords(coords);
-			gpTriangularize.lineTo(coords[0], coords[1]);
-		}
-		// we have to move back manually to apex since we may have new fan to
-		// draw
-		gpTriangularize.moveTo(startX, startY);
-	}
-
-	private void triangularize() {
-		PolygonTriangulation pt = poly.getPolygonTriangulation();
-		pt.clear();
-
-		calculateCorners();
-
-		pt.setCorners(extraCoords);
-
-		try {
-			// simplify the polygon and check if there are at least 3 points
-			// left
-			if (pt.updatePoints() > 2) {
-
-				// check if the polygon is convex
-				int length = poly.getPointsLength();
-
-				Coords[] vertices = new Coords[length
-						+ PolygonTriangulation.EXTRA_POINTS];
-				int j = 0;
-				for (int i = 0; i < poly.getPointsLength(); i++) {
-					vertices[i] = poly.getPointND(i).getCoords();
-					if (!DoubleUtil.isZero(vertices[i].getZ())) {
-						return;
-					}
-					j++;
-				}
-
-				vertices[j] = poly.getPointND(0).getCoords();
-				j++;
-
-				for (int i = 0; i < PolygonTriangulation.CORNERS; i++) {
-					vertices[j] = extraCoords[i];
-					j++;
-				}
-
-				vertices[j] = extraCoords[0];
-				j++;
-
-				for (int i = 0; i < PolygonTriangulation.CORNERS; i++) {
-					vertices[j] = extraCoords[4 + i];
-					j++;
-				}
-
-				vertices[j] = extraCoords[4];
-				j++;
-
-				vertices[j] = extraCoords[0];
-
-				Convexity convexity = pt.checkIsConvex();
-				if (convexity != Convexity.NOT) {
-					boolean reverse = poly.getReverseNormalForDrawing()
-							^ (convexity == Convexity.CLOCKWISE);
-
-					drawPolygonConvex(vertices, poly.getPointsLength(),
-							reverse);
-
-				} else {
-					// set intersections (if needed) and divide the polygon into
-					// non self-intersecting polygons
-					pt.setIntersections();
-
-					// convert the set of polygons to triangle fans
-					pt.triangulate();
-
-					// compute 3D coords for intersections
-					pt.setCompleteVertices(vertices, poly.getCoordSys(),
-							poly.getPointsLength());
-					Coords[] verticesWithIntersections = pt.getCompleteVertices(
-							vertices, poly.getPointsLength());
-
-					// draw the triangle fans
-
-					// needs specific path for fans
-					if (gpTriangularize == null) {
-						gpTriangularize = new GeneralPathClipped(view);
-					} else {
-						gpTriangularize.reset();
-					}
-
-					for (TriangleFan triFan : pt.getTriangleFans()) {
-						// we need here verticesWithIntersections, for
-						// self-intersecting polygons
-						drawTriangleFan(verticesWithIntersections, triFan);
-					}
-
-					// create the shape
-					if (geo.isInverseFill()) {
-						setShape(AwtFactory.getPrototype()
-								.newArea(view.getBoundingPath()));
-						getShape().subtract(AwtFactory.getPrototype()
-								.newArea(gpTriangularize));
-					} else {
-						setShape(AwtFactory.getPrototype()
-								.newArea(gpTriangularize));
-					}
-				}
-
-			}
-		} catch (Exception e) {
-			Log.debug(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-
-	private boolean isOutView(double[] c) {
-		return c[0] < -FAN_DELTA || c[1] < -FAN_DELTA
-				|| c[0] > view.getWidth() + FAN_DELTA
-				|| c[1] > view.getHeight() + FAN_DELTA;
-	}
-
-	private void drawTriangleFan(Coords[] v, TriangleFan triFan) {
-		Log.debug("[POLY] drawTriangleFan");
-
-		int size = triFan.size();
-
-		if (fanCoords == null || fanCoords.length < size) {
-			fanCoords = new double[size][];
-		}
-
-		// apex coords to screen, check it's inside
-		Coords coordsApex = v[triFan.getApexPoint()];
-		coords[0] = coordsApex.getX();
-		coords[1] = coordsApex.getY();
-		view.toScreenCoords(coords);
-		if (isOutView(coords)) {
-			return;
-		}
-
-		// fan coords to screen, check it's inside
-		for (int i = 0; i < size; i++) {
-			Coords coord = v[triFan.getVertexIndex(i)];
-			if (fanCoords[i] == null) {
-				fanCoords[i] = new double[2];
-			}
-			fanCoords[i][0] = coord.getX();
-			fanCoords[i][1] = coord.getY();
-			view.toScreenCoords(fanCoords[i]);
-			if (isOutView(fanCoords[i])) {
-				return;
-			}
-		}
-
-		// all vertices inside : draw
-
-		// start
-		gpTriangularize.moveTo(coords[0], coords[1]);
-
-		// fan
-		for (int i = 0; i < size; i++) {
-			gpTriangularize.lineTo(fanCoords[i][0], fanCoords[i][1]);
-		}
-
-		// we have to move back manually to apex since we may have new fan to
-		// draw
-		gpTriangularize.lineTo(coords[0], coords[1]);
-
-	}
-
-	private boolean isAllPointsOnScreen() {
-		if (poly.getPoints() == null) {
-			return false;
-		}
-		for (GeoPointND p : poly.getPoints()) {
-			double x = view.toScreenCoordXd(p.getInhomX());
-			double y = view.toScreenCoordYd(p.getInhomY());
-			if (x < 0 || x > view.getWidth() || y < 0 || y > view.getHeight()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@Override

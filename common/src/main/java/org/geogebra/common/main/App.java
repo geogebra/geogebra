@@ -3960,9 +3960,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case LOCALSTORAGE_FILES:
 			return (prerelease && !whiteboard) || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
-		case POLYGON_TRIANGULATION:
-			return false;
-
 		case TOOL_EDITOR:
 			return prerelease;
 
