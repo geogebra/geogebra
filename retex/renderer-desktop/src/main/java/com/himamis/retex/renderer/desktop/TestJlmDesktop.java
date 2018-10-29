@@ -37,7 +37,10 @@ public class TestJlmDesktop extends JFrame {
 		Graphics2DD g2d = new Graphics2DD(g2);
 
 		String[] texts = {
-				"1+\\bgcolor{red}{2+\\fgcolor{blue}{+a\\bgcolor{green}{+c+d}+3+}}4",
+				"\\text{AVAVAVAVAVA}",
+				"\\text{AV\\bgcolor{red}{AVAVA}VAVA}",
+				"\\text{ffs}",
+				"\\text{A\\bgcolor{RED}{ff}f\\bgcolor{blue}{f}"
 		};
 
 		int y = 100;

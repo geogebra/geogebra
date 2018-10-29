@@ -267,16 +267,39 @@ public class RowAtom extends Atom implements Row {
 			Dummy curAtom = new Dummy(at);
 			Atom nextAtom = null;
 			for (int j = i + 1; j < elementsCopy.size(); j++) {
-				if (elementsCopy.get(j) != null) {
-					nextAtom = elementsCopy.get(j);
+				nextAtom = elementsCopy.get(j);
+
+				if (nextAtom == null || nextAtom instanceof CursorAtom) {
+					continue;
 				}
+
+				if (nextAtom instanceof ColorAtom) {
+					nextAtom = ((ColorAtom) nextAtom).getElements().elements.get(0);
+				}
+
+				break;
 			}
+
 			double kern = 0.;
 
 			changeToOrd(curAtom, prevAtom, nextAtom);
 
+			// it is on the boundary of a color atom, or next to a cursor, in which
+			// case it shouldn't apply ligatures, only proper kerning
+			boolean onBoundary = false;
 			for (int j = i + 1; j < elementsCopy.size(); ++j) {
 				nextAtom = elementsCopy.get(j);
+
+				if (nextAtom == null || nextAtom instanceof CursorAtom) {
+					onBoundary = true;
+					continue;
+				}
+
+				if (nextAtom instanceof ColorAtom) {
+					onBoundary = true;
+					nextAtom = ((ColorAtom) nextAtom).getElements().elements.get(0);
+				}
+
 				if (curAtom.isCharSymbol()
 						&& (nextAtom instanceof CharSymbol)
 						&& curAtom.getRightType() == TeXConstants.TYPE_ORDINARY
@@ -286,7 +309,7 @@ public class RowAtom extends Atom implements Row {
 					final CharFont l = curAtom.getCharFont(tf);
 					final CharFont r = ((CharSymbol) nextAtom).getCharFont(tf);
 					final CharFont lig = tf.getLigature(l, r);
-					if (lig == null) {
+					if (lig == null || onBoundary) {
 						kern = tf.getKern(l, r, env.getStyle());
 						break;
 					} else {
