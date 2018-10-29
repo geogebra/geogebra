@@ -143,6 +143,7 @@ public class TableValuesView implements TableValues {
 	@Override
 	public void clearView() {
 		model.clearModel();
+		updateModelValues();
 	}
 
 	@Override
