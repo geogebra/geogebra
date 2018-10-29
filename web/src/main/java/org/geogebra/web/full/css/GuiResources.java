@@ -390,6 +390,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
 	SassResource toolBarStyleScss();
 
+	@Source("org/geogebra/web/resources/scss/tableview.scss")
+	SassResource tableViewStyleScss();
+
 	@Source("org/geogebra/web/pub/js/properties_keys_en.js")
 	TextResource propertiesKeysJS();
 
@@ -416,5 +419,4 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/component-styles.scss")
 	SassResource componentStyles();
-
 }

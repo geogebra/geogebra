@@ -26,8 +26,9 @@ public class TableValuesView implements TableValues {
 
 	/**
 	 * Create a new Table Value View.
-	 *
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);

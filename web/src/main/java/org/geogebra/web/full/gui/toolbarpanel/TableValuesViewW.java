@@ -147,6 +147,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		tvPanel.add(scrollPanel);
 		tvPanel.addStyleName("tvPanel");
 		main.add(tvPanel);
+		setHeaderSizes();
 	}
 
 	private void addHeader() {
@@ -298,17 +299,19 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return column;
 	}
 
+	private SafeHtml getHeaderHtml(final int column) {
+		FlowPanel p = new FlowPanel();
+		p.add(new Label(getTableValuesModel().getHeaderAt(column)));
+		return SafeHtmlUtils.fromTrustedString("<div>" + p.getElement().getInnerHTML() + "</div>");
+	}
+
 	private void addColumnsForTable(CellTable<RowData> tb) {
 		TableValuesModel m = getTableValuesModel();
 		for (int i = 0; i < m.getColumnCount(); i++) {
 			if (true) {
 				Column<RowData, ?> col = getColumnName(i);
 				if (col != null) {
-					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					sb.append(
-							SafeHtmlUtils.fromSafeConstant("<div>" + m.getHeaderAt(i) + "</div>"));
-
-					tb.addColumn(col, sb.toSafeHtml());
+					tb.addColumn(col, getHeaderHtml(i));
 				}
 			}
 		}
