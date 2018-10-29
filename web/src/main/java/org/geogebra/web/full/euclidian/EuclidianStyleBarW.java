@@ -851,7 +851,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
-
 	private LabelSettingsPopup getLabelPopup() {
 		if (btnLabel == null) {
 			btnLabel = new LabelSettingsPopup(app);

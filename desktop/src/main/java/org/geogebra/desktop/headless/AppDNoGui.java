@@ -1,6 +1,7 @@
 package org.geogebra.desktop.headless;
 
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -37,6 +38,8 @@ import org.geogebra.common.jre.headless.DialogManagerNoGui;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.jre.headless.FontManagerNoGui;
 import org.geogebra.common.jre.headless.GFileHandler;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
@@ -72,6 +75,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
@@ -350,8 +354,11 @@ public class AppDNoGui extends App implements AppDI {
 			boolean showGrid1) {
 		this.getSettings().getEuclidian(1)
 				.setPreferredSize(new GDimensionD(800, 600));
+		GGraphics2DD g2 = new GGraphics2DD(
+				new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB)
+						.createGraphics());
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
-				this.getSettings().getEuclidian(1));
+				this.getSettings().getEuclidian(1), g2);
 	}
 
 	@Override

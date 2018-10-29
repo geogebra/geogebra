@@ -1,10 +1,8 @@
-package org.geogebra.desktop.headless;
-
-import java.awt.Font;
+package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.FontManager;
-import org.geogebra.desktop.awt.GFontD;
 
 public class FontManagerNoGui extends FontManager {
 
@@ -17,7 +15,7 @@ public class FontManagerNoGui extends FontManager {
 	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
 			int fontStyle, int fontSize) {
-		return new GFontD(new Font("sans", fontStyle, fontSize));
+		return AwtFactory.getPrototype().newFont("sans", GFont.PLAIN, 12);
 	}
 
 }

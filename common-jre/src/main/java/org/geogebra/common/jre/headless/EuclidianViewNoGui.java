@@ -1,8 +1,4 @@
-package org.geogebra.desktop.headless;
-
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -14,24 +10,19 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.desktop.awt.GDimensionD;
-import org.geogebra.desktop.awt.GFontD;
-import org.geogebra.desktop.awt.GGraphics2DD;
 
 /** no GUI implementation of EV */
 public class EuclidianViewNoGui extends EuclidianView {
 
 	private GColor backgroundColor = GColor.WHITE;
-	private GDimensionD dim = new GDimensionD(800, 600);
-	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
-			BufferedImage.TYPE_INT_RGB).createGraphics();
-	private final GGraphics2D g2 = new GGraphics2DD(
-			new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB)
-					.createGraphics());
-	private GFont font = new GFontD(new Font("serif", 12, Font.PLAIN));
+	private GDimension dim;
+	private final GGraphics2D g2Dtemp;
+	private final GGraphics2D g2;
+	private GFont font;
 
 	/**
 	 * @param ec
@@ -40,14 +31,21 @@ public class EuclidianViewNoGui extends EuclidianView {
 	 *            view number
 	 * @param settings
 	 *            settings
+	 * @param g2
+	 *            graphics
 	 */
 	public EuclidianViewNoGui(EuclidianController ec, int viewNo,
-			EuclidianSettings settings) {
+			EuclidianSettings settings, GGraphics2D g2) {
 		super(ec, viewNo, settings);
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.GRAY);
 		ec.setView(this);
 		settings.addListener(this);
+		dim = AwtFactory.getPrototype().newDimension(800, 600);
+		font = AwtFactory.getPrototype().newFont("serif", GFont.PLAIN, 12);
+		this.g2 = g2;
+		g2Dtemp = AwtFactory.getPrototype().newBufferedImage(5, 5, 1)
+				.createGraphics();
 	}
 
 	@Override
@@ -141,7 +139,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
-		return new GGraphics2DD(g2Dtemp);
+		return g2Dtemp;
 	}
 
 	@Override
@@ -174,20 +172,18 @@ public class EuclidianViewNoGui extends EuclidianView {
 	}
 
 	@Override
-	public void paintBackground(GGraphics2D g2) {
+	public void paintBackground(GGraphics2D g) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		this.dim = (GDimensionD) preferredSize;
+		this.dim = preferredSize;
 	}
 
 	@Override

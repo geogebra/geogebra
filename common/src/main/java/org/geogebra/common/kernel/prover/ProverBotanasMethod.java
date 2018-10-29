@@ -1898,7 +1898,7 @@ public class ProverBotanasMethod {
 			}
 		}
 
-		PVariable[] moverVars = new PVariable[2];
+		PVariable[] moverVars;
 		try {
 			moverVars = ((SymbolicParametersBotanaAlgo) mover).getBotanaVars(mover);
 		} catch (NoSymbolicParametersException e) {

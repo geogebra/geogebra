@@ -292,7 +292,7 @@ public class HilbertDimension {
 			boolean independentFound = false;
 
 			while (allSubsets.hasNext() && !independentFound) {
-				Set X = allSubsets.next();
+				Set<?> X = allSubsets.next();
 				boolean independent = true;
 				// Log.debug(X);
 				// in(g) \not\in K[X] means in(g) is not completely in X
