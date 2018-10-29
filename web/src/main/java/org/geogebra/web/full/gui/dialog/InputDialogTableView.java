@@ -7,6 +7,8 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,6 +38,21 @@ public class InputDialogTableView extends DialogBoxW
 		super(app.getPanel(), app);
 		this.appW = app;
 		buildGui();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				getStartField().getTextField().getTextComponent()
+						.setFocus(true);
+			}
+		});
+	}
+
+	/**
+	 * @return input field for start value
+	 */
+	public ComponentInputField getStartField() {
+		return startValue;
 	}
 
 	private void buildGui() {

@@ -63,7 +63,7 @@
 		
 		.inputLabel {
 			font-size: 75%;
-		    color: rgba(0,0,0,0.54);
+		    color: $text-secondary;
 		}
 	
 		.textField {
@@ -75,7 +75,7 @@
 		    margin-bottom: 0px !important;
 		    border-radius: 0px;
 		    border: none;
-		    border-bottom: 1px solid $black-42;
+		    border-bottom: 1px solid $black-42 !important;
 		    
 		    input[type="text"] {
 			    border: none !important;
@@ -85,5 +85,29 @@
 			    padding: 0px 0px 8px 0px;
 			}
 		}
+	
+		&.focusState, &.focusState:hover {
+			margin-bottom: 7px;
+			
+			.inputLabel {
+			    color: $teal-default;
+			}
+		
+			.AutoCompleteTextFieldW {
+				border-bottom: 2px solid $teal-default !important;
+			}
+		}
+	
+		&.hoverState {	
+			margin-bottom: 7px;
+			
+   			.inputLabel {
+   				color: $black-87;
+   			}
+   			
+ 			.AutoCompleteTextFieldW {
+ 				border-bottom: 2px solid $black-87 !important;
+ 			}
+ 		} 	
 	}
 }

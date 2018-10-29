@@ -5,6 +5,14 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -46,6 +54,15 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 		if (defaultValue != null && !defaultValue.isEmpty()) {
 			setInputText(defaultValue);
 		}
+		addFocusBlurHandlers();
+		addHoverHandlers();
+	}
+
+	/**
+	 * @return panel containing the whole component
+	 */
+	public FlowPanel getContentPanel() {
+		return contentPanel;
 	}
 
 	private void buildGui(String placeholder, int width) {
@@ -80,6 +97,62 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 		root.add(errorLabel);
 	}
 
+	private void addFocusBlurHandlers() {
+		inputTextField.getTextComponent().getTextBox()
+				.addFocusHandler(new FocusHandler() {
+
+					@Override
+					public void onFocus(FocusEvent event) {
+						setFocusState();
+					}
+				});
+		inputTextField.getTextComponent().getTextBox()
+				.addBlurHandler(new BlurHandler() {
+
+					@Override
+					public void onBlur(BlurEvent event) {
+						resetInputField();
+					}
+				});
+	}
+
+	/**
+	 * Add mouse over/ out handlers
+	 */
+	private void addHoverHandlers() {
+		inputTextField.getTextComponent().getTextBox()
+				.addMouseOverHandler(new MouseOverHandler() {
+
+					@Override
+					public void onMouseOver(MouseOverEvent event) {
+						getContentPanel().addStyleName("hoverState");
+					}
+				});
+		inputTextField.getTextComponent().getTextBox()
+				.addMouseOutHandler(new MouseOutHandler() {
+
+					@Override
+					public void onMouseOut(MouseOutEvent event) {
+						getContentPanel().removeStyleName("hoverState");
+					}
+				});
+	}
+
+	/**
+	 * sets the style of InputPanel to focus state
+	 */
+	protected void setFocusState() {
+		contentPanel.setStyleName("inputTextField");
+		contentPanel.addStyleName("focusState");
+	}
+
+	/**
+	 * Resets input style on blur
+	 */
+	protected void resetInputField() {
+		contentPanel.removeStyleName("focusState");
+	}
+
 	public void setLabels() {
 		labelText.setText(appW.getLocalization().getMenu(labelTxt));
 		if (errorLabel != null) {
@@ -92,6 +165,13 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 	 */
 	public String getInputText() {
 		return inputTextField.getText();
+	}
+
+	/**
+	 * @return text field
+	 */
+	public InputPanelW getTextField() {
+		return inputTextField;
 	}
 
 	/**
