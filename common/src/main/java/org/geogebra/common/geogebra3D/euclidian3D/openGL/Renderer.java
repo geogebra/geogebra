@@ -149,9 +149,10 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * background type (only for AR)
+     * Order matters and corresponds to order in settings
 	 */
 	public enum BackgroundStyle {
-		None, Transparent, Opaque
+        NONE, TRANSPARENT, OPAQUE
 	}
 
 	/**
