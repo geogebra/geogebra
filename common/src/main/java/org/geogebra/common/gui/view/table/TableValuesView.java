@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
@@ -39,8 +40,8 @@ public class TableValuesView implements TableValues {
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
 		this.elements = new ArrayList<>();
-		updateModelValues();
 		createTableDimensions(kernel.getApplication());
+		updateModelValues();
 	}
 
 	private void createTableDimensions(App app) {
@@ -51,6 +52,7 @@ public class TableValuesView implements TableValues {
 		GFontRenderContext fontRenderContext = tempGraphics.getFontRenderContext();
 		dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(), fontRenderContext);
 		dimensions.setFont(font);
+		model.registerListener(dimensions);
 	}
 
 	@Override
