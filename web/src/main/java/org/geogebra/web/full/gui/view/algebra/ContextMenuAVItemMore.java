@@ -10,7 +10,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.InputDialogTableView;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -91,7 +90,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 
 					@Override
 					public void execute() {
-						new InputDialogTableView(getApp()).show();
+						app.getGuiManager().showTableValuesView(item.geo);
 					}
 				});
 		wrappedPopup.addItem(mi);

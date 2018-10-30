@@ -147,4 +147,9 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		input.ensureEditing();
 		return true;
 	}
+
+	@Override
+	protected void onActive() {
+		// unused
+	}
 }

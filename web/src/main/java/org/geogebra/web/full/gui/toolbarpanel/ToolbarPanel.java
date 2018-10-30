@@ -159,6 +159,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			if (active) {
 				removeStyleName("tab-hidden");
 				addStyleName("tab");
+				onActive();
 			} else {
 				removeStyleName("tab");
 				addStyleName("tab-hidden");
@@ -174,6 +175,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		public void setFade(boolean fade) {
 			setStyleName("tabFade", fade);
 		}
+
+		/**
+		 * Called when tab is activated.
+		 */
+		protected abstract void onActive();
 	}
 
 	/**
@@ -679,7 +685,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (this.getSelectedTabId() == TabIds.ALGEBRA) {
 			tabTools.setVisible(false);
 		}
-
 		switchTab(TabIds.TABLE, fade);
 	}
 

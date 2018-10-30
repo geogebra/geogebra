@@ -243,4 +243,9 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	public void showTooltip(int modeMove) {
 		toolsPanel.showTooltip(modeMove);
 	}
+
+	@Override
+	protected void onActive() {
+		// unused
+	}
 }

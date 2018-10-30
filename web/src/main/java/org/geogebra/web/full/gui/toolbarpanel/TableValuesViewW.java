@@ -7,9 +7,10 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -136,12 +137,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		scrollPanel.addStyleName("tvScrollPanel");
 		headerTable = new CellTable<>();
 		table = new CellTable<>();
-
-		if (app.has(Feature.TABLE_VIEW_TEST_DATA)) {
-			addTestData();
-		}
-
 		buildTable();
+		// addTestData();
 		scrollPanel.setWidget(table);
 
 		tvPanel.add(scrollPanel);
@@ -192,18 +189,30 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return processor.evaluateToFunction(definition, true);
 	}
 
-	private void addTestData() {
+	@SuppressWarnings("unused")
+	public void addTestData() {
 		GeoFunction sinx = createFunction("2*x");
 		sinx.setLabel("f");
 		GeoFunction cosx = createFunction("cos(x)");
 		add(sinx);
 		cosx.setLabel("g");
 		add(cosx);
-		setValues(0, 100, 1);
 		showColumn(sinx);
 		showColumn(cosx);
+
+		setValues(0, 100, 1);
 	}
 
+	@Override
+	public void add(GeoElement geo) {
+		super.add(geo);
+		showColumn((Evaluatable) geo);
+	}
+
+	private Widget getMain() {
+		createGUI();
+		return main;
+	}
 	private void buildTable() {
 		addHeader();
 		table.addStyleName("tvTable");
@@ -232,7 +241,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * @return the main widget of the view.
 	 */
 	public Widget getWidget() {
-		return isEmpty() ? getEmptyPanel() : main;
+		return isEmpty() ? getEmptyPanel() : getMain();
 	}
 
 	private Widget getEmptyPanel() {
@@ -335,4 +344,5 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight(),
 				Unit.PX);
 	}
+
 }

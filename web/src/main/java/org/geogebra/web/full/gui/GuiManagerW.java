@@ -21,6 +21,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
@@ -80,6 +81,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
+import org.geogebra.web.full.gui.toolbarpanel.TableValuesViewW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -182,6 +184,8 @@ public class GuiManagerW extends GuiManager
 	private AccessibilityManagerW accessibilityManager = null;
 
 	private GGWMenuBar mainMenuBar;
+
+	private TableValuesView tableValuesW;
 
 	/**
 	 * 
@@ -2472,10 +2476,19 @@ public class GuiManagerW extends GuiManager
 	/**
 	 * init on click for exam info button
 	 */
+	@Override
 	public void initInfoBtnAction() {
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().initInfoBtnAction();
 		}
+	}
+
+	@Override
+	public View getTableValuesView() {
+		if (tableValuesW == null) {
+			tableValuesW = new TableValuesViewW((AppW) app);
+		}
+		return tableValuesW;
 	}
 
 	/**
@@ -2484,5 +2497,28 @@ public class GuiManagerW extends GuiManager
 	 */
 	public void setGgwMenubar(GGWMenuBar ggwMenuBar) {
 		mainMenuBar = ggwMenuBar;
+	}
+
+	@Override
+	public void initTableValuesView(double min, double max, double step, GeoElement geo) {
+		((TableValuesViewW) getTableValuesView()).setValues(min, max, step);
+		if (geo != null) {
+			addGeoToTableValuesView(geo);
+		}
+	}
+
+	private void addGeoToTableValuesView(GeoElement geo) {
+		getTableValuesView().add(geo);
+		getUnbundledToolbar().openTableView(true);
+	}
+
+	@Override
+	public void showTableValuesView(GeoElement geo) {
+		if (((TableValuesViewW) getTableValuesView()).isEmpty()) {
+			app.getDialogManager().openTableViewDialog(geo);
+
+		} else {
+			addGeoToTableValuesView(geo);
+		}
 	}
 }

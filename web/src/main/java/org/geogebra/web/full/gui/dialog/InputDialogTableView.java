@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
@@ -29,6 +32,7 @@ public class InputDialogTableView extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton okBtn;
+	private GeoElement geo;
 
 	/**
 	 * @param app
@@ -96,6 +100,7 @@ public class InputDialogTableView extends DialogBoxW
 		return btn;
 	}
 
+	@Override
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("TableOfValues"));
 		startValue.setLabels();
@@ -111,12 +116,37 @@ public class InputDialogTableView extends DialogBoxW
 		super.center();
 	}
 
+	public void show(GeoElement geo) {
+		this.geo = geo;
+		show();
+	}
+
+	private void openTableView() {
+
+		try {
+			double start = Double.parseDouble(startValue.getInputText());
+			double end = Double.parseDouble(endValue.getInputText());
+			double stepVal = Double.parseDouble(step.getInputText());
+			((GuiManagerInterfaceW) app.getGuiManager()).initTableValuesView(start, end, stepVal,
+					geo);
+		} catch (Exception e) {
+			ToolTipManagerW.sharedInstance()
+					.showBottomMessage(app.getLocalization().getError("InvalidInput"), true,
+							(AppW) app);
+			;
+		} finally {
+			hide();
+
+		}
+
+	}
+
+	@Override
 	public void onClick(Widget source) {
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == okBtn) {
-			// TODO process input
-			hide();
+			openTableView();
 		}
 	}
 }

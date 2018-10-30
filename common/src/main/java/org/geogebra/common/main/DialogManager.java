@@ -915,4 +915,8 @@ public abstract class DialogManager {
 	public void showEmbedDialog() {
 		// only needed in web
 	}
+
+	public void openTableViewDialog(GeoElement geo) {
+		// only needed in web
+	}
 }

@@ -78,6 +78,7 @@ public class DialogManagerW extends DialogManager
 	private PDFInputDialog pdfInputDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
+	private InputDialogTableView tableViewDialog = null;
 
 	/**
 	 * @param app
@@ -677,5 +678,13 @@ public class DialogManagerW extends DialogManager
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 			new PrintPreviewW((AppW) app).show();
 		}
+	}
+
+	@Override
+	public void openTableViewDialog(GeoElement geo) {
+		if (tableViewDialog == null) {
+			tableViewDialog = new InputDialogTableView((AppW) app);
+		}
+		tableViewDialog.show(geo);
 	}
 }

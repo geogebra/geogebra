@@ -15,8 +15,6 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	private ToolbarPanel toolbarPanel;
 	private AppW app;
 
-	private TableValuesViewW view;
-
 	/**
 	 * @param toolbarPanel
 	 *            toolbar panel
@@ -24,27 +22,33 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	public TableTab(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
 		this.app = toolbarPanel.app;
-		view = new TableValuesViewW(app);
 		buildGui();
 		setLabels();
 	}
 
+	@Override
+	protected void onActive() {
+		buildGui();
+	}
+
+	private TableValuesViewW getView() {
+		return (TableValuesViewW) app.getGuiManager().getTableValuesView();
+	}
+
 	private void buildGui() {
-		Widget w = view.getWidget();
+		Widget w = getView().getWidget();
 		if (w == null) {
 			return;
 		}
-
 		setWidget(w);
-
-		if (view.isEmpty()) {
+		if (getView().isEmpty()) {
 			w.getElement().getParentElement().addClassName("tableViewParent");
 		}
 	}
 
 	@Override
 	public void setLabels() {
-		view.setLabels();
+		getView().setLabels();
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 		}
 		setWidth(2 * w + "px");
 		getElement().getStyle().setLeft(2 * w, Unit.PX);
-		view.setHeight(getOffsetHeight());
+		getView().setHeight(getOffsetHeight());
 	}
 
 }
