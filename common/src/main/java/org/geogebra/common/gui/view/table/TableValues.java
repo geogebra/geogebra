@@ -67,4 +67,12 @@ public interface TableValues extends View {
 	 * @return the table values model
 	 */
 	TableValuesModel getTableValuesModel();
+
+	/**
+	 * Get the dimensions. This object gives information about cell
+	 * and header sizes.
+	 *
+	 * @return table values dimensions
+	 */
+	TableValuesDimensions getTableValuesDimensions();
 }

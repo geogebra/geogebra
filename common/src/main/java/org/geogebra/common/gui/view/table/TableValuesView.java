@@ -3,6 +3,11 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
@@ -22,6 +27,7 @@ public class TableValuesView implements TableValues {
 	private double valuesStep = 1.0;
 
 	private SimpleTableValuesModel model;
+	private TableValuesViewDimensions dimensions;
 	private List<GeoElement> elements;
 
 	/**
@@ -34,6 +40,16 @@ public class TableValuesView implements TableValues {
 		this.model = new SimpleTableValuesModel(kernel);
 		this.elements = new ArrayList<>();
 		updateModelValues();
+		createTableDimensions(kernel.getApplication());
+	}
+
+	private void createTableDimensions(App app) {
+		AwtFactory factory = AwtFactory.getPrototype();
+		GFont font = factory.newFont("SansSerif", GFont.PLAIN, 16);
+		EuclidianView euclidianView = app.getEuclidianView1();
+		GGraphics2D tempGraphics = euclidianView.getTempGraphics2D(font);
+		GFontRenderContext fontRenderContext = tempGraphics.getFontRenderContext();
+		this.dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(), fontRenderContext, font);
 	}
 
 	@Override
@@ -113,6 +129,11 @@ public class TableValuesView implements TableValues {
 	@Override
 	public TableValuesModel getTableValuesModel() {
 		return model;
+	}
+
+	@Override
+	public TableValuesDimensions getTableValuesDimensions() {
+		return dimensions;
 	}
 
 	@Override
