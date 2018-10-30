@@ -163,8 +163,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void updateEvaluatable(Evaluatable evaluatable) {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
-			columns.set(index, new String[values.length]);
-			doubleColumns.set(index, new Double[values.length]);
+			columns.set(index + 1, new String[values.length]);
+			doubleColumns.set(index + 1, new Double[values.length]);
 			notifyColumnChanged(index + 1);
 		}
 	}

@@ -239,4 +239,17 @@ public class TableValuesViewTest extends BaseUnitTest {
         view.clearView();
         Mockito.verify(listener).notifyDatasetChanged(model);
     }
+
+    @Test
+    public void testUpdate() {
+        view.setValues(0, 10, 2);
+
+        GeoElementFactory factory = getElementFactory();
+        GeoFunction function = factory.createFunction("x^2");
+        showColumn(function);
+        Assert.assertEquals("0", model.getCellAt(0, 0));
+
+        view.update(function);
+        Assert.assertEquals("0", model.getCellAt(0, 0));
+    }
 }
