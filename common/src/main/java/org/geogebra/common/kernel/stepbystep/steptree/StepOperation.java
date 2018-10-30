@@ -396,8 +396,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				}
 				return p;
 			case DIVIDE:
-				return operands[0].getValueAt(variable, replaceWith) /
-						operands[1].getValueAt(variable, replaceWith);
+				return operands[0].getValueAt(variable, replaceWith)
+						/ operands[1].getValueAt(variable, replaceWith);
 			case POWER:
 				return Math.pow(operands[0].getValueAt(variable, replaceWith),
 						operands[1].getValueAt(variable, replaceWith));
@@ -439,8 +439,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				ss.append(")");
 				return ss.toString();
 			case MINUS:
-				if (operands[0].isOperation(Operation.PLUS) ||
-						operands[0].isOperation(Operation.MINUS)) {
+				if (operands[0].isOperation(Operation.PLUS)
+						|| operands[0].isOperation(Operation.MINUS)) {
 					return "-(" + operands[0].toString() + ")";
 				}
 				return "-" + operands[0].toString();
@@ -496,8 +496,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	private String convertToString(Localization loc, boolean colored) {
 		switch (operation) {
 			case IS_ELEMENT_OF:
-				return operands[0].toLaTeXString(loc, colored) + " \\in " +
-						operands[1].toLaTeXString(loc, colored);
+				return operands[0].toLaTeXString(loc, colored) + " \\in "
+						+ operands[1].toLaTeXString(loc, colored);
 			case PLUS:
 				StringBuilder ss = new StringBuilder();
 				for (int i = 0; i < operands.length; i++) {
@@ -511,14 +511,14 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				}
 				return ss.toString();
 			case MINUS:
-				if (operands[0].isOperation(Operation.PLUS) ||
-						operands[0].isOperation(Operation.MINUS)) {
+				if (operands[0].isOperation(Operation.PLUS) 
+						|| operands[0].isOperation(Operation.MINUS)) {
 					return "-\\left(" + operands[0].toLaTeXString(loc, colored) + "\\right)";
 				}
 				return "-" + operands[0].toLaTeXString(loc, colored);
 			case PLUSMINUS:
-				if (operands[0].isOperation(Operation.PLUS) ||
-						operands[0].isOperation(Operation.MINUS)) {
+				if (operands[0].isOperation(Operation.PLUS) 
+						|| operands[0].isOperation(Operation.MINUS)) {
 					return "\\pm\\left(" + operands[0].toLaTeXString(loc, colored) + "\\right)";
 				}
 				return "\\pm " + operands[0].toLaTeXString(loc, colored);
@@ -544,22 +544,22 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				}
 				return sp.toString();
 			case DIVIDE:
-				return "\\frac{" + operands[0].toLaTeXString(loc, colored) + "}{" +
-						operands[1].toLaTeXString(loc, colored) + "}";
+				return "\\frac{" + operands[0].toLaTeXString(loc, colored) + "}{"
+						+ operands[1].toLaTeXString(loc, colored) + "}";
 			case POWER:
-				if (operands[0].isNegative() || (operands[0] instanceof StepOperation &&
-						!operands[0].isOperation(Operation.NROOT))) {
-					return "\\left(" + operands[0].toLaTeXString(loc, colored) + "\\right)^{" +
-							operands[1].toLaTeXString(loc, colored) + "}";
+				if (operands[0].isNegative() || (operands[0] instanceof StepOperation
+						&& !operands[0].isOperation(Operation.NROOT))) {
+					return "\\left(" + operands[0].toLaTeXString(loc, colored) + "\\right)^{"
+							+ operands[1].toLaTeXString(loc, colored) + "}";
 				}
-				return operands[0].toLaTeXString(loc, colored) + "^{" +
-						operands[1].toLaTeXString(loc, colored) + "}";
+				return operands[0].toLaTeXString(loc, colored) + "^{"
+						+ operands[1].toLaTeXString(loc, colored) + "}";
 			case NROOT:
 				if (isSquareRoot()) {
 					return "\\sqrt{" + operands[0].toLaTeXString(loc, colored) + "}";
 				}
-				return "\\sqrt[" + operands[1].toLaTeXString(loc, colored) + "]{" +
-						operands[0].toLaTeXString(loc, colored) + "}";
+				return "\\sqrt[" + operands[1].toLaTeXString(loc, colored) + "]{"
+						+ operands[0].toLaTeXString(loc, colored) + "}";
 			case ABS:
 				return "\\left|" + operands[0].toLaTeXString(loc, colored) + "\\right|";
 			case SIN:
@@ -571,14 +571,14 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			case ARCSIN:
 			case ARCCOS:
 			case ARCTAN:
-				return "\\" + loc.getFunction(operation.toString().toLowerCase()) + "\\left(" +
-						operands[0].toLaTeXString(loc, colored) + "\\right)";
+				return "\\" + loc.getFunction(operation.toString().toLowerCase()) + "\\left("
+						+ operands[0].toLaTeXString(loc, colored) + "\\right)";
 			case LOG:
 				if (isNaturalLog()) {
 					return "\\ln \\left(" + operands[1].toLaTeXString(loc, colored) + "\\right)";
 				}
-				return "\\log_{" + operands[0].toLaTeXString(loc, colored) + "} \\left(" +
-						operands[1].toLaTeXString(loc, colored) + "\\right)";
+				return "\\log_{" + operands[0].toLaTeXString(loc, colored) + "} \\left("
+						+ operands[1].toLaTeXString(loc, colored) + "\\right)";
 			case DIFF:
 				StringBuilder sb = new StringBuilder();
 

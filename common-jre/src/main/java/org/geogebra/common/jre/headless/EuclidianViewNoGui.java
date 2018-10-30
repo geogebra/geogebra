@@ -150,13 +150,11 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	protected void initCursor() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void setStyleBarMode(int mode) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -215,13 +213,11 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	public void add(GBox box) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void remove(GBox box) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -238,7 +234,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	public void readText(String text) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
