@@ -556,6 +556,13 @@ public class ManagerShaders extends Manager {
 			}
 		}
 
+        /**
+         *
+         * @return true if this set use packing
+         */
+		public boolean usePacking() {
+		    return false;
+        }
 	}
 
 	@Override
@@ -564,13 +571,16 @@ public class ManagerShaders extends Manager {
 		currentOld = old;
 		if (currentOld >= 0) {
 			currentGeometriesSet = geometriesSetList.get(old);
+			// don't use packed set for non-packed geometries
+			if (currentGeometriesSet.usePacking() != mayBePacked) {
+                currentGeometriesSet = null;
+            }
 		} else {
 			currentGeometriesSet = null;
 		}
 
 		int index = currentOld;
 		if (currentGeometriesSet == null) {
-
 			currentOld = -1;
 
 			if (indicesRemoved.empty()) {
