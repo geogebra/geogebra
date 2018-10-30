@@ -23,7 +23,7 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 		this.app = app;
 
 		setValuesAndLocalize(new String[] {localization.getMenu("Camera"), localization.getMenu
-				("filter"), localization.getMenu("opaque_color") });
+				("ar.filter"), localization.getMenu("ar.opaqueColor") });
 	}
 
 	@Override
