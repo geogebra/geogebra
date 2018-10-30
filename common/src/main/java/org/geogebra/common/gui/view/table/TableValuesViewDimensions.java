@@ -25,12 +25,15 @@ class TableValuesViewDimensions implements TableValuesDimensions {
      * @param model table values model
      * @param factory awt factory
      * @param context font render context
-     * @param font font
      */
-    TableValuesViewDimensions(TableValuesModel model, AwtFactory factory, GFontRenderContext context, GFont font) {
+    TableValuesViewDimensions(TableValuesModel model, AwtFactory factory, GFontRenderContext context) {
         this.model = model;
         this.factory = factory;
         this.context = context;
+    }
+
+    @Override
+    public void setFont(GFont font) {
         this.font = font;
     }
 

@@ -1,9 +1,20 @@
 package org.geogebra.common.gui.view.table;
 
+import org.geogebra.common.awt.GFont;
+
 /**
- * Has information about table cell dimensions.
+ * Has information about table cell dimensions. Make sure to call
+ *  * {@link TableValuesDimensions#setFont(GFont)} before
+ *  * using this object, to make width calculations more specific.
  */
 public interface TableValuesDimensions {
+
+    /**
+     * Set the font which is used for the calculations.
+     *
+     * @param font font
+     */
+    void setFont(GFont font);
 
     /**
      * Returns the row height.

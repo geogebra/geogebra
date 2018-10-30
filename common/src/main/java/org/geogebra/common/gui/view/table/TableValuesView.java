@@ -49,7 +49,8 @@ public class TableValuesView implements TableValues {
 		EuclidianView euclidianView = app.getEuclidianView1();
 		GGraphics2D tempGraphics = euclidianView.getTempGraphics2D(font);
 		GFontRenderContext fontRenderContext = tempGraphics.getFontRenderContext();
-		this.dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(), fontRenderContext, font);
+		dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(), fontRenderContext);
+		dimensions.setFont(font);
 	}
 
 	@Override
