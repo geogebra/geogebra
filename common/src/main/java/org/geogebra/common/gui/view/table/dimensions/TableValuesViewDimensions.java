@@ -107,7 +107,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 
     private int calculateExactColumnWidth(int column) {
         int maxWidth = 0;
-        int rows = Math.min(model.getColumnCount(), maxRows);
+        int rows = Math.min(model.getRowCount(), maxRows);
         for (int i = 0; i < rows; i++) {
             String text = model.getCellAt(i, column);
             int width = getWidth(text);
