@@ -5,9 +5,8 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.CASFactory;
-import org.geogebra.common.factories.Factory;
-import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.euclidian.EuclidianViewCommon;
+import org.geogebra.common.factories.*;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
@@ -39,6 +38,7 @@ public class AppCommon extends App {
         initFactories();
         initKernel();
         initLocalization();
+        initEuclidianViews();
     }
 
     @Override
@@ -50,6 +50,7 @@ public class AppCommon extends App {
 
     private void initFactories() {
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
+        AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
     }
 
     @Override
@@ -64,7 +65,7 @@ public class AppCommon extends App {
 
     @Override
     protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
-        return null;
+        return new EuclidianViewCommon();
     }
 
     @Override

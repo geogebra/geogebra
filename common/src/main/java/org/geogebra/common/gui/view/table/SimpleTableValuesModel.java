@@ -212,15 +212,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	/**
 	 * Clears and initializes the model.
+	 *
+	 *  @param values x-values
 	 */
-	void clearModel() {
+	void clearModel(double[] values) {
 		columns.clear();
 		doubleColumns.clear();
 		header.clear();
 		evaluatables.clear();
-		values = new double[0];
 		initializeModel();
-		notifyDatasetChanged();
+		setValues(values);
 	}
 
 	/**

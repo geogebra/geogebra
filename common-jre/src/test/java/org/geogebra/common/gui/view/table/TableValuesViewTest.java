@@ -142,7 +142,7 @@ public class TableValuesViewTest extends BaseUnitTest {
         }
         view.clearView();
         Assert.assertEquals(1, model.getColumnCount());
-        Assert.assertEquals(0, model.getRowCount());
+        Assert.assertEquals(5, model.getRowCount());
         Assert.assertEquals("x", model.getHeaderAt(0));
     }
 
