@@ -47,8 +47,6 @@ class TableValuesViewDimensions implements TableValuesDimensions {
             int width = getWidth(text);
             maxWidth = Math.max(maxWidth, width);
         }
-        String header = model.getHeaderAt(column);
-        maxWidth = Math.max(maxWidth, getWidth(header));
         return maxWidth;
     }
 
@@ -60,7 +58,14 @@ class TableValuesViewDimensions implements TableValuesDimensions {
     }
 
     @Override
-    public int getHeaderHeight(int header) {
+    public int getHeaderHeight() {
         return font.getSize() + 2 * PADDING;
+    }
+
+    @Override
+    public int getHeaderWidth(int column) {
+        String header = model.getHeaderAt(column);
+        int headerWidth = getWidth(header);
+        return headerWidth;
     }
 }

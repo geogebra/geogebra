@@ -24,8 +24,15 @@ public interface TableValuesDimensions {
     /**
      * Returns the header height.
      *
-     * @param header the header index
      * @return the header height
      */
-    int getHeaderHeight(int header);
+    int getHeaderHeight();
+
+    /**
+     * Returns the header width.
+     *
+     * @param header the header index
+     * @return the header width
+     */
+    int getHeaderWidth(int header);
 }
