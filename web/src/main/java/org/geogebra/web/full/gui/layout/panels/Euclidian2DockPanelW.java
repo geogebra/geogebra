@@ -73,7 +73,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		if (app != null) {
 			app.getEuclidianView2(1);
 			if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
-				addVoiceoverTabber(euclidianpanel);
+				new VoiceoverTabber(app, getCanvas()).add(euclidianpanel);
 			}
 		}
 

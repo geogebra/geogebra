@@ -12,10 +12,7 @@ import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -255,49 +252,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * @return panel wrapping the Euclidian view
 	 */
 	protected abstract EuclidianPanel getEuclidianPanel();
-
-	/**
-	 * Add dummy divs for handling focus change with swipe in VoiceOver.
-	 * 
-	 * @param p
-	 *            euclidian panel
-	 */
-	public void addVoiceoverTabber(final EuclidianPanel p) {
-		final FlowPanel alt = new FlowPanel();
-		p.insert(alt, 0);
-		alt.getElement().setTabIndex(5000);
-		alt.getElement().setInnerText("select previous object");
-		alt.getElement().getStyle().setOpacity(.01);
-		alt.getElement().getStyle().setPosition(Position.FIXED);
-		final FlowPanel alt2 = new FlowPanel();
-		p.add(alt2);
-		alt2.getElement().setTabIndex(5001);
-		alt2.getElement().getStyle().setOpacity(.01);
-		alt2.getElement().getStyle().setPosition(Position.FIXED);
-		alt2.getElement().setInnerText("select next object");
-		if (getCanvas() != null) {
-			getCanvas().addDomHandler(new FocusHandler() {
-				@Override
-				public void onFocus(FocusEvent event) {
-					app.getAccessibilityManager().setTabOverGeos(true);
-				}
-			}, FocusEvent.getType());
-		}
-		alt2.addDomHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				app.getGlobalKeyDispatcher().handleTab(false,
-						false);
-			}
-		}, FocusEvent.getType());
-		alt.addDomHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				app.getGlobalKeyDispatcher().handleTab(false, true);
-			}
-		}, FocusEvent.getType());
-
-	}
 
 	public abstract Widget getCanvas();
 

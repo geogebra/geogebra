@@ -1516,7 +1516,8 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void readText(final String text) {
 
-		if (hasParentWindow()) {
+		if (hasParentWindow()
+				|| (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS))) {
 			return;
 		}
 		JavaScriptObject scrollState = JavaScriptObject.createObject();

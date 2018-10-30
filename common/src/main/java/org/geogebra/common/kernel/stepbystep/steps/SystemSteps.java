@@ -213,10 +213,6 @@ public class SystemSteps {
 			eliminateY = true;
 		}
 
-		StepVariable eliminate = eliminateY ? y : x;
-		StepVariable substitute = eliminateY ? x : y;
-		StepExpression eliminateValue = null;
-
 		StepExpression coefficientOne;
 		StepExpression coefficientTwo;
 		if (eliminateY) {
@@ -247,6 +243,9 @@ public class SystemSteps {
 		tempSteps.add(added);
 		added = added.regroup(tempSteps);
 
+		StepVariable eliminate = eliminateY ? y : x;
+		StepVariable substitute = eliminateY ? x : y;
+		StepExpression eliminateValue = null;
 		steps.addGroup(SolutionStepType.ADD_EQUATIONS, tempSteps, added, eliminate);
 
 		List<StepSolution> solutionsAdded = added.solve(substitute, steps);

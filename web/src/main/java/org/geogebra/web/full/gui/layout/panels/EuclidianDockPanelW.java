@@ -99,6 +99,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 			} else {
 				addCanvas(eview1);
 			}
+			// if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
+			// // new VoiceoverTabber(app, getCanvas()).add(euclidianpanel);
+			// }
 		}
 		return euclidianpanel;
 	}
