@@ -140,10 +140,9 @@ public class GeneralPathClipped implements GShape {
 	 */
 	private void addClippedSegments() {
 		double[][] clipPoints = {
-				{5, 5},
-				{view.getWidth() - 5, 5},
-				{view.getWidth() - 5, view.getHeight() - 5},
-				{5, view.getHeight() - 5},
+				{ -5, -5 }, { view.getWidth() + 5, -5 },
+				{ view.getWidth() + 5, view.getHeight() + 5 },
+				{ -5, view.getHeight() + 5 },
 		};
 
 		ArrayList<MyPoint> result = new ArrayList<>(pathPoints);
@@ -187,11 +186,12 @@ public class GeneralPathClipped implements GShape {
 		}
 	}
 
-	private boolean isInside(double[] a, double[] b, MyPoint c) {
+	private static boolean isInside(double[] a, double[] b, MyPoint c) {
 		return (a[0] - c.x) * (b[1] - c.y) > (a[1] - c.y) * (b[0] - c.x);
 	}
 
-	private MyPoint intersection(double[] a, double[] b, MyPoint p, MyPoint q) {
+	private static MyPoint intersection(double[] a, double[] b, MyPoint p,
+			MyPoint q) {
 		double A1 = b[1] - a[1];
 		double B1 = a[0] - b[0];
 		double C1 = A1 * a[0] + B1 * a[1];
