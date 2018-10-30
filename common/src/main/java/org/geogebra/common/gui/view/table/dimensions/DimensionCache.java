@@ -106,7 +106,7 @@ class DimensionCache {
      * @param column column
      */
     void addColumn(int column) {
-        widths.add(column);
+        widths.add(column, null);
         medianWidth = null;
     }
 
