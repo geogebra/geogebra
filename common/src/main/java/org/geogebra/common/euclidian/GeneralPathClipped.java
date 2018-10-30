@@ -134,9 +134,6 @@ public class GeneralPathClipped implements GShape {
 	/**
 	 * Clip all segments at screen to make sure we don't have to render huge
 	 * coordinates. This is especially important for fill the GeneralPath.
-	 *
-	 * TODO: change clipping coordinates when properly tested..
-	 * maybe change double pairs to MyPoint.. maybe not
 	 */
 	private void addClippedSegments() {
 		double[][] clipPoints = {
@@ -177,11 +174,16 @@ public class GeneralPathClipped implements GShape {
 			}
 		}
 
-		for (MyPoint curP : result) {
-			addToGeneralPath(curP, curP.getSegmentType());
+		for (int i = 0; i < result.size(); i++) {
+			MyPoint curP = result.get(i);
+			if (i == 0) {
+				addToGeneralPath(curP, SegmentType.MOVE_TO);
+			} else {
+				addToGeneralPath(curP, SegmentType.LINE_TO);
+			}
 		}
 
-		if (needClosePath) {
+		if (result.size() > 0 && needClosePath) {
 			gp.closePath();
 		}
 	}
