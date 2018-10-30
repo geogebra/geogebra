@@ -53,6 +53,13 @@ public interface TableValues extends View {
 	double getValuesStep();
 
 	/**
+	 * Test if the table values view is empty.
+	 *
+	 * @return true if no table values yet
+	 */
+	boolean isEmpty();
+
+	/**
 	 * Get the table values model. Objects can register themselves
 	 * as listeners to this model. Also table row and column information
 	 * is available through this model.
@@ -60,10 +67,4 @@ public interface TableValues extends View {
 	 * @return the table values model
 	 */
 	TableValuesModel getTableValuesModel();
-
-	/**
-	 * 
-	 * @return true if no table values yet.
-	 */
-	boolean isEmpty();
 }
