@@ -49,30 +49,44 @@ public class TableValuesViewTest extends BaseUnitTest {
         try {
             view.setValues(0, 10, -1);
             Assert.fail("This should have thrown an exception");
-        } catch (Exception exception) {}
+        } catch (InvalidValuesException exception) {
+            // expected
+        }
         try {
             view.setValues(10, 0, 1);
             Assert.fail("This should have thrown an exception");
-        } catch (Exception exception) {}
+        } catch (InvalidValuesException exception) {
+            // expected
+        }
         try {
             view.setValues(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
             Assert.fail("This should have thrown an exception");
-        } catch (Exception exception) {}
+        } catch (InvalidValuesException exception) {
+            // expected
+        }
     }
 
     @Test
     public void testValues() {
-        view.setValues(0, 10, 1);
+        setValuesSafe(0, 10, 1);
         Assert.assertEquals(11, model.getRowCount());
 
-        view.setValues(0, 10, 3);
+        setValuesSafe(0, 10, 3);
         Assert.assertEquals(5, model.getRowCount());
 
-        view.setValues(0, 1.5, 0.7);
+        setValuesSafe(0, 1.5, 0.7);
         Assert.assertEquals(4, model.getRowCount());
         Assert.assertTrue(DoubleUtil.isEqual(view.getValuesMin(), 0));
         Assert.assertTrue(DoubleUtil.isEqual(view.getValuesMax(), 1.5));
         Assert.assertTrue(DoubleUtil.isEqual(view.getValuesStep(), 0.7));
+    }
+
+    private void setValuesSafe(double valuesMin, double valuesMax, double valuesStep) {
+        try {
+            view.setValues(valuesMin, valuesMax, valuesStep);
+        } catch (InvalidValuesException exception) {
+            // ignore
+        }
     }
 
     @Test
@@ -148,7 +162,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testGetValues() {
-        view.setValues(0, 10, 2);
+        setValuesSafe(0, 10, 2);
         Assert.assertEquals("0", model.getCellAt(0, 0));
         Assert.assertEquals("2", model.getCellAt(1, 0));
         Assert.assertEquals("10", model.getCellAt(5, 0));
@@ -169,7 +183,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testInvalidGetValues() {
-        view.setValues(-10, 10, 2);
+        setValuesSafe(-10, 10, 2);
 
         GeoElementFactory factory = getElementFactory();
         GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
@@ -180,13 +194,13 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testGetValuesChaningValues() {
-        view.setValues(0, 10, 2);
+        setValuesSafe(0, 10, 2);
         GeoElementFactory factory = getElementFactory();
         GeoFunction function = factory.createFunction("g(x) = sqrt(x)");
         showColumn(function);
         Assert.assertEquals("1.41", model.getCellAt(1, 1));
 
-        view.setValues(2.5, 22.3, 1.3);
+        setValuesSafe(2.5, 22.3, 1.3);
         Assert.assertEquals("1.95", model.getCellAt(1, 1));
     }
 
@@ -200,7 +214,7 @@ public class TableValuesViewTest extends BaseUnitTest {
                 return 0.0;
             }
         });
-        view.setValues(1, 2, 1);
+        setValuesSafe(1, 2, 1);
 
         GeoElementFactory factory = getElementFactory();
         GeoFunction geoFunction = factory.createFunction(function);
@@ -242,7 +256,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testUpdate() {
-        view.setValues(0, 10, 2);
+        setValuesSafe(0, 10, 2);
 
         GeoElementFactory factory = getElementFactory();
         GeoFunction function = factory.createFunction("x^2");
