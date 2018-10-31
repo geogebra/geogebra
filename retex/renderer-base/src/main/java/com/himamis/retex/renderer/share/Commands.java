@@ -55,7 +55,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class Commands {
 
-	private static final Map<String, Reusable> reusableMap = new HashMap<>();
+	private static final Map<String, Command> reusableMap = new HashMap<>();
 
 	private static final Command dollar = new CommandDollars.Dollar(true,
 			TeXConstants.STYLE_TEXT);
@@ -2487,15 +2487,15 @@ public class Commands {
 	}
 
 	public static AtomConsumer get(final String name) {
-		Reusable r = reusableMap.get(name);
+		Command r = reusableMap.get(name);
 		if (r != null) {
-			return (Command) r;
+			return r;
 		}
 
 		Command c = getCommand(name);
 
 		if (c instanceof Reusable) {
-			reusableMap.put(name, (Reusable) c);
+			reusableMap.put(name, c);
 		}
 
 		return c;
