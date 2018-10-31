@@ -2507,6 +2507,7 @@ public class GuiManagerW extends GuiManager
 			((TableValuesViewW) getTableValuesView()).setValues(min, max, step);
 			if (geo != null) {
 				addGeoToTableValuesView(geo);
+				app.getKernel().attach(getTableValuesView());
 			}
 		} catch (InvalidValuesException exception) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(exception.getLocalizedMessage(),

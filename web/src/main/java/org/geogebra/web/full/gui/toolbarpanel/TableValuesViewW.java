@@ -96,7 +96,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		super(app1.getKernel());
 		this.app = app1;
 		createGUI();
-		app.getKernel().attach(this);
 	}
 
 	/**
