@@ -62,15 +62,15 @@ public class InputDialogTableView extends DialogBoxW
 	private void buildGui() {
 		addStyleName("tableOfValuesDialog");
 		contentPanel = new FlowPanel();
-		buildTextFiledPanel();
+		buildTextFieldPanel();
 		buildButtonPanel(contentPanel);
 		this.add(contentPanel);
 		setLabels();
 	}
 
-	private void buildTextFiledPanel() {
-		startValue = addTextField("Start value for x", "-2");
-		endValue = addTextField("End value for x", "2");
+	private void buildTextFieldPanel() {
+		startValue = addTextField("StartValueX", "-2");
+		endValue = addTextField("EndValueX", "2");
 		step = addTextField("Step", "1");
 	}
 

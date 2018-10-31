@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -23,9 +24,10 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class ComponentInputField extends FlowPanel implements SetLabels {
-	private AppW appW;
-	private String errorTxt;
-	private String labelTxt;
+	private Localization loc;
+	private String errorTextKey;
+	private String labelTextKey;
+	private String placeholderTextKey;
 	private FlowPanel contentPanel;
 	private FormLabel labelText;
 	private InputPanelW inputTextField;
@@ -47,10 +49,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width) {
-		this.appW = app;
-		this.labelTxt = labelTxt;
-		this.errorTxt = errorTxt;
-		buildGui(placeholder, width);
+		this.loc = app.getLocalization();
+		this.labelTextKey = labelTxt;
+		this.errorTextKey = errorTxt;
+		this.placeholderTextKey = placeholder;
+		buildGui(width, app);
 		if (defaultValue != null && !defaultValue.isEmpty()) {
 			setInputText(defaultValue);
 		}
@@ -65,26 +68,26 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 		return contentPanel;
 	}
 
-	private void buildGui(String placeholder, int width) {
+	private void buildGui(int width, AppW app) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", appW, 1, width, false);
+		inputTextField = new InputPanelW("", app, 1, width, false);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
 		labelText.setStyleName("inputLabel");
 		// placeholder if there is any
-		if (placeholder != null && !placeholder.isEmpty()) {
+		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
 			inputTextField.getTextComponent().getTextBox().getElement()
 				.setAttribute("placeholder",
-						appW.getLocalization().getMenu(placeholder));
+							app.getLocalization().getMenu(placeholderTextKey));
 		}
 		// build component
 		contentPanel.add(labelText);
 		contentPanel.add(inputTextField);
 		// add error label if there is any
-		if (errorTxt != null && !errorTxt.isEmpty()) {
+		if (errorTextKey != null && !errorTextKey.isEmpty()) {
 			addErrorLabel(contentPanel);
 		}
 		add(contentPanel);
@@ -153,10 +156,16 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 		contentPanel.removeStyleName("focusState");
 	}
 
+	@Override
 	public void setLabels() {
-		labelText.setText(appW.getLocalization().getMenu(labelTxt));
+		labelText.setText(loc.getMenu(labelTextKey));
 		if (errorLabel != null) {
-			errorLabel.setText(appW.getLocalization().getMenu(errorTxt));
+			errorLabel.setText(loc.getMenu(errorTextKey));
+		}
+		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
+			inputTextField.getTextComponent().getTextBox().getElement()
+					.setAttribute("placeholder",
+							loc.getMenu(placeholderTextKey));
 		}
 	}
 
