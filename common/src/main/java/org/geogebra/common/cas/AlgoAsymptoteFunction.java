@@ -14,6 +14,7 @@ package org.geogebra.common.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -25,7 +26,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  * 
  * @author Michael Borcherds
  */
-public class AlgoAsymptoteFunction extends AlgoElement {
+public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
 	private GeoList g; // output
