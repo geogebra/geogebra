@@ -2037,4 +2037,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		return new Function(temp, fv);
 	}
+
+	@Override
+	public boolean hasTableOfValues() {
+		return getDefinition() == null && DoubleUtil.isZero(getY()) && super.hasTableOfValues();
+	}
 }
