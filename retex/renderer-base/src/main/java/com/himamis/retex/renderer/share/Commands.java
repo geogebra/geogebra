@@ -917,75 +917,44 @@ public class Commands {
 		case "cfrac":
 			return new CommandCFrac();
 		case "log":
-			return new CommandOpName("log", false);
 		case "lg":
-			return new CommandOpName("lg", false);
 		case "ln":
-			return new CommandOpName("ln", false);
-		case "lim":
-			return new CommandOpName("lim", true);
 		case "sin":
-			return new CommandOpName("sin", false);
 		case "arcsin":
-			return new CommandOpName("arcsin", false);
 		case "sinh":
-			return new CommandOpName("sinh", false);
 		case "cos":
-			return new CommandOpName("cos", false);
 		case "arccos":
-			return new CommandOpName("arccos", false);
 		case "cosh":
-			return new CommandOpName("cosh", false);
 		case "cot":
-			return new CommandOpName("cot", false);
 		case "arccot":
-			return new CommandOpName("arccot", false);
 		case "coth":
-			return new CommandOpName("coth", false);
 		case "tan":
-			return new CommandOpName("tan", false);
 		case "arctan":
-			return new CommandOpName("arctan", false);
 		case "tanh":
-			return new CommandOpName("tanh", false);
 		case "sec":
-			return new CommandOpName("sec", false);
 		case "arcsec":
-			return new CommandOpName("arcsec", false);
 		case "sech":
-			return new CommandOpName("sech", false);
 		case "csc":
-			return new CommandOpName("csc", false);
 		case "arccsc":
-			return new CommandOpName("arccsc", false);
 		case "csch":
-			return new CommandOpName("csch", false);
 		case "arg":
-			return new CommandOpName("arg", false);
 		case "ker":
-			return new CommandOpName("ker", false);
 		case "dim":
-			return new CommandOpName("dim", false);
 		case "hom":
-			return new CommandOpName("hom", false);
 		case "exp":
-			return new CommandOpName("exp", false);
 		case "deg":
-			return new CommandOpName("deg", false);
+			return new CommandOpName(s, false);
+
+		case "lim":
 		case "max":
-			return new CommandOpName("max", true);
 		case "min":
-			return new CommandOpName("min", true);
 		case "sup":
-			return new CommandOpName("sup", true);
 		case "inf":
-			return new CommandOpName("inf", true);
 		case "det":
-			return new CommandOpName("det", true);
 		case "Pr":
-			return new CommandOpName("Pr", true);
 		case "gcd":
-			return new CommandOpName("gcd", true);
+			return new CommandOpName(s, true);
+
 		case "limsup":
 			return new CommandOpName("lim", "sup", true);
 		case "liminf":
@@ -994,193 +963,10 @@ public class Commands {
 			return new CommandOpName("inj", "lim", true);
 		case "projlim":
 			return new CommandOpName("proj", "lim", true);
-		case "iff":
-			return new Replacement("\\mathrel{\\;\\Longleftrightarrow\\;}");
-		case "bowtie":
-			return new Replacement(
-					"\\mathrel{\\mathrel{\\triangleright}\\joinrel\\mathrel{\\triangleleft}}");
-		case "models":
-			return new Replacement(
-					"\\mathrel{\\mathrel{\\vert}\\joinrel\\equals}");
-		case "implies":
-			return new Replacement("\\mathrel{\\;\\Longrightarrow\\;}");
-		case "impliedby":
-			return new Replacement("\\mathrel{\\;\\Longleftarrow\\;}");
-		case "mapsto":
-			return new Replacement("\\mathrel{\\mapstochar\\rightarrow}");
-		case "longmapsto":
-			return new Replacement("\\mathrel{\\mapstochar\\longrightarrow}");
-		case "Mapsto":
-			return new Replacement("\\mathrel{\\Mapstochar\\Rightarrow}");
-		case "mapsfrom":
-			return new Replacement("\\mathrel{\\leftarrow\\mapsfromchar}");
-		case "Mapsfrom":
-			return new Replacement("\\mathrel{\\Leftarrow\\Mapsfromchar}");
-		case "Longmapsto":
-			return new Replacement("\\mathrel{\\Mapstochar\\Longrightarrow}");
-		case "longmapsfrom":
-			return new Replacement("\\mathrel{\\longleftarrow\\mapsfromchar}");
-		case "Longmapsfrom":
-			return new Replacement("\\mathrel{\\Longleftarrow\\Mapsfromchar}");
-		case "arrowvert":
-			return new Replacement("\\vert");
-		case "Arrowvert":
-			return new Replacement("\\Vert");
-		case "aa":
-			return new Replacement("\\mathring{a}");
-		case "AA":
-			return new Replacement("\\mathring{A}");
-		case "ddag":
-			return new Replacement("\\ddagger");
-		case "dag":
-			return new Replacement("\\dagger");
-		case "Doteq":
-			return new Replacement("\\doteqdot");
-		case "doublecup":
-			return new Replacement("\\Cup");
-		case "doublecap":
-			return new Replacement("\\Cap");
-		case "llless":
-			return new Replacement("\\lll");
-		case "gggtr":
-			return new Replacement("\\ggg");
-		case "Alpha":
-			return new Replacement("\\mathord{\\mathrm{A}}");
-		case "Beta":
-			return new Replacement("\\mathord{\\mathrm{B}}");
-		case "Epsilon":
-			return new Replacement("\\mathord{\\mathrm{E}}");
-		case "Zeta":
-			return new Replacement("\\mathord{\\mathrm{Z}}");
-		case "Eta":
-			return new Replacement("\\mathord{\\mathrm{H}}");
-		case "Iota":
-			return new Replacement("\\mathord{\\mathrm{I}}");
-		case "Kappa":
-			return new Replacement("\\mathord{\\mathrm{K}}");
-		case "Mu":
-			return new Replacement("\\mathord{\\mathrm{M}}");
-		case "Nu":
-			return new Replacement("\\mathord{\\mathrm{N}}");
-		case "Omicron":
-			return new Replacement("\\mathord{\\mathrm{O}}");
-		case "Rho":
-			return new Replacement("\\mathord{\\mathrm{P}}");
-		case "Tau":
-			return new Replacement("\\mathord{\\mathrm{T}}");
-		case "Chi":
-			return new Replacement("\\mathord{\\mathrm{X}}");
-		case "hdots":
-			return new Replacement("\\ldots");
-		case "restriction":
-			return new Replacement("\\upharpoonright");
-		case "celsius":
-			return new Replacement("\\mathord{{}^\\circ\\mathrm{C}}");
-		case "micro":
-			return new Replacement("\\textmu");
-		case "marker":
-			return new Replacement(
-					"{\\kern{0.25ex}\\rule{0.5ex}{1.2ex}\\kern{0.25ex}}");
-		case "hybull":
-			return new Replacement("\\rule[0.6ex]{1ex}{0.2ex}");
-		case "block":
-			return new Replacement("\\rule{1ex}{1.2ex}");
-		case "uhblk":
-			return new Replacement("\\rule[0.6ex]{1ex}{0.6ex}");
-		case "lhblk":
-			return new Replacement("\\rule{1ex}{0.6ex}");
-		case "lVert":
-			return new Replacement("\\Vert");
-		case "rVert":
-			return new Replacement("\\Vert");
-		case "lvert":
-			return new Replacement("\\vert");
-		case "rvert":
-			return new Replacement("\\vert");
 
 		// XXX
 		// case "copyright": return
 		// new Replacement("\\textcircled{\\raisebox{0.2ex}{c}}");
-
-		case "glj":
-			return new Replacement("\\mathbin{\\rlap{>}\\!<}");
-		case "gla":
-			return new Replacement("\\mathbin{><}");
-		case "alef":
-			return new Replacement("\\aleph");
-		case "alefsym":
-			return new Replacement("\\aleph");
-		case "And":
-			return new Replacement("{\\;\\textampersand\\;}");
-		case "and":
-			return new Replacement("\\land");
-		case "ang":
-			return new Replacement("\\angle");
-		case "Reals":
-			return new Replacement("\\mathbb{R}");
-		case "exist":
-			return new Replacement("\\exists");
-		case "hAar":
-			return new Replacement("\\Leftrightarrow");
-
-		case "C":
-		case "Complex":
-			return new Replacement("\\mathbb{C}");
-
-		case "N":
-		case "natnums":
-			return new Replacement("\\mathbb{N}");
-
-		case "Q":
-			return new Replacement("\\mathbb{Q}");
-
-		case "R":
-		case "real":
-		case "reals":
-			return new Replacement("\\mathbb{R}");
-
-		case "Z":
-			return new Replacement("\\mathbb{Z}");
-		case "Dagger":
-			return new Replacement("\\ddagger");
-		case "diamonds":
-			return new Replacement("\\diamondsuit");
-		case "clubs":
-			return new Replacement("\\clubsuit");
-		case "hearts":
-			return new Replacement("\\heartsuit");
-		case "spades":
-			return new Replacement("\\spadesuit");
-		case "infin":
-			return new Replacement("\\infty");
-		case "isin":
-			return new Replacement("\\in");
-		case "plusmn":
-			return new Replacement("\\pm");
-		case "sube":
-			return new Replacement("\\subseteq");
-		case "supe":
-			return new Replacement("\\supseteq");
-		case "sdot":
-			return new Replacement("\\cdot");
-
-		case "empty":
-		case "O":
-			return new Replacement("\\emptyset");
-
-		case "sub":
-			return new Replacement("\\subset");
-		case "lang":
-			return new Replacement("\\langle");
-		case "rang":
-			return new Replacement("\\rangle");
-		case "bull":
-			return new Replacement("\\bullet");
-
-		case "geneuro":
-		case "geneuronarrow":
-		case "geneurowide":
-			return new Replacement("\\texteuro");
 
 		// TODO: check if this is useful or not
 		case "jlmXML":
@@ -1198,16 +984,204 @@ public class Commands {
 		case "imagebasesixtyfour":
 			return new CommandImageBase64();
 
+		}
+		String replace = getReplacement(s);
+		if (replace != null) {
+			return new Replacement(replace);
+		}
+		return null;
+	}
+
+	private static String getReplacement(String s) {
+		switch (s) {
 		case "&":
-			return new Replacement("\\textampersand");
+			return "\\textampersand";
 		case "%":
-			return new Replacement("\\textpercent");
+			return "\\textpercent";
 
 		case "$":
 		case "dollar":
-			return new Replacement("\\textdollar");
-		}
+			return "\\textdollar";
+		case "iff":
+			return "\\mathrel{\\;\\Longleftrightarrow\\;}";
+		case "bowtie":
+			return "\\mathrel{\\mathrel{\\triangleright}\\joinrel\\mathrel{\\triangleleft}}";
+		case "models":
+			return "\\mathrel{\\mathrel{\\vert}\\joinrel\\equals}";
+		case "implies":
+			return "\\mathrel{\\;\\Longrightarrow\\;}";
+		case "impliedby":
+			return "\\mathrel{\\;\\Longleftarrow\\;}";
+		case "mapsto":
+			return "\\mathrel{\\mapstochar\\rightarrow}";
+		case "longmapsto":
+			return "\\mathrel{\\mapstochar\\longrightarrow}";
+		case "Mapsto":
+			return "\\mathrel{\\Mapstochar\\Rightarrow}";
+		case "mapsfrom":
+			return "\\mathrel{\\leftarrow\\mapsfromchar}";
+		case "Mapsfrom":
+			return "\\mathrel{\\Leftarrow\\Mapsfromchar}";
+		case "Longmapsto":
+			return "\\mathrel{\\Mapstochar\\Longrightarrow}";
+		case "longmapsfrom":
+			return "\\mathrel{\\longleftarrow\\mapsfromchar}";
+		case "Longmapsfrom":
+			return "\\mathrel{\\Longleftarrow\\Mapsfromchar}";
+		case "arrowvert":
+			return "\\vert";
+		case "Arrowvert":
+			return "\\Vert";
+		case "aa":
+			return "\\mathring{a}";
+		case "AA":
+			return "\\mathring{A}";
+		case "ddag":
+			return "\\ddagger";
+		case "dag":
+			return "\\dagger";
+		case "Doteq":
+			return "\\doteqdot";
+		case "doublecup":
+			return "\\Cup";
+		case "doublecap":
+			return "\\Cap";
+		case "llless":
+			return "\\lll";
+		case "gggtr":
+			return "\\ggg";
+		case "Alpha":
+			return "\\mathord{\\mathrm{A}}";
+		case "Beta":
+			return "\\mathord{\\mathrm{B}}";
+		case "Epsilon":
+			return "\\mathord{\\mathrm{E}}";
+		case "Zeta":
+			return "\\mathord{\\mathrm{Z}}";
+		case "Eta":
+			return "\\mathord{\\mathrm{H}}";
+		case "Iota":
+			return "\\mathord{\\mathrm{I}}";
+		case "Kappa":
+			return "\\mathord{\\mathrm{K}}";
+		case "Mu":
+			return "\\mathord{\\mathrm{M}}";
+		case "Nu":
+			return "\\mathord{\\mathrm{N}}";
+		case "Omicron":
+			return "\\mathord{\\mathrm{O}}";
+		case "Rho":
+			return "\\mathord{\\mathrm{P}}";
+		case "Tau":
+			return "\\mathord{\\mathrm{T}}";
+		case "Chi":
+			return "\\mathord{\\mathrm{X}}";
+		case "hdots":
+			return "\\ldots";
+		case "restriction":
+			return "\\upharpoonright";
+		case "celsius":
+			return "\\mathord{{}^\\circ\\mathrm{C}}";
+		case "micro":
+			return "\\textmu";
+		case "marker":
+			return "{\\kern{0.25ex}\\rule{0.5ex}{1.2ex}\\kern{0.25ex}}";
+		case "hybull":
+			return "\\rule[0.6ex]{1ex}{0.2ex}";
+		case "block":
+			return "\\rule{1ex}{1.2ex}";
+		case "uhblk":
+			return "\\rule[0.6ex]{1ex}{0.6ex}";
+		case "lhblk":
+			return "\\rule{1ex}{0.6ex}";
+		case "lVert":
+			return "\\Vert";
+		case "rVert":
+			return "\\Vert";
+		case "lvert":
+			return "\\vert";
+		case "rvert":
+			return "\\vert";
+		case "glj":
+			return "\\mathbin{\\rlap{>}\\!<}";
+		case "gla":
+			return "\\mathbin{><}";
+		case "alef":
+			return "\\aleph";
+		case "alefsym":
+			return "\\aleph";
+		case "And":
+			return "{\\;\\textampersand\\;}";
+		case "and":
+			return "\\land";
+		case "ang":
+			return "\\angle";
+		case "Reals":
+			return "\\mathbb{R}";
+		case "exist":
+			return "\\exists";
+		case "hAar":
+			return "\\Leftrightarrow";
 
+		case "C":
+		case "Complex":
+			return "\\mathbb{C}";
+
+		case "N":
+		case "natnums":
+			return "\\mathbb{N}";
+
+		case "Q":
+			return "\\mathbb{Q}";
+
+		case "R":
+		case "real":
+		case "reals":
+			return "\\mathbb{R}";
+
+		case "Z":
+			return "\\mathbb{Z}";
+		case "Dagger":
+			return "\\ddagger";
+		case "diamonds":
+			return "\\diamondsuit";
+		case "clubs":
+			return "\\clubsuit";
+		case "hearts":
+			return "\\heartsuit";
+		case "spades":
+			return "\\spadesuit";
+		case "infin":
+			return "\\infty";
+		case "isin":
+			return "\\in";
+		case "plusmn":
+			return "\\pm";
+		case "sube":
+			return "\\subseteq";
+		case "supe":
+			return "\\supseteq";
+		case "sdot":
+			return "\\cdot";
+
+		case "empty":
+		case "O":
+			return "\\emptyset";
+
+		case "sub":
+			return "\\subset";
+		case "lang":
+			return "\\langle";
+		case "rang":
+			return "\\rangle";
+		case "bull":
+			return "\\bullet";
+
+		case "geneuro":
+		case "geneuronarrow":
+		case "geneurowide":
+			return "\\texteuro";
+		}
 		return null;
 	}
 
