@@ -179,8 +179,7 @@ public class OpenFileView extends MyHeaderPanel
 		openFileBtn.setImageAndText(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
 						.getSafeUri().asString(),
-				localize("mow.openFile"));
-
+				localize("mow.offlineMyFiles"));
 		buttonPanel.add(openFileBtn);
 		buttonPanel.add(newFileBtn);
 	}
