@@ -128,4 +128,11 @@ public interface AccessibilityManagerInterface {
 	 *            to set.
 	 */
 	public void setPlaySelectedIfVisible(boolean b);
+
+	/**
+	 * For animation button, scriptable buttons etc.
+	 * 
+	 * @return action description when space can be pressed
+	 */
+	public String getSpaceAction();
 }

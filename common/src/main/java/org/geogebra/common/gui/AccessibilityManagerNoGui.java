@@ -86,4 +86,9 @@ public final class AccessibilityManagerNoGui
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public String getSpaceAction() {
+		return null;
+	}
 }

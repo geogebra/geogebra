@@ -279,4 +279,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 		return false;
 	}
+
+	@Override
+	public String getSpaceAction() {
+		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
+			return app.getLocalization().getMenu("Animation");
+		}
+		return null;
+	}
 }
