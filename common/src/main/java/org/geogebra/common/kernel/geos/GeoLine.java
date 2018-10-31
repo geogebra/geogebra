@@ -2040,6 +2040,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean hasTableOfValues() {
-		return getDefinition() == null && DoubleUtil.isZero(getY()) && super.hasTableOfValues();
+		return getDefinition() != null && !DoubleUtil.isZero(getY()) && super.hasTableOfValues();
 	}
 }
