@@ -23,13 +23,16 @@ public interface TableValues extends View {
 	void hideColumn(Evaluatable evaluatable);
 
 	/**
-	 * Set the values parameters.
+	 * Set the values parameters. Values min must be smaller than valuesMax,
+	 * valuesStep must be a positive number, and they all must be valid nubmers.
+	 * Otherwise an InvalidValuesException is thrown.
 	 *
 	 * @param valuesMin lower value of x-values
 	 * @param valuesMax upper value of x-values
 	 * @param valuesStep step of the x-values
 	 */
-	void setValues(double valuesMin, double valuesMax, double valuesStep);
+	void setValues(double valuesMin, double valuesMax, double valuesStep) throws
+			InvalidValuesException;
 
 	/**
 	 * Get the lower value of the x-values.

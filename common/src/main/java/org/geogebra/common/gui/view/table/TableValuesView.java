@@ -68,7 +68,8 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void setValues(double valuesMin, double valuesMax, double valuesStep) {
+	public void setValues(double valuesMin, double valuesMax, double valuesStep)
+			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
 		this.valuesMin = valuesMin;
 		this.valuesMax = valuesMax;
@@ -91,15 +92,16 @@ public class TableValuesView implements TableValues {
 		return valuesStep;
 	}
 
-	private void assertValidValues(double min, double max, double step) {
+	private void assertValidValues(double min, double max, double step)
+			throws InvalidValuesException {
 		if (!isFinite(min) && !isFinite(max)) {
-			throw new RuntimeException("Values min and/or max are invalid");
+			throw new InvalidValuesException("Values min and/or max are invalid");
 		}
 		if (min > max) {
-			throw new RuntimeException("Values min is greater than values max");
+			throw new InvalidValuesException("Values min is greater than values max");
 		}
 		if (Double.isNaN(step) || Double.isInfinite(step) || step <= 0) {
-			throw new RuntimeException("Values step is invalid");
+			throw new InvalidValuesException("Values step is invalid");
 		}
 	}
 
