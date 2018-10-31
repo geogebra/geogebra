@@ -141,7 +141,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		tvPanel.add(scrollPanel);
 		tvPanel.addStyleName("tvPanel");
 		main.add(tvPanel);
-		setHeaderSizes();
 	}
 
 	private void addHeader() {
@@ -182,6 +181,14 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	@Override
 	public void add(GeoElement geo) {
+		if (!(geo instanceof Evaluatable)) {
+			return;
+		}
+
+		if (hasColumn((Evaluatable) geo)) {
+			return;
+		}
+
 		super.add(geo);
 		showColumn((Evaluatable) geo);
 	}
@@ -196,6 +203,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		TableUtils.clear(table);
 		addValuesForTable(table);
 		tableInit();
+		setHeaderSizes();
 	}
 
 	private void buildData() {
