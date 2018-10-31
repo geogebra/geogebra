@@ -96,6 +96,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		super(app1.getKernel());
 		this.app = app1;
 		createGUI();
+		app.getKernel().attach(this);
 	}
 
 	/**
@@ -185,12 +186,13 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			return;
 		}
 
-		if (hasColumn((Evaluatable) geo)) {
+		Evaluatable eval = (Evaluatable) geo;
+		if (hasColumn(eval)) {
 			return;
 		}
 
 		super.add(geo);
-		showColumn((Evaluatable) geo);
+		showColumn(eval);
 	}
 
 	private Widget getMain() {
@@ -304,10 +306,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private SafeHtml getHeaderHtml(final int column) {
 		FlowPanel p = new FlowPanel();
 		p.add(new Label(getTableValuesModel().getHeaderAt(column)));
-		if (column != 0) {
-			MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
-			p.add(btn);
-		}
+		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
+		p.add(btn);
 
 		return SafeHtmlUtils.fromTrustedString("<div>" + p.getElement().getInnerHTML() + "</div>");
 	}
@@ -342,5 +342,4 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight(),
 				Unit.PX);
 	}
-
 }

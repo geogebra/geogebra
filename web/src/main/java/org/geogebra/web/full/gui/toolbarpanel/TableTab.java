@@ -29,6 +29,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	@Override
 	protected void onActive() {
 		buildGui();
+		getView().setHeight(getOffsetHeight());
 	}
 
 	private TableValuesViewW getView() {

@@ -51,16 +51,19 @@
 			display: inline-block;
 		}
 		
-		.tvHeader {
-			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader {
+		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeaderCell {
 				text-shadow: none;
 				color: #666666;
 				border-right: 1px solid $black-10;
+				border-bottom: 0px;
 				text-align: center;
 				background-color: #f8f8f8;
 				font-weight: normal;
 				width: 50px;
-			}
+		}
+			
+		.tvHeader {
+			
 		
 			thead th:FIRST-CHILD,
 			thead th:FIRST-CHILD div {
