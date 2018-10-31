@@ -68,8 +68,8 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public boolean hasColumn(Evaluatable evaluatable) {
-		return model.hasEvaluatable(evaluatable);
+	public int getColumn(Evaluatable evaluatable) {
+		return model.getEvaluatableIndex(evaluatable);
 	}
 
 	@Override

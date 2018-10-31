@@ -170,13 +170,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	/**
-	 * Returns true, if the Evaluatable is added to the model.
+	 * Returns the index of the evaluatable in the model
+	 * or -1 if it's not in the model.
 	 *
 	 * @param evaluatable object to check
-	 * @return true if evaluatable is added
+	 * @return index of the object, -1 if it's not present
 	 */
-	boolean hasEvaluatable(Evaluatable evaluatable) {
-		return evaluatables.contains(evaluatable);
+	int getEvaluatableIndex(Evaluatable evaluatable) {
+		return evaluatables.indexOf(evaluatable);
 	}
 
 	/**
