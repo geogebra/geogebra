@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
@@ -199,8 +200,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		add(cosx);
 		showColumn(sinx);
 		showColumn(cosx);
-
-		setValues(0, 100, 1);
+		try {
+			setValues(0, 100, 1);
+		} catch (InvalidValuesException exception) {
+			// ignore
+		}
 	}
 
 	@Override
