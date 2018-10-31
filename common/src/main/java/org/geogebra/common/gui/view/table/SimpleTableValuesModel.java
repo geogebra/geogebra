@@ -189,7 +189,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			String newName = getHeaderName(evaluatable);
-			header.set(index, newName);
+			header.set(index + 1, newName);
 			notifyColumnHeaderChanged(index + 1);
 		}
 	}
