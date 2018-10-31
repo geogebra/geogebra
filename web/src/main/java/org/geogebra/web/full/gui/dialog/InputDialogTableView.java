@@ -24,8 +24,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class InputDialogTableView extends DialogBoxW
 		implements SetLabels, FastClickHandler {
-	private AppW appW;
-	private FlowPanel contentPanel;
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
@@ -40,7 +38,6 @@ public class InputDialogTableView extends DialogBoxW
 	 */
 	public InputDialogTableView(AppW app) {
 		super(app.getPanel(), app);
-		this.appW = app;
 		buildGui();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -61,24 +58,25 @@ public class InputDialogTableView extends DialogBoxW
 
 	private void buildGui() {
 		addStyleName("tableOfValuesDialog");
-		contentPanel = new FlowPanel();
-		buildTextFieldPanel();
+		FlowPanel contentPanel = new FlowPanel();
+		buildTextFieldPanel(contentPanel);
 		buildButtonPanel(contentPanel);
-		this.add(contentPanel);
+		add(contentPanel);
 		setLabels();
 	}
 
-	private void buildTextFieldPanel() {
-		startValue = addTextField("StartValueX", "-2");
-		endValue = addTextField("EndValueX", "2");
-		step = addTextField("Step", "1");
+	private void buildTextFieldPanel(FlowPanel root) {
+		startValue = addTextField("StartValueX", "-2", root);
+		endValue = addTextField("EndValueX", "2", root);
+		step = addTextField("Step", "1", root);
 	}
 
-	private ComponentInputField addTextField(String labelText, String defaultValue) {
-		ComponentInputField field = new ComponentInputField(appW, null,
+	private ComponentInputField addTextField(String labelText,
+			String defaultValue, FlowPanel root) {
+		ComponentInputField field = new ComponentInputField((AppW) app, null,
 				labelText,
 				null, defaultValue, 20);
-		contentPanel.add(field);
+		root.add(field);
 		return field;
 	}
 
@@ -92,7 +90,7 @@ public class InputDialogTableView extends DialogBoxW
 
 	private StandardButton createTxtButton(FlowPanel root, String styleName,
 			boolean isEnabled) {
-		StandardButton btn = new StandardButton("", appW);
+		StandardButton btn = new StandardButton("", app);
 		btn.addStyleName(styleName);
 		btn.setEnabled(isEnabled);
 		btn.addFastClickHandler(this);
@@ -102,12 +100,12 @@ public class InputDialogTableView extends DialogBoxW
 
 	@Override
 	public void setLabels() {
-		getCaption().setText(appW.getLocalization().getMenu("TableOfValues"));
+		getCaption().setText(app.getLocalization().getMenu("TableOfValues"));
 		startValue.setLabels();
 		endValue.setLabels();
 		step.setLabels();
-		cancelBtn.setText(appW.getLocalization().getMenu("Cancel"));
-		okBtn.setText(appW.getLocalization().getMenu("OK"));
+		cancelBtn.setText(app.getLocalization().getMenu("Cancel"));
+		okBtn.setText(app.getLocalization().getMenu("OK"));
 	}
 
 	@Override
