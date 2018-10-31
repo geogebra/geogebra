@@ -186,7 +186,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 
 		Evaluatable eval = (Evaluatable) geo;
-		if (hasColumn(eval)) {
+		if (getColumn(eval) >= 0) {
 			return;
 		}
 
