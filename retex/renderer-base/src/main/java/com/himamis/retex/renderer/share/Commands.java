@@ -494,20 +494,18 @@ public class Commands {
 		case "fcscore":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final int arg = tp.getArgAsPositiveInteger();
-					tp.addToConsumer(FcscoreAtom.get(arg));
-					return false;
+					return FcscoreAtom.get(arg);
 				}
 			};
 		case "longdiv":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final long dividend = tp.getArgAsPositiveInteger();
 					final long divisor = tp.getArgAsPositiveInteger();
-					tp.addToConsumer(new LongdivAtom(divisor, dividend, tp));
-					return false;
+					return new LongdivAtom(divisor, dividend, tp);
 				}
 			};
 		case "st":
@@ -516,11 +514,10 @@ public class Commands {
 		case "includegraphics":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final Map<String, String> arg1 = tp.getOptionAsMap();
 					final String arg2 = tp.getArgAsString();
-					tp.addToConsumer(new GraphicsAtom(arg2, arg1));
-					return false;
+					return new GraphicsAtom(arg2, arg1);
 				}
 			};
 
@@ -781,9 +778,8 @@ public class Commands {
 		case "kern":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
-					tp.addToConsumer(new SpaceAtom(tp.getArgAsLength()));
-					return false;
+				public Atom newI(TeXParser tp) {
+					return new SpaceAtom(tp.getArgAsLength());
 				}
 			};
 		case "Dstrok":
@@ -974,66 +970,58 @@ public class Commands {
 		case "cellcolor":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
 						throw new ParseException(tp,
 								"The macro \\cellcolor is only available in array mode !");
 					}
 					final Color c = CommandDefinecolor.getColor(tp);
-					tp.addToConsumer(new EnvArray.CellColor(c));
-					return false;
+					return new EnvArray.CellColor(c);
 				}
 			};
 		case "rowcolor":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
 						throw new ParseException(tp,
 								"The macro \\rowcolor is only available in array mode !");
 					}
 					final Color c = CommandDefinecolor.getColor(tp);
-					tp.addToConsumer(new EnvArray.RowColor(c));
-					return false;
+					return new EnvArray.RowColor(c);
 				}
 			};
 		case "jlmText":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
-					tp.addToConsumer(
-							new JavaFontRenderingAtom(arg, Font.PLAIN));
-					return false;
+					return new JavaFontRenderingAtom(arg, Font.PLAIN);
 				}
 			};
 		case "jlmTextit":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
-					tp.addToConsumer(
-							new JavaFontRenderingAtom(arg, Font.ITALIC));
-					return false;
+					return new JavaFontRenderingAtom(arg, Font.ITALIC);
 				}
 			};
 		case "jlmTextbf":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
-					tp.addToConsumer(new JavaFontRenderingAtom(arg, Font.BOLD));
-					return false;
+					return new JavaFontRenderingAtom(arg, Font.BOLD);
 				}
 			};
 		case "jlmTextitbf":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
-					tp.addToConsumer(new JavaFontRenderingAtom(arg,
-							Font.BOLD | Font.ITALIC));
-					return false;
+					return new JavaFontRenderingAtom(arg,
+							Font.BOLD | Font.ITALIC);
 				}
 			};
 		case "jlmExternalFont":
@@ -1119,12 +1107,11 @@ public class Commands {
 		case "cornersize":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final double cs = tp.getArgAsDecimal();
-					tp.addToConsumer(new SetLengthAtom(
+					return new SetLengthAtom(
 							new TeXLength(TeXLength.Unit.NONE, cs),
-							"cornersize"));
-					return false;
+							"cornersize");
 				}
 			};
 
@@ -1334,7 +1321,7 @@ public class Commands {
 		case "hdotsfor":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
 						throw new ParseException(tp,
 								"The macro \\hdotsfor is only available in array mode !");
@@ -1345,8 +1332,7 @@ public class Commands {
 						throw new ParseException(tp,
 								"The macro \\hdotsfor requires a positive integer");
 					}
-					tp.addToConsumer(new HdotsforAtom(n, x));
-					return false;
+					return new HdotsforAtom(n, x);
 				}
 			};
 		case "multicolumn":
@@ -1360,11 +1346,10 @@ public class Commands {
 		case "newline":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					tp.close();
 					if (tp.isArrayMode()) {
-						tp.addToConsumer(EnvArray.RowSep.get());
-						return false;
+						return EnvArray.RowSep.get();
 					}
 					throw new ParseException(tp,
 							"The macro \\newline must be used in an array");
@@ -1764,31 +1749,29 @@ public class Commands {
 		case "the":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final String name = tp.getArgAsCommand(true);
-					tp.addToConsumer(new TheAtom(name));
-					return false;
+					return new TheAtom(name);
 				}
 			};
 
 		case "setlength":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final String name = tp.getArgAsCommand(true);
 					TeXLength newLength = tp.getArgAsLength();
 					if (newLength == null) {
 						throw new ParseException(tp,
 								"Invalid length in \\setlength");
 					}
-					tp.addToConsumer(new SetLengthAtom(newLength, name));
-					return false;
+					return new SetLengthAtom(newLength, name);
 				}
 			};
 		case "rule":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					TeXLength r = tp.getOptionAsLength(TeXLength.getZero());
 					if (r == null) {
 						r = new TeXLength();
@@ -1803,28 +1786,25 @@ public class Commands {
 						throw new ParseException(tp,
 								"Invalid length in \\rule");
 					}
-					tp.addToConsumer(new RuleAtom(w, h, r));
-					return false;
+					return new RuleAtom(w, h, r);
 				}
 			};
 		case "vrule":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final TeXLength[] lengths = tp.getDimensions();
-					tp.addToConsumer(new HVruleAtom(lengths[0], lengths[1],
-							lengths[2], false));
-					return false;
+					return new HVruleAtom(lengths[0], lengths[1], lengths[2],
+							false);
 				}
 			};
 		case "hrule":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final TeXLength[] lengths = tp.getDimensions();
-					tp.addToConsumer(new HVruleAtom(lengths[0], lengths[1],
-							lengths[2], true));
-					return false;
+					return new HVruleAtom(lengths[0], lengths[1], lengths[2],
+							true);
 				}
 			};
 		case "textvisiblespace":
@@ -1845,44 +1825,39 @@ public class Commands {
 		case "hspace":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final TeXLength w = tp.getArgAsLength();
 					if (w == null) {
 						throw new ParseException(tp,
 								"Invalid length in \\hspace");
 					}
-					tp.addToConsumer(
-							new SpaceAtom(w.getUnit(), w.getL(), 0., 0.));
-					return false;
+					return new SpaceAtom(w.getUnit(), w.getL(), 0., 0.);
 				}
 			};
 		case "vspace":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final TeXLength h = tp.getArgAsLength();
 					if (h == null) {
 						throw new ParseException(tp,
 								"Invalid length in \\vspace");
 					}
-					tp.addToConsumer(
-							new SpaceAtom(h.getUnit(), 0., h.getL(), 0.));
-					return false;
+					return new SpaceAtom(h.getUnit(), 0., h.getL(), 0.);
 				}
 			};
 		case "degree":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
-					tp.addToConsumer(SubSupCom.get(SubSupCom.getBase(tp), null,
-							Symbols.CIRC));
-					return false;
+				public Atom newI(TeXParser tp) {
+					return SubSupCom.get(SubSupCom.getBase(tp), null,
+							Symbols.CIRC);
 				}
 			};
 		case "sphat":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a;
 					double raise;
 					if (tp.isMathMode()) {
@@ -1896,15 +1871,13 @@ public class Commands {
 					final VRowAtom vra = new VRowAtom(a);
 					vra.setRaise(TeXLength.Unit.EX, raise);
 					a = new SmashedAtom(vra);
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, a));
-					return false;
+					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
 		case "spbreve":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final Atom ex = new SpaceAtom(TeXConstants.Muskip.NEGTHIN);
 					Atom a = Symbols.BREVE;
 					a = new StyleAtom(TeXConstants.STYLE_DISPLAY, a);
@@ -1912,73 +1885,62 @@ public class Commands {
 					vra.setRaise(TeXLength.Unit.EX, 1.1);
 					a = new SmashedAtom(vra);
 					final RowAtom ra = new RowAtom(ex, a);
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, ra));
-					return false;
+					return
+					SubSupCom.get(SubSupCom.getBase(tp), null, ra);
 				}
 			};
 		case "spcheck":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final Atom a = Symbols.VEE;
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, a));
-					return false;
+					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
 		case "sptilde":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final Atom a = Symbols.SIM;
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, a));
-					return false;
+					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
 		case "spdot":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = Symbols.NORMALDOT;
 					a = new StyleAtom(TeXConstants.STYLE_DISPLAY, a);
 					final VRowAtom vra = new VRowAtom(a);
 					vra.setRaise(TeXLength.Unit.EX, 0.8);
 					a = new SmashedAtom(vra);
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, a));
-					return false;
+					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
 		case "spddot":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = Symbols.NORMALDOT;
 					final RowAtom ra = new RowAtom(a, a);
 					a = new StyleAtom(TeXConstants.STYLE_DISPLAY, ra);
 					final VRowAtom vra = new VRowAtom(a);
 					vra.setRaise(TeXLength.Unit.EX, 0.8);
 					a = new SmashedAtom(vra);
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, a));
-					return false;
+					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
 		case "spdddot":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = Symbols.NORMALDOT;
 					final RowAtom ra = new RowAtom(a, a, a);
 					a = new StyleAtom(TeXConstants.STYLE_DISPLAY, ra);
 					final VRowAtom vra = new VRowAtom(a);
 					vra.setRaise(TeXLength.Unit.EX, 0.8);
 					a = new SmashedAtom(vra);
-					tp.addToConsumer(
-							SubSupCom.get(SubSupCom.getBase(tp), null, a));
-					return false;
+					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
 		case "log":
@@ -2062,53 +2024,49 @@ public class Commands {
 		case "varinjlim":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
 							TeXParser.getAtomForLatinStr("lim", true));
 					a = new UnderOverArrowAtom(a, false, false);
 					a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 					a.type_limits = TeXConstants.SCRIPT_LIMITS;
-					tp.addToConsumer(a);
-					return false;
+					return a;
 				}
 			};
 		case "varprojlim":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
 							TeXParser.getAtomForLatinStr("lim", true));
 					a = new UnderOverArrowAtom(a, true, false);
 					a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 					a.type_limits = TeXConstants.SCRIPT_LIMITS;
-					tp.addToConsumer(a);
-					return false;
+					return a;
 				}
 			};
 		case "varliminf":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
 							TeXParser.getAtomForLatinStr("lim", true));
 					a = new UnderlinedAtom(a);
 					a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 					a.type_limits = TeXConstants.SCRIPT_LIMITS;
-					tp.addToConsumer(a);
-					return false;
+					return a;
 				}
 			};
 		case "varlimsup":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
 							TeXParser.getAtomForLatinStr("lim", true));
 					a = new OverlinedAtom(a);
 					a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 					a.type_limits = TeXConstants.SCRIPT_LIMITS;
-					tp.addToConsumer(a);
-					return false;
+					return a;
 				}
 			};
 		case "with":
@@ -2254,10 +2212,9 @@ public class Commands {
 		case "mkern":
 			return new Command0AImpl() {
 				@Override
-				public boolean init(TeXParser tp) {
+				public Atom newI(TeXParser tp) {
 					final TeXLength len = tp.getArgAsLength();
-					tp.addToConsumer(new SpaceAtom(len));
-					return false;
+					return new SpaceAtom(len);
 				}
 			};
 

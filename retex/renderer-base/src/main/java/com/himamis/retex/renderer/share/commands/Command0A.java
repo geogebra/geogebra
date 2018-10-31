@@ -60,7 +60,7 @@ public abstract class Command0A extends Command implements Reusable {
 	public abstract Atom newI(TeXParser tp);
 
 	@Override
-	public Command duplicate() {
+	public final Command duplicate() {
 		// No need to clone it since with a 0 args command we can't have
 		// \foo{\foo...
 		return this;
