@@ -4137,7 +4137,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-61 */
 		case TABLE_VIEW_TEST_DATA:
-			return false;
+			// return false;
+			return prerelease;
 
        // **********************************************************************
        // G3D START

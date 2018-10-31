@@ -115,6 +115,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -2508,7 +2509,8 @@ public class GuiManagerW extends GuiManager
 				addGeoToTableValuesView(geo);
 			}
 		} catch (InvalidValuesException exception) {
-			// handle exception
+			ToolTipManagerW.sharedInstance().showBottomMessage(exception.getLocalizedMessage(),
+					true, (AppW) app);
 		}
 	}
 
