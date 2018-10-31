@@ -170,6 +170,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	/**
+	 * Returns true, if the Evaluatable is added to the model.
+	 *
+	 * @param evaluatable object to check
+	 * @return true if evaluatable is added
+	 */
+	boolean hasEvaluatable(Evaluatable evaluatable) {
+		return evaluatables.contains(evaluatable);
+	}
+
+	/**
 	 * Update the name of the Evaluatable object (if it has any)
 	 *
 	 * @param evaluatable the evaluatable object

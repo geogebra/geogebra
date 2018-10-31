@@ -23,6 +23,15 @@ public interface TableValues extends View {
 	void hideColumn(Evaluatable evaluatable);
 
 	/**
+	 * True, if the view already has a column for the
+	 * Evaluatable object.
+	 *
+	 * @param evaluatable object to check
+	 * @return true if present in the view
+	 */
+	boolean hasColumn(Evaluatable evaluatable);
+
+	/**
 	 * Set the values parameters. Values min must be smaller than valuesMax,
 	 * valuesStep must be a positive number, and they all must be valid nubmers.
 	 * Otherwise an InvalidValuesException is thrown.
