@@ -1,4 +1,4 @@
-package org.geogebra.common.jre.headless;
+package org.geogebra.desktop.headless;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
