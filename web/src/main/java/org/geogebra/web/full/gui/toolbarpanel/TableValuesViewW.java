@@ -9,6 +9,7 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TableUtils;
@@ -49,6 +50,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private List<RowData> rows = new ArrayList<>();
 	private ScrollPanel holderPanel;
 	private OuterPanel outerScrollPanel;
+	private NoDragImage moreImg;
 	
 	/**
 	 * @author laszlo
@@ -283,9 +285,22 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return column;
 	}
 
+	private NoDragImage getMoreImage() {
+		if (moreImg == null) {
+			moreImg = new NoDragImage(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
+
+		}
+		return moreImg;
+	}
+
 	private SafeHtml getHeaderHtml(final int column) {
 		FlowPanel p = new FlowPanel();
 		p.add(new Label(getTableValuesModel().getHeaderAt(column)));
+		if (column != 0) {
+			MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
+			p.add(btn);
+		}
+
 		return SafeHtmlUtils.fromTrustedString("<div>" + p.getElement().getInnerHTML() + "</div>");
 	}
 

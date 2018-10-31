@@ -52,10 +52,10 @@
 		}
 		
 		.tvHeader {
-			thead th {
+			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader {
 				text-shadow: none;
 				color: #666666;
-				border-bottom: 2px solid #666666;
+				border-right: 1px solid $black-10;
 				text-align: center;
 				background-color: #f8f8f8;
 				font-weight: normal;
@@ -68,7 +68,12 @@
 			}
 		
 			thead th div {
-				display: inline-flex;
+				display: flex;
+				margin: auto;
+			}
+
+			thead th div .MyToggleButton {
+				border: 0px;
 			}
 					
 			tbody {display: none;}
