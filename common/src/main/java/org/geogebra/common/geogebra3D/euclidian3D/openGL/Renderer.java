@@ -1942,8 +1942,10 @@ public abstract class Renderer implements RendererInterface {
         // only for AR
 	}
 
+	/**
+	 * @return background for AR, null otherwise
+	 */
 	public BackgroundStyle getBackgroundStyle() {
-        // only for AR
 		return null;
 	}
 }

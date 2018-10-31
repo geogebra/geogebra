@@ -153,7 +153,6 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			bufferManager.remove(index, getGeometriesLength());
 		}
 
-
         @Override
         public boolean usePacking() {
             return true;

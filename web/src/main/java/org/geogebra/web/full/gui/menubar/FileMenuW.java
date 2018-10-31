@@ -437,6 +437,7 @@ public class FileMenuW extends GMenuBar
 	 */
 	boolean isMowLoggedOut() {
 		return getApp().isWhiteboardActive()
+				&& getApp().getLoginOperation() != null
 				&& !getApp().getLoginOperation().isLoggedIn();
 	}
 
