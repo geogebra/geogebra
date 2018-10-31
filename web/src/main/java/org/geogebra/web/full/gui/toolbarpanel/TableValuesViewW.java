@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -109,7 +105,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 			@Override
 			public void execute() {
-				// TODO Auto-generated method stub
 				NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody")
 						.getItem(0).getElementsByTagName("tr");
 				if (tableRows.getLength() == 0) {
@@ -139,7 +134,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		headerTable = new CellTable<>();
 		table = new CellTable<>();
 		buildTable();
-		// addTestData();
 		scrollPanel.setWidget(table);
 
 		tvPanel.add(scrollPanel);
@@ -182,29 +176,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			}
 		});
 
-	}
-
-	private GeoFunction createFunction(String definition) {
-		Kernel kernel = app.getKernel();
-		AlgebraProcessor processor = kernel.getAlgebraProcessor();
-		return processor.evaluateToFunction(definition, true);
-	}
-
-	@SuppressWarnings("unused")
-	public void addTestData() {
-		GeoFunction sinx = createFunction("2*x");
-		sinx.setLabel("f");
-		GeoFunction cosx = createFunction("cos(x)");
-		add(sinx);
-		cosx.setLabel("g");
-		add(cosx);
-		showColumn(sinx);
-		showColumn(cosx);
-		try {
-			setValues(0, 100, 1);
-		} catch (InvalidValuesException exception) {
-			// ignore
-		}
 	}
 
 	@Override

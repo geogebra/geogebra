@@ -325,9 +325,6 @@ public enum Feature {
 	/** APPS-19 */
 	TABLE_VIEW,
 
-	/** APPS-61 */
-	TABLE_VIEW_TEST_DATA,
-
 	/** G3D-13 **/
 	DOWNLOAD_ARCORE,
 
