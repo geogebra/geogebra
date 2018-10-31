@@ -48,6 +48,7 @@ public class FileMenuW extends GMenuBar
 	/** Canvas line height */
 	protected static final int LINE_HEIGHT = 24;
 	private AriaMenuItem shareItem;
+	private AriaMenuItem openFileItem;
 	/** clear construction and reset GUI */
 	AsyncOperation<Boolean> newConstruction;
 	private AriaMenuItem printItem;
@@ -305,8 +306,8 @@ public class FileMenuW extends GMenuBar
 				});
 
 		// open menu is always visible in menu
-		addItem(MainMenu
-				.getMenuBarHtml(
+		openFileItem = addItem(
+				MainMenu.getMenuBarHtml(
 						getApp().isWhiteboardActive()
 								? MaterialDesignResources.INSTANCE.folder_open()
 										.getSafeUri().asString()
@@ -314,7 +315,9 @@ public class FileMenuW extends GMenuBar
 										.search_black()
 								.getSafeUri().asString(),
 						loc.getMenu(getApp().isWhiteboardActive()
-								? "mow.myfiles" : "Open"),
+								? (isMowLoggedOut() ? "mow.offlineMyFiles"
+										: "mow.myfiles")
+								: "Open"),
 						true),
 				true, new MenuCommand(getApp()) {
 
@@ -409,6 +412,16 @@ public class FileMenuW extends GMenuBar
 	private void updateShareButton() {
 		shareItem.setVisible(getApp().getLoginOperation() != null
 				&& getApp().getLoginOperation().canUserShare());
+	}
+
+	private void updateOpenFileButton() {
+		openFileItem.setHTML(MainMenu.getMenuBarHtml(
+				getApp().isWhiteboardActive() ? MaterialDesignResources.INSTANCE
+						.folder_open().getSafeUri().asString()
+						: MaterialDesignResources.INSTANCE.search_black()
+								.getSafeUri().asString(),
+				loc.getMenu(getApp().isWhiteboardActive() ? (isMowLoggedOut()
+						? "mow.offlineMyFiles" : "mow.myfiles") : "Open")));
 	}
 
 	/**
@@ -527,8 +540,8 @@ public class FileMenuW extends GMenuBar
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			updateShareButton();
+			updateOpenFileButton();
 		}
-
 	}
 
 }
