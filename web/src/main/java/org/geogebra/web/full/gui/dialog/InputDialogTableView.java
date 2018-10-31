@@ -111,7 +111,8 @@ public class InputDialogTableView extends DialogBoxW
 	@Override
 	public void show() {
 		super.show();
-		super.center();
+		super.centerAndResize(
+				((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
 	public void show(GeoElement geo) {
