@@ -72,343 +72,12 @@ public class Commands {
 	}
 
 	private static Command getOneWayCommand(String s) {
+		Command ret = getOneWayCommandBlock1(s);
+		if (ret != null) {
+			return ret;
+		}
 		switch (s) {
-		case "ce":
-			return new CommandCE();
 
-		case "bond":
-			return new CommandBond();
-
-		case "hbox":
-			return new CommandHBox();
-
-		case "cancel":
-			return new CommandCancel();
-
-		case "bcancel":
-			return new CommandBCancel();
-
-		case "xcancel":
-			return new CommandXCancel();
-
-		case "mathchoice":
-			return new CommandMathChoice();
-
-		case "pod":
-			return new CommandPod();
-		case "pmod":
-			return new CommandPMod();
-
-		case "mod":
-			return new CommandMod();
-
-		case "begingroup":
-			return new CommandBeginGroup();
-
-		case "endgroup":
-			return new CommandEndGroup();
-
-		case "DeclareMathOperator":
-			return new CommandDeclareMathOperator();
-
-		case "newcommand":
-			return new CommandNewCommand();
-
-		case "renewcommand":
-			return new CommandRenewCommand();
-
-		case "newenvironment":
-			return new CommandNewEnvironment();
-
-		case "renewenvironment":
-			return new CommandRenewEnvironment();
-
-		case "left":
-			return new CommandLMR.CommandLeft();
-		case "right":
-			return new CommandLMR.CommandRight();
-		case "middle":
-			return new CommandLMR.CommandMiddle();
-		// stretchy versions
-		case "Braket":
-			return new CommandBra(Symbols.LANGLE, Symbols.RANGLE);
-		case "Bra":
-			return new CommandBra(Symbols.LANGLE, Symbols.VERT);
-		case "Ket":
-			return new CommandBra(Symbols.VERT, Symbols.RANGLE);
-		case "Set":
-			return new CommandBra(Symbols.LBRACE, Symbols.RBRACE);
-		case "braket":
-			return new CommandBraKet();
-
-		// non-stretchy versions
-		case "bra":
-			return new CommandBra2();
-		case "ket":
-			return new CommandKet();
-		case "set":
-			return new CommandSet();
-		case "vcenter":
-			return new CommandVCenter();
-		case "frac":
-			return new CommandFrac();
-
-		case "genfrac":
-			return new CommandGenfrac();
-
-		case "dfrac":
-			return new CommandDFrac();
-
-		case "tfrac":
-			return new CommandTFrac();
-		case "dbinom":
-			return new CommandDBinom();
-
-		case "tbinom":
-			return new CommandTBinom();
-
-		case "binom":
-			return new CommandBinom();
-
-		case "over":
-			return new CommandOver();
-
-		case "buildrel":
-			return new CommandBuildRel();
-
-		case "choose":
-			return new CommandChoose(Symbols.LBRACK, Symbols.RBRACK);
-		case "brace":
-			return new CommandChoose(Symbols.LBRACE, Symbols.RBRACE);
-		case "bangle":
-			return new CommandChoose(Symbols.LANGLE, Symbols.RANGLE);
-		case "brack":
-			return new CommandChoose(Symbols.LSQBRACK, Symbols.RSQBRACK);
-
-		case "overwithdelims":
-			return new CommandOverwithdelims();
-		case "atopwithdelims":
-			return new CommandATopwithdelims();
-		case "abovewithdelims":
-			return new CommandAbovewithdelims();
-
-		case "above":
-			return new CommandAbove();
-		case "atop":
-			return new CommandATop();
-		case "sqrt":
-			return new CommandSqrt();
-		case "st":
-			return new CommandSt();
-		case "mathclap":
-		case "clap":
-			return new CommandClap();
-
-		case "mathrlap":
-		case "rlap":
-			return new CommandRLap();
-
-		case "mathllap":
-		case "llap":
-			return new CommandLLap();
-
-		case "begin":
-			return new CommandBE.Begin();
-		case "end":
-			return new CommandBE.End();
-		case "begin@array":
-			return new EnvArray.Begin("array", ArrayAtom.ARRAY);
-		case "end@array":
-			return new EnvArray.End("array");
-		case "begin@tabular":
-			return new EnvArray.Begin("tabular", ArrayAtom.ARRAY);
-		case "end@tabular":
-			return new EnvArray.End("tabular");
-		case "\\":
-			return new CommandCr("\\");
-		case "begin@eqnarray":
-			return new EnvArray.Begin("eqnarray", ArrayAtom.ARRAY,
-					new ArrayOptions(3).addAlignment(TeXConstants.Align.RIGHT)
-							.addAlignment(TeXConstants.Align.CENTER)
-							.addAlignment(TeXConstants.Align.LEFT).close());
-		case "end@eqnarray":
-			return new EnvArray.End("eqnarray");
-		case "begin@split":
-			return new EnvArray.Begin("split", ArrayAtom.ARRAY,
-					new ArrayOptions(2).addAlignment(TeXConstants.Align.RIGHT)
-							.addAlignment(TeXConstants.Align.LEFT).close());
-		case "end@split":
-			return new EnvArray.End("split");
-		case "begin@cases":
-			return new EnvArray.Begin("cases", ArrayAtom.ARRAY,
-					new ArrayOptions(3).addAlignment(TeXConstants.Align.LEFT)
-							.addSeparator(
-									new SpaceAtom(TeXConstants.Muskip.NEGTHIN))
-							.addAlignment(TeXConstants.Align.LEFT).close());
-		case "end@cases":
-			return new EnvArray.End("cases");
-
-		case "matrix":
-		case "array":
-			return new CommandMatrix();
-
-		case "ooalign":
-			return new CommandOoalign();
-		case "pmatrix":
-			return new CommandPMatrix();
-
-		case "begin@matrix":
-			return new EnvArray.Begin("matrix", ArrayAtom.MATRIX,
-					ArrayOptions.getEmpty());
-		case "end@matrix":
-			return new EnvArray.End("matrix");
-		case "begin@smallmatrix":
-			return new EnvArray.Begin("smallmatrix", ArrayAtom.SMALLMATRIX,
-					ArrayOptions.getEmpty());
-		case "end@smallmatrix":
-			return new EnvArray.End("smallmatrix");
-		case "begin@align":
-			return new EnvArray.Begin("align", ArrayAtom.ALIGN,
-					ArrayOptions.getEmpty());
-		case "end@align":
-			return new EnvArray.End("align");
-		case "begin@aligned":
-			return new EnvArray.Begin("aligned", ArrayAtom.ALIGNED,
-					ArrayOptions.getEmpty());
-		case "end@aligned":
-			return new EnvArray.End("aligned");
-		case "begin@flalign":
-			return new EnvArray.Begin("flalign", ArrayAtom.FLALIGN,
-					ArrayOptions.getEmpty());
-		case "end@flalign":
-			return new EnvArray.End("flalign");
-		case "begin@alignat":
-			return new EnvArray.Begin("alignat", ArrayAtom.ALIGNAT,
-					ArrayOptions.getEmpty());
-		case "end@alignat":
-			return new EnvArray.End("alignat");
-		case "begin@alignedat":
-			return new EnvArray.Begin("alignedat", ArrayAtom.ALIGNEDAT,
-					ArrayOptions.getEmpty());
-		case "end@alignedat":
-			return new EnvArray.End("alignedat");
-		case "begin@multline":
-			return new EnvArray.Begin("multline", -1, ArrayOptions.getEmpty());
-		case "end@multline":
-			return new EnvArray.End("multline");
-		case "begin@subarray":
-			return new EnvArray.Begin("subarray", -1);
-		case "end@subarray":
-			return new EnvArray.End("subarray");
-		case "substack":
-			return new CommandSubstack();
-		case "displaylines":
-			return new CommandDisplaylines();
-		case "begin@gather":
-			return new EnvArray.Begin("gather", -1, ArrayOptions.getEmpty());
-		case "end@gather":
-			return new EnvArray.End("gather");
-		case "begin@gathered":
-			return new EnvArray.Begin("gathered", -1, ArrayOptions.getEmpty());
-		case "end@gathered":
-			return new EnvArray.End("gathered");
-		case "begin@pmatrix":
-			return new EnvArray.Begin("pmatrix", ArrayAtom.MATRIX,
-					ArrayOptions.getEmpty());
-		case "end@pmatrix":
-			return new EnvArray.End("pmatrix", "lbrack", "rbrack");
-		case "begin@bmatrix":
-			return new EnvArray.Begin("bmatrix", ArrayAtom.MATRIX,
-					ArrayOptions.getEmpty());
-		case "end@bmatrix":
-			return new EnvArray.End("bmatrix", "lsqbrack", "rsqbrack");
-		case "begin@vmatrix":
-			return new EnvArray.Begin("bmatrix", ArrayAtom.MATRIX,
-					ArrayOptions.getEmpty());
-		case "end@vmatrix":
-			return new EnvArray.End("bmatrix", "vert");
-		case "begin@Vmatrix":
-			return new EnvArray.Begin("Vmatrix", ArrayAtom.MATRIX,
-					ArrayOptions.getEmpty());
-		case "end@Vmatrix":
-			return new EnvArray.End("Vmatrix", "Vert");
-		case "textcircled":
-			return new CommandTextCircled();
-
-		case "romannumeral":
-			return new CommandRomNum(false);
-		case "Romannumeral":
-			return new CommandRomNum(true);
-		case "T":
-			return new CommandT();
-		case "unicode":
-			return new CommandUnicode();
-		case "coloncolonapprox":
-			return new CommandColonFoo.ColonColonFoo("approx");
-		case "colonapprox":
-			return new CommandColonFoo.ColonFoo("approx");
-		case "coloncolonsim":
-			return new CommandColonFoo.ColonColonFoo("sim");
-		case "colonsim":
-			return new CommandColonFoo.ColonFoo("sim");
-		case "coloncolon":
-			return new CommandColonFoo.ColonColonFoo();
-		case "coloncolonequals":
-			return new CommandColonFoo.ColonColonFoo("equals");
-		case "colonequals":
-			return new CommandColonFoo.ColonFoo("equals");
-		case "coloncolonminus":
-			return new CommandColonFoo.ColonColonFoo("minus");
-		case "colonminus":
-			return new CommandColonFoo.ColonFoo("minus");
-		case "equalscoloncolon":
-			return new CommandColonFoo.FooColonColon("equals");
-		case "equalscolon":
-			return new CommandColonFoo.FooColon("equals");
-		case "minuscoloncolon":
-			return new CommandColonFoo.FooColonColon("minus");
-		case "minuscolon":
-			return new CommandColonFoo.FooColon("minus");
-		case "simcoloncolon":
-			return new CommandColonFoo.FooColonColon("sim");
-		case "simcolon":
-			return new CommandColonFoo.FooColon("sim");
-		case "approxcoloncolon":
-			return new CommandColonFoo.FooColonColon("approx");
-		case "approxcolon":
-			return new CommandColonFoo.FooColon("approx");
-		case "tiny":
-			return new CommandTiny1();
-
-		case "Tiny":
-			return new CommandTiny2();
-
-		case "scriptsize":
-			return new CommandScriptSize();
-
-		case "footnotesize":
-			return new CommandFootnoteSize();
-
-		case "small":
-			return new CommandSmall();
-
-		case "normalsize":
-			return new CommandNormalSize();
-
-		case "large":
-			return new CommandLarge();
-
-		case "Large":
-			return new CommandLarge2();
-
-		case "LARGE":
-			return new CommandLarge3();
-
-		case "huge":
-			return new CommandHuge1();
-
-		case "Huge":
-			return new CommandHuge2();
 
 		case "sc":
 			return new CommandSc();
@@ -989,6 +658,348 @@ public class Commands {
 		String replace = getReplacement(s);
 		if (replace != null) {
 			return new Replacement(replace);
+		}
+		return null;
+	}
+
+	private static Command getOneWayCommandBlock1(String s) {
+		switch (s) {
+		case "ce":
+			return new CommandCE();
+
+		case "bond":
+			return new CommandBond();
+
+		case "hbox":
+			return new CommandHBox();
+
+		case "cancel":
+			return new CommandCancel();
+
+		case "bcancel":
+			return new CommandBCancel();
+
+		case "xcancel":
+			return new CommandXCancel();
+
+		case "mathchoice":
+			return new CommandMathChoice();
+
+		case "pod":
+			return new CommandPod();
+		case "pmod":
+			return new CommandPMod();
+
+		case "mod":
+			return new CommandMod();
+
+		case "begingroup":
+			return new CommandBeginGroup();
+
+		case "endgroup":
+			return new CommandEndGroup();
+
+		case "DeclareMathOperator":
+			return new CommandDeclareMathOperator();
+
+		case "newcommand":
+			return new CommandNewCommand();
+
+		case "renewcommand":
+			return new CommandRenewCommand();
+
+		case "newenvironment":
+			return new CommandNewEnvironment();
+
+		case "renewenvironment":
+			return new CommandRenewEnvironment();
+
+		case "left":
+			return new CommandLMR.CommandLeft();
+		case "right":
+			return new CommandLMR.CommandRight();
+		case "middle":
+			return new CommandLMR.CommandMiddle();
+		// stretchy versions
+		case "Braket":
+			return new CommandBra(Symbols.LANGLE, Symbols.RANGLE);
+		case "Bra":
+			return new CommandBra(Symbols.LANGLE, Symbols.VERT);
+		case "Ket":
+			return new CommandBra(Symbols.VERT, Symbols.RANGLE);
+		case "Set":
+			return new CommandBra(Symbols.LBRACE, Symbols.RBRACE);
+		case "braket":
+			return new CommandBraKet();
+
+		// non-stretchy versions
+		case "bra":
+			return new CommandBra2();
+		case "ket":
+			return new CommandKet();
+		case "set":
+			return new CommandSet();
+		case "vcenter":
+			return new CommandVCenter();
+		case "frac":
+			return new CommandFrac();
+
+		case "genfrac":
+			return new CommandGenfrac();
+
+		case "dfrac":
+			return new CommandDFrac();
+
+		case "tfrac":
+			return new CommandTFrac();
+		case "dbinom":
+			return new CommandDBinom();
+
+		case "tbinom":
+			return new CommandTBinom();
+
+		case "binom":
+			return new CommandBinom();
+
+		case "over":
+			return new CommandOver();
+
+		case "buildrel":
+			return new CommandBuildRel();
+
+		case "choose":
+			return new CommandChoose(Symbols.LBRACK, Symbols.RBRACK);
+		case "brace":
+			return new CommandChoose(Symbols.LBRACE, Symbols.RBRACE);
+		case "bangle":
+			return new CommandChoose(Symbols.LANGLE, Symbols.RANGLE);
+		case "brack":
+			return new CommandChoose(Symbols.LSQBRACK, Symbols.RSQBRACK);
+
+		case "overwithdelims":
+			return new CommandOverwithdelims();
+		case "atopwithdelims":
+			return new CommandATopwithdelims();
+		case "abovewithdelims":
+			return new CommandAbovewithdelims();
+
+		case "above":
+			return new CommandAbove();
+		case "atop":
+			return new CommandATop();
+		case "sqrt":
+			return new CommandSqrt();
+		case "st":
+			return new CommandSt();
+		case "mathclap":
+		case "clap":
+			return new CommandClap();
+
+		case "mathrlap":
+		case "rlap":
+			return new CommandRLap();
+
+		case "mathllap":
+		case "llap":
+			return new CommandLLap();
+
+		case "begin":
+			return new CommandBE.Begin();
+		case "end":
+			return new CommandBE.End();
+		case "begin@array":
+			return new EnvArray.Begin("array", ArrayAtom.ARRAY);
+		case "end@array":
+			return new EnvArray.End("array");
+		case "begin@tabular":
+			return new EnvArray.Begin("tabular", ArrayAtom.ARRAY);
+		case "end@tabular":
+			return new EnvArray.End("tabular");
+		case "\\":
+			return new CommandCr("\\");
+		case "begin@eqnarray":
+			return new EnvArray.Begin("eqnarray", ArrayAtom.ARRAY,
+					new ArrayOptions(3).addAlignment(TeXConstants.Align.RIGHT)
+							.addAlignment(TeXConstants.Align.CENTER)
+							.addAlignment(TeXConstants.Align.LEFT).close());
+		case "end@eqnarray":
+			return new EnvArray.End("eqnarray");
+		case "begin@split":
+			return new EnvArray.Begin("split", ArrayAtom.ARRAY,
+					new ArrayOptions(2).addAlignment(TeXConstants.Align.RIGHT)
+							.addAlignment(TeXConstants.Align.LEFT).close());
+		case "end@split":
+			return new EnvArray.End("split");
+		case "begin@cases":
+			return new EnvArray.Begin("cases", ArrayAtom.ARRAY,
+					new ArrayOptions(3).addAlignment(TeXConstants.Align.LEFT)
+							.addSeparator(
+									new SpaceAtom(TeXConstants.Muskip.NEGTHIN))
+							.addAlignment(TeXConstants.Align.LEFT).close());
+		case "end@cases":
+			return new EnvArray.End("cases");
+
+		case "matrix":
+		case "array":
+			return new CommandMatrix();
+
+		case "ooalign":
+			return new CommandOoalign();
+		case "pmatrix":
+			return new CommandPMatrix();
+
+		case "begin@matrix":
+			return new EnvArray.Begin("matrix", ArrayAtom.MATRIX,
+					ArrayOptions.getEmpty());
+		case "end@matrix":
+			return new EnvArray.End("matrix");
+		case "begin@smallmatrix":
+			return new EnvArray.Begin("smallmatrix", ArrayAtom.SMALLMATRIX,
+					ArrayOptions.getEmpty());
+		case "end@smallmatrix":
+			return new EnvArray.End("smallmatrix");
+		case "begin@align":
+			return new EnvArray.Begin("align", ArrayAtom.ALIGN,
+					ArrayOptions.getEmpty());
+		case "end@align":
+			return new EnvArray.End("align");
+		case "begin@aligned":
+			return new EnvArray.Begin("aligned", ArrayAtom.ALIGNED,
+					ArrayOptions.getEmpty());
+		case "end@aligned":
+			return new EnvArray.End("aligned");
+		case "begin@flalign":
+			return new EnvArray.Begin("flalign", ArrayAtom.FLALIGN,
+					ArrayOptions.getEmpty());
+		case "end@flalign":
+			return new EnvArray.End("flalign");
+		case "begin@alignat":
+			return new EnvArray.Begin("alignat", ArrayAtom.ALIGNAT,
+					ArrayOptions.getEmpty());
+		case "end@alignat":
+			return new EnvArray.End("alignat");
+		case "begin@alignedat":
+			return new EnvArray.Begin("alignedat", ArrayAtom.ALIGNEDAT,
+					ArrayOptions.getEmpty());
+		case "end@alignedat":
+			return new EnvArray.End("alignedat");
+		case "begin@multline":
+			return new EnvArray.Begin("multline", -1, ArrayOptions.getEmpty());
+		case "end@multline":
+			return new EnvArray.End("multline");
+		case "begin@subarray":
+			return new EnvArray.Begin("subarray", -1);
+		case "end@subarray":
+			return new EnvArray.End("subarray");
+		case "substack":
+			return new CommandSubstack();
+		case "displaylines":
+			return new CommandDisplaylines();
+		case "begin@gather":
+			return new EnvArray.Begin("gather", -1, ArrayOptions.getEmpty());
+		case "end@gather":
+			return new EnvArray.End("gather");
+		case "begin@gathered":
+			return new EnvArray.Begin("gathered", -1, ArrayOptions.getEmpty());
+		case "end@gathered":
+			return new EnvArray.End("gathered");
+		case "begin@pmatrix":
+			return new EnvArray.Begin("pmatrix", ArrayAtom.MATRIX,
+					ArrayOptions.getEmpty());
+		case "end@pmatrix":
+			return new EnvArray.End("pmatrix", "lbrack", "rbrack");
+		case "begin@bmatrix":
+			return new EnvArray.Begin("bmatrix", ArrayAtom.MATRIX,
+					ArrayOptions.getEmpty());
+		case "end@bmatrix":
+			return new EnvArray.End("bmatrix", "lsqbrack", "rsqbrack");
+		case "begin@vmatrix":
+			return new EnvArray.Begin("bmatrix", ArrayAtom.MATRIX,
+					ArrayOptions.getEmpty());
+		case "end@vmatrix":
+			return new EnvArray.End("bmatrix", "vert");
+		case "begin@Vmatrix":
+			return new EnvArray.Begin("Vmatrix", ArrayAtom.MATRIX,
+					ArrayOptions.getEmpty());
+		case "end@Vmatrix":
+			return new EnvArray.End("Vmatrix", "Vert");
+		case "textcircled":
+			return new CommandTextCircled();
+
+		case "romannumeral":
+			return new CommandRomNum(false);
+		case "Romannumeral":
+			return new CommandRomNum(true);
+		case "T":
+			return new CommandT();
+		case "unicode":
+			return new CommandUnicode();
+		case "coloncolonapprox":
+			return new CommandColonFoo.ColonColonFoo("approx");
+		case "colonapprox":
+			return new CommandColonFoo.ColonFoo("approx");
+		case "coloncolonsim":
+			return new CommandColonFoo.ColonColonFoo("sim");
+		case "colonsim":
+			return new CommandColonFoo.ColonFoo("sim");
+		case "coloncolon":
+			return new CommandColonFoo.ColonColonFoo();
+		case "coloncolonequals":
+			return new CommandColonFoo.ColonColonFoo("equals");
+		case "colonequals":
+			return new CommandColonFoo.ColonFoo("equals");
+		case "coloncolonminus":
+			return new CommandColonFoo.ColonColonFoo("minus");
+		case "colonminus":
+			return new CommandColonFoo.ColonFoo("minus");
+		case "equalscoloncolon":
+			return new CommandColonFoo.FooColonColon("equals");
+		case "equalscolon":
+			return new CommandColonFoo.FooColon("equals");
+		case "minuscoloncolon":
+			return new CommandColonFoo.FooColonColon("minus");
+		case "minuscolon":
+			return new CommandColonFoo.FooColon("minus");
+		case "simcoloncolon":
+			return new CommandColonFoo.FooColonColon("sim");
+		case "simcolon":
+			return new CommandColonFoo.FooColon("sim");
+		case "approxcoloncolon":
+			return new CommandColonFoo.FooColonColon("approx");
+		case "approxcolon":
+			return new CommandColonFoo.FooColon("approx");
+		case "tiny":
+			return new CommandTiny1();
+
+		case "Tiny":
+			return new CommandTiny2();
+
+		case "scriptsize":
+			return new CommandScriptSize();
+
+		case "footnotesize":
+			return new CommandFootnoteSize();
+
+		case "small":
+			return new CommandSmall();
+
+		case "normalsize":
+			return new CommandNormalSize();
+
+		case "large":
+			return new CommandLarge();
+
+		case "Large":
+			return new CommandLarge2();
+
+		case "LARGE":
+			return new CommandLarge3();
+
+		case "huge":
+			return new CommandHuge1();
+
+		case "Huge":
+			return new CommandHuge2();
 		}
 		return null;
 	}
