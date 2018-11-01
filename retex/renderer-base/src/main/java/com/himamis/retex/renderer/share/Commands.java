@@ -46,6 +46,7 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.commands.*;
@@ -1114,8 +1115,6 @@ public class Commands {
 			return "\\land";
 		case "ang":
 			return "\\angle";
-		case "Reals":
-			return "\\mathbb{R}";
 		case "exist":
 			return "\\exists";
 		case "hAar":
@@ -1123,22 +1122,17 @@ public class Commands {
 
 		case "C":
 		case "Complex":
-			return "\\mathbb{C}";
-
 		case "N":
 		case "natnums":
-			return "\\mathbb{N}";
-
 		case "Q":
-			return "\\mathbb{Q}";
-
 		case "R":
+		case "Reals":
 		case "real":
 		case "reals":
-			return "\\mathbb{R}";
-
 		case "Z":
-			return "\\mathbb{Z}";
+			return "\\mathbb{" + (s.charAt(0) + "").toUpperCase(Locale.US)
+					+ "}";
+			
 		case "Dagger":
 			return "\\ddagger";
 		case "diamonds":
