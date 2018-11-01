@@ -69,7 +69,9 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public int getColumn(Evaluatable evaluatable) {
-		return model.getEvaluatableIndex(evaluatable) + 1;
+		int index = model.getEvaluatableIndex(evaluatable);
+		index += index > -1 ? 1 : 0;
+		return index;
 	}
 
 	@Override
