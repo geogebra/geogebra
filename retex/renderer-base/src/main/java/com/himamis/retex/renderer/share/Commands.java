@@ -1050,32 +1050,30 @@ public class Commands {
 			return "\\lll";
 		case "gggtr":
 			return "\\ggg";
+
 		case "Alpha":
-			return "\\mathord{\\mathrm{A}}";
 		case "Beta":
-			return "\\mathord{\\mathrm{B}}";
 		case "Epsilon":
-			return "\\mathord{\\mathrm{E}}";
 		case "Zeta":
-			return "\\mathord{\\mathrm{Z}}";
 		case "Eta":
-			return "\\mathord{\\mathrm{H}}";
 		case "Iota":
-			return "\\mathord{\\mathrm{I}}";
 		case "Kappa":
-			return "\\mathord{\\mathrm{K}}";
 		case "Mu":
-			return "\\mathord{\\mathrm{M}}";
 		case "Nu":
-			return "\\mathord{\\mathrm{N}}";
 		case "Omicron":
-			return "\\mathord{\\mathrm{O}}";
 		case "Rho":
-			return "\\mathord{\\mathrm{P}}";
 		case "Tau":
-			return "\\mathord{\\mathrm{T}}";
 		case "Chi":
-			return "\\mathord{\\mathrm{X}}";
+			char ch = s.charAt(0);
+			if (ch == 'E') {
+				// Eta
+				ch = 'H';
+			} else if (ch == 'C') {
+				// Chi
+				ch = 'X';
+			}
+			return "\\mathord{\\mathrm{" + ch + "}}";
+
 		case "hdots":
 			return "\\ldots";
 		case "restriction":
