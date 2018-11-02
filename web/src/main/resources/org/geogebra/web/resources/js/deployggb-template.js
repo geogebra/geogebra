@@ -668,7 +668,7 @@ var GGBApplet = function() {
         article.style.display = 'inline-block';
 
         for (var key in parameters) {
-            if (parameters.hasOwnProperty(key) && key !== "appletOnLoad" && key !== 'scale') {
+            if (parameters.hasOwnProperty(key) && key !== "appletOnLoad") {
                 article.setAttribute("data-param-"+key, parameters[key]);
             }
         }
@@ -1571,7 +1571,6 @@ var GGBAppletUtils = (function() {
 
             var scale = getScale(parameters, appletElem);
 
-            article.removeAttribute("data-param-scale");
             if (isFlexibleWorksheetEditor()) {
                 article.setAttribute("data-param-scale", scale);
             }
