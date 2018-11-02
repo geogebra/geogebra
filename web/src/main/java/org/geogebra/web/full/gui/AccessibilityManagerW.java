@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
@@ -285,6 +288,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
 			return app.getLocalization().getMenu("Animation");
 		}
+
+		GeoElement sel = getSelectedGeo();
+		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
+			return sel.getCaption(StringTemplate.screenReader);
+		}
+
 		return null;
+	}
+
+	public GeoElement getSelectedGeo() {
+		return app.getSelectionManager().getSelectedGeos().size() == 1
+				? app.getSelectionManager().getSelectedGeos().get(0) : null;
 	}
 }

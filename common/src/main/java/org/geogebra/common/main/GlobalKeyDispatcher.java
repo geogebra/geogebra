@@ -253,7 +253,7 @@ public abstract class GlobalKeyDispatcher {
 	 * 
 	 * @return whether any object was moved
 	 */
-	protected boolean handleArrowKeyMovement(ArrayList<GeoElement> geos,
+	public boolean handleArrowKeyMovement(ArrayList<GeoElement> geos,
 			double xdiff, double ydiff, double zdiff) {
 		GeoElement geo = geos.get(0);
 

@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 
@@ -79,6 +80,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		if (app.getGuiManager() != null
 				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
+		}
+		if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
+			new VoiceoverTabber(app, getCanvas()).add(euclidianpanel);
 		}
 	}
 	

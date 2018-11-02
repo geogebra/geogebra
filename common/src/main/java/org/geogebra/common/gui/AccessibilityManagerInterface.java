@@ -135,4 +135,6 @@ public interface AccessibilityManagerInterface {
 	 * @return action description when space can be pressed
 	 */
 	public String getSpaceAction();
+
+	public GeoElement getSelectedGeo();
 }

@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Widget to able screen readers to read text from
@@ -28,8 +29,16 @@ public class ReaderWidget extends SimplePanel {
 		getElement().setAttribute("aria-live", "polite");
 		getElement().setAttribute("aria-atomic", "true");
 		getElement().setAttribute("aria-relevant", "additions text");
-		getElement().getStyle().setTop(-1000.0, Unit.PX);
-		getElement().getStyle().setPosition(Position.ABSOLUTE);
+		offscreen(this);
+	}
+
+	/**
+	 * @param widget
+	 *            widget to hide offscreen
+	 */
+	public static void offscreen(Widget widget) {
+		widget.getElement().getStyle().setTop(-1000.0, Unit.PX);
+		widget.getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
 
 	private void createTimer() {

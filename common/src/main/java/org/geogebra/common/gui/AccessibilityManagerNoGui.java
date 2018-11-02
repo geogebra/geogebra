@@ -91,4 +91,10 @@ public final class AccessibilityManagerNoGui
 	public String getSpaceAction() {
 		return null;
 	}
+
+	@Override
+	public GeoElement getSelectedGeo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
