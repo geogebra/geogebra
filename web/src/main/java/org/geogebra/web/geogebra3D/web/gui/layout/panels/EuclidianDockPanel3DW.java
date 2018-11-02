@@ -4,6 +4,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
+import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.ContextMenuGraphicsWindow3DW;
 import org.geogebra.web.html5.Browser;
@@ -57,8 +58,10 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		euclidianpanel = new EuclidianPanel(this,
 				(AbsolutePanel) view.getComponent());
+		if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
+			new VoiceoverTabber(app, getCanvas()).add(euclidianpanel);
+		}
 		return euclidianpanel;
-
 	}
 
 	@Override

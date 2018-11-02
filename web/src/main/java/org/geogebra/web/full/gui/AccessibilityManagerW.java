@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 
@@ -255,7 +256,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (!app.getKernel().needToShowAnimationButton()) {
-			return false;
+			return Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS);
 		}
 
 		setPlaySelectedIfVisible(true);

@@ -586,9 +586,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
-		if (am == null) {
-			return false;
-		}
 
 		if (!am.isTabOverGeos()) {
 			return true;

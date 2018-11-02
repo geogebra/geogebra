@@ -696,6 +696,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void setAltText() {
+		String altStr = appW.getLocalization().getMenu("GraphicsView3D");
 		GeoElement alt = app.getKernel().lookupLabel("altText3D1");
 		if (alt == null) {
 			alt = app.getKernel().lookupLabel("altText3D");
@@ -704,8 +705,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			alt = app.getKernel().lookupLabel("altText");
 		}
 		if (alt instanceof GeoText) {
-			setAltText(((GeoText) alt).getTextString());
+			altStr = ((GeoText) alt).getTextString();
 		}
+		setAltText(altStr);
 	}
 
 	private void setAltText(String text) {
@@ -718,6 +720,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void readText(String text) {
+		if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
+			return;
+		}
 		Log.debug("Read text in 3D: " + text);
 		screenReader.read(text);
 		RootPanel.getBodyElement().focus();
