@@ -32,7 +32,7 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GBufferedImage createBufferedImage(int width, int height, boolean transparency) {
-        return null;
+        return new GBufferedImageCommon();
     }
 
     @Override
