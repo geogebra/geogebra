@@ -183,7 +183,7 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		// ignore
+		update(geo);
 	}
 
 	@Override

@@ -181,6 +181,19 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	/**
+	 * Get the evaluatable from the model.
+	 *
+	 * @param index index of the object
+	 * @return evaluatable if present in the model
+	 */
+	Evaluatable getEvaluatable(int index) {
+		if (index < evaluatables.size()) {
+			return evaluatables.get(index);
+		}
+		return null;
+	}
+
+	/**
 	 * Update the name of the Evaluatable object (if it has any)
 	 *
 	 * @param evaluatable the evaluatable object

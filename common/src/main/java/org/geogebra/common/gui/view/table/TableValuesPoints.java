@@ -1,7 +1,12 @@
 package org.geogebra.common.gui.view.table;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.Evaluatable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -65,11 +70,19 @@ public class TableValuesPoints implements TableValuesListener {
 		for (int row = 0; row < model.getRowCount(); row++) {
 			double value = model.getValueAt(row, column);
 			GeoPoint point = new GeoPoint(construction, values[row], value, 1.0);
+			point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
 			point.setAlgebraVisible(false);
 			point.setEuclidianVisible(true);
 			point.setLabelVisible(false);
 			point.setHasPreviewPopup(true);
 			point.setLabel("TableValuesPoint");
+
+			Evaluatable evaluatable = model.getEvaluatable(column - 1);
+			if (evaluatable instanceof GeoElementND) {
+				GeoElementND element = (GeoElementND) evaluatable;
+				GColor color = element.getObjectColor();
+				point.setObjColor(color);
+			}
 			list.add(point);
 		}
 		points.add(column - 1, list);
