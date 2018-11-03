@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
@@ -40,16 +41,16 @@ public class TableValuesView implements TableValues {
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
 		this.elements = new ArrayList<>();
-		createTableDimensions(kernel.getApplication());
+		createTableDimensions();
 		updateModelValues();
 	}
 
-	private void createTableDimensions(App app) {
+	private void createTableDimensions() {
 		AwtFactory factory = AwtFactory.getPrototype();
 		GFont font = factory.newFont("SansSerif", GFont.PLAIN, 16);
-		EuclidianView euclidianView = app.getEuclidianView1();
-		GGraphics2D tempGraphics = euclidianView.getTempGraphics2D(font);
-		GFontRenderContext fontRenderContext = tempGraphics.getFontRenderContext();
+		GBufferedImage bufferedImage = factory.createBufferedImage(2, 2, false);
+		GGraphics2D graphics = bufferedImage.createGraphics();
+		GFontRenderContext fontRenderContext = graphics.getFontRenderContext();
 		dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(), fontRenderContext);
 		dimensions.setFont(font);
 		model.registerListener(dimensions);
