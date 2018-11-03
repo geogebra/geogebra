@@ -13,12 +13,6 @@ import org.geogebra.common.main.AppConfig;
  */
 public class AppConfigGraphing implements AppConfig {
 
-	/**
-	 * Remove this when Feature.MOB_DEFAULT_ROUNDING_13 is removed don't make
-	 * final, kills Android build
-	 */
-	public static boolean FEATURE_DEFAULT_ROUNDING_13 = false;
-
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
@@ -93,10 +87,7 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public int getDefaultPrintDecimals() {
-		if (FEATURE_DEFAULT_ROUNDING_13) {
-			return Kernel.STANDARD_PRINT_DECIMALS_GRAPHING;
-		}
-		return Kernel.STANDARD_PRINT_DECIMALS;
+		return Kernel.STANDARD_PRINT_DECIMALS_GRAPHING;
 	}
 
 	@Override

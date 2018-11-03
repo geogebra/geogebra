@@ -3713,9 +3713,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (articleElement == null) {
 			return new AppConfigDefault();
 		}
-		if (this.has(Feature.WEB_DEFAULT_ROUNDING_13)) {
-			AppConfigGraphing.FEATURE_DEFAULT_ROUNDING_13 = true;
-		}
 		switch (articleElement.getDataParamAppName()) {
 		case "graphing":
 			return new AppConfigGraphing();

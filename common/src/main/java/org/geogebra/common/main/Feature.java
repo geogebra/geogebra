@@ -307,9 +307,6 @@ public enum Feature {
 	/** AND-1372 */
 	MOB_DEFAULT_ROUNDING_13,
 
-	/** GGB-2537 */
-	WEB_DEFAULT_ROUNDING_13,
-
 	/** GGB-2538 */
 	TOOLS_WITH_NAMES,
 
