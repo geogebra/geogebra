@@ -175,6 +175,7 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean animating = false;
 	/** says if it's a pickable object */
 	private boolean isPickable = true;
+	private boolean hasPreviewPopup = false;
 	private boolean needsReplacingInExpressionNode = false;
 
 	private Stack<GeoElement> tempClone;
@@ -7779,4 +7780,22 @@ public abstract class GeoElement extends ConstructionElement
 		return toStringMode;
 	}
 
+	/**
+	 * Set this to true, if the element should have a preview popup.
+	 * That is only values should be shown.
+	 *
+	 * @param hasPreviewPopup true to show values in EV
+	 */
+	public final void setHasPreviewPopup(boolean hasPreviewPopup) {
+		this.hasPreviewPopup = hasPreviewPopup;
+	}
+
+	/**
+	 * Check if this geo has preview popup.
+	 *
+	 * @return true if this geo has a preview popup
+	 */
+	public final boolean hasPreviewPopup() {
+		return hasPreviewPopup;
+	}
 }

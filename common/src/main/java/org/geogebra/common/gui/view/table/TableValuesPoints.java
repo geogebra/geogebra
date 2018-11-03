@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Creates points according to the table view model.
  */
-class TableValuesPoints implements TableValuesListener {
+public class TableValuesPoints implements TableValuesListener {
 
 	private List<List<GeoPoint>> points;
 	private Construction construction;
@@ -20,7 +20,7 @@ class TableValuesPoints implements TableValuesListener {
 	 *
 	 * @param construction the construction to add points to
 	 */
-	TableValuesPoints(Construction construction) {
+	public TableValuesPoints(Construction construction) {
 		this.points = new LinkedList<>();
 		this.construction = construction;
 	}
@@ -65,6 +65,11 @@ class TableValuesPoints implements TableValuesListener {
 		for (int row = 0; row < model.getRowCount(); row++) {
 			double value = model.getValueAt(row, column);
 			GeoPoint point = new GeoPoint(construction, values[row], value, 1.0);
+			point.setAlgebraVisible(false);
+			point.setEuclidianVisible(true);
+			point.setLabelVisible(false);
+			point.setHasPreviewPopup(true);
+			point.setLabel("TableValuesPoint");
 			list.add(point);
 		}
 		points.add(column - 1, list);
@@ -73,7 +78,7 @@ class TableValuesPoints implements TableValuesListener {
 	private void removePoints(int column) {
 		List<GeoPoint> list = points.get(column - 1);
 		for (GeoPoint point: list) {
-			construction.removeFromConstructionList(point);
+			point.remove();
 		}
 		points.remove(column - 1);
 	}

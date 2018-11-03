@@ -10268,8 +10268,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (getTextController() != null
 				&& getTextController().handleTextReleased(draggingOccured)
 				&& !draggingOccured) {
-			if (selection.getSelectedGeos().size() == 1) {
-				showDynamicStylebar();
+			ArrayList<GeoElement> elements = selection.getSelectedGeos();
+			if (elements.size() == 1) {
+				GeoElement selected = elements.get(0);
+				if (selected.hasPreviewPopup()) {
+					showSpecialPointPopup(elements);
+				} else {
+					showDynamicStylebar();
+				}
 			}
 			return;
 		}
@@ -10415,7 +10421,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				showSpecialPointPopup(previewPointHits);
 				previewPointHits.clear();
 			} else {
-				showDynamicStylebar();
+				ArrayList<GeoElement> geos = selection.getSelectedGeos();
+				if (geos.size() == 1 && geos.get(0).hasPreviewPopup()) {
+					showSpecialPointPopup(geos);
+				} else {
+					showDynamicStylebar();
+				}
 			}
 		}
 

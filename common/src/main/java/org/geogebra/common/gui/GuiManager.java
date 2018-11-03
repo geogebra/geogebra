@@ -27,6 +27,8 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesModel;
+import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -888,8 +890,22 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public View getTableValuesView() {
 		if (tableValues == null) {
-			tableValues = new TableValuesView(kernel);
+			tableValues = createTableValuesView();
 		}
 		return tableValues;
+	}
+
+	/**
+	 * Create a table values view and register TableValuesPoints.
+	 *
+	 * @return TableValuesView
+	 */
+	protected TableValuesView createTableValuesView() {
+		TableValuesView view = new TableValuesView(kernel);
+		TableValuesModel model = view.getTableValuesModel();
+		TableValuesPoints points = new TableValuesPoints(kernel.getConstruction());
+		model.registerListener(points);
+
+		return view;
 	}
 }
