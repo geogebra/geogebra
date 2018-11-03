@@ -160,6 +160,14 @@ task copyHtml {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
     doLast {
+		copy {
+			from file("../common/src/main/resources/giac")
+			into warDirRel
+		}
+		copy {
+			from file("src/main/resources/org/geogebra/web/resources/war")
+			into warDirRel
+		}
         String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
         String html = file(templateDir + "app-template.html").text
         String splash = file(templateDir + "classic-splash.html").text
