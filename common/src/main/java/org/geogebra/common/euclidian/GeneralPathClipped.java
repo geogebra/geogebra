@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -49,6 +50,11 @@ public class GeneralPathClipped implements GShape {
 	private double cont2Y = Double.NaN;
 
 	private GRectangle2D oldBounds;
+
+	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
+			AwtFactory.getPrototype().newPoint2D() };
+
+	private static final boolean useSutherlandHodgesClipping = false;
 
 	/**
 	 * Creates new clipped general path
@@ -107,7 +113,11 @@ public class GeneralPathClipped implements GShape {
 		if (largestCoord < MAX_COORD_VALUE || !polygon) {
 			addSimpleSegments();
 		} else {
-			addClippedSegments();
+			if (useSutherlandHodgesClipping) {
+				addClippedSegmentsSH();
+			} else {
+				addClippedSegments();
+			}
 		}
 
 		// clear pathPoints to free up memory
@@ -136,6 +146,99 @@ public class GeneralPathClipped implements GShape {
 	 * coordinates. This is especially important for fill the GeneralPath.
 	 */
 	private void addClippedSegments() {
+		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
+				view.getWidth(), view.getHeight());
+		MyPoint curP = null, prevP;
+
+		int size = pathPoints.size();
+		// GGB-975: under unknown conditions pathPoints may shrink so we need
+		// double comparison
+		for (int i = 0; i < size && i < pathPoints.size(); i++) {
+			prevP = curP;
+			curP = pathPoints.get(i);
+			if (!curP.getLineTo() || prevP == null) {
+				// moveTo point, make sure it is only slightly outside screen
+				GPoint2D p = getPointCloseToScreen(curP.getX(), curP.getY());
+				addToGeneralPath(p, SegmentType.MOVE_TO);
+			} else {
+				// clip line at screen
+				addClippedLine(prevP, curP, viewRect);
+			}
+		}
+
+		if (needClosePath) {
+			// line from last point to first point
+			addClippedLine(curP, pathPoints.get(0), viewRect);
+			gp.closePath();
+		}
+	}
+
+	private void addClippedLine(MyPoint prevP, MyPoint curP,
+			GRectangle viewRect) {
+		// check if both points on screen
+		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
+			// draw line to point
+			addToGeneralPath(curP, SegmentType.LINE_TO);
+			return;
+		}
+
+		// at least one point is not on screen: clip line at screen
+		GPoint2D[] clippedPoints = ClipLine.getClipped(prevP.getX(),
+				prevP.getY(), curP.getX(), curP.getY(), -10,
+				view.getWidth() + 10, -10, view.getHeight() + 10,
+				tmpClipPoints);
+
+		if (clippedPoints != null) {
+			// we have two intersection points with the screen
+			// get closest clip point to prevP
+			int first = 0;
+			int second = 1;
+			if (clippedPoints[first].distance(prevP.getX(),
+					prevP.getY()) > clippedPoints[second].distance(prevP.getX(),
+					prevP.getY())) {
+				first = 1;
+				second = 0;
+			}
+
+			// draw line to first clip point
+			addToGeneralPath(clippedPoints[first], SegmentType.LINE_TO);
+			// draw line between clip points: this ensures high quality
+			// rendering
+			// which Java2D doesn't deliver with the regular float GeneralPath
+			// and huge coords
+			addToGeneralPath(clippedPoints[second], SegmentType.LINE_TO);
+
+			// draw line to end point if not already there
+			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
+					SegmentType.LINE_TO);
+		} else {
+			// line is off screen
+			// draw line to off screen end point
+			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
+					SegmentType.LINE_TO);
+		}
+	}
+
+	private GPoint2D getPointCloseToScreen(double ptx, double pty) {
+		double x = ptx;
+		double y = pty;
+		double border = 10;
+		double right = view.getWidth() + border;
+		double bottom = view.getHeight() + border;
+		if (x > right) {
+			x = right;
+		} else if (x < -border) {
+			x = -border;
+		}
+		if (y > bottom) {
+			y = bottom;
+		} else if (y < -border) {
+			y = -border;
+		}
+		return AwtFactory.getPrototype().newPoint2D(x, y);
+	}
+
+	private void addClippedSegmentsSH() {
 		double[][] clipPoints = {
 				{ -5, -5 }, { view.getWidth() + 5, -5 },
 				{ view.getWidth() + 5, view.getHeight() + 5 },
