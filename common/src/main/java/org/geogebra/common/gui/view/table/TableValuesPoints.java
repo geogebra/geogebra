@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.table;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
