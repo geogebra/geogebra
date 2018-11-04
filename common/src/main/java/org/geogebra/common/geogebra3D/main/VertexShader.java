@@ -50,6 +50,10 @@ public class VertexShader {
 
 					+ "varying vec3 lightReflect;\n"
 
+					// constants
+
+					+ "const vec4 FAR_FAR_AWAY = vec4(0.0, 0.0, 2.0, 1.0); // z max is 1\n"
+
 					+ "void main(void)\n"
 
 					+ "{\n"
@@ -74,6 +78,7 @@ public class VertexShader {
 					+ "  if (opaqueSurfaces == 1 && c.a < 0.99) {"
 					+ "    c.a = -1.0;" + "  }\n"
 					+ "  if (c.a < 0.0) {\n" + "	  varying_Color = c;\n"
+					+ "  gl_Position = FAR_FAR_AWAY; // allows early Z test\n"
 					+ "   return;\n" + "  }\n"
 
 					// position
