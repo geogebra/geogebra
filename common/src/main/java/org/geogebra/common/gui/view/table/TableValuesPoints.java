@@ -76,6 +76,7 @@ public class TableValuesPoints implements TableValuesListener {
 			point.setLabelVisible(false);
 			point.setHasPreviewPopup(true);
 			point.setLabel("TableValuesPoint");
+			construction.removeFromConstructionList(point);
 
 			Evaluatable evaluatable = model.getEvaluatable(column - 1);
 			if (evaluatable instanceof GeoElementND) {
