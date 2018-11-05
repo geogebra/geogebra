@@ -143,7 +143,7 @@ public class TeXBuilder {
 		}
 		Atom ret = parser.getAtomFromUnicode(unicode, false);
 		if (ret instanceof SymbolAtom) {
-			ret = ret.duplicate();
+			ret = ((SymbolAtom) ret).duplicate();
 		}
 		return ret;
 	}
