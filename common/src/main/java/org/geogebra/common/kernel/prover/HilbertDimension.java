@@ -24,7 +24,7 @@ public class HilbertDimension {
 
 	private static Kernel kernel;
 
-	private static HashSet<HashSet<PVariable>> aMaximalSet;
+	private static HashSet<PVariable> aMaximalSet;
 
 	/**
 	 * Get a maximum size independent set that contains the same amount element
@@ -34,13 +34,12 @@ public class HilbertDimension {
 	 */
 	/* Using static here is dangerous. FIXME */
 	public static Set<PVariable> getAMaximalSet() {
-		return (Set) aMaximalSet;
+		return aMaximalSet;
 	}
 
 	private static boolean eliminationIsZero(Set<PPolynomial> polys,
 			Set<PVariable> vars, HashMap<PVariable, BigInteger> substitutions) {
-		Set<Set<PPolynomial>> eliminationIdeal;
-		eliminationIdeal = PPolynomial.eliminate(
+		Set<Set<PPolynomial>> eliminationIdeal = PPolynomial.eliminate(
 				polys.toArray(new PPolynomial[polys.size()]), substitutions,
 				kernel, 0,
 				true, false, vars);
@@ -48,9 +47,7 @@ public class HilbertDimension {
 		ndgSet = eliminationIdeal.iterator();
 		while (ndgSet.hasNext()) {
 			Set<PPolynomial> thisNdgSet = ndgSet.next();
-			Iterator<PPolynomial> ndg = thisNdgSet.iterator();
-			while (ndg.hasNext()) {
-				PPolynomial poly = ndg.next();
+			for (PPolynomial poly : thisNdgSet) {
 				if (poly.isZero()) {
 					return true;
 				}
@@ -280,7 +277,7 @@ public class HilbertDimension {
 		// It is possible that the naive dimension is the Hilbert dimension.
 		// In this case we will use the geometrically free variables.
 		aMaximalSet = new HashSet<>();
-		aMaximalSet.add(freeVariables);
+		aMaximalSet.addAll(freeVariables);
 		Log.debug("The geometrically free variables should be independent: "
 				+ aMaximalSet);
 
@@ -307,7 +304,7 @@ public class HilbertDimension {
 					}
 				}
 				if (independent) {
-					aMaximalSet = (HashSet<HashSet<PVariable>>) X;
+					aMaximalSet = (HashSet<PVariable>) X;
 					independentFound = true;
 					Log.debug("An independent set found: " + aMaximalSet);
 				}
