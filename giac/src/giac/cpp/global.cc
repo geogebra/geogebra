@@ -5132,6 +5132,7 @@ unsigned int ConvertUTF8toUTF16 (
     "autosimplify",
     "canonical_form",
     "cfactor",
+    "convert",
     "cpartfrac",
     "curve",
     "developper",

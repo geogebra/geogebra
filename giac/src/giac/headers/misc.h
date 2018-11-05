@@ -23,6 +23,9 @@
 #include "gen.h"
 #include "unary.h"
 #include "symbolic.h"
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -283,6 +286,8 @@ namespace giac {
   extern const unary_function_ptr * const  at_isnan ;
   extern const unary_function_ptr * const  at_draw_string ;
   extern const unary_function_ptr * const  at_dtype ;
+  extern const unary_function_ptr * const  at_rgb ;
+  gen _rgb(const gen & args,GIAC_CONTEXT);
   gen _charpoly(const gen & args,GIAC_CONTEXT);
 
   std::string fetch(const std::string & url);

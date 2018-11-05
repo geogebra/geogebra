@@ -16540,7 +16540,7 @@ namespace giac {
       return gensizeerr(gettext("Expecting file name to convert"));
     string file=*gs._STRNGptr;
     if (isfile){
-#ifdef EMCC_FETCH
+#ifdef EMCC
       istringstream i(fetch(file));
       return csv2gen(i,sep,nl,decsep,eof,contextptr);
 #else

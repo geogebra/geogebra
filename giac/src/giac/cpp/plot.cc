@@ -14289,6 +14289,8 @@ gen _vers(const gen & g,GIAC_CONTEXT){
   gen _crayon(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_STRNG) return _crayon(gen(*g._STRNGptr,contextptr),contextptr);
+    if (g.type==_VECT && g._VECTptr->size()==3)
+      return _crayon(_rgb(g,contextptr),contextptr);
     // logo instruction
     if (g.type!=_INT_){
       gen res=turtle(contextptr).color;

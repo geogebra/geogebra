@@ -7778,6 +7778,14 @@ namespace giac {
     if (args.type!=_STRNG)
       return symbolic(at_read,args);
     string fichier=*args._STRNGptr;
+#ifdef EMCC
+    string s=fetch(fichier);
+    return gen(s,contextptr);
+#endif
+    if (fichier.size()>4 && fichier.substr(0,4)=="http"){
+      string s=fetch(fichier);
+      return gen(s,contextptr);
+    }
 #ifdef NSPIRE
     file inf(fichier.c_str(),"r");
 #else
@@ -7841,7 +7849,12 @@ namespace giac {
   gen _read(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type==_VECT && !args._VECTptr->empty() && args._VECTptr->front().type==_STRNG){
-      FILE * f=fopen(args._VECTptr->front()._STRNGptr->c_str(),"r");
+      string file=*args._VECTptr->front()._STRNGptr;
+      if (file.size()>4 && file.substr(0,4)=="http"){
+	string s=fetch(file);
+	return string2gen(s,false);
+      }
+      FILE * f=fopen(file.c_str(),"r");
       if (!f)
 	return undef;
       string s;
@@ -11080,7 +11093,8 @@ namespace giac {
       if (tmp.type==_IDNT && (strcmp(tmp._IDNTptr->id_name,"numpy")==0 || strcmp(tmp._IDNTptr->id_name,"pylab")==0 || strcmp(tmp._IDNTptr->id_name,"matplotlib")==0)){
 	if (b.type==_SYMB){
 	  gen w1=eval(w[1],1,contextptr);
-	  if (w1==at_float || w1==at_real)
+	  // at_equal test added for e.g. matplotlib.xlim(-5,5)
+	  if (w1==at_float || w1==at_real || w1.is_symb_of_sommet(at_equal))
 	    return w1;
 	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
 	  tmp=evalf_double(tmp,1,contextptr);

@@ -719,6 +719,7 @@ symbol	: T_SYMBOL { $$=$1; }
 
 symbol_or_literal: T_SYMBOL { $$=$1; }
 	| T_LITERAL { $$=$1; }
+	;
 
 entete	: /* empty */ { $$=makevecteur(vecteur(0),vecteur(0)); }
 	| entete local	{ vecteur v1 =gen2vecteur($1); vecteur v2=gen2vecteur($2); $$=makevecteur(mergevecteur(gen2vecteur(v1[0]),gen2vecteur(v2[0])),mergevecteur(gen2vecteur(v1[1]),gen2vecteur(v2[1]))); }

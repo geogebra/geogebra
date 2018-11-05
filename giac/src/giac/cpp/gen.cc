@@ -4042,6 +4042,26 @@ namespace giac {
 	return _smod(makesequence(res,cst_two_pi),contextptr);
       }
     }
+    if (a.is_symb_of_sommet(at_exp))
+      return _smod(makesequence(im(a._SYMBptr->feuille,contextptr),cst_two_pi),contextptr);
+    if (a.is_symb_of_sommet(at_prod)){
+      const gen & af=a._SYMBptr->feuille;
+      if (af.type==_VECT){
+	const_iterateur it=af._VECTptr->begin(),itend=af._VECTptr->end();
+	gen res;
+	int nonzero=0;
+	for (;it!=itend;++it){
+	  gen tmp(arg(*it,contextptr));
+	  if (!is_zero(tmp,contextptr)){
+	    res += tmp;
+	    ++nonzero;
+	  }
+	}
+	if (nonzero>1)
+	  return _smod(makesequence(res,cst_two_pi),contextptr);	
+	return res;
+      }
+    }
     if (is_equal(a))
       return apply_to_equal(a,arg,contextptr);
     switch (a.type ) {

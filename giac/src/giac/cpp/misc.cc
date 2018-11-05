@@ -8735,11 +8735,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__rgb,&_rgb,_rgb_s);
   define_unary_function_ptr5( at_rgb ,alias_at_rgb,&__rgb,0,true);
 
+#ifdef EMCC
 #ifdef EMCC_FETCH
   // with emscripten 1.37.28, it does not work
 #include <emscripten/fetch.h>
 
   string fetch(const string & url){
+    COUT << "fetch " << url << endl;
     emscripten_fetch_attr_t attr;
     emscripten_fetch_attr_init(&attr);
     strcpy(attr.requestMethod, "GET");
@@ -8754,12 +8756,59 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
     return "Failed";
   }
-    
 #else
+#include <emscripten/emscripten.h>
+
+  string fetch(const string & url){
+    COUT << "wget_data " << url << endl;
+    char * buf;
+#if 0 // does not work emscripten 1.34/37
+    int data_size,data_error;
+    emscripten_wget_data(url.c_str(),(void **)&buf,&data_size,&data_error);
+    if (data_size>0){
+      buf[data_size-1]=0;
+      string s(buf);
+      COUT << "buffer " << s << endl;
+      free(buf);
+      return s;
+    }
+    return "ERROR";
+#else
+    const int bufsize=512*1024;
+    buf=(char *)malloc(bufsize);
+    EM_ASM_ARGS({
+	var url=Module.Pointer_stringify($0);
+	console.log("url:"+url);
+	var req = new XMLHttpRequest();
+	var bufsize=$2;
+	req.open("GET", url, false); // false: synchrone, true: async
+	req.overrideMimeType("text/plain; charset=x-user-defined");
+	req.send(null); 
+	// will not work on different domain, except if 
+	// cross-domain is enabled (firefox CORS extension like Cross Domain)
+	if (req.status === 200) {
+	  console.log("Réponse reçue: %s", req.responseText);
+	  var s=req.responseText;
+	  if (s.length>=bufsize-1)
+	    s=s.substr(0,bufsize-1);
+	  Module.writeStringToMemory(s,$1);
+	} else {
+	  console.log("Status de la réponse: %d (%s)", req.status, req.statusText);
+	  Module.writeStringToMemory("ERROR",$1);
+	}
+      },url.c_str(),buf,bufsize);
+    string s(buf);
+    free(buf);
+    return s;
+#endif
+  }
+#endif // EMCC_FETCH
+    
+#else // EMCC
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <curl/curlbuild.h>
+  //#include <curl/curlbuild.h>
   size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
     string data((const char*) ptr, (size_t) size * nmemb);
     *((stringstream*) stream) << data << endl;
@@ -8791,7 +8840,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     return "Failed";
   }
 #endif // HAVE_LIBCURL
-#endif // EMCC_FETCH
+#endif // EMCC
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
