@@ -1,9 +1,6 @@
 @import 'colors';
 
 .GeoGebraFrame {
-	$first-column-width: 85px;
-	$column-width: 95px;
-	
 		.tableViewParent {
 			height: 100%;
 		}
@@ -58,6 +55,7 @@
 			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader {
 				 border: 0px;
 				 text-align: center;
+				 padding: 0px;
 				 div:FIRST-CHILD {
 					color: $black-54; 
 					display: flex;
@@ -69,23 +67,10 @@
 					}			 
 				 }
 			}
-		
-			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableFirstColumnHeader {
-				max-width: $first-column-width;
-				min-width: $first-column-width;	
-			}
 			tbody {display: none;}
 		}
 		
-		
-		.tvTable td:FIRST-CHILD{
-			max-width: $first-column-width;
-			min-width: $first-column-width;
-		}
-		
 		.tvTable td {
-			min-width: $column-width;
-			max-width: $column-width;
 			color: $black-87;
 			text-align: center;
 		}
@@ -110,6 +95,11 @@
 		
 		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableOddRowCell {
 				background: $tableview-row;
+		}
+
+		.tvCell {
+			margin-right: 32px;
+			text-align:end;
 		}
 	
 	.tvPanel .tvScrollPanel{

@@ -3,7 +3,10 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
@@ -38,6 +41,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class TableValuesViewW extends TableValuesView implements SetLabels {
+
+	private static final CellTemplates TEMPLATES =
+			GWT.create(CellTemplates.class);
+
 	private CellTable<RowData> headerTable;
 	private CellTable<RowData> table;
 	private FlowPanel main;
@@ -51,7 +58,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private ScrollPanel holderPanel;
 	private OuterPanel outerScrollPanel;
 	private NoDragImage moreImg;
-	
+
 	/**
 	 * @author laszlo
 	 *
@@ -162,7 +169,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 												// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(tvPanel);
-		table.addStyleName("hiddenheader");
 
 		scrollPanel.addScrollHandler(new ScrollHandler() {
 			@Override
@@ -278,16 +284,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return nameColumn;
 	}
 
-	private static Column<RowData, SafeHtml> getColumnValue(final int col) {
+	private static Column<RowData, SafeHtml> getColumnValue(final int col, final TableValuesDimensions dimensions) {
 		Column<RowData, SafeHtml> column = new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
-				SafeHtmlBuilder sb = new SafeHtmlBuilder();
-				sb.append(SafeHtmlUtils.fromTrustedString("<div>"));
-				sb.append(SafeHtmlUtils.fromSafeConstant(object.getValue(col)));
-				sb.append(SafeHtmlUtils.fromTrustedString("</div>"));
-				return sb.toSafeHtml();
+				SafeHtml value = SafeHtmlUtils.fromSafeConstant(object.getValue(col));
+				int width = dimensions.getColumnWidth(col) + 16 + 32;
+				int height = dimensions.getRowHeight(object.row);
+				SafeHtml cell = TEMPLATES.cell(value, width, height);
+
+				return cell;
 			}
 
 		};
@@ -308,7 +315,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
 		p.add(btn);
 
-		return SafeHtmlUtils.fromTrustedString("<div>" + p.getElement().getInnerHTML() + "</div>");
+		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
+		TableValuesDimensions dimensions = getTableValuesDimensions();
+		return TEMPLATES.cell(html, dimensions.getColumnWidth(column), dimensions.getHeaderHeight());
 	}
 
 	private void addColumnsForTable(CellTable<RowData> tb) {
@@ -324,7 +333,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private void addValuesForTable(CellTable<RowData> tb) {
 		TableValuesModel m = getTableValuesModel();
 		for (int column = 0; column < m.getColumnCount(); column++) {
-			Column<RowData, ?> col = getColumnValue(column);
+			Column<RowData, ?> col = getColumnValue(column, getTableValuesDimensions());
 			tb.addColumn(col);
 		}
 	}
@@ -338,5 +347,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	public void setHeight(int height) {
 		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight(),
 				Unit.PX);
+	}
+
+	public interface CellTemplates extends SafeHtmlTemplates {
+		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\"" +
+				"class=\"tvCell\">{0}</div>")
+		SafeHtml cell(SafeHtml message, int width, int height);
 	}
 }
