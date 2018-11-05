@@ -15,7 +15,7 @@ public class ScreenReaderBuilder {
 	 *            string to be appended
 	 */
 	public void append(String o) {
-		if (sb.length() > 0 && sb.charAt(sb.length() - 1) != '.') {
+		if (sb.length() > 0 && sb.charAt(sb.length() - 1) == '.') {
 			sb.append(" "); // ad space after each dot
 		}
 		sb.append(o);

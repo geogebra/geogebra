@@ -298,6 +298,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return null;
 	}
 
+	@Override
 	public GeoElement getSelectedGeo() {
 		return app.getSelectionManager().getSelectedGeos().size() == 1
 				? app.getSelectionManager().getSelectedGeos().get(0) : null;

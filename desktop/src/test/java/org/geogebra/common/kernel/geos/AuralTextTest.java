@@ -48,4 +48,9 @@ public class AuralTextTest {
 		aural("checkbox()", "Checkbox", "uncheck", "edit");
 		aural("false", "Checkbox", " check", "edit");
 	}
+
+	@Test
+	public void textAural() {
+		aural("LaTeX(\"a+\\mathbf{x^2}\")", "Text", " a+x^(2)", "edit");
+	}
 }

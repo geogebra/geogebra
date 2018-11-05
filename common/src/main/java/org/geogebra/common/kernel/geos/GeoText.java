@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -48,6 +49,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * Geometrical element for holding text
@@ -1504,8 +1507,7 @@ public class GeoText extends GeoElement
 		builder.clear();
 		builder.append(txt);
 		return txt;
-
-}
+	}
 
 	public boolean isEditMode() {
 		return editMode == EditMode.Edit;
@@ -1515,16 +1517,8 @@ public class GeoText extends GeoElement
 		editMode = EditMode.Edit;
 	}
 
-	public boolean isReadyToEdit() {
-		return editMode == EditMode.Ready;
-	}
-
 	public void setReadyToEdit() {
 		editMode = EditMode.Ready;
-	}
-
-	public boolean isDisplayMode() {
-		return editMode == EditMode.None;
 	}
 
 	public void cancelEditMode() {
@@ -1586,6 +1580,26 @@ public class GeoText extends GeoElement
 	 */
 	public void setMowBoundingBoxJustLoaded(boolean b) {
 		this.mowBoundingBoxJustLoaded = b;
+	}
+
+	@Override
+	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
+		if (isLaTeX()) {
+			kernel.getApplication().getDrawEquation()
+					.checkFirstCall(kernel.getApplication());
+			// TeXAtomSerializer makes formula human readable.
+			TeXFormula tf = new TeXFormula(getTextString());
+			sb.append(new TeXAtomSerializer(null).serialize(tf.root));
+		} else {
+			sb.append(getTextString());
+		}
+		sb.appendDot();
+	}
+
+	@Override
+	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
+		sb.append(loc.getMenuDefault("Text", "Text"));
+		sb.appendDot();
 	}
 
 }
