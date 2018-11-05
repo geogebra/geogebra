@@ -156,6 +156,12 @@ public class TableValuesView implements TableValues {
 	@Override
 	public void remove(GeoElement geo) {
 		elements.remove(geo);
+		if (geo instanceof Evaluatable) {
+			Evaluatable evaluatable = (Evaluatable) geo;
+			if (model.getEvaluatableIndex(evaluatable) > -1) {
+				model.removeEvaluatable(evaluatable);
+			}
+		}
 	}
 
 	@Override
