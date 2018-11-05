@@ -182,11 +182,6 @@ public class FencedAtom extends Atom {
 				+ right;
 	}
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new FencedAtom(base, left, middle, right));
-	}
-
 	public Atom getLeft() {
 		return left;
 	}

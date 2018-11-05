@@ -59,11 +59,6 @@ public class VCenteredAtom extends Atom {
 	// then no need to return a HorizontalBox (hbox == false)
 	private final boolean hbox;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new VCenteredAtom(base, hbox));
-	}
-
 	public VCenteredAtom(Atom atom, boolean hbox) {
 		this.base = atom;
 		this.hbox = hbox;

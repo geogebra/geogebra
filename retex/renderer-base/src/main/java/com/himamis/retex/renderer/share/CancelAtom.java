@@ -62,11 +62,6 @@ public class CancelAtom extends Atom {
 	private final Type ctype;
 	private final Color color;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new CancelAtom(base, ctype, color));
-	}
-
 	public CancelAtom(final Atom base, final Type ctype, final Color color) {
 		this.base = base;
 		this.ctype = ctype;

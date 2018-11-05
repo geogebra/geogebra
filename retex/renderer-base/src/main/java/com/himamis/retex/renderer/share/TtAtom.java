@@ -52,11 +52,6 @@ public class TtAtom extends Atom {
 
 	private Atom base;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new TtAtom(base));
-	}
-
 	public TtAtom(Atom base) {
 		this.base = base;
 	}

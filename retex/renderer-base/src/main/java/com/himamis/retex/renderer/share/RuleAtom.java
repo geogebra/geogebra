@@ -54,11 +54,6 @@ public class RuleAtom extends Atom {
 	private final TeXLength height;
 	private final TeXLength raise;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new RuleAtom(width, height, raise));
-	}
-
 	public RuleAtom(TeXLength width, TeXLength height, TeXLength raise) {
 		this.width = width;
 		this.height = height;

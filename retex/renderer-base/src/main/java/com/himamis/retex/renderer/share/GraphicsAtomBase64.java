@@ -78,9 +78,4 @@ public class GraphicsAtomBase64 extends Atom {
 
 		return new GraphicsBox(image, width, height, env.getSize());
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new GraphicsAtomBase64(w, h, image.getBase64()));
-	}
 }

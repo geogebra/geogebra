@@ -59,21 +59,6 @@ public class RotateAtom extends Atom {
 	private TeXLength.Unit yunit;
 	private double x, y;
 
-	@Override
-	final public Atom duplicate() {
-		RotateAtom ret = new RotateAtom();
-		ret.base = base;
-		ret.angle = angle;
-		ret.option = option;
-		ret.xunit = xunit;
-		ret.yunit = yunit;
-		ret.x = x;
-		ret.y = y;
-
-		return setFields(ret);
-
-	}
-
 	public RotateAtom() {
 		//
 	}

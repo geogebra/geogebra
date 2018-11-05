@@ -55,11 +55,6 @@ public class DoubleFramedAtom extends FBoxAtom {
 	}
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(new DoubleFramedAtom(base));
-	}
-
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbase = base.createBox(env);
 		double drt = TeXLength.getLength("fboxrule", env);

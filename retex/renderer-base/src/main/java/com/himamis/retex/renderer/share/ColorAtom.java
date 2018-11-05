@@ -68,11 +68,6 @@ public class ColorAtom extends Atom implements Row {
 	// RowAtom for which the colorsettings apply
 	protected final RowAtom elements;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new ColorAtom(elements, background, color));
-	}
-
 	/**
 	 * Creates a new ColorAtom that sets the given colors for the given atom.
 	 * Null for a color means: no specific color set for this atom.

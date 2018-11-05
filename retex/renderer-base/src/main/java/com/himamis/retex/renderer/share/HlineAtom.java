@@ -76,9 +76,4 @@ public class HlineAtom extends Atom {
 		return new HlineBox(drt);
 	}
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new HlineAtom(width, shift));
-	}
-
 }

@@ -55,11 +55,6 @@ public class SubarrayAtom extends Atom {
 	private ArrayOfAtoms column;
 	private ArrayOptions options;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new SubarrayAtom(column, options));
-	}
-
 	public SubarrayAtom(ArrayOfAtoms column, ArrayOptions options) {
 		this.column = column;
 		this.options = options;

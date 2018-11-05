@@ -60,7 +60,6 @@ public class SymbolAtom extends CharSymbol {
 	private final CharFont cf;
 	private char unicode;
 
-	@Override
 	final public Atom duplicate() {
 		SymbolAtom ret = new SymbolAtom(cf, type, unicode);
 

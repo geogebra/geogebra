@@ -64,8 +64,4 @@ public class MHeightAtom extends Atom {
 				0.);
 	}
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new MHeightAtom());
-	}
 }

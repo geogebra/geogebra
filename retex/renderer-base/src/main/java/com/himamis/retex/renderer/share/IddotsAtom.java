@@ -52,11 +52,6 @@ import com.himamis.retex.renderer.share.commands.Command0A;
  */
 public class IddotsAtom extends Atom {
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new IddotsAtom());
-	}
-
 	public IddotsAtom() {
 		this.type = TeXConstants.TYPE_INNER;
 	}

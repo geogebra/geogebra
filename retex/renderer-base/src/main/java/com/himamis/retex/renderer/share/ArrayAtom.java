@@ -427,11 +427,4 @@ public class ArrayAtom extends Atom {
 			}
 		}
 	}
-
-	@Override
-	public Atom duplicate() {
-		ArrayAtom ret = new ArrayAtom(matrix, options, spaceAround);
-		ret.arrayType = arrayType;
-		return setFields(ret);
-	}
 }

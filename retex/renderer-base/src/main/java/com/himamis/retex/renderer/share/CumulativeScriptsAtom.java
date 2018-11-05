@@ -52,10 +52,6 @@ public class CumulativeScriptsAtom extends Atom {
 
 	private RowAtom base;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new CumulativeScriptsAtom(base));
-	}
 
 	public CumulativeScriptsAtom(final RowAtom base) {
 		this.base = base;

@@ -83,8 +83,4 @@ public class OoalignAtom extends Atom {
 		return new OoalignBox(l);
 	}
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new OoalignAtom(column));
-	}
 }

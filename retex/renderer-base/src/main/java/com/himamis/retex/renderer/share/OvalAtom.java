@@ -52,11 +52,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class OvalAtom extends FBoxAtom {
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new OvalAtom(base, bg, line));
-	}
-
 	public OvalAtom(Atom base) {
 		super(base);
 	}

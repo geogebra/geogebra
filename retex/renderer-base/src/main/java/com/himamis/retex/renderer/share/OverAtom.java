@@ -62,13 +62,4 @@ public class OverAtom extends FractionAtom {
 	public Atom getDen() {
 		return denominator;
 	}
-
-	@Override
-	public Atom duplicate() {
-		OverAtom ret = new OverAtom(numerator, denominator);
-		ret.numAlign = numAlign;
-		ret.denomAlign = denomAlign;
-		ret.thickness = thickness;
-		return setFields(ret);
-	}
 }

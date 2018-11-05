@@ -56,11 +56,6 @@ public class XHookAtom extends XAtom {
 
 	private final boolean left;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new XHookAtom(over, under, left));
-	}
-
 	public XHookAtom(Atom over, Atom under, boolean left) {
 		super(over, under);
 		this.left = left;

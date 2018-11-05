@@ -80,9 +80,4 @@ public class RomanAtom extends Atom {
 		return box;
 	}
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new RomanAtom(base));
-	}
-
 }

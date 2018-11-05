@@ -67,22 +67,6 @@ public class UnderOverAtom extends Atom {
 	private final boolean underScriptSize;
 	private final boolean overScriptSize;
 
-	@Override
-	final public Atom duplicate() {
-		UnderOverAtom ret;
-		if (under != null) {
-			ret = new UnderOverAtom(base, under, underSpace, underScriptSize,
-					false);
-
-		} else {
-			ret = new UnderOverAtom(base, over, overSpace, overScriptSize,
-					true);
-
-		}
-
-		return setFields(ret);
-	}
-
 	public UnderOverAtom(Atom base, Atom underOver, TeXLength underOverSpace,
 			boolean underOverScriptSize, boolean over) {
 		this.base = base;

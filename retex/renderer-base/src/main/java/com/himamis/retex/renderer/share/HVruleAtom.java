@@ -71,9 +71,4 @@ public class HVruleAtom extends Atom {
 		final double d = depth == null ? Double.NaN : depth.getValue(env);
 		return new HVruleBox(w, h, d, hor);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new HVruleAtom(width, height, depth, hor));
-	}
 }

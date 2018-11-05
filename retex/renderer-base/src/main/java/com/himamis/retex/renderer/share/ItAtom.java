@@ -52,11 +52,6 @@ public class ItAtom extends Atom {
 
 	private Atom base;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new ItAtom(base));
-	}
-
 	public ItAtom(Atom base) {
 		this.base = base;
 	}

@@ -58,14 +58,6 @@ public class CharAtom extends CharSymbol {
 	// text style (null means the default text style)
 	protected int textStyle = TextStyle.NONE;
 
-	@Override
-	public Atom duplicate() {
-		CharAtom ret = new CharAtom(c, textStyle, mathMode);
-		ret.italic = italic;
-		ret.textSymbol = textSymbol;
-		return setFields(ret);
-	}
-
 	/**
 	 * Creates a CharAtom that will represent the given character in the given
 	 * text style. Null for the text style means the default text style.

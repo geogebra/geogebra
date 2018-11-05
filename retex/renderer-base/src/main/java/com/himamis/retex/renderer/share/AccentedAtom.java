@@ -60,11 +60,6 @@ public class AccentedAtom extends Atom {
 	// extra skew
 	protected double skew = Double.NaN;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new AccentedAtom(base, accent));
-	}
-
 	public AccentedAtom(Atom base, SymbolAtom accent) {
 		this.base = base;
 		this.accent = accent;

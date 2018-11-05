@@ -58,11 +58,6 @@ public class FixedCharAtom extends CharSymbol {
 	}
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(new FixedCharAtom(cf));
-	}
-
-	@Override
 	public CharFont getCharFont(TeXFont tf) {
 		return cf;
 	}

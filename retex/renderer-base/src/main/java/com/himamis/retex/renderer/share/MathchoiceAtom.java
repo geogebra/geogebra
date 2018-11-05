@@ -84,9 +84,4 @@ public class MathchoiceAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		return chose(env).createBox(env);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new MathchoiceAtom(d, t, s, ss));
-	}
 }

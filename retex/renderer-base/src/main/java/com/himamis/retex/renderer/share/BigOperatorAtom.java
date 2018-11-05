@@ -61,11 +61,6 @@ public class BigOperatorAtom extends Atom {
 	// atom representing a big operator
 	private Atom base;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new BigOperatorAtom(base, under, over));
-	}
-
 	/**
 	 * Creates a new BigOperatorAtom from the given atoms. The default rules the
 	 * positioning of the limits will be applied.

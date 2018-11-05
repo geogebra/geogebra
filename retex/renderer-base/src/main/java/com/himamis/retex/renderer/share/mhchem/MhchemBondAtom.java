@@ -81,9 +81,4 @@ public class MhchemBondAtom extends Atom {
 
 		return new MhchemBondBox(n, pos, axis, drt, space, equals.getWidth());
 	}
-
-	@Override
-	public Atom duplicate() {
-		return new MhchemBondAtom(n, pos);
-	}
 }

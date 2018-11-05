@@ -58,11 +58,6 @@ public class OgonekAtom extends Atom {
 	}
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(new OgonekAtom(base));
-	}
-
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base.createBox(env);
 		VerticalBox vb = new VerticalBox();

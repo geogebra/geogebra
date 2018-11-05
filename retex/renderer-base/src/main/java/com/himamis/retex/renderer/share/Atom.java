@@ -167,8 +167,6 @@ public abstract class Atom {
 		return this;
 	}
 
-	public abstract Atom duplicate();
-
 	/**
 	 * used by duplicate()
 	 */

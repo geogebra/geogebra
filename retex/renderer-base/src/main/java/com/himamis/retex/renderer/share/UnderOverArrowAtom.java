@@ -58,11 +58,6 @@ public class UnderOverArrowAtom extends Atom {
 	private final Atom base;
 	private final boolean over, left, dble;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new UnderOverArrowAtom(base, left, over, dble));
-	}
-
 	public UnderOverArrowAtom(Atom base, boolean left, boolean over) {
 		this.base = base;
 		this.left = left;

@@ -73,9 +73,4 @@ public class PodAtom extends Atom {
 
 		return hb;
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new PodAtom(a, x, lrpar));
-	}
 }

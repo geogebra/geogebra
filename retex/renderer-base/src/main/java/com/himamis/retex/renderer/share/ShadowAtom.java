@@ -52,11 +52,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class ShadowAtom extends FBoxAtom {
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new ShadowAtom(base, bg, line));
-	}
-
 	public ShadowAtom(Atom base) {
 		super(base);
 	}

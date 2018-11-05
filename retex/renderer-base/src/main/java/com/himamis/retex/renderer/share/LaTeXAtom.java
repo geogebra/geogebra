@@ -55,11 +55,6 @@ public class LaTeXAtom extends Atom {
 	}
 
 	@Override
-	public Atom duplicate() {
-		return setFields(new LaTeXAtom());
-	}
-
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy(env.getTeXFont().copy());
 		env.getTeXFont().setRoman(true);

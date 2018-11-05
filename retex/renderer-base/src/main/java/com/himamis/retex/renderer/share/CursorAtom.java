@@ -8,11 +8,6 @@ public class CursorAtom extends Atom {
 	// foreground color
 	private final Color color;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new CursorAtom(color, height));
-	}
-
 	public CursorAtom(Color color, double height) {
 		super();
 		this.color = color;

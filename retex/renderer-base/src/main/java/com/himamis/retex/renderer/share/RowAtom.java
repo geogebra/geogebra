@@ -406,17 +406,6 @@ public class RowAtom extends Atom implements Row {
 		return s;
 	}
 
-	@Override
-	final public Atom duplicate() {
-		RowAtom ret = new RowAtom();
-
-		ret.elements = elements;
-		ret.lookAtLastAtom = lookAtLastAtom;
-		ret.previousAtom = previousAtom;
-		ret.shape = shape;
-		return setFields(ret);
-	}
-
 	public Atom getElement(int i) {
 		return i < elements.size() ? elements.get(i) : null;
 	}

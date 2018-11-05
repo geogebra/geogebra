@@ -66,12 +66,6 @@ public class VRowAtom extends Atom {
 	protected boolean vtop = false;
 	protected TeXConstants.Align halign = TeXConstants.Align.NONE;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(
-				new VRowAtom(elements, raise, addInterline, vtop, halign));
-	}
-
 	private VRowAtom(List<Atom> elements, SpaceAtom raise, boolean addInterline,
 			boolean vtop, Align halign) {
 		this.elements = elements;

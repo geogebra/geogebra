@@ -59,11 +59,6 @@ public class MultlineAtom extends Atom {
 	private ArrayOfAtoms column;
 	private int type;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new MultlineAtom(column, type));
-	}
-
 	public MultlineAtom(ArrayOfAtoms column, int type) {
 		this.column = column;
 		this.type = type;

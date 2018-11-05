@@ -54,11 +54,6 @@ public class StyleAtom extends Atom {
 	private int style;
 	private Atom at;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new StyleAtom(style, at));
-	}
-
 	public StyleAtom(int style, Atom at) {
 		this.style = style;
 		this.at = at;

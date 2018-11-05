@@ -61,9 +61,4 @@ public class XLongequalAtom extends XAtom {
 	public Box createExtension(TeXEnvironment env, double width) {
 		return new XLongEqual(width);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new XLongequalAtom(over, under));
-	}
 }

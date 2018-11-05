@@ -61,9 +61,4 @@ public class SetLengthAtom extends Atom {
 		TeXLength.setLength(name, l);
 		return StrutBox.getEmpty();
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new SetLengthAtom(l, name));
-	}
 }

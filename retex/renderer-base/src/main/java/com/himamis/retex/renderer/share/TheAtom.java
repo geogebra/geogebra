@@ -64,8 +64,4 @@ public class TheAtom extends Atom {
 		throw new ParseException("Invalid length name in \\the: " + name);
 	}
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new TheAtom(name));
-	}
 }

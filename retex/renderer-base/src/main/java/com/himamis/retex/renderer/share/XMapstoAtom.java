@@ -61,9 +61,4 @@ public class XMapstoAtom extends XAtom {
 	public Box createExtension(TeXEnvironment env, double width) {
 		return new XMapsTo(width);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new XMapstoAtom(over, under));
-	}
 }

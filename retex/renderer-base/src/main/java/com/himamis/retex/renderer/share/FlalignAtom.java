@@ -80,16 +80,4 @@ public class FlalignAtom extends AlignAtom {
 
 		return seps;
 	}
-
-	@Override
-	public Atom duplicate() {
-
-		FlalignAtom ret = new FlalignAtom(matrix);
-		ret.options = options;
-		ret.arrayType = arrayType;
-		ret.spaceAround = spaceAround;
-
-		return setFields(ret);
-
-	}
 }

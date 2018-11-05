@@ -58,11 +58,6 @@ public class TStrokeAtom extends Atom {
 	}
 
 	@Override
-	final public Atom duplicate() {
-		return setFields(new TStrokeAtom(upper));
-	}
-
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		Char ch = env.getTeXFont().getChar(BAR.getCf(), env.getStyle());
 		double italic = ch.getItalic();

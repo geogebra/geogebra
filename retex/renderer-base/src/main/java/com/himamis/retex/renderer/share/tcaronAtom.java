@@ -52,11 +52,6 @@ public class tcaronAtom extends Atom {
 
 	private static final SymbolAtom APOS = SymbolAtom.get("textapos");
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new tcaronAtom());
-	}
-
 	public tcaronAtom() {
 	}
 

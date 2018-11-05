@@ -90,9 +90,4 @@ public class SMatrixAtom extends ArrayAtom {
 		return super.createBox(env);
 	}
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new SMatrixAtom(matrix, options, spaceAround, small));
-	}
-
 }

@@ -65,11 +65,6 @@ public class JavaFontRenderingAtom extends Atom {
 		this.font = font;
 	}
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new JavaFontRenderingAtom(str, style, font));
-	}
-
 	public JavaFontRenderingAtom(final String str, final int style) {
 		this(str, style, null);
 	}

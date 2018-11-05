@@ -56,11 +56,6 @@ public class FBoxAtom extends Atom {
 	protected final Color bg;
 	protected final Color line;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new FBoxAtom(base, bg, line));
-	}
-
 	public FBoxAtom(Atom base, Color bg, Color line) {
 		this.base = base;
 		this.bg = bg;

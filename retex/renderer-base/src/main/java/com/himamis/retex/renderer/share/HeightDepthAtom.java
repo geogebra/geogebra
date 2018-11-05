@@ -65,9 +65,4 @@ public class HeightDepthAtom extends Atom {
 		b.setDepth(depth.getValue(env));
 		return b;
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new HeightDepthAtom(height, depth, base));
-	}
 }

@@ -79,16 +79,4 @@ public class AlignAtAtom extends AlignAtom {
 		return seps;
 	}
 
-	@Override
-	public Atom duplicate() {
-
-		AlignAtAtom ret = new AlignAtAtom(matrix, aligned);
-		ret.options = options;
-		ret.arrayType = arrayType;
-		ret.spaceAround = spaceAround;
-
-		return setFields(ret);
-
-	}
-
 }

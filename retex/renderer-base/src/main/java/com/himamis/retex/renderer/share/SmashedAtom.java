@@ -53,11 +53,6 @@ public class SmashedAtom extends Atom {
 	private Atom at;
 	private boolean h = true, d = true;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new SmashedAtom(at, !d ? 't' : 'b'));
-	}
-
 	public SmashedAtom(Atom at, char opt) {
 		this.at = at;
 		if (opt == 't') {

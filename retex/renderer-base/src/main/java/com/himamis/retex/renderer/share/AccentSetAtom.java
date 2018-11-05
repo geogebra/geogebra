@@ -58,11 +58,6 @@ public class AccentSetAtom extends Atom {
 	protected Atom base = null;
 	protected Atom underbase = null;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new AccentSetAtom(base, accent));
-	}
-
 	public AccentSetAtom(Atom base, Atom accent) {
 		this.base = base;
 		if (base instanceof AccentedAtom) {

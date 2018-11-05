@@ -95,9 +95,4 @@ public class RaiseAtom extends Atom {
 	public int getLimits() {
 		return base.getLimits();
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new RaiseAtom(base, r, h, d));
-	}
 }

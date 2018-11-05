@@ -53,14 +53,6 @@ public class HdotsforAtom extends MulticolumnAtom {
 	private static final Atom thin = new SpaceAtom(TeXConstants.Muskip.THIN);
 	private double coeff;
 
-	@Override
-	final public Atom duplicate() {
-
-		HdotsforAtom ret = new HdotsforAtom(n, coeff);
-
-		return setFields(ret);
-	}
-
 	public HdotsforAtom(int n, double coeff) {
 		super(n, new ArrayOptions(1).addAlignment(TeXConstants.Align.CENTER),
 				Symbols.LDOTP);

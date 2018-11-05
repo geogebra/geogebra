@@ -70,15 +70,6 @@ public class SpaceAtom extends Atom {
 	// units for the dimensions
 	private TeXLength.Unit unit;
 
-	@Override
-	final public Atom duplicate() {
-		SpaceAtom ret = (SpaceAtom) setFields(
-				new SpaceAtom(unit, width, height, depth));
-		ret.blankSpace = blankSpace;
-		ret.blankType = blankType;
-		return ret;
-	}
-
 	public SpaceAtom() {
 		blankSpace = true;
 	}

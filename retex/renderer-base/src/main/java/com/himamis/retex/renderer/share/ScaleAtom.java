@@ -53,11 +53,6 @@ public class ScaleAtom extends Atom {
 	protected Atom base;
 	protected double xscl, yscl;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new ScaleAtom(base, xscl, yscl));
-	}
-
 	public ScaleAtom(Atom base, double xscl, double yscl) {
 		this.type = base.type;
 		this.base = base;

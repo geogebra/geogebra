@@ -65,9 +65,4 @@ public class UnderscoreAtom extends Atom {
 		hb.add(new VerticalBox(new HorizontalRule(drt, w.getValue(env), 0.)));
 		return hb;
 	}
-
-	@Override
-	final public Atom duplicate() {
-		return setFields(new UnderscoreAtom());
-	}
 }

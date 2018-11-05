@@ -69,9 +69,4 @@ public class CEEmptyAtom extends Atom {
 		return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0.,
 				0.);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new CEEmptyAtom());
-	}
 }

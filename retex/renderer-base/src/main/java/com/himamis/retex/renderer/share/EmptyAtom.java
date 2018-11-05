@@ -77,7 +77,6 @@ public class EmptyAtom extends Atom {
 		return a;
 	}
 
-	@Override
 	public Atom duplicate() {
 		return setFields(new EmptyAtom());
 	}

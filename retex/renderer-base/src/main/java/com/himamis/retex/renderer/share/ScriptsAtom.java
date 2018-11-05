@@ -65,11 +65,6 @@ public class ScriptsAtom extends Atom {
 	private Atom superscript;
 	private TeXConstants.Align align;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new ScriptsAtom(base, subscript, superscript, align));
-	}
-
 	public ScriptsAtom(Atom base, Atom sub, Atom sup,
 			TeXConstants.Align align) {
 		this.base = base;

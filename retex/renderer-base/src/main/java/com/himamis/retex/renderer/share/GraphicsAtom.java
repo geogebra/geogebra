@@ -138,9 +138,4 @@ public class GraphicsAtom extends Atom {
 		return TeXParser.getAtomForLatinStr("No such image file", false)
 				.createBox(env);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new GraphicsAtom(bimage, base, interp, first));
-	}
 }

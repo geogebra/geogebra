@@ -72,13 +72,4 @@ public class MathCharAtom extends CharAtom {
 	public String toString() {
 		return "MathCharAtom: \'" + c + "\'";
 	}
-
-	@Override
-	final public Atom duplicate() {
-		MathCharAtom ret = new MathCharAtom(c, mathMode);
-		ret.italic = italic;
-		ret.textSymbol = textSymbol;
-		ret.textStyle = textStyle;
-		return setFields(ret);
-	}
 }

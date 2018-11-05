@@ -56,15 +56,6 @@ public class MulticolumnAtom extends Atom {
 	protected Atom cols;
 	protected int row, col;
 
-	@Override
-	public Atom duplicate() {
-		MulticolumnAtom ret = new MulticolumnAtom(n, options, cols);
-		ret.w = w;
-		ret.row = row;
-		ret.col = col;
-		return setFields(ret);
-	}
-
 	public MulticolumnAtom(int n, ArrayOptions options, Atom cols) {
 		this.n = n >= 1 ? n : 1;
 		this.cols = cols;

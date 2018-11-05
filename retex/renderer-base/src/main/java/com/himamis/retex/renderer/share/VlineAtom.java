@@ -54,11 +54,6 @@ public class VlineAtom extends Atom {
 	private double shift;
 	private int n;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new VlineAtom(height, shift, n));
-	}
-
 	public VlineAtom(int n) {
 		this.n = n;
 	}

@@ -63,12 +63,6 @@ public class FractionAtom extends Atom {
 	// unit used for the thickness of the fraction line
 	protected TeXLength thickness;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new FractionAtom(numerator, denominator, thickness,
-				numAlign, denomAlign));
-	}
-
 	/**
 	 * The thickness of the fraction line is determined by the given value "t"
 	 * in the given unit.

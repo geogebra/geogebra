@@ -77,9 +77,4 @@ public class DBoxAtom extends Atom {
 		env.isColored = true;
 		return new FramedBox(bbase, drt, space, line, bg, dl, dd);
 	}
-
-	@Override
-	public Atom duplicate() {
-		return setFields(new DBoxAtom(base, bg, line));
-	}
 }

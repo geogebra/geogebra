@@ -52,11 +52,6 @@ public class TextCircledAtom extends Atom {
 
 	private Atom at;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new TextCircledAtom(at));
-	}
-
 	public TextCircledAtom(Atom at) {
 		this.at = at;
 	}

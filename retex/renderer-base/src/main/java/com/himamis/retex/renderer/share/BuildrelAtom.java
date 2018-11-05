@@ -58,11 +58,6 @@ public class BuildrelAtom extends Atom {
 	private final Atom over;
 	private final boolean scriptSize;
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new BuildrelAtom(base, over, scriptSize));
-	}
-
 	public BuildrelAtom(Atom base, Atom over, boolean scriptSize) {
 		this.base = base;
 		this.over = over;

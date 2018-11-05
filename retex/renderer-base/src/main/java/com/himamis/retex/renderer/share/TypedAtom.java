@@ -58,11 +58,6 @@ public class TypedAtom extends Atom {
 	// atom for which new types are set
 	private final Atom base;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new TypedAtom(leftType, rightType, base));
-	}
-
 	public TypedAtom(int leftType, int rightType, Atom atom) {
 		this.leftType = leftType;
 		this.rightType = rightType;

@@ -52,11 +52,6 @@ public class MonoScaleAtom extends ScaleAtom {
 
 	private double factor;
 
-	@Override
-	final public Atom duplicate() {
-		return setFields(new MonoScaleAtom(base, xscl, yscl, factor));
-	}
-
 	public MonoScaleAtom(Atom base, double factor) {
 		super(base, factor, factor);
 		this.factor = factor;

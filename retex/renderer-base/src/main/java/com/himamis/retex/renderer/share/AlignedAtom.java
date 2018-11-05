@@ -68,8 +68,4 @@ public class AlignedAtom extends Atom {
 		return base.createBox(env);
 	}
 
-	@Override
-	public Atom duplicate() {
-		return setFields(new AlignedAtom(base, alignment));
-	}
 }
