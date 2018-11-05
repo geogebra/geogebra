@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -13,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TableUtils;
@@ -290,7 +292,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			@Override
 			public SafeHtml getValue(RowData object) {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(object.getValue(col));
-				int width = dimensions.getColumnWidth(col) + 16 + 32;
+				int width = getColumnWidth(dimensions, col);
 				int height = dimensions.getRowHeight(object.row);
 				SafeHtml cell = TEMPLATES.cell(value, width, height);
 
@@ -317,7 +319,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, dimensions.getColumnWidth(column), dimensions.getHeaderHeight());
+		return TEMPLATES.cell(html, getColumnWidth(dimensions, column), dimensions.getHeaderHeight());
+	}
+
+	private static int getColumnWidth(TableValuesDimensions dimensions, int column) {
+		return Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column));
 	}
 
 	private void addColumnsForTable(CellTable<RowData> tb) {
