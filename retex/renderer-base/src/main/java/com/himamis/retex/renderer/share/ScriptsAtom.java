@@ -322,9 +322,4 @@ public class ScriptsAtom extends Atom {
 	public int getLimits() {
 		return base.getLimits();
 	}
-
-	@Override
-	public Atom getBase() {
-		return base;
-	}
 }

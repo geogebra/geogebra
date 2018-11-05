@@ -70,8 +70,7 @@ public class ItAtom extends Atom {
 		return box;
 	}
 
-	@Override
-	public Atom getBase() {
+	public Atom getTrueBase() {
 		return base;
 	}
 

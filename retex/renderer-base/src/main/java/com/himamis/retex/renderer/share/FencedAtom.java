@@ -190,8 +190,7 @@ public class FencedAtom extends Atom {
 		return right;
 	}
 
-	@Override
-	public Atom getBase() {
+	public Atom getTrueBase() {
 		return base;
 	}
 

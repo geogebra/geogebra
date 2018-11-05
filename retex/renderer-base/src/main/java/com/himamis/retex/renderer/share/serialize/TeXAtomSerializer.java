@@ -75,7 +75,7 @@ public class TeXAtomSerializer {
 			FencedAtom ch = (FencedAtom) root;
 			String left = serialize(ch.getLeft());
 			String right = serialize(ch.getRight());
-			String base = serialize(ch.getBase());
+			String base = serialize(ch.getTrueBase());
 			if (adapter == null) {
 				return left + base + right;
 			}
@@ -107,22 +107,22 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof BoldAtom) {
 			BoldAtom ba = (BoldAtom) root;
-			return serialize(ba.getBase());
+			return serialize(ba.getTrueBase());
 
 		}
 		if (root instanceof ItAtom) {
 			ItAtom ia = (ItAtom) root;
-			return serialize(ia.getBase());
+			return serialize(ia.getTrueBase());
 
 		}
 		if (root instanceof TextStyleAtom) {
 			TextStyleAtom tsa = (TextStyleAtom) root;
-			return serialize(tsa.getBase());
+			return serialize(tsa.getTrueBase());
 
 		}
 		if (root instanceof StyleAtom) {
 			StyleAtom sa = (StyleAtom) root;
-			return serialize(sa.getBase());
+			return serialize(sa.getTrueBase());
 
 		}
 		FactoryProvider.getInstance().debug("Unknown atom:" + root.getClass());

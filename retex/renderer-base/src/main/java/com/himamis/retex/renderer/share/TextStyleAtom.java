@@ -68,8 +68,7 @@ public class TextStyleAtom extends Atom {
 		return box;
 	}
 
-	@Override
-	public Atom getBase() {
+	public Atom getTrueBase() {
 		return at;
 	}
 }

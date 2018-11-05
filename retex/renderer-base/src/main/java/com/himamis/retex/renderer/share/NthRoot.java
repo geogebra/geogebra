@@ -145,8 +145,7 @@ public class NthRoot extends Atom {
 		return root;
 	}
 
-	@Override
-	public Atom getBase() {
+	public Atom getTrueBase() {
 		return base;
 	}
 
