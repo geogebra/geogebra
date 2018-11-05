@@ -187,8 +187,6 @@ public class GuiManagerW extends GuiManager
 
 	private GGWMenuBar mainMenuBar;
 
-	private TableValuesView tableValuesW;
-
 	/**
 	 * 
 	 * @param app
@@ -2486,11 +2484,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public View getTableValuesView() {
-		if (tableValuesW == null) {
-			tableValuesW = new TableValuesViewW((AppW) app);
-		}
-		return tableValuesW;
+	protected TableValuesView createTableValuesView() {
+		return new TableValuesViewW((AppW) app);
 	}
 
 	/**
