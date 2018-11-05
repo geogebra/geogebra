@@ -214,8 +214,12 @@ public class DockManagerW extends DockManager {
 			// sort panels right to left: needed for fullscreen button
 			Arrays.sort(dpData, new Comparator<DockPanelData>() {
 
+				@Override
 				public int compare(DockPanelData o1, DockPanelData o2) {
-					return o1.getEmbeddedDef().compareTo(o2.getEmbeddedDef());
+					// bottom to top sorting: need to replace 0 (top) with st
+					// bigger than 2 (bottom)
+					return o1.getEmbeddedDef().replace('0', '4')
+							.compareTo(o2.getEmbeddedDef().replace('0', '4'));
 				}
 			});
 			// now insert the dock panels
