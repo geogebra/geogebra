@@ -91,8 +91,7 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency) {
-
-		return null; // TODO
+		return new GBufferedImageW(width, height, 1.0f, !transparency);
 	}
 
 	@Override
