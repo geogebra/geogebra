@@ -2,7 +2,7 @@
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2009-2011 DENIZET Calixte
+ * Copyright (C) 2009-2018 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,26 +24,29 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import com.himamis.retex.renderer.share.platform.Geom;
 import com.himamis.retex.renderer.share.platform.geom.Point2D;
@@ -54,36 +57,66 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class RotateBox extends Box {
 
-	public static final int BL = 0;
-	public static final int BC = 1;
-	public static final int BR = 2;
-	public static final int TL = 3;
-	public static final int TC = 4;
-	public static final int TR = 5;
-	public static final int BBL = 6;
-	public static final int BBR = 7;
-	public static final int BBC = 8;
-	public static final int CL = 9;
-	public static final int CC = 10;
-	public static final int CR = 11;
+	private static final int BL = 0;
+	private static final int BC = 1;
+	private static final int BR = 2;
+	private static final int TL = 3;
+	private static final int TC = 4;
+	private static final int TR = 5;
+	private static final int BBL = 6;
+	private static final int BBR = 7;
+	private static final int BBC = 8;
+	private static final int CL = 9;
+	private static final int CC = 10;
+	private static final int CR = 11;
 
-	protected double angle = 0;
+	private static final Map<String, Integer> map = new HashMap<String, Integer>() {
+		{
+			put("bl", BL);
+			put("lb", BL);
+			put("bc", BC);
+			put("cb", BC);
+			put("br", BR);
+			put("rb", BR);
+			put("cl", CL);
+			put("lc", CL);
+			put("cc", CC);
+			put("cr", CR);
+			put("rc", CR);
+			put("tl", TL);
+			put("lt", TL);
+			put("tc", TC);
+			put("ct", TC);
+			put("tr", TR);
+			put("rt", TR);
+			put("Bl", BBL);
+			put("lB", BBL);
+			put("Bc", BBC);
+			put("cB", BBC);
+			put("Br", BBR);
+			put("rB", BBR);
+		}
+	};
+
+	protected double angle = 0.;
 	private Box box;
 	private double xmax, xmin, ymax, ymin;
+	private int option;
 
 	private double shiftX;
 	private double shiftY;
 
 	public RotateBox(Box b, double angle, double x, double y) {
 		this.box = b;
-		this.angle = angle * Math.PI / 180;
+		this.angle = angle * Math.PI / 180.;
 		height = b.height;
 		depth = b.depth;
 		width = b.width;
-		double s = Math.sin(this.angle);
-		double c = Math.cos(this.angle);
-		shiftX = (x * (1 - c) + y * s);
-		shiftY = (y * (1 - c) - x * s);
+
+		final double s = Math.sin(this.angle);
+		final double c = Math.cos(this.angle);
+		shiftX = x * (1 - c) + y * s;
+		shiftY = y * (1 - c) - x * s;
 		xmax = Math
 				.max(-height * s, Math.max(depth * s, Math
 						.max(width * c + depth * s, width * c - height * s)))
@@ -109,48 +142,43 @@ public class RotateBox extends Box {
 		this(b, angle, calculateShift(b, option));
 	}
 
-	public static int getOrigin(String option0) {
-		if (option0 == null || option0.length() == 0) {
+	public static int getOrigin(final String option) {
+		if (option == null || option.isEmpty() || option.length() >= 3) {
 			return BBL;
 		}
-		String option = option0;
+
 		if (option.length() == 1) {
-			option += "c";
+			switch (option.charAt(0)) {
+			case 'b':
+				return BC;
+			case 'c':
+				return CC;
+			case 'l':
+				return CL;
+			case 'r':
+				return CR;
+			case 't':
+				return TC;
+			case 'B':
+				return BBC;
+			default:
+				return BBL;
+			}
 		}
-		if ("bl".equals(option) || "lb".equals(option)) {
-			return BL;
-		} else if ("bc".equals(option) || "cb".equals(option)) {
-			return BC;
-		} else if ("br".equals(option) || "rb".equals(option)) {
-			return BR;
-		} else if ("cl".equals(option) || "lc".equals(option)) {
-			return CL;
-		} else if ("cc".equals(option)) {
-			return CC;
-		} else if ("cr".equals(option) || "rc".equals(option)) {
-			return CR;
-		} else if ("tl".equals(option) || "lt".equals(option)) {
-			return TL;
-		} else if ("tc".equals(option) || "ct".equals(option)) {
-			return TC;
-		} else if ("tr".equals(option) || "rt".equals(option)) {
-			return TR;
-		} else if ("Bl".equals(option) || "lB".equals(option)) {
-			return BBL;
-		} else if ("Bc".equals(option) || "cB".equals(option)) {
-			return BBC;
-		} else if ("Br".equals(option) || "rB".equals(option)) {
-			return BBR;
-		} else {
-			return BBL;
+
+		final Integer v = map.get(option);
+		if (v != null) {
+			return v.intValue();
 		}
+		return BBL;
 	}
 
 	private static Point2D calculateShift(Box b, int option) {
 		Point2D p = new Geom().createPoint2D(0, -b.depth);
+
 		switch (option) {
 		case BL:
-			p.setX(0);
+			p.setX(0.);
 			p.setY(-b.depth);
 			break;
 		case BR:
@@ -158,11 +186,11 @@ public class RotateBox extends Box {
 			p.setY(-b.depth);
 			break;
 		case BC:
-			p.setX(b.width / 2);
+			p.setX(b.width / 2.);
 			p.setY(-b.depth);
 			break;
 		case TL:
-			p.setX(0);
+			p.setX(0.);
 			p.setY(b.height);
 			break;
 		case TR:
@@ -170,32 +198,32 @@ public class RotateBox extends Box {
 			p.setY(b.height);
 			break;
 		case TC:
-			p.setX(b.width / 2);
+			p.setX(b.width / 2.);
 			p.setY(b.height);
 			break;
 		case BBL:
-			p.setX(0);
-			p.setY(0);
+			p.setX(0.);
+			p.setY(0.);
 			break;
 		case BBR:
 			p.setX(b.width);
-			p.setY(0);
+			p.setY(0.);
 			break;
 		case BBC:
-			p.setX(b.width / 2);
-			p.setY(0);
+			p.setX(b.width / 2.);
+			p.setY(0.);
 			break;
 		case CL:
-			p.setX(0);
-			p.setY((b.height - b.depth) / 2);
+			p.setX(0.);
+			p.setY((b.height - b.depth) / 2.);
 			break;
 		case CR:
 			p.setX(b.width);
-			p.setY((b.height - b.depth) / 2);
+			p.setY((b.height - b.depth) / 2.);
 			break;
 		case CC:
-			p.setX(b.width / 2);
-			p.setY((b.height - b.depth) / 2);
+			p.setX(b.width / 2.);
+			p.setY((b.height - b.depth) / 2.);
 			break;
 		default:
 		}
@@ -203,19 +231,18 @@ public class RotateBox extends Box {
 		return p;
 	}
 
-	@Override
-	public void draw(Graphics2DInterface g2, double x0, double y0) {
-		drawDebug(g2, x0, y0);
-		box.drawDebug(g2, x0, y0, true);
-		double y = y0 - shiftY;
-		double x = x0 + shiftX - xmin;
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		startDraw(g2, x, y);
+		box.drawDebug(g2, x, y, true);
+		y -= shiftY;
+		x += shiftX - xmin;
 		g2.rotate(-angle, x, y);
 		box.draw(g2, x, y);
 		box.drawDebug(g2, x, y, true);
 		g2.rotate(angle, x, y);
+		endDraw(g2);
 	}
 
-	@Override
 	public FontInfo getLastFont() {
 		return box.getLastFont();
 	}
