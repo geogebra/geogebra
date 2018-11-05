@@ -74,6 +74,7 @@ public class TableValuesPoints implements TableValuesListener {
 			point.setEuclidianVisible(true);
 			point.setLabelVisible(false);
 			point.setHasPreviewPopup(true);
+			point.setFixed(true);
 			point.setLabel("TableValuesPoint");
 			construction.removeFromConstructionList(point);
 
