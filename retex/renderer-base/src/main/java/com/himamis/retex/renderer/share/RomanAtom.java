@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a roman atom.
  */
-public class RomanAtom extends Atom {
+public class RomanAtom extends Atom implements HasTrueBase {
 
 	protected Atom base;
 
@@ -56,6 +58,7 @@ public class RomanAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

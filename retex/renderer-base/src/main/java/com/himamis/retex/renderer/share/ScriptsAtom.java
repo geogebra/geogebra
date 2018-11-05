@@ -51,11 +51,12 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayList;
 
 import com.himamis.retex.renderer.share.mhchem.CEEmptyAtom;
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
  * An atom representing scripts to be attached to another atom.
  */
-public class ScriptsAtom extends Atom {
+public class ScriptsAtom extends Atom implements HasTrueBase {
 
 	// base atom
 	private Atom base;
@@ -82,6 +83,7 @@ public class ScriptsAtom extends Atom {
 		this(base, sub, sup, !(base instanceof CEEmptyAtom));
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

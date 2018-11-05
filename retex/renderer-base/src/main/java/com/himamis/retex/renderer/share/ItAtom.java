@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a italic atom.
  */
-public class ItAtom extends Atom {
+public class ItAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 
@@ -70,6 +72,7 @@ public class ItAtom extends Atom {
 		return box;
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

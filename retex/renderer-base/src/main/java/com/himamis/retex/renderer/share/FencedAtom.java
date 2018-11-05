@@ -50,11 +50,13 @@ package com.himamis.retex.renderer.share;
 
 import java.util.List;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a base atom surrounded with delimiters that change their
  * size according to the height of the base.
  */
-public class FencedAtom extends Atom {
+public class FencedAtom extends Atom implements HasTrueBase {
 
 	// base atom
 	private final Atom base;
@@ -190,6 +192,7 @@ public class FencedAtom extends Atom {
 		return right;
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

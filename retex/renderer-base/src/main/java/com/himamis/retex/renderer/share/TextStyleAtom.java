@@ -45,11 +45,13 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a modification of style in a formula (e.g. textstyle or
  * displaystyle).
  */
-public class TextStyleAtom extends Atom {
+public class TextStyleAtom extends Atom implements HasTrueBase {
 
 	private int style;
 	private Atom at;
@@ -68,6 +70,7 @@ public class TextStyleAtom extends Atom {
 		return box;
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return at;
 	}

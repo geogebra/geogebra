@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a bold atom.
  */
-public class BoldAtom extends Atom {
+public class BoldAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 
@@ -71,6 +73,7 @@ public class BoldAtom extends Atom {
 		return box;
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

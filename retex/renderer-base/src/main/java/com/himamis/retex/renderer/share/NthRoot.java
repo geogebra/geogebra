@@ -47,11 +47,12 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
  * An atom representing an nth-root construction.
  */
-public class NthRoot extends Atom {
+public class NthRoot extends Atom implements HasTrueBase {
 
 	private static final double FACTOR = 0.55;
 
@@ -145,6 +146,7 @@ public class NthRoot extends Atom {
 		return root;
 	}
 
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

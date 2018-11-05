@@ -1,21 +1,16 @@
 package com.himamis.retex.renderer.share.serialize;
 
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.BoldAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
-import com.himamis.retex.renderer.share.ItAtom;
 import com.himamis.retex.renderer.share.NthRoot;
-import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
-import com.himamis.retex.renderer.share.StyleAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
-import com.himamis.retex.renderer.share.TextStyleAtom;
 import com.himamis.retex.renderer.share.TypedAtom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -63,10 +58,6 @@ public class TeXAtomSerializer {
 			TypedAtom ch = (TypedAtom) root;
 			return serialize(ch.getBase());
 		}
-		if (root instanceof RomanAtom) {
-			RomanAtom ch = (RomanAtom) root;
-			return serialize(ch.getTrueBase());
-		}
 		if (root instanceof ScriptsAtom) {
 			ScriptsAtom ch = (ScriptsAtom) root;
 			return subSup(ch);
@@ -105,26 +96,13 @@ public class TeXAtomSerializer {
 			}
 			return sb.toString();
 		}
-		if (root instanceof BoldAtom) {
-			BoldAtom ba = (BoldAtom) root;
-			return serialize(ba.getTrueBase());
 
+		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
+		// TODO: probably more atoms need to implement HasTrueBase
+		if (root instanceof HasTrueBase) {
+			return serialize(((HasTrueBase) root).getTrueBase());
 		}
-		if (root instanceof ItAtom) {
-			ItAtom ia = (ItAtom) root;
-			return serialize(ia.getTrueBase());
 
-		}
-		if (root instanceof TextStyleAtom) {
-			TextStyleAtom tsa = (TextStyleAtom) root;
-			return serialize(tsa.getTrueBase());
-
-		}
-		if (root instanceof StyleAtom) {
-			StyleAtom sa = (StyleAtom) root;
-			return serialize(sa.getTrueBase());
-
-		}
 		FactoryProvider.getInstance().debug("Unknown atom:" + root.getClass());
 		// FactoryProvider.getInstance().printStacktrace();
 		return "?";
