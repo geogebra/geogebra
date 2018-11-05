@@ -85,8 +85,8 @@ public class CommandUnicode extends Command {
 		}
 
 		if (fontName != null && !fontName.isEmpty()) {
-			FactoryProvider.getInstance().getFontFactory().createFont(fontName,
-					Font.PLAIN, 10);
+			font = FactoryProvider.getInstance().getFontFactory()
+					.createFont(fontName, Font.PLAIN, 10);
 			if (!font.canDisplay(c)) {
 				final String s = new String(new int[] { c }, 0, 1);
 				throw new ParseException(tp, "The font " + fontName
