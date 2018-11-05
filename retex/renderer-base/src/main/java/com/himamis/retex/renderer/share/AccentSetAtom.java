@@ -60,7 +60,7 @@ public class AccentSetAtom extends Atom {
 
 	public AccentSetAtom(Atom base, Atom accent) {
 		this.base = base;
-		if (base instanceof AccentedAtom) {
+		if (base instanceof AccentSetAtom) {
 			underbase = ((AccentSetAtom) base).underbase;
 		} else {
 			underbase = base;

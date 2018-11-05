@@ -127,7 +127,7 @@ public class RotateBox extends Box {
 			return CL;
 		} else if ("cc".equals(option)) {
 			return CC;
-		} else if ("cr".equals(option) || "cr".equals(option)) {
+		} else if ("cr".equals(option) || "rc".equals(option)) {
 			return CR;
 		} else if ("tl".equals(option) || "lt".equals(option)) {
 			return TL;

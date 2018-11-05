@@ -67,9 +67,9 @@ public abstract class GraphicsFactory {
 	 * static public int CURSOR_BLUE = 210;
 	 */
 	// purple dark
-	static public int CURSOR_RED = 76;
-	static public int CURSOR_GREEN = 66;
-	static public int CURSOR_BLUE = 161;
+	static public final int CURSOR_RED = 76;
+	static public final int CURSOR_GREEN = 66;
+	static public final int CURSOR_BLUE = 161;
 
 	public abstract BasicStroke createBasicStroke(double width, int cap,
 			int join, double miterLimit);

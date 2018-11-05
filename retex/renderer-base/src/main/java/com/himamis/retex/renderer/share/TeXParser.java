@@ -207,7 +207,6 @@ public class TeXParser {
 	public void reset(final String parseString) {
 		this.stack.clear();
 		this.stringStack.clear();
-		this.isPartial = isPartial;
 		if (parseString != null) {
 			this.parseString = parseString;
 			this.len = parseString.length();

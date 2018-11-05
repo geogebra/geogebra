@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'findbugs'
 apply plugin: 'maven-publish'
 
 group 'com.himamis.retex'
@@ -21,4 +22,9 @@ dependencies {
 task jarSources(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
     from sourceSets.main.allSource 
+}
+
+findbugs {
+	ignoreFailures = true
+	excludeFilter = file("../../common/config/findbugs.xml")
 }

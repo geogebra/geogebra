@@ -50,8 +50,8 @@ package com.himamis.retex.renderer.share;
  */
 public class MultlineAtom extends Atom {
 
-	public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0., 1.,
-			0.);
+	public static final SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0.,
+			1., 0.);
 	public static final int MULTLINE = 0;
 	public static final int GATHER = 1;
 	public static final int GATHERED = 2;

@@ -50,16 +50,16 @@ import java.util.List;
 
 public class ArrayAtom extends Atom {
 
-	public static SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1., 0.0,
-			0.0);
-	public static SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM, 0.5,
+	public static final SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1.,
 			0.0, 0.0);
-	public static SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX, 0.0, 1.,
-			0.0);
-	public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXLength.Unit.EX, 0.0,
-			0.4, 0.0);
-	public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXLength.Unit.EX, 0.0,
-			0.4, 0.0);
+	public static final SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM,
+			0.5, 0.0, 0.0);
+	public static final SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX,
+			0.0, 1., 0.0);
+	public static final SpaceAtom vsep_ext_top = new SpaceAtom(
+			TeXLength.Unit.EX, 0.0, 0.4, 0.0);
+	public static final SpaceAtom vsep_ext_bot = new SpaceAtom(
+			TeXLength.Unit.EX, 0.0, 0.4, 0.0);
 
 	public static final int ARRAY = 0;
 	public static final int MATRIX = 1;
