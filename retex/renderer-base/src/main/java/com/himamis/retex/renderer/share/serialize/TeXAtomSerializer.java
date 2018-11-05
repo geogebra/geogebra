@@ -43,12 +43,12 @@ public class TeXAtomSerializer {
 					+ serialize(frac.getDenominator()) + ")";
 		}
 		if (root instanceof NthRoot) {
-			NthRoot frac = (NthRoot) root;
-			if (frac.getRoot() == null) {
-				return "sqrt(" + serialize(frac.getRootBase()) + ")";
+			NthRoot nRoot = (NthRoot) root;
+			if (nRoot.getRoot() == null) {
+				return "sqrt(" + serialize(nRoot.getTrueBase()) + ")";
 			}
-			return "nroot(" + serialize(frac.getRootBase()) + ","
-					+ serialize(frac.getRoot()) + ")";
+			return "nroot(" + serialize(nRoot.getTrueBase()) + ","
+					+ serialize(nRoot.getRoot()) + ")";
 		}
 		if (root instanceof CharAtom) {
 			CharAtom ch = (CharAtom) root;
@@ -108,10 +108,10 @@ public class TeXAtomSerializer {
 		return "?";
 	}
 
-	private String subSup(ScriptsAtom ch) {
-		StringBuilder sb = new StringBuilder(serialize(ch.geScriptBase()));
-		if (ch.getSub() != null) {
-			String sub = serialize(ch.getSub());
+	private String subSup(ScriptsAtom script) {
+		StringBuilder sb = new StringBuilder(serialize(script.getTrueBase()));
+		if (script.getSub() != null) {
+			String sub = serialize(script.getSub());
 			if (sub.length() > 1) {
 				sb.append("_{");
 				sb.append(sub);
@@ -121,9 +121,9 @@ public class TeXAtomSerializer {
 				sb.append(sub);
 			}
 		}
-		if (ch.getSup() != null) {
+		if (script.getSup() != null) {
 			sb.append("^(");
-			sb.append(serialize(ch.getSup()));
+			sb.append(serialize(script.getSup()));
 			sb.append(")");
 		}
 		return sb.toString();

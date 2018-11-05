@@ -325,10 +325,4 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 		return base.getLimits();
 	}
 
-	/**
-	 * @return base of exponent / subscript
-	 */
-	public Atom geScriptBase() {
-		return base;
-	}
 }
