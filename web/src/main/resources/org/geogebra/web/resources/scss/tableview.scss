@@ -1,6 +1,9 @@
 @import 'colors';
 
 .GeoGebraFrame {
+	$first-column-width: 85px;
+	$column-width: 95px;
+	
 		.tableViewParent {
 			height: 100%;
 		}
@@ -51,46 +54,40 @@
 			display: inline-block;
 		}
 		
-		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeaderCell {
-				text-shadow: none;
-				color: #666666;
-				border-right: 1px solid $black-10;
-				border-bottom: 0px;
-				text-align: center;
-				background-color: #f8f8f8;
-				font-weight: normal;
-				width: 50px;
-		}
-			
 		.tvHeader {
-			
-		
-			thead th:FIRST-CHILD,
-			thead th:FIRST-CHILD div {
-				max-width: 16px;
+			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader {
+				 border: 0px;
+				 text-align: center;
+				 div:FIRST-CHILD {
+					color: $black-54; 
+					display: flex;
+					margin: auto;	
+					.MyToggleButton {
+						width: 12px;
+						border: 0px;
+						opacity: 0.54;
+					}			 
+				 }
 			}
 		
-			thead th div {
-				display: flex;
-				margin: auto;
+			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableFirstColumnHeader {
+				max-width: $first-column-width;
+				min-width: $first-column-width;	
 			}
-
-			thead th div .MyToggleButton {
-				border: 0px;
-			}
-					
 			tbody {display: none;}
 		}
 		
 		
 		.tvTable td:FIRST-CHILD{
-			max-width: 35px;
-			min-width: 35px;
+			max-width: $first-column-width;
+			min-width: $first-column-width;
 		}
 		
 		.tvTable td {
-			min-width: 50px;
-			max-width: 100px;
+			min-width: $column-width;
+			max-width: $column-width;
+			color: $black-87;
+			text-align: center;
 		}
 	
 		
@@ -110,8 +107,9 @@
 			min-height: 35px;
 			padding-left: 5px;
 		}
-		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableEvenRowCell {
-				background: $black-10;
+		
+		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableOddRowCell {
+				background: $tableview-row;
 		}
 	
 	.tvPanel .tvScrollPanel{
