@@ -95,14 +95,4 @@ public class CommandOver extends Command {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new OverAtom(a, b);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandOver ret = new CommandOver();
-		ret.den = den;
-		ret.num = num;
-		return ret;
-
-	}
-
 }

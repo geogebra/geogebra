@@ -11,9 +11,4 @@ public class CommandU extends Command1A {
 		return new AccentedAtom(a, "cyrbreve");
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandU();
-	}
-
 }

@@ -18,11 +18,4 @@ public class CommandUnderAccent extends Command2A {
 				false, false);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandUnderAccent ret = new CommandUnderAccent();
-		ret.atom = atom;
-		return ret;
-	}
-
 }

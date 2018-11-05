@@ -41,9 +41,4 @@ public class CommandJlmXML extends Command {
 		return false;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandJlmXML();
-	}
-
 }

@@ -10,9 +10,4 @@ public class CommandMathRm extends Command1A {
 		return new RomanAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathRm();
-	}
-
 }

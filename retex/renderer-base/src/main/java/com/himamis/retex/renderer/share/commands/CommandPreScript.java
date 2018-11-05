@@ -21,13 +21,4 @@ public class CommandPreScript extends Command3A {
 		ra.lookAtLast(true);
 		return ra;
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandPreScript ret = new CommandPreScript();
-		ret.atom1 = atom1;
-		ret.atom2 = atom2;
-		return ret;
-	}
-
 }

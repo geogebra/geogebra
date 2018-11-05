@@ -12,9 +12,4 @@ public class CommandBreve1 extends Command1A {
 		return new AccentedAtom(a, Symbols.BREVE);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBreve1();
-	}
-
 }

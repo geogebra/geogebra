@@ -12,9 +12,4 @@ public class CommandDot1 extends Command1A {
 		return new AccentedAtom(a, Symbols.DOT);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandDot1();
-	}
-
 }

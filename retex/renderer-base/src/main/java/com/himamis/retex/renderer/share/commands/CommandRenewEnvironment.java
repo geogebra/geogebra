@@ -15,10 +15,4 @@ public class CommandRenewEnvironment extends Command {
 				true);
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandRenewEnvironment();
-	}
-
 }

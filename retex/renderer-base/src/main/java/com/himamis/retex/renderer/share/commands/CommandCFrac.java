@@ -36,12 +36,4 @@ public class CommandCFrac extends Command2A {
 		return new RowAtom(new StyleAtom(TeXConstants.STYLE_DISPLAY, a));
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandCFrac ret = new CommandCFrac();
-		ret.atom = atom;
-		ret.opt = opt;
-		return ret;
-	}
-
 }

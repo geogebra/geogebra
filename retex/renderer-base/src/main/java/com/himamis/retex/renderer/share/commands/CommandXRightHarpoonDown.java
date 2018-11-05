@@ -11,12 +11,4 @@ public class CommandXRightHarpoonDown extends Command1O1A {
 		return new XArrowAtom(b, a, XArrowAtom.Kind.RightHarpoonDown);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandXRightHarpoonDown ret = new CommandXRightHarpoonDown();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

@@ -15,10 +15,4 @@ public class CommandNewEnvironment extends Command {
 				false);
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandNewEnvironment();
-	}
-
 }

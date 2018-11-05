@@ -60,11 +60,6 @@ public class Column extends Command {
 	}
 
 	@Override
-	public Command duplicate() {
-		return new Column(aoa);
-	}
-
-	@Override
 	public boolean init(TeXParser tp) {
 		aoa = new ArrayOfAtoms(ArrayAtom.MATRIX);
 		aoa.setOneColumn(true);

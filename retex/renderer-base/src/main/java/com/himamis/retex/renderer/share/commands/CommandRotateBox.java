@@ -22,13 +22,4 @@ public class CommandRotateBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RotateAtom(a, angle, options);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandRotateBox ret = new CommandRotateBox();
-		ret.angle = angle;
-		ret.options = options;
-		return ret;
-	}
-
 }

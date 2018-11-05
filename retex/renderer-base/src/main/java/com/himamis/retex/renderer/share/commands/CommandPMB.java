@@ -14,10 +14,4 @@ public class CommandPMB extends Command1A {
 		return new OoalignAtom(a,
 				new RowAtom(new SpaceAtom(TeXLength.Unit.MU, 0.4), a));
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandPMB();
-	}
-
 }

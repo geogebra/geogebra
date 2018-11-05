@@ -10,10 +10,4 @@ public class CommandPhantom extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new PhantomAtom(a, true, true, true);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandPhantom();
-	}
-
 }

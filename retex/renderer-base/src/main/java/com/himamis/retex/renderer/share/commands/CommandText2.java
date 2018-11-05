@@ -10,11 +10,4 @@ public class CommandText2 extends CommandText {
 		return a;
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandText2 ret = new CommandText2();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

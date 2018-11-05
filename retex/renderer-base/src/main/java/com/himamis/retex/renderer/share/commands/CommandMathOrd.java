@@ -6,14 +6,10 @@ import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.TypedAtom;
 
 public class CommandMathOrd extends Command1A {
+
 	@Override
 	public Atom newI(TeXParser tp, Atom a) {
 		return new TypedAtom(TeXConstants.TYPE_ORDINARY, a);
-	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandMathOrd();
 	}
 
 }

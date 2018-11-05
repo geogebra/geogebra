@@ -209,10 +209,4 @@ public class CommandDefinecolor extends Command {
 
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandDefinecolor();
-
-	}
 }

@@ -34,13 +34,4 @@ public class CommandSideSet extends Command3A {
 
 		return ra;
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandSideSet ret = new CommandSideSet();
-		ret.atom1 = atom1;
-		ret.atom2 = atom2;
-		return ret;
-	}
-
 }

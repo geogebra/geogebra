@@ -13,10 +13,4 @@ public class CommandOperatorName extends Command1A {
 		a.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		return a;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandOperatorName();
-	}
-
 }

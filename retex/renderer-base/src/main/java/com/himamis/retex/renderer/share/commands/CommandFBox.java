@@ -11,9 +11,4 @@ public class CommandFBox extends Command1A {
 		return new FBoxAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandFBox();
-	}
-
 }

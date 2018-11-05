@@ -12,9 +12,4 @@ public class CommandMathBin extends Command1A {
 		return new TypedAtom(TeXConstants.TYPE_BINARY_OPERATOR, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathBin();
-	}
-
 }

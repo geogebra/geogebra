@@ -10,11 +10,4 @@ public class CommandDFrac extends Command2A {
 		return CommandGenfrac.get(null, a, b, null, null, 0);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandDFrac ret = new CommandDFrac();
-		ret.atom = atom;
-		return ret;
-	}
-
 }

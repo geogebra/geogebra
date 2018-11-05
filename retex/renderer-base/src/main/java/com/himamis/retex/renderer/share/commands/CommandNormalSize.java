@@ -19,10 +19,4 @@ public class CommandNormalSize extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 1.);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandNormalSize(size);
-	}
-
 }

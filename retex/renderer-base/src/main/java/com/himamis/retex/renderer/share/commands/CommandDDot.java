@@ -23,9 +23,4 @@ public class CommandDDot extends Command1A {
 		return true;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandDDot();
-	}
-
 }

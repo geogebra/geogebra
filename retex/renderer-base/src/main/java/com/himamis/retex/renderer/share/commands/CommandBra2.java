@@ -12,9 +12,4 @@ public class CommandBra2 extends Command1A {
 		return new RowAtom(Symbols.LANGLE, a, Symbols.VERT);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBra2();
-	}
-
 }

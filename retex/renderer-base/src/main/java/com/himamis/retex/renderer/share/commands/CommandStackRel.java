@@ -16,13 +16,4 @@ public class CommandStackRel extends Command1O2A {
 		return at.changeType(TeXConstants.TYPE_RELATION);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandStackRel ret = new CommandStackRel();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		ret.atom = atom;
-		return ret;
-	}
-
 }

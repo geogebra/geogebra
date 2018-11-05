@@ -11,9 +11,4 @@ public class CommandMathInner extends Command1A {
 		return new TypedAtom(TeXConstants.TYPE_INNER, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathInner();
-	}
-
 }

@@ -19,10 +19,4 @@ public class CommandSc extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new SmallCapAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandSc(size);
-	}
-
 }

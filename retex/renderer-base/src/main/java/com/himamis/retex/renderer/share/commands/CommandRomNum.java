@@ -76,13 +76,4 @@ public class CommandRomNum extends Command {
 
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandRomNum ret = new CommandRomNum(u);
-
-		return ret;
-
-	}
-
 }

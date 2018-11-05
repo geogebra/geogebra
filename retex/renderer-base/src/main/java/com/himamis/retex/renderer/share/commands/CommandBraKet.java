@@ -12,9 +12,4 @@ public class CommandBraKet extends Command1A {
 		return new RowAtom(Symbols.LANGLE, a, Symbols.RANGLE);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBraKet();
-	}
-
 }

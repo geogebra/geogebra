@@ -11,10 +11,4 @@ public class CommandMathBf extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new BoldAtom(new RomanAtom(a));
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandMathBf();
-	}
-
 }

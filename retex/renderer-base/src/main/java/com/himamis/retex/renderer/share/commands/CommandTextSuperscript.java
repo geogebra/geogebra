@@ -28,11 +28,4 @@ public class CommandTextSuperscript extends Command {
 				new StyleAtom(TeXConstants.STYLE_TEXT, new RomanAtom(a))));
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextSuperscript ret = new CommandTextSuperscript();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

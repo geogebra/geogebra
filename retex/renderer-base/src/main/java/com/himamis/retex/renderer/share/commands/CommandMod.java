@@ -21,9 +21,4 @@ public class CommandMod extends Command1A {
 		return new PodAtom(ra, 12., false);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMod();
-	}
-
 }

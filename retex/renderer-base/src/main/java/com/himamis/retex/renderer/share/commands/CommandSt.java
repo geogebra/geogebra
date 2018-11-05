@@ -10,10 +10,4 @@ public class CommandSt extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new StrikeThroughAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandSt();
-	}
-
 }

@@ -28,9 +28,4 @@ public class CommandColorBox extends Command1A {
 		return new FBoxAtom(a, bg, bg);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandColorBox(bg);
-	}
-
 }

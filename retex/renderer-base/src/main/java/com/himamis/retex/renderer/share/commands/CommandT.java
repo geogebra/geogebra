@@ -17,9 +17,4 @@ public class CommandT extends Command1A {
 		});
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandT();
-	}
-
 }

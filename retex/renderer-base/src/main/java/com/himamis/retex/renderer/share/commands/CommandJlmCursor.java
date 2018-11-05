@@ -22,9 +22,4 @@ public class CommandJlmCursor extends Command {
 
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandJlmCursor();
-	}
-
 }

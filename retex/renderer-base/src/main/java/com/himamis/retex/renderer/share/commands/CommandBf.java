@@ -21,9 +21,4 @@ public class CommandBf extends CommandStyle {
 		return new BoldAtom(new RomanAtom(a));
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBf(size);
-	}
-
 }

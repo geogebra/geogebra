@@ -23,9 +23,4 @@ public class CommandAcute2 extends Command1A {
 		return true;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandAcute2();
-	}
-
 }

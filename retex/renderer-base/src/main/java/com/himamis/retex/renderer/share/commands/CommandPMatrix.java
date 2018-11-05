@@ -13,16 +13,4 @@ public class CommandPMatrix extends CommandMatrix {
 		return new FencedAtom(new SMatrixAtom(aoa, false), Symbols.LBRACK,
 				Symbols.RBRACK);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandPMatrix ret = new CommandPMatrix();
-
-		ret.hasLBrace = hasLBrace;
-		ret.aoa = aoa;
-
-		return ret;
-
-	}
-
 }

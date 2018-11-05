@@ -25,12 +25,4 @@ public class CommandSkew extends Command {
 		throw new ParseException(tp,
 				"skew command is only working with an accent as second argument");
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandSkew ret = new CommandSkew();
-		ret.skew = skew;
-		return ret;
-	}
-
 }

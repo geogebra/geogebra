@@ -23,9 +23,4 @@ public class CommandBreve2 extends Command1A {
 		return true;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBreve2();
-	}
-
 }

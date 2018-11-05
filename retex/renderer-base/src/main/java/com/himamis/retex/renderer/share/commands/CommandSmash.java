@@ -22,12 +22,4 @@ public class CommandSmash extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new SmashedAtom(a, opt);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandSmash ret = new CommandSmash();
-		ret.opt = opt;
-		return ret;
-	}
-
 }

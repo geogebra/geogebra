@@ -20,9 +20,4 @@ public class CommandTt extends CommandStyle {
 		return new TtAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandTt(size);
-	}
-
 }

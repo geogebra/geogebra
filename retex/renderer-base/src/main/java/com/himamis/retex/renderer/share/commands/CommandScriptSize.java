@@ -19,10 +19,4 @@ public class CommandScriptSize extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 0.7);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandScriptSize(size);
-	}
-
 }

@@ -11,10 +11,4 @@ public class CommandQuotes extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AccentedAtom(a, Symbols.DDOT);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandQuotes();
-	}
-
 }

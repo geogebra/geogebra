@@ -14,9 +14,4 @@ public class CommandImageBase64 extends Command {
 		return false;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandImageBase64();
-	}
-
 }

@@ -20,9 +20,4 @@ public class CommandTiny2 extends CommandStyle {
 		return new MonoScaleAtom(a, 0.6);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandTiny2(size);
-	}
-
 }

@@ -23,9 +23,4 @@ public class CommandBar extends Command1A {
 		return true;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBar();
-	}
-
 }

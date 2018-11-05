@@ -20,10 +20,4 @@ public class CommandScriptStyle extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new StyleAtom(TeXConstants.STYLE_SCRIPT, a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandScriptStyle(size);
-	}
-
 }

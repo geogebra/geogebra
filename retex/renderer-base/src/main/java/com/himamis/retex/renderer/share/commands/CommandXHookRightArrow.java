@@ -11,12 +11,4 @@ public class CommandXHookRightArrow extends Command1O1A {
 		return new XHookAtom(b, a, false);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandXHookRightArrow ret = new CommandXHookRightArrow();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

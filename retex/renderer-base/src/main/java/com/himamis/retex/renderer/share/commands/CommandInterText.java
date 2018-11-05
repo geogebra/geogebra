@@ -31,11 +31,4 @@ public class CommandInterText extends Command {
 		tp.closeConsumer(a.changeType(TeXConstants.TYPE_INTERTEXT));
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandInterText ret = new CommandInterText();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

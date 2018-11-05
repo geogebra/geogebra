@@ -12,9 +12,4 @@ public class CommandCheck extends Command1A {
 		return new AccentedAtom(a, Symbols.CHECK);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandCheck();
-	}
-
 }

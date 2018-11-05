@@ -15,11 +15,4 @@ public class CommandTBinom extends Command2A {
 		return CommandGenfrac.get(left, a, b, right, TeXLength.getZero(), 1);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTBinom ret = new CommandTBinom();
-		ret.atom = atom;
-		return ret;
-	}
-
 }

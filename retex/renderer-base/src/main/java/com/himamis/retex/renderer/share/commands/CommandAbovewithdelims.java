@@ -25,19 +25,4 @@ public class CommandAbovewithdelims extends CommandOverwithdelims {
 	public Atom newI(TeXParser tp, Atom num, Atom den) {
 		return new FractionAtom(num, den, l);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandAbovewithdelims ret = new CommandAbovewithdelims();
-
-		ret.num = num;
-		ret.den = den;
-		ret.left = left;
-		ret.right = right;
-		ret.l = l;
-
-		return ret;
-
-	}
-
 }

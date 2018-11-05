@@ -18,10 +18,4 @@ public class CommandPMod extends Command1A {
 		ra.add(a);
 		return new PodAtom(ra, 8., true);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandPMod();
-	}
-
 }

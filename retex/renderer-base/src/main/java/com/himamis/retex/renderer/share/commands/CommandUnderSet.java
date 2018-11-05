@@ -14,11 +14,4 @@ public class CommandUnderSet extends Command2A {
 				new TeXLength(TeXLength.Unit.MU, 0.2), true, false);
 		return at.changeType(TeXConstants.TYPE_RELATION);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandUnderSet ret = new CommandUnderSet();
-		ret.atom = atom;
-		return ret;
-	}
 }

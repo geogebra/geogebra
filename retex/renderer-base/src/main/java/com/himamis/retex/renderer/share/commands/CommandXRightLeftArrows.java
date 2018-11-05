@@ -11,12 +11,4 @@ public class CommandXRightLeftArrows extends Command1O1A {
 		return new XArrowAtom(b, a, XArrowAtom.Kind.RightAndLeft);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandXRightLeftArrows ret = new CommandXRightLeftArrows();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

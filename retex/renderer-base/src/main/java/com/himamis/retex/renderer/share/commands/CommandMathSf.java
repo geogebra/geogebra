@@ -11,9 +11,4 @@ public class CommandMathSf extends Command1A {
 		return new SsAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathSf();
-	}
-
 }

@@ -23,16 +23,4 @@ public class CommandRaiseBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RaiseAtom(a, raise, height, depth);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandRaiseBox ret = new CommandRaiseBox();
-
-		ret.raise = raise;
-		ret.height = height;
-		ret.depth = depth;
-
-		return ret;
-	}
-
 }

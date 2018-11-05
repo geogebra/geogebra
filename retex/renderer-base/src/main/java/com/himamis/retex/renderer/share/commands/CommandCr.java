@@ -84,10 +84,4 @@ public class CommandCr extends Command {
 
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandCr(cmd);
-
-	}
 }

@@ -12,9 +12,4 @@ public class CommandMathPunct extends Command1A {
 		return new TypedAtom(TeXConstants.TYPE_PUNCTUATION, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathPunct();
-	}
-
 }

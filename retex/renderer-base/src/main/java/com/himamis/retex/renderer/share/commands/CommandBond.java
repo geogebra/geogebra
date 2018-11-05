@@ -12,10 +12,4 @@ public class CommandBond extends Command {
 		tp.addToConsumer(mbp.get());
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandBond();
-	}
-
 }

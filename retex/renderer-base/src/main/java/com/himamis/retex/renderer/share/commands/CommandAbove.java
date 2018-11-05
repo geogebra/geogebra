@@ -20,15 +20,4 @@ public class CommandAbove extends CommandOver {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new FractionAtom(a, b, len);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandAbove ret = new CommandAbove();
-		ret.len = len;
-		ret.den = den;
-		ret.num = num;
-		return ret;
-
-	}
-
 }

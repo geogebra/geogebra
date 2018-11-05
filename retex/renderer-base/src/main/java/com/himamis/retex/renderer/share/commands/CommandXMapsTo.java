@@ -11,12 +11,4 @@ public class CommandXMapsTo extends Command1O1A {
 		return new XMapstoAtom(b, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandXMapsTo ret = new CommandXMapsTo();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

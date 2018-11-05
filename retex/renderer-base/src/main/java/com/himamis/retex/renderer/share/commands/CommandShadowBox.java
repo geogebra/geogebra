@@ -10,10 +10,4 @@ public class CommandShadowBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new ShadowAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandShadowBox();
-	}
-
 }

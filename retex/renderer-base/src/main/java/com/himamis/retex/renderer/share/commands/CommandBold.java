@@ -10,10 +10,4 @@ public class CommandBold extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new BoldAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandBold();
-	}
-
 }

@@ -22,9 +22,4 @@ public class CommandTilde2 extends Command1A {
 		return true;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandTilde2();
-	}
-
 }

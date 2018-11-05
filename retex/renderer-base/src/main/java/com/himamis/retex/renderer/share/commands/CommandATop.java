@@ -10,14 +10,4 @@ public class CommandATop extends CommandOver {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new FractionAtom(a, b, false);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandATop ret = new CommandATop();
-		ret.den = den;
-		ret.num = num;
-		return ret;
-
-	}
-
 }

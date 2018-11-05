@@ -12,9 +12,4 @@ public class CommandMathRel extends Command1A {
 		return new TypedAtom(TeXConstants.TYPE_RELATION, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathRel();
-	}
-
 }

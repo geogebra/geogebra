@@ -11,10 +11,4 @@ public class CommandShoveLeft extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AlignedAtom(a, TeXConstants.Align.LEFT);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandShoveLeft();
-	}
-
 }

@@ -13,10 +13,4 @@ public class CommandOverBrace extends Command1A {
 		return new OverUnderDelimiter(a, null, Symbols.LBRACE,
 				TeXLength.Unit.EX, 0, true);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandOverBrace();
-	}
-
 }

@@ -14,9 +14,4 @@ public class CommandUnderParen extends Command1A {
 				TeXLength.Unit.EX, 0, false);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandUnderParen();
-	}
-
 }

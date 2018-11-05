@@ -11,9 +11,4 @@ public class CommandXCancel extends Command1A {
 		return new CancelAtom(a, CancelAtom.Type.X);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandXCancel();
-	}
-
 }

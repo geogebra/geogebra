@@ -18,9 +18,4 @@ public class CommandUnderTilde extends Command1A {
 				new TeXLength(TeXLength.Unit.MU, 0.3), true, false);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandUnderTilde();
-	}
-
 }

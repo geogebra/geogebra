@@ -66,9 +66,4 @@ public class CommandTextStyle extends Command {
 	public void add(TeXParser tp, Atom a) {
 		tp.closeConsumer(new TextStyleAtom(a, style));
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandTextStyleTeX(style);
-	}
 }

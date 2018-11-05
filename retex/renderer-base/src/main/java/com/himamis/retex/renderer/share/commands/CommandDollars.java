@@ -97,14 +97,6 @@ public class CommandDollars {
 			return _ra;
 		}
 
-		@Override
-		public Command duplicate() {
-			Dollar ret = new Dollar(dollar, style);
-			ret.ra = ra;
-			return ret;
-
-		}
-
 	}
 
 }

@@ -11,9 +11,4 @@ public class CommandUnderRightArrow extends Command1A {
 		return new UnderOverArrowAtom(a, false, false);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandUnderRightArrow();
-	}
-
 }

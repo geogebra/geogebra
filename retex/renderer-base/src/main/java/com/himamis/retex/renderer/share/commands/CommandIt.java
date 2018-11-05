@@ -20,9 +20,4 @@ public class CommandIt extends CommandStyle {
 		return new ItAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandIt(size);
-	}
-
 }

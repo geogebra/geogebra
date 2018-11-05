@@ -30,9 +30,4 @@ public class CommandColor extends CommandStyle {
 		return new ColorAtom(a, null, fg);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandColor(size, fg);
-	}
-
 }

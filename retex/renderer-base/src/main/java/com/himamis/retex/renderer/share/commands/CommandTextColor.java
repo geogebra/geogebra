@@ -28,9 +28,4 @@ public class CommandTextColor extends Command1A {
 		return new ColorAtom(a, null, fg);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandTextColor(fg);
-	}
-
 }

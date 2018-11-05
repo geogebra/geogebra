@@ -11,11 +11,4 @@ public class CommandTextSc extends CommandText {
 		return new SmallCapAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextSc ret = new CommandTextSc();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

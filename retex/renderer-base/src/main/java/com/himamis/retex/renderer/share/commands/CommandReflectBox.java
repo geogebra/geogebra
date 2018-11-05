@@ -10,10 +10,4 @@ public class CommandReflectBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new ReflectAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandReflectBox();
-	}
-
 }

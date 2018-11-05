@@ -16,11 +16,4 @@ public class CommandBinom extends Command2A {
 		return new FencedAtom(new FractionAtom(a, b, false), left, right);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandBinom ret = new CommandBinom();
-		ret.atom = atom;
-		return ret;
-	}
-
 }

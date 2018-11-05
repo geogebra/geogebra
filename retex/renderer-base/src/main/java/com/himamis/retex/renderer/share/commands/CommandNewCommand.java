@@ -13,10 +13,4 @@ public class CommandNewCommand extends Command {
 		NewCommandMacro.addNewCommand(tp, name, code, nbargs, false);
 		return false;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandNewCommand();
-	}
-
 }

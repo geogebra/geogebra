@@ -12,9 +12,4 @@ public class CommandEquals extends Command1A {
 		return new AccentedAtom(a, Symbols.BAR);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandEquals();
-	}
-
 }

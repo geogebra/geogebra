@@ -11,12 +11,4 @@ public class CommandSqrt extends Command1O1A {
 		return new NthRoot(b, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandSqrt ret = new CommandSqrt();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

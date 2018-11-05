@@ -11,12 +11,4 @@ public class CommandXLongEqual extends Command1O1A {
 		return new XLongequalAtom(b, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandXLongEqual ret = new CommandXLongEqual();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

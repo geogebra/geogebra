@@ -17,11 +17,5 @@ public class CommandAccentSet extends Command2A {
 		}
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandAccentSet ret = new CommandAccentSet();
-		ret.atom = atom;
-		return ret;
-	}
 
 }

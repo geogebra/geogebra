@@ -88,16 +88,6 @@ public class CommandMathStyles {
 			return ra.getLastAtom();
 		}
 
-		@Override
-		public Command duplicate() {
-			OpenBracket ret = new OpenBracket(opener);
-
-			ret.ra = ra;
-
-			return ret;
-
-		}
-
 	}
 
 	public static class CloseBracket extends Command {
@@ -126,14 +116,6 @@ public class CommandMathStyles {
 				}
 			}
 			throw new ParseException(tp, err);
-		}
-
-		@Override
-		public Command duplicate() {
-			CloseBracket ret = new CloseBracket(opener, style, err);
-
-			return ret;
-
 		}
 	}
 }

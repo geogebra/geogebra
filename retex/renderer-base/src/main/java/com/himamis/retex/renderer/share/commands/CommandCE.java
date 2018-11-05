@@ -15,9 +15,4 @@ public class CommandCE extends Command {
 		return false;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandCE();
-	}
-
 }

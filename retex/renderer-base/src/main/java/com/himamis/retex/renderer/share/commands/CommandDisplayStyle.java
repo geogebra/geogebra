@@ -21,9 +21,4 @@ public class CommandDisplayStyle extends CommandStyle {
 		return new StyleAtom(TeXConstants.STYLE_DISPLAY, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandDisplayStyle(size);
-	}
-
 }

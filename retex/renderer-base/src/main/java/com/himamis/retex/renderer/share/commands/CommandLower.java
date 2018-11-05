@@ -19,12 +19,4 @@ public class CommandLower extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RaiseAtom(a, lower.scale(-1.), null, null);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandLower ret = new CommandLower();
-		ret.lower = lower;
-		return ret;
-	}
-
 }

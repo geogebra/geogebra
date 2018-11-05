@@ -22,10 +22,4 @@ public class CommandWideHat extends Command1A {
 	public boolean isClosable() {
 		return true;
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandWideHat();
-	}
-
 }

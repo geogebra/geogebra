@@ -92,10 +92,4 @@ public class CommandBra extends Command1A {
 		return new FencedAtom(a, left, middles, right);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBra(left, right);
-
-	}
-
 }

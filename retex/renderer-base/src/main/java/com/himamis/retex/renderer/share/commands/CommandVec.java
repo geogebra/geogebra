@@ -23,9 +23,4 @@ public class CommandVec extends Command1A {
 		return true;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandVec();
-	}
-
 }

@@ -15,9 +15,4 @@ public class CommandDDDDot extends Command1A {
 						Symbols.TEXTNORMALDOT, Symbols.TEXTNORMALDOT));
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandDDDDot();
-	}
-
 }

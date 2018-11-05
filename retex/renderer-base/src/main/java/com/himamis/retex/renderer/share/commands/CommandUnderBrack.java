@@ -14,9 +14,4 @@ public class CommandUnderBrack extends Command1A {
 				TeXLength.Unit.EX, 0, false);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandUnderBrack();
-	}
-
 }

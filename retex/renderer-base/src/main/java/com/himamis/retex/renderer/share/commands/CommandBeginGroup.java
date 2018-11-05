@@ -10,9 +10,4 @@ public class CommandBeginGroup extends Command {
 		return false;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBeginGroup();
-	}
-
 }

@@ -13,11 +13,4 @@ public class CommandGrkAccent extends Command2A {
 		return new AccentedAtom(b, (SymbolAtom) a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandGrkAccent ret = new CommandGrkAccent();
-		ret.atom = atom;
-		return ret;
-	}
-
 }

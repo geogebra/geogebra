@@ -11,9 +11,4 @@ public class CommandT2 extends Command1A {
 		return new AccentedAtom(a, "tie");
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandT2();
-	}
-
 }

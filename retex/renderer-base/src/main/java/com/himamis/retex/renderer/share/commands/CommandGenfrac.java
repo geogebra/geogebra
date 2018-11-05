@@ -112,9 +112,4 @@ public class CommandGenfrac extends Command {
 		return new StyleAtom(style * 2, new FencedAtom(a, left, right));
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandGenfrac(left, right, l, style, num);
-	}
-
 }

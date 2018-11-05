@@ -26,9 +26,4 @@ public class CommandBuildRel extends CommandStyle {
 		return a;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBuildRel(size);
-	}
-
 }

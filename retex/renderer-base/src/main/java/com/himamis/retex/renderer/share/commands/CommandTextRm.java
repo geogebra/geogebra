@@ -11,11 +11,4 @@ public class CommandTextRm extends CommandText {
 		return new RomanAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextRm ret = new CommandTextRm();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

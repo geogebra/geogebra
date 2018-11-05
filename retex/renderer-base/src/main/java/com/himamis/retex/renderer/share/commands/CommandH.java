@@ -11,9 +11,4 @@ public class CommandH extends Command1A {
 		return new AccentedAtom(a, "doubleacute");
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandH();
-	}
-
 }

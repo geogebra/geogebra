@@ -47,7 +47,7 @@ package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.commands.Command;
 
-public final class Replacement extends Command {
+public final class Replacement extends Command implements Reusable {
 
 	private final String code;
 
@@ -59,12 +59,5 @@ public final class Replacement extends Command {
 	public boolean init(TeXParser tp) {
 		tp.addString(code);
 		return false;
-	}
-
-	@Override
-	public Command duplicate() {
-		// No need to clone it since with a 0 args command we can't have
-		// \foo{\foo...
-		return this;
 	}
 }

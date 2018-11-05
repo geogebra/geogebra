@@ -10,10 +10,4 @@ public class CommandPod extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new PodAtom(a, 8., true);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandPod();
-	}
-
 }

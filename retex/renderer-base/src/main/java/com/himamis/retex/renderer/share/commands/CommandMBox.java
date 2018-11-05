@@ -26,11 +26,4 @@ public class CommandMBox extends Command {
 				new StyleAtom(TeXConstants.STYLE_TEXT, new RomanAtom(a)));
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandMBox ret = new CommandMBox();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

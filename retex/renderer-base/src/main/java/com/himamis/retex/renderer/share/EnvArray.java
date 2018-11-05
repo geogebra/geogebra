@@ -187,14 +187,6 @@ public class EnvArray {
 		public ArrayOfAtoms getAOA() {
 			return aoa;
 		}
-
-		@Override
-		public Command duplicate() {
-			Begin ret = new Begin(name, type, opt);
-			ret.aoa = aoa;
-			ret.n = n;
-			return ret;
-		}
 	}
 
 	public static class End extends Command {
@@ -324,11 +316,6 @@ public class EnvArray {
 			default:
 				return new ArrayAtom(beg.aoa, beg.opt, true);
 			}
-		}
-
-		@Override
-		public Command duplicate() {
-			return new EnvArray.End(name, op, cl);
 		}
 	}
 }

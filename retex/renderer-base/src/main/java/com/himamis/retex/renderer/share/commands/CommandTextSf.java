@@ -11,11 +11,4 @@ public class CommandTextSf extends CommandText {
 		return new SsAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextSf ret = new CommandTextSf();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

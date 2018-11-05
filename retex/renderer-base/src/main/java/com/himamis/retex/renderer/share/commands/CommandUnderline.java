@@ -11,9 +11,4 @@ public class CommandUnderline extends Command1A {
 		return new UnderlinedAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandUnderline();
-	}
-
 }

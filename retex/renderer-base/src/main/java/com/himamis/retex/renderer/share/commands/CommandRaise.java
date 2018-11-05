@@ -18,12 +18,4 @@ public class CommandRaise extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RaiseAtom(a, raise, null, null);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandRaise ret = new CommandRaise();
-		ret.raise = raise;
-		return ret;
-	}
-
 }

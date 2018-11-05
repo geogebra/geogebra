@@ -11,10 +11,4 @@ public class CommandShoveRight extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AlignedAtom(a, TeXConstants.Align.RIGHT);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandShoveRight();
-	}
-
 }

@@ -15,13 +15,4 @@ public class CommandStackBin extends Command1O2A {
 				new TeXLength(TeXLength.Unit.MU, 3.), true);
 		return at.changeType(TeXConstants.TYPE_BINARY_OPERATOR);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandStackBin ret = new CommandStackBin();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		ret.atom = atom;
-		return ret;
-	}
 }

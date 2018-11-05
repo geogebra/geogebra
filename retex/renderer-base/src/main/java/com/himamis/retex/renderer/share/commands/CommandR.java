@@ -11,10 +11,4 @@ public class CommandR extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AccentedAtom(a, Symbols.MATHRING);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandR();
-	}
-
 }

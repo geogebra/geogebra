@@ -11,10 +11,4 @@ public class CommandGrave1 extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AccentedAtom(a, Symbols.GRAVE);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandGrave1();
-	}
-
 }

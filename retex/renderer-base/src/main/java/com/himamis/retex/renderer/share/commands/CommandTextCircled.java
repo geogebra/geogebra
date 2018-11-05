@@ -12,9 +12,4 @@ public class CommandTextCircled extends Command1A {
 		return new TextCircledAtom(new RomanAtom(a));
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandTextCircled();
-	}
-
 }

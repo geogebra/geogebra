@@ -11,9 +11,4 @@ public class CommandCancel extends Command1A {
 		return new CancelAtom(a, CancelAtom.Type.SLASH);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandCancel();
-	}
-
 }

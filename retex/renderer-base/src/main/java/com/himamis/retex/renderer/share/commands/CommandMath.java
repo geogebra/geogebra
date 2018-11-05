@@ -11,10 +11,4 @@ public class CommandMath extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MathAtom(a, TeXConstants.STYLE_TEXT);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandMath();
-	}
-
 }

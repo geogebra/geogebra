@@ -11,11 +11,4 @@ public class CommandFrac extends Command2A {
 		return new FractionAtom(a, b);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandFrac ret = new CommandFrac();
-		ret.atom = atom;
-		return ret;
-	}
-
 }

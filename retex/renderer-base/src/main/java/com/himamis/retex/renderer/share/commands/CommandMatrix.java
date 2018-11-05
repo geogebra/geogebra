@@ -110,15 +110,4 @@ public class CommandMatrix extends Command {
 	public Atom newI(TeXParser tp) {
 		return new SMatrixAtom(aoa, false);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandMatrix ret = new CommandMatrix();
-
-		ret.hasLBrace = hasLBrace;
-		ret.aoa = aoa;
-
-		return ret;
-
-	}
 }

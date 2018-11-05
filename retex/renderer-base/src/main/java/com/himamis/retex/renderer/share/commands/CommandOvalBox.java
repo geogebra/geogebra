@@ -10,10 +10,4 @@ public class CommandOvalBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new OvalAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandOvalBox();
-	}
-
 }

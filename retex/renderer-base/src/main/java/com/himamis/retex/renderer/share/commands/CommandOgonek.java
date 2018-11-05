@@ -10,10 +10,4 @@ public class CommandOgonek extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new OgonekAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandOgonek();
-	}
-
 }

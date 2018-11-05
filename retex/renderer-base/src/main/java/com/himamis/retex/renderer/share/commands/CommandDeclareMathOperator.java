@@ -14,9 +14,4 @@ public class CommandDeclareMathOperator extends Command {
 		return false;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandDeclareMathOperator();
-	}
-
 }

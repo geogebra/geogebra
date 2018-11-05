@@ -11,9 +11,4 @@ public class CommandCedilla extends Command1A {
 		return new CedillaAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandCedilla();
-	}
-
 }

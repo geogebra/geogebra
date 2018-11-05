@@ -123,18 +123,4 @@ public class CommandOverwithdelims extends Command {
 	public Atom newI(TeXParser tp, Atom num, Atom den) {
 		return new FractionAtom(num, den, true);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandOverwithdelims ret = new CommandOverwithdelims();
-
-		ret.num = num;
-		ret.den = den;
-		ret.left = left;
-		ret.right = right;
-
-		return ret;
-
-	}
-
 }

@@ -12,9 +12,4 @@ public class CommandHat1 extends Command1A {
 		return new AccentedAtom(a, Symbols.HAT);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandHat1();
-	}
-
 }

@@ -11,9 +11,4 @@ public class CommandVCenter extends Command1A {
 		return new VCenteredAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandVCenter();
-	}
-
 }

@@ -39,9 +39,4 @@ public class CommandMulticolumn extends Command1A {
 		return new MulticolumnAtom(n, options, a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMulticolumn(n, options);
-	}
-
 }

@@ -28,12 +28,4 @@ public class CommandTextSubscript extends Command {
 				new StyleAtom(TeXConstants.STYLE_TEXT, new RomanAtom(a)),
 				null));
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandTextSubscript ret = new CommandTextSubscript();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

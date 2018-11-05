@@ -10,10 +10,4 @@ public class CommandMathClose extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new TypedAtom(TeXConstants.TYPE_CLOSING, a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandMathClose();
-	}
-
 }

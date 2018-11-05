@@ -11,9 +11,4 @@ public class CommandVPhantom extends Command1A {
 		return new PhantomAtom(a, false, true, true);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandVPhantom();
-	}
-
 }

@@ -11,9 +11,4 @@ public class CommandMathTt extends Command1A {
 		return new TtAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathTt();
-	}
-
 }

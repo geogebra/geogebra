@@ -19,10 +19,4 @@ public class CommandRm extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RomanAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandRm(size);
-	}
-
 }

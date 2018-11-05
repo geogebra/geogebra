@@ -20,12 +20,4 @@ public class CommandMoveLeft extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RowAtom(new SpaceAtom(left.scale(-1.)), a);
 	}
-
-	@Override
-	public Command duplicate() {
-		CommandMoveLeft ret = new CommandMoveLeft();
-		ret.left = left;
-		return ret;
-	}
-
 }

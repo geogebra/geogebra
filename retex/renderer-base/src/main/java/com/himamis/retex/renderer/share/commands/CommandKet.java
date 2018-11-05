@@ -11,10 +11,4 @@ public class CommandKet extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RowAtom(Symbols.VERT, a, Symbols.RANGLE);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandKet();
-	}
-
 }

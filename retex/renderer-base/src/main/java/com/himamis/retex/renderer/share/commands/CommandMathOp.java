@@ -13,9 +13,4 @@ public class CommandMathOp extends Command1A {
 		return a;
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandMathOp();
-	}
-
 }

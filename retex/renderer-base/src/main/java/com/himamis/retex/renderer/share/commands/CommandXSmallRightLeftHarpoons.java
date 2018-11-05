@@ -11,12 +11,4 @@ public class CommandXSmallRightLeftHarpoons extends Command1O1A {
 		return new XArrowAtom(b, a, XArrowAtom.Kind.SmallRightLeftHarpoons);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandXSmallRightLeftHarpoons ret = new CommandXSmallRightLeftHarpoons();
-		ret.hasopt = hasopt;
-		ret.option = option;
-		return ret;
-	}
-
 }

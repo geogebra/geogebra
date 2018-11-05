@@ -10,10 +10,4 @@ public class CommandOverRightArrow extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new UnderOverArrowAtom(a, false, true);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandOverRightArrow();
-	}
-
 }

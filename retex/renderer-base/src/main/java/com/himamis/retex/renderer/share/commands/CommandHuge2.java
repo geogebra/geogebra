@@ -20,9 +20,4 @@ public class CommandHuge2 extends CommandStyle {
 		return new MonoScaleAtom(a, 2.5);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandHuge2(size);
-	}
-
 }

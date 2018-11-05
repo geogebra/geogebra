@@ -28,9 +28,4 @@ public class CommandBGColor extends Command1A {
 		return new ColorAtom(a, bg, null);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBGColor(bg);
-	}
-
 }

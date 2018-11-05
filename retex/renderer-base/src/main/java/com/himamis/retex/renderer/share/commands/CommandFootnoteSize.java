@@ -20,9 +20,4 @@ public class CommandFootnoteSize extends CommandStyle {
 		return new MonoScaleAtom(a, 0.8);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandFootnoteSize(size);
-	}
-
 }

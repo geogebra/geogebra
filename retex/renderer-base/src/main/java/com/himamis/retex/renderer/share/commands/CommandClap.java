@@ -11,9 +11,4 @@ public class CommandClap extends Command1A {
 		return new LapedAtom(a, 'c');
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandClap();
-	}
-
 }

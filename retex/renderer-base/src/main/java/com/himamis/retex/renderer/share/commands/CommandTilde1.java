@@ -12,9 +12,4 @@ public class CommandTilde1 extends Command1A {
 		return new AccentedAtom(a, Symbols.TILDE);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandTilde1();
-	}
-
 }

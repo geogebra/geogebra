@@ -11,11 +11,4 @@ public class CommandTextBf extends CommandText {
 		return new BoldAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextBf ret = new CommandTextBf();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

@@ -10,10 +10,4 @@ public class CommandMathOpen extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new TypedAtom(TeXConstants.TYPE_OPENING, a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandMathOpen();
-	}
-
 }

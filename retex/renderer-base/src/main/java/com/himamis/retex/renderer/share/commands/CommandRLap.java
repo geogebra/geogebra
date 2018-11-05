@@ -10,10 +10,4 @@ public class CommandRLap extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new LapedAtom(a, 'r');
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandRLap();
-	}
-
 }

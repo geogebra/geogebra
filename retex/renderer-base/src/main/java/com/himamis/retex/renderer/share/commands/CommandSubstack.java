@@ -70,15 +70,4 @@ public class CommandSubstack extends CommandMatrix {
 				new ArrayOptions(1).addAlignment(TeXConstants.Align.CENTER));
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandSubstack ret = new CommandSubstack();
-
-		ret.hasLBrace = hasLBrace;
-		ret.aoa = aoa;
-
-		return ret;
-
-	}
-
 }

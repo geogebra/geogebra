@@ -11,9 +11,4 @@ public class CommandDisplayMath extends Command1A {
 		return new MathAtom(a, TeXConstants.STYLE_DISPLAY);
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandDisplayMath();
-	}
-
 }

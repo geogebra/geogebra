@@ -10,10 +10,4 @@ public class CommandDBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new DBoxAtom(a);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandDBox();
-	}
-
 }

@@ -79,11 +79,6 @@ public class CommandBE {
 			return false;
 		}
 
-		@Override
-		public Command duplicate() {
-			return new Begin();
-		}
-
 	}
 
 	public static class End extends Command {
@@ -114,11 +109,6 @@ public class CommandBE {
 			}
 			com.init(tp);
 			return false;
-		}
-
-		@Override
-		public Command duplicate() {
-			return new End();
 		}
 
 	}

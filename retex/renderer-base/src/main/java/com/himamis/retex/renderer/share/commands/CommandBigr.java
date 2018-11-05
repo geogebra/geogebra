@@ -69,10 +69,4 @@ public class CommandBigr extends Command {
 		tp.closeConsumer(a);
 	}
 
-	@Override
-	public Command duplicate() {
-
-		return new CommandBigr(type, size);
-	}
-
 }

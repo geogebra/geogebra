@@ -13,9 +13,4 @@ public class CommandBoxed extends Command1A {
 		return new FBoxAtom(new MathAtom(a, TeXConstants.STYLE_DISPLAY));
 	}
 
-	@Override
-	public Command duplicate() {
-		return new CommandBoxed();
-	}
-
 }

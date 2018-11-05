@@ -19,10 +19,4 @@ public class CommandLarge extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 1.2);
 	}
-
-	@Override
-	public Command duplicate() {
-		return new CommandLarge(size);
-	}
-
 }

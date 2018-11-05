@@ -11,11 +11,4 @@ public class CommandTextTt extends CommandText {
 		return new TtAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextTt ret = new CommandTextTt();
-		ret.mode = mode;
-		return ret;
-	}
-
 }

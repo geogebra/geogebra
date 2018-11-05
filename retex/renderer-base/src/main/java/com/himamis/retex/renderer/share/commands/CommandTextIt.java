@@ -11,11 +11,4 @@ public class CommandTextIt extends CommandText {
 		return new ItAtom(a);
 	}
 
-	@Override
-	public Command duplicate() {
-		CommandTextIt ret = new CommandTextIt();
-		ret.mode = mode;
-		return ret;
-	}
-
 }
