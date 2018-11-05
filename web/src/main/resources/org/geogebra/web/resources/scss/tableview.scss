@@ -54,14 +54,16 @@
 		.tvHeader {
 			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader {
 				 border: 0px;
+				 padding: 0px;
 				 text-align: center;
 				 padding: 0px;
 				 div:FIRST-CHILD {
 					color: $black-54; 
-					display: flex;
+					display: inline-flex;
 					margin: auto;	
 					.MyToggleButton {
-						width: 12px;
+						margin-top: 8px;
+						padding: 0px;
 						border: 0px;
 						opacity: 0.54;
 					}			 
@@ -70,31 +72,29 @@
 			tbody {display: none;}
 		}
 		
-		.tvTable td {
-			color: $black-87;
-			text-align: center;
+		.tvTable {
+			 .com-google-gwt-user-cellview-client-CellTable-Style-cellTableFirstColumn {
+				padding: 0px !important;
+				border: 0px;
+			
+			}
+		
+			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableCell {
+				div {			
+					color: $black-87;
+					text-align: center;
+				}
+			}
+			
+			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableOddRowCell {
+				background: $tableview-row;
+			}
 		}
+	
 	
 		
 		.tvScrollPanel {
 			width: 50%;
-		}
-
-		.tvScrollPanel td {
-			border-right: 1px solid $black-15;
-		}
-		
-		.tvScrollPanel td div {
-			min-height: 35px;
-		}
-		
-		.tvScrollPanel td:FIRST-CHILD div {
-			min-height: 35px;
-			padding-left: 5px;
-		}
-		
-		.com-google-gwt-user-cellview-client-CellTable-Style-cellTableOddRowCell {
-				background: $tableview-row;
 		}
 
 		.tvCell {
@@ -112,15 +112,6 @@
 	.outerScrollPanel{
 		/*overflow-y: hidden !important;*/
 		overflow: hidden !important;
-	}
-
-	.outerScrollPanel > div{
-		height: 100%;
-	}
-
-	/*needed for vertical scrolling*/
-	.tvScrollPanel div, .tvPanel{
-		height: 100%;
 	}
 
 	.tvHeaderHolderPanel{
