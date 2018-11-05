@@ -151,4 +151,11 @@ public class NthRoot extends Atom implements HasTrueBase {
 		return base;
 	}
 
+	/**
+	 * @return root base
+	 */
+	public Atom getRootBase() {
+		return base;
+	}
+
 }

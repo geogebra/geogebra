@@ -3,9 +3,6 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -14,20 +11,20 @@ import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
-import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TableUtils;
 
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -287,7 +284,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return nameColumn;
 	}
 
-	private static Column<RowData, SafeHtml> getColumnValue(final int col, final TableValuesDimensions dimensions) {
+	private static Column<RowData, SafeHtml> getColumnValue(final int col,
+			final TableValuesDimensions dimensions) {
 		Column<RowData, SafeHtml> column = new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
@@ -320,7 +318,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, getColumnWidth(dimensions, column), dimensions.getHeaderHeight());
+		return TEMPLATES.cell(html, getColumnWidth(dimensions, column),
+				dimensions.getHeaderHeight());
 	}
 
 	private static int getColumnWidth(TableValuesDimensions dimensions, int column) {
@@ -357,8 +356,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	public interface CellTemplates extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\"" +
-				"class=\"tvCell\">{0}</div>")
+		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\""
+				+ "class=\"tvCell\">{0}</div>")
 		SafeHtml cell(SafeHtml message, int width, int height);
 	}
 }

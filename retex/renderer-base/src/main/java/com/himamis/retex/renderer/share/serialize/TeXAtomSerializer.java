@@ -45,9 +45,9 @@ public class TeXAtomSerializer {
 		if (root instanceof NthRoot) {
 			NthRoot frac = (NthRoot) root;
 			if (frac.getRoot() == null) {
-				return "sqrt(" + serialize(frac.getBase()) + ")";
+				return "sqrt(" + serialize(frac.getRootBase()) + ")";
 			}
-			return "nroot(" + serialize(frac.getBase()) + ","
+			return "nroot(" + serialize(frac.getRootBase()) + ","
 					+ serialize(frac.getRoot()) + ")";
 		}
 		if (root instanceof CharAtom) {
@@ -109,7 +109,7 @@ public class TeXAtomSerializer {
 	}
 
 	private String subSup(ScriptsAtom ch) {
-		StringBuilder sb = new StringBuilder(serialize(ch.getBase()));
+		StringBuilder sb = new StringBuilder(serialize(ch.geScriptBase()));
 		if (ch.getSub() != null) {
 			String sub = serialize(ch.getSub());
 			if (sub.length() > 1) {
