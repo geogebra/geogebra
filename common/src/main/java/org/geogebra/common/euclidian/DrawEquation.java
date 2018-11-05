@@ -31,6 +31,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
  * Cross platform helper for equation rendering
  */
 public abstract class DrawEquation implements DrawEquationI {
+	private static Object initJLaTeXMath;
 
 	/**
 	 * @return \newcommand definitions for GeoGebra specific commands and do
@@ -74,6 +75,16 @@ public abstract class DrawEquation implements DrawEquationI {
 			}
 		}
 		return initJLM;
+	}
+
+	protected static void checkFirstCallStatic() {
+
+		if (initJLaTeXMath == null) {
+
+			StringBuilder initJLM = DrawEquation.getJLMCommands();
+			initJLaTeXMath = new TeXFormula(initJLM.toString());
+
+		}
 	}
 
 	/**

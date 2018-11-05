@@ -26,7 +26,6 @@ import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.TeXConstants;
-import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -35,8 +34,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 public class DrawEquationD extends DrawEquation {
 
 	boolean drawEquationJLaTeXMathFirstCall = true;
-
-	private Object initJLaTeXMath;
 
 	@Override
 	public void checkFirstCall(App app) {
@@ -48,11 +45,7 @@ public class DrawEquationD extends DrawEquation {
 			drawEquationJLaTeXMathFirstCall = false;
 
 			// initialise definitions
-			if (initJLaTeXMath == null) {
-
-				StringBuilder initJLM = getJLMCommands();
-				initJLaTeXMath = new TeXFormula(initJLM.toString());
-			}
+			checkFirstCallStatic();
 
 			// make sure cache doesn't get too big
 			JLaTeXMathCache.setMaxCachedObjects(100);

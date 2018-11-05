@@ -15,7 +15,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
-import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -210,17 +209,8 @@ public class DrawEquationW extends DrawEquation {
 
 	@Override
 	public void checkFirstCall(App app) {
-		checkFirstCallStatic();
-	}
-
-	private static void checkFirstCallStatic() {
 		ensureJLMFactoryExists();
-		if (initJLaTeXMath == null) {
-
-			StringBuilder initJLM = DrawEquation.getJLMCommands();
-			initJLaTeXMath = new TeXFormula(initJLM.toString());
-
-		}
+		checkFirstCallStatic();
 	}
 
 	@Override
