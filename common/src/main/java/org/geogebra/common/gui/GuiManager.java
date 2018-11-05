@@ -891,21 +891,20 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public View getTableValuesView() {
 		if (tableValues == null) {
 			tableValues = createTableValuesView();
+			TableValuesModel model = tableValues.getTableValuesModel();
+			TableValuesPoints points = new TableValuesPoints(kernel.getConstruction());
+			model.registerListener(points);
+
 		}
 		return tableValues;
 	}
 
 	/**
-	 * Create a table values view and register TableValuesPoints.
+	 * Create a table values view..
 	 *
 	 * @return TableValuesView
 	 */
 	protected TableValuesView createTableValuesView() {
-		TableValuesView view = new TableValuesView(kernel);
-		TableValuesModel model = view.getTableValuesModel();
-		TableValuesPoints points = new TableValuesPoints(kernel.getConstruction());
-		model.registerListener(points);
-
-		return view;
+		return new TableValuesView(kernel);
 	}
 }
