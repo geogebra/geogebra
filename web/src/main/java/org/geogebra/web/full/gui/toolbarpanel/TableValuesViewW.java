@@ -97,6 +97,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			return getTableValuesModel().getCellAt(row, col);
 		}
 	}
+
 	/**
 	 * @param app1
 	 *            {@link AppW}.
@@ -131,7 +132,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 				int tableWidth = table.getOffsetWidth();
 				headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
-
 			}
 
 		});
@@ -206,6 +206,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		createGUI();
 		return main;
 	}
+
 	private void buildTable() {
 		addHeader();
 		table.addStyleName("tvTable");

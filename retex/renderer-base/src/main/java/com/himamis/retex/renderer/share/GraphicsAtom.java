@@ -67,14 +67,6 @@ public class GraphicsAtom extends Atom {
 		buildAtom(option);
 	}
 
-	private GraphicsAtom(Image bimage2, Atom base2, int interp2,
-			boolean first2) {
-		this.bimage = bimage;
-		this.base = base2;
-		this.interp = interp;
-		this.first = first;
-	}
-
 	protected void buildAtom(final Map<String, String> options) {
 		base = this;
 		final boolean hasWidth = options.containsKey("width");
