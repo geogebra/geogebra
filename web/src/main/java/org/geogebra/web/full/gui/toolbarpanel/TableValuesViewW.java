@@ -265,7 +265,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 	}
 
-	private static Column<RowData, SafeHtml> getColumnName(final int idx) {
+	private static Column<RowData, SafeHtml> getColumnName() {
 		Column<RowData, SafeHtml> nameColumn = new Column<RowData, SafeHtml>(
 				new SafeHtmlCell()) {
 
@@ -314,11 +314,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private void addColumnsForTable(CellTable<RowData> tb) {
 		TableValuesModel m = getTableValuesModel();
 		for (int i = 0; i < m.getColumnCount(); i++) {
-			if (true) {
-				Column<RowData, ?> col = getColumnName(i);
-				if (col != null) {
-					tb.addColumn(col, getHeaderHtml(i));
-				}
+			Column<RowData, ?> col = getColumnName();
+			if (col != null) {
+				tb.addColumn(col, getHeaderHtml(i));
 			}
 		}
 	}

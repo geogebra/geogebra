@@ -115,8 +115,12 @@ public class InputDialogTableView extends DialogBoxW
 				((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
-	public void show(GeoElement geo) {
-		this.geo = geo;
+	/**
+	 * @param functionGeo
+	 *            function
+	 */
+	public void show(GeoElement functionGeo) {
+		this.geo = functionGeo;
 		show();
 	}
 
@@ -132,7 +136,6 @@ public class InputDialogTableView extends DialogBoxW
 			ToolTipManagerW.sharedInstance()
 					.showBottomMessage(app.getLocalization().getError("InvalidInput"), true,
 							(AppW) app);
-			;
 		} finally {
 			hide();
 
