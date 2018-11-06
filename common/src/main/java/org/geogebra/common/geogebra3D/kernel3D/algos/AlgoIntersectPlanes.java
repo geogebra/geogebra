@@ -52,6 +52,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	private boolean shortSyntax = false;
 	private Coords o;
 	private Coords vn;
+	private Coords vnn;
 	private Coords vn1;
 	private Coords vn2;
 
@@ -91,6 +92,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		GeoLine3D ret = new GeoLine3D(cons1, true);
 		o = new Coords(0, 0, 0, 1);
 		vn = new Coords(0, 0, 0, 0);
+		vnn = new Coords(0, 0, 0, 0);
 
 		vn1 = new Coords(0, 0, 0, 0);
 		vn2 = new Coords(0, 0, 0, 0);
@@ -119,9 +121,13 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 
 		Coords o1 = p1.getOrigin();
 		Coords o2 = p2.getOrigin();
-		vn1.setCrossProduct(v1, vn);
-		vn2.setCrossProduct(v2, vn);
-		o2.projectPlane(vn, vn1, vn2, o1, o);
+		vnn.set3(vn);
+		vnn.normalize();
+		vn1.setCrossProduct(v1, vnn);
+		vn1.normalize();
+		vn2.setCrossProduct(v2, vnn);
+		vn2.normalize();
+		o2.projectPlane(vnn, vn1, vn2, o1, o);
 
 		// update line
 		GeoLine3D l = (GeoLine3D) getIntersection();
