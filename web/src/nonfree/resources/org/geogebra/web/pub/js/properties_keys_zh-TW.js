@@ -1731,7 +1731,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "ErrorAtLine": "\u932f\u8aa4\u884c\u865f\uff1a",
     "ErrorInJavaScript": "JavaScript \u6709\u932f\u8aa4",
     "ErrorInJavaScriptAtLineA": "\u7b2c %0 \u884c\u7684 JavaScript \u6709\u932f\u8aa4",
-    "ErrorInScriptAtLineAFromObjectB": "\u7269\u4ef6 %1\uff1a\u7b2c %0 \u884c\u7684 JavaScript \u6709\u932f\u8aa4",
+    "ErrorInScriptAtLineAFromObjectB": "\u7269\u4ef6 %1\uff1a\u7b2c %0 \u884c\u7684\u7a0b\u5f0f\u78bc\u6709\u932f\u8aa4",
     "Esc": "Esc",
     "EstimatedValue": "\u4f30\u8a08\u503c",
     "Evaluate": "\u4ee3\u6578\u904b\u7b97",

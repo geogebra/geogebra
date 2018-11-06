@@ -2778,7 +2778,7 @@ __GGB__keysVar["ja"].menu = {
     "StandardError.short": "SE",
     "StandardObject": "\u6a19\u6e96\u30aa\u30d6\u30b8\u30a7\u30af\u30c8",
     "StandardView": "\u6a19\u6e96\u8868\u793a",
-    "Start": "\u958b\u59cb\uff08Web\u7248\uff09",
+    "Start": "\u958b\u59cb",
     "StartRow": "\u958b\u59cb\u884c",
     "StartValueX": "Start value for x",
     "StartingPoint": "\u958b\u59cb\u70b9",
