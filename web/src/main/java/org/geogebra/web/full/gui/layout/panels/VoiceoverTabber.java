@@ -146,6 +146,7 @@ public class VoiceoverTabber {
 			return;
 		}
 		double step = range.getValue() - oldVal[index];
+		String unit = "";
 		oldVal[index] += step;
 		if (sel != null && sel.isGeoPoint()) {
 			app.getGlobalKeyDispatcher().handleArrowKeyMovement(
@@ -154,8 +155,9 @@ public class VoiceoverTabber {
 					index == 2 ? step : 0);
 		} else {
 			app.getAccessibilityManager().sliderChange(step);
+			unit = "degrees";
 		}
-		updateValueText(range, range.getValue());
+		updateValueText(range, range.getValue(), unit);
 	}
 
 	private HTML makeFocusTrap(final boolean backward, final SliderW[] range,
@@ -201,12 +203,7 @@ public class VoiceoverTabber {
 		} else if (app.getAccessibilityManager().getSliderAction() != null) {
 			SliderInput slider = app.getAccessibilityManager()
 					.getSliderAction();
-			range[0].setMinimum(slider.getMin());
-			range[0].setMaximum(slider.getMax());
-			range[0].setStep(1);
-			double val = 42;
-			range[0].setValue(val);
-			updateValueText(range[0], val);
+			updateRange(range[0], slider);
 			AriaHelper.setLabel(range[0], slider.getDescription());
 			simpleButton.setVisible(false);
 			for (int i = 1; i < range.length; i++) {
@@ -243,6 +240,26 @@ public class VoiceoverTabber {
 		}
 	}
 
+	private void updateRange(SliderW range0, SliderInput slider) {
+		range0.setMinimum(slider.getMin());
+		range0.setMaximum(slider.getMax());
+		range0.setStep(1);
+		double val = getInitialValue(slider);
+		range0.setValue(val);
+		oldVal[0] = val;
+		updateValueText(range0, val, "degrees");
+	}
+
+	private double getInitialValue(SliderInput slider) {
+		if (slider == SliderInput.ROTATE_Z) {
+			return app.getEuclidianView3D().getAngleA();
+		}
+		if (slider == SliderInput.TILT) {
+			return app.getEuclidianView3D().getAngleB();
+		}
+		return 0;
+	}
+
 	/**
 	 * @param range
 	 *            slider
@@ -254,9 +271,10 @@ public class VoiceoverTabber {
 				sel.toValueString(StringTemplate.screenReader));
 	}
 
-	private void updateValueText(SliderW range, double sel) {
+	private void updateValueText(SliderW range, double sel, String unit) {
 		range.getElement().setAttribute("aria-valuetext",
-				app.getKernel().format(sel, StringTemplate.screenReader));
+				app.getKernel().format(sel, StringTemplate.screenReader) + " "
+						+ unit);
 	}
 
 	/**
@@ -286,6 +304,10 @@ public class VoiceoverTabber {
 	protected void updateSelection(SliderW range, int index) {
 		GeoElement sel = AccessibilityManagerNoGui.getSelectedGeo(app);
 		if (sel == null) {
+			if (app.getAccessibilityManager().getSliderAction() != null) {
+				updateRange(range,
+						app.getAccessibilityManager().getSliderAction());
+			}
 			return;
 		}
 		if (sel.isGeoNumeric()) {
@@ -307,7 +329,7 @@ public class VoiceoverTabber {
 			this.oldVal = Cloner
 					.clone(((GeoPointND) sel).getInhomCoords().get());
 			range.setValue(coord);
-			updateValueText(range, coord);
+			updateValueText(range, coord, "");
 		} else {
 			AriaHelper.setLabel(range, sel.getNameDescription());
 		}

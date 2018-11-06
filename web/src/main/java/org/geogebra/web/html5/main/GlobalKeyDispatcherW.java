@@ -612,7 +612,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		if (am.tabEuclidianControl(true)) {
 			return true;
 		}
-		am.setPlaySelectedIfVisible(false);
+
 		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView());
 
 		return hasNext || forceRet;

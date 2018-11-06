@@ -4567,18 +4567,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		kernel.notifyRepaint();
 	}
 
-	/**
-	 *
-	 * @return angle around Oz
-	 */
+	@Override
 	public double getAngleA() {
 		return a;
 	}
 
-	/**
-	 *
-	 * @return xOy plane tilting
-	 */
+	@Override
 	public double getAngleB() {
 		return b;
 	}

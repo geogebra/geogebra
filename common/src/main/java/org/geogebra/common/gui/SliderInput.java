@@ -3,7 +3,7 @@ package org.geogebra.common.gui;
 public enum SliderInput {
 	ROTATE_Z("Rotation around z", 0, 360),
 
-	ROTATE_Y("Tilt", 0, 180);
+	TILT("Tilt", -90, 90);
 
 	private double min;
 	private String description;

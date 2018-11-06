@@ -718,16 +718,23 @@ public class SelectionManager {
 			selectLastGeo0(ev);
 			return;
 		}
-
+		boolean forceLast = false;
 		if (selectedGeos.size() != 1) {
-			return;
+			if (!getAccessibilityManager().handleTabExitGeos(false)) {
+				return;
+
+			}
+			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree, ev);
 
 		int selectionSize = selectedGeos.size();
 		GeoElement last = tree.last();
-
+		if (forceLast) {
+			addSelectedGeoForEV(last);
+			return;
+		}
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement prev = tree.lower(lastSelected);
 		removeAllSelectedGeos();

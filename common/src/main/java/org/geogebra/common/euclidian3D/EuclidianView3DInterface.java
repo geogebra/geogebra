@@ -256,4 +256,14 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	void shiftRotAboutY(double db);
 
+	/**
+	 * @return angle around Oz
+	 */
+	public double getAngleA();
+
+	/**
+	 * @return xOy plane tilting
+	 */
+	double getAngleB();
+
 }

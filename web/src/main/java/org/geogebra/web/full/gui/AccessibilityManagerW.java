@@ -261,10 +261,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		boolean voiceover = Browser.isiOS()
 				&& app.has(Feature.VOICEOVER_APPLETS);
 		if (app.getKernel().needToShowAnimationButton()) {
+			this.activeButton = null;
 			setPlaySelectedIfVisible(true);
 			return true;
 		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && voiceover) {
+		if (app.getActiveEuclidianView().getDimension() == 3 && voiceover
+				&& forward) {
 			this.activeButton = SliderInput.ROTATE_Z;
 			return true;
 		}
@@ -273,7 +275,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void setPlaySelectedIfVisible(boolean b) {
-		this.activeButton = null;
 		if (app.getKernel().needToShowAnimationButton()) {
 			app.getActiveEuclidianView().setAnimationButtonSelected(b);
 		}
@@ -281,22 +282,32 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean tabEuclidianControl(boolean forward) {
-		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			if (!forward) {
-				focusLastGeo();
-				setPlaySelectedIfVisible(false);
-				return true;
-			}
-			if (app.getActiveEuclidianView().getDimension() == 3 && forward
-					&& activeButton == null) {
-				activeButton = SliderInput.ROTATE_Z;
-				return true;
-			}
+		if (app.getActiveEuclidianView().isAnimationButtonSelected()
+				&& !forward) {
+			focusLastGeo();
+			this.activeButton = null;
+			setPlaySelectedIfVisible(false);
+			return true;
 		}
 		if (app.getActiveEuclidianView().getDimension() == 3 && forward
 				&& activeButton == SliderInput.ROTATE_Z) {
-			activeButton = SliderInput.ROTATE_Y;
+			activeButton = SliderInput.TILT;
 			return true;
+		}
+		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
+				&& activeButton == SliderInput.TILT) {
+			activeButton = SliderInput.ROTATE_Z;
+			return true;
+		}
+		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
+				&& activeButton == SliderInput.ROTATE_Z) {
+			activeButton = null;
+			return false;
+		}
+		if (app.getActiveEuclidianView().getDimension() == 3 && forward
+				&& activeButton == SliderInput.TILT) {
+			activeButton = null;
+			return true; // tilt is the last => leave
 		}
 
 		return false;
@@ -332,7 +343,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			app.getEuclidianView3D().shiftRotAboutZ(step);
 			app.getEuclidianView3D().repaintView();
 		}
-		if (activeButton == SliderInput.ROTATE_Y) {
+		if (activeButton == SliderInput.TILT) {
 			app.getEuclidianView3D().rememberOrigins();
 			app.getEuclidianView3D().shiftRotAboutY(step);
 			app.getEuclidianView3D().repaintView();
