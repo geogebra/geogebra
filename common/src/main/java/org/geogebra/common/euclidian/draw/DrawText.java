@@ -235,7 +235,11 @@ public final class DrawText extends Drawable {
 					GRectangle rect = getBounds();
 					g2.draw(rect);
 				} else {
-					g2.setPaint(geo.getObjectColor());
+					if (geo.getAlphaValue() > 0.0) {
+						g2.setPaint(geo.getFillColor());
+					} else {
+						g2.setPaint(geo.getObjectColor());
+					}
 					drawMultilineText(g2, textFont);
 				}
 
