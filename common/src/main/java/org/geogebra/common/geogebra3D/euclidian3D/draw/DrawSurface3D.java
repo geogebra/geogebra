@@ -31,20 +31,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawSurface3D extends Drawable3DSurfaces {
 
-	private class NotEnoughCornersException extends Exception {
-		private DrawSurface3D surface;
-
-		public NotEnoughCornersException(DrawSurface3D surface, String message) {
-			super(message);
-			this.surface = surface;
-		}
-
-		public void caught() {
-			printStackTrace();
-			surface.setNoRoomLeft();
-		}
-	}
-
 	final static private boolean DEBUG = false;
 
 	/** The function being rendered */
@@ -167,6 +153,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * first corner from root mesh
 	 */
 	private Corner firstCorner;
+	
+	private static class NotEnoughCornersException extends Exception {
+		private DrawSurface3D surface;
+
+		public NotEnoughCornersException(DrawSurface3D surface, String message) {
+			super(message);
+			this.surface = surface;
+		}
+
+		public void caught() {
+			printStackTrace();
+			surface.setNoRoomLeft();
+		}
+	}
 
 	/**
 	 * common constructor
