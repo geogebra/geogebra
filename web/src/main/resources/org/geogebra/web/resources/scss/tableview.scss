@@ -97,10 +97,14 @@
 			width: 50%;
 		}
 
-		.tvCell {
+		.tvValueCell {
 			margin-left: 16px;
 			margin-right: 32px;
 			text-align:end;
+		}
+
+		.tvHeaderCell {
+			margin-left: 16px;
 		}
 	
 	.tvPanel .tvScrollPanel{

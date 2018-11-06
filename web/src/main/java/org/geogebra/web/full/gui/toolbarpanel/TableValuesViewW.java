@@ -295,7 +295,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(object.getValue(col));
 				int width = getColumnWidth(dimensions, col);
 				int height = dimensions.getRowHeight(object.row);
-				SafeHtml cell = TEMPLATES.cell(value, width, height);
+				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell", width, height);
 
 				return cell;
 			}
@@ -320,7 +320,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, getColumnWidth(dimensions, column),
+		return TEMPLATES.cell(html, "tvHeaderCell", getColumnWidth(dimensions, column) + 32,
 				dimensions.getHeaderHeight());
 	}
 
@@ -358,8 +358,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	public interface CellTemplates extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\""
-				+ "class=\"tvCell\">{0}</div>")
-		SafeHtml cell(SafeHtml message, int width, int height);
+		@SafeHtmlTemplates.Template("<div style=\"width:{2}px;height:{3}px;line-height:{3}px;\""
+				+ "class=\"{1}\">{0}</div>")
+		SafeHtml cell(SafeHtml message, String style, int width, int height);
 	}
 }
