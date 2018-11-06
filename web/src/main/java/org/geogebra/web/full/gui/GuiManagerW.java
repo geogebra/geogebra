@@ -27,6 +27,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -2512,6 +2513,7 @@ public class GuiManagerW extends GuiManager
 
 	private void addGeoToTableValuesView(GeoElement geo) {
 		getTableValuesView().add(geo);
+		((TableValuesView) getTableValuesView()).showColumn((Evaluatable) geo);
 		getUnbundledToolbar().openTableView(true);
 	}
 

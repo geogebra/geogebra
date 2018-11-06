@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TableValuesViewW extends TableValuesView implements SetLabels {
 
-	private static final int HEADER_HEIGHT = 56;
+	private static final int HEADER_HEIGHT = 48;
 
 	private static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
@@ -198,7 +198,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 
 		super.add(geo);
-		showColumn(eval);
 	}
 
 	private Widget getMain() {
@@ -353,7 +352,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 *            to set.
 	 */
 	public void setHeight(int height) {
-		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight() - HEADER_HEIGHT,
+		scrollPanel.getElement().getStyle().setHeight(height - HEADER_HEIGHT,
 				Unit.PX);
 	}
 

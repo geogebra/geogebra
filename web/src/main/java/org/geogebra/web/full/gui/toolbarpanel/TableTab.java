@@ -32,7 +32,8 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	@Override
 	protected void onActive() {
 		buildGui();
-		getView().setHeight(getOffsetHeight());
+		getView().setHeight(toolbarPanel.
+				getOffsetHeight() - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT);
 	}
 
 	private TableValuesViewW getView() {
@@ -58,7 +59,8 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	@Override
 	public void onResize() {
 		int w = this.toolbarPanel.getTabWidth();
-		int h = toolbarPanel.getOffsetHeight();
+		int h = toolbarPanel.getOffsetHeight()
+				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 		if (w < 0 || h < 0) {
 			return;
 		}
