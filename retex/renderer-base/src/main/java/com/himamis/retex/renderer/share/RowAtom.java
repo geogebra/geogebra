@@ -224,8 +224,8 @@ public class RowAtom extends Atom implements Row {
 		for (int i = 0; i < elementsCopy.size(); ++i) {
 			Atom at = elementsCopy.get(i);
 
-			if (at instanceof ColorAtom) {
-				ColorAtom ca = (ColorAtom) at;
+			if (at instanceof SelectionAtom) {
+				SelectionAtom ca = (SelectionAtom) at;
 
 				hBox.push(new HorizontalBox(ca.getColor(), ca.getBackground()));
 
@@ -273,8 +273,8 @@ public class RowAtom extends Atom implements Row {
 					continue;
 				}
 
-				if (nextAtom instanceof ColorAtom) {
-					nextAtom = ((ColorAtom) nextAtom).getElements().elements.get(0);
+				if (nextAtom instanceof SelectionAtom) {
+					nextAtom = ((SelectionAtom) nextAtom).getElements().elements.get(0);
 				}
 
 				break;
@@ -295,9 +295,9 @@ public class RowAtom extends Atom implements Row {
 					continue;
 				}
 
-				if (nextAtom instanceof ColorAtom) {
+				if (nextAtom instanceof SelectionAtom) {
 					onBoundary = true;
-					nextAtom = ((ColorAtom) nextAtom).getElements().elements.get(0);
+					nextAtom = ((SelectionAtom) nextAtom).getElements().elements.get(0);
 				}
 
 				if (curAtom.isCharSymbol()
