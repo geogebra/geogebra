@@ -23,6 +23,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class TableValuesView implements TableValues {
 
+	private static final int MAX_ROWS = 200;
 	private double valuesMin = -2.0;
 	private double valuesMax = 2.0;
 	private double valuesStep = 1.0;
@@ -109,6 +110,11 @@ public class TableValuesView implements TableValues {
 		}
 		if (Double.isNaN(step) || Double.isInfinite(step) || step <= 0) {
 			throw new InvalidValuesException("Values step is invalid");
+		}
+
+		if (Math.abs(max - min) / step > MAX_ROWS) {
+			throw new InvalidValuesException(
+					"Maximum number of rows is limited to 200. Please, change range values.");
 		}
 	}
 
