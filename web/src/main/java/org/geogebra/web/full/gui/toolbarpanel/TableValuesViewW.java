@@ -35,11 +35,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * HTML representation of the Table of Values View.
- * 
+ *
  * @author laszlo
  *
  */
 public class TableValuesViewW extends TableValuesView implements SetLabels {
+
+	private static final int HEADER_HEIGHT = 56;
 
 	private static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
@@ -85,7 +87,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param col
 		 *            the column
 		 * @return the cell value
@@ -229,7 +231,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the main widget of the view.
 	 */
 	public Widget getWidget() {
@@ -346,12 +348,12 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	/**
 	 * Sets height of the view.
-	 * 
+	 *
 	 * @param height
 	 *            to set.
 	 */
 	public void setHeight(int height) {
-		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight(),
+		scrollPanel.getElement().getStyle().setHeight(height - headerTable.getOffsetHeight() - HEADER_HEIGHT,
 				Unit.PX);
 	}
 
