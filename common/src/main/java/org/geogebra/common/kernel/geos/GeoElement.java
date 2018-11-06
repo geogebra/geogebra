@@ -7193,7 +7193,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * Sets the flag wheter this objects value or label should be sent to CAS
+	 * Sets the flag whether this objects value or label should be sent to CAS
 	 * 
 	 * @param var
 	 *            true if the value should be sent to cas false otherwise

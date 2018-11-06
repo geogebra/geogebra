@@ -63,7 +63,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoList extends GeoElement
 		implements ListValue, PointProperties, TextProperties, Traceable, Path,
 		Transformable, SpreadsheetTraceable, Furniture, InequalityProperties,
-		AngleProperties, HasSymbolicMode, Animatable {
+		AngleProperties, HasSymbolicMode, Animatable, SegmentProperties {
 
 	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;
 
@@ -2789,8 +2789,12 @@ public class GeoList extends GeoElement
 
 		if (elements != null) {
 			for (GeoElement geo : elements) {
-				if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
-					((AngleProperties) geo).setDecorationType(type);
+				if (!geo.isLabelSet()) {
+					if (geo instanceof AngleProperties) {
+						((AngleProperties) geo).setDecorationType(type);
+					} else if (geo instanceof SegmentProperties) {
+						((SegmentProperties) geo).setDecorationType(type);
+					}
 				}
 			}
 		}
@@ -3370,4 +3374,5 @@ public class GeoList extends GeoElement
 	public void calculateCornerPoint(GeoPoint corner, int double1) {
 		corner.setUndefined();
 	}
+
 }

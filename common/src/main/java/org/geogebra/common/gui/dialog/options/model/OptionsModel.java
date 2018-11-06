@@ -70,8 +70,10 @@ public abstract class OptionsModel {
 		return geosOK;
 	}
 
-	// Used for displaying angle properties only, if elements of a list are
-	// angles
+	/**
+	 * Used for displaying angle properties only, if elements of a list are
+	 ** angles
+	 */
 	public static boolean isAngleList(GeoElement geo) {
 		if (geo.isGeoList()) {
 			GeoClass elemType = ((GeoList) geo).getElementType();

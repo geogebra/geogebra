@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.SegmentProperties;
 import org.geogebra.common.main.App;
 
 public class DecoSegmentModel extends NumberOptionsModel {
@@ -11,8 +12,8 @@ public class DecoSegmentModel extends NumberOptionsModel {
 		super(app);
 	}
 
-	private GeoSegment getGeoSegmentAt(int index) {
-		return (GeoSegment) getObjectAt(index);
+	private SegmentProperties getGeoSegmentAt(int index) {
+		return (SegmentProperties) getObjectAt(index);
 	}
 
 	public void setListener(IComboListener listener) {
@@ -22,19 +23,19 @@ public class DecoSegmentModel extends NumberOptionsModel {
 	@Override
 	public void updateProperties() {
 
-		GeoSegment geo0 = getGeoSegmentAt(0);
+		SegmentProperties geo0 = getGeoSegmentAt(0);
 		listener.setSelectedIndex(geo0.getDecorationType());
 
 	}
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getObjectAt(index) instanceof GeoSegment);
+		return (getObjectAt(index) instanceof SegmentProperties);
 	}
 
 	@Override
 	protected void apply(int index, int value) {
-		GeoSegment geo = getGeoSegmentAt(index);
+		SegmentProperties geo = getGeoSegmentAt(index);
 		geo.setDecorationType(value);
 		geo.updateRepaint();
 	}

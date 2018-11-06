@@ -36,7 +36,8 @@ import org.geogebra.common.util.ExtendedBoolean;
 /**
  * @author Markus Hohenwarter
  */
-final public class GeoSegment extends GeoLine implements GeoSegmentND {
+final public class GeoSegment extends GeoLine
+		implements GeoSegmentND, SegmentProperties {
 
 	// GeoSegment is constructed by AlgoJoinPointsSegment
 	// private GeoPoint A, B;
