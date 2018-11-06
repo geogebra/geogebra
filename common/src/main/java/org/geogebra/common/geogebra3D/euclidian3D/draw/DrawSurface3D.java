@@ -30,6 +30,21 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DrawSurface3D extends Drawable3DSurfaces {
+
+	private class NotEnoughCornersException extends Exception {
+		private DrawSurface3D surface;
+
+		public NotEnoughCornersException(DrawSurface3D surface, String message) {
+			super(message);
+			this.surface = surface;
+		}
+
+		public void caught() {
+			printStackTrace();
+			surface.setNoRoomLeft();
+		}
+	}
+
 	final static private boolean DEBUG = false;
 
 	/** The function being rendered */
@@ -525,20 +540,24 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				vMax = vBorderMax - dv;
 			}
 
-			firstCorner = createRootMesh(uBorderMin, uMax, uBorderMax, uN,
-					vBorderMin, vMax, vBorderMax, vN);
+			try {
+				firstCorner = createRootMesh(uBorderMin, uMax, uBorderMax, uN,
+						vBorderMin, vMax, vBorderMax, vN);
 
-			// split root mesh as start
-			currentSplitIndex = 0;
-			currentSplitStoppedIndex = 0;
-			nextSplitIndex = 0;
-			drawListIndex = 0;
-			notDrawn = 0;
-			splitRootMesh(firstCorner);
-			debug("\nnot drawn after split root mesh: " + notDrawn);
+				// split root mesh as start
+				currentSplitIndex = 0;
+				currentSplitStoppedIndex = 0;
+				nextSplitIndex = 0;
+				drawListIndex = 0;
+				notDrawn = 0;
+				splitRootMesh(firstCorner);
+				debug("\nnot drawn after split root mesh: " + notDrawn);
 
-			// now splitted root mesh is ready
-			drawFromScratch = false;
+				// now splitted root mesh is ready
+				drawFromScratch = false;
+			} catch (NotEnoughCornersException e) {
+				e.caught();
+			}
 		}
 
 		if (wireframeNeeded()) {
@@ -552,7 +571,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// start recursive split
 		loopSplitIndex = 0;
 		// long time = System.currentTimeMillis();
-		stillRoomLeft = split();
+		try {
+			stillRoomLeft = split();
+		} catch (NotEnoughCornersException e) {
+			e.caught();
+		}
 
 		// time = System.currentTimeMillis() - time;
 		// if (time > 0){
@@ -646,11 +669,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surface.start(getReusableSurfaceIndex());
 
 		if (!stillRoomLeft) {
-			for (int i = currentSplitStoppedIndex; i < currentSplitIndex; i++) {
-				currentSplit[i].split(true);
-			}
-			for (int i = 0; i < nextSplitIndex; i++) {
-				nextSplit[i].split(true);
+			try {
+				for (int i = currentSplitStoppedIndex; i < currentSplitIndex; i++) {
+					currentSplit[i].split(true);
+				}
+				for (int i = 0; i < nextSplitIndex; i++) {
+					nextSplit[i].split(true);
+				}
+			} catch (NotEnoughCornersException e) {
+				e.caught();
 			}
 			debug("\n--- draw size : " + drawListIndex);
 			if (drawListIndex > 0) {
@@ -903,7 +930,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private Corner createRootMesh(double uBorderMin, double uMax,
 			double uBorderMax, int uN, double vBorderMin, double vMax,
-			double vBorderMax, int vN) {
+			double vBorderMax, int vN) throws NotEnoughCornersException {
 
 		if (wireframeNeeded()) {
 			if (wireframeUniqueU) {
@@ -1014,14 +1041,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	final private Corner addLeftToMesh(Corner right, double u, double v) {
+	final private Corner addLeftToMesh(Corner right, double u, double v)
+			throws NotEnoughCornersException {
 		Corner left = newCorner(u, v);
 		right.l = left;
 		return left;
 	}
 
 	final private Corner addRowAboveToMesh(Corner bottomRight, double v,
-			double uBorderMin, double uBorderMax, double uMax, int uN) {
+			double uBorderMin, double uBorderMax, double uMax, int uN)
+			throws NotEnoughCornersException {
 		Corner below = bottomRight;
 		Corner right = newCorner(uBorderMax, v);
 		below.a = right;
@@ -1037,7 +1066,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return bottomRight.a;
 	}
 
-	private static void splitRootMesh(Corner first) {
+	private static void splitRootMesh(Corner first) throws NotEnoughCornersException {
 
 		Corner nextAbove, nextLeft;
 
@@ -1058,7 +1087,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private boolean split() {
+	private boolean split() throws NotEnoughCornersException {
 
 		if (currentSplitStoppedIndex == currentSplitIndex) {
 			// swap stacks
@@ -1380,7 +1409,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		}
 
-		public void split(boolean draw) {
+		public void split(boolean draw) throws NotEnoughCornersException {
 
 			Corner left, above, subLeft, subAbove;
 
@@ -2318,7 +2347,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		private void split(Corner subLeft, Corner left, Corner subAbove,
-				Corner above) {
+				Corner above) throws NotEnoughCornersException {
 			// new corners
 			double um = (u + left.u) / 2;
 			double vm = (v + above.v) / 2;
@@ -3061,9 +3090,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            first parameter
 	 * @param v
 	 *            second parameter
+	 * @throws NotEnoughCornersException
+	 *             if no new corner left in array
 	 * @return new corner calculated for parameters u, v
 	 */
-	protected Corner newCorner(double u, double v) {
+	protected Corner newCorner(double u, double v) throws NotEnoughCornersException {
+		if (cornerListIndex >= cornerListSize) {
+			throw new NotEnoughCornersException(this, "Index " + cornerListIndex
+					+ " is larger than size " + cornerListSize);
+		}
 		Corner c = cornerList[cornerListIndex];
 		if (c == null) {
 			c = new Corner(u, v, cornerListIndex);
@@ -3077,8 +3112,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	/**
 	 * @return new corner
+	 * @throws NotEnoughCornersException
+	 *             if no new corner left in array
 	 */
-	protected Corner newCorner() {
+	protected Corner newCorner() throws NotEnoughCornersException {
+		if (cornerListIndex >= cornerListSize) {
+			throw new NotEnoughCornersException(this, "Index " + cornerListIndex
+					+ " is larger than size " + cornerListSize);
+		}
 		Corner c = cornerList[cornerListIndex];
 		if (c == null) {
 			c = new Corner(cornerListIndex);
@@ -3086,8 +3127,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 		cornerListIndex++;
 		return c;
-
-		// return new Corner();
 	}
 
 	@Override
@@ -3270,4 +3309,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return GColor.DARK_GRAY;
 	}
 
+	/**
+	 * set there is no more corner available
+	 */
+	public void setNoRoomLeft() {
+		drawFromScratch = false;
+		stillRoomLeft = false;
+	}
 }
