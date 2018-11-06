@@ -3710,10 +3710,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_SHOW_HIDE_PLANE:
 			return true;
 
-		// AND-1400
-		case MOB_BACKGROUND_PROPERTY:
-			return prerelease;
-
 		// MOB-1753
 		case MOB_QUICK_STYLE_BAR_3D:
 			return true;
@@ -4136,6 +4132,10 @@ public abstract class App implements UpdateSelection, AppInterface {
        //
        // *********************************************************
        // **********************************************************************
+
+		// G3D-8, v510
+		case MOB_BACKGROUND_PROPERTY:
+			return true;
 
 		/** G3D-13 */
 		case DOWNLOAD_ARCORE:
