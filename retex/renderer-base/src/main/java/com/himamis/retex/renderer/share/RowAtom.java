@@ -224,12 +224,6 @@ public class RowAtom extends Atom implements Row {
 		for (int i = 0; i < elementsCopy.size(); ++i) {
 			Atom at = elementsCopy.get(i);
 
-			if (at == null) {
-				HorizontalBox box = hBox.pop();
-				hBox.peek().add(box);
-				continue;
-			}
-
 			if (at instanceof ColorAtom) {
 				ColorAtom ca = (ColorAtom) at;
 
@@ -262,6 +256,12 @@ public class RowAtom extends Atom implements Row {
 
 			if (at instanceof MathchoiceAtom) {
 				at = ((MathchoiceAtom) at).chose(env);
+			}
+
+			if (at == null) {
+				HorizontalBox box = hBox.pop();
+				hBox.peek().add(box);
+				continue;
 			}
 
 			Dummy curAtom = new Dummy(at);
