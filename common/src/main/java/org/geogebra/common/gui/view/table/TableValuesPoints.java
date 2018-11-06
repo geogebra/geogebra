@@ -75,18 +75,21 @@ public class TableValuesPoints implements TableValuesListener {
 			point.setLabelVisible(false);
 			point.setHasPreviewPopup(true);
 			point.setFixed(true);
-			point.setLabel("TableValuesPoint");
-			construction.removeFromConstructionList(point);
-
-			Evaluatable evaluatable = model.getEvaluatable(column - 1);
-			if (evaluatable instanceof GeoElementND) {
-				GeoElementND element = (GeoElementND) evaluatable;
-				GColor color = element.getObjectColor();
-				point.setObjColor(color);
-			}
+			point.setLabelSimple("TableValuesPoints");
+			point.setLabelSet(true);
+			maybeSetPointColor(point, model.getEvaluatable(column - 1));
+			point.notifyAdd();
 			list.add(point);
 		}
 		points.add(column - 1, list);
+	}
+
+	private void maybeSetPointColor(GeoPoint point, Evaluatable evaluatable) {
+		if (evaluatable instanceof GeoElementND) {
+			GeoElementND element = (GeoElementND) evaluatable;
+			GColor color = element.getObjectColor();
+			point.setObjColor(color);
+		}
 	}
 
 	private void removePoints(int column) {
