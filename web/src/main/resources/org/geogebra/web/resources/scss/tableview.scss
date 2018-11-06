@@ -52,7 +52,7 @@
 		}
 		
 		.tvHeader {
-			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHeader {
+			th {
 				 border: 0px;
 				 padding: 0px;
 				 text-align: center;
@@ -73,20 +73,20 @@
 		}
 		
 		.tvTable {
-			 .com-google-gwt-user-cellview-client-CellTable-Style-cellTableFirstColumn {
+			 td:first-child {
 				padding: 0px !important;
 				border: 0px;
 			
 			}
 		
-			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableCell {
+			td {
 				div {			
 					color: $black-87;
 					text-align: center;
 				}
 			}
 			
-			.com-google-gwt-user-cellview-client-CellTable-Style-cellTableOddRowCell {
+			tbody tr:nth-child(odd) {
 				background: $tableview-row;
 			}
 		}
