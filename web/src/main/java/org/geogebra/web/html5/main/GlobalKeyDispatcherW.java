@@ -598,18 +598,21 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (isShiftDown) {
-			if (!am.leaveAnimationButton(false)) {
+			if (!am.tabEuclidianControl(false)) {
 				selection.selectLastGeo(app.getActiveEuclidianView());
 			}
 
 			return true;
 		}
-		am.setPlaySelectedIfVisible(false);
+
 		boolean forceRet = false;
 		if (selection.getSelectedGeos().size() == 0) {
 			forceRet = true;
 		}
-
+		if (am.tabEuclidianControl(true)) {
+			return true;
+		}
+		am.setPlaySelectedIfVisible(false);
 		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView());
 
 		return hasNext || forceRet;

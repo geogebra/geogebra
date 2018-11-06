@@ -117,9 +117,10 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 * @param forward
 	 *            true for TAB, false for Shift+TAB
-	 * @return true if tab selection leaves the animation button.
+	 * @return true if tab selection leaves EV controls (animation / rotate
+	 *         view).
 	 */
-	public boolean leaveAnimationButton(boolean forward);
+	public boolean tabEuclidianControl(boolean forward);
 
 	/**
 	 * Selects/unselects EV play if available.
@@ -136,5 +137,11 @@ public interface AccessibilityManagerInterface {
 	 */
 	public String getSpaceAction();
 
-	public GeoElement getSelectedGeo();
+	/**
+	 * @return action for slider
+	 */
+	public SliderInput getSliderAction();
+
+	public void sliderChange(double step);
+
 }

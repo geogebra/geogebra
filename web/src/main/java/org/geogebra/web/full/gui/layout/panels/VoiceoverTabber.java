@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.layout.panels;
 
 import org.apache.commons.math3.util.Cloner;
+import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.SliderInput;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -135,22 +137,25 @@ public class VoiceoverTabber {
 	 *            slider value
 	 */
 	protected void onSliderChange(SliderW range, int index, double val) {
-		GeoElement sel = app.getAccessibilityManager().getSelectedGeo();
+		GeoElement sel = AccessibilityManagerNoGui.getSelectedGeo(app);
 		if (sel != null && sel.isGeoNumeric()) {
 			((GeoNumeric) sel).setValue(val);
 			((GeoNumeric) sel).updateRepaint();
 			range.getElement().focus();
 			updateValueText(range, (GeoNumeric) sel);
+			return;
 		}
+		double step = range.getValue() - oldVal[index];
+		oldVal[index] += step;
 		if (sel != null && sel.isGeoPoint()) {
-			double step = range.getValue() - oldVal[index];
 			app.getGlobalKeyDispatcher().handleArrowKeyMovement(
 					app.getSelectionManager().getSelectedGeos(),
 					index == 0 ? step : 0, index == 1 ? step : 0,
 					index == 2 ? step : 0);
-			oldVal[index] += step;
-			updateValueText(range, range.getValue());
+		} else {
+			app.getAccessibilityManager().sliderChange(step);
 		}
+		updateValueText(range, range.getValue());
 	}
 
 	private HTML makeFocusTrap(final boolean backward, final SliderW[] range,
@@ -193,8 +198,23 @@ public class VoiceoverTabber {
 				r.setVisible(false);
 			}
 			forceFocus(simpleButton.getElement());
+		} else if (app.getAccessibilityManager().getSliderAction() != null) {
+			SliderInput slider = app.getAccessibilityManager()
+					.getSliderAction();
+			range[0].setMinimum(slider.getMin());
+			range[0].setMaximum(slider.getMax());
+			range[0].setStep(1);
+			double val = 42;
+			range[0].setValue(val);
+			updateValueText(range[0], val);
+			AriaHelper.setLabel(range[0], slider.getDescription());
+			simpleButton.setVisible(false);
+			for (int i = 1; i < range.length; i++) {
+				range[i].setVisible(false);
+			}
+			forceFocus(range[0].getElement());
 		} else {
-			GeoElement sel = app.getAccessibilityManager().getSelectedGeo();
+			GeoElement sel = AccessibilityManagerNoGui.getSelectedGeo(app);
 			int dim =  1;
 			if (sel == null) {
 				dim = 0;
@@ -264,7 +284,7 @@ public class VoiceoverTabber {
 	 *            slider index
 	 */
 	protected void updateSelection(SliderW range, int index) {
-		GeoElement sel = app.getAccessibilityManager().getSelectedGeo();
+		GeoElement sel = AccessibilityManagerNoGui.getSelectedGeo(app);
 		if (sel == null) {
 			return;
 		}

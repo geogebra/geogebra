@@ -1011,17 +1011,21 @@ public abstract class EuclidianView3D extends EuclidianView
 		return eyePosition;
 	}
 
-	/**
-	 * @param da
-	 *            angle change
-	 */
+	@Override
 	public void shiftRotAboutZ(double da) {
 		setRotXYinDegrees(aOld + da, bOld);
+		updateRotation();
+	}
 
+	@Override
+	public void shiftRotAboutY(double db) {
+		setRotXYinDegrees(aOld, bOld + db);
+		updateRotation();
+	}
+
+	private void updateRotation() {
 		updateRotationAndScaleMatrices();
-
 		setGlobalMatrices();
-
 		setViewChangedByRotate();
 		setWaitForUpdate();
 	}

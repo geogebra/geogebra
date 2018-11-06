@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
+import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.SliderInput;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -31,6 +33,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private boolean tabOverGeos = false;
 	private SelectionManager selection;
 	private Widget anchor;
+	private SliderInput activeButton;
 
 	/**
 	 * Constructor.
@@ -188,6 +191,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		GeoElement geo = selection.getSelectedGeos().get(0);
 		boolean exitOnFirst = selection.isFirstGeoSelected() && isShiftDown;
 		boolean exitOnLast = selection.isLastGeoSelected() && !isShiftDown;
+		this.activeButton = null;
 		if (exitOnFirst) {
 			focusPrevious(geo);
 		} else if (exitOnLast) {
@@ -254,30 +258,44 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!app.has(Feature.TAB_ON_EV_PLAY)) {
 			return false;
 		}
-
-		if (!app.getKernel().needToShowAnimationButton()) {
-			return Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS);
+		boolean voiceover = Browser.isiOS()
+				&& app.has(Feature.VOICEOVER_APPLETS);
+		if (app.getKernel().needToShowAnimationButton()) {
+			setPlaySelectedIfVisible(true);
+			return true;
 		}
-
-		setPlaySelectedIfVisible(true);
-		return true;
+		if (app.getActiveEuclidianView().getDimension() == 3 && voiceover) {
+			this.activeButton = SliderInput.ROTATE_Z;
+			return true;
+		}
+		return voiceover;
 	}
 
 	@Override
 	public void setPlaySelectedIfVisible(boolean b) {
+		this.activeButton = null;
 		if (app.getKernel().needToShowAnimationButton()) {
 			app.getActiveEuclidianView().setAnimationButtonSelected(b);
 		}
 	}
 
 	@Override
-	public boolean leaveAnimationButton(boolean forward) {
-		if (!app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			return false;
+	public boolean tabEuclidianControl(boolean forward) {
+		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
+			if (!forward) {
+				focusLastGeo();
+				setPlaySelectedIfVisible(false);
+				return true;
+			}
+			if (app.getActiveEuclidianView().getDimension() == 3 && forward
+					&& activeButton == null) {
+				activeButton = SliderInput.ROTATE_Z;
+				return true;
+			}
 		}
-		if (!forward) {
-			focusLastGeo();
-			setPlaySelectedIfVisible(false);
+		if (app.getActiveEuclidianView().getDimension() == 3 && forward
+				&& activeButton == SliderInput.ROTATE_Z) {
+			activeButton = SliderInput.ROTATE_Y;
 			return true;
 		}
 
@@ -298,9 +316,27 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return null;
 	}
 
-	@Override
 	public GeoElement getSelectedGeo() {
-		return app.getSelectionManager().getSelectedGeos().size() == 1
-				? app.getSelectionManager().getSelectedGeos().get(0) : null;
+		return AccessibilityManagerNoGui.getSelectedGeo(app);
+	}
+
+	@Override
+	public SliderInput getSliderAction() {
+		return activeButton;
+	}
+
+	@Override
+	public void sliderChange(double step) {
+		if (activeButton == SliderInput.ROTATE_Z) {
+			app.getEuclidianView3D().rememberOrigins();
+			app.getEuclidianView3D().shiftRotAboutZ(step);
+			app.getEuclidianView3D().repaintView();
+		}
+		if (activeButton == SliderInput.ROTATE_Y) {
+			app.getEuclidianView3D().rememberOrigins();
+			app.getEuclidianView3D().shiftRotAboutY(step);
+			app.getEuclidianView3D().repaintView();
+		}
+
 	}
 }

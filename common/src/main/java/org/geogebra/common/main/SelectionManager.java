@@ -680,7 +680,6 @@ public class SelectionManager {
 		if (!kernel.getApplication().has(Feature.SELECT_NEXT_GEO_IN_VIEW)) {
 			return selectNextGeo0(ev, true);
 		}
-
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree, ev);
 

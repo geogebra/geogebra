@@ -244,4 +244,16 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	public void setZZero(double xZero);
 
+	/**
+	 * @param da
+	 *            angle change
+	 */
+	public void shiftRotAboutZ(double da);
+
+	/**
+	 * @param db
+	 *            angle change
+	 */
+	void shiftRotAboutY(double db);
+
 }

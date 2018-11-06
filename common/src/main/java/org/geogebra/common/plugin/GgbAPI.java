@@ -1269,20 +1269,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized void setValue(String objName, double x) {
-
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null || !geo.isIndependent()) {
 			return;
 		}
 
 		CmdSetValue.setValue2(geo, new GeoNumeric(kernel.getConstruction(), x));
-
-		/*
-		 * if (geo.isGeoNumeric()) { ((GeoNumeric) geo).setValue(x);
-		 * geo.updateRepaint(); } else if (geo.isGeoBoolean()) { ((GeoBoolean)
-		 * geo).setValue(Kernel.isZero(x) ? false : true); geo.updateRepaint();
-		 * }
-		 */
 	}
 
 	@Override
@@ -1294,7 +1286,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		((GeoText) geo).setTextString(x);
 		geo.updateRepaint();
-
 	}
 
 	@Override
@@ -1309,7 +1300,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		CmdSetValue.setValue3(kernel, (GeoList) geo, (int) x,
 				new GeoNumeric(cons, y));
-
 	}
 
 	/**
@@ -1358,7 +1348,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		Coords boundsMin = new Coords(xmin, ymin, zmin);
 		Coords boundsMax = new Coords(xmax, ymax, zmax);
 		e3d.zoomRW(boundsMin, boundsMax);
-
 	}
 
 	/**
