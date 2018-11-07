@@ -76,6 +76,11 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
+	public Evaluatable getEvaluatable(int column) {
+		return model.getEvaluatable(column);
+	}
+
+	@Override
 	public void setValues(double valuesMin, double valuesMax, double valuesStep)
 			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);

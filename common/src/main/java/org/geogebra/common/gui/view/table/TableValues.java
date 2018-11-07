@@ -32,6 +32,14 @@ public interface TableValues extends View {
 	int getColumn(Evaluatable evaluatable);
 
 	/**
+	 * Returns the evaluatable for the column,
+	 * or null, if index is out of range.
+	 *
+	 * @return evaluatable or null
+	 */
+	Evaluatable getEvaluatable(int column);
+
+	/**
 	 * Set the values parameters. Values min must be smaller than valuesMax,
 	 * valuesStep must be a positive number, and they all must be valid nubmers.
 	 * Otherwise an InvalidValuesException is thrown.
