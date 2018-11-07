@@ -2506,7 +2506,8 @@ public class GuiManagerW extends GuiManager
 				app.getKernel().attach(getTableValuesView());
 			}
 		} catch (InvalidValuesException exception) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(exception.getLocalizedMessage(),
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					exception.getLocalizedMessage(app.getLocalization()),
 					true, (AppW) app);
 		}
 	}

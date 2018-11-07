@@ -108,17 +108,19 @@ public class TableValuesView implements TableValues {
 	private void assertValidValues(double min, double max, double step)
 			throws InvalidValuesException {
 		if (!isFinite(min) && !isFinite(max)) {
-			throw new InvalidValuesException("Values min and/or max are invalid");
+			throw new InvalidValuesException("TableValuesMinMaxInvalid",
+					"Values min and/or max are invalid");
 		}
 		if (min > max) {
-			throw new InvalidValuesException("Values min is greater than values max");
+			throw new InvalidValuesException("TableValuesMinGreater",
+					"Values min is greater than values max");
 		}
 		if (Double.isNaN(step) || Double.isInfinite(step) || step <= 0) {
-			throw new InvalidValuesException("Values step is invalid");
+			throw new InvalidValuesException("TableValuesStepInvalid", "Values step is invalid");
 		}
 
 		if (Math.abs(max - min) / step > MAX_ROWS) {
-			throw new InvalidValuesException(
+			throw new InvalidValuesException("TableValuesRowLimit",
 					"Maximum number of rows is limited to 200. Please, change range values.");
 		}
 	}
