@@ -2526,4 +2526,9 @@ public class GuiManagerW extends GuiManager
 			addGeoToTableValuesView(geo);
 		}
 	}
+
+	@Override
+	public void updateUnbundledToolbar() {
+		getUnbundledToolbar().updateTabs();
+	}
 }

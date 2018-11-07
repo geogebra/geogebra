@@ -703,6 +703,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	/**
+	 * Update all tabs
+	 */
+	public void updateTabs() {
+		resizeTabs();
+	}
+
+	/**
 	 * Called after open.
 	 */
 	protected void onOpen() {

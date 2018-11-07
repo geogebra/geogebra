@@ -183,4 +183,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void showTableValuesView(GeoElement geo);
 
+	/**
+	 * Updates the unbundled toolbar.
+	 */
+	void updateUnbundledToolbar();
 }
