@@ -70,6 +70,16 @@ public class AlgebraController {
 	}
 
 	/**
+	 * True if the algebra controller automatically creates sliders
+	 * for unknown variables.
+	 *
+	 * @return true if sliders are created
+	 */
+	public boolean isAutoCreateSliders() {
+		return isAutoCreateSliders;
+	}
+
+	/**
 	 * Set to true if the algebra controller should store undo
 	 * when the evaluation succeeds.
 	 *
