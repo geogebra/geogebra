@@ -204,6 +204,7 @@ public class VoiceoverTabber {
 			SliderInput slider = app.getAccessibilityManager()
 					.getSliderAction();
 			updateRange(range[0], slider);
+			range[0].setVisible(true);
 			AriaHelper.setLabel(range[0], slider.getDescription());
 			simpleButton.setVisible(false);
 			for (int i = 1; i < range.length; i++) {

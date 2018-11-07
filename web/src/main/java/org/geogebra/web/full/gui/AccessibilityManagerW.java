@@ -295,6 +295,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return true;
 		}
 		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
+				&& activeButton == null && this.getSelectedGeo() == null) {
+			activeButton = SliderInput.TILT;
+			return true;
+		}
+		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
 				&& activeButton == SliderInput.TILT) {
 			activeButton = SliderInput.ROTATE_Z;
 			return true;
