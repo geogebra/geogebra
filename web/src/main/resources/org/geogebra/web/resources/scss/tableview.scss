@@ -121,7 +121,16 @@ $emptyHeight: 212px;
 		overflow: hidden !important;
 	}
 
+	.outerScrollPanel > div{
+		height: 100%;
+	}
+
+	/*needed for vertical scrolling*/
+	.tvScrollPanel div, .tvPanel{
+		height: 100%;
+	}
 	.tvHeaderHolderPanel{
+		width: 50%;
 		background-color: #F8F8F8;
 		overflow: hidden !important;
 	}
