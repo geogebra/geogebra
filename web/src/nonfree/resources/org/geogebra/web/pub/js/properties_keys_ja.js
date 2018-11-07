@@ -2968,7 +2968,7 @@ __GGB__keysVar["ja"].menu = {
     "TrueOnPartsFalseOnParts": "(\u90e8\u5206\u7684\u306b\u771f\u3001\u90e8\u5206\u7684\u306b\u507d\uff09",
     "Turtle": "\u30bf\u30fc\u30c8\u30eb",
     "Tutorial": "\u30c1\u30e5\u30fc\u30c8\u30ea\u30a2\u30eb",
-    "Tutorial3D": "aWhYSpvy",
+    "Tutorial3D": "gjrhcrxw",
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
