@@ -369,11 +369,37 @@ public class AlgebraProcessor {
 	public void changeGeoElement(GeoElementND geo, String newValue,
 			boolean redefineIndependent, boolean storeUndoInfo,
 			ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
-			EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
-				redefineIndependent)
-						.withSymbolicMode(app.getKernel().getSymbolicMode());
-			changeGeoElementNoExceptionHandling(geo, newValue,
-				info.withSliders(true), storeUndoInfo, callback, handler);
+			changeGeoElement(geo, newValue, redefineIndependent, storeUndoInfo,
+					true, handler, callback);
+	}
+
+	/**
+	 * for AlgebraView changes in the tree selection and redefine dialog
+	 *
+	 * @param geo
+	 *            old geo
+	 * @param newValue
+	 *            new value
+	 * @param redefineIndependent
+	 *            true to allow redefinition of free objects
+	 * @param storeUndoInfo
+	 *            true to make undo step
+	 * @param withSliders
+	 * 			  true to autocreate sliders
+	 * @param handler
+	 *            error handler
+	 *
+	 * @param callback
+	 *            receives changed geo
+	 */
+	public void changeGeoElement(GeoElementND geo, String newValue,
+								 boolean redefineIndependent, boolean storeUndoInfo,
+								 boolean withSliders, ErrorHandler handler,
+								 AsyncOperation<GeoElementND> callback) {
+		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
+				.withSymbolicMode(app.getKernel().getSymbolicMode());
+		changeGeoElementNoExceptionHandling(geo, newValue,
+				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
 
 	/**
