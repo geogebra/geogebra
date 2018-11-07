@@ -52,7 +52,6 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -366,7 +365,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		// only in headertable
 		if (tb.getStyleName().indexOf("headerTable") > 0) {
 			sb.append(SafeHtmlUtils
-					.fromSafeConstant("<div id = \"CP_popupImage\">"));
+					.fromSafeConstant("<div class=\"CP_popupImage\">"));
 			sb.append(AbstractImagePrototype
 					.create(GuiResources.INSTANCE.menu_dots()).getSafeHtml());
 			sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
@@ -459,11 +458,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			public void onClick(ClickEvent event) {
 				Element el = Element
 						.as(event.getNativeEvent().getEventTarget());
-				Element imgElement = DOM.getElementById("CP_popupImage")
-						.getElementsByTagName("img").getItem(0);
-				Log.debug("imgElement: " + imgElement.toString());
-
-				if (el.equals(imgElement)) { // three-dot menu
+				if (el != null && el.getParentNode() != null && el
+						.getParentElement().hasClassName("CP_popupImage")) { // three-dot
+																	// menu
 					popupMenu.show(new GPoint(el.getAbsoluteLeft(),
 							el.getAbsoluteBottom()));
 				}
