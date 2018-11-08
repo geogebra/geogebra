@@ -43,6 +43,8 @@ public class Settings {
 
 	private ToolbarSettings toolbarSettings;
 
+	private TableSettings tableSettings;
+
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
@@ -168,6 +170,7 @@ public class Settings {
 					toolbarSettings.getListeners());
 		}
 
+		tableSettings = new TableSettings();
 	}
 
 	/**
@@ -296,6 +299,13 @@ public class Settings {
 	 */
 	public final SpreadsheetSettings getSpreadsheet() {
 		return spreadsheetSettings;
+	}
+
+	/**
+	 * @return Settings of the spreadsheet view.
+	 */
+	public final TableSettings getTable() {
+		return this.tableSettings;
 	}
 
 	/**

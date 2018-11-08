@@ -40,7 +40,8 @@ public class GeoElementFactory {
     public GeoFunction createFunction(String definition) {
         Kernel kernel = unitTest.getKernel();
         AlgebraProcessor processor = kernel.getAlgebraProcessor();
-        return processor.evaluateToFunction(definition, true);
+		return (GeoFunction) processor.processAlgebraCommand(definition,
+				false)[0];
     }
 
     /**

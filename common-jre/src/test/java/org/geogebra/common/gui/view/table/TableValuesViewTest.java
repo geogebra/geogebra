@@ -2,7 +2,6 @@ package org.geogebra.common.gui.view.table;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
-import org.geogebra.common.OrderingComparison;
 import org.geogebra.common.Stopwatch;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -10,6 +9,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.test.OrderingComparison;
+import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -259,11 +260,30 @@ public class TableValuesViewTest extends BaseUnitTest {
         setValuesSafe(0, 10, 2);
 
         GeoElementFactory factory = getElementFactory();
-        GeoFunction function = factory.createFunction("x^2");
-        showColumn(function);
+        GeoFunction fn = factory.createFunction("x^2");
+        showColumn(fn);
         Assert.assertEquals("0", model.getCellAt(0, 0));
 
-        view.update(function);
+        view.update(fn);
         Assert.assertEquals("0", model.getCellAt(0, 0));
     }
+
+	@Test
+	public void testXML() {
+		setValuesSafe(0, 10, 2);
+
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction fn = factory.createFunction("f:x^2");
+		showColumn(fn);
+		Assert.assertThat(getXML(),
+				RegexpMatch.matches(
+						"<tableview min=\"0.0\" max=\"10.0\"(.|\\n)*"
+								+ "<column label=\"f\" points=\"true\"\\/>(.|\\n)*"));
+	}
+
+	private String getXML() {
+		StringBuilder sb = new StringBuilder();
+		getApp().getSettings().getTable().getXML(sb);
+		return sb.toString();
+	}
 }

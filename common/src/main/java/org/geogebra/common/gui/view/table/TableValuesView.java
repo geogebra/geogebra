@@ -16,6 +16,8 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -24,13 +26,11 @@ import org.geogebra.common.util.DoubleUtil;
 public class TableValuesView implements TableValues {
 
 	private static final int MAX_ROWS = 200;
-	private double valuesMin = -2.0;
-	private double valuesMax = 2.0;
-	private double valuesStep = 1.0;
 
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private List<GeoElement> elements;
+	private TableSettings settings;
 
 	/**
 	 * Create a new Table Value View.
@@ -40,6 +40,8 @@ public class TableValuesView implements TableValues {
 	 */
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
+		Settings set = kernel.getApplication().getSettings();
+		this.settings = set.getTable();
 		this.elements = new ArrayList<>();
 		createTableDimensions();
 		updateModelValues();
@@ -60,6 +62,8 @@ public class TableValuesView implements TableValues {
 	public void showColumn(Evaluatable evaluatable) {
 		if (elements.contains(evaluatable)) {
 			model.addEvaluatable(evaluatable);
+			settings.setShowPoints(((GeoElement) evaluatable).getLabelSimple(),
+					true);
 		}
 	}
 
@@ -84,25 +88,25 @@ public class TableValuesView implements TableValues {
 	public void setValues(double valuesMin, double valuesMax, double valuesStep)
 			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
-		this.valuesMin = valuesMin;
-		this.valuesMax = valuesMax;
-		this.valuesStep = valuesStep;
+		settings.setValuesMin(valuesMin);
+		settings.setValuesMax(valuesMax);
+		settings.setValuesStep(valuesStep);
 		updateModelValues();
 	}
 
 	@Override
 	public double getValuesMin() {
-		return valuesMin;
+		return settings.getValuesMin();
 	}
 
 	@Override
 	public double getValuesMax() {
-		return valuesMax;
+		return settings.getValuesMax();
 	}
 
 	@Override
 	public double getValuesStep() {
-		return valuesStep;
+		return settings.getValuesStep();
 	}
 
 	private void assertValidValues(double min, double max, double step)
@@ -136,16 +140,17 @@ public class TableValuesView implements TableValues {
 
 	private double[] calulateValues() {
 		double[] values;
-		if (valuesMin == valuesMax) {
-			values = new double[] { valuesMin };
+		if (getValuesMin() == getValuesMax()) {
+			values = new double[] { getValuesMin() };
 		} else {
-			double stepsDouble = (valuesMax - valuesMin) / valuesStep;
+			double stepsDouble = (getValuesMax() - getValuesMin())
+					/ getValuesStep();
 			int stepsInt = (int) Math.round(stepsDouble);
 			int steps = DoubleUtil.isInteger(stepsDouble) ? stepsInt : stepsInt + 1;
 			values = new double[steps + 1];
-			values[steps] = valuesMax;
+			values[steps] = getValuesMax();
 			for (int i = 0; i < steps; i++) {
-				values[i] = valuesMin + i * valuesStep;
+				values[i] = getValuesMin() + i * getValuesStep();
 			}
 		}
 		return values;

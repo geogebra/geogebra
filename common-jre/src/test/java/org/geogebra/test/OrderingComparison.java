@@ -1,6 +1,6 @@
 /*  Copyright (c) 2000-2009 hamcrest.org
  */
-package org.geogebra.common;
+package org.geogebra.test;
 
 import static java.lang.Integer.signum;
 

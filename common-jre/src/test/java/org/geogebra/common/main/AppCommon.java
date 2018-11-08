@@ -6,7 +6,11 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCommon;
-import org.geogebra.common.factories.*;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.factories.CASFactory;
+import org.geogebra.common.factories.Factory;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
@@ -16,6 +20,7 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -39,6 +44,7 @@ public class AppCommon extends App {
         initKernel();
         initLocalization();
         initEuclidianViews();
+		this.settings = new Settings(this, 42);
     }
 
     @Override

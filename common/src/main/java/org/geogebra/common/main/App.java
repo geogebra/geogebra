@@ -1748,6 +1748,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		}
 		// coord style, decimal places settings etc
 		kernel.getKernelXML(sb, asPreference);
+		getSettings().getTable().getXML(sb);
 		getScriptingXML(sb, asPreference);
 
 		return sb.toString();

@@ -133,7 +133,7 @@ public abstract class MyXMLio {
 
 		// save kernel settings
 		c.getKernel().getKernelXML(sb, false);
-
+		consApp.getSettings().getTable().getXML(sb);
 		// save construction
 		c.getConstructionXML(sb, getListenersToo);
 

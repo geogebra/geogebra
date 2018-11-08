@@ -2515,7 +2515,6 @@ public abstract class GeoElement extends ConstructionElement
 	public final void setLabel(String labelNew) {
 
 		String newLabel = labelNew;
-
 		if (cons.isSuppressLabelsActive()) {
 			if (kernel.getApplication()
 					.has(Feature.AUTOSCROLLING_SPREADSHEET)) {
