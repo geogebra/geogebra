@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -27,20 +28,33 @@ public class ContextMenuTV {
 	 * localization
 	 */
 	protected Localization loc;
+	private GeoElement geo;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param geo
+	 *            label of geo
 	 */
-	public ContextMenuTV(AppW app) {
+	public ContextMenuTV(AppW app, GeoElement geo) {
 		this.loc = app.getLocalization();
+		this.geo = geo;
 		buildGui(app);
+	}
+
+	/**
+	 * @return geo element
+	 */
+	public GeoElement getGeo() {
+		return geo;
 	}
 
 	private void buildGui(AppW app) {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		addDelete();
+		if (geo != null) {
+			addDelete();
+		}
 	}
 
 	private void addDelete() {
@@ -48,12 +62,12 @@ public class ContextMenuTV {
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.delete_black()
 								.getSafeUri().asString(),
-						loc.getMenu("Delete"), true),
+						loc.getMenu("RemoveColumn"), true),
 				true, new Command() {
 
 					@Override
 					public void execute() {
-						// TODO add functionality
+						getGeo().notifyRemove();
 					}
 				});
 		wrappedPopup.addItem(mi);

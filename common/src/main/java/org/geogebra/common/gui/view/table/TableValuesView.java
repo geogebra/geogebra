@@ -161,6 +161,15 @@ public class TableValuesView implements TableValues {
 		return model;
 	}
 
+	/**
+	 * @param column
+	 *            index of column
+	 * @return geo at the given column
+	 */
+	public GeoElement getGeoAt(int column) {
+		return elements.get(column);
+	}
+
 	@Override
 	public TableValuesDimensions getTableValuesDimensions() {
 		return dimensions;

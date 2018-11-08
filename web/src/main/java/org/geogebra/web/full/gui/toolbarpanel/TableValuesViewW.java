@@ -20,6 +20,7 @@ import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -327,11 +328,33 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				Element el = Element
 						.as(event.getNativeEvent().getEventTarget());
 				if (el != null && el.getParentNode() != null && el
-						.getParentElement().hasClassName("MyToggleButton")) { // three-dot
-					// menu
-					new ContextMenuTV(getApp()).show(new GPoint(
-							el.getAbsoluteLeft(),
-							el.getAbsoluteTop() - 8));
+						.getParentElement().hasClassName("MyToggleButton")) {
+					if (el.getParentNode().getParentNode() != null
+							&& el.getParentNode().getParentNode()
+									.getParentNode() != null
+							&& el.getParentNode().getParentNode()
+									.getParentNode()
+									.getParentElement() != null) {
+						// parent tag with the header children
+						Element parent = el.getParentNode().getParentNode()
+								.getParentNode().getParentElement();
+						// header column which was clicked on
+						com.google.gwt.dom.client.Node currHeaderCell = el
+								.getParentNode().getParentNode()
+								.getParentNode();
+						// get list of header cells
+						NodeList<Node> headerNodes = parent.getChildNodes();
+						for (int i = 0; i < headerNodes.getLength(); i++) {
+							Node node = headerNodes.getItem(i);
+							// check if header cell is the one it was clicked on
+							if (node.equals(currHeaderCell)) {
+								new ContextMenuTV(getApp(),
+										i > 0 ? getGeoAt(i - 1) : null)
+										.show(new GPoint(el.getAbsoluteLeft(),
+												el.getAbsoluteTop() - 8));
+							}
+						}
+					}
 				}
 			}
 		};
