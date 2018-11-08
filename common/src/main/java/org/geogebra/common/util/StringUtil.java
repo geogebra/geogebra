@@ -1822,4 +1822,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 
 	}
+
+	/**
+	 * @param value
+	 * 			the String value to test
+	 * @return True if the value contains only numbers, false otherwise/
+	 */
+	public static boolean isSimpleNumber(String value) {
+		return value.matches("[1234567890\\-.]+");
+	}
 }
