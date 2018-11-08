@@ -275,10 +275,10 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction fn = factory.createFunction("f:x^2");
 		showColumn(fn);
-		Assert.assertThat(getXML(),
+		Assert.assertThat(new MyXMLioCommon(getKernel(), getConstruction()).getFullXML(),
 				RegexpMatch.matches(
-						"<tableview min=\"0.0\" max=\"10.0\"(.|\\n)*"
-								+ "<column label=\"f\" points=\"true\"\\/>(.|\\n)*"));
+						".*<tableview min=\"0.0\" max=\"10.0\".*"
+								+ "<column label=\"f\" points=\"true\"\\/>.*"));
 	}
 
 	private String getXML() {

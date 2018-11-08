@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;

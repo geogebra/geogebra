@@ -1,4 +1,4 @@
-package org.geogebra.desktop.headless;
+package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.factories.AwtFactory;

@@ -1,4 +1,4 @@
-package org.geogebra.desktop.headless;
+package org.geogebra.common.jre.headless;
 
 import java.util.ArrayList;
 

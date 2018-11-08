@@ -1,11 +1,12 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.CASFactory;
@@ -14,6 +15,8 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
+import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
@@ -40,11 +43,12 @@ public class AppCommon extends App {
      * Construct an AppCommon.
      */
     public AppCommon() {
+		super(Versions.ANDROID_NATIVE_GRAPHING);
         initFactories();
         initKernel();
         initLocalization();
-        initEuclidianViews();
 		this.settings = new Settings(this, 42);
+        initEuclidianViews();
     }
 
     @Override
@@ -71,7 +75,8 @@ public class AppCommon extends App {
 
     @Override
     protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
-        return new EuclidianViewCommon();
+		return new EuclidianViewNoGui(getEuclidianController(), 1,
+				this.getSettings().getEuclidian(1), new GGraphicsCommon());
     }
 
     @Override
@@ -371,7 +376,7 @@ public class AppCommon extends App {
 
     @Override
     public EuclidianController newEuclidianController(Kernel kernel1) {
-        return null;
+		return new EuclidianControllerNoGui(this, kernel1);
     }
 
     @Override

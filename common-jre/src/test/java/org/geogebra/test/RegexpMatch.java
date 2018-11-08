@@ -20,6 +20,6 @@ public class RegexpMatch extends TypeSafeMatcher<String> {
 
 	@Override
 	public boolean matchesSafely(String item) {
-		return item.matches(regexp);
+		return item.replace("\n", " ").replace("\r", " ").matches(regexp);
 	}
 }

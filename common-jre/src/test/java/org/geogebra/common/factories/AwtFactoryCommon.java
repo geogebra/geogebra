@@ -1,6 +1,28 @@
 package org.geogebra.common.factories;
 
-import org.geogebra.common.awt.*;
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GAlphaComposite;
+import org.geogebra.common.awt.GArc2D;
+import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GBufferedImageCommon;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GDimensionCommon;
+import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGradientPaint;
+import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPaint;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GQuadCurve2D;
+import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.gui.font.GFontCommon;
@@ -27,7 +49,7 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, double pixelRatio) {
-        return null;
+		return new GBufferedImageCommon();
     }
 
     @Override
@@ -42,7 +64,7 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GDimension newDimension(int width, int height) {
-        return null;
+		return new GDimensionCommon();
     }
 
     @Override
