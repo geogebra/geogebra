@@ -861,6 +861,19 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleTable(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setVisibility(App.VIEW_EUCLIDIAN,
+					geo.isVisibleInView(App.VIEW_EUCLIDIAN));
+			geo.setVisibility(App.VIEW_TABLE_OF_VALUES,
+					MyXMLHandler.parseBoolean(attrs.get("show")));
+			return true;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	private boolean handleVideo(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof GeoVideo)) {
 			Log.error("wrong element type for <video>: " + geo.getClass());
@@ -2065,6 +2078,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "selectedIndex":
 				handleSelectedIndex(attrs);
+				break;
+			case "tableview":
+				handleTable(attrs);
 				break;
 			case "trace":
 				handleTrace(attrs);

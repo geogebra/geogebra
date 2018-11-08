@@ -76,6 +76,7 @@ import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.common.util.Assignment;
@@ -533,7 +534,6 @@ public class MyXMLHandler implements DocHandler {
 		// if ("casView".equals(eName))
 		// mode = MODE_GEOGEBRA;
 		// break;
-
 		case MODE_KERNEL:
 			if ("kernel".equals(eName)) {
 				mode = MODE_GEOGEBRA;
@@ -645,6 +645,9 @@ public class MyXMLHandler implements DocHandler {
 			kernel.setUsePathAndRegionParameters(PathRegionHandling.ON);
 			mode = MODE_KERNEL;
 			break;
+		case "tableview":
+			setTableParameters(attrs);
+			break;
 		case "spreadsheetView":
 			mode = MODE_SPREADSHEET_VIEW;
 			break;
@@ -695,6 +698,19 @@ public class MyXMLHandler implements DocHandler {
 		default:
 			Log.error("unknown tag in <geogebra>: " + eName);
 		}
+	}
+
+	private void setTableParameters(LinkedHashMap<String, String> attrs) {
+		TableSettings ts = app.getSettings().getTable();
+		ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
+		System.err.println(getNumber(attrs.get("max")).getDouble());
+		ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
+		ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+
+	}
+
+	private GeoNumberValue getNumber(String string) {
+		return getAlgProcessor().evaluateToNumeric(string, handler);
 	}
 
 	private void handleKeyboard(LinkedHashMap<String, String> attrs) {
@@ -3093,8 +3109,7 @@ public class MyXMLHandler implements DocHandler {
 			if (xmin.get(ev) == null) {
 				ev.setXminObject(null, true);
 			} else {
-				NumberValue n = getAlgProcessor()
-						.evaluateToNumeric(xmin.get(ev), handler);
+				NumberValue n = getNumber(xmin.get(ev));
 				ev.setXminObject(n, true);
 			}
 		}
@@ -3102,8 +3117,7 @@ public class MyXMLHandler implements DocHandler {
 			if (xmax.get(ev) == null) {
 				ev.setXmaxObject(null, true);
 			} else {
-				NumberValue n = getAlgProcessor()
-						.evaluateToNumeric(xmax.get(ev), handler);
+				NumberValue n = getNumber(xmax.get(ev));
 				ev.setXmaxObject(n, true);
 			}
 		}
@@ -3111,8 +3125,7 @@ public class MyXMLHandler implements DocHandler {
 			if (ymin.get(ev) == null) {
 				ev.setYminObject(null, true);
 			} else {
-				NumberValue n = getAlgProcessor()
-						.evaluateToNumeric(ymin.get(ev), handler);
+				NumberValue n = getNumber(ymin.get(ev));
 				ev.setYminObject(n, true);
 			}
 		}
@@ -3120,8 +3133,7 @@ public class MyXMLHandler implements DocHandler {
 			if (ymax.get(ev) == null) {
 				ev.setYmaxObject(null, true);
 			} else {
-				NumberValue n = getAlgProcessor()
-						.evaluateToNumeric(ymax.get(ev), handler);
+				NumberValue n = getNumber(ymax.get(ev));
 				ev.setYmaxObject(n, true);
 			}
 			// ev.updateBounds();
@@ -3129,8 +3141,7 @@ public class MyXMLHandler implements DocHandler {
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(xtick.get(ev))) {
 
-				GeoNumberValue n = getAlgProcessor()
-						.evaluateToNumeric(xtick.get(ev), handler);
+				GeoNumberValue n = getNumber(xtick.get(ev));
 				ev.setAxisNumberingDistance(0, n);
 			}
 			// ev.updateBounds();
@@ -3138,8 +3149,7 @@ public class MyXMLHandler implements DocHandler {
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(ytick.get(ev))) {
 
-				GeoNumberValue n = getAlgProcessor()
-						.evaluateToNumeric(ytick.get(ev), handler);
+				GeoNumberValue n = getNumber(ytick.get(ev));
 				ev.setAxisNumberingDistance(1, n);
 			}
 			// ev.updateBounds();
@@ -3147,8 +3157,7 @@ public class MyXMLHandler implements DocHandler {
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(ztick.get(ev))) {
 
-				GeoNumberValue n = getAlgProcessor()
-						.evaluateToNumeric(ztick.get(ev), handler);
+				GeoNumberValue n = getNumber(ztick.get(ev));
 				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();

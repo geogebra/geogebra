@@ -62,7 +62,11 @@ public class TableValuesView implements TableValues {
 	public void showColumn(Evaluatable evaluatable) {
 		if (elements.contains(evaluatable)) {
 			model.addEvaluatable(evaluatable);
-			settings.setShowPoints(((GeoElement) evaluatable).getLabelSimple(),
+
+			GeoElement geo = (GeoElement) evaluatable;
+			geo.setVisibility(App.VIEW_EUCLIDIAN,
+					geo.isVisibleInView(App.VIEW_EUCLIDIAN));
+			geo.setVisibility(App.VIEW_TABLE_OF_VALUES,
 					true);
 		}
 	}
@@ -119,7 +123,7 @@ public class TableValuesView implements TableValues {
 			throw new InvalidValuesException("TableValuesMinGreater",
 					"Values min is greater than values max");
 		}
-		if (Double.isNaN(step) || Double.isInfinite(step) || step <= 0) {
+		if (!isFinite(step) || step <= 0) {
 			throw new InvalidValuesException("TableValuesStepInvalid", "Values step is invalid");
 		}
 
@@ -129,7 +133,7 @@ public class TableValuesView implements TableValues {
 		}
 	}
 
-	private boolean isFinite(double x) {
+	private static boolean isFinite(double x) {
 		return !Double.isInfinite(x) && !Double.isNaN(x);
 	}
 
@@ -178,6 +182,9 @@ public class TableValuesView implements TableValues {
 	@Override
 	public void add(GeoElement geo) {
 		elements.add(geo);
+		if (geo.isVisibleInView(App.VIEW_TABLE_OF_VALUES)) {
+			this.showColumn((Evaluatable) geo);
+		}
 	}
 
 	@Override

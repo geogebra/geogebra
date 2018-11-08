@@ -101,6 +101,9 @@ public class XMLBuilder {
 		// AlgebraView, Spreadsheet
 
 		geo.appendObjectColorXML(sb);
+		if (geo.isVisibleInView(App.VIEW_TABLE_OF_VALUES)) {
+			sb.append("\t<tableview show=\"true\"/>\n");
+		}
 
 		if (geo.bgColor != null) {
 			sb.append("\t<bgColor");

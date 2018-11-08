@@ -14,6 +14,7 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.MyXMLioCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
@@ -240,8 +241,28 @@ public class AppCommon extends App {
     }
 
     @Override
-    public void setXML(String string, boolean b) {
+	public void setXML(String xml, boolean clearAll) {
+		// TODO copied from AppDNoGui
+		if (xml == null) {
+			return;
+		}
+		if (clearAll) {
+			resetCurrentFile();
+		}
 
+		try {
+
+			// make sure objects are displayed in the correct View
+			setActiveView(App.VIEW_EUCLIDIAN);
+
+			getXMLio().processXMLString(xml, clearAll, false);
+		} catch (MyError err) {
+			err.printStackTrace();
+			showError(err);
+		} catch (Exception e) {
+			e.printStackTrace();
+			showError("LoadFileFailed");
+		}
     }
 
     @Override
@@ -396,7 +417,7 @@ public class AppCommon extends App {
 
     @Override
     public MyXMLio createXMLio(Construction cons) {
-        return null;
+		return new MyXMLioCommon(getKernel(), getKernel().getConstruction());
     }
 
     @Override

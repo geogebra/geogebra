@@ -1,4 +1,4 @@
-package org.geogebra.common.gui.view.table;
+package org.geogebra.common.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,8 +9,8 @@ import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 
-final class MyXMLioCommon extends MyXMLioJre {
-	MyXMLioCommon(Kernel kernel, Construction cons) {
+public final class MyXMLioCommon extends MyXMLioJre {
+	public MyXMLioCommon(Kernel kernel, Construction cons) {
 		super(kernel, cons);
 	}
 
