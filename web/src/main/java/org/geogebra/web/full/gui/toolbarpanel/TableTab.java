@@ -73,7 +73,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, int column) {
-		buildGui();
+		getView().deleteColumn(column);
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TableUtils;
 
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -303,7 +304,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(object.getValue(col));
 				int width = getColumnWidth(dimensions, col);
 				int height = dimensions.getRowHeight(object.row);
-				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell", width, height);
+				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell" + " " + columnStyleName(col),
+						width,
+						height);
 
 				return cell;
 			}
@@ -361,15 +364,16 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		headerTable.addHandler(popupMenuClickHandler, ClickEvent.getType());
 	}
 
-	private SafeHtml getHeaderHtml(final int column) {
+	private SafeHtml getHeaderHtml(final int col) {
 		FlowPanel p = new FlowPanel();
-		p.add(new Label(getTableValuesModel().getHeaderAt(column)));
+		p.add(new Label(getTableValuesModel().getHeaderAt(col)));
 		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
 		p.add(btn);
 
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, "tvHeaderCell", getColumnWidth(dimensions, column) + 32,
+		return TEMPLATES.cell(html, "tvHeaderCell" + " " + columnStyleName(col),
+				getColumnWidth(dimensions, col) + 32,
 				dimensions.getHeaderHeight());
 	}
 
@@ -395,6 +399,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 	}
 
+	private static String columnStyleName(int col) {
+		return "tvCol" + col;
+	}
 	/**
 	 * Sets height of the view.
 	 *
@@ -410,5 +417,13 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		@SafeHtmlTemplates.Template("<div style=\"width:{2}px;height:{3}px;line-height:{3}px;\""
 				+ "class=\"{1}\">{0}</div>")
 		SafeHtml cell(SafeHtml message, String style, int width, int height);
+	}
+
+	public void deleteColumn(int col) {
+		NodeList<Element> elems = Dom.getElementsByClassName(columnStyleName(col));
+		for (int i = 0; i < elems.getLength(); i++) {
+			Element e = elems.getItem(i);
+			e.addClassName("delete");
+		}
 	}
 }

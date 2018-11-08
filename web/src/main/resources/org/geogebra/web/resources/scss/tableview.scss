@@ -53,6 +53,12 @@ $emptyHeight: 212px;
 		display: inline-block;
 	}
 
+	.colDelete {
+		overflow: hidden !important;
+		width: 0px !important;
+		margin: 0px !important;
+	}
+
 	.tvHeader {
 		th {
 			border: 0px;
@@ -71,8 +77,14 @@ $emptyHeight: 212px;
 					opacity: 0.54;
 				}
 			}
+			
+			.delete {
+				@extend .colDelete;
+				margin: 0px;
+			}
+		
 		}
-
+		
 		tbody {
 			display: none;
 		}
@@ -89,6 +101,12 @@ $emptyHeight: 212px;
 				color: $black-87;
 				text-align: center;
 			}
+			
+			.delete {
+				@extend .colDelete;
+				margin-left: 16px;
+				margin-right: 32px;
+			}
 		}
 
 		tbody tr:nth-child(odd) {
@@ -100,13 +118,22 @@ $emptyHeight: 212px;
 		width: 50%;
 	}
 
+	.tvCellTransition {
+		transition: all 1s ease-in;
+	}
+	
+	.tvCellTransition div {
+		width: 100%;
+	}
 	.tvValueCell {
+		@extend .tvCellTransition;
 		margin-left: 16px;
 		margin-right: 32px;
 		text-align: end;
 	}
 
 	.tvHeaderCell {
+		@extend .tvCellTransition;
 		margin-left: 16px;
 	}
 
@@ -133,5 +160,5 @@ $emptyHeight: 212px;
 		width: 50%;
 		background-color: #F8F8F8;
 		overflow: hidden !important;
-	}
+	}		
 }
