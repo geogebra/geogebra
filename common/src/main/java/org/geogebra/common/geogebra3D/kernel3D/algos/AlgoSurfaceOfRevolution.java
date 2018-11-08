@@ -105,10 +105,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		max = new double[2];
 		min[1] = 0;
 		this.funVar = new FunctionVariable[2];
-		funVar[0] = new FunctionVariable(kernel);
-		funVar[0].setVarString("u");
-		funVar[1] = new FunctionVariable(kernel);
-		funVar[1].setVarString("v");
+		funVar[0] = new FunctionVariable(kernel, "u");
+		funVar[1] = new FunctionVariable(kernel, "v");
 		if (line == null && function == path) {
 			rotateAroundX();
 		} else {

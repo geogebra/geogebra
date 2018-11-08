@@ -42,25 +42,21 @@ public class AlgoCompleteSquare extends AlgoElement {
 		a = new MyDouble(kernel);
 		h = new MyDouble(kernel);
 		k = new MyDouble(kernel);
-
-		fv = new FunctionVariable(kernel);
-		ExpressionNode squareE = new ExpressionNode(kernel, a);
-		Function squareF = new Function(squareE, fv);
-		squareF.initFunction();
 		square = new GeoFunction(cons);
-		setInputOutput();
-		square.setFunction(squareF);
+		setInputOutput();		
 		compute();
 		lastDeg = 0;
 		square.setLabel(label);
-
 	}
 
 	@Override
 	public void compute() {
+		if(fv == null || !fv.getSetVarString().equals(
+				f.getVarString(StringTemplate.defaultTemplate))) {
+			initFunction();
+		}
 		int degInt;
 		GeoList coefs = null;
-		fv.setVarString(f.getVarString(StringTemplate.defaultTemplate));
 		// px^2+qx+r; p+q+r=s;
 		double r = f.value(0);
 		double s = f.value(1);
@@ -126,13 +122,20 @@ public class AlgoCompleteSquare extends AlgoElement {
 			square.getFunction().setExpression(squareE);
 		}
 		lastDeg = degInt;
-		fv.setVarString(f.getVarString(StringTemplate.defaultTemplate));
 
 		// if one is undefined, others are as well
 		square.setDefined(!Double.isNaN(r));
 		a.set(p);
 		h.set(-q / (2 * p));
 		k.set(r - q * q / (p * 4));
+	}
+
+	private void initFunction() {
+		fv = new FunctionVariable(kernel, f.getVarString(StringTemplate.defaultTemplate));
+		ExpressionNode squareE = new ExpressionNode(kernel, a);
+		Function squareF = new Function(squareE, fv);
+		squareF.initFunction();
+		square.setFunction(squareF);
 	}
 
 	@Override

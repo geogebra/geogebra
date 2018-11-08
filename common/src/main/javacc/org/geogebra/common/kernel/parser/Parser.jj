@@ -767,9 +767,8 @@ ExpressionNode functionExpressionnode():
       }
 
       FunctionVariable[] funVar = new FunctionVariable[n];
-        for (int i=0;i<n; i++){
-          funVar[i] = new FunctionVariable(kernel);
-          funVar[i].setVarString(localVars.get(i));
+        for (int i=0; i < n; i++) {
+          funVar[i] = new FunctionVariable(kernel, localVars.get(i));
         }
 
           switch (n) {
@@ -831,9 +830,8 @@ FunctionNVar casFunction(GeoSymbolicI cell):
       int n = localVars.size();
 
       FunctionVariable[] funVar = new FunctionVariable[n];
-        for (int i=0;i<n; i++){
-          funVar[i] = new FunctionVariable(kernel);
-          funVar[i].setVarString(localVars.get(i));
+        for (int i=0; i < n; i++) {
+          funVar[i] = new FunctionVariable(kernel, localVars.get(i));
         }
 
           switch (n) {

@@ -71,9 +71,8 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		// the localVar by a functionVar
 		FunctionVariable[] funVar = new FunctionVariable[localVar.length];
 		for (int i = 0; i < localVar.length; i++) {
-			funVar[i] = new FunctionVariable(kernel);
-			funVar[i].setVarString(
-					localVar[i].getLabel(StringTemplate.defaultTemplate));
+			String varStr = localVar[i].getLabel(StringTemplate.defaultTemplate);
+			funVar[i] = new FunctionVariable(kernel, varStr);
 		}
 
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
