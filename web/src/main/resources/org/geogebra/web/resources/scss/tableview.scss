@@ -60,6 +60,12 @@ $emptyHeight: 212px;
 	}
 
 	.tvHeader {
+		@extend .tvCellTransition;
+		colgroup {
+			col {
+				@extend .delete;
+			}
+		}
 		th {
 			border: 0px;
 			padding: 0px;

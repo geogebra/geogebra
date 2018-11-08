@@ -145,6 +145,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		});
 	}
 
+	private int getColumnWidth(int column) {
+		NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody").getItem(0)
+				.getElementsByTagName("tr");
+		if (tableRows.getLength() == 0) {
+			return -1;
+		}
+
+		NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
+		return firstRow.getItem(column).getOffsetWidth();
+	}
+
 	private void createGUI() {
 		main = new FlowPanel();
 		tvPanel = new FlowPanel();
@@ -420,10 +431,15 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	public void deleteColumn(int col) {
+		int colWidth = getColumnWidth(col);
+		int tableWidth = table.getOffsetWidth() - colWidth;
+		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
+
 		NodeList<Element> elems = Dom.getElementsByClassName(columnStyleName(col));
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
+
 	}
 }
