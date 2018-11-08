@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -21,6 +22,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
@@ -107,6 +110,10 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		createGUI();
 	}
 
+	public AppW getApp() {
+		return app;
+	}
+
 	/**
 	 * Sync header sizes with content column widths
 	 */
@@ -157,6 +164,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		addColumnsForTable(headerTable);
 		headerTable.addStyleName("tvHeader");
 		headerTable.addStyleName("tvTable");
+		addHeaderClickHandler();
 
 		holderPanel = new ScrollPanel();
 		final FlowPanel innerHolderPanel = new FlowPanel();
@@ -309,6 +317,25 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		}
 		return moreImg;
+	}
+
+	private void addHeaderClickHandler() {
+		ClickHandler popupMenuClickHandler = new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Element el = Element
+						.as(event.getNativeEvent().getEventTarget());
+				if (el != null && el.getParentNode() != null && el
+						.getParentElement().hasClassName("MyToggleButton")) { // three-dot
+					// menu
+					new ContextMenuTV(getApp()).show(new GPoint(
+							el.getAbsoluteLeft(),
+							el.getAbsoluteTop() - 8));
+				}
+			}
+		};
+		headerTable.addHandler(popupMenuClickHandler, ClickEvent.getType());
 	}
 
 	private SafeHtml getHeaderHtml(final int column) {
