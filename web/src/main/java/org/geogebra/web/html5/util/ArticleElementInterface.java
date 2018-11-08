@@ -482,4 +482,6 @@ public interface ArticleElementInterface {
 	 */
 	boolean isForceHeader();
 
+	boolean getParamAutoHeight();
+
 }

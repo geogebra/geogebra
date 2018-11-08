@@ -403,6 +403,11 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
+	public boolean getParamAutoHeight() {
+		return "true".equals(attributes.get("autoHeight"));
+	}
+
+	@Override
 	public boolean getParamDisableAutoScale() {
 		return false;
 	}

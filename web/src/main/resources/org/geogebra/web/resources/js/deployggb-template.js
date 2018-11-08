@@ -274,7 +274,7 @@ var GGBApplet = function() {
         if (parameters.hasOwnProperty("screenshotGenerator") && parameters.screenshotGenerator) {
             return false;
         }
-        return (Math.max(screen.width,screen.height) < 800);
+        return (Math.max(screen.width, screen.height) < 800);
     }
 
     applet.getViews = function() {
@@ -1339,7 +1339,7 @@ var GGBAppletUtils = (function() {
         }
     }
 
-    function getWidthHeight(appletElem, appletWidth, allowUpscale, noBorder, scaleContainerClass) {
+    function getWidthHeight(appletElem, appletWidth, allowUpscale, autoHeight, noBorder, scaleContainerClass) {
         // Find the container class
         var container = null;
         if (scaleContainerClass != undefined && scaleContainerClass != '') {
@@ -1358,7 +1358,7 @@ var GGBAppletUtils = (function() {
 
         if (container) {
             myWidth = container.offsetWidth;
-            myHeight = Math.max(allowUpscale ? container.offsetWidth : 0, container.offsetHeight);
+            myHeight = Math.max(autoHeight ? container.offsetWidth : 0, container.offsetHeight);
         } else {
             if (window.innerWidth && document.documentElement.clientWidth) {
                 myWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
@@ -1449,7 +1449,8 @@ var GGBAppletUtils = (function() {
         }
         var ignoreHeight = (showPlayButton !== undefined && showPlayButton);
         var noScaleMargin = parameters.noScaleMargin != undefined && parameters.noScaleMargin;
-        var windowSize = getWidthHeight(appletElem, parameters.width, allowUpscale, (ignoreHeight && window.GGBT_wsf_view) || noScaleMargin, scaleContainerClass);
+        var autoHeight = valBoolean(parameters.autoHeight);
+        var windowSize = getWidthHeight(appletElem, parameters.width, allowUpscale, autoHeight, (ignoreHeight && window.GGBT_wsf_view) || noScaleMargin, scaleContainerClass);
         var windowWidth = parseInt(windowSize.width);
 
         var appletWidth = parameters.width;
