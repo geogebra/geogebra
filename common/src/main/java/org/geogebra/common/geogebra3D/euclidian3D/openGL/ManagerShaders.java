@@ -572,7 +572,7 @@ public class ManagerShaders extends Manager {
 		if (currentOld >= 0) {
 			currentGeometriesSet = geometriesSetList.get(old);
 			// don't use packed set for non-packed geometries
-			if (currentGeometriesSet.usePacking() != mayBePacked) {
+			if (currentGeometriesSet != null && currentGeometriesSet.usePacking() != mayBePacked) {
                 currentGeometriesSet = null;
             }
 		} else {
