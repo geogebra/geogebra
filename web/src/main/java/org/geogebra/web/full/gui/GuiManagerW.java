@@ -2531,6 +2531,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateUnbundledToolbar() {
-		getUnbundledToolbar().updateTabs();
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().updateTabs();
+		}
 	}
 }
