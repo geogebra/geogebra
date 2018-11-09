@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -111,13 +112,21 @@ public class ContextMenuTV {
 					@Override
 					public void execute() {
 						// column index = -1 -> edit x-column
-						if (getColumnIdx() < 0) {
+						if (getApp().getDialogManager() != null
+								&& getColumnIdx() < 0) {
 							getApp().getDialogManager()
 									.openTableViewDialog(getGeo());
 						}
 						// column index >= -1 -> edit function
-						else {
-							// TODO edit function
+						else if (getApp().getGuiManager() != null
+								&& getApp()
+										.getGuiManager() instanceof GuiManagerW
+								&& ((GuiManagerW) getApp().getGuiManager())
+										.getUnbundledToolbar() != null) {
+							((GuiManagerW) getApp().getGuiManager())
+									.getUnbundledToolbar().openAlgebra(true);
+							((GuiManagerW) getApp().getGuiManager())
+									.startEditing(getGeo());
 						}
 					}
 				});
