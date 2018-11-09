@@ -866,6 +866,9 @@ public class ConsElementXMLHandler {
 		try {
 			((GeoEvaluatable) geo).setTableColumn(
 					(int) MyXMLHandler.parseDoubleNaN(attrs.get("column")));
+			((GeoEvaluatable) geo)
+					.setPointsVisible(
+							MyXMLHandler.parseBoolean(attrs.get("points")));
 			return true;
 		} catch (RuntimeException e) {
 			e.printStackTrace();

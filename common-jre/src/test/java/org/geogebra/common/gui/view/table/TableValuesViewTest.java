@@ -281,7 +281,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		Assert.assertThat(getApp().getXML(),
 				RegexpMatch.matches(
 						".*<tableview min=\"0.0\" max=\"10.0\".*"
-								+ "<tableview column=\"1\"\\/>.*"));
+								+ "<tableview column=\"1\" points=\"true\"\\/>.*"));
 	}
 
 	@Test
@@ -323,6 +323,25 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
 
 		Assert.assertEquals(2, view.getColumn(fnReload));
+	}
+
+	@Test
+	public void testReloadPoints() {
+		setValuesSafe(0, 10, 2);
+
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction fn = factory.createFunction("f:x^2");
+		fn.setPointsVisible(false);
+		showColumn(fn);
+		Assert.assertEquals(false, fn.isPointsVisible());
+
+		String xml = getApp().getXML();
+
+		getKernel().clearConstruction(true);
+		getApp().setXML(xml, true);
+		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
+
+		Assert.assertEquals(false, fnReload.isPointsVisible());
 	}
 
 	private String getXML() {

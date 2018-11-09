@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * TableValuesModel implementation. Uses caching to store values.
@@ -194,7 +195,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param index index of the object
 	 * @return evaluatable if present in the model
 	 */
-	Evaluatable getEvaluatable(int index) {
+	GeoEvaluatable getEvaluatable(int index) {
 		if (index < evaluatables.size()) {
 			return evaluatables.get(index);
 		}
@@ -293,5 +294,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 		for (TableValuesListener listener: listeners) {
 			listener.notifyDatasetChanged(this);
 		}
+	}
+
+	@Override
+	public boolean hasPoints(int column) {
+		Log.error(column + ":" + getEvaluatable(column - 1));
+		return getEvaluatable(column - 1).isPointsVisible();
 	}
 }

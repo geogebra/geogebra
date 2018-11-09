@@ -49,4 +49,11 @@ public interface TableValuesModel {
 	 * @return the header string
 	 */
 	String getHeaderAt(int column);
+
+	/**
+	 * @param column
+	 *            column
+	 * @return whether function in that column has visible table points
+	 */
+	boolean hasPoints(int column);
 }

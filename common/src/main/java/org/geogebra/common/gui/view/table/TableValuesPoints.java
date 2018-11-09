@@ -1,15 +1,15 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Creates points according to the table view model.
@@ -36,15 +36,19 @@ public class TableValuesPoints implements TableValuesListener {
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, int column) {
-		SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
-		removePoints(column);
-		addPoints(simpleModel, column);
+		if (model.hasPoints(column)) {
+			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
+			removePoints(column);
+			addPoints(simpleModel, column);
+		}
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, int column) {
-		SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
-		addPoints(simpleModel, column);
+		if (model.hasPoints(column)) {
+			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
+			addPoints(simpleModel, column);
+		}
 	}
 
 	@Override
@@ -94,9 +98,11 @@ public class TableValuesPoints implements TableValuesListener {
 
 	private void removePoints(int column) {
 		List<GeoPoint> list = points.get(column - 1);
-		for (GeoPoint point: list) {
-			point.remove();
+		if (list != null) {
+			for (GeoPoint point : list) {
+				point.remove();
+			}
+			points.remove(column - 1);
 		}
-		points.remove(column - 1);
 	}
 }
