@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -863,10 +864,8 @@ public class ConsElementXMLHandler {
 
 	private boolean handleTable(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setVisibility(App.VIEW_EUCLIDIAN,
-					geo.isVisibleInView(App.VIEW_EUCLIDIAN));
-			geo.setVisibility(App.VIEW_TABLE_OF_VALUES,
-					MyXMLHandler.parseBoolean(attrs.get("show")));
+			((GeoEvaluatable) geo).setTableColumn(
+					(int) MyXMLHandler.parseDoubleNaN(attrs.get("column")));
 			return true;
 		} catch (RuntimeException e) {
 			e.printStackTrace();

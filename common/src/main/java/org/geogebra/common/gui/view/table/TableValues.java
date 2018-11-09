@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 /**
  * Interface for the table of values view.
@@ -13,7 +14,7 @@ public interface TableValues extends View {
 	 *
 	 * @param evaluatable object to evaluate in table
 	 */
-	void showColumn(Evaluatable evaluatable);
+	void showColumn(GeoEvaluatable evaluatable);
 
 	/**
 	 * Hide the column for the Evaluatable object.

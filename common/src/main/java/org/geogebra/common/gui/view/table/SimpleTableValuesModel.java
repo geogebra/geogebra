@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 /**
  * TableValuesModel implementation. Uses caching to store values.
@@ -19,7 +20,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private List<String> header;
 
 	private List<TableValuesListener> listeners;
-	private List<Evaluatable> evaluatables;
+	private ArrayList<GeoEvaluatable> evaluatables;
 	private double[] values;
 	private Kernel kernel;
 	private StringBuilder builder;
@@ -112,28 +113,32 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 *
 	 * @param evaluatable evaluatable
 	 */
-	void addEvaluatable(Evaluatable evaluatable) {
-		evaluatables.add(evaluatable);
-		columns.add(new String[values.length]);
-		doubleColumns.add(new Double[values.length]);
+	void addEvaluatable(GeoEvaluatable evaluatable) {
+		int idx = 0;
+		while (idx < evaluatables.size() && evaluatables.get(idx)
+				.getTableColumn() < evaluatable
+				.getTableColumn()) {
+			idx++;
+		}
+		evaluatables.add(idx, evaluatable);
+		columns.add(idx + 1, new String[values.length]);
+		doubleColumns.add(idx + 1, new Double[values.length]);
 		addHeader(evaluatable);
 		notifyColumnAdded(evaluatables.size());
 	}
 
-	private void addHeader(Evaluatable evaluatable) {
+	private void addHeader(GeoEvaluatable evaluatable) {
 		String name = getHeaderName(evaluatable);
 		header.add(name);
 	}
 
-	private String getHeaderName(Evaluatable evaluatable) {
+	private String getHeaderName(GeoEvaluatable evaluatable) {
 		builder.setLength(0);
-		if (evaluatable instanceof GeoElementND) {
-			GeoElementND element = (GeoElementND) evaluatable;
-			builder.append(element.getLabelSimple());
-			builder.append("(");
-			builder.append("x");
-			builder.append(")");
-		}
+		GeoElementND element = evaluatable;
+		builder.append(element.getLabelSimple());
+		builder.append("(");
+		builder.append("x");
+		builder.append(")");
 
 		return builder.toString();
 	}
@@ -151,6 +156,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 			columns.remove(column);
 			doubleColumns.remove(column);
 			header.remove(column);
+			for (int i = 0; i < evaluatables.size(); i++) {
+				evaluatables.get(i).setTableColumn(i + 1);
+			}
 			notifyColumnRemoved(column);
 		}
 	}
@@ -198,7 +206,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 *
 	 * @param evaluatable the evaluatable object
 	 */
-	void updateEvaluatableName(Evaluatable evaluatable) {
+	void updateEvaluatableName(GeoEvaluatable evaluatable) {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			String newName = getHeaderName(evaluatable);

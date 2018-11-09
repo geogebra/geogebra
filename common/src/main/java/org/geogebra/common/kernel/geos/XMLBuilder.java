@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
@@ -101,8 +103,11 @@ public class XMLBuilder {
 		// AlgebraView, Spreadsheet
 
 		geo.appendObjectColorXML(sb);
-		if (geo.isVisibleInView(App.VIEW_TABLE_OF_VALUES)) {
-			sb.append("\t<tableview show=\"true\"/>\n");
+		if (geo instanceof GeoEvaluatable
+				&& ((GeoEvaluatable) geo).getTableColumn() >= 0) {
+			sb.append("\t<tableview column=\"")
+					.append(((GeoEvaluatable) geo).getTableColumn())
+					.append("\"/>\n");
 		}
 
 		if (geo.bgColor != null) {

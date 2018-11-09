@@ -13,4 +13,6 @@ public interface Evaluatable {
 	 * @return f(x)
 	 */
 	public double value(double x);
+
+
 }

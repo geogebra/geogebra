@@ -358,19 +358,16 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 						.as(event.getNativeEvent().getEventTarget());
 				if (el != null && el.getParentNode() != null && el
 						.getParentElement().hasClassName("MyToggleButton")) {
-					if (el.getParentNode().getParentNode() != null
-							&& el.getParentNode().getParentNode()
-									.getParentNode() != null
-							&& el.getParentNode().getParentNode()
-									.getParentNode()
+					Node buttonParent = el.getParentNode().getParentNode();
+					if (buttonParent != null
+							&& buttonParent.getParentNode() != null
+							&& buttonParent.getParentNode()
 									.getParentElement() != null) {
 						// parent tag with the header children
-						Element parent = el.getParentNode().getParentNode()
+						Element parent = buttonParent
 								.getParentNode().getParentElement();
 						// header column which was clicked on
-						com.google.gwt.dom.client.Node currHeaderCell = el
-								.getParentNode().getParentNode()
-								.getParentNode();
+						Node currHeaderCell = buttonParent.getParentNode();
 						// get list of header cells
 						NodeList<Node> headerNodes = parent.getChildNodes();
 						for (int i = 0; i < headerNodes.getLength(); i++) {

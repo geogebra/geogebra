@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
@@ -59,15 +60,12 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void showColumn(Evaluatable evaluatable) {
+	public void showColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable)) {
+			if (evaluatable.getTableColumn() < 0) {
+				evaluatable.setTableColumn(model.getColumnCount());
+			}
 			model.addEvaluatable(evaluatable);
-
-			GeoElement geo = (GeoElement) evaluatable;
-			geo.setVisibility(App.VIEW_EUCLIDIAN,
-					geo.isVisibleInView(App.VIEW_EUCLIDIAN));
-			geo.setVisibility(App.VIEW_TABLE_OF_VALUES,
-					true);
 		}
 	}
 
@@ -182,8 +180,9 @@ public class TableValuesView implements TableValues {
 	@Override
 	public void add(GeoElement geo) {
 		elements.add(geo);
-		if (geo.isVisibleInView(App.VIEW_TABLE_OF_VALUES)) {
-			this.showColumn((Evaluatable) geo);
+		if (geo instanceof GeoEvaluatable
+				&& ((GeoEvaluatable) geo).getTableColumn() >= 0) {
+			this.showColumn((GeoEvaluatable) geo);
 		}
 	}
 
@@ -200,8 +199,8 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void rename(GeoElement geo) {
-		if (geo instanceof Evaluatable) {
-			Evaluatable evaluatable = (Evaluatable) geo;
+		if (geo instanceof GeoEvaluatable) {
+			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			model.updateEvaluatableName(evaluatable);
 		}
 	}

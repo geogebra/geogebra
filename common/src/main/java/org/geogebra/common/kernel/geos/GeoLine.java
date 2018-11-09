@@ -47,13 +47,13 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
@@ -76,7 +76,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, GeoLineND, MatrixTransformable,
-		GeoFunctionable, Transformable, Functional, SymbolicParametersAlgo,
+		GeoFunctionable, Transformable, GeoEvaluatable, SymbolicParametersAlgo,
 		SymbolicParametersBotanaAlgo, EquationValue {
 
 	// modes
@@ -117,6 +117,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	protected ArrayList<GeoPoint> pointsOnLine;
 
 	private GeoFunction asFunction;
+	private int tableColumn = -1;
 
 	/**
 	 * Creates new line
@@ -2042,4 +2043,15 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public boolean hasTableOfValues() {
 		return getDefinition() != null && !DoubleUtil.isZero(getY()) && super.hasTableOfValues();
 	}
+
+	@Override
+	public int getTableColumn() {
+		return this.tableColumn;
+	}
+
+	@Override
+	public void setTableColumn(int col) {
+		tableColumn = col;
+	}
+
 }

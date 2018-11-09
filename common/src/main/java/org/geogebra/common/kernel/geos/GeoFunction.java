@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -56,6 +55,7 @@ import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootUtil;
@@ -78,7 +78,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Markus Hohenwarter
  */
 public class GeoFunction extends GeoElement implements VarString, Translateable,
-		Functional, FunctionalNVar, GeoFunctionable, Region,
+		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, UnivariateFunction, Dilateable,
 		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable {
 
@@ -134,6 +134,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// Save a strong reference to the algo that created this
 	// function (needed for iOS)
 	private AlgoDependentFunction dependentFunction;
+	private int tableViewColumn = -1;
 
 	/**
 	 * Creates new function
@@ -2960,5 +2961,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public boolean hasTableOfValues() {
 		return !isInequality() && super.hasTableOfValues();
+	}
+
+	@Override
+	public int getTableColumn() {
+		return tableViewColumn;
+	}
+
+	@Override
+	public void setTableColumn(int column) {
+		this.tableViewColumn = column;
 	}
 }

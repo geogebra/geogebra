@@ -3,11 +3,11 @@ package org.geogebra.common.gui.view.table;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.Stopwatch;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.RegexpMatch;
@@ -45,6 +45,7 @@ public class TableValuesViewTest extends BaseUnitTest {
         view = new TableValuesView(getKernel());
 		getKernel().attach(view);
         model = view.getTableValuesModel();
+		view.clearView();
     }
 
     @Test
@@ -105,9 +106,9 @@ public class TableValuesViewTest extends BaseUnitTest {
     }
 
     private void showColumn(GeoElement element) {
-        Assert.assertTrue(element instanceof Evaluatable);
+		Assert.assertTrue(element instanceof GeoEvaluatable);
         view.add(element);
-        view.showColumn((Evaluatable) element);
+		view.showColumn((GeoEvaluatable) element);
     }
 
     @Test
@@ -280,7 +281,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		Assert.assertThat(getApp().getXML(),
 				RegexpMatch.matches(
 						".*<tableview min=\"0.0\" max=\"10.0\".*"
-								+ "<tableview show=\"true\"\\/>.*"));
+								+ "<tableview column=\"1\"\\/>.*"));
 	}
 
 	@Test
@@ -301,6 +302,27 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
 		Assert.assertEquals(10, view.getValuesMax(), .1);
 		Assert.assertEquals(1, view.getColumn(fnReload));
+	}
+
+	@Test
+	public void testReloadOrder() {
+		setValuesSafe(0, 10, 2);
+
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction fn = factory.createFunction("f:x^2");
+		GeoFunction fn2 = factory.createFunction("f2:x^2");
+		showColumn(fn2);
+		showColumn(fn);
+		Assert.assertEquals(2, view.getColumn(fn));
+
+		String xml = getApp().getXML();
+
+		getKernel().clearConstruction(true);
+		Assert.assertEquals(-1, view.getColumn(fn));
+		getApp().setXML(xml, true);
+		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
+
+		Assert.assertEquals(2, view.getColumn(fnReload));
 	}
 
 	private String getXML() {

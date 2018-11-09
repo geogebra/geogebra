@@ -43,4 +43,5 @@ public interface Functional extends Evaluatable {
 	 * @return wrapped derivative
 	 */
 	public GeoFunction getGeoDerivative(int order, boolean fast);
+
 }
