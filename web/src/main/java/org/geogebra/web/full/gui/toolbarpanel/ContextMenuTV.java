@@ -110,7 +110,15 @@ public class ContextMenuTV {
 
 					@Override
 					public void execute() {
-						// TODO edit functionality
+						// column index = -1 -> edit x-column
+						if (getColumnIdx() < 0) {
+							getApp().getDialogManager()
+									.openTableViewDialog(getGeo());
+						}
+						// column index >= -1 -> edit function
+						else {
+							// TODO edit function
+						}
 					}
 				});
 		wrappedPopup.addItem(mi);
