@@ -66,6 +66,20 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private OuterPanel outerScrollPanel;
 	private NoDragImage moreImg;
 
+	private class ColumnDelete implements Runnable {
+		Runnable cb = null;
+		private int column = -1;
+
+		ColumnDelete(int column, Runnable cb) {
+			this.column = column;
+			this.cb = cb;
+		}
+		@Override
+		public void run() {
+			onDeleteColumn(column, cb);
+		}
+	};
+
 	/**
 	 * @author laszlo
 	 *
@@ -426,6 +440,10 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				Unit.PX);
 	}
 
+	/**
+	 * @author latzg
+	 *
+	 */
 	public interface CellTemplates extends SafeHtmlTemplates {
 		@SafeHtmlTemplates.Template("<div style=\"width:{2}px;height:{3}px;line-height:{3}px;\""
 				+ "class=\"{1}\">{0}</div>")
@@ -436,6 +454,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * Deletes the specified column from the view.
 	 * 
 	 * @param col
+	 *            column to delete.
 	 * @param cb
 	 *            to run on transition end.
 	 */
@@ -448,8 +467,25 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
-		CSSEvents.runOnTransition(cb, elems.getItem(0), "delete");
+		CSSEvents.runOnTransition(new ColumnDelete(col, cb), elems.getItem(0), "delete");
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
 
+	}
+
+	/**
+	 * Runs on column delete.
+	 * 
+	 * @param column
+	 * 
+	 * @param cb
+	 *            custom callback to run on column delete.
+	 */
+	void onDeleteColumn(int column, Runnable cb) {
+		if (!isEmpty()) {
+			headerTable.removeColumn(column);
+			table.removeColumn(column);
+		} else if (cb != null) {
+			cb.run();
+		}
 	}
 }
