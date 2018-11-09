@@ -135,6 +135,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// function (needed for iOS)
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
+	private boolean pointsVisible = true;
 
 	/**
 	 * Creates new function
@@ -2971,5 +2972,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public void setTableColumn(int column) {
 		this.tableViewColumn = column;
+	}
+
+	@Override
+	public boolean isPointsVisible() {
+		return pointsVisible;
+	}
+
+	@Override
+	public void setPointsVisible(boolean pointsVisible) {
+		this.pointsVisible = pointsVisible;
 	}
 }

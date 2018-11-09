@@ -118,6 +118,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private GeoFunction asFunction;
 	private int tableColumn = -1;
+	private boolean pointsVisible = true;
 
 	/**
 	 * Creates new line
@@ -2052,6 +2053,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public void setTableColumn(int col) {
 		tableColumn = col;
+	}
+
+	@Override
+	public boolean isPointsVisible() {
+		return pointsVisible;
+	}
+
+	@Override
+	public void setPointsVisible(boolean pointsVisible) {
+		this.pointsVisible = pointsVisible;
 	}
 
 }

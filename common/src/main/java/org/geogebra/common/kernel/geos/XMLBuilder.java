@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -107,6 +106,8 @@ public class XMLBuilder {
 				&& ((GeoEvaluatable) geo).getTableColumn() >= 0) {
 			sb.append("\t<tableview column=\"")
 					.append(((GeoEvaluatable) geo).getTableColumn())
+					.append("\" points=\"")
+					.append(((GeoEvaluatable) geo).isPointsVisible())
 					.append("\"/>\n");
 		}
 

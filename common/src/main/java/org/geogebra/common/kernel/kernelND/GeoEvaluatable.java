@@ -10,4 +10,8 @@ public interface GeoEvaluatable extends Functional, GeoElementND {
 
 	public void setTableColumn(int column);
 
+	public void setPointsVisible(boolean pointsVisible);
+
+	public boolean isPointsVisible();
+
 }
