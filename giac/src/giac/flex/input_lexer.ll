@@ -427,8 +427,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "%%}"                   index_status(yyextra)=1; return T_ROOTOF_END;
 "%%%{"                  index_status(yyextra)=0; return T_SPOLY1_BEGIN;
 "%%%}"                  index_status(yyextra)=1; return T_SPOLY1_END;
-"<<"                    index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38)return T_SPOLY1_BEGIN; ++in_rpn(yyextra); return T_RPN_BEGIN;
-">>"                    index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38)return T_SPOLY1_END; --in_rpn(yyextra); return T_RPN_END;
+"<<"                    index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38){ (*yylval)=gen(at_rotate,2); return T_UNION; } ++in_rpn(yyextra); return T_RPN_BEGIN;
+">>"                    index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38){ (*yylval)=gen(at_shift,2); return T_UNION; } --in_rpn(yyextra); return T_RPN_END;
 
     /* binary operators */
 "->"                    index_status(yyextra)=0; return T_MAPSTO;
@@ -542,6 +542,11 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "%/"                     index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_DIV;
 "/%="                     index_status(yyextra)=0; (*yylval)=gen(at_iquosto,2); return T_UNION;
 "%/="                     index_status(yyextra)=0; (*yylval)=gen(at_iremsto,2); return T_UNION;
+"&="                     index_status(yyextra)=0; (*yylval)=gen(at_andsto,2); return T_UNION;
+"|="                     index_status(yyextra)=0; (*yylval)=gen(at_orsto,2); return T_UNION;
+"^="                     index_status(yyextra)=0; (*yylval)=gen(at_xorsto,2); return T_UNION;
+">>="                     index_status(yyextra)=0; (*yylval)=gen(at_shiftsto,2); return T_UNION;
+"<<="                     index_status(yyextra)=0; (*yylval)=gen(at_rotatesto,2); return T_UNION;
 "/="                    index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_DIV;
 "./"                     index_status(yyextra)=0; (*yylval)=gen(at_pointdivision,2); return T_DIV;
 "'/'"                   index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;

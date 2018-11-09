@@ -4132,22 +4132,64 @@ namespace giac {
     return printasincdec(feuille,'/',true,contextptr);
   }
 
-  // mult==0 for +/-, mult=1 for * and /, mult==2 for iquo (negatif=false), mult==3 for irem (negatif=false)
+  static gen in_increment3(const gen & prev,const gen & val,const gen & var,int mult,GIAC_CONTEXT){
+    if (mult==0)
+      return sto(prev+val,var,contextptr);
+    if (mult==1)
+      return sto(prev*val,var,contextptr);
+    if (mult==2)
+      return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
+    if (mult==3)
+      return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
+    if (mult==4)
+      return sto(_bitand(makesequence(prev,val),contextptr),var,contextptr);
+    if (mult==5)
+      return sto(_bitor(makesequence(prev,val),contextptr),var,contextptr);
+    if (mult==6){
+      if (python_compat(contextptr))
+	return sto(_bitxor(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_pow(makesequence(prev,val),contextptr),var,contextptr);
+    }
+    if (mult==7)
+      return sto(_shift(makesequence(prev,val),contextptr),var,contextptr);
+    if (mult==8)
+      return sto(_rotate(makesequence(prev,val),contextptr),var,contextptr);
+    return gensizeerr(gettext("Increment"));
+  }
+
+  static gen in_increment2(gen & prev,const gen & val,int mult,GIAC_CONTEXT){
+    if (mult==0)
+      return prev=prev+val;
+    if (mult==1)
+      return prev=prev*val;
+    if (mult==2)
+      return prev=_iquo(makesequence(prev,val),contextptr);
+    if (mult==3)
+      return prev=_irem(makesequence(prev,val),contextptr);
+    if (mult==4)
+      return prev=_bitand(makesequence(prev,val),contextptr);
+    if (mult==5)
+      return prev=_bitor(makesequence(prev,val),contextptr);
+    if (mult==6){
+      if (python_compat(contextptr))
+	return prev=_bitxor(makesequence(prev,val),contextptr);
+      return prev=_pow(makesequence(prev,val),contextptr);
+    }
+    if (mult==7)
+      return prev=_shift(makesequence(prev,val),contextptr);
+    if (mult==8)
+      return prev=_rotate(makesequence(prev,val),contextptr);
+    return gensizeerr(gettext("Increment"));
+  }
+
+  // mult==0 for +/-, mult=1 for * and /, mult==2 for iquo (negatif=false), mult==3 for irem (negatif=false), mult==4 for &=, 5 for |=, 6 for ^=, 7 for !=
   static gen increment(const gen & var,const gen & val_orig,bool negatif,int mult,GIAC_CONTEXT){
     gen val=val_orig.eval(1,contextptr);
     if (negatif)
       val=mult==1?inv(val,contextptr):-val;
     if (var.type!=_IDNT){
       gen prev=eval(var,1,contextptr);
-      if (mult==0)
-	return sto(prev+val,var,contextptr);
-      if (mult==1)
-	return sto(prev*val,var,contextptr);
-      if (mult==2)
-	return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
-      if (mult==3)
-	return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
-      return gensizeerr(gettext("Increment"));
+      return in_increment3(prev,val,var,mult,contextptr);
     }
     if (contextptr){
       sym_tab::iterator it,itend;
@@ -4166,25 +4208,9 @@ namespace giac {
       }
       if (!cptr){
 	gen prev=eval(var,1,contextptr);
-	if (mult==0)
-	  return sto(prev+val,var,contextptr);
-	if (mult==1)
-	  return sto(prev*val,var,contextptr);
-	if (mult==2)
-	  return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
-	if (mult==3)
-	  return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
-	return gensizeerr(gettext("Increment"));
+	return in_increment3(prev,val,var,mult,contextptr);
       }
-      if (mult==0)
-	return it->second=(it->second+val);
-      if (mult==1)
-	return it->second=(it->second*val);
-      if (mult==2)
-	return it->second=_iquo(makesequence(it->second,val),contextptr);
-      if (mult==3)
-	return it->second=_irem(makesequence(it->second,val),contextptr);
-      return gensizeerr(gettext("Increment"));
+      return in_increment2(it->second,val,mult,contextptr);
     }
     if (!var._IDNTptr->localvalue)
       var._IDNTptr->localvalue = new vecteur;
@@ -4193,15 +4219,7 @@ namespace giac {
       return w->back()=w->back()+val;
     if (!var._IDNTptr->value)
       return gensizeerr(gettext("Non assigned variable"));
-    if (mult==0)
-      return *var._IDNTptr->value=(*var._IDNTptr->value+val);
-    if (mult==1)
-      return *var._IDNTptr->value=(*var._IDNTptr->value*val);
-    if (mult==2)
-      return *var._IDNTptr->value=_iquo(makesequence(*var._IDNTptr->value,val),contextptr);
-    if (mult==3)
-      return *var._IDNTptr->value=_irem(makesequence(*var._IDNTptr->value,val),contextptr);
-    return gensizeerr(gettext("Increment"));    
+    return in_increment2(*var._IDNTptr->value,val,mult,contextptr);
   }
   gen _increment(const gen & a,const context * contextptr){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
@@ -4274,6 +4292,66 @@ namespace giac {
   static const char _iremsto_s []="iremsto";
   static define_unary_function_eval (__iremsto,&_iremsto,_iremsto_s);
   define_unary_function_ptr5( at_iremsto ,alias_at_iremsto,&__iremsto,_QUOTE_ARGUMENTS,true);
+
+  gen _andsto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,4,contextptr);
+  }
+  static const char _andsto_s []="andsto";
+  static define_unary_function_eval (__andsto,&_andsto,_andsto_s);
+  define_unary_function_ptr5( at_andsto ,alias_at_andsto,&__andsto,_QUOTE_ARGUMENTS,true);
+
+  gen _orsto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,5,contextptr);
+  }
+  static const char _orsto_s []="orsto";
+  static define_unary_function_eval (__orsto,&_orsto,_orsto_s);
+  define_unary_function_ptr5( at_orsto ,alias_at_orsto,&__orsto,_QUOTE_ARGUMENTS,true);
+
+  gen _xorsto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,6,contextptr);
+  }
+  static const char _xorsto_s []="xorsto";
+  static define_unary_function_eval (__xorsto,&_xorsto,_xorsto_s);
+  define_unary_function_ptr5( at_xorsto ,alias_at_xorsto,&__xorsto,_QUOTE_ARGUMENTS,true);
+
+  gen _shiftsto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,7,contextptr);
+  }
+  static const char _shiftsto_s []="shiftsto";
+  static define_unary_function_eval (__shiftsto,&_shiftsto,_shiftsto_s);
+  define_unary_function_ptr5( at_shiftsto ,alias_at_shiftsto,&__shiftsto,_QUOTE_ARGUMENTS,true);
+
+  gen _rotatesto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,8,contextptr);
+  }
+  static const char _rotatesto_s []="rotatesto";
+  static define_unary_function_eval (__rotatesto,&_rotatesto,_rotatesto_s);
+  define_unary_function_ptr5( at_rotatesto ,alias_at_rotatesto,&__rotatesto,_QUOTE_ARGUMENTS,true);
 
   bool is_assumed_real(const gen & g,GIAC_CONTEXT){
     if (g.type!=_IDNT)

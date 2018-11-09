@@ -13669,9 +13669,9 @@ namespace giac {
 #endif
 
   string monome::print(GIAC_CONTEXT) const {
-    if (abs_calc_mode(contextptr)==38)
+    // if (abs_calc_mode(contextptr)==38 )
       return "%%%{" + coeff.print(contextptr) + ',' + exponent.print(contextptr) + "%%%}" ;
-    return "<<" + coeff.print(contextptr) + ',' + exponent.print(contextptr) + ">>" ;
+      //return "<<" + coeff.print(contextptr) + ',' + exponent.print(contextptr) + ">>" ;
   }
 
   const char * monome::dbgprint() const {

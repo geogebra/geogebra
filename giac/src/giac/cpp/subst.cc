@@ -2228,6 +2228,17 @@ namespace giac {
     return subst(e,pow_tab,powneg2invpow_tab,false,contextptr);
   }
 
+  gen ataninvtoatan(const gen &g,GIAC_CONTEXT){
+    if (g.is_symb_of_sommet(at_inv))
+      return cst_pi_over_2*sign(g._SYMBptr->feuille,contextptr)-atan(g._SYMBptr->feuille,contextptr);
+    return symb_atan(g);
+  }
+
+  gen ataninv2atan(const gen & g,GIAC_CONTEXT){
+    const vector< const unary_function_ptr *> atan_v(1,at_atan);
+    const vector< gen_op_context > ataninv2atan_v(1,ataninvtoatan);
+    return subst(g,atan_v,ataninv2atan_v,quotesubst,contextptr);
+  }
   bool in_cklin(const gen & tmp){	
     if (tmp.is_symb_of_sommet(at_neg))
       return in_cklin(tmp._SYMBptr->feuille);
@@ -2307,6 +2318,8 @@ namespace giac {
     }
     if (!lop(e,at_pow).empty())
       e=powneg2invpow(e,contextptr);
+    if (!lop(e,at_atan).empty())
+      e=ataninv2atan(e,contextptr);
     if (contains(e,cst_pi)){
       e=cossinexp2rootof(e,contextptr);
       e=normal(e,contextptr);
