@@ -2727,6 +2727,7 @@ __GGB__keysVar["sv"].menu = {
     "SingleFileTabs": "En fil (flikar)",
     "Size": "Storlek",
     "SizeInPixels": "Storlek i pixlar",
+    "Skip": "Forts\xe4tt utan att logga in",
     "Slider": "Glidare",
     "Slider.Help": "V\xe4lj position",
     "Slider.Tool": "Glidare",

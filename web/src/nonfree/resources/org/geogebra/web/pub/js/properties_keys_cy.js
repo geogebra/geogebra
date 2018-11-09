@@ -2727,6 +2727,7 @@ __GGB__keysVar["cy"].menu = {
     "SingleFileTabs": "Ffeil Sengl (Tabs)",
     "Size": "Maint",
     "SizeInPixels": "Size in pixels",
+    "Skip": "Skip",
     "Slider": "Llithrydd",
     "Slider.Help": "Clicio yn y wedd graffeg i nodi'r safle",
     "Slider.Tool": "Llithrydd",

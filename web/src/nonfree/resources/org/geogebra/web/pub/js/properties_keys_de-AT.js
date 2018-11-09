@@ -2727,6 +2727,7 @@ __GGB__keysVar["de-AT"].menu = {
     "SingleFileTabs": "Eine Datei (Tabs)",
     "Size": "Gr\xf6\xdfe",
     "SizeInPixels": "Gr\xf6\xdfe in Pixeln",
+    "Skip": "\xdcberspringen",
     "Slider": "Schieberegler",
     "Slider.Help": "W\xe4hle eine Position",
     "Slider.Tool": "Schieberegler",

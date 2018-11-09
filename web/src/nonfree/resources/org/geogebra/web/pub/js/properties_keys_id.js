@@ -2727,6 +2727,7 @@ __GGB__keysVar["id"].menu = {
     "SingleFileTabs": "File Tunggal (Tab)",
     "Size": "Ukuran",
     "SizeInPixels": "Size in pixels",
+    "Skip": "Skip",
     "Slider": "Luncuran",
     "Slider.Help": "Klik pada tampilan grafik untuk menentukan posisinya",
     "Slider.Tool": "Luncuran",

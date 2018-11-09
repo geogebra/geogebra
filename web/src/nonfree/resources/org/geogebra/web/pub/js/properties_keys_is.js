@@ -2727,6 +2727,7 @@ __GGB__keysVar["is"].menu = {
     "SingleFileTabs": "Ein skr\xe1 (tabs)",
     "Size": "St\xe6r\xf0",
     "SizeInPixels": "St\xe6r\xf0 \xed d\xedlum",
+    "Skip": "Skip",
     "Slider": "Rennistika",
     "Slider.Help": "Smelli\xf0 \xe1 teiknibor\xf0 til a\xf0 \xe1kvar\xf0a st\xf6\xf0u rennistiku",
     "Slider.Tool": "Rennistika",

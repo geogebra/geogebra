@@ -2727,6 +2727,7 @@ __GGB__keysVar["sl"].menu = {
     "SingleFileTabs": "Posamezna datoteka (tabulatorji)",
     "Size": "Velikost",
     "SizeInPixels": "Velikost v to\u010dkah",
+    "Skip": "Presko\u010di",
     "Slider": "Drsnik",
     "Slider.Help": "Izberi polo\u017eaj",
     "Slider.Tool": "Drsnik",

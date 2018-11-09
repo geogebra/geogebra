@@ -2727,6 +2727,7 @@ __GGB__keysVar["cs"].menu = {
     "SingleFileTabs": "Jeden soubor (Z\xe1lo\u017eka)",
     "Size": "Velikost",
     "SizeInPixels": "Velikost v pixelech",
+    "Skip": "P\u0159esko\u010dit",
     "Slider": "Posuvn\xedk",
     "Slider.Help": "Vyberte pozici",
     "Slider.Tool": "Posuvn\xedk",

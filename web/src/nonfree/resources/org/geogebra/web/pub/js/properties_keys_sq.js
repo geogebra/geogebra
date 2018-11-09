@@ -2727,6 +2727,7 @@ __GGB__keysVar["sq"].menu = {
     "SingleFileTabs": "Dokument i Vetem (Tabs)",
     "Size": "Madhesi",
     "SizeInPixels": "Size in pixels",
+    "Skip": "Skip",
     "Slider": "Rreshqites",
     "Slider.Help": "Kliko ne panelen e vizatimit per te specifikuar pozicionin",
     "Slider.Tool": "Rreshqites",

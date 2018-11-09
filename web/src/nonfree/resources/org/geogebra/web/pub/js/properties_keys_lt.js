@@ -2727,6 +2727,7 @@ __GGB__keysVar["lt"].menu = {
     "SingleFileTabs": "Paprastas dokumentas (Asel\u0117s)",
     "Size": "Dydis",
     "SizeInPixels": "Pikseli\u0173 dydis",
+    "Skip": "Skip",
     "Slider": "Slankjuost\u0117",
     "Slider.Help": "Spragtelkite grafiniame lange nor\u0117dami pasirinkti pozicij\u0105",
     "Slider.Tool": "Slankjuost\u0117",

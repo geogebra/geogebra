@@ -2727,6 +2727,7 @@ __GGB__keysVar["ca"].menu = {
     "SingleFileTabs": "Un sol fitxer (Pestanyes)",
     "Size": "Mesura",
     "SizeInPixels": "Mesura en pixels",
+    "Skip": "Obvieu-lo",
     "Slider": "Punt lliscant",
     "Slider.Help": "Cliqueu a la finestra gr\xe0fica per especificar la posici\xf3 del punt lliscant",
     "Slider.Tool": "Punt lliscant",

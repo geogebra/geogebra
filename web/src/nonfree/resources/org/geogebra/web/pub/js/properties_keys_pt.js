@@ -2727,6 +2727,7 @@ __GGB__keysVar["pt"].menu = {
     "SingleFileTabs": "Arquivo \xdanico (Guias)",
     "Size": "Tamanho",
     "SizeInPixels": "Tamanho em pixels",
+    "Skip": "Pular",
     "Slider": "Controle Deslizante",
     "Slider.Help": "Selecione uma posi\xe7\xe3o",
     "Slider.Tool": "Controle Deslizante",

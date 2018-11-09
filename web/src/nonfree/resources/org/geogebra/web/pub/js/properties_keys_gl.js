@@ -2727,6 +2727,7 @@ __GGB__keysVar["gl"].menu = {
     "SingleFileTabs": "\xdanico arquivo (pestanas)",
     "Size": "Tama\xf1o",
     "SizeInPixels": "Medida en pixels",
+    "Skip": "Skip",
     "Slider": "Esvarador",
     "Slider.Help": "Prema na Vista gr\xe1fica para sinalar a posici\xf3n",
     "Slider.Tool": "Esvarador",

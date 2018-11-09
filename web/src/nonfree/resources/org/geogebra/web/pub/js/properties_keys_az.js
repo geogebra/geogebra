@@ -2727,6 +2727,7 @@ __GGB__keysVar["az"].menu = {
     "SingleFileTabs": "Single File (Tabs)",
     "Size": "Size",
     "SizeInPixels": "Size in pixels",
+    "Skip": "Skip",
     "Slider": "Slider",
     "Slider.Help": "Pozisiyan\u0131 se\xe7",
     "Slider.Tool": "Slider",

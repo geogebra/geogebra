@@ -2727,6 +2727,7 @@ __GGB__keysVar["sk"].menu = {
     "SingleFileTabs": "Jeden s\xfabor (tab)",
     "Size": "Ve\u013ekos\u0165",
     "SizeInPixels": "Ve\u013ekos\u0165 v pixeloch",
+    "Skip": "Presko\u010di\u0165",
     "Slider": "Posuvn\xedk",
     "Slider.Help": "Polohu ur\u010d\xedme kliknut\xedm na n\xe1kres\u0148u.",
     "Slider.Tool": "Posuvn\xedk",

@@ -2727,6 +2727,7 @@ __GGB__keysVar["ja"].menu = {
     "SingleFileTabs": "\uff11\u3064\u306e\u30d5\u30a1\u30a4\u30eb (Tabs)",
     "Size": "\u30b5\u30a4\u30ba",
     "SizeInPixels": "\u5927\u304d\u3055\uff08\u30d4\u30af\u30bb\u30eb\u5358\u4f4d\uff09",
+    "Skip": "\u30b9\u30ad\u30c3\u30d7",
     "Slider": "\u30b9\u30e9\u30a4\u30c0\u30fc",
     "Slider.Help": "\u4f4d\u7f6e\u3092\u9078\u629e",
     "Slider.Tool": "\u30b9\u30e9\u30a4\u30c0\u30fc",

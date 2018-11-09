@@ -2727,6 +2727,7 @@ __GGB__keysVar["et"].menu = {
     "SingleFileTabs": "\xdcks fail (Tabs)",
     "Size": "Suurus",
     "SizeInPixels": "Suurus pikselites",
+    "Skip": "Skip",
     "Slider": "Liugur",
     "Slider.Help": "Kl\xf5psake graafikavaatel, et m\xe4\xe4rata liuguri asukoht",
     "Slider.Tool": "Liugur",

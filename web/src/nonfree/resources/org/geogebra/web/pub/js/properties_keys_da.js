@@ -2727,6 +2727,7 @@ __GGB__keysVar["da"].menu = {
     "SingleFileTabs": "Enkelt fil (tabulatorer)",
     "Size": "St\xf8rrelse",
     "SizeInPixels": "St\xf8rrelse i pixels",
+    "Skip": "Spring over",
     "Slider": "Skyder",
     "Slider.Help": "Klik p\xe5 tegnefladen for at angive placeringen af skydeknappen",
     "Slider.Tool": "Skyder",

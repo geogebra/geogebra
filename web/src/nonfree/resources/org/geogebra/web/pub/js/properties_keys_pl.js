@@ -2727,6 +2727,7 @@ __GGB__keysVar["pl"].menu = {
     "SingleFileTabs": "Pojedynczy plik (zak\u0142adka)",
     "Size": "Wielko\u015b\u0107",
     "SizeInPixels": "Rozmiar w pikselach",
+    "Skip": "Pomi\u0144",
     "Slider": "Suwak",
     "Slider.Help": "Wybierz po\u0142o\u017cenie",
     "Slider.Tool": "Suwak",

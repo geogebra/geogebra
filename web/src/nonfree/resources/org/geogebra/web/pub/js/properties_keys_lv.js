@@ -2727,6 +2727,7 @@ __GGB__keysVar["lv"].menu = {
     "SingleFileTabs": "Viens fails (Tabs)",
     "Size": "Izm\u0113rs",
     "SizeInPixels": "Izm\u0113rs pikse\u013cos",
+    "Skip": "Skip",
     "Slider": "Sl\u012bdnis",
     "Slider.Help": "Uzspied uz grafisk\u0101 skata, lai preciz\u0113tu poz\u012bciju",
     "Slider.Tool": "Slaideris",

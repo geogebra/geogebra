@@ -2727,6 +2727,7 @@ __GGB__keysVar["ms"].menu = {
     "SingleFileTabs": "Fail Tunggal (Tabs)",
     "Size": "Saiz",
     "SizeInPixels": "Saiz dalam pixels",
+    "Skip": "Skip",
     "Slider": "Gelongsor",
     "Slider.Help": "Klik pada Paparan Grafik untuk menentukan kedudukan",
     "Slider.Tool": "Gelongsor",

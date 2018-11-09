@@ -2727,6 +2727,7 @@ __GGB__keysVar["ro"].menu = {
     "SingleFileTabs": "Fi\u0219ier unic (file)",
     "Size": "M\u0103rime",
     "SizeInPixels": "M\u0103rime \xeen pixeli",
+    "Skip": "Skip",
     "Slider": "Culisant",
     "Slider.Help": "Click pe suprafa\u0163a de desen pentru a specifica pozi\u0163ia",
     "Slider.Tool": "Cursor",

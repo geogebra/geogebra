@@ -2727,6 +2727,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "SingleFileTabs": "Ficheiro \xdanico (Abas)",
     "Size": "Tamanho",
     "SizeInPixels": "Tamanho em pixels",
+    "Skip": "Pular",
     "Slider": "Seletor",
     "Slider.Help": "Clique numa \xe1rea livre da Folha Gr\xe1fica",
     "Slider.Tool": "Seletor",

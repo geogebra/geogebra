@@ -2727,6 +2727,7 @@ __GGB__keysVar["it"].menu = {
     "SingleFileTabs": "File singolo (schede)",
     "Size": "Dimensioni",
     "SizeInPixels": "Dimensioni in pixel",
+    "Skip": "Ignora",
     "Slider": "Slider",
     "Slider.Help": "Seleziona la posizione",
     "Slider.Tool": "Slider",

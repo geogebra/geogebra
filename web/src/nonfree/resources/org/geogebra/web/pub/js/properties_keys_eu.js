@@ -2727,6 +2727,7 @@ __GGB__keysVar["eu"].menu = {
     "SingleFileTabs": "Fitxategi Bakarra (Tabs)",
     "Size": "Neurria",
     "SizeInPixels": "Tamaina pixeletan",
+    "Skip": "Utzi",
     "Slider": "Irristailua",
     "Slider.Help": "Aukeratu kokapena",
     "Slider.Tool": "Irristailua",

@@ -2727,6 +2727,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "SingleFileTabs": "\u55ae\u4e00\u6a94\u6848(Tabs)",
     "Size": "\u5927\u5c0f",
     "SizeInPixels": "\u50cf\u7d20",
+    "Skip": "Skip",
     "Slider": "\u6ed1\u687f",
     "Slider.Help": "\u8acb\u5728\u300c\u7e6a\u5716\u5340\u300d\u4e0a\u6309\u4e00\u4e0b\uff0c\u5c31\u6703\u7522\u751f\u53ef\u63a7\u5236\u6578\u503c\u6216\u89d2\u5ea6\u5927\u5c0f\u7684\u300c\u6ed1\u687f\u300d",
     "Slider.Tool": "\u6578\u503c\u6ed1\u687f",

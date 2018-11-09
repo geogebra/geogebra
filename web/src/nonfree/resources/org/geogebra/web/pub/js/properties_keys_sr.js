@@ -2727,6 +2727,7 @@ __GGB__keysVar["sr"].menu = {
     "SingleFileTabs": "Jedna datoteka (Tabs)",
     "Size": "Veli\u010dina",
     "SizeInPixels": "Veli\u010dina u pikselima",
+    "Skip": "Skip",
     "Slider": "Kliza\u010d",
     "Slider.Help": "Kliknite na povr\u0161inu za crtanje da biste postavili kliza\u010d",
     "Slider.Tool": "Kliza\u010d",

@@ -2727,6 +2727,7 @@ __GGB__keysVar["fi"].menu = {
     "SingleFileTabs": "Yksi tiedosto (v\xe4lilehdet)",
     "Size": "Koko",
     "SizeInPixels": "Koko pikselein\xe4",
+    "Skip": "Ohita",
     "Slider": "Liukus\xe4\xe4din",
     "Slider.Help": "Valitse sijainti",
     "Slider.Tool": "Liukus\xe4\xe4din",

@@ -2727,6 +2727,7 @@ __GGB__keysVar["tr"].menu = {
     "SingleFileTabs": "Tek Dosya (Sekmeler)",
     "Size": "B\xfcy\xfckl\xfck",
     "SizeInPixels": "Piksel cinsinden boyut",
+    "Skip": "Atla",
     "Slider": "S\xfcrg\xfc",
     "Slider.Help": "Yer se\xe7in",
     "Slider.Tool": "S\xfcrg\xfc",

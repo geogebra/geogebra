@@ -2727,6 +2727,7 @@ __GGB__keysVar["nb"].menu = {
     "SingleFileTabs": "Separat fil (Tabs)",
     "Size": "St\xf8rrelse",
     "SizeInPixels": "St\xf8rrelse i piksler",
+    "Skip": "Hopp over",
     "Slider": "Glider",
     "Slider.Help": "Velg posisjon",
     "Slider.Tool": "Glider",

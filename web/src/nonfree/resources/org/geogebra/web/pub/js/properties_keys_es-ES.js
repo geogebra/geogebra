@@ -2727,6 +2727,7 @@ __GGB__keysVar["es-ES"].menu = {
     "SingleFileTabs": "\xdanico archivo (pesta\xf1as)",
     "Size": "Tama\xf1o",
     "SizeInPixels": "Tama\xf1o en p\xedxeles",
+    "Skip": "Omitir",
     "Slider": "Deslizador",
     "Slider.Help": "Haz clic en la Vista Gr\xe1fica para posicionar el deslizador",
     "Slider.Tool": "Deslizador",

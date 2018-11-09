@@ -2727,6 +2727,7 @@ __GGB__keysVar["eo"].menu = {
     "SingleFileTabs": "Single File (Tabs)",
     "Size": "Grando",
     "SizeInPixels": "Grando en bilderoj",
+    "Skip": "Skip",
     "Slider": "\u015covilo",
     "Slider.Help": "Select position",
     "Slider.Tool": "\u015covilo",

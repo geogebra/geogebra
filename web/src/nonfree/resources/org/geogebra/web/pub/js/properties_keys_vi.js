@@ -2727,6 +2727,7 @@ __GGB__keysVar["vi"].menu = {
     "SingleFileTabs": "T\u1eadp tin \u0111\u01a1n (Tabs)",
     "Size": "K\xedch th\u01b0\u1edbc",
     "SizeInPixels": "Size in pixels",
+    "Skip": "Skip",
     "Slider": "Thanh tr\u01b0\u1ee3t",
     "Slider.Help": "Ch\u1ecdn v\xf9ng l\xe0m vi\u1ec7c v\u1ecb tr\xed ch\u1ec9 \u0111\u1ecbnh con tr\u1ecf c\u1ea7n tr\u01b0\u1ee3t t\u1edbi",
     "Slider.Tool": "Thanh tr\u01b0\u1ee3t",

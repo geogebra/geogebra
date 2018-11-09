@@ -2727,6 +2727,7 @@ __GGB__keysVar["xh"].menu = {
     "SingleFileTabs": "iSingle File (Tabs)",
     "Size": "uBukhulu",
     "SizeInPixels": "Ubukhulu ngokweepixels",
+    "Skip": "Skip",
     "Slider": "iSlider",
     "Slider.Help": "Cofa kuMbonowoMfanekiso ukuxela indawo",
     "Slider.Tool": "iSlayda",

@@ -2727,6 +2727,7 @@ __GGB__keysVar["hu"].menu = {
     "SingleFileTabs": "Egyetlen f\xe1jl (Tabs)",
     "Size": "M\xe9ret",
     "SizeInPixels": "M\xe9ret pixelben",
+    "Skip": "Kihagy\xe1s",
     "Slider": "Cs\xfaszka",
     "Slider.Help": "Rajzlapon val\xf3 kattint\xe1s a cs\xfaszka hely\xe9nek meghat\xe1roz\xe1s\xe1hoz",
     "Slider.Tool": "Cs\xfaszka",

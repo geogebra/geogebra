@@ -2727,6 +2727,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "SingleFileTabs": "Enkel bestand (Tabs)",
     "Size": "Afmeting",
     "SizeInPixels": "Afmeting in pixels",
+    "Skip": "Overslaan",
     "Slider": "Schuifknop",
     "Slider.Help": "Klik in tekenvenster om positie van schuifknop aan te geven",
     "Slider.Tool": "Schuifknop",
