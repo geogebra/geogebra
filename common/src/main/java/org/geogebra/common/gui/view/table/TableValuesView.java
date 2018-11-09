@@ -60,12 +60,13 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void showColumn(GeoEvaluatable evaluatable) {
+	public void showColumn(Evaluatable evaluatable) {
 		if (elements.contains(evaluatable)) {
-			if (evaluatable.getTableColumn() < 0) {
-				evaluatable.setTableColumn(model.getColumnCount());
+			if (((GeoEvaluatable) evaluatable).getTableColumn() < 0) {
+				((GeoEvaluatable) evaluatable)
+						.setTableColumn(model.getColumnCount());
 			}
-			model.addEvaluatable(evaluatable);
+			model.addEvaluatable(((GeoEvaluatable) evaluatable));
 		}
 	}
 
