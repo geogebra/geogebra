@@ -1,8 +1,9 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -25,9 +26,10 @@ public class ContextMenuTV {
 	 */
 	protected GPopupMenuW wrappedPopup;
 	/**
-	 * localization
+	 * application
 	 */
-	protected Localization loc;
+	protected AppW app;
+	private int columntIdx;
 	private GeoElement geo;
 
 	/**
@@ -35,11 +37,14 @@ public class ContextMenuTV {
 	 *            see {@link AppW}
 	 * @param geo
 	 *            label of geo
+	 * @param column
+	 *            index of column
 	 */
-	public ContextMenuTV(AppW app, GeoElement geo) {
-		this.loc = app.getLocalization();
+	public ContextMenuTV(AppW app, GeoElement geo, int column) {
+		this.app = app;
+		this.columntIdx = column;
 		this.geo = geo;
-		buildGui(app);
+		buildGui();
 	}
 
 	/**
@@ -49,10 +54,24 @@ public class ContextMenuTV {
 		return geo;
 	}
 
-	private void buildGui(AppW app) {
+	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
+	}
+
+	/**
+	 * @return index of column
+	 */
+	public int getColumnIdx() {
+		return columntIdx;
+	}
+
+	private void buildGui() {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		if (geo != null) {
+		if (getColumnIdx() >= 0) {
 			addDelete();
 		}
 	}
@@ -62,12 +81,19 @@ public class ContextMenuTV {
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.delete_black()
 								.getSafeUri().asString(),
-						loc.getMenu("RemoveColumn"), true),
+						app.getLocalization().getMenu("RemoveColumn"), true),
 				true, new Command() {
 
 					@Override
 					public void execute() {
-						getGeo().notifyRemove();
+						if (getApp().getGuiManager() != null && getApp()
+								.getGuiManager().getTableValuesView() != null) {
+							Evaluatable column = ((TableValuesView) getApp()
+									.getGuiManager().getTableValuesView())
+											.getEvaluatable(getColumnIdx());
+							((TableValuesView) getApp().getGuiManager()
+									.getTableValuesView()).hideColumn(column);
+						}
 					}
 				});
 		wrappedPopup.addItem(mi);

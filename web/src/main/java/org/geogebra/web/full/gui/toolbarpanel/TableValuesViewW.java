@@ -363,7 +363,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 							// check if header cell is the one it was clicked on
 							if (node.equals(currHeaderCell)) {
 								new ContextMenuTV(getApp(),
-										i > 0 ? getGeoAt(i - 1) : null)
+										i > 0 ? getGeoAt(i - 1) : null,
+										i - 1)
 										.show(new GPoint(el.getAbsoluteLeft(),
 												el.getAbsoluteTop() - 8));
 							}
