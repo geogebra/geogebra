@@ -14,6 +14,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TableUtils;
 
@@ -431,16 +432,24 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		SafeHtml cell(SafeHtml message, String style, int width, int height);
 	}
 
-	public void deleteColumn(int col) {
+	/**
+	 * Deletes the specified column from the view.
+	 * 
+	 * @param col
+	 * @param cb
+	 *            to run on transition end.
+	 */
+	public void deleteColumn(int col, Runnable cb) {
 		int colWidth = getColumnWidth(col);
 		int tableWidth = table.getOffsetWidth() - colWidth;
-		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
 
 		NodeList<Element> elems = Dom.getElementsByClassName(columnStyleName(col));
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
+		CSSEvents.runOnTransition(cb, elems.getItem(0), "delete");
+		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
 
 	}
 }

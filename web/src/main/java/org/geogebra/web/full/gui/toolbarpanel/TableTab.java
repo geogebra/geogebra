@@ -16,7 +16,13 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 
 	private ToolbarPanel toolbarPanel;
 	private AppW app;
+	private Runnable cbOnColumnDelete = new Runnable() {
 
+		@Override
+		public void run() {
+			buildGui();
+		}
+	};
 	/**
 	 * @param toolbarPanel
 	 *            toolbar panel
@@ -40,7 +46,10 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 		return (TableValuesViewW) app.getGuiManager().getTableValuesView();
 	}
 
-	private void buildGui() {
+	/**
+	 * Rebuild the tab.
+	 */
+	void buildGui() {
 		Widget w = getView().getWidget();
 		if (w == null) {
 			return;
@@ -73,7 +82,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, int column) {
-		getView().deleteColumn(column);
+		getView().deleteColumn(column, cbOnColumnDelete);
 	}
 
 	@Override
