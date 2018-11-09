@@ -71,6 +71,7 @@ public class ContextMenuTV {
 	private void buildGui() {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
+		addEdit();
 		if (getColumnIdx() >= 0) {
 			addDelete();
 		}
@@ -94,6 +95,22 @@ public class ContextMenuTV {
 							((TableValuesView) getApp().getGuiManager()
 									.getTableValuesView()).hideColumn(column);
 						}
+					}
+				});
+		wrappedPopup.addItem(mi);
+	}
+
+	private void addEdit() {
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.edit_black()
+								.getSafeUri().asString(),
+						app.getLocalization().getMenu("Edit"), true),
+				true, new Command() {
+
+					@Override
+					public void execute() {
+						// TODO edit functionality
 					}
 				});
 		wrappedPopup.addItem(mi);
