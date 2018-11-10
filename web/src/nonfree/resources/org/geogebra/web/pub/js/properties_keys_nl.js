@@ -2072,7 +2072,7 @@ __GGB__keysVar["nl"].menu = {
     "Length.short": "n",
     "LengthOfA": "Lengte van %0",
     "Lengths": "Lengten",
-    "LevelOfDetail": "Level van Detail",
+    "LevelOfDetail": "Detailniveau",
     "License": "Licentie",
     "Light": "Lichtsterkte",
     "Lightness": "Helderheid",
