@@ -1045,9 +1045,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	final public double[] vectorTo(GeoPointND QI) {
-		GeoPoint Q = (GeoPoint) QI;
-		return new double[] { Q.getInhomX() - getInhomX(),
-				Q.getInhomY() - getInhomY(), 0 };
+		return new double[] { QI.getInhomX() - getInhomX(),
+				QI.getInhomY() - getInhomY(), QI.getInhomZ() };
 	}
 
 	@Override
