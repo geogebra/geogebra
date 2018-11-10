@@ -3231,7 +3231,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
 case 252:
 YY_RULE_SETUP
 #line 564 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;
+index_status(yyextra)=0; (*yylval)=gen(python_compat(yyextra)==2?at_bitxor:at_pow,2); return T_POW;
 	YY_BREAK
 case 253:
 YY_RULE_SETUP

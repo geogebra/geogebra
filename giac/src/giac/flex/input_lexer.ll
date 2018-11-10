@@ -561,7 +561,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "'mod'"                  index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
 "_mod"                  index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
   /* "MOD"                   index_status(yyextra)=0; return T_MOD; */
-"^"                     index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;
+"^"                     index_status(yyextra)=0; (*yylval)=gen(python_compat(yyextra)==2?at_bitxor:at_pow,2); return T_POW;
 "^*"                     index_status(yyextra)=0; (*yylval)=gen(at_trn,1); return T_FACTORIAL;
 "pow"		         (*yylval) = gen(at_pow,2); index_status(yyextra)=0; return T_UNARY_OP;
 "**"                     index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;

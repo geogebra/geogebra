@@ -3408,7 +3408,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     s += print_VECT(cas_setup(contextptr),_SEQ__VECT,contextptr);
     s += "),";
     s += "xcas_mode(";
-    s += print_INT_(xcas_mode(contextptr)+(python_compat(contextptr)?256:0));
+    s += print_INT_(xcas_mode(contextptr)+python_compat(contextptr)*256);
     s += ")";
     return s;
   }
@@ -5066,7 +5066,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
     int xc=xcas_mode(contextptr);
     if (xc==0 && python_compat(contextptr))
-      xc=256;
+      xc=256*python_compat(contextptr);
     if (abs_calc_mode(contextptr)==38)
       res.push_back(xc);
     else

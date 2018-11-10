@@ -6126,7 +6126,7 @@ namespace giac {
     if (args.type!=_INT_)
       return xcas_mode(contextptr);
     xcas_mode(contextptr)=args.val & 0xff;
-    python_compat(args.val>=256,contextptr);
+    python_compat(args.val/256,contextptr);
     return string2gen(gettext("Warning: some commands like subs might change arguments order"),false);
   }
   static const char _xcas_mode_s []="xcas_mode";
