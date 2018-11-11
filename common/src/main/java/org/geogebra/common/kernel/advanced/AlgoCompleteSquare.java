@@ -43,7 +43,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		h = new MyDouble(kernel);
 		k = new MyDouble(kernel);
 		square = new GeoFunction(cons);
-		setInputOutput();		
+		setInputOutput();
 		compute();
 		lastDeg = 0;
 		square.setLabel(label);
@@ -51,7 +51,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 
 	@Override
 	public void compute() {
-		if(fv == null || !fv.getSetVarString().equals(
+		if (fv == null || !fv.getSetVarString().equals(
 				f.getVarString(StringTemplate.defaultTemplate))) {
 			initFunction();
 		}

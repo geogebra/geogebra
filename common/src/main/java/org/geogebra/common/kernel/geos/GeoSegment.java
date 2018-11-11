@@ -46,7 +46,6 @@ final public class GeoSegment extends GeoLine
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
 															// rotation, ...
-	
 	private boolean isShape = false;
 	private StringBuilder sbToString = new StringBuilder(30);
 
@@ -902,7 +901,7 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	final public char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return '=';
 	}
 }
