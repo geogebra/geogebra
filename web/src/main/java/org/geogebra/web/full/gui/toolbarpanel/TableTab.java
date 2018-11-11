@@ -23,6 +23,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 			buildGui();
 		}
 	};
+
 	/**
 	 * @param toolbarPanel
 	 *            toolbar panel
@@ -38,8 +39,8 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	@Override
 	protected void onActive() {
 		buildGui();
-		getView().setHeight(toolbarPanel.
-				getOffsetHeight() - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT);
+		getView().setHeight(toolbarPanel.getOffsetHeight()
+				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT);
 	}
 
 	private TableValuesViewW getView() {

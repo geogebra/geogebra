@@ -74,11 +74,12 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			this.column = column;
 			this.cb = cb;
 		}
+
 		@Override
 		public void run() {
 			onDeleteColumn(column, cb);
 		}
-	};
+	}
 
 	/**
 	 * @author laszlo
@@ -359,33 +360,40 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				if (el != null && el.getParentNode() != null && el
 						.getParentElement().hasClassName("MyToggleButton")) {
 					Node buttonParent = el.getParentNode().getParentNode();
-					if (buttonParent != null
-							&& buttonParent.getParentNode() != null
-							&& buttonParent.getParentNode()
-									.getParentElement() != null) {
-						// parent tag with the header children
-						Element parent = buttonParent
-								.getParentNode().getParentElement();
-						// header column which was clicked on
-						Node currHeaderCell = buttonParent.getParentNode();
-						// get list of header cells
-						NodeList<Node> headerNodes = parent.getChildNodes();
-						for (int i = 0; i < headerNodes.getLength(); i++) {
-							Node node = headerNodes.getItem(i);
-							// check if header cell is the one it was clicked on
-							if (node.equals(currHeaderCell)) {
-								new ContextMenuTV(getApp(),
-										i > 0 ? getGeoAt(i - 1) : null,
-										i - 1)
-										.show(new GPoint(el.getAbsoluteLeft(),
-												el.getAbsoluteTop() - 8));
-							}
-						}
-					}
+					toggleButtonClick(buttonParent, el);
 				}
 			}
 		};
 		headerTable.addHandler(popupMenuClickHandler, ClickEvent.getType());
+	}
+
+	/**
+	 * @param buttonParent
+	 *            parent of the button
+	 * @param el
+	 *            element for positioning
+	 */
+	protected void toggleButtonClick(Node buttonParent, Element el) {
+		if (buttonParent != null && buttonParent.getParentNode() != null
+				&& buttonParent.getParentNode().getParentElement() != null) {
+			// parent tag with the header children
+			Element parent = buttonParent.getParentNode().getParentElement();
+			// header column which was clicked on
+			Node currHeaderCell = buttonParent.getParentNode();
+			// get list of header cells
+			NodeList<Node> headerNodes = parent.getChildNodes();
+			for (int i = 0; i < headerNodes.getLength(); i++) {
+				Node node = headerNodes.getItem(i);
+				// check if header cell is the one it was clicked on
+				if (node.equals(currHeaderCell)) {
+					new ContextMenuTV(getApp(), i > 0 ? getGeoAt(i - 1) : null,
+							i - 1).show(
+									new GPoint(el.getAbsoluteLeft(),
+											el.getAbsoluteTop() - 8));
+				}
+			}
+		}
+
 	}
 
 	private SafeHtml getHeaderHtml(final int col) {
@@ -426,6 +434,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private static String columnStyleName(int col) {
 		return "tvCol" + col;
 	}
+
 	/**
 	 * Sets height of the view.
 	 *
