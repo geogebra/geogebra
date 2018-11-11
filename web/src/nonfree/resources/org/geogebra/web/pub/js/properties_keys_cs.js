@@ -3189,7 +3189,7 @@ __GGB__keysVar["cs"].menu = {
     "emptyMaterialList.info.mow": "Files you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "rovno",
-    "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",
+    "exam_accept_app_self_lock": "Povolte pros\xedm \"zamknut\xed v aplikaci\" p\u0159ed za\u010d\xe1tkem zkou\u0161ky.",
     "exam_accept_pin": "Akttivujte pros\xedm \"P\u0159ip\xedn\xe1n\xed aplikac\xed\" p\u0159ed za\u010d\xe1tkem zkou\u0161ky",
     "exam_activity": "Pr\u016fb\u011bh",
     "exam_alert": "Varov\xe1n\xed",
