@@ -1449,6 +1449,9 @@ var GGBAppletUtils = (function() {
         }
         var ignoreHeight = (showPlayButton !== undefined && showPlayButton);
         var noScaleMargin = parameters.noScaleMargin != undefined && parameters.noScaleMargin;
+        var valBoolean = function(value) {
+            return (value && value !== "false");
+        };
         var autoHeight = valBoolean(parameters.autoHeight);
         var windowSize = getWidthHeight(appletElem, parameters.width, allowUpscale, autoHeight, (ignoreHeight && window.GGBT_wsf_view) || noScaleMargin, scaleContainerClass);
         var windowWidth = parseInt(windowSize.width);
