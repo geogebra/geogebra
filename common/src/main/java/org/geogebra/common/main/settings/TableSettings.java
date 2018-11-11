@@ -30,7 +30,13 @@ public class TableSettings {
 		this.valuesStep = valuesStep;
 	}
 
-	public void getXML(StringBuilder sb){
+	/**
+	 * Serialize the settings.
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
+	public void getXML(StringBuilder sb) {
 		sb.append("<tableview min=\"");
 		sb.append(valuesMin);
 		sb.append("\" max=\"");

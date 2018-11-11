@@ -1059,4 +1059,9 @@ public class GeoImplicitSurface extends GeoElement3D
 	public void setToImplicit() {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	final public char getLabelDelimiter() {
+		return ':';
+	}
 }

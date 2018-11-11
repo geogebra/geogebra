@@ -427,4 +427,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return getCoordSys().getOrigin();
 	}
 
+	@Override
+	public char getLabelDelimiter() {
+		return ':';
+	}
+
 }

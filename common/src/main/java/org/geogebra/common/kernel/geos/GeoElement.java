@@ -4430,11 +4430,7 @@ public abstract class GeoElement extends ConstructionElement
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(getRawCaption());
-		if (sb.indexOf("=") == -1) {
-			sb.append(" = ");
-		} else {
-			sb.append(": ");
-		}
+		sb.append(getLabelDelimiterWithSpace());
 		sb.append(toValueString(StringTemplate.defaultTemplate));
 		return sb.toString();
 	}

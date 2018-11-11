@@ -14,5 +14,4 @@ public interface Evaluatable {
 	 */
 	public double value(double x);
 
-
 }

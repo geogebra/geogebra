@@ -900,4 +900,9 @@ final public class GeoSegment extends GeoLine
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
 	}
+
+	@Override
+	final public char getLabelDelimiter() {
+		return '=';
+	}
 }
