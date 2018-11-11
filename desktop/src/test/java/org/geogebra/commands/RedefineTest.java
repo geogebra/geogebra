@@ -94,11 +94,11 @@ public class RedefineTest extends Assert {
 		t("D=(0,1)", "(0, 1)");
 		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
 		Kernel kernel = app.getKernel();
-		assertEquals("a_1: Segment(A, B, poly1)",
+		assertEquals("a_1 = Segment(A, B, poly1)",
 				kernel.lookupLabel("a_1").getDefinitionForEditor());
-		t("a_{1}: Segment(A, B, poly1)", new String[0]);
+		t("a_{1} = Segment(A, B, poly1)", new String[0]);
 		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("a_1"),
-				"a_{1}: Segment(A, B, poly1)", true, true,
+				"a_{1} = Segment(A, B, poly1)", true, true,
 				new TestErrorHandler(), null);
 	}
 
