@@ -295,9 +295,4 @@ class SimpleTableValuesModel implements TableValuesModel {
 			listener.notifyDatasetChanged(this);
 		}
 	}
-
-	@Override
-	public boolean hasPoints(int column) {
-		return getEvaluatable(column - 1).isPointsVisible();
-	}
 }

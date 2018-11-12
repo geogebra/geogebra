@@ -1,7 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 /**
  * Interface for the table of values view.
@@ -13,14 +13,14 @@ public interface TableValues extends View {
 	 *
 	 * @param evaluatable object to evaluate in table
 	 */
-	void showColumn(Evaluatable evaluatable);
+	void showColumn(GeoEvaluatable evaluatable);
 
 	/**
 	 * Hide the column for the Evaluatable object.
 	 *
 	 * @param evaluatable object to hide in table
 	 */
-	void hideColumn(Evaluatable evaluatable);
+	void hideColumn(GeoEvaluatable evaluatable);
 
 	/**
 	 * Return the column index for the evaluatable.
@@ -29,7 +29,7 @@ public interface TableValues extends View {
 	 * @param evaluatable object to check
 	 * @return the column of the evaluatable, or -1 if it's not present
 	 */
-	int getColumn(Evaluatable evaluatable);
+	int getColumn(GeoEvaluatable evaluatable);
 
 	/**
 	 * Returns the evaluatable for the column,
@@ -37,7 +37,7 @@ public interface TableValues extends View {
 	 *
 	 * @return evaluatable or null
 	 */
-	Evaluatable getEvaluatable(int column);
+	GeoEvaluatable getEvaluatable(int column);
 
 	/**
 	 * Set the values parameters. Values min must be smaller than valuesMax,

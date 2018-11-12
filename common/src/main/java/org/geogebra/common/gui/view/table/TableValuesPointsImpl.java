@@ -108,7 +108,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 			point.setFixed(true);
 			point.setLabelSimple("TableValuesPoints");
 			point.setLabelSet(true);
-			maybeSetPointColor(point, model.getEvaluatable(column - 1));
+			maybeSetPointColor(point, evaluatable);
 			point.notifyAdd();
 			list.add(point);
 		}

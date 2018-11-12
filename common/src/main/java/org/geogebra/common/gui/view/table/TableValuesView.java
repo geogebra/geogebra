@@ -60,30 +60,30 @@ public class TableValuesView implements TableValues {
 	}
 
 	@Override
-	public void showColumn(Evaluatable evaluatable) {
+	public void showColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable)) {
-			if (((GeoEvaluatable) evaluatable).getTableColumn() < 0) {
-				((GeoEvaluatable) evaluatable)
-						.setTableColumn(model.getColumnCount());
+			if (evaluatable.getTableColumn() < 0) {
+				evaluatable.setTableColumn(model.getColumnCount());
 			}
-			model.addEvaluatable(((GeoEvaluatable) evaluatable));
+
+			model.addEvaluatable(evaluatable);
 		}
 	}
 
 	@Override
-	public void hideColumn(Evaluatable evaluatable) {
+	public void hideColumn(GeoEvaluatable evaluatable) {
 		model.removeEvaluatable(evaluatable);
 	}
 
 	@Override
-	public int getColumn(Evaluatable evaluatable) {
+	public int getColumn(GeoEvaluatable evaluatable) {
 		int index = model.getEvaluatableIndex(evaluatable);
 		index += index > -1 ? 1 : 0;
 		return index;
 	}
 
 	@Override
-	public Evaluatable getEvaluatable(int column) {
+	public GeoEvaluatable getEvaluatable(int column) {
 		return model.getEvaluatable(column);
 	}
 
@@ -192,8 +192,8 @@ public class TableValuesView implements TableValues {
 	@Override
 	public void remove(GeoElement geo) {
 		elements.remove(geo);
-		if (geo instanceof Evaluatable) {
-			Evaluatable evaluatable = (Evaluatable) geo;
+		if (geo instanceof GeoEvaluatable) {
+			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			if (model.getEvaluatableIndex(evaluatable) > -1) {
 				model.removeEvaluatable(evaluatable);
 			}
@@ -210,8 +210,8 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void update(GeoElement geo) {
-		if (geo instanceof Evaluatable) {
-			Evaluatable evaluatable = (Evaluatable) geo;
+		if (geo instanceof GeoEvaluatable) {
+			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			model.updateEvaluatable(evaluatable);
 		}
 	}
