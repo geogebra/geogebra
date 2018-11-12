@@ -53,7 +53,6 @@ public abstract class AlgoElement extends ConstructionElement
 	private static TreeSet<AlgoElement> tempSet;
 	/** input elements */
 	public GeoElement[] input;
-	private ArrayList<GeoPointND> inputPoints;
 	private ArrayList<GeoPointND> freeInputPoints;
 	private boolean protectedInput = false;
 	private AlgoElement updateAfterAlgo;
@@ -1162,21 +1161,18 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * Returns all input points of this algorithm.
+	 * Removes input points from a superset.
 	 * 
-	 * @return list of input points
+	 * @param superset
+	 *            set from which we remove the points
+	 * 
 	 */
-	public ArrayList<GeoPointND> getInputPoints() {
-		if (inputPoints == null) {
-			inputPoints = new ArrayList<>(input.length);
-			for (int i = 0; i < input.length; i++) {
-				if (input[i].isGeoPoint()) {
-					inputPoints.add((GeoPointND) input[i]);
-				}
+	public void removeInputPoints(ArrayList<GeoElement> superset) {
+		for (int i = 0; i < input.length; i++) {
+			if (input[i].isGeoPoint()) {
+				superset.remove(input[i]);
 			}
 		}
-
-		return inputPoints;
 	}
 
 	@Override

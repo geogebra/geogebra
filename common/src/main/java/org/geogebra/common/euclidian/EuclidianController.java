@@ -1462,40 +1462,38 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// remove parent points
 		for (GeoElement geo : selGeos) {
 			switch (geo.getGeoClassType()) {
-				case SEGMENT:
-				case RAY:
-					// remove start and end point of segment
-					GeoLine line = (GeoLine) geo;
-					tempArrayList.remove(line.getStartPoint());
-					tempArrayList.remove(line.getEndPoint());
-					break;
+			case SEGMENT:
+			case RAY:
+				// remove start and end point of segment
+				GeoLine line = (GeoLine) geo;
+				tempArrayList.remove(line.getStartPoint());
+				tempArrayList.remove(line.getEndPoint());
+				break;
 
-				case CONICPART:
-					GeoConicPart cp = (GeoConicPart) geo;
-					ArrayList<GeoPointND> ip = cp.getParentAlgorithm()
-							.getInputPoints();
-					tempArrayList.removeAll(ip);
-					break;
+			case CONICPART:
+				GeoConicPart cp = (GeoConicPart) geo;
+				cp.getParentAlgorithm().removeInputPoints(tempArrayList);
+				break;
 
-				case POLYGON:
-					// remove points and segments of poly
-					GeoPolygon poly = (GeoPolygon) geo;
-					GeoPointND[] points = poly.getPoints();
-					tempArrayList.removeAll(Arrays.asList(points));
-					GeoSegmentND[] segs = poly.getSegments();
-					tempArrayList.removeAll(Arrays.asList(segs));
-					break;
+			case POLYGON:
+				// remove points and segments of poly
+				GeoPolygon poly = (GeoPolygon) geo;
+				GeoPointND[] points = poly.getPoints();
+				tempArrayList.removeAll(Arrays.asList(points));
+				GeoSegmentND[] segs = poly.getSegments();
+				tempArrayList.removeAll(Arrays.asList(segs));
+				break;
 
-				case PENSTROKE:
-				case POLYLINE:
-					// remove points and segments of poly
-					GeoPolyLine polyl = (GeoPolyLine) geo;
-					points = polyl.getPoints();
-					tempArrayList.removeAll(Arrays.asList(points));
-					break;
+			case PENSTROKE:
+			case POLYLINE:
+				// remove points and segments of poly
+				GeoPolyLine polyl = (GeoPolyLine) geo;
+				points = polyl.getPoints();
+				tempArrayList.removeAll(Arrays.asList(points));
+				break;
 
-				default:
-					// do nothing
+			default:
+				// do nothing
 			}
 		}
 
@@ -7004,8 +7002,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// Vector[A,B]
 				AlgoVector algoVec = (AlgoVector) movedGeoElement
 						.getParentAlgorithm();
-				start = algoVec.getInputPoints().get(0);
-				end = algoVec.getInputPoints().get(1);
+				start = algoVec.getP();
+				end = algoVec.getQ();
 
 				if (start.isIndependent() && !end.isIndependent()) {
 					Coords coords = start.getInhomCoords();
@@ -9045,8 +9043,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (topHit.isGeoVector()) {
 			if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
 				AlgoVector algo = (AlgoVector) topHit.getParentAlgorithm();
-				GeoPointND p = algo.getInputPoints().get(0);
-				GeoPointND q = algo.getInputPoints().get(1);
+				GeoPointND p = algo.getP();
+				GeoPointND q = algo.getQ();
 
 				GeoVector vec = getAlgoDispatcher().vector(0, 0);
 
