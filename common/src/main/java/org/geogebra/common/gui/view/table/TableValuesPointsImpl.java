@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -115,7 +114,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		return list;
 	}
 
-	private void maybeSetPointColor(GeoPoint point, Evaluatable evaluatable) {
+	private void maybeSetPointColor(GeoPoint point, GeoEvaluatable evaluatable) {
 		if (evaluatable instanceof GeoElementND) {
 			GeoElementND element = (GeoElementND) evaluatable;
 			GColor color = element.getObjectColor();

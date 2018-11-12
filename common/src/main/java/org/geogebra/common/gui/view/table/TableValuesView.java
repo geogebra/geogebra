@@ -11,7 +11,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;

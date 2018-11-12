@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
@@ -94,7 +93,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private double evaluateAt(int row, int column) {
-		Evaluatable evaluatable = evaluatables.get(column - 1);
+		GeoEvaluatable evaluatable = evaluatables.get(column - 1);
 		double x = values[row];
 		return evaluatable.value(x);
 	}
@@ -149,7 +148,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 *
 	 * @param evaluatable evaluatable
 	 */
-	void removeEvaluatable(Evaluatable evaluatable) {
+	void removeEvaluatable(GeoEvaluatable evaluatable) {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			evaluatables.remove(evaluatable);
@@ -169,7 +168,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 *
 	 * @param evaluatable object to update in table
 	 */
-	void updateEvaluatable(Evaluatable evaluatable) {
+	void updateEvaluatable(GeoEvaluatable evaluatable) {
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			columns.set(index + 1, new String[values.length]);
@@ -185,7 +184,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param evaluatable object to check
 	 * @return index of the object, -1 if it's not present
 	 */
-	int getEvaluatableIndex(Evaluatable evaluatable) {
+	int getEvaluatableIndex(GeoEvaluatable evaluatable) {
 		return evaluatables.indexOf(evaluatable);
 	}
 
