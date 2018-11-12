@@ -349,4 +349,30 @@ public class TableValuesViewTest extends BaseUnitTest {
 		getApp().getSettings().getTable().getXML(sb);
 		return sb.toString();
 	}
+
+	@Test
+    public void testTableValuesPointsVisibility() {
+        TableValuesPoints points = new TableValuesPointsImpl(getConstruction(), model);
+        model.registerListener(points);
+
+        GeoLine[] lines = createLines(2);
+
+        showColumn(lines[0]);
+        Assert.assertTrue(points.arePointsVisible(1));
+
+        showColumn(lines[1]);
+        Assert.assertTrue(points.arePointsVisible(2));
+        points.setPointsVisible(2, false);
+        Assert.assertFalse(points.arePointsVisible(2));
+
+        view.hideColumn(lines[0]);
+        Assert.assertFalse(points.arePointsVisible(1));
+
+        points.setPointsVisible(1, true);
+        Assert.assertTrue(points.arePointsVisible(1));
+
+        // Possible to set visibility without adding to view
+        points.setPointsVisible(1, false);
+        Assert.assertFalse(points.arePointsVisible(1));
+    }
 }

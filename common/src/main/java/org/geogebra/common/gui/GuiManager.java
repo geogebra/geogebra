@@ -26,10 +26,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
-import org.geogebra.common.gui.view.table.TableValues;
-import org.geogebra.common.gui.view.table.TableValuesModel;
-import org.geogebra.common.gui.view.table.TableValuesPoints;
-import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.*;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
@@ -78,6 +75,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private boolean setModeFinished;
 	protected ProbabilityCalculatorView probCalculator;
 	protected TableValues tableValues;
+	protected TableValuesPoints tableValuesPoints;
 
 	/**
 	 * Abstract constructor
@@ -888,14 +886,18 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
+	public TableValuesPoints getTableValuesPoints() {
+		return tableValuesPoints;
+	}
+
+	@Override
 	public View getTableValuesView() {
 		if (tableValues == null) {
 			tableValues = createTableValuesView();
 			kernel.attach(tableValues);
 			TableValuesModel model = tableValues.getTableValuesModel();
-			TableValuesPoints points = new TableValuesPoints(kernel.getConstruction());
-			model.registerListener(points);
-
+			tableValuesPoints = new TableValuesPointsImpl(kernel.getConstruction(), model);
+			model.registerListener(tableValuesPoints);
 		}
 		return tableValues;
 	}
