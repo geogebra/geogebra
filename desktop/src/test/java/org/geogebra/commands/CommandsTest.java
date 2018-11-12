@@ -338,6 +338,13 @@ public class CommandsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdIntersectPoly() {
+		t("ZoomIn(-5,-5,5,5)", new String[0]);
+		intersect("x^2+x", "x^2+x", false, "(?, ?)");
+		intersect("x^2+x", "x^2+x+1", false, "(?, ?)");
+	}
+
+	@Test
 	public void cmdIntersect() {
 		t("ZoomIn(-5,-5,5,5)", new String[0]);
 		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false, "(4, 3)",

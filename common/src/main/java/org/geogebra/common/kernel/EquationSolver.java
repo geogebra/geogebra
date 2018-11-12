@@ -73,6 +73,7 @@ public class EquationSolver implements EquationSolverInterface {
 		}
 
 		switch (degree) { // degree of polynomial
+		case -1:
 		case 0:
 			realRoots = 0;
 			break;
