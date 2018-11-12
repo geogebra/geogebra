@@ -73,10 +73,35 @@ public class ContextMenuTV {
 	private void buildGui() {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		addEdit();
 		if (getColumnIdx() >= 0) {
-			addDelete();
 			addShowHide();
+			addEdit(new Command() {
+
+				@Override
+				public void execute() {
+					if (getApp().getGuiManager() instanceof GuiManagerW
+							&& ((GuiManagerW) getApp().getGuiManager())
+									.getUnbundledToolbar() != null) {
+						((GuiManagerW) getApp().getGuiManager())
+								.getUnbundledToolbar().openAlgebra(true);
+						((GuiManagerW) getApp().getGuiManager())
+								.startEditing(getGeo());
+					}
+				}
+			});
+			addDelete();
+		} else {
+			addEdit(new Command() {
+
+				@Override
+				public void execute() {
+					// column index = -1 -> edit x-column
+					if (getApp().getDialogManager() != null) {
+						getApp().getDialogManager()
+								.openTableViewDialog(getGeo());
+					}
+				}
+			});
 		}
 	}
 
@@ -122,34 +147,12 @@ public class ContextMenuTV {
 		wrappedPopup.addItem(mi);
 	}
 
-	private void addEdit() {
+	private void addEdit(Command cmd) {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.edit_black(),
 						app.getLocalization().getMenu("Edit")),
-				true, new Command() {
-
-					@Override
-					public void execute() {
-						// column index = -1 -> edit x-column
-						if (getApp().getDialogManager() != null
-								&& getColumnIdx() < 0) {
-							getApp().getDialogManager()
-									.openTableViewDialog(getGeo());
-						}
-						// column index >= -1 -> edit function
-						else if (getApp().getGuiManager() != null
-								&& getApp()
-										.getGuiManager() instanceof GuiManagerW
-								&& ((GuiManagerW) getApp().getGuiManager())
-										.getUnbundledToolbar() != null) {
-							((GuiManagerW) getApp().getGuiManager())
-									.getUnbundledToolbar().openAlgebra(true);
-							((GuiManagerW) getApp().getGuiManager())
-									.startEditing(getGeo());
-						}
-					}
-				});
+				true, cmd);
 		wrappedPopup.addItem(mi);
 	}
 
