@@ -50,6 +50,11 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	private double[] zValues;
 	private double[] sortedData;
 
+	private GeoPoint startPoint;
+	private GeoPoint endPoint;
+	private GeoSegment seg;
+
+
 	/**
 	 * @param cons
 	 *            construction
@@ -73,6 +78,10 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	public AlgoNormalQuantilePlot(Construction cons, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
+
+		startPoint = new GeoPoint(cons);
+		endPoint = new GeoPoint(cons);
+		seg = new GeoSegment(cons, startPoint, endPoint);
 
 		outputList = new GeoList(cons);
 
@@ -138,11 +147,8 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		// qq line: y = (1/sd)x - mean/sd
 
-		GeoPoint startPoint = new GeoPoint(cons);
 		startPoint.setCoords(min, (min / sd) - mean / sd, 1.0);
-		GeoPoint endPoint = new GeoPoint(cons);
 		endPoint.setCoords(max, (max / sd) - mean / sd, 1.0);
-		GeoSegment seg = new GeoSegment(cons, startPoint, endPoint);
 		seg.calcLength();
 
 		return seg;
