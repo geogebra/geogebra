@@ -333,7 +333,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 												// by
 												// pure
 												// luck...
-				xlist.add(x);
+				add(xlist, x, f);
 			} // if
 			if (i > 0) {
 				if (((y[i - 1] < 0.0d) && (y[i] > 0.0d)) || // or just
@@ -350,7 +350,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 																				// in
 																				// Apache
 																				// lib...
-						xlist.add(xval);
+						add(xlist, xval, f);
 					} // if check
 				} // if possible root
 			} // if both ends of interval
@@ -368,8 +368,15 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return null;
 	}
 
-	// / --- Private methods --- ///
-	// Make all private after testing...
+	private static void add(ArrayList<Double> xlist, double root,
+			GeoFunction f) {
+		double root2 = DoubleUtil.checkRoot(root, f);
+
+		// NaN -> we're very near hole -> don't add root
+		if (Double.isFinite(root2)) {
+			xlist.add(root2);
+		}
+	}
 
 	/**
 	 * Brent's algo Copied from AlgoRootInterval.java.
