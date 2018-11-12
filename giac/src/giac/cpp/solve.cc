@@ -658,7 +658,7 @@ namespace giac {
       }
 #if 1
       string msg=gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+e.print(contextptr);
-      if (calc_mode(contextptr)==1){
+      if (calc_mode(contextptr)==1){ // for solve(ln(exp(x)+1)=x) 
 	v.push_back(undef); // (string2gen(msg,false));
 	return;
       }
@@ -1278,7 +1278,10 @@ namespace giac {
     if (is_zero(ratnormal(derive(e,x,contextptr),contextptr),contextptr))
       *logptr(contextptr) <<gettext("Inequation is constant with respect to ")+string(x.print(contextptr)) << endl;
     vecteur veq_not_singu,veq,singu;
+    int cm=calc_mode(contextptr); 
+    calc_mode(0,contextptr); // for solve(1/(log(abs(x))-x) > 0)
     singu=find_singularities(e,x,2,contextptr);
+    calc_mode(cm,contextptr);
     veq_not_singu=solve(e,x,2,contextptr);
     for (unsigned i=0;i<singu.size();++i){	
       singu[i]=ratnormal(singu[i],contextptr);
