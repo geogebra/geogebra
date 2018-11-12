@@ -5,7 +5,6 @@ import java.util.*;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
