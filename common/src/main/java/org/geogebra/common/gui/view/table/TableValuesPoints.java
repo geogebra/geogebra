@@ -19,7 +19,7 @@ public interface TableValuesPoints extends TableValuesListener {
      * Sets if points should be visible for this evaluatable
      *
      * @param column column
-     * @param visible visiblility
+     * @param visible visibility
      */
     void setPointsVisible(int column, boolean visible);
 }
