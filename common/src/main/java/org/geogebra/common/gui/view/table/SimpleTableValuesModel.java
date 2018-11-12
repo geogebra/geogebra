@@ -193,7 +193,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @return evaluatable if present in the model
 	 */
 	GeoEvaluatable getEvaluatable(int index) {
-		if (index < evaluatables.size()) {
+		if (index < evaluatables.size() && index > -1) {
 			return evaluatables.get(index);
 		}
 		return null;
