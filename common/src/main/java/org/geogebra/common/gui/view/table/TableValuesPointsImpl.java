@@ -38,7 +38,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
-		if (points.get(column) != null) {
+		if (points.get(column - 1) != null) {
 			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
 			removePoints(column);
 			addPointsToList(simpleModel, column);
