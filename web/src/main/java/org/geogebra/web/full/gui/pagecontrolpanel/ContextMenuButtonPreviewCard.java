@@ -36,8 +36,8 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	}
 
 	private void addDeleteItem() {
-		addItem(MaterialDesignResources.INSTANCE.delete_black().getSafeUri()
-				.asString(), loc.getMenu("Delete"), new Command() {
+		addItem(MaterialDesignResources.INSTANCE.delete_black(),
+				loc.getMenu("Delete"), new Command() {
 					@Override
 					public void execute() {
 						onDelete();
@@ -46,8 +46,8 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	}
 
 	private void addDuplicateItem() {
-		addItem(MaterialDesignResources.INSTANCE.duplicate_black().getSafeUri()
-				.asString(), loc.getMenu("Duplicate"), new Command() {
+		addItem(MaterialDesignResources.INSTANCE.duplicate_black(),
+				loc.getMenu("Duplicate"), new Command() {
 					@Override
 					public void execute() {
 						onDuplicate();

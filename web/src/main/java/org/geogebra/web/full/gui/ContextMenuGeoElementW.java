@@ -41,10 +41,12 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -360,19 +362,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		GCheckBoxMenuItem cbItem;
 		if (getGeo().isTraceable()) {
 
-			String img;
+			ResourcePrototype img;
 
 			if (app.isUnbundled() || hasWhiteboardContextMenu()) {
-				img = MaterialDesignResources.INSTANCE.trace_black()
-						.getSafeUri().asString();
+				img = MaterialDesignResources.INSTANCE.trace_black();
 			} else {
-				img = AppResources.INSTANCE.trace_on().getSafeUri().asString();
+				img = AppResources.INSTANCE.trace_on();
 			}
 
 			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU) && !app.isUnbundled()
 					&& !hasWhiteboardContextMenu()) {
 				cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtml(img, "", true),
+						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("HideTrace"), loc.getMenu("ShowTrace"),
 						new Command() {
 
@@ -400,7 +401,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				wrappedPopup.addItem(cmItem);
 			} else {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
-						loc.getMenu("ShowTrace"), true), new Command() {
+						loc.getMenu("ShowTrace")), new Command() {
 
 							@Override
 							public void execute() {
@@ -695,8 +696,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addEditItems() {
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 
-			String img = MaterialDesignResources.INSTANCE.duplicate_black()
-					.getSafeUri().asString();
+			SVGResource img = MaterialDesignResources.INSTANCE
+					.duplicate_black();
 			addAction(new Command() {
 
 				@Override
@@ -706,7 +707,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					app.setDefaultCursor();
 
 				}
-			}, MainMenu.getMenuBarHtml(img, loc.getMenu("Duplicate"), true),
+			}, MainMenu.getMenuBarHtml(img, loc.getMenu("Duplicate")),
 					loc.getMenu("Duplicate"));
 		}
 	}
@@ -719,14 +720,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		String img;
+		ResourcePrototype img;
 
 		if (hasWhiteboardContextMenu()) {
-			img = MaterialDesignResources.INSTANCE.paste_black().getSafeUri()
-					.asString();
+			img = MaterialDesignResources.INSTANCE.paste_black();
 		} else {
-			img = GuiResources.INSTANCE.menu_icon_edit_paste().getSafeUri()
-					.asString();
+			img = GuiResources.INSTANCE.menu_icon_edit_paste();
 		}
 
 		mnuPaste = addAction(new Command() {
@@ -739,7 +738,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					app.setDefaultCursor();
 				}
 			}
-		}, MainMenu.getMenuBarHtml(img, loc.getMenu("Paste"), true),
+		}, MainMenu.getMenuBarHtml(img, loc.getMenu("Paste")),
 				loc.getMenu("Paste"));
 	}
 

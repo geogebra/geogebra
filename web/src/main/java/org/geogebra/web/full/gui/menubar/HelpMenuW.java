@@ -40,9 +40,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 		// Tutorials
 		tutorials = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.tutorial_black()
-								.getSafeUri().asString(),
-						loc.getMenu("Tutorials"), true),
+						MaterialDesignResources.INSTANCE.tutorial_black(),
+						loc.getMenu("Tutorials")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -54,9 +53,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 		// Help
 		manual = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.manual_black()
-								.getSafeUri().asString(),
-						loc.getMenu("Manual"), true),
+						MaterialDesignResources.INSTANCE.manual_black(),
+						loc.getMenu("Manual")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -67,9 +65,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 				});
 		forum = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.forum_black()
-								.getSafeUri().asString(),
-						loc.getMenu("GeoGebraForum"), true),
+						MaterialDesignResources.INSTANCE.forum_black(),
+						loc.getMenu("GeoGebraForum")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -81,9 +78,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 		// Report Bug
 		bug = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.bug_report_black()
-								.getSafeUri().asString(),
-						loc.getMenu("ReportBug"), true),
+						MaterialDesignResources.INSTANCE.bug_report_black(),
+						loc.getMenu("ReportBug")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -97,9 +93,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 		addSeparator();
 		about = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.info_black()
-										.getSafeUri().asString(),
-						loc.getMenu("AboutLicense"), true),
+						MaterialDesignResources.INSTANCE.info_black(),
+						loc.getMenu("AboutLicense")),
 				true, new MenuCommand(app) {
 
 					@Override

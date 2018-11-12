@@ -1,11 +1,13 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -75,15 +77,36 @@ public class ContextMenuTV {
 		addEdit();
 		if (getColumnIdx() >= 0) {
 			addDelete();
+			addShowHide();
 		}
+	}
+
+	private void addShowHide() {
+		final TableValuesPoints tv = getApp().getGuiManager()
+				.getTableValuesPoints();
+		final int column = getColumnIdx() + 1;
+		String transKey = tv.arePointsVisible(column) ? "HidePoints"
+				: "ShowPoints";
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(
+						AppResources.INSTANCE.empty(),
+						app.getLocalization().getMenu(transKey)),
+				true, new Command() {
+
+					@Override
+					public void execute() {
+						tv.setPointsVisible(column,
+								!tv.arePointsVisible(column));
+					}
+				});
+		wrappedPopup.addItem(mi);
 	}
 
 	private void addDelete() {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.delete_black()
-								.getSafeUri().asString(),
-						app.getLocalization().getMenu("RemoveColumn"), true),
+						MaterialDesignResources.INSTANCE.delete_black(),
+						app.getLocalization().getMenu("RemoveColumn")),
 				true, new Command() {
 
 					@Override
@@ -104,9 +127,8 @@ public class ContextMenuTV {
 	private void addEdit() {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.edit_black()
-								.getSafeUri().asString(),
-						app.getLocalization().getMenu("Edit"), true),
+						MaterialDesignResources.INSTANCE.edit_black(),
+						app.getLocalization().getMenu("Edit")),
 				true, new Command() {
 
 					@Override

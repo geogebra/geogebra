@@ -80,7 +80,6 @@ import org.geogebra.web.full.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.TableValuesViewW;
@@ -130,7 +129,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -1954,14 +1952,6 @@ public class GuiManagerW extends GuiManager
 		DockPanelW dp = getLayout().getDockManager().getPanel(ev.getViewID());
 		((EuclidianDockPanelWAbstract) dp).getAbsolutePanel()
 		.add((DynamicStyleBar) dynamicStylebar);
-	}
-
-	@Override
-	public String getMenuBarHtml(final ImageResource imgRes, String name,
-			final boolean b) {
-
-		final String iconString = imgRes.getSafeUri().asString();
-		return MainMenu.getMenuBarHtml(iconString, name, true);
 	}
 
 	@Override

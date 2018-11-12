@@ -524,9 +524,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 
 		this.userMenu.addItem(
 				getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.signout_black()
-								.getSafeUri().asString(),
-						app.getLocalization().getMenu("SignOut"), true),
+						MaterialDesignResources.INSTANCE.signout_black(),
+						app.getLocalization().getMenu("SignOut")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -934,5 +933,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 			menuPanel.reset();
 		}
 		super.setVisible(visible);
+	}
+
+	/**
+	 * @param imgRes
+	 *            image
+	 * @param name
+	 *            localized text
+	 * @return HTML
+	 */
+	public static String getMenuBarHtml(final ResourcePrototype imgRes,
+			String name) {
+		final String iconString = NoDragImage.safeURI(imgRes);
+		return MainMenu.getMenuBarHtml(iconString, name, true);
 	}
 }

@@ -60,8 +60,8 @@ public class ViewMenuW extends GMenuBar {
 	 *            localization
 	 */
 	protected void initRefreshActions(Localization loc) {
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				.getSafeUri().asString(), loc.getMenu("Refresh"), true), true,
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty(),
+				loc.getMenu("Refresh")), true,
 				new MenuCommand(app) {
 
 					@Override
@@ -69,9 +69,8 @@ public class ViewMenuW extends GMenuBar {
 						app.refreshViews();
 					}
 				});
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				.getSafeUri().asString(), loc.getMenu("RecomputeAllViews"),
-				true), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty(),
+				loc.getMenu("RecomputeAllViews")), true, new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -99,8 +98,8 @@ public class ViewMenuW extends GMenuBar {
 		}
 		Localization loc = app.getLocalization();
 		inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-				AppResources.INSTANCE.empty().getSafeUri().asString(),
-				loc.getMenu("InputField"), true), new MenuCommand(app) {
+				AppResources.INSTANCE.empty(), loc.getMenu("InputField")),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {

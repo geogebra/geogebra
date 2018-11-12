@@ -14,6 +14,7 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -83,10 +84,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addTableOfValuesItem() {
-		String img = MaterialDesignResources.INSTANCE.toolbar_table_view_black()
-				.getSafeUri().asString();
+		SVGResource img = MaterialDesignResources.INSTANCE
+				.toolbar_table_view_black();
 		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getMenu("TableOfValues"), true), true, new Command() {
+				loc.getMenu("TableOfValues")), true, new Command() {
 
 					@Override
 					public void execute() {
@@ -97,12 +98,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addDuplicateItem() {
-		String img = MaterialDesignResources.INSTANCE.duplicate_black()
-				.getSafeUri()
-				.asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.duplicate_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img,
-				loc.getMenu("Duplicate"), true), true,
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Duplicate")),
+				true,
 				new Command() {
 					
 					@Override
@@ -127,12 +126,11 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 		
 	private void addDeleteItem() {
-		String img = MaterialDesignResources.INSTANCE.delete_black()
-				.getSafeUri()
-				.asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.delete_black();
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img,
-				loc.getMenu("Delete"), true), true,
+						loc.getMenu("Delete")),
+				true,
 				new Command() {
 					
 					@Override
@@ -145,12 +143,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addPropertiesItem() {
-		String img = MaterialDesignResources.INSTANCE.gear()
-				.getSafeUri()
-				.asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.gear();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img,
-				loc.getMenu("Settings"), true), true,
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Settings")),
+				true,
 				new Command() {
 					
 					@Override
@@ -169,7 +165,6 @@ public class ContextMenuAVItemMore implements SetLabels {
 		ArrayList<GeoElement> list = new ArrayList<>();
 		list.add(item.geo);
 		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, list);
-
 	}
 
 	@Override

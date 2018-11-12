@@ -60,8 +60,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	}
 
 	private void addShareItem() {
-		addItem(MaterialDesignResources.INSTANCE.share_black().getSafeUri()
-				.asString(), loc.getMenu("Share"), new Command() {
+		addItem(MaterialDesignResources.INSTANCE.share_black(),
+				loc.getMenu("Share"), new Command() {
 					@Override
 					public void execute() {
 						onShare();
@@ -70,8 +70,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	}
 
 	private void addRenameItem() {
-		addItem(MaterialDesignResources.INSTANCE.mow_rename().getSafeUri()
-				.asString(), loc.getMenu("Rename"), new Command() {
+		addItem(MaterialDesignResources.INSTANCE.mow_rename(),
+				loc.getMenu("Rename"), new Command() {
 					@Override
 					public void execute() {
 						onRename();
@@ -80,8 +80,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	}
 
 	private void addCopyItem() {
-		addItem(MaterialDesignResources.INSTANCE.copy_black().getSafeUri()
-				.asString(), loc.getMenu("makeACopy"), new Command() {
+		addItem(MaterialDesignResources.INSTANCE.copy_black(),
+				loc.getMenu("makeACopy"), new Command() {
 					@Override
 					public void execute() {
 						onCopy();
@@ -90,8 +90,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	}
 
 	private void addDeleteItem() {
-		addItem(MaterialDesignResources.INSTANCE.delete_black().getSafeUri()
-				.asString(), loc.getMenu("Delete"), new Command() {
+		addItem(MaterialDesignResources.INSTANCE.delete_black(),
+				loc.getMenu("Delete"), new Command() {
 					@Override
 					public void execute() {
 						onDelete();

@@ -275,9 +275,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	}
 
 	private static String menuText(String string) {
-		return MainMenu.getMenuBarHtml(
-				AppResources.INSTANCE.empty().getSafeUri().asString(), string,
-				true);
+		return MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty(), string);
 	}
 
 	/**

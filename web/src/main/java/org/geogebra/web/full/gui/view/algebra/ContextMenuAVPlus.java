@@ -11,10 +11,12 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -68,11 +70,11 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private void addExpressionItem() {
-		String img = StyleBarResources.INSTANCE.description().getSafeUri()
-				.asString();
+		ImageResource img = StyleBarResources.INSTANCE.description();
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img,
-				loc.getMenu("Expression"), true), true,
+						loc.getMenu("Expression")),
+				true,
 				new Command() {
 					
 					@Override
@@ -86,11 +88,9 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private void addTextItem() {
-		String img = MaterialDesignResources.INSTANCE.icon_quote_black()
-				.getSafeUri()
-				.asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.icon_quote_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Text"), true), true,
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Text")), true,
 				new Command() {
 					
 					@Override
@@ -104,11 +104,9 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 	
 	private void addImageItem() {
-		String img = MaterialDesignResources.INSTANCE.insert_photo_black()
-				.getSafeUri()
-				.asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Image"), true), true,
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true,
 				new Command() {
 					
 					@Override
@@ -124,10 +122,9 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private void addHelpItem() {
-		String img = SharedResources.INSTANCE.icon_help_black()
-				.getSafeUri().asString();
+		SVGResource img = SharedResources.INSTANCE.icon_help_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Help"), true),
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Help")),
 				true, new Command() {
 					
 					@Override

@@ -51,10 +51,9 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		if (app.has(Feature.GRAPH_EXAM_MODE) && app.isUnbundledGraphing()
 				&& !app.isExam() && app.getLAF().isGraphingExamSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.exam_graphing()
-							.getSafeUri().asString(),
-					app.getLocalization().getMenu("ExamGraphingCalc.short"),
-					true), true, new MenuCommand(getApp()) {
+					MaterialDesignResources.INSTANCE.exam_graphing(),
+					app.getLocalization().getMenu("ExamGraphingCalc.short")),
+					true, new MenuCommand(getApp()) {
 
 						@Override
 						public void execute() {

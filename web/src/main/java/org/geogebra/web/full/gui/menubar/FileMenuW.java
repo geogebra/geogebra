@@ -271,9 +271,8 @@ public class FileMenuW extends GMenuBar
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (getApp().isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.signout_black()
-							.getSafeUri().asString(),
-					loc.getMenu("exam_menu_exit"), true), true,
+					MaterialDesignResources.INSTANCE.signout_black(),
+					loc.getMenu("exam_menu_exit")), true,
 					new MenuCommand(getApp()) { // Close
 
 						@Override
@@ -291,12 +290,9 @@ public class FileMenuW extends GMenuBar
 				.getMenuBarHtml(
 						getApp().isWhiteboardActive()
 								? MaterialDesignResources.INSTANCE.file_plus()
-										.getSafeUri().asString()
-								: MaterialDesignResources.INSTANCE.add_black()
-								.getSafeUri().asString(),
+								: MaterialDesignResources.INSTANCE.add_black(),
 						loc.getMenu(getApp().isWhiteboardActive()
-								? "mow.newFile" : "New"),
-						true),
+								? "mow.newFile" : "New")),
 				true, new MenuCommand(getApp()) {
 
 					@Override
@@ -310,15 +306,12 @@ public class FileMenuW extends GMenuBar
 				MainMenu.getMenuBarHtml(
 						getApp().isWhiteboardActive()
 								? MaterialDesignResources.INSTANCE.folder_open()
-										.getSafeUri().asString()
 								: MaterialDesignResources.INSTANCE
-										.search_black()
-								.getSafeUri().asString(),
+										.search_black(),
 						loc.getMenu(getApp().isWhiteboardActive()
 								? (isMowLoggedOut() ? "mow.offlineMyFiles"
 										: "mow.myfiles")
-								: "Open"),
-						true),
+								: "Open")),
 				true, new MenuCommand(getApp()) {
 
 					@Override
@@ -337,9 +330,8 @@ public class FileMenuW extends GMenuBar
 				});
 		if (getApp().getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.save_black()
-									.getSafeUri().asString(),
-					loc.getMenu("Save"), true), true,
+					MaterialDesignResources.INSTANCE.save_black(),
+					loc.getMenu("Save")), true,
 					new MenuCommand(getApp()) {
 
 						@Override

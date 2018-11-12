@@ -120,9 +120,8 @@ public class EditMenuW extends GMenuBar {
 
 	private void addDeleteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.delete_black()
-								.getSafeUri().asString(),
-				loc.getMenu("Delete"), true), true, new MenuCommand(getApp()) {
+				MaterialDesignResources.INSTANCE.delete_black(),
+				loc.getMenu("Delete")), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -133,9 +132,8 @@ public class EditMenuW extends GMenuBar {
 
 	private void addPasteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.paste_black()
-								.getSafeUri().asString(),
-				loc.getMenu("Paste"), true), true, new MenuCommand(getApp()) {
+				MaterialDesignResources.INSTANCE.paste_black(),
+				loc.getMenu("Paste")), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -151,9 +149,8 @@ public class EditMenuW extends GMenuBar {
 
 	private void addCopyToClipboard() {
 		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.copy_black()
-								.getSafeUri().asString(),
-				loc.getMenu("DrawingPadToClipboard"), true), true,
+				MaterialDesignResources.INSTANCE.copy_black(),
+				loc.getMenu("DrawingPadToClipboard")), true,
 				new MenuCommand(getApp()) {
 
 					@Override
@@ -235,13 +232,12 @@ public class EditMenuW extends GMenuBar {
 	private void addPropertiesItem() {
 		addItem(MainMenu
 				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.gear().getSafeUri()
-								.asString(),
+						MaterialDesignResources.INSTANCE.gear(),
 				!getApp().getKernel().isEmpty() ? loc.getMenu("Properties")
 						: getApp().isUnbundledOrWhiteboard()
 								? loc.getMenu("Settings")
-								: loc.getMenu("Options") + " ...",
-				true), true, new MenuCommand(getApp()) {
+										: loc.getMenu("Options") + " ..."),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -254,9 +250,9 @@ public class EditMenuW extends GMenuBar {
 	private void addCopy() {
 		addItem(MainMenu
 				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.copy_black()
-								.getSafeUri().asString(),
-				loc.getMenu("Copy"), true), true, new MenuCommand(getApp()) {
+						MaterialDesignResources.INSTANCE.copy_black(),
+						loc.getMenu("Copy")),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -277,9 +273,9 @@ public class EditMenuW extends GMenuBar {
 		// undo menu
 		addItem(MainMenu
 				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.undo_black()
-								.getSafeUri().asString(),
-				loc.getMenu("Undo"), true), true, new MenuCommand(getApp()) {
+						MaterialDesignResources.INSTANCE.undo_black(),
+						loc.getMenu("Undo")),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void execute() {
@@ -291,9 +287,9 @@ public class EditMenuW extends GMenuBar {
 		// redo menu
 		addItem(MainMenu
 				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.redo_black()
-								.getSafeUri().asString(),
-				loc.getMenu("Redo"), true), true, new MenuCommand(getApp()) {
+						MaterialDesignResources.INSTANCE.redo_black(),
+						loc.getMenu("Redo")),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void execute() {

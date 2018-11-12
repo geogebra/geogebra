@@ -36,9 +36,8 @@ public class ToolsMenuW extends GMenuBar {
 		Localization loc = getApp().getLocalization();
 		if (!getApp().isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.tools_customize_black()
-							.getSafeUri().asString(),
-					loc.getMenu("Toolbar.Customize"), true), true,
+					MaterialDesignResources.INSTANCE.tools_customize_black(),
+					loc.getMenu("Toolbar.Customize")), true,
 					new MenuCommand(getApp()) {
 
 						@Override
@@ -49,11 +48,10 @@ public class ToolsMenuW extends GMenuBar {
 		}
 
 		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.tools_create_black()
-								.getSafeUri().asString(),
+				MaterialDesignResources.INSTANCE.tools_create_black(),
 				loc.getMenu(getApp().isToolLoadedFromStorage() ? "Tool.SaveAs"
-						: "Tool.CreateNew"),
-				true), true, new MenuCommand(getApp()) {
+						: "Tool.CreateNew")),
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -66,9 +64,8 @@ public class ToolsMenuW extends GMenuBar {
 		if (!getApp().isExam()) {
 			addItem(MainMenu
 					.getMenuBarHtml(
-							MaterialDesignResources.INSTANCE.tools_black()
-									.getSafeUri().asString(),
-							loc.getMenu("Tool.Manage"), true),
+							MaterialDesignResources.INSTANCE.tools_black(),
+							loc.getMenu("Tool.Manage")),
 					true, new MenuCommand(getApp()) {
 
 						@Override
@@ -81,9 +78,8 @@ public class ToolsMenuW extends GMenuBar {
 
 			if (getApp().has(Feature.EXERCISES)) {
 				addItem(MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.new_exercise_black()
-								.getSafeUri().asString(),
-						loc.getMenu("Exercise.CreateNew"), true), true,
+						MaterialDesignResources.INSTANCE.new_exercise_black(),
+						loc.getMenu("Exercise.CreateNew")), true,
 						new MenuCommand(getApp()) {
 
 							@Override
