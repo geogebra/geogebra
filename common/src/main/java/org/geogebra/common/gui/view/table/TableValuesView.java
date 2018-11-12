@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.table;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GFont;
@@ -29,7 +28,7 @@ public class TableValuesView implements TableValues {
 
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
-	private List<GeoElement> elements;
+	private HashSet<GeoElement> elements;
 	private TableSettings settings;
 
 	/**
@@ -42,7 +41,7 @@ public class TableValuesView implements TableValues {
 		this.model = new SimpleTableValuesModel(kernel);
 		Settings set = kernel.getApplication().getSettings();
 		this.settings = set.getTable();
-		this.elements = new ArrayList<>();
+		this.elements = new HashSet<>();
 		createTableDimensions();
 		updateModelValues();
 	}
@@ -169,7 +168,7 @@ public class TableValuesView implements TableValues {
 	 * @return geo at the given column
 	 */
 	public GeoElement getGeoAt(int column) {
-		return elements.get(column);
+		return this.model.getEvaluatable(column).toGeoElement();
 	}
 
 	@Override
@@ -179,9 +178,7 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void add(GeoElement geo) {
-		if (!elements.contains(geo)) {
-			elements.add(geo);
-		}
+		elements.add(geo);
 		if (geo instanceof GeoEvaluatable
 				&& ((GeoEvaluatable) geo).getTableColumn() >= 0) {
 			this.showColumn((GeoEvaluatable) geo);
