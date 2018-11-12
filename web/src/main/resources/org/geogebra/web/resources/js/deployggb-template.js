@@ -309,32 +309,16 @@ var GGBApplet = function() {
             tubeurl = parameters.tubeurl;
         } else if (
             window.location.host.indexOf("www.geogebra.org") > -1 ||
-            window.location.host.indexOf("www-beta.geogebra.org") > -1 ||
-            window.location.host.indexOf("www-test.geogebra.org") > -1 ||
             window.location.host.indexOf("alpha.geogebra.org") > -1 ||
             window.location.host.indexOf("groot.geogebra.org") > -1 ||
-            window.location.host.indexOf("pool.geogebra.org") > -1 ||
-            window.location.host.indexOf("strange.geogebra.org") > -1 ||
-            window.location.host.indexOf("marvl.geogebra.org") > -1 ||
             window.location.host.indexOf("beta.geogebra.org") > -1 ||
-            window.location.host.indexOf("tube.geogebra.org") > -1 ||
-            window.location.host.indexOf("tube-beta.geogebra.org") > -1 ||
-            window.location.host.indexOf("cloud.geogebra.org") > -1 ||
-            window.location.host.indexOf("cloud-beta.geogebra.org") > -1 ||
-            window.location.host.indexOf("cloud-stage.geogebra.org") > -1 ||
-            window.location.host.indexOf("stage.geogebra.org") > -1 ||
-            window.location.host.indexOf("tube-test.geogebra.org") > -1) {
+            window.location.host.indexOf("stage.geogebra.org") > -1) {
 
             // if the script is used on a tube site, use this site for the api url.
             tubeurl = window.location.protocol + "//" + window.location.host;
         } else {
             // Use main tube url
-            if (window.location.protocol.substr(0,4) === 'http') {
-                protocol = window.location.protocol;
-            } else {
-                protocol = 'http:';
-            }
-            tubeurl = protocol+"//www.geogebra.org";
+            tubeurl = "https://www.geogebra.org";
         }
         return tubeurl;
     };
