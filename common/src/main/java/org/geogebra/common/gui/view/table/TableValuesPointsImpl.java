@@ -115,11 +115,8 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	private void maybeSetPointColor(GeoPoint point, GeoEvaluatable evaluatable) {
-		if (evaluatable instanceof GeoElementND) {
-			GeoElementND element = (GeoElementND) evaluatable;
-			GColor color = element.getObjectColor();
-			point.setObjColor(color);
-		}
+		GColor color = evaluatable.getObjectColor();
+		point.setObjColor(color);
 	}
 
 	private void removePoints(int column) {
