@@ -244,15 +244,15 @@ public class TableValuesViewTest extends BaseUnitTest {
         model.registerListener(listener);
         GeoLine[] lines = createLines(2);
         showColumn(lines[0]);
-        Mockito.verify(listener).notifyColumnAdded(model, 1);
+        Mockito.verify(listener).notifyColumnAdded(model, lines[0], 1);
         showColumn(lines[1]);
-        Mockito.verify(listener).notifyColumnAdded(model, 2);
+        Mockito.verify(listener).notifyColumnAdded(model, lines[1],2);
 
         view.hideColumn(lines[1]);
-        Mockito.verify(listener).notifyColumnRemoved(model, 2);
+        Mockito.verify(listener).notifyColumnRemoved(model, lines[1],2);
 
         view.update(lines[0]);
-        Mockito.verify(listener).notifyColumnChanged(model, 1);
+        Mockito.verify(listener).notifyColumnChanged(model, lines[0], 1);
 
         view.clearView();
         Mockito.verify(listener).notifyDatasetChanged(model);
