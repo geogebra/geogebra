@@ -212,8 +212,8 @@ final public class GeoSegment extends GeoLine
 		super.setVisualStyle(geo);
 
 		if (geo.isGeoSegment()) {
-			GeoSegment seg = (GeoSegment) geo;
-			allowOutlyingIntersections = seg.allowOutlyingIntersections;
+			GeoSegmentND seg = (GeoSegmentND) geo;
+			allowOutlyingIntersections = seg.allowOutlyingIntersections();
 		}
 	}
 
