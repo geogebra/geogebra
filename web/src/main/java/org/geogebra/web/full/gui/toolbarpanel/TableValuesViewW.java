@@ -112,7 +112,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		 * @return the cell value
 		 */
 		public String getValue(int col) {
-			return getTableValuesModel().getCellAt(row, col);
+			if (row < getTableValuesModel().getRowCount()
+					&& col < getTableValuesModel().getColumnCount()) {
+				return getTableValuesModel().getCellAt(row, col);
+			}
+			return "";
 		}
 	}
 
@@ -157,17 +161,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			}
 
 		});
-	}
-
-	private int getColumnWidth(int column) {
-		NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody").getItem(0)
-				.getElementsByTagName("tr");
-		if (tableRows.getLength() == 0) {
-			return -1;
-		}
-
-		NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
-		return firstRow.getItem(column).getOffsetWidth();
 	}
 
 	private void createGUI() {
@@ -218,7 +211,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				holderPanel.setHorizontalScrollPosition(scrollPosition);
 			}
 		});
-
 	}
 
 	private Widget getMain() {
@@ -313,15 +305,15 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			@Override
 			public SafeHtml getValue(RowData object) {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(object.getValue(col));
-				int width = getColumnWidth(dimensions, col);
-				int height = dimensions.getRowHeight(object.row);
-				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell" + " " + columnStyleName(col),
+				boolean empty = "".equals(value);
+				int width = empty ? 0 : getColumnWidth(dimensions, col);
+				int height = empty ? 0 : dimensions.getRowHeight(object.row);
+				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell",
 						width,
 						height);
 
 				return cell;
 			}
-
 		};
 		return column;
 	}
@@ -377,7 +369,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				}
 			}
 		}
-
 	}
 
 	private SafeHtml getHeaderHtml(final int col) {
@@ -388,7 +379,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, "tvHeaderCell" + " " + columnStyleName(col),
+		return TEMPLATES.cell(html, "tvHeaderCell",
 				getColumnWidth(dimensions, col) + 32,
 				dimensions.getHeaderHeight());
 	}
@@ -415,10 +406,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 	}
 
-	private static String columnStyleName(int col) {
-		return "tvCol" + col;
-	}
-
 	/**
 	 * Sets height of the view.
 	 *
@@ -440,26 +427,53 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		SafeHtml cell(SafeHtml message, String style, int width, int height);
 	}
 
+	private static NodeList<Element> getColumnElements(int column) {
+		return Dom.querySelectorAll(".tvTable tr td:nth-child(" + (column + 1) + ") .tvValueCell");
+	}
+
+	private static Element getHeaderElement(int column) {
+		NodeList<Element> list = Dom
+				.querySelectorAll(".tvTable tr th:nth-child(" + (column + 1) + ") .tvHeaderCell");
+		return list != null ? list.getItem(0) : null;
+	}
+
 	/**
 	 * Deletes the specified column from the view.
 	 * 
-	 * @param col
+	 * @param column
 	 *            column to delete.
 	 * @param cb
 	 *            to run on transition end.
 	 */
-	public void deleteColumn(int col, Runnable cb) {
-		int colWidth = getColumnWidth(col);
-		int tableWidth = table.getOffsetWidth() - colWidth;
+	public void deleteColumn(int column, Runnable cb) {
+		NodeList<Element> elems = getColumnElements(column);
+		Element header = getHeaderElement(column);
 
-		NodeList<Element> elems = Dom.getElementsByClassName(columnStyleName(col));
+		int tableWidth = table.getOffsetWidth() - header.getOffsetWidth();
+
+		if (elems == null || elems.getLength() == 0) {
+			return;
+		}
+
+		if (header != null) {
+			header.addClassName(getDeletedStyleName());
+			CSSEvents.runOnTransition(new ColumnDelete(column, cb), header, "delete");
+		}
+
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
-			e.addClassName("delete");
+			e.addClassName(getDeletedStyleName());
 		}
-		CSSEvents.runOnTransition(new ColumnDelete(col, cb), elems.getItem(0), "delete");
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
 
+	}
+
+	private static String getDeletedStyleName() {
+		return "delete";
+	}
+	private void removeTableColumn(int column) {
+		headerTable.removeColumn(column);
+		table.removeColumn(column);
 	}
 
 	/**
@@ -472,8 +486,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 */
 	void onDeleteColumn(int column, Runnable cb) {
 		if (!isEmpty()) {
-			headerTable.removeColumn(column);
-			table.removeColumn(column);
+			removeTableColumn(column);
 		} else if (cb != null) {
 			cb.run();
 		}
