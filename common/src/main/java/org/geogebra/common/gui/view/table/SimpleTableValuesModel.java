@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 /**
@@ -123,7 +122,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			columns.add(idx + 1, new String[values.length]);
 			doubleColumns.add(idx + 1, new Double[values.length]);
 			addHeader(evaluatable);
-			notifyColumnAdded(evaluatables.size());
+			notifyColumnAdded(evaluatable, evaluatables.size());
 		}
 	}
 
@@ -134,8 +133,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private String getHeaderName(GeoEvaluatable evaluatable) {
 		builder.setLength(0);
-		GeoElementND element = evaluatable;
-		builder.append(element.getLabelSimple());
+		builder.append(evaluatable.getLabelSimple());
 		builder.append("(");
 		builder.append("x");
 		builder.append(")");
@@ -159,7 +157,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			for (int i = 0; i < evaluatables.size(); i++) {
 				evaluatables.get(i).setTableColumn(i + 1);
 			}
-			notifyColumnRemoved(column);
+			notifyColumnRemoved(evaluatable, column);
 		}
 	}
 
@@ -173,7 +171,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			int index = evaluatables.indexOf(evaluatable);
 			columns.set(index + 1, new String[values.length]);
 			doubleColumns.set(index + 1, new Double[values.length]);
-			notifyColumnChanged(index + 1);
+			notifyColumnChanged(evaluatable, index + 1);
 		}
 	}
 
@@ -211,7 +209,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			int index = evaluatables.indexOf(evaluatable);
 			String newName = getHeaderName(evaluatable);
 			header.set(index + 1, newName);
-			notifyColumnHeaderChanged(index + 1);
+			notifyColumnHeaderChanged(evaluatable, index + 1);
 		}
 	}
 
@@ -265,27 +263,27 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return values;
 	}
 
-	private void notifyColumnRemoved(int column) {
+	private void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnRemoved(this, column);
+			listener.notifyColumnRemoved(this, evaluatable, column);
 		}
 	}
 
-	private void notifyColumnAdded(int column) {
+	private void notifyColumnAdded(GeoEvaluatable evaluatable, int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnAdded(this, column);
+			listener.notifyColumnAdded(this, evaluatable, column);
 		}
 	}
 
-	private void notifyColumnChanged(int column) {
+	private void notifyColumnChanged(GeoEvaluatable evaluatable, int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnChanged(this, column);
+			listener.notifyColumnChanged(this, evaluatable, column);
 		}
 	}
 
-	private void notifyColumnHeaderChanged(int column) {
+	private void notifyColumnHeaderChanged(GeoEvaluatable evaluatable, int column) {
 		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnHeaderChanged(this, column);
+			listener.notifyColumnHeaderChanged(this, evaluatable, column);
 		}
 	}
 

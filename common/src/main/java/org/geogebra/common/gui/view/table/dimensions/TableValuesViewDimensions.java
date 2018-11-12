@@ -8,6 +8,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 /**
  * Implementation of TableValuesDimensions.
@@ -151,25 +152,25 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
     @Override
-    public void notifyColumnRemoved(TableValuesModel model, int column) {
+    public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
         columnCache.removeColumn(column);
         headerCache.removeColumn(column);
     }
 
     @Override
-    public void notifyColumnChanged(TableValuesModel model, int column) {
+    public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
         columnCache.updateColumn(column);
         headerCache.updateColumn(column);
     }
 
     @Override
-    public void notifyColumnAdded(TableValuesModel model, int column) {
+    public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
         columnCache.addColumn(column);
         headerCache.addColumn(column);
     }
 
     @Override
-    public void notifyColumnHeaderChanged(TableValuesModel model, int column) {
+    public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
         headerCache.updateColumn(column);
     }
 
