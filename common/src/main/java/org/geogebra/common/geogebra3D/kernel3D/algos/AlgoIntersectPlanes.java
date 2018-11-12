@@ -123,10 +123,13 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		Coords o2 = p2.getOrigin();
 		vnn.set3(vn);
 		vnn.normalize();
+		vn1.setW(0);
 		vn1.setCrossProduct(v1, vnn);
 		vn1.normalize();
+		vn2.setW(0);
 		vn2.setCrossProduct(v2, vnn);
 		vn2.normalize();
+		o.setW(1);
 		o2.projectPlane(vnn, vn1, vn2, o1, o);
 
 		// update line
