@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -90,7 +90,7 @@ public class ContextMenuTV {
 					public void execute() {
 						if (getApp().getGuiManager() != null && getApp()
 								.getGuiManager().getTableValuesView() != null) {
-							Evaluatable column = ((TableValuesView) getApp()
+							GeoEvaluatable column = ((TableValuesView) getApp()
 									.getGuiManager().getTableValuesView())
 											.getEvaluatable(getColumnIdx());
 							((TableValuesView) getApp().getGuiManager()
