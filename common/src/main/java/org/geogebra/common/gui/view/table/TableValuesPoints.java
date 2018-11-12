@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
-
 /**
  * Creates points according to the table view model.
  */
