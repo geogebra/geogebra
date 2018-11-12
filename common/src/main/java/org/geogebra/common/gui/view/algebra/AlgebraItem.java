@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
@@ -161,10 +162,12 @@ public class AlgebraItem {
 			}
 
 		}
-
-		sug = SuggestionRootExtremum.get(geo);
-		if (sug != null) {
-			return sug;
+		if (geo != null && !geo.getKernel().getApplication()
+				.has(Feature.SPECIAL_POINTS_IN_CONTEXT_MENU)) {
+			sug = SuggestionRootExtremum.get(geo);
+			if (sug != null) {
+				return sug;
+			}
 		}
 
 		return null;

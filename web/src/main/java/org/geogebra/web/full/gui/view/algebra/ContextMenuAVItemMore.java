@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
@@ -64,6 +65,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 		if (item.geo.hasTableOfValues() && app.has(Feature.TABLE_VIEW)) {
 			addTableOfValuesItem();
 		}
+		if (SuggestionRootExtremum.get(item.geo) != null
+				&& app.has(Feature.SPECIAL_POINTS_IN_CONTEXT_MENU)) {
+			addSpecialPointsItem();
+		}
 		addDuplicateItem();
 		addDeleteItem();
 		// wrappedPopup.addSeparator();
@@ -92,6 +97,21 @@ public class ContextMenuAVItemMore implements SetLabels {
 					@Override
 					public void execute() {
 						app.getGuiManager().showTableValuesView(item.geo);
+					}
+				});
+		wrappedPopup.addItem(mi);
+	}
+
+	private void addSpecialPointsItem() {
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.special_points(),
+						loc.getMenu("Suggestion.SpecialPoints")),
+				true, new Command() {
+
+					@Override
+					public void execute() {
+						SuggestionRootExtremum.get(item.geo).execute(item.geo);
 					}
 				});
 		wrappedPopup.addItem(mi);

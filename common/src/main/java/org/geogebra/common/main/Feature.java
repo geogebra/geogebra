@@ -314,7 +314,10 @@ public enum Feature {
 	SYMBOLIC_AV,
 
     /** AND-1389 */
-	AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS, VOICEOVER_APPLETS,
+	AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS,
+
+	/** APPS-83 */
+	VOICEOVER_APPLETS,
 
 	/** GGB-2517 */
 	TOOLBAR_FROM_APPCONFIG,
@@ -326,6 +329,9 @@ public enum Feature {
 	DOWNLOAD_ARCORE,
 
 	/** automatically add NDG conditions in locus equations */
-	LOCUSEQU_AUTO_NDG
+	LOCUSEQU_AUTO_NDG,
+
+	/** APPS-31 */
+	SPECIAL_POINTS_IN_CONTEXT_MENU
 }
 

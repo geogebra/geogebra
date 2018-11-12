@@ -478,4 +478,7 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
 	SVGResource move_canvas();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-timeline-24px.svg")
+	SVGResource special_points();
 }
