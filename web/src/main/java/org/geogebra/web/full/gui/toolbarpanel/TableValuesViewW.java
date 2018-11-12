@@ -8,8 +8,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.kernel.arithmetic.Evaluatable;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -221,20 +219,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			}
 		});
 
-	}
-
-	@Override
-	public void add(GeoElement geo) {
-		if (!(geo instanceof Evaluatable)) {
-			return;
-		}
-
-		Evaluatable eval = (Evaluatable) geo;
-		if (getColumn(eval) >= 0) {
-			return;
-		}
-
-		super.add(geo);
 	}
 
 	private Widget getMain() {

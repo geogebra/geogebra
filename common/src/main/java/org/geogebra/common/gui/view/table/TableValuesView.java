@@ -180,7 +180,9 @@ public class TableValuesView implements TableValues {
 
 	@Override
 	public void add(GeoElement geo) {
-		elements.add(geo);
+		if (!elements.contains(geo)) {
+			elements.add(geo);
+		}
 		if (geo instanceof GeoEvaluatable
 				&& ((GeoEvaluatable) geo).getTableColumn() >= 0) {
 			this.showColumn((GeoEvaluatable) geo);

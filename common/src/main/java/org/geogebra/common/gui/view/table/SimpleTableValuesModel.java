@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * TableValuesModel implementation. Uses caching to store values.
@@ -115,17 +114,18 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param evaluatable evaluatable
 	 */
 	void addEvaluatable(GeoEvaluatable evaluatable) {
-		int idx = 0;
-		while (idx < evaluatables.size() && evaluatables.get(idx)
-				.getTableColumn() < evaluatable
-				.getTableColumn()) {
-			idx++;
+		if (!evaluatables.contains(evaluatable)) {
+			int idx = 0;
+			while (idx < evaluatables.size() && evaluatables.get(idx)
+					.getTableColumn() < evaluatable.getTableColumn()) {
+				idx++;
+			}
+			evaluatables.add(idx, evaluatable);
+			columns.add(idx + 1, new String[values.length]);
+			doubleColumns.add(idx + 1, new Double[values.length]);
+			addHeader(evaluatable);
+			notifyColumnAdded(evaluatables.size());
 		}
-		evaluatables.add(idx, evaluatable);
-		columns.add(idx + 1, new String[values.length]);
-		doubleColumns.add(idx + 1, new Double[values.length]);
-		addHeader(evaluatable);
-		notifyColumnAdded(evaluatables.size());
 	}
 
 	private void addHeader(GeoEvaluatable evaluatable) {
@@ -298,7 +298,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public boolean hasPoints(int column) {
-		Log.error(column + ":" + getEvaluatable(column - 1));
 		return getEvaluatable(column - 1).isPointsVisible();
 	}
 }
