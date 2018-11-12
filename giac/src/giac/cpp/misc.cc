@@ -8426,6 +8426,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
   define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
 
+  static const char _draw_pixel_s []="draw_pixel";
+  static define_unary_function_eval (__draw_pixel,&_set_pixel,_draw_pixel_s);
+  define_unary_function_ptr5( at_draw_pixel ,alias_at_draw_pixel,&__draw_pixel,0,true);
+
   //Uses the Bresenham line algorithm 
   void draw_line(int x1, int y1, int x2, int y2, int color,GIAC_CONTEXT) {
     int w =(color & 0x00070000) >> 16;
@@ -8623,6 +8627,268 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _draw_polygon_s []="draw_polygon";
   static define_unary_function_eval (__draw_polygon,&_draw_polygon,_draw_polygon_s);
   define_unary_function_ptr5( at_draw_polygon ,alias_at_draw_polygon,&__draw_polygon,0,true);
+
+  void draw_rectangle(int x, int y, int width, int height, unsigned short color,GIAC_CONTEXT){
+    if (x<0){ width+=x; x=0;}
+    if (y<0){ height+=y; y=0;}
+    if (width<0 || height<0) return;
+    for (int j=0;j<=height;++j){
+      for (int i=0;i<width;++i)
+	set_pixel(x+i,y+j,color,contextptr);
+    }
+  }
+
+  void draw_circle(int xc,int yc,int r,int color,bool q1,bool q2,bool q3,bool q4,GIAC_CONTEXT){
+    int x=0,y=r,delta=0;
+    while (x<=y){
+      if (q4){
+	set_pixel(xc+x,yc+y,color,contextptr);
+	set_pixel(xc+y,yc+x,color,contextptr);
+      }
+      if (q3){
+	set_pixel(xc-x,yc+y,color,contextptr);
+	set_pixel(xc-y,yc+x,color,contextptr);
+      }
+      if (q1){
+	set_pixel(xc+x,yc-y,color,contextptr);
+	set_pixel(xc+y,yc-x,color,contextptr);
+      }
+      if (q2){
+	set_pixel(xc-x,yc-y,color,contextptr);
+	set_pixel(xc-y,yc-x,color,contextptr);
+      }
+      ++x;
+      if (delta<0){
+	delta += 2*y+1;
+	--y;
+      }
+      delta += 1-2*x;
+    }
+  }
+
+  // arc of ellipse, for y/x in [t1,t2] and in quadrant 1, 2, 3, 4
+  // y must be replaced by -y 
+  void draw_arc(int xc,int yc,int rx,int ry,int color,double t1, double t2,bool q1,bool q2,bool q3,bool q4,GIAC_CONTEXT){
+    int x=0,y=rx,delta=0;
+    double ryx=double(ry)/rx;
+    // *logptr(contextptr) << "t1,t2:" << t1 << "," << t2 << ",q1234" << q1 << "," << q2 << "," << q3 << "," << q4 << endl;
+    while (x<=y){
+      int xeff=x*ryx,yeff=y*ryx;
+      if (q4){
+	if (y>=-x*t2 && y<=-x*t1) set_pixel(xc+x,yc+yeff,color,contextptr);
+	if (x>=-y*t2 && x<=-y*t1) set_pixel(xc+y,yc+xeff,color,contextptr);
+      }
+      if (q3){
+	if (y>=x*t1 && y<=x*t2) set_pixel(xc-x,yc+yeff,color,contextptr);
+	if (x>=y*t1 && x<=y*t2) set_pixel(xc-y,yc+xeff,color,contextptr);
+      }
+      if (q1){
+	if (y>=x*t1 && y<=x*t2) set_pixel(xc+x,yc-yeff,color,contextptr);
+	if (x>=y*t1 && x<=y*t2) set_pixel(xc+y,yc-xeff,color,contextptr);
+      }
+      if (q2){
+	if (y>=-x*t2 && y<=-x*t1) set_pixel(xc-x,yc-yeff,color,contextptr);
+	if (x>=-y*t2 && x<=-y*t1) set_pixel(xc-y,yc-xeff,color,contextptr);
+      }
+      ++x;
+      if (delta<0){
+	delta += 2*y+1;
+	--y;
+      }
+      delta += 1-2*x;
+    }
+  }
+  
+  void draw_arc(int xc,int yc,int rx,int ry,int color,double theta1, double theta2,GIAC_CONTEXT){
+    if (theta2-theta1>=2*M_PI){
+      draw_arc(xc,yc,rx,ry,color,-1e307,1e307,true,true,true,true,contextptr);
+      return;
+    }
+    // at most one vertical in [theta1,theta2]
+    double t1=std::tan(theta1);
+    double t2=std::tan(theta2);
+    int n=int(std::floor(theta1/M_PI+.5));
+    // n%2==0 -pi/2<theta1<pi/2, n%2==1 pi/2<theta1<3*pi/2
+    double theta=(n+.5)*M_PI;
+    // if theta1 is almost pi/2 mod pi, t1 might be wrong because of rounding
+    if (std::fabs(theta1-(theta-M_PI))<1e-6 && t1>0) 
+	t1=-1e307;
+    //*logptr(contextptr) << "thetas:" << theta1 << "," << theta << "," << theta2 << ", n " << n << ", t:" << t1 << "," << t2 << endl;
+    if (theta2>theta){
+      if (theta2>=theta+M_PI){
+	if (n%2==0){ // -pi/2<theta1<pi/2<3*pi/2<theta2
+	  draw_arc(xc,yc,rx,ry,color,t1,1e307,true,false,false,false,contextptr);
+	  draw_arc(xc,yc,rx,ry,color,-1e307,1e307,false,true,true,false,contextptr);	  
+	  draw_arc(xc,yc,rx,ry,color,-1e307,t2,false,false,false,true,contextptr);
+	}
+	else { // -3*pi/2<theta1<-pi/2<pi/2<theta2
+	  draw_arc(xc,yc,rx,ry,color,t1,1e307,false,false,true,false,contextptr);
+	  draw_arc(xc,yc,rx,ry,color,-1e307,1e307,true,false,false,true,contextptr);
+	  draw_arc(xc,yc,rx,ry,color,-1e307,t2,false,true,false,false,contextptr);
+	}
+	return;
+      }
+      if (n%2==0){ // -pi/2<theta1<pi/2<theta2<3*pi/2
+	draw_arc(xc,yc,rx,ry,color,t1,1e307,true,false,false,false,contextptr);
+	draw_arc(xc,yc,rx,ry,color,-1e307,t2,false,true,false,false,contextptr);
+      }
+      else { // -3*pi/2<theta1<-pi/2<theta2<pi/2
+	draw_arc(xc,yc,rx,ry,color,t1,1e307,false,false,true,false,contextptr);
+	draw_arc(xc,yc,rx,ry,color,-1e307,t2,false,false,false,true,contextptr);
+      }
+      return;
+    }
+    if (n%2==0) { // -pi/2<theta1<theta2<pi/2
+      draw_arc(xc,yc,rx,ry,color,t1,t2,true,false,false,true,contextptr);	
+    }
+    else { // pi/2<theta1<theta2<3*pi/2
+      draw_arc(xc,yc,rx,ry,color,t1,t2,false,true,true,false,contextptr);	
+    }
+  }
+  
+  void draw_filled_circle(int xc,int yc,int r,int color,bool left,bool right,GIAC_CONTEXT){
+    int x=0,y=r,delta=0;
+    while (x<=y){
+      for (int Y=-y;Y<=y;Y++){
+	if (right)
+	  set_pixel(xc+x,yc+Y,color,contextptr);
+	if (left)
+	  set_pixel(xc-x,yc+Y,color,contextptr);
+      }
+      for (int Y=-x;Y<=x;Y++){
+	if (right)
+	  set_pixel(xc+y,yc+Y,color,contextptr);
+	if (left)
+	  set_pixel(xc-y,yc+Y,color,contextptr);
+      }
+      ++x;
+      if (delta<0){
+	delta += 2*y+1;
+	--y;
+      }
+      delta += 1-2*x;
+    }
+  }
+  
+  gen remove_at_display(const gen &g){
+    if (g.is_symb_of_sommet(at_equal)){
+      const gen & f=g._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front()==at_display)
+	return f._VECTptr->back();
+    }
+    return g;
+  }
+
+  gen _draw_arc(const gen & a_,bool arc,GIAC_CONTEXT){
+    gen a(a_);
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT || a._VECTptr->size()<2)
+      return gentypeerr(contextptr);
+    const vecteur & v=*a._VECTptr;
+    size_t vs=v.size();
+    if (arc && vs<6)
+      return gendimerr(contextptr);
+    if (vs>=3){
+      gen x0=v.front();
+      gen y0=v[1];
+      gen r=v[2];
+      if (x0.type==_DOUBLE_)
+	x0=int(x0._DOUBLE_val+.5);
+      if (y0.type==_DOUBLE_)
+	y0=int(y0._DOUBLE_val+.5);
+      if (r.type==_DOUBLE_)
+	r=int(r._DOUBLE_val+.5);
+      int attr=vs==(arc?6:3)?0:remove_at_display(v.back()).val;
+      if (x0.type==_INT_ &&  y0.type==_INT_ && r.type==_INT_){
+	if (arc){
+	  gen ry=v[3];
+	  if (ry.type==_DOUBLE_)
+	    ry=int(ry._DOUBLE_val+.5);
+	  gen theta1=evalf_double(v[4],1,contextptr);
+	  gen theta2=evalf_double(v[5],1,contextptr);
+	  draw_arc(x0.val,y0.val,r.val,ry.val,attr & 0xffff,theta1._DOUBLE_val,theta2._DOUBLE_val,contextptr);
+	}
+	else {
+	  if (attr & 0x40000000)
+	    draw_filled_circle(x0.val,y0.val,r.val,attr &0xffff,true,true,contextptr);
+	  else
+	    draw_circle(x0.val,y0.val,r.val,attr & 0xffff,true,true,true,true,contextptr);
+	}
+	return 1;
+      }
+    }
+    return gensizeerr(contextptr);
+    //static gen PIXEL(identificateur("PIXON_P"));
+    //return _of(makesequence(PIXEL,a_),contextptr);
+  }
+  gen _draw_circle(const gen & a_,GIAC_CONTEXT){
+    return _draw_arc(a_,false,contextptr);
+  }
+  static const char _draw_circle_s []="draw_circle";
+  static define_unary_function_eval (__draw_circle,&_draw_circle,_draw_circle_s);
+  define_unary_function_ptr5( at_draw_circle ,alias_at_draw_circle,&__draw_circle,0,true);
+
+  gen _draw_arc(const gen & a_,GIAC_CONTEXT){
+    return _draw_arc(a_,true,contextptr);
+  }
+  static const char _draw_arc_s []="draw_arc";
+  static define_unary_function_eval (__draw_arc,&_draw_arc,_draw_arc_s);
+  define_unary_function_ptr5( at_draw_arc ,alias_at_draw_arc,&__draw_arc,0,true);
+
+  gen draw_line_or_rectangle(const gen & a_,GIAC_CONTEXT,bool rect){
+    gen a(a_);
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT || a._VECTptr->size()<2)
+      return gentypeerr(contextptr);
+    const vecteur & v=*a._VECTptr;
+    size_t vs=v.size();
+    if (vs>=4){
+      gen x0=v.front();
+      gen y0=v[1];
+      gen x1=v[2];
+      gen y1=v[3];
+      if (x0.type==_DOUBLE_)
+	x0=int(x0._DOUBLE_val+.5);
+      if (y0.type==_DOUBLE_)
+	y0=int(y0._DOUBLE_val+.5);
+      if (x1.type==_DOUBLE_)
+	x1=int(x1._DOUBLE_val+.5);
+      if (y1.type==_DOUBLE_)
+	y1=int(y1._DOUBLE_val+.5);
+      if (x0.type==_INT_ &&  y0.type==_INT_ && x1.type==_INT_ && y1.type==_INT_){
+	if (rect){
+	  int attr=vs==4?0:remove_at_display(v[4]).val;
+	  if (attr & 0x40000000)
+	    draw_rectangle(x0.val,y0.val,x1.val,y1.val,attr & 0xffff,contextptr);
+	  else {
+	    draw_line(x0.val,y0.val,x0.val+x1.val,y0.val,attr & 0xffff,contextptr);
+	    draw_line(x0.val+x1.val,y0.val,x0.val+x1.val,y0.val+y1.val,attr & 0xffff,contextptr);
+	    draw_line(x0.val+x1.val,y0.val+y1.val,x0.val,y0.val+y1.val,attr & 0xffff,contextptr);
+	    draw_line(x0.val,y0.val,x0.val,y0.val+y1.val,attr & 0xffff,contextptr);
+	  }	    
+	}
+	else
+	  draw_line(x0.val,y0.val,x1.val,y1.val,vs==4?0:remove_at_display(v[4]).val,contextptr);
+	return 1;
+      }
+    }
+    return gensizeerr(contextptr);
+    //static gen PIXEL(identificateur("PIXON_P"));
+    //return _of(makesequence(PIXEL,a_),contextptr);
+  }
+  gen _draw_line(const gen & a_,GIAC_CONTEXT){
+    return draw_line_or_rectangle(a_,contextptr,false);
+  }
+  static const char _draw_line_s []="draw_line";
+  static define_unary_function_eval (__draw_line,&_draw_line,_draw_line_s);
+  define_unary_function_ptr5( at_draw_line ,alias_at_draw_line,&__draw_line,0,true);
+
+  gen _draw_rectangle(const gen & a_,GIAC_CONTEXT){
+    return draw_line_or_rectangle(a_,contextptr,true);
+  }
+  static const char _draw_rectangle_s []="draw_rectangle";
+  static define_unary_function_eval (__draw_rectangle,&_draw_rectangle,_draw_rectangle_s);
+  define_unary_function_ptr5( at_draw_rectangle ,alias_at_draw_rectangle,&__draw_rectangle,0,true);
 
   gen _draw_string(const gen & a_,GIAC_CONTEXT){
 #ifdef GIAC_HAS_STO_38

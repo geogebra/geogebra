@@ -192,6 +192,7 @@ namespace giac {
 #if !defined NSPIRE && !defined FXCG
     add_language(5,context0); // add german help de/aide_cas
     cout << "Generating xcascmds, for UI.xcascmds in xcas.js, sort and esc-x replace-string ctrl-Q ctrl-j ret ret" << endl;
+    cout << "Copy in python.js. For xcasmod.js, replace \",\" by | " << endl;
     cout << "Generating static_help.h (sort it in emacs)" << endl;
     cout << "Generating static_help_w.h (same but UTF16)" << endl;
     ofstream cmds("xcascmds");
