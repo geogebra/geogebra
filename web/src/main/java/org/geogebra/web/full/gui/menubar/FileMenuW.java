@@ -343,9 +343,8 @@ public class FileMenuW extends GMenuBar
 		addSeparator();
 		if (!getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)) {
 			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.export_image_black()
-							.getSafeUri().asString(),
-					loc.getMenu("exportImage"), true), true,
+					MaterialDesignResources.INSTANCE.export_image_black(),
+					loc.getMenu("exportImage")), true,
 					new MenuCommand(getApp()) {
 
 						@Override
@@ -356,9 +355,8 @@ public class FileMenuW extends GMenuBar
 		}
 		shareItem = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.share_black()
-								.getSafeUri().asString(),
-						loc.getMenu("Share"), true),
+						MaterialDesignResources.INSTANCE.share_black(),
+						loc.getMenu("Share")),
 				true, new MenuCommand(getApp()) {
 
 					@Override
@@ -369,17 +367,15 @@ public class FileMenuW extends GMenuBar
 		if (getApp().getLAF().exportSupported()
 				&& !getApp().isUnbundledOrWhiteboard()) {
 			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.file_download_black()
-							.getSafeUri().asString(),
-					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true), true,
+					MaterialDesignResources.INSTANCE.file_download_black(),
+					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS), true,
 					new ExportMenuW(getApp()), true);
 		}
 		if (getApp().getLAF().printSupported()) {
 			printItem = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(
-							MaterialDesignResources.INSTANCE.print_black()
-									.getSafeUri().asString(),
-							loc.getMenu("PrintPreview"), true),
+							MaterialDesignResources.INSTANCE.print_black(),
+							loc.getMenu("PrintPreview")),
 					true, new MenuCommand(getApp()) {
 
 						@Override

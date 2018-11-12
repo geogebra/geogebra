@@ -7,7 +7,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.view.Views;
 import org.geogebra.web.full.gui.view.Views.ViewType;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -60,8 +59,7 @@ public class ViewMenuW extends GMenuBar {
 	 *            localization
 	 */
 	protected void initRefreshActions(Localization loc) {
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty(),
-				loc.getMenu("Refresh")), true,
+		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("Refresh")), true,
 				new MenuCommand(app) {
 
 					@Override
@@ -69,8 +67,8 @@ public class ViewMenuW extends GMenuBar {
 						app.refreshViews();
 					}
 				});
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty(),
-				loc.getMenu("RecomputeAllViews")), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("RecomputeAllViews")),
+				true, new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -97,8 +95,8 @@ public class ViewMenuW extends GMenuBar {
 			addToMenu(e);
 		}
 		Localization loc = app.getLocalization();
-		inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-				AppResources.INSTANCE.empty(), loc.getMenu("InputField")),
+		inputBarItem = new GCheckBoxMenuItem(
+				MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("InputField")),
 				new MenuCommand(app) {
 
 					@Override
@@ -139,9 +137,9 @@ public class ViewMenuW extends GMenuBar {
 				}, true, app);
 		inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
-		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-				AppResources.INSTANCE.empty().getSafeUri().asString(),
-				loc.getMenu("NavigationBar"), true), new MenuCommand(app) {
+		consProtNav = new GCheckBoxMenuItem(
+				MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("NavigationBar")),
+				new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -159,9 +157,9 @@ public class ViewMenuW extends GMenuBar {
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
 		if (app.has(Feature.DATA_COLLECTION)) {
-			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-					AppResources.INSTANCE.empty().getSafeUri().asString(), app
-							.getLocalization().getMenu("Sensors"), true),
+			dataCollection = new GCheckBoxMenuItem(
+					MainMenu.getMenuBarHtmlNoIcon(
+							app.getLocalization().getMenu("Sensors")),
 					new MenuCommand(app) {
 
 						@Override

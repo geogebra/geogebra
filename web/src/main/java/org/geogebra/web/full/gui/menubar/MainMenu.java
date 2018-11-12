@@ -13,6 +13,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -945,6 +946,17 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 	public static String getMenuBarHtml(final ResourcePrototype imgRes,
 			String name) {
 		final String iconString = NoDragImage.safeURI(imgRes);
+		return MainMenu.getMenuBarHtml(iconString, name, true);
+	}
+
+	/**
+	 * @param name
+	 *            manu item localized name
+	 * @return item HTML
+	 */
+	public static String getMenuBarHtmlNoIcon(String name) {
+		final String iconString = AppResources.INSTANCE.empty().getSafeUri()
+				.asString();
 		return MainMenu.getMenuBarHtml(iconString, name, true);
 	}
 }

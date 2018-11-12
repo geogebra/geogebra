@@ -4,7 +4,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -65,17 +64,16 @@ public class EditMenuW extends GMenuBar {
 		addPropertiesItem();
 		addSeparator();
 
-		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
-		addSelectAllItem(noIcon);
+		addSelectAllItem();
 		if (!getApp().isUnbundledOrWhiteboard()) {
-			addSelectCurrentLayer(noIcon);
-			addDescentdantsItem(noIcon);
-			addPredecessorsItem(noIcon);
+			addSelectCurrentLayer();
+			addDescentdantsItem();
+			addPredecessorsItem();
 			if (haveSelection) {
 				addSeparator();
 				// invert selection menu
-				addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("InvertSelection"), true), true,
+				addItem(MainMenu.getMenuBarHtmlNoIcon(
+						loc.getMenu("InvertSelection")), true,
 						new MenuCommand(getApp()) {
 
 				        @Override
@@ -85,8 +83,8 @@ public class EditMenuW extends GMenuBar {
 			        });
 			}
 			if (layer != -1) {
-				addShowHideItem(noIcon);
-				addShowHideLabelsItem(noIcon);
+				addShowHideItem();
+				addShowHideLabelsItem();
 			}
 			// Delete menu
 			if (layer != -1 || justCreated) {
@@ -96,9 +94,10 @@ public class EditMenuW extends GMenuBar {
 		}
 	}
 
-	private void addShowHideLabelsItem(String noIcon) {
-		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHideLabels"),
-				true), true, new MenuCommand(getApp()) {
+	private void addShowHideLabelsItem() {
+		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("ShowHideLabels")),
+				true,
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -107,8 +106,8 @@ public class EditMenuW extends GMenuBar {
 				});
 	}
 
-	private void addShowHideItem(String noIcon) {
-		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHide"), true),
+	private void addShowHideItem() {
+		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("ShowHide")),
 				true, new MenuCommand(getApp()) {
 
 					@Override
@@ -160,14 +159,11 @@ public class EditMenuW extends GMenuBar {
 				});
 	}
 
-	private void addSelectAllItem(String noIcon) {
+	private void addSelectAllItem() {
 		// select all menu
 		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.select_all_black()
-								.getSafeUri().asString()
-						: noIcon,
-				loc.getMenu("SelectAll"), true), true,
+				MaterialDesignResources.INSTANCE.select_all_black(),
+				loc.getMenu("SelectAll")), true,
 				new MenuCommand(getApp()) {
 
 					@Override
@@ -179,11 +175,11 @@ public class EditMenuW extends GMenuBar {
 				});
 	}
 
-	private void addPredecessorsItem(String noIcon) {
+	private void addPredecessorsItem() {
 		if (selection.hasPredecessors()) {
 			// select ancestors menu
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("SelectAncestors"), true), true,
+			addItem(MainMenu
+					.getMenuBarHtmlNoIcon(loc.getMenu("SelectAncestors")), true,
 					new MenuCommand(getApp()) {
 
 						@Override
@@ -194,11 +190,11 @@ public class EditMenuW extends GMenuBar {
 		}
 	}
 
-	private void addDescentdantsItem(String noIcon) {
+	private void addDescentdantsItem() {
 		if (selection.hasDescendants()) {
 			// select descendants menu
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("SelectDescendants"), true), true,
+			addItem(MainMenu.getMenuBarHtmlNoIcon(
+					loc.getMenu("SelectDescendants")), true,
 					new MenuCommand(getApp()) {
 
 						@Override
@@ -209,11 +205,11 @@ public class EditMenuW extends GMenuBar {
 		}
 	}
 
-	private void addSelectCurrentLayer(String noIcon) {
+	private void addSelectCurrentLayer() {
 		if (selection.getSelectedLayer() >= 0
 				&& getApp().getMaxLayerUsed() > 0) {
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("SelectCurrentLayer"), true), true,
+			addItem(MainMenu.getMenuBarHtmlNoIcon(
+					loc.getMenu("SelectCurrentLayer")), true,
 					new MenuCommand(getApp()) {
 
 						@Override

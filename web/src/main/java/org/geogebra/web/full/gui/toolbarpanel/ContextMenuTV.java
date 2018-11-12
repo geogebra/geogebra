@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -88,8 +87,7 @@ public class ContextMenuTV {
 		String transKey = tv.arePointsVisible(column) ? "HidePoints"
 				: "ShowPoints";
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(
-						AppResources.INSTANCE.empty(),
+				MainMenu.getMenuBarHtmlNoIcon(
 						app.getLocalization().getMenu(transKey)),
 				true, new Command() {
 

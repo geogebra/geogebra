@@ -8,7 +8,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.web.full.gui.dialog.ExportImageDialog;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -275,7 +274,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	}
 
 	private static String menuText(String string) {
-		return MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty(), string);
+		return MainMenu.getMenuBarHtmlNoIcon(string);
 	}
 
 	/**

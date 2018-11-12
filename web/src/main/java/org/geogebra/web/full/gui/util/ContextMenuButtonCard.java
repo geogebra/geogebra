@@ -22,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -93,7 +92,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 	 * @param cmd
 	 *            command to execute
 	 */
-	protected void addItem(ResourcePrototype img, String text,
+	protected void addItem(SVGResource img, String text,
 			ScheduledCommand cmd) {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, text), true, cmd);
