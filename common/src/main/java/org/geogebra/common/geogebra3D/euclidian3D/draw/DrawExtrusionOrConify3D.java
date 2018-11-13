@@ -315,6 +315,8 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 					false);
 			view.getApplication().getSelectionManager().addSelectedGeo(ret,
 					true, true);
+			view.disposePreview();
+			view.getApplication().storeUndoInfo();
 		}
 
 	}
