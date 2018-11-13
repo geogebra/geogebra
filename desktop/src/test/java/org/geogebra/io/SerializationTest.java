@@ -15,6 +15,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,6 +28,11 @@ public class SerializationTest {
 	@BeforeClass
 	public static void initialize() {
 		app = new AppDNoGui(new LocalizationD(3), true);
+	}
+
+	@Before
+	public void cleanup() {
+		app.getKernel().clearConstruction(true);
 	}
 
 	@Test
@@ -86,6 +92,19 @@ public class SerializationTest {
 	}
 
 	@Test
+	public void testDegrees() {
+		plain("s:sin(8'3'')", "s = sin(8'3" + Unicode.SECONDS + ")");
+		plain("c:cos(1" + Unicode.DEGREE_STRING + "8'3'')", "c = cos(1"
+				+ Unicode.DEGREE_STRING + "8'3"
+				+ Unicode.SECONDS + ")");
+	}
+
+	private void plain(String string, String string2) {
+		GeoElementND geo = eval(string);
+		Assert.assertEquals(string2, geo.getDefinitionForInputBar());
+	}
+
+	@Test
 	public void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
@@ -131,7 +150,7 @@ public class SerializationTest {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, new TestErrorHandler(),
-				new EvalInfo(true).withFractions(true), null);
+				new EvalInfo(true).withFractions(true).addDegree(true), null);
 		return result[0];
 	}
 
