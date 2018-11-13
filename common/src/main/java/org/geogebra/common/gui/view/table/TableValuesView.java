@@ -63,7 +63,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
-		if (elements.contains(evaluatable)) {
+		if (elements.contains(evaluatable) && evaluatable.hasTableOfValues()) {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());
 			}
@@ -184,9 +184,12 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void add(GeoElement geo) {
 		elements.add(geo);
-		if (geo instanceof GeoEvaluatable
-				&& ((GeoEvaluatable) geo).getTableColumn() >= 0) {
-			this.showColumn((GeoEvaluatable) geo);
+		// Show element if it's loaded from file
+		if (geo instanceof GeoEvaluatable) {
+			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
+			if (evaluatable.getTableColumn() >= 0) {
+				showColumn(evaluatable);
+			}
 		}
 	}
 
@@ -213,7 +216,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void update(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
-			model.updateEvaluatable(evaluatable);
+			if (geo.hasTableOfValues()) {
+				model.updateEvaluatable(evaluatable);
+			} else {
+				model.removeEvaluatable(evaluatable);
+			}
 		}
 	}
 

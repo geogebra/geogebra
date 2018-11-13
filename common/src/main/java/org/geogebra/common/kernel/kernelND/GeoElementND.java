@@ -1553,4 +1553,10 @@ public interface GeoElementND extends ExpressionValue {
 	 *            line type for hidden lines
 	 */
 	void setLineTypeHidden(int i);
+
+	/**
+	 * @return true if geo is function or line and should be shown
+	 *         in the Table Values view
+	 */
+	boolean hasTableOfValues();
 }

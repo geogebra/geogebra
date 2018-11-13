@@ -420,9 +420,7 @@ public abstract class GeoElement extends ConstructionElement
 		return defaultGeoType;
 	}
 
-	/**
-	 * @return true if geo is function or line
-	 */
+	@Override
 	public boolean hasTableOfValues() {
 		return this instanceof Functional && !this.isLimitedPath();
 	}
