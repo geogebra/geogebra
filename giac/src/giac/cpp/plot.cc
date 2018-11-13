@@ -15726,6 +15726,11 @@ gen _vers(const gen & g,GIAC_CONTEXT){
 
   // 0 text, 2 2d, 3 3d
   int graph_output_type(const gen & g){
+    // logo check
+    if (g.type==_VECT && g.subtype==_LOGO__VECT && g._VECTptr->size()==6){
+      vecteur & v=*g._VECTptr;
+      if (v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ && v[2].type==_DOUBLE_ && v[3].type==_INT_ && v[4].type==_INT_ && v[5].type==_STRNG) return 4;
+    }
     if (g.type==_VECT && !g._VECTptr->empty())
       return graph_output_type(g._VECTptr->back());
     if (g.is_symb_of_sommet(at_animation))

@@ -8422,6 +8422,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   void set_pixel(int x,int y,int c,GIAC_CONTEXT){
     _set_pixel(makesequence(x,y,c),contextptr);
   }
+  void set_pixel(double x,double y,int c,GIAC_CONTEXT){
+    _set_pixel(makesequence(int(x+.5),int(y+.5),c),contextptr);
+  }
   static const char _set_pixel_s []="set_pixel";
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
   define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
@@ -8666,14 +8669,52 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
   }
 
+  void draw_filled_arc(int x,int y,int rx,int ry,int theta1_deg,int theta2_deg,int color,int xmin,int xmax,int ymin,int ymax,bool segment,GIAC_CONTEXT){
+    // approximation by a filled polygon
+    // points: (x,y), (x+rx*cos(theta)/2,y+ry*sin(theta)/2) theta=theta1..theta2
+    while (theta2_deg<theta1_deg)
+      theta2_deg+=360;
+    if (theta2_deg-theta1_deg>=360){
+      theta1_deg=0;
+      theta2_deg=360;
+    }
+    int N0=theta2_deg-theta1_deg+1;
+    // reduce N if rx or ry is small
+    double red=double(rx)/1024*double(ry)/768;
+    if (red>1) red=1;
+    if (red<0.1) red=0.1;
+    int N=red*N0;
+    if (N<5)
+      N=N0>5?5:N0;
+    if (N<2)
+      N=2;
+    vector< vector<int> > v(segment?N+1:N+2,vector<int>(2));
+    int i=0;
+    if (!segment){
+      v[0][0]=x;
+      v[0][1]=y;
+      ++i;
+    }
+    double theta=theta1_deg*M_PI/180;
+    double thetastep=(theta2_deg-theta1_deg)*M_PI/(180*(N-1));
+    for (;i<v.size()-1;++i){
+      v[i][0]=int(x+rx*std::cos(theta)+.5);
+      v[i][1]=int(y-ry*std::sin(theta)+.5); // y is inverted
+      theta += thetastep;
+    }
+    v.back()=v.front();
+    draw_filled_polygon(v,xmin,xmax,ymin,ymax,color,contextptr);
+  }    
+
+
   // arc of ellipse, for y/x in [t1,t2] and in quadrant 1, 2, 3, 4
   // y must be replaced by -y 
   void draw_arc(int xc,int yc,int rx,int ry,int color,double t1, double t2,bool q1,bool q2,bool q3,bool q4,GIAC_CONTEXT){
-    int x=0,y=rx,delta=0;
+    double x=0,y=rx,delta=0;
     double ryx=double(ry)/rx;
     // *logptr(contextptr) << "t1,t2:" << t1 << "," << t2 << ",q1234" << q1 << "," << q2 << "," << q3 << "," << q4 << endl;
     while (x<=y){
-      int xeff=x*ryx,yeff=y*ryx;
+      double xeff=x*ryx,yeff=y*ryx;
       if (q4){
 	if (y>=-x*t2 && y<=-x*t1) set_pixel(xc+x,yc+yeff,color,contextptr);
 	if (x>=-y*t2 && x<=-y*t1) set_pixel(xc+y,yc+xeff,color,contextptr);
@@ -8806,6 +8847,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    ry=int(ry._DOUBLE_val+.5);
 	  gen theta1=evalf_double(v[4],1,contextptr);
 	  gen theta2=evalf_double(v[5],1,contextptr);
+	  if (attr & 0x40000000)
+	    draw_filled_arc(x0.val,y0.val,r.val,ry.val,int(theta1._DOUBLE_val*180/M_PI+.5),int(theta2._DOUBLE_val*180/M_PI+.5),attr & 0xffff,0,pixel_cols,0,pixel_lines,false,contextptr);
 	  draw_arc(x0.val,y0.val,r.val,ry.val,attr & 0xffff,theta1._DOUBLE_val,theta2._DOUBLE_val,contextptr);
 	}
 	else {
