@@ -328,6 +328,9 @@ public enum Feature {
 	/** G3D-6 **/
 	DOWNLOAD_ARCORE,
 
+	/** G3D-42 */
+	G3D_AR_REGULAR_TOOLS,
+
 	/** automatically add NDG conditions in locus equations */
 	LOCUSEQU_AUTO_NDG,
 

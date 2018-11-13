@@ -4145,6 +4145,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case DOWNLOAD_ARCORE:
             return true;
 
+		/** G3D-42*/
+			case G3D_AR_REGULAR_TOOLS:
+				return false;
+
         // **********************************************************************
         // G3D END
         //

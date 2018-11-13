@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -182,6 +183,16 @@ public abstract class Renderer implements RendererInterface {
 
 	public void setARShouldRestart() {
 		// restart ARCore session. Override in RendererWithImplA.
+	}
+
+	public Coords getHittingDirectionAR() {
+		// get Hitting Direction from AR. Override in RendererWithImplA
+		return null;
+	}
+
+	public Coords getHittingOriginAR(GPoint mouse) {
+		// get Hitting Origin from AR. Override in RendererWithImplA
+		return null;
 	}
 
 	/**

@@ -112,6 +112,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -1000,7 +1001,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return direction for hitting
 	 */
 	final public Coords getHittingDirection() {
-		return getCompanion().getHittingDirection();
+		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && mIsAREnabled) {
+			return renderer.getHittingDirectionAR();
+		}
+		else {
+			return getCompanion().getHittingDirection();
+		}
 	}
 
 	/**
@@ -1397,7 +1403,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	final public Coords getHittingOrigin(GPoint mouse) {
-		return getCompanion().getHittingOrigin(mouse);
+		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
+			return renderer.getHittingOriginAR(mouse);
+		}
+		else {
+			return getCompanion().getHittingOrigin(mouse);
+		}
 	}
 
 	/**
