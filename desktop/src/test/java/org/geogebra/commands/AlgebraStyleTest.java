@@ -618,6 +618,9 @@ public class AlgebraStyleTest extends AlgebraTest {
 		deg("sin(22.5deg)", "0.38268");
 		deg("sin((1,2))", "0.01746 + 0.03491" + Unicode.IMAGINARY);
 		deg("sin((1deg,2))", "0.0003 + 0.03491" + Unicode.IMAGINARY);
+		// minutes, seconds
+		deg("a:sin(8')", "0.00233");
+		deg("b:sin(8'')", "0.00004");
 	}
 
 	@Test
