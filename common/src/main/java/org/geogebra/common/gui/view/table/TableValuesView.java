@@ -60,6 +60,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		model.registerListener(dimensions);
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable)) {
