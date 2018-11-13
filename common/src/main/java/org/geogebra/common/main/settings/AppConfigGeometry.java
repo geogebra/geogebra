@@ -150,4 +150,14 @@ public class AppConfigGeometry implements AppConfig {
 		return AppType.GEOMETRY_CALC;
 	}
 
+    @Override
+    public boolean showGridOnFileNew() {
+        return false;
+    }
+
+    @Override
+    public boolean showAxesOnFileNew() {
+        return false;
+    }
+
 }

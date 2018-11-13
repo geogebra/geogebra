@@ -87,4 +87,16 @@ public interface AppConfig {
 	 */
 	AppType getToolbarType();
 
+    /**
+     *
+     * @return true if grid is shown at start on the active (main) euclidian view
+     */
+	boolean showGridOnFileNew();
+
+    /**
+     *
+     * @return true if axes are shown at start on the active (main) euclidian view
+     */
+    boolean showAxesOnFileNew();
+
 }

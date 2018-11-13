@@ -76,4 +76,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public AppType getToolbarType() {
 		return AppType.GRAPHER_3D;
 	}
+
+    @Override
+    public boolean showGridOnFileNew() {
+        return false;
+    }
 }

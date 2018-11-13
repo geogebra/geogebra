@@ -144,4 +144,14 @@ public class AppConfigGraphing implements AppConfig {
 	public AppType getToolbarType() {
 		return AppType.GRAPHING_CALCULATOR;
 	}
+
+    @Override
+    public boolean showGridOnFileNew() {
+        return true;
+    }
+
+    @Override
+    public boolean showAxesOnFileNew() {
+        return true;
+    }
 }
