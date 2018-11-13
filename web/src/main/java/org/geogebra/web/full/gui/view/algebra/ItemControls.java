@@ -146,6 +146,8 @@ public class ItemControls extends FlowPanel
 		}
 		if (cmMore == null) {
 			cmMore = new ContextMenuAVItemMore(radioTreeItem);
+		} else {
+			cmMore.buildGUI();
 		}
 		radioTreeItem.cancelEditing();
 		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
