@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Constant plane
@@ -137,6 +138,11 @@ public class GeoPlane3DConstant extends GeoPlane3D
 			return false;
 		}
 		gridVisible = grid;
+		return true;
+	}
+
+	@Override
+	public boolean isProtected(EventType type) {
 		return true;
 	}
 
