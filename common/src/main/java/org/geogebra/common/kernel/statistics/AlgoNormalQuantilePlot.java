@@ -54,7 +54,6 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	private GeoPoint endPoint;
 	private GeoSegment seg;
 
-
 	/**
 	 * @param cons
 	 *            construction

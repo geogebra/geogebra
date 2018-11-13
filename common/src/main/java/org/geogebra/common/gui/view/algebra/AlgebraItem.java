@@ -162,7 +162,7 @@ public class AlgebraItem {
 			}
 
 		}
-		if (geo != null && !geo.getKernel().getApplication()
+		if (!geo.getKernel().getApplication()
 				.has(Feature.SPECIAL_POINTS_IN_CONTEXT_MENU)) {
 			sug = SuggestionRootExtremum.get(geo);
 			if (sug != null) {

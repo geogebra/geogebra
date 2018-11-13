@@ -1402,13 +1402,16 @@ public abstract class EuclidianView3D extends EuclidianView
 		return pickPoint.copyVector();
 	}
 
+	/**
+	 * @param mouse
+	 *            mouse position
+	 * @return hitting origin
+	 */
 	final public Coords getHittingOrigin(GPoint mouse) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
 			return renderer.getHittingOriginAR(mouse);
 		}
-		else {
-			return getCompanion().getHittingOrigin(mouse);
-		}
+		return getCompanion().getHittingOrigin(mouse);
 	}
 
 	/**

@@ -181,17 +181,26 @@ public abstract class Renderer implements RendererInterface {
 		return new Textures(this);
 	}
 
+	/**
+	 * Restart ARCore session.
+	 */
 	public void setARShouldRestart() {
-		// restart ARCore session. Override in RendererWithImplA.
+		// Override in RendererWithImplA.
 	}
 
+	/**
+	 * @return Hitting Direction from AR. Override in RendererWithImplA
+	 */
 	public Coords getHittingDirectionAR() {
-		// get Hitting Direction from AR. Override in RendererWithImplA
 		return null;
 	}
 
+	/**
+	 * @param mouse
+	 *            mouse position
+	 * @return Hitting Origin from AR. Override in RendererWithImplA
+	 */
 	public Coords getHittingOriginAR(GPoint mouse) {
-		// get Hitting Origin from AR. Override in RendererWithImplA
 		return null;
 	}
 

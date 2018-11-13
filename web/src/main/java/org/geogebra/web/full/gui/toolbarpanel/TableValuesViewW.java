@@ -469,7 +469,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			e.addClassName(getDeletedStyleName());
 		}
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
-
 	}
 
 	private static String getDeletedStyleName() {

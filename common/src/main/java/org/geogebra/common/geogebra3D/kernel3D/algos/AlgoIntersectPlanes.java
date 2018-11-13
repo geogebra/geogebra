@@ -119,8 +119,6 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 			return;
 		}
 
-		Coords o1 = p1.getOrigin();
-		Coords o2 = p2.getOrigin();
 		vnn.set3(vn);
 		vnn.normalize();
 		vn1.setW(0);
@@ -130,6 +128,8 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		vn2.setCrossProduct(v2, vnn);
 		vn2.normalize();
 		o.setW(1);
+		Coords o1 = p1.getOrigin();
+		Coords o2 = p2.getOrigin();
 		o2.projectPlane(vnn, vn1, vn2, o1, o);
 
 		// update line
