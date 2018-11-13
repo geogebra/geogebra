@@ -28,7 +28,8 @@ public class GeoElementFactory {
      * @return line
      */
     public GeoLine createGeoLine() {
-        return new GeoLine(unitTest.getConstruction());
+		AlgebraProcessor processor = unitTest.getKernel().getAlgebraProcessor();
+		return (GeoLine) processor.processAlgebraCommand("x=y", false)[0];
     }
 
     /**
