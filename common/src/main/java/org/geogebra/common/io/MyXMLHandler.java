@@ -703,10 +703,8 @@ public class MyXMLHandler implements DocHandler {
 	private void setTableParameters(LinkedHashMap<String, String> attrs) {
 		TableSettings ts = app.getSettings().getTable();
 		ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
-		System.err.println(getNumber(attrs.get("max")).getDouble());
 		ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
 		ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
-
 	}
 
 	private GeoNumberValue getNumber(String string) {
@@ -3259,12 +3257,14 @@ public class MyXMLHandler implements DocHandler {
 		return p;
 	}
 
+	/**
+	 * Handler collecting errors.
+	 */
 	ErrorHandler handler = new ErrorHandler() {
 
 		@Override
 		public void showError(String msg) {
 			errors.add(msg);
-
 		}
 
 		@Override

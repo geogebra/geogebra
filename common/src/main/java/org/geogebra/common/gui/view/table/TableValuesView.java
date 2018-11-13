@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -22,7 +24,7 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  * The TableValuesView implementation.
  */
-public class TableValuesView implements TableValues {
+public class TableValuesView implements TableValues, SettingListener {
 
 	private static final int MAX_ROWS = 200;
 
@@ -44,6 +46,7 @@ public class TableValuesView implements TableValues {
 		this.elements = new HashSet<>();
 		createTableDimensions();
 		updateModelValues();
+		settings.addListener(this);
 	}
 
 	private void createTableDimensions() {
@@ -89,10 +92,11 @@ public class TableValuesView implements TableValues {
 	public void setValues(double valuesMin, double valuesMax, double valuesStep)
 			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
+		settings.beginBatch();
 		settings.setValuesMin(valuesMin);
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
-		updateModelValues();
+		settings.endBatch();
 	}
 
 	@Override
@@ -281,6 +285,11 @@ public class TableValuesView implements TableValues {
 	@Override
 	public boolean isEmpty() {
 		return model == null || model.getColumnCount() == 1;
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		updateModelValues();
 	}
 
 }
