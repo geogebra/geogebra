@@ -169,4 +169,8 @@ public abstract class DrawableND {
 		return false;
 	}
 
+	public boolean isCompatibleWithGeo() {
+		return true;
+	}
+
 }

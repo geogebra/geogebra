@@ -690,4 +690,9 @@ public class DrawInequality extends Drawable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isCompatibleWithGeo() {
+		return !geo.isGeoFunction() || ((GeoFunction) geo).isBooleanFunction();
+	}
 }

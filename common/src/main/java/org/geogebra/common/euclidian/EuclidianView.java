@@ -1860,6 +1860,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableND d = drawableMap.get(geo);
 		cacheLayers(-1);
 		if (d != null) {
+			if (!d.isCompatibleWithGeo()) {
+				remove(geo);
+				add(geo);
+				return;
+			}
 			if (d instanceof DrawImage) {
 				this.updateBackgroundOnNextRepaint = ((DrawImage) d)
 						.checkInBackground()

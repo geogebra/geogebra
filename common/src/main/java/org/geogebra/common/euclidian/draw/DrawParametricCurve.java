@@ -479,4 +479,10 @@ public class DrawParametricCurve extends Drawable {
 		return null;
 	}
 
+	@Override
+	public boolean isCompatibleWithGeo() {
+		// generic curve (parametric) or function R->R, but not inequality
+		return !curve.isFunctionInX() || geo.isGeoFunction();
+	}
+
 }
