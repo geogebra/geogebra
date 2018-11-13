@@ -62,15 +62,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private class ColumnDelete implements Runnable {
 		Runnable cb = null;
 		private int column = -1;
+		private Element elem;
 
-		ColumnDelete(int column, Runnable cb) {
+		ColumnDelete(int column, Element elem, Runnable cb) {
 			this.column = column;
+			this.elem = elem;
 			this.cb = cb;
 		}
 
 		@Override
 		public void run() {
-			onDeleteColumn(column, cb);
+			onDeleteColumn(column, elem, cb);
 		}
 	}
 
@@ -461,7 +463,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		if (header != null) {
 			header.addClassName(getDeletedStyleName());
-			CSSEvents.runOnTransition(new ColumnDelete(column, cb), header, "delete");
+			CSSEvents.runOnTransition(new ColumnDelete(column, header, cb), header, "delete");
 		}
 
 		for (int i = 0; i < elems.getLength(); i++) {
@@ -475,24 +477,23 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return "delete";
 	}
 
-	private void removeTableColumn(int column) {
-		headerTable.removeColumn(column);
-		table.removeColumn(column);
-	}
-
 	/**
 	 * Runs on column delete.
 	 * 
 	 * @param column
+	 * @param header
+	 *            The header th element
 	 * 
 	 * @param cb
 	 *            custom callback to run on column delete.
 	 */
-	void onDeleteColumn(int column, Runnable cb) {
-		if (!isEmpty()) {
-			removeTableColumn(column);
-		} else if (cb != null) {
-			cb.run();
+	void onDeleteColumn(int column, Element header, Runnable cb) {
+		if (isEmpty()) {
+			if (cb != null) {
+				cb.run();
+			}
+		} else {
+			header.getParentElement().removeFromParent();
 		}
 	}
 }
