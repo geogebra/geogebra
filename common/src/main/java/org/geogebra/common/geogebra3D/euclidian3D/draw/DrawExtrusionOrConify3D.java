@@ -212,7 +212,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 			// EuclidianView3D::rightPrism() call)
 			Hits hits = new Hits();
 
-			if (extrusionComputer.getComputed() == 0) {
+			if (!extrusionComputer.getWasComputedByDragging()) {
 				// if height has not been set by dragging, ask for one
 				App app = getView3D().getApplication();
 				if (callback == null) {
