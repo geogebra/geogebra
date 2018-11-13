@@ -26,6 +26,7 @@ public class SuggestionRootExtremum extends Suggestion {
 		// reported typecast error
 		// reported NPE
 		boolean[] neededAlgos = getNeededAlgos(geo);
+		checkDependentAlgo(geo, INSTANCE, neededAlgos);
 		if (neededAlgos[0]) {
 			geo.getKernel().getAlgebraProcessor()
 					.processAlgebraCommand("Root[" + geo.getLabelSimple() + "]",
@@ -69,9 +70,8 @@ public class SuggestionRootExtremum extends Suggestion {
 	 * @return solve suggestion if applicable
 	 */
 	public static Suggestion get(GeoElement geo) {
-
 		if (geo instanceof GeoFunction
-				&& !hasDependentAlgo(geo, INSTANCE, getNeededAlgos(geo))) {
+				&& !checkDependentAlgo(geo, INSTANCE, getNeededAlgos(geo))) {
 			GeoFunction geoFun = (GeoFunction) geo;
 			if (!geoFun.isBooleanFunction()) {
 				return INSTANCE;

@@ -11,10 +11,17 @@ abstract public class Suggestion {
 
 	private static final int MODE_NONE = -1;
 
-	public Suggestion() {
-	}
-
-	static boolean hasDependentAlgo(GeoElementND geo, Suggestion sug,
+	/**
+	 * @param geo
+	 *            geo
+	 * @param sug
+	 *            suggestion
+	 * @param algosFound
+	 *            this array is updated when algo found; may be null if not
+	 *            needed
+	 * @return whether all algos related to a suggestion were found
+	 */
+	static boolean checkDependentAlgo(GeoElementND geo, Suggestion sug,
 			boolean[] algosFound) {
 		for (AlgoElement algo : geo.getAlgorithmList()) {
 			if (algo != null
@@ -25,7 +32,7 @@ abstract public class Suggestion {
 				return true;
 			}
 			if (algo instanceof AlgoDependentList
-					&& hasDependentAlgo(algo.getOutput(0), sug, algosFound)) {
+					&& checkDependentAlgo(algo.getOutput(0), sug, algosFound)) {
 				return true;
 			}
 		}
@@ -44,6 +51,11 @@ abstract public class Suggestion {
 	protected abstract boolean allAlgosExist(GetCommand className,
 			GeoElement[] input, boolean[] algosMissing);
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @return label for suggestion button
+	 */
 	abstract public String getCommand(Localization loc);
 
 	/**
@@ -65,6 +77,9 @@ abstract public class Suggestion {
 		geo.getKernel().storeUndoInfo();
 	}
 
+	/**
+	 * @return whether this is the slider suggestion
+	 */
 	public boolean isAutoSlider() {
 		return false;
 	}

@@ -41,7 +41,7 @@ public class SuggestionSolve extends Suggestion {
 
 	public static Suggestion get(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)
-				&& !hasDependentAlgo(geo, SINGLE_SOLVE, null)) {
+				&& !checkDependentAlgo(geo, SINGLE_SOLVE, null)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars.length == 1) {
 				return SINGLE_SOLVE;
@@ -63,7 +63,7 @@ public class SuggestionSolve extends Suggestion {
 						return Equation.isAlgebraEquation((GeoElement) var)
 								&& subset(((EquationValue) var)
 										.getEquationVariables(), vars)
-								&& !hasDependentAlgo((GeoElement) var,
+								&& !checkDependentAlgo((GeoElement) var,
 										SINGLE_SOLVE, null);
 					}
 				});
