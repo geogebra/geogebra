@@ -4589,6 +4589,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		previewDrawable = p;
 	}
 
+	public boolean wantsUpdatePreviewForTouchStartPhone(int mode) {
+        return getPreviewDrawable() == null && mode != EuclidianConstants.MODE_COPY_VISUAL_STYLE;
+    }
+
 	/**
 	 * Finds maximum pixel width and height needed to draw current x and y axis
 	 * labels. return[0] = max width, return[1] = max height

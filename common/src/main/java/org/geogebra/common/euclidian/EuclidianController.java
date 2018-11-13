@@ -11653,7 +11653,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void touchStartPhone(AbstractEvent e) {
 		this.mouseLoc = new GPoint(e.getX(), e.getY());
 
-		if (view.getPreviewDrawable() == null) {
+		if (view.wantsUpdatePreviewForTouchStartPhone(mode)) {
 			view.setPreview(switchPreviewableForInitNewMode(mode));
 			updatePreview();
 			this.view.updatePreviewableForProcessMode();
