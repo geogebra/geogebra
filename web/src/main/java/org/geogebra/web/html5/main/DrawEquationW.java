@@ -35,7 +35,6 @@ public class DrawEquationW extends DrawEquation {
 	 * needed for avoid the pixelated appearance of LaTeX texts at printing
 	 */
 	private static double printScale = 1;
-	private static Object initJLaTeXMath = null;
 
 	@Override
 	public GDimension drawEquation(App app1, GeoElementND geo,

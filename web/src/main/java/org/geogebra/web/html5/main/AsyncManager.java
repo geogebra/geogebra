@@ -9,6 +9,11 @@ import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ * Async modules manager
+ * 
+ * @author Agoston
+ */
 public class AsyncManager {
 
 	/**
@@ -122,7 +127,7 @@ public class AsyncManager {
 			@Override
 			public void run() {
 				try {
-					app.getGgbApi().evalCommand(command);
+					getGgbApi().evalCommand(command);
 					call(onSuccess, null);
 				} catch (Exception e) {
 					call(onFailure, e);
@@ -146,7 +151,7 @@ public class AsyncManager {
 			@Override
 			public void run() {
 				try {
-					call(onSuccess, app.getGgbApi().evalCommandGetLabels(command));
+					call(onSuccess, getGgbApi().evalCommandGetLabels(command));
 				} catch (Exception e) {
 					call(onFailure, e);
 				}
@@ -156,7 +161,20 @@ public class AsyncManager {
 		scheduleCallback(r);
 	}
 
-	private native void call(JavaScriptObject callback, Object o) /*-{
+	/**
+	 * @return API object
+	 */
+	protected GgbAPIW getGgbApi() {
+		return app.getGgbApi();
+	}
+
+	/**
+	 * @param callback
+	 *            JS function
+	 * @param o
+	 *            argument
+	 */
+	native void call(JavaScriptObject callback, Object o) /*-{
 		if (typeof callback === 'function') {
 			callback(o);
 		}
