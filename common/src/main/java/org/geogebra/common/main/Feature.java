@@ -325,7 +325,7 @@ public enum Feature {
 	/** APPS-19 */
 	TABLE_VIEW,
 
-	/** G3D-13 **/
+	/** G3D-6 **/
 	DOWNLOAD_ARCORE,
 
 	/** automatically add NDG conditions in locus equations */
