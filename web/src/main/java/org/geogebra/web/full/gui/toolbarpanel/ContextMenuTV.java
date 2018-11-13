@@ -74,6 +74,7 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		if (getColumnIdx() >= 0) {
+			// column index >= 0 -> edit function
 			addShowHide();
 			addEdit(new Command() {
 
@@ -91,11 +92,11 @@ public class ContextMenuTV {
 			});
 			addDelete();
 		} else {
+			// column index = -1 -> edit x-column
 			addEdit(new Command() {
 
 				@Override
 				public void execute() {
-					// column index = -1 -> edit x-column
 					if (getApp().getDialogManager() != null) {
 						getApp().getDialogManager()
 								.openTableViewDialog(getGeo());

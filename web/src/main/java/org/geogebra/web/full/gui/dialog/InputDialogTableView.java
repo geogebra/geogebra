@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -121,6 +122,10 @@ public class InputDialogTableView extends DialogBoxW
 	 */
 	public void show(GeoElement functionGeo) {
 		this.geo = functionGeo;
+		TableValuesView tv = (TableValuesView) app.getGuiManager().getTableValuesView();
+		startValue.setInputText(String.valueOf(tv.getValuesMin()));
+		endValue.setInputText(String.valueOf(tv.getValuesMax()));
+		step.setInputText(String.valueOf(tv.getValuesStep()));
 		show();
 	}
 
