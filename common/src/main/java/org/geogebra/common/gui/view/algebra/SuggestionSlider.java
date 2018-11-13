@@ -44,7 +44,8 @@ public class SuggestionSlider extends Suggestion {
 	}
 
 	@Override
-	protected boolean sameAlgoType(GetCommand className, GeoElement[] input) {
+	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
+			boolean[] algosFound) {
 		return false;
 	}
 

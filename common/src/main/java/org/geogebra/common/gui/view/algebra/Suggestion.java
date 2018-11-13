@@ -14,22 +14,35 @@ abstract public class Suggestion {
 	public Suggestion() {
 	}
 
-	static boolean hasDependentAlgo(GeoElementND geo, Suggestion sug) {
+	static boolean hasDependentAlgo(GeoElementND geo, Suggestion sug,
+			boolean[] algosFound) {
 		for (AlgoElement algo : geo.getAlgorithmList()) {
 			if (algo != null
-					&& sug.sameAlgoType(algo.getClassName(), algo.getInput())) {
+					&& algo.getOutputLength() > 0
+					&& algo.getOutput(0).isLabelSet()
+					&& sug.allAlgosExist(algo.getClassName(), algo.getInput(),
+							algosFound)) {
 				return true;
 			}
 			if (algo instanceof AlgoDependentList
-					&& hasDependentAlgo(algo.getOutput(0), sug)) {
+					&& hasDependentAlgo(algo.getOutput(0), sug, algosFound)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	protected abstract boolean sameAlgoType(GetCommand className,
-			GeoElement[] input);
+	/**
+	 * @param className
+	 *            algo name
+	 * @param input
+	 *            algo input
+	 * @param algosMissing
+	 *            previously found algos
+	 * @return whether all algos already exist
+	 */
+	protected abstract boolean allAlgosExist(GetCommand className,
+			GeoElement[] input, boolean[] algosMissing);
 
 	abstract public String getCommand(Localization loc);
 

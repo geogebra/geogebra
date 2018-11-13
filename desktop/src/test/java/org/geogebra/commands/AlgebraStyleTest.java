@@ -3,6 +3,7 @@ package org.geogebra.commands;
 import java.util.Locale;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -495,6 +496,27 @@ public class AlgebraStyleTest extends AlgebraTest {
 		GeoLine line = new GeoLine(app.getKernel().getConstruction());
 		line.setCoords(1, 1, 1);
 		Assert.assertNotNull(SuggestionSolve.get(line));
+	}
+
+	@Test
+	public void systemSuggestionShouldVanish() {
+		t("p:x+y=2");
+		t("r:x=y");
+		GeoElement line = getGeo("r");
+		Assert.assertNotNull(SuggestionSolve.get(line));
+		SuggestionSolve.get(line).execute(line);
+		Assert.assertNull(SuggestionSolve.get(line));
+	}
+
+	@Test
+	public void rootSuggestionShouldVanish() {
+		t("f:x");
+		GeoElement line = getGeo("f");
+		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+		SuggestionRootExtremum.get(line).execute(line);
+		Assert.assertNull(SuggestionRootExtremum.get(line));
+		getGeo("B").remove();
+		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 	}
 
 	@Test

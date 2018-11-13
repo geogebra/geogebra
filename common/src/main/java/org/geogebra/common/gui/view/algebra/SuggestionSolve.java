@@ -41,7 +41,7 @@ public class SuggestionSolve extends Suggestion {
 
 	public static Suggestion get(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)
-				&& !hasDependentAlgo(geo, SINGLE_SOLVE)) {
+				&& !hasDependentAlgo(geo, SINGLE_SOLVE, null)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars.length == 1) {
 				return SINGLE_SOLVE;
@@ -64,7 +64,7 @@ public class SuggestionSolve extends Suggestion {
 								&& subset(((EquationValue) var)
 										.getEquationVariables(), vars)
 								&& !hasDependentAlgo((GeoElement) var,
-										SINGLE_SOLVE);
+										SINGLE_SOLVE, null);
 					}
 				});
 
@@ -91,7 +91,8 @@ public class SuggestionSolve extends Suggestion {
 	}
 
 	@Override
-	protected boolean sameAlgoType(GetCommand className, GeoElement[] input) {
+	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
+			boolean[] algosMissing) {
 		return className == Commands.Solve || className == Commands.NSolve;
 	}
 }
