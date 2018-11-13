@@ -80,4 +80,9 @@ public class BundleLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public boolean examSupported() {
+		return true;
+	}
+
 }

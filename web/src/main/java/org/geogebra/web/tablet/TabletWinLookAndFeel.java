@@ -34,7 +34,7 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-	public boolean examSupported(boolean tablet) {
+	public boolean examSupported() {
 		return true;
 	}
 

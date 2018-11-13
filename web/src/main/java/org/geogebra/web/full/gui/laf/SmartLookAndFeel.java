@@ -108,11 +108,6 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean examSupported(boolean tablet) {
-		return false;
-	}
-
-	@Override
 	public boolean printSupported() {
 		return false;
 	}

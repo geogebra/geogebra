@@ -15,4 +15,10 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	public boolean hasHeader() {
 		return false;
 	}
+
+	@Override
+	public boolean examSupported() {
+		return true;
+	}
+
 }

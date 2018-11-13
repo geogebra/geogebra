@@ -2574,7 +2574,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		if ((getLAF() != null
-				&& getLAF().examSupported(has(Feature.EXAM_TABLET)))
+				&& getLAF().examSupported())
 				|| (getLAF() != null && getLAF().isTablet() && !isUnbundled()
 						&& !isWhiteboardActive())) {
 			if (viewID == App.VIEW_EUCLIDIAN) {

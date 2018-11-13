@@ -3988,11 +3988,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return version != null && version != Versions.WEB_FOR_DESKTOP
 					&& !isExam();
 
-		// in web (not tablet apps yet)
-		// File -> Enter Exam Mode
-		case EXAM_TABLET:
-			return !isUnbundledOrWhiteboard();
-
 		case SAVE_SETTINGS_TO_FILE:
 			// not enabled for linux
 			return isWindows() || isMacOS() || prerelease;

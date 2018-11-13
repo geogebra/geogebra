@@ -172,8 +172,8 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public boolean examSupported(boolean tabletExamExists) {
-		return true;
+	public boolean examSupported() {
+		return false;
 	}
 
 	@Override

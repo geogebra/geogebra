@@ -81,8 +81,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean examSupported(boolean tablet) {
-		return tablet && Browser.isAndroid();
+	public boolean examSupported() {
+		return Browser.isAndroid();
 	}
 
 	@Override

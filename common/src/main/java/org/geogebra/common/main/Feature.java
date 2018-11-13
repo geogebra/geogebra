@@ -23,8 +23,6 @@ public enum Feature {
 
 	PARAMETRIC_SURFACE_IS_REGION,
 
-	EXAM_TABLET,
-
 	ACRA,
 
 	ANALYTICS,
