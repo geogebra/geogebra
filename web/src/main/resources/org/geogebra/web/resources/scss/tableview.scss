@@ -86,6 +86,7 @@ $emptyHeight: 212px;
 			
 			.delete {
 				@extend .colDelete;
+				text-align: left;
 			}
 		
 		}
@@ -96,6 +97,9 @@ $emptyHeight: 212px;
 	}
 
 	.tvTable {
+		.highlightRed {
+			background: red;
+		}
 		td:first-child {
 			padding: 0px !important;
 			border: 0px;

@@ -114,7 +114,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		return settings.getValuesStep();
 	}
 
-	private void assertValidValues(double min, double max, double step)
+	private static void assertValidValues(double min, double max, double step)
 			throws InvalidValuesException {
 		if (!isFinite(min) && !isFinite(max)) {
 			throw new InvalidValuesException("TableValuesMinMaxInvalid",
