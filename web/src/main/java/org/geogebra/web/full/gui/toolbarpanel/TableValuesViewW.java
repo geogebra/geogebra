@@ -46,22 +46,17 @@ import com.google.gwt.user.client.ui.Widget;
 public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private static final int HEADER_HEIGHT = 48;
-
 	private static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
-
 	private CellTable<RowData> headerTable;
 	private CellTable<RowData> table;
 	private FlowPanel main;
-	private FlowPanel tvPanel;
 	private Label emptyLabel;
 	private Label emptyInfo;
 	private FlowPanel emptyPanel;
 	private AppW app;
 	private ScrollPanel scrollPanel;
 	private List<RowData> rows = new ArrayList<>();
-	private ScrollPanel holderPanel;
-	private OuterPanel outerScrollPanel;
 	private NoDragImage moreImg;
 
 	private class ColumnDelete implements Runnable {
@@ -130,7 +125,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		createGUI();
 	}
 
-	public AppW getApp() {
+	private AppW getApp() {
 		return app;
 	}
 
@@ -159,18 +154,26 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				int tableWidth = table.getOffsetWidth();
 				headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
 			}
-
 		});
 	}
 
 	private void createGUI() {
 		main = new FlowPanel();
-		tvPanel = new FlowPanel();
+		FlowPanel tvPanel = new FlowPanel();
 		scrollPanel = new ScrollPanel();
 		scrollPanel.addStyleName("tvScrollPanel");
 		headerTable = new CellTable<>();
+
 		table = new CellTable<>();
-		buildTable();
+
+		// Building table
+		addHeader(tvPanel);
+		table.addStyleName("tvTable");
+		TableUtils.clear(table);
+		addValuesForTable(table);
+		tableInit();
+		setHeaderSizes();
+
 		scrollPanel.setWidget(table);
 
 		tvPanel.add(scrollPanel);
@@ -178,7 +181,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		main.add(tvPanel);
 	}
 
-	private void addHeader() {
+	private void addHeader(FlowPanel tvPanel) {
 		headerTable = new CellTable<>();
 		TableUtils.clear(headerTable);
 		addColumnsForTable(headerTable);
@@ -186,7 +189,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		headerTable.addStyleName("tvTable");
 		addHeaderClickHandler();
 
-		holderPanel = new ScrollPanel();
+		final ScrollPanel holderPanel = new ScrollPanel();
 		final FlowPanel innerHolderPanel = new FlowPanel();
 		innerHolderPanel.add(headerTable);
 		holderPanel.add(innerHolderPanel);
@@ -194,7 +197,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		tvPanel.add(holderPanel);
 
-		outerScrollPanel = new OuterPanel(); // used for horizontal
+		OuterPanel outerScrollPanel = new OuterPanel(); // used for horizontal
 												// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(tvPanel);
@@ -216,15 +219,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private Widget getMain() {
 		createGUI();
 		return main;
-	}
-
-	private void buildTable() {
-		addHeader();
-		table.addStyleName("tvTable");
-		TableUtils.clear(table);
-		addValuesForTable(table);
-		tableInit();
-		setHeaderSizes();
 	}
 
 	private void buildData() {
@@ -293,7 +287,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			public SafeHtml getValue(RowData object) {
 				return SafeHtmlUtils.fromTrustedString(object.getHeader());
 			}
-
 		};
 		return nameColumn;
 	}
@@ -304,8 +297,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
-				SafeHtml value = SafeHtmlUtils.fromSafeConstant(object.getValue(col));
-				boolean empty = "".equals(value);
+				String valStr = object.getValue(col);
+				boolean empty = "".equals(valStr);
+				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
 				int height = empty ? 0 : dimensions.getRowHeight(object.row);
 				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell",
@@ -321,7 +315,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private NoDragImage getMoreImage() {
 		if (moreImg == null) {
 			moreImg = new NoDragImage(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
-
 		}
 		return moreImg;
 	}
@@ -418,10 +411,21 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	/**
-	 * @author latzg
+	 * @author .
 	 *
 	 */
 	public interface CellTemplates extends SafeHtmlTemplates {
+		/**
+		 * @param message
+		 *            of the cell.
+		 * @param style
+		 *            of the cell.
+		 * @param width
+		 *            of the cell.
+		 * @param height
+		 *            of the cell.
+		 * @return HTML representation of the cell content.
+		 */
 		@SafeHtmlTemplates.Template("<div style=\"width:{2}px;height:{3}px;line-height:{3}px;\""
 				+ "class=\"{1}\">{0}</div>")
 		SafeHtml cell(SafeHtml message, String style, int width, int height);
@@ -471,6 +475,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private static String getDeletedStyleName() {
 		return "delete";
 	}
+
 	private void removeTableColumn(int column) {
 		headerTable.removeColumn(column);
 		table.removeColumn(column);
