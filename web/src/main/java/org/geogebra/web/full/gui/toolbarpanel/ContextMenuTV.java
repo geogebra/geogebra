@@ -5,10 +5,11 @@ import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.DialogManager;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -80,13 +81,9 @@ public class ContextMenuTV {
 
 				@Override
 				public void execute() {
-					if (getApp().getGuiManager() instanceof GuiManagerW
-							&& ((GuiManagerW) getApp().getGuiManager())
-									.getUnbundledToolbar() != null) {
-						((GuiManagerW) getApp().getGuiManager())
-								.getUnbundledToolbar().openAlgebra(true);
-						((GuiManagerW) getApp().getGuiManager())
-								.startEditing(getGeo());
+					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+					if (guiManager != null) {
+						guiManager.startEditing(getGeo());
 					}
 				}
 			});
@@ -97,9 +94,9 @@ public class ContextMenuTV {
 
 				@Override
 				public void execute() {
-					if (getApp().getDialogManager() != null) {
-						getApp().getDialogManager()
-								.openTableViewDialog(getGeo());
+					DialogManager dialogManager = getApp().getDialogManager();
+					if (dialogManager != null) {
+						dialogManager.openTableViewDialog(getGeo());
 					}
 				}
 			});
@@ -135,13 +132,12 @@ public class ContextMenuTV {
 
 					@Override
 					public void execute() {
-						if (getApp().getGuiManager() != null && getApp()
-								.getGuiManager().getTableValuesView() != null) {
-							GeoEvaluatable column = ((TableValuesView) getApp()
-									.getGuiManager().getTableValuesView())
-											.getEvaluatable(getColumnIdx());
-							((TableValuesView) getApp().getGuiManager()
-									.getTableValuesView()).hideColumn(column);
+						GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+						if (guiManager != null && guiManager.getTableValuesView() != null) {
+							TableValuesView tableValuesView = (TableValuesView) guiManager.getTableValuesView();
+							GeoEvaluatable column = tableValuesView
+									.getEvaluatable(getColumnIdx());
+							tableValuesView.hideColumn(column);
 						}
 					}
 				});

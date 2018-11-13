@@ -1119,6 +1119,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void startEditing(final GeoElement geoElement) {
+		switchToolsToAV();
 		if (this.algebraView != null) {
 			algebraView.startEditItem(geoElement);
 		}
@@ -2399,10 +2400,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void switchToolsToAV() {
-		if (getApp().isUnbundled()) {
-			getLayout().getDockManager()
-					.getPanel(App.VIEW_ALGEBRA).setToolMode(false);
-		}
+		getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)
+				.setToolMode(false);
 	}
 
 	@Override
