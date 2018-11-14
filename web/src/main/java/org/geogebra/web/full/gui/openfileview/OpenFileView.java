@@ -400,7 +400,7 @@ public class OpenFileView extends MyHeaderPanel
 				.setImageAndText(
 						MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
 								.getSafeUri().asString(),
-						localize("mow.openFile"));
+						localize("mow.offlineMyFiles"));
 		if (sortDropDown != null) {
 			sortDropDown.setItemText(0, localize("SortBy"));
 			for (int i = 0; i < map.length; i++) {
