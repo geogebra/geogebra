@@ -46,7 +46,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private static final int HEADER_HEIGHT = 48;
-	private static final CellTemplates TEMPLATES =
+
+	/** Template to create a cell */
+	static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
 	private CellTable<RowData> headerTable;
 	private CellTable<RowData> table;
@@ -84,7 +86,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		@Override
 		public void onResize() {
-			setHeaderSizes();
+			syncHeaderSizes();
 		}
 	}
 
@@ -92,7 +94,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		private int row;
 
 		public RowData(int row) {
-			this.row = row;
+			this.setRow(row);
 		}
 
 		/**
@@ -109,11 +111,19 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		 * @return the cell value
 		 */
 		public String getValue(int col) {
-			if (row < getTableValuesModel().getRowCount()
+			if (getRow() < getTableValuesModel().getRowCount()
 					&& col < getTableValuesModel().getColumnCount()) {
-				return getTableValuesModel().getCellAt(row, col);
+				return getTableValuesModel().getCellAt(getRow(), col);
 			}
 			return "";
+		}
+
+		public int getRow() {
+			return row;
+		}
+
+		public void setRow(int row) {
+			this.row = row;
 		}
 	}
 
@@ -134,29 +144,36 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	/**
 	 * Sync header sizes with content column widths
 	 */
-	protected void setHeaderSizes() {
+	protected void syncHeaderSizes() {
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
 			@Override
 			public void execute() {
-				NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody")
-						.getItem(0).getElementsByTagName("tr");
-				if (tableRows.getLength() == 0) {
-					return;
-				}
-
-				NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
-
-				for (int i = 0; i < table.getColumnCount(); i++) {
-					int w = firstRow.getItem(i).getOffsetWidth();
-					headerTable.setColumnWidth(i, w + "px");
-				}
-
-				int tableWidth = table.getOffsetWidth();
-				headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
+				doSyncHeaderSizes();
 			}
 		});
+	}
+
+	/**
+	 * Sync header sizes to value table.
+	 */
+	void doSyncHeaderSizes() {
+		NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody").getItem(0)
+				.getElementsByTagName("tr");
+		if (tableRows.getLength() == 0) {
+			return;
+		}
+
+		NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
+
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			int w = firstRow.getItem(i).getOffsetWidth();
+			headerTable.setColumnWidth(i, w + "px");
+		}
+
+		int tableWidth = table.getOffsetWidth();
+		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
 	}
 
 	private void createGUI() {
@@ -174,7 +191,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		TableUtils.clear(table);
 		addValuesForTable(table);
 		tableInit();
-		setHeaderSizes();
+		syncHeaderSizes();
 
 		scrollPanel.setWidget(table);
 
@@ -207,15 +224,23 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		scrollPanel.addScrollHandler(new ScrollHandler() {
 			@Override
 			public void onScroll(ScrollEvent event) {
-				int scrollPosition = scrollPanel.getHorizontalScrollPosition();
-				if (innerHolderPanel.getOffsetWidth() < scrollPanel.getOffsetWidth()
-						+ scrollPosition) {
-					innerHolderPanel
-							.setWidth((scrollPanel.getOffsetWidth() + scrollPosition) + "px");
-				}
-				holderPanel.setHorizontalScrollPosition(scrollPosition);
+				syncScrollPosition(holderPanel, innerHolderPanel);
 			}
 		});
+	}
+
+	/**
+	 * Sync scroll position of the header and the values table.
+	 * 
+	 * @param holderPanel
+	 * @param innerHolderPanel
+	 */
+	void syncScrollPosition(ScrollPanel holderPanel, FlowPanel innerHolderPanel) {
+		int scrollPosition = scrollPanel.getHorizontalScrollPosition();
+		if (innerHolderPanel.getOffsetWidth() < scrollPanel.getOffsetWidth() + scrollPosition) {
+			innerHolderPanel.setWidth((scrollPanel.getOffsetWidth() + scrollPosition) + "px");
+		}
+		holderPanel.setHorizontalScrollPosition(scrollPosition);
 	}
 
 	private Widget getMain() {
@@ -303,7 +328,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				boolean empty = "".equals(valStr);
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
-				int height = empty ? 0 : dimensions.getRowHeight(object.row);
+				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
 				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell",
 						width,
 						height);
@@ -379,7 +404,16 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				dimensions.getHeaderHeight());
 	}
 
-	private static int getColumnWidth(TableValuesDimensions dimensions, int column) {
+	/**
+	 * Gives the preferred width of a column.
+	 * 
+	 * @param dimensions
+	 *            The column sizes
+	 * @param column
+	 *            particular column index.
+	 * @return the calculated width of the column.
+	 */
+	static int getColumnWidth(TableValuesDimensions dimensions, int column) {
 		return Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column));
 	}
 
@@ -462,19 +496,15 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		}
 
 		if (header != null) {
-			header.addClassName(getDeletedStyleName());
+			header.addClassName("delete");
 			CSSEvents.runOnTransition(new ColumnDelete(column, header, cb), header, "delete");
 		}
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
-			e.addClassName(getDeletedStyleName());
+			e.addClassName("delete");
 		}
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
-	}
-
-	private static String getDeletedStyleName() {
-		return "delete";
 	}
 
 	/**
