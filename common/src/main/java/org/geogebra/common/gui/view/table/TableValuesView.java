@@ -140,18 +140,18 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void updateModelValues() {
-		double[] values = calulateValues();
+		double[] values = calculateValues();
 		model.setValues(values);
 	}
 
-	private double[] calulateValues() {
+	private double[] calculateValues() {
 		double[] values;
 		if (getValuesMin() == getValuesMax()) {
 			values = new double[] { getValuesMin() };
 		} else {
 			double stepsDouble = (getValuesMax() - getValuesMin())
 					/ getValuesStep();
-			int stepsInt = (int) Math.round(stepsDouble);
+			int stepsInt = (int) stepsDouble;
 			int steps = DoubleUtil.isInteger(stepsDouble) ? stepsInt : stepsInt + 1;
 			values = new double[steps + 1];
 			values[steps] = getValuesMax();
@@ -226,7 +226,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void clearView() {
-		double[] values = calulateValues();
+		double[] values = calculateValues();
 		model.clearModel(values);
 	}
 
