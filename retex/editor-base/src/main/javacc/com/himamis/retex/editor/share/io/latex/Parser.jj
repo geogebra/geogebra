@@ -100,6 +100,7 @@ PARSER_END(Parser)
     | < QUOTE_START : "\""> : IN_QUOTE
     | < SQRT : "sqrt" >
     | < NROOT : "nroot" >
+    | < LOG : "log" >
     | < COMMA : "," >
     | < SPACE : " " >
     | < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -128,6 +129,8 @@ void mathContainer(MathContainer currentField) : {}
         sqrt(currentField)
     |
         nroot(currentField)
+    |
+        log(currentField)
     |
         arrayParantheses(currentField)
     |
@@ -171,6 +174,8 @@ void mathAtomOrPower(MathContainer currentField) : {
         sqrt(currentField)
     |
         nroot(currentField)
+    |
+        log(currentField)
     |
         arrayParantheses(currentField)
     |
@@ -283,6 +288,25 @@ void nroot(MathContainer currentField) : {}
         nroot.setArgument(0, param2);
         currentField.addArgument(nroot);
     } <PARANTHESES_CLOSE>
+}
+
+void log(MathContainer currentField) : { }
+{
+    <LOG> <PARANTHESES_OPEN> {
+        MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.LOG));
+        MathSequence param1 = new MathSequence();
+        MathSequence param2 = new MathSequence();
+        mathContainer(param1);
+        nroot.setArgument(0, param2); // base empty
+        nroot.setArgument(1, param1);
+    } (<COMMA> {
+        mathContainer(param2);
+        nroot.setArgument(0, param1);
+        nroot.setArgument(1, param2);
+    })? <PARANTHESES_CLOSE>
+    {
+      currentField.addArgument(nroot);
+    }
 }
 
 void arrayParantheses(MathContainer currentField) :

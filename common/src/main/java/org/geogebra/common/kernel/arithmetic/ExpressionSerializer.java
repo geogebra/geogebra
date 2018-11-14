@@ -854,7 +854,11 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				sb.append("lg(");
+				if (tpl == StringTemplate.editorTemplate) {
+					sb.append("log(10,");
+				} else {
+					sb.append("lg(");
+				}
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -880,7 +884,11 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				sb.append("ld(");
+				if (tpl == StringTemplate.editorTemplate) {
+					sb.append("log(2,");
+				} else {
+					sb.append("ld(");
+				}
 				sb.append(leftStr);
 				sb.append(')');
 				break;

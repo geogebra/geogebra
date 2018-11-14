@@ -98,11 +98,18 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(")");
 			break;
 		case SQRT:
-			appendSqrt(mathFunction, stringBuilder, 0);
+			appendSingleArg("sqrt", mathFunction, stringBuilder, 0);
+			break;
+		case LOG:
+			if (mathFunction.getArgument(0).size() == 0) {
+				appendSingleArg("log", mathFunction, stringBuilder, 1);
+				break;
+			}
+			generalFunction(mathFunction, stringBuilder);
 			break;
 		case NROOT:
 			if (mathFunction.getArgument(0).size() == 0) {
-				appendSqrt(mathFunction, stringBuilder, 1);
+				appendSingleArg("sqrt", mathFunction, stringBuilder, 1);
 				break;
 			}
 			maybeInsertTimes(mathFunction, stringBuilder);
@@ -153,10 +160,11 @@ public class GeoGebraSerializer implements Serializer {
 		}
 	}
 
-	private static void appendSqrt(MathFunction mathFunction,
+	private static void appendSingleArg(String name, MathFunction mathFunction,
 			StringBuilder stringBuilder, int i) {
 		maybeInsertTimes(mathFunction, stringBuilder);
-		stringBuilder.append("sqrt(");
+		stringBuilder.append(name);
+		stringBuilder.append("(");
 		serialize(mathFunction.getArgument(i), stringBuilder);
 		stringBuilder.append(')');
 	}

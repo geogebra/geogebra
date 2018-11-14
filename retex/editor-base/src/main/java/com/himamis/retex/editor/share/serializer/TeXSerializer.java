@@ -188,7 +188,19 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("]{");
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append('}');
-
+			break;
+		case LOG:
+			stringBuilder.append(function.getTexName());
+			// only proint log base if nonempty or contains cursor
+			if (function.getArgument(0).size() > 0
+					|| mCurrentField == function.getArgument(0)) {
+				stringBuilder.append("_{");
+				serialize(function.getArgument(0), stringBuilder);
+				stringBuilder.append('}');
+			}
+			stringBuilder.append("\\left(");
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("\\right)");
 			break;
 		case SUM:
 		case PROD:

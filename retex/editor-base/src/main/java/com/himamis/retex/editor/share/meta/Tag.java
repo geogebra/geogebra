@@ -29,6 +29,8 @@ public enum Tag {
 
 	NROOT("nroot"),
 
+	LOG("log"),
+
 	PROD("prod"),
 
 	INT("int"),
@@ -36,10 +38,6 @@ public enum Tag {
 	LIM("lim"),
 
 	APPLY,
-
-	LOG2("log2"),
-
-	LOG10("log10"),
 
 	ABS("abs"),
 

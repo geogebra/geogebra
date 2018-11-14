@@ -200,6 +200,12 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testLog() {
+		checkCannon("log(10,x)", "log(10,x)");
+		checkCannon("log(x)", "log(x)");
+	}
+
+	@Test
 	public void testParseLaTeX() {
 		// Configuration.getFontMapping();
 		checkLaTeX("4+x", "4+x");

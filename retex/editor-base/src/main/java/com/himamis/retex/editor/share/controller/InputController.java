@@ -145,10 +145,10 @@ public class InputController {
 		}
 		String casName = ArgumentHelper.readCharacters(editorState,
 				initialOffset);
-		if (ch == FUNCTION_OPEN_KEY && Tag.lookup(casName) != null) {
+		Tag tag = Tag.lookup(casName);
+		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName);
-
+			newFunction(editorState, casName, tag == Tag.LOG ? 1 : 0);
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
 				&& metaModel.isFunction(casName)) {
 			if (exponent != null) {
@@ -186,8 +186,8 @@ public class InputController {
 	 * @param name
 	 *            function
 	 */
-	public void newFunction(EditorState editorState, String name) {
-		newFunction(editorState, name, 0, false, null);
+	public void newFunction(EditorState editorState, String name, int initial) {
+		newFunction(editorState, name, initial, false, null);
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class InputController {
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
-		newFunction(editorState, script);
+		newFunction(editorState, script, 0);
 	}
 
 	/**

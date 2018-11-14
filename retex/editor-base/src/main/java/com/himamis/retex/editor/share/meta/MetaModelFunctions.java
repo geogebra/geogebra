@@ -92,6 +92,10 @@ class MetaModelFunctions {
                 createParameterUp("x", 1, 1)
         }));
 
+		functions.add(createFunctionInsert(Tag.LOG, "log", 1,
+				new MetaParameter[] { createParameter("n", 1),
+						createParameter("x", 0) }));
+
 		functions.add(
 				createFunctionInsert(Tag.SUM, "\\sum", 3, new MetaParameter[] {
                 createParameterUp("v", 0, 2),
@@ -128,8 +132,6 @@ class MetaModelFunctions {
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));
-		functions.add(createFunction(Tag.LOG10, "log_{10}"));
-		functions.add(createFunction(Tag.LOG2, "log_{2}"));
 
 		return new ListMetaGroup(functions);
     }
