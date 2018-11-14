@@ -272,6 +272,47 @@ public class TableValuesViewTest extends BaseUnitTest {
     }
 
 	@Test
+	public void testOrdering() {
+		setValuesSafe(0, 10, 2);
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction fn = factory.createFunction("f:x^1");
+		showColumn(fn);
+		GeoFunction fn2 = factory.createFunction("f2:x^2");
+		showColumn(fn2);
+		GeoFunction fn3 = factory.createFunction("f3:x^3");
+		showColumn(fn3);
+		Assert.assertEquals(1, fn.getTableColumn());
+		Assert.assertEquals(2, fn2.getTableColumn());
+		Assert.assertEquals(3, fn3.getTableColumn());
+		view.hideColumn(fn2);
+		view.showColumn(fn2);
+		Assert.assertEquals(1, fn.getTableColumn());
+		Assert.assertEquals(3, fn2.getTableColumn());
+		Assert.assertEquals(2, fn3.getTableColumn());
+	}
+
+	@Test
+	public void testOrderingReload() {
+		setValuesSafe(0, 10, 2);
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction fn = factory.createFunction("f:x^1");
+		showColumn(fn);
+		GeoFunction fn2 = factory.createFunction("f2:x^2");
+		showColumn(fn2);
+		GeoFunction fn3 = factory.createFunction("f3:x^3");
+		showColumn(fn3);
+		view.hideColumn(fn2);
+		view.showColumn(fn2);
+		getApp().setXML(getApp().getXML(), true);
+		GeoFunction fnReload = lookupFunction("f");
+		GeoFunction fn2Reload = lookupFunction("f2");
+		GeoFunction fn3Reload = lookupFunction("f3");
+		Assert.assertEquals(1, fnReload.getTableColumn());
+		Assert.assertEquals(3, fn2Reload.getTableColumn());
+		Assert.assertEquals(2, fn3Reload.getTableColumn());
+	}
+
+	@Test
 	public void testXML() {
 		setValuesSafe(0, 10, 2);
 
@@ -292,16 +333,19 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction fn = factory.createFunction("f:x^2");
 		showColumn(fn);
 		Assert.assertEquals(1, view.getColumn(fn));
-
 		String xml = getApp().getXML();
 		setValuesSafe(10, 20, 2);
 		getKernel().clearConstruction(true);
 		Assert.assertEquals(-1, view.getColumn(fn));
 		Assert.assertEquals(20, view.getValuesMax(), .1);
 		getApp().setXML(xml, true);
-		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
+		GeoFunction fnReload = lookupFunction("f");
 		Assert.assertEquals(10, view.getValuesMax(), .1);
 		Assert.assertEquals(1, view.getColumn(fnReload));
+	}
+
+	private GeoFunction lookupFunction(String string) {
+		return (GeoFunction) getKernel().lookupLabel(string);
 	}
 
 	@Test
@@ -320,7 +364,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		getKernel().clearConstruction(true);
 		Assert.assertEquals(-1, view.getColumn(fn));
 		getApp().setXML(xml, true);
-		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
+		GeoFunction fnReload = lookupFunction("f");
 
 		Assert.assertEquals(2, view.getColumn(fnReload));
 	}
@@ -339,7 +383,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		getKernel().clearConstruction(true);
 		getApp().setXML(xml, true);
-		GeoFunction fnReload = (GeoFunction) getKernel().lookupLabel("f");
+		GeoFunction fnReload = lookupFunction("f");
 
 		Assert.assertEquals(false, fnReload.isPointsVisible());
 	}

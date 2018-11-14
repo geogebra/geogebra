@@ -6345,6 +6345,9 @@ public abstract class GeoElement extends ConstructionElement
 	 * Scripting
 	 */
 
+	/**
+	 * @return whether some script is associated with the geo
+	 */
 	public boolean hasScripts() {
 		return scripts != null && scripts.length != 0;
 	}
