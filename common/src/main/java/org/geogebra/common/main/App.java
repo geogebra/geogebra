@@ -4048,9 +4048,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SYMBOLIC_AV:
 			return canary;
 
-		case SPECIAL_POINTS_IN_CONTEXT_MENU:
-			return prerelease;
-
 		/** GGB-2005 */
 		case TOOLTIP_DESIGN:
 			return isUnbundledOrWhiteboard();
@@ -4099,8 +4096,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SELECT_NEXT_GEO_IN_VIEW:
 			return true;
 
-        /** GGB-2255 */
-        case GEOMETRIC_DISCOVERY:
+		/** GGB-2255 */
+		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
 		/** automatically add NDG conditions in locus equations */
@@ -4124,6 +4121,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-19 */
 		case TABLE_VIEW:
+			return prerelease;
+
+		/** APPS-31 */
+		case SPECIAL_POINTS_IN_CONTEXT_MENU:
 			return prerelease;
 
        // **********************************************************************
