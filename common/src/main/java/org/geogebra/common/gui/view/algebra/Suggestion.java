@@ -16,23 +16,23 @@ abstract public class Suggestion {
 	 *            geo
 	 * @param sug
 	 *            suggestion
-	 * @param algosFound
+	 * @param algosMissing
 	 *            this array is updated when algo found; may be null if not
 	 *            needed
 	 * @return whether all algos related to a suggestion were found
 	 */
 	static boolean checkDependentAlgo(GeoElementND geo, Suggestion sug,
-			boolean[] algosFound) {
+			boolean[] algosMissing) {
 		for (AlgoElement algo : geo.getAlgorithmList()) {
 			if (algo != null
 					&& algo.getOutputLength() > 0
 					&& algo.getOutput(0).isLabelSet()
 					&& sug.allAlgosExist(algo.getClassName(), algo.getInput(),
-							algosFound)) {
+							algosMissing)) {
 				return true;
 			}
 			if (algo instanceof AlgoDependentList
-					&& checkDependentAlgo(algo.getOutput(0), sug, algosFound)) {
+					&& checkDependentAlgo(algo.getOutput(0), sug, algosMissing)) {
 				return true;
 			}
 		}
