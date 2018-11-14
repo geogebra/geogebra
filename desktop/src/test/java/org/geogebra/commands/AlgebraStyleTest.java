@@ -532,6 +532,18 @@ public class AlgebraStyleTest extends AlgebraTest {
 	}
 
 	@Test
+	public void suggestionShouldNotCreateTwiceNonPolynomial() {
+		t("f:1/x");
+		GeoElement line = getGeo("f");
+		SuggestionRootExtremum.get(line).execute(line);
+		Assert.assertEquals(4, app.getGgbApi().getObjectNumber());
+		getGeo("B").remove();
+		Assert.assertEquals(3, app.getGgbApi().getObjectNumber());
+		SuggestionRootExtremum.get(line).execute(line);
+		Assert.assertEquals(4, app.getGgbApi().getObjectNumber());
+	}
+
+	@Test
 	public void packedGeosShouldHaveJustRHSInEditor() {
 		t("c=Cone[(0,0,0),(0,0,1),5]");
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,

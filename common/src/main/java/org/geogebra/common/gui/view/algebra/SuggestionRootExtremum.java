@@ -36,11 +36,13 @@ public class SuggestionRootExtremum extends Suggestion {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Extremum[" + geo.getLabelSimple() + "]", false);
 		}
-		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
+		if(neededAlgos[2]) {
+			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Intersect[" + geo.getLabelSimple() + ","
 							+ geo.getKernel().getLocalization().getMenu("yAxis")
 							+ "]",
 					false);
+		}
 	}
 
 	private static boolean[] getNeededAlgos(GeoElementND geo) {

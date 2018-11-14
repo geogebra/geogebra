@@ -1286,7 +1286,7 @@ ExpressionValue enpower():
       {
              f = ExpressionNode.unaryMinus(kernel, f);
              c = null; // make sure we forget minus for next exponent
-            }
+       }
 
       // collect exponents
       if (exponentList == null)
@@ -1316,16 +1316,14 @@ ExpressionValue enpower():
       // GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
       int size = exponentList.size();
       ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
-      for (int i=size-2; i >= 0; i--)
-    {
-      ExpressionValue prevExponent = exponentList.get(i);
-      tempEV = makePower(prevExponent,tempEV);
-    }
-    ret = makePower(ret, tempEV);
-
-        return ret;
-
+      for (int i=size-2; i >= 0; i--) {
+          ExpressionValue prevExponent = exponentList.get(i);
+          tempEV = makePower(prevExponent,tempEV);
       }
+      ret = makePower(ret, tempEV);
+      return ret;
+
+    }
 }
 
 /**
