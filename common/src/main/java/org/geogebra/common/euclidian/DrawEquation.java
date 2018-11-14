@@ -20,6 +20,7 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.TeXLength;
+import com.himamis.retex.renderer.share.TeXLength.Unit;
 //import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -41,6 +42,9 @@ public abstract class DrawEquation implements DrawEquationI {
 
 		// make \fcolorbox margin compatible with jlm v1
 		TeXLength.put("fboxsep", new TeXLength(TeXLength.Unit.EM, 0.65));
+
+		// thicker border of eg \ovalbox
+		TeXLength.put("fboxrule", new TeXLength(Unit.PT, 2));
 
 		StringBuilder initJLM = new StringBuilder();
 
