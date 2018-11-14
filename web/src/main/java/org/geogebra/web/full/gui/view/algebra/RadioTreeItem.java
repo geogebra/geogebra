@@ -1008,60 +1008,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected final ErrorHandler getErrorHandler(final boolean valid,
 			final boolean allowSliders, final boolean withSliders) {
 		clearErrorLabel();
-		return new ErrorHandler() {
-
-			@Override
-			public void showError(String msg) {
-				RadioTreeItem.this.errorMessage = valid ? msg
-						: loc.getError("InvalidInput");
-
-				RadioTreeItem.this.commandError = null;
-				showCurrentError();
-				saveError();
-			}
-
-			@Override
-			public void resetError() {
-				showError(null);
-			}
-
-			@Override
-			public boolean onUndefinedVariables(String string,
-					AsyncOperation<String[]> callback) {
-				if (withSliders) {
-					return true;
-				}
-
-				if (allowSliders && valid) {
-					if (!app.has(Feature.INPUT_BAR_ADD_SLIDER)) {
-						showSliderDialog(string, callback);
-					}
-				} else if (app.getLocalization()
-						.getReverseCommand(getCurrentCommand()) != null) {
-					showCommandError(app.getLocalization()
-							.getReverseCommand(getCurrentCommand()), null);
-
-					return false;
-				}
-				callback.callback(new String[] { "7" });
-				return false;
-			}
-
-			@Override
-			public void showCommandError(final String command,
-					final String message) {
-				RadioTreeItem.this.commandError = command;
-				RadioTreeItem.this.errorMessage = message;
-				showCurrentError();
-				saveError();
-			}
-
-			@Override
-			public String getCurrentCommand() {
-				return RadioTreeItem.this.getCommand();
-			}
-
-		};
+		return new AVErrorHandler(this, valid, allowSliders, withSliders);
 	}
 
 	protected void saveError() {
