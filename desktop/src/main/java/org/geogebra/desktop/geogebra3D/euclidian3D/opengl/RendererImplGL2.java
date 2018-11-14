@@ -934,4 +934,10 @@ public class RendererImplGL2 extends RendererImpl
 	public void glViewPort() {
 		// used only with shaders
 	}
+
+	public Coords fromARCoreCoordsToGGBCoords(Coords coords,
+			float[] modelMatrix, float scaleFactor) {
+		// TODO Auto-generated method stub
+		return coords;
+	}
 }
