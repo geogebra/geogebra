@@ -62,6 +62,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
 
+	protected Coords tmpCoords1 = Coords.O;
+
 	protected float[] tmpFloat16 = new float[16];
 
 	protected boolean oneNormalForAllVertices;
@@ -502,6 +504,21 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix1.setFromGL(cameraPerspective);
         projectionMatrix.setMul(tmpMatrix1, tmpMatrix2);
     }
+
+	@Override
+    public Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+														   float scaleFactor) {
+	    // undo model matrix
+		tmpMatrix1.setFromGL(modelMatrix);
+		tmpMatrix1.solve(coords, tmpCoords1);
+        // undo scale matrix
+        CoordMatrix4x4.setZero(tmpMatrix2);
+        CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
+        tmpMatrix2.solve(tmpCoords1, coords);
+        // undo screen coordinates
+        view3D.toSceneCoords3D(coords);
+		return coords;
+	}
 
 	@Override
 	public void unsetMatrixView() {

@@ -784,6 +784,12 @@ public abstract class Renderer implements RendererInterface {
 														 float[] cameraPerspective,
 														 float[] modelMatrix, float scaleFactor);
 
+	public final Coords fromARCoreCoordsToGGBCoords(Coords coords) {
+		return fromARCoreCoordsToGGBCoords(coords, arModelMatrix, arScaleFactor);
+	}
+
+	abstract protected Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+                                                                       float scaleFactor);
 	/**
 	 * reset to projection matrix only
 	 */

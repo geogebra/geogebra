@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.kernel.Matrix.Coords;
+
 public interface RendererImplInterface {
 	/**
 	 * enable flag
@@ -177,6 +179,9 @@ public interface RendererImplInterface {
     public abstract void setProjectionMatrixViewForAR(float[] cameraView,
                                                       float[] cameraPerspective,
                                                       float[] modelMatrix, float scaleFactor);
+
+	public abstract Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+                                                                    float scaleFactor) ;
 
 	public abstract void unsetMatrixView();
 
