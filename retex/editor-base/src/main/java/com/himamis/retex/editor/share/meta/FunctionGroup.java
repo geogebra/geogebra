@@ -11,7 +11,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class FunctionGroup implements MetaGroup {
 
 	private static MetaParameter[] defaultParameters = new MetaParameter[] {
-			new MetaParameter("f", 0), new MetaParameter("x", 1) };
+			MetaParameter.BASIC, MetaParameter.BASIC };
 	private MetaFunction apply = new MetaFunction(Tag.APPLY, null, (char) 0,
 			defaultParameters);
 	private MetaFunction applySquare = new MetaFunction(Tag.APPLY_SQUARE, null,

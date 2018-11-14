@@ -35,7 +35,6 @@ package com.himamis.retex.editor.share.meta;
  */
 public class MetaFunction extends MetaComponent {
 
-	private final int[] order;
 	private int insertIndex;
 	private int initialIndex;
 	private MetaParameter[] arguments;
@@ -57,11 +56,6 @@ public class MetaFunction extends MetaComponent {
         this.arguments = parameters != null ? parameters : new MetaParameter[0];
         insertIndex = 0;
         initialIndex = 0;
-
-        order = new int[parameters != null ? parameters.length : 0];
-        for (int inputOrder = 0; inputOrder < order.length; inputOrder++) {
-            order[arguments[inputOrder].getOrder()] = inputOrder;
-        }
     }
 
     /**

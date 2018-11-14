@@ -36,66 +36,35 @@ public class MetaParameter implements Serializable {
 	 * MetaParameter needs to implement Serializable to be parcelable (android)
 	 */
 	private static final long serialVersionUID = 1L;
+	/** Param without up/down functionality */
+	public static MetaParameter BASIC = new MetaParameter(-1, -1);
 
-    private String name;
-    private String desc;
-    private int order;
     private int up = -1;
     private int down = -1;
 
 	/**
-	 * @param name
-	 *            parameter name
-	 * @param order
-	 *            order for iterating with arrows
+	 * @param up
+	 *            index of param upwards
+	 * @param down
+	 *            index of param downwards
 	 */
-    public MetaParameter(String name, int order) {
-        this.name = name;
-        this.order = order;
+	public MetaParameter(int up, int down) {
+		this.up = up;
+		this.down = down;
     }
 
-    /**
-     * Parameter name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Description.
-     */
-    public String getDescription() {
-        return desc;
-    }
-
-    /**
-     * Description.
-     */
-    public void setDescription(String desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * CAS order
-     */
-    int getOrder() {
-        return order;
-    }
-
+	/**
+	 * @return index of param upwards
+	 */
     public int getUpIndex() {
         return up;
     }
 
-    void setUpIndex(int up) {
-        this.up = up;
-    }
-
+	/**
+	 * @return index of param downwards
+	 */
     public int getDownIndex() {
         return down;
-    }
-
-    void setDownIndex(int down) {
-        this.down = down;
     }
 
 }
