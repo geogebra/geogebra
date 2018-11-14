@@ -934,7 +934,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			String filename = args.getStringValue("giacJSONtests");
 
 			if (filename == null || "".equals(filename)) {
-				filename = "../web/war/__giac.js";
+				filename = "../common/src/main/resources/giac/__giac.js";
 			}
 
 			int count = 0;
