@@ -4021,9 +4021,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case EXPORT_OBJ_IN_MENU:
 			return false;
 
-		case INPUT_BAR_ADD_SLIDER:
-			return isHTML5Applet();
-
 		case DEFAULT_OBJECT_STYLES:
 			return true;
 

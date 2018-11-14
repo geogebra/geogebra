@@ -116,9 +116,6 @@ public enum Feature {
 
 	EXPORT_OBJ_IN_MENU,
 
-	/** GGB-1708 */
-	INPUT_BAR_ADD_SLIDER,
-
 	/** GGB-1916 */
 	DEFAULT_OBJECT_STYLES,
 	

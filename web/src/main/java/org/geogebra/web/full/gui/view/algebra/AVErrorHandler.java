@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -53,11 +52,7 @@ final class AVErrorHandler implements ErrorHandler {
 			return true;
 		}
 
-		if (allowSliders && valid) {
-			if (!this.radioTreeItem.app.has(Feature.INPUT_BAR_ADD_SLIDER)) {
-				this.radioTreeItem.showSliderDialog(string, callback);
-			}
-		} else if (this.radioTreeItem.app.getLocalization()
+		if (!(allowSliders && valid) && this.radioTreeItem.app.getLocalization()
 				.getReverseCommand(getCurrentCommand()) != null) {
 			showCommandError(this.radioTreeItem.app.getLocalization()
 					.getReverseCommand(getCurrentCommand()), null);

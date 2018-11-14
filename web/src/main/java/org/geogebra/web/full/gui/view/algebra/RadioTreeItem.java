@@ -2100,33 +2100,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		((LatexTreeItemController) getController()).preventBlur();
 	}
 
-	protected boolean showSliderDialog(final String string,
-			final AsyncOperation<String[]> callback) {
-		Runnable r = new Runnable() {
-
-			@Override
-			public void run() {
-				app.getGuiManager().checkAutoCreateSliders(string,
-						new AsyncOperation<String[]>() {
-
-							@Override
-							public void callback(String[] obj) {
-								callback.callback(obj);
-								listenToBlur();
-							}
-						});
-
-			}
-		};
-		if (mf != null) {
-			mf.setOnBlur(null);
-			mf.checkEnterReleased(r);
-		} else {
-			r.run();
-		}
-		return false;
-	}
-
 	/**
 	 * Start listening to blur events
 	 */

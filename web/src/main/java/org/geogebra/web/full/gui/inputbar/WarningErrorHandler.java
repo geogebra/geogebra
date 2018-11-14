@@ -52,9 +52,7 @@ public final class WarningErrorHandler implements ErrorHandler {
 	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
-		if (app2.has(Feature.INPUT_BAR_ADD_SLIDER)) {
-			input.setUndefinedVariables(string);
-		}
+		input.setUndefinedVariables(string);
 		return false;
 	}
 
