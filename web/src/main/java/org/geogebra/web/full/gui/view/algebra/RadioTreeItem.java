@@ -286,25 +286,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected final String getLatexString(Integer limit, boolean output) {
-		return getLatexString(geo, limit, output);
-	}
-
-	private String getLatexString(GeoElement geo1, Integer limit,
-			boolean output) {
-		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
-				&& !isDefinitionAndValue()) || !geo1.isDefinitionValid()
-				|| (output && !geo1.isLaTeXDrawableGeo())) {
-			return null;
-		}
-		String text = geo1.getLaTeXAlgebraDescription(
-				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
-				StringTemplate.latexTemplate);
-
-		if ((text != null) && (limit == null || (text.length() < limit))) {
-			return text;
-		}
-
-		return null;
+		return AlgebraItem.getLatexString(geo, limit, output);
 	}
 
 	private void buildPlainTextItem() {

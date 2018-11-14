@@ -489,4 +489,34 @@ public class AlgebraItem {
 	private static String getLatexText(String text) {
 		return "\\text{" + text + '}';
 	}
+
+	/**
+	 * @param geo1
+	 *            geo
+	 * @param limit
+	 *            max length: fallback to plain text otherwise
+	 * @param output
+	 *            whether to substitute numbers
+	 * @return LaTEX string
+	 */
+	public static String getLatexString(GeoElement geo1, Integer limit,
+			boolean output) {
+		Kernel kernel = geo1.getKernel();
+		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+				&& kernel
+						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)
+				|| !geo1.isDefinitionValid()
+				|| (output && !geo1.isLaTeXDrawableGeo())) {
+			return null;
+		}
+		String text = geo1.getLaTeXAlgebraDescription(
+				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
+				StringTemplate.latexTemplate);
+
+		if ((text != null) && (limit == null || (text.length() < limit))) {
+			return text;
+		}
+
+		return null;
+	}
 }
