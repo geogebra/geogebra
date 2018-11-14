@@ -172,8 +172,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			headerTable.setColumnWidth(i, w + "px");
 		}
 
-		int tableWidth = table.getOffsetWidth();
-		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
+		headerTable.getElement().getStyle().setWidth(table.getOffsetWidth(), Unit.PX);
 	}
 
 	private void createGUI() {
