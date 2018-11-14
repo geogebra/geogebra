@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.main.Localization;
@@ -278,6 +279,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.NOT_EQUAL)) {
 			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
 					(FunctionalNVar) rt);
+		} else if ((lt instanceof GeoCurveCartesianND)
+				&& (operation == Operation.XCOORD
+						|| operation == Operation.YCOORD
+						|| operation == Operation.ZCOORD)) {
+			return GeoFunction.operationSymb(operation,
+					(GeoCurveCartesianND) lt);
 		}
 		// we want to use function arithmetic in cases like f*2 or f+x^2, but
 		// not for f(2), f'(2) etc.

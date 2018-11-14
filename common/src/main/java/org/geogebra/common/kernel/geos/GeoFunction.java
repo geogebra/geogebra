@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1611,6 +1612,25 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// AlgoDependentFunction(fun1.getConstruction(),f);
 		// return adf.getFunction();
 
+	}
+
+	/**
+	 * @param op
+	 *            coord op
+	 * @param lt
+	 *            curve
+	 * @return coord function for the curve
+	 */
+	public static FunctionNVar operationSymb(Operation op,
+			GeoCurveCartesianND lt) {
+		Kernel kernel = lt.getKernel();
+		FunctionVariable fv = new FunctionVariable(kernel, "t");
+		ExpressionNode ex = new ExpressionNode(kernel, lt,
+				Operation.VEC_FUNCTION,
+				fv).apply(op);
+		Function f = new Function(ex, fv);
+		f.initFunction();
+		return f;
 	}
 
 	private static FunctionNVar fromExpr(ExpressionNode sum,

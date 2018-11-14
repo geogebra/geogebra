@@ -1927,4 +1927,10 @@ public class CommandsTest extends AlgebraTest {
 		t("nCr[ 5, 1 ]", "5");
 	}
 
+	@Test
+	public void xCurve() {
+		t("f:(cos(t),sin(t+1))", "(cos(t), sin(t + 1))");
+		t("x(f)", "x(f(t))");
+	}
+
 }
