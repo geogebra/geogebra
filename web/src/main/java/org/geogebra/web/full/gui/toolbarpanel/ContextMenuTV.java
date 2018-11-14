@@ -32,7 +32,7 @@ public class ContextMenuTV {
 	 * application
 	 */
 	protected AppW app;
-	private int columntIdx;
+	private int columnIdx;
 	private GeoElement geo;
 
 	/**
@@ -45,7 +45,7 @@ public class ContextMenuTV {
 	 */
 	public ContextMenuTV(AppW app, GeoElement geo, int column) {
 		this.app = app;
-		this.columntIdx = column;
+		this.columnIdx = column;
 		this.geo = geo;
 		buildGui();
 	}
@@ -68,7 +68,7 @@ public class ContextMenuTV {
 	 * @return index of column
 	 */
 	public int getColumnIdx() {
-		return columntIdx;
+		return columnIdx;
 	}
 
 	private void buildGui() {

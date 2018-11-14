@@ -34,6 +34,7 @@ public interface TableValues extends View {
 	/**
 	 * Returns the evaluatable for the column,
 	 * or null, if index is out of range.
+	 * @param column index
 	 *
 	 * @return evaluatable or null
 	 */
@@ -44,9 +45,14 @@ public interface TableValues extends View {
 	 * valuesStep must be a positive number, and they all must be valid nubmers.
 	 * Otherwise an InvalidValuesException is thrown.
 	 *
-	 * @param valuesMin lower value of x-values
-	 * @param valuesMax upper value of x-values
-	 * @param valuesStep step of the x-values
+	 * @param valuesMin
+	 *            lower value of x-values
+	 * @param valuesMax
+	 *            upper value of x-values
+	 * @param valuesStep
+	 *            step of the x-values
+	 * @throws InvalidValuesException
+	 *             values set in table view are invalid
 	 */
 	void setValues(double valuesMin, double valuesMax, double valuesStep) throws
 			InvalidValuesException;

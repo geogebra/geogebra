@@ -8,10 +8,15 @@ import org.geogebra.common.main.Localization;
 public class InvalidValuesException extends Exception {
 
 	private String key;
+	
 	/**
 	 * Construct an InvalidValuesException.
+	 * 
+	 * @param key
+	 *            trans key
 	 *
-	 * @param description description
+	 * @param description
+	 *            description
 	 */
 	InvalidValuesException(String key, String description) {
 		super(description);
