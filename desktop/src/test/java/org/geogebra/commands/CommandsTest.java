@@ -1869,13 +1869,16 @@ public class CommandsTest extends AlgebraTest {
 	public void cmdAsymptote() {
 		t("Asymptote[ x*y=1 ]", new String[] { "x = 0", "y = 0" });
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");
+		t("Asymptote[ 1/x^3 ]", "{y = 0, x = 0}");
+		t("Asymptote[ 1/x^4 ]", "{y = 0, x = 0}");
 		t("Asymptote[ x^2*y^2=1 ]", "{x = 0, y = 0}");
 		t("Asymptote[ 2^x/(3^x-2^x) ]", "{y = 0, y = -1, x = 0}");
 		t("Asymptote[ (x-1)/(x-1) ]", "{y = 1}");
 		t("Asymptote[ (x-1)^3/(x-1) ]", "{}");
-		// t("Asymptote[ ln(x^2) ]", "{x = 0}");
-		// t("Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ]",
-		// "{y = 0, y = -1, x = 0}");
+		// for this one we don't get the right vertical asymptote, at least
+		// ignore the fake one
+		t("IndexOf(x=7,Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ])", "NaN");
+		t("Asymptote[ ln(x^2) ]", "{x = 0}");
 	}
 
 	@Test
