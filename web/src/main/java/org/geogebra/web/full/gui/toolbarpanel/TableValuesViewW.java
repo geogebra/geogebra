@@ -231,15 +231,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	/**
 	 * Sync scroll position of the header and the values table.
 	 * 
-	 * @param holderPanel
-	 * @param innerHolderPanel
+	 * @param panel
+	 *            Header holder panel.
+	 * @param innerPanel
+	 *            Header inner panel.
 	 */
-	void syncScrollPosition(ScrollPanel holderPanel, FlowPanel innerHolderPanel) {
+	void syncScrollPosition(ScrollPanel panel, FlowPanel innerPanel) {
 		int scrollPosition = scrollPanel.getHorizontalScrollPosition();
-		if (innerHolderPanel.getOffsetWidth() < scrollPanel.getOffsetWidth() + scrollPosition) {
-			innerHolderPanel.setWidth((scrollPanel.getOffsetWidth() + scrollPosition) + "px");
+		if (innerPanel.getOffsetWidth() < scrollPanel.getOffsetWidth() + scrollPosition) {
+			innerPanel.setWidth((scrollPanel.getOffsetWidth() + scrollPosition) + "px");
 		}
-		holderPanel.setHorizontalScrollPosition(scrollPosition);
+		panel.setHorizontalScrollPosition(scrollPosition);
 	}
 
 	private Widget getMain() {
@@ -488,16 +490,15 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		NodeList<Element> elems = getColumnElements(column);
 		Element header = getHeaderElement(column);
 
-		int tableWidth = table.getOffsetWidth() - header.getOffsetWidth();
-
-		if (elems == null || elems.getLength() == 0) {
+		if (elems == null || elems.getLength() == 0 || header == null) {
 			return;
 		}
 
-		if (header != null) {
-			header.addClassName("delete");
-			CSSEvents.runOnTransition(new ColumnDelete(column, header, cb), header, "delete");
-		}
+		int tableWidth = table.getOffsetWidth() - header.getOffsetWidth();
+
+
+		header.addClassName("delete");
+		CSSEvents.runOnTransition(new ColumnDelete(column, header, cb), header, "delete");
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
@@ -510,8 +511,10 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * Runs on column delete.
 	 * 
 	 * @param column
+	 *            the deleted column number.
+	 * 
 	 * @param header
-	 *            The header th element
+	 *            The table header HTML element
 	 * 
 	 * @param cb
 	 *            custom callback to run on column delete.
