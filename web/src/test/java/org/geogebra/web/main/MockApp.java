@@ -31,9 +31,9 @@ public class MockApp {
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(new AppletFactory3D() {
 			@Override
-			public AppWFull getApplet(ArticleElementInterface ae,
-					GeoGebraFrameBoth fr, GLookAndFeelI laf, GDevice device) {
-				return new AppWapplet3DTest(ae, fr, (GLookAndFeel) laf, device);
+			public AppWFull getApplet(ArticleElementInterface params,
+					GeoGebraFrameBoth frame, GLookAndFeelI laf, GDevice device) {
+				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
 		},
 				new GLookAndFeel(), new BrowserDevice(), false);

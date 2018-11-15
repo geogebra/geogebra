@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -187,13 +187,13 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		boolean value = cmValue.isChecked();
 		int mode = -1;
 		if (name && !value) {
-			mode = model.isForceCaption() ? GeoElement.LABEL_CAPTION
-					: GeoElement.LABEL_NAME;
+			mode = model.isForceCaption() ? GeoElementND.LABEL_CAPTION
+					: GeoElementND.LABEL_NAME;
 		} else if (name && value) {
-			mode = model.isForceCaption() ? GeoElement.LABEL_CAPTION_VALUE
-					: GeoElement.LABEL_NAME_VALUE;
+			mode = model.isForceCaption() ? GeoElementND.LABEL_CAPTION_VALUE
+					: GeoElementND.LABEL_NAME_VALUE;
 		} else if (!name && value) {
-			mode = GeoElement.LABEL_VALUE;
+			mode = GeoElementND.LABEL_VALUE;
 		}
 		// !name && !value: hide, nothing to do.
 
@@ -217,15 +217,15 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		}
 		cmName.setChecked(
 				isEqualVal
-						&& (mode == GeoElement.LABEL_NAME
-								|| mode == GeoElement.LABEL_CAPTION_VALUE
-								|| mode == GeoElement.LABEL_NAME_VALUE
-								|| mode == GeoElement.LABEL_CAPTION));
+						&& (mode == GeoElementND.LABEL_NAME
+								|| mode == GeoElementND.LABEL_CAPTION_VALUE
+								|| mode == GeoElementND.LABEL_NAME_VALUE
+								|| mode == GeoElementND.LABEL_CAPTION));
 		cmValue.setChecked(
 				isEqualMode
-						&& (mode == GeoElement.LABEL_VALUE
-								|| mode == GeoElement.LABEL_CAPTION_VALUE
-								|| mode == GeoElement.LABEL_NAME_VALUE));
+						&& (mode == GeoElementND.LABEL_VALUE
+								|| mode == GeoElementND.LABEL_CAPTION_VALUE
+								|| mode == GeoElementND.LABEL_NAME_VALUE));
 	}
 
 	@Override

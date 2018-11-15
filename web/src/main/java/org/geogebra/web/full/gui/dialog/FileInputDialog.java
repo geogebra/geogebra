@@ -25,7 +25,6 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 		// createGUI();
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);
-		center();
 	}
 
 	/**

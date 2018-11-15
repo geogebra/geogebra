@@ -18,16 +18,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DataAnalysisViewDockPanelW extends DockPanelW {
 
-	//	/**
-	//	 * default width of this panel
-	//	 */
-	//	public static final int DEFAULT_WIDTH = 480;
-	private AppW app;
-
 	/**
 	 * @param app App
 	 * Creates panel
-
 	 *
 	 */
 

@@ -24,7 +24,7 @@ public abstract class UploadImageDialog extends DialogBoxW
 	protected FlowPanel bottomPanel;
 	protected SimplePanel inputPanel;
 	protected UploadImagePanel uploadImagePanel;
-	protected AppW app;
+	protected AppW appw;
 	protected Button insertBtn;
 	protected Button cancelBtn;
 	protected Label upload;
@@ -44,7 +44,7 @@ public abstract class UploadImageDialog extends DialogBoxW
 	 */
 	public UploadImageDialog(AppW app, int previewWidth, int previewHeight) {
 		super(app.getPanel(), app);
-		this.app = app;
+		this.appw = app;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;
 		app.addInsertImageCallback(new Runnable() {
@@ -98,7 +98,7 @@ public abstract class UploadImageDialog extends DialogBoxW
 
 	@Override
 	public void setLabels() {
-		Localization loc = app.getLocalization();
+		Localization loc = appw.getLocalization();
 		getCaption().setText(loc.getMenu("Image"));
 		upload.setText(loc.getMenu("File"));
 		insertBtn.setText(loc.getMenu("OK"));

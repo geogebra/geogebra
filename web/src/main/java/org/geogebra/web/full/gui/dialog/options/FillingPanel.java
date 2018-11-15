@@ -441,7 +441,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnOpenFile.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				new MyImageFileInputDialog(app);
+				new MyImageFileInputDialog(app).center();
 			}
 		});
 

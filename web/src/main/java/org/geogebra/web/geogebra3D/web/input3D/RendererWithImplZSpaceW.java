@@ -1,5 +1,6 @@
 package org.geogebra.web.geogebra3D.web.input3D;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -40,11 +41,11 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 				}
 				ScriptElement zSpaceScript = Document.get().createScriptElement();
 				zSpaceScript.setSrc(GWT.getModuleBaseURL() + "js/zSpace.js");
-				ScriptLoadCallback scriptCallback = new ScriptLoadCallback() {
-					private boolean canceled = false;
+				ScriptLoadCallback scriptCallbackZspace = new ScriptLoadCallback() {
+					private boolean canceledZSpace = false;
 					@Override
 					public void onLoad() {
-						if (canceled) {
+						if (canceledZSpace) {
 							return;
 						}
 						// create zspace object
@@ -54,27 +55,23 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 					@Override
 					public void onError() {
-						if (canceled) {
-							return;
-						}
+						Log.warn("zSpace not loaded");
 					}
 
 					@Override
 					public void cancel() {
-						canceled = true;
-
+						canceledZSpace = true;
 					}
 
 				};
-				ResourcesInjector.addLoadHandler(zSpaceScript, scriptCallback);
+				ResourcesInjector.addLoadHandler(zSpaceScript,
+						scriptCallbackZspace);
 				Document.get().getBody().appendChild(zSpaceScript);
 			}
 
 			@Override
 			public void onError() {
-				if (canceled) {
-					return;
-				}
+				Log.warn("gl matrix not loaded");
 			}
 
 			@Override

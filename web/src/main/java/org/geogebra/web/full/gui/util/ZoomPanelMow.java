@@ -174,6 +174,7 @@ public class ZoomPanelMow extends FlowPanel
 	/**
 	 * Sets translated titles of the buttons.
 	 */
+	@Override
 	public void setLabels() {
 		setButtonTitleAndAltText(dragPadBtn, "PanView");
 		setButtonTitleAndAltText(homeBtn, "StandardView");
@@ -188,6 +189,7 @@ public class ZoomPanelMow extends FlowPanel
 		}
 	}
 
+	@Override
 	public void onCoordSystemChanged() {
 		getZoomController().updateHomeButton(homeBtn);
 	}

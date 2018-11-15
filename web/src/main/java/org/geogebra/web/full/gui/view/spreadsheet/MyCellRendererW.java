@@ -298,27 +298,26 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	}
 
 	/**
-	 * @param geo
+	 * @param cellGeo
 	 *            cell geo
 	 * @param row
 	 *            row
 	 * @param column
 	 *            column
 	 */
-	public void updateCellBackground(GeoElement geo, int row,
-	        int column) {
+	public void updateCellBackground(GeoElement cellGeo, int row, int column) {
 
 		GColor bgColor = (GColor) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_BGCOLOR);
 		
-		if (geo != null) {
+		if (cellGeo != null) {
 
-			if (bgColor == null && geo.getBackgroundColor() != null) {
-				bgColor = geo.getBackgroundColor();
+			if (bgColor == null && cellGeo.getBackgroundColor() != null) {
+				bgColor = cellGeo.getBackgroundColor();
 			}
 
 			// adjust selection color when there is a bgColor
-			if (geo.doHighlighting()) {
+			if (cellGeo.doHighlighting()) {
 				if (bgColor != null) {
 					bgColor = bgColor.darker();
 				} else {
@@ -458,10 +457,10 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		return geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList();
 	}
 	
-	private void updateSpecialEditor(Grid table, GeoElement geo, int row,
+	private void updateSpecialEditor(Grid table, GeoElement cellGeo, int row,
 	        int column) {
 
-		if (geo.isGeoBoolean()) {
+		if (cellGeo.isGeoBoolean()) {
 			FlowPanel fp = new FlowPanel();
 			final CheckBox checkbox = new CheckBox();
 			fp.add(checkbox);
@@ -470,17 +469,17 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			        .setBackgroundColor(
 			                table.getElement().getStyle().getBackgroundColor());
 			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
-			checkbox.setEnabled(geo.isIndependent());
+			checkbox.setEnabled(cellGeo.isIndependent());
 
 			checkbox.getElement().addClassName(
 			        "geogebraweb-checkbox-spreadsheet");
 
-			if (geo.isLabelVisible()) {
+			if (cellGeo.isLabelVisible()) {
 				// checkBox.setText(geo.getCaption());
 			}
-			checkbox.setValue(((GeoBoolean) geo).getBoolean());
+			checkbox.setValue(((GeoBoolean) cellGeo).getBoolean());
 
-			final GeoBoolean geoBoolean = (GeoBoolean) geo;
+			final GeoBoolean geoBoolean = (GeoBoolean) cellGeo;
 
 			checkbox.addClickHandler(new ClickHandler() {
 				@Override
@@ -499,16 +498,16 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
-		if (geo.isGeoButton()) {
-			final GeoButton gb = (GeoButton) geo;
+		if (cellGeo.isGeoButton()) {
+			final GeoButton gb = (GeoButton) cellGeo;
 			final Button button = new Button();
 			button.getElement()
 			        .getStyle()
 			        .setBackgroundColor(
 			                table.getElement().getStyle().getBackgroundColor());
-			button.setText(geo.getCaption(StringTemplate.defaultTemplate));
+			button.setText(cellGeo.getCaption(StringTemplate.defaultTemplate));
 			button.getElement().getStyle()
-			        .setColor(geo.getObjectColor().toString());
+			        .setColor(cellGeo.getObjectColor().toString());
 			button.getElement().addClassName("geogebraweb-button-spreadsheet");
 
 			button.addClickHandler(new ClickHandler() {
@@ -523,8 +522,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
-		if (geo.isGeoList()) {
-			final GeoList list = (GeoList) geo;
+		if (cellGeo.isGeoList()) {
+			final GeoList list = (GeoList) cellGeo;
 			final ListBox lb = new ListBox();
 			lb.setVisibleItemCount(1);
 			lb.setEnabled(true);

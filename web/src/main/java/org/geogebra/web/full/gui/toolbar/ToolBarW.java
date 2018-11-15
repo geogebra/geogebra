@@ -232,14 +232,14 @@ public class ToolBarW extends FlowPanel
 		}
 	}
 
-	protected ModeToggleMenuW createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
+	protected ModeToggleMenuW createModeToggleMenu(AppW appw, Vector<Integer> menu, int order) {
 		// toolbarVecSize is i.e. 12 for AV, 14 for 3D
 		if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
 			mobileToolbar = true;
-			return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
+			return new ModeToggleMenuP(appw, menu, this, order, submenuPanel);
 		}
 		mobileToolbar = false;
-		return new ModeToggleMenuW(app, menu, this, order);
+		return new ModeToggleMenuW(appw, menu, this, order);
 	}
 	
 	protected Vector<ToolbarItem> getToolbarVec() {

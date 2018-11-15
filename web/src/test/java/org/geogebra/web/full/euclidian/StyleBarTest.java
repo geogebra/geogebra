@@ -25,7 +25,7 @@ public class StyleBarTest {
 		checkUpdate(styleBar);
 	}
 
-	private void checkUpdate(EuclidianStyleBarW styleBar) {
+	private static void checkUpdate(EuclidianStyleBarW styleBar) {
 		try {
 			styleBar.setOpen(true);
 			styleBar.updateStyleBar();

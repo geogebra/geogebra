@@ -44,7 +44,6 @@ public class InputDialogW extends InputDialog
 	protected final AppW app;
 
 	public static final int DEFAULT_COLUMNS = 30;
-	public static final int DEFAULT_ROWS = 10;
 
 	protected InputPanelW inputPanel;
 

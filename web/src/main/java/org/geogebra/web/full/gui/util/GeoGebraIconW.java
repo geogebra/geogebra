@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -140,25 +140,25 @@ public class GeoGebraIconW {
 	public static ImageOrText createDecorAngleIcon(int id) {
 		ImageResource url = null;
 		switch (id) {
-			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
+		case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
 				url =  GuiResources.INSTANCE.deco_angle_2lines();
 			break;
-			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
+		case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
 				url =  GuiResources.INSTANCE.deco_angle_3lines();
 			break;
-			case GeoElement.DECORATION_ANGLE_ONE_TICK:
+		case GeoElementND.DECORATION_ANGLE_ONE_TICK:
 				url =  GuiResources.INSTANCE.deco_angle_1stroke();
 			break;
-			case GeoElement.DECORATION_ANGLE_TWO_TICKS:
+		case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
 				url =  GuiResources.INSTANCE.deco_angle_2strokes();
 			break;
-			case GeoElement.DECORATION_ANGLE_THREE_TICKS:
+		case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
 				url =  GuiResources.INSTANCE.deco_angle_3strokes();
 			break;			
-			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
+		case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 				url =  GuiResources.INSTANCE.deco_angle_arrow_up();
 			break;
-			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
+		case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
 				url =  GuiResources.INSTANCE.deco_angle_arrow_down();
 			break;
 			default:
@@ -175,22 +175,22 @@ public class GeoGebraIconW {
 	public static ImageOrText createDecorSegmentIcon(int id) {
 		ImageResource url = null;
 		switch (id) {		
-		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
+		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
 			url =  GuiResources.INSTANCE.deco_segment_1stroke();
 			break;
-		case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
+		case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
 			url =  GuiResources.INSTANCE.deco_segment_2strokes();
 			break;
-		case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
+		case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
 			url =  GuiResources.INSTANCE.deco_segment_3strokes();
 			break;
-		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
+		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
 			url =  GuiResources.INSTANCE.deco_segment_1arrow();
 			break;
-		case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
+		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
 			url =  GuiResources.INSTANCE.deco_segment_2arrows();
 			break;
-		case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
+		case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
 			url =  GuiResources.INSTANCE.deco_segment_3arrows();
 			break;
 		default:

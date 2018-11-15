@@ -12,5 +12,5 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
  */
 public interface KeyEventsHandler extends KeyDownHandler, KeyPressHandler,
         KeyUpHandler {
-
+	// methods declared in parent interfaces
 }

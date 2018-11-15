@@ -46,8 +46,8 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(App app) {
-		((DialogManagerW) app.getDialogManager()).showSaveDialog();
+	public void saveLoggedOut(App app1) {
+		((DialogManagerW) app1.getDialogManager()).showSaveDialog();
 	}
 	
 	@Override
@@ -284,15 +284,15 @@ public class WinFileManager extends FileManager {
 	}-*/;
 	
 	@Override
-	public void export(final App app) {
-		final String title1 = app.getExportTitle();
-		app.getGgbApi().showTooltip(app.getLocalization().getMenu("Saving"));
+	public void export(final App app1) {
+		final String title1 = app1.getExportTitle();
+		app1.getGgbApi().showTooltip(app1.getLocalization().getMenu("Saving"));
 		final AsyncOperation<String> onFileDialogCancel = new AsyncOperation<String>() {
 
 			@Override
 			public void callback(final String path) {
-				app.getGgbApi().showTooltip("");
-				((DialogManagerW) app.getDialogManager()).getSaveDialog()
+				app1.getGgbApi().showTooltip("");
+				((DialogManagerW) app1.getDialogManager()).getSaveDialog()
 						.hide();
 				getApp().dispatchEvent(
 						new Event(EventType.EXPORT, null, "[\"ggb\"]"));
@@ -306,7 +306,7 @@ public class WinFileManager extends FileManager {
 			}
 		};
 
-		((AppW) app).getGgbApi().getBase64(true, new AsyncOperation<String>() {
+		((AppW) app1).getGgbApi().getBase64(true, new AsyncOperation<String>() {
 
 			@Override
 			public void callback(final String data) {

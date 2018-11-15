@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 
 	SymbolTableW symbolTable = null;
-	private AppW app;
+	private AppW appw;
 	private AutoCompleteTextFieldW textField;
 
 	/**
@@ -31,7 +31,7 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 			AutoCompleteTextFieldW autoCompleteTextField,
 	        Widget invoker) {
 		super(true, app.getPanel(), app);
-		this.app = app;
+		this.appw = app;
 		this.textField = autoCompleteTextField;
 		createSymbolTable();
 
@@ -51,7 +51,7 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 
 	private void createSymbolTable() {
 
-		Localization loc = app.getLocalization();
+		Localization loc = appw.getLocalization();
 
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
 

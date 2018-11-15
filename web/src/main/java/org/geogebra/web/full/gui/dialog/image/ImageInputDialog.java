@@ -45,7 +45,7 @@ public class ImageInputDialog extends UploadImageDialog {
 	public void setLabels() {
 		super.setLabels();
 		if (webcam != null) {
-			webcam.setText(app.getLocalization().getMenu("Webcam"));
+			webcam.setText(appw.getLocalization().getMenu("Webcam"));
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class ImageInputDialog extends UploadImageDialog {
 		upload.removeStyleDependentName("highlighted");
 		mayCenter = false;
 		if (webcamPanel == null) {
-			webcamPanel = new WebCamInputPanel(app);
+			webcamPanel = new WebCamInputPanel(appw);
 		} else {
 			webcamPanel.startVideo();
 		}
@@ -94,11 +94,11 @@ public class ImageInputDialog extends UploadImageDialog {
 			if (location != null && !location.isLabelSet()) {
 				location.setLabel(null);
 	    	}
-			app.imageDropHappened(name, data);
+			appw.imageDropHappened(name, data);
 	    	hide();
 	    } else if (source == cancelBtn) {
-	      	app.getImageManager().setPreventAuxImage(false);
-			app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+	      	appw.getImageManager().setPreventAuxImage(false);
+			appw.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 					ModeSetter.TOOLBAR);
 	  	   	hide();
 	    } else if (source == upload) {

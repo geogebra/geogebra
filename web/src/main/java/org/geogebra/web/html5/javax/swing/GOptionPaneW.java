@@ -43,17 +43,17 @@ public class GOptionPaneW extends GDialogBox
 	private Button btnOK;
 	private Button btnCancel;
 	private Button[] optionButtons;
-	private String[] optionNames;
+	private String[] mOptionNames;
 	private int mOptionType;
 	private int mMessageType;
 	private boolean requiresReturnValue;
 	private Localization loc;
-	private AsyncOperation<String[]> returnHandler;
+	private AsyncOperation<String[]> mReturnHandler;
 
 	private AutoCompleteTextFieldW inputField;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
-	private ScrollPanel scrollPanel;
+	private ScrollPanel mScrollPanel;
 	private int returnOption;
 	private String returnValue;
 	private VerticalPanel messageTextPanel;
@@ -61,7 +61,7 @@ public class GOptionPaneW extends GDialogBox
 	private Image mIcon;
 	private HorizontalPanel messagePanel;
 	private String mOkLabel = null;
-	private int enterOption;
+	private int mEnterOption;
 	private boolean keyDown;
 
 	private FocusWidget caller;
@@ -104,10 +104,10 @@ public class GOptionPaneW extends GDialogBox
 			}
 		}
 
-		if (returnHandler != null) {
+		if (mReturnHandler != null) {
 			Log.debug("option: " + returnOption + "  value: " + returnValue);
 			String[] dialogResult = { returnOption + "", returnValue };
-			returnHandler.callback(dialogResult);
+			mReturnHandler.callback(dialogResult);
 
 		}
 
@@ -183,13 +183,13 @@ public class GOptionPaneW extends GDialogBox
 
 		switch (mOptionType) {
 		case GOptionPane.CUSTOM_OPTION:
-			optionButtons = new Button[optionNames.length];
-			for (int i = optionNames.length - 1; i >= 0; i--) {
-				optionButtons[i] = new Button(optionNames[i]);
+			optionButtons = new Button[mOptionNames.length];
+			for (int i = mOptionNames.length - 1; i >= 0; i--) {
+				optionButtons[i] = new Button(mOptionNames[i]);
 				optionButtons[i].addClickHandler(this);
 
 				// Styling of cancel button should be different
-				if (optionNames[i]
+				if (mOptionNames[i]
 						.equals(mApp.getLocalization().getMenu("Cancel"))) {
 					optionButtons[i].addStyleName("cancelBtn");
 				}
@@ -226,8 +226,8 @@ public class GOptionPaneW extends GDialogBox
 		if (mIcon != null) {
 			messagePanel.add(mIcon);
 		}
-		if (scrollPanel != null) {
-			messagePanel.add(scrollPanel);
+		if (mScrollPanel != null) {
+			messagePanel.add(mScrollPanel);
 			messagePanel.addStyleName("examMessagePanel");
 		} else {
 			String[] lines = mMessage.split("\n");
@@ -310,7 +310,6 @@ public class GOptionPaneW extends GDialogBox
 				close();
 			}
 		}
-
 	}
 
 	/**
@@ -335,7 +334,7 @@ public class GOptionPaneW extends GDialogBox
 
 			} else if (keyCode == KeyCodes.KEY_ENTER) {
 				returnOption = mOptionType == GOptionPane.CUSTOM_OPTION
-						? enterOption : GOptionPane.OK_OPTION;
+						? mEnterOption : GOptionPane.OK_OPTION;
 				close();
 			}
 		}
@@ -370,7 +369,7 @@ public class GOptionPaneW extends GDialogBox
 
 		this.mOkLabel = null;
 
-		this.returnHandler = null;
+		this.mReturnHandler = null;
 		requiresReturnValue = false;
 
 		showDialog(true);
@@ -397,14 +396,14 @@ public class GOptionPaneW extends GDialogBox
 			String title, int optionType, int messageType, String okLabel,
 			Image icon, AsyncOperation<String[]> returnHandler) {
 
-		this.scrollPanel = scrollPanel;
+		this.mScrollPanel = scrollPanel;
 		this.mTitle = title;
 		this.mOptionType = optionType;
 		this.mMessageType = messageType;
 		this.mIcon = icon;
 
 		this.mOkLabel = okLabel;
-		this.returnHandler = returnHandler;
+		this.mReturnHandler = returnHandler;
 
 		// this.returnHandler = null;
 		requiresReturnValue = false;
@@ -432,13 +431,13 @@ public class GOptionPaneW extends GDialogBox
 		this.mMessage = message;
 		this.mTitle = title;
 		this.mOptionType = GOptionPane.CUSTOM_OPTION;
-		this.enterOption = enterOption;
+		this.mEnterOption = enterOption;
 		this.mMessageType = messageType;
 		this.mIcon = icon;
-		this.scrollPanel = null;
+		this.mScrollPanel = null;
 
-		this.optionNames = optionNames;
-		this.returnHandler = handler;
+		this.mOptionNames = optionNames;
+		this.mReturnHandler = handler;
 		requiresReturnValue = false;
 
 		showDialog(true);
@@ -464,7 +463,7 @@ public class GOptionPaneW extends GDialogBox
 		this.mIcon = (Image) icon;
 
 		this.mInitialSelectionValue = initialSelectionValue;
-		this.returnHandler = handler;
+		this.mReturnHandler = handler;
 		requiresReturnValue = true;
 
 		showDialog(true);
@@ -499,7 +498,7 @@ public class GOptionPaneW extends GDialogBox
 		this.mIcon = (Image) icon;
 
 		this.mInitialSelectionValue = initialSelectionValue;
-		this.returnHandler = handler;
+		this.mReturnHandler = handler;
 		requiresReturnValue = true;
 
 		showDialog(false);

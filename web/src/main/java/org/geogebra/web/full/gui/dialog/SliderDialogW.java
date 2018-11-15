@@ -65,7 +65,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	private HorizontalPanel radioButtonWidget;
 	private VerticalPanel nameWidget;
 	
-	private AppW app;
+	private AppW appw;
 	//private SliderPanel sliderPanel;
 	
 	private GeoElement geoResult;
@@ -88,7 +88,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 				app.has(Feature.DIALOG_DESIGN));
 
 		//super(app.getFrame(), false);
-		this.app = app;
+		this.appw = app;
 		this.loc = app.getLocalization();
 		this.addStyleName("sliderDialog");
 		this.addStyleName("GeoGebraFrame");
@@ -164,17 +164,17 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		radioButtonWidget.add(rbAngle);
 		radioButtonWidget.add(rbInteger);			
 
-		sliderPanel = new SliderPanelW(app, true, true);
+		sliderPanel = new SliderPanelW(appw, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
 		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		
 		Label nameLabel = new Label(loc.getMenu("Name"));
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (appw.has(Feature.DIALOG_DESIGN)) {
 			nameLabel.setStyleName("coloredLabel");
 		}
 		nameWidget.add(nameLabel);
 		
-		tfLabel = new AutoCompleteTextFieldW(-1, app);
+		tfLabel = new AutoCompleteTextFieldW(-1, appw);
 		tfLabel.enableGGBKeyboard();
 		updateLabelField(number, false);
 		tfLabel.addFocusListener(new FocusListenerW(tfLabel));
@@ -214,7 +214,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 			String strLabel;
 			String text = tfLabel.getText();
 			try {								
-				strLabel = app.getKernel().getAlgebraProcessor()
+				strLabel = appw.getKernel().getAlgebraProcessor()
 						.parseLabel(text);
 			} catch (Exception e) {
 				strLabel = null;
@@ -267,17 +267,17 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
 			if (!rbAngle.getValue()) {
 				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
-						app.getActiveEuclidianView());
+						appw.getActiveEuclidianView());
 			}
 
 			hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
+			appw.getActiveEuclidianView().requestFocusInWindow();
 
-			app.storeUndoInfo();
-			app.getKernel().notifyRepaint();
+			appw.storeUndoInfo();
+			appw.getKernel().notifyRepaint();
 		} else if (target == btCancel.getElement()) {
 			hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
+			appw.getActiveEuclidianView().requestFocusInWindow();
 		}
 	}
 
@@ -291,7 +291,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 			number.setIntervalMax(30);
 			updateLabelField(number, true);
 		} else if (vc.getSource() == rbNumber) {
-			GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
+			GeoNumeric num = appw.getKernel().getAlgoDispatcher().getDefaultNumber(false);
 			number.setAutoStep(num.isAutoStep());
 			number.setAnimationStep(num.getAnimationStep());
 			number.setIntervalMin(num.getIntervalMin());

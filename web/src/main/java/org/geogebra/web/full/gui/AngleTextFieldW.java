@@ -176,6 +176,7 @@ public class AngleTextFieldW extends GTextBox
 		}
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		handleTabletKeyboard(event);
 	}

@@ -52,7 +52,7 @@ import com.google.gwt.user.client.ui.ListBox;
 public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		ToolManagerDialogListener, MacroChangeListener {
 
-	AppW app;
+	AppW appw;
 	final LocalizationW loc;
 	private ToolManagerDialogModel model;
 
@@ -156,7 +156,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		setModal(true);
 		model = new ToolManagerDialogModel(app, this);
 
-		this.app = app;
+		this.appw = app;
 		this.loc = app.getLocalization();
 		initGUI();
 		center();
@@ -165,7 +165,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
-			app.setMoveMode();
+			appw.setMoveMode();
 		} else {
 			// recreate tool bar of application window
 			// updateToolBar();
@@ -179,7 +179,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	 */
 	private void updateToolBar() {
 		model.addMacros(toolList.getMacros().toArray());
-		app.updateToolBar();
+		appw.updateToolBar();
 	}
 
 	private void deleteTools() {
@@ -211,7 +211,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		String question = "";
 		String message = "";
 		if (macroNamesDel.length() == 0) {
-			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
+			appw.showError(appw.getLocalization().getError("Tool.DeleteUsed")
 					+ " " + macroNamesNoDel);
 		} else {
 			question = loc.getMenu("Question");
@@ -223,7 +223,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 			}
 			String[] options = { loc.getMenu("DeleteTool"),
 					loc.getMenu("DontDeleteTool") };
-			app.getGuiManager().getOptionPane().showOptionDialog(message,
+			appw.getGuiManager().getOptionPane().showOptionDialog(message,
 					question, 0, GOptionPane.QUESTION_MESSAGE, null, options,
 					new AsyncOperation<String[]>() {
 
@@ -310,7 +310,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		toolButtonPanel.add(btDelete);
 		btDelete.setText(loc.getMenu("Delete"));
 
-		if (app.has(Feature.TOOL_EDITOR)) {
+		if (appw.has(Feature.TOOL_EDITOR)) {
 			btOpen = new Button();
 			toolButtonPanel.add(btOpen);
 			btOpen.setText(loc.getMenu("Open"));
@@ -326,7 +326,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		btShare.setText(loc.getMenu("Share") + " ...");
 
 		// name & icon
-		macroPanel = new ToolNameIconPanelW(app);
+		macroPanel = new ToolNameIconPanelW(appw);
 		macroPanel.setTitle(loc.getMenu("NameIcon"));
 		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);
@@ -358,19 +358,19 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	}
 
 	private void openTools() {
-		Log.debug("before" + app.hashCode());
-		app.setWaitCursor();
+		Log.debug("before" + appw.hashCode());
+		appw.setWaitCursor();
 		// for (Macro macro : toolList.getSelectedMacros()) {
-		app.storeMacro(toolList.getSelectedMacro(), false);
-		app.getFileManager().open(Window.Location.getHref(), "");
+		appw.storeMacro(toolList.getSelectedMacro(), false);
+		appw.getFileManager().open(Window.Location.getHref(), "");
 
-		app.setDefaultCursor();
+		appw.setDefaultCursor();
 		hide();
 	}
 
 	private void insertTools() {
 		toolList.clear();
-		Kernel kernel = app.getKernel();
+		Kernel kernel = appw.getKernel();
 		int size = kernel.getMacroNumber();
 
 		for (int i = 0; i < size; i++) {
@@ -386,7 +386,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	 */
 	private void saveTools() {
 		applyChanges();
-		SaveDialogI dlg = ((DialogManagerW) app.getDialogManager())
+		SaveDialogI dlg = ((DialogManagerW) appw.getDialogManager())
 				.getSaveDialog();
 		dlg.setSaveType(MaterialType.ggt);
 		dlg.show();
@@ -395,18 +395,18 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	@Override
 	public void removeMacroFromToolbar(int i) {
 
-		app.getGuiManager().removeFromToolbarDefinition(i);
+		appw.getGuiManager().removeFromToolbarDefinition(i);
 	}
 
 	@Override
 	public void refreshCustomToolsInToolBar() {
-		app.getGuiManager().refreshCustomToolsInToolBar();
-		app.getGuiManager().updateToolbar();
+		appw.getGuiManager().refreshCustomToolsInToolBar();
+		appw.getGuiManager().updateToolbar();
 	}
 
 	@Override
 	public void uploadWorksheet(ArrayList<Macro> macros) {
-		GeoGebraTubeExportW exporter = new GeoGebraTubeExportW(app);
+		GeoGebraTubeExportW exporter = new GeoGebraTubeExportW(appw);
 
 		exporter.uploadWorksheet(macros, new PopupBlockAvoider());
 
@@ -460,7 +460,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 
 		model.addMacros(toolList.getMacros().toArray());
 
-		app.updateCommandDictionary();
+		appw.updateCommandDictionary();
 		refreshCustomToolsInToolBar();
 
 	}
@@ -484,13 +484,13 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		Macro m = toolList.getSelectedMacro();
 
 		if (active) {
-			app.getGuiManager().refreshCustomToolsInToolBar();
+			appw.getGuiManager().refreshCustomToolsInToolBar();
 		} else {
 			int macroID = m.getKernel().getMacroID(m)
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			app.getGuiManager().removeFromToolbarDefinition(macroID);
+			appw.getGuiManager().removeFromToolbarDefinition(macroID);
 		}
-		GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+		GuiManagerW gm = ((GuiManagerW) appw.getGuiManager());
 		gm.setGeneralToolBarDefinition(gm.getCustomToolbarDefinition());
 		updateToolBar();
 	}

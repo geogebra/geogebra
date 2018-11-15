@@ -264,7 +264,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		setEditorInCell(row + 1, col);
 	}
 
-	public void addKeyHandler(KeyHandler keyHandler) {
+	public void setKeyHandler(KeyHandler keyHandler) {
 		this.keyHandler = keyHandler;
 	}
 

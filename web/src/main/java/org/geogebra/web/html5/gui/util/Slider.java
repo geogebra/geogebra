@@ -64,8 +64,8 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 				: Integer.valueOf(getRangeValue(range));
 	}
 
-	private native String getRangeValue(Element range) /*-{
-		return range.value;
+	private native String getRangeValue(Element rangeElement) /*-{
+		return rangeElement.value;
 	}-*/;
 
 	public void setMinimum(int min) {

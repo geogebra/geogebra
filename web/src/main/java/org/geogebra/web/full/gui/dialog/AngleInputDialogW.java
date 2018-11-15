@@ -25,9 +25,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AngleInputDialogW extends InputDialogW {
 
-	public static final int DEFAULT_COLUMNS = 30;
-	public static final int DEFAULT_ROWS = 10;
-
 	protected RadioButton rbCounterClockWise;
 	protected RadioButton rbClockWise;
 

@@ -84,7 +84,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 
 		filePanel = new FlowPanel();
 		filePanel.add(chooseFromFile = new StandardButton(
-				app.getLocalization().getMenu("ChooseFromFile"), app));
+				appw.getLocalization().getMenu("ChooseFromFile"), appw));
 		chooseFromFile.addStyleName("gwt-Button");
 		chooseFromFile.addFastClickHandler(new FastClickHandler() {
 
@@ -139,16 +139,16 @@ public class ImageInputDialogT extends UploadImageDialog {
 			}
 			if (this.cameraIsActive
 					&& !"".equals(this.pictureFromCameraString)) {
-				app.imageDropHappened("devicePicture",
+				appw.imageDropHappened("devicePicture",
 						this.pictureFromCameraString);
 			} else if (!this.cameraIsActive
 					&& !"".equals(this.pictureFromFileString)) {
-				app.imageDropHappened("devicePicture",
+				appw.imageDropHappened("devicePicture",
 						this.pictureFromFileString);
 			}
 			hide();
 		} else if (source == cancelBtn) {
-			app.getImageManager().setPreventAuxImage(false);
+			appw.getImageManager().setPreventAuxImage(false);
 			hide();
 		} else if (source == upload) {
 			uploadClicked();

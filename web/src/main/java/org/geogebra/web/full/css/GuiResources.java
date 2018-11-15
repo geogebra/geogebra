@@ -10,6 +10,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
+@SuppressWarnings("javadoc")
 public interface GuiResources extends ClientBundle {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);

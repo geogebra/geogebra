@@ -34,7 +34,7 @@ public class ThumbnailTest {
 		thumbnailShouldUse(App.VIEW_EUCLIDIAN, app);
 	}
 
-	private void thumbnailShouldUse(int viewId, AppW app) {
+	private static void thumbnailShouldUse(int viewId, AppW app) {
 		Assert.assertEquals(viewId,
 				app.getGgbApi().getViewForThumbnail().getViewID());
 	}

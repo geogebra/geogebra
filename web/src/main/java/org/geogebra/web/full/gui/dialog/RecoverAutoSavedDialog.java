@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class RecoverAutoSavedDialog extends DialogBoxW {
 	
-	private AppWFull app;
+	private AppWFull appw;
 	private Button deleteButton = new Button();
 	private Button recoverButton = new Button();
 	private VerticalPanel dialogPanel;
@@ -33,7 +33,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	public RecoverAutoSavedDialog(AppWFull app) {
 		super(app.getPanel(), app);
 		this.addStyleName("RecoverAutoSavedDialog");
-		this.app = app;
+		this.appw = app;
 		initGUI();
 		setLabels();
 	}
@@ -88,9 +88,9 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * starts autoSaving again and closes the dialog.
 	 */
 	void doRecover() {
-		app.getFileManager().restoreAutoSavedFile(materialJSON);
-		app.getFileManager().deleteAutoSavedFile();
-		app.startAutoSave();
+		appw.getFileManager().restoreAutoSavedFile(materialJSON);
+		appw.getFileManager().deleteAutoSavedFile();
+		appw.startAutoSave();
 		this.hide();
 	}
 
@@ -109,8 +109,8 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * closes the dialog.
 	 */
 	void cancelRecover() {
-		app.getFileManager().deleteAutoSavedFile();
-		app.startAutoSave();
+		appw.getFileManager().deleteAutoSavedFile();
+		appw.startAutoSave();
 		this.hide();
 	}
 	

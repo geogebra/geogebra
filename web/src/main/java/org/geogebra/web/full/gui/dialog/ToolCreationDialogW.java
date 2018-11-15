@@ -46,7 +46,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ToolCreationDialogW extends DialogBoxW implements
 		GeoElementSelectionListener, ClickHandler, ToolInputOutputListener {
 
-	private AppW app;
+	private AppW appw;
 	/**
 	 * The underlying ToolModel, managing all input and output lists
 	 */
@@ -78,7 +78,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		super(false, false, null, ((AppW) app).getPanel(), app,
 				app.has(Feature.DIALOG_DESIGN));
 
-		this.app = (AppW) app;
+		this.appw = (AppW) app;
 		this.loc = app.getLocalization();
 		createGUI();
 
@@ -124,10 +124,10 @@ public class ToolCreationDialogW extends DialogBoxW implements
 			// add all currently selected geos to output list
 			toolModel.addSelectedGeosToOutput();
 
-			app.setMoveMode();
-			app.getSelectionManager().addSelectionListener(this);
+			appw.setMoveMode();
+			appw.getSelectionManager().addSelectionListener(this);
 		} else {
-			app.getSelectionManager().removeSelectionListener(this);
+			appw.getSelectionManager().removeSelectionListener(this);
 		}
 	}
 
@@ -166,7 +166,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		VerticalPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
 				inputLB);
 
-		toolNameIconPanel = new ToolNameIconPanelW(app);
+		toolNameIconPanel = new ToolNameIconPanelW(appw);
 
 		// Create tabPanel and add Selectionhandler
 		tabPanel.add(outputObjectPanel, loc.getMenu("OutputObjects"));
@@ -375,20 +375,20 @@ public class ToolCreationDialogW extends DialogBoxW implements
 
 	private void finish() {
 		final App appToSave;
-		if (app.getMacro() != null) {
-			appToSave = app.getMacro().getKernel().getApplication();
+		if (appw.getMacro() != null) {
+			appToSave = appw.getMacro().getKernel().getApplication();
 		} else {
-			appToSave = app;
+			appToSave = appw;
 		}
 
 		final String commandName = toolNameIconPanel.getCommandName();
 		if (appToSave.getKernel().getMacro(commandName) != null) {
 			String[] options = { loc.getMenu("Tool.Replace"),
 					loc.getMenu("Tool.DontReplace") };
-			app.getGuiManager()
+			appw.getGuiManager()
 					.getOptionPane()
 					.showOptionDialog(
-							app.getLocalization().getPlain(
+							appw.getLocalization().getPlain(
 									"Tool.ReplaceQuestion", commandName),
 							loc.getMenu("Question"),
  0,
@@ -426,20 +426,20 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		if (success) {
 			if (returnHandler == null) {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						loc.getMenu("Tool.CreationSuccess"), true, app);
+						loc.getMenu("Tool.CreationSuccess"), true, appw);
 
 			}
 		} else {
-			app.getGuiManager()
+			appw.getGuiManager()
 					.getOptionPane()
 					.showConfirmDialog(loc.getMenu("Tool.NotCompatible"),
-							app.getLocalization().getError("Error"),
+							appw.getLocalization().getError("Error"),
 							GOptionPane.OK_OPTION, GOptionPane.ERROR_MESSAGE,
 							null);
 		}
 
-		if (app.isToolLoadedFromStorage()) {
-			app.storeMacro(app.getMacro(), true);
+		if (appw.isToolLoadedFromStorage()) {
+			appw.storeMacro(appw.getMacro(), true);
 		}
 		if (success) {
 			setVisible(false);
@@ -454,7 +454,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 			returnHandler.callback(toolModel.getNewTool());
 			returnHandler = null;
 		} else {
-			app.getActiveEuclidianView().requestFocusInWindow();
+			appw.getActiveEuclidianView().requestFocusInWindow();
 		}
 	}
 

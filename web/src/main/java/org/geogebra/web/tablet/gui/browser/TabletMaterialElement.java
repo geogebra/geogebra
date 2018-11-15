@@ -31,9 +31,10 @@ public class TabletMaterialElement extends MaterialListElement {
 
 	}
 
-	private native void loadNative(int id, String title, String token) /*-{
+	private native void loadNative(int id, String materialTitle,
+			String token) /*-{
 		if ($wnd.android) {
-			$wnd.android.open(id, title, token);
+			$wnd.android.open(id, materialTitle, token);
 		}
 	}-*/;
 }

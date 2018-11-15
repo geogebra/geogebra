@@ -399,7 +399,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		modelXY.setHeaders(DEFAULT_XY_HEADERS);
 		// modelXY.setRowCount(pointCount);
 
-		tableXY.addKeyHandler(new KeyHandler() {
+		tableXY.setKeyHandler(new KeyHandler() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {

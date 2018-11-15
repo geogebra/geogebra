@@ -120,6 +120,7 @@ public class PenSubMenu extends SubMenuPanel {
 		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(new FastClickHandler() {
+			@Override
 			public void onClick(Widget source) {
 				openColorDialog();
 			}

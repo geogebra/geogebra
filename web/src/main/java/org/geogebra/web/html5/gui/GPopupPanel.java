@@ -254,7 +254,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		/**
 		 * A boolean indicating whether we are showing or hiding the popup.
 		 */
-		private boolean showing;
+		private boolean animationShowing;
 
 		/**
 		 * The timer used to delay the show animation.
@@ -268,7 +268,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		private HandlerRegistration resizeRegistration;
 
-		private final Panel root;
+		private final Panel animationRoot;
 
 		/**
 		 * Create a new {@link ResizeAnimation}.
@@ -278,7 +278,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		 */
 		public ResizeAnimation(GPopupPanel panel, Panel root) {
 			this.curPanel = panel;
-			this.root = root;
+			this.animationRoot = root;
 		}
 
 		/**
@@ -314,7 +314,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			}
 
 			// Open the new item
-			this.showing = showing;
+			this.animationShowing = showing;
 			if (animate) {
 				// impl.onShow takes some time to complete, so we do it before
 				// starting
@@ -362,7 +362,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		@Override
 		protected void onComplete() {
-			if (!showing) {
+			if (!animationShowing) {
 				maybeShowGlass();
 				if (!isUnloading) {
 					getRootPanel().remove(curPanel);
@@ -383,7 +383,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		@Override
 		protected void onUpdate(double progress0) {
 			double progress = progress0;
-			if (!showing) {
+			if (!animationShowing) {
 				progress = 1.0 - progress;
 			}
 
@@ -431,7 +431,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		 * Show or hide the glass.
 		 */
 		private void maybeShowGlass() {
-			if (showing) {
+			if (animationShowing) {
 				if (curPanel.isGlassEnabled) {
 					getRootPanel().getElement().appendChild(curPanel.glass);
 
@@ -453,7 +453,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		private void onInstantaneousRun() {
 			maybeShowGlass();
-			if (showing) {
+			if (animationShowing) {
 				// Set the position attribute, and then attach to the DOM.
 				// Otherwise,
 				// the PopupPanel will appear to 'jump' from its static/relative
@@ -474,7 +474,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 
 		private Panel getRootPanel() {
-			return root;
+			return animationRoot;
 		}
 	}
 

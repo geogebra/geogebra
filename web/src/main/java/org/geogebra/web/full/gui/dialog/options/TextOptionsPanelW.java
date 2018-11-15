@@ -71,14 +71,14 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		createGUI(model, app);
 	}
 
-	public void createGUI(TextOptionsModel model0, final AppW app) {
-		loc = app.getLocalization();
-		this.app = app;
+	public void createGUI(TextOptionsModel model0, final AppW appw) {
+		loc = appw.getLocalization();
+		this.app = appw;
 		model = model0;
 		model.setListener(this);
 		setModel(model);
 		editor = null;
-		editor = new GeoTextEditor(app, this);
+		editor = new GeoTextEditor(appw, this);
 		editor.setStyleName("objectPropertiesTextEditor");
 		lbFont = new ListBox();
 		for (String item : model.getFonts()) {
@@ -109,10 +109,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 									.getFontSizeMultiplier() * 100)
 							+ "%";
 
-					app.getGuiManager()
+					appw.getGuiManager()
 							.getOptionPane()
 							.showInputDialog(
-									app
+									appw
 											.getLocalization()
 											.getMenu("EnterPercentage"),
 									currentSize, null,
@@ -135,7 +135,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		// font size
 		// TODO require font phrases F.S.
 		// toggle buttons for bold and italic
-		if (app.isUnbundledOrWhiteboard()) {
+		if (appw.isUnbundledOrWhiteboard()) {
 			btnItalic = new MyToggleButtonW(
 					new ImageResourcePrototype(
 							null, MaterialDesignResources.INSTANCE
@@ -232,7 +232,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		editorPanel = new FlowPanel();
 		editorPanel.setStyleName("optionsInput");
 		editorPanel.add(editor);
-		advancedPanel = new TextEditAdvancedPanel(app, this);
+		advancedPanel = new TextEditAdvancedPanel(appw, this);
 		editorPanel.add(advancedPanel);
 		mainPanel.add(editorPanel);
 
@@ -247,15 +247,15 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			@Override
 			public void onClick(ClickEvent event) {
 				model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
-						isSerif(), app.getDefaultErrorHandler());
-				((PropertiesViewW) app.getGuiManager().getPropertiesView())
+						isSerif(), appw.getDefaultErrorHandler());
+				((PropertiesViewW) appw.getGuiManager().getPropertiesView())
 						.getOptionPanel(OptionType.OBJECTS, 1);
 			}
 		});
 
 		btnCancel = new Button();
 		btnPanel.add(btnCancel);
-		if (app.isUnbundledOrWhiteboard()) {
+		if (appw.isUnbundledOrWhiteboard()) {
 			btnOk.addStyleName("okBtn");
 			btnCancel.addStyleName("cancelBtn");
 		}

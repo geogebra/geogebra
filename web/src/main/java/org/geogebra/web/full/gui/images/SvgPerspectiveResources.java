@@ -8,6 +8,7 @@ import com.google.gwt.resources.client.ClientBundle;
 /**
  * SVGs of the main buttons
  */
+@SuppressWarnings("javadoc")
 public interface SvgPerspectiveResources extends ClientBundle {
 	final static SvgPerspectiveResources INSTANCE = ImageFactory
 			.getPerspectiveResources();
