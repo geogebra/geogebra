@@ -78,14 +78,14 @@ public class Parser implements ParserInterface{
     private boolean GiacParsing = false;
     private boolean enableVectors = true;
     private FunctionParser functionParser;
-    private ArrayList<ExpressionNode > undecided = new ArrayList<>();
+    private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
 
     public Parser(Kernel kernel) {
-         this ( new StringProvider("") ); // dummy stream for parser initing
-         this.kernel = kernel;
-         functionParser = new FunctionParser(kernel);
-         app = kernel.getApplication();
-         loc = app.getLocalization();
+        this ( new StringProvider("") ); // dummy stream for parser initing
+        this.kernel = kernel;
+        functionParser = new FunctionParser(kernel);
+        app = kernel.getApplication();
+        loc = app.getLocalization();
     }
 
     public Kernel getKernel()
@@ -722,7 +722,7 @@ ExpressionNode functionExpressionnode():
      )
          // local variables, allow function of y and deal with it in GeoFunction constructor
          (( varName =  <VARX> | varName =  <VARY> | varName = label() )
-           { localVars = new ArrayList<>(); localVars.add(varName.image);
+           { localVars = new ArrayList<String>(); localVars.add(varName.image);
            kernel.getConstruction().registerFunctionVariable(varName.image);} )
       // optional second variable
        (<COMMA> ( varName = casVar() )
@@ -813,7 +813,7 @@ FunctionNVar casFunction(GeoSymbolicI cell):
      )
          // local variables
          (( varName =  casVar() )
-           { localVars = new ArrayList<>(); localVars.add(varName.image); } )
+           { localVars = new ArrayList<String>(); localVars.add(varName.image); } )
       // optional second variable
        (<COMMA> ( varName =  casVar() )
        { localVars.add(varName.image); } )*
@@ -1272,10 +1272,9 @@ ExpressionValue enpower():
         {
             f = new MyDouble(kernel, c.image);
             // collect exponents
-          if (exponentList == null) {
-            exponentList = new ArrayList<>();
-          }
-          exponentList.add(f);
+      if (exponentList == null)
+        exponentList = new ArrayList<ExpressionValue>();
+            exponentList.add(f);
       }
      )
     |
@@ -1289,10 +1288,9 @@ ExpressionValue enpower():
        }
 
       // collect exponents
-      if (exponentList == null) {
-        exponentList = new ArrayList<>();
-      }
-      exponentList.add(f);
+      if (exponentList == null) {          exponentList = new ArrayList<ExpressionValue>();
+        }
+            exponentList.add(f);
         }
         )
     )*

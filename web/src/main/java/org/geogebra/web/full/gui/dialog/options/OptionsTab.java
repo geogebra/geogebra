@@ -743,8 +743,6 @@ public class OptionsTab extends FlowPanel {
 
 			slider = new SliderPanel(1, 9);
 			slider.setTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
 			// slider.setSnapToTicks(true);
 			mainPanel.add(slider);
 
@@ -855,8 +853,6 @@ public class OptionsTab extends FlowPanel {
 							? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
 							: GeoElement.MAX_LINE_WIDTH);
 			thicknessSlider.setTickSpacing(1);
-			thicknessSlider.setPaintTicks(true);
-			thicknessSlider.setPaintLabels(true);
 			// slider.setSnapToTicks(true);
 			lineThicknessPanel.add(thicknessSlider);
 
@@ -876,8 +872,6 @@ public class OptionsTab extends FlowPanel {
 
 			opacitySlider = new SliderPanel(0, 100);
 			opacitySlider.setTickSpacing(5);
-			opacitySlider.setPaintTicks(true);
-			opacitySlider.setPaintLabels(true);
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
@@ -1005,8 +999,6 @@ public class OptionsTab extends FlowPanel {
 
 			slider = new SliderPanel(10, 100);
 			slider.setTickSpacing(5);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
 			// slider.setSnapToTicks(true);
 			mainPanel.add(slider);
 
@@ -1048,8 +1040,6 @@ public class OptionsTab extends FlowPanel {
 
 			slider = new SliderPanel(1, 10);
 			slider.setTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
 			// slider.setSnapToTicks(true);
 			mainPanel.add(slider);
 

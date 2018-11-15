@@ -132,7 +132,6 @@ public class StatTableW extends FlowPanel {
 	 */
 	public static class MyTable extends Grid /* do it with CellTable later */ {
 
-		private boolean allowCellEdith;
 		private int firstRow = 0;
 
 		/**
@@ -151,13 +150,6 @@ public class StatTableW extends FlowPanel {
 	        }
         }
 
-		public void setAllowCellEdith(boolean allowCellEdit) {
-			this.allowCellEdith = allowCellEdit;
-		}
-		
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			return allowCellEdith;
-		}
 		
 		/**
 		 * Update selection after click

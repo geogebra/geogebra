@@ -654,8 +654,13 @@ public class MaterialListElement extends FlowPanel
 		}
 	}
 
-	/*** LAF dependent methods **/
-
+	/***
+	 * Depends on LAF
+	 * 
+	 * @param m
+	 *            material
+	 * @return action name (translation key)
+	 **/
 	public String getInsertWorksheetTitle(final Material m) {
 		return "ViewMaterial";
 	}

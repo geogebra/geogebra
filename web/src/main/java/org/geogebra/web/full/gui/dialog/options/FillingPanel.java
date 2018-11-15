@@ -213,19 +213,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		opacitySlider = new SliderPanel(0, 100);
 		opacitySlider.setTickSpacing(5);
-		opacitySlider.setPaintTicks(true);
-		opacitySlider.setPaintLabels(true);
 
 		angleSlider = new SliderPanel(0, 180);
 		angleSlider.setTickSpacing(5);
-		angleSlider.setPaintTicks(true);
-		angleSlider.setPaintLabels(true);
 
 		distanceSlider = new SliderPanel(5, 50);
 		// distanceSlider.setPreferredSize(new Dimension(150,50));
 		distanceSlider.setTickSpacing(5);
-		distanceSlider.setPaintTicks(true);
-		distanceSlider.setPaintLabels(true);
 
 		FlowPanel symbol1Panel = new FlowPanel();
 		symbol1Panel.setStyleName("optionsPanelCell");
