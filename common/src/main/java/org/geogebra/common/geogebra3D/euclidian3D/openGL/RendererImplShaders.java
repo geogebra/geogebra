@@ -62,7 +62,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
 
-	protected Coords tmpCoords1 = Coords.O;
+	protected Coords tmpCoords1 = new Coords(4);
+    protected Coords tmpCoords2 = new Coords(4);
 
 	protected float[] tmpFloat16 = new float[16];
 
@@ -514,10 +515,10 @@ public abstract class RendererImplShaders extends RendererImpl {
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
-        tmpMatrix2.solve(tmpCoords1, coords);
+        tmpMatrix2.solve(tmpCoords1, tmpCoords2);
         // undo screen coordinates
-        view3D.toSceneCoords3D(coords);
-		return coords;
+        view3D.toSceneCoords3D(tmpCoords2);
+		return tmpCoords2;
 	}
 
 	@Override
