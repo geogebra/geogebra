@@ -1,6 +1,10 @@
 package org.geogebra.web.html5.kernel;
 
-import org.geogebra.common.kernel.*;
+import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringAppState;
+import org.geogebra.common.kernel.UndoCommand;
+import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -40,33 +44,17 @@ public class UndoManagerW extends UndoManager {
 		final StringBuilder currentUndoXML = construction
 		        .getCurrentUndoXML(true);
 
-		// Thread undoSaverThread = new Thread() {
-		// @Override
-		// public void run() {
 		doStoreUndoInfo(currentUndoXML);
 		app.getCopyPaste().pastePutDownCallback(app);
-		// }
-		// };
-		// undoSaverThread.start();
 	}
 
 	@Override
 	public void storeUndoInfo(final StringBuilder currentUndoXML,
 			final boolean refresh) {
-
-		// Thread undoSaverThread = new Thread() {
-		// @Override
-		// public void run() {
-
 		doStoreUndoInfo(currentUndoXML);
 		if (refresh) {
 			restoreCurrentUndoInfo();
 		}
-
-		// }
-		// };
-		// undoSaverThread.start();
-
 	}
 
 	/**
@@ -127,10 +115,13 @@ public class UndoManagerW extends UndoManager {
 			if (app.getKernel().hasExercise()) {
 				app.getKernel().getExercise().notifyUpdate();
 			}
-			if (((AppW) app).getPageController() != null) {
-				((AppW) app).getPageController().updatePreviewImage();
+			AppW appW = (AppW) app;
+			if (appW.getPageController() != null) {
+				appW.getPageController().updatePreviewImage();
 			}
-
+			// the size of the panel we are loading into may have changed since
+			// undo point was saved (e.g. keyboard closed, APPS-149)
+			appW.updateViewSizes();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.debug(e);
