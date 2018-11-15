@@ -500,13 +500,24 @@ public class AlgebraItem {
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
 		Kernel kernel = geo1.getKernel();
-		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
-				&& kernel
-						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)
-				|| !geo1.isDefinitionValid()
+		if (!geo1.isDefinitionValid()
 				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
+		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+				&& kernel
+						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)) {
+			if (geo1.isIndependent()) {
+				return getLatexStringValue(geo1, limit);
+			}
+			return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
+					+ geo1.getLabelDelimiter()
+					+ geo1.getDefinition(StringTemplate.latexTemplateHideLHS);
+		}
+		return getLatexStringValue(geo1, limit);
+	}
+
+	private static String getLatexStringValue(GeoElement geo1, Integer limit) {
 		String text = geo1.getLaTeXAlgebraDescription(
 				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);

@@ -386,6 +386,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				buildItemWithTwoRows();
 				updateItemColor();
 			} else if (isDefinitionAndValue()
+					|| geo.isLaTeXDrawableGeo()
 					|| AlgebraItem.needsPacking(geo)) {
 				buildItemWithSingleRow();
 			} else {
