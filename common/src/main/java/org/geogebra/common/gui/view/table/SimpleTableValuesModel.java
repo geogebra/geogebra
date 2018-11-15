@@ -129,7 +129,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private String getHeaderName(GeoEvaluatable evaluatable) {
 		builder.setLength(0);
-		builder.append(evaluatable.getGeoFunction());
+		builder.append(evaluatable.getLabelSimple());
 		builder.append("(x)");
 
 		return builder.toString();
