@@ -181,6 +181,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	// viewing values
 	protected double zZero;
 	protected double zZeroOld = 0;
+    private double zZeroAR;
 	protected double aOld;
 	protected double bOld;
 	// picking and hits
@@ -872,20 +873,20 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (mIsARDrawing) {
 			double zMin;
 			if (getShowAxis(AXIS_Z)) {
-				zMin = getZmin();
+                zZeroAR = -getZmin();
 			} else {
 				if (updateObjectsBounds(true, true)) {
-					zMin = boundsMin.getZ();
+                    zZeroAR = -boundsMin.getZ();
 				} else {
-					zMin = 0;
+                    zZeroAR = 0;
 				}
 			}
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
-			translationMatrixWithScale.set(3, 4, -zMin * getZscale());
+			translationMatrixWithScale.set(3, 4, zZeroAR * getZscale());
 			translationMatrixWithoutScale.set(1, 4, getXZero());
 			translationMatrixWithoutScale.set(2, 4, getYZero());
-			translationMatrixWithoutScale.set(3, 4, -zMin);
+			translationMatrixWithoutScale.set(3, 4, zZeroAR);
 		} else {
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
@@ -954,11 +955,15 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * Update matrix for undo translation.
 	 */
-	public void updateUndoTranslationMatrix() {
-		undoTranslationMatrix.set(1, 4, -getXZero());
-		undoTranslationMatrix.set(2, 4, -getYZero());
-		undoTranslationMatrix.set(3, 4, -getZZero());
-	}
+    public void updateUndoTranslationMatrix() {
+        undoTranslationMatrix.set(1, 4, -getXZero());
+        undoTranslationMatrix.set(2, 4, -getYZero());
+        if (isARDrawing()) {
+            undoTranslationMatrix.set(3, 4, -zZeroAR);
+        } else {
+            undoTranslationMatrix.set(3, 4, -getZZero());
+        }
+    }
 
 	private void updateEye() {
 		// update view direction
