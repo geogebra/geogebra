@@ -1020,6 +1020,9 @@ namespace giac {
 	    }
 	  }
 	}
+      } // end polynomial a,b,c
+      if (0 && d==0 && lvarx(makevecteur(a,b,c),x,contextptr)==vecteur(1,x)){
+	// if a,b,c are rationals and d==0, Kovacic
       }
     } // end 2nd order eqdiff
     return false;

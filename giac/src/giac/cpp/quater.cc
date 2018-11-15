@@ -597,6 +597,27 @@ namespace giac {
     }
   }
 
+  // remove % p in MOD elements of g
+  gen cleanup(const gen & p,const gen & g){
+    if (g.type==_VECT){
+      vecteur v=*g._VECTptr;
+      for (int i=0;i<v.size();++i)
+	v[i]=cleanup(p,v[i]);
+      return gen(v,g.subtype);
+    }
+    if (g.type==_MOD){
+      if (p!=*(g._MODptr+1))
+	return gensizeerr(gettext("Incompatible characteristics"));
+      return *g._MODptr;
+    }
+    if (g.type==_SYMB)
+      return symbolic(g._SYMBptr->sommet,cleanup(p,g._SYMBptr->feuille));
+    return g;
+  }
+  inline gen cleanup(const galois_field & gf,const gen & g){
+    return cleanup(gf.p,g);
+  }
+
   gen galois_field::operator + (const gen & g) const { 
     if (is_integer(g))
       return galois_field(p,P,x,a+g);
@@ -606,7 +627,7 @@ namespace giac {
       return galois_field(p,P,x,a+*g._MODptr);
     }
     if (g.type!=_USER)
-      return sym_add(*this,g,context0); // ok symbolic(at_plus,makesequence(g,*this));
+      return sym_add(*this,cleanup(*this,g),context0); // ok symbolic(at_plus,makesequence(g,*this));
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){
       // if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P)) return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
@@ -649,7 +670,7 @@ namespace giac {
       return galois_field(p,P,x,a-*g._MODptr);
     }
     if (g.type!=_USER)
-      return sym_add(*this,-g,context0); // ok symbolic(at_plus,makesequence(-g,*this));
+      return sym_add(*this,cleanup(*this,-g),context0); // ok symbolic(at_plus,makesequence(-g,*this));
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){
       return *this+(-g);
       if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P)) return gensizeerr();

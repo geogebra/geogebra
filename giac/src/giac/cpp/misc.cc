@@ -1710,6 +1710,111 @@ namespace giac {
   static define_unary_function_eval (__pmin,&_pmin,_pmin_s);
   define_unary_function_ptr5( at_pmin ,alias_at_pmin,&__pmin,0,true);
 
+  gen fastpow(const gen & a,const gen & k_,GIAC_CONTEXT){
+    gen a2k(a),res(1),k(k_);
+    while (k!=0){
+      if (k.type==_ZINT){
+	int m=modulo(*k._ZINTptr,2);
+	if (m%2)
+	  res=res*a2k;
+	k=(k-m)/2;
+      }
+      else {
+	if (k.val % 2)
+	  res=res*a2k;
+	k.val /= 2;
+      }
+      a2k=a2k*a2k;
+    }
+    return res;
+  }
+
+  // multiplicative order of g, a divisor of mult
+  gen order(const gen &g,const gen & mult,GIAC_CONTEXT){
+    vecteur v=ifactors(mult,contextptr);
+    gen o(mult);
+    int s=v.size();
+    for (int i=0;i<s/2;++i){
+      gen n(v[2*i]);
+      gen m(v[2*i+1]);
+      for (;m.val;--m.val){
+	gen o1(o/n);
+	gen chk=fastpow(g,o1,contextptr);
+	if (!is_one(chk))
+	  break;
+	o=o1;
+      }
+    }
+    return o;
+  }
+
+  gen _order(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (is_squarematrix(g)){
+      matrice &m =*g._VECTptr;
+      if (!mker(m,contextptr).empty())
+	return gensizeerr(gettext("Not invertible"));
+      gen m00=m[0][0],extdeg,p;
+      if (m00.type==_USER){
+#ifndef NO_RTTI
+	if (galois_field * gf=dynamic_cast<galois_field *>(m00._USERptr)){
+	  if (gf->a.type!=_VECT || gf->P.type!=_VECT || !is_integer(gf->p))
+	    return gensizeerr("Bad GF element");
+	  extdeg=gf->P._VECTptr->size()-1;
+	  p=gf->p;
+	  // a divisor of the lcm of gf->p^(n*degree)-1 for degree of irred factors of pmin
+	}
+#endif
+      }
+      if (m00.type==_MOD){
+	p=*(m00._MODptr+1);
+	if (!is_probab_prime_p(p))
+	  return gensizeerr("0 or prime characteristic required");
+	// a divisor of the lcm of p^degree-1 for degree of irred factors of pmin
+	extdeg=1;
+      }
+      if (extdeg!=0){
+	gen tmp=_pmin(makesequence(g,vx_var),contextptr);
+	tmp=_factors(tmp,contextptr);
+	if (tmp.type==_VECT){
+	  const vecteur & v=*tmp._VECTptr;
+	  gen res=1;
+	  for (int i=0;i<v.size()/2;++i){
+	    int m=v[2*i+1].val; 
+	    gen o=pow(p,extdeg*_degree(v[2*i],contextptr),contextptr)-1;
+	    res=lcm(res,o);
+	    if (m>0)
+	      res=lcm(res,p);
+	  }
+	  return res;
+	}
+      }
+    }
+    if (g.type==_MOD){
+      gen a=*g._MODptr,n=*(g._MODptr+1);
+      if (!is_one(gcd(a,n,contextptr)))
+	return gensizeerr(gettext("Not invertible"));
+      gen p=euler(n,contextptr);
+      return order(g,p,contextptr);
+    }
+    if (g.type==_USER){
+      if (is_zero(g))
+	return gensizeerr(gettext("Not invertible"));
+#ifndef NO_RTTI
+      if (galois_field * gf=dynamic_cast<galois_field *>(g._USERptr)){
+	if (gf->a.type!=_VECT || gf->P.type!=_VECT || !is_integer(gf->p))
+	  return gensizeerr("Bad GF element");
+	// a divisor of gf->p^n-1
+	return order(g,pow(gf->p,gf->P._VECTptr->size()-1,contextptr)-1,contextptr);
+      }
+#endif
+    } 
+    return undef;
+  }
+  static const char _order_s []="order";
+  static define_unary_function_eval (__order,&_order,_order_s);
+  define_unary_function_ptr5( at_order ,alias_at_order,&__order,0,true);
+
   // a faire: vpotential, signtab
   gen _potential(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
