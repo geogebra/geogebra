@@ -160,7 +160,6 @@ public class AlgebraItem {
 			if (sug != null) {
 				return sug;
 			}
-
 		}
 		if (!geo.getKernel().getApplication()
 				.has(Feature.SPECIAL_POINTS_IN_CONTEXT_MENU)) {
@@ -169,7 +168,6 @@ public class AlgebraItem {
 				return sug;
 			}
 		}
-
 		return null;
 	}
 
