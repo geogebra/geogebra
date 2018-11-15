@@ -940,4 +940,9 @@ public class RendererImplGL2 extends RendererImpl
 		// TODO Auto-generated method stub
 		return coords;
 	}
+
+	public void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+			float scaleFactor, Coords ret) {
+		// TODO Auto-generated method stub
+	}
 }
