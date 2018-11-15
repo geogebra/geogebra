@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -48,7 +47,7 @@ public class AppCommon extends App {
         initFactories();
         initKernel();
         initLocalization();
-		this.settings = new Settings(this, 42);
+		initSettings();
         initEuclidianViews();
     }
 

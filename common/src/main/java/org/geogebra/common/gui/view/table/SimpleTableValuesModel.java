@@ -119,24 +119,18 @@ class SimpleTableValuesModel implements TableValuesModel {
 				idx++;
 			}
 			evaluatables.add(idx, evaluatable);
-			columns.add(idx + 1, new String[values.length]);
-			doubleColumns.add(idx + 1, new Double[values.length]);
-			addHeader(evaluatable);
-			notifyColumnAdded(evaluatable, evaluatables.size());
+			int column = idx + 1;
+			columns.add(column, new String[values.length]);
+			doubleColumns.add(column, new Double[values.length]);
+			header.add(column, getHeaderName(evaluatable));
+			notifyColumnAdded(evaluatable, column);
 		}
-	}
-
-	private void addHeader(GeoEvaluatable evaluatable) {
-		String name = getHeaderName(evaluatable);
-		header.add(name);
 	}
 
 	private String getHeaderName(GeoEvaluatable evaluatable) {
 		builder.setLength(0);
-		builder.append(evaluatable.getLabelSimple());
-		builder.append("(");
-		builder.append("x");
-		builder.append(")");
+		builder.append(evaluatable.getGeoFunction());
+		builder.append("(x)");
 
 		return builder.toString();
 	}
