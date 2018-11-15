@@ -1,3 +1,9 @@
+This file explains two methods on running this benchmark:
+
+1. How to create a benchmarking server which periodically (daily) tests the prover subsystem in GeoGebra
+2. How to run the benchmark once for the desktop version only
+
+
 How to create a benchmarking server which periodically (daily) tests the prover subsystem in GeoGebra
 =====================================================================================================
 
@@ -77,3 +83,42 @@ Running the benchmark
 ---------------------
 
 This should be automatic, but you can start a new build on demand also in Jenkins manually.
+
+
+How to run the benchmark once for the desktop version only
+==========================================================
+
+Prerequisites
+-------------
+
+* Ubuntu Linux 14.10, 18.04 or Linux Mint 17.2 (other Linux systems may also work)
+
+* Superuser (sudo) privileges
+
+* A Java Runtime Environment, Oracle is required. The best is to use Oracle Java 8.
+  GeoGebra most certainly cannot be compiled with OpenJDK.
+
+* The following extra packages:
+
+  * sqlite3
+  * r-cran-sm
+
+Running the benchmark
+---------------------
+
+Each step must be done in the current folder.
+
+* Initialize the SQLite3 database with the script createdb.
+
+* In case you have extra test files in *.ggb format, put them into the folder
+  tests/true/. Each of them needs to contain exactly one Prove command.
+
+* Run the script test-BotanaGiac. It will compile GeoGebra first, then
+  run the tests (and save the results in an SQLite3 database) and
+  finally create the .html and .tex outputs (from the database). If
+  you have google-chrome installed, the results will be automatically
+  shown in a new tab or window. Otherwise you will find the output in
+  the html/ folder.
+
+* In case you don't need some .ggb files any longer in the test, remove them entirely
+  from this folder.
