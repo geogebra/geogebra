@@ -257,11 +257,19 @@ public abstract class StatisticsCalculator {
 				|| sc.getSelectedProcedure() == Procedure.ZMEAN2_TEST
 				|| sc.getSelectedProcedure() == Procedure.TMEAN2_TEST;
 	}
+
+	/**
+	 * @param textObject
+	 *            input field
+	 */
 	protected void addActionListener(TextObject textObject) {
 		// not needed in web
-
 	}
 
+	/**
+	 * @param textObject
+	 *            input field
+	 */
 	protected void removeActionListener(TextObject textObject) {
 		// not needed in web
 

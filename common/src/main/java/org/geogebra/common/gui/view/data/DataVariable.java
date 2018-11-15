@@ -68,11 +68,9 @@ public class DataVariable {
 	 * @param valueItemList
 	 */
 	public void setDataVariableAsRawData(GeoClass geoClass,
-			ArrayList valueItemList) {
-
+			ArrayList<DataItem> valueItemList) {
 		setDataVariable(GroupType.RAWDATA, geoClass, valueItemList, null, null,
 				null);
-
 	}
 
 	/**
@@ -84,7 +82,8 @@ public class DataVariable {
 	 * @param label
 	 */
 	public void setDataVariable(GroupType groupType, GeoClass geoClass,
-			ArrayList valueItemList, DataItem frequency, DataItem classes,
+			ArrayList<DataItem> valueItemList, DataItem frequency,
+			DataItem classes,
 			DataItem label) {
 
 		this.values = valueItemList;

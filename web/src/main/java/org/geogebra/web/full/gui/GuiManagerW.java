@@ -1002,6 +1002,8 @@ public class GuiManagerW extends GuiManager
 	 * 
 	 * @param app1
 	 *            application
+	 * @param ot
+	 *            option type
 	 * @return new properties view
 	 */
 	protected PropertiesViewW newPropertiesViewW(final AppW app1,

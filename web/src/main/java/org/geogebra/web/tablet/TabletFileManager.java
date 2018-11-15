@@ -72,8 +72,8 @@ public class TabletFileManager extends FileManagerT {
 	protected void getFiles(final MaterialFilter filter) {	
 		final int callbackParent = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result) {
-				int length = (Integer) result;
+			public void onSuccess(Object resultParent) {
+				int length = (Integer) resultParent;
 				for (int i = 0; i < length; i++) {
 					int callback = addNewCallback(new MyCallback() {
 						@Override
@@ -113,7 +113,7 @@ public class TabletFileManager extends FileManagerT {
 			@Override
 			public void onFailure(Object result) {
 				// not needed
-				}
+			}
 		});
 		listLocalFilesNative(callbackParent);
 	}
@@ -229,8 +229,8 @@ public class TabletFileManager extends FileManagerT {
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		final int callbackParent = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result) {
-				int length = (Integer) result;
+			public void onSuccess(Object resultParent) {
+				int length = (Integer) resultParent;
 				setNotSyncedFileCount(length, events);
 				for (int i = 0; i < length; i++) {
 					int callback = addNewCallback(new MyCallback() {

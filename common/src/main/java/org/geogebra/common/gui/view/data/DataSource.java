@@ -501,8 +501,7 @@ public class DataSource {
 					ArrayList<DataItem> values = new ArrayList<>();
 					values.add(itemList.get(0));
 					var.setDataVariable(GroupType.FREQUENCY, GeoClass.NUMERIC,
-							values,
-							itemList.get(1), null, null);
+							values, itemList.get(1), null, null);
 					break;
 
 				}

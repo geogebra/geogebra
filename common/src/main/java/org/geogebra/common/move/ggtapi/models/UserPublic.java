@@ -9,6 +9,10 @@ import java.io.Serializable;
  *
  */
 public class UserPublic implements Serializable {
+	/**
+	 * Serialization needed for Android.
+	 */
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private int id;
 	private String displayname;

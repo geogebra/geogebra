@@ -52,6 +52,10 @@ public class Validation {
 			return def;
 		}
 
+		/**
+		 * @param val
+		 *            value to be checked
+		 */
 		protected boolean checkInterval(double val) {
 			return true;
 		}

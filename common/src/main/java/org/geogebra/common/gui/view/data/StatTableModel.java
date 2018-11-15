@@ -271,7 +271,7 @@ public class StatTableModel {
 				return getAlgoRawData(algoName, dataList, geoRegression);
 
 			} else if (getListener().groupType() == GroupType.FREQUENCY) {
-				return getAlgoFrequency(algoName, dataList, geoRegression);
+				return getAlgoFrequency(algoName, dataList);
 
 			} else if (getListener().groupType() == GroupType.CLASS) {
 				return getAlgoClass(algoName, dataList, geoRegression);
@@ -350,8 +350,7 @@ public class StatTableModel {
 		}
 	}
 
-	public AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData,
-			GeoElement geoRegression) {
+	public AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData) {
 
 		GeoList dataList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);

@@ -791,6 +791,7 @@ public abstract class Renderer implements RendererInterface {
 
 	abstract protected void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
                                                         float scaleFactor, Coords ret);
+
 	/**
 	 * reset to projection matrix only
 	 */

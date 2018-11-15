@@ -134,7 +134,8 @@ public class ContextMenuTV {
 					public void execute() {
 						GuiManagerInterfaceW guiManager = getApp().getGuiManager();
 						if (guiManager != null && guiManager.getTableValuesView() != null) {
-							TableValuesView tableValuesView = (TableValuesView) guiManager.getTableValuesView();
+							TableValuesView tableValuesView = (TableValuesView) guiManager
+									.getTableValuesView();
 							GeoEvaluatable column = tableValuesView
 									.getEvaluatable(getColumnIdx());
 							tableValuesView.hideColumn(column);
