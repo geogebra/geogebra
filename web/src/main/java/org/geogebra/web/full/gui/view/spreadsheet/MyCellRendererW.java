@@ -457,7 +457,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		return geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList();
 	}
 	
-	private void updateSpecialEditor(Grid table, GeoElement cellGeo, int row,
+	private void updateSpecialEditor(Grid grid, GeoElement cellGeo, int row,
 	        int column) {
 
 		if (cellGeo.isGeoBoolean()) {
@@ -467,7 +467,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			checkbox.getElement()
 			        .getStyle()
 			        .setBackgroundColor(
-			                table.getElement().getStyle().getBackgroundColor());
+			                grid.getElement().getStyle().getBackgroundColor());
 			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
 			checkbox.setEnabled(cellGeo.isIndependent());
 
@@ -494,7 +494,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				}
 			});
 
-			table.setWidget(row, column, fp);
+			grid.setWidget(row, column, fp);
 			return;
 		}
 
@@ -504,7 +504,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			button.getElement()
 			        .getStyle()
 			        .setBackgroundColor(
-			                table.getElement().getStyle().getBackgroundColor());
+			                grid.getElement().getStyle().getBackgroundColor());
 			button.setText(cellGeo.getCaption(StringTemplate.defaultTemplate));
 			button.getElement().getStyle()
 			        .setColor(cellGeo.getObjectColor().toString());
@@ -518,7 +518,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				}
 			});
 
-			table.setWidget(row, column, button);
+			grid.setWidget(row, column, button);
 			return;
 		}
 
@@ -531,7 +531,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			lb.getElement()
 			        .getStyle()
 			        .setBackgroundColor(
-			                table.getElement().getStyle().getBackgroundColor());
+			                grid.getElement().getStyle().getBackgroundColor());
 			lb.getElement().addClassName("geogebraweb-select-spreadsheet");
 
 			if (list.size() > 0) {
@@ -555,7 +555,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				}
 			});
 
-			table.setWidget(row, column, lb);
+			grid.setWidget(row, column, lb);
 			return;
 		}
 	}

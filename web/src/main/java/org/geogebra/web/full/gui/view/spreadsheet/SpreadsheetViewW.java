@@ -711,10 +711,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return settings().allowToolTips();
 	}
 
-	public void setAllowToolTips(boolean allowToolTips) {
-		// do nothing yet
-	}
-
 	public boolean getShowFormulaBar() {
 		return settings().showFormulaBar();
 	}
@@ -724,10 +720,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 */
 	public boolean isVisibleStyleBar() {
 		return styleBar == null || styleBar.isVisible();
-	}
-
-	public void setColumnSelect(boolean isColumnSelect) {
-		// do nothing yet
 	}
 
 	public boolean isColumnSelect() {
@@ -809,7 +801,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		settings().addListener(this);
 	}
 
-	protected void updatePreferredColumnWidth(int colWidth) {
+	protected void updatePreferredColumnWidth() {
 		if (!allowSettingUpdate) {
 			return;
 		}
@@ -862,9 +854,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		setShowVScrollBar(settings().showVScrollBar());
 		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());
-		setAllowToolTips(settings().allowToolTips());
+		// ? setAllowToolTips(settings().allowToolTips());
 		// ?//setShowFormulaBar(settings().showFormulaBar());
-		setColumnSelect(settings().isColumnSelect());
 		updateAllowSpecialEditor();
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());

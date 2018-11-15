@@ -8,7 +8,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
@@ -18,7 +17,7 @@ public class PointStylePopup extends PopupMenuButtonW
 
 	private static final int DEFAULT_SIZE = 4;
 	static HashMap<Integer, Integer> pointStyleMap;
-	static int mode;
+	int mode;
 	private PointStyleModel model;
 	private boolean euclidian3D;
 
@@ -38,8 +37,6 @@ public class PointStylePopup extends PopupMenuButtonW
 	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
 			PointStyleModel model, boolean isTealBorder) {
 		
-		PointStylePopup.mode = mode;
-		
 		pointStyleMap = new HashMap<>();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
@@ -52,9 +49,11 @@ public class PointStylePopup extends PopupMenuButtonW
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 		}
 
-		return new PointStylePopup(app, pointStyleIcons, 2,
+		PointStylePopup popup = new PointStylePopup(app, pointStyleIcons, 2,
 				SelectionTable.MODE_ICON, true,
 				hasSlider, model, isTealBorder);
+		popup.mode = mode;
+		return popup;
 	}
 
 	/**
@@ -190,10 +189,6 @@ public class PointStylePopup extends PopupMenuButtonW
 
 	@Override
 	public void clearItems() {
-		// TODO Auto-generated method stub
-	}
-
-	public void addItem(GeoElement item) {
 		// TODO Auto-generated method stub
 	}
 

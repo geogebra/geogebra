@@ -1654,8 +1654,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.setFocus(b);
 	}
 
-	public void addInsertHandler(InsertHandler insertHandler) {
-		this.insertHandler = insertHandler;
+	public void addInsertHandler(InsertHandler newInsertHandler) {
+		this.insertHandler = newInsertHandler;
 	}
 
 	@Override

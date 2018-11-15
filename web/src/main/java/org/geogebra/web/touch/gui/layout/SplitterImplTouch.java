@@ -1,7 +1,6 @@
 package org.geogebra.web.touch.gui.layout;
 
 import org.geogebra.web.full.gui.layout.SplitterImpl;
-import org.geogebra.web.full.gui.layout.ZoomSplitLayoutPanel.Splitter;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -24,8 +23,8 @@ public class SplitterImplTouch extends SplitterImpl {
 	private static final int GLASS_SIZE = 30;
 
 	@Override
-	public Element createElement(Splitter splitter) {
-		super.createElement(splitter);
+	public Element createElement() {
+		super.createElement();
 		createElements();
 		return baseDivElement;
 	}

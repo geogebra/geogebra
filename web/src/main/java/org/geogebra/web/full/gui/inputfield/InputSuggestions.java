@@ -272,7 +272,7 @@ public class InputSuggestions implements HasSuggestions {
 	}
 
 	public void setFocus() {
-		sug.setFocus(true);
+		sug.focus();
 	}
 
 	public boolean isSuggesting() {

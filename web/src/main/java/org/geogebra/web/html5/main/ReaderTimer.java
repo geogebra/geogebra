@@ -8,13 +8,11 @@ import com.google.gwt.user.client.Timer;
 class ReaderTimer extends Timer {
 
 	/**
-	 * 
+	 * Slider
 	 */
-	private final AppW appW;
 	GeoNumeric geo;
 
-	protected ReaderTimer(AppW appW) {
-		this.appW = appW;
+	protected ReaderTimer() {
 		// make protected
 	}
 
@@ -23,8 +21,12 @@ class ReaderTimer extends Timer {
 		ScreenReader.readSliderValue(geo);
 	}
 
-	public void setGeo(GeoNumeric geo0) {
-		geo = geo0;
+	/**
+	 * @param slider
+	 *            slider
+	 */
+	public void setGeo(GeoNumeric slider) {
+		geo = slider;
 	}
 
 }

@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 import org.geogebra.common.main.App;
 
-import com.google.gwt.user.client.DOM;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -208,9 +208,8 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 *            the cell index
 	 * @return the Element at the given row and cell
 	 */
-	protected com.google.gwt.user.client.Element getCellElement(int row,
-			int cell) {
-		return DOM.asOld(decPanel.getCellElement(row, cell));
+	protected Element getCellElement(int row, int cell) {
+		return decPanel.getCellElement(row, cell);
 	}
 }
 

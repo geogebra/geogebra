@@ -134,7 +134,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			this.reverse = reverse;
 			this.splitPanel = splitPanel;
 
-			setElement(impl.createElement(this));
+			setElement(impl.createElement());
 			sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
 					| Event.ONDBLCLICK | Event.ONTOUCHSTART | Event.ONTOUCHMOVE
 					| Event.ONTOUCHEND);
@@ -490,7 +490,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    * @param minSize the minimum size for this widget
    */
   public void setWidgetMinSize(Widget child, int minSize) {
-    assertIsChild(child);
+    assertWidgetIsChild(child);
     Splitter splitter = getAssociatedSplitter(child);
     // The splitter is null for the center element.
     if (splitter != null) {
@@ -514,7 +514,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    *        -1 to disable.
    */
   public void setWidgetSnapClosedSize(Widget child, int snapClosedSize) {
-    assertIsChild(child);
+    assertWidgetIsChild(child);
     Splitter splitter = getAssociatedSplitter(child);
     // The splitter is null for the center element.
     if (splitter != null) {
@@ -530,7 +530,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    * @param allowed whether or not display toggling is allowed for this widget
    */
   public void setWidgetToggleDisplayAllowed(Widget child, boolean allowed) {
-    assertIsChild(child);
+    assertWidgetIsChild(child);
     Splitter splitter = getAssociatedSplitter(child);
     // The splitter is null for the center element.
     if (splitter != null) {
@@ -587,11 +587,17 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 				+ ";overflow-" + cssdir + ":hidden !important");
 	}
 
-	void assertIsChild(Widget widget) {
+	void assertWidgetIsChild(Widget widget) {
 		assert (widget == null) || (widget
 				.getParent() == this) : "The specified widget is not a child of this panel";
 	}
 
+	/**
+	 * Save divider location.
+	 * 
+	 * @param size
+	 *            divider location
+	 */
 	protected void setDividerLocationSilent(int size) {
 		// implement in subclass
 	}

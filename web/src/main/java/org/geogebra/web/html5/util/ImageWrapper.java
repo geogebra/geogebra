@@ -16,27 +16,21 @@ public class ImageWrapper {
 	 *            Images in gwt event system not loaded when src added, only
 	 *            when attached to dom. So we must hack it.
 	 */
-	public void attachNativeLoadHandler(ImageManagerW imageManager,
+	public void attachNativeLoadHandler(final ImageManagerW imageManager,
 			ImageLoadCallback callback) {
-		addNativeLoadHandler(img, imageManager, callback);
+		nativeon(img, "load", callback);
+		nativeon(img, "error", new ImageLoadCallback() {
+
+			@Override
+			public void onLoad() {
+				getElement().setSrc(imageManager.getErrorURL());
+			}
+		});
 	}
 
-	private native void addNativeLoadHandler(Element img,
-			ImageManagerW imageManager, ImageLoadCallback callback) /*-{
-		img
-				.addEventListener(
-						"load",
-						function() {
-							callback.@org.geogebra.web.html5.util.ImageLoadCallback::onLoad()();
-						});
-		img
-				.addEventListener(
-						"error",
-						function() {
-							img.src = imageManager.@org.geogebra.web.html5.util.ImageManagerW::getErrorURL()();
-						});
-	}-*/;
-
+	/**
+	 * @return wrapped element
+	 */
 	public ImageElement getElement() {
 		return img;
 	}

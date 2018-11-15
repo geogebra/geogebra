@@ -68,7 +68,8 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		private List<GeoElement> geos;
 		
 		public GeoListBox(boolean isMultipleSelect) {
-			super(isMultipleSelect);
+			super();
+			setMultipleSelect(isMultipleSelect);
 			geos = new ArrayList<>();
 		}
 

@@ -145,8 +145,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 		}
 	}
 
-	private native void preventContextMenu(Element canvas) /*-{
-		canvas.addEventListener("contextmenu", function(e) {
+	private native void preventContextMenu(Element element) /*-{
+		element.addEventListener("contextmenu", function(e) {
 			e.preventDefault();
 			e.stopPropagation();
 			return false;

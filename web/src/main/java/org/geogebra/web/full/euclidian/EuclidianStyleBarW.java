@@ -824,7 +824,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// TODO: fill in
 		createAxesAndGridButtons();
 		createStandardViewBtn();
-		createLineStyleBtn(mode);
+		createLineStyleBtn();
 		createPointStyleBtn(mode);
 		createLabelStyleBtn();
 		createAngleIntervalBtn();

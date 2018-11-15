@@ -3279,7 +3279,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// only makes sense in 3D
 	}
 
-	public void openPDF(JavaScriptObject response) {
+	/**
+	 * @param pdfFile
+	 *            PDF file
+	 */
+	public void openPDF(JavaScriptObject pdfFile) {
 		// only makes sense in GUI
 	}
 
@@ -3378,7 +3382,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				&& (!articleElement.preventFocus()
 						|| getGlobalKeyDispatcher().isFocused())) {
 			if (readerTimer == null) {
-				readerTimer = new ReaderTimer(this);
+				readerTimer = new ReaderTimer();
 			}
 			readerTimer.setGeo(geo);
 			readerTimer.schedule(700);
@@ -3901,6 +3905,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return viewW;
 	}
 
+	/**
+	 * @param html
+	 *            whether to include HTML wrapper
+	 */
 	public void exportCollada(boolean html) {
 		// empty for webSimple
 	}

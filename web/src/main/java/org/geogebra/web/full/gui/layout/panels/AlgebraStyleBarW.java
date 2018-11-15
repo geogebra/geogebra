@@ -57,7 +57,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 
 		createColorBtn();
 		btnColor.setChangeEventHandler(this);
-		createLineStyleBtn(-1);
+		createLineStyleBtn();
 		createPointStyleBtn(-1);
 		btnPointStyle.setChangeEventHandler(this);
 

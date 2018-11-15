@@ -38,7 +38,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		super(app, viewID);
 	}
 
-	protected void createLineStyleBtn(int mode) {
+	protected void createLineStyleBtn() {
 		btnLineStyle = app.has(Feature.MOW_COLOR_FILLING_LINE)
 				? new MOWLineStyleButton(app)
 				: new EuclidianLineStylePopup(app, 5, true);

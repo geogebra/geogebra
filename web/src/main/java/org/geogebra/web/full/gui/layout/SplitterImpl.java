@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.layout;
 
-import org.geogebra.web.full.gui.layout.ZoomSplitLayoutPanel.Splitter;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.layout.client.Layout.Layer;
@@ -11,10 +9,17 @@ public class SplitterImpl {
 
 	protected Element baseDivElement;
 
-	public Element createElement(Splitter splitter) {
+	public Element createElement() {
 		return (baseDivElement = Document.get().createDivElement());
 	}
 
+	/**
+	 * @param event
+	 *            pointer event
+	 * @param mouseDown
+	 *            whether pointer is currently down
+	 * @return whether event should be handled
+	 */
 	public boolean shouldHandleEvent(Event event, boolean mouseDown) {
 		return true;
 	}

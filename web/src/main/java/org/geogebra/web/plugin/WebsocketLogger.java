@@ -20,7 +20,7 @@ import com.google.gwt.user.client.Window;
 public class WebsocketLogger extends SensorLogger {
 
 	private WebSocketConnection connection = null;
-	private ArrayList<WebSocketListener> listeners = new ArrayList<>();
+	private ArrayList<WebSocketListener> wsListeners = new ArrayList<>();
 	private String websocketUrl;
 
 	public WebsocketLogger(Kernel kernel) {
@@ -168,13 +168,13 @@ public class WebsocketLogger extends SensorLogger {
 	}
 
 	private void handleIDchecked(boolean correctID) {
-		for (WebSocketListener listener : this.listeners) {
+		for (WebSocketListener listener : this.wsListeners) {
 			listener.onIDchecked(correctID);
 		}
 	}
 
 	private void handleFrequency(String frequency) {
-		for (WebSocketListener listener : this.listeners) {
+		for (WebSocketListener listener : this.wsListeners) {
 			listener.onFrequency(Integer.parseInt(frequency));
 		}
 	}
@@ -193,14 +193,14 @@ public class WebsocketLogger extends SensorLogger {
 		handleAvailable(json, Types.LOUDNESS);
 		handleAvailable(json, Types.PROXIMITY);
 		handleAvailable(json, Types.LIGHT);
-		for (WebSocketListener listener : this.listeners) {
+		for (WebSocketListener listener : this.wsListeners) {
 			listener.onSensorActive(Types.TIMESTAMP, true);
 		}
 	}
 
 	private void handleAvailable(JavaScriptObject json, Types type) {
 		if (JSON.get(json, type.toString()) != null) {
-			for (WebSocketListener listener : this.listeners) {
+			for (WebSocketListener listener : this.wsListeners) {
 				listener.onSensorActive(type,
 						Boolean.parseBoolean(JSON.get(json, type.toString())));
 			}
@@ -294,7 +294,7 @@ public class WebsocketLogger extends SensorLogger {
 	}
 
 	private void onDataReceived(Types sensor, double timestamp, int dataCount) {
-		for (WebSocketListener listener : this.listeners) {
+		for (WebSocketListener listener : this.wsListeners) {
 			listener.onDataReceived(sensor, timestamp, dataCount);
 		}
 	}
@@ -321,10 +321,10 @@ public class WebsocketLogger extends SensorLogger {
 	}
 
 	public void addListener(WebSocketListener listener) {
-		this.listeners.add(listener);
+		this.wsListeners.add(listener);
 	}
 
 	public void removeListener(WebSocketListener listener) {
-		this.listeners.remove(listener);
+		this.wsListeners.remove(listener);
 	}
 }
