@@ -147,7 +147,7 @@ public class DataSource {
 		getSelectedDataVariable().setClassWidth(classWidth);
 	}
 
-	protected CellRangeProcessor crProcessor(App app) {
+	protected CellRangeProcessor crProcessor() {
 		return spreadsheetTable().getCellRangeProcessor();
 	}
 
@@ -514,7 +514,7 @@ public class DataSource {
 		case DataAnalysisModel.MODE_REGRESSION:
 
 			// test if there is at least one GeoPoint in the selection
-			boolean hasPoint = crProcessor(app).containsGeoClass(rangeList,
+			boolean hasPoint = crProcessor().containsGeoClass(rangeList,
 					GeoClass.POINT);
 
 			if (hasPoint) {

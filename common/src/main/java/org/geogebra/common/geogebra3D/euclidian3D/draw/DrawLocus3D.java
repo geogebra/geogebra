@@ -65,7 +65,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 		return true;
 	}
 
-	private GeoLocusND getLocus() {
+	private GeoLocusND<? extends MyPoint> getLocus() {
 		return locus;
 	}
 

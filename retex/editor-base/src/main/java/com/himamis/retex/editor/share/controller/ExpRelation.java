@@ -10,6 +10,7 @@ public enum ExpRelation {
 		this.pattern = s;
 	}
 
+	@Override
 	public String toString() {
 		return pattern;
 	}

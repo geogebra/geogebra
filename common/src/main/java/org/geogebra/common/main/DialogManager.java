@@ -916,6 +916,10 @@ public abstract class DialogManager {
 		// only needed in web
 	}
 
+	/**
+	 * @param geo
+	 *            function to add to able view after success
+	 */
 	public void openTableViewDialog(GeoElement geo) {
 		// only needed in web
 	}

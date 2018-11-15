@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -22,8 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Michael
  */
-public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates
-		implements AlgoDynamicCoordinatesInterface {
+public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates {
 
 	private GeoNumberValue z; // input
 

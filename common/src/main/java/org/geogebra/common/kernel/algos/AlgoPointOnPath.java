@@ -340,7 +340,7 @@ public class AlgoPointOnPath extends AlgoElement
 		if (this.proverAdapter == null) {
 			this.proverAdapter = new PointOnPathAdapter();
 		}
-		return proverAdapter.getBotanaPolynomials(geo, path.toGeoElement());
+		return proverAdapter.getBotanaPolynomials(path.toGeoElement());
 	}
 
 	@Override

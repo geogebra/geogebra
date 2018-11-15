@@ -1,10 +1,10 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
-import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 
 /**
  * Filters tools that are in a set.
@@ -28,7 +28,7 @@ public class ToolCollectionSetFilter implements ToolCollectionFilter {
 	 * @param excludeTools tools that should be excluded
 	 */
 	public ToolCollectionSetFilter(Integer... excludeTools) {
-		this(new HashSet<Integer>(Arrays.asList(excludeTools)));
+		this(new HashSet<>(Arrays.asList(excludeTools)));
 	}
 
 	/**

@@ -44,7 +44,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -3909,7 +3908,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				((GeoElement) conic)
 						.setFillType(((GeoElement) geo).getFillType());
 				fillInequality = true;
-				drawGeoConic((GeoConic) conic);
+				drawGeoConic(conic);
 				fillInequality = false;
 				break;
 			}

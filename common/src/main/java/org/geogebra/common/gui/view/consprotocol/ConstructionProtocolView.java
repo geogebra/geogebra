@@ -1328,6 +1328,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		}
 
-	};
+	}
 
 }

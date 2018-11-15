@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -3475,7 +3474,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						((GeoElement) geo).getHatchingDistance());
 				((GeoElement) conic)
 						.setFillType(((GeoElement) geo).getFillType());
-				drawGeoConic((GeoConic) conic);
+				drawGeoConic(conic);
 				break;
 			}
 		case INEQUALITY_PARAMETRIC_Y:

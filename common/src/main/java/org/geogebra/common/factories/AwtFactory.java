@@ -58,6 +58,15 @@ public abstract class AwtFactory {
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, double pixelRatio);
 
+	/**
+	 * @param pixelWidth
+	 *            width
+	 * @param pixelHeight
+	 *            height
+	 * @param g2
+	 *            graphics (used for pixel rratio)
+	 * @return image
+	 */
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
 			GGraphics2D g2) {
 		return newBufferedImage(pixelWidth, pixelHeight, 1);

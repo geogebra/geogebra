@@ -16,7 +16,7 @@ public class LRUMap<K, V> extends LinkedHashMap<K, V> {
 	 * @return whether eldest enry should be removed
 	 */
 	@Override
-	protected boolean removeEldestEntry(Map.Entry eldest) {
+	protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
 		return size() > MAX_ENTRIES;
 	}
 

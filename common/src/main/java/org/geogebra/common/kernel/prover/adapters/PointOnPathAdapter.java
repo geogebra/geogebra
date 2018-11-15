@@ -6,14 +6,13 @@ import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class PointOnPathAdapter extends ProverAdapter {
 
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoElement path)
+	public PPolynomial[] getBotanaPolynomials(GeoElement path)
 			throws NoSymbolicParametersException {
 		Kernel kernel = path.getKernel();
 		if (botanaPolynomials != null) {

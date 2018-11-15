@@ -75,13 +75,13 @@ public class Parser implements ParserInterface{
     private Localization loc;
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
-  private boolean GiacParsing = false;
-  private boolean enableVectors = true;
-  private FunctionParser functionParser;
-  private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
+    private boolean GiacParsing = false;
+    private boolean enableVectors = true;
+    private FunctionParser functionParser;
+    private ArrayList<ExpressionNode > undecided = new ArrayList<>();
 
     public Parser(Kernel kernel) {
-       this ( new StringProvider("") ); // dummy stream for parser initing
+         this ( new StringProvider("") ); // dummy stream for parser initing
          this.kernel = kernel;
          functionParser = new FunctionParser(kernel);
          app = kernel.getApplication();
@@ -722,7 +722,7 @@ ExpressionNode functionExpressionnode():
      )
          // local variables, allow function of y and deal with it in GeoFunction constructor
          (( varName =  <VARX> | varName =  <VARY> | varName = label() )
-           { localVars = new ArrayList<String>(); localVars.add(varName.image);
+           { localVars = new ArrayList<>(); localVars.add(varName.image);
            kernel.getConstruction().registerFunctionVariable(varName.image);} )
       // optional second variable
        (<COMMA> ( varName = casVar() )
@@ -813,7 +813,7 @@ FunctionNVar casFunction(GeoSymbolicI cell):
      )
          // local variables
          (( varName =  casVar() )
-           { localVars = new ArrayList<String>(); localVars.add(varName.image); } )
+           { localVars = new ArrayList<>(); localVars.add(varName.image); } )
       // optional second variable
        (<COMMA> ( varName =  casVar() )
        { localVars.add(varName.image); } )*
@@ -1272,9 +1272,10 @@ ExpressionValue enpower():
         {
             f = new MyDouble(kernel, c.image);
             // collect exponents
-      if (exponentList == null)
-        exponentList = new ArrayList<ExpressionValue>();
-            exponentList.add(f);
+          if (exponentList == null) {
+            exponentList = new ArrayList<>();
+          }
+          exponentList.add(f);
       }
      )
     |
@@ -1282,29 +1283,16 @@ ExpressionValue enpower():
           <POWER> (c = <MINUS> | c = <PLUS>)? f = enfactorial()
         {
             // -f  = -1*f
-      if (c != null && c.kind == MINUS)
-      {
+      if (c != null && c.kind == MINUS) {
              f = ExpressionNode.unaryMinus(kernel, f);
              c = null; // make sure we forget minus for next exponent
        }
 
       // collect exponents
-      if (exponentList == null)
-        exponentList = new ArrayList<ExpressionValue>();
-            exponentList.add(f);
-
-           /*
-          // check if we have e^
-          if (ret.isExpressionNode()) {
-            ExpressionNode en = (ExpressionNode) ret;
-            if (en.isLeaf() &&  en.getLeft() instanceof MyDouble) {
-              MyDouble num = (MyDouble) en.getLeft();
-              if (num.getDouble() == Math.E) {
-                  ret = new ExpressionNode(kernel, f, Operation.EXP, null);
-              }
-            }
-          }
-      */
+      if (exponentList == null) {
+        exponentList = new ArrayList<>();
+      }
+      exponentList.add(f);
         }
         )
     )*
