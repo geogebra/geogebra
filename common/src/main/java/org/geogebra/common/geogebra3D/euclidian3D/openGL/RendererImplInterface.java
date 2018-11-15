@@ -180,8 +180,8 @@ public interface RendererImplInterface {
                                                       float[] cameraPerspective,
                                                       float[] modelMatrix, float scaleFactor);
 
-	public abstract Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
-                                                                    float scaleFactor) ;
+	public abstract void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+                                                     float scaleFactor, Coords ret) ;
 
 	public abstract void unsetMatrixView();
 

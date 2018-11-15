@@ -74,9 +74,9 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
-													   float scaleFactor) {
-		return rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix, scaleFactor);
+	final protected void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+                                                     float scaleFactor, Coords ret) {
+		rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix, scaleFactor, ret);
 	}
 
 	@Override

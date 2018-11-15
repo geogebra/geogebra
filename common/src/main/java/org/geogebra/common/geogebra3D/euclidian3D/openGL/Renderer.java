@@ -189,19 +189,20 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * @return Hitting Direction from AR. Override in RendererWithImplA
+     * @param ret Hitting Direction from AR. Override in RendererWithImplA
 	 */
-	public Coords getHittingDirectionAR() {
-		return null;
+	public void getHittingDirectionAR(Coords ret) {
+		// nothing to do here
 	}
 
 	/**
 	 * @param mouse
 	 *            mouse position
-	 * @return Hitting Origin from AR. Override in RendererWithImplA
+	 * @param ret
+     *            Hitting Origin from AR. Override in RendererWithImplA
 	 */
-	public Coords getHittingOriginAR(GPoint mouse) {
-		return null;
+	public void getHittingOriginAR(GPoint mouse, Coords ret) {
+		// nothing to do here
 	}
 
 	/**
@@ -784,12 +785,12 @@ public abstract class Renderer implements RendererInterface {
 														 float[] cameraPerspective,
 														 float[] modelMatrix, float scaleFactor);
 
-	public final Coords fromARCoreCoordsToGGBCoords(Coords coords) {
-		return fromARCoreCoordsToGGBCoords(coords, arModelMatrix, arScaleFactor);
+	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
+		fromARCoreCoordsToGGBCoords(coords, arModelMatrix, arScaleFactor, ret);
 	}
 
-	abstract protected Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
-                                                                       float scaleFactor);
+	abstract protected void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+                                                        float scaleFactor, Coords ret);
 	/**
 	 * reset to projection matrix only
 	 */

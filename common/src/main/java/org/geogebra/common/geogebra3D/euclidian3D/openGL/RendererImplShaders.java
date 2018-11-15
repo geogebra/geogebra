@@ -62,8 +62,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
 
-	protected Coords tmpCoords1 = new Coords(4);
-    protected Coords tmpCoords2 = new Coords(4);
+	private Coords tmpCoords1 = new Coords(4);
 
 	protected float[] tmpFloat16 = new float[16];
 
@@ -507,18 +506,17 @@ public abstract class RendererImplShaders extends RendererImpl {
     }
 
 	@Override
-    public Coords fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
-														   float scaleFactor) {
+    public void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+                                            float scaleFactor, Coords ret) {
 	    // undo model matrix
 		tmpMatrix1.setFromGL(modelMatrix);
 		tmpMatrix1.solve(coords, tmpCoords1);
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
-        tmpMatrix2.solve(tmpCoords1, tmpCoords2);
+        tmpMatrix2.solve(tmpCoords1, ret);
         // undo screen coordinates
-        view3D.toSceneCoords3D(tmpCoords2);
-		return tmpCoords2;
+        view3D.toSceneCoords3D(ret);
 	}
 
 	@Override
