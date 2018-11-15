@@ -15,9 +15,6 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
  */
 public class TableValuesViewDimensions implements TableValuesDimensions, TableValuesListener {
 
-	private static final int STRICT_VALUE_COLUM_WIDTH = 81;
-	private static final int STRICT_X_COLUMN_WIDTH = 72;
-	private static final int STRICT_ROW_HEIGHT = 40;
 	private static final int MAX_WIDTH = 280;
     private static final int PADDING = 16;
 
@@ -101,8 +98,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 
     @Override
     public int getHeaderHeight() {
-		int height = font.getSize() + 2 * PADDING;
-		return Math.min(STRICT_ROW_HEIGHT, height);
+		return font.getSize() + 2 * PADDING;
     }
 
     @Override
@@ -119,11 +115,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
             maxWidth = Math.max(maxWidth, width);
         }
 
-		if (column == 0) {
-			return Math.max(maxWidth, STRICT_X_COLUMN_WIDTH);
-		}
-
-		return Math.max(maxWidth, STRICT_VALUE_COLUM_WIDTH);
+		return maxWidth;
 	}
 
     private int calculateExactHeaderWidth(int column) {
