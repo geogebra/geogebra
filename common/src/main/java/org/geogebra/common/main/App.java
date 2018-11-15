@@ -4109,6 +4109,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TOOLS_WITH_NAMES:
 			return prerelease;
 
+		/** APPS-83 */
 		case VOICEOVER_APPLETS:
 			return prerelease;
 
