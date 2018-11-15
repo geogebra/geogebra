@@ -1002,7 +1002,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	final public Coords getHittingDirection() {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && mIsAREnabled) {
-			return renderer.getHittingDirectionAR();
+		    Coords dir = renderer.getHittingDirectionAR();
+		    Log.debug("G3D_AR_REGULAR_TOOLS: direction = "+dir);
+			return dir;
 		}
 		else {
 			return getCompanion().getHittingDirection();
@@ -1409,7 +1411,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	final public Coords getHittingOrigin(GPoint mouse) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
-			return renderer.getHittingOriginAR(mouse);
+            Coords o = renderer.getHittingOriginAR(mouse);
+            Log.debug("G3D_AR_REGULAR_TOOLS: origin = "+o);
+            return o;
 		}
 		return getCompanion().getHittingOrigin(mouse);
 	}
