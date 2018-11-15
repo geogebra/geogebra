@@ -923,19 +923,21 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	protected Coords getHittingOrigin(GPoint mouse) {
+	protected void getHittingOrigin(GPoint mouse, Coords ret) {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
-			return input3D.getMouse3DScenePosition();
+			ret.set4(input3D.getMouse3DScenePosition());
+		} else {
+			super.getHittingOrigin(mouse, ret);
 		}
-		return super.getHittingOrigin(mouse);
 	}
 
 	@Override
-	public Coords getHittingDirection() {
+	public void getHittingDirection(Coords ret) {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
-			return input3D.getMouse3DDirection();
+			ret.set4(input3D.getMouse3DDirection());
+		} else {
+			super.getHittingDirection(ret);
 		}
-		return super.getHittingDirection();
 	}
 
 	@Override

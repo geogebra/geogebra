@@ -301,24 +301,23 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		return false;
 	}
 
-	protected Coords getHittingOrigin(GPoint mouse) {
-		Coords origin = getView().getPickPoint(mouse);
+	protected void getHittingOrigin(GPoint mouse, Coords ret) {
+		getView().getPickPoint(mouse, ret);
 		if (getView().getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
 				|| getView()
 						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-			origin = getView().getRenderer().getPerspEye().copyVector();
+			ret.set4(getView().getRenderer().getPerspEye());
 		}
-		getView().toSceneCoords3D(origin);
-
-		return origin;
+		getView().toSceneCoords3D(ret);
 	}
 
 	/**
 	 *
-	 * @return direction for hitting
+	 * @param ret
+	 *            direction for hitting
 	 */
-	public Coords getHittingDirection() {
-		return getView().getViewDirection();
+	public void getHittingDirection(Coords ret) {
+		ret.set4(getView().getViewDirection());
 	}
 
 	protected void setPickPointFromMouse(GPoint mouse, Coords pickPoint) {

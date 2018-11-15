@@ -94,11 +94,8 @@ public class Hitting {
 	 */
 	public void setHits(GPoint mouseLoc, int threshold) {
 
-		setOriginDirectionThreshold(view.getHittingOrigin(mouseLoc),
-				view.getHittingDirection(), threshold);
-
+		setOriginDirectionThreshold(mouseLoc, threshold);
 		setHits();
-
 	}
 
 	/**
@@ -140,6 +137,23 @@ public class Hitting {
 	/**
 	 * set origin, direction, threshold
 	 * 
+	 * @param mouseLoc
+	 *            mouse location
+	 * @param threshold
+	 *            threshold
+	 */
+	public void setOriginDirectionThreshold(GPoint mouseLoc, int threshold) {
+
+		view.getHittingOrigin(mouseLoc, origin);
+		origin.setW(1);
+		view.getHittingDirection(direction);
+		direction.setW(0);
+		setOriginDirectionThreshold(threshold);
+	}
+
+	/**
+	 * set origin, direction, threshold
+	 * 
 	 * @param origin
 	 *            origin
 	 * @param direction
@@ -152,6 +166,10 @@ public class Hitting {
 
 		this.origin.set3(origin);
 		this.direction.set3(direction);
+		setOriginDirectionThreshold(threshold);
+	}
+
+	private void setOriginDirectionThreshold(int threshold) {
 		this.threshold = threshold;
 
 		// screen coords

@@ -32,7 +32,7 @@ public class HittingSphere extends Hitting {
 	public void setHits(Coords pos, int threshold) {
 
 		origin = pos;
-		direction = view.getHittingDirection();
+		view.getHittingDirection(direction);
 
 		this.threshold = threshold;
 

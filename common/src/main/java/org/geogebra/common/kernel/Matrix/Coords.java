@@ -292,6 +292,19 @@ public class Coords {
 	}
 
 	/**
+	 * set 4 first values from v
+	 * 
+	 * @param v
+	 *            coords
+	 */
+	public void set4(Coords v) {
+		val[0] = v.val[0];
+		val[1] = v.val[1];
+		val[2] = v.val[2];
+		val[3] = v.val[3];
+	}
+
+	/**
 	 * set 2 first values from v
 	 * 
 	 * @param v

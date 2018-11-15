@@ -34,6 +34,8 @@ public class EuclidianController3DCompanion
 	private EuclidianController3D ec3D;
 	private Coords tmpCoords1 = new Coords(4);
 	private Coords tmpCoords2 = new Coords(4);
+	private Coords tmpCoordsForOrigin = new Coords(4);
+	private Coords tmpCoordsForDirection = new Coords(4);
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
 	/**
@@ -136,14 +138,14 @@ public class EuclidianController3DCompanion
 			}
 
 		} else { // 2D point
-			Coords o = ec3D.view3D
-					.getPickPoint(ec.mouseLoc);
-			ec3D.view3D.toSceneCoords3D(o);
+			ec3D.view3D.getPickPoint(ec.mouseLoc, tmpCoordsForOrigin);
+			ec3D.view3D.toSceneCoords3D(tmpCoordsForOrigin);
 			// TODO do this once
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
-			o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-					ec3D.view3D.getHittingDirection(),
+			ec3D.view3D.getHittingDirection(tmpCoordsForDirection);
+			tmpCoordsForOrigin.projectPlaneThruVIfPossible(
+					CoordMatrix4x4.IDENTITY, tmpCoordsForDirection,
 					tmpCoords1, tmpCoords2); // TODO
 												// use
 												// current
@@ -178,14 +180,14 @@ public class EuclidianController3DCompanion
 		 * positionOld = movedGeoPoint3D.getCoords().copyVector(); movePointMode
 		 * = MOVE_POINT_MODE_Z; }
 		 */
-		Coords o = ec3D.view3D
-				.getPickPoint(ec.mouseLoc);
-		ec3D.view3D.toSceneCoords3D(o);
-		ec3D.addOffsetForTranslation(o);
+		ec3D.view3D.getPickPoint(ec.mouseLoc, tmpCoordsForOrigin);
+		ec3D.view3D.toSceneCoords3D(tmpCoordsForOrigin);
+		ec3D.addOffsetForTranslation(tmpCoordsForOrigin);
 
 		// getting new position of the point
-		movedGeoPoint3D.getCoords().projectNearLine(o,
-				ec3D.view3D.getHittingDirection(),
+		ec3D.view3D.getHittingDirection(tmpCoordsForDirection);
+		movedGeoPoint3D.getCoords().projectNearLine(tmpCoordsForOrigin,
+				tmpCoordsForDirection,
 				ec3D.getNormalTranslateDirection(),
 				tmpCoords1);
 
@@ -564,11 +566,11 @@ public class EuclidianController3DCompanion
 			return;
 		}
 
-		Coords o = getView().getPickPoint(mouseLoc);
-		getView().toSceneCoords3D(o);
+		getView().getPickPoint(mouseLoc, tmpCoordsForOrigin);
+		getView().toSceneCoords3D(tmpCoordsForOrigin);
 
-		ec3D.addOffsetForTranslation(o);
-		point.setWillingCoords(o);
+		ec3D.addOffsetForTranslation(tmpCoordsForOrigin);
+		point.setWillingCoords(tmpCoordsForOrigin);
 	}
 
 	/**

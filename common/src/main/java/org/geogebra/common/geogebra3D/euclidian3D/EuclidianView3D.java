@@ -998,16 +998,15 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 *
-	 * @return direction for hitting
+	 * @param ret
+	 *            direction for hitting
 	 */
-	final public Coords getHittingDirection() {
+	final public void getHittingDirection(Coords ret) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && mIsAREnabled) {
-		    Coords dir = renderer.getHittingDirectionAR();
-		    Log.debug("G3D_AR_REGULAR_TOOLS: direction = "+dir);
-			return dir;
-		}
-		else {
-			return getCompanion().getHittingDirection();
+			ret.set4(renderer.getHittingDirectionAR());
+			Log.debug("G3D_AR_REGULAR_TOOLS: direction = " + ret);
+		} else {
+			getCompanion().getHittingDirection(ret);
 		}
 	}
 
@@ -1388,9 +1387,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *
 	 * @param mouse
 	 *            pointer position
-	 * @return 3D physical coords of the picking point
+	 * @param ret
+	 *            TODO
 	 */
-	public Coords getPickPoint(GPoint mouse) {
+	public void getPickPoint(GPoint mouse, Coords ret) {
 
 		setPickPointFromMouse(mouse);
 
@@ -1401,21 +1401,21 @@ public abstract class EuclidianView3D extends EuclidianView
 			viewDirectionPersp.normalize();
 		}
 
-		return pickPoint.copyVector();
+		ret.set4(pickPoint);
 	}
 
 	/**
 	 * @param mouse
 	 *            mouse position
-	 * @return hitting origin
+	 * @param ret TODO
 	 */
-	final public Coords getHittingOrigin(GPoint mouse) {
+	final public void getHittingOrigin(GPoint mouse, Coords ret) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
-            Coords o = renderer.getHittingOriginAR(mouse);
-            Log.debug("G3D_AR_REGULAR_TOOLS: origin = "+o);
-            return o;
+			ret.set(renderer.getHittingOriginAR(mouse));
+			Log.debug("G3D_AR_REGULAR_TOOLS: origin = " + ret);
+		} else {
+			getCompanion().getHittingOrigin(mouse, ret);
 		}
-		return getCompanion().getHittingOrigin(mouse);
 	}
 
 	/**
@@ -1459,9 +1459,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            mouse movement in x
 	 * @param dy
 	 *            mouse movement in y
-	 * @return 3D physical coords
+	 * @param ret
+	 *            3D physical coords
 	 */
-	public Coords getPickFromScenePoint(Coords p, int dx, int dy) {
+	public void getPickFromScenePoint(Coords p, int dx, int dy, Coords ret) {
 
 		Coords point = getToScreenMatrix().mul(p);
 
@@ -1475,7 +1476,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			viewDirectionPersp.normalize();
 		}
 
-		return pickPoint.copyVector();
+		ret.set4(pickPoint);
 	}
 
 	/**
@@ -2241,7 +2242,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	private void updateCursorOnXOYPlane() {
 		cursorOnXOYPlane.setWillingCoords(getCursor3D().getCoords());
-		cursorOnXOYPlane.setWillingDirection(getHittingDirection());
+		getHittingDirection(tmpCoords1);
+		cursorOnXOYPlane.setWillingDirection(tmpCoords1);
 		cursorOnXOYPlane.doRegion();
 		cursorOnXOYPlane.getDrawingMatrix().setDiag(1);
 		scaleXYZ(cursorOnXOYPlane.getDrawingMatrix().getOrigin());
