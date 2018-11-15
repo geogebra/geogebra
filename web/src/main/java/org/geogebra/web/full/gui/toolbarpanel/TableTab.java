@@ -11,8 +11,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Tab of Table Values View.
  * 
- * 
+ * @author laszlo
  */
 public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, TableValuesListener {
 
@@ -112,5 +113,4 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	public void notifyDatasetChanged(TableValuesModel model) {
 		buildGui();
 	}
-
 }

@@ -15,7 +15,10 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
  */
 public class TableValuesViewDimensions implements TableValuesDimensions, TableValuesListener {
 
-    private static final int MAX_WIDTH = 280;
+	private static final int STRICT_VALUE_COLUM_WIDTH = 81;
+	private static final int STRICT_X_COLUMN_WIDTH = 72;
+	private static final int STRICT_ROW_HEIGHT = 40;
+	private static final int MAX_WIDTH = 280;
     private static final int PADDING = 16;
 
     private AwtFactory factory;
@@ -74,7 +77,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
         resetCache();
     }
 
-    private void assertValidValue(int value, int minValue, String variableName) {
+	private static void assertValidValue(int value, int minValue, String variableName) {
         if (value < minValue) {
             throw new RuntimeException(variableName + " must be larger than 0");
         }
@@ -98,7 +101,8 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 
     @Override
     public int getHeaderHeight() {
-        return font.getSize() + 2 * PADDING;
+		int height = font.getSize() + 2 * PADDING;
+		return Math.min(STRICT_ROW_HEIGHT, height);
     }
 
     @Override
@@ -107,18 +111,23 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
     private int calculateExactColumnWidth(int column) {
-        int maxWidth = 0;
+		int maxWidth = 0;
         int rows = Math.min(model.getRowCount(), maxRows);
         for (int i = 0; i < rows; i++) {
             String text = model.getCellAt(i, column);
             int width = getWidth(text);
             maxWidth = Math.max(maxWidth, width);
         }
-        return maxWidth;
-    }
+
+		if (column == 0) {
+			return Math.max(maxWidth, STRICT_X_COLUMN_WIDTH);
+		}
+
+		return Math.max(maxWidth, STRICT_VALUE_COLUM_WIDTH);
+	}
 
     private int calculateExactHeaderWidth(int column) {
-        String header = model.getHeaderAt(column);
+		String header = model.getHeaderAt(column);
         return getWidth(header);
     }
 

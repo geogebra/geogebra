@@ -401,7 +401,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
 		return TEMPLATES.cell(html, "tvHeaderCell",
-				getColumnWidth(dimensions, col) + 32,
+				getColumnWidth(dimensions, col),
 				dimensions.getHeaderHeight());
 	}
 

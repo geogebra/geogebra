@@ -72,16 +72,20 @@ $emptyHeight: 212px;
 			text-align: center;
 			padding: 0px;
 			div:FIRST-CHILD {
+				display: inline-block;
+				text-align: center;
 				color: $black-54;
-				display: inline-flex;
 				margin: auto;
 
 				.MyToggleButton {
-					margin-top: 8px;
+					margin-top: -32px;
+					float: right;
 					padding: 0px;
 					border: 0px;
 					opacity: 0.54;
 				}
+				margin-left: 0px;
+				margin-right: 0px;
 			}
 			
 			.delete {
@@ -89,7 +93,7 @@ $emptyHeight: 212px;
 				text-align: left;
 			}
 		}
-		
+
 		tbody {
 			display: none;
 		}
@@ -127,20 +131,24 @@ $emptyHeight: 212px;
 		transition: all 1s ease-in;
 	}
 	
-	.tvCellTransition div {
+	.tvCellTransition div:first-child {
 		width: 100%;
 	}
+
 	.tvValueCell {
 		@extend .tvCellTransition;
-		margin-left: 16px;
-		margin-right: 32px;
+		margin-left: 0px;
+		margin-right: 0px;
 		text-align: end;
 	}
 
 	.tvHeaderCell {
 		@extend .tvCellTransition;
-		margin-left: 16px;
+		margin-left: 0px;
+		margin-right: 0px;
+		border-bottom: 0px;	
 	}
+
 
 	.tvPanel .tvScrollPanel{
 		flex-grow: 1;
