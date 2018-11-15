@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
@@ -260,7 +261,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		if (target == btOK.getElement()) {
 			geoResult = rbAngle.getValue() ? angle : number;
 			getResult();
-			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			geoResult.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
 			geoResult.setLabelVisible(true);
 			sliderPanel.applyAll(geoResult);
 			geoResult.update();

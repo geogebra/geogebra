@@ -1578,6 +1578,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            Adds a focus handler to the wrapped textfield.
 	 * @return reference to the handler
 	 */
+	@Override
 	public HandlerRegistration addFocusHandler(FocusHandler handler) {
 		return textField.getValueBox().addFocusHandler(handler);
 	}

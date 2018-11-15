@@ -207,7 +207,7 @@ public class WinFileManager extends FileManager {
 
 				}
 				} catch (Exception e) {
-
+					// invalid JSON: ignore
 				}
 			}
 		});
@@ -239,7 +239,7 @@ public class WinFileManager extends FileManager {
 				this.addMaterial(mat);
 			}
 		} catch (Exception e) {
-
+			// invalid JSON: ignore
 		}
 	}
 

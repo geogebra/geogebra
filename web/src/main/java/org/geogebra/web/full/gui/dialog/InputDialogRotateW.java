@@ -65,7 +65,7 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	}
 	
 	@Override
-	protected void actionPerformed(DomEvent e) {
+	protected void actionPerformed(DomEvent<?> e) {
 		Object source = e.getSource();
 
 		try {

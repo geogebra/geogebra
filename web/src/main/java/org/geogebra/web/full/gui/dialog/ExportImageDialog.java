@@ -148,7 +148,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		}
 	}
 
-	private String getExtension(String url) {
+	private static String getExtension(String url) {
 		if (url.startsWith(StringUtil.svgMarker)) {
 			return ".svg";
 		} else if (url.startsWith(StringUtil.pdfMarker)) {

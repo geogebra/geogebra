@@ -44,16 +44,4 @@ public class GSpinnerW extends GTextBox {
 		getElement().setAttribute("step", value.toString());
 	}
 
-	public double getMinValue(Double value) {
-		return Double.parseDouble(getElement().getAttribute("min"));
-	}
-
-	public double getMaxValue(Double value) {
-		return Double.parseDouble(getElement().getAttribute("max"));
-	}
-
-	public double getStepValue(Double value) {
-		return Double.parseDouble(getElement().getAttribute("step"));
-	}
-
 }

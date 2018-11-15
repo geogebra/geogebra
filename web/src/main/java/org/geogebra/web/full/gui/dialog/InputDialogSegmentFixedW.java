@@ -38,7 +38,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent e) {
+	protected void actionPerformed(DomEvent<?> e) {
 		Object source = e.getSource();
 
 		try {

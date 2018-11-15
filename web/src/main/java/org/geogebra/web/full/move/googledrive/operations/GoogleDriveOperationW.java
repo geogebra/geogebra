@@ -445,8 +445,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		if ((getFolderId() != null) && !"".equals(getFolderId())) {
 			JavaScriptObject folderId = JavaScriptObject.createObject();
 			JSON.put(folderId, "id", getFolderId());
-			JsArray<JavaScriptObject> parents = (JsArray<JavaScriptObject>) JavaScriptObject
-			        .createArray();
+			JsArray<JavaScriptObject> parents = JavaScriptObject.createArray()
+					.cast();
 			parents.push(folderId);
 			JSON.put(metaData, "parents", parents);
 		}

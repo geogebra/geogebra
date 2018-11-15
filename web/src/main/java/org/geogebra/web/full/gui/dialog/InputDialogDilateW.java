@@ -53,7 +53,7 @@ public class InputDialogDilateW extends InputDialogW {
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent e) {
+	protected void actionPerformed(DomEvent<?> e) {
 		actionPerformedSimple(e);
 	}
 

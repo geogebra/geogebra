@@ -966,7 +966,7 @@ public class MyNumberFormat {
 	 *            locale-specific zero character -- the rest of the digits must
 	 *            be consecutive
 	 */
-	private void localizeDigits(StringBuilder digits, char zero) {
+	private static void localizeDigits(StringBuilder digits, char zero) {
 		// don't use digitsLength since we may have added an exponent
 		int n = digits.length();
 		for (int i = 0; i < n; ++i) {

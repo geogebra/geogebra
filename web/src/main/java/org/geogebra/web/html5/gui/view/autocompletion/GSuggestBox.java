@@ -47,7 +47,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesChangeEvents;
 import com.google.gwt.user.client.ui.SourcesClickEvents;
-import com.google.gwt.user.client.ui.SourcesKeyboardEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Callback;
@@ -118,7 +117,7 @@ import com.google.gwt.user.client.ui.Widget;
 @SuppressWarnings("deprecation")
 public class GSuggestBox extends Composite
 		implements HasText, HasFocus, HasAnimation, HasEnabled,
-		SourcesClickEvents, SourcesChangeEvents, SourcesKeyboardEvents,
+		SourcesClickEvents, SourcesChangeEvents,
 		HasAllKeyHandlers, HasValue<String>,
 		HasSelectionHandlers<Suggestion>, IsEditor<LeafValueEditor<String>> {
 
@@ -1259,9 +1258,8 @@ public class GSuggestBox extends Composite
 		String text = getText();
 		if (text.equals(currentText)) {
 			return;
-		} else {
-			currentText = text;
 		}
+		currentText = text;
 		showSuggestions(text);
 	}
 

@@ -31,7 +31,6 @@ public class MOWPointStyleButton extends PointStylePopup {
 	/** The value canvas next to the slider */
 	protected Canvas canvas;
 
-	private static final double RW_MARGIN = 0.3;
 	private GGraphics2DWI g2;
 	private DrawPoint drawPoint;
 	private GeoPoint p;

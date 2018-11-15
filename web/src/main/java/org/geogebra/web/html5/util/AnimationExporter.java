@@ -2,8 +2,8 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.util.DoubleUtil;
@@ -53,11 +53,11 @@ public class AnimationExporter {
 
 		// pages in order, once each!
 		if (frameFormat == ExportType.PDF_HTML5) {
-			type = GeoElement.ANIMATION_INCREASING_ONCE;
+			type = GeoElementND.ANIMATION_INCREASING_ONCE;
 		}
 
 		switch (type) {
-		case GeoElement.ANIMATION_DECREASING:
+		case GeoElementND.ANIMATION_DECREASING:
 			step = -slider.getAnimationStep();
 			n = (int) ((max - min) / -step);
 			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
@@ -69,7 +69,7 @@ public class AnimationExporter {
 			val = max;
 			break;
 
-		case GeoElement.ANIMATION_OSCILLATING:
+		case GeoElementND.ANIMATION_OSCILLATING:
 			step = slider.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
 			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
@@ -81,8 +81,8 @@ public class AnimationExporter {
 			val = min;
 			break;
 
-		case GeoElement.ANIMATION_INCREASING:
-		case GeoElement.ANIMATION_INCREASING_ONCE:
+		case GeoElementND.ANIMATION_INCREASING:
+		case GeoElementND.ANIMATION_INCREASING_ONCE:
 		default:
 			step = slider.getAnimationStep();
 			n = (int) ((max - min) / step);

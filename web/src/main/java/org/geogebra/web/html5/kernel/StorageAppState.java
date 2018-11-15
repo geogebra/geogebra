@@ -30,7 +30,7 @@ public class StorageAppState implements AppState {
 		increment();
     }
 
-	private void increment() {
+	private static void increment() {
 		nextKeyNum++;
 	}
 

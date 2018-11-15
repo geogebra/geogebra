@@ -365,7 +365,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent event) {
+	protected void actionPerformed(DomEvent<?> event) {
 		Widget source = (Widget) event.getSource();
 		apply(source);
 	}

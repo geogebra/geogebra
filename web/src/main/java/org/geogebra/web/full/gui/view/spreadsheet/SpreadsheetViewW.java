@@ -734,7 +734,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return settings().isColumnSelect();
 	}
 
-	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
+	public void updateAllowSpecialEditor() {
 		repaintView();
 	}
 
@@ -865,7 +865,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		setAllowToolTips(settings().allowToolTips());
 		// ?//setShowFormulaBar(settings().showFormulaBar());
 		setColumnSelect(settings().isColumnSelect());
-		setAllowSpecialEditor(settings().allowSpecialEditor());
+		updateAllowSpecialEditor();
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());
 

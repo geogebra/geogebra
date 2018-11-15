@@ -383,7 +383,7 @@ public class InputDialogW extends InputDialog
 		// implemented in TextInputDialog
 	}
 
-	protected void actionPerformed(DomEvent event) {
+	protected void actionPerformed(DomEvent<?> event) {
 		Widget source = (Widget) event.getSource();
 		if (source == btOK || sourceShouldHandleOK(source)) {
 			closeIOSKeyboard();
@@ -412,7 +412,7 @@ public class InputDialogW extends InputDialog
 		}
 	}
 
-	protected void actionPerformedSimple(DomEvent e) {
+	protected void actionPerformedSimple(DomEvent<?> e) {
 		Object source = e.getSource();
 
 		try {

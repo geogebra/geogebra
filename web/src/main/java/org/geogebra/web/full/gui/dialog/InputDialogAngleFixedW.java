@@ -70,7 +70,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent e) {
+	protected void actionPerformed(DomEvent<?> e) {
 		Object source = e.getSource();
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
