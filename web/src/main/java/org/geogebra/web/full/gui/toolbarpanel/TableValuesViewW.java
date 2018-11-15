@@ -3,11 +3,14 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -528,4 +531,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			header.getParentElement().removeFromParent();
 		}
 	}
+
+	@Override
+	protected TableValuesViewDimensions newTableValuesViewDimensions(GFontRenderContext context) {
+		return new TableValuesViewDimensionsW(getTableValuesModel(), AwtFactory.getPrototype(),
+				context);
+	}
+
 }

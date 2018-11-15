@@ -55,9 +55,19 @@ public class TableValuesView implements TableValues, SettingListener {
 		GBufferedImage bufferedImage = factory.createBufferedImage(2, 2, false);
 		GGraphics2D graphics = bufferedImage.createGraphics();
 		GFontRenderContext fontRenderContext = graphics.getFontRenderContext();
-		dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(), fontRenderContext);
+		dimensions = newTableValuesViewDimensions(fontRenderContext);
 		dimensions.setFont(font);
 		model.registerListener(dimensions);
+	}
+
+	/**
+	 * 
+	 * @param context
+	 *            the font renderer context.
+	 * @return a new TableValuesViewDimensions instance.
+	 */
+	protected TableValuesViewDimensions newTableValuesViewDimensions(GFontRenderContext context) {
+		return new TableValuesViewDimensions(model, AwtFactory.getPrototype(), context);
 	}
 
 	@SuppressWarnings("unlikely-arg-type")

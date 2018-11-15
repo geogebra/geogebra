@@ -106,7 +106,13 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
         return headerCache.getWidth(column);
     }
 
-    private int calculateExactColumnWidth(int column) {
+	/**
+	 * 
+	 * @param column
+	 *            to get the width.
+	 * @return the calculated width.
+	 */
+	protected int calculateExactColumnWidth(int column) {
 		int maxWidth = 0;
         int rows = Math.min(model.getRowCount(), maxRows);
         for (int i = 0; i < rows; i++) {
