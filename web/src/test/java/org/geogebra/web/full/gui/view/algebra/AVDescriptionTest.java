@@ -25,4 +25,9 @@ public class AVDescriptionTest {
 		rte.doUpdate();
 		Assert.assertTrue(rte.latex);
 	}
+
+	@Before
+        public void rootPanel() {
+                this.getClass().getClassLoader().setDefaultAssertionStatus(false);
+        }
 }
