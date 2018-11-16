@@ -1875,8 +1875,35 @@ public class CommandsTest extends AlgebraTest {
 		t("Asymptote[ 2^x/(3^x-2^x) ]", "{y = 0, y = -1, x = 0}");
 		t("Asymptote[ (x-1)/(x-1) ]", "{y = 1}");
 		t("Asymptote[ (x-1)^3/(x-1) ]", "{}");
-		t("Asymptote[x+sin(x) ]", "{}");
+		t("Asymptote[ x+sin(x) ]", "{}");
+		t("Asymptote[ (9 - 3^x) / (4 + 6^x) ]", "{y = 0, y = 2.25}");
+		t("Asymptote[ 2x^2/(x^1-16)+1/(1+x^2)+1/(2+x^2) ]",
+				"{y = 2x + 32, x = 16}");
+		t("Asymptote[ 3 (x - 1) (x + 1) (x - 4) (x + 4) / (4 (x + 4) (2 + x) (4 - x) (x + 1)) ]",
+				"{y = -0.75, x = -2}");
+		t("Asymptote[ (2 - x) / ((x - 2) (x - 4)) ]", "{y = 0, x = 4}");
+
+		t("Asymptote[ 5+exp(-x^2) ]", "{y = 5}");
+		t("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5}");
+		tRound("Asymptote[ 3 atan(2x) ]", "{y = 4.71239, y = -4.71239}");
+		tRound("Asymptote[ (9-4x^2)/(1+5x+5x^2)]",
+				"{y = -0.8, x = -0.72361, x = -0.27639}");
+		t("Asymptote[ exp(-3x)+4exp(-x) ]", "{y = 0}");
+		t("Asymptote[ (7+x)/(x^2-9) ]", "{y = 0, x = -3, x = 3}");
+		t("Asymptote[ sin(1/x)^2 ]", "{y = 0}");
+		t("Asymptote[ atan(1/(8x)) ]", "{y = 0}");
+		tRound("Asymptote[ -atan(8x) ]", "{y = -1.5708, y = 1.5708}");
+		t("Asymptote[ 4exp(2/x) ]", "{y = 4}");
+		t("Asymptote[ 1/ln(2x+4)]", "{y = 0, x = -1.5}");
+		tRound("Asymptote[ sqrt(2x^2+1)/(3x-5)]",
+				"{y = 0.4714, y = -0.4714, x = 1.66667}");
+		t("Asymptote[ sqrt(x^2+6x) - x ]", "{y = 3, y = -2x - 3}");
+
+		tRound("Asymptote[ x(x-3)(x-8)(x-3)(x+4)/(7(x+1)(1+x)(3-x)(x-8)) ]",
+				"{y = -0.14286x + 0.14286, x = -1}");
 		tRound("Asymptote[ x+atan(x) ]", "{y = x + 1.5708, y = x - 1.5708}");
+		tRound("Asymptote[ (3x - 2) / sqrt(2x\u00B2 + 1) ]",
+				"{y = 2.12132, y = -2.12132}");
 		// for this one we don't get the right vertical asymptote, at least
 		// ignore the fake one
 		t("IndexOf(x=7,Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ])", "NaN");
