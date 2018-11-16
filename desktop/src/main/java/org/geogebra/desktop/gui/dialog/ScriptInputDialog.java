@@ -125,8 +125,7 @@ public class ScriptInputDialog extends InputDialogD
 	}
 
 	private void processInput(AsyncOperation<Boolean> callback) {
-		inputText = inputPanel.getText();
-		model.processInput(inputText, callback);
+		model.processInput(inputPanel.getText(), callback);
 	}
 
 	@Override

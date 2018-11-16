@@ -387,8 +387,8 @@ public class InputDialogW extends InputDialog
 		Widget source = (Widget) event.getSource();
 		if (source == btOK || sourceShouldHandleOK(source)) {
 			closeIOSKeyboard();
-			inputText = inputPanel.getText();
-			processInputHandler(new AsyncOperation<Boolean>() {
+			String inputText = inputPanel.getText();
+			processInputHandler(inputText, new AsyncOperation<Boolean>() {
 
 				@Override
 				public void callback(Boolean ok) {
@@ -400,8 +400,8 @@ public class InputDialogW extends InputDialog
 				}
 			});
 		} else if (source == btApply) {
-			inputText = inputPanel.getText();
-			processInputHandler(null);
+			String inputText = inputPanel.getText();
+			processInputHandler(inputText, null);
 		} else if (source == btProperties && geo != null) {
 			setVisible(false);
 			openProperties(app, geo);

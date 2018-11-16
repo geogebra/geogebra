@@ -16,9 +16,9 @@ public abstract class InputDialog implements ErrorHandler {
 
 	private String initString;
 	private InputHandler inputHandler;
-	protected String inputText = null;
 
-	protected void processInputHandler(AsyncOperation<Boolean> callback) {
+	protected void processInputHandler(String inputText,
+			AsyncOperation<Boolean> callback) {
 		getInputHandler().processInput(inputText, this, callback);
 	}
 

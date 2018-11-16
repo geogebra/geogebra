@@ -429,8 +429,8 @@ public class InputDialogD extends InputDialog
 		// boolean finished = false;
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				inputText = inputPanel.getText();
-				processInputHandler(new AsyncOperation<Boolean>() {
+				String inputText = inputPanel.getText();
+				processInputHandler(inputText, new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {
@@ -439,8 +439,8 @@ public class InputDialogD extends InputDialog
 					}
 				});
 			} else if (source == btApply) {
-				inputText = inputPanel.getText();
-				processInputHandler(null);
+				String inputText = inputPanel.getText();
+				processInputHandler(inputText, null);
 			} else if (source == btCancel) {
 				cancel();
 			} else if (source == btProperties && geo != null) {

@@ -100,7 +100,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		
-		inputText = inputPanel.getText();
+		String inputText = inputPanel.getText();
 		
 		// negative orientation ?
 		if (rbClockWise.getValue()) {

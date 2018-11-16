@@ -36,19 +36,8 @@ public class NumberChangeSignInputDialogW extends InputDialogW {
 	}
 
 	@Override
-	protected void processInputHandler(AsyncOperation<Boolean> callback) {
-		// Construction cons = app.getKernel().getConstruction();
-		// boolean oldVal = cons.isSuppressLabelsActive();
-		// cons.setSuppressLabelCreation(true);
-		// boolean success = ((NumberChangeSignInputHandler)
-		// inputHandler).processInput(inputText,changingSign &&
-		// checkBox.getValue());
-		// cons.setSuppressLabelCreation(oldVal);
-		// if(success){
-		// //TODO callback to actually extrude
-		// }
-		// return success;
-
+	protected void processInputHandler(String inputText,
+			AsyncOperation<Boolean> callback) {
 		((NumberChangeSignInputHandler) getInputHandler()).processInput(
 				inputText, changingSign && checkBox.getValue(), this, callback);
 	}

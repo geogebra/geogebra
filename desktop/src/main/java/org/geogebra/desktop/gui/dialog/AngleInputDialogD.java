@@ -79,7 +79,7 @@ public class AngleInputDialogD extends InputDialogD {
 		try {
 
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				inputText = inputPanel.getText();
+				String inputText = inputPanel.getText();
 
 				// negative orientation ?
 				if (rbClockWise.isSelected()) {
