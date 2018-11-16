@@ -1904,10 +1904,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            function whose asymptotes we are looking for
 	 * @param SB
 	 *            StringBuilder for the result
+	 * @return whether asymptote was found
 	 */
-	public void getHorizontalPositiveAsymptote(GeoFunction f,
+	public boolean getHorizontalPositiveAsymptote(GeoFunction f,
 			StringBuilder SB) {
-		getHorizontalAsymptoteStatic(this, f, SB, true);
+		return getHorizontalAsymptoteStatic(this, f, SB, true);
 	}
 
 	/**
@@ -1918,10 +1919,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            function whose asymptotes we are looking for
 	 * @param SB
 	 *            StringBuilder for the result
+	 * @return whether asymptote was found
 	 */
-	public void getHorizontalNegativeAsymptote(GeoFunction f,
+	public boolean getHorizontalNegativeAsymptote(GeoFunction f,
 			StringBuilder SB) {
-		getHorizontalAsymptoteStatic(this, f, SB, false);
+		return getHorizontalAsymptoteStatic(this, f, SB, false);
 	}
 
 	/**
@@ -2068,8 +2070,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param positiveInfinity
 	 *            if true, we look for limit at positive infinity, for false, we
 	 *            use negative infinity
+	 * @return whether asymptote was found
 	 */
-	protected void getHorizontalAsymptoteStatic(GeoFunction f,
+	protected boolean getHorizontalAsymptoteStatic(GeoFunction f,
 			GeoFunction parentFunction, StringBuilder SB,
 			boolean positiveInfinity) {
 		// get function and function variable string using temp variable
@@ -2111,10 +2114,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					}
 					SB.append(sbCasCommand);
 				}
+				return true;
 			}
 		} catch (Throwable t) {
 			// nothing to do
 		}
+		return false;
 	}
 
 	@Override

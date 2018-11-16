@@ -89,11 +89,14 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 		try {
 			sb.setLength(0);
 			sb.append("{");
-			f.getHorizontalPositiveAsymptote(f, sb);
-			f.getHorizontalNegativeAsymptote(f, sb);
-
-			f.getDiagonalPositiveAsymptote(f, sb);
-			f.getDiagonalNegativeAsymptote(f, sb);
+			boolean posHorizontal = f.getHorizontalPositiveAsymptote(f, sb);
+			boolean negHorizontal = f.getHorizontalNegativeAsymptote(f, sb);
+			if (!posHorizontal) {
+				f.getDiagonalPositiveAsymptote(f, sb);
+			}
+			if (!negHorizontal) {
+				f.getDiagonalNegativeAsymptote(f, sb);
+			}
 
 			f.getVerticalAsymptotes(f, sb, false);
 

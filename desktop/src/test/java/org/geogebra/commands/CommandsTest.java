@@ -1875,6 +1875,8 @@ public class CommandsTest extends AlgebraTest {
 		t("Asymptote[ 2^x/(3^x-2^x) ]", "{y = 0, y = -1, x = 0}");
 		t("Asymptote[ (x-1)/(x-1) ]", "{y = 1}");
 		t("Asymptote[ (x-1)^3/(x-1) ]", "{}");
+		t("Asymptote[x+sin(x) ]", "{}");
+		tRound("Asymptote[ x+atan(x) ]", "{y = x + 1.5708, y = x - 1.5708}");
 		// for this one we don't get the right vertical asymptote, at least
 		// ignore the fake one
 		t("IndexOf(x=7,Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ])", "NaN");
