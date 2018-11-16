@@ -65,7 +65,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
-		if (item.geo.hasTableOfValues() && app.has(Feature.TABLE_VIEW)) {
+		if (item.geo.hasTableOfValues() && app.getConfig().hasTableView(app)) {
 			addTableOfValuesItem();
 		}
 		if (SuggestionRootExtremum.get(item.geo) != null

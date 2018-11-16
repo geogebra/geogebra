@@ -99,4 +99,12 @@ public interface AppConfig {
      */
     boolean showAxesOnFileNew();
 
+	/**
+	 * @param app
+	 *            for feature flag -- remove this arg when table view is
+	 *            released
+	 * @return whether table view is available
+	 */
+	boolean hasTableView(App app);
+
 }

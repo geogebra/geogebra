@@ -160,4 +160,9 @@ public class AppConfigGeometry implements AppConfig {
         return false;
     }
 
+	@Override
+	public boolean hasTableView(App app) {
+		return false;
+	}
+
 }

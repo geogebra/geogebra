@@ -7,7 +7,6 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -240,7 +239,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		add(tabAlgebra);
 		add(tabTools);
-		if (app.has(Feature.TABLE_VIEW)) {
+		if (app.getConfig().hasTableView(app)) {
 			tabTable = new TableTab(this);
 			add(tabTable);
 		}

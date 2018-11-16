@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.Feature;
 
 /**
  * Config for Graphing Calculator app
@@ -154,4 +155,9 @@ public class AppConfigGraphing implements AppConfig {
     public boolean showAxesOnFileNew() {
         return true;
     }
+
+	@Override
+	public boolean hasTableView(App app) {
+		return app.has(Feature.TABLE_VIEW);
+	}
 }

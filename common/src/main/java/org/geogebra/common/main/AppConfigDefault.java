@@ -154,4 +154,9 @@ public class AppConfigDefault implements AppConfig {
     public boolean showAxesOnFileNew() {
         return true;
     }
+
+	@Override
+	public boolean hasTableView(App app) {
+		return false;
+	}
 }
