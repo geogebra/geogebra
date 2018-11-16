@@ -48,8 +48,7 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 		view3D.getSettings().updateOriginFromView(xEnd, yEnd, zEnd);
 
 		// update the view
-		view3D.updateTranslationMatrix();
-		view3D.updateUndoTranslationMatrix();
+		view3D.updateTranslationMatrices();
 		view3D.setGlobalMatrices();
 
 		view3D.setViewChangedByTranslate();

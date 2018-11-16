@@ -181,7 +181,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	// viewing values
 	protected double zZero;
 	protected double zZeroOld = 0;
-    private double zZeroAR;
 	protected double aOld;
 	protected double bOld;
 	// picking and hits
@@ -867,33 +866,36 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * Update translation matrix.
+	 * Update translation matrices (do and undo).
 	 */
-	public void updateTranslationMatrix() {
+	public void updateTranslationMatrices() {
+
+		double translationZzero;
 		if (mIsARDrawing) {
 			if (getShowAxis(AXIS_Z)) {
-				zZeroAR = -getZmin();
+				translationZzero = -getZmin();
+			} else if (updateObjectsBounds(true, true)) {
+				translationZzero = -boundsMin.getZ();
 			} else {
-				if (updateObjectsBounds(true, true)) {
-					zZeroAR = -boundsMin.getZ();
-				} else {
-					zZeroAR = 0;
-				}
+				translationZzero = 0;
 			}
-			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
-			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
-			translationMatrixWithScale.set(3, 4, zZeroAR * getZscale());
-			translationMatrixWithoutScale.set(1, 4, getXZero());
-			translationMatrixWithoutScale.set(2, 4, getYZero());
-			translationMatrixWithoutScale.set(3, 4, zZeroAR);
 		} else {
-			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
-			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
-			translationMatrixWithScale.set(3, 4, getZZero() * getZscale());
-			translationMatrixWithoutScale.set(1, 4, getXZero());
-			translationMatrixWithoutScale.set(2, 4, getYZero());
-			translationMatrixWithoutScale.set(3, 4, getZZero());
+			translationZzero = getZZero();
 		}
+
+		// scene to screen translation matrices
+		translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
+		translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
+		translationMatrixWithScale.set(3, 4, translationZzero * getZscale());
+		translationMatrixWithoutScale.set(1, 4, getXZero());
+		translationMatrixWithoutScale.set(2, 4, getYZero());
+		translationMatrixWithoutScale.set(3, 4, translationZzero);
+
+		// screen to scene translation matrix
+		undoTranslationMatrix.set(1, 4, -getXZero());
+		undoTranslationMatrix.set(2, 4, -getYZero());
+		undoTranslationMatrix.set(3, 4, -translationZzero);
+
 	}
 
 	/**
@@ -944,25 +946,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		updateRotationAndScaleMatrices();
 
 		// translation
-		updateTranslationMatrix();
-		updateUndoTranslationMatrix();
+		updateTranslationMatrices();
 
 		// set global matrix and inverse, and eye position
 		setGlobalMatrices();
 	}
-
-	/**
-	 * Update matrix for undo translation.
-	 */
-    public void updateUndoTranslationMatrix() {
-        undoTranslationMatrix.set(1, 4, -getXZero());
-        undoTranslationMatrix.set(2, 4, -getYZero());
-        if (isARDrawing()) {
-            undoTranslationMatrix.set(3, 4, -zZeroAR);
-        } else {
-            undoTranslationMatrix.set(3, 4, -getZZero());
-        }
-    }
 
 	private void updateEye() {
 		// update view direction
@@ -1164,7 +1152,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			setYZero(y);
 			setZZero(z);
 			getSettings().updateOriginFromView(x, y, z);
-			updateTranslationMatrix();
+			updateTranslationMatrices();
 			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
 			CoordMatrix matrix = ((mRS.inverse())
 					.mul(translationMatrixWithoutScale).mul(mRS));
@@ -4478,8 +4466,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		setZZero(zZeroOld + translation.getZ());
 
 		// update the view
-		updateTranslationMatrix();
-		updateUndoTranslationMatrix();
+		updateTranslationMatrices();
 		setGlobalMatrices();
 
 		setViewChangedByTranslate();
@@ -4535,8 +4522,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		setZZero(t1.getZ() - startPos.getZ() + v.getZ());
 		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
 		// update the view
-		updateTranslationMatrix();
-		updateUndoTranslationMatrix();
+		updateTranslationMatrices();
 		setGlobalMatrices();
 
 		setViewChangedByTranslate();
