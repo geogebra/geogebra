@@ -1908,6 +1908,19 @@ public class CommandsTest extends AlgebraTest {
 		// ignore the fake one
 		t("IndexOf(x=7,Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ])", "NaN");
 		t("Asymptote[ ln(x^2) ]", "{x = 0}");
+		t("Asymptote[ ln(abs(x^2-4)) ]", "{x = -2, x = 2}");
+
+		// OK
+		tRound("Asymptote[ sqrt((2x - 3) / (2x^2 - 3)) ]",
+				"{y = 0, x = -1.22474, x = 1.22474}");
+
+		// these ones are tricky (problems with domain)
+		// https://help.geogebra.org/topic/asymptotes-incorrectly-computed
+		// tRound("Asymptote[ sqrt(2x - 3) / sqrt(2x^2 - 3) ]",
+		// "{y = 0}");
+		// tRound("Asymptote[ sqrt(3x^2 - 2) / sqrt(2x + 1) ]", "{}");
+		// tRound("Asymptote[ sqrt((3x^2 - 2) / (2x + 1)) ]", "{x = -0.5}");
+
 	}
 
 	@Test
