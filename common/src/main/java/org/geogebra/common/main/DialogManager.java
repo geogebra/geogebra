@@ -129,23 +129,12 @@ public abstract class DialogManager {
 	public static void doAngleFixed(Kernel kernel, GeoSegmentND[] segments,
 			GeoPointND[] points, GeoNumberValue num,
 			boolean clockWise, EuclidianController ec) {
-		// GeoElement circle = kernel.Circle(null, geoPoint1,
-		// ((NumberInputHandler)inputHandler).getNum());
-		// geogebra.gui.AngleInputDialog dialog =
-		// (geogebra.gui.AngleInputDialog) ob[1];
-		// String angleText = getText();
-
 		if (points.length == 2) {
 			ec.getCompanion().createAngle(points[0], points[1], num,
 					clockWise);
-			// (GeoAngle) kernel.getAlgoDispatcher().Angle(null, points[0],
-			// points[1], num, !clockWise)[0];
 		} else {
 			ec.getCompanion().createAngle(segments[0].getEndPoint(),
 					segments[0].getStartPoint(), num, clockWise);
-			// (GeoAngle) kernel.getAlgoDispatcher().Angle(null,
-			// segments[0].getEndPoint(), segments[0].getStartPoint(), num,
-			// !clockWise)[0];
 		}
 
 		kernel.getApplication().storeUndoInfoAndStateForModeStarting();
@@ -810,6 +799,73 @@ public abstract class DialogManager {
 					}
 				});
 
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param userInput
+	 *            input
+	 * @param clockwise
+	 *            clockwise?
+	 * @param handler
+	 *            error handler
+	 * @param segments
+	 *            selected segments
+	 * @param points
+	 *            selected points
+	 * @param callback
+	 *            callback
+	 * @param ec
+	 *            controller
+	 */
+	public static void createAngleFixed(final Kernel kernel,
+			final String userInput,
+			final boolean clockwise, final ErrorHandler handler,
+			final GeoSegmentND[] segments, final GeoPointND[] points,
+			final AsyncOperation<String> callback,
+			final EuclidianController ec) {
+		String inputText = userInput;
+		// avoid labeling of num
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// negative orientation ?
+		if (clockwise) {
+			inputText = "-(" + inputText + ")";
+		}
+
+		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
+				inputText, false, handler, true,
+				new AsyncOperation<GeoElementND[]>() {
+
+					@Override
+					public void callback(GeoElementND[] result) {
+						cons.setSuppressLabelCreation(oldVal);
+
+						boolean success = result != null
+								&& result[0] instanceof GeoNumberValue;
+						if (!success) {
+							handler.showError(kernel.getLocalization()
+									.getError("NumberExpected"));
+							if (callback != null) {
+								callback.callback(null);
+							}
+							return;
+						}
+
+						DialogManager.doAngleFixed(kernel, segments, points,
+
+								(GeoNumberValue) result[0], clockwise, ec);
+						if (userInput.endsWith(Unicode.DEGREE_STRING)) {
+							callback.callback(userInput);
+						} else {
+							callback.callback(
+									Unicode.FORTY_FIVE_DEGREES_STRING);
+						}
+					}
+				});
 	}
 
 	/**

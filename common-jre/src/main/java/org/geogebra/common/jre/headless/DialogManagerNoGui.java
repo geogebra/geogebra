@@ -84,7 +84,19 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	public void showNumberInputDialogAngleFixed(String menu,
 			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		// TODO Auto-generated method stub
+		DialogManager.createAngleFixed(selectedPoints[0].getKernel(),
+				getInput(),
+				getClockwise(), this, selectedSegments, selectedPoints,
+				new AsyncOperation<String>() {
+
+					public void callback(String obj) {
+						// ignore
+					}
+				}, ec);
+	}
+
+	private boolean getClockwise() {
+		return true;
 	}
 
 	@Override

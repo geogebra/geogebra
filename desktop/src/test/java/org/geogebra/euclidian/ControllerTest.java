@@ -500,6 +500,13 @@ public class ControllerTest {
 	@Test
 	public void angleFixedTool() {
 		app.setMode(EuclidianConstants.MODE_ANGLE_FIXED); // TODO 46
+		t("A=(0,0)");
+		t("B=(0,-2)");
+		prepareInput("90deg");
+		click(0, 0);
+		click(0, 100);
+		checkContent("A = (0, 0)", "B = (0, -2)", "A' = (2, -2)",
+				Unicode.alpha + " = 90" + Unicode.DEGREE_STRING);
 	}
 
 	@Test
