@@ -114,32 +114,22 @@ $purple-default: #6557D2;
 	}
 
 	.KeyBoard .KeyBoardButton {
-		padding: 10px;
-		height: 20px;
 		text-align: center;
 		line-height: inherit;
 		margin: 2px;
 		font-size: 120%;
 		cursor: pointer;
-		border-radius: 5px;
 		white-space: nowrap;
 		color: $black;
+		display: block;
 		div {
-			text-align: center;			
+			text-align: center;
 		}
 	}
-	
-	.TabbedKeyBoard.KeyBoard .KeyBoardButton {
+
+	.KeyBoard.TabbedKeyBoard .KeyBoardButton {
 		height: 40px;
 		box-sizing:border-box;
-	}
-
-	/** obsolete */
-	.KeyBoard .KeyBoardButton {
-		background-color: $switcher-background;
-	}
-
-	.KeyBoard.TabbedKeyBoard .KeyBoardButton{
 		background-color: white;
 		border-radius: 5px;
 		border-bottom: 1px solid;
@@ -176,10 +166,6 @@ $purple-default: #6557D2;
 		height: 10px;
 		padding-top: 3px;
 		padding-bottom: 13px;
-	}
-
-	.waves-effect.waves-keyboard .waves-ripple {
-		background-color: rgba(200, 200, 200, 0.65);
 	}
 
 	.KeyBoardButton.supScript .gwt-Label {
