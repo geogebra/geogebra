@@ -871,14 +871,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void updateTranslationMatrix() {
 		if (mIsARDrawing) {
-			double zMin;
 			if (getShowAxis(AXIS_Z)) {
-                zZeroAR = -getZmin();
+				zZeroAR = -getZmin();
 			} else {
 				if (updateObjectsBounds(true, true)) {
-                    zZeroAR = -boundsMin.getZ();
+					zZeroAR = -boundsMin.getZ();
 				} else {
-                    zZeroAR = 0;
+					zZeroAR = 0;
 				}
 			}
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
@@ -4748,15 +4747,16 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public void setAREnabled(boolean isAREnabled) {
-	    mIsAREnabled = isAREnabled;
-    }
-
-    public boolean isAREnabled() {
-	    return mIsAREnabled;
-    }
+		mIsAREnabled = isAREnabled;
+	}
 
 	@Override
-    public boolean checkHitForStylebar() {
+	public boolean isAREnabled() {
+		return mIsAREnabled;
+	}
+
+	@Override
+	public boolean checkHitForStylebar() {
 		return true;
 	}
 

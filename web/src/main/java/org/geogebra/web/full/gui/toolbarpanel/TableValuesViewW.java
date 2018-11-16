@@ -499,7 +499,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		int tableWidth = table.getOffsetWidth() - header.getOffsetWidth();
 
-
 		header.addClassName("delete");
 		CSSEvents.runOnTransition(new ColumnDelete(column, header, cb), header, "delete");
 

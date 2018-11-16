@@ -27,7 +27,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     private DimensionCache headerCache;
 
     /** Table values model */
-    TableValuesModel model;
+    TableValuesModel tableModel;
     /** Max columns, see {@link #setMaxColumns(int)} */
     int maxColumns;
 
@@ -39,7 +39,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
      * @param context font render context
      */
     public TableValuesViewDimensions(TableValuesModel model, AwtFactory factory, GFontRenderContext context) {
-        this.model = model;
+        this.tableModel = model;
         this.factory = factory;
         this.context = context;
         this.maxRows = 50;
@@ -114,9 +114,9 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	 */
 	protected int calculateExactColumnWidth(int column) {
 		int maxWidth = 0;
-        int rows = Math.min(model.getRowCount(), maxRows);
+        int rows = Math.min(tableModel.getRowCount(), maxRows);
         for (int i = 0; i < rows; i++) {
-            String text = model.getCellAt(i, column);
+            String text = tableModel.getCellAt(i, column);
             int width = getWidth(text);
             maxWidth = Math.max(maxWidth, width);
         }
@@ -125,7 +125,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
     private int calculateExactHeaderWidth(int column) {
-		String header = model.getHeaderAt(column);
+		String header = tableModel.getHeaderAt(column);
         return getWidth(header);
     }
 

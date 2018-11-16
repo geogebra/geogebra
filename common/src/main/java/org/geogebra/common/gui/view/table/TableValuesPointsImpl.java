@@ -15,7 +15,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	private List<List<GeoPoint>> points;
 	private Construction construction;
-	private SimpleTableValuesModel model;
+	private SimpleTableValuesModel tableModel;
 
 	/**
 	 * Construct a new object of Table Values Points.
@@ -26,7 +26,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	public TableValuesPointsImpl(Construction construction, TableValuesModel model) {
 		this.points = new LinkedList<>();
 		this.construction = construction;
-		this.model = (SimpleTableValuesModel) model;
+		this.tableModel = (SimpleTableValuesModel) model;
 	}
 
 	@Override
@@ -142,10 +142,10 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void setPointsVisible(int column, boolean visible) {
-		GeoEvaluatable geoEvaluatable = model.getEvaluatable(column - 1);
+		GeoEvaluatable geoEvaluatable = tableModel.getEvaluatable(column - 1);
 		geoEvaluatable.setPointsVisible(visible);
 		if (visible && points.get(column - 1) == null) {
-			createAndAddPoints(model, column);
+			createAndAddPoints(tableModel, column);
 		} else if (!visible && points.get(column - 1) != null) {
 			removePoints(column);
 		}

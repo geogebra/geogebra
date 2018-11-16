@@ -21,7 +21,8 @@ public class TableValuesViewDimensionsW extends TableValuesViewDimensions {
      * @param factory awt factory
      * @param context font render context
      */
-    public TableValuesViewDimensionsW(TableValuesModel model, AwtFactory factory, GFontRenderContext context) {
+	public TableValuesViewDimensionsW(TableValuesModel model,
+			AwtFactory factory, GFontRenderContext context) {
 		super(model, factory, context);
     }
 

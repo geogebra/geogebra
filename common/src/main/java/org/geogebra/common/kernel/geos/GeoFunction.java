@@ -2196,7 +2196,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						funVarStr);
 			}
 
-
 			if (!GeoFunction.isCASErrorOrInf(verticalAsymptotes)
 					&& verticalAsymptotes.length() > 2) {
 				verticalAsymptotes = verticalAsymptotes.replace('{', ' ');

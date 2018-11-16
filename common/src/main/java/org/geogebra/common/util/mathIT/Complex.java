@@ -219,14 +219,14 @@ public class Complex {
 	 * <sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
-	 * @param z
+	 * @param other
 	 *            the addend
 	 * @return the sum <code>this</code> + <i>z</i>
 	 * @see #plus(Complex)
 	 * @see #add(double[],double[])
 	 */
-	public Complex add(Complex z) {
-		return new Complex(this.z[0] + z.z[0], this.z[1] + z.z[1]);
+	public Complex add(Complex other) {
+		return new Complex(this.z[0] + other.z[0], this.z[1] + other.z[1]);
 	}
 
 	/**
@@ -399,14 +399,14 @@ public class Complex {
 	 * divides this complex numbers by <i>z</i>. This method is implemented
 	 * avoiding overflows.
 	 * 
-	 * @param z
+	 * @param other
 	 *            divisor
 	 * @return <code>this</code>/<i>z</i>
 	 * @see #divide(double[], double[])
 	 */
-	public Complex divide(Complex z) {
+	public Complex divide(Complex other) {
 		return new Complex(divide(new double[] { this.z[0], this.z[1] },
-				new double[] { z.z[0], z.z[1] }));
+				new double[] { other.z[0], other.z[1] }));
 	}
 
 	/**
@@ -953,13 +953,13 @@ public class Complex {
 	 * .subtract(<i>z</i>) = <code>this</code> - <i>z</i> = Re (
 	 * <code>this</code> - <i>y</i>) + Im (<code>this</code> - <i>z</i>).
 	 * 
-	 * @param z
+	 * @param other
 	 *            a complex number
 	 * @return the difference <code>this</code> - <i>z</i>
 	 * @see #subtract(Complex)
 	 */
-	public Complex minus(Complex z) {
-		return new Complex(this.z[0] - z.z[0], this.z[1] - z.z[1]);
+	public Complex minus(Complex other) {
+		return new Complex(this.z[0] - other.z[0], this.z[1] - other.z[1]);
 	}
 
 	/**
@@ -1038,13 +1038,13 @@ public class Complex {
 	 * <sub>0</sub> + <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
-	 * @param z
+	 * @param other
 	 *            a complex number
 	 * @return the product <code>this</code>&#x2219;<i>z</i>
 	 */
-	public Complex multiply(Complex z) {
+	public Complex multiply(Complex other) {
 		return new Complex(multiply(new double[] { this.z[0], this.z[1] },
-				new double[] { z.z[0], z.z[1] }));
+				new double[] { other.z[0], other.z[1] }));
 	}
 
 	/**
@@ -1056,13 +1056,13 @@ public class Complex {
 	 * <sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
-	 * @param z
+	 * @param other
 	 *            the addend
 	 * @return the sum <code>this</code> + <i>z</i>
 	 * @see #add(Complex)
 	 */
-	public Complex plus(Complex z) {
-		return new Complex(this.z[0] + z.z[0], this.z[1] + z.z[1]);
+	public Complex plus(Complex other) {
+		return new Complex(this.z[0] + other.z[0], this.z[1] + other.z[1]);
 	}
 
 	/**
@@ -1387,14 +1387,14 @@ public class Complex {
 	 * .subtract(<i>z</i>) = <code>this</code> - <i>z</i> = Re (
 	 * <code>this</code> - <i>y</i>) + Im (<code>this</code> - <i>z</i>).
 	 * 
-	 * @param z
+	 * @param other
 	 *            a complex number
 	 * @return the difference <code>this</code> - <i>z</i>
 	 * @see #minus(Complex)
 	 * @see #subtract(double[],double[])
 	 */
-	public Complex subtract(Complex z) {
-		return new Complex(this.z[0] - z.z[0], this.z[1] - z.z[1]);
+	public Complex subtract(Complex other) {
+		return new Complex(this.z[0] - other.z[0], this.z[1] - other.z[1]);
 	}
 
 	/**

@@ -138,8 +138,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 	}
 
-	protected AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData,
-			GeoElement geoRegression) {
+	protected AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData) {
 		return getModel().getAlgoFrequency(stat, frequencyData);
 	}
 

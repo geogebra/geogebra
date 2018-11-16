@@ -28,7 +28,7 @@ class DimensionCache {
     void resetCache() {
         widths = new LinkedList<>();
         for (int i = 0; i < Math.min(dimensions.maxColumns,
-                dimensions.model.getColumnCount()); i++) {
+                dimensions.tableModel.getColumnCount()); i++) {
             widths.add(null);
         }
         medianWidth = null;
