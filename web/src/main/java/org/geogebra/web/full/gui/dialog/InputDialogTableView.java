@@ -67,16 +67,14 @@ public class InputDialogTableView extends DialogBoxW
 	}
 
 	private void buildTextFieldPanel(FlowPanel root) {
-		startValue = addTextField("StartValueX", "-2", root);
-		endValue = addTextField("EndValueX", "2", root);
-		step = addTextField("Step", "1", root);
+		startValue = addTextField("StartValueX", root);
+		endValue = addTextField("EndValueX", root);
+		step = addTextField("Step", root);
 	}
 
-	private ComponentInputField addTextField(String labelText,
-			String defaultValue, FlowPanel root) {
+	private ComponentInputField addTextField(String labelText, FlowPanel root) {
 		ComponentInputField field = new ComponentInputField((AppW) app, null,
-				labelText,
-				null, defaultValue, 20);
+				labelText, null, "", 20);
 		root.add(field);
 		return field;
 	}
@@ -123,9 +121,9 @@ public class InputDialogTableView extends DialogBoxW
 	public void show(GeoElement functionGeo) {
 		this.geo = functionGeo;
 		TableValuesView tv = (TableValuesView) app.getGuiManager().getTableValuesView();
-		startValue.setInputText(String.valueOf(tv.getValuesMin()));
-		endValue.setInputText(String.valueOf(tv.getValuesMax()));
-		step.setInputText(String.valueOf(tv.getValuesStep()));
+		startValue.setInputText(tv.getValuesMinStr());
+		endValue.setInputText(tv.getValuesMaxStr());
+		step.setInputText(tv.getValuesStepStr());
 		show();
 	}
 
