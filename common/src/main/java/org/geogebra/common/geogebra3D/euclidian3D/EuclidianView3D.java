@@ -221,6 +221,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private CoordMatrix4x4 mWithoutScale = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 mInvWithUnscale = CoordMatrix4x4.identity();
+    private CoordMatrix4x4 mToSceneForGL = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.identity();
 	private double a = ANGLE_ROT_OZ;
@@ -252,6 +253,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private CoordMatrix4x4 translationMatrixWithoutScale = CoordMatrix4x4
 			.identity();
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.identity();
+    private CoordMatrix4x4 undoTranslationMatrixForGL = CoordMatrix4x4.identity();
 	private CoordMatrix rotationMatrix;
 	private Coords viewDirectionPersp;
 	private Coords tmpCoordsLength3 = new Coords(3);
@@ -803,6 +805,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		return mWithoutScale;
 	}
 
+    final public CoordMatrix4x4 getToSceneMatrixForGL() {
+        return mToSceneForGL;
+    }
+
 	/**
 	 * return the matrix undoing the rotation : scene coords -> screen coords.
 	 *
@@ -894,9 +900,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		// screen to scene translation matrix
 		undoTranslationMatrix.set(1, 4, -getXZero());
 		undoTranslationMatrix.set(2, 4, -getYZero());
-		undoTranslationMatrix.set(3, 4, -translationZzero);
+		undoTranslationMatrix.set(3, 4, -getZZero());
+        undoTranslationMatrixForGL.set(1, 4, -getXZero());
+        undoTranslationMatrixForGL.set(2, 4, -getYZero());
+        undoTranslationMatrixForGL.set(3, 4, -translationZzero);
 
-	}
+
+    }
 
 	/**
 	 * Update scale and rotation matrices.
@@ -929,11 +939,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setGlobalMatrices() {
 		mWithoutScale.setMul(rotationMatrix, translationMatrixWithScale);
 
-		mWithScale.setMul(rotationAndScaleMatrix,
-				translationMatrixWithoutScale);
+		mWithScale.setMul(rotationAndScaleMatrix, translationMatrixWithoutScale);
 
-		mInvWithUnscale.setMul(undoTranslationMatrix,
-				tmpMatrix4x4.setMul(undoScaleMatrix, undoRotationMatrix));
+        tmpMatrix4x4.setMul(undoScaleMatrix, undoRotationMatrix);
+		mInvWithUnscale.setMul(undoTranslationMatrix, tmpMatrix4x4);
+		mToSceneForGL.setMul(undoTranslationMatrixForGL, tmpMatrix4x4);
 
 		mInvTranspose.setTranspose(mInvWithUnscale);
 

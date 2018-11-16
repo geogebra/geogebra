@@ -510,13 +510,13 @@ public abstract class RendererImplShaders extends RendererImpl {
                                             float scaleFactor, Coords ret) {
 	    // undo model matrix
 		tmpMatrix1.setFromGL(modelMatrix);
-		tmpMatrix1.solve(coords, tmpCoords1);
+		tmpMatrix1.solve(coords, ret);
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
-        tmpMatrix2.solve(tmpCoords1, ret);
+        tmpMatrix2.solve(ret, tmpCoords1);
         // undo screen coordinates
-        view3D.toSceneCoords3D(ret);
+        ret.setMul(view3D.getToSceneMatrixForGL(), tmpCoords1);
 	}
 
 	@Override
