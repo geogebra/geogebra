@@ -57,7 +57,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		for (int i = points.size() - 1; i >= 1; i--) {
+		for (int i = points.size(); i >= 1; i--) {
 			removePointsFromList(i);
 		}
 		for (int i = 1; i < model.getColumnCount(); i++) {
