@@ -192,6 +192,21 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	@Override
+	public String getValuesMinStr() {
+		return model.format(getValuesMin());
+	}
+
+	@Override
+	public String getValuesMaxStr() {
+		return model.format(getValuesMax());
+	}
+
+	@Override
+	public String getValuesStepStr() {
+		return model.format(getValuesStep());
+	}
+
+	@Override
 	public void add(GeoElement geo) {
 		elements.add(geo);
 		// Show element if it's loaded from file

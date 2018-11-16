@@ -101,4 +101,26 @@ public interface TableValues extends View {
 	 * @return table values dimensions
 	 */
 	TableValuesDimensions getTableValuesDimensions();
+
+	/**
+	 * Get the lower value of the x-values as a formatted string
+	 *
+	 * @return the lower value of x-values as a formatted string
+	 */
+	String getValuesMinStr();
+
+	/**
+	 * Get the upper value of the x-values as a formatted string
+	 *
+	 * @return the upper value of x-values as a formatted string
+	 */
+	String getValuesMaxStr();
+
+	/**
+	 * Get the step of the x-values as a formatted string
+	 *
+	 * @return the step of the x-values as a formatted string
+	 */
+	String getValuesStepStr();
+
 }
