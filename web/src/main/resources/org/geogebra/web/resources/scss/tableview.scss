@@ -53,6 +53,12 @@ $emptyHeight: 212px;
 		display: inline-block;
 	}
 
+	.tableViewMain {
+		margin-top: 8px;
+		margin-left: 16px;
+		margin-right: 16px;
+	}
+	
 	.colDelete {
 		overflow: hidden !important;
 		width: 0px !important;
@@ -66,31 +72,28 @@ $emptyHeight: 212px;
 				@extend .delete;
 			}
 		}
+		
 		th {
 			border: 0px;
 			padding: 0px;
 			text-align: center;
 			padding: 0px;
-			div:FIRST-CHILD {
-				display: inline-block;
-				text-align: center;
-				color: $black-54;
-				margin: auto;
-
+			.headerContent {
+				float: right;
+				display: inline-flex;
 				.MyToggleButton {
-					margin-top: -32px;
-					float: right;
-					padding: 0px;
-					border: 0px;
-					opacity: 0.54;
+						margin-top: auto;
+						margin-bottom: auto;
+						margin-left: 0px;
+						margin-right: 0px;
+						padding: 0px;
+						border: 0px;
+						opacity: 0.54;
 				}
-				margin-left: 0px;
-				margin-right: 0px;
 			}
-			
 			.delete {
 				@extend .colDelete;
-				text-align: left;
+				text-align: right;
 			}
 		}
 
@@ -108,7 +111,7 @@ $emptyHeight: 212px;
 		td {
 			div {
 				color: $black-87;
-				text-align: center;
+				text-align: right;
 			}
 			
 			.delete {
@@ -130,16 +133,16 @@ $emptyHeight: 212px;
 	.tvCellTransition {
 		transition: all 1s ease-in;
 	}
-	
-	.tvCellTransition div:first-child {
-		width: 100%;
-	}
 
 	.tvValueCell {
 		@extend .tvCellTransition;
 		margin-left: 0px;
 		margin-right: 0px;
-		text-align: end;
+		text-align: right;
+		.valueContent {
+			float: right;
+			margin-right: 24px;
+		}
 	}
 
 	.tvHeaderCell {
@@ -147,6 +150,7 @@ $emptyHeight: 212px;
 		margin-left: 0px;
 		margin-right: 0px;
 		border-bottom: 0px;	
+		
 	}
 
 

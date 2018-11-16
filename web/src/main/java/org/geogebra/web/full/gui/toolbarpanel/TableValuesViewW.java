@@ -180,6 +180,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private void createGUI() {
 		main = new FlowPanel();
+		main.addStyleName("tableViewMain");
 		FlowPanel tvPanel = new FlowPanel();
 		scrollPanel = new ScrollPanel();
 		scrollPanel.addStyleName("tvScrollPanel");
@@ -333,7 +334,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
 				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
-				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell",
+				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell", "valueContent",
 						width,
 						height);
 
@@ -360,7 +361,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				if (el != null && el.getParentNode() != null && el
 						.getParentElement().hasClassName("MyToggleButton")) {
 					Node buttonParent = el.getParentNode().getParentNode();
-					toggleButtonClick(buttonParent, el);
+					toggleButtonClick(buttonParent.getParentNode(), el);
 				}
 			}
 		};
@@ -400,10 +401,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		p.add(new Label(getTableValuesModel().getHeaderAt(col)));
 		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
 		p.add(btn);
-
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, "tvHeaderCell",
+		return TEMPLATES.cell(html, "tvHeaderCell", "headerContent",
 				getColumnWidth(dimensions, col),
 				dimensions.getHeaderHeight());
 	}
@@ -460,15 +460,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		 *            of the cell.
 		 * @param style
 		 *            of the cell.
+		 * @param contentStyle
+		 *            of the main content div.
 		 * @param width
 		 *            of the cell.
 		 * @param height
 		 *            of the cell.
 		 * @return HTML representation of the cell content.
 		 */
-		@SafeHtmlTemplates.Template("<div style=\"width:{2}px;height:{3}px;line-height:{3}px;\""
-				+ "class=\"{1}\">{0}</div>")
-		SafeHtml cell(SafeHtml message, String style, int width, int height);
+		@SafeHtmlTemplates.Template("<div style=\"width:{3}px;height:{4}px;line-height:{4}px;\""
+				+ "class=\"{1}\"><div class=\"{2}\">{0}</div></div>")
+		SafeHtml cell(SafeHtml message, String style, String contentStyle, int width, int height);
 	}
 
 	private static NodeList<Element> getColumnElements(int column) {

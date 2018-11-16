@@ -1,6 +1,8 @@
 package org.geogebra.common.gui.view.table;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
@@ -137,6 +139,10 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public boolean arePointsVisible(int column) {
+		if (points.size() < column) {
+			return false;
+		}
+
 		return points.get(column - 1) != null;
 	}
 
