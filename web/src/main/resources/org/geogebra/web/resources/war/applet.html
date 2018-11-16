@@ -76,36 +76,42 @@ label {
 	}
 	function decode(el, param) {
 		var fallback = false;
-		if(typeof params[param] == "object"){
+		if (typeof params[param] == "object") {
 			fallback = params[param][1];
 		}
 		if (el.type == "checkbox") {
 			return el.checked == fallback ? null : (el.checked + "");
 		}
-		if(param == "width" || param == "height"){
+		if (param == "width" || param == "height") {
 			return el.value;
 		}
 		return el.value.length && el.value != fallback ? el.value : null;
 	}
+
+	function onParamChange(param, val, article) {
+		if (param == "scaleContainerClass") {
+			document.getElementById("scaleContainer").className += " " + val;
+			document.getElementById("resizer").style.visibility = val ? "visible" : "hidden";
+			var style = document.getElementById("scaleContainer").style;
+			style.width = style.width || "600px";
+			style.height = style.height || "450px";
+		}
+		if (val) {
+			article.setAttribute("data-param-" + param, val);
+		} else {
+			article.removeAttribute("data-param-" + param);
+		}
+	}
+
 	function updateParams(article) {
 		var url = location.protocol+"//"+location.host+location.pathname+"?"
 		for (param in params) {
 			var val = decode(document.getElementById("set" + param), param);
-			if(param == "scaleContainerClass"){
-				console.error(val);
-				document.getElementById("scaleContainer").className += " " + val;
-				document.getElementById("resizer").style.visibility = val ? "visible" : "hidden";
-			}
-			console.log(param+":"+val);
-			if (val) {
-				article.setAttribute("data-param-" + param, val);
-				if(val === "true"){
-					url += param + "&";
-				} else if(val){
-					url += param + "=" + val+ "&";
-				}
-			}else{
-				article.removeAttribute("data-param-" + param);
+			onParamChange(param, val, article);
+			if (val === "true") {
+				url += param + "&";
+			} else if (val) {
+				url += param + "=" + val+ "&";
 			}
 		}
 		history.pushState("","",url);
@@ -134,7 +140,6 @@ label {
 			val = typeof params[param] == "object" ? params[param][1] : null;
 			input.type = type.replace("boolean", "checkbox");
 			if (type == "boolean") {
-
 				input.checked = val ? "on" : "";
 			} else {
 				input.value = val;
@@ -156,10 +161,10 @@ label {
 		for (i in settings) {
 			var parts = settings[i].split("=");
 			if (params[parts[0]]) {
-				article.setAttribute("data-param-" + parts[0], parts[1]
-						|| "true");
+				var val = decodeURIComponent(parts[1] || "true");
+				onParamChange(parts[0], val, article);
 				if (parts[1]) {
-					document.getElementById("set" + parts[0]).value = parts[1];
+					document.getElementById("set" + parts[0]).value = val;
 				} else {
 					document.getElementById("set" + parts[0]).checked = true;
 				}
@@ -173,19 +178,19 @@ label {
 		document.body.appendChild(w3d);
 		var resizer = document.getElementById("resizer");
 		var glasspane = document.getElementById("glasspane");
-		resizer.addEventListener("mousedown", function(){
+		resizer.addEventListener("mousedown", function() {
 			console.log("a");
 			resizer.dragging = true;
 			glasspane.style.visibility="visible";
 		});
-		glasspane.addEventListener("mouseup", function(){
+		glasspane.addEventListener("mouseup", function() {
 			console.log("a");
 			resizer.dragging = false;
 			glasspane.style.visibility="hidden";
 		});
-		glasspane.addEventListener("mousemove", function(e){
+		glasspane.addEventListener("mousemove", function(e) {
 			console.log(e.x);
-			if(resizer.dragging){
+			if (resizer.dragging) {
 				var x = e.x - 100;
 				var y = e.y - 100;
 				document.getElementById("scaleContainer").style.width = x+"px";
