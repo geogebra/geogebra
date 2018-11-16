@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,8 +60,11 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 			return;
 		}
 		setWidget(w);
+		Element p = w.getElement().getParentElement();
 		if (getView().isEmpty()) {
-			w.getElement().getParentElement().addClassName("tableViewParent");
+			p.addClassName("tableViewParent");
+		} else {
+			p.removeClassName("tableViewParent");
 		}
 	}
 
