@@ -882,6 +882,10 @@ public abstract class EuclidianView3D extends EuclidianView
 				translationZzero = -getZmin();
 			} else if (updateObjectsBounds(true, true)) {
 				translationZzero = -boundsMin.getZ();
+				// ensure showing plane if visible and not too far
+				if ((getShowGrid() || getShowPlane()) && translationZzero < 0 && getZmin() < 0) {
+                    translationZzero = 0;
+                }
 			} else {
 				translationZzero = 0;
 			}
