@@ -1902,7 +1902,7 @@ public class CommandsTest extends AlgebraTest {
 		tRound("Asymptote[ x(x-3)(x-8)(x-3)(x+4)/(7(x+1)(1+x)(3-x)(x-8)) ]",
 				"{y = -0.14286x + 0.14286, x = -1}");
 		tRound("Asymptote[ x+atan(x) ]", "{y = x + 1.5708, y = x - 1.5708}");
-		tRound("Asymptote[ (3x - 2) / sqrt(2x\u00B2 + 1) ]",
+		tRound("Asymptote[ (3x - 2) / sqrt(2x^2 + 1) ]",
 				"{y = 2.12132, y = -2.12132}");
 		// for this one we don't get the right vertical asymptote, at least
 		// ignore the fake one
