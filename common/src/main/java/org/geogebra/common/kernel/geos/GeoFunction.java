@@ -2010,7 +2010,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				grad = 0;
 			}
 
-			if (!GeoFunction.isCASError(gradientStrMinus, false)
+			if (!GeoFunction.isCASErrorOrInf(gradientStrMinus)
 					&& !DoubleUtil.isZero(grad)) {
 				sbCasCommand.setLength(0);
 				sbCasCommand.append("Limit(");
@@ -2035,7 +2035,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 								null);
 				// Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 
-				if (!GeoFunction.isCASError(interceptStrMinus, false)) {
+				if (!GeoFunction.isCASErrorOrInf(interceptStrMinus)) {
 					sbCasCommand.setLength(0);
 					sbCasCommand.append("y = ");
 					sbCasCommand.append(gradientStrMinus);
@@ -2098,7 +2098,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null)
 					.trim();
 
-			if (!GeoFunction.isCASError(limit, false)) {
+			if (!GeoFunction.isCASErrorOrInf(limit)) {
 
 				// check not duplicated
 				sbCasCommand.setLength(0);
@@ -2181,18 +2181,18 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			// Log.debug("verticalAsymptotes = " + verticalAsymptotes);
 
 			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
-			if (GeoFunction.isCASError(verticalAsymptotes, false)) {
+			if (GeoFunction.isCASErrorOrInf(verticalAsymptotes)) {
 				verticalAsymptotes = transformedVericalAsymptotes(
 						"Denominator", funVarStr);
 			}
-			if (GeoFunction.isCASError(verticalAsymptotes, false)
+			if (GeoFunction.isCASErrorOrInf(verticalAsymptotes)
 					|| "{}".equals(verticalAsymptotes)) {
 				verticalAsymptotes = transformedVericalAsymptotes("exp",
 						funVarStr);
 			}
 
 
-			if (!GeoFunction.isCASError(verticalAsymptotes, false)
+			if (!GeoFunction.isCASErrorOrInf(verticalAsymptotes)
 					&& verticalAsymptotes.length() > 2) {
 				verticalAsymptotes = verticalAsymptotes.replace('{', ' ');
 				verticalAsymptotes = verticalAsymptotes.replace('}', ' ');
@@ -2264,7 +2264,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 							Log.error(verticalAsymptotesArray[i] + ":" + limit);
 							// Log.debug("checking for vertical
 							// asymptote: "+sb.toString()+" = "+limit,1);
-							if (GeoFunction.isCASError(limit, false)) {
+							if (GeoFunction.isUndefinedOrInf(limit)) {
 								if (verticalSB.length() > 1) {
 									verticalSB.append(',');
 								}
@@ -2326,25 +2326,43 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return exp;
 	}
 
-	final private static boolean isCASError(String str, boolean allowInfinity) {
-		String str1 = str;
-		if (str1 == null || str1.length() == 0) {
+	/**
+	 * @param str
+	 *            CAS output
+	 * @return whether output is undefined, infinite or contains unfinished
+	 *         coputation
+	 */
+	final private static boolean isCASErrorOrInf(String str) {
+		if (isUndefinedOrInf(str)) {
 			return true;
 		}
-		if ("?".equals(str1) || "{?}".equals(str1)) {
-			return true; // undefined/NaN
-		}
-		// if (str.indexOf("%i") > -1 ) return true; // complex answer
-		str1 = StringUtil.toLowerCaseUS(str1);
-		if (str1.charAt(0) == '\'') {
-			return true; // maxima error eg 'diff(
-		}
-		if (!allowInfinity && str1.indexOf(Unicode.INFINITY) > -1) {
-			return true;
-		}
+		String str1 = StringUtil.toLowerCaseUS(str);
 		if (str1.length() > 6) {
 			return str1.startsWith("limit") || str1.startsWith("solve")
 					|| str1.startsWith("undefined");
+		}
+		return false;
+	}
+
+	/**
+	 * @param str
+	 *            CAS output
+	 * @return whether output is undefined or infinite
+	 */
+	private static boolean isUndefinedOrInf(String str) {
+		if (str == null || str.length() == 0) {
+			return true;
+		}
+		if ("?".equals(str) || "{?}".equals(str)) {
+			return true; // undefined/NaN
+		}
+		// if (str.indexOf("%i") > -1 ) return true; // complex answer
+
+		if (str.charAt(0) == '\'') {
+			return true; // maxima error eg 'diff(
+		}
+		if (str.indexOf(Unicode.INFINITY) > -1) {
+			return true;
 		}
 		return false;
 	}
