@@ -87,9 +87,9 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		DialogManager.createAngleFixed(selectedPoints[0].getKernel(),
 				getInput(),
 				getClockwise(), this, selectedSegments, selectedPoints,
-				new AsyncOperation<String>() {
-
-					public void callback(String obj) {
+				new AsyncOperation<Boolean>() {
+			@Override
+					public void callback(Boolean obj) {
 						// ignore
 					}
 				}, ec);

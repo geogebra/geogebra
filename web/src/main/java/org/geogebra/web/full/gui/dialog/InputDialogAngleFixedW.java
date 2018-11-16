@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -94,54 +92,43 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 	}
 	
 	private void processInput() {
-		
-		// avoid labeling of num
-		final Construction cons = kernel.getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		
-		String inputText = inputPanel.getText();
-		
-		// negative orientation ?
-		if (rbClockWise.getValue()) {
-			inputText = "-(" + inputText + ")";
-		}
-		
-		getInputHandler().processInput(inputText, this,
+		final String inputText = inputPanel.getText();
+		DialogManager.createAngleFixed(kernel, inputText,
+				rbClockWise.getValue(), this, segments, points,
 				new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {
-						cons.setSuppressLabelCreation(oldVal);
-						if (ok) {
-							doProcesInput();
+						doProcessInput(ok, inputText);
+					}
+				}, ec);
+	}
 
-						}
-						setVisibleForTools(ok);
-						}
-				});
+
+	/**
+	 * @param ok
+	 *            input valid?
+	 * @param inputText
+	 *            input
+	 */
+	protected void doProcessInput(Boolean ok, String inputText) {
+		if (ok) {
+			// keep angle entered if it ends with 'degrees'
+			if (inputText.endsWith(Unicode.DEGREE_STRING)) {
+				defaultRotateAngle = inputText;
+			} else {
+				defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
+			}
+		}
+		setVisibleForTools(!ok);
 	}
 
 	/**
-	 * Create angle if input was valid
+	 * @param visible
+	 *            whether dialog should stay visible
 	 */
-	protected void doProcesInput() {
-		String angleText = inputPanel.getText();
-		// keep angle entered if it ends with 'degrees'
-		if (angleText.endsWith(Unicode.DEGREE_STRING)) {
-			defaultRotateAngle = angleText;
-		} else {
-			defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
-		}
-
-		DialogManager.doAngleFixed(kernel, segments, points,
-
-				((NumberInputHandler) getInputHandler()).getNum(),
-				rbClockWise.getValue(), ec);
-	}
-
-	protected void setVisibleForTools(boolean ok) {
-		if (!ok) {
+	protected void setVisibleForTools(boolean visible) {
+		if (visible) {
 			// wrappedPopup.show();
 			inputPanel.getTextComponent().hideTablePopup();
 		} else {
@@ -150,20 +137,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
 	}
-/*
-	@Override
-	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
-			app.setCurrentSelectionListener(null);
-		}
-		app.getGuiManager().setCurrentTextfield(this, true);
-	}
-
-	public void keyTyped(KeyEvent e) {
-	}
-
-	public void keyPressed(KeyEvent e) {
-	}*/
 
 	/*
  	* auto-insert degree symbol when appropriate

@@ -823,7 +823,7 @@ public abstract class DialogManager {
 			final String userInput,
 			final boolean clockwise, final ErrorHandler handler,
 			final GeoSegmentND[] segments, final GeoPointND[] points,
-			final AsyncOperation<String> callback,
+			final AsyncOperation<Boolean> callback,
 			final EuclidianController ec) {
 		String inputText = userInput;
 		// avoid labeling of num
@@ -850,19 +850,15 @@ public abstract class DialogManager {
 							handler.showError(kernel.getLocalization()
 									.getError("NumberExpected"));
 							if (callback != null) {
-								callback.callback(null);
+								callback.callback(false);
 							}
 							return;
 						}
 
 						DialogManager.doAngleFixed(kernel, segments, points,
-
 								(GeoNumberValue) result[0], clockwise, ec);
-						if (userInput.endsWith(Unicode.DEGREE_STRING)) {
-							callback.callback(userInput);
-						} else {
-							callback.callback(
-									Unicode.FORTY_FIVE_DEGREES_STRING);
+						if (callback != null) {
+							callback.callback(true);
 						}
 					}
 				});

@@ -9,8 +9,6 @@ import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -35,8 +33,8 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 	private EuclidianController ec;
 
 	public InputDialogAngleFixedD(AppD app, String title, InputHandler handler,
-			GeoSegmentND[] segments, GeoPointND[] points, 
-			Kernel kernel, EuclidianController ec) {
+			GeoSegmentND[] segments, GeoPointND[] points, Kernel kernel,
+			EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
 				defaultRotateAngle, false, handler, false);
 
@@ -72,44 +70,25 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 	}
 
 	private void processInput() {
-
-		// avoid labeling of num
-		final Construction cons = kernel.getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		String inputText = inputPanel.getText();
-
-		// negative orientation ?
-		if (rbClockWise.isSelected()) {
-			inputText = "-(" + inputText + ")";
-		}
-
-		getInputHandler().processInput(inputText, this,
-				new AsyncOperation<Boolean>() {
+		final String inputText = inputPanel.getText();
+		DialogManager.createAngleFixed(kernel, inputText,
+				rbClockWise.isSelected(), app.getErrorHandler(), segments,
+				points, new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {
-						cons.setSuppressLabelCreation(oldVal);
-
 						if (ok) {
-							String angleText = getText();
 							// keep angle entered if it ends with 'degrees'
-							if (angleText.endsWith(Unicode.DEGREE_STRING)) {
-								defaultRotateAngle = angleText;
+							if (inputText.endsWith(Unicode.DEGREE_STRING)) {
+								defaultRotateAngle = inputText;
 							} else {
 								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 							}
-							DialogManager.doAngleFixed(kernel, segments, points,
-
-									((NumberInputHandler) getInputHandler())
-											.getNum(),
-									rbClockWise.isSelected(), ec);
 
 						}
 						setVisibleForTools(!ok);
 					}
-				});
+				}, ec);
 
 	}
 
