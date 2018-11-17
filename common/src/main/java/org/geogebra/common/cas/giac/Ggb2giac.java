@@ -1498,11 +1498,18 @@ public class Ggb2giac {
 						+ "[x3s:=regroup(normal(x3))],"
 
 						// for debugging
-						// +"[p,q,d,u,v,x1,x2,x3]"
+						// + "[p,q,d,u,v,x1,x2,x3],"
 						// SolveCubic[x^3+1] -> u=0,v=?
-						+ "when(d==0||u==0,csolve(ggbcub,x),[x1s,x2s,x3s])"
+						+ "when(d==0||u==0,csolve(ggbcub,x),["
 
-						+ "][19]");
+						// GGB-2576 workaround for SolveCubic(3x^3-12x^2+6x+14)
+						// normal(regroup()) is going wrong for the real root
+						+ "when(real(x1s)==x1s,x1s,x1)"
+
+						+ ",x2s,x3s])"
+
+						+ "]" + "[19]"
+		);
 
 		// SolveQuartic[2x^4+3x^3+x^2+1]
 		// SolveQuartic[x^4+6x^2-60x+36] approx = {(-1.872136644123) -
