@@ -1077,8 +1077,8 @@ public class Commands {
 		case "Tau":
 		case "Chi":
 			char ch = s.charAt(0);
-			if (ch == 'E') {
-				// Eta
+			if (ch == 'E' && "Eta".equals(s)) {
+				// Eta not Epsilon
 				ch = 'H';
 			} else if (ch == 'C') {
 				// Chi
