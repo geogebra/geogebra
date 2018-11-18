@@ -1428,6 +1428,17 @@ namespace giac {
   static define_unary_function_eval (__float2rational,&_float2rational,_float2rational_s);
   define_unary_function_ptr5( at_float2rational ,alias_at_float2rational,&__float2rational,0,true);
 
+  gen _fmod(const gen & g,GIAC_CONTEXT){
+    if (g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT || g.subtype!=_SEQ__VECT || g._VECTptr->size()!=2) 
+      return gensizeerr(contextptr);
+    const gen & a=g._VECTptr->front(),b=g._VECTptr->back();
+    return a-_floor(a/b,contextptr)*b;
+  }
+  static const char _fmod_s []="fmod";
+  static define_unary_function_eval (__fmod,&_fmod,_fmod_s);
+  define_unary_function_ptr5( at_fmod ,alias_at_fmod,&__fmod,0,true);
+
   gen _gramschmidt(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)

@@ -5811,7 +5811,7 @@ namespace giac {
 #endif
 	 res.front().dim<=GROEBNER_VARS+1-(order!=_PLEX_ORDER)){
       vectpoly tmp;
-      order_t order_={static_cast<short>(order),unsigned(lexvars/256),unsigned(lexvars)};
+      order_t order_={static_cast<short>(order),(unsigned char)(lexvars/256),(unsigned char)(lexvars)};
       if (!gbasis8(res,order_,tmp,env,modularcheck!=0,modularcheck>=2,rur,contextptr,eliminate_flag))
 	return false;
       int i;
