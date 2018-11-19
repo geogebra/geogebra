@@ -374,7 +374,12 @@ public class AlgoSpline extends AlgoElement {
 				col += degreeValue;
 			}
 		}
-		if (inputList.get(0).equals(inputList.get(inputList.size() - 1))) {
+		
+		GeoElement first = inputList.get(0);
+		GeoElement last = inputList.get(inputList.size() - 1);
+		
+		// use isEqual() not equals() to check *value* equal
+		if (first.isEqual(last)) {
 			for (int currentDerivative = degreeValue
 					- 2; currentDerivative > 0; currentDerivative--) {
 				col = 0;
