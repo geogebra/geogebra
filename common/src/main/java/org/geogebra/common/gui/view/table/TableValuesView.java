@@ -45,9 +45,9 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.model = new SimpleTableValuesModel(kernel);
 		Settings set = kernel.getApplication().getSettings();
 		this.settings = set.getTable();
-        this.elements = new HashSet<>();
-        this.kernel = kernel;
-        createTableDimensions();
+		this.elements = new HashSet<>();
+		this.kernel = kernel;
+		createTableDimensions();
 		updateModelValues();
 		settings.addListener(this);
 	}
@@ -209,9 +209,9 @@ public class TableValuesView implements TableValues, SettingListener {
 		return format(getValuesStep());
 	}
 
-    private String format(double x) {
-        return kernel.format(x, StringTemplate.defaultTemplate);
-    }
+	private String format(double x) {
+		return kernel.format(x, StringTemplate.defaultTemplate);
+	}
 
 	@Override
 	public void add(GeoElement geo) {
