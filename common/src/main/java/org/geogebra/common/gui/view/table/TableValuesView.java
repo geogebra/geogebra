@@ -10,6 +10,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -32,6 +33,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	private TableValuesViewDimensions dimensions;
 	private HashSet<GeoElement> elements;
 	private TableSettings settings;
+	private Kernel kernel;
 
 	/**
 	 * Create a new Table Value View.
@@ -43,8 +45,9 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.model = new SimpleTableValuesModel(kernel);
 		Settings set = kernel.getApplication().getSettings();
 		this.settings = set.getTable();
-		this.elements = new HashSet<>();
-		createTableDimensions();
+        this.elements = new HashSet<>();
+        this.kernel = kernel;
+        createTableDimensions();
 		updateModelValues();
 		settings.addListener(this);
 	}
@@ -193,18 +196,22 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public String getValuesMinStr() {
-		return model.format(getValuesMin());
+		return format(getValuesMin());
 	}
 
 	@Override
 	public String getValuesMaxStr() {
-		return model.format(getValuesMax());
+		return format(getValuesMax());
 	}
 
 	@Override
 	public String getValuesStepStr() {
-		return model.format(getValuesStep());
+		return format(getValuesStep());
 	}
+
+    private String format(double x) {
+        return kernel.format(x, StringTemplate.defaultTemplate);
+    }
 
 	@Override
 	public void add(GeoElement geo) {

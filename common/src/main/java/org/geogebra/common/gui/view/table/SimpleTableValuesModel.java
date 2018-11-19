@@ -97,7 +97,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return evaluatable.value(x);
 	}
 
-	public String format(double x) {
+	private String format(double x) {
 		return kernel.format(x, StringTemplate.defaultTemplate);
 	}
 
