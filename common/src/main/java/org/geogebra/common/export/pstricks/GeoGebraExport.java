@@ -1591,9 +1591,6 @@ public abstract class GeoGebraExport {
 						.evaluateToFunction("xspline(t)=" + exrsv[i], true);
 				curves[i] = new GeoCurveCartesian(this.construction);
 				curves[i].setFunctionX(fxx.getFunction());
-				curves[i].setInterval(Double.parseDouble(paramValues[i]),
-						Double.parseDouble(paramValues[i + 1]));
-				curves[i].setAllVisualProperties((GeoElement) geo, false);
 			}
 
 			f = curve.getFunY();
@@ -1613,6 +1610,7 @@ public abstract class GeoGebraExport {
 				curves[i].setFunctionY(fxx.getFunction());
 				curves[i].setInterval(Double.parseDouble(paramValues[i]),
 						Double.parseDouble(paramValues[i + 1]));
+				curves[i].setAllVisualProperties((GeoElement) geo, false);
 			}
 			boolean fill = fillSpline(curves);
 			if (!fill) {
