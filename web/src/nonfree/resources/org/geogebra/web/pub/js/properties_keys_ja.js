@@ -2335,7 +2335,7 @@ __GGB__keysVar["ja"].menu = {
     "Pencil.Help": "\u66f8\u304d\u8fbc\u307f\u3084\u63cf\u753b\u3001\u30b9\u30bf\u30a4\u30eb\u306e\u30d0\u30fc\u3092\u4f7f\u7528\u3057\u3066\u8272\u3092\u5909\u66f4",
     "Pentagon": "\uff15\u89d2\u5f62",
     "PerformToolOn": "\u30c4\u30fc\u30eb\u3092\u5b9f\u884c",
-    "PerimeterOfA": "%0 \u306e\u5916\u5468\u306e\u9577\u3055",
+    "PerimeterOfA": "%0 \u306e\u5916\u5468",
     "PerpendicularBisectorOfAParallelToB": "%1 \u306b\u5e73\u884c\u306a %0 \u306e\u5782\u76f4\u4e8c\u7b49\u5206\u7dda",
     "PerpendicularBisectorOfAPerpendicularToB": "%1\u306b\u5782\u76f4\u306a%0\u306e\u5782\u76f4\u4e8c\u7b49\u5206\u7dda",
     "Perspective": "\u900f\u8996\u6295\u5f71",

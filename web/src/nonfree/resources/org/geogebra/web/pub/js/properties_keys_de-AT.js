@@ -2335,7 +2335,7 @@ __GGB__keysVar["de-AT"].menu = {
     "Pencil.Help": "Schreibe oder zeichne, \xe4ndere die Farbe in der Gestaltungsleiste",
     "Pentagon": "F\xfcnfeck",
     "PerformToolOn": "Werkzeug anwenden auf",
-    "PerimeterOfA": "Durchmesser of %0",
+    "PerimeterOfA": "Umfang von %0",
     "PerpendicularBisectorOfAParallelToB": "Mittelsenkrechte von %0 parallel zu %1",
     "PerpendicularBisectorOfAPerpendicularToB": "Mittelsenkrechte von %0 normal auf %1",
     "Perspective": "Perspektive",
