@@ -12,7 +12,7 @@ $emptyHeight: 212px;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%) translateY(-28px);
-		color: $black-54;
+		color: $text-secondary;
 		height: $emptyHeight;
 	}
 
@@ -45,7 +45,7 @@ $emptyHeight: 212px;
 		font-size: 18px;
 		font-weight: 500;
 		margin: 4px auto;
-		color: $black-87;
+		color: $text-primary;
 	}
 
 	.main >* {
@@ -54,15 +54,15 @@ $emptyHeight: 212px;
 	}
 
 	.tableViewMain {
-		margin-top: 8px;
-		margin-left: 16px;
-		margin-right: 16px;
+		margin-top: 0px;
+		margin-left: 0px;
+		margin-right: 0px;
 	}
 	
 	.colDelete {
 		overflow: hidden !important;
 		width: 0px !important;
-		margin: 0px !important;
+		margin: -81px !important;
 	}
 
 	.tvHeader {
@@ -75,15 +75,16 @@ $emptyHeight: 212px;
 		
 		th {
 			border: 0px;
-			padding: 0px;
+			margin-top: 8px;
 			text-align: center;
 			padding: 0px;
 			.headerContent {
+				margin-top: auto;
+				margin-bottom: auto;
 				float: right;
 				display: inline-flex;
 				.MyToggleButton {
-						margin-top: auto;
-						margin-bottom: auto;
+						margin-top: 8px;
 						margin-left: 0px;
 						margin-right: 0px;
 						padding: 0px;
@@ -103,14 +104,15 @@ $emptyHeight: 212px;
 	}
 
 	.tvTable {
+		th:first-child,
 		td:first-child {
-			padding: 0px !important;
+			padding-left: 16px !important;
 			border: 0px;
 		}
 
 		td {
 			div {
-				color: $black-87;
+				color: $text-primary;
 				text-align: right;
 			}
 			
@@ -175,7 +177,6 @@ $emptyHeight: 212px;
 	}
 	.tvHeaderHolderPanel{
 		width: 50%;
-		background-color: #F8F8F8;
 		overflow: hidden !important;
 	}		
 }
