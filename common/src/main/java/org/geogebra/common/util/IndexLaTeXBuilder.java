@@ -15,4 +15,9 @@ public class IndexLaTeXBuilder extends IndexHTMLBuilder {
     public void endIndex() {
         append("$");
     }
+
+    @Override
+    public boolean canAppendRawHtml() {
+        return false;
+    }
 }
