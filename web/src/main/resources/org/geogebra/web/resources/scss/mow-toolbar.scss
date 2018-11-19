@@ -8,7 +8,7 @@
 	$z_mow_toolbar_panel: 50;
 	$z_mow_toolbar_slider: 54;
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
-	
+
 	.toolbarMow {
 	    bottom: 212px;
 	    position: relative;
@@ -17,36 +17,36 @@
 	    margin: 0px auto;
 	    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
 
-		&.showMowSubmenu { 
+		&.showMowSubmenu {
 		    bottom: $toolbarPanelHeight;
 		    transition: $mowsubmenu-transition;
-		} 
-		&.hideMowSubmenu { 
+		}
+		&.hideMowSubmenu {
 		    bottom: $toolbarHeight;
 		    transition: $mowsubmenu-transition;
-		} 
+		}
 
 		.headerMow {
 		    background-color: $mow_toolbar;
-		    
+
 		    .content {
-		    	height: $toolbarHeight; 	
+		    	height: $toolbarHeight;
 		    	.flatButton:focus {
 		    		outline: none;
 		    	}
 		    	.button {
-				    position: relative;	
+				    position: relative;
 				    &:hover img{
 						opacity: 1;
-					}	
-				}	    	
+					}
+				}
 		    	.center {
 		    		position: absolute;
 				    top: 0px;
 				    margin: 4px auto;
 				    display: inline-flex;
 				    left: calc(50% - 108px);
-				    
+
 				    .indicator {
 				    	width: 36px;
 					    height: 3px;
@@ -58,44 +58,45 @@
 					    top: 40px;
 					    transition: all 0.3s ease;
 					    left: 50%;
-					    opacity: 0.85;	
+					    opacity: 0.85;
 				    }
 				}
 
 				.center.indicatorLeft {
 					.indicator {
 						transform: translateX(50%) translateX(-66px);
-					}	
+					}
 				}
 				.center.indicatorCenter {
 					.indicator {
 						transform: translateX(50%) translateX(-18px);
-					}	
+					}
 				}
 				.center.indicatorRight {
 					.indicator {
 						transform: translateX(50%) translateX(30px);
-					}	
+					}
 				}
 
 				.openCloseBtn {
-					float: right;	
+					float: right;
 					margin: 10px 6px;
 				}
 			}
 		}
-	
+
 		.toolbarMowPanel {
 			overflow: hidden;
-			
+
 			.mowSubmenuScrollPanel {
 				background-color: white;
 				height: 156px;
 				z-index: $z_mow_toolbar_panel;
 				width: 300%;
 				position: relative;
+				display: flex;
     			top: 0px;
-    			
+
     			&.slideLeft {
 					left: 0px !important;
 			    	transition: left 0.3s ease;
@@ -108,42 +109,42 @@
 					left: -200% !important;
 			   		transition: left 0.3s ease;
 				}
-			
+
 				.mowSubMenuContent {
 					width: 100%;
 					height: 100%;
 					background-color: $white;
 				}
-				
+
 				.panelRow {
-					padding: 0px;		
+					padding: 0px;
 				}
-			
+
 				.penSubMenu {
 	   				padding: 8px 10px 3px 8px;
 	    			width: 582px;
-	
+
 					.penPanel {
 						width: 160px;
 					}
-				
+
 					.colorPanel {
 					    position: absolute;
 					    left: 160px;
 					    margin: 0px;
 					    bottom: 84px;
-					    
+
 					    .mowColorButton {
 							 width: 32px;
 							 height: 32px;
 							 border-radius: 2px;
 							 margin: 6px;
 							 cursor: pointer;
-							 
+
 							 &:hover:not(.disabled) {
 							 	opacity: 0.65;
 							 }
-							
+
 							&.mowColorButton-selected {
 								width: 38px;
 								height: 38px;
@@ -158,15 +159,15 @@
 								cursor: default;
 							}
 						}
-					
+
 						.mowColorPlusButton {
 							 width: 30px;
 							 height: 30px;
 							 border: 1px solid $tool-border !important;
 							 img {
-							 	opacity: 0.54;	
-							 }	
-							 
+							 	opacity: 0.54;
+							 }
+
 							 &:hover:not(.disabled) {
 							 	img {
 							 		opacity: 1;
@@ -175,24 +176,24 @@
 							 }
 						}
 					}
-				
+
 					.sizePanel {
 					    position: absolute;
 					    left: 180px;
 					    top: 92px;
-					    
-					    .mowOptionsSlider { 
+
+					    .mowOptionsSlider {
 							.preview {
 								position: absolute;
 								display: inline-block;
 								padding-left: 30px;
 								top: -2px;
-							} 
-						
+							}
+
 							.gwt-Label {
 								display: none;
-							} 
-						
+							}
+
 					    	&[disabled = true]{
 					    		opacity: 0.3;
 					    		input[type=range]::-webkit-slider-thumb:hover {
@@ -202,7 +203,7 @@
 					    }
 					}
 				}
-		
+
 			 	.toolsSubMenu, .mediaSubMenu {
 			 		.panelRow {
 						padding: 0px;
@@ -210,43 +211,43 @@
 			 		.groupPanel {
 					    height: 144px;
 					    display: block;
-			    		margin: 8px auto 4px auto;	
+			    		margin: 8px auto 4px auto;
 			    		padding: 0px;
-			    			    
+
 					    .toolButton {
-					    	display: inline-block;	
+					    	display: inline-block;
 					    	vertical-align: bottom;
 						    margin: 0px 12px !important;
 						 }
-					}	
+					}
 			 	}
 			}
 		}
 	}
 
-	.showMowToolbarPanel { 
+	.showMowToolbarPanel {
 	    bottom: $toolbarPanelHeight;
 	    transition: $mowsubmenu-transition;
-	} 
-	.hideMowToolbarPanel { 
+	}
+	.hideMowToolbarPanel {
 	    bottom: $toolbarHeight;
 	    transition: $mowsubmenu-transition;
-	} 
+	}
 
 	.toolButton {
 		display: inline-block;
 		margin: 0px !important;
 	    border-radius: 4px;
-	    height: 72px;	
+	    height: 72px;
 	    cursor: pointer;
-	    
+
 		img {
-			padding: 8px 28px;		
-		    opacity: 0.54;	
+			padding: 8px 28px;
+		    opacity: 0.54;
 		}
-	
+
 		.gwt-Label {
-			color: $text-secondary;	
+			color: $text-secondary;
 			font-size: 12px;
 		    margin: 0px !important;
 		    width: 80px;
@@ -259,23 +260,23 @@
     		top: -4px;
     		overflow: hidden;
 		}
-	
+
 		&:hover {
 			img {
-				opacity: 1;	
-			} 	
+				opacity: 1;
+			}
 			.gwt-Label {
-				color: $text-primary;	
-			}			
-		} 
+				color: $text-primary;
+			}
+		}
 	}
 
 	.toolButton[selected=true]{
 		img {
-			opacity: 1;	
-		} 
+			opacity: 1;
+		}
 		.gwt-Label {
-			color: $mebis-teal;	
+			color: $mebis-teal;
 		}
 	}
 }
