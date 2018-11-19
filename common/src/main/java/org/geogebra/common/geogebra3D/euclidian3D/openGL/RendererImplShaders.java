@@ -73,7 +73,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	private Object fragShader;
 
-	private boolean texturesEnabled;
+	protected boolean texturesEnabled;
 
 	private int currentDash = Textures.DASH_INIT;
 
