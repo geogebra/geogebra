@@ -30,8 +30,17 @@ public class TableValuesViewDimensionsW extends TableValuesViewDimensions {
     @Override
     public int getHeaderHeight() {
 		int height = super.getHeaderHeight();
-		return Math.max(STRICT_HEADER_HEIGHT, height);
+		return Math.min(STRICT_HEADER_HEIGHT, height);
     }
+
+	@Override
+	public int getRowHeight(int row) {
+		if (row == 0) {
+			return STRICT_HEADER_HEIGHT;
+		}
+		int height = super.getRowHeight(row);
+		return Math.min(STRICT_ROW_HEIGHT, height);
+	}
 
     @Override
 	protected int calculateExactColumnWidth(int column) {
