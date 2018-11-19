@@ -1579,14 +1579,22 @@ public abstract class GeoGebraExport {
 			exls = exls.replace("}", "");
 			String[] exlsv = exls.split(",");
 			String[] exrsv = exrs.split(",");
-			String[] paramValues = new String[exlsv.length + 1];
-			paramValues[0] = "0";
+			double[] paramValues = new double[exlsv.length + 2];
+			paramValues[0] = 0;
 			for (int i = 0; i < exlsv.length; i++) {
-				paramValues[i + 1] = exlsv[i].split("<")[1];
+				paramValues[i + 1] = Double.parseDouble(exlsv[i].split("<")[1]);
 			}
-			GeoCurveCartesian[] curves = new GeoCurveCartesian[exlsv.length];
+
+			// extra if needed for eg when exrsv.length is one more than
+			// exlsv.length
+			// {t < 0.25, t < 0.5, t < 0.75}
+			// ie add 1.0 to end
+			paramValues[exlsv.length + 1] = 2 * paramValues[exlsv.length]
+					- paramValues[exlsv.length - 1];
+
+			GeoCurveCartesian[] curves = new GeoCurveCartesian[exrsv.length];
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
-			for (int i = 0; i < exlsv.length; i++) {
+			for (int i = 0; i < exrsv.length; i++) {
 				GeoFunction fxx = ap
 						.evaluateToFunction("xspline(t)=" + exrsv[i], true);
 				curves[i] = new GeoCurveCartesian(this.construction);
@@ -1604,12 +1612,11 @@ public abstract class GeoGebraExport {
 			exls = exls.replace("}", "");
 			exlsv = exls.split(",");
 			exrsv = exrs.split(",");
-			for (int i = 0; i < exlsv.length; i++) {
+			for (int i = 0; i < exrsv.length; i++) {
 				GeoFunction fxx = ap
 						.evaluateToFunction("yspline(t)=" + exrsv[i], true);
 				curves[i].setFunctionY(fxx.getFunction());
-				curves[i].setInterval(Double.parseDouble(paramValues[i]),
-						Double.parseDouble(paramValues[i + 1]));
+				curves[i].setInterval(paramValues[i], paramValues[i + 1]);
 				curves[i].setAllVisualProperties((GeoElement) geo, false);
 			}
 			boolean fill = fillSpline(curves);
