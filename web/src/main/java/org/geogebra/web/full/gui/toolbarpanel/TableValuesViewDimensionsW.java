@@ -10,10 +10,13 @@ import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
  */
 public class TableValuesViewDimensionsW extends TableValuesViewDimensions {
 
+	private static final int TOP_PADDING = 8;
+	private static final int LEFT_PADDING = 16;
+	private static final int THREEDOT_PADDING = 8;
 	private static final int STRICT_VALUE_COLUM_WIDTH = 81;
-	private static final int STRICT_X_COLUMN_WIDTH = 72 + 16; // padding.
+	private static final int STRICT_X_COLUMN_WIDTH = 72 + LEFT_PADDING;
 	private static final int STRICT_ROW_HEIGHT = 40;
-	private static final int STRICT_HEADER_HEIGHT = STRICT_ROW_HEIGHT + 8; // padding.
+	private static final int STRICT_HEADER_HEIGHT = STRICT_ROW_HEIGHT + TOP_PADDING;
 
     /**
      * Construct a new TableValuesViewDimensions object.
@@ -46,9 +49,9 @@ public class TableValuesViewDimensionsW extends TableValuesViewDimensions {
 	protected int calculateExactColumnWidth(int column) {
 		int maxWidth = super.calculateExactColumnWidth(column);
 		if (column == 0) {
-			return Math.max(maxWidth, STRICT_X_COLUMN_WIDTH);
+			return Math.max(maxWidth, STRICT_X_COLUMN_WIDTH) + THREEDOT_PADDING;
 		}
 
-		return Math.max(maxWidth, STRICT_VALUE_COLUM_WIDTH);
+		return Math.max(maxWidth, STRICT_VALUE_COLUM_WIDTH) + THREEDOT_PADDING;
 	}
 }
