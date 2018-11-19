@@ -2155,32 +2155,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// solve 1/f(x) == 0 to find vertical asymptotes
 		if (sbCasCommand == null) {
 			sbCasCommand = new StringBuilder();
-		} else {
-			sbCasCommand.setLength(0);
 		}
 
-		sbCasCommand.append("Solve(");
-		// if (kernel.getCASType() == CasType.GIAC) {
-		// Solve(1/(1/x)) "works" in Reduce but not in Giac
-		sbCasCommand.append("Simplify(");
-		// }
-		sbCasCommand.append("1/(");
-		sbCasCommand.append(funVarStr[0]); // function expression with
-											// "ggbtmpvarx" as
-		// function variable
-		// if (kernel.getCASType() == CasType.GIAC) {
-		sbCasCommand.append(')');
-		// }
-		sbCasCommand.append(")=0");
-		sbCasCommand.append(",");
-		sbCasCommand.append(funVarStr[1]); // function variable "ggbtmpvarx"
-		sbCasCommand.append(")");
-
-		// Log.debug("sbCasCommand = " + sbCasCommand);
-
 		try {
-			String verticalAsymptotes = kernel
-					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
+			String verticalAsymptotes = transformedVericalAsymptotes(
+					"Simplify(1/(", "))", funVarStr);
 			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 
 			// Log.debug("verticalAsymptotes = " + verticalAsymptotes);
@@ -2188,12 +2167,16 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
 			if (GeoFunction.isCASErrorOrInf(verticalAsymptotes)) {
 				verticalAsymptotes = transformedVericalAsymptotes(
-						"Denominator", funVarStr);
+						"Denominator(", ")", funVarStr);
 			}
+			String expAsymptotes = transformedVericalAsymptotes(
+					"exp(Numerator(",
+					"))", funVarStr);
 			if (GeoFunction.isCASErrorOrInf(verticalAsymptotes)
 					|| "{}".equals(verticalAsymptotes)) {
-				verticalAsymptotes = transformedVericalAsymptotes("exp",
-						funVarStr);
+				verticalAsymptotes = expAsymptotes;
+			} else {
+				verticalAsymptotes += "," + expAsymptotes;
 			}
 
 			if (!GeoFunction.isCASErrorOrInf(verticalAsymptotes)
@@ -2288,18 +2271,17 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 	}
 
-	private String transformedVericalAsymptotes(String transform,
+	private String transformedVericalAsymptotes(String transform, String suffix,
 			String[] funVarStr) {
 		sbCasCommand.setLength(0);
 
-		sbCasCommand.append("Solve(");
+		sbCasCommand.append("Solve((");
 		sbCasCommand.append(transform);
-		sbCasCommand.append("((");
 
 		// function expression with "ggbtmpvarx" as variable
 		sbCasCommand.append(funVarStr[0]);
 
-		sbCasCommand.append(')');
+		sbCasCommand.append(suffix);
 		sbCasCommand.append(")=0");
 		sbCasCommand.append(",");
 

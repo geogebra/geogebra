@@ -21,9 +21,15 @@
 		    bottom: $toolbarPanelHeight;
 		    transition: $mowsubmenu-transition;
 		}
+
 		&.hideMowSubmenu {
 		    bottom: $toolbarHeight;
 		    transition: $mowsubmenu-transition;
+		}
+
+		.mowSubMenu {
+			width: calc(100% /3);
+			overflow: hidden;
 		}
 
 		.headerMow {
