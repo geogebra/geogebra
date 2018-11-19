@@ -2495,6 +2495,8 @@ public class GuiManagerW extends GuiManager
 			if (geo != null) {
 				addGeoToTableValuesView(geo);
 				app.getKernel().attach(getTableValuesView());
+			} else {
+				getUnbundledToolbar().resize();
 			}
 		} catch (InvalidValuesException exception) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
