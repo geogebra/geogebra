@@ -1909,7 +1909,9 @@ public class CommandsTest extends AlgebraTest {
 		t("IndexOf(x=7,Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ])", "NaN");
 		t("Asymptote[ ln(x^2) ]", "{x = 0}");
 		t("Asymptote[ ln(abs(x^2-4)) ]", "{x = -2, x = 2}");
-
+		t("Asymptote[ log(3,x-2) ]", "{x = 2}");
+		t("Asymptote[ log(3,x-2)/(x-4) ]", "{y = 0, x = 2, x = 4}");
+		t("Asymptote[ log(3,x-2)/(x-2) ]", "{y = 0, x = 2}");
 		// OK
 		tRound("Asymptote[ sqrt((2x - 3) / (2x^2 - 3)) ]",
 				"{y = 0, x = -1.22474, x = 1.22474}");

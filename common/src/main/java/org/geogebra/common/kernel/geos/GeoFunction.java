@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -2193,42 +2194,30 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						.split(",");
 
 				// check they are really asymptotes
-				for (int i = 0; i < verticalAsymptotesArray.length; i++) {
-					// Application.debug(verticalAsymptotesArray[i]);
-					boolean repeat = false;
-					if (i > 0 && verticalAsymptotesArray.length > 1) { // check
-						// for repeats
-						for (int j = 0; j < i; j++) {
-							if (verticalAsymptotesArray[i]
-									.equals(verticalAsymptotesArray[j])) {
-								repeat = true;
-								break;
-							}
-						}
-					}
-
-					boolean isInRange = false;
+				TreeMap<Double, String> unique = new TreeMap<>();
+				for (String asymptote : verticalAsymptotesArray) {
 					try {
-						// Application.debug(verticalAsymptotesArray[i]+"");
-						if (verticalAsymptotesArray[i].trim().equals("")) {
-							isInRange = false; // was complex root
-						} else {
-							isInRange = parentFunction.evaluateCondition(kernel
-									.getAlgebraProcessor()
-									.evaluateToNumeric(
-											verticalAsymptotesArray[i],
-											ErrorHelper.silent())
-									.getDouble());
+						if (!StringUtil.emptyTrim(asymptote)) {
+						unique.put(kernel.getAlgebraProcessor()
+								.evaluateToNumeric(asymptote,
+										ErrorHelper.silent())
+								.getDouble(), asymptote);
 						}
 					} catch (Exception e) {
-						Log.warn(
-								"Error parsing: " + verticalAsymptotesArray[i]);
+						Log.warn("Error parsing: " + asymptote);
 					}
+				}
+				for (Entry<Double, String> asymptoteX : unique.entrySet()) {
+					// Application.debug(verticalAsymptotesArray[i]);
+
+					boolean isInRange = parentFunction
+									.evaluateCondition(asymptoteX.getKey());
+					
 					if (reverseCondition) {
 						isInRange = !isInRange;
 					}
 
-					if (!repeat && isInRange) {
+					if (isInRange) {
 
 						sbCasCommand.setLength(0);
 						sbCasCommand.append("Numeric(Limit(");
@@ -2240,7 +2229,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						sbCasCommand.append(funVarStr[1]); // function variable
 						// "ggbtmpvarx"
 						sbCasCommand.append(",");
-						sbCasCommand.append(verticalAsymptotesArray[i]);
+						sbCasCommand.append(asymptoteX.getValue());
 						sbCasCommand.append("))");
 
 						// Log.debug("sbCasCommand 2 = " + sbCasCommand);
@@ -2248,7 +2237,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						try {
 							String limit = kernel.evaluateCachedGeoGebraCAS(
 									sbCasCommand.toString(), null);
-							Log.error(verticalAsymptotesArray[i] + ":" + limit);
 							// Log.debug("checking for vertical
 							// asymptote: "+sb.toString()+" = "+limit,1);
 							if (GeoFunction.isUndefinedOrInf(limit)) {
@@ -2256,7 +2244,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 									verticalSB.append(',');
 								}
 								verticalSB.append("x=");
-								verticalSB.append(verticalAsymptotesArray[i]);
+								verticalSB.append(asymptoteX.getValue());
 							}
 						} catch (Throwable e) {
 							e.printStackTrace();
