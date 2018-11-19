@@ -20,7 +20,7 @@ public class HTML5Export {
 
 		// make sure scaling works
 		sb.append(
-				"<meta name=viewport content=\"width=device-width,initial-scale=1\">");
+				"<meta name=viewport content=\"width=device-width,initial-scale=1\">\n");
 
 		if (app.has(Feature.TUBE_BETA)) {
 			sb.append(
