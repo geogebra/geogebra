@@ -142,6 +142,12 @@ public interface AccessibilityManagerInterface {
 	 */
 	public SliderInput getSliderAction();
 
+	/**
+	 * Handle slider change
+	 * 
+	 * @param step
+	 *            slider increment (may be negative)
+	 */
 	public void sliderChange(double step);
 
 }

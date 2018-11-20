@@ -3,6 +3,9 @@ package org.geogebra.common.gui;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
+/**
+ * Accessibility manager for app with no UI (simple applets)
+ */
 public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
 
@@ -110,7 +113,6 @@ public final class AccessibilityManagerNoGui
 
 	@Override
 	public void sliderChange(double step) {
-		// TODO Auto-generated method stub
-
+		// no slider
 	}
 }

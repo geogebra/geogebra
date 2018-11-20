@@ -81,13 +81,13 @@ public abstract class DrawEquation implements DrawEquationI {
 		return initJLM;
 	}
 
+	/**
+	 * Make sure GGB specific commands are defined; idempotent.
+	 */
 	protected static void checkFirstCallStatic() {
-
 		if (initJLaTeXMath == null) {
-
 			StringBuilder initJLM = DrawEquation.getJLMCommands();
 			initJLaTeXMath = new TeXFormula(initJLM.toString());
-
 		}
 	}
 

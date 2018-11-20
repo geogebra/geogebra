@@ -241,14 +241,14 @@ public class VoiceoverTabber {
 		}
 	}
 
-	private void updateRange(SliderW range0, SliderInput slider) {
-		range0.setMinimum(slider.getMin());
-		range0.setMaximum(slider.getMax());
-		range0.setStep(1);
+	private void updateRange(SliderW range, SliderInput slider) {
+		range.setMinimum(slider.getMin());
+		range.setMaximum(slider.getMax());
+		range.setStep(1);
 		double val = getInitialValue(slider);
-		range0.setValue(val);
+		range.setValue(val);
 		oldVal[0] = val;
-		updateValueText(range0, val, "degrees");
+		updateValueText(range, val, "degrees");
 	}
 
 	private double getInitialValue(SliderInput slider) {
