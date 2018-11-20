@@ -171,17 +171,7 @@ public class EuclidianController3DCompanion
 	 *            moved point
 	 */
 	public void moveAlongZAxis(GeoPointND movedGeoPoint3D) {
-		// along
-		// z-axis
-
-		/*
-		 * //getting current pick point and direction v if (movePointMode !=
-		 * MOVE_POINT_MODE_Z){ mouseLocOld = (Point) mouseLoc.clone();
-		 * positionOld = movedGeoPoint3D.getCoords().copyVector(); movePointMode
-		 * = MOVE_POINT_MODE_Z; }
-		 */
-		ec3D.view3D.getPickPoint(ec.mouseLoc, tmpCoordsForOrigin);
-		ec3D.view3D.toSceneCoords3D(tmpCoordsForOrigin);
+		ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
 		ec3D.addOffsetForTranslation(tmpCoordsForOrigin);
 
 		// getting new position of the point
