@@ -180,9 +180,13 @@ public abstract class CommandDispatcher {
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
 			EvalInfo info) {
 		if (cmdProc == null) {
-			throw new MyError(app.getLocalization(),
-					app.getLocalization().getError("UnknownCommand") + " : "
-							+ app.getLocalization().getCommand(c.getName()));
+			if (c.getName().equals(Commands.Freehand.name())) {
+				return null;
+			} else {
+				throw new MyError(app.getLocalization(),
+						app.getLocalization().getError("UnknownCommand") + " : "
+								+ app.getLocalization().getCommand(c.getName()));
+			}
 		}
 
 		// switch on macro mode to avoid labeling of output if desired

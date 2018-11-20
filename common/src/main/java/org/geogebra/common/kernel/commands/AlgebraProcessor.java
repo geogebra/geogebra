@@ -1852,9 +1852,13 @@ public class AlgebraProcessor {
 			ret = doProcessValidExpression(ve, info);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
-				Log.warn("Unhandled ValidExpression : " + ve);
-				throw new MyError(loc,
-						loc.getError("InvalidInput") + ":\n" + ve);
+				if (isFreehandFunction(ve)) {
+					return null;
+				} else {
+					Log.warn("Unhandled ValidExpression : " + ve);
+					throw new MyError(loc,
+							loc.getError("InvalidInput") + ":\n" + ve);
+				}
 			}
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -1863,6 +1867,20 @@ public class AlgebraProcessor {
 		processReplace(replaceable, ret, ve, info);
 
 		return ret;
+	}
+
+	private boolean isFreehandFunction(ValidExpression expression) {
+		if (expression instanceof ExpressionNode) {
+			ExpressionNode expressionNode = (ExpressionNode) expression;
+			if (expressionNode.isLeaf()) {
+				ExpressionValue expressionValue = expressionNode.getLeft();
+				if (expressionValue instanceof Command) {
+					Command command = (Command) expressionValue;
+					return command.getName().equals(Commands.Freehand.name());
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
