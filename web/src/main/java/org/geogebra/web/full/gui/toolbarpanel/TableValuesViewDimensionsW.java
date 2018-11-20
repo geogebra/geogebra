@@ -38,11 +38,7 @@ public class TableValuesViewDimensionsW extends TableValuesViewDimensions {
 
 	@Override
 	public int getRowHeight(int row) {
-		if (row == 0) {
-			return STRICT_HEADER_HEIGHT;
-		}
-		int height = super.getRowHeight(row);
-		return Math.min(STRICT_ROW_HEIGHT, height);
+		return STRICT_ROW_HEIGHT;
 	}
 
     @Override

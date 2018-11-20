@@ -94,6 +94,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private class RowData {
+		private static final int MAX_CHARS = 15;
 		private int row;
 
 		public RowData(int row) {
@@ -116,7 +117,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		public String getValue(int col) {
 			if (getRow() < getTableValuesModel().getRowCount()
 					&& col < getTableValuesModel().getColumnCount()) {
-				return getTableValuesModel().getCellAt(getRow(), col);
+				String str = getTableValuesModel().getCellAt(getRow(), col);
+				return str.length() < MAX_CHARS ? str : str.substring(0, MAX_CHARS);
 			}
 			return "";
 		}
@@ -483,6 +485,14 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return list != null ? list.getItem(0) : null;
 	}
 
+	private boolean isLastDeleted() {
+		return getTableValuesModel().getColumnCount() == 1;
+	}
+
+	private boolean isXDeleted() {
+		return getTableValuesModel().getColumnCount() == 0;
+	}
+
 	/**
 	 * Deletes the specified column from the view.
 	 * 
@@ -492,8 +502,10 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 *            to run on transition end.
 	 */
 	public void deleteColumn(int column, Runnable cb) {
-		NodeList<Element> elems = getColumnElements(column);
-		Element header = getHeaderElement(column);
+		int col = column;
+
+		NodeList<Element> elems = getColumnElements(col);
+		Element header = getHeaderElement(col);
 
 		if (elems == null || elems.getLength() == 0 || header == null) {
 			return;
@@ -502,13 +514,18 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		int tableWidth = table.getOffsetWidth() - header.getOffsetWidth();
 
 		header.addClassName("delete");
-		CSSEvents.runOnTransition(new ColumnDelete(column, header, cb), header, "delete");
+		if (cb != null) {
+			CSSEvents.runOnTransition(new ColumnDelete(col, header, cb), header, "delete");
+		}
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
+		if (isLastDeleted()) {
+			deleteColumn(0, cb);
+		}
 	}
 
 	/**
@@ -524,7 +541,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 *            custom callback to run on column delete.
 	 */
 	void onDeleteColumn(int column, Element header, Runnable cb) {
-		if (isEmpty()) {
+		if (isXDeleted()) {
 			if (cb != null) {
 				cb.run();
 			}

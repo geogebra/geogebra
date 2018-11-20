@@ -1,5 +1,7 @@
 @import 'colors';
 $emptyHeight: 212px;
+$deleteTime: 1s;
+
 .GeoGebraFrame {
 	.tableViewParent {
 		height: 100%;
@@ -62,7 +64,7 @@ $emptyHeight: 212px;
 	.colDelete {
 		overflow: hidden !important;
 		width: 0px !important;
-		margin: -81px !important;
+		margin-left: -81px !important;
 	}
 
 	.tvHeader {
@@ -94,6 +96,7 @@ $emptyHeight: 212px;
 			}
 			.delete {
 				@extend .colDelete;
+				margin-top: 8px;
 				text-align: right;
 			}
 		}
@@ -133,7 +136,7 @@ $emptyHeight: 212px;
 	}
 
 	.tvCellTransition {
-		transition: all 1s ease-in;
+		transition: width $deleteTime, margin $deleteTime ease-in;
 	}
 
 	.tvValueCell {
@@ -146,7 +149,7 @@ $emptyHeight: 212px;
 			margin-right: 24px;
 		}
 	}
-
+	
 	.tvHeaderCell {
 		@extend .tvCellTransition;
 		margin-left: 0px;
