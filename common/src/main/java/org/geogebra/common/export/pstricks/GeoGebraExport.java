@@ -27,12 +27,13 @@ import org.geogebra.common.kernel.algos.AlgoSumLower;
 import org.geogebra.common.kernel.algos.AlgoSumRectangle;
 import org.geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import org.geogebra.common.kernel.algos.AlgoSumUpper;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -1597,16 +1598,13 @@ public abstract class GeoGebraExport {
 			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
 			Function f = curve.getFunX();
 			if (f.getFunctionExpression().getOperation() == Operation.IF_LIST) {
-				ExpressionNode exl = f.getFunctionExpression().getLeftTree();
-				ExpressionNode exr = f.getFunctionExpression().getRightTree();
+				ExpressionValue exl = f.getFunctionExpression().getLeft();
+				ListValue exr = (ListValue) f.getFunctionExpression()
+						.getRight();
 				String exls = exl.toValueString(StringTemplate.noLocalDefault);
-				String exrs = exr.toValueString(StringTemplate.noLocalDefault);
-				exrs = exrs.replace("{", "");
-				exrs = exrs.replace("}", "");
 				exls = exls.replace("{", "");
 				exls = exls.replace("}", "");
 				String[] exlsv = exls.split(",");
-				String[] exrsv = exrs.split(",");
 				double[] paramValues = new double[exlsv.length + 2];
 				paramValues[0] = 0;
 				for (int i = 0; i < exlsv.length; i++) {
@@ -1618,28 +1616,31 @@ public abstract class GeoGebraExport {
 				// exlsv.length
 				// {t < 0.25, t < 0.5, t < 0.75}
 				// ie add 1.0 to end
-				paramValues[exlsv.length + 1] = 2 * paramValues[exlsv.length]
-						- paramValues[exlsv.length - 1];
+				paramValues[exlsv.length + 1] = curve.getMaxParameter();
 
-				GeoCurveCartesian[] curves = new GeoCurveCartesian[exrsv.length];
+				GeoCurveCartesian[] curves = new GeoCurveCartesian[exr.size()];
 				AlgebraProcessor ap = kernel.getAlgebraProcessor();
-				for (int i = 0; i < exrsv.length; i++) {
+				for (int i = 0; i < exr.size(); i++) {
 					GeoFunction fxx = ap
-							.evaluateToFunction("xspline(t)=" + exrsv[i], true);
+							.evaluateToFunction(
+									"xspline(t)=" + exr.getListElement(i)
+											.toValueString(
+													StringTemplate.noLocalDefault),
+									true);
 					curves[i] = new GeoCurveCartesian(this.construction);
 					curves[i].setFunctionX(fxx.getFunction());
 				}
 
 				f = curve.getFunY();
-				exl = f.getFunctionExpression().getLeftTree();
-				exr = f.getFunctionExpression().getRightTree();
-				exrs = exr.toValueString(StringTemplate.noLocalDefault);
-				exrs = exrs.replace("{", "");
-				exrs = exrs.replace("}", "");
-				exrsv = exrs.split(",");
-				for (int i = 0; i < exrsv.length; i++) {
+				exr = (ListValue) f.getFunctionExpression().getRight();
+
+				for (int i = 0; i < exr.size(); i++) {
 					GeoFunction fxx = ap
-							.evaluateToFunction("yspline(t)=" + exrsv[i], true);
+							.evaluateToFunction(
+									"yspline(t)=" + exr.getListElement(i)
+											.toValueString(
+													StringTemplate.noLocalDefault),
+									true);
 					curves[i].setFunctionY(fxx.getFunction());
 					curves[i].setInterval(paramValues[i], paramValues[i + 1]);
 					curves[i].setAllVisualProperties((GeoElement) geo, false);
