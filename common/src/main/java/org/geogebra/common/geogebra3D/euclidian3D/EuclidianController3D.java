@@ -351,11 +351,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			view3D.getPickFromScenePoint(positionOld,
 					mouseLoc.x - mouseLocOld.x, mouseLoc.y - mouseLocOld.y,
 					tmpCoordsForOrigin);
+			view3D.toSceneCoords3D(tmpCoordsForOrigin);
 		} else {
-			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
+			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
 		}
 
-		view3D.toSceneCoords3D(tmpCoordsForOrigin);
 		addOffsetForTranslation(tmpCoordsForOrigin);
 
 		// getting new position of the point
