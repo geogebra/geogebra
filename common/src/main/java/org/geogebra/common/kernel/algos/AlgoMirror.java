@@ -352,7 +352,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList)) {
+		if (!(outGeo instanceof GeoList) && (outGeo instanceof Mirrorable)) {
 			out = (Mirrorable) outGeo;
 		}
 
