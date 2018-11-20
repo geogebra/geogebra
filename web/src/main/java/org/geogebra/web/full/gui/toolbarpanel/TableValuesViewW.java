@@ -133,12 +133,12 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	/**
-	 * @param app1
+	 * @param app
 	 *            {@link AppW}.
 	 */
-	public TableValuesViewW(AppW app1) {
-		super(app1.getKernel());
-		this.app = app1;
+	public TableValuesViewW(AppW app) {
+		super(app.getKernel());
+		this.app = app;
 		createGUI();
 	}
 
@@ -453,7 +453,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	/**
-	 * @author .
+	 * @author Balazs
 	 *
 	 */
 	public interface CellTemplates extends SafeHtmlTemplates {
