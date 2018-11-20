@@ -30,13 +30,13 @@ import org.geogebra.common.kernel.algos.AlgoSumUpper;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -1598,50 +1598,33 @@ public abstract class GeoGebraExport {
 			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
 			Function f = curve.getFunX();
 			if (f.getFunctionExpression().getOperation() == Operation.IF_LIST) {
-				ExpressionValue exl = f.getFunctionExpression().getLeft();
+				ListValue exl = (ListValue) f.getFunctionExpression().getLeft();
 				ListValue exr = (ListValue) f.getFunctionExpression()
 						.getRight();
-				String exls = exl.toValueString(StringTemplate.noLocalDefault);
-				exls = exls.replace("{", "");
-				exls = exls.replace("}", "");
-				String[] exlsv = exls.split(",");
-				double[] paramValues = new double[exlsv.length + 2];
+				double[] paramValues = new double[exl.size() + 2];
 				paramValues[0] = 0;
-				for (int i = 0; i < exlsv.length; i++) {
-					paramValues[i + 1] = Double
-							.parseDouble(exlsv[i].split("<")[1]);
+				for (int i = 0; i < exl.size(); i++) {
+					paramValues[i + 1] = exl.getListElement(i).wrap().getRight()
+							.evaluateDouble();
 				}
 
 				// extra if needed for eg when exrsv.length is one more than
 				// exlsv.length
 				// {t < 0.25, t < 0.5, t < 0.75}
 				// ie add 1.0 to end
-				paramValues[exlsv.length + 1] = curve.getMaxParameter();
+				paramValues[exl.size() + 1] = curve.getMaxParameter();
 
 				GeoCurveCartesian[] curves = new GeoCurveCartesian[exr.size()];
-				AlgebraProcessor ap = kernel.getAlgebraProcessor();
 				for (int i = 0; i < exr.size(); i++) {
-					GeoFunction fxx = ap
-							.evaluateToFunction(
-									"xspline(t)=" + exr.getListElement(i)
-											.toValueString(
-													StringTemplate.noLocalDefault),
-									true);
 					curves[i] = new GeoCurveCartesian(this.construction);
-					curves[i].setFunctionX(fxx.getFunction());
+					curves[i].setFunctionX(asFunction(exr.getListElement(i)));
 				}
 
 				f = curve.getFunY();
 				exr = (ListValue) f.getFunctionExpression().getRight();
 
 				for (int i = 0; i < exr.size(); i++) {
-					GeoFunction fxx = ap
-							.evaluateToFunction(
-									"yspline(t)=" + exr.getListElement(i)
-											.toValueString(
-													StringTemplate.noLocalDefault),
-									true);
-					curves[i].setFunctionY(fxx.getFunction());
+					curves[i].setFunctionY(asFunction(exr.getListElement(i)));
 					curves[i].setInterval(paramValues[i], paramValues[i + 1]);
 					curves[i].setAllVisualProperties((GeoElement) geo, false);
 				}
@@ -1659,6 +1642,11 @@ public abstract class GeoGebraExport {
 		} else {
 			drawSingleCurveCartesian((GeoCurveCartesian) geo, true);
 		}
+	}
+
+	private Function asFunction(ExpressionValue listElement) {
+		return new Function(listElement.deepCopy(kernel).wrap(),
+				new FunctionVariable(kernel, "t"));
 	}
 
 	protected String getLineTemplate(GeoElementND geo) {
