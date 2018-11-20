@@ -326,9 +326,6 @@ public enum Feature {
 	/** G3D-42 */
 	G3D_AR_REGULAR_TOOLS,
 
-	/** G3D-42 */
-	G3D_AR_TOUCH_INPUT_QUEUE,
-
 	/** automatically add NDG conditions in locus equations */
 	LOCUSEQU_AUTO_NDG,
 
