@@ -505,7 +505,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case ORDER:
 			repaintSlidersOrder();
 			break;
-		case VIEW:
 		case TYPE:
 		case LAYER:
 			for (int i = 0; i < getItemCount(); i++) {

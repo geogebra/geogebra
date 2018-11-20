@@ -55,12 +55,6 @@ public interface AlgebraView extends Editing, SetLabels {
 				return "ObjectType";
 			}
 		},
-		VIEW {
-			@Override
-			public String toString() {
-				return "View";
-			}
-		},
 		ORDER {
 			@Override
 			public String toString() {

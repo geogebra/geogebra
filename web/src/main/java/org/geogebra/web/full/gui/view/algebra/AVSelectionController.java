@@ -84,8 +84,6 @@ public class AVSelectionController {
 							.compareTo(getLastSelectedGeo().getLabel(
 									StringTemplate.defaultTemplate)) < 0);
 			break;
-		case VIEW:
-			break;
 		case DEPENDENCY:
 
 		default:

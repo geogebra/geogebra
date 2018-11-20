@@ -23,7 +23,6 @@ import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import org.geogebra.desktop.geogebra3D.gui.dialogs.DialogManager3D;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
-import org.geogebra.desktop.geogebra3D.gui.view.algebra.AlgebraView3D;
 import org.geogebra.desktop.geogebra3D.gui.view.properties.PropertiesView3DD;
 import org.geogebra.desktop.gui.ContextMenuChooseGeoD;
 import org.geogebra.desktop.gui.ContextMenuGeoElementD;
@@ -246,7 +245,7 @@ public class GuiManager3D extends GuiManagerD {
 
 	@Override
 	protected AlgebraViewD newAlgebraView(AlgebraControllerD algc) {
-		return new AlgebraView3D(algc);
+		return new AlgebraViewD(algc);
 	}
 
 	@Override
