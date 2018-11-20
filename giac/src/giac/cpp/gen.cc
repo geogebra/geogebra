@@ -4413,6 +4413,8 @@ namespace giac {
 	return sym_add(b,a,contextptr);
       if (a.subtype==_POINT__VECT && b.subtype==_POINT__VECT)
 	return gen(addvecteur(*a._VECTptr,*b._VECTptr),0);
+      if (a.subtype==0 && b.subtype==0 && python_compat(contextptr)==2)
+	return mergevecteur(*a._VECTptr,*b._VECTptr);
       if (warnextend && a.subtype==0 && b.subtype==0 && python_compat(contextptr)){
 	warnextend=false;
 	alert(gettext("Warning + is vector addition, run list1.extend(list2) for list concatenation"),contextptr);
@@ -6035,6 +6037,8 @@ namespace giac {
       return multgen_poly(B,*A._VECTptr,A.subtype); // gen(multvecteur(b,*a._VECTptr),a.subtype);
     }
     case _INT___VECT: 
+      if (a.val>=0 && python_compat(contextptr)==2)
+	return operator_times(b,a,contextptr);
       if (warnpy && a.val>=0 && python_compat(contextptr)){
 	alert(gettext("Python compatibility, integer*list will do vector multiplication, run list*integer to duplicate list"),contextptr);
 	warnpy=false;

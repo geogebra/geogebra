@@ -53,7 +53,13 @@ namespace giac {
   gen integrate_without_lnabs(const gen & e,const gen & x,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Kronecker ;
   gen _Kronecker(const gen & args,GIAC_CONTEXT);
-  
+#ifndef USE_GMP_REPLACEMENTS
+  gen kovacicsols(const gen &r_orig,const gen &x,const gen &dy_coeff,GIAC_CONTEXT);
+  gen _kovacicsols(const gen &g,GIAC_CONTEXT);
+  gen idnteval(const gen &g,GIAC_CONTEXT) ;  
+  bool is_constant_wrt_vars(const gen &e,const vecteur &vars,GIAC_CONTEXT) ;
+  gen radsimp(const gen &g,GIAC_CONTEXT) ;
+#endif  
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
