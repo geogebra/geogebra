@@ -2335,7 +2335,7 @@ __GGB__keysVar["eu"].menu = {
     "Pencil.Help": "Idatzi edo marraztu Ikuspegi Grafikoan. Aldatu kolorea Estilo-barra erabiliz",
     "Pentagon": "Pentagonoa",
     "PerformToolOn": "Aplikatu Tresna",
-    "PerimeterOfA": "%0-ren perimetroa",
+    "PerimeterOfA": "%0-(r)en perimetroa",
     "PerpendicularBisectorOfAParallelToB": "%1 Planoarekiko Paraleloa den %0 Zuzenkiaren Erdibitzailea",
     "PerpendicularBisectorOfAPerpendicularToB": "%1 Planoarekiko Perpendikularra den %0 Zuzenkiaren Erdibitzailea",
     "Perspective": "Perspektiba",

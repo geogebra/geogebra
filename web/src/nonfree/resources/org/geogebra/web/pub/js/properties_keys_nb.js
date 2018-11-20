@@ -1532,7 +1532,7 @@ __GGB__keysVar["nb"].menu = {
     "CreateList.Help": "Lager liste ut fra valgte celler",
     "CreateListGraphicsView": "Lag liste",
     "CreateListGraphicsView.Help": "Dra et rektangel rundt objektene",
-    "CreateListOfPoints": "Lliste med punkt",
+    "CreateListOfPoints": "Liste med punkt",
     "CreateListOfPoints.Help": "Lager punkt ut fra valgte celler",
     "CreateMatrix": "Lag matrise",
     "CreateMatrix.Help": "Lager en matrise ut fra valgte celler.",
