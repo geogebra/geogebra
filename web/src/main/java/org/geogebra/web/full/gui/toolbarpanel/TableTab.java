@@ -55,6 +55,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	 * Rebuild the tab.
 	 */
 	void buildGui() {
+		getView().refreshView();
 		Widget w = getView().getWidget();
 		if (w == null) {
 			return;

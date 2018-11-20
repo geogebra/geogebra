@@ -54,15 +54,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
 	private CellTable<RowData> headerTable;
-	private CellTable<RowData> table;
+	private CellTable<RowData> valuesTable;
 	private FlowPanel main;
 	private Label emptyLabel;
 	private Label emptyInfo;
 	private FlowPanel emptyPanel;
 	private AppW app;
-	private ScrollPanel scrollPanel;
+	private ScrollPanel valueScroller;
 	private List<RowData> rows = new ArrayList<>();
 	private NoDragImage moreImg;
+
+	private FlowPanel tvPanel;
 
 	private class ColumnDelete implements Runnable {
 		Runnable cb = null;
@@ -164,7 +166,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * Sync header sizes to value table.
 	 */
 	void doSyncHeaderSizes() {
-		NodeList<Element> tableRows = table.getElement().getElementsByTagName("tbody").getItem(0)
+		NodeList<Element> tableRows = valuesTable.getElement().getElementsByTagName("tbody")
+				.getItem(0)
 				.getElementsByTagName("tr");
 		if (tableRows.getLength() == 0) {
 			return;
@@ -172,64 +175,75 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
 
-		for (int i = 0; i < table.getColumnCount(); i++) {
+		for (int i = 0; i < valuesTable.getColumnCount(); i++) {
 			int w = firstRow.getItem(i).getOffsetWidth();
 			headerTable.setColumnWidth(i, w + "px");
 		}
 
-		headerTable.getElement().getStyle().setWidth(table.getOffsetWidth(), Unit.PX);
+		headerTable.getElement().getStyle().setWidth(valuesTable.getOffsetWidth(), Unit.PX);
 	}
 
 	private void createGUI() {
 		main = new FlowPanel();
 		main.addStyleName("tableViewMain");
-		FlowPanel tvPanel = new FlowPanel();
-		scrollPanel = new ScrollPanel();
-		scrollPanel.addStyleName("tvScrollPanel");
+		tvPanel = new FlowPanel();
+
 		headerTable = new CellTable<>();
+		headerTable = new CellTable<>();
+		headerTable.addStyleName("tvHeader");
+		headerTable.addStyleName("tvTable");
 
-		table = new CellTable<>();
+		valuesTable = new CellTable<>();
+		valuesTable.addStyleName("tvTable");
 
-		// Building table
-		addHeader(tvPanel);
-		table.addStyleName("tvTable");
-		TableUtils.clear(table);
-		addValuesForTable(table);
+		valueScroller = new ScrollPanel();
+		valueScroller.addStyleName("tvValueScroller");
+
+		createStickyHeader();
+
+	}
+
+	/**
+	 * Refresh header and data.
+	 */
+	public void refreshView() {
+		TableUtils.clear(valuesTable);
+		TableUtils.clear(headerTable);
+
+		addColumnsForTable(headerTable);
+		addHeaderClickHandler();
+
+		addValuesForTable(valuesTable);
 		tableInit();
 		syncHeaderSizes();
 
-		scrollPanel.setWidget(table);
+		valueScroller.setWidget(valuesTable);
 
-		tvPanel.add(scrollPanel);
+		tvPanel.add(valueScroller);
 		tvPanel.addStyleName("tvPanel");
+		main.clear();
 		main.add(tvPanel);
 	}
 
-	private void addHeader(FlowPanel tvPanel) {
-		headerTable = new CellTable<>();
-		TableUtils.clear(headerTable);
-		addColumnsForTable(headerTable);
-		headerTable.addStyleName("tvHeader");
-		headerTable.addStyleName("tvTable");
-		addHeaderClickHandler();
+	private void createStickyHeader() {
 
-		final ScrollPanel holderPanel = new ScrollPanel();
-		final FlowPanel innerHolderPanel = new FlowPanel();
-		innerHolderPanel.add(headerTable);
-		holderPanel.add(innerHolderPanel);
-		holderPanel.addStyleName("tvHeaderHolderPanel");
+		final ScrollPanel headerScroller = new ScrollPanel();
+		final FlowPanel headerMain = new FlowPanel();
+		headerMain.add(headerTable);
+		headerScroller.add(headerMain);
+		headerScroller.addStyleName("tvHeaderScroller");
 
-		tvPanel.add(holderPanel);
+		tvPanel.add(headerScroller);
 
 		OuterPanel outerScrollPanel = new OuterPanel(); // used for horizontal
 												// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(tvPanel);
 
-		scrollPanel.addScrollHandler(new ScrollHandler() {
+		valueScroller.addScrollHandler(new ScrollHandler() {
 			@Override
 			public void onScroll(ScrollEvent event) {
-				syncScrollPosition(holderPanel, innerHolderPanel);
+				syncScrollPosition(headerScroller, headerMain);
 			}
 		});
 	}
@@ -237,22 +251,17 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	/**
 	 * Sync scroll position of the header and the values table.
 	 * 
-	 * @param panel
-	 *            Header holder panel.
-	 * @param innerPanel
-	 *            Header inner panel.
+	 * @param headerScroller
+	 *            scroll panel for the header.
+	 * @param headerMain
+	 *            Header main panel that contains the table.
 	 */
-	void syncScrollPosition(ScrollPanel panel, FlowPanel innerPanel) {
-		int scrollPosition = scrollPanel.getHorizontalScrollPosition();
-		if (innerPanel.getOffsetWidth() < scrollPanel.getOffsetWidth() + scrollPosition) {
-			innerPanel.setWidth((scrollPanel.getOffsetWidth() + scrollPosition) + "px");
+	void syncScrollPosition(ScrollPanel headerScroller, FlowPanel headerMain) {
+		int scrollPosition = valueScroller.getHorizontalScrollPosition();
+		if (headerMain.getOffsetWidth() < valueScroller.getOffsetWidth() + scrollPosition) {
+			headerMain.setWidth((valueScroller.getOffsetWidth() + scrollPosition) + "px");
 		}
-		panel.setHorizontalScrollPosition(scrollPosition);
-	}
-
-	private Widget getMain() {
-		createGUI();
-		return main;
+		headerScroller.setHorizontalScrollPosition(scrollPosition);
 	}
 
 	private void buildData() {
@@ -264,10 +273,10 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private void tableInit() {
 		buildData();
-		table.setRowCount(rows.size());
-		table.setVisibleRange(0, rows.size());
-		table.setRowData(0, rows);
-		table.setVisible(true);
+		valuesTable.setRowCount(rows.size());
+		valuesTable.setVisibleRange(0, rows.size());
+		valuesTable.setRowData(0, rows);
+		valuesTable.setVisible(true);
 	}
 
 	/**
@@ -275,7 +284,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * @return the main widget of the view.
 	 */
 	public Widget getWidget() {
-		return isEmpty() ? getEmptyPanel() : getMain();
+		return isEmpty() ? getEmptyPanel() : main;
 	}
 
 	private Widget getEmptyPanel() {
@@ -448,7 +457,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 *            to set.
 	 */
 	public void setHeight(int height) {
-		scrollPanel.getElement().getStyle().setHeight(height - HEADER_HEIGHT,
+		valueScroller.getElement().getStyle().setHeight(height - HEADER_HEIGHT,
 				Unit.PX);
 	}
 
@@ -511,7 +520,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			return;
 		}
 
-		int tableWidth = table.getOffsetWidth() - header.getOffsetWidth();
+		int tableWidth = valuesTable.getOffsetWidth() - header.getOffsetWidth();
 
 		header.addClassName("delete");
 		if (cb != null) {

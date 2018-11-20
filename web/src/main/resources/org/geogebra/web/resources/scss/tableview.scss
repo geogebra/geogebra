@@ -105,8 +105,12 @@ $deleteTime: 1s;
 			display: none;
 		}
 	}
-
+	
 	.tvTable {
+		user-select: text;
+		-moz-user-select: text;
+		-webkit-user-select: text;
+		
 		th:first-child,
 		td:first-child {
 			margin-left: 16px !important;
@@ -159,7 +163,7 @@ $deleteTime: 1s;
 	}
 
 
-	.tvPanel .tvScrollPanel{
+	.tvPanel .tvValueScroller {
 		flex-grow: 1;
 		/*overflow-x: hidden !important;*/
 		overflow-y: auto !important;
@@ -175,10 +179,10 @@ $deleteTime: 1s;
 	}
 
 	/*needed for vertical scrolling*/
-	.tvScrollPanel div, .tvPanel{
+	.tvValueScroller div, .tvPanel{
 		height: 100%;
 	}
-	.tvHeaderHolderPanel{
+	.tvHeaderScroller{
 		width: 50%;
 		overflow: hidden !important;
 	}		
