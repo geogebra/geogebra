@@ -1239,18 +1239,9 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(def);
 		}
 
-		sbAE.append(tpl.leftCommandBracket());
-
-		appendArguments(tpl);
-
-		sbAE.append(tpl.rightCommandBracket());
-
-		return sbAE.toString();
-
-	}
-
-	protected void appendArguments(StringTemplate tpl) {
 		int length = getInputLengthForCommandDescription();
+
+		sbAE.append(tpl.leftCommandBracket());
 
 		// input length is 0 for ConstructionStep[]
 		if (length > 0) {
@@ -1260,6 +1251,11 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(", ");
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
+
+		sbAE.append(tpl.rightCommandBracket());
+
+		return sbAE.toString();
+
 	}
 
 	/*

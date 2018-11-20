@@ -257,8 +257,6 @@ public enum Commands implements CommandsConstants,
 
 	Function(TABLE_FUNCTION),
 
-	Freehand(TABLE_FUNCTION),
-
 	Extremum(TABLE_FUNCTION),
 
 	/** move to TABLE_FUNCTION when released */

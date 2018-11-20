@@ -75,7 +75,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Freehand;
+		return Commands.Function;
 	}
 
 	// for AlgoElement
@@ -126,15 +126,6 @@ public class AlgoFunctionFreehand extends AlgoElement {
 				kernel.format(((GeoNumeric) inputList.get(0)).getDouble(), tpl),
 				kernel.format(((GeoNumeric) inputList.get(1)).getDouble(),
 						tpl));
-	}
-
-	@Override
-	protected void appendArguments(StringTemplate tpl) {
-		if (tpl == StringTemplate.editorTemplate) {
-			sbAE.append('x');
-		} else {
-			super.appendArguments(tpl);
-		}
 	}
 
 	/**
