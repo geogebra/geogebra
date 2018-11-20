@@ -5030,7 +5030,8 @@ namespace giac {
   // |remainder| <= max(2^nbits,|x|*p/2^(2nbits)), <=2*p if |x|<=p^2
   inline int pseudo_mod(longlong x,int p,unsigned invp,unsigned nbits){
 #if 1 // def INT128
-    //if ( x - (((x>>nbits)*invp)>>(nbits))*p != int(x - (((x>>nbits)*invp)>>(nbits))*p)){ CERR << "erreur " << x << " " << p << endl; exit(1); }
+    // if ( x - (((x>>nbits)*invp)>>(nbits))*p != int(x - (((x>>nbits)*invp)>>(nbits))*p)){ CERR << "erreur " << x << " " << p << endl; exit(1); }
+    //if ( ((x - (((x>>nbits)*invp)>>(nbits))*p)-x) % p ){ CERR << "erreur " << x << " " << p << " " << invp << " " << nbits << endl; exit(1); } 
     return x - (((x>>nbits)*invp)>>(nbits))*p;
 #else
     // longlong X=x;
@@ -12829,8 +12830,8 @@ namespace giac {
       res[0]=1;
       res[1]=-N[0][0];
     }
-    bool pseudo=false; // disabled because charpoly(graph("mcgee")) fails
-#if 0 // def PSEUDO_MOD
+    bool pseudo=false;
+#ifdef PSEUDO_MOD
     pseudo=(modulo<(1<<29)) && (2*modulo*double(modulo)*n<(1ULL<<63));
     int nbits=sizeinbase2(modulo); 
     unsigned invp=((1ULL<<(2*nbits)))/modulo+1;
@@ -12859,8 +12860,16 @@ namespace giac {
 	  part1[i+1]=smod(-N[k][k-i],modulo);
 	}
 	vector< vector<int> > N2(n-1-k);
-	for (int i=k+1;i<n;++i)
+	for (int i=k+1;i<n;++i){
 	  N2[i-1-k]=vector<int>(N[i].begin()+k+1,N[i].end());
+	  if (pseudo){ 
+	    // if using pseudo-mod, we must reduce N2 % modulo
+	    // otherwise e.g. charpoly(graph("mcgee")) fails
+	    vector<int>::iterator it=N2[i-1-k].begin(),itend=N2[i-1-k].end();
+	    for (;it!=itend;++it)
+	      *it %= modulo;
+	  }
+	}
 	mod_pcar(N2,modulo,part2,compute_pmin);
 	if (compute_pmin && part1==part2){
 	  res.swap(part1);
@@ -12895,7 +12904,7 @@ namespace giac {
 	int * wj=&w.front();
 	int * wend=wj+k;
 	longlong Nlk1=Nlj[k+1];
-#if 0 // def PSEUDO_MOD
+#ifdef PSEUDO_MOD
 	if (pseudo){
 	  for (;wj<=wend;++wj,++Nlj){
 	    *Nlj=pseudo_mod(*Nlj+(*wj)*Nlk1,modulo,invp,nbits);
@@ -12911,7 +12920,7 @@ namespace giac {
 	*Nlj=(invakk1*Nlk1)%modulo;
 	++wj;++Nlj;
 	wend += (n-k);
-#if 0 // def PSEUDO_MOD
+#ifdef PSEUDO_MOD
 	if (pseudo){
 	  for (;wj<wend;++wj,++Nlj){
 	    *Nlj=pseudo_mod(*Nlj+(*wj)*Nlk1,modulo,invp,nbits);
