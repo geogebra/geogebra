@@ -13500,7 +13500,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #ifdef GBASISF4_BUCHBERGER 
       if (zdata){
 	if (!zgbasis(current,resmod,G,p.val,true,&reduceto0,zf4buchberger_info,false,false,eliminate_flag,true)){
-	  augmentgbasis=2;
+	  if (augmentgbasis>0) 
+	    augmentgbasis=2;
 	  reduceto0.clear();
 	  zf4buchberger_info.clear();
 	  zf4buchberger_info.reserve(4*zf4buchberger_info.capacity());
@@ -13548,7 +13549,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (time2ndrun<0){
 	  time2ndrun=t_1-t_0;
 	  if (time2ndrun<time1strun/6 || time2ndrun<1) // learning is fast enough
-	    augmentgbasis=2;
+	    if (augmentgbasis>0)
+	      augmentgbasis=2;
 	}
       }
       pend=p.val; // last prime used

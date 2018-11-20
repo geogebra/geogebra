@@ -12829,8 +12829,8 @@ namespace giac {
       res[0]=1;
       res[1]=-N[0][0];
     }
-    bool pseudo=false;
-#ifdef PSEUDO_MOD
+    bool pseudo=false; // disabled because charpoly(graph("mcgee")) fails
+#if 0 // def PSEUDO_MOD
     pseudo=(modulo<(1<<29)) && (2*modulo*double(modulo)*n<(1ULL<<63));
     int nbits=sizeinbase2(modulo); 
     unsigned invp=((1ULL<<(2*nbits)))/modulo+1;
@@ -12895,14 +12895,15 @@ namespace giac {
 	int * wj=&w.front();
 	int * wend=wj+k;
 	longlong Nlk1=Nlj[k+1];
+#if 0 // def PSEUDO_MOD
 	if (pseudo){
-#ifdef PSEUDO_MOD
 	  for (;wj<=wend;++wj,++Nlj){
 	    *Nlj=pseudo_mod(*Nlj+(*wj)*Nlk1,modulo,invp,nbits);
 	  }
-#endif
 	}
-	else {
+	else 
+#endif
+	{
 	  for (;wj<=wend;++wj,++Nlj){
 	    *Nlj=(*Nlj+(*wj)*Nlk1)%modulo;
 	  }
@@ -12910,14 +12911,15 @@ namespace giac {
 	*Nlj=(invakk1*Nlk1)%modulo;
 	++wj;++Nlj;
 	wend += (n-k);
+#if 0 // def PSEUDO_MOD
 	if (pseudo){
-#ifdef PSEUDO_MOD
 	  for (;wj<wend;++wj,++Nlj){
 	    *Nlj=pseudo_mod(*Nlj+(*wj)*Nlk1,modulo,invp,nbits);
 	  }
-#endif
 	}
-	else {
+	else
+#endif
+	{
 	  for (;wj<wend;++wj,++Nlj){
 	    *Nlj=(*Nlj+(*wj)*Nlk1)%modulo;
 	  }
