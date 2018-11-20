@@ -250,11 +250,13 @@ public abstract class GlobalKeyDispatcher {
 	 *            translation in y direction
 	 * @param zdiff
 	 *            translation in z direction
+	 * @param increment
+	 *            multiplier for x,y,z
 	 * 
 	 * @return whether any object was moved
 	 */
 	public boolean handleArrowKeyMovement(ArrayList<GeoElement> geos,
-			double xdiff, double ydiff, double zdiff) {
+			double xdiff, double ydiff, double zdiff, double increment) {
 		GeoElement geo = geos.get(0);
 
 		boolean allSliders = true;
@@ -274,21 +276,6 @@ public abstract class GlobalKeyDispatcher {
 		// set translation vector
 		if (tempVec == null) {
 			tempVec = new Coords(4); // 4 coords for 3D
-		}
-
-		double increment = geo.getAnimationStep();
-
-		// eg for Polygon(A,B,C)
-		// use increment of A
-		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
-
-			ArrayList<GeoPointND> freeInputPoints = geo
-					.getFreeInputPoints(app.getActiveEuclidianView());
-
-			if (freeInputPoints != null && freeInputPoints.size() > 0) {
-				increment = freeInputPoints.get(0).getAnimationStep();
-			}
-
 		}
 
 		double xd = increment * xdiff;
@@ -1403,7 +1390,6 @@ public abstract class GlobalKeyDispatcher {
 				// F3 key: copy definitions to input field as list
 				copyDefinitionsToInputBarAsList(geos);
 				break;
-
 			}
 			return true;
 
@@ -1528,14 +1514,12 @@ public abstract class GlobalKeyDispatcher {
 
 		case PAGEDOWN:
 			changeValZ = -base;
-
 			break;
-
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
 			moved = handleArrowKeyMovement(geos, changeValX, changeValY,
-					changeValZ);
+					changeValZ, getIncrement(geos));
 		}
 
 		if (moved) {
@@ -1677,6 +1661,25 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		return false;
+	}
+
+	private double getIncrement(ArrayList<GeoElement> geos) {
+		GeoElement geo = geos.get(0);
+		double increment = geo.getAnimationStep();
+
+		// eg for Polygon(A,B,C)
+		// use increment of A
+		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
+
+			ArrayList<GeoPointND> freeInputPoints = geo
+					.getFreeInputPoints(app.getActiveEuclidianView());
+
+			if (freeInputPoints != null && freeInputPoints.size() > 0) {
+				increment = freeInputPoints.get(0).getAnimationStep();
+			}
+
+		}
+		return increment;
 	}
 
 	private static double getAnimationStep(GeoNumeric num) {

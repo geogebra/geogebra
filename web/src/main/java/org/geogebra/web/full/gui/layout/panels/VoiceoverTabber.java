@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel;
-import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -16,7 +16,10 @@ import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -78,7 +81,7 @@ public class VoiceoverTabber {
 		}
 		final Label simpleButton = new Label("button");
 		hide(simpleButton);
-		simpleButton.getElement().setAttribute("role", "button");
+		setRole(simpleButton, "button");
 		simpleButton.getElement().setTabIndex(5000);
 		simpleButton.addClickHandler(new ClickHandler() {
 
@@ -99,14 +102,22 @@ public class VoiceoverTabber {
 		p.add(focusTrap);
 	}
 
-	private static void hide(Widget range) {
-		range.getElement().getStyle().setOpacity(.01);
-		range.getElement().getStyle().setPosition(Position.FIXED);
+	private static void setRole(Label simpleButton, String string) {
+		simpleButton.getElement().setAttribute("role", string);
+	}
+
+	private static void hide(Widget ui) {
+		Style style = ui.getElement().getStyle();
+		style.setOpacity(.01);
+		style.setPosition(Position.FIXED);
+		style.setWidth(1, Unit.PX);
+		style.setHeight(1, Unit.PX);
+		style.setOverflow(Overflow.HIDDEN);
 	}
 
 	private SliderW makeSlider(final int index) {
 		final SliderW range = new SliderW(0, 10);
-		ReaderWidget.offscreen(range);
+		hide(range);
 		range.getElement().addClassName("slider");
 		range.addValueChangeHandler(new ValueChangeHandler<Double>() {
 
@@ -146,13 +157,14 @@ public class VoiceoverTabber {
 			return;
 		}
 		double step = range.getValue() - oldVal[index];
+		Log.error(range.getValue() + "/" + oldVal[index]);
 		String unit = "";
 		oldVal[index] += step;
 		if (sel != null && sel.isGeoPoint()) {
 			app.getGlobalKeyDispatcher().handleArrowKeyMovement(
 					app.getSelectionManager().getSelectedGeos(),
 					index == 0 ? step : 0, index == 1 ? step : 0,
-					index == 2 ? step : 0);
+					index == 2 ? step : 0, 1);
 		} else {
 			app.getAccessibilityManager().sliderChange(step);
 			unit = "degrees";
@@ -164,7 +176,7 @@ public class VoiceoverTabber {
 			final Label simpleButton) {
 		HTML focusTrapN = new HTML(SafeHtmlUtils.fromTrustedString(
 				"<div>select " + (backward ? "previous" : "next") + "</div>"));
-		ReaderWidget.offscreen(focusTrapN);
+		hide(focusTrapN);
 
 		focusTrapN.getElement().setTabIndex(5000);
 
@@ -195,7 +207,8 @@ public class VoiceoverTabber {
 		if (app.getAccessibilityManager().getSpaceAction() != null) {
 			simpleButton
 					.setText(app.getAccessibilityManager().getSpaceAction());
-			simpleButton.setVisible(true);
+			setRole(simpleButton, "button");
+			simpleButton.setVisible(true);			
 			for (SliderW r : range) {
 				r.setVisible(false);
 			}
@@ -213,10 +226,10 @@ public class VoiceoverTabber {
 			forceFocus(range[0].getElement());
 		} else {
 			GeoElement sel = AccessibilityManagerNoGui.getSelectedGeo(app);
-			int dim =  1;
-			if (sel == null) {
-				dim = 0;
-			} else if (sel.isGeoElement3D()) {
+			int dim = 0;
+			if (sel instanceof GeoNumeric) {
+				dim = 1;
+			} else if (sel != null && sel.isGeoElement3D()) {
 				dim = 3;
 			} else if (sel instanceof GeoPointND) {
 				dim = 2;
@@ -226,13 +239,15 @@ public class VoiceoverTabber {
 				updateSelection(range[i], i);
 				range[i].setVisible(dim > i);
 			}
-			if (sel != null) {
-				SliderW nextRange = range[0];
-				if (backward) {
-					nextRange = range[dim - 1];
-				}
 
+			if (dim > 0) {
+				SliderW nextRange = range[backward ? dim - 1 : 0];
 				forceFocus(nextRange.getElement());
+			} else if (sel != null) {
+				setRole(simpleButton, "");
+				simpleButton.setText(sel.getAuralText());
+				simpleButton.setVisible(true);
+				forceFocus(simpleButton.getElement());
 			} else {
 				if (backward) {
 					focusTrapShift.setVisible(false);
@@ -323,8 +338,9 @@ public class VoiceoverTabber {
 					"z coordinate of" };
 			AriaHelper.setLabel(range,
 					labels[index] + sel.getNameDescription());
-			range.setMinimum(app.getActiveEuclidianView().getXmin());
-			range.setMaximum(app.getActiveEuclidianView().getXmax());
+			range.setMinimum(
+					Math.floor(app.getActiveEuclidianView().getXmin()));
+			range.setMaximum(Math.ceil(app.getActiveEuclidianView().getXmax()));
 			range.setStep(sel.getAnimationStep());
 			double coord = ((GeoPointND) sel).getInhomCoords().get(index + 1);
 			this.oldVal = Cloner
