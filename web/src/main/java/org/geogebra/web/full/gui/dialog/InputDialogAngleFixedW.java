@@ -104,7 +104,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 				}, ec);
 	}
 
-
 	/**
 	 * @param ok
 	 *            input valid?

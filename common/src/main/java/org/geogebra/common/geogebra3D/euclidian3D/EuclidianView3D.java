@@ -908,8 +908,6 @@ public abstract class EuclidianView3D extends EuclidianView
         undoTranslationMatrixForGL.set(1, 4, -getXZero());
         undoTranslationMatrixForGL.set(2, 4, -getYZero());
         undoTranslationMatrixForGL.set(3, 4, -translationZzero);
-
-
     }
 
 	/**

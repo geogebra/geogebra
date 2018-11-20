@@ -1458,11 +1458,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private void drawNoLatexFunction(GeoFunction geo, StringBuilder sb,
 			double xrangemax, double xrangemin, boolean integral,
 			GeoNumeric geo1) {
-		String s = lineOptionCode(geo, true);
-		if (s.length() != 0) {
-			s = "[" + s + "]";
-		}
-		String template = "\\draw" + s + " (%0,%1) -- (%2,%3);\n";
+
+		String template = getLineTemplate(geo);
 		String cycle = "";
 		String close = "";
 		if (integral) {
@@ -1480,6 +1477,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(cycle);
 	}
 
+	protected String getLineTemplate(GeoElementND geo) {
+		String s = lineOptionCode(geo, true);
+		if (s.length() != 0) {
+			s = "[" + s + "]";
+		}
+		return "\\draw" + s + " (%0,%1) -- (%2,%3);\n";
+	}
 	@Override
 	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
 			boolean trasparency) {

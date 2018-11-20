@@ -192,7 +192,6 @@ public class GeoLocusStroke extends GeoLocus
 		this.xmlPoints = xmlPointBuilder;
 	}
 
-
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return label;

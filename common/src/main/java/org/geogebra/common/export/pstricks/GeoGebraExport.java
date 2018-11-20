@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -61,6 +62,7 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
@@ -1431,22 +1433,41 @@ public abstract class GeoGebraExport {
 		return tpl;
 	}
 
-	protected StringBuilder drawNoLatexFunction(GeoFunction geo,
+	/**
+	 * @param geo
+	 *            curve
+	 * @param xrangemax
+	 *            max parameter value
+	 * @param xrangemin
+	 *            min parameter value
+	 * @param point
+	 *            number of pints
+	 * @param template
+	 *            template for outputing lines
+	 * @return string builder with all the lines
+	 */
+	protected final StringBuilder drawNoLatexFunction(CurveEvaluable geo,
 			double xrangemax, double xrangemin, int point, String template) {
-		GeoCurveCartesian curve = new GeoCurveCartesian(
-				app.getKernel().getConstruction());
-		geo.toGeoCurveCartesian(curve);
 		StringBuilder lineBuilder = new StringBuilder();
-		double y = geo.value(xrangemin);
+		double[] out = new double[2];
+		geo.evaluateCurve(xrangemin, out);
+		double y = out[1];
 		double yprec = y;
 		if (Math.abs(y) < 0.001) {
 			y = yprec = 0;
 		}
+		double x = out[0];
+		double xprec = x;
+		if (Math.abs(x) < 0.001) {
+			x = xprec = 0;
+		}
 		double step = (xrangemax - xrangemin) / point;
-		double xprec = xrangemin;
-		double x = xprec;
-		for (; x <= xrangemax; x += step) {
-			y = geo.value(x);
+		double tprec = xrangemin;
+		double t = tprec;
+		for (; t <= xrangemax; t += step) {
+			geo.evaluateCurve(t, out);
+			y = out[1];
+			x = out[0];
 			if (Math.abs(y) < 0.001) {
 				y = 0;
 			}
@@ -1454,30 +1475,36 @@ public abstract class GeoGebraExport {
 				x = 0;
 			}
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
-				if (CurvePlotter.isContinuous(curve, xprec, x, 8)) {
+				if (CurvePlotter.isContinuous(geo, tprec, t, 8)) {
 					lineBuilder.append(
 							StringUtil.format(template, xprec, yprec, x, y));
 				}
 			}
 			yprec = y;
+			tprec = t;
 			xprec = x;
 		}
 		return lineBuilder;
 	}
 
+	/**
+	 * @param s
+	 *            expression
+	 * @return whether it contains functions not plottable in LaTeX
+	 */
 	protected boolean isLatexFunction(String s) {
-		// used if there are other non-latex
-		return !s.toLowerCase().contains("erf(")
-				&& !s.toLowerCase().contains("gamma(")
-				&& !s.toLowerCase().contains("gammaRegularized(")
-				&& !s.toLowerCase().contains("cbrt(")
-				&& !s.toLowerCase().contains("csc(")
-				&& !s.toLowerCase().contains("csch(")
-				&& !s.toLowerCase().contains("sec(")
-				&& !s.toLowerCase().contains("cot(")
-				&& !s.toLowerCase().contains("coth(")
-				&& !s.toLowerCase().contains("sech(")
-				&& !s.toLowerCase().contains("if");
+		String lowerExp = s.toLowerCase();
+		return !lowerExp.contains("erf(")
+				&& !lowerExp.contains("gamma(")
+				&& !lowerExp.contains("gammaRegularized(")
+				&& !lowerExp.contains("cbrt(")
+				&& !lowerExp.contains("csc(")
+				&& !lowerExp.contains("csch(")
+				&& !lowerExp.contains("sec(")
+				&& !lowerExp.contains("cot(")
+				&& !lowerExp.contains("coth(")
+				&& !lowerExp.contains("sech(")
+				&& !lowerExp.contains("if");
 
 	}
 
@@ -1569,66 +1596,72 @@ public abstract class GeoGebraExport {
 				geo.toValueString(StringTemplate.noLocalDefault))) {
 			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
 			Function f = curve.getFunX();
-			ExpressionNode exl = f.getFunctionExpression().getLeftTree();
-			ExpressionNode exr = f.getFunctionExpression().getRightTree();
-			String exls = exl.toValueString(StringTemplate.noLocalDefault);
-			String exrs = exr.toValueString(StringTemplate.noLocalDefault);
-			exrs = exrs.replace("{", "");
-			exrs = exrs.replace("}", "");
-			exls = exls.replace("{", "");
-			exls = exls.replace("}", "");
-			String[] exlsv = exls.split(",");
-			String[] exrsv = exrs.split(",");
-			double[] paramValues = new double[exlsv.length + 2];
-			paramValues[0] = 0;
-			for (int i = 0; i < exlsv.length; i++) {
-				paramValues[i + 1] = Double.parseDouble(exlsv[i].split("<")[1]);
-			}
-
-			// extra if needed for eg when exrsv.length is one more than
-			// exlsv.length
-			// {t < 0.25, t < 0.5, t < 0.75}
-			// ie add 1.0 to end
-			paramValues[exlsv.length + 1] = 2 * paramValues[exlsv.length]
-					- paramValues[exlsv.length - 1];
-
-			GeoCurveCartesian[] curves = new GeoCurveCartesian[exrsv.length];
-			AlgebraProcessor ap = kernel.getAlgebraProcessor();
-			for (int i = 0; i < exrsv.length; i++) {
-				GeoFunction fxx = ap
-						.evaluateToFunction("xspline(t)=" + exrsv[i], true);
-				curves[i] = new GeoCurveCartesian(this.construction);
-				curves[i].setFunctionX(fxx.getFunction());
-			}
-
-			f = curve.getFunY();
-			exl = f.getFunctionExpression().getLeftTree();
-			exr = f.getFunctionExpression().getRightTree();
-			exls = exl.toValueString(StringTemplate.noLocalDefault);
-			exrs = exr.toValueString(StringTemplate.noLocalDefault);
-			exrs = exrs.replace("{", "");
-			exrs = exrs.replace("}", "");
-			exls = exls.replace("{", "");
-			exls = exls.replace("}", "");
-			exlsv = exls.split(",");
-			exrsv = exrs.split(",");
-			for (int i = 0; i < exrsv.length; i++) {
-				GeoFunction fxx = ap
-						.evaluateToFunction("yspline(t)=" + exrsv[i], true);
-				curves[i].setFunctionY(fxx.getFunction());
-				curves[i].setInterval(paramValues[i], paramValues[i + 1]);
-				curves[i].setAllVisualProperties((GeoElement) geo, false);
-			}
-			boolean fill = fillSpline(curves);
-			if (!fill) {
-				for (int i = 0; i < curves.length; i++) {
-					drawSingleCurveCartesian(curves[i],
-							true);
+			if (f.getFunctionExpression().getOperation() == Operation.IF_LIST) {
+				ExpressionNode exl = f.getFunctionExpression().getLeftTree();
+				ExpressionNode exr = f.getFunctionExpression().getRightTree();
+				String exls = exl.toValueString(StringTemplate.noLocalDefault);
+				String exrs = exr.toValueString(StringTemplate.noLocalDefault);
+				exrs = exrs.replace("{", "");
+				exrs = exrs.replace("}", "");
+				exls = exls.replace("{", "");
+				exls = exls.replace("}", "");
+				String[] exlsv = exls.split(",");
+				String[] exrsv = exrs.split(",");
+				double[] paramValues = new double[exlsv.length + 2];
+				paramValues[0] = 0;
+				for (int i = 0; i < exlsv.length; i++) {
+					paramValues[i + 1] = Double
+							.parseDouble(exlsv[i].split("<")[1]);
 				}
+
+				// extra if needed for eg when exrsv.length is one more than
+				// exlsv.length
+				// {t < 0.25, t < 0.5, t < 0.75}
+				// ie add 1.0 to end
+				paramValues[exlsv.length + 1] = 2 * paramValues[exlsv.length]
+						- paramValues[exlsv.length - 1];
+
+				GeoCurveCartesian[] curves = new GeoCurveCartesian[exrsv.length];
+				AlgebraProcessor ap = kernel.getAlgebraProcessor();
+				for (int i = 0; i < exrsv.length; i++) {
+					GeoFunction fxx = ap
+							.evaluateToFunction("xspline(t)=" + exrsv[i], true);
+					curves[i] = new GeoCurveCartesian(this.construction);
+					curves[i].setFunctionX(fxx.getFunction());
+				}
+
+				f = curve.getFunY();
+				exl = f.getFunctionExpression().getLeftTree();
+				exr = f.getFunctionExpression().getRightTree();
+				exrs = exr.toValueString(StringTemplate.noLocalDefault);
+				exrs = exrs.replace("{", "");
+				exrs = exrs.replace("}", "");
+				exrsv = exrs.split(",");
+				for (int i = 0; i < exrsv.length; i++) {
+					GeoFunction fxx = ap
+							.evaluateToFunction("yspline(t)=" + exrsv[i], true);
+					curves[i].setFunctionY(fxx.getFunction());
+					curves[i].setInterval(paramValues[i], paramValues[i + 1]);
+					curves[i].setAllVisualProperties((GeoElement) geo, false);
+				}
+				boolean fill = fillSpline(curves);
+				if (!fill) {
+					for (int i = 0; i < curves.length; i++) {
+						drawSingleCurveCartesian(curves[i], true);
+					}
+				}
+			} else {
+				StringBuilder lines = drawNoLatexFunction(curve, curve.getMaxParameter(),
+						curve.getMinParameter(), 400, getLineTemplate(geo));
+				code.append(lines);
 			}
 		} else {
 			drawSingleCurveCartesian((GeoCurveCartesian) geo, true);
 		}
+	}
+
+	protected String getLineTemplate(GeoElementND geo) {
+		return "";
 	}
 
 	protected double firstDefinedValue(GeoFunction f, double a, double b) {
@@ -1702,7 +1735,8 @@ public abstract class GeoGebraExport {
 	}
 
 	protected boolean drawAngleAs(GeoAngle geo, int rightAngleStyleDot) {
-		return DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF) && geo.isEmphasizeRightAngle()
+		return DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
+				&& geo.isEmphasizeRightAngle()
 				&& euclidianView.getRightAngleStyle() == rightAngleStyleDot;
 	}
 
