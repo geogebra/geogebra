@@ -4143,6 +4143,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 			case G3D_AR_REGULAR_TOOLS:
 				return false;
 
+        /** G3D-42*/
+			case G3D_AR_TOUCH_INPUT_QUEUE:
+				return false;
+
         // **********************************************************************
         // G3D END
         //
