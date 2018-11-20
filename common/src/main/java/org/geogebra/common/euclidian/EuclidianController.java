@@ -1484,7 +1484,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				tempArrayList.removeAll(Arrays.asList(segs));
 				break;
 
-			case PENSTROKE:
 			case POLYLINE:
 				// remove points and segments of poly
 				GeoPolyLine polyl = (GeoPolyLine) geo;
