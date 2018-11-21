@@ -81,6 +81,7 @@ $deleteTime: 1s;
 			text-align: center;
 			padding: 0px;
 			.headerContent {
+				color: $text-secondary;
 				margin-top: auto;
 				margin-bottom: auto;
 				float: right;
@@ -94,6 +95,7 @@ $deleteTime: 1s;
 						opacity: 0.54;
 				}
 			}
+			
 			.delete {
 				@extend .colDelete;
 				margin-top: 8px;
