@@ -232,8 +232,8 @@ public class ModeToggleMenuW extends ListItem
 	public void addDomHandlers(Widget w) {
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
-		w.addDomHandler(this, TouchStartEvent.getType());
-		w.addDomHandler(this, TouchEndEvent.getType());
+		w.addBitlessDomHandler(this, TouchStartEvent.getType());
+		w.addBitlessDomHandler(this, TouchEndEvent.getType());
 		w.addDomHandler(this, MouseOverEvent.getType());
 		w.addDomHandler(this, MouseOutEvent.getType());
 		w.addDomHandler(this, KeyUpEvent.getType());

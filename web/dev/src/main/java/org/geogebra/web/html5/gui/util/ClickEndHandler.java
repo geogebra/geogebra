@@ -46,7 +46,8 @@ public abstract class ClickEndHandler {
 			}
 		}, MouseUpEvent.getType());
 
-		final HandlerRegistration touchReg = w.addDomHandler(
+		final HandlerRegistration touchReg = w
+				.addBitlessDomHandler(
 				new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {

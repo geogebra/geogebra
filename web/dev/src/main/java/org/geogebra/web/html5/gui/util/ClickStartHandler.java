@@ -48,7 +48,7 @@ public abstract class ClickStartHandler {
 			}
 		}, MouseDownEvent.getType());
 
-		w.addDomHandler(new TouchStartHandler() {
+		w.addBitlessDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				if (handler.preventDefault) {
