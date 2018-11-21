@@ -1264,7 +1264,8 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (geo.isGeoPolyhedron()) {
+		// use instanceof to support Net too
+		if (geo instanceof GeoPolyhedron) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
 
 			isDefined = polyhedron.isDefined;
@@ -1301,10 +1302,8 @@ public class GeoPolyhedron extends GeoElement3D
 						pointIdComparator);
 			}
 
-			int index;
-
 			// set segments
-			index = 0;
+			int index = 0;
 			for (GeoSegmentND s : polyhedron.segmentsLinked.values()) {
 				if (setSegment(index, s)) {
 					index++;

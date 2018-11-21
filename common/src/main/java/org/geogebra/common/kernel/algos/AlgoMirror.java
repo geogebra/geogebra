@@ -294,7 +294,7 @@ public class AlgoMirror extends AlgoTransformation implements
 			}
 			out.mirror(mirrorLine);
 		} else if (mirror == mirrorPoint) {
-			if (outGeo.isGeoFunction()) {
+			if (outGeo instanceof GeoFunction) {
 				((GeoFunction) outGeo).mirror(getMirrorCoords());
 			} else {
 				out.mirror(getMirrorCoords());
@@ -308,6 +308,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	/**
 	 * set inGeo to outGeo
 	 */
+	@Override
 	protected void setOutGeo() {
 		if (mirror instanceof GeoConic && inGeo instanceof GeoLine) {
 			((GeoLine) inGeo).toGeoConic((GeoConic) outGeo);

@@ -1484,6 +1484,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 		return "\\draw" + s + " (%0,%1) -- (%2,%3);\n";
 	}
+
 	@Override
 	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
 			boolean trasparency) {

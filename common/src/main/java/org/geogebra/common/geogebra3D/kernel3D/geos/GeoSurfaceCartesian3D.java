@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -39,7 +40,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		implements Functional2Var, Traceable, Region,
-		MirrorableAtPlane, RotateableND {
+		MirrorableAtPlane, RotateableND, Transformable {
 	private boolean isSurfaceOfRevolutionAroundOx = false;
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private double[] xyzuv;
