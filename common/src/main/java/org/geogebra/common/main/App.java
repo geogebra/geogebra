@@ -4125,6 +4125,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SPECIAL_POINTS_IN_CONTEXT_MENU:
 			return prerelease;
 
+		case POINTER_EVENTS:
+			return true;
+
        // **********************************************************************
        // G3D START
        //

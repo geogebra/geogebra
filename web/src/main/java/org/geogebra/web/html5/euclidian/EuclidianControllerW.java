@@ -366,7 +366,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void startCapture(AbstractEvent event) {
-		if (app != null && !app.has(Feature.MOW_PEN_EVENTS)) {
+		if (app != null && !app.has(Feature.POINTER_EVENTS)) {
 			Event.setCapture(((PointerEvent) event).getRelativeElement());
 		}
 	}

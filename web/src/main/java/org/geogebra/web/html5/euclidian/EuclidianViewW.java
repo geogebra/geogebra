@@ -958,7 +958,7 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if (!appW.has(Feature.MOW_PEN_EVENTS)
+		if (!appW.has(Feature.POINTER_EVENTS)
 				|| !Browser.supportsPointerEvents(true)) {
 			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
@@ -972,13 +972,13 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 		}
 
-		if (Browser.supportsPointerEvents(appW.has(Feature.MOW_PEN_EVENTS))) {
+		if (Browser.supportsPointerEvents(appW.has(Feature.POINTER_EVENTS))) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
 			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler,
-					appW.has(Feature.MOW_PEN_EVENTS));
+					appW.has(Feature.POINTER_EVENTS));
 
-			if (appW.has(Feature.MOW_PEN_EVENTS)) {
+			if (appW.has(Feature.POINTER_EVENTS)) {
 				CancelEventTimer.killTouch(absPanel);
 			}
 			return;
