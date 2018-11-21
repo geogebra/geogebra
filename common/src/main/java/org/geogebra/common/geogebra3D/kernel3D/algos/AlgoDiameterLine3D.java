@@ -61,9 +61,9 @@ public class AlgoDiameterLine3D extends AlgoDiameterLineND {
 	}
 
 	@Override
-	protected void createOutput(Construction cons) {
-		diameter = new GeoLine3D(cons);
-		diameter2D = new GeoLine(cons);
+	protected void createOutput(Construction cons1) {
+		diameter = new GeoLine3D(cons1);
+		diameter2D = new GeoLine(cons1);
 		diameterCoords = new double[3];
 	}
 

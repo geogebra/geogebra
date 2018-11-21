@@ -196,22 +196,22 @@ abstract public class Input3D implements Input3DConstants {
 
 	/**
 	 * 
-	 * @param view3D
+	 * @param ev3D
 	 *            3D view
-	 * @param mouse3DPosition
+	 * @param mouse3D
 	 *            current 3D mouse position
 	 * @return true if input3D has mouse on 3D view
 	 */
-	abstract public boolean hasMouse(EuclidianView3D view3D,
-			Coords mouse3DPosition);
+	abstract public boolean hasMouse(EuclidianView3D ev3D,
+			Coords mouse3D);
 
 	/**
 	 * 
-	 * @param view3D
+	 * @param ev3D
 	 *            3D view
 	 * @return true if input3D has mouse on 3D view
 	 */
-	abstract public boolean hasMouse(EuclidianView3D view3D);
+	abstract public boolean hasMouse(EuclidianView3D ev3D);
 
 	/**
 	 * 

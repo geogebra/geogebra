@@ -64,12 +64,12 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 	/**
 	 * create the line
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return the line
 	 */
-	protected GeoLine3D createLine(Construction cons) {
-		return new GeoLine3D(cons);
+	protected GeoLine3D createLine(Construction cons1) {
+		return new GeoLine3D(cons1);
 	}
 
 	public GeoLine3D getLine() {

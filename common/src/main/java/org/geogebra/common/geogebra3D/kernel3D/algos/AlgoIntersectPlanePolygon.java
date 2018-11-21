@@ -58,11 +58,11 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	}
 
 	@Override
-	protected void intersectionsCoords(HasSegments p,
+	protected void intersectionsCoords(HasSegments poly,
 			TreeMap<Double, Coords> newCoords) {
 
 		// intersection line is contained in polygon plane by definition
-		intersectionsCoordsContained(p, newCoords);
+		intersectionsCoordsContained(poly, newCoords);
 	}
 
 	@Override

@@ -106,8 +106,8 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	}
 
 	@Override
-	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
-		return kernel.copyInternal3D(cons, geo);
+	protected GeoElement copyInternal(Construction consCopy, GeoElement geo) {
+		return kernel.copyInternal3D(consCopy, geo);
 	}
 
 }

@@ -5536,8 +5536,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	public ConstructionCompanion createConstructionCompanion(
-			Construction cons) {
-		return new ConstructionCompanion(cons);
+			Construction cons1) {
+		return new ConstructionCompanion(cons1);
 	}
 
 	public boolean userStopsLoading() {
@@ -5555,11 +5555,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public long precision() {
 		EuclidianView ev = this.getLastAttachedEV();
-		double xscale = ev == null ? EuclidianView.SCALE_STANDARD
+		double evXscale = ev == null ? EuclidianView.SCALE_STANDARD
 				: ev.getXscale();
-		double yscale = ev == null ? EuclidianView.SCALE_STANDARD
+		double evYscale = ev == null ? EuclidianView.SCALE_STANDARD
 				: ev.getYscale();
-		double scale = xscale < yscale ? xscale : yscale;
+		double scale = evXscale < evYscale ? evXscale : evYscale;
 		long p = (long) scale;
 		if (p < GeoGebraConstants.PROVER_MIN_PRECISION) {
 			p = GeoGebraConstants.PROVER_MIN_PRECISION;

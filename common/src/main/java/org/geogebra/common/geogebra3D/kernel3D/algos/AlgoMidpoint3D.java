@@ -56,10 +56,9 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	}
 
 	@Override
-	protected GeoPointND newGeoPoint(Construction cons) {
-
+	protected GeoPointND newGeoPoint(Construction cons1) {
 		tmpCoords = Coords.createInhomCoorsInD3();
-		return new GeoPoint3D(cons);
+		return new GeoPoint3D(cons1);
 	}
 
 	@Override

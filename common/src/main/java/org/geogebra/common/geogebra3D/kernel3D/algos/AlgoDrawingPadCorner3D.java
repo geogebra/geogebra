@@ -38,15 +38,13 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new point
 	 */
 	@Override
-	protected GeoPointND newGeoPoint(Construction cons) {
-
-		return new GeoPoint3D(cons);
-
+	protected GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint3D(cons1);
 	}
 
 	/**

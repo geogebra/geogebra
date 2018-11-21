@@ -18,9 +18,9 @@ public class AlgoCurveCartesian3D extends AlgoCurveCartesian {
 	}
 
 	@Override
-	protected GeoCurveCartesianND createCurve(Construction cons, Function[] fun,
+	protected GeoCurveCartesianND createCurve(Construction cons1, Function[] fun,
 			ExpressionNode point) {
-		return new GeoCurveCartesian3D(cons, fun, point);
+		return new GeoCurveCartesian3D(cons1, fun, point);
 	}
 
 }

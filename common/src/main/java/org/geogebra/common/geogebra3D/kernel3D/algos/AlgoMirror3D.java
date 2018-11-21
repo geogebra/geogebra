@@ -105,11 +105,11 @@ public class AlgoMirror3D extends AlgoMirror {
 	}
 
 	@Override
-	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
+	protected GeoElement copyInternal(Construction cons1, GeoElement geo) {
 		if (mirror.isGeoElement3D()) {
-			return kernel.copyInternal3D(cons, geo);
+			return kernel.copyInternal3D(cons1, geo);
 		}
-		return super.copyInternal(cons, geo);
+		return super.copyInternal(cons1, geo);
 	}
 
 	@Override

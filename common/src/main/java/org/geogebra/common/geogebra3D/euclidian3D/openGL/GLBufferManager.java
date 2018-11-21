@@ -198,11 +198,11 @@ abstract class GLBufferManager {
 	 *            if visible
 	 * @param alpha
 	 *            object alpha
-	 * @param layer
+	 * @param objLayer
 	 *            object layer
 	 */
 	public void updateVisibility(int index, int start, int geometriesLength, boolean visible,
-			int alpha, int layer) {
+			int alpha, int objLayer) {
 		int alphaOrInvisible = visible ? alpha : ALPHA_INVISIBLE;
 		for (int i = start; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
@@ -210,7 +210,7 @@ abstract class GLBufferManager {
 			if (currentBufferSegment != null) {
 				// this may happen after undo from DrawIntersectionCurve3D
 				currentBufferPack = currentBufferSegment.bufferPack;
-				currentBufferPack.setAlphaAndLayer(alphaOrInvisible, layer);
+				currentBufferPack.setAlphaAndLayer(alphaOrInvisible, objLayer);
 			}
 		}
 	}

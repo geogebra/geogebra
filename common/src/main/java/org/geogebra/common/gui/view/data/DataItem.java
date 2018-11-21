@@ -194,7 +194,7 @@ public class DataItem {
 		// TODO: dereference the geo fields -- needed ??
 	}
 
-	public boolean containsGeoClass(GeoClass geoClass) {
+	public boolean containsGeoClass(GeoClass geoClassType) {
 
 		if (sourceType == SourceType.EMPTY) {
 			return false;
@@ -206,7 +206,7 @@ public class DataItem {
 				return false;
 			}
 			for (int i = 0; i < geoList.size(); i++) {
-				if (geoList.get(i).getGeoClassType() == geoClass) {
+				if (geoList.get(i).getGeoClassType() == geoClassType) {
 					return true;
 				}
 			}
@@ -216,7 +216,7 @@ public class DataItem {
 				return false;
 			}
 			for (CellRange cr : rangeList) {
-				if (cr.containsGeoClass(geoClass)) {
+				if (cr.containsGeoClass(geoClassType)) {
 					return true;
 				}
 			}

@@ -30,8 +30,8 @@ public class AlgoEllipseHyperbolaFociPoint3D
 	}
 
 	@Override
-	protected GeoConicND newGeoConic(Construction cons) {
-		GeoConic3D ret = new GeoConic3D(cons);
+	protected GeoConicND newGeoConic(Construction cons1) {
+		GeoConic3D ret = new GeoConic3D(cons1);
 		ret.setCoordSys(new CoordSys(2));
 		return ret;
 	}

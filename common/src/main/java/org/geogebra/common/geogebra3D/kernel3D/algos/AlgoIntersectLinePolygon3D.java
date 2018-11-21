@@ -142,19 +142,19 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	/**
 	 * calc intersection coords when line is contained in polygon's plane
 	 * 
-	 * @param p
+	 * @param poly
 	 *            polygon
 	 * @param newCoords
 	 *            coords
 	 */
-	protected void intersectionsCoordsContained(HasSegments p,
+	protected void intersectionsCoordsContained(HasSegments poly,
 			TreeMap<Double, Coords> newCoords) {
 
 		// line origin and direction
 		setIntersectionLine();
 
-		for (int i = 0; i < p.getSegments().length; i++) {
-			GeoSegmentND seg = p.getSegments()[i];
+		for (int i = 0; i < poly.getSegments().length; i++) {
+			GeoSegmentND seg = poly.getSegments()[i];
 
 			Coords o2 = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
 			Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension()
@@ -182,18 +182,18 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	/**
 	 * calc intersection coords when line is not contained in polygon's plane
 	 * 
-	 * @param p
+	 * @param poly
 	 *            polygon
 	 * @param newCoords
 	 *            coords
 	 */
-	protected void intersectionsCoordsGeneral(GeoPolygon p,
+	protected void intersectionsCoordsGeneral(GeoPolygon poly,
 			TreeMap<Double, Coords> newCoords) {
 
 		Coords globalCoords = new Coords(4);
 		Coords inPlaneCoords = new Coords(4);
 
-		Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g, p,
+		Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g, poly,
 				globalCoords, inPlaneCoords);
 
 		// check if projection is intersection point

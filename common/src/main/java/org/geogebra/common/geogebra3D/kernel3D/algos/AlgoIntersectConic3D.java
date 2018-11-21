@@ -198,31 +198,31 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	/**
 	 * intersect with line included
 	 * 
-	 * @param c
+	 * @param conic
 	 *            conic
-	 * @param P
+	 * @param points
 	 *            points
 	 * @param cs
 	 *            conic coord sys
 	 * @param g
 	 *            line
 	 */
-	protected void intersectLineIncluded(GeoConicND c, GeoPoint3D[] P,
+	protected void intersectLineIncluded(GeoConicND conic, GeoPoint3D[] points,
 			CoordSys cs, GeoLine g) {
-		AlgoIntersectLineConic.intersectLineConic(g, c, points2d,
+		AlgoIntersectLineConic.intersectLineConic(g, conic, points2d,
 				Kernel.STANDARD_PRECISION);
 		// Application.debug(points2d[0]+"\n"+points2d[1]);
-		P[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
-		checkIsOnFirstGeo(P[0]);
-		checkIsOnConicPart(c, points2d[0], P[0]);
-		P[1].setCoords(cs.getPoint(points2d[1].x, points2d[1].y), false);
-		checkIsOnFirstGeo(P[1]);
-		checkIsOnConicPart(c, points2d[1], P[1]);
+		points[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
+		checkIsOnFirstGeo(points[0]);
+		checkIsOnConicPart(conic, points2d[0], points[0]);
+		points[1].setCoords(cs.getPoint(points2d[1].x, points2d[1].y), false);
+		checkIsOnFirstGeo(points[1]);
+		checkIsOnConicPart(conic, points2d[1], points[1]);
 	}
 
-	private void checkIsOnConicPart(GeoConicND c, GeoPoint point,
+	private void checkIsOnConicPart(GeoConicND conic, GeoPoint point,
 			GeoPoint3D p3d) {
-		if (c.isGeoConicPart()) {
+		if (conic.isGeoConicPart()) {
 			if (!p3d.isDefined()) {
 				return;
 			}
@@ -234,7 +234,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 
 			tmpCoords.setX(point.x);
 			tmpCoords.setY(point.y);
-			if (!((GeoConicPartND) c).getParameters().isOnPath(tmpCoords)) {
+			if (!((GeoConicPartND) conic).getParameters().isOnPath(tmpCoords)) {
 				p3d.setUndefined();
 			}
 		}

@@ -2221,8 +2221,8 @@ public class ConsElementXMLHandler {
 
 	private void processAnimatingList() {
 		try {
-			for (GeoElement geo : animatingList) {
-				geo.setAnimating(true);
+			for (GeoElement animGeo : animatingList) {
+				animGeo.setAnimating(true);
 			}
 		} catch (RuntimeException e) {
 			addError("Invalid animating: " + e.toString());

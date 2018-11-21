@@ -295,12 +295,12 @@ public class TwoVarInferenceModel {
 		}
 
 		return true;
-
 	}
 
 	// TODO: Validate !!!!!!!!!!!
 
-	public double adjustedPValue(double p, double testStatistic, String tail) {
+	public static double adjustedPValue(double p, double testStatistic,
+			String tail) {
 
 		// two sided test
 		if (tail.equals(tail_two)) {
@@ -321,21 +321,23 @@ public class TwoVarInferenceModel {
 	 *            first sample variance
 	 * @param v2
 	 *            second sample variance
-	 * @param n1
+	 * @param size1
 	 *            first sample n
-	 * @param n2
+	 * @param size2
 	 *            second sample n
+	 * @param dataPooled
+	 *            whether pooled data is used
 	 * @return approximate degrees of freedom
 	 */
-	public double getDegreeOfFreedom(double v1, double v2, double n1, double n2,
-			boolean pooled) {
+	public double getDegreeOfFreedom(double v1, double v2, double size1, double size2,
+			boolean dataPooled) {
 
-		if (pooled) {
-			return n1 + n2 - 2;
+		if (dataPooled) {
+			return size1 + size2 - 2;
 		}
-		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
-						+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));
+		return (((v1 / size1) + (v2 / size2)) * ((v1 / size1) + (v2 / size2)))
+				/ ((v1 * v1) / (size1 * size1 * (size1 - 1d))
+						+ (v2 * v2) / (size2 * size2 * (size2 - 1d)));
 	}
 
 	/**
@@ -346,34 +348,36 @@ public class TwoVarInferenceModel {
 	 *            first sample variance
 	 * @param v2
 	 *            second sample variance
-	 * @param n1
+	 * @param size1
 	 *            first sample n
-	 * @param n2
+	 * @param size2
 	 *            second sample n
-	 * @param confLevel
+	 * @param confidenceLevel
 	 *            confidence level
+	 * @param dataPooled
+	 *            whether data is pooled
 	 * @return margin of error for 2 mean interval estimate
 	 * @throws ArithmeticException
 	 */
-	public double getMarginOfError(double v1, double n1, double v2, double n2,
-			double confLevel, boolean pooled) throws ArithmeticException {
+	public double getMarginOfError(double v1, double size1, double v2, double size2,
+			double confidenceLevel, boolean dataPooled) throws ArithmeticException {
 
-		if (pooled) {
+		if (dataPooled) {
 
-			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
-					/ (n1 + n2 - 2);
-			double se1 = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+			double pooledVariance = ((size1 - 1) * v1 + (size2 - 1) * v2)
+					/ (size1 + size2 - 2);
+			double se1 = Math.sqrt(pooledVariance * (1d / size1 + 1d / size2));
 			tDist = new TDistribution(
-					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
-			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
+					getDegreeOfFreedom(v1, v2, size1, size2, dataPooled));
+			double a = tDist.inverseCumulativeProbability((confidenceLevel + 1d) / 2);
 			return a * se1;
 
 		}
-		double se = Math.sqrt((v1 / n1) + (v2 / n2));
+		double stdE = Math.sqrt((v1 / size1) + (v2 / size2));
 		tDist = new TDistribution(
-				getDegreeOfFreedom(v1, v2, n1, n2, pooled));
-		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
-		return a * se;
+				getDegreeOfFreedom(v1, v2, size1, size2, dataPooled));
+		double a = tDist.inverseCumulativeProbability((confidenceLevel + 1d) / 2);
+		return a * stdE;
 
 	}
 

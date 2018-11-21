@@ -60,9 +60,9 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 	}
 
 	@Override
-	protected void createOutput(Construction cons) {
-		diameter = new GeoLine3D(cons);
-		diameter2D = new GeoLine(cons);
+	protected void createOutput(Construction cons1) {
+		diameter = new GeoLine3D(cons1);
+		diameter2D = new GeoLine(cons1);
 		diameterCoords = new double[3];
 	}
 

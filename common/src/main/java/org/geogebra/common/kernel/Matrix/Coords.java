@@ -1024,14 +1024,14 @@ public class Coords {
 	 * returns the shortest vector between this and a 3D-line represented by the
 	 * matrix {V O}
 	 * 
-	 * @param O
+	 * @param lineO
 	 *            origin of the line
 	 * @param V
 	 *            direction of the line
 	 * @return shortest vector between this and the line
 	 */
-	private Coords vectorToLine(Coords O, Coords V) {
-		Coords OM = this.sub(O);
+	private Coords vectorToLine(Coords lineO, Coords V) {
+		Coords OM = this.sub(lineO);
 		Coords N = V.normalized();
 		Coords OH = N.mul(OM.dotproduct(N)); // TODO optimize
 		return OM.sub(OH);

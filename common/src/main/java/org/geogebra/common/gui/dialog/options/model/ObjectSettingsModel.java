@@ -53,11 +53,11 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * @param app
+     * @param app1
      *         Application
      */
-    protected void init(App app) {
-        this.app = app;
+    protected void init(App app1) {
+        this.app = app1;
 		geoElementsList = new ArrayList<>();
     }
 

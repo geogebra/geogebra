@@ -89,14 +89,14 @@ public class AlgoFlatten extends AlgoElement {
 		flatten(outputList, inputList);
 	}
 
-	private void flatten(GeoList outputList, GeoList list) {
+	private void flatten(GeoList outList, GeoList list) {
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
 			GeoElement element = list.get(i);
 			if (element.isGeoList()) {
-				flatten(outputList, (GeoList) element);
+				flatten(outList, (GeoList) element);
 			} else {
-				outputList.add(element.copyInternal(cons));
+				outList.add(element.copyInternal(cons));
 			}
 		}
 	}

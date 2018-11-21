@@ -103,8 +103,8 @@ public class AlgoIntersectPlaneQuadricLimited
 	}
 
 	@Override
-	protected GeoConic3D newConic(Construction cons) {
-		return new GeoConicSection(cons, true);
+	protected GeoConic3D newConic(Construction cons1) {
+		return new GeoConicSection(cons1, true);
 	}
 
 	@Override

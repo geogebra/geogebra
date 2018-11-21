@@ -59,7 +59,7 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 	// private GeoPolygon currentFace;
 
 	@Override
-	protected void intersectionsCoords(HasSegments p,
+	protected void intersectionsCoords(HasSegments poly,
 			TreeMap<Double, Coords> newCoords) {
 
 		/*
@@ -78,8 +78,8 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 		 * Log.debug(currentFace.isInRegion(c2D.getX(), c2D.getY())); } }
 		 */
 
-		for (int i = 0; i < p.getSegments().length; i++) {
-			GeoSegmentND seg = p.getSegments()[i];
+		for (int i = 0; i < poly.getSegments().length; i++) {
+			GeoSegmentND seg = poly.getSegments()[i];
 
 			Coords coords = intersectionCoords(seg);
 			if (coords != null) {

@@ -49,12 +49,12 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 	}
 
 	@Override
-	protected GeoConicND newGeoConicPart(Construction cons, int type) {
+	protected GeoConicND newGeoConicPart(Construction cons1, int type1) {
 		if (conic.isGeoElement3D()) {
-			return new GeoConicPart3D(cons, type);
+			return new GeoConicPart3D(cons1, type1);
 		}
 
-		return super.newGeoConicPart(cons, type);
+		return super.newGeoConicPart(cons1, type1);
 	}
 
 	@Override

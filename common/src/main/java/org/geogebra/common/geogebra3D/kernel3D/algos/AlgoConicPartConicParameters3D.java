@@ -16,8 +16,8 @@ public class AlgoConicPartConicParameters3D
 	}
 
 	@Override
-	protected GeoConicND newGeoConicPart(Construction cons, int type) {
-		return new GeoConicPart3D(cons, type);
+	protected GeoConicND newGeoConicPart(Construction cons1, int type1) {
+		return new GeoConicPart3D(cons1, type1);
 	}
 
 }
