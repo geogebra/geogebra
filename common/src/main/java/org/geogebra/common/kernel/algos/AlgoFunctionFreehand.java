@@ -128,6 +128,15 @@ public class AlgoFunctionFreehand extends AlgoElement {
 						tpl));
 	}
 
+	@Override
+	public String getDefinition(StringTemplate tpl) {
+		if (tpl == StringTemplate.editorTemplate) {
+			return g.toValueString(tpl);
+		} else {
+			return super.getDefinition(tpl);
+		}
+	}
+
 	/**
 	 * @return input list
 	 */
