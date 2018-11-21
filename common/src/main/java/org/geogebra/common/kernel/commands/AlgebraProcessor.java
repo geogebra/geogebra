@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLaTeX;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -2752,9 +2753,19 @@ public class AlgebraProcessor {
 				&& line instanceof EquationValue) {
 			((EquationValue) line).setToUser();
 		}
+
+        if (isEquationFromUser(line)) {
+            line.setFixed(true);
+        }
+
 		if (info.isLabelOutput()) {
 			line.setLabel(label);
 		}
+	}
+
+	private boolean isEquationFromUser(GeoElementND geoElement) {
+		return (geoElement.getParentAlgorithm() == null
+				|| geoElement.getParentAlgorithm().getClassName() == Algos.Expression);
 	}
 
 	/**
