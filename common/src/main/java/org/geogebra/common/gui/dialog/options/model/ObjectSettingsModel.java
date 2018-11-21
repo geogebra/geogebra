@@ -310,7 +310,7 @@ abstract public class ObjectSettingsModel {
      * @return whether the geos show fix/unfix button
      */
     public boolean areObjectsShowingFixUnfix() {
-        if (geoElement == null) {
+        if (geoElement == null || (hasFunctionProperties() && shouldHideFunctionProperties())) {
             return false;
         }
 
