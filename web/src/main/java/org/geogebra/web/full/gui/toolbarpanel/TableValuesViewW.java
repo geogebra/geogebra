@@ -484,11 +484,23 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		SafeHtml cell(SafeHtml message, String style, String contentStyle, int width, int height);
 	}
 
+	/**
+	 * @param column
+	 *            to get
+	 * @return the list of the specified value column elements (without the header).
+	 */
 	private static NodeList<Element> getColumnElements(int column) {
+		// gives the (column+1)th element of each row of the value table
 		return Dom.querySelectorAll(".tvTable tr td:nth-child(" + (column + 1) + ") .tvValueCell");
 	}
 
+	/**
+	 * @param column
+	 *            to get
+	 * @return the header element.
+	 */
 	private static Element getHeaderElement(int column) {
+		// gives the (column+1)th element of the header row.
 		NodeList<Element> list = Dom
 				.querySelectorAll(".tvTable tr th:nth-child(" + (column + 1) + ") .tvHeaderCell");
 		return list != null ? list.getItem(0) : null;
