@@ -515,6 +515,9 @@ public class ExamEnvironment {
 		case ImplicitDerivative:
 		case NextPrime:
 		case PreviousPrime:
+		case Solve:
+		case Solutions:
+			// null -> no autocomplete syntax shown for these commands
 			return null;
 		default:
 			return loc.getCommandSyntax(cmdInt, dim);
