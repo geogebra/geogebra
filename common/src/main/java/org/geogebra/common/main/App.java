@@ -4128,6 +4128,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case POINTER_EVENTS:
 			return true;
 
+		case FIX_EQUATIONS_AND_FUNCTIONS:
+			return prerelease;
+
        // **********************************************************************
        // G3D START
        //
