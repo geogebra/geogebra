@@ -43,7 +43,6 @@ import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.ListenerWrapper;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesChangeEvents;
 import com.google.gwt.user.client.ui.SourcesClickEvents;
@@ -285,7 +284,7 @@ public class GSuggestBox extends Composite
 	/**
 	 * <p>
 	 * The default implementation of {@link SuggestionDisplay} displays
-	 * suggestions in a {@link PopupPanel} beneath the {@link SuggestBox}.
+	 * suggestions in a {@link GPopupPanel} beneath the {@link SuggestBox}.
 	 * </p>
 	 *
 	 * <h3>CSS Style Rules</h3>
@@ -342,8 +341,8 @@ public class GSuggestBox extends Composite
 
 		/**
 		 * We need to keep track of the last {@link SuggestBox} because it acts
-		 * as an autoHide partner for the {@link PopupPanel}. If we use the same
-		 * display for multiple {@link SuggestBox}, we need to switch the
+		 * as an autoHide partner for the {@link GPopupPanel}. If we use the
+		 * same display for multiple {@link SuggestBox}, we need to switch the
 		 * autoHide partner.
 		 */
 		private GSuggestBox lastSuggestBox = null;
@@ -476,7 +475,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Get the {@link PopupPanel} used to display suggestions.
+		 * Get the {@link GPopupPanel} used to display suggestions.
 		 *
 		 * @return the popup panel
 		 */

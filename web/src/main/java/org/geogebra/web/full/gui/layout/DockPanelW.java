@@ -32,6 +32,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -54,7 +55,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -214,7 +214,7 @@ public abstract class DockPanelW extends ResizeComposite
 	FlowPanel titleBarPanel;
 	private FlowPanel titleBarPanelContent;
 
-	private PushButton closeButton;
+	private GPushButton closeButton;
 	private FlowPanel dragPanel;
 	private FlowPanel closeButtonPanel;
 
@@ -462,7 +462,7 @@ public abstract class DockPanelW extends ResizeComposite
 		if (closeIcon == null) {
 			closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
 		}
-		closeButton = new PushButton(closeIcon);
+		closeButton = new GPushButton(closeIcon);
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override

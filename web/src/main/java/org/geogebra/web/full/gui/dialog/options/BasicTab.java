@@ -19,6 +19,7 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
@@ -32,7 +33,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BasicTab extends OptionsEuclidianW.EuclidianTab {
@@ -48,7 +48,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	AutoCompleteTextFieldW tfAxesRatioY;
 	private Label axesRatioLabel;
 	private FlowPanel dimPanel;
-	ToggleButton tbLockRatio;
+	GToggleButton tbLockRatio;
 	private Image imgLock;
 	private Image imgUnlock;
 
@@ -180,7 +180,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 								0, 0, 18, 18, false, false)
 						: AppResources.INSTANCE.unlock());
 
-		tbLockRatio = new ToggleButton(imgLock);
+		tbLockRatio = new GToggleButton(imgLock);
 		tbLockRatio.setValue(this.optionsEuclidianW.view.isLockedAxesRatio());
 		tbLockRatio.setEnabled(this.optionsEuclidianW.view.isZoomable());
 

@@ -43,7 +43,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -165,7 +164,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	HandlerRegistration resizeHandlerRegistration;
 
 	/**
-	 * Set of characteristic interfaces supported by the {@link DialogBox}
+	 * Set of characteristic interfaces supported by the {@link GDialogBox}
 	 * caption.
 	 *
 	 */
@@ -450,7 +449,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * {@link #setHTML(SafeHtml)} method.
 	 *
 	 * Use {@link #setWidget(Widget)} to set the contents inside the
-	 * {@link DialogBox}.
+	 * {@link GDialogBox}.
 	 *
 	 * @param html
 	 *            the object's new HTML
@@ -466,7 +465,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * inserted in here.
 	 *
 	 * Use {@link #setWidget(Widget)} to set the contents inside the
-	 * {@link DialogBox}.
+	 * {@link GDialogBox}.
 	 *
 	 * @param html
 	 *            the object's new HTML
@@ -481,7 +480,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * method.
 	 *
 	 * Use {@link #setWidget(Widget)} to set the contents inside the
-	 * {@link DialogBox}.
+	 * {@link GDialogBox}.
 	 *
 	 * @param text
 	 *            the object's new text
@@ -575,7 +574,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	/**
 	 * <b>Affected Elements:</b>
 	 * <ul>
-	 * <li>-caption = text at the top of the {@link DialogBox}.</li>
+	 * <li>-caption = text at the top of the {@link GDialogBox}.</li>
 	 * <li>-content = the container around the content.</li>
 	 * </ul>
 	 *

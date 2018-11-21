@@ -51,7 +51,6 @@ import com.google.gwt.user.client.ui.HasAnimation;
 import com.google.gwt.user.client.ui.KeyboardListenerCollection;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupListener;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SourcesPopupEvents;
 import com.google.gwt.user.client.ui.UIObject;
@@ -180,8 +179,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	private HandlerRegistration historyHandlerRegistration;
 
 	/**
-	 * The {@link ResizeAnimation} used to open and close the {@link PopupPanel}
-	 * s.
+	 * The {@link ResizeAnimation} used to open and close the
+	 * {@link GPopupPanel} s.
 	 */
 	private final ResizeAnimation resizeAnimation;
 
@@ -234,19 +233,19 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 */
 	class ResizeAnimation extends Animation {
 		/**
-		 * The {@link PopupPanel} being affected.
+		 * The {@link GPopupPanel} being affected.
 		 */
 		private GPopupPanel curPanel = null;
 
 		/**
-		 * Indicates whether or not the {@link PopupPanel} is in the process of
+		 * Indicates whether or not the {@link GPopupPanel} is in the process of
 		 * unloading. If the popup is unloading, then the animation just does
 		 * cleanup.
 		 */
 		private boolean isUnloading;
 
 		/**
-		 * The offset height and width of the current {@link PopupPanel}.
+		 * The offset height and width of the current {@link GPopupPanel}.
 		 */
 		private int offsetHeight;
 		private int offsetWidth = -1;
@@ -760,7 +759,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 	/**
 	 * Returns <code>true</code> if a glass element will be displayed under the
-	 * {@link PopupPanel}.
+	 * {@link GPopupPanel}.
 	 *
 	 * @return true if enabled
 	 */
@@ -1075,7 +1074,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	/**
 	 * Sets whether this object is visible. This method just sets the
 	 * <code>visibility</code> style attribute. You need to call {@link #show()}
-	 * to actually attached/detach the {@link PopupPanel} to the page.
+	 * to actually attached/detach the {@link GPopupPanel} to the page.
 	 *
 	 * @param visible
 	 *            <code>true</code> to show the object, <code>false</code> to
@@ -1178,8 +1177,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	}
 
 	/**
-	 * Get the glass element used by this {@link PopupPanel}. The element is not
-	 * created until it is enabled via {@link #setGlassEnabled(boolean)}.
+	 * Get the glass element used by this {@link GPopupPanel}. The element is
+	 * not created until it is enabled via {@link #setGlassEnabled(boolean)}.
 	 *
 	 * @return the glass element, or null if not created
 	 */
@@ -1600,7 +1599,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	}
 
 	/**
-	 * Register or unregister the handlers used by {@link PopupPanel}.
+	 * Register or unregister the handlers used by {@link GPopupPanel}.
 	 */
 	private void updateHandlers() {
 		// Remove any existing handlers.

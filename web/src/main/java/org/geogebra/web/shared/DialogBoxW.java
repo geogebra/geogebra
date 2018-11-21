@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,7 +30,7 @@ public class DialogBoxW extends GDialogBox {
 	FastButton cancelButton;
 
 	/**
-	 * creates a {@link DialogBox}
+	 * creates a {@link GDialogBox}
 	 * 
 	 * @param autoHide
 	 *            {@code true} if the dialog should be automatically hidden when
@@ -64,7 +63,7 @@ public class DialogBoxW extends GDialogBox {
 	}
 	
 	/**
-	 * creates a {@link DialogBox} with {@code autoHide = false} and
+	 * creates a {@link GDialogBox} with {@code autoHide = false} and
 	 * {@code modal = true}.
 	 * 
 	 * @param root

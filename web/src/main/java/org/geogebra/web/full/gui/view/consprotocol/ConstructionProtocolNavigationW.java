@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
@@ -21,18 +22,17 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
 
 public class ConstructionProtocolNavigationW
 		extends ConstructionProtocolNavigation implements ClickHandler {
 
 	private Label lbSteps;
 	private FlowPanel implPanel;
-	private PushButton btFirst;
-	private PushButton btLast;
-	private PushButton btPrev;
-	private PushButton btNext;
-	PushButton btPlay;
+	private GPushButton btFirst;
+	private GPushButton btLast;
+	private GPushButton btPrev;
+	private GPushButton btNext;
+	GPushButton btPlay;
 	GSpinnerW spDelay;
 	private AutomaticPlayer player;
 	private MyCJButton btOpenWindow;
@@ -68,26 +68,27 @@ public class ConstructionProtocolNavigationW
 
 	@Override
 	protected void initGUI() {
-		btFirst = new PushButton(new Image(
-				GuiResources.INSTANCE.icons_play_skipback()));
+		btFirst = new GPushButton(
+				new Image(GuiResources.INSTANCE.icons_play_skipback()));
 		btFirst.getUpHoveringFace().setImage(
 				new Image(
 				GuiResources.INSTANCE.icons_play_skipback_hover()));
 
-		btLast = new PushButton(new Image(
+		btLast = new GPushButton(new Image(
 				GuiResources.INSTANCE.icons_play_skipforward()));
 		btLast.getUpHoveringFace()
 				.setImage(
 						new Image(
 				GuiResources.INSTANCE.icons_play_skipforward_hover()));
 
-		btPrev = new PushButton(new Image(
+		btPrev = new GPushButton(new Image(
 				GuiResources.INSTANCE.icons_play_rewind()));
 		btPrev.getUpHoveringFace().setImage(
 				new Image(
 				GuiResources.INSTANCE.icons_play_rewind_hover()));
 
-		btNext = new PushButton(new Image(
+		btNext = new GPushButton(
+				new Image(
 				GuiResources.INSTANCE.icons_play_fastforward()));
 		btNext.getUpHoveringFace()
 				.setImage(
@@ -108,7 +109,7 @@ public class ConstructionProtocolNavigationW
 		
 		playPanel = new FlowPanel();
 		playPanel.setVisible(showPlayButton);
-		btPlay = new PushButton(); // will be initialized in setLabels()
+		btPlay = new GPushButton(); // will be initialized in setLabels()
 		btPlay.addClickHandler(this);
 	
 		spDelay.addChangeHandler(new ChangeHandler() {
@@ -120,7 +121,7 @@ public class ConstructionProtocolNavigationW
 				} catch (Exception ex) {
 					playDelay = 2;
 				} 
-            }
+			}
 			
 		});
 		

@@ -9,13 +9,13 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * @author csilla
  *
  */
-public class MyToggleButton extends ToggleButton implements AccessibilityInterface {
+public class MyToggleButton extends GToggleButton
+		implements AccessibilityInterface {
 
 	private App app;
 	private Image image = null;

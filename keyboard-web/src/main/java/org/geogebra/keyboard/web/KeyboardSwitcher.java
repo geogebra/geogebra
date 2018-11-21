@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.GCustomButton;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KeyboardSwitcher extends FlowPanel {
@@ -19,7 +19,7 @@ public class KeyboardSwitcher extends FlowPanel {
 
     private FlowPanel contents;
     private List<SwitcherButton> switches;
-    private ToggleButton moreButton;
+	private GToggleButton moreButton;
 
     private class SwitcherButton extends Button {
 
@@ -91,7 +91,7 @@ public class KeyboardSwitcher extends FlowPanel {
         Image hoverImg = new Image(KeyboardResources.INSTANCE
                 .keyboard_close_purple().getSafeUri().asString());
         hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
-        CustomButton closeButton = new CustomButton() {
+		GCustomButton closeButton = new GCustomButton() {
             // it's abstract for some reason
         };
         closeButton.getElement().setAttribute("aria-label",
@@ -117,7 +117,7 @@ public class KeyboardSwitcher extends FlowPanel {
         Image hoverImg = new Image(KeyboardResources.INSTANCE
                 .keyboard_more_purple().getSafeUri().asString());
         hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
-        moreButton = new ToggleButton(img, hoverImg);
+		moreButton = new GToggleButton(img, hoverImg);
         moreButton.getElement().setAttribute("aria-label",
                 tabbedkeyboard.locale.getMenu("Commands"));
 
@@ -136,7 +136,7 @@ public class KeyboardSwitcher extends FlowPanel {
         contents.add(moreButton);
     }
 
-    public ToggleButton getMoreButton() {
+	public GToggleButton getMoreButton() {
         return moreButton;
     }
 

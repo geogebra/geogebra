@@ -31,7 +31,6 @@ import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Table popup for selecting properties of objects
@@ -356,7 +355,7 @@ public class PopupMenuButtonW extends MyCJButton
 	}
 	
 	/**
-	 * @return {@link PopupPanel}
+	 * @return {@link GPopupPanel}
 	 */
 	public GPopupPanel getMyPopup() {
 		return myPopup;

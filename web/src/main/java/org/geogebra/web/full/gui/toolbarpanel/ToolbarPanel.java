@@ -986,6 +986,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		return isAlgebraViewActive() && tabAlgebra.focusInput();
 	}
 
+	/**
+	 * Update toolbar content
+	 */
 	public void updateContent() {
 		getTabTools().updateContent();
 	}

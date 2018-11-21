@@ -19,6 +19,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
@@ -31,7 +32,6 @@ import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -52,7 +52,7 @@ public class TextEditPanel extends VerticalPanel
 	private FlowPanel toolBar;
 	private TextPreviewPanelW previewer;
 
-	private ToggleButton btnInsert;
+	private GToggleButton btnInsert;
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
@@ -280,7 +280,7 @@ public class TextEditPanel extends VerticalPanel
 	// ======================================================
 
 	private void createToolBar() {
-		btnInsert = new ToggleButton(Unicode.alpha + "");
+		btnInsert = new GToggleButton(Unicode.alpha + "");
 		btnInsert.addClickHandler(this);
 
 		if (app.has(Feature.DIALOG_DESIGN)) {

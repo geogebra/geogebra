@@ -8,6 +8,7 @@ import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.GWT;
@@ -15,7 +16,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -67,7 +67,7 @@ public class RelationPaneW extends GDialogBox
 			addStyleName("DialogBox");
 		}
 
-		DialogBox db = new DialogBox();
+		GDialogBox db = new GDialogBox(((AppW) app).getPanel(), app);
 		FlowPanel fp = new FlowPanel();
 
 		rels = relations.length;

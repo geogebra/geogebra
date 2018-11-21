@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Handler for {@link FastClickEvent} events.
+ * Handler for TouchStart / MouseDown events.
  */
 public interface FastClickHandler extends EventHandler {
 	/**

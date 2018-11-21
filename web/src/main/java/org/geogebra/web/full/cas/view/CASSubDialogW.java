@@ -7,6 +7,9 @@ import org.geogebra.common.cas.view.CASSubDialog;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.GDialogBox;
+import org.geogebra.web.html5.gui.GDialogBox.Caption;
+import org.geogebra.web.html5.gui.GDialogBox.CaptionImpl;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.cell.client.Cell.Context;
@@ -18,9 +21,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.DialogBox.Caption;
-import com.google.gwt.user.client.ui.DialogBox.CaptionImpl;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -42,7 +42,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	private ScrollPanel tablePane;
 	private HorizontalPanel btPanel;
 
-	private DialogBox dialog;
+	private GDialogBox dialog;
 	private CellTable<SubstituteValue> table;
 	private List<SubstituteValue> list;
 
@@ -82,7 +82,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		Localization loc = app.getLocalization();
 		caption.setText(loc.getMenu("Substitute") + " - "
 		        + loc.getCommand("Row") + " " + (editRow + 1));
-		dialog = new DialogBox(true, false, caption);
+		dialog = new GDialogBox(true, false, caption, app.getPanel(), app);
 		dialog.addStyleName("CAS_subDialog");
 		dialog.addStyleName("GeoGebraPopup");
 		dialog.setWidget(optionPane = new VerticalPanel());
@@ -215,7 +215,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	/**
 	 * @return dialog
 	 */
-	public DialogBox getDialog() {
+	public GDialogBox getDialog() {
 		return dialog;
 	}
 

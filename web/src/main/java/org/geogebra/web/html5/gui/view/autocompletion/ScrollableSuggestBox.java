@@ -50,12 +50,12 @@ public class ScrollableSuggestBox extends GSuggestBox {
 	 */
 	public void hideSuggestions() {
 		getDefaultSuggestionDisplay().hideSuggestions();
-    }
+	}
 
 	public boolean isSuggestionListVisible() {
 		return getDefaultSuggestionDisplay().isSuggestionListShowing();
 	}
-	
+
 	private DefaultSuggestionDisplay getDefaultSuggestionDisplay() {
 		return (DefaultSuggestionDisplay) getSuggestionDisplay();
 	}

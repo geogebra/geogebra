@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.full.gui.view.dataCollection.GeoListBox;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,7 +22,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * Settings for a sensor group
@@ -36,7 +36,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	/** A label with the caption */
 	protected Label captionLabel;
 	/** button to collapse/expand settings for this sensor */
-	ToggleButton collapse;
+	GToggleButton collapse;
 
 	private Image sensorON;
 	private Image sensorOFF;
@@ -126,7 +126,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		this.captionLabel = new Label();
 		updateCaptionLabel();
 
-		collapse = new ToggleButton(
+		collapse = new GToggleButton(
 				new Image(GuiResources.INSTANCE.collapse()), new Image(
 						GuiResources.INSTANCE.expand()));
 		collapse.addStyleName("collapse");

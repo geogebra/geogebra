@@ -38,6 +38,7 @@ import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
@@ -70,7 +71,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -108,7 +108,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private DrawInputBox drawTextField = null;
 
 	// symbol table popup fields
-	private ToggleButton showSymbolButton = null;
+	private GToggleButton showSymbolButton = null;
 	private SymbolTablePopupW tablePopup;
 
 	/**
@@ -316,7 +316,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private void setupShowSymbolButton() {
-		showSymbolButton = new ToggleButton();
+		showSymbolButton = new GToggleButton();
 		showSymbolButton.setText(Unicode.alpha + "");
 		showSymbolButton.addStyleName("SymbolToggleButton");
 

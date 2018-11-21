@@ -62,6 +62,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -83,7 +84,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
@@ -155,7 +155,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private boolean needsUpdate;
 
 	/** Clears input only when editing */
-	protected PushButton btnClearInput;
+	protected GPushButton btnClearInput;
 
 	/**
 	 * this panel contains the marble (radio) button
@@ -1498,9 +1498,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
-	protected PushButton getClearInputButton() {
+	protected GPushButton getClearInputButton() {
 		if (btnClearInput == null) {
-			btnClearInput = new PushButton(
+			btnClearInput = new GPushButton(
 					new Image(GuiResources.INSTANCE.algebra_delete()));
 			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
 				@Override

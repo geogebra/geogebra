@@ -18,6 +18,7 @@ import org.geogebra.web.full.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
+import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
@@ -36,7 +37,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -488,7 +488,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private class BackgroundColorPanel extends FlowPanel {
 		RadioButton backgroundButton;
 		RadioButton foregroundButton;
-		PushButton btnClearBackground;
+		GPushButton btnClearBackground;
 
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
@@ -497,10 +497,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			backgroundButton.setName("bgfg");
 			foregroundButton.setName("bgfg");
 			if (app.isUnbundled()) {
-				btnClearBackground = new PushButton(new NoDragImage(
+				btnClearBackground = new GPushButton(new NoDragImage(
 						MaterialDesignResources.INSTANCE.delete_black(), 24));
 			} else {
-				btnClearBackground = new PushButton(
+				btnClearBackground = new GPushButton(
 						new Image(AppResources.INSTANCE.delete_small()));
 			}
 			btnClearBackground.setStyleName("ClearBackgroundButton");

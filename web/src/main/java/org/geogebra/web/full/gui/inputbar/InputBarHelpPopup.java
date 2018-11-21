@@ -3,12 +3,12 @@ package org.geogebra.web.full.gui.inputbar;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -68,8 +68,11 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 	}
 
 	/**
-	 * set the toggleButton to change automatic his style, if this popup is shown or hidden.
-	 * @param btnHelpToggle {@link ToggleButton}
+	 * set the toggleButton to change automatic his style, if this popup is
+	 * shown or hidden.
+	 * 
+	 * @param btnHelpToggle
+	 *            {@link GToggleButton}
 	 */
 	public void setBtnHelpToggle(MyToggleButton btnHelpToggle) {
 		this.toggleButton = btnHelpToggle;

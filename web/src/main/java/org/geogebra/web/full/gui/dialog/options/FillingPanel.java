@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.SliderPanel;
@@ -44,7 +45,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PushButton;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class FillingPanel extends OptionPanel implements IFillingListener {
@@ -66,7 +66,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	private PopupMenuButtonW btnImage;
 	// button for removing turtle's image
-	private PushButton btnClearImage;
+	private GPushButton btnClearImage;
 	private Label lblSymbols;
 	ArrayList<ImageResource> iconList;
 	private ArrayList<String> iconNameList;
@@ -414,7 +414,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		};
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
-		btnClearImage = new PushButton(
+		btnClearImage = new GPushButton(
 				new NoDragImage(app.isUnbundledOrWhiteboard()
 						? 
 						MaterialDesignResources.INSTANCE.delete_black()

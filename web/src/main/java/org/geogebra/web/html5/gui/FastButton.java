@@ -7,11 +7,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.GCustomButton;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.CustomButton;
 
 /**
  * 
@@ -46,7 +46,8 @@ import com.google.gwt.user.client.ui.CustomButton;
  * @author ashton with changes from Matthias Meisinger
  * 
  */
-public abstract class FastButton extends CustomButton implements AccessibilityInterface {
+public abstract class FastButton extends GCustomButton
+		implements AccessibilityInterface {
 
 	// in case the same touch reaches different Buttons (f.e. TouchStart +
 	// TouchEnd open the StyleBar and MouseUp reaches the first Button on the

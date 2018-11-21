@@ -29,6 +29,7 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -43,7 +44,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PushButton;
 
 /**
  * Dialog to create a GeoBoolean object (checkbox) that determines the
@@ -238,7 +238,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
-		PushButton btnRemove = new PushButton(
+		GPushButton btnRemove = new GPushButton(
 				new Image(AppResources.INSTANCE.delete_small()));
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));

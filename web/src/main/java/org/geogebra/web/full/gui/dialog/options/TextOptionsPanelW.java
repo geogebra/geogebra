@@ -20,6 +20,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -31,7 +32,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.himamis.retex.editor.share.util.Unicode;
 
 class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
@@ -48,7 +48,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	ListBox lbDecimalPlaces;
 	MyToggleButtonW btnBold;
 	MyToggleButtonW btnItalic;
-	private ToggleButton btnLatex;
+	private GToggleButton btnLatex;
 
 	private FlowPanel secondLine;
 

@@ -30,6 +30,7 @@ import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.DropDownPositio
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.ListItemFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -62,7 +63,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -744,7 +744,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	@Override
 	protected void addComponentListeners() {
 		AutoCompleteTextFieldW value = getSelectedValue();
-		ToggleButton button = getChoiceButton();
+		GToggleButton button = getChoiceButton();
 
 		getListPanel().addChangeHandler(getDelegateHandler());
 
@@ -881,7 +881,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		public void onClick(ClickEvent event) {
 			int count = getModel().getCount();
 			Object sender = event.getSource();
-			if (sender instanceof ToggleButton || !isCustomTextAllowed()) {
+			if (sender instanceof GToggleButton || !isCustomTextAllowed()) {
 				if (count > 0 && !getListPanel().isShowing()) {
 					getListPanel().prepareList();
 					getListPanel().show();

@@ -15,6 +15,8 @@ import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.GPushButton;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -27,8 +29,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * Item action bar
@@ -43,7 +43,7 @@ public class ItemControls extends FlowPanel
 	final RadioTreeItem radioTreeItem;
 
 	/** Deletes the whole item */
-	protected PushButton btnDelete;
+	protected GPushButton btnDelete;
 
 	/** opens context menu */
 	protected MyToggleButton btnMore;
@@ -78,9 +78,9 @@ public class ItemControls extends FlowPanel
 	 * 
 	 * @return The "X" button.
 	 */
-	public PushButton getDeleteButton() {
+	public GPushButton getDeleteButton() {
 		if (btnDelete == null) {
-			btnDelete = new PushButton(
+			btnDelete = new GPushButton(
 					new Image(GuiResources.INSTANCE.algebra_delete()));
 			btnDelete.getUpHoveringFace().setImage(
 					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
@@ -105,7 +105,7 @@ public class ItemControls extends FlowPanel
 	 * 
 	 * @return The more button which opens the context menu.
 	 */
-	public ToggleButton getMoreButton() {
+	public GToggleButton getMoreButton() {
 		if (btnMore == null) {
 			btnMore = new MyToggleButton(
 					new NoDragImage(

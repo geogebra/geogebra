@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.TabHandler;
+import org.geogebra.web.html5.gui.util.GCustomButton;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.CustomButton;
 
 /**
  * Provides accessibility features (tab handling) for a button
  *
  */
 public class AccessibilityButton implements AccessibilityInterface {
-	private CustomButton button;
+	private GCustomButton button;
 	private List<TabHandler> tabHandlers;
 	private boolean ignoreTab = false;
 	
@@ -22,7 +22,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 	 * @param button
 	 *            wrapped button
 	 */
-	public AccessibilityButton(CustomButton button) {
+	public AccessibilityButton(GCustomButton button) {
 		this.button = button;
 		tabHandlers = new ArrayList<>();
 	}

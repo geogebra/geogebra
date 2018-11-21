@@ -23,13 +23,12 @@ import org.geogebra.common.main.App;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * <p>
- * A {@link PopupPanel} that wraps its content in a 3x3 grid, which allows users
- * to add rounded corners.
+ * A {@link GPopupPanel} that wraps its content in a 3x3 grid, which allows
+ * users to add rounded corners.
  * </p>
  * 
  * <h3>Setting the Size:</h3>
@@ -65,7 +64,8 @@ import com.google.gwt.user.client.ui.Widget;
  * <li>.gwt-DecoratedPopupPanel .popupMiddleLeft { the middle left cell }</li>
  * <li>.gwt-DecoratedPopupPanel .popupMiddleLeftInner { the inner element of the
  * cell }</li>
- * <li>.gwt-DecoratedPopupPanel .popupMiddleCenter { the middle center cell }</li>
+ * <li>.gwt-DecoratedPopupPanel .popupMiddleCenter { the middle center cell }
+ * </li>
  * <li>.gwt-DecoratedPopupPanel .popupMiddleCenterInner { the inner element of
  * the cell }</li>
  * <li>.gwt-DecoratedPopupPanel .popupMiddleRight { the middle right cell }</li>
@@ -74,7 +74,8 @@ import com.google.gwt.user.client.ui.Widget;
  * <li>.gwt-DecoratedPopupPanel .popupBottomLeft { the bottom left cell }</li>
  * <li>.gwt-DecoratedPopupPanel .popupBottomLeftInner { the inner element of the
  * cell }</li>
- * <li>.gwt-DecoratedPopupPanel .popupBottomCenter { the bottom center cell }</li>
+ * <li>.gwt-DecoratedPopupPanel .popupBottomCenter { the bottom center cell }
+ * </li>
  * <li>.gwt-DecoratedPopupPanel .popupBottomCenterInner { the inner element of
  * the cell }</li>
  * <li>.gwt-DecoratedPopupPanel .popupBottomRight { the bottom right cell }</li>
