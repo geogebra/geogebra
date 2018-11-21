@@ -4,7 +4,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -92,30 +91,29 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		Log.debug("[TD] removing " + evaluatable.getRawCaption() + " at column: " + column);
 		getView().deleteColumn(column, cbOnColumnDelete);
 	}
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		buildGui();
+		// not used
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		buildGui();
+		// not used
 	}
 
 	@Override
 	public void notifyColumnHeaderChanged(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		buildGui();
+		// not used
 	}
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		buildGui();
+		// not used
 	}
 }

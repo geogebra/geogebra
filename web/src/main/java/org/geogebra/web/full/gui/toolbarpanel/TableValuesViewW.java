@@ -58,14 +58,20 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private FlowPanel main;
 	private Label emptyLabel;
 	private Label emptyInfo;
-	private FlowPanel emptyPanel;
 	private AppW app;
 	private ScrollPanel valueScroller;
 	private List<RowData> rows = new ArrayList<>();
 	private NoDragImage moreImg;
+	private boolean dataValid = false;
 
 	private FlowPanel tvPanel;
 
+	/**
+	 * Class to wrap callback after column delete.
+	 * 
+	 * @author laszlo.
+	 *
+	 */
 	private class ColumnDelete implements Runnable {
 		Runnable cb = null;
 		private int column = -1;
@@ -185,7 +191,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private void createGUI() {
 		main = new FlowPanel();
-		main.addStyleName("tableViewMain");
 		tvPanel = new FlowPanel();
 
 		headerTable = new CellTable<>();
@@ -198,15 +203,24 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		valueScroller = new ScrollPanel();
 		valueScroller.addStyleName("tvValueScroller");
-
-		createStickyHeader();
-
 	}
 
 	/**
 	 * Refresh header and data.
 	 */
 	public void refreshView() {
+		if (isEmpty()) {
+			buildEmptyView();
+		} else if (!dataValid) {
+			buildTable();
+		}
+		setParentStyle();
+	}
+
+	private void buildTable() {
+		main.clear();
+		main.removeStyleName("emptyTablePanel");
+		main.addStyleName("tableViewMain");
 		TableUtils.clear(valuesTable);
 		TableUtils.clear(headerTable);
 
@@ -214,19 +228,18 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		addHeaderClickHandler();
 
 		addValuesForTable(valuesTable);
-		tableInit();
-		syncHeaderSizes();
+		fillValuesTable();
 
 		valueScroller.setWidget(valuesTable);
-
+		createStickyHeader();
 		tvPanel.add(valueScroller);
 		tvPanel.addStyleName("tvPanel");
-		main.clear();
+		syncHeaderSizes();
+
 		main.add(tvPanel);
 	}
 
 	private void createStickyHeader() {
-
 		final ScrollPanel headerScroller = new ScrollPanel();
 		final FlowPanel headerMain = new FlowPanel();
 		headerMain.add(headerTable);
@@ -264,15 +277,12 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		headerScroller.setHorizontalScrollPosition(scrollPosition);
 	}
 
-	private void buildData() {
+	private void fillValuesTable() {
 		rows.clear();
 		for (int row = 0; row < getTableValuesModel().getRowCount(); row++) {
 			rows.add(new RowData(row));
 		}
-	}
 
-	private void tableInit() {
-		buildData();
 		valuesTable.setRowCount(rows.size());
 		valuesTable.setVisibleRange(0, rows.size());
 		valuesTable.setRowData(0, rows);
@@ -284,19 +294,12 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * @return the main widget of the view.
 	 */
 	public Widget getWidget() {
-		return isEmpty() ? getEmptyPanel() : main;
+		return main;
 	}
 
-	private Widget getEmptyPanel() {
-		if (emptyPanel == null) {
-			buildEmptyPanel();
-		}
-		return emptyPanel;
-	}
-
-	private void buildEmptyPanel() {
-		this.emptyPanel = new FlowPanel();
-		this.emptyPanel.addStyleName("emptyTablePanel");
+	private void buildEmptyView() {
+		main.clear();
+		this.main.addStyleName("emptyTablePanel");
 		NoDragImage emptyImage = new NoDragImage(
 				MaterialDesignResources.INSTANCE.toolbar_table_view_black(),
 				56);
@@ -309,14 +312,28 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		this.emptyInfo = new Label();
 		this.emptyInfo.addStyleName("emptyTableInfo");
 		emptyImageWrap.addStyleName("emptyTableImageWrap");
-		emptyPanel.add(emptyImageWrap);
-		emptyPanel.add(emptyLabel);
-		emptyPanel.add(emptyInfo);
+		main.add(emptyImageWrap);
+		main.add(emptyLabel);
+		main.add(emptyInfo);
+		setParentStyle();
+	}
+
+	private void setParentStyle() {
+		Element parent = main.getElement().getParentElement();
+		if (parent == null) {
+			return;
+		}
+		if (isEmpty()) {
+			parent.addClassName("tableViewParent");
+		} else {
+			parent.removeClassName("tableViewParent");
+		}
+
 	}
 
 	@Override
 	public void setLabels() {
-		if (emptyPanel != null) {
+		if (emptyLabel != null) {
 			emptyLabel.setText(app.getLocalization().getMenu("TableValuesEmptyTitle"));
 			emptyInfo.setText(app.getLocalization().getMenu("TableValuesEmptyDescription"));
 		}
@@ -506,10 +523,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return list != null ? list.getItem(0) : null;
 	}
 
-	private boolean isLastDeleted() {
-		return getTableValuesModel().getColumnCount() == 1;
-	}
-
 	private boolean isXDeleted() {
 		return getTableValuesModel().getColumnCount() == 0;
 	}
@@ -544,9 +557,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			e.addClassName("delete");
 		}
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
-		if (isLastDeleted()) {
-			deleteColumn(0, cb);
-		}
+
 	}
 
 	/**
@@ -568,6 +579,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			}
 		} else {
 			header.getParentElement().removeFromParent();
+		}
+		if (isEmpty()) {
+			refreshView();
 		}
 	}
 
