@@ -4128,6 +4128,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case POINTER_EVENTS:
 			return true;
 
+		/** APPS-117 */
 		case FIX_EQUATIONS_AND_FUNCTIONS:
 			return prerelease;
 
