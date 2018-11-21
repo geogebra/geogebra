@@ -641,6 +641,16 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
+     * Tells whether the Function properties should be shown or not
+     *
+     * @return true, if the user is in exam mode so the function properties should be hidden
+     */
+    public boolean shouldHideFunctionProperties() {
+        return app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS) && app.getExam() != null && app
+                .getExam().isStarted();
+    }
+
+    /**
      * @return true if the all the selected geoElements have line properties
      */
     public boolean hasLineProperties() {
