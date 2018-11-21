@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -527,5 +528,16 @@ public class AlgebraItem {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Tells whether the equation was typed directly from the user
+	 *
+	 * @param geoElement geoElement
+	 * @return true if the equation was typed by the user (and not created via command or tool)
+	 */
+	public static boolean isEquationFromUser(GeoElementND geoElement) {
+		return (geoElement.getParentAlgorithm() == null
+				|| geoElement.getParentAlgorithm().getClassName() == Algos.Expression);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -21,6 +22,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -630,7 +632,8 @@ abstract public class ObjectSettingsModel {
                 if (!(elementForProperties instanceof GeoFunction)) {
                     return false;
                 }
-            } else if (!(geo instanceof GeoFunction)) {
+            } else if (!(geo instanceof GeoFunction) && !(app.has(
+                    Feature.FIX_EQUATIONS_AND_FUNCTIONS) && AlgebraItem.isEquationFromUser(geo))) {
                 return false;
             }
         }
