@@ -23,7 +23,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Image;
 
@@ -56,32 +55,22 @@ public class GToggleButton extends GCustomButton
 	}
 
 	/**
-   * Constructor for <code>ToggleButton</code>.
-   */
+	 * Constructor for <code>ToggleButton</code>.
+	 */
 	public GToggleButton() {
-    super();
-  }
+		super();
+	}
 
 	/**
-   * Constructor for <code>ToggleButton</code>. The supplied image is used to
-   * construct the default face.
-   * 
-   * @param upImage image for the default face of the button
-   */
+	 * Constructor for <code>ToggleButton</code>. The supplied image is used to
+	 * construct the default face.
+	 * 
+	 * @param upImage
+	 *            image for the default face of the button
+	 */
 	public GToggleButton(Image upImage) {
-    super(upImage);
-  }
-
-	/**
-   * Constructor for <code>ToggleButton</code>. The supplied image is used to
-   * construct the default face of the button.
-   * 
-   * @param upImage image for the default (up) face of the button
-   * @param handler the click handler
-   */
-	public GToggleButton(Image upImage, ClickHandler handler) {
-    super(upImage, handler);
-  }
+		super(upImage);
+	}
 
 	/**
 	 * Constructor for <code>ToggleButton</code>. The supplied image is used to
@@ -89,35 +78,12 @@ public class GToggleButton extends GCustomButton
 	 * 
 	 * @param upImage
 	 *            image for the default (up) face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GToggleButton(Image, ClickHandler)} instead
+	 * @param handler
+	 *            the click handler
 	 */
-  @Deprecated
-	public GToggleButton(Image upImage, ClickListener listener) {
-    super(upImage, listener);
-  }
-
-	/**
-   * Constructor for <code>ToggleButton</code>.
-   * 
-   * @param upImage image for the default(up) face of the button
-   * @param downImage image for the down face of the button
-   */
-	public GToggleButton(Image upImage, Image downImage) {
-    super(upImage, downImage);
-  }
-
-	/**
-   * Constructor for <code>ToggleButton</code>.
-   * 
-   * @param upImage image for the default(up) face of the button
-   * @param downImage image for the down face of the button
-   * @param handler the click handler
-   */
-	public GToggleButton(Image upImage, Image downImage, ClickHandler handler) {
-    super(upImage, downImage, handler);
-  }
+	public GToggleButton(Image upImage, ClickHandler handler) {
+		super(upImage, handler);
+	}
 
 	/**
 	 * Constructor for <code>ToggleButton</code>.
@@ -126,37 +92,35 @@ public class GToggleButton extends GCustomButton
 	 *            image for the default(up) face of the button
 	 * @param downImage
 	 *            image for the down face of the button
-	 * @param listener
-	 *            clickListener
-	 * @deprecated Use {@link #GToggleButton(Image, Image, ClickHandler)}
-	 *             instead
 	 */
-  @Deprecated
-	public GToggleButton(Image upImage, Image downImage,
-			ClickListener listener) {
-    super(upImage, downImage, listener);
-  }
+	public GToggleButton(Image upImage, Image downImage) {
+		super(upImage, downImage);
+	}
 
 	/**
-   * Constructor for <code>ToggleButton</code>. The supplied text is used to
-   * construct the default face of the button.
-   * 
-   * @param upText the text for the default (up) face of the button.
-   */
+	 * Constructor for <code>ToggleButton</code>.
+	 * 
+	 * @param upImage
+	 *            image for the default(up) face of the button
+	 * @param downImage
+	 *            image for the down face of the button
+	 * @param handler
+	 *            the click handler
+	 */
+	public GToggleButton(Image upImage, Image downImage, ClickHandler handler) {
+		super(upImage, downImage, handler);
+	}
+
+	/**
+	 * Constructor for <code>ToggleButton</code>. The supplied text is used to
+	 * construct the default face of the button.
+	 * 
+	 * @param upText
+	 *            the text for the default (up) face of the button.
+	 */
 	public GToggleButton(String upText) {
-    super(upText);
-  }
-
-	/**
-   * Constructor for <code>ToggleButton</code>. The supplied text is used to
-   * construct the default face of the button.
-   * 
-   * @param upText the text for the default (up) face of the button
-   * @param handler the click handler
-   */
-	public GToggleButton(String upText, ClickHandler handler) {
-    super(upText, handler);
-  }
+		super(upText);
+	}
 
 	/**
 	 * Constructor for <code>ToggleButton</code>. The supplied text is used to
@@ -164,35 +128,38 @@ public class GToggleButton extends GCustomButton
 	 * 
 	 * @param upText
 	 *            the text for the default (up) face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GToggleButton(String, ClickHandler)} instead
+	 * @param handler
+	 *            the click handler
 	 */
-  @Deprecated
-	public GToggleButton(String upText, ClickListener listener) {
-    super(upText, listener);
-  }
+	public GToggleButton(String upText, ClickHandler handler) {
+		super(upText, handler);
+	}
 
 	/**
-   * Constructor for <code>ToggleButton</code>.
-   * 
-   * @param upText the text for the default (up) face of the button
-   * @param downText the text for down face of the button
-   */
+	 * Constructor for <code>ToggleButton</code>.
+	 * 
+	 * @param upText
+	 *            the text for the default (up) face of the button
+	 * @param downText
+	 *            the text for down face of the button
+	 */
 	public GToggleButton(String upText, String downText) {
-    super(upText, downText);
-  }
+		super(upText, downText);
+	}
 
 	/**
-   * Constructor for <code>ToggleButton</code>.
-   * 
-   * @param upText the text for the default (up) face of the button
-   * @param downText the text for down face of the button
-   * @param handler the click handler
-   */
+	 * Constructor for <code>ToggleButton</code>.
+	 * 
+	 * @param upText
+	 *            the text for the default (up) face of the button
+	 * @param downText
+	 *            the text for down face of the button
+	 * @param handler
+	 *            the click handler
+	 */
 	public GToggleButton(String upText, String downText, ClickHandler handler) {
-    super(upText, downText, handler);
-  }
+		super(upText, downText, handler);
+	}
 
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<Boolean> handler) {
@@ -247,17 +214,15 @@ public class GToggleButton extends GCustomButton
 	 * Sets whether this button is down, firing {@link ValueChangeEvent} if
 	 * appropriate.
 	 * 
-	 * @param value
+	 * @param val
 	 *            true to press the button, false otherwise; null value implies
 	 *            false
 	 * @param fireEvents
 	 *            If true, and value has changed, fire a
 	 *            {@link ValueChangeEvent}
 	 */
-	public void setValue(Boolean value, boolean fireEvents) {
-		if (value == null) {
-			value = Boolean.FALSE;
-		}
+	public void setValue(Boolean val, boolean fireEvents) {
+		boolean value = val == null ? false : val.booleanValue();
 
 		boolean oldValue = fireEvents ? isDown() : false;
 		setDown(value);

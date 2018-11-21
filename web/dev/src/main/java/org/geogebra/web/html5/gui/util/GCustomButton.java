@@ -21,7 +21,6 @@ import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.client.HasSafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -29,7 +28,6 @@ import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.ButtonBase;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
@@ -147,6 +145,7 @@ import com.google.gwt.user.client.ui.impl.FocusImpl;
  */
 public abstract class GCustomButton extends ButtonBase {
 	static final FocusImpl focusImpl = FocusImpl.getFocusImplForPanel();
+
 	/**
 	 * Represents a button's face. Each face is associated with its own style
 	 * modifier and, optionally, its own contents html, text, or image.
@@ -272,12 +271,10 @@ public abstract class GCustomButton extends ButtonBase {
 					// provide a default face as none was supplied.
 					face = DOM.createDiv();
 					return face;
-				} else {
-					return delegateTo.getFace();
 				}
-			} else {
-				return face;
+				return delegateTo.getFace();
 			}
+			return face;
 		}
 
 		private void updateButtonFace() {
@@ -392,63 +389,29 @@ public abstract class GCustomButton extends ButtonBase {
 	private boolean allowClick;
 
 	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upImage image for the default (up) face of the button
-   */
+	 * Constructor for <code>CustomButton</code>.
+	 *
+	 * @param upImage
+	 *            image for the default (up) face of the button
+	 */
 	public GCustomButton(Image upImage) {
-    this();
-    getUpFace().setImage(upImage);
-  }
-
-	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upImage image for the default (up) face of the button
-   * @param handler the click handler
-   */
-	public GCustomButton(Image upImage, ClickHandler handler) {
-    this(upImage);
-    addClickHandler(handler);
-  }
+		this();
+		getUpFace().setImage(upImage);
+	}
 
 	/**
 	 * Constructor for <code>CustomButton</code>.
 	 *
 	 * @param upImage
 	 *            image for the default (up) face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GCustomButton(Image, ClickHandler)} instead
+	 * @param handler
+	 *            the click handler
 	 */
-  @Deprecated
-	public GCustomButton(Image upImage, ClickListener listener) {
-    this(upImage);
-    addClickListener(listener);
-  }
+	public GCustomButton(Image upImage, ClickHandler handler) {
+		this(upImage);
+		addClickHandler(handler);
+	}
 
-	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upImage image for the default (up) face of the button
-   * @param downImage image for the down face of the button
-   */
-	public GCustomButton(Image upImage, Image downImage) {
-    this(upImage);
-    getDownFace().setImage(downImage);
-  }
-
-	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upImage image for the default (up) face of the button
-   * @param downImage image for the down face of the button
-   * @param handler clickListener
-   */
-	public GCustomButton(Image upImage, Image downImage, ClickHandler handler) {
-    this(upImage, handler);
-    getDownFace().setImage(downImage);
-  }
 
 	/**
 	 * Constructor for <code>CustomButton</code>.
@@ -457,76 +420,50 @@ public abstract class GCustomButton extends ButtonBase {
 	 *            image for the default (up) face of the button
 	 * @param downImage
 	 *            image for the down face of the button
-	 * @param listener
-	 *            clickListener
-	 * @deprecated Use {@link #GCustomButton(Image, Image, ClickHandler)}
-	 *             instead
 	 */
-  @Deprecated
-	public GCustomButton(Image upImage, Image downImage,
-			ClickListener listener) {
-    this(upImage, listener);
-    getDownFace().setImage(downImage);
-  }
+	public GCustomButton(Image upImage, Image downImage) {
+		this(upImage);
+		getDownFace().setImage(downImage);
+	}
 
 	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upText the text for the default (up) face of the button
-   */
-	public GCustomButton(String upText) {
-    this();
-    getUpFace().setText(upText);
-  }
-
-	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upText the text for the default (up) face of the button
-   * @param handler the click handler
-   */
-	public GCustomButton(String upText, ClickHandler handler) {
-    this(upText);
-    addClickHandler(handler);
-  }
+	 * Constructor for <code>CustomButton</code>.
+	 *
+	 * @param upImage
+	 *            image for the default (up) face of the button
+	 * @param downImage
+	 *            image for the down face of the button
+	 * @param handler
+	 *            clickListener
+	 */
+	public GCustomButton(Image upImage, Image downImage, ClickHandler handler) {
+		this(upImage, handler);
+		getDownFace().setImage(downImage);
+	}
 
 	/**
 	 * Constructor for <code>CustomButton</code>.
 	 *
 	 * @param upText
 	 *            the text for the default (up) face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GCustomButton(String, ClickListener)} instead
 	 */
-  @Deprecated
-	public GCustomButton(String upText, ClickListener listener) {
-    this(upText);
-    addClickListener(listener);
-  }
+	public GCustomButton(String upText) {
+		this();
+		getUpFace().setText(upText);
+	}
 
 	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upText the text for the default (up) face of the button
-   * @param downText the text for the down face of the button
-   */
-	public GCustomButton(String upText, String downText) {
-    this(upText);
-    getDownFace().setText(downText);
-  }
-
-	/**
-   * Constructor for <code>CustomButton</code>.
-   *
-   * @param upText the text for the default (up) face of the button
-   * @param downText the text for the down face of the button
-   * @param handler the click handler
-   */
-	public GCustomButton(String upText, String downText, ClickHandler handler) {
-    this(upText, downText);
-    addClickHandler(handler);
-  }
+	 * Constructor for <code>CustomButton</code>.
+	 *
+	 * @param upText
+	 *            the text for the default (up) face of the button
+	 * @param handler
+	 *            the click handler
+	 */
+	public GCustomButton(String upText, ClickHandler handler) {
+		this(upText);
+		addClickHandler(handler);
+	}
 
 	/**
 	 * Constructor for <code>CustomButton</code>.
@@ -535,35 +472,45 @@ public abstract class GCustomButton extends ButtonBase {
 	 *            the text for the default (up) face of the button
 	 * @param downText
 	 *            the text for the down face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GCustomButton(String, String, ClickHandler)}
-	 *             instead
 	 */
-  @Deprecated
-	public GCustomButton(String upText, String downText,
-			ClickListener listener) {
-    this(upText, downText);
-    addClickListener(listener);
-  }
+	public GCustomButton(String upText, String downText) {
+		this(upText);
+		getDownFace().setText(downText);
+	}
 
 	/**
-   * Constructor for <code>CustomButton</code>.
-   */
+	 * Constructor for <code>CustomButton</code>.
+	 *
+	 * @param upText
+	 *            the text for the default (up) face of the button
+	 * @param downText
+	 *            the text for the down face of the button
+	 * @param handler
+	 *            the click handler
+	 */
+	public GCustomButton(String upText, String downText, ClickHandler handler) {
+		this(upText, downText);
+		addClickHandler(handler);
+	}
+
+	/**
+	 * Constructor for <code>CustomButton</code>.
+	 */
 	protected GCustomButton() {
-    // Use FocusPanel.impl rather than FocusWidget because only FocusPanel.impl
-    // works across browsers to create a focusable element.
+		// Use FocusPanel.impl rather than FocusWidget because only
+		// FocusPanel.impl
+		// works across browsers to create a focusable element.
 		super(focusImpl.createFocusable());
-    sinkEvents(Event.ONCLICK | Event.MOUSEEVENTS | Event.FOCUSEVENTS
-        | Event.KEYEVENTS);
+		sinkEvents(Event.ONCLICK | Event.MOUSEEVENTS | Event.FOCUSEVENTS
+				| Event.KEYEVENTS);
 		sinkBitlessEvent("touchStart");
 		sinkBitlessEvent("touchEnd");
-    setUpFace(createFace(null, "up", UP));
-    setStyleName(STYLENAME_DEFAULT);
+		setUpFace(createFace(null, "up", UP));
+		setStyleName(STYLENAME_DEFAULT);
 
-    // Add a11y role "button"
-    Roles.getButtonRole().set(getElement());
-  }
+		// Add a11y role "button"
+		Roles.getButtonRole().set(getElement());
+	}
 
 	/**
 	 * Gets the downDisabled face of the button.
@@ -896,6 +843,7 @@ public abstract class GCustomButton extends ButtonBase {
 	 * the click is completed.
 	 */
 	protected void onClickStart() {
+		// implement in subclasses as needed
 	}
 
 	@Override
@@ -925,13 +873,6 @@ public abstract class GCustomButton extends ButtonBase {
 		if (curFace == null) {
 			setCurrentFace(getUpFace());
 		}
-	}
-
-	void fireClickListeners(@SuppressWarnings("unused") Event nativeEvent) {
-		// TODO(ecc) Once event triggering is committed, should fire a native
-		// click event instead.
-		fireEvent(new ClickEvent() {
-		});
 	}
 
 	/**

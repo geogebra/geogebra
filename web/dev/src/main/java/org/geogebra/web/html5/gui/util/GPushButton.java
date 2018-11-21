@@ -17,7 +17,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -76,21 +75,6 @@ public class GPushButton extends GCustomButton {
 	}
 
 	/**
-	 * Constructor for <code>PushButton</code>. The supplied image is used to
-	 * construct the default face of the button.
-	 * 
-	 * @param upImage
-	 *            image for the default (up) face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GPushButton(Image, ClickHandler)} instead
-	 */
-	@Deprecated
-	public GPushButton(Image upImage, ClickListener listener) {
-		super(upImage, listener);
-	}
-
-	/**
 	 * Constructor for <code>PushButton</code>.
 	 * 
 	 * @param upImage
@@ -114,22 +98,6 @@ public class GPushButton extends GCustomButton {
 	 */
 	public GPushButton(Image upImage, Image downImage, ClickHandler handler) {
 		super(upImage, downImage, handler);
-	}
-
-	/**
-	 * Constructor for <code>PushButton</code>.
-	 * 
-	 * @param upImage
-	 *            image for the default(up) face of the button
-	 * @param downImage
-	 *            image for the down face of the button
-	 * @param listener
-	 *            clickListener
-	 * @deprecated Use {@link #GPushButton(Image, Image, ClickHandler)} instead
-	 */
-	@Deprecated
-	public GPushButton(Image upImage, Image downImage, ClickListener listener) {
-		super(upImage, downImage, listener);
 	}
 
 	/**
@@ -157,21 +125,6 @@ public class GPushButton extends GCustomButton {
 	}
 
 	/**
-	 * Constructor for <code>PushButton</code>. The supplied text is used to
-	 * construct the default face of the button.
-	 * 
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GPushButton(String, ClickHandler)} instead
-	 */
-	@Deprecated
-	public GPushButton(String upText, ClickListener listener) {
-		super(upText, listener);
-	}
-
-	/**
 	 * Constructor for <code>PushButton</code>.
 	 * 
 	 * @param upText
@@ -195,23 +148,6 @@ public class GPushButton extends GCustomButton {
 	 */
 	public GPushButton(String upText, String downText, ClickHandler handler) {
 		super(upText, downText, handler);
-	}
-
-	/**
-	 * Constructor for <code>PushButton</code>.
-	 * 
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param downText
-	 *            the text for down face of the button
-	 * @param listener
-	 *            the click listener
-	 * @deprecated Use {@link #GPushButton(String, String, ClickHandler)}
-	 *             instead
-	 */
-	@Deprecated
-	public GPushButton(String upText, String downText, ClickListener listener) {
-		super(upText, downText, listener);
 	}
 
 	@Override
