@@ -3681,7 +3681,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// MOB-1537
 		case MOB_PREVIEW_WHEN_EDITING:
-			return prerelease;
+			return true;
 
 		// AND-887 and IGR-732
 		case MOB_PROPERTY_SORT_BY:
