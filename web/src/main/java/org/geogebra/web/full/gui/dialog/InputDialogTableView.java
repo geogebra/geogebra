@@ -128,7 +128,6 @@ public class InputDialogTableView extends DialogBoxW
 	}
 
 	private void openTableView() {
-
 		try {
 			double start = Double.parseDouble(startValue.getInputText());
 			double end = Double.parseDouble(endValue.getInputText());
@@ -141,9 +140,7 @@ public class InputDialogTableView extends DialogBoxW
 							(AppW) app);
 		} finally {
 			hide();
-
 		}
-
 	}
 
 	@Override

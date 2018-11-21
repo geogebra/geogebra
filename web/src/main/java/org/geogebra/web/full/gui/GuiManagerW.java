@@ -2516,7 +2516,6 @@ public class GuiManagerW extends GuiManager
 	public void showTableValuesView(GeoElement geo) {
 		if (((TableValuesViewW) getTableValuesView()).isEmpty()) {
 			app.getDialogManager().openTableViewDialog(geo);
-
 		} else {
 			addGeoToTableValuesView(geo);
 		}

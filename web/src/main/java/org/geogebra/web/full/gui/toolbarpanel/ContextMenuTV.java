@@ -96,7 +96,7 @@ public class ContextMenuTV {
 				public void execute() {
 					DialogManager dialogManager = getApp().getDialogManager();
 					if (dialogManager != null) {
-						dialogManager.openTableViewDialog(getGeo());
+						dialogManager.openTableViewDialog(null);
 					}
 				}
 			});
