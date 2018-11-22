@@ -269,11 +269,11 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * init
 	 * 
-	 * @param geo
+	 * @param geoElement
 	 *            geo
 	 */
-	protected void init(GeoElement geo) {
-		setGeoElement(geo);
+	protected void init(GeoElement geoElement) {
+		setGeoElement(geoElement);
 		waitForUpdate = true;
 
 	}

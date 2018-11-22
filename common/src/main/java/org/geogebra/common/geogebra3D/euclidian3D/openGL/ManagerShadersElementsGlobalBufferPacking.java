@@ -330,43 +330,43 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	/**
 	 * draw surfaces
 	 * 
-	 * @param renderer
+	 * @param renderer1
 	 *            renderer
 	 */
-	public void drawSurfaces(Renderer renderer) {
-		bufferManagerSurfaces.draw((RendererShadersInterface) renderer);
+	public void drawSurfaces(Renderer renderer1) {
+		bufferManagerSurfaces.draw((RendererShadersInterface) renderer1);
 	}
 
 	/**
 	 * draw points
 	 * 
-	 * @param renderer
+	 * @param renderer1
 	 *            renderer
 	 */
-	public void drawPoints(Renderer renderer) {
-		bufferManagerPoints.draw((RendererShadersInterface) renderer);
+	public void drawPoints(Renderer renderer1) {
+		bufferManagerPoints.draw((RendererShadersInterface) renderer1);
 	}
 
 	/**
 	 * draw closed surfaces
 	 * 
-	 * @param renderer
+	 * @param renderer1
 	 *            renderer
 	 */
-	public void drawSurfacesClosed(Renderer renderer) {
-		bufferManagerSurfacesClosed.draw((RendererShadersInterface) renderer);
+	public void drawSurfacesClosed(Renderer renderer1) {
+		bufferManagerSurfacesClosed.draw((RendererShadersInterface) renderer1);
 	}
 
 	/**
 	 * draw closed surfaces
 	 * 
-	 * @param renderer
+	 * @param renderer1
 	 *            renderer
 	 */
-	public void drawSurfacesClipped(Renderer renderer) {
-		renderer.enableClipPlanesIfNeeded();
-		bufferManagerSurfacesClipped.draw((RendererShadersInterface) renderer);
-		renderer.disableClipPlanesIfNeeded();
+	public void drawSurfacesClipped(Renderer renderer1) {
+		renderer1.enableClipPlanesIfNeeded();
+		bufferManagerSurfacesClipped.draw((RendererShadersInterface) renderer1);
+		renderer1.disableClipPlanesIfNeeded();
 	}
 
 	@Override

@@ -940,7 +940,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		// make sure Freehand Functions have different entries in drop-down
 		// lists
-		if (isFreehandFunction()) {
+		if (isFreehandFunction() && isLabelSet()) {
 			return getAssignmentLHS(tpl);
 		}
 		if (fun != null && isDefined()) {
