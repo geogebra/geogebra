@@ -233,26 +233,26 @@ public class AlgoCellRange extends AlgoElement {
 	 * all cells added to the geoList is turned off, otherwise the user could
 	 * move an object out of the range by renaming it.
 	 * 
-	 * @param startCoords
+	 * @param rangeStart
 	 *            range start point
-	 * @param endCoords
+	 * @param rangeEnd
 	 *            range end point
 	 */
-	private ArrayList<GeoElement> initCellRangeList(GPoint startCoords,
-			GPoint endCoords) {
+	private ArrayList<GeoElement> initCellRangeList(GPoint rangeStart,
+			GPoint rangeEnd) {
 		ArrayList<GeoElement> listItems1 = new ArrayList<>();
 
 		// check if we have valid spreadsheet coordinates
-		boolean validRange = startCoords != null && endCoords != null;
+		boolean validRange = rangeStart != null && rangeEnd != null;
 		if (!validRange) {
 			return listItems1;
 		}
 
 		// min and max column and row of range
-		int minCol = Math.min(startCoords.x, endCoords.x);
-		int maxCol = Math.max(startCoords.x, endCoords.x);
-		int minRow = Math.min(startCoords.y, endCoords.y);
-		int maxRow = Math.max(startCoords.y, endCoords.y);
+		int minCol = Math.min(rangeStart.x, rangeEnd.x);
+		int maxCol = Math.max(rangeStart.x, rangeEnd.x);
+		int minRow = Math.min(rangeStart.y, rangeEnd.y);
+		int maxRow = Math.max(rangeStart.y, rangeEnd.y);
 
 		maxExistingCol = minCol - 1;
 		maxExistingRow = minRow - 1;

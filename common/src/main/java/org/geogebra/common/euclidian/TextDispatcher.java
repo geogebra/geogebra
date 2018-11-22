@@ -181,17 +181,17 @@ public class TextDispatcher {
 	 * position.
 	 */
 	protected GeoText createDynamicTextForMouseLoc(String type, String default0,
-			GeoElement object, GeoElementND value, GPoint loc) {
+			GeoElement object, GeoElementND value, GPoint point) {
 
 		GeoText text = createDynamicText(type, default0, object, value);
 		if (text != null) {
 			GeoPointND P = null;
 			if (object.isRegion()) {
-				P = getPointForDynamicText((Region) object, loc);
+				P = getPointForDynamicText((Region) object, point);
 			} else if (object.isPath()) {
-				P = getPointForDynamicText((Path) object, loc);
+				P = getPointForDynamicText((Path) object, point);
 			} else {
-				P = getPointForDynamicText(loc);
+				P = getPointForDynamicText(point);
 			}
 
 			if (P != null) {
@@ -205,7 +205,7 @@ public class TextDispatcher {
 					return null;
 				}
 			} else {
-				setNoPointLoc(text, loc);
+				setNoPointLoc(text, point);
 			}
 
 			text.checkVisibleIn3DViewNeeded();

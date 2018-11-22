@@ -58,11 +58,11 @@ class DimensionCache {
     }
 
     private int calculateMedianWidth() {
-        int[] widths = new int[dimensions.maxColumns];
+        int[] exactWidths = new int[dimensions.maxColumns];
         for (int i = 0; i < dimensions.maxColumns; i++) {
-            widths[i] = getExactWidth(i);
+            exactWidths[i] = getExactWidth(i);
         }
-        return median(widths);
+        return median(exactWidths);
     }
 
     private int median(int[] array) {

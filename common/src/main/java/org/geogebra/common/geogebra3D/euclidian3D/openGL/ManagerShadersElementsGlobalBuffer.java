@@ -235,13 +235,13 @@ public class ManagerShadersElementsGlobalBuffer
 		 *            renderer
 		 * @param size
 		 *            indices size
-		 * @param type
+		 * @param typeElement
 		 *            type for elements indices
 		 */
 		public void bind(RendererShadersInterface r, int size,
-				TypeElement type) {
+				TypeElement typeElement) {
 
-			switch (type) {
+			switch (typeElement) {
 			case NONE:
 				if (hasSharedIndexBuffer) {
 					// need specific index if was sharing one
@@ -253,7 +253,7 @@ public class ManagerShadersElementsGlobalBuffer
 
 				indicesLength = getLength();
 
-				if (!indicesDone || type != oldType
+				if (!indicesDone || typeElement != oldType
 						|| arrayI.capacity() < indicesLength) {
 					debug("NEW index buffer");
 					arrayI.allocate(indicesLength);
@@ -300,10 +300,10 @@ public class ManagerShadersElementsGlobalBuffer
 				hasSharedIndexBuffer = true;
 				break;
 			default:
-				Log.debug("Missing case: " + type);
+				Log.debug("Missing case: " + typeElement);
 			}
 
-			oldType = type;
+			oldType = typeElement;
 		}
 
 		@Override

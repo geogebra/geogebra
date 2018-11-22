@@ -89,15 +89,15 @@ public class StatisticsCollection {
 		initComputation(rows, columns);
 	}
 
-	public void initComputation(int rows, int columns) {
-		this.rows = rows;
-		this.columns = columns;
-		observed = new double[rows][columns];
-		expected = new double[rows][columns];
-		diff = new double[rows][columns];
+	public void initComputation(int initRows, int initColumns) {
+		this.rows = initRows;
+		this.columns = initColumns;
+		observed = new double[initRows][initColumns];
+		expected = new double[initRows][initColumns];
+		diff = new double[initRows][initColumns];
 
-		columnSum = new double[columns];
-		rowSum = new double[rows];
+		columnSum = new double[initColumns];
+		rowSum = new double[initRows];
 
 	}
 

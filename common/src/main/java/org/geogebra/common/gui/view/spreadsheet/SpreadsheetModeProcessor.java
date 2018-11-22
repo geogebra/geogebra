@@ -130,12 +130,12 @@ public class SpreadsheetModeProcessor {
 	 * Creates an autofunction in the given target cell based on the current
 	 * autofunction mode and the given cell range.
 	 */
-	public boolean createAutoFunctionCell(GeoElement targetCell, CellRange cr) {
+	public boolean createAutoFunctionCell(GeoElement functionTargetCell, CellRange cr) {
 
 		boolean success = true;
 
 		// Get the targetCell label and the selected cell range
-		String targetCellLabel = targetCell.getLabelSimple();
+		String targetCellLabel = functionTargetCell.getLabelSimple();
 		String cellRangeString = table.getCellRangeProcessor()
 				.getCellRangeString(cr);
 
@@ -157,11 +157,11 @@ public class SpreadsheetModeProcessor {
 				+ "]";
 		Log.debug(expr);
 		// Create the new geo
-		if (!cr.contains(targetCell)) {
+		if (!cr.contains(functionTargetCell)) {
 			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr,
 					false);
 		} else {
-			targetCell.setUndefined();
+			functionTargetCell.setUndefined();
 			success = false;
 		}
 

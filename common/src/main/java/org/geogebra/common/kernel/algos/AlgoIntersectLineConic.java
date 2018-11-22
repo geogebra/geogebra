@@ -608,9 +608,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		}
 	}
 
-	private boolean pointLiesOnBothPaths(GeoPoint P) {
-		return g.isIntersectionPointIncident(P, Kernel.MIN_PRECISION)
-				&& c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
+	private boolean pointLiesOnBothPaths(GeoPoint point) {
+		return g.isIntersectionPointIncident(point, Kernel.MIN_PRECISION)
+				&& c.isIntersectionPointIncident(point, Kernel.MIN_PRECISION);
 	}
 
 	/**
@@ -622,15 +622,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 * 
 	 * @returns type of intersection
 	 */
-	private int intersect(GeoConic c, GeoPoint[] sol) {
+	private int intersect(GeoConic conic, GeoPoint[] sol) {
 		boolean ok = false;
 		int ret = INTERSECTION_PASSING_LINE;
 
-		if (c.isDefined() && g.isDefined()) {
+		if (conic.isDefined() && g.isDefined()) {
 			double epsilon = 1E-15;
 			while (epsilon <= Kernel.MIN_PRECISION) {
-				ret = intersectLineConic(g, c, sol, epsilon);
-				ok = testPoints(g, c, sol, Kernel.MIN_PRECISION);
+				ret = intersectLineConic(g, conic, sol, epsilon);
+				ok = testPoints(g, conic, sol, Kernel.MIN_PRECISION);
 				if (ok) {
 					break;
 				}

@@ -314,7 +314,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				pt.getTriangleFans());
 	}
 
-	private void updateOutline(Renderer renderer, Coords[] vertices, int length) {
+	private void updateOutline(Renderer renderer, Coords[] outlineVertices, int length) {
 
 		setPackCurve(false);
 		int thickness = getGeoElement().getLineThickness();
@@ -326,10 +326,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			brush.setThickness(thickness, (float) getView3D().getScale());
 			for (int i = 0; i < length - 1; i++) {
 				brush.setAffineTexture(0.5f, 0.25f);
-				brush.segment(vertices[i], vertices[i + 1]);
+				brush.segment(outlineVertices[i], outlineVertices[i + 1]);
 			}
 			brush.setAffineTexture(0.5f, 0.25f);
-			brush.segment(vertices[length - 1], vertices[0]);
+			brush.segment(outlineVertices[length - 1], outlineVertices[0]);
 			setGeometryIndex(brush.end());
 		}
 		endPacking();

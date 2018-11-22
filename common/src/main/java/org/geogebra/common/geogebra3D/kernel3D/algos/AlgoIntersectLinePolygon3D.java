@@ -115,11 +115,11 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	 * 
 	 * @param p
 	 *            polygon
-	 * @param newCoords
+	 * @param paramToCoords
 	 *            coords
 	 */
 	protected void intersectionsCoords(HasSegments hasSegments,
-			TreeMap<Double, Coords> newCoords) {
+			TreeMap<Double, Coords> paramToCoords) {
 
 		// TODO: move these to intersectLinePolyline3D
 
@@ -128,10 +128,10 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		// check if the line is contained by the polygon plane
 		switch (AlgoIntersectCS1D2D.getConfigLinePlane(g, p1)) {
 		case GENERAL: // intersect line/interior of polygon
-			intersectionsCoordsGeneral(p1, newCoords);
+			intersectionsCoordsGeneral(p1, paramToCoords);
 			break;
 		case CONTAINED: // intesect line/segments
-			intersectionsCoordsContained(p1, newCoords);
+			intersectionsCoordsContained(p1, paramToCoords);
 			break;
 		case PARALLEL: // no intersection
 			break;
@@ -144,11 +144,11 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	 * 
 	 * @param poly
 	 *            polygon
-	 * @param newCoords
+	 * @param paramToCoords
 	 *            coords
 	 */
 	protected void intersectionsCoordsContained(HasSegments poly,
-			TreeMap<Double, Coords> newCoords) {
+			TreeMap<Double, Coords> paramToCoords) {
 
 		// line origin and direction
 		setIntersectionLine();
@@ -171,7 +171,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 				double t2 = project[2].get(2); // parameter on segment
 
 				if (checkParameter(t1) && seg.respectLimitedPath(t2)) {
-					newCoords.put(t1, project[0]);
+					paramToCoords.put(t1, project[0]);
 				}
 
 			}
@@ -184,11 +184,11 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	 * 
 	 * @param poly
 	 *            polygon
-	 * @param newCoords
+	 * @param paramToCoords
 	 *            coords
 	 */
 	protected void intersectionsCoordsGeneral(GeoPolygon poly,
-			TreeMap<Double, Coords> newCoords) {
+			TreeMap<Double, Coords> paramToCoords) {
 
 		Coords globalCoords = new Coords(4);
 		Coords inPlaneCoords = new Coords(4);
@@ -198,9 +198,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 		// check if projection is intersection point
 		if (singlePoint != null) {
-			newCoords.put(0d, singlePoint);
+			paramToCoords.put(0d, singlePoint);
 		}
-
 	}
 
 	/**

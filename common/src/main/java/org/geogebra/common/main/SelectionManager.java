@@ -1290,13 +1290,13 @@ public class SelectionManager {
 	/**
 	 * set geos selected from their names
 	 * 
-	 * @param kernel
+	 * @param kernel1
 	 *            kernel
 	 */
-	public void recallSelectedGeosNames(Kernel kernel) {
+	public void recallSelectedGeosNames(Kernel kernel1) {
 		ArrayList<GeoElement> list = new ArrayList<>();
 		for (String name : selectedGeosNames) {
-			GeoElement geo = kernel.lookupLabel(name);
+			GeoElement geo = kernel1.lookupLabel(name);
 			if (geo != null) {
 				list.add(geo);
 			}

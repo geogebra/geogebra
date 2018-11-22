@@ -129,9 +129,9 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         }
     }
 
-    private void localizeValues(String[] values) {
-        for (int i = 0; i < values.length; i++) {
-            values[i] = localization.getMenu(values[i]);
+    private void localizeValues(String[] messages) {
+        for (int i = 0; i < messages.length; i++) {
+            messages[i] = localization.getMenu(messages[i]);
         }
     }
 

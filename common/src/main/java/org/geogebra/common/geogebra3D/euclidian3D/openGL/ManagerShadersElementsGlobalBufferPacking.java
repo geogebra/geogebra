@@ -99,16 +99,16 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		/**
 		 * update all geometries color for this set
 		 * 
-		 * @param color
+		 * @param newColor
 		 *            color
-		 * @param layer
+		 * @param newLayer
 		 *            layer
 		 */
-		public void updateColorAndLayer(GColor color, int layer) {
-			this.color = color;
-			this.layer = layer;
+		public void updateColorAndLayer(GColor newColor, int newLayer) {
+			this.color = newColor;
+			this.layer = newLayer;
 			bufferManager.updateColorAndLayer(index, getGeometriesLength(),
-					color, layer);
+					newColor, newLayer);
 		}
 
 		/**
@@ -118,12 +118,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 *            if visible
 		 * @param alpha
 		 *            object alpha
-		 * @param layer
+		 * @param objLayer
 		 *            object layer
 		 */
-		public void updateVisibility(boolean visible, int alpha, int layer) {
+		public void updateVisibility(boolean visible, int alpha, int objLayer) {
 			bufferManager.updateVisibility(index, 0, getGeometriesLength(),
-					visible, alpha, layer);
+					visible, alpha, objLayer);
 		}
 
 		@Override
@@ -303,28 +303,28 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	/**
 	 * draw curves
 	 * 
-	 * @param renderer
+	 * @param renderer1
 	 *            renderer
 	 * @param hidden
 	 *            if hidden
 	 */
-	public void drawCurves(Renderer renderer, boolean hidden) {
-		bufferManagerCurves.draw((RendererShadersInterface) renderer, hidden);
+	public void drawCurves(Renderer renderer1, boolean hidden) {
+		bufferManagerCurves.draw((RendererShadersInterface) renderer1, hidden);
 	}
 
 	/**
 	 * draw clipped curves
 	 * 
-	 * @param renderer
+	 * @param renderer1
 	 *            renderer
 	 * @param hidden
 	 *            if hidden
 	 */
-	public void drawCurvesClipped(Renderer renderer, boolean hidden) {
-		renderer.enableClipPlanesIfNeeded();
-		bufferManagerCurvesClipped.draw((RendererShadersInterface) renderer,
+	public void drawCurvesClipped(Renderer renderer1, boolean hidden) {
+		renderer1.enableClipPlanesIfNeeded();
+		bufferManagerCurvesClipped.draw((RendererShadersInterface) renderer1,
 				hidden);
-		renderer.disableClipPlanesIfNeeded();
+		renderer1.disableClipPlanesIfNeeded();
 	}
 
 	/**

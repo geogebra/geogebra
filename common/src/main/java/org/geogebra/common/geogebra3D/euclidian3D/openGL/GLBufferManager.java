@@ -167,18 +167,18 @@ abstract class GLBufferManager {
 	 *            geometry set index
 	 * @param geometriesLength
 	 *            geometries length for this set
-	 * @param color
+	 * @param objColor
 	 *            new color
-	 * @param layer
+	 * @param objLayer
 	 *            layer
 	 */
-	public void updateColorAndLayer(int index, int geometriesLength, GColor color, int layer) {
+	public void updateColorAndLayer(int index, int geometriesLength, GColor objColor, int objLayer) {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			if (currentBufferSegment != null) {
 				currentBufferPack = currentBufferSegment.bufferPack;
-				currentBufferPack.setColorAndLayer(color, layer,
+				currentBufferPack.setColorAndLayer(objColor, objLayer,
 						currentBufferSegment.elementsOffset,
 						currentBufferSegment.getElementsLength());
 			}

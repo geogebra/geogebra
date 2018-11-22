@@ -139,35 +139,35 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	protected void intersectionsCoords(GeoLineND g, GeoPolyLine p,
-			TreeMap<Double, Coords> newCoords) {
+	protected void intersectionsCoords(GeoLineND line, GeoPolyLine poly,
+			TreeMap<Double, Coords> paramToCoords) {
 
-		double min = g.getMinParameter();
-		double max = g.getMaxParameter();
-		Coords gCoords = ((GeoVec3D) g).getCoords();
+		double min = line.getMinParameter();
+		double max = line.getMaxParameter();
+		Coords gCoords = ((GeoVec3D) line).getCoords();
 
-		for (int i = 0; i < p.getNumPoints() - 1; i++) {
+		for (int i = 0; i < poly.getNumPoints() - 1; i++) {
 
-			Coords segStart = p.getPoint(i).getCoords();
-			Coords segEnd = p.getPoint(i + 1).getCoords();
+			Coords segStart = poly.getPoint(i).getCoords();
+			Coords segEnd = poly.getPoint(i + 1).getCoords();
 
 			Coords coords = segStart.crossProduct(segEnd).crossProduct(gCoords);
 
 			if (DoubleUtil.isZero(coords.getLast())) {
-				if (((GeoLine) g).isOnPath(segStart, Kernel.STANDARD_PRECISION)
-						&& ((GeoLine) g).isOnPath(segEnd,
+				if (((GeoLine) line).isOnPath(segStart, Kernel.STANDARD_PRECISION)
+						&& ((GeoLine) line).isOnPath(segEnd,
 								Kernel.STANDARD_PRECISION)) {
-					newCoords.put(((GeoLine) g).getPossibleParameter(segStart),
+					paramToCoords.put(((GeoLine) line).getPossibleParameter(segStart),
 							segStart);
-					newCoords.put(((GeoLine) g).getPossibleParameter(segEnd),
+					paramToCoords.put(((GeoLine) line).getPossibleParameter(segEnd),
 							segEnd);
 				}
 			} else if (GeoSegment.checkOnPath(segStart, segEnd, coords, false,
 					Kernel.STANDARD_PRECISION)) {
-				double t = ((GeoLine) g).getPossibleParameter(coords);
+				double t = ((GeoLine) line).getPossibleParameter(coords);
 				// Application.debug("parameter("+i+") : "+t);
 				if (t >= min && t <= max) {
-					newCoords.put(t, coords);
+					paramToCoords.put(t, coords);
 				}
 			}
 		}

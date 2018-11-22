@@ -2116,8 +2116,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	}
 
 	@Override
-	public void normalDirect(Coords3 n) {
-		manager.normal(n.getXf(), n.getYf(), n.getZf());
+	public void normalDirect(Coords3 normal) {
+		manager.normal(normal.getXf(), normal.getYf(), normal.getZf());
 	}
 
 	@Override

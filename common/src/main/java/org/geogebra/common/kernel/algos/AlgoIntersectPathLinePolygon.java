@@ -271,7 +271,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	/**
 	 * check if midpoint (a,b) is in the polygon
 	 * 
-	 * @param p
+	 * @param poly
 	 *            polygon
 	 * @param a
 	 *            point
@@ -279,8 +279,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 *            point
 	 * @return check
 	 */
-	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b) {
-		return p.isInRegion((a.getX() + b.getX()) / 2,
+	protected boolean checkMidpoint(GeoPolygon poly, Coords a, Coords b) {
+		return poly.isInRegion((a.getX() + b.getX()) / 2,
 				(a.getY() + b.getY()) / 2);
 	}
 

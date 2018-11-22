@@ -1501,9 +1501,18 @@ public abstract class ProbabilityCalculatorView
 		}
 	}
 
-	protected boolean isValidInterval(int probMode, double xLow, double xHigh) {
+	/**
+	 * @param probabilityMode
+	 *            mode
+	 * @param xLow
+	 *            interval min
+	 * @param xHigh
+	 *            interval max
+	 * @return whether interval is valid for given mode
+	 */
+	protected boolean isValidInterval(int probabilityMode, double xLow, double xHigh) {
 
-		if (probMode == PROB_INTERVAL && xHigh < xLow) {
+		if (probabilityMode == PROB_INTERVAL && xHigh < xLow) {
 			return false;
 		}
 
@@ -1533,13 +1542,13 @@ public abstract class ProbabilityCalculatorView
 
 		case CHISQUARE:
 		case EXPONENTIAL:
-			if (probMode != PROB_LEFT) {
+			if (probabilityMode != PROB_LEFT) {
 				isValid = xLow >= 0;
 			}
 			break;
 
 		case F:
-			if (probMode != PROB_LEFT) {
+			if (probabilityMode != PROB_LEFT) {
 				isValid = xLow > 0;
 			}
 			break;

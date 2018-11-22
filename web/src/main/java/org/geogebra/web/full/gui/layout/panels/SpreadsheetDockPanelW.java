@@ -23,9 +23,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
-	SpreadsheetStyleBarW sstylebar;
-	SpreadsheetViewW sview;
-	AbsolutePanel wrapview;
+	private SpreadsheetStyleBarW sstylebar;
+	private SpreadsheetViewW sview;
+	private AbsolutePanel wrapview;
 
 	/**
 	 * @param appl
