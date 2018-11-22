@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.exam;
 
-import java.util.Date;
-
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.GTimer;
@@ -294,9 +292,8 @@ public class ExamDialog {
 			app.getGgbApi().setPerspective("A");
 		}
 
-		Date date = new Date();
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		app.getExam().setStart(date.getTime());
+		app.startExam();
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();
 		guiManager.updateToolbarActions();
