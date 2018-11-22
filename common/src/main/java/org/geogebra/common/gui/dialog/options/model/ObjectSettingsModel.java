@@ -310,7 +310,7 @@ abstract public class ObjectSettingsModel {
      * @return whether the geos show fix/unfix button
      */
     public boolean areObjectsShowingFixUnfix() {
-        if (geoElement == null || (hasFunctionProperties() && shouldHideFunctionProperties())) {
+        if (geoElement == null || (hasFunctionProperties() && shouldHideFixSetting())) {
             return false;
         }
 
@@ -641,11 +641,11 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * Tells whether the Function properties should be shown or not
+     * Tells whether the Fix/Unfix should be shown or not
      *
-     * @return true, if the user is in exam mode so the function properties should be hidden
+     * @return true, if the user is in exam mode so the Fix/Unfix button/setting should be hidden
      */
-    public boolean shouldHideFunctionProperties() {
+    public boolean shouldHideFixSetting() {
         return app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS) && app.getExam() != null && app
                 .getExam().isStarted();
     }
