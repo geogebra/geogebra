@@ -2491,7 +2491,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void initTableValuesView(double min, double max, double step, GeoElement geo) {
 		try {
-			((TableValuesViewW) getTableValuesView()).setValues(min, max, step);
+			getTableValuesView().setValues(min, max, step);
 			if (geo != null) {
 				addGeoToTableValuesView(geo);
 				app.getKernel().attach(getTableValuesView());
@@ -2507,14 +2507,13 @@ public class GuiManagerW extends GuiManager
 
 	private void addGeoToTableValuesView(GeoElement geo) {
 		getTableValuesView().add(geo);
-		((TableValuesView) getTableValuesView())
-				.showColumn((GeoEvaluatable) geo);
+		getTableValuesView().showColumn((GeoEvaluatable) geo);
 		getUnbundledToolbar().openTableView(true);
 	}
 
 	@Override
 	public void showTableValuesView(GeoElement geo) {
-		if (((TableValuesViewW) getTableValuesView()).isEmpty()) {
+		if (getTableValuesView().isEmpty()) {
 			app.getDialogManager().openTableViewDialog(geo);
 		} else {
 			addGeoToTableValuesView(geo);

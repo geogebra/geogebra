@@ -26,7 +26,11 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
-import org.geogebra.common.gui.view.table.*;
+import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesModel;
+import org.geogebra.common.gui.view.table.TableValuesPoints;
+import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
@@ -891,7 +895,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public View getTableValuesView() {
+	public TableValues getTableValuesView() {
 		if (tableValues == null) {
 			tableValues = createTableValuesView();
 			kernel.attach(tableValues);

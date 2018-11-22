@@ -19,6 +19,7 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.DefaultUndoManager;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -121,7 +122,10 @@ public class AppCommon extends App {
 
     @Override
     public void storeUndoInfo() {
-
+		if (isUndoActive()) {
+			kernel.storeUndoInfo();
+			setUnsaved();
+		}
     }
 
     @Override
@@ -161,7 +165,7 @@ public class AppCommon extends App {
 
     @Override
     public EuclidianView getActiveEuclidianView() {
-        return null;
+		return getEuclidianView1();
     }
 
     @Override
@@ -366,7 +370,7 @@ public class AppCommon extends App {
 
     @Override
     public UndoManager getUndoManager(Construction cons) {
-        return null;
+		return new DefaultUndoManager(cons);
     }
 
     @Override
@@ -441,6 +445,17 @@ public class AppCommon extends App {
 
     @Override
     public ScriptManager newScriptManager() {
-        return null;
+		return new ScriptManager(this) {
+
+			@Override
+			public void ggbOnInit() {
+				// no JS
+			}
+
+			@Override
+			public void callJavaScript(String jsFunction, String[] args) {
+				// no JS
+			}
+		};
     }
 }

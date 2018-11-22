@@ -419,4 +419,44 @@ public class TableValuesViewTest extends BaseUnitTest {
         points.setPointsVisible(1, false);
         Assert.assertFalse(points.arePointsVisible(1));
     }
+
+	@Test
+	public void testUndoAddFirst() {
+		getApp().setUndoRedoEnabled(true);
+		getApp().setUndoActive(true);
+		getKernel().getConstruction().initUndoInfo();
+		GeoLine[] lines = createLines(2);
+		getApp().storeUndoInfo();
+		Assert.assertEquals(1, countUndoPoints());
+		showColumn(lines[0]);
+		getKernel().undo();
+		Assert.assertTrue(view.isEmpty());
+		getKernel().redo();
+		Assert.assertFalse(view.isEmpty());
+		Assert.assertEquals(2, countUndoPoints());
+	}
+
+	@Test
+	public void testUndoAddSecond() {
+		getApp().setUndoRedoEnabled(true);
+		getApp().setUndoActive(true);
+		getKernel().getConstruction().initUndoInfo();
+		GeoLine[] lines = createLines(2);
+		getApp().storeUndoInfo();
+		Assert.assertEquals(1, countUndoPoints());
+		showColumn(lines[0]);
+		showColumn(lines[1]);
+		Assert.assertEquals(3, countUndoPoints());
+		Assert.assertEquals(3, model.getColumnCount());
+		getKernel().undo();
+		Assert.assertEquals(2, model.getColumnCount());
+		Assert.assertEquals(2, countUndoPoints());
+		getKernel().redo();
+		Assert.assertEquals(3, countUndoPoints());
+		Assert.assertEquals(3, model.getColumnCount());
+	}
+
+	private Object countUndoPoints() {
+		return getKernel().getConstruction().getUndoManager().getHistorySize();
+	}
 }

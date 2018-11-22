@@ -76,6 +76,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
+		doShowColumn(evaluatable);
+		kernel.getApplication().storeUndoInfo();
+	}
+
+	private void doShowColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable) && evaluatable.hasTableOfValues()) {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());
@@ -217,7 +222,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			if (evaluatable.getTableColumn() >= 0) {
-				showColumn(evaluatable);
+				doShowColumn(evaluatable);
 			}
 		}
 	}
