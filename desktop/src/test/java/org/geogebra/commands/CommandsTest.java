@@ -1711,7 +1711,7 @@ public class CommandsTest extends AlgebraTest {
 
 		t("Length[ 1..10 ]", "10");
 		// t("Length[ loc ]");
-		t("freehandFunc=Function[{1,2,3,1,5,7,9}]", "freehandFunc(x)");
+		t("freehandFunc=Function[{1,2,3,1,5,7,9}]", "freehand(x)");
 		t("Length[ freehandFunc ]", "5");
 
 		t("Length[ \"GeoGebra\" ]", "8");
