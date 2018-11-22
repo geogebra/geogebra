@@ -503,8 +503,8 @@ public abstract class GCustomButton extends ButtonBase {
 		super(focusImpl.createFocusable());
 		sinkEvents(Event.ONCLICK | Event.MOUSEEVENTS | Event.FOCUSEVENTS
 				| Event.KEYEVENTS);
-		sinkBitlessEvent("touchStart");
-		sinkBitlessEvent("touchEnd");
+		sinkBitlessEvent("touchstart");
+		sinkBitlessEvent("touchend");
 		setUpFace(createFace(null, "up", UP));
 		setStyleName(STYLENAME_DEFAULT);
 
