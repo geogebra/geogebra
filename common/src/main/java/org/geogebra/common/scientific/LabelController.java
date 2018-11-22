@@ -1,5 +1,6 @@
 package org.geogebra.common.scientific;
 
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -28,8 +29,13 @@ public class LabelController {
 	}
 
 	private void updateLabel(GeoElement element, boolean show) {
+		String label = element.getFreeLabel(show ? null : PREFIX);
 		element.setAlgebraLabelVisible(show);
-		element.setLabel(element.getFreeLabel(show ? null : PREFIX));
+		element.setLabel(label);
+		ExpressionNode definition = element.getDefinition();
+		if (definition != null) {
+			definition.setLabel(label);
+		}
 		element.setDescriptionNeedsUpdateInAV(true);
 		element.getKernel().notifyUpdate(element);
 	}

@@ -2966,9 +2966,7 @@ public class AlgebraProcessor {
 
 			default:
 				// return the GeoElement
-				GeoElement geoElement = (GeoElement) eval;
-				addLabelToDefinition(geoElement);
-				return new GeoElement[]{geoElement};
+				return new GeoElement[]{(GeoElement) eval};
 			}
 		}
 
@@ -3024,13 +3022,6 @@ public class AlgebraProcessor {
 		// if we get here, nothing worked
 		Log.debug("Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
 		return null;
-	}
-
-	private void addLabelToDefinition(GeoElement geoElement) {
-		ExpressionNode definition = geoElement.getDefinition();
-		if (definition != null && definition.getLabel() == null) {
-			definition.setLabel(geoElement.getLabelSimple());
-		}
 	}
 
 	/**
