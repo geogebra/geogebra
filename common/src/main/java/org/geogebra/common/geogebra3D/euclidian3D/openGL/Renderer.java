@@ -819,14 +819,7 @@ public abstract class Renderer implements RendererInterface {
 			// we don't want mouse cursor on export image
 			setCullFaceBack(); // needed for further calculations
 		} else {
-			if (enableClipPlanes) {
-				disableClipPlanes();
-			}
-			setCullFaceBack();
-			view3D.drawCursor(this);
-			if (enableClipPlanes) {
-				enableClipPlanes();
-			}
+			drawCursor();
 		}
 
 		// drawing hidden part
@@ -956,6 +949,20 @@ public abstract class Renderer implements RendererInterface {
 
 		enableDepthTest();
 		enableLighting();
+	}
+
+	/**
+	 * draw view cursor
+	 */
+	protected void drawCursor() {
+		if (enableClipPlanes) {
+			disableClipPlanes();
+		}
+		setCullFaceBack();
+		view3D.drawCursor(this);
+		if (enableClipPlanes) {
+			enableClipPlanes();
+		}
 	}
 
 	/**
