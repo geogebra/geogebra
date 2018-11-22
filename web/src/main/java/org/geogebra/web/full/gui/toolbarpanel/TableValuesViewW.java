@@ -200,6 +200,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		valueScroller = new ScrollPanel();
 		valueScroller.addStyleName("tvValueScroller");
+
+		addHeaderClickHandler();
 	}
 
 	/**
@@ -222,7 +224,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		TableUtils.clear(headerTable);
 
 		addColumnsForTable(headerTable);
-		addHeaderClickHandler();
 
 		addValuesForTable(valuesTable);
 		fillValuesTable();
@@ -375,6 +376,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		return moreImg;
 	}
 
+	/**
+	 * Only call this from constructor
+	 */
 	private void addHeaderClickHandler() {
 		ClickHandler popupMenuClickHandler = new ClickHandler() {
 
