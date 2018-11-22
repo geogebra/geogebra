@@ -4125,6 +4125,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SPECIAL_POINTS_IN_CONTEXT_MENU:
 			return prerelease;
 
+		/** APPS-173 */
 		case POINTER_EVENTS:
 			return true;
 
