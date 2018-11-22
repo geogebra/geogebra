@@ -95,11 +95,7 @@ public class StylebarPositioner {
 	private GPoint getStylebarPositionForDrawable(GRectangle2D gRectangle2D,
 			boolean hasBoundingBox, boolean isPoint, boolean noUseOfRectangle,
 			int popupHeight, int popupWidth, GRectangle canvasRect) {
-		if (gRectangle2D == null) {
-			if (!noUseOfRectangle || isPoint) {
-				return null;
-			}
-		}
+		boolean functionOrLine = noUseOfRectangle || gRectangle2D == null;
 
 		int minXPosition = (int) Math.round(canvasRect.getX());
 		int maxXPosition = (int) Math
@@ -111,7 +107,7 @@ public class StylebarPositioner {
 		// final int BOTTOM_MARGIN = 7 * MARGIN;
 		double top;
 
-		if (noUseOfRectangle) {
+		if (functionOrLine) {
 			GPoint mouseLoc = euclidianView.getEuclidianController()
 					.getMouseLoc();
 			if (mouseLoc == null) {
@@ -142,7 +138,7 @@ public class StylebarPositioner {
 		}
 
 		double left;
-		if (noUseOfRectangle) {
+		if (functionOrLine) {
 			left = euclidianView.getEuclidianController().getMouseLoc().x
 					+ MARGIN;
 		} else {
