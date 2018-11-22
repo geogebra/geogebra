@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -818,11 +817,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public boolean isFixable() {
 		// visible slider should not be fixable if whiteboard doesn't active
-		return (!isSetEuclidianVisible()
-				|| (kernel.getApplication().isWhiteboardActive()
-						&& kernel.getApplication()
-								.has(Feature.MOW_IMPROVE_CONTEXT_MENU)))
-						&& !isDefaultGeo();
+		return !isSetEuclidianVisible() && !isDefaultGeo();
 	}
 
 	@Override
