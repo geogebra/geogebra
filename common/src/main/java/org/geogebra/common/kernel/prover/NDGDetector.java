@@ -204,17 +204,18 @@ public class NDGDetector {
 
 		// CHECKING COLLINEARITY
 
-		Combinations triplets = new Combinations(freePointsSet, 3);
+		Combinations<GeoElement> triplets = new Combinations<>(freePointsSet,
+				3);
 
 		while (triplets.hasNext()) {
-			HashSet<Object> triplet = (HashSet<Object>) triplets.next();
-			Iterator<Object> it = triplet.iterator();
+			Set<GeoElement> triplet = triplets.next();
+			Iterator<GeoElement> it = triplet.iterator();
 			// GeoElement[] points = (GeoElement[]) triplet.toArray();
 			// This is not working directly, so we have to do it manually:
 			int i = 0;
 			GeoElement[] points = new GeoElement[triplet.size()];
 			while (it.hasNext()) {
-				points[i] = (GeoElement) it.next();
+				points[i] = it.next();
 				i++;
 			}
 			PVariable[] fv1, fv2, fv3;
@@ -247,17 +248,17 @@ public class NDGDetector {
 
 		// CHECKING STRONG EQUALITY
 
-		Combinations pairs = new Combinations(freePointsSet, 2);
+		Combinations<GeoElement> pairs = new Combinations<>(freePointsSet, 2);
 
 		while (pairs.hasNext()) {
-			HashSet<Object> pair = (HashSet<Object>) pairs.next();
-			Iterator<Object> it = pair.iterator();
+			Set<GeoElement> pair = pairs.next();
+			Iterator<GeoElement> it = pair.iterator();
 			// GeoElement[] points = (GeoElement[]) pair.toArray();
 			// This is not working directly, so we have to do it manually:
 			int i = 0;
 			GeoElement[] points = new GeoElement[pair.size()];
 			while (it.hasNext()) {
-				points[i] = (GeoElement) it.next();
+				points[i] = it.next();
 				i++;
 			}
 			PVariable[] fv1, fv2;
@@ -320,18 +321,18 @@ public class NDGDetector {
 
 		// CHECKING EQUALITY (WHERE WE CAN GIVE SUFFICIENT CONDITIONS ONLY)
 
-		pairs = new Combinations(freeXvars, 2);
+		Combinations<PVariable> pairs2 = new Combinations<>(freeXvars, 2);
 
 		while (pairs.hasNext()) {
-			HashSet<Object> pair = (HashSet<Object>) pairs.next();
-			Iterator<Object> itc = pair.iterator();
+			Set<PVariable> pair = pairs2.next();
+			Iterator<PVariable> itc = pair.iterator();
 			// GeoElement[] points = (GeoElement[]) pair.toArray();
 			// This is not working directly, so we have to do it manually:
 			int i = 0;
 			PVariable[] coords = new PVariable[pair.size()];
 			GeoElement[] points = new GeoElement[pair.size()];
 			while (itc.hasNext()) {
-				coords[i] = (PVariable) itc.next();
+				coords[i] = itc.next();
 				points[i] = xvarGeo.get(coords[i]);
 				i++;
 			}
@@ -352,18 +353,18 @@ public class NDGDetector {
 			}
 		}
 
-		pairs = new Combinations(freeYvars, 2);
+		pairs2 = new Combinations<>(freeYvars, 2);
 
 		while (pairs.hasNext()) {
-			HashSet<Object> pair = (HashSet<Object>) pairs.next();
-			Iterator<Object> itc = pair.iterator();
+			Set<PVariable> pair = pairs2.next();
+			Iterator<PVariable> itc = pair.iterator();
 			// GeoElement[] points = (GeoElement[]) pair.toArray();
 			// This is not working directly, so we have to do it manually:
 			int i = 0;
 			PVariable[] coords = new PVariable[pair.size()];
 			GeoElement[] points = new GeoElement[pair.size()];
 			while (itc.hasNext()) {
-				coords[i] = (PVariable) itc.next();
+				coords[i] = itc.next();
 				points[i] = yvarGeo.get(coords[i]);
 				i++;
 			}
@@ -386,29 +387,30 @@ public class NDGDetector {
 
 		// CHECKING PERPENDICULARITY, PARALLELISM AND CONGRUENCE
 
-		Combinations pairs1 = new Combinations(freePointsSet, 2);
+		Combinations<GeoElement> pairs1 = new Combinations<>(freePointsSet, 2);
 
 		while (pairs1.hasNext()) {
-			HashSet<Object> pair1 = (HashSet<Object>) pairs1.next();
-			Iterator<Object> it1 = pair1.iterator();
+			Set<GeoElement> pair1 = pairs1.next();
+			Iterator<GeoElement> it1 = pair1.iterator();
 			// GeoElement[] points = (GeoElement[]) pair.toArray();
 			// This is not working directly, so we have to do it manually:
 			int i = 0;
 			GeoElement[] points = new GeoElement[4];
 			while (it1.hasNext()) {
-				points[i] = (GeoElement) it1.next();
+				points[i] = it1.next();
 				i++;
 			}
 
-			Combinations pairs2 = new Combinations(freePointsSet, 2);
+			Combinations<GeoElement> pairs3 = new Combinations<>(freePointsSet,
+					2);
 			while (pairs2.hasNext()) {
-				HashSet<Object> pair2 = (HashSet<Object>) pairs2.next();
-				Iterator<Object> it2 = pair2.iterator();
+				Set<GeoElement> pair2 = pairs3.next();
+				Iterator<GeoElement> it2 = pair2.iterator();
 				// GeoElement[] points = (GeoElement[]) pair.toArray();
 				// This is not working directly, so we have to do it manually:
 				i = 2;
 				while (it2.hasNext()) {
-					points[i] = (GeoElement) it2.next();
+					points[i] = it2.next();
 					i++;
 				}
 

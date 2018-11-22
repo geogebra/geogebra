@@ -24,7 +24,7 @@ public class HilbertDimension {
 
 	private static Kernel kernel;
 
-	private static HashSet<PVariable> aMaximalSet;
+	private static Set<PVariable> aMaximalSet;
 
 	/**
 	 * Get a maximum size independent set that contains the same amount element
@@ -285,11 +285,12 @@ public class HilbertDimension {
 
 		while (true) {
 
-			Combinations allSubsets = new Combinations(allVars, dim);
+			Combinations<PVariable> allSubsets = new Combinations<>(allVars,
+					dim);
 			boolean independentFound = false;
 
 			while (allSubsets.hasNext() && !independentFound) {
-				Set<?> X = allSubsets.next();
+				Set<PVariable> X = allSubsets.next();
 				boolean independent = true;
 				// Log.debug(X);
 				// in(g) \not\in K[X] means in(g) is not completely in X
@@ -304,7 +305,7 @@ public class HilbertDimension {
 					}
 				}
 				if (independent) {
-					aMaximalSet = (HashSet<PVariable>) X;
+					aMaximalSet = X;
 					independentFound = true;
 					Log.debug("An independent set found: " + aMaximalSet);
 				}

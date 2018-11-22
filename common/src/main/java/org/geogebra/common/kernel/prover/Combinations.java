@@ -1,33 +1,36 @@
 package org.geogebra.common.kernel.prover;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
  * Implementation of iterable combinations of a set. Based on
- * http://stackoverflow.com/a/7631893.
+ * http://stackoverflow.com/a/7631893. Usage:
+ * 
+ * Set<Integer> a = new HashSet<Integer>(); a.add(1); a.add(2); a.add(3);
+ * a.add(4);
+ * 
+ * Combinations b = new Combinations(a,2);
+ * 
+ * while (b.hasNext()) { Set c = (Set) b.next(); Log.debug(c); }
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  *
- *         Usage:
  * 
- *         Set<Integer> a = new HashSet<Integer>(); a.add(1); a.add(2);
- *         a.add(3); a.add(4);
- * 
- *         Combinations b = new Combinations(a,2);
- * 
- *         while (b.hasNext()) { Set c = (Set) b.next(); Log.debug(c); }
+ * @param <T>
+ *            element type
  */
 
-public class Combinations implements Iterator<Object> {
+public class Combinations<T> implements Iterator<Set<T>> {
 
-	private Set<?> set;
+	private Set<T> set;
 	private int r, n;
 	private int[] num; // representation with numbers
 	private boolean done = false;
 
-	private Object[] list;
+	private ArrayList<T> list;
 
 	/**
 	 * Creates all combinations of a set of the given order
@@ -37,7 +40,7 @@ public class Combinations implements Iterator<Object> {
 	 * @param order
 	 *            the order
 	 */
-	public Combinations(Set<?> inputSet, int order) {
+	public Combinations(Set<T> inputSet, int order) {
 		set = inputSet;
 		n = inputSet.size();
 		r = order;
@@ -49,8 +52,8 @@ public class Combinations implements Iterator<Object> {
 		for (int i = 0; i < r; i++) {
 			num[i] = i + 1;
 		}
-		list = new Object[n];
-		list = set.toArray();
+		list = new ArrayList<T>(n);
+		list.addAll(set);
 	}
 
 	@Override
@@ -59,10 +62,10 @@ public class Combinations implements Iterator<Object> {
 	}
 
 	@Override
-	public Set<Object> next() {
-		Set<Object> ret = new HashSet<>();
+	public Set<T> next() {
+		Set<T> ret = new HashSet<>();
 		for (int i = 0; i < r; ++i) {
-			ret.add(list[num[i] - 1]);
+			ret.add(list.get(num[i] - 1));
 		}
 		done = nextNum();
 		return ret;

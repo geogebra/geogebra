@@ -33,7 +33,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
 
-enum SolveSteps implements SolveStepGenerator {
+enum SolveSteps implements SolveStepGenerator<StepSolvable> {
 
 	FIND_DEFINED_RANGE {
 		@Override
