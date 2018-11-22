@@ -129,7 +129,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements
- * 
+ *
  * @author Markus
  *
  */
@@ -196,7 +196,7 @@ public class AlgebraProcessor {
 	/**
 	 * Returns the localized name of a command subset. Indices are defined in
 	 * CommandDispatcher.
-	 * 
+	 *
 	 * @param index
 	 *            commands subtable index
 	 * @return set of commands for given subtable
@@ -207,7 +207,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Returns whether the given command name is supported in GeoGebra.
-	 * 
+	 *
 	 * @param cmd
 	 *            command name
 	 * @return true if available
@@ -247,7 +247,7 @@ public class AlgebraProcessor {
 	/**
 	 * Processes the given casCell, i.e. compute its output depending on its
 	 * input. Note that this may create an additional twin GeoElement.
-	 * 
+	 *
 	 * @param casCell
 	 *            cas cell
 	 * @param isLastRow
@@ -352,7 +352,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
-	 * 
+	 *
 	 * @param geo
 	 *            old geo
 	 * @param newValue
@@ -363,7 +363,7 @@ public class AlgebraProcessor {
 	 *            true to make undo step
 	 * @param handler
 	 *            error handler
-	 * 
+	 *
 	 * @param callback
 	 *            receives changed geo
 	 */
@@ -405,7 +405,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
-	 * 
+	 *
 	 * @param geo
 	 *            old geo
 	 * @param newValue
@@ -1795,7 +1795,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Checks if label is valid.
-	 * 
+	 *
 	 * @param label
 	 *            potential label
 	 * @return valid label
@@ -1823,7 +1823,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * processes valid expression.
-	 * 
+	 *
 	 * @param ve
 	 *            expression to process
 	 * @param info
@@ -1854,7 +1854,7 @@ public class AlgebraProcessor {
 
 			if (ret == null) { // eg (1,2,3) running in 2D
 				if (isFreehandFunction(ve)) {
-					return null;
+					return kernel.lookupLabel(ve.getLabel()).asArray();
 				} else {
 					Log.warn("Unhandled ValidExpression : " + ve);
 					throw new MyError(loc,
@@ -1871,18 +1871,13 @@ public class AlgebraProcessor {
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
-		if (expression instanceof ExpressionNode) {
-			ExpressionNode expressionNode = (ExpressionNode) expression;
-			if (expressionNode.isLeaf()) {
-				ExpressionValue expressionValue = expressionNode.getLeft();
-				if (expressionValue instanceof Command) {
-					Command command = (Command) expressionValue;
-					if (command.getName().equals(loc.getFunction("freehand"))) {
-						return true;
-					}
-				}
-			}
-		}
+        ExpressionValue expressionValue = expression.unwrap();
+        if (expressionValue instanceof Command) {
+            Command command = (Command) expressionValue;
+            if (command.getName().equals(loc.getFunction("freehand"))) {
+                return true;
+            }
+        }
 		return false;
 	}
 
@@ -1915,7 +1910,7 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param replaceable
 	 *            old geo with same label
 	 * @param ret
@@ -2028,7 +2023,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Processes valid expression
-	 * 
+	 *
 	 * @param ve2
 	 *            expression to process
 	 * @param info
@@ -2109,7 +2104,7 @@ public class AlgebraProcessor {
 	/**
 	 * Wraps given function into GeoFunction, if dependent,
 	 * AlgoDependentFunction is created.
-	 * 
+	 *
 	 * @param fun
 	 *            function
 	 * @param info
@@ -2339,7 +2334,7 @@ public class AlgebraProcessor {
 	 *            output array for coefficients
 	 * @param scale
 	 *            multiplicator
-	 * 
+	 *
 	 * @param var
 	 *            variable
 	 * @return cx is in one of the forms a+b sin(var)+c*cos(var), a+b
@@ -2453,7 +2448,7 @@ public class AlgebraProcessor {
 	/**
 	 * Wraps given functionNVar into GeoFunctionNVar, if dependent,
 	 * AlgoDependentFunctionNVar is created.
-	 * 
+	 *
 	 * @param fun
 	 *            function
 	 * @param info
@@ -2510,7 +2505,7 @@ public class AlgebraProcessor {
 	 * Processes given equation to an array containing single line / conic /
 	 * implicit polynomial. Throws MyError for degree 0 equations, eg. 1=2 or
 	 * x=x.
-	 * 
+	 *
 	 * @param equ
 	 *            equation
 	 * @param def
@@ -2723,7 +2718,7 @@ public class AlgebraProcessor {
 	 * @param info
 	 *            evaluation flags
 	 * @return resulting line
-	 * 
+	 *
 	 */
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
 			EvalInfo info) {
@@ -3041,7 +3036,7 @@ public class AlgebraProcessor {
 	/**
 	 * Make function or nvar function from expression, using all function
 	 * variables it has
-	 * 
+	 *
 	 * @param n
 	 *            exression
 	 * @return function or nvar function
@@ -3182,7 +3177,7 @@ public class AlgebraProcessor {
 	/**
 	 * Creates a dependent list object with the given label, e.g. {3, 2, 1} +
 	 * {a, b, 2}
-	 * 
+	 *
 	 * @param root
 	 *            expression defining the dependent list
 	 * @return resulting list
@@ -3283,7 +3278,7 @@ public class AlgebraProcessor {
 		// make point if complex parts are present, e.g. 3 + i
 		if (complex) {
 			n.setForcePoint();
-		} 
+		}
 		else if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
@@ -3389,7 +3384,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * empty method in 2D : see AlgebraProcessor3D to see implementation in 3D
-	 * 
+	 *
 	 * @param n
 	 *            3D point expression
 	 * @param evaluate
@@ -3414,7 +3409,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Show error dialog
-	 * 
+	 *
 	 * @param key
 	 *            key for error.properties
 	 */
