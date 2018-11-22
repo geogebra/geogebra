@@ -3545,4 +3545,8 @@ public class AlgebraProcessor {
 	public void setCommandFilter(CommandFilter commandFilter) {
 		cmdDispatcher.setCommandFilter(commandFilter);
 	}
+
+	public CommandDispatcher getCommandDispatcher() {
+		return cmdDispatcher;
+	}
 }

@@ -5,7 +5,10 @@ import java.util.LinkedList;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.filter.CommandFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
@@ -39,6 +42,7 @@ public class ExamEnvironment {
 
 	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
+	private CommandFilter nonExamCommandFilter;
 
 	/**
 	 * application
@@ -530,6 +534,7 @@ public class ExamEnvironment {
 	 */
 	public void closeExam() {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
+		disableExamCommandFilter();
 		app.fileNew();
 	}
 
@@ -691,4 +696,21 @@ public class ExamEnvironment {
 		return cheatingEvents == null ? 0 : cheatingEvents.size();
 	}
 
+	/**
+	 * Saves the current command filter into the nonExamCommandFilter field and sets the exam
+	 * command filter for the duration of the exam mode.
+	 */
+	public void enableExamCommandFilter() {
+		CommandDispatcher commandDispatcher =
+				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
+		nonExamCommandFilter = commandDispatcher.getCommandFilter();
+		commandDispatcher.setCommandFilter(new ExamCommandFilter());
+	}
+
+	/**
+	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher
+	 */
+	public void disableExamCommandFilter() {
+		app.getKernel().getAlgebraProcessor().setCommandFilter(nonExamCommandFilter);
+	}
 }

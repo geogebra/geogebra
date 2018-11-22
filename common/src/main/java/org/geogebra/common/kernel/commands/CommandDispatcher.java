@@ -172,9 +172,16 @@ public abstract class CommandDispatcher {
 	final public GeoElement[] processCommand(Command c, EvalInfo info)
 			throws MyError {
 
-		CommandProcessor cmdProc = getProcessor(c);
-
+		CommandProcessor cmdProc = isAllowed(c) ? getProcessor(c) : null;
 		return process(cmdProc, c, info);
+	}
+
+	private boolean isAllowed(Commands command) {
+		return commandFilter == null || commandFilter.isCommandAllowed(command);
+	}
+
+	private boolean isAllowed(Command command) {
+		return isAllowed(Commands.valueOf(command.getName()));
 	}
 
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
@@ -294,7 +301,7 @@ public abstract class CommandDispatcher {
 
 			Commands command = Commands.valueOf(cmdName);
 
-			if (commandFilter != null && !commandFilter.isCommandAllowed(command)) {
+			if (!isAllowed(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
@@ -932,5 +939,9 @@ public abstract class CommandDispatcher {
 	 */
 	public void setCommandFilter(CommandFilter commandFilter) {
 		this.commandFilter = commandFilter;
+	}
+
+	public CommandFilter getCommandFilter() {
+		return commandFilter;
 	}
 }

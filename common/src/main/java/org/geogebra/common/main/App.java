@@ -4358,7 +4358,12 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	public void startExam() {
+		setupExamEnvironment();
 		getExam().setStart((new Date()).getTime());
+	}
+
+	private void setupExamEnvironment() {
+		getExam().enableExamCommandFilter();
 	}
 
 	/**
