@@ -53,11 +53,11 @@ public abstract class AlgoPolarPointND extends AlgoElement {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new geo line
 	 */
-	abstract protected GeoPointND newGeoPoint(Construction cons);
+	abstract protected GeoPointND newGeoPoint(Construction cons1);
 
 	@Override
 	public Commands getClassName() {

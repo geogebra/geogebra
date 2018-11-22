@@ -53,11 +53,11 @@ public abstract class AlgoPolarLineND extends AlgoElement {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new geo line
 	 */
-	abstract protected GeoLineND newGeoLine(Construction cons);
+	abstract protected GeoLineND newGeoLine(Construction cons1);
 
 	@Override
 	public Commands getClassName() {

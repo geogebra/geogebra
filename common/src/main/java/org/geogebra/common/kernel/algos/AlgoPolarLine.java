@@ -38,8 +38,8 @@ public class AlgoPolarLine extends AlgoPolarLineND {
 	}
 
 	@Override
-	protected GeoLineND newGeoLine(Construction cons) {
-		return new GeoLine(cons);
+	protected GeoLineND newGeoLine(Construction cons1) {
+		return new GeoLine(cons1);
 	}
 
 	// calc polar line of P relativ to c

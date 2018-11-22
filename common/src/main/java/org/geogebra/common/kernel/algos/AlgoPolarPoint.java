@@ -38,8 +38,8 @@ public class AlgoPolarPoint extends AlgoPolarPointND {
 	}
 
 	@Override
-	protected GeoPointND newGeoPoint(Construction cons) {
-		return new GeoPoint(cons);
+	protected GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint(cons1);
 	}
 
 	// calc polar line of P relativ to c

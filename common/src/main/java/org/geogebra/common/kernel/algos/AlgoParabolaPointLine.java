@@ -51,8 +51,8 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	}
 
 	@Override
-	protected GeoConicND newGeoConic(Construction cons) {
-		return new GeoConic(cons);
+	protected GeoConicND newGeoConic(Construction cons1) {
+		return new GeoConic(cons1);
 	}
 
 	// compute parabola with focus F and line l

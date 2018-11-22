@@ -38,7 +38,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 				AlgoRandomPointInPolygon algo = new AlgoRandomPointInPolygon(
 						cons, (GeoPolygon) arg[0]);
 				algo.getRandomPoint().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRandomPoint() };
+				GeoElement[] ret = { algo.getRandomPoint().toGeoElement() };
 				return ret;
 			} else if (arg[0].isGeoConic()) {
 				AlgoRandomPointInConic algo = new AlgoRandomPointInConic(cons,

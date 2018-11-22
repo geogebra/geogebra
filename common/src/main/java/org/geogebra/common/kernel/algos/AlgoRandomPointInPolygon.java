@@ -20,14 +20,13 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoRandomPointInPolygon extends AlgoElement {
 
 	protected GeoPolygon polygon; // input
-	protected GeoPoint randomPoint; // output
+	protected GeoPointND randomPoint; // output
 
 	/**
 	 * @param cons
@@ -38,7 +37,7 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 	public AlgoRandomPointInPolygon(Construction cons, GeoPolygon polygon) {
 		super(cons);
 		this.polygon = polygon;
-		createOutput(cons);
+		createOutput();
 		setInputOutput(); // for AlgoElement
 
 		// compute
@@ -53,8 +52,9 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 		// none here
 	}
 
-	protected void createOutput(Construction cons) {
-		randomPoint = new GeoPoint(cons);
+	private void createOutput() {
+		randomPoint = kernel.getGeoFactory()
+				.newPoint(polygon.isGeoElement3D() ? 3 : 2, cons);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint getRandomPoint() {
+	public GeoPointND getRandomPoint() {
 		return randomPoint;
 	}
 
@@ -93,11 +93,11 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 		double yMin = p.getInhomY();
 
 		for (int i = 0; i < size; i++) {
-			p = polygon.getPointND(i);
+			p = polygon.getPoint(i);
 			double x = p.getInhomX();
 			double y = p.getInhomY();
 
-			if (p.isGeoElement3D() || Double.isInfinite(x)
+			if (Double.isInfinite(x)
 					|| Double.isInfinite(y) || Double.isNaN(x)
 					|| Double.isNaN(y)) {
 				randomPoint.setUndefined();
@@ -132,7 +132,13 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 					+ (yMax - yMin) * cons.getApplication().getRandomNumber();
 
 			if (polygon.isInRegion(xRandom, yRandom)) {
-				randomPoint.setCoords(xRandom, yRandom, 1);
+				if (polygon.isGeoElement3D()) {
+					randomPoint.setCoords(
+							polygon.getCoordSys().getPoint(xRandom, yRandom),
+							false);
+				} else {
+					randomPoint.setCoords(xRandom, yRandom, 1);
+				}
 				foundRandom = true;
 			}
 		}

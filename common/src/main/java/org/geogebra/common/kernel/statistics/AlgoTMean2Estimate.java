@@ -47,8 +47,6 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 	private double[] val1;
 	private double[] val2;
-	private int size1;
-	private int size2;
 	private double level;
 	private double mean1;
 	private double var1;
@@ -210,9 +208,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 *            first sample variance
 	 * @param v2
 	 *            second sample variance
-	 * @param n1
+	 * @param size1
 	 *            first sample n
-	 * @param n2
+	 * @param size2
 	 *            second sample n
 	 * @param confLevel
 	 *            confidence level
@@ -220,21 +218,21 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 * @throws ArithmeticException
 	 *             when computation fails
 	 */
-	private double getMarginOfError(double v1, double n1, double v2, double n2,
+	private double getMarginOfError(double v1, double size1, double v2, double size2,
 			double confLevel, boolean pool) throws ArithmeticException {
 		if (pool) {
-			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
-					/ (n1 + n2 - 2);
-			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+			double pooledVariance = ((size1 - 1) * v1 + (size2 - 1) * v2)
+					/ (size1 + size2 - 2);
+			double se = Math.sqrt(pooledVariance * (1d / size1 + 1d / size2));
 			tDist = new TDistribution(
-					getDegreeOfFreedom(v1, v2, n1, n2, pool));
+					getDegreeOfFreedom(v1, v2, size1, size2, pool));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
 
 		}
-		double se = Math.sqrt((v1 / n1) + (v2 / n2));
+		double se = Math.sqrt((v1 / size1) + (v2 / size2));
 		tDist = new TDistribution(
-				getDegreeOfFreedom(v1, v2, n1, n2, pool));
+				getDegreeOfFreedom(v1, v2, size1, size2, pool));
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * se;
 
@@ -248,13 +246,13 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			// get statistics from sample data input
 			if (input.length == 4) {
 
-				size1 = geoList1.size();
+				int size1 = geoList1.size();
 				if (!geoList1.isDefined() || size1 < 2) {
 					result.setUndefined();
 					return;
 				}
 
-				size2 = geoList2.size();
+				int size2 = geoList2.size();
 				if (!geoList2.isDefined() || size2 < 2) {
 					result.setUndefined();
 					return;

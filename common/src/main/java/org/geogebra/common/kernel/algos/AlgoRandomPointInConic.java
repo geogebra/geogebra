@@ -52,8 +52,8 @@ public class AlgoRandomPointInConic extends AlgoElement {
 		// none here
 	}
 
-	protected void createOutput(Construction cons) {
-		randomPoint = new GeoPoint(cons);
+	protected void createOutput(Construction cons1) {
+		randomPoint = new GeoPoint(cons1);
 	}
 
 	@Override

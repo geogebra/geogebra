@@ -137,19 +137,19 @@ public class AlgoTTest extends AlgoElement {
 		return result;
 	}
 
-	private double adjustedPValue(double p, double testStatistic) {
+	private double adjustedPValue(double pValue, double testStatistic) {
 
 		// two sided test
 		if (StringUtil.isNotEqual(tail.getTextString())) {
-			return p;
+			return pValue;
 		}
 
 		// one sided test
 		else if ((tail.getTextString().equals(">") && testStatistic > 0)
 				|| (tail.getTextString().equals("<") && testStatistic < 0)) {
-			return p / 2;
+			return pValue / 2;
 		} else {
-			return 1 - p / 2;
+			return 1 - pValue / 2;
 		}
 
 	}

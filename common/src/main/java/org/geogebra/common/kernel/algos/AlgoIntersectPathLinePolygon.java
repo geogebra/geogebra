@@ -222,13 +222,13 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	/**
 	 * calc all intersection points between line and polygon p
 	 * 
-	 * @param p
+	 * @param poly
 	 *            polygon
 	 */
-	protected void intersectionsCoords(GeoPolygon p) {
+	protected void intersectionsCoords(GeoPolygon poly) {
 
-		for (int i = 0; i < p.getSegments().length; i++) {
-			GeoSegmentND seg = p.getSegments()[i];
+		for (int i = 0; i < poly.getSegments().length; i++) {
+			GeoSegmentND seg = poly.getSegments()[i];
 
 			// check if the segment is defined (e.g. for regular polygons)
 			if (seg.isDefined()) {

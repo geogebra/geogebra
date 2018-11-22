@@ -1104,12 +1104,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	/**
 	 * Computes stick or step graph from a list of points
 	 * 
-	 * @param list1
+	 * @param list
 	 *            point list
 	 */
-	private void computeFromPointList(GeoList list1) {
+	private void computeFromPointList(GeoList list) {
 
-		N = list1.size();
+		N = list.size();
 		if (yval == null || yval.length < N) {
 			yval = new double[N];
 			leftBorder = new double[N];
@@ -1121,7 +1121,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		for (int i = 0; i < N; i++) {
 
-			GeoElement geo = list1.get(i);
+			GeoElement geo = list.get(i);
 			Coords coords = ((GeoPointND) geo).getCoordsInD3();
 			double x = coords.getX();
 			if (!Double.isNaN(x)) {

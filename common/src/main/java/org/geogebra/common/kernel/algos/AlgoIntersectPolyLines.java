@@ -202,18 +202,18 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	/**
 	 * calculates the intersecting points of two polyLines
 	 * 
-	 * @param polyA
+	 * @param poly1
 	 *            input polyLine 1
-	 * @param polyB
+	 * @param poly2
 	 *            input polyLine 2
 	 * @param newCoords
 	 *            list to add calculated intersecting Coords
 	 */
-	protected void intersectionCoords(GeoPoly polyA, GeoPoly polyB,
+	protected void intersectionCoords(GeoPoly poly1, GeoPoly poly2,
 			ArrayList<Coords> newCoords) {
 
-		GeoPointND[] pointsA = polyA.getPoints();
-		GeoPointND[] pointsB = polyB.getPoints();
+		GeoPointND[] pointsA = poly1.getPoints();
+		GeoPointND[] pointsB = poly2.getPoints();
 
 		int noOfSegmentsA = isPolyAClosed() ? pointsA.length
 				: pointsA.length - 1;
@@ -222,22 +222,22 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 
 		for (int i = 0; i < noOfSegmentsA; i++) {
 
-			this.dummyPoint[0].setCoords(polyA.getPoint(i));
+			this.dummyPoint[0].setCoords(poly1.getPoint(i));
 			if (i == (pointsA.length - 1)) {
-				this.dummyPoint[1].setCoords(polyA.getPoint(0));
+				this.dummyPoint[1].setCoords(poly1.getPoint(0));
 			} else {
-				this.dummyPoint[1].setCoords(polyA.getPoint(i + 1));
+				this.dummyPoint[1].setCoords(poly1.getPoint(i + 1));
 			}
 			GeoVec3D.lineThroughPoints(this.dummyPoint[0], this.dummyPoint[1],
 					this.dummySegment[0]);
 
 			for (int k = 0; k < noOfSegmentsB; k++) {
 
-				this.dummyPoint[2].setCoords(polyB.getPoint(k));
+				this.dummyPoint[2].setCoords(poly2.getPoint(k));
 				if (k == (pointsB.length - 1)) {
-					this.dummyPoint[3].setCoords(polyB.getPoint(0));
+					this.dummyPoint[3].setCoords(poly2.getPoint(0));
 				} else {
-					this.dummyPoint[3].setCoords(polyB.getPoint(k + 1));
+					this.dummyPoint[3].setCoords(poly2.getPoint(k + 1));
 				}
 				GeoVec3D.lineThroughPoints(this.dummyPoint[2],
 						this.dummyPoint[3], this.dummySegment[1]);

@@ -38,7 +38,7 @@ public class DataVariable {
 		RAWDATA, FREQUENCY, CLASS
 	}
 
-	private App app;
+	// private App app;
 	private GroupType groupType;
 	private GeoClass geoClass;
 
@@ -54,9 +54,9 @@ public class DataVariable {
 	 * Constructs a DataVariable
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public DataVariable(App app) {
-		this.app = app;
 		this.loc = app.getLocalization();
 	}
 
@@ -328,7 +328,7 @@ public class DataVariable {
 
 		if (mode == DataAnalysisModel.MODE_REGRESSION
 				&& geoClass == GeoClass.NUMERIC) {
-			list.add(getPointList(leftToRight, doCopy));
+			list.add(getPointList(leftToRight, doCopy, app));
 		} else {
 			for (DataItem item : values) {
 				list.add(
@@ -349,7 +349,7 @@ public class DataVariable {
 
 	}
 
-	private GeoList getPointList(boolean leftToRight, boolean doCopy) {
+	private GeoList getPointList(boolean leftToRight, boolean doCopy, App app) {
 
 		if (values.size() < 2) {
 			return null;
@@ -366,7 +366,7 @@ public class DataVariable {
 	private GeoList createPointGeoList(GeoList xList, GeoList yList,
 			boolean byValue, boolean leftToRight) {
 
-		Construction cons = app.getKernel().getConstruction();
+		Construction cons = xList.getKernel().getConstruction();
 
 		ArrayList<GeoElement> list = new ArrayList<>();
 
@@ -401,10 +401,10 @@ public class DataVariable {
 
 				} else {
 
-					MyVecNode vec = new MyVecNode(app.getKernel(),
+					MyVecNode vec = new MyVecNode(xList.getKernel(),
 							leftToRight ? xCoord : yCoord,
 							leftToRight ? yCoord : xCoord);
-					ExpressionNode point = new ExpressionNode(app.getKernel(),
+					ExpressionNode point = new ExpressionNode(xList.getKernel(),
 							vec, Operation.NO_OPERATION, null);
 					point.setForcePoint();
 

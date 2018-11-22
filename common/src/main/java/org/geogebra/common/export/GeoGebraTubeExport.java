@@ -58,10 +58,14 @@ public abstract class GeoGebraTubeExport {
 	/**
 	 * returns a base64 encoded .ggt file
 	 * 
+	 * @param macroList
+	 *            macros to export
+	 * @return base64
+	 * 
 	 * @throws IOException
 	 *             when output fails
 	 */
-	protected abstract String getBase64Tools(ArrayList<Macro> macros)
+	protected abstract String getBase64Tools(ArrayList<Macro> macroList)
 			throws IOException;
 
 	/**

@@ -66,12 +66,12 @@ public class AlgoTranslateVector extends AlgoElement {
 	}
 
 	/**
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new vector
 	 */
-	protected GeoVectorND newGeoVector(Construction cons) {
-		return new GeoVector(cons);
+	protected GeoVectorND newGeoVector(Construction cons1) {
+		return new GeoVector(cons1);
 	}
 
 	@Override

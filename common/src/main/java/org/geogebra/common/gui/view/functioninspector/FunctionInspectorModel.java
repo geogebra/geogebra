@@ -104,7 +104,7 @@ public class FunctionInspectorModel {
 	private int pointCount = 9;
 
 	private ArrayList<String> property = new ArrayList<>();
-	private ArrayList<String> value = new ArrayList<>();
+	private ArrayList<String> values = new ArrayList<>();
 	// store number values for copy
 	private ArrayList<Double[]> value2 = new ArrayList<>();
 	private String[] columnNames;
@@ -261,7 +261,7 @@ public class FunctionInspectorModel {
 	public void updateIntervalTable() {
 
 		property.clear();
-		value.clear();
+		values.clear();
 		value2.clear();
 
 		// prepare algos and other objects needed for the calcs
@@ -312,17 +312,17 @@ public class FunctionInspectorModel {
 		// =================================================
 
 		property.add(loc.getCommand("Min"));
-		value.add("(" + format(xMinInt) + " , " + format(yMinInt) + ")");
+		values.add("(" + format(xMinInt) + " , " + format(yMinInt) + ")");
 		Double[] min = { xMinInt, yMinInt };
 		value2.add(min);
 
 		property.add(loc.getCommand("Max"));
-		value.add("(" + format(xMaxInt) + " , " + format(yMaxInt) + ")");
+		values.add("(" + format(xMaxInt) + " , " + format(yMaxInt) + ")");
 		Double[] max = { xMaxInt, yMaxInt };
 		value2.add(max);
 
 		property.add(null);
-		value.add(null);
+		values.add(null);
 		value2.add(null);
 
 		// calculate roots
@@ -368,45 +368,45 @@ public class FunctionInspectorModel {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (count) {
 		case 0:
-			value.add(loc.getMenu("fncInspector.NoRoots"));
+			values.add(loc.getMenu("fncInspector.NoRoots"));
 			value2.add(null);
 			break;
 		case 1:
-			value.add(kernel.format(root, tpl));
+			values.add(kernel.format(root, tpl));
 			Double[] r = { root };
 			value2.add(r);
 			break;
 		default:
-			value.add(loc.getMenu("fncInspector.MultipleRoots"));
+			values.add(loc.getMenu("fncInspector.MultipleRoots"));
 			value2.add(null);
 
 		}
 
 		property.add(null);
-		value.add(null);
+		values.add(null);
 		value2.add(null);
 
 		property.add(loc.getCommand("Integral"));
-		value.add(format(integral));
+		values.add(format(integral));
 		Double[] in = { integral };
 		value2.add(in);
 
 		property.add(loc.getCommand("Area"));
-		value.add(format(area));
+		values.add(format(area));
 		Double[] a = { area };
 		value2.add(a);
 
 		property.add(loc.getCommand("Mean"));
-		value.add(format(mean));
+		values.add(format(mean));
 		Double[] m = { mean };
 		value2.add(m);
 
 		property.add(loc.getCommand("Length"));
-		value.add(format(length));
+		values.add(format(length));
 		Double[] l = { length };
 		value2.add(l);
 
-		listener.updateInterval(property, value);
+		listener.updateInterval(property, values);
 
 	}
 

@@ -13,8 +13,8 @@ public abstract class FunctionSound {
 
 	protected static final int DEFAULT_SAMPLE_RATE = 8000;
 	protected static final int DEFAULT_BIT_RATE = 8;
-	private int bitDepth;
-	private int sampleRate;
+	private int mBitDepth;
+	private int mSampleRate;
 
 	// set maximum volume to 100% of external volume setting
 	private int maxVolume = 100;
@@ -32,8 +32,8 @@ public abstract class FunctionSound {
 	 * Constructs instance of FunctionSound
 	 */
 	public FunctionSound() {
-		bitDepth = DEFAULT_BIT_RATE;
-		sampleRate = DEFAULT_SAMPLE_RATE;
+		mBitDepth = DEFAULT_BIT_RATE;
+		mSampleRate = DEFAULT_SAMPLE_RATE;
 	}
 
 	/**
@@ -56,8 +56,8 @@ public abstract class FunctionSound {
 			return false;
 		}
 
-		this.sampleRate = sampleRate;
-		this.bitDepth = bitDepth;
+		this.mSampleRate = sampleRate;
+		this.mBitDepth = bitDepth;
 
 		return true;
 	}
@@ -134,19 +134,19 @@ public abstract class FunctionSound {
 	public abstract void pause(boolean doPause);
 
 	public int getBitDepth() {
-		return bitDepth;
+		return mBitDepth;
 	}
 
 	public void setBitDepth(int bitDepth) {
-		this.bitDepth = bitDepth;
+		this.mBitDepth = bitDepth;
 	}
 
 	public int getSampleRate() {
-		return sampleRate;
+		return mSampleRate;
 	}
 
 	public void setSampleRate(int sampleRate) {
-		this.sampleRate = sampleRate;
+		this.mSampleRate = sampleRate;
 	}
 
 	/**

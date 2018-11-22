@@ -61,11 +61,11 @@ public abstract class AlgoUnitVector extends AlgoElement {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new vector
 	 */
-	abstract protected GeoVectorND createVector(Construction cons);
+	abstract protected GeoVectorND createVector(Construction cons1);
 
 	abstract protected GeoPointND getInputStartPoint();
 

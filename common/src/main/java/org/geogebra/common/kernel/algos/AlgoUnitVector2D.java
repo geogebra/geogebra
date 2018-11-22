@@ -41,8 +41,8 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	}
 
 	@Override
-	final protected GeoVectorND createVector(Construction cons) {
-		GeoVector ret = new GeoVector(cons);
+	final protected GeoVectorND createVector(Construction cons1) {
+		GeoVector ret = new GeoVector(cons1);
 		ret.z = 0.0d;
 		return ret;
 	}

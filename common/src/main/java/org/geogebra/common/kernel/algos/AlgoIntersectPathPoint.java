@@ -63,14 +63,14 @@ public class AlgoIntersectPathPoint extends AlgoElement
 	/**
 	 * create the output point
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
-	 * @param path
+	 * @param path1
 	 *            path
 	 */
-	protected void createOutputPoint(Construction cons, Path path) {
+	protected void createOutputPoint(Construction cons1, Path path1) {
 		P = point.copy();
-		P.setPath(path);
+		P.setPath(path1);
 	}
 
 	/**
