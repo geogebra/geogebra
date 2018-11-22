@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public class ManagerShadersWithTemplates extends ManagerShaders {
+abstract public class ManagerShadersWithTemplates extends ManagerShaders {
 
 	/**
 	 * number of templates for points

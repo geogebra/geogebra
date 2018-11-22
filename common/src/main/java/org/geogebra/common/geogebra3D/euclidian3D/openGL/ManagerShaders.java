@@ -15,7 +15,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
  * @author ggb3D
  *
  */
-public class ManagerShaders extends Manager {
+abstract public class ManagerShaders extends Manager {
 
 	protected Renderer renderer;
 	private ArrayList<Double> vertices;
@@ -95,7 +95,7 @@ public class ManagerShaders extends Manager {
 	 * @author mathieu
 	 *
 	 */
-	public class Geometry {
+	abstract public class Geometry {
 		/**
 		 * type of primitives
 		 */
@@ -357,7 +357,7 @@ public class ManagerShaders extends Manager {
 	 *
 	 */
 	@SuppressWarnings("serial")
-	public class GeometriesSet extends ArrayList<Geometry> {
+	abstract public class GeometriesSet extends ArrayList<Geometry> {
 
 		protected Geometry currentGeometry;
 
@@ -434,10 +434,7 @@ public class ManagerShaders extends Manager {
 		 *            geometry type
 		 * @return new geometry for the given type
 		 */
-		protected Geometry newGeometry(Type type) {
-			return new Geometry(type);
-		}
-
+		abstract  protected Geometry newGeometry(Type type);
 		/**
 		 * allocate buffers of current geometry
 		 * 
@@ -607,9 +604,7 @@ public class ManagerShaders extends Manager {
 	 *            true if this set may be in packed buffer
 	 * @return new geometries set
 	 */
-	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
-		return new GeometriesSet();
-	}
+	abstract protected GeometriesSet newGeometriesSet(boolean mayBePacked);
 
 	@Override
 	public void endList() {
@@ -724,7 +719,7 @@ public class ManagerShaders extends Manager {
 	public void drawLabel(int index) {
 
 		currentGeometriesSet = geometriesSetList.get(index);
-		if (currentGeometriesSet != null) {
+		if (currentGeometriesSet != null && !currentGeometriesSet.usePacking()) {
 			for (int i = 0; i < currentGeometriesSet
 					.getGeometriesLength(); i++) {
 				currentGeometriesSet.get(i)
