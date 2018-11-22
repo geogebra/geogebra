@@ -196,10 +196,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		headerTable = new CellTable<>();
 		headerTable = new CellTable<>();
 		headerTable.addStyleName("tvHeader");
-		headerTable.addStyleName("tvTable");
 
 		valuesTable = new CellTable<>();
-		valuesTable.addStyleName("tvTable");
+		valuesTable.addStyleName("tvValues");
 
 		valueScroller = new ScrollPanel();
 		valueScroller.addStyleName("tvValueScroller");
@@ -362,9 +361,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
 				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
-				SafeHtml cell = TEMPLATES.cell(value, "tvValueCell", "valueContent",
-						width,
-						height);
+				SafeHtml cell = TEMPLATES.cell(value, width, height);
 
 				return cell;
 			}
@@ -431,9 +428,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		p.add(btn);
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = getTableValuesDimensions();
-		return TEMPLATES.cell(html, "tvHeaderCell", "headerContent",
-				getColumnWidth(dimensions, col),
-				dimensions.getHeaderHeight());
+		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), dimensions.getHeaderHeight());
 	}
 
 	/**
@@ -486,19 +481,15 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		/**
 		 * @param message
 		 *            of the cell.
-		 * @param style
-		 *            of the cell.
-		 * @param contentStyle
-		 *            of the main content div.
 		 * @param width
 		 *            of the cell.
 		 * @param height
 		 *            of the cell.
 		 * @return HTML representation of the cell content.
 		 */
-		@SafeHtmlTemplates.Template("<div style=\"width:{3}px;height:{4}px;line-height:{4}px;\""
-				+ "class=\"{1}\"><div class=\"{2}\">{0}</div></div>")
-		SafeHtml cell(SafeHtml message, String style, String contentStyle, int width, int height);
+		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\""
+				+ "class=\"cell\"><div class=\"content\">{0}</div></div>")
+		SafeHtml cell(SafeHtml message, int width, int height);
 	}
 
 	/**
@@ -508,7 +499,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 */
 	private static NodeList<Element> getColumnElements(int column) {
 		// gives the (column+1)th element of each row of the value table
-		return Dom.querySelectorAll(".tvTable tr td:nth-child(" + (column + 1) + ") .tvValueCell");
+		return Dom.querySelectorAll(".tvValues tr td:nth-child(" + (column + 1) + ") .cell");
 	}
 
 	/**
@@ -519,7 +510,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private static Element getHeaderElement(int column) {
 		// gives the (column+1)th element of the header row.
 		NodeList<Element> list = Dom
-				.querySelectorAll(".tvTable tr th:nth-child(" + (column + 1) + ") .tvHeaderCell");
+				.querySelectorAll(".tvHeader tr th:nth-child(" + (column + 1) + ") .cell");
 		return list != null ? list.getItem(0) : null;
 	}
 

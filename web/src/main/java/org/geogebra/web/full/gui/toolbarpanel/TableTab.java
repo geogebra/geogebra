@@ -6,7 +6,6 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -60,12 +59,6 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 			return;
 		}
 		setWidget(w);
-		Element p = w.getElement().getParentElement();
-		if (getView().isEmpty()) {
-			p.addClassName("tableViewParent");
-		} else {
-			p.removeClassName("tableViewParent");
-		}
 	}
 
 	@Override

@@ -10,12 +10,11 @@ import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
  */
 public class TableValuesViewDimensionsW extends TableValuesViewDimensions {
 
-	private static final int VIEW_TOP_PADDING = 8;
 	private static final int VIEW_LEFT_PADDING = 16;
 	private static final int STRICT_VALUE_COLUM_WIDTH = 95;
 	private static final int STRICT_X_COLUMN_WIDTH = 72 + VIEW_LEFT_PADDING;
 	private static final int STRICT_ROW_HEIGHT = 40;
-	private static final int STRICT_HEADER_HEIGHT = STRICT_ROW_HEIGHT + VIEW_TOP_PADDING;
+	private static final int STRICT_HEADER_HEIGHT = STRICT_ROW_HEIGHT;
 
     /**
      * Construct a new TableValuesViewDimensions object.

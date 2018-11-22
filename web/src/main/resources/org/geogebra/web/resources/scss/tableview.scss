@@ -56,7 +56,7 @@ $deleteTime: 1s;
 	}
 
 	.tableViewMain {
-		margin-top: 0px;
+		margin-top: 8px;
 		margin-left: 0px;
 		margin-right: 0px;
 	}
@@ -67,38 +67,53 @@ $deleteTime: 1s;
 		margin-left: -81px !important;
 	}
 
+	@mixin textSelect($type) {
+		user-select: $type;
+		-moz-user-select: $type;
+		-webkit-user-select: $type;
+	}
+	
 	.tvHeader {
 		@extend .tvCellTransition;
+		@include textSelect(none);
+		
 		colgroup {
 			col {
 				@extend .delete;
 			}
 		}
-		
+
 		th {
+			padding: 0;		
 			border: 0px;
-			margin-top: 8px;
-			text-align: center;
-			padding: 0px;
-			.headerContent {
-				color: $text-secondary;
-				margin-top: auto;
-				margin-bottom: auto;
-				float: right;
-				display: inline-flex;
-				.MyToggleButton {
-						margin-top: 8px;
-						margin-left: 0px;
-						margin-right: 0px;
-						padding: 0px;
-						border: 0px;
-						opacity: 0.54;
+			.cell {
+				@extend .tvCellTransition;
+				margin-left: 0px;
+				margin-right: 0px;
+				border-bottom: 0px;	
+				text-align: center;
+				padding: 0px;
+				.content {
+					display: inline-flex;
+					margin-top: auto;
+					margin-bottom: auto;
+					float: right;
+					color: $text-secondary;
+			
+					.MyToggleButton {
+							margin: auto 0px auto 0px;
+							padding-left: 6px;
+							padding-right: 6px;
+							border: 0px;
+							img {
+								opacity: 0.54;
+							}
+					}
 				}
 			}
 			
 			.delete {
 				@extend .colDelete;
-				margin-top: 8px;
 				text-align: right;
 			}
 		}
@@ -108,17 +123,9 @@ $deleteTime: 1s;
 		}
 	}
 	
-	.tvTable {
-		user-select: text;
-		-moz-user-select: text;
-		-webkit-user-select: text;
+	.tvValues {
+		@include textSelect(text);
 		
-		th:first-child,
-		td:first-child {
-			margin-left: 16px !important;
-			border: 0px;
-		}
-
 		td {
 			div {
 				color: $text-primary;
@@ -131,7 +138,19 @@ $deleteTime: 1s;
 				margin-right: 32px;
 			}
 		}
-
+		
+		.cell {
+			@extend .tvCellTransition;
+			margin-left: 0px;
+			margin-right: 0px;
+			text-align: right;
+		
+			.content {
+				float: right;
+				margin-right: 36px;
+			}
+		}
+		
 		tbody tr:nth-child(odd) {
 			background: $tableview-row;
 		}
@@ -145,24 +164,6 @@ $deleteTime: 1s;
 		transition: width $deleteTime, margin $deleteTime ease-in;
 	}
 
-	.tvValueCell {
-		@extend .tvCellTransition;
-		margin-left: 0px;
-		margin-right: 0px;
-		text-align: right;
-		.valueContent {
-			float: right;
-			margin-right: 24px;
-		}
-	}
-	
-	.tvHeaderCell {
-		@extend .tvCellTransition;
-		margin-left: 0px;
-		margin-right: 0px;
-		border-bottom: 0px;	
-		
-	}
 
 
 	.tvPanel .tvValueScroller {
