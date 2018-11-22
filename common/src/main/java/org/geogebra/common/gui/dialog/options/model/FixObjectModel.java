@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 public class FixObjectModel extends BooleanOptionModel {
 
@@ -18,7 +19,9 @@ public class FixObjectModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return getGeoAt(index).isFixable();
+		return getGeoAt(index).isFixable()
+				&& (app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
+						&& !app.isExam());
 	}
 
 	@Override
