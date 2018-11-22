@@ -139,6 +139,16 @@ public class Textures {
 		setTextureLinear();
 	}
 
+	/**
+	 * remove the texture from memory
+	 * 
+	 * @param index
+	 *            texture index
+	 */
+	public void removeTexture(int index) {
+		// nothing done here
+	}
+
 	// ///////////////////////////////////////
 	// DASH TEXTURES
 	// ///////////////////////////////////////

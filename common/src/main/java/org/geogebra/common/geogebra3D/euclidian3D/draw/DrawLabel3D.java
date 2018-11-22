@@ -699,6 +699,7 @@ public class DrawLabel3D {
 		manager.remove(textIndex);
 		manager.remove(pickingIndex);
 		manager.remove(backgroundIndex);
+		view.getRenderer().getTextures().removeTexture(textureIndex);
 	}
 
 }
