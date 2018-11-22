@@ -60,7 +60,7 @@ $deleteTime: 1s;
 		margin-left: 0px;
 		margin-right: 0px;
 	}
-	
+
 	.colDelete {
 		overflow: hidden !important;
 		width: 0px !important;
@@ -71,6 +71,10 @@ $deleteTime: 1s;
 		user-select: $type;
 		-moz-user-select: $type;
 		-webkit-user-select: $type;
+	}
+
+	.tvCellTransition {
+		transition: width $deleteTime, margin $deleteTime ease-in;
 	}
 	
 	.tvHeader {
@@ -156,19 +160,12 @@ $deleteTime: 1s;
 		}
 	}
 
-	.tvScrollPanel {
+	.tvMainScrollPanel {
 		width: 50%;
 	}
 
-	.tvCellTransition {
-		transition: width $deleteTime, margin $deleteTime ease-in;
-	}
-
-
-
-	.tvPanel .tvValueScroller {
+	.tvMainScrollPanel .tvValueScroller {
 		flex-grow: 1;
-		/*overflow-x: hidden !important;*/
 		overflow-y: auto !important;
 	}
 
@@ -182,11 +179,12 @@ $deleteTime: 1s;
 	}
 
 	/*needed for vertical scrolling*/
-	.tvValueScroller div, .tvPanel{
+	.tvValueScroller div, .tvMainScrollPanel{
 		height: 100%;
 	}
+	
 	.tvHeaderScroller{
-		width: 50%;
+		width: 100%;
 		overflow: hidden !important;
 	}		
 }

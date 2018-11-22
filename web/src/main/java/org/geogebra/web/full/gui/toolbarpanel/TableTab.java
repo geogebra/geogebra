@@ -90,23 +90,23 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	@Override
 	public void notifyColumnChanged(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		// not used
+		getView().refreshView();
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		// not used
+		getView().refreshView();
 	}
 
 	@Override
 	public void notifyColumnHeaderChanged(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		// not used
+		getView().refreshView();
 	}
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		// not used
+		getView().refreshView();
 	}
 }

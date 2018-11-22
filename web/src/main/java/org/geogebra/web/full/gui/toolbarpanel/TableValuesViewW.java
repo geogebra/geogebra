@@ -62,9 +62,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	private ScrollPanel valueScroller;
 	private List<RowData> rows = new ArrayList<>();
 	private NoDragImage moreImg;
-	private boolean dataValid = false;
-
-	private FlowPanel tvPanel;
+	private FlowPanel tvMainScrollPanel;
 
 	/**
 	 * Class to wrap callback after column delete.
@@ -126,7 +124,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			if (getRow() < getTableValuesModel().getRowCount()
 					&& col < getTableValuesModel().getColumnCount()) {
 				String str = getTableValuesModel().getCellAt(getRow(), col);
-				return str.length() < MAX_CHARS ? str : str.substring(0, MAX_CHARS);
+				return str.length() < MAX_CHARS ? str : str.substring(0, MAX_CHARS - 1);
 			}
 			return "";
 		}
@@ -191,7 +189,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private void createGUI() {
 		main = new FlowPanel();
-		tvPanel = new FlowPanel();
+		tvMainScrollPanel = new FlowPanel();
 
 		headerTable = new CellTable<>();
 		headerTable = new CellTable<>();
@@ -210,7 +208,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	public void refreshView() {
 		if (isEmpty()) {
 			buildEmptyView();
-		} else if (!dataValid) {
+		} else {
 			buildTable();
 		}
 		setParentStyle();
@@ -231,11 +229,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 		valueScroller.setWidget(valuesTable);
 		createStickyHeader();
-		tvPanel.add(valueScroller);
-		tvPanel.addStyleName("tvPanel");
+		tvMainScrollPanel.add(valueScroller);
+		tvMainScrollPanel.addStyleName("tvMainScrollPanel");
 		syncHeaderSizes();
 
-		main.add(tvPanel);
+		main.add(tvMainScrollPanel);
 	}
 
 	private void createStickyHeader() {
@@ -244,13 +242,13 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		headerMain.add(headerTable);
 		headerScroller.add(headerMain);
 		headerScroller.addStyleName("tvHeaderScroller");
-
-		tvPanel.add(headerScroller);
+		tvMainScrollPanel.clear();
+		tvMainScrollPanel.add(headerScroller);
 
 		OuterPanel outerScrollPanel = new OuterPanel(); // used for horizontal
 												// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
-		outerScrollPanel.add(tvPanel);
+		outerScrollPanel.add(tvMainScrollPanel);
 
 		valueScroller.addScrollHandler(new ScrollHandler() {
 			@Override
@@ -315,6 +313,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		main.add(emptyLabel);
 		main.add(emptyInfo);
 		setParentStyle();
+		setLabels();
 	}
 
 	private void setParentStyle() {
