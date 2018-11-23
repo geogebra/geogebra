@@ -3,14 +3,13 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
+import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -38,7 +37,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * HTML representation of the Table of Values View.
@@ -46,16 +44,24 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class TableValuesViewW extends TableValuesView implements SetLabels {
+public class TableValuesPanel extends FlowPanel implements SetLabels, TableValuesListener {
 
+	// margin to align value cells to header - 3dot empty place
+	private static final int VALUE_RIGHT_MARGIN = 36;
 	private static final int HEADER_HEIGHT = 48;
+	private static final int VIEW_LEFT_PADDING = 16;
+	private static final int STRICT_VALUE_COLUM_WIDTH = 95;
+	private static final int STRICT_X_COLUMN_WIDTH = 72 + VIEW_LEFT_PADDING;
+	private static final int STRICT_ROW_HEIGHT = 40;
+	private static final int STRICT_HEADER_HEIGHT = STRICT_ROW_HEIGHT;
+	/** view of table values */
+	TableValuesView view;
 
 	/** Template to create a cell */
 	static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
 	private CellTable<RowData> headerTable;
 	private CellTable<RowData> valuesTable;
-	private FlowPanel main;
 	private Label emptyLabel;
 	private Label emptyInfo;
 	private AppW app;
@@ -100,7 +106,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private class RowData {
-		private static final int MAX_CHARS = 15;
 		private int row;
 
 		public RowData(int row) {
@@ -111,7 +116,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		 * @return the column header.
 		 */
 		public String getHeader() {
-			return getTableValuesModel().getHeaderAt(1);
+			return view.getTableValuesModel().getHeaderAt(1);
 		}
 
 		/**
@@ -121,10 +126,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		 * @return the cell value
 		 */
 		public String getValue(int col) {
-			if (getRow() < getTableValuesModel().getRowCount()
-					&& col < getTableValuesModel().getColumnCount()) {
-				String str = getTableValuesModel().getCellAt(getRow(), col);
-				return str.length() < MAX_CHARS ? str : str.substring(0, MAX_CHARS - 1);
+			if (getRow() < view.getTableValuesModel().getRowCount()
+					&& col < view.getTableValuesModel().getColumnCount()) {
+				return view.getTableValuesModel().getCellAt(getRow(), col);
 			}
 			return "";
 		}
@@ -142,9 +146,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * @param app
 	 *            {@link AppW}.
 	 */
-	public TableValuesViewW(AppW app) {
-		super(app.getKernel());
+	public TableValuesPanel(AppW app) {
+		super();
 		this.app = app;
+		view = (TableValuesView) app.getGuiManager().getTableValuesView();
+		view.getTableValuesModel().registerListener(this);
 		createGUI();
 	}
 
@@ -188,7 +194,6 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private void createGUI() {
-		main = new FlowPanel();
 		tvMainScrollPanel = new FlowPanel();
 
 		headerTable = new CellTable<>();
@@ -207,8 +212,8 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	/**
 	 * Refresh header and data.
 	 */
-	public void refreshView() {
-		if (isEmpty()) {
+	public void update() {
+		if (view.isEmpty()) {
 			buildEmptyView();
 		} else {
 			buildTable();
@@ -217,9 +222,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private void buildTable() {
-		main.clear();
-		main.removeStyleName("emptyTablePanel");
-		main.addStyleName("tableViewMain");
+		clear();
+		removeStyleName("emptyTablePanel");
+		addStyleName("tableViewMain");
 		TableUtils.clear(valuesTable);
 		TableUtils.clear(headerTable);
 
@@ -234,7 +239,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		tvMainScrollPanel.addStyleName("tvMainScrollPanel");
 		syncHeaderSizes();
 
-		main.add(tvMainScrollPanel);
+		add(tvMainScrollPanel);
 	}
 
 	private void createStickyHeader() {
@@ -277,7 +282,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private void fillValuesTable() {
 		rows.clear();
-		for (int row = 0; row < getTableValuesModel().getRowCount(); row++) {
+		for (int row = 0; row < view.getTableValuesModel().getRowCount(); row++) {
 			rows.add(new RowData(row));
 		}
 
@@ -287,17 +292,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		valuesTable.setVisible(true);
 	}
 
-	/**
-	 *
-	 * @return the main widget of the view.
-	 */
-	public Widget getWidget() {
-		return main;
-	}
-
 	private void buildEmptyView() {
-		main.clear();
-		this.main.addStyleName("emptyTablePanel");
+		clear();
+		addStyleName("emptyTablePanel");
 		NoDragImage emptyImage = new NoDragImage(
 				MaterialDesignResources.INSTANCE.toolbar_table_view_black(),
 				56);
@@ -305,24 +302,24 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		emptyImage.addStyleName("emptyTableImage");
 		FlowPanel emptyImageWrap = new FlowPanel();
 		emptyImageWrap.add(emptyImage);
-		this.emptyLabel = new Label();
-		this.emptyLabel.addStyleName("emptyTableLabel");
-		this.emptyInfo = new Label();
-		this.emptyInfo.addStyleName("emptyTableInfo");
+		emptyLabel = new Label();
+		emptyLabel.addStyleName("emptyTableLabel");
+		emptyInfo = new Label();
+		emptyInfo.addStyleName("emptyTableInfo");
 		emptyImageWrap.addStyleName("emptyTableImageWrap");
-		main.add(emptyImageWrap);
-		main.add(emptyLabel);
-		main.add(emptyInfo);
+		add(emptyImageWrap);
+		add(emptyLabel);
+		add(emptyInfo);
 		setParentStyle();
 		setLabels();
 	}
 
 	private void setParentStyle() {
-		Element parent = main.getElement().getParentElement();
+		Element parent = getElement().getParentElement();
 		if (parent == null) {
 			return;
 		}
-		if (isEmpty()) {
+		if (view.isEmpty()) {
 			parent.addClassName("tableViewParent");
 		} else {
 			parent.removeClassName("tableViewParent");
@@ -360,7 +357,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				boolean empty = "".equals(valStr);
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
-				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
+				int height = empty ? 0 : STRICT_ROW_HEIGHT;
 				SafeHtml cell = TEMPLATES.cell(value, width, height);
 
 				return cell;
@@ -415,7 +412,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 				Node node = headerNodes.getItem(i);
 				// check if header cell is the one it was clicked on
 				if (node.equals(currHeaderCell)) {
-					new ContextMenuTV(getApp(), i > 0 ? getGeoAt(i - 1) : null,
+					new ContextMenuTV(getApp(), i > 0 ? view.getGeoAt(i - 1) : null,
 							i - 1).show(
 									new GPoint(el.getAbsoluteLeft(),
 											el.getAbsoluteTop() - 8));
@@ -426,11 +423,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 
 	private SafeHtml getHeaderHtml(final int col) {
 		FlowPanel p = new FlowPanel();
-		p.add(new Label(getTableValuesModel().getHeaderAt(col)));
+		p.add(new Label(view.getTableValuesModel().getHeaderAt(col)));
 		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
 		p.add(btn);
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
-		TableValuesDimensions dimensions = getTableValuesDimensions();
+		TableValuesDimensions dimensions = view.getTableValuesDimensions();
 		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), dimensions.getHeaderHeight());
 	}
 
@@ -444,11 +441,13 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	 * @return the calculated width of the column.
 	 */
 	static int getColumnWidth(TableValuesDimensions dimensions, int column) {
-		return Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column));
+		int w = Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column))
+				+ VALUE_RIGHT_MARGIN;
+		return Math.max(w, column == 0 ? STRICT_X_COLUMN_WIDTH : STRICT_VALUE_COLUM_WIDTH);
 	}
 
 	private void addColumnsForTable(CellTable<RowData> tb) {
-		TableValuesModel m = getTableValuesModel();
+		TableValuesModel m = view.getTableValuesModel();
 		for (int i = 0; i < m.getColumnCount(); i++) {
 			Column<RowData, ?> col = getColumnName();
 			if (col != null) {
@@ -458,9 +457,9 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private void addValuesForTable(CellTable<RowData> tb) {
-		TableValuesModel m = getTableValuesModel();
+		TableValuesModel m = view.getTableValuesModel();
 		for (int column = 0; column < m.getColumnCount(); column++) {
-			Column<RowData, ?> col = getColumnValue(column, getTableValuesDimensions());
+			Column<RowData, ?> col = getColumnValue(column, view.getTableValuesDimensions());
 			tb.addColumn(col);
 		}
 	}
@@ -518,7 +517,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 	}
 
 	private boolean isXDeleted() {
-		return getTableValuesModel().getColumnCount() == 0;
+		return view.getTableValuesModel().getColumnCount() == 0;
 	}
 
 	/**
@@ -550,11 +549,7 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
-		headerTable.getElement().addClassName("transitioning");
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
-		// remove stylename
-		CSSEvents.runOnTransition(null, headerTable.getElement(),
-				"transitioning");
 
 	}
 
@@ -578,15 +573,37 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 		} else {
 			header.getParentElement().removeFromParent();
 		}
-		if (isEmpty()) {
-			refreshView();
+		if (view.isEmpty()) {
+			update();
 		}
 	}
 
 	@Override
-	protected TableValuesViewDimensions newTableValuesViewDimensions(GFontRenderContext context) {
-		return new TableValuesViewDimensionsW(getTableValuesModel(), AwtFactory.getPrototype(),
-				context);
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
+		deleteColumn(column, null);
+
 	}
 
+	@Override
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
+		update();
+	}
+
+	@Override
+	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		update();
+	}
+
+	@Override
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
+		update();
+	}
+
+	@Override
+	public void notifyDatasetChanged(TableValuesModel model) {
+		update();
+	}
 }

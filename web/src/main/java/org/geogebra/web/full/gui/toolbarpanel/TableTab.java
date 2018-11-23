@@ -1,30 +1,20 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.table.TableValuesListener;
-import org.geogebra.common.gui.view.table.TableValuesModel;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Tab of Table Values View.
  * 
  * @author laszlo
  */
-public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, TableValuesListener {
+public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 
 	private ToolbarPanel toolbarPanel;
 	private AppW app;
-	private Runnable cbOnColumnDelete = new Runnable() {
-
-		@Override
-		public void run() {
-			buildGui();
-		}
-	};
+	private TableValuesPanel tableValuesPanel;
 
 	/**
 	 * @param toolbarPanel
@@ -33,37 +23,27 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 	public TableTab(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
 		this.app = toolbarPanel.app;
-		buildGui();
-		setLabels();
-		getView().getTableValuesModel().registerListener(this);
+		tableValuesPanel = new TableValuesPanel(app);
 	}
 
 	@Override
 	protected void onActive() {
 		buildGui();
-		getView().setHeight(toolbarPanel.getOffsetHeight()
+		tableValuesPanel.setHeight(toolbarPanel.getOffsetHeight()
 				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT);
-	}
-
-	private TableValuesViewW getView() {
-		return (TableValuesViewW) app.getGuiManager().getTableValuesView();
 	}
 
 	/**
 	 * Rebuild the tab.
 	 */
 	void buildGui() {
-		getView().refreshView();
-		Widget w = getView().getWidget();
-		if (w == null) {
-			return;
-		}
-		setWidget(w);
+		tableValuesPanel.update();
+		setWidget(tableValuesPanel);
 	}
 
 	@Override
 	public void setLabels() {
-		getView().setLabels();
+		tableValuesPanel.setLabels();
 	}
 
 	@Override
@@ -78,35 +58,6 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels, Tabl
 		setWidth(2 * w + "px");
 		setHeight(h + "px");
 		getElement().getStyle().setLeft(2 * w, Unit.PX);
-		getView().setHeight(h);
-	}
-
-	@Override
-	public void notifyColumnRemoved(TableValuesModel model,
-			GeoEvaluatable evaluatable, int column) {
-		getView().deleteColumn(column, cbOnColumnDelete);
-	}
-
-	@Override
-	public void notifyColumnChanged(TableValuesModel model,
-			GeoEvaluatable evaluatable, int column) {
-		getView().refreshView();
-	}
-
-	@Override
-	public void notifyColumnAdded(TableValuesModel model,
-			GeoEvaluatable evaluatable, int column) {
-		getView().refreshView();
-	}
-
-	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model,
-			GeoEvaluatable evaluatable, int column) {
-		getView().refreshView();
-	}
-
-	@Override
-	public void notifyDatasetChanged(TableValuesModel model) {
-		getView().refreshView();
+		tableValuesPanel.setHeight(h);
 	}
 }

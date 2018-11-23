@@ -82,7 +82,6 @@ import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
-import org.geogebra.web.full.gui.toolbarpanel.TableValuesViewW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -2475,11 +2474,6 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	@Override
-	protected TableValuesView createTableValuesView() {
-		return new TableValuesViewW((AppW) app);
-	}
-
 	/**
 	 * @param ggwMenuBar
 	 *            menu
@@ -2491,7 +2485,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void initTableValuesView(double min, double max, double step, GeoElement geo) {
 		try {
-			getTableValuesView().setValues(min, max, step);
+			((TableValuesView) getTableValuesView()).setValues(min, max, step);
 			if (geo != null) {
 				addGeoToTableValuesView(geo);
 				app.getKernel().attach(getTableValuesView());
@@ -2500,8 +2494,7 @@ public class GuiManagerW extends GuiManager
 			}
 		} catch (InvalidValuesException exception) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					exception.getLocalizedMessage(app.getLocalization()),
-					true, (AppW) app);
+					exception.getLocalizedMessage(app.getLocalization()), true, (AppW) app);
 		}
 	}
 
@@ -2513,7 +2506,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showTableValuesView(GeoElement geo) {
-		if (getTableValuesView().isEmpty()) {
+		if (((TableValuesView) getTableValuesView()).isEmpty()) {
 			app.getDialogManager().openTableViewDialog(geo);
 		} else {
 			addGeoToTableValuesView(geo);
