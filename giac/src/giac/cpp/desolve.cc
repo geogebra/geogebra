@@ -2130,7 +2130,7 @@ namespace giac {
 	alpha_inf_minus=(-b/a-nu)/2;
       } else assert(false);
       /* step 2 */
-      int np=poles.size()+1,N=std::pow(2,np),sc,d,maxd=0;
+      int np=poles.size()+1,N=(1<<np),sc,d,maxd=0; // N=std::pow(2.0,np)
       vecteur fam,cv,vars,v;
       gen fd,fw,P;
       for (gen_map::const_iterator it=alpha_plus.begin();it!=alpha_plus.end();++it) {
@@ -2139,13 +2139,13 @@ namespace giac {
       for (int i=0;i<N;++i) {
 	fd=(i & 1)!=0?alpha_inf_plus:alpha_inf_minus;
 	for (int j=1;j<np;++j) {
-	  fd-=(i & (int)std::pow(2,j))!=0?alpha_plus[cv[j-1]]:alpha_minus[cv[j-1]];
+	  fd-=(i & (1<<j))!=0?alpha_plus[cv[j-1]]:alpha_minus[cv[j-1]]; // i & (int)std::pow(2.0,j)
 	}
 	fd=_ratnormal(fd,contextptr);
 	if (fd.is_integer() && is_positive(fd,contextptr)) {
 	  fw=(i & 1)!=0?sqrt_r[inf]:-sqrt_r[inf];
 	  for (int j=1;j<np;++j) {
-	    sc=(i & (int)std::pow(2,j));
+	    sc=(i & (1<<j)); // i & (int)std::pow(2.0,j)
 	    fw+=sc!=0?sqrt_r[cv[j-1]]:-sqrt_r[cv[j-1]];
 	    fw+=(sc!=0?alpha_plus[cv[j-1]]:alpha_minus[cv[j-1]])/(x-cv[j-1]);
 	  }

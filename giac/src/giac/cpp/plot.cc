@@ -10772,7 +10772,7 @@ namespace giac {
     double tstep=0,tmin=-1e300,tmax=1e300;
     bool tminmax_defined,tstep_defined;
     read_tmintmaxtstep(v,t,3,tmin,tmax,tstep,tminmax_defined,tstep_defined,contextptr);
-    if (tmin>0 || tmax<0 || tmin>tmax || tstep<=0)
+    if (tmin>tmax || tstep<=0)
       return gensizeerr(gettext("Time"));
     int maxstep=500;
     if (tminmax_defined && tstep_defined)
