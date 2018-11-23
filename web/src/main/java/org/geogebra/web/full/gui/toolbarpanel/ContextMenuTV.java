@@ -104,10 +104,10 @@ public class ContextMenuTV {
 	}
 
 	private void addShowHide() {
-		final TableValuesPoints tv = getApp().getGuiManager()
+		final TableValuesPoints tvPoints = getApp().getGuiManager()
 				.getTableValuesPoints();
 		final int column = getColumnIdx() + 1;
-		String transKey = tv.arePointsVisible(column) ? "HidePoints"
+		String transKey = tvPoints.arePointsVisible(column) ? "HidePoints"
 				: "ShowPoints";
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtmlNoIcon(
@@ -116,8 +116,8 @@ public class ContextMenuTV {
 
 					@Override
 					public void execute() {
-						tv.setPointsVisible(column,
-								!tv.arePointsVisible(column));
+						tvPoints.setPointsVisible(column,
+								!tvPoints.arePointsVisible(column));
 					}
 				});
 		wrappedPopup.addItem(mi);

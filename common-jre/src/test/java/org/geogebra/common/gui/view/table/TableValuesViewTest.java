@@ -396,8 +396,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
     public void testTableValuesPointsVisibility() {
-        TableValuesPoints points = new TableValuesPointsImpl(getConstruction(), model);
-        model.registerListener(points);
+		TableValuesPoints points = setupPointListener();
 
         GeoLine[] lines = createLines(2);
 
@@ -419,6 +418,13 @@ public class TableValuesViewTest extends BaseUnitTest {
         points.setPointsVisible(1, false);
         Assert.assertFalse(points.arePointsVisible(1));
     }
+
+	private TableValuesPoints setupPointListener() {
+		TableValuesPoints points = new TableValuesPointsImpl(getConstruction(),
+				model);
+		model.registerListener(points);
+		return points;
+	}
 
 	@Test
 	public void testUndoAddFirst() {
@@ -502,6 +508,28 @@ public class TableValuesViewTest extends BaseUnitTest {
 		getKernel().redo();
 		Assert.assertEquals(5, view.getValuesMin(), .1);
 		shouldHaveUndoPointsAndColumns(3, 2);
+	}
+
+	@Test
+	public void testUndoShowPoints() {
+		setupUndo();
+		TableValuesPoints points = setupPointListener();
+		GeoLine[] lines = createLines(2);
+		getApp().storeUndoInfo();
+		shouldHaveUndoPointsAndColumns(1, 1);
+		showColumn(lines[0]);
+		points.setPointsVisible(1, false);
+		points.setPointsVisible(1, true);
+		shouldHaveUndoPointsAndColumns(4, 2);
+		Assert.assertTrue(points.arePointsVisible(1));
+		getKernel().undo();
+		Assert.assertFalse(points.arePointsVisible(1));
+		getKernel().undo();
+		Assert.assertTrue(points.arePointsVisible(1));
+		getKernel().redo();
+		Assert.assertFalse(points.arePointsVisible(1));
+		getKernel().redo();
+		Assert.assertTrue(points.arePointsVisible(1));
 	}
 
 	private void hideColumn(GeoEvaluatable geoLine) {

@@ -155,5 +155,6 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		} else if (!visible && points.get(column - 1) != null) {
 			removePoints(column);
 		}
+		construction.getKernel().getApplication().storeUndoInfo();
 	}
 }
