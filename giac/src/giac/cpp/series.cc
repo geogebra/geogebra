@@ -2293,8 +2293,10 @@ namespace giac {
 	}
       }
     }
-    if (!v1.empty())
+    if (!v1.empty()){
+      v2=subst(v2,v1,v2,false,contextptr);
       e=remove_lnexp(subst(e,v1,v2,false,contextptr),contextptr);
+    }
     v=rlvarx(e,x);
     vs=int(v.size());
     v1.clear(); v2.clear();

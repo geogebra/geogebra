@@ -8831,7 +8831,7 @@ namespace giac {
     if (ordre<0)
       return 0;
     if (!is_inf(lim_point))
-      return gensizeerr(contextptr);
+      return taylor(lim_point,ordre,f,0,shift_coeff,contextptr);//gensizeerr(contextptr);
     shift_coeff=1;
     // erfs(x)=1/sqrt(pi) * 1/x* sum( (2*k)! / (-4)^k / k! * x^(-2k) )
     gen tmp(1);
@@ -9796,7 +9796,7 @@ namespace giac {
     if (ordre<0)
       return 0;
     if (!is_inf(lim_point))
-      return gensizeerr(contextptr);
+      return taylor(lim_point,ordre,f,0,shift_coeff,contextptr);//gensizeerr(contextptr);
     shift_coeff=1;
     // f(x)=1/x* sum( k!/x^(k) )
     gen tmp(1);
@@ -10229,6 +10229,34 @@ namespace giac {
 #endif
   define_unary_function_ptr5( at_Ei0 ,alias_at_Ei0,&__Ei0,0,true); /* FIXME should not registered */
 
+#if 0
+  static gen taylor_lambertW (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
+    if (ordre<0){
+      return 0; // statically handled now
+      //limit_tractable_functions().push_back(at_Psi);
+      //limit_tractable_replace().push_back(Psi_replace);
+      //return 1;
+    }
+    shift_coeff=0;
+  }
+  gen _lambertW(const gen & args,GIAC_CONTEXT);
+  static gen d_lambertW(const gen & args,GIAC_CONTEXT){
+    // W/z/(1+W)
+    gen w=_lambertW(args,contextptr);
+    return w/args/(1+w);
+  }
+  define_partial_derivative_onearg_genop( D_at_lambertW," D_at_lambertW",&d_lambertW);
+  gen _lambertW(const gen & args,GIAC_CONTEXT){
+    //if (args.type==_DOUBLE_) return lambertW(*args._VECTptr);
+  }
+  static const char _lambertW_s []="lambertW";
+#ifdef GIAC_HAS_STO_38
+  define_unary_function_eval_taylor (__lambertW,&_lambertW,(size_t)&D_at_lambertWunary_function_ptr,&taylor_lambertW,_lambertW_s);
+#else
+  define_unary_function_eval_taylor (__lambertW,&_lambertW,D_at_lambertW,&taylor_lambertW,_lambertW_s);
+#endif
+  define_unary_function_ptr5( at_lambertW ,alias_at_lambertW,&__lambertW,0,true);
+#endif
 
   gen _Dirac(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
