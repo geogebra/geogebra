@@ -555,7 +555,7 @@ public class EuclidianController3DCompanion
 			return;
 		}
 
-		ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
+		ec3D.view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
 
 		ec3D.addOffsetForTranslation(tmpCoordsForOrigin);
 		point.setWillingCoords(tmpCoordsForOrigin);
