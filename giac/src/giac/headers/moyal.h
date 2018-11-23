@@ -276,6 +276,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_harmonic ;
 
   gen _constants_catalog(const gen & g,GIAC_CONTEXT);
+  complex<double> LambertW(complex<double> x,int n=0);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

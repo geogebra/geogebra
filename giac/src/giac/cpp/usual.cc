@@ -10229,33 +10229,61 @@ namespace giac {
 #endif
   define_unary_function_ptr5( at_Ei0 ,alias_at_Ei0,&__Ei0,0,true); /* FIXME should not registered */
 
-#if 0
-  static gen taylor_lambertW (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
+#if 1
+  static gen taylor_LambertWs(const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
+    if (ordre<0)
+      return 0;
+    if (!is_inf(lim_point))
+      return taylor(lim_point,ordre,f,0,shift_coeff,contextptr);//gensizeerr(contextptr);
+    shift_coeff=1;
+  }
+  gen _LambertWs(const gen & g,GIAC_CONTEXT);
+  static gen d_LambertWs(const gen & args,GIAC_CONTEXT){
+    return 2*args*_LambertWs(args,contextptr)-gen(2)/sqrt(cst_pi,contextptr);
+  }
+  define_partial_derivative_onearg_genop( D_at_LambertWs," D_at_LambertWs",&d_LambertWs);
+  gen _LambertWs(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (is_inf(g))
+      return 0;
+    return symbolic(at_LambertWs,g);
+  }
+  static const char _LambertWs_s []="LambertWs";
+#ifdef GIAC_HAS_STO_38
+  static define_unary_function_eval_taylor( __LambertWs,&_LambertWs,(size_t)&D_at_LambertWsunary_function_ptr,&taylor_LambertWs,_LambertWs_s);
+#else
+  static define_unary_function_eval_taylor( __LambertWs,&_LambertWs,D_at_LambertWs,&taylor_LambertWs,_LambertWs_s);
+#endif
+  define_unary_function_ptr5( at_LambertWs ,alias_at_LambertWs,&__LambertWs,0,true);
+
+  static gen taylor_LambertW (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
-      //limit_tractable_functions().push_back(at_Psi);
-      //limit_tractable_replace().push_back(Psi_replace);
-      //return 1;
     }
     shift_coeff=0;
   }
-  gen _lambertW(const gen & args,GIAC_CONTEXT);
-  static gen d_lambertW(const gen & args,GIAC_CONTEXT){
+  gen _LambertW(const gen & args,GIAC_CONTEXT);
+  static gen d_LambertW(const gen & args,GIAC_CONTEXT){
     // W/z/(1+W)
-    gen w=_lambertW(args,contextptr);
+    gen w=_LambertW(args,contextptr);
     return w/args/(1+w);
   }
-  define_partial_derivative_onearg_genop( D_at_lambertW," D_at_lambertW",&d_lambertW);
-  gen _lambertW(const gen & args,GIAC_CONTEXT){
-    //if (args.type==_DOUBLE_) return lambertW(*args._VECTptr);
+  define_partial_derivative_onearg_genop( D_at_LambertW," D_at_LambertW",&d_LambertW);
+  gen _LambertW(const gen & args,GIAC_CONTEXT){
+    if (args.type==_DOUBLE_) return LambertW(args._DOUBLE_val);
+    if (args.type==_CPLX && args.subtype==3) 
+      return LambertW(complex<double>(args._CPLXptr->_DOUBLE_val,(args._CPLXptr+1)->_DOUBLE_val));
+    if (args==0) return 0;
+    if (-inv(args,contextptr)==symbolic(at_exp,1)) return -1;
+    return symbolic(at_LambertW,args);
   }
-  static const char _lambertW_s []="lambertW";
+  static const char _LambertW_s []="LambertW";
 #ifdef GIAC_HAS_STO_38
-  define_unary_function_eval_taylor (__lambertW,&_lambertW,(size_t)&D_at_lambertWunary_function_ptr,&taylor_lambertW,_lambertW_s);
+  define_unary_function_eval_taylor (__LambertW,&_LambertW,(size_t)&D_at_LambertWunary_function_ptr,&taylor_LambertW,_LambertW_s);
 #else
-  define_unary_function_eval_taylor (__lambertW,&_lambertW,D_at_lambertW,&taylor_lambertW,_lambertW_s);
+  define_unary_function_eval_taylor (__LambertW,&_LambertW,D_at_LambertW,&taylor_LambertW,_LambertW_s);
 #endif
-  define_unary_function_ptr5( at_lambertW ,alias_at_lambertW,&__lambertW,0,true);
+  define_unary_function_ptr5( at_LambertW ,alias_at_LambertW,&__LambertW,0,true);
 #endif
 
   gen _Dirac(const gen & args,GIAC_CONTEXT){

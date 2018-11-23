@@ -4129,6 +4129,47 @@ namespace giac {
   static define_unary_function_eval (__hidden_name,&_constants_catalog,_hidden_name_s);
   define_unary_function_ptr5( at_hidden_name ,alias_at_hidden_name,&__hidden_name,0,T_NUMBER);
 
+  complex<double> LambertW(complex<double> z,int n){
+    // n!=0 is not implemented yet
+    if (z==0) return z;
+    complex<double> w; 
+    // initial guess
+    w=2.0*(M_E*z+1.0);
+    if (std::abs(w)<0.1){
+      // near -1/e, set p=sqrt(2(ez+1)), -1+p-1/3*p^2+11/72*p^3+...
+      w=std::sqrt(w);
+      w=-1.0+w*(1.0+w*(-1./3.+w*11./72.));
+    }
+    else {
+      if (z.imag()==0 && z.real()<1 && z.real()>-0.36)
+	w=1;
+      else {
+	// almost everywhere Log(z)-ln(Log(z))
+	w=std::log(z);
+	if (std::abs(z)>=3)
+	  w=w-std::log(w);
+      }
+    }
+    if (z.imag()==0 && w.imag()==0){
+      double Z=z.real(),W=w.real();
+      while (1){
+	// wnext=w-(w*exp(w)-z)/(exp(w)*(w+1)-(w+2)*(w*exp(w)-z)/(2*w+2))
+	double expw(std::exp(W)),wexpwz(W*expw-Z),w1(W+1.0);
+	double wnext(W-wexpwz/(w1*expw-(W+2.0)*wexpwz/w1/2.0));
+	if (abs(wnext-W)<1e-13*std::abs(W))
+	  return wnext;
+	W=wnext;
+      }
+    }
+    while (1){
+      // wnext=w-(w*exp(w)-z)/(exp(w)*(w+1)-(w+2)*(w*exp(w)-z)/(2*w+2))
+      complex<double> expw(std::exp(w)),wexpwz(w*expw-z),w1(w+1.0);
+      complex<double> wnext(w-wexpwz/(w1*expw-(w+2.0)*wexpwz/w1/2.0));
+      if (abs(wnext-w)<1e-13*std::abs(w))
+	return wnext;
+      w=wnext;
+    }
+  }
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
