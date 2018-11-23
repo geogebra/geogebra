@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -1063,5 +1064,10 @@ public class GeoImplicitSurface extends GeoElement3D
 	@Override
 	final public char getLabelDelimiter() {
 		return ':';
+	}
+
+	@Override
+	public boolean hasDrawable3D() {
+		return kernel.getApplication().has(Feature.IMPLICIT_SURFACES);
 	}
 }
