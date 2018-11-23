@@ -155,13 +155,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		 *            to set.
 		 */
 		public void setActive(boolean active) {
+			Dom.toggleClass(this, "tab", "tab-hidden", active);
 			if (active) {
-				removeStyleName("tab-hidden");
-				addStyleName("tab");
 				onActive();
-			} else {
-				removeStyleName("tab");
-				addStyleName("tab-hidden");
 			}
 		}
 

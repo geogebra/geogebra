@@ -606,4 +606,10 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 	public void notifyDatasetChanged(TableValuesModel model) {
 		update();
 	}
+
+	@Override
+	public void onAttach() {
+		super.onAttach();
+		this.setParentStyle();
+	}
 }
