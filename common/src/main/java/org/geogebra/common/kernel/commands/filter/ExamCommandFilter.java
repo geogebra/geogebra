@@ -12,19 +12,20 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class ExamCommandFilter implements CommandFilter {
 
     @Override
-    public boolean isAllowed(Command command, CommandProcessor commandProcessor) {
-        if (!isSetFixed(command)) {
-            return true;
-        }
-        if (commandProcessor == null) {
-            return false;
-        }
-        GeoElement[] arguments = commandProcessor.resArgs(command);
-        GeoElement firstArgument = arguments[0];
-        return !firstArgument.isGeoFunction() && !AlgebraItem.isEquationFromUser(firstArgument);
+	public void checkAllowed(Command command,
+			CommandProcessor commandProcessor) {
+		if (!isSetFixed(command) || commandProcessor == null) {
+			return;
+		}
+		GeoElement[] arguments = commandProcessor.resArgs(command);
+		GeoElement firstArgument = arguments[0];
+		if (firstArgument.isGeoFunction()
+				|| AlgebraItem.isEquationFromUser(firstArgument)) {
+			throw commandProcessor.argErr(command, firstArgument);
+		}
     }
 
     private boolean isSetFixed(Command command) {
-        return Commands.valueOf(command.getName()) == Commands.SetFixed;
+		return Commands.SetFixed.name().equals(command.getName());
     }
 }

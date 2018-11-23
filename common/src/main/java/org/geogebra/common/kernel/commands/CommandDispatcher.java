@@ -176,25 +176,27 @@ public abstract class CommandDispatcher {
 			throws MyError {
 
 		CommandProcessor cmdProc = getProcessor(c);
-		if (isAllowedByFilter(c, cmdProc)) {
-			if (cmdProc == null) {
-				if (c.getName().equals(app.getLocalization().getFunction("freehand"))) {
-					return null;
-				}
-				throw createUnknownCommandError(c);
+
+		if (cmdProc == null) {
+			if (c.getName()
+					.equals(app.getLocalization().getFunction("freehand"))) {
+				return null;
 			}
-			return process(cmdProc, c, info);
+			throw createUnknownCommandError(c);
 		}
-		throw createUnknownCommandError(c);
+		return process(cmdProc, c, info);
 	}
 
 	private boolean isAllowedBySelector(Commands command) {
 		return commandSelector == null || commandSelector.isCommandAllowed(command);
 	}
 
-	private boolean isAllowedByFilter(Command command, CommandProcessor commandProcessor) {
-		return !app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
-                || commandFilter == null || commandFilter.isAllowed(command, commandProcessor);
+	private void checkAllowedByFilter(Command command,
+			CommandProcessor commandProcessor) throws MyError {
+		if (app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
+				&& commandFilter != null) {
+			commandFilter.checkAllowed(command, commandProcessor);
+		}
 	}
 
 	private MyError createUnknownCommandError(Command command) {
@@ -205,7 +207,7 @@ public abstract class CommandDispatcher {
 
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
 			EvalInfo info) {
-
+		checkAllowedByFilter(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
