@@ -18,6 +18,7 @@
 #ifndef _GIAC_MOYAL_H
 #define _GIAC_MOYAL_H
 #include "first.h"
+#include <complex>
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -276,7 +277,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_harmonic ;
 
   gen _constants_catalog(const gen & g,GIAC_CONTEXT);
-  complex<double> LambertW(complex<double> x,int n=0);
+  std::complex<double> LambertW(std::complex<double> x,int n=0);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
