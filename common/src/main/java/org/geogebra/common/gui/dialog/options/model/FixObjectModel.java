@@ -20,8 +20,8 @@ public class FixObjectModel extends BooleanOptionModel {
 	@Override
 	public boolean isValidAt(int index) {
 		return getGeoAt(index).isFixable()
-				&& (app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
-						&& !app.isExam());
+				&& (!app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
+						|| !app.isExam());
 	}
 
 	@Override
