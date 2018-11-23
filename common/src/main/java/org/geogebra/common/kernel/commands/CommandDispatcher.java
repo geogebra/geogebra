@@ -21,8 +21,10 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
@@ -68,6 +70,7 @@ public abstract class CommandDispatcher {
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
+	private CommandSelector commandSelector;
 	private CommandFilter commandFilter;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
@@ -172,29 +175,36 @@ public abstract class CommandDispatcher {
 	final public GeoElement[] processCommand(Command c, EvalInfo info)
 			throws MyError {
 
-		CommandProcessor cmdProc = isAllowed(c) ? getProcessor(c) : null;
-		return process(cmdProc, c, info);
+		CommandProcessor cmdProc = getProcessor(c);
+		if (isAllowedByFilter(c, cmdProc)) {
+			if (cmdProc == null) {
+				if (c.getName().equals(app.getLocalization().getFunction("freehand"))) {
+					return null;
+				}
+				throw createUnknownCommandError(c);
+			}
+			return process(cmdProc, c, info);
+		}
+		throw createUnknownCommandError(c);
 	}
 
-	private boolean isAllowed(Commands command) {
-		return commandFilter == null || commandFilter.isCommandAllowed(command);
+	private boolean isAllowedBySelector(Commands command) {
+		return commandSelector == null || commandSelector.isCommandAllowed(command);
 	}
 
-	private boolean isAllowed(Command command) {
-		return isAllowed(Commands.valueOf(command.getName()));
+	private boolean isAllowedByFilter(Command command, CommandProcessor commandProcessor) {
+		return !app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
+                || commandFilter == null || commandFilter.isAllowed(command, commandProcessor);
+	}
+
+	private MyError createUnknownCommandError(Command command) {
+		throw new MyError(app.getLocalization(),
+				app.getLocalization().getError("UnknownCommand") + " : "
+						+ app.getLocalization().getCommand(command.getName()));
 	}
 
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
 			EvalInfo info) {
-		if (cmdProc == null) {
-			if (c.getName().equals(app.getLocalization().getFunction("freehand"))) {
-				return null;
-			} else {
-				throw new MyError(app.getLocalization(),
-						app.getLocalization().getError("UnknownCommand") + " : "
-								+ app.getLocalization().getCommand(c.getName()));
-			}
-		}
 
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
@@ -301,7 +311,7 @@ public abstract class CommandDispatcher {
 
 			Commands command = Commands.valueOf(cmdName);
 
-			if (!isAllowed(command)) {
+			if (!isAllowedBySelector(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
@@ -934,8 +944,19 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
+	 * Sets the CommandSelector
+	 * @param commandSelector
+	 *          only the commands that are allowed by the commandSelector will be
+	 *          added to the command table
+	 */
+	public void setCommandSelector(CommandSelector commandSelector) {
+		this.commandSelector = commandSelector;
+	}
+	/**
 	 * Sets the CommandFilter
-	 * @param commandFilter only the commands that are allowed by the commandFilter will be accepted
+	 * @param commandFilter
+	 *          only the commands that are allowed by the commandFilter will be
+	 *          allowed
 	 */
 	public void setCommandFilter(CommandFilter commandFilter) {
 		this.commandFilter = commandFilter;

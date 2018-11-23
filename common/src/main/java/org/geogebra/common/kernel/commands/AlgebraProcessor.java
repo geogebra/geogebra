@@ -73,7 +73,7 @@ import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
-import org.geogebra.common.kernel.commands.filter.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -3539,11 +3539,13 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Sets the CommandFilter to the CommandDispatcher
-	 * @param commandFilter only the commands that are allowed by the commandFilter will be accepted
+	 * Sets the CommandSelector to the CommandDispatcher
+	 * @param commandSelector
+	 *          only the commands that are allowed by the commandSelector will be added to the
+	 *          command table
 	 */
-	public void setCommandFilter(CommandFilter commandFilter) {
-		cmdDispatcher.setCommandFilter(commandFilter);
+	public void setCommandSelector(CommandSelector commandSelector) {
+		cmdDispatcher.setCommandSelector(commandSelector);
 	}
 
 	public CommandDispatcher getCommandDispatcher() {

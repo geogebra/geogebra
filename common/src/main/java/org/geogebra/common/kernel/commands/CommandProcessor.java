@@ -119,7 +119,7 @@ public abstract class CommandProcessor {
 	 *             if processing of some argument causes error (i.e. wrong
 	 *             syntax of subcommand)
 	 */
-	protected final GeoElement[] resArgs(Command c) throws MyError {
+	public final GeoElement[] resArgs(Command c) throws MyError {
 		return resArgs(c, new EvalInfo(false));
 	}
 

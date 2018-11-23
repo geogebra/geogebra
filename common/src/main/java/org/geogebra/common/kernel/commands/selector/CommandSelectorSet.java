@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.commands.filter;
+package org.geogebra.common.kernel.commands.selector;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -7,16 +7,16 @@ import java.util.Set;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * CommandFilter interface implemented using HashSet&lt;Commands&gt;
+ * CommandSelector interface implemented using HashSet&lt;Commands&gt;
  */
-class CommandFilterSet implements CommandFilter {
+class CommandSelectorSet implements CommandSelector {
 
     private Set<Commands> allowedCommands;
 
 	/**
 	 * New command filter
 	 */
-    CommandFilterSet() {
+    CommandSelectorSet() {
         allowedCommands = new HashSet<>();
     }
 

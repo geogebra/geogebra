@@ -711,6 +711,10 @@ public class ExamEnvironment {
 	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher
 	 */
 	public void disableExamCommandFilter() {
-		app.getKernel().getAlgebraProcessor().setCommandFilter(nonExamCommandFilter);
+		app
+				.getKernel()
+				.getAlgebraProcessor()
+				.getCommandDispatcher()
+				.setCommandFilter(nonExamCommandFilter);
 	}
 }

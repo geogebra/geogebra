@@ -1,19 +1,19 @@
-package org.geogebra.common.kernel.commands.filter;
+package org.geogebra.common.kernel.commands.selector;
 
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
  * Factory that creates command filters for the Scientific Calculator
  */
-public final class SciCalcCommandFilterFactory {
+public final class SciCalcCommandSelectorFactory {
 
     /**
      *
-     * @return Returns the CommandFilter that allows only the Scientific Calculator commands
+     * @return Returns the CommandSelector that allows only the Scientific Calculator commands
      */
-    public CommandFilter createCommandFilter() {
-        CommandFilterSet commandFilter = new CommandFilterSet();
-        commandFilter.addAllowedCommands(
+    public CommandSelector createCommandSelector() {
+        CommandSelectorSet commandSelector = new CommandSelectorSet();
+        commandSelector.addAllowedCommands(
                 Commands.Mean,
                 Commands.mean,
                 Commands.SD,
@@ -26,6 +26,6 @@ public final class SciCalcCommandFilterFactory {
                 Commands.MAD,
                 Commands.mad
         );
-        return commandFilter;
+        return commandSelector;
     }
 }
