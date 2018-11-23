@@ -138,8 +138,7 @@ public class EuclidianController3DCompanion
 			}
 
 		} else { // 2D point
-			ec3D.view3D.getPickPoint(ec.mouseLoc, tmpCoordsForOrigin);
-			ec3D.view3D.toSceneCoords3D(tmpCoordsForOrigin);
+			ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
 			// TODO do this once
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
@@ -556,8 +555,7 @@ public class EuclidianController3DCompanion
 			return;
 		}
 
-		getView().getPickPoint(mouseLoc, tmpCoordsForOrigin);
-		getView().toSceneCoords3D(tmpCoordsForOrigin);
+		ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
 
 		ec3D.addOffsetForTranslation(tmpCoordsForOrigin);
 		point.setWillingCoords(tmpCoordsForOrigin);
