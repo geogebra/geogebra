@@ -10,13 +10,6 @@ import org.geogebra.common.main.App;
  */
 public abstract class AdjustWidget {
 	protected EuclidianView view;
-	protected double x;
-	protected double y;
-	protected Double origX;
-	protected Double origY;
-	protected double width;
-	protected double origWidth;
-	protected double height;
 	protected double ratioX;
 	protected double ratioY;
 

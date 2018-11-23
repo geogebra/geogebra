@@ -14,6 +14,12 @@ public class AdjustSlider extends AdjustWidget {
 
 	static final int MARGIN_X = 15;
 	static final int MARGIN_Y = 15;
+	private double x;
+	private double y;
+	private Double origX;
+	private Double origY;
+	private double width;
+	private double origWidth;
 
 	/**
 	 * @param num
