@@ -38,6 +38,8 @@ public class CmdExportImage extends CmdScripting {
 	final public GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
+		app.getSelectionManager().clearSelectedGeos();
+
 		if (MyDouble.isOdd(n)) {
 			throw argNumErr(c);
 		}

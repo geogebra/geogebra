@@ -68,8 +68,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					public void execute() {
 						menu.hide();
 						app.toggleMenu();
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
+						app.getSelectionManager().clearSelectedGeos();
+
 						String url = ExportImageDialog.getExportDataURL(app);
 
 						app.getFileManager().showExportAsPictureDialog(url,
@@ -90,8 +90,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					public void execute() {
 						menu.hide();
 						app.toggleMenu();
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
+						app.getSelectionManager().clearSelectedGeos();
 
 						String svg = Browser
 								.encodeSVG(((EuclidianViewWInterface) app
@@ -113,8 +112,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 						menu.hide();
 						app.toggleMenu();
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
+						app.getSelectionManager().clearSelectedGeos();
+
 						String pdf = app.getGgbApi().exportPDF(1, null, null);
 
 						app.getFileManager().showExportAsPictureDialog(pdf,
@@ -143,8 +142,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				@Override
 				public void execute() {
 					app.getActiveEuclidianView().setSelectionRectangle(null);
-					app.getActiveEuclidianView().getEuclidianController()
-							.clearSelections();
+					app.getSelectionManager().clearSelectedGeos();
+
 					menu.hide();
 					app.getGgbApi()
 							.exportPSTricks(exportCallback("Pstricks", app));
