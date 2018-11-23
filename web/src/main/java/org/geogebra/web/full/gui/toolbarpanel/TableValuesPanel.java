@@ -541,9 +541,9 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 		int tableWidth = valuesTable.getOffsetWidth() - header.getOffsetWidth();
 
 		header.addClassName("delete");
-		if (cb != null) {
-			CSSEvents.runOnTransition(new ColumnDelete(col, header, cb), header, "delete");
-		}
+		// null check for cb further down
+		CSSEvents.runOnTransition(new ColumnDelete(col, header, cb), header,
+				"delete");
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
