@@ -4546,6 +4546,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		stickyPointList.clear();
 		allDrawableList.clear();
 		bgImageList.clear();
+		previewFromInputBarGeos = null;
 		this.geosWaiting.clear();
 
 		for (int i = 0; i <= getApplication().getMaxLayerUsed(); i++) {
