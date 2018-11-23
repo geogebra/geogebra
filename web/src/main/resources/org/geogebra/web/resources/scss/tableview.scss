@@ -78,7 +78,10 @@ $deleteTime: 1s;
 	}
 	
 	.tvHeader {
-		@extend .tvCellTransition;
+		&.transitioning {
+			@extend .tvCellTransition;
+		}
+
 		@include textSelect(none);
 		
 		colgroup {

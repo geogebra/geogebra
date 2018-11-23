@@ -550,7 +550,11 @@ public class TableValuesViewW extends TableValuesView implements SetLabels {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
+		headerTable.getElement().addClassName("transitioning");
 		headerTable.getElement().getStyle().setWidth(tableWidth, Unit.PX);
+		// remove stylename
+		CSSEvents.runOnTransition(null, headerTable.getElement(),
+				"transitioning");
 
 	}
 

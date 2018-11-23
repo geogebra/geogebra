@@ -13,7 +13,9 @@ public class CSSEvents {
 			root.removeEventListener(eventName, callback);
 			if (root.className.match(reClass)) {
 				root.className = root.className.replace(reClass, "");
-				runnable.@java.lang.Runnable::run()();
+				if (runnable) {
+					runnable.@java.lang.Runnable::run()();
+				}
 			}
 		};
 		if ((root.style.animation || root.style.animation === "")
@@ -23,7 +25,6 @@ public class CSSEvents {
 			return;
 		}
 		$wnd.setTimeout(callback, 0);
-
 	}-*/;
 
 	/**
