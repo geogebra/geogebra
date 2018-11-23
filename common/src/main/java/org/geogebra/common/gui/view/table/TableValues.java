@@ -44,6 +44,8 @@ public interface TableValues extends View {
 	 * Set the values parameters. Values min must be smaller than valuesMax,
 	 * valuesStep must be a positive number, and they all must be valid nubmers.
 	 * Otherwise an InvalidValuesException is thrown.
+	 * 
+	 * Creates an undo point. Set the values in Settings directly to avoid that.
 	 *
 	 * @param valuesMin
 	 *            lower value of x-values

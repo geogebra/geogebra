@@ -481,9 +481,27 @@ public class TableValuesViewTest extends BaseUnitTest {
 		hideColumn(lines[1]);
 		shouldHaveUndoPointsAndColumns(4, 2);
 		getKernel().undo();
-		Assert.assertEquals(3, 3);
+		shouldHaveUndoPointsAndColumns(3, 3);
 		getKernel().redo();
 		shouldHaveUndoPointsAndColumns(4, 2);
+	}
+
+	@Test
+	public void testUndoRange() {
+		setupUndo();
+		GeoLine[] lines = createLines(2);
+		getApp().storeUndoInfo();
+		shouldHaveUndoPointsAndColumns(1, 1);
+		setValuesSafe(0, 10, 2);
+		showColumn(lines[0]);
+		setValuesSafe(5, 20, 3);
+		shouldHaveUndoPointsAndColumns(3, 2);
+		Assert.assertEquals(5, view.getValuesMin(), .1);
+		getKernel().undo();
+		Assert.assertEquals(0, view.getValuesMin(), .1);
+		getKernel().redo();
+		Assert.assertEquals(5, view.getValuesMin(), .1);
+		shouldHaveUndoPointsAndColumns(3, 2);
 	}
 
 	private void hideColumn(GeoEvaluatable geoLine) {

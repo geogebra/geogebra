@@ -108,6 +108,10 @@ public class TableValuesView implements TableValues, SettingListener {
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
 		settings.endBatch();
+		// empty view: next undo point will be created when geo is added
+		if (!isEmpty()) {
+			kernel.getApplication().storeUndoInfo();
+		}
 	}
 
 	@Override
