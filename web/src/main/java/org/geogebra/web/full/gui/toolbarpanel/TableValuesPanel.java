@@ -53,7 +53,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 	private static final int STRICT_VALUE_COLUM_WIDTH = 95;
 	private static final int STRICT_X_COLUMN_WIDTH = 72 + VIEW_LEFT_PADDING;
 	private static final int STRICT_ROW_HEIGHT = 40;
-	private static final int STRICT_HEADER_HEIGHT = STRICT_ROW_HEIGHT;
+
 	/** view of table values */
 	TableValuesView view;
 
