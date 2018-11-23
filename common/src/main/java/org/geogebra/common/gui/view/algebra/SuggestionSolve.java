@@ -43,11 +43,13 @@ public class SuggestionSolve extends Suggestion {
 		if (Equation.isAlgebraEquation(geo)
 				&& !checkDependentAlgo(geo, SINGLE_SOLVE, null)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
-			if (vars.length == 1) {
-				return SINGLE_SOLVE;
-			}
-			if (vars.length == 2) {
-				return getMulti(geo, vars);
+			if (vars != null) {
+				if (vars.length == 1) {
+					return SINGLE_SOLVE;
+				}
+				if (vars.length == 2) {
+					return getMulti(geo, vars);
+				}
 			}
 		}
 		return null;
