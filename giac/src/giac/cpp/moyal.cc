@@ -4135,7 +4135,7 @@ namespace giac {
     complex<double> w; 
     // initial guess
     w=2.0*(M_E*z+1.0);
-    if (std::abs(w)<0.1){
+    if (std::abs(w)<0.1 && n==0){
       // near -1/e, set p=sqrt(2(ez+1)), -1+p-1/3*p^2+11/72*p^3+...
       w=std::sqrt(w);
       w=-1.0+w*(1.0+w*(-1./3.+w*11./72.));
@@ -4145,7 +4145,7 @@ namespace giac {
 	w=1;
       else {
 	// almost everywhere Log(z)-ln(Log(z))
-	w=std::log(z);
+	w=std::log(z)+2.0*n*complex<double>(0,M_PI);
 	if (std::abs(z)>=3)
 	  w=w-std::log(w);
       }

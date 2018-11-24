@@ -10230,16 +10230,26 @@ namespace giac {
   define_unary_function_ptr5( at_Ei0 ,alias_at_Ei0,&__Ei0,0,true); /* FIXME should not registered */
 
 #if 1
+  gen _LambertW(const gen & args,GIAC_CONTEXT);
+  // l1:=log(x);l2:=log(l1);ws4:=l1-l2+l2/l1+l2*(-2+l2)/2l1^2+l2*(6-9l2+2l2^2)/6/l1^3+l2*(-12+36l2-22l2^2+3l2^3)/12/l1^4;
+  // Ws=W(log(x))-ws4
+  static gen ws4(const gen x,GIAC_CONTEXT){
+    gen l1=ln(x,contextptr);
+    gen l2=ln(l1,contextptr);
+    return l1-l2+l2/l1+l2*(-2+l2)/2/l1/l1+l2*(6-9*l2+2*l2*l2)/6/l1/l1/l1+l2*(-12+36*l2-22*l2*l2+3*l2*l2*l2)/12/l1/l1/l1/l1;
+  }
   static gen taylor_LambertWs(const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0)
       return 0;
     if (!is_inf(lim_point))
       return taylor(lim_point,ordre,f,0,shift_coeff,contextptr);//gensizeerr(contextptr);
-    shift_coeff=1;
+    shift_coeff=5;
+    if (ordre>5) return undef;
+    return vecteur(1,0);
   }
   gen _LambertWs(const gen & g,GIAC_CONTEXT);
   static gen d_LambertWs(const gen & args,GIAC_CONTEXT){
-    return 2*args*_LambertWs(args,contextptr)-gen(2)/sqrt(cst_pi,contextptr);
+    return derive(_LambertW(exp(args,contextptr),contextptr)-ws4(args,contextptr),args,contextptr);
   }
   define_partial_derivative_onearg_genop( D_at_LambertWs," D_at_LambertWs",&d_LambertWs);
   gen _LambertWs(const gen & g,GIAC_CONTEXT){
@@ -10256,13 +10266,28 @@ namespace giac {
 #endif
   define_unary_function_ptr5( at_LambertWs ,alias_at_LambertWs,&__LambertWs,0,true);
 
+  static gen LambertW_replace(const gen & g,GIAC_CONTEXT){
+    return symbolic(at_LambertWs,ln(g,contextptr))+ws4(g,contextptr);
+  }
   static gen taylor_LambertW (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
     }
-    shift_coeff=0;
+    if (lim_point==0){
+      // sum((-n)^(n-1)/n!*x^n,n,1,inf)
+      shift_coeff=1;
+      gen fact=1;
+      vecteur v;
+      for (int i=1;i<=ordre;++i){
+	fact=gen(i)*fact;
+	v.push_back(pow(-i,i-1,contextptr)/fact);
+      }
+      return v;
+    }
+    if (!is_inf(lim_point))
+      return taylor(lim_point,ordre,f,0,shift_coeff,contextptr);//gensizeerr(contextptr);
+    shift_coeff=0; return undef;
   }
-  gen _LambertW(const gen & args,GIAC_CONTEXT);
   static gen d_LambertW(const gen & args,GIAC_CONTEXT){
     // W/z/(1+W)
     gen w=_LambertW(args,contextptr);
@@ -10270,10 +10295,20 @@ namespace giac {
   }
   define_partial_derivative_onearg_genop( D_at_LambertW," D_at_LambertW",&d_LambertW);
   gen _LambertW(const gen & args,GIAC_CONTEXT){
+    if (args.type==_VECT && args._VECTptr->size()==2){
+      gen x=args._VECTptr->front(),n=args._VECTptr->back();
+      if (n.type!=_INT_)
+	return gensizeerr(contextptr);
+      if (x.type==_DOUBLE_)
+	return LambertW(x._DOUBLE_val,n.val);
+      if (x.type==_CPLX && args.subtype==3)
+	return LambertW(complex<double>(x._CPLXptr->_DOUBLE_val,(x._CPLXptr+1)->_DOUBLE_val),n.val);
+    }
     if (args.type==_DOUBLE_) return LambertW(args._DOUBLE_val);
     if (args.type==_CPLX && args.subtype==3) 
       return LambertW(complex<double>(args._CPLXptr->_DOUBLE_val,(args._CPLXptr+1)->_DOUBLE_val));
-    if (args==0) return 0;
+    if (args==0 || args==plus_inf) return args;
+    if (args==symbolic(at_exp,1)) return 1;
     if (-inv(args,contextptr)==symbolic(at_exp,1)) return -1;
     return symbolic(at_LambertW,args);
   }
@@ -10846,9 +10881,9 @@ namespace giac {
   const alias_type  solve_fcns_tab_alias[]={  (const alias_type)&__exp, (const alias_type)&__ln, (const alias_type)&__sin, (const alias_type)&__cos, (const alias_type)&__tan, (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__sinh, (const alias_type)&__cosh, (const alias_type)&__tanh, (const alias_type)&__asinh, (const alias_type)&__acosh, (const alias_type)&__atanh,0};
   const unary_function_ptr * const solve_fcns_tab = (const unary_function_ptr * const)solve_fcns_tab_alias;
 
-  const alias_type limit_tab_alias[]={(const alias_type)&__Gamma,(const alias_type)&__Psi,(const alias_type)&__erf,(const alias_type)&__Si,(const alias_type)&__Ci,(const alias_type)&__Ei,(const alias_type)&__lower_incomplete_gamma,0};
+  const alias_type limit_tab_alias[]={(const alias_type)&__Gamma,(const alias_type)&__Psi,(const alias_type)&__erf,(const alias_type)&__Si,(const alias_type)&__Ci,(const alias_type)&__Ei,(const alias_type)&__lower_incomplete_gamma,(const alias_type)&__LambertW,0};
   const unary_function_ptr * const limit_tab = (const unary_function_ptr * const) limit_tab_alias;
-  const gen_op_context limit_replace [] = {Gamma_replace,Psi_replace,erf_replace,Si_replace,Ci_replace,Ei_replace,igamma_replace,0};
+  const gen_op_context limit_replace [] = {Gamma_replace,Psi_replace,erf_replace,Si_replace,Ci_replace,Ei_replace,igamma_replace,LambertW_replace,0};
 
   // vector<unary_function_ptr> inequality_sommets(inequality_tab,inequality_tab+sizeof(inequality_tab)/sizeof(unary_function_ptr));
   int is_inequality(const gen & g){
