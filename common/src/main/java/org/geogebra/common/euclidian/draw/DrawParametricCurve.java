@@ -341,6 +341,17 @@ public class DrawParametricCurve extends Drawable {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(gp);
+
+		if (fillCurve) {
+			try {
+				// fill using default/hatching/image as appropriate
+				fill(g2, (geo.isInverseFill() ? getShape() : gp));
+
+			} catch (Exception e) {
+				Log.error(e.getMessage());
+			}
+		}
+
 	}
 
 	@Override
