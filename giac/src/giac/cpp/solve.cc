@@ -1281,8 +1281,8 @@ namespace giac {
     int cm=calc_mode(contextptr); 
     calc_mode(0,contextptr); // for solve(1/(log(abs(x))-x) > 0)
     singu=find_singularities(e,x,2,contextptr);
-    calc_mode(cm,contextptr);
     veq_not_singu=solve(e,x,2,contextptr);
+    calc_mode(cm,contextptr);
     for (unsigned i=0;i<singu.size();++i){	
       singu[i]=ratnormal(singu[i],contextptr);
       if (equalposcomp(veq_not_singu,singu[i])){
