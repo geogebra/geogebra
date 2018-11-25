@@ -526,8 +526,10 @@ public class DrawLabel3D {
 		// draw text
 		renderer.setColor(color);
 		renderer.enableTextures();
+        renderer.setLayer(Renderer.LAYER_FOR_TEXTS);
 		renderer.getTextures().setTextureLinear(textureIndex);
 		renderer.getGeometryManager().drawLabel(textIndex);
+        renderer.setLayer(Renderer.LAYER_DEFAULT);
 
 	}
 

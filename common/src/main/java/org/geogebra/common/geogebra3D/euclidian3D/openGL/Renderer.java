@@ -53,6 +53,8 @@ public abstract class Renderer implements RendererInterface {
 	public static final int LAYER_FACTOR_FOR_CODING = 2;
 	/** default layer */
 	public static final int LAYER_DEFAULT = 0;
+    /** layer to ensure no z-fighting between text and its background */
+    public static final int LAYER_FOR_TEXTS = 5;
 
 	// other
 	public Drawable3DListsForView drawable3DLists;
