@@ -67,127 +67,130 @@ $deleteTime: 1s;
 		margin-left: -81px !important;
 	}
 
-	@mixin textSelect($type) {
-		user-select: $type;
-		-moz-user-select: $type;
-		-webkit-user-select: $type;
-	}
-
-	.tvCellTransition {
-		transition: width $deleteTime, margin $deleteTime ease-in;
-	}
-	
-	.tvHeader {
-		&.transitioning {
-			@extend .tvCellTransition;
+	.tvTable {
+		@mixin textSelect($type) {
+			user-select: $type;
+			-moz-user-select: $type;
+			-webkit-user-select: $type;
 		}
-
-		@include textSelect(none);
+	
+		.cellTransition {
+			transition: width $deleteTime, margin $deleteTime ease-in;
+		}
 		
-		colgroup {
-			col {
-				@extend .delete;
+		.header {
+			background-color: transparent;
+			&.transitioning {
+				@extend .cellTransition;
+			}
+	
+			@include textSelect(none);
+			
+			colgroup {
+				col {
+					@extend .delete;
+				}
+			}
+	
+			th {
+				padding: 0;		
+				border: 0px;
+				.cell {
+					@extend .cellTransition;
+					margin-left: 0px;
+					margin-right: 0px;
+					border-bottom: 0px;	
+					text-align: center;
+					padding: 0px;
+					.content {
+						display: inline-flex;
+						margin-top: auto;
+						margin-bottom: auto;
+						float: right;
+						color: $text-secondary;
+				
+						.MyToggleButton {
+								margin: auto 0px auto 0px;
+								padding-left: 6px;
+								padding-right: 6px;
+								border: 0px;
+								img {
+									opacity: 0.54;
+								}
+						}
+					}
+				}
+				
+				.delete {
+					@extend .colDelete;
+					text-align: right;
+				}
+			}
+	
+			tbody {
+				display: none;
 			}
 		}
-
-		th {
-			padding: 0;		
-			border: 0px;
-			.cell {
-				@extend .tvCellTransition;
-				margin-left: 0px;
-				margin-right: 0px;
-				border-bottom: 0px;	
-				text-align: center;
-				padding: 0px;
-				.content {
-					display: inline-flex;
-					margin-top: auto;
-					margin-bottom: auto;
-					float: right;
-					color: $text-secondary;
+		
+		.values {
+			@include textSelect(text);
 			
-					.MyToggleButton {
-							margin: auto 0px auto 0px;
-							padding-left: 6px;
-							padding-right: 6px;
-							border: 0px;
-							img {
-								opacity: 0.54;
-							}
-					}
+			td {
+				div {
+					color: $text-primary;
+					text-align: right;
+				}
+				
+				.delete {
+					@extend .colDelete;
+					margin-left: 16px;
+					margin-right: 32px;
 				}
 			}
 			
-			.delete {
-				@extend .colDelete;
+			.cell {
+				@extend .cellTransition;
+				margin-left: 0px;
+				margin-right: 0px;
 				text-align: right;
-			}
-		}
-
-		tbody {
-			display: none;
-		}
-	}
-	
-	.tvValues {
-		@include textSelect(text);
-		
-		td {
-			div {
-				color: $text-primary;
-				text-align: right;
+			
+				.content {
+					float: right;
+					margin-right: 32px;
+				}
 			}
 			
-			.delete {
-				@extend .colDelete;
-				margin-left: 16px;
-				margin-right: 32px;
+			tbody tr:nth-child(odd) {
+				background: $tableview-row;
 			}
 		}
-		
-		.cell {
-			@extend .tvCellTransition;
-			margin-left: 0px;
-			margin-right: 0px;
-			text-align: right;
-		
-			.content {
-				float: right;
-				margin-right: 32px;
-			}
-		}
-		
-		tbody tr:nth-child(odd) {
-			background: $tableview-row;
-		}
-	}
-
-	.tvMainScrollPanel {
-		width: 50%;
-	}
-
-	.tvMainScrollPanel .tvValueScroller {
-		flex-grow: 1;
-		overflow-y: auto !important;
-	}
-
-	.outerScrollPanel{
-		/*overflow-y: hidden !important;*/
-		overflow: hidden !important;
-	}
-
-	.outerScrollPanel > div{
-		height: 100%;
-	}
-
-	/*needed for vertical scrolling*/
-	.tvValueScroller div, .tvMainScrollPanel{
-		height: 100%;
-	}
 	
-	.tvHeaderScroller{
-		width: 100%;
-		overflow: hidden !important;
-	}		
+		.mainScrollPanel {
+			width: 50%;
+		}
+	
+		.mainScrollPanel .valueScroller {
+			flex-grow: 1;
+			overflow-y: auto !important;
+		}
+	
+		.outerScrollPanel{
+			/*overflow-y: hidden !important;*/
+			overflow: hidden !important;
+		}
+	
+		.outerScrollPanel > div{
+			height: 100%;
+		}
+	
+		/*needed for vertical scrolling*/
+		.valueScroller div, .mainScrollPanel{
+			height: 100%;
+		}
+		
+		.headerScroller{
+			width: 100%;
+			overflow: hidden !important;
+		}		
+	}
 }
