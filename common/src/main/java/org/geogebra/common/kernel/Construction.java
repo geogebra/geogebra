@@ -2699,13 +2699,6 @@ public class Construction {
 	 * @return indexed label, e.g. "c_2"
 	 */
 	public String getIndexLabel(String prefix, int startIndex) {
-
-		// TRAC-3519 avoid invalid labels like "Vertex(poly1')_1"
-		if (!LabelManager.isValidLabel(prefix, kernel, null)
-				|| prefix.indexOf("_") > -1) {
-			return getIndexLabel("a", startIndex);
-		}
-
 		// start numbering with indices using suggestedLabel
 		// as prefix
 		String pref;
@@ -2715,12 +2708,15 @@ public class Construction {
 		} else {
 			pref = prefix.substring(0, pos);
 		}
+		// TRAC-3519 avoid invalid labels like "Vertex(poly1')_1"
+		if (!LabelManager.isValidLabel(pref, kernel, null)) {
+			pref = "a";
+		}
 
 		StringBuilder sbIndexLabel = new StringBuilder();
 		StringBuilder sbLongIndexLabel = new StringBuilder();
 
 		int n = startIndex;
-
 
 		do {
 			sbIndexLabel.setLength(0);
@@ -2732,7 +2728,6 @@ public class Construction {
 			// n as index
 
 			if (n < 10) {
-				sbIndexLabel.setLength(0);
 				sbIndexLabel.append(pref);
 				sbIndexLabel.append('_');
 				sbIndexLabel.append(n);

@@ -33,39 +33,6 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> {
 
-	/**
-	 * Class to wrap callback after column delete.
-	 *
-	 * @author laszlo.
-	 *
-	 */
-	private class ColumnDelete implements Runnable {
-		Runnable cb = null;
-		private int column = -1;
-		private Element elem;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param column
-		 *            the deleted column number.
-		 * @param elem
-		 *            the corresponding HTML element.
-		 * @param cb
-		 *            Callback to run after delete transition.
-		 */
-		ColumnDelete(int column, Element elem, Runnable cb) {
-			this.column = column;
-			this.elem = elem;
-			this.cb = cb;
-		}
-
-		@Override
-		public void run() {
-			onDeleteColumn(column, elem, cb);
-		}
-	}
-
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
 	private static final int TABLE_HEADER_HEIGHT = 40;
@@ -101,6 +68,39 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	}
 
 	/**
+	 * Class to wrap callback after column delete.
+	 *
+	 * @author laszlo.
+	 *
+	 */
+	private class ColumnDelete implements Runnable {
+		Runnable cb = null;
+		private int column = -1;
+		private Element elem;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param column
+		 *            the deleted column number.
+		 * @param elem
+		 *            the corresponding HTML element.
+		 * @param cb
+		 *            Callback to run after delete transition.
+		 */
+		ColumnDelete(int column, Element elem, Runnable cb) {
+			this.column = column;
+			this.elem = elem;
+			this.cb = cb;
+		}
+
+		@Override
+		public void run() {
+			onDeleteColumn(column, elem, cb);
+		}
+	}
+
+	/**
 	 * @param app
 	 *            {@link AppW}
 	 * @param provider
@@ -119,7 +119,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	protected void onHeaderClick(Element source, int column) {
 		new ContextMenuTV(app, column > 0 ? view.getGeoAt(column - 1) : null, column - 1)
 				.show(new GPoint(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8));
-
 	}
 
 	@Override
