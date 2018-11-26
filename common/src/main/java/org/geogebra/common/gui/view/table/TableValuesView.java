@@ -260,10 +260,11 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void clearView() {
+		settings.beginBatch();
 		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
 				TableSettings.DEFAULT_STEP);
-		double[] values = calculateValues();
-		model.clearModel(values);
+		model.clearModel();
+		settings.endBatch();
 	}
 
 	@Override
