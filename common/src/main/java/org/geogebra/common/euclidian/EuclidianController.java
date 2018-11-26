@@ -11656,7 +11656,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void touchStartPhone(AbstractEvent e) {
 		this.mouseLoc = new GPoint(e.getX(), e.getY());
-		this.mouseLocAR = new GPoint(e.getX(), e.getY());
+		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+			this.mouseLocAR = new GPoint(e.getX(), e.getY());
+		}
 
 		if (view.wantsUpdatePreviewForTouchStartPhone(mode)) {
 			view.setPreview(switchPreviewableForInitNewMode(mode));
