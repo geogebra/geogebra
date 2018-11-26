@@ -322,11 +322,6 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	public boolean isConstant() {
-		return false;
-	}
-
-	@Override
 	public boolean isNumberValue() {
 		return true;
 	}
