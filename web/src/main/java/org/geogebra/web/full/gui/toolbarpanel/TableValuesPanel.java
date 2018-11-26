@@ -48,11 +48,13 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
+	// Extra padding for x column
 	private static final int X_LEFT_PADDING = 16;
-	private static final int HEADER_HEIGHT = 48;
-	private static final int VIEW_LEFT_PADDING = 16;
-	private static final int STRICT_VALUE_COLUM_WIDTH = 95;
-	private static final int STRICT_X_COLUMN_WIDTH = 72 + VIEW_LEFT_PADDING;
+	private static final int TOOLBAR_HEADER_HEIGHT = 48;
+	private static final int TABLE_HEADER_HEIGHT = 40;
+
+	// minimum values comes from design
+	private static final int MIN_COLUMN_WIDTH = 72;
 	private static final int STRICT_ROW_HEIGHT = 40;
 
 	/** view of table values */
@@ -429,7 +431,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 		p.add(btn);
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = view.getTableValuesDimensions();
-		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), 40);
+		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), TABLE_HEADER_HEIGHT);
 	}
 
 	/**
@@ -447,7 +449,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 		if (column == 0) {
 			w += X_LEFT_PADDING;
 		}
-		return Math.max(w, column == 0 ? STRICT_X_COLUMN_WIDTH : STRICT_VALUE_COLUM_WIDTH);
+		return Math.max(w, MIN_COLUMN_WIDTH + X_LEFT_PADDING);
 	}
 
 	private void addColumnsForTable(CellTable<RowData> tb) {
@@ -475,7 +477,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 	 *            to set.
 	 */
 	public void setHeight(int height) {
-		valueScroller.getElement().getStyle().setHeight(height - HEADER_HEIGHT,
+		valueScroller.getElement().getStyle().setHeight(height - TOOLBAR_HEADER_HEIGHT,
 				Unit.PX);
 	}
 
