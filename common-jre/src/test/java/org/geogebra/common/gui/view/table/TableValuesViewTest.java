@@ -163,9 +163,9 @@ public class TableValuesViewTest extends BaseUnitTest {
         Assert.assertEquals(1, model.getColumnCount());
         Assert.assertEquals(5, model.getRowCount());
         Assert.assertEquals("x", model.getHeaderAt(0));
-		Assert.assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
-		Assert.assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
-		Assert.assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
+        Assert.assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
+        Assert.assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
+        Assert.assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
     }
 
     @Test
