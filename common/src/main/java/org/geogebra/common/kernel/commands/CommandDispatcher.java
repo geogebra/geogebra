@@ -935,7 +935,6 @@ public abstract class CommandDispatcher {
 	 */
 	public void setEnabled(boolean enable) {
 		this.enabled = enable;
-
 	}
 
 	/**
@@ -954,6 +953,7 @@ public abstract class CommandDispatcher {
 	public void setCommandSelector(CommandSelector commandSelector) {
 		this.commandSelector = commandSelector;
 	}
+
 	/**
 	 * Sets the CommandFilter
 	 * @param commandFilter

@@ -429,12 +429,12 @@ abstract public class ManagerShaders extends Manager {
 		}
 
 		/**
-		 * 
 		 * @param type
 		 *            geometry type
 		 * @return new geometry for the given type
 		 */
 		abstract  protected Geometry newGeometry(Type type);
+
 		/**
 		 * allocate buffers of current geometry
 		 * 

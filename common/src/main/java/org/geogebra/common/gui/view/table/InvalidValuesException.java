@@ -7,16 +7,14 @@ import org.geogebra.common.main.Localization;
  */
 public class InvalidValuesException extends Exception {
 
+	private static final long serialVersionUID = 1L;
 	private String key;
-	
+
 	/**
 	 * Construct an InvalidValuesException.
 	 * 
 	 * @param key
 	 *            trans key
-	 *
-	 * @param description
-	 *            description
 	 */
 	InvalidValuesException(String key) {
 		super();

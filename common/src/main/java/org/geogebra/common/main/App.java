@@ -4361,6 +4361,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		setExam(new ExamEnvironment(this));
 	}
 
+	/**
+	 * Start exam with current timestamp.
+	 */
 	public void startExam() {
 		setupExamEnvironment();
 		getExam().setStart((new Date()).getTime());
