@@ -353,6 +353,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			GeoNumeric v = (GeoNumeric) geo;
 			setCoords(v.getDouble(), 0, 1d);
 			setMode(Kernel.COORD_COMPLEX);
+		} else if (geo instanceof GeoList) {
+			// GGB-1981
+			GeoList list = (GeoList) geo;
+			double x = list.size() > 0 ? list.get(0).evaluateDouble()
+					: Double.NaN;
+			double y = list.size() > 1 ? list.get(1).evaluateDouble()
+					: Double.NaN;
+
+			setCoords(x, y, 1);
+
 		} else {
 			Log.error(geo.getGeoClassType() + " invalid as point");
 			throw new IllegalArgumentException();

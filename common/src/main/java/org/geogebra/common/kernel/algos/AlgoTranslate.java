@@ -127,7 +127,7 @@ public class AlgoTranslate extends AlgoTransformation
 	// calc translated point
 	@Override
 	public final void compute() {
-		if (inGeo.isGeoList()) {
+		if (inGeo instanceof GeoList && outGeo instanceof GeoList) {
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
 		}
