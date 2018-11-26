@@ -108,8 +108,14 @@ public class StylebarPositioner {
 		double top;
 
 		if (functionOrLine) {
-			GPoint mouseLoc = euclidianView.getEuclidianController()
-					.getMouseLoc();
+			GPoint mouseLoc;
+			if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && euclidianView.isAREnabled()) {
+				mouseLoc = euclidianView.getEuclidianController().getMouseLocAR();
+			} else {
+				mouseLoc = euclidianView.getEuclidianController()
+						.getMouseLoc();
+			}
+
 			if (mouseLoc == null) {
 				return null;
 			}
@@ -139,8 +145,14 @@ public class StylebarPositioner {
 
 		double left;
 		if (functionOrLine) {
-			left = euclidianView.getEuclidianController().getMouseLoc().x
-					+ MARGIN;
+			if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && euclidianView.isAREnabled()) {
+				left = euclidianView.getEuclidianController().getMouseLocAR().x
+						+ MARGIN;
+			} else {
+				left = euclidianView.getEuclidianController().getMouseLoc().x
+						+ MARGIN;
+			}
+
 		} else {
 			if (isPoint) {
 				left = center
