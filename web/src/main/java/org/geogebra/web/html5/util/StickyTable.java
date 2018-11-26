@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public abstract class StickyTable<T> extends FlowPanel {
 
-
 	/** Template to create a cell */
 	static final CellTemplates TEMPLATES =
 			GWT.create(CellTemplates.class);
@@ -36,6 +35,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	private CellTable<T> valuesTable;
 	private List<T> rows = new ArrayList<>();
 	private ScrollPanel valueScroller;
+
 	/**
 	 * @author laszlo
 	 *
@@ -54,7 +54,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 	public StickyTable() {
 		createGUI();
 	}
-
 
 	/**
 	 * Sync header sizes with content column widths
@@ -104,7 +103,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 		addHeaderClickHandler();
 	}
-
 
 	/**
 	 * build and fill table with data.
@@ -326,6 +324,4 @@ public abstract class StickyTable<T> extends FlowPanel {
 	protected CellTable<T> getHeaderTable() {
 		return headerTable;
 	}
-
-
 }

@@ -121,6 +121,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 				.show(new GPoint(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8));
 
 	}
+
 	@Override
 	protected void addHeaderCells(CellTable<TVRowData> table) {
 		for (int i = 0; i < model.getColumnCount(); i++) {
@@ -130,6 +131,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 			}
 		}
 	}
+
 	@Override
 	protected void addValueCells(CellTable<TVRowData> table) {
 		for (int column = 0; column < model.getColumnCount(); column++) {
@@ -137,6 +139,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 			table.addColumn(col);
 		}
 	}
+
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
@@ -229,7 +232,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 		SafeHtml cell(SafeHtml message, int width, int height);
 	}
 
-
 	/**
 	 * Deletes the specified column from the table
 	 *
@@ -240,7 +242,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	 */
 	public void deleteColumn(int column, Runnable cb) {
 		int col = column;
-
 		NodeList<Element> elems = getColumnElements(col);
 		Element header = getHeaderElement(col);
 

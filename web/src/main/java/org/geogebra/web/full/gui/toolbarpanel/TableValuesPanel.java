@@ -32,7 +32,6 @@ public class TableValuesPanel extends FlowPanel
 	private Label emptyInfo;
 	private AppW app;
 
-
 	/**
 	 * @param app
 	 *            {@link AppW}.
@@ -100,7 +99,6 @@ public class TableValuesPanel extends FlowPanel
 			removeStyleName("emptyTablePanel");
 			parent.removeClassName("tableViewParent");
 		}
-
 	}
 
 	@Override
@@ -110,7 +108,6 @@ public class TableValuesPanel extends FlowPanel
 			emptyInfo.setText(app.getLocalization().getMenu("TableValuesEmptyDescription"));
 		}
 	}
-
 
 	/**
 	 * Sets height of the view.
@@ -138,7 +135,6 @@ public class TableValuesPanel extends FlowPanel
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
 		deleteColumn(column, null);
-
 	}
 
 	@Override
