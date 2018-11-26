@@ -73,14 +73,16 @@ public class ClickAdapterW
 		lastTouchDown = System.currentTimeMillis();
 	}
 
-	private static int getX(TouchEvent<?> event) {
+	private int getX(TouchEvent<?> event) {
 		Touch touch = getRelevantTouch(event);
-		return touch == null ? 0 : touch.getClientX();
+		return touch == null ? 0
+				: (touch.getClientX() - widget.getAbsoluteLeft());
 	}
 
-	private static int getY(TouchEvent<?> event) {
+	private int getY(TouchEvent<?> event) {
 		Touch touch = getRelevantTouch(event);
-		return touch == null ? 0 : touch.getClientY();
+		return touch == null ? 0
+				: (touch.getClientY() - widget.getAbsoluteTop());
 	}
 
 	/**
