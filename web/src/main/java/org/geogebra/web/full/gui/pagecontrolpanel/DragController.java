@@ -223,7 +223,7 @@ class DragController {
 
 			if (down) {
 				addSpaceTop();
-				if (card.getPageIndex() == 0) {
+				if (card.getPageIndex() == 0 && next() != null) {
 					last.top = next().getComputedTop();
 				}
 			} else {

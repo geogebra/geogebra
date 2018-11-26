@@ -444,9 +444,9 @@ public class RadioTreeItemController implements ClickHandler,
 		panel.addDomHandler(this, MouseMoveEvent.getType());
 		panel.addDomHandler(this, MouseDownEvent.getType());
 		panel.addDomHandler(this, MouseUpEvent.getType());
-		panel.addDomHandler(this, TouchStartEvent.getType());
-		panel.addDomHandler(this, TouchMoveEvent.getType());
-		panel.addDomHandler(this, TouchEndEvent.getType());
+		panel.addBitlessDomHandler(this, TouchStartEvent.getType());
+		panel.addBitlessDomHandler(this, TouchMoveEvent.getType());
+		panel.addBitlessDomHandler(this, TouchEndEvent.getType());
 	}
 
 	/**

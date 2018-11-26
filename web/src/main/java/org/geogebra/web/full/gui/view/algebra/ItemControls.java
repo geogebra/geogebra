@@ -23,10 +23,7 @@ import org.geogebra.web.html5.util.CSSAnimation;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
@@ -86,15 +83,23 @@ public class ItemControls extends FlowPanel
 					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 			btnDelete.addStyleName("XButton");
 			btnDelete.addStyleName("shown");
-			btnDelete.addMouseDownHandler(new MouseDownHandler() {
-				@Override
-				public void onMouseDown(MouseDownEvent event) {
-					if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-						return;
-					}
-					event.stopPropagation();
-					getController().removeGeo();
-				}
+			ClickStartHandler.init(btnDelete,
+					new ClickStartHandler(false, true) {
+
+						@Override
+						public boolean onClickStart(int x, int y,
+								PointerEventType type, boolean right) {
+							if (!right) {
+								getController().removeGeo();
+							}
+							return true;
+						}
+
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							onClickStart(x, y, type, false);
+						}
 			});
 		}
 

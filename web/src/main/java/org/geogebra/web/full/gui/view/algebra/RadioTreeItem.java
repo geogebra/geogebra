@@ -77,8 +77,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -1502,14 +1500,17 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (btnClearInput == null) {
 			btnClearInput = new GPushButton(
 					new Image(GuiResources.INSTANCE.algebra_delete()));
-			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
-				@Override
-				public void onMouseDown(MouseDownEvent event) {
-					clearInput();
-					getController().setFocus(true);
-					event.stopPropagation();
-				}
-			});
+			ClickStartHandler.init(btnClearInput,
+					new ClickStartHandler(false, true) {
+
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							clearInput();
+							getController().setFocus(true);
+
+						}
+					});
 			btnClearInput.addStyleName("ggb-btnClearAVInput");
 		}
 		return btnClearInput;

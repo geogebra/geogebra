@@ -143,9 +143,9 @@ public class ClickAdapterW
 		html.addDomHandler(this, MouseDownEvent.getType());
 		html.addDomHandler(this, MouseMoveEvent.getType());
 		html.addDomHandler(this, MouseUpEvent.getType());
-		html.addDomHandler(this, TouchStartEvent.getType());
-		html.addDomHandler(this, TouchMoveEvent.getType());
-		html.addDomHandler(this, TouchEndEvent.getType());
+		html.addBitlessDomHandler(this, TouchStartEvent.getType());
+		html.addBitlessDomHandler(this, TouchMoveEvent.getType());
+		html.addBitlessDomHandler(this, TouchEndEvent.getType());
 
 		html.addDomHandler(this, DoubleClickEvent.getType());
 	}
@@ -153,7 +153,6 @@ public class ClickAdapterW
 	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
 		handler.onLongPress(event.getX(), event.getY());
-		
 	}
 
 }

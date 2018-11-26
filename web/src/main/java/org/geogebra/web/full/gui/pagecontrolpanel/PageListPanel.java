@@ -75,9 +75,9 @@ public class PageListPanel
 		setVisible(false);
 		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
 			// if (Browser.isTabletBrowser()) {
-				addDomHandler(pageController, TouchStartEvent.getType());
-				addDomHandler(pageController, TouchMoveEvent.getType());
-				addDomHandler(pageController, TouchEndEvent.getType());
+			addBitlessDomHandler(pageController, TouchStartEvent.getType());
+			addBitlessDomHandler(pageController, TouchMoveEvent.getType());
+			addBitlessDomHandler(pageController, TouchEndEvent.getType());
 			// } else {
 				addDomHandler(pageController, MouseDownEvent.getType());
 				addDomHandler(pageController, MouseMoveEvent.getType());
