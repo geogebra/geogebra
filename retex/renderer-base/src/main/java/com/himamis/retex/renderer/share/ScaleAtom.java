@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a scaled Atom.
  */
-public class ScaleAtom extends Atom {
+public class ScaleAtom extends Atom implements HasTrueBase {
 
 	protected Atom base;
 	protected double xscl, yscl;
@@ -73,5 +75,9 @@ public class ScaleAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new ScaleBox(base.createBox(env), xscl, yscl);
+	}
+
+	public Atom getTrueBase() {
+		return base;
 	}
 }
