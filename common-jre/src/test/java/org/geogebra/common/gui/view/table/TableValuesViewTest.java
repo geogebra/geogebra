@@ -545,4 +545,15 @@ public class TableValuesViewTest extends BaseUnitTest {
 				.getUndoManager().getHistorySize());
 		Assert.assertEquals(expectCols, model.getColumnCount());
 	}
+
+    @Test
+    public void testRemoveLastColumnResetsValues() {
+        GeoLine[] lines = createLines(1);
+        setValuesSafe(-5, 5, 2);
+        showColumn(lines[0]);
+        hideColumn(lines[0]);
+        Assert.assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
+        Assert.assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
+        Assert.assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
+    }
 }
