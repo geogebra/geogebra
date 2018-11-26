@@ -229,7 +229,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public boolean draggingBeyondThreshold = false;
 	protected Kernel kernel;
 	public GPoint mouseLoc;
-	protected GPoint mouseLocAR;
 	private EuclidianView view;
 	protected EuclidianPen pen;
 	private double oldDistance;
@@ -3246,10 +3245,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public GPoint getMouseLoc() {
 		return mouseLoc;
-	}
-
-	public GPoint getMouseLocAR() {
-		return mouseLocAR;
 	}
 
 	/**
@@ -11656,9 +11651,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void touchStartPhone(AbstractEvent e) {
 		this.mouseLoc = new GPoint(e.getX(), e.getY());
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
-			this.mouseLocAR = new GPoint(e.getX(), e.getY());
-		}
 
 		if (view.wantsUpdatePreviewForTouchStartPhone(mode)) {
 			view.setPreview(switchPreviewableForInitNewMode(mode));

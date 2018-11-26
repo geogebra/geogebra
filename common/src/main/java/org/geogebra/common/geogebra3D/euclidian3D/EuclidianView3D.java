@@ -178,7 +178,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			.tan(MAX_ANGLE_SPEED_SURFACE * Kernel.PI_180);
 	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 
-    static protected final int CURSOR_DELAY_IN_MILLISECONDS = 1000;
+    static public final int CURSOR_DELAY_IN_MILLISECONDS = 1000;
 
 	protected Renderer renderer;
 	// viewing values
