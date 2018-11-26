@@ -205,8 +205,8 @@ public class ParserTest {
 	private static boolean binary(Operation op) {
 		// TODO Auto-generated method stub
 		return !Operation.isSimpleFunction(op) && op != Operation.IF_LIST
-				&& op != Operation.$VAR_COL && op != Operation.$VAR_ROW_COL
-				&& op != Operation.$VAR_ROW && op != Operation.XOR
+				&& op != Operation.DOLLAR_VAR_COL && op != Operation.DOLLAR_VAR_ROW_COL
+				&& op != Operation.DOLLAR_VAR_ROW && op != Operation.XOR
 				&& op != Operation.AND_INTERVAL && op != Operation.ELEMENT_OF
 				&& op != Operation.DIFF && op != Operation.FREEHAND
 				&& op != Operation.DATA && op != Operation.MATRIXTOVECTOR
