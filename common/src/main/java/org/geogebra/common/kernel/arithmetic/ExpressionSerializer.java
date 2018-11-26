@@ -1593,9 +1593,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				// e.g. A1(x) = x^2 and B1(x) = $A$1(x)
 				// value form of B1 is x^2 and NOT x^2(x)
 				switch (en.getOperation()) {
-				case $VAR_ROW:
-				case $VAR_COL:
-				case $VAR_ROW_COL:
+				case DOLLAR_VAR_ROW:
+				case DOLLAR_VAR_COL:
+				case DOLLAR_VAR_ROW_COL:
 					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
@@ -1745,7 +1745,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 			break;
 
-		case $VAR_ROW: // e.g. A$1
+		case DOLLAR_VAR_ROW: // e.g. A$1
 			if (valueForm || tpl.hasCASType()) {
 				// GeoElement value
 				sb.append(leftStr);
@@ -1760,7 +1760,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 			break;
 
-		case $VAR_COL: // e.g. $A1
+		case DOLLAR_VAR_COL: // e.g. $A1
 			if (valueForm || tpl.hasCASType()) {
 				// GeoElement value
 				sb.append(leftStr);
@@ -1782,7 +1782,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 			break;
 
-		case $VAR_ROW_COL: // e.g. $A$1
+		case DOLLAR_VAR_ROW_COL: // e.g. $A$1
 			if (valueForm || tpl.hasCASType()) {
 				// GeoElement value
 				sb.append(leftStr);

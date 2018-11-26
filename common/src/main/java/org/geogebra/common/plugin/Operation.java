@@ -1791,7 +1791,7 @@ public enum Operation {
 	},
 
 	// spreadsheet absolute reference using $ signs
-	$VAR_ROW {
+	DOLLAR_VAR_ROW {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
@@ -1799,7 +1799,7 @@ public enum Operation {
 			return lt;
 		}
 	},
-	$VAR_COL {
+	DOLLAR_VAR_COL {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
@@ -1807,7 +1807,7 @@ public enum Operation {
 			return lt;
 		}
 	},
-	$VAR_ROW_COL {
+	DOLLAR_VAR_ROW_COL {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,

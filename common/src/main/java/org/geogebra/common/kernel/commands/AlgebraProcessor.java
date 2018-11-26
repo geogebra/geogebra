@@ -2955,9 +2955,9 @@ public class AlgebraProcessor {
 			// ExpressionNode here
 			// check if we have a Variable
 			switch (myNode.getOperation()) {
-			case $VAR_COL:
-			case $VAR_ROW:
-			case $VAR_ROW_COL:
+			case DOLLAR_VAR_COL:
+			case DOLLAR_VAR_ROW:
+			case DOLLAR_VAR_ROW_COL:
 				// don't do anything here: we need to keep the wrapper
 				// ExpressionNode
 				// and must not return the GeoElement here

@@ -323,11 +323,11 @@ public class Derivative {
 		case CEIL:
 			return new ExpressionNode(kernel0, 0);
 
-		case $VAR_COL:
+		case DOLLAR_VAR_COL:
 			break;
-		case $VAR_ROW:
+		case DOLLAR_VAR_ROW:
 			break;
-		case $VAR_ROW_COL:
+		case DOLLAR_VAR_ROW_COL:
 			break;
 		case AND:
 			break;

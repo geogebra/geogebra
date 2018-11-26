@@ -155,12 +155,12 @@ public class Variable extends ValidExpression {
 			boolean rowDollar = name.length() > 2 && name.indexOf('$', 1) > -1;
 			Operation operation = Operation.NO_OPERATION;
 			if (rowDollar && colDollar) {
-				operation = Operation.$VAR_ROW_COL;
+				operation = Operation.DOLLAR_VAR_ROW_COL;
 			} else if (rowDollar) {
-				operation = Operation.$VAR_ROW;
+				operation = Operation.DOLLAR_VAR_ROW;
 			} else {
 				// if (col$)
-				operation = Operation.$VAR_COL;
+				operation = Operation.DOLLAR_VAR_COL;
 			}
 
 			// build an expression node that wraps the resolved geo

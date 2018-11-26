@@ -119,9 +119,9 @@ public enum ValueType {
 				return ValueType.LIST;
 			}
 			return left.getValueType();
-		case $VAR_COL:
-		case $VAR_ROW:
-		case $VAR_ROW_COL:
+		case DOLLAR_VAR_COL:
+		case DOLLAR_VAR_ROW:
+		case DOLLAR_VAR_ROW_COL:
 		case NO_OPERATION:
 			return left.getValueType();
 

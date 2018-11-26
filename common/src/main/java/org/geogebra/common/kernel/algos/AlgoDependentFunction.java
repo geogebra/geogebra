@@ -300,11 +300,11 @@ public class AlgoDependentFunction extends AlgoElement
 						.round(((NumberValue) node.getRight()).getDouble());
 				if (leftValue.isExpressionNode()
 						&& (((ExpressionNode) leftValue)
-								.getOperation() == Operation.$VAR_COL
+								.getOperation() == Operation.DOLLAR_VAR_COL
 								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.$VAR_ROW
+										.getOperation() == Operation.DOLLAR_VAR_ROW
 								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.$VAR_ROW_COL)) {
+										.getOperation() == Operation.DOLLAR_VAR_ROW_COL)) {
 					leftValue = ((ExpressionNode) leftValue).getLeft();
 				}
 				if (leftValue instanceof GeoCasCell) {
@@ -356,9 +356,9 @@ public class AlgoDependentFunction extends AlgoElement
 				// element of with no-list rhs: weird, don't expand
 				return node;
 			// remove spreadsheet $ references, i.e. $A1 -> A1
-			case $VAR_ROW:
-			case $VAR_COL:
-			case $VAR_ROW_COL:
+			case DOLLAR_VAR_ROW:
+			case DOLLAR_VAR_COL:
+			case DOLLAR_VAR_ROW_COL:
 				return leftValue;
 
 			default: // recursive calls
