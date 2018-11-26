@@ -1,8 +1,11 @@
 package org.geogebra.common.gui.view.algebra;
 
+import java.util.Collections;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * Delegate that handles AV visibility
@@ -19,9 +22,13 @@ public class AlgebraViewVisibilityDelegate {
 	/**
 	 * constructor
 	 */
-    public AlgebraViewVisibilityDelegate() {
+    public AlgebraViewVisibilityDelegate(App app) {
         geosToAdd = new TreeSet<>();
-        geosToRemove = new TreeSet<>();
+        if (app.has(Feature.G3D_IOS_FASTER_AV)) {
+            geosToRemove = new TreeSet<>(Collections.reverseOrder());
+        } else {
+            geosToRemove = new TreeSet<>();
+        }
     }
 
 	/**
