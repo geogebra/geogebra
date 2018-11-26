@@ -1343,6 +1343,10 @@ public class AlgebraProcessor {
 				Equation eq = (Equation) ve.unwrap();
 				ve = new ExpressionNode(kernel, eq.getLHS(),
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
+			} else if (ve.unwrap() instanceof Variable) {
+				// GGB-1043
+				ve = new ExpressionNode(kernel, ve.unwrap(),
+						Operation.NOT_EQUAL, new MyDouble(kernel, 0d));
 			}
 			GeoElementND[] temp = processValidExpression(ve);
 
