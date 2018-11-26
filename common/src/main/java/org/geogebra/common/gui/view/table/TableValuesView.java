@@ -84,6 +84,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		model.removeEvaluatable(evaluatable);
+		if (model.getColumnCount() == 1) {
+			setDefaultValues();
+		}
 		app.storeUndoInfo();
 	}
 
@@ -261,10 +264,14 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void clearView() {
 		settings.beginBatch();
-		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
-				TableSettings.DEFAULT_STEP);
+		setDefaultValues();
 		model.clearModel();
 		settings.endBatch();
+	}
+
+	private void setDefaultValues() {
+		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
+				TableSettings.DEFAULT_STEP);
 	}
 
 	@Override
