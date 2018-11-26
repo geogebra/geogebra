@@ -337,7 +337,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		setValuesSafe(10, 20, 2);
 		getKernel().clearConstruction(true);
 		Assert.assertEquals(-1, view.getColumn(fn));
-		Assert.assertEquals(20, view.getValuesMax(), .1);
+		Assert.assertEquals(2, view.getValuesMax(), .1);
 		getApp().setXML(xml, true);
 		GeoFunction fnReload = lookupFunction("f");
 		Assert.assertEquals(10, view.getValuesMax(), .1);
