@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -2698,6 +2699,13 @@ public class Construction {
 	 * @return indexed label, e.g. "c_2"
 	 */
 	public String getIndexLabel(String prefix, int startIndex) {
+
+		// TRAC-3519 avoid invalid labels like "Vertex(poly1')_1"
+		if (!LabelManager.isValidLabel(prefix, kernel, null)
+				|| prefix.indexOf("_") > -1) {
+			return getIndexLabel("a", startIndex);
+		}
+
 		// start numbering with indices using suggestedLabel
 		// as prefix
 		String pref;
@@ -2712,14 +2720,7 @@ public class Construction {
 		StringBuilder sbLongIndexLabel = new StringBuilder();
 
 		int n = startIndex;
-		// int n = 1; // start index
-		// if (startIndex != null) {
-		// try {
-		// n = Integer.parseInt(startIndex);
-		// } catch (NumberFormatException e) {
-		// n = 1;
-		// }
-		// }
+
 
 		do {
 			sbIndexLabel.setLength(0);
