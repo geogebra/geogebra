@@ -197,7 +197,13 @@ public interface Traversing {
 				if (Operation.isTrigDegrees(op)) {
 					ExpressionValue arg = en.getLeft().unwrap();
 					if (!(arg instanceof MyDoubleDegreesMinutesSeconds)
-							&& arg.isLeaf() && arg.isConstant()
+							&& arg.isLeaf()
+
+							// fix for
+							// Sequence(k deg, k, 0, 360, 30)
+							// Sequence(cos( Element( l1, k )), k, 1, 5 )
+							&& (!(arg instanceof Command) && arg.isConstant())
+
 							&& !DoubleUtil.isInteger(
 									180 * arg.evaluateDouble() / Math.PI)) {
 
