@@ -64,11 +64,11 @@ public abstract class FastButton extends GCustomButton
 	 */
 	public FastButton() {
 		setStyleName("button");
-		// Sink Click and Touch Events
+		// Sink Click and Key Events; touch singed in superclass
 		// I am not going to sink Mouse events since
 		// I don't think we will gain anything
 
-		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS | Event.KEYEVENTS); // Event.TOUCHEVENTS
+		sinkEvents(Event.ONCLICK | Event.KEYEVENTS); // Event.TOUCHEVENTS
 																			// adds
 		                                               // all (Start, End,
 		                                               // Cancel, Change)
