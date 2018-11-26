@@ -198,6 +198,7 @@ public class Settings {
 		probCalcSettings.beginBatch();
 		dataCollectionSettings.beginBatch();
 		toolbarSettings.beginBatch();
+		tableSettings.beginBatch();
 	}
 
 	/**
@@ -225,6 +226,7 @@ public class Settings {
 		probCalcSettings.endBatch();
 		dataCollectionSettings.endBatch();
 		toolbarSettings.endBatch();
+		tableSettings.endBatch();
 	}
 
 	/**
