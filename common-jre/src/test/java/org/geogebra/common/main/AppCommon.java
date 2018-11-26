@@ -12,12 +12,15 @@ import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.MyXMLioCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
+import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DefaultUndoManager;
 import org.geogebra.common.kernel.Kernel;
@@ -32,6 +35,7 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Common App class used for testing.
@@ -46,10 +50,25 @@ public class AppCommon extends App {
     public AppCommon() {
 		super(Versions.ANDROID_NATIVE_GRAPHING);
         initFactories();
-        initKernel();
+		initKernel();
         initLocalization();
+		getLocalization().initTranslateCommand();
 		initSettings();
-        initEuclidianViews();
+		initEuclidianViews();
+		Layout.initializeDefaultPerspectives(this, 0.2);
+		Log.setLogger(new Log() {
+
+			@Override
+			protected void print(String logEntry, Level level) {
+				System.out.println(logEntry);
+			}
+
+			@Override
+			public void doPrintStacktrace(String message) {
+				new Throwable(message).printStackTrace();
+
+			}
+		});
     }
 
     @Override
@@ -102,7 +121,7 @@ public class AppCommon extends App {
 
     @Override
     public CommandDispatcher getCommandDispatcher(Kernel k) {
-        return null;
+		return new CommandDispatcherJre(k);
     }
 
     @Override
@@ -215,7 +234,26 @@ public class AppCommon extends App {
 
     @Override
     public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-        return null;
+		return new GeoElementGraphicsAdapter() {
+
+			@Override
+			public MyImage getFillImage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void setImageFileName(String fileName) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void convertToSaveableFormat() {
+				// TODO Auto-generated method stub
+
+			}
+		};
     }
 
     @Override
@@ -270,7 +308,55 @@ public class AppCommon extends App {
 
     @Override
     public GgbAPI getGgbApi() {
-        return null;
+		return new GgbAPIJre(this) {
+
+			public byte[] getGGBfile() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			public void setErrorDialogsActive(boolean flag) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void refreshViews() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void openFile(String strURL) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public boolean writePNGtoFile(String filename, double exportScale,
+					boolean transparent, double DPI) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			protected void exportPNGClipboard(boolean transparent, int DPI,
+					double exportScale, EuclidianView ev) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected void exportPNGClipboardDPIisNaN(boolean transparent,
+					double exportScale, EuclidianView ev) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String base64encodePNG(boolean transparent, double DPI,
+					double exportScale, EuclidianView ev) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
     }
 
     @Override
@@ -320,7 +406,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean clearConstruction() {
-        return false;
+		return true;
     }
 
     @Override
