@@ -69,7 +69,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		doShowColumn(evaluatable);
-		this.app.storeUndoInfo();
+		app.storeUndoInfo();
 	}
 
 	private void doShowColumn(GeoEvaluatable evaluatable) {
@@ -84,7 +84,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		model.removeEvaluatable(evaluatable);
-		this.app.storeUndoInfo();
+		app.storeUndoInfo();
 	}
 
 	@Override
@@ -103,15 +103,19 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void setValues(double valuesMin, double valuesMax, double valuesStep)
 			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
+		setSettingsValues(valuesMin, valuesMax, valuesStep);
+		// empty view: next undo point will be created when geo is added
+		if (!isEmpty()) {
+			app.storeUndoInfo();
+		}
+	}
+
+	private void setSettingsValues(double valuesMin, double valuesMax, double valuesStep) {
 		settings.beginBatch();
 		settings.setValuesMin(valuesMin);
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
 		settings.endBatch();
-		// empty view: next undo point will be created when geo is added
-		if (!isEmpty()) {
-			this.app.storeUndoInfo();
-		}
 	}
 
 	@Override
@@ -256,6 +260,8 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void clearView() {
+		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
+				TableSettings.DEFAULT_STEP);
 		double[] values = calculateValues();
 		model.clearModel(values);
 	}

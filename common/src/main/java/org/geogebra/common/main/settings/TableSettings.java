@@ -7,9 +7,18 @@ package org.geogebra.common.main.settings;
  */
 public class TableSettings extends AbstractSettings {
 
-	private double valuesMin = -2.0;
-	private double valuesMax = 2.0;
-	private double valuesStep = 1.0;
+	/** The default value for valuesMin */
+	public static final double DEFAULT_MIN = -2.0;
+
+	/** The default value for valuesMax */
+	public static final double DEFAULT_MAX = 2.0;
+
+	/** The default value for valuesStep */
+	public static final double DEFAULT_STEP = 1.0;
+
+	private double valuesMin = DEFAULT_MIN;
+	private double valuesMax = DEFAULT_MAX;
+	private double valuesStep = DEFAULT_STEP;
 
 	/**
 	 * @return min x-value for function table
