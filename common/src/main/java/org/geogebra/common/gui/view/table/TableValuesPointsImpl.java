@@ -67,7 +67,8 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		}
 	}
 
-	private GeoEvaluatable getEvaluatable(TableValuesModel model, int column) {
+	private static GeoEvaluatable getEvaluatable(TableValuesModel model,
+			int column) {
 		SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
 		return simpleModel.getEvaluatable(column - 1);
 	}
@@ -117,7 +118,8 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		return list;
 	}
 
-	private void maybeSetPointColor(GeoPoint point, GeoEvaluatable evaluatable) {
+	private static void maybeSetPointColor(GeoPoint point,
+			GeoEvaluatable evaluatable) {
 		GColor color = evaluatable.getObjectColor();
 		point.setObjColor(color);
 	}

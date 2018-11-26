@@ -31,9 +31,10 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
-	private HashSet<GeoElement> elements;
+	private HashSet<GeoElementND> elements;
 	private TableSettings settings;
 	private Kernel kernel;
+	private App app;
 
 	/**
 	 * Create a new Table Value View.
@@ -43,7 +44,8 @@ public class TableValuesView implements TableValues, SettingListener {
 	 */
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
-		Settings set = kernel.getApplication().getSettings();
+		this.app = kernel.getApplication();
+		Settings set = app.getSettings();
 		this.settings = set.getTable();
 		this.elements = new HashSet<>();
 		this.kernel = kernel;
@@ -64,11 +66,10 @@ public class TableValuesView implements TableValues, SettingListener {
 		model.registerListener(dimensions);
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		doShowColumn(evaluatable);
-		kernel.getApplication().storeUndoInfo();
+		this.app.storeUndoInfo();
 	}
 
 	private void doShowColumn(GeoEvaluatable evaluatable) {
@@ -76,7 +77,6 @@ public class TableValuesView implements TableValues, SettingListener {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());
 			}
-
 			model.addEvaluatable(evaluatable);
 		}
 	}
@@ -84,7 +84,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		model.removeEvaluatable(evaluatable);
-		kernel.getApplication().storeUndoInfo();
+		this.app.storeUndoInfo();
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		settings.endBatch();
 		// empty view: next undo point will be created when geo is added
 		if (!isEmpty()) {
-			kernel.getApplication().storeUndoInfo();
+			this.app.storeUndoInfo();
 		}
 	}
 
