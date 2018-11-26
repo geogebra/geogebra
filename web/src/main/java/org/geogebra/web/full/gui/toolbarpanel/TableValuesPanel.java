@@ -48,6 +48,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
+	private static final int X_LEFT_PADDING = 16;
 	private static final int HEADER_HEIGHT = 48;
 	private static final int VIEW_LEFT_PADDING = 16;
 	private static final int STRICT_VALUE_COLUM_WIDTH = 95;
@@ -72,7 +73,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 
 	/**
 	 * Class to wrap callback after column delete.
-	 * 
+	 *
 	 * @author laszlo.
 	 *
 	 */
@@ -266,7 +267,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 
 	/**
 	 * Sync scroll position of the header and the values table.
-	 * 
+	 *
 	 * @param headerScroller
 	 *            scroll panel for the header.
 	 * @param headerMain
@@ -428,12 +429,12 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 		p.add(btn);
 		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
 		TableValuesDimensions dimensions = view.getTableValuesDimensions();
-		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), dimensions.getHeaderHeight());
+		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), 40);
 	}
 
 	/**
 	 * Gives the preferred width of a column.
-	 * 
+	 *
 	 * @param dimensions
 	 *            The column sizes
 	 * @param column
@@ -443,6 +444,9 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 	static int getColumnWidth(TableValuesDimensions dimensions, int column) {
 		int w = Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column))
 				+ VALUE_RIGHT_MARGIN;
+		if (column == 0) {
+			w += X_LEFT_PADDING;
+		}
 		return Math.max(w, column == 0 ? STRICT_X_COLUMN_WIDTH : STRICT_VALUE_COLUM_WIDTH);
 	}
 
@@ -522,7 +526,7 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 
 	/**
 	 * Deletes the specified column from the view.
-	 * 
+	 *
 	 * @param column
 	 *            column to delete.
 	 * @param cb
@@ -555,13 +559,13 @@ public class TableValuesPanel extends FlowPanel implements SetLabels, TableValue
 
 	/**
 	 * Runs on column delete.
-	 * 
+	 *
 	 * @param column
 	 *            the deleted column number.
-	 * 
+	 *
 	 * @param header
 	 *            The table header HTML element
-	 * 
+	 *
 	 * @param cb
 	 *            custom callback to run on column delete.
 	 */
