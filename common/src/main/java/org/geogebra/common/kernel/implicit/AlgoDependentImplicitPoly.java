@@ -57,6 +57,10 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		} else {
 			equationExpanded = equation;
 		}
+		// make sure both sides can be evaluated. Safe to throw exception before
+		// we add this to construction
+		equationExpanded.getLHS().evaluate(StringTemplate.defaultTemplate);
+		equationExpanded.getRHS().evaluate(StringTemplate.defaultTemplate);
 		Polynomial lhs = equationExpanded.getNormalForm();
 		coeff = lhs.getCoeff();
 		try {
