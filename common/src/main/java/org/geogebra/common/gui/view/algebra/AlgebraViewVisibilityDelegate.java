@@ -27,7 +27,6 @@ public class AlgebraViewVisibilityDelegate {
     }
 
     private App app;
-    private AlgebraViewSorter sorter;
 
     private boolean isViewVisible;
     private boolean updateOccurred, clearOccured;
@@ -35,21 +34,13 @@ public class AlgebraViewVisibilityDelegate {
     private TreeSet<GeoElement> geosToAdd;
     private TreeSet<GeoElement> geosToRemove;
 
-	/**
-	 * constructor
-	 */
-    public AlgebraViewVisibilityDelegate(App app) {
-        this(app, null);
-    }
-
     /**
      * constructor
      */
-    public AlgebraViewVisibilityDelegate(App app, AlgebraViewSorter sorter) {
+    public AlgebraViewVisibilityDelegate(App app) {
         geosToAdd = new TreeSet<>();
         geosToRemove = new TreeSet<>();
         this.app = app;
-        this.sorter = sorter;
     }
 
 	/**
@@ -119,13 +110,23 @@ public class AlgebraViewVisibilityDelegate {
         isViewVisible = false;
     }
 
-	/**
-	 * Tells the delegate the view is shown.
-	 * 
-	 * @param view
-	 *            view to perform cached actions on
-	 */
+    /**
+     * Tells the delegate the view is shown.
+     *
+     * @param view
+     *            view to perform cached actions on
+     */
     public void onViewShown(AlgebraView view) {
+        onViewShown(view, null);
+    }
+
+    /**
+     * Tells the delegate the view is shown.
+     *
+     * @param view view to perform cached actions on
+     * @param sorter sorter to process geos in the view order (e.g. row in AV)
+     */
+    public void onViewShown(AlgebraView view, AlgebraViewSorter sorter) {
         isViewVisible = true;
         if (clearOccured) {
             view.clearView();
