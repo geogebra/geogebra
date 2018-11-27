@@ -2226,7 +2226,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
 				return new PolygonFactory(kernel).rigidPolygon(poly[0], offset,
-						-offset);
+						-offset, null);
 			}
 		}
 

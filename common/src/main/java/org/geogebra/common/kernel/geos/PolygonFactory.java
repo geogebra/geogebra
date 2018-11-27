@@ -100,9 +100,11 @@ public class PolygonFactory {
 	 *            translation x
 	 * @param offsetY
 	 *            translation y
+	 * @param labels
 	 * @return draggable copy of a polygon
 	 */
-	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX, double offsetY) {
+	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX,
+			double offsetY, String[] labels) {
 
 		GeoPointND[] p = new GeoPointND[poly.getPointsLength()];
 
@@ -180,7 +182,7 @@ public class PolygonFactory {
 
 		kernel.setUseInternalCommandNames(oldVal);
 
-		AlgoPolygon algo = new AlgoPolygon(cons, null, p);
+		AlgoPolygon algo = new AlgoPolygon(cons, labels, p);
 		GeoElement[] ret = { algo.getOutput(0) };
 
 		GeoPointND firstPoint = ((GeoPolygon) ret[0]).getPoints()[0];
@@ -198,6 +200,7 @@ public class PolygonFactory {
 	 *            output labels
 	 * @param points
 	 *            points
+	 * @param label
 	 * @return rigid polygon
 	 */
 	final public GeoElement[] rigidPolygon(String[] labels, GeoPointND[] points) {
