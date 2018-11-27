@@ -14,16 +14,17 @@ import org.geogebra.common.main.Feature;
 
 public class AlgebraViewVisibilityDelegate {
 
+    static final public int FIRST_VALID_ROW = 0;
+
     /**
      * Sorter to get geos in a given order related to AV view
      */
     public interface AlgebraViewSorter {
 
-        static final public int FIRST_VALID_ROW = 0;
-
         /**
          *
-         * Valid row is >= 0. Returning value < 0 is considered as invalid, and will be ignored
+         * Valid row is >= 0 (ie AlgebraViewVisibilityDelegate.FIRST_VALID_ROW).
+         * Returning value < 0 is considered as invalid, and will be ignored
          *
          * @param geo geo element
          * @return row for sorting (e.g. row in AV view)
@@ -148,7 +149,7 @@ public class AlgebraViewVisibilityDelegate {
                         new TreeMap<>(Collections.<Integer>reverseOrder());
                 for (GeoElement geo : geosToRemove) {
                     int row = sorter.getRow(geo);
-                    if (row >= AlgebraViewSorter.FIRST_VALID_ROW) {
+                    if (row >= FIRST_VALID_ROW) {
                         sortedSet.put(row, geo);
                     }
                 }
