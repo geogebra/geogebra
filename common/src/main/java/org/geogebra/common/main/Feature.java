@@ -266,9 +266,6 @@ public enum Feature {
 	/** AND-1304 */
 	MOB_LIST_TOOL,
 
-	/** MOB-1737 */
-	MOB_AND_AR,
-
 	/** MOB-1771 */
 	MOB_LIST_LABEL,
 
