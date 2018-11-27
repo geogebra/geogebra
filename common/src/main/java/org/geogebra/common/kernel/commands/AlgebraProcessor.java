@@ -1269,6 +1269,22 @@ public class AlgebraProcessor {
 		return evaluateToDouble(str, false, null);
 	}
 
+	private NumberValue evaluateToNumberValue(ExpressionNode expressionNode) {
+		expressionNode.resolveVariables(new EvalInfo(false));
+		return (NumberValue) expressionNode
+				.evaluate(StringTemplate.defaultTemplate);
+	}
+
+	/**
+	 * Converts a String into a double.
+	 * @param string The String to be converted to double.
+	 * @return the double value of the String after the conversion
+	 * @throws ParseException this exception is thrown if the String cannot be converted.
+	 */
+	public double convertToDouble(String string) throws ParseException {
+		return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
+	}
+
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns
 	 * Double.NaN if something went wrong.
@@ -1284,11 +1300,8 @@ public class AlgebraProcessor {
 	public double evaluateToDouble(String str, boolean suppressErrors,
 			GeoNumeric forGeo) {
 		try {
-			ValidExpression ve = parser.parseExpression(str);
-			ExpressionNode en = (ExpressionNode) ve;
-			en.resolveVariables(new EvalInfo(false));
-			NumberValue nv = (NumberValue) en
-					.evaluate(StringTemplate.defaultTemplate);
+			ExpressionNode en = parser.parseExpression(str);
+			NumberValue nv = evaluateToNumberValue(en);
 			if (forGeo != null) {
 				forGeo.setValue(nv.getDouble());
 
