@@ -3703,10 +3703,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_STANDARD_VIEW_ZOOM_BUTTONS:
 			return true;
 
-		// MOB-1833
-		case MOB_SHOW_HIDE_PLANE:
-			return true;
-
 		// AND-1217, IGR-931
 		case MOB_SCIENTIFIC_CALC_IN_APPS_MENU:
 			return prerelease;
