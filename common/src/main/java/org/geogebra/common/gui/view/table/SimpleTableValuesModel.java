@@ -23,6 +23,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private Kernel kernel;
 	private StringBuilder builder;
 
+	private boolean batchUpdate;
+
 	/**
 	 * Construct a SimpleTableValuesModel.
 	 *
@@ -38,6 +40,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 		this.doubleColumns = new LinkedList<>();
 		this.header = new LinkedList<>();
 		this.values = new double[0];
+
+		this.batchUpdate = false;
 
 		initializeModel();
 	}
@@ -247,6 +251,23 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	/**
+	 * Starts batch update.
+	 * This batch update call cannot be nested.
+	 */
+	void startBatchUpdate() {
+		batchUpdate = true;
+	}
+
+	/**
+	 * Ends the batch update.
+	 * Calls {@link TableValuesListener#notifyDatasetChanged(TableValuesModel)}.
+	 */
+	void endBatchUpdate() {
+		batchUpdate = false;
+		notifyDatasetChanged();
+	}
+
+	/**
 	 * Get the x-values of the model.
 	 *
 	 * @return x-values
@@ -256,32 +277,42 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
-		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnRemoved(this, evaluatable, column);
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyColumnRemoved(this, evaluatable, column);
+			}
 		}
 	}
 
 	private void notifyColumnAdded(GeoEvaluatable evaluatable, int column) {
-		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnAdded(this, evaluatable, column);
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyColumnAdded(this, evaluatable, column);
+			}
 		}
 	}
 
 	private void notifyColumnChanged(GeoEvaluatable evaluatable, int column) {
-		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnChanged(this, evaluatable, column);
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyColumnChanged(this, evaluatable, column);
+			}
 		}
 	}
 
 	private void notifyColumnHeaderChanged(GeoEvaluatable evaluatable, int column) {
-		for (TableValuesListener listener: listeners) {
-			listener.notifyColumnHeaderChanged(this, evaluatable, column);
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyColumnHeaderChanged(this, evaluatable, column);
+			}
 		}
 	}
 
 	private void notifyDatasetChanged() {
-		for (TableValuesListener listener: listeners) {
-			listener.notifyDatasetChanged(this);
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyDatasetChanged(this);
+			}
 		}
 	}
 }
