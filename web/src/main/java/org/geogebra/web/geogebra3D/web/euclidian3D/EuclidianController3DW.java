@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
@@ -357,16 +356,14 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void hideDynamicStylebar() {
-		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D) && app.isUnbundled()
-				&& ((AppW) app).allowStylebar()) {
+		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			getView().getDynamicStyleBar().setVisible(false);
 		}
 	}
 
 	@Override
 	protected void showDynamicStylebar() {
-		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D) && app.isUnbundled()
-				&& ((AppW) app).allowStylebar()) {
+		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();
 		}

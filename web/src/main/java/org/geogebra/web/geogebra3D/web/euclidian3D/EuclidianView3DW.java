@@ -736,8 +736,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
-		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D) && app.isUnbundled()
-				&& ((AppW) app).allowStylebar()) {
+		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			if (((Widget) dynamicStylebar).getParent() == null) {
 				appW.getGuiManager().addStylebar(this, dynamicStylebar);
 			}
@@ -746,8 +745,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected EuclidianStyleBar newDynamicStyleBar() {
-		if (app.has(Feature.MOB_QUICK_STYLE_BAR_3D) && app.isUnbundled()
-				&& ((AppW) app).allowStylebar()) {
+		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			return appW.getGuiManager().newDynamicStylebar(this);
 		}
 		return null;
