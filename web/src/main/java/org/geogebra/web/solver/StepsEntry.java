@@ -3,6 +3,7 @@ package org.geogebra.web.solver;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.WebSimple;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -34,7 +35,7 @@ public class StepsEntry implements EntryPoint {
 		LoggerW.startLogger(articleElement);
 
 		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());

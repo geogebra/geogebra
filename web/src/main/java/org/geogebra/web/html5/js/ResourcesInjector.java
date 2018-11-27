@@ -98,6 +98,7 @@ public class ResourcesInjector {
 				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
 	}
 
 	/**
