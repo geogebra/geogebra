@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
 import java.util.Collections;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -13,6 +14,21 @@ import org.geogebra.common.main.Feature;
 
 public class AlgebraViewVisibilityDelegate {
 
+    /**
+     * Sorter to get geos in a given order related to AV view
+     */
+    public interface AlgebraViewSorter {
+        /**
+         *
+         * @param geo geo element
+         * @return row for sorting (e.g. row in AV view)
+         */
+        public int getRow(GeoElement geo);
+    }
+
+    private App app;
+    private AlgebraViewSorter sorter;
+
     private boolean isViewVisible;
     private boolean updateOccurred, clearOccured;
 
@@ -23,12 +39,17 @@ public class AlgebraViewVisibilityDelegate {
 	 * constructor
 	 */
     public AlgebraViewVisibilityDelegate(App app) {
+        this(app, null);
+    }
+
+    /**
+     * constructor
+     */
+    public AlgebraViewVisibilityDelegate(App app, AlgebraViewSorter sorter) {
         geosToAdd = new TreeSet<>();
-        if (app.has(Feature.G3D_IOS_FASTER_AV)) {
-            geosToRemove = new TreeSet<>(Collections.reverseOrder());
-        } else {
-            geosToRemove = new TreeSet<>();
-        }
+        geosToRemove = new TreeSet<>();
+        this.app = app;
+        this.sorter = sorter;
     }
 
 	/**
@@ -110,8 +131,22 @@ public class AlgebraViewVisibilityDelegate {
             view.clearView();
             clearOccured = false;
         }
-        for (GeoElement geo: geosToRemove) {
-            view.remove(geo);
+        if (!app.has(Feature.G3D_IOS_FASTER_AV) || sorter == null) {
+            for (GeoElement geo : geosToRemove) {
+                view.remove(geo);
+            }
+        } else {
+            if (!geosToRemove.isEmpty()) {
+                // ensure we'll remove from the last row to the first
+                TreeMap<Integer, GeoElement> sortedSet =
+                        new TreeMap<>(Collections.<Integer>reverseOrder());
+                for (GeoElement geo : geosToRemove) {
+                    sortedSet.put(sorter.getRow(geo), geo);
+                }
+                for (GeoElement geo : sortedSet.values()) {
+                    view.remove(geo);
+                }
+            }
         }
         geosToRemove.clear();
         for (GeoElement geo: geosToAdd) {
