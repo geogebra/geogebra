@@ -152,17 +152,6 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 					(GeoElement) points[1] };
 			return geos;
 			// }
-			/*
-			 * else { GeoPoint inf = new GeoPoint(cons);
-			 * inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
-			 * 1); inf = (GeoPoint)t.doTransform(inf); AlgoConicPartCircumcircle
-			 * ae = new AlgoConicPartCircumcircle(cons,
-			 * Transform.transformedGeoLabel(this), points[0],
-			 * points[1],inf,GeoConicPart.CONIC_PART_ARC);
-			 * cons.removeFromAlgorithmList(ae); GeoElement arc =
-			 * ae.getConicPart(); arc.setVisualStyleForTransformations(this);
-			 * GeoElement [] geos = {arc, points[0], points[1]}; return geos; }
-			 */
 		}
 		// create LINE
 		GeoElement transformedLine = t.getTransformedLine(this);

@@ -269,18 +269,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
 
-				GeoPoint p = (GeoPoint) points.get(points.size() - 1);
-				double px = p.inhomX;
-				double py = p.inhomY;
+				GeoPointND p = points.get(points.size() - 1);
+				double px = p.getInhomX();
+				double py = p.getInhomY();
 
 				if (points.size() > 1) {
 					Construction cons = view.getKernel().getConstruction();
 					GeoPoint intersection = new GeoPoint(cons);
 					GeoLine l = new GeoLine(cons);
 					GeoLine l2 = new GeoLine(cons);
-					GeoPoint p2 = (GeoPoint) points.get(0);
-					double px2 = p2.inhomX;
-					double py2 = p2.inhomY;
+					GeoPointND p2 = points.get(0);
+					double px2 = p2.getInhomX();
+					double py2 = p2.getInhomY();
 					double nearestX = Double.MAX_VALUE;
 					double nearestY = Double.MAX_VALUE;
 					double dist = Double.MAX_VALUE;

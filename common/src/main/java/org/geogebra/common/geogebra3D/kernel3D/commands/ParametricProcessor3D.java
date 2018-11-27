@@ -119,15 +119,6 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 			if ((degX >= 0 && degY >= 0 && degZ >= 0)
 					&& (degX < 2 && degY < 2 && degZ < 2)) {
-				/*
-				 * if (P.isGeoElement3D() || v.isGeoElement3D()) { if
-				 * (isConstant) { line = new GeoLine3D(cons); ((GeoLine3D)
-				 * line).setCoord(P.getCoordsInD3(),v.getCoordsInD3());
-				 * line.setLabel(par.getLabel()); }else{ line =
-				 * kernel.getManager3D().Line3D(par.getLabel(), P, v); } } else
-				 * { line = Line(par, (GeoPoint) P, (GeoVector) v, isConstant);
-				 * }
-				 */
 				GeoLine3D line;
 				if (coefX[0].isConstant() && coefY[0].isConstant()
 						&& coefZ[0].isConstant() && coefX[1].isConstant()

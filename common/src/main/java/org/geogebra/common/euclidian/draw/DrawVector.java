@@ -35,7 +35,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.DoubleUtil;
@@ -324,8 +323,6 @@ public class DrawVector extends Drawable implements Previewable {
 		isVisible = points.size() == 1;
 		if (isVisible) {
 			// start point
-			// GeoPoint P = (GeoPoint) points.get(0);
-			// P.getInhomCoords(coordsA);
 			view.getCoordsForView(points.get(0).getInhomCoordsInD3())
 					.get(coordsA);
 			coordsB[0] = coordsA[0];
@@ -344,9 +341,9 @@ public class DrawVector extends Drawable implements Previewable {
 			// round angle to nearest 15 degrees if alt pressed
 			if (points.size() == 1
 					&& view.getEuclidianController().isAltDown()) {
-				GeoPoint p = (GeoPoint) points.get(0);
-				double px = p.inhomX;
-				double py = p.inhomY;
+				GeoPointND p = points.get(0);
+				double px = p.getInhomX();
+				double py = p.getInhomY();
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
 				double radius = Math.sqrt(
 						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));

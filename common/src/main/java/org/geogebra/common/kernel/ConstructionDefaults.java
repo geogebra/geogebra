@@ -1117,7 +1117,8 @@ public class ConstructionDefaults {
 				break;
 			case POINT:
 
-				((GeoPoint) geo).setPointSize(geo.isMoveable() ? this.pointSize
+				((GeoPointND) geo).setPointSize(geo.isMoveable()
+						? this.pointSize
 						: this.dependentPointSize);
 
 				break;

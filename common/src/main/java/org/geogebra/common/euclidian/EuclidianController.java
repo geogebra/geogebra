@@ -683,14 +683,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
 					if (geo.isGeoPoint()) {
-						if (geo instanceof GeoPoint) {
-							setStartPointLocation(((GeoPoint) geo).getInhomX(),
-									((GeoPoint) geo).getInhomY());
-						} else if (geo.isGeoElement3D()) {
-							setStartPointLocation(
-									((GeoPointND) geo).getInhomX(),
-									((GeoPointND) geo).getInhomY());
-						}
+						setStartPointLocation(((GeoPointND) geo).getInhomX(),
+								((GeoPointND) geo).getInhomY());
 						firstMoveable = false;
 					} else if (geo instanceof GeoText) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {

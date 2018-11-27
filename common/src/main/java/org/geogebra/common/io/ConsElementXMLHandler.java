@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -192,7 +191,7 @@ public class ConsElementXMLHandler {
 			if (tAttr != null) {
 				// AlgoPointOnPath
 				double t = StringUtil.parseDouble(tAttr);
-				((GeoPoint) v).getPathParameter().setT(t);
+				((GeoPointND) v).getPathParameter().setT(t);
 			}
 
 			return true;
@@ -1335,20 +1334,6 @@ public class ConsElementXMLHandler {
 			e.printStackTrace();
 			return false;
 		}
-
-		/*
-		 * OLD CODE
-		 * 
-		 * if (!(geo instanceof GeoPoint)) { Log.error(
-		 * "wrong element type for <trace>: " + geo.getClass()); return false; }
-		 * 
-		 * try { GeoPoint p = (GeoPoint) geo;
-		 * p.setSpreadsheetTrace(MyXMLHandler.parseBoolean((String)
-		 * attrs.get("val"))); return true; } catch(RuntimeException e) { return
-		 * false; }
-		 */
-		// END G.Sturr
-
 	}
 
 	private boolean handleShowTrimmed(LinkedHashMap<String, String> attrs) {

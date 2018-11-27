@@ -1636,7 +1636,8 @@ public class Construction {
 		if (newGeo.isChildOf(oldGeo)) {
 
 			// check for eg a = a + 1, A = A + (1,1), a = !a
-			if (oldGeo.isIndependent() && oldGeo instanceof GeoNumeric) {
+			if (oldGeo.isIndependent() && oldGeo instanceof GeoNumeric
+					&& newGeo instanceof GeoNumeric) {
 
 				((GeoNumeric) oldGeo)
 						.setValue(((GeoNumeric) newGeo).getDouble());

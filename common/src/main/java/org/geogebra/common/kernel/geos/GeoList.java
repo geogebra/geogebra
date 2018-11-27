@@ -2413,10 +2413,10 @@ public class GeoList extends GeoElement
 	 * @return boolean true if AlgoLocusList should be used.
 	 */
 	public boolean shouldUseAlgoLocusList(boolean locusCalling) {
-		GeoPoint[] minParArray = new GeoPoint[this.size()];
-		GeoPoint[] maxParArray = new GeoPoint[this.size()];
-		GeoPoint[] minParStatic = new GeoPoint[this.size()];
-		GeoPoint[] maxParStatic = new GeoPoint[this.size()];
+		GeoPointND[] minParArray = new GeoPoint[this.size()];
+		GeoPointND[] maxParArray = new GeoPoint[this.size()];
+		GeoPointND[] minParStatic = new GeoPoint[this.size()];
+		GeoPointND[] maxParStatic = new GeoPoint[this.size()];
 
 		// if there is no locus using this, the answer is not important
 		if (!locusCalledAlgoLocusList && !locusCalling) {
@@ -2438,33 +2438,31 @@ public class GeoList extends GeoElement
 											// array
 			directionInfoOrdering[i] = i;
 
-			if ((Path) get(i) instanceof GeoSegment) {
+			if (get(i) instanceof GeoSegment) {
 				minParArray[i] = ((GeoSegment) get(i)).getStartPoint();
 				maxParArray[i] = ((GeoSegment) get(i)).getEndPoint();
-			} else if ((Path) get(i) instanceof GeoLine) {
+			} else if (get(i) instanceof GeoLine) {
 				minParArray[i] = ((GeoLine) get(i)).getStartPoint();
 				maxParArray[i] = ((GeoLine) get(i)).getEndPoint();
-			} else if ((Path) get(i) instanceof GeoConicPart) {
-				if (((GeoConicPart) get(i))
-						.getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
-					minParArray[i] = (GeoPoint) ((AlgoConicPartConicPoints) ((GeoConicPart) get(
-							i)).getParentAlgorithm()).getStartPoint();
-					maxParArray[i] = (GeoPoint) ((AlgoConicPartConicPoints) ((GeoConicPart) get(
-							i)).getParentAlgorithm()).getEndPoint();
-				} else if (((GeoConicPart) get(i))
-						.getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
-					minParArray[i] = (GeoPoint) ((AlgoConicPartCircumcircle) ((GeoConicPart) get(
-							i)).getParentAlgorithm()).getInput()[0];
-					maxParArray[i] = (GeoPoint) ((AlgoConicPartCircumcircle) ((GeoConicPart) get(
-							i)).getParentAlgorithm()).getInput()[2];
-				} else if (((GeoConicPart) get(i))
-						.getParentAlgorithm() instanceof AlgoSemicircle) {
+			} else if (get(i) instanceof GeoConicPart) {
+				AlgoElement conicParentAlgorithm = get(i).getParentAlgorithm();
+				if (conicParentAlgorithm instanceof AlgoConicPartConicPoints) {
+					minParArray[i] = ((AlgoConicPartConicPoints) conicParentAlgorithm)
+							.getStartPoint();
+					maxParArray[i] = ((AlgoConicPartConicPoints) conicParentAlgorithm)
+							.getEndPoint();
+				} else if (conicParentAlgorithm instanceof AlgoConicPartCircumcircle) {
+					minParArray[i] = ((AlgoConicPartCircumcircle) conicParentAlgorithm)
+							.getA();
+					maxParArray[i] = ((AlgoConicPartCircumcircle) conicParentAlgorithm)
+							.getC();
+				} else if (conicParentAlgorithm instanceof AlgoSemicircle) {
 					// AlgoSemiCircle's endpoints counted in reverse order in
 					// GeoConicPart
-					minParArray[i] = (GeoPoint) ((AlgoSemicircle) ((GeoConicPart) get(
-							i)).getParentAlgorithm()).getInput()[1];
-					maxParArray[i] = (GeoPoint) ((AlgoSemicircle) ((GeoConicPart) get(
-							i)).getParentAlgorithm()).getInput()[0];
+					minParArray[i] = ((AlgoSemicircle) conicParentAlgorithm)
+							.getB();
+					maxParArray[i] = ((AlgoSemicircle) conicParentAlgorithm)
+							.getA();
 				} else {
 					minParArray[i] = ((GeoConicPart) get(i)).getPointParam(0);
 					maxParArray[i] = ((GeoConicPart) get(i)).getPointParam(1);

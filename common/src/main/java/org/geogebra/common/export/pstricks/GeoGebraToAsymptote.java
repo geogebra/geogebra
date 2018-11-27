@@ -1011,14 +1011,14 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		GColor geocolor = geo.getObjectColor();
 		int style = geo.getFontStyle();
 		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
-		GeoPoint gp;
+		GeoPointND gp;
 		double x, y;
 		// compute location of text
 		if (geo.isAbsoluteScreenLocActive()) {
 			x = geo.getAbsoluteScreenLocX();
 			y = geo.getAbsoluteScreenLocY();
 		} else {
-			gp = (GeoPoint) geo.getStartPoint();
+			gp = geo.getStartPoint();
 			if (gp == null) {
 				x = (int) euclidianView.getXZero();
 				y = (int) euclidianView.getYZero();
@@ -1026,8 +1026,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				if (!gp.isDefined()) {
 					return;
 				}
-				x = euclidianView.toScreenCoordX(gp.inhomX);
-				y = euclidianView.toScreenCoordY(gp.inhomY);
+				x = euclidianView.toScreenCoordX(gp.getInhomX());
+				y = euclidianView.toScreenCoordY(gp.getInhomY());
 			}
 			x += geo.labelOffsetX;
 			y += geo.labelOffsetY;
@@ -1979,7 +1979,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawGeoSegment(GeoSegmentND geo) {
 		double[] A = new double[3], B = new double[3];
 		GeoPointND pointStart = geo.getStartPoint();
-		GeoPoint pointEnd = (GeoPoint) geo.getEndPoint();
+		GeoPointND pointEnd = geo.getEndPoint();
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
 

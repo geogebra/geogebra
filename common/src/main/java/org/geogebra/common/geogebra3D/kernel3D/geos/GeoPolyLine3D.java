@@ -162,7 +162,10 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 			pointChanged(P);
 			return;
 		}
-
+		if (points.length == 1) {
+			P.setCoords(points[0].getCoordsInD3(), false);
+			return;
+		}
 		// parameter is between 0 and points.length - 1,
 		// i.e. floor(parameter) gives the point index
 		int index;
@@ -236,40 +239,6 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 
 		// udpate point using pathChanged
 		pathChanged(P);
-	}
-
-	@Override
-	public void calcLength() {
-
-		// last point not checked in loop
-		if (!points[points.length - 1].isDefined()) {
-			setUndefined();
-			length = Double.NaN;
-			return;
-		}
-
-		length = 0;
-
-		for (int i = 0; i < points.length - 1; i++) {
-			if (!points[i].isDefined()) {
-				setUndefined();
-				length = Double.NaN;
-				return;
-			}
-			setSegmentPoints(points[i], points[i + 1]);
-			length += seg.getLength();
-		}
-		setDefined();
-	}
-
-	@Override
-	public void rotate(NumberValue r) {
-		// TODO
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoPointND S) {
-		// TODO
 	}
 
 	@Override
@@ -369,27 +338,21 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		for (int i = 0; i < points.length; i++) {
 			((RotateableND) points[i]).rotate(r, S, orientation);
-			Log.debug(points[i]);
 		}
-
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
 		for (int i = 0; i < points.length; i++) {
 			((RotateableND) points[i]).rotate(r, line);
-			Log.debug(points[i]);
 		}
-
 	}
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		for (int i = 0; i < points.length; i++) {
 			((MirrorableAtPlane) points[i]).mirror(plane);
-			Log.debug(points[i]);
 		}
-
 	}
 
 }

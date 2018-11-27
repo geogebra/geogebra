@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Mirror
@@ -68,7 +69,7 @@ public class TransformMirror extends Transform {
 		if (mirror.isGeoLine()) {
 			algo = new AlgoMirror(cons, geo, (GeoLine) mirror);
 		} else if (mirror.isGeoPoint()) {
-			algo = new AlgoMirror(cons, geo, (GeoPoint) mirror);
+			algo = new AlgoMirror(cons, geo, (GeoPointND) mirror);
 		} else {
 			algo = new AlgoMirror(cons, geo, (GeoConic) mirror);
 		}

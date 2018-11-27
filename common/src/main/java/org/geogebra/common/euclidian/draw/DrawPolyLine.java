@@ -31,7 +31,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -302,9 +301,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
-				GeoPoint p = (GeoPoint) points.get(points.size() - 1);
-				double px = p.inhomX;
-				double py = p.inhomY;
+				GeoPointND p = points.get(points.size() - 1);
+				double px = p.getInhomX();
+				double py = p.getInhomY();
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
 				double radius = Math.sqrt(
 						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));

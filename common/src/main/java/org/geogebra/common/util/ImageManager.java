@@ -27,7 +27,7 @@ abstract public class ImageManager {
 		boolean label = !app.has(Feature.MOW_IMAGE_BOUNDING_BOX);
 		ArrayList<GeoPointND> corners = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			GeoPoint p = getImageCornerFromSelection(i, app);
+			GeoPointND p = getImageCornerFromSelection(i, app);
 			if (p != null) {
 				corners.add(p);
 			}
@@ -69,12 +69,12 @@ abstract public class ImageManager {
 		GeoImage.updateInstances(app);
 	}
 
-	private GeoPoint getImageCornerFromSelection(int index, App app) {
+	private GeoPointND getImageCornerFromSelection(int index, App app) {
 		ArrayList<GeoElement> sel = app.getSelectionManager().getSelectedGeos();
 		if (sel.size() > index) {
 			GeoElement geo0 = sel.get(index);
 			if (geo0.isGeoPoint()) {
-				return (GeoPoint) geo0;
+				return (GeoPointND) geo0;
 			}
 		}
 		return null;

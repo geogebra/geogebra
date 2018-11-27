@@ -1092,7 +1092,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            second point
 	 * @return true if they are in the same place
 	 */
-	final public static boolean samePosition(GeoPoint P, GeoPoint Q) {
+	final public static boolean samePosition(GeoPointND P, GeoPointND Q) {
 		return DoubleUtil.isZero(P.distance(Q));
 	}
 

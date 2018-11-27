@@ -343,9 +343,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 		// Polyline({A})
 		if (points.length == 1) {
-			setSegmentPoints((GeoPoint) points[0], (GeoPoint) points[0]);
-			P.x = seg.getPointX(0);
-			P.y = seg.getPointY(0);
+			P.x = points[0].getInhomX();
+			P.y = points[1].getInhomY();
 			P.z = 1.0;
 			return;
 		}
@@ -484,13 +483,11 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		length = 0;
 
 		for (int i = 0; i < points.length - 1; i++) {
-			if (!((GeoPoint) points[i]).isDefined()
-					|| !((GeoPoint) points[i + 1]).isDefined()) {
+			if (!points[i].isDefined() || !points[i + 1].isDefined()) {
 				// (?,?) makes a hole in the polyline
 				continue;
 			}
-			setSegmentPoints((GeoPoint) points[i], (GeoPoint) points[i + 1]);
-			length += seg.getLength();
+			length += points[i].distance(points[i + 1]);
 		}
 		setDefined();
 	}
@@ -508,7 +505,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).rotate(r);
+			points[i].rotate(r);
 		}
 	}
 
@@ -516,7 +513,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	public void rotate(NumberValue r, GeoPointND S) {
 		Coords sCoords = S.getInhomCoords();
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).rotate(r, sCoords);
+			points[i].rotate(r, sCoords);
 		}
 	}
 

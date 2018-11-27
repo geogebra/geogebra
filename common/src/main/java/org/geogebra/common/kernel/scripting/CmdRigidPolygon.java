@@ -6,9 +6,9 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.PolygonFactory;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -69,13 +69,13 @@ public class CmdRigidPolygon extends CmdScripting {
 		default:
 
 			// polygon for given points
-			GeoPoint[] points = new GeoPoint[n];
+			GeoPointND[] points = new GeoPointND[n];
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
 					throw argErr(c, arg[i]);
 				}
-				points[i] = (GeoPoint) arg[i];
+				points[i] = (GeoPointND) arg[i];
 			}
 
 			// everything ok

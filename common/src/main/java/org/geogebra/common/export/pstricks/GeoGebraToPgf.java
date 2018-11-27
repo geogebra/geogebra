@@ -1019,14 +1019,14 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		String st = geo.getTextString();
 		int style = geo.getFontStyle();
 		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
-		GeoPoint gp;
+		GeoPointND gp;
 		double x, y;
 		// compute location of text
 		if (geo.isAbsoluteScreenLocActive()) {
 			x = geo.getAbsoluteScreenLocX();
 			y = geo.getAbsoluteScreenLocY();
 		} else {
-			gp = (GeoPoint) geo.getStartPoint();
+			gp = geo.getStartPoint();
 			if (gp == null) {
 				x = (int) euclidianView.getXZero();
 				y = (int) euclidianView.getYZero();
@@ -1034,8 +1034,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				if (!gp.isDefined()) {
 					return;
 				}
-				x = euclidianView.toScreenCoordX(gp.inhomX);
-				y = euclidianView.toScreenCoordY(gp.inhomY);
+				x = euclidianView.toScreenCoordX(gp.getInhomX());
+				y = euclidianView.toScreenCoordY(gp.getInhomY());
 			}
 			x += geo.labelOffsetX;
 			y += geo.labelOffsetY;

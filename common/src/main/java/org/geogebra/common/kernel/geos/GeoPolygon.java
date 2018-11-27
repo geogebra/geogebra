@@ -1809,7 +1809,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return;
 		}
 
-		// GeoPoint P = (GeoPoint) PI;
 		RegionParameters rp = P.getRegionParameters();
 
 		if (rp.isOnPath()) {

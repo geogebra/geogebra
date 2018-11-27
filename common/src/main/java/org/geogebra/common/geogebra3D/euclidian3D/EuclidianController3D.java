@@ -65,7 +65,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.TestGeo;
@@ -1542,7 +1541,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 							&& !movedGeoPoint.isGeoElement3D()) {
 						// 2D point will be replaced by 3D point (only for move
 						// mode)
-						GeoPoint replaceable = (GeoPoint) movedGeoPoint;
+						GeoPointND replaceable = movedGeoPoint;
 
 						// create new 3D point
 						Construction cons = kernel.getConstruction();
@@ -1550,7 +1549,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 								.point3D(replaceable.getInhomX(),
 										replaceable.getInhomY(), 0, false);
 						try {
-							cons.replace(replaceable, newGeo);
+							cons.replace(replaceable.toGeoElement(), newGeo);
 						} catch (Exception e) {
 							e.printStackTrace();
 						} finally {

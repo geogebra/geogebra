@@ -591,7 +591,7 @@ public class CellRangeProcessor {
 
 			pointAlgo = new AlgoDependentPoint(cons, point, false);
 
-			geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
+			geoPoint = pointAlgo.getPoint();
 
 		}
 

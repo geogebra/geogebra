@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
@@ -1975,9 +1974,7 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	public boolean isOnPath(GeoPointND PI, double eps) {
-		GeoPoint P = (GeoPoint) PI;
-
+	public boolean isOnPath(GeoPointND P, double eps) {
 		if (P.getPath() == this) {
 			return true;
 		}
