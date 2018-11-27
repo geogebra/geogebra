@@ -205,4 +205,8 @@ public class VRowAtom extends Atom {
 
 		return vb;
 	}
+
+	public Atom getElement(int i) {
+		return i < elements.size() ? elements.get(i) : null;
+	}
 }

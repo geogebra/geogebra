@@ -12,6 +12,7 @@ import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TypedAtom;
+import com.himamis.retex.renderer.share.VRowAtom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -90,6 +91,15 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof RowAtom) {
 			RowAtom row = (RowAtom) root;
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; row.getElement(i) != null; i++) {
+				sb.append(serialize(row.getElement(i)));
+			}
+			return sb.toString();
+		}
+
+		if (root instanceof VRowAtom) {
+			VRowAtom row = (VRowAtom) root;
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
