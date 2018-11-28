@@ -22,7 +22,6 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
-import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
@@ -2485,7 +2484,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void initTableValuesView(double min, double max, double step, GeoElement geo) {
 		try {
-			((TableValuesView) getTableValuesView()).setValues(min, max, step);
+			getTableValuesView().setValues(min, max, step);
 			if (geo != null) {
 				addGeoToTableValuesView(geo);
 				app.getKernel().attach(getTableValuesView());
@@ -2506,7 +2505,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showTableValuesView(GeoElement geo) {
-		if (((TableValuesView) getTableValuesView()).isEmpty()) {
+		if (getTableValuesView().isEmpty()) {
 			app.getDialogManager().openTableViewDialog(geo);
 		} else {
 			addGeoToTableValuesView(geo);
