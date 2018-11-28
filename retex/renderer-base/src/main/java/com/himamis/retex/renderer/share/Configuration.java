@@ -1023,35 +1023,39 @@ public final class Configuration {
 		add("talloblong", TeXConstants.TYPE_BINARY_OPERATOR, 88, fonts.stmary10,
 				'\u2AFE');
 
-		add("ngeq", TeXConstants.TYPE_RELATION, 164, fonts.msbm10);
+		add("ngeq", TeXConstants.TYPE_RELATION, 164, fonts.msbm10, '\ue2a6');
 		add("polishlcross", TeXConstants.TYPE_ORDINARY, 195, fonts.cmr10);
 		add("varodot", TeXConstants.TYPE_BINARY_OPERATOR, 50, fonts.stmary10);
 		add("textpercent", TeXConstants.TYPE_ORDINARY, 37, fonts.cmr10);
-		add("thickapprox", TeXConstants.TYPE_RELATION, 116, fonts.msbm10);
+		add("thickapprox", TeXConstants.TYPE_RELATION, 116, fonts.msbm10,
+				'\ue306');
 		add("surdsign", TeXConstants.TYPE_ORDINARY, 112, fonts.cmsy10);
 		add("i", TeXConstants.TYPE_ORDINARY, 179, fonts.cmti10);
 		add("subsetplus", TeXConstants.TYPE_RELATION, 100, fonts.stmary10);
 		add("j", TeXConstants.TYPE_ORDINARY, 180, fonts.cmti10);
 		add("smallsetminus", TeXConstants.TYPE_BINARY_OPERATOR, 114,
-				fonts.msbm10);
+				fonts.msbm10, '\ue844');
 		add("shortrightarrow", TeXConstants.TYPE_RELATION, 33, fonts.stmary10);
-		add("Delta", TeXConstants.TYPE_ORDINARY, 162, fonts.cmr10);
-		add("thicksim", TeXConstants.TYPE_RELATION, 115, fonts.msbm10);
+		add("Delta", TeXConstants.TYPE_ORDINARY, 162, fonts.cmr10, '\u0394');
+		add("thicksim", TeXConstants.TYPE_RELATION, 115, fonts.msbm10,
+				'\ue662');
 		add("tie", TeXConstants.TYPE_ACCENT, 196, fonts.cmmi10_unchanged);
 		add("ldotp", TeXConstants.TYPE_PUNCTUATION, 46, fonts.cmss10);
 		add("lacc", TeXConstants.TYPE_ORDINARY, 102, fonts.cmsy10);
-		add("check", TeXConstants.TYPE_ACCENT, 183, fonts.cmr10);
-		add("digamma", TeXConstants.TYPE_ORDINARY, 122, fonts.msbm10);
+		add("check", TeXConstants.TYPE_ACCENT, 183, fonts.cmr10, '\u030c');
+		add("digamma", TeXConstants.TYPE_ORDINARY, 122, fonts.msbm10, '\ue360');
 		add("bbslash", TeXConstants.TYPE_BINARY_OPERATOR, 45, fonts.stmary10);
-		add("varsupsetneq", TeXConstants.TYPE_RELATION, 33, fonts.msbm10);
-		add("Lambda", TeXConstants.TYPE_ORDINARY, 164, fonts.cmr10);
+		add("varsupsetneq", TeXConstants.TYPE_RELATION, 33, fonts.msbm10,
+				'\ue2ba');
+		add("Lambda", TeXConstants.TYPE_ORDINARY, 164, fonts.cmr10, '\u039B');
 		add("boxempty", TeXConstants.TYPE_BINARY_OPERATOR, 63, fonts.stmary10);
 		add("llceil", TeXConstants.TYPE_OPENING, 118, fonts.stmary10);
-		add("vartriangleleft", TeXConstants.TYPE_RELATION, 67, fonts.msam10);
+		add("vartriangleleft", TeXConstants.TYPE_RELATION, 67, fonts.msam10,
+				'\u22b2');
 		add("textdbend", TeXConstants.TYPE_ORDINARY, 126,
 				fonts.jlmr10_unchanged);
 		add("varPsi", TeXConstants.TYPE_ORDINARY, 170, fonts.cmmi10);
-		add("widehat", TeXConstants.TYPE_ACCENT, 98, fonts.cmex10);
+		add("widehat", TeXConstants.TYPE_ACCENT, 98, fonts.cmex10, '\u0360');
 		add("unrhd", TeXConstants.TYPE_RELATION, 68, fonts.msam10);
 		add("varobslash", TeXConstants.TYPE_BINARY_OPERATOR, 52,
 				fonts.stmary10);
@@ -1089,37 +1093,45 @@ public final class Configuration {
 		add("obslash", TeXConstants.TYPE_BINARY_OPERATOR, 91, fonts.stmary10);
 		add("varoplus", TeXConstants.TYPE_BINARY_OPERATOR, 54, fonts.stmary10);
 		add("varPhi", TeXConstants.TYPE_ORDINARY, 169, fonts.cmmi10);
-		add("nsupseteqq", TeXConstants.TYPE_RELATION, 35, fonts.msbm10);
+		add("nsupseteqq", TeXConstants.TYPE_RELATION, 35, fonts.msbm10,
+				'\ue2b0');
 		add("slashdel", TeXConstants.TYPE_OPENING, 47, fonts.cmr10);
-		add("nshortmid", TeXConstants.TYPE_RELATION, 46, fonts.msbm10);
-		add("ddot", TeXConstants.TYPE_ACCENT, 196, fonts.cmr10);
+		add("nshortmid", TeXConstants.TYPE_RELATION, 46, fonts.msbm10,
+				'\ue2aa');
+		add("ddot", TeXConstants.TYPE_ACCENT, 196, fonts.cmr10, '\u0308');
 		add("smallint", TeXConstants.TYPE_BIG_OPERATOR, 115, fonts.cmsy10);
 		add("bigcurlywedge", TeXConstants.TYPE_BIG_OPERATOR, 131,
 				fonts.stmary10);
-		add("varOmega", TeXConstants.TYPE_ORDINARY, 173, fonts.cmmi10);
+		add("varOmega", TeXConstants.TYPE_ORDINARY, 173, fonts.cmmi10,
+				'\u03A9');
 		add("sswarrow", TeXConstants.TYPE_RELATION, 68, fonts.stmary10);
-		add("circlearrowright", TeXConstants.TYPE_RELATION, 169, fonts.msam10);
+		add("circlearrowright", TeXConstants.TYPE_RELATION, 169, fonts.msam10,
+				'\ue5a4');
 		add("Mapsfromchar", TeXConstants.TYPE_RELATION, 124, fonts.stmary10);
-		add("hat", TeXConstants.TYPE_ACCENT, 94, fonts.cmr10);
+		add("hat", TeXConstants.TYPE_ACCENT, 94, fonts.cmr10, '\u0302');
 		add("hbar", TeXConstants.TYPE_ORDINARY, 126, fonts.msbm10);
 		add("lneqq", TeXConstants.TYPE_RELATION, 169, fonts.msbm10);
-		add("Psi", TeXConstants.TYPE_ORDINARY, 170, fonts.cmr10);
-		add("Theta", TeXConstants.TYPE_ORDINARY, 163, fonts.cmr10);
+		add("Psi", TeXConstants.TYPE_ORDINARY, 170, fonts.cmr10, '\u03A8');
+		add("Theta", TeXConstants.TYPE_ORDINARY, 163, fonts.cmr10, '\u03F4');
 		add("doubleacute", TeXConstants.TYPE_ACCENT, 125, fonts.cmr10);
-		add("varsubsetneqq", TeXConstants.TYPE_RELATION, 38, fonts.msbm10);
-		add("vartriangle", TeXConstants.TYPE_RELATION, 77, fonts.msam10);
-		add("ngeqq", TeXConstants.TYPE_RELATION, 184, fonts.msbm10);
-		add("not", TeXConstants.TYPE_RELATION, 54, fonts.cmsy10);
-		add("varXi", TeXConstants.TYPE_ORDINARY, 165, fonts.cmmi10);
-		add("nleq", TeXConstants.TYPE_RELATION, 163, fonts.msbm10);
+		add("varsubsetneqq", TeXConstants.TYPE_RELATION, 38, fonts.msbm10,
+				'\ue2b8');
+		add("vartriangle", TeXConstants.TYPE_RELATION, 77, fonts.msam10,
+				'\u25b5');
+		add("ngeqq", TeXConstants.TYPE_RELATION, 184, fonts.msbm10, '\ue2a5');
+		add("not", TeXConstants.TYPE_RELATION, 54, fonts.cmsy10, '\u0338');
+		add("varXi", TeXConstants.TYPE_ORDINARY, 165, fonts.cmmi10, '\u039E');
+		add("nleq", TeXConstants.TYPE_RELATION, 163, fonts.msbm10, '\ue2a7');
 		add("rhook", TeXConstants.TYPE_ORDINARY, 45, fonts.cmmi10_unchanged);
-		add("frown", TeXConstants.TYPE_RELATION, 95, fonts.cmmi10_unchanged);
+		add("frown", TeXConstants.TYPE_RELATION, 95, fonts.cmmi10_unchanged,
+				'\u2322');
 		add("lll", TeXConstants.TYPE_RELATION, 110, fonts.msam10);
 		add("varobar", TeXConstants.TYPE_BINARY_OPERATOR, 49, fonts.stmary10);
-		add("varsubsetneq", TeXConstants.TYPE_RELATION, 195, fonts.msbm10);
+		add("varsubsetneq", TeXConstants.TYPE_RELATION, 195, fonts.msbm10,
+				'\ue2b9');
 		add("racc", TeXConstants.TYPE_ORDINARY, 103, fonts.cmsy10);
 		add("varowedge", TeXConstants.TYPE_BINARY_OPERATOR, 87, fonts.stmary10);
-		add("Xi", TeXConstants.TYPE_ORDINARY, 165, fonts.cmr10);
+		add("Xi", TeXConstants.TYPE_ORDINARY, 165, fonts.cmr10, '\u039E');
 		add("rrfloor", TeXConstants.TYPE_CLOSING, 117, fonts.stmary10);
 		add("textdollar", TeXConstants.TYPE_ORDINARY, 36, fonts.cmr10);
 		add("trianglerighteqslant", TeXConstants.TYPE_RELATION, 113,
@@ -1129,11 +1141,14 @@ public final class Configuration {
 		add("trianglelefteqslant", TeXConstants.TYPE_RELATION, 112,
 				fonts.stmary10);
 		add("cyrbreve", TeXConstants.TYPE_ACCENT, 774, fonts.wnr10);
-		add("nparallel", TeXConstants.TYPE_RELATION, 44, fonts.msbm10);
+		add("nparallel", TeXConstants.TYPE_RELATION, 44, fonts.msbm10,
+				'\u2226');
 		add("lor", TeXConstants.TYPE_BINARY_OPERATOR, 95, fonts.cmsy10);
-		add("bigsqcap", TeXConstants.TYPE_BIG_OPERATOR, 132, fonts.stmary10);
+		add("bigsqcap", TeXConstants.TYPE_BIG_OPERATOR, 132, fonts.stmary10,
+				'\ue65b');
 		add("owedge", TeXConstants.TYPE_BINARY_OPERATOR, 95, fonts.stmary10);
-		add("circledS", TeXConstants.TYPE_ORDINARY, 115, fonts.msam10);
+		add("circledS", TeXConstants.TYPE_ORDINARY, 115, fonts.msam10,
+				'\u24c8');
 		add("bracevert", TeXConstants.TYPE_ORDINARY, 62, fonts.cmex10);
 		add("\u0391", TeXConstants.TYPE_ORDINARY, 913, fonts.fcmrpg);
 		add("\u0392", TeXConstants.TYPE_ORDINARY, 914, fonts.fcmrpg);
@@ -1178,7 +1193,7 @@ public final class Configuration {
 		add("\u03BE", TeXConstants.TYPE_ORDINARY, 958, fonts.fcmrpg);
 		add("\u03BF", TeXConstants.TYPE_ORDINARY, 959, fonts.fcmrpg);
 		add("\u03C0", TeXConstants.TYPE_ORDINARY, 960, fonts.fcmrpg);
-		add("acute", TeXConstants.TYPE_ACCENT, 182, fonts.cmr10);
+		add("acute", TeXConstants.TYPE_ACCENT, 182, fonts.cmr10, '\u0301');
 		add("\u03C1", TeXConstants.TYPE_ORDINARY, 961, fonts.fcmrpg);
 		add("\u03C2", TeXConstants.TYPE_ORDINARY, 962, fonts.fcmrpg);
 		add("\u03C3", TeXConstants.TYPE_ORDINARY, 963, fonts.fcmrpg);
@@ -1191,46 +1206,54 @@ public final class Configuration {
 		add("\u03C9", TeXConstants.TYPE_ORDINARY, 969, fonts.fcmrpg);
 		add("\u03D1", TeXConstants.TYPE_ORDINARY, 977, fonts.fcmrpg);
 		add("ogonek", TeXConstants.TYPE_ACCENT, 197, fonts.cmr10);
-		add("varTheta", TeXConstants.TYPE_ORDINARY, 163, fonts.cmmi10);
+		add("varTheta", TeXConstants.TYPE_ORDINARY, 163, fonts.cmmi10,
+				'\u03F4');
 		add("intop", TeXConstants.TYPE_BIG_OPERATOR, 82, fonts.cmex10);
 		add("gets", TeXConstants.TYPE_RELATION, 195, fonts.cmsy10);
 		add("binampersand", TeXConstants.TYPE_OPENING, 110, fonts.stmary10);
 		add("Mapstochar", TeXConstants.TYPE_RELATION, 122, fonts.stmary10);
 		add("bigparallel", TeXConstants.TYPE_BIG_OPERATOR, 134, fonts.stmary10);
-		add("bar", TeXConstants.TYPE_ACCENT, 185, fonts.cmr10);
-		add("prime", TeXConstants.TYPE_ORDINARY, 48, fonts.cmsy10);
+		add("bar", TeXConstants.TYPE_ACCENT, 185, fonts.cmr10, '\u0304');
+		add("prime", TeXConstants.TYPE_ORDINARY, 48, fonts.cmsy10, '\u2032');
 		add("centerdot", TeXConstants.TYPE_BINARY_OPERATOR, 166, fonts.msam10);
 		add("lbag", TeXConstants.TYPE_BINARY_OPERATOR, 74, fonts.stmary10);
-		add("npreceq", TeXConstants.TYPE_RELATION, 177, fonts.msbm10);
+		add("npreceq", TeXConstants.TYPE_RELATION, 177, fonts.msbm10, '\ue5dc');
 		add("textfractionsolidus", TeXConstants.TYPE_ORDINARY, 47, fonts.cmr10);
-		add("varLambda", TeXConstants.TYPE_ORDINARY, 164, fonts.cmmi10);
-		add("backslash", TeXConstants.TYPE_ORDINARY, 110, fonts.cmsy10);
-		add("varsupsetneqq", TeXConstants.TYPE_RELATION, 39, fonts.msbm10);
-		add("widetilde", TeXConstants.TYPE_ACCENT, 101, fonts.cmex10);
+		add("varLambda", TeXConstants.TYPE_ORDINARY, 164, fonts.cmmi10,
+				'\u039B');
+		add("backslash", TeXConstants.TYPE_ORDINARY, 110, fonts.cmsy10, '\\');
+		add("varsupsetneqq", TeXConstants.TYPE_RELATION, 39, fonts.msbm10,
+				'\ue2bb');
+		add("widetilde", TeXConstants.TYPE_ACCENT, 101, fonts.cmex10, '\ue849');
 		add("underscore", TeXConstants.TYPE_ORDINARY, 101,
-				fonts.cmmi10_unchanged);
-		add("jmath", TeXConstants.TYPE_ORDINARY, 124, fonts.cmmi10_unchanged);
+				fonts.cmmi10_unchanged, '_');
+		add("jmath", TeXConstants.TYPE_ORDINARY, 124, fonts.cmmi10_unchanged,
+				'\ue2d4');
 		add("varotimes", TeXConstants.TYPE_BINARY_OPERATOR, 47, fonts.stmary10);
-		add("vartriangleright", TeXConstants.TYPE_RELATION, 66, fonts.msam10);
-		add("nleqq", TeXConstants.TYPE_RELATION, 183, fonts.msbm10);
-		add("Bbbk", TeXConstants.TYPE_ORDINARY, 124, fonts.msbm10);
+		add("vartriangleright", TeXConstants.TYPE_RELATION, 66, fonts.msam10,
+				'\u22b3');
+		add("nleqq", TeXConstants.TYPE_RELATION, 183, fonts.msbm10, '\ue2a8');
+		add("Bbbk", TeXConstants.TYPE_ORDINARY, 124, fonts.msbm10, '\ue802');
 		add("fg", TeXConstants.TYPE_PUNCTUATION, 36, fonts.jlmi10);
 		add("curlywedgedownarrow", TeXConstants.TYPE_RELATION, 71,
 				fonts.stmary10);
 		add("mathring", TeXConstants.TYPE_ACCENT, 186, fonts.cmr10);
 		add("Diamond", TeXConstants.TYPE_RELATION, 167, fonts.msam10);
 		add("ovee", TeXConstants.TYPE_BINARY_OPERATOR, 94, fonts.stmary10);
-		add("circlearrowleft", TeXConstants.TYPE_RELATION, 170, fonts.msam10);
-		add("varpropto", TeXConstants.TYPE_RELATION, 95, fonts.msam10);
+		add("circlearrowleft", TeXConstants.TYPE_RELATION, 170, fonts.msam10,
+				'\ue5a3');
+		add("varpropto", TeXConstants.TYPE_RELATION, 95, fonts.msam10,
+				'\ue847');
 		add("shortdownarrow", TeXConstants.TYPE_RELATION, 35, fonts.stmary10);
-		add("oint", TeXConstants.TYPE_BIG_OPERATOR, 72, fonts.cmex10);
+		add("oint", TeXConstants.TYPE_BIG_OPERATOR, 72, fonts.cmex10, '\u222e');
 		add("normaldot", TeXConstants.TYPE_ORDINARY, 46, fonts.cmss10, '.',
 				"textnormaldot");
-		add("lesseqgtr", TeXConstants.TYPE_RELATION, 81, fonts.msam10);
+		add("lesseqgtr", TeXConstants.TYPE_RELATION, 81, fonts.msam10,
+				'\u22da');
 		add("rgroup", TeXConstants.TYPE_CLOSING, 59, fonts.cmex10);
-		add("varPi", TeXConstants.TYPE_ORDINARY, 166, fonts.cmmi10);
+		add("varPi", TeXConstants.TYPE_ORDINARY, 166, fonts.cmmi10, '\u03A0');
 		add("varoast", TeXConstants.TYPE_BINARY_OPERATOR, 48, fonts.stmary10);
-		add("dot", TeXConstants.TYPE_ACCENT, 95, fonts.cmr10);
+		add("dot", TeXConstants.TYPE_ACCENT, 95, fonts.cmr10, '\u0307');
 		add("leftrightarrowtriangle", TeXConstants.TYPE_BINARY_OPERATOR, 125,
 				fonts.stmary10);
 		add("Relbar", TeXConstants.TYPE_RELATION, 61, fonts.cmr10);
@@ -1238,41 +1261,47 @@ public final class Configuration {
 				fonts.stmary10);
 		add("fatslash", TeXConstants.TYPE_BINARY_OPERATOR, 72, fonts.stmary10);
 		add("Ydown", TeXConstants.TYPE_BINARY_OPERATOR, 37, fonts.stmary10);
-		add("nsubseteqq", TeXConstants.TYPE_RELATION, 34, fonts.msbm10);
-		add("backprime", TeXConstants.TYPE_ORDINARY, 56, fonts.msam10);
-		add("lq", TeXConstants.TYPE_ORDINARY, 96, fonts.cmti10);
-		add("smile", TeXConstants.TYPE_RELATION, 94, fonts.cmmi10_unchanged);
+		add("nsubseteqq", TeXConstants.TYPE_RELATION, 34, fonts.msbm10,
+				'\ue2ae');
+		add("backprime", TeXConstants.TYPE_ORDINARY, 56, fonts.msam10,
+				'\u2035');
+		add("lq", TeXConstants.TYPE_ORDINARY, 96, fonts.cmti10, '\u2018');
+		add("smile", TeXConstants.TYPE_RELATION, 94, fonts.cmmi10_unchanged,
+				'\u2323');
 		add("arrownot", TeXConstants.TYPE_RELATION, 120, fonts.stmary10);
 		add("Box", TeXConstants.TYPE_ORDINARY, 164, fonts.msam10);
 		add("supsetpluseq", TeXConstants.TYPE_RELATION, 103, fonts.stmary10);
 		add("Arrownot", TeXConstants.TYPE_RELATION, 121, fonts.stmary10);
-		add("bot", TeXConstants.TYPE_ORDINARY, 63, fonts.cmsy10);
-		add("tilde", TeXConstants.TYPE_ACCENT, 126, fonts.cmr10);
+		add("bot", TeXConstants.TYPE_ORDINARY, 63, fonts.cmsy10, '\ue363');
+		add("tilde", TeXConstants.TYPE_ACCENT, 126, fonts.cmr10, '\u0303');
 		add("og", TeXConstants.TYPE_PUNCTUATION, 33, fonts.jlmi10);
 		add("llparenthesis", TeXConstants.TYPE_OPENING, 108, fonts.stmary10);
 		add("nnwarrow", TeXConstants.TYPE_RELATION, 80, fonts.stmary10);
 		add("bigbox", TeXConstants.TYPE_BIG_OPERATOR, 133, fonts.stmary10);
-		add("breve", TeXConstants.TYPE_ACCENT, 184, fonts.cmr10);
+		add("breve", TeXConstants.TYPE_ACCENT, 184, fonts.cmr10, '\u0306');
 		add("varbigcirc", TeXConstants.TYPE_BINARY_OPERATOR, 76,
 				fonts.stmary10);
 		add("dbend", TeXConstants.TYPE_ORDINARY, 127, fonts.jlmr10_unchanged);
-		add("rq", TeXConstants.TYPE_ORDINARY, 39, fonts.cmti10);
-		add("varnothing", TeXConstants.TYPE_ORDINARY, 63, fonts.msbm10);
-		add("mid", TeXConstants.TYPE_RELATION, 106, fonts.cmsy10);
+		add("rq", TeXConstants.TYPE_ORDINARY, 39, fonts.cmti10, '\u2019');
+		add("varnothing", TeXConstants.TYPE_ORDINARY, 63, fonts.msbm10,
+				'\u2205');
+		add("mid", TeXConstants.TYPE_RELATION, 106, fonts.cmsy10, '\u2223');
 		add("varovee", TeXConstants.TYPE_BINARY_OPERATOR, 86, fonts.stmary10);
 		add("vartimes", TeXConstants.TYPE_BINARY_OPERATOR, 66, fonts.stmary10);
 		add("ssearrow", TeXConstants.TYPE_RELATION, 69, fonts.stmary10);
 		add("rbag", TeXConstants.TYPE_BINARY_OPERATOR, 75, fonts.stmary10);
-		add("varUpsilon", TeXConstants.TYPE_ORDINARY, 168, fonts.cmmi10);
+		add("varUpsilon", TeXConstants.TYPE_ORDINARY, 168, fonts.cmmi10,
+				'\u03A5');
 		add("rrparenthesis", TeXConstants.TYPE_CLOSING, 109, fonts.stmary10);
 		add("to", TeXConstants.TYPE_RELATION, 33, fonts.cmsy10);
 		add("jlatexmathsharp", TeXConstants.TYPE_ORDINARY, 35, fonts.cmr10);
-		add("cdotp", TeXConstants.TYPE_PUNCTUATION, 162, fonts.cmsy10);
+		add("cdotp", TeXConstants.TYPE_PUNCTUATION, 162, fonts.cmsy10,
+				'\u00b7');
 		add("baro", TeXConstants.TYPE_BINARY_OPERATOR, 43, fonts.stmary10);
 		add("bigcurlyvee", TeXConstants.TYPE_BIG_OPERATOR, 130, fonts.stmary10);
 		add("bignplus", TeXConstants.TYPE_BIG_OPERATOR, 136, fonts.stmary10);
 		add("varominus", TeXConstants.TYPE_BINARY_OPERATOR, 55, fonts.stmary10);
-		add("Sigma", TeXConstants.TYPE_ORDINARY, 167, fonts.cmr10);
+		add("Sigma", TeXConstants.TYPE_ORDINARY, 167, fonts.cmr10, '\u03A3');
 		add("mapstochar", TeXConstants.TYPE_RELATION, 55, fonts.cmsy10);
 		add("varogreaterthan", TeXConstants.TYPE_BINARY_OPERATOR, 85,
 				fonts.stmary10);
@@ -1281,27 +1310,33 @@ public final class Configuration {
 				fonts.stmary10);
 		add("Yleft", TeXConstants.TYPE_BINARY_OPERATOR, 38, fonts.stmary10);
 		add("leftrightarroweq", TeXConstants.TYPE_RELATION, 77, fonts.stmary10);
-		add("imath", TeXConstants.TYPE_ORDINARY, 123, fonts.cmmi10_unchanged);
+		add("imath", TeXConstants.TYPE_ORDINARY, 123, fonts.cmmi10_unchanged,
+				'\ue64e');
 		add("moo", TeXConstants.TYPE_BINARY_OPERATOR, 46, fonts.stmary10);
 		add("nnearrow", TeXConstants.TYPE_RELATION, 81, fonts.stmary10);
 		add("fatbslash", TeXConstants.TYPE_BINARY_OPERATOR, 73, fonts.stmary10);
 		add("Yright", TeXConstants.TYPE_BINARY_OPERATOR, 39, fonts.stmary10);
-		add("shortparallel", TeXConstants.TYPE_RELATION, 113, fonts.msbm10);
+		add("shortparallel", TeXConstants.TYPE_RELATION, 113, fonts.msbm10,
+				'\ue302');
 		add("geq", TeXConstants.TYPE_RELATION, 184, fonts.cmsy10);
-		add("varGamma", TeXConstants.TYPE_ORDINARY, 161, fonts.cmmi10);
-		add("varSigma", TeXConstants.TYPE_ORDINARY, 167, fonts.cmmi10);
+		add("varGamma", TeXConstants.TYPE_ORDINARY, 161, fonts.cmmi10,
+				'\u0393');
+		add("varSigma", TeXConstants.TYPE_ORDINARY, 167, fonts.cmmi10,
+				'\u03A3');
 		add("textnormaldot", TeXConstants.TYPE_PUNCTUATION, 46, fonts.cmss10);
 		add("unlhd", TeXConstants.TYPE_RELATION, 69, fonts.msam10);
-		add("Gamma", TeXConstants.TYPE_ORDINARY, 161, fonts.cmr10);
+		add("Gamma", TeXConstants.TYPE_ORDINARY, 161, fonts.cmr10, '\u0393');
 		add("jlatexmathcedilla", TeXConstants.TYPE_ORDINARY, 187, fonts.cmti10);
-		add("vec", TeXConstants.TYPE_ACCENT, 126, fonts.cmmi10_unchanged);
+		add("vec", TeXConstants.TYPE_ACCENT, 126, fonts.cmmi10_unchanged,
+				'\u20d7');
 		add("mapsfromchar", TeXConstants.TYPE_RELATION, 123, fonts.stmary10);
 		add("shortleftarrow", TeXConstants.TYPE_RELATION, 32, fonts.stmary10);
-		add("varDelta", TeXConstants.TYPE_ORDINARY, 162, fonts.cmmi10);
+		add("varDelta", TeXConstants.TYPE_ORDINARY, 162, fonts.cmmi10,
+				'\u0394');
 		add("rrceil", TeXConstants.TYPE_CLOSING, 119, fonts.stmary10);
 		add("lgroup", TeXConstants.TYPE_OPENING, 58, fonts.cmex10);
 		add("supsetplus", TeXConstants.TYPE_RELATION, 101, fonts.stmary10);
-		add("grave", TeXConstants.TYPE_ACCENT, 181, fonts.cmr10);
+		add("grave", TeXConstants.TYPE_ACCENT, 181, fonts.cmr10, '\u0300');
 
 		// for MHChem
 		add("upalpha", TeXConstants.TYPE_BINARY_OPERATOR, 0x03B1, fonts.fcmrpg);
