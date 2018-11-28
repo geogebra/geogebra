@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -1805,9 +1804,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getSettings().getCasSettings().setEnabled(
 					getArticleElement().getDataParamEnableCAS(false));
 		}
-		if (isUnbundled() && getSettings().getCasSettings().isEnabled()
+		if (getSettings().getCasSettings().isEnabled()
 				&& has(Feature.SYMBOLIC_AV)) {
-			getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+			getKernel().setSymbolicMode(getConfig().getSymbolicMode());
 		}
 
 		if (is3DDisabledForApp()) {
