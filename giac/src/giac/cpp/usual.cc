@@ -10289,8 +10289,10 @@ namespace giac {
     shift_coeff=0; return undef;
   }
   static gen d_LambertW(const gen & args,GIAC_CONTEXT){
-    // W/z/(1+W)
+    // W/z/(1+W) or 1/(z+exp(W))
+    if (args==0) return 1;
     gen w=_LambertW(args,contextptr);
+    // return inv(args+exp(w,contextptr),contextptr);
     return w/args/(1+w);
   }
   define_partial_derivative_onearg_genop( D_at_LambertW," D_at_LambertW",&d_LambertW);

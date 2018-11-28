@@ -6278,6 +6278,76 @@ namespace giac {
     }
   }
 
+  unsigned store_coeffs(vector<modint2> &v64,unsigned firstcol,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
+    unsigned res=0;
+    used_t * uit=&used.front();
+    vector<modint2>::iterator wt0=v64.begin(),wt=v64.begin()+firstcol,wtend=v64.end();
+    vector<modint2>::iterator wt1=wtend-4;
+#if 1
+    for (;wt<=wt1;wt+=4){
+      if (wt[0] | wt[1] | wt[2] | wt[3])
+	break;
+    }
+#endif
+    if (!res){
+      for (;wt<wtend;++wt){
+	modint2 i=*wt;
+	if (!i) continue;
+	*wt = 0;
+	i %= env;
+	if (!i) continue;
+	unsigned I=unsigned(wt-wt0);
+	res=I;
+	*(uit+I)=1; // used[i]=1;
+	bitmap[I>>5] |= (1<<(I&0x1f));
+	lescoeffs.push_back(modint(i));
+	break;
+      }
+      if (!res)
+	res=unsigned(v64.size());
+    }
+#if 1
+    for (;wt<=wt1;){
+      modint2 i=*wt;
+      if (!i){
+	if (!wt[1] && !wt[2] && !wt[3]){
+	  wt += 4;
+	  continue;
+	}
+	++wt; i=*wt;
+	if (!i){
+	  ++wt; i=*wt;
+	  if (!i){
+	    ++wt; i=*wt;
+	  }
+	}
+      }
+      *wt = 0;
+      i %= env;
+      if (!i){
+	wt++; continue;
+      }
+      unsigned I=unsigned(wt-wt0);
+      *(uit+I)=1; // used[i]=1;
+      bitmap[I>>5] |= (1<<(I&0x1f));
+      lescoeffs.push_back(modint(i));
+      wt++;
+    }
+#endif
+    for (;wt<wtend;++wt){
+      modint2 i=*wt;
+      if (!i) continue;
+      *wt=0;
+      i %= env;
+      if (!i) continue;
+      unsigned I=unsigned(wt-wt0);
+      *(uit+I)=1; // used[i]=1;
+      bitmap[I>>5] |= (1<<(I&0x1f));
+      lescoeffs.push_back(modint(i));
+    }
+    return res;
+  }
+
   unsigned reducef4buchbergersplit(vector<modint2> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,unsigned firstcol,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
     vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end(),fit1=fit+firstcol,fit2;
     if (fit1>fitend)
@@ -6496,74 +6566,7 @@ namespace giac {
     }
     if (!bitmap)
       return 0; // result in v64, for multiple uses
-    unsigned res=0;
-    used_t * uit=&used.front();
-    wt=v64.begin()+firstcol;
-    wt1=wtend-4;
-#if 1
-    for (;wt<=wt1;++wt){
-      modint2 i=*wt;
-      if (i) break;
-      ++wt; i=*wt;
-      if (i) break;
-      ++wt; i=*wt;
-      if (i) break;
-      ++wt; i=*wt;
-      if (i) break;
-    }
-#endif
-    if (!res){
-      for (;wt<wtend;++wt){
-	modint2 i=*wt;
-	if (!i) continue;
-	*wt = 0;
-	i %= env;
-	if (!i) continue;
-	unsigned I=unsigned(wt-wt0);
-	res=I;
-	*(uit+I)=1; // used[i]=1;
-	bitmap[I>>5] |= (1<<(I&0x1f));
-	lescoeffs.push_back(modint(i));
-	break;
-      }
-      if (!res)
-	res=unsigned(v64.size());
-    }
-#if 1
-    for (;wt<=wt1;++wt){
-      modint2 i=*wt;
-      if (!i){
-	++wt; i=*wt;
-	if (!i){
-	  ++wt; i=*wt;
-	  if (!i){
-	    ++wt; i=*wt;
-	    if (!i)
-	      continue;
-	  }
-	}
-      }
-      *wt = 0;
-      i %= env;
-      if (!i) continue;
-      unsigned I=unsigned(wt-wt0);
-      *(uit+I)=1; // used[i]=1;
-      bitmap[I>>5] |= (1<<(I&0x1f));
-      lescoeffs.push_back(modint(i));
-    }
-#endif
-    for (;wt<wtend;++wt){
-      modint2 i=*wt;
-      if (!i) continue;
-      *wt=0;
-      i %= env;
-      if (!i) continue;
-      unsigned I=unsigned(wt-wt0);
-      *(uit+I)=1; // used[i]=1;
-      bitmap[I>>5] |= (1<<(I&0x1f));
-      lescoeffs.push_back(modint(i));
-    }
-    return res;
+    return store_coeffs(v64,firstcol,lescoeffs,bitmap,used,env);
   }
 
   unsigned reducef4buchbergersplitdouble(vector<double> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,unsigned firstcol,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
@@ -7253,7 +7256,7 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      CERR << zeros << " null lines over " << M.size() << endl;
+      CERR << CLOCK()*1e-6 << " " << zeros << " null lines over " << M.size() << endl;
   }
 
   inline void push32(vector<sparse32> & v,modint val,unsigned & pos,unsigned newpos){
@@ -8255,6 +8258,22 @@ namespace giac {
       }
     }
 #endif
+  }
+
+  void sub(vector<modint2> & v,const vector<modint2> & v1){
+    vector<modint2>::const_iterator jt=v1.begin();
+    vector<modint2>::iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++jt,++it){
+      *it -= *jt;
+    }
+  }
+
+  void sub(vector<double> & v,const vector<modint2> & v1){
+    vector<modint2>::const_iterator jt=v1.begin();
+    vector<double>::iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++jt,++it){
+      *it -= *jt;
+    }
   }
 
   template<class tdeg_t>
@@ -10832,8 +10851,8 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " Heap actual size was " << H_.size() << " discarded monomials " << countdiscarded << endl;
   }
 
-  template<class tdeg_t>
-  void zcopycoeff(const zpolymod<tdeg_t> & p,vector<modint> & v,modint env,int start){
+  template<class tdeg_t,class modint_t>
+  void zcopycoeff(const zpolymod<tdeg_t> & p,vector<modint_t> & v,modint env,int start){
     std::vector< zmodint >::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     v.clear();
     v.reserve(itend-it);
@@ -10844,8 +10863,8 @@ namespace giac {
     }
   }
 
-  template<class tdeg_t>
-  void zcopycoeff(const zpolymod<tdeg_t> & p,vector<modint> & v,int start){
+template<class tdeg_t,class modint_t>
+  void zcopycoeff(const zpolymod<tdeg_t> & p,vector<modint_t> & v,int start){
     std::vector< zmodint >::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     v.clear();
     v.reserve(itend-it);
@@ -11239,11 +11258,11 @@ namespace giac {
     }
   }
 
-  template<class modint_t>
-  void zsub(vector<modint_t> & v64,const vector<modint> & subcoeff,const vector<shifttype> & subindex){
+template<class modint_t,class modint_u>
+  void zsub(vector<modint_t> & v64,const vector<modint_u> & subcoeff,const vector<shifttype> & subindex){
     if (subcoeff.empty()) return;
     typename vector<modint_t>::iterator wt=v64.begin();
-    const modint * jt=&subcoeff.front(),*jtend=jt+subcoeff.size(),*jt_=jtend-8;
+    const modint_u * jt=&subcoeff.front(),*jtend=jt+subcoeff.size(),*jt_=jtend-8;
     const shifttype * it=&subindex.front();
     // first shift
     unsigned pos=0; next_index(pos,it); wt += pos;
@@ -11302,7 +11321,7 @@ namespace giac {
   }
 
   inline modint makepositive(modint a,modint n){
-    return a<0?a+n:a;
+    return a-(a>>31)*n; // return a<0?a+n:a;
   }
 
   template<class tdeg_t,class modint_t>
@@ -11556,6 +11575,332 @@ namespace giac {
 #endif
     return -1;
   }
+
+   // #define GIAC_CACHE2ND 1; // cache 2nd pair reduction, slower
+
+  template<class tdeg_t>
+  int zf4computeK1(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K){
+    bool freemem=mem>4e7; // should depend on real memory available
+    bool large=N>8000;
+    // CERR << "after sort " << Mindex << endl;
+    // step3 reduce
+    unsigned colonnes=N;
+    vector<modint> v(N);
+    vector<modint2> v64(N);
+    vector<double> v64d(N);
+#ifdef x86_64
+    vector<int128_t> v128;
+    if (!large)
+      v128.resize(N);
+#endif
+    unsigned Kcols=N-nrows;
+    bool Kdone=false;
+    int th=giacmin(threads,64)-1;
+#ifdef GIAC_CACHE2ND
+    vector<modint2> subcoeff2;
+#else
+    vector<modint> subcoeff2;
+#endif
+    vector< vector<shifttype> > indexes(2*Bs);
+#ifdef HAVE_LIBPTHREAD
+    if (Bs>=256 && threads_allowed && threads>1 && (learning || !pairs_reducing_to_zero) ){
+      // prepare memory
+      for (unsigned i=0;i<Bs;++i){
+	indexes[i].reserve(res[B[permuB[i]].first].coord.size()+16);
+	indexes[Bs+i].reserve(res[B[permuB[i]].second].coord.size()+16);
+	K[i].reserve(Kcols);
+      }
+      pthread_t tab[64];
+      thread_buchberger_t<tdeg_t> buchberger_param[64];
+      int colonnes=N,debut=0,step=Bs/(th+1)+1,fin;
+      for (int j=0;j<=th;debut+=step,++j){
+	fin=giacmin(debut+step,Bs);
+	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,Rhashptr,&Rdegpos,env,debut,fin,int(N),int(Kcols),&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1};
+	buchberger_param[j]=tmp;
+	bool res=true;
+	// CERR << "write " << j << " " << p << endl;
+	if (j<th)
+	  res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_buchberger<tdeg_t>,(void *) &buchberger_param[j]);
+	if (res)
+	  thread_buchberger<tdeg_t>((void *)&buchberger_param[j]);
+      }
+      Kdone=true;
+      colonnes=buchberger_param[th].colonnes;
+      for (unsigned j=0;j<th;++j){
+	void * ptr_=(void *)&th; // non-zero initialisation
+	pthread_join(tab[j],&ptr_);
+	if (!ptr_)
+	  Kdone=false;
+	thread_buchberger_t<tdeg_t> * ptr = (thread_buchberger_t<tdeg_t> *) ptr_;
+	colonnes=giacmin(colonnes,ptr->colonnes);
+      }
+    }
+#endif
+    if (!Kdone){
+      unsigned bk_prev=-1;
+      const tdeg_t * rightshift_prev=0;
+      int pos=learned_position;
+      for (unsigned i=0;i<Bs;i++){
+	if (interrupted || ctrl_c)
+	  return -1;
+	paire bk=B[permuB[i]];
+	if (!learning && pairs_reducing_to_zero && pos<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[pos]){
+	  ++pos;	
+	  continue;
+	}
+	bool done=false;
+	const tdeg_t & curleft=leftshift[permuB[i]];
+#ifdef GIAC_MAKELINECACHE // does not seem faster
+	pair<int,int> ij=zmakelinecache[bk.first];
+	if (ij.first!=-1){
+	  // look in quo[ij.first] if leftshift[permuB[i]] is there, if true copy from Mindex
+	  // except first index
+	  typename std::vector<tdeg_t>::const_iterator cache_it=quo[ij.first].begin(),cache_end=quo[ij.first].end();
+	  if (cache_it<cache_end && !dicho(cache_it,cache_end,curleft,order)){
+	    if (cache_end-cache_it>5)
+	      cache_it=cache_end;
+	    else {
+	      for (;cache_it<cache_end;++cache_it){
+		if (*cache_it==curleft)
+		  break;
+	      }
+	    }
+	  }
+	  if (cache_it<cache_end){
+	    if (debug_infolevel>2)
+	      CERR << "cached " << ij << endl;
+	    int pos=ij.second+cache_it-quo[ij.first].begin();
+	    pos=permuM[pos];
+	    vector<shifttype> & source=Mindex[pos];
+	    vector<shifttype> & target=indexes[i];
+	    target.reserve(source.size());
+	    unsigned sourcepos=0,targetpos=0;
+	    const shifttype * sourceptr=&source.front(),*sourceend=sourceptr+source.size();
+	    next_index(sourcepos,sourceptr); // skip position 0
+	    next_index(sourcepos,sourceptr);
+	    pushsplit(target,targetpos,sourcepos);
+	    for (;sourceptr<sourceend;++sourceptr){
+	      target.push_back(*sourceptr);
+	    }
+	    //CERR << Mindex << endl << target << endl;
+	    done=true;
+	  }
+	}
+#endif // GIAC_MAKELINECACHE
+	if (!done){
+	  indexes[i].reserve(res[bk.first].coord.size()+16);
+	  zmakelinesplit(res[bk.first],&curleft,R,Rhashptr,Rdegpos,indexes[i],0,1);
+	  //CERR << indexes[i] << endl;
+	}
+	if (bk_prev!=bk.second || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
+	  indexes[Bs+i].reserve(res[bk.second].coord.size()+16);
+	  zmakelinesplit(res[bk.second],&rightshift[permuB[i]],R,Rhashptr,Rdegpos,indexes[Bs+i],0,1);
+	  bk_prev=bk.second;
+	  rightshift_prev=&rightshift[permuB[i]];
+	}
+      }
+      if (debug_infolevel>1)
+	CERR << CLOCK()*1e-6 << " pairs indexes computed over " << R.size() << " monomials"<<endl;
+      bk_prev=-1; rightshift_prev=0;
+      vector<modint> Ki; Ki.reserve(Kcols);
+      int effi=-1;
+      for (unsigned i=0;i<Bs;++i){
+	if (interrupted || ctrl_c)
+	  return -1;
+	if (debug_infolevel>1){
+	  if (i%10==9) {COUT << "+"; COUT.flush(); }
+	  if (i%500==499) COUT << " " << CLOCK()*1e-6 << " remaining " << Bs-i << endl;
+	}
+	paire bk=B[permuB[i]];
+	if (!learning && pairs_reducing_to_zero && learned_position<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[learned_position]){
+	  if (debug_infolevel>2)
+	    CERR << bk << " f4buchberger learned " << learned_position << endl;
+	  ++learned_position;
+	  unsigned tofill=(N>>5)+1;
+	  fill(bitmap,bitmap+tofill,0);
+	  bitmap += tofill;
+	  continue;
+	}
+	// zmakelinesub(res[bk.first],&leftshift[i],res[bk.second],&rightshift[i],R,v,1,env);
+	// CERR << bk.first << " " << leftshift[i] << endl;
+	// v64.assign(N,0); // + reset v64 to 0, already done by zconvert_
+	if (bk.second!=bk_prev || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
+	  subcoeff2.clear();
+#ifdef GIAC_CACHE2ND
+	  subcoeff2.resize(N);
+	  zadd(subcoeff2,res[bk.second],indexes[i+Bs],1,env);
+	  reducef4buchbergersplit(subcoeff2,Mindex,firstpos,0,Mcoeff,coeffindex,Ki,0 /* no bitmap, answer in subcoeff2 */,used,env);
+#else
+	  zcopycoeff(res[bk.second],subcoeff2,1);	  
+#endif
+	  bk_prev=bk.second;
+	  rightshift_prev=&rightshift[permuB[i]];
+	  if (effi>=0)
+	    indexes[effi].clear();
+	  effi=i+Bs;
+	}
+	int firstcol=indexes[i].empty()?0:indexes[i].front();
+	if (effi>=0 && !indexes[effi].empty())
+	  firstcol=giacmin(firstcol,indexes[effi].front());
+	// zcopycoeff(res[bk.first],subcoeff1,1);zadd(v64,subcoeff1,indexes[i]);
+	if (
+#ifdef EMCC
+	    env>(1<<24) && env<=94906249
+#else
+	    0
+#endif
+	    ){
+	  // using doubles instead of 64 bits integer not supported in JS
+	  zadd(v64d,res[bk.first],indexes[i],1,env);
+	  indexes[i].clear();
+#ifdef GIAC_CACHE2ND
+	  sub(v64d,subcoeff2);
+#else
+	  zsub(v64d,subcoeff2,indexes[effi]);
+#endif
+	  Ki.clear();
+	  colonnes=giacmin(colonnes,reducef4buchbergersplitdouble(v64d,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
+	}
+	else {
+	  zadd(v64,res[bk.first],indexes[i],1,env);
+	  indexes[i].clear();
+#ifdef GIAC_CACHE2ND
+	  sub(v64,subcoeff2);
+#else
+	  zsub(v64,subcoeff2,indexes[effi]);
+#endif
+	  Ki.clear();
+	  colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
+	}
+	bitmap += (N>>5)+1;
+	size_t Kis=Ki.size();
+	if (Kis>Ki.capacity()*.8){
+	  K[i].swap(Ki);
+	  Ki.reserve(giacmin(Kcols,int(Kis*1.1)));
+	}
+	else {
+#if 0
+	  vector<modint> & target=K[i];
+	  target.reserve(giacmin(Kcols,int(Kis*1.1)));
+	  vector<modint>::const_iterator kit=Ki.begin(),kitend=Ki.end();
+	  for (;kit!=kitend;++kit)
+	    target.push_back(*kit);
+#else
+	  K[i]=Ki;      
+#endif
+	}
+	//CERR << v << endl << SK[i] << endl;
+      } // end for (i=0;i<B.size();++i)
+    } // end if (!Kdone)
+    // CERR << K << endl;
+    if (debug_infolevel>1)
+      CERR << CLOCK()*1e-6 << " f4buchbergerv split reduced " << Bs << " polynoms over " << N << " monomials, start at " << colonnes << endl;
+    return 0;
+  }
+
+#if 0
+  void convert(const std::vector<modint2> & source,std::vector<modint> & target,modint env){
+    target.clear();
+    std::vector<modint2>::const_iterator it=source.begin(),itend=source.end();
+    for (;it!=itend;++it){
+      if (*it)
+	target.push_back((*it)%env);
+      else
+	target.push_back(0);
+    }
+  }
+  
+  template<class tdeg_t>
+  bool operator <(const pair<unsigned,const tdeg_t > & a,
+		  const pair<unsigned,const tdeg_t > & b){
+    if (a.first!=b.first)
+      return a.first<b.first;
+    order_t tmp={_REVLEX_ORDER,0};
+    return !tdeg_t_greater(b.second,a.second,tmp);
+  }
+
+  template<class tdeg_t>
+  int zf4computeK2(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K){
+    map< pair<unsigned,const tdeg_t >,int > cache;
+    vector< vector<modint> > cachecoeffs;
+    cachecoeffs.reserve(2*Bs);
+    vector<int> leftpos(Bs,-1),rightpos(Bs,-1);
+    unsigned n=0;
+    for (unsigned i=0;i<Bs;++i){
+      paire bk=B[permuB[i]];
+      pair<unsigned,const tdeg_t > pleft(bk.first,leftshift[permuB[i]]);
+      typename map< pair<unsigned,const tdeg_t >,int >::const_iterator it=cache.find(pleft),itend=cache.end();
+      if (it!=itend)
+	leftpos[i]=it->second;
+      else {
+	leftpos[i]=n;
+	++n;
+	cachecoeffs.push_back(vector<modint>());
+	cache[pleft]=n;
+      }
+      pair<unsigned,const tdeg_t > pright(bk.second,rightshift[permuB[i]]);
+      it=cache.find(pright);
+      itend=cache.end();
+      if (it!=itend)
+	rightpos[i]=it->second;
+      else {
+	rightpos[i]=n;
+	++n;
+	cachecoeffs.push_back(vector<modint>());
+	cache[pright]=n;
+      }      
+    }
+    // compare n to 2*Bs, if caching is efficient compute cache
+    CERR << "Cache relative occupation " << n/(2.*Bs) << " pairs " << Bs << endl;
+    return zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K);   
+    vector<shifttype> index;
+    vector<modint> Ki;
+    vector<modint2> v64(N);
+    for (unsigned i=0;i<Bs;++i){	
+      if (interrupted || ctrl_c)
+	return 0;
+      paire bk=B[permuB[i]];
+      pair<unsigned,const tdeg_t > pleft(bk.first,leftshift[permuB[i]]);
+      unsigned j=leftpos[i];
+      if (cachecoeffs[j].empty()){
+	std::fill(v64.begin(),v64.end(),0);
+	index.clear();
+	Ki.clear();
+	zmakelinesplit(res[bk.first],&leftshift[permuB[i]],R,Rhashptr,Rdegpos,index,0,1);
+	int firstcol=0; // index.empty()?0:index.front();
+	zadd(v64,res[bk.first],index,1,env);
+	reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,0 /* bitmap set to 0: result in v64*/,used,env);
+	// v64->32 bits reduction and push in cache
+	convert(v64,cachecoeffs[j],env);
+      }
+      vector<modint> vleft(cachecoeffs[j]);
+      pair<unsigned,const tdeg_t> pright(bk.second,rightshift[permuB[i]]);
+      j=rightpos[i];
+      if (cachecoeffs[j].empty()){
+	std::fill(v64.begin(),v64.end(),0);
+	index.clear();
+	Ki.clear();
+	zmakelinesplit(res[bk.second],&rightshift[permuB[i]],R,Rhashptr,Rdegpos,index,0,1);
+	int firstcol=index.empty()?0:index.front();
+	zadd(v64,res[bk.second],index,1,env);
+	reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,0 /* bitmap set to 0: result in v64*/,used,env);
+	// v64->32 bits reduction and push in cache
+	cachecoeffs.push_back(vector<modint>());
+	convert(v64,cachecoeffs[j],env);
+      }
+      sub(vleft,cachecoeffs[j],env);
+      // v64=vleft
+      for (unsigned j=0;j<N;++j){
+	v64[j]=vleft[j];
+      }
+      K.push_back(vector<modint>());
+      K.back().reserve(N-nrows);
+      store_coeffs(v64,0,K.back(),bitmap,used,env);
+      bitmap += (N>>5)+1;
+    }
+    return 0;
+  }
+#endif
   
   template<class tdeg_t>
   int zf4mod(vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> * & permuBptr,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,vector<zinfo_t<tdeg_t> > & f4buchberger_info,unsigned & f4buchberger_info_position,bool recomputeR,int age,bool multimodular){
@@ -11673,9 +12018,7 @@ namespace giac {
     for (i=0;i<G.size();++i){
       nrows += unsigned(quo[i].size());
     }
-    unsigned colonnes=N;
     double sknon0=0;
-    vector<used_t> used(N,0);
     unsigned usedcount=0,zerolines=0;
     vector< vector<modint> > K(Bs);
     vector<vector<unsigned short> > Mindex;
@@ -11686,8 +12029,9 @@ namespace giac {
     vector<sparse_element> atrier;
     atrier.reserve(nrows);
     for (i=0;i<G.size();++i){
-      Mcoeff[i].reserve(res[G[i]].coord.size());
       typename std::vector<tdeg_t>::const_iterator jt=quo[i].begin(),jtend=quo[i].end();
+      if (jt!=jtend)
+	Mcoeff[i].reserve(res[G[i]].coord.size());
       for (;jt!=jtend;++j,++jt){
 	Mindex.push_back(vector<unsigned short>(0));
 	Mindex[j].reserve(int(1.1*res[G[i]].coord.size()));
@@ -11698,8 +12042,10 @@ namespace giac {
 #endif
     for (i=0,j=0;i<G.size();++i){
       // copy coeffs of res[G[i]] in Mcoeff
-      if (1 || env<(1<<24))
-	zcopycoeff(res[G[i]],Mcoeff[i],0);
+      if (1 || env<(1<<24)){
+	if (!quo[i].empty()) 
+	  zcopycoeff(res[G[i]],Mcoeff[i],0);
+      }
       else
 	zcopycoeff(res[G[i]],Mcoeff[i],env,0);
       // if (!Mcoeff[i].empty()) Mcoeff[i].front()=invmod(Mcoeff[i].front(),env);
@@ -11761,215 +12107,39 @@ namespace giac {
     for (i=0;i < atrier.size();++i){
       firstpos[i]=atrier[i].val;
     }
-    bool freemem=mem>4e7; // should depend on real memory available
     double ratio=(mem/nrows)/N;
-    bool large=N>8000;
     if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << ratio <<endl;
-    // CERR << "after sort " << Mindex << endl;
-    // step3 reduce
-    vector<modint> v(N);
-    vector<modint2> v64(N);
-    vector<double> v64d(N);
-#ifdef x86_64
-    vector<int128_t> v128;
-    if (!large)
-      v128.resize(N);
-#endif
     if (N<nrows){
       CERR << "Error " << N << "," << nrows << endl;
       return -1;
     }
-    unsigned Kcols=N-nrows;
     // ((N>>5)+1)*Bs should not exceed 2e9 otherwise this will segfault
     if (double(Bs)*(N>>5)>2e9){
       CERR << "Error, problem too large" << endl;
       return -1;
     }
+    vector<used_t> used(N,0);
     vector<unsigned> lebitmap(((N>>5)+1)*Bs);
     unsigned * bitmap=&lebitmap.front();
-    bool Kdone=false;
-    int th=giacmin(threads,64)-1;
-    vector<modint> subcoeff2;
-    vector< vector<shifttype> > indexes(2*Bs);
-#ifdef HAVE_LIBPTHREAD
-    if (Bs>=256 && threads_allowed && threads>1 && (learning || !pairs_reducing_to_zero) ){
-      // prepare memory
-      for (unsigned i=0;i<Bs;++i){
-	indexes[i].reserve(res[B[permuB[i]].first].coord.size()+16);
-	indexes[Bs+i].reserve(res[B[permuB[i]].second].coord.size()+16);
-	K[i].reserve(Kcols);
-      }
-      pthread_t tab[64];
-      thread_buchberger_t<tdeg_t> buchberger_param[64];
-      int colonnes=N,debut=0,step=Bs/(th+1)+1,fin;
-      for (int j=0;j<=th;debut+=step,++j){
-	fin=giacmin(debut+step,Bs);
-	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,Rhashptr,&Rdegpos,env,debut,fin,int(N),int(Kcols),&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1};
-	buchberger_param[j]=tmp;
-	bool res=true;
-	// CERR << "write " << j << " " << p << endl;
-	if (j<th)
-	  res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_buchberger<tdeg_t>,(void *) &buchberger_param[j]);
-	if (res)
-	  thread_buchberger<tdeg_t>((void *)&buchberger_param[j]);
-      }
-      Kdone=true;
-      colonnes=buchberger_param[th].colonnes;
-      for (unsigned j=0;j<th;++j){
-	void * ptr_=(void *)&th; // non-zero initialisation
-	pthread_join(tab[j],&ptr_);
-	if (!ptr_)
-	  Kdone=false;
-	thread_buchberger_t<tdeg_t> * ptr = (thread_buchberger_t<tdeg_t> *) ptr_;
-	colonnes=giacmin(colonnes,ptr->colonnes);
-      }
-    }
-#endif
-    if (!Kdone){
-      unsigned bk_prev=-1;
-      tdeg_t * rightshift_prev=0;
-      int pos=learned_position;
-      for (i=0;i<Bs;i++){
-	if (interrupted || ctrl_c)
-	  return -1;
-	paire bk=B[permuB[i]];
-	if (!learning && pairs_reducing_to_zero && pos<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[pos]){
-	  ++pos;	
-	  continue;
-	}
-	bool done=false;
-	tdeg_t & curleft=leftshift[permuB[i]];
-#ifdef GIAC_MAKELINECACHE // does not seem faster
-	pair<int,int> ij=zmakelinecache[bk.first];
-	if (ij.first!=-1){
-	  // look in quo[ij.first] if leftshift[permuB[i]] is there, if true copy from Mindex
-	  // except first index
-	  typename std::vector<tdeg_t>::const_iterator cache_it=quo[ij.first].begin(),cache_end=quo[ij.first].end();
-	  if (cache_it<cache_end && !dicho(cache_it,cache_end,curleft,order)){
-	    if (cache_end-cache_it>5)
-	      cache_it=cache_end;
-	    else {
-	      for (;cache_it<cache_end;++cache_it){
-		if (*cache_it==curleft)
-		  break;
-	      }
-	    }
-	  }
-	  if (cache_it<cache_end){
-	    if (debug_infolevel>2)
-	      CERR << "cached " << ij << endl;
-	    int pos=ij.second+cache_it-quo[ij.first].begin();
-	    pos=permuM[pos];
-	    vector<shifttype> & source=Mindex[pos];
-	    vector<shifttype> & target=indexes[i];
-	    target.reserve(source.size());
-	    unsigned sourcepos=0,targetpos=0;
-	    const shifttype * sourceptr=&source.front(),*sourceend=sourceptr+source.size();
-	    next_index(sourcepos,sourceptr); // skip position 0
-	    next_index(sourcepos,sourceptr);
-	    pushsplit(target,targetpos,sourcepos);
-	    for (;sourceptr<sourceend;++sourceptr){
-	      target.push_back(*sourceptr);
-	    }
-	    //CERR << Mindex << endl << target << endl;
-	    done=true;
-	  }
-	}
-#endif // GIAC_MAKELINECACHE
-	if (!done){
-	  indexes[i].reserve(res[bk.first].coord.size()+16);
-	  zmakelinesplit(res[bk.first],&curleft,R,Rhashptr,Rdegpos,indexes[i],0,1);
-	  //CERR << indexes[i] << endl;
-	}
-	if (bk_prev!=bk.second || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
-	  indexes[Bs+i].reserve(res[bk.second].coord.size()+16);
-	  zmakelinesplit(res[bk.second],&rightshift[permuB[i]],R,Rhashptr,Rdegpos,indexes[Bs+i],0,1);
-	  bk_prev=bk.second;
-	  rightshift_prev=&rightshift[permuB[i]];
-	}
-      }
-      if (debug_infolevel>1)
-	CERR << CLOCK()*1e-6 << " pairs indexes computed over " << R.size() << " monomials"<<endl;
-      bk_prev=-1; rightshift_prev=0;
-      vector<modint> Ki; Ki.reserve(Kcols);
-      int effi=-1;
-      for (i=0;i<Bs;++i){
-	if (interrupted || ctrl_c)
-	  return -1;
-	if (debug_infolevel>1){
-	  if (i%10==9) {COUT << "+"; COUT.flush(); }
-	  if (i%500==499) COUT << " " << CLOCK()*1e-6 << " remaining " << Bs-i << endl;
-	}
-	paire bk=B[permuB[i]];
-	if (!learning && pairs_reducing_to_zero && learned_position<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[learned_position]){
-	  if (debug_infolevel>2)
-	    CERR << bk << " f4buchberger learned " << learned_position << endl;
-	  ++learned_position;
-	  unsigned tofill=(N>>5)+1;
-	  fill(bitmap,bitmap+tofill,0);
-	  bitmap += tofill;
-	  continue;
-	}
-	// zmakelinesub(res[bk.first],&leftshift[i],res[bk.second],&rightshift[i],R,v,1,env);
-	// CERR << bk.first << " " << leftshift[i] << endl;
-	// v64.assign(N,0); // + reset v64 to 0, already done by zconvert_
-	if (bk.second!=bk_prev || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
-	  subcoeff2.clear();
-	  zcopycoeff(res[bk.second],subcoeff2,1);
-	  bk_prev=bk.second;
-	  rightshift_prev=&rightshift[permuB[i]];
-	  if (effi>=0)
-	    indexes[effi].clear();
-	  effi=i+Bs;
-	}
-	int firstcol=indexes[i].empty()?0:indexes[i].front();
-	if (effi>=0 && !indexes[effi].empty())
-	  firstcol=giacmin(firstcol,indexes[effi].front());
-	// zcopycoeff(res[bk.first],subcoeff1,1);zadd(v64,subcoeff1,indexes[i]);
-	if (
-#ifdef EMCC
-	    env>(1<<24) && env<=94906249
-#else
-	    0
-#endif
-	    ){
-	  // using doubles instead of 64 bits integer not supported in JS
-	  zadd(v64d,res[bk.first],indexes[i],1,env);
-	  indexes[i].clear();
-	  zsub(v64d,subcoeff2,indexes[effi]);
-	  Ki.clear();
-	  colonnes=giacmin(colonnes,reducef4buchbergersplitdouble(v64d,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
-	}
-	else {
-	  zadd(v64,res[bk.first],indexes[i],1,env);
-	  indexes[i].clear();
-	  zsub(v64,subcoeff2,indexes[effi]);
-	  Ki.clear();
-	  colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
-	}
-	bitmap += (N>>5)+1;
-	size_t Kis=Ki.size();
-	if (Kis>Ki.capacity()*.8){
-	  K[i].swap(Ki);
-	  Ki.reserve(giacmin(Kcols,int(Kis*1.1)));
-	}
-	else
-	  K[i]=Ki;      
-	//CERR << v << endl << SK[i] << endl;
-      } // end for (i=0;i<B.size();++i)
-    } // end if (!Kdone)
+    int zres=zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K);
+    if (zres!=0)
+      return zres;
     if (debug_infolevel>1)
       CERR << endl << CLOCK()*1e-6 << " Memory usage: " << memory_usage()*1e-6 << "M" << endl;
     Mindex.clear();
     Mcoeff.clear();
+    {
+      vector<vector<unsigned short> > Mindexclear;
+      vector< vector<modint> > Mcoeffclear;
+      Mindex.swap(Mindexclear);
+      Mcoeff.swap(Mcoeffclear);
+    }
     if (!pairs_reducing_to_zero){
       vector<tdeg_t> clearer;
       info_ptr->R.swap(clearer);
     }
-    if (debug_infolevel>1)
-      CERR << CLOCK()*1e-6 << " f4buchbergerv split reduced " << Bs << " polynoms over " << N << " monomials, start at " << colonnes << endl;
-    for (i=0;i<N;++i)
+    for (unsigned i=0;i<N;++i)
       usedcount += (used[i]>0);
     if (debug_infolevel>1){
       CERR << CLOCK()*1e-6 << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
@@ -11994,7 +12164,6 @@ namespace giac {
       CERR << "non-0 percentage " << (nz/K.size())/K.front().size() << endl;
     }
     vecteur pivots; vector<int> permutation,maxrankcols; longlong idet;
-    // CERR << K << endl;
     if (0 && !learning && info_ptr->permu.size()==Bs){
       permutation=info_ptr->permu;
       vector< vector<modint> > K1(Bs);
@@ -12003,6 +12172,7 @@ namespace giac {
       }
       swap(K1,K);
     }
+    int th=giacmin(threads,64)-1;
 #if 0
     // vector< vector<modint> > Kcopy(K);
     smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty(),0,!multimodular,0,-1); // disable rref optimization in multi-modular mode otherwise cyclic92 fails
@@ -12012,6 +12182,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " rref_upper " << endl;
     smallmodrref_upper(K,0,int(K.size()),0,usedcount,env);
 #endif
+    unsigned Kcols=N-nrows;
     free_null_lines(K,0,Bs,0,Kcols);
     unsigned first0 = unsigned(pivots.size());
     if (first0<K.size() && learning){
@@ -12083,6 +12254,7 @@ namespace giac {
 	zsmallmultmod(invmod(Pcoord.front().g,env),f4buchbergerv[permutation[i]],env);	
 	Pcoord.front().g=1;
       }
+      bool freemem=mem>4e7; // should depend on real memory available
       if (freemem){
 	vector<modint> tmp; tmp.swap(v);
       }
@@ -12392,6 +12564,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       smod(resmod[i],env);
   }
 
+  unsigned max_pairs_by_iteration=16384; 
+  // setting this to 2000 accelerates cyclic9mod but cyclic9 would be slower
+
   template<class tdeg_t>
   bool in_zgbasis(vectpolymod<tdeg_t> &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool eliminate_flag,bool multimodular){
     bool seldeg=true; int sel1=0;
@@ -12644,15 +12819,23 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	}
 	continue;
       } // end if smallposp.size() small
-      if (smallposv.size()==B.size()){
+      unsigned np=smallposv.size();
+      if (np==B.size()){
 	swap(smallposp,B);
 	B.clear();
       }
       else {
-	for (unsigned i=0;i<smallposv.size();++i)
+	// multiply by nthreads?
+#ifdef HAVE_LIBPTHREAD
+	int nthreads=threads_allowed?threads:1;
+#else
+	const int nthreads=1;
+#endif
+	if (!pairs_reducing_to_zero && nthreads==1 && np>max_pairs_by_iteration) np=max_pairs_by_iteration;
+	for (unsigned i=0;i<np;++i)
 	  smallposp.push_back(B[smallposv[i]]);
 	// remove pairs
-	for (int i=int(smallposv.size())-1;i>=0;--i)
+	for (int i=int(np)-1;i>=0;--i)
 	  B.erase(B.begin()+smallposv[i]);
       }
       vectzpolymod<tdeg_t> f4buchbergerv; // collect all spolys
@@ -13548,9 +13731,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       else {
 	if (time2ndrun<0){
 	  time2ndrun=t_1-t_0;
-	  if (time2ndrun<time1strun/6 || time2ndrun<1) // learning is fast enough
+	  if (debug_infolevel)
+	    CERR << "2nd run " << time2ndrun << " 1st run " << time1strun << endl;
+	  if (time2ndrun<time1strun/6 || time2ndrun<0.5){
+	    // learning is fast enough
 	    if (augmentgbasis>0)
 	      augmentgbasis=2;
+	  }
 	}
       }
       pend=p.val; // last prime used

@@ -2739,6 +2739,23 @@ namespace giac {
 	break;
       }
     }
+    // minimal support for LambertW
+    if (has_op(rvar,*at_LambertW)){
+      vecteur vw(lop(rvar,at_LambertW));
+      gen a,b;
+      if (vw.size()==1 && is_linear_wrt(vw[0]._SYMBptr->feuille,gen_x,a,b,contextptr)){
+	// W(ax+b) inside, change of variables ax+b=z*exp(z)
+	// W(ax+b)=z, dx=(z+1)*exp(z)*dz/a
+	vecteur substin(makevecteur(vw[0],gen_x));
+	vecteur substout(makevecteur(gen_x,(gen_x*symbolic(at_exp,gen_x))));
+	gen tmpe=complex_subst(e,substin,substout,contextptr)*(gen_x+1)*symbolic(at_exp,gen_x)/a,tmprem;
+	gen tmpres=linear_integrate_nostep(tmpe,gen_x,tmprem,intmode,contextptr);
+	substout[1]=symbolic(at_exp,gen_x); substin[1]=(a*gen_x+b)/vw[0];
+	remains_to_integrate=complex_subst(tmprem,substout,substin,contextptr);
+	res=complex_subst(tmpres,substout,substin,contextptr);
+	return res;
+      }
+    }
     // square roots
     if ( (rvarsize==2) && (rvar.back().type==_SYMB) && (rvar.back()._SYMBptr->sommet==at_pow) ){
       if (integrate_sqrt(e,gen_x,rvar,res,remains_to_integrate,intmode,contextptr)){
