@@ -2,9 +2,11 @@ package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -87,17 +89,22 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 		contentPanel.add(labelText);
 		contentPanel.add(inputTextField);
 		// add error label if there is any
-		if (errorTextKey != null && !errorTextKey.isEmpty()) {
-			addErrorLabel(contentPanel);
-		}
+		addErrorLabel(contentPanel);
 		add(contentPanel);
 		setLabels();
 	}
 
 	private void addErrorLabel(FlowPanel root) {
-		errorLabel = new Label();
-		errorLabel.setStyleName("errorLabel");
-		root.add(errorLabel);
+		if (!StringUtil.empty(errorTextKey)) {
+			if (errorLabel == null) {
+				errorLabel = new Label();
+			}
+			errorLabel.setText(errorTextKey);
+			errorLabel.setStyleName("errorLabel");
+			root.add(errorLabel); // root.getWidgetIndex(inputTextField)
+		} else if (errorLabel != null) {
+			errorLabel.removeFromParent();
+		}
 	}
 
 	private void addFocusBlurHandlers() {
@@ -189,5 +196,17 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 	 */
 	public void setInputText(String text) {
 		inputTextField.getTextComponent().setText(text);
+		setError(null);
 	}
+
+	/**
+	 * @param message
+	 *            localized error
+	 */
+	public void setError(String message) {
+		this.errorTextKey = message;
+		addErrorLabel(contentPanel);
+		Dom.toggleClass(labelText, "error", !StringUtil.empty(message));
+	}
+
 }

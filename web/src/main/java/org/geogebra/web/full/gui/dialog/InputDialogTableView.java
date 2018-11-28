@@ -128,8 +128,15 @@ public class InputDialogTableView extends DialogBoxW
 	}
 
 	private void openTableView() {
+		double start = 0;
 		try {
-			double start = Double.parseDouble(startValue.getInputText());
+			start = Double.parseDouble(startValue.getInputText());
+		} catch (Exception e) {
+			startValue.setError(app.getLocalization().getError("InvalidInput"));
+			return;
+		}
+		try {
+
 			double end = Double.parseDouble(endValue.getInputText());
 			double stepVal = Double.parseDouble(step.getInputText());
 			((GuiManagerInterfaceW) app.getGuiManager()).initTableValuesView(start, end, stepVal,
