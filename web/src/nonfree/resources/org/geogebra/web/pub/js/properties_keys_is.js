@@ -1165,7 +1165,7 @@ __GGB__keysVar["is"].error = {
     "IllegalMultiplication": "\xd3leyfileg margf\xf6ldun",
     "IllegalSubtraction": "\xd3leyfilegur fr\xe1dr\xe1ttur",
     "IncompleteEquation": "\xd3fullger\xf0 jafna:\nVinsamlegast setji\xf0 inn b\xe1\xf0ar hli\xf0ar j\xf6fnunnar",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "\xd3gild jafna:\nSetji\xf0 inn l\xednulega e\xf0a annars stigs j\xf6fnu \xed x og y",
     "InvalidFunction": "\xd3gilt fallt:\nSetji\xf0 inn fall af x",

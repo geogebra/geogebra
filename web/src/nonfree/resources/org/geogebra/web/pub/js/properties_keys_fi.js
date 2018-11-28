@@ -1165,7 +1165,7 @@ __GGB__keysVar["fi"].error = {
     "IllegalMultiplication": "Kelvoton kertolasku",
     "IllegalSubtraction": "Kelvoton v\xe4hennyslasku",
     "IncompleteEquation": "Ep\xe4t\xe4ydellinen yht\xe4l\xf6: \nKirjoita yht\xe4l\xf6n molemmat puolet",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Kelvoton yht\xe4l\xf6:\nSy\xf6t\xe4 polynomiyht\xe4l\xf6 x:n ja y:n avulla.",
     "InvalidFunction": "Kelvoton funktio:\nSy\xf6t\xe4 x:n funktio ratkaistuna y:n suhteen.",

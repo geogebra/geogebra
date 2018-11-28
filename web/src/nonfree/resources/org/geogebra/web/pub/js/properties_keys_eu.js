@@ -1165,7 +1165,7 @@ __GGB__keysVar["eu"].error = {
     "IllegalMultiplication": "Biderketa debekatua",
     "IllegalSubtraction": "Kenketa debekatua",
     "IncompleteEquation": "Ekuazio osatugabea:\nSartu ekuazioaren bi atalak.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ekuazio baliogabea:\nSartu x eta y-dun ekuazio polinomikoa.",
     "InvalidFunction": "Funtzio baliogabea:\nSartu x-dun funtzio esplizitua.",

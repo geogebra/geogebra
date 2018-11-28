@@ -1165,7 +1165,7 @@ __GGB__keysVar["az"].error = {
     "IllegalMultiplication": "Illegal multiplication",
     "IllegalSubtraction": "Illegal subtraction",
     "IncompleteEquation": "Natamam b\u0259rab\u0259rlik:\nL\xfctf\u0259n b\u0259rab\u0259rliyin h\u0259r iki yan\u0131n\u0131 daxil edin",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",

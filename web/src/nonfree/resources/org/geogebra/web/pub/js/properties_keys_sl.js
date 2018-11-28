@@ -1165,7 +1165,7 @@ __GGB__keysVar["sl"].error = {
     "IllegalMultiplication": "Nedopustno mno\u017eenje",
     "IllegalSubtraction": "Nedopustno od\u0161tevanje",
     "IncompleteEquation": "Nepopolna ena\u010dba:\ntreba je vnesti obe strani",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Neustrezna ena\u010dba: \nvnesti je treba ena\u010dbo s spremenljivkama x in y",
     "InvalidFunction": "Neveljavna funkcija:\nvnesite eksplicitno funkcijo z x-om",

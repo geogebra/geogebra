@@ -1165,7 +1165,7 @@ __GGB__keysVar["ms"].error = {
     "IllegalMultiplication": "Pendaraban haram",
     "IllegalSubtraction": "Penolakan haram",
     "IncompleteEquation": "Persamaan tidak lengkap:\nSila masukkan input pada kedua-dua bahagian persamaan.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Persamaan tidak sah:\nSila masukkan satu persamaan linear atau kuadratik dalam x dan y.",
     "InvalidFunction": "Fungsi tidak sah:\nSila masukkan satu fungsi tak tersirat dalam x.",

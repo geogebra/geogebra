@@ -1165,7 +1165,7 @@ __GGB__keysVar["uz"].error = {
     "IllegalMultiplication": "Illegal multiplication",
     "IllegalSubtraction": "Illegal subtraction",
     "IncompleteEquation": "Tenglik to'liq emas:\nIltimos, tenglikning ikkala tarafini kiriting",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["am"].error = {
     "IllegalMultiplication": "Illegal multiplication",
     "IllegalSubtraction": "Illegal subtraction",
     "IncompleteEquation": "\u12eb\u120d\u1270\u121f\u120b \u1240\u1218\u122d:\n \u1260\u1201\u1208\u1271\u121d \u12e8\u1240\u1218\u122d \u12a0\u1245\u1323\u132b\u12ce\u127d \u12eb\u1235\u1308\u1261",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["ro"].error = {
     "IllegalMultiplication": "Multiplicare incorect\u0103",
     "IllegalSubtraction": "Sc\u0103dere incorect\u0103",
     "IncompleteEquation": "Ecua\u0163ie incomplet\u0103:\nIntroduce\u0163i ambele p\u0103r\u0163i ale ecua\u0163iei.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ecua\u0163ie invalid\u0103:\nIntroduce\u0163i o ecua\u0163ie polinom \xeen x \u015fi y.",
     "InvalidFunction": "Func\u0163ie invalid\u0103:\nIntroduce\u0163i o func\u0163ie explicit\u0103 \xeen x.",

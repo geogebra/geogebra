@@ -1165,7 +1165,7 @@ __GGB__keysVar["lv"].error = {
     "IllegalMultiplication": "Neat\u013cauta reizin\u0101\u0161ana",
     "IllegalSubtraction": "Neat\u013cauta at\u0146em\u0161ana",
     "IncompleteEquation": "Nepiln\u012bgs vien\u0101dojums:\nL\u016bdzu ievadiet abas vien\u0101dojuma puses",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Neder\u012bgs vien\u0101dojums:\nL\u016bdzu izmantojiet main\u012bgos x un y",
     "InvalidFunction": "Neder\u012bga funkcija:\nL\u016bdzu ievadiet prec\u012bzu funkciju izmantojot main\u012bgo x",

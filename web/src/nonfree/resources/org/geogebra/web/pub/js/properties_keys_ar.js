@@ -1165,7 +1165,7 @@ __GGB__keysVar["ar"].error = {
     "IllegalMultiplication": "\u0639\u0645\u0644\u064a\u0629 \u0627\u0644\u0636\u0631\u0628 \u063a\u064a\u0631 \u0645\u0645\u0643\u0646\u0629",
     "IllegalSubtraction": "\u0639\u0645\u0644\u064a\u0629 \u0637\u0631\u062d \u063a\u064a\u0631 \u0645\u0645\u0643\u0646\u0629",
     "IncompleteEquation": "\u0645\u0639\u0627\u062f\u0644\u0629 \u063a\u064a\u0631 \u062a\u0627\u0645\u0629\n\u0623\u062a\u0645\u0645 \u0627\u0644\u0637\u0631\u0641 \u0627\u0644\u062b\u0627\u0646\u064a",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "\u0645\u0639\u0627\u062f\u0644\u0629 \u063a\u064a\u0631 \u0645\u0642\u0628\u0648\u0644",
     "InvalidFunction": "\u062f\u0627\u0644\u0629 \u063a\u064a\u0631 \u0645\u0642\u0628\u0648\u0644\u0629",

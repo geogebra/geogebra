@@ -1165,7 +1165,7 @@ __GGB__keysVar["bs"].error = {
     "IllegalMultiplication": "Nedozvoljeno mno\u017eenje",
     "IllegalSubtraction": "Nedozvoljeno oduzimanje",
     "IncompleteEquation": "Nepotpuna jedna\u010dina/jednad\u017eba:\nMolimo upi\u0161ite obje strane jedna\u010dine/jednad\u017ebe.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Pogre\u0161an unos:\nMolimo upi\u0161ite polinomnu jedna\u010dinu/jednad\u017ebu s x i y .",
     "InvalidFunction": "Pogre\u0161an unos:\n\nMolimo upi\u0161ite eksplicitno zadanu funkciju po x.",

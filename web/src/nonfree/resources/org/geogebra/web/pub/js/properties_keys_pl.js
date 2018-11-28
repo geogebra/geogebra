@@ -1165,7 +1165,7 @@ __GGB__keysVar["pl"].error = {
     "IllegalMultiplication": "Nieprawid\u0142owe mno\u017cenie",
     "IllegalSubtraction": "Nieprawid\u0142owe odejmowanie",
     "IncompleteEquation": "R\xf3wnanie niekompletne:\nWprowad\u017a obie strony r\xf3wnania",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "R\xf3wnanie b\u0142\u0119dne:\nWprowad\u017a r\xf3wnanie liniowe lub kwadratowe z u\u017cyciem x i y",
     "InvalidFunction": "Nieprawid\u0142owa funkcja:\nWprowad\u017a fukcj\u0119 zmiennej x.",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["xh"].error = {
     "IllegalMultiplication": "Uphindaphindo olungekho mthethweni",
     "IllegalSubtraction": "Uthabatho olungekho mthethweni",
     "IncompleteEquation": "Iikhweyjini engaphelelanga:\nNceda ufakele omabini amacala eikhweyjini.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Iikhweyjini eNgekhoMthethweni:\nNceda ufakele iikhweyjini eyipholinomiyali eno x no y",
     "InvalidFunction": "Ifankshini engalunganga:\nNceda ufake ifankshini ecacileyo eno x",

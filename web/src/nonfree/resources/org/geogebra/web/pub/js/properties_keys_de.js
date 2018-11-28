@@ -1165,7 +1165,7 @@ __GGB__keysVar["de"].error = {
     "IllegalMultiplication": "Unzul\xe4ssige Multiplikation",
     "IllegalSubtraction": "Unzul\xe4ssige Subtraktion",
     "IncompleteEquation": "Unvollst\xe4ndige Gleichung:\nBitte geben Sie beide Seiten der Gleichung an.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ung\xfcltige Gleichung: \nBitte geben Sie eine lineare oder quadratische Gleichungen in x und y ein.",
     "InvalidFunction": "Ung\xfcltige Funktion:\nBitte geben Sie eine explizite Funktion in x ein.",

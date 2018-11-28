@@ -1165,7 +1165,7 @@ __GGB__keysVar["ca-XV"].error = {
     "IllegalMultiplication": "Multiplicaci\xf3 il\xb7legal",
     "IllegalSubtraction": "La subtracci\xf3 \xe9s incorrecta",
     "IncompleteEquation": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu el segon membre",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu una equaci\xf3 lineal o quadr\xe0tica",
     "InvalidFunction": "L'equaci\xf3 \xe9s il\xb7legal:\nIntrodu\xefu una funci\xf3 expl\xedcita en x",

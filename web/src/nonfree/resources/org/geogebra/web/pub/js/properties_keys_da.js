@@ -1165,7 +1165,7 @@ __GGB__keysVar["da"].error = {
     "IllegalMultiplication": "Ulovlig multiplikation",
     "IllegalSubtraction": "Ulovlig subtraktion",
     "IncompleteEquation": "Ufuldst\xe6ndig ligning:\nIndtast den anden side",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ufuldst\xe6ndig ligning:\nSkriv en line\xe6r eller kvadratisk ligning i x og y",
     "InvalidFunction": "Ugyldig funktion:\nSkriv en funktion i x",

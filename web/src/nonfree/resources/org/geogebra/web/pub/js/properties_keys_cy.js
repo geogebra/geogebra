@@ -1165,7 +1165,7 @@ __GGB__keysVar["cy"].error = {
     "IllegalMultiplication": "Lluosiad anghyfreithlon",
     "IllegalSubtraction": "Tyniad anghyfreithlon",
     "IncompleteEquation": "Hafaliad anghyflawn:\nRhowch ddwy ochr i'r hafaliad.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Hafaliad annilys:\nRhowch hafaliad llinol neu hafaliad cwadratig yn x ac y.",
     "InvalidFunction": "Ffwythiant annilys:\nRhowch ffwythiant echblyg yn x.",

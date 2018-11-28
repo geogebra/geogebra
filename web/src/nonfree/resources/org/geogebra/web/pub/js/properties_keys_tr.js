@@ -1165,7 +1165,7 @@ __GGB__keysVar["tr"].error = {
     "IllegalMultiplication": "Ge\xe7ersiz \xe7arp\u0131m",
     "IllegalSubtraction": "Ge\xe7ersiz \xe7\u0131karma",
     "IncompleteEquation": "Eksik denklem:\nL\xfctfen ikinci k\u0131sm\u0131 giriniz",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ge\xe7ersiz denklem:\nL\xfctfen x ve y cinsinden bir polinom denklem giriniz",
     "InvalidFunction": "Ge\xe7ersiz i\u015flev:\nL\xfctfen x cinsinden a\xe7\u0131k bir i\u015flev giriniz",

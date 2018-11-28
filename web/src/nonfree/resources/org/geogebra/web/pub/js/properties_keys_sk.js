@@ -1165,7 +1165,7 @@ __GGB__keysVar["sk"].error = {
     "IllegalMultiplication": "Nepr\xedstupn\xe9 n\xe1sobenie",
     "IllegalSubtraction": "Nepr\xedstupn\xe9 od\u010d\xedtanie",
     "IncompleteEquation": "Ne\xfapln\xe1 rovnica:\nZadajte, pros\xedm, obe strany rovnice",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Neplatn\xe1 rovnica:\nZadajte, pros\xedm, racion\xe1lnu rovnicu pomocou x a y",
     "InvalidFunction": "Neplatn\xe1 funkcia:\nZadajte, pros\xedm, explicitn\xfa funkciu premennej x",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["kn"].error = {
     "IllegalMultiplication": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0c97\u0cc1\u0ca3\u0cbe\u0c95\u0cbe\u0cb0",
     "IllegalSubtraction": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0cb5\u0ccd\u0caf\u0cb5\u0c95\u0cb2\u0ca8",
     "IncompleteEquation": "\u0c85\u0caa\u0cc2\u0cb0\u0ccd\u0ca3 \u0cb8\u0cae\u0cc0\u0c95\u0cb0\u0ca3:\n\u0ca6\u0caf \u0cae\u0cbe\u0ca1\u0cbf \u0cb8\u0cae\u0cc0\u0c95\u0cb0\u0ca3\u0ca6 \u0c8e\u0cb0\u0ca1\u0cc2 \u0cac\u0ca6\u0cbf\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca6\u0cbe\u0c96\u0cb2\u0cbf\u0cb8\u0cbf",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["pt"].error = {
     "IllegalMultiplication": "Multiplica\xe7\xe3o inv\xe1lida",
     "IllegalSubtraction": "Subtra\xe7\xe3o inv\xe1lida",
     "IncompleteEquation": "Equa\xe7\xe3o incompleta:\npor favor, especifique os dois lados da equa\xe7\xe3o.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Equa\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o polinomial em x e y.",
     "InvalidFunction": "Fun\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o expl\xedcita em x.",

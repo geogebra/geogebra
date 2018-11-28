@@ -1165,7 +1165,7 @@ __GGB__keysVar["et"].error = {
     "IllegalMultiplication": "Sobimatu korrutamine",
     "IllegalSubtraction": "Sobimatu lahutamine",
     "IncompleteEquation": "Poolik v\xf5rrand:\nPalun sisestage v\xf5rrandi m\xf5lemad pooled.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Sobimatu v\xf5rrand:\nPalun sisestage pol\xfcnoom x ja y kaudu.",
     "InvalidFunction": "Sobimatu funktsioon:\nPalun sisestage x-i suhtes ilmutatud funktsioon.",

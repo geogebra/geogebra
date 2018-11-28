@@ -1165,7 +1165,7 @@ __GGB__keysVar["lt"].error = {
     "IllegalMultiplication": "Neleistina daugyba",
     "IllegalSubtraction": "Neleistina atimtis",
     "IncompleteEquation": "Nepilna lygtis:\n\u012eveskite abi lygties puses.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Neleistina lygtis:\n\u012eveskite tiesin\u0119 ar kvadratin\u0119 lygt\u012f su x bei y.",
     "InvalidFunction": "Neteisinga funkcija:\n\u012eveskite tiksli\u0105 funkcij\u0105 priklausan\u010di\u0105 nuo x.",

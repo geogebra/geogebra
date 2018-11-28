@@ -1165,7 +1165,7 @@ __GGB__keysVar["vi"].error = {
     "IllegalMultiplication": "Ph\xe9p nh\xe2n kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalSubtraction": "Ph\xe9p tr\u1eeb kh\xf4ng h\u1ee3p l\u1ec7",
     "IncompleteEquation": "Kh\xf4ng hi\u1ec3n th\u1ecb \u0111\u1ee7 ph\u01b0\u01a1ng tr\xecnh: Vui l\xf2ng nh\u1ea5n ENTER \u0111\u1ec3 xem ti\u1ebfp ph\xeda sau",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ph\u01b0\u01a1ng tr\xecnh kh\xf4ng h\u1ee3p l\u1ec7: Vui l\xf2ng nh\u1eadp v\xe0o ph\u01b0\u01a1ng tr\xecnh tuy\u1ebfn t\xednh ho\u1eb7c ph\u01b0\u01a1ng tr\xecnh b\u1eadc hai theo ' x ' v\xe0 ' y '",
     "InvalidFunction": "H\xe0m s\u1ed1 kh\xf4ng h\u1ee3p l\u1ec7: Vui l\xf2ng nh\u1eadp v\xe0o h\xe0m s\u1ed1 theo x",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["ca"].error = {
     "IllegalMultiplication": "Multiplicaci\xf3 il\xb7legal",
     "IllegalSubtraction": "Substracci\xf3 il\xb7legal",
     "IncompleteEquation": "Equaci\xf3 il\xb7legal:\nEntreu el segon membre",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Equaci\xf3 il\xb7legal:\nEntreu una equaci\xf3 lineal o quadr\xe0tica",
     "InvalidFunction": "Equaci\xf3 il\xb7legal:\nEntreu una funci\xf3 expl\xedcita en x",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["zh-TW"].error = {
     "IllegalMultiplication": "\u4e0d\u7576\u7684\u4e58\u6cd5\u904b\u7b97",
     "IllegalSubtraction": "\u4e0d\u7576\u7684\u6e1b\u6cd5\u904b\u7b97",
     "IncompleteEquation": "\u4e0d\u5b8c\u6574\u7684\u65b9\u7a0b\u5f0f\uff1a\n\u8acb\u8f38\u5165\u7b49\u865f '=' \u7684\u53e6\u4e00\u908a\u3002",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "\u4e0d\u6b63\u78ba\u7684\u65b9\u7a0b\u5f0f\uff1a\n\u8acb\u8f38\u5165x \u3001y \u7684\u591a\u9805\u5f0f\u65b9\u7a0b\u5f0f\u3002",
     "InvalidFunction": "\u4e0d\u6b63\u78ba\u7684\u51fd\u6578\uff1a\n\u8acb\u8f38\u5165\u4ee5 x \u70ba\u81ea\u8b8a\u6578\u7684\u51fd\u6578",

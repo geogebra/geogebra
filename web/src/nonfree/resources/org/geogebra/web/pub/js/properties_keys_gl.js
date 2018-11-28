@@ -1165,7 +1165,7 @@ __GGB__keysVar["gl"].error = {
     "IllegalMultiplication": "Multiplicaci\xf3n non admisible",
     "IllegalSubtraction": "Substracci\xf3n non admisible",
     "IncompleteEquation": "Ecuaci\xf3n incompleta:\nPor favor, introduza ambos termos da ecuaci\xf3n",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ecuaci\xf3n non v\xe1lida:\nPor favor, introduza unha ecuaci\xf3n polinomial en x e y.",
     "InvalidFunction": "Funci\xf3n non v\xe1lida:\nPor favor, introduza unha funci\xf3n expl\xedcita en x",

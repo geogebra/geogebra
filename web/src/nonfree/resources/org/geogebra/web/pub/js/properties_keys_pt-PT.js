@@ -1165,7 +1165,7 @@ __GGB__keysVar["pt-PT"].error = {
     "IllegalMultiplication": "Multiplica\xe7\xe3o inv\xe1lida",
     "IllegalSubtraction": "Subtra\xe7\xe3o inv\xe1lida.",
     "IncompleteEquation": "Equa\xe7\xe3o incompleta:\nPor favor, especifique os dois membros da equa\xe7\xe3o",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Equa\xe7\xe3o inv\xe1lida:\nPor favor, especifique uma fun\xe7\xe3o afim ou quadr\xe1tica em x e y",
     "InvalidFunction": "Fun\xe7\xe3o inv\xe1lida:\nPor favor, especifique uma fun\xe7\xe3o expl\xedcita em x.",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["cs"].error = {
     "IllegalMultiplication": "Nep\u0159\xedpustn\xe9 n\xe1soben\xed",
     "IllegalSubtraction": "Nep\u0159\xedpustn\xe9 d\u011blen\xed",
     "IncompleteEquation": "Ne\xfapln\xe1 rovnice:\nZadejte pros\xedm druhou stranu.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Neplatn\xe1 rovnice:\nZadejte pros\xedm line\xe1rn\xed nebo kvadratickou rovnici pomoc\xed x a y.",
     "InvalidFunction": "Neplatn\xe1 funkce:\nZadejte pros\xedm explicitn\xed funkci prom\u011bnn\xe9 x.",

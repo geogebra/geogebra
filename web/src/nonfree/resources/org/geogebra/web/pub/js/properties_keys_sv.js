@@ -1165,7 +1165,7 @@ __GGB__keysVar["sv"].error = {
     "IllegalMultiplication": "Otill\xe5ten multiplikation",
     "IllegalSubtraction": "Otill\xe5ten subtraktion",
     "IncompleteEquation": "Ekvationen \xe4r inte fullst\xe4ndig:\nVar god och ange b\xe5da sidorna av ekvationen",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ogiltig ekvation:\nVar god och ange en linj\xe4r eller kvadratisk ekvation i x och y",
     "InvalidFunction": "Ogiltig funktion:\nVar god och ange en explicit funktion av x",

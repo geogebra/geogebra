@@ -1165,7 +1165,7 @@ __GGB__keysVar["sq"].error = {
     "IllegalMultiplication": "Shumezim i paligjshem",
     "IllegalSubtraction": "Zbritje e paligjshme",
     "IncompleteEquation": "Ekuacion jo i plote: Ju lutem, shto ne te dy anet e ekuacionit",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ekuacion i pavlefshem:\nJu lutem, futni ekuacion linear ose kuadratik lidhur me x dhe y.",
     "InvalidFunction": "Funksion i pavlefshem:\nJu lutem, futni nje funksion eksplicit lidhur me x.",

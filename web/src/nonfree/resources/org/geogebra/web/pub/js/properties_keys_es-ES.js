@@ -1165,7 +1165,7 @@ __GGB__keysVar["es-ES"].error = {
     "IllegalMultiplication": "Multiplicaci\xf3n ilegal.",
     "IllegalSubtraction": "Resta ilegal.",
     "IncompleteEquation": "Ecuaci\xf3n incompleta:\npor favor, escribe los dos miembros de la ecuaci\xf3n.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ecuaci\xf3n no v\xe1lida:\npor favor, escribe una ecuaci\xf3n lineal o cuadr\xe1tica en x e y.",
     "InvalidFunction": "Funci\xf3n no v\xe1lida:\nPor favor, escribe una funci\xf3n expl\xedcita en x.",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["nn"].error = {
     "IllegalMultiplication": "Ulovleg multiplikasjon.",
     "IllegalSubtraction": "Ulovleg subtraksjon.",
     "IncompleteEquation": "Ufullstendig likning:\nTast inn begge sider av likninga.",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Ufullstendig likning:\nSkriv ei polynomlikning med x og y.",
     "InvalidFunction": "Ugyldig funksjon:\nSkriv ein eksplisitt funksjon med x.",

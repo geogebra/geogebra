@@ -1510,7 +1510,7 @@ __GGB__keysVar["hr"].menu = {
     "ConstructionProtocolNavigation": "Traka za korake konstrukcije",
     "Continuity": "Neprekidnost",
     "Continuous": "Neprekidno",
-    "Coordinates": "Koordinate",
+    "Coordinates": "Koordinatni sustav",
     "Copy": "Kopiraj",
     "CopyAsImage": "Kopiraj kao sliku",
     "CopyAsLaTeX": "Kopiraj kao LaTeX",

@@ -1165,7 +1165,7 @@ __GGB__keysVar["fil"].error = {
     "IllegalMultiplication": "Ilegal na multiplication",
     "IllegalSubtraction": "Ilegal na subtraction",
     "IncompleteEquation": "Hindi kumpletong equation:\nPaki-enter ang parehong sides ng equation",
-    "InputError.Enter_a_number": "Enter a number",
+    "InputError.Enter_a_number": "Enter a number.",
     "InputError.Enter_a_number_greater_than_0": "Enter a number greater than 0.",
     "InvalidEquation": "Maling equation:\nPaki-enter ang polynomial equation sa x at y",
     "InvalidFunction": "Maling function:\nPaki-enter ang explicit function sa x",
