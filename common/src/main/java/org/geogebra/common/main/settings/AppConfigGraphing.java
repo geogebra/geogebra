@@ -4,6 +4,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -159,5 +160,10 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean hasTableView(App app) {
 		return app.has(Feature.TABLE_VIEW);
+	}
+
+	@Override
+	public SymbolicMode getSymbolicMode() {
+		return SymbolicMode.NONE;
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 
 public interface AppConfig {
 
@@ -106,5 +107,7 @@ public interface AppConfig {
 	 * @return whether table view is available
 	 */
 	boolean hasTableView(App app);
+
+	SymbolicMode getSymbolicMode();
 
 }

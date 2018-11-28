@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 
 /**
  * Config for Classic and derived apps (MR)
@@ -158,5 +159,10 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public boolean hasTableView(App app) {
 		return false;
+	}
+
+	@Override
+	public SymbolicMode getSymbolicMode() {
+		return SymbolicMode.NONE;
 	}
 }
