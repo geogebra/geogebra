@@ -56,6 +56,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -82,6 +83,8 @@ public class RadioTreeItemController implements ClickHandler,
 	private long latestTouchEndTime = 0;
 	private int editHeigth;
 	private boolean inputAsText = false;
+	/** whether blur listener is disabled */
+	protected boolean preventBlur = false;
 
 	/**
 	 * Creates controller for given item.
@@ -248,6 +251,7 @@ public class RadioTreeItemController implements ClickHandler,
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		event.stopPropagation();
+		preventBlur();
 		if (item.isInputTreeItem()) {
 			showKeyboard();
 			setFocusDeferred();
@@ -296,6 +300,21 @@ public class RadioTreeItemController implements ClickHandler,
 				setFocus(true);
 			}
 		});
+	}
+
+	/**
+	 * Prevent blur in the next 200ms
+	 */
+	public void preventBlur() {
+		this.preventBlur = true;
+		Timer t = new Timer() {
+
+			@Override
+			public void run() {
+				preventBlur = false;
+			}
+		};
+		t.schedule(200);
 	}
 
 	@Override

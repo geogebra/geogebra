@@ -15,7 +15,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.Timer;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
@@ -30,8 +29,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	private InputSuggestions sug;
 	private RetexKeyboardListener retexListener;
-	/** whether blur listener is disabled */
-	boolean preventBlur = false;
 
 	/**
 	 * @param item
@@ -309,21 +306,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 			sug = new InputSuggestions(app, item);
 		}
 		return sug;
-	}
-
-	/**
-	 * Prevent blur in the next 200ms
-	 */
-	public void preventBlur() {
-		this.preventBlur = true;
-		Timer t = new Timer() {
-
-			@Override
-			public void run() {
-				preventBlur = false;
-			}
-		};
-		t.schedule(200);
 	}
 
 	@Override

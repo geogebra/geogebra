@@ -2099,7 +2099,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	public void preventBlur() {
-		((LatexTreeItemController) getController()).preventBlur();
+		getController().preventBlur();
 	}
 
 	/**
