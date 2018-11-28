@@ -105,38 +105,4 @@ public final class LongTouchManager {
 		timer.rescheduleIfRunning(handler, x, y, shouldCancel);
 	}
 
-	/**
-	 * Reschedules the timer if it is running, with {@code delayMillis} delay
-	 * value.
-	 * 
-	 * @param handler
-	 *            long touch event handler
-	 * @param x
-	 *            the x-coordinate of the touch
-	 * @param y
-	 *            the y-coordinate of the touch
-	 * @param delayMillis
-	 *            delay value
-	 * @param shouldCancel
-	 *            if true, the timer will be cancelled if the mouse moved too
-	 *            much
-	 */
-	public void rescheduleTimerIfRunning(LongTouchHandler handler, int x,
-	        int y, int delayMillis, boolean shouldCancel) {
-		if (timer == null) {
-			return;
-		}
-		timer.rescheduleIfRunning(handler, x, y, delayMillis, shouldCancel);
-	}
-	
-	/**
-	 * 
-	 * @return if long touch is just happened.
-	 */
-	public boolean isLongTouchHappened() {
-		if (timer == null) {
-			return false;
-		}
-		return timer.isLongTouchHappened();
-	}
 }

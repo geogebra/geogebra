@@ -265,10 +265,6 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 
-		if (isLongTouchHappened()) {
-			return;
-		}
-
 		if (editOnTap(active, wrappedEvent)) {
 			onPointerUp(wrappedEvent);
 			CancelEventTimer.touchEventOccured();
@@ -668,10 +664,6 @@ public class RadioTreeItemController implements ClickHandler,
 
 	public boolean hasMultiGeosSelected() {
 		return selectionCtrl.hasMultGeos();
-	}
-
-	public boolean isLongTouchHappened() {
-		return getLongTouchManager().isLongTouchHappened();
 	}
 
 	/**
