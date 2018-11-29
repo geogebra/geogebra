@@ -110,10 +110,4 @@ public interface AppConfig {
 
 	SymbolicMode getSymbolicMode();
 
-    /**
-     *
-     * @return true if algebra view is visible when starting (by default)
-     */
-	boolean isAlgebraViewVisibleAtStart();
-
 }

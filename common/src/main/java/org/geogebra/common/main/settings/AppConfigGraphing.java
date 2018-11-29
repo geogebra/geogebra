@@ -167,8 +167,4 @@ public class AppConfigGraphing implements AppConfig {
 		return SymbolicMode.NONE;
 	}
 
-    @Override
-    public boolean isAlgebraViewVisibleAtStart() {
-        return true;
-    }
 }

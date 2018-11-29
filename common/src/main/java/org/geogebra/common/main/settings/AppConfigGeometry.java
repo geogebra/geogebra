@@ -171,9 +171,4 @@ public class AppConfigGeometry implements AppConfig {
 		return SymbolicMode.NONE;
 	}
 
-    @Override
-    public boolean isAlgebraViewVisibleAtStart() {
-        return false;
-    }
-
 }
