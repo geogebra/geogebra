@@ -373,7 +373,7 @@ $duration: 0.2s;
    			}
    		}
    	
-   		.AutoCompleteTextFieldW {
+   		:not(.textField)>.AutoCompleteTextFieldW {
    			margin-right: 16px;	
    			margin-bottom: 10px;
    			border-radius: 0px;
@@ -570,23 +570,27 @@ $duration: 0.2s;
    			}		
    		}
    	
-   		.DialogButtonPanel {
-   			padding-top: 8px !important;
-   			
-   			.button {
-   				color: $mebis-teal-dark;	
-   			}
-   			
-   			.button-up-disabled {
-   				opacity: 1;
-   				color: $mebis-teal-dark-26;
-   				
-   				&:hover {
-   					background: none !important;	
-   				}
-   			}
-   		}
-   	}
+		.DialogButtonPanel {
+			padding-top: 8px !important;
+			
+			.button-up-disabled {
+				opacity: 1;
+				&:hover {
+					background: none !important;	
+				}
+			}
+		}
+
+		&.mebis .DialogButtonPanel {
+			.button {
+				color: $mebis-teal-dark;	
+			}
+			
+			.button-up-disabled {
+				color: $mebis-teal-dark-26;
+			}
+		}
+	}
    
    
    .exportImgDialog {

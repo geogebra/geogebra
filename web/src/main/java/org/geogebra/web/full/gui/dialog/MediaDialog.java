@@ -86,6 +86,7 @@ public abstract class MediaDialog extends OptionDialog
 		addStyleName("mediaDialog");
 		setGlassEnabled(true);
 		setLabels();
+		addStyleName("mebis");
 	}
 
 	private void initActions() {

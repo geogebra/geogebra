@@ -35,6 +35,7 @@ public class RemoveDialog extends OptionDialog {
 		setPrimaryButtonEnabled(true);
 		this.card = card;
 		setLabels();
+		addStyleName("mebis");
 	}
 
 	private void setLabels() {

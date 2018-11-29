@@ -4,17 +4,13 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
@@ -23,14 +19,11 @@ import com.google.gwt.user.client.ui.Widget;
  *         on Table of values
  *
  */
-public class InputDialogTableView extends DialogBoxW
-		implements SetLabels, FastClickHandler {
+public class InputDialogTableView extends OptionDialog
+		implements SetLabels {
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
-	private FlowPanel buttonPanel;
-	private StandardButton cancelBtn;
-	private StandardButton okBtn;
 	private GeoElement geo;
 
 	/**
@@ -48,6 +41,7 @@ public class InputDialogTableView extends DialogBoxW
 						.setFocus(true);
 			}
 		});
+		setPrimaryButtonEnabled(true);
 	}
 
 	/**
@@ -80,21 +74,7 @@ public class InputDialogTableView extends DialogBoxW
 	}
 
 	private void buildButtonPanel(FlowPanel root) {
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		cancelBtn = createTxtButton(buttonPanel, "cancelBtn", true);
-		okBtn = createTxtButton(buttonPanel, "okBtn", true);
-		root.add(buttonPanel);
-	}
-
-	private StandardButton createTxtButton(FlowPanel root, String styleName,
-			boolean isEnabled) {
-		StandardButton btn = new StandardButton("", app);
-		btn.addStyleName(styleName);
-		btn.setEnabled(isEnabled);
-		btn.addFastClickHandler(this);
-		root.add(btn);
-		return btn;
+		root.add(getButtonPanel());
 	}
 
 	@Override
@@ -103,8 +83,7 @@ public class InputDialogTableView extends DialogBoxW
 		startValue.setLabels();
 		endValue.setLabels();
 		step.setLabels();
-		cancelBtn.setText(app.getLocalization().getMenu("Cancel"));
-		okBtn.setText(app.getLocalization().getMenu("OK"));
+		updateButtonLabels("OK");
 	}
 
 	@Override
@@ -136,7 +115,6 @@ public class InputDialogTableView extends DialogBoxW
 			return;
 		}
 		try {
-
 			double end = Double.parseDouble(endValue.getInputText());
 			double stepVal = Double.parseDouble(step.getInputText());
 			((GuiManagerInterfaceW) app.getGuiManager()).initTableValuesView(start, end, stepVal,
@@ -151,11 +129,7 @@ public class InputDialogTableView extends DialogBoxW
 	}
 
 	@Override
-	public void onClick(Widget source) {
-		if (source == cancelBtn) {
-			hide();
-		} else if (source == okBtn) {
-			openTableView();
-		}
+	protected void processInput() {
+		openTableView();
 	}
 }

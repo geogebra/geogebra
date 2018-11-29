@@ -23,7 +23,7 @@
 			transition: background 0.3s ease;
 			vertical-align: middle;
 		}
-				
+
 		.thumb {
 			width: 20px;
 			height: 20px;
@@ -32,8 +32,8 @@
 			border-radius: 50%;
 			display: block;
 			transition: left 0.3s ease, background 0.3s ease;
-		}	
-				
+		}
+
 		&.on {
 			.track {
 				background-color: #9ADAEC;
@@ -60,14 +60,21 @@
 		margin-top: 6px;
 		margin-bottom: 8px;
 		display: inline-block;
+		min-height: 76px;
 		
 		.inputLabel {
 			font-size: 75%;
 			color: $text-secondary;
 		}
 
-		.inputLabel.error{
-			color: $red;
+		&.error {
+			.inputLabel {
+				color: $error;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom-color: $error;
+			}
 		}
 	
 		.textField {
@@ -76,10 +83,10 @@
 	
 		.AutoCompleteTextFieldW {
 			margin-right: 16px;
-			margin-bottom: 0px !important;
+			margin-bottom: 7px; // 8 - border
 			border-radius: 0px;
 			border: none;
-			border-bottom: 1px solid $black-42 !important;
+			border-bottom: 1px solid $black-42;
 			
 			input[type="text"] {
 				border: none !important;
@@ -91,33 +98,35 @@
 		}
 		
 		.errorLabel {
-			color: $red;
+			color: $error;
 			font-size: 75%;
-			position: absolute;
-			bottom: -16px;
 		}
-	
-		&.focusState, &.focusState:hover {
-			margin-bottom: 7px;
+
+		&.focusState {
+			.AutoCompleteTextFieldW {
+				margin-bottom: 6px; // 8 - border
+				border-bottom-width: 2px;
+			}
+		}
+
+		&.focusState:not(.error), &.focusState:not(.error):hover {
 			
-			.inputLabel:not(.error) {
+			.inputLabel {
 				color: $teal-default;
 			}
-		
 			.AutoCompleteTextFieldW {
-				border-bottom: 2px solid $teal-default !important;
+				border-bottom-color: $teal-default;
 			}
 		}
 	
-		&.hoverState {	
-			margin-bottom: 7px;
+		&.hoverState:not(.error) {
 
-			.inputLabel:not(.error) {
+			.inputLabel {
 				color: $black-87;
 			}
 
 			.AutoCompleteTextFieldW {
-				border-bottom: 2px solid $black-87 !important;
+				border-bottom: 2px solid $black-87;
 			}
 		} 	
 	}

@@ -77,6 +77,7 @@ public class MaterialRenameDialog extends OptionDialog {
 		setLabels();
 		inputField.getTextComponent().setText(card.getMaterialTitle());
 		initInputFieldActions();
+		addStyleName("mebis");
 	}
 
 	/**

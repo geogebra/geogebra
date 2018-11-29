@@ -152,7 +152,6 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 	 * sets the style of InputPanel to focus state
 	 */
 	protected void setFocusState() {
-		contentPanel.setStyleName("inputTextField");
 		contentPanel.addStyleName("focusState");
 	}
 
@@ -206,7 +205,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 	public void setError(String message) {
 		this.errorTextKey = message;
 		addErrorLabel(contentPanel);
-		Dom.toggleClass(labelText, "error", !StringUtil.empty(message));
+		Dom.toggleClass(this.contentPanel, "error", !StringUtil.empty(message));
 	}
 
 }
