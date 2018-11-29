@@ -157,20 +157,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void initInfoBtnAction();
 
 	/**
-	 * Initializes Table View
-	 * 
-	 * @param min
-	 *            min x-value.
-	 * @param max
-	 *            max x-value.
-	 * @param step
-	 *            x step value.
-	 * @param geo
-	 *            first geo to add.
-	 */
-	void initTableValuesView(double min, double max, double step, GeoElement geo);
-
-	/**
 	 * Show table view with new column
 	 * If table was empty before, min/max/step
 	 * dialog shows up.

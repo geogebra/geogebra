@@ -144,7 +144,6 @@ public class InputDialogW extends InputDialog
 				selectInitText, false, false, type);
 
 		centerAndFocus(selectInitText);
-
 	}
 
 	/**

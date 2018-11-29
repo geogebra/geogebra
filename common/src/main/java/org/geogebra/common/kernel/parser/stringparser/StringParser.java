@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 
 public class StringParser {
 
-    private Localization localization;
+	protected Localization localization;
     private AlgebraProcessor algebraProcessor;
 
     public StringParser(App app) {
@@ -44,6 +44,21 @@ public class StringParser {
 			@Override
 			public double parse(String string) {
 				return convertToPositiveDouble(string);
+			}
+		};
+	}
+
+	public static StringParser minValueConverter(App app, final Number min) {
+		return new StringParser(app) {
+
+			@Override
+			public double parse(String string) {
+				double ret = convertToDouble(string);
+				if (ret < min.doubleValue()) {
+					throw new NumberFormatException(this.localization.getError(
+							"InputError.EndValueLessThanStartValue"));
+				}
+				return ret;
 			}
 		};
 	}

@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.shared.DialogBoxW;
@@ -26,6 +27,20 @@ public abstract class OptionDialog extends DialogBoxW
 	 */
 	public OptionDialog(Panel root, App app) {
 		super(root, app);
+		initButtonPanel();
+		addStyleName("optionDialog");
+	}
+
+	/**
+	 * @param root
+	 *            panel for positioning
+	 * @param app
+	 *            application
+	 * @param modal
+	 *            whether the dialog is modal
+	 */
+	public OptionDialog(Panel root, App app, boolean modal) {
+		super(false, modal, null, root, app, app.has(Feature.DIALOG_DESIGN));
 		initButtonPanel();
 		addStyleName("optionDialog");
 	}

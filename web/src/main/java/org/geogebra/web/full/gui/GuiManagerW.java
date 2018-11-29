@@ -21,7 +21,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
-import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
@@ -113,7 +112,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -2481,23 +2479,11 @@ public class GuiManagerW extends GuiManager
 		mainMenuBar = ggwMenuBar;
 	}
 
-	@Override
-	public void initTableValuesView(double min, double max, double step, GeoElement geo) {
-		try {
-			getTableValuesView().setValues(min, max, step);
-			if (geo != null) {
-				addGeoToTableValuesView(geo);
-				app.getKernel().attach(getTableValuesView());
-			} else {
-				getUnbundledToolbar().resize();
-			}
-		} catch (InvalidValuesException exception) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(
-					exception.getLocalizedMessage(app.getLocalization()), true, (AppW) app);
-		}
-	}
-
-	private void addGeoToTableValuesView(GeoElement geo) {
+	/**
+	 * @param geo
+	 *            function/lie to be added
+	 */
+	public void addGeoToTableValuesView(GeoElement geo) {
 		getTableValuesView().add(geo);
 		getTableValuesView().showColumn((GeoEvaluatable) geo);
 		getUnbundledToolbar().openTableView(true);

@@ -1,17 +1,18 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.stringparser.StringParser;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author csilla
@@ -27,13 +28,16 @@ public class InputDialogTableView extends OptionDialog
 	private ComponentInputField step;
 	private GeoElement geo;
 	private boolean hasErrors = false;
+	private Label errorLabel;
 
 	/**
+	 * Create new dialog. NOT modal to make sure onscreen keyboard still works.
+	 * 
 	 * @param app
 	 *            see {@link AppW}
 	 */
 	public InputDialogTableView(AppW app) {
-		super(app.getPanel(), app);
+		super(app.getPanel(), app, false);
 		buildGui();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -56,7 +60,9 @@ public class InputDialogTableView extends OptionDialog
 	private void buildGui() {
 		addStyleName("tableOfValuesDialog");
 		FlowPanel contentPanel = new FlowPanel();
+		errorLabel = new Label();
 		buildTextFieldPanel(contentPanel);
+		contentPanel.add(errorLabel);
 		buildButtonPanel(contentPanel);
 		add(contentPanel);
 		setLabels();
@@ -110,27 +116,27 @@ public class InputDialogTableView extends OptionDialog
 
 	private void openTableView() {
 		hasErrors = false;
-		double start = validate(startValue, new StringParser(app));
-		double end = validate(endValue, new StringParser(app));
+		// -inf to make sure the min/max comparison works for max field
+		double start = validate(startValue, new StringParser(app),
+				Double.NEGATIVE_INFINITY);
+		double end = validate(endValue,
+				StringParser.minValueConverter(app, start), 0);
 		double stepVal = validate(step,
-				StringParser.positiveDoubleConverter(app));
+				StringParser.positiveDoubleConverter(app), 0);
 		if (!hasErrors) {
 			try {
-				((GuiManagerInterfaceW) app.getGuiManager())
-						.initTableValuesView(start, end, stepVal, geo);
-			} catch (Exception e) {
-				ToolTipManagerW.sharedInstance().showBottomMessage(
-						app.getLocalization().getError("InvalidInput"), true,
-						(AppW) app);
-			} finally {
+				initTableValuesView(start, end, stepVal);
 				hide();
+			} catch (InvalidValuesException ex) {
+				errorLabel
+						.setText(ex.getLocalizedMessage(app.getLocalization()));
 			}
 		}
 	}
 
 	private double validate(ComponentInputField startValue2,
-			StringParser stringParser) {
-		double start = 0;
+			StringParser stringParser, double fallback) {
+		double start = fallback;
 		try {
 			start = stringParser.parse(startValue2.getInputText());
 			startValue2.setError(null);
@@ -145,5 +151,29 @@ public class InputDialogTableView extends OptionDialog
 	@Override
 	protected void processInput() {
 		openTableView();
+	}
+
+	/**
+	 * Initializes Table View
+	 * 
+	 * @param min
+	 *            min x-value.
+	 * @param max
+	 *            max x-value.
+	 * @param stepVal
+	 *            x step value.
+	 * @throws InvalidValuesException
+	 *             if (max-min)/step is too big
+	 */
+	private void initTableValuesView(double min, double max, double stepVal)
+			throws InvalidValuesException {
+		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
+		gui.getTableValuesView().setValues(min, max, stepVal);
+		if (geo != null) {
+			gui.addGeoToTableValuesView(geo);
+			app.getKernel().attach(gui.getTableValuesView());
+		} else {
+			gui.getUnbundledToolbar().resize();
+		}
 	}
 }
