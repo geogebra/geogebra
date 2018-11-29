@@ -11757,6 +11757,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.rememberOrigins();
 
+		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+			return;
+		}
+
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
 			multitouchMode = ScaleMode.zoomY;
 			setOldDistance(y1 - y2);
@@ -11876,6 +11880,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if ((x1 == x2 && y1 == y2) || this.getOldDistance() == 0) {
+			return;
+		}
+
+		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
 			return;
 		}
 
