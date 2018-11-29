@@ -61,6 +61,7 @@ public class InputDialogTableView extends OptionDialog
 		addStyleName("tableOfValuesDialog");
 		FlowPanel contentPanel = new FlowPanel();
 		errorLabel = new Label();
+		errorLabel.setStyleName("globalErrorLabel");
 		buildTextFieldPanel(contentPanel);
 		contentPanel.add(errorLabel);
 		buildButtonPanel(contentPanel);
@@ -131,6 +132,8 @@ public class InputDialogTableView extends OptionDialog
 				errorLabel
 						.setText(ex.getLocalizedMessage(app.getLocalization()));
 			}
+		} else {
+			errorLabel.setText("");
 		}
 	}
 

@@ -149,7 +149,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 
 		if (Math.abs(max - min) / step > MAX_ROWS) {
-			throw new InvalidValuesException("TableValuesRowLimit");
+			throw new InvalidValuesException("TooManyRows");
 		}
 	}
 

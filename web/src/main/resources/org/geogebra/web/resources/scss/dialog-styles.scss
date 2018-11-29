@@ -590,9 +590,16 @@ $duration: 0.2s;
 				color: $mebis-teal-dark-26;
 			}
 		}
+
+		.globalErrorLabel {
+			color: $error;
+			max-width: (20em/0.75);
+			font-size: 75%;
+			line-height: 18px;
+			min-height: 36px;
+		}
 	}
-   
-   
+
    .exportImgDialog {
    		.expImgContent {
    			margin-right: 16px;	
