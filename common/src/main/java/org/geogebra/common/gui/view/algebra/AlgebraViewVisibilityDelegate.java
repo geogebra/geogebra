@@ -21,15 +21,16 @@ public class AlgebraViewVisibilityDelegate {
      * constructor
      */
     public AlgebraViewVisibilityDelegate(App app) {
-        this();
+        this(app.getConfig().isAlgebraViewVisibleAtStart());
     }
 
     /**
      * constructor
      */
-    public AlgebraViewVisibilityDelegate() {
+    private AlgebraViewVisibilityDelegate(boolean isViewVisibleAtStart) {
         geosToAdd = new TreeSet<>();
         geosToRemove = new TreeSet<>();
+        isViewVisible = isViewVisibleAtStart;
     }
 
 	/**

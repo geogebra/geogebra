@@ -165,4 +165,9 @@ public class AppConfigDefault implements AppConfig {
 	public SymbolicMode getSymbolicMode() {
 		return SymbolicMode.NONE;
 	}
+
+    @Override
+    public boolean isAlgebraViewVisibleAtStart() {
+	    return true;
+    }
 }
