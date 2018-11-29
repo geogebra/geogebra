@@ -1,38 +1,15 @@
 package org.geogebra.common.gui.view.algebra;
 
-import java.util.Collections;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
+
+import java.util.TreeSet;
 
 /**
  * Delegate that handles AV visibility
  */
 
 public class AlgebraViewVisibilityDelegate {
-
-    static final public int FIRST_VALID_ROW = 0;
-
-    /**
-     * Sorter to get geos in a given order related to AV view
-     */
-    public interface AlgebraViewSorter {
-
-        /**
-         *
-         * Valid row is >= 0 (ie AlgebraViewVisibilityDelegate.FIRST_VALID_ROW).
-         * Returning value < 0 is considered as invalid, and will be ignored
-         *
-         * @param geo geo element
-         * @return row for sorting (e.g. row in AV view)
-         */
-        public int getRow(GeoElement geo);
-    }
-
-    private App app;
 
     private boolean isViewVisible;
     private boolean updateOccurred, clearOccured;
@@ -44,9 +21,15 @@ public class AlgebraViewVisibilityDelegate {
      * constructor
      */
     public AlgebraViewVisibilityDelegate(App app) {
+        this();
+    }
+
+    /**
+     * constructor
+     */
+    public AlgebraViewVisibilityDelegate() {
         geosToAdd = new TreeSet<>();
         geosToRemove = new TreeSet<>();
-        this.app = app;
     }
 
 	/**
@@ -123,40 +106,13 @@ public class AlgebraViewVisibilityDelegate {
      *            view to perform cached actions on
      */
     public void onViewShown(AlgebraView view) {
-        onViewShown(view, null);
-    }
-
-    /**
-     * Tells the delegate the view is shown.
-     *
-     * @param view view to perform cached actions on
-     * @param sorter sorter to process geos in the view order (e.g. row in AV)
-     */
-    public void onViewShown(AlgebraView view, AlgebraViewSorter sorter) {
         isViewVisible = true;
         if (clearOccured) {
             view.clearView();
             clearOccured = false;
         }
-        if (!app.has(Feature.G3D_IOS_FASTER_AV) || sorter == null) {
-            for (GeoElement geo : geosToRemove) {
-                view.remove(geo);
-            }
-        } else {
-            if (!geosToRemove.isEmpty()) {
-                // ensure we'll remove from the last row to the first
-                TreeMap<Integer, GeoElement> sortedSet =
-                        new TreeMap<>(Collections.<Integer>reverseOrder());
-                for (GeoElement geo : geosToRemove) {
-                    int row = sorter.getRow(geo);
-                    if (row >= FIRST_VALID_ROW) {
-                        sortedSet.put(row, geo);
-                    }
-                }
-                for (GeoElement geo : sortedSet.values()) {
-                    view.remove(geo);
-                }
-            }
+        for (GeoElement geo : geosToRemove) {
+            view.remove(geo);
         }
         geosToRemove.clear();
         for (GeoElement geo: geosToAdd) {
