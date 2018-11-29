@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyParseError;
+import org.geogebra.common.main.MyError;
 
 public class StringParser {
 
@@ -16,10 +16,10 @@ public class StringParser {
         algebraProcessor = app.getKernel().getAlgebraProcessor();
     }
 
-    public double convertToDouble(String string) {
+	public double convertToDouble(String string) {
         try {
             return algebraProcessor.convertToDouble(string);
-        } catch (MyParseError | ParseException e) {
+		} catch (MyError | ParseException e) {
             throw new NumberFormatException(
                     localization.getError("InputError.Enter_a_number"));
         }
@@ -33,4 +33,18 @@ public class StringParser {
         }
         return positiveDouble;
     }
+
+	public double parse(String s) throws NumberFormatException {
+		return convertToDouble(s);
+	}
+
+	public static StringParser positiveDoubleConverter(App app) {
+		return new StringParser(app) {
+
+			@Override
+			public double parse(String string) {
+				return convertToPositiveDouble(string);
+			}
+		};
+	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.stringparser.StringParser;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -25,6 +26,7 @@ public class InputDialogTableView extends OptionDialog
 	private ComponentInputField endValue;
 	private ComponentInputField step;
 	private GeoElement geo;
+	private boolean hasErrors = false;
 
 	/**
 	 * @param app
@@ -67,8 +69,8 @@ public class InputDialogTableView extends OptionDialog
 	}
 
 	private ComponentInputField addTextField(String labelText, FlowPanel root) {
-		ComponentInputField field = new ComponentInputField((AppW) app, null,
-				labelText, null, "", 20);
+		final ComponentInputField field = new ComponentInputField((AppW) app,
+				null, labelText, null, "", 20);
 		root.add(field);
 		return field;
 	}
@@ -107,25 +109,37 @@ public class InputDialogTableView extends OptionDialog
 	}
 
 	private void openTableView() {
+		hasErrors = false;
+		double start = validate(startValue, new StringParser(app));
+		double end = validate(endValue, new StringParser(app));
+		double stepVal = validate(step,
+				StringParser.positiveDoubleConverter(app));
+		if (!hasErrors) {
+			try {
+				((GuiManagerInterfaceW) app.getGuiManager())
+						.initTableValuesView(start, end, stepVal, geo);
+			} catch (Exception e) {
+				ToolTipManagerW.sharedInstance().showBottomMessage(
+						app.getLocalization().getError("InvalidInput"), true,
+						(AppW) app);
+			} finally {
+				hide();
+			}
+		}
+	}
+
+	private double validate(ComponentInputField startValue2,
+			StringParser stringParser) {
 		double start = 0;
 		try {
-			start = Double.parseDouble(startValue.getInputText());
-		} catch (Exception e) {
-			startValue.setError(app.getLocalization().getError("InvalidInput"));
-			return;
+			start = stringParser.parse(startValue2.getInputText());
+			startValue2.setError(null);
+		} catch (NumberFormatException e) {
+			startValue2
+					.setError(e.getMessage());
+			this.hasErrors = true;
 		}
-		try {
-			double end = Double.parseDouble(endValue.getInputText());
-			double stepVal = Double.parseDouble(step.getInputText());
-			((GuiManagerInterfaceW) app.getGuiManager()).initTableValuesView(start, end, stepVal,
-					geo);
-		} catch (Exception e) {
-			ToolTipManagerW.sharedInstance()
-					.showBottomMessage(app.getLocalization().getError("InvalidInput"), true,
-							(AppW) app);
-		} finally {
-			hide();
-		}
+		return start;
 	}
 
 	@Override
