@@ -4141,8 +4141,14 @@ namespace giac {
       w=-1.0+w*(1.0+w*(-1./3.+w*11./72.));
     }
     else {
-      if (z.imag()==0 && z.real()<1 && z.real()>-0.36)
+      if (z.imag()==0 && z.real()<1 && z.real()>-0.36){
 	w=1;
+	if (n==-1 && z.real()<0){
+	  double lnw=std::log(-z.real());
+	  double lnlnw=std::log(-lnw);
+	  w=lnw-lnlnw-lnlnw/lnw;
+	}
+      }
       else {
 	// almost everywhere Log(z)-ln(Log(z))
 	w=std::log(z)+2.0*n*complex<double>(0,M_PI);

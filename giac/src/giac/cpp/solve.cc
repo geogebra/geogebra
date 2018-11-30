@@ -614,6 +614,102 @@ namespace giac {
     if (!s)
       return;
     if (s>1){
+      if (s==2 && lv[1]==x)
+	swapgen(lv[0],lv[1]);
+      gen m1(-exp(-1,contextptr));
+      if (s==2 && lv[0]==x && (isolate_mode & 1)==0){
+	gen a,b,newe(e);
+	if (0 && lv[1].is_symb_of_sommet(at_pow)){ // not reached, not tested
+	  gen f=lv[1]._SYMBptr->feuille;
+	  if (f.type==_VECT && f._VECTptr->size()==2){
+	    f=symb_exp(f._VECTptr->back()*ln(f._VECTptr->front(),contextptr));
+	    newe=subst(e,lv[1],f,false,contextptr);
+	    lv[1]=f;
+	  }
+	}
+	if (lv[1].is_symb_of_sommet(at_ln) && is_linear_wrt(lv[1]._SYMBptr->feuille,x,a,b,contextptr) && a!=0){
+	  // ln(ax+b)=t -> x=(exp(t)-b)/a, solve in t
+	  gen newx=(symb_exp(x)-b)/a;
+	  newe=subst(e,lv,makevecteur(newx,x),false,contextptr);
+	  vecteur newv;
+	  in_solve(newe,x,newv,isolate_mode,contextptr);
+	  const_iterateur it=newv.begin(),itend=newv.end();
+	  for (;it!=itend;++it){
+	    v.push_back((exp(*it,contextptr)-b)/a);
+	  }
+	  return;
+	}
+	if (lv[1].is_symb_of_sommet(at_exp) && is_linear_wrt(lv[1]._SYMBptr->feuille,x,a,b,contextptr) && a!=0){
+	  gen A,B,C,D,E,F;
+	  if (is_linear_wrt(e,lv[1],A,B,contextptr) && A!=0 && is_linear_wrt(B,x,C,D,contextptr) && is_linear_wrt(A,x,E,F,contextptr)){
+	    if (E==0){
+	      // A*exp(a*x+b)+C*x+D=0, t=a*x+b
+	      // A*exp(t)+C*(t-b)/a+D=0 -> A*exp(t)+C/a*t+D-C*b/a=0
+	      gen a_(A),b_(C/a),c_(D-C*b/a);
+	      gen delta=a_/b_*exp(-c_/b_,contextptr);
+	      if (is_greater(m1,delta,contextptr))
+		return; // no solution
+	      gen sol=-_LambertW(delta,contextptr)-c_/b_;
+	      v.push_back((sol-b)/a);
+	      if (is_positive(delta,contextptr)|| delta==m1)
+		return;
+	      sol=-_LambertW(makesequence(delta,-1),contextptr)-c_/b_;
+	      v.push_back((sol-b)/a);
+	      return;
+	    }
+	    if (C==0){
+	      // (E*x+F)*exp(a*x+b)+D==0
+	      // write a*x+b=a/E*(E*x+F)+b-a*F/E
+	      // a/E*(E*x+F)*exp(a/E*(E*x+F))=-D*a/E*exp(a*F/E-b)
+	      gen delta=-D*a/E*exp(a*F/E-b,contextptr);
+	      if (is_greater(m1,delta,contextptr))
+		return; // no solution
+	      gen sol=(_LambertW(delta,contextptr)-F/E)/a;
+	      v.push_back((sol-b)/a);
+	      if (is_positive(delta,contextptr)|| delta==m1)
+		return;
+	      sol=(_LambertW(makesequence(delta,-1),contextptr)-F/E)/a;
+	      v.push_back((sol-b)/a);
+	      return;
+	    }
+	  }
+	  // lv[1]=exp(a*x+b), set exp(ax+b)=t/(ax+b), 
+	  // if equation does not depend on x, solve in t, then x=(W(t)-b)/a
+	  gen t(identificateur(" t"));
+	  gen rep=subst(newe,lv[1],t/lv[1]._SYMBptr->feuille,false,contextptr),xfact(1),tfact(1);
+	  rep=_factors(rep,contextptr);
+	  if (separate_variables(rep,x,t,xfact,tfact,0,contextptr)){
+	    vecteur vt;
+	    in_solve(tfact,*t._IDNTptr,vt,isolate_mode,contextptr);
+	    const_iterateur it=vt.begin(),itend=vt.end();
+	    for (;it!=itend;++it){
+	      if (is_greater(m1,*it,contextptr))
+		continue;
+	      v.push_back((_LambertW(*it,contextptr)-b)/a);
+	      if (is_strictly_positive(-*it,contextptr))
+		v.push_back((_LambertW(makesequence(*it,-1),contextptr)-b)/a);
+	    }
+	    return;
+	  }
+	  // try with exp(ax+b)=-(ax+b)/t
+	  rep=subst(e,lv[1],-lv[1]._SYMBptr->feuille/t,false,contextptr);
+	  xfact=1;tfact=1;
+	  rep=_factors(rep,contextptr);
+	  if (separate_variables(rep,x,t,xfact,tfact,0,contextptr)){
+	    vecteur vt;
+	    in_solve(tfact,*t._IDNTptr,vt,isolate_mode,contextptr);
+	    const_iterateur it=vt.begin(),itend=vt.end();
+	    for (;it!=itend;++it){
+	      if (is_greater(m1,*it,contextptr))
+		continue;
+	      v.push_back((b-_LambertW(*it,contextptr))/a);
+	      if (is_strictly_positive(-*it,contextptr))
+		v.push_back((b-_LambertW(makesequence(*it,-1),contextptr))/a);
+	    }
+	    return;
+	  }
+	}
+      }
       for (int i=0;i<s;++i){
 	gen xvar=lv[i];
 	if (xvar._SYMBptr->sommet==at_sign){

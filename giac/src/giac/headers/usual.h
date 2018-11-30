@@ -500,6 +500,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_Ei_f ;
   extern const unary_function_ptr * const  at_LambertW;
   extern const unary_function_ptr * const  at_LambertWs;
+  gen _LambertW(const gen & args,GIAC_CONTEXT);
 
   gen Psi(const gen & x,GIAC_CONTEXT);
   gen Psi(const gen & x,int n,GIAC_CONTEXT);

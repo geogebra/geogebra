@@ -29,7 +29,7 @@ namespace giac {
   // x, y are 2 idnt
   // xfact and yfact should be initialized to 1
   // return true if f=xfact*yfact where xfact depends on x and yfact on y only
-  bool separate_variables(const gen & f,const gen & x,const gen & y,gen & xfact,gen & yfact,GIAC_CONTEXT);
+  bool separate_variables(const gen & f,const gen & x,const gen & y,gen & xfact,gen & yfact,int step_info,GIAC_CONTEXT);
 
   gen laplace(const gen & f,const gen & x,const gen & s,GIAC_CONTEXT);
   gen _laplace(const gen & args,GIAC_CONTEXT);

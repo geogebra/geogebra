@@ -7711,6 +7711,9 @@ namespace giac {
     }
     return ln(Gamma(x,contextptr),contextptr);
   }
+  static const char _lgamma_s[]="lgamma";
+  static define_unary_function_eval (__lgamma,&lngamma,_lgamma_s); 
+  define_unary_function_ptr5( at_lgamma ,alias_at_lgamma,&__lgamma,0,T_UNARY_OP);
 
   // Gamma function
   // lnGamma_minus is ln(Gamma)-(z-1/2)*ln(z)+z which is tractable at +inf
@@ -10230,7 +10233,6 @@ namespace giac {
   define_unary_function_ptr5( at_Ei0 ,alias_at_Ei0,&__Ei0,0,true); /* FIXME should not registered */
 
 #if 1
-  gen _LambertW(const gen & args,GIAC_CONTEXT);
   // l1:=log(x);l2:=log(l1);ws4:=l1-l2+l2/l1+l2*(-2+l2)/2l1^2+l2*(6-9l2+2l2^2)/6/l1^3+l2*(-12+36l2-22l2^2+3l2^3)/12/l1^4;
   // Ws=W(log(x))-ws4
   static gen ws4(const gen x,GIAC_CONTEXT){
@@ -10299,7 +10301,9 @@ namespace giac {
   gen _LambertW(const gen & args,GIAC_CONTEXT){
     if (args.type==_VECT && args._VECTptr->size()==2){
       gen x=args._VECTptr->front(),n=args._VECTptr->back();
-      if (n.type!=_INT_)
+      if (n.type==_REAL)
+	n=_floor(n,contextptr);
+      if (!is_integral(n))
 	return gensizeerr(contextptr);
       if (x.type==_DOUBLE_)
 	return LambertW(x._DOUBLE_val,n.val);

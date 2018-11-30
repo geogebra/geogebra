@@ -22,6 +22,7 @@ using namespace std;
 #include "symbolic.h"
 #include "unary.h"
 #include <algorithm>
+#include <math.h>
 #include "prog.h"
 #include "usual.h"
 #include "identificateur.h"
@@ -1288,11 +1289,17 @@ namespace giac {
 #endif
   gen _EXPM1(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_DOUBLE_) 
+      return expm1(g._DOUBLE_val);
     return exp(g,contextptr)-1;
   }
   static const char _EXPM1_s[]="EXPM1";
   static define_unary_function_eval (__EXPM1,&_EXPM1,_EXPM1_s);
   define_unary_function_ptr5( at_EXPM1 ,alias_at_EXPM1,&__EXPM1,0,T_UNARY_OP_38);
+
+  static const char _expm1_s[]="expm1";
+  static define_unary_function_eval (__expm1,&_EXPM1,_expm1_s);
+  define_unary_function_ptr5( at_expm1 ,alias_at_expm1,&__expm1,0,T_UNARY_OP);
 
 #if 0
   static gen d_lnp1(const gen & args,GIAC_CONTEXT){
@@ -1302,11 +1309,17 @@ namespace giac {
 #endif
   gen _LNP1(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_DOUBLE_)
+      return log1p(g._DOUBLE_val);
     return ln(g+1,contextptr);
   }
   static const char _LNP1_s[]="LNP1";
   static define_unary_function_eval (__LNP1,&_LNP1,_LNP1_s);
   define_unary_function_ptr5( at_LNP1 ,alias_at_LNP1,&__LNP1,0,T_UNARY_OP_38);
+
+  static const char _log1p_s[]="log1p";
+  static define_unary_function_eval (__log1p,&_LNP1,_log1p_s);
+  define_unary_function_ptr5( at_log1p ,alias_at_log1p,&__log1p,0,T_UNARY_OP);
 
   static const char _LN_s[]="LN";
   static define_unary_function_eval (__LN,&ln,_LN_s);
@@ -2518,6 +2531,16 @@ namespace giac {
   static const char _ldexp_s[]="ldexp";
   static define_unary_function_eval (__ldexp,&_ldexp,_ldexp_s); 
   define_unary_function_ptr5( at_ldexp ,alias_at_ldexp,&__ldexp,0,T_UNARY_OP);
+
+  gen _copysign(const gen & g0,GIAC_CONTEXT){
+    if (g0.type==_STRNG && g0.subtype==-1) return g0;
+    if (g0.type!=_VECT || g0.subtype!=_SEQ__VECT || g0._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    return abs(g0._VECTptr->front(),contextptr)*sign(g0._VECTptr->back(),contextptr);
+  }
+  static const char _copysign_s[]="copysign";
+  static define_unary_function_eval (__copysign,&_copysign,_copysign_s); 
+  define_unary_function_ptr5( at_copysign ,alias_at_copysign,&__copysign,0,T_UNARY_OP);
 
   gen _HMSX(const gen & g0,GIAC_CONTEXT){
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
