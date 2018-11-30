@@ -9,11 +9,10 @@ import org.junit.Test;
 public class StringParserTest extends BaseUnitTest {
 
     private StringParser stringParser;
-    private final double DELATA = 1E-15;
 
     @Before
     public void setupStringParserTest() {
-        stringParser = new StringParser(getApp());
+        stringParser = new StringParser(getKernel().getAlgebraProcessor());
     }
 
     @Test
@@ -24,23 +23,10 @@ public class StringParserTest extends BaseUnitTest {
         } catch (NumberFormatException ignored) {
 
         }
-        try {
-            stringParser.convertToPositiveDouble("a");
-            Assert.fail("This should have thrown an exception");
-        } catch (NumberFormatException ignored) {
-
-        }
-        try {
-            stringParser.convertToPositiveDouble("-1");
-            Assert.fail("This should have thrown an exception");
-        } catch (NumberFormatException ignored) {
-
-        }
     }
 
     @Test
     public void testConversion() {
         Assert.assertEquals(stringParser.convertToDouble("-1"), -1, DELATA);
-        Assert.assertEquals(stringParser.convertToPositiveDouble("1"), 1, DELATA);
     }
 }

@@ -4,7 +4,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.parser.stringparser.StringParser;
+import org.geogebra.common.kernel.validator.TableValuesDialogValidator;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.main.AppW;
@@ -27,8 +27,8 @@ public class InputDialogTableView extends OptionDialog
 	private ComponentInputField endValue;
 	private ComponentInputField step;
 	private GeoElement geo;
-	private boolean hasErrors = false;
 	private Label errorLabel;
+	private TableValuesDialogValidator validator;
 
 	/**
 	 * Create new dialog. NOT modal to make sure onscreen keyboard still works.
@@ -48,6 +48,7 @@ public class InputDialogTableView extends OptionDialog
 			}
 		});
 		setPrimaryButtonEnabled(true);
+		validator = new TableValuesDialogValidator(app);
 	}
 
 	/**
@@ -116,17 +117,10 @@ public class InputDialogTableView extends OptionDialog
 	}
 
 	private void openTableView() {
-		hasErrors = false;
-		// -inf to make sure the min/max comparison works for max field
-		double start = validate(startValue, new StringParser(app),
-				Double.NEGATIVE_INFINITY);
-		double end = validate(endValue,
-				StringParser.minValueConverter(app, start), 0);
-		double stepVal = validate(step,
-				StringParser.positiveDoubleConverter(app), 0);
-		if (!hasErrors) {
+		double[] inputFieldValues = validator.getDoubles(startValue, endValue, step);
+		if (inputFieldValues != null) {
 			try {
-				initTableValuesView(start, end, stepVal);
+				initTableValuesView(inputFieldValues[0], inputFieldValues[1], inputFieldValues[2]);
 				hide();
 			} catch (InvalidValuesException ex) {
 				errorLabel
@@ -135,20 +129,6 @@ public class InputDialogTableView extends OptionDialog
 		} else {
 			errorLabel.setText("");
 		}
-	}
-
-	private double validate(ComponentInputField startValue2,
-			StringParser stringParser, double fallback) {
-		double start = fallback;
-		try {
-			start = stringParser.parse(startValue2.getInputText());
-			startValue2.setError(null);
-		} catch (NumberFormatException e) {
-			startValue2
-					.setError(e.getMessage());
-			this.hasErrors = true;
-		}
-		return start;
 	}
 
 	@Override

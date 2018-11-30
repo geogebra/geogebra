@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -25,7 +26,7 @@ import com.google.gwt.user.client.ui.Label;
  *         input field material design component
  *
  */
-public class ComponentInputField extends FlowPanel implements SetLabels {
+public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	private Localization loc;
 	private String errorTextKey;
 	private String labelTextKey;
@@ -208,4 +209,18 @@ public class ComponentInputField extends FlowPanel implements SetLabels {
 		Dom.toggleClass(this.contentPanel, "error", !StringUtil.empty(message));
 	}
 
+	@Override
+	public String getText() {
+		return getInputText();
+	}
+
+	@Override
+	public void showError(String errorMessage) {
+		setError(errorMessage);
+	}
+
+	@Override
+	public void setErrorResolved() {
+		setError(null);
+	}
 }

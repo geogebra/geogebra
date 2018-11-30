@@ -10,6 +10,8 @@ import org.junit.Before;
  */
 public class BaseUnitTest {
 
+    protected static final double DELATA = 1E-15;
+
     private Kernel kernel;
     private Construction construction;
     private AppCommon app;
