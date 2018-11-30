@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 
 import java.util.TreeSet;
 
