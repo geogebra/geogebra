@@ -37,8 +37,7 @@ subprojects {
 	tasks['eclipse'].dependsOn(eclipseJdtPrepare, eclipseJdtUi, cleanEclipse)
 }
 
-task wrapper(type: Wrapper) {
-	description = 'Creates the gradle wrapper'
+wrapper {
 	gradleVersion = gradleVersionGGB
 }
 

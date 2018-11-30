@@ -101,6 +101,7 @@ public class PolygonFactory {
 	 * @param offsetY
 	 *            translation y
 	 * @param labels
+	 *            output labels
 	 * @return draggable copy of a polygon
 	 */
 	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX,
@@ -200,7 +201,6 @@ public class PolygonFactory {
 	 *            output labels
 	 * @param points
 	 *            points
-	 * @param label
 	 * @return rigid polygon
 	 */
 	final public GeoElement[] rigidPolygon(String[] labels, GeoPointND[] points) {
