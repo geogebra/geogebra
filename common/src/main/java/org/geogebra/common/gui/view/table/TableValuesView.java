@@ -144,10 +144,6 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
-	private static boolean isFinite(double x) {
-		return !Double.isInfinite(x) && !Double.isNaN(x);
-	}
-
 	private void updateModelValues() {
 		double[] values = calculateValues();
 		model.setValues(values);
