@@ -41,9 +41,11 @@ public interface TableValues extends View {
 	GeoEvaluatable getEvaluatable(int column);
 
 	/**
-	 * Set the values parameters. Values min must be smaller than valuesMax,
-	 * valuesStep must be a positive number, and they all must be valid nubmers.
-	 * Otherwise an InvalidValuesException is thrown.
+	 * Set the values parameters. This method assumes valuesMin &lt; valuesMax,
+	 * and valuesStep &gt;0 ar all finite real numbmers.
+	 * 
+	 * If the min/max/step combination requires too many datapoints, an
+	 * InvalidValuesException is thrown.
 	 * 
 	 * Creates an undo point. Set the values in Settings directly to avoid that.
 	 *
