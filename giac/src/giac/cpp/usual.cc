@@ -10315,6 +10315,7 @@ namespace giac {
       return LambertW(complex<double>(args._CPLXptr->_DOUBLE_val,(args._CPLXptr+1)->_DOUBLE_val));
     if (args==0 || args==plus_inf) return args;
     if (args==symbolic(at_exp,1)) return 1;
+    if (args==2*symb_ln(2) || args==symb_ln(4)) return symb_ln(2);
     if (-inv(args,contextptr)==symbolic(at_exp,1)) return -1;
     return symbolic(at_LambertW,args);
   }

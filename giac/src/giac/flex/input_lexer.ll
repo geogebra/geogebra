@@ -528,6 +528,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 ".-"                     index_status(yyextra)=0; (*yylval)=gen(at_pointminus,2); return T_PLUS;
 "'-'"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 "_subtract"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
+  /* "×"                     index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS; */
 "*"                     index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS;
 "⊗"                     index_status(yyextra)=0; (*yylval)=gen(at_cross,2); return T_FOIS;
 "*="                    index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_UNION;
