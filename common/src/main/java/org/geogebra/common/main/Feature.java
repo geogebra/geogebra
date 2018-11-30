@@ -299,9 +299,6 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-    /** AND-1389 */
-	AND_DISABLE_EXAM_MODE_FOR_CHROMEBOOKS,
-
 	/** APPS-83 */
 	VOICEOVER_APPLETS,
 
