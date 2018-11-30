@@ -177,13 +177,6 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	}
 
 	/**
-	 * @return value of input text field
-	 */
-	public String getInputText() {
-		return inputTextField.getText();
-	}
-
-	/**
 	 * @return text field
 	 */
 	public InputPanelW getTextField() {
@@ -211,7 +204,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 
 	@Override
 	public String getText() {
-		return getInputText();
+		return inputTextField.getText();
 	}
 
 	@Override
