@@ -138,7 +138,8 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	private static void assertValidValues(double min, double max, double step)
 			throws InvalidValuesException {
-		if (Math.abs(max - min) / step > MAX_ROWS) {
+		double points = Math.abs(max - min) / step;
+		if (points > MAX_ROWS || points < 0) {
 			throw new InvalidValuesException("TooManyRows");
 		}
 	}
