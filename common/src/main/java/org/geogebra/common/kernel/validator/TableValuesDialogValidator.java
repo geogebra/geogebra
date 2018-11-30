@@ -19,15 +19,19 @@ public class TableValuesDialogValidator {
 		localization = app.getLocalization();
 	}
 
-	private Double getDouble(Input input, Double minValue) {
+	private Double getDouble(Input input, Double minValue,
+			String outOfBoundsKey) {
 		try {
 			double value = numberValidator.getDouble(input.getText(), minValue);
 			input.setErrorResolved();
 			return value;
 		} catch (NumberFormatException e) {
-			input.showError(localization.getError(NUMBER_FORMAT_ERROR_MESSAGE_KEY));
-			return null;
+			input.showError(
+					localization.getError(NUMBER_FORMAT_ERROR_MESSAGE_KEY));
+		} catch (NumberValueOutOfBoundsException e) {
+			input.showError(localization.getError(outOfBoundsKey));
 		}
+		return null;
 	}
 
 	public double[] getDoubles(Input minField, Input maxField, Input stepField) {
@@ -35,25 +39,9 @@ public class TableValuesDialogValidator {
 		Double max = null;
 		Double step = null;
 
-		min = getDouble(minField, null);
-
-		try {
-			max = getDouble(maxField, min);
-			if (max != null) {
-				maxField.setErrorResolved();
-			}
-		} catch (NumberValueOutOfBoundsException e) {
-			maxField.showError(localization.getError(NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY));
-		}
-
-		try {
-			step = getDouble(stepField, 0.0);
-			if (step != null) {
-				stepField.setErrorResolved();
-			}
-		} catch (NumberValueOutOfBoundsException e) {
-			stepField.showError(localization.getError(NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
-		}
+		min = getDouble(minField, null, null);
+		max = getDouble(maxField, min, NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY);
+		step = getDouble(stepField, 0.0, NUMBER_NEGATIVE_ERROR_MESSAGE_KEY);
 
 		if (min == null || max == null || step == null) {
 			return null;
