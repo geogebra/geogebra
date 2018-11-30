@@ -1165,7 +1165,7 @@ __GGB__keysVar["it"].error = {
     "IllegalMultiplication": "Moltiplicazione non valida",
     "IllegalSubtraction": "Sottrazione non valida",
     "IncompleteEquation": "Equazione incompleta:\ninserisci entrambi i membri dell'equazione.",
-    "InputError.EndValueLessThanStartValue": "End value for x must be greater than start value for x.",
+    "InputError.EndValueLessThanStartValue": "Il valore finale di x deve essere maggiore di quello iniziale.",
     "InputError.Enter_a_number": "Inserisci un numero",
     "InputError.Enter_a_number_greater_than_0": "Inserisci un numero maggiore di 0.",
     "InvalidEquation": "Equazione non valida:\nInserisci un'equazione polinomiale in x e y.",

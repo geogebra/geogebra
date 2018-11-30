@@ -1165,7 +1165,7 @@ __GGB__keysVar["nl-NL"].error = {
     "IllegalMultiplication": "Ongeldige vermenigvuldiging",
     "IllegalSubtraction": "Ongeldige aftrekking",
     "IncompleteEquation": "Onvolledige vergelijking:\nvoer ook ander lid van de vergelijking in",
-    "InputError.EndValueLessThanStartValue": "End value for x must be greater than start value for x.",
+    "InputError.EndValueLessThanStartValue": "De eindwaarde voor x moet groter zijn dan de startwaarde.",
     "InputError.Enter_a_number": "Voer een getal in",
     "InputError.Enter_a_number_greater_than_0": "Voer een getal in groter dan 0.",
     "InvalidEquation": "Ongeldige vergelijking:\ngeef een veeltermvergelijking in x en y",

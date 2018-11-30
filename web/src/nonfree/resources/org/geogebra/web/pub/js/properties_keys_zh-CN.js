@@ -1165,7 +1165,7 @@ __GGB__keysVar["zh-CN"].error = {
     "IllegalMultiplication": "\u65e0\u6548\u7684\u4e58\u6cd5\u8fd0\u7b97",
     "IllegalSubtraction": "\u65e0\u6548\u7684\u51cf\u6cd5\u8fd0\u7b97",
     "IncompleteEquation": "\u4e0d\u5b8c\u5168\u65b9\u7a0b: \u8bf7\u8f93\u5165\u65b9\u7a0b\u7684\u4e24\u8fb9",
-    "InputError.EndValueLessThanStartValue": "End value for x must be greater than start value for x.",
+    "InputError.EndValueLessThanStartValue": "\u7ec8\u6b62\u503c x \u5fc5\u987b\u5927\u4e8e\u8d77\u59cb\u503c x.",
     "InputError.Enter_a_number": "\u8f93\u5165\u6570\u5b57.",
     "InputError.Enter_a_number_greater_than_0": "\u8f93\u5165\u5927\u4e8e0\u7684\u6570\u5b57.",
     "InvalidEquation": "\u4e0d\u6b63\u786e\u7684\u65b9\u7a0b\u5f0f : \u8bf7\u8f93\u5165\u5173\u4e8e x \u548c y \u7684\u591a\u9879\u5f0f\u65b9\u7a0b",
