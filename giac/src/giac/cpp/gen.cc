@@ -8056,7 +8056,7 @@ namespace giac {
       if (a._REALptr->maybe_zero())
 	return false;
     } else {
-      if (is_zero(a,contextptr))
+      if (is_exactly_zero(a))
 	return false;
     }
     return is_positive(a,contextptr);

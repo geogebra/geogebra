@@ -4177,6 +4177,38 @@ namespace giac {
     }
   }
 
+  gen LambertW(const gen & Z,int n){
+    gen z(Z);
+    if (z==0) return z;
+    int nbits=45;
+    if (z.type==_REAL)
+      nbits=mpfr_get_prec(z._REALptr->inf);
+    if (z.type==_CPLX && z._CPLXptr->type==_REAL)
+      nbits=mpfr_get_prec(z._CPLXptr->_REALptr->inf);
+    // initial guess
+    gen w=evalf_double(z,1,context0);
+    if (w.type==_DOUBLE_)
+      w=LambertW(complex<double>(w._DOUBLE_val,0),n);
+    else {
+      if (w.type!=_CPLX || w.subtype!=3)
+	return gensizeerr("Unable to convert to float");
+      w=LambertW(complex<double>(w._CPLXptr->_DOUBLE_val,(w._CPLXptr+1)->_DOUBLE_val));
+    }
+    if (nbits<=45)
+      return w;
+    w=accurate_evalf(w,nbits+20);
+    z=accurate_evalf(z,nbits+20);
+    double eps=std::pow(.5,nbits);
+    while (1){
+      // wnext=w-(w*exp(w)-z)/(exp(w)*(w+1)-(w+2)*(w*exp(w)-z)/(2*w+2))
+      gen expw(exp(w,context0)),wexpwz(w*expw-z),w1(w+1);
+      gen wnext(w-wexpwz/(w1*expw-(w+2)*wexpwz/w1/2));
+      if (abs(wnext-w,context0)<eps*abs(w,context0))
+	return accurate_evalf(wnext,nbits);
+      w=wnext;
+    }
+  }
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

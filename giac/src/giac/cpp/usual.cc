@@ -10306,13 +10306,17 @@ namespace giac {
       if (!is_integral(n))
 	return gensizeerr(contextptr);
       if (x.type==_DOUBLE_)
-	return LambertW(x._DOUBLE_val,n.val);
+	return LambertW(complex<double>(x._DOUBLE_val,0),n.val);
       if (x.type==_CPLX && args.subtype==3)
 	return LambertW(complex<double>(x._CPLXptr->_DOUBLE_val,(x._CPLXptr+1)->_DOUBLE_val),n.val);
+      if (x.type==_REAL || (x.type==_CPLX && x._CPLXptr->type==_REAL))
+	return LambertW(x,0);
     }
     if (args.type==_DOUBLE_) return LambertW(args._DOUBLE_val);
     if (args.type==_CPLX && args.subtype==3) 
       return LambertW(complex<double>(args._CPLXptr->_DOUBLE_val,(args._CPLXptr+1)->_DOUBLE_val));
+    if (args.type==_REAL || (args.type==_CPLX && args._CPLXptr->type==_REAL))
+      return LambertW(args,0);
     if (args==0 || args==plus_inf) return args;
     if (args==symbolic(at_exp,1)) return 1;
     if (args==2*symb_ln(2) || args==symb_ln(4)) return symb_ln(2);
