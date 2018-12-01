@@ -10,14 +10,19 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.JavaScriptInjector;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -305,14 +310,32 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		StandardButton speechBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
+		final TextResource res = GuiResourcesSimple.INSTANCE.speechRec();
+		JavaScriptInjector.injectAsync(res);
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
 				Log.debug("SPEECH BTN WAS CLICKED");
+				GWT.runAsync(new RunAsyncCallback() {
+
+					@Override
+					public void onSuccess() {
+						runSpeechRec();
+					}
+
+					@Override
+					public void onFailure(Throwable reason) {
+						Log.debug("injection failed: " + reason.getMessage());
+					}
+				});
 			}
 		});
 		speechBtnPanel.add(speechBtn);
 	}
+
+	public static native void runSpeechRec() /*-{
+		$wnd.speechRec();
+	}-*/;
 
 	@Override
 	public void onResize() {
