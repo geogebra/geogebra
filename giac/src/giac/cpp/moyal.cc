@@ -4135,13 +4135,14 @@ namespace giac {
     complex<double> w; 
     // initial guess
     w=2.0*(M_E*z+1.0);
-    if (std::abs(w)<0.1 && n==0){
+    if (std::abs(w)<0.1 && (n==0 || ( n==1 && z.imag()<0) || (n==-1 && z.imag()>0))){
       // near -1/e, set p=sqrt(2(ez+1)), -1+p-1/3*p^2+11/72*p^3+...
       w=std::sqrt(w);
-      w=-1.0+w*(1.0+w*(-1./3.+w*11./72.));
+      if (n==0) w=-1.0+w*(1.0+w*(-1./3.+w*11./72.));
+      if (n==1 || n==-1) w=-1.0+w*(-1.0+w*(-1./3.-w*11./72.));
     }
     else {
-      if (z.imag()==0 && z.real()<1 && z.real()>-0.36){
+      if (z.imag()==0 && z.real()<1 && w.real()>0 && (n==0 || n==-1)){
 	w=1;
 	if (n==-1 && z.real()<0){
 	  double lnw=std::log(-z.real());
@@ -4156,6 +4157,10 @@ namespace giac {
 	  w=w-std::log(w);
       }
     }
+    if (n==0 && std::abs(z - .5)<=.5) 
+      w = (0.35173371 * (0.1237166 + 7.061302897 * z)) / (2. + 0.827184 * (1. + 2. * z));// (1,1) Pade approximant for W(z,0)
+    if (n==-1 && std::abs(z - .5)<=.5) 
+      w = -((complex<double>(2.2591588985 ,4.22096) * (complex<double>(-14.073271 ,-33.767687754) * z - complex<double>(12.7127,-19.071643) * (1. + 2.*z))) / (2. - complex<double>(17.23103,-10.629721) * (1. + 2.*z)));// (1,1) Pade
     if (z.imag()==0 && w.imag()==0){
       double Z=z.real(),W=w.real();
       while (1){
@@ -4171,7 +4176,7 @@ namespace giac {
       // wnext=w-(w*exp(w)-z)/(exp(w)*(w+1)-(w+2)*(w*exp(w)-z)/(2*w+2))
       complex<double> expw(std::exp(w)),wexpwz(w*expw-z),w1(w+1.0);
       complex<double> wnext(w-wexpwz/(w1*expw-(w+2.0)*wexpwz/w1/2.0));
-      if (abs(wnext-w)<1e-13*std::abs(w))
+      if (abs(wnext-w)<1e-13*(1.0+std::abs(w)))
 	return wnext;
       w=wnext;
     }
@@ -4196,14 +4201,18 @@ namespace giac {
     }
     if (nbits<=45)
       return w;
-    w=accurate_evalf(w,nbits+20);
-    z=accurate_evalf(z,nbits+20);
+    int addprec=10;
+    gen tmp=abs(w,context0);
+    if (is_greater(tmp,1,context0))
+      addprec += int(std::floor(evalf_double(ln(tmp,context0),1,context0)._DOUBLE_val));
+    w=accurate_evalf(w,nbits+addprec);
+    z=accurate_evalf(z,nbits+addprec);
     double eps=std::pow(.5,nbits);
     while (1){
       // wnext=w-(w*exp(w)-z)/(exp(w)*(w+1)-(w+2)*(w*exp(w)-z)/(2*w+2))
       gen expw(exp(w,context0)),wexpwz(w*expw-z),w1(w+1);
       gen wnext(w-wexpwz/(w1*expw-(w+2)*wexpwz/w1/2));
-      if (abs(wnext-w,context0)<eps*abs(w,context0))
+      if (abs(wnext-w,context0)<eps*(1.0+abs(w,context0)))
 	return accurate_evalf(wnext,nbits);
       w=wnext;
     }

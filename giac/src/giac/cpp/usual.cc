@@ -10305,6 +10305,8 @@ namespace giac {
 	n=_floor(n,contextptr);
       if (!is_integral(n))
 	return gensizeerr(contextptr);
+      if (x==0 && n!=0)
+	return minus_inf;
       if (x.type==_DOUBLE_)
 	return LambertW(complex<double>(x._DOUBLE_val,0),n.val);
       if (x.type==_CPLX && args.subtype==3)
