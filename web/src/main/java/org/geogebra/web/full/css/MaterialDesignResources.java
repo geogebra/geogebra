@@ -231,6 +231,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource special_points();
 
 	// ev icons
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-record_voice_over-24px.svg")
+	SVGResource record();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gear();
 

@@ -2,12 +2,17 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 
@@ -36,6 +41,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	ZoomPanel zoomPanel;
 	/** Zoom panel for MOW */
 	ZoomPanelMow mowZoomPanel;
+	public FlowPanel speechBtnPanel;
 
 	/**
 	 * default constructor
@@ -285,6 +291,27 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (app.isWhiteboardActive() && mowZoomPanel != null) {
 			dockPanel.addNorth(mowZoomPanel, 0);
 		}
+		if (app.has(Feature.SPEECH_RECOGNITION)) {
+			if (speechBtnPanel == null) {
+				buildSpeechBtnPanel();
+			}
+			dockPanel.addSouth(speechBtnPanel, 0);
+		}
+	}
+
+	private void buildSpeechBtnPanel() {
+		speechBtnPanel = new FlowPanel();
+		speechBtnPanel.setStyleName("speechBtnPanel");
+		StandardButton speechBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.record(), null, 24, app);
+		speechBtn.setStyleName("speechBtn");
+		speechBtn.addFastClickHandler(new FastClickHandler() {
+
+			public void onClick(Widget source) {
+				Log.debug("SPEECH BTN WAS CLICKED");
+			}
+		});
+		speechBtnPanel.add(speechBtn);
 	}
 
 	@Override

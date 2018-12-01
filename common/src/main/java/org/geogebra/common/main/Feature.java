@@ -330,6 +330,9 @@ public enum Feature {
 	FIX_EQUATIONS_AND_FUNCTIONS,
 
 	/** G3D-89 */
-	G3D_IOS_FASTER_AV
+	G3D_IOS_FASTER_AV,
+
+	/** Csilla Master */
+	SPEECH_RECOGNITION
 }
 
