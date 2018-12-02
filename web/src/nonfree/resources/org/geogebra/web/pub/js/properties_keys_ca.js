@@ -3127,7 +3127,7 @@ __GGB__keysVar["ca"].menu = {
     "altText.Ceil": "Ceil Function",
     "altText.Enter": "Enter",
     "altText.Floor": "Floor Function",
-    "altText.Fraction": "Fracci\xf3",
+    "altText.Fraction": "Fraccions",
     "altText.Imaginaryi": "imaginary i",
     "altText.Inverse": "Inversa",
     "altText.LeftArrow": "Fletxa Esquerra",
