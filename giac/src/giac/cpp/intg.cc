@@ -2035,7 +2035,7 @@ namespace giac {
     case 3: // tan
       switch (utrig){
       case 1: // tan^2=1/(1-sin^2)-1
-	fx=pow(inv(1-pow(gen_x,-2),contextptr)-1,fexp);
+	fx=pow(inv(1-pow(gen_x,2),contextptr)-1,fexp);
 	return true;
       case 2: // tan^2=1/cos^2-1
 	fx=pow(pow(gen_x,-2)-1,fexp);

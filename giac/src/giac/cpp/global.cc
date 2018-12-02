@@ -5814,12 +5814,17 @@ unsigned int ConvertUTF8toUTF16 (
     if (cur[0]=='_' && (cur.size()==1 || !isalpha(cur[1])))
       cur[0]='@'; // python shortcut for ans(-1)
     bool instring=cur.size() && cur[0]=='"';
+    int openpar=0;
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];
       if (curch=='"' && prevch!='\\')
 	instring=!instring;
       if (instring)
 	continue;
+      if (curch=='(')
+	++openpar;
+      if (curch==')')
+	--openpar;
       if (curch==',' && pos<int(cur.size()-1)){
 	char nextch=cur[pos+1];
 	if (nextch=='}' || nextch==']' || nextch==')'){
@@ -5877,7 +5882,7 @@ unsigned int ConvertUTF8toUTF16 (
 	++pos;
 	continue;
       }
-      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!=';' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && prevch!='%' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
+      if (curch=='=' && openpar==0 && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!=';' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && prevch!='%' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
 	cur.insert(cur.begin()+pos,':');
 	++pos;
 	continue;
