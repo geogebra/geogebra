@@ -3127,7 +3127,7 @@ __GGB__keysVar["es-UY"].menu = {
     "altText.Ceil": "Funci\xf3n techo",
     "altText.Enter": "Intro",
     "altText.Floor": "Funci\xf3n parte entera",
-    "altText.Fraction": "Fractions",
+    "altText.Fraction": "Fracciones",
     "altText.Imaginaryi": "imaginary i",
     "altText.Inverse": "Inverse",
     "altText.LeftArrow": "Flecha izquierda",

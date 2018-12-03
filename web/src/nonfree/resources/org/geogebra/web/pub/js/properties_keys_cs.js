@@ -3127,7 +3127,7 @@ __GGB__keysVar["cs"].menu = {
     "altText.Ceil": "Horn\xed cel\xe1 \u010d\xe1st",
     "altText.Enter": "Enter",
     "altText.Floor": "Doln\xed cel\xe1 \u010d\xe1st",
-    "altText.Fraction": "Zlomek",
+    "altText.Fraction": "Zlomky",
     "altText.Imaginaryi": "imagin\xe1rn\xed jednotka",
     "altText.Inverse": "P\u0159evr\xe1cen\xe1 hodnota",
     "altText.LeftArrow": "\u0160ipka doleva",
