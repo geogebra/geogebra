@@ -177,18 +177,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 * @return true if coords are finite numbers
 	 */
 	public boolean isFinite() {
-		return isFinite(x) && isFinite(y);
-	}
-
-	/**
-	 * 
-	 * @param value
-	 *            value
-	 * @return true if the value is finite number
-	 */
-	static final protected boolean isFinite(double value) {
-		return !java.lang.Double.isInfinite(value)
-				&& !java.lang.Double.isNaN(value);
+		return MyDouble.isFinite(x) && MyDouble.isFinite(y);
 	}
 
 	/**
