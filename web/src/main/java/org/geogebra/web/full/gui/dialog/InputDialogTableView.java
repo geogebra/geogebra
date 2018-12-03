@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.validator.TableValuesDialogValidator;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.validator.TableValuesDialogValidator;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.main.AppW;
