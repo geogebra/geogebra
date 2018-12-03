@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventType;
@@ -21,6 +22,9 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 
 	// for numbers and ticks
 	private int ticksize = 5; // TODO
+
+	/** color used when axis is colored (not black) in 3D view */
+	private GColor coloredColorFor3D;
 
 	/**
 	 * @param cons
@@ -51,20 +55,32 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		case X_AXIS_3D:
 			setCoord(Coords.O, Coords.VX);
 			label = "xAxis3D";
-			setObjColor(GColor.RED);
+			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
+				coloredColorFor3D = GColor.RED;
+			} else {
+				setObjColor(GColor.RED);
+			}
 			break;
 
 		case Y_AXIS_3D:
 			setCoord(Coords.O, Coords.VY);
 			label = "yAxis3D";
-			// setObjColor(Color.GREEN);
-			setObjColor(GColor.DARK_GREEN);
+			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
+				coloredColorFor3D = GColor.DARK_GREEN;
+			} else {
+				setObjColor(GColor.DARK_GREEN);
+			}
+			coloredColorFor3D = GColor.DARK_GREEN;
 			break;
 
 		case Z_AXIS_3D:
 			setCoord(Coords.O, Coords.VZ);
 			label = "zAxis";
-			setObjColor(GColor.BLUE);
+			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
+				coloredColorFor3D = GColor.BLUE;
+			} else {
+				setObjColor(GColor.BLUE);
+			}
 			break;
 		}
 
@@ -187,5 +203,14 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	@Override
 	public boolean isProtected(EventType eventType) {
 		return true;
+	}
+
+	@Override
+	public void setColoredFor3D(boolean colored) {
+		if (colored) {
+			setObjColor(coloredColorFor3D);
+		} else {
+			setObjColor(GColor.BLACK);
+		}
 	}
 }

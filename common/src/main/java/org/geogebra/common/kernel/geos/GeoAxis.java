@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventType;
@@ -33,6 +34,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	private int type;
 	// for numbers and ticks
 	private int ticksize = 5; // TODO
+
+	/** color used when axis is colored (not black) in 3D view */
+	private GColor coloredColorFor3D;
 
 	/**
 	 * Creates new axis
@@ -56,7 +60,11 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
-			setObjColor(GColor.RED);
+			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
+				coloredColorFor3D = GColor.RED;
+			} else {
+				setObjColor(GColor.RED);
+			}
 			end.setCoords(1, 0, 1);
 			setEndPoint(end);
 			break;
@@ -64,7 +72,11 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case Y_AXIS:
 			setCoords(-1, 0, 0);
 			label = "yAxis";
-			setObjColor(GColor.newColor(0, 128, 0));
+			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
+				coloredColorFor3D = GColor.DARK_GREEN;
+			} else {
+				setObjColor(GColor.DARK_GREEN);
+			}
 			end.setCoords(0, 1, 1);
 			setEndPoint(end);
 			break;
@@ -202,6 +214,15 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	@Override
 	public boolean isProtected(EventType eventType) {
 		return true;
+	}
+
+	@Override
+	public void setColoredFor3D(boolean colored) {
+		if (colored) {
+			setObjColor(coloredColorFor3D);
+		} else {
+			setObjColor(GColor.BLACK);
+		}
 	}
 
 }

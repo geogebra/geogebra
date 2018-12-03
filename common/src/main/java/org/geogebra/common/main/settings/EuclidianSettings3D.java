@@ -52,6 +52,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	private int clippingReduction = 1;
 	private boolean showClippingCube = false;
 
+	private boolean hasColoredAxes = true;
+
 	/**
 	 * default value for eye distance to the screen for perspective
 	 */
@@ -492,6 +494,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
 		projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
 
+		hasColoredAxes = true;
+
 	}
 
 	/**
@@ -709,6 +713,26 @@ public class EuclidianSettings3D extends EuclidianSettings {
 			settingChanged();
 		}
 		return changed;
+	}
+
+	/**
+	 * 
+	 * @param flag
+	 *            iff axes are rgb colored
+	 */
+	public void setHasColoredAxes(boolean flag) {
+		if (hasColoredAxes != flag) {
+			hasColoredAxes = flag;
+			settingChanged();
+		}
+	}
+
+	/**
+	 * 
+	 * @return iff axes are rgb colored
+	 */
+	public boolean getHasColoredAxes() {
+		return hasColoredAxes;
 	}
 
 }

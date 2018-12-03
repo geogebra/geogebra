@@ -36,6 +36,13 @@ public interface GeoAxisND extends GeoLineND {
 	/** @return axis id */
 	public int getType();
 
+	/**
+	 * 
+	 * @param colored
+	 *            iff axis is drawn colored in 3D view
+	 */
+	public void setColoredFor3D(boolean colored);
+
 	/////////////////////////////////////////
 	// METHODS FOR GEOELEMENT
 	/////////////////////////////////////////

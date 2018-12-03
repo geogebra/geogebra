@@ -2971,6 +2971,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		sb.append(bgColor.getBlue());
 		sb.append("\"/>\n");
 
+		// colored axes
+		if (app.has(Feature.G3D_BLACK_AXES)
+				&& !getSettings().getHasColoredAxes()) {
+			sb.append("\t<axesColored val=\"false\"/>\n");
+		}
+
 		// y axis is up
 		if (getYAxisVertical()) {
 			sb.append("\t<yAxisVertical val=\"true\"/>\n");
@@ -4143,6 +4149,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		projectionObliqueFactor = evs.getProjectionObliqueFactor();
 
 		setProjection(evs.getProjection());
+
+		if (app.has(Feature.G3D_BLACK_AXES)) {
+			boolean colored = evs.getHasColoredAxes();
+			for (GeoAxisND ax : axis) {
+				ax.setColoredFor3D(colored);
+			}
+		}
 
 		updateMatrix();
 		getEuclidianController().onCoordSystemChanged();

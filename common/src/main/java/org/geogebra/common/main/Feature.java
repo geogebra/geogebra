@@ -333,6 +333,9 @@ public enum Feature {
 	G3D_IOS_FASTER_AV,
 
 	/** Csilla Master */
-	SPEECH_RECOGNITION
+	SPEECH_RECOGNITION,
+
+	/** G3D-131 */
+	G3D_BLACK_AXES
 }
 

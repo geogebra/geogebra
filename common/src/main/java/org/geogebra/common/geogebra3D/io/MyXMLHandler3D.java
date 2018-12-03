@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.StringUtil;
@@ -72,6 +73,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			break;
 		case "axis":
 			ok = handleAxis(evSet, attrs);
+		case "axesColored":
+			if (app.has(Feature.G3D_BLACK_AXES)) {
+				ok = handleColoredAxes((EuclidianSettings3D) evSet, attrs);
+			}
 			break;
 		case "bgColor":
 			ok = handleBgColor(evSet, attrs);
@@ -168,6 +173,33 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return true;
 		} catch (Exception e) {
 			// e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * handles if axes are colored in EuclidianView3D
+	 * 
+	 * @param evs
+	 *            settings
+	 * @param attrs
+	 *            attributes
+	 * @return true if all is done ok
+	 */
+	static private boolean handleColoredAxes(EuclidianSettings3D evs,
+			LinkedHashMap<String, String> attrs) {
+		try {
+			String strHasColoredAxes = attrs.get("val");
+			Log.debug("strHasColoredAxes = " + strHasColoredAxes);
+
+			// show the plane
+			if (strHasColoredAxes != null) {
+				boolean hasColoredAxes = parseBoolean(strHasColoredAxes);
+				Log.debug("hasColoredAxes = " + hasColoredAxes);
+				evs.setHasColoredAxes(hasColoredAxes);
+			}
+			return true;
+		} catch (Exception e) {
 			return false;
 		}
 	}
