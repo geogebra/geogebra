@@ -903,7 +903,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 			String key = entry.getKey();
 
-			if (getImageManager().getExternalImage(key, this) == null) {
+			if (getImageManager().getExternalImage(key, this, false) == null) {
 				maybeProcessImage(key, entry.getValue(), toLoad);
 			}
 		}
@@ -1142,7 +1142,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final MyImage getExternalImageAdapter(String fileName, int width,
 			int height) {
-		ImageElement im = getImageManager().getExternalImage(fileName, this);
+		ImageElement im = getImageManager().getExternalImage(fileName, this,
+				true);
 		if (im == null) {
 			return null;
 		}
@@ -1575,7 +1576,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 
 		final ImageWrapper img = new ImageWrapper(
-				getImageManager().getExternalImage(imgFileName, this));
+				getImageManager().getExternalImage(imgFileName, this, true));
 		img.attachNativeLoadHandler(getImageManager(), new ImageLoadCallback() {
 			@Override
 			public void onLoad() {

@@ -85,9 +85,13 @@ public class ImageManagerW extends ImageManager {
 	 *            filename
 	 * @param app1
 	 *            application
+	 * @param md5fallback
+	 *            whether to accept partial match where md5 is OK and rest of
+	 *            filename is not
 	 * @return image element corresponding to filename
 	 */
-	public ImageElement getExternalImage(String fileName, AppW app1) {
+	public ImageElement getExternalImage(String fileName, AppW app1,
+			boolean md5fallback) {
 		ImageElement match = getMatch(fileName);
 		if (match == null) {
 			match = getMatch(StringUtil.changeFileExtension(fileName,
@@ -95,7 +99,9 @@ public class ImageManagerW extends ImageManager {
 		}
 		// FIXME this is a bit hacky: if we did not get precise match, assume
 		// encoding problem and rely on MD5
-		if (match == null
+		// Only do this for lookup, not on file load: the file may have two
+		// different images with same prefix
+		if (match == null && md5fallback
 				&& fileName.length() > app1.getMD5folderLength(fileName)) {
 			int md5length = app1.getMD5folderLength(fileName);
 			String md5 = fileName.substring(0, md5length);
@@ -160,7 +166,7 @@ public class ImageManagerW extends ImageManager {
 	 */
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
 		ImageElement img = getExternalImage(imageFileName, (AppW) geoi
-				.getKernel().getApplication());
+				.getKernel().getApplication(), true);
 		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
 		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi, (AppW) geoi
 				.getKernel().getApplication());
@@ -184,7 +190,7 @@ public class ImageManagerW extends ImageManager {
 		this.imagesLoaded = 0;
 		if (toLoad.entrySet() != null) {
 			for (Entry<String, String> imgSrc : toLoad.entrySet()) {
-				ImageElement el = getExternalImage(imgSrc.getKey(), app);
+				ImageElement el = getExternalImage(imgSrc.getKey(), app, true);
 				ImageWrapper img = new ImageWrapper(el);
 				img.attachNativeLoadHandler(this, new ImageLoadCallback() {
 
