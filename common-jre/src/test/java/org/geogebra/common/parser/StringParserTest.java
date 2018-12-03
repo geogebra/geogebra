@@ -33,6 +33,6 @@ public class StringParserTest extends BaseUnitTest {
 
     @Test
     public void testConversion() {
-        Assert.assertEquals(stringParser.convertToDouble("-1"), -1, DELATA);
+        Assert.assertEquals(stringParser.convertToDouble("-1"), -1, DELTA);
     }
 }

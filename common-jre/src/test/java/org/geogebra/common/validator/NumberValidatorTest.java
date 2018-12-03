@@ -33,6 +33,7 @@ public class NumberValidatorTest extends BaseUnitTest {
 
 	@Test
 	public void testConversion() {
-		Assert.assertEquals(-1.0, numberValidator.getDouble("-1", -2.0), DELATA);
+		Assert.assertEquals(
+				-1.0, numberValidator.getDouble("-1", -2.0), DELTA);
 	}
 }

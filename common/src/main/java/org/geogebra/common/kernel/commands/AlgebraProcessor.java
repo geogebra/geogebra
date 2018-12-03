@@ -1282,7 +1282,11 @@ public class AlgebraProcessor {
 	 * @throws ParseException this exception is thrown if the String cannot be converted.
 	 */
 	public double convertToDouble(String string) throws ParseException {
-		return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
+		try {
+			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
+		} catch (MyError | TokenMgrError | ClassCastException | StringIndexOutOfBoundsException e) {
+			throw new ParseException(e.getMessage());
+		}
 	}
 
 	/**

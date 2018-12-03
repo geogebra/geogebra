@@ -12,6 +12,13 @@ public class NumberValidator {
 		stringParser = new StringParser(algebraProcessor);
 	}
 
+	/**
+	 * @param numberString The string containing a number.
+	 * @param minValue The value contained in the String must be greater than this.
+	 * @return If the numeric value of the String is greater than the minValue then returns the
+	 * 		numeric value of the String,
+	 * 		otherwise throws a NumberValueOutOfBoundsException.
+	 */
 	public Double getDouble(String numberString, Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
 		if (minValue != null && number <= minValue) {
