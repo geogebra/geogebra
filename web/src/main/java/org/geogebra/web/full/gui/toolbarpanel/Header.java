@@ -285,9 +285,13 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void onOpen() {
 		removeOrientationStyles();
-		if (toolbarPanel.isAlgebraViewActive()) {
+		TabIds tab = toolbarPanel.getSelectedTabId();
+		if (tab == TabIds.ALGEBRA) {
 			onAlgebraPressed();
+		} else if (tab == TabIds.TABLE) {
+			onTableViewPressed();
 		} else {
+			// tools or null
 			onToolsPressed();
 		}
 		setOpen(true);
