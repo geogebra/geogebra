@@ -17,12 +17,18 @@ public class StringParserTest extends BaseUnitTest {
 
     @Test
     public void testExceptionThrowing() {
-        try {
-            stringParser.convertToDouble("a");
-            Assert.fail("This should have thrown an exception");
-        } catch (NumberFormatException ignored) {
+		// try {
+		// stringParser.convertToDouble("a");
+		// Assert.fail("This should have thrown an exception");
+		// } catch (Exception ignored) {
+		//
+		// }
+		try {
+			stringParser.convertToDouble("x y");
+			Assert.fail("This should have thrown an exception");
+		} catch (NumberFormatException ignored) {
 
-        }
+		}
     }
 
     @Test

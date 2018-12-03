@@ -113,6 +113,7 @@ public class InputDialogTableView extends OptionDialog
 		startValue.setInputText(tv.getValuesMinStr());
 		endValue.setInputText(tv.getValuesMaxStr());
 		step.setInputText(tv.getValuesStepStr());
+		errorLabel.setText("");
 		show();
 	}
 
@@ -125,6 +126,7 @@ public class InputDialogTableView extends OptionDialog
 			} catch (InvalidValuesException ex) {
 				errorLabel
 						.setText(ex.getLocalizedMessage(app.getLocalization()));
+				focusPrimaryButton();
 			}
 		} else {
 			errorLabel.setText("");

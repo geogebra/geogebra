@@ -97,4 +97,11 @@ public abstract class OptionDialog extends DialogBoxW
 		return buttonPanel;
 	}
 
+	/**
+	 * Focus OK / insert button
+	 */
+	protected void focusPrimaryButton() {
+		insertBtn.getElement().focus();
+	}
+
 }
