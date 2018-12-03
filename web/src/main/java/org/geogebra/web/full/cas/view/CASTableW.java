@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
@@ -232,8 +231,7 @@ public class CASTableW extends Grid implements CASTable {
 	@Override
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
-			editor = new ReTeXHelper()
-					.getCASEditor(app, ml);
+			editor = new CASLaTeXEditor(app, ml);
 		}
 		return editor;
 	}
