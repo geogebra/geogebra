@@ -39,14 +39,6 @@ public class InputDialogTableView extends OptionDialog
 	public InputDialogTableView(AppW app) {
 		super(app.getPanel(), app, false);
 		buildGui();
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getStartField().getTextField().getTextComponent()
-						.setFocus(true);
-			}
-		});
 		setPrimaryButtonEnabled(true);
 		validator = new TableValuesDialogValidator(app);
 	}
@@ -98,9 +90,24 @@ public class InputDialogTableView extends OptionDialog
 
 	@Override
 	public void show() {
+		endValue.resetInputField();
+		step.resetInputField();
 		super.show();
 		super.centerAndResize(
 				((AppW) app).getAppletFrame().getKeyboardHeight());
+		focusDeferred(startValue);
+	}
+
+	private static void focusDeferred(final ComponentInputField inputField) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				inputField.getTextField().getTextComponent()
+						.setFocus(true);
+			}
+		});
+
 	}
 
 	/**
@@ -119,6 +126,13 @@ public class InputDialogTableView extends OptionDialog
 
 	private void openTableView() {
 		double[] inputFieldValues = validator.getDoubles(startValue, endValue, step);
+		if (startValue.hasError()) {
+			focusDeferred(startValue);
+		} else if (endValue.hasError()) {
+			focusDeferred(endValue);
+		} else if (step.hasError()) {
+			focusDeferred(step);
+		}
 		if (inputFieldValues != null) {
 			try {
 				initTableValuesView(inputFieldValues[0], inputFieldValues[1], inputFieldValues[2]);

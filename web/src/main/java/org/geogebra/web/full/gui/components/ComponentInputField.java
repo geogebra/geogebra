@@ -159,7 +159,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	/**
 	 * Resets input style on blur
 	 */
-	protected void resetInputField() {
+	public void resetInputField() {
 		contentPanel.removeStyleName("focusState");
 	}
 
@@ -215,5 +215,12 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	@Override
 	public void setErrorResolved() {
 		setError(null);
+	}
+
+	/**
+	 * @return whether an error is shown
+	 */
+	public boolean hasError() {
+		return !StringUtil.empty(errorTextKey);
 	}
 }
