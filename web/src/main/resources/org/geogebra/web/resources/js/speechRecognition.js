@@ -27,7 +27,7 @@ recognition.maxAlternatives = 1;
 
 function speechRec() {
   recognition.start();
-  console.log('Ready to receive a color command.');
+  console.log('SPEECH REC: Ready to receive a command.');
 }
 
 recognition.onresult = function(event) {
@@ -43,9 +43,9 @@ recognition.onresult = function(event) {
   var last = event.results.length - 1;
   var color = event.results[last][0].transcript;
 
-  console.log('Result received: ' + color + '.');
-  bg.style.backgroundColor = color;
-  console.log('Confidence: ' + event.results[0][0].confidence);
+  console.log('SPEECH REC: Result received: ' + color + '.');
+  //bg.style.backgroundColor = color;
+  console.log('SPEECH REC: Confidence: ' + event.results[0][0].confidence);
 }
 
 recognition.onspeechend = function() {
@@ -53,9 +53,9 @@ recognition.onspeechend = function() {
 }
 
 recognition.onnomatch = function(event) {
-	console.log("I didn't recognise that color.");
+	console.log("SPEECH REC: I didn't recognise the text.");
 }
 
 recognition.onerror = function(event) {
-	console.log('Error occurred in recognition: ' + event.error);
+	console.log('SPEECH REC: Error occurred in recognition: ' + event.error);
 }
