@@ -57,7 +57,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		buildGui(width, app);
-		if (defaultValue != null && !defaultValue.isEmpty()) {
+		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
 		addFocusBlurHandlers();

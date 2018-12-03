@@ -84,4 +84,6 @@ public interface AutoCompleteTextField
 
 	void setPrefSize(int width, int height);
 
+	void wrapSetText(String text);
+
 }

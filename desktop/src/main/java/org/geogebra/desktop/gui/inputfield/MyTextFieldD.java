@@ -18,7 +18,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -552,17 +551,6 @@ public class MyTextFieldD extends JTextField
 			setText(text.replace('\t', ' '));
 			setCaretPosition(pos2);
 		}
-	}
-
-	@Override
-	public void wrapSetText(final String s) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				setText(s);
-			}
-		});
-
 	}
 
 
