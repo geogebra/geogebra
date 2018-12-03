@@ -870,9 +870,18 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		case SWITCH_TO_ABC:
 			selectAbc();
 			break;
+		case ANS:
+			processField.ansPressed();
 		case SWITCH_KEYBOARD:
 		}
 
+	}
+
+	/**
+	 * Handle ANS key
+	 */
+	protected void ansPressed() {
+		// platform dependent
 	}
 
 	/**

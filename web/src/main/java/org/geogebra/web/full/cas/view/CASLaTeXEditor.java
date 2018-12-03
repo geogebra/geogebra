@@ -286,7 +286,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void autocomplete(String text) {
-		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
+		GuiManagerW.makeKeyboardListener(retexListener, null)
+				.insertString(text);
 	}
 
 	@Override

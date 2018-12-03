@@ -1,6 +1,6 @@
 package org.geogebra.web.editor;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 
@@ -17,6 +17,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
+	private HasLastItem lastItemProvider;
 	
 	/**
 	 * @param mf
@@ -25,6 +26,17 @@ public class MathFieldProcessing implements KeyboardListener {
 	 */
 	public MathFieldProcessing(MathFieldW mf) {
 		this.mf = mf;
+	}
+
+	/**
+	 * @param mf
+	 *            math field
+	 * @param av
+	 *            algebra view
+	 */
+	public MathFieldProcessing(MathFieldW mf, HasLastItem av) {
+		this.mf = mf;
+		this.lastItemProvider = av;
 	}
 
 	@Override
@@ -121,11 +133,6 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void updateForNewLanguage(Localization localization) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// TODO Auto-generated method stub
 	}
@@ -161,6 +168,12 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void onKeyboardClosed() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void ansPressed() {
+		this.insertString(lastItemProvider.getLastItem());
+
 	}
 
 }

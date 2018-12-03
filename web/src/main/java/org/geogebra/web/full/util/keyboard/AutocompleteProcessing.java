@@ -1,6 +1,5 @@
 package org.geogebra.web.full.util.keyboard;
 
-import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -101,11 +100,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void updateForNewLanguage(Localization localization) {
-		// overridden for RTI
-	}
-
-	@Override
 	public void endEditing() {
 		field.endOnscreenKeyboardEditing();
 	}
@@ -124,5 +118,10 @@ public class AutocompleteProcessing implements KeyboardListener {
 			}
 		}
 
+	}
+
+	@Override
+	public void ansPressed() {
+		/// not needed
 	}
 }

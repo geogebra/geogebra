@@ -250,7 +250,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            text to be inserted
 	 */
 	public void autocomplete(String text) {
-		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
+		GuiManagerW.makeKeyboardListener(retexListener, null)
+				.insertString(text);
 	}
 
 	/**

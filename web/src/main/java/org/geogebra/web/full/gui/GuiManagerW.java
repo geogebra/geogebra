@@ -15,8 +15,10 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -2162,8 +2164,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		if (textField != null) {
-			onScreenKeyboard
-			.setProcessing(makeKeyboardListener(textField));
+			setOnScreenKeyboardTextField(textField);
 		}
 
 		onScreenKeyboard.setListener(listener);
@@ -2185,14 +2186,16 @@ public class GuiManagerW extends GuiManager
 	 * @return keyboard adapter
 	 */
 	public static KeyboardListener makeKeyboardListener(
-			MathKeyboardListener textField) {
+			MathKeyboardListener textField, HasLastItem lastItemProvider) {
 		if (textField instanceof RetexKeyboardListener) {
 			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField());
+					((RetexKeyboardListener) textField).getMathField(),
+					lastItemProvider);
 		}
 		if (textField instanceof RadioTreeItem) {
 			return new MathFieldProcessing(
-					((RadioTreeItem) textField).getMathField());
+					((RadioTreeItem) textField).getMathField(),
+					lastItemProvider);
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
@@ -2216,7 +2219,9 @@ public class GuiManagerW extends GuiManager
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (onScreenKeyboard != null) {
 			onScreenKeyboard
-			.setProcessing(makeKeyboardListener(textField));
+				.setProcessing(
+							makeKeyboardListener(textField,
+									AlgebraItem.getLastFieldProvider(app)));
 		}
 	}
 

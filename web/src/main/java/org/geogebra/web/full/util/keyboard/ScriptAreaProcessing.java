@@ -1,6 +1,5 @@
 package org.geogebra.web.full.util.keyboard;
 
-import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -101,7 +100,6 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	@Override
 	public void scrollCursorIntoView() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -111,15 +109,8 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void updateForNewLanguage(Localization localization) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setKeyBoardModeText(boolean text) {
-		// TODO Auto-generated method stub
-
+		// not needed
 	}
 
 	@Override
@@ -129,8 +120,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 	@Override
 	public void endEditing() {
-		// TODO Auto-generated method stub
-
+		// not needed
 	}
 
 	@Override
@@ -140,8 +130,12 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 	@Override
 	public void onKeyboardClosed() {
-		// TODO Auto-generated method stub
+		// not needed
+	}
 
+	@Override
+	public void ansPressed() {
+		// not needed
 	}
 
 }

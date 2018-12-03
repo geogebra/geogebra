@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.web;
 
-import org.geogebra.common.main.Localization;
-
 /**
  * interface for classes that can receive input from the {@link TabbedKeyboard}
  */
@@ -71,13 +69,6 @@ public interface KeyboardListener {
 	boolean resetAfterEnter();
 
 	/**
-	 * change language specific notations
-	 * @param localization
-	 *            localization
-	 */
-	void updateForNewLanguage(Localization localization);
-
-	/**
 	 * @param text
 	 *            true if text
 	 */
@@ -102,4 +93,9 @@ public interface KeyboardListener {
 	 * on keyboard closed
 	 */
 	void onKeyboardClosed();
+
+	/**
+	 * Ans key pressed
+	 */
+	void ansPressed();
 }

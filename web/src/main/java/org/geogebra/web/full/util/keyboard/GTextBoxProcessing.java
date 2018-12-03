@@ -1,6 +1,5 @@
 package org.geogebra.web.full.util.keyboard;
 
-import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.AngleTextFieldW;
 import org.geogebra.web.html5.Browser;
@@ -127,19 +126,13 @@ public class GTextBoxProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void updateForNewLanguage(Localization localization) {
-		// overridden for RTI
-	}
-
-	@Override
 	public boolean isSVCell() {
 		return false;
 	}
 
 	@Override
 	public void endEditing() {
-		// TODO Auto-generated method stub
-
+		// not needed
 	}
 
 	@Override
@@ -149,7 +142,11 @@ public class GTextBoxProcessing implements KeyboardListener {
 
 	@Override
 	public void onKeyboardClosed() {
-		// TODO Auto-generated method stub
+		// not needed
+	}
 
+	@Override
+	public void ansPressed() {
+		// not needed
 	}
 }
