@@ -18,11 +18,7 @@ public class StringParser {
      */
 	public double convertToDouble(String string) {
         try {
-            double doubleValue = algebraProcessor.convertToDouble(string);
-            if (Double.isNaN(doubleValue)) {
-                throw new NumberFormatException("The value is NaN");
-            }
-            return doubleValue;
+            return algebraProcessor.convertToDouble(string);
 		} catch (ParseException e) {
             throw new NumberFormatException(e.getMessage());
         }

@@ -21,7 +21,9 @@ public class NumberValidator {
 	 */
 	public Double getDouble(String numberString, Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
-		if (minValue != null && number <= minValue) {
+		if ((minValue != null && number <= minValue)
+				|| Double.isNaN(number)
+				|| Double.isInfinite(number)) {
 			throw new NumberValueOutOfBoundsException();
 		}
 		return number;
