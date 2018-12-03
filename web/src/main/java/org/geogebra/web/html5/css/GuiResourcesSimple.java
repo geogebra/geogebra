@@ -187,4 +187,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/pause_purple.svg")
 	SVGResource pause_purple();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-record_voice_over-24px.svg")
+	SVGResource record();
 }

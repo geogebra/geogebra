@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.speechRec;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -36,7 +35,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 	private void buildGui(AppW app) {
 		this.setStyleName("speechBtnPanel");
 		StandardButton speechBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.record(), null, 24, app);
+				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
 		final TextResource res = GuiResourcesSimple.INSTANCE.speechRec();
 		JavaScriptInjector.injectAsync(res);
