@@ -22,9 +22,10 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	private double yZeroOld;
 	private double zZeroOld;
 	private Coords tmpCoords1 = new Coords(4);
+	private Coords hittingDirection = new Coords(4);
 
 	/**
-	 * 
+	 *
 	 * @param view3D 3D view
 	 * @param animator animator
 	 */
@@ -44,8 +45,8 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @param dx
 	 *            mouse delta x
 	 * @param dy
@@ -79,13 +80,21 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 				break;
 			case EuclidianController.MOVE_VIEW:
 				Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
+				view3D.getHittingDirection(hittingDirection);
 				view3D.toSceneCoords3D(v);
 
 				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(),
-						tmpCoords1);
-					view3D.setXZero(xZeroOld + tmpCoords1.getX());
-					view3D.setYZero(yZeroOld + tmpCoords1.getY());
+					if (view3D.isAREnabled()) {
+						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, hittingDirection,
+								tmpCoords1);
+						view3D.setXZero(xZeroOld + tmpCoords1.getX());
+						view3D.setYZero(yZeroOld + tmpCoords1.getY());
+					} else {
+						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(),
+								tmpCoords1);
+						view3D.setXZero(xZeroOld + tmpCoords1.getX());
+						view3D.setYZero(yZeroOld + tmpCoords1.getY());
+					}
 				} else {
 					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
 					view3D.setZZero(zZeroOld + tmpCoords1.getZ());
