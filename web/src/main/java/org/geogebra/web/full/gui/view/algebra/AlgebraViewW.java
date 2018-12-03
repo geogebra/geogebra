@@ -160,6 +160,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private AlgebraController algebraController;
 	private AVSelectionController selectionCtrl;
+	private ItemFactory itemFactory;
 
 	/**
 	 * @return algebra controller
@@ -181,7 +182,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.app = (AppW) algCtrl.getApplication();
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
-
+		this.itemFactory = new ItemFactory();
+		itemFactory.setSlidersEnabled(app.getConfig().hasSlidersInAV());
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
 		algCtrl.setView(this);
@@ -1207,7 +1209,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			TreeItem parent = getParentNode(geo, forceLayer);
-			RadioTreeItem node = ItemFactory.createAVItem(geo);
+			RadioTreeItem node = itemFactory.createAVItem(geo);
 
 			addRadioTreeItem(parent, node);
 
@@ -2414,5 +2416,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (ti instanceof RadioTreeItem) {
 			((RadioTreeItem) ti).openMoreMenu();
 		}
+	}
+
+	/**
+	 * @return factory that creates slider/checkbox/text/default elements as
+	 *         needed
+	 */
+	public ItemFactory getItemFactory() {
+		return itemFactory;
 	}
 }

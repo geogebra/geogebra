@@ -167,4 +167,9 @@ public class AppConfigGraphing implements AppConfig {
 		return SymbolicMode.NONE;
 	}
 
+	@Override
+	public boolean hasSlidersInAV() {
+		return true;
+	}
+
 }

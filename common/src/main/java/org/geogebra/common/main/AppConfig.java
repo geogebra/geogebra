@@ -108,6 +108,14 @@ public interface AppConfig {
 	 */
 	boolean hasTableView(App app);
 
+	/**
+	 * @return symbolic mode for algebra view
+	 */
 	SymbolicMode getSymbolicMode();
+
+	/**
+	 * @return whether sliders in AV are allowed
+	 */
+	public boolean hasSlidersInAV();
 
 }

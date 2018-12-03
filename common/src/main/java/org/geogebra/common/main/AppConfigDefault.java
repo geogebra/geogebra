@@ -166,4 +166,9 @@ public class AppConfigDefault implements AppConfig {
 		return SymbolicMode.NONE;
 	}
 
+	@Override
+	public boolean hasSlidersInAV() {
+		return true;
+	}
+
 }

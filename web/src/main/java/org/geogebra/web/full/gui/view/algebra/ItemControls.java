@@ -217,9 +217,9 @@ public class ItemControls extends FlowPanel
 	 * @return whether we have place for the animation panel: do not show it if
 	 *         the user disabled AV slider for given number
 	 */
-	private static boolean animPanelFits(GeoElement geo) {
+	private boolean animPanelFits(GeoElement geo) {
 		if (geo instanceof GeoNumeric) {
-			return ItemFactory.matchSlider(geo);
+			return radioTreeItem.getItemFactory().matchSlider(geo);
 		}
 		return geo.getKernel()
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
@@ -292,7 +292,7 @@ public class ItemControls extends FlowPanel
 	 *            geo element (either from AV item or from preview)
 	 */
 	void updateSuggestions(GeoElement geo) {
-		Suggestion sug = radioTreeItem.needsSuggestions(geo);
+		Suggestion sug = radioTreeItem.getSuggestion(geo);
 		boolean slider = sug instanceof SuggestionSlider;
 
 		if ((sug != null && geo != null) || slider) {

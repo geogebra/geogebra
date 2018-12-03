@@ -56,4 +56,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean isEnableStructures() {
 		return false;
 	}
+
+	@Override
+	public boolean hasSlidersInAV() {
+		return false;
+	}
 }

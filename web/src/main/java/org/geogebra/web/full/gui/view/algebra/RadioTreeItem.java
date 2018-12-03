@@ -143,7 +143,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected GeoElement geo = null;
 	protected Kernel kernel;
 	protected AppWFull app;
-	protected AlgebraView av;
+	protected final AlgebraView av;
 	protected boolean latex = false;
 
 	private FlowPanel latexItem;
@@ -400,7 +400,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		adjustToPanel(content);
 	}
 
-	Suggestion needsSuggestions(GeoElement geo1) {
+	/**
+	 * Get the first available suggestion for a geo or null if none available.
+	 * 
+	 * @param geo1
+	 *            geo
+	 * @return suggestion or null if none available
+	 */
+	Suggestion getSuggestion(GeoElement geo1) {
 		return app.getArticleElement().getDataParamShowSuggestionButtons()
 				&& app.getArticleElement()
 						.getDataParamShowAlgebraInput(app.getArticleElement()
@@ -453,7 +460,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void clearPreviewAndSuggestions() {
 		clearPreview();
-		WarningErrorHandler.setUndefinedValiables(null);
+		clearUndefinedVariables();
 		if (controls != null) {
 			controls.updateSuggestions(null);
 		}
@@ -522,7 +529,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            preview from input bar
 	 */
 	public void buildSuggestions(GeoElement previewGeo) {
-		if (needsSuggestions(previewGeo) != null) {
+		if (getSuggestion(previewGeo) != null) {
 			addControls();
 			controls.reposition();
 			controls.updateSuggestions(geo == null ? previewGeo : geo);
@@ -953,8 +960,15 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected boolean typeChanged() {
-		return (isSliderItem() != ItemFactory.matchSlider(geo))
+		return (isSliderItem() != getItemFactory().matchSlider(geo))
 				|| (isCheckBoxItem() != ItemFactory.matchCheckbox(geo));
+	}
+
+	/**
+	 * @return AV item factory
+	 */
+	protected ItemFactory getItemFactory() {
+		return ((AlgebraViewW) av).getItemFactory();
 	}
 
 	private void cancelDV() {

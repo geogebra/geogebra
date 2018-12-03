@@ -220,7 +220,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private GeoElementND[] evalValidExpression(ValidExpression ve, EvalInfo info) {
 		return kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(ve, false,
 						validation, null, info.withSliders(
-								kernel.getApplication().isHTML5Applet()));
+								kernel.getApplication().isHTML5Applet()
+										&& kernel.getApplication().getConfig()
+												.hasSlidersInAV()));
 	}
 
 	private static boolean isCASeval(ValidExpression ve) {

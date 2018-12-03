@@ -171,4 +171,9 @@ public class AppConfigGeometry implements AppConfig {
 		return SymbolicMode.NONE;
 	}
 
+	@Override
+	public boolean hasSlidersInAV() {
+		return true;
+	}
+
 }

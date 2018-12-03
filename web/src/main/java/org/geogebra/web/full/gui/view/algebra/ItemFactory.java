@@ -9,14 +9,16 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Helper methods for creating new AV items
  */
 public class ItemFactory {
+	private boolean slidersEnabled = true;
+
 	/**
 	 * 
 	 * @param geo
 	 *            geo element
 	 * @return if geo matches to SliderTreeItem.
 	 */
-	public static boolean matchSlider(GeoElement geo) {
-		return geo instanceof GeoNumeric
+	public boolean matchSlider(GeoElement geo) {
+		return slidersEnabled && geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
@@ -35,7 +37,7 @@ public class ItemFactory {
 	 *            geo element
 	 * @return AV item
 	 */
-	public final static RadioTreeItem createAVItem(final GeoElement ob) {
+	public final RadioTreeItem createAVItem(final GeoElement ob) {
 		RadioTreeItem ti = null;
 		if (matchSlider(ob)) {
 			ti = new SliderTreeItemRetex(ob);
@@ -50,4 +52,13 @@ public class ItemFactory {
 		ti.addStyleName("avItem");
 		return ti;
 	}
+
+	/**
+	 * @param slidersEnabled
+	 *            whether to allow creation of sliders
+	 */
+	public void setSlidersEnabled(boolean slidersEnabled) {
+		this.slidersEnabled = slidersEnabled;
+	}
+
 }
