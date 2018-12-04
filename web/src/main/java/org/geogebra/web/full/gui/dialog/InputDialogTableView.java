@@ -7,10 +7,14 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -22,7 +26,7 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class InputDialogTableView extends OptionDialog
-		implements SetLabels {
+		implements SetLabels, HasKeyboardPopup {
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
@@ -36,11 +40,18 @@ public class InputDialogTableView extends OptionDialog
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public InputDialogTableView(AppW app) {
+	public InputDialogTableView(final AppW app) {
 		super(app.getPanel(), app, false);
 		buildGui();
 		setPrimaryButtonEnabled(true);
 		validator = new TableValuesDialogValidator(app);
+		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				app.unregisterPopup(InputDialogTableView.this);
+				app.hideKeyboard();
+			}
+		});
 	}
 
 	/**
@@ -93,7 +104,7 @@ public class InputDialogTableView extends OptionDialog
 		endValue.resetInputField();
 		step.resetInputField();
 		super.show();
-		super.centerAndResize(
+		centerAndResize(
 				((AppW) app).getAppletFrame().getKeyboardHeight());
 		focusDeferred(startValue);
 	}
@@ -107,7 +118,6 @@ public class InputDialogTableView extends OptionDialog
 						.setFocus(true);
 			}
 		});
-
 	}
 
 	/**
@@ -121,6 +131,7 @@ public class InputDialogTableView extends OptionDialog
 		endValue.setInputText(tv.getValuesMaxStr());
 		step.setInputText(tv.getValuesStepStr());
 		errorLabel.setText("");
+		((AppW) app).registerPopup(this);
 		show();
 	}
 

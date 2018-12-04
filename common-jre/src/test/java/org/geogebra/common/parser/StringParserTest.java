@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class StringParserTest extends BaseUnitTest {
 
     private StringParser stringParser;
@@ -15,24 +17,33 @@ public class StringParserTest extends BaseUnitTest {
         stringParser = new StringParser(getKernel().getAlgebraProcessor());
     }
 
-    @Test
-    public void testExceptionThrowing() {
-		// try {
-		// stringParser.convertToDouble("a");
-		// Assert.fail("This should have thrown an exception");
-		// } catch (Exception ignored) {
-		//
-		// }
+	@Test
+	public void testExceptionThrowing() {
+		shouldFail("x y");
+		shouldFail("a");
+		shouldFail("(1,1)");
+		shouldFail("x");
+		shouldFail("1+" + Unicode.IMAGINARY);
+	}
+
+	private void shouldFail(String string) {
+		Throwable err = null;
 		try {
-			stringParser.convertToDouble("x y");
-			Assert.fail("This should have thrown an exception");
-		} catch (NumberFormatException ignored) {
-
+			stringParser.convertToDouble(string);
+		} catch (Throwable thrown) {
+			err = thrown;
 		}
-    }
+		Assert.assertTrue(err instanceof NumberFormatException);
+	}
 
-    @Test
-    public void testConversion() {
-        Assert.assertEquals(stringParser.convertToDouble("-1"), -1, DELTA);
-    }
+	@Test
+	public void testConversion() {
+		shouldParseAs("-1", -1);
+		shouldParseAs("-1,5", -1.5);
+		shouldParseAs("360deg", 2 * Math.PI);
+	}
+
+	private void shouldParseAs(String string, double i) {
+		Assert.assertEquals(stringParser.convertToDouble(string), i, DELTA);
+	}
 }

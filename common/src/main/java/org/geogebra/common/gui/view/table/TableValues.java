@@ -42,7 +42,7 @@ public interface TableValues extends View {
 
 	/**
 	 * Set the values parameters. This method assumes valuesMin &lt; valuesMax,
-	 * and valuesStep &gt;0 ar all finite real numbmers.
+	 * and valuesStep &gt;0 are all finite real numbers.
 	 * 
 	 * If the min/max/step combination requires too many datapoints, an
 	 * InvalidValuesException is thrown.
