@@ -52,6 +52,7 @@ public class InputDialogTableView extends OptionDialog
 				app.hideKeyboard();
 			}
 		});
+		setGlassEnabled(true);
 	}
 
 	/**
