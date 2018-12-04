@@ -21,9 +21,10 @@ public class NumberValidator {
 	 */
 	public double getDouble(String numberString, Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
-		if ((minValue != null && number <= minValue)
-				|| Double.isNaN(number)
-				|| Double.isInfinite(number)) {
+		if (Double.isNaN(number) || Double.isInfinite(number)) {
+			throw new NumberFormatException("The number must be finite");
+		}
+		if (minValue != null && number <= minValue) {
 			throw new NumberValueOutOfBoundsException();
 		}
 		return number;
