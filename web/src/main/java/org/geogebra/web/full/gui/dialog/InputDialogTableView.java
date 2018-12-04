@@ -77,6 +77,8 @@ public class InputDialogTableView extends OptionDialog
 		startValue = addTextField("StartValueX", root);
 		endValue = addTextField("EndValueX", root);
 		step = addTextField("Step", root);
+		// last input text field shouldn't have any bottom margin
+		step.addStyleName("noBottomMarg");
 	}
 
 	private ComponentInputField addTextField(String labelText, FlowPanel root) {

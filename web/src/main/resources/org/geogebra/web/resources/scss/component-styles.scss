@@ -57,14 +57,17 @@
 
 	/* INPUT TEXT FIELD COMPONENT */
 	.inputTextField {
-		margin-top: 6px;
+		margin-top: 8px;
 		margin-bottom: 8px;
 		display: inline-block;
-		min-height: 76px;
+		min-height: 68px; 
 		
 		.inputLabel {
 			font-size: 75%;
 			color: $text-secondary;
+			height: 12px;
+    		line-height: 100%;
+    		display: block;
 		}
 
 		&.error {
@@ -78,7 +81,7 @@
 		}
 	
 		.textField {
-			margin-top: 5px;
+			margin-top: 8px;
 		}
 	
 		.AutoCompleteTextFieldW {
@@ -91,15 +94,17 @@
 			input[type="text"] {
 				border: none !important;
 				box-shadow: none !important;
-				height: 22px;
+				height: 28px; // 20px text container + 8px bottom padding
 				margin: 0px;
-				padding: 0px 0px 6px 0px;
+				padding: 0px 0px 8px 0px;
 			}
 		}
 		
 		.errorLabel {
 			color: $error;
 			font-size: 75%;
+			height: 12px;
+    		line-height: 100%;
 		}
 
 		&.focusState {
@@ -130,4 +135,11 @@
 			}
 		} 	
 	}
+
+	// in case the last input field shouldn't have any bottom margin
+	.noBottomMarg {
+		.inputTextField {
+			margin-bottom: 0px;
+		}
+	} 
 }
