@@ -2710,7 +2710,8 @@ public class Construction {
 			pref = prefix.substring(0, pos);
 		}
 		// TRAC-3519 avoid invalid labels like "Vertex(poly1')_1"
-		if (!LabelManager.isValidLabel(pref, kernel, null)) {
+		if (!LabelManager.isValidLabel(pref, kernel, null) 
+				&& !pref.equals(LabelManager.HIDDEN_PREFIX)) {
 			pref = "a";
 		}
 

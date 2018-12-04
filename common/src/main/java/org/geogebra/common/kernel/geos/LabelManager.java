@@ -12,6 +12,9 @@ import org.geogebra.common.util.StringUtil;
  */
 public class LabelManager {
 
+	/** Prefix for labels that are not shown in AV */
+	public static final String HIDDEN_PREFIX = "\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA";
+	
 	private char[] angleLabels;
 
 	/**

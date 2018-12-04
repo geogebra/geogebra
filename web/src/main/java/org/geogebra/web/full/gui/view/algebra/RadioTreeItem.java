@@ -795,7 +795,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		if (AlgebraItem.needsPacking(geo)) {
+		if (AlgebraItem.needsPacking(geo) || !geo.isAlgebraLabelVisible()) {
 			return geo.getLaTeXDescriptionRHS(substituteNumbers, tpl);
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
@@ -2019,11 +2019,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return whether editng is possible
 	 */
 	public boolean onEditStart() {
-		String text = "";
-		if (AlgebraItem.needsPacking(geo)) {
+		String text;
+		if (geo == null) {
+			text = "";
+		} else if (AlgebraItem.needsPacking(geo)
+				|| !geo.isAlgebraLabelVisible()) {
 			text = geo.getLaTeXDescriptionRHS(false,
 					StringTemplate.editTemplate);
-		} else if (geo != null) {
+		} else {
 			text = geo.getDefinitionForEditor();
 		}
 

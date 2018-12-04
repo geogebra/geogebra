@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
@@ -191,7 +192,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 				// need label if we type just eg
 				// lnx
-
+				if (app.getConfig().hasScientificKeyboard()) {
+					new LabelHiderCallback().callback(geos);
+				}
 				if (geos.length == 1) {
 					if (!geos[0].isLabelSet()) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
