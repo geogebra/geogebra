@@ -1160,7 +1160,6 @@ $duration: 0.2s;
    				}
    		}
 	}
-}
 
 /****************************************************
 *   WEBCAM DIALOGS: permission dialog + camera dialog
@@ -1446,10 +1445,11 @@ $duration: 0.2s;
 		}
 	}
 
-	.MaterialDialogBox .GeoGebraFrame .optionDialog .tableOfValuesDialog {
+	.MaterialDialogBox.tableOfValuesDialog {
 		.Caption {
 			// with the extra 8px from the top 
 			// of input field is 20px as supposed to
-			margin-bottom: 12px !important; 	
+			margin-bottom: 12px; 	
 		}
 	}
+}
