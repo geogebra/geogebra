@@ -104,7 +104,8 @@
 			color: $error;
 			font-size: 75%;
 			height: 12px;
-    		line-height: 100%;
+			line-height: 100%;
+			position: absolute; // actual text height > 12px, don't resize container
 		}
 
 		&.focusState {
