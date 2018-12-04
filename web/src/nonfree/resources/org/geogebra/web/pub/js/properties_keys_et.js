@@ -1334,6 +1334,7 @@ __GGB__keysVar["et"].menu = {
     "AuxiliaryObject": "Abiobjekt",
     "AuxiliaryObjects": "Abiobjektid",
     "Axes": "Teljed",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "T\xe4his",
     "AxisOfA": "%0 telg",
     "AxisTicks": "Kriipsud",

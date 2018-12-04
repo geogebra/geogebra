@@ -1334,6 +1334,7 @@ __GGB__keysVar["hu"].menu = {
     "AuxiliaryObject": "Seg\xe9d alakzat",
     "AuxiliaryObjects": "Seg\xe9d alakzatok",
     "Axes": "Tengelyek",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Felirat",
     "AxisOfA": "%0 tengelye",
     "AxisTicks": "Beoszt\xe1s",

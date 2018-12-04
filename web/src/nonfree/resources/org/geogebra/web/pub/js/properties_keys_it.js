@@ -1334,6 +1334,7 @@ __GGB__keysVar["it"].menu = {
     "AuxiliaryObject": "Oggetto ausiliare",
     "AuxiliaryObjects": "Oggetti ausiliari",
     "Axes": "Assi",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Etichetta",
     "AxisOfA": "Asse di %0",
     "AxisTicks": "Contrassegni",

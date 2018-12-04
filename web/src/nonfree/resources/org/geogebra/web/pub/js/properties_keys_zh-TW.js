@@ -1334,6 +1334,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "AuxiliaryObject": "\u8f14\u52a9\u7269\u4ef6",
     "AuxiliaryObjects": "\u8f14\u52a9\u7269\u4ef6",
     "Axes": "\u5ea7\u6a19\u8ef8",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "\u6a19\u7c64",
     "AxisOfA": "%0 \u7684\u8ef8",
     "AxisTicks": "\u523b\u5ea6",

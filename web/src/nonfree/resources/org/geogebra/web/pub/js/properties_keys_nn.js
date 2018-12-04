@@ -1334,6 +1334,7 @@ __GGB__keysVar["nn"].menu = {
     "AuxiliaryObject": "Hjelpeobjekt",
     "AuxiliaryObjects": "Hjelpeobjekt",
     "Axes": "Aksar",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Namn p\xe5 aksen",
     "AxisOfA": "Akse for %0",
     "AxisTicks": "Merke langs aksane",

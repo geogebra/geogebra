@@ -1334,6 +1334,7 @@ __GGB__keysVar["eo"].menu = {
     "AuxiliaryObject": "Helpa objekto",
     "AuxiliaryObjects": "Helpaj objektoj",
     "Axes": "Aksoj",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Etikedo",
     "AxisOfA": "Akso de %0",
     "AxisTicks": "Skalo",

@@ -1334,6 +1334,7 @@ __GGB__keysVar["am"].menu = {
     "AuxiliaryObject": "Auxiliary Object",
     "AuxiliaryObjects": "\u12a0\u130b\u12e5 \u1290\u1308\u122e\u127d",
     "Axes": "Axes",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Label",
     "AxisOfA": "\u12e8 %0 \u12d8\u1295\u130d",
     "AxisTicks": "\u127c\u12ad-\u121d\u120d\u12ad\u1275",

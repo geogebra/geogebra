@@ -1334,6 +1334,7 @@ __GGB__keysVar["da"].menu = {
     "AuxiliaryObject": "Hj\xe6lpe objekt",
     "AuxiliaryObjects": "Hj\xe6lpe objekter",
     "Axes": "Akse",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Navn",
     "AxisOfA": "%0s akse",
     "AxisTicks": "M\xe6rker",

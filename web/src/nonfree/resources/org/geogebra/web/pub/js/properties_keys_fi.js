@@ -1334,6 +1334,7 @@ __GGB__keysVar["fi"].menu = {
     "AuxiliaryObject": "Apuobjekti",
     "AuxiliaryObjects": "Apuobjektit",
     "Axes": "Akselit",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Nimi",
     "AxisOfA": "%0:n akseli",
     "AxisTicks": "Jaotus",

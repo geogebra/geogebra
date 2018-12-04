@@ -1334,6 +1334,7 @@ __GGB__keysVar["vi"].menu = {
     "AuxiliaryObject": "\u0110\u1ed1i t\u01b0\u1ee3ng ph\u1ee5",
     "AuxiliaryObjects": "C\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng ph\u1ee5",
     "Axes": "H\u1ec7 tr\u1ee5c t\u1ecda \u0111\u1ed9",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "T\xean tr\u1ee5c",
     "AxisOfA": "Tr\u1ee5c c\u1ee7a %0",
     "AxisTicks": "D\u1ea5u ch\u1ecdn",

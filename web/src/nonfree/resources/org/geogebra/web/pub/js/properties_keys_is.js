@@ -1334,6 +1334,7 @@ __GGB__keysVar["is"].menu = {
     "AuxiliaryObject": "Hj\xe1lparhlutur",
     "AuxiliaryObjects": "Hj\xe1lparhlutir",
     "Axes": "\xc1sar",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Merki \xe1 \xe1s",
     "AxisOfA": "\xc1s %0",
     "AxisTicks": "Kvar\xf0amerki \xe1 \xe1sum",

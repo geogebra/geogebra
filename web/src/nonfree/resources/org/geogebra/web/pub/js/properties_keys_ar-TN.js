@@ -1334,6 +1334,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "AuxiliaryObject": "\u0639\u0646\u0635\u0631 \u0625\u0636\u0627\u0641\u064a",
     "AuxiliaryObjects": "\u0627\u0644\u0639\u0646\u0627\u0635\u0631 \u0627\u0644\u0625\u0636\u0627\u0641\u064a\u0629",
     "Axes": "\u0627\u0644\u0645\u062d\u0627\u0648\u0631",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "\u062a\u0633\u0645\u064a\u0629",
     "AxisOfA": "\u0645\u062d\u0648\u0631 %0",
     "AxisTicks": "\u062a\u062f\u0631\u064a\u062c",

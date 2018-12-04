@@ -1334,6 +1334,7 @@ __GGB__keysVar["sk"].menu = {
     "AuxiliaryObject": "Pomocn\xfd objekt",
     "AuxiliaryObjects": "Pomocn\xe9 objekty",
     "Axes": "Osi",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Ozna\u010denie",
     "AxisOfA": "Os %0",
     "AxisTicks": "Dieliky",

@@ -1334,6 +1334,7 @@ __GGB__keysVar["th"].menu = {
     "AuxiliaryObject": "\u0e2d\u0e47\u0e2d\u0e1a\u0e40\u0e08\u0e01\u0e15\u0e4c\u0e40\u0e2a\u0e23\u0e34\u0e21",
     "AuxiliaryObjects": "\u0e2d\u0e47\u0e2d\u0e1a\u0e40\u0e08\u0e01\u0e15\u0e4c\u0e40\u0e2a\u0e23\u0e34\u0e21",
     "Axes": "\u0e41\u0e01\u0e19",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "\u0e1b\u0e49\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d",
     "AxisOfA": "\u0e41\u0e01\u0e19\u0e02\u0e2d\u0e07 %0",
     "AxisTicks": "\u0e15\u0e34\u0e4a\u0e01",

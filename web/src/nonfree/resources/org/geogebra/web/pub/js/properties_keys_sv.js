@@ -1334,6 +1334,7 @@ __GGB__keysVar["sv"].menu = {
     "AuxiliaryObject": "Hj\xe4lpobjekt",
     "AuxiliaryObjects": "Hj\xe4lpobjekt",
     "Axes": "Visa axlar",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Namn p\xe5 axlarna",
     "AxisOfA": "Axel f\xf6r %0",
     "AxisTicks": "M\xe4rke l\xe4ngs axel",

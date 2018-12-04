@@ -1334,6 +1334,7 @@ __GGB__keysVar["bs"].menu = {
     "AuxiliaryObject": "Pomo\u0107na figura",
     "AuxiliaryObjects": "Pomo\u0107ne figure",
     "Axes": "Koordinatne ose",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Oznaka",
     "AxisOfA": "Osa od %0",
     "AxisTicks": "Oznake na osi",

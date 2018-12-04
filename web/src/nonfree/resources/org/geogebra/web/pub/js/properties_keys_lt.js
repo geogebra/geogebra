@@ -1334,6 +1334,7 @@ __GGB__keysVar["lt"].menu = {
     "AuxiliaryObject": "Pagalbinis objektas",
     "AuxiliaryObjects": "Pagalbiniai objektai",
     "Axes": "A\u0161ys",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "\u017dym\u0117",
     "AxisOfA": "%0 a\u0161is",
     "AxisTicks": "\u017dym\u0117jimai",

@@ -1334,6 +1334,7 @@ __GGB__keysVar["lv"].menu = {
     "AuxiliaryObject": "Papildus Objekts",
     "AuxiliaryObjects": "Papildus Objekti",
     "Axes": "Asis",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Nosaukums",
     "AxisOfA": "Asis %0",
     "AxisTicks": "Atz\u012bmes",

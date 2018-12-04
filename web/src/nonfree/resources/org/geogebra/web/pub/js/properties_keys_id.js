@@ -1334,6 +1334,7 @@ __GGB__keysVar["id"].menu = {
     "AuxiliaryObject": "Objek Pembantu",
     "AuxiliaryObjects": "Objek-objek Pembantu",
     "Axes": "Sumbu-sumbu",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Label",
     "AxisOfA": "Sumbu dari %0",
     "AxisTicks": "Strip",

@@ -1334,6 +1334,7 @@ __GGB__keysVar["ro"].menu = {
     "AuxiliaryObject": "Obiect auxiliar",
     "AuxiliaryObjects": "Obiecte auxiliare",
     "Axes": "Axe",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Etichet\u0103",
     "AxisOfA": "Axa lui %0",
     "AxisTicks": "Marcaje",

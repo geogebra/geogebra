@@ -1334,6 +1334,7 @@ __GGB__keysVar["ne"].menu = {
     "AuxiliaryObject": "\u0938\u0939\u093e\u092f\u0915 \u0935\u0938\u094d\u0924\u0941",
     "AuxiliaryObjects": "\u0938\u0939\u093e\u092f\u0915 \u0935\u0938\u094d\u0924\u0941\u0939\u0930\u0941",
     "Axes": "\u0905\u0915\u094d\u0937\u0939\u0930\u0941",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "\u0905\u0902\u0915\u093f\u0924",
     "AxisOfA": "%0 \u0915\u094b \u0905\u0915\u094d\u0937",
     "AxisTicks": "\u091f\u0940\u0915\u094d\u0938\u094d",

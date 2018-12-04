@@ -1334,6 +1334,7 @@ __GGB__keysVar["gl"].menu = {
     "AuxiliaryObject": "Obxecto auxiliar",
     "AuxiliaryObjects": "Obxectos auxiliares",
     "Axes": "Eixes",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "R\xf3tulo",
     "AxisOfA": "Eixe de %0",
     "AxisTicks": "Graduaci\xf3ns",

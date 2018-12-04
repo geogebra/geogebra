@@ -1334,6 +1334,7 @@ __GGB__keysVar["cy"].menu = {
     "AuxiliaryObject": "Gwrthrych atodol",
     "AuxiliaryObjects": "Gwrthrychau atodol",
     "Axes": "Echelinau",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Label",
     "AxisOfA": "Echelin o %0",
     "AxisTicks": "Ticiau",

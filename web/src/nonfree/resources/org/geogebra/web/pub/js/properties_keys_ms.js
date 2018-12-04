@@ -1334,6 +1334,7 @@ __GGB__keysVar["ms"].menu = {
     "AuxiliaryObject": "Objek Bantu",
     "AuxiliaryObjects": "Objek-objek Bantu",
     "Axes": "Paksi-Paksi",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Label",
     "AxisOfA": "Paksi bagi %0",
     "AxisTicks": "Tanda-tanda",

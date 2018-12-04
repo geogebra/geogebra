@@ -1334,6 +1334,7 @@ __GGB__keysVar["sl"].menu = {
     "AuxiliaryObject": "Pomo\u017eni objekt",
     "AuxiliaryObjects": "Pomo\u017eni objekti",
     "Axes": "Osi",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Oznake osi",
     "AxisOfA": "Os %0",
     "AxisTicks": "Oznake merila",

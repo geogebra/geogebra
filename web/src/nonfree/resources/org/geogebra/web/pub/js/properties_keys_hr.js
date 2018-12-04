@@ -1334,6 +1334,7 @@ __GGB__keysVar["hr"].menu = {
     "AuxiliaryObject": "Pomo\u0107ni objekt",
     "AuxiliaryObjects": "Pomo\u0107ni objekti",
     "Axes": "Koordinatne osi",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Oznaka",
     "AxisOfA": "Os od %0",
     "AxisTicks": "Podjela",

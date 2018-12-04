@@ -1334,6 +1334,7 @@ __GGB__keysVar["sq"].menu = {
     "AuxiliaryObject": "Objekt Ndihmes",
     "AuxiliaryObjects": "Objekte Ndihmese",
     "Axes": "Boshte",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Etikete",
     "AxisOfA": "Boshti i %0",
     "AxisTicks": "Shenja",

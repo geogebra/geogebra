@@ -1334,6 +1334,7 @@ __GGB__keysVar["xh"].menu = {
     "AuxiliaryObject": "Into Encedisayo",
     "AuxiliaryObjects": "Izinto Ezincedisayo",
     "Axes": "UmgcaOleleyoNomileyo",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "iLeyibheli",
     "AxisOfA": "Umgca we %0",
     "AxisTicks": "Iimpawu",

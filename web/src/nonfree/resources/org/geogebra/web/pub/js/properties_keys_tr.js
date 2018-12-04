@@ -1334,6 +1334,7 @@ __GGB__keysVar["tr"].menu = {
     "AuxiliaryObject": "Yard\u0131mc\u0131 nesne",
     "AuxiliaryObjects": "Yard\u0131mc\u0131 nesneler",
     "Axes": "Eksenler",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Etiket",
     "AxisOfA": "%0 Ekseni",
     "AxisTicks": "\u0130\u015faretler",

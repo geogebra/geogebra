@@ -1334,6 +1334,7 @@ __GGB__keysVar["cs"].menu = {
     "AuxiliaryObject": "Pomocn\xfd objekt",
     "AuxiliaryObjects": "Pomocn\xe9 objekty",
     "Axes": "Osy",
+    "AxesColored": "Colored Axes",
     "AxisLabel": "Popis",
     "AxisOfA": "Osa %0",
     "AxisTicks": "zna\u010dky na os\xe1ch",
