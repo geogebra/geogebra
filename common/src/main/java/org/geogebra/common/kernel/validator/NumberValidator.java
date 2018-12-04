@@ -19,7 +19,7 @@ public class NumberValidator {
 	 * 		numeric value of the String,
 	 * 		otherwise throws a NumberValueOutOfBoundsException.
 	 */
-	public Double getDouble(String numberString, Double minValue) {
+	public double getDouble(String numberString, Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
 		if ((minValue != null && number <= minValue)
 				|| Double.isNaN(number)
