@@ -6,6 +6,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
@@ -65,6 +66,11 @@ public class GraphicsPropertiesList extends PropertiesList {
 				euclidianSettings));
 		propertyList.add(new LabelsPropertyCollection(mApp, mLocalization,
 				euclidianSettings));
+
+        if (mApp.has(Feature.G3D_BLACK_AXES) && activeView.isEuclidianView3D()) {
+            propertyList.add(new AxesColoredProperty(mLocalization,
+                    (EuclidianSettings3D) euclidianSettings));
+        }
 
         mProperties = new Property[propertyList.size()];
         propertyList.toArray(mProperties);
