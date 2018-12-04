@@ -12,12 +12,18 @@ import org.geogebra.common.main.Localization;
 public class TableValuesDialogValidator {
 
 	private static final String NUMBER_FORMAT_ERROR_MESSAGE_KEY = "InputError.Enter_a_number";
-	private static final String NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY = "InputError.EndValueLessThanStartValue";
-	private static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY = "InputError.Enter_a_number_greater_than_0";
+	private static final String NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY = "InputError."
+			+ "EndValueLessThanStartValue";
+	private static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY = "InputError."
+			+ "Enter_a_number_greater_than_0";
 
 	private NumberValidator numberValidator;
 	private Localization localization;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public TableValuesDialogValidator(App app) {
 		numberValidator = new NumberValidator(app.getKernel().getAlgebraProcessor());
 		localization = app.getLocalization();
