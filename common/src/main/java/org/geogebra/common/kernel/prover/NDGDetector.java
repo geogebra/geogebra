@@ -323,7 +323,7 @@ public class NDGDetector {
 
 		Combinations<PVariable> pairs2 = new Combinations<>(freeXvars, 2);
 
-		while (pairs.hasNext()) {
+		while (pairs2.hasNext()) {
 			Set<PVariable> pair = pairs2.next();
 			Iterator<PVariable> itc = pair.iterator();
 			// GeoElement[] points = (GeoElement[]) pair.toArray();
@@ -355,7 +355,7 @@ public class NDGDetector {
 
 		pairs2 = new Combinations<>(freeYvars, 2);
 
-		while (pairs.hasNext()) {
+		while (pairs2.hasNext()) {
 			Set<PVariable> pair = pairs2.next();
 			Iterator<PVariable> itc = pair.iterator();
 			// GeoElement[] points = (GeoElement[]) pair.toArray();
@@ -403,7 +403,7 @@ public class NDGDetector {
 
 			Combinations<GeoElement> pairs3 = new Combinations<>(freePointsSet,
 					2);
-			while (pairs2.hasNext()) {
+			while (pairs3.hasNext()) {
 				Set<GeoElement> pair2 = pairs3.next();
 				Iterator<GeoElement> it2 = pair2.iterator();
 				// GeoElement[] points = (GeoElement[]) pair.toArray();
