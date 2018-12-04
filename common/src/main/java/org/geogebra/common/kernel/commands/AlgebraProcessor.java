@@ -1284,7 +1284,7 @@ public class AlgebraProcessor {
 	public double convertToDouble(String string) throws ParseException {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
-		} catch (MyError | TokenMgrError | ClassCastException | StringIndexOutOfBoundsException e) {
+		} catch (MyError | TokenMgrError | RuntimeException e) {
 			throw new ParseException(e.getMessage());
 		}
 	}
