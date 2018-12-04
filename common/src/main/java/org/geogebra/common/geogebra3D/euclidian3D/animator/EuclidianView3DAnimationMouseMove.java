@@ -84,17 +84,12 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 				view3D.toSceneCoords3D(v);
 
 				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-					if (view3D.isAREnabled()) {
-						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, hittingDirection,
-								tmpCoords1);
-						view3D.setXZero(xZeroOld + tmpCoords1.getX());
-						view3D.setYZero(yZeroOld + tmpCoords1.getY());
-					} else {
-						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(),
-								tmpCoords1);
-						view3D.setXZero(xZeroOld + tmpCoords1.getX());
-						view3D.setYZero(yZeroOld + tmpCoords1.getY());
-					}
+					Coords direction = view3D.isAREnabled() ? hittingDirection 
+							: view3D.getViewDirection();
+
+					v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, direction, tmpCoords1);
+					view3D.setXZero(xZeroOld + tmpCoords1.getX());
+					view3D.setYZero(yZeroOld + tmpCoords1.getY());
 				} else {
 					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
 					view3D.setZZero(zZeroOld + tmpCoords1.getZ());
