@@ -4157,7 +4157,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		 * Csilla Master (do not dare to change this :)
 		 */
 		case SPEECH_RECOGNITION:
-			return prerelease;
+			return prerelease && !whiteboard;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
