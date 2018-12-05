@@ -1800,31 +1800,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return true;
 	}
 
-	/*
-	 * // calc acos(x). returns 0 for x > 1 and pi for x < -1 final static
-	 * double trimmedAcos(double x) { if (Math.abs(x) <= 1.0d) return
-	 * Math.acos(x); else if (x > 1.0d) return 0.0d; else if (x < -1.0d) return
-	 * Math.PI; else return Double.NaN; }
-	 */
-
-	/**
-	 * Computes max of abs(a[i])
-	 * 
-	 * @param a
-	 *            array of numbers
-	 * @return max of abs(a[i])
-	 */
-	final static double maxAbs(double[] a) {
-		double temp, max = Math.abs(a[0]);
-		for (int i = 1; i < a.length; i++) {
-			temp = Math.abs(a[i]);
-			if (temp > max) {
-				max = temp;
-			}
-		}
-		return max;
-	}
-
 	/**
 	 * @param numbers
 	 *            coefficients
