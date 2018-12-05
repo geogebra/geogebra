@@ -9665,7 +9665,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		draggingOccured = false;
 		draggingBeyondThreshold = false;
 		view.setSelectionRectangle(null);
-		selectionStartPoint.setLocation(mouseLoc);
+
+		if (mouseLoc != null) {
+			selectionStartPoint.setLocation(mouseLoc);
+		}
 
 		if (hitResetIcon()
 				|| view.hitAnimationButton(event.getX(), event.getY())) {
