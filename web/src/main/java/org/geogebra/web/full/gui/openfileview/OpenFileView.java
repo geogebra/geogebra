@@ -418,7 +418,7 @@ public class OpenFileView extends MyHeaderPanel
 		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
 			Widget wgt = materialPanel.getWidget(i);
 			if (wgt instanceof MaterialCard
-					&& isBefore(material, ((MaterialCard) wgt).getMaterial())) {
+					&& isBeforeOrSame(material, ((MaterialCard) wgt).getMaterial())) {
 				if (((MaterialCard) wgt).getMaterial().getSharingKeyOrId()
 						.equals(material.getSharingKeyOrId())) {
 					// don't add the same material twice
@@ -431,14 +431,14 @@ public class OpenFileView extends MyHeaderPanel
 		materialPanel.add(new MaterialCard(material, app));
 	}
 
-	private boolean isBefore(Material material, Material material2) {
+	private boolean isBeforeOrSame(Material material, Material material2) {
 		switch (order) {
 		case title:
 			return material.getTitle().compareTo(material2.getTitle()) <= 0;
 		case created:
-			return material.getDateCreated() > material2.getDateCreated();
+			return material.getDateCreated() >= material2.getDateCreated();
 		case timestamp:
-			return material.getTimestamp() > material2.getTimestamp();
+			return material.getTimestamp() >= material2.getTimestamp();
 		default:
 			return false;
 		}
