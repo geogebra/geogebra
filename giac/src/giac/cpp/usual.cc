@@ -10317,8 +10317,10 @@ namespace giac {
     if (args.type==_DOUBLE_) return LambertW(args._DOUBLE_val);
     if (args.type==_CPLX && args.subtype==3) 
       return LambertW(complex<double>(args._CPLXptr->_DOUBLE_val,(args._CPLXptr+1)->_DOUBLE_val));
+#ifdef HAVE_LIBMPFR
     if (args.type==_REAL || (args.type==_CPLX && args._CPLXptr->type==_REAL))
       return LambertW(args,0);
+#endif
     if (args==0 || args==plus_inf) return args;
     if (args==symbolic(at_exp,1)) return 1;
     if (args==2*symb_ln(2) || args==symb_ln(4)) return symb_ln(2);

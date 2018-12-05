@@ -278,7 +278,9 @@ namespace giac {
 
   gen _constants_catalog(const gen & g,GIAC_CONTEXT);
   std::complex<double> LambertW(std::complex<double> x,int n=0);
+#ifdef HAVE_LIBMPFR
   gen LambertW(const gen & z,int n);
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

@@ -362,6 +362,10 @@ namespace giac {
   static define_unary_function_eval (__randnormald,&_randNorm,_randnormald_s);
   define_unary_function_ptr5( at_randnormald ,alias_at_randnormald,&__randnormald,0,true);
 
+  static const char _normalvariate_s []="normalvariate";
+  static define_unary_function_eval (__normalvariate,&_randNorm,_normalvariate_s);
+  define_unary_function_ptr5( at_normalvariate ,alias_at_normalvariate,&__normalvariate,0,true);
+
   double randchisquare(int k,GIAC_CONTEXT){
     double res=0.0;
     for (int i=0;i<k;++i){
@@ -465,6 +469,10 @@ namespace giac {
   static const char _randexp_s []="randexp";
   static define_unary_function_eval (__randexp,&_randexp,_randexp_s);
   define_unary_function_ptr5( at_randexp ,alias_at_randexp,&__randexp,0,true);
+
+  static const char _expovariate_s []="expovariate";
+  static define_unary_function_eval (__expovariate,&_randexp,_expovariate_s);
+  define_unary_function_ptr5( at_expovariate ,alias_at_expovariate,&__expovariate,0,true);
 
   // Normal cumulative distribution function
   // proba that X<x for X following a normal distrib of mean mean and dev dev
@@ -2007,6 +2015,10 @@ namespace giac {
   static define_unary_function_eval (__randweibulld,&_randweibulld,_randweibulld_s);
   define_unary_function_ptr5( at_randweibulld ,alias_at_randweibulld,&__randweibulld,0,true);
 
+  static const char _weibullvariate_s []="weibullvariate";
+  static define_unary_function_eval (__weibullvariate,&_randweibulld,_weibullvariate_s);
+  define_unary_function_ptr5( at_weibullvariate ,alias_at_weibullvariate,&__weibullvariate,0,true);
+
   gen betad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
     if ( (x==0 && alpha==1) || (x==1 && beta==1))
       return plus_one/Beta(alpha,beta,contextptr);
@@ -2121,6 +2133,10 @@ namespace giac {
   static const char _randbetad_s []="randbetad";
   static define_unary_function_eval (__randbetad,&_randbetad,_randbetad_s);
   define_unary_function_ptr5( at_randbetad ,alias_at_randbetad,&__randbetad,0,true);
+
+  static const char _betavariate_s []="betavariate";
+  static define_unary_function_eval (__betavariate,&_randbetad,_betavariate_s);
+  define_unary_function_ptr5( at_betavariate ,alias_at_betavariate,&__betavariate,0,true);
 
   gen gammad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
     if (is_zero(x) && alpha==1)
@@ -2401,6 +2417,9 @@ namespace giac {
   static define_unary_function_eval (__randgammad,&_randgammad,_randgammad_s);
   define_unary_function_ptr5( at_randgammad ,alias_at_randgammad,&__randgammad,0,true);
 
+  static const char _gammavariate_s []="gammavariate";
+  static define_unary_function_eval (__gammavariate,&_randgammad,_gammavariate_s);
+  define_unary_function_ptr5( at_gammavariate ,alias_at_gammavariate,&__gammavariate,0,true);
 
   gen uniform(const gen & g,bool ckpython,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -4182,6 +4201,7 @@ namespace giac {
     }
   }
 
+#ifdef HAVE_LIBMPFR
   gen LambertW(const gen & Z,int n){
     gen z(Z);
     if (z==0) return z;
@@ -4217,6 +4237,7 @@ namespace giac {
       w=wnext;
     }
   }
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

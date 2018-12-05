@@ -4,7 +4,9 @@
 #define GIAC_MPQS // define if you want to use giac for sieving 
 #endif
 
-
+#ifdef HAVE_LIBECM
+#include <ecm.h>
+#endif
 
 #include "path.h"
 /*
@@ -2945,6 +2947,220 @@ namespace giac {
     return false;
   }
 
+  // elliptic curve method, 
+  // http://math.univ-lyon1.fr/~roblot/resources/factorisation.pdf
+  // This is a very naive implementation
+  // It does not use Montgomery representation and only phase 1
+  // For professional implementations, cf.
+  // https://members.loria.fr/PZimmermann/papers/ecm-submitted.pdf
+  // https://pdfs.semanticscholar.org/e8eb/13b75292b15dd63c3e7e4b1c8dc334d278ba.pdf
+  // ecm will be used if available
+#define ECM_MAXITER 1000
+  static gen L(double alpha,double beta,double N){
+    double lnN=std::log(N);
+    return std::exp(beta*std::pow(lnN,alpha)*std::pow(std::log(lnN),1-alpha));
+  }
+
+
+#ifndef USE_GMP_REPLACEMENTS
+  // addition in elliptic curve, returns 1 on success or 0 and m=a divisor of n
+  int ecm_add(const mpz_t &x1,const mpz_t &y1,const mpz_t & x2,const mpz_t &y2,const mpz_t & a,const mpz_t & n,mpz_t & m,mpz_t & x,mpz_t &y){
+    if (mpz_cmp(x1,x2)){
+      mpz_sub(x,x2,x1); // x=x2-x1
+      int res=mpz_invert(m,x,n); // m=inv(x2-x1) mod n
+      if (res==0){ // not invertible
+	mpz_gcd(m,x,n);
+	return 0; // m has non trivial gcd with n
+      }
+      mpz_sub(y,y2,y1);
+      mpz_mul(m,m,y); // m=(y2-y1)*invmod(x2-x1,n);
+    }
+    else {
+      mpz_mul_ui(y,y1,2);
+      int res=mpz_invert(m,y,n); // m=inv(2*y) mod n
+      if (res==0){ // not invertible
+	mpz_gcd(m,y,n);
+	return 0; // m has non trivial gcd with n
+      }
+      mpz_mul(x,x1,x1);
+      mpz_mul_ui(x,x,3);
+      mpz_add(x,x,a);
+      mpz_mul(m,m,x); // m=(3*x1*x1+a)*invmod(2*y1,n);
+    }
+    mpz_fdiv_r(m,m,n); // m=mod(m,n);
+    mpz_mul(x,m,m);
+    mpz_sub(x,x,x1);
+    mpz_sub(x,x,x2);
+    mpz_fdiv_r(x,x,n); // x=mod(m*m-x1-x2,n);
+    mpz_sub(y,x1,x);
+    mpz_mul(y,m,y);
+    mpz_sub(y,y,y1);
+    mpz_fdiv_r(y,y,n); // y=mod(m*(x1-x)-y1,n);
+    // smod x and y
+    mpz_add(m,x,x);
+    if (mpz_cmp(m,n)>0)
+      mpz_sub(x,x,n);
+    mpz_add(m,y,y);
+    if (mpz_cmp(m,n)>0)
+      mpz_sub(y,y,n);
+    return 1;
+  }
+#endif
+
+  gen ecm_add(const gen &x1,const gen &y1,const gen & x2,const gen &y2,const gen & a,const gen & n,gen & m,gen & x,gen &y){
+    if (is_inf(x1)){
+      x=x2; y=y2; return 1;
+    }
+    if (is_inf(x2)){
+      x=x1; y=y1; return 1;
+    }
+    if (y1+y2==0){
+      y=x=unsigned_inf; return 1;
+    }
+#ifndef USE_GMP_REPLACEMENTS
+    if (x1.type==_ZINT && y1.type==_ZINT && x2.type==_ZINT && y2.type==_ZINT && a.type==_ZINT && n.type==_ZINT ){
+      m=gen(1LL<<33);
+      x=gen(1LL<<33);
+      y=gen(1LL<<33);
+      if (!ecm_add(*x1._ZINTptr,*y1._ZINTptr,*x2._ZINTptr,*y2._ZINTptr,*a._ZINTptr,*n._ZINTptr,*m._ZINTptr,*x._ZINTptr,*y._ZINTptr)){
+	return gen(*m._ZINTptr);
+      }
+      return 1;
+    }
+#endif
+    if (x1!=x2){
+      m=gcd(x2-x1,n);
+      if (m!=1)
+	return m;
+      m=(y2-y1)*invmod(x2-x1,n);
+    }
+    else {
+      m=gcd(y1,n);
+      if (m!=1)
+	return m;
+      m=(3*x1*x1+a)*invmod(2*y1,n);
+    }
+    m=smod(m,n);
+    x=smod(m*m-x1-x2,n);
+    y=smod(m*(x1-x)-y1,n);
+    return 1;
+  }
+  // multiplication in elliptic curve,
+  gen ecm_mult(const gen &x1,const gen &y1,ulonglong m,const gen & a,const gen & n,gen & x,gen &y){
+    gen x2(x1),y2(y1),xtmp,ytmp,g,M;
+    y=x=plus_inf;
+    while (m){
+      if (m%2){
+	g=ecm_add(x,y,x2,y2,a,n,M,xtmp,ytmp);
+	if (g!=1) 
+	  return g;
+	swapgen(x,xtmp); swapgen(y,ytmp);// x=xtmp; y=ytmp;
+      }
+      m/=2;
+      g=ecm_add(x2,y2,x2,y2,a,n,M,xtmp,ytmp); // improve: ecmdup
+      if (g!=1) 
+	return g;
+      swapgen(x2,xtmp);swapgen(y2,ytmp);// x2=xtmp; y2=ytmp;
+    }
+    return 1;
+  }
+  gen _ecm_factor(const gen &n_,GIAC_CONTEXT){
+    gen B,n(n_);
+    int maxiter(ECM_MAXITER);
+    if (n.type==_VECT && n._VECTptr->size()>=2){
+      const vecteur & v=*n._VECTptr;
+      B=v[1];
+      if (v.size()>=3 && v[2].type==_INT_)
+	maxiter=giacmax(1,v[2].val);
+      n=v.front();
+    }
+    if (!is_integer(n) || is_positive(-n,contextptr))
+      return gensizeerr(contextptr);
+    if (_isprime(n,contextptr)!=0)
+      return n;
+    double logp=.5*std::log(evalf_double(n,1,contextptr)._DOUBLE_val);
+#ifdef HAVE_LIBECM
+    double epsilon=.02; // to be adjusted
+#else
+    double epsilon=.45; // to be adjusted
+#endif
+    if (logp>80) // research factors of size not exceeding 35 digits
+      logp=80;
+    if (B==0)
+      B=L(.5,0.707+epsilon,std::exp(logp));
+    // B=1000;
+    B=_ceil(B,contextptr);
+#ifdef HAVE_LIBECM
+    *logptr(contextptr) << "ECM-GMP factor n="<< n << " , B=" << B << ", #curves <=" << maxiter << endl;
+    n.uncoerce();
+    double B1=evalf_double(B,1,contextptr)._DOUBLE_val;
+    /* From ECM README, table of optimal values of B1
+       digits D  optimal B1   default B2           expected curves
+                                                       N(B1,B2,D)
+                                              -power 1         default poly
+          20       11e3         1.9e6             74               74 [x^1]
+          25        5e4         1.3e7            221              214 [x^2]
+          30       25e4         1.3e8            453              430 [D(3)]
+          35        1e6         1.0e9            984              904 [D(6)]
+          40        3e6         5.7e9           2541             2350 [D(6)]
+          45       11e6        3.5e10           4949             4480 [D(12)]
+          50       43e6        2.4e11           8266             7553 [D(12)]
+          55       11e7        7.8e11          20158            17769 [D(30)]
+          60       26e7        3.2e12          47173            42017 [D(30)]
+          65       85e7        1.6e13          77666            69408 [D(30)]
+
+     */
+    int res;
+    gen F(1LL<<33);
+    for (int i=0;i<maxiter;++i){
+      res=ecm_factor(*F._ZINTptr, *n._ZINTptr, B1, 0);
+      if (res!=0) break;
+    }
+    if (res==0) return undef;
+    return F;
+#else
+    *logptr(contextptr) << "ECM naive factor n="<< n << " , B=" << B << ", #curves <=" << maxiter << endl;
+    for (int i=0;i<maxiter;++i){
+      gen a,x,y,b,d,g;
+      a= rand_interval(makevecteur(0,n-1),true,contextptr);// a=1078104638; 
+      x= smod(rand_interval(makevecteur(0,n-1),true,contextptr),n);// 317359960;
+      y= smod(rand_interval(makevecteur(0,n-1),true,contextptr),n);// 983830906;
+      b=smod(y*y-x*x*x-a*x,n);
+      if (debug_infolevel)
+	COUT << CLOCK()*1e-6 << " Factor "<< n << " ECM curve " << i << ", B="<<B << ", a=" << a << ", x=" << x << ", y=" << y << endl;
+      d=4*a*a*a-27*b*b;
+      g=gcd(d,n);
+      if (g==n)
+	continue;
+      if (g!=1)
+	return g;
+      gen p(2),pe,tmp,xm,ym;
+      for (;is_greater(B,pe=p*p,contextptr);p=nextprime(p+1)){
+	int e=2;
+	while (is_greater(B,tmp=pe*p,contextptr)){
+	  ++e;
+	  pe=tmp;
+	}
+	tmp=evalf_double(pe,1,contextptr);
+	if (pe==tmp){
+	  g=ecm_mult(x,y,ulonglong(tmp._DOUBLE_val),a,n,xm,ym);
+	  if (g!=1){
+	    if (debug_infolevel)
+	      COUT << CLOCK()*1e-6 << " ECM success p=" << p << ", p^e=" << pe << endl;
+	    return g;
+	  }
+	  swapgen(x,xm); swapgen(y,ym); // x=xm;y=ym;
+	}
+      }
+      B=_floor(B*1.001,contextptr)+1; // to be adjusted
+    } // end maxiter loop
+    return undef;
+#endif
+  }
+  static const char _ecm_factor_s []="ecm_factor";
+  static define_unary_function_eval (__ecm_factor,&_ecm_factor,_ecm_factor_s);
+  define_unary_function_ptr5( at_ecm_factor ,alias_at_ecm_factor,&__ecm_factor,0,true);
+
   // Pollard-rho algorithm
   const int POLLARD_GCD=64;
 #ifdef GIAC_MPQS 
@@ -3563,6 +3779,18 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
+#ifdef HAVE_LIBECM
+    if (is_greater(a,1e60,context0) && b==-1  && !ctrl_c && !interrupted && _isprime(a,contextptr)==0){ 
+      int res;
+      gen F(1LL<<33);
+      for (int i=0;i<200;++i){ // searching factors of size about 20 digits
+	res=ecm_factor(*F._ZINTptr, *a._ZINTptr, 11e3, 0);
+	if (res!=0) break;
+      }
+      if (res!=0) 
+	b=F;
+    }
+#endif
 #ifdef GIAC_MPQS
     if (b==-1 && !ctrl_c && !interrupted){ 
       do_pollard=false;
@@ -3756,14 +3984,31 @@ namespace giac {
       return giac_ifactors(n0,contextptr);
     if (n0.type==_VECT && !n0._VECTptr->empty())
       return giac_ifactors(n0._VECTptr->front(),contextptr);
-#ifdef HAVE_LIBPARI
-#ifdef __APPLE__
-    return vecteur(1,gensizeerr(gettext("(Mac OS) Large number, you can try pari(); pari_factor(")+n0.print(contextptr)+")"));
-#endif
     if (!is_integer(n0) || is_zero(n0))
       return vecteur(1,gensizeerr(gettext("ifactors")));
     if (is_one(n0))
       return vecteur(0);
+    if (_isprime(n0,contextptr)!=0)
+      return makevecteur(n0,1);
+#ifdef HAVE_LIBECM
+    int res;
+    gen F(1LL<<33);
+    double B1=1e6;
+    for (int i=0;i<ECM_MAXITER;++i){
+      res=ecm_factor(*F._ZINTptr, *n0._ZINTptr, B1, 0);
+      if (res!=0) break;
+    }
+    if (res!=0){
+      vecteur tmp=ifactors1(n0/F,contextptr);
+      tmp.push_back(F);
+      tmp.push_back(1);
+      return tmp;
+    }
+#endif
+#ifdef HAVE_LIBPARI
+#ifdef __APPLE__
+    return vecteur(1,gensizeerr(gettext("(Mac OS) Large number, you can try pari(); pari_factor(")+n0.print(contextptr)+")"));
+#endif
     gen g(pari_ifactor(n0),contextptr); 
     if (g.type==_VECT){
       matrice m(mtran(*g._VECTptr));

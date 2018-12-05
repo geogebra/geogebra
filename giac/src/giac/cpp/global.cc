@@ -2617,7 +2617,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return "";
     uid_t u=getuid();
     passwd * p=getpwuid(u);
-    s=p->pw_dir;
+    if (p) s=p->pw_dir;
     return s+"/";
 #endif
 #endif
