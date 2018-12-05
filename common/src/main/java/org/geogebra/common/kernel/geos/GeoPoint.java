@@ -985,6 +985,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public boolean isEqualPointND(GeoPointND geo) {
+
+		if (geo == null) {
+			return false;
+		}
+
 		if (geo.isGeoElement3D()) {
 			return geo.isEqualPointND(this); // do the 3D test
 		}
@@ -994,7 +999,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	private boolean isEqualPoint2D(GeoPoint P) {
 
-		if (!(isDefined() && P.isDefined())) {
+		if (P == null || !(isDefined() && P.isDefined())) {
 			return false;
 		}
 
