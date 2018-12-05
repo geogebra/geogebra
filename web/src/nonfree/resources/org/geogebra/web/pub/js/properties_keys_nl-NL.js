@@ -1334,7 +1334,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "AuxiliaryObject": "Hulpobject",
     "AuxiliaryObjects": "Hulpobjecten",
     "Axes": "Assen",
-    "AxesColored": "Colored Axes",
+    "AxesColored": "Gekleurde assen",
     "AxisLabel": "Label",
     "AxisOfA": "As van %0",
     "AxisTicks": "Onderverdelingen",

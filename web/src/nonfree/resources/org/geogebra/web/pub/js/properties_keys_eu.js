@@ -1334,7 +1334,7 @@ __GGB__keysVar["eu"].menu = {
     "AuxiliaryObject": "Objektu Laguntzailea",
     "AuxiliaryObjects": "Objektu Laguntzaileak",
     "Axes": "Ardatzak",
-    "AxesColored": "Colored Axes",
+    "AxesColored": "Koloredun Ardatzak",
     "AxisLabel": "Etiketa",
     "AxisOfA": "%0-(r)en ardatza",
     "AxisTicks": "Markak",
