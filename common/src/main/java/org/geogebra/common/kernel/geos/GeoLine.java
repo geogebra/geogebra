@@ -101,7 +101,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public GeoPoint endPoint;
 
 	// enable negative sign of first coefficient in implicit equations
-	private static boolean KEEP_LEADING_SIGN = true;
+	private static final boolean KEEP_LEADING_SIGN = true;
 	private static final String[] vars = { "x", "y" };
 
 	private PVariable[] botanaVars; // only for an axis or a fixed slope line
@@ -1111,7 +1111,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 			return kernel.buildExplicitEquation(g, vars, op, tpl, true);
 		}
-		boolean useGCD = !kernel.getAlgebraProcessor().getDisableGcd();
+		boolean useGCD = true;
 		return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, useGCD, false, op, tpl,
 				true);
 	}

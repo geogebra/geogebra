@@ -1830,9 +1830,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coefficients
 	 * @param vars
 	 *            variables
-	 * @param KEEP_LEADING_SIGN
+	 * @param keepLeadingSign
 	 *            whether output may start with -
-	 * @param CANCEL_DOWN
+	 * @param cancelDown
 	 *            whether we want to cancel GCD
 	 * @param needsZ
 	 *            whether explicit Z is necessary
@@ -1841,10 +1841,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return LHS string
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
-			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
+			boolean keepLeadingSign, boolean cancelDown, boolean needsZ,
 			StringTemplate tpl) {
 
-		return buildLHS(numbers, vars, KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ,
+		return buildLHS(numbers, vars, keepLeadingSign, cancelDown, needsZ,
 				false, tpl);
 	}
 

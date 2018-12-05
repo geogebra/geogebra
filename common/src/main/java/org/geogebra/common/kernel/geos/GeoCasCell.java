@@ -2124,12 +2124,13 @@ public class GeoCasCell extends GeoElement
 			// evaluate in GeoGebra
 			ExpressionNode copy = ve.deepCopy(kernel).wrap();
 			copy.setLabel(ve.getLabel());
-			kernel.getAlgebraProcessor().setDisableGcd(true);
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
 					.doProcessValidExpression(copy,
 							new EvalInfo(false).withSimplifying(false));
-
 			if (ggbEval != null) {
+				if (ggbEval[0] instanceof GeoLine) {
+					((GeoLine) ggbEval[0]).setToUser();
+				}
 				if (!allowFunction && (ggbEval[0] instanceof FunctionalNVar)
 						&& !wasFunction) {
 					return null;

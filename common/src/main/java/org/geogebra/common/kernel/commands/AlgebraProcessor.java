@@ -152,8 +152,6 @@ public class AlgebraProcessor {
 	/** command dispatcher */
 	protected final CommandDispatcher cmdDispatcher;
 
-	private boolean disableGcd = false;
-
 	private MyStringBuffer xBracket = null;
 	private MyStringBuffer yBracket = null;
 	private MyStringBuffer zBracket = null;
@@ -3459,21 +3457,6 @@ public class AlgebraProcessor {
 			closeBracket = new MyStringBuffer(kernel, ")");
 		}
 		return closeBracket;
-	}
-
-	/**
-	 * @return flag for disabled GCD when parsing lines from CAS
-	 */
-	public boolean getDisableGcd() {
-		return disableGcd;
-	}
-
-	/**
-	 * @param disableGcd
-	 *            flag for disabled GCD when parsing lines from CAS
-	 */
-	public void setDisableGcd(boolean disableGcd) {
-		this.disableGcd = disableGcd;
 	}
 
 	/**

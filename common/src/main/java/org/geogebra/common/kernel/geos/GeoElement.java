@@ -4610,8 +4610,6 @@ public abstract class GeoElement extends ConstructionElement
 			if (isDefined()) {
 				strAlgebraDescription = toString(
 							StringTemplate.algebraTemplate);
-
-				kernel.getAlgebraProcessor().setDisableGcd(false);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);

@@ -49,7 +49,7 @@ public class GeoPlane3D extends GeoElement3D
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
 
-	private static boolean KEEP_LEADING_SIGN = true;
+	private static final boolean KEEP_LEADING_SIGN = true;
 	// values for grid and interactions
 	private double xmin;
 	private double xmax;
