@@ -45,7 +45,7 @@
         ],
         ['OS=="mac"',
           {
-            'defines+': [ 
+            'defines+': [
               'NO_STDEXCEPT',
               'APPLE_SMART',
               'NO_GETTEXT',
