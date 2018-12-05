@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -198,12 +197,10 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * @param mouse
-	 *            mouse position
 	 * @param ret
      *            Hitting Origin from AR. Override in RendererWithImplA
 	 */
-	public void getHittingOriginAR(GPoint mouse, Coords ret) {
+	public void getHittingOriginAR(Coords ret) {
 		// nothing to do here
 	}
 

@@ -1424,7 +1424,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	final public void getHittingOrigin(GPoint mouse, Coords ret) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
-			renderer.getHittingOriginAR(mouse, ret);
+			renderer.getHittingOriginAR(ret);
 			Log.debug("G3D_AR_REGULAR_TOOLS: origin = " + ret);
 		} else {
 			getCompanion().getHittingOrigin(mouse, ret);
