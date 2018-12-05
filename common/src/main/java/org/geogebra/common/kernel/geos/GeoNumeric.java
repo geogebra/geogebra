@@ -1925,6 +1925,10 @@ public class GeoNumeric extends GeoElement
 		if (getDefinition() != null && getDefinition().isFraction()) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
+		if (isSimple()) {
+			// matters in scientific where we don't have AV sliders
+			return DescriptionMode.VALUE;
+		}
 		return super.needToShowBothRowsInAV();
 	}
 

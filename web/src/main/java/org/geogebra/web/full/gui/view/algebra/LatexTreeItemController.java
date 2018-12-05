@@ -190,12 +190,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 					return;
 				}
 
-				// need label if we type just eg
-				// lnx
-				if (app.getConfig().hasScientificKeyboard()) {
+				if (!app.getConfig().hasAutomaticLabels()) {
 					new LabelHiderCallback().callback(geos);
 				}
 				if (geos.length == 1) {
+					// need label if we type just eg
+					// lnx
 					if (!geos[0].isLabelSet()) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}

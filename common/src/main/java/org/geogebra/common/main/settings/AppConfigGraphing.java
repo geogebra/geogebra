@@ -172,4 +172,9 @@ public class AppConfigGraphing implements AppConfig {
 		return true;
 	}
 
+	@Override
+	public boolean hasAutomaticLabels() {
+		return true;
+	}
+
 }

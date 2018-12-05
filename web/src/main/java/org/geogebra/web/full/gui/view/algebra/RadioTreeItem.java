@@ -380,7 +380,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 			if ((AlgebraItem.getDescriptionModeForGeo(geo,
 					kernel.getAlgebraStyle()) == DescriptionMode.DEFINITION_VALUE
-					&& !isLatexTrivial()) || lastTeX != null) {
+					&& !isLatexTrivial())
+					|| lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
 			} else if (isDefinitionAndValue()
@@ -559,6 +560,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 			content.add(canvas);
 		} else {
+			Log.error("");
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					new DOMIndexHTMLBuilder(getPlainTextItem(), app));
 			updateItemColor();

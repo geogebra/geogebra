@@ -61,4 +61,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasSlidersInAV() {
 		return false;
 	}
+
+	@Override
+	public boolean hasAutomaticLabels() {
+		return false;
+	}
 }

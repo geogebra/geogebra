@@ -118,4 +118,9 @@ public interface AppConfig {
 	 */
 	public boolean hasSlidersInAV();
 
+	/**
+	 * @return whether objects should be labeled a, b, ...
+	 */
+	boolean hasAutomaticLabels();
+
 }
