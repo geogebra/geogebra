@@ -6762,20 +6762,32 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            mouse exit event
 	 */
 	public void wrapMouseExited(AbstractEvent event) {
-		if (isTextfieldHasFocus()) {
-			return;
-		}
-		this.animationButtonPressed = false;
-		app.storeUndoInfoIfSetCoordSystemOccured();
+	    wrapMouseExited(event, true);
+    }
 
-		refreshHighlighting(null, app.isControlDown(event));
-		resetToolTipManager();
-		view.setAnimationButtonsHighlighted(false);
-		view.setShowMouseCoords(false);
-		mouseLoc = null;
-		kernel.notifyRepaint();
-		view.mouseExited();
-	}
+
+    /**
+     * Process mouse exit event.
+     *
+     * @param event mouse exit event
+     */
+    public void wrapMouseExited(AbstractEvent event, boolean setMouseLocToNull) {
+        if (isTextfieldHasFocus()) {
+            return;
+        }
+        this.animationButtonPressed = false;
+        app.storeUndoInfoIfSetCoordSystemOccured();
+
+        refreshHighlighting(null, app.isControlDown(event));
+        resetToolTipManager();
+        view.setAnimationButtonsHighlighted(false);
+        view.setShowMouseCoords(false);
+        if (setMouseLocToNull) {
+            mouseLoc = null;
+        }
+        kernel.notifyRepaint();
+        view.mouseExited();
+    }
 
 	protected void handleSelectClick(ArrayList<GeoElement> geos,
 			boolean ctrlDown) {
