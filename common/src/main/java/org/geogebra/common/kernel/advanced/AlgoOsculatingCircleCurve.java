@@ -149,11 +149,19 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 			return;
 		}
 		super.remove();
-		f.removeAlgorithm(cv);
-		A.removeAlgorithm(cv);
+
+		if (f != null) {
+			f.removeAlgorithm(cv);
+		}
+
+		if (A != null) {
+			A.removeAlgorithm(cv);
+		}
 
 		// make sure all AlgoCASDerivatives get removed
-		cv.remove();
+		if (cv != null) {
+			cv.remove();
+		}
 	}
 
 }
