@@ -396,7 +396,9 @@ abstract public class ObjectSettingsModel {
         }
 
         for (GeoElement geo : geoElementsList) {
-            ((GeoNumeric) geo).setIntervalMin(num);
+			if (geo instanceof GeoNumeric) {
+				((GeoNumeric) geo).setIntervalMin(num);
+			}
         }
 
         app.setPropertiesOccured();
