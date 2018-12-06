@@ -48,7 +48,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoords4D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -103,16 +102,6 @@ public class Kernel3D extends Kernel {
 	 */
 	public Kernel3D(App app, GeoFactory factory) {
 		super(app, factory);
-	}
-
-	@Override
-	public GeoAxisND getXAxis3D() {
-		return cons.getXAxis();
-	}
-
-	@Override
-	public GeoAxisND getYAxis3D() {
-		return cons.getYAxis();
 	}
 
 	@Override
@@ -395,18 +384,7 @@ public class Kernel3D extends Kernel {
 	final public void setEuclidianView3DBounds(int view, double xmin,
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xscale, double yscale, double zscale) {
-
-		if (3 > this.xmin.length) {
-
-			this.xmin = prolong(this.xmin, 3);
-			this.xmax = prolong(this.xmin, 3);
-
-			this.ymin = prolong(this.ymin, 3);
-			this.ymax = prolong(this.ymax, 3);
-
-			this.xscale = prolong(this.xscale, 3);
-			this.yscale = prolong(this.yscale, 3);
-		}
+		prolongGraphicsBoundArrays(3);
 
 		this.xmin[2] = xmin;
 		this.xmax[2] = xmax;

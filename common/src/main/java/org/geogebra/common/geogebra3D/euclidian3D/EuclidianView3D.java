@@ -454,8 +454,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		// axis
 		axis = new GeoAxisND[3];
 		axisDrawable = new DrawAxis3D[3];
-		axis[0] = kernel3D.getXAxis3D();
-		axis[1] = kernel3D.getYAxis3D();
+		axis[0] = kernel3D.getXAxis();
+		axis[1] = kernel3D.getYAxis();
 		axis[2] = kernel3D.getZAxis3D();
 
 		for (int i = 0; i < 3; i++) {

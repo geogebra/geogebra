@@ -125,11 +125,7 @@ public class CopyPaste {
 				geos.remove(i);
 			} else if (app.is3D()) {
 				Construction cons = app.getKernel().getConstruction();
-				if (ancestors.contains(app.getKernel().getXAxis3D())) {
-					geos.remove(i);
-				} else if (ancestors.contains(app.getKernel().getYAxis3D())) {
-					geos.remove(i);
-				} else if (ancestors.contains(app.getKernel().getZAxis3D())) {
+				if (ancestors.contains(app.getKernel().getZAxis3D())) {
 					geos.remove(i);
 				} else if (ancestors.contains(cons.getXOYPlane())) {
 					geos.remove(i);

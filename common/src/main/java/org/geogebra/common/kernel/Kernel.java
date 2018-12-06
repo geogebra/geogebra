@@ -777,6 +777,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param step
 	 *            new construction step
 	 */
+	@Override
 	public void setConstructionStep(int step) {
 		if (cons.getStep() != step) {
 			cons.setStep(step);
@@ -802,6 +803,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets construction step to first step of construction protocol. Note:
 	 * showOnlyBreakpoints() is important here
 	 */
+	@Override
 	public void firstStep() {
 		int step = 0;
 
@@ -816,6 +818,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets construction step to last step of construction protocol. Note:
 	 * showOnlyBreakpoints() is important here
 	 */
+	@Override
 	public void lastStep() {
 		int step = getLastConstructionStep();
 
@@ -830,6 +833,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets construction step to next step of construction protocol. Note:
 	 * showOnlyBreakpoints() is important here
 	 */
+	@Override
 	public void nextStep() {
 		int step = cons.getStep() + 1;
 
@@ -918,6 +922,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets construction step to previous step of construction protocol Note:
 	 * showOnlyBreakpoints() is important here
 	 */
+	@Override
 	public void previousStep() {
 		int step = cons.getStep() - 1;
 
@@ -2979,6 +2984,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return result;
 	}
 
+	/**
+	 * @param exp
+	 *            CAS expression
+	 * @param result
+	 *            result
+	 */
 	public void putToCasCache(String exp, String result) {
 		getCasCache().put(exp, result);
 	}
@@ -3073,17 +3084,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			return;
 		}
 
-		if (view >= this.xmin.length) {
-
-			this.xmin = prolong(this.xmin, viewNo);
-			this.xmax = prolong(this.xmin, viewNo);
-
-			this.ymin = prolong(this.ymin, viewNo);
-			this.ymax = prolong(this.ymax, viewNo);
-
-			this.xscale = prolong(this.xscale, viewNo);
-			this.yscale = prolong(this.yscale, viewNo);
-		}
+		prolongGraphicsBoundArrays(viewNo);
 		this.xmin[view] = xmin;
 		this.xmax[view] = xmax;
 		this.ymin[view] = ymin;
@@ -3095,8 +3096,26 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyEuclidianViewCE(EVProperty.ZOOM);
 	}
 
-	protected double[] prolong(double[] xmin2, int viewNo) {
+	/**
+	 * Extend arrays with EV bounds
+	 * 
+	 * @param length
+	 *            new length of views array
+	 */
+	protected void prolongGraphicsBoundArrays(int length) {
+		if (length > this.xmin.length) {
+			this.xmin = prolong(this.xmin, length);
+			this.xmax = prolong(this.xmin, length);
 
+			this.ymin = prolong(this.ymin, length);
+			this.ymax = prolong(this.ymax, length);
+
+			this.xscale = prolong(this.xscale, length);
+			this.yscale = prolong(this.yscale, length);
+		}
+	}
+
+	private static double[] prolong(double[] xmin2, int viewNo) {
 		double[] ret = new double[viewNo];
 		System.arraycopy(xmin2, 0, ret, 0, xmin2.length);
 		return ret;
@@ -3459,6 +3478,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns a GeoCasCell for the given cas row.
+	 * 
+	 * @param label
+	 *            twin geo label
 	 * 
 	 * @return may return null
 	 * @throws CASException
@@ -4860,6 +4882,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets the command name of a macro. Note: if the given name is already used
 	 * nothing is done.
 	 * 
+	 * @param macro
+	 *            macro
+	 * @param cmdName
+	 *            new name
+	 * 
 	 * @return if the command name was really set
 	 */
 	public boolean setMacroCommandName(Macro macro, String cmdName) {
@@ -4878,6 +4905,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Returns the macro object for a given macro command name. Note: null may
 	 * be returned.
+	 * 
+	 * @param commandName
+	 *            command name
+	 * @return macro
 	 */
 	public Macro getMacro(String commandName) {
 		return (macroManager == null) ? null
@@ -4886,6 +4917,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns an XML represenation of the given macros in this kernel.
+	 * 
+	 * @param macros
+	 *            macros
 	 * 
 	 * @return macro construction XML
 	 */
@@ -4906,7 +4940,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns the number of currently registered macros
+	 * @return the number of currently registered macros
 	 */
 	public int getMacroNumber() {
 		if (macroManager == null) {
@@ -4928,7 +4962,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns i-th registered macro
+	 * @param i
+	 *            macro index
+	 * @return i-th registered macro
 	 */
 	public Macro getMacro(int i) {
 		try {
@@ -4940,6 +4976,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns the ID of the given macro.
+	 * 
+	 * @param macro
+	 *            macro
+	 * @return index or -1 if not found
 	 */
 	public int getMacroID(Macro macro) {
 		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);
@@ -4955,6 +4995,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return exercise;
 	}
 
+	/**
+	 * @return whether exercise was initialized
+	 */
 	public boolean hasExercise() {
 		return exercise != null;
 	}
@@ -5443,17 +5486,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return algo.getQ();
 	}
 
-	// for compatibility/interfacing with 3D
-	public GeoAxisND getXAxis3D() {
-		return null;
-	}
-
-	// for compatibility/interfacing with 3D
-	public GeoAxisND getYAxis3D() {
-		return null;
-	}
-
-	// for compatibility/interfacing with 3D
+	/**
+	 * for compatibility/interfacing with 3D
+	 * 
+	 * @return zAxis
+	 */
 	public GeoAxisND getZAxis3D() {
 		return null;
 	}
@@ -5542,10 +5579,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return p;
 	}
 
+	@Override
 	public int getCurrentStepNumber() {
 		return cons.getStep();
 	}
 
+	@Override
 	public int getLastStepNumber() {
 		return cons.steps();
 	}
