@@ -209,6 +209,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 				InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
 						oldStep);
+				app.storeUndoInfo();
 				app.setScrollToShow(false);
 
 				Scheduler.get()
@@ -240,8 +241,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 				.withFractions(true).addDegree(app.has(Feature.AUTO_ADD_DEGREE))
 				.withUserEquation(true)
 				.withSymbolicMode(app.getKernel().getSymbolicMode());
+		// undo point stored in callback
 		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(input, true, err,
+				.processAlgebraCommandNoExceptionHandling(input, false, err,
 						info, callback);
 		if (!keepFocus) {
 			item.setFocus(false, false);

@@ -560,7 +560,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 			content.add(canvas);
 		} else {
-			Log.error("");
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					new DOMIndexHTMLBuilder(getPlainTextItem(), app));
 			updateItemColor();
