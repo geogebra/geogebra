@@ -17,6 +17,9 @@ import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesBuilder;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -152,10 +155,28 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 		p.add(new Label(model.getHeaderAt(col)));
 		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
 		p.add(btn);
-		SafeHtml html = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
-		return TEMPLATES.cell(html, getColumnWidth(dimensions, col), TABLE_HEADER_HEIGHT);
+		SafeHtml content = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
+		return makeCell(content, getColumnWidth(dimensions, col), TABLE_HEADER_HEIGHT);
 	}
 
+	/**
+	 * Makes a cell as SafeHtml.
+	 * 
+	 * @param content
+	 *            of the cell.
+	 * @param width
+	 *            of the cell.
+	 * @param height
+	 *            of the cell.
+	 * @return SafeHtml of the cell.
+	 */
+	static SafeHtml makeCell(SafeHtml content, int width, int height) {
+		SafeStylesBuilder sb = new SafeStylesBuilder();
+		sb.width(width, Unit.PX).height(height, Unit.PX).trustedNameAndValue("line-height", height,
+				Unit.PX);
+		return TEMPLATES.cell(content, sb.toSafeStyles());
+
+	}
 	/**
 	 * Gives the preferred width of a column.
 	 * 
@@ -204,9 +225,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
 				int height = empty ? 0 : STRICT_ROW_HEIGHT;
-				SafeHtml cell = TEMPLATES.cell(value, width, height);
-
-				return cell;
+				return makeCell(value, width, height);
 			}
 		};
 		return column;
@@ -220,15 +239,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 		/**
 		 * @param message
 		 *            of the cell.
-		 * @param width
-		 *            of the cell.
-		 * @param height
+		 * @param style
 		 *            of the cell.
 		 * @return HTML representation of the cell content.
 		 */
-		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\""
+		@SafeHtmlTemplates.Template("<div style=\"{1}\""
 				+ "class=\"cell\"><div class=\"content\">{0}</div></div>")
-		SafeHtml cell(SafeHtml message, int width, int height);
+		SafeHtml cell(SafeHtml message, SafeStyles style);
 	}
 
 	/**
