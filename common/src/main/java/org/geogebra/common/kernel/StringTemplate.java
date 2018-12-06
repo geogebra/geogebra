@@ -130,6 +130,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	static {
 		algebraTemplate.niceQuotes = true;
+		algebraTemplate.allowPiHack = false;
 	}
 
 	/**
@@ -140,6 +141,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	static {
 		latexTemplate.setType(StringType.LATEX);
+		latexTemplate.allowPiHack = false;
 	}
 
 	/**

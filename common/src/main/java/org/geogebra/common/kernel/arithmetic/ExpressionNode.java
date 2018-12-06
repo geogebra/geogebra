@@ -3619,7 +3619,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean isFraction() {
 		initFraction();
-		return ((ExpressionNode) resolve).getOperation() == Operation.DIVIDE;
+		return ((ExpressionNode) resolve).isSimpleFraction();
 	}
 
 	private void initFraction() {

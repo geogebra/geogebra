@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Fraction arithmetic utility class.
  */
@@ -20,7 +22,8 @@ public class Fractions {
 	 *            kernel
 	 * @return resolved expression: either MyDouble or simple fraction
 	 */
-	protected static ExpressionValue getResolution(ExpressionNode expr, Kernel kernel) {
+	protected static ExpressionValue getResolution(ExpressionNode expr,
+			Kernel kernel) {
 		ExpressionValue[] fraction = new ExpressionValue[2];
 		expr.getFraction(fraction, true);
 		if (fraction[0] != null) {
@@ -29,7 +32,8 @@ public class Fractions {
 
 			boolean pi = false;
 			double piDiv = lt / Math.PI;
-			if (DoubleUtil.isInteger(piDiv) && !DoubleUtil.isZero(piDiv)
+			if (DoubleUtil.isInteger(piDiv)
+					&& !DoubleUtil.isZero(piDiv)
 					&& lt < MAX_NUM_DENOMINATOR) {
 				lt = piDiv;
 				pi = true;
@@ -47,14 +51,20 @@ public class Fractions {
 				double g = Math.abs(Kernel.gcd(Math.round(lt), Math.round(rt))) * Math.signum(rt);
 				lt = lt / g;
 				rt = rt / g;
-				return (pi ? new ExpressionNode(kernel, new MyDouble(kernel, lt),
-						Operation.MULTIPLY, new MyDouble(kernel, Math.PI))
+				return (pi ? multiplyPi(lt, kernel)
 						: new ExpressionNode(kernel, lt)).divide(rt);
 			}
 			double ratio = lt / rt;
 			return numericResolve(pi, ratio, expr, kernel);
 		}
 		return expr.evaluate(StringTemplate.defaultTemplate).wrap();
+	}
+
+	private static ExpressionNode multiplyPi(double lt, Kernel kernel) {
+		MyDouble pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
+		return MyDouble.exactEqual(lt, 1) ? pi.wrap()
+				: new ExpressionNode(kernel, new MyDouble(kernel, lt),
+						Operation.MULTIPLY, pi);
 	}
 
 	private static ExpressionValue numericResolve(boolean pi, double ratio, ExpressionNode expr,

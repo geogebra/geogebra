@@ -4517,7 +4517,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (!isDefined()) {
 			algDesc = getLoc().getMenu("Undefined");
 		} else {
-			algDesc = toValueString(StringTemplate.defaultTemplate);
+			algDesc = toValueString(StringTemplate.algebraTemplate);
 		}
 		return algDesc;
 
