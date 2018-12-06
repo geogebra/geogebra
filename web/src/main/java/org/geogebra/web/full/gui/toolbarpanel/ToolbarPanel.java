@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -668,10 +669,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * Opens tools tab.
 	 * 
+	 * @param geo
+	 *            to ensure to be visible.
+	 * 
 	 * @param fade
 	 *            decides if tab should fade during animation.
 	 */
-	public void openTableView(boolean fade) {
+	public void openTableView(GeoEvaluatable geo, boolean fade) {
 		if (!app.showToolBar()) {
 			openAlgebra(fade);
 			return;
@@ -681,6 +685,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			tabTools.setVisible(false);
 		}
 		switchTab(TabIds.TABLE, fade);
+		tabTable.scrollTo(geo);
 	}
 
 	/**

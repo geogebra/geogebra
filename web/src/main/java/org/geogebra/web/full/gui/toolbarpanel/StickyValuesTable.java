@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -316,5 +317,25 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	 */
 	public void setHeight(int height) {
 		setBodyHeight(height);
+	}
+
+	/**
+	 * 
+	 * Scroll table view to the corresponding column of the geo.
+	 * 
+	 * @param geo
+	 *            to scroll.
+	 */
+	public void scrollTo(GeoEvaluatable geo) {
+		if (geo == null) {
+			return;
+		}
+
+		int pos = 0;
+		int col = view.getColumn(geo);
+		for (int i = 0; i < col; i++) {
+			pos += dimensions.getColumnWidth(col);
+		}
+		setHorizontalScrollPosition(pos);
 	}
 }

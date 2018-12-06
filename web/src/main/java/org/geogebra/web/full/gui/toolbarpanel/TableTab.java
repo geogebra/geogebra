@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -59,5 +60,15 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 		setHeight(h + "px");
 		getElement().getStyle().setLeft(2 * w, Unit.PX);
 		tableValuesPanel.setHeight(h);
+	}
+
+	/**
+	 * Scroll table view to the corresponding column of the geo.
+	 * 
+	 * @param geo
+	 *            to scroll.
+	 */
+	public void scrollTo(GeoEvaluatable geo) {
+		tableValuesPanel.scrollTo(geo);
 	}
 }

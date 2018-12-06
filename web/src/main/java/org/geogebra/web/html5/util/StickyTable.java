@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
@@ -152,7 +153,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 		// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(this);
-
 		valueScroller.addScrollHandler(new ScrollHandler() {
 			@Override
 			public void onScroll(ScrollEvent event) {
@@ -323,5 +323,29 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 */
 	protected CellTable<T> getHeaderTable() {
 		return headerTable;
+	}
+
+	/**
+	 * Scroll to given position horizontally.
+	 * 
+	 * @param pos
+	 *            to scroll.
+	 */
+	public void setHorizontalScrollPosition(final int pos) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				getValueScroller().setHorizontalScrollPosition(pos);
+			}
+		});
+	}
+
+	/**
+	 * 
+	 * @return the scroll panel of the values.
+	 */
+	ScrollPanel getValueScroller() {
+		return valueScroller;
 	}
 }

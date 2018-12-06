@@ -248,7 +248,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		app.setKeyboardNeeded(false);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
-		toolbarPanel.openTableView(open);
+		toolbarPanel.openTableView(null, open);
 	}
 
 	/**

@@ -2491,7 +2491,7 @@ public class GuiManagerW extends GuiManager
 	public void addGeoToTableValuesView(GeoElement geo) {
 		getTableValuesView().add(geo);
 		getTableValuesView().showColumn((GeoEvaluatable) geo);
-		getUnbundledToolbar().openTableView(true);
+		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
 	@Override

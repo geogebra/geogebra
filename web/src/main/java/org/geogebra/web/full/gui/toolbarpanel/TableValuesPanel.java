@@ -146,6 +146,7 @@ public class TableValuesPanel extends FlowPanel
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		update();
+		table.scrollTo(evaluatable);
 	}
 
 	@Override
@@ -168,5 +169,15 @@ public class TableValuesPanel extends FlowPanel
 	@Override
 	public TableValuesView getView() {
 		return view;
+	}
+
+	/**
+	 * Scroll table view to the corresponding column of the geo.
+	 * 
+	 * @param geo
+	 *            to scroll.
+	 */
+	public void scrollTo(GeoEvaluatable geo) {
+		table.scrollTo(geo);
 	}
 }
