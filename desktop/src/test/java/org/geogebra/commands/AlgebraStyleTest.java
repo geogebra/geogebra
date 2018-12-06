@@ -69,7 +69,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
-		app.getSettings().getCasSettings().setEnabled(true);
+		enableCAS(app, true);
 		app.getKernel()
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
@@ -112,7 +112,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 	@Test
 	public void twoRowsAlgebraGraphing() {
-		app.getSettings().getCasSettings().setEnabled(false);
+		enableCAS(app, false);
 		checkRows("Line((0,0),(0,1))", 2);
 		checkRows("Circle((0,0),(0,1))", 2);
 		checkRows("x=y", 1);
@@ -120,14 +120,14 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivative() {
-		app.getSettings().getCasSettings().setEnabled(false);
+		enableCAS(app, false);
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'", 1);
 	}
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivativeArg() {
-		app.getSettings().getCasSettings().setEnabled(false);
+		enableCAS(app, false);
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'(x)", 1);
 	}

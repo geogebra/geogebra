@@ -35,7 +35,7 @@ public class ControllerTest {
 
 	@Before
 	public void clear() {
-		app.getSettings().getCasSettings().setEnabled(true);
+		AlgebraTest.enableCAS(app, true);
 		events.clear();
 		reset();
 	}
@@ -144,7 +144,7 @@ public class ControllerTest {
 	@Test
 	public void intersectToolAbs() {
 		app.setMode(EuclidianConstants.MODE_INTERSECT);
-		app.getSettings().getCasSettings().setEnabled(false);
+		AlgebraTest.enableCAS(app, false);
 		t("f:abs(x-2)-2");
 		t("g:1-2x");
 		click(100, 100);

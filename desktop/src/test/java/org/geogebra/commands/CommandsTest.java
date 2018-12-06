@@ -1054,10 +1054,10 @@ public class CommandsTest extends AlgebraTest {
 		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		t("Invert[ If(x>2,x)+1 ]", "If[x - 1 > 2, x - 1]");
 		t("Invert[ If(x>2,sin(x)-x) ]", "?");
-		app.getSettings().getCasSettings().setEnabled(false);
+		enableCAS(app, false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
-		app.getSettings().getCasSettings().setEnabled(true);
+		enableCAS(app, true);
 	}
 
 	@Test

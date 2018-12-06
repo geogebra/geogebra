@@ -147,4 +147,8 @@ public class AlgebraTest extends Assert {
 		}
 		System.out.print("+");
 	}
+
+	public static void enableCAS(App app, boolean enabled) {
+		app.getSettings().getCasSettings().setEnabled(enabled);
+	}
 }

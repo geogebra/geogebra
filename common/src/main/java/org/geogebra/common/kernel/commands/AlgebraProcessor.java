@@ -3591,7 +3591,7 @@ public class AlgebraProcessor {
 		if (cmd == Commands.Integral) {
 			return loc.getCommandSyntaxCAS("NIntegral");
 		}
-		if (noCASselector != null) {
+		if (noCASselector == null) {
 			noCASselector = new NoCASCommandSelectorFactory()
 					.createCommandSelector();
 		}
