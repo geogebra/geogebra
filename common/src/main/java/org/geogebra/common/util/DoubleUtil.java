@@ -2,6 +2,7 @@ package org.geogebra.common.util;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class DoubleUtil {
 
@@ -398,7 +399,7 @@ public class DoubleUtil {
 		// Log.debug("root " + root + " " + rootVal);
 		// Log.debug("root2 " + root2 + " " + root2Val);
 
-		if (!Double.isFinite(rootVal) || !Double.isFinite(root2Val)) {
+		if (!MyDouble.isFinite(rootVal) || !MyDouble.isFinite(root2Val)) {
 			// hole near/at root
 			return Double.NaN;
 		}
