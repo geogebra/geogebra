@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -373,7 +374,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		double root2 = DoubleUtil.checkRoot(root, f);
 
 		// NaN -> we're very near hole -> don't add root
-		if (Double.isFinite(root2)) {
+		if (MyDouble.isFinite(root2)) {
 			xlist.add(root2);
 		}
 	}
