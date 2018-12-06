@@ -1,6 +1,6 @@
 This short tutorial explains how to create a command line driven Linux
 version of Giac. The steps below have been tested under Linux Mint 17.2,
-Ubuntu Linux 14.04 and Ubuntu 16.04.
+Ubuntu Linux 14.04, Ubuntu 16.04 and Ubuntu 18.04.
 
 Prerequisites
 -------------
