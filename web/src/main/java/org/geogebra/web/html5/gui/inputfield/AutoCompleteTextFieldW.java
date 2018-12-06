@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -463,7 +462,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = ExamEnvironment.getSyntax(cmdInt, loc,
+				syntaxString = app.getKernel().getAlgebraProcessor()
+						.getSyntax(cmdInt, loc,
 								app.getSettings());
 			}
 			if (syntaxString == null) {

@@ -12,24 +12,26 @@ import org.geogebra.common.kernel.commands.Commands;
 class CommandSelectorSet implements CommandSelector {
 
     private Set<Commands> allowedCommands;
+	private boolean inverse;
 
 	/**
 	 * New command filter
 	 */
-    CommandSelectorSet() {
+	CommandSelectorSet(boolean inverse) {
         allowedCommands = new HashSet<>();
+		this.inverse = inverse;
     }
 
 	/**
 	 * @param commands
 	 *            allowed commands
 	 */
-    void addAllowedCommands(Commands... commands) {
+    void addCommands(Commands... commands) {
         allowedCommands.addAll(Arrays.asList(commands));
     }
 
     @Override
     public boolean isCommandAllowed(Commands command) {
-        return allowedCommands.contains(command);
+		return inverse ^ allowedCommands.contains(command);
     }
 }

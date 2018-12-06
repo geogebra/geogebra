@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
+import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -113,6 +114,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -165,6 +167,10 @@ public class AlgebraProcessor {
 	 * Parametric processor (shared with 3D)
 	 */
 	protected ParametricProcessor paramProcessor;
+
+	/** TODO use the selector from CommandDispatcher instead. */
+	@Deprecated
+	private CommandSelector noCASselector;
 
 	/**
 	 * @param kernel
@@ -3550,6 +3556,51 @@ public class AlgebraProcessor {
 	 */
 	public void setCommandSelector(CommandSelector commandSelector) {
 		cmdDispatcher.setCommandSelector(commandSelector);
+	}
+
+	/**
+	 * @param cmdInt
+	 *            command name
+	 * @param loc
+	 *            localization
+	 * @param settings
+	 *            settings
+	 * @return syntax
+	 */
+	public String getSyntax(String cmdInt, Localization loc,
+			Settings settings) {
+		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
+		if (settings.getCasSettings().isEnabled()) {
+			return loc.getCommandSyntax(cmdInt, dim);
+		}
+		Commands cmd = null;
+		try {
+			cmd = Commands.valueOf(cmdInt);
+
+		} catch (Exception e) {
+			// macro or error
+		}
+		if (cmd == null) {
+			return loc.getCommandSyntax(cmdInt, dim);
+		}
+		if (!this.cmdDispatcher.isAllowedBySelector(cmd)) {
+			return null;
+		}
+		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
+		// gives suggestions for NIntegral
+		if (cmd == Commands.Integral) {
+			return loc.getCommandSyntaxCAS("NIntegral");
+		}
+		if (noCASselector != null) {
+			noCASselector = new NoCASCommandSelectorFactory()
+					.createCommandSelector();
+		}
+		if (!noCASselector.isCommandAllowed(cmd)) {
+			return null;
+		}
+
+		return loc.getCommandSyntax(cmdInt, dim);
+
 	}
 
 	public CommandDispatcher getCommandDispatcher() {

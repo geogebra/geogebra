@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.main.settings.Settings;
@@ -461,71 +460,6 @@ public class ExamEnvironment {
 
 	public void exit() {
 		storeEndTime();
-	}
-
-	/**
-	 * @param cmdInt
-	 *            command name
-	 * @param loc
-	 *            localization
-	 * @param settings
-	 *            settings
-	 * @return syntax
-	 */
-	public static String getSyntax(String cmdInt, Localization loc,
-			Settings settings) {
-		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
-		if (settings.getCasSettings().isEnabled()) {
-			return loc.getCommandSyntax(cmdInt, dim);
-		}
-		Commands cmd = null;
-		try {
-			cmd = Commands.valueOf(cmdInt);
-
-		} catch (Exception e) {
-			// macro or error
-		}
-		if (cmd == null) {
-			return loc.getCommandSyntax(cmdInt, dim);
-		}
-		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
-		// gives suggestions for NIntegral
-		switch (cmd) {
-		case Integral:
-		case NIntegral:
-			return loc.getCommandSyntaxCAS("NIntegral");
-		case LocusEquation:
-		case Envelope:
-		case Expand:
-		case Factor:
-		case Factors:
-		case IFactor:
-		case CFactor:
-		case Simplify:
-		case SurdText:
-		case ParametricDerivative:
-		case Derivative:
-		case TrigExpand:
-		case TrigCombine:
-		case TrigSimplify:
-		case Limit:
-		case LimitBelow:
-		case LimitAbove:
-		case Degree:
-		case Coefficients:
-		case CompleteSquare:
-		case PartialFractions:
-		case SolveODE:
-		case ImplicitDerivative:
-		case NextPrime:
-		case PreviousPrime:
-		case Solve:
-		case Solutions:
-			// null -> no autocomplete syntax shown for these commands
-			return null;
-		default:
-			return loc.getCommandSyntax(cmdInt, dim);
-		}
 	}
 
 	/**

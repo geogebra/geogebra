@@ -12,8 +12,8 @@ public final class SciCalcCommandSelectorFactory {
      * @return Returns the CommandSelector that allows only the Scientific Calculator commands
      */
     public CommandSelector createCommandSelector() {
-        CommandSelectorSet commandSelector = new CommandSelectorSet();
-        commandSelector.addAllowedCommands(
+		CommandSelectorSet commandSelector = new CommandSelectorSet(false);
+        commandSelector.addCommands(
                 Commands.Mean,
                 Commands.mean,
                 Commands.SD,

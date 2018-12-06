@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.debug.Log;
@@ -224,14 +223,15 @@ public class InputSuggestions implements HasSuggestions {
 				syntaxString = app.getLocalization()
 						.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = ExamEnvironment.getSyntax(cmdInt, loc,
+				syntaxString = app.getKernel().getAlgebraProcessor()
+						.getSyntax(cmdInt, loc,
 								app.getSettings());
 			}
-			
+
 			if (syntaxString == null) {
 				return syntaxes;
 			}
-			
+
 			if (syntaxString.endsWith(Localization.syntaxCAS)
 					|| syntaxString.endsWith(Localization.syntaxStr)) {
 
