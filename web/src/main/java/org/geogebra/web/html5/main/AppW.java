@@ -50,13 +50,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
-import org.geogebra.common.main.settings.AppConfigCas;
-import org.geogebra.common.main.settings.AppConfigGeometry;
-import org.geogebra.common.main.settings.AppConfigGraphing;
-import org.geogebra.common.main.settings.AppConfigGraphing3D;
-import org.geogebra.common.main.settings.AppConfigMixedReality;
-import org.geogebra.common.main.settings.AppConfigNotes;
-import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
@@ -3715,25 +3708,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public AppConfig getConfig() {
-		if (articleElement == null) {
-			return new AppConfigDefault();
-		}
-		switch (articleElement.getDataParamAppName()) {
-		case "graphing":
-			return new AppConfigGraphing();
-		case"geometry":
-			return new AppConfigGeometry();
-		case "3d":
-			return new AppConfigGraphing3D();
-		case "mr":
-			return new AppConfigMixedReality();
-		case "cas":
-			return new AppConfigCas();
-		case "scientific":
-			return new AppConfigScientific();
-		case "notes":
-			return new AppConfigNotes();
-		}
 		return new AppConfigDefault();
 	}
 

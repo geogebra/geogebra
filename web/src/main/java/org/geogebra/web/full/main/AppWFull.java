@@ -29,12 +29,20 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.common.main.settings.AppConfigGeometry;
+import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.AppConfigMixedReality;
+import org.geogebra.common.main.settings.AppConfigNotes;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -84,6 +92,9 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
+import org.geogebra.web.full.main.activity.BaseActivity;
+import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -169,6 +180,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private ShareControllerW shareController;
 	private ZoomPanelMow mowZoomPanel;
+	private GeoGebraActivity activity;
 
 	/**
 	 * 
@@ -246,6 +258,55 @@ public class AppWFull extends AppW implements HasKeyboard {
 						.checkAvailable(null);
 			}
 		}
+		startActivity();
+	}
+
+	@Override
+	public AppConfig getConfig() {
+		initActivity();
+		if (activity == null) {
+			return new AppConfigDefault();
+		}
+		return activity.getConfig();
+	}
+
+	private void initActivity() {
+		if (articleElement == null || activity != null) {
+			return;
+		}
+		switch (articleElement.getDataParamAppName()) {
+		case "graphing":
+			activity = new BaseActivity(new AppConfigGraphing());
+			break;
+		case "geometry":
+			activity = new BaseActivity(new AppConfigGeometry());
+			break;
+		case "3d":
+			activity = new BaseActivity(new AppConfigGraphing3D());
+			break;
+		case "mr":
+			activity = new BaseActivity(new AppConfigMixedReality());
+			break;
+		case "cas":
+			activity = new BaseActivity(new AppConfigCas());
+			break;
+		case "scientific":
+			activity = new ScientificActivity();
+			break;
+		case "notes":
+			activity = new BaseActivity(new AppConfigNotes());
+			break;
+		default:
+			activity = new BaseActivity(new AppConfigDefault());
+		}
+	}
+
+	/**
+	 * Initialize the activity
+	 */
+	private void startActivity() {
+		initActivity();
+		activity.start(this);
 	}
 
 	/**

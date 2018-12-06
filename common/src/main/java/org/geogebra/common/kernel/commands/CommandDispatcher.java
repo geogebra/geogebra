@@ -187,7 +187,7 @@ public abstract class CommandDispatcher {
 		return process(cmdProc, c, info);
 	}
 
-	private boolean isAllowedBySelector(Commands command) {
+	protected boolean isAllowedBySelector(Commands command) {
 		return commandSelector == null || commandSelector.isCommandAllowed(command);
 	}
 
@@ -951,6 +951,7 @@ public abstract class CommandDispatcher {
 	 *          added to the command table
 	 */
 	public void setCommandSelector(CommandSelector commandSelector) {
+		Log.error("set selector");
 		this.commandSelector = commandSelector;
 	}
 
