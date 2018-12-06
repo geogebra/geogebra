@@ -2292,6 +2292,8 @@ var __giac = [ {},
 { cat:"Factor", cmd:"IFactor(IFactor(x^2-2))", result:"(x - sqrt(2)) (x + sqrt(2))" },
 { cat:"Factor", cmd:"CFactor(CFactor(x^2+2))", result:"x\u00B2 + 2" },
 { cat:"Factor", cmd:"CIFactor(CIFactor(x^2+2))", result:"(x + \u03AF sqrt(2)) (x - \u03AF sqrt(2))" },
+{ "cat":"Integral", cmd:"Integral[(1)/(((tan(x))^(2))*(sec(x)))]", result:"1 / 3 sin(x)\u00B3 - sin(x) + c_0" },
+{ "cat":"Evaluate", cmd:"Evaluate[sqrt(8+sqrt(60))]", result:"sqrt(3) + sqrt(5)" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
