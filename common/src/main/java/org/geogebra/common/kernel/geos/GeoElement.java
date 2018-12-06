@@ -2010,7 +2010,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this is protected against deleting and editing
 	 */
 	public boolean isProtected(EventType type) {
-		return isLocked() && this.getSpreadsheetCoords() != null
+		return !kernel.getLoadingMode() && isLocked()
+				&& this.getSpreadsheetCoords() != null
 				&& (type == EventType.REMOVE || !(this instanceof GeoFunction));
 	}
 
