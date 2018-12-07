@@ -34,7 +34,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 			GWT.create(CellTemplates.class);
 	private CellTable<T> headerTable;
 	private CellTable<T> valuesTable;
-	private ListDataProvider<T> dataProvider = new ListDataProvider<>();
+	private ListDataProvider<T> dataProvider;
 	private ScrollPanel valueScroller;
 
 	/**
@@ -73,7 +73,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	/**
 	 * Sync header sizes to value table.
 	 */
-	void doSyncHeaderSizes() {
+	protected void doSyncHeaderSizes() {
 		NodeList<Element> tableRows = valuesTable.getElement().getElementsByTagName("tbody")
 				.getItem(0)
 				.getElementsByTagName("tr");
@@ -111,34 +111,23 @@ public abstract class StickyTable<T> extends FlowPanel {
 	public void build() {
 		TableUtils.clear(valuesTable);
 		TableUtils.clear(headerTable);
-
-		addHeaderCells(headerTable);
-		addValueCells(valuesTable);
-
-		fillValuesTable();
-
+		createDataProvider();
+		addCells();
 		valueScroller.setWidget(valuesTable);
 		createStickyHeader();
 		add(valueScroller);
 		addStyleName("mainScrollPanel");
 		syncHeaderSizes();
+		valuesTable.setVisibleRange(0, dataProvider.getList().size());
+		valuesTable.setVisible(true);
+		refresh();
 	}
 
 	/**
-	 * Add header cells here.
+	 * Add initial cells here.
 	 * 
-	 * @param table
-	 *            represents the header.
 	 */
-	protected abstract void addHeaderCells(CellTable<T> table);
-
-	/**
-	 * Add value cells here.
-	 * 
-	 * @param table
-	 *            represents the values.
-	 */
-	protected abstract void addValueCells(CellTable<T> table);
+	protected abstract void addCells();
 
 	private void createStickyHeader() {
 		final ScrollPanel headerScroller = new ScrollPanel();
@@ -185,16 +174,39 @@ public abstract class StickyTable<T> extends FlowPanel {
 		return dataProvider.getList();
 	}
 
-	private void fillValuesTable() {
-		List<T> rows = getRows();
-		rows.clear();
-		fillValues(rows);
-		valuesTable.setRowCount(rows.size());
-		valuesTable.setVisibleRange(0, rows.size());
-		valuesTable.setRowData(0, rows);
-		valuesTable.setVisible(true);
+	private void createDataProvider() {
+		dataProvider = new ListDataProvider<>();
+		dataProvider.addDataDisplay(valuesTable);
+		fillValues(dataProvider.getList());
 	}
 
+	/**
+	 * Adds a new column
+	 * 
+	 * @param column
+	 */
+	protected abstract void addColumn();
+
+	/**
+	 * Removes the column.
+	 * 
+	 * @param index
+	 */
+	protected void removeColumn(int index) {
+		headerTable.removeColumn(index);
+	}
+
+	/**
+	 * Called when user adds a column.
+	 */
+	public void onColumnAdded() {
+		addColumn();
+		if (dataProvider == null) {
+			return;
+		}
+		fillValues(dataProvider.getList());
+		refresh();
+	}
 	/**
 	 * 
 	 * @param data
@@ -356,5 +368,19 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 */
 	ScrollPanel getValueScroller() {
 		return valueScroller;
+	}
+
+	/**
+	 * Refreshes table data.
+	 * 
+	 * @return if refresh was successful.
+	 */
+	public boolean refresh() {
+		if (dataProvider == null) {
+			return false;
+		}
+		dataProvider.refresh();
+		syncHeaderSizes();
+		return true;
 	}
 }

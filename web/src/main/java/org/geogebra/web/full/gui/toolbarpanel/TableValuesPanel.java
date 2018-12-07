@@ -52,7 +52,7 @@ public class TableValuesPanel extends FlowPanel
 	public void update() {
 		if (view.isEmpty()) {
 			buildEmptyView();
-		} else {
+		} else if (!table.refresh()) {
 			buildTable();
 		}
 		setParentStyle();
@@ -140,24 +140,24 @@ public class TableValuesPanel extends FlowPanel
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		update();
+		// not used.
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
-		update();
+		table.onColumnAdded();
 		table.scrollTo(evaluatable);
 	}
 
 	@Override
 	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		update();
+		// not used.
 	}
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		update();
+		table.refresh();
 	}
 
 	@Override

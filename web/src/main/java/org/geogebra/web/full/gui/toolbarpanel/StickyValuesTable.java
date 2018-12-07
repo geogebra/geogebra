@@ -24,7 +24,6 @@ import com.google.gwt.safecss.shared.SafeStylesBuilder;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -125,24 +124,27 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 				.show(new GPoint(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8));
 	}
 
-	@Override
-	protected void addHeaderCells(CellTable<TVRowData> table) {
-		for (int i = 0; i < model.getColumnCount(); i++) {
-			Column<TVRowData, ?> col = getColumnName();
-			if (col != null) {
-				table.addColumn(col, getHeaderHtml(i));
-			}
-		}
-	}
 
 	@Override
-	protected void addValueCells(CellTable<TVRowData> table) {
+	protected void addCells() {
 		for (int column = 0; column < model.getColumnCount(); column++) {
-			Column<TVRowData, ?> col = getColumnValue(column, dimensions);
-			table.addColumn(col);
+			addColumn();
 		}
 	}
 
+	@Override
+	protected void addColumn() {
+		int column = getValuesTable().getColumnCount();
+		Column<TVRowData, ?> colHeader = getColumnName();
+		if (colHeader != null) {
+			getHeaderTable().addColumn(colHeader, getHeaderHtml(column));
+		}
+		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
+		if (colValue != null) {
+			getValuesTable().addColumn(colValue);
+		}
+
+	}
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
@@ -298,7 +300,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 				cb.run();
 			}
 		} else {
-
+			removeColumn(column);
 		}
 		if (view.isEmpty()) {
 			provider.update();
@@ -337,5 +339,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 			pos += dimensions.getColumnWidth(col);
 		}
 		setHorizontalScrollPosition(pos);
+	}
+
+	@Override
+	protected void doSyncHeaderSizes() {
+		for (int col = 0; col < model.getColumnCount(); col++) {
+			getHeaderTable().setColumnWidth(col, dimensions.getColumnWidth(col) + "px");
+		}
 	}
 }
