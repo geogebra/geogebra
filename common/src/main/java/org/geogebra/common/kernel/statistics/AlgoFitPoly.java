@@ -87,7 +87,7 @@ public class AlgoFitPoly extends AlgoElement {
 		boolean regok = true;
 		double[] cof = null;
 		par = degree == null ? size - 1 : (int) Math.round(degree.getDouble());
-		if (!geolist.isDefined() || (size < 2) || (par >= size)) {
+		if (!geolist.isDefined() || (size < 2) || (par < 0) || (par >= size)) {
 			geofunction.setUndefined();
 			return;
 		}
