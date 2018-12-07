@@ -723,7 +723,7 @@ public class GeoNumeric extends GeoElement
 		}
 		if (symbolicMode && getDefinition() != null && tpl.supportsFractions()
 				&& getDefinition().isFraction()) {
-			return getDefinition().toFractionString(tpl);
+			return getDefinition().toFractionString(tpl, false);
 		}
 		return kernel.format(value, tpl);
 	}

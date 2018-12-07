@@ -1220,7 +1220,7 @@ public class DrawAxis {
 	 */
 	public static String multiple(ExpressionNode definition, long labelno) {
 		return definition.multiply(labelno)
-				.toFractionString(StringTemplate.defaultTemplate);
+				.toFractionString(StringTemplate.defaultTemplate, true);
 	}
 
 	private boolean isCurrencyUnit(int axis) {

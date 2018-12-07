@@ -3608,8 +3608,8 @@ public class ExpressionNode extends ValidExpression
 	 *            template
 	 * @return this as fraction
 	 */
-	public String toFractionString(StringTemplate tpl) {
-		initFraction();
+	public String toFractionString(StringTemplate tpl, boolean allowPi) {
+		initFraction(allowPi);
 		return ((ExpressionNode) resolve).toFractionStringFlat(tpl,
 				kernel.getLocalization());
 	}
@@ -3618,13 +3618,13 @@ public class ExpressionNode extends ValidExpression
 	 * @return Whether this is a fraction (also true for 1/2+1/3)
 	 */
 	public boolean isFraction() {
-		initFraction();
-		return ((ExpressionNode) resolve).isSimpleFraction();
+		initFraction(false);
+		return ((ExpressionNode) resolve).getOperation() == Operation.DIVIDE;
 	}
 
-	private void initFraction() {
+	private void initFraction(boolean allowPi) {
 		if (resolve == null || !resolve.isExpressionNode()) {
-			resolve = Fractions.getResolution(this, kernel);
+			resolve = Fractions.getResolution(this, kernel, allowPi);
 		}
 	}
 
@@ -3632,7 +3632,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {
-		initFraction();
+		initFraction(false);
 		if (resolve.isExpressionNode()) {
 			return resolve.wrap();
 		}

@@ -20,10 +20,12 @@ public class Fractions {
 	 *            expression
 	 * @param kernel
 	 *            kernel
+	 * @param allowPi
+	 *            whether to allow multiples of pi
 	 * @return resolved expression: either MyDouble or simple fraction
 	 */
 	protected static ExpressionValue getResolution(ExpressionNode expr,
-			Kernel kernel) {
+			Kernel kernel, boolean allowPi) {
 		ExpressionValue[] fraction = new ExpressionValue[2];
 		expr.getFraction(fraction, true);
 		if (fraction[0] != null) {
@@ -32,9 +34,8 @@ public class Fractions {
 
 			boolean pi = false;
 			double piDiv = lt / Math.PI;
-			if (DoubleUtil.isInteger(piDiv)
-					&& !DoubleUtil.isZero(piDiv)
-					&& lt < MAX_NUM_DENOMINATOR) {
+			if (allowPi && DoubleUtil.isInteger(piDiv)
+					&& !DoubleUtil.isZero(piDiv) && lt < MAX_NUM_DENOMINATOR) {
 				lt = piDiv;
 				pi = true;
 			}
