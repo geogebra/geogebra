@@ -53,12 +53,12 @@ public class CmdFitPoly extends CommandProcessor {
 			}
 			throw argErr(c, arg[0]);
 		case 2:
-			if (arg[0].isGeoList()) {
+			if (arg[0].isGeoList() && arg[1].isNumberValue()) {
 				GeoElement[] ret = {
 						fitPoly((GeoList) arg[0], (GeoNumberValue) arg[1]) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
-			} else if (arg[0].isGeoFunction()) {
+			} else if (arg[0].isGeoFunction() && arg[1].isNumberValue()) {
 				// FitPoly[ <Freehand Function>, <Order> ]
 				return fitPolyFunction(c, arg);
 			}
