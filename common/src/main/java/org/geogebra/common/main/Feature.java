@@ -317,6 +317,9 @@ public enum Feature {
 	/** G3D-95*/
  	G3D_AR_ROTATE_3D_VIEW_TOOL,
 
+	/** G3D-97*/
+	G3D_AR_TRANSLATE_3D_VIEW_TOOL,
+
 	/** automatically add NDG conditions in locus equations */
 	LOCUSEQU_AUTO_NDG,
 

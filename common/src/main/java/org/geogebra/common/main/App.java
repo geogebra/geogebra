@@ -4139,6 +4139,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 			case G3D_AR_ROTATE_3D_VIEW_TOOL:
                 return false;
 
+        /** G3D-97*/
+			case G3D_AR_TRANSLATE_3D_VIEW_TOOL:
+				return false;
+
 		/** G3D-89 */
 		case G3D_IOS_FASTER_AV:
 			return false;
