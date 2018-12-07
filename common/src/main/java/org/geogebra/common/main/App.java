@@ -4095,7 +4095,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-83 */
 		case VOICEOVER_APPLETS:
-			return prerelease;
+			return true;
 
 		/** GGB-2517 */
 		case TOOLBAR_FROM_APPCONFIG:
