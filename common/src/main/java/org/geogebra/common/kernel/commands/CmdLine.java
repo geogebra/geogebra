@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,6 +34,15 @@ public class CmdLine extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+
+		case 3:
+
+			// check if xOyPlane constant
+			if (!(c.getArgument(2).unwrap() instanceof GeoPlane3DConstant)) {
+				throw argNumErr(c);
+			}
+
+			// $FALL-THROUGH$
 		case 2:
 			arg = resArgs(c);
 
