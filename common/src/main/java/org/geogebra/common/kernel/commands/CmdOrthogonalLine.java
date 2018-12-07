@@ -1,14 +1,15 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoOrthoLinePointConic;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -38,8 +39,10 @@ public class CmdOrthogonalLine extends CommandProcessor {
 
 		case 3:
 
-			// check if 3rd arg is "xOyPlane"
-			if (!(c.getArgument(2).unwrap() instanceof GeoPlane3DConstant)) {
+			ExpressionValue arg2 = c.getArgument(2).unwrap();
+			// check if arg2 = xOyPlane
+			if (!(arg2 instanceof GeoPlaneND)
+					&& ((GeoPlaneND) arg2).isConstant()) {
 				throw argNumErr(c);
 			}
 

@@ -146,4 +146,9 @@ public class GeoPlane3DConstant extends GeoPlane3D
 		return true;
 	}
 
+	@Override
+	public boolean isConstant() {
+		return true;
+	}
+
 }

@@ -3821,7 +3821,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * implementation of interface ExpressionValue
 	 */
 	@Override
-	public final boolean isConstant() {
+	public boolean isConstant() {
 		return false;
 	}
 
