@@ -312,6 +312,21 @@ public interface Inspecting {
 	};
 
 	/**
+	 * Finds MySpecialDoubles
+	 *
+	 */
+	public enum SpecialDouble implements Inspecting{
+		/** singleton instance*/
+		INSTANCE;
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			return v instanceof MySpecialDouble;
+		}
+		
+	}
+
+	/**
 	 * @author csilla check whether the expression contains only "+" (needed for
 	 *         Theorem proving)
 	 */
