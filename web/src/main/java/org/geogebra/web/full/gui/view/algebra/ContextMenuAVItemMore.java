@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -19,7 +20,6 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Command;
 
 /**
  * The ... menu for AV items
@@ -65,6 +65,14 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
+		if (!app.getConfig().hasAutomaticLabels()
+				&& !item.geo.isAlgebraLabelVisible()) {
+			addShowLabelItem();
+		}
+		if (!app.getConfig().hasAutomaticLabels()
+				&& item.geo.isAlgebraLabelVisible()) {
+			addHideLabelItem();
+		}
 		if (item.geo.hasTableOfValues() && app.getConfig().hasTableView(app)) {
 			addTableOfValuesItem();
 		}
@@ -92,69 +100,82 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addTableOfValuesItem() {
-		SVGResource img = MaterialDesignResources.INSTANCE
-				.toolbar_table_view_black();
-		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getMenu("TableOfValues")), true, new Command() {
+		addAction(new MenuAction(loc.getMenu("TableOfValues"),
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black()) {
 
 					@Override
 					public void execute() {
 						app.getGuiManager().showTableValuesView(item.geo);
 					}
 				});
-		wrappedPopup.addItem(mi);
+	}
+
+	private void addShowLabelItem() {
+		addAction(new MenuAction(loc.getMenu("ShowLabel"),
+				MaterialDesignResources.INSTANCE
+						.toolbar_table_view_black()) {
+
+					@Override
+					public void execute() {
+						new LabelController().showLabel(item.geo);
+					}
+				});
+	}
+
+	private void addHideLabelItem() {
+		addAction(new MenuAction(loc.getMenu("HideLabel"),
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black()) {
+
+					@Override
+					public void execute() {
+						new LabelController().hideLabel(item.geo);
+					}
+				});
 	}
 
 	private void addSpecialPointsItem() {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.special_points(),
-						loc.getMenu("Suggestion.SpecialPoints")),
-				true, new Command() {
+		addAction(new MenuAction(loc.getMenu("Suggestion.SpecialPoints"),
+				MaterialDesignResources.INSTANCE.special_points()) {
 
 					@Override
 					public void execute() {
 						SuggestionRootExtremum.get(item.geo).execute(item.geo);
 					}
 				});
-		wrappedPopup.addItem(mi);
 	}
 
 	private void addDuplicateItem() {
-		SVGResource img = MaterialDesignResources.INSTANCE.duplicate_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Duplicate")),
-				true,
-				new Command() {
-					
-					@Override
-					public void execute() {
-						RadioTreeItem input = item.getAV().getInputTreeItem();
+		addAction(new MenuAction(loc.getMenu("Duplicate"),
+				MaterialDesignResources.INSTANCE.duplicate_black()) {
+
+			@Override
+			public void execute() {
+				RadioTreeItem input = item.getAV().getInputTreeItem();
+
+				String dup = "";
+				if ("".equals(item.geo
+						.getDefinition(StringTemplate.defaultTemplate))) {
+					dup = item.geo.getValueForInputBar();
+				} else {
+					dup = item.geo.getDefinitionNoLabel(
+							StringTemplate.editorTemplate);
+				}
+				item.selectItem(false);
+				input.setText(dup);
+				input.setFocus(true, true);
+			}
 						
-						String dup = "";
-						if ("".equals(item.geo.getDefinition(StringTemplate.defaultTemplate))) {
-							dup = item.geo.getValueForInputBar();
-						} else {
-							dup = item.geo.getDefinitionNoLabel(
-									StringTemplate.editorTemplate);
-						}
-						item.selectItem(false);
-						input.setText(dup);
-						input.setFocus(true, true);
-					
-					}
-				});
-		mi.setEnabled(item.geo.isAlgebraDuplicateable());
-		wrappedPopup.addItem(mi);
+			@Override
+			public boolean isAvailable() {
+				return item.geo.isAlgebraDuplicateable();
+			}
+		});
+
 	}
 		
 	private void addDeleteItem() {
-		SVGResource img = MaterialDesignResources.INSTANCE.delete_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img,
-						loc.getMenu("Delete")),
-				true,
-				new Command() {
+		addAction(
+				new MenuAction(loc.getMenu("Delete"), MaterialDesignResources.INSTANCE.delete_black()) {
 					
 					@Override
 					public void execute() {
@@ -162,22 +183,25 @@ public class ContextMenuAVItemMore implements SetLabels {
 						app.storeUndoInfo();
 					}
 				});
-		wrappedPopup.addItem(mi);
 	}
 
 	private void addPropertiesItem() {
-		SVGResource img = MaterialDesignResources.INSTANCE.gear();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Settings")),
-				true,
-				new Command() {
+		addAction(
+				new MenuAction(loc.getMenu("Settings"), MaterialDesignResources.INSTANCE.gear()) {
 					
 					@Override
 					public void execute() {
 						openSettings();
 					}
 				});
+	}
 
+	private void addAction(MenuAction menuAction) {
+		SVGResource img = menuAction.getImage();
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img, menuAction.getTitle()), true,
+				menuAction);
+		mi.setEnabled(menuAction.isAvailable());
 		wrappedPopup.addItem(mi);
 	}
 
