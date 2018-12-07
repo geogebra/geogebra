@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimat
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 
 /**
  * animation for mouse move
@@ -22,7 +23,11 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	private double yZeroOld;
 	private double zZeroOld;
 	private Coords tmpCoords1 = new Coords(4);
-	private Coords hittingDirection = new Coords(4);
+	private Coords hittingDirection = Coords.createInhomCoorsInD3();
+	private Coords hittingOrigin = Coords.createInhomCoorsInD3();
+	private Coords startTouchOnXOYPlane = Coords.createInhomCoorsInD3();
+	private Coords moveTouchOnXOYPlane = Coords.createInhomCoorsInD3();
+	private Coords translation = Coords.createInhomCoorsInD3();
 
 	/**
 	 *
@@ -42,6 +47,12 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 		xZeroOld = view3D.getXZero();
 		yZeroOld = view3D.getYZero();
 		zZeroOld = view3D.getZZero();
+		if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)) {
+			view3D.getHittingDirection(hittingDirection);
+			view3D.getHittingOrigin(null, hittingOrigin);
+			hittingOrigin.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, hittingDirection,
+					startTouchOnXOYPlane);
+		}
 	}
 
 	/**
@@ -79,17 +90,37 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 				view3D.setViewChangedByRotate();
 				break;
 			case EuclidianController.MOVE_VIEW:
-				Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
+				Coords v = new Coords(4);
+
+				if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)) {
+					view3D.getHittingOrigin(null, hittingOrigin);
+				} else {
+					v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
+					view3D.getHittingDirection(hittingDirection);
+					view3D.toSceneCoords3D(v);
+				}
 				view3D.getHittingDirection(hittingDirection);
-				view3D.toSceneCoords3D(v);
 
 				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-					Coords direction = view3D.isAREnabled() ? hittingDirection 
-							: view3D.getViewDirection();
+					if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)) {
+						hittingOrigin.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
+								hittingDirection,
+								moveTouchOnXOYPlane);
+						translation.setSub3(moveTouchOnXOYPlane, startTouchOnXOYPlane);
 
-					v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, direction, tmpCoords1);
-					view3D.setXZero(xZeroOld + tmpCoords1.getX());
-					view3D.setYZero(yZeroOld + tmpCoords1.getY());
+						xZeroOld += translation.getX();
+						yZeroOld += translation.getY();
+						view3D.setXZero(xZeroOld);
+						view3D.setYZero(yZeroOld);
+					} else {
+						Coords direction = view3D.isAREnabled() ? hittingDirection
+								: view3D.getViewDirection();
+
+						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, direction, tmpCoords1);
+						view3D.setXZero(xZeroOld + tmpCoords1.getX());
+						view3D.setYZero(yZeroOld + tmpCoords1.getY());
+					}
+
 				} else {
 					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
 					view3D.setZZero(zZeroOld + tmpCoords1.getZ());
