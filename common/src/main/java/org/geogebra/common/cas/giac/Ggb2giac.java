@@ -1266,11 +1266,15 @@ public class Ggb2giac {
 				// one point
 				"desolve(when((%0)[0]=='=',%0,y'=%0),x,y,%1)" + ")" + ""
 				+ "[0])");
-		p("SolveODEPoint.2", "" + "normal(y=" +
-		// list of 2 points
 
-		// one point
-				"desolve(y'=%0,x,y,%1)[0])");
+		// used by AlgoSolveODECAS.java
+		p("SolveODEPoint.2", ""
+				+ "[[odeans:=desolve(y'=%0,x,y,%1)],when(size(odeans)==0,?,when(size(odeans)==1,y=odeans[0],"
+				+ "[[diff0:=evalf(subst(odeans,{x=xcoord(%1),y=ycoord(%1)}))],"
+				// compare 2 solutions, pick one closest to point
+				// note: both could go through, pick just one
+				+ "when(abs(diff0[0]-ycoord(%1))<abs(diff0[1]-ycoord(%1)),y=odeans[0],y=odeans[1])"
+				+ "][-1]))][-1]");
 
 		p("SolveODE.3",
 				"when((%0)[0]=='=',"
