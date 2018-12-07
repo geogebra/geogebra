@@ -217,15 +217,13 @@ public class InputSuggestions implements HasSuggestions {
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);
-			Localization loc = app.getLocalization();
 			String syntaxString;
 			if (component.isForCAS()) {
 				syntaxString = app.getLocalization()
 						.getCommandSyntaxCAS(cmdInt);
 			} else {
 				syntaxString = app.getKernel().getAlgebraProcessor()
-						.getSyntax(cmdInt, loc,
-								app.getSettings());
+						.getSyntax(cmdInt, app.getSettings());
 			}
 
 			if (syntaxString == null) {

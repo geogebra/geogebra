@@ -6762,9 +6762,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            mouse exit event
 	 */
 	public void wrapMouseExited(AbstractEvent event) {
-	    wrapMouseExited(event, true);
-    }
-
+		wrapMouseExited(event, true);
+	}
 
     /**
      * Process mouse exit event.

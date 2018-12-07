@@ -187,6 +187,11 @@ public abstract class CommandDispatcher {
 		return process(cmdProc, c, info);
 	}
 
+	/**
+	 * @param command
+	 *            command
+	 * @return whether selctor accepts it
+	 */
 	protected boolean isAllowedBySelector(Commands command) {
 		return commandSelector == null || commandSelector.isCommandAllowed(command);
 	}
@@ -951,7 +956,6 @@ public abstract class CommandDispatcher {
 	 *          added to the command table
 	 */
 	public void setCommandSelector(CommandSelector commandSelector) {
-		Log.error("set selector");
 		this.commandSelector = commandSelector;
 	}
 
@@ -965,6 +969,9 @@ public abstract class CommandDispatcher {
 		this.commandFilter = commandFilter;
 	}
 
+	/**
+	 * @return command filter
+	 */
 	public CommandFilter getCommandFilter() {
 		return commandFilter;
 	}

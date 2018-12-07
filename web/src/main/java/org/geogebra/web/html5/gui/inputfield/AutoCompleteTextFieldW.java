@@ -463,8 +463,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
 				syntaxString = app.getKernel().getAlgebraProcessor()
-						.getSyntax(cmdInt, loc,
-								app.getSettings());
+						.getSyntax(cmdInt, app.getSettings());
 			}
 			if (syntaxString == null) {
 				continue;

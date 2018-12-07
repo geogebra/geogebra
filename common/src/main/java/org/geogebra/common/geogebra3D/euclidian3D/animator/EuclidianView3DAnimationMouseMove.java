@@ -116,7 +116,8 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 						Coords direction = view3D.isAREnabled() ? hittingDirection
 								: view3D.getViewDirection();
 
-						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, direction, tmpCoords1);
+						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, direction, 
+								tmpCoords1); 
 						view3D.setXZero(xZeroOld + tmpCoords1.getX());
 						view3D.setYZero(yZeroOld + tmpCoords1.getY());
 					}

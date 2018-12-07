@@ -1273,7 +1273,8 @@ public class AlgebraProcessor {
 		return evaluateToDouble(str, false, null);
 	}
 
-	private NumberValue evaluateToNumberValue(ExpressionNode expressionNode) {
+	private static NumberValue evaluateToNumberValue(
+			ExpressionNode expressionNode) {
 		expressionNode.resolveVariables(new EvalInfo(false));
 		return (NumberValue) expressionNode
 				.evaluate(StringTemplate.defaultTemplate);
@@ -3561,14 +3562,11 @@ public class AlgebraProcessor {
 	/**
 	 * @param cmdInt
 	 *            command name
-	 * @param loc
-	 *            localization
 	 * @param settings
 	 *            settings
 	 * @return syntax
 	 */
-	public String getSyntax(String cmdInt, Localization loc,
-			Settings settings) {
+	public String getSyntax(String cmdInt, Settings settings) {
 		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
 		if (settings.getCasSettings().isEnabled()) {
 			return loc.getCommandSyntax(cmdInt, dim);
@@ -3603,6 +3601,9 @@ public class AlgebraProcessor {
 
 	}
 
+	/**
+	 * @return command dispatcher
+	 */
 	public CommandDispatcher getCommandDispatcher() {
 		return cmdDispatcher;
 	}
