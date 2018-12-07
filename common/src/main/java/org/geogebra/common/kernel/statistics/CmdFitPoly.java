@@ -62,25 +62,28 @@ public class CmdFitPoly extends CommandProcessor {
 				// FitPoly[ <Freehand Function>, <Order> ]
 				return fitPolyFunction(c, arg);
 			}
-			throw argErr(c, arg[0]);
+			return generalCase(arg, c);
 
 		default:
-			int points = arg.length;
-			GeoNumberValue degree = null;
-			if (n > 0 && arg[n - 1] instanceof GeoNumberValue) {
-				degree = (GeoNumberValue) arg[arg.length - 1];
-				points--;
-			}
-			// try to create list of points
-			GeoList list = wrapInList(kernel, arg, points,
-					GeoClass.POINT);
-			if (list != null) {
-				GeoElement[] ret = { fitPoly(list, degree) };
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			throw argNumErr(c);
+			return generalCase(arg, c);
 		}
+	}
+
+	private GeoElement[] generalCase(GeoElement[] arg, Command c) {
+		int points = arg.length;
+		GeoNumberValue degree = null;
+		if (points > 1 && arg[points - 1] instanceof GeoNumberValue) {
+			degree = (GeoNumberValue) arg[arg.length - 1];
+			points--;
+		}
+		// try to create list of points
+		GeoList list = wrapInList(kernel, arg, points, GeoClass.POINT);
+		if (list != null) {
+			GeoElement[] ret = { fitPoly(list, degree) };
+			ret[0].setLabel(c.getLabel());
+			return ret;
+		}
+		throw argNumErr(c);
 	}
 
 	private GeoElement[] fitPolyFunction(Command c, GeoElement[] arg) {
