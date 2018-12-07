@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -19,6 +18,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.view.client.ListDataProvider;
 
 /**
  * Table with sticky header.
@@ -34,7 +34,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 			GWT.create(CellTemplates.class);
 	private CellTable<T> headerTable;
 	private CellTable<T> valuesTable;
-	private List<T> rows = new ArrayList<>();
+	private ListDataProvider<T> dataProvider = new ListDataProvider<>();
 	private ScrollPanel valueScroller;
 
 	/**
@@ -177,7 +177,16 @@ public abstract class StickyTable<T> extends FlowPanel {
 		headerScroller.setHorizontalScrollPosition(scrollPosition);
 	}
 
+	/**
+	 * 
+	 * @return data of all rows
+	 */
+	protected List<T> getRows() {
+		return dataProvider.getList();
+	}
+
 	private void fillValuesTable() {
+		List<T> rows = getRows();
 		rows.clear();
 		fillValues(rows);
 		valuesTable.setRowCount(rows.size());

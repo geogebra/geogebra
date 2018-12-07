@@ -298,7 +298,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 				cb.run();
 			}
 		} else {
-			header.getParentElement().removeFromParent();
+
 		}
 		if (view.isEmpty()) {
 			provider.update();
