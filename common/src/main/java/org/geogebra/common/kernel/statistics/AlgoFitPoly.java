@@ -64,9 +64,11 @@ public class AlgoFitPoly extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[2];
-		input[0] = geolist;
-		input[1] = degree.toGeoElement();
+		if (degree == null) {
+			input = new GeoElement[] { geolist };
+		} else {
+			input = new GeoElement[] { geolist, degree.toGeoElement() };
+		}
 		setOnlyOutput(geofunction);
 		setDependencies();
 	}
@@ -84,7 +86,7 @@ public class AlgoFitPoly extends AlgoElement {
 		int par;
 		boolean regok = true;
 		double[] cof = null;
-		par = (int) Math.round(degree.getDouble());
+		par = degree == null ? size - 1 : (int) Math.round(degree.getDouble());
 		if (!geolist.isDefined() || (size < 2) || (par >= size)) {
 			geofunction.setUndefined();
 			return;

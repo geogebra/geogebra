@@ -43,10 +43,15 @@ public class CmdFitPoly extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
-		if (n > 0 && !(arg[n - 1] instanceof GeoNumberValue)) {
-			throw argErr(c, arg[n - 1]);
-		}
+
 		switch (n) {
+		case 1:
+			if (arg[0].isGeoList()) {
+				GeoElement[] ret = { fitPoly((GeoList) arg[0], null) };
+				ret[0].setLabel(c.getLabel());
+				return ret;
+			}
+			throw argErr(c, arg[0]);
 		case 2:
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
@@ -60,12 +65,17 @@ public class CmdFitPoly extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		default:
+			int points = arg.length;
+			GeoNumberValue degree = null;
+			if (n > 0 && arg[n - 1] instanceof GeoNumberValue) {
+				degree = (GeoNumberValue) arg[arg.length - 1];
+				points--;
+			}
 			// try to create list of points
-			GeoList list = wrapInList(kernel, arg, arg.length - 1,
+			GeoList list = wrapInList(kernel, arg, points,
 					GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = {
-						fitPoly(list, (GeoNumberValue) arg[arg.length - 1]) };
+				GeoElement[] ret = { fitPoly(list, degree) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
