@@ -683,6 +683,13 @@ public abstract class CommandDispatcher {
 			case Rationalize:
 			case Substitute:
 			case ToExponential:
+			case Laplace:
+			case InverseLaplace:
+			case Assume:
+			case SolveCubic:
+			case JordanDiagonalization:
+			case Eigenvalues:
+			case Eigenvectors:
 				return new CAScmdProcessor(kernel);
 
 			// ************** STATS ***************

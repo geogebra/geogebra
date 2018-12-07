@@ -1182,8 +1182,6 @@ public enum Commands implements CommandsConstants,
 
 	Substitute(TABLE_CAS),
 
-	TangentThroughPoint(TABLE_CAS),
-
 	ToComplex(TABLE_GEOGEBRA),
 
 	ToExponential(TABLE_CAS),

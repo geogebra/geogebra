@@ -8,7 +8,7 @@ import java.util.Set;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Used for comparing multivariate polynomial equations which have to be in the

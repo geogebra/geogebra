@@ -207,10 +207,15 @@ public class NoExceptionsTest extends AlgebraTest {
 		Assert.assertEquals("", missing.toString());
 	}
 
-	private static boolean betaCommand(Commands a) {
+	/**
+	 * @param a
+	 *            command
+	 * @return whether only is in beta
+	 */
+	public static boolean betaCommand(Commands a) {
 		return a == Commands.MatrixPlot || a == Commands.DensityPlot
 				|| a == Commands.ContourPlot || a == Commands.Nyquist
-				|| a == Commands.Polyhedron;
+				|| a == Commands.Polyhedron || a == Commands.RoundedPolygon;
 	}
 
 	@Test

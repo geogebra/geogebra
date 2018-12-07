@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -29,12 +30,20 @@ public class AlgebraTest extends Assert {
 		return app2;
 	}
 
-	protected static void shouldFail(String string, String string2, App app) {
+	protected static void shouldFail(String string, String errorMsg, App app) {
+		shouldFail(string, errorMsg, null, app);
+	}
+
+	protected static void shouldFail(String string, String errorMsg,
+			String altErrorMsg,
+			App app) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(string, false,
 						errorStore, false, null);
-		if (!errorStore.getErrors().contains(string2)) {
+		if (!errorStore.getErrors().contains(errorMsg)
+				&& (altErrorMsg == null
+						|| !errorStore.getErrors().contains(altErrorMsg))) {
 			fail(string + ":" + errorStore.getErrors());
 		}
 	}
@@ -100,8 +109,18 @@ public class AlgebraTest extends Assert {
 						"ShowGrid", "SetActiveView", "ZoomIn",
 						"SetViewDirection", "ExportImage", "Random",
 						"Textfield", "GetTime", "UpdateConstruction",
-						"SelectObjects", "Turtle", "Function", "Checkbox" })
+						"SelectObjects", "Turtle", "Function", "Checkbox",
+						"InputBox", "RandomBetween" })
 				.contains(cmdName);
+	}
+
+	/**
+	 * @param cmd0
+	 *            command
+	 * @return whether command is in CAS but is internal
+	 */
+	public static boolean internalCAScommand(Commands cmd0) {
+		return cmd0 == Commands.SolveQuartic || cmd0 == Commands.Evaluate;
 	}
 
 	/**
