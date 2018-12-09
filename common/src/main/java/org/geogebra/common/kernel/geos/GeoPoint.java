@@ -356,12 +356,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		} else if (geo instanceof GeoList) {
 			// GGB-1981
 			GeoList list = (GeoList) geo;
-			double x = list.size() > 0 ? list.get(0).evaluateDouble()
+			double xList = list.size() > 0 ? list.get(0).evaluateDouble()
 					: Double.NaN;
-			double y = list.size() > 1 ? list.get(1).evaluateDouble()
+			double yList = list.size() > 1 ? list.get(1).evaluateDouble()
 					: Double.NaN;
 
-			setCoords(x, y, 1);
+			setCoords(xList, yList, 1);
 
 		} else {
 			Log.error(geo.getGeoClassType() + " invalid as point");

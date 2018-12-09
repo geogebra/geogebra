@@ -1,15 +1,17 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoOrthoLinePointConic;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -32,57 +34,73 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
-		GeoElement[] arg;
 
 		switch (n) {
 
 		case 3:
-
-			ExpressionValue arg2 = c.getArgument(2).unwrap();
-			// check if arg2 = xOyPlane
-			if (!(arg2 instanceof GeoPlaneND)
-					&& ((GeoPlaneND) arg2).isConstant()) {
-				throw argNumErr(c);
-			}
-
-			// $FALL-THROUGH$
+			return process3(c);
 		case 2:
-			arg = resArgs(c);
-
-			// line through point orthogonal to vector
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoVector()))) {
-				GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
-						c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
-				return ret;
-			}
-
-			// line through point orthogonal to another line
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
-						c.getLabel(), (GeoPoint) arg[0], (GeoLine) arg[1]) };
-				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
-
-				AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons,
-						c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
-
-				return algo.getOutput();
-			}
-
-			// syntax error
-			else {
-				if (!ok[0]) {
-					throw argErr(c, arg[0]);
-				}
-				throw argErr(c, arg[1]);
-			}
+			return process2(c, resArgs(c));
 
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	/**
+	 * @param c
+	 *            command
+	 * @param arg
+	 *            resolved arguments
+	 * @return process for 2 arguments
+	 */
+	protected GeoElement[] process2(Command c, GeoElement[] arg) {
+		boolean[] ok = new boolean[2];
+		// line through point orthogonal to vector
+		if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoVector()))) {
+			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
+					c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
+			return ret;
+		}
+
+		// line through point orthogonal to another line
+		else if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoLine()))) {
+			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
+					c.getLabel(), (GeoPoint) arg[0], (GeoLine) arg[1]) };
+			return ret;
+		} else if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoConic()))) {
+
+			AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons,
+					c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
+
+			return algo.getOutput();
+		}
+
+		// syntax error
+		throw argErr(c, getBadArg(ok, arg));
+	}
+
+	/**
+	 * @param c
+	 *            command
+	 * @return process for 3 arguments
+	 */
+	protected GeoElement[] process3(Command c) {
+		ExpressionValue arg2 = c.getArgument(2).unwrap();
+		// check if arg2 = xOyPlane
+		String name = arg2.toString(StringTemplate.defaultTemplate);
+		if (!(arg2 instanceof Variable) || !planeOrSpace(name)) {
+			throw argNumErr(c);
+		}
+		c.setArgument(2, new GeoDummyVariable(cons, name).wrap());
+		return process2(c, resArgs(c));
+	}
+
+	private boolean planeOrSpace(String name) {
+		return "xOyPlane".equals(name) || loc.getMenu("xOyPlane").equals(name)
+				|| "space".equals(name) || loc.getMenu("space").equals(name);
 	}
 }

@@ -44,6 +44,7 @@ import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -121,6 +122,16 @@ public class AppDNoGui extends App implements AppDI {
 	 *            whether to mute logging
 	 */
 	public AppDNoGui(LocalizationD loc, boolean silent) {
+		this(loc, silent, 3);
+	}
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @param silent
+	 *            whether to mute logging
+	 */
+	public AppDNoGui(LocalizationD loc, boolean silent, int dimension) {
 
 		super(Versions.DESKTOP);
 		if (!silent) {
@@ -134,7 +145,8 @@ public class AppDNoGui extends App implements AppDI {
 		}
 		Log.debug(prerelease ? "Start up prerelese." : "Start up stable.");
 		initFactories();
-		this.kernel = new Kernel3D(this, new GeoFactory3D());
+		this.kernel = dimension == 2 ? new Kernel(this, new GeoFactory())
+				: new Kernel3D(this, new GeoFactory3D());
 		initSettings();
 		this.loc = loc;
 		loc.setLocale(Locale.US);

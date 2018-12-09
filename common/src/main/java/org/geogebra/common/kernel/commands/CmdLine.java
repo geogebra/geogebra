@@ -2,12 +2,10 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -34,19 +32,7 @@ public class CmdLine extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-		switch (n) {
-
-		case 3:
-
-			ExpressionValue arg2 = c.getArgument(2).unwrap();
-			// check if arg2 = xOyPlane
-			if (!(arg2 instanceof GeoPlaneND)
-					&& ((GeoPlaneND) arg2).isConstant()) {
-				throw argNumErr(c);
-			}
-
-			// $FALL-THROUGH$
-		case 2:
+		if (n== 2) {
 			arg = resArgs(c);
 
 			// line through two points
@@ -77,10 +63,9 @@ public class CmdLine extends CommandProcessor {
 			else {
 				throw argErr(c, getBadArg(ok, arg));
 			}
-
-		default:
-			throw argNumErr(c);
 		}
+		
+		throw argNumErr(c);
 	}
 
 }
