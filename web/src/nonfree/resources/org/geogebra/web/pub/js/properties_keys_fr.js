@@ -1228,7 +1228,7 @@ __GGB__keysVar["fr"].menu = {
     "AandBarePerpendicular": "%0 et %1 sont perpendiculaires",
     "AandBcannotBeCompared": "%0 et %1 ne peuvent \xeatre compar\xe9(e)s",
     "About": "\xc0 propos de",
-    "AboutLicense": "A propos / Licence",
+    "AboutLicense": "\xc0 propos / Licence",
     "AbsoluteScreenLocation": "Position absolue sur l'\xe9cran",
     "Accelerometer": "Acc\xe9l\xe9ration",
     "Accents": "Accents",
