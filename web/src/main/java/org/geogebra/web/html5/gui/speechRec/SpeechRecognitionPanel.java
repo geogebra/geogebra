@@ -37,8 +37,6 @@ public class SpeechRecognitionPanel extends FlowPanel {
 		StandardButton speechBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
-		final TextResource res = GuiResourcesSimple.INSTANCE.speechRec();
-		JavaScriptInjector.injectAsync(res);
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
@@ -47,6 +45,9 @@ public class SpeechRecognitionPanel extends FlowPanel {
 
 					@Override
 					public void onSuccess() {
+						final TextResource res = GuiResourcesSimple.INSTANCE
+								.speechRec();
+						JavaScriptInjector.inject(res);
 						getSpecRecController().runSpeechRec();
 					}
 

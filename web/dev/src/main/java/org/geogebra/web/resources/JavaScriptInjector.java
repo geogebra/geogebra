@@ -1,9 +1,5 @@
 package org.geogebra.web.resources;
 
-import org.geogebra.common.util.debug.Log;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.HeadElement;
@@ -29,27 +25,6 @@ public class JavaScriptInjector {
 			element.setText(scriptResource.getText());
 			getHead().appendChild(element);
 		}
-	}
-
-	/**
-	 * Injecting javascript file using code splitting support of GWT.
-	 * 
-	 * @param scriptResource
-	 *            javascript file
-	 */
-	public static void injectAsync(TextResource scriptResource) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			@Override
-			public void onSuccess() {
-				inject(scriptResource);
-			}
-
-			@Override
-			public void onFailure(Throwable reason) {
-				Log.debug("injection failed: " + reason.getMessage());
-			}
-		});
 	}
 
 	private static ScriptElement createScriptElement(String id) {
