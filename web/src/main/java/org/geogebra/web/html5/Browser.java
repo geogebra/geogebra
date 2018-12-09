@@ -700,14 +700,19 @@ public class Browser {
 							eventName,
 							function(e) {
 								var fsElement = $doc[pfx + "FullscreenElement"];
-								var fsState = (fsElement || $doc.mozFullScreen) ? "true"
+								var fsState = (fsElement || $doc.fullscreenElement) ? "true"
 										: "false";
 								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
 							});
 		}
-		listen("webkit", "webkitfullscreenchange");
-		listen("ms", "MSFullscreenChange");
-		listen("moz", "mozfullscreenchange");
+
+		if (typeof document.onfullscreenchange === "undefined") {
+			listen("webkit", "webkitfullscreenchange");
+			listen("ms", "MSFullscreenChange");
+			listen("moz", "mozfullscreenchange");
+		} else {
+			listen("", "fullscreenchange");
+		}
 
 	}-*/;
 
