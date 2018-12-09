@@ -3754,6 +3754,13 @@ namespace giac {
     int s=int(v.size());
     if (s<2)
       toofewargs(_resultant_s);
+    if (v[0].type==_VECT && v[1].type==_VECT){ // not very efficient...
+      gen g(identificateur("tresultant"));
+      v[0]=_poly2symb(makesequence(v[0],g),contextptr);
+      v[1]=_poly2symb(makesequence(v[1],g),contextptr);
+      v.insert(v.begin()+2,g);
+      s++;
+    }
     if (s==2){
       if (v[0].type==_POLY && v[1].type==_POLY)
 	return resultant(*v[0]._POLYptr,*v[1]._POLYptr);

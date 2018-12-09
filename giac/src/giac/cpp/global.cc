@@ -1828,7 +1828,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int MAX_ALG_EXT_ORDER_SIZE = 6;
 #endif
-#if defined EMCC || defined NO_TEMPLATE_MULTGCD
+#if defined EMCC || defined NO_TEMPLATE_MULTGCD || defined GIAC_HAS_STO_38
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
 #else
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 64;

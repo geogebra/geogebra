@@ -12495,7 +12495,7 @@ namespace giac {
 	if (xcas_mode(contextptr)>0 || calc_mode(contextptr)==1)
 	  return "{ }";
 	else
-	  return "%{ %}";
+	  return "set[ ]";
       case _RPN_FUNC__VECT:
         return "<< >>";
       case _RPN_STACK__VECT:

@@ -4148,6 +4148,10 @@ namespace giac {
   static define_unary_function_eval (__hidden_name,&_constants_catalog,_hidden_name_s);
   define_unary_function_ptr5( at_hidden_name ,alias_at_hidden_name,&__hidden_name,0,T_NUMBER);
 
+#ifdef VISUALC
+  const double M_E=2.7182818284590452;
+#endif
+
   complex<double> LambertW(complex<double> z,int n){
     // n!=0 is not implemented yet
     if (z==0) return z;

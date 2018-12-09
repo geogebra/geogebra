@@ -157,7 +157,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 
 
 /* Line 268 of yacc.c  */
-#line 161 "y.tab.c"
+#line 161 "input_parser.cc"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -469,7 +469,7 @@ typedef int YYSTYPE;
 
 
 /* Line 343 of yacc.c  */
-#line 473 "y.tab.c"
+#line 473 "input_parser.cc"
 
 #ifdef short
 # undef short
@@ -7096,7 +7096,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 7100 "y.tab.c"
+#line 7100 "input_parser.cc"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
