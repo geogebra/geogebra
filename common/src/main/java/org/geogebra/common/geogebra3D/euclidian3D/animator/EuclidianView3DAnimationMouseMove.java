@@ -47,7 +47,7 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 		xZeroOld = view3D.getXZero();
 		yZeroOld = view3D.getYZero();
 		zZeroOld = view3D.getZZero();
-		if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)) {
+		if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL) && view3D.isAREnabled()) {
 			view3D.getHittingDirection(hittingDirection);
 			view3D.getHittingOrigin(null, hittingOrigin);
 			hittingOrigin.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, hittingDirection,
@@ -89,46 +89,35 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 				view3D.updateMatrix();
 				view3D.setViewChangedByRotate();
 				break;
-			case EuclidianController.MOVE_VIEW:
-				Coords v = new Coords(4);
-
-				if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)) {
-					view3D.getHittingOrigin(null, hittingOrigin);
-				} else {
-					v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
-					view3D.getHittingDirection(hittingDirection);
-					view3D.toSceneCoords3D(v);
-				}
-				view3D.getHittingDirection(hittingDirection);
-
-				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-					if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)) {
-						hittingOrigin.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-								hittingDirection,
-								moveTouchOnXOYPlane);
-						translation.setSub3(moveTouchOnXOYPlane, startTouchOnXOYPlane);
-
-						xZeroOld += translation.getX();
-						yZeroOld += translation.getY();
-						view3D.setXZero(xZeroOld);
-						view3D.setYZero(yZeroOld);
-					} else {
-						Coords direction = view3D.isAREnabled() ? hittingDirection
-								: view3D.getViewDirection();
-
-						v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, direction, 
-								tmpCoords1); 
-						view3D.setXZero(xZeroOld + tmpCoords1.getX());
-						view3D.setYZero(yZeroOld + tmpCoords1.getY());
-					}
-
-				} else {
-					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
-					view3D.setZZero(zZeroOld + tmpCoords1.getZ());
-				}
-			view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
-					view3D.getZZero());
-				view3D.updateMatrix();
+            case EuclidianController.MOVE_VIEW:
+                if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
+                    if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)
+                            && view3D.isAREnabled()) {
+                        view3D.getHittingOrigin(null, hittingOrigin);
+                        view3D.getHittingDirection(hittingDirection);
+                        hittingOrigin.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
+                                hittingDirection,
+                                moveTouchOnXOYPlane);
+                        translation.setSub3(moveTouchOnXOYPlane, startTouchOnXOYPlane);
+                        xZeroOld += translation.getX();
+                        yZeroOld += translation.getY();
+                        view3D.setXZero(xZeroOld);
+                        view3D.setYZero(yZeroOld);
+                    } else {
+                        setTranslationFromMouseMove();
+                        translation.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D
+                                .getViewDirection(), tmpCoords1);
+                        view3D.setXZero(xZeroOld + tmpCoords1.getX());
+                        view3D.setYZero(yZeroOld + tmpCoords1.getY());
+                    }
+                } else {
+                    setTranslationFromMouseMove();
+                    translation.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
+                    view3D.setZZero(zZeroOld + tmpCoords1.getZ());
+                }
+                view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
+                        view3D.getZZero());
+                view3D.updateMatrix();
 				view3D.setViewChangedByTranslate();
 				break;
 			default:
@@ -137,5 +126,13 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 		}
 		end();
 	}
+
+	private void setTranslationFromMouseMove() {
+	    translation.setX(mouseMoveDX);
+	    translation.setY(-mouseMoveDY);
+	    translation.setZ(0);
+	    translation.setW(0);
+        view3D.toSceneCoords3D(translation);
+    }
 
 }
