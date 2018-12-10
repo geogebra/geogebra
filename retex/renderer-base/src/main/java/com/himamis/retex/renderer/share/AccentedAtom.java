@@ -167,4 +167,11 @@ public class AccentedAtom extends Atom {
 		return base.setAddItalicCorrection(b);
 	}
 
+	/**
+	 * @return accent
+	 */
+	public SymbolAtom getAccent() {
+		return this.accent;
+	}
+
 }

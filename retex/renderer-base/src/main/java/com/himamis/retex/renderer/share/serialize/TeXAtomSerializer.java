@@ -1,5 +1,6 @@
 package com.himamis.retex.renderer.share.serialize;
 
+import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
@@ -11,6 +12,7 @@ import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
+import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TypedAtom;
 import com.himamis.retex.renderer.share.VRowAtom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -97,7 +99,14 @@ public class TeXAtomSerializer {
 			}
 			return sb.toString();
 		}
-
+		if (root instanceof AccentedAtom) {
+			SymbolAtom accent = ((AccentedAtom) root).getAccent();
+			String content = serialize(((AccentedAtom) root).getBase());
+			if (accent == Symbols.VEC) {
+				return "vector " + content;
+			}
+			return content + " with " + accent.getName();
+		}
 		if (root instanceof VRowAtom) {
 			VRowAtom row = (VRowAtom) root;
 			StringBuilder sb = new StringBuilder();

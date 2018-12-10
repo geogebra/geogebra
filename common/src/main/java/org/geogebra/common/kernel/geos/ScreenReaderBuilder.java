@@ -39,14 +39,6 @@ public class ScreenReaderBuilder {
 	 * Remove trailing space and append dot; avoid double dots.
 	 */
 	public void appendDot() {
-		if (sb.length() > 0) {
-			int idx = sb.length() - 1;
-			if (sb.charAt(idx) == ' ') {
-				sb.setLength(idx--);
-			}
-			if (idx > 0 && sb.charAt(idx) != '.') {
-				sb.append(".");
-			}
-		}
+		// No dots but keep the method in case we decide to use them again
 	}
 }

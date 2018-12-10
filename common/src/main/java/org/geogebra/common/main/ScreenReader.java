@@ -56,7 +56,7 @@ public class ScreenReader {
 
 			// dot on end to help screen readers
 			app.getActiveEuclidianView()
-					.readText(text.trim().endsWith(".") ? text : text + ".");
+					.readText(text.trim());
 		}
 	}
 
@@ -194,7 +194,7 @@ public class ScreenReader {
 		return localize(loc, "squared", "squared");
 	}
 
-	public static Object getCubed(Localization loc) {
+	public static String getCubed(Localization loc) {
 		return localize(loc, "cubed", "cubed");
 	}
 
