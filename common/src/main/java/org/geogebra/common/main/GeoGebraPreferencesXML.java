@@ -82,6 +82,17 @@ public class GeoGebraPreferencesXML {
 				+ " axisCross=\"0.0\" positiveAxis=\"false\"/>"
 				+ "</euclidianView>"
 
+				+ "<euclidianView3D>\r\n"
+				+ "	<coordSystem xZero=\"0.0\" yZero=\"0.0\" zZero=\"-1.5\" scale=\"50.0\" xAngle=\"20.0\" zAngle=\"-60.0\"/>\r\n"
+				+ "	<evSettings axes=\"true\" grid=\"false\" gridIsBold=\"false\" pointCapturing=\"3\" rightAngleStyle=\"1\" gridType=\"3\"/>\r\n"
+				+ "	<axis id=\"0\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\"/>\r\n"
+				+ "	<axis id=\"1\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\"/>\r\n"
+				+ "	<axis id=\"2\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\"/>\r\n"
+				+ "	<plate show=\"true\"/>\r\n"
+				+ "	<bgColor r=\"255\" g=\"255\" b=\"255\"/>\r\n"
+				+ "	<clipping use=\"false\" show=\"false\" size=\"1\"/>\r\n"
+				+ "	<projection type=\"0\"/>\r\n" + "</euclidianView3D>"
+
 				+ "<kernel>" + "<continuous val=\"false\"/>"
 
 				+ "<decimals val=\""
