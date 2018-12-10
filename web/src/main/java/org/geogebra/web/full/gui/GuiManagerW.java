@@ -537,6 +537,7 @@ public class GuiManagerW extends GuiManager
 				(getApp()).getActiveEuclidianView().requestFocus();
 			}
 		}
+		layout.getDockManager().updateVoiceover();
 		getApp().closePopups();
 		getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		// toolbarPanel.validate();

@@ -8,8 +8,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -327,6 +329,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		GeoElement sel = getSelectedGeo();
 		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
 			return sel.getCaption(StringTemplate.screenReader);
+		}
+		if (sel != null && sel.getScript(EventType.CLICK) != null) {
+			return sel.getAuralText(new ScreenReaderBuilder());
 		}
 
 		return null;

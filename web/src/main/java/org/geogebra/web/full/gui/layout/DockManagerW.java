@@ -25,6 +25,7 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
@@ -84,6 +85,7 @@ public class DockManagerW extends DockManager {
 	private boolean panelsMoved;
 
 	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
+	private VoiceoverTabber voiceoverTabber;
 
 	/**
 	 * @param layout
@@ -404,7 +406,7 @@ public class DockManagerW extends DockManager {
 		panelsMoved = false;
 		// update all labels at once
 		setLabels();
-
+		updateVoiceover();
 	}
 
 	private void updatePanelsForPerspective(DockPanelData[] dpData) {
@@ -2031,6 +2033,19 @@ public class DockManagerW extends DockManager {
 			if (dock.getViewId() != App.VIEW_ALGEBRA) {
 				dock.resetStylebar();
 			}
+		}
+	}
+
+	public VoiceoverTabber getVoiceoverTabber() {
+		if (this.voiceoverTabber == null) {
+			voiceoverTabber = new VoiceoverTabber(app);
+		}
+		return voiceoverTabber;
+	}
+
+	public void updateVoiceover() {
+		for (DockPanelW panel : dockPanels) {
+			panel.updateVoiceover();
 		}
 	}
 }

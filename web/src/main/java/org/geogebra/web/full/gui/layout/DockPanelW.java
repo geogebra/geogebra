@@ -1787,4 +1787,9 @@ public abstract class DockPanelW extends ResizeComposite
 
 		return false;
 	}
+
+	public void updateVoiceover() {
+		// TODO Auto-generated method stub
+
+	}
 }

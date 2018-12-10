@@ -16,6 +16,7 @@ import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -39,67 +40,64 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class VoiceoverTabber {
 
-	private Widget canvas;
 	private AppW app;
 	private double[] oldVal;
 	private HTML focusTrap;
 	private HTML focusTrapShift;
+	private SliderW[] ranges;
+	private Label hiddenButton;
 
 	/**
 	 * @param app
 	 *            app
-	 * @param canvas
-	 *            canvas
 	 */
-	public VoiceoverTabber(AppW app, Widget canvas) {
+	public VoiceoverTabber(AppW app) {
 		this.app = app;
-		this.canvas = canvas;
+		this.ranges = new SliderW[3];
 	}
 
-	private Widget getCanvas() {
-		return canvas;
-	}
 
 	/**
 	 * Add dummy divs for handling focus change with swipe in VoiceOver.
 	 * 
 	 * @param p
 	 *            euclidian panel
+	 * @param canvas
+	 *            canvas
 	 */
-	public void add(final EuclidianPanel p) {
+	public void add(final EuclidianPanel p, final Canvas canvas) {
 		final AppW app1 = app;
-		if (getCanvas() != null) {
-			getCanvas().addDomHandler(new FocusHandler() {
+		if (canvas != null) {
+			canvas.addDomHandler(new FocusHandler() {
 				@Override
 				public void onFocus(FocusEvent event) {
 					app1.getAccessibilityManager().setTabOverGeos(true);
 				}
 			}, FocusEvent.getType());
 		}
-		final SliderW[] range = new SliderW[3];
-		for (int i = 0; i < range.length; i++) {
-			range[i] = makeSlider(i);
+		for (int i = 0; i < ranges.length; i++) {
+			ranges[i] = makeSlider(i);
 		}
-		final Label simpleButton = new Label("button");
-		hide(simpleButton);
-		setRole(simpleButton, "button");
-		simpleButton.getElement().setTabIndex(5000);
-		simpleButton.addClickHandler(new ClickHandler() {
+		hiddenButton = new Label("button");
+		hideButton(hiddenButton);
+		setRole(hiddenButton, "button");
+		hiddenButton.getElement().setTabIndex(5000);
+		hiddenButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				app1.handleSpaceKey();
 			}
 		});
-		focusTrap = makeFocusTrap(false, range, simpleButton);
-		focusTrapShift = makeFocusTrap(true, range, simpleButton);
+		focusTrap = makeFocusTrap(false, ranges, hiddenButton);
+		focusTrapShift = makeFocusTrap(true, ranges, hiddenButton);
 		focusTrapShift.setVisible(false);
 		p.add(focusTrapShift);
-		for (SliderW r : range) {
+		for (SliderW r : ranges) {
 			p.add(r);
 		}
-		p.add(simpleButton);
-		simpleButton.setVisible(false);
+		p.add(hiddenButton);
+		hiddenButton.setVisible(false);
 		p.add(focusTrap);
 	}
 
@@ -107,6 +105,16 @@ public class VoiceoverTabber {
 		simpleButton.getElement().setAttribute("role", string);
 	}
 
+	/** For buttons we need to make sure click handler still works */
+	private static void hideButton(Widget range) {
+		range.getElement().getStyle().setOpacity(.01);
+		range.getElement().getStyle().setPosition(Position.FIXED);
+	}
+
+	/**
+	 * For sliders we want more restrictive hide method than
+	 * {@link #hideButton(Widget)}
+	 */
 	private static void hide(Widget ui) {
 		Style style = ui.getElement().getStyle();
 		style.setOpacity(.01);
