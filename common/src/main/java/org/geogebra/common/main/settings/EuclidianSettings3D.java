@@ -719,12 +719,15 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * 
 	 * @param flag
 	 *            iff axes are rgb colored
+	 * @return true if it has changed
 	 */
-	public void setHasColoredAxes(boolean flag) {
+	public boolean setHasColoredAxes(boolean flag) {
 		if (hasColoredAxes != flag) {
 			hasColoredAxes = flag;
 			settingChanged();
+			return true;
 		}
+		return false;
 	}
 
 	/**
