@@ -11471,6 +11471,9 @@ template<class modint_t,class modint_u>
     vector<used_t> * usedptr;
     unsigned * bitmap;
     bool displayinfo;
+    bool learning;
+    const vector<paire> * pairs_reducing_to_zero; // read-only!
+    int learned_position;
   };
   
   template <class tdeg_t>
@@ -11493,6 +11496,9 @@ template<class modint_t,class modint_u>
     const vector<coeffindex_t> &coeffindex = *ptr->coeffindexptr;
     vector< vector<shifttype> > & indexes=*ptr->indexesptr;
     vector<used_t> & used = *ptr->usedptr;
+    bool learning=ptr->learning;
+    int pos=ptr->learned_position;
+    const vector<paire> * pairs_reducing_to_zero=ptr->pairs_reducing_to_zero;
     bool displayinfo=ptr->displayinfo;
     unsigned * bitmap=ptr->bitmap+debut*((N>>5)+1);
     vector<modint2> v64(N);
@@ -11504,6 +11510,10 @@ template<class modint_t,class modint_u>
       if (interrupted || ctrl_c)
 	return 0;
       paire bk=B[permuB[i]];
+      if (!learning && pairs_reducing_to_zero && pos<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[pos]){
+	++pos;	
+	continue;
+      }
       // no learning with parallel
       zmakelinesplit(res[bk.first],&leftshift[permuB[i]],R,Rhashptr,Rdegpos,indexes[i],0,1);
       if (bk_prev!=bk.second || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
@@ -11513,6 +11523,7 @@ template<class modint_t,class modint_u>
       }
     }
     bk_prev=-1; rightshift_prev=0;
+    pos=ptr->learned_position;
     for (int i=debut;i<fin;++i){
       if (interrupted || ctrl_c)
 	return 0;
@@ -11521,6 +11532,13 @@ template<class modint_t,class modint_u>
 	if (i%500==499) COUT << " " << CLOCK()*1e-6 << " remaining " << fin-i << endl;
       }
       paire bk=B[permuB[i]];
+      if (!learning && pairs_reducing_to_zero && pos<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[pos]){
+	++pos;	
+	unsigned tofill=(N>>5)+1;
+	fill(bitmap,bitmap+tofill,0);
+	bitmap += tofill;
+	continue;
+      }
       if (bk.second!=bk_prev || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
 	subcoeff2.clear();
 	zcopycoeff(res[bk.second],subcoeff2,1);
@@ -11579,7 +11597,7 @@ template<class modint_t,class modint_u>
    // #define GIAC_CACHE2ND 1; // cache 2nd pair reduction, slower
 
   template<class tdeg_t>
-  int zf4computeK1(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K){
+  int zf4computeK1(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K,int parallel){
     bool freemem=mem>4e7; // should depend on real memory available
     bool large=N>8000;
     // CERR << "after sort " << Mindex << endl;
@@ -11595,7 +11613,7 @@ template<class modint_t,class modint_u>
 #endif
     unsigned Kcols=N-nrows;
     bool Kdone=false;
-    int th=giacmin(threads,64)-1;
+    int th=parallel-1; // giacmin(threads,64)-1;
 #ifdef GIAC_CACHE2ND
     vector<modint2> subcoeff2;
 #else
@@ -11603,36 +11621,74 @@ template<class modint_t,class modint_u>
 #endif
     vector< vector<shifttype> > indexes(2*Bs);
 #ifdef HAVE_LIBPTHREAD
-    if (Bs>=256 && threads_allowed && threads>1 && (learning || !pairs_reducing_to_zero) ){
-      // prepare memory
+    if (Bs>=256 && threads_allowed && parallel>1 
+	//&& (learning || !pairs_reducing_to_zero) 
+	){
+      // prepare memory and positions
+      int pos=learned_position;
       for (unsigned i=0;i<Bs;++i){
-	indexes[i].reserve(res[B[permuB[i]].first].coord.size()+16);
-	indexes[Bs+i].reserve(res[B[permuB[i]].second].coord.size()+16);
-	K[i].reserve(Kcols);
+	if (pairs_reducing_to_zero && !learning && (*pairs_reducing_to_zero)[learned_position]==B[permuB[i]]){
+	  ++learned_position;
+	  continue;
+	}
       }
-      pthread_t tab[64];
-      thread_buchberger_t<tdeg_t> buchberger_param[64];
-      int colonnes=N,debut=0,step=Bs/(th+1)+1,fin;
-      for (int j=0;j<=th;debut+=step,++j){
-	fin=giacmin(debut+step,Bs);
-	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,Rhashptr,&Rdegpos,env,debut,fin,int(N),int(Kcols),&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1};
-	buchberger_param[j]=tmp;
-	bool res=true;
-	// CERR << "write " << j << " " << p << endl;
-	if (j<th)
-	  res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_buchberger<tdeg_t>,(void *) &buchberger_param[j]);
-	if (res)
-	  thread_buchberger<tdeg_t>((void *)&buchberger_param[j]);
-      }
-      Kdone=true;
-      colonnes=buchberger_param[th].colonnes;
-      for (unsigned j=0;j<th;++j){
-	void * ptr_=(void *)&th; // non-zero initialisation
-	pthread_join(tab[j],&ptr_);
-	if (!ptr_)
-	  Kdone=false;
-	thread_buchberger_t<tdeg_t> * ptr = (thread_buchberger_t<tdeg_t> *) ptr_;
-	colonnes=giacmin(colonnes,ptr->colonnes);
+      // effective number of pairs to reduce is Bs-(learned_position-pos)
+      int effBs=Bs-(learned_position-pos),effstep=effBs/parallel+1,effi=0,effend=effstep;
+      if (effBs<256) // no parallelization
+	learned_position=pos;
+      else {
+	// scan again pairs to set end positions and learned_position
+	vector<int> positions(1),learned_parallel(1,pos);
+	for (unsigned i=0;i<Bs;++i){
+	  if (pairs_reducing_to_zero && !learning && (*pairs_reducing_to_zero)[pos]==B[permuB[i]]){
+	    ++pos;
+	    continue;
+	  }
+	  indexes[i].reserve(res[B[permuB[i]].first].coord.size()+16);
+	  indexes[Bs+i].reserve(res[B[permuB[i]].second].coord.size()+16);
+	  K[i].reserve(Kcols);
+	  ++effi;
+	  if (effi>=effend){
+	    positions.push_back(i); // end position for this thread
+	    learned_parallel.push_back(pos); // learned position for next thread
+	    effend += effstep;
+	  }
+	}
+	// fix last pair number
+	while (positions.size()<parallel)
+	  positions.push_back(Bs); 
+	while (learned_parallel.size()<parallel)
+	  learned_parallel.push_back(pos); 
+	if (positions.size()<parallel || learned_parallel.size()<parallel){
+	  COUT << "BUG " << parallel << " " << positions.size() << " " << learned_parallel.size() << endl << positions << endl << learned_parallel << endl;
+	}
+	if (positions.size()==parallel)
+	  positions.push_back(Bs); 
+	else
+	  positions.back()=Bs;
+	pthread_t tab[64];
+	thread_buchberger_t<tdeg_t> buchberger_param[64];
+	int colonnes=N;
+	for (int j=0;j<=th;++j){
+	  thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,Rhashptr,&Rdegpos,env,positions[j],positions[j+1],int(N),int(Kcols),&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1,learning,pairs_reducing_to_zero,learned_parallel[j]};
+	  buchberger_param[j]=tmp;
+	  bool res=true;
+	  // CERR << "write " << j << " " << p << endl;
+	  if (j<th)
+	    res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_buchberger<tdeg_t>,(void *) &buchberger_param[j]);
+	  if (res)
+	    thread_buchberger<tdeg_t>((void *)&buchberger_param[j]);
+	}
+	Kdone=true;
+	colonnes=buchberger_param[th].colonnes;
+	for (unsigned j=0;j<th;++j){
+	  void * ptr_=(void *)&th; // non-zero initialisation
+	  pthread_join(tab[j],&ptr_);
+	  if (!ptr_)
+	    Kdone=false;
+	  thread_buchberger_t<tdeg_t> * ptr = (thread_buchberger_t<tdeg_t> *) ptr_;
+	  colonnes=giacmin(colonnes,ptr->colonnes);
+	}
       }
     }
 #endif
@@ -11698,7 +11754,7 @@ template<class modint_t,class modint_u>
 	  bk_prev=bk.second;
 	  rightshift_prev=&rightshift[permuB[i]];
 	}
-      }
+      } // end for (unsigned i=0;i<Bs;++i)
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " pairs indexes computed over " << R.size() << " monomials"<<endl;
       bk_prev=-1; rightshift_prev=0;
@@ -11820,7 +11876,7 @@ template<class modint_t,class modint_u>
   }
 
   template<class tdeg_t>
-  int zf4computeK2(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K){
+  int zf4computeK2(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K,int parallel){
     map< pair<unsigned,const tdeg_t >,int > cache;
     vector< vector<modint> > cachecoeffs;
     cachecoeffs.reserve(2*Bs);
@@ -11852,7 +11908,7 @@ template<class modint_t,class modint_u>
     }
     // compare n to 2*Bs, if caching is efficient compute cache
     CERR << "Cache relative occupation " << n/(2.*Bs) << " pairs " << Bs << endl;
-    return zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K);   
+    return zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel);   
     vector<shifttype> index;
     vector<modint> Ki;
     vector<modint2> v64(N);
@@ -11903,7 +11959,7 @@ template<class modint_t,class modint_u>
 #endif
   
   template<class tdeg_t>
-  int zf4mod(vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> * & permuBptr,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,vector<zinfo_t<tdeg_t> > & f4buchberger_info,unsigned & f4buchberger_info_position,bool recomputeR,int age,bool multimodular){
+  int zf4mod(vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> * & permuBptr,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,vector<zinfo_t<tdeg_t> > & f4buchberger_info,unsigned & f4buchberger_info_position,bool recomputeR,int age,bool multimodular,int parallel){
     if (B.empty())
       return 0;
     unsigned Bs=unsigned(B.size());
@@ -12122,7 +12178,7 @@ template<class modint_t,class modint_u>
     vector<used_t> used(N,0);
     vector<unsigned> lebitmap(((N>>5)+1)*Bs);
     unsigned * bitmap=&lebitmap.front();
-    int zres=zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K);
+    int zres=zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel);
     if (zres!=0)
       return zres;
     if (debug_infolevel>1)
@@ -12172,12 +12228,12 @@ template<class modint_t,class modint_u>
       }
       swap(K1,K);
     }
-    int th=giacmin(threads,64)-1;
+    int th=parallel-1; // giacmin(threads,64)-1;
 #if 0
     // vector< vector<modint> > Kcopy(K);
-    smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty(),0,!multimodular,0,-1); // disable rref optimization in multi-modular mode otherwise cyclic92 fails
+    smallmodrref(parallel,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty(),0,!multimodular,0,-1); // disable rref optimization in multi-modular mode otherwise cyclic92 fails
 #else
-    smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,0/* lower reduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty()/* reset */,0,!multimodular,-1); 
+    smallmodrref(parallel,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,0/* lower reduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty()/* reset */,0,!multimodular,-1); 
     if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " rref_upper " << endl;
     smallmodrref_upper(K,0,int(K.size()),0,usedcount,env);
@@ -12564,11 +12620,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       smod(resmod[i],env);
   }
 
-  unsigned max_pairs_by_iteration=16384; 
+  unsigned max_pairs_by_iteration=8192; 
   // setting this to 2000 accelerates cyclic9mod but cyclic9 would be slower
 
   template<class tdeg_t>
-  bool in_zgbasis(vectpolymod<tdeg_t> &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool eliminate_flag,bool multimodular){
+  bool in_zgbasis(vectpolymod<tdeg_t> &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool eliminate_flag,bool multimodular,int parallel){
     bool seldeg=true; int sel1=0;
     unsigned cleared=0;
     unsigned learned_position=0,f4buchberger_info_position=0;
@@ -12820,18 +12876,14 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	continue;
       } // end if smallposp.size() small
       unsigned np=smallposv.size();
-      if (np==B.size()){
+      if (np==B.size() && np<=max_pairs_by_iteration){
 	swap(smallposp,B);
 	B.clear();
       }
       else {
-	// multiply by nthreads?
-#ifdef HAVE_LIBPTHREAD
-	int nthreads=threads_allowed?threads:1;
-#else
-	const int nthreads=1;
-#endif
-	if (!pairs_reducing_to_zero && nthreads==1 && np>max_pairs_by_iteration) np=max_pairs_by_iteration;
+	// multiply by parallel?
+	if (!pairs_reducing_to_zero && np>max_pairs_by_iteration) 
+	  np=max_pairs_by_iteration;
 	for (unsigned i=0;i<np;++i)
 	  smallposp.push_back(B[smallposv[i]]);
 	// remove pairs
@@ -12849,9 +12901,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (!clean[i])
 	  Gall.push_back(i);
       }
-      f4res=zf4mod(res,Gall,env,smallposp,permuBptr,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,f4buchberger_info,f4buchberger_info_position,recomputeR,age,multimodular);
+      f4res=zf4mod(res,Gall,env,smallposp,permuBptr,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,f4buchberger_info,f4buchberger_info_position,recomputeR,age,multimodular,parallel);
 #else
-      f4res=zf4mod(res,G,env,smallposp,permuBptr,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,f4buchberger_info,f4buchberger_info_position,recomputeR,age,multimodular);
+      f4res=zf4mod(res,G,env,smallposp,permuBptr,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,f4buchberger_info,f4buchberger_info_position,recomputeR,age,multimodular,parallel);
 #endif
       if (f4res==-1)
 	return false;
@@ -13004,12 +13056,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   }
 
   template<class tdeg_t>
-  bool zgbasis(vectpoly8<tdeg_t> & res8,vectpolymod<tdeg_t> &resmod,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool convertpoly8,bool eliminate_flag,bool multimodular){
+  bool zgbasis(vectpoly8<tdeg_t> & res8,vectpolymod<tdeg_t> &resmod,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool convertpoly8,bool eliminate_flag,bool multimodular,int parallel){
     for (unsigned i=0;i<resmod.size();++i)
       resmod[i].coord.clear();
     convert(res8,resmod,env);
     unsigned ressize = unsigned(res8.size());
-    bool b=in_zgbasis(resmod,ressize,G,env,totdeg,pairs_reducing_to_zero,f4buchberger_info,recomputeR,eliminate_flag,multimodular);
+    bool b=in_zgbasis(resmod,ressize,G,env,totdeg,pairs_reducing_to_zero,f4buchberger_info,recomputeR,eliminate_flag,multimodular,parallel);
     if (convertpoly8)
       convert(resmod,res8,env);
     return b;
@@ -13500,6 +13552,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     vector< zinfo_t<tdeg_t> > * zf4buchberger_info;
     bool zdata;
     bool eliminate_flag; // if true, for double revlex order returns only the gbasis part made of polynomials that do not depend on variables to eliminate
+    int parallel; // max number of parallel threads for 1 modular computation
   };
   
   template<class tdeg_t>
@@ -13508,7 +13561,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     ptr->G.clear();
     if (ptr->zdata){
       if (!zgbasis(ptr->current,ptr->resmod,ptr->G,ptr->p,true,
-		   ptr->reduceto0,*ptr->zf4buchberger_info,false,false,ptr->eliminate_flag,true))
+		   ptr->reduceto0,*ptr->zf4buchberger_info,false,false,ptr->eliminate_flag,true,ptr->parallel))
 	return 0;
     }
     else {
@@ -13621,11 +13674,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     mpz_init(ztmp);
     bool ok=true;
 #ifdef HAVE_LIBPTHREAD
-    int nthreads=(threads_allowed && multithread_enabled)?threads:1,th;
+    int nthreads=(threads_allowed && multithread_enabled)?threads:1,th,parallel=1;
     pthread_t tab[32];
     thread_gbasis_t<tdeg_t> gbasis_param[32];
 #else
-    int nthreads=1,th;
+    int nthreads=1,th,parallel=1;
 #endif
     int pend=p.val,p0;
     double augmentgbasis=0.2,prevreconpart=0,time1strun=-1.0,time2ndrun=-1.0; current_orig=res; current_gbasis=res;
@@ -13635,8 +13688,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       p=pend;
       if (count==0 || nthreads==1 || (zdata && augmentgbasis && reduceto0.empty()))
 	th=0;
-      else
-	th=giacmin(nthreads-1,32); // no more than 32 threads
+      else {
+	th=giacmin(nthreads-1,1); // no more than 2 threads
+	parallel=nthreads/(th+1);
+      }
 #ifndef EMCC
       if (count==1 && p.val<(1<<24)){
 #ifdef PSEUDO_MOD
@@ -13660,6 +13715,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	gbasis_param[j].zf4buchberger_info=&zf4buchberger_info;
 	gbasis_param[j].zdata=zdata;
 	gbasis_param[j].eliminate_flag=eliminate_flag;
+	gbasis_param[j].parallel=parallel;
 	if (count==1)
 	  gbasis_param[j].resmod.reserve(resmod.size());
 	bool res=true;
@@ -13682,14 +13738,14 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       // CERR << "write " << th << " " << p << endl;
 #ifdef GBASISF4_BUCHBERGER 
       if (zdata){
-	if (!zgbasis(current,resmod,G,p.val,true,&reduceto0,zf4buchberger_info,false,false,eliminate_flag,true)){
+	if (!zgbasis(current,resmod,G,p.val,true,&reduceto0,zf4buchberger_info,false,false,eliminate_flag,true,parallel)){
 	  if (augmentgbasis>0) 
 	    augmentgbasis=2;
 	  reduceto0.clear();
 	  zf4buchberger_info.clear();
 	  zf4buchberger_info.reserve(4*zf4buchberger_info.capacity());
 	  G.clear();
-	  if (!zgbasis(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,zf4buchberger_info,false,false,eliminate_flag,true)){
+	  if (!zgbasis(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,zf4buchberger_info,false,false,eliminate_flag,true,parallel)){
 	    ok=false;
 	    break;
 	  }
@@ -15975,6 +16031,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   }
 
   bool gbasis8(const vectpoly & v,order_t & order,vectpoly & newres,environment * env,bool modularalgo,bool modularcheck,int & rur,GIAC_CONTEXT,bool eliminate_flag){
+    int parallel=1;
+#ifdef HAVE_LIBPTHREAD
+    if (threads_allowed && threads>1)
+      parallel=threads;
+#endif
     int save_debuginfo=debug_infolevel;
     if (v.empty()){ newres.clear(); return true;}
 #ifdef GIAC_TDEG_T14
@@ -16005,7 +16066,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (!res.empty() && (res.front().order.o==_REVLEX_ORDER || res.front().order.o==_3VAR_ORDER || res.front().order.o==_7VAR_ORDER || res.front().order.o==_11VAR_ORDER)){
 	    vector<zinfo_t<tdeg_t14> > f4buchberger_info;
 	    f4buchberger_info.reserve(GBASISF4_MAXITER);
-	    if (zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false /* 1 mod only */)){
+	    if (zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false /* 1 mod only */,parallel)){
 	      *logptr(contextptr) << "// Groebner basis computation time " << (CLOCK()-c)*1e-6 <<  " Memory " << memory_usage()*1e-6 << "M" <<endl;
 	      get_newres_ckrur(resmod,newres,v,G,env->modulo.val,rur);
 	      debug_infolevel=save_debuginfo; return true;
@@ -16063,7 +16124,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (!res.empty() && (res.front().order.o==_REVLEX_ORDER || res.front().order.o==_3VAR_ORDER || res.front().order.o==_7VAR_ORDER || res.front().order.o==_11VAR_ORDER)){
 	  vector<zinfo_t<tdeg_t11> > f4buchberger_info;
 	  f4buchberger_info.reserve(GBASISF4_MAXITER);
-	  if (zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false /* 1 mod only */)){
+	  if (zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false /* 1 mod only */,parallel)){
 	    *logptr(contextptr) << "// Groebner basis computation time " << (CLOCK()-c)*1e-6 <<  " Memory " << memory_usage()*1e-6 << "M" << endl;
 	    get_newres_ckrur(resmod,newres,v,G,env->modulo.val,rur);
 	    debug_infolevel=save_debuginfo; return true;
@@ -16122,7 +16183,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (!res.empty() && (res.front().order.o==_REVLEX_ORDER || res.front().order.o==_3VAR_ORDER || res.front().order.o==_7VAR_ORDER || res.front().order.o==_11VAR_ORDER)){
 	  vector<zinfo_t<tdeg_t15> > f4buchberger_info;
 	  f4buchberger_info.reserve(GBASISF4_MAXITER);
-	  if (!zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false/* 1 mod only*/))
+	  if (!zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false/* 1 mod only*/,parallel))
 	    return false;
 	  *logptr(contextptr) << "// Groebner basis computation time " << (CLOCK()-c)*1e-6 <<  " Memory " << memory_usage()*1e-6 << "M" << endl;
 #if 1
@@ -16183,7 +16244,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (!res.empty() && (res.front().order.o==_REVLEX_ORDER || res.front().order.o==_3VAR_ORDER || res.front().order.o==_7VAR_ORDER || res.front().order.o==_11VAR_ORDER)){
 	vector<zinfo_t<tdeg_t64> > f4buchberger_info;
 	f4buchberger_info.reserve(GBASISF4_MAXITER);
-	zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false/* 1 mod only*/);	
+	zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false/* 1 mod only*/,parallel);	
 	*logptr(contextptr) << "// Groebner basis computation time " << (CLOCK()-c)*1e-6 <<  " Memory " << memory_usage()*1e-6 << "M" << endl;
 #if 1
 	get_newres_ckrur(resmod,newres,v,G,env->modulo.val,rur);
