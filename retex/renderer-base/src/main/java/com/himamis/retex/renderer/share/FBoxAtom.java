@@ -46,11 +46,12 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
  * An atom representing a boxed base atom.
  */
-public class FBoxAtom extends Atom {
+public class FBoxAtom extends Atom implements HasTrueBase {
 
 	protected final Atom base;
 	protected final Color bg;
@@ -77,5 +78,9 @@ public class FBoxAtom extends Atom {
 
 		env.isColored = true;
 		return new FramedBox(bbase, drt, space, line, bg);
+	}
+
+	public Atom getTrueBase() {
+		return base;
 	}
 }
