@@ -2952,7 +2952,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						moveFree));
 			}
 		}
-		sb.appendDot();
+		sb.endSentence();
 	}
 
 	@Override

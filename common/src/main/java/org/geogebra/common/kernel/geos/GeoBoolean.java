@@ -517,7 +517,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		} else {
 			sb.append(loc.getMenuDefault("PressSpaceCheckboxOn", "Press space to check checkbox"));
 		}
-		sb.appendDot();
+		sb.endSentence();
 		super.addAuralOperations(loc, sb);
 	}
 

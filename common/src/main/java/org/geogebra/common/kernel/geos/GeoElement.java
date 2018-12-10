@@ -7656,7 +7656,7 @@ public abstract class GeoElement extends ConstructionElement
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
 			sb.append(getCaption(StringTemplate.defaultTemplate));
-			sb.appendDot();
+			sb.endSentence();
 			return true;
 		}
 		return false;
@@ -7671,7 +7671,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void addAuralLabel(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
-		sb.appendDot();
+		sb.endSentence();
 	}
 
 	@Override
@@ -7702,7 +7702,7 @@ public abstract class GeoElement extends ConstructionElement
 		addAuralContent(loc, sb);
 		sb.appendSpace();
 		addAuralOperations(loc, sb);
-		sb.appendDot();
+		sb.endSentence();
 		return sb.toString();
 	}
 

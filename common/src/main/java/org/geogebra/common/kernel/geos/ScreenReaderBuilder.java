@@ -36,10 +36,11 @@ public class ScreenReaderBuilder {
 	}
 
 	/**
-	 * Remove trailing space and append dot; avoid double dots.
+	 * End a sentence. By default this is just a space (to avoid reading
+	 * "period") but subclasses may use actual "." e.g. for tests.
 	 */
-	public void appendDot() {
-		// No dots but keep the method in case we decide to use them again
+	public void endSentence() {
+		appendSpace();
 	}
 
 	protected StringBuilder getStringBuilder() {

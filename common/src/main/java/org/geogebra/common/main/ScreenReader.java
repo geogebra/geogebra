@@ -386,7 +386,7 @@ public class ScreenReader {
 		Localization loc = app.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		sb.append(loc.getMenu("PlayButton"));
-		sb.appendDot();
+		sb.endSentence();
 		if (app.getKernel().getAnimatonManager().isRunning()) {
 			sb.append(
 					loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
@@ -394,7 +394,7 @@ public class ScreenReader {
 			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
 					"Press space to start animation"));
 		}
-		sb.appendDot();
+		sb.endSentence();
 		readText(sb.toString(), app);
 	}
 

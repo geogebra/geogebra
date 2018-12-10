@@ -1593,13 +1593,13 @@ public class GeoText extends GeoElement
 		} else {
 			sb.append(getTextString());
 		}
-		sb.appendDot();
+		sb.endSentence();
 	}
 
 	@Override
 	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(loc.getMenuDefault("Text", "Text"));
-		sb.appendDot();
+		sb.endSentence();
 	}
 
 }
