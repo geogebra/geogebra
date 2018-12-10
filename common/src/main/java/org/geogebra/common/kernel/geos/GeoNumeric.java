@@ -2092,7 +2092,7 @@ public class GeoNumeric extends GeoElement
 	public String getAuralCurrentValue() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralSliderValue(sb);
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	@Override

@@ -60,7 +60,7 @@ public class AuralTextTest {
 		aural("vec", "Vector v = 0", "start animation", "increase",
 				"decrease", "edit");
 		Assert.assertEquals("Vector v = 0",
-				((GeoNumeric) get("sl")).getAuralCurrentValue());
+				((GeoNumeric) get("vec")).getAuralCurrentValue());
 	}
 
 	@Test
