@@ -1090,7 +1090,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		g2p.getCanvas().getCanvasElement().focus();
+		if (g2p.getCanvas() != null) {
+			g2p.getCanvas().getCanvasElement().focus();
+		}
 		focusGained();
 		return true;
 	}
