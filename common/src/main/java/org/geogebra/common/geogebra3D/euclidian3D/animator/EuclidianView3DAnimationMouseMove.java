@@ -23,7 +23,7 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	private double yZeroOld;
 	private double zZeroOld;
 	private Coords tmpCoords1 = new Coords(4);
-	private Coords hittingDirection = Coords.createInhomCoorsInD3();
+	private Coords hittingDirection = new Coords(4);
 	private Coords hittingOrigin = Coords.createInhomCoorsInD3();
 	private Coords startTouchOnXOYPlane = Coords.createInhomCoorsInD3();
 	private Coords moveTouchOnXOYPlane = Coords.createInhomCoorsInD3();
