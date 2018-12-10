@@ -746,6 +746,8 @@ __GGB__keysVar["de"].command = {
     "Rationalize.SyntaxCAS": "[ <Dezimalzahl> ]",
     "Ray": "Strahl",
     "Ray.Syntax": "[ <Anfangspunkt>, <Punkt> ]\n[ <Anfangspunkt>, <Richtungsvektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Rechtecksumme",
     "RectangleSum.Syntax": "[ <Funktion>, <Startwert>, <Endwert>, <Anzahl der Rechtecke>, <Position Rechtecksanfang> ]",
     "ReducedRowEchelonForm": "Treppennormalform",

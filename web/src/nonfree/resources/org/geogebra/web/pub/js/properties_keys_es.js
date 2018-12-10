@@ -746,6 +746,8 @@ __GGB__keysVar["es"].command = {
     "Rationalize.SyntaxCAS": "[ <N\xfamero> ]",
     "Ray": "Semirrecta",
     "Ray.Syntax": "[ <Punto (extremo)>, <Punto> ]\n[ <Punto (extremo)>, <Vector (director)> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SumaRect\xe1ngulos",
     "RectangleSum.Syntax": "[ <Funci\xf3n>, <Extremo inferior del intervalo>, <Extremo superior del intervalo>, <N\xfamero de rect\xe1ngulos>, <Posici\xf3n del rect\xe1ngulo inicial> ]",
     "ReducedRowEchelonForm": "EscalonadaReducida",

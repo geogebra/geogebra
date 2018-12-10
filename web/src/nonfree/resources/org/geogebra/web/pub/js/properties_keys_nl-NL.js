@@ -746,6 +746,8 @@ __GGB__keysVar["nl-NL"].command = {
     "Rationalize.SyntaxCAS": "[ <Getal> ]",
     "Ray": "Halfrechte",
     "Ray.Syntax": "[ <Punt>, <Punt> ]\n[ <Punt>, <Vector> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Rechthoekssom",
     "RectangleSum.Syntax": "[ <Functie>, <Start x-waarde>, <Eind x-waarde>, <Aantal rechthoeken>, <Plaats beginrechthoek> ]",
     "ReducedRowEchelonForm": "RREF",

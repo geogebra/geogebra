@@ -746,6 +746,8 @@ __GGB__keysVar["ro"].command = {
     "Rationalize.SyntaxCAS": "[ <Num\u0103r> ]",
     "Ray": "Semidreapt\u0103",
     "Ray.Syntax": "[ <Punct ini\u0163ial>, <Punct> ]\n[ <Punct ini\u0163ial>, <Vector direc\u0163ie> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Sum\u0103Dreptunghi",
     "RectangleSum.Syntax": "[ <Func\u021bie>, <x ini\u021bial>, <x final>, <Num\u0103r de dreptunghiuri>, <Pozi\u021bie ini\u021bial\u0103 dreptunghi> ]",
     "ReducedRowEchelonForm": "MatriceE\u0219alonat\u0103Redus\u0103",

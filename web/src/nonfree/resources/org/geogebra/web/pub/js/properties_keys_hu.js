@@ -746,6 +746,8 @@ __GGB__keysVar["hu"].command = {
     "Rationalize.SyntaxCAS": "[ <Sz\xe1m> ]",
     "Ray": "F\xe9legyenes",
     "Ray.Syntax": "[ <Pont>, <Pont> ]\n[ <Kezd\u0151pont>, <Ir\xe1nyvektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "T\xe9glalap\xd6sszeg",
     "RectangleSum.Syntax": "[ <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k>, <T\xe9glalapok sz\xe1ma>, <T\xe9glalapok magass\xe1g\xe1nak ar\xe1nya> ]",
     "ReducedRowEchelonForm": "Reduk\xe1ltL\xe9pcs\u0151sAlak\xfaM\xe1trix",

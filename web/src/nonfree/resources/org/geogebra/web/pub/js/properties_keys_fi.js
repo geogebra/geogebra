@@ -746,6 +746,8 @@ __GGB__keysVar["fi"].command = {
     "Rationalize.SyntaxCAS": "[ <Desimaaliluku> ]",
     "Ray": "Puolisuora",
     "Ray.Syntax": "[ <Alkupiste>, <Piste> ]\n[ <Alkupiste>, <Suuntavektori> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Suorakulmiosumma",
     "RectangleSum.Syntax": "[ <Funktio>, <x:n alkuarvo>, <x:n loppuarvo>, <Suorakulmioiden lkm>, <Suorakulmion paikka 0|1> ]",
     "ReducedRowEchelonForm": "Riviporrasmuoto",

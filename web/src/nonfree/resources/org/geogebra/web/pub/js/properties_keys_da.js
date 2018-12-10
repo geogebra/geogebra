@@ -746,6 +746,8 @@ __GGB__keysVar["da"].command = {
     "Rationalize.SyntaxCAS": "[ <tal> ]",
     "Ray": "Halvlinje",
     "Ray.Syntax": "[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Vektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RektangelSum",
     "RectangleSum.Syntax": "[ <Funktion>, <Start x-V\xe6rdi>, <Slut x-V\xe6rdi>, <Antal Rektangler>, <Rektangelens startposition> ]",
     "ReducedRowEchelonForm": "ReduceretRowEchelonForm",

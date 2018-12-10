@@ -746,6 +746,8 @@ __GGB__keysVar["xh"].command = {
     "Rationalize.SyntaxCAS": "[ <Inani> ]",
     "Ray": "UmgcaOyaCalanye",
     "Ray.Syntax": "[ <Qala apha>, <iChaphaza> ]\n[ <Qala apha>, <iDirection yomgcokhombileyo> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RectangleSum",
     "RectangleSum.Syntax": "[ <Function>, <Qala ku x-Value>, <Phela ku x-Value>, <Inani lee ngxande>, <iNdawo yesiqalo soxande> ]",
     "ReducedRowEchelonForm": "ReducedRowEchelonForm",

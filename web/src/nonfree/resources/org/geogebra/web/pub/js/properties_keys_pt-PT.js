@@ -746,6 +746,8 @@ __GGB__keysVar["pt-PT"].command = {
     "Rationalize.SyntaxCAS": "[ <N\xfamero> ]",
     "Ray": "Semirreta",
     "Ray.Syntax": "[ <Ponto Origem>, <Ponto> ]\n[ <Ponto Origem>, <Vetor Diretor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SomaRet\xe2ngulos",
     "RectangleSum.Syntax": "[ <Fun\xe7\xe3o>, <Valor Inicial-x>, <Valor Final-x>, <N\xfamero de Ret\xe2ngulos>, <Posi\xe7\xe3o do Ret\xe2ngulo Inicial> ]",
     "ReducedRowEchelonForm": "Can\xf3nicaReduzida",

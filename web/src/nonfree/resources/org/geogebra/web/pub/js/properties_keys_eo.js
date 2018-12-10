@@ -746,6 +746,8 @@ __GGB__keysVar["eo"].command = {
     "Rationalize.SyntaxCAS": "[ <Nombro> ]",
     "Ray": "Duonrekto",
     "Ray.Syntax": "[ <Origina punkto>, <Punkto> ]\n[ <Origina punkto>, <Vektoro> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RectangleSum",
     "RectangleSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles>, <Position for rectangle start> ]",
     "ReducedRowEchelonForm": "ReducedRowEchelonForm",

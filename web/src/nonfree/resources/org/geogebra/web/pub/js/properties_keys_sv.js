@@ -746,6 +746,8 @@ __GGB__keysVar["sv"].command = {
     "Rationalize.SyntaxCAS": "[ <Tal> ]",
     "Ray": "Str\xe5le",
     "Ray.Syntax": "[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Vektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RektangelSumma",
     "RectangleSum.Syntax": "[ <Funktion>, <Fr\xe5n x>, <Till x>, <Antal Rektanglar>, <Startposition f\xf6r rektangel> ]",
     "ReducedRowEchelonForm": "RadReduceradTrappstegsForm",

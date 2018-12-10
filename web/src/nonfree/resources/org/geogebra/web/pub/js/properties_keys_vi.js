@@ -746,6 +746,8 @@ __GGB__keysVar["vi"].command = {
     "Rationalize.SyntaxCAS": "[ <S\u1ed1> ]",
     "Ray": "Tia",
     "Ray.Syntax": "[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]\n[ <\u0110i\u1ec3m>, <H\u01b0\u1edbng v\xe9c t\u01a1> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "T\u1ed5ngH\xecnhCh\u1eefNh\u1eadt",
     "RectangleSum.Syntax": "[ <H\xe0m s\u1ed1>, <\u0110i\u1ec3m \u0111\u1ea7u x>, <\u0110i\u1ec3m cu\u1ed1i x>, <S\u1ed1 h\xecnh ch\u1eef nh\u1eadt>, <V\u1ecb tr\xed h\xecnh ch\u1eef nh\u1eadt \u0111\u1ea7u ti\xean> ]",
     "ReducedRowEchelonForm": "ChuyenDangDonVi",

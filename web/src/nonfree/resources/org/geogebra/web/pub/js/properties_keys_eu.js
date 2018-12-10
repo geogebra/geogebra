@@ -746,6 +746,8 @@ __GGB__keysVar["eu"].command = {
     "Rationalize.SyntaxCAS": "[ <Zenbakia> ]",
     "Ray": "Zuzenerdia",
     "Ray.Syntax": "[ <Hasierako Puntua>, <Puntua> ]\n[ <Hasierako Puntua>, <Norabide-bektorea> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "LaukizuzenenBatura",
     "RectangleSum.Syntax": "[ <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa>, <Zenbat Laukizuzen>, <Hasierako Laukizuzenaren Posizioa> ]",
     "ReducedRowEchelonForm": "ErrenkadezMailakatua",

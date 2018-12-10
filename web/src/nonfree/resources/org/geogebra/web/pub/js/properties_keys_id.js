@@ -746,6 +746,8 @@ __GGB__keysVar["id"].command = {
     "Rationalize.SyntaxCAS": "[ <Angka> ]",
     "Ray": "Sinar",
     "Ray.Syntax": "[ <Titik Awal>, <Titik> ]\n[ <Titik Awal>, <Vektor Arah> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "JumlahSegiEmpat",
     "RectangleSum.Syntax": "[ <Fungsi>, <Nilai x Awal>, <Nilai x Akhir>, <Banyaknya segi empat>, <Posisi segi empat awal> ]",
     "ReducedRowEchelonForm": "BentukEselonBarisTereduksi",

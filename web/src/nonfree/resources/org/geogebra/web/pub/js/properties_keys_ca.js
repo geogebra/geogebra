@@ -746,6 +746,8 @@ __GGB__keysVar["ca"].command = {
     "Rationalize.SyntaxCAS": "[ <Nombre> ]",
     "Ray": "Semirecta",
     "Ray.Syntax": "[ <Punt origen>, <Punt de la semirecta> ]\n[ <Punt origen>, <Vector de direcci\xf3> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SumaRectangles",
     "RectangleSum.Syntax": "[ <Funci\xf3>, <Valor x-inicial>, <Valor x-final>, <Nombre de rectangles>, <Posici\xf3 rectangle inicial> ]",
     "ReducedRowEchelonForm": "MatriuCan\xf2nicaPerFiles",

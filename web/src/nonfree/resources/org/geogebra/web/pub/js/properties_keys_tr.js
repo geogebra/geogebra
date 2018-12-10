@@ -746,6 +746,8 @@ __GGB__keysVar["tr"].command = {
     "Rationalize.SyntaxCAS": "[ <Say\u0131> ]",
     "Ray": "I\u015f\u0131n",
     "Ray.Syntax": "[ <Ba\u015flang\u0131\xe7 Noktas\u0131>, <Nokta> ]\n[ <Ba\u015flang\u0131\xe7 Noktas\u0131>, <Y\xf6n Vekt\xf6r\xfc> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Dikd\xf6rtgenToplam",
     "RectangleSum.Syntax": "[ <\u0130\u015flev>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri>, <Dikd\xf6rtgen Say\u0131s\u0131>, <Dikd\xf6rtgen ga\u015flang\u0131\xe7 pozisyonu> ]",
     "ReducedRowEchelonForm": "\u0130ndirgenmi\u015fSat\u0131rE\u015felonBi\xe7imi",

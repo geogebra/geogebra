@@ -746,6 +746,8 @@ __GGB__keysVar["cy"].command = {
     "Rationalize.SyntaxCAS": "[ <Number> ]",
     "Ray": "Pelydr",
     "Ray.Syntax": "[ <Pwynt cychwyn>, <Pwynt> ]\n[ <Pwynt cychwyn>, <Fector cyfeiriad> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SwmRectangle",
     "RectangleSum.Syntax": "[ <Ffwythiant>, <x-gychwynnol>, <x-derfynnol>, <Nifer o Betryalau>, <Lleoliad cychwyn y petryal> ]",
     "ReducedRowEchelonForm": "FfurfRhesEchelonLeiaf",

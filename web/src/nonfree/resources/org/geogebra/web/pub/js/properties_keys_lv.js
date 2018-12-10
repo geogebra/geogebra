@@ -746,6 +746,8 @@ __GGB__keysVar["lv"].command = {
     "Rationalize.SyntaxCAS": "[ <Skaitlis> ]",
     "Ray": "Stars",
     "Ray.Syntax": "[ <S\u0101kumpunkts>, <Punkts> ]\n[ <S\u0101kumpunkts>, <Virziena Vektors> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RectangleSum",
     "RectangleSum.Syntax": "[ <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba>, <Taisnst\u016bru Skaits>, <Position for rectangle start> ]",
     "ReducedRowEchelonForm": "ReducedRowEchelonForm",

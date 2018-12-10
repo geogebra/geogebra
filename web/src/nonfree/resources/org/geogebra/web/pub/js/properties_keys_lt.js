@@ -746,6 +746,8 @@ __GGB__keysVar["lt"].command = {
     "Rationalize.SyntaxCAS": "[ <Skai\u010dius> ]",
     "Ray": "Spindulys",
     "Ray.Syntax": "[ <Prad\u017eios ta\u0161kas>, <Ta\u0161kas> ]\n[ <Prad\u017eios ta\u0161kas>, <Krypties vektorius> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Sta\u010diakamp\u0117Suma",
     "RectangleSum.Syntax": "[ <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117>, <Sta\u010diakampi\u0173 skai\u010dius>, <Sta\u010diakampio prad\u017eios pozicija> ]",
     "ReducedRowEchelonForm": "Suma\u017eintaEilut\u0117EchelonForma",

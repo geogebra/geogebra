@@ -746,6 +746,8 @@ __GGB__keysVar["ar-TN"].command = {
     "Rationalize.SyntaxCAS": "[ <\u0639\u062f\u062f> ]",
     "Ray": "\u0646\u0635\u0641_\u0645\u0633\u062a\u0642\u064a\u0645",
     "Ray.Syntax": "[ <\u0646\u0642\u0637\u0629 \u0627\u0644\u0623\u0635\u0644>, <\u0646\u0642\u0637\u0629> ]\n[ <\u0646\u0642\u0637\u0629 \u0627\u0644\u0623\u0635\u0644>, <\u0645\u0648\u062c\u0647> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "\u0645\u062c\u0645\u0648\u0639_\u0645\u0633\u062a\u0637\u064a\u0644\u0627\u062a",
     "RectangleSum.Syntax": "[ <\u062f\u0627\u0644\u0629>, <x min>, <x max>, <\u0639\u062f\u062f \u0627\u0644\u0645\u0633\u062a\u0637\u064a\u0644\u0627\u062a>, <\u0628\u062f\u0627\u064a\u0629 \u0645\u0646> ]",
     "ReducedRowEchelonForm": "\u0645\u0635\u0641\u0648\u0641\u0629_\u0645\u062e\u062a\u0635\u0631\u0629",

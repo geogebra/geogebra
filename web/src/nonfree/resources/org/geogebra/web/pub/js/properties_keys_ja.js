@@ -746,6 +746,8 @@ __GGB__keysVar["ja"].command = {
     "Rationalize.SyntaxCAS": "[ <\u6570\u5024> ]",
     "Ray": "Ray",
     "Ray.Syntax": "[ <\u958b\u59cb\u70b9>, <\u70b9> ]\n[ <\u958b\u59cb\u70b9>, <\u65b9\u5411\u30d9\u30af\u30c8\u30eb> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RectangleSum",
     "RectangleSum.Syntax": "[ <\u95a2\u6570>, <x\u306e\u958b\u59cb\u5024>, <x\u306e\u7d42\u4e86\u5024>, <\u9577\u65b9\u5f62\u306e\u6570>, <Position for rectangle start> ]",
     "ReducedRowEchelonForm": "ReducedRowEchelonForm",

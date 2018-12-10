@@ -746,6 +746,8 @@ __GGB__keysVar["cs"].command = {
     "Rationalize.SyntaxCAS": "[ <\u010c\xedslo> ]",
     "Ray": "Poloprimka",
     "Ray.Syntax": "[ <Po\u010d\xe1te\u010dn\xed bod>, <Bod> ]\n[ <Po\u010d\xe1te\u010dn\xed bod>, <Sm\u011brov\xfd vektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SoucetObdelniku",
     "RectangleSum.Syntax": "[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x>, <Po\u010det obd\xe9ln\xedk\u016f>, <Startovn\xed pozice> ]",
     "ReducedRowEchelonForm": "SchodovityTvar",

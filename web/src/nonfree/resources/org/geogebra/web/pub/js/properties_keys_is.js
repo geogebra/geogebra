@@ -746,6 +746,8 @@ __GGB__keysVar["is"].command = {
     "Rationalize.SyntaxCAS": "[ <Tala> ]",
     "Ray": "H\xe1lfl\xedna",
     "Ray.Syntax": "[ <Byrjunarpunktur>, <Punktur> ]\n[ <Byrjunarpunktur>, <Stefnuvigur> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SummaR\xe9tthyrninga",
     "RectangleSum.Syntax": "[ <Fall>, <Upphafs-x-gildi>, <Loka-x-gildi>, <Fj\xf6ldi r\xe9tthyrninga>, <Sta\xf0a fyrir byrjun r\xe9tthyrnings> ]",
     "ReducedRowEchelonForm": "RuttStallaform",

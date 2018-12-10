@@ -746,6 +746,8 @@ __GGB__keysVar["bs"].command = {
     "Rationalize.SyntaxCAS": "[ <Broj> ]",
     "Ray": "Poluprava",
     "Ray.Syntax": "[ <Po\u010detna ta\u010dka>, <Ta\u010dka> ]\n[ <Po\u010detna ta\u010dka>, <Vektor smjera> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SumaPravougaonika",
     "RectangleSum.Syntax": "[ <Funkcija>, <Po\u010detna x-vrijednost>, <Krajnja x-vrijednost>, <Broj pravougaonika>, <Pozicija po\u010detnog pravougaonika> ]",
     "ReducedRowEchelonForm": "ReduciraniRedEchelonForme",

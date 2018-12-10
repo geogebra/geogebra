@@ -746,6 +746,8 @@ __GGB__keysVar["sl"].command = {
     "Rationalize.SyntaxCAS": "[ <\u0161tevilo> ]",
     "Ray": "Poltrak",
     "Ray.Syntax": "[ <za\u010detna to\u010dka>, <to\u010dka> ]\n[ <za\u010detna to\u010dka>, <vektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "VsotaPlo\u0161\u010dinPravokotnikov",
     "RectangleSum.Syntax": "[ <funkcija>, <za\u010detna vrednost x>, <kon\u010dna vrednost x>, <\u0161tevilo pravokotnikov>, <prese\u010di\u0161\u010de pravokotnika s funkcijo> ]",
     "ReducedRowEchelonForm": "Re\u0161itvenaMatrika",

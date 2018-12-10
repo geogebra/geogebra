@@ -746,6 +746,8 @@ __GGB__keysVar["sq"].command = {
     "Rationalize.SyntaxCAS": "[ <Numer> ]",
     "Ray": "RrezePafundme",
     "Ray.Syntax": "[ <Pike Fillimi>, <Pike> ]\n[ <Pike Fillimi>, <Drejtim Vektori> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "ShumeDrejtkendore",
     "RectangleSum.Syntax": "[ <Funksion>, <x-Vlere Fillimi>, <x-Vlere Mbarimi>, <Numer i Drejtkendshave>, <Pozicion per drejtkendshin e fillimit> ]",
     "ReducedRowEchelonForm": "RreshtEshelonFormeReduktuar",

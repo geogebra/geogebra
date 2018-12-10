@@ -746,6 +746,8 @@ __GGB__keysVar["ms"].command = {
     "Rationalize.SyntaxCAS": "[ <Nombor> ]",
     "Ray": "Sinar",
     "Ray.Syntax": "[ <Titik Mula>, <Titik> ]\n[ <Titik Mula>, <Vektor Arah> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "HasiltambahSegiempattepat",
     "RectangleSum.Syntax": "[ <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x>, <Bilangan Segiempat tepat>, <Kedudukan untuk segiempat tepat mula> ]",
     "ReducedRowEchelonForm": "BentukBarisEselonTerturun",

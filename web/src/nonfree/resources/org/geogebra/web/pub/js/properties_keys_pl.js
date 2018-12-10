@@ -746,6 +746,8 @@ __GGB__keysVar["pl"].command = {
     "Rationalize.SyntaxCAS": "[ <Liczba> ]",
     "Ray": "P\xf3\u0142prosta",
     "Ray.Syntax": "[ <Punkt pocz\u0105tkowy>, <Punkt> ]\n[ <Punkt pocz\u0105tkowy>, <Wektor kierunkowy> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "SumaProstok\u0105tna",
     "RectangleSum.Syntax": "[ <Funkcja>, <Start x>, <Koniec x>, <Liczba Prostok\u0105t\xf3w>, <Po\u0142o\u017cenie Pierwszego> ]",
     "ReducedRowEchelonForm": "Posta\u0107SchodkowaZredukowana",

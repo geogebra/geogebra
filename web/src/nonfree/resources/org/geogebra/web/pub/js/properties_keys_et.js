@@ -746,6 +746,8 @@ __GGB__keysVar["et"].command = {
     "Rationalize.SyntaxCAS": "[ <Arv> ]",
     "Ray": "Kiir",
     "Ray.Syntax": "[ <Alguspunkt>, <Punkt> ]\n[ <Alguspunkt>, <Sihivektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Ristk\xfcliksumma",
     "RectangleSum.Syntax": "[ <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus>, <Ristk\xfclikute arv>, <Ristk\xfcliku alguspositsioon> ]",
     "ReducedRowEchelonForm": "Elementaarteisendused",

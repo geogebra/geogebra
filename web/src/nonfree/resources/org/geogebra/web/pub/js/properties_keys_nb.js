@@ -746,6 +746,8 @@ __GGB__keysVar["nb"].command = {
     "Rationalize.SyntaxCAS": "[ <Tall> ]",
     "Ray": "Str\xe5le",
     "Ray.Syntax": "[ <Startpunkt>, <Punkt> ]\n[ <Startpunkt>, <Retningsvektor> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "RektangelSum",
     "RectangleSum.Syntax": "[ <Funksjon>, <Start>, <Slutt>, <Antall rektangler>, <Posisjon for rektangelstart> ]",
     "ReducedRowEchelonForm": "RedusertRadEchelonForm",

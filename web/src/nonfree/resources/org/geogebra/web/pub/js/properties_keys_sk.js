@@ -746,6 +746,8 @@ __GGB__keysVar["sk"].command = {
     "Rationalize.SyntaxCAS": "[ <\u010c\xedslo> ]",
     "Ray": "Polpriamka",
     "Ray.Syntax": "[ <Bod>, <Bod> ]\n[ <Bod>, <Vektor smeru> ]",
+    "ReadText": "ReadText",
+    "ReadText.Syntax": "[ <Text> ]",
     "RectangleSum": "Interg\xe1lnyS\xfa\u010det",
     "RectangleSum.Syntax": "[ <Funkcia>, <x od>, <x do>, <po\u010det obd\u013a\u017en\xedkov>, <poz\xedcia za\u010diatku obd\u013a\u017en\xedka> ]",
     "ReducedRowEchelonForm": "Elimin\xe1ciaNaTrojuholn\xedkov\xfdTvar",
