@@ -7694,9 +7694,8 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public String getAuralText() {
+	public String getAuralText(ScreenReaderBuilder sb) {
 		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralName(loc, sb);
 		sb.appendSpace();
 		addAuralStatus(loc, sb);

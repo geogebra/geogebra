@@ -41,4 +41,8 @@ public class ScreenReaderBuilder {
 	public void appendDot() {
 		// No dots but keep the method in case we decide to use them again
 	}
+
+	protected StringBuilder getStringBuilder() {
+		return sb;
+	}
 }

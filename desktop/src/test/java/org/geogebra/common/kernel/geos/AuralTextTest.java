@@ -13,7 +13,7 @@ public class AuralTextTest {
 	private static void aural(String in, String... out) {
 		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(in, true);
-		String aural = geos[0].getAuralText();
+		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
 		Assert.assertEquals(out.length, sentences.length);

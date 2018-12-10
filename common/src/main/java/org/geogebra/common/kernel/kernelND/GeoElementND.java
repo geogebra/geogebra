@@ -32,13 +32,13 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EventType;
@@ -1535,7 +1535,7 @@ public interface GeoElementND extends ExpressionValue {
 	/**
 	 * @return text that screen readers should read.
 	 */
-	String getAuralText();
+	String getAuralText(ScreenReaderBuilder sb);
 
 	/**
 	 * @return the value of geo as an expression for screen readers.

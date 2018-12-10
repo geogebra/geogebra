@@ -6,6 +6,7 @@ import org.geogebra.common.gui.SliderInput;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel;
@@ -245,7 +246,8 @@ public class VoiceoverTabber {
 				forceFocus(nextRange.getElement());
 			} else if (sel != null) {
 				setRole(simpleButton, "");
-				simpleButton.setText(sel.getAuralText());
+				simpleButton
+						.setText(sel.getAuralText(new ScreenReaderBuilder()));
 				simpleButton.setVisible(true);
 				forceFocus(simpleButton.getElement());
 			} else {
