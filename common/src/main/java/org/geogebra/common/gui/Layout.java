@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
@@ -491,6 +492,12 @@ public abstract class Layout implements SettingListener {
 				changed |= ev.showGrid(perspective.getShowGrid());
 			}
 			
+			if (app.isEuclidianView3D(ev)) {
+				changed |= ((EuclidianSettings3D) app.getSettings()
+						.getEuclidian(3))
+								.setHasColoredAxes(true);
+			}
+
 			if (app.isUnbundled()
 					&& perspective.getDefaultID() == Perspective.GEOMETRY
 					&& app.getEuclidianView1() == ev) {
