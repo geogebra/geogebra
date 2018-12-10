@@ -1982,6 +1982,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 			if (v != getVersion()) {
 				setVersion(v);
+				this.activity = null;
 				((GuiManagerW) getGuiManager()).resetPanels();
 			}
 		}

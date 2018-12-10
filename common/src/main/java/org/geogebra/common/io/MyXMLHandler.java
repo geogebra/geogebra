@@ -445,13 +445,22 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			app.setFileVersion(ggbVersion, attrs.get("app"));
+			app.setFileVersion(ggbVersion, nomalizeApp(attrs.get("app")));
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
 				app.setUniqueId(uniqueId);
 			}
 		}
 
+	}
+
+	private static String nomalizeApp(String string) {
+		if (string != null && string
+				.matches(
+						"graphing|geometry|classic|3d|3D|scientific|cas|notes")) {
+			return string;
+		}
+		return null;
 	}
 
 	private void startDataAnalysisElement(String eName,
