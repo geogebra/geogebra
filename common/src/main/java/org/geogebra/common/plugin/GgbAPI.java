@@ -1738,11 +1738,24 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		
+		setPerspectiveWithViews(code);
+		if (app.getActiveEuclidianView() != null) {
+			app.getActiveEuclidianView().requestFocus();
+		}
+	}
+
+	/**
+	 * Set perspective using standard views, no special UI
+	 * 
+	 * @param code
+	 *            perspective
+	 */
+	private void setPerspectiveWithViews(String code) {
 		if (code.startsWith("+") || code.startsWith("-")) {
 			PerspectiveDecoder.decodeSimple(app, code);
 			return;
 		}
-		
+
 		// the exam setting is certainly false
 		if (code.startsWith("<")) {
 			try {
@@ -1777,6 +1790,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override
