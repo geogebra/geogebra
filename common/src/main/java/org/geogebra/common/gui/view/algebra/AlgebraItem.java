@@ -22,7 +22,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
-import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -546,19 +545,14 @@ public class AlgebraItem {
 		return geoElement.getParentAlgorithm().getClassName() == Algos.Expression;
 	}
 
-	public static HasLastItem getLastFieldProvider(final App app) {
-		return new HasLastItem() {
-
-			@Override
-			public String getLastItem() {
-				String text = app.getKernel().getConstruction()
-						.getLastGeoElement()
-						.toOutputValueString(StringTemplate.algebraTemplate);
-				if (StringUtil.isSimpleNumber(text)) {
-					return text;
-				}
-				return "(" + text + ")";
-			}
-		};
+	/**
+	 * Create provider of texts for ANS button
+	 * 
+	 * @param app
+	 *            app
+	 * @return provider of last AV item
+	 */
+	public static HasLastItem getLastItemProvider(final App app) {
+		return new ConstructionItemProvider(app.getKernel().getConstruction());
 	}
 }

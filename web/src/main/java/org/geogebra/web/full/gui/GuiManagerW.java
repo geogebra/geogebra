@@ -2221,7 +2221,7 @@ public class GuiManagerW extends GuiManager
 			onScreenKeyboard
 				.setProcessing(
 							makeKeyboardListener(textField,
-									AlgebraItem.getLastFieldProvider(app)));
+									AlgebraItem.getLastItemProvider(app)));
 		}
 	}
 
