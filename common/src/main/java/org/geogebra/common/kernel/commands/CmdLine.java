@@ -32,7 +32,7 @@ public class CmdLine extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-		if (n== 2) {
+		if (n == 2) {
 			arg = resArgs(c);
 
 			// line through two points

@@ -11,8 +11,7 @@ public class AuralTextTest {
 	static AppDNoGui app = AlgebraTest.createApp();
 
 	private static void aural(String in, String... out) {
-		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(in, true);
+		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
@@ -22,6 +21,11 @@ public class AuralTextTest {
 				Assert.assertEquals(out[i], sentences[i]);
 			}
 		}
+	}
+
+	private static GeoElementND[] add(String in) {
+		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(in,
+				true);
 	}
 
 	@Test
@@ -38,9 +42,25 @@ public class AuralTextTest {
 
 	@Test
 	public void numberAural() {
-		aural("Slider(-5,5)", "Slider", "start animation", "increase",
+		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
+		Assert.assertEquals("sl = 0",
+				((GeoNumeric) get("sl")).getAuralCurrentValue());
 		aural("4", "Number");
+	}
+
+	private GeoElementND get(String string) {
+		return app.getKernel().lookupLabel(string);
+	}
+
+	@Test
+	public void numberCaptionAural() {
+		add("vec=Slider(-5,5)");
+		add("SetCaption(vec,\"Vector v = %v\")");
+		aural("vec", "Vector v = 0", "start animation", "increase",
+				"decrease", "edit");
+		Assert.assertEquals("Vector v = 0",
+				((GeoNumeric) get("sl")).getAuralCurrentValue());
 	}
 
 	@Test

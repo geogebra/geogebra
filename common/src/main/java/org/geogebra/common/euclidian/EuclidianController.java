@@ -754,7 +754,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 										.getAbsoluteScreenLocY() + 30));
 						firstMoveable = false;
 					} else if (geo instanceof GeoConic) {
-						updateConicForPaste((GeoConic)geo);
+						updateConicForPaste((GeoConic) geo);
 					} else if (geo instanceof GeoLocusStroke) {
 						setStartPointLocation(
 								((GeoLocusStroke) geo).getPoints().get(0)

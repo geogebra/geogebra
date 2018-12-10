@@ -315,7 +315,7 @@ public interface Inspecting {
 	 * Finds MySpecialDoubles
 	 *
 	 */
-	public enum SpecialDouble implements Inspecting{
+	public enum SpecialDouble implements Inspecting {
 		/** singleton instance*/
 		INSTANCE;
 

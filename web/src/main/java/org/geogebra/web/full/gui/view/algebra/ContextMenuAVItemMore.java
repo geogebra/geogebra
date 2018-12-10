@@ -175,7 +175,8 @@ public class ContextMenuAVItemMore implements SetLabels {
 		
 	private void addDeleteItem() {
 		addAction(
-				new MenuAction(loc.getMenu("Delete"), MaterialDesignResources.INSTANCE.delete_black()) {
+				new MenuAction(loc.getMenu("Delete"),
+						MaterialDesignResources.INSTANCE.delete_black()) {
 					
 					@Override
 					public void execute() {

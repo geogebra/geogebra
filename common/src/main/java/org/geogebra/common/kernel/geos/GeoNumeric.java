@@ -2017,9 +2017,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
-		sb.append(getLabelSimple());
-		sb.append(getLabelDelimiterWithSpace());
-		sb.append(toValueString(StringTemplate.defaultTemplate));
+		if (!addAuralCaption(sb)) {
+			sb.append(getLabelSimple());
+			sb.append(getLabelDelimiterWithSpace());
+			sb.append(toValueString(StringTemplate.defaultTemplate));
+		}
 	}
 
 	@Override
@@ -2028,8 +2030,10 @@ public class GeoNumeric extends GeoElement
 			super.addAuralName(loc, sb);
 			return;
 		}
-		sb.append(loc.getMenuDefault("Slider", "Slider"));
-		sb.appendSpace();
+		if (StringUtil.empty(getCaptionSimple())) {
+			sb.append(loc.getMenuDefault("Slider", "Slider"));
+			sb.appendSpace();
+		}
 		addAuralSliderValue(sb);
 		sb.appendDot();
 	}
