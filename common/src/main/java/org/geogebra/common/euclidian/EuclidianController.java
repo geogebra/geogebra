@@ -754,27 +754,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 										.getAbsoluteScreenLocY() + 30));
 						firstMoveable = false;
 					} else if (geo instanceof GeoConic) {
-						if (((GeoConic) geo).isCircle()) {
-							((GeoConic) geo).setCircle(new GeoPoint(
-									kernel.getConstruction(),
-									view.toRealWorldCoordX(
-											view.getWidth() / 2.0),
-									view.toRealWorldCoordY(
-											view.getHeight() / 2.0),
-									1), ((GeoConic) geo).getCircleRadius());
-						} else if (((GeoConic) geo).isEllipse()) {
-							((GeoConic) geo).translate(
-									view.toRealWorldCoordX(
-											view.getWidth() / 2.0)
-											- ((GeoConic) geo).getMidpoint()
-													.getX(),
-									view.toRealWorldCoordY(
-											view.getHeight() / 2.0)
-											- ((GeoConic) geo)
-															.getMidpoint()
-													.getY());
-							geo.updateRepaint();
-						}
+						updateConicForPaste((GeoConic)geo);
 					} else if (geo instanceof GeoLocusStroke) {
 						setStartPointLocation(
 								((GeoLocusStroke) geo).getPoints().get(0)
@@ -808,6 +788,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			setPastePreviewPosition();
 			kernel.notifyRepaint();
+		}
+	}
+
+	private void updateConicForPaste(GeoConic geo) {
+		if (geo.isCircle()) {
+			geo.setCircle(
+					new GeoPoint(kernel.getConstruction(),
+							view.toRealWorldCoordX(view.getWidth() / 2.0),
+							view.toRealWorldCoordY(view.getHeight() / 2.0), 1),
+					geo.getCircleRadius());
+		} else if (geo.isEllipse()) {
+			geo.translate(
+					view.toRealWorldCoordX(view.getWidth() / 2.0)
+							- geo.getMidpoint().getX(),
+					view.toRealWorldCoordY(view.getHeight() / 2.0)
+							- geo.getMidpoint().getY());
+			geo.updateRepaint();
 		}
 	}
 
