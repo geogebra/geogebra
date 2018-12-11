@@ -229,7 +229,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.identity();
 	private double a = ANGLE_ROT_OZ;
 	private double b = ANGLE_ROT_XOY; // angles (in degrees)
-	private double a_AR = 0;
 	private double translationZzeroForAR = 0;
 
 	/**
@@ -850,7 +849,7 @@ public abstract class EuclidianView3D extends EuclidianView
                     (-90) * EuclidianController3D.ANGLE_TO_DEGREES);
             if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
 				m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
-						(-this.a + a_AR) * EuclidianController3D.ANGLE_TO_DEGREES);
+						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 			} else {
 				m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
 						(0) * EuclidianController3D.ANGLE_TO_DEGREES);
@@ -4755,8 +4754,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (mIsARDrawing != isARDrawing) {
 			mIsARDrawing = isARDrawing;
 			if (isARDrawing) {
-				a_AR = a;
-
 				if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
                     if (getShowAxis(AXIS_Z)) {
                         translationZzeroForAR = -getZmin();
