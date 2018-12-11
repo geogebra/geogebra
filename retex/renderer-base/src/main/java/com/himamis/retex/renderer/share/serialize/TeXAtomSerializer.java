@@ -103,7 +103,7 @@ public class TeXAtomSerializer {
 			SymbolAtom accent = ((AccentedAtom) root).getAccent();
 			String content = serialize(((AccentedAtom) root).getBase());
 			if (accent == Symbols.VEC) {
-				return "vector " + content;
+				return " vector " + content;
 			}
 			return content + " with " + accent.getName();
 		}
