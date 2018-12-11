@@ -48,7 +48,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 						final TextResource res = GuiResourcesSimple.INSTANCE
 								.speechRec();
 						JavaScriptInjector.inject(res);
-						getSpecRecController().runSpeechRec();
+						getSpecRecController().initSpeechRec("command");
 					}
 
 					@Override
