@@ -71,6 +71,6 @@ public class AuralTextTest {
 
 	@Test
 	public void textAural() {
-		aural("LaTeX(\"a+\\mathbf{x^2}\")", "Text", " a+x^(2)", "edit");
+		aural("LaTeX(\"a+\\mathbf{x^2}\")", "a+x^(2)", "edit");
 	}
 }
