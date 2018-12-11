@@ -230,6 +230,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double a = ANGLE_ROT_OZ;
 	private double b = ANGLE_ROT_XOY; // angles (in degrees)
 	private double a_AR = 0;
+	private double translationZzeroForAR = 0;
 
 	/**
 	 * direction of view
@@ -885,22 +886,26 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void updateTranslationMatrices() {
 
-		double translationZzero;
-		if (mIsARDrawing) {
-			if (getShowAxis(AXIS_Z)) {
-				translationZzero = -getZmin();
-			} else if (updateObjectsBounds(true, true)) {
-				translationZzero = -boundsMin.getZ();
-				// ensure showing plane if visible and not too far
-				if ((getShowGrid() || getShowPlane()) && translationZzero < 0 && getZmin() < 0) {
+        double translationZzero;
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            translationZzero = getZZero() + translationZzeroForAR;
+        } else {
+            if (mIsARDrawing) {
+                if (getShowAxis(AXIS_Z)) {
+                    translationZzero = -getZmin();
+                } else if (updateObjectsBounds(true, true)) {
+                    translationZzero = -boundsMin.getZ();
+                    // ensure showing plane if visible and not too far
+                    if ((getShowGrid() || getShowPlane()) && translationZzero < 0 && getZmin() < 0) {
+                        translationZzero = 0;
+                    }
+                } else {
                     translationZzero = 0;
                 }
-			} else {
-				translationZzero = 0;
-			}
-		} else {
-			translationZzero = getZZero();
-		}
+            } else {
+                translationZzero = getZZero();
+            }
+        }
 
 		// scene to screen translation matrices
 		translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
@@ -4751,8 +4756,28 @@ public abstract class EuclidianView3D extends EuclidianView
 			mIsARDrawing = isARDrawing;
 			if (isARDrawing) {
 				a_AR = a;
-				getRenderer().setScaleFactor();
-			}
+
+				if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+                    if (getShowAxis(AXIS_Z)) {
+                        translationZzeroForAR = -getZmin();
+                    } else if (updateObjectsBounds(true, true)) {
+                        translationZzeroForAR = -boundsMin.getZ();
+                        // ensure showing plane if visible and not too far
+                        if ((getShowGrid() || getShowPlane()) && translationZzeroForAR < 0 && getZmin() < 0) {
+                            translationZzeroForAR = 0;
+                        }
+                    } else {
+                        translationZzeroForAR = 0;
+                    }
+                    translationZzeroForAR -= getZZero();
+                }
+
+                getRenderer().setScaleFactor();
+			} else {
+                if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+                    translationZzeroForAR = 0;
+                }
+            }
 			updateMatrix();
 			reset();
 		}
