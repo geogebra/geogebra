@@ -2316,6 +2316,20 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
+	private void flipCursorNormal() {
+	    if (isAREnabled()) {
+	        getHittingDirection(tmpCoordsLength4);
+            if (cursorNormal.dotproduct3(tmpCoordsLength4) > 0) {
+                cursorNormal.mulInside(-1);
+            }
+        } else {
+            Coords direction = getViewDirection();
+            if (direction != null && cursorNormal.dotproduct3(direction) > 0) {
+                cursorNormal.mulInside(-1);
+            }
+        }
+    }
+
 	/**
 	 * update cursor3D matrix
 	 */
@@ -2332,9 +2346,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
-				if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
-					cursorNormal.mulInside(-1);
-				}
+				flipCursorNormal();
 				scaleNormalXYZ(cursorNormal);
 				cursorNormal.normalize();
 				CoordMatrix4x4.createOrthoToDirection(
@@ -2348,9 +2360,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
 				cursorNormal.set3(((GeoElement) getCursor3D().getPath()).getMainDirection());
-				if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
-					cursorNormal.mulInside(-1);
-				}
+                flipCursorNormal();
 				scaleXYZ(cursorNormal);
 				cursorNormal.normalize();
 				CoordMatrix4x4.createOrthoToDirection(getCursor3D().getDrawingMatrix().getOrigin(),
@@ -2399,10 +2409,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
-				Coords direction = getViewDirection();
-				if (direction != null && cursorNormal.dotproduct3(direction) > 0) {
-					cursorNormal.mulInside(-1);
-				}
+				flipCursorNormal();
 				scaleNormalXYZ(cursorNormal);
 				cursorNormal.normalize();
 				CoordMatrix4x4.createOrthoToDirection(getCursor3D().getDrawingMatrix().getOrigin(),
