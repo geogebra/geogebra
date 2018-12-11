@@ -88,7 +88,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 //@SuppressWarnings("javadoc")
@@ -1512,7 +1511,18 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private void addScreenReader() {
 		screenReader = new ReaderWidget(evNo);
-		RootPanel.get().add(screenReader);
+		attachReaderWidget(screenReader, app);
+	}
+
+	/**
+	 * @param screenReaderWidget
+	 *            screen reader widget
+	 * @param app
+	 *            app it needs to be atteched to
+	 */
+	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
+		((AppW) app).getPanel().getElement().getParentElement()
+				.appendChild(screenReaderWidget.getElement());
 	}
 
 	@Override

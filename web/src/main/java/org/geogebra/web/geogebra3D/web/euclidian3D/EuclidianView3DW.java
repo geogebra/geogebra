@@ -776,6 +776,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private void addScreenReader() {
 		screenReader = new ReaderWidget(evNo);
-		RootPanel.get().add(screenReader);
+		EuclidianViewW.attachReaderWidget(screenReader, app);
 	}
 }
