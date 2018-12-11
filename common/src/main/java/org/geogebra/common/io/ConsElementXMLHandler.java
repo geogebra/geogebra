@@ -853,7 +853,8 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAlgebra(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setAlgebraLabelVisible(MyXMLHandler.parseBoolean(attrs.get("labelVisible")));
+			geo.setAlgebraLabelVisible(MyXMLHandler
+					.parseBooleanRev(attrs.get("labelVisible")));
 			return true;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
