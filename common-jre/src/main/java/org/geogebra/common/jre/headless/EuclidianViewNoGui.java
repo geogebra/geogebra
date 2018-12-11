@@ -23,6 +23,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 	private final GGraphics2D g2Dtemp;
 	private final GGraphics2D g2;
 	private GFont font;
+	private StringBuilder reader = new StringBuilder();
 
 	/**
 	 * @param ec
@@ -233,7 +234,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public void readText(String text) {
-		// TODO Auto-generated method stub
+		this.reader.append(text);
 	}
 
 	@Override
@@ -251,6 +252,10 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewFor3DCompanion(this);
+	}
+
+	public boolean hasRead(String string) {
+		return reader.toString().contains(string);
 	}
 
 }

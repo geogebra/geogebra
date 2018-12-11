@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.scripting.CmdParseToFunction;
 import org.geogebra.common.kernel.scripting.CmdParseToNumber;
 import org.geogebra.common.kernel.scripting.CmdPerspective;
 import org.geogebra.common.kernel.scripting.CmdPlaySound;
+import org.geogebra.common.kernel.scripting.CmdReadText;
 import org.geogebra.common.kernel.scripting.CmdRelation;
 import org.geogebra.common.kernel.scripting.CmdRename;
 import org.geogebra.common.kernel.scripting.CmdRepeat;
@@ -144,6 +145,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdSetValue(kernel);
 		case PlaySound:
 			return new CmdPlaySound(kernel);
+		case ReadText:
+			return new CmdReadText(kernel);
 		case ParseToNumber:
 			return new CmdParseToNumber(kernel);
 		case ParseToFunction:

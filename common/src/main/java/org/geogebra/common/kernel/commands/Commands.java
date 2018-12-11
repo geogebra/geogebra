@@ -843,6 +843,8 @@ public enum Commands implements CommandsConstants,
 
 	PlaySound(TABLE_SCRIPTING),
 
+	ReadText(TABLE_SCRIPTING),
+
 	ParseToNumber(TABLE_SCRIPTING),
 
 	ParseToFunction(TABLE_SCRIPTING),

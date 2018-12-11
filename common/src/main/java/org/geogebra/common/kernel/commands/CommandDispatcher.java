@@ -361,6 +361,7 @@ public abstract class CommandDispatcher {
 			case UpdateConstruction:
 			case SetValue:
 			case PlaySound:
+			case ReadText:
 			case ParseToNumber:
 			case ParseToFunction:
 			case StartAnimation:

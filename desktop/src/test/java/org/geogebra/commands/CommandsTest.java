@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
@@ -1978,6 +1979,14 @@ public class CommandsTest extends AlgebraTest {
 	public void xCurve() {
 		t("f:(cos(t),sin(t+1))", "(cos(t), sin(t + 1))");
 		t("x(f)", "x(f(t))");
+	}
+
+	@Test
+	public void cmdReadText() {
+		t("SetActiveView(1)");
+		t("ReadText(\"Can anybody hear me?\")");
+		assertTrue(((EuclidianViewNoGui) app.getActiveEuclidianView())
+				.hasRead("Can anybody hear me?"));
 	}
 
 }

@@ -29,7 +29,7 @@ public class LabelController {
 
 	private static void updateLabel(GeoElement element, boolean show) {
 		String label = element.getFreeLabel(show ? null : LabelManager.HIDDEN_PREFIX);
-		element.setAlgebraLabelVisible(show);
+		// element.setAlgebraLabelVisible(show);
 		element.setLabel(label);
 		ExpressionNode definition = element.getDefinition();
 		if (definition != null) {
