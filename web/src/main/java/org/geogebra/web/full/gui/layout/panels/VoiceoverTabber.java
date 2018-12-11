@@ -28,6 +28,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -38,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Zbynek
  */
-public class VoiceoverTabber {
+public class VoiceoverTabber implements ClickHandler {
 
 	private AppW app;
 	private double[] oldVal;
@@ -46,6 +47,7 @@ public class VoiceoverTabber {
 	private HTML focusTrapShift;
 	private SliderW[] ranges;
 	private Label hiddenButton;
+	private HandlerRegistration focusHandler;
 
 	/**
 	 * @param app
@@ -54,6 +56,27 @@ public class VoiceoverTabber {
 	public VoiceoverTabber(AppW app) {
 		this.app = app;
 		this.ranges = new SliderW[3];
+		buildUI();
+	}
+
+	private void buildUI() {
+		for (int i = 0; i < ranges.length; i++) {
+			ranges[i] = makeSlider(i);
+		}
+		hiddenButton = new Label("button");
+		hideButton(hiddenButton);
+		setRole(hiddenButton, "button");
+		hiddenButton.getElement().setTabIndex(5000);
+		hiddenButton.addClickHandler(this);
+		focusTrap = makeFocusTrap(false);
+		focusTrapShift = makeFocusTrap(true);
+		focusTrapShift.setVisible(false);
+	}
+
+	@Override
+	public void onClick(ClickEvent event) {
+		app.handleSpaceKey();
+		updateButtonAction();
 	}
 
 
@@ -67,31 +90,17 @@ public class VoiceoverTabber {
 	 */
 	public void add(final EuclidianPanel p, final Canvas canvas) {
 		final AppW app1 = app;
+		if (focusHandler != null) {
+			focusHandler.removeHandler();
+		}
 		if (canvas != null) {
-			canvas.addDomHandler(new FocusHandler() {
+			focusHandler = canvas.addDomHandler(new FocusHandler() {
 				@Override
 				public void onFocus(FocusEvent event) {
 					app1.getAccessibilityManager().setTabOverGeos(true);
 				}
 			}, FocusEvent.getType());
 		}
-		for (int i = 0; i < ranges.length; i++) {
-			ranges[i] = makeSlider(i);
-		}
-		hiddenButton = new Label("button");
-		hideButton(hiddenButton);
-		setRole(hiddenButton, "button");
-		hiddenButton.getElement().setTabIndex(5000);
-		hiddenButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				app1.handleSpaceKey();
-			}
-		});
-		focusTrap = makeFocusTrap(false, ranges, hiddenButton);
-		focusTrapShift = makeFocusTrap(true, ranges, hiddenButton);
-		focusTrapShift.setVisible(false);
 		p.add(focusTrapShift);
 		for (SliderW r : ranges) {
 			p.add(r);
@@ -181,8 +190,7 @@ public class VoiceoverTabber {
 		updateValueText(range, range.getValue(), unit);
 	}
 
-	private HTML makeFocusTrap(final boolean backward, final SliderW[] range,
-			final Label simpleButton) {
+	private HTML makeFocusTrap(final boolean backward) {
 		HTML focusTrapN = new HTML(SafeHtmlUtils.fromTrustedString(
 				"<div>select " + (backward ? "previous" : "next") + "</div>"));
 		hide(focusTrapN);
@@ -193,8 +201,7 @@ public class VoiceoverTabber {
 				new ImageLoadCallback() {
 					@Override
 					public void onLoad() {
-						onFocusTrap(backward, range, simpleButton);
-
+						onFocusTrap(backward);
 					}
 				});
 		return focusTrapN;
@@ -203,36 +210,24 @@ public class VoiceoverTabber {
 	/**
 	 * @param backward
 	 *            whether backward selection was triggered
-	 * @param range
-	 *            sliders
-	 * @param simpleButton
-	 *            button
 	 */
-	protected void onFocusTrap(boolean backward, SliderW[] range,
-			Label simpleButton) {
+	protected void onFocusTrap(boolean backward) {
 		focusTrapShift.setVisible(true);
 		app.getAccessibilityManager().setTabOverGeos(true);
 		app.getGlobalKeyDispatcher().handleTab(false, backward);
 		if (app.getAccessibilityManager().getSpaceAction() != null) {
-			simpleButton
-					.setText(app.getAccessibilityManager().getSpaceAction());
-			setRole(simpleButton, "button");
-			simpleButton.setVisible(true);			
-			for (SliderW r : range) {
-				r.setVisible(false);
-			}
-			forceFocus(simpleButton.getElement());
+			updateButtonAction();
 		} else if (app.getAccessibilityManager().getSliderAction() != null) {
 			SliderInput slider = app.getAccessibilityManager()
 					.getSliderAction();
-			updateRange(range[0], slider);
-			range[0].setVisible(true);
-			AriaHelper.setLabel(range[0], slider.getDescription());
-			simpleButton.setVisible(false);
-			for (int i = 1; i < range.length; i++) {
-				range[i].setVisible(false);
+			updateRange(ranges[0], slider);
+			ranges[0].setVisible(true);
+			AriaHelper.setLabel(ranges[0], slider.getDescription());
+			hiddenButton.setVisible(false);
+			for (int i = 1; i < ranges.length; i++) {
+				ranges[i].setVisible(false);
 			}
-			forceFocus(range[0].getElement());
+			forceFocus(ranges[0].getElement());
 		} else {
 			GeoElement sel = AccessibilityManagerNoGui.getSelectedGeo(app);
 			int dim = 0;
@@ -243,27 +238,37 @@ public class VoiceoverTabber {
 			} else if (sel instanceof GeoPointND) {
 				dim = 2;
 			}
-			simpleButton.setVisible(false);
-			for (int i = 0; i < range.length; i++) {
-				updateSelection(range[i], i);
-				range[i].setVisible(dim > i);
+			hiddenButton.setVisible(false);
+			for (int i = 0; i < ranges.length; i++) {
+				updateSelection(ranges[i], i);
+				ranges[i].setVisible(dim > i);
 			}
 
 			if (dim > 0) {
-				SliderW nextRange = range[backward ? dim - 1 : 0];
+				SliderW nextRange = ranges[backward ? dim - 1 : 0];
 				forceFocus(nextRange.getElement());
 			} else if (sel != null) {
-				setRole(simpleButton, "");
-				simpleButton
+				setRole(hiddenButton, "");
+				hiddenButton
 						.setText(sel.getAuralText(new ScreenReaderBuilder()));
-				simpleButton.setVisible(true);
-				forceFocus(simpleButton.getElement());
+				hiddenButton.setVisible(true);
+				forceFocus(hiddenButton.getElement());
 			} else {
 				if (backward) {
 					focusTrapShift.setVisible(false);
 				}
 			}
 		}
+	}
+
+	private void updateButtonAction() {
+		hiddenButton.setText(app.getAccessibilityManager().getSpaceAction());
+		setRole(hiddenButton, "button");
+		hiddenButton.setVisible(true);
+		for (SliderW r : ranges) {
+			r.setVisible(false);
+		}
+		forceFocus(hiddenButton.getElement());
 	}
 
 	private void updateRange(SliderW range, SliderInput slider) {

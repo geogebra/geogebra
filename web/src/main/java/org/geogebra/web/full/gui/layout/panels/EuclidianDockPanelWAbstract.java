@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
@@ -242,7 +241,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 		@Override
 		public boolean remove(Widget w) {
-			return absoluteEuclidianPanel.remove(w);
+			return absoluteEuclidianPanel.remove(w) || super.remove(w);
 		}
 
 		/**
@@ -496,8 +495,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					.getDockManager());
 			boolean bottomRight = dm.getRoot() == null
 					|| dm.getRoot().isBottomRight(this);
-			Log.error(
-					dm.getRoot() + ":" + this.getViewId() + ":" + bottomRight);
 			if (bottomRight && Browser.isiOS()
 					&& app.has(Feature.VOICEOVER_APPLETS)) {
 				dm.getVoiceoverTabber().add(getEuclidianPanel(), getCanvas());
