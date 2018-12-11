@@ -261,6 +261,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private CoordMatrix rotationMatrix;
 	private Coords viewDirectionPersp;
 	private Coords tmpCoordsLength3 = new Coords(3);
+    private Coords tmpCoordsLength4 = new Coords(4);
 	private int intersectionThickness;
 	private GeoPointND intersectionPoint;
 	private CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.identity();
@@ -1878,6 +1879,24 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setRotContinueAnimation(double delay, double rotSpeed) {
 		animator.setRotContinueAnimation(delay, rotSpeed);
 	}
+
+    /**
+     * start a rotation animation to be in the vector direction (AR)
+     *
+     * @param vn
+     *            vector direction
+     */
+    public void setRotAnimationAR(Coords vn) {
+        CoordMatrixUtil.sphericalCoords(vn, tmpCoordsLength3);
+        double angle = tmpCoordsLength3.get(2);
+        getHittingDirection(tmpCoordsLength4);
+        CoordMatrixUtil.sphericalCoords(tmpCoordsLength4, tmpCoordsLength3);
+        angle = (a + (angle - tmpCoordsLength3.get(2)) * 180 / Math.PI + 180) % 360;
+        if (angle > 180) {
+            angle -= 360;
+        }
+        setRotAnimation(angle, b, true,true);
+    }
 
 	@Override
 	public void setRotAnimation(Coords vn, boolean checkSameValues,
