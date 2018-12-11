@@ -14,14 +14,18 @@ public class CmdReadText extends CmdScripting {
 
 	@Override
 	protected GeoElement[] perform(Command c) {
+		if (c.getArgumentNumber() != 1) {
+			throw argNumErr(c);
+		}
 		GeoElement[] args = resArgs(c);
 		if (args[0].isGeoText()) {
 			if (app.getActiveEuclidianView() != null) {
 				app.getActiveEuclidianView()
 						.readText(((GeoText) args[0]).getTextString());
 			}
+			return args;
 		}
-		return args;
+		throw argErr(c, args[0]);
 	}
 
 }
