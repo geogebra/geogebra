@@ -4464,10 +4464,13 @@ public abstract class GeoElement extends ConstructionElement
 	final public String getAlgebraDescriptionTextOrHTMLDefault(
 			IndexHTMLBuilder builder) {
 		if (!isAlgebraLabelVisible()) {
-			builder.clear();
-			builder.append(getLaTeXDescriptionRHS(false,
-					StringTemplate.defaultTemplate));
-			return builder.toString();
+			String desc = getLaTeXDescriptionRHS(false,
+					StringTemplate.defaultTemplate);
+			if (desc != null) {
+				builder.clear();
+				builder.append(desc);
+				return builder.toString();
+			}
 		}
 		if (strAlgebraDescTextOrHTMLneedsUpdate) {
 			final String algDesc = getAlgebraDescriptionDefault();
