@@ -32,7 +32,10 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 
 		// syntaxes ALLOWED in exam mode
 		switch (c) {
+
+		// note: Integral(f,a,b) is allowed but not Integral(f)
 		case Integral:
+
 		case IntegralBetween:
 		case NIntegral:
 			return new CmdIntegral(kernel, c);
