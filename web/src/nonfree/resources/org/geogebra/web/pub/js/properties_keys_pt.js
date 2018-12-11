@@ -3130,7 +3130,7 @@ __GGB__keysVar["pt"].menu = {
     "altText.Ceil": "Ceil Function",
     "altText.Enter": "Enter",
     "altText.Floor": "Floor Function",
-    "altText.Fraction": "Fractions",
+    "altText.Fraction": "Fra\xe7\xf5es",
     "altText.Imaginaryi": "imaginary i",
     "altText.Inverse": "Inverse",
     "altText.LeftArrow": "Left Arrow",
