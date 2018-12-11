@@ -122,8 +122,11 @@ public class TeXAtomSerializer {
 			return serialize(((HasTrueBase) root).getTrueBase());
 		}
 
-		FactoryProvider.getInstance().debug("Unknown atom:" + root.getClass());
+		FactoryProvider.getInstance().debug(
+				"Unhandled atom:"
+				+ (root == null ? "null" : root.getClass()));
 		// FactoryProvider.getInstance().printStacktrace();
+
 		return "?";
 	}
 
