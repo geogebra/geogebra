@@ -100,20 +100,14 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 			} else {
 				addCanvas(eview1);
 			}
-			// if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
-			// // new VoiceoverTabber(app, getCanvas()).add(euclidianpanel);
-			// }
 		}
 		return euclidianpanel;
 	}
 
 	private void addCanvas(Canvas c) {
 		if (c != null) {
-		// c.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-		// c.getElement().getStyle().setZIndex(0);
 			euclidianpanel.getAbsolutePanel().add(c);
 		}
-
 	}
 
 	@Override
@@ -139,12 +133,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		return euclidianpanel;
 	}
 
+	/**
+	 * @param w
+	 *            widget to be removed
+	 */
 	public void remove(Widget w) {
 		euclidianpanel.remove(w);
-	}
-
-	public EuclidianDockPanelW getEuclidianView1Wrapper() {
-		return this;
 	}
 
 	@Override

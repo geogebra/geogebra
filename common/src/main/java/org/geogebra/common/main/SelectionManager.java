@@ -681,7 +681,7 @@ public class SelectionManager {
 			return selectNextGeo0(ev, true);
 		}
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree, ev);
+		filterGeosForView(tree);
 
 		int selectionSize = selectedGeos.size();
 		GeoElement first = tree.first();
@@ -727,7 +727,7 @@ public class SelectionManager {
 			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree, ev);
+		filterGeosForView(tree);
 
 		int selectionSize = selectedGeos.size();
 		GeoElement last = tree.last();
@@ -791,7 +791,7 @@ public class SelectionManager {
 
 		// remove geos that don't have isSelectionAllowed()==true
 		// or are not visible in the view
-		filterGeosForView(tree, ev);
+		filterGeosForView(tree);
 
 		Iterator<GeoElement> it = tree.iterator();
 
@@ -912,8 +912,8 @@ public class SelectionManager {
 		return true;
 	}
 
-	private void filterGeosForView(TreeSet<GeoElement> tree,
-			EuclidianViewInterfaceCommon ev) {
+	private void filterGeosForView(TreeSet<GeoElement> tree) {
+		App app = kernel.getApplication();
 		boolean avShowing = kernel.getApplication().getGuiManager() != null
 				&& this.kernel.getApplication().getGuiManager()
 						.hasAlgebraViewShowing();
@@ -925,14 +925,20 @@ public class SelectionManager {
 			GeoElement geo = it.next();
 
 			boolean remove = false;
-
-			if (!geo.isSelectionAllowed(ev)) {
+			// selectionAllowed arg only matters for axes; axes are not in
+			// construction
+			if (!geo.isSelectionAllowed(null)) {
 				remove = true;
 			} else {
-				// boolean visibleInView = (isView3D && geo.isVisibleInView3D())
-				// || geo.isVisibleInView(viewId);
+				boolean visibleInView = (app.showView(App.VIEW_EUCLIDIAN3D)
+						&& geo.isVisibleInView3D())
+						|| (app.showView(App.VIEW_EUCLIDIAN2)
+								&& geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
+						|| (app.showView(App.VIEW_EUCLIDIAN)
+								&& geo.isVisibleInView(App.VIEW_EUCLIDIAN));
 				// remove = !avShowing && (!geo.isEuclidianVisible() || !visibleInView);
-				remove = !avShowing && (!geo.isEuclidianVisible());
+				remove = !avShowing
+						&& (!geo.isEuclidianVisible() || !visibleInView);
 			}
 
 			if (remove) {
@@ -959,7 +965,7 @@ public class SelectionManager {
 
 		tree = new TreeSet<>(tree);
 
-		filterGeosForView(tree, ev);
+		filterGeosForView(tree);
 
 		Iterator<GeoElement> it = tree.iterator();
 		while (it.hasNext()) {
