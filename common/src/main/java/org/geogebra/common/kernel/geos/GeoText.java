@@ -1598,8 +1598,7 @@ public class GeoText extends GeoElement
 
 	@Override
 	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
-		sb.append(loc.getMenuDefault("Text", "Text"));
-		sb.endSentence();
+		// only read content, no prefix
 	}
 
 }

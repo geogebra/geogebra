@@ -71,7 +71,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		// in EuclidianDockPanelW, EuclidianView is created automatically
 		if (app != null) {
 			app.getEuclidianView2(1);
-			updateVoiceover();
 		}
 
 		return euclidianpanel;

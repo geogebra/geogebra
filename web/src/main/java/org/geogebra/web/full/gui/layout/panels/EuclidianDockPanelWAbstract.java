@@ -8,7 +8,6 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.speechRec.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
@@ -489,16 +488,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void updateVoiceover() {
-		if (app.getGuiManager() != null) {
-			DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
-					.getDockManager());
-			boolean bottomRight = dm.getRoot() == null
-					|| dm.getRoot().isBottomRight(this);
-			if (bottomRight && Browser.isiOS()
-					&& app.has(Feature.VOICEOVER_APPLETS)) {
-				dm.getVoiceoverTabber().add(getEuclidianPanel(), getCanvas());
-			}
-		}
+	public void addVoiceover(VoiceoverTabber tabber) {
+		tabber.add(getEuclidianPanel(), getCanvas());
 	}
 }

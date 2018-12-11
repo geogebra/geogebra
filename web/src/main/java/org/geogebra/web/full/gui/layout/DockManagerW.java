@@ -18,6 +18,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -29,6 +30,7 @@ import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
@@ -2036,16 +2038,24 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
-	public VoiceoverTabber getVoiceoverTabber() {
+	private VoiceoverTabber getVoiceoverTabber() {
 		if (this.voiceoverTabber == null) {
 			voiceoverTabber = new VoiceoverTabber(app);
 		}
 		return voiceoverTabber;
 	}
 
+	/**
+	 * Connect voiceover with the right panel
+	 */
 	public void updateVoiceover() {
 		for (DockPanelW panel : dockPanels) {
-			panel.updateVoiceover();
+			boolean bottomRight = getRoot() == null
+					|| getRoot().isBottomRight(panel);
+			if (bottomRight && Browser.isiOS()
+					&& app.has(Feature.VOICEOVER_APPLETS)) {
+				panel.addVoiceover(getVoiceoverTabber());
+			}
 		}
 	}
 }

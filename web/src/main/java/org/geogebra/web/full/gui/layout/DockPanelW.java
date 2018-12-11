@@ -24,6 +24,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -1788,8 +1789,11 @@ public abstract class DockPanelW extends ResizeComposite
 		return false;
 	}
 
-	public void updateVoiceover() {
-		// TODO Auto-generated method stub
-
+	/**
+	 * @param tabber
+	 *            screen reader utility for voiceover
+	 */
+	public void addVoiceover(VoiceoverTabber tabber) {
+		// only supported in 2D/3D
 	}
 }

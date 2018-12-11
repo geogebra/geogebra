@@ -80,9 +80,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
 		}
-		updateVoiceover();
 	}
-	
+
 	@Override
 	protected Widget loadComponent() {
 		if (euclidianpanel == null) {
