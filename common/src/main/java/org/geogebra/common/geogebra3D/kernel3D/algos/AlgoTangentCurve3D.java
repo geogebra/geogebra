@@ -51,7 +51,7 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 
 	private double[] feval = new double[3];
 	private double[] dfeval = new double[3];
-	private Coords direction = new Coords(0, 0, 0, 1);
+	private Coords direction = new Coords(0, 0, 0, 0);
 
 	/**
 	 * @param cons
