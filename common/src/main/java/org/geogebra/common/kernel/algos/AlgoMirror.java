@@ -300,7 +300,9 @@ public class AlgoMirror extends AlgoTransformation implements
 				out.mirror(getMirrorCoords());
 			}
 		} else {
-			((ConicMirrorable) out).mirror(mirrorConic);
+			if (out instanceof ConicMirrorable) {
+				((ConicMirrorable) out).mirror(mirrorConic);
+			}
 		}
 
 	}
