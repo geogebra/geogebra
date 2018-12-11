@@ -10408,7 +10408,7 @@ namespace giac {
     vector<int> permu;
     vector< paire > B;
     vector<unsigned> G,permuB;
-    unsigned nonzero;
+    unsigned nonzero,Ksizes;
   };
 
   template<class tdeg_t>
@@ -11597,7 +11597,7 @@ template<class modint_t,class modint_u>
    // #define GIAC_CACHE2ND 1; // cache 2nd pair reduction, slower
 
   template<class tdeg_t>
-  int zf4computeK1(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K,int parallel){
+  int zf4computeK1(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K,int parallel){
     bool freemem=mem>4e7; // should depend on real memory available
     bool large=N>8000;
     // CERR << "after sort " << Mindex << endl;
@@ -11612,6 +11612,9 @@ template<class modint_t,class modint_u>
       v128.resize(N);
 #endif
     unsigned Kcols=N-nrows;
+    unsigned Ksizes=Kcols;
+    if (info_ptr && !learning)
+      Ksizes=giacmin(info_ptr->Ksizes+3,Kcols);
     bool Kdone=false;
     int th=parallel-1; // giacmin(threads,64)-1;
 #ifdef GIAC_CACHE2ND
@@ -11634,7 +11637,7 @@ template<class modint_t,class modint_u>
       }
       // effective number of pairs to reduce is Bs-(learned_position-pos)
       int effBs=Bs-(learned_position-pos),effstep=effBs/parallel+1,effi=0,effend=effstep;
-      if (effBs<256) // no parallelization
+      if (effBs<32*parallel) // no parallelization
 	learned_position=pos;
       else {
 	// scan again pairs to set end positions and learned_position
@@ -11646,7 +11649,7 @@ template<class modint_t,class modint_u>
 	  }
 	  indexes[i].reserve(res[B[permuB[i]].first].coord.size()+16);
 	  indexes[Bs+i].reserve(res[B[permuB[i]].second].coord.size()+16);
-	  K[i].reserve(Kcols);
+	  K[i].reserve(Ksizes);
 	  ++effi;
 	  if (effi>=effend){
 	    positions.push_back(i); // end position for this thread
@@ -11758,7 +11761,7 @@ template<class modint_t,class modint_u>
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " pairs indexes computed over " << R.size() << " monomials"<<endl;
       bk_prev=-1; rightshift_prev=0;
-      vector<modint> Ki; Ki.reserve(Kcols);
+      vector<modint> Ki; Ki.reserve(Ksizes);
       int effi=-1;
       for (unsigned i=0;i<Bs;++i){
 	if (interrupted || ctrl_c)
@@ -11829,6 +11832,11 @@ template<class modint_t,class modint_u>
 	  colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
 	}
 	bitmap += (N>>5)+1;
+	if (Ksizes<Kcols){
+	  K[i].swap(Ki);
+	  K[i].reserve(Ksizes);
+	  continue;
+	}
 	size_t Kis=Ki.size();
 	if (Kis>Ki.capacity()*.8){
 	  K[i].swap(Ki);
@@ -11876,7 +11884,7 @@ template<class modint_t,class modint_u>
   }
 
   template<class tdeg_t>
-  int zf4computeK2(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,vectzpolymod<tdeg_t> & f4buchbergerv,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K,int parallel){
+  int zf4computeK2(const unsigned N,const unsigned nrows,const double mem,const unsigned Bs,vectzpolymod<tdeg_t> & res,const vector<unsigned> & G,modint env,const vector< paire > & B,const vector<unsigned> & permuB,bool learning,unsigned & learned_position,vector< paire > * pairs_reducing_to_zero,const vector<tdeg_t> & leftshift,const vector<tdeg_t> & rightshift, const vector<tdeg_t> & R ,void * Rhashptr,const vector<int> & Rdegpos,const vector<unsigned> &firstpos,vector<vector<unsigned short> > & Mindex, const vector<coeffindex_t> & coeffindex,vector< vector<modint> > & Mcoeff,zinfo_t<tdeg_t> * info_ptr,vector<used_t> &used,unsigned & usedcount,unsigned * bitmap,vector< vector<modint> > & K,int parallel){
     map< pair<unsigned,const tdeg_t >,int > cache;
     vector< vector<modint> > cachecoeffs;
     cachecoeffs.reserve(2*Bs);
@@ -11908,7 +11916,7 @@ template<class modint_t,class modint_u>
     }
     // compare n to 2*Bs, if caching is efficient compute cache
     CERR << "Cache relative occupation " << n/(2.*Bs) << " pairs " << Bs << endl;
-    return zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel);   
+    return zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel);   
     vector<shifttype> index;
     vector<modint> Ki;
     vector<modint2> v64(N);
@@ -12178,7 +12186,7 @@ template<class modint_t,class modint_u>
     vector<used_t> used(N,0);
     vector<unsigned> lebitmap(((N>>5)+1)*Bs);
     unsigned * bitmap=&lebitmap.front();
-    int zres=zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel);
+    int zres=zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel);
     if (zres!=0)
       return zres;
     if (debug_infolevel>1)
@@ -12197,6 +12205,8 @@ template<class modint_t,class modint_u>
     }
     for (unsigned i=0;i<N;++i)
       usedcount += (used[i]>0);
+    if (learning && info_ptr)
+      info_ptr->Ksizes=usedcount;
     if (debug_infolevel>1){
       CERR << CLOCK()*1e-6 << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
       if (debug_infolevel>3)
@@ -13686,10 +13696,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     // we clear info and add reconstruction to the gbasis
     for (int count=0;ok;++count){
       p=pend;
-      if (count==0 || nthreads==1 || (zdata && augmentgbasis && reduceto0.empty()))
+      if (count==0 || nthreads==1 || (zdata && augmentgbasis && reduceto0.empty())){
 	th=0;
+	parallel=nthreads;
+      }
       else {
-	th=giacmin(nthreads-1,1); // no more than 2 threads
+	th=giacmin(nthreads-1,8-1); // no more than th+1 threads
 	parallel=nthreads/(th+1);
       }
 #ifndef EMCC
