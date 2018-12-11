@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Abstract class for all "euclidian" panels.
- * 
+ *
  * @author arpad (based on EuclidianDockPanelAbstract by Mathieu)
  * @remark {@link #getEuclidianView()} has to be overridden if
  *         {@link #getComponent()} does not return the euclidian view directly
@@ -45,7 +45,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param id
 	 *            id
 	 * @param title
@@ -72,14 +72,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"
-	 * 
+	 *
 	 * @param hasFocus
 	 *            whether to focus
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
 		hasEuclidianFocus = hasFocus;
 	}
-	
+
 	@Override
 	protected boolean titleIsBold() {
 		return super.titleIsBold() || hasEuclidianFocus;
@@ -89,7 +89,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public boolean updateResizeWeight() {
 		return true;
 	}
-	
+
 	/**
 	 * @return view in this dock panel
 	 */
@@ -343,7 +343,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * Resize wrapped panel to given dimensions
-	 * 
+	 *
 	 * @param width
 	 *            view width
 	 * @param height
@@ -393,7 +393,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * Moves the zoom panel up for MOW toolbar
-	 * 
+	 *
 	 * @param up
 	 *            true if zoom panel should move up, false if zoom panel should
 	 *            move down
@@ -412,7 +412,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * Sets the bottom attribute of zoomPanel
-	 * 
+	 *
 	 * @param add
 	 *            true if needs to be set, false if needs to be removed
 	 */
@@ -440,11 +440,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * Focus the last available element on GUI before geos.
+	 *
+	 * @return if there was an element to focus to.
 	 */
-	public void focusLastGUIElement() {
+	public boolean focusLastGUIElement() {
 		if (graphicsContextMenuBtn != null) {
 			graphicsContextMenuBtn.getElement().focus();
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -461,7 +465,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.
-	 * 
+	 *
 	 * @param height
 	 *            Height of EV.
 	 */

@@ -98,12 +98,28 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				focusMenu();
 			}
 		} else if (source instanceof ZoomPanel) {
-			focusSettings();
+			exitFromZoomPanel(false);
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
 			focusZoom(false);
 		}
+	}
+
+	private void exitFromZoomPanel(boolean forward) {
+		if (forward) {
+			return;
+		}
+
+		if (focusSettings()) {
+			return;
+		}
+		if (isPlayVisible()) {
+			setPlaySelectedIfVisible(true);
+			setTabOverGeos(true);
+			return;
+		}
+		focusLastGeo();
 	}
 
 	private void focusNextWidget(FocusWidget source) {
@@ -143,9 +159,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				.getPanel(app.getActiveEuclidianView().getViewID());
 	}
 
-	private void focusSettings() {
-		getEuclidianPanel().focusLastGUIElement();
-		setTabOverGeos(false);
+	private boolean focusSettings() {
+		if (getEuclidianPanel().focusLastGUIElement()) {
+			setTabOverGeos(false);
+			return true;
+		}
+		return false;
 	}
 
 	private boolean focusFirstGeo() {
@@ -260,6 +279,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!app.has(Feature.TAB_ON_EV_PLAY)) {
 			return false;
 		}
+
+		if (!forward && selection.isFirstGeoSelected()) {
+			focusZoom(false);
+		}
 		boolean voiceover = Browser.isiOS()
 				&& app.has(Feature.VOICEOVER_APPLETS);
 		if (app.getKernel().needToShowAnimationButton()) {
@@ -275,19 +298,32 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return voiceover;
 	}
 
+	private void exitGeosFromPlayButton() {
+		setPlaySelectedIfVisible(false);
+		focusZoom(true);
+		tabOverGeos = false;
+	}
+
 	@Override
 	public void setPlaySelectedIfVisible(boolean b) {
-		if (app.getKernel().needToShowAnimationButton()) {
+		if (isPlayVisible()) {
 			app.getActiveEuclidianView().setAnimationButtonSelected(b);
 		}
 	}
 
+	private boolean isPlayVisible() {
+		return app.getKernel().needToShowAnimationButton();
+	}
+
 	@Override
 	public boolean tabEuclidianControl(boolean forward) {
-		if (app.getActiveEuclidianView().isAnimationButtonSelected()
-				&& !forward) {
-			focusLastGeo();
-			this.activeButton = null;
+		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
+			if (forward) {
+				exitGeosFromPlayButton();
+			} else {
+				focusLastGeo();
+				this.activeButton = null;
+			}
 			setPlaySelectedIfVisible(false);
 			return true;
 		}
