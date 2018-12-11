@@ -182,8 +182,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Adds a new column
-	 * 
-	 * @param column
 	 */
 	protected abstract void addColumn();
 
@@ -191,6 +189,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 * Removes the column.
 	 * 
 	 * @param index
+	 *            index
 	 */
 	protected void removeColumn(int index) {
 		headerTable.removeColumn(index);
@@ -207,8 +206,8 @@ public abstract class StickyTable<T> extends FlowPanel {
 		fillValues(dataProvider.getList());
 		refresh();
 	}
+
 	/**
-	 * 
 	 * @param data
 	 *            to fill with.
 	 */

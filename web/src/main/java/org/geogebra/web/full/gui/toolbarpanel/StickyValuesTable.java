@@ -124,7 +124,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 				.show(new GPoint(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8));
 	}
 
-
 	@Override
 	protected void addCells() {
 		for (int column = 0; column < model.getColumnCount(); column++) {
@@ -143,8 +142,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 		if (colValue != null) {
 			getValuesTable().addColumn(colValue);
 		}
-
 	}
+
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
@@ -178,8 +177,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 		sb.width(width, Unit.PX).height(height, Unit.PX).trustedNameAndValue("line-height", height,
 				Unit.PX);
 		return TEMPLATES.cell(content, sb.toSafeStyles());
-
 	}
+
 	/**
 	 * Gives the preferred width of a column.
 	 * 

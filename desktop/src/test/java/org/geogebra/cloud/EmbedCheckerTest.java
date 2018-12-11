@@ -12,6 +12,7 @@ import org.junit.Test;
 public class EmbedCheckerTest {
 
 	private static EmbedURLChecker checker;
+
 	@BeforeClass
 	public static void setup() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());

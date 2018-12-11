@@ -15,7 +15,7 @@ public class CommandsTest2D extends AlgebraTest {
 
 	@BeforeClass
 	public static void setup() {
-		app= new AppDNoGui(new LocalizationD(2), false, 2);
+		app = new AppDNoGui(new LocalizationD(2), false, 2);
 		app.setLanguage("en");
 		ap = app.getKernel().getAlgebraProcessor();
 	}

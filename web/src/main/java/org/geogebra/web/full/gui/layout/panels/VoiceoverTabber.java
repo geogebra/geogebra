@@ -79,7 +79,6 @@ public class VoiceoverTabber implements ClickHandler {
 		updateButtonAction();
 	}
 
-
 	/**
 	 * Add dummy divs for handling focus change with swipe in VoiceOver.
 	 * 
