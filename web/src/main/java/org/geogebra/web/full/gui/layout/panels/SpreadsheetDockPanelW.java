@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
-import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -80,14 +79,6 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		}
 	}
 
-	public SpreadsheetViewW getSpreadsheet() {
-		return sview;
-	}
-
-	public App getApp() {
-		return app;
-	}
-
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
@@ -158,7 +149,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		MathKeyboardListener ml = ((MyTableW) this.sview.getSpreadsheetTable())
+		MathKeyboardListener ml = this.sview.getSpreadsheetTable()
 				.getEditor()
 				.getTextfield();
 		return ml;

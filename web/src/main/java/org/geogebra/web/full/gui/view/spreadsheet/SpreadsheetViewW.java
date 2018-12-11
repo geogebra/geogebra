@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -186,7 +185,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	@Override
-	public MyTableInterface getSpreadsheetTable() {
+	public MyTableW getSpreadsheetTable() {
 		return table;
 	}
 
