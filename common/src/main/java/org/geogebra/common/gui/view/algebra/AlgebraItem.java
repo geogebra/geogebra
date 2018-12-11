@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -32,7 +33,7 @@ public class AlgebraItem {
 
 	/**
 	 * Changes the symbolic flag of a geo or its parent algo
-	 * 
+	 *
 	 * @param geo
 	 *            element that we want to change
 	 * @return whether it's symbolic after toggle
@@ -382,7 +383,7 @@ public class AlgebraItem {
 
 	/**
 	 * add geo to selection with its special points.
-	 * 
+	 *
 	 * @param geo
 	 *            The geo element to add.
 	 * @param app
@@ -539,10 +540,12 @@ public class AlgebraItem {
 	 * @return true if the equation was typed by the user (and not created via command or tool)
 	 */
 	public static boolean isEquationFromUser(GeoElementND geoElement) {
-		if (geoElement.getParentAlgorithm() == null) {
-			return geoElement instanceof EquationValue;
+		if (geoElement instanceof EquationValue) {
+			AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
+			return parentAlgorithm == null
+					|| parentAlgorithm.getClassName().equals(Algos.Expression);
 		}
-		return geoElement.getParentAlgorithm().getClassName() == Algos.Expression;
+		return false;
 	}
 
 	/**
