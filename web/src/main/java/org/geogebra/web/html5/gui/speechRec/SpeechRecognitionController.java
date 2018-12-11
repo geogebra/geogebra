@@ -95,16 +95,17 @@ public class SpeechRecognitionController {
 						.isCommandAvailable(txtArray[1])) {
 			String commandName = txtArray[1];
 			Log.debug("SPEECH REC: found command: " + commandName);
-			java.util.List<String> commandList = appW.getCommandDictionary()
-					.getCompletions(commandName);
-			switch (commandList.get(0)) {
-			case "Circle":
-				createCircle(commandList.get(0));
-				break;
-			case "Point":
-			default:
-				break;
-			}
+			// java.util.List<String> commandList = appW.getCommandDictionary()
+			// .getCompletions(commandName);
+
+			// switch (commandList.get(0)) {
+			// case "Circle":
+			createCircle(commandName);
+			// break;
+			// case "Point":
+			// default:
+			// break;
+			// }
 		}
 	}
 
