@@ -521,7 +521,9 @@ public class AlgebraProcessor {
 		 * .getVarString(StringTemplate.defaultTemplate)); }
 		 */
 		newLabel = newValue.getLabel();
-		geo.setAlgebraLabelVisible(newLabel != null);
+		if (!app.getConfig().hasAutomaticLabels()) {
+			geo.setAlgebraLabelVisible(newLabel != null);
+		}
 
 		if (newLabel == null) {
 			newLabel = oldLabel;
