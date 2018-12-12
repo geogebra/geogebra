@@ -4117,6 +4117,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case FIX_EQUATIONS_AND_FUNCTIONS:
 			return true;
 
+		/** APPS-250 */
+		case SHOW_DEFINITION_FOR_EQUATION_IN_EXAM:
+			return prerelease;
+
        // **********************************************************************
        // G3D START
        //

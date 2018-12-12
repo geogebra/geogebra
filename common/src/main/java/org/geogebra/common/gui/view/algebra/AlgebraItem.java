@@ -441,6 +441,11 @@ public class AlgebraItem {
 	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
 		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
+		} else if (geoElement.getKernel().getApplication().has(Feature
+				.SHOW_DEFINITION_FOR_EQUATION_IN_EXAM) && (style == Kernel
+				.ALGEBRA_STYLE_DEFINITION_AND_VALUE || style == Kernel
+				.ALGEBRA_STYLE_VALUE) && shouldShowOnlyDefinitionForGeo(geoElement)) {
+			return false;
 		}
 		return style != Kernel.ALGEBRA_STYLE_VALUE && style != Kernel.ALGEBRA_STYLE_DEFINITION;
 	}
@@ -548,6 +553,21 @@ public class AlgebraItem {
 		return false;
 	}
 
+	/**
+	 * Tells whether the output row should be visible for the given object. We want to show only
+	 * the definition for implicit equations, functions and conics created by tool or command in
+	 * Exam mode
+	 *
+	 * @param geoElement geoElement
+	 * @return true if we should only show the definition for the object but not output row
+	 */
+	private static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
+		if (geoElement instanceof EquationValue && geoElement.getKernel().getApplication()
+				.isExamStarted()) {
+			return !isEquationFromUser(geoElement);
+		}
+		return false;
+	}
 	/**
 	 * Create provider of texts for ANS button
 	 * 
