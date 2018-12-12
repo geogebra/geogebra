@@ -10,4 +10,9 @@ public class ScreenReaderAdapterD implements ScreenReaderAdapter {
 		Log.read("Reading text: " + text);
 	}
 
+	@Override
+	public void readTextImmediate(String text) {
+		readText(text);
+	}
+
 }

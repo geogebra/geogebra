@@ -21,7 +21,7 @@ public class CmdReadText extends CmdScripting {
 		if (args[0].isGeoText()) {
 			if (app.getActiveEuclidianView() != null) {
 				app.getActiveEuclidianView().getScreenReader()
-						.readText(((GeoText) args[0]).getTextString());
+						.readTextImmediate(((GeoText) args[0]).getTextString());
 			}
 			return args;
 		}
