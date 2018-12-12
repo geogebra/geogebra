@@ -4,6 +4,7 @@ import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
@@ -109,6 +110,15 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof VRowAtom) {
 			VRowAtom row = (VRowAtom) root;
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; row.getElement(i) != null; i++) {
+				sb.append(serialize(row.getElement(i)));
+			}
+			return sb.toString();
+		}
+
+		if (root instanceof ColorAtom) {
+			ColorAtom row = (ColorAtom) root;
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));

@@ -326,4 +326,8 @@ public class ColorAtom extends Atom implements Row {
 		return Colors;
 	}
 
+	public Atom getElement(int i) {
+		return elements.getElement(i);
+	}
+
 }
