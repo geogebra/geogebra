@@ -59,7 +59,7 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 * @return panel component
 	 */
 	public Widget getComponent() {
-		return evPanel.getAbsolutePanel();
+		return getAbsolutePanel();
 	}
 
 	// @Override

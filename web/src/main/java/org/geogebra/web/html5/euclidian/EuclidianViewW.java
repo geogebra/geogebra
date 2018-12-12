@@ -90,10 +90,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-//@SuppressWarnings("javadoc")
+/**
+ * Web implementation of graphics view
+ */
 public class EuclidianViewW extends EuclidianView implements
 		EuclidianViewWInterface, PrintableW {
 
+	/**
+	 * For filtering events if they happen too often
+	 */
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
 
 	private GGraphics2DWI g2p = null;
@@ -610,6 +615,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	/**
+	 * Set canvas size coordinate from CSS size
+	 */
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
@@ -1518,7 +1526,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @param screenReaderWidget
 	 *            screen reader widget
 	 * @param app
-	 *            app it needs to be atteched to
+	 *            app it needs to be attached to
 	 */
 	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
 		((AppW) app).getPanel().getElement().getParentElement()
@@ -1781,7 +1789,10 @@ public class EuclidianViewW extends EuclidianView implements
 		return svgBackground;
 	}
 
-	public AbsolutePanel getAbsolutePanel() {
+	/**
+	 * @return absolute panel
+	 */
+	public final AbsolutePanel getAbsolutePanel() {
 		return evPanel.getAbsolutePanel();
 	}
 }

@@ -98,9 +98,9 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW
 	 * @return panel wrapping the view
 	 */
 	public Widget getComponent() {
-	    return evPanel.getAbsolutePanel();
-    }
-	
+		return getAbsolutePanel();
+	}
+
 	@Override
 	public boolean isPlotPanel() {
 		return true;
