@@ -45,6 +45,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.xarrows.XLeftArrow;
 import com.himamis.retex.renderer.share.xarrows.XLeftHarpoonDown;
 import com.himamis.retex.renderer.share.xarrows.XLeftHarpoonUp;
@@ -156,7 +157,7 @@ public class XArrowAtom extends XAtom {
 			return vb;
 		}
 		default:
-			System.err.print(kind + " not implemented");
+			FactoryProvider.getInstance().debug(kind + " not implemented");
 			return StrutBox.getEmpty();
 		}
 	}
