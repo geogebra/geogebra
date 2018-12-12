@@ -87,10 +87,15 @@ public class AuralTextTest {
 		aural("FractionText(1.5)", "(3)/(2)", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
-		aural("LaTeX(\"\\mathsf{mathsf} \\sf{sf}\")", "mathsfsf", "edit");
-		aural("LaTeX(\"\\mathit{mathit} \\it{it}\")", "mathitit", "edit");
-		aural("LaTeX(\"\\mathtt{mathtt} \\tt{tt}\")", "mathtttt", "edit");
-		aural("LaTeX(\"\\mathbf{mathbf} \\bf{bf}\")", "mathbfbf", "edit");
+		aural("LaTeX(\"\\textsf{textsf} \\mathsf{mathsf} \\sf{sf}\")",
+				"textsfmathsfsf", "edit");
+		aural("LaTeX(\"\\textit{textit} \\mathit{mathit} \\it{it}\")",
+				"textitmathitit", "edit");
+		aural("LaTeX(\"\\texttt{texttt} \\mathtt{mathtt} \\tt{tt}\")",
+				"textttmathtttt", "edit");
+		aural("LaTeX(\"\\textbf{textbf} \\mathbf{mathbf} \\bf{bf}\")",
+				"textbfmathbfbf", "edit");
+		aural("LaTeX(\"\\textsc{textsc} \\sc{sc}\")", "textscsc", "edit");
 		aural("LaTeX(\"nothing follows: \\phantom{shouldn't be read}\")",
 				"nothingfollows:", "edit");
 		aural("LaTeX(\"nothing follows: \\vphantom{shouldn't be read}\")",

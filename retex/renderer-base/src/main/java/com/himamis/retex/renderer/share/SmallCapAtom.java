@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a small capital atom.
  */
-public class SmallCapAtom extends Atom {
+public class SmallCapAtom extends Atom implements HasTrueBase {
 
 	protected Atom base;
 
@@ -63,5 +65,10 @@ public class SmallCapAtom extends Atom {
 		Box box = base.createBox(env);
 		env.setSmallCap(prev);
 		return box;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }
