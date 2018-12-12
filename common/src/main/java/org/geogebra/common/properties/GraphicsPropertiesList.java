@@ -61,7 +61,7 @@ public class GraphicsPropertiesList extends PropertiesList {
         if (mApp.has(Feature.G3D_PROJECTIONS_IN_SETTINGS)) {
             if (activeView.isEuclidianView3D()) {
                 propertyList.add(
-                        new ProjectionsProperty(mLocalization,
+                        new ProjectionsProperty(mLocalization, activeView,
                                 (EuclidianSettings3D) euclidianSettings));
             }
         }

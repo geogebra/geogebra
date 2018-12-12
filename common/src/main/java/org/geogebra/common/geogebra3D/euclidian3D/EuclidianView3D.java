@@ -165,10 +165,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * region as path (e.g. quadric as line) point under the cursor
 	 */
 	public static final int PREVIEW_POINT_REGION_AS_PATH = 6;
-	final static public int PROJECTION_ORTHOGRAPHIC = 0;
-	final static public int PROJECTION_PERSPECTIVE = 1;
-	final static public int PROJECTION_GLASSES = 2;
-	final static public int PROJECTION_OBLIQUE = 3;
 	public static final int CURSOR_DEFAULT = 0;
 
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
@@ -12,6 +14,7 @@ import org.geogebra.common.properties.PropertyResource;
 public class ProjectionsProperty extends AbstractEnumerableProperty
 		implements IconsEnumerableProperty {
 
+    private EuclidianView view;
 	private EuclidianSettings3D euclidianSettings;
 
 	private PropertyResource[] icons = new PropertyResource[] {
@@ -26,12 +29,16 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 	 *
 	 * @param localization
 	 *            localization for the title
+     * @param view
+     * 	          euclidian view.
 	 * @param euclidianSettings
 	 *            euclidian settings.
 	 */
 	public ProjectionsProperty(Localization localization,
+                               EuclidianView view,
                                EuclidianSettings3D euclidianSettings) {
 		super(localization, "Projection");
+		this.view = view;
 		this.euclidianSettings = euclidianSettings;
 		setValuesAndLocalize(new String[] {
 		        "stylebar.ParallelProjection",
@@ -43,6 +50,9 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 
 	@Override
 	public int getIndex() {
+	    if (view.isAREnabled()) {
+	        return EuclidianView3DInterface.PROJECTION_PERSPECTIVE;
+        }
 		return euclidianSettings.getProjection();
 	}
 
@@ -55,4 +65,9 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 	public PropertyResource[] getIcons() {
 		return icons;
 	}
+
+    @Override
+    public boolean isEnabled() {
+        return !view.isAREnabled();
+    }
 }

@@ -21,6 +21,11 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	public final static double ANGLE_ROT_OZ = -60;
 	public final static double ANGLE_ROT_XOY = 20;
 
+    final static public int PROJECTION_ORTHOGRAPHIC = 0;
+    final static public int PROJECTION_PERSPECTIVE = 1;
+    final static public int PROJECTION_GLASSES = 2;
+    final static public int PROJECTION_OBLIQUE = 3;
+
 	/**
 	 * rotate to default
 	 */
