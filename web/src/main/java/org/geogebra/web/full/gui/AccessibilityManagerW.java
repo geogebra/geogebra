@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.SliderInput;
@@ -12,6 +15,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.gui.layout.DockManagerW;
+import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -36,7 +41,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private SelectionManager selection;
 	private Widget anchor;
 	private SliderInput activeButton;
-
+	private List<Integer> visitedIds = new ArrayList<>();
 	/**
 	 * Constructor.
 	 *
@@ -56,9 +61,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else if (source instanceof LatexTreeItemController) {
 			focusMenu();
 		} else if (source instanceof ZoomPanel) {
-			if (!focusFirstGeo()) {
-				focusInputAsNext();
-			}
+			nextFromZoomPanel();
+
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
@@ -66,6 +70,21 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
+	private void nextFromZoomPanel() {
+		DockManagerW dm = (DockManagerW) (app.getGuiManager().getLayout().getDockManager());
+		for (DockPanelW panel : dm.getPanels()) {
+			if (!visitedIds.contains(panel.getViewId())
+					&& panel instanceof EuclidianDockPanelWAbstract) {
+				((EuclidianDockPanelWAbstract) panel).focusNextGUIElement();
+				visitedIds.add(panel.getViewId());
+				return;
+			}
+		}
+
+		if (!focusFirstGeo()) {
+			focusInputAsNext();
+		}
+	}
 	private void focusFirstElement() {
 		if (app.isUnbundled()) {
 			focusMenu();
@@ -151,12 +170,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else {
 			dp.focusLastZoomButton();
 		}
+		visitedIds.add(app.getActiveEuclidianView().getViewID());
 		setTabOverGeos(false);
 	}
 
 	private EuclidianDockPanelWAbstract getEuclidianPanel() {
+		return getEuclidianPanel(app.getActiveEuclidianView().getViewID());
+	}
+
+	private EuclidianDockPanelWAbstract getEuclidianPanel(int viewId) {
 		return (EuclidianDockPanelWAbstract) gm.getLayout().getDockManager()
-				.getPanel(app.getActiveEuclidianView().getViewID());
+				.getPanel(viewId);
 	}
 
 	private boolean focusSettings() {
@@ -231,6 +255,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (geo != null) {
 			app.getSelectionManager().addSelectedGeo(geo);
 			setTabOverGeos(true);
+			visitedIds.clear();
 			app.getActiveEuclidianView().requestFocus();
 		} else {
 			ToolbarPanel tp = ((GuiManagerW) app.getGuiManager())
