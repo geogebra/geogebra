@@ -11,6 +11,7 @@ import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
@@ -81,7 +82,8 @@ public class TeXAtomSerializer {
 		if (root instanceof SpaceAtom) {
 			return " ";
 		}
-		if (root instanceof EmptyAtom || root instanceof BreakMarkAtom) {
+		if (root instanceof EmptyAtom || root instanceof BreakMarkAtom
+				|| root instanceof PhantomAtom) {
 			return "";
 		}
 		if (root instanceof SymbolAtom) {

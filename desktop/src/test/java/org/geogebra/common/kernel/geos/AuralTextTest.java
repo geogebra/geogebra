@@ -91,5 +91,11 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\mathit{mathit} \\it{it}\")", "mathitit", "edit");
 		aural("LaTeX(\"\\mathtt{mathtt} \\tt{tt}\")", "mathtttt", "edit");
 		aural("LaTeX(\"\\mathbf{mathbf} \\bf{bf}\")", "mathbfbf", "edit");
+		aural("LaTeX(\"nothing follows: \\phantom{shouldn't be read}\")",
+				"nothingfollows:", "edit");
+		aural("LaTeX(\"nothing follows: \\vphantom{shouldn't be read}\")",
+				"nothingfollows:", "edit");
+		aural("LaTeX(\"nothing follows: \\hphantom{shouldn't be read}\")",
+				"nothingfollows:", "edit");
 	}
 }
