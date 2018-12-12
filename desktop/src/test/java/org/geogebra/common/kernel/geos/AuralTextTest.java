@@ -80,5 +80,7 @@ public class AuralTextTest {
 				"edit");
 		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
 				"edit");
+		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
+				"edit");
 	}
 }

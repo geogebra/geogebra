@@ -1,6 +1,8 @@
 package com.himamis.retex.renderer.share.serialize;
 
 import com.himamis.retex.renderer.share.AccentedAtom;
+import com.himamis.retex.renderer.share.ArrayAtom;
+import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
@@ -123,6 +125,35 @@ public class TeXAtomSerializer {
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
 			}
+			return sb.toString();
+		}
+
+		// serialise table to eg {{1,2,3},{3,4,5}}
+		if (root instanceof ArrayAtom) {
+			ArrayAtom atom = (ArrayAtom) root;
+			ArrayOfAtoms matrix = atom.getMatrix();
+			int rows = matrix.getRows();
+			int cols = matrix.getCols();
+
+			StringBuilder sb = new StringBuilder();
+			sb.append('{');
+			for (int row = 0; row < rows; row++) {
+				sb.append('{');
+				for (int col = 0; col < cols; col++) {
+					sb.append(serialize(matrix.get(row, col)));
+
+					if (col < cols - 1) {
+						sb.append(",");
+					}
+				}
+				sb.append("}");
+
+				if (row < rows - 1) {
+					sb.append(",");
+				}
+			}
+			sb.append('}');
+
 			return sb.toString();
 		}
 

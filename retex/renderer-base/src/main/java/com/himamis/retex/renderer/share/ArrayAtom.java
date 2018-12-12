@@ -427,4 +427,8 @@ public class ArrayAtom extends Atom {
 			}
 		}
 	}
+
+	public ArrayOfAtoms getMatrix() {
+		return matrix;
+	}
 }
