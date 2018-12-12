@@ -11834,7 +11834,7 @@ template<class modint_t,class modint_u>
 	bitmap += (N>>5)+1;
 	if (Ksizes<Kcols){
 	  K[i].swap(Ki);
-	  K[i].reserve(Ksizes);
+	  Ki.reserve(Ksizes);
 	  continue;
 	}
 	size_t Kis=Ki.size();
@@ -13691,6 +13691,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     int nthreads=1,th,parallel=1;
 #endif
     int pend=p.val,p0;
+    int recon_n2,recon_n1,recon_n0; // reconstr. gbasis element number history
     double augmentgbasis=0.2,prevreconpart=0,time1strun=-1.0,time2ndrun=-1.0; current_orig=res; current_gbasis=res;
     // if the ratio of reconstructed is more than augmentgbasis,
     // we clear info and add reconstruction to the gbasis
@@ -14053,7 +14054,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  // has increased significantly
 	  // it might be a good idea to add it's component 
 	  // to current, and clear info (if zdata: reduceto0, zf4buchberger_info)
-	  if (//0 &&
+	  recon_n2=recon_n1;
+	  recon_n1=recon_n0;
+	  recon_n0=Wlast[0].size();
+	  if (eps>1e-20 && recon_n2==recon_n1 && recon_n1==recon_n0 &&
 	      zdata && augmentgbasis && t==th && i==0){
 	    double reconpart=Wlast[i].size()/double(V[i].size());
 	    if (reconpart<0.95 && reconpart-prevreconpart>augmentgbasis){
