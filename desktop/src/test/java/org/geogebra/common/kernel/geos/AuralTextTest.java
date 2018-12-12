@@ -97,5 +97,10 @@ public class AuralTextTest {
 				"nothingfollows:", "edit");
 		aural("LaTeX(\"nothing follows: \\hphantom{shouldn't be read}\")",
 				"nothingfollows:", "edit");
+		aural("LaTeX(\"\\xleftrightarrow{p}j\")", "pj", "edit");
+		aural("LaTeX(\"\\underrightarrow{p}j\")", "pj", "edit");
+		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
+
+
 	}
 }

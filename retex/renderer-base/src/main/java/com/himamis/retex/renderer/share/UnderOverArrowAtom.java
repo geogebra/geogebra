@@ -45,6 +45,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 import com.himamis.retex.renderer.share.xarrows.XLeftArrow;
 import com.himamis.retex.renderer.share.xarrows.XLeftRightArrow;
 import com.himamis.retex.renderer.share.xarrows.XRightArrow;
@@ -53,7 +54,7 @@ import com.himamis.retex.renderer.share.xarrows.XRightArrow;
  * An atom representing an other atom with an extensible arrow or doublearrow
  * over or under it.
  */
-public class UnderOverArrowAtom extends Atom {
+public class UnderOverArrowAtom extends Atom implements HasTrueBase {
 
 	private final Atom base;
 	private final boolean over, left, dble;
@@ -119,5 +120,10 @@ public class UnderOverArrowAtom extends Atom {
 
 		return vb;
 
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

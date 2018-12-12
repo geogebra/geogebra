@@ -45,11 +45,13 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing an extensible left or right arrow to handle xleftarrow
  * and xrightarrow commands in LaTeX.
  */
-public abstract class XAtom extends Atom {
+public abstract class XAtom extends Atom implements HasTrueBase {
 
 	protected final Atom over;
 	protected final Atom under;
@@ -107,4 +109,9 @@ public abstract class XAtom extends Atom {
 	}
 
 	public abstract Box createExtension(TeXEnvironment env, double width);
+
+	@Override
+	public Atom getTrueBase() {
+		return over != null ? over : under;
+	}
 }
