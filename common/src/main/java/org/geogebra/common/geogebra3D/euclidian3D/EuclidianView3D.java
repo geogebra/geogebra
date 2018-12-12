@@ -3822,7 +3822,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return whether to render objects in grayscale
 	 */
 	public boolean isGrayScaled() {
-		return projection == PROJECTION_GLASSES && !getCompanion().isPolarized()
+		return projection == PROJECTION_GLASSES
+                && !isAREnabled()
+                && !getCompanion().isPolarized()
 				&& !getCompanion().isStereoBuffered()
 				&& isGlassesGrayScaled();
 	}
