@@ -746,6 +746,17 @@ public class SelectionManager {
 		}
 	}
 
+	/**
+	 * @param geo
+	 *            geo
+	 * @return whether next element exists
+	 */
+	public boolean hasNext(GeoElement geo) {
+		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
+		filterGeosForView(tree);
+		return tree.last() == geo;
+	}
+
 	private void addSelectedGeoForEV(GeoElement geo) {
 		addSelectedGeo(geo);
 		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0

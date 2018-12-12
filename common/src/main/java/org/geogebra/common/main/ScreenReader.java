@@ -413,6 +413,24 @@ public class ScreenReader {
 			text = loc.getMenuDefault("AnimationStopped", "animation is stopped");
 		}
 		ScreenReader.readText(text, app);
+	}
 
+	/**
+	 * @param sel
+	 *            selected object
+	 * @return aural text + info about next/prev objects
+	 */
+	public static String getAuralText(GeoElement sel) {
+		ScreenReaderBuilder builder = new ScreenReaderBuilder();
+		sel.getAuralText(builder);
+		builder.appendSpace();
+		if (sel.getKernel().getApplication().getSelectionManager()
+				.hasNext(sel)) {
+			builder.append("Press tab to select next object");
+		} else {
+			// e.g. zoom panel
+			builder.append("Press tab to select contorls");
+		}
+		return builder.toString();
 	}
 }
