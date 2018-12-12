@@ -47,10 +47,12 @@ package com.himamis.retex.renderer.share;
 
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a rotated Atom.
  */
-public class RotateAtom extends Atom {
+public class RotateAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 	private double angle;
@@ -99,11 +101,10 @@ public class RotateAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		if (option != -1) {
 			return new RotateBox(base.createBox(env), angle, option);
-		} else {
-			return new RotateBox(base.createBox(env), angle,
-					x * TeXLength.getFactor(xunit, env),
-					y * TeXLength.getFactor(yunit, env));
 		}
+		return new RotateBox(base.createBox(env), angle,
+				x * TeXLength.getFactor(xunit, env),
+				y * TeXLength.getFactor(yunit, env));
 	}
 
 	@Override
@@ -119,5 +120,10 @@ public class RotateAtom extends Atom {
 	@Override
 	public int getLimits() {
 		return base.getLimits();
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +14,7 @@ public class AuralTextTest {
 	private static void aural(String in, String... out) {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
+		Log.debug("aural = " + aural);
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
 		Assert.assertEquals(out.length, sentences.length);
@@ -82,5 +84,8 @@ public class AuralTextTest {
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
 				"edit");
+		aural("FractionText(1.5)", "(3)/(2)", "edit");
+		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
+		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
 	}
 }
