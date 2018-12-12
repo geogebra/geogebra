@@ -123,7 +123,7 @@ public class UnicodeTeX {
 		p('\u0308', "ddot");
 		p('\u030c', "check");
 		p('\u0338', "not");
-		p('\u0360', "widehat");
+		p('\u0302', "widehat");
 
 		// Greek upper and lower case
 		for (Greek greek : Greek.values()) {

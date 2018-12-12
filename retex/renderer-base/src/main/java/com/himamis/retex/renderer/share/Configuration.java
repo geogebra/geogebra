@@ -1055,7 +1055,7 @@ public final class Configuration {
 		add("textdbend", TeXConstants.TYPE_ORDINARY, 126,
 				fonts.jlmr10_unchanged);
 		add("varPsi", TeXConstants.TYPE_ORDINARY, 170, fonts.cmmi10);
-		add("widehat", TeXConstants.TYPE_ACCENT, 98, fonts.cmex10, '\u0360');
+		add("widehat", TeXConstants.TYPE_ACCENT, 98, fonts.cmex10, '\u0302');
 		add("unrhd", TeXConstants.TYPE_RELATION, 68, fonts.msam10);
 		add("varobslash", TeXConstants.TYPE_BINARY_OPERATOR, 52,
 				fonts.stmary10);

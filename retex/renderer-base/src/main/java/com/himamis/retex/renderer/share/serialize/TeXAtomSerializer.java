@@ -110,7 +110,7 @@ public class TeXAtomSerializer {
 			if (accent == Symbols.VEC) {
 				return " vector " + content;
 			}
-			return content + " with " + accent.getName();
+			return content + " with " + accent.getUnicode();
 		}
 		if (root instanceof VRowAtom) {
 			VRowAtom row = (VRowAtom) root;
