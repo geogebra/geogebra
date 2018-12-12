@@ -6479,14 +6479,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Send text to screen reader.
-	 * 
-	 * @param text
-	 *            text
-	 */
-	public abstract void readText(String text);
-
-	/**
 	 * @param shape
 	 *            shape
 	 * @return whether shape intersects visible region
@@ -6625,4 +6617,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
     public boolean isAREnabled() {
         return false;
     }
+
+	/**
+	 * @return screen reader
+	 */
+	public ScreenReaderAdapter getScreenReader() {
+		return ScreenReaderSilent.INSTANCE;
+	}
 }

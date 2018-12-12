@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -67,7 +68,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -719,14 +719,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void readText(String text) {
-		if (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS)) {
-			return;
-		}
-		Log.debug("Read text in 3D: " + text);
-		screenReader.read(text);
-		RootPanel.getBodyElement().focus();
-		this.requestFocus();
+	public ScreenReaderAdapter getScreenReader() {
+		return screenReader;
 	}
 
 	@Override
@@ -775,7 +769,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void addScreenReader() {
-		screenReader = new ReaderWidget(evNo);
+		screenReader = new ReaderWidget(evNo, g2p.getCanvas());
 		EuclidianViewW.attachReaderWidget(screenReader, app);
 	}
 }

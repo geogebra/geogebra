@@ -157,12 +157,6 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 	}
 
 	@Override
-	public void readText(String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected EuclidianStyleBar newDynamicStyleBar() {
 		// TODO Auto-generated method stub
 		return null;

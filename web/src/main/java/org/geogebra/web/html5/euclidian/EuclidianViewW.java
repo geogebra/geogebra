@@ -1384,11 +1384,15 @@ public class EuclidianViewW extends EuclidianView implements
 		if (alt instanceof GeoText) {
 			altStr = ((GeoText) alt).getTextString();
 			if (g2p.setAltText(altStr)) {
-				this.readText(altStr);
+				getScreenReader().readText(altStr);
 			}
 		} else {
 			g2p.setAltText(altStr);
 		}
+	}
+
+	public ReaderWidget getScreenReader() {
+		return screenReader;
 	}
 
 	@Override
@@ -1518,7 +1522,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void addScreenReader() {
-		screenReader = new ReaderWidget(evNo);
+		screenReader = new ReaderWidget(evNo, g2p.getCanvas());
 		attachReaderWidget(screenReader, app);
 	}
 
@@ -1531,11 +1535,6 @@ public class EuclidianViewW extends EuclidianView implements
 	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
 		((AppW) app).getPanel().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
-	}
-
-	@Override
-	public void readText(final String text) {
-		screenReader.readAndScroll(text, g2p.getCanvas());
 	}
 
 	/**

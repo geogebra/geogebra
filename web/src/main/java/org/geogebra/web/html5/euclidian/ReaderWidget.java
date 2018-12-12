@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 
@@ -18,13 +19,20 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class ReaderWidget extends SimplePanel {
+public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	private Timer timer;
+	private UIObject anchor;
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param evNo
+	 *            view number
+	 * @param anchor
+	 *            object to focus afterwards
 	 */
-	public ReaderWidget(int evNo) {
+	public ReaderWidget(int evNo, UIObject anchor) {
+		this.anchor = anchor;
 		getElement().setId("screenReader" + evNo);
 		// can't be tabbed, but can get the focus programmatically
 		getElement().setTabIndex(-1);
@@ -97,15 +105,13 @@ public class ReaderWidget extends SimplePanel {
 	/**
 	 * @param text
 	 *            text to read
-	 * @param ui
-	 *            UI to focus afterwards
 	 */
-	public void readAndScroll(String text, UIObject ui) {
+	public void readText(String text) {
 		if (!hasParentWindow() && !Browser.isiOS()) {
 			JavaScriptObject scrollState = JavaScriptObject.createObject();
 			int scrolltop = getScrollTop(scrollState);
 			read(text);
-			ui.getElement().focus();
+			anchor.getElement().focus();
 			setScrollTop(scrolltop, scrollState);
 		}
 	}

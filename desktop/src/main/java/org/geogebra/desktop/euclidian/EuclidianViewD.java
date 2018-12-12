@@ -51,6 +51,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
@@ -862,6 +863,7 @@ public class EuclidianViewD extends EuclidianView
 			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
 					.createGraphics());
 	private boolean printScaleString;
+	private ScreenReaderAdapter screenReader = new ScreenReaderAdapterD();
 
 	/**
 	 * @return temporary graphics that is stored in this view
@@ -987,9 +989,8 @@ public class EuclidianViewD extends EuclidianView
 
 	}
 
-	@Override
-	public void readText(String text) {
-		Log.read("Reading text: " + text);
+	public ScreenReaderAdapter getScrreenReader() {
+		return screenReader;
 	}
 
 	@Override

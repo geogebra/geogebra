@@ -23,7 +23,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 	private final GGraphics2D g2Dtemp;
 	private final GGraphics2D g2;
 	private GFont font;
-	private StringBuilder reader = new StringBuilder();
+	private ScreenReaderAccumulator screenReader = new ScreenReaderAccumulator();
 
 	/**
 	 * @param ec
@@ -233,8 +233,8 @@ public class EuclidianViewNoGui extends EuclidianView {
 	}
 
 	@Override
-	public void readText(String text) {
-		this.reader.append(text);
+	public ScreenReaderAccumulator getScreenReader() {
+		return screenReader;
 	}
 
 	@Override
@@ -252,10 +252,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewFor3DCompanion(this);
-	}
-
-	public boolean hasRead(String string) {
-		return reader.toString().contains(string);
 	}
 
 }

@@ -361,11 +361,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	}
 
 	@Override
-	public void readText(String text) {
-		// no need
-	}
-
-	@Override
 	public float getThicknessForLine(int thickness) {
 		if (useSpecificThickness) {
 			return thickness == 0 ? 0f : specificThicknessForLines;

@@ -56,7 +56,7 @@ public class ScreenReader {
 						.getActiveEuclidianView().getViewID())) {
 
 			// dot on end to help screen readers
-			app.getActiveEuclidianView()
+			app.getActiveEuclidianView().getScreenReader()
 					.readText(text.trim());
 		}
 	}

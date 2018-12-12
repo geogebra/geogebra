@@ -20,7 +20,7 @@ public class CmdReadText extends CmdScripting {
 		GeoElement[] args = resArgs(c);
 		if (args[0].isGeoText()) {
 			if (app.getActiveEuclidianView() != null) {
-				app.getActiveEuclidianView()
+				app.getActiveEuclidianView().getScreenReader()
 						.readText(((GeoText) args[0]).getTextString());
 			}
 			return args;
