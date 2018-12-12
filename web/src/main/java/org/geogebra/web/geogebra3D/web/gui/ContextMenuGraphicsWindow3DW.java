@@ -290,6 +290,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			case EuclidianView3D.PROJECTION_OBLIQUE:
 				text = "stylebar.ObliqueProjection";
 				img = MaterialDesignResources.INSTANCE.projection_oblique();
+				break;
 			default:
 				Log.warn("Unknown projection:" + projectionType);
 				return;
