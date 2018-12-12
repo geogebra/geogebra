@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.speechRec;
 
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.debug.Log;
@@ -30,22 +29,41 @@ public class SpeechRecognitionController {
 		this.appW = app;
 	}
 
+	/**
+	 * @return action is waited by the speech recognition
+	 */
 	public String getAction() {
 		return action;
 	}
 
+	/**
+	 * @param action
+	 *            action which should be recognized
+	 */
 	public void setAction(String action) {
 		this.action = action;
 	}
 
+	/**
+	 * @param lang
+	 *            language
+	 */
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
 
+	/**
+	 * @param langID
+	 *            national language code
+	 */
 	public native void setLanguage(String langID) /*-{
 		this.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setLang(Ljava/lang/String;)(langID);
 	}-*/;
 
+	/**
+	 * @param result
+	 *            create command
+	 */
 	public void setResult(String result) {
 		this.speechRecResultTxt = result;
 		// speechRecResultTxt = "create Circle";
@@ -55,20 +73,32 @@ public class SpeechRecognitionController {
 		}
 	}
 
+	/**
+	 * @param xCoordStr
+	 *            x coord
+	 */
 	public void setXCoord(String xCoordStr) {
-		this.xCoord = Integer.valueOf(xCoordStr);
+		this.xCoord = Integer.parseInt(xCoordStr);
 		Log.debug("SPEECH REC: xCoord: " + xCoord);
 		getYCoord();
 	}
 
+	/**
+	 * @param yCoordStr
+	 *            y coord
+	 */
 	public void setYCoord(String yCoordStr) {
-		this.yCoord = Integer.valueOf(yCoordStr);
+		this.yCoord = Integer.parseInt(yCoordStr);
 		Log.debug("SPEECH REC: yCoord: " + yCoord);
 		getRadius();
 	}
 
+	/**
+	 * @param radiusStr
+	 *            radius
+	 */
 	public void setRadius(String radiusStr) {
-		this.radius = Integer.valueOf(radiusStr);
+		this.radius = Integer.parseInt(radiusStr);
 		Log.debug("SPEECH REC: radius: " + radiusStr);
 		AlgoCirclePointRadius circleAlgo = new AlgoCirclePointRadius(
 				appW.getKernel().getConstruction(), getPointGeo(),
@@ -90,9 +120,8 @@ public class SpeechRecognitionController {
 		for (int i = 0; i < txtArray.length; i++) {
 			Log.debug("SPEECH REC: text:" + txtArray[i]);
 		}
-		if (txtArray.length == 2 && "".equals(txtArray[0]) && 
-				appW.getKernel().getAlgebraProcessor()
-						.isCommandAvailable(txtArray[1])) {
+		if (txtArray.length == 2 && "".equals(txtArray[0]) && appW.getKernel()
+				.getAlgebraProcessor().isCommandAvailable(txtArray[1])) {
 			String commandName = txtArray[1];
 			Log.debug("SPEECH REC: found command: " + commandName);
 			// java.util.List<String> commandList = appW.getCommandDictionary()
@@ -100,7 +129,7 @@ public class SpeechRecognitionController {
 
 			// switch (commandList.get(0)) {
 			// case "Circle":
-			createCircle(commandName);
+			createCircle();
 			// break;
 			// case "Point":
 			// default:
@@ -109,38 +138,40 @@ public class SpeechRecognitionController {
 		}
 	}
 
-	private void createCircle(String commandName) {
-		Command circleCmd = new Command(appW.getKernel(), commandName, false);
+	private void createCircle() {
 		getXCoord();
-		/*
-		 * int xCoord = Integer.valueOf(speechRecResultTxt);
-		 * initSpeechSynth("Please give y coordinate of the middle point"); int
-		 * yCoord = Integer.valueOf(speechRecResultTxt); circleCmd.addArgument(
-		 * new GeoPoint(appW.getKernel().getConstruction(), xCoord, yCoord,
-		 * 1).evaluate(StringTemplate.algebraTemplate).wrap());
-		 * initSpeechSynth("Please give radius"); // initSpeechRec(); int radius
-		 * = Integer.valueOf(speechRecResultTxt); circleCmd.addArgument(new
-		 * ExpressionNode(appW.getKernel(), radius));
-		 * appW.getKernel().getAlgebraProcessor().processCommand(circleCmd, new
-		 * EvalInfo(true));
-		 */
 	}
 
+	/**
+	 * get y coord from user
+	 */
 	public void getYCoord() {
 		initSpeechSynth("Please give y coordinate of the middle point",
 				"yCoord");
 	}
 
+	/**
+	 * get x coord from user
+	 */
 	public void getXCoord() {
 		initSpeechSynth("Please give x coordinate of the middle point",
 				"xCoord");
 	}
 
+	/**
+	 * get radius from user
+	 */
 	public void getRadius() {
 		initSpeechSynth("Please give the radius",
 				"radius");
 	}
 
+	/**
+	 * @param toSay
+	 *            what to say
+	 * @param actionStr
+	 *            action
+	 */
 	public native void initSpeechSynth(String toSay, String actionStr) /*-{
 		console.log("SPEECH initSpeechSynth");
 		var synth = window.speechSynthesis;
@@ -177,6 +208,9 @@ public class SpeechRecognitionController {
 
 	/**
 	 * init speech recognition
+	 * 
+	 * @param actionStr
+	 *            action
 	 */
 	public native void initSpeechRec(String actionStr) /*-{
 		var that = this;
