@@ -1,11 +1,14 @@
 package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -90,4 +93,37 @@ public class ReaderWidget extends SimplePanel {
 	private void focus() {
 		getElement().focus();
 	}
+
+	/**
+	 * @param text
+	 *            text to read
+	 * @param ui
+	 *            UI to focus afterwards
+	 */
+	public void readAndScroll(String text, UIObject ui) {
+		if (!hasParentWindow() && !Browser.isiOS()) {
+			JavaScriptObject scrollState = JavaScriptObject.createObject();
+			int scrolltop = getScrollTop(scrollState);
+			read(text);
+			ui.getElement().focus();
+			setScrollTop(scrolltop, scrollState);
+		}
+	}
+
+	private static native int getScrollTop(JavaScriptObject scrollState)/*-{
+		scrollState.element = $doc.body;
+		if ($doc.documentElement.scrollTop && !$doc.body.scrollTop) {
+			scrollState.element = $doc.documentElement;
+		}
+		return scrollState.element.scrollTop;
+	}-*/;
+
+	private static native boolean hasParentWindow()/*-{
+		return $wnd.parent != $wnd;
+	}-*/;
+
+	private static native void setScrollTop(int st,
+			JavaScriptObject scrollState)/*-{
+		scrollState.element.scrollTop = st;
+	}-*/;
 }

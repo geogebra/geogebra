@@ -1535,34 +1535,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void readText(final String text) {
-
-		if (hasParentWindow()
-				|| (Browser.isiOS() && app.has(Feature.VOICEOVER_APPLETS))) {
-			return;
-		}
-		JavaScriptObject scrollState = JavaScriptObject.createObject();
-		int scrolltop = getScrollTop(scrollState);
-		screenReader.read(text);
-		g2p.getCanvas().getCanvasElement().focus();
-		setScrollTop(scrolltop, scrollState);
+		screenReader.readAndScroll(text, g2p.getCanvas());
 	}
-
-	private static native boolean hasParentWindow()/*-{
-		return $wnd.parent != $wnd;
-	}-*/;
-
-	private static native int getScrollTop(JavaScriptObject scrollState)/*-{
-		scrollState.element = $doc.body;
-		if ($doc.documentElement.scrollTop && !$doc.body.scrollTop) {
-			scrollState.element = $doc.documentElement;
-		}
-		return scrollState.element.scrollTop;
-	}-*/;
-
-	private static native void setScrollTop(int st,
-			JavaScriptObject scrollState)/*-{
-		scrollState.element.scrollTop = st;
-	}-*/;
 
 	/**
 	 * Focus next view on page.
