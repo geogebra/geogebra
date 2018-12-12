@@ -561,7 +561,7 @@ public class AlgebraItem {
 	 * @param geoElement geoElement
 	 * @return true if we should only show the definition for the object but not output row
 	 */
-	private static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
+	public static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
 		if (geoElement instanceof EquationValue && geoElement.getKernel().getApplication()
 				.isExamStarted()) {
 			return !isEquationFromUser(geoElement);
