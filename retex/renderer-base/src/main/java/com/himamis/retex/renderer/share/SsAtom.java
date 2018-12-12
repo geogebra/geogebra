@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a sans serif atom.
  */
-public class SsAtom extends Atom {
+public class SsAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 
@@ -63,6 +65,11 @@ public class SsAtom extends Atom {
 		Box box = base.createBox(env);
 		env.getTeXFont().setSs(false);
 		return box;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 
 }

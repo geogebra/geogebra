@@ -87,5 +87,9 @@ public class AuralTextTest {
 		aural("FractionText(1.5)", "(3)/(2)", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
+		aural("LaTeX(\"\\mathsf{mathsf} \\sf{sf}\")", "mathsfsf", "edit");
+		aural("LaTeX(\"\\mathit{mathit} \\it{it}\")", "mathitit", "edit");
+		aural("LaTeX(\"\\mathtt{mathtt} \\tt{tt}\")", "mathtttt", "edit");
+		aural("LaTeX(\"\\mathbf{mathbf} \\bf{bf}\")", "mathbfbf", "edit");
 	}
 }

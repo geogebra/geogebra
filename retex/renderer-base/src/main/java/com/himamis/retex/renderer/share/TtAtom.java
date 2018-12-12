@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a typewriter atom.
  */
-public class TtAtom extends Atom {
+public class TtAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 
@@ -63,6 +65,11 @@ public class TtAtom extends Atom {
 		Box box = base.createBox(env);
 		env.getTeXFont().setTt(false);
 		return box;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 
 }
