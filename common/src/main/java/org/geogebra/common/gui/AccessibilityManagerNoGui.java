@@ -115,4 +115,14 @@ public final class AccessibilityManagerNoGui
 	public void sliderChange(double step) {
 		// no slider
 	}
+
+	@Override
+	public boolean onSelectFirstGeo(boolean forward) {
+		return false;
+	}
+
+	@Override
+	public boolean onSelectLastGeo(boolean forward) {
+		return false;
+	}
 }

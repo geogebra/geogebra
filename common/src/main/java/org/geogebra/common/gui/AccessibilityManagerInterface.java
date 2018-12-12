@@ -150,4 +150,23 @@ public interface AccessibilityManagerInterface {
 	 */
 	public void sliderChange(double step);
 
+	/**
+	 * Called when first geo is selected from tabbing set.
+	 * 
+	 * @param forward
+	 *            if geo is selected by tab or shift+tab.
+	 * 
+	 * @return if selection is handled here.
+	 */
+	public boolean onSelectFirstGeo(boolean forward);
+
+	/**
+	 * Called when last geo is selected from tabbing set.
+	 * 
+	 * @param forward
+	 *            if geo is selected by tab or shift+tab.
+	 * 
+	 * @return if selection is handled here.
+	 */
+	public boolean onSelectLastGeo(boolean forward);
 }

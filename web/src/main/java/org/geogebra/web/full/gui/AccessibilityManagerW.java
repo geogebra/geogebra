@@ -396,4 +396,24 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 	}
+
+	@Override
+	public boolean onSelectFirstGeo(boolean forward) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onSelectLastGeo(boolean forward) {
+		if (forward) {
+			if (isPlayVisible()) {
+				setPlaySelectedIfVisible(true);
+				return true;
+			}
+			focusZoom(forward);
+			setTabOverGeos(false);
+			return true;
+		}
+		return false;
+	}
 }

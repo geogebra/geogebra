@@ -695,9 +695,13 @@ public class SelectionManager {
 		
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement next = tree.higher(lastSelected);
-
+		boolean lastGeoSelected = next == null;
 		removeAllSelectedGeos();
-		
+		if (lastGeoSelected) {
+			if (getAccessibilityManager().onSelectLastGeo(true)) {
+				return true;
+			}
+		}
 		if (next != null) {
 			addSelectedGeoForEV(next);
 		} else if (!getAccessibilityManager().handleTabExitGeos(true)) {
