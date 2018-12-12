@@ -81,6 +81,7 @@ import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -1273,14 +1274,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.add((Widget) getEuclidianViewpanel());
 			// we need to make sure trace works after this, see #4373 or #4236
 			this.getEuclidianView1().createImage();
-			((DockPanelW) getEuclidianViewpanel()).setVisible(true);
-			((DockPanelW) getEuclidianViewpanel()).setEmbeddedSize(getSettings()
+			DockPanelW euclidianDockPanel = (DockPanelW) getEuclidianViewpanel();
+			euclidianDockPanel.setVisible(true);
+			euclidianDockPanel.setEmbeddedSize(getSettings()
 					.getEuclidian(1).getPreferredSize().getWidth());
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize()
 							.getHeight());
-			((DockPanelW) getEuclidianViewpanel()).updatePanel(false);
+			euclidianDockPanel.updatePanel(false);
 
 			// FIXME: temporary hack until it is found what causes
 			// the 1px difference
@@ -1293,6 +1295,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
 					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
+			if (Browser.isiOS()) {
+				euclidianDockPanel
+						.addVoiceover(new VoiceoverTabber(this));
+			}
 		}
 	}
 

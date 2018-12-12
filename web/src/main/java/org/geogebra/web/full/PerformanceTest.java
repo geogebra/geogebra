@@ -205,9 +205,6 @@ public class PerformanceTest implements EntryPoint {
 		        .setCoordinateSpaceSize(800, 600);
 		app.afterLoadFileAppOrNot(false);
 		GeoGebraProfiler.getInstance().profileEnd();
-		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
-		// production
-		// GeoGebraProfiler.init(new GeoGebraProfilerW());
 	}
 
 	private static void loadAppletAsync() {
@@ -221,20 +218,21 @@ public class PerformanceTest implements EntryPoint {
 			@Override
 			public void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
-
 			}
 		});
 	}
 
+	/**
+	 * @param geoGebraMobileTags
+	 *            article tags
+	 */
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
-
 		GeoGebraFrameSimple.main(geoGebraMobileTags);
-
 	}
 
 	private native void exportGGBElementRenderer() /*-{
-   		$wnd.renderGGBElement = $entry(@org.geogebra.web.html5.gui.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-   		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
-   	}-*/;
+		$wnd.renderGGBElement = $entry(@org.geogebra.web.html5.gui.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
+	}-*/;
 
 }
