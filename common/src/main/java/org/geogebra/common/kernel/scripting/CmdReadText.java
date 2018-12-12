@@ -6,8 +6,18 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 
+/**
+ * ReadText(Text)
+ * 
+ * @author Zbynek
+ *
+ */
 public class CmdReadText extends CmdScripting {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdReadText(Kernel kernel) {
 		super(kernel);
 	}

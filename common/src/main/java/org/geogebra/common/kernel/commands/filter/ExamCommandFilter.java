@@ -25,7 +25,7 @@ public class ExamCommandFilter implements CommandFilter {
 		}
     }
 
-    private boolean isSetFixed(Command command) {
+	private static boolean isSetFixed(Command command) {
 		return Commands.SetFixed.name().equals(command.getName());
     }
 }

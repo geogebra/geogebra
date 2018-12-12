@@ -283,6 +283,9 @@ public class EvalInfo {
 		return copy;
 	}
 
+	/**
+	 * @return variable resolution mode
+	 */
 	public SymbolicMode getSymbolicMode() {
 		return symbolicMode;
 	}

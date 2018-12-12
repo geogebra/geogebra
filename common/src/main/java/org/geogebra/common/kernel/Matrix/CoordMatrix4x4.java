@@ -14,11 +14,17 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	final static public int VY = 1;
 	final static public int VZ = 2;
 
+	/** identity */
 	final static public CoordMatrix4x4 IDENTITY = identity();
+	/** transform: mirror by origin */
 	final static public CoordMatrix4x4 MIRROR_O = identity().mirrorO();
+	/** transform: mirror by Ox line */
 	final static public CoordMatrix4x4 MIRROR_X = identity().mirrorX();
+	/** transform: mirror by Oy line */
 	final static public CoordMatrix4x4 MIRROR_Y = identity().mirrorY();
+	/** transform: rotation around Oz by 90deg */
 	final static public CoordMatrix4x4 ROTATION_OZ_90 = rotationOz(Math.PI / 2);
+	/** transform: rotation around Oz by -90deg */
 	final static public CoordMatrix4x4 ROTATION_OZ_M90 = rotationOz(
 			-Math.PI / 2);
 
@@ -136,6 +142,9 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 	/**
 	 * set a 4x4 dilate matrix.
+	 * 
+	 * @param m
+	 *            output matrix
 	 *
 	 * @param f
 	 *            dilate factor
@@ -150,6 +159,9 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 	/**
 	 * set all matrix values to 0.
+	 * 
+	 * @param m
+	 *            output matrix
 	 */
 	static final public void setZero(CoordMatrix m) {
 		for (int i = 1; i <= 4; i++) {

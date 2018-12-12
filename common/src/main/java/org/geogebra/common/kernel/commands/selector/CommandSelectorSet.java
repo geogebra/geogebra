@@ -16,6 +16,9 @@ class CommandSelectorSet implements CommandSelector {
 
 	/**
 	 * New command filter
+	 * 
+	 * @param inverse
+	 *            whether to invert selction
 	 */
 	CommandSelectorSet(boolean inverse) {
         allowedCommands = new HashSet<>();

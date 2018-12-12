@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.commands.selector;
 
 import org.geogebra.common.kernel.commands.Commands;
 
+/**
+ * Command selector for Graphing (and no-CAS exam in Classic)
+ */
 public class NoCASCommandSelectorFactory {
 
 	/**

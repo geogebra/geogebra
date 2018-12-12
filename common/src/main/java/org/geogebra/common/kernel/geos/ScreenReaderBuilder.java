@@ -43,6 +43,9 @@ public class ScreenReaderBuilder {
 		appendSpace();
 	}
 
+	/**
+	 * @return wrapped string builder
+	 */
 	protected StringBuilder getStringBuilder() {
 		return sb;
 	}
