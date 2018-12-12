@@ -6973,6 +6973,21 @@ namespace giac {
   static define_unary_function_eval (__gbasis,&_gbasis,_gbasis_s);
   define_unary_function_ptr5( at_gbasis ,alias_at_gbasis,&__gbasis,0,true);
   
+  gen _gbasis_max_pairs(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    gen args(g);
+    if (g.type==_DOUBLE_)
+      args=int(g._DOUBLE_val);    
+    if (args.type!=_INT_)
+      return int(max_pairs_by_iteration);
+    int old=max_pairs_by_iteration;
+    max_pairs_by_iteration=args.val<256?(1<<30):args.val;
+    return old;
+  }
+  static const char _gbasis_max_pairs_s []="gbasis_max_pairs";
+  static define_unary_function_eval2 (__gbasis_max_pairs,&_gbasis_max_pairs,_gbasis_max_pairs_s,&printasDigits);
+  define_unary_function_ptr5( at_gbasis_max_pairs ,alias_at_gbasis_max_pairs ,&__gbasis_max_pairs,0,true);
+
   static gen in_greduce(const gen & eq,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT,vector<polynome> * quo=0){
     if (eq.type!=_POLY)
       return r2e(eq,l,contextptr);

@@ -1767,6 +1767,10 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
 #endif
+  unsigned max_pairs_by_iteration=32768; 
+  // gbasis max number of pairs by F4 iteration
+  // setting to 2000 accelerates cyclic9mod but cyclic9 would be slower
+  // 32768 is enough for cyclic10mod without truncation and not too large for yang1
   unsigned short int GIAC_PADIC=50;
   const char cas_suffixe[]=".cas";
 #if defined RTOS_THREADX || defined BESTA_OS

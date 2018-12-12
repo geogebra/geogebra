@@ -12180,7 +12180,7 @@ template<class modint_t,class modint_u>
     }
     // ((N>>5)+1)*Bs should not exceed 2e9 otherwise this will segfault
     if (double(Bs)*(N>>5)>2e9){
-      CERR << "Error, problem too large" << endl;
+      CERR << "Error, problem too large. Try again after running gbasis_max_pairs(n) with n<" << 2e9/(N>>5) << endl;
       return -1;
     }
     vector<used_t> used(N,0);
@@ -12629,9 +12629,6 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     for (unsigned i=0;i<resmod.size();++i)
       smod(resmod[i],env);
   }
-
-  unsigned max_pairs_by_iteration=8192; 
-  // setting this to 2000 accelerates cyclic9mod but cyclic9 would be slower
 
   template<class tdeg_t>
   bool in_zgbasis(vectpolymod<tdeg_t> &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool eliminate_flag,bool multimodular,int parallel){
@@ -13702,7 +13699,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	parallel=nthreads;
       }
       else {
-	th=giacmin(nthreads-1,8-1); // no more than th+1 threads
+	th=giacmin(nthreads-1,16-1); // no more than th+1 threads
 	parallel=nthreads/(th+1);
       }
 #ifndef EMCC
@@ -13799,7 +13796,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	time1strun=t_1-t_0;
       else {
 	if (time2ndrun<0){
-	  time2ndrun=t_1-t_0;
+	  time2ndrun=(t_1-t_0)/(th+1); // we are computing th+1 primes
 	  if (debug_infolevel)
 	    CERR << "2nd run " << time2ndrun << " 1st run " << time1strun << endl;
 	  if (time2ndrun<time1strun/6 || time2ndrun<0.5){
