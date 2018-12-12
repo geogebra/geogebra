@@ -429,7 +429,7 @@ public class ScreenReader {
 			builder.append("Press tab to select next object");
 		} else {
 			// e.g. zoom panel
-			builder.append("Press tab to select contorls");
+			builder.append("Press tab to select controls");
 		}
 		return builder.toString();
 	}
