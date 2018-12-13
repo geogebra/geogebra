@@ -7655,6 +7655,10 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if when AV has description mode, we want to show description instead of definition
 	 */
 	final public boolean mayShowDescriptionInsteadOfDefinition() {
+		if (AlgebraItem.shouldShowOnlyDefinitionForGeo(this)
+				&& getKernel().getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+			return false;
+		}
 		if (algoParent == null) {
 			return mayShowDescriptionInsteadOfDefinitionNoAlgoParent();
 		}
