@@ -17,6 +17,11 @@ public class IndexLaTeXBuilder extends IndexHTMLBuilder {
     }
 
     @Override
+    public void appendHTML(String str) {
+        super.append(str);
+    }
+
+    @Override
     public boolean canAppendRawHtml() {
         return false;
     }
