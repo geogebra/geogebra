@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -724,7 +725,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else {
 				if (rt.isGeoElement()) {
 					GeoElement geo = (GeoElement) rt;
-					msb.append(geo.toDefinedValueString(tpl));
+					msb.append(getGeoString(geo, tpl));
 				} else {
 					msb.append(rt.toValueString(tpl));
 				}
@@ -738,7 +739,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else {
 				if (lt.isGeoElement()) {
 					GeoElement geo = (GeoElement) lt;
-					msb.insert(0, geo.toDefinedValueString(tpl));
+					msb.insert(0, getGeoString(geo, tpl));
 				} else {
 					msb.insert(0, lt.toValueString(tpl));
 				}
@@ -753,6 +754,17 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					rt.toString(errorTemplate));
 		}
 
+	}
+
+	/**
+	 * @param geoElement The GeoElement that should be transformed into string
+	 * @param tpl The StringTemplate based on which the GeoElement will be transformed into string
+	 * @return The string form of the GeoElement
+	 */
+	private String getGeoString(GeoElement geoElement, StringTemplate tpl) {
+		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
+				? geoElement.getDefinition(tpl)
+				: geoElement.toDefinedValueString(tpl);
 	}
 
 	/**

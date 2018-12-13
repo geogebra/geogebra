@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -196,8 +197,7 @@ public class AlgoLaTeX extends AlgoElement {
 									.toString(((GeoCasCell) geoToShow)
 											.getLaTeXTemplate()));
 				} else {
-					text.setTextString(
-							geoToShow.getFormulaString(tpl, substitute));
+					text.setTextString(getGeoString(geoToShow, tpl, substitute));
 				}
 			}
 
@@ -210,6 +210,15 @@ public class AlgoLaTeX extends AlgoElement {
 	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
+	}
+
+	private String getGeoString(
+			GeoElement geoElement,
+			StringTemplate tpl,
+			boolean substituteNumbers) {
+		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
+				? geoElement.getDefinition(tpl)
+				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
 
 }

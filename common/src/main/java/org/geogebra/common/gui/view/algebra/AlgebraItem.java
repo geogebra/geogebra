@@ -438,17 +438,16 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
-		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
-			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
-		} else if (geoElement.getKernel().getApplication().has(Feature
-				.SHOW_DEFINITION_FOR_EQUATION_IN_EXAM) && (style == Kernel
-				.ALGEBRA_STYLE_DEFINITION_AND_VALUE || style == Kernel
-				.ALGEBRA_STYLE_VALUE) && shouldShowOnlyDefinitionForGeo(geoElement)) {
-			return false;
-		}
-		return style != Kernel.ALGEBRA_STYLE_VALUE && style != Kernel.ALGEBRA_STYLE_DEFINITION;
-	}
+    public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
+        if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+            return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
+        } else if ((style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+                || style == Kernel.ALGEBRA_STYLE_VALUE)
+                && shouldShowOnlyDefinitionForGeo(geoElement)) {
+            return false;
+        }
+        return style != Kernel.ALGEBRA_STYLE_VALUE && style != Kernel.ALGEBRA_STYLE_DEFINITION;
+    }
 
 	/**
 	 * Tells whether AV should show two rows for a geo element.
@@ -561,13 +560,15 @@ public class AlgebraItem {
 	 * @param geoElement geoElement
 	 * @return true if we should only show the definition for the object but not output row
 	 */
-	public static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue && geoElement.getKernel().getApplication()
-				.isExamStarted()) {
-			return !isEquationFromUser(geoElement);
-		}
-		return false;
-	}
+    public static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
+        if (geoElement.getKernel().getApplication().has(Feature.SHOW_DEFINITION_FOR_EQUATION_IN_EXAM)
+                && geoElement instanceof EquationValue
+                && geoElement.getKernel().getApplication().isExamStarted()) {
+
+            return !isEquationFromUser(geoElement);
+        }
+        return false;
+    }
 	/**
 	 * Create provider of texts for ANS button
 	 * 
