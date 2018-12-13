@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -7473,6 +7474,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
+	    if (AlgebraItem.shouldShowOnlyDefinitionForGeo(this)) {
+	        return DescriptionMode.DEFINITION;
+        }
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;
