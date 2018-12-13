@@ -423,12 +423,15 @@ public class ScreenReader {
 		ScreenReaderBuilder builder = new ScreenReaderBuilder();
 		sel.getAuralText(builder);
 		builder.appendSpace();
+		Localization loc = sel.getKernel().getLocalization();
 		if (sel.getKernel().getApplication().getSelectionManager()
 				.hasNext(sel)) {
-			builder.append("Press tab to select next object");
+			builder.append(loc.getMenuDefault("PressTabToSelectNext",
+					"Press tab to select next object"));
 		} else {
 			// e.g. zoom panel
-			builder.append("Press tab to select controls");
+			builder.append(loc.getMenuDefault("PressTabToSelectControls",
+					"Press tab to select controls"));
 		}
 		return builder.toString();
 	}
