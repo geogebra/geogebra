@@ -289,7 +289,11 @@ public class AlgebraItem {
 		}
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
-			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+			if (shouldShowOnlyDefinitionForGeo(geo1)) {
+				buildDefinitionString(geo1, builder, stringTemplate);
+			} else {
+				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+			}
 			return true;
 
 		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
@@ -299,15 +303,20 @@ public class AlgebraItem {
 			return true;
 
 		case Kernel.ALGEBRA_STYLE_DEFINITION:
-			geo1.addLabelTextOrHTML(
-					geo1.getDefinition(stringTemplate),
-					builder);
+			buildDefinitionString(geo1, builder, stringTemplate);
 			return true;
 		default:
 		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
 
 			return false;
 		}
+	}
+
+	private static void buildDefinitionString(
+			GeoElement geoElement,
+			IndexHTMLBuilder stringBuilder,
+			StringTemplate stringTemplate) {
+		geoElement.addLabelTextOrHTML(geoElement.getDefinition(stringTemplate), stringBuilder);
 	}
 
 	/**
@@ -332,7 +341,7 @@ public class AlgebraItem {
 	 *            builder
 	 * @param stringTemplateForPlainText string template for building simple plain text item
 	 */
-	public static void getDefinitionText(
+	private static void buildText(
 			GeoElement geoElement,
 			int style,
 			IndexHTMLBuilder sb,
@@ -345,21 +354,6 @@ public class AlgebraItem {
 		} else {
 			buildPlainTextItemSimple(geoElement, sb, stringTemplateForPlainText);
 		}
-	}
-
-	/**
-	 * @param geoElement
-	 *            element
-	 * @param style
-	 *            Kenel.ALGEBRA_STYLE_*
-	 * @param sb
-	 *            builder
-	 */
-	public static void getDefinitionText(
-			GeoElement geoElement,
-			int style,
-			IndexHTMLBuilder sb) {
-		getDefinitionText(geoElement, style, sb, StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -476,7 +470,7 @@ public class AlgebraItem {
 
 		if (element.mayShowDescriptionInsteadOfDefinition()) {
 			IndexLaTeXBuilder builder = new IndexLaTeXBuilder();
-			AlgebraItem.getDefinitionText(element, style, builder, stringTemplate);
+			buildText(element, style, builder, stringTemplate);
 			return getLatexText(builder.toString().replace("^", "\\^{\\;}"));
 		}
 		return null;
