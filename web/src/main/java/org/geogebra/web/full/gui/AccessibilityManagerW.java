@@ -73,14 +73,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private void nextFromZoomPanel() {
 		DockManagerW dm = (DockManagerW) (app.getGuiManager().getLayout().getDockManager());
 		for (DockPanelW panel : dm.getPanels()) {
-			if (!visitedIds.contains(panel.getViewId())
+			if (panel.isAttached() && !visitedIds.contains(panel.getViewId())
 					&& panel instanceof EuclidianDockPanelWAbstract) {
 				((EuclidianDockPanelWAbstract) panel).focusNextGUIElement();
 				visitedIds.add(panel.getViewId());
 				return;
 			}
 		}
-
 		if (!focusFirstGeo()) {
 			focusInputAsNext();
 		}
@@ -117,7 +116,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				focusMenu();
 			}
 		} else if (source instanceof ZoomPanel) {
-			exitFromZoomPanel(false);
+			previousFromZoomPanel();
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
@@ -125,14 +124,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
-	private void exitFromZoomPanel(boolean forward) {
-		if (forward) {
-			return;
-		}
-
+	private void previousFromZoomPanel() {
 		if (focusSettings()) {
 			return;
 		}
+
 		if (isPlayVisible()) {
 			setPlaySelectedIfVisible(true);
 			setTabOverGeos(true);
@@ -398,6 +394,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return the geo that is currently selected.
+	 */
 	public GeoElement getSelectedGeo() {
 		return AccessibilityManagerNoGui.getSelectedGeo(app);
 	}
@@ -424,7 +424,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean onSelectFirstGeo(boolean forward) {
-		// TODO Auto-generated method stub
+		if (!forward) {
+			focusZoom(false);
+			return true;
+		}
 		return false;
 	}
 
@@ -435,7 +438,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				setPlaySelectedIfVisible(true);
 				return true;
 			}
-			focusZoom(forward);
+			focusZoom(true);
 			setTabOverGeos(false);
 			return true;
 		}

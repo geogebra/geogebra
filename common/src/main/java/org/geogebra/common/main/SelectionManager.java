@@ -695,13 +695,15 @@ public class SelectionManager {
 		
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement next = tree.higher(lastSelected);
-		boolean lastGeoSelected = next == null;
+
 		removeAllSelectedGeos();
-		if (lastGeoSelected) {
+
+		if (next == null) {
 			if (getAccessibilityManager().onSelectLastGeo(true)) {
 				return true;
 			}
 		}
+
 		if (next != null) {
 			addSelectedGeoForEV(next);
 		} else if (!getAccessibilityManager().handleTabExitGeos(true)) {
@@ -741,7 +743,14 @@ public class SelectionManager {
 		}
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement prev = tree.lower(lastSelected);
+
 		removeAllSelectedGeos();
+
+		if (prev == null) {
+			if (getAccessibilityManager().onSelectFirstGeo(false)) {
+				return;
+			}
+		}
 
 		if (prev != null) {
 			addSelectedGeoForEV(prev);
