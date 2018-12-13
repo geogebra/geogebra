@@ -1,4 +1,4 @@
-package org.geogebra.web.main;
+package org.geogebra.web.test;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;

@@ -1,4 +1,4 @@
-package org.geogebra.web.main;
+package org.geogebra.web.test;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;

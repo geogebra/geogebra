@@ -1,8 +1,9 @@
-package org.geogebra.web.main;
+package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.test.MockApp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

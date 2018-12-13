@@ -1,8 +1,9 @@
-package org.geogebra.web.main;
+package org.geogebra.web.full.main;
 
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.test.MockApp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import com.google.gwtmockito.WithClassesToStub;
  */
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ TextAreaElement.class })
-public class UndoTest {
+public class NotesUndoTest {
 	private static AppWFull app;
 
 	/**

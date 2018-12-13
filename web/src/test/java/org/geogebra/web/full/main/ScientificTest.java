@@ -1,9 +1,8 @@
-package org.geogebra.web.full.gui.view.algebra;
+package org.geogebra.web.full.main;
 
-import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.test.MockApp;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,21 +13,17 @@ import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ TextAreaElement.class })
-public class AVDescriptionTest {
-
-	@Test
-	public void geometryShouldUseLaTeXForFunctions() {
-		AppWFull app = MockApp
-				.mockApplet(new TestArticleElement("prerelease", "geometry"));
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand("f:sqrt(x/2)", false);
-		RadioTreeItem rte = new RadioTreeItem(app.getKernel().lookupLabel("f"));
-		rte.doUpdate();
-		Assert.assertTrue(rte.latex);
-	}
-
+public class ScientificTest {
+	private static AppW app;
 	@Before
 	public void rootPanel() {
 		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 	}
+
+	@Test
+	public void startApp() {
+		app = MockApp
+				.mockApplet(new TestArticleElement("prerelease", "scientific"));
+	}
+
 }

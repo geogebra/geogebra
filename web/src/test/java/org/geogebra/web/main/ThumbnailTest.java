@@ -4,6 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.test.MockApp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

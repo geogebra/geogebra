@@ -2,7 +2,7 @@ package org.geogebra.web.full.euclidian;
 
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.main.MockApp;
+import org.geogebra.web.test.MockApp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
