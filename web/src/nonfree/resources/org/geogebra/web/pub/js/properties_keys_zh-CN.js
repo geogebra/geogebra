@@ -2447,6 +2447,8 @@ __GGB__keysVar["zh-CN"].menu = {
     "PressSpaceStopAnimation": "\u6309\u7a7a\u683c\u952e\u505c\u6b62\u52a8\u753b",
     "PressSpaceToOpen": "\u6309 Space \u7a7a\u683c\u952e\u6253\u5f00.",
     "PressSpaceToRunScript": "\u6309\u7a7a\u683c\u952e\u8fd0\u884c\u811a\u672c",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "\u6309\u5411\u4e0a\u952e\u2191\u589e\u5927\u6570\u503c",
     "Preview": "\u9884\u89c8",
     "PreviewUnavailable": "\u65e0\u6cd5\u9884\u89c8",

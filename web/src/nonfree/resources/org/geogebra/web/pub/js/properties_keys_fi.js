@@ -2447,6 +2447,8 @@ __GGB__keysVar["fi"].menu = {
     "PressSpaceStopAnimation": "Paina v\xe4lily\xf6nti\xe4 pys\xe4ytt\xe4\xe4ksesi animaation",
     "PressSpaceToOpen": "Avaa painamalla v\xe4lily\xf6nti\xe4.",
     "PressSpaceToRunScript": "Paina v\xe4lily\xf6nti suorittaaksesi skriptin",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Paina nuoli yl\xf6s arvon kasvattamiseen",
     "Preview": "Esikatselu",
     "PreviewUnavailable": "Esikatselu ei ole saatavilla",

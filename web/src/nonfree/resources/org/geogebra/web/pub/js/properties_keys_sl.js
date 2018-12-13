@@ -2447,6 +2447,8 @@ __GGB__keysVar["sl"].menu = {
     "PressSpaceStopAnimation": "S presledkom ustavi animacijo",
     "PressSpaceToOpen": "Odpremo s preslednico.",
     "PressSpaceToRunScript": "S preslednico po\u017eenemo skripto",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Pu\u0161\u010dica gor pove\u010da vrednost",
     "Preview": "Predogled",
     "PreviewUnavailable": "Predogled ni na voljo",

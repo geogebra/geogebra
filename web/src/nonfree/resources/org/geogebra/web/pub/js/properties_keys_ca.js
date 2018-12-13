@@ -2447,6 +2447,8 @@ __GGB__keysVar["ca"].menu = {
     "PressSpaceStopAnimation": "Premeu la barra espai per aturar l'animaci\xf3",
     "PressSpaceToOpen": "Premeu Espai per obrir.",
     "PressSpaceToRunScript": "Press space to run script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Press up arrow to increase the value",
     "Preview": "Vista pr\xe8via",
     "PreviewUnavailable": "Vista pr\xe8via no disponible",

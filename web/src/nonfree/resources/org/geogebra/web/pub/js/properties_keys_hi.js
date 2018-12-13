@@ -2447,6 +2447,8 @@ __GGB__keysVar["hi"].menu = {
     "PressSpaceStopAnimation": "Press space to stop animation",
     "PressSpaceToOpen": "Press space to open.",
     "PressSpaceToRunScript": "Press space to run script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Press up arrow to increase the value",
     "Preview": "\u092a\u0942\u0930\u094d\u0935\u093e\u0935\u0932\u094b\u0915\u0928",
     "PreviewUnavailable": "\u092a\u0942\u0930\u094d\u0935\u093e\u0935\u0932\u094b\u0915\u0928 \u0905\u0928\u0941\u092a\u0932\u092c\u094d\u0927",

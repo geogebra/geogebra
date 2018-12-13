@@ -2447,6 +2447,8 @@ __GGB__keysVar["nl-NL"].menu = {
     "PressSpaceStopAnimation": "Klik op spatie om de animatie te stoppen",
     "PressSpaceToOpen": "Klik op de spatiebalk om te openen.",
     "PressSpaceToRunScript": "Klik op spatie om het script toe te passen",
+    "PressTabToSelectControls": "Klik op tab om controles te selecteren",
+    "PressTabToSelectNext": "Klik op tab om het volgende object te selecteren",
     "PressUpToIncrease": "Klik op de pijl naar boven om de waarde te vermeerderen",
     "Preview": "Voorbeeld",
     "PreviewUnavailable": "Preview niet beschikbaar",

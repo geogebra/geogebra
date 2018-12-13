@@ -2447,6 +2447,8 @@ __GGB__keysVar["el"].menu = {
     "PressSpaceStopAnimation": "\u03a0\u03b1\u03c4\u03ae\u03c3\u03c4\u03b5 space \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03c3\u03c4\u03b1\u03bc\u03b1\u03c4\u03ae\u03c3\u03b5\u03b9 \u03b7 \u03ba\u03af\u03bd\u03b7\u03c3\u03b7",
     "PressSpaceToOpen": "Press space to open.",
     "PressSpaceToRunScript": "Press space to run script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "\u03a0\u03b1\u03c4\u03ae\u03c3\u03c4\u03b5 \u03b5\u03c0\u03ac\u03bd\u03c9 \u03b2\u03ad\u03bb\u03bf\u03c2 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c5\u03be\u03ae\u03c3\u03b5\u03c4\u03b5 \u03c4\u03b7\u03bd \u03c4\u03b9\u03bc\u03ae",
     "Preview": "\u03a0\u03c1\u03bf\u03b5\u03c0\u03b9\u03c3\u03ba\u03cc\u03c0\u03b7\u03c3\u03b7",
     "PreviewUnavailable": "H \u03a0\u03c1\u03bf\u03b5\u03c0\u03b9\u03c3\u03ba\u03cc\u03c0\u03b9\u03c3\u03b7 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b1\u03b4\u03cd\u03bd\u03b1\u03c4\u03b7",

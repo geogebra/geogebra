@@ -2447,6 +2447,8 @@ __GGB__keysVar["de-AT"].menu = {
     "PressSpaceStopAnimation": "Dr\xfccke die Leertaste, um die Animation zu stoppen.",
     "PressSpaceToOpen": "Dr\xfccke die Leertaste, um zu \xf6ffnen.",
     "PressSpaceToRunScript": "Dr\xfccke die Leertaste, um das Skript zu starten",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Dr\xfccke den aufw\xe4rts Pfeil, um den Wert zu erh\xf6hen",
     "Preview": "Vorschau",
     "PreviewUnavailable": "Keine Vorschau verf\xfcgbar",

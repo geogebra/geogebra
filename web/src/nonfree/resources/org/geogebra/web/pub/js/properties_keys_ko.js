@@ -2447,6 +2447,8 @@ __GGB__keysVar["ko"].menu = {
     "PressSpaceStopAnimation": "\uc560\ub2c8\uba54\uc774\uc158\uc744 \uba48\ucd94\ub824\uba74 \uc2a4\ud398\uc774\uc2a4 \ubc14\ub97c \ub204\ub974\uc138\uc694.",
     "PressSpaceToOpen": "\uc5f4\uae30 \uc704\ud574 \uc2a4\ud398\uc774\uc2a4 \ubc14\ub97c \ub204\ub974\uc138\uc694.",
     "PressSpaceToRunScript": "\uc2a4\ud06c\ub9bd\ud2b8\ub97c \uc2e4\ud589\ud558\ub824\uba74 \uc2a4\ud398\uc774\uc2a4 \ubc14\ub97c \ub204\ub974\uc138\uc694.",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "\uac12\uc744 \uc99d\uac00\uc2dc\ud0a4\ub824\uba74 \uc704\ucabd \ubc29\ud5a5 \ud654\uc0b4\ud45c\ub97c \ub204\ub974\uc138\uc694.",
     "Preview": "\ubbf8\ub9ac\ubcf4\uae30",
     "PreviewUnavailable": "\ubbf8\ub9ac\ubcfc \uc218 \uc5c6\uc74c",

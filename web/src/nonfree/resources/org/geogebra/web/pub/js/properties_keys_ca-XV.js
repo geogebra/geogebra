@@ -2447,6 +2447,8 @@ __GGB__keysVar["ca-XV"].menu = {
     "PressSpaceStopAnimation": "Premeu espai per a parar l'animaci\xf3",
     "PressSpaceToOpen": "Premeu espai per a obrir.",
     "PressSpaceToRunScript": "Premeu espai per a executar l'script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Premeu la fletxa amunt per a augmentar el valor",
     "Preview": "Previsualitzaci\xf3",
     "PreviewUnavailable": "La previsualitzaci\xf3 no est\xe0 disponible",

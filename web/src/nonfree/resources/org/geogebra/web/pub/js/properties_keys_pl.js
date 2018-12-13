@@ -2447,6 +2447,8 @@ __GGB__keysVar["pl"].menu = {
     "PressSpaceStopAnimation": "Naci\u015bnij spacj\u0119, aby zatrzyma\u0107 animacj\u0119",
     "PressSpaceToOpen": "Press space to open.",
     "PressSpaceToRunScript": "Naci\u015bnij spacj\u0119, aby uruchomi\u0107 skrypt",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Naci\u015bnij klawisz Strza\u0142ka w g\xf3r\u0119, aby zwi\u0119kszy\u0107 warto\u015b\u0107",
     "Preview": "Podgl\u0105d",
     "PreviewUnavailable": "Podgl\u0105d niedost\u0119pny",

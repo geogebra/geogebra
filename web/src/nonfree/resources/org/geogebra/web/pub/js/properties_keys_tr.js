@@ -2447,6 +2447,8 @@ __GGB__keysVar["tr"].menu = {
     "PressSpaceStopAnimation": "Canland\u0131rmay\u0131 durdurmak i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
     "PressSpaceToOpen": "A\xe7mak i\xe7in bo\u015fluk tu\u015funa bas\u0131n.",
     "PressSpaceToRunScript": "Beti\u011fi \xe7al\u0131\u015ft\u0131rmak i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "De\u011feri artt\u0131rmak i\xe7in yukar\u0131 y\xf6n tu\u015funa bas\u0131n\u0131z",
     "Preview": "\xd6ng\xf6r\xfcn\xfcm",
     "PreviewUnavailable": "Bask\u0131 \xf6nizleme mevcut de\u011fil",

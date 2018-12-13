@@ -2447,6 +2447,8 @@ __GGB__keysVar["ta"].menu = {
     "PressSpaceStopAnimation": "Press space to stop animation",
     "PressSpaceToOpen": "Press space to open.",
     "PressSpaceToRunScript": "Press space to run script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Press up arrow to increase the value",
     "Preview": "\u0bae\u0bc1\u0ba9\u0bcd\u0b95\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf",
     "PreviewUnavailable": "Preview Unavailable",

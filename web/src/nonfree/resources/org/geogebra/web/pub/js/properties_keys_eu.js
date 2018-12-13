@@ -2447,6 +2447,8 @@ __GGB__keysVar["eu"].menu = {
     "PressSpaceStopAnimation": "Sakatu espazioa animazioa gelditzeko",
     "PressSpaceToOpen": "Sakatu espazioa irekitzeko.",
     "PressSpaceToRunScript": "Sakatu espazioa to script-a (gidoia) abiarazteko",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Sakatu gora gezia balioa handitzeko",
     "Preview": "Aurrebista",
     "PreviewUnavailable": "Aurrebista Erabilezina",

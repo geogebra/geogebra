@@ -2447,6 +2447,8 @@ __GGB__keysVar["hu"].menu = {
     "PressSpaceStopAnimation": "Press space to stop animation",
     "PressSpaceToOpen": "Press space to open.",
     "PressSpaceToRunScript": "A sz\xf3k\xf6zzel futtathat\xf3 a script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Press up arrow to increase the value",
     "Preview": "El\u0151n\xe9zet",
     "PreviewUnavailable": "El\u0151n\xe9zet nincs",

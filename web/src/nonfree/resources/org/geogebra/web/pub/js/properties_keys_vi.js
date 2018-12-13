@@ -2447,6 +2447,8 @@ __GGB__keysVar["vi"].menu = {
     "PressSpaceStopAnimation": "Press space to stop animation",
     "PressSpaceToOpen": "Press space to open.",
     "PressSpaceToRunScript": "Press space to run script",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Press up arrow to increase the value",
     "Preview": "Xem tr\u01b0\u1edbc",
     "PreviewUnavailable": "Ch\u1ee9c n\u0103ng xem tr\u01b0\u1edbc ch\u01b0a s\u1eb5n s\xe0ng",

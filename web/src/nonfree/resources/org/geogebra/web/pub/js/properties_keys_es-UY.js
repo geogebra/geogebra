@@ -2447,6 +2447,8 @@ __GGB__keysVar["es-UY"].menu = {
     "PressSpaceStopAnimation": "Presiona espacio para detener la animaci\xf3n",
     "PressSpaceToOpen": "Presiona espacio para abrir.",
     "PressSpaceToRunScript": "Presiona espacio para ejecutar el guion",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Presiona la flecha hacia arriba para incrementar el valor",
     "Preview": "Vista previa",
     "PreviewUnavailable": "Previsualizaci\xf3n inhabilitada",

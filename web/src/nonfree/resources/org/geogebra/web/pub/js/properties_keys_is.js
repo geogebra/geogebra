@@ -2447,6 +2447,8 @@ __GGB__keysVar["is"].menu = {
     "PressSpaceStopAnimation": "Press space to stop animation",
     "PressSpaceToOpen": "\xddti\xf0 \xe1 bilst\xf6ng til a\xf0 opna.",
     "PressSpaceToRunScript": "Veldu bilhnapp til a\xf0 keyra forskrift",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Veldu \xf6r sem v\xedsar upp til a\xf0 h\xe6kka gildi\xf0",
     "Preview": "Fors\xfdning",
     "PreviewUnavailable": "Fors\xfdning ekki m\xf6guleg",

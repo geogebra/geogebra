@@ -2447,6 +2447,8 @@ __GGB__keysVar["sv"].menu = {
     "PressSpaceStopAnimation": "Tryck mellanslag f\xf6r att stoppa animeringen",
     "PressSpaceToOpen": "Tryck mellanslag f\xf6r att \xf6ppna.",
     "PressSpaceToRunScript": "Tryck mellanslag f\xf6r att k\xf6ra scriptet (programmet)",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Tryck p\xe5 upp\xe5tpilen f\xf6r att \xf6ka v\xe4rdet",
     "Preview": "F\xf6rhandsvisa",
     "PreviewUnavailable": "F\xf6rhandsgranskning ej tillg\xe4nglig",

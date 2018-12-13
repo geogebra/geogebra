@@ -2447,6 +2447,8 @@ __GGB__keysVar["nb"].menu = {
     "PressSpaceStopAnimation": "Trykk mellomrom for \xe5 stoppe animasjonen",
     "PressSpaceToOpen": "Trykk mellomrom for \xe5 \xe5pne.",
     "PressSpaceToRunScript": "Trykk mellomrom for \xe5 kj\xf8re skript",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Trykk oppoverpil for \xe5 \xf8ke verdien",
     "Preview": "Forh\xe5ndsvis",
     "PreviewUnavailable": "Forh\xe5nsvisning er ikke tilgjengelig",

@@ -2447,6 +2447,8 @@ __GGB__keysVar["cs"].menu = {
     "PressSpaceStopAnimation": "Stisknut\xedm mezern\xedku ukon\u010d\xedte animaci",
     "PressSpaceToOpen": "Otev\u0159ete stisknut\xedm mezern\xedku.",
     "PressSpaceToRunScript": "Stisknut\xedm mezern\xedku spust\xedte skript",
+    "PressTabToSelectControls": "Press tab to select controls",
+    "PressTabToSelectNext": "Press tab to select next object",
     "PressUpToIncrease": "Stisknut\xedm \u0161ipky nahoru zv\xfd\u0161\xedte hodnotu",
     "Preview": "N\xe1hled",
     "PreviewUnavailable": "N\xe1hled nen\xed k dispozici",
