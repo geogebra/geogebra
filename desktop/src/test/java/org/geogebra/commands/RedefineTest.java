@@ -23,6 +23,7 @@ public class RedefineTest extends Assert {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
+		app.setExam(null);
 	}
 
 	/**
@@ -306,6 +307,20 @@ public class RedefineTest extends Assert {
 					}
 				});
 		t("f'(x)", "(2 * x)");
+	}
+
+	@Test
+	public void redefinitionShouldNotMakeUnfixed() {
+		add("b:Circle(O,1)");
+		add("c:xx+yy=2");
+		add("d:xx+yy");
+		app.setNewExam();
+		app.startExam();
+		Assert.assertFalse(get("b").isLocked());
+		Assert.assertTrue(get("c").isLocked());
+		Assert.assertFalse(get("d").isLocked());
+		add("d:xx+yy=2");
+		Assert.assertTrue(get("d").isLocked());
 	}
 
 }

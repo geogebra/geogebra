@@ -1398,7 +1398,7 @@ public abstract class GeoElement extends ConstructionElement
 		setAuxiliaryObject(geo.isAuxiliaryObject());
 
 		// set fixed
-		setFixed(geo.isLocked());
+		setFixedFrom(geo);
 
 		// if layer is not zero (eg a new object has layer set to
 		// ev.getMaxLayerUsed())
@@ -1641,10 +1641,21 @@ public abstract class GeoElement extends ConstructionElement
 		return fixed;
 	}
 
+	private void setFixedFrom(GeoElement geo) {
+		boolean flag = geo.isLocked();
+		if (geo.isDefaultGeo() && !flag) {
+			fixed = false;
+		} else {
+			setFixed(flag);
+		}
+	}
+
 	@Override
-	public final void setFixed(final boolean flag) {
+	public void setFixed(boolean flag) {
 		if (!flag) {
-			fixed = flag;
+			fixed = kernel.getApplication().isExamStarted()
+					&& AlgebraItem.isEquationFromUser(this)
+					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
 			fixed = flag;
 		}
