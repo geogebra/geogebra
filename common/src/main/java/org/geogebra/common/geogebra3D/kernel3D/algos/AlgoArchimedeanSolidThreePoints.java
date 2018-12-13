@@ -242,6 +242,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		}
 
 		// check if A, B, C are aligned
+		vnl.set(0);
 		vnl.setCrossProduct(v1l, v2l);
 		if (vnl.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 			setUndefined();

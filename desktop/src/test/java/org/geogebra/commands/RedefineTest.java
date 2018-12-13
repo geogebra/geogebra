@@ -323,4 +323,17 @@ public class RedefineTest extends Assert {
 		Assert.assertTrue(get("d").isLocked());
 	}
 
+	@Test
+	public void cubeShouldNotVanish() {
+		add("A=O");
+		add("a=1");
+		add("Segment(A,a)");
+		add("cb=Cube(A,B)");
+		Assert.assertTrue(get("cb").isDefined());
+		add("SetValue(a,-1)");
+		Assert.assertFalse(get("cb").isDefined());
+		add("SetValue(a,1)");
+		Assert.assertTrue(get("cb").isDefined());
+	}
+
 }
