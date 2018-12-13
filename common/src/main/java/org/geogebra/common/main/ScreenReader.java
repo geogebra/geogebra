@@ -44,8 +44,7 @@ public class ScreenReader {
 	 *            selected element
 	 */
 	public static void readText(GeoElement geo) {
-		readText(geo.getAuralText(new ScreenReaderBuilder()),
-				geo.getKernel().getApplication());
+		readText(getAuralText(geo), geo.getKernel().getApplication());
 	}
 
 	private static void readText(String text, App app) {

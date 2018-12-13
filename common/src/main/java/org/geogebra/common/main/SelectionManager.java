@@ -758,7 +758,7 @@ public class SelectionManager {
 	public boolean hasNext(GeoElement geo) {
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree);
-		return tree.last() == geo;
+		return tree.last() != geo;
 	}
 
 	private void addSelectedGeoForEV(GeoElement geo) {
