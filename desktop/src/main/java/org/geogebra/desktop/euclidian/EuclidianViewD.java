@@ -989,7 +989,8 @@ public class EuclidianViewD extends EuclidianView
 
 	}
 
-	public ScreenReaderAdapter getScrreenReader() {
+	@Override
+	public ScreenReaderAdapter getScreenReader() {
 		return screenReader;
 	}
 
