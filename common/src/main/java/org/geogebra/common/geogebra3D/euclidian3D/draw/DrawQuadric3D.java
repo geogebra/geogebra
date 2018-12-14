@@ -1427,7 +1427,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// keep highest value (closest to eye)
-		if (z1 < z2) {
+		if (z1 < z2 || (hitting.discardPositiveHits() && z1 > 0)) {
 			z1 = z2;
 			quadric.setLastHitParameters(parameters2);
 		} else {
