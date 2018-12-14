@@ -4157,7 +4157,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
         /** G3D-37 */
         case G3D_PROJECTIONS_IN_SETTINGS:
-            return prerelease;
+			return true;
 
         // **********************************************************************
         // G3D END
