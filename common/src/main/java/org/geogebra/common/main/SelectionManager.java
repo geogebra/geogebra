@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -968,11 +967,7 @@ public class SelectionManager {
 			}
 
 			if (remove) {
-				try {
-					tree.remove(geo);
-				} catch (Exception e) {
-					Log.debug("problem with tree.remove()" + e.getMessage());
-				}
+				tree.remove(geo);
 			}
 		}
 
