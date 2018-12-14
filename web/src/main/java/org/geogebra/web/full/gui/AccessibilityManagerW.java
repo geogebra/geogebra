@@ -73,16 +73,28 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private void nextFromZoomPanel() {
 		DockManagerW dm = (DockManagerW) (app.getGuiManager().getLayout().getDockManager());
 		for (DockPanelW panel : dm.getPanels()) {
-			if (panel.isAttached() && !visitedIds.contains(panel.getViewId())
-					&& panel instanceof EuclidianDockPanelWAbstract) {
-				((EuclidianDockPanelWAbstract) panel).focusNextGUIElement();
-				visitedIds.add(panel.getViewId());
+			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(panel);
+			if (ev != null) {
+				ev.focusNextGUIElement();
+				visitedIds.add(ev.getViewId());
 				return;
 			}
 		}
 		if (!focusFirstGeo()) {
 			focusInputAsNext();
 		}
+	}
+
+	private EuclidianDockPanelWAbstract isEuclidianViewWithZoomPanel(DockPanelW panel) {
+		if (!(panel instanceof EuclidianDockPanelWAbstract)) {
+			return null;
+		}
+
+		EuclidianDockPanelWAbstract ev = (EuclidianDockPanelWAbstract) panel;
+
+		boolean zoomButtons = ev.isAttached() && !visitedIds.contains(ev.getViewId())
+				&& ev.hasZoomButtons();
+		return zoomButtons ? ev : null;
 	}
 	private void focusFirstElement() {
 		if (app.isUnbundled()) {

@@ -319,6 +319,14 @@ public class ZoomPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * 
+	 * @return if panel have visible buttons.
+	 */
+	public boolean hasButtons() {
+		return getFirstButton() != null;
+	}
+
 	/** Focus the last available button on zoom panel. */
 	public void focusLastButton() {
 		Widget btn = getLastButton();

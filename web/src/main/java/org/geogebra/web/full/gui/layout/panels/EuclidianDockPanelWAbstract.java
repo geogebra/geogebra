@@ -437,6 +437,13 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	/**
+	 * @return if the EV panel has zoom or fullscreen buttons at all.
+	 */
+	public boolean hasZoomButtons() {
+		return zoomPanel != null && zoomPanel.hasButtons();
+	}
+
+	/**
 	 * Focus the last available element on GUI before geos.
 	 *
 	 * @return if there was an element to focus to.
