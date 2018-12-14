@@ -680,4 +680,18 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 	}
 
+	@Test
+	public void labelOrderingTest() {
+		String[] ordered = new String[] { "A", "A1", "A2", "A10", "A1X", "B",
+				"B1", "B2" };
+		for (int i = 0; i < ordered.length; i++) {
+			for (int j = 0; j < ordered.length; j++) {
+				Assert.assertEquals(
+						Math.signum(GeoElement.compareLabels(ordered[i],
+								ordered[j])),
+						Math.signum(i - j), .1);
+			}
+		}
+	}
+
 }

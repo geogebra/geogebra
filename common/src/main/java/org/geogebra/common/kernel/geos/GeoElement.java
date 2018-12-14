@@ -2945,23 +2945,27 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	final public static int compareLabels(final String label1,
 			final String label2) {
-
-		if (GeoElementSpreadsheet.isSpreadsheetLabel(label1)
-				&& GeoElementSpreadsheet.isSpreadsheetLabel(label2)) {
-			final GPoint p1 = GeoElementSpreadsheet
-					.getSpreadsheetCoordsForLabel(label1);
-			final GPoint p2 = GeoElementSpreadsheet
-					.getSpreadsheetCoordsForLabel(label2);
-			// Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+"
-			// "+p2.y);
-			if (p1.x != p2.x) {
-				return p1.x - p2.x;
-			}
-			return p1.y - p2.y;
+		String prefix1 = trailingDigits(label1);
+		String prefix2 = trailingDigits(label2);
+		int comp = prefix1.compareTo(prefix2);
+		if (comp != 0) {
+			return comp;
+		}
+		int suffixLength1 = label1.length() - prefix1.length();
+		int suffixLength2 = label2.length() - prefix2.length();
+		if (suffixLength1 != suffixLength2) {
+			return suffixLength1 - suffixLength2;
 		}
 
 		return label1.compareTo(label2);
+	}
 
+	private static String trailingDigits(String label1) {
+		int i = label1.length() - 1;
+		while (i > 0 && label1.charAt(i) >= '0' && label1.charAt(i) <= '9') {
+			i--;
+		}
+		return label1.substring(0, i + 1);
 	}
 
 	private void doRenameLabel(final String newLabel) {
