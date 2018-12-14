@@ -437,6 +437,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public boolean onSelectFirstGeo(boolean forward) {
 		if (!forward) {
+			setPlaySelectedIfVisible(false);
 			focusZoom(false);
 			return true;
 		}
