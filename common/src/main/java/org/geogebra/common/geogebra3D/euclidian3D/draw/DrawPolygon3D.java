@@ -594,7 +594,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 			double d = getView3D().getScaledDistance(p3d, hitting.origin);
 			if (d <= poly.getLineThickness() + hitting.getThreshold()) {
-				setZPick(-d, -d);
+				setZPick(-d, -d, hitting.discardPositiveHits());
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
@@ -606,7 +606,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			p3d = hittingPointForOutline.getInhomCoordsInD3();
 			d = getView3D().getScaledDistance(p3d, hitting.origin);
 			if (d <= hitting.getThreshold()) {
-				setZPick(-d, -d);
+				setZPick(-d, -d, hitting.discardPositiveHits());
 				setPickingType(PickingType.SURFACE);
 				return true;
 			}
@@ -627,7 +627,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				// TODO use other for non-parallel projection :
 				// -hitting.origin.distance(project[0]);
 				double parameterOnHitting = inPlaneCoords.getZ();
-				setZPick(parameterOnHitting, parameterOnHitting);
+				setZPick(parameterOnHitting, parameterOnHitting, hitting.discardPositiveHits());
 				setPickingType(PickingType.SURFACE);
 				ret = true;
 			}
@@ -654,7 +654,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 						double z = -parameters[0];
 						double dz = poly.getLineThickness()
 								/ getView3D().getScale();
-						setZPick(z + dz, z - dz);
+						setZPick(z + dz, z - dz, hitting.discardPositiveHits());
 						setPickingType(PickingType.POINT_OR_CURVE);
 						return true;
 					}

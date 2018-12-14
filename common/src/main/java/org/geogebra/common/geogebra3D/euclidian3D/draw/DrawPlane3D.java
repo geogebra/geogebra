@@ -667,7 +667,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			double d = getView3D().getScaledDistance(globalCoords,
 					hitting.origin);
 			if (d <= hitting.getThreshold()) {
-				setZPick(-d, -d);
+				setZPick(-d, -d, hitting.discardPositiveHits());
 				return true;
 			}
 
@@ -675,7 +675,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			// TODO use other for non-parallel projection :
 			// -hitting.origin.distance(project[0]);
 			double parameterOnHitting = inPlaneCoords.getZ();
-			setZPick(parameterOnHitting, parameterOnHitting);
+			setZPick(parameterOnHitting, parameterOnHitting, hitting.discardPositiveHits());
 			return true;
 		}
 

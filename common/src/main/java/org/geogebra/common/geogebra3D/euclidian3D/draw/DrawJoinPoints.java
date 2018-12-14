@@ -335,12 +335,12 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 				double d = getView3D().getScaledDistance(startPoint,
 						hitting.origin);
 				if (d <= hitting.getThreshold()) {
-					setZPick(-d, -d);
+					setZPick(-d, -d, hitting.discardPositiveHits());
 					return true;
 				}
 				d = endPoint.distance(hitting.origin);
 				if (d <= hitting.getThreshold()) {
-					setZPick(-d, -d);
+					setZPick(-d, -d, hitting.discardPositiveHits());
 					return true;
 				}
 				return false;
@@ -349,7 +349,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			double d = getView3D().getScaledDistance(project1, hitting.origin);
 			if (d <= getGeoElement().getLineThickness()
 					+ hitting.getThreshold()) {
-				setZPick(d, d);
+				setZPick(d, d, hitting.discardPositiveHits());
 				return true;
 			}
 
@@ -390,7 +390,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 				double z = -parameterOnHitting;
 				double dz = getGeoElement().getLineThickness()
 						/ getView3D().getScale();
-				setZPick(z + dz, z - dz);
+				setZPick(z + dz, z - dz, hitting.discardPositiveHits());
 				return true;
 			}
 		}

@@ -173,7 +173,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 			double z = -lineCoords[0];
 			double dz = getGeoElement().getLineThickness()
 					/ getView3D().getScale();
-			setZPick(z + dz, z - dz);
+			setZPick(z + dz, z - dz, hitting.discardPositiveHits());
 			return true;
 		}
 

@@ -129,13 +129,13 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 
 		boolean ret = false;
 
-		setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, hitting.discardPositiveHits());
 
 		for (Drawable3D d : drawables) {
 			if (d.hit(hitting)) {
 				if (d.getZPickNear() > getZPickNear()) {
 					setPickingType(d.getPickingType());
-					setZPick(d.getZPickNear(), d.getZPickFar());
+					setZPick(d.getZPickNear(), d.getZPickFar(), hitting.discardPositiveHits());
 				}
 				ret = true;
 			}

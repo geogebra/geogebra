@@ -288,4 +288,12 @@ public class Hitting {
 	public double getVz() {
 		return vz;
 	}
+
+    /**
+     *
+     * @return true if discards positive hits
+     */
+	public boolean discardPositiveHits() {
+	    return view.isAREnabled();
+    }
 }

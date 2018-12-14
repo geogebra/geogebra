@@ -1330,7 +1330,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
 			initDrawLine(quadric);
 			if (drawLine.hit(hitting)) {
-				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar());
+				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar(), hitting.discardPositiveHits());
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
@@ -1379,7 +1379,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			quadric.setLastHitParameters(parameters1);
 
 			// hitted
-			setZPick(z1, z1);
+			setZPick(z1, z1, hitting.discardPositiveHits());
 			setPickingType(PickingType.SURFACE);
 			return true;
 
@@ -1388,7 +1388,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PLANE) {
 			if (drawPlanes[0].hit(hitting)) {
 				setZPick(drawPlanes[0].getZPickNear(),
-						drawPlanes[0].getZPickFar());
+						drawPlanes[0].getZPickFar(), hitting.discardPositiveHits());
 				setPickingType(PickingType.SURFACE);
 				return true;
 			}
@@ -1441,7 +1441,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// hitted
-		setZPick(z1, z1);
+		setZPick(z1, z1, hitting.discardPositiveHits());
 		setPickingType(PickingType.SURFACE);
 		return true;
 

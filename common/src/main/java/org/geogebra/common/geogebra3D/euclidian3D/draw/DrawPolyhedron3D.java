@@ -429,7 +429,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		if (!Double.isNaN(d)) {
-			setZPick(d, d);
+			setZPick(d, d, hitting.discardPositiveHits());
 			setPickingType(PickingType.SURFACE);
 			return true;
 		}

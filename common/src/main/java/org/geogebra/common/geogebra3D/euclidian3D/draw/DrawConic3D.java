@@ -983,7 +983,7 @@ public class DrawConic3D extends Drawable3DCurves
 				// TODO use other for non-parallel projection:
 				// -hitting.origin.distance(project[0]);
 				double parameterOnHitting = inPlaneCoords.getZ();
-				setZPick(parameterOnHitting, parameterOnHitting);
+				setZPick(parameterOnHitting, parameterOnHitting, hitting.discardPositiveHits());
 				setPickingType(PickingType.SURFACE);
 				ret = true;
 			}
@@ -1006,7 +1006,7 @@ public class DrawConic3D extends Drawable3DCurves
 					double z = -parameters[0];
 					double dz = conic.getLineThickness()
 							/ getView3D().getScale();
-					setZPick(z + dz, z - dz);
+					setZPick(z + dz, z - dz, hitting.discardPositiveHits());
 					setPickingType(PickingType.POINT_OR_CURVE);
 					return true;
 				}

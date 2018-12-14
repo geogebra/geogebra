@@ -178,6 +178,8 @@ public abstract class Drawable3D extends DrawableND {
 	/** nearest picking value, used for ordering elements with openGL picking */
 	private double zPickNear;
 
+	private boolean relevantPickingValues;
+
 	/** (r,g,b,a) vector */
 	protected GColor[] color = new GColor[]{GColor.BLACK, GColor.BLACK};
 	protected GColor[] surfaceColor = new GColor[]{GColor.BLACK, GColor.BLACK};
@@ -246,6 +248,7 @@ public abstract class Drawable3D extends DrawableND {
 		setView3D(view3D);
 
 		label = newDrawLabel3D(view3D);
+        relevantPickingValues = false;
 	}
 
 	protected DrawLabel3D newDrawLabel3D(EuclidianView3D view3D) {
@@ -987,6 +990,14 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	abstract public boolean isTransparent();
 
+    /**
+     *
+     * @return true if it has relevant values for picking
+     */
+    public boolean hasRelevantPickingValues() {
+        return relevantPickingValues;
+    }
+
 	/**
 	 * compare this to another Drawable3D with picking
 	 * 
@@ -996,13 +1007,22 @@ public abstract class Drawable3D extends DrawableND {
 	 *            say if the comparison has to look to pick order
 	 * @return 1 if this is in front, 0 if equality, -1 either
 	 */
-	public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
-		/*
-		 * Log.debug("\ncheckPickOrder="+checkPickOrder+"\n" +"zPickNear= "
-		 * +(this.zPickNear) +" | zPickFar= "+(this.zPickFar) +" ("
-		 * +this.getGeoElement()+") "+this+"\n" +"zPickFar= "+(d.zPickNear) +
-		 * " | zPickFar= "+(d.zPickFar) +" ("+d.getGeoElement()+") "+d+"\n");
-		 */
+    public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
+
+//        Log.debug("\ncheckPickOrder=" + checkPickOrder + "\n" + "zPickNear= "
+//                + (this.zPickNear) + " | zPickFar= " + (this.zPickFar) + " | relevant= " + (!this
+//                .hasNotRelevantPickingValues()) + " ("
+//                + this.getGeoElement() + ") " + this + "\n" + "zPickFar= " + (d.zPickNear) +
+//                " | zPickFar= " + (d.zPickFar) + " | relevant= " + (!d
+//                .hasNotRelevantPickingValues()) + " (" + d.getGeoElement() + ") " + d + "\n");
+
+        if (hasRelevantPickingValues() && !d.hasRelevantPickingValues()) {
+            return -1;
+        }
+
+        if (!hasRelevantPickingValues() && d.hasRelevantPickingValues()) {
+            return 1;
+        }
 
 		// check if one is transparent and the other not -- ONLY FOR DIFFERENT
 		// PICK ORDERS
@@ -1681,10 +1701,21 @@ public abstract class Drawable3D extends DrawableND {
 	 *            nearest value
 	 * @param zFar
 	 *            most far value
+     *
+     * @param discardPositive
+     *            if discard positive values
 	 */
-	final public void setZPick(double zNear, double zFar) {
-		zPickNear = zNear;
-		zPickFar = zFar;
+    final public void setZPick(double zNear, double zFar, boolean discardPositive) {
+        if (discardPositive && (zNear > 0 || zFar > 0)) {
+            zPickNear = Double.NEGATIVE_INFINITY;
+            zPickFar = Double.NEGATIVE_INFINITY;
+            relevantPickingValues = false;
+        } else {
+            zPickNear = zNear;
+            zPickFar = zFar;
+            relevantPickingValues = !Double.isInfinite(zPickNear) && !Double.isInfinite(zPickFar)
+                    && !Double.isNaN(zPickNear) && !Double.isNaN(zPickFar);
+        }
 
 		// Log.debug("\n"+getGeoElement()+" : \n"+zNear+"\n"+zFar);
 	}
@@ -1769,7 +1800,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
 		if (isLabelVisible() && hitting.hitLabel(label)) {
-			setZPick(label.getDrawZ(), label.getDrawZ());
+            setZPick(label.getDrawZ(), label.getDrawZ(), hitting.discardPositiveHits());
 			hits.addDrawable3D(this, PickingType.LABEL);
 			return true;
 		}

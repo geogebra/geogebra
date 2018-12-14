@@ -294,7 +294,7 @@ public class DrawPoint3D extends Drawable3DCurves
 			if (d <= pointSize + hitting.getThreshold()) {
 				// double z = -parameters[0];
 				// double dz = pointSize/scale;
-				drawable.setZPick(-d, -d);
+				drawable.setZPick(-d, -d, hitting.discardPositiveHits());
 				return true;
 			}
 		} else {
@@ -316,7 +316,7 @@ public class DrawPoint3D extends Drawable3DCurves
 			if (hitted) {
 				double z = -parameters[0];
 				double dz = pointSize / drawable.getView3D().getScale();
-				drawable.setZPick(z + dz, z - dz);
+				drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits());
 				return true;
 			}
 

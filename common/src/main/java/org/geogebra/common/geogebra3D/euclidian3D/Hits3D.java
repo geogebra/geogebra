@@ -66,7 +66,7 @@ public class Hits3D extends Hits {
 				remove(d);
 			}
 
-			d.setZPick(zNear, zFar);
+			d.setZPick(zNear, zFar, false);
 
 			super.add(d);
 
@@ -191,22 +191,21 @@ public class Hits3D extends Hits {
 	 */
 	public void addDrawable3D(Drawable3D d, PickingType type) {
 
-		if (type == PickingType.LABEL) {
-			if (!d.getGeoElement().isGeoText()) {
-				hitsLabels.add(d);
-			}
-		} else { // remember last type for picking
-			d.setPickingType(type);
-		}
+	    if (d.hasRelevantPickingValues()) {
+            if (type == PickingType.LABEL) {
+                if (!d.getGeoElement().isGeoText()) {
+                    hitsLabels.add(d);
+                }
+            } else { // remember last type for picking
+                d.setPickingType(type);
+            }
 
-		// Log.debug("\n"+d+"\n"+type);
-
-		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX) {
-			hitSet[d.getPickOrder()].add(d);
-		} else {
-			hitsOthers.add(d);
-		}
-
+            if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX) {
+                hitSet[d.getPickOrder()].add(d);
+            } else {
+                hitsOthers.add(d);
+            }
+        }
 	}
 
 	/**

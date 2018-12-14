@@ -321,7 +321,7 @@ public class DrawList3D extends Drawable3D {
 		}
 
 		if (ret) {
-			setZPick(listZNear, listZFar);
+			setZPick(listZNear, listZFar, hitting.discardPositiveHits());
 		}
 
 		return ret;
