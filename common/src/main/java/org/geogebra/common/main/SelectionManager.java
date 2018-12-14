@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -937,6 +938,7 @@ public class SelectionManager {
 	}
 
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
+
 		App app = kernel.getApplication();
 		boolean avShowing = kernel.getApplication().getGuiManager() != null
 				&& this.kernel.getApplication().getGuiManager()
@@ -966,7 +968,11 @@ public class SelectionManager {
 			}
 
 			if (remove) {
-				tree.remove(geo);
+				try {
+					tree.remove(geo);
+				} catch (Exception e) {
+					Log.debug("problem with tree.remove()" + e.getMessage());
+				}
 			}
 		}
 
