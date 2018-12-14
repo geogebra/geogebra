@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -16,6 +17,7 @@ import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
@@ -241,10 +243,24 @@ public class ZoomPanel extends FlowPanel
 	 * Sets translated titles of the buttons.
 	 */
 	public void setLabels() {
-		setButtonTitleAndAltText(fullscreenBtn, "Fullscreen");
+		setFullScreenAuralText();
 		setButtonTitleAndAltText(homeBtn, "StandardView");
 		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
 		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");
+	}
+
+	private void setFullScreenAuralText() {
+		if (fullscreenBtn == null) {
+			return;
+		}
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		LocalizationW loc = app.getLocalization();
+		sb.append(loc.getMenuDefault("FullscreenButtonSelected",
+				"Full screen button selected Press space to go full screen"));
+		sb.appendSpace();
+		sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
+		sb.endSentence();
+		setButtonTitleAndAltText(fullscreenBtn, sb.toString());
 	}
 
 	private void setButtonTitleAndAltText(StandardButton btn, String string) {
