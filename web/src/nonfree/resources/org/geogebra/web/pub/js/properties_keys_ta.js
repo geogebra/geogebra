@@ -1847,6 +1847,7 @@ __GGB__keysVar["ta"].menu = {
     "FrequencyType": "Frequency Type",
     "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Fullscreen",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "\u0ba8\u0bbf\u0b95\u0bb4\u0bcd\u0b9a\u0bcd\u0b9a\u0bbf",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

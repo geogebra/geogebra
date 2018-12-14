@@ -1847,6 +1847,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "FrequencyType": "Frequentietype",
     "FullReinstallNeeded": "Sorry, je moet GeoGebra Klassiek 5 volledig opnieuw installeren om deze toepassing mogelijk te maken.",
     "Fullscreen": "Volledig scherm",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Functie",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

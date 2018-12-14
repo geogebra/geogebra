@@ -1847,6 +1847,7 @@ __GGB__keysVar["it"].menu = {
     "FrequencyType": "Tipo di frequenza",
     "FullReinstallNeeded": "Per attivare questa funzionalit\xe0 \xe8 necessario reinstallare GeoGebra Classico 5.",
     "Fullscreen": "Schermo intero",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funzione",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

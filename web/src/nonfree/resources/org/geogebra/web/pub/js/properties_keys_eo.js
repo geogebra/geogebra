@@ -1847,6 +1847,7 @@ __GGB__keysVar["eo"].menu = {
     "FrequencyType": "Ofteca tipo",
     "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Fullscreen",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funkcio",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

@@ -1847,6 +1847,7 @@ __GGB__keysVar["sl"].menu = {
     "FrequencyType": "Vrste frekvenc",
     "FullReinstallNeeded": "Za to funkcionalnost je potrebno ponovno namestiti klasi\u010dno GeoGebro 5.",
     "Fullscreen": "Cel ekran",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funkcija",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

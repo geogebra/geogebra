@@ -1847,6 +1847,7 @@ __GGB__keysVar["xh"].menu = {
     "FrequencyType": "Uhlobo lweFrequency",
     "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "iscreen esigcweleyo",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "iFunction",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

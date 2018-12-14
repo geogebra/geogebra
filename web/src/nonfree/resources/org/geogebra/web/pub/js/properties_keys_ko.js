@@ -1847,6 +1847,7 @@ __GGB__keysVar["ko"].menu = {
     "FrequencyType": "\ub3c4\uc218 \ud0c0\uc785",
     "FullReinstallNeeded": "\uc774 \uae30\ub2a5\uc744 \ud65c\uc131\ud654\ud558\uae30 \uc704\ud574\uc11c \uc9c0\uc624\uc9c0\ube0c\ub77c \ud074\ub798\uc2dd 5\ub97c \uc804\uccb4 \uc7ac\uc124\uce58\ud558\ub294 \uac83\uc774 \ud544\uc694\ud569\ub2c8\ub2e4.",
     "Fullscreen": "\uc804\uccb4\ud654\uba74",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "\ud568\uc218",
     "Function.acos": "arccos",
     "Function.acosd": "acosd",

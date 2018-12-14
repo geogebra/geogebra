@@ -1847,6 +1847,7 @@ __GGB__keysVar["fi"].menu = {
     "FrequencyType": "Frekvenssityyppi",
     "FullReinstallNeeded": "Anteeksi. Sinun tulee asentaa GeoGebra Classic 5 uudelleen, jotta saat t\xe4m\xe4n k\xe4ytt\xf6\xf6n.",
     "Fullscreen": "Koko n\xe4ytt\xf6",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funktio",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

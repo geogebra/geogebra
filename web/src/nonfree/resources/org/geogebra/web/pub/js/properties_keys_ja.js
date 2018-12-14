@@ -1847,6 +1847,7 @@ __GGB__keysVar["ja"].menu = {
     "FrequencyType": "\u5ea6\u6570\u306e\u30bf\u30a4\u30d7",
     "FullReinstallNeeded": "\u7533\u3057\u8a33\u3042\u308a\u307e\u305b\u3093\u304c\u3001\u3053\u306e\u6a5f\u80fd\u3092\u6709\u52b9\u306b\u3059\u308b\u306b\u306f GeoGebra\u30af\u30e9\u30b7\u30c3\u30af 5 \u306e\u5b8c\u5168\u306a\u518d\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u304c\u5fc5\u8981\u3067\u3059\u3002",
     "Fullscreen": "\u30d5\u30eb\u30b9\u30af\u30ea\u30fc\u30f3",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "\u95a2\u6570",
     "Function.acos": "acos",
     "Function.acosd": "\u9006\u30b5\u30a4\u30f3",

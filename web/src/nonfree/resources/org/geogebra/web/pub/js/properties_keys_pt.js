@@ -1847,6 +1847,7 @@ __GGB__keysVar["pt"].menu = {
     "FrequencyType": "Tipo de Frequ\xeancia",
     "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Tela Cheia",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Fun\xe7\xe3o",
     "Function.acos": "arccos",
     "Function.acosd": "arccosg",

@@ -1847,6 +1847,7 @@ __GGB__keysVar["nn"].menu = {
     "FrequencyType": "Frekvenstype",
     "FullReinstallNeeded": "Du m\xe5 dessverre reintallere GeoGebra 5 klassisk for \xe5 f\xe5 tilgang til denne funksjonaliteten.",
     "Fullscreen": "Fullskjerm",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funksjon",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

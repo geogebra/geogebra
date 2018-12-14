@@ -1847,6 +1847,7 @@ __GGB__keysVar["hr"].menu = {
     "FrequencyType": "Tip frekvencije",
     "FullReinstallNeeded": "\u017dao nam je, morat \u0107ete iznova instalirati GeoGebru Classic 5 kako biste omogu\u0107ili ovu funkcionalnost.",
     "Fullscreen": "Prikaz na cijelom zaslonu",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funkcija",
     "Function.acos": "arccos",
     "Function.acosd": "acosd",

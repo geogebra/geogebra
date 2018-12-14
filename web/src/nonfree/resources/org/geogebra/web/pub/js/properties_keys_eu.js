@@ -1847,6 +1847,7 @@ __GGB__keysVar["eu"].menu = {
     "FrequencyType": "Maiztasun-Mota",
     "FullReinstallNeeded": "Barka, Betiko GeoGebra 5 guztiz berrinstalatu behar duzu funtzionalitate horiek erabiltzeko.",
     "Fullscreen": "Pantaila Osoa",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funtzioa",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

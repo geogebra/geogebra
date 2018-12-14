@@ -1847,6 +1847,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "FrequencyType": "Tipus de freq\xfc\xe8ncies",
     "FullReinstallNeeded": "Heu de fer una reinstal\xb7laci\xf3 completa del GeoGebra Cl\xe0ssic 5 per a habilitar aquesta funcionalitat.",
     "Fullscreen": "Pantalla completa",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "Funci\xf3",
     "Function.acos": "acos",
     "Function.acosd": "acosd",

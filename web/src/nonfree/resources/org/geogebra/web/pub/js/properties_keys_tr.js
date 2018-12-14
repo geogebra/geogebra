@@ -1847,6 +1847,7 @@ __GGB__keysVar["tr"].menu = {
     "FrequencyType": "Frekans Tipi",
     "FullReinstallNeeded": "\xdczg\xfcn\xfcz, bu \xf6zelli\u011fin kullan\u0131lmas\u0131 i\xe7in GeoGebra Classic 5'in tam bir kurulumuna ihtiyac\u0131n\u0131z var.",
     "Fullscreen": "Tam ekran",
+    "FullscreenButtonSelected": "Full screen button selected Press space to go full screen",
     "Function": "\u0130\u015flev",
     "Function.acos": "acos",
     "Function.acosd": "acosd",
