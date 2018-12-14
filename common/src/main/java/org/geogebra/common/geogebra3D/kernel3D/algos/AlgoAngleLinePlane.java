@@ -183,7 +183,7 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 		getAngle().setValue(AlgoAnglePoints3D.acos(c));
 
-		vn.setCrossProduct(v2, v1);
+		vn.setCrossProduct4(v2, v1);
 		vn.normalize();
 
 	}

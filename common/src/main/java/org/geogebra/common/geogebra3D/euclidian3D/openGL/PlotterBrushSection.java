@@ -264,10 +264,10 @@ public class PlotterBrushSection {
 			direction.completeOrthonormal(s.clockU, s.clockV);
 		}
 
-		clockV.setCrossProduct(direction, s.clockU);
+		clockV.setCrossProduct4(direction, s.clockU);
 		clockV.normalize();
 		// normalize it to avoid little errors propagation
-		clockU.setCrossProduct(clockV, direction);
+		clockU.setCrossProduct4(clockV, direction);
 		clockU.normalize();
 
 		normal.setUndefined();

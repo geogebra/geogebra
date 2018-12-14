@@ -1315,7 +1315,7 @@ public class GeoFunctionNVar extends GeoElement
 		der1.setZ((p1.z - p.getZd()) / SurfaceEvaluable.NUMERICAL_DELTA);
 		der2.setZ((p2.z - p.getZd()) / SurfaceEvaluable.NUMERICAL_DELTA);
 
-		normal.setCrossProduct(der1, der2);
+		normal.setCrossProduct3(der1, der2);
 		n.setNormalizedIfPossible(normal);
 
 		return true;
@@ -1339,7 +1339,7 @@ public class GeoFunctionNVar extends GeoElement
 		}
 		der2.setZ(val);
 
-		normal.setCrossProduct(der1, der2);
+		normal.setCrossProduct3(der1, der2);
 		n.setNormalizedIfPossible(normal);
 
 		return true;
@@ -1366,7 +1366,7 @@ public class GeoFunctionNVar extends GeoElement
 		val = evaluateNormal(1);
 		der2.setZ(val);
 
-		n.setCrossProduct(der1, der2);
+		n.setCrossProduct4(der1, der2);
 		n.normalize();
 
 	}

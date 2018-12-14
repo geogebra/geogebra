@@ -114,7 +114,7 @@ public class FormatSTL extends Format {
 		tmpCoords3.set(v3x, v3y, v3z);
 		tmpCoords2.setSub(tmpCoords2, tmpCoords1);
 		tmpCoords3.setSub(tmpCoords3, tmpCoords1);
-		tmpCoords1.setCrossProduct(tmpCoords2, tmpCoords3);
+		tmpCoords1.setCrossProduct3(tmpCoords2, tmpCoords3);
 		tmpCoords1.normalize();
 
 		// out normal

@@ -223,7 +223,7 @@ public class PlotterSurface {
 		manager.texture(uT, vT);
 		
 		if (shouldPackConics(d)) {
-			tmpCoords3.setCrossProduct(tmpCoords.setSub3(p2, p1),
+			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1),
 					tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
 		}
@@ -257,7 +257,7 @@ public class PlotterSurface {
 		manager.texture(uT, vT);
 
 		if (shouldPackConics(d)) {
-			tmpCoords3.setCrossProduct(tmpCoords.setSub3(p2, p1),
+			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1),
 					tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
 		}
@@ -1095,7 +1095,7 @@ public class PlotterSurface {
 			manager.startGeometry(Manager.Type.TRIANGLES);
 
 			manager.setDummyTexture();
-			tmpCoords.setCrossProduct(v1, v2);
+			tmpCoords.setCrossProduct4(v1, v2);
 			manager.normalToScale(tmpCoords);
 
 			tmpCoords.setAdd(center, tmpCoords.setMul(v1, l1));

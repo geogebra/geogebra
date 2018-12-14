@@ -78,7 +78,7 @@ public class AlgoLineBisectorSegmentDirection3D extends AlgoElement3D {
 			return;
 		}
 
-		d.setCrossProduct(segment.getDirectionInD3(),
+		d.setCrossProduct3(segment.getDirectionInD3(),
 				direction.getDirectionInD3());
 		if (d.isZero()) {
 			line.setUndefined();

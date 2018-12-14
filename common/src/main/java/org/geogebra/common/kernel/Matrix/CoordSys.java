@@ -500,7 +500,7 @@ public class CoordSys {
 			// Kernel.STANDARD_PRECISION)) {
 			if (getVx().isLinearIndependent(v)) {
 				setVy(v);
-				getVz().setCrossProduct(getVx(), getVy());
+				getVz().setCrossProduct4(getVx(), getVy());
 				setMadeCoordSys(2);
 			}
 			break;
@@ -514,8 +514,7 @@ public class CoordSys {
 	 * creates the equation vector
 	 */
 	public void makeEquationVector() {
-		equationVector.setCrossProduct(getVx(), getVy());
-		equationVector.set(4, 0);
+		equationVector.setCrossProduct4(getVx(), getVy());
 
 		double d = equationVector.dotproduct(getOrigin());
 		equationVector.set(4, -d);
@@ -599,7 +598,7 @@ public class CoordSys {
 	public void setEquationVector(Coords cA, Coords cB, Coords cC) {
 		tmpCoords1.setSub(cB, cA);
 		tmpCoords2.setSub(cC, cA);
-		tmpCoords3.setCrossProduct(tmpCoords1, tmpCoords2);
+		tmpCoords3.setCrossProduct4(tmpCoords1, tmpCoords2);
 		setEquationVector(cA, tmpCoords3);
 	}
 
@@ -703,13 +702,13 @@ public class CoordSys {
 		if (dimension == 1) {
 			// compute Vy and Vz
 			Coords vy = getVy();
-			vy.setCrossProduct(Coords.VZ, getVx());
+			vy.setCrossProduct4(Coords.VZ, getVx());
 			// check if vy=0 (if so, vx is parallel to Oz)
 			if (vy.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 				setVy(Coords.VX);
 				setVz(Coords.VY);
 			} else {
-				getVz().setCrossProduct(getVx(), getVy());
+				getVz().setCrossProduct4(getVx(), getVy());
 			}
 
 			if (projectOrigin) { // recompute origin for ortho matrix
@@ -730,13 +729,13 @@ public class CoordSys {
 			if (firstVectorParallelToXOY) {
 				// vector Vx parallel to xOy plane
 
-				tmpCoords1.setCrossProduct(getVz(), Coords.VZ);
+				tmpCoords1.setCrossProduct4(getVz(), Coords.VZ);
 				tmpCoords1.setW(0);
 				// if (!Kernel.isEqual(vx.norm(), 0,
 				// Kernel.STANDARD_PRECISION)){
 				if (!tmpCoords1.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 					tmpCoords1.normalize();
-					tmpCoords2.setCrossProduct(getVz(), tmpCoords1);
+					tmpCoords2.setCrossProduct4(getVz(), tmpCoords1);
 					tmpCoords2.setW(0);
 					tmpCoords2.normalize();
 					tmpCoords3.setNormalized(getVz());
@@ -748,10 +747,10 @@ public class CoordSys {
 			} else {
 				tmpCoords1.setNormalized(getVx(), true);
 				// vz is computed and vy recomputed to make orthonormal matrix
-				tmpCoords3.setCrossProduct(tmpCoords1, getVy());
+				tmpCoords3.setCrossProduct4(tmpCoords1, getVy());
 				tmpCoords3.setW(0);
 				tmpCoords3.normalize(true);
-				tmpCoords2.setCrossProduct(tmpCoords3, tmpCoords1);
+				tmpCoords2.setCrossProduct4(tmpCoords3, tmpCoords1);
 				tmpCoords2.setW(0);
 			}
 
@@ -1289,8 +1288,8 @@ public class CoordSys {
 	 * 
 	 */
 	public void updateContinuousPointVx(Coords point, Coords vector) {
-		tmpCoords2.setCrossProduct(matrixOrthonormal.getVz(), vector);
-		tmpCoords3.setCrossProduct(vector, tmpCoords2);
+		tmpCoords2.setCrossProduct4(matrixOrthonormal.getVz(), vector);
+		tmpCoords3.setCrossProduct4(vector, tmpCoords2);
 		tmpCoords3.setW(0);
 		tmpCoords3.normalize();
 

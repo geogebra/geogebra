@@ -1603,8 +1603,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (tmpCoords3 == null) {
 			tmpCoords3 = new Coords(4);
 		}
-		tmpCoords3.setCrossProduct(vn, tmpCoords2);
-		tmpCoords3.setW(0);
+		tmpCoords3.setCrossProduct4(vn, tmpCoords2);
 
 		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(
 				tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin / l))));

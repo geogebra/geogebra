@@ -612,7 +612,7 @@ public class PlotterBrush implements PathPlotter {
 
 		length = (float) (extent * radius);
 
-		vn2.setCrossProduct(v2, v1);
+		vn2.setCrossProduct3(v2, v1);
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
@@ -664,7 +664,7 @@ public class PlotterBrush implements PathPlotter {
 
 		double arrowLength = oldThickness * 5;
 
-		vn2.setCrossProduct(v2, v1);
+		vn2.setCrossProduct3(v2, v1);
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
@@ -678,7 +678,7 @@ public class PlotterBrush implements PathPlotter {
 
 		tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
 
-		tmpCoords3.setCrossProduct(vn2, vn1);
+		tmpCoords3.setCrossProduct3(vn2, vn1);
 		tmpCoords2.setAdd(tmpCoords, tmpCoords3.mulInside(arrowLength));
 		setThickness(0);
 		setTextureX(0, 0);
@@ -708,7 +708,7 @@ public class PlotterBrush implements PathPlotter {
 		setTextureX(0, 0);
 		moveTo(tmpCoords, vn1, vn2);
 
-		tmpCoords3.setCrossProduct(vn1, vn2);
+		tmpCoords3.setCrossProduct3(vn1, vn2);
 		tmpCoords2.setAdd(tmpCoords, tmpCoords3.mulInside(arrowLength));
 		setThickness(0);
 		setTextureX(0, 0);
@@ -755,7 +755,7 @@ public class PlotterBrush implements PathPlotter {
 
 		int longitude = manager.getLongitudeDefault();
 
-		vn2.setCrossProduct(v2, v1);
+		vn2.setCrossProduct3(v2, v1);
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
@@ -834,7 +834,7 @@ public class PlotterBrush implements PathPlotter {
 
 		int longitude = manager.getLongitudeDefault();
 
-		vn2.setCrossProduct(v1, v2);
+		vn2.setCrossProduct3(v1, v2);
 
 		float dt = (float) (tMax - tMin) / longitude;
 
@@ -893,7 +893,7 @@ public class PlotterBrush implements PathPlotter {
 		// focus
 		f1.setMul(v1, p / 2);
 
-		vn2.setCrossProduct(v1, v2);
+		vn2.setCrossProduct3(v1, v2);
 
 		int longitude = manager.getLongitudeDefault();
 

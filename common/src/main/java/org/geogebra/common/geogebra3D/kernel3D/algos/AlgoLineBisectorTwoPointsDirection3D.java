@@ -88,7 +88,7 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 		Coords cb = b.getInhomCoordsInD3();
 		d1.setSub3(cb, ca);
 
-		d.setCrossProduct(d1, direction.getDirectionInD3());
+		d.setCrossProduct3(d1, direction.getDirectionInD3());
 		if (d.isZero()) {
 			line.setUndefined();
 		} else {

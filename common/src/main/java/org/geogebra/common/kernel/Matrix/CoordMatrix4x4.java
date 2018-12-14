@@ -509,7 +509,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 			Vn1.setW(0);
 		}
 
-		Vn2.setCrossProduct(V, Vn1);
+		Vn2.setCrossProduct4(V, Vn1);
 		Vn2.setW(0);
 		Vn2.normalize();
 
@@ -518,8 +518,8 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	private static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2,
 			Coords Vn1Old) {
 
-		Vn2.setCrossProduct(V, Vn1Old);
-		Vn1.setCrossProduct(Vn2, V);
+		Vn2.setCrossProduct4(V, Vn1Old);
+		Vn1.setCrossProduct4(Vn2, V);
 		Vn1.setW(0);
 
 		if (Vn1.isZero()) {
@@ -541,7 +541,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 			Vn1.normalize();
 		}
 
-		Vn2.setCrossProduct(V, Vn1);
+		Vn2.setCrossProduct4(V, Vn1);
 		Vn2.setW(0);
 		Vn2.normalize();
 

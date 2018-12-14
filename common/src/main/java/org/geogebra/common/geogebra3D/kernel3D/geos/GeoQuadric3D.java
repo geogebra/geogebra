@@ -269,7 +269,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				eigenvecND[0].normalize();
 				findEigenvector(eigenval[1], eigenvecND[1]);
 				eigenvecND[1].normalize();
-				eigenvecND[2].setCrossProduct(eigenvecND[0], eigenvecND[1]);
+				eigenvecND[2].setCrossProduct4(eigenvecND[0], eigenvecND[1]);
 			}
 
 			// check eigenvec continuity
@@ -560,7 +560,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			valSgn = 1;
 			eigenvecND[0].mulInside3(-1);
 		}
-		eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
+		eigenvecND[1].setCrossProduct4(eigenvecND[2], eigenvecND[0]);
 
 		// for (int i = 0; i < 3; i++) {
 		// Log.debug("eigenvecND[" + i + "]=\n" + eigenvecND[i]);
@@ -949,17 +949,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private void completeOrthonormalRatioEqualTo1(Coords ev0, Coords ev1,
 			Coords ev2) {
 		// try to keep ev0
-		tmpCoords.setCrossProduct(ev2, ev0);
+		tmpCoords.setCrossProduct4(ev2, ev0);
 		if (!tmpCoords.isZero(3)) {
 			// we can set ev1 to this cross product
 			ev1.setValues(tmpCoords, 3);
 			ev1.normalize();
 			// update ev0 to get orthonormal vectors
-			ev0.setCrossProduct(ev1, ev2);
+			ev0.setCrossProduct4(ev1, ev2);
 			ev0.normalize();
 		} else if (!ev1.isZero()) { // ev1 and ev2 are already orthogonal
 			// since ev1 was orthogonal to ev0 and ev0 and ev2 are parallel
-			ev0.setCrossProduct(ev1, ev2);
+			ev0.setCrossProduct4(ev1, ev2);
 			ev0.normalize();
 		} else {
 			ev2.completeOrthonormal3(ev0, ev1);
@@ -983,7 +983,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			tmpCoords.setValues(eigenvecND[0], 3);
 			findEigenvector(eigenval[0], eigenvecND[0]);
 			eigenvecND[0].normalize();
-			eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
+			eigenvecND[1].setCrossProduct4(eigenvecND[2], eigenvecND[0]);
 			double dot0 = tmpCoords.dotproduct3(eigenvecND[0]);
 			double dot1 = tmpCoords.dotproduct3(eigenvecND[1]);
 			if (Math.abs(dot1) > Math.abs(dot0)) { // swap
@@ -1354,7 +1354,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				computeEigenVectorMultiplicity1(matrix, eigenval[i],
 						eigenvec[i]);
 			}
-			eigenvec[2].setCrossProduct(eigenvec[0], eigenvec[1]); // ensure
+			eigenvec[2].setCrossProduct3(eigenvec[0], eigenvec[1]); // ensure
 																	// orientation
 
 			for (int i = 0; i < 3; i++) {

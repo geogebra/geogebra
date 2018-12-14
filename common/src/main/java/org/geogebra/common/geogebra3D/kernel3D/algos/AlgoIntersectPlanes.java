@@ -112,7 +112,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		Coords v1 = p1.getEquationVector();
 		Coords v2 = p2.getEquationVector();
 
-		vn.setCrossProduct(v1, v2);
+		vn.setCrossProduct4(v1, v2);
 
 		if (vn.isZero()) {
 			getIntersection().setUndefined();
@@ -121,11 +121,9 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 
 		vnn.set3(vn);
 		vnn.normalize();
-		vn1.setW(0);
-		vn1.setCrossProduct(v1, vnn);
+		vn1.setCrossProduct4(v1, vnn);
 		vn1.normalize();
-		vn2.setW(0);
-		vn2.setCrossProduct(v2, vnn);
+		vn2.setCrossProduct4(v2, vnn);
 		vn2.normalize();
 		o.setW(1);
 		Coords o1 = p1.getOrigin();

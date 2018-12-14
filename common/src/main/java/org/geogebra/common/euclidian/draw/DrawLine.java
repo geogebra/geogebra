@@ -543,7 +543,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				// line through first point and mouse position
 				// coords = startPoint.getCoordsInD2().crossProduct(new
 				// Coords(xRW, yRW, 1));
-				this.coordsForMousePos.setCrossProduct(
+				this.coordsForMousePos.setCrossProduct4(
 						view.getCoordsForView(startPoint.getInhomCoordsInD3())
 								.projectInfDim(),
 						new Coords(xRW, yRW, 1));
@@ -585,11 +585,13 @@ public class DrawLine extends SetDrawable implements Previewable {
 				// GeoVec3D.cross(previewPoint2, startPoint, g1);
 				// GeoVec3D.cross(previewPoint2, xRW, yRW, 1.0, h);
 
-				coordsForMousePos.setCrossProduct(previewPoint2.getCoordsInD2(),
+				coordsForMousePos.setCrossProduct4(
+						previewPoint2.getCoordsInD2(),
 						startPoint.getCoordsInD2());
 				g1.setCoords(coordsForMousePos.getX(), coordsForMousePos.getY(),
 						coordsForMousePos.getZ());
-				coordsForMousePos.setCrossProduct(previewPoint2.getCoordsInD2(),
+				coordsForMousePos.setCrossProduct4(
+						previewPoint2.getCoordsInD2(),
 						new Coords(xRW, yRW, 1));
 				h.setCoords(coordsForMousePos.getX(), coordsForMousePos.getY(),
 						coordsForMousePos.getZ());

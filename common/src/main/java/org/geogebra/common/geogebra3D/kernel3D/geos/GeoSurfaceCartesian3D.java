@@ -119,7 +119,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		der2.setY(p2.y - p.getYd());
 		der2.setZ(p2.z - p.getZd());
 
-		normal.setCrossProduct(der1, der2);
+		normal.setCrossProduct3(der1, der2);
 		n.setNormalizedIfPossible(normal);
 
 		return true;
@@ -145,7 +145,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			der2.set(i + 1, val);
 		}
 
-		normal.setCrossProduct(der1, der2);
+		normal.setCrossProduct3(der1, der2);
 		n.setNormalizedIfPossible(normal);
 
 		return true;
@@ -311,7 +311,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			der2.set(i + 1, val);
 		}
 
-		n.setCrossProduct(der1, der2);
+		n.setCrossProduct4(der1, der2);
 		n.normalize();
 		return n;
 	}

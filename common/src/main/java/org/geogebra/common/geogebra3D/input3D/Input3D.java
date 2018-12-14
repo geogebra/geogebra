@@ -671,7 +671,7 @@ abstract public class Input3D implements Input3DConstants {
 		tmpCoords.setMul(vz, startMouse3DPosition.dotproduct(vz));
 		tmpCoords.setSub(startMouse3DPosition, tmpCoords);
 
-		tmpCoords3.setCrossProduct(tmpCoords, tmpCoords2);
+		tmpCoords3.setCrossProduct3(tmpCoords, tmpCoords2);
 
 		double c = tmpCoords.dotproduct(tmpCoords2);
 		double s = tmpCoords3.calcNorm();

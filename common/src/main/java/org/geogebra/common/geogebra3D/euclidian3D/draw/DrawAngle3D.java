@@ -165,7 +165,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				break;
 			}
 
-			vn2.setCrossProduct(vn, v1);
+			vn2.setCrossProduct4(vn, v1);
 			double a2 = angleValue / 2;
 			labelCenter.setAdd(tmpCoords.setMul(v1, Math.cos(a2)),
 					labelCenter.setMul(v2, Math.sin(a2)));

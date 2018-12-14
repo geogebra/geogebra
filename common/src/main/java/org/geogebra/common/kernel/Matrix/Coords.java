@@ -654,7 +654,7 @@ public class Coords {
 
 		Coords ret = new Coords(3);
 
-		ret.setCrossProduct(this, v);
+		ret.setCrossProduct3(this, v);
 
 		return ret;
 	}
@@ -671,7 +671,7 @@ public class Coords {
 
 	final public Coords crossProduct4(Coords v) {
 		Coords ret = new Coords(4);
-		ret.setCrossProduct(this, v);
+		ret.setCrossProduct4(this, v);
 		return ret;
 	}
 
@@ -683,11 +683,24 @@ public class Coords {
 	 * @param v2
 	 *            v2
 	 */
-	final public void setCrossProduct(Coords v1, Coords v2) {
+	final public void setCrossProduct3(Coords v1, Coords v2) {
 		val[0] = v1.val[1] * v2.val[2] - v1.val[2] * v2.val[1];
 		val[1] = v1.val[2] * v2.val[0] - v1.val[0] * v2.val[2];
 		val[2] = v1.val[0] * v2.val[1] - v1.val[1] * v2.val[0];
 		calcNorm = calcSqNorm = true;
+	}
+
+	/**
+	 * set x,y,z values according to v1 ^ v2 cross product; set w to 0
+	 * 
+	 * @param v1
+	 *            v1
+	 * @param v2
+	 *            v2
+	 */
+	final public void setCrossProduct4(Coords v1, Coords v2) {
+		setCrossProduct3(v1, v2);
+		setW(0);
 	}
 
 	/**
@@ -2147,7 +2160,7 @@ public class Coords {
 			vn1.val[3] = 0.0;
 		}
 
-		vn2.setCrossProduct(this, vn1);
+		vn2.setCrossProduct4(this, vn1);
 		vn2.setW(0);
 		vn2.normalize();
 	}
@@ -2174,7 +2187,7 @@ public class Coords {
 			vn1.val[2] = 0.0;
 		}
 
-		vn2.setCrossProduct(this, vn1);
+		vn2.setCrossProduct3(this, vn1);
 		vn2.normalize();
 	}
 

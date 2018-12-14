@@ -149,7 +149,7 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 		Coords v2 = geth().getDirectionInD3();
 
 		// normal vector
-		vn.setCrossProduct(v1, v2);
+		vn.setCrossProduct3(v1, v2);
 		vn.normalize();
 
 		if (!vn.isDefined()) { // g and h are parallel
