@@ -61,7 +61,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else if (source instanceof LatexTreeItemController) {
 			focusMenu();
 		} else if (source instanceof ZoomPanel) {
-			nextFromZoomPanel();
+			focusNextZoomPanel();
 
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
@@ -70,7 +70,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
-	private void nextFromZoomPanel() {
+	private void focusNextZoomPanel() {
 		DockManagerW dm = (DockManagerW) (app.getGuiManager().getLayout().getDockManager());
 		for (DockPanelW panel : dm.getPanels()) {
 			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(panel);
@@ -333,7 +333,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private void exitGeosFromPlayButton() {
 		setPlaySelectedIfVisible(false);
-		focusZoom(true);
+		focusNextZoomPanel();
 		tabOverGeos = false;
 	}
 
@@ -451,7 +451,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				setPlaySelectedIfVisible(true);
 				return true;
 			}
-			focusZoom(true);
+			focusNextZoomPanel();
 			setTabOverGeos(false);
 			return true;
 		}
