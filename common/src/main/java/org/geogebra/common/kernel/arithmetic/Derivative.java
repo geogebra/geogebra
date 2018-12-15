@@ -424,6 +424,8 @@ public class Derivative {
 			break;
 		case ZETA:
 			break;
+		case LAMBERTW:
+			break;
 		default:
 			break;
 		}

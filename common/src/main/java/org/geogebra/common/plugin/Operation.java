@@ -1441,6 +1441,17 @@ public enum Operation {
 			throw ev.polynomialOrDie(lt, this, "polygamma(");
 		}
 	},
+	LAMBERTW {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().lambertW();
+			}
+			throw ev.polynomialOrDie(lt, this, "LambertW(");
+		}
+	},
 	LOG10 {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,

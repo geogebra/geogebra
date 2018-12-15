@@ -32,6 +32,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.LambertW;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
@@ -571,6 +572,15 @@ public class MyDouble extends ValidExpression
 	 */
 	final public MyDouble polygamma(NumberValue order) {
 		set(MyMath2.polyGamma(order, val));
+		angleDim = 0;
+		return this;
+	}
+
+	/**
+	 * @return LambertW(this)
+	 */
+	final public MyDouble lambertW() {
+		set(LambertW.branch0(val));
 		angleDim = 0;
 		return this;
 	}

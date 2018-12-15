@@ -2798,6 +2798,7 @@ public class ExpressionNode extends ValidExpression
 		case ERF:
 		case PSI:
 		case POLYGAMMA:
+		case LAMBERTW:
 		case LOGB:
 
 			break;

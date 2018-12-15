@@ -246,6 +246,7 @@ public enum ValueType {
 		case GREATER_EQUAL:
 			return ValueType.LIST.check(left,
 					ValueType.LIST.check(right, ValueType.BOOLEAN));
+		case LAMBERTW:
 		case POLYGAMMA:
 			break;
 		case POWER:

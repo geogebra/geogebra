@@ -740,6 +740,35 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 			break;
 
+		case LAMBERTW:
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
+				MathmlTemplate.mathml(sb, "<LambertW/>", leftStr, null);
+			} else {
+				switch (stringType) {
+				case LATEX:
+					wrapInBackslashOperatorname(sb, "LambertW");
+
+					sb.append(tpl.leftBracket());
+					break;
+				case LIBRE_OFFICE:
+					sb.append("LambertW left ( ");
+					break;
+				case GIAC:
+				case GEOGEBRA_XML:
+					sb.append("LambertW(");
+					break;
+
+				case PSTRICKS:
+				case PGF:
+				default:
+					sb.append("LambertW(");
+					break;
+				}
+				sb.append(leftStr);
+				sb.append(tpl.rightBracket());
+			}
+			break;
+
 		case POLYGAMMA:
 			switch (stringType) {
 			case LATEX:
