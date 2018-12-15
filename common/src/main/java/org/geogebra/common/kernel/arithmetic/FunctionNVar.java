@@ -65,7 +65,7 @@ public class FunctionNVar extends ValidExpression
 	protected Kernel kernel;
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
-	private boolean shortLHS;
+	private String shortLHS;
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
 
@@ -482,7 +482,7 @@ public class FunctionNVar extends ValidExpression
 	final public double evaluate(double x, double y) {
 		if (isBooleanFunction) {
 			// BooleanValue
-			return evaluateBoolean(new double[] { x, y }) ? 1 : 0;
+			return evaluateBoolean(x, y) ? 1 : 0;
 		}
 		// NumberValue
 
@@ -500,7 +500,7 @@ public class FunctionNVar extends ValidExpression
 	 *            values of variables
 	 * @return f(vals)
 	 */
-	final public boolean evaluateBoolean(double[] vals) {
+	final public boolean evaluateBoolean(double... vals) {
 		for (int i = 0; i < fVars.length; i++) {
 			fVars[i].set(vals[i]);
 		}
@@ -1498,13 +1498,13 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	public boolean isShortLHS() {
+	public String getShortLHS() {
 		return shortLHS;
 	}
 
 	@Override
-	public void setShortLHS(boolean b) {
-		this.shortLHS = b;
+	public void setShortLHS(String s) {
+		this.shortLHS = s;
 	}
 
 	@Override

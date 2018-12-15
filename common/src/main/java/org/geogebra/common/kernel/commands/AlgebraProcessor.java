@@ -2229,7 +2229,7 @@ public class AlgebraProcessor {
 					&& !isIndependent) {
 				f = (GeoFunction) dependentGeoCopy(
 						((GeoFunctionable) left).getGeoFunction());
-				f.setShortLHS(fun.isShortLHS());
+				f.setShortLHS(fun.getShortLHS());
 				f.setLabel(label);
 				return array(f);
 			}
@@ -2247,7 +2247,7 @@ public class AlgebraProcessor {
 		}
 
 		if (f.validate(label == null)) {
-			f.setShortLHS(fun.isShortLHS());
+			f.setShortLHS(fun.getShortLHS());
 			f.setLabel(label);
 			return array(f);
 		}
@@ -2507,9 +2507,9 @@ public class AlgebraProcessor {
 		} else {
 			gf = dependentFunctionNVar(fun);
 		}
-		gf.setShortLHS(fun.isShortLHS());
+		gf.setShortLHS(fun.getShortLHS());
 		gf.setLabel(label);
-		if (!gf.validate(label == null)) {
+		if (!gf.validate()) {
 			gf.remove();
 			throw new MyError(loc, "InvalidInput");
 		}
@@ -2697,25 +2697,28 @@ public class AlgebraProcessor {
 			Function fun = new Function(equ.getRHS());
 			// try to use label of equation
 			fun.setLabel(equ.getLabel());
-			fun.setShortLHS(true);
-			GeoElement[] ret = processFunction(fun,
+			fun.setShortLHS("y");
+			return processFunction(fun,
 					new EvalInfo(!cons.isSuppressLabelsActive()));
-			return ret;
 		}
-		if ("z".equals(lhsStr)
-				&& !equ.getRHS().containsFreeFunctionVariable("z")
-				&& kernel.lookupLabel("z") == null) {
-			FunctionVariable x = new FunctionVariable(kernel, "x");
-			FunctionVariable y = new FunctionVariable(kernel, "y");
-			FunctionNVar fun = new FunctionNVar(equ.getRHS(),
-					new FunctionVariable[] { x, y });
-			// try to use label of equation
-			fun.setLabel(equ.getLabel());
-			fun.setShortLHS(true);
-			GeoElement[] ret = processFunctionNVar(fun,
-					new EvalInfo(!cons.isSuppressLabelsActive()));
-			return ret;
+
+		String[] variables = {"x", "y", "z"};
+		for (int i = 0; i < 3; i++) {
+			if (variables[i].equals(lhsStr)
+					&& !equ.getRHS().containsFreeFunctionVariable(variables[i])
+					&& kernel.lookupLabel(variables[i]) == null) {
+				FunctionVariable x = new FunctionVariable(kernel, variables[(i + 1) % 3]);
+				FunctionVariable y = new FunctionVariable(kernel, variables[(i + 2) % 3]);
+				FunctionNVar fun = new FunctionNVar(equ.getRHS(),
+						new FunctionVariable[] { x, y });
+				// try to use label of equation
+				fun.setLabel(equ.getLabel());
+				fun.setShortLHS(variables[i]);
+				return processFunctionNVar(fun,
+						new EvalInfo(!cons.isSuppressLabelsActive()));
+			}
 		}
+
 		return processImplicitPoly(equ, def, info);
 	}
 

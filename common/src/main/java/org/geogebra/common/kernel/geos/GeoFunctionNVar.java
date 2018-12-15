@@ -94,14 +94,13 @@ public class GeoFunctionNVar extends GeoElement
 	private boolean hasLastHitParameters = false;
 	private double[][] xyzf;
 
-	private double[] tmp = new double[2];
 	private Coords der1 = new Coords(1, 0, 0);
 	private Coords der2 = new Coords(0, 1, 0);
 	private Coords normal = new Coords(3);
 
 	private CoordsDouble3 p1 = new CoordsDouble3();
 	private CoordsDouble3 p2 = new CoordsDouble3();
-	private boolean shortLHS;
+	private String shortLHS;
 
 	/**
 	 * Creates new GeoFunction
@@ -165,18 +164,16 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	/**
-	 * @param autoLabel
-	 *            whether label was set by
 	 * @return whether function contains only valid variables
 	 */
-	public boolean validate(boolean autoLabel) {
-
+	public boolean validate() {
 		if (!cons.isFileLoading()) {
 			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
 					getFunctionVariables())) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -671,30 +668,33 @@ public class GeoFunctionNVar extends GeoElement
 	// For 3D
 	// ///////////////////////////////////////
 
-	private double evaluateForDrawSurface() {
+	private double evaluateForDrawSurface(double u, double v) {
 		if (isBooleanFunction()) {
-			if (fun.evaluateBoolean(tmp)) {
+			if (fun.evaluateBoolean(u, v)) {
 				return 0;
 			}
 			return Double.NaN;
 		}
 		if (from != null && to != null) {
-			if (tmp[0] < this.from[0] || tmp[0] > this.to[0]) {
+			if (u < this.from[0] || u > this.to[0]) {
 				return Double.NaN;
 			}
-			if (tmp[1] < this.from[1] || tmp[1] > this.to[1]) {
+			if (v < this.from[1] || v > this.to[1]) {
 				return Double.NaN;
 			}
 		}
-		return fun.evaluate(tmp);
+		return fun.evaluate(u, v);
 	}
 
 	@Override
 	public void evaluatePoint(double u, double v, Coords3 p) {
-		tmp[0] = u;
-		tmp[1] = v;
-		p.set(u, v, evaluateForDrawSurface());
-
+		if ("x".equals(shortLHS)) {
+			p.set(evaluateForDrawSurface(u, v), u, v);
+		} else if ("y".equals(shortLHS)) {
+			p.set(u, evaluateForDrawSurface(u, v), v);
+		} else if("z".equals(shortLHS)) {
+			p.set(u, v, evaluateForDrawSurface(u, v));
+		}
 	}
 
 	/**
@@ -779,16 +779,14 @@ public class GeoFunctionNVar extends GeoElement
 
 		// 2 var function
 		Coords coords = P.getInhomCoordsInD3();
-		tmp[0] = coords.getX();
-		tmp[1] = coords.getY();
-		double z = fun.evaluate(tmp);
+		double z = fun.evaluate(coords.getX(), coords.getY());
 		return DoubleUtil.isEqual(coords.getZ(), z);
 
 	}
 
 	@Override
 	public boolean isInRegion(double x0, double y0) {
-		return fun.evaluateBoolean(new double[] { x0, y0 });
+		return fun.evaluateBoolean(x0, y0);
 	}
 
 	@Override
@@ -883,9 +881,7 @@ public class GeoFunctionNVar extends GeoElement
 				coords.setY(xyzf[DICHO_MID][1]);
 				coords.setZ(xyzf[DICHO_MID][3]);
 			} else {
-				tmp[0] = coords.getX();
-				tmp[1] = coords.getY();
-				double z = fun.evaluate(tmp);
+				double z = fun.evaluate(coords.getX(), coords.getY());
 				coords.setZ(z);
 			}
 
@@ -1055,21 +1051,6 @@ public class GeoFunctionNVar extends GeoElement
 		return (isInequality != null && isInequality);
 	}
 
-	/*
-	 * public GgbVector evaluateNormal(double u, double v){ if (funD1 == null) {
-	 * funD1 = new FunctionNVar[2]; for (int i=0;i<2;i++){ funD1[i] =
-	 * fun.derivative(i, 1); } }
-	 * 
-	 * 
-	 * GgbVector vec = new GgbVector( -funD1[0].evaluate(new double[] {u,v}),
-	 * -funD1[1].evaluate(new double[] {u,v}), 1, 0).normalized();
-	 * 
-	 * //Application.debug("vec=\n"+vec.toString());
-	 * 
-	 * return vec;
-	 * 
-	 * //return new GgbVector(0,0,1,0); }
-	 */
 	@Override
 	public void translate(Coords v) {
 		fun.translate(v.getX(), v.getY());
@@ -1288,8 +1269,8 @@ public class GeoFunctionNVar extends GeoElement
 			ret = toOutputValueString(tpl);
 		}
 
-		if (isShortLHS()) {
-			return "z = " + ret;
+		if (shortLHS != null) {
+			return shortLHS + " = " + ret;
 		}
 
 		return ret;
@@ -1323,17 +1304,13 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 n) {
-
-		tmp[0] = u;
-		tmp[1] = v;
-
-		double val = evaluateNormal(0);
+		double val = evaluateNormal(0, u, v);
 		if (Double.isNaN(val)) {
 			return setNormalFromNeighbours(p, u, v, n);
 		}
 		der1.setZ(val);
 
-		val = evaluateNormal(1);
+		val = evaluateNormal(1, u, v);
 		if (Double.isNaN(val)) {
 			return setNormalFromNeighbours(p, u, v, n);
 		}
@@ -1357,13 +1334,10 @@ public class GeoFunctionNVar extends GeoElement
 	 *            normal vector
 	 */
 	public void evaluateNormal(double x, double y, Coords n) {
-		tmp[0] = x;
-		tmp[1] = y;
-
-		double val = evaluateNormal(0);
+		double val = evaluateNormal(0, x, y);
 		der1.setZ(val);
 
-		val = evaluateNormal(1);
+		val = evaluateNormal(1, x, y);
 		der2.setZ(val);
 
 		n.setCrossProduct4(der1, der2);
@@ -1371,11 +1345,11 @@ public class GeoFunctionNVar extends GeoElement
 
 	}
 
-	private double evaluateNormal(int index) {
+	private double evaluateNormal(int index, double u, double v) {
 		if (fun1 == null) {
 			return Double.NaN;
 		}
-		return fun1[index].evaluate(tmp);
+		return fun1[index].evaluate(u, v);
 	}
 
 	@Override
@@ -1428,7 +1402,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public boolean isShortLHS() {
+	public String getShortLHS() {
 		return this.shortLHS;
 	}
 
@@ -1437,7 +1411,7 @@ public class GeoFunctionNVar extends GeoElement
 	 *            whether lhs should be just f: y= instead of f(x)=
 	 */
 	@Override
-	public void setShortLHS(boolean shortLHS) {
+	public void setShortLHS(String shortLHS) {
 		this.shortLHS = shortLHS;
 	}
 

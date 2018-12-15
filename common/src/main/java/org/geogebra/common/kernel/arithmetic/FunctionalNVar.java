@@ -97,13 +97,13 @@ public interface FunctionalNVar extends Evaluate2Var {
 	/**
 	 * @return is lhs just y= (or z=)
 	 */
-	public boolean isShortLHS();
+	public String getShortLHS();
 
 	/**
 	 * @param shortLHS
 	 *            whether lhs should be just y= (or z=)
 	 */
-	public void setShortLHS(boolean shortLHS);
+	public void setShortLHS(String shortLHS);
 
 	/**
 	 * GGB-605

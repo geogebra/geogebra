@@ -106,7 +106,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// private GeoFunctionConditional parentCondFun = null;
 
 	private Boolean isInequality = null;
-	private boolean shortLHS = false;
+	private String shortLHS;
 	/** implicit poly for composite function */
 	GeoImplicit iPoly;
 	/** substitute functions for composite function */
@@ -603,14 +603,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return Double.NaN;
 		}
 
-		/*
-		 * if (geoFunctionType == FUNCTION_COMPOSITE_IPOLY_FUNCS) { double evalX
-		 * = substituteFunctions[0].evaluate(x); double evalY =
-		 * substituteFunctions[1].evaluate(x); return iPoly.evalPolyAt(evalX,
-		 * evalY); } else
-		 */
 		return fun.value(x);
-
 	}
 
 	/**
@@ -887,10 +880,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			StringTemplate tpl, String label,
 			FunctionalNVar fn) {
 		stringBuilder.append(label);
-		if (fn.isShortLHS()) {
+		if (fn.getShortLHS() != null) {
 			stringBuilder.append(": ");
-			stringBuilder
-					.append((char) ('x' + fn.getFunctionVariables().length));
+			stringBuilder.append(fn.getShortLHS());
 			stringBuilder.append(" = ");
 		} else if (fn.isBooleanFunction()
 				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
@@ -2123,7 +2115,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() || isShortLHS() ? ':' : '=';
+		return isBooleanFunction() || shortLHS != null ? ':' : '=';
 	}
 
 	/**
@@ -2622,8 +2614,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				ret = "-\\infty";
 			}
 		}
-		if (isShortLHS()) {
-			return "y = " + ret;
+		if (shortLHS != null) {
+			return shortLHS + " = " + ret;
 		}
 		return ret;
 
@@ -2929,7 +2921,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public boolean isShortLHS() {
+	public String getShortLHS() {
 		return this.shortLHS;
 	}
 
@@ -2938,7 +2930,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            whether lhs should be just f: y= instead of f(x)=
 	 */
 	@Override
-	public void setShortLHS(boolean shortLHS) {
+	public void setShortLHS(String shortLHS) {
 		this.shortLHS = shortLHS;
 	}
 
