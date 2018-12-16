@@ -6711,7 +6711,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	pos=int(a._STRNGptr->find(s,pos));
 	if (py)
 	  return pos;
-	if (pos<0 || pos>=int(s.size()))
+	if (pos<0 || pos>=int(a._STRNGptr->size()))
 	  break;
 	res.push_back(pos+shift);
       }

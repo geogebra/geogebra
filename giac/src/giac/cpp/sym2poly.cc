@@ -524,9 +524,22 @@ namespace giac {
       coeff=den._FRACptr->den;
       den=den._FRACptr->num;
     }
+#if 0
+    gen n1g(n1),n2g(n2);
+    num=simplify3(n1g,n2g);
+    if (num.type==_FRAC){
+      den=den*num._FRACptr->den;
+      num=num._FRACptr->num;
+    }
+    n1g=(n1g*d2g+n2g*d1g)*coeff;
+    simplify3(n1g,den);
+    num=num*n1g;
+    den=den*d1g*d2g;
+#else
     num=(n1*d2g+n2*d1g)*coeff;
     simplify3(num,den);
     den=den*d1g*d2g;
+#endif
   }
 
   static void _FRACmul(const gen & n1, const gen & d1,const gen & n2, const gen & d2, gen & num, gen & den){
