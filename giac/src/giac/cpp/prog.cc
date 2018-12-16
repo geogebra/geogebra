@@ -3289,7 +3289,10 @@ namespace giac {
     }
 #endif
     if (do_else_try){
-      res=args._VECTptr->back().eval(eval_level(contextptr),contextptr);
+      if ((res.type==_SYMB && res._SYMBptr->sommet==at_return) || (res.type==_FUNC && (res==at_return || res==at_break || res==at_continue)))
+	;
+      else
+	res=args._VECTptr->back().eval(eval_level(contextptr),contextptr);
     }
     debug_ptr(contextptr)->current_instruction=save_current_instruction;
     increment_instruction(args._VECTptr->front(),contextptr);
