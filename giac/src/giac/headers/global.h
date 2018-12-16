@@ -269,6 +269,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern int GBASISF4_MAXITER;
   // extern int GBASISF4_BUCHBERGER;
   extern unsigned max_pairs_by_iteration; 
+  extern unsigned simult_primes; 
   extern int PROOT_FACTOR_MAXDEG;
   extern int ABS_NBITS_EVALF;
   extern volatile bool ctrl_c,interrupted;

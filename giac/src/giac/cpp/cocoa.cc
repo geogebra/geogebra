@@ -8952,7 +8952,7 @@ namespace giac {
     if (debug_infolevel>1){
       unsigned t=0;
       for (unsigned i=0;i<res.size();++i)
-		  t += unsigned(res[i].coord.size());
+	t += unsigned(res[i].coord.size());
       CERR << CLOCK()*1e-6 << " total number of monomials in res " << t << endl;
       CERR << "Number of monomials cleared " << cleared << endl;
     }
@@ -12615,10 +12615,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     typename std::vector< T_unsigned<modint,tdeg_t> >::iterator it=resmod.coord.begin(),itend=resmod.coord.end();
     for (;it!=itend;++it){
       modint n=it->g;
-      if (n>env/2)
+#if 0
+      n %= env;
+#endif
+      if (n*2>env)
 	it->g -= env;
       else {
-	if (n<=-env/2)
+	if (n*2<=-env)
 	  it->g += env;
       }
     }
@@ -12633,7 +12636,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   template<class tdeg_t>
   bool in_zgbasis(vectpolymod<tdeg_t> &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool eliminate_flag,bool multimodular,int parallel){
     bool seldeg=true; int sel1=0;
-    unsigned cleared=0;
+    ulonglong cleared=0;
     unsigned learned_position=0,f4buchberger_info_position=0;
     bool learning=f4buchberger_info.empty();
     unsigned capa = unsigned(f4buchberger_info.capacity());
@@ -13037,11 +13040,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (j%10==0){ CERR << "+"; CERR.flush();}
 	  if (j%500==0){ CERR << CLOCK()*1e-6 << " remaining " << j << endl;}
 	}
-	if (!start_index_v.empty() && j<start_index_v.back())
+	if (!start_index_v.empty() && G[j]<start_index_v.back())
 	  start_index_v.pop_back();
-	if (order.o==_REVLEX_ORDER)
+	if (0 && order.o==_REVLEX_ORDER) // this optimization did not work for cyclic10mod (at least when max_pairs=4096) 
 	  reducesmallmod(resmod[G[j]],resmod,G,j,env,TMP1,true,start_index_v.empty()?0:start_index_v.back());
-	else // full interreduction since Buchberger step do not interreduce
+	else // full interreduction since Buchberger steps do not interreduce
 	  reducesmallmod(resmod[G[j]],resmod,G,j,env,TMP1,true,0);
       }
       if (debug_infolevel>1)
@@ -13052,13 +13055,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       res.resize(ressize);
     if (debug_infolevel>1){
       unsigned t=0;
-      for (unsigned i=0;i<res.size();++i)
-	t += unsigned(res[i].coord.size());
+      for (unsigned i=0;i<resmod.size();++i)
+	t += unsigned(resmod[i].coord.size());
       CERR << CLOCK()*1e-6 << " total number of monomials in res " << t << endl;
       CERR << "Number of monomials cleared " << cleared << endl;
     }
     smod(resmod,env);
-    // sort(resmod.begin(),resmod.end(),tripolymod<tdeg_t>);
     return true;
   }
 
@@ -13699,7 +13701,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	parallel=nthreads;
       }
       else {
-	th=giacmin(nthreads-1,16-1); // no more than th+1 threads
+	th=giacmin(nthreads-1,simult_primes-1); // no more than simult_primes 
 	parallel=nthreads/(th+1);
       }
 #ifndef EMCC

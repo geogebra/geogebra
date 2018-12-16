@@ -6988,6 +6988,21 @@ namespace giac {
   static define_unary_function_eval2 (__gbasis_max_pairs,&_gbasis_max_pairs,_gbasis_max_pairs_s,&printasDigits);
   define_unary_function_ptr5( at_gbasis_max_pairs ,alias_at_gbasis_max_pairs ,&__gbasis_max_pairs,0,true);
 
+  gen _gbasis_simult_primes(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    gen args(g);
+    if (g.type==_DOUBLE_)
+      args=int(g._DOUBLE_val);    
+    if (args.type!=_INT_)
+      return int(simult_primes);
+    int old=simult_primes;
+    simult_primes=args.val<1?1:args.val;
+    return old;
+  }
+  static const char _gbasis_simult_primes_s []="gbasis_simult_primes";
+  static define_unary_function_eval2 (__gbasis_simult_primes,&_gbasis_simult_primes,_gbasis_simult_primes_s,&printasDigits);
+  define_unary_function_ptr5( at_gbasis_simult_primes ,alias_at_gbasis_simult_primes ,&__gbasis_simult_primes,0,true);
+
   static gen in_greduce(const gen & eq,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT,vector<polynome> * quo=0){
     if (eq.type!=_POLY)
       return r2e(eq,l,contextptr);

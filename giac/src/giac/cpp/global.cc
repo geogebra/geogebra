@@ -1768,6 +1768,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
 #endif
   unsigned max_pairs_by_iteration=32768; 
+  unsigned simult_primes=16; 
   // gbasis max number of pairs by F4 iteration
   // setting to 2000 accelerates cyclic9mod but cyclic9 would be slower
   // 32768 is enough for cyclic10mod without truncation and not too large for yang1
@@ -6303,10 +6304,12 @@ unsigned int ConvertUTF8toUTF16 (
 	  if (posp>=posi || posp<0)
 	    posp=posi;
 	  if (posi>pos+5 && posi<int(cur.size())){
-	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posp-7)+';';
+	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(pos+7,posp-(pos+7))+';';
 	  }
 	  else
 	    cur=cur.substr(pos+7,cur.size()-pos-7);
+	  for (int i=0;i<pos;++i)
+	    cur = ' '+cur;
 	  python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,posmatplotlib,contextptr);
 	  pythonmode=true;
 	  break;	    
