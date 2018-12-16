@@ -1,7 +1,5 @@
 package org.geogebra.common.util;
 
-/* Lambert W function, code by various authors */
-/* Ported to Java by Daniel Wilson                      */
 /* PORTED FROM GNU SCIENTIFIC LIBRARY WHICH CARRIES THIS LICENSE:
  * 
  * specfunc/lambert.c 
@@ -32,25 +30,32 @@ package org.geogebra.common.util;
  *  [Corless, Gonnet, Hare, and Jeffrey, "On Lambert's W Function".] 
  */
 
+/** Lambert W function, code by various authors 
+ Ported to Java by Daniel Wilson                      */
 public class LambertW {
 
-	static public class gsl_sf_result {
-		public double val, err;
+	private static double GSL_DBL_EPSILON = 2.2204460492503131e-16;
+	private static final double[] c = { -1.0, 2.331643981597124203363536062168,
+			-1.812187885639363490240191647568, 1.936631114492359755363277457668,
+			-2.353551201881614516821543561516, 3.066858901050631912893148922704,
+			-4.175335600258177138854984177460, 5.858023729874774148815053846119,
+			-8.401032217523977370984161688514, 12.250753501314460424,
+			-18.100697012472442755, 27.029044799010561650 };
+	
+	private static class gsl_sf_result {
+		public double val;
 
 		public gsl_sf_result() {
-			val = err = 0;
-		};
+			val = 0;
+		}
 	}
 
-	public enum GSL_RETURN {
+	private enum GSL_RETURN {
 		GSL_SUCCESS, GSL_EMAXITER, GSL_EDOM
-	};
-
-	static double M_E = 2.71828182845904523536028747135266250;
-	static double GSL_DBL_EPSILON = 2.2204460492503131e-16;
+	}
 
 	/* Halley iteration (eqn. 5.12, Corless et al) */
-	public static GSL_RETURN halley_iteration(double x, double w_initial,
+	private static GSL_RETURN halley_iteration(double x, double w_initial,
 			int max_iters, gsl_sf_result result) {
 		double w = w_initial;
 		int i;
@@ -67,7 +72,6 @@ public class LambertW {
 			} else {
 				t /= e * p - 0.5 * (p + 1.0) * t / p; /* Halley iteration */
 			}
-			;
 
 			w -= t;
 
@@ -76,29 +80,20 @@ public class LambertW {
 
 			if (Math.abs(t) < tol) {
 				result.val = w;
-				result.err = 2.0 * tol;
 				return GSL_RETURN.GSL_SUCCESS;
 			}
 		}
 
 		/* should never get here */
 		result.val = w;
-		result.err = Math.abs(w);
 		return GSL_RETURN.GSL_EMAXITER;
 	}
-
-	static final double[] c = { -1.0, 2.331643981597124203363536062168,
-			-1.812187885639363490240191647568, 1.936631114492359755363277457668,
-			-2.353551201881614516821543561516, 3.066858901050631912893148922704,
-			-4.175335600258177138854984177460, 5.858023729874774148815053846119,
-			-8.401032217523977370984161688514, 12.250753501314460424,
-			-18.100697012472442755, 27.029044799010561650 };
 
 	/*
 	 * series which appears for q near zero; only the argument is different for
 	 * the different branches
 	 */
-	public static double series_eval(double r) {
+	private static double series_eval(double r) {
 		final double t_8 = c[8] + r * (c[9] + r * (c[10] + r * c[11]));
 		final double t_5 = c[5] + r * (c[6] + r * (c[7] + r * t_8));
 		final double t_1 = c[1]
@@ -106,23 +101,13 @@ public class LambertW {
 		return c[0] + r * t_1;
 	}
 
-	public static void main(String[] args) {
-		gsl_sf_result result = new gsl_sf_result();
-
-		gsl_sf_lambert_W0_e(1, result);
-
-		System.out.println(result.val);
-
-	}
-
 	/*-*-*-*-*-*-*-*-*-*-*-* Functions with Error Codes *-*-*-*-*-*-*-*-*-*-*-*/
-	static GSL_RETURN gsl_sf_lambert_W0_e(double x, gsl_sf_result result) {
-		final double one_over_E = 1.0 / M_E;
+	private static GSL_RETURN gsl_sf_lambert_W0_e(double x, gsl_sf_result result) {
+		final double one_over_E = 1.0 / Math.E;
 		final double q = x + one_over_E;
 
 		if (x == 0.0) {
 			result.val = 0.0;
-			result.err = 0.0;
 			return GSL_RETURN.GSL_SUCCESS;
 		} else if (q < 0.0) {
 			/*
@@ -132,20 +117,14 @@ public class LambertW {
 			 * that case. Anyway, we have to return GSL_EDOM.
 			 */
 			result.val = -1.0;
-			result.err = Math.sqrt(-q);
 			return GSL_RETURN.GSL_EDOM;
 		} else if (q == 0.0) {
 			result.val = -1.0;
-			result.err = GSL_DBL_EPSILON; /*
-											 * cannot error is zero, maybe q ==
-											 * 0 by "accident"
-											 */
 			return GSL_RETURN.GSL_SUCCESS;
 		} else if (q < 1.0e-03) {
 			/* series near -1/E in sqrt(q) */
 			final double r = Math.sqrt(q);
 			result.val = series_eval(r);
-			result.err = 2.0 * GSL_DBL_EPSILON * Math.abs(result.val);
 			return GSL_RETURN.GSL_SUCCESS;
 		} else {
 			final int MAX_ITERS = 10;
@@ -157,29 +136,29 @@ public class LambertW {
 				 * for extra care, since the Halley iteration converges nicely
 				 * on this branch
 				 */
-				final double p = Math.sqrt(2.0 * M_E * q);
+				final double p = Math.sqrt(2.0 * Math.E * q);
 				w = -1.0 + p * (1.0 + p * (-1.0 / 3.0 + p * 11.0 / 72.0));
 			} else {
 				/* obtain initial approximation from rough asymptotic */
 				w = Math.log(x);
-				if (x > 3.0)
+				if (x > 3.0) {
 					w -= Math.log(w);
+				}
 			}
 
 			return halley_iteration(x, w, MAX_ITERS, result);
 		}
 	}
 
-	static GSL_RETURN gsl_sf_lambert_Wm1_e(double x, gsl_sf_result result) {
+	private static GSL_RETURN gsl_sf_lambert_Wm1_e(double x, gsl_sf_result result) {
 		if (x > 0.0) {
 			return gsl_sf_lambert_W0_e(x, result);
 		} else if (x == 0.0) {
 			result.val = 0.0;
-			result.err = 0.0;
 			return GSL_RETURN.GSL_SUCCESS;
 		} else {
 			final int MAX_ITERS = 32;
-			final double one_over_E = 1.0 / M_E;
+			final double one_over_E = 1.0 / Math.E;
 			final double q = x + one_over_E;
 			double w;
 
@@ -189,7 +168,6 @@ public class LambertW {
 				 * anyway.
 				 */
 				result.val = -1.0;
-				result.err = Math.sqrt(-q);
 				return GSL_RETURN.GSL_EDOM;
 			}
 
@@ -206,7 +184,6 @@ public class LambertW {
 				if (q < 3.0e-3) {
 					/* this approximation is good enough */
 					result.val = w;
-					result.err = 5.0 * GSL_DBL_EPSILON * Math.abs(w);
 					return GSL_RETURN.GSL_SUCCESS;
 				}
 			} else {
@@ -222,6 +199,10 @@ public class LambertW {
 
 	/*-*-*-*-*-*-*-*-*-* Functions w/ Natural Prototypes *-*-*-*-*-*-*-*-*-*-*/
 
+	/**
+	 * @param x x value
+	 * @return 0 branch of Lambert W at x
+	 */
 	static public double branch0(double x) {
 
 		if (x < -1 / Math.E) {
@@ -237,6 +218,10 @@ public class LambertW {
 		return result.val;
 	}
 
+	/**
+	 * @param x x value
+	 * @return -1 branch of Lambert W at x
+	 */
 	static public double branchNeg1(double x) {
 
 		if (x < -1 / Math.E) {
