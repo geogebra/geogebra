@@ -1330,7 +1330,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
 			initDrawLine(quadric);
 			if (drawLine.hit(hitting)) {
-				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar(), hitting.discardPositiveHits());
+				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar(),
+						hitting.discardPositiveHits());
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}

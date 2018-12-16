@@ -595,7 +595,8 @@ public abstract class RendererWithImpl extends Renderer
 																			// last
 																			// mouse
 																			// move
-				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, hitting.discardPositiveHits());
+				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
+						hitting.discardPositiveHits());
 			}
 		}
 	}

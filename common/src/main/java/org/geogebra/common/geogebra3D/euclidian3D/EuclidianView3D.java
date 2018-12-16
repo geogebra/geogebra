@@ -892,7 +892,8 @@ public abstract class EuclidianView3D extends EuclidianView
                 } else if (updateObjectsBounds(true, true)) {
                     translationZzero = -boundsMin.getZ();
                     // ensure showing plane if visible and not too far
-                    if ((getShowGrid() || getShowPlane()) && translationZzero < 0 && getZmin() < 0) {
+					if ((getShowGrid() || getShowPlane())
+							&& translationZzero < 0 && getZmin() < 0) {
                         translationZzero = 0;
                     }
                 } else {
@@ -1891,7 +1892,7 @@ public abstract class EuclidianView3D extends EuclidianView
         if (angle > 180) {
             angle -= 360;
         }
-        setRotAnimation(angle, b, true,true);
+		setRotAnimation(angle, b, true, true);
     }
 
 	@Override
@@ -4784,7 +4785,8 @@ public abstract class EuclidianView3D extends EuclidianView
                     } else if (updateObjectsBounds(true, true)) {
                         translationZzeroForAR = -boundsMin.getZ();
                         // ensure showing plane if visible and not too far
-                        if ((getShowGrid() || getShowPlane()) && translationZzeroForAR < 0 && getZmin() < 0) {
+						if ((getShowGrid() || getShowPlane())
+								&& translationZzeroForAR < 0 && getZmin() < 0) {
                             translationZzeroForAR = 0;
                         }
                     } else {
