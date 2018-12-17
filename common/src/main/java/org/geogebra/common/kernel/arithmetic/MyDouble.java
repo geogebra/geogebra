@@ -581,7 +581,13 @@ public class MyDouble extends ValidExpression
 	 * @return LambertW(this)
 	 */
 	final public MyDouble lambertW(double branch) {
-		set(branch < -.5 ? LambertW.branchNeg1(val) : LambertW.branch0(val));
+		if (DoubleUtil.isEqual(branch, 0)) {
+			set(LambertW.branch0(val));
+		} else if (DoubleUtil.isEqual(branch, -1)) {
+			set(LambertW.branchNeg1(val));
+		} else {
+			set(Double.NaN);
+		}
 		angleDim = 0;
 		return this;
 	}
