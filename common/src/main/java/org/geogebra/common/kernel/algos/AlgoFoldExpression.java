@@ -124,6 +124,10 @@ public class AlgoFoldExpression extends AlgoElement {
 		if (fn instanceof CasEvaluableFunction) {
 			((CasEvaluableFunction) fn).replaceChildrenByValues(var);
 		}
+		if (!from.isFinite() || !to.isFinite()) {
+			resultFun.setUndefined();
+			return;
+		}
 
 		foldComputer.setFrom(fn, kernel);
 		for (int i = (int) from.getDouble() + 1; i <= to.getDouble(); i++) {
