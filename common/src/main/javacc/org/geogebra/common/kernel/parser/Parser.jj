@@ -173,11 +173,12 @@ public class Parser implements ParserInterface{
 
     /**
      * Parses a String and returns an ExpressionNode Object
+     * Checking for free vars should be done outside.
      */
     public ExpressionNode parseExpression(String parseString)
     throws ParseException {
         myReInit( parseString);
-        ExpressionNode ret = expressionNoFreeVars();
+        ExpressionNode ret = expressionnode();
         processUndecided();
         return ret;
     }

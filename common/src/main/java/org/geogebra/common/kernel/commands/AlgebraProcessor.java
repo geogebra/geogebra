@@ -1275,9 +1275,12 @@ public class AlgebraProcessor {
 		return evaluateToDouble(str, false, null);
 	}
 
-	private static NumberValue evaluateToNumberValue(
+	private NumberValue evaluateToNumberValue(
 			ExpressionNode expressionNode) {
 		expressionNode.resolveVariables(new EvalInfo(false));
+		if(expressionNode.containsFreeFunctionVariable(null)) {
+			throw new MyError(loc, "IncompleteEquation");
+		}
 		return (NumberValue) expressionNode
 				.evaluate(StringTemplate.defaultTemplate);
 	}
@@ -1289,13 +1292,6 @@ public class AlgebraProcessor {
 	 * @throws ParseException this exception is thrown if the String cannot be converted.
 	 */
 	public double convertToDouble(String string) throws ParseException {
-		String xOrYOrZ = "[xyz]";
-		String xyz = xOrYOrZ + xOrYOrZ + '?' + xOrYOrZ + '?';
-		String optionalSpaceOnLeft = "(.*\\s+)?";
-		String optionalSpaceOnRight = "(\\s+.*)?";
-		if (string.matches( optionalSpaceOnLeft + xyz + optionalSpaceOnRight)) {
-			throw new ParseException(string + " is not a double. ");
-		}
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
 		} catch (MyError | TokenMgrError | RuntimeException e) {
@@ -1890,11 +1886,10 @@ public class AlgebraProcessor {
 			if (ret == null) { // eg (1,2,3) running in 2D
 				if (isFreehandFunction(ve)) {
 					return kernel.lookupLabel(ve.getLabel()).asArray();
-				} else {
-					Log.warn("Unhandled ValidExpression : " + ve);
-					throw new MyError(loc,
-							loc.getError("InvalidInput") + ":\n" + ve);
 				}
+				Log.warn("Unhandled ValidExpression : " + ve);
+				throw new MyError(loc,
+						loc.getError("InvalidInput") + ":\n" + ve);
 			}
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);

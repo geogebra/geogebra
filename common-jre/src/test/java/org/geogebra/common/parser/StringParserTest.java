@@ -20,6 +20,7 @@ public class StringParserTest extends BaseUnitTest {
 	@Test
 	public void testExceptionThrowing() {
 		shouldFail("x y");
+		shouldFail("xy");
 		shouldFail("a");
 		shouldFail("(1,1)");
 		shouldFail("x");
