@@ -1,7 +1,9 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -40,5 +42,11 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public SVGResource getOutputPrefixIcon() {
 		return MaterialDesignResources.INSTANCE.arrow_black();
+	}
+
+	@Override
+	public void initStylebar(DockPanelW dockPanelW) {
+		Log.printStacktrace("");
+		dockPanelW.initGraphicsSettingsButton();
 	}
 }

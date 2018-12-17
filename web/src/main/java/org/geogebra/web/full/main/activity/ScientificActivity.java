@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactory;
 import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -41,5 +42,10 @@ public class ScientificActivity extends BaseActivity {
 	@Override
 	public SVGResource getOutputPrefixIcon() {
 		return MaterialDesignResources.INSTANCE.equal_sign_black();
+	}
+
+	@Override
+	public void initStylebar(DockPanelW dockPanelW) {
+		// no stylebar in scientific
 	}
 }

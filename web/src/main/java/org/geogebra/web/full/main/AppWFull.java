@@ -94,6 +94,7 @@ import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
 import org.geogebra.web.full.main.activity.BaseActivity;
+import org.geogebra.web.full.main.activity.ClassicActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
@@ -305,7 +306,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			activity = new BaseActivity(new AppConfigNotes());
 			break;
 		default:
-			activity = new BaseActivity(new AppConfigDefault());
+			activity = new ClassicActivity(new AppConfigDefault());
 		}
 	}
 

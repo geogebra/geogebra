@@ -27,6 +27,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -577,43 +578,19 @@ public abstract class DockPanelW extends ResizeComposite
 		if (titleBarPanelContent == null) {
 			return;
 		}
-		// always show the view-icon; othrwise use showStylebar as parameter
-		if (app.isUnbundledOrWhiteboard()) {
-			if (graphicsContextMenuBtn != null) {
-				return;
-			}
-			graphicsContextMenuBtn = new StandardButton(
-					MaterialDesignResources.INSTANCE.settings_border(), null,
-					24, app);
-			graphicsContextMenuBtn
-					.setTitle(app.getLocalization().getMenu("Settings"));
-			FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
-				@Override
-				public void onClick(Widget source) {
-					app.getAccessibilityManager().setAnchor(source);
-					onGraphicsSettingsPressed();
-				}
+		((AppWFull) app).getActivity().initStylebar(this);
+	}
 
-			};
-			graphicsContextMenuBtn
-					.addFastClickHandler(graphicsContextMenuHandler);
-			graphicsContextMenuBtn.addStyleName("flatButton");
-			graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
-					? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
-			titleBarPanelContent.add(graphicsContextMenuBtn);
-			graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
-			graphicsContextMenuBtn.addTabHandler(this);
-			if (toggleStyleBarButton != null) {
-				toggleStyleBarButton.removeFromParent();
-				toggleStyleBarButton = null;
-			}
-			return;
-		}
+	/**
+	 * Initialize stylebar
+	 */
+	public void initToggleButton() {
 		if (graphicsContextMenuBtn != null) {
 			graphicsContextMenuBtn.removeFromParent();
 			graphicsContextMenuBtn = null;
 		}
+		// always show the view-icon; othrwise use showStylebar as parameter
 		toggleStyleBarButton = new StandardButton(getToggleImage(false), null,
 				32, 24, app);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
@@ -637,6 +614,40 @@ public abstract class DockPanelW extends ResizeComposite
 		};
 		toggleStyleBarButton.addFastClickHandler(toggleStyleBarHandler);
 		titleBarPanelContent.add(toggleStyleBarButton);
+	}
+
+	/**
+	 * Initialize stylebar with a gear icon for graphics settings
+	 */
+	public void initGraphicsSettingsButton() {
+		if (graphicsContextMenuBtn != null) {
+			return;
+		}
+		graphicsContextMenuBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.settings_border(), null, 24,
+				app);
+		graphicsContextMenuBtn
+				.setTitle(app.getLocalization().getMenu("Settings"));
+		FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				app.getAccessibilityManager().setAnchor(source);
+				onGraphicsSettingsPressed();
+			}
+
+		};
+		graphicsContextMenuBtn.addFastClickHandler(graphicsContextMenuHandler);
+		graphicsContextMenuBtn.addStyleName("flatButton");
+		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
+				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
+		titleBarPanelContent.add(graphicsContextMenuBtn);
+		graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
+		graphicsContextMenuBtn.addTabHandler(this);
+		if (toggleStyleBarButton != null) {
+			toggleStyleBarButton.removeFromParent();
+			toggleStyleBarButton = null;
+		}
 	}
 
 	/** Graphics Settings button handler */
