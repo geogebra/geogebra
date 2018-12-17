@@ -212,13 +212,16 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource insert_photo_black();
 
 	// av icons
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/equal_sign_white.svg")
+	SVGResource equal_sign_white();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/arrow_black.svg")
 	SVGResource arrow_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_symbolic_white.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_numeric_white.svg")
 	SVGResource modeToggleNumeric();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_numeric_white.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_symbolic_white.svg")
 	SVGResource modeToggleSymbolic();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/speed_up_black.svg")

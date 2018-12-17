@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -77,9 +78,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 *            geoelement
 	 * @param swap
 	 *            whether symbolic mode of geo should show numeric icon
+	 * @param activity activity for the spceific app
 	 */
 	public static void createSymbolicButton(FlowPanel parent,
-			final GeoElement geo, boolean swap) {
+			final GeoElement geo, boolean swap, GeoGebraActivity activity) {
 		MyToggleButtonW btnSymbolic = null;
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
 			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
@@ -89,11 +91,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 		if (btnSymbolic == null) {
 			if (swap) {
 				btnSymbolic = new MyToggleButtonW(
+						new NoDragImage(activity.getNumericIcon(), 24, 24),
 						new NoDragImage(MaterialDesignResources.INSTANCE
-								.modeToggleSymbolic(), 24, 24),
-						new NoDragImage(
-								MaterialDesignResources.INSTANCE
-										.modeToggleNumeric(),
+								.modeToggleSymbolic(),
 								24, 24));
 			} else {
 				btnSymbolic = new MyToggleButtonW(

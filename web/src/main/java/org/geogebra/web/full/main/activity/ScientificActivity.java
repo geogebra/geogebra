@@ -3,7 +3,9 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactory;
 import org.geogebra.common.main.settings.AppConfigScientific;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * Activity for scientific calculator
@@ -25,6 +27,11 @@ public class ScientificActivity extends BaseActivity {
 				.createCommandSelector();
 		app.getKernel().getAlgebraProcessor()
 				.setCommandSelector(commandSelector);
+	}
+
+	@Override
+	public SVGResource getNumericIcon() {
+		return MaterialDesignResources.INSTANCE.equal_sign_white();
 	}
 
 }

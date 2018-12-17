@@ -271,6 +271,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return activity.getConfig();
 	}
 
+	public GeoGebraActivity getActivity() {
+		return activity;
+	}
+
 	private void initActivity() {
 		if (articleElement == null || activity != null) {
 			return;

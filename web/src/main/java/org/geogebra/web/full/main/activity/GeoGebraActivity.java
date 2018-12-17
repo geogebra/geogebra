@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * App-specific behaviors
@@ -20,5 +21,7 @@ public interface GeoGebraActivity {
 	 *            app
 	 */
 	void start(AppW appW);
+
+	SVGResource getNumericIcon();
 
 }
