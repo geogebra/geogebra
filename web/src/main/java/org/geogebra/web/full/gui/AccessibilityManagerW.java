@@ -42,6 +42,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private Widget anchor;
 	private SliderInput activeButton;
 	private List<Integer> visitedIds = new ArrayList<>();
+
 	/**
 	 * Constructor.
 	 *
@@ -96,6 +97,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				&& ev.hasZoomButtons();
 		return zoomButtons ? ev : null;
 	}
+
 	private void focusFirstElement() {
 		if (app.isUnbundled()) {
 			focusMenu();

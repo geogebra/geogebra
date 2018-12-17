@@ -577,10 +577,11 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
+	 * @param branch 0 or -1
 	 * @return LambertW(this)
 	 */
-	final public MyDouble lambertW() {
-		set(LambertW.branch0(val));
+	final public MyDouble lambertW(double branch) {
+		set(branch < -.5 ? LambertW.branchNeg1(val) : LambertW.branch0(val));
 		angleDim = 0;
 		return this;
 	}

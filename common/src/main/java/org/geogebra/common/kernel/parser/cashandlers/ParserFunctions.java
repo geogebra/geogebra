@@ -192,6 +192,7 @@ public class ParserFunctions {
 		put(1, "Exp", Operation.EXP, null);
 
 		put(1, "LambertW", Operation.LAMBERTW);
+		put(2, "LambertW", Operation.LAMBERTW);
 
 		put(1, "log", Operation.LOG);
 		put(1, "ln", Operation.LOG);

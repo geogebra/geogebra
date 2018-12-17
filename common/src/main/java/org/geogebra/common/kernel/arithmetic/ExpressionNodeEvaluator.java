@@ -761,7 +761,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param tpl The StringTemplate based on which the GeoElement will be transformed into string
 	 * @return The string form of the GeoElement
 	 */
-	private String getGeoString(GeoElement geoElement, StringTemplate tpl) {
+	private static String getGeoString(GeoElement geoElement, StringTemplate tpl) {
 		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
 				? geoElement.getDefinition(tpl)
 				: geoElement.toDefinedValueString(tpl);
@@ -1390,6 +1390,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError polynomialOrDie(ExpressionValue lt, Operation op,
 			String prefix, String suffix) {
+		Log.debug(lt);
 		return new MyError(loc, "IllegalArgument", prefix,
 				lt.toString(errorTemplate), suffix);
 

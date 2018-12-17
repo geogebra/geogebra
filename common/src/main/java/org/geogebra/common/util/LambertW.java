@@ -42,21 +42,9 @@ public class LambertW {
 			-8.401032217523977370984161688514, 12.250753501314460424,
 			-18.100697012472442755, 27.029044799010561650 };
 	
-	private static class gsl_sf_result {
-		public double val;
-
-		public gsl_sf_result() {
-			val = 0;
-		}
-	}
-
-	private enum GSL_RETURN {
-		GSL_SUCCESS, GSL_EMAXITER, GSL_EDOM
-	}
-
 	/* Halley iteration (eqn. 5.12, Corless et al) */
-	private static GSL_RETURN halley_iteration(double x, double w_initial,
-			int max_iters, gsl_sf_result result) {
+	private static double halley_iteration(double x, double w_initial,
+			int max_iters) {
 		double w = w_initial;
 		int i;
 
@@ -79,14 +67,12 @@ public class LambertW {
 					* Math.max(Math.abs(w), 1.0 / (Math.abs(p) * e));
 
 			if (Math.abs(t) < tol) {
-				result.val = w;
-				return GSL_RETURN.GSL_SUCCESS;
+				return w;
 			}
 		}
 
 		/* should never get here */
-		result.val = w;
-		return GSL_RETURN.GSL_EMAXITER;
+		return Double.NaN;
 	}
 
 	/*
@@ -102,13 +88,12 @@ public class LambertW {
 	}
 
 	/*-*-*-*-*-*-*-*-*-*-*-* Functions with Error Codes *-*-*-*-*-*-*-*-*-*-*-*/
-	private static GSL_RETURN gsl_sf_lambert_W0_e(double x, gsl_sf_result result) {
+	private static double gsl_sf_lambert_W0_e(double x) {
 		final double one_over_E = 1.0 / Math.E;
 		final double q = x + one_over_E;
 
 		if (x == 0.0) {
-			result.val = 0.0;
-			return GSL_RETURN.GSL_SUCCESS;
+			return 0.0;
 		} else if (q < 0.0) {
 			/*
 			 * Strictly speaking this is an error. But because of the arithmetic
@@ -116,16 +101,13 @@ public class LambertW {
 			 * some epsilon overshoot. The following answer is quite accurate in
 			 * that case. Anyway, we have to return GSL_EDOM.
 			 */
-			result.val = -1.0;
-			return GSL_RETURN.GSL_EDOM;
+			return -1.0;
 		} else if (q == 0.0) {
-			result.val = -1.0;
-			return GSL_RETURN.GSL_SUCCESS;
+			return -1.0;
 		} else if (q < 1.0e-03) {
 			/* series near -1/E in sqrt(q) */
 			final double r = Math.sqrt(q);
-			result.val = series_eval(r);
-			return GSL_RETURN.GSL_SUCCESS;
+			return series_eval(r);
 		} else {
 			final int MAX_ITERS = 10;
 			double w;
@@ -146,16 +128,15 @@ public class LambertW {
 				}
 			}
 
-			return halley_iteration(x, w, MAX_ITERS, result);
+			return halley_iteration(x, w, MAX_ITERS);
 		}
 	}
 
-	private static GSL_RETURN gsl_sf_lambert_Wm1_e(double x, gsl_sf_result result) {
+	private static double gsl_sf_lambert_Wm1_e(double x) {
 		if (x > 0.0) {
-			return gsl_sf_lambert_W0_e(x, result);
+			return gsl_sf_lambert_W0_e(x);
 		} else if (x == 0.0) {
-			result.val = 0.0;
-			return GSL_RETURN.GSL_SUCCESS;
+			return 0.0;
 		} else {
 			final int MAX_ITERS = 32;
 			final double one_over_E = 1.0 / Math.E;
@@ -167,8 +148,7 @@ public class LambertW {
 				 * As in the W0 branch above, return some reasonable answer
 				 * anyway.
 				 */
-				result.val = -1.0;
-				return GSL_RETURN.GSL_EDOM;
+				return -1.0;
 			}
 
 			if (x < -1.0e-6) {
@@ -183,8 +163,7 @@ public class LambertW {
 				w = series_eval(r);
 				if (q < 3.0e-3) {
 					/* this approximation is good enough */
-					result.val = w;
-					return GSL_RETURN.GSL_SUCCESS;
+					return w;
 				}
 			} else {
 				/* Obtain initial approximation from asymptotic near zero. */
@@ -193,7 +172,7 @@ public class LambertW {
 				w = L_1 - L_2 + L_2 / L_1;
 			}
 
-			return halley_iteration(x, w, MAX_ITERS, result);
+			return halley_iteration(x, w, MAX_ITERS);
 		}
 	}
 
@@ -209,13 +188,7 @@ public class LambertW {
 			return Double.NaN;
 		}
 
-		gsl_sf_result result = new gsl_sf_result();
-		GSL_RETURN res = gsl_sf_lambert_W0_e(x, result);
-		if (res == GSL_RETURN.GSL_EMAXITER) {
-			return Double.NaN;
-			// throw new RuntimeException("Too many iterations");
-		}
-		return result.val;
+		return gsl_sf_lambert_W0_e(x);
 	}
 
 	/**
@@ -228,13 +201,7 @@ public class LambertW {
 			return Double.NaN;
 		}
 
-		gsl_sf_result result = new gsl_sf_result();
-		GSL_RETURN res = gsl_sf_lambert_Wm1_e(x, result);
-		if (res == GSL_RETURN.GSL_EMAXITER) {
-			return Double.NaN;
-			// throw new RuntimeException("Too many iterations");
-		}
-		return result.val;
+		return gsl_sf_lambert_Wm1_e(x);
 	}
 
 }

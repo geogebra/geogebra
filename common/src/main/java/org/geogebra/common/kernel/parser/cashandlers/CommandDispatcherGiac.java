@@ -138,6 +138,8 @@ public class CommandDispatcherGiac {
 		zcoordsymb(Operation.ZCOORD),
 		/** alt(x) */
 		altsymb(Operation.ALT),
+		/** LambertW */
+		LambertW(Operation.LAMBERTW),
 
 		/** GeoGebra vector */
 		ggbvect(Operation.NO_OPERATION),
@@ -286,6 +288,8 @@ public class CommandDispatcherGiac {
 				// just return argument
 				ret = new ExpressionNode(kernel, args.getItem(0));
 				break;
+			case LambertW:
+				return null; //fallback to GGB parser
 			case Psi:
 				if (args.getLength() == 1) {
 					// Psi(x) -> psi(x)

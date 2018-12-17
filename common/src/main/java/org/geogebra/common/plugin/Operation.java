@@ -1446,8 +1446,15 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			double branch = 0;
+			if (rt instanceof NumberValue) {
+				branch = rt.evaluateDouble();
+				if(Double.isNaN(branch)) {
+					branch = 0;
+				}
+			}
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().lambertW();
+				return ((NumberValue) lt).getNumber().lambertW(branch);
 			}
 			throw ev.polynomialOrDie(lt, this, "LambertW(");
 		}
