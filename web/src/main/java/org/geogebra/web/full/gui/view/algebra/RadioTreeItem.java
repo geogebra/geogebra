@@ -126,7 +126,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected FlowPanel main;
 
 	/** Item content after marble */
-	protected FlowPanel content;
+	protected final FlowPanel content;
 
 	/** Item controls like delete, play, etc */
 	protected ItemControls controls;
@@ -290,6 +290,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!AlgebraItem.buildPlainTextItemSimple(geo,
 				new DOMIndexHTMLBuilder(getPlainTextItem(), app))) {
 			buildItemContent();
+		} else if (content.getWidgetCount() != 1) {
+			// extra content shown (eg. arrow) => rebuild
+			rebuildPlaintextContent();
 		}
 	}
 
@@ -384,18 +387,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					|| lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
-			} else if (isDefinitionAndValue()
-					|| geo.isLaTeXDrawableGeo()
-					|| AlgebraItem.needsPacking(geo)) {
-				buildItemWithSingleRow();
 			} else {
-				buildPlainTextItem();
+				buildItemWithSingleRow();
 			}
 
 			controls.updateSuggestions(geo);
 
 		} else {
-			buildPlainTextItem();
+			buildItemWithSingleRow();
 		}
 
 		adjustToPanel(content);
@@ -572,7 +571,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		content.add(getPlainTextItem());
 		adjustToPanel(plainTextItem);
 		if (geo != null && geo.getParentAlgorithm() != null
-				&& geo.getParentAlgorithm().getOutput(0) != geo) {
+				&& geo.getParentAlgorithm().getOutput(0) != geo
+				&& mayNeedOutput()) {
 			Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
 			content.addStyleName("additionalRow");
 			prefix.addStyleName("prefix");
