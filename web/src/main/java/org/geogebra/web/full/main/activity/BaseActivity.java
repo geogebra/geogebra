@@ -1,7 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.main.AppW;
@@ -46,7 +45,6 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public void initStylebar(DockPanelW dockPanelW) {
-		Log.printStacktrace("");
 		dockPanelW.initGraphicsSettingsButton();
 	}
 }
