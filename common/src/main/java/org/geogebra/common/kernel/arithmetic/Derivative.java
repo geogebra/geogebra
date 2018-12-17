@@ -302,6 +302,15 @@ public class Derivative {
 			return numerator.divide(
 					left.wrap().power(2).wrap().plus(right.wrap().power(2)));
 
+		case LAMBERTW:
+			// LambertW(x) -> LambertW(x)/(x*(LambertW(x)+1))
+			// doesn't work for x=0 (gradient should be 1 then not NaN)
+			return new ExpressionNode(kernel0, left, Operation.LAMBERTW, right)
+					.divide(left.wrap()
+							.multiply(new ExpressionNode(kernel0, left,
+									Operation.LAMBERTW, right).plus(1)))
+					.multiply((left).derivative(fv, kernel0));
+
 		case FACTORIAL:
 			// x! -> psi(x+1) * x!
 			return new ExpressionNode(kernel0, left.wrap().plus(1),
@@ -423,8 +432,6 @@ public class Derivative {
 		case VEC_FUNCTION:
 			break;
 		case ZETA:
-			break;
-		case LAMBERTW:
 			break;
 		default:
 			break;
