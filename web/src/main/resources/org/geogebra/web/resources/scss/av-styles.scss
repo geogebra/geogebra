@@ -215,10 +215,10 @@ $duration: 0.2s;
 			
 			.symbolicButton{
 				display: inline-block;
-				position: relative;
+				position: absolute;
     			padding: 2px;
     			top: 50%;
-    			right: -18px;
+    			right: 8px;
     			width: 22px;
     			height: 22px;
     			background-color: $purple-default;
