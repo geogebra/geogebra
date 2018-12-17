@@ -1084,14 +1084,11 @@ public class AlgebraViewD extends AlgebraTree
 			sbXML.setLength(0);
 		}
 
-		// tree mode
-		if (getTreeMode() != SortMode.TYPE) {
-			sbXML.append("\t<mode ");
-			sbXML.append("val=\"");
-			sbXML.append(getTreeMode().toInt());
-			sbXML.append("\"");
-			sbXML.append("/>\n");
-		}
+		sbXML.append("\t<mode ");
+		sbXML.append("val=\"");
+		sbXML.append(getTreeMode().toInt());
+		sbXML.append("\"");
+		sbXML.append("/>\n");
 
 		// auxiliary objects
 		boolean flag = showAuxiliaryObjects();
