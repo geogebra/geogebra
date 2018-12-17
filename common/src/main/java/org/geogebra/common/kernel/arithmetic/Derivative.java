@@ -304,12 +304,10 @@ public class Derivative {
 
 		case LAMBERTW:
 			// LambertW(x) -> LambertW(x)/(x*(LambertW(x)+1))
-			// doesn't work for x=0 (gradient should be 1 then not NaN)
+			// Better: LambertW(x) -> 1/(x+exp(LambertW(x)) works for x=0
 			return new ExpressionNode(kernel0, left, Operation.LAMBERTW, right)
-					.divide(left.wrap()
-							.multiply(new ExpressionNode(kernel0, left,
-									Operation.LAMBERTW, right).plus(1)))
-					.multiply((left).derivative(fv, kernel0));
+					.exp().plus(left).reciprocate()
+					.multiply(left.derivative(fv, kernel0));
 
 		case FACTORIAL:
 			// x! -> psi(x+1) * x!
