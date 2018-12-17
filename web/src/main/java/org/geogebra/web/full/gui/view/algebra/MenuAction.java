@@ -4,6 +4,11 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.Command;
 
+/**
+ * Menu item with title and icon
+ * 
+ * @author Zbynek
+ */
 public abstract class MenuAction implements Command {
 
 	private String title;
@@ -20,14 +25,23 @@ public abstract class MenuAction implements Command {
 		this.image = image;
 	}
 
+	/**
+	 * @return action title
+	 */
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
 
+	/**
+	 * @return action image
+	 */
 	public SVGResource getImage() {
-		return this.image;
+		return image;
 	}
 
+	/**
+	 * @return whether action is active (grey out otherwise)
+	 */
 	public boolean isAvailable() {
 		return true;
 	}

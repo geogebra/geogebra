@@ -65,13 +65,12 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
-		if (!app.getConfig().hasAutomaticLabels()
-				&& !item.geo.isAlgebraLabelVisible()) {
-			addShowLabelItem();
-		}
-		if (!app.getConfig().hasAutomaticLabels()
-				&& item.geo.isAlgebraLabelVisible()) {
-			addHideLabelItem();
+		if (!app.getConfig().hasAutomaticLabels()) {
+			if (item.geo.isAlgebraLabelVisible()) {
+				addHideLabelItem();
+			} else {
+				addShowLabelItem();
+			}
 		}
 		if (item.geo.hasTableOfValues() && app.getConfig().hasTableView(app)) {
 			addTableOfValuesItem();
@@ -112,8 +111,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 
 	private void addShowLabelItem() {
 		addAction(new MenuAction(loc.getMenu("ShowLabel"),
-				MaterialDesignResources.INSTANCE
-						.toolbar_table_view_black()) {
+				MaterialDesignResources.INSTANCE.label()) {
 
 					@Override
 					public void execute() {
@@ -124,7 +122,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 
 	private void addHideLabelItem() {
 		addAction(new MenuAction(loc.getMenu("HideLabel"),
-				MaterialDesignResources.INSTANCE.toolbar_table_view_black()) {
+				MaterialDesignResources.INSTANCE.label_off()) {
 
 					@Override
 					public void execute() {

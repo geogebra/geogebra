@@ -236,6 +236,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-timeline-24px.svg")
 	SVGResource special_points();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-label-24px.svg")
+	SVGResource label();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-label_off-24px.svg")
+	SVGResource label_off();
+
 	// ev icons
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gear();
