@@ -22,6 +22,13 @@ public interface GeoGebraActivity {
 	 */
 	void start(AppW appW);
 
+	/**
+	 * @return icon for numeric toggle button
+	 */
 	SVGResource getNumericIcon();
 
+	/**
+	 * @return output prefix icon
+	 */
+	SVGResource getOutputPrefixIcon();
 }

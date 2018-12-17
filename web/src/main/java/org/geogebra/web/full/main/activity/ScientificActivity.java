@@ -34,4 +34,8 @@ public class ScientificActivity extends BaseActivity {
 		return MaterialDesignResources.INSTANCE.equal_sign_white();
 	}
 
+	@Override
+	public SVGResource getOutputPrefixIcon() {
+		return MaterialDesignResources.INSTANCE.equal_sign_black();
+	}
 }

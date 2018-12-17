@@ -35,4 +35,8 @@ public class BaseActivity implements GeoGebraActivity {
 	public SVGResource getNumericIcon() {
 		return MaterialDesignResources.INSTANCE.modeToggleNumeric();
 	}
+
+	public SVGResource getOutputPrefixIcon() {
+		return MaterialDesignResources.INSTANCE.arrow_black();
+	}
 }

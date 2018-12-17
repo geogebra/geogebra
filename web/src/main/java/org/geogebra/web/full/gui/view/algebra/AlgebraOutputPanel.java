@@ -54,10 +54,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	/**
 	 * add arrow prefix for av output
+	 * 
+	 * @param activity
+	 *            app specific activity
 	 */
-	void addArrowPrefix() {
+	void addArrowPrefix(GeoGebraActivity activity) {
 		final Image arrow = new NoDragImage(
-				MaterialDesignResources.INSTANCE.arrow_black(), 24);
+				activity.getOutputPrefixIcon(), 24);
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
@@ -130,10 +133,12 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 *            whether the text is LaTeX
 	 * @param fontSize
 	 *            size in pixels
+	 * @param activity
+	 *            activity of the specific app
 	 * @return whether update was successful (AV has value panel)
 	 */
 	boolean updateValuePanel(GeoElement geo1, String text,
-			boolean latex, int fontSize) {
+			boolean latex, int fontSize, GeoGebraActivity activity) {
 		if (geo1 == null || geo1
 				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
@@ -144,10 +149,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 					.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
 				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
 			} else {
-				addArrowPrefix();
+				addArrowPrefix(activity);
 			}
 		} else {
-			addArrowPrefix();
+			addArrowPrefix(activity);
 		}
 
 		valuePanel.clear();

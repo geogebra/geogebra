@@ -215,6 +215,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/equal_sign_white.svg")
 	SVGResource equal_sign_white();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/equal_sign.svg")
+	SVGResource equal_sign_black();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/arrow_black.svg")
 	SVGResource arrow_black();
 
