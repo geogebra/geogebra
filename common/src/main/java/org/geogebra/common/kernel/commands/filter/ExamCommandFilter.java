@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands.filter;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,18 +15,26 @@ public class ExamCommandFilter implements CommandFilter {
     @Override
 	public void checkAllowed(Command command,
 			CommandProcessor commandProcessor) {
-		if (!isSetFixed(command) || commandProcessor == null) {
+		boolean setFixed = isCommand(command, Commands.SetFixed);
+		boolean copyFree = isCommand(command, Commands.CopyFreeObject);
+		if ((!setFixed && !copyFree) || commandProcessor == null) {
 			return;
 		}
 		GeoElement[] arguments = commandProcessor.resArgs(command);
+		if (arguments.length < 1) {
+			return;
+		}
 		GeoElement firstArgument = arguments[0];
-		if (firstArgument.isGeoFunction()
-				|| AlgebraItem.isEquationFromUser(firstArgument)) {
+		if (setFixed && (firstArgument.isGeoFunction()
+				|| AlgebraItem.isEquationFromUser(firstArgument))) {
+			throw commandProcessor.argErr(command, firstArgument);
+		}
+		if (copyFree && (firstArgument instanceof EquationValue)) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
     }
 
-	private static boolean isSetFixed(Command command) {
-		return Commands.SetFixed.name().equals(command.getName());
+	private static boolean isCommand(Command command, Commands cmdName) {
+		return cmdName.name().equals(command.getName());
     }
 }
