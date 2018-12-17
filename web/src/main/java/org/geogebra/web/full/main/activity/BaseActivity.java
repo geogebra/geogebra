@@ -32,10 +32,12 @@ public class BaseActivity implements GeoGebraActivity {
 		// nothing to do
 	}
 
+	@Override
 	public SVGResource getNumericIcon() {
 		return MaterialDesignResources.INSTANCE.modeToggleNumeric();
 	}
 
+	@Override
 	public SVGResource getOutputPrefixIcon() {
 		return MaterialDesignResources.INSTANCE.arrow_black();
 	}

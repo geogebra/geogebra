@@ -271,6 +271,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return activity.getConfig();
 	}
 
+	/**
+	 * @return current activity
+	 */
 	public GeoGebraActivity getActivity() {
 		return activity;
 	}
@@ -1206,7 +1209,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public final void onHeaderVisible() {
 		ToolbarPanel toolbar = ((GuiManagerW) getGuiManager())
 				.getUnbundledToolbar();
-		if (isPortrait() && toolbar.isClosed()) {
+		if (isPortrait() && toolbar != null && toolbar.isClosed()) {
 			toolbar.doCloseInPortrait();
 		}
 	}

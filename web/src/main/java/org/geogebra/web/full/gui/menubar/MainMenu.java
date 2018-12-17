@@ -408,7 +408,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 
 			private void setStackText(int index, boolean expand) {
 				int step = smallScreen ? 1 : 0;
-				if (index < step || index > menuImgs.size()) {
+				if (index < step || index - step >= menuImgs.size()) {
 					return;
 				}
 

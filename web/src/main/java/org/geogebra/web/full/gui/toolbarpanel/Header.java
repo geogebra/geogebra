@@ -22,7 +22,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
@@ -33,7 +32,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
@@ -48,7 +46,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  *
  */
 class Header extends FlowPanel implements KeyDownHandler, TabHandler {
-	private PersistableToggleButton btnMenu;
+	private MenuToggleButton btnMenu;
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
 	private MyToggleButton btnTableView;
@@ -81,19 +79,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
-
-	private class PersistableToggleButton extends MyToggleButton
-			implements Persistable {
-
-		public PersistableToggleButton(Image image) {
-			super(image, app);
-		}
-
-		@Override
-		public void setTitle(String title) {
-			AriaHelper.setTitle(this, title, app);
-		}
-	}
 
 	/**
 	 * @param toolbarPanel
@@ -484,23 +469,13 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void createMenuButton() {
-		ImageResource menuImgRec = new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.toolbar_menu_black()
-						.getSafeUri(),
-				0, 0, 24, 24, false, false);
-		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
+
+		btnMenu = new MenuToggleButton(app);
 
 		updateMenuPosition();
 		markMenuAsExpanded(false);
-		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				toolbarPanel.toggleMenu();
-			}
-		});
 		btnMenu.addTabHandler(this);
-		btnMenu.addKeyDownHandler(this);
 	}
 
 	private void updateMenuPosition() {
@@ -508,11 +483,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			return;
 		}
 		boolean external = needsHeader() && RootPanel.get("headerID") != null;
-		Dom.toggleClass(btnMenu, "flatButtonHeader", "flatButton", external);
-		Dom.toggleClass(btnMenu, "menuBtn", "menu", external);
+		btnMenu.setExternal(external);
 		if (external) {
-			btnMenu.removeFromParent();
-			buildHeader();
+			btnMenu.addToGlobalHeader();
 			addShareButton();
 		} else {
 			toolbarPanel.getFrame().add(btnMenu);
@@ -522,16 +495,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private boolean needsHeader() {
 		return app.has(Feature.MAT_DESIGN_HEADER)
 				&& !AppW.smallScreen(app.getArticleElement());
-	}
-
-	private void buildHeader() {
-		RootPanel root = RootPanel.get("headerID");
-		Element dummy = Dom.querySelectorForElement(root.getElement(),
-				"menuBtn");
-		if (dummy != null) {
-			dummy.removeFromParent();
-		}
-		root.insert(btnMenu, 0);
 	}
 
 	private void addShareButton() {
@@ -929,9 +892,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (source == null) {
 			return;
 		}
-		if (source == btnMenu) {
-			toolbarPanel.toggleMenu();
-		} else if (source == btnAlgebra) {
+		if (source == btnAlgebra) {
 			onAlgebraPressed();
 		} else if (source == btnTools) {
 			onToolsPressed();
