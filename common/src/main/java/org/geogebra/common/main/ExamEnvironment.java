@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
@@ -650,5 +652,18 @@ public class ExamEnvironment {
 				.getAlgebraProcessor()
 				.getCommandDispatcher()
 				.setCommandFilter(nonExamCommandFilter);
+	}
+
+	/**
+	 * @param eqn
+	 *            equation
+	 * @return whether the equation should be hidden
+	 */
+	public static boolean isProtectedEquation(GeoElement eqn) {
+		App app = eqn.getKernel().getApplication();
+		return app.isExamStarted()
+				&& !app.getSettings().getCasSettings().isEnabled()
+				&& eqn.getParentAlgorithm() != null
+				&& eqn.getParentAlgorithm().getClassName() != Algos.Expression;
 	}
 }

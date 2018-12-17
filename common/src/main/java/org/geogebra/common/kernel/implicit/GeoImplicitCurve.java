@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -649,6 +650,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (ExamEnvironment.isProtectedEquation(this)) {
+			return getParentAlgorithm().getDefinition(tpl);
+		}
 		if (!isDefined()) {
 			return "?";
 		}
