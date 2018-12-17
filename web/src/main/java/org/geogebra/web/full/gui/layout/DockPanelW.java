@@ -204,8 +204,6 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Images for Stylingbar
 	 */
-	private Image triangleRight;
-	private Image triangleLeft;
 	private Image dragIcon;
 	private Image closeIcon;
 
@@ -1576,18 +1574,10 @@ public abstract class DockPanelW extends ResizeComposite
 
 	private ResourcePrototype getToggleImage(boolean showing) {
 		if (showing) {
-			if (triangleRight == null) {
-				triangleRight = new Image(
-						GuiResources.INSTANCE.dockbar_triangle_right());
-			}
 			return GuiResources.INSTANCE.dockbar_triangle_right();
 		}
 		if (getViewIcon() != null) {
 			return getViewIcon();
-		}
-		if (triangleLeft == null) {
-			triangleLeft = new Image(
-					GuiResources.INSTANCE.dockbar_triangle_left());
 		}
 		return GuiResources.INSTANCE.dockbar_triangle_left();
 	}
