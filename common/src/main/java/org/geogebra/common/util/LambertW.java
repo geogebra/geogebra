@@ -197,7 +197,7 @@ public class LambertW {
 	 */
 	static public double branchNeg1(double x) {
 
-		if (x < -1 / Math.E) {
+		if (x < -1 / Math.E || x >= 0) {
 			return Double.NaN;
 		}
 
