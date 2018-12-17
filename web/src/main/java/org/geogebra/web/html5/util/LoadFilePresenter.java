@@ -129,8 +129,13 @@ public class LoadFilePresenter {
 			GeoGebraProfiler.getInstance().profileEnd();
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
-			app.getScriptManager().ggbOnInit();
-			app.getAsyncManager().onResourceLoaded();
+
+			app.getAsyncManager().scheduleCallback(new Runnable() {
+				@Override
+				public void run() {
+					app.getScriptManager().ggbOnInit();
+				}
+			});
 		} else {
 			// only do this after app initialized
 			app.setUndoActive(undoActive);

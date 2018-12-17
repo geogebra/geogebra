@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
 
@@ -54,10 +55,10 @@ public class ScriptManagerW extends ScriptManager {
 			// assignGgbApplet();
 			tryTabletOnInit();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
-			        .equals(Kernel.defaultLibraryJavaScript);
+					.equals(Kernel.defaultLibraryJavaScript);
 			if (!standardJS && !app.useBrowserForJavaScript()) {
 				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
-				        null);
+						null);
 			}
 			if (!standardJS || app.useBrowserForJavaScript()) {
 				final String param = ((AppW) app).getAppletId();
@@ -68,6 +69,8 @@ public class ScriptManagerW extends ScriptManager {
 					ggbOnInit(param, api);
 				}
 			}
+		} catch (CommandNotLoadedError e) {
+			throw e;
 		} catch (Throwable t) {
 			Log.debug(t.getMessage());
 		}

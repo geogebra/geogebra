@@ -1121,7 +1121,7 @@ public class GgbAPIW extends GgbAPI {
 		} catch (CommandNotLoadedError e) {
 			Log.debug("Command not loaded yet. "
 					+ "Please try asyncEvalCommand(cmdString)");
-			return false;
+			throw e;
 		}
 	}
 
@@ -1136,7 +1136,7 @@ public class GgbAPIW extends GgbAPI {
 		} catch (CommandNotLoadedError e) {
 			Log.debug("Command not loaded yet. "
 					+ "Please try asyncEvalCommandGetLabels(cmdString, callback)");
-			return null;
+			throw e;
 		}
 	}
 
