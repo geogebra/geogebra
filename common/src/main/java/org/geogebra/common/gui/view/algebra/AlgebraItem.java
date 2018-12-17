@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -86,7 +87,11 @@ public class AlgebraItem {
 		if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 			return !allRHSareIntegers((GeoList) geo);
 		}
-
+		if (geo.isGeoNumeric()) {
+			ExpressionNode def = geo.getDefinition() == null ? null
+					: geo.getDefinition().asFraction();
+			return def != null && def.unwrap().isExpressionNode();
+		}
 		HasSymbolicMode sm = (HasSymbolicMode) geo;
 		boolean orig = sm.isSymbolicMode();
 		String text1 = geo.getLaTeXAlgebraDescription(true,
