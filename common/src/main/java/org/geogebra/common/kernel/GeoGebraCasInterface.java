@@ -140,6 +140,8 @@ public interface GeoGebraCasInterface {
 	 *            true for symbolic arguments
 	 * @param tpl
 	 *            string tmplate for result
+	 * @param mode
+	 *            symbolic mode
 	 * @return command formated for current CAS
 	 */
 	public String getCASCommand(final String name,

@@ -123,4 +123,9 @@ public interface AppConfig {
 	 */
 	boolean hasAutomaticLabels();
 
+	/**
+	 * @return algebra style
+	 */
+	int getDefaultAlgebraStyle();
+
 }

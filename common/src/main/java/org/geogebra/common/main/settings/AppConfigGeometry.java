@@ -181,4 +181,9 @@ public class AppConfigGeometry implements AppConfig {
 		return true;
 	}
 
+	@Override
+	public int getDefaultAlgebraStyle() {
+		return Kernel.ALGEBRA_STYLE_DESCRIPTION;
+	}
+
 }

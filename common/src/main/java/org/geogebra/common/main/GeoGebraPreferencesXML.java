@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.common.kernel.Kernel;
 
 /**
  * @author michael
@@ -108,9 +107,7 @@ public class GeoGebraPreferencesXML {
 				+ "<algebraStyle val=\""
 
 				// dynamic bit!
-				+ (app.has(Feature.AV_DEFINITION_AND_VALUE)
-						? Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-						: Kernel.ALGEBRA_STYLE_VALUE)
+				+ app.getConfig().getDefaultAlgebraStyle()
 
 				+ "\"/>"
 

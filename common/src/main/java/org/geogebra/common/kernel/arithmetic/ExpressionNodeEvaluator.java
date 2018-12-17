@@ -1390,10 +1390,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError polynomialOrDie(ExpressionValue lt, Operation op,
 			String prefix, String suffix) {
-		Log.debug(lt);
 		return new MyError(loc, "IllegalArgument", prefix,
 				lt.toString(errorTemplate), suffix);
-
 	}
 
 	/**
