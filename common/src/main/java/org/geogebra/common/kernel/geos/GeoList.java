@@ -3212,16 +3212,15 @@ public class GeoList extends GeoElement
 	 *
 	 * @param geoItem
 	 *            an item of the list
+	 * @param tpl
+	 *            template
 	 * @return The displayed string of item.
 	 */
 	public static String getItemDisplayString(GeoElement geoItem,
 			StringTemplate tpl) {
 		if (!"".equals(geoItem.getRawCaption())) {
-
 			return geoItem.getCaption(tpl);
-
 		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
-
 			return geoItem.getLabel(tpl);
 		}
 
@@ -3232,6 +3231,8 @@ public class GeoList extends GeoElement
 	 *
 	 * @param idx
 	 *            Item index.
+	 * @param tpl
+	 *            template
 	 * @return the display string of the item at idx.
 	 */
 	public String getItemDisplayString(int idx, StringTemplate tpl) {
@@ -3270,7 +3271,11 @@ public class GeoList extends GeoElement
 					item = loc.getMenuDefault("EmptyItem", "empty item");
 				}
 				sb.append(item);
-				sb.append(idx == count - 1 ? ". " : ", ");
+				if (idx == count - 1) {
+					sb.endSentence();
+				} else {
+					sb.append(", ");
+				}
 			}
 		}
 	}
