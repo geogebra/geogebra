@@ -4162,6 +4162,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** G3D-152 */
 		case G3D_IOS_AR_BACKGROUND:
 			return false;
+		
+		/** APPS-163*/
+		case KEY_HANDLER_EV3D:
+			return prerelease;
 
         // **********************************************************************
         // G3D END

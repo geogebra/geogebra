@@ -99,6 +99,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private AppW appW = (AppW) super.app;
 
+	private EuclidianKeyHandler3DW handler;
+
 	/**
 	 * constructor
 	 * 
@@ -202,8 +204,13 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void registerKeyHandlers(Canvas canvas) {
-		GlobalKeyDispatcherW gkd = ((AppW) this.app).getGlobalKeyDispatcher();
-		if (canvas != null) {
+		if (canvas == null) {
+			return;
+		}
+		if (app.has(Feature.KEY_HANDLER_EV3D)) {
+			handler = new EuclidianKeyHandler3DW((AppW) app, canvas);
+		} else {
+			GlobalKeyDispatcherW gkd = ((AppW) this.app).getGlobalKeyDispatcher();
 			canvas.addKeyDownHandler(gkd);
 			canvas.addKeyUpHandler(gkd);
 			canvas.addKeyPressHandler(gkd);
