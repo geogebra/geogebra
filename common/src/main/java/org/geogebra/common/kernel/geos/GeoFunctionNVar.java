@@ -692,7 +692,7 @@ public class GeoFunctionNVar extends GeoElement
 			p.set(evaluateForDrawSurface(u, v), u, v);
 		} else if ("y".equals(shortLHS)) {
 			p.set(u, evaluateForDrawSurface(u, v), v);
-		} else if ("z".equals(shortLHS)) {
+		} else {
 			p.set(u, v, evaluateForDrawSurface(u, v));
 		}
 	}
