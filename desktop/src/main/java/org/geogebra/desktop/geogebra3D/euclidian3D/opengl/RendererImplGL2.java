@@ -20,6 +20,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -926,23 +927,20 @@ public class RendererImplGL2 extends RendererImpl
 		// only needed for shaders
 	}
 
-	public void setProjectionMatrixViewForAR(float[] cameraView,
-			float[] cameraPerspective, float[] modelMatrix, float scaleFactor) {
-		// used only with shaders
+	@Override
+	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
+			float scaleFactor) {
+		// used only with AR
 	}
 
 	public void glViewPort() {
 		// used only with shaders
 	}
 
-	public Coords fromARCoreCoordsToGGBCoords(Coords coords,
-			float[] modelMatrix, float scaleFactor) {
-		// TODO Auto-generated method stub
-		return coords;
-	}
-
-	public void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
-			float scaleFactor, Coords ret) {
-		// TODO Auto-generated method stub
+	@Override
+	public void fromARCoreCoordsToGGBCoords(Coords coords,
+			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
+		// used only with AR
 	}
 }
