@@ -2432,7 +2432,7 @@ __GGB__keysVar["hr"].menu = {
     "Power": "Potencijska",
     "Preferences": "Postavke",
     "PreferencesOfA": "Postavke - %0",
-    "PressArrowsPageUpToMove": "Pritisnite tipkovni\u010dke strelice za pomicanje objekta u smjeru osi x i y ili PgUp i PgDn za pomak u smjeru z osi.",
+    "PressArrowsPageUpToMove": "Pritisnite tipkovni\u010dke strelice za pomicanje objekta u smjeru osi x i y ili PgUp i PgDn za pomak u smjeru z osi",
     "PressArrowsToGo": "Pritisnice kursor gore ili kursor dole za ostale mogu\u0107nost",
     "PressArrowsToMove": "Pritisnite tipkovni\u010dke strelice za pomicanje objekta",
     "PressDownToDecrease": "Pritisnite strelicu prema dolje da biste smanjili vrijednost",

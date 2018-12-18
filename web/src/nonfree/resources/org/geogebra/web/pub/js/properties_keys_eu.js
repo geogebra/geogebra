@@ -2432,7 +2432,7 @@ __GGB__keysVar["eu"].menu = {
     "Power": "Potentzia",
     "Preferences": "Hobespenak",
     "PreferencesOfA": "Hobespenak - %0",
-    "PressArrowsPageUpToMove": "Sakatu gezi-teklak objektua x eta y norabideetan mugitzeko edo IgoOrria, JaitsiOrria z norabidean mugitzeko.",
+    "PressArrowsPageUpToMove": "Sakatu gezi-teklak objektua x eta y norabideetan mugitzeko edo IgoOrria, JaitsiOrria z norabidean mugitzeko",
     "PressArrowsToGo": "Sakatu gora eta behera geziak beste aukera batzuk hautatzeko.",
     "PressArrowsToMove": "Sakatu gezi-teklak objektua mugitzeko",
     "PressDownToDecrease": "Sakatu behera gezia balioa txikitzeko",

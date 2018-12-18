@@ -2432,7 +2432,7 @@ __GGB__keysVar["cs"].menu = {
     "Power": "Mocnost",
     "Preferences": "P\u0159edvolby",
     "PreferencesOfA": "P\u0159edvolby - %0",
-    "PressArrowsPageUpToMove": "Pomoc\xed \u0161ipek lze objekt p\u0159em\xedstit ve sm\u011bru os x a y, pomoc\xed PageUpPageDown ve sm\u011bru osy z.",
+    "PressArrowsPageUpToMove": "Pomoc\xed \u0161ipek lze objekt p\u0159em\xedstit ve sm\u011bru os x a y, pomoc\xed PageUpPageDown ve sm\u011bru osy z",
     "PressArrowsToGo": "Stisknut\xedm \u0161ipek nahoru a dol\u016f p\u0159ejdete na r\u016fzn\xe9 mo\u017enosti.",
     "PressArrowsToMove": "Pomoc\xed \u0161ipek lze objekt p\u0159em\xedstit",
     "PressDownToDecrease": "Stisknut\xedm \u0161ipky dol\u016f sn\xed\u017e\xedte hodnotu",

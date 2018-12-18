@@ -2432,7 +2432,7 @@ __GGB__keysVar["sv"].menu = {
     "Power": "Potensfunktion a\u2022x^b",
     "Preferences": "Inst\xe4llningar",
     "PreferencesOfA": "Inst\xe4llningar - %0",
-    "PressArrowsPageUpToMove": "Anv\xe4nd piltangenterna f\xf6r at flytta objektet i x- och y-led. Anv\xe4nd PageUp och PageDown f\xf6r att flytta i z-led.",
+    "PressArrowsPageUpToMove": "Anv\xe4nd piltangenterna f\xf6r at flytta objektet i x- och y-led. Anv\xe4nd PageUp och PageDown f\xf6r att flytta i z-led",
     "PressArrowsToGo": "Tryck p\xe5 upp- och nedpilarna f\xf6r att v\xe4lja olika alternativ.",
     "PressArrowsToMove": "Anv\xe4nd piltangenterna f\xf6r at flytta objektet",
     "PressDownToDecrease": "Tryck p\xe5 ned\xe5tpilen f\xf6r att minska v\xe4rdet",

@@ -2432,7 +2432,7 @@ __GGB__keysVar["it"].menu = {
     "Power": "Potenza",
     "Preferences": "Preferenze",
     "PreferencesOfA": "Preferenze - %0",
-    "PressArrowsPageUpToMove": "Premi i tasti freccia per muovere l'oggetto nelle direzioni x e y, oppure PagSu, PagGi\xf9 per muoverlo lungo z.",
+    "PressArrowsPageUpToMove": "Premi i tasti freccia per muovere l'oggetto nelle direzioni x e y, oppure PagSu, PagGi\xf9 per muoverlo lungo z",
     "PressArrowsToGo": "Premi i tasti freccia su o gi\xf9 per accedere ad altre opzioni.",
     "PressArrowsToMove": "Premi i tasti freccia per muovere l'oggetto",
     "PressDownToDecrease": "Premi freccia gi\xf9 per diminuire il valore",
