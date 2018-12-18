@@ -812,4 +812,23 @@ abstract public class ObjectSettingsModel {
             }
         }
     }
+
+    /**
+     * Returns true, if the equation mode setting
+     * should be shown.
+     *
+     * @return true if setting should be shown.
+     */
+    public boolean hasEquationModeSetting() {
+        if (geoElementsList == null) {
+            return false;
+        }
+        boolean show = geoElementsList.size() > 0;
+        for (int i = 0; i < geoElementsList.size(); i++) {
+            GeoElement element = geoElementsList.get(i);
+            show = show && element instanceof GeoLine && !element.isNumberValue();
+            show = show && element.getDefinition() == null;
+        }
+        return show;
+    }
 }
