@@ -3288,9 +3288,9 @@ public class GeoList extends GeoElement
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
 		addAuralLabelOrCaption(sb);
-		sb.append(" ");
+		sb.appendSpace();
 		sb.append(loc.getMenuDefault("Closed", "closed"));
-		sb.append(". ");
+		sb.endSentence();
 		return sb.toString();
 	}
 
@@ -3313,9 +3313,10 @@ public class GeoList extends GeoElement
 		Localization loc = kernel.getLocalization();
 		if (StringUtil.emptyTrim(getItemDisplayString(item))) {
 			return loc.getMenuDefault("DropDownEmptyItemSelected",
-					"Empty item selected. Drop down closed.");
+					"Empty item selected Drop down closed");
 		}
-		return loc.getPlainArray("DropDownItemSelected", "Item %0 selected. Drop down closed. ",
+		return loc.getPlainArray("DropDownItemSelected",
+				"Item %0 selected Drop down closed",
 				new String[] { GeoList.getItemDisplayString(item) });
 	}
 
@@ -3324,16 +3325,16 @@ public class GeoList extends GeoElement
 	 *
 	 */
 	public String getAuralTextAsOpened() {
-		StringBuilder sb = new StringBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		Localization loc = kernel.getLocalization();
-		sb.append(loc.getPlainArray("DropDownOpened", "Drop down %0 opened.",
+		sb.append(loc.getPlainArray("DropDownOpened", "Drop down %0 opened",
 				new String[] { getLabel(StringTemplate.defaultTemplate) }));
-		sb.append(" ");
+		sb.endSentence();
 		sb.append(loc.getMenuDefault("PressArrowsToGo",
-				"Press up arrow and down arrow to go to different options."));
-		sb.append(" ");
+				"Press up arrow and down arrow to go to different options"));
+		sb.endSentence();
 		sb.append(loc.getMenuDefault("PressEnterToSelect",
-				"Press enter to select."));
+				"Press enter to select"));
 		return sb.toString();
 	}
 
