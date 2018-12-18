@@ -351,6 +351,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 * Returns the number of the current construction step shown in the
 	 * construction protocol's table.
 	 */
+	@Override
 	public int getCurrentStepNumber() {
 		return data.getCurrentStepNumber();
 	}
@@ -359,10 +360,12 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 * Returns the number of the last construction step shown in the
 	 * construction protocol's table.
 	 */
+	@Override
 	public int getLastStepNumber() {
 		return data.getLastStepNumber();
 	}
 
+	@Override
 	public void setConstructionStep(int step) {
 		if (isViewAttached) {
 			kernel.detach(data);
@@ -374,6 +377,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		updateNavBarsAndRepaint();
 	}
 
+	@Override
 	public void nextStep() {
 		if (isViewAttached) {
 			kernel.detach(data);
@@ -386,6 +390,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		scrollToConstructionStep();
 	}
 
+	@Override
 	public void previousStep() {
 		if (isViewAttached) {
 			kernel.detach(data);
@@ -397,6 +402,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		updateNavBarsAndRepaint();
 	}
 
+	@Override
 	public void firstStep() {
 		if (isViewAttached) {
 			kernel.detach(data);
@@ -408,6 +414,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		updateNavBarsAndRepaint();
 	}
 
+	@Override
 	public void lastStep() {
 		if (isViewAttached) {
 			kernel.detach(data);

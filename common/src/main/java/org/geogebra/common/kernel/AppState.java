@@ -5,12 +5,18 @@ package org.geogebra.common.kernel;
  */
 public interface AppState {
 
-    /** Returns the application state in XML */
+	/** @return the application state in XML */
     String getXml();
 
     /** deletes this application state (i.e. deletes file) */
     void delete();
 
-    /** Check if contents of this app state equals to another */
+	/**
+	 * Check if contents of this app state equals to another
+	 * 
+	 * @param state
+	 *            other state
+	 * @return are they equal?
+	 */
     boolean equalsTo(AppState state);
 }

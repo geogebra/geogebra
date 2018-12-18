@@ -773,10 +773,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return cons.getFirstGeo();
 	}
 
-	/**
-	 * @param step
-	 *            new construction step
-	 */
 	@Override
 	public void setConstructionStep(int step) {
 		if (cons.getStep() != step) {
@@ -799,10 +795,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return cons.steps() - 1;
 	}
 
-	/**
-	 * Sets construction step to first step of construction protocol. Note:
-	 * showOnlyBreakpoints() is important here
-	 */
 	@Override
 	public void firstStep() {
 		int step = 0;
@@ -814,10 +806,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
-	/**
-	 * Sets construction step to last step of construction protocol. Note:
-	 * showOnlyBreakpoints() is important here
-	 */
 	@Override
 	public void lastStep() {
 		int step = getLastConstructionStep();
@@ -829,10 +817,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
-	/**
-	 * Sets construction step to next step of construction protocol. Note:
-	 * showOnlyBreakpoints() is important here
-	 */
 	@Override
 	public void nextStep() {
 		int step = cons.getStep() + 1;
@@ -900,7 +884,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 
 		return count;
-
 	}
 
 	private int getNextBreakpoint(int initStep) {
@@ -918,10 +901,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return lastStep;
 	}
 
-	/**
-	 * Sets construction step to previous step of construction protocol Note:
-	 * showOnlyBreakpoints() is important here
-	 */
 	@Override
 	public void previousStep() {
 		int step = cons.getStep() - 1;
