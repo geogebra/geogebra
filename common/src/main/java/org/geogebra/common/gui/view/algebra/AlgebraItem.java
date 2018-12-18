@@ -303,9 +303,13 @@ public class AlgebraItem {
 			return true;
 
 		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-			geo1.addLabelTextOrHTML(
+			if (needsPacking(geo1)) {
+				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+			} else {
+				geo1.addLabelTextOrHTML(
 					geo1.getDefinitionDescription(stringTemplate),
 					builder);
+			}
 			return true;
 
 		case Kernel.ALGEBRA_STYLE_DEFINITION:
@@ -313,7 +317,10 @@ public class AlgebraItem {
 			return true;
 		default:
 		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-
+			if (needsPacking(geo1)) {
+				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+				return true;
+			}
 			return false;
 		}
 	}
