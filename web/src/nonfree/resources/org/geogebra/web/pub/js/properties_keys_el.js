@@ -2446,7 +2446,7 @@ __GGB__keysVar["el"].menu = {
     "PressSpaceCheckboxOn": "Press space to check checkbox",
     "PressSpaceStartAnimation": "Press space to start animation",
     "PressSpaceStopAnimation": "\u03a0\u03b1\u03c4\u03ae\u03c3\u03c4\u03b5 space \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03c3\u03c4\u03b1\u03bc\u03b1\u03c4\u03ae\u03c3\u03b5\u03b9 \u03b7 \u03ba\u03af\u03bd\u03b7\u03c3\u03b7",
-    "PressSpaceToOpen": "Press space to open.",
+    "PressSpaceToOpen": "Press space to open",
     "PressSpaceToRunScript": "Press space to run script",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

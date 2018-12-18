@@ -2446,7 +2446,7 @@ __GGB__keysVar["fi"].menu = {
     "PressSpaceCheckboxOn": "Valitse valintaruutu painamalla v\xe4lily\xf6nti\xe4",
     "PressSpaceStartAnimation": "Paina v\xe4lily\xf6nti aloittamaan animaatio",
     "PressSpaceStopAnimation": "Paina v\xe4lily\xf6nti\xe4 pys\xe4ytt\xe4\xe4ksesi animaation",
-    "PressSpaceToOpen": "Avaa painamalla v\xe4lily\xf6nti\xe4.",
+    "PressSpaceToOpen": "Avaa painamalla v\xe4lily\xf6nti\xe4",
     "PressSpaceToRunScript": "Paina v\xe4lily\xf6nti suorittaaksesi skriptin",
     "PressTabToSelectControls": "Valitse sarkain (tab) niin p\xe4\xe4set s\xe4\xe4timiin",
     "PressTabToSelectNext": "Paina sarkainta (tab) valitaksesi seuraavan objektin",

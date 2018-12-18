@@ -2446,7 +2446,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "PressSpaceCheckboxOn": "Premeu espai per a marcar la casella de selecci\xf3",
     "PressSpaceStartAnimation": "Premeu espai per a iniciar l'animaci\xf3",
     "PressSpaceStopAnimation": "Premeu espai per a parar l'animaci\xf3",
-    "PressSpaceToOpen": "Premeu espai per a obrir.",
+    "PressSpaceToOpen": "Premeu espai per a obrir",
     "PressSpaceToRunScript": "Premeu espai per a executar l'script",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

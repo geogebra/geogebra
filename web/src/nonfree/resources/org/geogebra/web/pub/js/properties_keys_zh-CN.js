@@ -2446,7 +2446,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "PressSpaceCheckboxOn": "\u6309\u7a7a\u683c\u952e\u9009\u4e2d\u590d\u9009\u6846",
     "PressSpaceStartAnimation": "\u6309\u7a7a\u683c\u952e\u542f\u52a8\u52a8\u753b",
     "PressSpaceStopAnimation": "\u6309\u7a7a\u683c\u952e\u505c\u6b62\u52a8\u753b",
-    "PressSpaceToOpen": "\u6309 Space \u7a7a\u683c\u952e\u6253\u5f00.",
+    "PressSpaceToOpen": "\u6309 Space \u7a7a\u683c\u952e\u6253\u5f00",
     "PressSpaceToRunScript": "\u6309\u7a7a\u683c\u952e\u8fd0\u884c\u811a\u672c",
     "PressTabToSelectControls": "\u6309 Tab \u952e\u4ee5\u9009\u62e9\u63a7\u4ef6",
     "PressTabToSelectNext": "\u6309 Tab \u952e\u4ee5\u9009\u62e9\u4e0b\u4e00\u5bf9\u8c61",

@@ -2446,7 +2446,7 @@ __GGB__keysVar["hu"].menu = {
     "PressSpaceCheckboxOn": "Press space to check checkbox",
     "PressSpaceStartAnimation": "Nyomd meg a sz\xf3k\xf6zt az anim\xe1ci\xf3 ind\xedt\xe1s\xe1hoz.",
     "PressSpaceStopAnimation": "Press space to stop animation",
-    "PressSpaceToOpen": "Press space to open.",
+    "PressSpaceToOpen": "Press space to open",
     "PressSpaceToRunScript": "A sz\xf3k\xf6zzel futtathat\xf3 a script",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

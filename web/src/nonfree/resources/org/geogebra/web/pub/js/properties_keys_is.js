@@ -2446,7 +2446,7 @@ __GGB__keysVar["is"].menu = {
     "PressSpaceCheckboxOn": "Veldu biltakka til a\xf0 merkja vi\xf0 merkireit",
     "PressSpaceStartAnimation": "Veldu biltakkann til a\xf0 gangsetja hreyfimynd.",
     "PressSpaceStopAnimation": "Press space to stop animation",
-    "PressSpaceToOpen": "\xddti\xf0 \xe1 bilst\xf6ng til a\xf0 opna.",
+    "PressSpaceToOpen": "\xddti\xf0 \xe1 bilst\xf6ng til a\xf0 opna",
     "PressSpaceToRunScript": "Veldu bilhnapp til a\xf0 keyra forskrift",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

@@ -2446,7 +2446,7 @@ __GGB__keysVar["fa"].menu = {
     "PressSpaceCheckboxOn": "Press space to check checkbox",
     "PressSpaceStartAnimation": "Press space to start animation",
     "PressSpaceStopAnimation": "Press space to stop animation",
-    "PressSpaceToOpen": "Press space to open.",
+    "PressSpaceToOpen": "Press space to open",
     "PressSpaceToRunScript": "Press space to run script",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

@@ -2446,7 +2446,7 @@ __GGB__keysVar["pl"].menu = {
     "PressSpaceCheckboxOn": "Naci\u015bnij klawisz spacji aby zaznaczy\u0107 pole wyboru",
     "PressSpaceStartAnimation": "Naci\u015bnij spacj\u0119, aby rozpocz\u0105\u0107 animacj\u0119",
     "PressSpaceStopAnimation": "Naci\u015bnij spacj\u0119, aby zatrzyma\u0107 animacj\u0119",
-    "PressSpaceToOpen": "Press space to open.",
+    "PressSpaceToOpen": "Press space to open",
     "PressSpaceToRunScript": "Naci\u015bnij spacj\u0119, aby uruchomi\u0107 skrypt",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

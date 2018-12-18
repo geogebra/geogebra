@@ -2446,7 +2446,7 @@ __GGB__keysVar["sv"].menu = {
     "PressSpaceCheckboxOn": "Tryck mellanslag f\xf6r att markera kryssrytan",
     "PressSpaceStartAnimation": "Tryck p\xe5 mellanslag f\xf6r att starta animeringen",
     "PressSpaceStopAnimation": "Tryck mellanslag f\xf6r att stoppa animeringen",
-    "PressSpaceToOpen": "Tryck mellanslag f\xf6r att \xf6ppna.",
+    "PressSpaceToOpen": "Tryck mellanslag f\xf6r att \xf6ppna",
     "PressSpaceToRunScript": "Tryck mellanslag f\xf6r att k\xf6ra scriptet (programmet)",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

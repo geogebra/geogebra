@@ -2446,7 +2446,7 @@ __GGB__keysVar["tr"].menu = {
     "PressSpaceCheckboxOn": "\u0130\u015faret kutusunu i\u015faretlemek i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
     "PressSpaceStartAnimation": "Canland\u0131rmay\u0131 ba\u015flatmak i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
     "PressSpaceStopAnimation": "Canland\u0131rmay\u0131 durdurmak i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
-    "PressSpaceToOpen": "A\xe7mak i\xe7in bo\u015fluk tu\u015funa bas\u0131n.",
+    "PressSpaceToOpen": "A\xe7mak i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
     "PressSpaceToRunScript": "Beti\u011fi \xe7al\u0131\u015ft\u0131rmak i\xe7in bo\u015fluk tu\u015funa bas\u0131n",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

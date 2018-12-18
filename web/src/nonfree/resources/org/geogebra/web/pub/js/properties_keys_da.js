@@ -2446,7 +2446,7 @@ __GGB__keysVar["da"].menu = {
     "PressSpaceCheckboxOn": "Tryk check for at markere klikboks",
     "PressSpaceStartAnimation": "Tryk p\xe5 mellemrum for at starte animationen",
     "PressSpaceStopAnimation": "Tryk p\xe5 mellemrum for at stoppe animationen",
-    "PressSpaceToOpen": "Press space to open.",
+    "PressSpaceToOpen": "Press space to open",
     "PressSpaceToRunScript": "Tryk space for at k\xf8re script",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

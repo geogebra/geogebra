@@ -2446,7 +2446,7 @@ __GGB__keysVar["es-ES"].menu = {
     "PressSpaceCheckboxOn": "Pulsa espacio para marcar la casilla",
     "PressSpaceStartAnimation": "Pulsa espacio para iniciar la animaci\xf3n",
     "PressSpaceStopAnimation": "Pulsa espacio para parar la animaci\xf3n",
-    "PressSpaceToOpen": "Presiona espacio para abrir.",
+    "PressSpaceToOpen": "Presiona espacio para abrir",
     "PressSpaceToRunScript": "Pulsa espacio para ejecutar el gui\xf3n",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

@@ -2446,7 +2446,7 @@ __GGB__keysVar["nb"].menu = {
     "PressSpaceCheckboxOn": "Trykk mellomrom for \xe5 merka av i avmerkingsboksen",
     "PressSpaceStartAnimation": "Trykk mellomrom for \xe5 starte animasjonen",
     "PressSpaceStopAnimation": "Trykk mellomrom for \xe5 stoppe animasjonen",
-    "PressSpaceToOpen": "Trykk mellomrom for \xe5 \xe5pne.",
+    "PressSpaceToOpen": "Trykk mellomrom for \xe5 \xe5pne",
     "PressSpaceToRunScript": "Trykk mellomrom for \xe5 kj\xf8re skript",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

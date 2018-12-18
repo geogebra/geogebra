@@ -2446,7 +2446,7 @@ __GGB__keysVar["sl"].menu = {
     "PressSpaceCheckboxOn": "S preslednico izberemo mo\u017enost",
     "PressSpaceStartAnimation": "S preslednico za\u017eeni animacijo",
     "PressSpaceStopAnimation": "S presledkom ustavi animacijo",
-    "PressSpaceToOpen": "Odpremo s preslednico.",
+    "PressSpaceToOpen": "Odpremo s preslednico",
     "PressSpaceToRunScript": "S preslednico po\u017eenemo skripto",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",

@@ -2446,7 +2446,7 @@ __GGB__keysVar["cs"].menu = {
     "PressSpaceCheckboxOn": "Stisknut\xedm mezern\xedku ozna\u010d\xedte pol\xed\u010dko",
     "PressSpaceStartAnimation": "Stisknut\xedm mezern\xedku spust\xedte animaci",
     "PressSpaceStopAnimation": "Stisknut\xedm mezern\xedku ukon\u010d\xedte animaci",
-    "PressSpaceToOpen": "Otev\u0159ete stisknut\xedm mezern\xedku.",
+    "PressSpaceToOpen": "Otev\u0159ete stisknut\xedm mezern\xedku",
     "PressSpaceToRunScript": "Stisknut\xedm mezern\xedku spust\xedte skript",
     "PressTabToSelectControls": "Stisknut\xedm tabul\xe1toru p\u0159ejd\u011bte na ovl\xe1dac\xed prvky",
     "PressTabToSelectNext": "Stisknut\xedm tabul\xe1toru vyberte dal\u0161\xed objekt",

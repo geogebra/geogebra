@@ -2446,7 +2446,7 @@ __GGB__keysVar["de"].menu = {
     "PressSpaceCheckboxOn": "Dr\xfccke die Leertaste, um das Kontrollk\xe4stchen zu kontrollieren",
     "PressSpaceStartAnimation": "Dr\xfccke die Leertaste, um die Animation zu starten",
     "PressSpaceStopAnimation": "Dr\xfccke die Leertaste, um die Animation zu stoppen.",
-    "PressSpaceToOpen": "Dr\xfccke die Leertaste, um zu \xf6ffnen.",
+    "PressSpaceToOpen": "Dr\xfccke die Leertaste, um zu \xf6ffnen",
     "PressSpaceToRunScript": "Dr\xfccke die Leertaste, um das Skript zu starten",
     "PressTabToSelectControls": "Press tab to select controls",
     "PressTabToSelectNext": "Press tab to select next object",
