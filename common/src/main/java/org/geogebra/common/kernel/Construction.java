@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
@@ -32,7 +33,6 @@ import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -1608,8 +1607,7 @@ public class Construction {
 			isRemovingGeoToReplaceIt = false;
 
 			// set properties first, set label later. See #933
-			newGeo.setAllVisualProperties(oldGeo, false);
-			newGeo.setScripting(oldGeo);
+			copyStyleForRedefine(oldGeo, newGeo);
 
 			if (newGeo.isIndependent()) {
 				addToConstructionList(newGeo, true);
@@ -1645,32 +1643,8 @@ public class Construction {
 				newGeo.remove();
 				return;
 
-			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint) {
-
-				((GeoPoint) oldGeo).set(newGeo);
-				oldGeo.setDefinition(null);
-				oldGeo.updateRepaint();
-				newGeo.remove();
-				return;
-
-			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoVector) {
-
-				((GeoVector) oldGeo).set(newGeo);
-				oldGeo.setDefinition(null);
-				oldGeo.updateRepaint();
-				newGeo.remove();
-				return;
-
-			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoBoolean) {
-
-				((GeoBoolean) oldGeo).set(newGeo);
-				oldGeo.setDefinition(null);
-				oldGeo.updateRepaint();
-				newGeo.remove();
-				return;
-
-			} else if (oldGeo.isIndependent() && oldGeo.isGeoPoint()
-					&& oldGeo.isGeoElement3D()) { // GeoPoint3D
+			} else if (oldGeo.isIndependent() && (oldGeo.isGeoPoint()
+					|| oldGeo.isGeoVector() || oldGeo.isGeoBoolean())) {
 
 				oldGeo.set(newGeo);
 				oldGeo.setDefinition(null);
@@ -1856,9 +1830,7 @@ public class Construction {
 			// newGeo doesn't exist in construction, so we take oldGeo's label
 			newGeo.setLabelSimple(oldGeo.getLabelSimple());
 			newGeo.setLabelSet(true); // to get right XML output
-			newGeo.setAllVisualProperties(oldGeo, false);
-			newGeo.setViewFlags(oldGeo.getViewSet());
-			newGeo.setScripting(oldGeo);
+			copyStyleForRedefine(oldGeo, newGeo);
 
 			// NEAR-TO-RELATION for dependent new geo:
 			// copy oldGeo's values to newGeo so that the
@@ -1935,6 +1907,16 @@ public class Construction {
 			// we put new geo after its inputs
 			consXML.insert(inputEndPos, newXML);
 			consXML.replace(pos, pos + oldXML.length(), "");
+		}
+	}
+
+	private static void copyStyleForRedefine(GeoElement oldGeo,
+			GeoElement newGeo) {
+		newGeo.setAllVisualProperties(oldGeo, false);
+		newGeo.setViewFlags(oldGeo.getViewSet());
+		newGeo.setScripting(oldGeo);
+		if (AlgebraItem.isEquationFromUser(newGeo)) {
+			newGeo.setFixed(true);
 		}
 	}
 
