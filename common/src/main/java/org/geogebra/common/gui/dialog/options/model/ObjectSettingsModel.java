@@ -773,10 +773,10 @@ abstract public class ObjectSettingsModel {
     /**
      * Returns the label of the toStringMode.
      *
+     * @param mode mode
      * @return label
      */
-    public String getToStringModeString() {
-        int mode = getToStringMode();
+    public String getModeLabel(int mode) {
         switch (mode) {
             case GeoLine.EQUATION_EXPLICIT:
                 return "ExplicitLineEquation";
