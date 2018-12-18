@@ -3214,20 +3214,18 @@ public class GeoList extends GeoElement
 	 *            an item of the list
 	 * @return The displayed string of item.
 	 */
-	public static String getItemDisplayString(GeoElement geoItem) {
-		if (needsLatex(geoItem)) {
-			return geoItem.toLaTeXString(false, StringTemplate.latexTemplate);
-		}
+	public static String getItemDisplayString(GeoElement geoItem,
+			StringTemplate tpl) {
 		if (!"".equals(geoItem.getRawCaption())) {
 
-			return geoItem.getCaption(StringTemplate.defaultTemplate);
+			return geoItem.getCaption(tpl);
 
 		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
 
-			return geoItem.getLabel(StringTemplate.defaultTemplate);
+			return geoItem.getLabel(tpl);
 		}
 
-		return geoItem.toValueString(StringTemplate.defaultTemplate);
+		return geoItem.toValueString(tpl);
 	}
 
 	/**
@@ -3236,8 +3234,8 @@ public class GeoList extends GeoElement
 	 *            Item index.
 	 * @return the display string of the item at idx.
 	 */
-	public String getItemDisplayString(int idx) {
-		return getItemDisplayString(get(idx));
+	public String getItemDisplayString(int idx, StringTemplate tpl) {
+		return getItemDisplayString(get(idx), tpl);
 	}
 
 	private void addAuralLabelOrCaption(ScreenReaderBuilder sb) {
@@ -3266,7 +3264,8 @@ public class GeoList extends GeoElement
 			sb.append(loc.getMenuDefault("WithItems", "with items"));
 			sb.append(" ");
 			for (int idx = 0; idx < count; idx++) {
-				String item = getItemDisplayString(idx);
+				String item = getItemDisplayString(idx,
+						StringTemplate.screenReader);
 				if (item != null && "".equals(item.trim())) {
 					item = loc.getMenuDefault("EmptyItem", "empty item");
 				}
@@ -3311,13 +3310,15 @@ public class GeoList extends GeoElement
 	public String getAuralItemSelected() {
 		GeoElement item = getSelectedElement();
 		Localization loc = kernel.getLocalization();
-		if (StringUtil.emptyTrim(getItemDisplayString(item))) {
+		String auralText = getItemDisplayString(item,
+				StringTemplate.screenReader);
+		if (StringUtil.emptyTrim(auralText)) {
 			return loc.getMenuDefault("DropDownEmptyItemSelected",
 					"Empty item selected Drop down closed");
 		}
 		return loc.getPlainArray("DropDownItemSelected",
 				"Item %0 selected Drop down closed",
-				new String[] { GeoList.getItemDisplayString(item) });
+				new String[] { auralText });
 	}
 
 	/**
