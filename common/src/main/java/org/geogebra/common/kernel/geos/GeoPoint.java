@@ -2946,7 +2946,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			String moveFree = "Press the arrow keys to move the object";
 			if (point.isGeoElement3D()) {
 				sb.append(loc.getMenuDefault("PressArrowsPageUpToMove",
-						moveFree + " in x and y, PageUp, PageDown to move in z"));
+						moveFree + " in x and y, Page Up, Page Down to move in z"));
 			} else {
 				sb.append(loc.getMenuDefault("PressArrowsToMove",
 						moveFree));
