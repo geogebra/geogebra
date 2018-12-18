@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -767,6 +768,29 @@ abstract public class ObjectSettingsModel {
         }
 
         return same ? mode : -1;
+    }
+
+    /**
+     * Returns the label of the toStringMode.
+     *
+     * @return label
+     */
+    public String getToStringModeString() {
+        int mode = getToStringMode();
+        switch (mode) {
+            case GeoLine.EQUATION_EXPLICIT:
+                return "ExplicitLineEquation";
+            case GeoLine.EQUATION_GENERAL:
+                return "GeneralLineEquation";
+            case GeoLine.EQUATION_IMPLICIT:
+                return "ImplicitLineEquation";
+            case GeoLine.EQUATION_USER:
+                return "InputForm";
+            case GeoLine.PARAMETRIC:
+                return "ParametricForm";
+            default:
+                return "";
+        }
     }
 
     /**
