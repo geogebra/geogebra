@@ -37,10 +37,18 @@ public class LineEqnModel extends MultipleOptionsModel {
 		return valid;
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param geo
+	 *            equation
+	 * @return whether to force input form
+	 */
 	public static boolean forceInputForm(App app, GeoElement geo) {
 		return (geo.getParentAlgorithm() == null
 				|| geo.getParentAlgorithm().getClassName() == Algos.Expression)
-				&& !app.getSettings().getCasSettings().isEnabled();
+				&& !app.getSettings().getCasSettings().isEnabled()
+				&& app.isExamStarted();
 	}
 
 	private GeoLine getLineAt(int index) {
