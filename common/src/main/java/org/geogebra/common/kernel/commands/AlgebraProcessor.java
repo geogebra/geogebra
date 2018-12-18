@@ -2704,21 +2704,19 @@ public class AlgebraProcessor {
 					new EvalInfo(!cons.isSuppressLabelsActive()));
 		}
 
-		String[] variables = {"x", "y", "z"};
-		for (int i = 0; i < 3; i++) {
-			if (variables[i].equals(lhsStr)
-					&& !equ.getRHS().containsFreeFunctionVariable(variables[i])
-					&& kernel.lookupLabel(variables[i]) == null) {
-				FunctionVariable x = new FunctionVariable(kernel, variables[(i + 1) % 3]);
-				FunctionVariable y = new FunctionVariable(kernel, variables[(i + 2) % 3]);
-				FunctionNVar fun = new FunctionNVar(equ.getRHS(),
-						new FunctionVariable[] { x, y });
-				// try to use label of equation
-				fun.setLabel(equ.getLabel());
-				fun.setShortLHS(variables[i]);
-				return processFunctionNVar(fun,
-						new EvalInfo(!cons.isSuppressLabelsActive()));
-			}
+		if ("z".equals(lhsStr)
+				&& !equ.getRHS().containsFreeFunctionVariable("z")
+				&& kernel.lookupLabel("z") == null) {
+			FunctionVariable x = new FunctionVariable(kernel, "x");
+			FunctionVariable y = new FunctionVariable(kernel, "y");
+			FunctionNVar fun = new FunctionNVar(equ.getRHS(),
+					new FunctionVariable[] { x, y });
+			// try to use label of equation
+			fun.setLabel(equ.getLabel());
+			fun.setShortLHS("z");
+			GeoElement[] ret = processFunctionNVar(fun,
+					new EvalInfo(!cons.isSuppressLabelsActive()));
+			return ret;
 		}
 
 		return processImplicitPoly(equ, def, info);
