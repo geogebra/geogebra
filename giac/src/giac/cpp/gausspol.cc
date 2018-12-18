@@ -4661,6 +4661,76 @@ namespace giac {
     return trim(res,0);
   }
 
+  static void dividedegrees(polynome & p,int var,int d) {
+    if (d==1) return;
+    std::vector< monomial<gen> >::iterator it=p.coord.begin(),it_end=p.coord.end();
+    for (;it!=it_end;++it){
+      index_t i=it->index.iref();
+      i[var] /= d;
+      it->index=i;
+    }
+  }
+
+  // return gcd of exponents in p and q for variable number var
+  static int xn2x(const polynome & p,const polynome & q,int var){
+    vector< monomial<gen> >::const_iterator It=p.coord.begin(),Itend=p.coord.end();
+    int l=0;
+    for (;It!=Itend;++It){
+      const index_t &i=It->index.iref();
+      l=gcd(l,i[var]);
+      if (l==1)
+	return 1;
+    }
+    It=q.coord.begin();Itend=q.coord.end();
+    for (;It!=Itend;++It){
+      const index_t &i=It->index.iref();
+      l=gcd(l,i[var]);
+      if (l==1)
+	return 1;
+    }
+    return l;    
+  }
+
+  static bool xn2x(polynome &p,polynome & q,vector<int> & gcd_index){
+    gcd_index=vector<int>(p.dim,1);
+    bool ans=false;
+    for (int i=0;i<p.dim;++i){
+      int res=xn2x(p,q,i);
+      ans = ans | (res>1);
+      gcd_index[i] = res;
+      if (res){
+	dividedegrees(p,i,res);
+	dividedegrees(q,i,res);
+      }
+    }
+    return ans;
+  }
+
+  static bool xn2x(const polynome &p,const polynome & q){
+    for (int i=0;i<p.dim;++i){
+      int res=xn2x(p,q,i);
+      if (res>1)
+	return true;
+    }
+    return false;
+  }
+
+  static void multiplydegrees(polynome & p,int var,int d) {
+    if (d==1) return;
+    std::vector< monomial<gen> >::iterator it=p.coord.begin(),it_end=p.coord.end();
+    for (;it!=it_end;++it){
+      index_t i=it->index.iref();
+      i[var] *= d;
+      it->index=i;
+    }
+  }
+
+  static void x2xn(polynome &p,vector<int> & gcd_index){
+    for (int i=0;i<p.dim;++i){
+      multiplydegrees(p,i,gcd_index[i]);
+    }
+  }
+
   static bool exchange_variables(polynome & p,const index_t & pdeg,polynome & q,const index_t & qdeg,std::vector<int> & permutation){
     if (p.dim<2)
       return false;
@@ -4723,6 +4793,57 @@ namespace giac {
     }
   }
 
+  void simplify_gcdpart(polynome & p,polynome & q,polynome & p_gcd,bool ckxn2x){
+    vector<int> gcd_index;
+    if (ckxn2x && xn2x(p,q,gcd_index)){
+      simplify_gcdpart(p,q,p_gcd,false);
+      x2xn(p_gcd,gcd_index);
+      x2xn(p,gcd_index);
+      x2xn(q,gcd_index);
+      return;
+    }
+    polynome p_orig(p);
+    polynome q_orig(q);
+    p_gcd.coord.clear();
+    std::vector<int> permutation;
+    index_t pdeg=p.degree(),qdeg=q.degree();
+    bool exchanged=exchange_variables(p_orig,pdeg,q_orig,qdeg,permutation);
+    gen d_content=1,np_simp=1,nq_simp=1;
+    if (gcdheu(p_orig,pdeg,q_orig,qdeg,p,np_simp,q,nq_simp,p_gcd,d_content,false,true)){
+      p=p*rdiv(np_simp,d_content,context0);
+      q=q*rdiv(nq_simp,d_content,context0);
+      if (exchanged){
+	p.reorder(permutation);
+	q.reorder(permutation);
+	p_gcd.reorder(permutation);
+	if (!p_gcd.coord.empty() && is_strictly_positive(-p_gcd.coord.front().value,context0)){
+	  p_gcd=-p_gcd;
+	  p=-p;
+	  q=-q;
+	}
+      }
+      p_gcd=p_gcd*d_content;
+      return ;
+    }
+    p_gcd=gcdpsr(p_orig,q_orig);
+    polynome tmprem(p_gcd.dim);
+    p_orig.TDivRem1(p_gcd,p,tmprem,true);
+    q_orig.TDivRem1(p_gcd,q,tmprem,true);
+    // If alg. extensions are involved, p and q may now contain fractions
+    gen tmpmult(plus_one);
+    lcmdeno(p,tmpmult);
+    lcmdeno(q,tmpmult);
+    p=p*tmpmult;
+    q=q*tmpmult;
+    if (exchanged){
+      p.reorder(permutation);
+      q.reorder(permutation);
+      p_gcd.reorder(permutation);
+    }
+    p_gcd=inv(tmpmult,context0)*p_gcd;
+    return ;
+  }
+
   void simplify(polynome & p,polynome & q,polynome & p_gcd){
     if (is_one(q)){
       p_gcd=q;
@@ -4764,52 +4885,51 @@ namespace giac {
       swap(q.coord,temp.coord);
       return ;
     }
-    p_gcd.coord.clear();
-    polynome p_orig(p);
-    polynome q_orig(q);
-    std::vector<int> permutation;
-    index_t pdeg=p.degree(),qdeg=q.degree();
-    bool exchanged=exchange_variables(p_orig,pdeg,q_orig,qdeg,permutation);
-    gen d_content=1,np_simp=1,nq_simp=1;
-    if (gcdheu(p_orig,pdeg,q_orig,qdeg,p,np_simp,q,nq_simp,p_gcd,d_content,false,true)){
-      p=p*rdiv(np_simp,d_content,context0);
-      q=q*rdiv(nq_simp,d_content,context0);
-      if (exchanged){
-	p.reorder(permutation);
-	q.reorder(permutation);
-	p_gcd.reorder(permutation);
-	if (!p_gcd.coord.empty() && is_strictly_positive(-p_gcd.coord.front().value,context0)){
-	  p_gcd=-p_gcd;
-	  p=-p;
-	  q=-q;
-	}
-      }
-      p_gcd=p_gcd*d_content;
-      return ;
-    }
-    p_gcd=gcdpsr(p_orig,q_orig);
-    polynome tmprem(p_gcd.dim);
-    p_orig.TDivRem1(p_gcd,p,tmprem,true);
-    q_orig.TDivRem1(p_gcd,q,tmprem,true);
-    // If alg. extensions are involved, p and q may now contain fractions
-    gen tmpmult(plus_one);
-    lcmdeno(p,tmpmult);
-    lcmdeno(q,tmpmult);
-    p=p*tmpmult;
-    q=q*tmpmult;
-    if (exchanged){
-      p.reorder(permutation);
-      q.reorder(permutation);
-      p_gcd.reorder(permutation);
-    }
-    p_gcd=inv(tmpmult,context0)*p_gcd;
-    return ;
+    simplify_gcdpart(p,q,p_gcd,true /* ckxn2x */);
   }
 
   polynome simplify(polynome &p,polynome &q){
     polynome p_gcd(p.dim);
     simplify(p,q,p_gcd);
     return p_gcd;
+  }
+
+  void gcd_gcdpart(const polynome & p,const polynome & q,polynome & d,bool ckxn2x){
+    if (ckxn2x && xn2x(p,q)){
+      polynome p_(p),q_(q);
+      vector<int> gcd_index;
+      xn2x(p_,q_,gcd_index);
+      gcd_gcdpart(p_,q_,d,false);
+      x2xn(d,gcd_index);
+      return;
+    }
+    polynome p_simp(p.dim),q_simp(p.dim);
+    index_t pdeg=p.degree(),qdeg=q.degree();
+    gen d_content,np_simp,nq_simp;
+    if (p.coord.front().value.type==_MOD && gcdheu(p,pdeg,q,qdeg,p_simp,np_simp,q_simp,nq_simp,d,d_content,false,false) ){
+      d *= d_content;
+      return ;      
+    }
+    if (has_constant_variables_gcd(p,q,d))
+      return ;
+    d.coord.clear();
+    std::vector<int> permutation;
+    polynome p_orig(p),q_orig(q);
+    bool exchanged=exchange_variables(p_orig,pdeg,q_orig,qdeg,permutation);
+    if (gcdheu(p_orig,pdeg,q_orig,qdeg,p_orig,np_simp,q_orig,nq_simp,d,d_content,false,false)){
+      if (exchanged)
+	d.reorder(permutation);
+      d *= d_content;
+      return ;
+    }
+    d=gcdpsr(p_orig,q_orig);
+    if (exchanged)
+      d.reorder(permutation);
+    // if integers only, should add here gcd using modgcd
+    d *= d_content;
+    if (!d.coord.empty() && d.coord.front().value.type==_MOD)
+      d *= inv(d.coord.front().value,context0);
+    return ;
   }
 
   void gcd(const polynome & p,const polynome & q,polynome & d){
@@ -4851,33 +4971,7 @@ namespace giac {
 	d=d.shift(dback);
       return;
     }
-    polynome p_simp(p.dim),q_simp(p.dim);
-    index_t pdeg=p.degree(),qdeg=q.degree();
-    gen d_content,np_simp,nq_simp;
-    if (p.coord.front().value.type==_MOD && gcdheu(p,pdeg,q,qdeg,p_simp,np_simp,q_simp,nq_simp,d,d_content,false,false) ){
-      d *= d_content;
-      return ;      
-    }
-    if (has_constant_variables_gcd(p,q,d))
-      return ;
-    d.coord.clear();
-    std::vector<int> permutation;
-    polynome p_orig(p),q_orig(q);
-    bool exchanged=exchange_variables(p_orig,pdeg,q_orig,qdeg,permutation);
-    if (gcdheu(p_orig,pdeg,q_orig,qdeg,p_orig,np_simp,q_orig,nq_simp,d,d_content,false,false)){
-      if (exchanged)
-	d.reorder(permutation);
-      d *= d_content;
-      return ;
-    }
-    d=gcdpsr(p_orig,q_orig);
-    if (exchanged)
-      d.reorder(permutation);
-    // if integers only, should add here gcd using modgcd
-    d *= d_content;
-    if (!d.coord.empty() && d.coord.front().value.type==_MOD)
-      d *= inv(d.coord.front().value,context0);
-    return ;
+    gcd_gcdpart(p,q,d,true);
   }
 
   polynome gcd(const polynome & p,const polynome & q){

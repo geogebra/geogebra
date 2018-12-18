@@ -1099,7 +1099,7 @@ namespace giac {
       }
       vecteur::iterator debut=s.feuille._VECTptr->begin();
       vecteur::iterator fin=s.feuille._VECTptr->end();
-      bool sequentially=has_op(s.feuille,*at_inv);
+      bool sequentially=has_op(s.feuille,*at_inv) && (fin-debut<512);
       return sym2radd(debut,fin,iext,l,lv,lvnum,lvden,l_size,num,den,contextptr,sequentially);
     }
     if (s.sommet==at_prod){
