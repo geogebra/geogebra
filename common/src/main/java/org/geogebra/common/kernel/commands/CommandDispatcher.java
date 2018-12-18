@@ -228,7 +228,9 @@ public abstract class CommandDispatcher {
 					&& cmdProc instanceof UsesCAS) {
 				return null;
 			}
-
+			if (cmdProc == null) {
+				throw createUnknownCommandError(c);
+			}
 			return cmdProc.process(c, info);
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldMacroMode);
