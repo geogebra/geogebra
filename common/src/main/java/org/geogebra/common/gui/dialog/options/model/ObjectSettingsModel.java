@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -746,5 +747,44 @@ abstract public class ObjectSettingsModel {
 
     public boolean hasPointStyleProperty() {
         return app.getActiveEuclidianView().canShowPointStyle();
+    }
+
+    /**
+     * Returns the toString mode of the elements, or -1
+     * if there are no elements, or if the mode is not the same.
+     *
+     * @return toStringMode or -1.
+     */
+    public int getToStringMode() {
+        if (geoElement == null || geoElementsList == null) {
+            return -1;
+        }
+        int mode = geoElement.getToStringMode();
+        boolean same = true;
+        for (int i = 0; i < geoElementsList.size(); i++) {
+            GeoElement element = geoElementsList.get(i);
+            same = same && element.getToStringMode() == mode;
+        }
+
+        return same ? mode : -1;
+    }
+
+    /**
+     * Sets the toString mode of the elements if they are
+     * of instance {@link GeoVec3D}.
+     *
+     * @param mode toStringMode
+     */
+    public void setToStringMode(int mode) {
+        if (geoElementsList == null) {
+            return;
+        }
+        for (int i = 0; i < geoElementsList.size(); i++) {
+            GeoElement element = geoElementsList.get(i);
+            if (element instanceof GeoVec3D) {
+                GeoVec3D vec3d = (GeoVec3D) element;
+                vec3d.setMode(mode);
+            }
+        }
     }
 }
