@@ -1449,7 +1449,7 @@ public enum Operation {
 			double branch = 0;
 			if (rt instanceof NumberValue) {
 				branch = rt.evaluateDouble();
-				if(Double.isNaN(branch)) {
+				if (Double.isNaN(branch)) {
 					branch = 0;
 				}
 			}

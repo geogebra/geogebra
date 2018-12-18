@@ -18,14 +18,18 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
+/**
+ * Toggle button for main menu
+ */
 public class MenuToggleButton extends MyToggleButton
 		implements Persistable, KeyDownHandler {
 
-	/**
-	 * 
-	 */
 	private AppW appW;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public MenuToggleButton(AppW app) {
 		super(getImage(), app);
 		this.appW = app;
@@ -79,6 +83,12 @@ public class MenuToggleButton extends MyToggleButton
 		root.insert(this, 0);
 	}
 
+	/**
+	 * Update style for internal / external use
+	 * 
+	 * @param external
+	 *            whether the button is out of the applet
+	 */
 	public void setExternal(boolean external) {
 		Dom.toggleClass(this, "flatButtonHeader", "flatButton", external);
 		Dom.toggleClass(this, "menuBtn", "menu", external);

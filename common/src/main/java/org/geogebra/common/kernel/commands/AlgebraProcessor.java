@@ -1278,7 +1278,7 @@ public class AlgebraProcessor {
 	private NumberValue evaluateToNumberValue(
 			ExpressionNode expressionNode) {
 		expressionNode.resolveVariables(new EvalInfo(false));
-		if(expressionNode.containsFreeFunctionVariable(null)) {
+		if (expressionNode.containsFreeFunctionVariable(null)) {
 			throw new MyError(loc, "IncompleteEquation");
 		}
 		return (NumberValue) expressionNode

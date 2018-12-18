@@ -765,7 +765,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					break;
 				}
 				sb.append(leftStr);
-				if(!rightStr.contains("?")) {
+				if (!rightStr.contains("?")) {
 					sb.append(',');
 					sb.append(rightStr);
 				}
