@@ -808,6 +808,7 @@ abstract public class ObjectSettingsModel {
             if (element instanceof GeoVec3D) {
                 GeoVec3D vec3d = (GeoVec3D) element;
                 vec3d.setMode(mode);
+                vec3d.updateRepaint();
             }
         }
     }
