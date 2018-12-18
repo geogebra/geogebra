@@ -177,12 +177,12 @@ public interface RendererImplInterface {
 
 	public abstract void setMatrixView();
 
-    public abstract void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-                                                      CoordMatrix4x4 cameraPerspective,
-                                                      CoordMatrix4x4 modelMatrix, float scaleFactor);
+	public abstract void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
+			float scaleFactor);
 
-	public abstract void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
-                                                     float scaleFactor, Coords ret) ;
+	public abstract void fromARCoreCoordsToGGBCoords(Coords coords,
+			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret);
 
 	public abstract void unsetMatrixView();
 

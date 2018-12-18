@@ -68,16 +68,18 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView, CoordMatrix4x4 cameraPerspective,
-                                                      CoordMatrix4x4 modelMatrix, float scaleFactor) {
-		rendererImpl.setProjectionMatrixViewForAR(cameraView, cameraPerspective, modelMatrix,
-				scaleFactor);
+	final protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+			CoordMatrix4x4 cameraPerspective, 
+			CoordMatrix4x4 modelMatrix, float scaleFactor) {
+		rendererImpl.setProjectionMatrixViewForAR(cameraView, cameraPerspective,
+				modelMatrix, scaleFactor);
 	}
 
 	@Override
-	final protected void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
-                                                     float scaleFactor, Coords ret) {
-		rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix, scaleFactor, ret);
+	final protected void fromARCoreCoordsToGGBCoords(Coords coords,
+			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
+		rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix,
+				scaleFactor, ret);
 	}
 
 	@Override
