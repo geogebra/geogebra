@@ -11,6 +11,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
@@ -67,14 +68,14 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void setProjectionMatrixViewForAR(float[] cameraView, float[] cameraPerspective,
-			float[] modelMatrix, float scaleFactor) {
+	final protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView, CoordMatrix4x4 cameraPerspective,
+                                                      CoordMatrix4x4 modelMatrix, float scaleFactor) {
 		rendererImpl.setProjectionMatrixViewForAR(cameraView, cameraPerspective, modelMatrix,
 				scaleFactor);
 	}
 
 	@Override
-	final protected void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+	final protected void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
                                                      float scaleFactor, Coords ret) {
 		rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix, scaleFactor, ret);
 	}

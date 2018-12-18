@@ -144,9 +144,9 @@ public abstract class Renderer implements RendererInterface {
 	private Runnable export3DRunnable;
 
 	//ARCore
-	private float[] arCameraView;
-	private float[] arModelMatrix;
-	private float[] arCameraPerspective;
+	private CoordMatrix4x4 arCameraView;
+	private CoordMatrix4x4 arModelMatrix;
+	private CoordMatrix4x4 arCameraPerspective;
 	private float arScaleFactor;
 
 	/**
@@ -780,15 +780,16 @@ public abstract class Renderer implements RendererInterface {
 	 */
 	abstract protected void setMatrixView();
 
-	abstract protected void setProjectionMatrixViewForAR(float[] cameraView,
-														 float[] cameraPerspective,
-														 float[] modelMatrix, float scaleFactor);
+	abstract protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+                                                         CoordMatrix4x4 cameraPerspective,
+                                                         CoordMatrix4x4 modelMatrix,
+                                                         float scaleFactor);
 
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
 		fromARCoreCoordsToGGBCoords(coords, arModelMatrix, arScaleFactor, ret);
 	}
 
-	abstract protected void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+	abstract protected void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
                                                         float scaleFactor, Coords ret);
 
 	/**
@@ -1953,8 +1954,8 @@ public abstract class Renderer implements RendererInterface {
 	 * @param scaleFactor
 	 *            scale factor
 	 */
-	public void setARMatrix(float[] cameraView, float[] cameraPerspective, float[] modelMatrix,
-			float scaleFactor) {
+	public void setARMatrix(CoordMatrix4x4 cameraView, CoordMatrix4x4 cameraPerspective,
+                            CoordMatrix4x4 modelMatrix, float scaleFactor) {
 		arCameraView = cameraView;
 		arCameraPerspective = cameraPerspective;
 		arModelMatrix = modelMatrix;

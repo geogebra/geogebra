@@ -488,29 +488,25 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
     @Override
-    public void setProjectionMatrixViewForAR(float[] cameraView,
-                                             float[] cameraPerspective,
-                                             float[] modelMatrix, float scaleFactor) {
+    public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+                                             CoordMatrix4x4 cameraPerspective,
+                                             CoordMatrix4x4 modelMatrix, float scaleFactor) {
 
 		// modelMatrix * scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
 		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
-		tmpMatrix2.setFromGL(modelMatrix);
-        tmpMatrix3.setMul(tmpMatrix2, tmpMatrix1);
+        tmpMatrix3.setMul(modelMatrix, tmpMatrix1);
 		// cameraView * (modelMatrix * scaleMatrix)
-		tmpMatrix1.setFromGL(cameraView);
-		tmpMatrix2.setMul(tmpMatrix1, tmpMatrix3);
+		tmpMatrix2.setMul(cameraView, tmpMatrix3);
 		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
-		tmpMatrix1.setFromGL(cameraPerspective);
-        projectionMatrix.setMul(tmpMatrix1, tmpMatrix2);
+        projectionMatrix.setMul(cameraPerspective, tmpMatrix2);
     }
 
 	@Override
-    public void fromARCoreCoordsToGGBCoords(Coords coords, float[] modelMatrix,
+    public void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
                                             float scaleFactor, Coords ret) {
 	    // undo model matrix
-		tmpMatrix1.setFromGL(modelMatrix);
-		tmpMatrix1.solve(coords, ret);
+        modelMatrix.solve(coords, ret);
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
