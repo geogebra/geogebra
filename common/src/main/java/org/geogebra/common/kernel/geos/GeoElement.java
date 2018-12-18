@@ -1654,7 +1654,7 @@ public abstract class GeoElement extends ConstructionElement
 	public void setFixed(boolean flag) {
 		if (!flag) {
 			fixed = kernel.getApplication().isExamStarted()
-					&& AlgebraItem.isEquationFromUser(this)
+					&& AlgebraItem.isFunctionOrEquationFromUser(this)
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
 			fixed = flag;

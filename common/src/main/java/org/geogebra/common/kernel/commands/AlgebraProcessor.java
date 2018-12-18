@@ -2802,7 +2802,7 @@ public class AlgebraProcessor {
 			((EquationValue) line).setToUser();
 		}
 
-		if (app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS) && AlgebraItem.isEquationFromUser(line)) {
+		if (AlgebraItem.isFunctionOrEquationFromUser(line)) {
 			line.setFixed(true);
 		}
 

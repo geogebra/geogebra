@@ -25,8 +25,8 @@ public class ExamCommandFilter implements CommandFilter {
 			return;
 		}
 		GeoElement firstArgument = arguments[0];
-		if (setFixed && (firstArgument.isGeoFunction()
-				|| AlgebraItem.isEquationFromUser(firstArgument))) {
+		if (setFixed
+				&& AlgebraItem.isFunctionOrEquationFromUser(firstArgument)) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
 		if (copyFree && (firstArgument instanceof EquationValue)) {

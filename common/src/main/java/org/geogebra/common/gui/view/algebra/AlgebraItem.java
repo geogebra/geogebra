@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -542,8 +543,10 @@ public class AlgebraItem {
 	 * @param geoElement geoElement
 	 * @return true if the equation was typed by the user (and not created via command or tool)
 	 */
-	public static boolean isEquationFromUser(GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue) {
+	public static boolean isFunctionOrEquationFromUser(
+			GeoElementND geoElement) {
+		if (geoElement instanceof EquationValue
+				|| geoElement instanceof GeoFunction) {
 			AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
 			return parentAlgorithm == null
 					|| parentAlgorithm.getClassName().equals(Algos.Expression);
@@ -564,7 +567,7 @@ public class AlgebraItem {
                 && geoElement instanceof EquationValue
                 && geoElement.getKernel().getApplication().isExamStarted()) {
 
-            return !isEquationFromUser(geoElement);
+			return !isFunctionOrEquationFromUser(geoElement);
         }
         return false;
     }

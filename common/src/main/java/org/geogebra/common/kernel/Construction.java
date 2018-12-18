@@ -1915,7 +1915,7 @@ public class Construction {
 		newGeo.setAllVisualProperties(oldGeo, false);
 		newGeo.setViewFlags(oldGeo.getViewSet());
 		newGeo.setScripting(oldGeo);
-		if (AlgebraItem.isEquationFromUser(newGeo)) {
+		if (AlgebraItem.isFunctionOrEquationFromUser(newGeo)) {
 			newGeo.setFixed(true);
 		}
 	}

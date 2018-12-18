@@ -636,8 +636,7 @@ abstract public class ObjectSettingsModel {
                 if (!(elementForProperties instanceof GeoFunction)) {
                     return false;
                 }
-            } else if (!(geo instanceof GeoFunction) && !(app.has(
-                    Feature.FIX_EQUATIONS_AND_FUNCTIONS) && AlgebraItem.isEquationFromUser(geo))) {
+			} else if (!AlgebraItem.isFunctionOrEquationFromUser(geo)) {
                 return false;
             }
         }
