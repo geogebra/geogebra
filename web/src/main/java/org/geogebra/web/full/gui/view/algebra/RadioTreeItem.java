@@ -227,7 +227,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		addControls();
 
 		content.add(getPlainTextItem());
-		buildPlainTextItem();
+		rebuildContent();
 		// if enabled, render with LaTeX
 		String ltx = getLatexString(null, true);
 		if (ltx != null) {
@@ -286,14 +286,18 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return AlgebraItem.getLatexString(geo, limit, output);
 	}
 
-	private void buildPlainTextItem() {
-		if (!AlgebraItem.buildPlainTextItemSimple(geo,
-				new DOMIndexHTMLBuilder(getPlainTextItem(), app))) {
+	private void rebuildContent() {
+		if (!buildPlainTextSimple()) {
 			buildItemContent();
 		} else if (content.getWidgetCount() != 1) {
 			// extra content shown (eg. arrow) => rebuild
 			rebuildPlaintextContent();
 		}
+	}
+
+	private boolean buildPlainTextSimple() {
+		return AlgebraItem.buildPlainTextItemSimple(geo,
+				new DOMIndexHTMLBuilder(getPlainTextItem(), app));
 	}
 
 	protected void createDVPanels() {
@@ -392,7 +396,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 
 			controls.updateSuggestions(geo);
-
 		} else {
 			buildItemWithSingleRow();
 		}
@@ -559,8 +562,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 			content.add(canvas);
 		} else {
-			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					new DOMIndexHTMLBuilder(getPlainTextItem(), app));
+			buildPlainTextSimple();
 			updateItemColor();
 			rebuildPlaintextContent();
 		}
@@ -671,7 +673,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		// edited text is plain
 		if (!latexAfterEdit) {
 
-			buildPlainTextItem();
+			rebuildContent();
 			if (latex) {
 				// original text was latex.
 				updateItemColor();
