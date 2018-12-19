@@ -9494,6 +9494,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
+		app.getAccessibilityManager().setTabOverGeos(true);
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 

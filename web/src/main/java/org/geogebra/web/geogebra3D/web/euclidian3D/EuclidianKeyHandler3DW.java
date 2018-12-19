@@ -15,28 +15,41 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
+/**
+ * Class to handle tab key properly for {@Link EuclidianView3DW}
+ *
+ * @author laszlo
+ *
+ */
 public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
-	private AppW app;
 	private AccessibilityManagerInterface am;
 	private GlobalKeyDispatcherW gkd;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param app
+	 *            {@link AppW}
+	 * @param canvas
+	 *            to add the key handler to.
+	 */
 	public EuclidianKeyHandler3DW(AppW app, Canvas canvas) {
-		this.app = app;
 		am = app.getAccessibilityManager();
+		am.setTabOverGeos(true);
 		gkd = app.getGlobalKeyDispatcher();
 		canvas.addKeyUpHandler(this);
 		canvas.addKeyDownHandler(this);
 		canvas.addKeyPressHandler(this);
 	}
-	
+
 	private boolean isTabOverGui(KeyEvent<?> event) {
-		return false;//!am.isTabOverGeos() && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB;
+		return !am.isTabOverGeos() && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB;
 	}
 
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		if (isTabOverGui(event)) {
-			Log.debug("TAB in KeyPressEvent");
+			am.onSelectLastGeo(true);
 		} else {
 			Log.debug("GKD way keyPress");
 			gkd.onKeyPress(event);
