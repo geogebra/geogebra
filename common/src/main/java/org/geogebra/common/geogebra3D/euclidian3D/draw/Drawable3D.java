@@ -1009,12 +1009,13 @@ public abstract class Drawable3D extends DrawableND {
 	 */
     public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
 
-//        Log.debug("\ncheckPickOrder=" + checkPickOrder + "\n" + "zPickNear= "
-//                + (this.zPickNear) + " | zPickFar= " + (this.zPickFar) + " | relevant= " + (!this
-//                .hasNotRelevantPickingValues()) + " ("
-//                + this.getGeoElement() + ") " + this + "\n" + "zPickFar= " + (d.zPickNear) +
-//                " | zPickFar= " + (d.zPickFar) + " | relevant= " + (!d
-//                .hasNotRelevantPickingValues()) + " (" + d.getGeoElement() + ") " + d + "\n");
+		// Log.debug("\ncheckPickOrder=" + checkPickOrder + "\n" + "zPickNear= "
+		// + (this.zPickNear) + " | zPickFar= " + (this.zPickFar)
+		// + " | relevant= " + (this.hasRelevantPickingValues()) + " ("
+		// + this.getGeoElement() + ") " + this + "\n" + "zPickFar= "
+		// + (d.zPickNear) + " | zPickFar= " + (d.zPickFar)
+		// + " | relevant= " + (d.hasRelevantPickingValues()) + " ("
+		// + d.getGeoElement() + ") " + d + "\n");
 
         if (hasRelevantPickingValues() && !d.hasRelevantPickingValues()) {
             return -1;
@@ -1053,20 +1054,6 @@ public abstract class Drawable3D extends DrawableND {
 			if (!thisGeo.isSelected() && otherGeo.isSelected()) {
 						return 1;
 					}
-			// check can drag one (only) -- if same type
-			if (thisGeo.getGeoClassType() == otherGeo.getGeoClassType()) {
-				boolean thisDraggable = EuclidianController3D
-						.isDraggable(thisGeo, getView3D());
-				boolean otherDraggable = EuclidianController3D
-						.isDraggable(otherGeo, getView3D());
-				if (thisDraggable && !otherDraggable) {
-					return -1;
-				}
-				if (!thisDraggable && otherDraggable) {
-					return 1;
-				}
-			}
-
 		}
 
 		if (DoubleUtil.isRatioEqualTo1(this.zPickNear, d.zPickNear)) {
@@ -1083,6 +1070,19 @@ public abstract class Drawable3D extends DrawableND {
 			if (!geo1.isGeoPoint() && geo2.isGeoPoint()) {
 				return 1;
 			}
+			// check can drag one (only) -- if both points
+			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
+				boolean thisDraggable = EuclidianController3D.isDraggable(geo1,
+						getView3D());
+				boolean otherDraggable = EuclidianController3D.isDraggable(geo2,
+						getView3D());
+				if (thisDraggable && !otherDraggable) {
+					return -1;
+				}
+				if (!thisDraggable && otherDraggable) {
+					return 1;
+				}
+			}
 			// latter created object wins
 			if (geo1.getConstructionIndex() > geo2.getConstructionIndex()) {
 				return -1;
@@ -1090,7 +1090,6 @@ public abstract class Drawable3D extends DrawableND {
 			if (geo1.getConstructionIndex() < geo2.getConstructionIndex()) {
 				return 1;
 			}
-
 		}
 
 		// check if the two objects are "mixed"
