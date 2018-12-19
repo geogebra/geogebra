@@ -4121,6 +4121,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SHOW_DEFINITION_FOR_EQUATION_IN_EXAM:
 			return prerelease;
 
+		/** APPS-163 */
+		case KEY_HANDLER_EV3D:
+			return prerelease;
+
        // **********************************************************************
        // G3D START
        //
@@ -4162,10 +4166,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** G3D-152 */
 		case G3D_IOS_AR_BACKGROUND:
 			return false;
-		
-		/** APPS-163*/
-		case KEY_HANDLER_EV3D:
-			return prerelease;
 
 		/** G3D-152, G3D-157 */
 		case G3D_TEST_IOS_AR:
