@@ -351,6 +351,9 @@ public enum Feature {
 	G3D_IOS_AR_BACKGROUND,
 	
 	/** APPS-163 */
-	KEY_HANDLER_EV3D
+	KEY_HANDLER_EV3D,
+
+	/** G3D-152, G3D-157 */
+	G3D_TEST_IOS_AR
 }
 
