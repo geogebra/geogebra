@@ -515,8 +515,10 @@ public class AlgebraItem {
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
 		Kernel kernel = geo1.getKernel();
+		boolean allowPlaintext = output
+				|| kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION;
 		if (!geo1.isDefinitionValid()
-				|| (output && !geo1.isLaTeXDrawableGeo())) {
+				|| (allowPlaintext && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
