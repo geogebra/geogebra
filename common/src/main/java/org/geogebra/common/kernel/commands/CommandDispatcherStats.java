@@ -52,7 +52,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case var:
 		case Variance:
 			return new CmdVariance(kernel);
-		case stdev:
+		case stdevp:
 		case SD:
 			return new CmdSD(kernel);
 		case MAD:
@@ -60,7 +60,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdMAD(kernel);
 		case SampleVariance:
 			return new CmdSampleVariance(kernel);
-		case stdevp:
+		case stdev:
 		case SampleSD:
 			return new CmdSampleSD(kernel);
 		case Median:
