@@ -8,11 +8,21 @@ import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 
+/**
+ * 3D graphics with 3D input for Web
+ *
+ */
 public class EuclidianViewInput3DW extends EuclidianView3DW {
 
 	private Input3D input3D;
 	private EuclidianViewInput3DCompanion companionInput3D;
 
+	/**
+	 * @param ec
+	 *            controller
+	 * @param settings
+	 *            settings
+	 */
 	public EuclidianViewInput3DW(EuclidianController3D ec,
 			EuclidianSettings settings) {
 		super(ec, settings);
@@ -37,6 +47,9 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 		super.start();
 	}
 
+	/**
+	 * @return 3D input
+	 */
 	public Input3D getInput3D() {
 		return input3D;
 	}

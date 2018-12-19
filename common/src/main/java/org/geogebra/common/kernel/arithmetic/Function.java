@@ -794,7 +794,7 @@ public class Function extends FunctionNVar
 		try {
 			ExpressionNode en = kernel.getParser().parseExpression(str);
 			en.resolveVariables(new EvalInfo(false));
-			if(en.containsFreeFunctionVariable(null)) {
+			if (en.containsFreeFunctionVariable(null)) {
 				return null;
 			}
 			return en;

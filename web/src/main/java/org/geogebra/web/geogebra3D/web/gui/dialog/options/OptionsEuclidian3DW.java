@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
@@ -351,15 +352,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			ProjectionButtons() {
 				buttons = new MyToggleButtonW[4];
 
-				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
 						new Image(StyleBar3DResources.INSTANCE
 								.viewOrthographic()));
-				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
 						new Image(StyleBar3DResources.INSTANCE
 								.viewPerspective()));
-				buttons[EuclidianView3D.PROJECTION_GLASSES] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new MyToggleButtonW(
 						new Image(StyleBar3DResources.INSTANCE.viewGlasses()));
-				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new MyToggleButtonW(
 						new Image(StyleBar3DResources.INSTANCE.viewOblique()));
 
 				for (int i = 0; i < 4; i++) {
@@ -405,7 +406,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			orthoTitle.setStyleName("panelTitle");
 			orthoPanel = new FlowPanel();
 			orthoPanel.add(projectionButtons
-					.getButton(EuclidianView3D.PROJECTION_ORTHOGRAPHIC));
+					.getButton(
+							EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC));
 			add(orthoTitle);
 			indent(orthoPanel);
 
@@ -437,7 +439,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfPerspPanel.add(tfPersp);
 			perspPanel.add(LayoutUtilW.panelRow(
 					projectionButtons
-							.getButton(EuclidianView3D.PROJECTION_PERSPECTIVE),
+							.getButton(
+									EuclidianView3DInterface.PROJECTION_PERSPECTIVE),
 					tfPerspPanel));
 			add(perspTitle);
 			indent(perspPanel);
@@ -491,7 +494,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfGlassesPanel.add(cbGlassesShutDownGreen);
 			glassesPanel.add(LayoutUtilW.panelRow(
 					projectionButtons
-							.getButton(EuclidianView3D.PROJECTION_GLASSES),
+							.getButton(
+									EuclidianView3DInterface.PROJECTION_GLASSES),
 					tfGlassesPanel));
 			add(glassesTitle);
 			indent(glassesPanel);
@@ -546,7 +550,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliquePanel.add(tfObliqueFactor);
 			obliquePanel.add(LayoutUtilW.panelRow(
 					projectionButtons
-							.getButton(EuclidianView3D.PROJECTION_OBLIQUE),
+							.getButton(
+									EuclidianView3DInterface.PROJECTION_OBLIQUE),
 					tfObliquePanel));
 			add(obliqueTitle);
 			indent(obliquePanel);

@@ -1,6 +1,6 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -250,20 +250,22 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		private void addOrthographicProjection() {
 			addProjectionMenuItemForType(
-					EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
+					EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC);
 		}
 
 		private void addPerspectiveProjection() {
 			addProjectionMenuItemForType(
-					EuclidianView3D.PROJECTION_PERSPECTIVE);
+					EuclidianView3DInterface.PROJECTION_PERSPECTIVE);
 		}
 
 		private void addGlassesProjection() {
-			addProjectionMenuItemForType(EuclidianView3D.PROJECTION_GLASSES);
+			addProjectionMenuItemForType(
+					EuclidianView3DInterface.PROJECTION_GLASSES);
 		}
 
 		private void addObliqueProjection() {
-			addProjectionMenuItemForType(EuclidianView3D.PROJECTION_OBLIQUE);
+			addProjectionMenuItemForType(
+					EuclidianView3DInterface.PROJECTION_OBLIQUE);
 		}
 
 		/**
@@ -274,20 +276,20 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			String text = "";
 			SVGResource img = null;
 			switch (projectionType) {
-			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+			case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
 				text = "stylebar.OrthographicProjection";
 				img = MaterialDesignResources.INSTANCE
 						.projection_orthographic();
 				break;
-			case EuclidianView3D.PROJECTION_PERSPECTIVE:
+			case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
 				text = "stylebar.PerspectiveProjection";
 				img = MaterialDesignResources.INSTANCE.projection_perspective();
 				break;
-			case EuclidianView3D.PROJECTION_GLASSES:
+			case EuclidianView3DInterface.PROJECTION_GLASSES:
 				text = "stylebar.GlassesProjection";
 				img = MaterialDesignResources.INSTANCE.projection_glasses();
 				break;
-			case EuclidianView3D.PROJECTION_OBLIQUE:
+			case EuclidianView3DInterface.PROJECTION_OBLIQUE:
 				text = "stylebar.ObliqueProjection";
 				img = MaterialDesignResources.INSTANCE.projection_oblique();
 				break;

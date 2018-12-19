@@ -8,11 +8,15 @@ package org.geogebra.web.geogebra3D.web.input3D;
  */
 public class MouseRobot {
 
+	/**
+	 * @param x
+	 *            event x-coord
+	 * @param y
+	 *            event y-coord
+	 */
 	static native public void dispatchMouseMoveEvent(int x, int y) /*-{
 
 		var target = $doc.elementFromPoint(x, y);
-		console.log("mouse=" + x + "," + y);
-		console.log("offset=" + target.offsetLeft + "," + target.offsetTop);
 		var x1 = x - target.offsetLeft;
 		var y1 = y - target.offsetTop;
 		var event = new MouseEvent('mouseover', {

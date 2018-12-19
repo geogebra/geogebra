@@ -10,6 +10,10 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * 3D input for zspace
+ *
+ */
 public class InputZSpace3DW extends Input3D {
 
 	private ZSpaceGwt zSpace;
@@ -45,6 +49,10 @@ public class InputZSpace3DW extends Input3D {
 		}
 	}
 
+	/**
+	 * @param zSpace
+	 *            GWT zspace
+	 */
 	public void setZSpace(ZSpaceGwt zSpace) {
 		this.zSpace = zSpace;
 	}
