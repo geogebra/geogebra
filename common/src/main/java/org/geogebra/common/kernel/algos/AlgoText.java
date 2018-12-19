@@ -19,10 +19,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -203,15 +201,6 @@ public class AlgoText extends AlgoElement {
 		if (startPointCopy != null) {
 			startPointCopy.setCoordsFromPoint(startPoint);
 		}
-	}
-
-	private String getGeoString(
-			GeoElement geoElement,
-			StringTemplate tpl,
-			boolean substituteNumbers) {
-		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
-				? geoElement.getDefinition(tpl)
-				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
 
 }

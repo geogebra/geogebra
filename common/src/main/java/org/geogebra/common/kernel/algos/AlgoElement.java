@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
@@ -1907,6 +1908,15 @@ public abstract class AlgoElement extends ConstructionElement
 		if (input == null) {
 			input = new GeoElement[0];
 		}
+	}
+
+	String getGeoString(
+			GeoElement geoElement,
+			StringTemplate tpl,
+			boolean substituteNumbers) {
+		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
+				? geoElement.getDefinition(tpl)
+				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
 
 }

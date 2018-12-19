@@ -18,9 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -29,6 +26,8 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+
+import java.util.ArrayList;
 
 /**
  * Returns a description of a GeoElement as a GeoText in LaTeX format.
@@ -210,15 +209,6 @@ public class AlgoLaTeX extends AlgoElement {
 	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
-	}
-
-	private String getGeoString(
-			GeoElement geoElement,
-			StringTemplate tpl,
-			boolean substituteNumbers) {
-		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
-				? geoElement.getDefinition(tpl)
-				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
 
 }
