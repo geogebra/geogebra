@@ -346,9 +346,6 @@ public enum Feature {
 
     /** G3D-37 */
 	G3D_PROJECTIONS_IN_SETTINGS,
-
-	/** G3D-152 */
-	G3D_IOS_AR_BACKGROUND,
 	
 	/** APPS-163 */
 	KEY_HANDLER_EV3D,
