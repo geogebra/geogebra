@@ -530,7 +530,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			rootPoints[i].setUndefined();
 		}
 
-		if (setLabels && labelEnable) {
+		if (setLabels) {
 			updateLabels(number);
 		}
 	}
