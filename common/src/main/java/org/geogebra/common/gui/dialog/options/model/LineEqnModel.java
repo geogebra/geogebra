@@ -3,7 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -38,6 +38,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 	}
 
 	/**
+	 * In exam mode: for user equations force input form, for command equations
+	 * either don't show them (conic) or force command output (line)
+	 * 
 	 * @param app
 	 *            app
 	 * @param geo
@@ -45,10 +48,8 @@ public class LineEqnModel extends MultipleOptionsModel {
 	 * @return whether to force input form
 	 */
 	public static boolean forceInputForm(App app, GeoElement geo) {
-		return (geo.getParentAlgorithm() == null
-				|| geo.getParentAlgorithm().getClassName() == Algos.Expression)
-				&& !app.getSettings().getCasSettings().isEnabled()
-				&& app.isExamStarted();
+		return !app.getSettings().getCasSettings().isEnabled()
+				&& app.isExamStarted() && (geo instanceof EquationValue);
 	}
 
 	private GeoLine getLineAt(int index) {
