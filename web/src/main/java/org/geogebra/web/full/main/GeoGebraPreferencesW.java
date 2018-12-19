@@ -27,6 +27,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	/**
 	 * Remove all preferences from storage
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public void clearPreferences(App app) {
 		Storage stockStore = null;

@@ -33,5 +33,11 @@ public interface GeoGebraActivity {
 	 */
 	SVGResource getOutputPrefixIcon();
 
+	/**
+	 * Build title bar for a dock panel.
+	 * 
+	 * @param dockPanelW
+	 *            dock panel
+	 */
 	void initStylebar(DockPanelW dockPanelW);
 }
