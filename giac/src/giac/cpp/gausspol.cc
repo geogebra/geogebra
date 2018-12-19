@@ -4885,6 +4885,29 @@ namespace giac {
       swap(q.coord,temp.coord);
       return ;
     }
+    index_t pback=p.coord.back().index.iref(),qback=q.coord.back().index.iref();
+    if (!is_zero(pback))
+      pback=p.gcddeg();
+    if (!is_zero(qback))
+      qback=q.gcddeg();
+    if (!is_zero(pback) || !is_zero(qback)){
+      index_t dback=index_gcd(pback,qback);
+      if (!is_zero(pback))
+	p=p.shift(-pback);
+      if (!is_zero(qback))
+	q=q.shift(-qback);
+      simplify_gcdpart(p,q,p_gcd,true);
+      if (!is_zero(dback)){
+	p_gcd=p_gcd.shift(dback);
+	pback = pback-dback;
+	qback = qback-dback;
+      }
+      if (!is_zero(pback))
+	p=p.shift(pback);
+      if (!is_zero(qback))
+	q=q.shift(qback);
+      return;
+    }
     simplify_gcdpart(p,q,p_gcd,true /* ckxn2x */);
   }
 

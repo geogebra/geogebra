@@ -2999,7 +2999,8 @@ namespace giac {
   }
 
   // Main limit entry point
-  gen limit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
+  gen limit(const gen & e,const identificateur & x,const gen & lim_point_,int direction,GIAC_CONTEXT){
+    gen lim_point(eval(lim_point_,1,contextptr));
     if (is_undef(lim_point))
       return lim_point;
     if (lim_point.type==_DOUBLE_){

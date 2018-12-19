@@ -4211,8 +4211,21 @@ namespace giac {
     return in_factors1(res,contextptr);
   }
   static const char _factors_s []="factors";
-  gen _factors(const gen & args,GIAC_CONTEXT){
+  gen _factors(const gen & args,GIAC_CONTEXT){ 
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args.subtype==_POLY1__VECT){
+      gen x(identificateur("xfactors"));
+      gen res=_poly2symb(makesequence(args,x),contextptr);
+      res=_factors(res,contextptr);
+      if (res.type==_VECT && res._VECTptr->size()==2){
+	vecteur v(*res._VECTptr);
+	for (size_t i=0;i<v.size();i+=2){
+	  v[i]=_symb2poly(makesequence(v[i],x),contextptr);
+	}
+	return v;
+      }
+      return res;
+    }
     if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2){
       gen j=args._VECTptr->back();
       gen res=_factors(args._VECTptr->front()*j,contextptr);
