@@ -955,11 +955,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			ev1.setValues(tmpCoords, 3);
 			ev1.normalize();
 			// update ev0 to get orthonormal vectors
-			ev0.setCrossProduct4(ev1, ev2);
+			ev0.setCrossProduct3(ev1, ev2);
 			ev0.normalize();
 		} else if (!ev1.isZero()) { // ev1 and ev2 are already orthogonal
 			// since ev1 was orthogonal to ev0 and ev0 and ev2 are parallel
-			ev0.setCrossProduct4(ev1, ev2);
+			ev0.setCrossProduct3(ev1, ev2);
 			ev0.normalize();
 		} else {
 			ev2.completeOrthonormal3(ev0, ev1);
