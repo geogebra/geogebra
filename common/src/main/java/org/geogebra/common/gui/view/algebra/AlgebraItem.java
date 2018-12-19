@@ -515,10 +515,8 @@ public class AlgebraItem {
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
 		Kernel kernel = geo1.getKernel();
-		boolean allowPlaintext = output
-				|| kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION;
 		if (!geo1.isDefinitionValid()
-				|| (allowPlaintext && !geo1.isLaTeXDrawableGeo())) {
+				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
@@ -526,10 +524,14 @@ public class AlgebraItem {
 						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)) {
 			if (geo1.isIndependent()) {
 				return getLatexStringValue(geo1, limit);
-			}
-			return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
+			} else if (geo1.getParentAlgorithm()
+					.getClassName() == Algos.Expression) {
+				return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
 					+ geo1.getLabelDelimiter()
 					+ geo1.getDefinition(StringTemplate.latexTemplateHideLHS);
+			} else {
+				return null;
+			}
 		}
 		return getLatexStringValue(geo1, limit);
 	}
