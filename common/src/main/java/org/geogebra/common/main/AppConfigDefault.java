@@ -178,7 +178,7 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public int getDefaultAlgebraStyle() {
-		return Kernel.ALGEBRA_STYLE_VALUE;
+		return Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
 }
