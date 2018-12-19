@@ -1,7 +1,6 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
@@ -48,30 +47,21 @@ public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, Key
 
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
-		if (isTabOverGui(event)) {
-			am.onSelectLastGeo(true);
-		} else {
-			Log.debug("GKD way keyPress");
+		if (!isTabOverGui(event)) {
 			gkd.onKeyPress(event);
 		}
 	}
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		if (isTabOverGui(event)) {
-			Log.debug("TAB in KeyDownEvent");
-		} else {
-			Log.debug("GKD way keyDown");
+		if (!isTabOverGui(event)) {
 			gkd.onKeyDown(event);
 		}
 	}
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		if (isTabOverGui(event)) {
-			Log.debug("TAB in KeyUpEvent");
-		} else {
-			Log.debug("GKD way keyUp");
+		if (!isTabOverGui(event)) {
 			gkd.onKeyUp(event);
 		}
 	}
