@@ -515,6 +515,53 @@ namespace giac {
 	return true;
       }
     } // end if d==2 and n==2d
+    // Improve: csolve for resultant(num-t*v',v)
+    // Example a:=diff(atan((x^2-2x)/(x-1))); b:=int(a);
+    // v=[1,-4,5,-2,1], roots for resultant +/-i/2
+    // sum t*ln(gcd(n-t*d',d))
+    // if t is complex and v real
+    // t*ln()+conjugate=re(t)*ln(|gcd|^2)-im(t)*atan(im(gcd)/re(gcd))
+    gen N=r2e(num,l,contextptr);
+    if (lvar(N)==vecteur(1,X)){ // do it for univariate
+      gen D=r2e(poly12polynome(v,1),l,contextptr);
+      gen Dprime=r2e(poly12polynome(derivative(v),1),l,contextptr);
+      gen tres(identificateur("tresultant"));
+      gen R=_resultant(makesequence(N-tres*Dprime,D,X),contextptr);
+      gen Rprime=derive(R,tres,contextptr);
+      R=_quo(makesequence(R,gcd(R,Rprime,contextptr),tres),contextptr);
+      gen Rdeg=_degree(makesequence(R,tres),contextptr);
+      gen Rt=solve(R,tres,1,contextptr); // _cSolve(makesequence(R,tres),contextptr);
+      if (Rdeg.type==_INT_ && Rt.type==_VECT && Rt._VECTptr->size()==Rdeg.val){
+	vecteur w=*Rt._VECTptr;
+	bool reel=vect_is_real(v,contextptr);
+	if (!has_num_coeff(w)){
+	  for (size_t wi=0;wi<w.size();++wi){
+	    gen racine=w[wi];
+	    gen G=gcd(N-racine*Dprime,D,contextptr);
+	    if (reel){
+	      gen racr,raci;
+	      reim(racine,racr,raci,contextptr);
+	      if (is_zero(raci,contextptr))
+		res += racine*symb_ln(symb_abs(G));
+	      else {
+		if (wi<w.size()-1 && w[wi]==conj(w[wi+1],contextptr)){
+		  gen gcdr,gcdi;
+		  reim(G,gcdr,gcdi,contextptr);
+		  res += racr*symb_ln(gcdr*gcdr+gcdi*gcdi)-2*raci*symb_atan(gcdi/gcdr);
+		  ++wi;
+		}
+		else
+		  res += racine*symb_ln(G);
+	      }
+	    }
+	    else {
+	      res += racine*symb_ln(G);
+	    }
+	  }
+	  return true;
+	}
+      }
+    }
     gen c=normal(-b/a,contextptr);
     if (n%d)
       return false;
