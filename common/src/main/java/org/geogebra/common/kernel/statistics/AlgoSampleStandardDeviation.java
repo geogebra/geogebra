@@ -18,6 +18,6 @@ public class AlgoSampleStandardDeviation extends AlgoStats1D {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.stdevp;
+		return Commands.stdev;
 	}
 }

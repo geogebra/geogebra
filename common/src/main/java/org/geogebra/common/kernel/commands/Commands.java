@@ -1308,9 +1308,9 @@ public enum Commands implements CommandsConstants,
 		case Mean:
 			return mean;
 		case SD:
-			return stdev;
-		case SampleSD:
 			return stdevp;
+		case SampleSD:
+			return stdev;
 		case MAD:
 			return mad;
 		default:
