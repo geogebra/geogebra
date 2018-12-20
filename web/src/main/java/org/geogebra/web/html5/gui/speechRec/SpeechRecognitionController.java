@@ -27,6 +27,7 @@ public class SpeechRecognitionController {
 	 */
 	public SpeechRecognitionController(AppW app) {
 		this.appW = app;
+		setLang(app.getLocalization().getLocaleStr());
 	}
 
 	/**
@@ -49,7 +50,11 @@ public class SpeechRecognitionController {
 	 *            language
 	 */
 	public void setLang(String lang) {
-		this.lang = lang;
+		if (lang == null) {
+			this.lang = "en-US";
+		} else {
+			this.lang = lang;
+		}
 	}
 
 	/**
@@ -64,12 +69,15 @@ public class SpeechRecognitionController {
 	 * @param result
 	 *            create command
 	 */
-	public void setResult(String result) {
+	public void setCommand(String result) {
 		this.speechRecResultTxt = result;
-		// speechRecResultTxt = "create Circle";
 		Log.debug("SPEECH REC: Result: " + result);
 		if (speechRecResultTxt.contains("create")) {
 			processCommandSpeechText();
+		} else {
+			initSpeechSynth(
+					"I didn't understood. Please repeat command. Must contain create.",
+					"command");
 		}
 	}
 
@@ -79,7 +87,6 @@ public class SpeechRecognitionController {
 	 */
 	public void setXCoord(String xCoordStr) {
 		this.xCoord = Integer.parseInt(xCoordStr);
-		Log.debug("SPEECH REC: xCoord: " + xCoord);
 		getYCoord();
 	}
 
@@ -89,7 +96,6 @@ public class SpeechRecognitionController {
 	 */
 	public void setYCoord(String yCoordStr) {
 		this.yCoord = Integer.parseInt(yCoordStr);
-		Log.debug("SPEECH REC: yCoord: " + yCoord);
 		getRadius();
 	}
 
@@ -99,7 +105,6 @@ public class SpeechRecognitionController {
 	 */
 	public void setRadius(String radiusStr) {
 		this.radius = Integer.parseInt(radiusStr);
-		Log.debug("SPEECH REC: radius: " + radiusStr);
 		AlgoCirclePointRadius circleAlgo = new AlgoCirclePointRadius(
 				appW.getKernel().getConstruction(), getPointGeo(),
 				getRadiusGeo());
@@ -107,7 +112,7 @@ public class SpeechRecognitionController {
 	}
 
 	private GeoPoint getPointGeo() {
-		return new GeoPoint(appW.getKernel().getConstruction(), "A",
+		return new GeoPoint(appW.getKernel().getConstruction(), "M",
 				xCoord, yCoord, 1.0);
 	}
 
@@ -117,24 +122,16 @@ public class SpeechRecognitionController {
 
 	private void processCommandSpeechText() {
 		String[] txtArray = speechRecResultTxt.split("create ");
-		for (int i = 0; i < txtArray.length; i++) {
-			Log.debug("SPEECH REC: text:" + txtArray[i]);
-		}
 		if (txtArray.length == 2 && "".equals(txtArray[0]) && appW.getKernel()
 				.getAlgebraProcessor().isCommandAvailable(txtArray[1])) {
 			String commandName = txtArray[1];
 			Log.debug("SPEECH REC: found command: " + commandName);
-			// java.util.List<String> commandList = appW.getCommandDictionary()
-			// .getCompletions(commandName);
-
-			// switch (commandList.get(0)) {
-			// case "Circle":
+			// TODO for now only circle, to do extension on other
 			createCircle();
-			// break;
-			// case "Point":
-			// default:
-			// break;
-			// }
+		} else {
+			initSpeechSynth(
+					"I didn't understood. Please repeat command. Must contain create and tool name.",
+					"command");
 		}
 	}
 
@@ -173,9 +170,7 @@ public class SpeechRecognitionController {
 	 *            action
 	 */
 	public native void initSpeechSynth(String toSay, String actionStr) /*-{
-		console.log("SPEECH initSpeechSynth");
 		var synth = window.speechSynthesis;
-		var voices = synth.getVoices();
 		var that = this;
 		var action = actionStr;
 		var say = toSay;
@@ -184,7 +179,7 @@ public class SpeechRecognitionController {
 			console.error('speechSynthesis.speaking');
 			return;
 		}
-		//if (inputTxt.value !== '') {
+
 		var utterThis = new SpeechSynthesisUtterance(toSay);
 		utterThis.onend = function(event) {
 			console.log('SpeechSynthesisUtterance.onend');
@@ -193,17 +188,10 @@ public class SpeechRecognitionController {
 		utterThis.onerror = function(event) {
 			console.error('SpeechSynthesisUtterance.onerror');
 		}
-		var selectedOption = 'Google US English';
-		for (i = 0; i < voices.length; i++) {
-			if (voices[i].name === selectedOption) {
-				utterThis.voice = voices[i];
-			}
-		}
 		utterThis.pitch = 1;
 		utterThis.rate = 1;
 		utterThis.lang = 'en-US';
 		synth.speak(utterThis);
-		//}
 	}-*/;
 
 	/**
@@ -223,8 +211,6 @@ public class SpeechRecognitionController {
 		var speechRecognitionList = new SpeechGrammarList();
 		recognition.grammars = speechRecognitionList;
 		recognition.lang = this.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::lang;
-		console.log('SPEECH REC: Language set to');
-		console.log(recognition.lang);
 		recognition.interimResults = false;
 		recognition.maxAlternatives = 1;
 		that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setAction(Ljava/lang/String;)(actionStr);
@@ -233,14 +219,6 @@ public class SpeechRecognitionController {
 		console.log('SPEECH REC: Ready to receive a command.');
 
 		recognition.onresult = function(event) {
-			// The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-			// The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-			// It has a getter so it can be accessed like an array
-			// The [last] returns the SpeechRecognitionResult at the last position.
-			// Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-			// These also have getters so they can be accessed like arrays.
-			// The [0] returns the SpeechRecognitionAlternative at position 0.
-			// We then return the transcript property of the SpeechRecognitionAlternative object
 			var actionStr = that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::action;
 			var last = event.results.length - 1;
 			var result = event.results[last][0].transcript;
@@ -250,7 +228,7 @@ public class SpeechRecognitionController {
 					+ event.results[0][0].confidence);
 
 			if (actionStr === "command")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setResult(Ljava/lang/String;)(result);
+				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setCommand(Ljava/lang/String;)(result);
 			else if (actionStr === "xCoord")
 				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setXCoord(Ljava/lang/String;)(result);
 			else if (actionStr === "yCoord")
