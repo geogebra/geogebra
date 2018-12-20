@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -125,6 +124,7 @@ public class ZoomPanel extends FlowPanel
 			public void onClick(Widget source) {
 				getZoomController().onFullscreenPressed(getPanelElement(),
 						fullscreenBtn);
+				setFullScreenAuralText();
 			}
 		};
 
@@ -255,8 +255,13 @@ public class ZoomPanel extends FlowPanel
 		}
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		LocalizationW loc = app.getLocalization();
-		sb.append(loc.getMenuDefault("FullscreenButtonSelected",
+		if (isFullScreen()) {
+			sb.append(loc.getMenuDefault("FullscreenExitButtonSelected",
+					"Full screen button selected Press space to exit full screen"));
+		} else {
+			sb.append(loc.getMenuDefault("FullscreenButtonSelected",
 				"Full screen button selected Press space to go full screen"));
+		}
 		sb.appendSpace();
 		sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
 		sb.endSentence();
@@ -319,8 +324,6 @@ public class ZoomPanel extends FlowPanel
 
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
-		Log.debug("WW: source: " + source.getElement().getAttribute("aria-label") + " lastButton: "
-				+ getLastButton().getElement().getAttribute("aria-label"));
 		if (source == getFirstButton() && shiftDown) {
 			app.getAccessibilityManager().focusPrevious(this);
 			return true;
