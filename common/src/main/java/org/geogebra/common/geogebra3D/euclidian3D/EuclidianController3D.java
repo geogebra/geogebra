@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -45,11 +46,11 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -90,8 +91,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Controller for the 3D view
@@ -3168,7 +3168,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_INTERSECT:
 			case EuclidianConstants.MODE_JOIN:
 			case EuclidianConstants.MODE_SEGMENT:
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
 			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_VECTOR:
+			case EuclidianConstants.MODE_POLYGON:
 			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
@@ -3178,6 +3181,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_CUBE:
 			case EuclidianConstants.MODE_PYRAMID:
 			case EuclidianConstants.MODE_PRISM:
+			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			case EuclidianConstants.MODE_POLYLINE:
 				return true;
 
 			default:
@@ -3192,6 +3203,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				case EuclidianConstants.MODE_JOIN:
 				case EuclidianConstants.MODE_SEGMENT:
+			    case EuclidianConstants.MODE_SEGMENT_FIXED:
 
 				case EuclidianConstants.MODE_RAY:
 				case EuclidianConstants.MODE_VECTOR:
@@ -3200,11 +3212,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 				case EuclidianConstants.MODE_POLYLINE:
 				case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 				case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+				case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+				case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+				case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 				case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 				case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
 				case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 				case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
 				case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
+				case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+				case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 				case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 					return true;
 
@@ -3239,10 +3256,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 					}
 
 					return false;
-
-				case EuclidianConstants.MODE_ANGLE:
-					point = view3D.getCursor3D();
-					return !point.isPointOnPath() && !point.hasRegion();
 
 				default:
 					return false;
