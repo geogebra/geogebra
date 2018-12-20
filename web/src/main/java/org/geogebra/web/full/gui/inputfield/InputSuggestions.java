@@ -215,7 +215,6 @@ public class InputSuggestions implements HasSuggestions {
 		}
 		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
-
 			String cmdInt = app.getInternalCommand(cmd);
 			String syntaxString;
 			if (component.isForCAS()) {
@@ -232,7 +231,6 @@ public class InputSuggestions implements HasSuggestions {
 
 			if (syntaxString.endsWith(Localization.syntaxCAS)
 					|| syntaxString.endsWith(Localization.syntaxStr)) {
-
 				// command not found, check for macros
 				Macro macro = component.isForCAS() ? null
 						: app.getKernel().getMacro(cmd);
