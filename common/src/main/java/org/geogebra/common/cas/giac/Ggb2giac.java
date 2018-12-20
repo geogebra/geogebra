@@ -1177,8 +1177,7 @@ public class Ggb2giac {
 				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2==true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
 		p("SampleVariance.1",
 				" [[ggbsvans:=%0],[ggbsvans:=normal(variance(ggbsvans)*size(ggbsvans)/(size(ggbsvans)-1))],ggbsvans][2]");
-		p("stdevp.1", listToNumber("stddevp"));
-		p("SampleSD.1", listToNumber("stddevp"));
+
 		p("Sequence.1", "when(round(%0)<1,{},seq(1,round(%0),1))");
 		p("Sequence.2", "seq(round(%0),round(%1),1)");
 		p("Sequence.4", "seq(%0,%1,%2,%3)");
@@ -1197,8 +1196,11 @@ public class Ggb2giac {
 				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,%1)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
-		p("stdev.1", listToNumber("stddev"));
+		// stdevp / stdev different way round in Giac!
+		p("SampleSD.1", listToNumber("stddevp"));
+		p("stdev.1", listToNumber("stddevp"));
 		p("SD.1", listToNumber("stddev"));
+		p("stdevp.1", listToNumber("stddev"));
 
 		// removed,Shuffle[{1,2}] kills Giac
 		p("Shuffle.1", "randperm(%0)");
