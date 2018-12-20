@@ -2599,67 +2599,84 @@ public abstract class EuclidianView3D extends EuclidianView
 		// + "\ncursor=" + cursor + "\ngetCursor3DType()="
 		// + getCursor3DType());
 
-		if (hasMouse() && !cursor3DInvisible) {
+		if (app.has(Feature.G3D_AR_TARGET) && isAREnabled()) {
+			if (hasMouse() && !cursor3DInvisible) {
+				if (moveCursorIsVisible()) {
+					drawTranslateViewCursor(renderer1);
+				} else {
+					TargetType targetType = TargetType.getCurrentTargetType(this,
+							(EuclidianController3D) euclidianController);
+					Log.debug("TargetType = " + targetType);
+					targetType.drawTarget(renderer1, this);
+				}
+			}
+		} else {
+			if (hasMouse() && !cursor3DInvisible) {
 
-			// mouse cursor
-			if (moveCursorIsVisible()) {
-				drawTranslateViewCursor(renderer1);
-			} else if (!getEuclidianController().mouseIsOverLabel()
-					&& ((EuclidianController3D) getEuclidianController())
-							.cursor3DVisibleForCurrentMode(getCursor3DType())) {
-				renderer1.setMatrix(cursorMatrix);
+				// mouse cursor
+				if (moveCursorIsVisible()) {
+					drawTranslateViewCursor(renderer1);
+				} else if (!getEuclidianController().mouseIsOverLabel()
+						&& ((EuclidianController3D) getEuclidianController())
+								.cursor3DVisibleForCurrentMode(
+										getCursor3DType())) {
+					renderer1.setMatrix(cursorMatrix);
 
-				switch (cursor) {
-				case DEFAULT:
-					switch (getCursor3DType()) {
-					case PREVIEW_POINT_FREE:
-						drawFreeCursor(renderer1);
+					switch (cursor) {
+					case DEFAULT:
+						switch (getCursor3DType()) {
+						case PREVIEW_POINT_FREE:
+							drawFreeCursor(renderer1);
+							break;
+						case PREVIEW_POINT_ALREADY: // showing arrows directions
+							drawPointAlready(getCursor3D());
+							break;
+						default:
+						case PREVIEW_POINT_NONE:
+							// do nothing
+							break;
+						}
 						break;
-					case PREVIEW_POINT_ALREADY: // showing arrows directions
-						drawPointAlready(getCursor3D());
-						break;
-					default:
-					case PREVIEW_POINT_NONE:
-						// do nothing
+					case HIT:
+						switch (getCursor3DType()) {
+						default:
+							// do nothing
+							break;
+						case PREVIEW_POINT_FREE:
+							if (getCompanion().drawCrossForFreePoint()) {
+								renderer1
+										.drawCursor(PlotterCursor.TYPE_CROSS2D);
+							}
+							break;
+						case PREVIEW_POINT_REGION:
+							if (getEuclidianController()
+									.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
+								renderer1.drawViewInFrontOf();
+							} else {
+								renderer1
+										.drawCursor(PlotterCursor.TYPE_CROSS2D);
+							}
+							break;
+						case PREVIEW_POINT_PATH:
+						case PREVIEW_POINT_REGION_AS_PATH:
+							if (getEuclidianController()
+									.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
+								renderer1.drawViewInFrontOf();
+							} else {
+								renderer1.drawCursor(
+										PlotterCursor.TYPE_CYLINDER);
+							}
+							break;
+						case PREVIEW_POINT_DEPENDENT:
+							renderer1.drawCursor(PlotterCursor.TYPE_DIAMOND);
+							break;
+
+						case PREVIEW_POINT_ALREADY:
+							drawPointAlready(getCursor3D());
+							break;
+						}
 						break;
 					}
-					break;
-				case HIT:
-					switch (getCursor3DType()) {
-					default:
-						// do nothing
-						break;
-					case PREVIEW_POINT_FREE:
-						if (getCompanion().drawCrossForFreePoint()) {
-							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
-						}
-						break;
-					case PREVIEW_POINT_REGION:
-						if (getEuclidianController()
-								.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
-							renderer1.drawViewInFrontOf();
-						} else {
-							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
-						}
-						break;
-					case PREVIEW_POINT_PATH:
-					case PREVIEW_POINT_REGION_AS_PATH:
-						if (getEuclidianController()
-								.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
-							renderer1.drawViewInFrontOf();
-						} else {
-							renderer1.drawCursor(PlotterCursor.TYPE_CYLINDER);
-						}
-						break;
-					case PREVIEW_POINT_DEPENDENT:
-						renderer1.drawCursor(PlotterCursor.TYPE_DIAMOND);
-						break;
-
-					case PREVIEW_POINT_ALREADY:
-						drawPointAlready(getCursor3D());
-						break;
-					}
-					break;
 				}
 			}
 		}
@@ -4839,6 +4856,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public boolean canShowPointStyle() {
 		return false;
+	}
+
+	/**
+	 * 
+	 * @return cursor matrix
+	 */
+	public CoordMatrix4x4 getCursorMatrix() {
+		return cursorMatrix;
 	}
 
 }

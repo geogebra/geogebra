@@ -351,6 +351,9 @@ public enum Feature {
 	KEY_HANDLER_EV3D,
 
 	/** G3D-152, G3D-157 */
-	G3D_TEST_IOS_AR
+	G3D_TEST_IOS_AR,
+
+	/** G3D-160 */
+	G3D_AR_TARGET
 }
 

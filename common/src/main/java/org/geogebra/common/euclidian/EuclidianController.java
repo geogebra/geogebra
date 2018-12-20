@@ -1800,7 +1800,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return getSelectedPolyLineList().size();
 	}
 
-	protected final int selPolygons() {
+	public final int selPolygons() {
 		return getSelectedPolygonList().size();
 	}
 
