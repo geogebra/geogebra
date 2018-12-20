@@ -157,9 +157,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/whammy.min.js")
 	TextResource whammyJs();
 
-	@Source("org/geogebra/web/resources/js/speechRecognition.js")
-	TextResource speechRec();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/video_player_black_opacity54_360px.png")
 	ImageResource mow_video_player();
 

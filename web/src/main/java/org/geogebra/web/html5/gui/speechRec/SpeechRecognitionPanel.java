@@ -1,15 +1,10 @@
 package org.geogebra.web.html5.gui.speechRec;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.JavaScriptInjector;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -40,22 +35,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
-				Log.debug("SPEECH BTN WAS CLICKED");
-				GWT.runAsync(new RunAsyncCallback() {
-
-					@Override
-					public void onSuccess() {
-						final TextResource res = GuiResourcesSimple.INSTANCE
-								.speechRec();
-						JavaScriptInjector.inject(res);
-						getSpecRecController().initSpeechRec("command");
-					}
-
-					@Override
-					public void onFailure(Throwable reason) {
-						Log.debug("injection failed: " + reason.getMessage());
-					}
-				});
+				getSpecRecController().initSpeechRec("command");
 			}
 		});
 		this.add(speechBtn);

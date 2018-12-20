@@ -251,11 +251,4 @@ public class SpeechRecognitionController {
 		}
 
 	}-*/;
-
-	/**
-	 * get recognized text in English for now as log msg
-	 */
-	public native void runSpeechRec() /*-{
-		$wnd.speechRec();
-	}-*/;
 }
