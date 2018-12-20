@@ -190,7 +190,7 @@ public abstract class CommandDispatcher {
 	/**
 	 * @param command
 	 *            command
-	 * @return whether selctor accepts it
+	 * @return whether selector accepts it
 	 */
 	protected boolean isAllowedBySelector(Commands command) {
 		return commandSelector == null || commandSelector.isCommandAllowed(command);

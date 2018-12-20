@@ -35,7 +35,6 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 
 	@Override
 	public CommandProcessor commandTableSwitch(Command c) {
-
 		String cmdName = c.getName();
 		try {
 			Commands command = Commands.valueOf(cmdName);

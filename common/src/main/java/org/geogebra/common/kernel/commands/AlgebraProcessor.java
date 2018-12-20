@@ -3579,7 +3579,6 @@ public class AlgebraProcessor {
 		Commands cmd = null;
 		try {
 			cmd = Commands.valueOf(cmdInt);
-
 		} catch (Exception e) {
 			// macro or error
 		}
@@ -3603,7 +3602,6 @@ public class AlgebraProcessor {
 		}
 
 		return loc.getCommandSyntax(cmdInt, dim);
-
 	}
 
 	/**
