@@ -244,9 +244,9 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public void setLabels() {
 		setFullScreenAuralText();
-		setButtonTitleAndAltText(homeBtn, "StandardView");
-		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
-		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");
+		setZoomAuralText(homeBtn, true, "StandardView", "Home button selected");
+		setZoomAuralText(zoomOutBtn, fullscreenBtn != null, "ZoomOut.Tool", "Zoom out button selected");
+		setZoomAuralText(zoomInBtn, true, "ZoomIn.Tool", "Zoom in button selected");
 	}
 
 	private void setFullScreenAuralText() {
@@ -266,6 +266,25 @@ public class ZoomPanel extends FlowPanel
 		sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
 		sb.endSentence();
 		setButtonTitleAndAltText(fullscreenBtn, sb.toString());
+	}
+
+	private void setZoomAuralText(StandardButton btn, boolean controlNext, String transKey, String auralDefault) {
+		if (btn == null) {
+			return;
+		}
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		LocalizationW loc = app.getLocalization();
+		sb.append(loc.getMenuDefault(transKey, auralDefault));
+		sb.appendSpace();
+		sb.append(loc.getMenuDefault("PressSpaceToActivate", "press space to activate"));
+		sb.endSentence();
+		if (controlNext) {
+			sb.append(loc.getMenuDefault("PressTabToSelectControls", "Press tab to select controls"));
+		} else {
+			sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
+		}
+
+		setButtonTitleAndAltText(btn, sb.toString());
 	}
 
 	private void setButtonTitleAndAltText(StandardButton btn, String string) {
@@ -348,6 +367,10 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public boolean hasButtons() {
 		return getFirstButton() != null;
+	}
+
+	private boolean hasZoomButtons() {
+		return homeBtn != null;
 	}
 
 	/** Focus the last available button on zoom panel. */
