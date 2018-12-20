@@ -834,7 +834,9 @@ namespace giac {
       vecteur tmpv=rlvarx(tmp,x);
       vecteur tmpw(tmpv.size());
       gen tmpcst=subst(tmp,tmpv,tmpw,false,contextptr);
-      v2[i]=exp(tmpcst,contextptr)*exp(ratnormal(tmp-tmpcst,contextptr),contextptr);
+      tmpcst=exp(tmpcst,contextptr)*exp(ratnormal(tmp-tmpcst,contextptr),contextptr);
+      if (!is_inf(tmpcst) && !is_undef(tmpcst))
+	v2[i]=tmpcst;
     }
     e=subst(e,v1,v2,false,contextptr);
 #else
