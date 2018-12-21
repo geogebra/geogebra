@@ -29,13 +29,18 @@ public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, Key
 	 *
 	 * @param app
 	 *            {@link AppW}
-	 * @param canvas
-	 *            to add the key handler to.
 	 */
-	public EuclidianKeyHandler3DW(AppW app, Canvas canvas) {
+	public EuclidianKeyHandler3DW(AppW app) {
 		am = app.getAccessibilityManager();
 		am.setTabOverGeos(true);
 		gkd = app.getGlobalKeyDispatcher();
+	}
+
+	/**
+	 * @param canvas
+	 *            to add the key handler to.
+	 */
+	public void listenTo(Canvas canvas){
 		canvas.addKeyUpHandler(this);
 		canvas.addKeyDownHandler(this);
 		canvas.addKeyPressHandler(this);
