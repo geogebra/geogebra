@@ -36,7 +36,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConify3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusion3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawImplicitCurve3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawImplicitSurface3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawList3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLocus3D;
@@ -54,6 +53,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurfaceComposite;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -734,7 +734,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				d = new DrawClippingCube3D(this, (GeoClippingCube3D) geo);
 				break;
 			case IMPLICIT_SURFACE_3D:
-				d = new DrawImplicitSurface3D(this, (GeoImplicitSurface) geo);
+				d = new DrawSurfaceComposite(this, (GeoImplicitSurface) geo);
 			}
 		}
 

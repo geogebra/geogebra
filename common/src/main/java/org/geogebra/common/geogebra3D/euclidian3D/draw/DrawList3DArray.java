@@ -15,7 +15,7 @@ public class DrawList3DArray extends DrawListArray {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient DrawList3D drawList3D;
+	private transient DrawComposite3D drawList3D;
 
 	/**
 	 * common constructor
@@ -26,7 +26,7 @@ public class DrawList3DArray extends DrawListArray {
 	 *            drawable for the list calling
 	 */
 	public DrawList3DArray(EuclidianViewInterfaceCommon view,
-			DrawList3D drawList3D) {
+			DrawComposite3D drawList3D) {
 		super(view);
 		this.drawList3D = drawList3D;
 	}

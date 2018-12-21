@@ -173,4 +173,6 @@ public abstract class DrawableND {
 		return true;
 	}
 
+	public abstract DrawableND createDrawableND(GeoElement listElement);
+
 }

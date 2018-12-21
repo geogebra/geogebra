@@ -113,7 +113,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 		DrawableND d = view.getDrawableND(listElement);
 		if (d == null) {
 			// create a new drawable for geo
-			d = createDrawableND(listElement);
+			d = drawList.createDrawableND(listElement);
 			if (d != null) {
 				d.setCreatedByDrawList(drawList);
 			}

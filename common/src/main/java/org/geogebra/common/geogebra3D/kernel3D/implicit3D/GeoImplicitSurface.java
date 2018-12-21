@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -46,6 +48,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	private GeoFunctionNVar expression;
 	private GeoTriangulatedSurface3D surface3D;
 	private FunctionNVar[] derivFunc = new FunctionNVar[3];
+	private GeoFunctionNVar parametricFn;
 
 	/**
 	 * Create an empty GeoImplicitSurface
@@ -73,6 +76,39 @@ public class GeoImplicitSurface extends GeoElement3D
 								// be created
 		this.surface3D = new GeoTriangulatedSurface3D();
 		fromEquation(eqn);
+		updateParametic(eqn);
+
+	}
+
+	private void updateParametic(Equation eqn) {
+		ExpressionNode normal = eqn.getLHS().apply(Operation.MINUS,
+				eqn.getRHS());
+		normal = normal.deepCopy(cons.getKernel());
+		String[] vars = {"x","y","z"};
+		int[][] complement = { { 1, 2 }, { 0, 2 }, { 0, 1 } };
+		FunctionVariable[] fVars = new FunctionVariable[3];
+		Double[] coeff = new Double[3];
+		for(int i =0;i<3;i++){
+			fVars[i] = new FunctionVariable(cons.getKernel(), vars[i]);
+			normal.traverse(VariablePolyReplacer.getReplacer(fVars[i]));
+			coeff[i] = normal.getCoefficient(fVars[i]);
+		}
+		for (int i = 0; i < 3; i++) {
+			if (coeff[i] != null && !DoubleUtil.isZero(coeff[i])
+					&& !Double.isNaN(coeff[i])) {
+				MyDouble coef = new MyDouble(kernel, -coeff[i]);
+				ExpressionNode m = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, normal, Operation.DIVIDE,
+								coef),
+						Operation.PLUS, fVars[i]);
+				m.simplifyLeafs();
+				FunctionNVar fun = new FunctionNVar(m,
+						new FunctionVariable[] { fVars[complement[i][0]],
+								fVars[complement[i][1]] });
+				this.parametricFn = new GeoFunctionNVar(cons, fun);
+				parametricFn.setShortLHS(vars[i]);
+			}
+		}
 	}
 
 	/**
@@ -947,5 +983,9 @@ public class GeoImplicitSurface extends GeoElement3D
 	@Override
 	public boolean hasDrawable3D() {
 		return kernel.getApplication().has(Feature.IMPLICIT_SURFACES);
+	}
+
+	public GeoFunctionNVar getParametric() {
+		return parametricFn;
 	}
 }

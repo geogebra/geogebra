@@ -657,7 +657,8 @@ public class Drawable3DLists {
 
 		// lists
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-			((DrawList3D) d).getDrawable3DLists().drawForAbsoluteText(renderer, absolute);
+			((DrawComposite3D) d).getDrawable3DLists()
+					.drawForAbsoluteText(renderer, absolute);
 		}
 	}
 

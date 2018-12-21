@@ -2082,4 +2082,9 @@ public abstract class Drawable3D extends DrawableND {
 	public boolean is3D() {
 		return true;
 	}
+
+	@Override
+	public DrawableND createDrawableND(GeoElement subGeo) {
+		return m_view3D.newDrawable(subGeo);
+	}
 }

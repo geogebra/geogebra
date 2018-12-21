@@ -869,4 +869,9 @@ public abstract class Drawable extends DrawableND {
 	protected boolean hasRotationHandler() {
 		return false;
 	}
+
+	@Override
+	public DrawableND createDrawableND(GeoElement subGeo) {
+		return view.newDrawable(subGeo);
+	}
 }
