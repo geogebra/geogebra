@@ -5216,7 +5216,7 @@ namespace giac {
 
   static string printasdifferent(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)!=38)
-      return printsommetasoperator(feuille,"<>",contextptr);
+      return printsommetasoperator(feuille,python_compat(contextptr)?"!=":"<>",contextptr);
     else
       return printsommetasoperator(feuille,"≠",contextptr);
   }

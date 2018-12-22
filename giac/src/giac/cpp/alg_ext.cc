@@ -869,6 +869,7 @@ namespace giac {
       // Change for multivariate polynomials p, added evaluation
       if (innerdim){
 	gen params;
+	polynome pb(1),px(unsplitmultivarpoly(p,innerdim));
 	*logptr(contextptr) << gettext("Warning, need to choose a branch for the root of a polynomial with parameters. This might be wrong.") << endl;
 	if (l && l->size()>=2){
 	  for (int i=1;i<l->size();++i){
@@ -879,44 +880,52 @@ namespace giac {
 	  // IMPROVE: using context and *l look for assumptions
 	  if (params.type==_VECT){
 	    vecteur paramv=*params._VECTptr;
-	    for (unsigned j=0;j<paramv.size() && j<vb.size();++j){
-	      gen p=paramv[j];
-	      if (p.type!=_IDNT)
-		continue;
-	      if (p==cst_pi){
-		vb[j]=p;
-		continue;
-	      }
-	      gen g,g2=p._IDNTptr->eval(1,g,contextptr);
-	      if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
-		vecteur V=*g2._VECTptr;
-		if ( V.size()==3 && V[1].type==_VECT && V[2].type==_VECT){
-		  for (unsigned i=0;i<V[1]._VECTptr->size();++i){
-		    gen tmp=(*V[1]._VECTptr)[i];
-		    if (tmp.type==_VECT && tmp._VECTptr->size()==2){
-		      gen a=tmp._VECTptr->front(),b=tmp._VECTptr->back();
-		      if (a==minus_inf)
-			vb[j]=b-1;
-		      else {
-			if (b==plus_inf)
-			  vb[j]=a+1;
+	    for (int essai=0;essai<(4<<paramv.size());++essai){
+	      for (unsigned j=0;j<paramv.size() && j<vb.size();++j){
+		gen p=paramv[j];
+		if (p.type!=_IDNT)
+		  continue;
+		if (p==cst_pi){
+		  vb[j]=p;
+		  continue;
+		}
+		gen g,g2=p._IDNTptr->eval(1,g,contextptr);
+		if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
+		  vecteur V=*g2._VECTptr;
+		  if ( V.size()==3 && V[1].type==_VECT && V[2].type==_VECT){
+		    for (unsigned i=0;i<V[1]._VECTptr->size();++i){
+		      gen tmp=(*V[1]._VECTptr)[i];
+		      if (tmp.type==_VECT && tmp._VECTptr->size()==2){
+			gen a=tmp._VECTptr->front(),b=tmp._VECTptr->back();
+			int decal=1;
+			if (essai)
+			  decal += int((giac_rand(contextptr)*100.0)/rand_max2);
+			if (a==minus_inf)
+			  vb[j]=b-decal;
 			else {
-			  if (a+b==0)
-			    vb[j]=b/2;
-			  else
-			    vb[j]=(a+b)/2;
+			  if (b==plus_inf)
+			    vb[j]=a+decal;
+			  else {
+			    if (a+b==0)
+			      vb[j]=b/(decal+1);
+			    else
+			      vb[j]=(decal*a+b)/(decal+1);
+			  }
 			}
 		      }
 		    }
-		  }
-		} // end if V.size()==3
-	      } // end g2 assume_vect
-	    } // end for j
+		  } // end if V.size()==3
+		} // end g2 assume_vect
+	      } // end for j
+	      vecteur vb0=vb;
+	      find_good_eval(px,pb,vb); 
+	      if (vb0==vb)
+		break;
+	    } // end trying to find a good eval point satisfying assumptions
 	  } // end params.type==_VECT
 	}
 	vecteur vb0=vb;
-	polynome pb(1),px(unsplitmultivarpoly(p,innerdim));
-	find_good_eval(px,pb,vb); // need to modify find_good_eval for assumptions...
+	find_good_eval(px,pb,vb); // find_good_eval does not take care of assumptions, but vb should be ok (loop above)
 	if (vb==vb0)
 	  *logptr(contextptr) << gettext("The choice was done assuming ") << params << "=" << vb << endl;       
 	else 

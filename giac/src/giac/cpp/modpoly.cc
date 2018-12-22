@@ -1877,8 +1877,15 @@ namespace giac {
       for (;it!=itend;++it){
 	if (it->type==_ZINT && it->ref_count()==1)
 	  mpz_tdiv_q_ui(*it->_ZINTptr,*it->_ZINTptr,fact.val);
-	else
-	  *it=iquo(*it,fact); 
+	else {
+	  if (it->type==_POLY){
+	    polynome copie(*it->_POLYptr);
+	    copie /= fact;
+	    *it=copie;
+	  }
+	  else
+	    *it=iquo(*it,fact); 
+	}
       }
       return;
     }
