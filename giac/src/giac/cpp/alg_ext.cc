@@ -880,7 +880,8 @@ namespace giac {
 	  // IMPROVE: using context and *l look for assumptions
 	  if (params.type==_VECT){
 	    vecteur paramv=*params._VECTptr;
-	    for (int essai=0;essai<(4<<paramv.size());++essai){
+	    int nessais=3*paramv.size();
+	    for (int essai=0;essai<nessais;++essai){
 	      for (unsigned j=0;j<paramv.size() && j<vb.size();++j){
 		gen p=paramv[j];
 		if (p.type!=_IDNT)
@@ -892,13 +893,15 @@ namespace giac {
 		gen g,g2=p._IDNTptr->eval(1,g,contextptr);
 		if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
 		  vecteur V=*g2._VECTptr;
+		  if (V.size()==2)
+		    vb[j]=V[1];
 		  if ( V.size()==3 && V[1].type==_VECT && V[2].type==_VECT){
 		    for (unsigned i=0;i<V[1]._VECTptr->size();++i){
 		      gen tmp=(*V[1]._VECTptr)[i];
 		      if (tmp.type==_VECT && tmp._VECTptr->size()==2){
 			gen a=tmp._VECTptr->front(),b=tmp._VECTptr->back();
 			int decal=1;
-			if (essai)
+			if (1 || essai)
 			  decal += int((giac_rand(contextptr)*100.0)/rand_max2);
 			if (a==minus_inf)
 			  vb[j]=b-decal;
