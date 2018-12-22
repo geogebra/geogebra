@@ -2297,6 +2297,8 @@ namespace giac {
 	vecteur w;
 	identificateur x(" x");
 	in_solve(symb_horner(*(r2sym(v,lt,ltend,contextptr)._VECTptr),x),x,w,1,contextptr); 
+	if (w.size()==1)
+	  return w.front();
 #ifndef NO_STDEXCEPT
 	try {
 #endif
