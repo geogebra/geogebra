@@ -864,7 +864,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
 			stylebarShown = null;
 		}
-
+		kernel.notifyUpdatePreviewFromInputBar(null);
 		removeCloseButton();
 
 		controller.setEditing(false);
