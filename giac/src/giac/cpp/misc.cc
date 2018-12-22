@@ -6693,7 +6693,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     vecteur v = gen2vecteur(args);
     if (v.size()!=2 && v.size()!=3)
       return gensizeerr(contextptr);
-    const gen a=v.front();
+    gen a=v.front();
     int pos=0;
     if (v.size()==3){
       if (v[2].type!=_INT_)
@@ -6705,20 +6705,33 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (a.type==_STRNG && v[1].type!=_VECT){
       if (v[1].type!=_STRNG)
 	return gensizeerr(contextptr);
-      const string s=*v[1]._STRNGptr;
+      string s=*v[1]._STRNGptr;
+      string as=*a._STRNGptr;
+      if (s.size()>as.size()){
+	s.swap(as);
+	*logptr(contextptr) << "Exchanging arguments" << endl;
+      }
       vecteur res;
       for (;;++pos){
-	pos=int(a._STRNGptr->find(s,pos));
+	pos=int(as.find(s,pos));
 	if (py)
 	  return pos;
-	if (pos<0 || pos>=int(a._STRNGptr->size()))
+	if (pos<0 || pos>=int(as.size()))
 	  break;
 	res.push_back(pos+shift);
       }
       return res;
     }
-    if (v[1].type!=_VECT)
-      return gensizeerr(contextptr);
+    if (v[1].type!=_VECT){
+      if (a.type==_VECT){
+	*logptr(contextptr) << "Exchanging arguments" << endl;
+	v[0]=v[1];
+	v[1]=a;
+	a=v[0];
+      }
+      else
+	return gensizeerr(contextptr);
+    }
     const vecteur & w =*v[1]._VECTptr;
     int s=int(w.size());
     vecteur res;
