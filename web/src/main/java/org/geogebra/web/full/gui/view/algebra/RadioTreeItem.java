@@ -562,7 +562,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 			content.add(canvas);
 		} else {
-			buildPlainTextSimple();
+			if (!buildPlainTextSimple()) {
+				geo.getAlgebraDescriptionTextOrHTMLDefault(
+						new DOMIndexHTMLBuilder(getPlainTextItem(), app));
+			}
 			updateItemColor();
 			rebuildPlaintextContent();
 		}
