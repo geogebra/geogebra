@@ -2552,6 +2552,63 @@ namespace giac {
     return res;
   }
 
+  // sqrt(g), check whether g is a+b+/-2*sqrt(a*b)
+  static bool is_sqrtxy(const gen & g_,gen & res,GIAC_CONTEXT){
+    gen g(g_);
+    vecteur l=lop_pow(g);
+    if (l.size()==2 && l[0]._SYMBptr->feuille[1]==plus_one_half && l[1]._SYMBptr->feuille[1]==plus_one_half){
+      gen c,d,e,f;
+      if (!is_linear_wrt(g,l[0],c,d,contextptr))
+	return false;
+      // c*l[0]+d
+      if (!is_constant_wrt(d,l[1],contextptr))
+	return false;
+      if (!is_linear_wrt(c,l[1],e,f,contextptr) || !is_zero(f,contextptr))
+	return false;
+      // rewrite g 
+      l=vecteur(1,symb_pow(l[0]._SYMBptr->feuille[0]*l[1]._SYMBptr->feuille[0],plus_one_half));
+      g=d+e*l[0];
+    }
+    if (l.size()!=1) // improve for sqrt(a)*sqrt(b)
+      return false;
+    gen e(l[0]._SYMBptr->feuille);
+    if (e.type!=_VECT || e._VECTptr->size()!=2 || e._VECTptr->back()!=plus_one_half)
+      return false;
+    e=e._VECTptr->front();
+    gen c,d;
+    if (!is_linear_wrt(g,l[0],c,d,contextptr))
+      return false;
+    e=e*(c*c/gen(4));
+    gen cs=sign(c,contextptr);
+    // d=a+b, e=a*b, factor x^2-d*x+e
+    l=lidnt(makevecteur(d,e));
+    gen x;
+    for (;;){
+      x=identificateur("x"+print_INT_(giac_rand(contextptr)));
+      if (!equalposcomp(l,x))
+	break;
+    }
+    gen f=x*x-d*x+e;
+    f=factor(f,x,false,contextptr);
+    if (f.type!=_SYMB)
+      return false;
+    if (f._SYMBptr->sommet!=at_prod)
+      return false;
+    f=f._SYMBptr->feuille;
+    if (f.type!=_VECT || f._VECTptr->size()!=2)
+      return false;
+    if (!is_linear_wrt(f._VECTptr->front(),x,c,e,contextptr) || is_zero(c,contextptr))
+      return false;
+    gen a=-e/c;
+    if (!is_linear_wrt(f._VECTptr->back(),x,c,e,contextptr) || is_zero(c,contextptr))
+      return false;
+    gen b=-e/c;
+    if (!is_greater(a,b,contextptr))
+      swapgen(a,b);
+    res=sqrt(a,contextptr)+cs*sqrt(b,contextptr);
+    return true;
+  }
+
   static gen in_normalize_sqrt(const gen & e,vecteur & L,bool keep_abs,GIAC_CONTEXT){
     if (complex_mode(contextptr) || has_i(e)) 
       return e;
@@ -2582,7 +2639,14 @@ namespace giac {
 	continue;
       if (is_one(expnum) && is_integer(arg[0]))
 	continue;
-      gen var=ggb_var(arg[0]),a,b,hyp;
+      // sqrt(arg[0]), we may check that arg[0] is a+b+/-2*sqrt(a*b)
+      gen var,a,b,hyp;
+      if (is_sqrtxy(arg[0],a,contextptr)){
+	lin.push_back(*it);
+	lout.push_back(a);
+	continue;
+      }
+      var=ggb_var(arg[0]);
       // if var is not assigned and arg[0] depends linearly on var, add an assumption
       if (complex_mode(contextptr)==false && var.type==_IDNT && var._IDNTptr->eval(1,var,contextptr)==var){
 	if (is_linear_wrt(arg[0],var,a,b,contextptr) && !is_zero(a)){
