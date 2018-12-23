@@ -6836,7 +6836,7 @@ namespace giac {
     vector< monomial<gen> > ::const_iterator it=f.coord.begin(),jt=g.coord.begin(),itend=f.coord.end();
     for (;it!=itend;++it,++jt){
       if (it->index!=jt->index)
-	return !(jt->index <= it->index);
+	return !lex_is_greater(it->index.iref(),jt->index.iref()); // (jt->index <= it->index);
       if (it->value!=jt->value){
 	gen a=evalf_double(it->value,1,context0),b=evalf_double(jt->value,1,context0);
 	if (a.type==_DOUBLE_ && b.type==_DOUBLE_)
