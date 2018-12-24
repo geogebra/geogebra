@@ -15,7 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 public class SpeechRecognitionController {
 	private AppW appW;
 	private String lang = null;
-	private String speechRecResultTxt;
+	private String speechRecResultTxt = "";
 	private String action;
 	private int xCoord = 0;
 	private int yCoord = 0;
@@ -86,8 +86,14 @@ public class SpeechRecognitionController {
 	 *            x coord
 	 */
 	public void setXCoord(String xCoordStr) {
-		this.xCoord = Integer.parseInt(xCoordStr);
-		getYCoord();
+		try {
+			this.xCoord = Integer.parseInt(xCoordStr);
+			getYCoord();
+		} catch (NumberFormatException e) {
+			initSpeechSynth(
+					"The x coordinate must be a number. Please give the x coordinate of the middle point",
+					"xCoord");
+		}
 	}
 
 	/**
@@ -95,8 +101,14 @@ public class SpeechRecognitionController {
 	 *            y coord
 	 */
 	public void setYCoord(String yCoordStr) {
-		this.yCoord = Integer.parseInt(yCoordStr);
-		getRadius();
+		try {
+			this.yCoord = Integer.parseInt(yCoordStr);
+			getRadius();
+		} catch (NumberFormatException e) {
+			initSpeechSynth(
+					"The y coordinate must be a number. Please give the y coordinate of the middle point",
+					"yCoord");
+		}
 	}
 
 	/**
@@ -104,11 +116,17 @@ public class SpeechRecognitionController {
 	 *            radius
 	 */
 	public void setRadius(String radiusStr) {
-		this.radius = Integer.parseInt(radiusStr);
-		AlgoCirclePointRadius circleAlgo = new AlgoCirclePointRadius(
-				appW.getKernel().getConstruction(), getPointGeo(),
-				getRadiusGeo());
-		circleAlgo.getCircle().setLabel("C");
+		try {
+			this.radius = Integer.parseInt(radiusStr);
+			AlgoCirclePointRadius circleAlgo = new AlgoCirclePointRadius(
+					appW.getKernel().getConstruction(), getPointGeo(),
+					getRadiusGeo());
+			circleAlgo.getCircle().setLabel("C");
+		} catch (NumberFormatException e) {
+			initSpeechSynth(
+					"The radius must be a number. Please give the radius",
+					"radius");
+		}
 	}
 
 	private GeoPoint getPointGeo() {
@@ -239,6 +257,7 @@ public class SpeechRecognitionController {
 
 		recognition.onspeechend = function() {
 			recognition.stop();
+			console.log('SPEECH REC: Recognition stopped.');
 		}
 
 		recognition.onnomatch = function(event) {
@@ -248,7 +267,15 @@ public class SpeechRecognitionController {
 		recognition.onerror = function(event) {
 			console.log('SPEECH REC: Error occurred in recognition: '
 					+ event.error);
+			var actionStr = that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::action;
+			if (actionStr === "command")
+				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setCommand(Ljava/lang/String;)("");
+			else if (actionStr === "xCoord")
+				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setXCoord(Ljava/lang/String;)("");
+			else if (actionStr === "yCoord")
+				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setYCoord(Ljava/lang/String;)("");
+			else if (actionStr === "radius")
+				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setRadius(Ljava/lang/String;)("");
 		}
-
 	}-*/;
 }
