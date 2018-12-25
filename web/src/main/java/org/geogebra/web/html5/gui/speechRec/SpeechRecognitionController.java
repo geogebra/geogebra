@@ -31,6 +31,13 @@ public class SpeechRecognitionController {
 	}
 
 	/**
+	 * @return see {@link AppW}
+	 */
+	public AppW getAppW() {
+		return appW;
+	}
+
+	/**
 	 * @return action is waited by the speech recognition
 	 */
 	public String getAction() {
