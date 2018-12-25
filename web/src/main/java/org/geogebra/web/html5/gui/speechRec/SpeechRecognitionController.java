@@ -18,9 +18,9 @@ public class SpeechRecognitionController {
 	private String lang = null;
 	private String speechRecResultTxt = "";
 	private String action;
-	private int xCoord = 0;
-	private int yCoord = 0;
-	private int radius = 0;
+	private double xCoord = 0;
+	private double yCoord = 0;
+	private double radius = 0;
 
 	/**
 	 * @param app
@@ -84,7 +84,10 @@ public class SpeechRecognitionController {
 			processCommandSpeechText();
 		} else {
 			initSpeechSynth(
-					"I didn't understood. Please repeat command. Must contain create.",
+					"I couldn't interpret "
+							+ ("".equals(speechRecResultTxt) ? "it"
+									: speechRecResultTxt)
+							+ ". Please repeat command. Must contain create.",
 					"command");
 		}
 	}
@@ -95,11 +98,13 @@ public class SpeechRecognitionController {
 	 */
 	public void setXCoord(String xCoordStr) {
 		try {
-			this.xCoord = Integer.parseInt(xCoordStr);
+			this.xCoord = Double.parseDouble(xCoordStr);
 			getYCoord();
 		} catch (NumberFormatException e) {
 			initSpeechSynth(
-					"The x coordinate must be a number. Please give the x coordinate of the middle point.",
+					"Your input was "
+							+ ("".equals(xCoordStr) ? "empty" : xCoordStr)
+							+ ". The x coordinate must be a number. Please give the x coordinate of the middle point.",
 					"xCoord");
 		}
 	}
@@ -110,11 +115,13 @@ public class SpeechRecognitionController {
 	 */
 	public void setYCoord(String yCoordStr) {
 		try {
-			this.yCoord = Integer.parseInt(yCoordStr);
+			this.yCoord = Double.parseDouble(yCoordStr);
 			getRadius();
 		} catch (NumberFormatException e) {
 			initSpeechSynth(
-					"The y coordinate must be a number. Please give the y coordinate of the middle point.",
+					"Your input was "
+							+ ("".equals(yCoordStr) ? "empty" : yCoordStr)
+							+ ". The y coordinate must be a number. Please give the y coordinate of the middle point.",
 					"yCoord");
 		}
 	}
@@ -125,26 +132,32 @@ public class SpeechRecognitionController {
 	 */
 	public void setRadius(String radiusStr) {
 		try {
-			this.radius = Integer.parseInt(radiusStr);
-			AlgoCirclePointRadius circleAlgo = new AlgoCirclePointRadius(
-					appW.getKernel().getConstruction(), getPointGeo(),
-					getRadiusGeo());
-			circleAlgo.getCircle().setLabel("C");
-			initSpeechSynth(
-					"Circle with middle point coordinates " + xCoord + " and "
-							+ yCoord
-							+ " and radius " + radius + " has been created.",
-					"created");
+			this.radius = Double.parseDouble(radiusStr);
+			if (radius <= 0) {
+				initSpeechSynth(
+						"The radius must be a positive number. Please give the radius.",
+						"radius");
+			} else {
+				AlgoCirclePointRadius circleAlgo = new AlgoCirclePointRadius(
+						appW.getKernel().getConstruction(), getPointGeo(),
+						getRadiusGeo());
+				circleAlgo.getCircle().setLabel("C");
+				initSpeechSynth("Circle with middle point coordinates " + xCoord
+						+ " and " + yCoord + " and radius " + radius
+						+ " has been created.", "created");
+			}
 		} catch (NumberFormatException e) {
 			initSpeechSynth(
-					"The radius must be a number. Please give the radius.",
+					"Your input was "
+							+ ("".equals(radiusStr) ? "empty" : radiusStr)
+							+ ". The radius must be a number. Please give the radius.",
 					"radius");
 		}
 	}
 
 	private GeoPoint getPointGeo() {
-		return new GeoPoint(appW.getKernel().getConstruction(), "M",
-				xCoord, yCoord, 1.0);
+		return new GeoPoint(appW.getKernel().getConstruction(), "M", xCoord,
+				yCoord, 1.0);
 	}
 
 	private GeoNumeric getRadiusGeo() {
@@ -161,7 +174,8 @@ public class SpeechRecognitionController {
 			createCircle();
 		} else {
 			initSpeechSynth(
-					"I didn't understood. Please repeat command. Must contain create and tool name.",
+					"I couldn't interpret " + speechRecResultTxt
+							+ ". Please repeat command. Must contain create and tool name.",
 					"command");
 		}
 	}
@@ -190,8 +204,7 @@ public class SpeechRecognitionController {
 	 * get radius from user
 	 */
 	public void getRadius() {
-		initSpeechSynth("Please give the radius",
-				"radius");
+		initSpeechSynth("Please give the radius", "radius");
 	}
 
 	/**

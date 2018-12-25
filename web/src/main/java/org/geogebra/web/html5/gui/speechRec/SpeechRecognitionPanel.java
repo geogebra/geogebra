@@ -37,6 +37,10 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		speechBtn.setStyleName("speechBtn");
 		speechBtn.setTabIndex(GUITabs.SPEECH_REC);
 		speechBtn.addTabHandler(this);
+		speechBtn.setTitle(
+				"Speech recognition button.");
+		speechBtn.setAltText(
+				"Speech recognition button. Press enter to give command. Press tab to select next object");
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
