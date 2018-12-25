@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.gui.speechRec;
 
+import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -14,9 +16,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class SpeechRecognitionPanel extends FlowPanel {
+public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 
 	private SpeechRecognitionController specRecContr;
+	private StandardButton speechBtn;
 
 	/**
 	 * @param app
@@ -29,9 +32,11 @@ public class SpeechRecognitionPanel extends FlowPanel {
 
 	private void buildGui(AppW app) {
 		this.setStyleName("speechBtnPanel");
-		StandardButton speechBtn = new StandardButton(
+		speechBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
+		speechBtn.setTabIndex(GUITabs.SPEECH_REC);
+		speechBtn.addTabHandler(this);
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
@@ -46,5 +51,22 @@ public class SpeechRecognitionPanel extends FlowPanel {
 	 */
 	public SpeechRecognitionController getSpecRecController() {
 		return specRecContr;
+	}
+
+	/** Sets focus to speech rec btn */
+	public void focusSpeechRec() {
+		if (speechBtn != null) {
+			speechBtn.getElement().focus();
+		}
+	}
+
+	public boolean onTab(Widget source, boolean shiftDown) {
+		if (shiftDown) {
+			specRecContr.getAppW().getAccessibilityManager()
+					.focusPrevious(this);
+			return true;
+		}
+		specRecContr.getAppW().getAccessibilityManager().focusNext(this);
+		return true;
 	}
 }

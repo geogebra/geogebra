@@ -22,6 +22,7 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.speechRec.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 
@@ -62,13 +63,24 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else if (source instanceof LatexTreeItemController) {
 			focusMenu();
 		} else if (source instanceof ZoomPanel) {
+			if (app.has(Feature.SPEECH_RECOGNITION)) {
+				focusNextSpeechRec();
+			} else {
+				focusNextZoomPanel();
+			}
+		} else if (app.has(Feature.SPEECH_RECOGNITION)
+				&& source instanceof SpeechRecognitionPanel) {
 			focusNextZoomPanel();
-
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
 			focusInputAsNext();
 		}
+	}
+
+	private void focusNextSpeechRec() {
+		EuclidianDockPanelWAbstract dp = getEuclidianPanel();
+		dp.focusSpeechRecBtn();
 	}
 
 	private void focusNextZoomPanel() {
@@ -131,6 +143,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			}
 		} else if (source instanceof ZoomPanel) {
 			previousFromZoomPanel();
+		} else if (app.has(Feature.SPEECH_RECOGNITION)
+				&& source instanceof SpeechRecognitionPanel) {
+			focusZoom(false);
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {

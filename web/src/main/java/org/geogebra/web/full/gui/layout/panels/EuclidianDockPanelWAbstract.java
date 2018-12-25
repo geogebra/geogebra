@@ -39,6 +39,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	ZoomPanel zoomPanel;
 	/** Zoom panel for MOW */
 	ZoomPanelMow mowZoomPanel;
+	/**
+	 * button panel for speech recognition
+	 */
 	public SpeechRecognitionPanel speechRecPanel;
 
 	/**
@@ -433,6 +436,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			zoomPanel.focusFirstButton();
 		} else {
 			// TODO add focus somewhere else like burger menu.
+		}
+	}
+
+	/**
+	 * focus speech rec panel
+	 */
+	public void focusSpeechRecBtn() {
+		if (speechRecPanel != null) {
+			speechRecPanel.focusSpeechRec();
 		}
 	}
 

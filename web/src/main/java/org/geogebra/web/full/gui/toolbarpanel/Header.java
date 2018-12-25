@@ -879,7 +879,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (btn != null) {
 			btn.setTabIndex(index);
 		}
-
 	}
 
 	@Override

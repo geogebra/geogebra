@@ -32,6 +32,9 @@ public class GUITabs {
 	/** Tab index of zoom panel */
 	public static final int ZOOM = 4005;
 
+	/** Tab index speech recording button */
+	public static final int SPEECH_REC = 4020;
+
 	// Then back to first element of AV.
 
 	/**
