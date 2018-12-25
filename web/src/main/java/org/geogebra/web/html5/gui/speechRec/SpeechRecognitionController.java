@@ -99,7 +99,7 @@ public class SpeechRecognitionController {
 			getYCoord();
 		} catch (NumberFormatException e) {
 			initSpeechSynth(
-					"The x coordinate must be a number. Please give the x coordinate of the middle point",
+					"The x coordinate must be a number. Please give the x coordinate of the middle point.",
 					"xCoord");
 		}
 	}
@@ -114,7 +114,7 @@ public class SpeechRecognitionController {
 			getRadius();
 		} catch (NumberFormatException e) {
 			initSpeechSynth(
-					"The y coordinate must be a number. Please give the y coordinate of the middle point",
+					"The y coordinate must be a number. Please give the y coordinate of the middle point.",
 					"yCoord");
 		}
 	}
@@ -130,9 +130,14 @@ public class SpeechRecognitionController {
 					appW.getKernel().getConstruction(), getPointGeo(),
 					getRadiusGeo());
 			circleAlgo.getCircle().setLabel("C");
+			initSpeechSynth(
+					"Circle with middle point coordinates " + xCoord + " and "
+							+ yCoord
+							+ " and radius " + radius + " has been created.",
+					"created");
 		} catch (NumberFormatException e) {
 			initSpeechSynth(
-					"The radius must be a number. Please give the radius",
+					"The radius must be a number. Please give the radius.",
 					"radius");
 		}
 	}
@@ -209,6 +214,9 @@ public class SpeechRecognitionController {
 		var utterThis = new SpeechSynthesisUtterance(toSay);
 		utterThis.onend = function(event) {
 			console.log('SpeechSynthesisUtterance.onend');
+			if (action === "created") {
+				return;
+			}
 			that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::initSpeechRec(Ljava/lang/String;)(action);
 		}
 		utterThis.onerror = function(event) {

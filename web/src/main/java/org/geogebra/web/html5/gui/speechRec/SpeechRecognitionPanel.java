@@ -40,7 +40,9 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
-				getSpecRecController().initSpeechRec("command");
+				getSpecRecController().initSpeechSynth(
+						"Please give the command.",
+						"command");
 			}
 		});
 		this.add(speechBtn);
