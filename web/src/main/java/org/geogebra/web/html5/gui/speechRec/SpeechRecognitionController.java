@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -216,6 +217,7 @@ public class SpeechRecognitionController {
 		utterThis.pitch = 1;
 		utterThis.rate = 1;
 		utterThis.lang = 'en-US';
+		that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::showMessage(Ljava/lang/String;)(toSay);
 		synth.speak(utterThis);
 	}-*/;
 
@@ -285,4 +287,8 @@ public class SpeechRecognitionController {
 				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setRadius(Ljava/lang/String;)("");
 		}
 	}-*/;
+
+	private void showMessage(String msg) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, appW);
+	}
 }
