@@ -81,6 +81,7 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 			}
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
+			setParamFromURL("ggbbase64");
 			if(location.pathname.match(/lti/)){
 				e("ggw").setAttribute("data-param-showAppsPicker","false");
 				e("appsPicker") && e("appsPicker").style.setProperty("display", "none");
