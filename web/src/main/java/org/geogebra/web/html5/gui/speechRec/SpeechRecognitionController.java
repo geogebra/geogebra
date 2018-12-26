@@ -227,8 +227,11 @@ public class SpeechRecognitionController {
 	public native void initSpeechSynth(String toSay, String actionStr) /*-{
 		var synth = window.speechSynthesis;
 		var that = this;
+		if (!('webkitSpeechRecognition' in window)) {
+			toSay = "Speech recognition not supported in this browser, please use chrome.";
+			actionStr = "";
+		}
 		var action = actionStr;
-		var say = toSay;
 
 		if (synth.speaking) {
 			console.error('speechSynthesis.speaking');
@@ -238,7 +241,7 @@ public class SpeechRecognitionController {
 		var utterThis = new SpeechSynthesisUtterance(toSay);
 		utterThis.onend = function(event) {
 			console.log('SpeechSynthesisUtterance.onend');
-			if (action === "created") {
+			if (action === "created" || action === "") {
 				return;
 			}
 			that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::initSpeechRec(Ljava/lang/String;)(action);
