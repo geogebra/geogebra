@@ -2,12 +2,10 @@ package org.geogebra.web.geogebra3D.web.euclidian3D;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -81,7 +79,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// ========================================
 		// rotate view button
 		btnRotateView = new RotateViewPopup(
-		        StyleBar3DResources.INSTANCE.rotateViewPlay(),
+		        this, StyleBar3DResources.INSTANCE.rotateViewPlay(),
 		        StyleBar3DResources.INSTANCE.rotateViewPause());
 		btnRotateView.addPopupHandler(this);
 		// btnRotateView.addActionListener(this);
@@ -142,65 +140,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected boolean isBackground() {
 		return (btnShowGrid3D != null && btnShowGrid3D.isVisible());
-	}
-
-	private class RotateViewPopup extends PopupMenuButtonForView3D {
-		private ImageOrText pauseIcon;
-		private ImageOrText playIcon;
-
-		public RotateViewPopup(ImageResource playIcon, ImageResource pauseIcon) {
-			super();
-
-			this.playIcon = new ImageOrText(playIcon);
-			this.pauseIcon = new ImageOrText(pauseIcon);
-
-			setIcon(this.playIcon);
-
-			getMySlider().setMinimum(-10);
-			getMySlider().setMaximum(10);
-			getMySlider().setTickSpacing(1);
-			setSliderValue(5);
-		}
-
-		@Override
-		protected void fireActionPerformed() {
-
-			getView().setRotContinueAnimation(0, getSliderValue() * 0.01);
-			if (getSliderValue() == 0) {
-				setIcon(playIcon);
-			} else {
-				setIcon(pauseIcon);
-			}
-		}
-
-		@Override
-		protected void onClickAction() {
-			if (getView().isRotAnimatedContinue()) {
-				getView().stopAnimation();
-				setIcon(playIcon);
-			} else {
-				getView().setRotContinueAnimation(0, getSliderValue() * 0.01);
-				setIcon(pauseIcon);
-			}
-		}
-	}
-
-	private class PopupMenuButtonForView3D extends PopupMenuButtonW {
-
-		public PopupMenuButtonForView3D() {
-			super(EuclidianStyleBar3DW.this.app, null, -1, -1,
-					SelectionTable.MODE_ICON, false, true, null, false);
-		}
-
-		@Override
-		public void update(Object[] geos) {
-			if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
-				this.setVisible(geos.length == 0);
-			} else {
-				this.setVisible(geos.length == 0
-						&& mode != EuclidianConstants.MODE_PEN);
-			}
-		}
 	}
 
 	@Override

@@ -910,7 +910,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			grids[i] = GeoGebraIconW
 					.createGridStyleIcon(EuclidianView.getPointStyle(i));
 		}
-		btnShowGrid = new GridPopup(app, grids, SelectionTable.MODE_ICON, ev);
+		btnShowGrid = new GridPopup(app, grids, ev);
 		btnShowGrid.addPopupHandler(this);
 	}
 
