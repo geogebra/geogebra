@@ -23,8 +23,16 @@ import org.geogebra.common.util.DoubleUtil;
 public class GeoImplicitCurve3D extends GeoImplicitCurve
 		implements MirrorableAtPlane {
 
+	/**
+	 * Curve type based on plane defining the intersection
+	 */
 	public enum Type {
-		DEFAULT, PLANE_XY, PLANE_X
+		/** general plane */
+		DEFAULT,
+		/** plane f(x,y)=0 */
+		PLANE_XY,
+		/** plane x=0 */
+		PLANE_X
 	}
 
 	private CoordSys transformCoordSys;

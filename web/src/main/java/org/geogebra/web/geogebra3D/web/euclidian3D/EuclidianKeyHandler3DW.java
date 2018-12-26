@@ -40,7 +40,7 @@ public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, Key
 	 * @param canvas
 	 *            to add the key handler to.
 	 */
-	public void listenTo(Canvas canvas){
+	public void listenTo(Canvas canvas) {
 		canvas.addKeyUpHandler(this);
 		canvas.addKeyDownHandler(this);
 		canvas.addKeyPressHandler(this);

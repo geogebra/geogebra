@@ -84,11 +84,11 @@ public class GeoImplicitSurface extends GeoElement3D
 		ExpressionNode normal = eqn.getLHS().apply(Operation.MINUS,
 				eqn.getRHS());
 		normal = normal.deepCopy(cons.getKernel());
-		String[] vars = {"x","y","z"};
+		String[] vars = { "x", "y", "z" };
 		int[][] complement = { { 1, 2 }, { 0, 2 }, { 0, 1 } };
 		FunctionVariable[] fVars = new FunctionVariable[3];
 		Double[] coeff = new Double[3];
-		for(int i =0;i<3;i++){
+		for (int i = 0; i < 3; i++) {
 			fVars[i] = new FunctionVariable(cons.getKernel(), vars[i]);
 			normal.traverse(VariablePolyReplacer.getReplacer(fVars[i]));
 			coeff[i] = normal.getCoefficient(fVars[i]);
@@ -985,6 +985,9 @@ public class GeoImplicitSurface extends GeoElement3D
 		return kernel.getApplication().has(Feature.IMPLICIT_SURFACES);
 	}
 
+	/**
+	 * @return parametric representation if it exists (null otherwise)
+	 */
 	public GeoFunctionNVar getParametric() {
 		return parametricFn;
 	}

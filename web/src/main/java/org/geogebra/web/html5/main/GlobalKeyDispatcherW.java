@@ -140,7 +140,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
 																	// pressed
-						if (app.has(Feature.KEY_HANDLER_EV3D) && !app.getAccessibilityManager().isTabOverGeos()) {
+						if (app.has(Feature.KEY_HANDLER_EV3D) && !app
+								.getAccessibilityManager().isTabOverGeos()) {
 							return;
 						}
 						if (!appfocused) {

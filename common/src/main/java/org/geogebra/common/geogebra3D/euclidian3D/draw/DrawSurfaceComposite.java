@@ -5,11 +5,21 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Surface drawable delegating parts of drawing to DrawImplicitSurface3D and
+ * DrawSurface3DElements
+ */
 public class DrawSurfaceComposite extends DrawComposite3D {
 
 	private GeoImplicitSurface geoSurface;
 	private GeoElement surfaceCopy;
 
+	/**
+	 * @param view3d
+	 *            view
+	 * @param geo
+	 *            surface
+	 */
 	public DrawSurfaceComposite(EuclidianView3D view3d,
 			GeoImplicitSurface geo) {
 		super(view3d, geo);
