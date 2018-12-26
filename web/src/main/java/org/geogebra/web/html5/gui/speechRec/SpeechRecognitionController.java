@@ -104,7 +104,7 @@ public class SpeechRecognitionController {
 			initSpeechSynth(
 					"Your input was "
 							+ ("".equals(xCoordStr) ? "empty" : xCoordStr)
-							+ ". The x coordinate must be a number. Please give the x coordinate of the middle point.",
+							+ ". The x coordinate must be a number. Please give the x coordinate of the center.",
 					"xCoord");
 		}
 	}
@@ -121,7 +121,7 @@ public class SpeechRecognitionController {
 			initSpeechSynth(
 					"Your input was "
 							+ ("".equals(yCoordStr) ? "empty" : yCoordStr)
-							+ ". The y coordinate must be a number. Please give the y coordinate of the middle point.",
+							+ ". The y coordinate must be a number. Please give the y coordinate of the center.",
 					"yCoord");
 		}
 	}
@@ -142,7 +142,7 @@ public class SpeechRecognitionController {
 						appW.getKernel().getConstruction(), getPointGeo(),
 						getRadiusGeo());
 				circleAlgo.getCircle().setLabel("C");
-				initSpeechSynth("Circle with middle point coordinates " + xCoord
+				initSpeechSynth("Circle with center coordinates " + xCoord
 						+ " and " + yCoord + " and radius " + radius
 						+ " has been created.", "created");
 			}
@@ -188,16 +188,14 @@ public class SpeechRecognitionController {
 	 * get y coord from user
 	 */
 	public void getYCoord() {
-		initSpeechSynth("Please give y coordinate of the middle point",
-				"yCoord");
+		initSpeechSynth("Please give y coordinate of the center", "yCoord");
 	}
 
 	/**
 	 * get x coord from user
 	 */
 	public void getXCoord() {
-		initSpeechSynth("Please give x coordinate of the middle point",
-				"xCoord");
+		initSpeechSynth("Please give x coordinate of the center", "xCoord");
 	}
 
 	/**
