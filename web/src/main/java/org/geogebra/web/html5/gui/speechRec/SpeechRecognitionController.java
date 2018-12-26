@@ -74,22 +74,32 @@ public class SpeechRecognitionController {
 	}-*/;
 
 	/**
+	 * @param actionStr
+	 *            action
 	 * @param result
-	 *            create command
+	 *            from speech recognition
 	 */
-	public void setCommand(String result) {
-		this.speechRecResultTxt = result;
-		Log.debug("SPEECH REC: Result: " + result);
-		if (speechRecResultTxt.contains("create")) {
-			processCommandSpeechText();
-		} else {
-			initSpeechSynth(
-					"I couldn't interpret "
-							+ ("".equals(speechRecResultTxt)
-									? "it"
-									: speechRecResultTxt)
-							+ ". Please repeat command. Must contain create.",
-					"command");
+	public void onResponse(String actionStr, String result) {
+		if ("command".equals(actionStr)) {
+			this.speechRecResultTxt = result;
+			Log.debug("SPEECH REC: Result: " + result);
+			if (speechRecResultTxt.contains("create")) {
+				processCommandSpeechText();
+			} else {
+				initSpeechSynth(
+						"I couldn't interpret "
+								+ ("".equals(speechRecResultTxt)
+										? "it"
+										: speechRecResultTxt)
+								+ ". Please repeat command. Must contain create.",
+						"command");
+			}
+		} else if ("xCoord".equals(actionStr)) {
+			setXCoord(result);
+		} else if ("yCoord".equals(actionStr)) {
+			setYCoord(result);
+		} else if ("radius".equals(actionStr)) {
+			setRadius(result);
 		}
 	}
 
@@ -276,14 +286,7 @@ public class SpeechRecognitionController {
 			console.log('SPEECH REC: Confidence: '
 					+ event.results[0][0].confidence);
 
-			if (actionStr === "command")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setCommand(Ljava/lang/String;)(result);
-			else if (actionStr === "xCoord")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setXCoord(Ljava/lang/String;)(result);
-			else if (actionStr === "yCoord")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setYCoord(Ljava/lang/String;)(result);
-			else if (actionStr === "radius")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setRadius(Ljava/lang/String;)(result);
+			that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::onResponse(Ljava/lang/String;Ljava/lang/String;)(actionStr,result);
 		}
 
 		recognition.onspeechend = function() {
@@ -299,14 +302,7 @@ public class SpeechRecognitionController {
 			console.log('SPEECH REC: Error occurred in recognition: '
 					+ event.error);
 			var actionStr = that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::action;
-			if (actionStr === "command")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setCommand(Ljava/lang/String;)("");
-			else if (actionStr === "xCoord")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setXCoord(Ljava/lang/String;)("");
-			else if (actionStr === "yCoord")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setYCoord(Ljava/lang/String;)("");
-			else if (actionStr === "radius")
-				that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::setRadius(Ljava/lang/String;)("");
+			that.@org.geogebra.web.html5.gui.speechRec.SpeechRecognitionController::onResponse(Ljava/lang/String;Ljava/lang/String;)(actionStr,"");
 		}
 	}-*/;
 
