@@ -85,7 +85,8 @@ public class SpeechRecognitionController {
 		} else {
 			initSpeechSynth(
 					"I couldn't interpret "
-							+ ("".equals(speechRecResultTxt) ? "it"
+							+ ("".equals(speechRecResultTxt)
+									? "it"
 									: speechRecResultTxt)
 							+ ". Please repeat command. Must contain create.",
 					"command");
@@ -104,7 +105,8 @@ public class SpeechRecognitionController {
 			initSpeechSynth(
 					"Your input was "
 							+ ("".equals(xCoordStr) ? "empty" : xCoordStr)
-							+ ". The x coordinate must be a number. Please give the x coordinate of the center.",
+							+ ". The x coordinate must be a number. "
+							+ "Please give the x coordinate of the center.",
 					"xCoord");
 		}
 	}
@@ -121,7 +123,8 @@ public class SpeechRecognitionController {
 			initSpeechSynth(
 					"Your input was "
 							+ ("".equals(yCoordStr) ? "empty" : yCoordStr)
-							+ ". The y coordinate must be a number. Please give the y coordinate of the center.",
+							+ ". The y coordinate must be a number. "
+							+ "Please give the y coordinate of the center.",
 					"yCoord");
 		}
 	}
