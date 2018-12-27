@@ -43,7 +43,6 @@ import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
-import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
@@ -602,52 +601,23 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-	private class DecoAnglePanel extends OptionPanel implements
+	private class DecoAnglePanel extends DecoOptionPanel
+			implements
 			IDecoAngleListener {
-		private Label decoLabel;
-		private PopupMenuButtonW decoPopup;
+		
 		DecoAngleModel model;
 
 		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
+			super(app);
 			model = model0;
 			model.setListener(this);
 			setModel(model);
-			FlowPanel mainWidget = new FlowPanel();
-			decoLabel = new Label();
-			mainWidget.add(decoLabel);
 			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel
 					.getDecoTypeLength()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
 			}
-			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-					SelectionTable.MODE_ICON,
-					app.isUnbundledOrWhiteboard()) {
-				@Override
-				public void handlePopupActionEvent() {
-					super.handlePopupActionEvent();
-					int idx = getSelectedIndex();
-					model.applyChanges(idx);
-				}
-			};
-			decoPopup.setKeepVisible(false);
-			mainWidget.add(decoPopup);
-			setWidget(mainWidget);
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			decoPopup.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			// do nothing
-		}
-
-		@Override
-		public void setLabels() {
-			decoLabel.setText(getLoc().getMenu("Decoration") + ":");
+			init(iconArray, model);
 		}
 
 		@Override
@@ -656,63 +626,23 @@ public class OptionsTab extends FlowPanel {
 			// deco change
 		}
 
-		@Override
-		public void clearItems() {
-			// do nothing
-		}
 	}
 
-	private class DecoSegmentPanel extends OptionPanel implements
-			IComboListener {
-		private Label decoLabel;
-		private PopupMenuButtonW decoPopup;
+	private class DecoSegmentPanel extends DecoOptionPanel {
 		DecoSegmentModel model;
 
 		public DecoSegmentPanel(DecoSegmentModel model0, AppW app) {
+			super(app);
 			model = model0;
 			model.setListener(this);
 			setModel(model);
-			FlowPanel mainWidget = new FlowPanel();
-			decoLabel = new Label();
-			mainWidget.add(decoLabel);
+
 			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel
 					.getDecoTypeLength()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
 			}
-			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-					SelectionTable.MODE_ICON,
-					app.isUnbundledOrWhiteboard()) {
-				@Override
-				public void handlePopupActionEvent() {
-					super.handlePopupActionEvent();
-					int idx = getSelectedIndex();
-					model.applyChanges(idx);
-				}
-			};
-			decoPopup.setKeepVisible(false);
-			mainWidget.add(decoPopup);
-			setWidget(mainWidget);
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			decoPopup.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			// do nothing
-		}
-
-		@Override
-		public void setLabels() {
-			decoLabel.setText(getLoc().getMenu("Decoration") + ":");
-		}
-
-		@Override
-		public void clearItems() {
-			// do nothing
+			init(iconArray, model);
 		}
 	}
 

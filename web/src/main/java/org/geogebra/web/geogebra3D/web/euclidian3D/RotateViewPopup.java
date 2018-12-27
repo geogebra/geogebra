@@ -8,15 +8,25 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 
 import com.google.gwt.resources.client.ImageResource;
 
+/**
+ * Stylebar popup for 3D rotation
+ */
 class RotateViewPopup extends PopupMenuButtonW {
-	/**
-	 * 
-	 */
+
 	private final EuclidianStyleBar3DW euclidianStyleBar3DW;
 	private ImageOrText pauseIcon;
 	private ImageOrText playIcon;
 
-	public RotateViewPopup(EuclidianStyleBar3DW euclidianStyleBar3DW, ImageResource playIcon, ImageResource pauseIcon) {
+	/**
+	 * @param euclidianStyleBar3DW
+	 *            stylebar
+	 * @param playIcon
+	 *            play icon
+	 * @param pauseIcon
+	 *            pause icon
+	 */
+	public RotateViewPopup(EuclidianStyleBar3DW euclidianStyleBar3DW,
+			ImageResource playIcon, ImageResource pauseIcon) {
 		super(euclidianStyleBar3DW.app, null, -1, -1, SelectionTable.MODE_ICON,
 				false, true, null, false);
 		this.euclidianStyleBar3DW = euclidianStyleBar3DW;

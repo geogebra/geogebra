@@ -48,9 +48,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 						if (canceledZSpace) {
 							return;
 						}
-						// create zspace object
-						zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
-						((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
+						initZspace(view);
 					}
 
 					@Override
@@ -82,6 +80,15 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 		};
 		ResourcesInjector.addLoadHandler(matrixScript, scriptCallback);
 		Document.get().getBody().appendChild(matrixScript);
+	}
+
+	/**
+	 * @param view
+	 *            3D view
+	 */
+	protected void initZspace(EuclidianViewInput3DW view) {
+		zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
+		((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
 	}
 
 	@Override
