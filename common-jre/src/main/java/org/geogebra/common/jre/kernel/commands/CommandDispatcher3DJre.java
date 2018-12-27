@@ -12,7 +12,7 @@ public class CommandDispatcher3DJre extends CommandDispatcher3D {
 	}
 
 	@Override
-	protected CommandDispatcherInterface get3DDispatcher() {
+	public CommandDispatcherInterface get3DDispatcher() {
 		if (commands3DDispatcher == null) {
 			commands3DDispatcher = new CommandDispatcherCommands3D();
 		}

@@ -27,7 +27,7 @@ public class CommandDispatcher3DW extends CommandDispatcher3D {
 	}
 
 	@Override
-	protected CommandDispatcherInterface get3DDispatcher() {
+	public CommandDispatcherInterface get3DDispatcher() {
 		if (commands3DDispatcher == null) {
 			GWT.runAsync(CommandDispatcher3D.class, new RunAsyncCallback() {
 				@Override

@@ -24,7 +24,8 @@ public class AsyncManager {
 			"prover",
 			"scripting",
 			"stats",
-			"CAS"
+			"CAS",
+			"3D"
 	};
 
 	private AppW app;
@@ -62,6 +63,7 @@ public class AsyncManager {
 			cmdDispatcher.getStatsDispatcher();
 			cmdDispatcher.getProverDispatcher();
 			cmdDispatcher.getCASDispatcher();
+			cmdDispatcher.get3DDispatcher();
 		} catch (CommandNotLoadedError e) {
 			ensureModulesLoaded(null);
 			throw e;
@@ -104,6 +106,9 @@ public class AsyncManager {
 						break;
 					case "CAS":
 						cmdDispatcher.getCASDispatcher();
+						break;
+					case "3D":
+						cmdDispatcher.get3DDispatcher();
 						break;
 					default:
 						Log.debug("Tring to preload nonexistent module: " + module);

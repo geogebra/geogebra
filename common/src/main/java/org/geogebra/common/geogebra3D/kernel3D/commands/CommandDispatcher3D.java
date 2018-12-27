@@ -273,9 +273,6 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 		return null;
 	}
 
-	/** @return dispatcher for CAS commands */
-	protected abstract CommandDispatcherInterface get3DDispatcher();
-
 	// a hacky solution to avoid code repetition
 	@Override
 	public CommandDispatcherInterface getDiscreteDispatcher() {

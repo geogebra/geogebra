@@ -914,6 +914,11 @@ public abstract class CommandDispatcher {
 	/** @return dispatcher for prover commands */
 	public abstract CommandDispatcherInterface getProverDispatcher();
 
+	/** @return dispatcher for 3D commands */
+	public CommandDispatcherInterface get3DDispatcher() {
+		return null;
+	}
+
 	/**
 	 * @return dispatcher for basic commands
 	 */
