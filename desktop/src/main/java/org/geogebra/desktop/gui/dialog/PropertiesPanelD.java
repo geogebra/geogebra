@@ -1024,15 +1024,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.title = title;
 		}
 
-		@Override
-		public void setSelectedItem(String item) {
-			comboBox.setSelectedItem(item);
-		}
+		// @Override
+		// public void setSelectedItem(String item) {
+		// comboBox.setSelectedItem(item);
+		// }
 
 		@Override
 		public void clearItems() {
 			comboBox.removeAllItems();
-
 		}
 
 	}
@@ -1665,15 +1664,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		@Override
-		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
-
 		}
 
 	}
@@ -1861,11 +1853,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
-		@Override
-		public void setSelectedItem(String item) {
-			cbLocation.setSelectedItem(item);
-
-		}
+		// @Override
+		// public void setSelectedItem(String item) {
+		// cbLocation.setSelectedItem(item);
+		// }
 
 		@Override
 		public void clearItems() {
@@ -2471,19 +2462,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void addItem(String item) {
 			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
-
 		}
 
 	}
@@ -3297,13 +3280,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void addItem(String item) {
 			combo.addItem(item);
-
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// nothing to do here
-
 		}
 
 		@Override
@@ -3312,13 +3288,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (source == combo) {
 				model.applyChanges(combo.getSelectedIndex());
 			}
-
 		}
 
 		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
-
 		}
 
 	}
@@ -3406,18 +3380,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void addItem(String item) {
 			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// not supported, set selected index instead
 		}
 
 		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
-
 		}
 
 	}
@@ -3491,13 +3458,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void setSelectedIndex(int index) {
 			decoCombo.setSelectedIndex(index);
-
 		}
 
 		@Override
@@ -3506,21 +3471,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		@Override
-		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void setArcSizeMinValue() {
 			setSliderMinValue();
-
 		}
 
 		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
-
 		}
 
 	}

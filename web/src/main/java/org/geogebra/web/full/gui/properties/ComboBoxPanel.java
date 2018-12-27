@@ -16,8 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public abstract class ComboBoxPanel extends OptionPanel
- implements
-		ErrorHandler, GeoComboListener {
+		implements ErrorHandler, GeoComboListener {
 
 	private FormLabel label;
 	private ComboBoxW comboBox;
@@ -114,8 +113,8 @@ public abstract class ComboBoxPanel extends OptionPanel
 	}
 
 	@Override
-	public void setSelectedItem(String item) {
-		// TODO Auto-generated method stub
+	public final void setSelectedItem(String item) {
+		getComboBox().setValue(item);
 	}
 
 	public ComboBoxW getComboBox() {

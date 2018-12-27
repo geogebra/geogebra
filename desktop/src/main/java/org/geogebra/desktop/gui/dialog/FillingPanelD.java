@@ -821,11 +821,6 @@ class FillingPanelD extends JPanel
 	}
 
 	@Override
-	public void setSelectedItem(String item) {
-		cbFillType.setSelectedItem(item);
-	}
-
-	@Override
 	public void setSymbolsVisible(boolean isVisible) {
 
 		if (isVisible) {

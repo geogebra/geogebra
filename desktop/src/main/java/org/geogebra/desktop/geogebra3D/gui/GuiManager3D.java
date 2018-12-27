@@ -194,7 +194,7 @@ public class GuiManager3D extends GuiManagerD {
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 			GPoint p) {
 		// clear highlighting and selections in views
-		((App3D) getApp()).getEuclidianView3D().resetMode();
+		getApp().getEuclidianView3D().resetMode();
 
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(
@@ -220,7 +220,8 @@ public class GuiManager3D extends GuiManagerD {
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
 
-		if (selectedGeos == null || selectedGeos.get(0) == null) {
+		if (selectedGeos == null || selectedGeos.isEmpty()
+				|| selectedGeos.get(0) == null) {
 			return;
 		}
 
@@ -274,8 +275,8 @@ public class GuiManager3D extends GuiManagerD {
 
 		if (getApp().isEuclidianView3Dinited()) {
 			EuclidianView3DInterface view = getApp().getEuclidianView3D();
-			if (view != null && ((EuclidianView) view).hasStyleBar()) {
-				((EuclidianView) view).getStyleBar().setLabels();
+			if (view != null && view.hasStyleBar()) {
+				view.getStyleBar().setLabels();
 			}
 
 		}

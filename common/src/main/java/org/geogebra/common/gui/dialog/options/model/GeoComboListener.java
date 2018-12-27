@@ -6,4 +6,6 @@ public interface GeoComboListener extends IComboListener {
 
 	void addItem(GeoElement geo);
 
+	void setSelectedItem(String item);
+
 }

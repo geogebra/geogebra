@@ -746,11 +746,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		}
 
 		@Override
-		public void setSelectedItem(String item) {
-			// do nothing
-		}
-
-		@Override
 		public void clearItems() {
 			// do nothing
 		}

@@ -101,11 +101,6 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 	}
 
 	@Override
-	public void setSelectedItem(String item) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void clearItems() {
 		getListBox().clear();
 	}

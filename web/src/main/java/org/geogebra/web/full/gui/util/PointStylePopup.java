@@ -174,11 +174,6 @@ public class PointStylePopup extends PopupMenuButtonW
 	    // TODO Auto-generated method stub
 	}
 
-	@Override
-	public void setSelectedItem(String item) {
-	    // TODO Auto-generated method stub
-	}
-
 	public boolean isEuclidian3D() {
 		return euclidian3D;
 	}

@@ -580,12 +580,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	}
 
 	@Override
-	public void setSelectedItem(String item) {
-		int idx = 0;
-		lbFillType.setSelectedIndex(idx);
-	}
-
-	@Override
 	public void setSymbolsVisible(boolean isVisible) {
 
 		if (isVisible) {

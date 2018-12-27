@@ -202,19 +202,11 @@ public class AnimationSpeedPanel extends JPanel
 	}
 
 	@Override
-	public void setSelectedItem(String item) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void clearItems() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void addItem(GeoElement item) {
 		// TODO Auto-generated method stub
-
 	}
 }

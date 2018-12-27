@@ -32,8 +32,10 @@ public class ImageCornerModel extends MultipleGeosModel {
 		}
 
 		if (isEqual && p0 != null) {
-			getListener().setSelectedItem(
+			if (getListener() instanceof GeoComboListener) {
+				((GeoComboListener) getListener()).setSelectedItem(
 					p0.getLabel(StringTemplate.defaultTemplate));
+			}
 		} else {
 			getListener().setSelectedIndex(-1);
 		}

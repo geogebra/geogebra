@@ -646,11 +646,6 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void setSelectedItem(String item) {
-			// do nothing
-		}
-
-		@Override
 		public void setLabels() {
 			decoLabel.setText(getLoc().getMenu("Decoration") + ":");
 		}
@@ -707,11 +702,6 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void addItem(String item) {
-			// do nothing
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
 			// do nothing
 		}
 
@@ -805,11 +795,6 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void addItem(String item) {
-			// do nothing
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
 			// do nothing
 		}
 
@@ -1340,11 +1325,6 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void setSelectedItem(String item) {
-			// nothing to do here
-		}
-
-		@Override
 		public void clearItems() {
 			// do nothing
 		}
@@ -1402,11 +1382,6 @@ public class OptionsTab extends FlowPanel {
 				getLabel().setText(
 						strLabelStart + " " + model.getCornerNumber() + ":");
 			}
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			getComboBox().setValue(item);
 		}
 
 		@Override
@@ -1555,11 +1530,6 @@ public class OptionsTab extends FlowPanel {
 			} else {
 				cb.setSelectedIndex(-1);
 			}
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			getComboBox().setValue(item);
 		}
 
 		private void setFirstLabel() {
