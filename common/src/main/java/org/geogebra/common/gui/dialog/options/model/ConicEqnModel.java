@@ -196,7 +196,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization localization) {
+	public List<String> getChoices(Localization localization) {
 		// Not used
 		return null;
 	}

@@ -50,22 +50,18 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 
 		getListener()
 				.setSelectedIndex(equalMode ? eqnValues.indexOf(value0) : -1);
-
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
-
+	public List<String> getChoices(Localization loc) {
 		return Arrays.asList(loc.getMenu("ImplicitLineEquation"), // index 1
 				loc.getMenu("InputForm"));
-
 	}
 
 	@Override
 	protected void apply(int index, int value) {
 		getLineAt(index).setMode(eqnValues.get(value));
 		getGeoAt(index).updateRepaint();
-
 	}
 
 	@Override

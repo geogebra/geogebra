@@ -71,7 +71,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
+	public List<String> getChoices(Localization loc) {
 
 		return Arrays.asList(loc.getMenu("ImplicitLineEquation"), // index 0
 				loc.getMenu("ExplicitLineEquation"), // index 1

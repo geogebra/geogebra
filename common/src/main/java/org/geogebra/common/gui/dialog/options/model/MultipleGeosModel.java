@@ -23,7 +23,7 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 	 *            localization
 	 * @return list of points
 	 */
-	public List<GeoElement> getGeoChoiches(Localization loc) {
+	public List<GeoElement> getGeoChoices(Localization loc) {
 		TreeSet<GeoElement> points = app.getKernel().getPointSet();
 		List<GeoElement> choices2 = new ArrayList<>();
 		choices2.add(null);
@@ -37,7 +37,7 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
+	public List<String> getChoices(Localization loc) {
 		TreeSet<GeoElement> points = app.getKernel().getPointSet();
 		choices.clear();
 		choices.add("");

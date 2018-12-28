@@ -14,7 +14,7 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		super(app);
 	}
 
-	public abstract List<String> getChoiches(Localization loc);
+	public abstract List<String> getChoices(Localization loc);
 
 	@Override
 	public void updateProperties() {
@@ -36,12 +36,12 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 
 		if (getListener() instanceof GeoComboListener) {
 			for (GeoElement geo : ((MultipleGeosModel) this)
-					.getGeoChoiches(loc)) {
+					.getGeoChoices(loc)) {
 				((GeoComboListener) getListener()).addItem(geo);
 			}
 			return;
 		}
-		for (String item : getChoiches(loc)) {
+		for (String item : getChoices(loc)) {
 			getListener().addItem(item);
 		}
 	}

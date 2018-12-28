@@ -74,6 +74,7 @@ import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleLis
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
+import org.geogebra.common.gui.dialog.options.model.GeoComboListener;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
@@ -917,7 +918,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	private class ComboPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel,
+			GeoComboListener {
 		/**
 		 * 
 		 */
@@ -978,19 +980,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void setSelectedIndex(int index) {
 			comboBox.setSelectedIndex(index);
-
 		}
 
 		@Override
 		public void addItem(String item) {
 			comboBox.addItem(item);
-
 		}
 
 		/**
@@ -1024,14 +1023,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.title = title;
 		}
 
-		// @Override
-		// public void setSelectedItem(String item) {
-		// comboBox.setSelectedItem(item);
-		// }
+		@Override
+		public void setSelectedItem(String item) {
+			comboBox.setSelectedItem(item);
+		}
 
 		@Override
 		public void clearItems() {
 			comboBox.removeAllItems();
+		}
+
+		public void addItem(GeoElement geo) {
+			addItem(geo.getLabel(StringTemplate.editTemplate));
 		}
 
 	}

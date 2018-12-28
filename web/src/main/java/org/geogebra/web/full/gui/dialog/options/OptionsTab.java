@@ -601,9 +601,8 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-	private class DecoAnglePanel extends DecoOptionPanel
-			implements
-			IDecoAngleListener {
+	private static class DecoAnglePanel extends DecoOptionPanel
+			implements IDecoAngleListener {
 		
 		DecoAngleModel model;
 
@@ -628,7 +627,7 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	private class DecoSegmentPanel extends DecoOptionPanel {
+	private static class DecoSegmentPanel extends DecoOptionPanel {
 		DecoSegmentModel model;
 
 		public DecoSegmentPanel(DecoSegmentModel model0, AppW app) {

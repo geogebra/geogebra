@@ -13,7 +13,7 @@ public class TooltipModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
+	public List<String> getChoices(Localization loc) {
 		return Arrays.asList(loc.getMenu("Labeling.automatic"), // index 0
 				loc.getMenu("on"), // index 1
 				loc.getMenu("off"), // index 2

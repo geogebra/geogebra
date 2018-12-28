@@ -80,7 +80,7 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
+	public List<String> getChoices(Localization loc) {
 		if (app.isExam()) {
 			return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
 					loc.getMenu("Filling.Hatch"), // index 1

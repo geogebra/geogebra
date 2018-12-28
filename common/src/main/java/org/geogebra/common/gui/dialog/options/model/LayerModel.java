@@ -20,7 +20,7 @@ public class LayerModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
+	public List<String> getChoices(Localization loc) {
 		List<String> choices = new ArrayList<>();
 		for (int layer = 0; layer <= EuclidianStyleConstants.MAX_LAYERS; ++layer) {
 			choices.add(" " + layer);
