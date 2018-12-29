@@ -2081,8 +2081,10 @@ namespace giac {
 	const_iterateur it=fullres.begin(),itend=fullres.end();
 	for (;it!=itend;++it){
 	  vecteur algv=alg_lvar(*it);
-	  if (!algv.empty() && algv.front().type==_VECT && !algv.front()._VECTptr->empty())
+	  if (!algv.empty() && algv.front().type==_VECT && !algv.front()._VECTptr->empty()){
+	    *logptr(contextptr) << "Warning, " << *it << " not checked" << endl;
 	    res.push_back(*it);
+	  }
 	  else {
 #ifdef HAVE_LIBMPFR
 	    gen tmp=abs(_evalf(makesequence(subst(e_check,x,*it,false,contextptr),100),contextptr),contextptr);

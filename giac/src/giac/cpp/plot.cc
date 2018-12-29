@@ -1830,7 +1830,7 @@ namespace giac {
 	    opt2=_DASHDOTDOT_LINE;
 	}
 	else {
-	  if (opt1!=at_label && opt1!=at_legende)
+	  if (opt1!=at_label && opt1!=at_legende && opt1!=_GL_TEXTURE)
 	    opt2=gen(s,contextptr);
 	}
       }
