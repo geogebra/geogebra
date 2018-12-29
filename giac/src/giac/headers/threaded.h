@@ -2230,7 +2230,7 @@ namespace giac {
 		arg[i].v1ptrs=&v1it;
 		arg[i].v2ptrs=&v2it;
 		arg[i].vptr = new std::vector< T_unsigned<T,U> >;
-		arg[i].vptr->reserve(arg[k].vptr->size()); // ???
+		arg[i].vptr->reserve((3*arg[k].vptr->size())/2); // ???
 		arg[i].degdiv=degdiv;
 		arg[i].current_deg=i;
 		arg[i].reduce=reduce;
