@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -701,8 +702,9 @@ public class GeoNumeric extends GeoElement
 			if (!sendValueToCas) {
 				return "(ggbtmpvar" + label + ")";
 			}
-			// make sure random() works inside Sequence, see #3558
-			if (this.isRandomGeo() && !this.isLabelSet()) {
+			// make sure random() works inside Sequence, see #3558 TRAC-1465
+			if (this.isRandomGeo() && !this.isLabelSet()
+					&& !(getParentAlgorithm() instanceof SetRandomValue)) {
 				return "exact(rand(0,1))";
 			}
 
