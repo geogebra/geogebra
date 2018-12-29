@@ -1156,6 +1156,7 @@ public class Ggb2giac {
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
+		p("RandomUniform.2", "exact(%0+rand(0,1)*(%1-%0))");
 		p("Random.2", "(%0+rand(%1-(%0+0*rndvar)+1))"); // "RandomBetween"
 		p("RandomBinomial.2", "binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
