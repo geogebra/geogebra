@@ -37,7 +37,7 @@ public class ProverSettings {
 	 * How many coordinates are to be fixed speed up computation for
 	 * "ProveDetails"? Used by Botana's prover at the moment.
 	 */
-	public int useFixCoordinatesProveDetails = 2;
+	public int useFixCoordinatesProveDetails = 4;
 	/**
 	 * If possible, should the polynomial ring with coefficients from
 	 * transcendental extension used? Singular normally supports that by using a

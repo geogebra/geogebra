@@ -4085,6 +4085,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case LOCUSEQU_AUTO_NDG:
 			return prerelease;
 
+		/** unify prove commands */
+		case PROVE_UNIFY:
+			return true;
+
 		/** GGB-2525 */
 		case TAB_ON_EV_PLAY:
 			return prerelease;

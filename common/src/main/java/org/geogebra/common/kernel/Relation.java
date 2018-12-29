@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.prover.AlgoIsTangent;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -62,7 +63,8 @@ public class Relation {
 			final GeoElement rb, final GeoElement rc, final GeoElement rd) {
 		// Forcing CAS to load. This will be essential for the web version
 		// to run the Prove[Are...] commands with getting no "undefined":
-		GeoGebraCAS cas = (GeoGebraCAS) ra.getKernel().getGeoGebraCAS();
+		Kernel k = app.getKernel();
+		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
 		try {
 			cas.getCurrentCAS().evaluateRaw("1");
 		} catch (Throwable e) {
@@ -73,7 +75,7 @@ public class Relation {
 		RelationPane tablePane = app.getFactory().newRelationPane();
 		// Computing numerical results and collecting them alphabetically:
 		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
-				new RelationNumerical(app.getKernel()).relation(ra, rb, rc,
+				new RelationNumerical(k).relation(ra, rb, rc,
 						rd));
 		// Collecting information for showing them in the popup window:
 		Iterator<Report> it = relInfosAll.iterator();
@@ -106,7 +108,12 @@ public class Relation {
 				public void action(RelationPane table, int row) {
 					final RelationRow rel = new RelationRow();
 					app.setWaitCursor();
-					Boolean result = checkGenerally(relAlgo, ra, rb, rc, rd);
+
+					Boolean result = null;
+					Kernel k = app.getKernel();
+					if (!(k.getApplication().has(Feature.PROVE_UNIFY))) {
+						result = checkGenerally(relAlgo, ra, rb, rc, rd);
+					}
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
@@ -197,24 +204,31 @@ public class Relation {
 												+ "</ul>"));
 
 							} else {
-								// GenerallyTrueAcondB
-								StringBuilder conds = new StringBuilder("<ul>");
-								for (int j = 1; j < ndgs; ++j) {
-									conds.append("<li ");
-									conds.append(liStyle);
-									conds.append(">");
-									conds.append(ndgResult[j]);
-									if ((j < ndgs - 1)) {
-										conds.append(" ");
-										conds.append(and);
+								if ("2".equals(ndgResult[0])) {
+									// ProveDetails=={true,{...},"c"}
+									rel.setInfo(
+											rel.getInfo() + relInfo + "<br><b>"
+												+ trueOnParts + "</b>");
+								} else {
+									// GenerallyTrueAcondB
+									StringBuilder conds = new StringBuilder("<ul>");
+									for (int j = 1; j < ndgs; ++j) {
+										conds.append("<li ");
+										conds.append(liStyle);
+										conds.append(">");
+										conds.append(ndgResult[j]);
+										if ((j < ndgs - 1)) {
+											conds.append(" ");
+											conds.append(and);
+										}
 									}
+									conds.append("</ul>");
+									rel.setInfo(rel.getInfo() + loc
+											.getPlain("GenerallyTrueAcondB",
+													"<ul><li " + liStyle + ">"
+															+ relInfo + "</ul>",
+													conds.toString()));
 								}
-								conds.append("</ul>");
-								rel.setInfo(rel.getInfo() + loc
-										.getPlain("GenerallyTrueAcondB",
-												"<ul><li " + liStyle + ">"
-														+ relInfo + "</ul>",
-												conds.toString()));
 							}
 						}
 					}

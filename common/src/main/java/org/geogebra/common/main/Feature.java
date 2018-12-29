@@ -323,6 +323,9 @@ public enum Feature {
 	/** automatically add NDG conditions in locus equations */
 	LOCUSEQU_AUTO_NDG,
 
+	/** unify prove commands */
+	PROVE_UNIFY,
+
 	/** APPS-31 */
 	SPECIAL_POINTS_IN_CONTEXT_MENU,
 

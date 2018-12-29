@@ -491,6 +491,24 @@ public abstract class Prover {
 	 *            the condition itself
 	 */
 	public void addNDGcondition(NDGCondition ndgc) {
+		// Add only a new condition, not an existing one:
+		for (NDGCondition n : ndgConditions) {
+			if (n.condition.equals(ndgc.condition)) {
+				if (n.geos.length == ndgc.geos.length) {
+					int i = 0;
+					boolean possibleMatch = true;
+					while (i < n.geos.length && possibleMatch) {
+						if (!n.geos[i].equals(ndgc.geos[i])) {
+							possibleMatch = false;
+						}
+						i++;
+					}
+					if (possibleMatch) {
+						return;
+					}
+				}
+			}
+		}
 		ndgConditions.add(ndgc);
 	}
 

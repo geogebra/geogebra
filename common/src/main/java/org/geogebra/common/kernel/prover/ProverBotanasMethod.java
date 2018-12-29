@@ -1321,7 +1321,8 @@ public class ProverBotanasMethod {
 			 * Only for the Prove command makes sense to set up extra NDG
 			 * conditions
 			 */
-			if (prover.getProverEngine() != ProverEngine.RECIOS_PROVER
+			if (!statement.getKernel().getApplication().has(Feature.PROVE_UNIFY)
+					&& prover.getProverEngine() != ProverEngine.RECIOS_PROVER
 					&& proverSettings.freePointsNeverCollinear != null
 					&& proverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
@@ -1350,6 +1351,7 @@ public class ProverBotanasMethod {
 
 		GeoElement statement = prover.getStatement();
 		ProverSettings proverSettings = ProverSettings.get();
+		Kernel k = statement.getKernel();
 		/*
 		 * Decide quickly if proving this kind of statement is already
 		 * implemented at all:
@@ -1409,7 +1411,7 @@ public class ProverBotanasMethod {
 			Log.debug("substitutions: " + substitutions);
 		}
 
-		if (prover.isReturnExtraNDGs()) {
+		if (prover.isReturnExtraNDGs() || k.getApplication().has(Feature.PROVE_UNIFY)) {
 			/* START OF PROVEDETAILS. */
 			Set<Set<PPolynomial>> eliminationIdeal;
 			NDGDetector ndgd = new NDGDetector(prover, substitutions,
@@ -1436,7 +1438,6 @@ public class ProverBotanasMethod {
 			}
 			while (!found && permutation < MAX_PERMUTATIONS) {
 
-				Kernel k = statement.getKernel();
 				eliminationIdeal = PPolynomial.eliminate(
 						as.getPolynomials()
 								.toArray(new PPolynomial[as.getPolynomials()
@@ -1450,9 +1451,9 @@ public class ProverBotanasMethod {
 				Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
 
 				List<HashSet<GeoPoint>> xEqualSet = new ArrayList<>();
-				xEqualSet.add(new HashSet<GeoPoint>());
+				// xEqualSet.add(new HashSet<GeoPoint>());
 				List<HashSet<GeoPoint>> yEqualSet = new ArrayList<>();
-				yEqualSet.add(new HashSet<GeoPoint>());
+				// yEqualSet.add(new HashSet<GeoPoint>());
 				boolean xyRewrite = (eliminationIdeal.size() == 2);
 
 				List<NDGCondition> bestNdgSet = new ArrayList<>();
