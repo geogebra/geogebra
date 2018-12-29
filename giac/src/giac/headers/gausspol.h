@@ -616,7 +616,7 @@ namespace giac {
       if (coeff_apart){
 	convert_from<T,U>(it,itend,deg,jt,1); // convert first coefficients
 	if (debug_infolevel>5)
-	  CERR << CLOCK()*1e-6 << " end coefficients conversion" << endl;
+	  CERR << CLOCK()*1e-6 << " end coefficients conversion" << std::endl;
       }
       for (int i=0;i<nthreads;i++){
 	convert_t<T,U> tmp={it+i*(taille/nthreads),it+(i+1)*taille/nthreads,&deg,jt+i*(taille/nthreads),coeff_apart?2:0};
