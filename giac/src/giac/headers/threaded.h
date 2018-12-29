@@ -488,6 +488,116 @@ namespace giac {
     unsigned int _capacity;
   };
 
+#if 0
+  template<class T>
+  class vector_size32 {
+  public:
+    struct {
+      unsigned int taille;
+      T v0;
+      T v1;
+      T v2;
+      T v3;
+      T v4;
+      T v5;
+      T v6;
+    };
+    vector_size32(){ taille=1;}
+    vector_size32(size_t t){ 
+      if (t>7){
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	mytabptr->tab = new T[t];
+	mytabptr->_size = mytabptr->_capacity = t;
+	int * ptr=(int *)mytabptr->tab;
+	for (size_t i=0;i<t;++ptr,++i)
+	  *ptr=0;
+      }
+      else { 
+	taille=2*t+1; 
+	* (int *) &v0=0; * (longlong *) &v1=0;
+	* (longlong *) &v3=0;
+	* (longlong *) &v5=0;
+      }
+    }
+    vector_size32(size_t t,const T & elem){ 
+      if (t>7){ 
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	mytabptr->tab = new T[t];
+	mytabptr->_size = mytabptr->_capacity = t;
+	T * ptr=mytabptr->tab;
+	for (size_t i=0;i<t;++ptr,++i)
+	  *ptr=elem;
+      }
+      else { 
+	taille=2*t+1; 
+	v6=v5=v4=v3=v2=v1=v0=elem;
+      }
+    }
+    ~vector_size32(){
+      if (taille%2==0){
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	delete [] mytabptr->tab;
+      }
+    }
+    void push_back(T t){
+      if (taille %2){
+	if (taille==2*7+1){
+	  T * ptr = new T[16];
+	  *ptr=v0; ++ptr;
+	  *ptr=v1; ++ptr;
+	  *ptr=v2; ++ptr;
+	  *ptr=v3; ++ptr;
+	  *ptr=v4; ++ptr;
+	  *ptr=v5; ++ptr;
+	  *ptr=v6; ++ptr;
+	  *ptr=t;
+	  mytab<T> * mytabptr = (mytab<T> *) this;
+	  mytabptr->tab = ptr-7;
+	  mytabptr->_size = 8;
+	  mytabptr->_capacity = 16;
+	  return;
+	}
+	*(&v0+taille/2)=t;
+	taille += 2;
+      }
+      else {
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	if (mytabptr->_size>=mytabptr->_capacity){
+	  mytabptr->_capacity *=2;
+	  T * ptr = new T[mytabptr->_capacity];
+	  memcpy(ptr,mytabptr->tab,mytabptr->_size*sizeof(T));
+	  delete [] mytabptr->tab;
+	  mytabptr->tab=ptr;
+	}
+	mytabptr->tab[mytabptr->_size]=t;
+	++mytabptr->_size;
+      }
+    }
+    void pop_back(){
+      if (taille%2)
+	taille -=2;
+      else {
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	--mytabptr->_size;
+      }
+    }
+    void clear(){
+      if (taille%2)
+	taille=1;
+      else {
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	mytabptr->_size=0;
+      }
+    }
+    T operator [] (size_t pos) const {
+      if (taille%2)
+	return *(&v0+pos);
+      else {
+	mytab<T> * mytabptr = (mytab<T> *) this;
+	return mytabptr->tab[pos];
+      }
+    }
+#else
   template<class T>
   class vector_size32 {
   public:
@@ -540,12 +650,8 @@ namespace giac {
 	  mytabptr->_capacity = 6;
 	  return;
 	}
+	*(&v0+taille/2)=t;
 	taille += 2;
-	if (taille==7)
-	  v2=t;
-	else { 
-	  if (taille==5) v1=t; else v0=t; 
-	}
       }
       else {
 	mytab<T> * mytabptr = (mytab<T> *) this;
@@ -578,12 +684,13 @@ namespace giac {
     }
     T operator [] (size_t pos) const {
       if (taille%2)
-	return pos?((pos==2)?v2:v1):v0;
+	return *(&v0+pos); // pos?((pos==2)?v2:v1):v0;
       else {
 	mytab<T> * mytabptr = (mytab<T> *) this;
 	return mytabptr->tab[pos];
       }
     }
+#endif
     typename std::vector<T>::const_iterator begin() const {
       if (taille %2)
 	return typename std::vector<T>::const_iterator(&v0);
@@ -1979,7 +2086,7 @@ namespace giac {
     // if array multiplication is faster, set prod
     bool use_heap = (heap_mult<0) || (heap_mult>0 && v1v2>heap_mult);
     if (!prod && use_heap 
-	//&& nthreads<2
+	&& nthreads<2 // ???
 	) // multi-thread heap disabled because of locks by inserting in chains 
       return false;  
     if (debug_infolevel>20){
@@ -2123,7 +2230,7 @@ namespace giac {
 		arg[i].v1ptrs=&v1it;
 		arg[i].v2ptrs=&v2it;
 		arg[i].vptr = new std::vector< T_unsigned<T,U> >;
-		arg[i].vptr->reserve(arg[k].vptr->size());
+		arg[i].vptr->reserve(arg[k].vptr->size()); // ???
 		arg[i].degdiv=degdiv;
 		arg[i].current_deg=i;
 		arg[i].reduce=reduce;

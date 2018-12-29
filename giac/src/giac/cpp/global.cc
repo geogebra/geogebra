@@ -1768,10 +1768,15 @@ extern "C" void Sleep(unsigned int miliSecond);
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
 #endif
   unsigned max_pairs_by_iteration=32768; 
-  unsigned simult_primes=16; 
   // gbasis max number of pairs by F4 iteration
   // setting to 2000 accelerates cyclic9mod but cyclic9 would be slower
   // 32768 is enough for cyclic10mod without truncation and not too large for yang1
+  unsigned simult_primes=16; 
+  // gbasis modular algorithm on Q: simultaneous primes (more primes means more parallel threads but also more memory required)
+  double gbasis_reinject_ratio=0.2;
+  // gbasis modular algo on Q: if new basis element exceed this ratio, new elements are reinjected in the ideal generators for the remaining computations
+  double gbasis_reinject_speed_ratio=1/6.;
+  // gbasis modular algo on Q: new basis elements are reinjected if the 2nd run with learning CPU speed / 1st run without learning CPU speed is >=
   unsigned short int GIAC_PADIC=50;
   const char cas_suffixe[]=".cas";
 #if defined RTOS_THREADX || defined BESTA_OS

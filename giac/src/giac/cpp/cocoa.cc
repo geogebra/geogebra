@@ -13691,7 +13691,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
     int pend=p.val,p0;
     int recon_n2,recon_n1,recon_n0; // reconstr. gbasis element number history
-    double augmentgbasis=0.2,prevreconpart=0,time1strun=-1.0,time2ndrun=-1.0; current_orig=res; current_gbasis=res;
+    double augmentgbasis=gbasis_reinject_ratio,prevreconpart=0,time1strun=-1.0,time2ndrun=-1.0; current_orig=res; current_gbasis=res;
     // if the ratio of reconstructed is more than augmentgbasis,
     // we clear info and add reconstruction to the gbasis
     for (int count=0;ok;++count){
@@ -13801,7 +13801,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  time2ndrun=(t_1-t_0)/(th+1); // we are computing th+1 primes
 	  if (debug_infolevel)
 	    CERR << "2nd run " << time2ndrun << " 1st run " << time1strun << endl;
-	  if (time2ndrun<time1strun/6 || time2ndrun<0.5){
+	  if (time2ndrun<time1strun*gbasis_reinject_speed_ratio || time2ndrun<0.5){
 	    // learning is fast enough
 	    if (augmentgbasis>0)
 	      augmentgbasis=2;

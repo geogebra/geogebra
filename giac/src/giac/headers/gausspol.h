@@ -592,6 +592,8 @@ namespace giac {
 
   extern int threads;
 
+  // conversion in parallel will not be much faster if T!=gen because
+  // we must allocate memory for each gen
   template<class T,class U>
   void convert_from(const std::vector< T_unsigned<T,U> > & v,const index_t & deg,polynome & p,bool threaded=false){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();

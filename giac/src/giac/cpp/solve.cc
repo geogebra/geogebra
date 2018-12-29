@@ -7003,6 +7003,30 @@ namespace giac {
   static define_unary_function_eval2 (__gbasis_simult_primes,&_gbasis_simult_primes,_gbasis_simult_primes_s,&printasDigits);
   define_unary_function_ptr5( at_gbasis_simult_primes ,alias_at_gbasis_simult_primes ,&__gbasis_simult_primes,0,true);
 
+  gen _gbasis_reinject(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    gen args(evalf_double(g,1,contextptr));
+    double old=gbasis_reinject_ratio,oldtime=gbasis_reinject_speed_ratio;
+    if (g.type==_DOUBLE_){
+      gbasis_reinject_ratio=g._DOUBLE_val<=0?0:g._DOUBLE_val;
+      return old;
+    }
+    if (g.type==_VECT && g._VECTptr->size()==2){
+      gen a=g._VECTptr->front(),b=g._VECTptr->back();
+      if (a.type==_DOUBLE_ && b.type==_DOUBLE_){
+	gbasis_reinject_ratio=a._DOUBLE_val<=0?0:a._DOUBLE_val;
+	gbasis_reinject_speed_ratio=b._DOUBLE_val<=0?0:b._DOUBLE_val;
+	return makevecteur(old,oldtime);
+      }
+    }
+    if (g.type==_VECT && g._VECTptr->empty())
+      return makevecteur(old,oldtime);
+    return gensizeerr(contextptr);
+  }
+  static const char _gbasis_reinject_s []="gbasis_reinject";
+  static define_unary_function_eval2 (__gbasis_reinject,&_gbasis_reinject,_gbasis_reinject_s,&printasDigits);
+  define_unary_function_ptr5( at_gbasis_reinject ,alias_at_gbasis_reinject ,&__gbasis_reinject,0,true);
+
   static gen in_greduce(const gen & eq,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT,vector<polynome> * quo=0){
     if (eq.type!=_POLY)
       return r2e(eq,l,contextptr);

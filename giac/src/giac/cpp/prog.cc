@@ -6216,7 +6216,7 @@ namespace giac {
     if (g.type==_DOUBLE_)
       args=int(g._DOUBLE_val);    
     if (args.type!=_INT_)
-      return all_trig_sol(contextptr);
+      return increasing_power(contextptr);
     increasing_power((args.val)!=0,contextptr);
     parent_cas_setup(contextptr);
     return args;
