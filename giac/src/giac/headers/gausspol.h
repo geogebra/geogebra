@@ -595,7 +595,7 @@ namespace giac {
   // conversion in parallel will not be much faster if T!=gen because
   // we must allocate memory for each gen
   template<class T,class U>
-  void convert_from(const std::vector< T_unsigned<T,U> > & v,const index_t & deg,polynome & p,bool threaded=false){
+  void convert_from(const std::vector< T_unsigned<T,U> > & v,const index_t & deg,polynome & p,bool threaded=false,bool coeff_apart=false){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
     p.dim=int(deg.size());
     // p.coord.clear(); p.coord.reserve(itend-it);
@@ -613,8 +613,13 @@ namespace giac {
 	){
       pthread_t tab[nthreads];
       std::vector< convert_t<T,U> > arg(nthreads);
+      if (coeff_apart){
+	convert_from<T,U>(it,itend,deg,jt,1); // convert first coefficients
+	if (debug_infolevel>5)
+	  CERR << CLOCK()*1e-6 << " end coefficients conversion" << endl;
+      }
       for (int i=0;i<nthreads;i++){
-	convert_t<T,U> tmp={it+i*(taille/nthreads),it+(i+1)*taille/nthreads,&deg,jt+i*(taille/nthreads),0};
+	convert_t<T,U> tmp={it+i*(taille/nthreads),it+(i+1)*taille/nthreads,&deg,jt+i*(taille/nthreads),coeff_apart?2:0};
 	if (i==nthreads-1){
 	  tmp.itend=itend;
 	  convert_from<T,U>(tmp.it,tmp.itend,deg,tmp.jt,tmp.mode);

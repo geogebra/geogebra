@@ -1180,13 +1180,7 @@ namespace giac {
 	      res_size=double(minc1c2)*maxp1p2/std::pow(2.0,127);
 	      if (res_size<1){
 		if (debug_infolevel>5) CERR << CLOCK() << " begin result conversion int128_t unsigned" << endl;
-		if (0 && threads>1){
-		  vector< T_unsigned<gen,unsigned> > target;
-		  convert(pD,target);
-		  convert_from<gen,unsigned>(target,d,res,true);
-		}
-		else
-		  convert_from<int128_t,unsigned>(pD,d,res,false);
+		convert_from<int128_t,unsigned>(pD,d,res,true,threads>1);
 		if (debug_infolevel>5) CERR << CLOCK() << " end result conversion" << endl;
 		return;
 	      }
@@ -1439,13 +1433,7 @@ namespace giac {
 	      res_size=double(minc1c2)*maxp1p2/std::pow(2.0,127);
 	      if (res_size<1){
 		if (debug_infolevel>5) CERR << CLOCK() << " begin result conversion int 128_t ulonglong" << endl;
-		if (0 && threads>1){
-		  vector< T_unsigned<gen,ulonglong> > target;
-		  convert(pD,target);
-		  convert_from<gen,ulonglong>(target,d,res,true);
-		}
-		else
-		  convert_from<int128_t,ulonglong>(pD,d,res,false);
+		convert_from<int128_t,ulonglong>(pD,d,res,true,threads>1);
 		if (debug_infolevel>5) CERR << CLOCK() << " end result conversion" << endl;
 		return;
 	      }
