@@ -3395,7 +3395,7 @@ __GGB__keysVar["hr"].menu = {
     "takepicture": "Take Picture",
     "unequal": "nejednako",
     "units": "jedinica",
-    "vertical": "vertikalan",
+    "vertical": "Vertikalan",
     "xAxis": "xOs",
     "xOyPlane": "xOyRavnina",
     "xmax": "x max",
