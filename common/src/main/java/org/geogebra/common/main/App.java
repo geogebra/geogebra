@@ -4087,7 +4087,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** unify prove commands */
 		case PROVE_UNIFY:
-			return true;
+			return prerelease;
 
 		/** GGB-2525 */
 		case TAB_ON_EV_PLAY:
