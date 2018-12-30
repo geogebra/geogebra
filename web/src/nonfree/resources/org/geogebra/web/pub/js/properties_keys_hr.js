@@ -2065,7 +2065,7 @@ __GGB__keysVar["hr"].menu = {
     "LabelColumnName": "Naziv oznake stupca",
     "LabelStyle": "Stil oznake",
     "Labeling": "Ozna\u010davanje",
-    "Labeling.automatic": "Automatsko",
+    "Labeling.automatic": "automatsko",
     "Labeling.off": "isklju\u010deno",
     "Labeling.on": "svih novih objekata",
     "Labeling.pointsOnly": "samo novih to\u010daka",
