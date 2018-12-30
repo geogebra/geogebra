@@ -202,8 +202,8 @@ public class DrawEquationW extends DrawEquation {
 	@Override
 	public GDimension measureEquation(App app, GeoElement geo0, String text,
 			GFont font, boolean serif) {
-		return this.measureEquationJLaTeXMath(app, geo0, 0, 0, text, font,
-				serif, null, null);
+		return this.measureEquationJLaTeXMath(app, text, font, serif, null,
+				null);
 	}
 
 	@Override

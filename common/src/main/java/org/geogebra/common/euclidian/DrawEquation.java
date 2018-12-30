@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -296,12 +295,6 @@ public abstract class DrawEquation implements DrawEquationI {
 	/**
 	 * @param app
 	 *            application
-	 * @param geo
-	 *            geo
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
 	 * @param text
 	 *            text
 	 * @param font
@@ -315,7 +308,7 @@ public abstract class DrawEquation implements DrawEquationI {
 	 * @return dimensions of result
 	 */
 	final public GDimension measureEquationJLaTeXMath(final App app,
-			final GeoElement geo, final int x, final int y, final String text,
+			final String text,
 			final GFont font, final boolean serif, final Integer maxWidth,
 			final Double lineSpace) {
 
