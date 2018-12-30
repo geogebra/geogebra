@@ -260,9 +260,14 @@ public enum TargetType {
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			return (ec.selPolygons() == 1)
-					? onSuccess
-					: onFail;
+			if (ec.selPolygons() == 1) {
+				return onSuccess;
+			}
+			Hits hits = view3D.getHits();
+			if (hits.isEmpty()) {
+				return onSuccess;
+			}
+			return hits.getPolyCount() > 0 ? onFail : onSuccess;
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
 		case EuclidianConstants.MODE_CUBE:
@@ -270,7 +275,7 @@ public enum TargetType {
 			if (ec.selCS2D() == 1 || ec.selPoints() != 0) {
 				return onSuccess;
 			}
-			Hits hits = view3D.getHits();
+			hits = view3D.getHits();
 			if (hits.isEmpty()) {
 				return onSuccess;
 			}
