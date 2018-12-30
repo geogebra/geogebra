@@ -1000,10 +1000,16 @@ namespace giac {
 	    vecteur Q=makevecteur(alpha4,0,6*alpha3*gamma-2*alpha2*beta2,0,9*alpha2*gamma2-6*alpha*beta2*gamma+beta4,0,27*alpha2*delta2-18*alpha*beta*delta*gamma+4*alpha*gamma3+4*beta3*delta-beta2*gamma2);
 	    gen tmp=lgcd(Q);
 	    divvecteur(Q,tmp,Q);
-	    gen q=r2sym(Q,lv,contextptr);
+	    gen q=r2sym(Q,lv,contextptr),q0;
+	    if (q.type==_VECT && !q._VECTptr->empty()){
+	      q0=q._VECTptr->front();
+	      if (!is_one(q0) && is_one(q0*q0*q0*q0)){
+		q=q/q0;
+		q0=1;
+	      }
+	    }
 	    if (q.type==_VECT && !q._VECTptr->empty() && !is_one(q._VECTptr->front())){
 	      // make change of variable so that Q becomes monic and solve again
-	      gen q0=q._VECTptr->front();
 	      gen e1=subst(e,x,x/q0,false,contextptr);
 	      vecteur newv;
 	      int is=isolate_mode;
