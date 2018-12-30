@@ -196,7 +196,8 @@ public class EuclidianController3DCompanion
 			// TODO
 		default:
 		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-			if (!ec.getView().isGridOrAxesShown()) {
+			EuclidianView3D view = (EuclidianView3D) ec.getView();
+			if (!view.isGridOrAxesShown() && !view.getShowPlane()) {
 				break;
 			}
 		case EuclidianStyleConstants.POINT_CAPTURING_ON:
