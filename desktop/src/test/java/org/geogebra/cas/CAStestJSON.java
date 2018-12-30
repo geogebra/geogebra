@@ -1366,4 +1366,9 @@ public class CAStestJSON {
 	public void testJordan() {
 		testCat("JordanDiagonalization.1");
 	}
+
+	@Test
+	public void testRandomUniform() {
+		testCat("RandomUniform.2");
+	}
 }
