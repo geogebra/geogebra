@@ -179,7 +179,7 @@ public enum TargetType {
 		return NOT_USED;
 	}
 
-	static private boolean isModeForCreatingPoint(int mode) {
+	static public boolean isModeForCreatingPoint(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_POINT:
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:

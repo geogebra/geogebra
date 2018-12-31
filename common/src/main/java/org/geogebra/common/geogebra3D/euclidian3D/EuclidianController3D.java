@@ -177,6 +177,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private GeoPointND singleIntersectionPoint;
 
+    private boolean isModeForCreatingPoint;
+
 	/**
 	 * Store infos for intersection curve
 	 */
@@ -3785,7 +3787,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (!temporaryMode) {
 			initPointMoveMode();
 		}
+
+        isModeForCreatingPoint = TargetType.isModeForCreatingPoint(mode);
 	}
+
+	public boolean isCurrentModeForCreatingPoint() {
+	    return isModeForCreatingPoint;
+    }
 
 	@Override
 	protected void setDragCursorIfMoveView() {

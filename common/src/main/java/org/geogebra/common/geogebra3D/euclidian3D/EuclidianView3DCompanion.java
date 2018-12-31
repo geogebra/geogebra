@@ -378,4 +378,13 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		return false;
 	}
 
+    @Override
+    public boolean hasMouse() {
+        if (view3D.isAREnabled() && ((EuclidianController3D) view3D.getEuclidianController())
+                .isCurrentModeForCreatingPoint()) {
+            return true;
+        }
+        return super.hasMouse();
+    }
+
 }
