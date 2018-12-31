@@ -179,21 +179,6 @@ public enum TargetType {
 		return NOT_USED;
 	}
 
-	/**
-	 * 
-	 * @param mode
-	 *            mode
-	 * @return if mode can move point
-	 */
-	static boolean isModeForMovingPoint(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-			return true;
-		default:
-			return false;
-		}
-	}
-
 	static private boolean isModeForCreatingPoint(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_POINT:
