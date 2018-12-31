@@ -6752,22 +6752,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected abstract void resetToolTipManager();
 
-	/**
-	 * Process mouse exit event.
-	 * 
-	 * @param event
-	 *            mouse exit event
-	 */
-	public void wrapMouseExited(AbstractEvent event) {
-		wrapMouseExited(event, true);
-	}
-
     /**
      * Process mouse exit event.
      *
      * @param event mouse exit event
      */
-    public void wrapMouseExited(AbstractEvent event, boolean setMouseLocToNull) {
+    public void wrapMouseExited(AbstractEvent event) {
         if (isTextfieldHasFocus()) {
             return;
         }
@@ -6778,9 +6768,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
         resetToolTipManager();
         view.setAnimationButtonsHighlighted(false);
         view.setShowMouseCoords(false);
-        if (setMouseLocToNull) {
-            mouseLoc = null;
-        }
+        mouseLoc = null;
         kernel.notifyRepaint();
         view.mouseExited();
     }
