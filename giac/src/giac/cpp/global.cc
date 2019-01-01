@@ -6372,6 +6372,24 @@ unsigned int ConvertUTF8toUTF16 (
 	  if (cur[p]=='"' && cur[p-1]!='\\')
 	    instr=true;	  
 	}
+	if (p==0){
+	  // = or return expr if cond else alt_expr => ifte(cond,expr,alt_expr)
+	  int cs=int(cur.size());
+	  int elsepos=cur.find("else");
+	  if (elsepos>0 && elsepos<cs){
+	    int ifpos=cur.find("if");
+	    if (ifpos>0 && ifpos<elsepos){
+	      int retpos=cur.find("return"),endretpos=retpos+6;
+	      if (retpos<0 || retpos>=cs){
+		retpos=cur.find("=");
+		endretpos=retpos+1;
+	      }
+	      if (retpos>=0 && retpos<ifpos){
+		cur=cur.substr(0,endretpos)+" ifte("+cur.substr(ifpos+2,elsepos-ifpos-2)+","+cur.substr(endretpos,ifpos-endretpos)+","+cur.substr(elsepos+4,cs-elsepos-4)+")";
+	      }
+	    }
+	  }
+	}
 	if (p>0){
 	  int cs=int(cur.size()),q=4;
 	  int progpos=cur.find("elif");;

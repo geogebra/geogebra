@@ -2968,7 +2968,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_pointplus,2); return T_PLUS;
 case 200:
 YY_RULE_SETUP
 #line 509 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen((python_compat(yyextra)?at_bitor:at_plus),2); return T_PLUS;
+index_status(yyextra)=0; if (python_compat(yyextra)) { (*yylval)=gen(at_bitand,2); return T_AND_OP; } else { *yylval=gen(at_plus,2); return T_PLUS; }
 	YY_BREAK
 case 201:
 YY_RULE_SETUP

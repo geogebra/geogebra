@@ -506,7 +506,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "--"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 "-="                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
 ".+"                    index_status(yyextra)=0; (*yylval)=gen(at_pointplus,2); return T_PLUS;
-"&"                     index_status(yyextra)=0; (*yylval)=gen((python_compat(yyextra)?at_bitor:at_plus),2); return T_PLUS;
+"&"                     index_status(yyextra)=0; if (python_compat(yyextra)) { (*yylval)=gen(at_bitand,2); return T_AND_OP; } else { *yylval=gen(at_plus,2); return T_PLUS; }
 "~"                     index_status(yyextra)=0; (*yylval)=gen(at_bitnot,1); return T_NOT;
 "√"                     index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
 "∡"                     index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;

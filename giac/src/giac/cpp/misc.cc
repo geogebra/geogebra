@@ -9007,7 +9007,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__draw_arc,&_draw_arc,_draw_arc_s);
   define_unary_function_ptr5( at_draw_arc ,alias_at_draw_arc,&__draw_arc,0,true);
 
-  gen draw_line_or_rectangle(const gen & a_,GIAC_CONTEXT,bool rect){
+  gen draw_line_or_rectangle(const gen & a_,GIAC_CONTEXT,int rect){
     gen a(a_);
     if (a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type!=_VECT || a._VECTptr->size()<2)
@@ -9030,7 +9030,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (x0.type==_INT_ &&  y0.type==_INT_ && x1.type==_INT_ && y1.type==_INT_){
 	if (rect){
 	  int attr=vs==4?0:remove_at_display(v[4]).val;
-	  if (attr & 0x40000000)
+	  if (rect==2 || (attr & 0x40000000))
 	    draw_rectangle(x0.val,y0.val,x1.val,y1.val,attr & 0xffff,contextptr);
 	  else {
 	    draw_line(x0.val,y0.val,x0.val+x1.val,y0.val,attr & 0xffff,contextptr);
@@ -9049,18 +9049,25 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     //return _of(makesequence(PIXEL,a_),contextptr);
   }
   gen _draw_line(const gen & a_,GIAC_CONTEXT){
-    return draw_line_or_rectangle(a_,contextptr,false);
+    return draw_line_or_rectangle(a_,contextptr,0);
   }
   static const char _draw_line_s []="draw_line";
   static define_unary_function_eval (__draw_line,&_draw_line,_draw_line_s);
   define_unary_function_ptr5( at_draw_line ,alias_at_draw_line,&__draw_line,0,true);
 
   gen _draw_rectangle(const gen & a_,GIAC_CONTEXT){
-    return draw_line_or_rectangle(a_,contextptr,true);
+    return draw_line_or_rectangle(a_,contextptr,1);
   }
   static const char _draw_rectangle_s []="draw_rectangle";
   static define_unary_function_eval (__draw_rectangle,&_draw_rectangle,_draw_rectangle_s);
   define_unary_function_ptr5( at_draw_rectangle ,alias_at_draw_rectangle,&__draw_rectangle,0,true);
+
+  gen _fill_rect(const gen & a_,GIAC_CONTEXT){
+    return draw_line_or_rectangle(a_,contextptr,2);
+  }
+  static const char _fill_rect_s []="fill_rect";
+  static define_unary_function_eval (__fill_rect,&_fill_rect,_fill_rect_s);
+  define_unary_function_ptr5( at_fill_rect ,alias_at_fill_rect,&__fill_rect,0,true);
 
   gen _draw_string(const gen & a_,GIAC_CONTEXT){
 #ifdef GIAC_HAS_STO_38

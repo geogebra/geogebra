@@ -326,6 +326,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	}
 	| exp T_PRIME	{$$ = symbolic(at_derive,$1);}
 	| exp T_FACTORIAL { $$=symbolic(*$2._FUNCptr,$1); }
+	/* | exp T_IF exp T_ELSE exp %prec T_RETURN {$$=symb_ifte(equaltosame($3),$1,$5);} */
 	| T_IF exp T_THEN bloc T_ELSE bloc {$$ = symbolic(*$1._FUNCptr,makevecteur(equaltosame($2),symb_bloc($4),symb_bloc($6)));} 
  	| T_IF exp T_THEN bloc {$$ = symbolic(*$1._FUNCptr,makevecteur(equaltosame($2),$4,0));} 
 	| T_IF exp T_THEN prg_suite elif {
@@ -350,6 +351,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_BLOC {$$ = at_bloc;}
 	/* | T_RETURN T_BEGIN_PAR exp T_END_PAR	{$$ = symb_return($3);} */
 	| T_RETURN exp  { $$=symbolic(*$1._FUNCptr,$2); } 
+	/* | T_RETURN exp T_IF exp T_ELSE exp { $$=symbolic(*$1._FUNCptr,symb_ifte(equaltosame($4),$2,$6)); }  */
 	| T_RETURN {$$ = gen(*$1._FUNCptr,0);} 
 	| T_QUOTE T_RETURN T_QUOTE { $$=$2;}
 	/* | T_RETURN T_SEMI {$$ = gen(*$1._FUNCptr,0);}  */
