@@ -534,6 +534,8 @@ namespace giac {
     n=utf8(w,s.c_str(),n);
     for (int j=0;j<n;j++){
       switch(w[j]){
+      case 8745: if (!mathmode) texs+="$"; texs+="\\cap"; texs+=mathmode?' ':'$'; res++; break; // '∩'      
+      case 8746: if (!mathmode) texs+="$"; texs+="\\cup"; texs+=mathmode?' ':'$'; res++; break; // '∪'      
       case 8599: if (!mathmode) texs+="$"; texs+="\\nearrow"; texs+=mathmode?' ':'$'; res++; break;       
       case 8600: if (!mathmode) texs+="$"; texs+="\\searrow"; texs+=mathmode?' ':'$'; res++; break;
       case 8595: if (!mathmode) texs+="$"; texs+="\\downarrow"; texs+=mathmode?' ':'$'; res++; break;
