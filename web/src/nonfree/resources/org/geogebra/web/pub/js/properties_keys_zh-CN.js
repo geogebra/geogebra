@@ -679,7 +679,7 @@ __GGB__keysVar["zh-CN"].command = {
     "PointIn": "\u5185\u70b9",
     "PointIn.Syntax": "[ <\u533a\u57df> ]",
     "PointList": "\u70b9\u5217",
-    "PointList.Syntax": "[ <\u6709\u5e8f\u6570\u5bf9\u5217\u8868\u7684\u5217\u8868> ]",
+    "PointList.Syntax": "[ <\u6709\u5e8f\u6570\u7ec4\u5217\u8868\u7684\u5217\u8868> ]",
     "Poisson": "\u6cca\u677e\u5206\u5e03",
     "Poisson.Syntax": "[ <\u5e73\u5747\u6570> ]\n[ <\u5e73\u5747\u6570>, <\u662f\u5426\u7d2f\u79ef? true|false> ]\n[ <\u5e73\u5747\u6570>, <\u53d8\u91cf\u503c>, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
     "Poisson.SyntaxCAS": "[ <\u5e73\u5747\u6570>, <\u53d8\u91cf\u503c>, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
