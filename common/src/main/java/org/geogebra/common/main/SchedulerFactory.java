@@ -6,6 +6,8 @@ package org.geogebra.common.main;
  */
 abstract public class SchedulerFactory {
 
+	private static volatile SchedulerFactory prototype;
+
 	/**
 	 * scheduler interface
 	 *
@@ -26,8 +28,6 @@ abstract public class SchedulerFactory {
 		 */
         void cancel();
     }
-
-    private static volatile SchedulerFactory prototype;
 
     /**
      * @param factory prototype
