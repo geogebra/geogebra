@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+dependencies {
+    compile 'com.google.gwt:gwt-dev:2.8.2',
+    'com.google.gwt:gwt-user:2.8.2'
+}
+
+task prepareJs(type:Copy, dependsOn: project.getParent().createGiacJs) {
+    from "${project.getParent().buildDir}/binaries/giacggb.js"
+    into file("src/main/resources/fr/grenoble/ujf/giac")
+}
+
+task sourcesJar(type: Jar, dependsOn: ["classes", "prepareJs"]) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+jar.dependsOn prepareJs
+
