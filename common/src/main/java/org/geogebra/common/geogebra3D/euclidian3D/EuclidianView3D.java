@@ -1972,13 +1972,16 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setHits(GPoint p, PointerEventType type) {
-		renderer.setHits(p, getCapturingThreshold(type));
-		if (type == PointerEventType.TOUCH
-				&& hitsEmptyOrOnlyContainsXOYPlane()
-                && !(isAREnabled() && ((EuclidianController3D) euclidianController)
-                .isCurrentModeForCreatingPoint())) {
-			renderer.setHits(p, getCapturingThreshold(type) * 3);
-		}
+	    if (isAREnabled() && ((EuclidianController3D) euclidianController)
+                .isCurrentModeForCreatingPoint()) {
+            renderer.setHits(p, getCapturingThreshold(PointerEventType.MOUSE));
+        } else {
+            renderer.setHits(p, getCapturingThreshold(type));
+            if (type == PointerEventType.TOUCH
+                    && hitsEmptyOrOnlyContainsXOYPlane()) {
+                renderer.setHits(p, getCapturingThreshold(type) * 3);
+            }
+        }
 
 		hasMouse = true;
 		updateCursor3D();
