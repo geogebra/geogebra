@@ -3265,7 +3265,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * Handle mouse entered event.
 	 */
-	public final void wrapMouseEntered() {
+	public void wrapMouseEntered() {
 		if (isTextfieldHasFocus()) {
 			return;
 		}

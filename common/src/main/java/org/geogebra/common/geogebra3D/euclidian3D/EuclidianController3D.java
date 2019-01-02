@@ -4275,7 +4275,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
 
-
     protected ScheduledMouseExit createScheduledMouseExit(AbstractEvent event) {
         return new ScheduledMouseExit(event);
     }
@@ -4307,6 +4306,12 @@ public abstract class EuclidianController3D extends EuclidianController {
         if (mScheduledMouseExit != null) {
             mScheduledMouseExit.cancel();
         }
+    }
+
+    @Override
+    public void wrapMouseEntered() {
+	    cancelMouseExit();
+	    super.wrapMouseEntered();
     }
 
 }
