@@ -10,7 +10,7 @@ abstract public class SchedulerFactory {
 	 * scheduler interface
 	 *
 	 */
-    public interface Scheduler {
+	static public interface Scheduler {
 		/**
 		 * schedule a runnable to run after a delay
 		 * 
