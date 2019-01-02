@@ -2,6 +2,10 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -179,6 +183,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 
     private boolean isModeForCreatingPoint;
 
+    static private final ScheduledExecutorService mScheduler = Executors
+            .newScheduledThreadPool(1);
+    private ScheduledFuture<?> mHandler;
+    private ScheduledMouseExit mScheduledMouseExit;
+
 	/**
 	 * Store infos for intersection curve
 	 */
@@ -206,6 +215,34 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 	}
+
+
+    public class ScheduledMouseExit implements Runnable {
+
+        private final AbstractEvent mEvent;
+        private volatile boolean mCancelled;
+
+        protected ScheduledMouseExit(AbstractEvent e) {
+            mEvent = e;
+            mCancelled = false;
+        }
+
+        @Override
+        final public void run() {
+            runMouseExit();
+            getView().repaint();
+        }
+
+        final public void cancel() {
+            mCancelled = true;
+        }
+
+        protected void runMouseExit() {
+            if (!mCancelled) {
+                wrapMouseExited(mEvent);
+            }
+        }
+    }
 
 	// SELECTED GEOS
 	/* 2D coord sys (plane, polygon, ...) */
@@ -3789,6 +3826,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
         isModeForCreatingPoint = TargetType.isModeForCreatingPoint(mode);
+
+        // for some modes, simulate mouse enter / mouse exit to show 3D cursor
+        if (ms == ModeSetter.TOOLBAR && mode == EuclidianConstants.MODE_MOVE) {
+            view3D.mouseEntered();
+            scheduleMouseExit();
+        }
 	}
 
 	public boolean isCurrentModeForCreatingPoint() {
@@ -4235,4 +4278,33 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// no snap for 3D view
 		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
+
+
+    protected ScheduledMouseExit createScheduledMouseExit(AbstractEvent event) {
+        return new ScheduledMouseExit(event);
+    }
+
+    public void scheduleMouseExit() {
+        scheduleMouseExit(null);
+    }
+
+    public void scheduleMouseExit(AbstractEvent event) {
+        cancelMouseExit();
+        if (!view3D.isAREnabled() || !isCurrentModeForCreatingPoint()) {
+            mScheduledMouseExit = createScheduledMouseExit(event);
+            mHandler = mScheduler.schedule(mScheduledMouseExit,
+                    EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS,
+                    TimeUnit.MILLISECONDS);
+        }
+    }
+
+    public void cancelMouseExit() {
+        if (mHandler != null) {
+            mHandler.cancel(false);
+        }
+        if (mScheduledMouseExit != null) {
+            mScheduledMouseExit.cancel();
+        }
+    }
+
 }
