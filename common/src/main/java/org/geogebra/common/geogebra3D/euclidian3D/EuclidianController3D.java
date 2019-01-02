@@ -2,10 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -89,6 +85,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SchedulerFactory;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -183,9 +180,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
     private boolean isModeForCreatingPoint;
 
-    static private final ScheduledExecutorService mScheduler = Executors
-            .newScheduledThreadPool(1);
-    private ScheduledFuture<?> mHandler;
+    private SchedulerFactory.Scheduler schedulerForMouseExit;
     private ScheduledMouseExit mScheduledMouseExit;
 
 	/**
@@ -4292,16 +4287,17 @@ public abstract class EuclidianController3D extends EuclidianController {
     public void scheduleMouseExit(AbstractEvent event) {
         cancelMouseExit();
         if (!view3D.isAREnabled() || !isCurrentModeForCreatingPoint()) {
+            if (schedulerForMouseExit == null) {
+                schedulerForMouseExit = SchedulerFactory.getPrototype().createScheduler();
+            }
             mScheduledMouseExit = createScheduledMouseExit(event);
-            mHandler = mScheduler.schedule(mScheduledMouseExit,
-                    EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS,
-                    TimeUnit.MILLISECONDS);
+            schedulerForMouseExit.schedule(mScheduledMouseExit, EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS);
         }
     }
 
     public void cancelMouseExit() {
-        if (mHandler != null) {
-            mHandler.cancel(false);
+        if (schedulerForMouseExit != null) {
+            schedulerForMouseExit.cancel();
         }
         if (mScheduledMouseExit != null) {
             mScheduledMouseExit.cancel();
