@@ -4832,6 +4832,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setAREnabled(boolean isAREnabled) {
 		mIsAREnabled = isAREnabled;
+        ((EuclidianController3D) euclidianController).scheduleMouseExit();
 	}
 
 	@Override
