@@ -78,6 +78,28 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 		return minIndex;
 	}
 
+	/**
+	 * 
+	 * @param origin
+	 *            line origin
+	 * @param direction
+	 *            line direction
+	 * @return index of the intersection point which is the closest to the line
+	 */
+	int getClosestPointIndex(Coords origin, Coords direction) {
+		GeoPoint3D[] P = getIntersectionPoints();
+		double dist, mindist = Double.POSITIVE_INFINITY;
+		int minIndex = 0;
+		for (int i = 0; i < P.length; i++) {
+			dist = P[i].getInhomCoords().distLine(origin, direction);
+			if (dist < mindist) {
+				mindist = dist;
+				minIndex = i;
+			}
+		}
+		return minIndex;
+	}
+
 	@Override
 	public abstract GeoPoint3D[] getIntersectionPoints();
 

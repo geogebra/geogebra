@@ -1213,6 +1213,20 @@ public class Manager3D implements Manager3DInterface {
 		return point;
 	}
 
+	@Override
+	final public GeoPoint3D intersectLineConicSingle(String label, GeoLineND g,
+			GeoConicND c, Coords origin, Coords direction) {
+
+		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c);
+
+		int index = algo.getClosestPointIndex(origin, direction);
+
+		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
+				index);
+		GeoPoint3D point = salgo.getPoint();
+		return point;
+	}
+
 	/**
 	 * get only one intersection point of two conics choice depends on command
 	 * input
@@ -1307,6 +1321,19 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
 
 		int index = algo.getClosestPointIndex(xRW, yRW, mat);
+		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
+				index);
+		GeoPoint3D point = salgo.getPoint();
+		return point;
+	}
+
+	@Override
+	final public GeoPoint3D intersectConicsSingle(String label, GeoConicND A,
+			GeoQuadricND B, Coords origin, Coords direction) {
+
+		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
+
+		int index = algo.getClosestPointIndex(origin, direction);
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
 				index);
 		GeoPoint3D point = salgo.getPoint();
@@ -1426,6 +1453,19 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(g, q);
 
 		int index = algo.getClosestPointIndex(xRW, yRW, mat);
+		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
+				index);
+		GeoPoint3D point = salgo.getPoint();
+		return point;
+	}
+
+	@Override
+	final public GeoPoint3D intersectLineQuadricSingle(String label,
+			GeoLineND g, GeoQuadricND q, Coords origin, Coords direction) {
+
+		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(g, q);
+
+		int index = algo.getClosestPointIndex(origin, direction);
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
 				index);
 		GeoPoint3D point = salgo.getPoint();

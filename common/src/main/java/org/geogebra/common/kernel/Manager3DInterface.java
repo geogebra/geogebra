@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -605,6 +606,9 @@ public interface Manager3DInterface {
 	public GeoPointND intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, double xRW, double yRW, CoordMatrix mat);
 
+	public GeoPoint3D intersectLineConicSingle(String label, GeoLineND g,
+			GeoConicND c, Coords origin, Coords direction);
+
 	/**
 	 * get only one intersection point of two conics
 	 */
@@ -640,6 +644,9 @@ public interface Manager3DInterface {
 	public GeoPointND intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, double xRW, double yRW, CoordMatrix mat);
 
+	public GeoPoint3D intersectConicsSingle(String label, GeoConicND A,
+			GeoQuadricND B, Coords origin, Coords direction);
+
 	public GeoPointND intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, NumberValue index);
 
@@ -662,6 +669,9 @@ public interface Manager3DInterface {
 	 */
 	public GeoPointND intersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, double xRW, double yRW, CoordMatrix4x4 mat);
+
+	public GeoPoint3D intersectLineQuadricSingle(String label, GeoLineND g,
+			GeoQuadricND q, Coords origin, Coords direction);
 
 	/**
 	 * get only one intersection point of line and quadric choice depends on

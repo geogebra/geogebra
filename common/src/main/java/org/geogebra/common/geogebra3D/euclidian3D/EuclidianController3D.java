@@ -760,10 +760,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// check if a and b are two 2D geos
 		if (!a.isGeoElement3D() && !b.isGeoElement3D()) {
 			// get pick point coords in xOy plane
-			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-			view3D.getToSceneMatrix().mul(tmpCoordsForOrigin)
-					.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-							view3D.getViewDirection(), tmpCoords);
+			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+			view3D.getHittingDirection(tmpCoordsForDirection);
+			tmpCoordsForOrigin.projectPlaneThruVIfPossible(
+					CoordMatrix4x4.IDENTITY, tmpCoordsForDirection, tmpCoords);
 			setRwCoords(tmpCoords);
 
 			// apply 2D method
@@ -778,56 +778,38 @@ public abstract class EuclidianController3D extends EuclidianController {
 						.getManager3D()
 						.intersect(null, (GeoLineND) a, (GeoLineND) b);
 			} else if (b.isGeoConic()) {
-				view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-				singleIntersectionPoint = getKernel().getManager3D()
-						.intersectLineConicSingle(null, (GeoLineND) a,
-								(GeoConicND) b, tmpCoordsForOrigin.getX(),
-								tmpCoordsForOrigin.getY(),
-								view3D.getToScreenMatrix());
+				singleIntersectionPoint = getSingleIntersectionPoint(
+						(GeoLineND) a, (GeoConicND) b);
 			} else if (b instanceof GeoCoordSys2D) {
-				singleIntersectionPoint = (GeoPoint3D) getKernel()
-						.getManager3D().intersect(null, (GeoLineND) a,
-								(GeoCoordSys2D) b, false);
+				singleIntersectionPoint = getSingleIntersectionPoint(
+						(GeoLineND) a, (GeoCoordSys2D) b, false);
 			} else if (b instanceof GeoQuadric3D) {
-				view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-				singleIntersectionPoint = getKernel().getManager3D()
-						.intersectLineQuadricSingle(null, (GeoLineND) a,
-								(GeoQuadric3D) b, tmpCoordsForOrigin.getX(),
-								tmpCoordsForOrigin.getY(),
-								view3D.getToScreenMatrix());
+				singleIntersectionPoint = getSingleIntersectionPoint(
+						(GeoLineND) a, (GeoQuadric3D) b);
 			}
 		}
 
 		// plane/line, conic/line, quadric/line
 		else if (b.isGeoLine()) {
 			if (a.isGeoConic()) {
-				view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-				singleIntersectionPoint = getKernel().getManager3D()
-						.intersectLineConicSingle(null, (GeoLineND) b,
-								(GeoConicND) a, tmpCoordsForOrigin.getX(),
-								tmpCoordsForOrigin.getY(),
-								view3D.getToScreenMatrix());
+				singleIntersectionPoint = getSingleIntersectionPoint(
+						(GeoLineND) b, (GeoConicND) a);
 			} else if (a instanceof GeoCoordSys2D) {
-				singleIntersectionPoint = (GeoPoint3D) getKernel()
-						.getManager3D().intersect(null, (GeoLineND) b,
-								(GeoCoordSys2D) a, true);
+				singleIntersectionPoint = getSingleIntersectionPoint(
+						(GeoLineND) b, (GeoCoordSys2D) a, true);
 			} else if (a instanceof GeoQuadric3D) {
-				view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-				singleIntersectionPoint = getKernel().getManager3D()
-						.intersectLineQuadricSingle(null, (GeoLineND) b,
-								(GeoQuadric3D) a, tmpCoordsForOrigin.getX(),
-								tmpCoordsForOrigin.getY(),
-								view3D.getToScreenMatrix());
+				singleIntersectionPoint = getSingleIntersectionPoint(
+						(GeoLineND) b, (GeoQuadric3D) a);
 			}
 		}
 
 		// conic/conic
 		else if (a.isGeoConic() && b.isGeoConic()) {
-			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
+			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+			view3D.getHittingDirection(tmpCoordsForDirection);
 			singleIntersectionPoint = getKernel().getManager3D()
 					.intersectConicsSingle(null, (GeoConicND) a, (GeoConicND) b,
-							tmpCoordsForOrigin.getX(), tmpCoordsForOrigin.getY(),
-							view3D.getToScreenMatrix());
+							tmpCoordsForOrigin, tmpCoordsForDirection);
 
 		}
 
@@ -843,14 +825,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (singleIntersectionPoint.isGeoElement3D()) {
 				// if the resulting point is defined, but is not around the
 				// mouse, discard it. (2011/8/8 Tam)
-				view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-				Coords toScreenCoords = view3D
-						.projectOnScreen(singleIntersectionPoint
-								.getCoords().getCoordsLast1());
+				view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+				view3D.getHittingDirection(tmpCoordsForDirection);
 
-				if (Math.abs(tmpCoordsForOrigin.getX() - toScreenCoords.getX()) > 15
-						|| Math.abs(tmpCoordsForOrigin.getY()
-								- toScreenCoords.getY()) > 15) {
+				double d = singleIntersectionPoint.getCoords().getCoordsLast1()
+						.distLine(tmpCoordsForOrigin, tmpCoordsForDirection)
+						* view3D.getScale();
+
+				if (d > view3D.getRenderer().getHitting().getThreshold() * 5) {
 					return null;
 				}
 			}
@@ -864,6 +846,26 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		return null;
+	}
+
+	private GeoPointND getSingleIntersectionPoint(GeoLineND a,
+			GeoCoordSys2D b, boolean swapInputs) {
+		return (GeoPoint3D) getKernel().getManager3D().intersect(null, a, b,
+				swapInputs);
+	}
+
+	private GeoPointND getSingleIntersectionPoint(GeoLineND a, GeoQuadric3D b) {
+		view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+		view3D.getHittingDirection(tmpCoordsForDirection);
+		return getKernel().getManager3D().intersectLineQuadricSingle(null, a, b,
+				tmpCoordsForOrigin, tmpCoordsForDirection);
+	}
+
+	private GeoPointND getSingleIntersectionPoint(GeoLineND a, GeoConicND b) {
+		view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+		view3D.getHittingDirection(tmpCoordsForDirection);
+		return getKernel().getManager3D().intersectLineConicSingle(null, a, b,
+				tmpCoordsForOrigin, tmpCoordsForDirection);
 	}
 
 	// /////////////////////////////////////
