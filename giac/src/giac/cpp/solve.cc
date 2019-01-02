@@ -6168,6 +6168,21 @@ namespace giac {
 	    if (is_linear_wrt(eq[i],var[j],a,b,contextptr)){
 	      if (is_zero(derive(a,var,contextptr),contextptr) 
 		  && !is_zero(simplify(a,contextptr),contextptr)){
+		if (a!=1 && a!=-1){
+		  // maybe eq[i] is linear wrt var[jj] for jj>j with a simpler a coeff
+		  for (unsigned jj=j+1;jj<var.size();++jj){
+		    gen aa,bb;
+		    if (is_linear_wrt(eq[i],var[jj],aa,bb,contextptr) 
+			&& is_zero(derive(aa,var,contextptr),contextptr) 
+			&& !is_zero(simplify(aa,contextptr),contextptr)){
+		      if (aa.islesscomplexthan(a)){
+			j=jj;
+			a=aa;
+			b=bb;
+		      }
+		    }
+		  }
+		}
 		// eq[i]=a*var[j]+b
 		// replace var[j] by -b/a
 		gen elimj=-b/a;
