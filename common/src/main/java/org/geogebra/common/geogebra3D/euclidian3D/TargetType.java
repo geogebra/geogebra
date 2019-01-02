@@ -75,7 +75,7 @@ public enum TargetType {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
 			renderer.setMatrix(view3d.getCursorMatrix());
-			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+            view3d.drawPointAlready(view3d.getCursor3D());
 		}
 	},
 	/** target existing point with a tool that can NOT move a point */
