@@ -4129,6 +4129,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case KEY_HANDLER_EV3D:
 			return prerelease;
 
+		/** APPS-200 */
+		case EQUATION_TYPE_SETTING:
+			return prerelease;
+
        // **********************************************************************
        // G3D START
        //

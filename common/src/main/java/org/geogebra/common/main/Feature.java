@@ -357,6 +357,9 @@ public enum Feature {
 	G3D_TEST_IOS_AR,
 
 	/** G3D-160 */
-	G3D_AR_TARGET
+	G3D_AR_TARGET,
+
+	/** APPS-200 */
+	EQUATION_TYPE_SETTING
 }
 
