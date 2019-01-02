@@ -3828,7 +3828,8 @@ public abstract class EuclidianController3D extends EuclidianController {
         isModeForCreatingPoint = TargetType.isModeForCreatingPoint(mode);
 
         // for some modes, simulate mouse enter / mouse exit to show 3D cursor
-        if (ms == ModeSetter.TOOLBAR && mode == EuclidianConstants.MODE_MOVE) {
+        if (mode == EuclidianConstants.MODE_MOVE &&
+                (ms == ModeSetter.TOOLBAR || ms == ModeSetter.DOCK_PANEL)) {
             view3D.mouseEntered();
             scheduleMouseExit();
         }
