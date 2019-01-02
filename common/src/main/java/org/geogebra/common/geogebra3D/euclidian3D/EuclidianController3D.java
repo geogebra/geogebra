@@ -4288,10 +4288,15 @@ public abstract class EuclidianController3D extends EuclidianController {
         cancelMouseExit();
         if (!view3D.isAREnabled() || !isCurrentModeForCreatingPoint()) {
             if (schedulerForMouseExit == null) {
-                schedulerForMouseExit = SchedulerFactory.getPrototype().createScheduler();
+                SchedulerFactory factory = SchedulerFactory.getPrototype();
+                if (factory != null) {
+                    schedulerForMouseExit = SchedulerFactory.getPrototype().createScheduler();
+                }
             }
-            mScheduledMouseExit = createScheduledMouseExit(event);
-            schedulerForMouseExit.schedule(mScheduledMouseExit, EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS);
+            if (schedulerForMouseExit != null) {
+                mScheduledMouseExit = createScheduledMouseExit(event);
+                schedulerForMouseExit.schedule(mScheduledMouseExit, EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS);
+            }
         }
     }
 
