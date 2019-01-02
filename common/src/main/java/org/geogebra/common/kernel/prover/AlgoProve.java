@@ -140,6 +140,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 			}
 			bool.setDefined();
 			if (result == ProofResult.TRUE
+					|| result == ProofResult.TRUE_NDG_UNREADABLE
 					|| result == ProofResult.TRUE_ON_COMPONENTS) {
 				bool.setValue(true);
 			}

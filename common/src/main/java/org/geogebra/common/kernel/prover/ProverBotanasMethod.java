@@ -1321,8 +1321,7 @@ public class ProverBotanasMethod {
 			 * Only for the Prove command makes sense to set up extra NDG
 			 * conditions
 			 */
-			if (!statement.getKernel().getApplication().has(Feature.PROVE_UNIFY)
-					&& prover.getProverEngine() != ProverEngine.RECIOS_PROVER
+			if (prover.getProverEngine() != ProverEngine.RECIOS_PROVER
 					&& proverSettings.freePointsNeverCollinear != null
 					&& proverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
@@ -1375,7 +1374,9 @@ public class ProverBotanasMethod {
 		/* The NDG conditions (automatically created): */
 		if (proverSettings.freePointsNeverCollinear == null) {
 			proverSettings.freePointsNeverCollinear = !prover.getConstruction()
-					.getApplication().singularWSisAvailable();
+					.getApplication().singularWSisAvailable() &&
+					!prover.getConstruction()
+							.getApplication().has(Feature.PROVE_UNIFY);
 		}
 
 		AlgebraicStatement as = new AlgebraicStatement(statement, null, prover);
@@ -1411,7 +1412,9 @@ public class ProverBotanasMethod {
 			Log.debug("substitutions: " + substitutions);
 		}
 
-		if (prover.isReturnExtraNDGs() || k.getApplication().has(Feature.PROVE_UNIFY)) {
+		if (prover.isReturnExtraNDGs() || (k.getApplication().has(Feature.PROVE_UNIFY)
+			&& !prover.getConstruction().getApplication()
+				.singularWSisAvailable())) {
 			/* START OF PROVEDETAILS. */
 			Set<Set<PPolynomial>> eliminationIdeal;
 			NDGDetector ndgd = new NDGDetector(prover, substitutions,
