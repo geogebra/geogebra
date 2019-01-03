@@ -16,7 +16,7 @@ GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
-GGB6=geogebra-classic
+GGB6=`which geogebra-classic || echo unset`
 
 GEOGEBRADIR=../../../../
 WEBCODEBASEDIR=$GEOGEBRADIR/web/war/web3d
