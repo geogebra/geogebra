@@ -208,15 +208,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 			this.geo2 = geo2;
 			this.drawable = drawable;
 		}
-
 	}
 
-
+	/**
+	 * runnable for scheduling mouse exit
+	 */
     public class ScheduledMouseExit implements Runnable {
 
         private final AbstractEvent mEvent;
         private volatile boolean mCancelled;
 
+		/**
+		 * constructor
+		 * 
+		 * @param e
+		 *            event
+		 */
         protected ScheduledMouseExit(AbstractEvent e) {
             mEvent = e;
             mCancelled = false;
@@ -228,10 +235,16 @@ public abstract class EuclidianController3D extends EuclidianController {
             getView().repaint();
         }
 
+		/**
+		 * cancel the runnable
+		 */
         final public void cancel() {
             mCancelled = true;
         }
 
+		/**
+		 * run the mouse exit
+		 */
         protected void runMouseExit() {
             if (!mCancelled) {
                 wrapMouseExited(mEvent);
@@ -3825,8 +3838,8 @@ public abstract class EuclidianController3D extends EuclidianController {
         isModeForCreatingPoint = TargetType.isModeForCreatingPoint(mode);
 
         // for some modes, simulate mouse enter / mouse exit to show 3D cursor
-        if (mode == EuclidianConstants.MODE_MOVE &&
-                (ms == ModeSetter.TOOLBAR || ms == ModeSetter.DOCK_PANEL)) {
+		if (mode == EuclidianConstants.MODE_MOVE
+				&& (ms == ModeSetter.TOOLBAR || ms == ModeSetter.DOCK_PANEL)) {
             view3D.mouseEntered();
             scheduleMouseExit();
         }
@@ -4277,30 +4290,50 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
 
-    protected ScheduledMouseExit createScheduledMouseExit(AbstractEvent event) {
+	/**
+	 * 
+	 * @param event
+	 *            event calling
+	 * @return new mouse exit runnable
+	 */
+	protected ScheduledMouseExit createScheduledMouseExit(AbstractEvent event) {
         return new ScheduledMouseExit(event);
     }
 
+	/**
+	 * schedule mouse exit
+	 */
     public void scheduleMouseExit() {
         scheduleMouseExit(null);
     }
 
+	/**
+	 * schedule mouse exit
+	 * 
+	 * @param event
+	 *            event calling
+	 */
     public void scheduleMouseExit(AbstractEvent event) {
         cancelMouseExit();
         if (!view3D.isAREnabled() || !isCurrentModeForCreatingPoint()) {
             if (schedulerForMouseExit == null) {
                 SchedulerFactory factory = SchedulerFactory.getPrototype();
                 if (factory != null) {
-                    schedulerForMouseExit = SchedulerFactory.getPrototype().createScheduler();
+					schedulerForMouseExit = SchedulerFactory.getPrototype()
+							.createScheduler();
                 }
             }
             if (schedulerForMouseExit != null) {
                 mScheduledMouseExit = createScheduledMouseExit(event);
-                schedulerForMouseExit.schedule(mScheduledMouseExit, EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS);
+				schedulerForMouseExit.schedule(mScheduledMouseExit,
+						EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS);
             }
         }
     }
 
+	/**
+	 * cancel scheduled mouse exit (if exists)
+	 */
     public void cancelMouseExit() {
         if (schedulerForMouseExit != null) {
             schedulerForMouseExit.cancel();

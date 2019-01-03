@@ -4818,6 +4818,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		return mIsARDrawing;
 	}
 
+	/**
+	 * set AR enabled/disabled
+	 * 
+	 * @param isAREnabled
+	 *            flag
+	 */
 	public void setAREnabled(boolean isAREnabled) {
 		mIsAREnabled = isAREnabled;
         ((EuclidianController3D) euclidianController).scheduleMouseExit();

@@ -124,6 +124,9 @@ public enum TargetType {
 		}
 	};
 	
+	/**
+	 * temp matrix
+	 */
 	static CoordMatrix4x4 tmpMatrix = CoordMatrix4x4.identity();
 
 	/**
@@ -179,6 +182,12 @@ public enum TargetType {
 		return NOT_USED;
 	}
 
+	/**
+	 * 
+	 * @param mode
+	 *            mode
+	 * @return true if this mode can create a point
+	 */
 	static public boolean isModeForCreatingPoint(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_POINT:

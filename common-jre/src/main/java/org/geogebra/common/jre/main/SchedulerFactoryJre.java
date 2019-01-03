@@ -21,14 +21,16 @@ public class SchedulerFactoryJre extends SchedulerFactory {
 
         private ScheduledFuture<?> handler;
 
+		@Override
         public void schedule(Runnable runnable, int delay) {
             handler = scheduledExecutorService.schedule(runnable,
                     delay,
                     TimeUnit.MILLISECONDS);
         }
 
+		@Override
         public void cancel() {
-            if (handler!=null) {
+			if (handler != null) {
                 handler.cancel(false);
             }
         }
