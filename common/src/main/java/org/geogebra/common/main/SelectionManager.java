@@ -684,7 +684,7 @@ public class SelectionManager {
 		filterGeosForView(tree);
 
 		int selectionSize = selectedGeos.size();
-		GeoElement first = tree.first();
+		GeoElement first = tree.isEmpty() ? null : tree.first();
 
 		if (selectionSize == 0) {
 			if (first != null) {
