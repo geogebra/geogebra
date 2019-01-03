@@ -69,9 +69,9 @@ def emscriptenVer = '201704' // 1.37.22
 if (System.env['EMSCRIPTEN_VER'] != null) {
     emscriptenVer = System.env['EMSCRIPTEN_VER'];
 }
-def wasm = 0
+def wasmParam = 0
 if (System.env['WASM'] != null) {
-    wasm = System.env['WASM'];
+    wasmParam = System.env['WASM'];
     if (emscriptenVer != "201704") {
        throw new GradleException("You need to use a recent emscripten to use wasm")
     }
@@ -590,9 +590,10 @@ task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     standardInput = System.in
 }
 
-tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
-    if ((taskName.startsWith('emccCompile_')) && (taskName.endsWith('Cc'))) {
-        def basename = (taskName - 'Cc').substring('emccCompile_'.length())
+tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
+    if ((taskName.startsWith('emccCompileWasm')) && (taskName.endsWith('Cc'))) {
+        def basename = (taskName - 'Cc').substring('emccCompileWasm1'.length())
+        def wasm = taskName.contains("wasm1")
         task(taskName) {
             def input = "src/giac/cpp/${basename}.cc"
             inputs.file input
@@ -616,12 +617,12 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
                     if (emscriptenVer == '201704') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1"
                         if (wasm) {
-                           commandline += " -s WASM=1 -s NO_EXIT_RUNTIME=1"
-                           commandline += " -s BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
-                           commandline += " -s BINARYEN_TRAP_MODE='clamp'"
-                           } else {
-                           commandline += " -s BINARYEN_METHOD='asmjs'"
-                           }
+                            commandline += " -s WASM=1 -s NO_EXIT_RUNTIME=1"
+                            commandline += " -s BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
+                            commandline += " -s BINARYEN_TRAP_MODE='clamp'"
+                        } else {
+                            commandline += " -s BINARYEN_METHOD='asmjs'"
+                        }
 
                         commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
                         commandline += " -DHAVE_UNISTD_H"
@@ -643,83 +644,85 @@ task emccClean(type: Delete) {
     delete 'build/objs/giac.js', 'build/binaries/giacggb.js'
 }
 
-task emccCompile {
-    description 'Creates .o files for giac.js.'
-    def list = []
-    FileTree files = fileTree(dir: 'src/giac/cpp')
-    files.visit { f ->
-        if (f.name.endsWith('.cc')) {
-            def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
-            list << emccCompileTask
+[0,1].each({wasm ->
+    tasks.create("emccCompileWasm" + wasm) {
+        description 'Creates .o files for giac.js.'
+        def list = []
+        FileTree files = fileTree(dir: 'src/giac/cpp')
+        files.visit { f ->
+            if (f.name.endsWith('.cc')) {
+                def emccCompileTask = 'emccCompileWasm' + wasm + "_" + f.name - '.cc' + 'Cc'
+                list << emccCompileTask
+            }
         }
+        dependsOn list
     }
-    dependsOn list
-}
 
-task emccGiacJs (dependsOn: 'emccCompile') {
-    description 'Links giac.js.'
-    mustRunAfter emccCompile
-    def output = "build/binaries/giacggb.js/giacggb.js"
-    outputs.file output
-    doLast {
-    def list = []
-    def linkerArgs = []
-    def inputInclude = []
-    FileTree files = fileTree(dir: 'build/objs/giac.js')
-    files.visit { f ->
-        def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
-        inputInclude << f.name
-        inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
-        list << emccCompileTask
-        linkerArgs << "build/objs/giac.js/${f.name}"
-        }
+    tasks.create(name: "emccGiacJsWasm" + wasm, dependsOn: 'emccCompileWasm' + wasm) {
+        description 'Links giac.js.'
+        mustRunAfter emccCompile
+        def output = "build/binaries/giacggb.js/giacggb.js"
+        outputs.file output
+        doLast {
+            def list = []
+            def linkerArgs = []
+            def inputInclude = []
+            FileTree files = fileTree(dir: 'build/objs/giac.js')
+            files.visit { f ->
+                def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
+                inputInclude << f.name
+                inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
+                list << emccCompileTask
+                linkerArgs << "build/objs/giac.js/${f.name}"
+            }
 
-        file("build/binaries/giacggb.js").mkdirs()
-        exec {
-            linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
-            linkerArgs << LlvmGmpA
-            linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
-            if (emscriptenVer == '201304') {
-                linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
-            }
-            if (emscriptenVer == '201503') {
-                linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
-                linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
-            }
-            if (emscriptenVer == '201704') {
-                linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
-                if (wasm) {
-                    linkerArgs << '-s' << 'WASM=1'
-                    linkerArgs << '-s' << 'NO_EXIT_RUNTIME=1'
-                    linkerArgs << '-s' << "BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
-                    linkerArgs << '-s' << "BINARYEN_TRAP_MODE='clamp'"
+            file("build/binaries/giacggb.js").mkdirs()
+            exec {
+                linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
+                linkerArgs << LlvmGmpA
+                linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
+                if (emscriptenVer == '201304') {
+                    linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
+                }
+                if (emscriptenVer == '201503') {
+                    linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
+                    linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+                }
+                if (emscriptenVer == '201704') {
+                    linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+                    if (wasmParam) {
+                        linkerArgs << '-s' << 'WASM=1'
+                        linkerArgs << '-s' << 'NO_EXIT_RUNTIME=1'
+                        linkerArgs << '-s' << "BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
+                        linkerArgs << '-s' << "BINARYEN_TRAP_MODE='clamp'"
                     } else {
-                    linkerArgs << '-s' << "BINARYEN_METHOD='asmjs'"
+                        linkerArgs << '-s' << "BINARYEN_METHOD='asmjs'"
                     }
-                linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1' // maybe gives warnings
+                    linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1' // maybe gives warnings
+                }
+                linkerArgs << '-DGIAC_GGB'
+                linkerArgs << '-o' << output
+                // linkerArgs << "-s" << "DISABLE_EXCEPTION_CATCHING=0"
+                linkerArgs << '-Oz' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
+                linkerArgs << '--memory-init-file' << '0'
+                linkerArgs << '-s' << 'TOTAL_MEMORY=67108864' // consider increasing this if running out of memory on GB computations
+                def linkerArgsString = linkerArgs.join(" ")
+                println "Linking: ${emccCommand} ${linkerArgsString}"
+                commandLine emccCommand
+                args linkerArgs
             }
-            linkerArgs << '-DGIAC_GGB'
-            linkerArgs << '-o' << output
-            // linkerArgs << "-s" << "DISABLE_EXCEPTION_CATCHING=0"
-            linkerArgs << '-Oz' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
-            linkerArgs << '--memory-init-file' << '0'
-            linkerArgs << '-s' << 'TOTAL_MEMORY=67108864' // consider increasing this if running out of memory on GB computations
-            def linkerArgsString = linkerArgs.join(" ")
-            println "Linking: ${emccCommand} ${linkerArgsString}"
-            commandLine emccCommand
-            args linkerArgs
         }
+    }
+
+    tasks.create(name: 'createGiacGgbJsWasm' + wasm, dependsOn: 'emccGiacJsWasm' + wasm, type: Copy) {
+        description 'Creates the giacggb.js folder to store embeddable giac.js.'
+        from 'src/giac.js'
+        into 'build/binaries/giacggb.js'
+        include ('ggb.html')
     }
 }
 
-task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
-    description 'Creates the giacggb.js folder to store embeddable giac.js.'
-    from 'src/giac.js'
-    into 'build/binaries/giacggb.js'
-    include ('ggb.html')
-}
-
-task createGiacJs(dependsOn: 'createGiacGgbJs') {
+task createGiacJs(dependsOn: 'createGiacGgbJsWasm' + wasmParam) {
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
     doLast {
         copy {

@@ -15,7 +15,7 @@ public interface CASResources extends ClientBundle {
 	CASResources INSTANCE = GWT.create(CASResources.class);
 
 	/** @return giac.js */
-	@Source("fr/grenoble/ujf/giac/giac.wasm.js")
+	@Source("fr/grenoble/ujf/giac/giac.js")
 	TextResource giacJs();
 
 	/** @return giac.wasm */
