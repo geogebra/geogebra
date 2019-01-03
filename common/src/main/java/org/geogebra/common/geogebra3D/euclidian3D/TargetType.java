@@ -22,20 +22,14 @@ public enum TargetType {
 	NOTHING_NO_HIT {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			// draw sphere for testing
-			tmpMatrix.setOrigin(view3d.getCursorMatrix().getOrigin());
-			renderer.setMatrix(tmpMatrix);
-			renderer.drawCursor(PlotterCursor.TYPE_SPHERE_HIGHLIGHTED);
+			// draw nothing (TODO)
 		}
 	},
 	/** nothing targeted, hit can be used for showing */
 	NOTHING {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			// draw sphere for testing
-			tmpMatrix.setOrigin(view3d.getCursorMatrix().getOrigin());
-			renderer.setMatrix(tmpMatrix);
-			renderer.drawCursor(PlotterCursor.TYPE_SPHERE_HIGHLIGHTED);
+			// draw nothing (TODO)
 		}
 	},
 	/** target new point on region */

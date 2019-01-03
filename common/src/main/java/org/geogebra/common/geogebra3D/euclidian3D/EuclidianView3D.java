@@ -2594,7 +2594,6 @@ public abstract class EuclidianView3D extends EuclidianView
 				} else {
 					TargetType targetType = TargetType.getCurrentTargetType(this,
 							(EuclidianController3D) euclidianController);
-					Log.debug("TargetType = " + targetType);
 					targetType.drawTarget(renderer1, this);
 				}
 			}
