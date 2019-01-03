@@ -730,6 +730,7 @@ task emccClean(type: Delete) {
                 filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
             }
         }
+    }
 })
 
 task createGiacJs(dependsOn: 'createGiacJsWasm0'){
