@@ -1022,7 +1022,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 1) {
 				direction = getSelectedCS2D()[0];
 				Coords v = direction.getDirectionInD3();
-				if (v.dotproduct(view3D.getViewDirection()) > 0) { // reverse
+				view3D.getHittingDirection(tmpCoordsForDirection);
+				if (v.dotproduct(tmpCoordsForDirection) > 0) { // reverse
 																	// direction
 					MyDouble a = new MyDouble(kernel);
 					a.set(-1);
