@@ -16,7 +16,7 @@ GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
-GGB6=/usr/share/geogebra-classic/GeoGebra
+GGB6=geogebra-classic
 
 GEOGEBRADIR=../../../../
 WEBCODEBASEDIR=$GEOGEBRADIR/web/war/web3d
@@ -315,7 +315,6 @@ for i in `find tests -name '*.ggb' | sort`; do
   accepted=1
   errortype=0
 
-#  if [ $RETVAL = 124 -a $ENGINE != Node -a $ENGINE != Wasm ]; then
   if [ $RETVAL = 124 ]; then
    RESULT=""
    TIME=timeout
