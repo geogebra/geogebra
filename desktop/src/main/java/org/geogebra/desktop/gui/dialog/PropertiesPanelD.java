@@ -1034,7 +1034,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void addItem(GeoElement geo) {
-			addItem(geo.getLabel(StringTemplate.editTemplate));
+			if (geo != null) {
+				addItem(geo.getLabel(StringTemplate.editTemplate));
+			} else {
+				addItem("");
+			}
 		}
 
 	}
