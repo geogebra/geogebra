@@ -69,9 +69,8 @@ def emscriptenVer = '201704' // 1.37.22
 if (System.env['EMSCRIPTEN_VER'] != null) {
     emscriptenVer = System.env['EMSCRIPTEN_VER'];
 }
-def wasmParam = 0
+
 if (System.env['WASM'] != null) {
-    wasmParam = System.env['WASM'];
     if (emscriptenVer != "201704") {
        throw new GradleException("You need to use a recent emscripten to use wasm")
     }
@@ -690,7 +689,7 @@ task emccClean(type: Delete) {
                 }
                 if (emscriptenVer == '201704') {
                     linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
-                    if (wasmParam) {
+                    if (wasm) {
                         linkerArgs << '-s' << 'WASM=1'
                         linkerArgs << '-s' << 'NO_EXIT_RUNTIME=1'
                         linkerArgs << '-s' << "BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
@@ -720,23 +719,25 @@ task emccClean(type: Delete) {
         into 'build/binaries/giacggb.js'
         include ('ggb.html')
     }
-})
 
-task createGiacJs(dependsOn: 'createGiacGgbJsWasm' + wasmParam) {
-    description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
-    doLast {
-        copy {
-            from 'build/binaries/giacggb.js'
-            into 'build/binaries/giacggb.js'
-            include ('giacggb.js')
-            rename 'giacggb.js', 'giac.js'
-            filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
+    tasks.create(name: 'createGiacJsWasm'+ wasm, dependsOn: 'createGiacGgbJsWasm' + wasm) {
+        doLast {
+            copy {
+                from 'build/binaries/giacggb.js'
+                into 'build/binaries/giacggb.js'
+                include ('giacggb.js')
+                rename 'giacggb.js', 'giac.js'
+                filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
+            }
         }
-    }
 })
 
-task createGiacWasmJs(dependsOn: 'createGiacJs') {
+task createGiacJs(dependsOn: 'createGiacJsWasm0'){
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
+}
+
+task createGiacWasmJs(dependsOn: 'createGiacJsWasm1') {
+    description 'Creates WebAssembly version of Giac which can be embedded into GeoGebraWeb.'
     doLast {
         exec {
             commandLine "bash", "-c", "base64 -w0 giacggb.wasm > giacggb.wasm.b64"
