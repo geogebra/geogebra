@@ -35,7 +35,7 @@ public class ZoomPanelMow extends FlowPanel
 	 */
 	public ZoomPanelMow(AppW app) {
 		this.appW = app;
-		zoomController = new ZoomController(appW);
+		zoomController = new ZoomController(appW, app.getActiveEuclidianView());
 		if (app.getActiveEuclidianView() != null) {
 			app.getActiveEuclidianView().getEuclidianController()
 					.addZoomerListener(this);

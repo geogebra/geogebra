@@ -42,7 +42,7 @@ public class ZoomPanel extends FlowPanel
 
 	/** application */
 	private AppW app;
-	private EuclidianView view;
+	private final EuclidianView view;
 
 	private List<StandardButton> buttons = null;
 	private ZoomController zoomController;
@@ -62,7 +62,7 @@ public class ZoomPanel extends FlowPanel
 			boolean zoomable) {
 		this.view = view;
 		this.app = app;
-		zoomController = new ZoomController(app);
+		zoomController = new ZoomController(app, view);
 		if (view != null) {
 			view.getEuclidianController().addZoomerListener(this);
 		}
@@ -250,7 +250,10 @@ public class ZoomPanel extends FlowPanel
 		setZoomAuralText(zoomInBtn, true, "ZoomIn.Tool", "Zoom in button selected");
 	}
 
-	private void setFullScreenAuralText() {
+	/**
+	 * Update title / screen reader description for fullscreen button
+	 */
+	void setFullScreenAuralText() {
 		if (fullscreenBtn == null) {
 			return;
 		}
@@ -371,10 +374,6 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public boolean hasButtons() {
 		return getFirstButton() != null;
-	}
-
-	private boolean hasZoomButtons() {
-		return homeBtn != null;
 	}
 
 	/** Focus the last available button on zoom panel. */

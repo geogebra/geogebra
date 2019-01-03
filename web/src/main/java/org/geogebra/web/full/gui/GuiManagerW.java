@@ -2416,15 +2416,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * Focus last available button in EV.
-	 */
-	public void focusLastButtonOnEV() {
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) getLayout()
-				.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-		dp.focusLastZoomButton();
-	}
-
-	/**
 	 * Open settings menu for geo element in AV.
 	 */
 	@Override

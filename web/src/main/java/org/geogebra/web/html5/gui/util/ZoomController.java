@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -31,13 +32,17 @@ public class ZoomController {
 	/** after we leave fullscreen, we must reset container position */
 	private HashMap<String, String> containerProps = new HashMap<>();
 	private boolean homeShown;
+	private EuclidianView view;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param view
+	 *            euclidian view
 	 */
-	public ZoomController(AppW app) {
+	public ZoomController(AppW app, EuclidianView view) {
 		this.app = app;
+		this.view = view;
 	}
 
 	/**
@@ -104,7 +109,7 @@ public class ZoomController {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		app.getActiveEuclidianView().setStandardView(true);
+		view.setStandardView(true);
 		app.getAccessibilityManager().focusMenu();
 	}
 
@@ -113,7 +118,7 @@ public class ZoomController {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		app.getActiveEuclidianView().getEuclidianController().zoomInOut(false,
+		view.getEuclidianController().zoomInOut(false,
 				false);
 	}
 
@@ -122,7 +127,7 @@ public class ZoomController {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		app.getActiveEuclidianView().getEuclidianController().zoomInOut(false,
+		view.getEuclidianController().zoomInOut(false,
 				true);
 	}
 
@@ -353,13 +358,13 @@ public class ZoomController {
 	 *            show/hide home button
 	 */
 	public void updateHomeButton(StandardButton homeBtn) {
-		if (app.getActiveEuclidianView() == null) {
+		if (view == null) {
 			return;
 		}
-		if (app.getActiveEuclidianView().isCoordSystemTranslatedByAnimation()) {
+		if (view.isCoordSystemTranslatedByAnimation()) {
 			return;
 		}
-		if (app.getActiveEuclidianView().isStandardView()) {
+		if (view.isStandardView()) {
 			hideHomeButton(homeBtn);
 		} else {
 			showHomeButton(homeBtn);
