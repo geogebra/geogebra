@@ -2935,6 +2935,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// getGuiManager().updateMenubar();
 		Log.debug(
 				"AppW.updateMenubar() - implementation needed - just finishing"); // TODO
+		// Don't remove this debug message, it is required in test/scripts/benchmark/art-plotter/runtests-sql
+		
 		// Auto-generated
 	}
 
