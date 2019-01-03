@@ -9,13 +9,14 @@ MY_VERSION=2.2
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
 TIMEOUT=60
-PROVERS="DesktopInternal DesktopGrobcov Web"
+PROVERS="DesktopInternal DesktopGrobcov Web Node Wasm"
 #PROVERS="Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
+GGB6=/usr/share/geogebra-classic/GeoGebra
 
 GEOGEBRADIR=../../../../
 WEBCODEBASEDIR=$GEOGEBRADIR/web/war/web3d
@@ -44,6 +45,7 @@ usage() {
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -r           run GeoGebra desktop version from the current sources"
  echo "   -P <path>    use path to run PhantomJS ($PHANTOMJS)"
+ echo "   -c <path>    use path to run GeoGebra Classic 6 ($GGB6)"
  echo "   -h           show this help, then exit"
  echo "   -v           print script version, then exit"
  echo "   -V           print available provers from the database, then exit"
@@ -57,7 +59,7 @@ version() {
  exit 0
  }
 
-while getopts "t:p:P:dbhvrV" OPT; do
+while getopts "t:p:c:P:dbhvrV" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
@@ -66,6 +68,13 @@ while getopts "t:p:P:dbhvrV" OPT; do
    PHANTOMJS="$OPTARG"
    which $PHANTOMJS >/dev/null || {
     echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
+    exit 1
+    }
+   ;;
+  c)
+   GGB6="$OPTARG"
+   test -x $GGB6 || {
+    echo "FATAL: GeoGebra Classic 6 is not found in $GGB6 (>= 6.0.519.0 needed)"
     exit 1
     }
    ;;
@@ -247,6 +256,37 @@ for i in `find tests -name '*.ggb' | sort`; do
     fi
   # Web
 
+  # Node/Wasm
+  elif [ "$ENGINE" = "Node" -o "$ENGINE" = "Wasm" ]; then
+   test -x $GGB6 || {
+    echo "FATAL: GeoGebra Classic 6 is not found in $GGB6"
+    exit 1
+    }
+   if [ "$ENGINE" = "Wasm" ]; then
+    SPECPARAMS="--giac=wasm --logexit=all\s+CAS"
+   else
+    SPECPARAMS="--logexit=AppW.updateMenubar"
+    fi
+   rm -f $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stderr
+   timeout -k 3 $((TIMEOUT+2)) $GGB6 --silent=false $SPECPARAMS $MYDIR/$i \
+    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   RETVAL=$?
+   # GeoGebra: 14:50:36.344 DEBUG: ?: Benchmarking: 1120 ms
+   cat $MYDIR/tmp/.test.stdout | grep Benchmarking | tail -1 > $LOGFILE
+   TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $6}'`
+   rm -f $REGRESSIONFILE
+   RESULT="0" # being pessimistic (this usually occurs in Wasm when the CAS is not loaded on time, GeoGebra bug)
+   grep --silent " {{" $MYDIR/tmp/.test.stdout && {
+    cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* {{\([0-9,\-]*\)}.*"/\\1/ > $REGRESSIONFILE
+    RESULT=`cat $REGRESSIONFILE`
+    }
+   grep --silent Timeout $MYDIR/tmp/.test.stdout && {
+    RESULT=""
+    TIME=""
+    touch $REGRESSIONFILE
+    }
+  # Node/Wasm
+
   # Desktop*
   else
    timeout $TIMEOUT $BINBASE \
@@ -275,6 +315,7 @@ for i in `find tests -name '*.ggb' | sort`; do
   accepted=1
   errortype=0
 
+#  if [ $RETVAL = 124 -a $ENGINE != Node -a $ENGINE != Wasm ]; then
   if [ $RETVAL = 124 ]; then
    RESULT=""
    TIME=timeout
