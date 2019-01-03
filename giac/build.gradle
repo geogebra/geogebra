@@ -589,6 +589,8 @@ task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     standardInput = System.in
 }
 
+def objDirs = ["build/objs/giac.js", "build/objs/giac-wasm.js"]
+
 tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
     if ((taskName.startsWith('emccCompileWasm')) && (taskName.endsWith('Cc'))) {
         def basename = (taskName - 'Cc').substring('emccCompileWasm1'.length())
@@ -596,10 +598,10 @@ tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <
         task(taskName) {
             def input = "src/giac/cpp/${basename}.cc"
             inputs.file input
-            def output = "build/objs/giac.js/${basename}.o"
+            def output = objDirs[wasm] + "/${basename}.o"
             outputs.file output
             doLast {
-                file("build/objs/giac.js").mkdirs()
+                file(objDirs[wasm]).mkdirs()
                 exec {
                     // Be very careful when changing this: config.h also contains some entries! 
                     def specialOptions = ''
@@ -640,7 +642,7 @@ tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <
 
 task emccClean(type: Delete) {
     description 'Deletes .o files and linked giac*.js for cleaning up.'
-    delete 'build/objs/giac.js', 'build/binaries/giacggb.js'
+    delete objDirs[0], objDirs[1], 'build/binaries/giacggb.js'
 }
 
 [0,1].each({wasm ->
@@ -666,13 +668,13 @@ task emccClean(type: Delete) {
             def list = []
             def linkerArgs = []
             def inputInclude = []
-            FileTree files = fileTree(dir: 'build/objs/giac.js')
+            FileTree files = fileTree(dir: objDirs[wasm])
             files.visit { f ->
                 def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
                 inputInclude << f.name
                 inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
                 list << emccCompileTask
-                linkerArgs << "build/objs/giac.js/${f.name}"
+                linkerArgs << objDirs[wasm] + "/${f.name}"
             }
 
             file("build/binaries/giacggb.js").mkdirs()
