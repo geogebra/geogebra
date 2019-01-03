@@ -247,4 +247,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		itemController.initAndShowKeyboard(false);
 		return itemController.getRetexListener();
 	}
+
+	@Override
+	public void resizeContent(Panel content) {
+		// no resize here, size is in %
+	}
 }

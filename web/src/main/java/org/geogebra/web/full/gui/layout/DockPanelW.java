@@ -57,6 +57,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -1796,5 +1797,16 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void addVoiceover(VoiceoverTabber tabber) {
 		// only supported in 2D/3D
+	}
+
+	/**
+	 * @param content
+	 *            content panel
+	 */
+	public void resizeContent(Panel content) {
+		int height = getComponentInteriorHeight() - navHeightIfShown();
+		if (height > 0) {
+			content.setHeight(height + "px");
+		}
 	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
+import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW.MyPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -54,5 +55,13 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 	@Override
 	protected ResourcePrototype getViewIcon() {
 		return getResources().styleBar_ConstructionProtocol();
+	}
+
+	@Override
+	public void resizeContent(Panel content) {
+		super.resizeContent(content);
+		if (content instanceof MyPanel) {
+			((MyPanel) content).onResize();
+		}
 	}
 }
