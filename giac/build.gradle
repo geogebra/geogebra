@@ -660,7 +660,7 @@ task emccClean(type: Delete) {
 
     tasks.create(name: "emccGiacJsWasm" + wasm, dependsOn: 'emccCompileWasm' + wasm) {
         description 'Links giac.js.'
-        mustRunAfter emccCompile
+        mustRunAfter 'emccCompileWasm' + wasm
         def output = "build/binaries/giacggb.js/giacggb.js"
         outputs.file output
         doLast {
@@ -720,7 +720,7 @@ task emccClean(type: Delete) {
         into 'build/binaries/giacggb.js'
         include ('ggb.html')
     }
-}
+})
 
 task createGiacJs(dependsOn: 'createGiacGgbJsWasm' + wasmParam) {
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
@@ -733,7 +733,7 @@ task createGiacJs(dependsOn: 'createGiacGgbJsWasm' + wasmParam) {
             filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
         }
     }
-}
+})
 
 task createGiacWasmJs(dependsOn: 'createGiacJs') {
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
