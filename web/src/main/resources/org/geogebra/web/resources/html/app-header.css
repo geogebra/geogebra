@@ -10,11 +10,15 @@
     height: 24px;
 }
 
-.GeoGebraHeader.beta {
+.GeoGebraHeader {
 	display: block;
 	height: 64px;
 	padding: 0px;
 	border: 0px;
+}
+
+.GeoGebraHeader.scientificHeader {
+	height: 112px;
 }
 
 .GeoGebraHeader .signIn {

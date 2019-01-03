@@ -432,7 +432,9 @@
 .GeoGebraFrame .TabbedKeyBoard.KeyBoard {
     padding-top: 0;
     background-color: #eee;
+    font-family: geogebra-sans-serif, sans-serif;
 }
+
 .GeoGebraFrame .KeyboardSwitcher {
     position: relative;
     background-color: #f8f8f8;

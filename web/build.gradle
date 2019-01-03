@@ -182,11 +182,13 @@ task copyHtml {
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen" + (offline ? " offline" : "")
-            return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\"><div class=\"logo\">" + template(appID+"-min.svg") + "</div>" + template(appID+"-splash.html") + "</div>")
+            def logo = "<div class=\"logo\">" + template(appID+"-min.svg") + "</div>"
+            return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + logo + template(appID+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--VENDOR-->", vendor)
+            .replace("<!--APP ID-->", appID)
         }
         def english = {raw, appName ->
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
