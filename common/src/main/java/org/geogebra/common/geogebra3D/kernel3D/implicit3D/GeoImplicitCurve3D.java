@@ -261,9 +261,40 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 			case PLANE_XY:
 				view = (EuclidianView3D) kernel.getApplication()
 						.getEuclidianView3D();
-				return new double[] { view.getXmin(), view.getXmax(),
-						view.getZmin(), view.getZmax(), view.getXscale(),
-						view.getZscale() };
+
+				double xmin1 = view.getXmin();
+				double xmax1 = view.getXmax();
+				double scale = view.getXscale();
+
+				// y = (-a/b) X + (-d/b) so we compute X min/max regarding that,
+				// and restrict the bounds if needed
+				Coords ev = getTransformedCoordSys().getEquationVector();
+				double a = ev.getX();
+				if (!DoubleUtil.isZero(a)) {
+					double b = ev.getY();
+					double d = ev.getW();
+					double xmin2 = -(b * view.getYmin() + d) / a;
+					double xmax2 = -(b * view.getYmax() + d) / a;
+					if (xmin2 > xmax2) {
+						d = xmin2;
+						xmin2 = xmax2;
+						xmax2 = d;
+					}
+					if (xmin1 < xmin2) {
+						xmin1 = xmin2;
+					}
+					if (xmax1 > xmax2) {
+						xmax1 = xmax2;
+					}
+					d = view.getYscale() * Math.abs(a / b);
+					if (scale < d) {
+						scale = d;
+					}
+				}
+
+				return new double[] { xmin1, xmax1, view.getZmin(),
+						view.getZmax(), scale, view.getZscale() };
+
 			case DEFAULT:
 			default:
 				return super.getViewBounds();
