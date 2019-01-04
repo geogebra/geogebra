@@ -482,6 +482,12 @@ public interface ArticleElementInterface {
 	 */
 	boolean isForceHeader();
 
+	/**
+	 * @return whether height should be computed automatically from width of the
+	 *         container
+	 */
 	boolean getParamAutoHeight();
+
+	String getParamFullscreenContainer();
 
 }

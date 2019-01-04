@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
@@ -189,8 +188,12 @@ public class ZoomController {
 	/**
 	 * @param elem
 	 *            element
+	 * @param fullscreenButton
+	 *            fullscreen button
 	 */
-	public void onExitFullscreen(Element elem) {
+	public void onExitFullscreen(Element elem,
+			StandardButton fullscreenButton) {
+		setFullScreenActive(false);
 		if (!app.getArticleElement().getDataParamFitToScreen()) {
 			final Element scaler = app.getArticleElement().getParentElement();
 			scaler.removeClassName("fullscreen");
@@ -205,6 +208,7 @@ public class ZoomController {
 			app.getArticleElement().resetScale(scale);
 			app.checkScaleContainer();
 		}
+		fullscreenButton.setDown(false);
 		Browser.scale(elem, 1, 0, 0);
 	}
 
@@ -258,9 +262,22 @@ public class ZoomController {
 			app.toggleMenu();
 		}
 		final Element container;
-		final boolean ipad = Browser.isIPad();
+		final boolean ipad = Browser.isIPad()
+				|| !StringUtil.empty(
+						app.getArticleElement().getParamFullscreenContainer());
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
+			if (!isFullScreenActive()) {
+				Timer t = new Timer() {
+
+					@Override
+					public void run() {
+						onFullscreen(fullscreenBtn);
+					}
+				};
+				// delay scaling to make sure scrollbars disappear
+				t.schedule(50);
+			}
 		} else {
 			ArticleElementInterface ae = app.getArticleElement();
 			final Element scaler = ae.getParentElement();
@@ -299,7 +316,7 @@ public class ZoomController {
 			} else {
 				if (ipad) {
 					scaler.removeClassName("fullscreen-ipad");
-					onExitFullscreen(elem);
+					onExitFullscreen(elem, fullscreenBtn);
 					if (getCssScale() != 0) {
 						Browser.scale(scaler, getCssScale(),
 								0, 0);
@@ -321,8 +338,7 @@ public class ZoomController {
 	 */
 	void onFullscreen(StandardButton fullscreenBtn) {
 		setFullScreenActive(true);
-		fullscreenBtn
-				.setIcon(ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
+		fullscreenBtn.setDown(true);
 	}
 
 	/**

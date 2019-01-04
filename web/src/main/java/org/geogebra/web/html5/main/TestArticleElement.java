@@ -448,4 +448,8 @@ public class TestArticleElement implements ArticleElementInterface {
 		return false;
 	}
 
+	public String getParamFullscreenContainer() {
+		return "";
+	}
+
 }
