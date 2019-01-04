@@ -36,7 +36,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private GeoDirectionND v;
 
 	private GeoPolygon polygon;
-	// private GeoBoolean isDirect;
+	private GeoBoolean isDirectGeo;
 
 	private int inputPointsCount;
 
@@ -122,7 +122,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		this(c, name);
 
 		this.polygon = poly;
-		// this.isDirect = isDirect;
+		this.isDirectGeo = isDirect;
 
 		switch (name) {
 		default:
@@ -193,8 +193,10 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		polyhedron.createFaces();
-		// faces are oriented to the inside
-		polyhedron.setReverseNormals();
+		if (isDirect()) {
+			// faces are oriented to the inside
+			polyhedron.setReverseNormals();
+		}
 		setOutput();
 		if (labels == null || labels.length <= 1) {
 			polyhedron.initLabels(labels);
@@ -418,7 +420,11 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		v3.setCrossProduct3(v1, v2);
 
 		v2l.setMul3(v2, dist);
-		v3l.setMul3(v3, dist);
+		if (isDirect()) {
+			v3l.setMul3(v3, dist);
+		} else {
+			v3l.setMul3(v3, -dist);
+		}
 
 		matrix.setOrigin(o);
 		matrix.setVx(v1l);
@@ -531,6 +537,10 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	@Override
 	final protected boolean isFirstInputPointLabelVisible() {
 		return true;
+	}
+
+	private boolean isDirect() {
+		return isDirectGeo == null || isDirectGeo.getBoolean();
 	}
 
 }
