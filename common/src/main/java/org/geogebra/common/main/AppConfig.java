@@ -67,11 +67,6 @@ public interface AppConfig {
 	String getForcedPerspective();
 
 	/**
-	 * @return whether AV can switch to tools panel and back
-	 */
-	boolean hasToolsInSidePanel();
-
-	/**
 	 * @return whether to use scientific keyboard layout
 	 */
 	boolean hasScientificKeyboard();

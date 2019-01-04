@@ -40,4 +40,6 @@ public interface GeoGebraActivity {
 	 *            dock panel
 	 */
 	void initStylebar(DockPanelW dockPanelW);
+
+	DockPanelW createAVPanel();
 }

@@ -5,6 +5,8 @@ import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactor
 import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.ScientificDockPanelDecorator;
+import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -47,5 +49,10 @@ public class ScientificActivity extends BaseActivity {
 	@Override
 	public void initStylebar(DockPanelW dockPanelW) {
 		// no stylebar in scientific
+	}
+
+	@Override
+	public DockPanelW createAVPanel() {
+		return new AlgebraDockPanelW(new ScientificDockPanelDecorator());
 	}
 }

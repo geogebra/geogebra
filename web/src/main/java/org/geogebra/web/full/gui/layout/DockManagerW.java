@@ -23,7 +23,6 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
@@ -2018,13 +2017,9 @@ public class DockManagerW extends DockManager {
 		if (old != null) {
 			layout.getDockManager().unRegisterPanel(old);
 		}
-		if (getApp().getConfig().hasToolsInSidePanel()) {
-			// register toolbar panel
-			layout.registerPanel(new ToolbarDockPanelW());
-		} else {
-			// register algebra view
-			layout.registerPanel(new AlgebraDockPanelW());
-		}
+		layout.registerPanel(
+					((AppWFull) app).getActivity().createAVPanel());
+
 	}
 
 	/**

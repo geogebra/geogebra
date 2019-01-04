@@ -128,11 +128,6 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean hasToolsInSidePanel() {
-		return true;
-	}
-
-	@Override
 	public boolean hasScientificKeyboard() {
 		return false;
 	}

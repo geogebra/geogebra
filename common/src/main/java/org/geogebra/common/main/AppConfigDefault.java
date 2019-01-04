@@ -127,11 +127,6 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public boolean hasToolsInSidePanel() {
-		return false;
-	}
-
-	@Override
 	public boolean hasScientificKeyboard() {
 		return false;
 	}

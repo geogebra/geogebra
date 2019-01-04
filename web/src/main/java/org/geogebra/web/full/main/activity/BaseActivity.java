@@ -3,6 +3,7 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -46,5 +47,9 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public void initStylebar(DockPanelW dockPanelW) {
 		dockPanelW.initGraphicsSettingsButton();
+	}
+
+	public DockPanelW createAVPanel() {
+		return new ToolbarDockPanelW();
 	}
 }
