@@ -39,6 +39,8 @@ import static java.lang.Math.log;
 import static java.lang.Math.sinh;
 import static java.lang.Math.tan;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+
 /**
  * This class enables the creation of objects representing complex numbers, as
  * well the implementation of mathematical functions of complex numbers by
@@ -523,7 +525,8 @@ public class Complex {
 	public static double[] gamma(double[] z) {
 		if (z[0] < 0) { // Weierstrass form:
 			double[] w = divide(ONE_,
-					multiply(z, power(Math.E, multiply(Numbers.GAMMA, z))));
+					multiply(z,
+							power(Math.E, multiply(MyDouble.EULER_GAMMA, z))));
 			int nMax = (int) (1e-6 / ACCURACY);
 			double[] z_n;
 			for (int n = 1; n <= nMax; n++) {
@@ -782,7 +785,7 @@ public class Complex {
 	 */
 	public static double[] lnGamma(double[] z) {
 		if (z[0] < 0) {
-			double[] w = add(ln(z), multiply(Numbers.GAMMA, z));
+			double[] w = add(ln(z), multiply(MyDouble.EULER_GAMMA, z));
 			w = multiply(-1.0, w);
 			int nMax = (int) (Math.abs(z[0]) / ACCURACY);
 			if (nMax > 10000) {

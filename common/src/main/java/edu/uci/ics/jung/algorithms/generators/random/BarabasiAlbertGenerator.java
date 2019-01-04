@@ -103,11 +103,6 @@ public class BarabasiAlbertGenerator<V, E>
 	 * @param numEdgesToAttach
 	 *            the number of edges that should be attached from the new
 	 *            vertex to pre-existing vertices at each time step
-	 * @param directed
-	 *            specifies whether the graph and edges to be created should be
-	 *            directed or not
-	 * @param parallel
-	 *            specifies whether the algorithm permits parallel edges
 	 * @param seed
 	 *            random number seed
 	 */

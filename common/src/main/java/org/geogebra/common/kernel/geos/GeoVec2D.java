@@ -624,7 +624,8 @@ final public class GeoVec2D extends ValidExpression
 	public GeoVec2D ei() {
 		GeoVec2D log = new GeoVec2D(kernel);
 		GeoVec2D.complexLog(this, log);
-		GeoVec2D ret = new GeoVec2D(kernel, MyMath.EULER, 0).add(log).add(this);
+		GeoVec2D ret = new GeoVec2D(kernel, MyDouble.EULER_GAMMA, 0).add(log)
+				.add(this);
 		GeoVec2D add = new GeoVec2D(kernel, x, y);
 		for (int i = 2; i < MAXIT; i++) {
 			add.mult(this);

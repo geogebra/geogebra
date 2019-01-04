@@ -399,7 +399,8 @@ public class CellFormat implements CellFormatInterface {
 	 * Returns the format map for a given cell format
 	 * 
 	 * @param formatType
-	 * @return
+	 *            format type
+	 * @return map point -&gt; format
 	 */
 	@Override
 	public HashMap<GPoint, Object> getFormatMap(int formatType) {
@@ -450,8 +451,10 @@ public class CellFormat implements CellFormatInterface {
 	 * cells share the same format object, null is returned.
 	 * 
 	 * @param cr
+	 *            range
 	 * @param formatType
-	 * @return
+	 *            format type
+	 * @return cell format
 	 */
 	public Object getCellFormat(CellRange cr, int formatType) {
 
@@ -621,8 +624,10 @@ public class CellFormat implements CellFormatInterface {
 	 * sets the border format needed for each cell in order to produce the
 	 * specified border style
 	 * 
-	 * @param cr
+	 * @param list
+	 *            cell ranges
 	 * @param borderStyle
+	 *            border style
 	 */
 	public void setBorderStyle(ArrayList<CellRange> list, int borderStyle) {
 		for (CellRange cr : list) {

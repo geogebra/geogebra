@@ -342,7 +342,7 @@ public class DataSource {
 	 * @param mode
 	 * @param leftToRight
 	 * @param doCopy
-	 * @return
+	 * @return all variables in a list
 	 */
 	public ArrayList<GeoList> toGeoListAll(int mode, boolean leftToRight,
 			boolean doCopy) {

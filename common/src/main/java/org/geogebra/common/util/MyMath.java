@@ -34,8 +34,6 @@ public final class MyMath {
 	public static final double ONE_THIRD = 1d / 3d;
 	/** one degree */
 	public static final double DEG = Math.PI / 180;
-	/** Euler's constant */
-	final public static double EULER = 0.57721566;
 
 	/**
 	 * Largest integer

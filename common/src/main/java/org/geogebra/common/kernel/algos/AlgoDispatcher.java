@@ -1741,7 +1741,7 @@ public class AlgoDispatcher {
 	 *            implicit surface
 	 * @param line
 	 *            line
-	 * @return
+	 * @return intersection of surface and line
 	 */
 	public GeoElement[] intersectImplicitSurfaceLine(String[] labels,
 			GeoImplicitSurfaceND surf, GeoLineND line) {

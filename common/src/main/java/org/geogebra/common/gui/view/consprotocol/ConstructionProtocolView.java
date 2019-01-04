@@ -73,7 +73,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 *            geo
 	 * @param addHTMLtag
 	 *            needs to be true for ggb5 (for Unicode)
-	 * @return
+	 * @return description as HTML
 	 */
 	protected static String getDescription(GeoElement geo, boolean addHTMLtag) {
 		return geo.getDescriptionHTML(addHTMLtag);
@@ -85,7 +85,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 *            geo
 	 * @param addHTMLtag
 	 *            needs to be true for ggb5 (for Unicode)
-	 * @return
+	 * @return definition as HTML
 	 */
 	protected static String getDefinition(GeoElement geo, boolean addHTMLtag) {
 		return geo.getDefinitionHTML(addHTMLtag);

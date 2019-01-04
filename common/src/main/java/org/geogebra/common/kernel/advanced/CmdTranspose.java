@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 /**
  * Transpose[ &lt;List> ]
  * 
- * @atuthor Michael Borcherds
+ * @author Michael Borcherds
  */
 public class CmdTranspose extends CmdOneListFunction {
 	/**

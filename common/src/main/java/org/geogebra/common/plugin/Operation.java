@@ -2000,7 +2000,7 @@ public enum Operation {
 	}
 
 	/**
-	 * @return
+	 * @return whether this is an inequality sign
 	 */
 	public boolean isInequality() {
 		return this.equals(GREATER_EQUAL) || this.equals(GREATER)
@@ -2059,7 +2059,6 @@ public enum Operation {
 		default:
 			return null;
 		}
-
 	}
 
 	/**

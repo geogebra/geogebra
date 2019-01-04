@@ -285,14 +285,13 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
 	 * check if e is zero in comparison to STANDARD_PRECISION and x
 	 * 
 	 * @param e
 	 *            e
 	 * @param x
 	 *            x
-	 * @return
+	 * @return whether e is zero compared to STANDARD_PRECISION and x
 	 */
 	final public static boolean isEpsilon(double e, double x) {
 		return isEpsilonWithPrecision(e, x, Kernel.STANDARD_PRECISION);

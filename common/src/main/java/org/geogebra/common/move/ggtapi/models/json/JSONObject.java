@@ -353,7 +353,6 @@ public class JSONObject {
 	 *             if {@code name} is {@code null} or if the mapping for
 	 *             {@code name} is non-null and is not a {@link JSONArray}.
 	 *
-	 * @hide
 	 */
 	public JSONObject append(String name, Object value) throws JSONException {
 		Object current = nameValuePairs.get(checkName(name));
@@ -696,7 +695,6 @@ public class JSONObject {
 	 *
 	 * See {@link #keys()}.
 	 *
-	 * @hide.
 	 */
 	public Set<String> keySet() {
 		return nameValuePairs.keySet();

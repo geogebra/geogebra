@@ -469,7 +469,7 @@ public enum Language {
 	 * 
 	 * @param language
 	 *            two letter code
-	 * @return
+	 * @return test character for font detection
 	 */
 	final public static String getTestChar(String language) {
 		for (Language l : Language.values()) {

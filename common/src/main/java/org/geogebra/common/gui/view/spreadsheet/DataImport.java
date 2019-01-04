@@ -36,15 +36,14 @@ public class DataImport {
 	// 123,456789
 	final private static RegExp regex = RegExp
 			.compile("^-?\\d?\\d?\\d,(\\d\\d\\d,)*\\d\\d\\d$");
+	
 	/**
 	 * Parses external non-ggb data.
 	 * 
 	 * @param app
+	 *            application
 	 * @param source
 	 *            string to be parsed
-	 * @param separator
-	 *            separator[0] = decimal separator, separator[1] = grouping
-	 *            separator; if null then defaults for the locale will be used
 	 * @param isCSV
 	 *            true = comma delimited parsing, false = tab delimited parsing
 	 * @return 2D string array with values formatted for the spreadsheet.

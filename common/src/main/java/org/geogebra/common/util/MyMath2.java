@@ -5,6 +5,7 @@ import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.special.Gamma;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.util.mathIT.Riemann;
 
@@ -378,7 +379,7 @@ public class MyMath2 {
 			}
 		}
 
-		return new Complex(sumc + Math.log(t) + MyMath.EULER,
+		return new Complex(sumc + Math.log(t) + MyDouble.EULER_GAMMA,
 				Math.signum(a2) * sums);
 
 	}
@@ -420,7 +421,7 @@ public class MyMath2 {
 	 *         http://mathworld.wolfram.com/ExponentialIntegral.html
 	 */
 	final public static double ei(double a) {
-		double ret = MyMath.EULER + Math.log(Math.abs(a)) + a;
+		double ret = MyDouble.EULER_GAMMA + Math.log(Math.abs(a)) + a;
 		double add = a;
 		for (int i = 2; i < MAXIT; i++) {
 			add = add * a * (i - 1) / i / i;

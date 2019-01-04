@@ -302,7 +302,7 @@ public class DataVariable {
 	 * @param mode
 	 * @param leftToRight
 	 * @param doCopy
-	 * @return
+	 * @return GeoList containing elements corresponding to the DataItem
 	 */
 	public GeoList toGeoList(App app, DataItem item, int mode,
 			boolean leftToRight, boolean doCopy) {
@@ -315,7 +315,8 @@ public class DataVariable {
 	 * @param mode
 	 * @param leftToRight
 	 * @param doCopy
-	 * @return
+	 * @return GeoList matrix with labels, values, classes and frequencies
+	 *         (unavailable categories are skipped)
 	 */
 	public ArrayList<GeoList> getGeoListData(App app, int mode,
 			boolean leftToRight, boolean doCopy) {

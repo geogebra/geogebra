@@ -14,8 +14,8 @@ public interface GGraphics2D {
 	 * @see #setPaint
 	 * @see java.awt.Graphics#setColor
 	 * @see #transform
-	 * @see #setTransform
-	 * @see #clip
+	 * 
+	 * 
 	 * @see #setClip
 	 * @see #setComposite
 	 */
@@ -76,7 +76,7 @@ public interface GGraphics2D {
 	 * @see #setPaint
 	 * @see java.awt.Graphics#setColor
 	 * @see java.awt.Graphics#setFont
-	 * @see #setTransform
+	 * 
 	 * @see #setComposite
 	 * @see #setClip
 	 */
@@ -93,9 +93,8 @@ public interface GGraphics2D {
 	 * @see #setPaint
 	 * @see java.awt.Graphics#setColor
 	 * @see #transform
-	 * @see #setTransform
+	 * 
 	 * @see #setComposite
-	 * @see #clip
 	 * @see #setClip
 	 */
 	public abstract void fill(GShape s);
@@ -232,7 +231,7 @@ public interface GGraphics2D {
 	 * @param Tx
 	 *            the <code>AffineTransform</code> object to be composed with
 	 *            the current <code>Transform</code>
-	 * @see #setTransform
+	 * 
 	 * @see GAffineTransform
 	 */
 	public abstract void transform(GAffineTransform Tx);
@@ -385,7 +384,8 @@ public interface GGraphics2D {
 	 * @param y2
 	 *            second point y coordinate
 	 */
-	public abstract void addStraightLineToGeneralPath(double x1, double y1, double x2, double y2);
+	public abstract void addStraightLineToGeneralPath(double x1, double y1,
+			double x2, double y2);
 
 	/**
 	 * end current general path and draw it

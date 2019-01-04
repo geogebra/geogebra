@@ -348,15 +348,10 @@ public abstract class CopyPasteCut {
 	 * overflow a bit).
 	 * 
 	 * @param data
-	 * @param column1
-	 *            minimum target column
-	 * @param row1
-	 *            minimum target row
-	 * @param column2
-	 *            maximum target column
-	 * @param row2
-	 *            maximum target row
-	 * @return
+	 *            data
+	 * @param cr
+	 *            cell range
+	 * @return whether all cells were pasted successfully
 	 */
 	protected boolean pasteExternalMultiple(String[][] data, CellRange cr) {
 		return pasteExternalMultiple(data, cr.getMinColumn(), cr.getMinRow(),
@@ -369,6 +364,7 @@ public abstract class CopyPasteCut {
 	 * maybe overflow a bit).
 	 * 
 	 * @param data
+	 *            pasted data
 	 * @param column1
 	 *            minimum target column
 	 * @param row1
@@ -377,7 +373,7 @@ public abstract class CopyPasteCut {
 	 *            maximum target column
 	 * @param row2
 	 *            maximum target row
-	 * @return
+	 * @return whether all cells were pasted successfully
 	 */
 	protected boolean pasteExternalMultiple(String[][] data, int column1,
 			int row1, int column2, int row2) {
@@ -436,7 +432,7 @@ public abstract class CopyPasteCut {
 	 * @param row1
 	 * @param maxColumn
 	 * @param maxRow
-	 * @return
+	 * @return whether paste was successful
 	 */
 	public boolean pasteExternal(String[][] data, int column1, int row1,
 			int maxColumn, int maxRow) {
@@ -517,8 +513,18 @@ public abstract class CopyPasteCut {
 		return succ;
 	}
 
+	/**
+	 * @param column1
+	 *            start column
+	 * @param row1
+	 *            start row
+	 * @param column2
+	 *            end column
+	 * @param row2
+	 *            end row
+	 * @return if at least one object was deleted
+	 */
 	public boolean delete(int column1, int row1, int column2, int row2) {
-
 		return delete(app, column1, row1, column2, row2,
 				getTable().getSelectionType());
 	}
@@ -527,6 +533,21 @@ public abstract class CopyPasteCut {
 		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param column1
+	 *            start column
+	 * @param row1
+	 *            start row
+	 * @param column2
+	 *            end column
+	 * @param row2
+	 *            end row
+	 * @param selectionType
+	 *            selection type
+	 * @return if at least one object was deleted
+	 */
 	public static boolean delete(App app, int column1, int row1, int column2,
 			int row2, int selectionType) {
 		boolean succ = false;

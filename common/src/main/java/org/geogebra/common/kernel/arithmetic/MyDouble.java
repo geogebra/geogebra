@@ -48,7 +48,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class MyDouble extends ValidExpression
 		implements NumberValue, Comparable<Object> {
-
+	/**
+	 * Euler-Mascheroni constant
+	 */
+	public static final double EULER_GAMMA = 0.577215664901532860605;
 	private double val;
 	private int angleDim = 0;
 

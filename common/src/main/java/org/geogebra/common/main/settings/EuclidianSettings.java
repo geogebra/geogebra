@@ -1147,7 +1147,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return
+	 * @return delete tool size
 	 */
 	public int getDeleteToolSize() {
 		return this.deleteToolSize;

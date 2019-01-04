@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.geos.GeoListForCellRange;
  * list {A1, B1, A2, B2}.
  * 
  * @author Markus Hohenwarter
- * @date 29.06.2008
+ * @since 29.06.2008
  */
 public class AlgoCellRange extends AlgoElement {
 

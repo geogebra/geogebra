@@ -1715,7 +1715,7 @@ ExpressionValue myDouble():
 |
     <EULER_GAMMA>
     {	
-         return new MySpecialDouble(kernel, 0.57721566490153286, Unicode.EULER_GAMMA_STRING);
+         return new MySpecialDouble(kernel, MyDouble.EULER_GAMMA, Unicode.EULER_GAMMA_STRING);
     }
 |
     <E>

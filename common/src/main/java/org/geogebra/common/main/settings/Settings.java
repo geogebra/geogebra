@@ -176,8 +176,8 @@ public class Settings {
 	/**
 	 * Begin batch for all settings at once (helper).
 	 * 
-	 * @remark Recommended to be used just for file loading, in other situations
-	 *         individual setting containers should be used to start batching.
+	 * Remark: Recommended to be used just for file loading, in other situations
+	 * individual setting containers should be used to start batching.
 	 */
 	public void beginBatch() {
 		for (EuclidianSettings settings : euclidianSettings) {
@@ -204,8 +204,8 @@ public class Settings {
 	/**
 	 * End batch for all settings at once (helper).
 	 * 
-	 * @remark Recommended to be used just for file loading, in other situations
-	 *         individual setting containers should be used to end batching.
+	 * Remark: Recommended to be used just for file loading, in other situations
+	 * individual setting containers should be used to end batching.
 	 */
 	public void endBatch() {
 		for (EuclidianSettings settings : euclidianSettings) {
