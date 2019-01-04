@@ -137,6 +137,66 @@ public class GeoPolyhedron extends GeoElement3D
 	private boolean childrenLabelsSet = false;
 
 	/**
+	 * Temporary points
+	 */
+	static public class DummyGeoPoint3D extends GeoPoint3D {
+
+		private int index;
+
+		/**
+		 * constructor
+		 * 
+		 * @param c
+		 *            construction
+		 * @param index
+		 *            index
+		 */
+		public DummyGeoPoint3D(Construction c, int index) {
+			super(c);
+			this.index = index;
+		}
+
+		/**
+		 * 
+		 * @return index for replacement
+		 */
+		public int getDummyIndex() {
+			return index;
+		}
+
+	}
+
+	/**
+	 * Temporary segments
+	 */
+	static public class DummyGeoSegment3D extends GeoSegment3D {
+
+		private int index;
+
+		/**
+		 * constructor
+		 * 
+		 * @param c
+		 *            construction
+		 * @param index
+		 *            index
+		 */
+		public DummyGeoSegment3D(Construction c, int index) {
+			super(c);
+			this.index = index;
+		}
+
+		/**
+		 * 
+		 * @return index for replacement
+		 */
+		public int getDummyIndex() {
+			return index;
+		}
+
+	}
+
+	/**
 	 * constructor
 	 * 
 	 * @param c
@@ -430,6 +490,12 @@ public class GeoPolyhedron extends GeoElement3D
 
 		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
+		if (startPoint instanceof DummyGeoPoint3D
+				&& endPoint instanceof DummyGeoPoint3D) {
+			return new DummyGeoSegment3D(cons,
+					((DummyGeoPoint3D) startPoint).getDummyIndex());
+		}
+
 		ConstructionElementCycle key = ConstructionElementCycle
 				.segmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
@@ -507,7 +573,6 @@ public class GeoPolyhedron extends GeoElement3D
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
 		segmentsIndexMax++;
-
 	}
 
 	/**
@@ -2139,6 +2204,67 @@ public class GeoPolyhedron extends GeoElement3D
 	 */
 	public boolean getChildrenLabelsSet() {
 		return childrenLabelsSet;
+	}
+
+	/**
+	 * replace dummy points and segments
+	 * 
+	 * @param points
+	 *            points for replacement
+	 * @param segments
+	 *            segments for replacement
+	 */
+	public void replaceDummies(GeoPointND[] points, GeoSegmentND[] segments) {
+		for (GeoSegment3D seg : getSegments3D()) {
+			GeoPointND p1 = seg.getStartPoint();
+			GeoPointND p2 = seg.getEndPoint();
+			boolean needsChange = false;
+			if (p1 instanceof DummyGeoPoint3D) {
+				p1 = points[((DummyGeoPoint3D) p1).getDummyIndex()];
+				needsChange = true;
+			}
+			if (p2 instanceof DummyGeoPoint3D) {
+				p2 = points[((DummyGeoPoint3D) p2).getDummyIndex()];
+				needsChange = true;
+			}
+			if (needsChange) {
+				seg.modifyInputPoints(p1, p2);
+			}
+		}
+		for (GeoPolygon3D poly : getPolygons()) {
+			GeoPointND[] polyPoints = poly.getPointsND();
+			GeoPointND[] newPoints = new GeoPointND[polyPoints.length];
+			boolean pointsNeedChange = false;
+			for (int i = 0; i < polyPoints.length; i++) {
+				GeoPointND p = polyPoints[i];
+				if (p instanceof DummyGeoPoint3D) {
+					newPoints[i] = points[((DummyGeoPoint3D) p).getDummyIndex()];
+					pointsNeedChange = true;
+				} else {
+					newPoints[i] = p;
+				}
+			}
+
+			if (pointsNeedChange) {
+				GeoSegmentND[] polySegments = poly.getSegments();
+				GeoSegmentND[] newSegments = new GeoSegmentND[polySegments.length];
+				boolean segmentsNeedChange = false;
+				for (int i = 0; i < polySegments.length; i++) {
+					GeoSegmentND s = polySegments[i];
+					if (s instanceof DummyGeoSegment3D) {
+						newSegments[i] = segments[((DummyGeoSegment3D) s)
+								.getDummyIndex()];
+						segmentsNeedChange = true;
+					} else {
+						newSegments[i] = s;
+					}
+				}
+				poly.modifyInputPoints(newPoints);
+				if (segmentsNeedChange) {
+					poly.setSegments(newSegments);
+				}
+			}
+		}
 	}
 
 }

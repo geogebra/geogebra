@@ -4,9 +4,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -38,22 +41,38 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+		case 1:
+			if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				arg = resArgs(c);
+				ok[0] = arg[0].isGeoPolygon();
+				if (ok[0]) {
+					GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
+							c.getLabels(), (GeoPolygon) arg[0],
+							new GeoBoolean(kernel.getConstruction(), true),
+							name);
+					return ret;
+				}
+				throw argErr(c, arg[0]);
+			}
+			break;
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoPoint())
 					&& (ok[1] = arg[1].isGeoPoint())) {
-
-				// GeoElement[] ret =
-				// kernelA.getManager3D().archimedeanSolid(c.getLabels(),
-				// (GeoPointND) arg[0], (GeoPointND) arg[1],
-				// kernelA.getXOYPlane(),
-				// name) ;
-
 				GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
 						c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						name);
 				return ret;
 
+			}
+			if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				if ((ok[0] = arg[0].isGeoPolygon())
+						&& (ok[1] = arg[1].isGeoBoolean())) {
+					GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
+							c.getLabels(), (GeoPolygon) arg[0],
+							(GeoBoolean) arg[1], name);
+					return ret;
+				}
 			}
 			for (int i = 0; i < 2; i++) {
 				if (!ok[i]) {

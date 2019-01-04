@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron.DummyGeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolid;
 import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolidsFactory;
@@ -11,7 +12,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
@@ -30,6 +33,11 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private GeoPointND A;
 	private GeoPointND B;
 	private GeoDirectionND v;
+
+	private GeoPolygon polygon;
+	// private GeoBoolean isDirect;
+
+	private int inputPointsCount;
 
 	private CoordMatrix4x4 matrix;
 
@@ -53,6 +61,10 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 */
 	private double areaFactor;
 
+	private Coords tmpCoords = Coords.createInhomCoorsInD3();
+
+	private boolean polyhedronIsDummy;
+
 	/**
 	 * creates an archimedean solid
 	 * 
@@ -71,8 +83,59 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 */
 	public AlgoArchimedeanSolid(Construction c, String[] labels, GeoPointND A,
 			GeoPointND B, GeoDirectionND v, Commands name) {
-		super(c);
+		this(c, name);
 
+		this.A = A;
+		this.B = B;
+		this.v = v;
+		inputPointsCount = 2;
+
+		initInputOutput(labels, (GeoElement) A, (GeoElement) B, (GeoElement) v);
+	}
+
+	/**
+	 * 
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param poly
+	 *            polygon for basis
+	 * @param isDirect
+	 *            if is direct
+	 * @param name
+	 *            solid type
+	 */
+	public AlgoArchimedeanSolid(Construction c, String[] labels, GeoPolygon poly,
+			GeoBoolean isDirect, Commands name) {
+		this(c, name);
+
+		this.polygon = poly;
+		// this.isDirect = isDirect;
+		switch (name) {
+		default:
+		case Tetrahedron:
+			inputPointsCount = 3;
+			break;
+		case Cube:
+			inputPointsCount = 4;
+			break;
+		case Octahedron:
+			inputPointsCount = 3;
+			break;
+		case Dodecahedron:
+			inputPointsCount = 5;
+			break;
+		case Icosahedron:
+			inputPointsCount = 5;
+			break;
+		}
+
+		initInputOutput(labels, poly, isDirect);
+	}
+
+	private AlgoArchimedeanSolid(Construction c, Commands name) {
+		super(c);
 		this.name = name;
 
 		// set polyhedron type
@@ -102,39 +165,25 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		setVolumeAreaAndHeightFactors();
 
-		this.A = A;
-		this.B = B;
-		this.v = v;
-
 		matrix = new CoordMatrix4x4();
+	}
 
-		createPolyhedron();
-
-		compute();
-
+	private void initInputOutput(String[] labels, GeoElement... elements) {
 		// input
-		setInput();
+		setInput(elements);
 		addAlgoToInput();
 
-		polyhedron.createFaces();
+		createPolyhedron();
+		if (polyhedronIsDummy) {
+			setUndefined();
+		} else {
+			computeSolid();
+		}
 
+		polyhedron.createFaces();
 		// faces are oriented to the inside
 		polyhedron.setReverseNormals();
 		setOutput();
-
-		setLabels(labels);
-
-		update();
-	}
-
-	/**
-	 * set the labels
-	 * 
-	 * @param labels
-	 *            lables
-	 */
-	protected void setLabels(String[] labels) {
-
 		if (labels == null || labels.length <= 1) {
 			polyhedron.initLabels(labels);
 		} else {
@@ -143,31 +192,39 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 				getOutput(i).setLabel(labels[i]);
 			}
 		}
+
+		update();
 	}
 
 	/**
 	 * @return first vertex
 	 */
 	protected GeoPointND getA() {
-		return A;
+		if (polygon == null) {
+			return A;
+		}
+		return polygon.getPointND(0);
 	}
 
 	/**
 	 * @return second vertex
 	 */
 	protected GeoPointND getB() {
-		return B;
+		if (polygon == null) {
+			return B;
+		}
+		return polygon.getPointND(1);
 	}
 
 	private Coords getDirection() {
-		return v.getDirectionInD3();
+		if (polygon == null) {
+			return v.getDirectionInD3();
+		}
+		return polygon.getCoordSys().getNormal();
 	}
 
-	private void setInput() {
-		input = new GeoElement[3];
-		input[0] = (GeoElement) A;
-		input[1] = (GeoElement) B;
-		input[2] = (GeoElement) v;
+	private void setInput(GeoElement... elements) {
+		input = elements;
 	}
 
 	@Override
@@ -199,7 +256,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		int vertexCount = solidDescription.getVertexCount();
 
-		outputPoints.augmentOutputSize(vertexCount - 2, false);
+		outputPoints.augmentOutputSize(vertexCount - inputPointsCount, false);
 		if (getPolyhedron().allLabelsAreSet()) {
 			outputPoints.setLabels(null);
 		}
@@ -209,10 +266,29 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		// points
 		GeoPointND[] points = new GeoPointND[vertexCount];
-		points[0] = getA();
-		points[1] = getB();
-		for (int i = 2; i < vertexCount; i++) {
-			GeoPoint3D point = outputPoints.getElement(i - 2);
+		if (polygon == null) {
+			points[0] = getA();
+			points[1] = getB();
+			polyhedronIsDummy = false;
+		} else {
+			if (polygon.isDefined()
+					&& polygon.getPointsLength() == inputPointsCount) {
+				GeoPointND[] polygonPoints = polygon.getPointsND();
+				for (int i = 0; i < inputPointsCount; i++) {
+					points[i] = polygonPoints[i];
+				}
+				polyhedronIsDummy = false;
+			} else {
+				// use dummy points to replace polygon points
+				for (int i = 0; i < inputPointsCount; i++) {
+					points[i] = new DummyGeoPoint3D(cons, i);
+				}
+				polyhedronIsDummy = true;
+			}
+		}
+
+		for (int i = inputPointsCount; i < vertexCount; i++) {
+			GeoPoint3D point = outputPoints.getElement(i - inputPointsCount);
 			points[i] = point;
 			point.setCoords(coords[i]);
 			polyhedron.addPointCreated(point);
@@ -220,7 +296,14 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		// faces
 		int[][] faces = solidDescription.getFaces();
-		for (int i = 0; i < faces.length; i++) {
+		int firstPoly;
+		if (polygon == null) {
+			firstPoly = 0;
+		} else {
+			polyhedron.addPolygonLinked(polygon);
+			firstPoly = 1;
+		}
+		for (int i = firstPoly; i < faces.length; i++) {
 			polyhedron.startNewFace();
 			for (int j = 0; j < faces[i].length; j++) {
 				polyhedron.addPointToCurrentFace(points[faces[i][j]]);
@@ -230,10 +313,35 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 	}
 
+	private void setPolyhedronNotDummyIfPossible() {
+		if (polygon.isDefined()
+				&& polygon.getPointsLength() == inputPointsCount) {
+			polyhedron.replaceDummies(polygon.getPointsND(),
+					polygon.getSegments());
+			polyhedronIsDummy = false;
+		}
+	}
+
 	@Override
 	public void compute() {
+		if (polyhedronIsDummy) {
+			setPolyhedronNotDummyIfPossible();
+		}
+		
+		if (!polyhedronIsDummy) {
+			computeSolid();
+		}
+	}
+
+	private void computeSolid() {
 
 		polyhedron.setDefined();
+
+		if (polygon != null && (!polygon.isDefined()
+				|| polygon.getPointsLength() != inputPointsCount)) {
+			setUndefined();
+			return;
+		}
 
 		Coords o = getA().getInhomCoordsInD3();
 
@@ -272,8 +380,21 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		matrix.setVy(v2.mul(l));
 		matrix.setVz(v3.mul(l));
 
-		for (int i = 0; i < coords.length - 2; i++) {
-			outputPoints.getElement(i).setCoords(matrix.mul(coords[i + 2]),
+		if (polygon != null) {
+			GeoPointND[] polygonPoints = polygon.getPointsND();
+			for (int i = 2; i < inputPointsCount; i++) {
+				tmpCoords.setMul3(matrix, coords[i]);
+				if (!tmpCoords.equalsForKernel3(
+						polygonPoints[i].getInhomCoordsInD3())) {
+					setUndefined();
+					return;
+				}
+			}
+		}
+
+		for (int i = 0; i < coords.length - inputPointsCount; i++) {
+			outputPoints.getElement(i)
+					.setCoords(matrix.mul(coords[i + inputPointsCount]),
 					true);
 		}
 

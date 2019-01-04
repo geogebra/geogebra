@@ -1813,6 +1813,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
+	public GeoElement[] archimedeanSolid(String[] labels, GeoPolygon poly,
+			GeoBoolean direct, Commands name) {
+		AlgoArchimedeanSolid algo = new AlgoArchimedeanSolid(cons, labels, poly,
+				direct, name);
+		return algo.getOutput();
+	}
+
+	@Override
 	final public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoPointND C, Commands name) {
 		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(

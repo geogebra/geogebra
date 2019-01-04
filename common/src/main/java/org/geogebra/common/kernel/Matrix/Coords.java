@@ -2047,6 +2047,24 @@ public class Coords {
 	}
 
 	/**
+	 * Return true if this==v for x,y,z, for the precision given (ie each
+	 * coordinates are not different more than precision).
+	 * 
+	 * @param v
+	 *            vector compared with
+	 * @return true if the vectors are equal
+	 */
+	public boolean equalsForKernel3(Coords v) {
+		for (int i = 0; i < 3; i++) {
+			if (!DoubleUtil.isEqual(val[i], v.val[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Return true if this==v for Kernel.STANDARD_PRECISION precision (ie each
 	 * coordinates are not different more than precision).
 	 * 
@@ -2854,6 +2872,27 @@ public class Coords {
 				r += m.get(i, n) * v.get(n);
 			}
 
+			set(i, r);
+		}
+
+		return this;
+	}
+
+	/**
+	 * set this = m*v for x, y, z
+	 * 
+	 * @param m
+	 *            matrix
+	 * @param v
+	 *            vector
+	 * @return this
+	 */
+	public Coords setMul3(CoordMatrix m, Coords v) {
+		for (int i = 1; i <= 3; i++) {
+			double r = 0;
+			for (int n = 1; n <= m.getColumns(); n++) {
+				r += m.get(i, n) * v.get(n);
+			}
 			set(i, r);
 		}
 

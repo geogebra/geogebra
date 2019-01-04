@@ -883,6 +883,9 @@ public interface Manager3DInterface {
 	public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, Commands name);
 
+	public GeoElement[] archimedeanSolid(String[] labels, GeoPolygon poly,
+			GeoBoolean isDirect, Commands name);
+
 	/********************************************************************
 	 * TRANSFORMATIONS
 	 ********************************************************************/
