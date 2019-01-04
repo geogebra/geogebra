@@ -559,6 +559,52 @@ public class AlgebraStyleTest extends AlgebraTest {
 		Assert.assertEquals(expect, res);
 	}
 
+	private static void rad(String def, String expect) {
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
+				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
+				null);
+		String res = geo[0].toValueString(StringTemplate.maxPrecision13);
+		Assert.assertEquals(expect, res);
+	}
+
+	/** GGB-2183 */
+	@Test
+	public void sinCosTanZero() {
+		rad("sin(1E-1)", "0.09983341664683");
+		rad("sin(1E-2)", "0.009999833334167");
+		rad("sin(1E-3)", "0.0009999998333333");
+		rad("sin(1E-4)", "0.00009999999983333");
+		rad("sin(1E-5)", "0.000009999999999833");
+		rad("sin(1E-6)", "0.0000009999999999998");
+		rad("sin(1E-7)", "0.0000001000000000000");
+		rad("sin(1E-8)", "1.000000000000E-8");
+		rad("sin(1E-9)", "1.000000000000E-9");
+		rad("sin(1E-10)", "1.000000000000E-10");
+		rad("sin(1E-11)", "1.000000000000E-11");
+		rad("sin(1E-12)", "1.000000000000E-12");
+		rad("tan(1E-1)", "0.1003346720855");
+		rad("tan(1E-2)", "0.01000033334667");
+		rad("tan(1E-3)", "0.001000000333333");
+		rad("tan(1E-4)", "0.0001000000003333");
+		rad("tan(1E-5)", "0.00001000000000033");
+		rad("tan(1E-6)", "0.000001000000000000");
+		rad("tan(1E-7)", "0.0000001000000000000");
+		rad("tan(1E-8)", "1.000000000000E-8");
+		rad("tan(1E-9)", "1.000000000000E-9");
+		rad("tan(1E-10)", "1.000000000000E-10");
+		rad("tan(1E-11)", "1.000000000000E-11");
+		rad("tan(1E-12)", "1.000000000000E-12");
+		rad("cos(pi/2)", "0.000000000000");
+		rad("cos(3pi/2)", "0.000000000000");
+		rad("cos(5pi/2)", "0.000000000000");
+		rad("cos(7pi/2)", "0.000000000000");
+		rad("sin(pi)", "0.000000000000");
+		rad("sin(10pi)", "0.000000000000");
+		rad("sin(100pi)", "0.000000000000");
+		rad("sin(1000pi)", "0.000000000000");
+
+	}
+
 	/** GGB-2183 */
 	@Test
 	public void autoFixDegree() {
@@ -575,7 +621,6 @@ public class AlgebraStyleTest extends AlgebraTest {
 		deg("(tan(30)+tan(15))/(1-tan(30)*tan(15))", "1");
 		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
 		deg("sin(x)", "sin(x)");
-		deg("sin(pi)", "0");
 		deg("sin(deg)", "0.01745");
 		deg("sin(1deg)", "0.01745");
 		deg("sin(pi/180)", "0.01745");

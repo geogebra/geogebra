@@ -451,14 +451,19 @@ public class MyDouble extends ValidExpression
 	 * @return sin(this)
 	 */
 	final public MyDouble sin() {
+		boolean large = Math.abs(val) > 0.1;
+
 		set(Math.sin(val));
 		angleDim = 0;
-		checkZero();
+		// don't want this for eg sin(1.23*10^-9) but we do for eg sin(10pi)
+		if (large) {
+			checkZero();
+		}
 		return this;
 	}
 
 	/*
-	 * make sure cos(2790 degrees) gives zero
+	 * make sure cos(2790 deg) gives zero
 	 */
 	private void checkZero() {
 		if (DoubleUtil.isZero(val)) {
@@ -472,13 +477,18 @@ public class MyDouble extends ValidExpression
 	 * @return tangens of value
 	 */
 	final public MyDouble tan() {
+		boolean large = Math.abs(val) > 0.1;
+
 		// Math.tan() gives a very large number for tan(pi/2)
 		// but should be undefined for pi/2, 3pi/2, 5pi/2, etc.
 		if (DoubleUtil.isEqual(Math.abs(val) % Math.PI, Kernel.PI_HALF)) {
 			set(Double.NaN);
 		} else {
 			set(Math.tan(val));
-			checkZero();
+			// don't want this for eg tan(1.23*10^-9) but we do for eg tan(10pi)
+			if (large) {
+				checkZero();
+			}
 		}
 		angleDim = 0;
 		return this;
