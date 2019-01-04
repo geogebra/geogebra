@@ -23,10 +23,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Abstract class for all "euclidian" panels.
- *
+ * 
+ * Remark: {@link #getEuclidianView()} has to be overridden if
+ * {@link #getComponent()} does not return the euclidian view directly
+ * 
  * @author arpad (based on EuclidianDockPanelAbstract by Mathieu)
- * @remark {@link #getEuclidianView()} has to be overridden if
- *         {@link #getComponent()} does not return the euclidian view directly
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {

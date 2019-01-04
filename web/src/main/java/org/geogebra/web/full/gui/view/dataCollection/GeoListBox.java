@@ -80,9 +80,9 @@ public class GeoListBox extends ListBox {
 	}
 
 	/**
-	 * sets the {@link #selection selected GeoElement}. if {@code elem} is
-	 * {@code null}, the selected index of this listbox is set to
-	 * {@link #EMPTY_SELECTION}.
+	 * Sets the selected GeoElement. if {@code elem} is {@code null}, the
+	 * selected index of this listbox is set to
+	 * {@link DefaultEntries#EMPTY_SELECTION}.
 	 * 
 	 * @param elem
 	 *            the selected {@link GeoElement}

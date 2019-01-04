@@ -484,7 +484,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Get the {@link MenuBar} used to display suggestions.
+		 * Get the {@link AriaMenuBar} used to display suggestions.
 		 *
 		 * @return the suggestions menu
 		 */

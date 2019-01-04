@@ -15,7 +15,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
 /**
- * Class to handle tab key properly for {@Link EuclidianView3DW}
+ * Class to handle tab key properly for {@link EuclidianView3DW}
  *
  * @author laszlo
  *

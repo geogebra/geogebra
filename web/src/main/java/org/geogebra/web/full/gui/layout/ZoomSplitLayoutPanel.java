@@ -477,18 +477,21 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
   }
 
-  /**
-   * Sets the minimum allowable size for the given widget.
-   *
-   * <p>
-   * Its associated splitter cannot be dragged to a position that would make it
-   * smaller than this size. This method has no effect for the
-   * {@link DockLayoutPanel.Direction#CENTER} widget.
-   * </p>
-   *
-   * @param child the child whose minimum size will be set
-   * @param minSize the minimum size for this widget
-   */
+  	/**
+	 * Sets the minimum allowable size for the given widget.
+	 *
+	 * <p>
+	 * Its associated splitter cannot be dragged to a position that would make
+	 * it smaller than this size. This method has no effect for the
+	 * {@link com.google.gwt.user.client.ui.DockLayoutPanel.Direction#CENTER}
+	 * widget.
+	 * </p>
+	 *
+	 * @param child
+	 *            the child whose minimum size will be set
+	 * @param minSize
+	 *            the minimum size for this widget
+	 */
   public void setWidgetMinSize(Widget child, int minSize) {
     assertWidgetIsChild(child);
     Splitter splitter = getAssociatedSplitter(child);
@@ -498,21 +501,23 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
   }
 
-  /**
-   * Sets a size below which the slider will close completely. This can be used
-   * in conjunction with {@link #setWidgetMinSize} to provide a speed-bump
-   * effect where the slider will stick to a preferred minimum size before
-   * closing completely.
-   *
-   * <p>
-   * This method has no effect for the {@link DockLayoutPanel.Direction#CENTER}
-   * widget.
-   * </p>
-   *
-   * @param child the child whose slider should snap closed
-   * @param snapClosedSize the width below which the widget will close or
-   *        -1 to disable.
-   */
+  	/**
+	 * Sets a size below which the slider will close completely. This can be
+	 * used in conjunction with {@link #setWidgetMinSize} to provide a
+	 * speed-bump effect where the slider will stick to a preferred minimum size
+	 * before closing completely.
+	 *
+	 * <p>
+	 * This method has no effect for the
+	 * {@link com.google.gwt.user.client.ui.DockLayoutPanel.Direction#CENTER}
+	 * widget.
+	 * </p>
+	 *
+	 * @param child
+	 *            the child whose slider should snap closed
+	 * @param snapClosedSize
+	 *            the width below which the widget will close or -1 to disable.
+	 */
   public void setWidgetSnapClosedSize(Widget child, int snapClosedSize) {
     assertWidgetIsChild(child);
     Splitter splitter = getAssociatedSplitter(child);

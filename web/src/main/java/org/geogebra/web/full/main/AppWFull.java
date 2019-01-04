@@ -42,7 +42,6 @@ import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.AppConfigMixedReality;
-import org.geogebra.common.main.settings.AppConfigNotes;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -96,6 +95,7 @@ import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
 import org.geogebra.web.full.main.activity.BaseActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
@@ -303,7 +303,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			activity = new ScientificActivity();
 			break;
 		case "notes":
-			activity = new BaseActivity(new AppConfigNotes());
+			activity = new NotesActivity();
 			break;
 		default:
 			activity = new ClassicActivity(new AppConfigDefault());

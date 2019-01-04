@@ -130,8 +130,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 * example, if <code>contentRect</code> is larger than the viewport,
 	 * scrolling will be confined to the viewport's bounds.
 	 * 
-	 * @see java.awt.Component#isValid
-	 * @see java.awt.Component#getPeer
 	 */
 	public void scrollRectToVisibleCommand() {
 
@@ -162,11 +160,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 			Dimension extent = new Dimension(this.getOffsetWidth() - barWidth,
 			        this.getOffsetHeight() - barHeight);
 
-			// App.debug("viewSize w / h : " + viewSize.width + " / " +
-			// viewSize.height);
-			// App.debug("viewPosition x / y : " + viewPosition.x + " / " +
-			// viewPosition.y);
-
 			viewPosition.x -= dx;
 			viewPosition.y -= dy;
 
@@ -193,28 +186,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 			if (viewPosition.x != startX || viewPosition.y != startY) {
 				doAdjustScroll = false;
 				setViewPosition(viewPosition);
-				// NOTE: How JViewport currently works with the
-				// backing store is not foolproof. The sequence of
-				// events when setViewPosition
-				// (scrollRectToVisible) is called is to reset the
-				// views bounds, which causes a repaint on the
-				// visible region and sets an ivar indicating
-				// scrolling (scrollUnderway). When
-				// JViewport.paint is invoked if scrollUnderway is
-				// true, the backing store is blitted. This fails
-				// if between the time setViewPosition is invoked
-				// and paint is received another repaint is queued
-				// indicating part of the view is invalid. There
-				// is no way for JViewport to notice another
-				// repaint has occured and it ends up blitting
-				// what is now a dirty region and the repaint is
-				// never delivered.
-				// It just so happens JTable encounters this
-				// behavior by way of scrollRectToVisible, for
-				// this reason scrollUnderway is set to false
-				// here, which effectively disables the backing
-				// store.
-				// scrollUnderway = false;
 			}
 		}
 	}

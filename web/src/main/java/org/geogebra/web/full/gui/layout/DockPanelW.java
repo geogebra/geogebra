@@ -359,10 +359,6 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Method which is called if this dock panel gained focus. This happens if
 	 * setFocus(true) was called and this panel had no focus before.
-	 * 
-	 * @remark If GeoGebra is running as unsigned applet focus is just changed
-	 *         between euclidian views (even if other views were selected in the
-	 *         meantime).
 	 */
 	protected void focusGained() {
 		// empty by default
@@ -371,10 +367,6 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Method which is called if this dock panel lost focus. This happens if
 	 * setFocus(false) was called and this panel had focus before.
-	 * 
-	 * @remark If GeoGebra is running as unsigned applet focus is just changed
-	 *         between euclidian views (even if other views were selected in the
-	 *         meantime).
 	 */
 	protected void focusLost() {
 		// empty by default
@@ -1237,9 +1229,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Mark this panel as focused. When gaining focus the panel will
 	 * automatically request focus for its parent frame.
 	 * 
-	 * @remark The focus system implemented here has nothing to do with swings
-	 *         focus system, therefore Swings focus methods won't work.
-	 * 
 	 * @param hasFocus
 	 *            has the focus
 	 * @param updatePropertiesView
@@ -1257,9 +1246,6 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
 	 * automatically request focus for its parent frame.
-	 * 
-	 * @remark The focus system implemented here has nothing to do with swings
-	 *         focus system, therefore Swings focus methods won't work.
 	 * 
 	 * @param hasFocus
 	 *            has the focus
