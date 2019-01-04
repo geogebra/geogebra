@@ -43,12 +43,11 @@ public class CmdRelation extends CmdScripting {
 
 		case 1:
 			if (arg[0] instanceof GeoList) {
-				int size = ((GeoList) arg[0]).size();
+				GeoElement list = arg[0];
+				GeoElement[] ge = list.getParentAlgorithm().getInput();
+				int size = ge.length;
+
 				ok = new boolean[size];
-				GeoElement[] ge = new GeoElement[size];
-				for (int i = 0; i < size; i++) {
-					ge[i] = ((GeoList) arg[0]).get(i);
-				}
 				if (ge.length == 2) {
 					if ((ok[0] = (ge[0].isGeoElement()))
 							&& (ok[1] = (ge[1].isGeoElement()))) {
