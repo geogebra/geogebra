@@ -621,6 +621,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 		deg("(tan(30)+tan(15))/(1-tan(30)*tan(15))", "1");
 		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
 		deg("sin(x)", "sin(x)");
+		deg("sin(pi)", "0");
 		deg("sin(deg)", "0.01745");
 		deg("sin(1deg)", "0.01745");
 		deg("sin(pi/180)", "0.01745");
