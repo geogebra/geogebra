@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -50,9 +51,6 @@ import org.geogebra.common.util.DoubleUtil;
             super(a_view3d, a_new3D); <br> 
          }
          </code></li>
- * <li><b> NOTE: </b> a Drawable3D uses the
- * {@link GeoElement3D#getDrawingMatrix()} method to know where to draw itself
- * </li>
  * <li>Eclipse will add auto-generated methods :
  * <ul>
  * <li>getPickOrder() : for picking objects order ; use
@@ -105,8 +103,8 @@ import org.geogebra.common.util.DoubleUtil;
  * 
  * <h3>See</h3>
  * <ul>
- * <li>{@link EuclidianView3D#createDrawable(GeoElement)} to make the drawable
- * be created when the GeoElement is created</li>
+ * <li>{@link EuclidianView3D#newDrawable(GeoElementND)} to make the drawable be
+ * created when the GeoElement is created</li>
  * </ul>
  * 
  * 

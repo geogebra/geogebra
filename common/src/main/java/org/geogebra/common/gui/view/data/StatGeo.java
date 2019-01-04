@@ -438,9 +438,12 @@ public class StatGeo {
 	 * Creates a bar chart from a list of GeoText values
 	 * 
 	 * @param dataList
+	 *            list of texts
 	 * @param settings
-	 * @return
+	 *            settings
+	 * @return bar chart
 	 * @throws Exception
+	 *             when grouping mode is wrong
 	 */
 	public GeoElementND createBarChartText(GeoList dataList,
 			StatPanelSettings settings) throws Exception {
@@ -477,9 +480,12 @@ public class StatGeo {
 	 * Creates a bar chart from a list of GeoNumeric values
 	 * 
 	 * @param dataList
+	 *            data
 	 * @param settings
-	 * @return
+	 *            settings
+	 * @return bar chart
 	 * @throws Exception
+	 *             when group mode is wrong
 	 */
 	public GeoElement createBarChartNumeric(GeoList dataList,
 			StatPanelSettings settings) throws Exception {

@@ -466,7 +466,7 @@ final public class CellRange {
 	 * @param geoClass
 	 *            the GeoClass type to count. If null, then all GeoElements are
 	 *            counted
-	 * @return
+	 * @return count of geos of given type in the range
 	 */
 	public int getGeoCount(GeoClass geoClass) {
 		int count = 0;

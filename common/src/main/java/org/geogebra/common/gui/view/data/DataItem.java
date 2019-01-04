@@ -312,8 +312,9 @@ public class DataItem {
 
 	/**
 	 * @param app
-	 * @param spreadsheetTable
+	 *            application
 	 * @param enableHeader
+	 *            whether to enable header
 	 * @return DataItem title
 	 */
 	public String getDataTitle(App app, boolean enableHeader) {
@@ -508,16 +509,15 @@ public class DataItem {
 
 	/**
 	 * @param enableHeader
-	 * @return
+	 *            whether to add header
+	 * @return list of descriptions of data in this data item
 	 */
 	public String[] toStringArray(boolean enableHeader) {
 		ArrayList<String> list = toStringList(enableHeader);
 		if (list == null) {
 			return new String[0];
 		}
-
 		return list.toArray(new String[list.size()]);
-
 	}
 
 	/**

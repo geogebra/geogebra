@@ -125,8 +125,6 @@ public class Vector3d {
 	 *            element index
 	 * @param value
 	 *            element value
-	 * @return element value throws ArrayIndexOutOfBoundsException if i is not
-	 *         in the range 0 to 2.
 	 */
 	public void set(int i, double value) {
 		switch (i) {

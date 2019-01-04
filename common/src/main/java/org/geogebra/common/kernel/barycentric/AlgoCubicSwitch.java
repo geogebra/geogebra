@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.barycentric;
 /**
  * The heavyweight part of AlgoCubic Based on data from Bernard Gibert
  * 
- * @Author Arpad Fekete
+ * @author Arpad Fekete
  * @author Zbynek Konecny
  *
  */

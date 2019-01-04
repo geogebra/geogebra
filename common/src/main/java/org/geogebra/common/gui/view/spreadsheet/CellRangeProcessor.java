@@ -159,11 +159,10 @@ public class CellRangeProcessor {
 	 * 
 	 * @param rangeList
 	 * @param geoClass
-	 * @return
+	 * @return whether one var stats dialog makes sense for selection
 	 */
 	public boolean isOneVarStatsPossible(ArrayList<CellRange> rangeList,
 			GeoClass geoClass) {
-
 		if (rangeList == null || rangeList.size() == 0) {
 			return false;
 		}
@@ -176,9 +175,7 @@ public class CellRangeProcessor {
 				return true;
 			}
 		}
-
 		return false;
-
 	}
 
 	/**
@@ -187,7 +184,7 @@ public class CellRangeProcessor {
 	 * two or more columns and each column has at least three data values.
 	 * 
 	 * @param rangeList
-	 * @return
+	 * @return whether multi-var stats dialog makes sense for selection
 	 */
 	public boolean isMultiVarStatsPossible(ArrayList<CellRange> rangeList) {
 
@@ -233,8 +230,10 @@ public class CellRangeProcessor {
 	 * minimumCount.
 	 * 
 	 * @param cellRange
+	 *            range
 	 * @param minimumCount
-	 * @return
+	 *            min count of numbers
+	 * @return whether range has enough numbers in it
 	 */
 	private boolean containsMinimumGeoNumeric(CellRange cellRange,
 			int minimumCount) {
@@ -280,7 +279,7 @@ public class CellRangeProcessor {
 	 * @param geoClass
 	 *            the GeoClass type to count. If null, then all GeoElements are
 	 *            counted
-	 * @return
+	 * @return total number of geos in all ranges
 	 */
 	public int getGeoCount(ArrayList<CellRange> rangeList, GeoClass geoClass) {
 		int count = 0;
@@ -365,7 +364,7 @@ public class CellRangeProcessor {
 	 * @param rangeList
 	 * @param byValue
 	 * @param leftToRight
-	 * @return
+	 * @return polyline
 	 */
 	public GeoElement createPolyLine(ArrayList<CellRange> rangeList,
 			boolean byValue, boolean leftToRight) {
@@ -381,7 +380,7 @@ public class CellRangeProcessor {
 	 * @param leftToRight
 	 * @param isSorted
 	 * @param doStoreUndo
-	 * @return
+	 * @return polyline
 	 */
 	public GeoElement createPolyLine(ArrayList<CellRange> rangeList,
 			boolean byValue, boolean leftToRight, boolean isSorted,
@@ -995,7 +994,7 @@ public class CellRangeProcessor {
 	 * @param row1
 	 * @param row2
 	 * @param copyByValue
-	 * @return
+	 * @return matrix
 	 */
 	public GeoElementND createMatrix(int column1, int column2, int row1,
 			int row2, boolean copyByValue) {
@@ -1014,7 +1013,7 @@ public class CellRangeProcessor {
 	 * @param row2
 	 * @param copyByValue
 	 * @param transpose
-	 * @return
+	 * @return matrix
 	 */
 	public GeoElementND createMatrix(int column1, int column2, int row1,
 			int row2, boolean copyByValue, boolean transpose) {
@@ -1050,7 +1049,7 @@ public class CellRangeProcessor {
 	 * @param row1
 	 * @param row2
 	 * @param copyByValue
-	 * @return
+	 * @return table (using TableText)
 	 */
 	public GeoElementND createTableText(int column1, int column2, int row1,
 			int row2, boolean copyByValue, boolean transpose) {

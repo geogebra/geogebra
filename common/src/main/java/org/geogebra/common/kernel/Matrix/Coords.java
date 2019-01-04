@@ -647,7 +647,7 @@ public class Coords {
 	 * @return vector resulting of the cross product
 	 * 
 	 *         deprecated create vector and use
-	 *         {@link #setCrossProduct(Coords, Coords)} instead
+	 *         {@link #setCrossProduct3(Coords, Coords)} instead
 	 */
 
 	final public Coords crossProduct(Coords v) {
@@ -666,7 +666,7 @@ public class Coords {
 	 * @return 4-length vector equal to cross product this ^ v
 	 * 
 	 *         deprecated create vector and use
-	 *         {@link #setCrossProduct(Coords, Coords)} instead
+	 *         {@link #setCrossProduct4(Coords, Coords)} instead
 	 */
 
 	final public Coords crossProduct4(Coords v) {
@@ -1431,6 +1431,8 @@ public class Coords {
 	 * 
 	 * @param m
 	 *            plane matrix
+	 * @param v
+	 *            vz
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
@@ -2352,10 +2354,13 @@ public class Coords {
 	}
 
 	/**
-	 * add values of v inside this
+	 * add coeff * v inside this
 	 * 
 	 * @param v
 	 *            vector
+	 * @param coeff
+	 *            coefficient
+	 * @return this
 	 */
 	public Coords addInsideMul(Coords v, double coeff) {
 		for (int i = 0; i < v.val.length; i++) {
@@ -2692,8 +2697,10 @@ public class Coords {
 	}
 
 	/**
-	 * 
 	 * set 3 floats array
+	 * 
+	 * @param ret
+	 *            output array
 	 */
 	public void get3ForGL(float[] ret) {
 		for (int i = 0; i < 3; i++) {
@@ -2702,8 +2709,10 @@ public class Coords {
 	}
 
 	/**
-	 * 
 	 * set 4 floats array
+	 * 
+	 * @param ret
+	 *            output array
 	 */
 	public void get4ForGL(float[] ret) {
 		for (int i = 0; i < 4; i++) {

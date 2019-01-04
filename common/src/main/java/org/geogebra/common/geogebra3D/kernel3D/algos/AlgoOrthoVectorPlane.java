@@ -42,6 +42,9 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	/** ortho vector (output) */
 	private GeoVector3D vector;
 
+	/**
+	 * output coords
+	 */
 	protected Coords vCoords;
 
 	/**
@@ -51,24 +54,19 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	 *            the construction
 	 * @param label
 	 *            name of point
+	 * @param plane
+	 *            orthogonal plane
 	 */
 	AlgoOrthoVectorPlane(Construction cons, String label, GeoCoordSys2D plane) {
-
 		super(cons);
-
 		vCoords = new Coords(4);
-
 		this.plane = plane;
-
 		vector = new GeoVector3D(cons);
-
 		setInputOutput(new GeoElement[] { (GeoElement) plane },
 				new GeoElement[] { vector });
 
-		vector.setLabel(label);
-
 		compute();
-
+		vector.setLabel(label);
 	}
 
 	/**
@@ -85,30 +83,22 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
 	@Override
 	public void compute() {
-
 		if (!((GeoElement) plane).isDefined()) {
 			vector.setUndefined();
 			return;
 		}
 
 		updateCoords();
-
 		vector.setCoords(vCoords);
-
 	}
 
 	/**
-	 * 
-	 * @return coords of the vector
+	 * Compute coords of the vector
 	 */
 	protected void updateCoords() {
 		if (plane instanceof GeoPlane3D) {
-			vCoords.setValues(plane.getCoordSys().getEquationVector(), 3); // get
-																			// (a,
-																			// b,
-																			// c)
-																			// from
-																			// ax+by+cz+d=0
+			// get (a, b, c) from ax+by+cz+d=0
+			vCoords.setValues(plane.getCoordSys().getEquationVector(), 3);
 		} else {
 			vCoords = plane.getCoordSys().getVz();
 		}

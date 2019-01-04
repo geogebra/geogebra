@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.awt.font.GTextLayout;
+
 public interface GGraphics2D {
 
 	/**
@@ -12,7 +14,7 @@ public interface GGraphics2D {
 	 *            the <code>Shape</code> to be rendered
 	 * @see #setStroke
 	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
+	 * @see #setColor
 	 * @see #transform
 	 * 
 	 * 
@@ -46,8 +48,6 @@ public interface GGraphics2D {
 	 *            should be rendered
 	 * @throws NullPointerException
 	 *             if <code>str</code> is <code>null</code>
-	 * @see java.awt.Graphics#drawBytes
-	 * @see java.awt.Graphics#drawChars
 	 * @since JDK1.0
 	 */
 	public abstract void drawString(String str, int x, int y);
@@ -74,8 +74,8 @@ public interface GGraphics2D {
 	 * @throws NullPointerException
 	 *             if <code>str</code> is <code>null</code>
 	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
-	 * @see java.awt.Graphics#setFont
+	 * @see #setColor
+	 * @see #setFont
 	 * 
 	 * @see #setComposite
 	 * @see #setClip
@@ -91,7 +91,7 @@ public interface GGraphics2D {
 	 * @param s
 	 *            the <code>Shape</code> to be filled
 	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
+	 * @see #setColor
 	 * @see #transform
 	 * 
 	 * @see #setComposite
@@ -120,12 +120,9 @@ public interface GGraphics2D {
 	 *             render to the screen and a security manager is set and its
 	 *             <code>checkPermission</code> method does not allow the
 	 *             operation.
-	 * @see java.awt.Graphics#setXORMode
-	 * @see java.awt.Graphics#setPaintMode
 	 * @see #getComposite
-	 * @see java.awt.AlphaComposite
+	 * @see GAlphaComposite
 	 * @see SecurityManager#checkPermission
-	 * @see java.awt.AWTPermission
 	 */
 	public abstract void setComposite(GComposite comp);
 
@@ -138,10 +135,9 @@ public interface GGraphics2D {
 	 * @param paint
 	 *            the <code>Paint</code> object to be used to generate color
 	 *            during the rendering process, or <code>null</code>
-	 * @see java.awt.Graphics#setColor
-	 * @see #getPaint
-	 * @see java.awt.GradientPaint
-	 * @see java.awt.TexturePaint
+	 * @see #setColor
+	 * @see GGradientPaint
+	 * @see GTexturePaint
 	 */
 	public abstract void setPaint(GPaint paint);
 
@@ -251,7 +247,6 @@ public interface GGraphics2D {
 	 * 
 	 * @return the current <code>Graphics2D</code> <code>Color</code>, which
 	 *         defines the background color.
-	 * @see #setBackground
 	 */
 	public abstract GColor getBackground();
 
@@ -275,8 +270,7 @@ public interface GGraphics2D {
 	 * <code>Clip</code> larger, use <code>setClip</code>. The <i>user clip</i>
 	 * modified by this method is independent of the clipping associated with
 	 * device bounds and visibility. If no clip has previously been set, or if
-	 * the clip has been cleared using
-	 * {@link java.awt.Graphics#setClip(java.awt.Shape) setClip} with a
+	 * the clip has been cleared using {@link #setClip(GShape) setClip} with a
 	 * <code>null</code> argument, the specified <code>Shape</code> becomes the
 	 * new user clip.
 	 * 
@@ -301,9 +295,8 @@ public interface GGraphics2D {
 	 * the text rendering.
 	 *
 	 * @return a reference to an instance of FontRenderContext.
-	 * @see java.awt.font.FontRenderContext
-	 * @see java.awt.Font#createGlyphVector
-	 * @see java.awt.font.TextLayout
+	 * @see GFontRenderContext
+	 * @see GTextLayout
 	 * @since 1.2
 	 */
 

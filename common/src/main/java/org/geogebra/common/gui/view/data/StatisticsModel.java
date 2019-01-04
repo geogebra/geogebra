@@ -59,7 +59,11 @@ public class StatisticsModel {
 	 * Constructor
 	 * 
 	 * @param app
-	 * @param statDialog
+	 *            application
+	 * @param model
+	 *            DA model
+	 * @param listener
+	 *            UI
 	 */
 	public StatisticsModel(App app, DataAnalysisModel model,
 			IStatisticsModelListener listener) {
@@ -69,6 +73,9 @@ public class StatisticsModel {
 		createLabelMap();
 	}
 
+	/**
+	 * Build UI for inference modes
+	 */
 	public void fillInferenceModes() {
 
 		switch (daModel.getMode()) {

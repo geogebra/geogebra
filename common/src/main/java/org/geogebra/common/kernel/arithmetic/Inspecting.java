@@ -90,10 +90,10 @@ public interface Inspecting {
 	/**
 	 * Checks if a ValidExpression is unplottable
 	 * 
+	 * <em>Warning:</em> it always returns false for MyList, the checking has to
+	 * be done manually for each element
+	 * 
 	 * @author bencze
-	 * @warning it always returns false for MyList, the checking has to be done
-	 *          manually for each element
-	 *
 	 */
 	public class UnplottableChecker implements Inspecting {
 

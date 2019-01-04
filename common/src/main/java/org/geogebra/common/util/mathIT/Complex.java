@@ -513,14 +513,14 @@ public class Complex {
 	 * </table>
 	 * It is approximated up to a relative error of 10<sup>6</sup> times the
 	 * given {@link #ACCURACY accuracy}. Here &#947; denotes the
-	 * {@link Numbers#GAMMA Euler-Mascheroni constant}.
+	 * {@link MyDouble#EULER_GAMMA Euler-Mascheroni constant}.
 	 * 
 	 * @param z
 	 *            a complex number
 	 * @return &#915;(<i>z</i>)
 	 * @see #gamma(Complex)
 	 * @see #lnGamma(double[])
-	 * @see Numbers#gamma(double)
+	 * @see MyDouble#EULER_GAMMA
 	 */
 	public static double[] gamma(double[] z) {
 		if (z[0] < 0) { // Weierstrass form:
@@ -639,13 +639,13 @@ public class Complex {
 	 * </table>
 	 * It is approximated up to a relative error of 10<sup>6</sup> times the
 	 * given {@link #ACCURACY accuracy}. Here &#947; denotes the
-	 * {@link Numbers#GAMMA Euler-Mascheroni constant}.
+	 * {@link MyDouble#EULER_GAMMA Euler-Mascheroni constant}.
 	 * 
 	 * @param z
 	 *            a complex number
 	 * @return &#915;(<i>z</i>)
 	 * @see #exp(double[])
-	 * @see Numbers#gamma(double)
+	 * @see MyDouble#EULER_GAMMA
 	 */
 	public static Complex gamma(Complex z) {
 		return new Complex(gamma(new double[] { z.z[0], z.z[1] }));
@@ -775,7 +775,8 @@ public class Complex {
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
-	 * Here &#947; denotes the {@link Numbers#GAMMA Euler-Mascheroni constant}.
+	 * Here &#947; denotes the {@link MyDouble#EULER_GAMMA Euler-Mascheroni
+	 * constant}.
 	 * 
 	 * @param z
 	 *            a complex number
@@ -899,7 +900,8 @@ public class Complex {
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
-	 * Here &#947; denotes the {@link Numbers#GAMMA Euler-Mascheroni constant}.
+	 * Here &#947; denotes the {@link MyDouble#EULER_GAMMA Euler-Mascheroni
+	 * constant}.
 	 * 
 	 * @param z
 	 *            a complex number

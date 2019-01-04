@@ -563,15 +563,15 @@ public interface JavaScriptAPI {
 	 *            eg 1
 	 * @param transparent
 	 *            eg true
-	 * @param DPI
+	 * @param dpi
 	 *            eg 72
 	 * @param copyToClipboard
 	 *            only supported in desktop, waiting for
 	 *            https://code.google.com/p/chromium/issues/detail?id=150835
-	 * @return
+	 * @return base64 encoded picture of active view
 	 */
 	public String getPNGBase64(double exportScale, boolean transparent,
-			double DPI, boolean copyToClipboard);
+			double dpi, boolean copyToClipboard);
 
 	/**
 	 * Sets the Cartesian coordinate system in the graphics window.
@@ -743,8 +743,8 @@ public interface JavaScriptAPI {
 	 * replaced.
 	 * 
 	 * Example: First, set a change listening JavaScript function:
-	 * ggbApplet.setChangeListener("A", "myJavaScriptFunction"); Then the
-	 * GeoGebra Applet will call the Javascript function
+	 * ggbApplet.registerObjectUpdateListener("A", "myJavaScriptFunction"); Then
+	 * the GeoGebra Applet will call the Javascript function
 	 * myJavaScriptFunction("A"); whenever object A changes.
 	 */
 	public void registerObjectUpdateListener(String objName,
@@ -753,7 +753,7 @@ public interface JavaScriptAPI {
 	/**
 	 * Removes a previously set change listener for the given object.
 	 * 
-	 * @see #setChangeListener
+	 * @see #registerObjectUpdateListener
 	 */
 	public void unregisterObjectUpdateListener(String objName);
 
@@ -787,7 +787,7 @@ public interface JavaScriptAPI {
 	/**
 	 * Removes a previously set change listener for the given object.
 	 * 
-	 * @see #setChangeListener
+	 * @see #registerObjectClickListener
 	 */
 	public void unregisterObjectClickListener(String objName);
 

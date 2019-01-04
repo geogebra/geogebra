@@ -72,7 +72,7 @@ public class RelativeCopy {
 	 *            destination maximum column
 	 * @param dy2
 	 *            destination maximum row
-	 * @return
+	 * @return success
 	 */
 	public boolean doDragCopy(int sx1, int sy1, int sx2, int sy2, int dx1,
 			int dy1, int dx2, int dy2) {
@@ -294,7 +294,7 @@ public class RelativeCopy {
 	 * Tests if a cell range can be used as the source for a pattern drag-copy.
 	 * 
 	 * @param cellRange
-	 * @return
+	 * @return whether all geos are acceptable
 	 */
 	private static boolean isPatternSource(CellRange cellRange) {
 		// don't allow empty cells
@@ -329,6 +329,7 @@ public class RelativeCopy {
 	 * @param dy2
 	 *            destination maximum row
 	 * @throws Exception
+	 *             on parse problem, circular reference
 	 */
 	public void doCopyVerticalNoStoringUndoInfo1(int x1, int x2, int sy,
 			int dy1, int dy2) throws Exception {
@@ -382,6 +383,7 @@ public class RelativeCopy {
 	 * @param dx2
 	 *            destination maximum column
 	 * @throws Exception
+	 *             on parse error, circular reference
 	 */
 	public void doCopyHorizontalNoStoringUndoInfo1(int y1, int y2, int sx,
 			int dx1, int dx2) throws Exception {
@@ -421,6 +423,23 @@ public class RelativeCopy {
 		}
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param app
+	 *            application
+	 * @param value
+	 *            copied value
+	 * @param oldValue
+	 *            overwritten value
+	 * @param dx
+	 *            column difference
+	 * @param dy
+	 *            row difference
+	 * @return element copy
+	 * @throws Exception
+	 *             on parse problem, circular reference
+	 */
 	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
 			GeoElement value, GeoElementND oldValue, int dx, int dy)
 			throws Exception {
@@ -429,6 +448,27 @@ public class RelativeCopy {
 				-1, -1);
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param app
+	 *            application
+	 * @param value
+	 *            copied value
+	 * @param oldValue
+	 *            overwritten value
+	 * @param dx
+	 *            column difference
+	 * @param dy
+	 *            row difference
+	 * @param rowStart
+	 *            first row
+	 * @param columnStart
+	 *            first column
+	 * @return element copy
+	 * @throws Exception
+	 *             on parse problem, circular reference
+	 */
 	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
 			GeoElement value, GeoElementND oldValue, int dx, int dy,
 			int rowStart, int columnStart) throws Exception {
@@ -801,7 +841,8 @@ public class RelativeCopy {
 	 * Returns array of GeoElements that depend on given GeoElement geo
 	 * 
 	 * @param geo
-	 * @return
+	 *            spreadsheet cell
+	 * @return predecessors or empty array
 	 */
 	public static GeoElement[] getDependentObjects(GeoElement geo) {
 		if (geo.isIndependent()) {
@@ -1121,6 +1162,7 @@ public class RelativeCopy {
 	 *            whether to force internal command names
 	 * @return either (1) a new GeoElement for the cell or (2) null
 	 * @throws Exception
+	 *             on parse error or circular reference
 	 */
 	public static GeoElementND prepareAddingValueToTableNoStoringUndoInfo(
 			Kernel kernel, App app, String inputText, GeoElementND oldValue,
@@ -1199,7 +1241,8 @@ public class RelativeCopy {
 	/**
 	 * Tests if a string represents a number.
 	 * 
-	 * @param s
+	 * @param str
+	 *            string
 	 * @return true if the given string represents a number.
 	 */
 	public static boolean isNumber(String str) {
@@ -1233,7 +1276,7 @@ public class RelativeCopy {
 	 * notation
 	 * 
 	 * @param s
-	 * @return
+	 * @return whether string is a standard number
 	 */
 	private static boolean isStandardNumber(String s) {
 

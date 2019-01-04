@@ -132,8 +132,8 @@ public class DataDisplayModel {
 		}
 
 		/**
-		 * @param app
-		 *            App
+		 * @param loc
+		 *            localization
 		 * @return translated key for the current locale eg "StemPlot" ->
 		 *         "Stem and Leaf Diagram" in en_GB
 		 */

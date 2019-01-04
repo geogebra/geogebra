@@ -74,13 +74,12 @@ public class ProbabilityManager {
 	 * Returns true of the given distribution type is discrete
 	 * 
 	 * @param distType
-	 * @return
+	 * @return whether distribution is discrete
 	 */
 	public boolean isDiscrete(Dist distType) {
 		return distType.equals(Dist.BINOMIAL) || distType.equals(Dist.PASCAL)
 				|| distType.equals(Dist.HYPERGEOMETRIC)
 				|| distType.equals(Dist.POISSON);
-
 	}
 
 	/**
@@ -353,7 +352,7 @@ public class ProbabilityManager {
 	 * Returns an array of the required number of parameters needed for each
 	 * distribution type. The array is indexed by distribution type.
 	 * 
-	 * @return
+	 * @return number of parameters
 	 */
 	public static int getParmCount(Dist d) {
 

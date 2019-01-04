@@ -47,15 +47,16 @@ public abstract class CopyPasteCut {
 	private Record[] constructionIndexes;
 	private static Comparator<Record> comparator;
 
-	/***************************************
+	/**
 	 * Constructor
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public CopyPasteCut(App app) {
-
 		tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 		kernel = app.getKernel();
-
 	}
 
 	private SpreadsheetViewInterface getView() {
@@ -108,7 +109,7 @@ public abstract class CopyPasteCut {
 	 * @param row1
 	 * @param column2
 	 * @param row2
-	 * @return
+	 * @return if at least one object was deleted
 	 */
 	public boolean cut(int column1, int row1, int column2, int row2) {
 
@@ -124,7 +125,7 @@ public abstract class CopyPasteCut {
 	 * 
 	 * @param cr
 	 *            the target cell range
-	 * @return
+	 * @return true if successful
 	 */
 	public boolean paste(CellRange cr) {
 		return paste(cr.getMinColumn(), cr.getMinRow(), cr.getMaxColumn(),
@@ -142,7 +143,7 @@ public abstract class CopyPasteCut {
 	 *            last column of the target cell range
 	 * @param row2
 	 *            last row of the target cell range
-	 * @return
+	 * @return true if successful
 	 */
 	abstract public boolean paste(int column1, int row1, int column2, int row2);
 
@@ -160,7 +161,7 @@ public abstract class CopyPasteCut {
 	 *            last column of the target cell range
 	 * @param row2
 	 *            last row of the target cell range
-	 * @return
+	 * @return true if successful
 	 */
 	public boolean pasteInternalMultiple(int column1, int row1, int column2,
 			int row2) {
@@ -223,8 +224,9 @@ public abstract class CopyPasteCut {
 	 *            maximum target column
 	 * @param maxRow
 	 *            maximum target row
-	 * @return
+	 * @return true if successful
 	 * @throws Exception
+	 *             on parse problem, circular reference
 	 */
 	public boolean pasteInternal(int column1, int row1, int maxColumn,
 			int maxRow) throws Exception {

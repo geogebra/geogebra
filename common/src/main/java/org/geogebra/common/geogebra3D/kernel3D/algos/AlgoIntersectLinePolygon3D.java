@@ -105,7 +105,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	}
 
 	protected void setIntersectionLine() {
-
 		o1 = g.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		d1 = g.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 	}
@@ -113,8 +112,9 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	/**
 	 * calc intersection coords
 	 * 
-	 * @param p
-	 *            polygon
+	 * @param hasSegments
+	 *            polygon / polyhedron
+	 * 
 	 * @param paramToCoords
 	 *            coords
 	 */

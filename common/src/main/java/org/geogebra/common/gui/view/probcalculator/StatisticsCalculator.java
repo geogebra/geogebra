@@ -85,7 +85,8 @@ public abstract class StatisticsCalculator {
 	 * Formats a number string using local format settings.
 	 * 
 	 * @param x
-	 * @return
+	 *            number
+	 * @return formated number
 	 */
 	public String format(double x) {
 		StringTemplate highPrecision;
