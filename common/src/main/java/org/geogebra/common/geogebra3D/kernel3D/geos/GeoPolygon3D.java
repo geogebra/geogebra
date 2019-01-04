@@ -988,6 +988,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
+	public boolean hasReverseNormal() {
+		return reverseNormal;
+	}
+
+	@Override
 	public void set(GeoElementND geo, Construction cons1) {
 		if (geo.isGeoPolygon() && geo.isGeoElement3D()) {
 			reverseNormal = ((GeoPolygon3D) geo).reverseNormal;

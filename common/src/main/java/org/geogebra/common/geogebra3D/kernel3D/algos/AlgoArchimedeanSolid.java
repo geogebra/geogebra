@@ -73,8 +73,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private Coords v2l = new Coords(4);
 	private Coords v3 = new Coords(4);
 	private Coords v3l = new Coords(4);
+	private Coords vn = new Coords(4);
 	private double dist;
-	private boolean isReversed;
 
 	/**
 	 * creates an archimedean solid
@@ -123,7 +123,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		this.polygon = poly;
 		// this.isDirect = isDirect;
-		isReversed = false;
 
 		switch (name) {
 		default:
@@ -286,22 +285,16 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		} else {
 			if (polygon.isDefined()
 					&& polygon.getPointsLength() == inputPointsCount) {
-				if (checkReversed()) {
-					for (int i = 0; i < inputPointsCount; i++) {
-						points[i] = getPolygonPoint(i);
-					}
-					polyhedronIsDummy = false;
-				} else {
-					polyhedronIsDummy = true;
+				for (int i = 0; i < inputPointsCount; i++) {
+					points[i] = getPolygonPoint(i);
 				}
+				polyhedronIsDummy = false;
 			} else {
-				polyhedronIsDummy = true;
-			}
-			if (polyhedronIsDummy) {
 				// use dummy points to replace polygon points
 				for (int i = 0; i < inputPointsCount; i++) {
 					points[i] = new DummyGeoPoint3D(cons, i);
 				}
+				polyhedronIsDummy = true;
 			}
 		}
 
@@ -332,32 +325,31 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	private GeoPointND getPolygonPoint(int i) {
-		return polygon.getPointND(isReversed ? inputPointsCount - 1 - i : i);
+		return polygon.getPointND(
+				polygon.hasReverseNormal() ? inputPointsCount - 1 - i : i);
 	}
 
 	private void setPolyhedronNotDummyIfPossible() {
 		if (polygon.isDefined()
 				&& polygon.getPointsLength() == inputPointsCount) {
-			if (checkReversed()) {
-				if (isReversed) {
-					GeoPointND[] polyPoints = polygon.getPointsND();
-					GeoPointND[] points = new GeoPointND[polyPoints.length];
-					for (int i = 0; i < points.length; i++) {
-						points[i] = polyPoints[inputPointsCount - 1 - i];
-					}
-
-					GeoSegmentND[] polySegments = polygon.getSegments();
-					GeoSegmentND[] segments = new GeoSegmentND[polySegments.length];
-					for (int i = 0; i < segments.length; i++) {
-						segments[i] = polySegments[inputPointsCount - 1 - i];
-					}
-					polyhedron.replaceDummies(points, segments);
-				} else {
-					polyhedron.replaceDummies(polygon.getPointsND(),
-							polygon.getSegments());
+			if (polygon.hasReverseNormal()) {
+				GeoPointND[] polyPoints = polygon.getPointsND();
+				GeoPointND[] points = new GeoPointND[polyPoints.length];
+				for (int i = 0; i < points.length; i++) {
+					points[i] = polyPoints[inputPointsCount - 1 - i];
 				}
-				polyhedronIsDummy = false;
+
+				GeoSegmentND[] polySegments = polygon.getSegments();
+				GeoSegmentND[] segments = new GeoSegmentND[polySegments.length];
+				for (int i = 0; i < segments.length; i++) {
+					segments[i] = polySegments[inputPointsCount - 1 - i];
+				}
+				polyhedron.replaceDummies(points, segments);
+			} else {
+				polyhedron.replaceDummies(polygon.getPointsND(),
+						polygon.getSegments());
 			}
+			polyhedronIsDummy = false;
 		}
 	}
 
@@ -372,43 +364,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 	}
 
-	private boolean calcOriginAndV1() {
-		o.set3(getA().getInhomCoordsInD3());
-		v1l.setSub3(getB().getInhomCoordsInD3(), o);
-
-		// check if A!=B
-		if (v1l.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
-			return false;
-		}
-
-		v1l.calcNorm();
-		dist = v1l.getNorm();
-		v1.setMul3(v1l, 1 / dist);
-
-		// check if vn!=0
-		Coords vn = getDirection();
-		if (vn.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
-			return false;
-		}
-
-		// check if vn is ortho to AB
-		if (!DoubleUtil.isZero(vn.dotproduct(v1))) {
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean checkReversed() {
-		if (calcOriginAndV1()) {
-			v2.setSub3(polygon.getPointND(2).getInhomCoordsInD3(), o);
-			v3.setCrossProduct3(v1, v2);
-			isReversed = getDirection().dotproduct(v3) < 0;
-			return true;
-		}
-		return false;
-	}
-
 	private void computeSolid() {
 
 		polyhedron.setDefined();
@@ -419,11 +374,45 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 			return;
 		}
 
-		if (!calcOriginAndV1()) {
+		o.set3(getA().getInhomCoordsInD3());
+		v1l.setSub3(getB().getInhomCoordsInD3(), o);
+
+		// check if A!=B
+		if (v1l.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 			setUndefined();
+			return;
 		}
 
-		v2.setCrossProduct3(getDirection(), v1);
+		v1l.calcNorm();
+		dist = v1l.getNorm();
+		v1.setMul3(v1l, 1 / dist);
+
+		Coords vnd;
+		if (polygon == null) {
+			// check if vn!=0
+			vnd = getDirection();
+			if (vnd.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
+				setUndefined();
+				return;
+			}
+
+			// check if vn is ortho to AB
+			if (!DoubleUtil.isZero(vnd.dotproduct(v1))) {
+				setUndefined();
+				return;
+			}
+		} else {
+			v2.setSub3(getPolygonPoint(2).getInhomCoordsInD3(), o);
+			vn.setCrossProduct3(v1, v2);
+			if (vn.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
+				setUndefined();
+				return;
+			}
+			vn.normalize();
+			vnd = vn;
+		}
+
+		v2.setCrossProduct3(vnd, v1);
 		v2.normalize();
 
 		v3.setCrossProduct3(v1, v2);

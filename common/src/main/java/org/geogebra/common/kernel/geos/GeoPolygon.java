@@ -2766,4 +2766,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
 	}
+
+	/**
+	 * 
+	 * @return true if normal is reversed
+	 */
+	public boolean hasReverseNormal() {
+		return false;
+	}
 }
