@@ -6,6 +6,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.main.Feature;
 
 /**
  * target type for visual feedback around cursor
@@ -258,32 +261,67 @@ public enum TargetType {
 			return hits.getPolyCount() > 0 ? onFail : onSuccess;
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
+			return getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
+					view3D, ec, onSuccess, onFail, 3);
 		case EuclidianConstants.MODE_CUBE:
-			// show cursor when direction has been selected
-			if (ec.selCS2D() == 1 || ec.selPoints() != 0) {
-				return onSuccess;
-			}
-			hits = view3D.getHits();
-			if (hits.isEmpty()) {
-				return onSuccess;
-			}
-			GeoPoint3D point = view3D.getCursor3D();
-			if (point.isPointOnPath()) {
-				return onSuccess;
-			}
-			if (point.hasRegion()) {
-				if (point.getRegion() == ec.getKernel().getXOYPlane()) {
-					return onSuccess;
-				}
-			}
-			return onFail;
-			
+			return getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
+					view3D, ec, onSuccess, onFail, 4);
+
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			return VIEW_IN_FRONT_OF;
 			
 		default:
 			return NOT_USED;
 		}
+	}
+
+	static private TargetType getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
+			EuclidianView3D view3D, EuclidianController3D ec,
+			TargetType onSuccess, TargetType onFail, int vertexCount) {
+		Hits hits;
+		if (view3D.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			// no point: can select a regular polygon
+			if (ec.selPoints() == 0) {
+				GeoPoint3D point = view3D.getCursor3D();
+				if (point.hasRegion()) {
+					GeoElement geo = (GeoElement) point.getRegion();
+					if (geo.isGeoPolygon()) {
+						GeoPolygon polygon = (GeoPolygon) geo;
+						if (polygon.getPointsLength() == vertexCount
+								&& polygon.isRegular()) {
+							return onFail;
+						}
+					}
+					return NOTHING;
+				}
+				// must be a path
+				return onSuccess;
+			}
+			// one point, one region: can create a point
+			if (ec.selCS2D() == 1) {
+				return onSuccess;
+			}
+		} else {
+			// show cursor when direction has been selected
+			if (ec.selCS2D() == 1 || (ec.selPoints() != 0)) {
+				return onSuccess;
+			}
+		}
+		// no region: can create a point on edge or xOy plane
+		hits = view3D.getHits();
+		if (hits.isEmpty()) {
+			return onSuccess;
+		}
+		GeoPoint3D point = view3D.getCursor3D();
+		if (point.isPointOnPath()) {
+			return onSuccess;
+		}
+		if (point.hasRegion()) {
+			if (point.getRegion() == ec.getKernel().getXOYPlane()) {
+				return onSuccess;
+			}
+		}
+		return onFail;
 	}
 
 	/**
