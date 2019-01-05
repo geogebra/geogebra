@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -85,6 +86,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SchedulerFactory;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Operation;
@@ -1009,10 +1011,45 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 		}
 
-		if (addSelectedPoint(hits, 2, false, selPreview) == 0
-				&& selPoints() == 0 && selDirections() == 0) {
-			// select a plane only if no point is selected
-			addSelectedCS2D(hits, 1, false, selPreview);
+		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			if (addSelectedPoint(hits, 2, false, selPreview) == 0) {
+				if (selDirections() == 0) {
+					if (selPoints() == 0) {
+						// no point, no direction: can also select a polygon for
+						// direct creation
+						TestGeo test;
+						switch (name) {
+						default:
+						case Tetrahedron:
+							test = TestGeo.GEOEQUILATERALTRIANGLE;
+							break;
+						case Cube:
+							test = TestGeo.GEOSQUARE;
+							break;
+						case Octahedron:
+							test = TestGeo.GEOEQUILATERALTRIANGLE;
+							break;
+						case Dodecahedron:
+							test = TestGeo.GEOREGULARPENTAGON;
+							break;
+						case Icosahedron:
+							test = TestGeo.GEOEQUILATERALTRIANGLE;
+							break;
+						}
+						addSelectedSpecialPolygon(hits, 1, false, selPreview,
+								test);
+					} else if (selPoints() == 1) {
+						// one point selected: can also select a direction
+						addSelectedCS2D(hits, 1, false, selPreview);
+					}
+				}
+			}
+		} else {
+			if (addSelectedPoint(hits, 2, false, selPreview) == 0
+					&& selPoints() == 0 && selDirections() == 0) {
+				// select a plane only if no point is selected
+				addSelectedCS2D(hits, 1, false, selPreview);
+			}
 		}
 
 		// we got the center point
@@ -1044,6 +1081,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return new GeoElement[] { kernel.getManager3D()
 					.archimedeanSolid(null, points[0], points[1], name)[0] };
 
+		} else if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS) && selPoints() == 0
+				&& selPolygons() == 1) {
+			GeoPolygon polygon = getSelectedPolygons()[0];
+			view3D.getHittingDirection(tmpCoordsForDirection);
+			GeoBoolean isDirect = new GeoBoolean(kernel.getConstruction(),
+					DoubleUtil.isGreaterEqual(0, tmpCoordsForDirection
+							.dotproduct3(polygon.getDirectionInD3())));
+			return kernel.getManager3D().archimedeanSolid(null, polygon,
+					isDirect, name);
 		}
 		return null;
 	}
@@ -2140,7 +2186,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			setViewHits(type);
 			hits = getView().getHits();
 			boolean createPointAnywhere = false;
-			if (selCS2D() == 1 || selPoints() != 0) {
+			if (selCS2D() == 1 || (!app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)
+					&& selPoints() != 0)) {
 				// create point anywhere when direction has been selected
 				createPointAnywhere = true;
 			} else {
@@ -3286,7 +3333,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				case EuclidianConstants.MODE_TETRAHEDRON:
 				case EuclidianConstants.MODE_CUBE:
 					// show cursor when direction has been selected
-					if (selCS2D() == 1 || selPoints() != 0) {
+				if (selCS2D() == 1 || (!app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)
+						&& selPoints() != 0)) {
 						return true;
 					}
 

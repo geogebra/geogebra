@@ -347,6 +347,30 @@ public enum TestGeo {
 		}
 	},
 
+	/** Test for Equilateral rectangle */
+	GEOEQUILATERALTRIANGLE {
+		@Override
+		public boolean check(Object ob) {
+			return checkIsRegularPolygon(ob, 3);
+		}
+	},
+
+	/** Test for Equilateral rectangle */
+	GEOSQUARE {
+		@Override
+		public boolean check(Object ob) {
+			return checkIsRegularPolygon(ob, 4);
+		}
+	},
+
+	/** Test for Regular pentagon */
+	GEOREGULARPENTAGON {
+		@Override
+		public boolean check(Object ob) {
+			return checkIsRegularPolygon(ob, 5);
+		}
+	},
+
 	/** Test for GEOPOLYGON3D */
 	GEOPOLYGON3D {
 		@Override
@@ -549,6 +573,26 @@ public enum TestGeo {
 			return ob instanceof Path;
 		}
 	};
+
+	/**
+	 * 
+	 * @param ob
+	 *            geo
+	 * @param vertexCount
+	 *            number of vertices
+	 * @return true if ob is regular polygon and has correct number of vertices
+	 */
+	static boolean checkIsRegularPolygon(Object ob, int vertexCount) {
+		if (TestGeo.GEOPOLYGON.check(ob)) {
+			GeoPolygon polygon = (GeoPolygon) ob;
+			if (polygon.getPointsLength() != vertexCount) {
+				return false;
+			}
+			return polygon.isRegular();
+		}
+		return false;
+	}
+
 	/**
 	 * Checks whether given object passes this test
 	 * 

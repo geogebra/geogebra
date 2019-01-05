@@ -1986,6 +1986,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				getSelectedPolygonList(), TestGeo.GEOPOLYGON, selPreview);
 	}
 
+	protected final int addSelectedSpecialPolygon(Hits hits, int max,
+			boolean addMoreThanOneAllowed, boolean selPreview, TestGeo test) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed,
+				getSelectedPolygonList(), test, selPreview);
+	}
+
 	protected final int addSelectedPolyLine(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
