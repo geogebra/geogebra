@@ -982,9 +982,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	/**
 	 * set that normal should be reversed
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setReverseNormal(boolean flag) {
+		reverseNormal = flag;
+	}
+
+	/**
+	 * set that normal should be reversed
 	 */
 	public void setReverseNormal() {
-		reverseNormal = true;
+		setReverseNormal(true);
 	}
 
 	@Override

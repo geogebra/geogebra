@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -75,6 +74,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private Coords v3l = new Coords(4);
 	private Coords vn = new Coords(4);
 	private double dist;
+
+	private boolean wasDirect;
 
 	/**
 	 * creates an archimedean solid
@@ -193,10 +194,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		polyhedron.createFaces();
-		if (isDirect()) {
-			// faces are oriented to the inside
-			polyhedron.setReverseNormals();
-		}
+		// faces are oriented to the inside
+		initIsDirect();
 		setOutput();
 		if (labels == null || labels.length <= 1) {
 			polyhedron.initLabels(labels);
@@ -327,30 +326,14 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	private GeoPointND getPolygonPoint(int i) {
-		return polygon.getPointND(
-				polygon.hasReverseNormal() ? inputPointsCount - 1 - i : i);
+		return polygon.getPointND(i);
 	}
 
 	private void setPolyhedronNotDummyIfPossible() {
 		if (polygon.isDefined()
 				&& polygon.getPointsLength() == inputPointsCount) {
-			if (polygon.hasReverseNormal()) {
-				GeoPointND[] polyPoints = polygon.getPointsND();
-				GeoPointND[] points = new GeoPointND[polyPoints.length];
-				for (int i = 0; i < points.length; i++) {
-					points[i] = polyPoints[inputPointsCount - 1 - i];
-				}
-
-				GeoSegmentND[] polySegments = polygon.getSegments();
-				GeoSegmentND[] segments = new GeoSegmentND[polySegments.length];
-				for (int i = 0; i < segments.length; i++) {
-					segments[i] = polySegments[inputPointsCount - 1 - i];
-				}
-				polyhedron.replaceDummies(points, segments);
-			} else {
-				polyhedron.replaceDummies(polygon.getPointsND(),
-						polygon.getSegments());
-			}
+			polyhedron.replaceDummies(polygon.getPointsND(),
+					polygon.getSegments());
 			polyhedronIsDummy = false;
 		}
 	}
@@ -539,8 +522,25 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		return true;
 	}
 
+	private boolean computeIsDirect() {
+		if (polygon == null) {
+			return true;
+		}
+		return polygon.hasReverseNormal() ^ isDirectGeo.getBoolean();
+	}
+
 	private boolean isDirect() {
-		return isDirectGeo == null || isDirectGeo.getBoolean();
+		boolean ret = computeIsDirect();
+		if (wasDirect != ret) {
+			polyhedron.setReverseNormals(ret);
+			wasDirect = ret;
+		}
+		return ret;
+	}
+
+	private void initIsDirect() {
+		wasDirect = computeIsDirect();
+		polyhedron.setReverseNormals(wasDirect);
 	}
 
 }

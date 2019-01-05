@@ -978,14 +978,22 @@ public class GeoPolyhedron extends GeoElement3D
 
 	/**
 	 * set all polygons to reverse normals
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setReverseNormals(boolean flag) {
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setReverseNormal(flag);
+		}
+		setReverseNormalsForDrawing(flag);
+	}
+
+	/**
+	 * set all polygons to reverse normals
 	 */
 	public void setReverseNormals() {
-		for (GeoPolygon3D polygon : polygons.values()) {
-			polygon.setReverseNormal();
-		}
-
-		setReverseNormalsForDrawing(true);
-
+		setReverseNormals(true);
 	}
 
 	@Override
