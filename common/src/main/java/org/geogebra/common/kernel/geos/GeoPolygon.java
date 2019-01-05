@@ -2774,4 +2774,75 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public boolean hasReverseNormal() {
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return true if is a regular polygon
+	 */
+	public boolean isRegular() {
+		if (!isDefined()) {
+			return false;
+		}
+		GeoPointND[] lPoints = getPoints();
+		if (lPoints.length < 3) {
+			return false;
+		}
+		// two points
+		GeoPoint pA = (GeoPoint) lPoints[lPoints.length - 2];
+		double xA = pA.inhomX;
+		double yA = pA.inhomY;
+		GeoPoint pB = (GeoPoint) lPoints[lPoints.length - 1];
+		double xB = pB.inhomX;
+		double yB = pB.inhomY;
+		double dx0 = xB - xA;
+		double dy0 = yB - yA;
+		// third point
+		xA = xB;
+		yA = yB;
+		pB = (GeoPoint) lPoints[0];
+		xB = pB.inhomX;
+		yB = pB.inhomY;
+		double dx1 = xB - xA;
+		double dy1 = yB - yA;
+		// distance and angle
+		double sqrDist = dx1 * dx1 + dy1 * dy1;
+		boolean isDegenerated = DoubleUtil.isZero(sqrDist);
+		double dot = dx0 * dx1 + dy0 * dy1;
+		double det = dx0 * dy1 - dx1 * dy0;
+		// other points
+		for (int i = 1; i < lPoints.length; i++) {
+			dx0 = dx1;
+			dy0 = dy1;
+			xA = xB;
+			yA = yB;
+			pB = (GeoPoint) lPoints[i];
+			xB = pB.inhomX;
+			yB = pB.inhomY;
+			dx1 = xB - xA;
+			dy1 = yB - yA;
+			if (!DoubleUtil.isEqual(dx1 * dx1 + dy1 * dy1, sqrDist)) {
+				// not the same distance
+				return false;
+			}
+			if (!isDegenerated) {
+				if (!DoubleUtil.isEqual(dx0 * dx1 + dy0 * dy1, dot)) {
+					// not the same angle
+					return false;
+				}
+				if (!DoubleUtil.isEqual(dx0 * dy1 - dx1 * dy0, det)) {
+					// not the same orientation
+					return false;
+				}
+			}
+		}
+		if (!isDegenerated) {
+			double angle = Math.PI - Math.acos(dot / sqrDist);
+			if (!DoubleUtil.isEqual(angle * lPoints.length,
+					Math.PI * (lPoints.length - 2))) {
+				// e.g. star polygon
+				return false;
+			}
+		}
+		return true;
+	}
 }
