@@ -1116,7 +1116,10 @@ namespace giac {
       if (!complexmode && is_positive(-delta_prime,contextptr))
 	return;
 #endif
-      delta_prime=sqrt(delta_prime,contextptr);
+      if (fastsign(delta_prime,contextptr)<0)
+	delta_prime=cst_i*sqrt(-delta_prime,contextptr);
+      else
+	delta_prime=sqrt(delta_prime,contextptr);
       delta_prime=normalize_sqrt(delta_prime,contextptr,false); // no abs in sqrt
       newv.push_back(rdiv(minus_b_over_2+delta_prime,a,contextptr));
       if (!is_zero(delta_prime,contextptr))

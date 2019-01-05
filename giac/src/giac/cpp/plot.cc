@@ -7506,6 +7506,19 @@ namespace giac {
     gen b=remove_at_pnt(bb);
     if (b.type==_VECT && b.subtype==_VECTOR__VECT && b._VECTptr->size()==2)
       return _vector(gen(makevecteur(projectionpoint(aa,b._VECTptr->front(),contextptr),projectionpoint(aa,b._VECTptr->back(),contextptr)),_SEQ__VECT),contextptr);
+    if (aa.is_symb_of_sommet(at_hypersphere)){
+      const gen & f=aa._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()>=2){
+	const vecteur & v=*f._VECTptr;
+	gen c=v.front();
+	if (c.type==_VECT && c._VECTptr->size()==3 && b.type==_VECT && b._VECTptr->size()==3){
+	  vecteur cb=subvecteur(*b._VECTptr,*c._VECTptr);
+	  c=c+v[1]/l2norm(cb,contextptr)*cb;
+	  c.subtype==_POINT__VECT;
+	  return symb_pnt(c,contextptr);
+	}
+      }
+    }
     if (aa.is_symb_of_sommet(at_hyperplan)){
       vecteur n,P;
       if (!hyperplan_normal_point(aa,n,P))
