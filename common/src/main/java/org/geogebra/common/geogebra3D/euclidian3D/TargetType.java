@@ -285,12 +285,13 @@ public enum TargetType {
 				GeoPoint3D point = view3D.getCursor3D();
 				if (point.hasRegion()) {
 					GeoElement geo = (GeoElement) point.getRegion();
-					if (geo.isGeoPolygon()) {
-						GeoPolygon polygon = (GeoPolygon) geo;
-						if (polygon.getPointsLength() == vertexCount
-								&& polygon.isRegular()) {
-							return onFail;
-						}
+					if (!geo.isGeoPolygon()) {
+						return NOTHING;
+					}
+					GeoPolygon polygon = (GeoPolygon) geo;
+					if (polygon.getPointsLength() == vertexCount
+							&& polygon.isRegular()) {
+						return onFail;
 					}
 					return NOTHING;
 				}
