@@ -140,7 +140,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 			inputPointsCount = 5;
 			break;
 		case Icosahedron:
-			inputPointsCount = 5;
+			inputPointsCount = 3;
 			break;
 		}
 
