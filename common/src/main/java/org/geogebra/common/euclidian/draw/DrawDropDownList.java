@@ -59,10 +59,10 @@ public final class DrawDropDownList extends CanvasDrawable
 	/** whether this is visible */
 	boolean isVisible;
 	/** dropdown */
-	DropDownList dropDown = null;
+	DropDownList dropDown;
 	/** selcted text */
 	String selectedText;
-	private int selectedHeight;
+
 	private GRectangle ctrlRect;
 	private GDimension selectedDimension;
 	private boolean latexLabel;
@@ -225,10 +225,12 @@ public final class DrawDropDownList extends CanvasDrawable
 			if (!isVisible()) {
 				return;
 			}
+
 			if (startIdx == -1 && !"".equals(selectedText)) {
 				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
 
 			}
+
 			this.left = leftPos;
 			this.top = topPos;
 			this.g2 = graphics2;
@@ -239,19 +241,19 @@ public final class DrawDropDownList extends CanvasDrawable
 			if (isScrollNeeded()) {
 				drawControls();
 			}
-
 		}
 
 		private void drawItems() {
-
 			int idx = getStartIdx();
 			int startRow = 0;
 			int visibleRows = rowCount;
+
 			if (isScrollNeeded() && idx >= 0 && dragOffset != 0) {
 				idx--;
 				startRow = -1;
 				visibleRows++;
 			}
+
 			for (int col = 0; col < getColCount(); col++) {
 				for (int row = startRow; row < visibleRows; row++) {
 					if (idx >= 0 && idx < items.size()) {
@@ -260,13 +262,12 @@ public final class DrawDropDownList extends CanvasDrawable
 					idx++;
 				}
 			}
-
 		}
 
 		private void drawItem(int col, int row, OptionItem item) {
-
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
+
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
 				if (dragDirection) {
@@ -276,6 +277,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 				}
 			}
+
 			if (item.getRect() == null || item.getRect().getX() != rectLeft
 					|| item.getRect().getY() != rectTop) {
 				item.setRect(AwtFactory.getPrototype().newRectangle(rectLeft,
@@ -315,6 +317,7 @@ public final class DrawDropDownList extends CanvasDrawable
 							(int) (rectDown.getY() - ctrlUpY), true);
 				}
 			}
+
 			int itemHeight = dimItem.getHeight();
 			if (hover) {
 				g2.setColor(hoverColor);
@@ -331,7 +334,9 @@ public final class DrawDropDownList extends CanvasDrawable
 				item.setRect(AwtFactory.getPrototype().newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), itemHeight));
 			}
+
 			g2.setPaint(getGeoElement().getObjectColor());
+
 			if (item.latex) {
 				GRectangle rect = item.rect.getBounds();
 				int x = (int) rect.getX();
@@ -350,10 +355,10 @@ public final class DrawDropDownList extends CanvasDrawable
 				EuclidianStatic.drawIndexedString(viewOpt.getApplication(), g2,
 						item.text, rectLeft + x, rectTop + y, false);
 			}
+
 			if (clip) {
 				g2.resetClip();
 			}
-
 		}
 
 		private void drawBox() {
@@ -443,7 +448,6 @@ public final class DrawDropDownList extends CanvasDrawable
 				selectedIndex += diff;
 
 				update();
-				// Log.error("repaint 1");
 				getView().repaintView();
 			}
 		}
@@ -544,7 +548,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
 						dragOffset = dY;
-						// Log.error("repaint 2");
 
 						viewOpt.repaintView();
 					}
@@ -569,7 +572,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		public void onMouseOver(int x, int y) {
-			if (!isVisible) { // || isControlHit(x, y)) {
+			if (!isVisible) {
 				return;
 			}
 
@@ -587,12 +590,6 @@ public final class DrawDropDownList extends CanvasDrawable
 			OptionItem item = getItemAt(x, y);
 
 			setHovered(item);
-
-			// if (selectedIndex != item.index) {
-			// selectedIndex = item.index;
-			// viewOpt.repaintView();
-			//
-			// }
 		}
 
 		OptionItem getItemAt(int x, int y) {
@@ -604,12 +601,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 			return null;
 		}
-
-		// private boolean hoverIntersectControls() {
-		// return isScrollNeeded() && itemHovered.rect != null
-		// && (itemHovered.rect.intersects(rectUp)
-		// || itemHovered.rect.intersects(rectDown));
-		// }
 
 		private boolean prepareTable() {
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
@@ -637,15 +628,10 @@ public final class DrawDropDownList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
-			// Log.debug("[!!] 1 tableHeight: " + tableHeight + " rowCount: "
-			// + rowCount);
+
 			if (isScrollNeeded()
 					&& (top + tableHeight + MARGIN <= viewHeight)) {
 				tableHeight += dimItem.getHeight();
-				// if (tableHeight + rectDown.getHeight() >= viewHeight) {
-				// tableHeight = (int) (viewHeight - top - MARGIN
-				// - 2 * rectDown.getHeight());
-				// }
 			}
 
 			if (top + tableHeight + MARGIN >= viewOpt.getHeight()) {
@@ -685,14 +671,6 @@ public final class DrawDropDownList extends CanvasDrawable
 								- (int) (rectDown.getHeight()),
 						(int) (rectDown.getWidth()),
 						(int) (rectDown.getHeight()));
-
-				// Log.debug("top: " + top + " tableHeight: " + tableHeight
-				// + "viewHeight: " + viewOpt.getHeight());
-				// Log.debug("bottom: "
-				// + (top + tableHeight + 2 * rectDown.getHeight())
-				// + "viewHeight: " + viewOpt.getHeight());
-				// Log.debug("dimTable: " + dimTable.getHeight() + " down: "
-				// + (top + dimTable.getHeight() + rectDown.getHeight()));
 			}
 
 		}
@@ -702,7 +680,6 @@ public final class DrawDropDownList extends CanvasDrawable
 				return;
 			}
 
-			// g2.setPaint(GColor.YELLOW);
 			int x = (int) rectUp.getX();
 			int y = (int) rectUp.getY();
 			int h = (int) rectUp.getHeight();
@@ -710,25 +687,20 @@ public final class DrawDropDownList extends CanvasDrawable
 			if (y < MARGIN) {
 				y = MARGIN;
 			}
-			// Log.debug(SCROLL_PFX + " drawing up control at (" + x + ", " + y
-			// + ") w: " + w + " h: " + h);
+
 			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
-			dropDown.drawScrollUp(g2, x, y, w, h, geoList.getBackgroundColor());
+			dropDown.drawScrollUp(g2, x, y, w, h);
 
 			int x2 = (int) rectDown.getX();
 			int y2 = (int) rectDown.getY();
 			int h2 = (int) rectDown.getHeight();
 			int w2 = (int) rectDown.getWidth();
-			// Log.debug(SCROLL_PFX + " drawing up control at (" + x2 + ", " +
-			// y2
-			// + ") w: " + w2 + " h: " + h2);
 
 			g2.setPaint(geoList.getBackgroundColor());
 
 			g2.fillRoundRect(x2, y2, w2, h2, ROUND, ROUND);
-			dropDown.drawScrollDown(g2, x2, y2, w2, h2,
-					geoList.getBackgroundColor());
+			dropDown.drawScrollDown(g2, x2, y2, w2, h2);
 
 		}
 
@@ -765,14 +737,11 @@ public final class DrawDropDownList extends CanvasDrawable
 				visibleItems = maxItems;
 				scrollNeeded = false;
 			} else if (visibleItems < maxItems - 1) {
-				// visibleItems = (viewOpt.getHeight() - (2 * MARGIN +
-				// arrowsHeight))
-				// / dimItem.getHeight();
-
 				// The two additional arrows take an item by height.
 				visibleItems--;
 				scrollNeeded = true;
 			}
+
 			if (startIdx + visibleItems < maxItems) {
 				endIdx = startIdx + visibleItems + 1;
 			} else {
@@ -784,11 +753,6 @@ public final class DrawDropDownList extends CanvasDrawable
 				startIdx = 0;
 				endIdx = maxItems;
 			}
-
-			// Log.debug(
-			// "[SCROLL] max: " + maxItems + " visible: " + visibleItems);
-			// Log.debug("[SCROLL]" + "startIdx: " + startIdx + " endIdx: "
-			// + endIdx);
 
 			scrollNeeded = scrollNeeded && rowCount > 2;
 			if (scrollNeeded) {
@@ -855,8 +819,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 			rowCount = resultRow == 0 ? 1 : resultRow;
 			colCount = itemCount / rowCount + (maxMod == 0 ? 0 : 1);
-			// Log.debug("[BALANCE] mod: " + maxMod + " cols: " + colCount
-			// + " rows: " + rowCount);
 		}
 
 		private void createItems() {
@@ -891,7 +853,6 @@ public final class DrawDropDownList extends CanvasDrawable
 			if (visible) {
 				ScreenReader.readDropDownOpened(geoList);
 			}
-			boolean repaintNeeded = this.visible != visible;
 
 			this.visible = visible;
 			if (visible) {
@@ -916,12 +877,8 @@ public final class DrawDropDownList extends CanvasDrawable
 			}
 			viewOpt.repaintView();
 			updateOpenedComboBox();
-			// Log.error("repaint 4");
 
-			repaintNeeded = true;
-			// instead of: viewOpt.repaintView();
-
-			return repaintNeeded;
+			return true;
 		}
 
 		public void onResize(int w, int h) {
@@ -966,7 +923,6 @@ public final class DrawDropDownList extends CanvasDrawable
 				hovered = items.get(idx);
 				selectedIndex = idx;
 				update();
-				// Log.error("repaint 6");
 
 				getView().repaintView();
 			}
@@ -1048,14 +1004,11 @@ public final class DrawDropDownList extends CanvasDrawable
 		// set or not
 
 		if (!"".equals(geo.getRawCaption())) {
-			String caption = geo.getCaption(StringTemplate.defaultTemplate);
-			return caption;
-
+			return geo.getCaption(StringTemplate.defaultTemplate);
 		}
 
 		// make sure there's something to drag
 		return Unicode.NBSP + "" + Unicode.NBSP + "" + Unicode.NBSP;
-
 	}
 
 	@Override
@@ -1128,12 +1081,10 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
-
 		updateMetrics(g2);
 
 		String labelText = getLabelText();
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
-		int textBottom = boxTop + getTextBottom();
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
 
@@ -1155,6 +1106,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		g2.setPaint(geo.getObjectColor());
 
 		// Draw the selected line
+		int textBottom;
 		if (seLatex) {
 			textBottom = boxTop
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
@@ -1171,7 +1123,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + 5);
-
 	}
 
 	private int alignTextToBottom(GGraphics2D g2, int top, int height,
@@ -1188,15 +1139,13 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
-
-		int textBottom = boxTop + getTextBottom();
 		boolean latex = isLatexString(text);
 		if (latex) {
 			drawLatex(g2, geo0, getLabelFont(), text, xLabel,
 					boxTop + (boxHeight - labelSize.y) / 2);
 
 		} else {
-			textBottom = boxTop
+			int textBottom = boxTop
 					+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(getLabelFont());
@@ -1221,8 +1170,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		int left = boxLeft + boxWidth - boxHeight;
 
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
-		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight,
-				geo.getBackgroundColor());
+		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight);
 	}
 
 	@Override
@@ -1241,12 +1189,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		boxTop = yLabel;
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
-	}
-
-	private int getTextBottom() {
-		return isLatexString(selectedText) ? boxHeight - selectedHeight / 2
-				: (getPreferredHeight() + getMultipliedFontSize())
-						/ 2;
 	}
 
 	private void updateMetrics(GGraphics2D g2) {
@@ -1298,11 +1240,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	private int getTriangleControlWidth() {
 		return selectedDimension.getHeight();
-	}
-
-	private int getMultipliedFontSize() {
-		return (int) Math.round(
-				((getLabelFont().getSize() * geoList.getFontSizeMultiplier())));
 	}
 
 	@Override
@@ -1572,5 +1509,4 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;
 	}
-
 }

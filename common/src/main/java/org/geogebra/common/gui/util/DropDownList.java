@@ -95,14 +95,11 @@ public class DropDownList {
 		// TF Rectangle
 		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.LIGHT_GRAY);
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
-
 	}
 
 	/**
 	 * @param g2
 	 *            graphics
-	 * @param bgColor
-	 *            background color
 	 * @param left
 	 *            left
 	 * @param top
@@ -113,7 +110,7 @@ public class DropDownList {
 	 *            height
 	 */
 	public void drawControl(GGraphics2D g2, int left, int top, int width,
-			int height, GColor bgColor) {
+			int height) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int midx = left + width / 2;
@@ -125,15 +122,12 @@ public class DropDownList {
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
 		AwtFactory.fillTriangle(g2, midx - tW, midy + tH, midx + tW, midy + tH,
-				midx,
-				midy + 2 * tW);
+				midx, midy + 2 * tW);
 	}
 
 	/**
 	 * @param g2
 	 *            graphics
-	 * @param bgColor
-	 *            background color
 	 * @param left
 	 *            left
 	 * @param top
@@ -144,7 +138,7 @@ public class DropDownList {
 	 *            height
 	 */
 	public void drawScrollUp(GGraphics2D g2, int left, int top, int width,
-			int height, GColor bgColor) {
+			int height) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int midx = left + width / 2;
@@ -156,22 +150,12 @@ public class DropDownList {
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
 		AwtFactory.fillTriangle(g2, midx - tW, midy + 2 * tW, midx + tW,
-				midy + 2 * tW,
-				midx, midy + tH);
-
-		// GPolygon p = AwtFactory.getPrototype().newPolygon();
-		// p.addPoint(midx - tW, midy + 2 * tW);
-		// p.addPoint(midx + tW, midy + 2 * tW);
-		// p.addPoint(midx, midy + tH);
-		// g2.fill(p);
-
+				midy + 2 * tW, midx, midy + tH);
 	}
 
 	/**
 	 * @param g2
 	 *            graphics
-	 * @param bgColor
-	 *            background color
 	 * @param left
 	 *            left
 	 * @param top
@@ -182,7 +166,7 @@ public class DropDownList {
 	 *            height
 	 */
 	public void drawScrollDown(GGraphics2D g2, int left, int top, int width,
-			int height, GColor bgColor) {
+			int height) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int midx = left + width / 2;
@@ -195,7 +179,6 @@ public class DropDownList {
 
 		AwtFactory.fillTriangle(g2, midx - tW, midy + tH, midx + tW, midy + tH,
 				midx, midy + 2 * tW);
-
 	}
 
 	private void setMouse(int x, int y) {
@@ -277,5 +260,4 @@ public class DropDownList {
 
 		return false;
 	}
-
 }
