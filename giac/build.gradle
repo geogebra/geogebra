@@ -65,28 +65,22 @@ if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "emgiac") 
     LlvmMpfrA = "$emgiacSourceDir/giac/libmpfr.a"
     LlvmGmpA = "$emgiacSourceDir/giac/libgmp.a"
 }
-def emscriptenVer = '201704' // 1.37.22
+def emscriptenVer = ['201704', '201704'] // 1.37.22
 if (System.env['EMSCRIPTEN_VER'] != null) {
-    emscriptenVer = System.env['EMSCRIPTEN_VER'];
-}
-
-if (System.env['WASM'] != null) {
-    if (emscriptenVer != "201704") {
-       throw new GradleException("You need to use a recent emscripten to use wasm")
-    }
+    emscriptenVer[0] = System.env['EMSCRIPTEN_VER'];
 }
 
 def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk-portable")
-def emscriptenVersion = "tag-1.34.1"
+def emscriptenVersion = ["tag-1.34.1", "tag-1.34.1"]
 if (System.env['EMSCRIPTEN_VERSION'] != null) {
-    emscriptenVersion = System.env['EMSCRIPTEN_VERSION'];
+    emscriptenVersion[0] = System.env['EMSCRIPTEN_VERSION'];
 }
-def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
+def emscriptenDir = emscriptenVersion.collect({version -> file("$emsdkRunDir/emscripten/$version")})
 
-def emccCommand = "${emscriptenDir}/emcc"
+def emccCommand = emscriptenDir.collect({dir -> "${dir}/emcc"})
 
 // End of emscripten related settings. Huh.
 
@@ -596,26 +590,27 @@ tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <
         def basename = (taskName - 'Cc').substring('emccCompileWasm1'.length())
         def wasm = taskName.contains("wasm1")
         task(taskName) {
+            mustRunAfter wasm ? 'activateEmsdkWasm' : 'activateEmsdk'
             def input = "src/giac/cpp/${basename}.cc"
             inputs.file input
-            def output = objDirs[wasm] + "/${basename}.o"
+            def output = objDirs[wasm ? 1 : 0] + "/${basename}.o"
             outputs.file output
             doLast {
                 file(objDirs[wasm]).mkdirs()
                 exec {
                     // Be very careful when changing this: config.h also contains some entries! 
                     def specialOptions = ''
-                    def commandline = emccCommand
+                    def commandline = emccCommand[wasm]
                     commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DHAVE_CONFIG_H -DNO_STDEXCEPT -fno-exceptions' // from old Makefile
-                    if (emscriptenVer == '201304') {
+                    if (emscriptenVer[wasm] == '201304') {
                         commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
                     }
-                    if (emscriptenVer == '201503') {
+                    if (emscriptenVer[wasm] == '201503') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1"
                         commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
 
                     }
-                    if (emscriptenVer == '201704') {
+                    if (emscriptenVer[wasm] == '201704') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1"
                         if (wasm) {
                             commandline += " -s WASM=1 -s NO_EXIT_RUNTIME=1"
@@ -682,14 +677,14 @@ task emccClean(type: Delete) {
                 linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
                 linkerArgs << LlvmGmpA
                 linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
-                if (emscriptenVer == '201304') {
+                if (emscriptenVer[wasm] == '201304') {
                     linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
                 }
-                if (emscriptenVer == '201503') {
+                if (emscriptenVer[wasm] == '201503') {
                     linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
                     linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
                 }
-                if (emscriptenVer == '201704') {
+                if (emscriptenVer[wasm] == '201704') {
                     linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
                     if (wasm) {
                         linkerArgs << '-s' << 'WASM=1'
@@ -708,8 +703,8 @@ task emccClean(type: Delete) {
                 linkerArgs << '--memory-init-file' << '0'
                 linkerArgs << '-s' << 'TOTAL_MEMORY=67108864' // consider increasing this if running out of memory on GB computations
                 def linkerArgsString = linkerArgs.join(" ")
-                println "Linking: ${emccCommand} ${linkerArgsString}"
-                commandLine emccCommand
+                println "Linking: ${emccCommand[wasm]} ${linkerArgsString}"
+                commandLine emccCommand[wasm]
                 args linkerArgs
             }
         }
@@ -735,7 +730,7 @@ task emccClean(type: Delete) {
     }
 })
 
-task createGiacJs(dependsOn: 'createGiacJsWasm0'){
+task createGiacJs(dependsOn: ['activateEmsdk', 'createGiacJsWasm0', 'activateEmsdkWasm', 'createGiacJsWasm1']){
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
 }
 
@@ -786,7 +781,7 @@ task installEmsdk (/*dependsOn: 'downloadEmsdk'*/) {
         // FIXME: If already installed, this results in an error and stops.
         // Below this may not work with older emscripten versions.
         exec {
-            commandLine "./emsdk install sdk-$emscriptenVersion-64bit".split()
+            commandLine "./emsdk install sdk-${emscriptenVersion[0]}-64bit".split()
             workingDir emsdkRunDir
         }
     }
@@ -796,7 +791,18 @@ task activateEmsdk (/*dependsOn: 'downloadEmsdk'*/) {
     description 'Activates the emscripten SDK.'
     doLast {
         exec {
-            commandLine "./emsdk activate sdk-$emscriptenVersion-64bit".split()
+            commandLine "./emsdk activate sdk-${emscriptenVersion[0]}-64bit".split()
+            workingDir emsdkRunDir
+        }
+    }
+}
+
+task activateEmsdkWasm (/*dependsOn: 'downloadEmsdk'*/) {
+    mustRunAfter 'createGiacJsWasm0'
+    description 'Activates the emscripten SDK.'
+    doLast {
+        exec {
+            commandLine "./emsdk activate sdk-${emscriptenVersion[1]}-64bit".split()
             workingDir emsdkRunDir
         }
     }
@@ -806,7 +812,7 @@ task emConfigureGmp {
     description 'Configures GMP for the emscripten SDK.'
     doLast {
         exec {
-            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emconfigure $gmpSourceDir/configure --build=none --host=none --disable-assembly"
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; ${emscriptenDir[0]}/emconfigure $gmpSourceDir/configure --build=none --host=none --disable-assembly"
             workingDir gmpSourceDir
         }
     }
@@ -816,7 +822,7 @@ task emMakeGmp {
     description 'Makes GMP with the emscripten SDK.'
     doLast {
         exec {
-            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; ${emscriptenDir[0]}/emmake make"
             workingDir gmpSourceDir
         }
     }
@@ -827,7 +833,7 @@ task emConfigureMpfr {
     doLast {
         exec {
             commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; " +
-                "$emscriptenDir/emconfigure $mpfrSourceDir/configure " + 
+                "${emscriptenDir[0]}/emconfigure $mpfrSourceDir/configure " + 
                 "--build=none --host=none --disable-assembly "
                 "--with-gmp-lib=$gmpSourceDir/.libs --with-gmp-include=$gmpSourceDir"
             workingDir mpfrSourceDir
@@ -839,7 +845,7 @@ task emMakeMpfr {
     description 'Makes MPFR with the emscripten SDK.'
     doLast {
         exec {
-            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; ${emscriptenDir[0]}/emmake make"
             workingDir mpfrSourceDir
         }
     }
