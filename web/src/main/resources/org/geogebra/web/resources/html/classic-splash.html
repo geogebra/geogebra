@@ -157,7 +157,7 @@
 		<div class="gwt-Label" id="probability">Probability</div></td></tr></tbody></table>
 
 
-		<table class="perspectivesRow examPerspectiveRow"><tbody><tr><td align="left" style="vertical-align: top;">
+		<table class="perspectivesRow examPerspectiveRow" style="display:none"><tbody><tr><td align="left" style="vertical-align: top;">
 		<img src="<!--ICON:EXAM-->" class="perspImage"></td><td align="left" style="vertical-align: top;">
 		<div class="gwt-Label" id="exam">Exam</div></td></tr></tbody></table>
 
@@ -179,7 +179,10 @@
 '</svg></div><span id="download" class="downloadlink">Download</span></a>'+
         '</div>';
     }
-    
+    // only show  exam in tablet and offline apps
+    if (module.indexOf("tablet") === 0 || defaultParams.laf == "bundle" || defultParams.laf == "chrome") {
+        document.getElementsByClassName("examPerspectiveRow")[0].style.display = "";
+    }
 </script>
 
 <div class="startScreen splitter">
