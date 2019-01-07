@@ -1223,8 +1223,7 @@ public class Manager3D implements Manager3DInterface {
 
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
 				index);
-		GeoPoint3D point = salgo.getPoint();
-		return point;
+		return salgo.getPoint();
 	}
 
 	/**
