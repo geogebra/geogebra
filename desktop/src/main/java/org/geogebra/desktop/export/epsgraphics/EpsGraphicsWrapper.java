@@ -110,33 +110,33 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		}
 	}
 
-	// @Override
+	@Override
 	public void startDrawing() {
 		path.reset();
 	}
 
-	// @Override
+	@Override
 	public void moveTo(double x, double y) {
 		path.moveTo(x, y);
 	}
 
-	// @Override
+	@Override
 	public void lineTo(double x, double y) {
 		path.lineTo(x, y);
 	}
 
-	// @Override
+	@Override
 	public void quadraticCurveTo(double x, double y, double x1, double y1) {
 		path.quadTo(x, y, x1, y1);
 	}
 
-	// @Override
+	@Override
 	public void bezierCurveTo(double x, double y, double x1, double y1,
 			double x2, double y2) {
 		path.curveTo(x1, y1, x1, y1, x2, y2);
 	}
 
-	// @Override
+	@Override
 	public void finishDrawing() {
 		impl.draw(path);
 	}

@@ -571,14 +571,24 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		currentFileId = null;
 	}
 
+	/**
+	 * @return current file ID
+	 */
 	public String getCurrentFileId() {
 		return currentFileId;
 	}
 
+	/**
+	 * @param currentFileId
+	 *            current file ID
+	 */
 	public void setCurrentFileId(String currentFileId) {
 		this.currentFileId = currentFileId;
 	}
 
+	/**
+	 * initialize file ID
+	 */
 	protected native void setCurrentFileId() /*-{
 		if ($wnd.GGW_appengine) {
 			this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];

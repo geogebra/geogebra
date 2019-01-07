@@ -10,53 +10,63 @@ public class CASEditorNoGui implements CASTableCellEditor {
 		this.content = string;
 	}
 
+	@Override
 	public void setLabels() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public int getInputSelectionEnd() {
 		return -1;
 	}
 
+	@Override
 	public int getInputSelectionStart() {
 		return -1;
 	}
 
+	@Override
 	public String getInputSelectedText() {
 		return "";
 	}
 
+	@Override
 	public String getInput() {
 		return content;
 	}
 
+	@Override
 	public void setInputSelectionStart(int selStart) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void setInputSelectionEnd(int selEnd) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void clearInputText() {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
 	public void setInput(String string) {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
 	public void ensureEditing() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void onEnter(boolean explicit) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;

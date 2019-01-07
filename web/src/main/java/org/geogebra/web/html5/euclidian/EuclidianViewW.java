@@ -1391,6 +1391,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	@Override
 	public ReaderWidget getScreenReader() {
 		return screenReader;
 	}

@@ -44,6 +44,7 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 						+ " Press tab to select next object");
 		speechBtn.addFastClickHandler(new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				getSpecRecController().initSpeechSynth(
 						"Please give the command.",

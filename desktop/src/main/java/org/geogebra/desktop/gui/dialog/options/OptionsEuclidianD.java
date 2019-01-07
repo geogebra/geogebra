@@ -1253,10 +1253,12 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void addRulerTypeItem(String item) {
 		// implemented in web
 	}
 
+	@Override
 	public void updateRuler(int typeIdx, GColor color, int lineStyle,
 			boolean bold) {
 		// implemented in web

@@ -835,20 +835,24 @@ public class AppDNoGui extends App implements AppDI {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
+	@Override
 	public void addExternalImage(String name, MyImageJre img) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void storeFrameCenter() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public MyImageJre getExportImage(double thumbnailPixelsX,
 			double thumbnailPixelsY) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public MyImageJre getExternalImage(String fileName) {
 		// TODO Auto-generated method stub
 		return null;

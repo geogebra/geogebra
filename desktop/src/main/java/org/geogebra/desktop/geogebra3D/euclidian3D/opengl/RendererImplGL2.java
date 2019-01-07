@@ -923,6 +923,7 @@ public class RendererImplGL2 extends RendererImpl
 		// only needed for shaders
 	}
 
+	@Override
 	public void attribPointers() {
 		// only needed for shaders
 	}
@@ -934,6 +935,7 @@ public class RendererImplGL2 extends RendererImpl
 		// used only with AR
 	}
 
+	@Override
 	public void glViewPort() {
 		// used only with shaders
 	}

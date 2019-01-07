@@ -1033,6 +1033,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			comboBox.removeAllItems();
 		}
 
+		@Override
 		public void addItem(GeoElement geo) {
 			if (geo != null) {
 				addItem(geo.getLabel(StringTemplate.editTemplate));

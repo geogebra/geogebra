@@ -1084,6 +1084,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return geoUsedForInputBox;
 	}
 
+	@Override
 	public void setPrefSize(int width, int height) {
 		// TODO Auto-generated method stub
 	}

@@ -448,6 +448,7 @@ public class TestArticleElement implements ArticleElementInterface {
 		return false;
 	}
 
+	@Override
 	public String getParamFullscreenContainer() {
 		return "";
 	}

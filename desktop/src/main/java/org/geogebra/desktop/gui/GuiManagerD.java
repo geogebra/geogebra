@@ -733,6 +733,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	/**
 	 * use Application.getDialogManager() instead
 	 */
+	@Override
 	@Deprecated
 	public DialogManager getDialogManager() {
 		return dialogManager;

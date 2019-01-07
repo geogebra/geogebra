@@ -165,6 +165,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 												return false;
 											}
 
+											@Override
 											public void log(Throwable e) {
 												Log.debug("Preview:" + e
 														.getLocalizedMessage());

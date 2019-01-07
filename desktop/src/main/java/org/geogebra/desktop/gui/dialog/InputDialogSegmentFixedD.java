@@ -54,6 +54,7 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 				inputPanel.getText(), (NumberInputHandler) getInputHandler(),
 				this, new AsyncOperation<Boolean>() {
 
+					@Override
 					public void callback(Boolean ok) {
 						setVisibleForTools(!ok);
 					}
