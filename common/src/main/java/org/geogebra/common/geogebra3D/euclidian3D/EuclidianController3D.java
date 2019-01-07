@@ -2194,9 +2194,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 			} else {
 				if (view3D
 						.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_REGION) {
-					if (view3D.getCursor3D().getRegion() == kernel
-							.getXOYPlane()) {
-						createPointAnywhere = true;
+					if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+						createPointAnywhere = (selPoints() == 0 && view3D
+								.getCursor3D().getRegion()
+								.isGeoPlane())
+								|| view3D.getCursor3D().getRegion() == kernel
+										.getXOYPlane();
+					} else {
+						if (view3D.getCursor3D().getRegion() == kernel
+								.getXOYPlane()) {
+							createPointAnywhere = true;
+						}
 					}
 				}
 			}
