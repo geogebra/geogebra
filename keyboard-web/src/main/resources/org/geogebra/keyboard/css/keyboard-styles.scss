@@ -421,6 +421,7 @@ $purple-default: #6557D2;
 		position: absolute;
 		bottom: 0;
 		width: 100%;
+		max-height: 228px;
 	}
 
 	.TabbedKeyBoard.animating {
@@ -466,12 +467,12 @@ $purple-default: #6557D2;
 	}
 
 	@keyframes addKeyBoard {
-		0% {max-height: 0;}
-		100% {max-height: 228px;}
+		0% {transform: translateY(228px);}
+		100% {transform: translateY(0);}
 	}
 
 	@keyframes removeKeyBoard {
-		0% {max-height: 228px;}
-		100% {max-height: 0;}
+		100% {transform: translateY(228px);}
+		0% {transform: translateY(0);}
 	}
 }
