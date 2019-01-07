@@ -230,9 +230,6 @@ public enum Feature {
 	/** GGB-2375 */
 	INPUT_BOX_LINE_UP_BETTER,
 
-	/** GGB-2488 */
-	SELECT_NEXT_GEO_IN_VIEW,
-
 	/** MOB-1722 */
 	MOB_EXPORT_STL,
 

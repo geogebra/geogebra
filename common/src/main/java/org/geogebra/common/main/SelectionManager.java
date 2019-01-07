@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -677,9 +678,6 @@ public class SelectionManager {
 	 * @return if select was successful or not.
 	 */
 	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
-		if (!kernel.getApplication().has(Feature.SELECT_NEXT_GEO_IN_VIEW)) {
-			return selectNextGeo0(ev, true);
-		}
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree);
 
@@ -720,10 +718,6 @@ public class SelectionManager {
 	 *            The Euclidian View that has the geos to select.
 	 */
 	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
-		if (!kernel.getApplication().has(Feature.SELECT_NEXT_GEO_IN_VIEW)) {
-			selectLastGeo0(ev);
-			return;
-		}
 		boolean forceLast = false;
 		if (selectedGeos.size() != 1) {
 			if (!getAccessibilityManager().handleTabExitGeos(false)) {
@@ -733,7 +727,7 @@ public class SelectionManager {
 			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree);
+		// filterGeosForView(tree);
 
 		int selectionSize = selectedGeos.size();
 		GeoElement last = tree.last();
@@ -743,7 +737,7 @@ public class SelectionManager {
 		}
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement prev = tree.lower(lastSelected);
-
+		Log.debug("last: " + lastSelected + " prev: " + prev);
 		removeAllSelectedGeos();
 
 		if (prev == null) {
@@ -793,149 +787,6 @@ public class SelectionManager {
 		
 	}
 
-	/**
-	 * Select geo next to the selected one in construction order. If none is
-	 * selected before, first geo is selected.
-	 * 
-	 * @param ev
-	 *            view that should get focus after (if we did not selct
-	 *            textfield)
-	 * @param cycle
-	 *            whether to jump back to 0 from the last one
-	 * 
-	 * @return whether the operation is successful (e.g. in case of no cycle)
-	 */
-	final public boolean selectNextGeo0(EuclidianViewInterfaceCommon ev,
-			boolean cycle) {
-
-		TreeSet<GeoElement> tree = getTabbingSet();
-		// .getGeoSetLabelOrder();
-
-		tree = new TreeSet<>(tree);
-
-		// remove geos that don't have isSelectionAllowed()==true
-		// or are not visible in the view
-		filterGeosForView(tree);
-
-		Iterator<GeoElement> it = tree.iterator();
-
-		// none selected, select first geo
-		if (selectedGeos.size() == 0) {
-			if (it.hasNext()) {
-				addSelectedGeo(it.next());
-			}
-			return false;
-		}
-
-		GeoElement selGeo = null;
-
-		if (selectedGeos.size() != 1) {
-			if (cycle) {
-				return false;
-			}
-
-			GeoElement actual = null;
-
-			// in case of no cycle, it also means that this
-			// was called from Web, in Graphics views, so
-			// in this case, it's better to change selection
-			// to remove all geos except the first one that
-			// is also part of this view, and continue
-			// as if it were always the case...
-			Iterator<GeoElement> itt = tree.iterator();
-			while (itt.hasNext()) {
-				actual = itt.next();
-				if (selectedGeos.contains(actual)) {
-					selGeo = actual;
-					break;
-				}
-			}
-
-			if (selGeo == null) {
-				// no selected geo in this view,
-				// maybe better to handle this as if
-				// there were no geo selected!
-				// but also clear selected geos!
-				itt = selectedGeos.iterator();
-				while (itt.hasNext()) {
-					// does something more than simple clear
-					removeSelectedGeo(itt.next(), false, true);
-				}
-
-				if (it.hasNext()) {
-					addSelectedGeo(it.next());
-				}
-				return false;
-
-				// old behaviour
-				// selGeo = selectedGeos.get(0);
-			}
-
-			// remove every GeoElement from the selection
-			// that is not "selGeo"
-			itt = selectedGeos.iterator();
-			while (itt.hasNext()) {
-				// does something more than simple clear
-				removeSelectedGeo(itt.next(), false, true);
-			}
-			// and put selGeo back
-			addSelectedGeo(selGeo);
-
-			// make sure it is fresh, for a bug when points
-			// A and C are selected, it gone to B and C
-			it = tree.iterator();
-		}
-
-		if (selGeo == null) {
-			// at least one selected, select next one
-			selGeo = selectedGeos.get(0);
-		}
-
-		// maybe selGeo is there in Graphics View 2,
-		// but it is not there in "tree", since we're
-		// in Graphics View 1! Then we probably want
-		// the same thing as when nothing is selected here!
-		if (!tree.contains(selGeo)) {
-			// but only after clearing the selection properly!
-			Iterator<GeoElement> itt = selectedGeos.iterator();
-			while (itt.hasNext()) {
-				// does something more than simple clear
-				removeSelectedGeo(itt.next(), false, true);
-			}
-
-			if (it.hasNext()) {
-				addSelectedGeo(it.next());
-			}
-			return false;
-		}
-
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (selGeo == geo) {
-				removeSelectedGeo(selGeo);
-				if (!it.hasNext()) {
-					if (cycle) {
-						it = tree.iterator();
-					} else {
-						return false;
-					}
-				}
-				GeoElement next = it.next();
-				addSelectedGeo(next);
-
-				// make sure Input Boxes lose focus on <TAB>
-				if (!(next instanceof GeoInputBox)) {
-					ev.requestFocus();
-				} else {
-					kernel.getApplication().getActiveEuclidianView()
-							.focusAndShowTextField((GeoInputBox) next);
-				}
-				break;
-			}
-		}
-		return true;
-	}
-
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
 
 		App app = kernel.getApplication();
@@ -971,51 +822,6 @@ public class SelectionManager {
 			}
 		}
 
-	}
-
-	/**
-	 * Select last created geo
-	 * 
-	 * @param ev
-	 *            view that should get focus after (if we did not selct
-	 *            textfield)
-	 */
-	final public void selectLastGeo0(EuclidianViewInterfaceCommon ev) {
-		if (selectedGeos.size() != 1) {
-			return;
-		}
-		GeoElement selGeo = selectedGeos.get(0);
-		GeoElement lastGeo = null;
-		TreeSet<GeoElement> tree = getTabbingSet();
-
-		tree = new TreeSet<>(tree);
-
-		filterGeosForView(tree);
-
-		Iterator<GeoElement> it = tree.iterator();
-		while (it.hasNext()) {
-			lastGeo = it.next();
-		}
-
-		it = tree.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (selGeo == geo) {
-				removeSelectedGeo(selGeo);
-				addSelectedGeo(lastGeo);
-
-				// make sure Input Boxes lose focus on <SHIFT><TAB>
-				if (!(lastGeo instanceof GeoInputBox)) {
-					ev.requestFocus();
-				} else {
-					kernel.getApplication().getActiveEuclidianView()
-							.focusAndShowTextField((GeoInputBox) lastGeo);
-				}
-
-				break;
-			}
-			lastGeo = geo;
-		}
 	}
 
 	/**
