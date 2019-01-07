@@ -762,8 +762,8 @@
 }
 
 /* Outside of GeoGebraFrame */
-.fullscreen-ipad {
-	position: fixed;
+.GeoGebraFullscreenContainer {
+	background-color: black;
 	top: 0px;
 	left: 0px;
 	z-index: 9999;

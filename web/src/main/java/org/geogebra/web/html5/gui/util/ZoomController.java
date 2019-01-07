@@ -153,7 +153,8 @@ public class ZoomController {
 			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
-			container.getStyle().setPosition(Position.ABSOLUTE);
+			container.getStyle().setPosition(useEmulatedFullscreen()
+					? Position.FIXED : Position.ABSOLUTE);
 			double marginLeft = 0;
 			double marginTop = 0;
 			if (xscale > yscale) {
@@ -262,9 +263,7 @@ public class ZoomController {
 			app.toggleMenu();
 		}
 		final Element container;
-		final boolean ipad = Browser.isIPad()
-				|| !StringUtil.empty(
-						app.getArticleElement().getParamFullscreenContainer());
+		final boolean ipad = useEmulatedFullscreen();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 			if (!isFullScreenActive()) {
@@ -301,7 +300,7 @@ public class ZoomController {
 				setCssScale(ae.getParentScaleX());
 				if (ipad) {
 					setContainerProp(container, "left", "0px");
-					scaler.addClassName("fullscreen-ipad");
+					container.addClassName("GeoGebraFullscreenContainer");
 				}
 				Timer t = new Timer() {
 
@@ -315,7 +314,7 @@ public class ZoomController {
 				t.schedule(50);
 			} else {
 				if (ipad) {
-					scaler.removeClassName("fullscreen-ipad");
+					container.removeClassName("GeoGebraFullscreenContainer");
 					onExitFullscreen(elem, fullscreenBtn);
 					if (getCssScale() != 0) {
 						Browser.scale(scaler, getCssScale(),
@@ -328,6 +327,11 @@ public class ZoomController {
 			setFullScreenActive(!isFullScreenActive());
 			Browser.toggleFullscreen(isFullScreenActive(), container);
 		}
+	}
+
+	private boolean useEmulatedFullscreen() {
+		return Browser.isIPad() || !StringUtil
+				.empty(app.getArticleElement().getParamFullscreenContainer());
 	}
 
 	/**
