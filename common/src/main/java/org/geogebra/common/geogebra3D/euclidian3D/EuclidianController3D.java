@@ -3341,9 +3341,30 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				case EuclidianConstants.MODE_TETRAHEDRON:
 				case EuclidianConstants.MODE_CUBE:
+					if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+						GeoPoint3D point = view3D.getCursor3D();
+						if (selPoints() == 0) {
+							if (point.hasRegion()) {
+								GeoElement geo = (GeoElement) point.getRegion();
+								return geo.isGeoPlane();
+							}
+							return point.isPointOnPath();
+						}
+						// one point, one region: can create a point
+						if (selCS2D() == 1) {
+							return true;
+						}
+						// on xOy plane: can create a point
+						if (point.hasRegion() 
+								&& point.getRegion() == kernel.getXOYPlane()) {
+							return true;
+						}
+						return false;
+					} // (remove below when Feature.G3D_IMPROVE_SOLID_TOOLS
+					// released and removed)
+
 					// show cursor when direction has been selected
-				if (selCS2D() == 1 || (!app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)
-						&& selPoints() != 0)) {
+					if (selCS2D() == 1 ||  selPoints() != 0) {
 						return true;
 					}
 
