@@ -156,13 +156,18 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	/**
 	 * set flag to require text start with "=" to activate autocomplete
+	 * 
+	 * @param equalsRequired
+	 *            whether = is needed for autocomplete
 	 */
 	public void setEqualsRequired(boolean equalsRequired) {
 		autoCompleteTextField.setEqualsRequired(equalsRequired);
 	}
 
 	/**
-	 * returns flag that requires text start with "=" to activate autocomplete
+	 * Gets flag that requires text start with "=" to activate autocomplete
+	 * 
+	 * @return whether = is needed for autocomplete
 	 */
 	public boolean isEqualsRequired() {
 		return autoCompleteTextField.isEqualsRequired();

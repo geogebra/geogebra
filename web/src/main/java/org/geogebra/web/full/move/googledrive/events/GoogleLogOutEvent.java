@@ -17,9 +17,4 @@ public class GoogleLogOutEvent extends BaseEvent {
 		super("google logout");
 	}
 
-	@Override
-	public void trigger() {
-		// no action
-	}
-
 }

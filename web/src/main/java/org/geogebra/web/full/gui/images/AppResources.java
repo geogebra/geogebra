@@ -150,7 +150,7 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_algebra.png")
 	ImageResource options_algebra24();
 	
-	/**
+	/*
 	 * NEW ICONS USING MATERIAL DESIGN GUIDELINES
 	 * 
 	 * icon color = #000000 + active opacity: 0.54, inactive opacity: 0.26

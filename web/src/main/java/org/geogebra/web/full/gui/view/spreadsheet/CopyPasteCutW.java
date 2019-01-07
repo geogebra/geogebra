@@ -19,6 +19,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	/**
 	 * Just copying the selection as string text format, independently!
+	 * 
+	 * @return selection content as tab separated string
 	 */
 	public String copyString(int column1, int row1, int column2, int row2) {
 		StringBuilder cellBufferStrLoc = new StringBuilder();
@@ -242,6 +244,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	/**
 	 * Just for the copy, removing redundancy runtime
+	 * 
+	 * @return if at least one object was deleted
 	 */
 	public boolean cut(int column1, int row1, int column2, int row2, boolean nat) {
 

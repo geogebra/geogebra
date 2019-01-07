@@ -10,7 +10,7 @@ import com.google.gwt.resources.client.ImageResource;
 public interface MaterialDesignResources extends ClientBundle {
 
 	MaterialDesignResources INSTANCE = GWT.create(MaterialDesignResources.class);
-	/** NEW MATERIAL DESIGN ICONS */
+	/* NEW MATERIAL DESIGN ICONS */
 
 	// header
 	@Source("org/geogebra/common/icons/svg/web/header/ggb-logo-name.svg")

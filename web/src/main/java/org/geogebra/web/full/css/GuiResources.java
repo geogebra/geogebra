@@ -233,7 +233,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_arrows_filled.png")
 	ImageResource deco_axes_arrows_filled();
 
-	/**
+	/*
 	 * STYLINGBARS
 	 * 
 	 */

@@ -4,7 +4,9 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 
 /**
- * @author gabor Event for login operations
+ * Event for login operations
+ * 
+ * @author gabor
  *
  */
 public class LoginEvent extends BaseEvent {
@@ -23,6 +25,8 @@ public class LoginEvent extends BaseEvent {
 	 * @param automatic
 	 *            true if the login was performed automatically (on startup) or
 	 *            manually by the user
+	 * @param userJSON
+	 *            JSON with user data
 	 */
 	public LoginEvent(GeoGebraTubeUser user, boolean successful,
 			boolean automatic, String userJSON) {
@@ -54,11 +58,9 @@ public class LoginEvent extends BaseEvent {
 		return user;
 	}
 
-	@Override
-	public void trigger() {
-		// No action
-	}
-
+	/**
+	 * @return JSON with user data
+	 */
 	public String getJSON() {
 		return this.userJSON;
 	}

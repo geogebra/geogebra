@@ -723,6 +723,11 @@ public class GSuggestBox extends Composite
 	 *            the suggest box oracle to use
 	 * @param element
 	 *            the element to be wrapped
+	 * @param panel
+	 *            panel
+	 * @param app
+	 *            application
+	 * @return suggest box for given input
 	 */
 	public static GSuggestBox wrap(SuggestOracle oracle, Element element,
 			Panel panel, App app) {

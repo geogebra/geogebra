@@ -13,9 +13,4 @@ public class StayLoggedOutEvent extends BaseEvent {
 		super(name);
 	}
 
-	@Override
-	public void trigger() {
-		// no action
-	}
-
 }

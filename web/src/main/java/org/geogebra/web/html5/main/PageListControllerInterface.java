@@ -92,6 +92,10 @@ public interface PageListControllerInterface {
 	 */
 	void updatePreviewImage();
 
-	/** export all sliders as PDF */
+	/**
+	 * export all sliders as PDF
+	 * 
+	 * @return base64 encoded PDF
+	 */
 	String exportPDF();
 }

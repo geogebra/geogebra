@@ -25,9 +25,4 @@ public class GoogleLoginEvent extends BaseEvent {
 		return success;
 	}
 
-	@Override
-	public void trigger() {
-		// do nothing
-	}
-
 }

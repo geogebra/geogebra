@@ -1,7 +1,9 @@
 package org.geogebra.common.move.events;
 
 /**
- * @author gabor base of all Events
+ * Base of all Events
+ * 
+ * @author gabor
  */
 public abstract class BaseEvent {
 
@@ -11,8 +13,12 @@ public abstract class BaseEvent {
 	 */
 	protected final String name;
 
-	public BaseEvent(String name2) {
-		this.name = name2;
+	/**
+	 * @param name
+	 *            event name
+	 */
+	public BaseEvent(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -23,8 +29,4 @@ public abstract class BaseEvent {
 		return name;
 	}
 
-	/**
-	 * contains the event handling code
-	 */
-	public abstract void trigger();
 }

@@ -248,6 +248,8 @@ public class Browser {
 	 * Native check for WebGL support based on
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support
+	 * 
+	 * @return whether WebGL is supported
 	 */
 	public static native boolean supportsWebGLNative()/*-{
 		try {

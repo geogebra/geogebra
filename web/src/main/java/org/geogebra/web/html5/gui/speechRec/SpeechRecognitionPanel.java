@@ -67,12 +67,7 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		}
 	}
 
-	/**
-	 * @param source
-	 *            on what it was tabbed on
-	 * @param shiftDown
-	 *            true if shift is pressed
-	 */
+	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (shiftDown) {
 			specRecContr.getAppW().getAccessibilityManager()

@@ -209,7 +209,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	/**
-	 * get spreadsheet styleBar
+	 * @return spreadsheet styleBar
 	 */
 	public SpreadsheetStyleBarW getSpreadsheetStyleBar() {
 		if (styleBar == null) {

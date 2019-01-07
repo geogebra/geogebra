@@ -790,6 +790,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * gets flag for requirement that commands entered into cells must start
 	 * with "="
+	 * 
+	 * @return whether = is required to interpret content as command
 	 */
 	public boolean isEqualsRequired() {
 		return view.isEqualsRequired();
@@ -1545,6 +1547,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * Returns Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
+	 * 
+	 * @return spreadsheet coordinates from pixel
 	 */
 	public GPoint getIndexFromPixel(int x, int y) {
 		if (x < 0 || y < 0) {
@@ -1586,6 +1590,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * @param spacing
 	 *            whether to include border -- TODO unused
+	 * @return rectangle (with screen coordinates)
 	 */
 	public GRectangle getCellRect(int row, int column, boolean spacing,
 			boolean offset) {
@@ -1783,6 +1788,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            row index
 	 * @param column
 	 *            column index
+	 * @return whether given cell is editable
 	 */
 	public boolean isCellEditable(int row, int column) {
 		if (view.isColumnSelect()) {
@@ -2393,6 +2399,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	/**
 	 * Cut string from selected cells
+	 * 
+	 * @return if at least one object was deleted
 	 */
 	public boolean cut() {
 		return copyPasteCut.cut(getSelectedColumn(), getSelectedRow(),

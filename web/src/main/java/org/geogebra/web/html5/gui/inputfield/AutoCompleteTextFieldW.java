@@ -1527,7 +1527,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return false;
 	}
 
-	/** returns if text must start with "=" to activate autocomplete */
+	/**
+	 * @return if text must start with "=" to activate autocomplete
+	 */
 	public boolean isEqualsRequired() {
 		return equalSignRequired;
 	}
@@ -1598,10 +1600,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	/**
+	 * Adds key handler to the tetxtfield
+	 * 
 	 * @param handler
 	 *            Keypresshandler
-	 * 
-	 *            Added to tetxtfield as handler
+	 * @return registration
 	 */
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return textField.getValueBox().addKeyPressHandler(handler);

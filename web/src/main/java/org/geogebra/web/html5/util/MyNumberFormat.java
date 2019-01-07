@@ -402,6 +402,8 @@ public class MyNumberFormat {
 	/**
 	 * Returns true if all new MyNumberFormat instances will use latin digits
 	 * and related characters rather than the localized ones.
+	 * 
+	 * @return true
 	 */
 	public static boolean forcedLatinDigits() {
 		return true; // defaultNumberConstants != localizedNumberConstants;
@@ -620,7 +622,7 @@ public class MyNumberFormat {
 	}
 
 	/**
-	 * Returns the pattern used by this number format.
+	 * @return the pattern used by this number format.
 	 */
 	public String getPattern() {
 		return pattern;

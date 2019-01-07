@@ -25,8 +25,4 @@ public class TubeAvailabilityCheckEvent extends BaseEvent {
 		return available;
 	}
 
-	@Override
-	public void trigger() {
-		// No action
-	}
 }

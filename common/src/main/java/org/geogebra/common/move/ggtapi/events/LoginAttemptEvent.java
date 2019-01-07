@@ -33,8 +33,4 @@ public class LoginAttemptEvent extends BaseEvent {
 		return user;
 	}
 
-	@Override
-	public void trigger() {
-		// No action
-	}
 }
