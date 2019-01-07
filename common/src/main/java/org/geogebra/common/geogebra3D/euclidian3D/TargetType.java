@@ -286,7 +286,7 @@ public enum TargetType {
 				if (point.hasRegion()) {
 					GeoElement geo = (GeoElement) point.getRegion();
 					if (!geo.isGeoPolygon()) {
-						return NOTHING;
+						return geo.isGeoPlane() ? onSuccess : NOTHING;
 					}
 					GeoPolygon polygon = (GeoPolygon) geo;
 					if (polygon.getPointsLength() == vertexCount
