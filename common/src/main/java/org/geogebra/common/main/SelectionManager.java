@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -680,32 +679,27 @@ public class SelectionManager {
 	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree);
+		if (tree.isEmpty()) {
+			getAccessibilityManager().onEmptyConstuction(true);
+			return true;
+		}
 
 		int selectionSize = selectedGeos.size();
-		GeoElement first = tree.isEmpty() ? null : tree.first();
 
 		if (selectionSize == 0) {
-			if (first != null) {
-				addSelectedGeoForEV(first);
-			}
+			addSelectedGeoForEV(tree.first());
 			return false;
 		}
-		
+
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement next = tree.higher(lastSelected);
 
 		removeAllSelectedGeos();
 
-		if (next == null) {
-			if (getAccessibilityManager().onSelectLastGeo(true)) {
-				return true;
-			}
-		}
-
 		if (next != null) {
 			addSelectedGeoForEV(next);
-		} else if (!getAccessibilityManager().handleTabExitGeos(true)) {
-			addSelectedGeoForEV(first);
+		} else if (!getAccessibilityManager().onSelectLastGeo(true)) {
+			addSelectedGeoForEV(tree.first());
 		}
 
 		return true;
@@ -737,18 +731,11 @@ public class SelectionManager {
 		}
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement prev = tree.lower(lastSelected);
-		Log.debug("last: " + lastSelected + " prev: " + prev);
 		removeAllSelectedGeos();
-
-		if (prev == null) {
-			if (getAccessibilityManager().onSelectFirstGeo(false)) {
-				return;
-			}
-		}
 
 		if (prev != null) {
 			addSelectedGeoForEV(prev);
-		} else if (!getAccessibilityManager().handleTabExitGeos(false)) {
+		} else if (!getAccessibilityManager().onSelectFirstGeo(false)) {
 			addSelectedGeoForEV(last);
 		}
 	}

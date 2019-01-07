@@ -47,7 +47,12 @@ public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, Key
 	}
 
 	private boolean isTabOverGui(KeyEvent<?> event) {
-		return !am.isTabOverGeos() && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB;
+		if (am.isTabOverGeos()) {
+			return false;
+		}
+
+		int key = event.getNativeEvent().getKeyCode();
+		return key == KeyCodes.KEY_TAB || key == KeyCodes.KEY_SPACE;
 	}
 
 	@Override

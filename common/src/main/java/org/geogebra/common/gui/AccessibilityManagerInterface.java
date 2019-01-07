@@ -169,4 +169,12 @@ public interface AccessibilityManagerInterface {
 	 * @return if selection is handled here.
 	 */
 	public boolean onSelectLastGeo(boolean forward);
+
+	/**
+	 * Called when user press tab but construction is empty.
+	 *
+	 * @param forward
+	 *            if geo is selected by tab or shift+tab.
+	 */
+	public void onEmptyConstuction(boolean forward);
 }

@@ -56,26 +56,90 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		selection = app.getSelectionManager();
 	}
 
+	private void focusFirst() {
+		focusFirstElement();
+	}
+
 	@Override
 	public void focusNext(Object source) {
 		if (source == null) {
-			focusFirstElement();
+			focusFirst();
 		} else if (source instanceof LatexTreeItemController) {
-			focusMenu();
+			nextFromInput();
 		} else if (source instanceof ZoomPanel) {
-			if (app.has(Feature.SPEECH_RECOGNITION)) {
-				focusNextSpeechRec();
-			} else {
-				focusNextZoomPanel();
-			}
-		} else if (app.has(Feature.SPEECH_RECOGNITION)
-				&& source instanceof SpeechRecognitionPanel) {
-			focusNextZoomPanel();
+			nextFromZoomPanel();
+		} else if (isSpeechButton(source)) {
+			nextFromSpeechRecognitionPanel();
 		} else if (source instanceof FocusWidget) {
-			focusNextWidget((FocusWidget) source);
+			nextFromWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
-			focusInputAsNext();
+			nextFromLastGeo();
 		}
+	}
+
+	private boolean isSpeechButton(Object source) {
+		return app.has(Feature.SPEECH_RECOGNITION) && source instanceof SpeechRecognitionPanel;
+	}
+
+	@Override
+	public void focusPrevious(Object source) {
+		if (source instanceof LatexTreeItemController) {
+			previousFromInput();
+		} else if (source instanceof ZoomPanel) {
+			previousFromZoomPanel();
+		} else if (isSpeechButton(source)) {
+			previousFromSpeechRecognition();
+		} else if (source instanceof FocusWidget) {
+			previousFromWidget((FocusWidget) source);
+		} else if (source instanceof GeoElement) {
+			previousFromFirstGeo();
+		}
+	}
+
+	private void previousFromInput() {
+		if (focusLastGeo()) {
+			return;
+		}
+		focusMenu();
+	}
+
+	private void previousFromSpeechRecognition() {
+		if (focusLastGeo()) {
+			return;
+		}
+		focusZoom(false);
+	}
+
+	private void previousFromFirstGeo() {
+		focusZoom(false);
+	}
+
+	private void nextFromInput() {
+		focusMenu();
+	}
+
+	private void nextFromZoomPanel() {
+		if (app.has(Feature.SPEECH_RECOGNITION)) {
+			focusNextSpeechRec();
+		} else {
+			focusNextZoomPanel();
+		}
+	}
+
+	private void nextFromSpeechRecognitionPanel() {
+		if (focusNextZoomPanel()) {
+			return;
+		}
+
+		if (focusFirstGeo()) {
+			return;
+		}
+
+		focusFirstWidget();
+	}
+
+	private void nextFromLastGeo() {
+		focusFirstWidget();
 	}
 
 	private void focusNextSpeechRec() {
@@ -83,19 +147,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		dp.focusSpeechRecBtn();
 	}
 
-	private void focusNextZoomPanel() {
+	private boolean focusNextZoomPanel() {
 		DockManagerW dm = (DockManagerW) (app.getGuiManager().getLayout().getDockManager());
 		for (DockPanelW panel : dm.getPanels()) {
 			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(panel);
 			if (ev != null) {
 				ev.focusNextGUIElement();
 				visitedIds.add(ev.getViewId());
-				return;
+				return true;
 			}
 		}
-		if (!focusFirstGeo()) {
-			focusInputAsNext();
-		}
+		return false;
 	}
 
 	private EuclidianDockPanelWAbstract isEuclidianViewWithZoomPanel(DockPanelW panel) {
@@ -129,28 +191,18 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private void focusInputAsNext() {
-		if (!focusInput(false)) {
-			focusMenu();
-		}
-	}
-
-	@Override
-	public void focusPrevious(Object source) {
-		if (source instanceof LatexTreeItemController) {
-			if (!focusLastGeo()) {
-				focusMenu();
+	private void focusFirstWidget() {
+		ToolbarPanel toolbar = gm.getUnbundledToolbar();
+		if (toolbar != null) {
+			if (toolbar.focusInput(false)) {
+				return;
 			}
-		} else if (source instanceof ZoomPanel) {
-			previousFromZoomPanel();
-		} else if (app.has(Feature.SPEECH_RECOGNITION)
-				&& source instanceof SpeechRecognitionPanel) {
-			focusZoom(false);
-		} else if (source instanceof FocusWidget) {
-			focusPreviousWidget((FocusWidget) source);
-		} else if (source instanceof GeoElement) {
-			focusZoom(false);
+
+			gm.getUnbundledToolbar().focusMenu();
+			return;
 		}
+
+		focusZoom(true);
 	}
 
 	private void previousFromZoomPanel() {
@@ -163,10 +215,15 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			setTabOverGeos(true);
 			return;
 		}
-		focusLastGeo();
+
+		if (app.has(Feature.SPEECH_RECOGNITION)) {
+			focusNextSpeechRec();
+		} else {
+			focusLastGeo();
+		}
 	}
 
-	private void focusNextWidget(FocusWidget source) {
+	private void nextFromWidget(FocusWidget source) {
 		if (app.isMenuShowing()) {
 			return;
 		}
@@ -176,7 +233,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
-	private void focusPreviousWidget(FocusWidget source) {
+	private void previousFromWidget(FocusWidget source) {
 		if (app.isMenuShowing()) {
 			return;
 		}
@@ -240,6 +297,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void focusMenu() {
 		if (gm.getUnbundledToolbar() != null) {
 			gm.getUnbundledToolbar().focusMenu();
+		} else {
+			focusFirstElement();
 		}
 	}
 
@@ -329,7 +388,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!app.has(Feature.TAB_ON_EV_PLAY)) {
 			return false;
 		}
-
 		if (!forward && selection.isFirstGeoSelected()) {
 			focusZoom(false);
 		}
@@ -448,7 +506,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			app.getEuclidianView3D().shiftRotAboutY(step);
 			app.getEuclidianView3D().repaintView();
 		}
+	}
 
+	@Override
+	public void onEmptyConstuction(boolean forward) {
+		focusZoom(false);
 	}
 
 	@Override
@@ -458,7 +520,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			focusZoom(false);
 			return true;
 		}
-		return false;
+		
+		return handleTabExitGeos(true);
 	}
 
 	@Override
@@ -472,6 +535,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			setTabOverGeos(false);
 			return true;
 		}
-		return false;
+		return handleTabExitGeos(false);
 	}
 }

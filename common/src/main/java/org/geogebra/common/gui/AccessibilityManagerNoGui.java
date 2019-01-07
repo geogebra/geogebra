@@ -125,4 +125,9 @@ public final class AccessibilityManagerNoGui
 	public boolean onSelectLastGeo(boolean forward) {
 		return false;
 	}
+
+	@Override
+	public void onEmptyConstuction(boolean forward) {
+		// not used
+	}
 }
