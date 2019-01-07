@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.List;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -179,6 +181,14 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	 */
 	public void setWaitForResetManagerBuffers() {
 		waitForResetManagerBuffers = true;
+	}
+
+	/**
+	 * 
+	 * @return list of drawables for points
+	 */
+	public List<Drawable3D> getDrawPoints() {
+		return getList(Drawable3D.DRAW_TYPE_POINTS);
 	}
 
 }

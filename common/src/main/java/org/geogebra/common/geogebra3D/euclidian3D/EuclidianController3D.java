@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -699,9 +700,33 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/** put intersectionPoint coordinates in point */
 	@Override
 	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
+		tmpCoords.setInhomCoords(intersectionPoint.getCoordsInD3());
+		tmpCoords.setW(1);
+		// check if intersection point is not too close to existing visible
+		// point
+		List<Drawable3D> list = view3D.getDrawList3D().getDrawPoints();
+		double epsx = App.DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE
+				/ view3D.getXscale();
+		double epsy = App.DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE
+				/ view3D.getYscale();
+		double epsz = App.DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE
+				/ view3D.getZscale();
+		for (Drawable3D d : list) {
+			if (d.isVisible()) {
+				GeoPointND point = (GeoPointND) d.getGeoElement();
+				Coords c = point.getInhomCoordsInD3();
+				if (DoubleUtil.isEqual(tmpCoords.getX(), c.getX(), epsx)
+						&& DoubleUtil.isEqual(tmpCoords.getY(), c.getY(),
+								epsy)
+						&& DoubleUtil.isEqual(tmpCoords.getZ(), c.getZ(),
+								epsz)) {
+					return;
+				}
+			}
+		}
+
 		GeoPoint3D point3D = view3D.getCursor3D();
-		point3D.setCoords(point3D.getCoords()
-				.setInhomCoords(intersectionPoint.getCoordsInD3()), false);
+		point3D.setCoords(tmpCoords, false);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_DEPENDENT);
 		view3D.setIntersectionPoint(intersectionPoint);
 	}
