@@ -584,11 +584,12 @@ task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
 }
 
 def objDirs = ["build/objs/giac.js", "build/objs/giac-wasm.js"]
+def binaryJsDirs = ["build/binaries/giacggb.js", "build/binaries/giacggb.wasm"]
 
 tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
     if ((taskName.startsWith('emccCompileWasm')) && (taskName.endsWith('Cc'))) {
         def basename = (taskName - 'Cc').substring('emccCompileWasm1_'.length())
-        def wasm = taskName.contains("wasm1")  ? 1 : 0
+        def wasm = taskName.contains("Wasm1")  ? 1 : 0
         task(taskName) {
             mustRunAfter wasm ? 'activateEmsdkWasm' : 'activateEmsdk'
             def input = "src/giac/cpp/${basename}.cc"
@@ -596,7 +597,7 @@ tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <
             def output = objDirs[wasm] + "/${basename}.o"
             outputs.file output
             doLast {
-                file(objDirs[wasm]).mkdirs()
+                file(objDirs[wasm]+"/").mkdirs()
                 exec {
                     // Be very careful when changing this: config.h also contains some entries! 
                     def specialOptions = ''
@@ -637,7 +638,7 @@ tasks.addRule("Pattern: emccCompileWasm<WASM>_<FILE>Cc: Compile <FILE>.cc into <
 
 task emccClean(type: Delete) {
     description 'Deletes .o files and linked giac*.js for cleaning up.'
-    delete objDirs[0], objDirs[1], 'build/binaries/giacggb.js'
+    delete objDirs[0], objDirs[1], binaryJsDirs[0], binaryJsDirs[1]
 }
 
 [0,1].each({wasm ->
@@ -657,7 +658,7 @@ task emccClean(type: Delete) {
     tasks.create(name: "emccGiacJsWasm" + wasm, dependsOn: 'emccCompileWasm' + wasm) {
         description 'Links giac.js.'
         mustRunAfter 'emccCompileWasm' + wasm
-        def output = "build/binaries/giacggb.js/giacggb.js"
+        def output = binaryJsDirs[wasm] + "/giacggb.js"
         outputs.file output
         doLast {
             def list = []
@@ -672,7 +673,7 @@ task emccClean(type: Delete) {
                 linkerArgs << objDirs[wasm] + "/${f.name}"
             }
 
-            file("build/binaries/giacggb.js").mkdirs()
+            file(binaryJsDirs[wasm]).mkdirs()
             exec {
                 linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
                 linkerArgs << LlvmGmpA
@@ -713,15 +714,15 @@ task emccClean(type: Delete) {
     tasks.create(name: 'createGiacGgbJsWasm' + wasm, dependsOn: 'emccGiacJsWasm' + wasm, type: Copy) {
         description 'Creates the giacggb.js folder to store embeddable giac.js.'
         from 'src/giac.js'
-        into 'build/binaries/giacggb.js'
+        into binaryJsDirs[wasm]
         include ('ggb.html')
     }
 
     tasks.create(name: 'createGiacJsWasm'+ wasm, dependsOn: 'createGiacGgbJsWasm' + wasm) {
         doLast {
             copy {
-                from 'build/binaries/giacggb.js'
-                into 'build/binaries/giacggb.js'
+                from binaryJsDirs[wasm]
+                into binaryJsDirs[wasm]
                 include ('giacggb.js')
                 rename 'giacggb.js', 'giac.js'
                 filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
@@ -730,7 +731,7 @@ task emccClean(type: Delete) {
     }
 })
 
-task createGiacJs(dependsOn: ['activateEmsdk', 'createGiacJsWasm0', 'activateEmsdkWasm', 'createGiacJsWasm1']){
+task createGiacJs(dependsOn: ['activateEmsdk', 'createGiacJsWasm0', 'activateEmsdkWasm', 'createGiacWasmJs']){
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
 }
 
@@ -739,18 +740,18 @@ task createGiacWasmJs(dependsOn: 'createGiacJsWasm1') {
     doLast {
         exec {
             commandLine "bash", "-c", "base64 -w0 giacggb.wasm > giacggb.wasm.b64"
-            workingDir 'build/binaries/giacggb.js'
+            workingDir binaryJsDirs[1]
         }
         copy {
-            from 'build/binaries/giacggb.js'
-            into 'build/binaries/giacggb.js'
+            from binaryJsDirs[1]
+            into binaryJsDirs[1]
             include ('giacggb.wasm.b64')
             rename 'giacggb.wasm.b64', 'giac.wasm.js'
             filter { line -> "if (!window.__ggb__giac) window.__ggb__giac = (typeof window.__ggb__giac !== \"undefined\" ? window.__ggb__giac : null) || {};\nwindow.__ggb__giac.wasmBinaryFile=\"data:application/wasm;base64," + line + "\";\n" }
         }
         exec {
             commandLine "bash", "-c", "cat giac.js >> giac.wasm.js"
-            workingDir 'build/binaries/giacggb.js'
+            workingDir binaryJsDirs[1]
         }
     }
 }
