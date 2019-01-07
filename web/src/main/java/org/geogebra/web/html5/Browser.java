@@ -700,7 +700,9 @@ public class Browser {
 							eventName,
 							function(e) {
 								var fsElement = $doc[pfx + "FullscreenElement"];
-								var fsState = (fsElement || $doc.fullscreenElement) ? "true"
+								// mozFullScreen still needed for FF60 ESR
+								var fsState = (fsElement
+										|| $doc.fullscreenElement || $doc.mozFullScreen) ? "true"
 										: "false";
 								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
 							});
