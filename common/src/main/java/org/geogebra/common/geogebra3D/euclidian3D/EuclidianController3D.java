@@ -1758,6 +1758,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {
+		view3D.setHasMouse(true);
 		// for next mouse move process
 		setMouseMovedEvent(e);
 		mouseMoved = true;
