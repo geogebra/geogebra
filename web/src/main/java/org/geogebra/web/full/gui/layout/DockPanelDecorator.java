@@ -6,14 +6,20 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class DockPanelDecorator implements RequiresResize {
+/**
+ * Adds UI elements to view panels
+ */
+public interface DockPanelDecorator extends RequiresResize {
 
-	public Panel decorate(ScrollPanel algebrap, AppW app) {
-		return algebrap;
-	}
-
-	public void onResize() {
-		// nothing to do
-	}
-
+	/**
+	 * Wraps the view panel in another panel together with additional UI (e.g.
+	 * algebra header)
+	 * 
+	 * @param algebrap
+	 *            algebra scroll panel
+	 * @param app
+	 *            application
+	 * @return wrapped panel
+	 */
+	public Panel decorate(ScrollPanel algebrap, AppW app);
 }

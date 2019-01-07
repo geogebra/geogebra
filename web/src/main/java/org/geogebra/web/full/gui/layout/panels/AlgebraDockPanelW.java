@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
+import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -30,12 +30,15 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	private SimplePanel simplep;
 	private AlgebraViewW aview = null;
 	private int savedScrollPosition;
-	private DockPanelDecorator headerFactory;
+	private DockPanelDecorator decorator;
 
 	/**
 	 * Create new dockapanel for algebra
+	 * 
+	 * @param decorator
+	 *            panel decorator
 	 */
-	public AlgebraDockPanelW(DockPanelDecorator hf) {
+	public AlgebraDockPanelW(DockPanelDecorator decorator) {
 		super(
 				App.VIEW_ALGEBRA,	// view id 
 				"AlgebraWindow", 			// view title phrase
@@ -44,7 +47,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-		this.headerFactory = hf;
+		this.decorator = decorator;
 	}
 
 	@Override
@@ -60,7 +63,10 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			setAlgebraView((AlgebraViewW) app.getAlgebraView());
 			aview.setInputPanel();
 		}
-		return headerFactory.decorate(algebrap, app);
+		if (decorator == null) {
+			return algebrap;
+		}
+		return decorator.decorate(algebrap, app);
 	}
 
 	@Override
@@ -129,7 +135,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 				aview.resize(0);
 			}
 		}
-		headerFactory.onResize();
+		if (decorator != null) {
+			decorator.onResize();
+		}
 	}
 
 	@Override

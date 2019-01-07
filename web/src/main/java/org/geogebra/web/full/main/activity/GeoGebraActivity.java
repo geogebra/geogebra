@@ -41,5 +41,8 @@ public interface GeoGebraActivity {
 	 */
 	void initStylebar(DockPanelW dockPanelW);
 
+	/**
+	 * @return panel for algebra view
+	 */
 	DockPanelW createAVPanel();
 }

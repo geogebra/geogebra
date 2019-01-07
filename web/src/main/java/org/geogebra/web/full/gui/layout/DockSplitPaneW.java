@@ -720,7 +720,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		setForcedLayout(true);
 		super.forceLayout();
 		setForcedLayout(false);
-
 	}
 
 	public boolean isForcedLayout() {

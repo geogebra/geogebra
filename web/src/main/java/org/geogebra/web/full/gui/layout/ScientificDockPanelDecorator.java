@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 /**
  * Adds the scientific header to AV panel.
  */
-public final class ScientificDockPanelDecorator extends DockPanelDecorator {
+public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private FlowPanel header;
 	private AppW app;
 	private ScrollPanel algebraPanel;

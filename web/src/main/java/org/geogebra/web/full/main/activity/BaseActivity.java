@@ -49,6 +49,7 @@ public class BaseActivity implements GeoGebraActivity {
 		dockPanelW.initGraphicsSettingsButton();
 	}
 
+	@Override
 	public DockPanelW createAVPanel() {
 		return new ToolbarDockPanelW();
 	}
