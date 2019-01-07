@@ -3627,7 +3627,6 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether this is a fraction not containing pi
 	 */
 	public boolean isFractionNoPi() {
-		initFraction();
 		return isFraction() && !resolve.inspect(Inspecting.SpecialDouble.INSTANCE);
 	}
 
