@@ -16,7 +16,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -134,7 +133,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (focusFirstGeo()) {
-			Log.debug("ITT 2");
 			return;
 		}
 
@@ -174,7 +172,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		for (DockPanelW panel : dm.getPanels()) {
 			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(panel);
 			if (ev != null && (active || ev.getViewId() != app.getActiveEuclidianView().getViewID())) {
-				Log.debug("|||| ev: " + ev.getViewId() + " activeEV: " + app.getActiveEuclidianView().getViewID());
 				list.add(ev);
 			}
 		}
@@ -334,7 +331,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void focusMenu() {
 		if (gm.getUnbundledToolbar() != null) {
 			gm.getUnbundledToolbar().focusMenu();
-		} else {
+		} else if (!app.isUnbundled()) {
 			focusFirstElement();
 		}
 	}
