@@ -207,7 +207,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void focusFirstElement() {
-		if (app.isUnbundled()) {
+		if (gm.getUnbundledToolbar() != null) {
 			focusMenu();
 		} else {
 			if (app.is3DViewEnabled()) {
@@ -331,7 +331,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void focusMenu() {
 		if (gm.getUnbundledToolbar() != null) {
 			gm.getUnbundledToolbar().focusMenu();
-		} else if (!app.isUnbundled()) {
+		} else {
 			focusFirstElement();
 		}
 	}
