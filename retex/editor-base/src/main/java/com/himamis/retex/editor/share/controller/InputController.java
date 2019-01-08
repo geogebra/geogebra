@@ -209,7 +209,7 @@ public class InputController {
 						.getArgument(currentOffset - 1);
 				if ("sqrt".equals(function.getName())
 						|| "nroot".equals(function.getName())
-						|| "frac".equals(function.getName())) {
+						|| Tag.FRAC.equals(function.getName())) {
 
 					currentField.delArgument(currentOffset - 1);
 					// add braces
