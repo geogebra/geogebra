@@ -134,10 +134,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (focusFirstGeo()) {
+			Log.debug("ITT 2");
 			return;
 		}
 
-		focusFirstWidget();
 	}
 
 	private boolean focusNextView() {
@@ -568,8 +568,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				setPlaySelectedIfVisible(true);
 				return true;
 			}
-			focusZoomPanel();
 			setTabOverGeos(false);
+			if (!focusZoomPanel()) {
+				focusNextSpeechRec();
+			}
 			return true;
 		}
 		return handleTabExitGeos(false);
