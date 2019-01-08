@@ -527,6 +527,17 @@ $duration: 0.2s;
         margin:6px 10px;	
     }
 
+    .settingsBtnScientific {
+        margin: 6px;
+        float: right;
+    }
+
+    .undoRedoSettingsPanelScientific {
+        position: relative;
+        clear: both;
+        width: 70%
+    }
+
 }
 @keyframes removeSuggestions {
 	0% {max-height: 50px;}
