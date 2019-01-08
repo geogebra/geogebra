@@ -383,6 +383,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
 		getArticleElement().resetScale(scale);
+		deferredForceResize();
 	}
 
 	private Element getParent(String containerClass) {
@@ -3911,6 +3912,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public EmbedManager newEmbedManager() {
 		return null;
+	}
+
+	/**
+	 * Force resize after 0 timeout. In Chrome this is needed after switching
+	 * between tabs, in iOS safari for resizing.
+	 */
+	public void deferredForceResize() {
+		invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				EuclidianViewW.forceResize(getEuclidianView1());
+			}
+		});
+
 	}
 
 }

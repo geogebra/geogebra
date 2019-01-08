@@ -8,6 +8,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.speechRec.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
@@ -235,11 +236,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 		private void forceResize() {
 			EuclidianView view = dockPanel.getEuclidianView();
-			if (view instanceof EuclidianViewWInterface) {
-				((EuclidianViewWInterface) view).getG2P().forceResize();
-				view.repaintView();
-				view.suggestRepaint();
-			}
+			EuclidianViewW.forceResize(view);
 		}
 
 		@Override

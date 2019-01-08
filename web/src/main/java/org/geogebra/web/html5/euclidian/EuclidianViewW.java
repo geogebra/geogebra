@@ -1374,6 +1374,20 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	/**
+	 * Increase and decrease size of canvas to reset internal state, repaint.
+	 * 
+	 * @param view
+	 *            view
+	 */
+	public static void forceResize(EuclidianView view) {
+		if (view instanceof EuclidianViewWInterface) {
+			((EuclidianViewWInterface) view).getG2P().forceResize();
+			view.repaintView();
+			view.suggestRepaint();
+		}
+	}
+
 	@Override
 	public void setAltText() {
 		GeoElement alt = appW.getKernel().lookupLabel("altText" + evNo);

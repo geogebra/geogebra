@@ -169,6 +169,7 @@ public class ZoomController {
 		}
 		app.getArticleElement().resetScale(scale);
 		app.recalculateEnvironments();
+		app.deferredForceResize();
 	}
 
 	/**
