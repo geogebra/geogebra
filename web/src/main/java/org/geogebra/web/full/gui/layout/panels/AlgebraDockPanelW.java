@@ -54,7 +54,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	protected Panel getViewPanel() {
 		if (algebrap == null) {
 			algebrap = new ScrollPanel();
-			algebrap.setSize("100%", "100%");
+			algebrap.setWidth("100%");
 			algebrap.setAlwaysShowScrollBars(false);
 		}
 		if (app != null) {

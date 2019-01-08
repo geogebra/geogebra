@@ -521,8 +521,22 @@ $duration: 0.2s;
     .algebraHeaderScientific {
         height: 48px;
         box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
-        margin-bottom: 8px;
+        position: absolute;
+        width: 100%;
+        z-index: 11; //shadow should hide three dot menu
     }
+
+    .algebraPanel {
+        height: 100%;
+    }
+
+    .algebraPanelScientificWithHeader {
+        height: calc(100% - 48px);
+        padding-top: 8px;
+        top: 48px;
+        box-sizing: border-box;
+    }
+
     .menuBtnScientific {
         margin:6px 10px;	
     }
