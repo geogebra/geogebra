@@ -2079,9 +2079,10 @@ public class GeoNumeric extends GeoElement
 		addAuralCaption(sb);
 		sb.appendSpace();
 		if (isAnimating()) {
-			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+			sb.append(loc.getMenuDefault("AnimationStarted",
+					"animation is started"));
 		} else {
-			sb.append(loc.getMenuDefault("AnimationStarted", "animation is started"));
+			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
 		}
 		sb.endSentence();
 		return sb.toString();
