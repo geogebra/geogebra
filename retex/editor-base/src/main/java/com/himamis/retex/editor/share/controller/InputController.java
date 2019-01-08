@@ -207,8 +207,8 @@ public class InputController {
 					.getArgument(currentOffset - 1) instanceof MathFunction) {
 				MathFunction function = (MathFunction) currentField
 						.getArgument(currentOffset - 1);
-				if ("sqrt".equals(function.getName())
-						|| "nroot".equals(function.getName())
+				if (Tag.SQRT.equals(function.getName())
+						|| Tag.NROOT.equals(function.getName())
 						|| Tag.FRAC.equals(function.getName())) {
 
 					currentField.delArgument(currentOffset - 1);
