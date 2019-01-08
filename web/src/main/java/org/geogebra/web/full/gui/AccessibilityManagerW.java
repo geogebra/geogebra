@@ -11,10 +11,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -122,12 +124,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
 			focusNextSpeechRec();
 		} else {
-			focusNextZoomPanel();
+			focusZoomPanel();
 		}
 	}
 
 	private void nextFromSpeechRecognitionPanel() {
-		if (focusNextZoomPanel()) {
+		if (focusNextView()) {
 			return;
 		}
 
@@ -136,6 +138,25 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		focusFirstWidget();
+	}
+
+	private boolean focusNextView() {
+		int viewId = app.getActiveEuclidianView().getViewID();
+		if (viewId == App.VIEW_EUCLIDIAN) {
+			if (app.hasEuclidianView2(1)) {
+				app.getEuclidianView2(1).requestFocus();
+			} else if (app.is3DViewEnabled()) {
+				app.getEuclidianView3D().requestFocus();
+			}
+		} else if (viewId == App.VIEW_EUCLIDIAN3D) {
+			if (app.hasEuclidianView2(1)) {
+				app.getEuclidianView2(1).requestFocus();
+			} else if (app.getEuclidianView1().isShowing()) {
+				app.getEuclidianView1().requestFocus();
+			}
+		}
+
+		return false;
 	}
 
 	private void nextFromLastGeo() {
@@ -147,11 +168,27 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		dp.focusSpeechRecBtn();
 	}
 
-	private boolean focusNextZoomPanel() {
+	private List<EuclidianDockPanelWAbstract> getViewsWithZoomPanel(boolean active) {
 		DockManagerW dm = (DockManagerW) (app.getGuiManager().getLayout().getDockManager());
+		List<EuclidianDockPanelWAbstract> list = new ArrayList<>();
 		for (DockPanelW panel : dm.getPanels()) {
 			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(panel);
+			if (ev != null && (active || ev.getViewId() != app.getActiveEuclidianView().getViewID())) {
+				Log.debug("|||| ev: " + ev.getViewId() + " activeEV: " + app.getActiveEuclidianView().getViewID());
+				list.add(ev);
+			}
+		}
+		return list;
+	}
+
+	private boolean focusZoomPanel() {
+		return focusZoomPanel(true);
+	}
+
+	private boolean focusZoomPanel(boolean active) {
+		for (EuclidianDockPanelWAbstract ev : getViewsWithZoomPanel(active)) {
 			if (ev != null) {
+				setTabOverGeos(false);
 				ev.focusNextGUIElement();
 				visitedIds.add(ev.getViewId());
 				return true;
@@ -408,7 +445,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private void exitGeosFromPlayButton() {
 		setPlaySelectedIfVisible(false);
-		focusNextZoomPanel();
+		focusZoomPanel();
 		tabOverGeos = false;
 	}
 
@@ -482,7 +519,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the geo that is currently selected.
 	 */
 	public GeoElement getSelectedGeo() {
@@ -520,7 +557,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			focusZoom(false);
 			return true;
 		}
-		
+
 		return handleTabExitGeos(true);
 	}
 
@@ -531,7 +568,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				setPlaySelectedIfVisible(true);
 				return true;
 			}
-			focusNextZoomPanel();
+			focusZoomPanel();
 			setTabOverGeos(false);
 			return true;
 		}

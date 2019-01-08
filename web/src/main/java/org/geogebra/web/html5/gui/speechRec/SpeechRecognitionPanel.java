@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel containing the speech recognition button
- * 
+ *
  * @author csilla
  *
  */
@@ -35,7 +35,7 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		speechBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
-		speechBtn.setTabIndex(GUITabs.SPEECH_REC);
+		speechBtn.setTabIndex(GUITabs.SPEECH_REC + app.getActiveEuclidianView().getViewID());
 		speechBtn.addTabHandler(this);
 		speechBtn.setTitle(
 				"Speech recognition button.");
