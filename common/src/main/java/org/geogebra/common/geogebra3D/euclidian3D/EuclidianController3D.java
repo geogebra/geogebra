@@ -717,6 +717,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 								dist / view3D.getYscale())
 						&& DoubleUtil.isEqual(tmpCoords.getZ(), c.getZ(),
 								dist / view3D.getZscale())) {
+					createNewPoint(point);
 					return;
 				}
 			}
