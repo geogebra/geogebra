@@ -83,7 +83,9 @@ public class CmdKeepIf extends CommandProcessor {
 			if ((ok[0] = args[0] instanceof GeoFunction)
 					&& (ok[1] = args[1].isGeoList())) {
 				GeoFunction booleanFun = (GeoFunction) args[0];
-				if ((ok[0] = booleanFun.isBooleanFunction())
+				// undefined functions are OK: may happen on file loading
+				if ((ok[0] = (booleanFun.isBooleanFunction()
+						|| !booleanFun.isDefined()))
 						&& (ok[1] = args[1].isGeoList())) {
 
 					GeoElement[] ret2 = getResult2(c, booleanFun, args);

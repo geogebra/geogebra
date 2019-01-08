@@ -89,7 +89,7 @@ public class AlgoKeepIf extends AlgoElement {
 
 		size = inputList.size();
 
-		if (!inputList.isDefined()) {
+		if (!inputList.isDefined() || !boolFun.isBooleanFunction()) {
 			outputList.setUndefined();
 			return;
 		}
