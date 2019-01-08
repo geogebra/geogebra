@@ -9343,6 +9343,15 @@ namespace giac {
 	  }
 	  return res;
 	}
+	if (i.is_symb_of_sommet(at_interval)){
+	  const gen & ife =i._SYMBptr->feuille;
+	  if (ife.type==_VECT && ife._VECTptr->size()==2){
+	    const gen & if1=ife._VECTptr->front();
+	    const gen & if2=ife._VECTptr->back();
+	    if (if1.type==_INT_ && if2.type==_INT_ && if1.val>=1 && if2.val>=1 && if1.val<=if2.val && if1.val<=int(_VECTptr->size()) && if2.val<=int(_VECTptr->size()))
+	      return gen(vecteur(_VECTptr->begin()+if1.val-1,_VECTptr->begin()+if2.val),subtype);
+	  }
+	}
 	gen tmp=_floor(i,contextptr);
 	if (tmp.type!=_INT_)
 	  return gendimerr(contextptr);
