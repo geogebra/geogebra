@@ -175,8 +175,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	public static final int VIEW_TABLE_OF_VALUES = 8192;
 	public static final int DEFAULT_THRESHOLD = 3;
 	public static final int DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER = 3;
-	public static final int DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE = DEFAULT_THRESHOLD
-			* 5;
+
 	/**
 	 * minimal font size
 	 */

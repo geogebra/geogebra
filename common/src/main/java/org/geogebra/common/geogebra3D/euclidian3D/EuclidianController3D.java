@@ -705,21 +705,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// check if intersection point is not too close to existing visible
 		// point
 		List<Drawable3D> list = view3D.getDrawList3D().getDrawPoints();
-		double epsx = App.DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE
-				/ view3D.getXscale();
-		double epsy = App.DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE
-				/ view3D.getYscale();
-		double epsz = App.DEFAULT_THRESHOLD_FOR_INTERSECTION_POINT_TOO_CLOSE
-				/ view3D.getZscale();
 		for (Drawable3D d : list) {
 			if (d.isVisible()) {
 				GeoPointND point = (GeoPointND) d.getGeoElement();
 				Coords c = point.getInhomCoordsInD3();
-				if (DoubleUtil.isEqual(tmpCoords.getX(), c.getX(), epsx)
+				double dist = view3D.getIntersectionThickness()
+						+ point.getPointSize() * DrawPoint3D.DRAW_POINT_FACTOR;
+				if (DoubleUtil.isEqual(tmpCoords.getX(), c.getX(),
+						dist / view3D.getXscale())
 						&& DoubleUtil.isEqual(tmpCoords.getY(), c.getY(),
-								epsy)
+								dist / view3D.getYscale())
 						&& DoubleUtil.isEqual(tmpCoords.getZ(), c.getZ(),
-								epsz)) {
+								dist / view3D.getZscale())) {
 					return;
 				}
 			}
