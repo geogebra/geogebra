@@ -180,4 +180,13 @@ abstract public class ImageManager {
 		return fileStr;
 
 	}
+
+	/**
+	 * 
+	 * @param filename0
+	 *            filename eg "79054025255fb1a26e4bc422aef54eb4/image.png"
+	 * @param urlBase64
+	 *            ie something starting "data:image/png;base64,iVBOR..."
+	 */
+	public abstract void addExternalImage(String filename0, String urlBase64);
 }
