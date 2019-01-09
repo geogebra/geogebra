@@ -1127,7 +1127,7 @@ __GGB__keysVar["fi"].command = {
     "mean.SyntaxCAS": "[ <Lukulista> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <n>, <r> ]",
-    "stdev": "keskha",
+    "stdev": "stdev",
     "stdev.Syntax": "[ <Raakadatalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
     "stdevp": "stdevp",
     "stdevp.Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
