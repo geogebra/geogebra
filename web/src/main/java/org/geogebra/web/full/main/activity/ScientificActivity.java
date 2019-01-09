@@ -48,7 +48,7 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public void initStylebar(DockPanelW dockPanelW) {
-		// no stylebar in scientific
+		dockPanelW.showStyleBarPanel(false);
 	}
 
 	@Override
