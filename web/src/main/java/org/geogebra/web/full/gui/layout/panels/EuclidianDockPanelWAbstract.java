@@ -371,7 +371,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public void hideZoomPanel() {
 		if (zoomPanel != null) {
-			zoomPanel.addStyleName("hidden");
+			zoomPanel.setHidden(true);
 		}
 		if (mowZoomPanel != null) {
 			mowZoomPanel.addStyleName("hidden");
@@ -383,7 +383,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public void showZoomPanel() {
 		if (zoomPanel != null) {
-			zoomPanel.removeStyleName("hidden");
+			zoomPanel.setHidden(false);
 		}
 		if (mowZoomPanel != null) {
 			mowZoomPanel.removeStyleName("hidden");
@@ -486,11 +486,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public void checkZoomPanelFits(int height) {
 		if (zoomPanel != null && ZoomPanel.neededFor(app)) {
-			if (height < zoomPanel.getMinHeight()) {
-				hideZoomPanel();
-			} else {
-				showZoomPanel();
-			}
+			zoomPanel.setMaxHeight(height);
 		}
 	}
 

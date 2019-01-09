@@ -18,6 +18,7 @@ import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -46,6 +47,7 @@ public class ZoomPanel extends FlowPanel
 
 	private List<StandardButton> buttons = null;
 	private ZoomController zoomController;
+	private boolean zoomButtonsVisible;
 
 	/**
 	 *
@@ -323,14 +325,6 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	/**
-	 * 
-	 * @return the minimum height that is needed to display zoomPanel.
-	 */
-	public int getMinHeight() {
-		return needsZoomButtons(app) ? 200 : 60;
-	}
-
-	/**
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
@@ -383,11 +377,13 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private Widget getFirstButton() {
-		if (homeBtn != null && isHomeShown()) {
-			return homeBtn;
-		}
-		if (zoomInBtn != null) {
-			return zoomInBtn;
+		if (zoomButtonsVisible) {
+			if (homeBtn != null && isHomeShown()) {
+				return homeBtn;
+			}
+			if (zoomInBtn != null) {
+				return zoomInBtn;
+			}
 		}
 		return fullscreenBtn;
 	}
@@ -396,17 +392,18 @@ public class ZoomPanel extends FlowPanel
 		if (fullscreenBtn != null) {
 			return fullscreenBtn;
 		}
+		if (zoomButtonsVisible) {
+			if (zoomOutBtn != null) {
+				return zoomOutBtn;
+			}
 
-		if (zoomOutBtn != null) {
-			return zoomOutBtn;
-		}
+			if (zoomInBtn != null) {
+				return zoomInBtn;
+			}
 
-		if (zoomInBtn != null) {
-			return zoomInBtn;
-		}
-
-		if (homeBtn != null && isHomeShown()) {
-			return homeBtn;
+			if (homeBtn != null && isHomeShown()) {
+				return homeBtn;
+			}
 		}
 		return null;
 	}
@@ -423,5 +420,35 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public boolean isHomeShown() {
 		return getZoomController().isHomeShown();
+	}
+
+	/**
+	 * Hides buttons that don't fit to the height
+	 * 
+	 * @param height
+	 *            max height
+	 */
+	public void setMaxHeight(int height) {
+		setHidden(height < 60);
+		zoomButtonsVisible = height >= 200;
+		if (zoomInBtn != null) {
+			zoomInBtn.setVisible(zoomButtonsVisible);
+		}
+		if (zoomOutBtn != null) {
+			zoomOutBtn.setVisible(zoomButtonsVisible);
+		}
+		if (homeBtn != null) {
+			homeBtn.setVisible(zoomButtonsVisible);
+		}
+	}
+
+	/**
+	 * Hide this using CSS class
+	 * 
+	 * @param hidden
+	 *            whether this should be hidden
+	 */
+	public void setHidden(boolean hidden) {
+		Dom.toggleClass(this, "hidden", hidden);
 	}
 }
