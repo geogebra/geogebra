@@ -1564,6 +1564,24 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			index = 2;
 			break;
+		case HOME:
+			// got to start of slider
+			changeVal = Double.NEGATIVE_INFINITY;
+			index = 0;
+			break;
+		case END:
+			// got to end of slider
+			changeVal = Double.POSITIVE_INFINITY;
+			index = 0;
+			break;
+		case PAGEDOWN:
+			changeVal = -10 * base;
+			index = 0;
+			break;
+		case PAGEUP:
+			changeVal = 10 * base;
+			index = 0;
+			break;
 		case DOWN:
 			changeVal = -base;
 			index = 0;
@@ -1606,6 +1624,13 @@ public abstract class GlobalKeyDispatcher {
 						double numStep = getAnimationStep(num);
 						double newValue = num.getValue()
 								+ changeVal * numStep;
+
+						// HOME / END keys
+						if (Double.isInfinite(changeVal)) {
+							newValue = changeVal > 0 ? num.getIntervalMax()
+									: num.getIntervalMin();
+						}
+
 						if (numStep > Kernel.MIN_PRECISION) {
 							// round to decimal fraction, e.g. 2.800000000001 to
 							// 2.8
