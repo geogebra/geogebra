@@ -18,7 +18,6 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -2047,8 +2046,7 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW panel : dockPanels) {
 			boolean bottomRight = getRoot() == null
 					|| getRoot().isBottomRight(panel);
-			if (bottomRight && Browser.isiOS()
-					&& app.has(Feature.VOICEOVER_APPLETS)) {
+			if (bottomRight && Browser.isiOS()) {
 				panel.addVoiceover(getVoiceoverTabber());
 			}
 		}

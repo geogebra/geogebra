@@ -425,8 +425,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!forward && selection.isFirstGeoSelected()) {
 			focusZoom(false);
 		}
-		boolean voiceover = Browser.isiOS()
-				&& app.has(Feature.VOICEOVER_APPLETS);
+		boolean voiceover = Browser.isiOS();
 		if (app.getKernel().needToShowAnimationButton()) {
 			this.activeButton = null;
 			setPlaySelectedIfVisible(true);

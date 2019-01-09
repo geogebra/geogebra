@@ -296,9 +296,6 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-	/** APPS-83 */
-	VOICEOVER_APPLETS,
-
 	/** GGB-2517 */
 	TOOLBAR_FROM_APPCONFIG,
 
