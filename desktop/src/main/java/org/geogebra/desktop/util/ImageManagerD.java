@@ -486,8 +486,8 @@ public class ImageManagerD extends ImageManager {
 		}
 	}
 
+	@Override
 	public void addExternalImage(String filename0, String urlBase64) {
-
 		if (urlBase64.startsWith(StringUtil.pngMarker)) {
 			String pngStr = urlBase64.substring(StringUtil.pngMarker.length());
 

@@ -55,6 +55,7 @@ public class ImageManagerW extends ImageManager {
 	 * @param src
 	 *            file content
 	 */
+	@Override
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
 			Log.debug("addExternalImage: " + fileName);

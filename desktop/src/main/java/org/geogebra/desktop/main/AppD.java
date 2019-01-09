@@ -5281,12 +5281,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		GeoImage geoImage = imageOld != null ? imageOld
 				: new GeoImage(getKernel().getConstruction());
 
-		((ImageManagerD) kernel.getApplication().getImageManager())
-				.addExternalImage(imgFileName,
+		kernel.getApplication().getImageManager().addExternalImage(imgFileName,
 				imgBase64);
-
 		geoImage.setImageFileName(imgFileName);
-
 		return geoImage;
 	}
 
