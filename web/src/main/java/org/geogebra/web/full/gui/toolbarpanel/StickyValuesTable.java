@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Label;
 
 /**
  * Sticky table of values.
- * 
+ *
  * @author laszlo
  *
  */
@@ -54,7 +54,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 
 	/**
 	 * Interface to feed table with data and update provider.
-	 * 
+	 *
 	 * @author laszlo
 	 *
 	 */
@@ -83,7 +83,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param column
 		 *            the deleted column number.
 		 * @param elem
@@ -163,7 +163,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 
 	/**
 	 * Makes a cell as SafeHtml.
-	 * 
+	 *
 	 * @param content
 	 *            of the cell.
 	 * @param width
@@ -181,7 +181,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 
 	/**
 	 * Gives the preferred width of a column.
-	 * 
+	 *
 	 * @param dimensions
 	 *            The column sizes
 	 * @param column
@@ -312,7 +312,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 
 	/**
 	 * Sets height of the values to be able to scroll.
-	 * 
+	 *
 	 * @param height
 	 *            to set.
 	 */
@@ -321,9 +321,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Scroll table view to the corresponding column of the geo.
-	 * 
+	 *
 	 * @param geo
 	 *            to scroll.
 	 */
@@ -341,7 +341,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	}
 
 	@Override
-	protected void doSyncHeaderSizes() {
+	protected void syncHeaderSizes() {
 		for (int col = 0; col < model.getColumnCount(); col++) {
 			getHeaderTable().setColumnWidth(col, dimensions.getColumnWidth(col) + "px");
 		}

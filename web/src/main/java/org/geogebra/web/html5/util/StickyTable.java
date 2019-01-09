@@ -22,12 +22,12 @@ import com.google.gwt.view.client.ListDataProvider;
 
 /**
  * Table with sticky header.
- * 
+ *
  * @param <T>
  *            Type of table cells.
  *
  */
-public abstract class StickyTable<T> extends FlowPanel {
+public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 
 	/** Template to create a cell */
 	static final CellTemplates TEMPLATES =
@@ -45,6 +45,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 		@Override
 		public void onResize() {
+			super.onResize();
 			syncHeaderSizes();
 		}
 	}
@@ -59,37 +60,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	/**
 	 * Sync header sizes with content column widths
 	 */
-	protected void syncHeaderSizes() {
-
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				doSyncHeaderSizes();
-			}
-		});
-	}
-
-	/**
-	 * Sync header sizes to value table.
-	 */
-	protected void doSyncHeaderSizes() {
-		NodeList<Element> tableRows = valuesTable.getElement().getElementsByTagName("tbody")
-				.getItem(0)
-				.getElementsByTagName("tr");
-		if (tableRows.getLength() == 0) {
-			return;
-		}
-
-		NodeList<Element> firstRow = tableRows.getItem(0).getElementsByTagName("td");
-
-		for (int i = 0; i < valuesTable.getColumnCount(); i++) {
-			int w = firstRow.getItem(i).getOffsetWidth();
-			headerTable.setColumnWidth(i, w + "px");
-		}
-
-		headerTable.getElement().getStyle().setWidth(valuesTable.getOffsetWidth(), Unit.PX);
-	}
+	protected abstract void syncHeaderSizes();
 
 	private void createGUI() {
 		headerTable = new CellTable<>();
@@ -102,7 +73,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 		valueScroller = new ScrollPanel();
 		valueScroller.addStyleName("valueScroller");
 
-		addHeaderClickHandler();
+		headerTable.addHandler(this, ClickEvent.getType());
 	}
 
 	/**
@@ -125,7 +96,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Add initial cells here.
-	 * 
+	 *
 	 */
 	protected abstract void addCells();
 
@@ -152,7 +123,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Sync scroll position of the header and the values table.
-	 * 
+	 *
 	 * @param headerScroller
 	 *            scroll panel for the header.
 	 * @param headerMain
@@ -167,7 +138,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return data of all rows
 	 */
 	protected List<T> getRows() {
@@ -187,7 +158,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Removes the column.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
@@ -213,24 +184,13 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 */
 	protected abstract void fillValues(List<T> data);
 
-	/**
-	 * Only call this from constructor
-	 */
-	private void addHeaderClickHandler() {
-		ClickHandler popupMenuClickHandler = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Element el = Element
-						.as(event.getNativeEvent().getEventTarget());
-				if (el != null && el.getParentNode() != null && el
-						.getParentElement().hasClassName("MyToggleButton")) {
-					Node buttonParent = el.getParentNode().getParentNode();
-					toggleButtonClick(buttonParent.getParentNode(), el);
-				}
-			}
-		};
-		headerTable.addHandler(popupMenuClickHandler, ClickEvent.getType());
+	@Override
+	public void onClick(ClickEvent event) {
+		Element el = Element.as(event.getNativeEvent().getEventTarget());
+		if (el != null && el.getParentNode() != null && el.getParentElement().hasClassName("MyToggleButton")) {
+			Node buttonParent = el.getParentNode().getParentNode();
+			toggleButtonClick(buttonParent.getParentNode(), el);
+		}
 	}
 
 	/**
@@ -260,7 +220,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Called when header is clicked.
-	 * 
+	 *
 	 * @param source
 	 *            of the click.
 	 * @param column
@@ -330,7 +290,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the values table.
 	 */
 	protected CellTable<T> getValuesTable() {
@@ -338,7 +298,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the header table.
 	 */
 	protected CellTable<T> getHeaderTable() {
@@ -347,7 +307,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Scroll to given position horizontally.
-	 * 
+	 *
 	 * @param pos
 	 *            to scroll.
 	 */
@@ -362,7 +322,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the scroll panel of the values.
 	 */
 	ScrollPanel getValueScroller() {
@@ -371,7 +331,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	/**
 	 * Refreshes table data.
-	 * 
+	 *
 	 * @return if refresh was successful.
 	 */
 	public boolean refresh() {
