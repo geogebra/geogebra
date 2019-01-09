@@ -340,7 +340,7 @@ public class ParserFunctions {
 		}
 		this.localeLoaded = true;
 		for (String fn : translateable1var) {
-			put(1, loc.getFunction(fn), get(fn, 1));
+			put(1, loc.getFunction(fn, false), get(fn, 1));
 		}
 
 		put(2, loc.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");

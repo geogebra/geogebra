@@ -1184,11 +1184,32 @@ public abstract class Localization {
 	 * guaranteed to remove the "Function." from the start even if a key doesn't
 	 * exist (or isn't loaded)
 	 * 
+	 * @param key
+	 *            eg "sin"
+	 * @return eg "sen"
+	 * 
 	 */
 	public String getFunction(String key) {
+		return getFunction(key, true);
+	}
+
+	/**
+	 * turns eg Function.sin into "sin" or (in Spanish) "sen"
+	 * 
+	 * guaranteed to remove the "Function." from the start even if a key doesn't
+	 * exist (or isn't loaded)
+	 * 
+	 * @param key
+	 *            eg "sin"
+	 * @param changeInverse
+	 *            if false return arcsen rather than sin^-1
+	 * @return eg "sen"
+	 * 
+	 */
+	public String getFunction(String key, boolean changeInverse) {
 
 		// change eg asin into sin^{-1}
-		if (key.startsWith("a")) {
+		if (changeInverse && key.startsWith("a")) {
 			if ("asin".equals(key)) {
 				return getFunction("sin")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
