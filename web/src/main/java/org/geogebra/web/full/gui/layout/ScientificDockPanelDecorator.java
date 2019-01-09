@@ -43,7 +43,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	private void addSettngsButton() {
-		StandardButton settingsButton = new StandardButton(MaterialDesignResources.INSTANCE.settings_border(),
+		StandardButton settingsButton = new StandardButton(MaterialDesignResources.INSTANCE.gear(),
 				null, 24, app);
 		settingsButton.setTitle(app.getLocalization().getMenu("Settings"));
 		settingsButton.addStyleName("flatButtonHeader");
