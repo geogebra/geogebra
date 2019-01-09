@@ -17,6 +17,8 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
+import fr.grenoble.ujf.giac.CASResources;
+
 /**
  * Web implementation of Giac CAS
  * 

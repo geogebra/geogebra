@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='webSimple'>
   <inherits name='org.geogebra.web.Html5'/>
+  <inherits name='fr.grenoble.ujf.Giac'/>
 
   <entry-point class='org.geogebra.web.html5.WebSimple'/>
 
