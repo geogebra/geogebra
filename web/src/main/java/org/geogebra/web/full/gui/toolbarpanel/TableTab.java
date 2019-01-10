@@ -38,7 +38,6 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	 * Rebuild the tab.
 	 */
 	void buildGui() {
-		tableValuesPanel.update();
 		setWidget(tableValuesPanel);
 	}
 

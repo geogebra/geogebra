@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
+import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -12,6 +13,7 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.StickyTable;
 
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -34,7 +36,7 @@ import com.google.gwt.user.client.ui.Label;
  * @author laszlo
  *
  */
-public class StickyValuesTable extends StickyTable<TVRowData> {
+public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
@@ -50,25 +52,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	private NoDragImage moreImg;
 	private TableValuesView view;
 	private AppW app;
-	private TableValuesDataProvider provider;
-
-	/**
-	 * Interface to feed table with data and update provider.
-	 *
-	 * @author laszlo
-	 *
-	 */
-	interface TableValuesDataProvider {
-		/**
-		 * @return see {@link TableValuesView}
-		 */
-		TableValuesView getView();
-
-		/**
-		 * Updates provider panel - when table becomes empty for example.
-		 */
-		void update();
-	}
 
 	/**
 	 * Class to wrap callback after column delete.
@@ -104,18 +87,17 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 	}
 
 	/**
-	 * @param app
-	 *            {@link AppW}
-	 * @param provider
-	 *            to feed table with data.
+	 * @param app  {@link AppW}
+	 * @param view to feed table with data.
 	 */
-	public StickyValuesTable(AppW app, TableValuesDataProvider provider) {
+	public StickyValuesTable(AppW app, TableValuesView view) {
 		super();
 		this.app = app;
-		this.provider = provider;
-		this.view = provider.getView();
+		this.view = view;
 		this.model = view.getTableValuesModel();
 		this.dimensions = view.getTableValuesDimensions();
+		model.registerListener(this);
+		build();
 	}
 
 	@Override
@@ -301,9 +283,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 		} else {
 			removeColumn(column);
 		}
-		if (view.isEmpty()) {
-			provider.update();
-		}
 	}
 
 	private boolean isLastColumnDeleted() {
@@ -342,8 +321,62 @@ public class StickyValuesTable extends StickyTable<TVRowData> {
 
 	@Override
 	protected void syncHeaderSizes() {
-		for (int col = 0; col < model.getColumnCount(); col++) {
-			getHeaderTable().setColumnWidth(col, dimensions.getColumnWidth(col) + "px");
+		int sumWidth = 0;
+		for (int column = 0; column < model.getColumnCount(); column++) {
+			int colWidth = getColumnWidth(dimensions, column);
+			getHeaderTable().setColumnWidth(column > 0 ? column - 1 : 0, colWidth + "px");
+			sumWidth += colWidth;
 		}
+		setHeaderWidth(sumWidth);
+	}
+
+	/**
+	 * Shows table.
+	 */
+	void show() {
+		removeStyleName("hidden");
+	}
+
+	/**
+	 * Hides table.
+	 */
+	void hide() {
+		addStyleName("hidden");
+	}
+
+	@Override
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		removeColumn(column);
+		refresh();
+	}
+
+	@Override
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		refresh();
+	}
+
+	@Override
+	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		onColumnAdded();
+	}
+
+	@Override
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		refresh();
+	}
+
+	@Override
+	public void notifyDatasetChanged(TableValuesModel model) {
+		refresh();
+	}
+
+	/**
+	 * @param column to get
+	 * @return the header element.
+	 */
+	public static Element getHeaderElement(int column) {
+		// gives the (column+1)th element of the header row.
+		NodeList<Element> list = Dom.querySelectorAll(".header tr th:nth-child(" + (column + 1) + ") .cell");
+		return list != null ? list.getItem(0) : null;
 	}
 }

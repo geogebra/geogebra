@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -13,8 +12,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -28,10 +25,6 @@ import com.google.gwt.view.client.ListDataProvider;
  *
  */
 public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
-
-	/** Template to create a cell */
-	static final CellTemplates TEMPLATES =
-			GWT.create(CellTemplates.class);
 	private CellTable<T> headerTable;
 	private CellTable<T> valuesTable;
 	private ListDataProvider<T> dataProvider;
@@ -54,7 +47,23 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 * Constructor.
 	 */
 	public StickyTable() {
-		createGUI();
+		headerTable = new CellTable<>();
+		valuesTable = new CellTable<>();
+
+		headerTable.addStyleName("header");
+		valuesTable.addStyleName("values");
+
+		valueScroller = new ScrollPanel();
+		valueScroller.addStyleName("valueScroller");
+
+		headerTable.addHandler(this, ClickEvent.getType());
+
+		valueScroller.setWidget(valuesTable);
+		createStickyHeader();
+		add(valueScroller);
+		addStyleName("mainScrollPanel");
+		valuesTable.setVisible(true);
+
 	}
 
 	/**
@@ -62,36 +71,12 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	protected abstract void syncHeaderSizes();
 
-	private void createGUI() {
-		headerTable = new CellTable<>();
-		headerTable = new CellTable<>();
-		headerTable.addStyleName("header");
-
-		valuesTable = new CellTable<>();
-		valuesTable.addStyleName("values");
-
-		valueScroller = new ScrollPanel();
-		valueScroller.addStyleName("valueScroller");
-
-		headerTable.addHandler(this, ClickEvent.getType());
-	}
-
 	/**
 	 * build and fill table with data.
 	 */
-	public void build() {
-		TableUtils.clear(valuesTable);
-		TableUtils.clear(headerTable);
+	protected void build() {
 		createDataProvider();
 		addCells();
-		valueScroller.setWidget(valuesTable);
-		createStickyHeader();
-		add(valueScroller);
-		addStyleName("mainScrollPanel");
-		syncHeaderSizes();
-		valuesTable.setVisibleRange(0, dataProvider.getList().size());
-		valuesTable.setVisible(true);
-		refresh();
 	}
 
 	/**
@@ -227,26 +212,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 *            header index clicked on
 	 */
 	protected abstract void onHeaderClick(Element source, int column);
-
-	/**
-	 * @author Balazs
-	 *
-	 */
-	public interface CellTemplates extends SafeHtmlTemplates {
-		/**
-		 * @param message
-		 *            of the cell.
-		 * @param width
-		 *            of the cell.
-		 * @param height
-		 *            of the cell.
-		 * @return HTML representation of the cell content.
-		 */
-		@SafeHtmlTemplates.Template("<div style=\"width:{1}px;height:{2}px;line-height:{2}px;\""
-				+ "class=\"cell\"><div class=\"content\">{0}</div></div>")
-		SafeHtml cell(SafeHtml message, int width, int height);
-	}
-
 	/**
 	 * @param column
 	 *            to get
@@ -255,18 +220,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	public static NodeList<Element> getColumnElements(int column) {
 		// gives the (column+1)th element of each row of the value table
 		return Dom.querySelectorAll(".values tr td:nth-child(" + (column + 1) + ") .cell");
-	}
-
-	/**
-	 * @param column
-	 *            to get
-	 * @return the header element.
-	 */
-	public static Element getHeaderElement(int column) {
-		// gives the (column+1)th element of the header row.
-		NodeList<Element> list = Dom
-				.querySelectorAll(".header tr th:nth-child(" + (column + 1) + ") .cell");
-		return list != null ? list.getItem(0) : null;
 	}
 
 	/**
@@ -339,6 +292,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 			return false;
 		}
 		dataProvider.refresh();
+		valuesTable.setVisibleRange(0, dataProvider.getList().size());
 		syncHeaderSizes();
 		return true;
 	}
