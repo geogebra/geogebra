@@ -9225,10 +9225,10 @@ namespace giac {
   // P and Q must have same leading monomials,
   // otherwise returns 0 and leaves P unchanged
   template<class tdeg_t>
-  int chinrem(vectpoly8<tdeg_t> &P,const gen & pmod,const vectpolymod<tdeg_t> & Q,int qmod,poly8<tdeg_t> & tmp){
+  int chinrem(vectpoly8<tdeg_t> &P,const gen & pmod,const vectpolymod<tdeg_t> & Q,int qmod,poly8<tdeg_t> & tmp,int start=0){
     if (P.size()!=Q.size())
       return 0;
-    for (unsigned i=0;i<P.size();++i){
+    for (unsigned i=start;i<P.size();++i){
       if (P[i].coord.empty() && Q[i].coord.empty())
 	continue;
       if (P[i].coord.empty())
@@ -9239,7 +9239,7 @@ namespace giac {
 	return 0;
     }
     // LP(P)==LP(Q), proceed to chinese remaindering
-    for (unsigned i=0;i<P.size();++i){
+    for (unsigned i=start;i<P.size();++i){
       if (!chinrem(P[i],pmod,Q[i],qmod,tmp))
 	return -1;
     }
@@ -13690,7 +13690,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     int nthreads=1,th,parallel=1;
 #endif
     int pend=p.val,p0;
-    int recon_n2,recon_n1,recon_n0; // reconstr. gbasis element number history
+    int recon_n2=-1,recon_n1=-1,recon_n0,recon_added=0; // reconstr. gbasis element number history
     double augmentgbasis=gbasis_reinject_ratio,prevreconpart=0,time1strun=-1.0,time2ndrun=-1.0; current_orig=res; current_gbasis=res;
     // if the ratio of reconstructed is more than augmentgbasis,
     // we clear info and add reconstruction to the gbasis
@@ -13801,7 +13801,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  time2ndrun=(t_1-t_0)/(th+1); // we are computing th+1 primes
 	  if (debug_infolevel)
 	    CERR << "2nd run " << time2ndrun << " 1st run " << time1strun << endl;
-	  if (time2ndrun<time1strun*gbasis_reinject_speed_ratio || time2ndrun<0.5){
+	  if (time2ndrun<time1strun*gbasis_reinject_speed_ratio 
+	      || time2ndrun<0.5
+	      ){
 	    // learning is fast enough
 	    if (augmentgbasis>0)
 	      augmentgbasis=2;
@@ -13921,7 +13923,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	    Wlast.resize(V.size());
 	  if (V[i].size()!=gbmod.size())
 	    continue;
-	  for (jpos=0;jpos<gbmod.size();++jpos){
+	  for (jpos=recon_added;jpos<gbmod.size();++jpos){
 	    if (V[i][jpos].coord.empty() && gbmod[jpos].coord.empty())
 	      continue;
 	    if (V[i][jpos].coord.empty())
@@ -13935,8 +13937,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	    rechecked=0;
 	    continue;
 	  }
-	  jpos=0;
-	  // check existing Wlast
+	  jpos=recon_added; // 0 or recon_added (do not check already reconstructed)
+	  // check existing Wlast 
 	  for (;jpos<Wlast[i].size();++jpos){
 	    if (!chk_equal_mod(Wlast[i][jpos],gbmod[jpos],p.val)){
 	      Wlast[i].resize(jpos);
@@ -13947,7 +13949,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (jpos!=Wlast[i].size() || P[i].type==_INT_){
 	    // CERR << jpos << endl;
 	    // IMPROVE: make it work for rur!
-	    if (!rur && eps>0 && P[i].type==_INT_){
+	    if (!rur && eps>0 && P[i].type==_INT_ && recon_added==0){
 	      // check for non modular gb with early reconstruction */
 	      // first build a candidate in early with V[i]
 	      vectpoly8<tdeg_t> early(V[i]);
@@ -14060,11 +14062,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	      zdata && augmentgbasis && t==th && i==0){
 	    double reconpart=Wlast[i].size()/double(V[i].size());
 	    if (reconpart<0.95 && reconpart-prevreconpart>augmentgbasis){
-	      CERR << CLOCK()*1e-6 << " adding reconstructed ideal generators " << Wlast[i].size() << endl;
+	      recon_added=Wlast[i].size();
+	      CERR << CLOCK()*1e-6 << " adding reconstructed ideal generators " << recon_added << endl;
 	      prevreconpart=reconpart;
 	      current_gbasis=current_orig;
 	      int insertpos=0;
 	      for (int k=0;k<Wlast[i].size();++k){
+		V[i][k].coord.clear();
 		poly8<tdeg_t> tmp=Wlast[i][k];
 		cleardeno(tmp);
 		for (;insertpos<current_gbasis.size();++insertpos){
@@ -14094,8 +14098,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	}
 	if (jpos<gbmod.size()){
 	  if (debug_infolevel)
-	    CERR << CLOCK()*1e-6 << " i= " << i << " begin chinese remaindering " << p << endl;
-	  int r=chinrem(V[i],P[i],gbmod,p.val,poly8tmp);
+	    CERR << CLOCK()*1e-6 << " i=" << i << " begin chinese remaindering " << p << " (" << count+1 << ")" << endl;
+	  int r=chinrem(V[i],P[i],gbmod,p.val,poly8tmp,recon_added); // IMPROVE: maybe start at jpos in V[i]? at least start at recon_added
 	  if (debug_infolevel)
 	    CERR << CLOCK()*1e-6 << " end chinese remaindering" << endl;
 	  if (r==-1){
