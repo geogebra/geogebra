@@ -4092,7 +4092,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GGB-2538 */
 		case TOOLS_WITH_NAMES:
-			return prerelease;
+			return true;
 
 		/** GGB-2517 */
 		case TOOLBAR_FROM_APPCONFIG:
