@@ -4116,7 +4116,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-250 */
 		case SHOW_DEFINITION_FOR_EQUATION_IN_EXAM:
-			return prerelease;
+			return true;
 
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
