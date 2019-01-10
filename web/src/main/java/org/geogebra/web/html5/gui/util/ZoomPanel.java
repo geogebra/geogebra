@@ -451,4 +451,11 @@ public class ZoomPanel extends FlowPanel
 	public void setHidden(boolean hidden) {
 		Dom.toggleClass(this, "hidden", hidden);
 	}
+
+	/**
+	 * @return ID of the associated view
+	 */
+	public int getViewID() {
+		return view == null ? -1 : view.getViewID();
+	}
 }
