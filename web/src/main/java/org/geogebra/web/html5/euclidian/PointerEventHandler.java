@@ -134,7 +134,8 @@ public class PointerEventHandler {
 	}
 
 	private void setPointerType(int i, boolean pointerDown) {
-		this.tc.setDefaultEventType(types[i], pointerDown);
+		tc.getOffsets().calculateEnvironment();
+		tc.setDefaultEventType(types[i], pointerDown);
 	}
 
 	private void startLongTouch(int x, int y) {
