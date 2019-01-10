@@ -1,2 +1,0 @@
-giac.js is created automatically by the deployment machinery at the moment.
-This will be probably changed in the future, and it will be removed from the repository.
