@@ -29,7 +29,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		addMenuButton();
 		addSettngsButton();
 
-		header.setStyleName("algebraHeaderScientific");
+		header.setStyleName("smallScreenHeaderScientific");
 		vp.add(header);
 		vp.add(algebrap);
 		return vp;

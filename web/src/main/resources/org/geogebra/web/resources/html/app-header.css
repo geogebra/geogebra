@@ -306,3 +306,16 @@ svg.icon.left {
     background-color: #eee;
     color: #000;
 }
+
+.GeoGebraFrame .settingsBtnScientific {
+    margin: 6px;
+    float: right;
+}
+
+.GeoGebraFrame .undoRedoSettingsPanelScientific {
+    position: relative;
+    clear: both;
+    width: 33%;
+    height: 48px;
+    margin: auto;
+}
