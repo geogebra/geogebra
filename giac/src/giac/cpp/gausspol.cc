@@ -6882,8 +6882,12 @@ namespace giac {
   void partfrac(const polynome & num_, const polynome & den_, const vector< facteur< polynome > > & v_ , vector < pf <gen> > & pfdecomp, polynome & ipnum, polynome & ipden,bool rational ){
     polynome num(num_),den(den_);
     vector< facteur< polynome > > v(v_);
-    vector< facteur< polynome > >::iterator jt=v.begin(),jtend=v.end()
-;
+    vector< facteur< polynome > >::iterator jt=v.begin(),jtend=v.end();
+    if (jt==jtend){
+      ipnum=num_;
+      ipden=den_;
+      return;
+    }
     for (;jt!=jtend;++jt){
       gen tmp(1);
       lcmdeno(jt->fact,tmp);

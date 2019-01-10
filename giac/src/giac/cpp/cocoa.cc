@@ -13690,11 +13690,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     int nthreads=1,th,parallel=1;
 #endif
     int pend=p.val,p0;
-    int recon_n2=-1,recon_n1=-1,recon_n0,recon_added=0; // reconstr. gbasis element number history
+    int recon_n2=-1,recon_n1=-1,recon_n0,recon_added=0,recon_count=0; // reconstr. gbasis element number history
     double augmentgbasis=gbasis_reinject_ratio,prevreconpart=0,time1strun=-1.0,time2ndrun=-1.0; current_orig=res; current_gbasis=res;
     // if the ratio of reconstructed is more than augmentgbasis,
     // we clear info and add reconstruction to the gbasis
-    for (int count=0;ok;++count){
+    for (int count=0;ok;++count,++recon_count){
       p=pend;
       if (count==0 || nthreads==1 || (zdata && augmentgbasis && reduceto0.empty())){
 	th=0;
@@ -14061,7 +14061,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (eps>1e-20 && recon_n2==recon_n1 && recon_n1==recon_n0 &&
 	      zdata && augmentgbasis && t==th && i==0){
 	    double reconpart=Wlast[i].size()/double(V[i].size());
-	    if (reconpart<0.95 && reconpart-prevreconpart>augmentgbasis){
+	    if (reconpart<0.95 && 
+		(reconpart-prevreconpart>augmentgbasis || recon_count>=giacmax(128,th*4))
+		){
+	      recon_count=0;
 	      recon_added=Wlast[i].size();
 	      CERR << CLOCK()*1e-6 << " adding reconstructed ideal generators " << recon_added << endl;
 	      prevreconpart=reconpart;
