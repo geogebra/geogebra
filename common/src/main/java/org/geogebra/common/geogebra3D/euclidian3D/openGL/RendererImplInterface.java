@@ -28,6 +28,11 @@ public interface RendererImplInterface {
 	 */
 	abstract public void glClear(int flag);
 
+	/**
+	 * clear depth buffer
+	 */
+	abstract public void clearDepthBuffer();
+
 	// GL flags getters
 	abstract public int getGL_BLEND();
 

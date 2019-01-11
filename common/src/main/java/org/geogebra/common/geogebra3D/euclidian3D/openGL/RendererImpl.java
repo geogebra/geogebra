@@ -228,4 +228,9 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	abstract public void setColorMask(boolean r, boolean g, boolean b,
 			boolean a);
 
+	@Override
+	public void clearDepthBuffer() {
+		glClear(getGL_DEPTH_BUFFER_BIT());
+	}
+
 }

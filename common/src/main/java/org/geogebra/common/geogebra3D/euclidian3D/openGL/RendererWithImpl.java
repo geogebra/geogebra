@@ -399,7 +399,7 @@ public abstract class RendererWithImpl extends Renderer
 
 	@Override
 	final protected void clearDepthBuffer() {
-		rendererImpl.glClear(rendererImpl.getGL_DEPTH_BUFFER_BIT());
+		rendererImpl.clearDepthBuffer();
 	}
 
 	@Override
