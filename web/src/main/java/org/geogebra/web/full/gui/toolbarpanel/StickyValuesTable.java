@@ -109,13 +109,16 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	protected void addCells() {
 		for (int column = 0; column < model.getColumnCount(); column++) {
-			addColumn();
+			addColumn(column);
 		}
 	}
 
 	@Override
 	protected void addColumn() {
-		int column = getValuesTable().getColumnCount();
+		addColumn(model.getColumnCount() - 1);
+	}
+
+	private void addColumn(int column) {
 		Column<TVRowData, ?> colHeader = getColumnName();
 		if (colHeader != null) {
 			getHeaderTable().addColumn(colHeader, getHeaderHtml(column));
@@ -348,17 +351,20 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
 		removeColumn(column);
+		info();
 	}
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		refresh();
+		addColumn();
+		info();
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		onColumnAdded();
+		info();
 	}
 
 	@Override
@@ -370,8 +376,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		refresh();
+		info();
 	}
 
+	private void info() {
+//		Log.debug("!! header: " + getHeaderTable().getColumnCount() + " values: "
+//				+ getValuesTable().getColumnCount() + " model: " + model.getColumnCount());
+	}
 	/**
 	 * @param column to get
 	 * @return the header element.
