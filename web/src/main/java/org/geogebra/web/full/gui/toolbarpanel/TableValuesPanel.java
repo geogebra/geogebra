@@ -98,7 +98,8 @@ public class TableValuesPanel extends FlowPanel
 	}
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		deleteColumn(column, null);
 		if (model.getColumnCount() == 1) {
 			showEmptyView();
@@ -106,7 +107,8 @@ public class TableValuesPanel extends FlowPanel
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		// not used.
 	}
 
@@ -118,7 +120,8 @@ public class TableValuesPanel extends FlowPanel
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		// not used.
 	}
 

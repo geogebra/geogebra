@@ -16,6 +16,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -58,6 +59,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void focusFirst() {
+		Log.debug("foooooooooooooooooooooooocusfirst");
 		focusFirstElement();
 	}
 
@@ -76,10 +78,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else if (source instanceof GeoElement) {
 			nextFromLastGeo();
 		}
-	}
-
-	private boolean isSpeechButton(Object source) {
-		return app.has(Feature.SPEECH_RECOGNITION) && source instanceof SpeechRecognitionPanel;
 	}
 
 	@Override
@@ -135,7 +133,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (focusFirstGeo()) {
 			return;
 		}
-
 	}
 
 	private boolean focusNextView() {
@@ -171,7 +168,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		List<EuclidianDockPanelWAbstract> list = new ArrayList<>();
 		for (DockPanelW panel : dm.getPanels()) {
 			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(panel);
-			if (ev != null && (active || ev.getViewId() != app.getActiveEuclidianView().getViewID())) {
+			int activeId = app.getActiveEuclidianView().getViewID();
+			if (ev != null && (active || ev.getViewId() != activeId)) {
 				list.add(ev);
 			}
 		}
@@ -571,5 +569,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return true;
 		}
 		return handleTabExitGeos(false);
+	}
+
+	private boolean isSpeechButton(Object source) {
+		return app.has(Feature.SPEECH_RECOGNITION) && source instanceof SpeechRecognitionPanel;
 	}
 }

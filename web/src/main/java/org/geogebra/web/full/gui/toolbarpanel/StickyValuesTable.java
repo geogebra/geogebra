@@ -345,13 +345,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
-		removeColumn(column);
-		refresh();
+	public void notifyColumnRemoved(TableValuesModel model,
+			GeoEvaluatable evaluatable, int column) {
+		onColumnRemoved(column);
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		refresh();
 	}
 
@@ -361,7 +362,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		refresh();
 	}
 

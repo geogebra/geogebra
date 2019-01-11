@@ -149,6 +149,8 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	protected void removeColumn(int index) {
 		headerTable.removeColumn(index);
+		valuesTable.removeColumn(index);
+		refreshData();
 	}
 
 	/**
@@ -160,9 +162,22 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 			return;
 		}
 		fillValues(dataProvider.getList());
-		refresh();
+		refreshData();
 	}
 
+
+	/**
+	 * Called when user removes column.
+	 */
+	public void onColumnRemoved(int column) {
+		removeColumn(column);
+		if (dataProvider == null) {
+			return;
+		}
+
+//		fillValues(dataProvider.getList());
+//		refresh();
+	}
 	/**
 	 * @param data
 	 *            to fill with.
@@ -172,7 +187,8 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	@Override
 	public void onClick(ClickEvent event) {
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
-		if (el != null && el.getParentNode() != null && el.getParentElement().hasClassName("MyToggleButton")) {
+		if (el != null && el.getParentNode() != null
+				&& el.getParentElement().hasClassName("MyToggleButton")) {
 			Node buttonParent = el.getParentNode().getParentNode();
 			toggleButtonClick(buttonParent.getParentNode(), el);
 		}
@@ -212,6 +228,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 *            header index clicked on
 	 */
 	protected abstract void onHeaderClick(Element source, int column);
+
 	/**
 	 * @param column
 	 *            to get
@@ -284,16 +301,24 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 
 	/**
 	 * Refreshes table data.
-	 *
-	 * @return if refresh was successful.
 	 */
-	public boolean refresh() {
+	public void refresh() {
+		refreshData();
+		refreshVisibleRange();
+		syncHeaderSizes();
+	}
+
+	private void refreshData() {
 		if (dataProvider == null) {
-			return false;
+			return;
 		}
 		dataProvider.refresh();
+	}
+
+	private void refreshVisibleRange() {
+		if (dataProvider == null) {
+			return;
+		}
 		valuesTable.setVisibleRange(0, dataProvider.getList().size());
-		syncHeaderSizes();
-		return true;
 	}
 }
