@@ -292,7 +292,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
 			if (speechRecPanel == null) {
-				speechRecPanel = new SpeechRecognitionPanel(getApp());
+				speechRecPanel = new SpeechRecognitionPanel(getApp(),
+						getViewId());
 			}
 			dockPanel.addSouth(speechRecPanel, 0);
 		}

@@ -20,13 +20,15 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 
 	private SpeechRecognitionController specRecContr;
 	private StandardButton speechBtn;
+	private int viewID;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public SpeechRecognitionPanel(AppW app) {
+	public SpeechRecognitionPanel(AppW app, int viewID) {
 		specRecContr = new SpeechRecognitionController(app);
+		this.viewID = viewID;
 		buildGui(app);
 	}
 
@@ -77,5 +79,9 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		}
 		specRecContr.getAppW().getAccessibilityManager().focusNext(this);
 		return true;
+	}
+
+	public int getViewID() {
+		return viewID;
 	}
 }
