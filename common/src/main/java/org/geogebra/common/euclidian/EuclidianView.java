@@ -5688,7 +5688,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return true if play button belongs to this view
 	 */
-	protected boolean drawPlayButtonInThisView() {
+	public boolean drawPlayButtonInThisView() {
 		GuiManagerInterface gui = getApplication().getGuiManager();
 		// just one view
 		if (gui == null) {

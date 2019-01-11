@@ -87,7 +87,7 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public void setPlaySelectedIfVisible(boolean b) {
+	public void setPlaySelectedIfVisible(boolean b, int viewID) {
 		// TODO Auto-generated method stub
 	}
 

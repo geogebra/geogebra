@@ -141,7 +141,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return nextID(reversePanels, viewID);
 	}
 
-	private int nextID(DockPanelW[] panels, int viewID) {
+	private static int nextID(DockPanelW[] panels, int viewID) {
 		boolean returnNext = viewID == -1;
 		for (DockPanelW panel : panels) {
 			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(
@@ -238,8 +238,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return;
 		}
 
-		if (isPlayVisible()) {
-			setPlaySelectedIfVisible(true);
+		if (isPlayVisible(viewID)) {
+			setPlaySelectedIfVisible(true, viewID);
 			setTabOverGeos(true);
 			return;
 		}
@@ -415,13 +415,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!app.has(Feature.TAB_ON_EV_PLAY)) {
 			return false;
 		}
+		int firstViewId = nextID(-1);
 		if (!forward && selection.isFirstGeoSelected()) {
-			focusZoom(false, nextID(-1));
+			focusZoom(false, firstViewId);
 		}
 		boolean voiceover = Browser.isiOS();
 		if (app.getKernel().needToShowAnimationButton()) {
 			this.activeButton = null;
-			setPlaySelectedIfVisible(true);
+			setPlaySelectedIfVisible(true, firstViewId);
 			return true;
 		}
 		if (app.getActiveEuclidianView().getDimension() == 3 && voiceover
@@ -433,20 +434,23 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void exitGeosFromPlayButton() {
-		setPlaySelectedIfVisible(false);
-		focusZoomPanel(nextID(-1));
+		int firstViewId = nextID(-1);
+		setPlaySelectedIfVisible(false, firstViewId);
+		focusZoomPanel(firstViewId);
 		tabOverGeos = false;
 	}
 
 	@Override
-	public void setPlaySelectedIfVisible(boolean b) {
-		if (isPlayVisible()) {
+	public void setPlaySelectedIfVisible(boolean b, int viewID) {
+		if (isPlayVisible(viewID)) {
 			app.getActiveEuclidianView().setAnimationButtonSelected(b);
 		}
 	}
 
-	private boolean isPlayVisible() {
-		return app.getKernel().needToShowAnimationButton();
+	private boolean isPlayVisible(int viewID) {
+		return app.getKernel().needToShowAnimationButton()
+				&& getEuclidianPanel(viewID).getEuclidianView()
+						.drawPlayButtonInThisView();
 	}
 
 	@Override
@@ -458,7 +462,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				focusLastGeo();
 				this.activeButton = null;
 			}
-			setPlaySelectedIfVisible(false);
+			setPlaySelectedIfVisible(false,
+					app.getActiveEuclidianView().getViewID());
 			return true;
 		}
 		if (app.getActiveEuclidianView().getDimension() == 3 && forward
@@ -542,8 +547,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public boolean onSelectFirstGeo(boolean forward) {
 		if (!forward) {
-			setPlaySelectedIfVisible(false);
-			focusZoom(false, nextID(-1));
+			int lastViewId = prevID(-1);
+			setPlaySelectedIfVisible(false, lastViewId);
+			focusZoom(false, lastViewId);
 			return true;
 		}
 
@@ -553,12 +559,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public boolean onSelectLastGeo(boolean forward) {
 		if (forward) {
-			if (isPlayVisible()) {
-				setPlaySelectedIfVisible(true);
+			int viewID = nextID(-1);
+			if (isPlayVisible(viewID)) {
+				setPlaySelectedIfVisible(true, viewID);
 				return true;
 			}
 			setTabOverGeos(false);
-			int viewID = nextID(-1);
 			if (!focusZoomPanel(viewID)) {
 				focusNextSpeechRec(viewID);
 			}

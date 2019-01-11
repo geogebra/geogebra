@@ -127,8 +127,10 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 * @param b
 	 *            to set.
+	 * @param viewID
+	 *            ID of the view with play button
 	 */
-	public void setPlaySelectedIfVisible(boolean b);
+	public void setPlaySelectedIfVisible(boolean b, int viewID);
 
 	/**
 	 * For animation button, scriptable buttons etc.

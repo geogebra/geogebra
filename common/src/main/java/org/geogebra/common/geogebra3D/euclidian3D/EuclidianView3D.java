@@ -4091,7 +4091,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	protected boolean drawPlayButtonInThisView() {
+	public boolean drawPlayButtonInThisView() {
 		return false;
 	}
 
