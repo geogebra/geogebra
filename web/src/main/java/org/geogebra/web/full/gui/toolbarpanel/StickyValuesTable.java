@@ -8,7 +8,6 @@ import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -352,20 +351,17 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
 		removeColumn(column);
-		info();
 	}
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
 		addColumn();
-		info();
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		onColumnAdded();
-		info();
 	}
 
 	@Override
@@ -376,14 +372,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		refresh();
-		info();
+		reset();
 	}
 
-	private void info() {
-		Log.debug("!! header: " + getHeaderTable().getColumnCount() + " values: "
-				+ getValuesTable().getColumnCount() + " model: " + model.getColumnCount());
-	}
 	/**
 	 * @param column to get
 	 * @return the header element.

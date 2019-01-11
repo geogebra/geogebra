@@ -321,4 +321,10 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		}
 		valuesTable.setVisibleRange(0, dataProvider.getList().size());
 	}
+
+	protected void reset() {
+		TableUtils.clear(headerTable);
+		TableUtils.clear(valuesTable);
+		build();
+	}
 }
