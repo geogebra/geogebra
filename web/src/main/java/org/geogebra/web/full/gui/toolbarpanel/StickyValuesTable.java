@@ -347,7 +347,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		onColumnRemoved(column);
+		removeColumn(column);
 	}
 
 	@Override

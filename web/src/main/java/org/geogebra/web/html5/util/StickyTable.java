@@ -149,8 +149,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	protected void removeColumn(int index) {
 		headerTable.removeColumn(index);
-		valuesTable.removeColumn(index);
-		refreshData();
+		dataProvider.refresh();
 	}
 
 	/**
@@ -171,12 +170,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	public void onColumnRemoved(int column) {
 		removeColumn(column);
-		if (dataProvider == null) {
-			return;
-		}
-
-//		fillValues(dataProvider.getList());
-//		refresh();
 	}
 	/**
 	 * @param data
@@ -195,10 +188,17 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	}
 
 	/**
-	 * @param buttonParent
-	 *            parent of the button
-	 * @param el
-	 *            element for positioning
+	 * Clears all data.
+	 */
+	protected void removeAll(int column) {
+		headerTable.removeColumn(column);
+		valuesTable.removeColumn(column);
+		refresh();
+	}
+
+	/**
+	 * @param buttonParent parent of the button
+	 * @param el           element for positioning
 	 */
 	protected void toggleButtonClick(Node buttonParent, Element el) {
 		if (buttonParent != null && buttonParent.getParentNode() != null
