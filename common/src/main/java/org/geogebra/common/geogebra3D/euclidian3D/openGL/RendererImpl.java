@@ -202,4 +202,48 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 
 	abstract protected void updateClipPlanes();
 
+	/**
+	 * set color mask regarding type
+	 * 
+	 * @param type
+	 *            type
+	 */
+	public void setColorMask(int type) {
+		switch(type) {
+		case Renderer.COLOR_MASK_ALL:
+			setColorMask(true, true, true, true);
+			break;
+		case Renderer.COLOR_MASK_NONE:
+			setColorMask(false, false, false, false);
+			break;
+		case Renderer.COLOR_MASK_RED:
+			setColorMask(true, false, false, true);
+			break;
+		case Renderer.COLOR_MASK_BLUE:
+			setColorMask(false, false, true, true);
+			break;
+		case Renderer.COLOR_MASK_BLUE_AND_GREEN:
+			setColorMask(false, true, true, true);
+			break;
+		case Renderer.COLOR_MASK_ALPHA:
+			setColorMask(false, false, false, true);
+			break;
+		}
+	}
+
+	/**
+	 * Set color mask channels
+	 * 
+	 * @param r
+	 *            red
+	 * @param g
+	 *            green
+	 * @param b
+	 *            blue
+	 * @param a
+	 *            alpha
+	 */
+	abstract public void setColorMask(boolean r, boolean g, boolean b,
+			boolean a);
+
 }

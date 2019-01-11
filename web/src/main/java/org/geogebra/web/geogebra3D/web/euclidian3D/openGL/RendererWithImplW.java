@@ -283,9 +283,9 @@ public class RendererWithImplW extends RendererWithImpl implements
 		super.drawScene();
 
 		// clear alpha channel to 1.0 to avoid transparency to html background
-		setColorMask(false, false, false, true);
+		setColorMask(COLOR_MASK_ALPHA);
 		clearColorBuffer();
-		setColorMask(true, true, true, true);
+		setColorMask(COLOR_MASK_ALL);
 	}
 
 	/**

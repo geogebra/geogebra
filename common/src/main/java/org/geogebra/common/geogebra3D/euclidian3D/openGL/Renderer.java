@@ -157,6 +157,21 @@ public abstract class Renderer implements RendererInterface {
         NONE, TRANSPARENT, OPAQUE
 	}
 
+	/** all color channels off */
+	static final public int COLOR_MASK_NONE = 0;
+	/** all color channels on */
+	static final public int COLOR_MASK_ALL = 1;
+	/** red color channel on (+ alpha) */
+	static final public int COLOR_MASK_RED = 2;
+	/** blue color channel on (+ alpha) */
+	static final public int COLOR_MASK_BLUE = 3;
+	/** blue and green color channels on (+ alpha) */
+	static final public int COLOR_MASK_BLUE_AND_GREEN = 4;
+	/** alpha channel on (for web) */
+	static final public int COLOR_MASK_ALPHA = 5;
+	/** color mask alternative states length (except web specific type) */
+	static final public int COLOR_MASK_LENGTH_OTHER_THAN_WEB = 5;
+
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
 	 *
@@ -347,7 +362,7 @@ public abstract class Renderer implements RendererInterface {
 		// Log.debug("======= DRAW : "+(System.currentTimeMillis() - time));
 
 		// prepare correct color mask for next clear
-		setColorMask(true, true, true, true);
+		setColorMask(COLOR_MASK_ALL);
 
         endOfDrawScene();
 	}
@@ -869,7 +884,7 @@ public abstract class Renderer implements RendererInterface {
 		disableBlending();
 
 		// drawing hiding parts
-		setColorMask(false, false, false, false); // no writing in color buffer
+		setColorMask(COLOR_MASK_NONE); // no writing in color buffer
 		setCullFaceFront(); // draws inside parts
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// back-faces
@@ -895,7 +910,7 @@ public abstract class Renderer implements RendererInterface {
 		disableTextures();
 
 		// drawing hiding parts
-		setColorMask(false, false, false, false); // no writing in color buffer
+		setColorMask(COLOR_MASK_NONE); // no writing in color buffer
 		disableBlending();
 		enableCulling();
 		setCullFaceBack(); // draws inside parts
@@ -1601,20 +1616,18 @@ public abstract class Renderer implements RendererInterface {
 				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) {
 			if (eye == EYE_LEFT) {
-				setColorMask(true, false, false, true); // cyan
-				// getGL().glColorMask(false,true,false,true); //magenta
-				// getGL().glColorMask(false,false,false,true);
+				setColorMask(COLOR_MASK_RED); // cyan
 			} else {
-				setColorMask(false, !view3D.isGlassesShutDownGreen(), true,
-						true); // red
-				// getGL().glColorMask(true,false,false,true); //cyan -> green
-				// getGL().glColorMask(false,false,false,true);
+				setColorMask(view3D.isGlassesShutDownGreen() ? COLOR_MASK_BLUE
+						: COLOR_MASK_BLUE_AND_GREEN); // red
 			}
 		} else {
-			setColorMask(true, true, true, true);
+			setColorMask(COLOR_MASK_ALL);
 		}
 
 	}
+
+	abstract public void setColorMask(int type);
 
 	public enum ExportType {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE

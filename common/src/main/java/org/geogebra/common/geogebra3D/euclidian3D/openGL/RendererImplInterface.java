@@ -145,8 +145,6 @@ public interface RendererImplInterface {
 
 	abstract public void disableDepthMask();
 
-	abstract public void setColorMask(boolean r, boolean g, boolean b, boolean a);
-
 	abstract public void setClearColor(float r, float g, float b, float a);
 
 	abstract public void setPolygonOffset(float factor, float units);

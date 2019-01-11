@@ -129,20 +129,6 @@ public interface RendererInterface {
 	abstract public void disableDepthTest();
 
 	/**
-	 * set the color mask
-	 * 
-	 * @param r
-	 *            red
-	 * @param g
-	 *            green
-	 * @param b
-	 *            blue
-	 * @param a
-	 *            alpha
-	 */
-	abstract public void setColorMask(boolean r, boolean g, boolean b, boolean a);
-
-	/**
 	 * set line width
 	 * 
 	 * @param width
