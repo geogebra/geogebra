@@ -209,7 +209,7 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	 *            type
 	 */
 	public void setColorMask(int type) {
-		switch(type) {
+		switch (type) {
 		case Renderer.COLOR_MASK_ALL:
 			setColorMask(true, true, true, true);
 			break;
