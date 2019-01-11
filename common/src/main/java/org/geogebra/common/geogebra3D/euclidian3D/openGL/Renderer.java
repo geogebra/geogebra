@@ -157,20 +157,85 @@ public abstract class Renderer implements RendererInterface {
         NONE, TRANSPARENT, OPAQUE
 	}
 
-	/** all color channels off */
-	static final public int COLOR_MASK_NONE = 0;
-	/** all color channels on */
-	static final public int COLOR_MASK_ALL = 1;
-	/** red color channel on (+ alpha) */
-	static final public int COLOR_MASK_RED = 2;
-	/** blue color channel on (+ alpha) */
-	static final public int COLOR_MASK_BLUE = 3;
-	/** blue and green color channels on (+ alpha) */
-	static final public int COLOR_MASK_BLUE_AND_GREEN = 4;
-	/** alpha channel on (for web) */
-	static final public int COLOR_MASK_ALPHA = 5;
-	/** color mask alternative states length (except web specific type) */
-	static final public int COLOR_MASK_LENGTH_OTHER_THAN_WEB = 5;
+	static final public class ColorMask {
+		/** all color channels off */
+		static final public int NONE = 0;
+		/** all color channels on */
+		static final public int ALL = 1;
+		/** red color channel on (+ alpha) */
+		static final public int RED = 2;
+		/** blue color channel on (+ alpha) */
+		static final public int BLUE = 3;
+		/** blue and green color channels on (+ alpha) */
+		static final public int BLUE_AND_GREEN = 4;
+		/** alpha channel on (for web) */
+		static final public int ALPHA = 5;
+		/** color mask alternative states length (except web specific type) */
+		static final public int LENGTH_OTHER_THAN_WEB = 5;
+
+		/**
+		 * 
+		 * @param colorMask
+		 *            color mask
+		 * @return true if this color mask turns on red channel
+		 */
+		static final public boolean getRed(final int colorMask) {
+			switch (colorMask) {
+			case NONE:
+			case ALPHA:
+			case BLUE:
+			case BLUE_AND_GREEN:
+				return false;
+			default:
+				return true;
+			}
+		}
+
+		/**
+		 * 
+		 * @param colorMask
+		 *            color mask
+		 * @return true if this color mask turns on green channel
+		 */
+		static final public boolean getGreen(final int colorMask) {
+			switch (colorMask) {
+			case NONE:
+			case ALPHA:
+			case RED:
+			case BLUE:
+				return false;
+			default:
+				return true;
+			}
+		}
+
+		/**
+		 * 
+		 * @param colorMask
+		 *            color mask
+		 * @return true if this color mask turns on blue channel
+		 */
+		static final public boolean getBlue(final int colorMask) {
+			switch (colorMask) {
+			case NONE:
+			case ALPHA:
+			case RED:
+				return false;
+			default:
+				return true;
+			}
+		}
+
+		/**
+		 * 
+		 * @param colorMask
+		 *            color mask
+		 * @return true if this color mask turns on alpha channel
+		 */
+		static final public boolean getAlpha(final int colorMask) {
+			return colorMask != NONE;
+		}
+	}
 
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
@@ -362,7 +427,7 @@ public abstract class Renderer implements RendererInterface {
 		// Log.debug("======= DRAW : "+(System.currentTimeMillis() - time));
 
 		// prepare correct color mask for next clear
-		setColorMask(COLOR_MASK_ALL);
+		setColorMask(ColorMask.ALL);
 
         endOfDrawScene();
 	}
@@ -884,7 +949,7 @@ public abstract class Renderer implements RendererInterface {
 		disableBlending();
 
 		// drawing hiding parts
-		setColorMask(COLOR_MASK_NONE); // no writing in color buffer
+		setColorMask(ColorMask.NONE); // no writing in color buffer
 		setCullFaceFront(); // draws inside parts
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// back-faces
@@ -910,7 +975,7 @@ public abstract class Renderer implements RendererInterface {
 		disableTextures();
 
 		// drawing hiding parts
-		setColorMask(COLOR_MASK_NONE); // no writing in color buffer
+		setColorMask(ColorMask.NONE); // no writing in color buffer
 		disableBlending();
 		enableCulling();
 		setCullFaceBack(); // draws inside parts
@@ -1616,18 +1681,18 @@ public abstract class Renderer implements RendererInterface {
 				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) {
 			if (eye == EYE_LEFT) {
-				setColorMask(COLOR_MASK_RED); // cyan
+				setColorMask(ColorMask.RED); // cyan
 			} else {
-				setColorMask(view3D.isGlassesShutDownGreen() ? COLOR_MASK_BLUE
-						: COLOR_MASK_BLUE_AND_GREEN); // red
+				setColorMask(view3D.isGlassesShutDownGreen() ? ColorMask.BLUE
+						: ColorMask.BLUE_AND_GREEN); // red
 			}
 		} else {
-			setColorMask(COLOR_MASK_ALL);
+			setColorMask(ColorMask.ALL);
 		}
 
 	}
 
-	abstract public void setColorMask(int type);
+	abstract public void setColorMask(final int type);
 
 	public enum ExportType {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE

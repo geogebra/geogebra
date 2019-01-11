@@ -463,8 +463,8 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	public void setColorMask(int type) {
-		rendererImpl.setColorMask(type);
+	public void setColorMask(final int colorMask) {
+		rendererImpl.setColorMask(colorMask);
 	}
 
 	@Override

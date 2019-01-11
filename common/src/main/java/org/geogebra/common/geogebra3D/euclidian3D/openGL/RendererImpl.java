@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.ColorMask;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class RendererImpl implements RendererShadersInterface, RendererImplInterface {
@@ -203,35 +204,14 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	abstract protected void updateClipPlanes();
 
 	/**
-	 * set color mask regarding type
+	 * set color mask
 	 * 
-	 * @param type
-	 *            type
+	 * @param colorMask
+	 *            color mask
 	 */
-	public void setColorMask(int type) {
-		switch (type) {
-		case Renderer.COLOR_MASK_ALL:
-			setColorMask(true, true, true, true);
-			break;
-		case Renderer.COLOR_MASK_NONE:
-			setColorMask(false, false, false, false);
-			break;
-		case Renderer.COLOR_MASK_RED:
-			setColorMask(true, false, false, true);
-			break;
-		case Renderer.COLOR_MASK_BLUE:
-			setColorMask(false, false, true, true);
-			break;
-		case Renderer.COLOR_MASK_BLUE_AND_GREEN:
-			setColorMask(false, true, true, true);
-			break;
-		case Renderer.COLOR_MASK_ALPHA:
-			setColorMask(false, false, false, true);
-			break;
-		default:
-			setColorMask(true, true, true, true);
-			break;
-		}
+	public void setColorMask(final int colorMask) {
+		setColorMask(ColorMask.getRed(colorMask), ColorMask.getGreen(colorMask),
+				ColorMask.getBlue(colorMask), ColorMask.getAlpha(colorMask));
 	}
 
 	/**
