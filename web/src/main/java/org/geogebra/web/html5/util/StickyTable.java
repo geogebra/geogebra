@@ -312,6 +312,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		if (dataProvider == null) {
 			return;
 		}
+		fillValues(dataProvider.getList());
 		dataProvider.refresh();
 	}
 
