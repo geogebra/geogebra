@@ -7105,8 +7105,8 @@ namespace giac {
     if (a.type==_SYMB){
       if (a._SYMBptr->sommet==at_prod)
 	return new_ref_symbolic(symbolic(*a._SYMBptr,b));
-      else
-	return new_ref_symbolic(symbolic(at_prod,gen(makenewvecteur(a,b),_SEQ__VECT)));
+      else 
+	return new_ref_symbolic(symbolic(at_prod,gen(b.type==_INT_?makenewvecteur(b,a):makenewvecteur(a,b),_SEQ__VECT)));
     }
     if ((a.type==_IDNT) || (b.type==_IDNT))
       return new_ref_symbolic(symbolic(at_prod,gen(makenewvecteur(a,b),_SEQ__VECT)));
