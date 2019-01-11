@@ -228,6 +228,9 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 		case Renderer.COLOR_MASK_ALPHA:
 			setColorMask(false, false, false, true);
 			break;
+		default:
+			setColorMask(true, true, true, true);
+			break;
 		}
 	}
 
