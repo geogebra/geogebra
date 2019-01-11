@@ -4414,7 +4414,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * 
 	 * @return whether we are using Java 7
 	 */
-	public boolean isJava7() {
+	public static boolean isJava7() {
 		return System.getProperty("java.version").startsWith("1.7.");
 	}
 

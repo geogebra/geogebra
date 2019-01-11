@@ -76,7 +76,7 @@ public class EditMenuD extends BaseMenu {
 		pasteItem = add(pasteAction);
 		setMenuShortCutAccelerator(pasteItem, 'V');
 
-		if (!app.isMacOS() || !app.isJava7()) {
+		if (!app.isMacOS() || !AppD.isJava7()) {
 			copyToClipboardItem = add(copyToClipboardAction);
 			// ctrl-shift-c is also handled in MyKeyListener
 			setMenuShortCutShiftAccelerator(copyToClipboardItem, 'C');
