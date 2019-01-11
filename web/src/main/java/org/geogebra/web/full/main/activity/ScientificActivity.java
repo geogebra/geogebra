@@ -10,10 +10,11 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.GlobalHeader;
 
 /**
  * Activity for scientific calculator
- * 
+ *
  * @author Zbynek
  */
 public class ScientificActivity extends BaseActivity {
@@ -31,9 +32,15 @@ public class ScientificActivity extends BaseActivity {
 				.createCommandSelector();
 		app.getKernel().getAlgebraProcessor()
 				.setCommandSelector(commandSelector);
+		initHeaderButtons(app);
+	}
+
+	private void initHeaderButtons(AppW app) {
 		MenuToggleButton btn = new MenuToggleButton(app);
 		btn.setExternal(true);
 		btn.addToGlobalHeader();
+
+		GlobalHeader.INSTANCE.initScientificSettingButton();
 	}
 
 	@Override

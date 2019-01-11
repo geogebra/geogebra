@@ -7,6 +7,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -142,6 +143,22 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public StandardButton getExamInfoBtn() {
 		return examInfoBtn;
+	}
+
+	/**
+	 * @return the settings button of the scientific calculator
+	 */
+	private static RootPanel getScientificSettingsButton() {
+		return RootPanel.get("settingsButton");
+	}
+
+	/**
+	 * Initialize the settings button for the scientific calculator
+	 */
+	public void initScientificSettingButton() {
+		if (getScientificSettingsButton() != null) {
+			AriaHelper.setTitle(getScientificSettingsButton(), app.getLocalization().getMenu("Settings"), app);
+		}
 	}
 
 	/**
