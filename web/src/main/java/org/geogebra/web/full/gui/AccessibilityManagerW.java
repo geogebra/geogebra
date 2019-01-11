@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
@@ -168,24 +167,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	}
 
-	private boolean focusNextView(int viewId) {
-		if (viewId == App.VIEW_EUCLIDIAN) {
-			if (app.hasEuclidianView2(1)) {
-				app.getEuclidianView2(1).requestFocus();
-			} else if (app.is3DViewEnabled()) {
-				app.getEuclidianView3D().requestFocus();
-			}
-		} else if (viewId == App.VIEW_EUCLIDIAN3D) {
-			if (app.hasEuclidianView2(1)) {
-				app.getEuclidianView2(1).requestFocus();
-			} else if (app.getEuclidianView1().isShowing()) {
-				app.getEuclidianView1().requestFocus();
-			}
-		}
-
-		return false;
-	}
-
 	private void nextFromLastGeo() {
 		focusFirstWidget();
 	}
@@ -207,7 +188,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private EuclidianDockPanelWAbstract isEuclidianViewWithZoomPanel(DockPanelW panel) {
+	private static EuclidianDockPanelWAbstract isEuclidianViewWithZoomPanel(
+			DockPanelW panel) {
 		if (!(panel instanceof EuclidianDockPanelWAbstract)) {
 			return null;
 		}

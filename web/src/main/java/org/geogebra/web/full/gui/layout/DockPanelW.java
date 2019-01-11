@@ -35,9 +35,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -45,7 +43,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
@@ -56,7 +53,6 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -825,37 +821,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * 
-	 * @return title in plain style
-	 */
-	protected String getPlainTitle() {
-		return app.getLocalization().getMenu(title);
-	}
-
-	/**
-	 * 
-	 * @return toolTip text as HTML string with image and title
-	 */
-	protected String getToolTip() {
-		FlowPanel p = new FlowPanel();
-		String caption;
-		if (!this.isStyleBarEmpty()) {
-			Image img = new NoDragImage(ImgResourceHelper.safeURI(getIcon()),
-					24);
-			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
-			img.getElement().getStyle().setMarginRight(4, Unit.PX);
-			p.add(img);
-			caption = app.getLocalization().getMenu(title);
-		} else {
-			caption = app.getLocalization().getMenu("Close");
-		}
-
-		p.add(new InlineLabel(caption));
-
-		return p.getElement().getInnerHTML();
-	}
-
-	/**
 	 * Update all elements in the title bar.
 	 */
 	public void updateTitleBar() {
@@ -1311,10 +1276,8 @@ public abstract class DockPanelW extends ResizeComposite
 
 		if (titleIsBold()) {
 			titleBarPanel.addStyleName("TitleBarPanel-focus");
-
 		} else {
 			titleBarPanel.removeStyleName("TitleBarPanel-focus");
-
 		}
 
 	}

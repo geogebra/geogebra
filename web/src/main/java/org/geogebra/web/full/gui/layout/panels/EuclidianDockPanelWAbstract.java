@@ -258,6 +258,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	protected abstract EuclidianPanel getEuclidianPanel();
 
+	/**
+	 * @return (foreground) canvas of the view
+	 */
 	public abstract Canvas getCanvas();
 
 	/**
@@ -433,8 +436,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public void focusNextGUIElement() {
 		if (zoomPanel != null) {
 			zoomPanel.focusFirstButton();
-		} else {
-			// TODO add focus somewhere else like burger menu.
 		}
 	}
 

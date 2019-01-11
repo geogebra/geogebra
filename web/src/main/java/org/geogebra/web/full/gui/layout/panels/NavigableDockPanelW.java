@@ -10,11 +10,28 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Panel other than EV that can have navigation bar
+ */
 public abstract class NavigableDockPanelW extends DockPanelW {
 	private ConstructionProtocolNavigationW consProtNav;
 	private InnerPanel innerPanel;
 	private ZoomPanel zoomPanel;
 
+	/**
+	 * @param id
+	 *            view ID
+	 * @param title
+	 *            translation key for title
+	 * @param toolbar
+	 *            toolbar definition
+	 * @param hasStyleBar
+	 *            whether to enable stylebar
+	 * @param menuOrder
+	 *            TODO unused
+	 * @param menuShortcut
+	 *            TODO unused
+	 */
 	public NavigableDockPanelW(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder, char menuShortcut) {
 		super(id, title, toolbar, hasStyleBar, menuOrder, menuShortcut);
@@ -22,11 +39,6 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 
 	@Override
 	public final void updateNavigationBar() {
-		// ConstructionProtocolSettings cps = app.getSettings()
-		// .getConstructionProtocol();
-		// ((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
-		// cps.addListener((ConstructionProtocolNavigation)consProtNav);
-
 		if (app.getShowCPNavNeedsUpdate(id)) {
 			app.setShowConstructionProtocolNavigation(
 					app.showConsProtNavigation(id), id);
@@ -53,6 +65,9 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	@Override
 	protected abstract ResourcePrototype getViewIcon();
 
+	/**
+	 * @return panel wrapping the view
+	 */
 	protected abstract Panel getViewPanel();
 
 	@Override
