@@ -100,10 +100,7 @@ public class TableValuesPanel extends FlowPanel
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		deleteColumn(column, null);
-		if (model.getColumnCount() == 1) {
-			showEmptyView();
-		}
+
 	}
 
 	@Override

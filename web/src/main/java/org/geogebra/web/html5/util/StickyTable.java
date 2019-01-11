@@ -149,7 +149,9 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	protected void removeColumn(int index) {
 		headerTable.removeColumn(index);
-		dataProvider.refresh();
+
+		// this should work but does not...
+//		valuesTable.removeColumn(index);
 	}
 
 	/**
