@@ -265,7 +265,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
 			focusNextSpeechRec(viewID);
 		} else {
-			focusLastGeo();
+			int prevView = prevID(viewID);
+			if (prevView == -1) {
+				focusLastGeo();
+			} else {
+				focusZoom(false, prevView);
+			}
 		}
 	}
 
@@ -549,7 +554,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void onEmptyConstuction(boolean forward) {
-		focusZoom(false, forward ? nextID(-1) : prevID(-1));
+		focusZoom(forward, forward ? nextID(-1) : prevID(-1));
 	}
 
 	@Override
