@@ -103,14 +103,24 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void previousFromSpeechRecognition(int viewID) {
-		if (focusLastGeo()) {
-			return;
+		EuclidianDockPanelWAbstract dp = getEuclidianPanel(viewID);
+		if (dp != null) {
+			focusZoom(false, viewID);
+		} else {
+			focusLastGeo();
 		}
-		focusZoom(false, prevID(viewID));
 	}
 
 	private void previousFromFirstGeo() {
-		focusZoom(false, prevID(-1));
+		focusLastZoomOrSpeech(prevID(-1));
+	}
+
+	private void focusLastZoomOrSpeech(int prevID) {
+		if (app.has(Feature.SPEECH_RECOGNITION)) {
+			focusNextSpeechRec(prevID);
+		} else {
+			focusZoom(false, prevID);
+		}
 	}
 
 	private void nextFromInput() {
@@ -121,7 +131,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
 			focusNextSpeechRec(viewID);
 		} else {
-			focusZoomPanel(nextID(viewID));
+			if (!focusZoomPanel(nextID(viewID))) {
+				focusFirstElement();
+			}
 		}
 	}
 
@@ -157,14 +169,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromSpeechRecognitionPanel(int viewId) {
-		if (this.focusZoomPanel(nextID(viewId))) {
+		if (focusZoomPanel(nextID(viewId))) {
 			return;
 		}
 
-		if (focusFirstGeo()) {
-			return;
-		}
-
+		focusFirstElement();
 	}
 
 	private void nextFromLastGeo() {
@@ -178,7 +187,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private boolean focusZoomPanel(int viewID) {
 		EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(
-				this.getEuclidianPanel(viewID));
+				getEuclidianPanel(viewID));
 			if (ev != null) {
 				setTabOverGeos(false);
 				ev.focusNextGUIElement();
@@ -206,7 +215,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else {
 			if (app.is3DViewEnabled()) {
 				setTabOverGeos(true);
-				focusFirstGeo();
+				if (!focusFirstGeo()) {
+					nextFromLastGeo();
+				}
 			}
 		}
 	}
@@ -243,16 +254,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			setTabOverGeos(true);
 			return;
 		}
-
-		if (app.has(Feature.SPEECH_RECOGNITION)) {
-			focusNextSpeechRec(viewID);
+		int prevView = prevID(viewID);
+		if (prevView == -1) {
+			focusLastGeo();
+		} else if (app.has(Feature.SPEECH_RECOGNITION)) {
+			focusNextSpeechRec(prevView);
 		} else {
-			int prevView = prevID(viewID);
-			if (prevView == -1) {
-				focusLastGeo();
-			} else {
-				focusZoom(false, prevView);
-			}
+			focusZoom(false, prevView);
 		}
 	}
 
@@ -417,7 +425,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 		int firstViewId = nextID(-1);
 		if (!forward && selection.isFirstGeoSelected()) {
-			focusZoom(false, firstViewId);
+			focusLastZoomOrSpeech(firstViewId);
 		}
 		boolean voiceover = Browser.isiOS();
 		if (app.getKernel().needToShowAnimationButton()) {
@@ -549,7 +557,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!forward) {
 			int lastViewId = prevID(-1);
 			setPlaySelectedIfVisible(false, lastViewId);
-			focusZoom(false, lastViewId);
+			focusLastZoomOrSpeech(lastViewId);
 			return true;
 		}
 
