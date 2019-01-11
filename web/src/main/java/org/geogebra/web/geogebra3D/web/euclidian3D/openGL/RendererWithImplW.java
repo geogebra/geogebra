@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ColorMask;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;

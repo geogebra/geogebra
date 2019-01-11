@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.ColorMask;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class RendererImpl implements RendererShadersInterface, RendererImplInterface {
