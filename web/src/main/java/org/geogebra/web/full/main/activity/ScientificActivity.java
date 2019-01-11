@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactor
 import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.layout.ScientificDockPanelDecorator;
+import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.main.AppW;
@@ -36,11 +36,15 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	private void initHeaderButtons(AppW app) {
+		initMenuToggleButton(app);
+		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
+		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
+	}
+
+	private void initMenuToggleButton(AppW app) {
 		MenuToggleButton btn = new MenuToggleButton(app);
 		btn.setExternal(true);
 		btn.addToGlobalHeader();
-
-		GlobalHeader.INSTANCE.initScientificSettingButton();
 	}
 
 	@Override

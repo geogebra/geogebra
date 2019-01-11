@@ -173,11 +173,11 @@ public class StandardButton extends FastButton implements HasResource {
 		setIconAndLabel(icon, this.label, this.width, this.height);
 	}
 
-	@Override
-	@Deprecated
 	/**
 	 * Use addFastClickHandler instead
 	 */
+	@Override
+	@Deprecated
 	public HandlerRegistration addClickHandler(ClickHandler c) {
 		return null;
 	}
@@ -185,6 +185,10 @@ public class StandardButton extends FastButton implements HasResource {
 	@Override
 	public void setTitle(String title) {
 		AriaHelper.setTitle(this, title, app);
+	}
+
+	public void setTitleWithLocalizationKey(String localizationKey) {
+		setTitle(app.getLocalization().getMenu(localizationKey));
 	}
 
 	/**

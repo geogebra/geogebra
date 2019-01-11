@@ -146,19 +146,41 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * @return the settings button of the scientific calculator
+	 * Initialize the settings button if it's on the header
 	 */
-	private static RootPanel getScientificSettingsButton() {
-		return RootPanel.get("settingsButton");
+	public void initSettingButtonIfOnHeader() {
+		setTitleIfOnHeaderFor("settingsButton", "Settings");
 	}
 
 	/**
-	 * Initialize the settings button for the scientific calculator
+	 * Initialize the undo and redo buttons if these are on the header
 	 */
-	public void initScientificSettingButton() {
-		if (getScientificSettingsButton() != null) {
-			AriaHelper.setTitle(getScientificSettingsButton(), app.getLocalization().getMenu("Settings"), app);
+	public void initUndoRedoButtonsIfOnHeader() {
+		initUndoButtonIfOnHeader();
+		initRedoButtonIfOnHeader();
+	}
+
+	private void initUndoButtonIfOnHeader() {
+		setTitleIfOnHeaderFor("undoButton", "Undo");
+	}
+
+	private void initRedoButtonIfOnHeader() {
+		setTitleIfOnHeaderFor("redoButton", "Redo");
+	}
+
+	private void setTitleIfOnHeaderFor(String viewId, String titleLocalizationKey) {
+		RootPanel viewElement = getViewById(viewId);
+		if (viewElement != null) {
+			setTitleFor(viewElement, titleLocalizationKey);
 		}
+	}
+
+	private RootPanel getViewById(String viewId) {
+		return RootPanel.get(viewId);
+	}
+
+	private void setTitleFor(RootPanel viewElement, String titleLocalizationKey) {
+		AriaHelper.setTitle(viewElement, app.getLocalization().getMenu(titleLocalizationKey), app);
 	}
 
 	/**

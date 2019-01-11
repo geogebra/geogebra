@@ -312,6 +312,11 @@ svg.icon.left {
     float: right;
 }
 
+.GeoGebraFrame .undoRedoCntScientific {
+    margin: 6px;
+    float: left;
+}
+
 .GeoGebraFrame .undoRedoSettingsPanelScientific {
     position: relative;
     clear: both;
