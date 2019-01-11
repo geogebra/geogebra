@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -380,8 +381,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void info() {
-//		Log.debug("!! header: " + getHeaderTable().getColumnCount() + " values: "
-//				+ getValuesTable().getColumnCount() + " model: " + model.getColumnCount());
+		Log.debug("!! header: " + getHeaderTable().getColumnCount() + " values: "
+				+ getValuesTable().getColumnCount() + " model: " + model.getColumnCount());
 	}
 	/**
 	 * @param column to get

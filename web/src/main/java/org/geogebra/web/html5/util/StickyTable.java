@@ -150,8 +150,9 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	protected void removeColumn(int index) {
 		headerTable.removeColumn(index);
 
-		// this should work but does not...
-//		valuesTable.removeColumn(index);
+		// In AbstractCellTable model each column remembers its index
+		// so deleting last column and let dataProvider do the rest we need.
+		valuesTable.removeColumn(valuesTable.getColumnCount() - 1);
 	}
 
 	/**
@@ -159,10 +160,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	public void onColumnAdded() {
 		addColumn();
-		if (dataProvider == null) {
-			return;
-		}
-		fillValues(dataProvider.getList());
 		refreshData();
 	}
 

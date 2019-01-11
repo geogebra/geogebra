@@ -124,7 +124,9 @@ public class TableValuesPanel extends FlowPanel
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		// not used.
+		if (view.isEmpty()) {
+			showEmptyView();
+		}
 	}
 
 	@Override
