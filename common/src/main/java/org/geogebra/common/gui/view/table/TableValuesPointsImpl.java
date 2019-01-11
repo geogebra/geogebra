@@ -84,11 +84,10 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	private void setPoints(List<GeoPoint> list, int column) {
-		if (points.size() > column - 1) {
-			points.set(column - 1, list);
-		} else {
-			points.add(column - 1, list);
+		for (int i = points.size(); i < column; i++) {
+			points.add(i, null);
 		}
+		points.set(column - 1, list);
 	}
 
 	private void createAndAddPoints(SimpleTableValuesModel model, int column) {
