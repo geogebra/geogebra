@@ -261,4 +261,14 @@ public class GlobalHeader implements EventRenderable {
 		}
 	}
 
+	/**
+	 * Initialize without creating any buttons.
+	 * 
+	 * @param app
+	 *            application
+	 */
+	public void setApp(AppW app) {
+		this.app = app;
+	}
+
 }

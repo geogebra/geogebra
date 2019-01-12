@@ -37,7 +37,7 @@ public class MetaParameter implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	/** Param without up/down functionality */
-	public static MetaParameter BASIC = new MetaParameter(-1, -1);
+	public static final MetaParameter BASIC = new MetaParameter(-1, -1);
 
     private int up = -1;
     private int down = -1;

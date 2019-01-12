@@ -259,6 +259,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 						.checkAvailable(null);
 			}
+			GlobalHeader.INSTANCE.setApp(this);
 		}
 		startActivity();
 	}

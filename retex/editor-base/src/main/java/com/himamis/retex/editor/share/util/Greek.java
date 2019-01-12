@@ -102,8 +102,8 @@ public enum Greek {
 
 	Omega('\u03A9', true);
 
-	public char unicode;
-	public boolean upperCase;
+	public final char unicode;
+	public final boolean upperCase;
 	private static char[] greekLowerCaseNoPi;
 	private static char[] greekUpperCase;
 

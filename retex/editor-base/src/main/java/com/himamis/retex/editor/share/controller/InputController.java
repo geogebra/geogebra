@@ -308,16 +308,16 @@ public class InputController {
 	/**
 	 * @param editorState
 	 *            current state
-	 * @param script
-	 *            _ or ^
+	 * @param scriptTag
+	 *            SUBSCRIPT or SUPERSCRIPT
 	 */
-	public void newScript(EditorState editorState, String script) {
+	public void newScript(EditorState editorState, Tag scriptTag) {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.size() == 0
 				&& currentField.getParent() instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) currentField.getParent())
 						.getName()
-				&& "^".equals(script)) {
+				&& Tag.SUPERSCRIPT == scriptTag) {
 			return;
 		}
 		int currentOffset = editorState.getCurrentOffset();
@@ -328,7 +328,7 @@ public class InputController {
 
 			MathFunction function = (MathFunction) currentField
 					.getArgument(offset - 1);
-			if (script.equals(function.getName())) {
+			if (scriptTag == function.getName()) {
 				editorState.setCurrentField(function.getArgument(0));
 				editorState.setCurrentOffset(function.getArgument(0).size());
 				return;
@@ -345,7 +345,7 @@ public class InputController {
 
 			MathFunction function = (MathFunction) currentField
 					.getArgument(offset);
-			if (script.equals(function.getName())) {
+			if (scriptTag == function.getName()) {
 				editorState.setCurrentField(function.getArgument(0));
 				editorState.setCurrentOffset(0);
 				return;
@@ -360,7 +360,7 @@ public class InputController {
 				.getArgument(currentOffset - 1) instanceof MathFunction) {
 			MathFunction function = (MathFunction) currentField
 					.getArgument(currentOffset - 1);
-			if (Tag.SUPERSCRIPT == function.getName() && "_".equals(script)) {
+			if (Tag.SUPERSCRIPT == function.getName() && Tag.SUBSCRIPT == scriptTag) {
 				currentOffset--;
 			}
 		}
@@ -368,12 +368,12 @@ public class InputController {
 				.getArgument(currentOffset) instanceof MathFunction) {
 			MathFunction function = (MathFunction) currentField
 					.getArgument(currentOffset);
-			if (Tag.SUBSCRIPT == function.getName() && "^".equals(script)) {
+			if (Tag.SUBSCRIPT == function.getName() && Tag.SUPERSCRIPT == scriptTag) {
 				currentOffset++;
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
-		newFunction(editorState, script, 0);
+		newFunction(editorState, scriptTag.getKey() + "", 0);
 	}
 
 	/**
@@ -1121,10 +1121,10 @@ public class InputController {
 				newBraces(editorState, ch);
 				handled = true;
 			} else if (allowFrac && ch == '^') {
-				newScript(editorState, "^");
+				newScript(editorState, Tag.SUPERSCRIPT);
 				handled = true;
 			} else if (allowFrac && ch == '_') {
-				newScript(editorState, "_");
+				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
 			} else if (allowFrac && ch == '/') {
 				newFunction(editorState, "frac", 1, false, null);

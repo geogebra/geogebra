@@ -22,8 +22,8 @@ import java.util.HashMap;
 public class Korean {
 
 	private static StringBuilder sb;
-	private static HashMap<Character, Character> koreanLeadToTail = null;
-	private static HashMap<Character, Character> koreanTailToLead = null;
+	private static HashMap<Character, Character> leadToTail = null;
+	private static HashMap<Character, Character> tailToLead = null;
 	// table to convert a nibble to a hex char.
 
 	/**
@@ -31,41 +31,41 @@ public class Korean {
 	 */
 	static HashMap<Character, Character> getKoreanLeadToTail() {
 
-		if (koreanLeadToTail == null) {
-			koreanLeadToTail = new HashMap<>();
+		if (leadToTail == null) {
+			HashMap<Character, Character> lt = new HashMap<>();
 
-			koreanLeadToTail.put('\u1100', '\u11a8');
-			koreanLeadToTail.put('\u1101', '\u11a9');
-			koreanLeadToTail.put('\u1102', '\u11ab');
-			koreanLeadToTail.put('\u1103', '\u11ae');
-
-			// map to itself
-			koreanLeadToTail.put('\u1104', '\u1104');
-
-			koreanLeadToTail.put('\u1105', '\u11af');
-			koreanLeadToTail.put('\u1106', '\u11b7');
-			koreanLeadToTail.put('\u1107', '\u11b8');
+			lt.put('\u1100', '\u11a8');
+			lt.put('\u1101', '\u11a9');
+			lt.put('\u1102', '\u11ab');
+			lt.put('\u1103', '\u11ae');
 
 			// map to itself
-			koreanLeadToTail.put('\u1108', '\u1108');
+			lt.put('\u1104', '\u1104');
 
-			koreanLeadToTail.put('\u1109', '\u11ba');
-			koreanLeadToTail.put('\u110a', '\u11bb');
-			koreanLeadToTail.put('\u110b', '\u11bc');
-			koreanLeadToTail.put('\u110c', '\u11bd');
+			lt.put('\u1105', '\u11af');
+			lt.put('\u1106', '\u11b7');
+			lt.put('\u1107', '\u11b8');
 
 			// map to itself
-			koreanLeadToTail.put('\u110d', '\u110d');
+			lt.put('\u1108', '\u1108');
 
-			koreanLeadToTail.put('\u110e', '\u11be');
-			koreanLeadToTail.put('\u110f', '\u11bf');
-			koreanLeadToTail.put('\u1110', '\u11c0');
-			koreanLeadToTail.put('\u1111', '\u11c1');
-			koreanLeadToTail.put('\u1112', '\u11c2');
+			lt.put('\u1109', '\u11ba');
+			lt.put('\u110a', '\u11bb');
+			lt.put('\u110b', '\u11bc');
+			lt.put('\u110c', '\u11bd');
+
+			// map to itself
+			lt.put('\u110d', '\u110d');
+
+			lt.put('\u110e', '\u11be');
+			lt.put('\u110f', '\u11bf');
+			lt.put('\u1110', '\u11c0');
+			lt.put('\u1111', '\u11c1');
+			lt.put('\u1112', '\u11c2');
+			leadToTail = lt;
 		}
 
-		return koreanLeadToTail;
-
+		return leadToTail;
 	}
 
 	private static Character tailToLead(char ch) {
@@ -79,40 +79,41 @@ public class Korean {
 
 	private static HashMap<Character, Character> getKoreanTailToLead() {
 
-		if (koreanTailToLead == null) {
-			koreanTailToLead = new HashMap<>();
+		if (tailToLead == null) {
+			HashMap<Character, Character> tl = new HashMap<>();
 
-			koreanTailToLead.put('\u11a8', '\u1100');
-			koreanTailToLead.put('\u11a9', '\u1101');
-			koreanTailToLead.put('\u11ab', '\u1102');
-			koreanTailToLead.put('\u11ae', '\u1103');
+			tl.put('\u11a8', '\u1100');
+			tl.put('\u11a9', '\u1101');
+			tl.put('\u11ab', '\u1102');
+			tl.put('\u11ae', '\u1103');
 
 			// map to itself
 			// koreanTailToLead.put('\u1104','\u1104');
 
-			koreanTailToLead.put('\u11af', '\u1105');
-			koreanTailToLead.put('\u11b7', '\u1106');
-			koreanTailToLead.put('\u11b8', '\u1107');
+			tl.put('\u11af', '\u1105');
+			tl.put('\u11b7', '\u1106');
+			tl.put('\u11b8', '\u1107');
 
 			// map to itself
 			// koreanTailToLead.put('\u1108', '\u1108');
 
-			koreanTailToLead.put('\u11ba', '\u1109');
-			koreanTailToLead.put('\u11bb', '\u110a');
-			koreanTailToLead.put('\u11bc', '\u110b');
-			koreanTailToLead.put('\u11bd', '\u110c');
+			tl.put('\u11ba', '\u1109');
+			tl.put('\u11bb', '\u110a');
+			tl.put('\u11bc', '\u110b');
+			tl.put('\u11bd', '\u110c');
 
 			// map to itself
 			// koreanTailToLead.put('\u110d', '\u110d');
 
-			koreanTailToLead.put('\u11be', '\u110e');
-			koreanTailToLead.put('\u11bf', '\u110f');
-			koreanTailToLead.put('\u11c0', '\u1110');
-			koreanTailToLead.put('\u11c1', '\u1111');
-			koreanTailToLead.put('\u11c2', '\u1112');
+			tl.put('\u11be', '\u110e');
+			tl.put('\u11bf', '\u110f');
+			tl.put('\u11c0', '\u1110');
+			tl.put('\u11c1', '\u1111');
+			tl.put('\u11c2', '\u1112');
+			tailToLead = tl;
 		}
 
-		return koreanTailToLead;
+		return tailToLead;
 
 	}
 

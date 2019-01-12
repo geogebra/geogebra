@@ -9,7 +9,6 @@ public class Parser {
 
     private MetaModel metaModel;
     private EditorState editorState;
-    private ArgumentHelper argumentHelper;
     private InputController inputController;
 
 
@@ -17,7 +16,6 @@ public class Parser {
 		this(new StringProvider(""));      
         this.metaModel = metaModel;
         this.editorState = new EditorState(metaModel);
-        this.argumentHelper = new ArgumentHelper();
         this.inputController = new InputController(metaModel);
     }
 
