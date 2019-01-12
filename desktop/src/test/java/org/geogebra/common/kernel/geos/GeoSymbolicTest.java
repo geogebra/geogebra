@@ -53,7 +53,7 @@ public class GeoSymbolicTest {
 	public void latex() {
 		t("a=sqrt(8)", "2 * sqrt(2)");
 		String text = getLatex("a");
-		Assert.assertEquals("a \\, = \\,\\2 \\cdot sqrt{2}", text);
+		Assert.assertEquals("a \\, = \\,2 \\; \\sqrt{2}", text);
 	}
 
 	private static String getLatex(String string) {
