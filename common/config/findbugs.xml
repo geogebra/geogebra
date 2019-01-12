@@ -30,7 +30,7 @@
       <Package name="~com\.google.*" />
     </Match>
      <Match>
-      <Package name="~org.geogebra.common.(kernel.parser|io.latex|kernel.prover.polynomial)" />
+      <Package name="~org.geogebra.common.kernel.(parser|prover.polynomial)|com.himamis.retex.editor.share.io.latex" />
       <Or>
 	     <Bug pattern="DLS_DEAD_LOCAL_STORE" />	
 		<Bug pattern="DM_DEFAULT_ENCODING" />

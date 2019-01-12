@@ -1,3 +1,18 @@
+
+buildscript {
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'pmd'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '1.6.9'
+    id 'de.aaschmid.cpd' version '1.1'
+}
+
 description 'Parts of GeoGebra related to web platforms'
 
 evaluationDependsOn(':common')
@@ -6,22 +21,9 @@ evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
 
-
-buildscript {
-    dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'de.aaschmid:gradle-cpd-plugin:1.1'
-    }
-}
-
 ext.gwtCompilerVersion = project(':renderer-web').gwtCompilerVersion
 
 apply plugin: 'gwt-compiler'
-apply plugin: 'java'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
-apply plugin: 'de.aaschmid.cpd'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -358,7 +360,7 @@ test {
     ignoreFailures = true
 }
 
-findbugs {
+spotbugs {
     ignoreFailures = true
     excludeFilter = file("config/findbugs.xml")
 }

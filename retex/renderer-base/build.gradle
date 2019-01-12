@@ -1,6 +1,8 @@
-apply plugin: 'java'
-apply plugin: 'findbugs'
-apply plugin: 'maven-publish'
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.spotbugs' version '1.6.9'
+}
 
 group 'com.himamis.retex'
 version '0.1'
@@ -24,7 +26,7 @@ task jarSources(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource 
 }
 
-findbugs {
+spotbugs {
 	ignoreFailures = true
 	excludeFilter = file("../../common/config/findbugs.xml")
 }

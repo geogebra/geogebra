@@ -1,14 +1,12 @@
-buildscript {
-	dependencies {
-		classpath 'ca.coglinc:javacc-gradle-plugin:2.3.1'
-	}
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'pmd'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '1.6.9'
+    id 'ca.coglinc.javacc' version '2.3.1'
 }
 
-apply plugin: 'ca.coglinc.javacc'
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
 
 group 'com.himamis.retex'
 version '0.1'
@@ -47,4 +45,9 @@ pmd {
 
 checkstyle {
     toolVersion = "8.8"
+}
+
+spotbugs {
+    ignoreFailures = true
+    excludeFilter = file("../../common/config/findbugs.xml")
 }
