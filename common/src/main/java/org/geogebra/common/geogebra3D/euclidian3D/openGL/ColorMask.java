@@ -26,7 +26,7 @@ final public class ColorMask {
 	 *            color mask
 	 * @return true if this color mask turns on red channel
 	 */
-	static final public boolean getRed(final int colorMask) {
+	static public boolean getRed(final int colorMask) {
 		switch (colorMask) {
 		case NONE:
 		case ALPHA:
@@ -44,7 +44,7 @@ final public class ColorMask {
 	 *            color mask
 	 * @return true if this color mask turns on green channel
 	 */
-	static final public boolean getGreen(final int colorMask) {
+	static public boolean getGreen(final int colorMask) {
 		switch (colorMask) {
 		case NONE:
 		case ALPHA:
@@ -62,7 +62,7 @@ final public class ColorMask {
 	 *            color mask
 	 * @return true if this color mask turns on blue channel
 	 */
-	static final public boolean getBlue(final int colorMask) {
+	static public boolean getBlue(final int colorMask) {
 		switch (colorMask) {
 		case NONE:
 		case ALPHA:
@@ -79,7 +79,7 @@ final public class ColorMask {
 	 *            color mask
 	 * @return true if this color mask turns on alpha channel
 	 */
-	static final public boolean getAlpha(final int colorMask) {
+	static public boolean getAlpha(final int colorMask) {
 		return colorMask != NONE;
 	}
 }
