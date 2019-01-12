@@ -1,7 +1,8 @@
+plugins {
+    id 'java'
+    id 'com.github.spotbugs' version '1.6.9'
+}
 description 'Platform independent supplementary files for graphics support'
-
-apply plugin: 'java'
-apply plugin: 'findbugs'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -14,7 +15,7 @@ dependencies {
     }
 }
 
-findbugs{
+spotbugs {
      ignoreFailures = true
      excludeFilter = file("config/findbugs.xml")
 }
