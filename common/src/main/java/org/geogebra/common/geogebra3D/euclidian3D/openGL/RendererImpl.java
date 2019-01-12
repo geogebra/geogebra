@@ -233,4 +233,11 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 		glClear(getGL_DEPTH_BUFFER_BIT());
 	}
 
+	/**
+	 * clear depth buffer for anaglyph glasses, between first and second eye
+	 */
+	public void clearDepthBufferForSecondAnaglyphFilter() {
+		clearDepthBuffer();
+	}
+
 }

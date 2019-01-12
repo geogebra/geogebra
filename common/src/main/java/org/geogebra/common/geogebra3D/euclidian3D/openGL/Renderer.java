@@ -315,11 +315,13 @@ public abstract class Renderer implements RendererInterface {
 
 			// left eye
 			setDrawLeft();
+			clearDepthBuffer();
 			setView();
 			draw();
 
 			// right eye
 			setDrawRight();
+			clearDepthBufferForSecondAnaglyphFilter();
 			setView();
 			draw();
 
@@ -523,8 +525,6 @@ public abstract class Renderer implements RendererInterface {
 
 		eye = EYE_LEFT;
 		setColorMask();
-		clearDepthBuffer();
-
 	}
 
 	/**
@@ -548,7 +548,6 @@ public abstract class Renderer implements RendererInterface {
 		}
 
 		setColorMask();
-		clearDepthBuffer(); // clear depth buffer
 	}
 
 	/**
@@ -570,6 +569,11 @@ public abstract class Renderer implements RendererInterface {
 	 * clear depth buffer
 	 */
 	abstract protected void clearDepthBuffer();
+
+	/**
+	 * clear depth buffer for anaglyph glasses, between first and second eye
+	 */
+	abstract protected void clearDepthBufferForSecondAnaglyphFilter();
 
 	/**
 	 * set value for the stencil function (equal to value)

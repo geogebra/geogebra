@@ -403,6 +403,11 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
+	protected void clearDepthBufferForSecondAnaglyphFilter() {
+		rendererImpl.clearDepthBufferForSecondAnaglyphFilter();
+	}
+
+	@Override
 	final protected void setStencilFunc(int value) {
 		rendererImpl.setStencilFunc(value);
 	}
