@@ -188,7 +188,7 @@ __GGB__keysVar["zh-CN"].command = {
     "CommonDenominator.Syntax": "[ <\u5206\u5f0f1>, <\u5206\u5f0f2> ]",
     "CompetitionRank": "\u7ade\u4e89\u6392\u540d",
     "CompetitionRank.Syntax": "[ <\u5217\u8868> ]",
-    "CompleteSquare": "\u914d\u65b9\u5f0f",
+    "CompleteSquare": "\u9876\u70b9\u5f0f",
     "CompleteSquare.Syntax": "[ <\u4e8c\u6b21\u51fd\u6570> ]",
     "ComplexRoot": "\u590d\u6570\u6839",
     "ComplexRoot.Syntax": "[ <\u591a\u9879\u5f0f> ]",
