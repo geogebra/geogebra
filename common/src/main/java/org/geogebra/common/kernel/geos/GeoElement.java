@@ -108,8 +108,6 @@ import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * 
  * @author Markus
@@ -2046,8 +2044,6 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public boolean hasMoveableInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		// allow only moving of certain object types
@@ -2060,7 +2056,7 @@ public abstract class GeoElement extends ConstructionElement
 				return containsOnlyMoveableGeos(getFreeInputPoints(view));
 			}
 
-			// fall through
+			//$FALL-THROUGH$
 
 		case CONICPART:
 		case IMAGE:

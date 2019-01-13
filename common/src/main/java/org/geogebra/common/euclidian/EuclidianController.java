@@ -151,8 +151,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
@@ -4332,8 +4330,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * screen coords -> real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
 	 * ( 0 -1/yscale yZero/yscale ) ( 0 0 1 )
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void transformCoords() {
 		// calc real world coords
 		calcRWcoords();

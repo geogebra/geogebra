@@ -71,8 +71,6 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Explicit function in one variable ("x"). This is actually a wrapper class for
  * Function in geogebra.kernel.arithmetic. In arithmetic trees (ExpressionNode)
@@ -1065,8 +1063,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/*
 	 * Path interface
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	private void pointChanged(Coords P, boolean closestPoly) {
 
 		if (P.getZ() == 1.0) {

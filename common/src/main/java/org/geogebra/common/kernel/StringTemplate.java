@@ -23,8 +23,6 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * StringTemplate provides a container for all settings we might need when
  * serializing ExpressionValues to screen / XML / CAS input / export.
@@ -2683,8 +2681,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            localization
 	 * @return leftStr || rightStr for this string type
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public String powerString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {

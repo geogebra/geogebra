@@ -20,8 +20,6 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Expression -&gt; string converter
  */
@@ -47,7 +45,6 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 	 *            kernel
 	 * @return string representation of a node.
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH", "missing break is deliberate" })
 	final public static String operationToString(ExpressionValue left, ExpressionValue right,
 			Operation operation, String leftStr, String rightStr, boolean valueForm,
 			StringTemplate tpl, Kernel kernel) {

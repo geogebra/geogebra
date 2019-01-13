@@ -21,8 +21,6 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Handles hatching of fillable geos
  */
@@ -69,8 +67,6 @@ public class HatchingHandler {
 	 *            needed to determine right font
 	 * @return texture paint
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public final GPaint setHatching(GGraphics2D g3, GBasicStroke defObjStroke,
 			GColor color, GColor bgColor, double backgroundTransparency,
 			double hatchDist, double angleDegrees, FillType fillType,
@@ -110,13 +106,12 @@ public class HatchingHandler {
 				&& ExportType.SVG.equals(app.getExportType());
 
 		if (svg) {
-			
 			String svgString = "";
 			String fill = "none";
 			String stroke = "stroke:#" + StringUtil.toHexString(color)
 					+ "; stroke-width:" + defObjStroke.getLineWidth();
 			double width = xInt, height = yInt;
-			
+
 			switch (fillType) {
 
 			case HONEYCOMB:
@@ -168,9 +163,8 @@ public class HatchingHandler {
 				svgString = drawDottedSVG(dist);
 				break;
 			}
-			
-			return new GPaintSVG(svgString, stroke, width, height, angle, fill);
 
+			return new GPaintSVG(svgString, stroke, width, height, angle, fill);
 		}
 
 		int exportScale = 1;

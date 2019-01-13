@@ -100,7 +100,7 @@ public class TableValuesPanel extends FlowPanel
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-
+		// not used
 	}
 
 	@Override

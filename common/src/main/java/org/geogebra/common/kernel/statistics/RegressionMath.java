@@ -9,8 +9,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.debug.Log;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
  http://www.geogebra.org
@@ -536,8 +534,6 @@ public final class RegressionMath {
 	// / --- Private --- ///
 
 	/* Do whatever sums neccessary */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	private void doSums(int degree) { // do whatever sums neccessary
 		double x, y, xx, xy;
 		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = 0.0d;
@@ -571,7 +567,7 @@ public final class RegressionMath {
 			sigmax2 += xx;
 			sigmaxy += xy;
 			sigmay += y;
-		} 
+		}
 	}
 
 	/* Get points to local array */
