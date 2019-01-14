@@ -47,7 +47,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	static final CellTemplates TEMPLATES = GWT.create(CellTemplates.class);
 	private TableValuesModel model;
 	private TableValuesDimensions dimensions;
-	private NoDragImage moreImg;
 	private TableValuesView view;
 	private AppW app;
 	private HeaderCell headerCell = new HeaderCell();
@@ -61,7 +60,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		HeaderCell() {
 			FlowPanel p = new FlowPanel();
 			p.add(new Label("%s"));
-			MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
+			MyToggleButtonW btn = new MyToggleButtonW(
+					new NoDragImage(MaterialDesignResources.INSTANCE.more_vert_black(), 24));
 			p.add(btn);
 			value = p.getElement().getInnerHTML();
 		}
@@ -71,12 +71,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 * @param column
 		 * @return
 		 */
-		SafeHtml getValue(int column) {
+		SafeHtml getValue(String content, int width, int height) {
 			return makeCell(
-					SafeHtmlUtils.fromTrustedString(value.replace("%s", model.getHeaderAt(column))),
-					getColumnWidth(dimensions, column), dimensions.getHeaderHeight());
+					SafeHtmlUtils.fromTrustedString(value.replace("%s", content)), width, height);
 		}
-
 	}
 
 	/**
@@ -123,11 +121,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.dimensions = view.getTableValuesDimensions();
 		model.registerListener(this);
 		reset();
-		createHeaderTemplate();
-	}
-
-	private void createHeaderTemplate() {
-
 	}
 
 	@Override
@@ -150,7 +143,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addColumn(int column) {
 		Column<TVRowData, ?> colHeader = getColumnName();
-		getHeaderTable().addColumn(colHeader, headerCell.getValue(column));
+		getHeaderTable().addColumn(colHeader, headerCell.getValue(model.getHeaderAt(column),
+				getColumnWidth(dimensions, column), dimensions.getHeaderHeight()));
 		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
 		getValuesTable().addColumn(colValue);
 	}
@@ -202,13 +196,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			w += X_LEFT_PADDING;
 		}
 		return Math.max(w, MIN_COLUMN_WIDTH + X_LEFT_PADDING);
-	}
-
-	private NoDragImage getMoreImage() {
-		if (moreImg == null) {
-			moreImg = new NoDragImage(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
-		}
-		return moreImg;
 	}
 
 	private static Column<TVRowData, SafeHtml> getColumnName() {
