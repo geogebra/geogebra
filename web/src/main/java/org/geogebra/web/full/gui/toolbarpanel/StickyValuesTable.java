@@ -117,13 +117,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addColumn(int column) {
 		Column<TVRowData, ?> colHeader = getColumnName();
-		if (colHeader != null) {
-			getHeaderTable().addColumn(colHeader, getHeaderHtml(column));
-		}
+		getHeaderTable().addColumn(colHeader, getHeaderHtml(column));
 		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
-		if (colValue != null) {
-			getValuesTable().addColumn(colValue);
-		}
+		getValuesTable().addColumn(colValue);
 	}
 
 	@Override
