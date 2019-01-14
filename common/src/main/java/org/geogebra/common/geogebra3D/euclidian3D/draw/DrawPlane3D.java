@@ -634,14 +634,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		GeoPlane3D plane = getPlane();
 
 		// project hitting origin on plane
-		if (hitting.isSphere()) {
-			hitting.origin.projectPlane(plane.getCoordSys().getDrawingMatrix(),
-					globalCoords, inPlaneCoords);
-		} else {
-			hitting.origin.projectPlaneThruVIfPossible(
-					plane.getCoordSys().getDrawingMatrix(), hitting.direction,
-					globalCoords, inPlaneCoords);
-		}
+		hitting.origin.projectPlaneThruVIfPossible(
+				plane.getCoordSys().getDrawingMatrix(), hitting.direction,
+				globalCoords, inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {
 			return false;
@@ -663,23 +658,12 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		if (hitting.isSphere()) {
-			double d = getView3D().getScaledDistance(globalCoords,
-					hitting.origin);
-			if (d <= hitting.getThreshold()) {
-				setZPick(-d, -d, hitting.discardPositiveHits());
-				return true;
-			}
-
-		} else {
-			// TODO use other for non-parallel projection :
-			// -hitting.origin.distance(project[0]);
-			double parameterOnHitting = inPlaneCoords.getZ();
-			setZPick(parameterOnHitting, parameterOnHitting, hitting.discardPositiveHits());
-			return true;
-		}
-
-		return false;
+		// TODO use other for non-parallel projection :
+		// -hitting.origin.distance(project[0]);
+		double parameterOnHitting = inPlaneCoords.getZ();
+		setZPick(parameterOnHitting, parameterOnHitting,
+				hitting.discardPositiveHits());
+		return true;
 
 	}
 

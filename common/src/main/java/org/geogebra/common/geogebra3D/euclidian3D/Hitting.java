@@ -254,14 +254,6 @@ public class Hitting {
 	}
 
 	/**
-	 * 
-	 * @return true if the hitting use depth values
-	 */
-	public boolean isSphere() {
-		return false;
-	}
-
-	/**
 	 * @return norm^2
 	 */
 	public double getSquareNorm() {

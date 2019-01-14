@@ -288,38 +288,25 @@ public class DrawPoint3D extends Drawable3DCurves
 			int pointSize, Coords project, double[] parameters,
 			boolean checkRealPointSize) {
 
-		if (hitting.isSphere()) {
-			double d = drawable.getView3D().getScaledDistance(p,
-					hitting.origin);
-			if (d <= pointSize + hitting.getThreshold()) {
-				// double z = -parameters[0];
-				// double dz = pointSize/scale;
-				drawable.setZPick(-d, -d, hitting.discardPositiveHits());
-				return true;
-			}
+		p.projectLine(hitting.origin, hitting.direction, project, parameters);
+
+		if (!hitting.isInsideClipping(project)) {
+			return false;
+		}
+
+		double d = drawable.getView3D().getScaledDistance(p, project);
+		boolean hitted;
+		if (checkRealPointSize) {
+			hitted = d <= pointSize + 2;
 		} else {
-			p.projectLine(hitting.origin, hitting.direction, project,
-					parameters);
-
-			if (!hitting.isInsideClipping(project)) {
-				return false;
-			}
-
-			double d = drawable.getView3D().getScaledDistance(p, project);
-			boolean hitted;
-			if (checkRealPointSize) {
-				hitted = d <= pointSize + 2;
-			} else {
-				hitted = d <= DrawPoint
-						.getSelectionThreshold(hitting.getThreshold());
-			}
-			if (hitted) {
-				double z = -parameters[0];
-				double dz = pointSize / drawable.getView3D().getScale();
-				drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits());
-				return true;
-			}
-
+			hitted = d <= DrawPoint
+					.getSelectionThreshold(hitting.getThreshold());
+		}
+		if (hitted) {
+			double z = -parameters[0];
+			double dz = pointSize / drawable.getView3D().getScale();
+			drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits());
+			return true;
 		}
 
 		return false;

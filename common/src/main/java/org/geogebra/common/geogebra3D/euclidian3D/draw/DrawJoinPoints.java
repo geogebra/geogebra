@@ -319,80 +319,44 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			return false;
 		}
 
-		if (hitting.isSphere()) {
-			if (project1 == null) {
-				project1 = new Coords(4);
-				lineCoords = new double[2];
-			}
-			hitting.origin.projectLine(startPoint, endPoint.sub(startPoint),
-					project1, lineCoords);
+		if (project1 == null) {
+			project1 = new Coords(4);
+			project2 = new Coords(4);
+			lineCoords = new double[2];
+			tmp = new double[4];
+		}
+		if (endPoint == null || startPoint == null) {
+			return false;
+		}
+		CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin,
+				hitting.direction, startPoint, endPoint.sub(startPoint),
+				project1.val, project2.val, lineCoords, tmp);
 
-			// check if point is on segment drawn (between startPoint and
-			// endPoint)
-			double parameterOnCS = lineCoords[0];
-			if (parameterOnCS < 0 || parameterOnCS > 1) {
-				// check start and end points
-				double d = getView3D().getScaledDistance(startPoint,
-						hitting.origin);
-				if (d <= hitting.getThreshold()) {
-					setZPick(-d, -d, hitting.discardPositiveHits());
-					return true;
-				}
-				d = endPoint.distance(hitting.origin);
-				if (d <= hitting.getThreshold()) {
-					setZPick(-d, -d, hitting.discardPositiveHits());
-					return true;
-				}
-				return false;
-			}
+		// check if hitting and line are parallel
+		double parameterOnHitting = lineCoords[0];
+		if (Double.isNaN(parameterOnHitting)) {
+			return false;
+		}
 
-			double d = getView3D().getScaledDistance(project1, hitting.origin);
-			if (d <= getGeoElement().getLineThickness()
-					+ hitting.getThreshold()) {
-				setZPick(d, d, hitting.discardPositiveHits());
-				return true;
-			}
+		// check if point is on segment drawn (between startPoint and
+		// endPoint)
+		double parameterOnCS = lineCoords[1];
+		if (parameterOnCS < 0 || parameterOnCS > 1) {
+			return false;
+		}
 
-		} else {
-			if (project1 == null) {
-				project1 = new Coords(4);
-				project2 = new Coords(4);
-				lineCoords = new double[2];
-				tmp = new double[4];
-			}
-			if (endPoint == null || startPoint == null) {
-				return false;
-			}
-			CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin,
-					hitting.direction, startPoint, endPoint.sub(startPoint),
-					project1.val, project2.val, lineCoords, tmp);
+		// check if point on line is visible
+		if (!hitting.isInsideClipping(project2)) {
+			return false;
+		}
 
-			// check if hitting and line are parallel
-			double parameterOnHitting = lineCoords[0];
-			if (Double.isNaN(parameterOnHitting)) {
-				return false;
-			}
-
-			// check if point is on segment drawn (between startPoint and
-			// endPoint)
-			double parameterOnCS = lineCoords[1];
-			if (parameterOnCS < 0 || parameterOnCS > 1) {
-				return false;
-			}
-
-			// check if point on line is visible
-			if (!hitting.isInsideClipping(project2)) {
-				return false;
-			}
-
-			double d = getView3D().getScaledDistance(project1, project2);
-			if (d <= getGeoElement().getLineThickness() + 2) {
-				double z = -parameterOnHitting;
-				double dz = getGeoElement().getLineThickness()
-						/ getView3D().getScale();
-				setZPick(z + dz, z - dz, hitting.discardPositiveHits());
-				return true;
-			}
+		double d = getView3D().getScaledDistance(project1, project2);
+		if (d <= getGeoElement().getLineThickness() + 2) {
+			double z = -parameterOnHitting;
+			double dz = getGeoElement().getLineThickness()
+					/ getView3D().getScale();
+			setZPick(z + dz, z - dz, hitting.discardPositiveHits());
+			return true;
 		}
 
 		return false;
