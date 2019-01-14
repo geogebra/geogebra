@@ -50,6 +50,34 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private NoDragImage moreImg;
 	private TableValuesView view;
 	private AppW app;
+	private HeaderCell headerCell = new HeaderCell();
+
+	private class HeaderCell {
+		private String value;
+
+		/**
+		 * Header
+		 */
+		HeaderCell() {
+			FlowPanel p = new FlowPanel();
+			p.add(new Label("%s"));
+			MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
+			p.add(btn);
+			value = p.getElement().getInnerHTML();
+		}
+
+		/**
+		 *
+		 * @param column
+		 * @return
+		 */
+		SafeHtml getValue(int column) {
+			return makeCell(
+					SafeHtmlUtils.fromTrustedString(value.replace("%s", model.getHeaderAt(column))),
+					getColumnWidth(dimensions, column), dimensions.getHeaderHeight());
+		}
+
+	}
 
 	/**
 	 * Class to wrap callback after column delete.
@@ -95,6 +123,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.dimensions = view.getTableValuesDimensions();
 		model.registerListener(this);
 		reset();
+		createHeaderTemplate();
+	}
+
+	private void createHeaderTemplate() {
+
 	}
 
 	@Override
@@ -117,7 +150,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addColumn(int column) {
 		Column<TVRowData, ?> colHeader = getColumnName();
-		getHeaderTable().addColumn(colHeader, getHeaderHtml(column));
+		getHeaderTable().addColumn(colHeader, headerCell.getValue(column));
 		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
 		getValuesTable().addColumn(colValue);
 	}
@@ -134,14 +167,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 	}
 
-	private SafeHtml getHeaderHtml(final int col) {
-		FlowPanel p = new FlowPanel();
-		p.add(new Label(model.getHeaderAt(col)));
-		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
-		p.add(btn);
-		SafeHtml content = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
-		return makeCell(content, getColumnWidth(dimensions, col), dimensions.getHeaderHeight());
-	}
 
 	/**
 	 * Makes a cell as SafeHtml.
