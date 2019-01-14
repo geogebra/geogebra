@@ -3550,6 +3550,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		return new DrawPolyLine3D(this, selectedPoints);
 	}
 
+	@Override
+	public Previewable createPreviewParabola(
+			ArrayList<GeoPointND> selectedPoints,
+			ArrayList<GeoLineND> selectedLines) {
+		return null;
+	}
+
 	public boolean getPositiveAxis(int i) {
 		return positiveAxes[i];
 	}
