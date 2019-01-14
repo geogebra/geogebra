@@ -564,14 +564,21 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return handleTabExitGeos(true);
 	}
 
+	private boolean focusPlay(int viewID) {
+		if (isPlayVisible(viewID)) {
+			setPlaySelectedIfVisible(true, viewID);
+			return true;
+		}
+		return false;
+	}
 	@Override
 	public boolean onSelectLastGeo(boolean forward) {
 		if (forward) {
-			int viewID = nextID(-1);
-			if (isPlayVisible(viewID)) {
-				setPlaySelectedIfVisible(true, viewID);
+			if (focusPlay(app.getActiveEuclidianView().getViewID())) {
 				return true;
 			}
+			int viewID = nextID(-1);
+			focusPlay(viewID);
 			setTabOverGeos(false);
 			if (!focusZoomPanel(viewID)) {
 				focusNextSpeechRec(viewID);
