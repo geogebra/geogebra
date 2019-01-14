@@ -1101,6 +1101,20 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
+	 * draws a 3D cross cursor; doesn't modify the lighting
+	 *
+	 * @param cursorType
+	 *            cursor type
+	 */
+	final public void drawCursorDisableLighting(int cursorType) {
+		disableLighting();
+		initMatrix();
+		geometryManager.draw(geometryManager.cursor.getIndex(cursorType));
+		resetMatrix();
+		enableLighting();
+	}
+
+	/**
 	 * Draw completing cursor for 3D input.
 	 *
 	 * @param value

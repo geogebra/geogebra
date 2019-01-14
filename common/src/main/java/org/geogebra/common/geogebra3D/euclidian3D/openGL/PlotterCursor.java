@@ -1,7 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Class that describes the geometry of the 3D cursor
@@ -44,6 +47,12 @@ public class PlotterCursor {
 	private float g;
 	private float b;
 	private float a;
+
+	// dot is just bigger that the biggest point and the thickest line
+	static private float DOT_RADIUS = Math.max(
+			(EuclidianStyleConstants.MAX_POINT_SIZE + 1)
+					* DrawPoint3D.DRAW_POINT_FACTOR,
+			(GeoElement.MAX_LINE_WIDTH + 1) * PlotterBrush.LINE3D_THICKNESS);
 
 	/**
 	 * common constructor
@@ -172,7 +181,7 @@ public class PlotterCursor {
 		// sphere
 		index[TYPE_SPHERE] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		cursorSphere(0.25f, 0.25f);
+		cursorSphere(1f, 1f);
 		manager.endGeometry();
 		manager.endList();
 
@@ -512,7 +521,7 @@ public class PlotterCursor {
 		color(gray, gray, gray, alpha);
 
 		int latitude = 8;
-		int r1 = 15;
+		float r1 = DOT_RADIUS;
 
 		float d = (float) (0.5 * Math.PI / latitude);
 

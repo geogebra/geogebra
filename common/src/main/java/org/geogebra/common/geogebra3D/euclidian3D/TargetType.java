@@ -39,24 +39,21 @@ public enum TargetType {
 	POINT_ON_REGION {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			renderer.setMatrix(view3d.getCursorMatrix());
-			renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);
+			drawSphere(renderer, view3d);
 		}
 	},
 	/** target new point on path */
 	POINT_ON_PATH {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			renderer.setMatrix(view3d.getCursorMatrix());
-			renderer.drawCursor(PlotterCursor.TYPE_CYLINDER);
+			drawSphere(renderer, view3d);
 		}
 	},
 	/** target new point at intersection */
 	POINT_INTERSECTION {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			renderer.setMatrix(view3d.getCursorMatrix());
-			renderer.drawCursor(PlotterCursor.TYPE_DIAMOND);
+			drawSphere(renderer, view3d);
 		}
 	},
 	/** target existing point for move or select tools */
@@ -79,9 +76,7 @@ public enum TargetType {
 	POINT_ALREADY_CANNOT_MOVE_TOOL {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			// draw cube for testing
-			renderer.setMatrix(view3d.getCursorMatrix());
-			renderer.drawCursor(PlotterCursor.TYPE_CUBE);
+			// draw nothing
 		}
 	},
 	/** target free point (3D input devices) */
@@ -96,20 +91,14 @@ public enum TargetType {
 	SELECT_PATH {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			// draw sphere for testing
-			tmpMatrix.setOrigin(view3d.getCursorMatrix().getOrigin());
-			renderer.setMatrix(tmpMatrix);
-			renderer.drawCursor(PlotterCursor.TYPE_SPHERE);
+			drawSphere(renderer, view3d);
 		}
 	},
 	/** target region to select */
 	SELECT_REGION {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			// draw sphere for testing
-			tmpMatrix.setOrigin(view3d.getCursorMatrix().getOrigin());
-			renderer.setMatrix(tmpMatrix);
-			renderer.drawCursor(PlotterCursor.TYPE_SPHERE);
+			drawSphere(renderer, view3d);
 		}
 	},
 	/** target path or region with "view in front of" tool */
@@ -332,5 +321,20 @@ public enum TargetType {
 	 * @param view3D
 	 *            3D view
 	 */
-	abstract public void drawTarget(Renderer renderer, EuclidianView3D view3D);
+	abstract public void drawTarget(Renderer renderer, EuclidianView3D view3d);
+
+	/**
+	 * draw sphere at current cursor position
+	 * 
+	 * @param renderer
+	 *            renderer
+	 * @param view3d
+	 *            3D view
+	 */
+	static protected void drawSphere(Renderer renderer,
+			EuclidianView3D view3d) {
+		tmpMatrix.setOrigin(view3d.getCursorMatrix().getOrigin());
+		renderer.setMatrix(tmpMatrix);
+		renderer.drawCursorDisableLighting(PlotterCursor.TYPE_SPHERE);
+	}
 }
