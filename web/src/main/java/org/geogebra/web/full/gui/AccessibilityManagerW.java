@@ -456,8 +456,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private boolean isPlayVisible(int viewID) {
+		EuclidianDockPanelWAbstract panel = getEuclidianPanel(viewID);
 		return app.getKernel().needToShowAnimationButton()
-				&& getEuclidianPanel(viewID).getEuclidianView()
+				&& panel != null && panel.getEuclidianView()
 						.drawPlayButtonInThisView();
 	}
 
