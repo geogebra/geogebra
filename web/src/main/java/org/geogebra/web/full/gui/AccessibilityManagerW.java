@@ -105,7 +105,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private void previousFromSpeechRecognition(int viewID) {
 		EuclidianDockPanelWAbstract dp = getEuclidianPanel(viewID);
 		if (dp != null) {
-			focusZoom(false, viewID);
+			focusZoomPanel(false, viewID);
 		} else {
 			focusLastGeo();
 		}
@@ -117,9 +117,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private void focusLastZoomOrSpeech(int prevID) {
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
-			focusNextSpeechRec(prevID);
+			if (!focusSpeechRec(prevID)) {
+				focusLastGeo();
+			}
 		} else {
-			focusZoom(false, prevID);
+			if (!focusZoomPanel(false, prevID)) {
+				focusLastGeo();
+			}
 		}
 	}
 
@@ -129,9 +133,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private void nextFromZoomPanel(int viewID) {
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
-			focusNextSpeechRec(viewID);
+			focusSpeechRec(viewID);
 		} else {
-			if (!focusZoomPanel(nextID(viewID))) {
+			if (!focusZoomPanel(true, nextID(viewID))) {
 				focusFirstElement();
 			}
 		}
@@ -169,7 +173,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromSpeechRecognitionPanel(int viewId) {
-		if (focusZoomPanel(nextID(viewId))) {
+		if (focusZoomPanel(true, nextID(viewId))) {
 			return;
 		}
 
@@ -180,21 +184,27 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		focusFirstWidget();
 	}
 
-	private void focusNextSpeechRec(int viewID) {
+	private boolean focusSpeechRec(int viewID) {
 		EuclidianDockPanelWAbstract dp = getEuclidianPanel(viewID);
 		if (dp != null) {
 			dp.focusSpeechRecBtn();
+			return true;
 		}
+		return false;
 	}
 
-	private boolean focusZoomPanel(int viewID) {
+	private boolean focusZoomPanel(boolean first, int viewID) {
 		EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(
 				getEuclidianPanel(viewID));
-			if (ev != null) {
-				setTabOverGeos(false);
+		if (ev != null) {
+			setTabOverGeos(false);
+			if (first) {
 				ev.focusNextGUIElement();
-				return true;
+			} else {
+				ev.focusLastZoomButton();
 			}
+			return true;
+		}
 
 		return false;
 	}
@@ -243,7 +253,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return;
 		}
 
-		focusZoom(true, nextID(-1));
+		focusZoomPanel(true, nextID(-1));
 	}
 
 	private void previousFromZoomPanel(int viewID) {
@@ -260,9 +270,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (prevView == -1) {
 			focusLastGeo();
 		} else if (app.has(Feature.SPEECH_RECOGNITION)) {
-			focusNextSpeechRec(prevView);
+			focusSpeechRec(prevView);
 		} else {
-			focusZoom(false, prevView);
+			focusZoomPanel(false, prevView);
 		}
 	}
 
@@ -272,7 +282,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (source.getTabIndex() == GUITabs.SETTINGS) {
-			focusZoom(true, nextID(-1));
+			focusZoomPanel(true, nextID(-1));
 		}
 	}
 
@@ -283,20 +293,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 		if (source.getTabIndex() == GUITabs.MENU) {
 			if (!focusInput(false)) {
-				focusZoom(false, prevID(-1));
+				focusZoomPanel(false, prevID(-1));
 			}
-		}
-	}
-
-	private void focusZoom(boolean first, int viewID) {
-		EuclidianDockPanelWAbstract dp = getEuclidianPanel(viewID);
-		if (dp != null) {
-			if (first) {
-				dp.focusNextGUIElement();
-			} else {
-				dp.focusLastZoomButton();
-			}
-			setTabOverGeos(false);
 		}
 	}
 
@@ -448,7 +446,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private void exitGeosFromPlayButton() {
 		int firstViewId = nextID(-1);
 		setPlaySelectedIfVisible(false, firstViewId);
-		focusZoomPanel(firstViewId);
+		focusZoomPanel(true, firstViewId);
 		tabOverGeos = false;
 	}
 
@@ -554,7 +552,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void onEmptyConstuction(boolean forward) {
-		focusZoom(forward, forward ? nextID(-1) : prevID(-1));
+		focusZoomPanel(forward, forward ? nextID(-1) : prevID(-1));
 	}
 
 	@Override
@@ -586,7 +584,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			int viewID = nextID(-1);
 			focusPlay(viewID);
 			setTabOverGeos(false);
-			if (!focusZoomPanel(viewID)) {
+			if (!focusZoomPanel(true, viewID)) {
 				nextFromZoomPanel(viewID);
 			}
 			return true;
