@@ -180,11 +180,6 @@ public class InputZSpace3D extends Input3D {
 	}
 	
 	@Override
-	public boolean useInputDepthForHitting(){
-		return false;
-	}
-	
-	@Override
 	public boolean useMouseRobot(){
 		return true;
 	}

@@ -364,14 +364,6 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	/**
 	 * 
-	 * @return true if we use depth for hitting
-	 */
-	public boolean useInputDepthForHitting() {
-		return false;
-	}
-
-	/**
-	 * 
 	 * @return true for some 3D stereo devices
 	 */
 	public boolean useOnlyProjectionGlasses() {

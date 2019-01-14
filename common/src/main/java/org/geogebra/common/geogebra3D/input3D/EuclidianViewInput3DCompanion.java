@@ -94,16 +94,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		// use a 3D mouse position
 		mouse3DScreenPosition = input3D.getMouse3DPosition();
 
-		if (input3D.useInputDepthForHitting()) {
-			mouse3DScenePosition.set(mouse3DScreenPosition);
-			getView().toSceneCoords3D(mouse3DScenePosition);
-			for (int i = 1; i <= 3; i++) {
-				transparentMouseCursorMatrix.set(i, i,
-						1 / getView().getScale());
-			}
-			transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
-		}
-
 		if (input3D.useCompletingDelay()) {
 			if (drawCompletingCursor(renderer1)) {
 				return;
@@ -238,31 +228,12 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	@Override
 	public void drawTransp(Renderer renderer1) {
-
-		// sphere for mouse cursor
-		if (input3D.useInputDepthForHitting()
-				&& mouse3DScreenPosition != null) {
-			renderer1.setMatrix(transparentMouseCursorMatrix);
-			if (getView()
-					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_FREE) {
-				renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);
-			} else {
-				renderer1.drawCursor(PlotterCursor.TYPE_SPHERE_HIGHLIGHTED);
-			}
-		}
-
+		// do nothing
 	}
 
 	@Override
 	public void drawHiding(Renderer renderer1) {
-
-		// sphere for mouse cursor
-		if (input3D.useInputDepthForHitting()
-				&& mouse3DScreenPosition != null) {
-			renderer1.setMatrix(transparentMouseCursorMatrix);
-			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);
-		}
-
+		// do nothing
 	}
 
 	@Override
@@ -980,11 +951,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	@Override
 	public boolean wantsStereo() {
 		return input3D.wantsStereo();
-	}
-
-	@Override
-	public boolean useInputDepthForHitting() {
-		return input3D.useInputDepthForHitting();
 	}
 
 	@Override

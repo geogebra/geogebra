@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
@@ -40,12 +39,7 @@ public abstract class RendererWithImpl extends Renderer
 	 */
 	public RendererWithImpl(EuclidianView3D view, RendererType type) {
 		super(view, type);
-
-		if (view3D.getCompanion().useInputDepthForHitting()) {
-			hitting = new HittingSphere(view3D);
-		} else {
-			hitting = new Hitting(view3D);
-		}
+		hitting = new Hitting(view3D);
 	}
 
 	/**

@@ -184,12 +184,6 @@ abstract public class Input3D implements Input3DConstants {
 
 	/**
 	 * 
-	 * @return true if the input use depth for hitting
-	 */
-	abstract public boolean useInputDepthForHitting();
-
-	/**
-	 * 
 	 * @return true if the input use a robot to controll 2D mouse
 	 */
 	abstract public boolean useMouseRobot();

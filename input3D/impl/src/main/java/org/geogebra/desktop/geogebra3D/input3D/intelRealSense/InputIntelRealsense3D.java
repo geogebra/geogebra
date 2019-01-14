@@ -167,17 +167,10 @@ public class InputIntelRealsense3D extends Input3D {
 	}
 	
 	@Override
-	public boolean useInputDepthForHitting(){
-		return false;
-	}
-	
-	@Override
 	public boolean useMouseRobot(){
 		return false;
 	}
 
-
-	
 	@Override
 	public DeviceType getDeviceType(){
 		return DeviceType.HAND;
