@@ -50,8 +50,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private StationaryCoords stationaryCoords = new StationaryCoords();
 	private double zNearest = 4;
 
-	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4();
-
 	private Coords tmpCoords1 = new Coords(4);
 
 	final static protected float LONG_DELAY = 1500f;
