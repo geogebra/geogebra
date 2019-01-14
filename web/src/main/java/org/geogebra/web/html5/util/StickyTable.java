@@ -150,13 +150,16 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		reset();
 	}
 
-
 	/**
 	 * Called when user removes column.
+	 * 
+	 * @param column
+	 *            column index
 	 */
 	public void onColumnRemoved(int column) {
 		removeColumn(column);
 	}
+
 	/**
 	 * @param data
 	 *            to fill with.
@@ -300,6 +303,9 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		valuesTable.setVisibleRange(0, dataProvider.getList().size());
 	}
 
+	/**
+	 * Rebuild the UI
+	 */
 	protected void reset() {
 		TableUtils.clear(headerTable);
 		TableUtils.clear(valuesTable);

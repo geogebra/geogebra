@@ -31,6 +31,9 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	private boolean sciNote = false;
 	private DecimalFormat decimalFormat;
 
+	/**
+	 * Default scientific format
+	 */
 	public ScientificFormat() {
 
 	}
@@ -38,6 +41,13 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	/**
 	 * Sets the significant digits, maximum allowable width and number
 	 * formatting style (SciNote == true for Pure formatting).
+	 * 
+	 * @param sigDigit
+	 *            significant digits
+	 * @param maxWidth
+	 *            max width
+	 * @param sciNote
+	 *            whether to use scientific notation
 	 */
 	public ScientificFormat(int sigDigit, int maxWidth, boolean sciNote) {
 		setSigDigits(sigDigit);

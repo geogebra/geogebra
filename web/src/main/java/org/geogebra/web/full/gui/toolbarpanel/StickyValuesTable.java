@@ -403,7 +403,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 */
 	public static Element getHeaderElement(int column) {
 		// gives the (column+1)th element of the header row.
-		NodeList<Element> list = Dom.querySelectorAll(".header tr th:nth-child(" + (column + 1) + ") .cell");
+		NodeList<Element> list = Dom.querySelectorAll(
+				".header tr th:nth-child(" + (column + 1) + ") .cell");
 		return list != null ? list.getItem(0) : null;
 	}
 }
