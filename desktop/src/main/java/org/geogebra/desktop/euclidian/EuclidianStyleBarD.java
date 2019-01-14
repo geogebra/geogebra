@@ -718,7 +718,7 @@ public class EuclidianStyleBarD extends JToolBar
 		};
 
 		btnLineStyle.getMySlider().setMinimum(1);
-		btnLineStyle.getMySlider().setMaximum(13);
+		btnLineStyle.getMySlider().setMaximum(GeoElement.MAX_LINE_WIDTH);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
@@ -802,7 +802,8 @@ public class EuclidianStyleBarD extends JToolBar
 			 */
 		};
 		btnPointStyle.getMySlider().setMinimum(1);
-		btnPointStyle.getMySlider().setMaximum(9);
+		btnPointStyle.getMySlider()
+				.setMaximum(EuclidianStyleConstants.MAX_POINT_SIZE);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);

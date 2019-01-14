@@ -27,6 +27,11 @@ public class EuclidianStyleConstants {
 	public static final int DEFAULT_POINT_SIZE = 5;
 
 	/**
+	 * max size for points
+	 */
+	public static final int MAX_POINT_SIZE = 9;
+
+	/**
 	 * size for non-draggable points eg intersections
 	 */
 	public static final int DEFAULT_POINT_SIZE_DEPENDENT = 4;

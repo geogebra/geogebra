@@ -2243,7 +2243,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			model = new PointSizeModel(app);
 			model.setListener(this);
 
-			slider = new JSlider(1, 9);
+			slider = new JSlider(1, EuclidianStyleConstants.MAX_POINT_SIZE);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
