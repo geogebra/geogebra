@@ -160,7 +160,10 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	public void onColumnAdded() {
 		addColumn();
-		refreshData();
+
+		// Safest way to keep integrity at load.
+		// Note that CellTable is highly optimized so no heavy overload.
+		reset();
 	}
 
 
