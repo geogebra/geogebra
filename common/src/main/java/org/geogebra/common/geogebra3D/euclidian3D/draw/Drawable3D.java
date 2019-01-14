@@ -1025,15 +1025,16 @@ public abstract class Drawable3D extends DrawableND {
 
 		// check if one is transparent and the other not -- ONLY FOR DIFFERENT
 		// PICK ORDERS
-		if ((!this.isTransparent()) && (d.isTransparent())) {
-			// return -1;
-			if (checkPickOrder && this.getPickOrder() < d.getPickOrder()) {
-				return -1;
-			}
-		} else if ((this.isTransparent()) && (!d.isTransparent())) {
-			// return 1;
-			if (checkPickOrder && this.getPickOrder() > d.getPickOrder()) {
-				return 1;
+		if (getView3D().getEuclidianController()
+				.checkTransparencyForSortingDrawables()) {
+			if ((!this.isTransparent()) && (d.isTransparent())) {
+				if (checkPickOrder && this.getPickOrder() < d.getPickOrder()) {
+					return -1;
+				}
+			} else if ((this.isTransparent()) && (!d.isTransparent())) {
+				if (checkPickOrder && this.getPickOrder() > d.getPickOrder()) {
+					return 1;
+				}
 			}
 		}
 

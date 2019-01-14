@@ -4990,6 +4990,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
+	 * 
+	 * @return true if we check transparency (of polygons, planes, etc.) for
+	 *         sorting drawables
+	 */
+	public boolean checkTransparencyForSortingDrawables() {
+		return true;
+	}
+
+	/**
 	 * Create new point or update an existing one from hits.
 	 * 
 	 * @param forPreviewable
@@ -5077,7 +5086,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 					if (region != null) {
 						// check if region is opaque
-						if (region
+						if (!checkTransparencyForSortingDrawables() || region
 								.getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE) {
 							hits.removeGeosAfter(region);
 						}

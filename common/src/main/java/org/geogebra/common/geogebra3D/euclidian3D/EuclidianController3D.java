@@ -4450,4 +4450,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	    super.wrapMouseEntered();
     }
 
+	@Override
+	public boolean checkTransparencyForSortingDrawables() {
+		return !(view3D.isAREnabled() && isCurrentModeForCreatingPoint());
+	}
+
 }
