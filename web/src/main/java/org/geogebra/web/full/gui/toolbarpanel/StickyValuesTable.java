@@ -91,13 +91,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 * @param view to feed table with data.
 	 */
 	public StickyValuesTable(AppW app, TableValuesView view) {
-		super();
 		this.app = app;
 		this.view = view;
 		this.model = view.getTableValuesModel();
 		this.dimensions = view.getTableValuesDimensions();
 		model.registerListener(this);
-		build();
+		reset();
 	}
 
 	@Override
@@ -361,7 +360,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
-		onColumnAdded();
+		addColumn(column);
 	}
 
 	@Override

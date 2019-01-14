@@ -63,21 +63,13 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		add(valueScroller);
 		addStyleName("mainScrollPanel");
 		valuesTable.setVisible(true);
-
+		createDataProvider();
 	}
 
 	/**
 	 * Sync header sizes with content column widths
 	 */
 	protected abstract void syncHeaderSizes();
-
-	/**
-	 * build and fill table with data.
-	 */
-	protected void build() {
-		createDataProvider();
-		addCells();
-	}
 
 	/**
 	 * Add initial cells here.
@@ -122,18 +114,10 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		headerScroller.setHorizontalScrollPosition(scrollPosition);
 	}
 
-	/**
-	 *
-	 * @return data of all rows
-	 */
-	protected List<T> getRows() {
-		return dataProvider.getList();
-	}
-
 	private void createDataProvider() {
 		dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(valuesTable);
-		fillValues(dataProvider.getList());
+
 	}
 
 	/**
@@ -187,15 +171,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 			Node buttonParent = el.getParentNode().getParentNode();
 			toggleButtonClick(buttonParent.getParentNode(), el);
 		}
-	}
-
-	/**
-	 * Clears all data.
-	 */
-	protected void removeAll(int column) {
-		headerTable.removeColumn(column);
-		valuesTable.removeColumn(column);
-		refresh();
 	}
 
 	/**
@@ -328,6 +303,8 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	protected void reset() {
 		TableUtils.clear(headerTable);
 		TableUtils.clear(valuesTable);
-		build();
+		addCells();
+		fillValues(dataProvider.getList());
+		refreshVisibleRange();
 	}
 }
