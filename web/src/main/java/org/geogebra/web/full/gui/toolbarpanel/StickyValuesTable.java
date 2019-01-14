@@ -129,6 +129,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
+		if (model.getColumnCount() < 2) {
+			// quit now, otherwise 5 empty rows will be initialized
+			return;
+		}
 		for (int row = 0; row < model.getRowCount(); row++) {
 			rows.add(new TVRowData(row, model));
 		}
