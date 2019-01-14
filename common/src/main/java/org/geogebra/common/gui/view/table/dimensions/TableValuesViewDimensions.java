@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 public class TableValuesViewDimensions implements TableValuesDimensions, TableValuesListener {
 
 	private static final int MAX_WIDTH = 280;
-    private static final int PADDING = 16;
+	private static final int PADDING = 12;
 
     private AwtFactory factory;
     private GFontRenderContext context;
@@ -107,7 +107,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
 	/**
-	 * 
+	 *
 	 * @param column
 	 *            to get the width.
 	 * @return the calculated width.

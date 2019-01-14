@@ -4,7 +4,7 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 
 /**
  * Data for building sticky table.
- * 
+ *
  * @author latzg
  *
  */
@@ -14,7 +14,7 @@ public class TVRowData {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param row
 	 *            to represent
 	 * @param model
@@ -43,6 +43,13 @@ public class TVRowData {
 			return model.getCellAt(row, col);
 		}
 		return "";
+	}
+
+	/**
+	 * @return the row.
+	 */
+	public int getRow() {
+		return row;
 	}
 }
 

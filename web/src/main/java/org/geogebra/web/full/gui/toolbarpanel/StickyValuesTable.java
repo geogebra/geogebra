@@ -40,10 +40,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
-	private static final int TABLE_HEADER_HEIGHT = 40;
 	private static final int X_LEFT_PADDING = 16;
 	private static final int MIN_COLUMN_WIDTH = 72;
-	private static final int STRICT_ROW_HEIGHT = 40;
 
 	/** Template to create a cell */
 	static final CellTemplates TEMPLATES = GWT.create(CellTemplates.class);
@@ -142,7 +140,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		MyToggleButtonW btn = new MyToggleButtonW(getMoreImage());
 		p.add(btn);
 		SafeHtml content = SafeHtmlUtils.fromTrustedString(p.getElement().getInnerHTML());
-		return makeCell(content, getColumnWidth(dimensions, col), TABLE_HEADER_HEIGHT);
+		return makeCell(content, getColumnWidth(dimensions, col), dimensions.getHeaderHeight());
 	}
 
 	/**
@@ -210,7 +208,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 				boolean empty = "".equals(valStr);
 				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
 				int width = empty ? 0 : getColumnWidth(dimensions, col);
-				int height = empty ? 0 : STRICT_ROW_HEIGHT;
+				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
 				return makeCell(value, width, height);
 			}
 		};
