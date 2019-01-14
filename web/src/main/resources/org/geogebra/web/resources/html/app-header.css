@@ -312,6 +312,10 @@ svg.icon.left {
     float: right;
 }
 
+.GeoGebraFrame .undoBtnScientific {
+    margin-right: 12px;
+}
+
 .GeoGebraFrame .undoRedoCntScientific {
     margin: 6px;
     float: left;

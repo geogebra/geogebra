@@ -20,6 +20,7 @@ class HeaderBuilder {
 	private static final String MENU_BUTTON_STYLE = "menuBtnScientific";
 	private static final String SETTINGS_BUTTON_STYLE = "settingsBtnScientific";
 	private static final String UNDO_REDO_CNT_STYLE = "undoRedoCntScientific";
+	private static final String UNDO_BTN_STYLE = "undoBtnScientific";
 
 	private Panel header;
 	private AppW app;
@@ -62,7 +63,8 @@ class HeaderBuilder {
 	}
 
 	private void styleAndAddSettingsButton() {
-		StandardButton settingsButton = createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.gear());
+		StandardButton settingsButton =
+				createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.gear());
 		settingsButton.setTitleWithLocalizationKey("Settings");
 		addStylesTo(settingsButton, FLAT_BUTTON_STYLE, SETTINGS_BUTTON_STYLE);
 		header.add(settingsButton);
@@ -77,14 +79,16 @@ class HeaderBuilder {
 	}
 
 	private void styleAndAddUndoButtonToContainer(Panel container) {
-		StandardButton undoButton = createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.undo_black());
+		StandardButton undoButton =
+				createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.undo_black());
 		undoButton.setTitleWithLocalizationKey("Undo");
-		undoButton.addStyleName(FLAT_BUTTON_STYLE);
+		addStylesTo(undoButton, FLAT_BUTTON_STYLE, UNDO_BTN_STYLE);
 		container.add(undoButton);
 	}
 
 	private void styleAndAddRedoButtonToContainer(Panel container) {
-		StandardButton redoButton = createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.redo_black());
+		StandardButton redoButton =
+				createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.redo_black());
 		redoButton.setTitleWithLocalizationKey("Redo");
 		redoButton.addStyleName(FLAT_BUTTON_STYLE);
 		container.add(redoButton);
