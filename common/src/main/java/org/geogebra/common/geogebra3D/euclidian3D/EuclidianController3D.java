@@ -695,6 +695,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		point3D.setMoveMode(sourcePoint.getMoveMode());
 		point3D.setPointSize(sourcePoint.getPointSize());
+		point3D.setLayer(sourcePoint.getLayer());
 	}
 
 	/** put intersectionPoint coordinates in point */

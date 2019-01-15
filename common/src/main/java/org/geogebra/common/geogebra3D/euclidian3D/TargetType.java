@@ -75,7 +75,10 @@ public enum TargetType {
 	POINT_ALREADY_CANNOT_MOVE_TOOL {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			drawSphere(renderer, view3d);
+		    // avoid z-fighting
+            renderer.setLayer(view3d.getCursor3D().getLayer() + 1);
+            drawSphere(renderer, view3d);
+            renderer.setLayer(Renderer.LAYER_DEFAULT);
 		}
 	},
 	/** target free point (3D input devices) */

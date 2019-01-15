@@ -2459,8 +2459,8 @@ public abstract class EuclidianView3D extends EuclidianView
 					cursorMatrix.setOrigin(
 							getCursor3D().getDrawingMatrix().getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());
-					// makes it just a bit bigger to avoid z fighting
-					t = (getCursor3D().getPointSize() + 0.5)
+					t = (getCursor3D().getPointSize() + EuclidianStyleConstants
+                            .PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY)
 							* DrawPoint3D.DRAW_POINT_FACTOR;
 					cursorMatrix.getVx().setMul(Coords.VX, t);
 					cursorMatrix.getVy().setMul(Coords.VY, t);

@@ -41,6 +41,11 @@ public class EuclidianStyleConstants {
 	 */
 	public static final int PREVIEW_POINT_ENLARGE_SIZE_ON_PATH = 3;
 
+    /**
+     * enlarge preview point size when already
+     */
+    public static final int PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY = 1;
+
 	/**
 	 * preview point size when free point
 	 */
