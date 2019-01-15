@@ -3942,6 +3942,7 @@ public abstract class EuclidianController3D extends EuclidianController {
         // for some modes, simulate mouse enter / mouse exit to show 3D cursor
 		if (mode == EuclidianConstants.MODE_MOVE
 				&& (ms == ModeSetter.TOOLBAR || ms == ModeSetter.DOCK_PANEL)) {
+		    view3D.updateMatrixForCursor3D();
             view3D.mouseEntered();
             scheduleMouseExit();
         }
