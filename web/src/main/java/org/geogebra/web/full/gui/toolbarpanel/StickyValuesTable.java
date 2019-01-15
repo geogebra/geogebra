@@ -94,8 +94,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 *            the deleted column number.
 		 * @param elem
 		 *            the corresponding HTML element.
-		 * @param cb
-		 *            Callback to run after delete transition.
 		 */
 		ColumnDelete(int column, Element elem) {
 			this.column = column;
@@ -158,7 +156,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			rows.add(new TVRowData(row, model));
 		}
 	}
-
 
 	/**
 	 * Makes a cell as SafeHtml.
@@ -247,8 +244,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 * @param column
 	 *            column to delete.
-	 * @param cb
-	 *            to run on transition end.
 	 */
 	public void deleteColumn(int column) {
 		int col = column;
@@ -256,6 +251,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		Element header = getHeaderElement(col);
 
 		if (elems == null || elems.getLength() == 0 || header == null) {
+			removeColumn(column);
 			return;
 		}
 
