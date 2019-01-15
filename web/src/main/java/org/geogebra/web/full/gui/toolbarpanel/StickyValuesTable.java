@@ -45,11 +45,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	/** Template to create a cell */
 	static final CellTemplates TEMPLATES = GWT.create(CellTemplates.class);
-	private TableValuesModel model;
+	private TableValuesModel tableModel;
 	private TableValuesDimensions dimensions;
 	private TableValuesView view;
 	private AppW app;
 	private HeaderCell headerCell = new HeaderCell();
+	private boolean transitioning;
 
 	private class HeaderCell {
 		private String value;
@@ -113,9 +114,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public StickyValuesTable(AppW app, TableValuesView view) {
 		this.app = app;
 		this.view = view;
-		this.model = view.getTableValuesModel();
+		this.tableModel = view.getTableValuesModel();
 		this.dimensions = view.getTableValuesDimensions();
-		model.registerListener(this);
+		tableModel.registerListener(this);
 		reset();
 	}
 
@@ -127,19 +128,19 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	protected void addCells() {
-		for (int column = 0; column < model.getColumnCount(); column++) {
+		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
 	}
 
 	@Override
 	protected void addColumn() {
-		addColumn(model.getColumnCount() - 1);
+		addColumn(tableModel.getColumnCount() - 1);
 	}
 
 	private void addColumn(int column) {
 		Column<TVRowData, ?> colHeader = getColumnName();
-		getHeaderTable().addColumn(colHeader, headerCell.getValue(model.getHeaderAt(column),
+		getHeaderTable().addColumn(colHeader, headerCell.getValue(tableModel.getHeaderAt(column),
 				getColumnWidth(dimensions, column), dimensions.getHeaderHeight()));
 		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
 		getValuesTable().addColumn(colValue);
@@ -148,12 +149,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
-		if (model.getColumnCount() < 2) {
+		if (tableModel.getColumnCount() < 2) {
 			// quit now, otherwise 5 empty rows will be initialized
 			return;
 		}
-		for (int row = 0; row < model.getRowCount(); row++) {
-			rows.add(new TVRowData(row, model));
+		for (int row = 0; row < tableModel.getRowCount(); row++) {
+			rows.add(new TVRowData(row, tableModel));
 		}
 	}
 
@@ -246,6 +247,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *            column to delete.
 	 */
 	public void deleteColumn(int column) {
+		if (transitioning) {
+			// multiple simultaneous deletions: reset the whole UI
+			transitioning = false;
+			reset();
+			syncHeaderSizes();
+		}
 		int col = column;
 		NodeList<Element> elems = getColumnElements(col);
 		Element header = getHeaderElement(col);
@@ -254,7 +261,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			removeColumn(column);
 			return;
 		}
-
+		transitioning = true;
 		int tableWidth = getValuesTable().getOffsetWidth() - header.getOffsetWidth();
 
 		header.addClassName("delete");
@@ -280,6 +287,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 */
 	void onDeleteColumn(int column, Element header) {
+		transitioning = false;
 		if (!isLastColumnDeleted()) {
 			removeColumn(column);
 		}
@@ -322,7 +330,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	protected void syncHeaderSizes() {
 		int sumWidth = 0;
-		for (int column = 0; column < model.getColumnCount(); column++) {
+		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			int colWidth = getColumnWidth(dimensions, column);
 			getHeaderTable().setColumnWidth(column > 0 ? column - 1 : 0, colWidth + "px");
 			sumWidth += colWidth;
