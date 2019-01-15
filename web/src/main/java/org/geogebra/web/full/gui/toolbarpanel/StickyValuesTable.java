@@ -373,7 +373,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		reset();
+		// nou used
 	}
 
 	/**
