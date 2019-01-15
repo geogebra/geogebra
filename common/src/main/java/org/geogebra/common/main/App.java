@@ -4124,7 +4124,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-266 - only for testing */
 		case DROPDOWN_COMPONENT:
-			return prerelease;
+			return canary;
 
        // **********************************************************************
        // G3D START
