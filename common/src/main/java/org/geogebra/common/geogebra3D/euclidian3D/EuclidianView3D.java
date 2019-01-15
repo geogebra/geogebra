@@ -4926,4 +4926,16 @@ public abstract class EuclidianView3D extends EuclidianView
 		setCursor3DVisible(flag);
 	}
 
+	@Override
+	public void showFocusOn(GeoElement geo) {
+		if (geo.isGeoPoint() && geo.isVisibleInView3D()
+				&& geo.isEuclidianVisible()) {
+			euclidianController.createNewPoint((GeoPointND) geo);
+			updateMatrixForCursor3D();
+			setCursor3DVisible(true);
+		} else {
+			setCursor3DVisible(false);
+		}
+	}
+
 }

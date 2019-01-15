@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * 
@@ -270,5 +271,13 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @return xOy plane tilting
 	 */
 	double getAngleB();
+
+	/**
+	 * show focus on geo (if something needs to be done)
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void showFocusOn(GeoElement geo);
 
 }

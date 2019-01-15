@@ -2046,7 +2046,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param sourcePoint
 	 *            original point
 	 */
-	protected void createNewPoint(GeoPointND sourcePoint) {
+	public void createNewPoint(GeoPointND sourcePoint) {
 		// 3D
 	}
 

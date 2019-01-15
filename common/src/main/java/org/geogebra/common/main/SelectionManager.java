@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
@@ -772,6 +773,13 @@ public class SelectionManager {
 			view.requestFocus();
 		}
 		
+		if (app1.isEuclidianView3Dinited()) {
+			EuclidianView3DInterface view3d = app1.getEuclidianView3D();
+			if (view3d.isShowing()) {
+				view3d.showFocusOn(geo);
+			}
+		}
+
 	}
 
 	private void filterGeosForView(TreeSet<GeoElement> tree) {

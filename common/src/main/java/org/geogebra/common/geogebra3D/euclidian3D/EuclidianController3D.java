@@ -679,7 +679,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/** put sourcePoint coordinates in point */
 	@Override
-	protected void createNewPoint(GeoPointND sourcePoint) {
+	public void createNewPoint(GeoPointND sourcePoint) {
 		GeoPoint3D point3D = view3D.getCursor3D();
 
 		// set coords
