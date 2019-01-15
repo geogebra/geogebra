@@ -49,7 +49,7 @@ public class MenuToggleButton extends MyToggleButton
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				appW.toggleMenu();
+				toggleMenu();
 			}
 		});
 		addKeyDownHandler(this);
@@ -61,6 +61,13 @@ public class MenuToggleButton extends MyToggleButton
 		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
 			return;
 		}
+		toggleMenu();
+	}
+
+	/**
+	 * Toggle open/closed state of the menu
+	 */
+	protected void toggleMenu() {
 		appW.toggleMenu();
 	}
 

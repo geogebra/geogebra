@@ -52,7 +52,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
 
-	private class HeaderCell {
+	private static class HeaderCell {
 		private String value;
 
 		/**
@@ -68,9 +68,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 
 		/**
+		 * @param content
+		 *            cell text content
+		 * @param width
+		 *            width in pixels
+		 * @param height
+		 *            height in pixels
+		 * @return cell HTML markup
 		 *
-		 * @param column
-		 * @return
 		 */
 		SafeHtml getValue(String content, int width, int height) {
 			return makeCell(
