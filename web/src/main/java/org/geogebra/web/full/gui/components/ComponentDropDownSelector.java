@@ -13,14 +13,25 @@ import org.geogebra.web.html5.main.AppW;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kriszta
+ *
+ *         dropdown material design component
+ *
+ */
+
 public class ComponentDropDownSelector extends FlowPanel {
 
     private Label titleLabel;
     private Label selectedOptionLabel;
     private GPopupMenuW dropDownMenu;
     private List<AriaMenuItem> dropDownElementsList;
-    private DropDownSelectionListener selectionListener;
+    private DropDownSelectionCallback selectionCallback;
 
+    /**
+     *
+     * @param app AppW
+     */
     public ComponentDropDownSelector(AppW app) {
         buildGui(app);
     }
@@ -72,14 +83,29 @@ public class ComponentDropDownSelector extends FlowPanel {
         }
     }
 
+    /**
+     * set the title of the dropdown in the preview view
+     * @param title
+     *      the localized title which is displayed above the selected option
+     */
     public void setTitleText(String title) {
         titleLabel.setText(title);
     }
 
+    /**
+     * set the selected option in the preview view
+     * @param selected
+     *      index of the selected item from the dropdown list
+     */
     public void setSelected(int selected) {
         selectedOptionLabel.setText(dropDownElementsList.get(selected).getElement().getInnerText());
     }
 
+    /**
+     * Set the elements of the dropdown list
+     * @param dropDownList
+     *      List of strings which will be shown in the dropdown list
+     */
     public void setElements(final List<String> dropDownList) {
         dropDownElementsList = new ArrayList<>();
 
@@ -91,8 +117,8 @@ public class ComponentDropDownSelector extends FlowPanel {
                         @Override
                         public void execute() {
                             setSelected(currentIndex);
-                            if (selectionListener != null) {
-                                selectionListener.onSelectionChanged(currentIndex);
+                            if (selectionCallback != null) {
+                                selectionCallback.onSelectionChanged(currentIndex);
                             }
                         }
                     });
@@ -103,11 +129,17 @@ public class ComponentDropDownSelector extends FlowPanel {
         setupDropDownMenu(dropDownElementsList);
     }
 
-    public void setDropDownSelectionListener(DropDownSelectionListener listener) {
-        selectionListener = listener;
+    /**
+     * set itemSelected callback
+     * @param callback
+     *      which will be called after an item was selected from the dropdown
+     *
+     */
+    public void setDropDownSelectionCallback(DropDownSelectionCallback callback) {
+        selectionCallback = callback;
     }
 
-    public interface DropDownSelectionListener {
+    public interface DropDownSelectionCallback {
         void onSelectionChanged(int index);
     }
 }
