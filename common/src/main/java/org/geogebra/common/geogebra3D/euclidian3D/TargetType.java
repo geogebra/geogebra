@@ -82,8 +82,7 @@ public enum TargetType {
 	POINT_FREE {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			renderer.setMatrix(view3d.getCursorMatrix());
-			view3d.drawFreeCursor(renderer);
+            drawSphere(renderer, view3d);
 		}
 	},
 	/** target path to select */
