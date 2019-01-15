@@ -318,7 +318,7 @@ public enum TargetType {
 	 * 
 	 * @param renderer
 	 *            GL renderer
-	 * @param view3D
+	 * @param view3d
 	 *            3D view
 	 */
 	abstract public void drawTarget(Renderer renderer, EuclidianView3D view3d);
