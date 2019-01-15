@@ -39,6 +39,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
+	private TableValuesPointsImpl points;
 
     @Before
     public void setupTest() {
@@ -307,13 +308,17 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(fn3);
 		hideColumn(fn2);
 		view.showColumn(fn2);
-		getApp().setXML(getApp().getXML(), true);
-		GeoFunction fnReload = lookupFunction("f");
-		GeoFunction fn2Reload = lookupFunction("f2");
-		GeoFunction fn3Reload = lookupFunction("f3");
+		reload();
+		GeoEvaluatable fnReload = lookupFunction("f");
+		GeoEvaluatable fn2Reload = lookupFunction("f2");
+		GeoEvaluatable fn3Reload = lookupFunction("f3");
 		Assert.assertEquals(1, fnReload.getTableColumn());
 		Assert.assertEquals(3, fn2Reload.getTableColumn());
 		Assert.assertEquals(2, fn3Reload.getTableColumn());
+	}
+
+	private void reload() {
+		getApp().setXML(getApp().getXML(), true);
 	}
 
 	@Test
@@ -343,13 +348,13 @@ public class TableValuesViewTest extends BaseUnitTest {
 		Assert.assertEquals(-1, view.getColumn(fn));
 		Assert.assertEquals(2, view.getValuesMax(), .1);
 		getApp().setXML(xml, true);
-		GeoFunction fnReload = lookupFunction("f");
+		GeoEvaluatable fnReload = lookupFunction("f");
 		Assert.assertEquals(10, view.getValuesMax(), .1);
 		Assert.assertEquals(1, view.getColumn(fnReload));
 	}
 
-	private GeoFunction lookupFunction(String string) {
-		return (GeoFunction) getKernel().lookupLabel(string);
+	private GeoEvaluatable lookupFunction(String string) {
+		return (GeoEvaluatable) getKernel().lookupLabel(string);
 	}
 
 	@Test
@@ -368,7 +373,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		getKernel().clearConstruction(true);
 		Assert.assertEquals(-1, view.getColumn(fn));
 		getApp().setXML(xml, true);
-		GeoFunction fnReload = lookupFunction("f");
+		GeoEvaluatable fnReload = lookupFunction("f");
 
 		Assert.assertEquals(2, view.getColumn(fnReload));
 	}
@@ -387,7 +392,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		getKernel().clearConstruction(true);
 		getApp().setXML(xml, true);
-		GeoFunction fnReload = lookupFunction("f");
+		GeoEvaluatable fnReload = lookupFunction("f");
 
 		Assert.assertEquals(false, fnReload.isPointsVisible());
 	}
@@ -424,7 +429,7 @@ public class TableValuesViewTest extends BaseUnitTest {
     }
 
 	private TableValuesPoints setupPointListener() {
-		TableValuesPoints points = new TableValuesPointsImpl(getConstruction(),
+		points = new TableValuesPointsImpl(getConstruction(),
 				model);
 		model.registerListener(points);
 		return points;
@@ -556,4 +561,23 @@ public class TableValuesViewTest extends BaseUnitTest {
         Assert.assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
         Assert.assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
     }
+
+	@Test
+	public void reloadShouldPreservePointOrder() {
+		GeoLine[] lines = createLines(3);
+		setValuesSafe(-5, 5, 2);
+		setupPointListener();
+		showColumn(lines[1]);
+		showColumn(lines[0]);
+		showColumn(lines[2]);
+		lines[1].setPointsVisible(false);
+		reload();
+		Assert.assertEquals(false, points.arePointsVisible(1));
+		Assert.assertEquals(true, points.arePointsVisible(2));
+		Assert.assertEquals(true, points.arePointsVisible(3));
+		// remove the first column: shift flags to the left
+		lookupFunction(lines[1].getLabelSimple()).remove();
+		Assert.assertEquals(true, points.arePointsVisible(1));
+		Assert.assertEquals(true, points.arePointsVisible(2));
+	}
 }

@@ -49,6 +49,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		points.add(column - 1, null);
 		addPointsToList(model, column);
 	}
 
