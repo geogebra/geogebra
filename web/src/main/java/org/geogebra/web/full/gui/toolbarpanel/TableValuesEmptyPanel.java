@@ -68,18 +68,4 @@ public class TableValuesEmptyPanel extends FlowPanel
 		emptyLabel.setText(loc.getMenu("TableValuesEmptyTitle"));
 		emptyInfo.setText(loc.getMenu("TableValuesEmptyDescription"));
 	}
-
-	/**
-	 * Show empty panel
-	 */
-	void show() {
-		removeStyleName("hidden");
-	}
-
-	/**
-	 * Hide empty panel
-	 */
-	void hide() {
-		addStyleName("hidden");
-	}
 }

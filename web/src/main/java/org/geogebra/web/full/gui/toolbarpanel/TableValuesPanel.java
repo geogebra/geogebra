@@ -9,6 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * HTML representation of the Table of Values View.
@@ -41,16 +42,16 @@ public class TableValuesPanel extends FlowPanel
 	}
 
 	private void showEmptyView() {
-		emptyPanel.show();
-		table.hide();
+		show(emptyPanel);
+		hide(table);
 		removeStyleName("tvTable");
 		addStyleName("emptyTablePanel");
 		addParentClassName("tableViewParent");
 	}
 
 	private void showTableView() {
-		emptyPanel.hide();
-		table.show();
+		hide(emptyPanel);
+		show(table);
 		addStyleName("tvTable");
 		removeParentClassName("tableViewParent");
 		removeStyleName("emptyTablePanel");
@@ -151,4 +152,13 @@ public class TableValuesPanel extends FlowPanel
 	public void scrollTo(GeoEvaluatable geo) {
 		table.scrollTo(geo);
 	}
+
+	private static void show(UIObject object) {
+		object.removeStyleName("hidden");
+	}
+
+	private static void hide(UIObject object) {
+		object.addStyleName("hidden");
+	}
+
 }

@@ -330,20 +330,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		setHeaderWidth(sumWidth);
 	}
 
-	/**
-	 * Shows table.
-	 */
-	void show() {
-		removeStyleName("hidden");
-	}
-
-	/**
-	 * Hides table.
-	 */
-	void hide() {
-		addStyleName("hidden");
-	}
-
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
