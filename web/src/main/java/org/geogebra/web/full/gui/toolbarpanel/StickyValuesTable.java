@@ -84,7 +84,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 */
 	private class ColumnDelete implements Runnable {
-		Runnable cb = null;
 		private int column = -1;
 		private Element elem;
 
@@ -98,15 +97,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 * @param cb
 		 *            Callback to run after delete transition.
 		 */
-		ColumnDelete(int column, Element elem, Runnable cb) {
+		ColumnDelete(int column, Element elem) {
 			this.column = column;
 			this.elem = elem;
-			this.cb = cb;
 		}
 
 		@Override
 		public void run() {
-			onDeleteColumn(column, elem, cb);
+			onDeleteColumn(column, elem);
 		}
 	}
 
@@ -252,7 +250,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 * @param cb
 	 *            to run on transition end.
 	 */
-	public void deleteColumn(int column, Runnable cb) {
+	public void deleteColumn(int column) {
 		int col = column;
 		NodeList<Element> elems = getColumnElements(col);
 		Element header = getHeaderElement(col);
@@ -264,9 +262,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		int tableWidth = getValuesTable().getOffsetWidth() - header.getOffsetWidth();
 
 		header.addClassName("delete");
-		if (cb != null) {
-			CSSEvents.runOnTransition(new ColumnDelete(col, header, cb), header, "delete");
-		}
+
+		CSSEvents.runOnTransition(new ColumnDelete(col, header), header,
+				"delete");
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
@@ -284,15 +282,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 * @param header
 	 *            The table header HTML element
 	 *
-	 * @param cb
-	 *            custom callback to run on column delete.
 	 */
-	void onDeleteColumn(int column, Element header, Runnable cb) {
-		if (isLastColumnDeleted()) {
-			if (cb != null) {
-				cb.run();
-			}
-		} else {
+	void onDeleteColumn(int column, Element header) {
+		if (!isLastColumnDeleted()) {
 			removeColumn(column);
 		}
 	}
@@ -359,7 +351,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		removeColumn(column);
+		deleteColumn(column);
 	}
 
 	@Override
