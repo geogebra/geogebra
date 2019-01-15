@@ -4929,7 +4929,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (geo.isGeoPoint() && geo.isVisibleInView3D()
 				&& geo.isEuclidianVisible()) {
 			euclidianController.createNewPoint((GeoPointND) geo);
-			getCursor3D().setMoveMode(GeoPointND.MOVE_MODE_XYZ);
+			if (geo.isGeoElement3D()) {
+				getCursor3D().setMoveMode(GeoPointND.MOVE_MODE_XYZ);
+			}
 			updateMatrixForCursor3D();
 		} else {
 			setCursor3DVisible(false);
