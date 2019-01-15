@@ -186,6 +186,8 @@ public abstract class EuclidianController3D extends EuclidianController {
     private SchedulerFactory.Scheduler schedulerForMouseExit;
     private ScheduledMouseExit mScheduledMouseExit;
 
+	private List<GeoElement> hitsForSingleIntersectionPoint;
+
 	/**
 	 * Store infos for intersection curve
 	 */
@@ -271,6 +273,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		xMinMax = new double[2];
 		yMinMax = new double[2];
 		zMinMax = new double[2];
+
+		hitsForSingleIntersectionPoint = new ArrayList<>();
 	}
 
 	@Override
@@ -747,50 +751,54 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 		}
 
-		GeoElement a = hits.get(0);
+		hitsForSingleIntersectionPoint.addAll(hits);
+
+		GeoElement a = hitsForSingleIntersectionPoint.get(0);
 
 		// remove planes containing a (when a is line, conic, or polygon --
 		// notice that a plane containing a line is ever after in hits order)
 
 		if (a.isGeoLine()) { // remove planes containing line a
-			while (hits.size() >= 2) {
-				if (hits.get(1).isGeoPlane() && AlgoIntersectCS1D2D
-						.getConfigLinePlane((GeoLineND) a, ((GeoCoordSys2D) hits
+			while (hitsForSingleIntersectionPoint.size() >= 2) {
+				if (hitsForSingleIntersectionPoint.get(1).isGeoPlane() && AlgoIntersectCS1D2D
+						.getConfigLinePlane((GeoLineND) a, ((GeoCoordSys2D) hitsForSingleIntersectionPoint
 								.get(1))) == ConfigLinePlane.CONTAINED) {
-					hits.remove(1);
+					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
 				}
 			}
 		} else if (a.isGeoConic()) { // remove planes containing conic a
-			while (hits.size() >= 2) {
-				if (hits.get(1).isGeoPlane() && AlgoIntersectPlanes
+			while (hitsForSingleIntersectionPoint.size() >= 2) {
+				if (hitsForSingleIntersectionPoint.get(1).isGeoPlane() && AlgoIntersectPlanes
 						.isIntersectionContained((((GeoConicND) a).getCoordSys()),
-								(((GeoCoordSys2D) hits.get(1))
+								(((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
 										.getCoordSys()))) {
-					hits.remove(1);
+					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
 				}
 			}
 		} else if (a.isGeoPolygon()) { // remove planes containing polygon a
-			while (hits.size() >= 2) {
-				if (hits.get(1) instanceof GeoCoordSys2D && AlgoIntersectPlanes
+			while (hitsForSingleIntersectionPoint.size() >= 2) {
+				if (hitsForSingleIntersectionPoint.get(1) instanceof GeoCoordSys2D && AlgoIntersectPlanes
 						.isIntersectionContained((((GeoPolygon) a).getCoordSys()),
-								(((GeoCoordSys2D) hits.get(1))
+								(((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
 										.getCoordSys()))) {
-					hits.remove(1);
+					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
 				}
 			}
 		}
 
-		if (hits.size() < 2) {
+		if (hitsForSingleIntersectionPoint.size() < 2) {
+			hitsForSingleIntersectionPoint.clear();
 			return null;
 		}
 
-		GeoElement b = hits.get(1);
+		GeoElement b = hitsForSingleIntersectionPoint.get(1);
+		hitsForSingleIntersectionPoint.clear();
 		singleIntersectionPoint = null;
 
 		boolean oldSilentMode = getKernel().isSilentMode();
