@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -291,6 +292,13 @@ public abstract class GlobalKeyDispatcher {
 		if (app.getActiveEuclidianView() != null) {
 			app.getActiveEuclidianView().getEuclidianController()
 					.onArrowKeyTyped();
+		}
+
+		if (app.isEuclidianView3Dinited()) {
+			EuclidianView3DInterface view3d = app.getEuclidianView3D();
+			if (view3d.isShowing()) {
+				view3d.setCursor3DVisible(false);
+			}
 		}
 
 		// nothing moved

@@ -280,4 +280,12 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public void showFocusOn(GeoElement geo);
 
+	/**
+	 * set 3D cursor visibility
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setCursor3DVisible(boolean flag);
+
 }

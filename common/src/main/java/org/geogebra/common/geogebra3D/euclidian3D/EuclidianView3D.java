@@ -2106,12 +2106,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		cursor3DVisible = true;
 	}
 
-	/**
-	 * set 3D cursor visibility
-	 * 
-	 * @param flag
-	 *            flag
-	 */
+	@Override
 	public void setCursor3DVisible(boolean flag) {
 		cursor3DVisible = flag;
 	}
@@ -4932,7 +4927,6 @@ public abstract class EuclidianView3D extends EuclidianView
 				&& geo.isEuclidianVisible()) {
 			euclidianController.createNewPoint((GeoPointND) geo);
 			updateMatrixForCursor3D();
-			setCursor3DVisible(true);
 		} else {
 			setCursor3DVisible(false);
 		}
