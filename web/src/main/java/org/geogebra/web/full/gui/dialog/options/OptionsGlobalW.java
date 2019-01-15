@@ -114,7 +114,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			selector.setTitleText(property.getName());
 			selector.setElements(Arrays.asList(property.getValues()));
 			selector.setSelected(property.getIndex());
-			selector.setDropDownSelectionListener(new ComponentDropDownSelector.DropDownSelectionListener() {
+			selector.setDropDownSelectionCallback(new ComponentDropDownSelector.DropDownSelectionCallback() {
 				@Override
 				public void onSelectionChanged(int index) {
 					property.setIndex(index);
