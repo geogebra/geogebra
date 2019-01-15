@@ -2749,6 +2749,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		case GeoPointND.MOVE_MODE_Z:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
 			break;
+		case GeoPointND.MOVE_MODE_XYZ:
+			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+			break;
 		default:
 			// draw nothing
 			break;
@@ -4926,6 +4929,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (geo.isGeoPoint() && geo.isVisibleInView3D()
 				&& geo.isEuclidianVisible()) {
 			euclidianController.createNewPoint((GeoPointND) geo);
+			getCursor3D().setMoveMode(GeoPointND.MOVE_MODE_XYZ);
 			updateMatrixForCursor3D();
 		} else {
 			setCursor3DVisible(false);

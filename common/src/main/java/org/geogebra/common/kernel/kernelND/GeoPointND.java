@@ -45,6 +45,8 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public static int MOVE_MODE_Z = 2;
 	/** use tool default: XY for move, Z for others */
 	public static int MOVE_MODE_TOOL_DEFAULT = 3;
+	/** can move in xyz directions */
+	public static int MOVE_MODE_XYZ = 4;
 
 	/** @return whether this point has changeable numbers as coordinates */
 	@Override
