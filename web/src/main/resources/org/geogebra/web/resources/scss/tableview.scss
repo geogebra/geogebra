@@ -1,6 +1,6 @@
 @import 'colors';
 $emptyHeight: 212px;
-$deleteTime: 1s;
+$deleteTime: 120ms;
 
 .GeoGebraFrame {
 	.tableViewParent {
@@ -65,6 +65,7 @@ $deleteTime: 1s;
 		overflow: hidden !important;
 		width: 0px !important;
 		margin-left: -81px !important;
+		visibility: hidden;
 	}
 
 	.tvTable {
