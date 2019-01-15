@@ -102,24 +102,25 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			addLabelingItem();
 			addFontItem();
 
-			if(app.has(Feature.DROPDOWN_COMPONENT)) {
+			if (app.has(Feature.DROPDOWN_COMPONENT)) {
 				addNewtDropDownElement();
 			}
 		}
 
-		private void addNewtDropDownElement(){
+		private void addNewtDropDownElement() {
 			final ComponentDropDownSelector selector = new ComponentDropDownSelector(app);
 
 			final EnumerableProperty property = new FontSizeProperty(app, app.getLocalization());
 			selector.setTitleText(property.getName());
 			selector.setElements(Arrays.asList(property.getValues()));
 			selector.setSelected(property.getIndex());
-			selector.setDropDownSelectionCallback(new ComponentDropDownSelector.DropDownSelectionCallback() {
-				@Override
-				public void onSelectionChanged(int index) {
-					property.setIndex(index);
-				}
-			});
+			selector.setDropDownSelectionCallback(
+					new ComponentDropDownSelector.DropDownSelectionCallback() {
+						@Override
+						public void onSelectionChanged(int index) {
+							property.setIndex(index);
+						}
+					});
 			optionsPanel.add(selector);
 		}
 
