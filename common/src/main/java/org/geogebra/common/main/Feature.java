@@ -323,9 +323,6 @@ public enum Feature {
 	/** APPS-31 */
 	SPECIAL_POINTS_IN_CONTEXT_MENU,
 
-	/** APPS-173 */
-	POINTER_EVENTS,
-
 	/** APPS-117 */
 	FIX_EQUATIONS_AND_FUNCTIONS,
 

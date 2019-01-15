@@ -59,7 +59,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Event;
 
 /**
  * Web version of Euclidian controller
@@ -366,9 +365,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void startCapture(AbstractEvent event) {
-		if (app != null && !app.has(Feature.POINTER_EVENTS)) {
-			Event.setCapture(((PointerEvent) event).getRelativeElement());
-		}
+		// removed
 	}
 
 	@Override
