@@ -32,6 +32,21 @@ public class EuclidianStyleConstants {
 	public static final int MAX_POINT_SIZE = 9;
 
 	/**
+	 * enlarge preview point size for intersection
+	 */
+	public static final int PREVIEW_POINT_ENLARGE_SIZE_FOR_INTERSECTION = 6;
+
+	/**
+	 * enlarge preview point size when on path
+	 */
+	public static final int PREVIEW_POINT_ENLARGE_SIZE_ON_PATH = 3;
+
+	/**
+	 * preview point size when free point
+	 */
+	public static final int PREVIEW_POINT_SIZE_WHEN_FREE = 4;
+
+	/**
 	 * size for non-draggable points eg intersections
 	 */
 	public static final int DEFAULT_POINT_SIZE_DEPENDENT = 4;

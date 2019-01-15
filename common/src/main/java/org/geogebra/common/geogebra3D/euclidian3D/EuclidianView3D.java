@@ -2122,7 +2122,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            intersecting object
 	 */
 	public void setIntersectionThickness(GeoElement a, GeoElement b) {
-		intersectionThickness = Math.max(a.getLineThickness(), b.getLineThickness()) + 6;
+		intersectionThickness = Math.max(a.getLineThickness(),
+				b.getLineThickness())
+				+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_FOR_INTERSECTION;
 	}
 
 	public int getIntersectionThickness() {
@@ -2387,7 +2389,15 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 			case PREVIEW_POINT_FREE:
 				// use default directions for the cross
-				cursorMatrix.setDiagonal3(1);
+				if (getEuclidianController().isCreatingPointAR()) {
+					t = EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
+							* DrawPoint3D.DRAW_POINT_FACTOR;
+					cursorMatrix.getVx().setMul(Coords.VX, t);
+					cursorMatrix.getVy().setMul(Coords.VY, t);
+					cursorMatrix.getVz().setMul(Coords.VZ, t);
+				} else {
+					cursorMatrix.setDiagonal3(1);
+				}
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
 				break;
@@ -2400,6 +2410,13 @@ public abstract class EuclidianView3D extends EuclidianView
 				CoordMatrix4x4.createOrthoToDirection(getCursor3D().getDrawingMatrix().getOrigin(),
 						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, cursorMatrix);
 				scaleXYZ(cursorMatrix.getOrigin());
+				if (getEuclidianController().isCreatingPointAR()) {
+					t = EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
+							* DrawPoint3D.DRAW_POINT_FACTOR;
+					cursorMatrix.getVx().mulInside3(t);
+					cursorMatrix.getVy().mulInside3(t);
+					cursorMatrix.getVz().mulInside3(t);
+				}
 				break;
 			case PREVIEW_POINT_PATH:
 			case PREVIEW_POINT_REGION_AS_PATH:
@@ -2411,9 +2428,17 @@ public abstract class EuclidianView3D extends EuclidianView
 				scaleXYZ(cursorNormal);
 				cursorNormal.normalize();
 				CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1, tmpCoords2, cursorMatrix);
-				t = 10 + path.getLineThickness();
-				cursorMatrix.getVy().mulInside3(t);
-				cursorMatrix.getVz().mulInside3(t);
+				if (getEuclidianController().isCreatingPointAR()) {
+					t = path.getLineThickness()
+							+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_ON_PATH;
+					cursorMatrix.getVx().mulInside3(t);
+					cursorMatrix.getVy().mulInside3(t);
+					cursorMatrix.getVz().mulInside3(t);
+				} else {
+					t = 10 + path.getLineThickness();
+					cursorMatrix.getVy().mulInside3(t);
+					cursorMatrix.getVz().mulInside3(t);
+				}
 				break;
 			case PREVIEW_POINT_DEPENDENT:
 				// use size of intersection
@@ -2426,43 +2451,59 @@ public abstract class EuclidianView3D extends EuclidianView
 				cursorMatrix.getVz().setMul(Coords.VZ, t);
 				break;
 			case PREVIEW_POINT_ALREADY:
-
-				if (getCursor3D().isPointOnPath()) {
-					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
-							.getMainDirection());
-					scaleXYZ(cursorNormal);
-					cursorNormal.normalize();
-
-					CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
-							tmpCoords2, tmpMatrix4x4);
-
-					cursorMatrix.setVx(tmpMatrix4x4.getVy());
-					cursorMatrix.setVy(tmpMatrix4x4.getVz());
-					cursorMatrix.setVz(tmpMatrix4x4.getVx());
-					cursorMatrix.setOrigin(tmpMatrix4x4.getOrigin());
-
-				} else if (getCursor3D().hasRegion()) {
-					cursorNormal.set3(getCursor3D().getMoveNormalDirection());
-					scaleNormalXYZ(cursorNormal);
-					cursorNormal.normalize();
-					CoordMatrix4x4.createOrthoToDirection(
-							getCursor3D().getCoordsInD3(), cursorNormal,
-							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
-							cursorMatrix);
+				if (getEuclidianController().isCreatingPointAR()
+						&& !TargetType.isModePointAlreadyMoveOrSelect(
+								getEuclidianController().getMode())
+						&& !TargetType.isModePointAlreadyAsPointTool(
+								getEuclidianController().getMode())) {
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
+					scaleXYZ(cursorMatrix.getOrigin());
+					// makes it just a bit bigger to avoid z fighting
+					t = (getCursor3D().getPointSize() + 0.5)
+							* DrawPoint3D.DRAW_POINT_FACTOR;
+					cursorMatrix.getVx().setMul(Coords.VX, t);
+					cursorMatrix.getVy().setMul(Coords.VY, t);
+					cursorMatrix.getVz().setMul(Coords.VZ, t);
 				} else {
-					CoordMatrix4x4.identity(cursorMatrix);
+					if (getCursor3D().isPointOnPath()) {
+						cursorNormal.set3(((GeoElement) getCursor3D().getPath())
+								.getMainDirection());
+						scaleXYZ(cursorNormal);
+						cursorNormal.normalize();
+
+						CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
+								tmpCoords2, tmpMatrix4x4);
+
+						cursorMatrix.setVx(tmpMatrix4x4.getVy());
+						cursorMatrix.setVy(tmpMatrix4x4.getVz());
+						cursorMatrix.setVz(tmpMatrix4x4.getVx());
+						cursorMatrix.setOrigin(tmpMatrix4x4.getOrigin());
+
+					} else if (getCursor3D().hasRegion()) {
+						cursorNormal
+								.set3(getCursor3D().getMoveNormalDirection());
+						scaleNormalXYZ(cursorNormal);
+						cursorNormal.normalize();
+						CoordMatrix4x4.createOrthoToDirection(
+								getCursor3D().getCoordsInD3(), cursorNormal,
+								CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+								cursorMatrix);
+					} else {
+						CoordMatrix4x4.identity(cursorMatrix);
+					}
+
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
+					scaleXYZ(cursorMatrix.getOrigin());
+
+					cursorMatrix.getVx().normalize();
+					// use size of point
+					t = Math.max(1, getCursor3D().getPointSize() / 6.0 + 0.5);
+					cursorMatrix.getVx().mulInside3(t);
+					cursorMatrix.getVy().mulInside3(t);
+					cursorMatrix.getVz().mulInside3(t);
 				}
-
-				cursorMatrix.setOrigin(
-						getCursor3D().getDrawingMatrix().getOrigin());
-				scaleXYZ(cursorMatrix.getOrigin());
-
-				cursorMatrix.getVx().normalize();
-				// use size of point
-				t = Math.max(1, getCursor3D().getPointSize() / 6.0 + 0.5);
-				cursorMatrix.getVx().mulInside3(t);
-				cursorMatrix.getVy().mulInside3(t);
-				cursorMatrix.getVz().mulInside3(t);
 				break;
 			}
 		}

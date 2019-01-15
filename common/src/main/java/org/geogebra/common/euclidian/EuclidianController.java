@@ -4999,6 +4999,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
+	 * 
+	 * @return true if in AR mode, and using tool that creates points
+	 */
+	public boolean isCreatingPointAR() {
+		return false;
+	}
+
+	/**
 	 * Create new point or update an existing one from hits.
 	 * 
 	 * @param forPreviewable

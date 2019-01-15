@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.Feature;
@@ -76,7 +75,7 @@ public enum TargetType {
 	POINT_ALREADY_CANNOT_MOVE_TOOL {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			// draw nothing
+			drawSphere(renderer, view3d);
 		}
 	},
 	/** target free point (3D input devices) */
@@ -109,11 +108,6 @@ public enum TargetType {
 			renderer.drawViewInFrontOf();
 		}
 	};
-	
-	/**
-	 * temp matrix
-	 */
-	static CoordMatrix4x4 tmpMatrix = CoordMatrix4x4.identity();
 
 	/**
 	 * 
@@ -128,19 +122,16 @@ public enum TargetType {
 		int mode = ec.getMode();
 		switch (view3D.getCursor3DType()) {
 		case EuclidianView3D.PREVIEW_POINT_ALREADY:
-			switch (mode) {
-			// modes in which the result could be a dependent point
-			case EuclidianConstants.MODE_MOVE:
-			case EuclidianConstants.MODE_SELECT:
+			if (isModePointAlreadyMoveOrSelect(mode)) {
 				return POINT_ALREADY_MOVE_OR_SELECT;
-			case EuclidianConstants.MODE_POINT:
-			case EuclidianConstants.MODE_POINT_ON_OBJECT:
-				return POINT_ALREADY_POINT_TOOL;
-			default:
-				return isModeForCreatingPoint(mode)
-						? POINT_ALREADY_CANNOT_MOVE_TOOL
-						: NOT_USED;
 			}
+			if (isModePointAlreadyAsPointTool(mode)) {
+				return POINT_ALREADY_POINT_TOOL;
+			}
+			if (isModeForCreatingPoint(mode)) {
+				return POINT_ALREADY_CANNOT_MOVE_TOOL;
+			}
+			return NOT_USED;
 
 		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
 			if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
@@ -166,6 +157,28 @@ public enum TargetType {
 		}
 
 		return NOT_USED;
+	}
+
+	/**
+	 * 
+	 * @param mode
+	 *            controller mode
+	 * @return true if mode moves/select already created points
+	 */
+	static public boolean isModePointAlreadyMoveOrSelect(int mode) {
+		return mode == EuclidianConstants.MODE_MOVE
+				|| mode == EuclidianConstants.MODE_SELECT;
+	}
+
+	/**
+	 * 
+	 * @param mode
+	 *            controller mode
+	 * @return true if mode acts as point tool when over already created point
+	 */
+	static public boolean isModePointAlreadyAsPointTool(int mode) {
+		return mode == EuclidianConstants.MODE_POINT
+				|| mode == EuclidianConstants.MODE_POINT_ON_OBJECT;
 	}
 
 	/**
@@ -333,8 +346,7 @@ public enum TargetType {
 	 */
 	static protected void drawSphere(Renderer renderer,
 			EuclidianView3D view3d) {
-		tmpMatrix.setOrigin(view3d.getCursorMatrix().getOrigin());
-		renderer.setMatrix(tmpMatrix);
+		renderer.setMatrix(view3d.getCursorMatrix());
 		renderer.drawCursorDisableLighting(PlotterCursor.TYPE_SPHERE);
 	}
 }

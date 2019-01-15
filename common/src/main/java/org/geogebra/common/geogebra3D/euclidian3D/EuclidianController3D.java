@@ -4452,7 +4452,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public boolean checkTransparencyForSortingDrawables() {
-		return !(view3D.isAREnabled() && isCurrentModeForCreatingPoint());
+		return !isCreatingPointAR();
+	}
+
+	@Override
+	public boolean isCreatingPointAR() {
+		return view3D.isAREnabled() && isCurrentModeForCreatingPoint();
 	}
 
 }
