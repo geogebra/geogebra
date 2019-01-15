@@ -379,4 +379,12 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
         return super.hasMouse();
     }
 
+	/**
+	 * 
+	 * @return true if view should draw cursor
+	 */
+	public boolean shouldDrawCursor() {
+		return view3D.isCursor3DVisible();
+	}
+
 }

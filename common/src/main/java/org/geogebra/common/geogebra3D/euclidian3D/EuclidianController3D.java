@@ -4392,7 +4392,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	public void onArrowKeyTyped() {
 		super.onArrowKeyTyped();
-		view3D.setCursor3DInvisible();
+		view3D.setCursor3DVisible(false);
 	}
 
 	@Override

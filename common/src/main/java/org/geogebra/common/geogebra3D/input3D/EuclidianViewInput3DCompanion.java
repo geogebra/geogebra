@@ -955,5 +955,10 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	public boolean useOnlyProjectionGlasses() {
 		return input3D.useOnlyProjectionGlasses();
 	}
+	
+	@Override
+	public boolean shouldDrawCursor() {
+		return super.shouldDrawCursor() && hasMouse();
+	}
 
 }

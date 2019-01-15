@@ -3472,6 +3472,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setHasMouse(false);
 	}
 
+	/**
+	 * set if view has mouse
+	 * 
+	 * @param flag
+	 *            flag
+	 */
 	public void setHasMouse(boolean flag) {
 		hasMouse = flag;
 	}

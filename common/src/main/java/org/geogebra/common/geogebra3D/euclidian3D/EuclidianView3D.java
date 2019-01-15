@@ -244,7 +244,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
-	private boolean cursor3DInvisible = true;
+	private boolean cursor3DVisible = true;
 	private EuclidianCursor cursor = EuclidianCursor.DEFAULT;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.identity();
@@ -2103,14 +2103,25 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setCursor3DType(int v) {
 		cursor3DType = v;
-		cursor3DInvisible = false;
+		cursor3DVisible = true;
 	}
 
 	/**
-	 * set 3D cursor invisible
+	 * set 3D cursor visibility
+	 * 
+	 * @param flag
+	 *            flag
 	 */
-	public void setCursor3DInvisible() {
-		cursor3DInvisible = true;
+	public void setCursor3DVisible(boolean flag) {
+		cursor3DVisible = flag;
+	}
+
+	/**
+	 * 
+	 * @return true if 3D cursor is visible
+	 */
+	public boolean isCursor3DVisible() {
+		return cursor3DVisible;
 	}
 
 	/**
@@ -2629,7 +2640,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// + getCursor3DType());
 
 		if (app.has(Feature.G3D_AR_TARGET) && isAREnabled()) {
-			if (hasMouse() && !cursor3DInvisible) {
+			if (companion3D.shouldDrawCursor()) {
 				if (moveCursorIsVisible()) {
 					drawTranslateViewCursor(renderer1);
 				} else {
@@ -2639,7 +2650,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 			}
 		} else {
-			if (hasMouse() && !cursor3DInvisible) {
+			if (companion3D.shouldDrawCursor()) {
 
 				// mouse cursor
 				if (moveCursorIsVisible()) {
@@ -4907,6 +4918,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public CoordMatrix4x4 getCursorMatrix() {
 		return cursorMatrix;
+	}
+
+	@Override
+	public void setHasMouse(boolean flag) {
+		super.setHasMouse(flag);
+		setCursor3DVisible(flag);
 	}
 
 }
