@@ -1,3 +1,5 @@
+@import 'colors';
+
 .GeoGebraFrame {
     .smallScreenHeaderScientific {
         height: 48px;
@@ -40,5 +42,39 @@
         width: 33%;
         height: 48px;
         margin: auto;
+    }
+
+    .dropDownSelector {
+        position: relative;
+        height: 64px;
+
+         .titleLabel {
+              font-size: 100%;
+              width: 100%;
+              height: 24px;
+              padding-top: 10px;
+         }
+
+         .selectedOptionLabel {
+              font-size: 75%;
+              height: 20px;
+              padding-bottom: 10px;
+         }
+    }
+
+    .dropDownPopup {
+        overflow: auto !important;
+        max-height: 50%;
+
+			.dropDownElement {
+                padding-left: 24px;
+                padding-top: 0px;
+                line-height: 32px;
+            }
+
+            .dropDownElement:hover {
+                cursor: pointer;
+                background: $selected-menuitem-background;
+            }
     }
 }

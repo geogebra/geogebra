@@ -4122,6 +4122,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case EQUATION_TYPE_SETTING:
 			return prerelease;
 
+		/** APPS-266 - only for testing */
+		case DROPDOWN_COMPONENT:
+			return prerelease;
+
        // **********************************************************************
        // G3D START
        //

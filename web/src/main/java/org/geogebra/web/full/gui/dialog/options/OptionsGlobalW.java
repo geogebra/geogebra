@@ -1,10 +1,18 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.web.full.gui.components.ComponentDropDownSelector;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -13,11 +21,7 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.Arrays;
 
 /**
  * global settings tab
@@ -97,6 +101,26 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			addRoundingItem();
 			addLabelingItem();
 			addFontItem();
+
+			if(app.has(Feature.DROPDOWN_COMPONENT)) {
+				addNewtDropDownElement();
+			}
+		}
+
+		private void addNewtDropDownElement(){
+			final ComponentDropDownSelector selector = new ComponentDropDownSelector(app);
+
+			final EnumerableProperty property = new FontSizeProperty(app, app.getLocalization());
+			selector.setTitleText(property.getName());
+			selector.setElements(Arrays.asList(property.getValues()));
+			selector.setSelected(property.getIndex());
+			selector.setDropDownSelectionListener(new ComponentDropDownSelector.DropDownSelectionListener() {
+				@Override
+				public void onSelectionChanged(int index) {
+					property.setIndex(index);
+				}
+			});
+			optionsPanel.add(selector);
 		}
 
 		private void addRoundingItem() {
