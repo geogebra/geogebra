@@ -94,17 +94,17 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GBasicStroke newMyBasicStroke(double f) {
-        return null;
+		return new GStrokeCommon();
     }
 
     @Override
     public GBasicStroke newBasicStroke(double f, int cap, int join) {
-        return null;
+		return new GStrokeCommon();
     }
 
     @Override
     public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin, double miterLimit, double[] dash) {
-        return null;
+		return new GStrokeCommon();
     }
 
     @Override
