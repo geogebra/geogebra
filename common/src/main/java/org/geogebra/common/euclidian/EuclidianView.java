@@ -5067,30 +5067,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				Function funX = curve.getFunX();
 				Function funY = curve.getFunY();
 
-				double min = curve.getMinParameter();
-				double max = curve.getMaxParameter();
-				double step = curve.getAnimationStep();
+				if (funX != null && funY != null) {
 
-				xMinCurve = funX.value(min);
-				xMaxCurve = xMinCurve;
-				yMinCurve = funY.value(min);
-				yMaxCurve = yMinCurve;
+					double min = curve.getMinParameter();
+					double max = curve.getMaxParameter();
+					double step = curve.getAnimationStep();
 
-				double helper;
+					xMinCurve = funX.value(min);
+					xMaxCurve = xMinCurve;
+					yMinCurve = funY.value(min);
+					yMaxCurve = yMinCurve;
 
-				while (min < max) {
-					min += step;
-					helper = funX.value(min);
-					if (helper < xMinCurve) {
-						xMinCurve = helper;
-					} else if (helper > xMaxCurve) {
-						xMaxCurve = helper;
-					}
-					helper = funY.value(min);
-					if (helper < yMinCurve) {
-						yMinCurve = helper;
-					} else if (helper > yMaxCurve) {
-						yMaxCurve = helper;
+					double helper;
+
+					while (min < max) {
+						min += step;
+						helper = funX.value(min);
+						if (helper < xMinCurve) {
+							xMinCurve = helper;
+						} else if (helper > xMaxCurve) {
+							xMaxCurve = helper;
+						}
+						helper = funY.value(min);
+						if (helper < yMinCurve) {
+							yMinCurve = helper;
+						} else if (helper > yMaxCurve) {
+							yMaxCurve = helper;
+						}
 					}
 				}
 			}
