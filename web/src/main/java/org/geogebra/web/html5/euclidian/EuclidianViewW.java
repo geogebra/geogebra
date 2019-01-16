@@ -1544,8 +1544,10 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            app it needs to be attached to
 	 */
 	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
-		((AppW) app).getPanel().getElement().getParentElement()
+		if (((AppW) app).getPanel().getElement().getParentElement() != null) {
+			((AppW) app).getPanel().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
+		}
 	}
 
 	/**
