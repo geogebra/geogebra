@@ -76,6 +76,8 @@ public class SerializationTest {
 		tsc("(x+1)/(x-1)",
 				"start fraction x plus 1 over x minus 1 end fraction");
 		tsc("sin(2x)", "sin open parenthesis 2 times x close parenthesis");
+		tsc("1*(x+0)", "1 times open parenthesis x plus 0 close parenthesis");
+		tsc("1*(x+0)/1", "1 times start fraction x plus 0 over 1 end fraction");
 	}
 
 	@Test
