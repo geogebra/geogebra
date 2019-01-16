@@ -26,7 +26,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * StringTemplate provides a container for all settings we might need when
  * serializing ExpressionValues to screen / XML / CAS input / export.
- * 
+ *
  * @author Zbynek Konecny
  */
 public class StringTemplate implements ExpressionNodeConstants {
@@ -496,7 +496,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Creates default string template
-	 * 
+	 *
 	 * @param name
 	 *            name for debugging
 	 */
@@ -509,7 +509,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Returns string type of resulting text
-	 * 
+	 *
 	 * @return string type
 	 */
 	public StringType getStringType() {
@@ -518,7 +518,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Disables international digits, e.g. for CAS and XML
-	 * 
+	 *
 	 * @return true if we want to allow e.g. arabic digits in output
 	 */
 	public boolean internationalizeDigits() {
@@ -526,7 +526,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return string representation of PI in this template
 	 */
 	public String getPi() {
@@ -534,7 +534,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return string representation of PI in this template
 	 */
 	public String getImaginary() {
@@ -543,7 +543,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Creates new string template with given type
-	 * 
+	 *
 	 * @param t
 	 *            string type
 	 * @return template
@@ -597,7 +597,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Returns whether scientific format (sig digits) should be used (default
 	 * templates return the input)
-	 * 
+	 *
 	 * @param kernelUsesSF
 	 *            kernel setting of SF
 	 * @return whether scientific format (sig digits) should be used
@@ -608,7 +608,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Convenience method instead of getStringType().equals()
-	 * 
+	 *
 	 * @param t
 	 *            string type
 	 * @return true if this template uses given type equals
@@ -660,7 +660,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Prints the number to full double precision without using E notation
-	 * 
+	 *
 	 * @param type
 	 *            string type
 	 * @return template with given parameters
@@ -678,7 +678,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Scientific Notation (eg 2.3 * 4 ^ 5)
-	 * 
+	 *
 	 * @param type
 	 *            string type
 	 * @param decimals
@@ -701,7 +701,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Receives default SF and returns SF to be used
-	 * 
+	 *
 	 * @param sfk
 	 *            default
 	 * @return SF to be used
@@ -714,7 +714,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Receives default NF and returns NF to be used
-	 * 
+	 *
 	 * @param nfk
 	 *            default
 	 * @return NF to be used
@@ -727,7 +727,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Returns whether we need to localize commands
-	 * 
+	 *
 	 * @return true for localized, false for internal
 	 */
 	public boolean isPrintLocalizedCommandNames() {
@@ -736,7 +736,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Receives default style and returns style that should be actually used
-	 * 
+	 *
 	 * @param coordStyle
 	 *            Kernel.COORD_STYLE_*
 	 * @return new style
@@ -754,7 +754,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Returns whether round hack is allowed for given number
-	 * 
+	 *
 	 * @param abs
 	 *            absolute value of number
 	 * @param nf2
@@ -810,7 +810,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Least positive number with given precision
-	 * 
+	 *
 	 * @param nf2
 	 *            kernel's number format
 	 * @return 10^(-number of digits)
@@ -822,7 +822,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Objects in macros have two different labels.
-	 * 
+	 *
 	 * @return whether label within original (true) or current (false)
 	 *         construction should be used
 	 */
@@ -866,7 +866,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * variables to the underlying CAS, we need to make sure that we don't
 	 * overwrite variable names there, so we add the prefix
 	 * ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX.
-	 * 
+	 *
 	 * @param label
 	 *            raw label without prefixes
 	 * @return label depending on given string type
@@ -903,7 +903,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
-	 * 
+	 *
 	 * important eg i -> ggbtmpvari, e -> ggbtmpvare so that they aren't
 	 * confused with the constants
 	 */
@@ -1344,7 +1344,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Used for French and Hungarian open intervals (StepByStep)
-	 * 
+	 *
 	 * @return left ]
 	 */
 	public String invertedLeftSquareBracket() {
@@ -1353,7 +1353,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Used for French and Hungarian open intervals (StepByStep)
-	 * 
+	 *
 	 * @return right [
 	 */
 	public String invertedRightSquareBracket() {
@@ -1362,7 +1362,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Used for Czech closed intervals (StepByStep)
-	 * 
+	 *
 	 * @return left <
 	 */
 	public String leftAngleBracket() {
@@ -1375,7 +1375,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Used for Czech closed intervals (StepByStep)
-	 * 
+	 *
 	 * @return right >
 	 */
 	public String rightAngleBracket() {
@@ -1685,6 +1685,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return stringType == StringType.SCREEN_READER ? ScreenReader.getMinus(loc) : " - ";
 	}
 
+	private boolean isScreenReader() {
+		return "screenReader".equals(name);
+	}
+
 	/**
 	 * @param left
 	 *            left expression
@@ -1713,7 +1717,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		default:
 			// check for 1 at left
 			if (ExpressionNode.isEqualString(left, 1, !valueForm)
-					&& !Unicode.DEGREE_STRING.equals(rightStr)) {
+					&& !Unicode.DEGREE_STRING.equals(rightStr) && !isScreenReader()) {
 				append(sb, rightStr, right, operation);
 				break;
 			}
@@ -1985,7 +1989,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * To be safe add more brackets for XML, giac, PSTRICKS, ... but not to
 	 * human readable formats (localized or GGB syntax in scientific calculator)
-	 * 
+	 *
 	 * @return whether to add extra brackets around multiplication
 	 */
 	private boolean useExtensiveBrackets() {
@@ -2054,7 +2058,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Append expression to the string builder, add brackets if needed. Special
 	 * handling for symbolic fractions.
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param str
@@ -2517,7 +2521,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Append left (op) right to the builder with brackets as needed.
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param left
@@ -2546,12 +2550,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Serialize chained boolean operations, eg 2>x>1.
-	 * 
+	 *
 	 * @param left
 	 *            left expression eg 2>x
 	 * @param right
 	 *            right expression eg x>1
-	 * 
+	 *
 	 * @param leftStr
 	 *            serialized left expression
 	 * @param rightStr
@@ -2559,7 +2563,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param valueForm
 	 *            whether to substitute variables
 	 * @return 2>x>1 with appropriate brackets
-	 * 
+	 *
 	 */
 	public String andIntervalString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm) {
@@ -2665,7 +2669,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
 	 * @param left
 	 *            left expression
@@ -2826,8 +2830,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				/*
 				 * removed Michael Borcherds 2009-02-08 doesn't work eg m=1 g(x)
 				 * = (x - 1)^m (x - 3)
-				 * 
-				 * 
+				 *
+				 *
 				 * // check for 1 in exponent if (isEqualString(right, 1,
 				 * !valueForm)) { sb.append(leftStr); break; } //
 				 */
@@ -2914,7 +2918,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Append expression to builder, add brackets.
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param leftStr
@@ -2980,7 +2984,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Converts 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20} depending on
 	 * current print form
-	 * 
+	 *
 	 * @param scientificStr
 	 *            string in scientific notation
 	 * @return formated string in scientific notation (except for Giac)
@@ -3029,7 +3033,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Convert 3E3 to 3000 convert 3.33 to 333/100 convert 3E-3 to 3/1000.
-	 * 
+	 *
 	 * @param originalString
 	 *            raw number string
 	 * @return decimal fraction
@@ -3141,7 +3145,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Split eg 3.1E10 to 3.1 and 10; keep small numbers.
-	 * 
+	 *
 	 * @param decimal
 	 *            number
 	 * @param kernel
@@ -3169,7 +3173,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Overridden in subtypes; by default does nothing.
-	 * 
+	 *
 	 * @param string
 	 *            string
 	 * @return escaped string
@@ -3187,7 +3191,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Append left curly bracket to the builder
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 */
@@ -3201,7 +3205,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Append right curly bracket to the builder
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 */
@@ -3245,9 +3249,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * GGB-1106
-	 * 
+	 *
 	 * @param s
 	 *            number to pad
 	 * @param phantom
@@ -3318,7 +3322,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * GGB-1106 \texttt{\phantom{}} doesn't seem to work,
 	 * \texttt{\phantom{\texttt{}}} seems OK
-	 * 
+	 *
 	 * @param s
 	 *            string to wrap
 	 * @return wrapped string
@@ -3355,7 +3359,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return ")" or, for XML, "]"
 	 */
 	public String rightCommandBracket() {
@@ -3398,7 +3402,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @return "asin" or "asind" as appropriate
@@ -3413,7 +3417,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @return "acos" or "acosd" as appropriate
@@ -3428,7 +3432,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @return "atan" or "atand" as appropriate
