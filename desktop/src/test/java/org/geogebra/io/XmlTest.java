@@ -42,15 +42,15 @@ public class XmlTest {
 	/**
 	 * Validate app's state against XML schema.
 	 * 
-	 * @param app
+	 * @param application
 	 *            app
 	 */
-	public static void testCurrentXML(AppDNoGui app) {
+	public static void testCurrentXML(AppDNoGui application) {
 		String xml = "";
 		try {
 
 			URL schemaFile = new URL("http://static.geogebra.org/ggb.xsd");
-			xml = app.getXML();
+			xml = application.getXML();
 			Source xmlFile = new StreamSource(new StringReader(xml));
 
 			SchemaFactory schemaFactory = SchemaFactory

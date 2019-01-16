@@ -35,11 +35,11 @@ public class TableValuesViewTest extends BaseUnitTest {
     private TableValuesListener listener;
 
     @Mock
-    private Function function;
+    private Function slowFunction;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
-	private TableValuesPointsImpl points;
+	private TableValuesPointsImpl tablePoints;
 
     @Before
     public void setupTest() {
@@ -216,7 +216,7 @@ public class TableValuesViewTest extends BaseUnitTest {
     @Test
     public void testCachingOfGetValues() {
 		final long sleepTime = 10;
-        Mockito.when(function.value(1.0)).then(new Answer<Double>() {
+        Mockito.when(slowFunction.value(1.0)).then(new Answer<Double>() {
             @Override
             public Double answer(InvocationOnMock invocation) throws Throwable {
                 Thread.sleep(sleepTime);
@@ -226,7 +226,7 @@ public class TableValuesViewTest extends BaseUnitTest {
         setValuesSafe(1, 2, 1);
 
         GeoElementFactory factory = getElementFactory();
-        GeoFunction geoFunction = factory.createFunction(function);
+        GeoFunction geoFunction = factory.createFunction(slowFunction);
         showColumn(geoFunction);
 
         Stopwatch stopwatch = new Stopwatch();
@@ -429,10 +429,10 @@ public class TableValuesViewTest extends BaseUnitTest {
     }
 
 	private TableValuesPoints setupPointListener() {
-		points = new TableValuesPointsImpl(getConstruction(),
+		tablePoints = new TableValuesPointsImpl(getConstruction(),
 				model);
-		model.registerListener(points);
-		return points;
+		model.registerListener(tablePoints);
+		return tablePoints;
 	}
 
 	@Test
@@ -572,12 +572,12 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(lines[2]);
 		lines[1].setPointsVisible(false);
 		reload();
-		Assert.assertEquals(false, points.arePointsVisible(1));
-		Assert.assertEquals(true, points.arePointsVisible(2));
-		Assert.assertEquals(true, points.arePointsVisible(3));
+		Assert.assertEquals(false, tablePoints.arePointsVisible(1));
+		Assert.assertEquals(true, tablePoints.arePointsVisible(2));
+		Assert.assertEquals(true, tablePoints.arePointsVisible(3));
 		// remove the first column: shift flags to the left
 		lookupFunction(lines[1].getLabelSimple()).remove();
-		Assert.assertEquals(true, points.arePointsVisible(1));
-		Assert.assertEquals(true, points.arePointsVisible(2));
+		Assert.assertEquals(true, tablePoints.arePointsVisible(1));
+		Assert.assertEquals(true, tablePoints.arePointsVisible(2));
 	}
 }
