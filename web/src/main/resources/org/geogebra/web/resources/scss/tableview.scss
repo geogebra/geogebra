@@ -74,7 +74,11 @@ $deleteTime: 120ms;
 			-moz-user-select: $type;
 			-webkit-user-select: $type;
 		}
-	
+
+		td, th {
+			border: 0px;
+		}
+
 		.cellTransition {
 			transition: width $deleteTime, margin $deleteTime ease-in;
 		}
@@ -160,9 +164,13 @@ $deleteTime: 120ms;
 					margin-right: 32px;
 				}
 			}
-			
+
 			tbody tr:nth-child(odd) {
 				background: $tableview-row;
+			}
+
+			tbody tr:nth-child(even) {
+				background: $white; // for IE11
 			}
 		}
 	
