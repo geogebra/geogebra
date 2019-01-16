@@ -254,9 +254,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public void deleteColumn(int column) {
 		if (transitioning) {
 			// multiple simultaneous deletions: reset the whole UI
-			transitioning = false;
 			reset();
 			syncHeaderSizes();
+			return;
 		}
 		int col = column;
 		NodeList<Element> elems = getColumnElements(col);
@@ -279,6 +279,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			e.addClassName("delete");
 		}
 		setHeaderWidth(tableWidth);
+	}
+
+	@Override
+	protected void reset() {
+		super.reset();
+		transitioning = false;
 	}
 
 	/**
