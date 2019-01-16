@@ -32,7 +32,7 @@
 }
  .GeoGebraFrame {
     background-color: #fff;
-    color: #666;
+    color: rgba(0,0,0,.87);
     font-size: 16px;
 }
  .GeoGebraFrame .toolbar .header-open-landscape{

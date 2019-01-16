@@ -45,6 +45,7 @@
     line-height: 24px;
     font-family: sans-serif;
     letter-spacing: 0.43px;
+    color: rgba(0,0,0,.6);
 }
 
 @media screen and (max-width: 660px) {
