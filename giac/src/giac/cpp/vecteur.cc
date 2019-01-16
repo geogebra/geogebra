@@ -3025,7 +3025,7 @@ namespace giac {
       }
       return;
     }
-    if (is_zero(a,context0)){
+    if (is_exactly_zero(a)){
       if (&b==&res){
 	iterateur it=res.begin(),itend=res.end();
 	for (;it!=itend;++it)

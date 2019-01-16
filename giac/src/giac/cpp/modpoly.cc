@@ -683,7 +683,7 @@ namespace giac {
       mulmodpoly(th,fact,new_coord);
       return;
     }
-    if (is_zero(fact)){
+    if (is_exactly_zero(fact)){
       new_coord.clear();
       return ;
     }
@@ -716,7 +716,7 @@ namespace giac {
   }
 
   void mulmodpoly(const modpoly & th, const gen & fact, modpoly & new_coord){
-    if (is_zero(fact)){
+    if (is_exactly_zero(fact)){
       new_coord.clear();
       return ;
     }
