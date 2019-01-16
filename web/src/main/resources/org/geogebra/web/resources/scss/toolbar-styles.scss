@@ -277,7 +277,8 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				cursor: default;
 			    line-height: 24px;
 			    font-size: 100%;
-			    margin: 8px 0px;
+                margin: 8px 0px;
+                color: $text-primary;
 			}
 			
 			.categoryPanel {
@@ -321,14 +322,16 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 				img, img:hover {
 					opacity: 1;	
-				}
+                }
 
 				&[selected=true] .gwt-Label {
-				    color: $purple-dark;
+                    color: $purple-dark;
+                    font-weight: 600;
 				}
 				
 				.gwt-Label {
-					padding-bottom: 0px;	
+                    padding-bottom: 0px;
+                    top: -10px;	
 				}
 			}
 
