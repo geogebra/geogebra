@@ -20,7 +20,7 @@ import java.util.List;
  *
  */
 
-public class ComponentDropDownSelector extends FlowPanel {
+public class ComponentDropDown extends FlowPanel {
 
     private Label titleLabel;
     private Label selectedOptionLabel;
@@ -32,7 +32,7 @@ public class ComponentDropDownSelector extends FlowPanel {
      *
      * @param app AppW
      */
-    public ComponentDropDownSelector(AppW app) {
+    public ComponentDropDown(AppW app) {
         buildGui(app);
     }
 

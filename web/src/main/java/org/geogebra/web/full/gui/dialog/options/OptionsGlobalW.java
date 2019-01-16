@@ -12,7 +12,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.full.gui.components.ComponentDropDownSelector;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -103,19 +103,19 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			addFontItem();
 
 			if (app.has(Feature.DROPDOWN_COMPONENT)) {
-				addNewtDropDownElement();
+				addNewDropDownElement();
 			}
 		}
 
-		private void addNewtDropDownElement() {
-			final ComponentDropDownSelector selector = new ComponentDropDownSelector(app);
+		private void addNewDropDownElement() {
+			final ComponentDropDown selector = new ComponentDropDown(app);
 
 			final EnumerableProperty property = new FontSizeProperty(app, app.getLocalization());
 			selector.setTitleText(property.getName());
 			selector.setElements(Arrays.asList(property.getValues()));
 			selector.setSelected(property.getIndex());
 			selector.setDropDownSelectionCallback(
-					new ComponentDropDownSelector.DropDownSelectionCallback() {
+					new ComponentDropDown.DropDownSelectionCallback() {
 						@Override
 						public void onSelectionChanged(int index) {
 							property.setIndex(index);
