@@ -199,9 +199,8 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		} else {
 			if (algoPlane == null) {
 				algoPlane = new AlgoIntersectPlaneQuadric(cons, A, B, false);
-				algoPlane.compute();
 			}
-
+			algoPlane.compute();
 			intersectSamePlane(A, algoPlane.getConic(), P);
 			// TODO limited quadric
 		}

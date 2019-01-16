@@ -71,7 +71,9 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 		conic = newConic(cons);
 
 		// end
-		end();
+		if (addToCons) {
+			end();
+		}
 	}
 
 	/**
