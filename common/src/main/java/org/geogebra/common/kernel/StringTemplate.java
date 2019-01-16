@@ -1685,10 +1685,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return stringType == StringType.SCREEN_READER ? ScreenReader.getMinus(loc) : " - ";
 	}
 
-	private boolean isScreenReader() {
-		return "screenReader".equals(name);
-	}
-
 	/**
 	 * @param left
 	 *            left expression
@@ -1717,7 +1713,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		default:
 			// check for 1 at left
 			if (ExpressionNode.isEqualString(left, 1, !valueForm)
-					&& !Unicode.DEGREE_STRING.equals(rightStr) && !isScreenReader()) {
+					&& !Unicode.DEGREE_STRING.equals(rightStr)
+					&& stringType != StringType.SCREEN_READER) {
 				append(sb, rightStr, right, operation);
 				break;
 			}
