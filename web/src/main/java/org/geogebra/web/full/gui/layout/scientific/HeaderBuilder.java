@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -82,8 +81,7 @@ class HeaderBuilder {
 
 			@Override
 			public void onClick(Widget source) {
-				((AppWFull) getAppW()).getAppletFrame().showBrowser(
-						getAppW().getGuiManager().getSciSettingsView());
+				getAppW().getGuiManager().showSciSettingsView();
 			}
 		});
 		addStylesTo(settingsButton, FLAT_BUTTON_STYLE, SETTINGS_BUTTON_STYLE);

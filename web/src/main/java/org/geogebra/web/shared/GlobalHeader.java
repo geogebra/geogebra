@@ -6,7 +6,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -167,9 +166,7 @@ public class GlobalHeader implements EventRenderable {
 						getButtonElement().getParentElement().getStyle()
 							.setDisplay(Display.NONE);
 					}
-					((AppWFull) getApp()).getAppletFrame()
-							.showBrowser(getApp()
-									.getGuiManager().getSciSettingsView());
+					getApp().getGuiManager().showSciSettingsView();
 				}
 			});
 		}

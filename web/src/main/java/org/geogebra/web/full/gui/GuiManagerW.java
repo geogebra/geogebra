@@ -575,12 +575,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public MyHeaderPanel getSciSettingsView() {
-		if (sciSettingsView != null) {
-			return sciSettingsView;
+	public void showSciSettingsView() {
+		if (sciSettingsView == null) {
+			sciSettingsView = new ScientificSettingsView();
 		}
-		sciSettingsView = new ScientificSettingsView();
-		return sciSettingsView;
+		getApp().getAppletFrame().showBrowser(sciSettingsView);
 	}
 
 	@Override
