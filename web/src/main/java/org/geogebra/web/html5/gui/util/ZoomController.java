@@ -198,17 +198,20 @@ public class ZoomController {
 		setFullScreenActive(false);
 		if (!app.getArticleElement().getDataParamFitToScreen()) {
 			final Element scaler = app.getArticleElement().getParentElement();
-			scaler.removeClassName("fullscreen");
-			scaler.getStyle().setMarginLeft(0, Unit.PX);
-			scaler.getStyle().setMarginTop(0, Unit.PX);
-			dispatchResize();
-			Element container = scaler.getParentElement();
-			resetStyleAfterFullscreen(container);
-			double scale = cssScale > 0 ? cssScale
-					: app.getArticleElement().getDataParamScale();
-			Browser.scale(scaler, scale, 0, 0);
-			app.getArticleElement().resetScale(scale);
-			app.checkScaleContainer();
+			// check for null in case external website removed applet from DOM
+			if (scaler != null) {
+				scaler.removeClassName("fullscreen");
+				scaler.getStyle().setMarginLeft(0, Unit.PX);
+				scaler.getStyle().setMarginTop(0, Unit.PX);
+				dispatchResize();
+				Element container = scaler.getParentElement();
+				resetStyleAfterFullscreen(container);
+				double scale = cssScale > 0 ? cssScale
+						: app.getArticleElement().getDataParamScale();
+				Browser.scale(scaler, scale, 0, 0);
+				app.getArticleElement().resetScale(scale);
+				app.checkScaleContainer();
+			}
 		}
 		fullscreenButton.setDown(false);
 		Browser.scale(elem, 1, 0, 0);
