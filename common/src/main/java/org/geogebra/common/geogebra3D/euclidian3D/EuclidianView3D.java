@@ -2616,6 +2616,11 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
+	private boolean shouldDrawCursorAtEnd() {
+		return app.has(Feature.G3D_AR_TARGET)
+				&& euclidianController.isCreatingPointAR();
+	}
+
 	/**
 	 * draws the cursor
 	 *
@@ -2634,19 +2639,15 @@ public abstract class EuclidianView3D extends EuclidianView
 		// + "\ncursor=" + cursor + "\ngetCursor3DType()="
 		// + getCursor3DType());
 
-		if (app.has(Feature.G3D_AR_TARGET) && isAREnabled()) {
-			if (companion3D.shouldDrawCursor()) {
+		if (companion3D.shouldDrawCursor()) {
+			if (shouldDrawCursorAtEnd()) {
+				// draw here for hidden parts
 				if (moveCursorIsVisible()) {
 					drawTranslateViewCursor(renderer1);
 				} else {
-					TargetType targetType = TargetType.getCurrentTargetType(this,
-							(EuclidianController3D) euclidianController);
-					targetType.drawTarget(renderer1, this);
+					drawTarget(renderer1);
 				}
-			}
-		} else {
-			if (companion3D.shouldDrawCursor()) {
-
+			} else {
 				// mouse cursor
 				if (moveCursorIsVisible()) {
 					drawTranslateViewCursor(renderer1);
@@ -2714,6 +2715,25 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 			}
 		}
+	}
+
+	/**
+	 * draws the cursor at end of rendering pass
+	 *
+	 * @param renderer1
+	 *            renderer
+	 */
+	public void drawCursorAtEnd(Renderer renderer1) {
+		if (companion3D.shouldDrawCursor() && shouldDrawCursorAtEnd()) {
+			drawTarget(renderer1);
+		}
+	}
+
+	private void drawTarget(Renderer renderer1) {
+		TargetType
+				.getCurrentTargetType(this,
+						(EuclidianController3D) euclidianController)
+				.drawTarget(renderer1, this);
 	}
 
 	/**

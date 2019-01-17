@@ -172,7 +172,7 @@ public class PlotterCursor {
 		// sphere
 		index[TYPE_SPHERE] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		cursorSphere(1f, 1f);
+		cursorSphere(1f, 0.87f);
 		manager.endGeometry();
 		manager.endList();
 

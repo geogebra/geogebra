@@ -932,22 +932,20 @@ public abstract class Renderer implements RendererInterface {
 		setCullFaceBack();
 		drawable3DLists.draw(this);
 
-		// draw surface outlines
-		// drawSurfacesOutline();
 
-		disableLighting();
-		disableDepthTest();
-
-		// drawWireFrame();
-
-		unsetMatrixView();
-
-		// drawFPS();
-
-		// absolute texts
+		// draw cursor at end
 		if (enableClipPlanes) {
 			disableClipPlanes();
 		}
+		if (!needExportImage) {
+			view3D.drawCursorAtEnd(this);
+		}
+
+		disableLighting();
+		disableDepthTest();
+		unsetMatrixView();
+
+		// absolute texts
 		enableTexturesForText();
 		drawFaceToScreenEnd();
 
@@ -958,7 +956,7 @@ public abstract class Renderer implements RendererInterface {
 	/**
 	 * draw view cursor
 	 */
-	protected void drawCursor() {
+	private void drawCursor() {
 		if (enableClipPlanes) {
 			disableClipPlanes();
 		}
@@ -1106,11 +1104,15 @@ public abstract class Renderer implements RendererInterface {
 	 * @param cursorType
 	 *            cursor type
 	 */
-	final public void drawCursorDisableLighting(int cursorType) {
+	final public void drawTarget(int cursorType) {
 		disableLighting();
+		disableDepthMask();
+		enableBlending();
 		initMatrix();
 		geometryManager.draw(geometryManager.cursor.getIndex(cursorType));
 		resetMatrix();
+		disableBlending();
+		enableDepthMask();
 		enableLighting();
 	}
 

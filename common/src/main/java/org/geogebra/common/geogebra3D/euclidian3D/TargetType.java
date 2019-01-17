@@ -349,6 +349,6 @@ public enum TargetType {
 	static protected void drawSphere(Renderer renderer,
 			EuclidianView3D view3d) {
 		renderer.setMatrix(view3d.getCursorMatrix());
-		renderer.drawCursorDisableLighting(PlotterCursor.TYPE_SPHERE);
+		renderer.drawTarget(PlotterCursor.TYPE_SPHERE);
 	}
 }
