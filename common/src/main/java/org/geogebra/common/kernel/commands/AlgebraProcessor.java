@@ -123,6 +123,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
@@ -3304,7 +3305,7 @@ public class AlgebraProcessor {
 		else if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
-				if (Character.isLowerCase(label.charAt(0))) {
+				if (StringUtil.isLowerCase(label.charAt(0))) {
 					n.setForceVector();
 				} else {
 					n.setForcePoint();

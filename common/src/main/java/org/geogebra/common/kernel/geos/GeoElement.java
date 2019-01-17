@@ -7582,7 +7582,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return default label
 	 */
 	protected String getPointVectorDefault(String var) {
-		return getDefaultLabel(!Character.isLowerCase(var.charAt(0))
+		return getDefaultLabel(!StringUtil.isLowerCase(var.charAt(0))
 				? LabelType.pointLabels : null, false);
 	}
 

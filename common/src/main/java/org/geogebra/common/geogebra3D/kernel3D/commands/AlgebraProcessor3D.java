@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * 3D expression processor
@@ -78,7 +79,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 																// MyXMLHandler
-				if (Character.isLowerCase(label.charAt(0))) {
+				if (StringUtil.isLowerCase(label.charAt(0))) {
 					n.setForceVector();
 				} else {
 					n.setForcePoint();

@@ -627,6 +627,32 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
+	 * 
+	 * Adapted from GWT but uses a better version of isLetter() so works for eg
+	 * Greek
+	 * 
+	 * @param c
+	 *            character to test
+	 * @return if c is UPPER CASE
+	 */
+	public static boolean isUpperCase(char c) {
+		return Character.toUpperCase(c) == c && isLetter(c);
+	}
+
+	/**
+	 * 
+	 * Adapted from GWT but uses a better version of isLetter() so works for eg
+	 * Greek
+	 * 
+	 * @param c
+	 *            character to test
+	 * @return if c is lower case
+	 */
+	public static boolean isLowerCase(char c) {
+		return Character.toLowerCase(c) == c && isLetter(c);
+	}
+
+	/**
 	 * Character.isDigit() doesn't work in GWT, see
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
 	 * 

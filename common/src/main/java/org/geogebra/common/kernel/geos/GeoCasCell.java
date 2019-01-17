@@ -1594,7 +1594,7 @@ public class GeoCasCell extends GeoElement
 			resolveGeoElementReferences(outputVE);
 		} else if (isAssignmentVariableDefined()) {
 			outputVE.setLabel(assignmentVar);
-			if (Character.isLowerCase(assignmentVar.charAt(0))) {
+			if (StringUtil.isLowerCase(assignmentVar.charAt(0))) {
 				ExpressionValue ve = outputVE.unwrap();
 				if (ve instanceof MyVecNode) {
 					MyVecNode node = (MyVecNode) ve;
