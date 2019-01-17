@@ -11,12 +11,12 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.HeaderPanel;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
@@ -67,7 +67,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public BrowseViewI getBrowseView();
 
-	public HeaderPanel getSciSettingsView();
+	public MyHeaderPanel getSciSettingsView();
 
 	public void showToolBar(boolean show);
 

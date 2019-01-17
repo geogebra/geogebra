@@ -83,7 +83,7 @@ class HeaderBuilder {
 			@Override
 			public void onClick(Widget source) {
 				((AppWFull) getAppW()).getAppletFrame().showBrowser(
-						(ScientificSettingsView) getAppW().getGuiManager().getSciSettingsView());
+						getAppW().getGuiManager().getSciSettingsView());
 			}
 		});
 		addStylesTo(settingsButton, FLAT_BUTTON_STYLE, SETTINGS_BUTTON_STYLE);

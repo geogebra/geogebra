@@ -131,7 +131,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -576,7 +575,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public HeaderPanel getSciSettingsView() {
+	public MyHeaderPanel getSciSettingsView() {
 		if (sciSettingsView != null) {
 			return sciSettingsView;
 		}
