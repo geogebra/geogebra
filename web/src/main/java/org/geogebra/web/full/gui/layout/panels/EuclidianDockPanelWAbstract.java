@@ -309,15 +309,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public void tryBuildZoomPanel() {
-		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager());
 		if (zoomPanel != null) {
 			zoomPanel.removeFromParent();
 			zoomPanel = null;
 		}
 		if (allowZoomPanel()) {
-			boolean bottomRight = dm.getRoot() == null
-					|| dm.getRoot().isBottomRight(this);
+			boolean bottomRight = isBottomRight();
 			zoomPanel = new ZoomPanel(getEuclidianView(), app,
 					bottomRight,
 					this.mayHaveZoomButtons);
@@ -326,6 +323,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			}
 		}
 		tryBuildMowZoomPanel();
+	}
+
+	private boolean isBottomRight() {
+		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager());
+		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
 	}
 
 	private void tryBuildMowZoomPanel() {
@@ -489,6 +492,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public void checkZoomPanelFits(int height) {
 		if (zoomPanel != null && ZoomPanel.neededFor(app)) {
 			zoomPanel.setMaxHeight(height);
+			zoomPanel.updateFullscreenVisibility(isBottomRight());
 		}
 	}
 

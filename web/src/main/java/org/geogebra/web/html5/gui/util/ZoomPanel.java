@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,12 +76,13 @@ public class ZoomPanel extends FlowPanel
 		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
 			addZoomButtons();
 		}
+		buttons = new ArrayList<>();
+		buttons.addAll(Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn));
 		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
 		}
 		setLabels();
-		buttons = Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn,
-					fullscreenBtn);
+
 		setTabIndexes();
 	}
 
@@ -144,6 +146,7 @@ public class ZoomPanel extends FlowPanel
 			}
 		});
 		add(fullscreenBtn);
+		buttons.add(fullscreenBtn);
 	}
 
 	/**
@@ -458,5 +461,22 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public int getViewID() {
 		return view == null ? -1 : view.getViewID();
+	}
+
+	/**
+	 * @param bottomRight
+	 *            whether the zoom panel's parent is now bottom right panel
+	 */
+	public void updateFullscreenVisibility(boolean bottomRight) {
+		if (ZoomPanel.needsFullscreenButton(app) && bottomRight) {
+			if (fullscreenBtn == null) {
+				addFullscreenButton();
+				setTabIndexes();
+			} else {
+				add(fullscreenBtn);
+			}
+		} else if (fullscreenBtn != null) {
+			fullscreenBtn.removeFromParent();
+		}
 	}
 }
