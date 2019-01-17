@@ -6,7 +6,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -47,7 +46,7 @@ public class GlobalHeader implements EventRenderable {
 
 	/**
 	 * Activate sign in button in external header
-	 * 
+	 *
 	 * @param appW
 	 *            application
 	 */
@@ -117,7 +116,7 @@ public class GlobalHeader implements EventRenderable {
 
 	/**
 	 * Get element, NOT panel to make sure root panels are not nested
-	 * 
+	 *
 	 * @return element containing the buttons in header
 	 */
 	public static Element getButtonElement() {
@@ -167,8 +166,8 @@ public class GlobalHeader implements EventRenderable {
 						getButtonElement().getParentElement().getStyle()
 							.setDisplay(Display.NONE);
 					}
-					((AppWFull) getApp()).getAppletFrame().showBrowser(
-							getApp().getGuiManager().getSciSettingsView());
+//					((AppWFull) getApp()).getAppletFrame().showBrowser(
+//							(ScientificSettingsView) getApp().getGuiManager().getSciSettingsView());
 				}
 			});
 		}
@@ -273,7 +272,7 @@ public class GlobalHeader implements EventRenderable {
 
 	/**
 	 * Update style of share button, NPE safe.
-	 * 
+	 *
 	 * @param selected
 	 *            whether to mark share button as selected
 	 */
@@ -286,7 +285,7 @@ public class GlobalHeader implements EventRenderable {
 
 	/**
 	 * Initialize without creating any buttons.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */

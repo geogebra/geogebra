@@ -45,7 +45,7 @@ class HeaderBuilder {
 
 	/**
 	 * Builds and styles the Scientific Calculator header with all its buttons
-	 * 
+	 *
 	 * @return the built Scientific Calculator header
 	 */
 	Panel buildHeader() {
@@ -80,9 +80,10 @@ class HeaderBuilder {
 		settingsButton.setTitleWithLocalizationKey("Settings");
 		settingsButton.addFastClickHandler(new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				((AppWFull) getAppW()).getAppletFrame().showBrowser(
-						getAppW().getGuiManager().getSciSettingsView());
+						(ScientificSettingsView) getAppW().getGuiManager().getSciSettingsView());
 			}
 		});
 		addStylesTo(settingsButton, FLAT_BUTTON_STYLE, SETTINGS_BUTTON_STYLE);
