@@ -932,7 +932,6 @@ public abstract class Renderer implements RendererInterface {
 		setCullFaceBack();
 		drawable3DLists.draw(this);
 
-
 		// draw cursor at end
 		if (enableClipPlanes) {
 			disableClipPlanes();
