@@ -1025,12 +1025,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		final Operation operation = Operation.PLUS;
 		switch (stringType) {
-//		case SCREEN_READER:
-//			sb.append(leftStr);
-//			sb.append(ScreenReader.getPlus(loc));
-//			sb.append(rightStr);
-//			sb.append(' ');
-//			break;
 
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
@@ -1266,7 +1260,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						&& isInsertLineBreaks()) {
 					sb.append(" \\-+ ");
 				} else {
-					sb.append(" + ");
+					sb.append(getPlus(loc));
 				}
 				appendWithBrackets(sb, rightStr);
 			} else {
@@ -1275,7 +1269,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
-						sb.append(" - ");
+						sb.append(getMinus(loc));
 					}
 					sb.append(rightStr.substring(1));
 				} else if (rightStr
@@ -1289,7 +1283,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
-						sb.append(" - ");
+						sb.append(getMinus(loc));
 					}
 					append(sb, rightStr.substring(3), right, Operation.PLUS);
 				} else {
@@ -1297,7 +1291,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
-						sb.append(" + ");
+						sb.append(getPlus(loc));
 					}
 					append(sb, rightStr, right, Operation.PLUS);
 				}
@@ -1306,6 +1300,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		return sb.toString();
 
+	}
+
+	private String getPlus(Localization loc) {
+		if (stringType == StringType.SCREEN_READER) {
+			return ScreenReader.getPlus(loc);
+		}
+		return " + ";
+	}
+
+	private String getMinus(Localization loc) {
+		if (stringType == StringType.SCREEN_READER) {
+			return ScreenReader.getMinus(loc);
+		}
+		return " - ";
 	}
 
 	/**
