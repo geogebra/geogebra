@@ -1,13 +1,17 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.main.AppW;
+
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.UIObject;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
-import org.geogebra.web.html5.gui.util.StandardButton;
-import org.geogebra.web.html5.main.AppW;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Builds and styles the Scientific Calculator header with all its buttons.
@@ -33,7 +37,15 @@ class HeaderBuilder {
 	}
 
 	/**
+	 * @return see {@link AppW}
+	 */
+	public AppW getAppW() {
+		return app;
+	}
+
+	/**
 	 * Builds and styles the Scientific Calculator header with all its buttons
+	 * 
 	 * @return the built Scientific Calculator header
 	 */
 	Panel buildHeader() {
@@ -66,6 +78,13 @@ class HeaderBuilder {
 		StandardButton settingsButton =
 				createStandardButtonWithIcon(MaterialDesignResources.INSTANCE.gear());
 		settingsButton.setTitleWithLocalizationKey("Settings");
+		settingsButton.addFastClickHandler(new FastClickHandler() {
+
+			public void onClick(Widget source) {
+				((AppWFull) getAppW()).getAppletFrame().showBrowser(
+						getAppW().getGuiManager().getSciSettingsView());
+			}
+		});
 		addStylesTo(settingsButton, FLAT_BUTTON_STYLE, SETTINGS_BUTTON_STYLE);
 		header.add(settingsButton);
 	}

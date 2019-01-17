@@ -80,6 +80,7 @@ import org.geogebra.web.full.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -183,6 +184,8 @@ public class GuiManagerW extends GuiManager
 	private AccessibilityManagerW accessibilityManager = null;
 
 	private GGWMenuBar mainMenuBar;
+
+	private ScientificSettingsView sciSettingsView;
 
 	/**
 	 * 
@@ -569,6 +572,15 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean hasCasView() {
 		return casView != null;
+	}
+
+	@Override
+	public ScientificSettingsView getSciSettingsView() {
+		if (sciSettingsView != null) {
+			return sciSettingsView;
+		}
+		sciSettingsView = new ScientificSettingsView();
+		return sciSettingsView;
 	}
 
 	@Override

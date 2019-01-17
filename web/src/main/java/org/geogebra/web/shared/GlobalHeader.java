@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -110,10 +111,16 @@ public class GlobalHeader implements EventRenderable {
 		return RootPanel.get("shareButton");
 	}
 
+	private static RootPanel getSettingsButton() {
+		return RootPanel.get("settingsButton");
+	}
+
 	/**
 	 * Get element, NOT panel to make sure root panels are not nested
+	 * 
+	 * @return element containing the buttons in header
 	 */
-	private static Element getButtonElement() {
+	public static Element getButtonElement() {
 		return Document.get().getElementById("buttonsID");
 	}
 
@@ -150,7 +157,23 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public void initSettingButtonIfOnHeader() {
 		setTitleIfOnHeaderFor("settingsButton", "Settings");
+		final RootPanel rp = getSettingsButton();
+		if (rp != null ) {
+			ClickStartHandler.init(rp, new ClickStartHandler(true, true) {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					if (getButtonElement().getParentElement() != null) {
+						getButtonElement().getParentElement().getStyle()
+							.setDisplay(Display.NONE);
+					}
+					((AppWFull) getApp()).getAppletFrame().showBrowser(
+							getApp().getGuiManager().getSciSettingsView());
+				}
+			});
+		}
 	}
+
 
 	/**
 	 * Initialize the undo and redo buttons if these are on the header

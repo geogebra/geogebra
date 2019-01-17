@@ -39,7 +39,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	private void buildHeaderAndAddToPanel(Panel panel) {
 		HeaderBuilder headerBuilder = new HeaderBuilder(app);
-		header = headerBuilder.buildHeader();
+		header = headerBuilder
+				.buildHeader();
 		panel.add(header);
 	}
 
