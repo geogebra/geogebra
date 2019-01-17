@@ -521,6 +521,20 @@ $duration: 0.2s;
     .algebraPanel {
         height: 100%;
     }
+
+    .algebraPanelScientificNohHeader {
+        background-color: $gray-background;
+         &>div {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: calc(100% - 22px);
+            background: $white;
+            margin-top: 24px;
+            box-shadow:  0px 0px 12px 12px rgba(0,0,0,0.2);
+        }
+    }
+
 }
 
 @keyframes removeSuggestions {
