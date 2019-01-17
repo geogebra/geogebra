@@ -1,9 +1,12 @@
 package org.geogebra.common.kernel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
 
@@ -26,6 +29,7 @@ public abstract class UndoManager {
 	/** invariant: iterator.previous() is current state */
 	private ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
+	private List<UndoInfoStoredListener> undoInfoStoredListeners;
 
 	/**
 	 * @param cons
@@ -36,6 +40,7 @@ public abstract class UndoManager {
 		app = cons.getApplication();
 		undoInfoList = new LinkedList<>();
 		iterator = undoInfoList.listIterator();
+		undoInfoStoredListeners = new ArrayList<>();
 	}
 
 	/**
@@ -189,6 +194,10 @@ public abstract class UndoManager {
 	protected void updateUndoActions() {
 		app.updateActions();
 		// debugStates();
+
+		for (UndoInfoStoredListener listener: undoInfoStoredListeners) {
+			listener.onUndoInfoStored();
+		}
 	}
 
 	/**
@@ -403,5 +412,13 @@ public abstract class UndoManager {
 	 */
 	public String getXML(AppState state) {
 		return state.getXml();
+	}
+
+	/**
+	 * Adds a listener which will be notified every time when undo info is stored.
+	 * @param listener This will be notified when undo info is stored.
+	 */
+	public void addUndoInfoStoredListener(UndoInfoStoredListener listener) {
+		undoInfoStoredListeners.add(listener);
 	}
 }

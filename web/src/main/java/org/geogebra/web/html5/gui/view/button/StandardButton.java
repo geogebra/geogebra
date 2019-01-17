@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.gui.view.button;
 
+import org.geogebra.common.gui.view.ActionView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastButton;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -12,12 +14,13 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
  * 
  */
-public class StandardButton extends FastButton implements HasResource {
+public class StandardButton extends FastButton implements HasResource, ActionView {
 
 	private App app;
 	private ResourcePrototype icon;
@@ -209,5 +212,17 @@ public class StandardButton extends FastButton implements HasResource {
 	@Override
 	public void setResource(ResourcePrototype res) {
 		btnImage.setResource(res);
+	}
+
+	@Override
+	public void setAction(final Runnable action) {
+		if (action != null) {
+			addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick(Widget source) {
+					action.run();
+				}
+			});
+		}
 	}
 }

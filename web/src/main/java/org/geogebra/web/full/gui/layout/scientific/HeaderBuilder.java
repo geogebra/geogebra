@@ -1,10 +1,11 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
+import org.geogebra.common.kernel.undoredo.UndoRedoExecutor;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.view.button.header.FlatButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.view.button.header.FlatButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -86,24 +87,31 @@ class HeaderBuilder {
 	private void styleAndAddUndoRedoButtons() {
 		FlowPanel container = new FlowPanel();
 		container.addStyleName("undoRedoCntScientific");
-		styleAndAddUndoButtonToContainer(container);
-		styleAndAddRedoButtonToContainer(container);
+		addStyledUndoRedoButtonsTo(container);
 		header.add(container);
 	}
 
-	private void styleAndAddUndoButtonToContainer(Panel container) {
+	private void addStyledUndoRedoButtonsTo(Panel undoRedoContainer) {
+		StandardButton undoWidget = createStyledUndoButton();
+		StandardButton redoWidget = createStyledRedoButton();
+		UndoRedoExecutor.addUndoRedoFunctionality(undoWidget, redoWidget, app.getKernel());
+		undoRedoContainer.add(undoWidget);
+		undoRedoContainer.add(redoWidget);
+	}
+
+	private StandardButton createStyledUndoButton() {
 		StandardButton undoButton =
 				createFlatButtonWithIcon(MaterialDesignResources.INSTANCE.undo_black());
 		undoButton.setTitleWithLocalizationKey("Undo");
 		undoButton.addStyleName("undoBtnScientific");
-		container.add(undoButton);
+		return undoButton;
 	}
 
-	private void styleAndAddRedoButtonToContainer(Panel container) {
+	private StandardButton createStyledRedoButton() {
 		StandardButton redoButton =
 				createFlatButtonWithIcon(MaterialDesignResources.INSTANCE.redo_black());
 		redoButton.setTitleWithLocalizationKey("Redo");
-		container.add(redoButton);
+		return redoButton;
 	}
 
 	private FlatButton createFlatButtonWithIcon(ResourcePrototype icon) {

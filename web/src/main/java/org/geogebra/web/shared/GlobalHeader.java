@@ -1,17 +1,18 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.undoredo.UndoRedoExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.shared.view.Actionable;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -110,10 +111,6 @@ public class GlobalHeader implements EventRenderable {
 		return RootPanel.get("shareButton");
 	}
 
-	private static RootPanel getSettingsButton() {
-		return RootPanel.get("settingsButton");
-	}
-
 	/**
 	 * Get element, NOT panel to make sure root panels are not nested
 	 *
@@ -155,16 +152,15 @@ public class GlobalHeader implements EventRenderable {
 	 * Initialize the settings button if it's on the header
 	 */
 	public void initSettingButtonIfOnHeader() {
-		setTitleIfOnHeaderFor("settingsButton", "Settings");
-		final RootPanel rp = getSettingsButton();
-		if (rp != null) {
-			ClickStartHandler.init(rp, new ClickStartHandler(true, true) {
-
+		Actionable settingsButton = getActionable("settingsButton");
+		if (settingsButton != null) {
+			settingsButton.setTitle("Settings");
+			settingsButton.setAction(new Runnable() {
 				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
+				public void run() {
 					if (getButtonElement().getParentElement() != null) {
 						getButtonElement().getParentElement().getStyle()
-							.setDisplay(Display.NONE);
+								.setDisplay(Display.NONE);
 					}
 					getApp().getGuiManager().showSciSettingsView();
 				}
@@ -176,31 +172,39 @@ public class GlobalHeader implements EventRenderable {
 	 * Initialize the undo and redo buttons if these are on the header
 	 */
 	public void initUndoRedoButtonsIfOnHeader() {
-		initUndoButtonIfOnHeader();
-		initRedoButtonIfOnHeader();
-	}
-
-	private void initUndoButtonIfOnHeader() {
-		setTitleIfOnHeaderFor("undoButton", "Undo");
-	}
-
-	private void initRedoButtonIfOnHeader() {
-		setTitleIfOnHeaderFor("redoButton", "Redo");
-	}
-
-	private void setTitleIfOnHeaderFor(String viewId, String titleLocalizationKey) {
-		RootPanel viewElement = getViewById(viewId);
-		if (viewElement != null) {
-			setTitleFor(viewElement, titleLocalizationKey);
+		Actionable undoButton =  getUndoButton();
+		Actionable redoButton = getRedoButton();
+		if (undoButton != null && redoButton != null) {
+			UndoRedoExecutor.addUndoRedoFunctionality(undoButton, redoButton, app.getKernel());
 		}
+	}
+
+	private Actionable getUndoButton() {
+		Actionable undoButton = getActionable("undoButton");
+		if (undoButton != null) {
+			undoButton.setTitle("Undo");
+		}
+		return undoButton;
+	}
+
+	private Actionable getRedoButton() {
+		Actionable undoButton = getActionable("redoButton");
+		if (undoButton != null) {
+			undoButton.setTitle("Redo");
+		}
+		return undoButton;
+	}
+
+	private Actionable getActionable(String viewId) {
+		RootPanel view = getViewById(viewId);
+		if (view != null) {
+			return new Actionable(app, view);
+		}
+		return null;
 	}
 
 	private RootPanel getViewById(String viewId) {
 		return RootPanel.get(viewId);
-	}
-
-	private void setTitleFor(RootPanel viewElement, String titleLocalizationKey) {
-		AriaHelper.setTitle(viewElement, app.getLocalization().getMenu(titleLocalizationKey), app);
 	}
 
 	/**
