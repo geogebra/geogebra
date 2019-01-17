@@ -761,8 +761,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (a.isGeoLine()) { // remove planes containing line a
 			while (hitsForSingleIntersectionPoint.size() >= 2) {
 				if (hitsForSingleIntersectionPoint.get(1).isGeoPlane() && AlgoIntersectCS1D2D
-						.getConfigLinePlane((GeoLineND) a, ((GeoCoordSys2D) hitsForSingleIntersectionPoint
-								.get(1))) == ConfigLinePlane.CONTAINED) {
+								.getConfigLinePlane((GeoLineND) a,
+										((GeoCoordSys2D) hitsForSingleIntersectionPoint
+												.get(1))) == ConfigLinePlane.CONTAINED) {
 					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
@@ -781,8 +782,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 		} else if (a.isGeoPolygon()) { // remove planes containing polygon a
 			while (hitsForSingleIntersectionPoint.size() >= 2) {
-				if (hitsForSingleIntersectionPoint.get(1) instanceof GeoCoordSys2D && AlgoIntersectPlanes
-						.isIntersectionContained((((GeoPolygon) a).getCoordSys()),
+				if (hitsForSingleIntersectionPoint
+						.get(1) instanceof GeoCoordSys2D
+						&& AlgoIntersectPlanes.isIntersectionContained(
+								(((GeoPolygon) a).getCoordSys()),
 								(((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
 										.getCoordSys()))) {
 					hitsForSingleIntersectionPoint.remove(1);
