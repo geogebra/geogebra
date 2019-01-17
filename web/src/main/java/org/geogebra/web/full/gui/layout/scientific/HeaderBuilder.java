@@ -63,6 +63,7 @@ class HeaderBuilder {
 
 	private void styleAndAddMenuButton() {
 		MenuToggleButton menuBtn = new MenuToggleButton(app);
+		menuBtn.addStyleName("flatButtonHeader");
 		menuBtn.addStyleName("menuBtnScientific");
 		header.add(menuBtn);
 	}
