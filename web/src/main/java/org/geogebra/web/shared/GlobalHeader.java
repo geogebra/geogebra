@@ -157,7 +157,7 @@ public class GlobalHeader implements EventRenderable {
 	public void initSettingButtonIfOnHeader() {
 		setTitleIfOnHeaderFor("settingsButton", "Settings");
 		final RootPanel rp = getSettingsButton();
-		if (rp != null ) {
+		if (rp != null) {
 			ClickStartHandler.init(rp, new ClickStartHandler(true, true) {
 
 				@Override
@@ -171,7 +171,6 @@ public class GlobalHeader implements EventRenderable {
 			});
 		}
 	}
-
 
 	/**
 	 * Initialize the undo and redo buttons if these are on the header
