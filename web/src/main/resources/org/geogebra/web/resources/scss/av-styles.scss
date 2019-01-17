@@ -525,13 +525,15 @@ $duration: 0.2s;
     .algebraPanelScientificNohHeader {
         background-color: $gray-background;
          &>div {
-            width: 700px;
+            width: 800px;
             margin-left: auto;
             margin-right: auto;
-            min-height: calc(100% - 22px);
+            min-height: calc(100% - 28px);
             background: $white;
             margin-top: 24px;
-            box-shadow:  0px 0px 12px 12px rgba(0,0,0,0.2);
+            padding-top: 4px;
+            border-radius: 4px;
+            box-shadow:  0px 0px 5px 1px rgba(0,0,0,0.2);
         }
     }
 
