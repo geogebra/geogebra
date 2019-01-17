@@ -1,9 +1,12 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.view.button;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 

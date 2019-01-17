@@ -4,7 +4,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import java.util.List;
 

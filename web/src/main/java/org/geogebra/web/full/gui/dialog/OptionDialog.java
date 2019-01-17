@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.user.client.ui.FlowPanel;

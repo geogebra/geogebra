@@ -33,7 +33,7 @@ import org.geogebra.web.full.gui.view.dataCollection.Settings.SensorSetting;
 import org.geogebra.web.full.gui.view.dataCollection.Settings.TimeSetting;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;

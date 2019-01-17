@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;

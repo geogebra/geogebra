@@ -1,7 +1,10 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.view.button;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastButton;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.HasResource;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickHandler;

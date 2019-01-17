@@ -10,7 +10,7 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.core.client.Scheduler;

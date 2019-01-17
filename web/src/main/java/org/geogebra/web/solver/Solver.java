@@ -21,7 +21,7 @@ import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.HasLanguage;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;

@@ -4,7 +4,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;

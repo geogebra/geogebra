@@ -7,7 +7,7 @@ import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ResizeEvent;

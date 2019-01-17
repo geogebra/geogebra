@@ -17,7 +17,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.CSSAnimation;
 

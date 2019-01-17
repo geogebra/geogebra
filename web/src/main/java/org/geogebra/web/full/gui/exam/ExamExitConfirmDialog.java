@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.exam;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
