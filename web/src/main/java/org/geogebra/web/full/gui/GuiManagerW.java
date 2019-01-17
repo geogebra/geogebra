@@ -131,6 +131,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -188,7 +189,7 @@ public class GuiManagerW extends GuiManager
 	private ScientificSettingsView sciSettingsView;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param device
@@ -381,7 +382,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Notify dock manager about focused panel.
-	 * 
+	 *
 	 * @param panel
 	 *            focused panel
 	 * @param updatePropertiesView
@@ -456,17 +457,17 @@ public class GuiManagerW extends GuiManager
 		 * ((AppW)
 		 * app).getFrameElement().getStyle().setFontSize(app.getFontSize(),
 		 * Unit.PX);
-		 * 
+		 *
 		 * // if (((AppW) app).getObjectPool().getGgwMenubar() != null){ //
 		 * GeoGebraMenubarW menubar = ((AppW)
 		 * app).getObjectPool().getGgwMenubar().getMenubar(); // if (menubar !=
 		 * null) menubar.updateFonts(); // }
-		 * 
+		 *
 		 * updateFontSizeStyleElement();
-		 * 
+		 *
 		 * if(hasPropertiesView()){
 		 * ((PropertiesViewW)getPropertiesView()).updateFonts(); }
-		 * 
+		 *
 		 * if(hasSpreadsheetView()){ getSpreadsheetView().updateFonts(); }
 		 */
 	}
@@ -575,7 +576,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public ScientificSettingsView getSciSettingsView() {
+	public HeaderPanel getSciSettingsView() {
 		if (sciSettingsView != null) {
 			return sciSettingsView;
 		}
@@ -779,7 +780,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Register panels for the layout manager.
-	 * 
+	 *
 	 * @return whether it was successful
 	 */
 	protected boolean initLayoutPanels() {
@@ -846,7 +847,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Get the toolbar, never null (lazy loading).
-	 * 
+	 *
 	 * @return the toolbar
 	 */
 	public GGWToolBar getToolbarPanel() {
@@ -903,7 +904,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Update help panel if exists
-	 * 
+	 *
 	 * @param forCAS
 	 *            whether to include CAS commands
 	 */
@@ -951,7 +952,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @param algc
 	 *            algebra controller
 	 * @return new algebra view
@@ -996,7 +997,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Get the properties view and initilize the right tab.
-	 * 
+	 *
 	 * @param ot
 	 *            initial tab
 	 * @return properties view
@@ -1010,7 +1011,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @param app1
 	 *            application
 	 * @param ot
@@ -1038,7 +1039,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * close properties view
-	 * 
+	 *
 	 */
 	public void closePropertiesView() {
 		if (propertiesView != null) {
@@ -1487,7 +1488,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Get panel for secondary graphics view
-	 * 
+	 *
 	 * @param idx
 	 *            EV2 index
 	 * @return EV2 panel
@@ -1853,7 +1854,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @return ID of the active view
 	 * @see #setActiveView(int)
 	 */
@@ -1983,7 +1984,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @param toolBar
 	 *            will be updated every time setMode(int) is called
 	 */
@@ -2161,7 +2162,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Return a keyboard and connected to given textfield.
-	 * 
+	 *
 	 * @param textField
 	 *            textfield adapter
 	 * @param listener
@@ -2193,7 +2194,7 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 * Create keyboard adapter for text editing object.
-	 * 
+	 *
 	 * @param textField
 	 *            text / math editor
 	 * @return keyboard adapter
@@ -2261,17 +2262,17 @@ public class GuiManagerW extends GuiManager
 	 * This is just a method for implementing the logic in
 	 * InputTreeItem.setFocus, because it might not be accessible at early a
 	 * time... I tried to do everything in one method to spare
-	 * 
+	 *
 	 * Comment copied from there (as earlier):
-	 * 
+	 *
 	 * This method should tell the Input Bar that a focus is scheduled in a
 	 * timeout or invokelater or some other method, this is important because
 	 * any intentional blur should cancel the schedule (hopefully), so:
-	 * 
+	 *
 	 * - setFocus shall set setFocusScheduled to false AND call the focus, in
 	 * case setFocusAllowed was true but do not call it if setFocusAllowed was
 	 * false AND setFocusScheduled was true at the same time
-	 * 
+	 *
 	 * - any blur event shall set setFocusAllowed to false, in case
 	 * setFocusScheduled was true (at least, it can have effect only in this
 	 * case)
