@@ -1025,12 +1025,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		final Operation operation = Operation.PLUS;
 		switch (stringType) {
-		case SCREEN_READER:
-			sb.append(leftStr);
-			sb.append(ScreenReader.getPlus(loc));
-			sb.append(rightStr);
-			sb.append(' ');
-			break;
+//		case SCREEN_READER:
+//			sb.append(leftStr);
+//			sb.append(ScreenReader.getPlus(loc));
+//			sb.append(rightStr);
+//			sb.append(' ');
+//			break;
 
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
