@@ -70,23 +70,6 @@ public class SerializationTest {
 	}
 
 	@Test
-	public void testScreenReader() {
-		tsc("x^2+2x-1", "x squared plus 2 times x minus 1");
-		tsc("sqrt(x+1)", "start square root x plus 1 end square root");
-		tsc("(x+1)/(x-1)",
-				"start fraction x plus 1 over x minus 1 end fraction");
-		tsc("sin(2x)", "sin open parenthesis 2 times x close parenthesis");
-		tsc("1*(x+0)", "1 times open parenthesis x plus 0 close parenthesis");
-		tsc("1*(x+0)/1", "1 times start fraction x plus 0 over 1 end fraction");
-	}
-
-	@Test
-	public void testScreenReaderFraction() {
-		tsc("1/2", "0.5");
-		tsc("1+1/2", "start fraction 3 over 2 end fraction");
-	}
-
-	@Test
 	public void testLaTeX() {
 		tex("Mean(1,2)", "mean\\left(1, 2 \\right)");
 		tex("Mean({1,2})", "mean\\left(\\left\\{1, 2\\right\\} \\right)");
@@ -133,13 +116,6 @@ public class SerializationTest {
 				((GeoFunction) geo).conditionalLaTeX(false,
 						StringTemplate.latexTemplate),
 				string2.replace("<=", Unicode.LESS_EQUAL + ""));
-	}
-
-	private static void tsc(String string, String string2) {
-		GeoElementND geo = eval(string);
-		Assert.assertEquals(string2,
-				geo.toValueString(StringTemplate.screenReader).trim()
-						.replaceAll(" +", " "));
 	}
 
 	private static void tex(String string, String string2) {
