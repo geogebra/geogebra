@@ -2032,7 +2032,7 @@ __GGB__keysVar["de"].menu = {
     "IntersectionCurve.Help": "W\xe4hle zwei Fl\xe4chen",
     "IntersectionCurveOfAB": "Schnittkurve von %0, %1",
     "IntersectionLineOfAB": "Schnittgerade von %0, %1",
-    "IntersectionOfAandB": "Schnittpfad von %0, %1",
+    "IntersectionOfAandB": "Schnittpunkt von %0, %1",
     "IntersectionPointOfAB": "Schnittpunkt von %0, %1",
     "IntersectionPointOfABNearC": "Schnittpunkt von %0, %1 nahe Punkt %2",
     "IntersectionPointOfABWithInitialValueC": "Schnittpunkt von %0, %1 mit Startwert %2",
