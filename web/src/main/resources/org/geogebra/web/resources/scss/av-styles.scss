@@ -526,6 +526,7 @@ $duration: 0.2s;
         background-color: $gray-background;
          &>div {
             width: 800px;
+            max-width: calc(100% - 48px);
             margin-left: auto;
             margin-right: auto;
             min-height: calc(100% - 24px);
