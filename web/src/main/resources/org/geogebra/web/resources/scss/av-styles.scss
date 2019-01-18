@@ -528,12 +528,17 @@ $duration: 0.2s;
             width: 800px;
             margin-left: auto;
             margin-right: auto;
-            min-height: calc(100% - 28px);
+            min-height: calc(100% - 24px);
+            box-sizing: border-box;
+            /** padding to make sure shadow goes to the very bottom when keyboard is open */
+            padding-bottom: 52px; 
             background: $white;
             margin-top: 24px;
             padding-top: 4px;
-            border-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
             box-shadow:  0px 0px 5px 1px rgba(0,0,0,0.2);
+            overflow-x: hidden;
         }
     }
 
