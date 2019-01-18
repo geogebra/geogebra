@@ -1,17 +1,18 @@
-package org.geogebra.web.shared.view;
+package org.geogebra.web.shared.view.button;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.ActionView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * A view element that can perform an action.
  */
-public class Actionable implements ActionView {
+public class ActionButton implements ActionView {
 
 	private App app;
 	private RootPanel view;
@@ -20,7 +21,7 @@ public class Actionable implements ActionView {
 	 * @param app The app.
 	 * @param view The wrapped view.
 	 */
-	public Actionable(App app, RootPanel view) {
+	public ActionButton(App app, RootPanel view) {
 		this.app = app;
 		this.view = view;
 	}
@@ -42,7 +43,7 @@ public class Actionable implements ActionView {
 
 	@Override
 	public void setEnabled(boolean enabled) {
-
+		Dom.toggleClass(view, "buttonActive", "buttonInactive", enabled);
 	}
 
 	/**
@@ -51,5 +52,9 @@ public class Actionable implements ActionView {
 	 */
 	public void setTitle(String titleLocalizationKey) {
 		AriaHelper.setTitle(view, app.getLocalization().getMenu(titleLocalizationKey), app);
+	}
+
+	RootPanel getView() {
+		return view;
 	}
 }

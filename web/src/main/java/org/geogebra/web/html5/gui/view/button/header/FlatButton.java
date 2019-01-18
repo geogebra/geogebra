@@ -11,9 +11,9 @@ import com.google.gwt.resources.client.ResourcePrototype;
 public class FlatButton extends StandardButton {
 
 	/**
-	 * @param app
-	 * @param icon
-	 * @param iconSize
+	 * @param app The app.
+	 * @param icon The icon.
+	 * @param iconSize The size of the icon.
 	 */
 	public FlatButton(App app, ResourcePrototype icon, int iconSize) {
 		super(icon, null, iconSize, app);

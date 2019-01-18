@@ -730,7 +730,7 @@ public abstract class GCustomButton extends ButtonBase {
 	 *            disable it
 	 */
 	@Override
-	public final void setEnabled(boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		if (isEnabled() != enabled) {
 			toggleDisabled();
 			super.setEnabled(enabled);

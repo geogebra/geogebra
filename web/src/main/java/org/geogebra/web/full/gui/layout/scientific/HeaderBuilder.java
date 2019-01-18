@@ -5,6 +5,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.view.button.header.DisappearingFlatButton;
 import org.geogebra.web.html5.gui.view.button.header.FlatButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -108,8 +109,8 @@ class HeaderBuilder {
 	}
 
 	private StandardButton createStyledRedoButton() {
-		StandardButton redoButton =
-				createFlatButtonWithIcon(MaterialDesignResources.INSTANCE.redo_black());
+		ResourcePrototype redoIcon = MaterialDesignResources.INSTANCE.redo_black();
+		DisappearingFlatButton redoButton = new DisappearingFlatButton(app, redoIcon, BUTTON_SIZE);
 		redoButton.setTitleWithLocalizationKey("Redo");
 		return redoButton;
 	}

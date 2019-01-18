@@ -537,28 +537,6 @@
 			display: inline-block;
 		}
 		
-		.buttonActive {
-			position: relative;
-			
-			img {
-				opacity: 0.54;
-			}
-				
-			&:hover {
-				img {
-					opacity: 0.84;
-				}	
-			}
-		}
-		
-		.buttonInactive {
-			position: relative;
-			cursor: default;
-			img {
-				opacity: 0.26;
-			}
-		}
-		
 		.hideButton {
 			display: none;
 		}

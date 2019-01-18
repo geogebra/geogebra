@@ -12,7 +12,8 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.shared.view.Actionable;
+import org.geogebra.web.shared.view.button.ActionButton;
+import org.geogebra.web.shared.view.button.DisappearingActionButton;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -152,7 +153,7 @@ public class GlobalHeader implements EventRenderable {
 	 * Initialize the settings button if it's on the header
 	 */
 	public void initSettingButtonIfOnHeader() {
-		Actionable settingsButton = getActionable("settingsButton");
+		ActionButton settingsButton = getActionButton("settingsButton");
 		if (settingsButton != null) {
 			settingsButton.setTitle("Settings");
 			settingsButton.setAction(new Runnable() {
@@ -172,33 +173,41 @@ public class GlobalHeader implements EventRenderable {
 	 * Initialize the undo and redo buttons if these are on the header
 	 */
 	public void initUndoRedoButtonsIfOnHeader() {
-		Actionable undoButton =  getUndoButton();
-		Actionable redoButton = getRedoButton();
+		ActionButton undoButton =  getUndoButton();
+		ActionButton redoButton = getRedoButton();
 		if (undoButton != null && redoButton != null) {
 			UndoRedoExecutor.addUndoRedoFunctionality(undoButton, redoButton, app.getKernel());
 		}
 	}
 
-	private Actionable getUndoButton() {
-		Actionable undoButton = getActionable("undoButton");
+	private ActionButton getUndoButton() {
+		ActionButton undoButton = getActionButton("undoButton");
 		if (undoButton != null) {
 			undoButton.setTitle("Undo");
 		}
 		return undoButton;
 	}
 
-	private Actionable getRedoButton() {
-		Actionable undoButton = getActionable("redoButton");
+	private ActionButton getRedoButton() {
+		ActionButton undoButton = getDisappearingActionButton("redoButton");
 		if (undoButton != null) {
 			undoButton.setTitle("Redo");
 		}
 		return undoButton;
 	}
 
-	private Actionable getActionable(String viewId) {
+	private ActionButton getActionButton(String viewId) {
 		RootPanel view = getViewById(viewId);
 		if (view != null) {
-			return new Actionable(app, view);
+			return new ActionButton(app, view);
+		}
+		return null;
+	}
+
+	private DisappearingActionButton getDisappearingActionButton(String viewId) {
+		RootPanel view = getViewById(viewId);
+		if (view != null) {
+			return new DisappearingActionButton(app, view);
 		}
 		return null;
 	}
