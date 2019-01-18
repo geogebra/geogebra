@@ -17,8 +17,8 @@ import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -587,13 +587,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				return;
 			}
 		}
-		if (toolbarPanel.app.getKernel().undoPossible()) {
-			btnUndo.addStyleName("buttonActive");
-			btnUndo.removeStyleName("buttonInactive");
-		} else {
-			btnUndo.removeStyleName("buttonActive");
-			btnUndo.addStyleName("buttonInactive");
-		}
+		Dom.toggleClass(btnUndo, "buttonActive", "buttonInactive",
+				toolbarPanel.app.getKernel().undoPossible());
 
 		if (toolbarPanel.app.getKernel().redoPossible()) {
 			btnRedo.removeStyleName("hideButton");
