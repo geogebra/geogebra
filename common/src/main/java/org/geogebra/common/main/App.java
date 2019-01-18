@@ -4104,7 +4104,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-31 */
 		case SPECIAL_POINTS_IN_CONTEXT_MENU:
-			return prerelease;
+			return true;
 
 		/** APPS-117 */
 		case FIX_EQUATIONS_AND_FUNCTIONS:
@@ -4120,7 +4120,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-200 */
 		case EQUATION_TYPE_SETTING:
-			return prerelease;
+			return true;
 
 		/** APPS-266 - only for testing */
 		case DROPDOWN_COMPONENT:
