@@ -5,7 +5,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -15,41 +15,31 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
-	/**
-	 * Estimated scrollbar width in desktop browsers; can overestimate a bit
-	 */
-	protected static final int SCROLLBAR_WIDTH = 20;
 	private AppW app;
 	private Panel header;
-	private ScrollPanel algebraPanel;
+	private ScrollPanel algebraScrollPanel;
 
 	@Override
 	public Panel decorate(ScrollPanel algebraPanel, AppW appW) {
 		this.app = appW;
-		this.algebraPanel = algebraPanel;
+		this.algebraScrollPanel = algebraPanel;
 
 		return buildAndStylePanel();
 	}
 
 	private Panel buildAndStylePanel() {
-		final FlowPanel panel = new FlowPanel();
+		FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
 		buildHeaderAndAddToPanel(panel);
-		panel.add(algebraPanel);
-		panel.addDomHandler(new MouseDownHandler() {
-
-			public void onMouseDown(MouseDownEvent event) {
-				if (event.getClientX() > panel.getOffsetWidth()
-						- SCROLLBAR_WIDTH) {
-				event.stopPropagation();
-				}
-
-			}
-		}, MouseDownEvent.getType());
+		panel.add(algebraScrollPanel);
+		ScientificScrollHandler scrollController = new ScientificScrollHandler(
+				app, panel);
+		panel.addDomHandler(scrollController, MouseDownEvent.getType());
+		panel.addBitlessDomHandler(scrollController, TouchStartEvent.getType());
 		return panel;
 	}
 
-	private void stylePanel(Panel panel) {
+	private static void stylePanel(Panel panel) {
 		panel.setHeight("100%");
 	}
 
@@ -64,7 +54,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	public void onResize() {
 		boolean smallScreen = AppW.smallScreen(app.getArticleElement());
 		header.setVisible(smallScreen);
-		Dom.toggleClass(algebraPanel, "algebraPanelScientificWithHeader",
+		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificWithHeader",
 				"algebraPanelScientificNohHeader", smallScreen);
 	}
 }
