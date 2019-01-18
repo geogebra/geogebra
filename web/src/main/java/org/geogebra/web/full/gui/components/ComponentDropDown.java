@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -10,8 +10,9 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author kriszta
@@ -27,11 +28,12 @@ public class ComponentDropDown extends FlowPanel {
     private GPopupMenuW dropDownMenu;
     private List<AriaMenuItem> dropDownElementsList;
     private DropDownSelectionCallback selectionCallback;
+	private int selectedIndex;
 
-    /**
-     *
-     * @param app AppW
-     */
+	/**
+	 *
+	 * @param app AppW
+	 */
     public ComponentDropDown(AppW app) {
         buildGui(app);
     }
@@ -72,22 +74,36 @@ public class ComponentDropDown extends FlowPanel {
 
             @Override
             public void onClickStart(int x, int y, PointerEventType type) {
-                dropDownMenu.showAtPoint(getAbsoluteLeft() + 16, getAbsoluteTop() - 64);
+				openAtSelectedItem();
             }
         });
     }
 
-    private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
+	/**
+	 * Opens DropDown at the top of the widget positioning selected item at the
+	 * center.
+	 */
+	void openAtSelectedItem() {
+		int top = titleLabel.getAbsoluteTop()
+				- (getSelectedIndex() + 1) * titleLabel.getOffsetHeight();
+		dropDownMenu.showAtPoint(titleLabel.getAbsoluteLeft(), top);
+	}
+
+	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
         for (AriaMenuItem menuItem : menuItems) {
             dropDownMenu.addItem(menuItem);
         }
     }
 
-    /**
-     * set the title of the dropdown in the preview view
-     * @param title
-     *      the localized title which is displayed above the selected option
-     */
+	private int getSelectedIndex() {
+		return selectedIndex;
+	}
+
+	/**
+	 * set the title of the dropdown in the preview view
+	 *
+	 * @param title the localized title which is displayed above the selected option
+	 */
     public void setTitleText(String title) {
         titleLabel.setText(title);
     }
@@ -98,7 +114,8 @@ public class ComponentDropDown extends FlowPanel {
      *      index of the selected item from the dropdown list
      */
     public void setSelected(int selected) {
-        selectedOptionLabel.setText(dropDownElementsList.get(selected).getElement().getInnerText());
+		selectedIndex = selected;
+		selectedOptionLabel.setText(dropDownElementsList.get(selected).getElement().getInnerText());
     }
 
     /**
