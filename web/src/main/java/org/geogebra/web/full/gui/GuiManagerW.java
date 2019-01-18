@@ -2144,13 +2144,13 @@ public class GuiManagerW extends GuiManager
 	 * @return default definition for general toolbar
 	 */
 	public String getDefaultToolbarString() {
-		if (toolbarPanel == null && !app.isUnbundled()) {
-			return "";
-		}
-		if (app.isUnbundled() && getUnbundledToolbar() != null) {
+		if (getUnbundledToolbar() != null) {
 			return ToolBar.getAllToolsNoMacros(true, false, getApp());
 		}
-		return getGeneralToolbar().getDefaultToolbarString();
+		if (toolbarPanel != null) {
+			return getGeneralToolbar().getDefaultToolbarString();
+		}
+		return "";
 	}
 
 	@Override
