@@ -4,6 +4,8 @@ import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -13,6 +15,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
+	/**
+	 * Estimated scrollbar width in desktop browsers; can overestimate a bit
+	 */
+	protected static final int SCROLLBAR_WIDTH = 20;
 	private AppW app;
 	private Panel header;
 	private ScrollPanel algebraPanel;
@@ -26,10 +32,20 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	private Panel buildAndStylePanel() {
-		FlowPanel panel = new FlowPanel();
+		final FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
 		buildHeaderAndAddToPanel(panel);
 		panel.add(algebraPanel);
+		panel.addDomHandler(new MouseDownHandler() {
+
+			public void onMouseDown(MouseDownEvent event) {
+				if (event.getClientX() > panel.getOffsetWidth()
+						- SCROLLBAR_WIDTH) {
+				event.stopPropagation();
+				}
+
+			}
+		}, MouseDownEvent.getType());
 		return panel;
 	}
 
