@@ -1,10 +1,8 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
@@ -21,11 +19,15 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import java.util.Arrays;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * global settings tab
- * 
+ *
  * @author csilla
  *
  */
@@ -43,7 +45,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 	/**
 	 * tab for global settings
-	 * 
+	 *
 	 * @author csilla
 	 *
 	 */
@@ -112,8 +114,16 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 			final EnumerableProperty property = new FontSizeProperty(app, app.getLocalization());
 			selector.setTitleText(property.getName());
-			selector.setElements(Arrays.asList(property.getValues()));
-			selector.setSelected(property.getIndex());
+
+			List<String> items = new ArrayList<>();
+			for (int i = 0; i < 120; i++) {
+				items.add(i + " item");
+			}
+			selector.setElements(items);
+			selector.setSelected(1);
+
+//			selector.setElements(Arrays.asList(property.getValues()));
+//			selector.setSelected(property.getIndex());
 			selector.setDropDownSelectionCallback(
 					new ComponentDropDown.DropDownSelectionCallback() {
 						@Override

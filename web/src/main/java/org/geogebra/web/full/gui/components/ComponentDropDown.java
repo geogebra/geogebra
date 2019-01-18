@@ -84,9 +84,20 @@ public class ComponentDropDown extends FlowPanel {
 	 * center.
 	 */
 	void openAtSelectedItem() {
-		int top = titleLabel.getAbsoluteTop()
-				- (getSelectedIndex() + 1) * titleLabel.getOffsetHeight();
-		dropDownMenu.showAtPoint(titleLabel.getAbsoluteLeft(), top);
+		int anchorTop = titleLabel.getAbsoluteTop();
+		int itemTop = (getSelectedIndex() + 1) * titleLabel.getOffsetHeight();
+		boolean fitToScreen = anchorTop > itemTop;
+		int left = titleLabel.getAbsoluteLeft();
+
+		if (fitToScreen) {
+			dropDownMenu.showAtPoint(left, anchorTop - itemTop);
+		} else {
+			dropDownMenu.showAtPoint(left,
+					anchorTop - dropDownMenu.getPopupPanel().getOffsetHeight() / 2);
+
+			// dropDownMenu.getPopupPanel().getElement().setScrollTop(itemTop);
+		}
+
 	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
