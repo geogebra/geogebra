@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Class that describes the geometry of the 3D cursor
@@ -20,7 +21,7 @@ public class PlotterCursor {
 	public static final int TYPE_ALREADY_XYZ = 6;
 	public static final int TYPE_CUBE = 7;
 	public static final int TYPE_SPHERE = 8;
-	public static final int TYPE_SPHERE_HIGHLIGHTED = 9;
+	public static final int TYPE_TARGET_CIRCLE = 9;
 	public static final int TYPE_ROTATION = 10;
 
 	static private int TYPE_LENGTH = 11;
@@ -35,6 +36,13 @@ public class PlotterCursor {
 	static private float thickness3 = 2 * thickness;
 
 	static private float size_cube = size_start_move;
+
+	static private float TARGET_DOT_ALPHA = 0.87f;
+
+	static private float TARGET_CIRCLE_THICKNESS = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS
+			* PlotterBrush.LINE3D_THICKNESS;
+	static private float TARGET_CIRCLE_RADIUS = 100f;
+	static private float TARGET_CIRCLE_ALPHA = 0.38f;
 
 	private int[] index;
 
@@ -172,16 +180,16 @@ public class PlotterCursor {
 		// sphere
 		index[TYPE_SPHERE] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		cursorSphere(1f, 0.87f);
+		cursorSphere(1f, TARGET_DOT_ALPHA);
 		manager.endGeometry();
 		manager.endList();
 
-		// sphere
-		index[TYPE_SPHERE_HIGHLIGHTED] = manager.startNewList(-1, true);
-		manager.startGeometry(Manager.Type.TRIANGLES);
-		cursorSphere(0.75f, 0.25f);
-		manager.endGeometry();
-		manager.endList();
+		// circle for target
+		brush.start(-1);
+		brush.setColor(GColor.WHITE, TARGET_CIRCLE_ALPHA);
+		brush.setThickness(TARGET_CIRCLE_THICKNESS);
+		brush.circle(Coords.O, Coords.VX, Coords.VY, TARGET_CIRCLE_RADIUS, 64);
+		index[TYPE_TARGET_CIRCLE] = brush.end();
 
 		// rotation
 		brush.start(-1);

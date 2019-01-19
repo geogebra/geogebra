@@ -1099,16 +1099,26 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * draws a 3D cross cursor; doesn't modify the lighting
+	 * 
+	 * @param dotMatrix
+	 *            matrix for target dot
+	 * @param circleMatrix
+	 *            matrix for target circle
 	 *
-	 * @param cursorType
-	 *            cursor type
 	 */
-	final public void drawTarget(int cursorType) {
+	final public void drawTarget(CoordMatrix4x4 dotMatrix,
+			CoordMatrix4x4 circleMatrix) {
 		disableLighting();
 		disableDepthMask();
 		enableBlending();
+		setMatrix(dotMatrix);
 		initMatrix();
-		geometryManager.draw(geometryManager.cursor.getIndex(cursorType));
+		geometryManager.draw(
+				geometryManager.cursor.getIndex(PlotterCursor.TYPE_SPHERE));
+		setMatrix(circleMatrix);
+		initMatrix();
+		geometryManager.draw(geometryManager.cursor
+				.getIndex(PlotterCursor.TYPE_TARGET_CIRCLE));
 		resetMatrix();
 		disableBlending();
 		enableDepthMask();

@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Hits;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -38,21 +37,21 @@ public enum TargetType {
 	POINT_ON_REGION {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			drawSphere(renderer, view3d);
+			doDrawTarget(renderer, view3d);
 		}
 	},
 	/** target new point on path */
 	POINT_ON_PATH {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			drawSphere(renderer, view3d);
+			doDrawTarget(renderer, view3d);
 		}
 	},
 	/** target new point at intersection */
 	POINT_INTERSECTION {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			drawSphere(renderer, view3d);
+			doDrawTarget(renderer, view3d);
 		}
 	},
 	/** target existing point for move or select tools */
@@ -77,7 +76,7 @@ public enum TargetType {
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
 		    // avoid z-fighting
             renderer.setLayer(view3d.getCursor3D().getLayer() + 1);
-            drawSphere(renderer, view3d);
+            doDrawTarget(renderer, view3d);
             renderer.setLayer(Renderer.LAYER_DEFAULT);
 		}
 	},
@@ -85,21 +84,21 @@ public enum TargetType {
 	POINT_FREE {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-            drawSphere(renderer, view3d);
+            doDrawTarget(renderer, view3d);
 		}
 	},
 	/** target path to select */
 	SELECT_PATH {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			drawSphere(renderer, view3d);
+			doDrawTarget(renderer, view3d);
 		}
 	},
 	/** target region to select */
 	SELECT_REGION {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
-			drawSphere(renderer, view3d);
+			doDrawTarget(renderer, view3d);
 		}
 	},
 	/** target path or region with "view in front of" tool */
@@ -346,9 +345,9 @@ public enum TargetType {
 	 * @param view3d
 	 *            3D view
 	 */
-	static protected void drawSphere(Renderer renderer,
+	static protected void doDrawTarget(Renderer renderer,
 			EuclidianView3D view3d) {
-		renderer.setMatrix(view3d.getCursorMatrix());
-		renderer.drawTarget(PlotterCursor.TYPE_SPHERE);
+		renderer.drawTarget(view3d.getCursorMatrix(),
+				view3d.getTargetCircleMatrix());
 	}
 }

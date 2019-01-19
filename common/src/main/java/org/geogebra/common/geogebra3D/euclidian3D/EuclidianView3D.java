@@ -285,6 +285,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private EuclidianView3DCompanion companion3D;
 
 	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
+	private CoordMatrix4x4 targetCircleMatrix;
 	private Coords cursorNormal = new Coords(3);
 
 	private Coords startPos;
@@ -2406,6 +2407,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
+				updateTargetCircleMatrixForPoint();
 				break;
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
@@ -2417,6 +2419,7 @@ public abstract class EuclidianView3D extends EuclidianView
 						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, cursorMatrix);
 				scaleXYZ(cursorMatrix.getOrigin());
 				if (getEuclidianController().isCreatingPointAR()) {
+					targetCircleMatrix.set(cursorMatrix);
 					t = EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
 							* DrawPoint3D.DRAW_POINT_FACTOR;
 					cursorMatrix.getVx().mulInside3(t);
@@ -2435,6 +2438,12 @@ public abstract class EuclidianView3D extends EuclidianView
 				cursorNormal.normalize();
 				CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1, tmpCoords2, cursorMatrix);
 				if (getEuclidianController().isCreatingPointAR()) {
+					targetCircleMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
+					scaleXYZ(targetCircleMatrix.getOrigin());
+					targetCircleMatrix.setVx(cursorMatrix.getVy());
+					targetCircleMatrix.setVy(cursorMatrix.getVz());
+					targetCircleMatrix.setVz(cursorMatrix.getVx());
 					t = path.getLineThickness()
 							+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_ON_PATH;
 					cursorMatrix.getVx().mulInside3(t);
@@ -2447,6 +2456,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 				break;
 			case PREVIEW_POINT_DEPENDENT:
+				updateTargetCircleMatrixForPoint();
 				// use size of intersection
 				cursorMatrix.setOrigin(
 						getCursor3D().getDrawingMatrix().getOrigin());
@@ -2471,6 +2481,7 @@ public abstract class EuclidianView3D extends EuclidianView
 					cursorMatrix.getVx().setMul(Coords.VX, t);
 					cursorMatrix.getVy().setMul(Coords.VY, t);
 					cursorMatrix.getVz().setMul(Coords.VZ, t);
+					updateTargetCircleMatrixForPoint();
 				} else {
 					if (getCursor3D().isPointOnPath()) {
 						cursorNormal.set3(((GeoElement) getCursor3D().getPath())
@@ -2515,6 +2526,18 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 		// Application.debug("getCursor3DType()="+getCursor3DType());
 
+	}
+
+	private void updateTargetCircleMatrixForPoint() {
+		targetCircleMatrix
+				.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
+		scaleXYZ(targetCircleMatrix.getOrigin());
+		getHittingDirection(tmpCoordsLength4);
+		CoordMatrix4x4.completeOrtho(tmpCoordsLength4, tmpCoords1, tmpCoords2,
+				tmpMatrix4x4);
+		targetCircleMatrix.setVx(tmpMatrix4x4.getVy());
+		targetCircleMatrix.setVy(tmpMatrix4x4.getVz());
+		targetCircleMatrix.setVz(tmpMatrix4x4.getVx());
 	}
 
 	public Coords getCursorNormal() {
@@ -4902,6 +4925,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setAREnabled(boolean isAREnabled) {
 		mIsAREnabled = isAREnabled;
+		if (mIsAREnabled) {
+			targetCircleMatrix = new CoordMatrix4x4();
+		}
 		updateMatrixForCursor3D();
         ((EuclidianController3D) euclidianController).scheduleMouseExit();
 	}
@@ -4936,6 +4962,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public CoordMatrix4x4 getCursorMatrix() {
 		return cursorMatrix;
+	}
+
+	/**
+	 * 
+	 * @return matrix for target circle
+	 */
+	public CoordMatrix4x4 getTargetCircleMatrix() {
+		return targetCircleMatrix;
 	}
 
 	@Override
