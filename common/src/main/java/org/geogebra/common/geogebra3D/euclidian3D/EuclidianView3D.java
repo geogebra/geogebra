@@ -2419,7 +2419,10 @@ public abstract class EuclidianView3D extends EuclidianView
 						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, cursorMatrix);
 				scaleXYZ(cursorMatrix.getOrigin());
 				if (getEuclidianController().isCreatingPointAR()) {
-					targetCircleMatrix.set(cursorMatrix);
+                    updateTargetCircleMatrixOrigin();
+                    targetCircleMatrix.setVx(cursorMatrix.getVx());
+                    targetCircleMatrix.setVy(cursorMatrix.getVy());
+                    targetCircleMatrix.setVz(cursorMatrix.getVz());
 					t = EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
 							* DrawPoint3D.DRAW_POINT_FACTOR;
 					cursorMatrix.getVx().mulInside3(t);
@@ -2438,9 +2441,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				cursorNormal.normalize();
 				CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1, tmpCoords2, cursorMatrix);
 				if (getEuclidianController().isCreatingPointAR()) {
-					targetCircleMatrix.setOrigin(
-							getCursor3D().getDrawingMatrix().getOrigin());
-					scaleXYZ(targetCircleMatrix.getOrigin());
+                    updateTargetCircleMatrixOrigin();
 					targetCircleMatrix.setVx(cursorMatrix.getVy());
 					targetCircleMatrix.setVy(cursorMatrix.getVz());
 					targetCircleMatrix.setVz(cursorMatrix.getVx());
@@ -2528,11 +2529,18 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
+    private void updateTargetCircleMatrixOrigin() {
+        getHittingOrigin(null, tmpCoords1);
+        getHittingDirection(tmpCoordsLength4);
+        getCursor3D().getDrawingMatrix().getOrigin().projectLine(tmpCoords1,
+                tmpCoordsLength4, tmpCoords2);
+        targetCircleMatrix.setOrigin(tmpCoords2);
+        scaleXYZ(targetCircleMatrix.getOrigin());
+    }
+
 	private void updateTargetCircleMatrixForPoint() {
-		targetCircleMatrix
-				.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
-		scaleXYZ(targetCircleMatrix.getOrigin());
-		getHittingDirection(tmpCoordsLength4);
+	    updateTargetCircleMatrixOrigin();
+		// warning: tmpCoordsLength4 set to hitting direction in updateTargetCircleMatrixOrigin()
 		CoordMatrix4x4.completeOrtho(tmpCoordsLength4, tmpCoords1, tmpCoords2,
 				tmpMatrix4x4);
 		targetCircleMatrix.setVx(tmpMatrix4x4.getVy());
