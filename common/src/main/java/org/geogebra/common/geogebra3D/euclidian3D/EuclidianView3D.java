@@ -2476,10 +2476,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 			case PREVIEW_POINT_ALREADY:
 				if (getEuclidianController().isCreatingPointAR()
-						&& !TargetType.isModePointAlreadyMoveOrSelect(
-								getEuclidianController().getMode())
-						&& !TargetType.isModePointAlreadyAsPointTool(
-								getEuclidianController().getMode())) {
+						&& targetType == TargetType.POINT_ALREADY_NO_ARROW) {
 					cursorMatrix.setOrigin(
 							getCursor3D().getDrawingMatrix().getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());

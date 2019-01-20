@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -62,16 +63,16 @@ public enum TargetType {
 			view3d.drawPointAlready(view3d.getCursor3D());
 		}
 	},
-	/** target existing point with point (or point on object) tool */
-	POINT_ALREADY_POINT_TOOL {
+	/** target existing point where arrows are shown to move it */
+	POINT_ALREADY_SHOW_ARROWS {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
 			renderer.setMatrix(view3d.getCursorMatrix());
             view3d.drawPointAlready(view3d.getCursor3D());
 		}
 	},
-	/** target existing point with a tool that can NOT move a point */
-	POINT_ALREADY_CANNOT_MOVE_TOOL {
+	/** target existing point where no arrow are shown */
+	POINT_ALREADY_NO_ARROW {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d) {
 		    // avoid z-fighting
@@ -127,10 +128,11 @@ public enum TargetType {
 				return POINT_ALREADY_MOVE_OR_SELECT;
 			}
 			if (isModePointAlreadyAsPointTool(mode)) {
-				return POINT_ALREADY_POINT_TOOL;
+                return view3D.getCursor3D().getMoveMode() == GeoPointND.MOVE_MODE_NONE ?
+                        POINT_ALREADY_NO_ARROW : POINT_ALREADY_SHOW_ARROWS;
 			}
 			if (isModeForCreatingPoint(mode)) {
-				return POINT_ALREADY_CANNOT_MOVE_TOOL;
+				return POINT_ALREADY_NO_ARROW;
 			}
 			return NOT_USED;
 
