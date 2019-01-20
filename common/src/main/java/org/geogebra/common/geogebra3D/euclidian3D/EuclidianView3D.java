@@ -2457,7 +2457,9 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 				break;
 			case PREVIEW_POINT_DEPENDENT:
-				updateTargetCircleMatrixForPoint();
+                if (getEuclidianController().isCreatingPointAR()) {
+                    updateTargetCircleMatrixForPoint();
+                }
 				// use size of intersection
 				cursorMatrix.setOrigin(
 						getCursor3D().getDrawingMatrix().getOrigin());
