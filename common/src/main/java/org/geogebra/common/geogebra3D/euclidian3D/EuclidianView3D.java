@@ -297,6 +297,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Augmented Reality
 	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
+	private TargetType targetType;
 
 	/**
 	 * common constructor
@@ -2105,6 +2106,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setCursor3DType(int v) {
 		cursor3DType = v;
 		cursor3DVisible = true;
+		if (euclidianController.isCreatingPointAR()) {
+            targetType = TargetType.getCurrentTargetType(this, (EuclidianController3D)
+                    euclidianController);
+        }
 	}
 
 	@Override
@@ -2763,10 +2768,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void drawTarget(Renderer renderer1) {
-		TargetType
-				.getCurrentTargetType(this,
-						(EuclidianController3D) euclidianController)
-				.drawTarget(renderer1, this);
+		targetType.drawTarget(renderer1, this);
 	}
 
 	/**
