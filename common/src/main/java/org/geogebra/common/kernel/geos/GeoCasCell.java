@@ -1537,9 +1537,9 @@ public class GeoCasCell extends GeoElement
 				case NONE:
 					break;
 				}
-				// #5119 make sure internally the result does not depend on
-				// rounding
-				sb.append(outputVE.toString(StringTemplate.numericDefault));
+				// #5119 / TRAC-4213 make sure internally the result does not
+				// depend on rounding
+				sb.append(outputVE.toString(StringTemplate.numericNoLocal));
 				res = sb.toString();
 			}
 
