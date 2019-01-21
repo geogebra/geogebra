@@ -32,6 +32,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		stylePanel(panel);
 		buildHeaderAndAddToPanel(panel);
 		panel.add(algebraScrollPanel);
+		algebraScrollPanel.addStyleName("algebraPanelScientific");
 		ScientificScrollHandler scrollController = new ScientificScrollHandler(
 				app, panel);
 		panel.addDomHandler(scrollController, MouseDownEvent.getType());

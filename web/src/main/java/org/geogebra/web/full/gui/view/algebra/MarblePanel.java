@@ -83,10 +83,7 @@ public class MarblePanel extends FlowPanel
 	@Override
 	public void update() {
 		marble.setEnabled(shouldShowMarble());
-
 		marble.setChecked(item.geo != null && item.geo.isEuclidianVisible());
-
-		setHighlighted(selected);
 	}
 
 	private boolean shouldShowMarble() {

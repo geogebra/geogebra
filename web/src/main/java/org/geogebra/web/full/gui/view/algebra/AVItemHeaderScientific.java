@@ -13,7 +13,10 @@ public class AVItemHeaderScientific extends SimplePanel
 	private Label number;
 	private NoDragImage warningImage;
 
-	public AVItemHeaderScientific(RadioTreeItem radioTreeItem) {
+	/**
+	 * Create new number header
+	 */
+	public AVItemHeaderScientific() {
 		setStyleName("avItemHeaderScientific");
 		number = new Label();
 		number.setStyleName("avItemNumber");
@@ -36,13 +39,12 @@ public class AVItemHeaderScientific extends SimplePanel
 
 	@Override
 	public void setLabels() {
-		// TODO Auto-generated method stub
-
+		// no localization
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		// nothing to do
 	}
 
 	@Override
