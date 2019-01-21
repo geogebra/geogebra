@@ -954,8 +954,10 @@ public abstract class Renderer implements RendererInterface {
 
 	/**
 	 * draw view cursor
+	 * 
+	 * WARNING: needs to be protected for iOS
 	 */
-	private void drawCursor() {
+	protected void drawCursor() {
 		if (enableClipPlanes) {
 			disableClipPlanes();
 		}
