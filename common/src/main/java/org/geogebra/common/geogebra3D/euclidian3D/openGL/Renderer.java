@@ -183,13 +183,6 @@ public abstract class Renderer implements RendererInterface {
 		return new Textures(this);
 	}
 
-	/**
-	 * Restart AR session.
-	 */
-	public void setARShouldRestart() {
-		// used in AR implementations
-	}
-
     /**
      * Start AR session
      */
@@ -197,6 +190,9 @@ public abstract class Renderer implements RendererInterface {
         arShouldStart = true;
     }
 
+	/**
+	 * start AR if needed
+	 */
     public void mayStartAR() {
         if (arShouldStart) {
             doStartAR();
@@ -204,9 +200,10 @@ public abstract class Renderer implements RendererInterface {
         }
     }
 
-    protected void doStartAR() {
-        // used in AR implementations
-    }
+	/**
+	 * do start AR
+	 */
+	abstract protected void doStartAR();
 
 	/**
      * @param ret Hitting Direction from AR. Override in RendererWithImplA

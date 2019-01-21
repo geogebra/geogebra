@@ -160,4 +160,14 @@ public class RendererForExport extends RendererWithImpl {
 		reduceForClipping = flag;
 	}
 
+	@Override
+	public void setARShouldRestart() {
+		// used in AR implementations
+	}
+
+	@Override
+	protected void doStartAR() {
+		// used in AR implementations
+	}
+
 }

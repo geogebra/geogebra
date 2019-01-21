@@ -356,4 +356,14 @@ public class RendererWithImplW extends RendererWithImpl implements
 		// TODO implement?
 	}
 
+	@Override
+	public void setARShouldRestart() {
+		// used in AR implementations
+	}
+
+	@Override
+	protected void doStartAR() {
+		// used in AR implementations
+	}
+
 }

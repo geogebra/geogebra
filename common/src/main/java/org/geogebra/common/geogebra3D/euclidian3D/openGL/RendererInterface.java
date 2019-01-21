@@ -311,4 +311,9 @@ public interface RendererInterface {
 	 */
 	abstract public void updateOrthoValues();
 
+	/**
+	 * Restart AR session.
+	 */
+	public void setARShouldRestart();
+
 }
