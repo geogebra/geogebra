@@ -2394,15 +2394,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * Focus the first AV item.
-	 */
-	public void focusFirst() {
-		if (inputPanelLatex != null) {
-			inputPanelLatex.focus();
-		}
-	}
-
-	/**
 	 * Open settings menu for geo.
 	 * 
 	 * @param geo
@@ -2422,4 +2413,5 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public ItemFactory getItemFactory() {
 		return itemFactory;
 	}
+
 }

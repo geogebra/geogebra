@@ -157,7 +157,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	/**
 	 * this panel contains the marble (radio) button
 	 */
-	protected MarblePanel marblePanel;
+	protected AlgebraItemHeader marblePanel;
 
 	protected FlowPanel definitionPanel;
 
@@ -253,7 +253,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
 
-		marblePanel = new MarblePanel(this);
+		marblePanel = app.getActivity().createAVItemHeader(this);
+		marblePanel.setIndex(((AlgebraViewW) av).getItemCount());
 		main.add(marblePanel);
 	}
 
@@ -842,6 +843,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void styleScrollBox() {
 		content.addStyleName("scrollableTextBox");
+		getHelpToggle().setIndex(((AlgebraViewW) av).getItemCount());
 	}
 
 	/**
@@ -1344,7 +1346,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public UIObject getHelpToggle() {
+	public AlgebraItemHeader getHelpToggle() {
 		return this.marblePanel;
 	}
 
@@ -2159,6 +2161,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		content.addStyleName("noPreview");
 		renderLatex("", false);
 		content.getElement().setTabIndex(GUITabs.AV_INPUT);
+		getHelpToggle().setIndex(1);
 		return this;
 	}
 
@@ -2248,18 +2251,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Move HTML focus to this element
-	 */
-	public void focus() {
-		if (isInputTreeItem()) {
-			marblePanel.focusPlusButton();
-		}
-	}
-
-	/**
 	 * Open settings context menu for this item.
 	 */
 	public void openMoreMenu() {
 		controls.showMoreContexMenu();
 	}
+
 }

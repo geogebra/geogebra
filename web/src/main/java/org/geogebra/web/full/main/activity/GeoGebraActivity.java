@@ -2,6 +2,8 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -45,4 +47,11 @@ public interface GeoGebraActivity {
 	 * @return panel for algebra view
 	 */
 	DockPanelW createAVPanel();
+
+	/**
+	 * @param radioTreeItem
+	 *            AV item
+	 * @return header for AV item
+	 */
+	AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem);
 }

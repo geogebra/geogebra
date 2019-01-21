@@ -34,7 +34,7 @@ public final class WarningErrorHandler implements ErrorHandler {
 	@Override
 	public void showError(String msg) {
 		input.setError(msg);
-		input.getHelpToggle().getElement().setTitle(msg == null
+		input.getHelpToggle().asWidget().getElement().setTitle(msg == null
 				? app2.getLocalization().getMenu("InputHelp") : msg);
 		if (app2.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()
 				&& input.getHelpToggle() instanceof MarblePanel) {
@@ -65,8 +65,8 @@ public final class WarningErrorHandler implements ErrorHandler {
 					.getGuiManager()).getInputHelpPanel();
 			helpPanel.focusCommand(
 					app2.getLocalization().getCommand(command));
-			input.getHelpToggle().getElement().setTitle(
-					app2.getLocalization().getError("InvalidInput"));
+			input.getHelpToggle().asWidget().getElement()
+					.setTitle(app2.getLocalization().getError("InvalidInput"));
 		}
 	}
 
@@ -85,6 +85,10 @@ public final class WarningErrorHandler implements ErrorHandler {
 				: undefinedVariables;
 	}
 
+	/**
+	 * @param undefinedValiables
+	 *            undefined variables
+	 */
 	public static void setUndefinedValiables(String undefinedValiables) {
 		WarningErrorHandler.undefinedVariables = undefinedValiables;
 	}

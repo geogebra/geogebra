@@ -10,8 +10,8 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * @author Zbynek
  */
 public class MarblePanel extends FlowPanel
-		implements SetLabels, KeyDownHandler {
+		implements SetLabels, KeyDownHandler, AlgebraItemHeader {
 	
 	private Marble marble;
 	private boolean selected = false;
@@ -64,7 +64,6 @@ public class MarblePanel extends FlowPanel
 			add(marble);
 		} else {
 			updateIcons(false);
-			
 		}
 		update();
 	}
@@ -73,6 +72,7 @@ public class MarblePanel extends FlowPanel
 	 * @param selected
 	 *            whether this should be highlighted
 	 */
+	@Override
 	public void setHighlighted(boolean selected) {
 		this.selected = selected;
 	}
@@ -80,6 +80,7 @@ public class MarblePanel extends FlowPanel
 	/**
 	 * Update marble visibility and highlighting
 	 */
+	@Override
 	public void update() {
 		marble.setEnabled(shouldShowMarble());
 
@@ -101,6 +102,7 @@ public class MarblePanel extends FlowPanel
 	 *            pointer y-coord
 	 * @return whether pointer is over this
 	 */
+	@Override
 	public boolean isHit(int x, int y) {
 		return x > getAbsoluteLeft()
 				&& x < getAbsoluteLeft() + getOffsetWidth()
@@ -111,6 +113,7 @@ public class MarblePanel extends FlowPanel
 	 * @param warning
 	 *            whether warning triangle should be visible
 	 */
+	@Override
 	public void updateIcons(boolean warning) {
 		MyToggleButton btn = null;
 		String tooltip = "";
@@ -282,6 +285,7 @@ public class MarblePanel extends FlowPanel
 	/**
 	 * @return help button
 	 */
+	@Override
 	public MyToggleButton getBtnHelpToggle() {
 		return btnHelpToggle;
 	}
@@ -294,9 +298,9 @@ public class MarblePanel extends FlowPanel
 	}
 
 	/**
-	 * 
 	 * @return the Plus menu button.
 	 */
+	@Override
 	public MyToggleButton getBtnPlus() {
 		return btnPlus;
 	}
@@ -337,7 +341,6 @@ public class MarblePanel extends FlowPanel
 			}
 
 		});
-
 	}
 
 	/**
@@ -354,15 +357,6 @@ public class MarblePanel extends FlowPanel
 		return item.showCurrentError();
 	}
 
-	/**
-	 * Focus the Plus button of AV Input.
-	 */
-	public void focusPlusButton() {
-		if (btnPlus != null) {
-			btnPlus.getElement().focus();
-		}
-	}
-
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		Object source = event.getSource();
@@ -372,5 +366,10 @@ public class MarblePanel extends FlowPanel
 				onPlusPressed();
 			}
 		}
+	}
+
+	@Override
+	public void setIndex(int itemCount) {
+		// index not visible
 	}
 }

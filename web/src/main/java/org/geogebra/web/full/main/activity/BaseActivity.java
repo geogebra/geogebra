@@ -4,6 +4,9 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
+import org.geogebra.web.full.gui.view.algebra.MarblePanel;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -52,5 +55,10 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public DockPanelW createAVPanel() {
 		return new ToolbarDockPanelW();
+	}
+
+	@Override
+	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem) {
+		return new MarblePanel(radioTreeItem);
 	}
 }

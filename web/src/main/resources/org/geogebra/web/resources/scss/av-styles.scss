@@ -543,6 +543,20 @@ $duration: 0.2s;
         }
     }
 
+    .avItemHeaderScientific {
+        position: absolute;
+        height: 100%;
+        width: 56px;
+    }
+
+    .avItemNumber, .avWarningScientific {
+        color: $text-secondary;
+        font-size: 75%;
+        top: 14px;
+        left: 8px;
+        position: absolute;
+    }
+
 }
 
 @keyframes removeSuggestions {

@@ -5,9 +5,12 @@ import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactor
 import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
+import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
+import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
@@ -35,13 +38,13 @@ public class ScientificActivity extends BaseActivity {
 		initHeaderButtons(app);
 	}
 
-	private void initHeaderButtons(AppW app) {
+	private static void initHeaderButtons(AppW app) {
 		initMenuToggleButton(app);
 		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
 		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
 	}
 
-	private void initMenuToggleButton(AppW app) {
+	private static void initMenuToggleButton(AppW app) {
 		MenuToggleButton btn = new MenuToggleButton(app);
 		btn.setExternal(true);
 		btn.addToGlobalHeader();
@@ -66,4 +69,10 @@ public class ScientificActivity extends BaseActivity {
 	public DockPanelW createAVPanel() {
 		return new AlgebraDockPanelW(new ScientificDockPanelDecorator());
 	}
+
+	@Override
+	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem) {
+		return new AVItemHeaderScientific(radioTreeItem);
+	}
+
 }

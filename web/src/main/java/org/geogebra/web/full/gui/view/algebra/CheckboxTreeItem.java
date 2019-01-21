@@ -75,7 +75,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 	@Override
 	protected void addAVEXWidget(Widget w) {
 		main.clear();
-		main.add(marblePanel);
+		main.add(marblePanel.asWidget());
 		if (checkBox != null) {
 			main.add(checkBox);
 		}

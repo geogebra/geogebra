@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.inputbar;
 
-import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * UI element with help button
@@ -16,7 +16,7 @@ public interface HasHelpButton {
 	/**
 	 * @return help toggle button
 	 */
-	UIObject getHelpToggle();
+	IsWidget getHelpToggle();
 
 	/**
 	 * Update the icon to info / error
