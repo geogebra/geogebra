@@ -143,11 +143,12 @@ public abstract class Renderer implements RendererInterface {
 	public boolean waitForSetStencilLines = false;
 	private Runnable export3DRunnable;
 
-	//ARCore
+	// AR
 	private CoordMatrix4x4 arCameraView;
 	private CoordMatrix4x4 arModelMatrix;
 	private CoordMatrix4x4 arCameraPerspective;
 	private float arScaleFactor;
+    private boolean arShouldStart = false;
 
 	/**
 	 * background type (only for AR)
@@ -193,6 +194,17 @@ public abstract class Renderer implements RendererInterface {
      * Start AR session
      */
     public void setARShouldStart(){
+        arShouldStart = true;
+    }
+
+    public void mayStartAR() {
+        if (arShouldStart) {
+            doStartAR();
+            arShouldStart = false;
+        }
+    }
+
+    protected void doStartAR() {
         // used in AR implementations
     }
 
