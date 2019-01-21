@@ -579,6 +579,15 @@ public class GuiManagerW extends GuiManager
 		if (sciSettingsView == null) {
 			sciSettingsView = new ScientificSettingsView(getApp());
 		}
+		AppW app = getApp();
+		app.setHeaderHidden(true);
+		app.setCloseBrowserCallback(new Runnable() {
+			@Override
+			public void run() {
+				AppW app = getApp();
+				app.setHeaderHidden(false);
+			}
+		});
 		getApp().getAppletFrame().showBrowser(sciSettingsView);
 	}
 

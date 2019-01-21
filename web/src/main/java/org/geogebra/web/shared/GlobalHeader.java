@@ -159,22 +159,7 @@ public class GlobalHeader implements EventRenderable {
 			settingsButton.setAction(new Runnable() {
 				@Override
 				public void run() {
-					if (getButtonElement().getParentElement() != null) {
-						getButtonElement().getParentElement().getStyle()
-								.setDisplay(Display.NONE);
-					}
-					AppW app = getApp();
 					app.getGuiManager().showSciSettingsView();
-					app.setCloseBrowserCallback(new Runnable() {
-						
-						@Override
-						public void run() {
-							Element element = getButtonElement().getParentElement();
-							if (element != null) {
-								element.getStyle().setDisplay(Display.BLOCK);
-							}
-						}
-					});
 				}
 			});
 		}

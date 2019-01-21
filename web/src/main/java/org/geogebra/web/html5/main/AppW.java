@@ -207,6 +207,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
 	private boolean headerVisible;
+	private boolean isHeaderHidden = false;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
 	WebsocketLogger webSocketLogger = null;
@@ -403,7 +404,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = !AppW.smallScreen(getArticleElement());
+			boolean visible = !isHeaderHidden && !AppW.smallScreen(getArticleElement());
 			header.getStyle().setProperty("display", visible ? "" : "none");
 			if (headerVisible != visible) {
 				headerVisible = visible;
@@ -423,6 +424,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getArticleElement().attr("marginTop", "0");
 			fitSizeToScreen();
 		}
+	}
+	
+	/**
+	 * Hides the header, even if there is enough place to show it.
+	 * 
+	 * @param hide whether to hide the header
+	 */
+	public void setHeaderHidden(boolean hidden) {
+		isHeaderHidden = hidden;
+		updateHeaderVisible();
 	}
 
 	/**
