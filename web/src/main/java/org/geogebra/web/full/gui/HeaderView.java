@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -64,5 +65,9 @@ public class HeaderView extends FlowPanel {
      */
     public void setCaption(String text) {
     	caption.setText(text);
+    }
+    
+    public void resizeTo(boolean smallScreen) {
+    	Dom.toggleClass(this, "smallHeaderView", "headerView", smallScreen);
     }
 }

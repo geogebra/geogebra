@@ -37,6 +37,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
 		StyleInjector.inject(GuiResources.INSTANCE.texttoolStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.scientificLayoutScss());
+		StyleInjector.inject(GuiResources.INSTANCE.headerScss());
 
 		injectLTRstyles();
 	}

@@ -2,17 +2,17 @@
 
 $header_shadow: 0 2px 2px 0 $black-14, 0 1px 5px 0 $black-12, 0 3px 1px -2px $black-2;
 $header_height: 64px;
+$small_header_height: 56px;
 $button_height: 36px;
 $button_hover_transition: background-color 0.15s;
 
 .GeoGebraFrame {
 
-	.headerView {
+	%headerViewShared {
 		position: absolute;
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		height: $header_height;
 		z-index: 200;
 		background-color: white;
 		box-shadow: $header_shadow;
@@ -22,8 +22,6 @@ $button_hover_transition: background-color 0.15s;
 			float: left;
 			width: 24px;
 			height: 24px;
-			padding: 12px;
-			margin: 8px 12px 8px 12px;
 			opacity: 0.54;
 			&:hover {
 				opacity: 0.87;
@@ -34,7 +32,34 @@ $button_hover_transition: background-color 0.15s;
 			font-size: 125%;
 			color: $text-primary;
 			letter-spacing: 0.25px;
+		}
+	}
+	
+	.headerView {
+		@extend %headerViewShared;
+		height: $header_height;
+		
+		.headerBackButton {
+			padding: 12px;
+			margin: 8px 12px 8px 12px;
+		}
+		
+		.headerCaption {
 			margin: 22px 0px;
+		}
+	}
+	
+	.smallHeaderView {
+		@extend %headerViewShared;
+		height: $small_header_height;
+		
+		.headerBackButton {
+			padding: 8px;
+			margin: 8px 24px 8px 8px;
+		}
+		
+		.headerCaption {
+			margin: 18px 0px;
 		}
 	}
 }

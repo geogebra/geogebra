@@ -423,4 +423,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/scientific-layout.scss")
 	SassResource scientificLayoutScss();
+
+	@Source("org/geogebra/web/resources/scss/header.scss")
+	SassResource headerScss();
 }
