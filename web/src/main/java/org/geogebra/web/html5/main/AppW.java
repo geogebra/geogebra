@@ -429,7 +429,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Hides the header, even if there is enough place to show it.
 	 * 
-	 * @param hide whether to hide the header
+	 * @param hidden
+	 *            whether to hide the header
 	 */
 	public void setHeaderHidden(boolean hidden) {
 		isHeaderHidden = hidden;
