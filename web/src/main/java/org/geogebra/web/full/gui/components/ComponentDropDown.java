@@ -86,16 +86,38 @@ public class ComponentDropDown extends FlowPanel {
 	 */
 	void openAtSelectedItem(EuclidianView view) {
 		int anchorTop = titleLabel.getAbsoluteTop();
-		int anchorLeft = titleLabel.getAbsoluteLeft();
-		int itemTop = getSelectedIndex() * getItemHeight();
+		int anchorLeft = titleLabel.getAbsoluteLeft() + 32;
+		int itemTop = (getSelectedIndex() + 1) * getItemHeight();
 		if (itemTop < anchorTop) {
+			// everything fits fine, no scrollbar
 			dropDownMenu.showAtPoint(anchorLeft, anchorTop - itemTop);
 		} else {
+
+			int allHeight = getAllItemsHeight();
 			int popupHeight = view.getHeight() / 2;
-			dropDownMenu.showAtPoint(anchorLeft, anchorTop - popupHeight / 2);
-			int scrollTop = itemTop - (popupHeight / 2);
-			dropDownMenu.getPopupPanel().getElement().setScrollTop(scrollTop);
+			int h2 = popupHeight / 2;
+			int scrollTop = itemTop - h2;
+			int diff = allHeight - itemTop;
+			if (diff < h2) {
+				if (diff + h2 < anchorTop) {
+					// many items, but there is space to go up;
+					dropDownMenu.showAtPoint(anchorLeft, anchorTop - h2 - diff);
+				} else {
+					dropDownMenu.showAtPoint(anchorLeft, 0);
+					// no space: put at 0 and scroll
+					// what if the popup is longer than anchortop??
+					setVerticalScrollPosition(itemTop);
+				}
+			} else {
+				// center popup and scroll;
+				dropDownMenu.showAtPoint(anchorLeft, anchorTop - h2);
+				setVerticalScrollPosition(scrollTop);
+			}
 		}
+	}
+
+	private void setVerticalScrollPosition(int pos) {
+		dropDownMenu.getPopupPanel().getElement().setScrollTop(pos);
 	}
 
 	private int getItemHeight() {
