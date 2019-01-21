@@ -85,7 +85,7 @@ public class UndoRedoExecutor {
 		updateAppearance();
 	}
 
-	private void updateAppearance() {
+	void updateAppearance() {
 		undoWidget.setEnabled(kernel.undoPossible());
 		redoWidget.setEnabled(kernel.redoPossible());
 	}
