@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
+	private static final int LAST_COLUMN = 1;
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
 	private static final int X_LEFT_PADDING = 16;
@@ -252,10 +253,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *            column to delete.
 	 */
 	public void deleteColumn(int column) {
-		if (transitioning) {
-			// multiple simultaneous deletions: reset the whole UI
-			reset();
-			syncHeaderSizes();
+		if (transitioning || column == LAST_COLUMN) {
+			// multiple simultaneous deletions or last column: reset the whole UI
+			resetAll();
 			return;
 		}
 		int col = column;
@@ -285,6 +285,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	protected void reset() {
 		super.reset();
 		transitioning = false;
+	}
+
+	private void resetAll() {
+		reset();
+		syncHeaderSizes();
 	}
 
 	/**
