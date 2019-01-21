@@ -360,6 +360,28 @@ $duration: 0.2s;
 			padding-bottom: 0px;
 			display: inline-block;
 		}
+
+		&.algebraPanelScientific {
+			.avItem .gwt-TreeItem, .NewRadioButtonTreeItemParent {
+				border-width: 0;
+			}
+			.scrollableTextBox,
+			.scrollableTextBox.avPreview,
+			.scrollableTextBox.noPreview, 
+			.avItem .elemText,
+			.avItem .elemText.scrollableTextBox {
+				margin-left: 48px;
+				padding-left: 0px;
+				border-bottom: 1px $tool-border solid;
+				width: calc(100% - 48px);
+				box-sizing: border-box;
+				min-height: 48px;
+			}
+			.avInputItem {
+				margin-top: 0;
+			}
+		}
+
 		.avItem .elemText.noPadding{
 			padding-left: 0;
 			padding-top: 6px;
