@@ -142,7 +142,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected GeoElement geo = null;
 	protected Kernel kernel;
 	protected AppWFull app;
-	protected final AlgebraView av;
+	private AlgebraView av;
 	protected boolean latex = false;
 
 	private FlowPanel latexItem;
@@ -254,7 +254,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		main.addStyleName("panelRow");
 
 		marblePanel = app.getActivity().createAVItemHeader(this);
-		marblePanel.setIndex(((AlgebraViewW) av).getItemCount());
+		marblePanel.setIndex(getAV().getItemCount());
 		main.add(marblePanel);
 	}
 
@@ -843,7 +843,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void styleScrollBox() {
 		content.addStyleName("scrollableTextBox");
-		getHelpToggle().setIndex(((AlgebraViewW) av).getItemCount());
+		getHelpToggle().setIndex(getAV().getItemCount());
 	}
 
 	/**
@@ -897,7 +897,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true,
-						getErrorHandler(valid, allowSliderDialog),
+						getErrorHandler(valid, allowSliderDialog, false),
 						new AsyncOperation<GeoElementND>() {
 
 							@Override
@@ -976,7 +976,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return AV item factory
 	 */
 	protected ItemFactory getItemFactory() {
-		return ((AlgebraViewW) av).getItemFactory();
+		return getAV().getItemFactory();
 	}
 
 	private void cancelDV() {
@@ -991,11 +991,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void clearErrorLabel() {
 		commandError = null;
 		errorMessage = null;
-	}
-
-	protected final ErrorHandler getErrorHandler(final boolean valid,
-			final boolean allowSliders) {
-		return getErrorHandler(valid, allowSliders, false);
 	}
 
 	/**
@@ -1014,6 +1009,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return new AVErrorHandler(this, valid, allowSliders, withSliders);
 	}
 
+	/**
+	 * Mark geo as erroneous; show warning icon
+	 */
 	protected void saveError() {
 		if (geo != null) {
 			geo.setUndefined();
@@ -1025,6 +1023,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * Show error in a popup
+	 * 
+	 * @return whether there is error to be shown
+	 */
 	boolean showCurrentError() {
 		if (commandError != null) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
@@ -1045,15 +1048,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return true;
 
 		}
-		return false;
-	}
-
-	protected boolean setErrorText(String msg) {
-		if (StringUtil.empty(msg)) {
-			clearErrorLabel();
-			return true;
-		}
-		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, app);
 		return false;
 	}
 
@@ -1144,6 +1138,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		controls.reposition();
 	}
 
+	/**
+	 * @return algebra view
+	 */
 	protected AlgebraViewW getAV() {
 		return (AlgebraViewW) av;
 	}
@@ -1210,7 +1207,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!controller.isEditing()) {
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
-			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
+			if (av != null && getAV().isNodeTableEmpty()) {
 				updateGUIfocus(false);
 			}
 		}
@@ -1264,9 +1261,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		} else {
 			removeStyleName("avSelectedRow");
-		}
-		if (marblePanel != null) {
-			marblePanel.setHighlighted(selected);
 		}
 		if (!selected) {
 			controls.reset();
@@ -1482,9 +1476,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return;
 		}
 
-		((AlgebraViewW) av).setActiveTreeItem(null);
+		getAV().setActiveTreeItem(null);
 
-		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty()
+		boolean emptyCase = getAV().isNodeTableEmpty()
 				&& !this.getAlgebraDockPanel().hasLongStyleBar();
 
 		// update style bar icon look
@@ -2101,7 +2095,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		setNeedsUpdate(false);
 		if (typeChanged()) {
 			av.remove(geo);
-			((AlgebraViewW) av).add(geo, -1, false);
+			getAV().add(geo, -1, false);
 			return;
 		}
 		if (hasMarblePanel()) {

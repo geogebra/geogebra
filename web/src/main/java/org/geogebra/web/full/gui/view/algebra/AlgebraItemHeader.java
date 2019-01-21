@@ -29,12 +29,6 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 	void update();
 
 	/**
-	 * @param selected
-	 *            whether to mark this as selected
-	 */
-	void setHighlighted(boolean selected);
-
-	/**
 	 * @return help button (or null)
 	 */
 	MyToggleButton getBtnHelpToggle();

@@ -174,8 +174,8 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		}
 		setNeedsUpdate(false);
 		if (typeChanged()) {
-			av.remove(geo);
-			((AlgebraViewW) av).add(geo, -1, false);
+			getAV().remove(geo);
+			getAV().add(geo, -1, false);
 			return;
 		}
 		marblePanel.update();

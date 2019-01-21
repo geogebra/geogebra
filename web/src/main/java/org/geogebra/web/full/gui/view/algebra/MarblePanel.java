@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -25,10 +24,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * @author Zbynek
  */
 public class MarblePanel extends FlowPanel
-		implements SetLabels, KeyDownHandler, AlgebraItemHeader {
+		implements KeyDownHandler, AlgebraItemHeader {
 	
 	private Marble marble;
-	private boolean selected = false;
 	/** warning triangle / help button */
 	private MyToggleButton btnHelpToggle;
 	/** plus button (new expression / text, ...) */
@@ -66,15 +64,6 @@ public class MarblePanel extends FlowPanel
 			updateIcons(false);
 		}
 		update();
-	}
-
-	/**
-	 * @param selected
-	 *            whether this should be highlighted
-	 */
-	@Override
-	public void setHighlighted(boolean selected) {
-		this.selected = selected;
 	}
 
 	/**

@@ -107,7 +107,6 @@ public class RadioTreeItemController implements ClickHandler,
 	protected boolean isMarbleHit(PointerEvent wrappedEvent) {
 		return isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY(),
 				app.isRightClick(wrappedEvent));
-
 	}
 
 	protected boolean isMarbleHit(int x, int y, boolean rightClick) {
@@ -125,12 +124,10 @@ public class RadioTreeItemController implements ClickHandler,
 
 	protected static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
 		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
-
 	}
 
 	static boolean isWidgetHit(Widget w, PointerEvent evt) {
 		return isWidgetHit(w, evt.getX(), evt.getY());
-
 	}
 
 	private static boolean isWidgetHit(Widget w, int x, int y) {
@@ -576,15 +573,15 @@ public class RadioTreeItemController implements ClickHandler,
 				// popup menu for current selection
 				// (including selected object)
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(
-						selection.getSelectedGeos(), item.av, point);
+						selection.getSelectedGeos(), item.getAV(), point);
 			} else { // select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
 				ArrayList<GeoElement> temp = new ArrayList<>();
 				temp.add(geo);
 
-				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, item.av,
-						point);
+				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp,
+						item.getAV(), point);
 			}
 		}
 	}

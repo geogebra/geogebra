@@ -7,6 +7,9 @@ import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * Header for numbered rows
+ */
 public class AVItemHeaderScientific extends SimplePanel
 		implements AlgebraItemHeader {
 
@@ -48,11 +51,6 @@ public class AVItemHeaderScientific extends SimplePanel
 	}
 
 	@Override
-	public void setHighlighted(boolean selected) {
-		// no highlight mode
-	}
-
-	@Override
 	public MyToggleButton getBtnHelpToggle() {
 		// no help button
 		return null;
@@ -72,7 +70,6 @@ public class AVItemHeaderScientific extends SimplePanel
 	@Override
 	public void setIndex(int itemCount) {
 		number.setText(itemCount + ")");
-
 	}
 
 }
