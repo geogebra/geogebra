@@ -183,11 +183,18 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * Restart ARCore session.
+	 * Restart AR session.
 	 */
 	public void setARShouldRestart() {
-		// Override in RendererWithImplA.
+		// used in AR implementations
 	}
+
+    /**
+     * Start AR session
+     */
+    public void setARShouldStart(){
+        // used in AR implementations
+    }
 
 	/**
      * @param ret Hitting Direction from AR. Override in RendererWithImplA
