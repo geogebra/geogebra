@@ -11,7 +11,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.InputSuggestions;
-import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -82,8 +81,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	private void updateWidth() {
-		int width = ((DockPanelW) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_CAS)).getOffsetWidth() - 35;
+		int width = app.getGuiManager().getLayout().getDockManager()
+				.getPanel(App.VIEW_CAS).getOffsetWidth() - 35;
 		if (width > 0) {
 			this.getElement().getStyle().setWidth(width, Unit.PX);
 		}

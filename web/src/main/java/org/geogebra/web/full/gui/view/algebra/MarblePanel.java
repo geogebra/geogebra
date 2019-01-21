@@ -5,7 +5,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -322,8 +321,8 @@ public class MarblePanel extends FlowPanel
 			public void execute() {
 				item.setFocus(true, false);
 				item.setShowInputHelpPanel(true);
-				((InputBarHelpPanelW) item.app.getGuiManager()
-						.getInputHelpPanel()).focusCommand(item.getCommand());
+				item.app.getGuiManager().getInputHelpPanel()
+						.focusCommand(item.getCommand());
 			}
 
 		});

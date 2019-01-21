@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -142,7 +141,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected GeoElement geo = null;
 	protected Kernel kernel;
 	protected AppWFull app;
-	private AlgebraView av;
+	private AlgebraViewW av;
 	protected boolean latex = false;
 
 	private FlowPanel latexItem;
@@ -1066,7 +1065,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (isInputTreeItem()) {
 				getController().setFocus(true);
 			}
-			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
+			InputBarHelpPanelW helpPanel = app
 					.getGuiManager().getInputHelpPanel();
 
 			if (helpPopup == null) {
@@ -1086,7 +1085,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					helpPopup.setBtnHelpToggle(marblePanel.getBtnHelpToggle());
 				}
 			} else if (helpPopup.getWidget() == null) {
-				helpPanel = (InputBarHelpPanelW) app.getGuiManager()
+				helpPanel = app.getGuiManager()
 						.getInputHelpPanel();
 				helpPopup.add(helpPanel);
 			}
@@ -1142,7 +1141,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return algebra view
 	 */
 	protected AlgebraViewW getAV() {
-		return (AlgebraViewW) av;
+		return av;
 	}
 
 	/**

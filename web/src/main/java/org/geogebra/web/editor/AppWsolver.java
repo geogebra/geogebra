@@ -1,6 +1,7 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
@@ -179,5 +180,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
 		} else {
 			return width;
 		}
+	}
+
+	@Override
+	public AlgebraView getAlgebraView() {
+		return null;
 	}
 }

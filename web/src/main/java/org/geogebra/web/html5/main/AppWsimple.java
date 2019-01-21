@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -201,6 +202,11 @@ public class AppWsimple extends AppW {
 	final public String getReverseCommand(String command) {
 		// translations not available in webSimple
 		return command;
+	}
+
+	@Override
+	public AlgebraView getAlgebraView() {
+		return null;
 	}
 
 }

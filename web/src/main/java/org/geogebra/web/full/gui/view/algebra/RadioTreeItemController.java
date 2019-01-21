@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -572,7 +571,7 @@ public class RadioTreeItemController implements ClickHandler,
 			if (selection.containsSelectedGeo(geo)) {
 				// popup menu for current selection
 				// (including selected object)
-				((GuiManagerW) app.getGuiManager()).showPopupMenu(
+				app.getGuiManager().showPopupMenu(
 						selection.getSelectedGeos(), item.getAV(), point);
 			} else { // select only this object and popup menu
 				selection.clearSelectedGeos(false);
@@ -580,7 +579,7 @@ public class RadioTreeItemController implements ClickHandler,
 				ArrayList<GeoElement> temp = new ArrayList<>();
 				temp.add(geo);
 
-				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp,
+				app.getGuiManager().showPopupMenu(temp,
 						item.getAV(), point);
 			}
 		}

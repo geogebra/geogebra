@@ -2370,9 +2370,9 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void replaceInputSelection(String string) {
 		if (getApp().showView(App.VIEW_ALGEBRA)
-				&& ((AlgebraViewW) getApp().getAlgebraView())
+				&& getApp().getAlgebraView()
 				.getInputTreeItem() != null) {
-			RadioTreeItem input = ((AlgebraViewW) getApp().getAlgebraView())
+			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.autocomplete(string);
 			input.setFocus(true, true);
@@ -2386,10 +2386,10 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void setInputText(String string) {
 		if (getApp().showView(App.VIEW_ALGEBRA)
-				&& ((AlgebraViewW) getApp().getAlgebraView())
+				&& getApp().getAlgebraView()
 				.getInputTreeItem() != null
 				&& getApp().getInputPosition() == InputPosition.algebraView) {
-			RadioTreeItem input = ((AlgebraViewW) getApp().getAlgebraView())
+			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.setText(string);
 			input.setFocus(true, true);

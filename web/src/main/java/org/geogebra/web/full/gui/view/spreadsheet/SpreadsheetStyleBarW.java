@@ -50,7 +50,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	public SpreadsheetStyleBarW(SpreadsheetViewW view) {
 		super(view.getApplication(), App.VIEW_SPREADSHEET);
 
-		this.table = (MyTableW) view.getSpreadsheetTable();
+		this.table = view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
 
 		// create and add the buttons

@@ -29,7 +29,7 @@ public class SpreadsheetToolbarManagerW {
 	public SpreadsheetToolbarManagerW(AppW app, SpreadsheetViewW view) {
 		this.app = app;
 		this.view = view;
-		this.table = (MyTableW) view.getSpreadsheetTable();
+		this.table = view.getSpreadsheetTable();
 	}
 
 	/**

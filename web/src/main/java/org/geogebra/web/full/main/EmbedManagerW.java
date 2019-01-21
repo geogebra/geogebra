@@ -19,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -136,8 +135,8 @@ public class EmbedManagerW implements EmbedManager {
 		container.add(scaler);
 		container.getElement().addClassName("embedContainer");
 		container.getElement().addClassName("mowWidget");
-		DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager()).getPanel(App.VIEW_EUCLIDIAN);
+		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN);
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
 	}
 

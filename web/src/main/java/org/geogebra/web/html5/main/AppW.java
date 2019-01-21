@@ -2154,14 +2154,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public AlgebraView getAlgebraView() {
-		if (getGuiManager() == null) {
-			return null;
-		}
-		return getGuiManager().getAlgebraView();
-	}
-
-	@Override
 	public boolean showView(int view) {
 		if (getGuiManager() == null) {
 			return (view == App.VIEW_EUCLIDIAN);
