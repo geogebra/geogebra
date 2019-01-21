@@ -2407,12 +2407,12 @@ public abstract class EuclidianView3D extends EuclidianView
 					cursorMatrix.getVx().setMul(Coords.VX, t);
 					cursorMatrix.getVy().setMul(Coords.VY, t);
 					cursorMatrix.getVz().setMul(Coords.VZ, t);
+					updateTargetCircleMatrixForPoint();
 				} else {
 					cursorMatrix.setDiagonal3(1);
 				}
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
-				updateTargetCircleMatrixForPoint();
 				break;
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
@@ -2534,7 +2534,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
     private void updateTargetCircleMatrixOrigin() {
-        getHittingOrigin(null, tmpCoords1);
+		getHittingOrigin(euclidianController.getMouseLoc(), tmpCoords1);
         getHittingDirection(tmpCoordsLength4);
         getCursor3D().getDrawingMatrix().getOrigin().projectLine(tmpCoords1,
                 tmpCoordsLength4, tmpCoords2);
