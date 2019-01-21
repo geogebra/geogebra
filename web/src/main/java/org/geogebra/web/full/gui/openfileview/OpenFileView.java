@@ -17,6 +17,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
@@ -54,9 +55,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	protected AppW app;
 	// header
-	private FlowPanel headerPanel;
-	private StandardButton backBtn;
-	private Label headerCaption;
+	private HeaderView headerView;
 
 	// content panel
 	private FlowPanel contentPanel;
@@ -133,29 +132,17 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initHeader() {
-		headerPanel = new FlowPanel();
-		headerPanel.setStyleName("openFileViewHeader");
-
-		backBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.mow_back_arrow(),
-				null, 24,
-				app);
-		backBtn.setStyleName("headerBackButton");
-		backBtn.addFastClickHandler(new FastClickHandler() {
+		headerView = new HeaderView(app);
+		headerView.setCaption(localize("mow.openFileViewTitle"));
+		headerView.addBackClickHandler(new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
 				close();
 			}
 		});
-		headerPanel.add(backBtn);
 
-		headerCaption = new Label(
-				localize("mow.openFileViewTitle"));
-		headerCaption.setStyleName("headerCaption");
-		headerPanel.add(headerCaption);
-
-		this.setHeaderWidget(headerPanel);
+		this.setHeaderWidget(headerView);
 	}
 
 	private void initContentPanel() {
@@ -394,7 +381,7 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void setLabels() {
-		headerCaption.setText(localize("mow.openFileViewTitle"));
+		headerView.setCaption(localize("mow.openFileViewTitle"));
 		newFileBtn.setText(localize("mow.newFile"));
 		openFileBtn
 				.setImageAndText(
@@ -520,8 +507,8 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void setHeaderVisible(boolean visible) {
-		if (headerPanel.getElement().getParentElement() != null) {
-			headerPanel.getElement().getParentElement().getStyle()
+		if (headerView.getElement().getParentElement() != null) {
+			headerView.getElement().getParentElement().getStyle()
 					.setDisplay(visible ? Display.BLOCK : Display.NONE);
 		}
 		contentPanel.getElement().getStyle().setTop(visible ? HEADER_HEIGHT : 0,
