@@ -577,7 +577,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void showSciSettingsView() {
 		if (sciSettingsView == null) {
-			sciSettingsView = new ScientificSettingsView();
+			sciSettingsView = new ScientificSettingsView(getApp());
 		}
 		getApp().getAppletFrame().showBrowser(sciSettingsView);
 	}

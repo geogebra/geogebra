@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -50,20 +49,20 @@ public class HeaderView extends FlowPanel {
     }
     
     /**
+     * Get the back button of the header
+     * 
+     * @return back button
+     */
+    public StandardButton getBackButton() {
+    	return backButton;
+    }
+    
+    /**
      * Set the caption for the view.
      * 
      * @param text caption
      */
     public void setCaption(String text) {
     	caption.setText(text);
-    }
-    
-    /**
-     * Add handler to the back button.
-     * 
-     * @param handler click listener
-     */
-    public void addBackClickHandler(FastClickHandler handler) {
-    	backButton.addFastClickHandler(handler);
     }
 }

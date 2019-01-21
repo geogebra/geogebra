@@ -134,7 +134,8 @@ public class OpenFileView extends MyHeaderPanel
 	private void initHeader() {
 		headerView = new HeaderView(app);
 		headerView.setCaption(localize("mow.openFileViewTitle"));
-		headerView.addBackClickHandler(new FastClickHandler() {
+		StandardButton backButton = headerView.getBackButton();
+		backButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
