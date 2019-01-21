@@ -55,6 +55,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		boolean smallScreen = AppW.smallScreen(app.getArticleElement());
 		header.setVisible(smallScreen);
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificWithHeader",
-				"algebraPanelScientificNohHeader", smallScreen);
+				"algebraPanelScientificNoHeader", smallScreen);
 	}
 }
