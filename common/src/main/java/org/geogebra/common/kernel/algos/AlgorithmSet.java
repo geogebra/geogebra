@@ -239,6 +239,11 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 	 *            algo to be removed
 	 */
 	final public boolean remove(AlgoElement algo) {
+
+		if (hashMap == null) {
+			return false;
+		}
+
 		Object remObj = hashMap.remove(algo);
 		if (remObj == null) {
 			return false;
