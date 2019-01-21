@@ -116,11 +116,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			selector.setTitleText(property.getName());
 
 			List<String> items = new ArrayList<>();
-			for (int i = 0; i < 120; i++) {
+			for (int i = 0; i < 50; i++) {
 				items.add(i + " item");
 			}
 			selector.setElements(items);
-			selector.setSelected(1);
+			selector.setSelected(6);
 
 //			selector.setElements(Arrays.asList(property.getValues()));
 //			selector.setSelected(property.getIndex());
@@ -128,7 +128,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					new ComponentDropDown.DropDownSelectionCallback() {
 						@Override
 						public void onSelectionChanged(int index) {
-							property.setIndex(index);
+							// property.setIndex(index);
 						}
 					});
 			optionsPanel.add(selector);

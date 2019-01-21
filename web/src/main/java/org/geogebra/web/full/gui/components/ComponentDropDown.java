@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -69,12 +70,12 @@ public class ComponentDropDown extends FlowPanel {
         dropDownMenu = new GPopupMenuW(app);
         dropDownMenu.getPopupPanel().addStyleName("matMenu");
         dropDownMenu.getPopupPanel().addStyleName("dropDownPopup");
-
+		final EuclidianView view = app.getActiveEuclidianView();
         ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
             @Override
             public void onClickStart(int x, int y, PointerEventType type) {
-				openAtSelectedItem();
+				openAtSelectedItem(view);
             }
         });
     }
@@ -83,21 +84,26 @@ public class ComponentDropDown extends FlowPanel {
 	 * Opens DropDown at the top of the widget positioning selected item at the
 	 * center.
 	 */
-	void openAtSelectedItem() {
+	void openAtSelectedItem(EuclidianView view) {
 		int anchorTop = titleLabel.getAbsoluteTop();
-		int itemTop = (getSelectedIndex() + 1) * titleLabel.getOffsetHeight();
-		boolean fitToScreen = anchorTop > itemTop;
-		int left = titleLabel.getAbsoluteLeft();
-
-		if (fitToScreen) {
-			dropDownMenu.showAtPoint(left, anchorTop - itemTop);
+		int anchorLeft = titleLabel.getAbsoluteLeft();
+		int itemTop = getSelectedIndex() * getItemHeight();
+		if (itemTop < anchorTop) {
+			dropDownMenu.showAtPoint(anchorLeft, anchorTop - itemTop);
 		} else {
-			dropDownMenu.showAtPoint(left,
-					anchorTop - dropDownMenu.getPopupPanel().getOffsetHeight() / 2);
-
-			// dropDownMenu.getPopupPanel().getElement().setScrollTop(itemTop);
+			int popupHeight = view.getHeight() / 2;
+			dropDownMenu.showAtPoint(anchorLeft, anchorTop - popupHeight / 2);
+			int scrollTop = itemTop - (popupHeight / 2);
+			dropDownMenu.getPopupPanel().getElement().setScrollTop(scrollTop);
 		}
+	}
 
+	private int getItemHeight() {
+		return titleLabel.getOffsetHeight();
+	}
+
+	private int getAllItemsHeight() {
+		return dropDownMenu.getComponentCount() * getItemHeight();
 	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
