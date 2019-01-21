@@ -102,7 +102,7 @@ public class SelectionManager {
 
 	/**
 	 * Clears selection and selects given geos.
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 */
@@ -112,7 +112,7 @@ public class SelectionManager {
 
 	/**
 	 * Clears selection and selects given geos.
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 * @param updateSelection
@@ -148,7 +148,7 @@ public class SelectionManager {
 
 	/**
 	 * Clear selection
-	 * 
+	 *
 	 * @param repaint
 	 *            whether all views need repainting afterwards
 	 */
@@ -158,7 +158,7 @@ public class SelectionManager {
 
 	/**
 	 * Clear selection
-	 * 
+	 *
 	 * @param repaint
 	 *            whether all views need repainting afterwards
 	 * @param updateSelection
@@ -205,7 +205,7 @@ public class SelectionManager {
 
 	/**
 	 * Removes geo from selection
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be removed
 	 * @param repaint
@@ -264,7 +264,7 @@ public class SelectionManager {
 
 	/**
 	 * Adds geo to selection
-	 * 
+	 *
 	 * @param geoND
 	 *            geo to be added to selection
 	 * @param repaint
@@ -327,7 +327,7 @@ public class SelectionManager {
 
 	/**
 	 * Michael Borcherds 2008-03-03
-	 * 
+	 *
 	 * @return -1 if nothing selected return -2 if objects from more than one
 	 *         layer selected return layer number if objects from exactly one
 	 *         layer are selected
@@ -350,7 +350,7 @@ public class SelectionManager {
 
 	/**
 	 * Selects all geos in given layer
-	 * 
+	 *
 	 * @param layer
 	 *            0 - 9 for particular layer, -1 for all layers (Michael
 	 *            Borcherds, 2008-03-03)
@@ -556,7 +556,7 @@ public class SelectionManager {
 
 	/**
 	 * Removes geo from selection
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be removed
 	 */
@@ -574,7 +574,7 @@ public class SelectionManager {
 	/**
 	 * Selects the first geo in the construction. Previous selected geos are
 	 * unselected (used e.g. for xAxis).
-	 * 
+	 *
 	 * @return first geo or null
 	 */
 	final public GeoElement setFirstGeoSelectedForPropertiesView() {
@@ -596,7 +596,7 @@ public class SelectionManager {
 
 	/**
 	 * Adds given geo to selection
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -606,7 +606,7 @@ public class SelectionManager {
 
 	/**
 	 * Adds geos to selection
-	 * 
+	 *
 	 * @param geos
 	 *            geos to be added to selection
 	 * @param repaint
@@ -628,7 +628,7 @@ public class SelectionManager {
 
 	/**
 	 * Removes or adds given geo to selection
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be added / removed
 	 * @param repaint
@@ -661,7 +661,7 @@ public class SelectionManager {
 
 	/**
 	 * Removes or adds given geo to selection and repaints views
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be added / removed
 	 */
@@ -671,10 +671,10 @@ public class SelectionManager {
 
 	/**
 	 * Selects next geo in a particular order.
-	 * 
+	 *
 	 * @param ev
 	 *            The Euclidian View that has the geos to select.
-	 * 
+	 *
 	 * @return if select was successful or not.
 	 */
 	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
@@ -708,7 +708,7 @@ public class SelectionManager {
 
 	/**
 	 * Selects last geo in a particular order.
-	 * 
+	 *
 	 * @param ev
 	 *            The Euclidian View that has the geos to select.
 	 */
@@ -722,7 +722,7 @@ public class SelectionManager {
 			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		// filterGeosForView(tree);
+		filterGeosForView(tree);
 
 		int selectionSize = selectedGeos.size();
 		GeoElement last = tree.last();
@@ -772,7 +772,7 @@ public class SelectionManager {
 		} else {
 			view.requestFocus();
 		}
-		
+
 		if (app1.isEuclidianView3Dinited()) {
 			EuclidianView3DInterface view3d = app1.getEuclidianView3D();
 			if (view3d.isShowing()) {
@@ -821,7 +821,7 @@ public class SelectionManager {
 
 	/**
 	 * TODO add support for layer / object type sorting of AV
-	 * 
+	 *
 	 * @return set over which TAB iterates: either alphabetical or construction
 	 *         order
 	 */
@@ -845,7 +845,7 @@ public class SelectionManager {
 
 	/**
 	 * Update stylebars, menubar and properties view to match selection
-	 * 
+	 *
 	 * @param updatePropertiesView
 	 *            whether to update properties view
 	 */
@@ -857,7 +857,7 @@ public class SelectionManager {
 
 	/**
 	 * Add a selection listener
-	 * 
+	 *
 	 * @param sl
 	 *            GeoElementSelectionListener to be added
 	 */
@@ -867,7 +867,7 @@ public class SelectionManager {
 
 	/**
 	 * Remove a selection listener
-	 * 
+	 *
 	 * @param sl
 	 *            GeoElementSelectionListener to be removed
 	 */
@@ -1121,7 +1121,7 @@ public class SelectionManager {
 
 	/**
 	 * set geos selected from their names
-	 * 
+	 *
 	 * @param kernel1
 	 *            kernel
 	 */
@@ -1137,7 +1137,7 @@ public class SelectionManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if the very first geo is selected.
 	 */
 	public boolean isFirstGeoSelected() {
@@ -1150,7 +1150,7 @@ public class SelectionManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if the very last geo is selected.
 	 */
 	public boolean isLastGeoSelected() {
@@ -1162,8 +1162,8 @@ public class SelectionManager {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * /** Select last geo of the construction.
 	 */
 	public void addLastGeoSelected() {
