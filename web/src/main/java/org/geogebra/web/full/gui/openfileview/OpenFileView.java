@@ -23,16 +23,15 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -49,7 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class OpenFileView extends MyHeaderPanel
 		implements BrowseViewI, OpenFileListener, EventRenderable {
-	private static final int HEADER_HEIGHT = 44;
+
 	/**
 	 * application
 	 */
@@ -512,8 +511,6 @@ public class OpenFileView extends MyHeaderPanel
 			headerView.getElement().getParentElement().getStyle()
 					.setDisplay(visible ? Display.BLOCK : Display.NONE);
 		}
-		contentPanel.getElement().getStyle().setTop(visible ? HEADER_HEIGHT : 0,
-				Unit.PX);
 	}
 
 	@Override

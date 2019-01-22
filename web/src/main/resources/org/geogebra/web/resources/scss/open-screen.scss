@@ -333,9 +333,8 @@
 	
 		.fileViewContentPanel {
 			position: absolute;
-			top: calc(#{$header_height} - 20px);
 			width: 100%;
-		    height: calc(100% - #{$header_height} + 20px);
+		    height: calc(100% - #{$header_height - 20px});
 		    padding-top: 24px;
 		    overflow-y: auto;
 		    box-sizing: border-box;
