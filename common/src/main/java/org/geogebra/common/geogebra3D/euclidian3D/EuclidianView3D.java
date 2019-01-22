@@ -2409,7 +2409,11 @@ public abstract class EuclidianView3D extends EuclidianView
 					cursorMatrix.getVx().setMul(Coords.VX, t);
 					cursorMatrix.getVy().setMul(Coords.VY, t);
 					cursorMatrix.getVz().setMul(Coords.VZ, t);
-					updateTargetCircleMatrixForPoint();
+					// assume free points are on horizontal plane
+					updateTargetCircleMatrixOrigin();
+					targetCircleMatrix.setVx(Coords.VX);
+					targetCircleMatrix.setVy(Coords.VY);
+					targetCircleMatrix.setVz(Coords.VZ);
 				} else {
 					cursorMatrix.setDiagonal3(1);
 				}
