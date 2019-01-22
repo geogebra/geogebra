@@ -253,8 +253,15 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		main.addStyleName("panelRow");
 
 		marblePanel = app.getActivity().createAVItemHeader(this);
-		marblePanel.setIndex(getAV().getItemCount());
+		setIndexLast();
 		main.add(marblePanel);
+	}
+
+	/**
+	 * Update index in the header for the last item of AV
+	 */
+	protected void setIndexLast() {
+		marblePanel.setIndex(getAV().getItemCount());
 	}
 
 	protected void styleContent() {
@@ -838,22 +845,22 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Add style for scrollable item
+	 * Update the UI for empty input element
 	 */
-	public void styleScrollBox() {
+	public void updateUIforInput() {
 		content.addStyleName("scrollableTextBox");
-		getHelpToggle().setIndex(getAV().getItemCount());
+		setIndexLast();
 	}
 
 	/**
-	 * @param newValue0
+	 * @param rawInput
 	 *            value after edit
 	 * @param callback
 	 *            callback
 	 * @param allowSliderDialog
 	 *            whether to allow slider dialog
 	 */
-	public final void stopEditing(final String newValue0,
+	public final void stopEditing(final String rawInput,
 			final AsyncOperation<GeoElementND> callback,
 			boolean allowSliderDialog) {
 		lastTeX = null;
@@ -877,12 +884,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			controls.setVisible(true);
 		}
 
-		if (newValue0 != null) {
-			String rawInput = stopCommon(newValue0);
+		if (rawInput != null) {
 			String v = app.getKernel().getInputPreviewHelper()
 					.getInput(rawInput);
 			String newValue = isTextItem() ? "\"" + v + "\"" : v;
-			boolean valid = rawInput != null && rawInput.equals(newValue);
+			boolean valid = rawInput.equals(newValue);
 			final boolean wasLaTeX = geo instanceof GeoText
 					&& ((GeoText) geo).isLaTeX();
 			// Formula Hacks ended.
@@ -937,7 +943,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		// empty new value -- consider success to make sure focus goes away
-		updateAfterRedefine(newValue0 == null);
+		updateAfterRedefine(rawInput == null);
 	}
 
 	/**
@@ -981,10 +987,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private void cancelDV() {
 		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
 		doUpdateEnsureNoEditor();
-	}
-
-	protected String stopCommon(String newValue) {
-		return newValue;
 	}
 
 	protected void clearErrorLabel() {

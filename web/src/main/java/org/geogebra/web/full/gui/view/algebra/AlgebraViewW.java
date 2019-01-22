@@ -1232,7 +1232,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		if (inputPanelLatex != null && scroll) {
-			inputPanelLatex.styleScrollBox();
+			inputPanelLatex.updateUIforInput();
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 				@Override
@@ -1269,13 +1269,35 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void remove(GeoElement geo) {
 		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
-
 		if (node != null) {
+			int firstUpdateIndex = indexOf(node);
 			removeFromModel(node);
+			if (firstUpdateIndex >= 0) {
+				updateIndices(firstUpdateIndex);
+			}
 		}
 
 		if (inputPanelLatex != null) {
 			inputPanelLatex.updateButtonPanelPosition();
+			inputPanelLatex.setIndexLast();
+		}
+	}
+
+	private int indexOf(TreeItem node) {
+		for (int i = 0; i < getItemCount(); i++) {
+			if (node == getItem(i)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private void updateIndices(int removeIndex) {
+		for (int i = removeIndex; i < this.getItemCount(); i++) {
+			TreeItem row = this.getItem(i);
+			if (row instanceof RadioTreeItem) {
+				((RadioTreeItem) row).getHelpToggle().setIndex(i + 1);
+			}
 		}
 	}
 
