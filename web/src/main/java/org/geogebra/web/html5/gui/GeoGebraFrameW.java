@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -180,7 +181,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		int width = computeWidth();
 		int height = GeoGebraFrameW.computeHeight(articleElement,
-				AppW.smallScreen(articleElement));
+				AppW.smallScreen(articleElement, ExtendedBoolean.UNKNOWN));
 
 		/*
 		 * if (ae.getDataParamShowMenuBar()) { // The menubar has extra height:
@@ -224,14 +225,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					.setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setOverflow(Overflow.HIDDEN);
-			updateArticleHeight();
+			updateArticleHeight(ExtendedBoolean.UNKNOWN);
 		}
 	}
 
 	@Override
-	public void updateArticleHeight() {
+	public void updateArticleHeight(ExtendedBoolean forceHeaderVisible) {
 		int margin = ae.getDataParamMarginTop();
-		if (AppW.smallScreen(ae) || margin <= 0) {
+		if (AppW.smallScreen(ae, forceHeaderVisible) || margin <= 0) {
 			ae.getElement().getStyle().setHeight(100, Unit.PCT);
 		} else {
 			ae.getElement().getStyle().setProperty("height",

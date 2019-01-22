@@ -831,11 +831,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public boolean isForceHeader() {
-		return getStringDataParam("marginTop", "").startsWith("+");
-	}
-
-	@Override
 	public String getParamFullscreenContainer() {
 		return getStringDataParam("fullscreenContainer", "");
 	}

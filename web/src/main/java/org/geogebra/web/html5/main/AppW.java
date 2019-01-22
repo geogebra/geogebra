@@ -411,7 +411,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				headerVisible = visible;
 				onHeaderVisible();
 			}
-			getAppletFrame().updateArticleHeight();
+			getAppletFrame().updateArticleHeight(forceHeaderVisible);
 		}
 	}
 
@@ -445,19 +445,26 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO listener (?)
 	}
 
-	/**
-	 * @param el
-	 *            article
-	 * @return whether the app is running on small screen (below 600px)
-	 */
-	public static boolean smallScreen(ArticleElementInterface el) {
+	private static boolean smallScreen(ArticleElementInterface el) {
 		return (Window.getClientWidth() < 600 || Window.getClientHeight() < 600
-				|| el.getDataParamMarginTop() <= 0) && !el.isForceHeader();
+				|| el.getDataParamMarginTop() <= 0);
 	}
 
 	public boolean isSmallScreen() {
-		return forceHeaderVisible == ExtendedBoolean.FALSE
-				|| smallScreen(articleElement);
+		return smallScreen(articleElement, forceHeaderVisible);
+	}
+
+	/**
+	 * @param ae
+	 *            article
+	 * @return whether the app is running on small screen (below 600px)
+	 */
+	public static boolean smallScreen(ArticleElementInterface ae,
+			ExtendedBoolean forceHeaderVisible2) {
+		// TODO Auto-generated method stub
+		return forceHeaderVisible2 == ExtendedBoolean.FALSE
+				|| (forceHeaderVisible2 == ExtendedBoolean.UNKNOWN
+						&& smallScreen(ae));
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,

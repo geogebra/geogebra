@@ -444,11 +444,6 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public boolean isForceHeader() {
-		return false;
-	}
-
-	@Override
 	public String getParamFullscreenContainer() {
 		return "";
 	}

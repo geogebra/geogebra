@@ -7,6 +7,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -208,7 +209,7 @@ public class GlobalHeader implements EventRenderable {
 		return null;
 	}
 
-	private RootPanel getViewById(String viewId) {
+	private static RootPanel getViewById(String viewId) {
 		return RootPanel.get(viewId);
 	}
 
@@ -216,24 +217,24 @@ public class GlobalHeader implements EventRenderable {
 	 * remove exam timer and put back button panel
 	 */
 	public void resetAfterExam() {
-		forceVisible(false);
+		forceVisible(ExtendedBoolean.FALSE);
 		getExamPanel().getElement().removeFromParent();
-		getButtonElement().getStyle()
-				.setDisplay(Display.FLEX);
+		getButtonElement().getStyle().setDisplay(Display.FLEX);
 		getHomeLink().setHref(oldHref);
 	}
 
-	private void forceVisible(boolean visible) {
-		app.getArticleElement().attr("marginTop", visible ? "+64" : "0");
+	private void forceVisible(ExtendedBoolean visible) {
+		app.getArticleElement().attr("marginTop",
+				visible.boolVal() ? "64" : "0");
 		// takes care of both header visibility and menu button placement
-		app.fitSizeToScreen();
+		app.setForceHeaderVisible(visible);
 	}
 
 	/**
 	 * switch right buttons with exam timer and info button
 	 */
 	public void addExamTimer() {
-		forceVisible(true);
+		forceVisible(ExtendedBoolean.TRUE);
 		// remove other buttons
 		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);

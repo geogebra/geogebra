@@ -478,11 +478,6 @@ public interface ArticleElementInterface {
 	String getParamBackendURL();
 
 	/**
-	 * @return whether to force visible header; based on marginTop
-	 */
-	boolean isForceHeader();
-
-	/**
 	 * @return whether height should be computed automatically from width of the
 	 *         container
 	 */
