@@ -61,7 +61,7 @@ $deleteTime: 120ms;
 		margin-right: 0px;
 	}
 
-	.colDelete {
+	%colDelete {
 		overflow: hidden !important;
 		width: 0px !important;
 		margin-left: -81px !important;
@@ -127,7 +127,7 @@ $deleteTime: 120ms;
 				}
 				
 				.delete {
-					@extend .colDelete;
+					@extend %colDelete;
 					text-align: right;
 				}
 			}
@@ -147,7 +147,7 @@ $deleteTime: 120ms;
 				}
 				
 				.delete {
-					@extend .colDelete;
+					@extend %colDelete;
 					margin-left: 16px;
 					margin-right: 32px;
 				}
