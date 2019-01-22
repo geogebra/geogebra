@@ -5007,4 +5007,19 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	/**
+	 * enlarge clipping values regarding point coords
+	 * 
+	 * @param point
+	 *            point
+	 */
+	public void enlargeClippingForPoint(GeoPointND point) {
+		if (isAREnabled()) {
+			if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
+				setViewChangedByZoom();
+				setWaitForUpdate();
+			}
+		}
+	}
+
 }

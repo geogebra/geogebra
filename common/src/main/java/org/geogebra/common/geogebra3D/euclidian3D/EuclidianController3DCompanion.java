@@ -163,6 +163,8 @@ public class EuclidianController3DCompanion
 					.setCoords(ec.movedGeoPoint.getCoordsInD3(), false);
 
 		}
+
+		ec3D.view3D.enlargeClippingForPoint(ec3D.movedGeoPoint);
 	}
 
 	/**
