@@ -267,50 +267,48 @@ public final class DrawBoolean extends Drawable {
 		static public void paintIcon(boolean checked, boolean highlighted,
 				GGraphics2D g, int x, int y, int csize) {
 
-			{
-				// outer bevel
-				// Draw rounded border
-				g.setColor(GColor.DARK_GRAY);
-				g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
+			// outer bevel
+			// Draw rounded border
+			g.setColor(GColor.DARK_GRAY);
+			g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
-				// Draw rectangle with rounded borders
-				if (highlighted) {
-					g.setColor(highlightBackground);
-				} else {
-					g.setColor(GColor.WHITE);
-				}
-				g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize / 5,
-						csize / 5);
+			// Draw rectangle with rounded borders
+			if (highlighted) {
+				g.setColor(highlightBackground);
+			} else {
+				g.setColor(GColor.WHITE);
+			}
+			g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize / 5,
+					csize / 5);
 
-				g.setColor(GColor.DARK_GRAY);
+			g.setColor(GColor.DARK_GRAY);
 
-				// paint check
+			// paint check
 
-				if (checked) {
-					if (csize == 13) {
+			if (checked) {
+				if (csize == 13) {
 
-						if (stroke13 == null) {
-							stroke13 = AwtFactory.getPrototype().newBasicStroke(
-									2f, GBasicStroke.CAP_ROUND,
-									GBasicStroke.JOIN_ROUND);
-						}
-
-						g.setStroke(stroke13);
-						g.drawLine(x + 2, y + 7, x + 5, y + 10);
-						g.drawLine(x + 5, y + 10, x + 10, y + 3);
-
-					} else { // csize == 26
-
-						if (stroke26 == null) {
-							stroke26 = AwtFactory.getPrototype().newBasicStroke(
-									4f, GBasicStroke.CAP_ROUND,
-									GBasicStroke.JOIN_ROUND);
-						}
-						g.setStroke(stroke26);
-						g.drawLine(x + 5, y + 15, x + 10, y + 20);
-						g.drawLine(x + 10, y + 20, x + 20, y + 6);
-
+					if (stroke13 == null) {
+						stroke13 = AwtFactory.getPrototype().newBasicStroke(2f,
+								GBasicStroke.CAP_ROUND,
+								GBasicStroke.JOIN_ROUND);
 					}
+
+					g.setStroke(stroke13);
+					g.drawLine(x + 2, y + 7, x + 5, y + 10);
+					g.drawLine(x + 5, y + 10, x + 10, y + 3);
+
+				} else { // csize == 26
+
+					if (stroke26 == null) {
+						stroke26 = AwtFactory.getPrototype().newBasicStroke(4f,
+								GBasicStroke.CAP_ROUND,
+								GBasicStroke.JOIN_ROUND);
+					}
+					g.setStroke(stroke26);
+					g.drawLine(x + 5, y + 15, x + 10, y + 20);
+					g.drawLine(x + 10, y + 20, x + 20, y + 6);
+
 				}
 			}
 		}
