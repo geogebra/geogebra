@@ -494,7 +494,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().useClippingCube() || !getView3D().getSettings().hasSameScales()) {
+		if (getView3D().isAREnabled()) {
+            setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
+        } else if (getView3D().useClippingCube() || !getView3D().getSettings().hasSameScales()) {
 			// make sure the plane goes more than the clipping cube
 			setMinMax(getView3D().getClippingCubeDrawable().getVertices());
 		} else { // use interior clipping cube radius

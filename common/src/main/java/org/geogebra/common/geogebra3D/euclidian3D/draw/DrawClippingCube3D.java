@@ -27,6 +27,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	private double[][] minMaxObjects;
 
 	private Coords[] vertices;
+    private Coords[] verticesLarge;
 
 	private Coords center;
 
@@ -91,8 +92,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		}
 
 		vertices = new Coords[8];
+        verticesLarge = new Coords[8];
 		for (int i = 0; i < 8; i++) {
 			vertices[i] = new Coords(0, 0, 0, 1);
+            verticesLarge[i] = new Coords(0, 0, 0, 1);
 		}
 	}
 
@@ -337,9 +340,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 			for (int y = 0; y < 2; y++) {
 				for (int z = 0; z < 2; z++) {
 					Coords vertex = vertices[x + 2 * y + 4 * z];
-					vertex.setX(minMax[0][x]);
-					vertex.setY(minMax[1][y]);
-					vertex.setZ(minMax[2][z]);
+					vertex.setX(minMax[X][x]);
+					vertex.setY(minMax[Y][y]);
+					vertex.setZ(minMax[Z][z]);
+                    vertex = verticesLarge[x + 2 * y + 4 * z];
+                    vertex.setX(minMaxLarge[X][x]);
+                    vertex.setY(minMaxLarge[Y][y]);
+                    vertex.setZ(minMaxLarge[Z][z]);
 				}
 			}
 		}
@@ -366,6 +373,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	public Coords[] getVertices() {
 		return vertices;
 	}
+
+    /**
+     *
+     * @return verticesLarge
+     */
+    public Coords[] getVerticesLarge() {
+        return verticesLarge;
+    }
 
 	/**
 	 * 
