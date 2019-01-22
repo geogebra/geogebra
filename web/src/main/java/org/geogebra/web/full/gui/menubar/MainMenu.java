@@ -178,7 +178,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 		menuImgs.clear();
 
 		smallScreen = app.isUnbundled()
-				&& AppW.smallScreen(app.getArticleElement());
+				&& app.isSmallScreen();
 
 		initAriaStackPanel();
 		if (!app.isUnbundled() && !app.isWhiteboardActive()) {

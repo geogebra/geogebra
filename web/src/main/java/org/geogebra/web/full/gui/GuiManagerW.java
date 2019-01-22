@@ -1460,8 +1460,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void resetMenuIfScreenChanged() {
 		if (mainMenuBar != null && mainMenuBar.getMenubar() != null
-				&& mainMenuBar.getMenubar().smallScreen != AppW
-				.smallScreen(((AppW) app).getArticleElement())) {
+				&& mainMenuBar.getMenubar().smallScreen != ((AppW) app)
+						.isSmallScreen()) {
 			mainMenuBar.removeMenus();
 			mainMenuBar.init(getApp());
 			updateGlobalOptions();

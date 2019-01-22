@@ -17,13 +17,16 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ScientificSettingsView extends MyHeaderPanel implements FastClickHandler {
 
-	private AppW app;
+	private final AppW app;
 	private HeaderView headerView;
 	private boolean isOpen = false;
 	private Localization localization;
 
 	/**
 	 * Build and style settings view for sci calc
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public ScientificSettingsView(AppW app) {
 		this.addStyleName("scientificSettingsView");
@@ -82,7 +85,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	}
 	
 	private void resizeHeader() {
-		boolean smallScreen = AppW.smallScreen(app.getArticleElement());
+		boolean smallScreen = app.isSmallScreen();
 		headerView.resizeTo(smallScreen);
 	}
 }

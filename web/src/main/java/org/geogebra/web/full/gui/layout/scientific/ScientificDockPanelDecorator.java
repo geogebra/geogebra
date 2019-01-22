@@ -53,7 +53,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void onResize() {
-		boolean smallScreen = AppW.smallScreen(app.getArticleElement());
+		boolean smallScreen = app.isSmallScreen();
 		header.setVisible(smallScreen);
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificWithHeader",
 				"algebraPanelScientificNoHeader", smallScreen);

@@ -1916,7 +1916,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void updateSplitPanelHeight() {
 		int newHeight = GeoGebraFrameW.computeHeight(getArticleElement(),
-				AppW.smallScreen(getArticleElement()));
+				isSmallScreen());
 		if (this.showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {

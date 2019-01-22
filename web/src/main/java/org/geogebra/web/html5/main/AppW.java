@@ -316,7 +316,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),
 					GeoGebraFrameW.computeHeight(getArticleElement(),
-							AppW.smallScreen(getArticleElement())));
+							isSmallScreen()));
 			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();
@@ -404,7 +404,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = !isHeaderHidden && !AppW.smallScreen(getArticleElement());
+			boolean visible = !isHeaderHidden && !isSmallScreen();
 			header.getStyle().setProperty("display", visible ? "" : "none");
 			if (headerVisible != visible) {
 				headerVisible = visible;
@@ -452,6 +452,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static boolean smallScreen(ArticleElementInterface el) {
 		return (Window.getClientWidth() < 600 || Window.getClientHeight() < 600
 				|| el.getDataParamMarginTop() <= 0) && !el.isForceHeader();
+	}
+
+	public boolean isSmallScreen() {
+		return smallScreen(articleElement);
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,

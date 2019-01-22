@@ -1987,7 +1987,7 @@ public class DockManagerW extends DockManager {
 				- app.getArticleElement().getBorderThickness();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			height = Window.getClientHeight();
-			if (!AppW.smallScreen(app.getArticleElement())) {
+			if (!app.isSmallScreen()) {
 				height -= app.getArticleElement().getDataParamMarginTop();
 			}
 		}
