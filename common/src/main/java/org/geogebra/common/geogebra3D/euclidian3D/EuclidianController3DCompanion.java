@@ -439,10 +439,10 @@ public class EuclidianController3DCompanion
 		if (region == ec.getKernel().getXOYPlane()) {
 			Coords coords = point3D.getInhomCoords();
 			GeoPlane3D plane = (GeoPlane3D) region;
-			if (coords.getX() < plane.getXmin()
+			if (!ec3D.view3D.isAREnabled() && (coords.getX() < plane.getXmin()
 					|| coords.getX() > plane.getXmax()
 					|| coords.getY() < plane.getYmin()
-					|| coords.getY() > plane.getYmax()) {
+					|| coords.getY() > plane.getYmax())) {
 				ec3D.view3D
 						.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
 				return null;
