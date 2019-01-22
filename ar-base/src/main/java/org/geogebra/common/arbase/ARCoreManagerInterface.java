@@ -1,4 +1,4 @@
-package org.geogebra.android.arbase;
+package org.geogebra.common.arbase;
 
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;

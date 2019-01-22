@@ -1,4 +1,4 @@
-package org.geogebra.android.arbase;
+package org.geogebra.common.arbase;
 
 import org.geogebra.common.main.Localization;
 
