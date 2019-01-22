@@ -121,7 +121,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				items.add(i + " item");
 			}
 			selector.setElements(items);
-			selector.setSelected(6);
+			selector.setSelected(0);
 
 //			selector.setElements(Arrays.asList(property.getValues()));
 //			selector.setSelected(property.getIndex());
