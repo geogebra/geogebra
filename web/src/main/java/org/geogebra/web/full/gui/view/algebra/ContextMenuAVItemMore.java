@@ -14,6 +14,7 @@ import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -30,7 +31,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
 	/** localization */
 	protected Localization loc;
-	private AppW app;
+	private AppWFull app;
 	/** parent item */
 	RadioTreeItem item;
 
@@ -82,7 +83,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		addDuplicateItem();
 		addDeleteItem();
 		// wrappedPopup.addSeparator();
-		if (app.getConfig().showObjectSettingsFromAV()) {
+		if (app.getActivity().showObjectSettingsFromAV()) {
 			addPropertiesItem();
 		}
 	}

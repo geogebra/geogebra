@@ -22,8 +22,6 @@ public interface AppConfig {
 
 	boolean showKeyboardHelpButton();
 
-	boolean showObjectSettingsFromAV();
-
 	boolean isSimpleMaterialPicker();
 
 	boolean hasPreviewPoints();

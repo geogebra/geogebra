@@ -61,4 +61,9 @@ public class BaseActivity implements GeoGebraActivity {
 	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem) {
 		return new MarblePanel(radioTreeItem);
 	}
+
+	@Override
+	public boolean showObjectSettingsFromAV() {
+		return true;
+	}
 }

@@ -54,4 +54,6 @@ public interface GeoGebraActivity {
 	 * @return header for AV item
 	 */
 	AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem);
+
+	boolean showObjectSettingsFromAV();
 }

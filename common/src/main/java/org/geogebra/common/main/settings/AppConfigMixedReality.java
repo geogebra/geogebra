@@ -24,11 +24,6 @@ public class AppConfigMixedReality extends AppConfigDefault {
 	}
 
 	@Override
-	public boolean showObjectSettingsFromAV() {
-		return false;
-	}
-
-	@Override
 	public boolean isSimpleMaterialPicker() {
 		return true;
 	}

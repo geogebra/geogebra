@@ -65,7 +65,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -1199,7 +1198,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	// @Override
 	@Override
-	public AppW getApplication() {
+	public AppWFull getApplication() {
 		return app;
 	}
 

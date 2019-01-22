@@ -67,11 +67,6 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean showObjectSettingsFromAV() {
-		return true;
-	}
-
-	@Override
 	public boolean isSimpleMaterialPicker() {
 		return false;
 	}
