@@ -523,6 +523,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	protected boolean createAndAddDrawable(GeoElement geo) {
+	    if (geo.isGeoPoint()) {
+	        enlargeClippingForPoint((GeoPointND) geo);
+        }
 		setWaitForUpdate();
 		geosToBeAdded.add(geo);
 		return true;
