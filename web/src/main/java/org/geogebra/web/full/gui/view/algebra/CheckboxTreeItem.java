@@ -58,7 +58,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 			marblePanel.update();
 		}
 
-		if (hasAnimPanel()) {
+		if (controls.hasAnimPanel()) {
 			controls.updateAnimPanel();
 
 		}

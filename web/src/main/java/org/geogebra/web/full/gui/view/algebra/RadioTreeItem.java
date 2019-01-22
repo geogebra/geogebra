@@ -1321,10 +1321,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		this.needsUpdate = needsUpdate;
 	}
 
-	protected boolean hasAnimPanel() {
-		return controls.animPanel != null;
-	}
-
 	protected boolean hasMarblePanel() {
 		return marblePanel != null;
 	}

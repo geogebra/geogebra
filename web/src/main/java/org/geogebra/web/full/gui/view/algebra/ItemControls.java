@@ -17,8 +17,8 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.util.CSSAnimation;
 
 import com.google.gwt.core.client.Scheduler;
@@ -34,19 +34,16 @@ import com.google.gwt.user.client.ui.Image;
 public class ItemControls extends FlowPanel
 		implements AnimPanelListener, SetLabels {
 
-	/**
-	 * 
-	 */
-	final RadioTreeItem radioTreeItem;
+	private final RadioTreeItem radioTreeItem;
 
 	/** Deletes the whole item */
-	protected GPushButton btnDelete;
+	private GPushButton btnDelete;
 
 	/** opens context menu */
-	protected MyToggleButton btnMore;
+	private MyToggleButton btnMore;
 
 	/** animation controls */
-	protected AnimPanel animPanel = null;
+	private AnimPanel animPanel = null;
 
 	private ContextMenuAVItemMore cmMore = null;
 	private SuggestionBar suggestionBar;
@@ -393,15 +390,19 @@ public class ItemControls extends FlowPanel
 
 			@Override
 			public void execute() {
-				int right = 0;
-				int itemWidth = radioTreeItem.getItemWidth();
-				int avWidth = radioTreeItem.getAV().getOffsetWidth();
-				if (avWidth < itemWidth) {
-					right = itemWidth - avWidth;
-				}
+				int right = getItemRightOffset();
 				getElement().getStyle().setRight(right, Unit.PX);
 			}
 		});
+	}
+
+	/**
+	 * @return distance of item's right border from AV right border
+	 */
+	protected int getItemRightOffset() {
+		int itemWidth = radioTreeItem.getItemWidth();
+		int avWidth = radioTreeItem.getAV().getOffsetWidth();
+		return Math.max(0, itemWidth - avWidth);
 	}
 
 	/**
