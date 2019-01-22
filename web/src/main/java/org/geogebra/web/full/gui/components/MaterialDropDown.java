@@ -5,6 +5,8 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MaterialDropDown {
@@ -15,7 +17,7 @@ public class MaterialDropDown {
 	 */
 
 	// for checking item position. It is 0 in normal case.
-	private static final int OFFSET_X = 32;
+	private static final int OFFSET_X = 0;
 	private EuclidianView view;
 	private GPopupMenuW menu;
 	private int selectedIndex;
@@ -36,10 +38,10 @@ public class MaterialDropDown {
 	}
 
 	public int getTop() {
-		return parent.getAbsoluteTop() - view.getAbsoluteTop();
+		return parent.getAbsoluteTop() - parent.getOffsetHeight() / 2 - view.getAbsoluteTop();
 	}
 
-	public int maxPopupHeight() {
+	public int getMaxHeight() {
 		return view.getHeight() / 2;
 	}
 
@@ -53,25 +55,25 @@ public class MaterialDropDown {
 			// everything fits fine, no scrollbar
 			menu.showAtPoint(getLeft(), getTop() - itemTop);
 		} else {
-			openScrollablePopup(itemTop);
+			openAsScrollable(itemTop);
 		}
 	}
 
-	private void openScrollablePopup(int itemTop) {
+	private void openAsScrollable(int itemTop) {
 		int allHeight = getAllItemsHeight();
 		int left = getLeft();
 		int top = getTop();
-		int h2 = maxPopupHeight() / 2;
+		int h2 = getMaxHeight() / 2;
 		int scrollTop = itemTop - h2;
 		int diff = allHeight - itemTop;
-		menu.getPopupPanel().setHeight("50%");
+		setHeight(50, Unit.PCT);
 		if (diff < h2) {
 			if (diff + h2 < top) {
 				// many items, but there is space to go up;
 				menu.showAtPoint(left, top - h2 - diff);
 			} else {
 				// no space: put at 0, shrink and scroll
-				menu.getPopupPanel().setHeight(top + "px");
+				setHeight(top, Unit.PX);
 				openAndScrollTo(left, 0, itemTop);
 			}
 		} else {
@@ -88,6 +90,10 @@ public class MaterialDropDown {
 
 	private void setVerticalScrollPosition(int pos) {
 		menu.getPopupPanel().getElement().setScrollTop(pos);
+	}
+
+	private void setHeight(int height, Style.Unit unit) {
+		menu.getPopupPanel().setHeight(height + unit.name());
 	}
 
 	private int getAllItemsHeight() {
