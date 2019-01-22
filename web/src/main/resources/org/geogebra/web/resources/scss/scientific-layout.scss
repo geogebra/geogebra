@@ -56,9 +56,10 @@
          }
 
          .selectedOptionLabel {
-              font-size: 75%;
+              font-size: 87.5%;
               height: 20px;
               padding-bottom: 10px;
+              color: rgba(0, 0, 0, 0.6);
          }
     }
 
@@ -68,7 +69,6 @@
 
 			.dropDownElement {
                 padding-left: 24px;
-                padding-top: 0px;
                 line-height: 32px;
             }
 
