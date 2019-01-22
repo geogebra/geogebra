@@ -1053,6 +1053,9 @@ public abstract class CASgiac implements CASGenericInterface {
 			ret += ",[" + substParams + "])";
 		}
 		String vars = freeVars + PPolynomial.addLeadingComma(dependantVars);
+		if (vars.startsWith(",")) {
+			vars = vars.substring(1);
+		}
 		ret += ",[" + vars + "],revlex)";
 		ret += "],[s:=size(GB)],[out:=[]],[for ii from 0 to s-1 do if (size(GB[ii])==1) out[ii]:=lvar(GB[ii]); else out[ii]:=lvar(GB[ii][1]); od],out][4]";
 		return ret;

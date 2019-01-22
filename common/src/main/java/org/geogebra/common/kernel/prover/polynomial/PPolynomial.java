@@ -867,7 +867,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	}
 		
 	/**
-	 * Adds a leading comma to the input string if it not empty
+	 * Adds a leading comma to the input string if it is not empty
 	 * @param in input
 	 * @return output string
 	 */
