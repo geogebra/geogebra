@@ -89,7 +89,7 @@ public class ComponentDropDown extends FlowPanel {
 	 * center.
 	 */
 	void openAt(EuclidianView view, Widget anchor) {
-		int itemTop = (getSelectedIndex() + 1) * getItemHeight();
+		int itemTop = (getSelectedIndex()) * getItemHeight();
 
 		if (itemTop < anchor.getAbsoluteTop()) {
 			// everything fits fine, no scrollbar
@@ -107,6 +107,7 @@ public class ComponentDropDown extends FlowPanel {
 		int h2 = popupHeight / 2;
 		int scrollTop = itemTop - h2;
 		int diff = allHeight - itemTop;
+		dropDownMenu.getPopupPanel().setHeight("50%");
 		if (diff < h2) {
 			if (diff + h2 < anchorTop) {
 				// many items, but there is space to go up;
@@ -114,6 +115,7 @@ public class ComponentDropDown extends FlowPanel {
 			} else {
 				// no space: put at 0 and scroll
 				// what if the popup is longer than anchortop??
+				dropDownMenu.getPopupPanel().setHeight(anchorTop + "px");
 				openAndScrollTo(anchorLeft, 0, itemTop);
 			}
 		} else {

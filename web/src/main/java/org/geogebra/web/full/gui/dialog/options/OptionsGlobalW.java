@@ -105,18 +105,19 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			addFontItem();
 
 			if (app.has(Feature.DROPDOWN_COMPONENT)) {
-				addNewDropDownElement();
+				addNewDropDownElement("FewItems", 10);
+				addNewDropDownElement("ManyItem", 50);
 			}
 		}
 
-		private void addNewDropDownElement() {
+		private void addNewDropDownElement(String name, int itemcount) {
 			final ComponentDropDown selector = new ComponentDropDown(app);
 
 			final EnumerableProperty property = new FontSizeProperty(app, app.getLocalization());
-			selector.setTitleText(property.getName());
+			selector.setTitleText(name);
 
 			List<String> items = new ArrayList<>();
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < itemcount; i++) {
 				items.add(i + " item");
 			}
 			selector.setElements(items);
