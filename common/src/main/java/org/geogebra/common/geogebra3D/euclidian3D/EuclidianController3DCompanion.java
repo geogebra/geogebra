@@ -180,7 +180,7 @@ public class EuclidianController3DCompanion
 				ec3D.getNormalTranslateDirection(),
 				tmpCoords1);
 
-		if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+		if (!ec3D.view3D.isAREnabled() && ec.getMoveMode() == EuclidianController.MOVE_POINT) {
 			// max z value
 			if (tmpCoords1.getZ() > ec3D.zMinMax[1]) {
 				tmpCoords1.setZ(ec3D.zMinMax[1]);

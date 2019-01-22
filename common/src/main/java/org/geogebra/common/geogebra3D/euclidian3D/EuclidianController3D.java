@@ -438,6 +438,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	protected boolean checkXYMinMax(Coords v) {
+	    if (view3D.isAREnabled()) {
+	        return false;
+        }
+
 		if (getMoveMode() != EuclidianController.MOVE_POINT) {
 			return false;
 		}
