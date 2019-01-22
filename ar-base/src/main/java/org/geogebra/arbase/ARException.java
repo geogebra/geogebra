@@ -1,4 +1,4 @@
-package org.geogebra.common.arbase;
+package org.geogebra.arbase;
 
 import org.geogebra.common.main.Localization;
 

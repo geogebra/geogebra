@@ -1,4 +1,4 @@
-package org.geogebra.common.arbase;
+package org.geogebra.arbase;
 
 
 public interface ARSnackBarManagerInterface {

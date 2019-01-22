@@ -1,11 +1,11 @@
-package org.geogebra.common.arbase;
+package org.geogebra.arbase;
 
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 
-public interface ARCoreManagerInterface<TouchEventType> {
+public interface ARManagerInterface<TouchEventType> {
 
     void onSurfaceCreated();
 
