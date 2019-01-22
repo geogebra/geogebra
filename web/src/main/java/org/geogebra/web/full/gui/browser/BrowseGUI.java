@@ -22,9 +22,9 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -221,7 +221,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	@Override
 	public void loadAllMaterials() {
-		this.header.clearSearchPanel();
+		if (header != null) {
+			this.header.clearSearchPanel();
+		}
 		this.materialListPanel.loadAllMaterials();
 	}
 
@@ -257,7 +259,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	@Override
 	public void setLabels() {
-		this.header.setLabels();
+		if (header != null) {
+			this.header.setLabels();
+		}
 		this.materialListPanel.setLabels();
 	}
 
