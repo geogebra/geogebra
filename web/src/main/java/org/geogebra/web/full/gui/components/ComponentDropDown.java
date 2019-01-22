@@ -96,10 +96,16 @@ public class ComponentDropDown extends FlowPanel {
      * @param selected
      *      index of the selected item from the dropdown list
      */
-    public void setSelected(int selected) {
+	public void setSelected(int selected) {
+		highlightSelectedElement(dropDown.getSelectedIndex(), selected);
 		dropDown.setSelectedIndex(selected);
 		selectedOptionLabel.setText(dropDownElementsList.get(selected).getElement().getInnerText());
-    }
+	}
+
+	private void highlightSelectedElement(int previousSelectedIndex, int currentSelectedIndex) {
+		dropDownElementsList.get(previousSelectedIndex).removeStyleName("selectedDropDownElement");
+		dropDownElementsList.get(currentSelectedIndex).addStyleName("selectedDropDownElement");
+	}
 
     /**
      * Set the elements of the dropdown list

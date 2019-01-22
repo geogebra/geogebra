@@ -77,7 +77,11 @@
 
             .dropDownElement:hover {
                 cursor: pointer;
-                background: $selected-menuitem-background;
+                background: $black-04;
+            }
+
+            .selectedDropDownElement, .selectedDropDownElement:hover {
+                background: $black-12;
             }
     }
 
