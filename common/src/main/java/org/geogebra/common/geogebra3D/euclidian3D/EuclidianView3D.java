@@ -323,6 +323,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		viewDirectionPersp = new Coords(4);
 		viewDirection = Coords.VZ.copyVector();
 
+        targetType = TargetType.NOT_USED;
+
 		start();
 	}
 
