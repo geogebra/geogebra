@@ -1201,8 +1201,9 @@ public final class DrawDropDownList extends CanvasDrawable
 					StringTemplate.latexTemplate);
 			seLatex = true;
 		} else {
+			// realTemplate: make sure Sequence((t,t),t,1,5) works
 			selectedText = GeoList.getItemDisplayString(geoItem,
-					StringTemplate.defaultTemplate);
+					StringTemplate.realTemplate);
 			seLatex = isLatexString(selectedText);
 		}
 
