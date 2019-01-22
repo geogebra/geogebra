@@ -93,8 +93,8 @@ public class ComponentDropDown extends FlowPanel {
 
 		if (itemTop < anchor.getAbsoluteTop()) {
 			// everything fits fine, no scrollbar
-			dropDownMenu.showAtPoint(anchor.getAbsoluteLeft(),
-					(anchor.getAbsoluteTop() - itemTop) + POPUP_X_OFFSET);
+			dropDownMenu.showAtPoint(anchor.getAbsoluteLeft() + POPUP_X_OFFSET,
+					(anchor.getAbsoluteTop() - itemTop));
 		} else {
 			openScrollablePopup(anchor, itemTop, view.getHeight() / 2);
 		}
