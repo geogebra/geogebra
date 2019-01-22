@@ -186,7 +186,7 @@ public abstract class Renderer implements RendererInterface {
     /**
      * Start AR session
      */
-    public void setARShouldStart(){
+	public void setARShouldStart() {
         arShouldStart = true;
     }
 

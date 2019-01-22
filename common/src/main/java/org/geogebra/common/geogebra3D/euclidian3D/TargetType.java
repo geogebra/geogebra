@@ -128,8 +128,10 @@ public enum TargetType {
 				return POINT_ALREADY_MOVE_OR_SELECT;
 			}
 			if (isModePointAlreadyAsPointTool(mode)) {
-                return view3D.getCursor3D().getMoveMode() == GeoPointND.MOVE_MODE_NONE ?
-                        POINT_ALREADY_NO_ARROW : POINT_ALREADY_SHOW_ARROWS;
+				return view3D.getCursor3D()
+						.getMoveMode() == GeoPointND.MOVE_MODE_NONE
+								? POINT_ALREADY_NO_ARROW
+								: POINT_ALREADY_SHOW_ARROWS;
 			}
 			if (isModeForCreatingPoint(mode)) {
 				return POINT_ALREADY_NO_ARROW;
