@@ -215,7 +215,7 @@ public enum Language {
 			"Japanese / \u65E5\u672C\u8A9E", Script.JAPANESE),
 
 	Kannada(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u1103",
-			false, "kn", "Kannada", Script.KANNADA),
+			true, "kn", "Kannada", Script.KANNADA),
 
 	Kazakh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"kk",
