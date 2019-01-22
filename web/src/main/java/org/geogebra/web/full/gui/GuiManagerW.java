@@ -45,6 +45,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardListener;
@@ -580,12 +581,12 @@ public class GuiManagerW extends GuiManager
 			sciSettingsView = new ScientificSettingsView(getApp());
 		}
 		AppW app = getApp();
-		app.setHeaderHidden(true);
+		app.setForceHeaderVisible(ExtendedBoolean.FALSE);
 		app.setCloseBrowserCallback(new Runnable() {
 			@Override
 			public void run() {
 				AppW app = getApp();
-				app.setHeaderHidden(false);
+				app.setForceHeaderVisible(ExtendedBoolean.UNKNOWN);
 			}
 		});
 		getApp().getAppletFrame().showBrowser(sciSettingsView);

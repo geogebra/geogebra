@@ -65,6 +65,7 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -207,7 +208,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
 	private boolean headerVisible;
-	private boolean isHeaderHidden = false;
+	private ExtendedBoolean forceHeaderVisible = ExtendedBoolean.UNKNOWN;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
 	WebsocketLogger webSocketLogger = null;
@@ -404,7 +405,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = !isHeaderHidden && !isSmallScreen();
+			boolean visible = !isSmallScreen();
 			header.getStyle().setProperty("display", visible ? "" : "none");
 			if (headerVisible != visible) {
 				headerVisible = visible;
@@ -429,12 +430,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Hides the header, even if there is enough place to show it.
 	 * 
-	 * @param hidden
-	 *            whether to hide the header
+	 * @param visible
+	 *            whether to force show the header
 	 */
-	public void setHeaderHidden(boolean hidden) {
-		isHeaderHidden = hidden;
-		updateHeaderVisible();
+	public void setForceHeaderVisible(ExtendedBoolean visible) {
+		forceHeaderVisible = visible;
+		fitSizeToScreen();
 	}
 
 	/**
@@ -455,7 +456,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public boolean isSmallScreen() {
-		return smallScreen(articleElement);
+		return forceHeaderVisible == ExtendedBoolean.FALSE
+				|| smallScreen(articleElement);
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,
