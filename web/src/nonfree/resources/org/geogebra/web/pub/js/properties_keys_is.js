@@ -3344,7 +3344,7 @@ __GGB__keysVar["is"].menu = {
     "share_recipient": "Recipient",
     "share_to": "To",
     "sort_author": "Author",
-    "sort_date_created": "Created",
+    "sort_date_created": "B\xfai\xf0 til",
     "sort_last_modified": "Modified",
     "sort_title": "Title",
     "space": "R\xfam",
