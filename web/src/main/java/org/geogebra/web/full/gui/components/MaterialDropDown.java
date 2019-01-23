@@ -25,6 +25,10 @@ public class MaterialDropDown {
 	private Widget parent;
 	private int itemHeight;
 
+	private enum RelativeItemPosition {
+		BEGIN, CENTER, END
+	}
+
 	/**
 	 *
 	 * @param app        {@link AppW}
@@ -79,17 +83,39 @@ public class MaterialDropDown {
 	 */
 	void open() {
 		menu.setMenuShown(true);
-		int itemTop = getSelectedIndex() * itemHeight;
 		restoreHeight();
-		if (itemTop < getTop()) {
-			// everything fits fine, no scrollbar
-			menu.showAtPoint(getLeft(), getTop() - itemTop);
-		} else {
-			openAsScrollable(itemTop);
+		RelativeItemPosition pos = getPositionRelative();
+		if (pos == RelativeItemPosition.BEGIN) {
+			openBegin();
+		} else if (pos == RelativeItemPosition.CENTER) {
+			openCenter();
+		} else if (pos == RelativeItemPosition.END) {
+			openEnd();
 		}
 	}
 
-	private void openAsScrollable(int itemTop) {
+	private RelativeItemPosition getPositionRelative() {
+		int itemTop = getSelectedItemTop();
+		int top = getTop();
+		if (itemTop < top) {
+			return RelativeItemPosition.BEGIN;
+		} else if (getAllItemsHeight() - itemTop < getMaxHeight() / 2) {
+			return RelativeItemPosition.END;
+		}
+		return RelativeItemPosition.CENTER;
+	}
+
+	private void openBegin() {
+		menu.showAtPoint(getLeft(), getTop() - getSelectedItemTop());
+	}
+
+	private void openCenter() {
+		int h2 = getMaxHeight() / 2;
+		openAndScrollTo(getTop() - h2, getSelectedItemTop() - h2);
+	}
+
+	private void openEnd() {
+		int itemTop = getSelectedItemTop();
 		int top = getTop();
 		int h2 = getMaxHeight() / 2;
 		int diff = getAllItemsHeight() - itemTop;
@@ -98,11 +124,12 @@ public class MaterialDropDown {
 				setHeightInPx(top);
 			}
 			openAndScrollTo(diff, itemTop);
-		} else {
-			openAndScrollTo(top - h2, itemTop - h2);
 		}
 	}
 
+	private int getSelectedItemTop() {
+		return getSelectedIndex() * itemHeight;
+	}
 	private int getLeft() {
 		return parent.getAbsoluteLeft() + OFFSET_X;
 	}
