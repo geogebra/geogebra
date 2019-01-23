@@ -5526,8 +5526,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			ret = mirrorAtLine(hits.getTopHits(), selectionPreview);
 			break;
 
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-			// 2008-03-23
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
 			ret = mirrorAtCircle(hits.getTopHits(), selectionPreview);
 			break;
 
@@ -6422,8 +6421,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-			// 2008-03-23
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 			setViewHits(type);
 			hits = view.getHits();
@@ -8369,8 +8367,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-			// 2008-03-23
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_FITLINE:
 		case EuclidianConstants.MODE_CREATE_LIST:
@@ -9966,8 +9963,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-			// 2008-03-23
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
 			processSelectionRectangleForTransformations(hits,
 					TestGeo.TRANSFORMABLE);
 			break;
@@ -10132,8 +10128,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switch (mode) {
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-			// 2008-03-23
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
 			processSelectionRectangleForTransformations(hits,
 					TestGeo.TRANSFORMABLE);
 			break;

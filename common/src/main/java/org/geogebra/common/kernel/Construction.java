@@ -761,7 +761,6 @@ public class Construction {
 	 * @return true iff there were any algos that wanted update
 	 */
 	private final boolean updateAllConstructionProtocolAlgorithms() {
-		// Application.debug("updateAllConstructionProtocolAlgorithms");
 		// update all algorithms
 		int size = algoList.size();
 		ArrayList<AlgoElement> updateAlgos = null;
@@ -885,8 +884,8 @@ public class Construction {
 				updateCasCellRows();
 			}
 
-			updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
-		} // 2008-05-15
+			updateAllConstructionProtocolAlgorithms();
+		}
 
 		return change;
 	}
@@ -909,12 +908,6 @@ public class Construction {
 			return;
 		}
 
-		/*
-		 * ++step; updateAllConstructionProtocolAlgorithms(); // Michael
-		 * Borcherds // 2008-05-15
-		 * 
-		 * ceList.add(step, ce); updateConstructionIndex(step);
-		 */
 		addToConstructionList(ce, step + 1);
 	}
 
@@ -957,13 +950,7 @@ public class Construction {
 			updateCasCellRows();
 		}
 
-		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
-													// 2008-05-15
-		/*
-		 * if (ce.getClassName().equals("AlgoPrism")||ce.getClassName().equals(
-		 * "AlgoPyramid")) Application.printStacktrace(ce.getClassName()); else
-		 * Application.debug(ce.getClassName());
-		 */
+		updateAllConstructionProtocolAlgorithms();
 	}
 
 	/**
@@ -1964,7 +1951,6 @@ public class Construction {
 
 		kernel.setAllowVisibilitySideEffects(true);
 
-		// Michael Borcherds 2008-05-15
 		updateAllConstructionProtocolAlgorithms();
 	}
 

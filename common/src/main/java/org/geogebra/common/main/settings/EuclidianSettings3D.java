@@ -591,28 +591,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 		sb.append("\" rightAngleStyle=\"");
 		sb.append(app.rightAngleStyle);
-		// if (asPreference) {
-		// sb.append("\" allowShowMouseCoords=\"");
-		// sb.append(getAllowShowMouseCoords());
-		//
-		// sb.append("\" allowToolTips=\"");
-		// sb.append(getAllowToolTips());
-		//
-		// sb.append("\" deleteToolSize=\"");
-		// sb.append(getEuclidianController().getDeleteToolSize());
-		// }
-
-		// sb.append("\" checkboxSize=\"");
-		// sb.append(app.getCheckboxSize()); // Michael Borcherds
-		// 2008-05-12
 
 		sb.append("\" gridType=\"");
 		sb.append(getGridType()); // cartesian/isometric/polar
-
-		// if (lockedAxesRatio != null) {
-		// sb.append("\" lockedAxesRatio=\"");
-		// sb.append(lockedAxesRatio);
-		// }
 
 		sb.append("\"/>\n");
 		// end ev settings

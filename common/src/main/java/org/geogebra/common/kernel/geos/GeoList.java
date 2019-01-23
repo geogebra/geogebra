@@ -90,8 +90,7 @@ public class GeoList extends GeoElement
 	 */
 	private boolean showAllProperties = false;
 
-	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds
-	// 2008-04-02
+	private ArrayList<GeoElement> colorFunctionListener;
 	private String typeStringForXML = null;
 	private final StringBuilder sbBuildValueString = new StringBuilder(50);
 

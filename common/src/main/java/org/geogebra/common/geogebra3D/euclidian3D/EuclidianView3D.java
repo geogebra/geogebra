@@ -1,5 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -115,11 +120,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -3061,28 +3061,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		sb.append("\" rightAngleStyle=\"");
 		sb.append(getApplication().rightAngleStyle);
-		// if (asPreference) {
-		// sb.append("\" allowShowMouseCoords=\"");
-		// sb.append(getAllowShowMouseCoords());
-		//
-		// sb.append("\" allowToolTips=\"");
-		// sb.append(getAllowToolTips());
-		//
-		// sb.append("\" deleteToolSize=\"");
-		// sb.append(getEuclidianController().getDeleteToolSize());
-		// }
-
-		// sb.append("\" checkboxSize=\"");
-		// sb.append(app.getCheckboxSize()); // Michael Borcherds
-		// 2008-05-12
 
 		sb.append("\" gridType=\"");
 		sb.append(getGridType()); // cartesian/isometric/polar
-
-		// if (lockedAxesRatio != null) {
-		// sb.append("\" lockedAxesRatio=\"");
-		// sb.append(lockedAxesRatio);
-		// }
 
 		sb.append("\"/>\n");
 		// end ev settings

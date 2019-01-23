@@ -5757,19 +5757,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.BLACK); // Michael Borcherds
-									// 2008-01-26 was
-									// darkgray
+		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
 
-		// showAxes = true;
-		// showGrid = false;
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
-
-		// added by Loic BEGIN
-		// app.rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
-		// END
 
 		showAxesNumbers[0] = true;
 		showAxesNumbers[1] = true;

@@ -232,26 +232,21 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						true, tpl);
 			}
 		} else if (rt instanceof ListValue
-				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
-				// EQUAL_BOOLEAN
-				// Michael
-				// Borcherds
-				// 2008-04-12
-				&& !operation.equals(Operation.NOT_EQUAL) // ditto
-				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
+				// skip operations acting on lists as a whole
+				&& !operation.equals(Operation.EQUAL_BOOLEAN)
+				&& !operation.equals(Operation.NOT_EQUAL)
+				&& !operation.equals(Operation.FUNCTION_NVAR)
 				&& !(operation.equals(Operation.VEC_FUNCTION)
 						&& lt.isGeoElement()
-						&& ((GeoElement) lt).isGeoSurfaceCartesian()) // ditto
-				&& !operation.equals(Operation.FREEHAND) // ditto
-				&& !operation.equals(Operation.DATA) // ditto
+						&& ((GeoElement) lt).isGeoSurfaceCartesian())
+				&& !operation.equals(Operation.FREEHAND)
+				&& !operation.equals(Operation.DATA)
 				&& (operation != Operation.PLUSMINUS)
 				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg
 																				// {1,2}
 																				// +
 																				// (1,2)
-				&& !(lt instanceof TextValue) // bugfix "" + {1,2} Michael
-												// Borcherds
-				// 2008-06-05
+				&& !(lt instanceof TextValue) // e.g. "" + {1,2}
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
 
 			if (operation == Operation.MULTIPLY && lt instanceof VectorValue) {

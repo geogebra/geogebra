@@ -915,8 +915,6 @@ public abstract class Localization {
 		// force update
 		fontSizeStrings = null;
 
-		// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
-		// 2008-03-31
 		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
 
 		// used for eg axes labels
