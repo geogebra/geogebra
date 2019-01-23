@@ -1662,6 +1662,7 @@ public abstract class EuclidianController3D extends EuclidianController {
         if (!longDragOccured && mode == EuclidianConstants.MODE_MOVE) {
             showDynamicStylebar();
         }
+        view3D.enlargeClippingWhenAREnabled();
     }
 
 	@Override
