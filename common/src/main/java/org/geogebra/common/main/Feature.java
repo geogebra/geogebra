@@ -166,9 +166,6 @@ public enum Feature {
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
 
-	/** GGB-650 */
-	GGB_WEB_ASSEMBLY,
-
 	/** GGB-2394 */
 	SPLITTER_LOADING,
 	

@@ -3914,10 +3914,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TIKZ_AXES:
 			return true;
 
-		/** GGB-650 */
-		case GGB_WEB_ASSEMBLY:
-			return true;
-
 		case SOLVE_QUARTIC:
 			return prerelease;
 
