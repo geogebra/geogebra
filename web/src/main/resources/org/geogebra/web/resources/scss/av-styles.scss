@@ -543,7 +543,7 @@ $duration: 0.2s;
         height: 100%;
     }
 
-    .algebraPanelScientificNoHeader {
+    .sheetOfPaper {
         background-color: $gray-background;
          &>div {
             width: 800px;
@@ -553,14 +553,34 @@ $duration: 0.2s;
             min-height: calc(100% - 24px);
             box-sizing: border-box;
             /** padding to make sure shadow goes to the very bottom when keyboard is open */
-            padding-bottom: 52px; 
+            padding-bottom: 52px;
             background: $white;
             margin-top: 24px;
+            margin-bottom: 24px;
             padding-top: 4px;
             border-top-right-radius: 4px;
             border-top-left-radius: 4px;
             box-shadow:  0px 0px 5px 1px rgba(0,0,0,0.2);
             overflow-x: hidden;
+        }
+    }
+
+    .algebraPanelScientificNoHeader {
+        @extend .sheetOfPaper;
+        &>div {
+            margin-bottom: 0;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+    }
+
+    .settingsPanelScientificNoHeader {
+        @extend .sheetOfPaper;
+        &>div {
+            padding-left: 16px;
+            padding-right: 128px;
+            padding-top: 8px;
+            padding-bottom: 8px;
         }
     }
 

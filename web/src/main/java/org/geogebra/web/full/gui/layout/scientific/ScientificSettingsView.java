@@ -1,12 +1,16 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
+import java.util.Arrays;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -19,7 +23,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 
 	private final AppW app;
 	private HeaderView headerView;
-	private boolean isOpen = false;
+	private boolean isOpen;
 	private Localization localization;
 
 	/**
@@ -34,6 +38,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		isOpen = true;
 		localization = app.getLocalization();
 		createHeader();
+		createContent();
 	}
 	
 	private void createHeader() {
@@ -44,6 +49,17 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		
 		setHeaderWidget(headerView);
 		resizeHeader();
+	}
+
+	private void createContent() {
+		ScrollPanel algebraScrollPanel = new ScrollPanel();
+		algebraScrollPanel.addStyleName("settingsPanelScientificNoHeader");
+		ComponentDropDown dropDown = new ComponentDropDown(app);
+		dropDown.setElements(Arrays.asList("Hello", "World"));
+		dropDown.setTitleText("Choose");
+		dropDown.setSelected(0);
+		algebraScrollPanel.add(dropDown);
+		setContentWidget(algebraScrollPanel);
 	}
 
 	@Override
