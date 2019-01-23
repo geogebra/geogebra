@@ -33,11 +33,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
@@ -1527,7 +1529,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param clienty
 	 *            - desired position on the canvas (y) - unused
 	 */
-	public void urlDropHappened(String url, int clientx, int clienty) {
+	public GeoImage urlDropHappened(String url, int clientx, int clienty) {
+		return urlDropHappened(url, Double.NaN, Double.NaN, Double.NaN,
+				Double.NaN, Double.NaN, Double.NaN);
+	}
+
+	/**
+	 * Loads an image and puts it on the canvas (this happens on webcam input)
+	 * On drag&drop or insert from URL this would be called too, but that would
+	 * set security exceptions
+	 * 
+	 * @param url
+	 *            - the data url of the image
+	 */
+	public GeoImage urlDropHappened(String url, double x0, double y0, double x1,
+			double y1, double x2, double y2) {
 
 		// Filename is temporarily set until a better solution is found
 		// TODO: image file name should be reset after the file data is
@@ -1551,10 +1567,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zipDirectory + '/' + fn;
 
-		createImageFromString(imgFileName, url, null, true);
+		GeoImage ret = createImageFromString(imgFileName, url, null,
+				!MyDouble.isFinite(x0), x0, y0, x1, y1, x2, y2);
 		if (insertImageCallback != null) {
 			this.insertImageCallback.run();
 		}
+
+		return ret;
 	}
 
 	/**
@@ -1568,7 +1587,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void imageDropHappened(String imgFileName, String fileStr) {
 		String fn = ImageManagerW.getMD5FileName(imgFileName, fileStr);
 
-		createImageFromString(fn, fileStr, null, true);
+		createImageFromString(fn, fileStr, null, true, Double.NaN, Double.NaN,
+				Double.NaN, Double.NaN, Double.NaN, Double.NaN);
 	}
 
 	/**
@@ -1578,8 +1598,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GeoImage createImageFromString(final String imgFileName,
 			String imageAsString, GeoImage imageOld,
-			final boolean autoCorners) {
-		Construction cons = getKernel().getConstruction();
+			final boolean autoCorners, final double x0, final double y0,
+			final double x1, final double y1, final double x2,
+			final double y2) {
+		final Construction cons = getKernel().getConstruction();
 		String fileStr = imageAsString;
 		if (fileStr.startsWith(StringUtil.svgMarker)) {
 			fileStr = Browser.decodeBase64(
@@ -1594,6 +1616,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				: new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 
+		final App app = this;
+
 		final ImageWrapper img = new ImageWrapper(
 				getImageManager().getExternalImage(imgFileName, this, true));
 		img.attachNativeLoadHandler(getImageManager(), new ImageLoadCallback() {
@@ -1604,6 +1628,36 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						img.getElement().getHeight());
 				if (autoCorners) {
 					getGuiManager().setImageCornersFromSelection(geoImage);
+				} else {
+
+					if (MyDouble.isFinite(x0) && MyDouble.isFinite(y0)) {
+
+						GeoPoint corner1 = new GeoPoint(cons, x0, y0, 1);
+						geoImage.setCorner(corner1, 0);
+						corner1.setLabel(null);
+
+						GeoPoint corner2 = new GeoPoint(cons, x1, y1, 1);
+						if (!MyDouble.isFinite(x1) || !MyDouble.isFinite(y1)) {
+							geoImage.calculateCornerPoint(corner2, 2);
+						}
+						geoImage.setCorner(corner2, 1);
+						corner2.setLabel(null);
+
+						// make sure 2nd corner is on screen
+						ImageManager.ensure2ndCornerOnScreen(
+								corner1.getInhomX(), corner2, app);
+
+						if (MyDouble.isFinite(x2) && MyDouble.isFinite(y2)) {
+							GeoPoint corner4 = new GeoPoint(cons, x2, y2, 1);
+							geoImage.setCorner(corner4, 2);
+							corner4.setLabel(null);
+						}
+
+					}
+
+					geoImage.setLabel(null);
+					GeoImage.updateInstances(app);
+
 				}
 				if (getImageManager().isPreventAuxImage()) {
 					geoImage.setAuxiliaryObject(false);

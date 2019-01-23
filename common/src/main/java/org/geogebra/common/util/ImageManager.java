@@ -88,7 +88,8 @@ abstract public class ImageManager {
 	 * @param app
 	 *            app
 	 */
-	public void ensure2ndCornerOnScreen(double x1, GeoPoint point, App app) {
+	public static void ensure2ndCornerOnScreen(double x1, GeoPoint point,
+			App app) {
 		double x2 = point.inhomX;
 		EuclidianView ev = app.getActiveEuclidianView();
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);

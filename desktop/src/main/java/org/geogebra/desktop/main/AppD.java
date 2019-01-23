@@ -5277,7 +5277,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners) {
+			String imgBase64, GeoImage imageOld, boolean autoCorners, double x0,
+			double y0, double x1, double y1, double x2, double y2) {
 		GeoImage geoImage = imageOld != null ? imageOld
 				: new GeoImage(getKernel().getConstruction());
 

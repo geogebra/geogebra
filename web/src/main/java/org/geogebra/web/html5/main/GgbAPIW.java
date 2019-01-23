@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -1030,7 +1031,20 @@ public class GgbAPIW extends GgbAPI {
 	 *            image URL
 	 */
 	public void insertImage(String url) {
-		((AppW) app).urlDropHappened(url, 0, 0);
+		insertImage(url, Double.NaN, Double.NaN, Double.NaN, Double.NaN,
+				Double.NaN, Double.NaN);
+	}
+
+	/**
+	 * @param url
+	 *            image URL
+	 */
+	public String insertImage(String url, double x0, double y0, double x1,
+			double y1, double x2, double y2) {
+		GeoImage geoImage = ((AppW) app).urlDropHappened(url, x0, y0, x1, y1,
+				x2, y2);
+		
+		return geoImage.getLabelSimple();
 	}
 
 	/**

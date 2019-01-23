@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -310,21 +309,8 @@ public class CmdExportImage extends CmdScripting {
 
 		geoImage = app.createImageFromString(imageFilename,
 				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,
-				false);
+				false, 0.0, 0.0, 1.0, 0.0, Double.NaN, Double.NaN);
 
-		if (corner == null) {
-			corner = new GeoPoint(cons, null, 0, 0, 1);
-		}
-		if (corner2 == null) {
-			corner2 = new GeoPoint(cons, null, 1, 0, 1);
-		}
-		try {
-			geoImage.setStartPoint(corner);
-			geoImage.setCorner(corner2, 1);
-
-		} catch (CircularDefinitionException e) {
-			e.printStackTrace();
-		}
 		geoImage.setLabel(label);
 
 		// invokeLater needed in web to make sure image appears
