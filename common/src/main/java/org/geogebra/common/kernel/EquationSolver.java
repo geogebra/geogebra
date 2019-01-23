@@ -694,11 +694,22 @@ public class EquationSolver implements EquationSolverInterface {
 			if (laguerreSolver == null) {
 				laguerreSolver = new LaguerreSolver();
 			}
-			complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START);
+			complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START,
+					LAGUERRE_MAX_EVAL);
 		} catch (Exception e) {
-			Log.debug("Problem solving with LaguerreSolver"
-					+ e.getLocalizedMessage());
-			return 0;
+
+			Log.debug("laguerreSolver failed, trying random starting point:"
+					+ e.getMessage());
+
+			try {
+				complexRoots = laguerreSolver.solveAllComplex(real,
+						LAGUERRE_START + Math.random(), LAGUERRE_MAX_EVAL);
+			} catch (Exception e2) {
+				Log.debug("Problem solving with LaguerreSolver"
+						+ e2.getMessage());
+				return 0;
+			}
+
 		}
 
 		// sort by real part & remove duplicates

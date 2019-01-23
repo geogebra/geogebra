@@ -193,11 +193,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
         throws NullArgumentException,
                NoDataException,
                TooManyEvaluationsException {
-		// APPS-406 maxEval reduced, problems with
-		// ComplexRoot(x^6 + 7x^3 - 4)
-		// ComplexRoot(x^6 + 7x^3 - 8)
-		return solveAllComplex(coefficients, initial,
-				1000/* Integer.MAX_VALUE */);
+		return solveAllComplex(coefficients, initial, Integer.MAX_VALUE);
     }
 
     /**
