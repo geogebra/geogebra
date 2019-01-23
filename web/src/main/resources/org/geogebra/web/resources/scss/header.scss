@@ -9,6 +9,7 @@ $button_hover_transition: background-color 0.15s;
 .GeoGebraFrame {
 
 	%headerViewShared {
+	    position: relative;
 		top: 0px;
 		left: 0px;
 		width: 100%;
