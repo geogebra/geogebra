@@ -10,12 +10,12 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Popup menu following the Material Design.
+ *
+ * @author laszlo
+ */
 public class MaterialDropDown {
-	/**
-	 * Popup menu following the Material Design.
-	 *
-	 * @author laszlo
-	 */
 
 	// for checking item position. It is 0 in normal case.
 	private static final int OFFSET_X = 0;
@@ -25,6 +25,12 @@ public class MaterialDropDown {
 	private Widget parent;
 	private int itemHeight;
 
+	/**
+	 *
+	 * @param app        {@link AppW}
+	 * @param itemHeight Height of an item in list
+	 * @param parent     The widget the dropdown belongs to.
+	 */
 	public MaterialDropDown(AppW app, int itemHeight, Widget parent) {
 		this.itemHeight = itemHeight;
 		this.parent = parent;
@@ -35,6 +41,14 @@ public class MaterialDropDown {
 	}
 
 	/**
+	 *
+	 * @param item to add
+	 */
+	public void addItem(AriaMenuItem item) {
+		menu.addItem(item);
+	}
+
+	/**
 	 * @param element
 	 *            element where clicks should not collapse the selection
 	 */
@@ -42,16 +56,21 @@ public class MaterialDropDown {
 		menu.getPopupPanel().addAutoHidePartner(element);
 	}
 
-	public int getLeft() {
-		return parent.getAbsoluteLeft() + OFFSET_X;
+	/**
+	 *
+	 * @return the index of the selected item.
+	 */
+	public int getSelectedIndex() {
+		return selectedIndex;
 	}
 
-	public int getTop() {
-		return parent.getAbsoluteTop() - parent.getOffsetHeight() / 2 - view.getAbsoluteTop();
-	}
-
-	public int getMaxHeight() {
-		return view.getHeight() / 2;
+	/**
+	 * Set item selected at the given index.
+	 *
+	 * @param index to select.
+	 */
+	public void setSelectedIndex(int index) {
+		this.selectedIndex = index;
 	}
 
 	/**
@@ -61,6 +80,7 @@ public class MaterialDropDown {
 	void open() {
 		menu.setMenuShown(true);
 		int itemTop = getSelectedIndex() * itemHeight;
+		restoreHeight();
 		if (itemTop < getTop()) {
 			// everything fits fine, no scrollbar
 			menu.showAtPoint(getLeft(), getTop() - itemTop);
@@ -70,56 +90,50 @@ public class MaterialDropDown {
 	}
 
 	private void openAsScrollable(int itemTop) {
-		int allHeight = getAllItemsHeight();
-		int left = getLeft();
 		int top = getTop();
 		int h2 = getMaxHeight() / 2;
-		int scrollTop = itemTop - h2;
-		int diff = allHeight - itemTop;
-		setHeight(50, Unit.PCT);
+		int diff = getAllItemsHeight() - itemTop;
 		if (diff < h2) {
-			if (diff + h2 < top) {
-				// many items, but there is space to go up;
-				menu.showAtPoint(left, top - h2 - diff);
-			} else {
-				// no space: put at 0, shrink and scroll
-				setHeight(top, Unit.PX);
-				openAndScrollTo(left, 0, itemTop);
+			if (top < getMaxHeight() + diff) {
+				setHeightInPx(top);
 			}
+			openAndScrollTo(diff, itemTop);
 		} else {
-			// center popup and scroll;
-			openAndScrollTo(left, top - h2, scrollTop);
+			openAndScrollTo(top - h2, itemTop - h2);
 		}
-
 	}
 
-	private void openAndScrollTo(int left, int top, int position) {
-		menu.showAtPoint(left, top);
-		setVerticalScrollPosition(position);
+	private int getLeft() {
+		return parent.getAbsoluteLeft() + OFFSET_X;
 	}
 
-	private void setVerticalScrollPosition(int pos) {
-		menu.getPopupPanel().getElement().setScrollTop(pos);
+	private int getTop() {
+		return parent.getAbsoluteTop() - parent.getOffsetHeight() / 2 - view.getAbsoluteTop();
 	}
 
-	private void setHeight(int height, Style.Unit unit) {
-		menu.getPopupPanel().setHeight(height + unit.name());
+	private int getMaxHeight() {
+		return view.getHeight() / 2;
+	}
+
+	private void openAndScrollTo(int top, int position) {
+		menu.showAtPoint(getLeft(), top);
+		menu.getPopupPanel().getElement().setScrollTop(position);
+	}
+
+	private void setHeightInPx(int height) {
+		getStyle().setHeight(height, Unit.PX);
+	}
+
+	private void restoreHeight() {
+		getStyle().clearHeight();
+	}
+
+	private Style getStyle() {
+		return menu.getPopupPanel().getElement().getStyle();
 	}
 
 	private int getAllItemsHeight() {
 		return menu.getComponentCount() * itemHeight;
-	}
-
-	public void addItem(AriaMenuItem item) {
-		menu.addItem(item);
-	}
-
-	public int getSelectedIndex() {
-		return selectedIndex;
-	}
-
-	public void setSelectedIndex(int selectedIndex) {
-		this.selectedIndex = selectedIndex;
 	}
 
 	/**
