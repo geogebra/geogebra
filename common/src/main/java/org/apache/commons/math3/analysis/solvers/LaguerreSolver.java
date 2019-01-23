@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -194,7 +193,11 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
         throws NullArgumentException,
                NoDataException,
                TooManyEvaluationsException {
-       return solveAllComplex(coefficients, initial, Integer.MAX_VALUE);
+		// APPS-406 maxEval reduced, problems with
+		// ComplexRoot(x^6 + 7x^3 - 4)
+		// ComplexRoot(x^6 + 7x^3 - 8)
+		return solveAllComplex(coefficients, initial,
+				1000/* Integer.MAX_VALUE */);
     }
 
     /**
