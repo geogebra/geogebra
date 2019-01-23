@@ -297,9 +297,6 @@ public class CmdExportImage extends CmdScripting {
 	private void addImageToConstruction(String label, String imageStr,
 			GeoPoint corner_0, GeoPoint corner2_0, boolean svg) {
 
-		GeoPoint corner = corner_0;
-		GeoPoint corner2 = corner2_0;
-
 		final GeoImage geoImage;
 		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
 
