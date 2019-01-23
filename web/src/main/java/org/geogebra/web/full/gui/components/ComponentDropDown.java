@@ -71,7 +71,11 @@ public class ComponentDropDown extends FlowPanel {
 
             @Override
             public void onClickStart(int x, int y, PointerEventType type) {
-				dropDown.open();
+				if (dropDown.isOpened()) {
+					dropDown.close();
+				} else {
+					dropDown.open();
+				}
             }
         });
     }

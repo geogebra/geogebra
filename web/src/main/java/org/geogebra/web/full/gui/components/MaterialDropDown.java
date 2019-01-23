@@ -50,6 +50,7 @@ public class MaterialDropDown {
 	 * center.
 	 */
 	void open() {
+		menu.setMenuShown(true);
 		int itemTop = getSelectedIndex() * itemHeight;
 		if (itemTop < getTop()) {
 			// everything fits fine, no scrollbar
@@ -110,5 +111,19 @@ public class MaterialDropDown {
 
 	public void setSelectedIndex(int selectedIndex) {
 		this.selectedIndex = selectedIndex;
+	}
+
+	/**
+	 * @return whether the dropdown is currently open or not
+	 */
+	public boolean isOpened() {
+		return menu.isMenuShown();
+	}
+
+	/**
+	 * Hide the material dropdown popup
+	 */
+	public void close() {
+		menu.hideMenu();
 	}
 }
