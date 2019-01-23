@@ -1,10 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -120,6 +115,11 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -3500,8 +3500,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
-			// update clipping cube
-			double[][] minMax = updateClippingCubeMinMax();
+            // update clipping cube
+            double[][] minMax = isAREnabled() ? clippingCubeDrawable.updateMinMaxLarge() :
+                    updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
 			clippingCubeDrawable.setWaitForUpdate();
 

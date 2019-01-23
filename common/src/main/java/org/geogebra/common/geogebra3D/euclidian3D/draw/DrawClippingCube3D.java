@@ -123,96 +123,116 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	/**
 	 * update the x,y,z min/max values
-	 * 
-	 * @return the min/max values
+	 *
 	 */
-	public double[][] updateMinMax() {
+	private void doUpdateMinMax() {
 
-		EuclidianView3D view = getView3D();
+        EuclidianView3D view = getView3D();
 
-		Renderer renderer = view.getRenderer();
+        Renderer renderer = view.getRenderer();
 
-		double xscale = view.getXscale();
-		double yscale = view.getYscale();
-		double zscale = view.getZscale();
+        double xscale = view.getXscale();
+        double yscale = view.getYscale();
+        double zscale = view.getZscale();
 
-		Coords origin = getView3D().getToSceneMatrix().getOrigin();
-		double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
+        Coords origin = getView3D().getToSceneMatrix().getOrigin();
+        double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
 
-		double halfWidth = renderer.getWidth() / 2.0;
+        double halfWidth = renderer.getWidth() / 2.0;
 
-		currentBounds[X][MIN] = -halfWidth / xscale + x0;
-		currentBounds[X][MAX] = halfWidth / xscale + x0;
+        currentBounds[X][MIN] = -halfWidth / xscale + x0;
+        currentBounds[X][MAX] = halfWidth / xscale + x0;
 
-		if (getView3D().getYAxisVertical()) {
-			currentBounds[Y][MIN] = (renderer.getBottom()) / yscale + y0;
-			currentBounds[Y][MAX] = (renderer.getTop()) / yscale + y0;
-			currentBounds[Z][MIN] = -halfWidth / zscale + z0;
-			currentBounds[Z][MAX] = halfWidth / zscale + z0;
-		} else {
-			currentBounds[Z][MIN] = (renderer.getBottom()) / zscale + z0;
-			currentBounds[Z][MAX] = (renderer.getTop()) / zscale + z0;
-			currentBounds[Y][MIN] = -halfWidth / yscale + y0;
-			currentBounds[Y][MAX] = halfWidth / yscale + y0;
-		}
+        if (getView3D().getYAxisVertical()) {
+            currentBounds[Y][MIN] = (renderer.getBottom()) / yscale + y0;
+            currentBounds[Y][MAX] = (renderer.getTop()) / yscale + y0;
+            currentBounds[Z][MIN] = -halfWidth / zscale + z0;
+            currentBounds[Z][MAX] = halfWidth / zscale + z0;
+        } else {
+            currentBounds[Z][MIN] = (renderer.getBottom()) / zscale + z0;
+            currentBounds[Z][MAX] = (renderer.getTop()) / zscale + z0;
+            currentBounds[Y][MIN] = -halfWidth / yscale + y0;
+            currentBounds[Y][MAX] = halfWidth / yscale + y0;
+        }
 
-		int reductionIndex = ((GeoClippingCube3D) getGeoElement())
-				.getReduction();
-		double rv = 0;
-		if (renderer.reduceForClipping()) {
-			rv = REDUCTION_VALUES[reductionIndex];
-		}
-		double xr = (currentBounds[X][MAX] - currentBounds[X][MIN]);
-		double yr = (currentBounds[Y][MAX] - currentBounds[Y][MIN]);
-		double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
+        int reductionIndex = ((GeoClippingCube3D) getGeoElement())
+                .getReduction();
+        double rv = 0;
+        if (renderer.reduceForClipping()) {
+            rv = REDUCTION_VALUES[reductionIndex];
+        }
+        double xr = (currentBounds[X][MAX] - currentBounds[X][MIN]);
+        double yr = (currentBounds[Y][MAX] - currentBounds[Y][MIN]);
+        double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
 
-		if (view.isAREnabled()) {
-			for (int i = 0; i < 3; i++) {
-				mayEnlarge(currentBounds[i], minMaxObjects[i]);
-			}
-		}
+        if (view.isAREnabled()) {
+            for (int i = 0; i < 3; i++) {
+                mayEnlarge(currentBounds[i], minMaxObjects[i]);
+            }
+        }
 
-		minMax[X][MIN] = currentBounds[X][MIN] + xr * rv;
-		minMax[X][MAX] = currentBounds[X][MAX] - xr * rv;
-		minMax[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
-		minMax[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
-		minMax[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
-		minMax[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
+        minMax[X][MIN] = currentBounds[X][MIN] + xr * rv;
+        minMax[X][MAX] = currentBounds[X][MAX] - xr * rv;
+        minMax[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
+        minMax[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
+        minMax[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
+        minMax[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
-		setVertices();
+        setVertices();
 
-		horizontalDiagonal = renderer.getWidth() * (1 - 2 * rv) * Math.sqrt(2);
+        horizontalDiagonal = renderer.getWidth() * (1 - 2 * rv) * Math.sqrt(2);
 
-		double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
-		double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
-		int w = renderer.getWidth();
-		int h = renderer.getHeight();
-		double d = renderer.getVisibleDepth();
-		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scaleMin);
+        double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
+        double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
+        int w = renderer.getWidth();
+        int h = renderer.getHeight();
+        double d = renderer.getVisibleDepth();
+        frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scaleMin);
 
-		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scaleMax);
-		frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
+        frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scaleMax);
+        frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
 
-		view.setXYMinMax(minMax);
+        view.setXYMinMax(minMax);
 
-		// minMaxLarge to cut lines
+        // minMaxLarge to cut lines
 
-		rv = REDUCTION_ENLARGE * rv + (1 - REDUCTION_ENLARGE) / 2;
+        rv = REDUCTION_ENLARGE * rv + (1 - REDUCTION_ENLARGE) / 2;
 
-		minMaxLarge[X][MIN] = currentBounds[X][MIN] + xr * rv;
-		minMaxLarge[X][MAX] = currentBounds[X][MAX] - xr * rv;
-		minMaxLarge[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
-		minMaxLarge[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
-		minMaxLarge[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
-		minMaxLarge[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
+        minMaxLarge[X][MIN] = currentBounds[X][MIN] + xr * rv;
+        minMaxLarge[X][MAX] = currentBounds[X][MAX] - xr * rv;
+        minMaxLarge[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
+        minMaxLarge[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
+        minMaxLarge[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
+        minMaxLarge[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
-		// update ev 3D depending algos
-		getView3D().updateBounds();
+        // update ev 3D depending algos
+        getView3D().updateBounds();
 
-		return minMax;
-	}
+    }
 
-	private static void mayEnlarge(double[] v, double[] enlarge) {
+
+    /**
+     * update the x,y,z min/max values
+     *
+     * @return the min/max values
+     */
+    public double[][] updateMinMax() {
+        doUpdateMinMax();
+        return minMax;
+    }
+
+    /**
+     * update the x,y,z min/max values
+     *
+     * @return the min/max values (large)
+     */
+    public double[][] updateMinMaxLarge() {
+        doUpdateMinMax();
+        return minMaxLarge;
+    }
+
+
+    private static void mayEnlarge(double[] v, double[] enlarge) {
 		if (v[MIN] > enlarge[MIN]) {
 			v[MIN] = enlarge[MIN];
 		}
