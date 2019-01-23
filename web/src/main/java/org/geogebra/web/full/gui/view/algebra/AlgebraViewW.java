@@ -1153,6 +1153,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 				if (parent.equals(rootOrder)) {
 					insertItem(pos, node);
+					updateIndices(pos);
 				} else {
 					parent.insertItem(pos, node);
 				}
