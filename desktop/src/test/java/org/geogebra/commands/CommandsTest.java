@@ -1982,6 +1982,17 @@ public class CommandsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdComplexRoot() {
+		tRound("Sort({ComplexRoot(x^6 + 7x^3 - 8)})",
+				complex("{-2 + 0i, -0.5 - 0.86603i, -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
+		t("ComplexRoot( x^2 )", complex("0 + 0i"));
+	}
+
+	private String complex(String string) {
+		return string.replaceAll("i", Unicode.IMAGINARY + "");
+	}
+
+	@Test
 	public void cmdReadText() {
 		t("SetActiveView(1)");
 		t("ReadText(\"Can anybody hear me?\")");

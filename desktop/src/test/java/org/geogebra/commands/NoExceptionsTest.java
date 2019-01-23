@@ -458,11 +458,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdComplexRoot() {
-		t("ComplexRoot[ polynom1 ]");
-	}
-
-	@Test
 	public void cmdCorner() {
 		t("Corner[ gv, n1 ]");
 		t("Corner[ n1 ]");

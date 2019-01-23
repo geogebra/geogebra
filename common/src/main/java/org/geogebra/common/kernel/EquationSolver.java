@@ -34,6 +34,8 @@ import org.geogebra.common.util.debug.Log;
 @SuppressWarnings("deprecation")
 public class EquationSolver implements EquationSolverInterface {
 	private static final double LAGUERRE_START = -1;
+	// gamma is unlikely to coincide with roots of a polynomials
+	private static final double LAGUERRE_START_ALT = MyDouble.EULER_GAMMA;
 	private static final int LAGUERRE_MAX_EVAL = 100;
 	private static final double LAGUERRE_EPS = 1E-5;
 
@@ -690,10 +692,10 @@ public class EquationSolver implements EquationSolverInterface {
 	private int laguerreAllComplex(double[] real, double[] complex) {
 
 		Complex[] complexRoots = null;
+		if (laguerreSolver == null) {
+			laguerreSolver = new LaguerreSolver();
+		}
 		try {
-			if (laguerreSolver == null) {
-				laguerreSolver = new LaguerreSolver();
-			}
 			complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START,
 					LAGUERRE_MAX_EVAL);
 		} catch (Exception e) {
@@ -703,7 +705,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 			try {
 				complexRoots = laguerreSolver.solveAllComplex(real,
-						LAGUERRE_START + Math.random(), LAGUERRE_MAX_EVAL);
+						LAGUERRE_START_ALT, LAGUERRE_MAX_EVAL);
 			} catch (Exception e2) {
 				Log.debug("Problem solving with LaguerreSolver"
 						+ e2.getMessage());
