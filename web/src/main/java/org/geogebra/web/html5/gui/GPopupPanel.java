@@ -368,7 +368,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				}
 			}
 			impl.setClip(curPanel.getElement(), "rect(auto, auto, auto, auto)");
-			curPanel.getElement().getStyle().setProperty("overflow", "visible");
+			curPanel.getElement().getStyle().setProperty("overflow", "");
 		}
 
 		@Override
@@ -469,7 +469,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 					getRootPanel().remove(curPanel);
 				}
 			}
-			curPanel.getElement().getStyle().setProperty("overflow", "visible");
+			curPanel.getElement().getStyle().setProperty("overflow", "");
 		}
 
 		private Panel getRootPanel() {
