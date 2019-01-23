@@ -842,8 +842,8 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFont(Ljava/lang/String;IZZZ)(label + "", size, !!bold, !!italic, !!serif);
 		};
 
-		api.insertImage = function(url, x0, y0, x1, y1, x2, y2) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::insertImage(Ljava/lang/String;DDDDDD)(url + "", x0*1, y0*1, x1*1, y1*1, x2*1, y2*1);
+		api.insertImage = function(url, corner1, corner2, corner4) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::insertImage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(url + "", corner1+"", corner2+"", corner4+"");
 		};
 
 		api.recalculateEnvironments = function() {

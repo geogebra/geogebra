@@ -295,7 +295,7 @@ public class CmdExportImage extends CmdScripting {
 	}
 
 	private void addImageToConstruction(String label, String imageStr,
-			GeoPoint corner_0, GeoPoint corner2_0, boolean svg) {
+			GeoPoint corner1, GeoPoint corner2, boolean svg) {
 
 		final GeoImage geoImage;
 		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
@@ -304,9 +304,14 @@ public class CmdExportImage extends CmdScripting {
 				+ "/image."
 				+ (svg ? "svg" : "png");
 
+		StringTemplate tpl = StringTemplate.defaultTemplate;
+
+		String c1 = corner1 == null ? "(0,0)" : corner1.getLabel(tpl);
+		String c2 = corner2 == null ? "(0,1)" : corner2.getLabel(tpl);
+
 		geoImage = app.createImageFromString(imageFilename,
 				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,
-				false, 0.0, 0.0, 1.0, 0.0, Double.NaN, Double.NaN);
+				false, c1, c2, null);
 
 		geoImage.setLabel(label);
 

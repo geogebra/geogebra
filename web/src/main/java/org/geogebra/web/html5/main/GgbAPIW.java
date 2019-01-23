@@ -1031,18 +1031,28 @@ public class GgbAPIW extends GgbAPI {
 	 *            image URL
 	 */
 	public void insertImage(String url) {
-		insertImage(url, Double.NaN, Double.NaN, Double.NaN, Double.NaN,
-				Double.NaN, Double.NaN);
+		insertImage(url, null, null, null);
 	}
 
 	/**
 	 * @param url
 	 *            image URL
 	 */
-	public String insertImage(String url, double x0, double y0, double x1,
-			double y1, double x2, double y2) {
-		GeoImage geoImage = ((AppW) app).urlDropHappened(url, x0, y0, x1, y1,
-				x2, y2);
+	public String insertImage(String url, String corner1, String corner2,
+			String corner4) {
+
+		if (corner1 == "undefined") {
+			corner1 = null;
+		}
+		if (corner2 == "undefined") {
+			corner2 = null;
+		}
+		if (corner4 == "undefined") {
+			corner4 = null;
+		}
+
+		GeoImage geoImage = ((AppW) app).urlDropHappened(url, corner1, corner2,
+				corner4);
 		
 		return geoImage.getLabelSimple();
 	}

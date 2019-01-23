@@ -294,7 +294,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/** gui / menu fontsize (-1 = use appFontSize) */
 	protected int guiFontSize = -1;
 	/** kernel */
-	protected Kernel kernel;
+	public Kernel kernel;
 	/** whether points can be created by other tools than point tool */
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */
@@ -5235,8 +5235,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            whether to create corners
 	 */
 	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners, double x0,
-			double y0, double x1, double y1, double x2, double y2) {
+			String imgBase64, GeoImage imageOld, boolean autoCorners, String c1,
+			String c2, String c4) {
 		return null;
 	}
 
