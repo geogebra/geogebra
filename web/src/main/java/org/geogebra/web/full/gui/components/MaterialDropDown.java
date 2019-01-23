@@ -5,6 +5,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,6 +32,14 @@ public class MaterialDropDown {
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("matMenu");
 		menu.getPopupPanel().addStyleName("dropDownPopup");
+	}
+
+	/**
+	 * @param element
+	 *            element where clicks should not collapse the selection
+	 */
+	public void addAutoHidePartner(Element element) {
+		menu.getPopupPanel().addAutoHidePartner(element);
 	}
 
 	public int getLeft() {

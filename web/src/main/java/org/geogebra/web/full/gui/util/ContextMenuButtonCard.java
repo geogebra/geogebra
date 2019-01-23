@@ -11,8 +11,8 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -149,9 +149,6 @@ public class ContextMenuButtonCard extends MyToggleButton
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		if (event.isAutoClosed()) {
-			wrappedPopup.setMenuShown(false);
-		}
 		toggleIcon(false);
 	}
 

@@ -86,6 +86,9 @@ public class GPopupMenuW implements AttachedToDOM {
 					subPopup.removeFromDOM();
 					subPopup = null;
 				}
+				if (event.isAutoClosed()) {
+					setMenuShown(false);
+				}
 			}
 		});
 
@@ -242,15 +245,6 @@ public class GPopupMenuW implements AttachedToDOM {
 			};
 			item.setScheduledCommand(cmd);
 		} else {
-			// CloseHandler<PopupPanel> closehandler = new
-			// CloseHandler<PopupPanel>(){
-			// public void onClose(CloseEvent<PopupPanel> event) {
-			// App.debug("popuppanel closed");
-			// }
-			// };
-			// submenu.addCloseHandler(closehandler);
-			// submenu.addHandler(closehandler, CloseEvent.getType());
-
 			submenu.addHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
@@ -494,7 +488,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * hide popup menu
 	 */
-	public void hide() {
+	public final void hide() {
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
 		Object anchor = am.getAnchor();

@@ -61,6 +61,8 @@ public class ContextMenuPopup extends MyCJButton
 	private void createPopup() {
 		popup = ((GuiManagerW) app.getGuiManager())
 				.getPopupMenu(ec.getAppSelectedGeos());
+		popup.getWrappedPopup().getPopupPanel()
+				.addAutoHidePartner(getElement());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
 		// addClickHandler(this);
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -146,6 +148,11 @@ public class ContextMenuPopup extends MyCJButton
 	 */
 	public void hideMenu() {
 		popup.setMenuShown(false);
+		popup.getWrappedPopup().hide();
+		unselectButton();
+	}
+
+	private void unselectButton() {
 		ImgResourceHelper.setIcon(app.isUnbundledOrWhiteboard()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				: AppResources.INSTANCE.dots(), this);
@@ -154,8 +161,7 @@ public class ContextMenuPopup extends MyCJButton
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		// make context menu btn toggle button
-		//hideMenu();
+		unselectButton();
 	}
 	
 	/**
