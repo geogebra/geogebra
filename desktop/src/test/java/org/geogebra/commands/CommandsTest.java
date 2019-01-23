@@ -1988,7 +1988,7 @@ public class CommandsTest extends AlgebraTest {
 		t("ComplexRoot( x^2 )", complex("0 + 0i"));
 	}
 
-	private String complex(String string) {
+	private static String complex(String string) {
 		return string.replaceAll("i", Unicode.IMAGINARY + "");
 	}
 

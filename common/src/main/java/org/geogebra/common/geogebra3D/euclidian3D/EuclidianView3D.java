@@ -3481,9 +3481,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
-            // update clipping cube
-            double[][] minMax = isAREnabled() ? clippingCubeDrawable.updateMinMaxLarge() :
-                    updateClippingCubeMinMax();
+			// update clipping cube
+			double[][] minMax = isAREnabled()
+					? clippingCubeDrawable.updateMinMaxLarge()
+					: updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
 			clippingCubeDrawable.setWaitForUpdate();
 
@@ -3497,7 +3498,6 @@ public abstract class EuclidianView3D extends EuclidianView
 				setAxesIntervals(getScale(i), i);
 
 				axisDrawable[i].setWaitForUpdate();
-
 			}
 		}
 
@@ -3515,9 +3515,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			// update e.g. Corner[]
 			kernel.notifyEuclidianViewCE(EVProperty.ROTATION);
-
 		}
-
 	}
 
 	protected double[][] updateClippingCubeMinMax() {

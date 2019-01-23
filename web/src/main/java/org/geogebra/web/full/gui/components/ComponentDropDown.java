@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.Label;
 
 public class ComponentDropDown extends FlowPanel {
 
-
 	private static final int ITEM_HEIGHT = 32;
 	Label titleLabel;
     private Label selectedOptionLabel;

@@ -207,9 +207,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
         // update ev 3D depending algos
         getView3D().updateBounds();
-
     }
-
 
     /**
      * update the x,y,z min/max values
@@ -230,7 +228,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         doUpdateMinMax();
         return minMaxLarge;
     }
-
 
     private static void mayEnlarge(double[] v, double[] enlarge) {
 		if (v[MIN] > enlarge[MIN]) {
