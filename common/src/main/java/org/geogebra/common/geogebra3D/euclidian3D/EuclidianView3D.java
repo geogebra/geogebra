@@ -5010,7 +5010,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void enlargeClippingWhenAREnabled() {
         if (isAREnabled()) {
-            if(updateObjectsBounds(true, true)){
+			if (updateObjectsBounds(true, true)) {
                 boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
                 boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
                 if (needsUpdate1 || needsUpdate2) {
