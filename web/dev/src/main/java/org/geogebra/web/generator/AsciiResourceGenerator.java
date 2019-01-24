@@ -57,7 +57,9 @@ public abstract class AsciiResourceGenerator extends AbstractResourceGenerator {
 		try {
 			css = process(css, resource);
 		} catch (Exception e) {
-			logger.log(Type.ERROR, "Error processing " + method.getName(),
+			logger.log(Type.ERROR,
+					"Error processing " + method.getName() + ":"
+							+ e.getMessage(),
 					null);
 			if (Util.readURLAsString(resource) == null) {
 				logger.log(Type.ERROR,
