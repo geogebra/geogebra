@@ -165,4 +165,43 @@
             opacity: 0.26;
         }
     }
+
+    /* DROPDOWN COMPONENT */
+    .dropDownSelector {
+        position: relative;
+        height: 64px;
+
+        .titleLabel {
+            font-size: 100%;
+            width: 100%;
+            height: 24px;
+            padding-top: 10px;
+        }
+
+        .selectedOptionLabel {
+            font-size: 87.5%;
+            height: 20px;
+            padding-bottom: 10px;
+            color: $black-60;
+        }
+    }
+
+    .dropDownPopup {
+        overflow-y: auto;
+        max-height: 50%;
+
+        .dropDownElement {
+            padding-left: 24px;
+            line-height: 32px;
+        }
+
+        .dropDownElement:hover {
+            cursor: pointer;
+            background: $black-04;
+        }
+
+        .selectedDropDownElement, .selectedDropDownElement:hover {
+            background: $black-12;
+        }
+    }
 }
