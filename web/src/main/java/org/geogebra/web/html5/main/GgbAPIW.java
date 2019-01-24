@@ -1029,32 +1029,27 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param url
 	 *            image URL
-	 */
-	public void insertImage(String url) {
-		insertImage(url, null, null, null);
-	}
-
-	/**
-	 * @param url
-	 *            image URL
+	 * @param corner1
+	 *            bottom left corner
+	 * @param corner2
+	 *            bottom right corner
+	 * @param corner4
+	 *            top left corner
+	 * @return image label
 	 */
 	public String insertImage(String url, String corner1, String corner2,
 			String corner4) {
-
-		if (corner1 == "undefined") {
-			corner1 = null;
-		}
-		if (corner2 == "undefined") {
-			corner2 = null;
-		}
-		if (corner4 == "undefined") {
-			corner4 = null;
-		}
-
-		GeoImage geoImage = ((AppW) app).urlDropHappened(url, corner1, corner2,
-				corner4);
 		
+		GeoImage geoImage = ((AppW) app).urlDropHappened(url,
+				checkCorner(corner1), checkCorner(corner2),
+				checkCorner(corner4));
+
 		return geoImage.getLabelSimple();
+	}
+
+	private static String checkCorner(String cornerExp) {
+		return StringUtil.isNaN(cornerExp) || StringUtil.empty(cornerExp) ? null
+				: cornerExp;
 	}
 
 	/**

@@ -168,7 +168,7 @@ public class ModeToggleMenuW extends ListItem
 	 *            image URL
 	 */
 	public void onPaste(String str) {
-		app.getGgbApi().insertImage(str);
+		app.getGgbApi().insertImage(str, null, null, null);
 	}
 
 	/**

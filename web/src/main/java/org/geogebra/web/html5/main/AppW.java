@@ -1639,7 +1639,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 									.evaluateToPoint(c2, null, true);
 						} else {
 							corner2 = new GeoPoint(cons, 0, 0, 1);
-							geoImage.calculateCornerPoint((GeoPoint) corner2,
+							geoImage.calculateCornerPoint(corner2,
 									2);
 						}
 						geoImage.setCorner(corner2, 1);
