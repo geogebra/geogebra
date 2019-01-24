@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -9,8 +11,6 @@ import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
-
-import java.util.ArrayList;
 
 /**
  * This collection groups properties that are related to the distances of axes numbering.
@@ -44,9 +44,7 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
                             "zAxis", 2));
         }
 
-        Property[] p = new Property[properties.size()];
-        properties.toArray(p);
-        collection = new PropertiesList(p);
+		collection = new PropertiesList(properties);
     }
 
     @Override

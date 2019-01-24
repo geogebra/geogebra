@@ -66,11 +66,11 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 
 		// When we have all the necessary properties (which are working properly), it should come
 		// from the PropertiesFactory.createScientificCalculatorProperties method
-		PropertiesList propertiesList = new PropertiesList(new Property[]{
+		PropertiesList propertiesList = new PropertiesList(
 				new AngleUnitProperty(app.getKernel(), localization),
 				new RoundingProperty(app, localization),
 				new FontSizeProperty(app, localization)
-		});
+		);
 
 		buildPropertiesPanel(propertiesList, contentPanel);
 		settingsScrollPanel.add(contentPanel);

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -7,8 +9,6 @@ import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
-
-import java.util.ArrayList;
 
 /**
  * This collection groups properties that are related to labeling the axes.
@@ -40,9 +40,7 @@ public class LabelsPropertyCollection extends AbstractProperty
             properties.add(new AxisLabelProperty(localization, euclidianSettings, "zAxis", 2));
         }
 
-        Property[] p = new Property[properties.size()];
-        properties.toArray(p);
-        collection = new PropertiesList(p);
+		collection = new PropertiesList(properties);
 	}
 
     @Override

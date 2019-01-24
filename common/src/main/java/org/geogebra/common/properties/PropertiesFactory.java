@@ -43,14 +43,12 @@ public class PropertiesFactory {
             App app, Localization localization,
             LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
-        return new PropertiesList(new Property[]{
-                new RoundingProperty(app, localization),
-                new AngleUnitProperty(kernel, localization),
-                new LabelingProperty(app, localization),
-                new CoordinatesProperty(kernel, localization),
-                new FontSizeProperty(app, localization),
-                new LanguageProperty(app, localization, onLanguageSetCallback)
-        });
+		return new PropertiesList(new RoundingProperty(app, localization),
+				new AngleUnitProperty(kernel, localization),
+				new LabelingProperty(app, localization),
+				new CoordinatesProperty(kernel, localization),
+				new FontSizeProperty(app, localization),
+				new LanguageProperty(app, localization, onLanguageSetCallback));
     }
 
     /**
@@ -64,12 +62,11 @@ public class PropertiesFactory {
     public static PropertiesList createScientificCalculatorProperties(App app, Localization
             localization, LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
-        return new PropertiesList(new Property[]{
+		return new PropertiesList(
                 new AngleUnitProperty(kernel, localization),
                 new RoundingProperty(app, localization),
                 new FontSizeProperty(app, localization),
-                new LanguageProperty(app, localization, onLanguageSetCallback)
-        });
+				new LanguageProperty(app, localization, onLanguageSetCallback));
     }
 
     /**
@@ -83,17 +80,16 @@ public class PropertiesFactory {
         AlgebraView algebraView = app.getAlgebraView();
         Kernel kernel = app.getKernel();
         if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
-            return new PropertiesList(new Property[]{
-                    new AlgebraDescriptionProperty(kernel, localization),
-                    new SortByProperty(algebraView, localization),
-                    new ShowAuxiliaryProperty(app, localization)
-            });
-        } else {
-            return new PropertiesList(new Property[]{
-                    new AlgebraDescriptionProperty(kernel, localization),
-                    new ShowAuxiliaryProperty(app, localization)
-            });
-        }
+			return new PropertiesList(
+					new AlgebraDescriptionProperty(kernel, localization),
+					new SortByProperty(algebraView, localization),
+					new ShowAuxiliaryProperty(app, localization)
+			);
+		} else {
+			return new PropertiesList(
+					new AlgebraDescriptionProperty(kernel, localization),
+					new ShowAuxiliaryProperty(app, localization));
+		}
     }
 
     /**
