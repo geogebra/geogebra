@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'shared';
 $duration: 0.2s;
+$scientificHeaderWidth: 16px + 32px + 8px;
 
 .GeoGebraFrame {
 
@@ -370,10 +371,10 @@ $duration: 0.2s;
 			.scrollableTextBox.noPreview, 
 			.avItem .elemText,
 			.avItem .elemText.scrollableTextBox {
-				margin-left: 48px;
+				margin-left: $scientificHeaderWidth;
 				padding-left: 0px;
 				border-bottom: 1px $tool-border solid;
-				width: calc(100% - 48px);
+				width: calc(100% - #{$scientificHeaderWidth});
 				box-sizing: border-box;
 				min-height: 48px;
 			}
@@ -586,17 +587,17 @@ $duration: 0.2s;
     .avItemHeaderScientific {
         position: absolute;
         height: 100%;
-        width: 56px;
+        width: $scientificHeaderWidth;
+        cursor: default;
     }
 
     .avItemNumber, .avWarningScientific {
         color: $text-secondary;
         font-size: 75%;
         top: 14px;
-        left: 8px;
+        left: 16px;
         position: absolute;
     }
-
 }
 
 @keyframes removeSuggestions {
