@@ -744,13 +744,13 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	public void setARShouldEnd() {
-		killSession();
+		killARSession();
 		view3D.setARDrawing(false);
 		view3D.setAREnabled(false);
 		view3D.resetViewFromAR();
 	}
 
-	protected void killSession() {
+	protected void killARSession() {
 
 	}
 }
