@@ -1088,4 +1088,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void setPrefSize(int width, int height) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void setAuralText(String text) {
+		// not needed
+	}
 }
