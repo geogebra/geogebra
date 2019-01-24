@@ -742,4 +742,15 @@ public abstract class RendererWithImpl extends Renderer
 	public void createDummyTexture() {
 		rendererImpl.createDummyTexture();
 	}
+
+	public void setARShouldEnd() {
+		killSession();
+		view3D.setARDrawing(false);
+		view3D.setAREnabled(false);
+		view3D.resetViewFromAR();
+	}
+
+	protected void killSession() {
+
+	}
 }

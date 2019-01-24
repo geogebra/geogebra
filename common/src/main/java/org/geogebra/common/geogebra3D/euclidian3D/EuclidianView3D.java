@@ -5018,4 +5018,7 @@ public abstract class EuclidianView3D extends EuclidianView
         }
     }
 
+	public void resetViewFromAR() {
+
+	}
 }
