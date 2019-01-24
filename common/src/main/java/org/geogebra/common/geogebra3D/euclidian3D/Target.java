@@ -13,13 +13,13 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 public class Target {
 
 	private TargetType type;
-	private CoordMatrix4x4 dotMatrix = CoordMatrix4x4.identity();
-	private CoordMatrix4x4 circleMatrix = CoordMatrix4x4.identity();
-	private Coords hittingOrigin = new Coords(4);
-	private Coords hittingDirection = new Coords(4);
-	private Coords circleNormal = new Coords(3);
-	private Coords tmpCoords1 = new Coords(4);
-	private Coords tmpCoords2 = new Coords(4);
+	private CoordMatrix4x4 dotMatrix;
+	private CoordMatrix4x4 circleMatrix;
+	private Coords hittingOrigin;
+	private Coords hittingDirection;
+	private Coords circleNormal;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
 
 	/**
 	 * Constructor
@@ -43,6 +43,15 @@ public class Target {
 	 *            3D view
 	 */
 	public void updateType(EuclidianView3D view) {
+	    if (dotMatrix == null) {
+            dotMatrix = CoordMatrix4x4.identity();
+            circleMatrix = CoordMatrix4x4.identity();
+            hittingOrigin = new Coords(4);
+            hittingDirection = new Coords(4);
+            circleNormal = new Coords(3);
+            tmpCoords1 = new Coords(4);
+            tmpCoords2 = new Coords(4);
+        }
 		type = TargetType.getCurrentTargetType(view,
 				(EuclidianController3D) view.getEuclidianController());
 	}
