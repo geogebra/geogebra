@@ -25,8 +25,8 @@ public class MaterialDropDown {
 	private Widget parent;
 	private int itemHeight;
 
-	private enum RelativeItemPosition {
-		BEGIN, CENTER, END
+	private enum RelativePosition {
+		HIGH, CENTER, LOW
 	}
 
 	/**
@@ -81,40 +81,40 @@ public class MaterialDropDown {
 	 * Opens DropDown at the top of the widget positioning selected item at the
 	 * center.
 	 */
-	void open() {
+	void show() {
 		menu.setMenuShown(true);
 		restoreHeight();
-		RelativeItemPosition pos = getPositionRelative();
-		if (pos == RelativeItemPosition.BEGIN) {
-			openBegin();
-		} else if (pos == RelativeItemPosition.CENTER) {
-			openCenter();
-		} else if (pos == RelativeItemPosition.END) {
-			openEnd();
+		RelativePosition pos = getRelativePosition();
+		if (pos == RelativePosition.HIGH) {
+			showHigh();
+		} else if (pos == RelativePosition.CENTER) {
+			showCenter();
+		} else if (pos == RelativePosition.LOW) {
+			showLow();
 		}
 	}
 
-	private RelativeItemPosition getPositionRelative() {
+	private RelativePosition getRelativePosition() {
 		int itemTop = getSelectedItemTop();
 		int top = getTop();
 		if (itemTop < top) {
-			return RelativeItemPosition.BEGIN;
+			return RelativePosition.HIGH;
 		} else if (getAllItemsHeight() - itemTop < getMaxHeight() / 2) {
-			return RelativeItemPosition.END;
+			return RelativePosition.LOW;
 		}
-		return RelativeItemPosition.CENTER;
+		return RelativePosition.CENTER;
 	}
 
-	private void openBegin() {
+	private void showHigh() {
 		menu.showAtPoint(getLeft(), getTop() - getSelectedItemTop());
 	}
 
-	private void openCenter() {
+	private void showCenter() {
 		int h2 = getMaxHeight() / 2;
 		openAndScrollTo(getTop() - h2, getSelectedItemTop() - h2);
 	}
 
-	private void openEnd() {
+	private void showLow() {
 		int itemTop = getSelectedItemTop();
 		int top = getTop();
 		int h2 = getMaxHeight() / 2;
