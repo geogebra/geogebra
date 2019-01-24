@@ -6625,4 +6625,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public ScreenReaderAdapter getScreenReader() {
 		return ScreenReaderSilent.INSTANCE;
 	}
+
+	public void resetView() {
+
+	}
 }
