@@ -114,22 +114,25 @@ public class ContextMenuAVItemMore implements SetLabels {
 		addAction(new MenuAction(loc.getMenu("ShowLabel"),
 				MaterialDesignResources.INSTANCE.label()) {
 
-					@Override
-					public void execute() {
-						new LabelController().showLabel(item.geo);
-					}
-				});
+			@Override
+			public void execute() {
+				new LabelController().showLabel(item.geo);
+				app.storeUndoInfo();
+			}
+		});
 	}
 
 	private void addHideLabelItem() {
 		addAction(new MenuAction(loc.getMenu("HideLabel"),
 				MaterialDesignResources.INSTANCE.label_off()) {
 
-					@Override
-					public void execute() {
-						new LabelController().hideLabel(item.geo);
-					}
-				});
+			@Override
+			public void execute() {
+				new LabelController().hideLabel(item.geo);
+				item.geo.removeDependentAlgos();
+				app.storeUndoInfo();
+			}
+		});
 	}
 
 	private void addSpecialPointsItem() {
