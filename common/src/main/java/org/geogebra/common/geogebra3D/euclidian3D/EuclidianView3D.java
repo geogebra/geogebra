@@ -5005,6 +5005,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	/**
+	 * enlarge clipping for AR
+	 */
 	public void enlargeClippingWhenAREnabled() {
         if (isAREnabled()) {
             if(updateObjectsBounds(true, true)){
@@ -5018,6 +5021,9 @@ public abstract class EuclidianView3D extends EuclidianView
         }
     }
 
+	/**
+	 * reset view for AR
+	 */
 	public void resetViewFromAR() {
 
 	}
