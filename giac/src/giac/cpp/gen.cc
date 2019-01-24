@@ -3346,6 +3346,24 @@ namespace giac {
       }
     }
     gen ref,imf;
+    if (u==at_integrate){
+      if (f.type!=_VECT){
+	reim(f,ref,imf,contextptr);
+	r=symbolic(at_integrate,ref); 
+	i=is_exactly_zero(imf)?zero:symbolic(at_integrate,imf); 
+	return;
+      }
+      vecteur v=*f._VECTptr;
+      if (v.size()<=2 || (v.size()>=4 && is_exactly_zero(im(v[2],contextptr)) && is_exactly_zero(im(v[3],contextptr)))){
+	f=v[0];
+	reim(f,ref,imf,contextptr);
+	v[0]=ref;
+	r=is_exactly_zero(ref)?zero:symbolic(at_integrate,gen(v,_SEQ__VECT));
+	v[0]=imf;
+	i=is_exactly_zero(imf)?zero:symbolic(at_integrate,gen(v,_SEQ__VECT));
+	return;
+      }
+    }
     reim(f,ref,imf,contextptr);
     if (is_zero(imf,contextptr) && equalposcomp(reim_op,u)){
       r=s; i=0; return;

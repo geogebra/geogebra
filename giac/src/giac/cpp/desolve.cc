@@ -842,7 +842,7 @@ namespace giac {
 	      if (b)
 		calc_mode(1,contextptr);
 	    }
-	    if (reel && is_zero(im(cst,contextptr)))
+	    if (reel && is_zero(im(cst,contextptr)) && lop(part,at_integrate).empty())
 	      part=re(part,contextptr);
 	    //part=recursive_ratnormal(part,contextptr);
 	    part=simplify(part,contextptr);

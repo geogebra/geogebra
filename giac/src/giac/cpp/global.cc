@@ -6367,7 +6367,7 @@ unsigned int ConvertUTF8toUTF16 (
 	      instr=false;
 	    continue;
 	  }
-	  if (cur[p]==':' && cur[p+1]!=';')
+	  if (cur[p]==':' && (cur[p+1]!=';' && cur[p+1]!='='))
 	    break;
 	  if (cur[p]=='"' && cur[p-1]!='\\')
 	    instr=true;	  

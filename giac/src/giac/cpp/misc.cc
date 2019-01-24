@@ -8482,6 +8482,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__isfinite,&_isfinite,_isfinite_s);
   define_unary_function_ptr5( at_isfinite ,alias_at_isfinite,&__isfinite,0,true);
 
+  gen _is_matrix(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    return change_subtype(ckmatrix(a),_INT_BOOLEAN);
+  }
+  static const char _is_matrix_s []="is_matrix";
+  static define_unary_function_eval (__is_matrix,&_is_matrix,_is_matrix_s);
+  define_unary_function_ptr5( at_is_matrix ,alias_at_is_matrix,&__is_matrix,0,true);
+
   // Python compat convert to list
   gen _python_list(const gen & a,GIAC_CONTEXT){
     if (a.type==_STRNG && a.subtype==-1) return  a;
