@@ -36,4 +36,9 @@ public class UtilFactoryD extends UtilFactory {
 		return new ProverD();
 	}
 
+	@Override
+	public double getMillisecondTime() {
+		return System.nanoTime() / 1000000d;
+	}
+
 }

@@ -54,4 +54,10 @@ public abstract class UtilFactory {
 	 * @return Prover Creates a Prover object
 	 */
 	public abstract Prover newProver();
+
+	/**
+	 * 
+	 * @return current time in milliseconds
+	 */
+	public abstract double getMillisecondTime();
 }

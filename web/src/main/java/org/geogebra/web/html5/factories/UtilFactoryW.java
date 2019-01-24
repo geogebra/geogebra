@@ -8,6 +8,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.html5.util.ProverW;
 import org.geogebra.web.html5.util.URLEncoderW;
+import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 /**
@@ -36,4 +37,10 @@ public class UtilFactoryW extends UtilFactory {
 	public Prover newProver() {
 		return new ProverW();
 	}
+
+	@Override
+	public double getMillisecondTime() {
+		return GeoGebraProfilerW.getMillisecondTimeNative();
+	}
+
 }
