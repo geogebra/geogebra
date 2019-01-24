@@ -86,4 +86,10 @@ public interface AutoCompleteTextField
 
 	void wrapSetText(String text);
 
+	/**
+	 * Set text for screen readers.
+	 * 
+	 * @param text to read.
+	 */
+	void setAuralText(String text);
 }

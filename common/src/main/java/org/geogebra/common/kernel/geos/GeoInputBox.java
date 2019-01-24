@@ -27,7 +27,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Input box for user input
- * 
+ *
  * @author Michael
  *
  */
@@ -44,7 +44,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Creates new text field
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -101,7 +101,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Returns the linked geo
-	 * 
+	 *
 	 * @return linked geo
 	 */
 	public GeoElementND getLinkedGeo() {
@@ -118,7 +118,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Set the text
-	 * 
+	 *
 	 * @param newText
 	 *            new text value
 	 */
@@ -128,7 +128,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Get the text (used for scripting)
-	 * 
+	 *
 	 * @return the text
 	 */
 	public String getText() {
@@ -142,7 +142,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Sets length of the input box
-	 * 
+	 *
 	 * @param len
 	 *            new length
 	 */
@@ -371,7 +371,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Called by a Drawable for this object when it is updated
-	 * 
+	 *
 	 * @param textFieldToUpdate
 	 *            the Drawable's text field
 	 */
@@ -422,7 +422,7 @@ public class GeoInputBox extends GeoButton {
 
 	/**
 	 * Called by a Drawable when its text object is updated
-	 * 
+	 *
 	 * @param textFieldToUpdate
 	 *            the Drawable's text field
 	 */
@@ -526,7 +526,7 @@ public class GeoInputBox extends GeoButton {
 		}
 		return getHeight();
 	}
-	
+
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
 		return DescriptionMode.DEFINITION;
@@ -535,6 +535,10 @@ public class GeoInputBox extends GeoButton {
 	@Override
 	public GColor getBackgroundColor() {
 		return bgColor;
+	}
+
+	public String getAuralText() {
+		return getCaption(StringTemplate.defaultTemplate);
 	}
 
 }

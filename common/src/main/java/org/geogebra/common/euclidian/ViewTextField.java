@@ -9,7 +9,7 @@ import org.geogebra.common.util.debug.Log;
 
 public abstract class ViewTextField {
 	/**
-	 * 
+	 *
 	 */
 	private final EuclidianView euclidianView;
 	private AutoCompleteTextField textField;
@@ -62,6 +62,7 @@ public abstract class ViewTextField {
 	 *            input box to focus
 	 */
 	public void focusTo(GeoInputBox inputBox) {
+		textField.setAuralText(inputBox.getAuralText());
 		DrawableND d = this.euclidianView
 				.getDrawableFor(inputBox);
 		if (d == null) {

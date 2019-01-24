@@ -152,12 +152,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created
 	 * and the number of columns is 0.
-	 * 
+	 *
 	 * @param columns
 	 *            number of columns
 	 * @param app
 	 *            app
-	 * 
+	 *
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
 		this(columns, (AppW) app, true, null, false, false);
@@ -314,6 +314,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
+	@Override
+	public void setAuralText(String text) {
+		textField.getElement().setAttribute("aria-label", text);
+	}
+
 	private void setupShowSymbolButton() {
 		showSymbolButton = new GToggleButton();
 		showSymbolButton.setText(Unicode.alpha + "");
@@ -397,7 +402,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	/**
 	 * Sets whether the component is currently performing autocomplete lookups
 	 * as keystrokes are performed.
-	 * 
+	 *
 	 * @param val
 	 *            True or false.
 	 */
@@ -656,7 +661,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/**
 	 * Sets the position of caret.
-	 * 
+	 *
 	 * @param caretPos
 	 *            new position
 	 * @param moveDummyCursor
@@ -676,7 +681,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/**
 	 * Add dummy cursor for Android/iOS
-	 * 
+	 *
 	 * @param caretPos
 	 *            cursor position
 	 */
@@ -715,7 +720,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/**
 	 * shows dialog with syntax info
-	 * 
+	 *
 	 * @param cmd
 	 *            is the internal command name
 	 */
@@ -1025,7 +1030,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
 				|| usedForInputBox() || app.isWhiteboardActive()) {
 			return;
-		} 
+		}
 		int keyCode = e.getNativeKeyCode();
 		if (keyCode == 0 && Browser.isIPad()) {
 			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
@@ -1280,7 +1285,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/**
 	 * Add input to hinput history.
-	 * 
+	 *
 	 * @param str
 	 *            input
 	 */
@@ -1473,7 +1478,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/**
 	 * Ticket #1167 Auto-completes input; <br>
-	 * 
+	 *
 	 * @param index
 	 *            index of the chosen command in the completions list
 	 * @param completionList
@@ -1601,7 +1606,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/**
 	 * Adds key handler to the tetxtfield
-	 * 
+	 *
 	 * @param handler
 	 *            Keypresshandler
 	 * @return registration
