@@ -23,133 +23,166 @@ import com.google.gwt.user.client.ui.Label;
 public class ComponentDropDown extends FlowPanel {
 
 	private static final int ITEM_HEIGHT = 32;
-	Label titleLabel;
-    private Label selectedOptionLabel;
-    private List<AriaMenuItem> dropDownElementsList;
-    private DropDownSelectionCallback selectionCallback;
+	private Label titleLabel;
+	private Label selectedOptionLabel;
+	private List<AriaMenuItem> dropDownElementsList;
+	private DropDownSelectionCallback selectionCallback;
 	private MaterialDropDown dropDown;
 
 	/**
 	 *
-	 * @param app AppW
+	 * @param app
+	 *            AppW
 	 */
-    public ComponentDropDown(AppW app) {
-        buildGui(app);
-    }
+	public ComponentDropDown(AppW app) {
+		buildGui(app);
+	}
 
-    private void buildGui(AppW app) {
-        FlowPanel contentPanel = new FlowPanel();
-        contentPanel.setStyleName("dropDownSelector");
+	private void buildGui(AppW app) {
+		FlowPanel contentPanel = new FlowPanel();
+		contentPanel.setStyleName("dropDownSelector");
 
-        createTitleLabel();
-        createSelectedOptionLabel();
-        createDropDownMenu(app);
+		createTitleLabel();
+		createSelectedOptionLabel();
+		createDropDownMenu(app);
 
-        contentPanel.add(titleLabel);
-        contentPanel.add(selectedOptionLabel);
+		contentPanel.add(titleLabel);
+		contentPanel.add(selectedOptionLabel);
 
-        add(contentPanel);
-    }
+		add(contentPanel);
+	}
 
-    private void createTitleLabel() {
-        titleLabel = new Label();
+	private void createTitleLabel() {
+		titleLabel = new Label();
+		titleLabel.setStyleName("titleLabel");
+	}
 
-        titleLabel.setStyleName("titleLabel");
-    }
+	private void createSelectedOptionLabel() {
+		selectedOptionLabel = new Label();
+		selectedOptionLabel.setStyleName("selectedOptionLabel");
+	}
 
-    private void createSelectedOptionLabel() {
-        selectedOptionLabel = new Label();
-
-        selectedOptionLabel.setText("Hungarian");
-        selectedOptionLabel.setStyleName("selectedOptionLabel");
-    }
-
-    private void createDropDownMenu(AppW app) {
+	private void createDropDownMenu(AppW app) {
 		dropDown = new MaterialDropDown(app, ITEM_HEIGHT, selectedOptionLabel);
 		dropDown.addAutoHidePartner(getElement());
-        ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
-				if (dropDown.isOpened()) {
-					dropDown.close();
-				} else {
-					dropDown.show();
-				}
-            }
-        });
-    }
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				toggleExpanded();
+			}
+		});
+	}
+
+	/**
+	 * Expand/collapse the dropdown.
+	 */
+	protected void toggleExpanded() {
+		if (dropDown.isOpened()) {
+			dropDown.close();
+		} else {
+			dropDown.show();
+		}
+	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
-        for (AriaMenuItem menuItem : menuItems) {
+		for (AriaMenuItem menuItem : menuItems) {
 			dropDown.addItem(menuItem);
-        }
-    }
+		}
+	}
 
 	/**
 	 * set the title of the dropdown in the preview view
 	 *
-	 * @param title the localized title which is displayed above the selected option
+	 * @param title
+	 *            the localized title which is displayed above the selected
+	 *            option
 	 */
-    public void setTitleText(String title) {
-        titleLabel.setText(title);
-    }
+	public void setTitleText(String title) {
+		titleLabel.setText(title);
+	}
 
-    /**
-     * set the selected option in the preview view
-     * @param selected
-     *      index of the selected item from the dropdown list
-     */
+	/**
+	 * set the selected option in the preview view
+	 * 
+	 * @param selected
+	 *            index of the selected item from the dropdown list
+	 */
 	public void setSelected(int selected) {
 		highlightSelectedElement(dropDown.getSelectedIndex(), selected);
 		dropDown.setSelectedIndex(selected);
-		selectedOptionLabel.setText(dropDownElementsList.get(selected).getElement().getInnerText());
+		selectedOptionLabel.setText(
+				dropDownElementsList.get(selected).getElement().getInnerText());
 	}
 
-	private void highlightSelectedElement(int previousSelectedIndex, int currentSelectedIndex) {
-		dropDownElementsList.get(previousSelectedIndex).removeStyleName("selectedDropDownElement");
-		dropDownElementsList.get(currentSelectedIndex).addStyleName("selectedDropDownElement");
+	private void highlightSelectedElement(int previousSelectedIndex,
+			int currentSelectedIndex) {
+		dropDownElementsList.get(previousSelectedIndex)
+				.removeStyleName("selectedDropDownElement");
+		dropDownElementsList.get(currentSelectedIndex)
+				.addStyleName("selectedDropDownElement");
 	}
 
-    /**
-     * Set the elements of the dropdown list
-     * @param dropDownList
-     *      List of strings which will be shown in the dropdown list
-     */
-    public void setElements(final List<String> dropDownList) {
-        dropDownElementsList = new ArrayList<>();
+	/**
+	 * Set the elements of the dropdown list
+	 * 
+	 * @param dropDownList
+	 *            List of strings which will be shown in the dropdown list
+	 */
+	public void setElements(final List<String> dropDownList) {
+		dropDownElementsList = new ArrayList<>();
 
-        for (int i = 0; i < dropDownList.size(); ++i) {
-            final int currentIndex = i;
-            AriaMenuItem item = new AriaMenuItem(
-                    MainMenu.getMenuBarHtmlNoIcon(dropDownList.get(i)), true,
-                    new Command() {
-                        @Override
-                        public void execute() {
-                            setSelected(currentIndex);
-                            if (selectionCallback != null) {
-                                selectionCallback.onSelectionChanged(currentIndex);
-                            }
-                        }
-                    });
+		for (int i = 0; i < dropDownList.size(); ++i) {
+			final int currentIndex = i;
+			AriaMenuItem item = new AriaMenuItem(
+					MainMenu.getMenuBarHtmlNoIcon(dropDownList.get(i)), true,
+					new Command() {
+						@Override
+						public void execute() {
+							setSelected(currentIndex);
+							fireSelected(currentIndex);
+						}
+					});
 
-            item.setStyleName("dropDownElement");
-            dropDownElementsList.add(item);
-        }
-        setupDropDownMenu(dropDownElementsList);
-    }
+			item.setStyleName("dropDownElement");
+			dropDownElementsList.add(item);
+		}
+		setupDropDownMenu(dropDownElementsList);
+	}
 
-    /**
-     * set itemSelected callback
-     * @param callback
-     *      which will be called after an item was selected from the dropdown
-     *
-     */
-    public void setDropDownSelectionCallback(DropDownSelectionCallback callback) {
-        selectionCallback = callback;
-    }
+	/**
+	 * Notify callback
+	 * 
+	 * @param currentIndex
+	 *            selected index
+	 */
+	void fireSelected(int currentIndex) {
+		if (selectionCallback != null) {
+			selectionCallback.onSelectionChanged(currentIndex);
+		}
+	}
 
-    public interface DropDownSelectionCallback {
-        void onSelectionChanged(int index);
-    }
+	/**
+	 * set itemSelected callback
+	 * 
+	 * @param callback
+	 *            which will be called after an item was selected from the
+	 *            dropdown
+	 *
+	 */
+	public void setDropDownSelectionCallback(
+			DropDownSelectionCallback callback) {
+		selectionCallback = callback;
+	}
+
+	/**
+	 * Selection callback
+	 */
+	public interface DropDownSelectionCallback {
+		/**
+		 * @param index
+		 *            selected index
+		 */
+		void onSelectionChanged(int index);
+	}
 }
