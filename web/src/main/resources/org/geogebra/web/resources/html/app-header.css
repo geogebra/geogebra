@@ -325,7 +325,12 @@ svg.icon.left {
 .GeoGebraFrame .undoRedoSettingsPanelScientific {
     position: relative;
     clear: both;
-    width: 33%;
+    width: 800px;
+    max-width: calc(100% - 48px);
     height: 48px;
     margin: auto;
+}
+
+.GeoGebraFrame .hidden {
+	display: none;
 }

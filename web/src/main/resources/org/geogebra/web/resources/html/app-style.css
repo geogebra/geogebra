@@ -560,3 +560,60 @@ body .startscreen .GeoGebraFrame img.gwt-Image,body .startscreen .GeoGebraFrame 
 .startscreen .GeoGebraFrame .KeyBoard .gwt-Label {
     color: rgba(0,0,0,0.4);
 }
+
+.algebraPanel {
+    height: 100%;
+}
+
+.startscreen .algebraPanelScientificNoHeader {
+    top: 48px;
+} 
+
+.algebraPanelScientificNoHeader {
+        background-color: #f9f9f9;
+}
+
+.algebraPanelScientificNoHeader >div {
+    width: 800px;
+    max-width: calc(100% - 48px);
+    margin-left: auto;
+    margin-right: auto;
+    min-height: calc(100% - 24px);
+    box-sizing: border-box;
+    /** padding to make sure shadow goes to the very bottom when keyboard is open */
+    padding-bottom: 52px;
+    background: white;
+    margin-top: 24px;
+    padding-top: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    overflow-x: hidden;
+    margin-bottom: 0;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.GeoGebraFrame .matAvDesign.algebraPanelScientific .NewRadioButtonTreeItemParent {
+    border-width: 0;
+}
+
+.GeoGebraFrame .matAvDesign.algebraPanelScientific .scrollableTextBox {
+    margin-left: 56px;
+    padding-left: 0px;
+    border-bottom: 1px #dcdcdc solid;
+    width: calc(100% - 56px);
+    box-sizing: border-box;
+    min-height: 48px;
+}
+
+.avItemHeaderScientific {
+        position: absolute;
+}
+
+.avItemNumber {
+    color: rgba(0,0,0,.54);
+    font-size: 75%;
+    top: 14px;
+    left: 16px;
+    position: absolute;
+}
