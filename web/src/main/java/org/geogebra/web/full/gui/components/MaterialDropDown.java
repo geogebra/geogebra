@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.components;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -19,11 +18,11 @@ public class MaterialDropDown {
 
 	// for checking item position. It is 0 in normal case.
 	private static final int OFFSET_X = 0;
-	private EuclidianView view;
 	private GPopupMenuW menu;
 	private int selectedIndex;
-	private Widget parent;
+	private Widget anchor;
 	private int itemHeight;
+	private AppW app;
 
 	private enum RelativePosition {
 		HIGH, CENTER, LOW
@@ -33,12 +32,12 @@ public class MaterialDropDown {
 	 *
 	 * @param app        {@link AppW}
 	 * @param itemHeight Height of an item in list
-	 * @param parent     The widget the dropdown belongs to.
+	 * @param anchor     to align the selected item.
 	 */
-	public MaterialDropDown(AppW app, int itemHeight, Widget parent) {
+	public MaterialDropDown(AppW app, int itemHeight, Widget anchor) {
+		this.app = app;
 		this.itemHeight = itemHeight;
-		this.parent = parent;
-		this.view = app.getActiveEuclidianView();
+		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("matMenu");
 		menu.getPopupPanel().addStyleName("dropDownPopup");
@@ -131,15 +130,16 @@ public class MaterialDropDown {
 		return getSelectedIndex() * itemHeight;
 	}
 	private int getLeft() {
-		return parent.getAbsoluteLeft() + OFFSET_X;
+		return anchor.getAbsoluteLeft() + OFFSET_X;
 	}
 
 	private int getTop() {
-		return parent.getAbsoluteTop() - parent.getOffsetHeight() / 2 - view.getAbsoluteTop();
+		return anchor.getAbsoluteTop() - anchor.getOffsetHeight() / 2
+				- (int) app.getAbsTop();
 	}
 
 	private int getMaxHeight() {
-		return view.getHeight() / 2;
+		return (int) (app.getHeight() / 2);
 	}
 
 	private void openAndScrollTo(int top, int position) {
