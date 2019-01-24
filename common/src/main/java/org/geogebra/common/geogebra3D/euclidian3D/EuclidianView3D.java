@@ -297,7 +297,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Augmented Reality
 	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
-	private TargetType targetType;
+	private Target target;
 
 	/**
 	 * common constructor
@@ -323,7 +323,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		viewDirectionPersp = new Coords(4);
 		viewDirection = Coords.VZ.copyVector();
 
-        targetType = TargetType.NOT_USED;
+		target = new Target();
 
 		start();
 	}
@@ -2109,8 +2109,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		cursor3DType = v;
 		cursor3DVisible = true;
 		if (euclidianController.isCreatingPointAR()) {
-            targetType = TargetType.getCurrentTargetType(this, (EuclidianController3D)
-                    euclidianController);
+			target.updateType(this);
         }
 	}
 
@@ -2482,7 +2481,8 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 			case PREVIEW_POINT_ALREADY:
 				if (getEuclidianController().isCreatingPointAR()
-						&& targetType == TargetType.POINT_ALREADY_NO_ARROW) {
+						&& target
+								.getType() == TargetType.POINT_ALREADY_NO_ARROW) {
 					cursorMatrix.setOrigin(
 							getCursor3D().getDrawingMatrix().getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());
@@ -2771,7 +2771,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void drawTarget(Renderer renderer1) {
-		targetType.drawTarget(renderer1, this);
+		target.draw(renderer1, this);
 	}
 
 	/**
