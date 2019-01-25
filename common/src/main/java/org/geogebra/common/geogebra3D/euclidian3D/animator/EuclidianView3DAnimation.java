@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
 
@@ -78,6 +79,10 @@ public abstract class EuclidianView3DAnimation {
 			view3D.getApplication().storeUndoInfo();
 		}
 		animator.endAnimation();
+	}
+
+	protected final double getMillisecondTime() {
+		return UtilFactory.getPrototype().getMillisecondTime();
 	}
 
 }

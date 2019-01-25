@@ -510,11 +510,6 @@ public class AppCommon extends App {
     }
 
     @Override
-    public double getMillisecondTime() {
-        return 0;
-    }
-
-    @Override
     public void showCustomizeToolbarGUI() {
 
     }

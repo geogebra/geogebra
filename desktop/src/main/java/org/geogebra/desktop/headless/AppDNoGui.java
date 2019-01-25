@@ -670,12 +670,6 @@ public class AppDNoGui extends App implements AppDI {
 	}
 
 	@Override
-	public double getMillisecondTime() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel k) {
 		return new CommandDispatcherJre(k);
 	}

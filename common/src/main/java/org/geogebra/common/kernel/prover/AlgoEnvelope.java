@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.singularws.SingularWebService;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -222,7 +223,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * 
 	 */
 	public void computeEnvelope() {
-		double startTime = cons.getApplication().getMillisecondTime();
+		double startTime = UtilFactory.getPrototype().getMillisecondTime();
 		String result = null;
 		try {
 			result = getImplicitPoly();
@@ -245,7 +246,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		} else {
 			this.geoPoly.setUndefined();
 		}
-		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
 				- startTime);
 		/*
 		 * Don't remove this. It is needed for automated testing. (String match

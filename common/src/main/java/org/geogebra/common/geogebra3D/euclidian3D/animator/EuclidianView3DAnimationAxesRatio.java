@@ -37,7 +37,7 @@ public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationS
 		animatedScaleEndY = animatedScaleStartY;
 		animatedScaleEndZ = animatedScaleStartZ;
 
-		animatedScaleTimeStart = view3D.getApplication().getMillisecondTime();
+		animatedScaleTimeStart = getMillisecondTime();
 
 		xScaleStart = view3D.getXscale();
 		yScaleStart = view3D.getYscale();

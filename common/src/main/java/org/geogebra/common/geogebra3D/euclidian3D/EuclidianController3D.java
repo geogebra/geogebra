@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
@@ -1928,7 +1929,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		getView().rememberOrigins();
 		getView().setCursor(EuclidianCursor.DEFAULT);
 
-		timeOld = app.getMillisecondTime();
+		timeOld = UtilFactory.getPrototype().getMillisecondTime();
 		xOld = startLoc.x;
 		animatedRotSpeed = 0;
 	}
@@ -1940,7 +1941,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	@Override
 	protected boolean processRotate3DView() {
-		double time = app.getMillisecondTime();
+		double time = UtilFactory.getPrototype().getMillisecondTime();
 		int x = mouseLoc.x;
 		double dx = x - xOld;
 		animatedRotSpeed = dx / (time - timeOld);
@@ -1994,7 +1995,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	protected void setRotContinueAnimation() {
 		((EuclidianView3D) getView()).setRotContinueAnimation(
-				app.getMillisecondTime() - timeOld, animatedRotSpeed);
+				UtilFactory.getPrototype().getMillisecondTime() - timeOld,
+				animatedRotSpeed);
 	}
 
 	// /////////////////////////////////////////

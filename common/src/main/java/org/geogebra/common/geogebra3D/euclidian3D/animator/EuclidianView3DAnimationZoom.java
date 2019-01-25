@@ -32,7 +32,7 @@ public class EuclidianView3DAnimationZoom extends EuclidianView3DAnimationScaleA
 		animatedScaleEndY = animatedScaleStartY;
 		animatedScaleEndZ = animatedScaleStartZ;
 
-		animatedScaleTimeStart = view3D.getApplication().getMillisecondTime();
+		animatedScaleTimeStart = getMillisecondTime();
 
 		xScaleStart = view3D.getXscale();
 		yScaleStart = view3D.getYscale();

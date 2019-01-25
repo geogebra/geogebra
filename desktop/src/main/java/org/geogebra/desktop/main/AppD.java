@@ -4750,11 +4750,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return loc;
 	}
 
-	@Override
-	public double getMillisecondTime() {
-		return System.nanoTime() / 1000000d;
-	}
-
 	/**
 	 * Initializes the sign in Operation and tries to login in the user with the
 	 * stored token

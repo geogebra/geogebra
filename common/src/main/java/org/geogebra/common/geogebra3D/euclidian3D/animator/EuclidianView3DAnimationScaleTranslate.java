@@ -41,7 +41,7 @@ public class EuclidianView3DAnimationScaleTranslate extends EuclidianView3DAnima
 		animatedScaleStartY = view3D.getYZero();
 		animatedScaleStartZ = view3D.getZZero();
 
-		animatedScaleTimeStart = view3D.getApplication().getMillisecondTime();
+		animatedScaleTimeStart = getMillisecondTime();
 	}
 
 }

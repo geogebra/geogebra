@@ -41,7 +41,7 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	@Override
 	public void setupForStart() {
-		animatedRotTimeStart += view3D.getApplication().getMillisecondTime();
+		animatedRotTimeStart += getMillisecondTime();
 		aOld = view3D.getAngleA();
 		bOld = view3D.getAngleB();
 	}
@@ -53,7 +53,7 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	@Override
 	public void animate() {
-		double da = (view3D.getApplication().getMillisecondTime() - animatedRotTimeStart)
+		double da = (getMillisecondTime() - animatedRotTimeStart)
 				* animatedRotSpeed;
 		view3D.setRotXYinDegrees(aOld + da, bOld);
 		view3D.updateRotationAndScaleMatrices();

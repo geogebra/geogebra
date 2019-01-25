@@ -3,7 +3,6 @@ package org.geogebra.web.solver;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -23,10 +22,12 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.HasLanguage;
+import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -250,12 +251,12 @@ public class Solver {
 
 		for (StepVariable variable : variableList) {
 			try {
-				double startTime = app.getMillisecondTime();
+				double startTime = GeoGebraProfilerW.getMillisecondTimeNative();
 				List<StepSolution> solutionList = solvable.solve(variable, sb);
-				double solveTime = app.getMillisecondTime();
+				double solveTime = GeoGebraProfilerW.getMillisecondTimeNative();
 				solutions.add(
 						new StepInformation(app, guiBuilder, solutionList, sb.getSteps()));
-				double endTime = app.getMillisecondTime();
+				double endTime = GeoGebraProfilerW.getMillisecondTimeNative();
 
 				Log.debug("Total execution time: " + (endTime - startTime) + " ms");
 				Log.debug("Solve time: " + (solveTime - startTime) + " ms");

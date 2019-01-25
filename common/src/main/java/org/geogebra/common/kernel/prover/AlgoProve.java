@@ -117,9 +117,9 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		p.setReturnExtraNDGs(false);
 
 		// Adding benchmarking:
-		double startTime = cons.getApplication().getMillisecondTime();
+		double startTime = UtilFactory.getPrototype().getMillisecondTime();
 		p.compute(); // the computation of the proof
-		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
 				- startTime);
 
 		/*

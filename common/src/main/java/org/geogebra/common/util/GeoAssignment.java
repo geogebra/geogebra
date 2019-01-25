@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -185,12 +186,10 @@ public class GeoAssignment extends Assignment {
 		while (input != null && !solutionFound) {
 			partRes.clear();
 			if (!isTypeCheckNeeded || areTypesOK(input)) {
-				double d = macro.getKernel().getApplication()
-						.getMillisecondTime();
+				double d = UtilFactory.getPrototype().getMillisecondTime();
 				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input,
 						false);
-				ret += macro.getKernel().getApplication()
-						.getMillisecondTime() - d;
+				ret += UtilFactory.getPrototype().getMillisecondTime() - d;
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length
 						&& (!partRes.contains(Result.WRONG)); i++) {

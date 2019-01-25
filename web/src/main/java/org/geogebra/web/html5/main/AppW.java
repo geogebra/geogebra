@@ -124,7 +124,6 @@ import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
-import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
@@ -1412,11 +1411,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		reader.readAsDataURL(fileToHandle);
 		return true;
 	}-*/;
-
-	@Override
-	public double getMillisecondTime() {
-		return GeoGebraProfilerW.getMillisecondTimeNative();
-	}
 
 	/**
 	 * @param str

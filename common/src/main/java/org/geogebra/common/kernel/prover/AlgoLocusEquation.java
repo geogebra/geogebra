@@ -9,6 +9,7 @@ import java.util.TreeSet;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.singularws.SingularWebService;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -254,7 +255,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 				return;
 			}
 		}
-		double startTime = cons.getApplication().getMillisecondTime();
+		double startTime = UtilFactory.getPrototype().getMillisecondTime();
 		String result = null;
 		try {
 			result = getImplicitPoly(implicit);
@@ -278,7 +279,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			this.geoPoly.setUndefined();
 		}
 
-		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
 				- startTime);
 		/*
 		 * Don't remove this. It is needed for automated testing. (String match

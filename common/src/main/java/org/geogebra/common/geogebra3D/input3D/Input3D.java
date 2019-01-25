@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -644,7 +645,7 @@ abstract public class Input3D implements Input3DConstants {
 		}
 
 		getEuclidianController()
-				.setTimeOld(view3D.getApplication().getMillisecondTime());
+				.setTimeOld(UtilFactory.getPrototype().getMillisecondTime());
 
 		getEuclidianController().setAnimatedRotSpeed(0);
 		angleOld = 0;
@@ -676,7 +677,7 @@ abstract public class Input3D implements Input3DConstants {
 
 		view3D.shiftRotAboutZ(angle);
 
-		double time = view3D.getApplication().getMillisecondTime();
+		double time = UtilFactory.getPrototype().getMillisecondTime();
 		getEuclidianController().setAnimatedRotSpeed((angleOld - angle)
 				/ (time - getEuclidianController().getTimeOld()));
 		((EuclidianController3D) view3D.getEuclidianController())

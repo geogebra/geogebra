@@ -49,7 +49,7 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 			t = 1;
 			ending = true;
 		} else {
-			t = (view3D.getApplication().getMillisecondTime() - animatedScaleTimeStart)
+			t = (getMillisecondTime() - animatedScaleTimeStart)
 					* animatedScaleTimeFactor;
 			t += TIME_SHIFT;
 

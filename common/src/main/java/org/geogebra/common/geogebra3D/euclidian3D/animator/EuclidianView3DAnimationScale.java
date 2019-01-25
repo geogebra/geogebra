@@ -55,7 +55,7 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 		animatedScaleEndY = -v.getY() + (animatedScaleStartY + v.getY()) * factor;
 		animatedScaleEndZ = -v.getZ() + (animatedScaleStartZ + v.getZ()) * factor;
 
-		animatedScaleTimeStart = view3D.getApplication().getMillisecondTime();
+		animatedScaleTimeStart = getMillisecondTime();
 		xScaleEnd = xScaleStart / factor;
 		yScaleEnd = yScaleStart / factor;
 		zScaleEnd = zScaleStart / factor;
