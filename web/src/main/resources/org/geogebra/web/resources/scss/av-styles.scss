@@ -544,7 +544,7 @@ $scientificHeaderWidth: 16px + 32px + 8px;
         height: 100%;
     }
 
-    .sheetOfPaper {
+    %sheetOfPaper {
         background-color: $gray-background;
          &>div {
             width: 800px;
@@ -566,7 +566,7 @@ $scientificHeaderWidth: 16px + 32px + 8px;
     }
 
     .algebraPanelScientificNoHeader {
-        @extend .sheetOfPaper;
+        @extend %sheetOfPaper;
         &>div {
             margin-bottom: 0;
             border-bottom-right-radius: 0px;
@@ -575,7 +575,7 @@ $scientificHeaderWidth: 16px + 32px + 8px;
     }
 
     .settingsPanelScientificNoHeader {
-        @extend .sheetOfPaper;
+        @extend %sheetOfPaper;
         &>div {
             padding-left: 16px;
             padding-right: 128px;
