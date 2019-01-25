@@ -3010,7 +3010,7 @@ public class Coords implements AnimatableValue<Coords> {
 				}
 			} else {
 				if (DoubleUtil.isEqual(val[i], 0)
-						&& DoubleUtil.isEqual(val[i], 0)) {
+						&& DoubleUtil.isEqual(other.val[i], 0)) {
 					negSet = false;
 				} else if (DoubleUtil.isEqual(val[i], other.val[i])) {
 					neg = false;
