@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing a target when placing a point (in AR)
@@ -25,6 +26,9 @@ public class Target {
 	private Coords tmpNormal;
 	private Coords tmpCoords1;
 	private Coords tmpCoords2;
+
+	private AnimDouble animDotScale;
+	private AnimatableDouble dotScaleGoal;
 
 	private AnimCircleRotation animCircleRotation;
 	private AnimPosition animCircleCenter;
@@ -62,6 +66,50 @@ public class Target {
 		public void setUndefined() {
 			coords.setUndefined();
 		}
+	}
+
+	private class AnimatableDouble
+			implements AnimatableValue<AnimatableDouble> {
+
+		public double value;
+		public boolean isDefined;
+
+		public AnimatableDouble() {
+			isDefined = false;
+		}
+
+		@Override
+		public boolean equalsForAnimation(AnimatableDouble other) {
+			return DoubleUtil.isEqual(value, other.value);
+		}
+
+		@Override
+		public boolean isDefined() {
+			return isDefined;
+		}
+
+		@Override
+		public void setAnimatableValue(AnimatableDouble other) {
+			value = other.value;
+			isDefined = other.isDefined;
+		}
+
+		@Override
+		public void setUndefined() {
+			isDefined = false;
+		}
+
+		/**
+		 * set value
+		 * 
+		 * @param v
+		 *            value
+		 */
+		public void setValue(double v) {
+			value = v;
+			isDefined = Double.isFinite(value);
+		}
+
 	}
 
 	/**
@@ -259,6 +307,33 @@ public class Target {
 
 	}
 
+	private class AnimDouble extends Anim<AnimatableDouble> {
+
+		public AnimDouble() {
+			super();
+		}
+
+		@Override
+		protected void init() {
+			previous = new AnimatableDouble();
+			next = new AnimatableDouble();
+			current = new AnimatableDouble();
+		}
+
+		@Override
+		protected void compute() {
+			// nothing to do
+		}
+
+		@Override
+		protected void calculateCurrent(double remaining) {
+			current.value = previous.value * remaining
+					+ next.value * (1 - remaining);
+			current.isDefined = true;
+		}
+
+	}
+
 	/**
 	 * Constructor
 	 */
@@ -297,6 +372,10 @@ public class Target {
 
 		tmpCoords1 = new Coords(4);
 		tmpCoords2 = new Coords(4);
+
+		animDotScale = new AnimDouble();
+		dotScaleGoal = new AnimatableDouble();
+
 		animCircleRotation = new AnimCircleRotation();
 		animCircleCenter = new AnimPosition();
 		circleCenterGoal = new CoordsAndGeo();
@@ -321,6 +400,7 @@ public class Target {
 	synchronized private void setAnimationsUndefined() {
 		animCircleCenter.setUndefined();
 		animCircleRotation.setUndefined();
+		animDotScale.setUndefined();
 	}
 
 	/**
@@ -389,9 +469,9 @@ public class Target {
 		dotMatrix.setOrigin(view.getCursor3D().getDrawingMatrix().getOrigin());
 		view.scaleXYZ(dotMatrix.getOrigin());
 
-		dotMatrix.getVx().setMul3(Coords.VX, dotScale);
-		dotMatrix.getVy().setMul3(Coords.VY, dotScale);
-		dotMatrix.getVz().setMul3(Coords.VZ, dotScale);
+		// dot scale
+		dotScaleGoal.setValue(dotScale);
+		animDotScale.prepareAnimation(dotScaleGoal);
 
 		// set hitting
 		view.getHittingOrigin(view.getEuclidianController().getMouseLoc(),
@@ -416,6 +496,13 @@ public class Target {
 	 * @return current dot matrix
 	 */
 	synchronized public CoordMatrix4x4 getDotMatrix() {
+
+		animDotScale.updateCurrent();
+		double scale = animDotScale.getCurrent().value;
+		dotMatrix.getVx().setMul3(Coords.VX, scale);
+		dotMatrix.getVy().setMul3(Coords.VY, scale);
+		dotMatrix.getVz().setMul3(Coords.VZ, scale);
+
 		return dotMatrix;
 	}
 
