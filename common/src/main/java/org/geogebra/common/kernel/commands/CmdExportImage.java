@@ -307,7 +307,7 @@ public class CmdExportImage extends CmdScripting {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 
 		String c1 = corner1 == null ? "(0,0)" : corner1.getLabel(tpl);
-		String c2 = corner2 == null ? "(0,1)" : corner2.getLabel(tpl);
+		String c2 = corner2 == null ? "(1,0)" : corner2.getLabel(tpl);
 
 		geoImage = app.createImageFromString(imageFilename,
 				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,
