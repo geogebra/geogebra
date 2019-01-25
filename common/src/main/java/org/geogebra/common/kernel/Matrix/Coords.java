@@ -25,7 +25,7 @@ import org.geogebra.common.util.MyMath;
  * @author ggb3D
  * 
  */
-public class Coords {
+public class Coords implements AnimatableValue<Coords> {
 
 	private double norm;
 	private double sqNorm;
@@ -2986,6 +2986,45 @@ public class Coords {
 		val[0] = param2 * leftPoint.x + param1 * rightPoint.x;
 		val[1] = param2 * leftPoint.y + param1 * rightPoint.y;
 		val[2] = 1.0;
+	}
+
+	@Override
+	public void setAnimatableValue(Coords other) {
+		set3(other);
+	}
+
+	@Override
+	public boolean equalsForAnimation(Coords other) {
+		boolean neg = false;
+		boolean negSet = false;
+		for (int i = 0; i < 3; i++) {
+			if (negSet) {
+				if (neg) {
+					if (!DoubleUtil.isEqual(val[i], -other.val[i])) {
+						return false;
+					}
+				} else {
+					if (!DoubleUtil.isEqual(val[i], other.val[i])) {
+						return false;
+					}
+				}
+			} else {
+				if (DoubleUtil.isEqual(val[i], 0)
+						&& DoubleUtil.isEqual(val[i], 0)) {
+					negSet = false;
+				} else if (DoubleUtil.isEqual(val[i], other.val[i])) {
+					neg = false;
+					negSet = true;
+				} else if (DoubleUtil.isEqual(val[i], -other.val[i])) {
+					neg = true;
+					negSet = true;
+				} else {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 }
