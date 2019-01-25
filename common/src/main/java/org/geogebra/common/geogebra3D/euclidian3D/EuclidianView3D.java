@@ -4946,10 +4946,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * reset view for AR
 	 */
 	public void resetViewFromAR() {
-        resetView();
+        resetSettings();
 	}
 
-    public void resetView() {
+    public void resetSettings() {
         // settings should have been reset before
         settingsChanged(getSettings());
         // reset rendering
