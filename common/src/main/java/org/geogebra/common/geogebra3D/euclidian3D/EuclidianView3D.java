@@ -2496,6 +2496,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	//
 	// ///////////////////////////////////////////////////
 
+	/**
+	 * 
+	 * @return current cursor path
+	 */
 	public GeoElement getCursorPath() {
 		if (getCursor3DType() == PREVIEW_POINT_PATH) {
 			return (GeoElement) getCursor3D().getPath();

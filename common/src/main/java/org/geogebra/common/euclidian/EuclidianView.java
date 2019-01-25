@@ -6615,6 +6615,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * 
+	 * @return true if AR is enabled
+	 */
     public boolean isAREnabled() {
         return false;
     }
@@ -6626,7 +6630,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ScreenReaderSilent.INSTANCE;
 	}
 
+	/**
+	 * reset the view
+	 */
 	public void resetView() {
-
+		// not used here
 	}
 }

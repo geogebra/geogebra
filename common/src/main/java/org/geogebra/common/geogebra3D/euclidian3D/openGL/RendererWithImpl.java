@@ -743,6 +743,9 @@ public abstract class RendererWithImpl extends Renderer
 		rendererImpl.createDummyTexture();
 	}
 
+	/**
+	 * set AR to end
+	 */
 	public void setARShouldEnd() {
 		killARSession();
 		view3D.setARDrawing(false);
@@ -750,7 +753,10 @@ public abstract class RendererWithImpl extends Renderer
 		view3D.resetViewFromAR();
 	}
 
+	/**
+	 * kill AR session
+	 */
 	protected void killARSession() {
-
+		// not used here
 	}
 }
