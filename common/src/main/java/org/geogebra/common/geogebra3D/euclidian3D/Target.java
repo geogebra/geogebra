@@ -37,7 +37,7 @@ public class Target {
 	private AnimPosition animCircleCenter;
 	private CoordsAndGeo circleCenterGoal;
 
-	private class CoordsAndGeo implements AnimatableValue<CoordsAndGeo> {
+	static private class CoordsAndGeo implements AnimatableValue<CoordsAndGeo> {
 		public Coords coords;
 		public GeoElement geo;
 
@@ -71,7 +71,7 @@ public class Target {
 		}
 	}
 
-	private class AnimatableDouble
+	static private class AnimatableDouble
 			implements AnimatableValue<AnimatableDouble> {
 
 		public double value;
@@ -121,7 +121,7 @@ public class Target {
 	 * @param <T>
 	 *            value type
 	 */
-	protected abstract class Anim<T extends AnimatableValue<T>> {
+	static protected abstract class Anim<T extends AnimatableValue<T>> {
 
 		/** previous value */
 		protected T previous;
@@ -240,7 +240,7 @@ public class Target {
 		}
 	}
 
-	private class AnimCircleRotation extends Anim<Coords> {
+	static private class AnimCircleRotation extends Anim<Coords> {
 
 		private Coords axis;
 		private double angle;
@@ -282,7 +282,7 @@ public class Target {
 
 	}
 
-	private class AnimPosition extends Anim<CoordsAndGeo> {
+	static private class AnimPosition extends Anim<CoordsAndGeo> {
 
 		private Coords tmpCoords;
 
@@ -313,7 +313,7 @@ public class Target {
 
 	}
 
-	private class AnimDouble extends Anim<AnimatableDouble> {
+	static private class AnimDouble extends Anim<AnimatableDouble> {
 
 		public AnimDouble(double totalDuration) {
 			super(totalDuration);
