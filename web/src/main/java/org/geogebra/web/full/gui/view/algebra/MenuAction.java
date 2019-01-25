@@ -1,15 +1,16 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.user.client.Command;
 
 /**
  * Menu item with title and icon
- * 
+ *
  * @author Zbynek
  */
-public abstract class MenuAction implements Command {
+public abstract class MenuAction {
 
 	private String title;
 	private SVGResource image;
@@ -26,10 +27,12 @@ public abstract class MenuAction implements Command {
 	}
 
 	/**
+	 * @param loc
+	 *            localization
 	 * @return action title
 	 */
-	public String getTitle() {
-		return title;
+	public String getTitle(Localization loc) {
+		return loc.getMenu(title);
 	}
 
 	/**
@@ -40,10 +43,20 @@ public abstract class MenuAction implements Command {
 	}
 
 	/**
+	 * @param geo
+	 *            element used for context menu
 	 * @return whether action is active (grey out otherwise)
 	 */
-	public boolean isAvailable() {
+	public boolean isAvailable(GeoElement geo) {
 		return true;
 	}
+
+	/**
+	 * @param geo
+	 *            element
+	 * @param app
+	 *            app
+	 */
+	public abstract void execute(GeoElement geo, AppWFull app);
 
 }

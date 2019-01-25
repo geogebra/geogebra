@@ -1,0 +1,18 @@
+package org.geogebra.web.full.gui.view.algebra.contextmenu;
+
+import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.view.algebra.MenuAction;
+import org.geogebra.web.full.main.AppWFull;
+
+public class SpecialPointsAction extends MenuAction {
+	public SpecialPointsAction() {
+		super("Suggestion.SpecialPoints", MaterialDesignResources.INSTANCE.special_points());
+	}
+
+	@Override
+	public void execute(GeoElement geo, AppWFull app) {
+		SuggestionRootExtremum.get(geo).execute(geo);
+	}
+}

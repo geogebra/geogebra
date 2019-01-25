@@ -1,0 +1,18 @@
+package org.geogebra.web.full.gui.view.algebra.contextmenu;
+
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.view.algebra.MenuAction;
+import org.geogebra.web.full.main.AppWFull;
+
+public class DeleteAction extends MenuAction {
+	public DeleteAction() {
+		super("Delete", MaterialDesignResources.INSTANCE.delete_black());
+	}
+
+	@Override
+	public void execute(GeoElement geo, AppWFull app) {
+		geo.remove();
+		app.storeUndoInfo();
+	}
+}

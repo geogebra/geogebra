@@ -1,11 +1,11 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
 This file is part of GeoGebra.
 
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
@@ -91,15 +91,15 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 /**
  * main -> marblePanel content controls
- * 
+ *
  * content -> plainTextitem | latexItem | c | (definitionPanel outputPanel)
- * 
+ *
  * sliderContent -> [sliderPanel minmaxPanel]
- * 
+ *
  * plaintextitem -> STRING | (definitionPanel, outputPanel)
- * 
+ *
  * outputPanel -> valuePanel
- * 
+ *
  * definitionPanel -> c | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
@@ -205,7 +205,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
-	 * 
+	 *
 	 * @param geo0
 	 *            the existing GeoElement to display/edit
 	 */
@@ -411,7 +411,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Get the first available suggestion for a geo or null if none available.
-	 * 
+	 *
 	 * @param geo1
 	 *            geo
 	 * @return suggestion or null if none available
@@ -533,7 +533,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Create suggestions for preview
-	 * 
+	 *
 	 * @param previewGeo
 	 *            preview from input bar
 	 */
@@ -772,7 +772,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Switches to edit mode
-	 * 
+	 *
 	 * @param substituteNumbers
 	 *            whether value should be used
 	 * @return whether it was successful
@@ -1025,7 +1025,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Show error in a popup
-	 * 
+	 *
 	 * @return whether there is error to be shown
 	 */
 	boolean showCurrentError() {
@@ -1141,7 +1141,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	/**
 	 * @return algebra view
 	 */
-	protected AlgebraViewW getAV() {
+	public AlgebraViewW getAV() {
 		return av;
 	}
 
@@ -1274,7 +1274,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * cast method with no 'instanceof' check.
-	 * 
+	 *
 	 * @param item
 	 *            TreeItem to be casted
 	 * @return Casted item to RadioTreeItem
@@ -1312,7 +1312,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Mark the item as (in)valid.
-	 * 
+	 *
 	 * @param needsUpdate
 	 *            whether update is needed
 	 */
@@ -1653,7 +1653,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The controller as LatexTreeItemController.
 	 */
 	public LatexTreeItemController getLatexController() {
@@ -1888,7 +1888,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Show suggestions.
-	 * 
+	 *
 	 * @return whether suggestions are shown
 	 */
 	public boolean popupSuggestions() {
@@ -1973,7 +1973,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Update pixel ratio of the editor.
-	 * 
+	 *
 	 * @param pixelRatio
 	 *            pixel ratio
 	 */
@@ -1997,7 +1997,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if the item is the input or not.
 	 */
 	public boolean isInputTreeItem() {
@@ -2013,7 +2013,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Start editing.
-	 * 
+	 *
 	 * @return whether editng is possible
 	 */
 	public boolean onEditStart() {
@@ -2055,7 +2055,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Move caret to click position.
-	 * 
+	 *
 	 * @param x
 	 *            caret x in canvas
 	 * @param y
@@ -2126,7 +2126,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Switches editor to text mode
-	 * 
+	 *
 	 * @param value
 	 *            switches editor to text mode
 	 */
@@ -2136,7 +2136,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Initialize LaTeX input
-	 * 
+	 *
 	 * @return this
 	 */
 	public RadioTreeItem initInput() {
@@ -2173,7 +2173,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Run suggestion for the new geo.
-	 * 
+	 *
 	 * @param nGeo
 	 *            new geo element
 	 */
@@ -2189,7 +2189,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Set suggestion callback.
-	 * 
+	 *
 	 * @param run
 	 *            callback
 	 * @param autoSliders
@@ -2233,7 +2233,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the tab index of the item.
 	 */
 	public int getTabIndex() {
