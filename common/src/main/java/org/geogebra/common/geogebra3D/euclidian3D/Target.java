@@ -185,7 +185,6 @@ public class Target {
 					}
 				} else {
 					isAnimated = false;
-					// next.setAnimatableValue(goal);
 				}
 			} else if (!isAnimated) {
 				previous.setUndefined();
