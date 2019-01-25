@@ -75,11 +75,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  */
 public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
-	/*
-	 * Flag for LaTeX rendering
-	 */
+
 	/** app */
-	protected final AppW app; // parent appame
+	private final AppW app;
 	/** Localization */
 	protected final Localization loc;
 	/** Kernel */
@@ -171,7 +169,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Creates new AV
-	 * 
+	 *
 	 * @param algCtrl
 	 *            controller
 	 */
@@ -310,7 +308,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * handles input of keyboard attached to tablet
-	 * 
+	 *
 	 * @param event
 	 *            keyboard events
 	 */
@@ -442,7 +440,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	// TODO EuclidianView#setHighlighted() doesn't exist
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
-	 * 
+	 *
 	 */
 	@Override
 	public void update(GeoElement geo) {
@@ -600,7 +598,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * returns settings in XML format
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 */
@@ -789,7 +787,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Method to initialize the tree model of the current tree mode. This method
 	 * should be called whenever the tree mode is changed, it won't initialize
 	 * anything if not necessary.
-	 * 
+	 *
 	 * This method will also actually change the model of the tree.
 	 */
 	protected void initModel() {
@@ -954,7 +952,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            element
 	 * @param forceLayer
@@ -1053,7 +1051,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Assign element or element group to a given tree node
-	 * 
+	 *
 	 * @param ti
 	 *            tree item
 	 * @param ob
@@ -1074,7 +1072,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Remove this node and prune empty branches
-	 * 
+	 *
 	 * @param node
 	 *            node to be removed
 	 */
@@ -1332,12 +1330,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Gets the insert position for newGeo to insert it in alphabetical order in
 	 * parent node. Note: all children of parent must have instances of
 	 * GeoElement as user objects.
-	 * 
+	 *
 	 * @param parent
 	 *            parent node
 	 * @param newGeo
 	 *            geo to be inserted
-	 * 
+	 *
 	 * @param mode
 	 *            sort mode
 	 * @return position
@@ -1390,12 +1388,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Performs a binary search for geo among the children of parent. All
 	 * children of parent have to be instances of GeoElement sorted
 	 * alphabetically by their names.
-	 * 
+	 *
 	 * @param parent
 	 *            parent node
 	 * @param geoLabel
 	 *            label of geo
-	 * 
+	 *
 	 * @return -1 when not found
 	 */
 	public static int binarySearchGeo(TreeItem parent, String geoLabel) {
@@ -1427,7 +1425,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Performs a linear search for geo among the children of parent.
-	 * 
+	 *
 	 * @param parent
 	 *            parent node
 	 * @param geoLabel
@@ -1669,7 +1667,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			@Override
 			public void execute() {
 				setActiveTreeItem(null);
-				app.showKeyboard(inputPanelLatex, true);
+				getApp().showKeyboard(inputPanelLatex, true);
 			}
 		});
 	}
@@ -1896,7 +1894,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Expand AV to make space for editing a specific item
-	 * 
+	 *
 	 * @param ri
 	 *            edited item
 	 */
@@ -1966,7 +1964,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param event
 	 *            drag event
 	 * @param geo
@@ -2047,7 +2045,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Update items for new window size / pixel ratio
-	 * 
+	 *
 	 * @param minWidth
 	 *            minimal width
 	 */
@@ -2061,33 +2059,33 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/*
 	 * AV DockPanel resizing rules:
-	 * 
+	 *
 	 * maxItemWith: the longest item width.
-	 * 
+	 *
 	 * avWidth: the current width of AV dock panel.
-	 * 
+	 *
 	 * userWidth: the width that user sets using the splitter.
-	 * 
+	 *
 	 * editedWidth: width of the current edited item.
-	 * 
-	 * 
+	 *
+	 *
 	 * width of InputTreeItem must be maxItemWidth when it is not on focus, to
 	 * preserve its 'blue line' border. On focus its width must be avWidth
 	 * userWidth should change only if user changes it.
-	 * 
+	 *
 	 * Expanding AV dock panel
 	 *
 	 * When user starts to edit an item, AV dock panel should be resized to:
-	 * 
+	 *
 	 * - avWidth: if the avWidth is less than the edited item's width
-	 * 
+	 *
 	 * - userWidth: if userWidth is greater than both editedWidth and avWidth
-	 * 
+	 *
 	 */
 
 	/**
 	 * Sets each tree item to a specific width
-	 * 
+	 *
 	 * @param width
 	 *            to set.
 	 */
@@ -2209,7 +2207,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Gets the original width before AV expansion to restore original width
 	 * after.
-	 * 
+	 *
 	 * @return original width in pixels
 	 */
 	public Integer getOriginalWidth() {
@@ -2280,7 +2278,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * The full width of this view: either the widest item or current offset
 	 * width
-	 * 
+	 *
 	 * @return the max item width.
 	 */
 	public int getFullWidth() {
@@ -2293,7 +2291,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Algebra View is expanded to the item's width when editing.
-	 * 
+	 *
 	 * @param width
 	 *            The width to expand.
 	 */
@@ -2316,7 +2314,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Restores AV original size before editing, if it has been expanded.
-	 * 
+	 *
 	 * @param force
 	 *            whether to force this over the canceling timer
 	 */
@@ -2362,7 +2360,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Flag to determine whether we can render elements as LaTeX synchronously.
 	 * When false, render as text temporarily.
-	 * 
+	 *
 	 * @return whether LaTeX is already loaded
 	 */
 	public boolean isLaTeXLoaded() {
@@ -2378,7 +2376,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Gets the TreeItem associated with the geo.
-	 * 
+	 *
 	 * @param geo
 	 *            the element to look for.
 	 * @return the TreeItem with the geo.
@@ -2418,7 +2416,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Open settings menu for geo.
-	 * 
+	 *
 	 * @param geo
 	 *            to open settings for.
 	 */
@@ -2435,6 +2433,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public ItemFactory getItemFactory() {
 		return itemFactory;
+	}
+
+	public AppW getApp() {
+		return app;
 	}
 
 }

@@ -10,6 +10,9 @@ import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
+import org.geogebra.web.full.gui.view.algebra.AlgebraMenuItemCollectionScientific;
+import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -73,6 +76,11 @@ public class ScientificActivity extends BaseActivity {
 	@Override
 	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem) {
 		return new AVItemHeaderScientific();
+	}
+
+	@Override
+	public MenuActionCollection getAVMenuItems(AlgebraViewW view) {
+		return new AlgebraMenuItemCollectionScientific(view);
 	}
 
 }

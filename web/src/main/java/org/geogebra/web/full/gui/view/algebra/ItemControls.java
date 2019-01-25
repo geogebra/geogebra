@@ -69,7 +69,7 @@ public class ItemControls extends FlowPanel
 	/**
 	 * Gets (and creates if there is not yet) the delete button which geo item
 	 * can be removed with from AV.
-	 * 
+	 *
 	 * @return The "X" button.
 	 */
 	public GPushButton getDeleteButton() {
@@ -104,7 +104,7 @@ public class ItemControls extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The more button which opens the context menu.
 	 */
 	public GToggleButton getMoreButton() {
@@ -147,7 +147,9 @@ public class ItemControls extends FlowPanel
 			radioTreeItem.getApplication().toggleMenu();
 		}
 		if (cmMore == null) {
-			cmMore = new ContextMenuAVItemMore(radioTreeItem);
+			MenuActionCollection avMenuItems = radioTreeItem.getApplication().getActivity()
+					.getAVMenuItems(radioTreeItem.getAV());
+			cmMore = new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
 		} else {
 			cmMore.buildGUI();
 		}
@@ -197,7 +199,7 @@ public class ItemControls extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void createAnimPanel() {
 		GeoElement geo = radioTreeItem.geo;
@@ -284,7 +286,7 @@ public class ItemControls extends FlowPanel
 
 	/**
 	 * Add or remove suggestion bar
-	 * 
+	 *
 	 * @param geo
 	 *            geo element (either from AV item or from preview)
 	 */
@@ -373,7 +375,7 @@ public class ItemControls extends FlowPanel
 
 	/**
 	 * Called when item selected, shows the x button in edit mode
-	 * 
+	 *
 	 * @param value
 	 *            whether this is the only selected item
 	 */

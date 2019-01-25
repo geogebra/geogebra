@@ -5,14 +5,17 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
+import org.geogebra.web.full.gui.view.algebra.AlgebraMenuItemCollection;
+import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MarblePanel;
+import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 /**
  * General activity for all apps
- * 
+ *
  * @author Zbynek
  */
 public class BaseActivity implements GeoGebraActivity {
@@ -63,7 +66,7 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public boolean showObjectSettingsFromAV() {
-		return true;
+	public MenuActionCollection getAVMenuItems(AlgebraViewW view) {
+		return new AlgebraMenuItemCollection(view);
 	}
 }

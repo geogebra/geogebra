@@ -3,6 +3,8 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
+import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -19,7 +21,7 @@ public interface GeoGebraActivity {
 
 	/**
 	 * Initialize the activity
-	 * 
+	 *
 	 * @param appW
 	 *            app
 	 */
@@ -37,7 +39,7 @@ public interface GeoGebraActivity {
 
 	/**
 	 * Build title bar for a dock panel.
-	 * 
+	 *
 	 * @param dockPanelW
 	 *            dock panel
 	 */
@@ -55,5 +57,10 @@ public interface GeoGebraActivity {
 	 */
 	AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem);
 
-	boolean showObjectSettingsFromAV();
+	/**
+	 * @param algebraView
+	 *            algebra view
+	 * @return actions for the row
+	 */
+	MenuActionCollection getAVMenuItems(AlgebraViewW algebraView);
 }

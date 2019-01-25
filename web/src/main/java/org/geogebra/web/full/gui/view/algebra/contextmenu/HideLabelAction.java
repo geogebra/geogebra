@@ -17,4 +17,9 @@ public class HideLabelAction extends MenuAction {
 		geo.removeDependentAlgos();
 		app.storeUndoInfo();
 	}
+
+	@Override
+	public boolean isAvailable(GeoElement geo) {
+		return geo.isAlgebraLabelVisible();
+	}
 }

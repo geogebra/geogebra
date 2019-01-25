@@ -16,4 +16,9 @@ public class ShowLabelAction extends MenuAction {
 		new LabelController().showLabel(geo);
 		app.storeUndoInfo();
 	}
+
+	@Override
+	public boolean isAvailable(GeoElement geo) {
+		return !geo.isAlgebraLabelVisible();
+	}
 }

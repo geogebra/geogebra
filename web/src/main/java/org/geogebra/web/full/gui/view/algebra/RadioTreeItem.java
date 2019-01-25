@@ -1141,7 +1141,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	/**
 	 * @return algebra view
 	 */
-	public AlgebraViewW getAV() {
+	protected AlgebraViewW getAV() {
 		return av;
 	}
 

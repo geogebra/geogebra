@@ -2,17 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.HideLabelAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.SettingsAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.ShowLabelAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.SpecialPointsAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.TableOfValuesAction;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -36,6 +27,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	private AppWFull mApp;
 	/** parent item */
 	private RadioTreeItem item;
+	private MenuActionCollection actions;
 
 	/**
 	 * Creates new context menu
@@ -43,7 +35,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * @param item
 	 *            application
 	 */
-	ContextMenuAVItemMore(RadioTreeItem item) {
+	ContextMenuAVItemMore(RadioTreeItem item, MenuActionCollection collection) {
 		mApp = item.getApplication();
 		loc = mApp.getLocalization();
 		this.item = item;
@@ -53,6 +45,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		} else {
 			wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		}
+		this.actions = collection;
 		buildGUI();
 	}
 
@@ -68,23 +61,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
-		if (!mApp.getConfig().hasAutomaticLabels()) {
-			if (item.geo.isAlgebraLabelVisible()) {
-				addAction(new HideLabelAction());
-			} else {
-				addAction(new ShowLabelAction());
+		for (MenuAction action : actions) {
+			if (action.isAvailable(item.geo)) {
+				addAction(action);
 			}
-		}
-		if (item.geo.hasTableOfValues() && mApp.getConfig().hasTableView(mApp)) {
-			addAction(new TableOfValuesAction());
-		}
-		if (SuggestionRootExtremum.get(item.geo) != null && mApp.has(Feature.SPECIAL_POINTS_IN_CONTEXT_MENU)) {
-			addAction(new SpecialPointsAction());
-		}
-		addAction(new DuplicateAction(item));
-		addAction(new DeleteAction());
-		if (mApp.getActivity().showObjectSettingsFromAV()) {
-			addAction(new SettingsAction());
 		}
 	}
 
@@ -110,7 +90,6 @@ public class ContextMenuAVItemMore implements SetLabels {
 			}
 
 		});
-		mi.setEnabled(menuAction.isAvailable(item.geo));
 		wrappedPopup.addItem(mi);
 	}
 

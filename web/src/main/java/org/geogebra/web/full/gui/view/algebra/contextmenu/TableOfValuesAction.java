@@ -14,4 +14,9 @@ public class TableOfValuesAction extends MenuAction {
 	public void execute(GeoElement geo, AppWFull app) {
 		app.getGuiManager().showTableValuesView(geo);
 	}
+
+	@Override
+	public boolean isAvailable(GeoElement geo) {
+		return geo.hasTableOfValues();
+	}
 }

@@ -15,4 +15,9 @@ public class SpecialPointsAction extends MenuAction {
 	public void execute(GeoElement geo, AppWFull app) {
 		SuggestionRootExtremum.get(geo).execute(geo);
 	}
+
+	@Override
+	public boolean isAvailable(GeoElement geo) {
+		return SuggestionRootExtremum.get(geo) != null;
+	}
 }
