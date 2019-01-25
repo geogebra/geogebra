@@ -489,19 +489,22 @@ public class Target {
 		animDotScale.prepareAnimation(dotScaleGoal);
 
 		// set hitting
+		// WARNING: circleNormal can be hittingDirection which must be updated
+		// first
 		view.getHittingOrigin(view.getEuclidianController().getMouseLoc(),
 				hittingOrigin);
 		view.getHittingDirection(hittingDirection);
 
-		// circle center
-		view.getCursor3D().getDrawingMatrix().getOrigin().projectLine(
-				hittingOrigin, hittingDirection, circleCenterGoal.coords);
+		// circle center (aligned with hittingDirection)
+		circleNormal.completeOrthonormal(tmpCoords1, tmpCoords2);
+		hittingOrigin.projectPlaneThruVIfPossible(tmpCoords1, tmpCoords2,
+				circleNormal,
+				view.getCursor3D().getDrawingMatrix().getOrigin(),
+				hittingDirection, circleCenterGoal.coords);
 		view.scaleXYZ(circleCenterGoal.coords);
 		animCircleCenter.prepareAnimation(circleCenterGoal);
 
 		// circle orientation
-		// WARNING: circleNormal can be hittingDirection which must be updated
-		// first
 		animCircleRotation.prepareAnimation(circleNormal);
 
 	}
