@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.components;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -14,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author laszlo
  */
-public class MaterialDropDown {
+public class ComponentDropDownPopup {
 
 	// for checking item position. It is 0 in normal case.
 	private static final int OFFSET_X = 0;
@@ -34,7 +35,7 @@ public class MaterialDropDown {
 	 * @param itemHeight Height of an item in list
 	 * @param anchor     to align the selected item.
 	 */
-	public MaterialDropDown(AppW app, int itemHeight, Widget anchor) {
+	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor) {
 		this.app = app;
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
@@ -84,6 +85,7 @@ public class MaterialDropDown {
 		menu.setMenuShown(true);
 		restoreHeight();
 		RelativePosition pos = getRelativePosition();
+		Log.debug("[DD] relative position is: " + pos);
 		if (pos == RelativePosition.HIGH) {
 			showHigh();
 		} else if (pos == RelativePosition.CENTER) {
@@ -98,32 +100,44 @@ public class MaterialDropDown {
 		int top = getTop();
 		if (itemTop < top) {
 			return RelativePosition.HIGH;
-		} else if (getAllItemsHeight() - itemTop < getMaxHeight() / 2) {
+		} else if (getPopupHeightRemaining() < getMaxHeight() / 2) {
 			return RelativePosition.LOW;
 		}
 		return RelativePosition.CENTER;
 	}
 
 	private void showHigh() {
-		menu.showAtPoint(getLeft(), getTop() - getSelectedItemTop());
+		int top = getTop() - getSelectedItemTop();
+		double spaceToBottom = app.getHeight() - top - itemHeight;
+		if (spaceToBottom < getPopupHeightRemaining()) {
+			setMaxHeightInPx(spaceToBottom);
+		} else {
+			setHeightInPx(getAllItemsHeight());
+		}
+		menu.showAtPoint(getLeft(), top);
 	}
 
 	private void showCenter() {
-		int h2 = getMaxHeight() / 2;
+		int h2 = Math.min(getPopupHeightRemaining(), getTop() + itemHeight);
+		setMaxHeightInPx(2 * h2);
 		openAndScrollTo(getTop() - h2, getSelectedItemTop() - h2);
 	}
 
 	private void showLow() {
 		int itemTop = getSelectedItemTop();
 		int top = getTop();
-		int h2 = getMaxHeight() / 2;
-		int diff = getAllItemsHeight() - itemTop;
+		int h2 = getMaxHeight();
+		int diff = getPopupHeightRemaining();
 		if (diff < h2) {
 			if (top < getMaxHeight() + diff) {
 				setHeightInPx(top);
 			}
 			openAndScrollTo(diff, itemTop);
 		}
+	}
+
+	private int getPopupHeightRemaining() {
+		return getAllItemsHeight() - getSelectedItemTop();
 	}
 
 	private int getSelectedItemTop() {
@@ -139,7 +153,7 @@ public class MaterialDropDown {
 	}
 
 	private int getMaxHeight() {
-		return (int) (app.getHeight() / 2);
+		return (int) (app.getHeight());
 	}
 
 	private void openAndScrollTo(int top, int position) {
@@ -151,8 +165,12 @@ public class MaterialDropDown {
 		getStyle().setHeight(height, Unit.PX);
 	}
 
+	private void setMaxHeightInPx(double height) {
+		getStyle().setProperty("maxHeight", height, Unit.PX);
+	}
+
 	private void restoreHeight() {
-		getStyle().clearHeight();
+		setHeightInPx(getMaxHeight());
 	}
 
 	private Style getStyle() {

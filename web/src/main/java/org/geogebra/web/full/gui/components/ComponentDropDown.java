@@ -27,7 +27,7 @@ public class ComponentDropDown extends FlowPanel {
 	private Label selectedOptionLabel;
 	private List<AriaMenuItem> dropDownElementsList;
 	private DropDownSelectionCallback selectionCallback;
-	private MaterialDropDown dropDown;
+	private ComponentDropDownPopup dropDown;
 
 	/**
 	 *
@@ -62,8 +62,8 @@ public class ComponentDropDown extends FlowPanel {
 		selectedOptionLabel.setStyleName("selectedOptionLabel");
 	}
 
-	private void createDropDownMenu(AppW app) {
-		dropDown = new MaterialDropDown(app, ITEM_HEIGHT, selectedOptionLabel);
+	private void createDropDownMenu(final AppW app) {
+		dropDown = new ComponentDropDownPopup(app, ITEM_HEIGHT, selectedOptionLabel);
 		dropDown.addAutoHidePartner(getElement());
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
@@ -80,6 +80,7 @@ public class ComponentDropDown extends FlowPanel {
 	protected void toggleExpanded() {
 		if (dropDown.isOpened()) {
 			dropDown.close();
+
 		} else {
 			dropDown.show();
 		}
@@ -104,7 +105,7 @@ public class ComponentDropDown extends FlowPanel {
 
 	/**
 	 * set the selected option in the preview view
-	 * 
+	 *
 	 * @param selected
 	 *            index of the selected item from the dropdown list
 	 */
@@ -125,7 +126,7 @@ public class ComponentDropDown extends FlowPanel {
 
 	/**
 	 * Set the elements of the dropdown list
-	 * 
+	 *
 	 * @param dropDownList
 	 *            List of strings which will be shown in the dropdown list
 	 */
@@ -152,7 +153,7 @@ public class ComponentDropDown extends FlowPanel {
 
 	/**
 	 * Notify callback
-	 * 
+	 *
 	 * @param currentIndex
 	 *            selected index
 	 */
@@ -164,7 +165,7 @@ public class ComponentDropDown extends FlowPanel {
 
 	/**
 	 * set itemSelected callback
-	 * 
+	 *
 	 * @param callback
 	 *            which will be called after an item was selected from the
 	 *            dropdown

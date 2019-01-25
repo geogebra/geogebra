@@ -166,7 +166,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private int spWidth;
 	private int spHeight;
 	private boolean menuInited = false;
-
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
@@ -182,7 +181,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private GeoGebraActivity activity;
 
 	/**
-	 * 
+	 *
 	 * @param ae
 	 *            article element
 	 * @param dimension
@@ -318,7 +317,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
-	 * 
+	 *
 	 * @param textField
 	 *            keyboard listener
 	 */
@@ -1222,7 +1221,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	/**
 	 * Closes the page control panel
-	 * 
+	 *
 	 * @return whether it was closed
 	 */
 	public boolean closePageControlPanel() {
@@ -1671,7 +1670,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	/**
 	 * Check if just the euclidian view is visible in the document just loaded.
-	 * 
+	 *
 	 * @return whether just ev1 is isible
 	 */
 	private boolean isJustEuclidianVisible() {
@@ -1997,13 +1996,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 	}
-	
+
 	@Override
 	public void copyGraphicsViewToClipboard() {
 		if (!isCopyImageToClipboardAvailable()) {
 			return;
 		}
-		
+
 		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
 		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false));
 	}
