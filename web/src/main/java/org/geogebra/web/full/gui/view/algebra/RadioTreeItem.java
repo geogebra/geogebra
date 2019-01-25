@@ -2074,6 +2074,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (mf != null) {
 			mf.setFontSize(getFontSize());
 		}
+
+		if (dummyLabel != null) {
+			updateFont(dummyLabel);
+		}
 	}
 
 	/**
