@@ -29,6 +29,8 @@ public class Target {
 
 	private AnimDouble animDotScale;
 	private AnimatableDouble dotScaleGoal;
+	private AnimPosition animDotCenter;
+	private CoordsAndGeo dotCenterGoal;
 
 	private AnimCircleRotation animCircleRotation;
 	private AnimPosition animCircleCenter;
@@ -376,6 +378,9 @@ public class Target {
 		animDotScale = new AnimDouble();
 		dotScaleGoal = new AnimatableDouble();
 
+		animDotCenter = new AnimPosition();
+		dotCenterGoal = new CoordsAndGeo();
+
 		animCircleRotation = new AnimCircleRotation();
 		animCircleCenter = new AnimPosition();
 		circleCenterGoal = new CoordsAndGeo();
@@ -394,6 +399,7 @@ public class Target {
 	}
 
 	synchronized private void setCentersGoal(GeoElement geo) {
+		dotCenterGoal.geo = geo;
 		circleCenterGoal.geo = geo;
 	}
 
@@ -401,6 +407,7 @@ public class Target {
 		animCircleCenter.setUndefined();
 		animCircleRotation.setUndefined();
 		animDotScale.setUndefined();
+		animDotCenter.setUndefined();
 	}
 
 	/**
@@ -466,8 +473,11 @@ public class Target {
 	synchronized private void setMatrices(EuclidianView3D view, double dotScale,
 			Coords circleNormal) {
 
-		dotMatrix.setOrigin(view.getCursor3D().getDrawingMatrix().getOrigin());
-		view.scaleXYZ(dotMatrix.getOrigin());
+		// dot center
+		dotCenterGoal.coords
+				.set3(view.getCursor3D().getDrawingMatrix().getOrigin());
+		view.scaleXYZ(dotCenterGoal.coords);
+		animDotCenter.prepareAnimation(dotCenterGoal);
 
 		// dot scale
 		dotScaleGoal.setValue(dotScale);
@@ -502,6 +512,9 @@ public class Target {
 		dotMatrix.getVx().setMul3(Coords.VX, scale);
 		dotMatrix.getVy().setMul3(Coords.VY, scale);
 		dotMatrix.getVz().setMul3(Coords.VZ, scale);
+
+		animDotCenter.updateCurrent();
+		dotMatrix.setOrigin(animDotCenter.getCurrent().coords);
 
 		return dotMatrix;
 	}
