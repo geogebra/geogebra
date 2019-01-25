@@ -6630,4 +6630,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ScreenReaderSilent.INSTANCE;
 	}
 
+    /**
+     * reset settings
+     */
+    public void resetSettings() {
+        // settings should have been reset before
+        settingsChanged(getSettings());
+    }
 }

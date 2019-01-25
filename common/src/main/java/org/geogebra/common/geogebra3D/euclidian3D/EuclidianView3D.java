@@ -4949,9 +4949,9 @@ public abstract class EuclidianView3D extends EuclidianView
         resetSettings();
 	}
 
+	@Override
     public void resetSettings() {
-        // settings should have been reset before
-        settingsChanged(getSettings());
+        super.resetSettings();
         // reset rendering
         reset();
     }
