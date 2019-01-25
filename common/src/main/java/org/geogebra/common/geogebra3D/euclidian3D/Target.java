@@ -16,7 +16,8 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class Target {
 
-	static final private double ANIMATION_DURATION = 250;
+	static final private double CIRCLE_ANIMATION_DURATION = 250;
+	static final private double DOT_ANIMATION_DURATION = 100;
 
 	private TargetType type;
 	private CoordMatrix4x4 dotMatrix;
@@ -134,11 +135,16 @@ public class Target {
 		private double duration;
 		private boolean isAnimated;
 		private double lastUpdate;
+		final private double totalDuration;
 
 		/**
 		 * constructor
+		 * 
+		 * @param totalDuration
+		 *            total duration for one animation loop
 		 */
-		public Anim() {
+		public Anim(double totalDuration) {
+			this.totalDuration = totalDuration;
 			init();
 			isAnimated = false;
 			previous.setUndefined();
@@ -168,11 +174,10 @@ public class Target {
 				if (previous.isDefined()) {
 					compute();
 					if (isAnimated && !needsNewAnim) {
-						duration = ANIMATION_DURATION
-								- (lastUpdate - firstPrepare);
+						duration = totalDuration - (lastUpdate - firstPrepare);
 						lastPrepare = lastUpdate;
 					} else {
-						duration = ANIMATION_DURATION;
+						duration = totalDuration;
 						firstPrepare = UtilFactory.getPrototype()
 								.getMillisecondTime();
 						lastPrepare = firstPrepare;
@@ -242,8 +247,8 @@ public class Target {
 		private double angle;
 		private Coords tmpCoords;
 
-		public AnimCircleRotation() {
-			super();
+		public AnimCircleRotation(double totalDuration) {
+			super(totalDuration);
 		}
 
 		@Override
@@ -282,8 +287,8 @@ public class Target {
 
 		private Coords tmpCoords;
 
-		public AnimPosition() {
-			super();
+		public AnimPosition(double totalDuration) {
+			super(totalDuration);
 		}
 
 		@Override
@@ -311,8 +316,8 @@ public class Target {
 
 	private class AnimDouble extends Anim<AnimatableDouble> {
 
-		public AnimDouble() {
-			super();
+		public AnimDouble(double totalDuration) {
+			super(totalDuration);
 		}
 
 		@Override
@@ -375,14 +380,14 @@ public class Target {
 		tmpCoords1 = new Coords(4);
 		tmpCoords2 = new Coords(4);
 
-		animDotScale = new AnimDouble();
+		animDotScale = new AnimDouble(DOT_ANIMATION_DURATION);
 		dotScaleGoal = new AnimatableDouble();
 
-		animDotCenter = new AnimPosition();
+		animDotCenter = new AnimPosition(DOT_ANIMATION_DURATION);
 		dotCenterGoal = new CoordsAndGeo();
 
-		animCircleRotation = new AnimCircleRotation();
-		animCircleCenter = new AnimPosition();
+		animCircleRotation = new AnimCircleRotation(CIRCLE_ANIMATION_DURATION);
+		animCircleCenter = new AnimPosition(CIRCLE_ANIMATION_DURATION);
 		circleCenterGoal = new CoordsAndGeo();
 	}
 
