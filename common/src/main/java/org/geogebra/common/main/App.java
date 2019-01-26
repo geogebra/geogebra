@@ -4076,7 +4076,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** automatically add NDG conditions in locus equations */
 		case LOCUSEQU_AUTO_NDG:
-			return true;
+			return prerelease;
 
 		/** unify prove commands */
 		case PROVE_UNIFY:
