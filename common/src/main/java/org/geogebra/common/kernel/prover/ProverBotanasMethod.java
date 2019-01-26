@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.adapters.DependentNumberAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -1910,6 +1911,28 @@ public class ProverBotanasMethod {
 			return null;
 		}
 
+		// Create mover direct dependencies for Pech's idea (see below)
+		HashSet<GeoElementND> moverDirectDependencies = new HashSet<>();
+		if (k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG) && !implicit) {
+			AlgoPointOnPath apop = (AlgoPointOnPath) mover.getParentAlgorithm();
+			GeoElement i0 = apop.input[0];
+			if (i0 instanceof GeoLine) {
+				GeoLine gl = (GeoLine) i0;
+				moverDirectDependencies.add(gl.startPoint);
+				moverDirectDependencies.add(gl.endPoint);
+			} else if (i0 instanceof GeoConic && ((GeoConic) i0).isCircle()) {
+				GeoConic gc = (GeoConic) i0;
+				if (gc.isCircle()) {
+					for (GeoElementND ge : gc.getPointsOnConic()) {
+						if (!ge.isEqual(mover)) {
+							moverDirectDependencies.add(ge);
+						}
+					}
+				}
+			}
+		}
+		Log.debug("Direct dependencies of the mover = " + moverDirectDependencies);
+
 		/* free point support */
 		/*
 		 * Note that sometimes free points can be on a path, but they are
@@ -1928,7 +1951,12 @@ public class ProverBotanasMethod {
 
 			boolean condition = !mover.equals(freePoint);
 
-			if (k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG) && condition) {
+			if (!implicit) {
+				condition &= !tracer.equals(freePoint);
+			}
+
+			if (k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG) && condition
+				&& moverDirectDependencies.contains(freePoint)) {
 				/* add non-degeneracy condition freePoint != mover, based on an idea by Pavel Pech */
 				PPolynomial v = new PPolynomial(new PVariable(k));
 				PPolynomial ndg = PPolynomial.sqrDistance(moverVars[0], moverVars[1], vars[0], vars[1]).multiply(v).
@@ -1936,9 +1964,6 @@ public class ProverBotanasMethod {
 				as.addPolynomial(ndg);
 			}
 
-			if (!implicit) {
-				condition &= !tracer.equals(freePoint);
-			}
 			if (condition) {
 				boolean createX = true;
 				boolean createY = true;
