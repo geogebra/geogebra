@@ -12,6 +12,7 @@ import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown.DropDownSelectionCallback;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -94,7 +95,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 			selector.setTitleText(enumerableProperty.getName());
 			selector.setElements(Arrays.asList(enumerableProperty.getValues()));
 			selector.setSelected(enumerableProperty.getIndex());
-			selector.setDropDownSelectionCallback(new ComponentDropDown.DropDownSelectionCallback() {
+			selector.setDropDownSelectionCallback(new DropDownSelectionCallback() {
 				@Override
 				public void onSelectionChanged(int index) {
 					enumerableProperty.setIndex(index);

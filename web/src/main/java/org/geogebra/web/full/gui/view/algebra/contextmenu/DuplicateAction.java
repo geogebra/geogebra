@@ -32,7 +32,7 @@ public class DuplicateAction extends MenuAction {
 			dup = geo.getDefinitionNoLabel(StringTemplate.editorTemplate);
 		}
 		TreeItem currentNode = algebraView.getNode(geo);
-		if(currentNode instanceof RadioTreeItem){
+		if (currentNode instanceof RadioTreeItem) {
 			((RadioTreeItem) currentNode).selectItem(false);
 		}
 		input.setText(dup);

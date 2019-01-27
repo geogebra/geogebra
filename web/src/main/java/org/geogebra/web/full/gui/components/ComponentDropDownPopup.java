@@ -143,6 +143,7 @@ public class ComponentDropDownPopup {
 	private int getSelectedItemTop() {
 		return getSelectedIndex() * itemHeight;
 	}
+
 	private int getLeft() {
 		return anchor.getAbsoluteLeft() + OFFSET_X;
 	}

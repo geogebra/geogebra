@@ -341,7 +341,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				scaleTo(parent.getOffsetWidth(),
 						Math.max(
 								getArticleElement().getParamAutoHeight()
-								? parent.getOffsetWidth() 
+								? parent.getOffsetWidth()
 								: 0, parent.getOffsetHeight()));
 				if (parent != this.getScalerParent()) {
 					resizeContainer();
@@ -427,10 +427,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			fitSizeToScreen();
 		}
 	}
-	
+
 	/**
 	 * Hides the header, even if there is enough place to show it.
-	 * 
+	 *
 	 * @param visible
 	 *            whether to force show the header
 	 */
@@ -507,7 +507,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * sets ID of local saved file
-	 * 
+	 *
 	 * @param id
 	 *            int
 	 */
@@ -768,7 +768,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Translates localized command name into internal TODO check whether this
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
-	 * 
+	 *
 	 * @param cmd
 	 *            localized command name
 	 * @return internal command name
@@ -862,7 +862,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Loads a binary file (ggb, ggs)
-	 * 
+	 *
 	 * @param binary
 	 *            binary file
 	 */
@@ -990,7 +990,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Sets viewId for each macro
-	 * 
+	 *
 	 * @param toolbar3D
 	 *            toolbar string for 3D View that includes its macros as well.
 	 */
@@ -1152,7 +1152,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		setMoveMode();
-		
+
 		return true;
 
 		// }
@@ -1321,7 +1321,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * sets the timestamp of last synchronization with ggbTube
-	 * 
+	 *
 	 * @param syncStamp
 	 *            long
 	 */
@@ -1367,7 +1367,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Opens the ggb or ggt file
-	 * 
+	 *
 	 * @param fileToHandle
 	 *            file
 	 * @param callback
@@ -1515,13 +1515,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Loads an image and puts it on the canvas (this happens on webcam input)
 	 * On drag&drop or insert from URL this would be called too, but that would
 	 * set security exceptions
-	 * 
+	 *
 	 * @param url
 	 *            - the data url of the image
 	 * @param clientx
 	 *            - desired position on the canvas (x) - unused
 	 * @param clienty
 	 *            - desired position on the canvas (y) - unused
+	 * @return image
 	 */
 	public GeoImage urlDropHappened(String url, int clientx, int clienty) {
 		return urlDropHappened(url, null, null, null);
@@ -1531,9 +1532,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Loads an image and puts it on the canvas (this happens on webcam input)
 	 * On drag&drop or insert from URL this would be called too, but that would
 	 * set security exceptions
-	 * 
+	 *
 	 * @param url
 	 *            - the data url of the image
+	 * @param corner1
+	 *            corner 1 expression
+	 * @param corner2
+	 *            corner 2 expression
+	 * @param corner4
+	 *            corner 4 expression
+	 * @return image
 	 */
 	public GeoImage urlDropHappened(String url, String corner1, String corner2,
 			String corner4) {
@@ -1571,7 +1579,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Loads an image and puts it on the canvas (this happens by drag & drop)
-	 * 
+	 *
 	 * @param imgFileName
 	 *            - the file name of the image
 	 * @param fileStr
@@ -1627,7 +1635,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 								.evaluateToPoint(c1, null, true);
 						geoImage.setCorner(corner1, 0);
 
-						GeoPoint corner2;// = new GeoPoint(cons, 0, 0, 1);
+						GeoPoint corner2;
 						if (c2 != null) {
 							corner2 = (GeoPoint) kernel.getAlgebraProcessor()
 									.evaluateToPoint(c2, null, true);
@@ -1667,7 +1675,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Opens the image file
-	 * 
+	 *
 	 * @param fileToHandle
 	 *            javascript handle for the file
 	 * @param callback
@@ -1708,7 +1716,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param articleid
 	 *            the article id added by scriptManager
-	 * 
+	 *
 	 *            this method is called by scriptmanager after ggbOnInit
 	 */
 	public static native void appletOnLoad(String articleid) /*-{
@@ -1719,7 +1727,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Get a pane for showing messages
-	 * 
+	 *
 	 * @return option pane
 	 */
 	public GOptionPaneW getOptionPane() {
@@ -1750,7 +1758,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Initializes the user authentication
-	 * 
+	 *
 	 * @param op
 	 *            login operation
 	 * @param mayLogIn
@@ -1804,7 +1812,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Initializes the application, seeds factory prototypes, creates Kernel and
 	 * MyXMLIO
-	 * 
+	 *
 	 */
 	protected void initCommonObjects() {
 		initFactories();
@@ -1814,7 +1822,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param thisApp
 	 *            application
 	 * @return a kernel
@@ -1848,7 +1856,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if no 3D is available at all (graphing, geometry, whiteboard)
 	 */
 	protected boolean is3DDisabledForApp() {
@@ -2016,7 +2024,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Called from GuiManager, implementation depends on subclass
-	 * 
+	 *
 	 * @return toolbar object
 	 */
 	public ToolBarInterface getToolbar() {
@@ -2025,7 +2033,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	// methods used just from AppWapplet (and AppWsimple)
 	/**
-	 * 
+	 *
 	 * @param w
 	 *            last selected view
 	 * @param el
@@ -2040,7 +2048,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param w
 	 *            selected view
 	 * @param el
@@ -2133,7 +2141,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param evPanel
 	 *            view panel
 	 * @param ec
@@ -2231,7 +2239,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Checks for GeoGebraLangUI in URL, then in cookie, then checks browser
 	 * language
-	 * 
+	 *
 	 * @return user preferred language
 	 */
 	public String getLanguageFromCookie() {
@@ -2383,9 +2391,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Export given view to clipboard as png
-	 * 
+	 *
 	 * TODO actually downloads image
-	 * 
+	 *
 	 * @param ev
 	 *            view
 	 */
@@ -2448,7 +2456,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * File loading callback
-	 * 
+	 *
 	 * @param asSlide
 	 *            whether jus a slide is loaded
 	 */
@@ -2770,7 +2778,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * each applet (e.g. input bar, Graphics view, etc), while only
 	 * giveFocusBack can give focus back to an applet removed by the loseFocus
 	 * method - to avoid hidden bugs.
-	 * 
+	 *
 	 * What if focus is received by some other method than ENTER (pair of ESC)?
 	 * I think let's allow it, but if ENTER comes next, then we should adjust
 	 * our knowledge about it (otherwise, it should have been watched in the
@@ -2810,7 +2818,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Overwritten for applets, full app and for touch
-	 * 
+	 *
 	 * @return {@link MaterialsManagerI}
 	 */
 	public MaterialsManagerI getFileManager() {
@@ -2865,7 +2873,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Show message in a popup
-	 * 
+	 *
 	 * @param message
 	 *            message
 	 * @param title
@@ -2886,7 +2894,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            button text
 	 * @param handler
 	 *            button click handler
-	 * 
+	 *
 	 */
 	public void showMessage(final HTML content, final String title,
 			String buttonText, AsyncOperation<String[]> handler) {
@@ -3046,10 +3054,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Resets the width of the Canvas converning the Width of its wrapper
 	 * (splitlayoutpanel center)
-	 * 
+	 *
 	 * @param width
 	 *            width in px
-	 * 
+	 *
 	 * @param height
 	 *            height in px
 	 */
@@ -3112,7 +3120,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
-	 * 
+	 *
 	 * @param textField
 	 *            keyboard listener
 	 * @param forceShow
@@ -3126,7 +3134,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * update the on-screen keyboard
-	 * 
+	 *
 	 * @param field
 	 *            after the update the input of the keyboard is written into
 	 *            this field
@@ -3248,7 +3256,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Update prerelease / canary flags
-	 * 
+	 *
 	 * @param prereleaseStr
 	 *            prerelease parameter
 	 */
@@ -3268,7 +3276,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param el
 	 *            article element
 	 * @return true if prerelease
-	 * 
+	 *
 	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
 	 */
 	public static boolean isPrerelease(ArticleElement el) {
@@ -3307,7 +3315,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param base64
 	 *            CSV content
 	 */
@@ -3349,7 +3357,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Pixel ratio including external transforms
 	 */
 	public double getPixelRatio() {
@@ -3596,7 +3604,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 9999 (or 200 in web)
 	 */
 	@Override
@@ -3605,7 +3613,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 9999 (or 200 in web)
 	 */
 	@Override
@@ -3693,10 +3701,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome, Firefox,
 	 * Edge
-	 * 
+	 *
 	 * this method doesn't always work in Edge, Firefox as needs to be run from
 	 * eg button
-	 * 
+	 *
 	 * @param value
 	 *            text to copy
 	 */
@@ -3804,7 +3812,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if app is on portrait mode;
 	 */
 	@Override
@@ -3847,7 +3855,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void handleImageExport(String base64image0) {
-		
+
 		String base64image = base64image0;
 		if (base64image.startsWith("<svg")) {
 			// can't use data:image/svg+xml;utf8 in IE11 / Edge
@@ -3858,15 +3866,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			// PNG
 			base64image = StringUtil.pngMarker + base64image;
 		}
-		
+
 		if (getDialogManager() != null) {
-			getDialogManager().showExportImageDialog(base64image); 
+			getDialogManager().showExportImageDialog(base64image);
 
 		} else {
 			openInLightbox(base64image,
 					base64image.startsWith(StringUtil.pdfMarker));
 		}
-		
+
 	}
 
 	public native boolean openInLightbox(String imageBase64, boolean pdf) /*-{
@@ -3921,7 +3929,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * When multiple slides are present give ID of the current one, otherwise
 	 * give default slide ID
-	 * 
+	 *
 	 * @return the string ID of current slide
 	 */
 	public String getSlideID() {
