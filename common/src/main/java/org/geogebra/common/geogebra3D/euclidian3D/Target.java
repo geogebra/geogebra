@@ -181,6 +181,9 @@ public class Target {
 						firstPrepare = UtilFactory.getPrototype()
 								.getMillisecondTime();
 						lastPrepare = firstPrepare;
+						// in case updateCurrent() is not called between two
+						// prepareAnimation() calls
+						lastUpdate = firstPrepare;
 						isAnimated = true;
 					}
 				} else {
@@ -432,7 +435,11 @@ public class Target {
 			tmpNormal.set3(view.getCursor3D().getMoveNormalDirection());
 			view.scaleNormalXYZ(tmpNormal);
 			tmpNormal.normalize();
-			setCentersGoal((GeoElement) view.getCursor3D().getRegion());
+			if (view.getCursor3D().getIsCaptured()) {
+				setCentersGoal(null);
+			} else {
+				setCentersGoal((GeoElement) view.getCursor3D().getRegion());
+			}
 			setMatrices(view,
 					EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
 							* DrawPoint3D.DRAW_POINT_FACTOR,
@@ -443,7 +450,11 @@ public class Target {
 			tmpNormal.set3(view.getCursorPath().getMainDirection());
 			view.scaleXYZ(tmpNormal);
 			tmpNormal.normalize();
-			setCentersGoal(view.getCursorPath());
+			if (view.getCursor3D().getIsCaptured()) {
+				setCentersGoal(null);
+			} else {
+				setCentersGoal(view.getCursorPath());
+			}
 			setMatrices(view, view.getCursorPath().getLineThickness()
 					+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_ON_PATH,
 					tmpNormal);

@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
@@ -21,6 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Euclidian controller creator for 3D controller
@@ -254,9 +256,16 @@ public class EuclidianController3DCompanion
 					|| (Math.abs(x - x0) < gx * ec.getPointCapturingPercentage()
 							&& Math.abs(y - y0) < gy
 									* ec.getPointCapturingPercentage())) {
-				coords.setX(x);
-				coords.setY(y);
-				return true;
+				boolean changed = false;
+				if (!DoubleUtil.isEqual(x, x0)) {
+					coords.setX(x);
+					changed = true;
+				}
+				if (!DoubleUtil.isEqual(y, y0)) {
+					coords.setY(y);
+					changed = true;
+				}
+				return changed;
 			}
 			return false;
 		}
@@ -299,10 +308,19 @@ public class EuclidianController3DCompanion
 									* ec.getPointCapturingPercentage())
 
 			) {
-				coords.setX(x);
-				coords.setY(y);
-				checkPointCapturingZ(coords);
-				return true;
+				boolean changed = false;
+				if (!DoubleUtil.isEqual(x, x0)) {
+					coords.setX(x);
+					changed = true;
+				}
+				if (!DoubleUtil.isEqual(y, y0)) {
+					coords.setY(y);
+					changed = true;
+				}
+				if (checkPointCapturingZ(coords)) {
+					changed = true;
+				}
+				return changed;
 			}
 
 			return checkPointCapturingZ(coords);
@@ -334,8 +352,10 @@ public class EuclidianController3DCompanion
 		if (ec.getView()
 				.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 				|| Math.abs(z - z0) < gz * ec.getPointCapturingPercentage()) {
-			coords.setZ(z);
-			return true;
+			if (!DoubleUtil.isEqual(z, z0)) {
+				coords.setZ(z);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -390,6 +410,7 @@ public class EuclidianController3DCompanion
 					path, false);
 		} else {
 			point3D = ec3D.view3D.getCursor3D();
+			((GeoCursor3D) point3D).setIsCaptured(false);
 			point3D.setPath(path);
 			point3D.setRegion(null);
 			ec3D.view3D
@@ -404,6 +425,9 @@ public class EuclidianController3DCompanion
 		if (checkPointCapturingXYThenZ(tmpCoords1)) {
 			point3D.setWillingCoords(tmpCoords1);
 			point3D.doPath();
+			if (point3D instanceof GeoCursor3D) {
+				((GeoCursor3D) point3D).setIsCaptured(true);
+			}
 		}
 
 		return point3D;
@@ -428,7 +452,8 @@ public class EuclidianController3DCompanion
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
 			boolean complex) {
 
-		GeoPoint3D point3D = ec3D.view3D.getCursor3D();
+		GeoCursor3D point3D = ec3D.view3D.getCursor3D();
+		point3D.setIsCaptured(false);
 		point3D.setPath(null);
 		point3D.setRegion(region);
 
@@ -454,6 +479,7 @@ public class EuclidianController3DCompanion
 			captureCoords.setValues(coords, 2);
 			if (checkPointCapturingXY(captureCoords)) {
 				point3D.setCoords(captureCoords, false);
+				point3D.setIsCaptured(true);
 			}
 
 			ec3D.view3D
@@ -466,6 +492,7 @@ public class EuclidianController3DCompanion
 			if (checkPointCapturingXYThenZ(tmpCoords1)) {
 				point3D.setWillingCoords(tmpCoords1);
 				point3D.doRegion();
+				point3D.setIsCaptured(true);
 			}
 
 			GeoElement geo = (GeoElement) region;

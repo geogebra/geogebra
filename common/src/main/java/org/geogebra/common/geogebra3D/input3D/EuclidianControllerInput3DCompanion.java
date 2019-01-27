@@ -14,6 +14,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.input3D.EuclidianViewInput3DCompanion.StationaryCoords;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -75,7 +76,8 @@ public class EuclidianControllerInput3DCompanion extends
 			return super.createNewFreePoint(complex);
 		}
 
-		GeoPoint3D point3D = ((EuclidianView3D) ec.getView()).getCursor3D();
+		GeoCursor3D point3D = ((EuclidianView3D) ec.getView()).getCursor3D();
+		point3D.setIsCaptured(false);
 		point3D.setPath(null);
 		point3D.setRegion(null);
 
@@ -98,7 +100,9 @@ public class EuclidianControllerInput3DCompanion extends
 					tmpCoords3);
 			((EuclidianView3D) ec.getView()).toSceneCoords3D(tmpCoords3);
 		}
-		checkPointCapturingXYThenZ(tmpCoords3);
+		if (checkPointCapturingXYThenZ(tmpCoords3)) {
+			point3D.setIsCaptured(true);
+		}
 		point3D.setCoords(tmpCoords3);
 
 		return point3D;

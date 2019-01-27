@@ -66,6 +66,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -242,7 +243,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private DrawPointDecorations pointDecorations;
 	// preview
 	private Previewable previewDrawable;
-	private GeoPoint3D cursor3D;
+	private GeoCursor3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
 	private boolean cursor3DVisible = true;
 	private EuclidianCursor cursor = EuclidianCursor.DEFAULT;
@@ -425,7 +426,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		initAxisAndPlane();
 		kernel3D.getConstruction().setIgnoringNewTypes(true);
 		// previewables
-		cursor3D = new GeoPoint3D(kernel3D.getConstruction());
+		cursor3D = new GeoCursor3D(kernel3D.getConstruction());
 		cursor3D.setCoords(0, 0, 0, 1);
 		cursor3D.setIsPickable(false);
 		// cursor3D.setLabelOffset(5, -5);
@@ -2074,7 +2075,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *
 	 * @return the point used for 3D cursor
 	 */
-	public GeoPoint3D getCursor3D() {
+	public GeoCursor3D getCursor3D() {
 		return cursor3D;
 	}
 

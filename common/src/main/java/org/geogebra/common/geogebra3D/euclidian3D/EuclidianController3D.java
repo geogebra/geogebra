@@ -38,6 +38,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -685,7 +686,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/** put sourcePoint coordinates in point */
 	@Override
 	public void createNewPoint(GeoPointND sourcePoint) {
-		GeoPoint3D point3D = view3D.getCursor3D();
+		GeoCursor3D point3D = view3D.getCursor3D();
+		point3D.setIsCaptured(false);
 
 		// set coords
 		point3D.setCoords(sourcePoint.getCoordsInD3(), false);
@@ -733,7 +735,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 		}
 
-		GeoPoint3D point3D = view3D.getCursor3D();
+		GeoCursor3D point3D = view3D.getCursor3D();
+		point3D.setIsCaptured(false);
 		point3D.setCoords(tmpCoords, false);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_DEPENDENT);
 		view3D.setIntersectionPoint(intersectionPoint);
