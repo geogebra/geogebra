@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoButton.Observer;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 
 //import java.awt.Color;
@@ -70,7 +72,7 @@ public class MyButton implements Observer {
 
 	/**
 	 * Paint this on given graphics
-	 *
+	 * 
 	 * @param g
 	 *            graphics
 	 * @param multiplier
@@ -120,9 +122,10 @@ public class MyButton implements Observer {
 			}
 		}
 		// With fixed size the font are resized if is too big
-		if (mayResize && (geoButton.isFixedSize()
-				&& ((int) textHeight + imgGap + (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
-				|| (int) textWidth + (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()))) {
+		if (mayResize && (geoButton.isFixedSize() && ((int) textHeight + imgGap
+				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
+				|| (int) textWidth
+						+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()))) {
 			resize(g, imgGap);
 			return;
 		}
@@ -144,8 +147,6 @@ public class MyButton implements Observer {
 		int startX = 0;
 		int startY = 0;
 		double add = 0;
-		boolean drawImage = true;
-
 		if (!geoButton.isFixedSize()) {
 			// Some combinations of style, serif / sans and letters
 			// overflow from the drawing if the text is extra large
@@ -167,23 +168,20 @@ public class MyButton implements Observer {
 			if (imgHeight > getHeight() - textHeight - imgGap
 					- (MARGIN_TOP + MARGIN_BOTTOM)) {
 				startY = imgHeight - (int) (getHeight() - textHeight - imgGap
-								- (MARGIN_TOP + MARGIN_BOTTOM));
+						- (MARGIN_TOP + MARGIN_BOTTOM));
 				imgHeight = (int) (getHeight() - textHeight - imgGap
 						- (MARGIN_TOP + MARGIN_BOTTOM));
-
 				if (imgHeight <= 0) {
-					drawImage = false;
+					geoButton.setFillImage("");
 				} else {
 					startY /= 2;
 				}
 			}
-
 			if (imgWidth > getWidth() - (MARGIN_LEFT + MARGIN_RIGHT)) {
 				startX = imgWidth - (getWidth() - (MARGIN_LEFT + MARGIN_RIGHT));
 				imgWidth = getWidth() - (MARGIN_LEFT + MARGIN_RIGHT);
 				startX /= 2;
 			}
-
 			imgStart = (int) (getHeight() - imgHeight
 					- (MARGIN_TOP + MARGIN_BOTTOM) - textHeight - imgGap) / 2;
 		}
@@ -272,8 +270,10 @@ public class MyButton implements Observer {
 
 		MyImage im = geoButton.getFillImage();
 		// draw image
-		if (im != null && drawImage) {
+		if (im != null) {
+
 			if (im.isSVG()) {
+
 				// SVG is scaled to the button size rather than cropped
 				double sx = (double) im.getWidth() / (double) getWidth();
 				double sy = (double) im.getHeight() / (double) getHeight();
@@ -293,7 +293,9 @@ public class MyButton implements Observer {
 				if (!one2one) {
 					g.restoreTransform();
 				}
+
 			} else {
+
 				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
 						x + (getWidth() - imgWidth) / 2,
 						y + MARGIN_TOP + imgStart);
@@ -304,6 +306,7 @@ public class MyButton implements Observer {
 		if (hasText) {
 			if (geoButton.getFillImage() == null) {
 				imgStart = (int) (getHeight() - (MARGIN_TOP + MARGIN_BOTTOM)
+
 						- textHeight) / 2;
 			}
 			drawText(g, t, imgStart + imgGap + imgHeight, latex, add,
@@ -341,18 +344,58 @@ public class MyButton implements Observer {
 		} else {
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);
+
 		}
+
 	}
 
 	private void resize(GGraphics2D g, int imgGap) {
-		double ratioW = (getWidth() - (MARGIN_LEFT + MARGIN_RIGHT))
-						* geoButton.getFontSizeMultiplier() / textWidth;
-		double ratioH = (getHeight() - (MARGIN_TOP + MARGIN_BOTTOM + imgGap))
-						* geoButton.getFontSizeMultiplier() / textHeight;
+		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
-		double ret = Math.min(ratioH, ratioW);
+		// Reduces the font for attempts
+		GTextLayout t = null;
+		int i = GeoText.getFontSizeIndex(
+				((TextProperties) geoButton).getFontSizeMultiplier());
+		while (i > 0 && (int) textHeight + imgGap
+				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()) {
+			i--;
+			font = font.deriveFont(font.getStyle(),
+					(int) (GeoText.getRelativeFontSize(i) * 12));
+			if (latex) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), geoButton, font, getCaption());
+				textHeight = d.getHeight();
+				textWidth = d.getWidth();
 
+			} else {
+				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
+						g.getFontRenderContext());
+				textHeight = t.getAscent() + t.getDescent();
+				textWidth = t.getAdvance();
+			}
+		}
+
+		while (i > 0 && (int) textWidth
+				+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()) {
+			i--;
+			font = font.deriveFont(font.getStyle(),
+					(int) (GeoText.getRelativeFontSize(i) * 12));
+			if (latex) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), geoButton, font, getCaption());
+				textHeight = d.getHeight();
+				textWidth = d.getWidth();
+
+			} else {
+				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
+						g.getFontRenderContext());
+				textHeight = t.getAscent() + t.getDescent();
+				textWidth = t.getAdvance();
+			}
+		}
+		double ret = GeoText.getRelativeFontSize(i);
 		paintComponent(g, ret, false);
+
 	}
 
 	private boolean isSelected() {
@@ -375,7 +418,7 @@ public class MyButton implements Observer {
 
 	/**
 	 * Resizes and moves the button
-	 *
+	 * 
 	 * @param labelRectangle
 	 *            new bounds
 	 */
