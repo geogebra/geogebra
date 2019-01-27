@@ -31,13 +31,14 @@ public class Target {
 	private AnimDouble animDotScale;
 	private AnimatableDouble dotScaleGoal;
 	private AnimPosition animDotCenter;
-	private CoordsAndGeo dotCenterGoal;
+	private PositionAndGeo dotCenterGoal;
 
 	private AnimCircleRotation animCircleRotation;
 	private AnimPosition animCircleCenter;
-	private CoordsAndGeo circleCenterGoal;
+	private PositionAndGeo circleCenterGoal;
 
-	static private class CoordsAndGeo implements AnimatableValue<CoordsAndGeo> {
+	static abstract private class CoordsAndGeo<T extends CoordsAndGeo<T>>
+			implements AnimatableValue<T> {
 		public Coords coords;
 		public GeoElement geo;
 
@@ -49,10 +50,11 @@ public class Target {
 		}
 
 		@Override
-		public boolean equalsForAnimation(CoordsAndGeo other) {
-			return (geo != null && geo == other.geo)
-					|| coords.equalsForAnimation(other.coords);
+		public boolean equalsForAnimation(T other) {
+			return (geo != null && geo == other.geo) || coordsEquals(other);
 		}
+
+		abstract protected boolean coordsEquals(T other);
 
 		@Override
 		public boolean isDefined() {
@@ -60,7 +62,7 @@ public class Target {
 		}
 
 		@Override
-		public void setAnimatableValue(CoordsAndGeo other) {
+		public void setAnimatableValue(T other) {
 			coords.set3(other.coords);
 			geo = other.geo;
 		}
@@ -69,6 +71,19 @@ public class Target {
 		public void setUndefined() {
 			coords.setUndefined();
 		}
+	}
+
+	static private class PositionAndGeo extends CoordsAndGeo<PositionAndGeo> {
+
+		public PositionAndGeo() {
+			super();
+		}
+
+		@Override
+		protected boolean coordsEquals(PositionAndGeo other) {
+			return coords.equalsForKernel(other.coords);
+		}
+
 	}
 
 	static private class AnimatableDouble
@@ -285,7 +300,7 @@ public class Target {
 
 	}
 
-	static private class AnimPosition extends Anim<CoordsAndGeo> {
+	static private class AnimPosition extends Anim<PositionAndGeo> {
 
 		private Coords tmpCoords;
 
@@ -295,9 +310,9 @@ public class Target {
 
 		@Override
 		protected void init() {
-			previous = new CoordsAndGeo();
-			next = new CoordsAndGeo();
-			current = new CoordsAndGeo();
+			previous = new PositionAndGeo();
+			next = new PositionAndGeo();
+			current = new PositionAndGeo();
 			current.coords.setW(1);
 			tmpCoords = new Coords(4);
 		}
@@ -386,11 +401,11 @@ public class Target {
 		dotScaleGoal = new AnimatableDouble();
 
 		animDotCenter = new AnimPosition(DOT_ANIMATION_DURATION);
-		dotCenterGoal = new CoordsAndGeo();
+		dotCenterGoal = new PositionAndGeo();
 
 		animCircleRotation = new AnimCircleRotation(CIRCLE_ANIMATION_DURATION);
 		animCircleCenter = new AnimPosition(CIRCLE_ANIMATION_DURATION);
-		circleCenterGoal = new CoordsAndGeo();
+		circleCenterGoal = new PositionAndGeo();
 	}
 
 	/**
