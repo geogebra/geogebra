@@ -1851,10 +1851,22 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * @param value
-	 * 			the String value to test
-	 * @return True if the value contains only numbers, false otherwise/
+	 *            the String value to test
+	 * @return true if the value contains only numbers, false otherwise/
 	 */
 	public static boolean isSimpleNumber(String value) {
 		return value.matches("[1234567890\\-.]+");
 	}
+
+	/**
+	 * Used to decide whether to use serif or sans serif eg axis labels
+	 * 
+	 * @param string
+	 * @return if string starts with eg \mathrm
+	 */
+	public static boolean startsWithFormattingCommand(String string) {
+		return string != null && string.length() > 6
+				&& string.startsWith("$\\math");
+	}
+
 }

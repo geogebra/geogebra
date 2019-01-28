@@ -259,7 +259,8 @@ public class DrawAxis {
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
 					x - 2, 10,
-					view.axesLabels[1], font, serif(view.axesLabels[1]),
+					view.axesLabels[1], font,
+					StringUtil.startsWithFormattingCommand(view.axesLabels[1]),
 					GColor.BLACK, null, true, false,
 					view.getCallBack(geo, firstCallY));
 
@@ -293,7 +294,8 @@ public class DrawAxis {
 					view.getApplication(), geo, g2,
 					view.getWidth() - 5 - dim.getWidth(),
 					y + 4 - dim.getHeight(),
-					view.axesLabels[0], font, serif(view.axesLabels[0]),
+					view.axesLabels[0], font,
+					StringUtil.startsWithFormattingCommand(view.axesLabels[0]),
 					GColor.BLACK, null, true,
 					false, view.getCallBack(geo, firstCallX));
 
@@ -309,11 +311,6 @@ public class DrawAxis {
 					y, false, view, view.axesColor);
 		}
 		g2.setFont(old);
-	}
-
-	private static boolean serif(String string) {
-		return string != null && string.length() > 6
-				&& string.startsWith("$\\math");
 	}
 
 	private static boolean isLaTeX(String string) {
