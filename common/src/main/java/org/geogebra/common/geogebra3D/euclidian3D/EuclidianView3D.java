@@ -4813,8 +4813,10 @@ public abstract class EuclidianView3D extends EuclidianView
 			if (isARDrawing) {
 				if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
 				    boolean boundsNeededUpdate = updateObjectsBounds(true, true);
-                    clippingCubeDrawable.enlargeFor(boundsMin);
-                    clippingCubeDrawable.enlargeFor(boundsMax);
+				    if (boundsNeededUpdate) {
+                        clippingCubeDrawable.enlargeFor(boundsMin);
+                        clippingCubeDrawable.enlargeFor(boundsMax);
+                    }
                     if (getShowAxis(AXIS_Z)) {
                         translationZzeroForAR = -getZmin();
                     } else if (boundsNeededUpdate) {
