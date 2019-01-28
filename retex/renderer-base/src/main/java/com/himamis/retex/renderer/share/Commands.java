@@ -215,12 +215,6 @@ public class Commands {
 		case "sf":
 			return new CommandSf();
 
-		case "mathserif":
-			return new CommandMathSerif();
-
-		case "serif":
-			return new CommandSerif();
-
 		case "mathrm":
 			return new CommandMathRm();
 
