@@ -34,6 +34,7 @@ public class Target {
 	private PositionAndGeo dotCenterGoal;
 
 	private AnimCircleRotation animCircleRotation;
+	private NormalAndGeo circleNormalGoal;
 	private AnimPosition animCircleCenter;
 	private PositionAndGeo circleCenterGoal;
 
@@ -82,6 +83,19 @@ public class Target {
 		@Override
 		protected boolean coordsEquals(PositionAndGeo other) {
 			return coords.equalsForKernel(other.coords);
+		}
+
+	}
+
+	static private class NormalAndGeo extends CoordsAndGeo<NormalAndGeo> {
+
+		public NormalAndGeo() {
+			super();
+		}
+
+		@Override
+		protected boolean coordsEquals(NormalAndGeo other) {
+			return coords.equalsForAnimation(other.coords);
 		}
 
 	}
@@ -258,7 +272,7 @@ public class Target {
 		}
 	}
 
-	static private class AnimCircleRotation extends Anim<Coords> {
+	static private class AnimCircleRotation extends Anim<NormalAndGeo> {
 
 		private Coords axis;
 		private double angle;
@@ -270,32 +284,32 @@ public class Target {
 
 		@Override
 		protected void init() {
-			previous = new Coords(4);
-			next = new Coords(4);
-			current = new Coords(4);
+			previous = new NormalAndGeo();
+			next = new NormalAndGeo();
+			current = new NormalAndGeo();
 			axis = new Coords(4);
 			tmpCoords = new Coords(4);
 		}
 
 		@Override
 		protected void compute() {
-			axis.setCrossProduct3(previous, next);
+			axis.setCrossProduct3(previous.coords, next.coords);
 			double l = axis.calcNorm();
-			double cos = previous.dotproduct3(next);
+			double cos = previous.coords.dotproduct3(next.coords);
 			axis.mulInside3(1 / l);
-			previous.setCrossProduct3(next, axis);
+			previous.coords.setCrossProduct3(next.coords, axis);
 			angle = l > 1 ? Math.PI / 2 : Math.asin(l);
 			if (cos < 0) {
-				next.mulInside3(-1);
+				next.coords.mulInside3(-1);
 			}
 		}
 
 		@Override
 		protected void calculateCurrent(double remaining) {
 			double a = angle * remaining;
-			current.setMul3(previous, Math.sin(a));
-			tmpCoords.setMul3(next, Math.cos(a));
-			current.setAdd3(current, tmpCoords);
+			current.coords.setMul3(previous.coords, Math.sin(a));
+			tmpCoords.setMul3(next.coords, Math.cos(a));
+			current.coords.setAdd3(current.coords, tmpCoords);
 		}
 
 	}
@@ -404,6 +418,7 @@ public class Target {
 		dotCenterGoal = new PositionAndGeo();
 
 		animCircleRotation = new AnimCircleRotation(CIRCLE_ANIMATION_DURATION);
+		circleNormalGoal = new NormalAndGeo();
 		animCircleCenter = new AnimPosition(CIRCLE_ANIMATION_DURATION);
 		circleCenterGoal = new PositionAndGeo();
 	}
@@ -423,6 +438,7 @@ public class Target {
 	synchronized private void setCentersGoal(GeoElement geo) {
 		dotCenterGoal.geo = geo;
 		circleCenterGoal.geo = geo;
+		circleNormalGoal.geo = geo;
 	}
 
 	synchronized private void setAnimationsUndefined() {
@@ -530,7 +546,8 @@ public class Target {
 		animCircleCenter.prepareAnimation(circleCenterGoal);
 
 		// circle orientation
-		animCircleRotation.prepareAnimation(circleNormal);
+		circleNormalGoal.coords.set3(circleNormal);
+		animCircleRotation.prepareAnimation(circleNormalGoal);
 
 	}
 
@@ -561,10 +578,11 @@ public class Target {
 		circleMatrix.setOrigin(animCircleCenter.getCurrent().coords);
 
 		animCircleRotation.updateCurrent();
-		animCircleRotation.getCurrent().completeOrthonormal(tmpCoords1, tmpCoords2);
+		animCircleRotation.getCurrent().coords.completeOrthonormal(tmpCoords1,
+				tmpCoords2);
 		circleMatrix.setVx(tmpCoords1);
 		circleMatrix.setVy(tmpCoords2);
-		circleMatrix.setVz(animCircleRotation.getCurrent());
+		circleMatrix.setVz(animCircleRotation.getCurrent().coords);
 
 		return circleMatrix;
 	}
