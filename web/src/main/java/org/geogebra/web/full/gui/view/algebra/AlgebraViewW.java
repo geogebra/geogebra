@@ -2435,6 +2435,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return itemFactory;
 	}
 
+	/**
+	 * @return application
+	 */
 	public AppW getApp() {
 		return app;
 	}

@@ -10,6 +10,9 @@ import org.geogebra.web.full.main.AppWFull;
 
 import com.google.gwt.user.client.ui.TreeItem;
 
+/**
+ * Duplicates geo in AV and puts focus to the new input
+ */
 public class DuplicateAction extends MenuAction {
 	private AlgebraViewW algebraView;
 

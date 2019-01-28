@@ -5,7 +5,13 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Deletes a geo
+ */
 public class DeleteAction extends MenuAction {
+	/**
+	 * New delete action
+	 */
 	public DeleteAction() {
 		super("Delete", MaterialDesignResources.INSTANCE.delete_black());
 	}

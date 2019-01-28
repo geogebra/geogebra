@@ -8,7 +8,13 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Opens the settings for a geo
+ */
 public class SettingsAction extends MenuAction {
+	/**
+	 * New settings action
+	 */
 	public SettingsAction() {
 		super("Settings", MaterialDesignResources.INSTANCE.gear());
 	}

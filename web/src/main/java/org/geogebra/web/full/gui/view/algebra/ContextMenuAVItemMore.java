@@ -34,6 +34,8 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 *
 	 * @param item
 	 *            application
+	 * @param collection
+	 *            collection of items
 	 */
 	ContextMenuAVItemMore(RadioTreeItem item, MenuActionCollection collection) {
 		mApp = item.getApplication();

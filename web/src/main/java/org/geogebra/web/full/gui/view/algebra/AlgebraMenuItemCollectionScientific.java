@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.HideLabelAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.ShowLabelAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.RemoveLabelAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AddLabelAction;
 
 /**
  * AV context menu actions for scientific
@@ -18,7 +18,7 @@ public class AlgebraMenuItemCollectionScientific extends MenuActionCollection {
 	 *            algebra view
 	 */
 	public AlgebraMenuItemCollectionScientific(AlgebraViewW av) {
-		addActions(new HideLabelAction(), new ShowLabelAction(), new DuplicateAction(av),
+		addActions(new RemoveLabelAction(), new AddLabelAction(), new DuplicateAction(av),
 				new DeleteAction());
 	}
 }

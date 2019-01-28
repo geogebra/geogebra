@@ -5,7 +5,13 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Adds a functionable geo to the table view
+ */
 public class TableOfValuesAction extends MenuAction {
+	/**
+	 * New table view action
+	 */
 	public TableOfValuesAction() {
 		super("TableOfValues", MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 	}

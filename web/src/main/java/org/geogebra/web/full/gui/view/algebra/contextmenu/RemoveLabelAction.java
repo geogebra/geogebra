@@ -6,9 +6,15 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-public class HideLabelAction extends MenuAction {
-	public HideLabelAction() {
-		super("HideLabel", MaterialDesignResources.INSTANCE.label_off());
+/**
+ * Removes label from a ageo in AV
+ */
+public class RemoveLabelAction extends MenuAction {
+	/**
+	 * New remove label action
+	 */
+	public RemoveLabelAction() {
+		super("RemoveLabel", MaterialDesignResources.INSTANCE.label_off());
 	}
 
 	@Override

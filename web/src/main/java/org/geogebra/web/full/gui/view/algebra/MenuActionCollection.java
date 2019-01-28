@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Collection of context menu items
+ */
 public class MenuActionCollection implements Iterable<MenuAction> {
 
 	private List<MenuAction> actions;
 
+	/**
+	 * New collection
+	 */
 	public MenuActionCollection() {
 		this.actions = new ArrayList<>();
 	}

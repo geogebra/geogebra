@@ -6,7 +6,13 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * SHows special points for a functionable geo
+ */
 public class SpecialPointsAction extends MenuAction {
+	/**
+	 * New special points action
+	 */
 	public SpecialPointsAction() {
 		super("Suggestion.SpecialPoints", MaterialDesignResources.INSTANCE.special_points());
 	}

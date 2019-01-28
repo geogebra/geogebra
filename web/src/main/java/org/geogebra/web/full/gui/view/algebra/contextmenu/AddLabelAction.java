@@ -6,9 +6,15 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-public class ShowLabelAction extends MenuAction {
-	public ShowLabelAction() {
-		super("ShowLabel", MaterialDesignResources.INSTANCE.label());
+/**
+ * Add label to a geo in AV
+ */
+public class AddLabelAction extends MenuAction {
+	/**
+	 * New add label action
+	 */
+	public AddLabelAction() {
+		super("AddLabel", MaterialDesignResources.INSTANCE.label());
 	}
 
 	@Override
