@@ -75,7 +75,7 @@ public class LanguageProperty extends AbstractEnumerableProperty {
         Localization localization = getLocalization();
         Locale locale = localization.getLocale();
         for (int i = 0; i < locales.length; i++) {
-            if (locales[i].equals(locale)) {
+            if (locales[i] != null && locales[i].equals(locale)) {
                 return i;
             }
         }

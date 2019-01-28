@@ -8,6 +8,7 @@ import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -70,7 +71,8 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		PropertiesList propertiesList = new PropertiesList(
 				new AngleUnitProperty(app.getKernel(), localization),
 				new RoundingProperty(app, localization),
-				new FontSizeProperty(app, localization)
+				new FontSizeProperty(app, localization),
+				new LanguageProperty(app, localization)
 		);
 
 		buildPropertiesPanel(propertiesList, contentPanel);
