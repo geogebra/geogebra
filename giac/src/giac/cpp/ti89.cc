@@ -1541,6 +1541,16 @@ namespace giac {
       vecteur v=*g._VECTptr;
       maple_sum_product_unquote(v,contextptr);
       int s=int(v.size());
+      if (s==2 && v[1]==at_prod){
+	gen tmp=eval(v[0],1,contextptr);
+	if (tmp.type==_VECT){
+	  gen res(1);
+	  const_iterateur it=tmp._VECTptr->begin(),itend=tmp._VECTptr->end();
+	  for (;it!=itend;++it)
+	    res = res * *it;
+	  return res;
+	}
+      }
       if (!adjust_int_sum_arg(v,s))
 	return gensizeerr(contextptr);
       if (v.size()==4 && (v[2].type!=_INT_ || v[3].type!=_INT_)){

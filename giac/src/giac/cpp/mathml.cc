@@ -1102,13 +1102,19 @@ namespace giac {
     }
     else
       s= "<line vector-effect=\"non-scaling-stroke\" stroke-width=\""+print_INT_(attr.width);
+    gen reB,imB;
+    reim(B,reB,imB,contextptr);
     s = s+"\" stroke=\""+color_string(attr)+"\" x1=\""
       + re(A,contextptr).print(contextptr)+"\" y1=\""
       + im(A,contextptr).print(contextptr)+"\" x2=\""
-      + re(B,contextptr).print(contextptr)+"\" y2=\""
-      + im(B,contextptr).print(contextptr)+"\"/>\n";
+      + reB.print(contextptr)+"\" y2=\""
+      + imB.print(contextptr)+"\"/>\n";
     //CERR << s << endl;
-    s = s+svg_text(B,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    if (is_positive((reB-xmax)*(reB-xmin),contextptr) ||
+	is_positive((imB-ymax)*(imB-ymin),contextptr))
+      s = s+svg_text((A+B)/2,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    else
+      s = s+svg_text(B,legende,attr,xmin,xmax,ymin,ymax,contextptr);
     return s;
   }
 
@@ -1187,7 +1193,7 @@ namespace giac {
 	}
       }
       if (attr.type_line>4){
-	reverse(v.begin(),v.end());
+	//reverse(v.begin(),v.end());
 	s=svg_vecteur(v[v.size()/2],v[v.size()/2+1],attr,"",xmin,xmax,ymin,ymax,contextptr);
       }
       return s=s+svg_bezier_curve(v,attr,legende,xmin,xmax,ymin,ymax,contextptr);

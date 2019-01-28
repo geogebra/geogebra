@@ -9055,6 +9055,28 @@ namespace giac {
   static define_unary_function_eval2 (__Pause,&_Pause,_Pause_s,&printastifunction);
   define_unary_function_ptr5( at_Pause ,alias_at_Pause ,&__Pause,0,T_RETURN);
 
+  static const char _sleep_s []="sleep";
+  static define_unary_function_eval (__sleep,&_Pause,_sleep_s);
+  define_unary_function_ptr5( at_sleep ,alias_at_sleep,&__sleep,0,true);
+
+  gen _monotonic(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+#if defined __APPLE__ || defined EMCC
+    return clock();
+#else
+#ifdef FXCG
+    return RTC_GetTicks();
+#else
+    timespec t;
+    clock_gettime(CLOCK_MONOTONIC,&t);
+    return t.tv_sec+t.tv_nsec*1e-9;
+#endif
+#endif
+  }
+  static const char _monotonic_s []="monotonic";
+  static define_unary_function_eval (__monotonic,&_monotonic,_monotonic_s);
+  define_unary_function_ptr5( at_monotonic ,alias_at_monotonic,&__monotonic,0,true);
+
   static const char _DelVar_s []="DelVar";
   static define_unary_function_eval2_quoted (__DelVar,&_purge,_DelVar_s,&printastifunction);
   define_unary_function_ptr5( at_DelVar ,alias_at_DelVar,&__DelVar,_QUOTE_ARGUMENTS,T_RETURN);

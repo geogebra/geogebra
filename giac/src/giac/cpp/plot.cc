@@ -1240,6 +1240,9 @@ namespace giac {
   double max_nstep=2e4;
 
   gen plotfunc(const gen & f_,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_zmin, double function_zmax,int nstep,int jstep,bool showeq,const context * contextptr){
+    if (f_.is_symb_of_sommet(at_equal) || is_inequation(f_)){
+      return string2gen("Try plot(["+f_._SYMBptr->feuille.print(contextptr)+"],"+vars.print(contextptr)+"). (In)equations can not be plotted.",false);
+    }
     gen f=when2piecewise(f_,contextptr);
     f=Heavisidetopiecewise(f,contextptr); 
     double step=(function_xmax-function_xmin)/nstep;
@@ -7514,7 +7517,7 @@ namespace giac {
 	if (c.type==_VECT && c._VECTptr->size()==3 && b.type==_VECT && b._VECTptr->size()==3){
 	  vecteur cb=subvecteur(*b._VECTptr,*c._VECTptr);
 	  c=c+v[1]/l2norm(cb,contextptr)*cb;
-	  c.subtype==_POINT__VECT;
+	  c.subtype=_POINT__VECT;
 	  return symb_pnt(c,contextptr);
 	}
       }

@@ -6099,9 +6099,15 @@ namespace giac {
   static define_unary_function_eval (__ibpdv,&_ibpdv,_ibpdv_s);
   define_unary_function_ptr5( at_ibpdv ,alias_at_ibpdv,&__ibpdv,0,true);
 
+  void fourier_assume(const gen &n,GIAC_CONTEXT){
+    if (n.type==_IDNT && eval(n,1,contextptr)==n)
+      sto(gen(makevecteur(change_subtype(2,1)),_ASSUME__VECT),n,contextptr);
+  }
+
   gen fourier_an(const gen & f,const gen & x,const gen & T,const gen & n,const gen & a,GIAC_CONTEXT){
     gen primi,iT=inv(T,contextptr);
     gen omega=2*cst_pi*iT;
+    fourier_assume(n,contextptr);
     primi=_integrate(gen(makevecteur(f*cos(omega*n*x,contextptr),x,a,ratnormal(a+T,contextptr)),_SEQ__VECT),contextptr);
     gen an=iT*primi;
     if (n!=0) 
@@ -6123,6 +6129,7 @@ namespace giac {
 
 
   gen fourier_bn(const gen & f,const gen & x,const gen & T,const gen & n,const gen & a,GIAC_CONTEXT){
+    fourier_assume(n,contextptr);
     gen primi,iT=inv(T,contextptr);
     gen omega=2*cst_pi*iT;
     primi=_integrate(gen(makevecteur(f*sin(omega*n*x,contextptr),x,a,ratnormal(a+T,contextptr)),_SEQ__VECT),contextptr);
@@ -6143,6 +6150,7 @@ namespace giac {
   define_unary_function_ptr5( at_fourier_bn ,alias_at_fourier_bn,&__fourier_bn,0,true);
   
   gen fourier_cn(const gen & f,const gen & x,const gen & T,const gen & n,const gen & a,GIAC_CONTEXT){
+    fourier_assume(n,contextptr);
     gen primi,iT=inv(T,contextptr);
     gen omega=2*cst_pi*iT;
     primi=_integrate(gen(makevecteur(f*exp(-cst_i*omega*n*x,contextptr),x,a,ratnormal(a+T,contextptr)),_SEQ__VECT),contextptr);
