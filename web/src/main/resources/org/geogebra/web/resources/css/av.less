@@ -129,10 +129,10 @@
 	}
 
 	.avHelpButtonParent {
-		position:absolute;
-		z-index:7;
-		height:100%;
-		line-height:50px;
+		position: absolute;
+		z-index: 7;
+		height: 100%;
+		line-height: 50px;
 	}
 
 	.NewRadioButtonTreeItemParent .hasCursorPermanent{
@@ -156,40 +156,30 @@
 	.avPlainTextItem {
 		display: inline-block;
 		padding-bottom: 4px;
-		line-height:100%;
-		aria-label:"speech test";
+		line-height: 100%;
 	}
-	
-	.scrollableTextBox{
-		aria-label:"speech test";
-	}
-	
+
 	.avPlainTextItem .canvasDef {
 		-webkit-transform: translateY(-8%);
- 		-ms-transform: translateY(-8%);
-  		transform: translateY(-8%);
+		-ms-transform: translateY(-8%);
+		transform: translateY(-8%);
 	}
-	
+
 	.avPlainTextItem .canvasVal {
 		-webkit-transform: translateY(15%);
- 		-ms-transform: translateY(15%);
-  		transform: translateY(15%);
+		-ms-transform: translateY(15%);
+		transform: translateY(15%);
 	}
-	
-	.avDummyLabel {
-		display: inline-block;
-		color: #999999;
-		line-height: 1;
-	}
+
 	.avDefinition {
 		min-height: 30px;
 	}
-	
+
 	.avDefinitionPlain {
 		min-height: 30px;
 		padding-left: 4px;
 	}
-	
+
 	.avOutput {
 		min-height: 30px;
 		font-weight: bold;
@@ -245,41 +235,44 @@
 	}
 			
 	.algebraError{
-		color:#FF0000;
-		display:block;
-		padding-top:3px;
-		padding-left:40px;
-		white-space:normal;
+		color: #FF0000;
+		display: block;
+		padding-top: 3px;
+		padding-left: 40px;
+		white-space: normal;
 	}
-	
+
 	.NewRadioButtonTreeItemParent .algebraError{
-		padding-left:6px;
+		padding-left: 6px;
 	}
-	
-	.latexEditor .avDummyLabel{
+
+	.avDummyLabel{
 		//sum of margins must be 15
 		margin-top: 8px;
 		margin-bottom: 7px;
+		display: inline-block;
+		color: #999999;
+		line-height: 1;
 	}
+
 	.latexEditor {
 		font-family: mathsans, calibri, sans-serif;
 	}
+
 	.prefixLatex, .prefix {
 	 	font-family: geogebra-sans-serif,"Arial Unicode MS", Arial
 	}
+
 	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar{
-		top:2px;
+		top: 2px;
+	}
+
+	.scrollableTextBox.avPreview {
+		padding-top: 10px;
 	}
 	
-	.scrollableTextBox.avPreview {
-		
-		padding-top: 10px;
-		
-	}
 	.scrollableTextBox.noPreview {
-		
 		padding-top: 14px;
-		
 	}
 	
 	.avItem .elemText {
@@ -295,24 +288,23 @@
 	
 	.marblePanel {
 		position: absolute;
-		/* z-index:1; - not needed for ReTeX*/
 		height: 100%;
 		box-sizing: border-box;
 		margin-top: -1px;
 		padding: 1px 7px;
 		
 		.gwt-ToggleButton{
-			position:relative;
-			top:50%;
-			margin-top:-12px;
+			position: relative;
+			top: 50%;
+			margin-top: -12px;
 		}
 		
 		.textOverMarble {
 			height: 20px;
-   			width: 20px;
+			width: 20px;
 			position: absolute;
-    		margin-left: -1px !important;
-    		opacity: 0.54;
+			margin-left: -1px !important;
+			opacity: 0.54;
 		}
 	}
 	
