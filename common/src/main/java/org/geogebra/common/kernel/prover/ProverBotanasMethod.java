@@ -1911,9 +1911,16 @@ public class ProverBotanasMethod {
 			return null;
 		}
 
+		boolean autoNdg = false;
+		SingularWebService singularWS = mover.getConstruction()
+				.getApplication().getSingularWS();
+		if (singularWS == null || (!singularWS.isAvailable())) {
+			autoNdg = k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG);
+		}
+
 		// Create mover direct dependencies for Pech's idea (see below)
 		HashSet<GeoElementND> moverDirectDependencies = new HashSet<>();
-		if (k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG) && !implicit) {
+		if (autoNdg && !implicit) {
 			AlgoPointOnPath apop = (AlgoPointOnPath) mover.getParentAlgorithm();
 			GeoElement i0 = apop.input[0];
 			if (i0 instanceof GeoLine) {
@@ -1930,8 +1937,8 @@ public class ProverBotanasMethod {
 					}
 				}
 			}
+			Log.debug("Direct dependencies of the mover = " + moverDirectDependencies);
 		}
-		Log.debug("Direct dependencies of the mover = " + moverDirectDependencies);
 
 		/* free point support */
 		/*
@@ -1955,7 +1962,7 @@ public class ProverBotanasMethod {
 				condition &= !tracer.equals(freePoint);
 			}
 
-			if (k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG) && condition
+			if (autoNdg && condition
 				&& moverDirectDependencies.contains(freePoint)) {
 				/* add non-degeneracy condition freePoint != mover, based on an idea by Pavel Pech */
 				PPolynomial v = new PPolynomial(new PVariable(k));
