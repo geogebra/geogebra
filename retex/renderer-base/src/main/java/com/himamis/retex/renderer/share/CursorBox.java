@@ -16,7 +16,7 @@ public class CursorBox extends Box {
 		// this.children.add(content);
 		this.width = 0;
 		this.height = content.height * coeff;
-		this.depth = content.depth * coeff;
+		this.depth = 0;
 	}
 
 	@Override
