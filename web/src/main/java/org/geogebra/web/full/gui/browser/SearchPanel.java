@@ -27,9 +27,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel for Search in GeoGebraTube
- * 
+ *
  * @author Stefanie Bogner
- * 
+ *
  */
 
 public class SearchPanel extends FlowPanel
@@ -39,9 +39,16 @@ public class SearchPanel extends FlowPanel
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
 	private NetworkOperation op;
-	protected final Localization loc;
+	private final Localization loc;
 
+	/**
+	 * Handles search queries
+	 */
 	public interface SearchListener {
+		/**
+		 * @param query
+		 *            search query
+		 */
 		void onSearch(String query);
 	}
 
@@ -56,7 +63,7 @@ public class SearchPanel extends FlowPanel
 		this.op = app.getNetworkOperation();
 
 		this.query = new GTextBox();
-		
+
 		this.query.addStyleName("searchTextBox");
 		this.query.addKeyDownHandler(new KeyDownHandler() {
 
@@ -118,6 +125,9 @@ public class SearchPanel extends FlowPanel
 		setLabels();
 	}
 
+	/**
+	 * Handle search start
+	 */
 	void doSearch() {
 		fireSearchEvent();
 		if (this.query.getText().equals("")) {
@@ -126,6 +136,9 @@ public class SearchPanel extends FlowPanel
 		this.query.setFocus(false);
 	}
 
+	/**
+	 * Handle cancel click
+	 */
 	void onCancel() {
 		this.query.setFocus(false);
 		this.cancelButton.setVisible(false);
@@ -134,11 +147,17 @@ public class SearchPanel extends FlowPanel
 				loc.getMenu("search_geogebra_materials"));
 	}
 
+	/**
+	 * Handle query field focus
+	 */
 	void onFocusQuery() {
 		this.query.setFocus(true);
 		this.cancelButton.setVisible(true);
 	}
 
+	/**
+	 * Handle query field blur
+	 */
 	void onBlurQuery() {
 		if (this.query.getText().equals("")) {
 			this.query.setFocus(false);
@@ -165,7 +184,11 @@ public class SearchPanel extends FlowPanel
 		render(this.op.isOnline());
 	}
 
-	public boolean addSearchListener(SearchListener searchListener) {
-		return this.listeners.add(searchListener);
+	/**
+	 * @param searchListener
+	 *            search listener
+	 */
+	public void addSearchListener(SearchListener searchListener) {
+		listeners.add(searchListener);
 	}
 }

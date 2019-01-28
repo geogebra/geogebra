@@ -6,11 +6,18 @@ import org.geogebra.web.shared.SignInButton;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 
+/**
+ * Signin button for SMART - navigates the whole page to login
+ */
 public class SmartSignInButton extends SignInButton {
-	
+
+	/**
+	 * @param app
+	 *            application
+	 */
 	public SmartSignInButton(App app) {
 		super(app, 0, null);
-    }
+	}
 
 	@Override
 	public void login() {
@@ -21,7 +28,7 @@ public class SmartSignInButton extends SignInButton {
 
 		gotoURL(url);
 	}
-	
+
 	private native void gotoURL(String s)/*-{
 		$wnd.location.replace(s);
 	}-*/;

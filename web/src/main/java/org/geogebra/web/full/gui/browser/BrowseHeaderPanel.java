@@ -18,8 +18,12 @@ import org.geogebra.web.shared.ProfilePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * Header panel for File > Open, using old (=not material) design
+ *
+ */
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
-		implements ResizeListener, BooleanRenderable, EventRenderable {
+		implements ResizeListener, BooleanRenderable, EventRenderable, SearchListener {
 
 	/** contains width of the leftHeader and margin of the searchDiv **/
 	private final static int WIDTH_HEADER_FIRST = 105;
@@ -69,13 +73,13 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 
 	private void addSearchPanel() {
 		this.searchPanel = new SearchPanel(app);
-		this.searchPanel.addSearchListener(new SearchListener() {
-			@Override
-			public void onSearch(final String query) {
-				BrowseHeaderPanel.this.bg.displaySearchResults(query);
-			}
-		});
+		this.searchPanel.addSearchListener(this);
 		this.add(this.searchPanel);
+	}
+
+	@Override
+	public void onSearch(final String query) {
+		bg.displaySearchResults(query);
 	}
 
 	private void createSignIn() {
@@ -95,6 +99,9 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		}
 	}
 
+	/**
+	 * Clear search panel
+	 */
 	protected void clearSearchPanel() {
 		this.searchPanel.onCancel();
 	}
@@ -133,7 +140,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the remaining width for the searchPanel.
 	 */
 	private int getRemainingWidth(int appWidth) {
@@ -176,9 +183,16 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		app.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				onResize((int) app.getWidth(), (int) app.getHeight());
+				resize();
 			}
 		});
+	}
+
+	/**
+	 * Resize to app width/height
+	 */
+	protected void resize() {
+		onResize((int) app.getWidth(), (int) app.getHeight());
 	}
 
 	@Override

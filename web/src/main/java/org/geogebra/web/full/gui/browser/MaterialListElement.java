@@ -19,8 +19,8 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -40,10 +40,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * GUI Element showing a Material as search Result
- * 
+ *
  * @author Matthias Meisinger
- * 
+ *
  */
+@SuppressWarnings("javadoc")
 public class MaterialListElement extends FlowPanel
 		implements MaterialListElementI, MaterialCardI {
 
@@ -58,7 +59,7 @@ public class MaterialListElement extends FlowPanel
 	protected boolean ownMaterial;
 	protected Label title;
 	protected Label sharedBy;
-	private TextBox renameTitleBox;
+	protected TextBox renameTitleBox;
 	protected final AppW app;
 	protected final Localization loc;
 	protected final GuiManagerW guiManager;
@@ -80,7 +81,7 @@ public class MaterialListElement extends FlowPanel
 	private MaterialCardController controller;
 
 	/**
-	 * 
+	 *
 	 * @param m
 	 *            {@link Material}
 	 * @param app
@@ -430,7 +431,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void openDefault() {
 		if (ownMaterial) {
@@ -455,7 +456,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void onEdit() {
 		if (!localMaterial) {
@@ -574,7 +575,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setLabels() {
 		if (this.deleteButton != null) {
@@ -606,7 +607,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the {@link Material}
 	 */
 	public Material getMaterial() {
@@ -656,7 +657,7 @@ public class MaterialListElement extends FlowPanel
 
 	/***
 	 * Depends on LAF
-	 * 
+	 *
 	 * @param m
 	 *            material
 	 * @return action name (translation key)
@@ -676,7 +677,7 @@ public class MaterialListElement extends FlowPanel
 
 	/**
 	 * Sets the material and updates UI.
-	 * 
+	 *
 	 * @param mat
 	 *            material
 	 */
