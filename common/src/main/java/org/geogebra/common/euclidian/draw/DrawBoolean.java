@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Checkbox for free GeoBoolean object.
@@ -137,10 +138,15 @@ public final class DrawBoolean extends Drawable {
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
 				g2.setColor(GColor.RED);
+
+				String caption = geoBool
+						.getCaption(StringTemplate.defaultTemplate);
+
 				app.getDrawEquation().drawEquation(app, geoBool, g2, posX, posY,
-						geoBool.getCaption(StringTemplate.defaultTemplate),
-						g2.getFont(), false, geoBool.getObjectColor(),
-						geoBool.getBackgroundColor(), false, false,
+						caption, g2.getFont(),
+						StringUtil.startsWithFormattingCommand(caption),
+						geoBool.getObjectColor(), geoBool.getBackgroundColor(),
+						false, false,
 						view.getCallBack(geo, firstCall));
 				firstCall = false;
 			} else {
