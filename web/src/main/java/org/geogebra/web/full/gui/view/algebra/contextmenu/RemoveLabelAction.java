@@ -7,7 +7,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Removes label from a ageo in AV
+ * Removes label from a a geo in AV
  */
 public class RemoveLabelAction extends MenuAction {
 	/**

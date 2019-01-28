@@ -7,7 +7,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * SHows special points for a functionable geo
+ * Shows special points for a functionable geo
  */
 public class SpecialPointsAction extends MenuAction {
 	/**
