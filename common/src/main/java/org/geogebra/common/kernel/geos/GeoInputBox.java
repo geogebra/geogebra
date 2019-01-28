@@ -538,7 +538,11 @@ public class GeoInputBox extends GeoButton {
 	}
 
 	public String getAuralText() {
-		return getCaption(StringTemplate.defaultTemplate);
+		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		sb.append(getKernel().getLocalization().getMenu("Text Field"));
+		sb.appendSpace();
+		sb.append(getCaption(StringTemplate.screenReader));
+		return sb.toString();
 	}
 
 }
