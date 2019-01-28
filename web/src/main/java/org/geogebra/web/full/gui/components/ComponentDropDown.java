@@ -39,6 +39,8 @@ public class ComponentDropDown extends FlowPanel {
 	}
 
 	private void buildGui(AppW app) {
+		setStyleName("dropDownSelectorContainer");
+
 		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.setStyleName("dropDownSelector");
 
