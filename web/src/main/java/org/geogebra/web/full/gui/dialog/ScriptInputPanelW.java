@@ -1,11 +1,11 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
 This file is part of GeoGebra.
 
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.ListBox;
 /**
  * Input dialog for GeoText objects with additional option to set a
  * "LaTeX formula" flag
- * 
+ *
  * @author hohenwarter
  */
 public class ScriptInputPanelW extends FlowPanel implements
@@ -52,7 +52,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 	/**
 	 * Input Dialog for a GeoButton object
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param geo
@@ -61,7 +61,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 *            whether this is for update script
 	 * @param forceJavaScript
 	 *            whether to only allow JS
-	 * 
+	 *
 	 */
 	public ScriptInputPanelW(AppW app, GeoElement geo, boolean updateScript,
 			boolean forceJavaScript) {
@@ -159,7 +159,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 	/**
 	 * Returns the inputPanel
-	 * 
+	 *
 	 * @return input panel
 	 */
 	public FlowPanel getInputPanel() {
@@ -178,6 +178,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 		});
 	}
 
+	/**
+	 * Update script in model
+	 */
 	void applyScript() {
 		processInput();
 		model.setGeo(model.getGeo());
@@ -205,22 +208,27 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 	@Override
 	public void setLanguageIndex(int index, String name) {
-//		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
-//				.getTextComponent();
-//		editor.getDocument().removeDocumentListener(this);
 		languageSelector.setSelectedIndex(index);
-//		editor.setEditorKit(name);
-//		editor.getDocument().addDocumentListener(this);
 	}
 
+	/**
+	 * @param button
+	 *            construction element
+	 */
 	public void setGeo(GeoElement button) {
 		model.setGeo(button);
 	}
 
+	/**
+	 * Load global script for editing
+	 */
 	public void setGlobal() {
 		model.setGlobal();
 	}
 
+	/**
+	 * @return button panel
+	 */
 	public FlowPanel getButtonPanel() {
 	    return btPanel;
     }

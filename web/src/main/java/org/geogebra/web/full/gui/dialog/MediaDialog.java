@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Panel;
 
 /**
  * Audio / video dialog.
- * 
+ *
  * @author Zbynek
  */
 public abstract class MediaDialog extends OptionDialog
@@ -187,6 +187,11 @@ public abstract class MediaDialog extends OptionDialog
 		return addProtocol(getInput());
 	}
 
+	/**
+	 * @param url
+	 *            url that may or may not include a protocol
+	 * @return URL including protocol
+	 */
 	protected static String addProtocol(String url) {
 		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
 
@@ -196,12 +201,15 @@ public abstract class MediaDialog extends OptionDialog
 		return value;
 	}
 
+	/**
+	 * @return trimmed input text
+	 */
 	protected String getInput() {
 		return inputField.getText().trim();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if accepted URLs are HTTPS only or not.
 	 */
 	private static boolean isHTTPSOnly() {
