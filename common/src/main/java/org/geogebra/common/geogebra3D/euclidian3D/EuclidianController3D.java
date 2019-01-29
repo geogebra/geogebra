@@ -2137,6 +2137,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 		case EuclidianConstants.MODE_PLANE:
 			break;
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
+			break;
 		default:
 			super.switchModeForRemovePolygons(hits);
 		}
