@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.kernel.Matrix.AnimatableValue;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -41,7 +42,9 @@ public class Target {
 	static abstract private class CoordsAndGeo<T extends CoordsAndGeo<T>>
 			implements AnimatableValue<T> {
 		public Coords coords;
-		public GeoElement geo;
+		public long geo1;
+        public long geo2;
+
 
 		/**
 		 * constructor
@@ -52,7 +55,7 @@ public class Target {
 
 		@Override
 		public boolean equalsForAnimation(T other) {
-			return (geo != null && geo == other.geo) || coordsEquals(other);
+			return (geo1 == other.geo1 && geo2 == other.geo2) || coordsEquals(other);
 		}
 
 		abstract protected boolean coordsEquals(T other);
@@ -65,7 +68,8 @@ public class Target {
 		@Override
 		public void setAnimatableValue(T other) {
 			coords.set3(other.coords);
-			geo = other.geo;
+			geo1 = other.geo1;
+            geo2 = other.geo2;
 		}
 
 		@Override
@@ -435,11 +439,22 @@ public class Target {
 		type.drawTarget(renderer, view, this);
 	}
 
-	synchronized private void setCentersGoal(GeoElement geo) {
-		dotCenterGoal.geo = geo;
-		circleCenterGoal.geo = geo;
-		circleNormalGoal.geo = geo;
-	}
+	private void setCentersGoal(GeoElement geo) {
+        setCentersGoal(geo == null ? GeoCursor3D.NO_SOURCE : geo.getID());
+    }
+
+    private void setCentersGoal(long id) {
+	    setCentersGoal(id, GeoCursor3D.NO_SOURCE);
+    }
+
+    synchronized private void setCentersGoal(long geo1, long geo2) {
+        dotCenterGoal.geo1 = geo1;
+        dotCenterGoal.geo2 = geo2;
+        circleCenterGoal.geo1 = geo1;
+        circleCenterGoal.geo2 = geo2;
+        circleNormalGoal.geo1 = geo1;
+        circleNormalGoal.geo2 = geo2;
+    }
 
 	synchronized private void setAnimationsUndefined() {
 		animCircleCenter.setUndefined();
@@ -457,7 +472,7 @@ public class Target {
 	public void updateMatrices(EuclidianView3D view) {
 		switch (view.getCursor3DType()) {
 		case EuclidianView3D.PREVIEW_POINT_FREE:
-			setCentersGoal(null);
+			setCentersGoal(GeoCursor3D.FREE);
 			// assume free points are on horizontal plane
 			setMatrices(view, EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
 					* DrawPoint3D.DRAW_POINT_FACTOR, Coords.VZ);
@@ -467,7 +482,7 @@ public class Target {
 			view.scaleNormalXYZ(tmpNormal);
 			tmpNormal.normalize();
 			if (view.getCursor3D().getIsCaptured()) {
-				setCentersGoal(null);
+				setCentersGoal(GeoCursor3D.CAPTURED);
 			} else {
 				setCentersGoal((GeoElement) view.getCursor3D().getRegion());
 			}
@@ -482,7 +497,7 @@ public class Target {
 			view.scaleXYZ(tmpNormal);
 			tmpNormal.normalize();
 			if (view.getCursor3D().getIsCaptured()) {
-				setCentersGoal(null);
+				setCentersGoal(GeoCursor3D.CAPTURED);
 			} else {
 				setCentersGoal(view.getCursorPath());
 			}
@@ -491,13 +506,13 @@ public class Target {
 					tmpNormal);
 			break;
 		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
-			setCentersGoal(null);
+			setCentersGoal(view.getCursor3D().getSource1(), view.getCursor3D().getSource2());
 			setMatrices(view,
 					view.getIntersectionThickness());
 			break;
 		case EuclidianView3D.PREVIEW_POINT_ALREADY:
 			if (type == TargetType.POINT_ALREADY_NO_ARROW) {
-				setCentersGoal(null);
+				setCentersGoal(view.getCursor3D().getSource1());
 				setMatrices(view, (view.getCursor3D().getPointSize()
 						+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY)
 						* DrawPoint3D.DRAW_POINT_FACTOR);

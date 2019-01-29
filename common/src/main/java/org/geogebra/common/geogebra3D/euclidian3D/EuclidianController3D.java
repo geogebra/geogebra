@@ -543,7 +543,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		point3D.updateCoords();
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		view3D.updateMatrixForCursor3D();
-		GeoPoint3D cursor = view3D.getCursor3D();
+		GeoCursor3D cursor = view3D.getCursor3D();
+		cursor.setSource(point3D.getID());
 		cursor.setRegion(null);
 		cursor.setPath(null);
 		cursor.setMoveMode(point3D.getMoveMode());
@@ -704,6 +705,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					sourcePoint.getRegionParameters().getNormal());
 		}
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
+        point3D.setSource(sourcePoint.getID());
 		point3D.setMoveMode(sourcePoint.getMoveMode());
 		point3D.setPointSize(sourcePoint.getPointSize());
 		point3D.setLayer(sourcePoint.getLayer());
@@ -896,6 +898,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 
 			view3D.setIntersectionThickness(a, b);
+			view3D.getCursor3D().setSource(a.getID(), b.getID());
 
 			singleIntersectionPoint.setCartesian3D();
 			singleIntersectionPoint.update();
