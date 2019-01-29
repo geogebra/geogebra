@@ -13,7 +13,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.shared.view.Visibility;
+import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.view.button.ActionButton;
 import org.geogebra.web.shared.view.button.DisappearingActionButton;
 
@@ -227,7 +227,7 @@ public class GlobalHeader implements EventRenderable {
 
 	private void forceVisible(Visibility visible) {
 		app.getArticleElement().attr("marginTop",
-				visible.boolVal() ? "64" : "0");
+				visible == Visibility.VISIBLE ? "64" : "0");
 		// takes care of both header visibility and menu button placement
 		frame.forceHeaderVisibility(visible);
 	}
