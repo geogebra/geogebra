@@ -119,7 +119,7 @@ public class ComponentDropDownPopup {
 	}
 
 	private void showCenter() {
-		int h2 = Math.min(getPopupHeightRemaining(), getTop() + itemHeight);
+		int h2 = Math.min(getPopupHeightRemaining(), getTop() - itemHeight);
 		setMaxHeightInPx(2 * h2);
 		openAndScrollTo(getTop() - h2, getSelectedItemTop() - h2);
 	}
