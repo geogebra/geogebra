@@ -4173,6 +4173,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case G3D_IMPROVE_SOLID_TOOLS:
 			return prerelease;
 
+        /** G3D-197 */
+        case G3D_TOOLS_SIMPLE_MORE_LESS:
+            return prerelease;
+
         // **********************************************************************
         // G3D END
         //

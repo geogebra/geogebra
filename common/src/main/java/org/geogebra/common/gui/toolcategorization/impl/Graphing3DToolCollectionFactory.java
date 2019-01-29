@@ -42,67 +42,69 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_PLANE_THREE_POINTS,
                 EuclidianConstants.MODE_INTERSECTION_CURVE,
                 EuclidianConstants.MODE_NET);
-        
-        impl.extendCategory(CATEGORY_EDIT,
-                EuclidianConstants.MODE_SHOW_HIDE_LABEL,
-                EuclidianConstants.MODE_SHOW_HIDE_OBJECT,
-                EuclidianConstants.MODE_DELETE);
 
-        impl.extendCategory(CATEGORY_POINTS,
-                EuclidianConstants.MODE_POINT,
-                EuclidianConstants.MODE_INTERSECT,
-                EuclidianConstants.MODE_MIDPOINT);
+        if (!app.has(Feature.G3D_TOOLS_SIMPLE_MORE_LESS)) {
+            impl.extendCategory(CATEGORY_EDIT,
+                    EuclidianConstants.MODE_SHOW_HIDE_LABEL,
+                    EuclidianConstants.MODE_SHOW_HIDE_OBJECT,
+                    EuclidianConstants.MODE_DELETE);
 
-        if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-            impl.extendCategory(CATEGORY_LINES_AND_POLYGONS,
-                    EuclidianConstants.MODE_SEGMENT,
-                    EuclidianConstants.MODE_JOIN,
-                    EuclidianConstants.MODE_RAY,
-                    EuclidianConstants.MODE_VECTOR,
-                    EuclidianConstants.MODE_POLYGON,
-                    EuclidianConstants.MODE_REGULAR_POLYGON,
-                    EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
-                    EuclidianConstants.MODE_PARALLEL,
-                    EuclidianConstants.MODE_ANGULAR_BISECTOR);
-        } else {
-            impl.extendCategory(CATEGORY_LINES_AND_POLYGONS,
-                    EuclidianConstants.MODE_SEGMENT,
-                    EuclidianConstants.MODE_JOIN,
-                    EuclidianConstants.MODE_RAY,
-                    EuclidianConstants.MODE_VECTOR,
-                    EuclidianConstants.MODE_POLYGON,
-                    EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
-                    EuclidianConstants.MODE_PARALLEL,
-                    EuclidianConstants.MODE_ANGULAR_BISECTOR);
+            impl.extendCategory(CATEGORY_POINTS,
+                    EuclidianConstants.MODE_POINT,
+                    EuclidianConstants.MODE_INTERSECT,
+                    EuclidianConstants.MODE_MIDPOINT);
+
+            if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+                impl.extendCategory(CATEGORY_LINES_AND_POLYGONS,
+                        EuclidianConstants.MODE_SEGMENT,
+                        EuclidianConstants.MODE_JOIN,
+                        EuclidianConstants.MODE_RAY,
+                        EuclidianConstants.MODE_VECTOR,
+                        EuclidianConstants.MODE_POLYGON,
+                        EuclidianConstants.MODE_REGULAR_POLYGON,
+                        EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
+                        EuclidianConstants.MODE_PARALLEL,
+                        EuclidianConstants.MODE_ANGULAR_BISECTOR);
+            } else {
+                impl.extendCategory(CATEGORY_LINES_AND_POLYGONS,
+                        EuclidianConstants.MODE_SEGMENT,
+                        EuclidianConstants.MODE_JOIN,
+                        EuclidianConstants.MODE_RAY,
+                        EuclidianConstants.MODE_VECTOR,
+                        EuclidianConstants.MODE_POLYGON,
+                        EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
+                        EuclidianConstants.MODE_PARALLEL,
+                        EuclidianConstants.MODE_ANGULAR_BISECTOR);
+            }
+
+            impl.extendCategory(CATEGORY_SOLIDS,
+                    EuclidianConstants.MODE_PYRAMID,
+                    EuclidianConstants.MODE_CUBE,
+                    EuclidianConstants.MODE_SPHERE_TWO_POINTS,
+                    EuclidianConstants.MODE_SPHERE_POINT_RADIUS,
+                    EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
+                    EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
+                    EuclidianConstants.MODE_EXTRUSION,
+                    EuclidianConstants.MODE_NET);
+
+            impl.extendCategory(CATEGORY_PLANES,
+                    EuclidianConstants.MODE_PLANE_THREE_POINTS,
+                    EuclidianConstants.MODE_PLANE,
+                    EuclidianConstants.MODE_PARALLEL_PLANE,
+                    EuclidianConstants.MODE_ORTHOGONAL_PLANE);
+
+            impl.extendCategory(CATEGORY_TRANSFORM,
+                    EuclidianConstants.MODE_MIRROR_AT_PLANE,
+                    EuclidianConstants.MODE_MIRROR_AT_POINT,
+                    EuclidianConstants.MODE_ROTATE_AROUND_LINE,
+                    EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+
+            impl.extendCategory(CATEGORY_MEASURE,
+                    EuclidianConstants.MODE_ANGLE,
+                    EuclidianConstants.MODE_DISTANCE,
+                    EuclidianConstants.MODE_AREA,
+                    EuclidianConstants.MODE_VOLUME);
         }
-
-        impl.extendCategory(CATEGORY_SOLIDS,
-                EuclidianConstants.MODE_PYRAMID,
-                EuclidianConstants.MODE_CUBE,
-                EuclidianConstants.MODE_SPHERE_TWO_POINTS,
-                EuclidianConstants.MODE_SPHERE_POINT_RADIUS,
-                EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
-                EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
-                EuclidianConstants.MODE_EXTRUSION,
-                EuclidianConstants.MODE_NET);
-
-        impl.extendCategory(CATEGORY_PLANES,
-                EuclidianConstants.MODE_PLANE_THREE_POINTS,
-                EuclidianConstants.MODE_PLANE,
-                EuclidianConstants.MODE_PARALLEL_PLANE,
-                EuclidianConstants.MODE_ORTHOGONAL_PLANE);
-
-        impl.extendCategory(CATEGORY_TRANSFORM,
-                EuclidianConstants.MODE_MIRROR_AT_PLANE,
-                EuclidianConstants.MODE_MIRROR_AT_POINT,
-                EuclidianConstants.MODE_ROTATE_AROUND_LINE,
-                EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
-
-        impl.extendCategory(CATEGORY_MEASURE,
-                EuclidianConstants.MODE_ANGLE,
-                EuclidianConstants.MODE_DISTANCE,
-                EuclidianConstants.MODE_AREA,
-                EuclidianConstants.MODE_VOLUME);
     }
 
     private void createAdvancedLevel(ToolCollectionImpl impl) {
