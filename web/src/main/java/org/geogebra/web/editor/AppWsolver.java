@@ -28,6 +28,9 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
+/**
+ * App for solver
+ */
 public class AppWsolver extends AppW implements HasKeyboard {
     private GeoGebraFrameW frame;
 	private MathFieldW mathField;
@@ -83,6 +86,9 @@ public class AppWsolver extends AppW implements HasKeyboard {
 		});
 	}
 
+	/**
+	 * @return equation editor
+	 */
 	protected MathFieldW getMathField() {
 		return mathField;
 	}
@@ -146,6 +152,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
         Log.debug("unimplemented");
     }
 
+	/**
+	 * @param mathField
+	 *            equation editor
+	 */
 	public void setMathField(MathFieldW mathField) {
 		this.mathField = mathField;
 	}

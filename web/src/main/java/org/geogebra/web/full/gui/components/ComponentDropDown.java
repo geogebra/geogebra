@@ -14,10 +14,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
+ * Dropdown material design component
+ *
  * @author kriszta
- *
- *         dropdown material design component
- *
  */
 
 public class ComponentDropDown extends FlowPanel {

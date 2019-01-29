@@ -7,15 +7,16 @@ import com.google.gwt.resources.client.ClientBundle;
 
 /**
  * SVG icons for toolbar
- * 
+ *
  * @author csilla
  *
  */
+@SuppressWarnings("javadoc")
 public interface ToolbarSvgResourcesSync extends ClientBundle {
 	/** singleton instance */
 	ToolbarSvgResourcesSync INSTANCE = GWT
 			.create(ToolbarSvgResourcesSync.class);
-	
+
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tool.svg")
 	SVGResource mode_tool_32();
 

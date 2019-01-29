@@ -5,6 +5,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 
+/**
+ * Popup button with default value
+ */
 public class PopupMenuButtonWithDefault extends PopupMenuButtonW {
 
 	private ImageOrText defaultIcon;
