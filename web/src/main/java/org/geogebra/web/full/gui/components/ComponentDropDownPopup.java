@@ -173,6 +173,7 @@ public class ComponentDropDownPopup {
 
 	private void restoreHeight() {
 		setHeightInPx(getMaxHeight());
+		getStyle().setProperty("maxHeight", "");
 	}
 
 	private Style getStyle() {
