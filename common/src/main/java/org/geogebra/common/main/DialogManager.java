@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Transformable;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -171,6 +172,13 @@ public abstract class DialogManager {
 
 	public abstract void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2);
+
+	public void showNumberInputDialogRegularPolygon(String menu,
+			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+			GeoCoordSys2D direction) {
+		// TODO turn this abstract
+		showNumberInputDialogRegularPolygon(menu, ec, geoPoint1, geoPoint2);
+	}
 
 	public abstract void showBooleanCheckboxCreationDialog(GPoint corner,
 			GeoBoolean bool);
@@ -373,6 +381,33 @@ public abstract class DialogManager {
 			final EuclidianController ec, String inputString,
 			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
 			final ErrorHandler handler, final AsyncOperation<Boolean> cb) {
+		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2, null,
+				handler, cb);
+	}
+
+	/**
+	 * @param app
+	 *            app
+	 * @param ec
+	 *            controller
+	 * @param inputString
+	 *            input
+	 * @param geoPoint1
+	 *            first vertex
+	 * @param geoPoint2
+	 *            second vertex
+	 * @param direction
+	 *            direction
+	 * @param handler
+	 *            error handler
+	 * @param cb
+	 *            callback
+	 */
+	public static void makeRegularPolygon(final App app,
+			final EuclidianController ec, String inputString,
+			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
+			final GeoCoordSys2D direction, final ErrorHandler handler,
+			final AsyncOperation<Boolean> cb) {
 		if (inputString == null || "".equals(inputString)) {
 			if (cb != null) {
 				cb.callback(false);
@@ -406,7 +441,7 @@ public abstract class DialogManager {
 				}
 
 				GeoElement[] geos = ec.getCompanion().regularPolygon(geoPoint1,
-						geoPoint2, (GeoNumberValue) result[0]);
+						geoPoint2, (GeoNumberValue) result[0], direction);
 				GeoElement[] onlypoly = { null };
 				if (geos != null) {
 					onlypoly[0] = geos[0];

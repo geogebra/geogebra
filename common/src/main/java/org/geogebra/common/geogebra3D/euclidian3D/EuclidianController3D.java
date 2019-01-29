@@ -2297,6 +2297,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_NET:
 			setViewHits(type);
 			break;
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
+			setViewHits(type);
+			hits = getView().getHits();
+			if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				if ((selCS2D() == 1 && selPoints() != 0) || view3D.getCursor3D()
+						.getRegion() == kernel.getXOYPlane()) {
+					createNewPoint(hits, true, true, true, true, false);
+				} else {
+					createNewPoint(hits, true, false, true, true, false);
+				}
+			} else {
+				hits.removePolygons();
+				createNewPointForModeOther(hits);
+			}
+			break;
 		default:
 			super.switchModeForMousePressedND(e);
 		}
@@ -3345,6 +3360,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_POLYLINE:
 				return true;
 
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				return app.has(Feature.G3D_IMPROVE_SOLID_TOOLS);
+
 			default:
 				return false;
 			}
@@ -3431,6 +3449,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 						}
 					}
 
+					return false;
+
+				case EuclidianConstants.MODE_REGULAR_POLYGON:
+					if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+						// one point, one region: can create a point
+						if (selCS2D() == 1) {
+							return true;
+						}
+						// on xOy plane or path: can create a point
+						point = view3D.getCursor3D();
+						if (point.hasRegion()) {
+							return point.getRegion() == kernel.getXOYPlane();
+						}
+						return point.isPointOnPath();
+					}
 					return false;
 
 				default:
@@ -4480,4 +4513,39 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return view3D.isAREnabled() && isCurrentModeForCreatingPoint();
 	}
 
+	@Override
+	protected boolean regularPolygon(Hits hits, boolean selPreview) {
+		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			if (hits.isEmpty()) {
+				return false;
+			}
+
+			// need two points
+			if (addSelectedPoint(hits, 2, false, selPreview) == 0) {
+				if (selPoints() == 1) {
+					// one point selected: can also select a direction
+					addSelectedCS2D(hits, 1, false, selPreview);
+				}
+			}
+
+			if (selPoints() == 2) {
+				GeoPointND[] points = getSelectedPointsND();
+				GeoDirectionND direction;
+				if (selCS2D() == 1) {
+					direction = getSelectedCS2D()[0];
+				} else {
+					direction = view3D.getxOyPlane();
+				}
+				Log.debug("direction = " + direction);
+				getDialogManager().showNumberInputDialogRegularPolygon(
+						localization
+								.getMenu(EuclidianConstants.getModeText(mode)),
+						this, points[0], points[1], (GeoCoordSys2D) direction);
+				return true;
+			}
+			return false;
+		}
+
+		return super.regularPolygon(hits, selPreview);
+	}
 }

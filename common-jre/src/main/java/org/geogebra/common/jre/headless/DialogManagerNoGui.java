@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
@@ -125,6 +126,20 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 			GeoPointND geoPoint2) {
 		DialogManager.makeRegularPolygon(app, ec, getInput(),
 				geoPoint1, geoPoint2, this, new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						// ignore
+					}
+				});
+	}
+
+	@Override
+	public void showNumberInputDialogRegularPolygon(String menu,
+			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+			GeoCoordSys2D direction) {
+		DialogManager.makeRegularPolygon(app, ec, getInput(), geoPoint1,
+				geoPoint2, direction, this, new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {

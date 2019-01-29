@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -376,10 +377,12 @@ public class EuclidianControllerCompanion {
 	 *            second point
 	 * @param value
 	 *            n vertices
+	 * @param direction
+	 *            direction
 	 * @return regular polygon
 	 */
 	public GeoElement[] regularPolygon(GeoPointND geoPoint1,
-			GeoPointND geoPoint2, GeoNumberValue value) {
+			GeoPointND geoPoint2, GeoNumberValue value, GeoCoordSys2D direction) {
 		ec.kernel.addingPolygon();
 		GeoElement[] elms = ec.getAlgoDispatcher().regularPolygon(null,
 				geoPoint1, geoPoint2, value);

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -300,10 +301,12 @@ public class EuclidianControllerFor3DCompanion
 
 	@Override
 	public GeoElement[] regularPolygon(GeoPointND geoPoint1,
-			GeoPointND geoPoint2, GeoNumberValue value) {
+			GeoPointND geoPoint2, GeoNumberValue value, GeoCoordSys2D direction) {
 		if (geoPoint1.isGeoElement3D() || geoPoint2.isGeoElement3D()) {
 			return getManager3D().regularPolygon(null, geoPoint1,
-					geoPoint2, value, ec.getView().getDirection());
+					geoPoint2, value,
+					direction == null ? ec.getView().getDirection()
+							: direction);
 		}
 
 		return ec.getKernel().getAlgoDispatcher().regularPolygon(null,

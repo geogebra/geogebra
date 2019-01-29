@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 
@@ -220,6 +221,7 @@ public enum TargetType {
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 		case EuclidianConstants.MODE_POLYLINE:
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
 			return true;
 		default:
 			return false;
@@ -277,6 +279,23 @@ public enum TargetType {
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			return VIEW_IN_FRONT_OF;
 			
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
+			// one point, one region: can create a point
+			if (ec.selCS2D() == 1) {
+				return onSuccess;
+			}
+			// on xOy plane or path: can create a point
+			GeoPoint3D point = view3D.getCursor3D();
+			if (point.hasRegion()) {
+				if (point.getRegion() == view3D.getxOyPlane()) {
+					return onSuccess;
+				}
+				if (point.getRegion() instanceof GeoCoordSys2D) {
+					return ec.selPoints() == 1 ? onFail : NOTHING;
+				}
+				return NOTHING;
+			}
+			return point.isPointOnPath() ? onSuccess : NOTHING;
 		default:
 			return NOT_USED;
 		}

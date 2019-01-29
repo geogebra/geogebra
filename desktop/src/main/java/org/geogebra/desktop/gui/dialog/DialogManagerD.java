@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
@@ -361,7 +362,20 @@ public class DialogManagerD extends DialogManagerMinimal {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogRegularPolygonD(((AppD) app), ec,
-				title, handler, geoPoint1, geoPoint2);
+				title, handler, geoPoint1, geoPoint2, null);
+		id.setVisible(true);
+
+	}
+
+	@Override
+	public void showNumberInputDialogRegularPolygon(String title,
+			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+			GeoCoordSys2D direction) {
+
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
+		InputDialogD id = new InputDialogRegularPolygonD(((AppD) app), ec,
+				title, handler, geoPoint1, geoPoint2, direction);
 		id.setVisible(true);
 
 	}
