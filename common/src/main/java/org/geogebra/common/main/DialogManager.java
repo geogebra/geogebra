@@ -170,7 +170,7 @@ public abstract class DialogManager {
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec);
 
-	public void showNumberInputDialogRegularPolygon(String menu,
+	final public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1,
 			GeoPointND geoPoint2) {
 		showNumberInputDialogRegularPolygon(menu, ec, geoPoint1, geoPoint2,
@@ -360,30 +360,6 @@ public abstract class DialogManager {
 
 	public void showVideoInputDialog() {
 		// nothing to do here -> implemented in extended class
-	}
-
-	/**
-	 * @param app
-	 *            app
-	 * @param ec
-	 *            controller
-	 * @param inputString
-	 *            input
-	 * @param geoPoint1
-	 *            first vertex
-	 * @param geoPoint2
-	 *            second vertex
-	 * @param handler
-	 *            error handler
-	 * @param cb
-	 *            callback
-	 */
-	public static void makeRegularPolygon(final App app,
-			final EuclidianController ec, String inputString,
-			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
-			final ErrorHandler handler, final AsyncOperation<Boolean> cb) {
-		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2, null,
-				handler, cb);
 	}
 
 	/**
