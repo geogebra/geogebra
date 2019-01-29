@@ -356,19 +356,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void showNumberInputDialogRegularPolygon(String title,
-			EuclidianController ec, GeoPointND geoPoint1,
-			GeoPointND geoPoint2) {
-
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogRegularPolygonD(((AppD) app), ec,
-				title, handler, geoPoint1, geoPoint2, null);
-		id.setVisible(true);
-
-	}
-
-	@Override
-	public void showNumberInputDialogRegularPolygon(String title,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
 

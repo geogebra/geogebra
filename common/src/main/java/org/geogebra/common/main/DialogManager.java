@@ -170,15 +170,16 @@ public abstract class DialogManager {
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec);
 
-	public abstract void showNumberInputDialogRegularPolygon(String menu,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2);
-
 	public void showNumberInputDialogRegularPolygon(String menu,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
-			GeoCoordSys2D direction) {
-		// TODO turn this abstract
-		showNumberInputDialogRegularPolygon(menu, ec, geoPoint1, geoPoint2);
+			EuclidianController ec, GeoPointND geoPoint1,
+			GeoPointND geoPoint2) {
+		showNumberInputDialogRegularPolygon(menu, ec, geoPoint1, geoPoint2,
+				null);
 	}
+
+	abstract public void showNumberInputDialogRegularPolygon(String menu,
+			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+			GeoCoordSys2D direction);
 
 	public abstract void showBooleanCheckboxCreationDialog(GPoint corner,
 			GeoBoolean bool);

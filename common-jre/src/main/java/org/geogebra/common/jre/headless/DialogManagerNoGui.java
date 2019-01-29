@@ -122,20 +122,6 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 
 	@Override
 	public void showNumberInputDialogRegularPolygon(String menu,
-			EuclidianController ec, GeoPointND geoPoint1,
-			GeoPointND geoPoint2) {
-		DialogManager.makeRegularPolygon(app, ec, getInput(),
-				geoPoint1, geoPoint2, this, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						// ignore
-					}
-				});
-	}
-
-	@Override
-	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
 		DialogManager.makeRegularPolygon(app, ec, getInput(), geoPoint1,
