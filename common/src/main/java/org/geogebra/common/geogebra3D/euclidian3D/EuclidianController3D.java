@@ -4536,7 +4536,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 				} else {
 					direction = view3D.getxOyPlane();
 				}
-				Log.debug("direction = " + direction);
 				getDialogManager().showNumberInputDialogRegularPolygon(
 						localization
 								.getMenu(EuclidianConstants.getModeText(mode)),
