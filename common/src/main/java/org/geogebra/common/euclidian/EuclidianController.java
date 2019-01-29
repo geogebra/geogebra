@@ -6785,9 +6785,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
         resetToolTipManager();
         view.setAnimationButtonsHighlighted(false);
         view.setShowMouseCoords(false);
-        mouseLoc = null;
+        setMouseLocToNullIfNeeded();
         kernel.notifyRepaint();
         view.mouseExited();
+    }
+
+    protected void setMouseLocToNullIfNeeded() {
+        mouseLoc = null;
     }
 
 	protected void handleSelectClick(ArrayList<GeoElement> geos,

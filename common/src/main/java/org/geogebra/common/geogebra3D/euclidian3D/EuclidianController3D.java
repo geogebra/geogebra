@@ -4549,4 +4549,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		return super.regularPolygon(hits, selPreview);
 	}
+
+    @Override
+    protected void setMouseLocToNullIfNeeded() {
+        // not needed for 3D view
+    }
 }
