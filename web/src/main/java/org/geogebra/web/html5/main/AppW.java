@@ -234,6 +234,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
 	private ViewW viewW;
 	private ZoomPanel zoomPanel;
+	private PopupRegistry popupRegistry = new PopupRegistry();
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -294,6 +295,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			public void onResize(ResizeEvent event) {
 				fitSizeToScreen();
 				windowResized();
+				closePopupsInRegistry();
 			}
 		});
 		if (!StringUtil
@@ -4002,4 +4004,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	}
 
+	public void registerPopup(GPopupPanel popup) {
+		popupRegistry.add(popup);
+	}
+
+	public void closePopupsInRegistry() {
+		popupRegistry.closeAll();
+	}
 }
