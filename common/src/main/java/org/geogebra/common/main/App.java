@@ -4994,7 +4994,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			case ANDROID_NATIVE_3D:
 			case WEB_3D_GRAPHING:
 			case IOS_NATIVE_3D:
-				factory = new Graphing3DToolCollectionFactory();
+				factory = new Graphing3DToolCollectionFactory(this);
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();

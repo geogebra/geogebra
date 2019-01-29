@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.ToolbarSettings;
 
 /**
@@ -723,6 +724,9 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_RAY);
 		addToList(tools, EuclidianConstants.MODE_VECTOR);
 		addToList(tools, EuclidianConstants.MODE_POLYGON);
+		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+            addToList(tools, EuclidianConstants.MODE_REGULAR_POLYGON);
+        }
 		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL_THREE_D);
 		addToList(tools, EuclidianConstants.MODE_PARALLEL);
 		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
@@ -794,6 +798,9 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_RAY);
 		addToList(tools, EuclidianConstants.MODE_VECTOR);
 		addToList(tools, EuclidianConstants.MODE_POLYGON);
+        if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+            addToList(tools, EuclidianConstants.MODE_REGULAR_POLYGON);
+        }
 		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL_THREE_D);
 		addToList(tools, EuclidianConstants.MODE_PARALLEL);
 		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
