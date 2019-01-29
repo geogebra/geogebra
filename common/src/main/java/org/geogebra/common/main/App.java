@@ -404,7 +404,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
 	private AdjustScreen adjustScreen2 = null;
-	private long ceIDcounter = 1;
+	final static public long CE_ID_COUNTER_START = 1;
+	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
 	private boolean buttonShadows = false;
 	private double buttonRounding = 0.2;
