@@ -51,25 +51,6 @@
         background-color: $gray-background;
     }
 
-    .algebraPanelScientificNoHeader {
-        @extend %sheetOfPaper;
-        &>div {
-            margin-bottom: 0;
-            border-bottom-right-radius: 0px;
-            border-bottom-left-radius: 0px;
-        }
-    }
-
-    .settingsPanelScientificNoHeader {
-        @extend %sheetOfPaper;
-        &>div {
-            padding-left: 16px;
-            padding-right: 128px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
-    }
-
     %sheetOfPaper {
         background-color: $gray-background;
          &>div {
@@ -93,6 +74,25 @@
         max-width: calc(100% - 48px);
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .algebraPanelScientificNoHeader {
+        @extend %sheetOfPaper;
+        &>div {
+            margin-bottom: 0;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+    }
+
+    .settingsPanelScientificNoHeader {
+        @extend %sheetOfPaper;
+        &>div {
+            padding-left: 16px;
+            padding-right: 128px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
     }
 
     .avItemHeaderScientific {
