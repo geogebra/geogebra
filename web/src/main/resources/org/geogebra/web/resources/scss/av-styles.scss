@@ -1,7 +1,7 @@
 @import 'colors';
+@import 'dimens';
 @import 'shared';
 $duration: 0.2s;
-$scientificHeaderWidth: 16px + 32px + 8px;
 
 .GeoGebraFrame {
 
@@ -475,21 +475,21 @@ $scientificHeaderWidth: 16px + 32px + 8px;
 				}
 			}
 
-		.value {
-			display: inline-block;
-			width: 40px;
-			font-size: 0.8em;
-			text-align: center;
-			vertical-align: top;
-			border: none;
-			outline: none;
-			overflow: hidden;
-			height: 19px;
-			margin-right: 0px;
-			line-height: 200%;
-		}
+            .value {
+                display: inline-block;
+                width: 40px;
+                font-size: 0.8em;
+                text-align: center;
+                vertical-align: top;
+                border: none;
+                outline: none;
+                overflow: hidden;
+                height: 19px;
+                margin-right: 0px;
+                line-height: 200%;
+            }
 
-	}
+        }
 
 		.speedPanel-hidden {
 			@extend .speedPanel;
@@ -545,61 +545,6 @@ $scientificHeaderWidth: 16px + 32px + 8px;
 
     .algebraPanel {
         height: 100%;
-    }
-
-    %sheetOfPaper {
-        background-color: $gray-background;
-         &>div {
-            width: 800px;
-            max-width: calc(100% - 48px);
-            margin-left: auto;
-            margin-right: auto;
-            min-height: calc(100% - 24px);
-            box-sizing: border-box;
-            /** padding to make sure shadow goes to the very bottom when keyboard is open */
-            padding-bottom: 52px;
-            background: $white;
-            margin-top: 24px;
-            margin-bottom: 24px;
-            padding-top: 8px;
-            border-radius: 8px;
-            box-shadow: 0 2px 2px 0 $black-14, 0 3px 1px -2px $black-12, 0 1px 5px 0 $black-20;
-            overflow-x: hidden;
-        }
-    }
-
-    .algebraPanelScientificNoHeader {
-        @extend %sheetOfPaper;
-        &>div {
-            margin-bottom: 0;
-            border-bottom-right-radius: 0px;
-            border-bottom-left-radius: 0px;
-        }
-    }
-
-    .settingsPanelScientificNoHeader {
-        @extend %sheetOfPaper;
-        &>div {
-            padding-left: 16px;
-            padding-right: 128px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
-    }
-
-    .avItemHeaderScientific {
-        position: absolute;
-        height: 100%;
-        width: $scientificHeaderWidth;
-        cursor: default;
-    }
-
-    .avItemNumber, .avWarningScientific {
-        color: $text-secondary;
-        font-size: 75%;
-        top: 14px;
-        left: 16px;
-        position: absolute;
     }
 }
 
