@@ -12535,7 +12535,7 @@ namespace giac {
       }
     }
 #if 1 // for debugging/profiling pixon_print
-    if (is_pnt_or_pixon(v.back())){
+    if (!v.empty() && is_pnt_or_pixon(v.back())){
       gen f=v.back();
       if (f.is_symb_of_sommet(at_pnt)){
 	f=f._SYMBptr->feuille;
