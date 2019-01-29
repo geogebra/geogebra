@@ -2216,9 +2216,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (initing) {
 			return;
 		}
-		if (getGuiManager() != null) {
-			getGuiManager().setLabels();
-		}
 		loc.notifySetLabels();
 		kernel.updateLocalAxesNames();
 		kernel.setViewsLabels();

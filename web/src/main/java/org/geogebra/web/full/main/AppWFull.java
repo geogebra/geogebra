@@ -378,6 +378,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		// this should not be called from AppWsimple!
 		setWaitCursor();
 		guiManager = newGuiManager();
+		getLocalization().registerLocalizedUI(guiManager);
 		getGuiManager().setLayout(new LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();

@@ -63,4 +63,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	boolean saveCurrentFile();
 
 	DialogManager getDialogManager();
+
+	void setLabels();
 }

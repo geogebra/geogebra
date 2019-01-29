@@ -272,8 +272,6 @@ public interface GuiManagerInterface {
 
 	boolean hasEuclidianView2(int idx);
 
-	void setLabels();
-
 	EuclidianViewInterfaceCommon getEuclidianView2(int idx);
 
 	boolean hasEuclidianView2EitherShowingOrNot(int idx);

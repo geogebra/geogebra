@@ -15,6 +15,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -138,7 +139,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 //@SuppressWarnings("javadoc")
 public class GuiManagerW extends GuiManager
-		implements GuiManagerInterfaceW, EventRenderable {
+		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
 
 	/**
 	 * container for the Popup that only one exist for a given type
