@@ -554,9 +554,11 @@ public class ToolBar {
 	}
 
 	/**
+	 * @param app
+	 *            app for feature flag
 	 * @return default toolbar (3D)
 	 */
-	public static String getAllToolsNoMacros3D() {
+	public static String getAllToolsNoMacros3D(App app) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -608,6 +610,10 @@ public class ToolBar {
 
 		// polygons
 		sb.append(EuclidianConstants.MODE_POLYGON);
+		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
+		}
 		sb.append(" | ");
 
 		// conics
