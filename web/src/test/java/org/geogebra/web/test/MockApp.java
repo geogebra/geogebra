@@ -50,7 +50,7 @@ public class MockApp {
 
 			}
 		});
-		fr.ae = ae;
+		fr.articleElement = ae;
 		fr.runAsyncAfterSplash();
 		AppWFull app = (AppWFull) fr.getApplication();
 		app.setUndoRedoEnabled(true);

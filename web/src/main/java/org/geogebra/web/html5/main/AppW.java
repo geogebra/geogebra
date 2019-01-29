@@ -67,7 +67,6 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -208,8 +207,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
-	private boolean headerVisible;
-	private ExtendedBoolean forceHeaderVisible = ExtendedBoolean.UNKNOWN;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
 	WebsocketLogger webSocketLogger = null;
@@ -253,36 +250,35 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	};
 
 	/**
-	 * @param ae
+	 * @param articleElement
 	 *            {@link ArticleElement}
 	 * @param dimension
 	 *            int
 	 * @param laf
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
-	protected AppW(ArticleElementInterface ae, int dimension,
+	protected AppW(ArticleElementInterface articleElement, int dimension,
 			GLookAndFeelI laf) {
-		super(getVersion(ae, dimension, laf));
-		headerVisible = !AppW.smallScreen(ae);
-		if ("graphing".equals(ae.getDataParamAppName())) {
+		super(getVersion(articleElement, dimension, laf));
+		if ("graphing".equals(articleElement.getDataParamAppName())) {
 			this.initialPerspective = "1";
-		} else if ("geometry".equals(ae.getDataParamAppName())) {
+		} else if ("geometry".equals(articleElement.getDataParamAppName())) {
 			this.initialPerspective = "2";
 		} else {
-			this.initialPerspective = ae.getDataParamPerspective();
+			this.initialPerspective = articleElement.getDataParamPerspective();
 		}
-		setPrerelease(ae.getDataParamPrerelease());
+		setPrerelease(articleElement.getDataParamPrerelease());
 
 		// laf = null in webSimple
-		setUndoRedoEnabled(ae.getDataParamEnableUndoRedo()
+		setUndoRedoEnabled(articleElement.getDataParamEnableUndoRedo()
 				&& (laf == null || laf.undoRedoSupported()));
 
-		if (ae.getDataParamPerspective().startsWith("exam")) {
+		if (articleElement.getDataParamPerspective().startsWith("exam")) {
 			setNewExam();
-			ae.attr("perspective", "");
+			articleElement.attr("perspective", "");
 		}
 		this.loc = new LocalizationW(dimension);
-		this.articleElement = ae;
+		this.articleElement = articleElement;
 		NativeFocusHandler.addNativeFocusHandler(articleElement.getElement(),
 				this);
 		this.laf = laf;
@@ -315,15 +311,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Resize to fill browser
 	 */
-	public void fitSizeToScreen() {
-		if (getArticleElement().getDataParamFitToScreen()) {
-			updateHeaderVisible();
-			getGgbApi().setSize(Window.getClientWidth(),
-					GeoGebraFrameW.computeHeight(getArticleElement(),
-							isSmallScreen()));
-			getAccessibilityManager().focusMenu();
-		}
-		checkScaleContainer();
+	public final void fitSizeToScreen() {
+		getAppletFrame().fitSizeToScreen();
 	}
 
 	/**
@@ -403,22 +392,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Update the visibility of external header
-	 */
-	public void updateHeaderVisible() {
-		Element header = Dom.querySelector("GeoGebraHeader");
-		if (header != null) {
-			boolean visible = !isSmallScreen();
-			header.getStyle().setProperty("display", visible ? "" : "none");
-			if (headerVisible != visible) {
-				headerVisible = visible;
-				onHeaderVisible();
-			}
-			getAppletFrame().updateArticleHeight(forceHeaderVisible);
-		}
-	}
-
-	/**
 	 * Remove the external GeoGebraHeader element
 	 */
 	public void removeHeader() {
@@ -431,43 +404,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Hides the header, even if there is enough place to show it.
-	 *
-	 * @param visible
-	 *            whether to force show the header
-	 */
-	public void setForceHeaderVisible(ExtendedBoolean visible) {
-		forceHeaderVisible = visible;
-		fitSizeToScreen();
-	}
-
-	/**
 	 * Called if header visibility is changed.
 	 */
 	public void onHeaderVisible() {
 		// TODO listener (?)
 	}
 
-	private static boolean smallScreen(ArticleElementInterface el) {
-		return (Window.getClientWidth() < 600 || Window.getClientHeight() < 600
-				|| el.getDataParamMarginTop() <= 0);
-	}
-
-	public boolean isSmallScreen() {
-		return smallScreen(articleElement, forceHeaderVisible);
-	}
-
 	/**
-	 * @param ae
-	 *            article
-	 * @return whether the app is running on small screen (below 600px)
+	 * @return whether small screen layout should be used
 	 */
-	public static boolean smallScreen(ArticleElementInterface ae,
-			ExtendedBoolean forceHeaderVisible2) {
-		// TODO Auto-generated method stub
-		return forceHeaderVisible2 == ExtendedBoolean.FALSE
-				|| (forceHeaderVisible2 == ExtendedBoolean.UNKNOWN
-						&& smallScreen(ae));
+	public final boolean shouldHaveSmallScreenLayout() {
+		return getAppletFrame().shouldHaveSmallScreenLayout();
 	}
 
 	private static Versions getVersion(ArticleElementInterface ae,
@@ -1855,6 +1802,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
 		setViewsEnabled();
+
+		getAppletFrame().setApplication(this);
 	}
 
 	/**
@@ -2714,7 +2663,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return frame widget
 	 */
-	public abstract HasAppletProperties getAppletFrame();
+	public abstract GeoGebraFrameW getAppletFrame();
 
 	/**
 	 * @return whether the focus was lost
@@ -2848,7 +2797,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	protected final void clearInputBar() {
 		if (isUsingFullGui() && showAlgebraInput() && getGuiManager() != null) {
-			AlgebraInput ai = (getGuiManager().getAlgebraInput());
+			AlgebraInput ai = getGuiManager().getAlgebraInput();
 			if (ai != null) {
 				ai.setText("");
 			}

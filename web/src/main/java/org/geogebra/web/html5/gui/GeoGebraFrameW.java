@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -16,6 +15,7 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.shared.view.Visibility;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
@@ -64,11 +64,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static HashMap<String, AppW> articleMap = new HashMap<>();
 	/** Article element */
-	public ArticleElementInterface ae;
+	public ArticleElementInterface articleElement;
 
 	private int computedWidth = 0;
 	private int computedHeight = 0;
 	private final GLookAndFeelI laf;
+	private Visibility forcedHeaderVisibility = Visibility.NOT_SET;
+	private boolean isHeaderVisible;
 
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
@@ -180,12 +182,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		preProcessFitToSceen();
 
 		int width = computeWidth();
-		int height = GeoGebraFrameW.computeHeight(articleElement,
-				AppW.smallScreen(articleElement, ExtendedBoolean.UNKNOWN));
+		int height = computeHeight();
 
 		/*
-		 * if (ae.getDataParamShowMenuBar()) { // The menubar has extra height:
-		 * height += 31; } if (ae.getDataParamShowToolBar()) { // The toolbar
+		 * if (articleElement.getDataParamShowMenuBar()) { // The menubar has extra height:
+		 * height += 31; } if (articleElement.getDataParamShowToolBar()) { // The toolbar
 		 * has extra height: height += 57; }
 		 */
 
@@ -213,43 +214,104 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				splash.getElement().getStyle()
 				        .setRight((width / 2) - (splashWidth / 2), Unit.PX);
 			}
-			useDataParamBorder(articleElement, this);
+			useDataParamBorder();
 		}
 		addStyleName("jsloaded");
 		add(splash);
 	}
 
 	private void preProcessFitToSceen() {
-		if (ae.getDataParamFitToScreen()) {
+		if (articleElement.getDataParamFitToScreen()) {
 			Document.get().getDocumentElement().getStyle()
 					.setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setOverflow(Overflow.HIDDEN);
-			updateArticleHeight(ExtendedBoolean.UNKNOWN);
+			updateArticleHeight();
 		}
 	}
 
 	@Override
-	public void updateArticleHeight(ExtendedBoolean forceHeaderVisible) {
-		int margin = ae.getDataParamMarginTop();
-		if (AppW.smallScreen(ae, forceHeaderVisible) || margin <= 0) {
-			ae.getElement().getStyle().setHeight(100, Unit.PCT);
+	public void updateArticleHeight() {
+		if (shouldHaveSmallScreenLayout()) {
+			setHeightWithCompactHeader();
 		} else {
-			ae.getElement().getStyle().setProperty("height",
-					"calc(100% - " + margin + "px)");
+			setHeightWithTallHeader();
+		}
+	}
+
+	public void forceHeaderVisibility(Visibility visible) {
+		forcedHeaderVisibility = visible;
+		app.fitSizeToScreen();
+	}
+
+	public boolean shouldHaveSmallScreenLayout() {
+		switch (forcedHeaderVisibility) {
+			case VISIBLE:
+				return false;
+			case HIDDEN:
+				return true;
+			case NOT_SET:
+				return hasSmallWindowOrCompactHeader();
+		}
+		return false;
+	}
+
+	private boolean hasSmallWindowOrCompactHeader() {
+		boolean hasCompactHeader = articleElement.getDataParamMarginTop() <= 0;
+		return hasSmallWindow() || hasCompactHeader;
+	}
+
+	private boolean hasSmallWindow() {
+		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
+	}
+
+	private void setHeightWithCompactHeader() {
+		articleElement.getElement().getStyle().setHeight(100, Unit.PCT);
+	}
+
+	private void setHeightWithTallHeader() {
+		int headerHeight = articleElement.getDataParamMarginTop();
+		articleElement.getElement().getStyle().setProperty("height", "calc(100% - " + headerHeight + "px)");
+	}
+
+	/**
+	 * Resize to fill browser
+	 */
+	public void fitSizeToScreen() {
+		if (articleElement.getDataParamFitToScreen()) {
+			updateHeaderVisible();
+			app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
+			app.getAccessibilityManager().focusMenu();
+		}
+		app.checkScaleContainer();
+	}
+
+	/**
+	 * Update the visibility of external header
+	 */
+	public void updateHeaderVisible() {
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (header != null) {
+			boolean visible = !shouldHaveSmallScreenLayout();
+			header.getStyle().setProperty("display", visible ? "" : "none");
+			if (isHeaderVisible != visible) {
+				isHeaderVisible = visible;
+				app.onHeaderVisible();
+			}
+			updateArticleHeight();
 		}
 	}
 
 	private int computeWidth() {
 		// do we have data-param-width?
-		int width = ae.getDataParamWidth();
+		int width = articleElement.getDataParamWidth();
 
 		if (width > 0) {
-			return width - ae.getBorderThickness();
+			return width - articleElement.getBorderThickness();
 		}
 
 		// do we have fit to screen?
-		if (ae.getDataParamFitToScreen()) {
+		if (articleElement.getDataParamFitToScreen()) {
 			width = RootPanel.getBodyElement().getOffsetWidth();
 		}
 
@@ -257,20 +319,15 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @param ae
-	 *            article
-	 * @param smallScreen
-	 *            whether the screen is too small for header
 	 * @return app height
 	 */
-	public static int computeHeight(ArticleElementInterface ae,
-			boolean smallScreen) {
+	public int computeHeight() {
 		// do we have data-param-height?
-		int height = ae.getDataParamHeight() - ae.getBorderThickness();
+		int height = articleElement.getDataParamHeight() - articleElement.getBorderThickness();
 
 		// do we have fit to screen?
-		if (ae.getDataParamFitToScreen()) {
-			int margin = smallScreen ? 0 : ae.getDataParamMarginTop();
+		if (articleElement.getDataParamFitToScreen()) {
+			int margin = shouldHaveSmallScreenLayout() ? 0 : articleElement.getDataParamMarginTop();
 			height = Window.getClientHeight() - margin;
 		}
 
@@ -326,9 +383,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return computedHeight;
 	}
 
-	private static void setBorder(ArticleElementInterface ae, GeoGebraFrameW gf,
-	        String dpBorder, int px) {
-		setBorder(ae.getElement(), gf.getStyleElement(), dpBorder, px);
+	private void setBorder(String dpBorder, int px) {
+		setBorder(articleElement.getElement(), getStyleElement(), dpBorder, px);
 	}
 
 	private static void setBorder(Element ae, Element gfE,
@@ -345,29 +401,23 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Sets the border around the canvas to the data-param-bordercolor property
 	 * or leaves it invisible if "none" was set.
-	 * 
-	 * @param ae
-	 *            article element
-	 * @param gf
-	 *            frame
 	 */
-	public static void useDataParamBorder(ArticleElementInterface ae,
-			GeoGebraFrameW gf) {
-		// Log.debug("useDataParamBorder - " + ae.getClassName());
-		String dpBorder = ae.getDataParamBorder();
-		int thickness = ae.getBorderThickness() / 2;
+	public void useDataParamBorder() {
+		// Log.debug("useDataParamBorder - " + articleElement.getClassName());
+		String dpBorder = articleElement.getDataParamBorder();
+		int thickness = articleElement.getBorderThickness() / 2;
 		if (dpBorder != null) {
 			if ("none".equals(dpBorder)) {
-				setBorder(ae, gf, "transparent", thickness);
+				setBorder("transparent", thickness);
 			} else {
-				setBorder(ae, gf, dpBorder, thickness);
+				setBorder(dpBorder, thickness);
 			}
 		}
-		gf.getElement().removeClassName(
+		getElement().removeClassName(
 				APPLET_FOCUSED_CLASSNAME);
-		gf.getElement().addClassName(
+		getElement().addClassName(
 				APPLET_UNFOCUSED_CLASSNAME);
-		ae.getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
+		articleElement.getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
 	/**
@@ -394,24 +444,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Sets the border around the canvas to be highlighted. At the moment we use
 	 * "#9999ff" for this purpose.
-	 * 
-	 * @param ae
-	 *            article element
-	 * @param gf
-	 *            frame
 	 */
-	public static void useFocusedBorder(ArticleElementInterface ae,
-			GeoGebraFrameW gf) {
-		// Log.debug("useFocusedBorder - " + ae.getClassName());
-		String dpBorder = ae.getDataParamBorder();
-		gf.getElement().removeClassName(
+	public void useFocusedBorder() {
+		// Log.debug("useFocusedBorder - " + articleElement.getClassName());
+		String dpBorder = articleElement.getDataParamBorder();
+		getElement().removeClassName(
 				APPLET_UNFOCUSED_CLASSNAME);
-		gf.getElement()
+		getElement()
 				.addClassName(APPLET_FOCUSED_CLASSNAME);
-		int thickness = ae.getBorderThickness() / 2;
+		int thickness = articleElement.getBorderThickness() / 2;
 		if (dpBorder != null && "none".equals(dpBorder)) {
-			setBorder(ae, gf, "transparent", thickness);
-			return;
+			setBorder("transparent", thickness);
 		}
 	}
 
@@ -422,7 +465,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            app frame element
 	 */
 	public static void useFocusedBorder(ArticleElement ae, Element gfE) {
-		// Log.debug("useFocusedBorder - " + ae.getClassName());
+		// Log.debug("useFocusedBorder - " + articleElement.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		gfE.removeClassName(APPLET_UNFOCUSED_CLASSNAME);
 		gfE.addClassName(APPLET_FOCUSED_CLASSNAME);
@@ -438,17 +481,16 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void runAsyncAfterSplash() {
 		final GeoGebraFrameW inst = this;
-		final ArticleElementInterface articleElement = this.ae;
 
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
 		ResourcesInjector
 				.injectResources();
-		ResourcesInjector.loadFont(this.ae.getDataParamFontsCssUrl());
+		ResourcesInjector.loadFont(articleElement.getDataParamFontsCssUrl());
 		// More testing is needed how can we use
 		// createApplicationSimple effectively
-		// if (ae.getDataParamGuiOff())
+		// if (articleElement.getDataParamGuiOff())
 		// inst.app = inst.createApplicationSimple(articleElement, inst);
 		// else
 		inst.app = inst.createApplication(articleElement, this.laf);
@@ -493,6 +535,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void setApplication(AppW app) {
 		this.app = app;
+		initAppDependentFields();
+	}
+
+	private void initAppDependentFields() {
+		isHeaderVisible = !shouldHaveSmallScreenLayout();
 	}
 
 	/**
@@ -638,13 +685,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 		article.clear();
 		article.initID(0);
-		final GeoGebraFrameW inst = frame;
-		inst.ae = article;
-		inst.onLoadCallback = onLoadCallback;
-		inst.createSplash(article);
+		frame.articleElement = article;
+		frame.onLoadCallback = onLoadCallback;
+		frame.createSplash(article);
 		RootPanel root = RootPanel.get(article.getId());
 		if (root != null) {
-			root.add(inst);
+			root.add(frame);
 		} else {
 			Log.error("Cannot find article with ID " + article.getId());
 		}
@@ -669,9 +715,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		GeoGebraFrameW.getInstances()
 				.remove(
 		        GeoGebraFrameW.getInstances().indexOf(this));
-		this.ae.getElement().removeFromParent();
-		this.ae = null;
-		this.app = null;
+		articleElement.getElement().removeFromParent();
+		articleElement = null;
+		app = null;
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}

@@ -7,12 +7,13 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.shared.view.Visibility;
 import org.geogebra.web.shared.view.button.ActionButton;
 import org.geogebra.web.shared.view.button.DisappearingActionButton;
 
@@ -42,6 +43,7 @@ public class GlobalHeader implements EventRenderable {
 	private AppW app;
 	private Label timer;
 	private StandardButton examInfoBtn;
+	private GeoGebraFrameW frame;
 
 	private String oldHref;
 
@@ -217,24 +219,24 @@ public class GlobalHeader implements EventRenderable {
 	 * remove exam timer and put back button panel
 	 */
 	public void resetAfterExam() {
-		forceVisible(ExtendedBoolean.FALSE);
+		forceVisible(Visibility.HIDDEN);
 		getExamPanel().getElement().removeFromParent();
 		getButtonElement().getStyle().setDisplay(Display.FLEX);
 		getHomeLink().setHref(oldHref);
 	}
 
-	private void forceVisible(ExtendedBoolean visible) {
+	private void forceVisible(Visibility visible) {
 		app.getArticleElement().attr("marginTop",
 				visible.boolVal() ? "64" : "0");
 		// takes care of both header visibility and menu button placement
-		app.setForceHeaderVisible(visible);
+		frame.forceHeaderVisibility(visible);
 	}
 
 	/**
 	 * switch right buttons with exam timer and info button
 	 */
 	public void addExamTimer() {
-		forceVisible(ExtendedBoolean.TRUE);
+		forceVisible(Visibility.VISIBLE);
 		// remove other buttons
 		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);
@@ -299,6 +301,10 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public void setApp(AppW app) {
 		this.app = app;
+	}
+
+	public void setFrame(GeoGebraFrameW frame) {
+		this.frame = frame;
 	}
 
 }

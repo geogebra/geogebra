@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.common.util.ExtendedBoolean;
-
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -84,7 +82,7 @@ public interface HasAppletProperties {
 	/**
 	 * Update the CSS height of the article
 	 */
-	public void updateArticleHeight(ExtendedBoolean forrceHeaderVisible);
+	public void updateArticleHeight();
 
 	/**
 	 * @param appW

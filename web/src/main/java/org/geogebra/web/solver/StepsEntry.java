@@ -45,7 +45,7 @@ public class StepsEntry implements EntryPoint {
 		}
 
 		geogebraFrame = new GeoGebraFrameSimple(true);
-		geogebraFrame.ae = articleElement;
+		geogebraFrame.articleElement = articleElement;
 
 		app = new AppWsolver(articleElement, geogebraFrame);
 

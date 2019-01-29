@@ -78,7 +78,7 @@ public class EmbedManagerW implements EmbedManager {
 				app.getLAF(), app.getDevice(), false);
 		TestArticleElement parameters = new TestArticleElement("",
 				"graphing");
-		fr.ae = parameters;
+		fr.articleElement = parameters;
 		parameters.attr("showToolBar", "true")
 				.attr("scaleContainerClass", "embedContainer")
 				.attr("allowUpscale", "true")

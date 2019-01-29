@@ -120,7 +120,7 @@ public class VideoManagerW implements VideoManager {
 			}
 		}
 		AppW app = (AppW) video.getKernel().getApplication();
-		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
+		GeoGebraFrameW appFrame = app.getAppletFrame();
 		final VideoPlayer player = createPlayer(video, players.size());
 		if (player != null) {
 			players.put(video, player);

@@ -45,8 +45,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrameW inst = new GeoGebraFrameSimple(
 					ArticleElement.getDataParamFitToScreen(articleElement));
-			inst.ae = articleElement;
-			LoggerW.startLogger(inst.ae);
+			inst.articleElement = articleElement;
+			LoggerW.startLogger(inst.articleElement);
 			inst.createSplash(articleElement);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}

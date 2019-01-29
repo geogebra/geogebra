@@ -114,12 +114,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
-		
+
 		if (app != null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			kbButtonSpace.addStyleName("kbButtonSpace");
 			this.add(kbButtonSpace);
 		}
-		
+
 		if (app != null && app.isUnbundled()) {
 			addStyleName("newToolbar");
 		}
@@ -132,7 +132,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	/**
 	 * Main entry points called by geogebra.web.full.Web.startGeoGebra()
-	 * 
+	 *
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page
 	 * @param factory
@@ -149,8 +149,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
 					device,
 					ArticleElement.getDataParamFitToScreen(articleElement));
-			inst.ae = articleElement;
-			LoggerW.startLogger(inst.ae);
+			inst.articleElement = articleElement;
+			LoggerW.startLogger(inst.articleElement);
 			inst.createSplash(articleElement);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
@@ -257,9 +257,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 		// frameLayout.setLayout(app);
 		// frameLayout.forceLayout();
-		if (ae.getDataParamFitToScreen()) {
-			setSize(Window.getClientWidth(),
-					GeoGebraFrameW.computeHeight(ae, app.isSmallScreen()));
+		if (articleElement.getDataParamFitToScreen()) {
+			setSize(Window.getClientWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();
 		}
@@ -356,7 +355,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	/**
 	 * Show keyboard and connect it to textField
-	 * 
+	 *
 	 * @param textField
 	 *            keyboard listener
 	 * @param animated
@@ -420,7 +419,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	// }
 	/**
 	 * Callback for keyboard; takes care of resizing
-	 * 
+	 *
 	 * @param keyBoard
 	 *            keyboard
 	 */
@@ -492,7 +491,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (this.keyboardState == KeyboardState.ANIMATING_OUT) {
 			return false;
 		}
-		
+
 		if (app.isUnbundled() && !app.isWhiteboardActive()
 				&& ((GuiManagerW) app.getGuiManager())
 						.getUnbundledToolbar() != null
@@ -553,7 +552,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		//kbButtonSpace.add(button);
 		this.add(showKeyboardButton);
 	}
-	
+
 	private boolean appNeedsKeyboard() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView
@@ -688,7 +687,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				.getKeyboardListener(dm.getPanelForKeyboard());
 		dm.setFocusedPanel(dm.getPanelForKeyboard());
 
-		((GuiManagerW) app.getGuiManager())
+		app.getGuiManager()
 					.setOnScreenKeyboardTextField(ml);
 
 		if (ml != null) {
@@ -751,7 +750,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	/**
 	 * Adds menu; if toolbar is missing also add it
-	 * 
+	 *
 	 * @param app1
 	 *            application
 	 */
@@ -769,7 +768,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	/**
 	 * Adds toolbar
-	 * 
+	 *
 	 * @param app1
 	 *            application
 	 */
@@ -846,7 +845,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	/**
 	 * Close all popups and if event was not from menu, also close menu
-	 * 
+	 *
 	 * @param event
 	 *            browser event
 	 */
@@ -981,7 +980,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	/**
 	 * Create page control panel if needed
-	 * 
+	 *
 	 * @param app1
 	 *            app
 	 */
@@ -996,7 +995,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	/**
-	 * 
+	 *
 	 * @return pageControlPanel
 	 */
 	public PageListPanel getPageControlPanel() {

@@ -69,9 +69,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 	private PerspectivesMenuW perspectivesMenu;
 	private PerspectivesMenuUnbundledW perspectiveMenuUnbundled;
 	// private boolean leftSide = false;
-	/**
-	 * same as AppW.smallScreen()
-	 */
+
 	public boolean smallScreen = false;
 	/**
 	 * Menus
@@ -178,7 +176,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 		menuImgs.clear();
 
 		smallScreen = app.isUnbundled()
-				&& app.isSmallScreen();
+				&& app.shouldHaveSmallScreenLayout();
 
 		initAriaStackPanel();
 		if (!app.isUnbundled() && !app.isWhiteboardActive()) {

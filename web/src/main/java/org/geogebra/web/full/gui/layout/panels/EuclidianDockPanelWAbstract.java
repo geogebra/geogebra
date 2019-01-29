@@ -24,10 +24,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Abstract class for all "euclidian" panels.
- * 
+ *
  * Remark: {@link #getEuclidianView()} has to be overridden if
  * {@link #getComponent()} does not return the euclidian view directly
- * 
+ *
  * @author arpad (based on EuclidianDockPanelAbstract by Mathieu)
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
@@ -326,8 +326,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	private boolean isBottomRight() {
-		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager());
+		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout().getDockManager();
 		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
 	}
 

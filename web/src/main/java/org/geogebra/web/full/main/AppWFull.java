@@ -190,14 +190,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 *            look and feel
 	 * @param device
 	 *            browser / tablet / win store device
-	 * @param gf
+	 * @param frame
 	 *            frame
 	 */
 	public AppWFull(ArticleElementInterface ae, int dimension,
 			GLookAndFeelI laf,
-			GDevice device, GeoGebraFrameBoth gf) {
+			GDevice device, GeoGebraFrameBoth frame) {
 		super(ae, dimension, laf);
-		this.frame = gf;
+		this.frame = frame;
 		this.device = device;
 
 		if (this.isExam()) {
@@ -243,21 +243,34 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (ae.getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 		}
-		if (this.showMenuBar()) {
-			// opening file -> this was inited before
-			if (getLoginOperation() == null) {
-				initSignInEventFlow(new LoginOperationW(this),
-						ArticleElement.isEnableUsageStats());
-			}
-			GlobalHeader.INSTANCE.addSignIn(this);
-		} else {
-			if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
-				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
-						.checkAvailable(null);
-			}
-			GlobalHeader.INSTANCE.setApp(this);
+		setupHeader();
+		if (!showMenuBar() && Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
+			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
+					.checkAvailable(null);
 		}
 		startActivity();
+	}
+
+	private void setupHeader() {
+		GlobalHeader header = GlobalHeader.INSTANCE;
+		header.setApp(this);
+		header.setFrame(frame);
+		if (showMenuBar()) {
+			setupSignInButton(header);
+		}
+	}
+
+	private void setupSignInButton(GlobalHeader header) {
+		if (getLoginOperation() == null) {
+			initSignImEventFlow();
+		}
+		header.addSignIn(this);
+	}
+
+	private void initSignImEventFlow() {
+		initSignInEventFlow(
+				new LoginOperationW(this),
+				ArticleElement.isEnableUsageStats());
 	}
 
 	@Override
@@ -521,8 +534,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 		focusedView = v;
-		GeoGebraFrameW.useFocusedBorder(getArticleElement(),
-				frame);
+		frame.useFocusedBorder();
 
 		// we really need to set it to true
 		switch (v.getViewID()) {
@@ -1484,7 +1496,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		updateHeaderVisible();
+		frame.updateHeaderVisible();
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()
@@ -1581,7 +1593,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				new GDimensionW((int) this.getWidth(), (int) this.getHeight()));
 		setDefaultCursor();
 		checkScaleContainer();
-		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
+		frame.useDataParamBorder();
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
 		showStartTooltip(0);
@@ -1647,7 +1659,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			return;
 		}
 		focusedView = null;
-		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
+		frame.useDataParamBorder();
 
 		// if it is there in focusGained, why not put it here?
 		this.getGlobalKeyDispatcher().setFocused(false);
@@ -1914,8 +1926,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = GeoGebraFrameW.computeHeight(getArticleElement(),
-				isSmallScreen());
+		int newHeight = frame.computeHeight();
 		if (this.showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {
@@ -1962,7 +1973,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (getGuiManager().hasPropertiesView()
 				&& has(Feature.FLOATING_SETTINGS)) {
 			((PropertiesViewW) getGuiManager().getPropertiesView()).resize(
-					getWidth(), getHeight() - this.frame.getKeyboardHeight());
+					getWidth(), getHeight() - frame.getKeyboardHeight());
 		}
 	}
 

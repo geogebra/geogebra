@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
@@ -128,7 +127,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
     }
 
     @Override
-    public HasAppletProperties getAppletFrame() {
+    public GeoGebraFrameW getAppletFrame() {
         return frame;
     }
 
@@ -137,7 +136,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
         return getToolbar() != null;
     }
 
-    @Override
+	@Override
     public void setLanguage(final String browserLang) {
         // no localization support needed in webSimple
     }
