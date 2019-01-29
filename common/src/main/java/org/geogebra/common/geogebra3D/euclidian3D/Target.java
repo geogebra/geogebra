@@ -472,7 +472,7 @@ public class Target {
 	public void updateMatrices(EuclidianView3D view) {
 		switch (view.getCursor3DType()) {
 		case EuclidianView3D.PREVIEW_POINT_FREE:
-			setCentersGoal(GeoCursor3D.FREE);
+			setCentersGoal(view.getxOyPlane());
 			// assume free points are on horizontal plane
 			setMatrices(view, EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
 					* DrawPoint3D.DRAW_POINT_FACTOR, Coords.VZ);

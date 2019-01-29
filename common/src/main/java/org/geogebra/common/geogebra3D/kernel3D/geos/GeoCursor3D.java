@@ -9,8 +9,7 @@ import org.geogebra.common.main.App;
 public class GeoCursor3D extends GeoPoint3D {
 
     static final public long NO_SOURCE = App.CE_ID_COUNTER_START - 1;
-    static final public long FREE = App.CE_ID_COUNTER_START - 2;
-    static final public long CAPTURED = App.CE_ID_COUNTER_START - 3;
+    static final public long CAPTURED = App.CE_ID_COUNTER_START - 2;
 
 	private boolean isCaptured;
 	private long source1;
