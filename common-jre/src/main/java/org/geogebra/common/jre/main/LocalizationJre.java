@@ -1,7 +1,9 @@
 package org.geogebra.common.jre.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -9,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.lang.Language;
 
 /**
  * common jre localization
@@ -223,7 +226,6 @@ public abstract class LocalizationJre extends Localization {
 		rbcolors = createBundle(getColorRessourcePath(), currentLocale);
 	}
 
-	@Override
 	final protected void updateResourceBundles() {
 		if (rbmenu != null) {
 			rbmenu = createBundle(getMenuRessourcePath(), currentLocale);
@@ -346,10 +348,24 @@ public abstract class LocalizationJre extends Localization {
 		return getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
 	}
 
-	@Override
+	private ArrayList<Locale> buildSupportedLocales(boolean prerelease) {
+		Language[] languages = getSupportedLanguages(prerelease);
+		Locale[] locales = getLocales(languages);
+		List<Locale> localeList = Arrays.asList(locales);
+
+		return new ArrayList<>(localeList);
+	}
+
+	/**
+	 * Returns the supported locales.
+	 *
+	 * @param prerelease
+	 *            if the app is in prerelease
+	 * @return locales that the app can handle
+	 */
 	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 		if (supportedLocales == null) {
-			supportedLocales = super.getSupportedLocales(prerelease);
+			supportedLocales = buildSupportedLocales(prerelease);
 		}
 		return supportedLocales;
 	}
@@ -370,12 +386,10 @@ public abstract class LocalizationJre extends Localization {
 		return rbcommand == null;
 	}
 
-	@Override
 	final protected String getLanguage(Locale locale) {
 		return locale.getLanguage();
 	}
 
-	@Override
 	final protected String getCountry(Locale locale) {
 		return locale.getCountry();
 	}
@@ -385,8 +399,101 @@ public abstract class LocalizationJre extends Localization {
 		return locale.getVariant();
 	}
 
-	@Override
+	/**
+	 * Creates a locale from a language and a country string.
+	 *
+	 * @param language
+	 *            the language of the locale
+	 * @param country
+	 *            the country the language is used in. Might be null.
+	 * @return a new locale
+	 */
 	protected Locale createLocale(String language, String country) {
 		return new Locale(language, country);
 	}
+
+	/**
+	 * @param locale
+	 *            current locale
+	 */
+	public void setLocale(Locale locale) {
+		currentLocale = getClosestSupportedLocale(locale);
+		updateResourceBundles();
+	}
+
+	/**
+	 * Returns a locale object that has the same country and/or language as
+	 * locale. If the language of locale is not supported an English locale is
+	 * returned.
+	 */
+	protected Locale getClosestSupportedLocale(Locale locale) {
+		int size = getSupportedLocales().size();
+
+		// try to find country and and language
+		String country = getCountry(locale);
+		String language = getLanguage(locale);
+		String variant = getVariant(locale);
+
+		if (country.length() > 0) {
+			for (int i = 0; i < size; i++) {
+				Locale loc = getSupportedLocales().get(i);
+
+				if (country.equals(getCountry(loc))
+						&& language.equals(getLanguage(loc))
+						// needed for no_NO_NY
+						&& (!"no".equals(language)
+								|| variant.equals(getVariant(loc)))) {
+					// found supported country locale
+					return loc;
+				}
+			}
+		}
+
+		// try to find only language
+		for (int i = 0; i < size; i++) {
+			Locale loc = getSupportedLocales().get(i);
+			if (language.equals(getLanguage(loc))) {
+				// found supported country locale
+				return loc;
+			}
+		}
+
+		// we didn't find a matching country or language,
+		// so we take English
+		return Locale.ENGLISH;
+	}
+
+	/**
+	 * Converts the language to a locale object.
+	 *
+	 * @param language
+	 *            the language to convert to.
+	 * @return converted locale
+	 */
+	public Locale convertToLocale(Language language) {
+		String lang = language.localeISO6391;
+		String country = "";
+		if (language.getLocaleGWT().length() == 5) {
+			country = language.getLocaleGWT().substring(3);
+		}
+		return createLocale(lang, country);
+	}
+
+	/**
+	 * Get an array of locales from languages.
+	 *
+	 * @param languages
+	 *            array of languages
+	 * @return an array of locales
+	 */
+	@Override
+	public Locale[] getLocales(Language[] languages) {
+		Locale[] locales = new Locale[languages.length];
+		for (int i = 0; i < languages.length; i++) {
+			Language language = languages[i];
+			locales[i] = convertToLocale(language);
+		}
+		return locales;
+	}
+
 }

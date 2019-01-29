@@ -107,7 +107,7 @@ import org.geogebra.desktop.util.StringUtilD;
  */
 public class AppDNoGui extends App implements AppDI {
 	private GgbAPI ggbapi;
-	private Localization loc;
+	private LocalizationD loc;
 	private SpreadsheetTableModelD tableModel;
 	private DrawEquationD drawEquation;
 	private boolean is3Dactive;

@@ -360,29 +360,6 @@ public final class LocalizationW extends Localization {
 		return null;
 	}
 
-	@Override
-	protected void updateResourceBundles() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getLanguage(Locale locale) {
-		// TODO: implement if LocalizationW uses Locale rather than String
-		return "en";
-	}
-
-	@Override
-	protected String getCountry(Locale locale) {
-		// TODO: implement if LocalizationW uses Locale rather than String
-		return "US";
-	}
-
-	@Override
-	protected Locale createLocale(String language, String country) {
-		return null;
-	}
-
 	/**
 	 * Cancel script load callback.
 	 */
