@@ -1443,6 +1443,10 @@ public class GuiManagerW extends GuiManager
 			this.dataCollectionView.setLabels();
 		}
 
+		if (sciSettingsView != null) {
+			sciSettingsView.setLabels();
+		}
+
 		((DialogManagerW) getApp().getDialogManager()).setLabels();
 		if (browseGUIwasLoaded()) {
 			getBrowseView().setLabels();

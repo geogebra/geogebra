@@ -2,14 +2,12 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import java.util.Arrays;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.PropertiesFactory;
 import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.general.AngleUnitProperty;
-import org.geogebra.common.properties.impl.general.FontSizeProperty;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
-import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -28,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  *         Settings view of scientific calculator
  *
  */
-public class ScientificSettingsView extends MyHeaderPanel implements FastClickHandler {
+public class ScientificSettingsView extends MyHeaderPanel implements FastClickHandler, SetLabels {
 
 	private final AppW app;
 	private HeaderView headerView;
@@ -65,15 +63,8 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		settingsScrollPanel.addStyleName("settingsPanelScientificNoHeader");
 
 		FlowPanel contentPanel = new FlowPanel();
-
-		// When we have all the necessary properties (which are working properly), it should come
-		// from the PropertiesFactory.createScientificCalculatorProperties method
-		PropertiesList propertiesList = new PropertiesList(
-				new AngleUnitProperty(app.getKernel(), localization),
-				new RoundingProperty(app, localization),
-				new FontSizeProperty(app, localization),
-				new LanguageProperty(app, localization)
-		);
+		PropertiesList propertiesList =
+				PropertiesFactory.createScientificCalculatorProperties(app, localization, null);
 
 		buildPropertiesPanel(propertiesList, contentPanel);
 		settingsScrollPanel.add(contentPanel);
@@ -87,6 +78,15 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 				panel.add(cell);
 			}
 		}
+	}
+
+	private void updateGUI() {
+		updateHeader();
+		createContent();
+	}
+
+	private void updateHeader() {
+		headerView.setCaption(localization.getMenu("Settings"));
 	}
 
 	private Widget createPropertyCell(Property property) {
@@ -150,5 +150,10 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	private void resizeHeader() {
 		boolean smallScreen = app.isSmallScreen();
 		headerView.resizeTo(smallScreen);
+	}
+
+	@Override
+	public void setLabels() {
+		updateGUI();
 	}
 }
