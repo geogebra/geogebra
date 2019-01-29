@@ -2613,7 +2613,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// + "\ncursor=" + cursor + "\ngetCursor3DType()="
 		// + getCursor3DType());
 
-		if (companion3D.shouldDrawCursor()) {
+		if (companion3D != null && companion3D.shouldDrawCursor()) {
 			if (shouldDrawCursorAtEnd()) {
 				// draw here for hidden parts
 				if (moveCursorIsVisible()) {
@@ -2698,7 +2698,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawCursorAtEnd(Renderer renderer1) {
-		if (companion3D.shouldDrawCursor() && shouldDrawCursorAtEnd()) {
+		if (companion3D != null && companion3D.shouldDrawCursor()
+				&& shouldDrawCursorAtEnd()) {
 			drawTarget(renderer1);
 		}
 	}
