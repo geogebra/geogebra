@@ -1,6 +1,7 @@
 package org.geogebra.web.shared.view.button;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.ActionView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -12,10 +13,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 /**
  * A view element that can perform an action.
  */
-public class ActionButton implements ActionView {
+public class ActionButton implements ActionView, SetLabels {
 
 	private App app;
 	private RootPanel view;
+	private String titleLocalizationKey;
 
 	/**
 	 * @param app The app.
@@ -51,10 +53,16 @@ public class ActionButton implements ActionView {
 	 * @param titleLocalizationKey The localization key for the title.
 	 */
 	public void setTitle(String titleLocalizationKey) {
-		AriaHelper.setTitle(view, app.getLocalization().getMenu(titleLocalizationKey), app);
+		this.titleLocalizationKey = titleLocalizationKey;
+		setLabels();
 	}
 
 	RootPanel getView() {
 		return view;
+	}
+
+	@Override
+	public void setLabels() {
+		AriaHelper.setTitle(view, app.getLocalization().getMenu(titleLocalizationKey), app);
 	}
 }

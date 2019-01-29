@@ -158,7 +158,7 @@ public class GlobalHeader implements EventRenderable {
 	public void initSettingButtonIfOnHeader() {
 		ActionButton settingsButton = getActionButton("settingsButton");
 		if (settingsButton != null) {
-			settingsButton.setTitle("Settings");
+			setTitle(settingsButton, "Settings");
 			settingsButton.setAction(new Runnable() {
 				@Override
 				public void run() {
@@ -166,6 +166,11 @@ public class GlobalHeader implements EventRenderable {
 				}
 			});
 		}
+	}
+
+	private void setTitle(ActionButton settingsButton, String string) {
+		settingsButton.setTitle(string);
+		app.getLocalization().registerLocalizedUI(settingsButton);
 	}
 
 	/**
@@ -182,7 +187,7 @@ public class GlobalHeader implements EventRenderable {
 	private ActionButton getUndoButton() {
 		ActionButton undoButton = getActionButton("undoButton");
 		if (undoButton != null) {
-			undoButton.setTitle("Undo");
+			setTitle(undoButton, "Undo");
 		}
 		return undoButton;
 	}
@@ -190,7 +195,7 @@ public class GlobalHeader implements EventRenderable {
 	private ActionButton getRedoButton() {
 		ActionButton undoButton = getDisappearingActionButton("redoButton");
 		if (undoButton != null) {
-			undoButton.setTitle("Redo");
+			setTitle(undoButton, "Redo");
 		}
 		return undoButton;
 	}

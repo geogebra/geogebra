@@ -2219,6 +2219,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGuiManager() != null) {
 			getGuiManager().setLabels();
 		}
+		loc.notifySetLabels();
 		kernel.updateLocalAxesNames();
 		kernel.setViewsLabels();
 		updateCommandDictionary();
@@ -3960,4 +3961,5 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void closePopupsInRegistry() {
 		popupRegistry.closeAll();
 	}
+
 }
