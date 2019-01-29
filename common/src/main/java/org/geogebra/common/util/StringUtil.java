@@ -1862,6 +1862,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * Used to decide whether to use serif or sans serif eg axis labels
 	 * 
 	 * @param string
+	 *            text
 	 * @return if string starts with eg \mathrm
 	 */
 	public static boolean startsWithFormattingCommand(String string) {

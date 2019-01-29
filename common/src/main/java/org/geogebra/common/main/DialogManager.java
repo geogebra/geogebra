@@ -170,6 +170,18 @@ public abstract class DialogManager {
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec);
 
+	/**
+	 * Regular polygon dialog for 2D
+	 * 
+	 * @param menu
+	 *            title
+	 * @param ec
+	 *            controller
+	 * @param geoPoint1
+	 *            first vertex
+	 * @param geoPoint2
+	 *            second vertex
+	 */
 	final public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1,
 			GeoPointND geoPoint2) {
@@ -177,7 +189,21 @@ public abstract class DialogManager {
 				null);
 	}
 
-	abstract public void showNumberInputDialogRegularPolygon(String menu,
+	/**
+	 * Regular polygon dialog for 3D
+	 * 
+	 * @param title
+	 *            title
+	 * @param ec
+	 *            controller
+	 * @param geoPoint1
+	 *            first vertex
+	 * @param geoPoint2
+	 *            second vertex
+	 * @param direction
+	 *            direction
+	 */
+	abstract public void showNumberInputDialogRegularPolygon(String title,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction);
 

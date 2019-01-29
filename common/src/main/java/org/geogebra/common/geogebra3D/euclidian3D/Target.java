@@ -43,8 +43,7 @@ public class Target {
 			implements AnimatableValue<T> {
 		public Coords coords;
 		public long geo1;
-        public long geo2;
-
+		public long geo2;
 
 		/**
 		 * constructor
