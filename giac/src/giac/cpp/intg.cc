@@ -6100,8 +6100,10 @@ namespace giac {
   define_unary_function_ptr5( at_ibpdv ,alias_at_ibpdv,&__ibpdv,0,true);
 
   void fourier_assume(const gen &n,GIAC_CONTEXT){
-    if (n.type==_IDNT && eval(n,1,contextptr)==n)
+    if (n.type==_IDNT && eval(n,1,contextptr)==n){
+      *logptr(contextptr) << "Running assume(" << n << ",integer)" << endl;
       sto(gen(makevecteur(change_subtype(2,1)),_ASSUME__VECT),n,contextptr);
+    }
   }
 
   gen fourier_an(const gen & f,const gen & x,const gen & T,const gen & n,const gen & a,GIAC_CONTEXT){

@@ -6202,6 +6202,11 @@ namespace giac {
 		  if (resk.type==_VECT && resk._VECTptr->size()==elim.size()){
 		    vecteur resmodif(*resk._VECTptr);
 		    gen resval=subst(elimj,elim,resk,false,contextptr);
+		    if (is_undef(resval)){
+		      res.erase(res.begin()+k);
+		      --k;
+		      continue;
+		    }
 		    resmodif.insert(resmodif.begin()+j,resval);
 		    resk=gen(resmodif,resk.subtype);
 		  }
