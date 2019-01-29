@@ -582,6 +582,7 @@ public class GuiManagerW extends GuiManager
 	public void showSciSettingsView() {
 		if (sciSettingsView == null) {
 			sciSettingsView = new ScientificSettingsView(getApp());
+			getApp().getLocalization().registerLocalizedUI(sciSettingsView);
 		}
 		frame.forceHeaderVisibility(Visibility.HIDDEN);
 		getApp().setCloseBrowserCallback(new Runnable() {
@@ -1442,10 +1443,6 @@ public class GuiManagerW extends GuiManager
 		}
 		if (this.dataCollectionView != null) {
 			this.dataCollectionView.setLabels();
-		}
-
-		if (sciSettingsView != null) {
-			sciSettingsView.setLabels();
 		}
 
 		((DialogManagerW) getApp().getDialogManager()).setLabels();
