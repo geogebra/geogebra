@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -604,6 +605,19 @@ public class EuclidianController3DCompanion
 			return super.viewOrientationForClockwise(clockwise, creator);
 		}
 		return ec3D.viewOrientationForClockwise(clockwise, (GeoLineND) creator.getPivot());
+	}
+
+	@Override
+	public GeoElement[] regularPolygon(GeoPointND geoPoint1,
+			GeoPointND geoPoint2, GeoNumberValue value) {
+		if (geoPoint1.isGeoElement3D() || geoPoint2.isGeoElement3D()) {
+			return ec.getKernel().getManager3D().regularPolygon(null, geoPoint1,
+					geoPoint2,
+					value, ((EuclidianView3D) ec.getView()).getxOyPlane());
+		}
+
+		return ec.getKernel().getAlgoDispatcher().regularPolygon(null,
+				geoPoint1, geoPoint2, value);
 	}
 
 }
