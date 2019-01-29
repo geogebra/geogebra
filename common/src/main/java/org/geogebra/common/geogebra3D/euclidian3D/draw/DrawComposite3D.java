@@ -42,7 +42,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected boolean updateForItSelf() {
+	synchronized protected boolean updateForItSelf() {
 
 		// Log.debug("LIST -- "+getGeoElement());
 
@@ -115,7 +115,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	protected abstract int size();
 
 	@Override
-	public void addLastTrace() {
+	synchronized public void addLastTrace() {
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			d.addLastTrace();
@@ -123,7 +123,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected void updateForView() {
+	synchronized protected void updateForView() {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
@@ -137,7 +137,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected void clearTraceForViewChangedByZoomOrTranslate() {
+	synchronized protected void clearTraceForViewChangedByZoomOrTranslate() {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
@@ -237,7 +237,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected void updateLabel() {
+    synchronized protected void updateLabel() {
 		for (DrawableND d : drawables) {
 			if (d instanceof DrawList3D || d instanceof DrawText3D) {
 				((Drawable3D) d).updateLabel();
@@ -246,7 +246,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected void updateLabelPosition() {
+    synchronized protected void updateLabelPosition() {
 		for (DrawableND d : drawables) {
 			if (d instanceof DrawList3D || d instanceof DrawText3D) {
 				((Drawable3D) d).updateLabelPosition();
@@ -261,7 +261,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
+    synchronized public void setWaitForUpdateVisualStyle(GProperty prop) {
 
 		super.setWaitForUpdateVisualStyle(prop);
 		for (DrawableND d : drawables) {
@@ -273,7 +273,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public void setWaitForReset() {
+    synchronized public void setWaitForReset() {
 
 		super.setWaitForReset();
 		for (DrawableND d : drawables) {
@@ -296,7 +296,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public boolean hit(Hitting hitting) {
+    synchronized public boolean hit(Hitting hitting) {
 
 		boolean ret = false;
 
@@ -329,14 +329,15 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+    synchronized public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		for (DrawableND d : drawables) {
 			((Drawable3D) d).enlargeBounds(min, max, reduceWhenClipped);
 		}
 	}
 
 	@Override
-	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
+    synchronized public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean
+            exportSurface) {
 		if (isVisible()) {
 			for (DrawableND d : drawables) {
 				((Drawable3D) d).exportToPrinter3D(exportToPrinter3D,
@@ -346,7 +347,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected void updateGeometriesVisibility() {
+    synchronized protected void updateGeometriesVisibility() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				((Drawable3D) d).updateGeometriesVisibility();
@@ -355,7 +356,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	final protected void setGeometriesVisibility(boolean visible) {
+    synchronized final protected void setGeometriesVisibility(boolean visible) {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				((Drawable3D) d).setGeometriesVisibility(visible);
@@ -364,7 +365,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	final protected void updateGeometriesColor() {
+    synchronized final protected void updateGeometriesColor() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				((Drawable3D) d).updateGeometriesColor();
@@ -380,7 +381,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	final protected void updateForViewNotVisible() {
+    synchronized final protected void updateForViewNotVisible() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				((Drawable3D) d).updateForViewNotVisible();
@@ -389,7 +390,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public void removeFromGL() {
+    synchronized public void removeFromGL() {
 		super.removeFromGL();
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
