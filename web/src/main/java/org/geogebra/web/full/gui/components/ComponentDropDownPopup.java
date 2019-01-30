@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.components;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -86,7 +85,6 @@ public class ComponentDropDownPopup {
 		menu.setMenuShown(true);
 		restoreHeight();
 		RelativePosition pos = getRelativePosition();
-		Log.debug("[DD] relative position is: " + pos);
 		if (pos == RelativePosition.HIGH) {
 			showHigh();
 		} else if (pos == RelativePosition.CENTER) {
@@ -109,7 +107,7 @@ public class ComponentDropDownPopup {
 
 	private void showHigh() {
 		int top = getTop() - getSelectedItemTop();
-		double spaceToBottom = app.getHeight() - top - itemHeight;
+		double spaceToBottom = app.getHeight() - top - 3 * (itemHeight / 2);
 		if (spaceToBottom < getPopupHeightRemaining()) {
 			setMaxHeightInPx(spaceToBottom);
 		} else {
