@@ -39,6 +39,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	private boolean isOpen;
 	private Localization localization;
 	private ScrollPanel settingsScrollPanel;
+	private Animator animator;
 
 	/**
 	 * Build and style settings view for sci calc
@@ -51,6 +52,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		this.app = app;
 		isOpen = true;
 		localization = app.getLocalization();
+		animator = new Animator(app.getAppletFrame(), this);
 		createHeader();
 		createContent();
 	}
@@ -119,14 +121,13 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	@Override
 	public void onClick(Widget source) {
 		if (source == headerView.getBackButton()) {
-			removeStyleName("panelFadeIn");
-			addStyleName("panelFadeOut");
+			animator.updateAnimateOutStyle();
 			CSSEvents.runOnAnimation(new Runnable() {
 				@Override
 				public void run() {
 					close();
 				}
-			}, this.getElement(), "panelFadeOut");
+			}, this.getElement(), animator.getAnimateOutStyle());
 		}
 	}
 
@@ -195,5 +196,9 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	@Override
 	public void setLabels() {
 		updateGUI();
+	}
+
+	public Animator getAnimator() {
+		return animator;
 	}
 }

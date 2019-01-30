@@ -592,7 +592,7 @@ public class GuiManagerW extends GuiManager
 			}
 		});
 		frame.showBrowser(sciSettingsView);
-		sciSettingsView.addStyleName("panelFadeIn");
+		sciSettingsView.getAnimator().updateAnimateInStyle();
 	}
 
 	@Override
