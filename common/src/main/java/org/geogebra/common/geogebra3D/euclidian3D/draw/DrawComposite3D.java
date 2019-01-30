@@ -161,7 +161,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	 * 
 	 * @return drawable lists
 	 */
-	public Drawable3DListsForDrawList3D getDrawable3DLists() {
+	synchronized public Drawable3DListsForDrawList3D getDrawable3DLists() {
 		return drawable3DLists;
 	}
 
@@ -282,7 +282,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	protected Drawable3D getDrawablePicked(Drawable3D drawableSource) {
+	synchronized protected Drawable3D getDrawablePicked(
+			Drawable3D drawableSource) {
 
 		pickOrder = drawableSource.getPickOrder();
 		setPickingType(drawableSource.getPickingType());
@@ -291,7 +292,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public int getPickOrder() {
+	synchronized public int getPickOrder() {
 		return pickOrder;
 	}
 
