@@ -29,10 +29,16 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ScientificSettingsView extends MyHeaderPanel implements FastClickHandler, SetLabels {
 
+	private String smallScreenViewDesign = "scientificSettingsViewSmall";
+	private String smallScreenPanelDesign = "settingsPanelScientificSmallScreen";
+	private String bigScreenViewDesign = "scientificSettingsView";
+	private String bigScreenPanelDesign = "settingsPanelScientificNoHeader";
+
 	private final AppW app;
 	private HeaderView headerView;
 	private boolean isOpen;
 	private Localization localization;
+	private ScrollPanel settingsScrollPanel;
 
 	/**
 	 * Build and style settings view for sci calc
@@ -60,8 +66,8 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	}
 
 	private void createContent() {
-		ScrollPanel settingsScrollPanel = new ScrollPanel();
-		settingsScrollPanel.addStyleName("settingsPanelScientificNoHeader");
+		settingsScrollPanel = new ScrollPanel();
+		settingsScrollPanel.addStyleName(bigScreenViewDesign);
 
 		FlowPanel contentPanel = new FlowPanel();
 		PropertiesList propertiesList =
@@ -147,17 +153,43 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	@Override
 	public void resizeTo(int width, int height) {
 		resizeHeader();
+		resizeContent();
 	}
 
 	@Override
 	public void onResize() {
 		super.onResize();
 		resizeHeader();
+		resizeContent();
 	}
 
 	private void resizeHeader() {
 		boolean smallScreen = app.shouldHaveSmallScreenLayout();
 		headerView.resizeTo(smallScreen);
+	}
+
+	private void resizeContent() {
+		boolean smallScreen = app.hasSmallWindowOrCompactHeader();
+		if (smallScreen) {
+			resizeContentToSmallScreen();
+		} else {
+			resizeContentToBigScreen();
+		}
+	}
+
+	private void resizeContentToSmallScreen() {
+		toggleStyle(this, bigScreenViewDesign, smallScreenViewDesign);
+		toggleStyle(settingsScrollPanel, bigScreenPanelDesign, smallScreenPanelDesign);
+	}
+
+	private void resizeContentToBigScreen() {
+		toggleStyle(this, smallScreenViewDesign, bigScreenViewDesign);
+		toggleStyle(settingsScrollPanel, smallScreenPanelDesign, bigScreenPanelDesign);
+	}
+
+	private void toggleStyle(Widget element, String fromStyle, String toStyle) {
+		element.removeStyleName(fromStyle);
+		element.addStyleName(toStyle);
 	}
 
 	@Override

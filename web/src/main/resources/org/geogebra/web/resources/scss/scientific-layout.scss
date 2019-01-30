@@ -49,6 +49,10 @@
         background-color: $gray-background;
     }
 
+    .scientificSettingsViewSmall {
+        background-color: white;
+    }
+
     %sheetOfPaper {
         background-color: $gray-background;
          &>div {
@@ -90,6 +94,16 @@
             padding-right: 128px;
             padding-top: 8px;
             padding-bottom: 8px;
+        }
+    }
+
+    .settingsPanelScientificSmallScreen {
+        @extend .settingsPanelScientificNoHeader;
+        &>div {
+            max-width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            box-shadow: none;
         }
     }
 

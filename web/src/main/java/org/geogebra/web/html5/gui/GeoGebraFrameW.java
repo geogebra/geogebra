@@ -254,7 +254,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return false;
 	}
 
-	private boolean hasSmallWindowOrCompactHeader() {
+	/**
+	 * @return whether small screen layout should be used independent from the header visibility
+	 */
+	public boolean hasSmallWindowOrCompactHeader() {
 		boolean hasCompactHeader = articleElement.getDataParamMarginTop() <= 0;
 		return hasSmallWindow() || hasCompactHeader;
 	}
