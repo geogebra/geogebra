@@ -1150,8 +1150,8 @@ public class Ggb2giac {
 				"[[ggbpparg0:=%0],if (ggbpparg0>2) then prevprime(ggbpparg0) else 0/0 fi][1]");
 		p("PrimeFactors.1", "ifactors(%0)");
 		// normal() makes sure answer is expanded
-		// TODO: do we want this,or do it in a more general way
-		p("Product.1", "normal(product(%0))");
+		// '*' argument to make Product(list of matrices) work
+		p("Product.1", "normal(product(%0,'*'))");
 		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
