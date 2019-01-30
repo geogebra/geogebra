@@ -23,8 +23,7 @@ public class NoCASCommandSelectorFactory {
 				Commands.CompleteSquare, Commands.PartialFractions,
 				Commands.SolveODE, Commands.ImplicitDerivative,
 				Commands.NextPrime, Commands.PreviousPrime, Commands.Solve,
-				Commands.Solutions, Commands.NSolutions, Commands.NSolve,
-				Commands.Asymptote);
+				Commands.Solutions, Commands.NSolutions, Commands.NSolve);
 		return commandSelector;
 	}
 }
