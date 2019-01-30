@@ -79,7 +79,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * Creates new GeoGebraFrame
-	 * 
+	 *
 	 * @param laf
 	 *            look and feel
 	 * @param mainTag
@@ -99,7 +99,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * Add a dummy element to the parent
-	 * 
+	 *
 	 * @param parentElement
 	 *            parent
 	 */
@@ -169,11 +169,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * The application loading continues in the splashDialog onLoad handler
-	 * 
-	 * @param articleElement
+	 *
+	 * @param articleElm
 	 *            ArticleElement
 	 */
-	public void createSplash(ArticleElement articleElement) {
+	public void createSplash(ArticleElement articleElm) {
 
 		int splashWidth = LOGO_WIDTH;
 		int splashHeight = LOGO_HEIGHT;
@@ -184,14 +184,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		int width = computeWidth();
 		int height = computeHeight();
 
-		/*
-		 * if (articleElement.getDataParamShowMenuBar()) { // The menubar has extra height:
-		 * height += 31; } if (articleElement.getDataParamShowToolBar()) { // The toolbar
-		 * has extra height: height += 57; }
-		 */
-
 		boolean showLogo = ((width >= LOGO_WIDTH) && (height >= LOGO_HEIGHT));
-		splash = new SplashDialog(showLogo, articleElement, this);
+		splash = new SplashDialog(showLogo, articleElm, this);
 
 		if (splash.isPreviewExists()) {
 			splashWidth = width;
@@ -207,7 +201,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
 			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
-			if (!articleElement.isRTL()) {
+			if (!articleElm.isRTL()) {
 				splash.getElement().getStyle()
 				        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
 			} else {
@@ -239,11 +233,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * @param visible
+	 *            force visibility
+	 */
 	public void forceHeaderVisibility(Visibility visible) {
 		forcedHeaderVisibility = visible;
 		app.fitSizeToScreen();
 	}
 
+	/**
+	 * @return whether to use small screen design
+	 */
 	public boolean shouldHaveSmallScreenLayout() {
 		switch (forcedHeaderVisibility) {
 			case VISIBLE:
@@ -261,7 +262,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return hasSmallWindow() || hasCompactHeader;
 	}
 
-	private boolean hasSmallWindow() {
+	private static boolean hasSmallWindow() {
 		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
 	}
 
@@ -271,7 +272,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void setHeightWithTallHeader() {
 		int headerHeight = articleElement.getDataParamMarginTop();
-		articleElement.getElement().getStyle().setProperty("height", "calc(100% - " + headerHeight + "px)");
+		articleElement.getElement().getStyle().setProperty("height",
+				"calc(100% - " + headerHeight + "px)");
 	}
 
 	/**
@@ -367,7 +369,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * Needs running {@link #setComputedWidth(int)} first
-	 * 
+	 *
 	 * @return width computed from applet parameters
 	 */
 	public int getComputedWidth() {
@@ -376,7 +378,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * Needs running {@link #setComputedHeight(int)} first
-	 * 
+	 *
 	 * @return height computed from applet parameters
 	 */
 	public int getComputedHeight() {
@@ -529,7 +531,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * Sets the Application of the GeoGebraFrame
-	 * 
+	 *
 	 * @param app
 	 *            the application
 	 */
@@ -573,7 +575,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * @param width
-	 * 
 	 *            sets the geogebra-web applet widht
 	 */
 	@Override
@@ -590,7 +591,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * @param height
-	 * 
 	 *            sets the geogebra-web applet height
 	 */
 	@Override
@@ -620,13 +620,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * sets the geogebra-web applet size (width, height)
-	 * 
+	 *
 	 * @param width
 	 *            width in pixels
 	 * @param height
 	 *            height in pixels
-	 * 
-	 * 
 	 */
 	@Override
 	public void setSize(int width, int height) {
@@ -658,7 +656,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * @param show
-	 * 
+	 *
 	 *            wheter show the reseticon in geogebra-web applets or not
 	 */
 	@Override
