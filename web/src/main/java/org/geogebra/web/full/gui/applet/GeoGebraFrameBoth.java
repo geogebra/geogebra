@@ -151,7 +151,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					ArticleElement.getDataParamFitToScreen(articleElement));
 			inst.articleElement = articleElement;
 			LoggerW.startLogger(inst.articleElement);
-			inst.createSplash(articleElement);
+			inst.createSplash();
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
 		if (geoGebraMobileTags.isEmpty()) {

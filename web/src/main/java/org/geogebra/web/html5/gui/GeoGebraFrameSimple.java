@@ -28,7 +28,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 
 	@Override
 	protected AppW createApplication(ArticleElementInterface article,
-	        GLookAndFeelI laf) {
+			GLookAndFeelI laf) {
 		AppWsimple appl = new AppWsimple(article, this, false);
 		getArticleMap().put(article.getId(), appl);
 		return appl;
@@ -36,7 +36,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 
 	/**
 	 * Main entry points called by geogebra.web.html5.WebSimple.startGeoGebra()
-	 * 
+	 *
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page
 	 */
@@ -47,7 +47,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 					ArticleElement.getDataParamFitToScreen(articleElement));
 			inst.articleElement = articleElement;
 			LoggerW.startLogger(inst.articleElement);
-			inst.createSplash(articleElement);
+			inst.createSplash();
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
 

@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -43,11 +43,11 @@ public class SplashDialog extends SimplePanel {
 	 * @param frame
 	 *            frame
 	 */
-	public SplashDialog(boolean showLogo, ArticleElement article,
+	public SplashDialog(boolean showLogo, ArticleElementInterface article,
 			GeoGebraFrameW frame) {
-		this.article = article;
+		this.article = article.getElement();
 		this.geogebraFrame = frame;
-		previewExists = checkIfPreviewExists(article)
+		previewExists = checkIfPreviewExists(this.article)
 				|| AppConfigDefault
 						.isUnbundledOrNotes(article.getDataParamAppName());
 

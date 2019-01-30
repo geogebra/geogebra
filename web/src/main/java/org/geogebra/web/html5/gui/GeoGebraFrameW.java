@@ -169,11 +169,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * The application loading continues in the splashDialog onLoad handler
-	 *
-	 * @param articleElm
-	 *            ArticleElement
 	 */
-	public void createSplash(ArticleElement articleElm) {
+	public void createSplash() {
 
 		int splashWidth = LOGO_WIDTH;
 		int splashHeight = LOGO_HEIGHT;
@@ -185,7 +182,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		int height = computeHeight();
 
 		boolean showLogo = ((width >= LOGO_WIDTH) && (height >= LOGO_HEIGHT));
-		splash = new SplashDialog(showLogo, articleElm, this);
+		splash = new SplashDialog(showLogo, articleElement, this);
 
 		if (splash.isPreviewExists()) {
 			splashWidth = width;
@@ -201,7 +198,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
 			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
-			if (!articleElm.isRTL()) {
+			if (!articleElement.isRTL()) {
 				splash.getElement().getStyle()
 				        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
 			} else {
@@ -685,7 +682,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		article.initID(0);
 		frame.articleElement = article;
 		frame.onLoadCallback = onLoadCallback;
-		frame.createSplash(article);
+		frame.createSplash();
 		RootPanel root = RootPanel.get(article.getId());
 		if (root != null) {
 			root.add(frame);
