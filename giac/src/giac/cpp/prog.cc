@@ -9061,11 +9061,11 @@ namespace giac {
 
   gen _monotonic(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
-#if defined __APPLE__ || defined EMCC
-    return clock();
-#else
 #ifdef FXCG
     return RTC_GetTicks();
+#else
+#if defined __APPLE__ || defined EMCC || !defined HAVE_LIBRT
+    return clock();
 #else
     timespec t;
     clock_gettime(CLOCK_MONOTONIC,&t);
