@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
 import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
@@ -65,7 +66,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	// option panels
 	private OptionsDefaultsD defaultsPanel;
-	private OptionsEuclidianD euclidianPanel, euclidianPanel2;
+	private OptionsEuclidianD<EuclidianViewD> euclidianPanel, euclidianPanel2;
 	private OptionsSpreadsheetD spreadsheetPanel;
 	private OptionsCASD casPanel;
 	private OptionsAdvancedD advancedPanel;
@@ -413,7 +414,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidianD((AppD) app,
+				euclidianPanel = new OptionsEuclidianD<>(
+						(AppD) app,
 						((AppD) app).getEuclidianView1());
 				euclidianPanel.setLabels();
 				// euclidianPanel.setView(((AppD) app).getEuclidianView1());
@@ -423,7 +425,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
-				euclidianPanel2 = new OptionsEuclidianD((AppD) app,
+				euclidianPanel2 = new OptionsEuclidianD<>((AppD) app,
 						((AppD) app).getEuclidianView2(1));
 				euclidianPanel2.setLabels();
 				// euclidianPanel2.setView(((AppD) app).getEuclidianView2());

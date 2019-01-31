@@ -75,14 +75,14 @@ import com.himamis.retex.editor.share.util.Unicode;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidianD extends OptionsEuclidian
+public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		implements OptionPanelD, ActionListener, FocusListener, ItemListener,
 		SetLabels, IEuclidianOptionsListener {
 
 	protected AppD app;
 	private Kernel kernel;
 	private EuclidianOptionsModel model;
-	protected EuclidianView view;
+	protected T view;
 
 	// GUI containers
 	protected AxisPanel xAxisPanel, yAxisPanel;
@@ -159,7 +159,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	 * @param app
 	 *            parent frame
 	 */
-	public OptionsEuclidianD(AppD app, EuclidianView view) {
+	public OptionsEuclidianD(AppD app, T view) {
 
 		isIniting = true;
 		this.app = app;
@@ -175,7 +175,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		isIniting = false;
 	}
 
-	public void setView(EuclidianView view) {
+	public void setView(T view) {
 		this.view = view;
 		if (!isIniting) {
 			updateGUI();
@@ -188,7 +188,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	 * @param view
 	 *            view
 	 */
-	public void updateView(EuclidianView view) {
+	public void updateView(T view) {
 		setView(view);
 		view.setOptionPanel(this);
 		model.setView(view);
@@ -848,18 +848,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		updateGUI();
 	}
 
-	protected void setViewFromIndex(int index) {
-
-		if (index == 0) {
-			setView(app.getEuclidianView1());
-		} else {
-			setView(((GuiManagerD) (app.getGuiManager()))
-					.getEuclidianView2(index));
-		}
-
-	}
-
-	protected double parseDouble(String text) {
+	private double parseDouble(String text) {
 		if (text == null || "".equals(text)) {
 			return Double.NaN;
 		}
