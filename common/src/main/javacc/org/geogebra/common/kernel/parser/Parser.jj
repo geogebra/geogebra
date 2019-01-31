@@ -95,7 +95,7 @@ public class Parser implements ParserInterface{
 
     // reset for new parsing
     public void myReInit(String parseString) throws ParseException {
-        if(!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
+        if (!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0) {
           throw new BracketsError(loc,parseString);
         }
       ReInit(new StringProvider(StringUtil.fixVerticalBars(parseString)));
@@ -191,52 +191,58 @@ public class Parser implements ParserInterface{
         myReInit(parseString );
         return label().image;
     }
-    private ExpressionNode makePower(ExpressionValue v,ExpressionValue e){
-      if(v.isExpressionNode() && ((ExpressionNode)v).getOperation()
-        ==Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode)v).hasBrackets()){
-        return new ExpressionNode(kernel,((ExpressionNode)v).getLeft(),Operation.MULTIPLY,
-          new ExpressionNode(kernel,((ExpressionNode)v).getRight(),Operation.POWER,e));
-      }
-      return new ExpressionNode(kernel,v,Operation.POWER,e);
-  }
 
-  private void processUndecided(){
-    for(ExpressionNode en: undecided)
-      en.setOperation(Operation.MULTIPLY);
-    undecided.clear();
-   }
+    private ExpressionNode makePower(ExpressionValue v, ExpressionValue e) {
+        if (v.isExpressionNode()
+                && ((ExpressionNode) v)
+                        .getOperation() == Operation.MULTIPLY_OR_FUNCTION
+                && !((ExpressionNode) v).hasBrackets()) {
+            return new ExpressionNode(kernel, ((ExpressionNode) v).getLeft(),
+                    Operation.MULTIPLY,
+                    new ExpressionNode(kernel, ((ExpressionNode) v).getRight(),
+                            Operation.POWER, e));
+        }
+        return new ExpressionNode(kernel, v, Operation.POWER, e);
+    }
 
-	private <T extends ExpressionValue> T ifStructuresEnabled(T def)
-			throws MyError {
-		if (enableStructures) {
-			return def;
-		}
-		throw new MyError(loc, "InvalidInput");
-	}
-	
-	private MyDouble parseDouble(String image, boolean percent) {
-		double val = MyDouble.parseDouble(loc, image);
-		if (percent) {
-			val = val * 0.01;
-		}
-		if (ExternalCASParsing || GeoGebraCASParsing) {
-			// preserve string from CAS: it may have higher
-			// precision than double
-			return new MySpecialDouble(kernel, val, percent ? image + "%" : image);
-		}
+    private void processUndecided() {
+        for (ExpressionNode en: undecided) {
+            en.setOperation(Operation.MULTIPLY);
+        }
+        undecided.clear();
+    }
 
-		return new MyDouble(kernel, val);
-	}
-	
-	private double parseDouble(Token c) {
-		return MyDouble.parseDouble(loc, c.image);
-	}
-	
-	private MyDouble newSpecialDegree() {
-	  	MyDouble d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
-        	d.setAngle();
-        	return d;
-	}
+    private <T extends ExpressionValue> T ifStructuresEnabled(T def)
+            throws MyError {
+        if (enableStructures) {
+            return def;
+        }
+        throw new MyError(loc, "InvalidInput");
+    }
+    
+    private MyDouble parseDouble(String image, boolean percent) {
+        double val = MyDouble.parseDouble(loc, image);
+        if (percent) {
+            val = val * 0.01;
+        }
+        if (ExternalCASParsing || GeoGebraCASParsing) {
+            // preserve string from CAS: it may have higher
+            // precision than double
+            return new MySpecialDouble(kernel, val, percent ? image + "%" : image);
+        }
+
+        return new MyDouble(kernel, val);
+    }
+
+    private double parseDouble(Token c) {
+        return MyDouble.parseDouble(loc, c.image);
+    }
+
+    private MyDouble newSpecialDegree() {
+        MyDouble d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
+        d.setAngle();
+        return d;
+    }
 
 }
 PARSER_END(Parser)
@@ -450,14 +456,14 @@ ValidExpression buildValidExpression() :
         (
           (ve = expressionOrEquation())
         {
-          if(ve instanceof Equation)
+          if (ve instanceof Equation)
           {
-			ve = ((Equation)ve).equationOrAssignment();
+            ve = ((Equation)ve).equationOrAssignment();
           }
         })
         (conditions = conditions()
         {
-			ve = new ExpressionNode(kernel, conditions, Operation.IF_SHORT, ve);
+            ve = new ExpressionNode(kernel, conditions, Operation.IF_SHORT, ve);
         })?
         
 
@@ -512,7 +518,7 @@ ValidExpression buildCASExpression(GeoSymbolicI cell) :
       // remember label
       if (l.image != null)
       {
-          if(":".equals(assign.image) &&
+          if (":".equals(assign.image) &&
           GeoElementSpreadsheet.isSpreadsheetLabel(ve.toString(StringTemplate.defaultTemplate)))
           {
             ExpressionNode startCell = new ExpressionNode(kernel, new Variable(kernel, l.image));
@@ -523,8 +529,8 @@ ValidExpression buildCASExpression(GeoSymbolicI cell) :
     return cmd;
           }
           ve.addLabel(l.image);
-          if(cell != null){
-          	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+          if (cell != null) {
+              cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
           }
        }
         return ve;
@@ -700,7 +706,7 @@ ExpressionNode conditions():
             conditions = conditions == null ? condition : new ExpressionNode(kernel, conditions, Operation.AND, condition);
           })+
           {
-			return conditions;
+            return conditions;
           }
 }
 /**
@@ -731,40 +737,38 @@ ExpressionNode functionExpressionnode():
            kernel.getConstruction().registerFunctionVariable(varName.image);} )
       // optional second variable
        (<COMMA> ( varName = casVar() )
-       { localVars.add(varName.image);
-       kernel.getConstruction().registerFunctionVariable(varName.image);} )*
+        {
+            localVars.add(varName.image);
+            kernel.getConstruction().registerFunctionVariable(varName.image);
+        } )*
       // closing ) and assignment with expressionnode
           ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
-      {
-          // allow f(y) in CAS but not in GeoGebra
-    //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image))
-      //      throw new MyError(app, "InvalidInput");
-      	if(cond != null)
-      	{
-			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
-      	}
+        {
+            // allow f(y) in CAS but not in GeoGebra
+            //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image))
+            //      throw new MyError(app, "InvalidInput");
+        if (cond != null) {
+            rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
+        }
         String funLabel = funName.image.substring(0,funName.image.length()-1);
 
-      // command without variables: return expressionnode
-      // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
+        // command without variables: return expressionnode
+        // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
         if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable(null)) {
-        rhs.setLabel(funLabel);
-        return rhs;
-      }
-
+            rhs.setLabel(funLabel);
+            return rhs;
+        }
 
         // function: wrap function in ExpressionNode
       // number of vars
       int n = localVars.size();
       Operation op = app.getParserFunctions().get(funLabel,n);
-      if(op!=null)
-      {
-        if(n==1)
-        {
-          return new Equation(kernel,new FunctionVariable(kernel,localVars.get(0)).wrap().apply(op),rhs).wrap();
+      if (op != null) {
+        if (n == 1) {
+          return new Equation(kernel,new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs).wrap();
         }
         MyList vars = new MyList(kernel, n);
-        for (int i=0;i<n; i++){
+        for (int i = 0; i<n; i++) {
           FunctionVariable funVar = new FunctionVariable(kernel,localVars.get(i));
           vars.addListElement(funVar);
         }
@@ -825,10 +829,10 @@ FunctionNVar casFunction(GeoSymbolicI cell):
       // closing ) and assignment with expressionnode
           ")" (assign = <ASSIGNMENT> | assign = < DELAYED_ASSIGNMENT >) rhs = expressionnode() (cond = conditions())?
       {
-        if(cond != null)
-      	{
-			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
-      	}
+        if (cond != null)
+          {
+            rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
+          }
         String funLabel = funName.image.substring(0,funName.image.length()-1);
 
       // number of vars
@@ -843,16 +847,16 @@ FunctionNVar casFunction(GeoSymbolicI cell):
             case 1: // single variable function
         Function fun = new Function(rhs, funVar[0]);
         fun.setLabel(funLabel);
-        if(cell != null){
-          	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+        if (cell != null) {
+              cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
         }
         return fun;
 
              default: // multi variable function
              FunctionNVar funn = new FunctionNVar(rhs, funVar);
         funn.setLabel(funLabel);
-        if(cell != null){
-          	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+        if (cell != null) {
+              cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
         }
         return funn;
           }
@@ -894,7 +898,7 @@ ExpressionNode expressionnode():
  */
 ValidExpression expressionOrEquation():
 {
-  	ExpressionNode en;
+      ExpressionNode en;
     ExpressionNode rhs = null;
     ExpressionNode rrhs = null;
 }
@@ -903,10 +907,10 @@ ValidExpression expressionOrEquation():
       (  <EQUAL> rhs = expressionnode()
         (  <EQUAL> rrhs = expressionnode()
 
-      	)?
+          )?
       )?
   {
-    if(rrhs!=null)
+    if (rrhs!=null)
     {
       return new MyVecNode(kernel, new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs)).wrap();
     }
@@ -1076,23 +1080,22 @@ ExpressionValue plusminusnode():
     ret = multterm()
     (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS>) f = multterm()
         {
-            if (x.kind == PLUS){
+            if (x.kind == PLUS) {
                 ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
-            } else if (x.kind == PLUSMINUS){
-            	ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
+            } else if (x.kind == PLUSMINUS) {
+                ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
             }
             else {
-              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )
-              {
+              if (ret.isExpressionNode() && ((ExpressionNode) ret).isStringAddition()) {
                 ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
-							((ExpressionNode) ret).getRight(), Operation.MINUS,
-							f));
+                            ((ExpressionNode) ret).getRight(), Operation.MINUS,
+                            f));
               }
               else
               {
                  ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);
               }
-        	}
+            }
       }
 
     )*
@@ -1177,15 +1180,13 @@ ExpressionValue multterm():
      LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
-              ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
-
-                  if(special == null)
-                  {
-                      ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
-                  }else {
-                  	  ret = special;
-                  }
+            ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
+            if (special == null) {
+                ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+            } else {
+                ret = special;
             }
+        }
 
     )*
     { return ret; }
@@ -1287,32 +1288,32 @@ ExpressionValue enpower():
           <POWER> (c = <MINUS> | c = <PLUS>)? f = enfactorial()
         {
             // -f  = -1*f
-      if (c != null && c.kind == MINUS) {
-             f = ExpressionNode.unaryMinus(kernel, f);
-             c = null; // make sure we forget minus for next exponent
-       }
+            if (c != null && c.kind == MINUS) {
+                f = ExpressionNode.unaryMinus(kernel, f);
+                c = null; // make sure we forget minus for next exponent
+            }
 
-      // collect exponents
-      if (exponentList == null) {          exponentList = new ArrayList<ExpressionValue>();
-        }
+            // collect exponents
+            if (exponentList == null) {                exponentList = new ArrayList<ExpressionValue>();
+            }
             exponentList.add(f);
         }
         )
     )*
     {
-    if (exponentList == null)
-      return ret;
+        if (exponentList == null) {
+            return ret;
+        }
 
-
-      // GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
-      int size = exponentList.size();
-      ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
-      for (int i=size-2; i >= 0; i--) {
-          ExpressionValue prevExponent = exponentList.get(i);
-          tempEV = makePower(prevExponent,tempEV);
-      }
-      ret = makePower(ret, tempEV);
-      return ret;
+        // GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
+        int size = exponentList.size();
+        ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
+        for (int i=size-2; i >= 0; i--) {
+            ExpressionValue prevExponent = exponentList.get(i);
+            tempEV = makePower(prevExponent,tempEV);
+        }
+        ret = makePower(ret, tempEV);
+        return ret;
 
     }
 }
@@ -1328,18 +1329,16 @@ ExpressionValue enfactorial():
 {
       en = ensqrt()
       (LOOKAHEAD(<FACTORIAL>) <FACTORIAL>
-       {
-             if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
-             && !((ExpressionNode)en).hasBrackets())
-             {
-               en = new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(),
-                 Operation.MULTIPLY,
-                 new ExpressionNode(kernel, ((ExpressionNode)en).getRight(), Operation.FACTORIAL, null)
-                 );
-             }
-             else
-              en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);
-       }
+        {
+            if (en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
+                    && !((ExpressionNode)en).hasBrackets()) {
+                en = new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(),
+                        Operation.MULTIPLY,
+                        new ExpressionNode(kernel, ((ExpressionNode)en).getRight(), Operation.FACTORIAL, null));
+            } else {
+                en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);
+            }
+        }
        )?
        { return en; }
 }
@@ -1349,24 +1348,21 @@ ExpressionValue ensqrt():
     ExpressionValue en;
 }
 {
-      <SQRT_SHORT > en = NOTterm()
-       {
-             if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
-             && !((ExpressionNode)en).hasBrackets())
-             {
-               en = new ExpressionNode(kernel,
-               new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(), Operation.SQRT_SHORT, null),
-                 Operation.MULTIPLY,
-               ((ExpressionNode)en).getRight()
-                 );
-             }
-             else
-              en = new ExpressionNode(kernel, en, Operation.SQRT_SHORT, null);
-              return en;
-       }     | en = NOTterm()
+      <SQRT_SHORT> en = NOTterm()
+    {
+        if (en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
+                && !((ExpressionNode)en).hasBrackets()) {
+            en = new ExpressionNode(kernel,
+            new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(), Operation.SQRT_SHORT, null),
+                    Operation.MULTIPLY, ((ExpressionNode)en).getRight());
+        } else {
+            en = new ExpressionNode(kernel, en, Operation.SQRT_SHORT, null);
+            return en;
+        }
+    } | en = NOTterm()
 
-       { return en; }
-       { return en; }
+    { return en; }
+    { return en; }
 }
 
 /**
@@ -1438,8 +1434,8 @@ ExpressionValue enelement():
     LOOKAHEAD(2147483647)
     <VERTICAL_BAR> ev = expressionnode() <VERTICAL_BAR>
         {
-			return new ExpressionNode(kernel, ev, Operation.ABS, null);
-		}
+            return new ExpressionNode(kernel, ev, Operation.ABS, null);
+        }
 |
     // cartesian vector  (x, y) or (x|y)
     LOOKAHEAD(2147483647)
@@ -1499,77 +1495,69 @@ ExpressionValue numVecVariable():
 {
     c = <VARX>
     {
-
-        if (GeoGebraCASParsing)
-       return new Variable(kernel, c.image);
-    else
-          return new FunctionVariable(kernel, c.image);
+        if (GeoGebraCASParsing) {
+            return new Variable(kernel, c.image);
+        }
+        return new FunctionVariable(kernel, c.image);
     }
 |
     c = <VARY>
     {
-        if (GeoGebraCASParsing)
-       return new Variable(kernel, c.image);
-    else
-          return new FunctionVariable(kernel, c.image);
+        if (GeoGebraCASParsing) {
+            return new Variable(kernel, c.image);
+        }
+        return new FunctionVariable(kernel, c.image);
     }
 |
     c = <VARZ>
     {
         // check for CAS parsing or if z is defined in kernel
         if (GeoGebraCASParsing || kernel.lookupLabel("z") != null) {
-       return new Variable(kernel, c.image);
-    } else {
-       // z is not defined: treat as equation variable for 3D view
-        return new FunctionVariable(kernel, c.image);
-       }
+            return new Variable(kernel, c.image);
+        } else {
+            // z is not defined: treat as equation variable for 3D view
+            return new FunctionVariable(kernel, c.image);
+        }
     }
 |
   // spreadsheet range like A1:B2
   LOOKAHEAD (3)
   ev = spreadsheetRange()
-  {
-    return ev;
-  }
+    {
+        return ev;
+    }
 |
     ( c = <SPREADSHEET_LABEL> | c = <LABEL> )
     {
         // should we read e for Euler constant and i for imaginary unit?
-    boolean lookforEulerImaginary = false;
+        boolean lookforEulerImaginary = false;
 
-    if (GeoGebraCASParsing)
-    {
-        // leave e and i untouched in GeoGebraCAS view
-        lookforEulerImaginary = false;
-    }
-    else if (ExternalCASParsing)
-    {  // Giac does not need it either, may need changing for other CASes
-        lookforEulerImaginary = false;
-    }
-    else
-    {   // GeoGebraCAS or GeoGebra parsing
-      // only treat e or i specially when they are undefined in GeoGebra
-      lookforEulerImaginary = true;
-    }
+        if (GeoGebraCASParsing) {
+            // leave e and i untouched in GeoGebraCAS view
+            lookforEulerImaginary = false;
+        }
+        else if (ExternalCASParsing) {
+            // Giac does not need it either, may need changing for other CASes
+            lookforEulerImaginary = false;
+        } else { // GeoGebraCAS or GeoGebra parsing
+            // only treat e or i specially when they are undefined in GeoGebra
+            lookforEulerImaginary = true;
+        }
 
         // return defined variables immediately
-    if (lookforEulerImaginary)
-    {
-      // TREAT e and i specially
-      // e for Euler constant
-      if (c.image.equals("e") && kernel.lookupLabel(c.image) == null)
-      {
-        return kernel.getEulerNumber();
-      }
-      // i for imaginary unit
-      else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null)
-      {
-          return kernel.getImaginaryUnit();
-      }
-    }
-
-       // standard case for variables
-       return new Variable(kernel, c.image);
+        if (lookforEulerImaginary) {
+            // TREAT e and i specially
+            // e for Euler constant
+            if (c.image.equals("e") && kernel.lookupLabel(c.image) == null) {
+                return kernel.getEulerNumber();
+            }
+            // i for imaginary unit
+            else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null) {
+                return kernel.getImaginaryUnit();
+            }
+        }
+        // standard case for variables
+        return new Variable(kernel, c.image);
     }
 }
 
@@ -1628,52 +1616,52 @@ ExpressionValue myDouble():
      )
     )
   {
-  	 String image = c.image.replaceFirst("e", "E");
-  	 boolean isAngle = false;
-  	 boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
-  	 double vd = 0, vm = 0, vs = 0;
-  	 if (degree != null) {
-  	 	// if e.g. 3° (no minute no second) we need to do 3*° for CAS 
-  		if (c2 == null) {
-  		    d = newSpecialDegree();
-  			return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
-  		} 
- 		// at least 3°5' or 3°5'' (or 3°5'7'')
-  		isAngle = true;
-  		vd = MyDouble.parseDouble(loc, image);
-  		hasDegrees = true;
-  		if (minutes != null) {
-  			vm = parseDouble(c2);
-  			hasMinutes = true;
-  			if (s == null) {
-  				vs = 0;
-  			} else {
-  				vs = parseDouble(s);
-  				hasSeconds = true;
-  			}
-  		} else {
-  			vs = parseDouble(c2);
-  			hasSeconds = true;
-  		}
-  	 } else if (minutes != null) {
-  	 	isAngle = true;
-  		vm = MyDouble.parseDouble(loc, image);
-  		hasMinutes = true;
-  		if (s == null) {
-  			vs = 0;
-  		} else {
-  			vs = parseDouble(s);
-  			hasSeconds = true;
-  		}
-  	 } else if (seconds != null) {
-  	 	isAngle = true;
-  	 	vs = MyDouble.parseDouble(loc, image);
-  	 	hasSeconds = true;
-  	 }
-  	 if (isAngle) {
-  		return new MyDoubleDegreesMinutesSeconds(kernel, vd, hasDegrees, vm, hasMinutes, vs, hasSeconds);
-  	 }
-     return parseDouble(image, percent != null);
+        String image = c.image.replaceFirst("e", "E");
+        boolean isAngle = false;
+        boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
+        double vd = 0, vm = 0, vs = 0;
+        if (degree != null) {
+                // if e.g. 3° (no minute no second) we need to do 3*° for CAS 
+            if (c2 == null) {
+                d = newSpecialDegree();
+                return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
+            } 
+             // at least 3°5' or 3°5'' (or 3°5'7'')
+            isAngle = true;
+            vd = MyDouble.parseDouble(loc, image);
+            hasDegrees = true;
+            if (minutes != null) {
+                vm = parseDouble(c2);
+                hasMinutes = true;
+                if (s == null) {
+                    vs = 0;
+                } else {
+                    vs = parseDouble(s);
+                    hasSeconds = true;
+                }
+            } else {
+                vs = parseDouble(c2);
+                hasSeconds = true;
+            }
+        } else if (minutes != null) {
+            isAngle = true;
+            vm = MyDouble.parseDouble(loc, image);
+            hasMinutes = true;
+            if (s == null) {
+                vs = 0;
+            } else {
+                vs = parseDouble(s);
+                hasSeconds = true;
+            }
+        } else if (seconds != null) {
+            isAngle = true;
+            vs = MyDouble.parseDouble(loc, image);
+            hasSeconds = true;
+        }
+        if (isAngle) {
+            return new MyDoubleDegreesMinutesSeconds(kernel, vd, hasDegrees, vm, hasMinutes, vs, hasSeconds);
+        }
+        return parseDouble(image, percent != null);
     }  
 |     
     (c = <FLOAT> | c = <EFLOAT>)
@@ -1684,22 +1672,22 @@ ExpressionValue myDouble():
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)
     {  // constant for degree to radians
-    if(c.image.length() ==3)
+    if (c.image.length() ==3)
     {
-		GeoElement geo = kernel.lookupLabel(c.image);
-		if(geo != null)	{
-			return geo;
-		}
+        GeoElement geo = kernel.lookupLabel(c.image);
+        if (geo != null)    {
+            return geo;
+        }
     }
         return newSpecialDegree();
     }
 |
     <RAD>
     {  // constant for radians to radians
-    	GeoElement geo = kernel.lookupLabel("rad");
-		if(geo != null)	{
-			return geo;
-		}
+        GeoElement geo = kernel.lookupLabel("rad");
+        if (geo != null)    {
+            return geo;
+        }
         d = new MySpecialDouble(kernel, 1.0d, "rad");
         d.setAngle();
         return d;
@@ -1718,7 +1706,7 @@ ExpressionValue myDouble():
     }
 |
     <EULER_GAMMA>
-    {	
+    {    
          return new MySpecialDouble(kernel, MyDouble.EULER_GAMMA, Unicode.EULER_GAMMA_STRING);
     }
 |
@@ -1755,91 +1743,83 @@ ExpressionNode numberFunction():
 }
 {
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
-      {
-        if (GeoGebraCASParsing)
-        {
-      		return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided);
+    {
+        if (GeoGebraCASParsing) {
+            return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided);
+        } else {
+            // standard GeoGebra input bar: x(...) is interpreted as "x-coordinate of"
+            return new ExpressionNode(kernel, en, Operation.XCOORD, null);
         }
-        else
-        {
-          // standard GeoGebra input bar: x(...) is interpreted as "x-coordinate of"
-          return new ExpressionNode(kernel, en, Operation.XCOORD, null);
-        }
-       }
+    }
 |
      c = <Y_FUNC> en = expressionOrEquation() (")"|"]")
-      {
-        if (GeoGebraCASParsing)
-        {
+    {
+        if (GeoGebraCASParsing) {
             // GeoGebra CAS view: y(...) is interpreted as a function
-            return Command.xyzCAS(en, 1,!ExternalCASParsing, undecided);
+            return Command.xyzCAS(en, 1, !ExternalCASParsing, undecided);
+        } else {
+            // standard GeoGebra input bar: y(...) is interpreted as "y-coordinate of"
+            return new ExpressionNode(kernel, en, Operation.YCOORD, null);
         }
-        else
-        {
-          // standard GeoGebra input bar: y(...) is interpreted as "y-coordinate of"
-          return new ExpressionNode(kernel, en, Operation.YCOORD, null);
-        }
-       }
+    }
 |
      c = <Z_FUNC> en = expressionOrEquation() (")"|"]")
-     {
-        if (GeoGebraCASParsing)
-        {
-            return Command.xyzCAS(en,2,!ExternalCASParsing, undecided);
-        }
-        else
-        {
+    {
+        if (GeoGebraCASParsing) {
+            return Command.xyzCAS(en, 2, !ExternalCASParsing, undecided);
+        } else {
             // standard GeoGebra input bar: z(...) is interpreted as user function z or "z-coordinate of"
-              GeoElement userFun = kernel.lookupLabel("z");
-       if (userFun instanceof Evaluatable) {
-          // user defined function z
-        return new ExpressionNode(kernel, userFun, Operation.FUNCTION, en);
+            GeoElement userFun = kernel.lookupLabel("z");
+            if (userFun instanceof Evaluatable) {
+                // user defined function z
+                return new ExpressionNode(kernel, userFun, Operation.FUNCTION, en);
             } else {
-         // internal function z
-        return new ExpressionNode(kernel, en, Operation.ZCOORD, null);
-           }
+                // internal function z
+                return new ExpressionNode(kernel, en, Operation.ZCOORD, null);
+            }
         }
-      }
+    }
 |
       ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]")
-           {
-             int pos = c.image.length()-2;
-             while(pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))||
-             Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))){
-               pos--;
-             }
-             ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
-             if(ret.getOperation()==Operation.MULTIPLY_OR_FUNCTION)
-               undecided.add(ret);
-             return ret;
-             }
+    {
+        int pos = c.image.length()-2;
+        while (pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))
+                || Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))) {
+            pos--;
+        }
+        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+        if (ret.getOperation() == Operation.MULTIPLY_OR_FUNCTION) {
+            undecided.add(ret);
+        }
+        return ret;
+    }
 |      <RANDOM_FUNC>
-      {
-         Construction cons = kernel.getConstruction();
-         GeoNumeric randNum = new GeoNumeric(cons);
-         cons.addRandomGeo(randNum);
-         randNum.setValue(app.getRandomNumber());
-         return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
-      }
+    {
+        Construction cons = kernel.getConstruction();
+        GeoNumeric randNum = new GeoNumeric(cons);
+        cons.addRandomGeo(randNum);
+        randNum.setValue(app.getRandomNumber());
+        return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
+    }
 |
   (
     c = <FUNCTION_LABEL> en = expressionOrEquation()
     {
-            myList = new MyList(kernel, true);
+        myList = new MyList(kernel, true);
+        myList.addListElement(en);
+    }
+       ( <COMMA> en = expressionOrEquation()
+        {
             myList.addListElement(en);
         }
-       ( <COMMA> en = expressionOrEquation()
-          {
-           myList.addListElement(en);
-          }
         )*
     )
   (")"|"]")
   // note: the last character of FUNCTION_LABEL is a "("
-      {
-          // remove the opening parenthesis
-          return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing);
-      }
+    {
+        // remove the opening parenthesis
+        return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing);
+    }
 }
 
 
@@ -1859,39 +1839,33 @@ ExpressionValue tuple():
     // cartesian coordinates
 
     "(" x = expressionOrEquation() (
-   		(   sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )
-    	|   (  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
-    	|  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
-		)? ")"
+           (   sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )
+        |   (  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
+        |  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
+        )? ")"
     {
 
-      if(y == null)
-      {
-
-         if(GiacParsing)
-        {
-          x = x.unwrap();
+        if (y == null) {
+            if (GiacParsing) {
+                x = x.unwrap();
+            }
+            if (x instanceof ExpressionNode) {
+                ((ExpressionNode)x).setBrackets(true);
+            }
+            return x;
+        } else if (z == null) {
+            MyVecNode ret = new MyVecNode(kernel, x, y);
+            if (sep.kind == POLAR_SEPARATOR) {
+                ret.setPolarCoords(x,y);
+            }
+            return ifStructuresEnabled(ret);
+        } else {
+            MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
+            if (sep.kind == POLAR_SEPARATOR) {
+                ret.setSphericalPolarCoords(x,y,z);
+            }
+            return ifStructuresEnabled(ret);
         }
-         if(x instanceof ExpressionNode)
-        {
-          ((ExpressionNode)x).setBrackets(true);
-        }
-        return x;
-      }
-      else if(z == null) {       
-	       MyVecNode ret = new MyVecNode(kernel, x, y);
-	       if(sep.kind == POLAR_SEPARATOR){
-	             ret.setPolarCoords(x,y);
-	       }
-	       return ifStructuresEnabled(ret);
-      }
-      else {       
-          MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
-          if(sep.kind == POLAR_SEPARATOR){
-             ret.setSphericalPolarCoords(x,y,z);
-           }
-           return ifStructuresEnabled(ret);
-       }
     }
 }
 
@@ -1944,9 +1918,9 @@ ExpressionNode polarvector_special():
         {
             MyVecNode v = new MyVecNode(kernel);
             v.setPolarCoords(r, phi);
-          ExpressionNode en =  new ExpressionNode(kernel, v);
-          en.setLabel(l.image.substring(0,l.image.length()-1));
-          return ifStructuresEnabled(en);
+            ExpressionNode en =  new ExpressionNode(kernel, v);
+            en.setLabel(l.image.substring(0,l.image.length()-1));
+            return ifStructuresEnabled(en);
         }
 }
 
