@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Furniture drawbale on canvas
@@ -77,8 +78,10 @@ public abstract class CanvasDrawable extends Drawable {
 			String text, int x, int y) {
 		App app = view.getApplication();
 
-		boolean serif = false;
-		if (geo0 instanceof TextProperties) {
+		// eg $\math{x}$ for nice x
+		boolean serif = StringUtil.startsWithFormattingCommand(text);
+
+		if (!serif && geo0 instanceof TextProperties) {
 			serif = ((TextProperties) geo0).isSerifFont();
 		}
 
