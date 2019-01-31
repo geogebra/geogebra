@@ -14,7 +14,6 @@ import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
-import org.geogebra.web.shared.ShareDialogMow2;
 
 import com.google.gwt.user.client.Command;
 
@@ -104,24 +103,6 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 */
 	protected void onShare() {
 		if (app.has(Feature.MOW_JOINT_SHARE_DIALOG)) {
-			ShareDialogMow2 dialog = new ShareDialogMow2(app,
-					app.getCurrentURL(material.getSharingKey(), true),
-					material);
-			dialog.setCallback(new MaterialCallbackI() {
-
-				@Override
-				public void onLoaded(List<Material> result,
-						ArrayList<Chapter> meta) {
-					updateCardVisibility(result);
-				}
-
-				@Override
-				public void onError(Throwable exception) {
-					Log.debug(exception);
-				}
-			});
-			dialog.show();
-		} else {
 			ShareDialogMow dialog = new ShareDialogMow(app,
 					app.getCurrentURL(material.getSharingKey(), true),
 					material);

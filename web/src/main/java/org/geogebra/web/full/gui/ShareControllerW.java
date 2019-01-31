@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
@@ -11,7 +10,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
-import org.geogebra.web.shared.ShareDialogMow2;
 import org.geogebra.web.shared.ShareLinkDialog;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -111,8 +109,7 @@ public class ShareControllerW implements ShareController {
 	private AsyncOperation<Boolean> getShareCallback() {
 		return new AsyncOperation<Boolean>() {
 			protected ShareLinkDialog shareDialog;
-			protected ShareDialogMow mowShareDialog;
-			protected ShareDialogMow2 shareDialogMow;
+			protected ShareDialogMow shareDialogMow;
 
 			@Override
 			public void callback(Boolean active) {
@@ -132,17 +129,10 @@ public class ShareControllerW implements ShareController {
 					shareDialog.setVisible(true);
 					shareDialog.center();
 				} else {
-					if (getAppW().has(Feature.MOW_JOINT_SHARE_DIALOG)) {
-						shareDialogMow = new ShareDialogMow2(getAppW(),
+					shareDialogMow = new ShareDialogMow(getAppW(),
 								getAppW().getCurrentURL(sharingKey, true),
 								null);
 						shareDialogMow.show();
-					} else {
-						mowShareDialog = new ShareDialogMow(getAppW(),
-								getAppW().getCurrentURL(sharingKey, true),
-								null);
-						mowShareDialog.show();
-					}
 				}
 			}
 		};

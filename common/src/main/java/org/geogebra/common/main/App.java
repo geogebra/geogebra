@@ -3829,7 +3829,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** MOW-626 */
 		case MOW_JOINT_SHARE_DIALOG:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		// **********************************************************************
 		// MOW END

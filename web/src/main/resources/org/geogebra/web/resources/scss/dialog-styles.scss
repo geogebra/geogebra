@@ -832,7 +832,7 @@ $duration: 0.2s;
     		line-height: 1;
 		}
 		.linkPanel {
-			display: inline-flex;
+			display: flex;
 			
 			.linkBox {
 				padding: 8px 0 8px 0;
@@ -1337,7 +1337,7 @@ $duration: 0.2s;
 		
 			.linkPanel {
 				margin-top: 16px;
-				display: inline-flex;
+				display: flex;
 						
 				.linkBox {
 					width: 362px;
