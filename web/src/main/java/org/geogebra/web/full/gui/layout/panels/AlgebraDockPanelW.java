@@ -34,13 +34,15 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	/**
 	 * Create new dockapanel for algebra
-	 * 
+	 *
 	 * @param decorator
 	 *            panel decorator
+	 * @param hasStyleBar
+	 *            whether to add stylebar
 	 */
 	public AlgebraDockPanelW(DockPanelDecorator decorator, boolean hasStyleBar) {
 		super(
-				App.VIEW_ALGEBRA,	// view id 
+				App.VIEW_ALGEBRA,	// view id
 				"AlgebraWindow", 			// view title phrase
 				null,						// toolbar string
 				hasStyleBar, // style bar?
@@ -239,7 +241,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	/**
 	 * Start editing and return keyboard adapter.
-	 * 
+	 *
 	 * @param aview
 	 *            algebra view
 	 * @param ml

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 
@@ -32,7 +33,7 @@ public class AVItemHeaderScientific extends SimplePanel
 
 	private NoDragImage getWarningImage() {
 		if (warningImage == null) {
-			warningImage = new NoDragImage("", 32);
+			warningImage = new NoDragImage(MaterialDesignResources.INSTANCE.wrong_input(), 24);
 			warningImage.addStyleName("avWarningScientific");
 		}
 		return warningImage;
