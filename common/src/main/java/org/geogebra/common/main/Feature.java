@@ -202,9 +202,6 @@ public enum Feature {
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 
-	/** MOW-348 */
-	MOW_PDF_TOOL,
-
 	/** MOW-479 */
 	MOW_OPEN_FILE_VIEW,
 

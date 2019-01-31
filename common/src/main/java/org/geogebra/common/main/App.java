@@ -3823,10 +3823,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_BACKGROUND:
 			return prerelease && whiteboard;
 
-		/** MOW-348 */
-		case MOW_PDF_TOOL:
-			return prerelease && whiteboard;
-
 		/** MOW-479 */
 		case MOW_OPEN_FILE_VIEW:
 			return prerelease && whiteboard;
