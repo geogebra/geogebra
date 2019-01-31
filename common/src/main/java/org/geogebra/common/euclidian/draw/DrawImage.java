@@ -472,11 +472,8 @@ public final class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-
-		if (view.getApplication().has(Feature.MOW_SELECTION_TOOL)) {
-			return rect.intersects(getBoundingBox().getRectangle());
-		}
-		return rect.intersects(classicBoundingBox);
+		return rect.intersects(view.getApplication().isWhiteboardActive()
+				? getBoundingBox().getRectangle() : classicBoundingBox);
 	}
 
 	@Override
@@ -484,11 +481,8 @@ public final class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-
-		if (view.getApplication().has(Feature.MOW_SELECTION_TOOL)) {
-			return rect.contains(getBoundingBox().getRectangle());
-		}
-		return rect.contains(classicBoundingBox);
+		return rect.contains(view.getApplication().isWhiteboardActive()
+				? getBoundingBox().getRectangle() : classicBoundingBox);
 	}
 
 	/**
