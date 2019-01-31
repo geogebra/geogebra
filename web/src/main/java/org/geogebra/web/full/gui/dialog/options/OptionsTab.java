@@ -49,7 +49,6 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -763,7 +762,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(lineThicknessPanel);
 
 			thicknessSlider = new SliderPanel(1,
-					app.has(Feature.MOW_HIGHLIGHTER_TOOL)
+					app.isWhiteboardActive()
 							? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
 							: GeoElement.MAX_LINE_WIDTH);
 			thicknessSlider.setTickSpacing(1);

@@ -44,7 +44,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				: new EuclidianLineStylePopup(app, 5, true);
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider()
-				.setMaximum(app.has(Feature.MOW_HIGHLIGHTER_TOOL)
+				.setMaximum(app.isWhiteboardActive()
 						? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : 13);
 		btnLineStyle.getMySlider().setTickSpacing(1);
 		btnLineStyle.addPopupHandler(this);

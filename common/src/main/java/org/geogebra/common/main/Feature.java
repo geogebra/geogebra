@@ -193,9 +193,6 @@ public enum Feature {
 	/** MOW-345 */
 	MOW_MOVING_CANVAS,
 
-	/** MOW-278 */
-	MOW_HIGHLIGHTER_TOOL,
-
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 
