@@ -953,19 +953,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			if (newMode == EuclidianConstants.MODE_GRAPHING) {
-				GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
-				ge.initPosition(view);
-				ge.setEmbedId(app.getEmbedManager().nextID());
-				ge.setLabel(null);
-				app.invokeLater(new Runnable() {
+				if (app.getEmbedManager() != null) {
+					GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+					ge.initPosition(view);
+					ge.setEmbedId(app.getEmbedManager().nextID());
+					ge.setLabel(null);
+					app.invokeLater(new Runnable() {
 
-					@Override
-					public void run() {
-						app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-								ModeSetter.DOCK_PANEL);
-					}
-				});
-
+						@Override
+						public void run() {
+							app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+									ModeSetter.DOCK_PANEL);
+						}
+					});
+				}
 			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(TestGeo.GEOIMAGE, tempArrayList),
