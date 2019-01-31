@@ -70,7 +70,7 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public DockPanelW createAVPanel() {
-		return new AlgebraDockPanelW(new ScientificDockPanelDecorator());
+		return new AlgebraDockPanelW(new ScientificDockPanelDecorator(), false);
 	}
 
 	@Override

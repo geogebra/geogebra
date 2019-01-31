@@ -26,7 +26,7 @@ public class ClassicActivity extends BaseActivity {
 
 	@Override
 	public DockPanelW createAVPanel() {
-		return new AlgebraDockPanelW(null);
+		return new AlgebraDockPanelW(null, true);
 	}
 
 }

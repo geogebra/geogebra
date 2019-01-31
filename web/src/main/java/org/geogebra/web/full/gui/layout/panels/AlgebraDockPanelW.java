@@ -38,12 +38,12 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	 * @param decorator
 	 *            panel decorator
 	 */
-	public AlgebraDockPanelW(DockPanelDecorator decorator) {
+	public AlgebraDockPanelW(DockPanelDecorator decorator, boolean hasStyleBar) {
 		super(
 				App.VIEW_ALGEBRA,	// view id 
 				"AlgebraWindow", 			// view title phrase
 				null,						// toolbar string
-				true, // style bar?
+				hasStyleBar, // style bar?
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
