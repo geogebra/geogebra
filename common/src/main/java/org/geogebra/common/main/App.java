@@ -3843,10 +3843,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_EMBED_EXTENSION:
 			return prerelease;
 
-		/** MOW-491 */
-		case MOW_WIDGET_POSITIONS:
-			return prerelease;
-
 		/** MOW-532 */
 		case MOW_BURGER_MENU_CLEANUP:
 			return prerelease && whiteboard;
