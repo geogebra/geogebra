@@ -3823,10 +3823,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_BURGER_MENU_CLEANUP:
 			return prerelease && whiteboard;
 
-		/** MOW-484 */
-		case MOW_SHARE_DIALOG:
-			return prerelease && whiteboard;
-
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
 			return canary && whiteboard;

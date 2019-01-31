@@ -221,9 +221,6 @@ public enum Feature {
 
 	/** MOW-532 */
 	MOW_BURGER_MENU_CLEANUP,
-	
-	/** MOW-484 */
-	MOW_SHARE_DIALOG,
 
 	/** MOW-189 */
 	MOW_TEXT_TOOL,
