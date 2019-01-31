@@ -2694,6 +2694,7 @@ __GGB__keysVar["id"].menu = {
     "ShowHideObject": "Tampilkan / Sembunyikan Objek",
     "ShowHideObject.Help": "Pilih objek untuk disembunyikan, kemudian klik alat lain",
     "ShowHorizontalScrollbars": "Tampilkan Scrollbars Horizontal",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Tunjukan pada Pita Peralatan",
     "ShowInputField": "Tampilkan bilah masukan",
     "ShowInterval": "Tampilkan Interval",

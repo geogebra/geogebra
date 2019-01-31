@@ -2694,6 +2694,7 @@ __GGB__keysVar["hr"].menu = {
     "ShowHideObject": "Poka\u017ei / sakrij objekt",
     "ShowHideObject.Help": "Odaberite objekte koje \u017eelite sakriti, a potom prije\u0111ite na drugi alat",
     "ShowHorizontalScrollbars": "Poka\u017ei horizontalnu kliznu traku",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Poka\u017ei u alatnoj traci",
     "ShowInputField": "Poka\u017ei traku za unos",
     "ShowInterval": "Poka\u017ei interval",

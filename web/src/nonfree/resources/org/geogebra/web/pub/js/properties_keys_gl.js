@@ -2694,6 +2694,7 @@ __GGB__keysVar["gl"].menu = {
     "ShowHideObject": "Amosar / Agochar obxecto",
     "ShowHideObject.Help": "Escoller os obxectos a agochar, despois premer noutra ferramenta",
     "ShowHorizontalScrollbars": "Amosar barra de deslizamento horizontal",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Amosar na barra de ferramentas",
     "ShowInputField": "Amosar barra de entradas",
     "ShowInterval": "Mostrar intervalo",

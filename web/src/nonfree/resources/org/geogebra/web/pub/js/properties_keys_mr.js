@@ -2694,6 +2694,7 @@ __GGB__keysVar["mr"].menu = {
     "ShowHideObject": "\u0935\u0938\u094d\u0924\u0942 \u0926\u093e\u0916\u0935\u093e/\u0932\u092a\u0935\u093e",
     "ShowHideObject.Help": "\u0932\u092a\u0935\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u0935\u0938\u094d\u0924\u0942 \u0928\u093f\u0935\u0921\u093e \u092e\u0917 \u0926\u0941\u0938\u0930\u0947 \u0938\u093e\u0927\u0928 (tool) \u0935\u093e\u092a\u0930\u093e",
     "ShowHorizontalScrollbars": "Show Horizontal Scrollbars",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "\u0938\u093e\u0927\u0928\u092a\u091f\u094d\u091f\u0940\u0935\u0930 \u0926\u093e\u0916\u0935\u093e (Show in Toolbar)",
     "ShowInputField": "\u0928\u093f\u0935\u0947\u0936\u092a\u091f\u094d\u091f\u0940 (input bar) \u0926\u093e\u0916\u0935\u093e",
     "ShowInterval": "Show Interval",

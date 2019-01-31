@@ -2694,6 +2694,7 @@ __GGB__keysVar["pt"].menu = {
     "ShowHideObject": "Exibir / Esconder Objeto",
     "ShowHideObject.Help": "Selecione os objetos e, em seguida, ative uma outra ferramenta",
     "ShowHorizontalScrollbars": "Exibir Barras de Rolagem Horizontais",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Exibir na Barra de Ferramentas",
     "ShowInputField": "Exibir Campo de Entrada",
     "ShowInterval": "Exibir Intervalo",

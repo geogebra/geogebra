@@ -2694,6 +2694,7 @@ __GGB__keysVar["ro"].menu = {
     "ShowHideObject": "Arat\u0103 / Ascunde obiecte",
     "ShowHideObject.Help": "Selecta\u0163i obiectele de ascuns, apoi trece\u0163i la un alt instrument",
     "ShowHorizontalScrollbars": "Arat\u0103 barele de defilare orizontal\u0103",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Arat\u0103 \xeen bara de instrumente",
     "ShowInputField": "Arat\u0103 linia de intrare",
     "ShowInterval": "Afi\u015fare interval",

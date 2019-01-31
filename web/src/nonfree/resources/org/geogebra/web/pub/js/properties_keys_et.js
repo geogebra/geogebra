@@ -2694,6 +2694,7 @@ __GGB__keysVar["et"].menu = {
     "ShowHideObject": "N\xe4ita / peida objekt",
     "ShowHideObject.Help": "Valige objektid, mida peita, seej\xe4rel valige teine t\xf6\xf6riist",
     "ShowHorizontalScrollbars": "N\xe4ita horisontaalseid kerimisribasid",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "N\xe4ita t\xf6\xf6riistariba",
     "ShowInputField": "N\xe4ita sisendriba",
     "ShowInterval": "N\xe4ita intervalli",

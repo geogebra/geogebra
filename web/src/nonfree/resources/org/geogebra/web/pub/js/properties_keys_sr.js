@@ -2694,6 +2694,7 @@ __GGB__keysVar["sr"].menu = {
     "ShowHideObject": "Prika\u017ei / sakrij objekat",
     "ShowHideObject.Help": "Izaberite objekte da biste ih sakrili, a zatim promenite alat da biste potvrdili izmene",
     "ShowHorizontalScrollbars": "Prika\u017ei horizontalne kliza\u010de",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Prika\u017ei na traci sa alatima",
     "ShowInputField": "Prika\u017ei polje za unos",
     "ShowInterval": "Prika\u017ei interval",

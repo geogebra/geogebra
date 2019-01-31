@@ -2694,6 +2694,7 @@ __GGB__keysVar["fil"].menu = {
     "ShowHideObject": "Show / Hide Object",
     "ShowHideObject.Help": "Pumili ng objects na iha-hide, pagkatapos i-click ang ibang tool",
     "ShowHorizontalScrollbars": "Show Horizontal Scrollbars",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Show in Toolbar",
     "ShowInputField": "Show Inputbar",
     "ShowInterval": "Ipakita ang Interval",

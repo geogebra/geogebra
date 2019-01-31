@@ -2694,6 +2694,7 @@ __GGB__keysVar["tr"].menu = {
     "ShowHideObject": "Nesneyi G\xf6ster/Gizle",
     "ShowHideObject.Help": "Saklamak i\xe7in nesneleri se\xe7, sonra de\u011fi\u015fiklikleri uygulamak i\xe7in ara\xe7 de\u011fi\u015ftir",
     "ShowHorizontalScrollbars": "Yatay Kayd\u0131rma \xe7ubu\u011funu G\xf6ster",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Ara\xe7 \xe7ubu\u011funda g\xf6ster",
     "ShowInputField": "Giri\u015f alan\u0131n\u0131 g\xf6ster",
     "ShowInterval": "Aral\u0131\u011f\u0131 G\xf6ster",

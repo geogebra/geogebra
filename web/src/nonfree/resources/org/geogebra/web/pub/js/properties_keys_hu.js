@@ -2694,6 +2694,7 @@ __GGB__keysVar["hu"].menu = {
     "ShowHideObject": "Alakzat mutat\xe1sa / elrejt\xe9se",
     "ShowHideObject.Help": "Elrejteni k\xedv\xe1nt alakzatok kiv\xe1laszt\xe1sa, majd m\xe1sik eszk\xf6z kiv\xe1laszt\xe1sa",
     "ShowHorizontalScrollbars": "V\xedzszintes g\xf6rget\u0151s\xe1v megjelen\xedt\xe9se",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Megjelen\xedt az eszk\xf6zk\xe9szleten",
     "ShowInputField": "Parancssor megjelen\xedt\xe9se",
     "ShowInterval": "Intervallum mutat\xe1sa",

@@ -2694,6 +2694,7 @@ __GGB__keysVar["da"].menu = {
     "ShowHideObject": "Vis /skjul objekt",
     "ShowHideObject.Help": "V\xe6lg objekter for at skjule dem, og skift tilstand for at p\xe5f\xf8re forandringerne",
     "ShowHorizontalScrollbars": "Vis vandrette paneler",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Vis i v\xe6rkt\xf8jsbj\xe6lke",
     "ShowInputField": "Vis inputbj\xe6lke",
     "ShowInterval": "Vis Interval",

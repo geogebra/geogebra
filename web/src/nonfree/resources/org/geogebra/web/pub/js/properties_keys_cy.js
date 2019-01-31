@@ -2694,6 +2694,7 @@ __GGB__keysVar["cy"].menu = {
     "ShowHideObject": "Dangos/cuddio'r gwrthrych",
     "ShowHideObject.Help": "Dewis gwrthrychau i'w cuddio ac yna newid i offeryn arall",
     "ShowHorizontalScrollbars": "Dangos y bariau sgrolio llorwedd",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Dangos yn y bar offer",
     "ShowInputField": "Dangos y bar mewnbwn",
     "ShowInterval": "Show Interval",

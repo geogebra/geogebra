@@ -2694,6 +2694,7 @@ __GGB__keysVar["ml"].menu = {
     "ShowHideObject": "\u0d35\u0d38\u0d4d\u0d24\u0d41\u0d35\u0d3f\u0d28\u0d4d\u0d31\u0d46 \u0d26\u0d43\u0d36\u0d4d\u0d2f\u0d24",
     "ShowHideObject.Help": "Select objects to hide, then switch to another tool",
     "ShowHorizontalScrollbars": "Show Horizontal Scrollbars",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Show in Toolbar",
     "ShowInputField": "Show Inputbar",
     "ShowInterval": "Show Interval",

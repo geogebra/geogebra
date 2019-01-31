@@ -2694,6 +2694,7 @@ __GGB__keysVar["sl"].menu = {
     "ShowHideObject": "Prika\u017ei / skrij objekt",
     "ShowHideObject.Help": "Izberi objekt za skrivanje in nato orodje za spreminjanje za uveljavitev skrivanja",
     "ShowHorizontalScrollbars": "Prika\u017ei vodoravni drsnik",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Prika\u017ei v orodni vrstici",
     "ShowInputField": "Prika\u017ei vnosno vrstico",
     "ShowInterval": "Poka\u017ei interval",

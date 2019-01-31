@@ -2694,6 +2694,7 @@ __GGB__keysVar["lt"].menu = {
     "ShowHideObject": "Rodyti / sl\u0117pti objekt\u0105",
     "ShowHideObject.Help": "Pasitinkite kuriuos objektus norite sl\u0117pti, tada pakeiskite \u012frank\u012f",
     "ShowHorizontalScrollbars": "Rodyti horizontali\u0105 slankjuost\u0119",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Rodyti \u012franki\u0173 juostoje",
     "ShowInputField": "Rodyti \u012fvesties juost\u0105",
     "ShowInterval": "Rodyti interval\u0105",

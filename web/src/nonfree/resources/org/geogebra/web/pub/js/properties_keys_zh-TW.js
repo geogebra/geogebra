@@ -2694,6 +2694,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "ShowHideObject": "\u986f\u793a\u2571\u96b1\u85cf\u7269\u4ef6",
     "ShowHideObject.Help": "\u9ede\u9078\u7269\u4ef6\u4f86\u5207\u63db\u5176\u986f\u793a\u6216\u96b1\u85cf\u72c0\u614b\uff08\u2605\u6ce8\u610f\uff1a\u9ede\u9078\u5b8c\u5f8c\uff0c\u8acb\u6309 Esc \u9375\uff09",
     "ShowHorizontalScrollbars": "\u986f\u793a\u6c34\u5e73\u6372\u8ef8",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "\u986f\u793a\u65bc\u300c\u5de5\u5177\u5217\u300d",
     "ShowInputField": "\u986f\u793a\u300c\u6307\u4ee4\u5217\u300d",
     "ShowInterval": "\u986f\u793a\u5340\u9593",

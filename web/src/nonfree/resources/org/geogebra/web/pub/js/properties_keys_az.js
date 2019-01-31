@@ -2694,6 +2694,7 @@ __GGB__keysVar["az"].menu = {
     "ShowHideObject": "Show / Hide Object",
     "ShowHideObject.Help": "Select objects to hide, then switch to another tool",
     "ShowHorizontalScrollbars": "Show Horizontal Scrollbars",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Al\u0259tl\u0259r panelind\u0259 g\xf6st\u0259r",
     "ShowInputField": "Show Inputbar",
     "ShowInterval": "Show Interval",

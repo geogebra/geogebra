@@ -2694,6 +2694,7 @@ __GGB__keysVar["sk"].menu = {
     "ShowHideObject": "Zobrazi\u0165 / skry\u0165 objekty",
     "ShowHideObject.Help": "Vyber objekty, ktor\xe9 chce\u0161 skry\u0165. Op\xe4tovnou aplik\xe1ciou sa daj\xfa znova zvidite\u013eni\u0165.",
     "ShowHorizontalScrollbars": "Uk\xe1za\u0165 vodorovn\xe9 posuvn\xedky",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Uk\xe1za\u0165 na palete n\xe1strojov",
     "ShowInputField": "Zobrazi\u0165 vstupn\xe9 pole",
     "ShowInterval": "Uk\xe1\u017e interval",

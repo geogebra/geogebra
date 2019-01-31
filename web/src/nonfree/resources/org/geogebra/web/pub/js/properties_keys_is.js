@@ -2694,6 +2694,7 @@ __GGB__keysVar["is"].menu = {
     "ShowHideObject": "S\xfdna / fela hlut",
     "ShowHideObject.Help": "Velji\xf0 hlut a\xf0 fela, velji\xf0 svo anna\xf0 verkf\xe6ri til a\xf0 sj\xe1 breytingu",
     "ShowHorizontalScrollbars": "S\xfdna l\xe1r\xe9ttar skrunbrautir",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "S\xfdna \xed verkf\xe6rastiku",
     "ShowInputField": "S\xfdna inntaksreit",
     "ShowInterval": "S\xfdna bil",

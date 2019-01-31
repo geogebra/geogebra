@@ -2694,6 +2694,7 @@ __GGB__keysVar["lv"].menu = {
     "ShowHideObject": "Par\u0101d\u012bt / Pasl\u0113pt objektus",
     "ShowHideObject.Help": "Izv\u0113les objektu, lai to pasl\u0113ptu, tad izv\u0113lies citu r\u012bku",
     "ShowHorizontalScrollbars": "Par\u0101d\u012bt horizont\u0101lo sl\u012bdl\u012bniju",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Par\u0101d\u012bt r\u012bkjosl\u0101",
     "ShowInputField": "Par\u0101d\u012bt ievades josl\u0101",
     "ShowInterval": "SR\u0101d\u012bt Interv\u0101lu",

@@ -2694,6 +2694,7 @@ __GGB__keysVar["xh"].menu = {
     "ShowHideObject": "Show / Hide Into",
     "ShowHideObject.Help": "Khetha into ofuna ukuyifihla, uze utshintshele kwesinye isixhobo",
     "ShowHorizontalScrollbars": "Bonisa iziScrollbars ezileleyo",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Bonisa kwiToolbar",
     "ShowInputField": "Bonisa iInputbar",
     "ShowInterval": "Bonisa iInterval",

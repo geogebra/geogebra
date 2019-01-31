@@ -2694,6 +2694,7 @@ __GGB__keysVar["vi"].menu = {
     "ShowHideObject": "Hi\u1ec7n/\u1ea9n \u0111\u1ed1i t\u01b0\u1ee3ng",
     "ShowHideObject.Help": "Ch\u1ecdn c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng c\u1ea7n \u1ea9n ch\xfang, sau \u0111\xf3 ch\u1ecdn ki\u1ec3u c\u1ea7n thay \u0111\u1ed5i r\u1ed3i ch\u1ecdn \xe1p d\u1ee5ng nh\u1eefng thay \u0111\u1ed5i \u0111\xf3",
     "ShowHorizontalScrollbars": "Hi\u1ec3n th\u1ecb thanh cu\u1ed1n ngang",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Hi\u1ec3n th\u1ecb thanh c\u1ed9ng c\u1ee5",
     "ShowInputField": "Hi\u1ec3n th\u1ecb khung nh\u1eadp l\u1ec7nh",
     "ShowInterval": "Hi\u1ec3n th\u1ecb kho\u1ea3ng",

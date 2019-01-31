@@ -2694,6 +2694,7 @@ __GGB__keysVar["eo"].menu = {
     "ShowHideObject": "Montri / Ka\u015di objekton",
     "ShowHideObject.Help": "Select objects to hide, then switch to another tool",
     "ShowHorizontalScrollbars": "Horizontalaj rulumskaloj",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Montri en ilobreto",
     "ShowInputField": "Montri enigan breton",
     "ShowInterval": "Montri Intervalon",

@@ -2694,6 +2694,7 @@ __GGB__keysVar["cs"].menu = {
     "ShowHideObject": "Zobrazit / skr\xfdt objekt",
     "ShowHideObject.Help": "Vybrat objekty, kter\xe9 se maj\xed skr\xfdt, pak zm\u011bnit n\xe1stroj, aby se zm\u011bny mohly uplatnit",
     "ShowHorizontalScrollbars": "Zobrazit horizont\xe1ln\xed posuvn\xedk",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Zobrazit v n\xe1strojov\xe9m pruhu",
     "ShowInputField": "Zobrazit vstupn\xed pole",
     "ShowInterval": "Zobrazit interval",

@@ -2694,6 +2694,7 @@ __GGB__keysVar["eu"].menu = {
     "ShowHideObject": "Erakutsi / Ezkutatu Objektua",
     "ShowHideObject.Help": "Hautatu ezkutatu nahi den objektuak, ondoren aldatu tresna",
     "ShowHorizontalScrollbars": "Erakutsi Korritze-Barra Horizontala",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Erakutsi Tresna-barran",
     "ShowInputField": "Erakutsi Sarrera-eremua",
     "ShowInterval": "Erakutsi Tartea",

@@ -2694,6 +2694,7 @@ __GGB__keysVar["sv"].menu = {
     "ShowHideObject": "Visa/D\xf6lj objekt",
     "ShowHideObject.Help": "V\xe4lj objekt f\xf6r att d\xf6lja dem, byt sedan verktyg f\xf6r att verkst\xe4lla \xe4ndringarna",
     "ShowHorizontalScrollbars": "Visa horisontella f\xf6nsterhissar",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Visa i verktygsf\xe4ltet",
     "ShowInputField": "Visa inmatningsf\xe4lt",
     "ShowInterval": "Visa intervall",

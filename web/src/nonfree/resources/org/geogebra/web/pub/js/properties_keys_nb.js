@@ -2694,6 +2694,7 @@ __GGB__keysVar["nb"].menu = {
     "ShowHideObject": "Vis eller skjul objekt",
     "ShowHideObject.Help": "Velg objekt som skal skjules, og skift deretter verkt\xf8y",
     "ShowHorizontalScrollbars": "Vis horisontale rullefelt",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Vis p\xe5 verkt\xf8ylinja",
     "ShowInputField": "Vis inntastingsfeltet",
     "ShowInterval": "Vis intervall",

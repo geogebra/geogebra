@@ -2694,6 +2694,7 @@ __GGB__keysVar["pl"].menu = {
     "ShowHideObject": "Poka\u017c / ukryj obiekt",
     "ShowHideObject.Help": "Wybierz obiekty do ukrycia, nast\u0119pnie prze\u0142\u0105cz na inne narz\u0119dzie",
     "ShowHorizontalScrollbars": "Poka\u017c Poziomy Pasek Przewijania",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Poka\u017c na pasku narz\u0119dzi",
     "ShowInputField": "Poka\u017c pole wprowadzania",
     "ShowInterval": "Poka\u017c przedzia\u0142",

@@ -2694,6 +2694,7 @@ __GGB__keysVar["ko"].menu = {
     "ShowHideObject": "\ub300\uc0c1 \ubcf4\uc774\uae30 / \uac10\ucd94\uae30",
     "ShowHideObject.Help": "\uac10\ucd94\uace0\uc790 \ud558\ub294 \ub300\uc0c1\uc744 \ud074\ub9ad\ud55c \ud6c4 \ub2e4\ub978 \ub3c4\uad6c\ub85c \uc804\ud658\ud558\uc138\uc694.",
     "ShowHorizontalScrollbars": "\uc218\ud3c9 \uc2a4\ud06c\ub864\ubc14 \ubcf4\uc774\uae30",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "\ub3c4\uad6c\uc0c1\uc790\uc5d0\uc11c \ubcf4\uc774\uae30",
     "ShowInputField": "\uc785\ub825\ucc3d \ubcf4\uc774\uae30",
     "ShowInterval": "\uad6c\uac04 \ubcf4\uc774\uae30",

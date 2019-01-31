@@ -2694,6 +2694,7 @@ __GGB__keysVar["ca"].menu = {
     "ShowHideObject": "Mostra / amaga objecte",
     "ShowHideObject.Help": "Seleccioneu els objectes per amagar-los/tornar-los a mostrar, i canvieu d'eina perqu\xe8 tingui efecte",
     "ShowHorizontalScrollbars": "Mostra les barres de despla\xe7ament horitzontals",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Mostra a la barra d'eines",
     "ShowInputField": "Mostra la l\xednia d'entrada",
     "ShowInterval": "Mostra l'interval",

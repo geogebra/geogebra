@@ -2694,6 +2694,7 @@ __GGB__keysVar["sq"].menu = {
     "ShowHideObject": "Objekti Shfaq\\Fshih",
     "ShowHideObject.Help": "Zgjidh Objekte per te fshehur, pastaj kalo ne mjet tjeter",
     "ShowHorizontalScrollbars": "Shfaq Zhvendosesit Horizontale",
+    "ShowInAlgebraView": "Show in Algebra View",
     "ShowInToolBar": "Shfaq Brezin e mjeteve",
     "ShowInputField": "Shfaq Fushen Input",
     "ShowInterval": "Shfaq  Interval",
