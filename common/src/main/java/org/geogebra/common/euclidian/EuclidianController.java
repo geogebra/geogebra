@@ -12750,7 +12750,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
 		view.setBoundingBox(new BoundingBox(rect, false,
-				hasRotationHandler && app.has(Feature.MOW_ROTATION_HANDLER)));
+				hasRotationHandler));
 	}
 
 	/**

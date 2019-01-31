@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
@@ -617,8 +616,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false,
-					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
+			boundingBox = new BoundingBox(false, true);
 			boundingBox.setNrHandlers(2);
 		}
 		return boundingBox;

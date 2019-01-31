@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
@@ -456,8 +455,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false,
-					view.getApplication().has(Feature.MOW_ROTATION_HANDLER));
+			boundingBox = new BoundingBox(false, true);
 		}
 		return boundingBox;
 	}
