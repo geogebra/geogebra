@@ -8229,19 +8229,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void snapMoveView(int dx0, int dy0) {
 		int dx = dx0;
 		int dy = dy0;
-		if (app.has(Feature.MOW_MOVING_CANVAS)) {
-			if (startLoc != lastStartLoc) {
-				snapMoveView = true;
-			}
-			if (Math.abs(dx) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
-				dx = 0; // move up/down
-			} else if (Math.abs(dy) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
-				dy = 0; // move left/right
-			} else {
-				snapMoveView = false; // release snap
-			}
-			lastStartLoc = startLoc;
+		if (startLoc != lastStartLoc) {
+			snapMoveView = true;
 		}
+		if (Math.abs(dx) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
+			dx = 0; // move up/down
+		} else if (Math.abs(dy) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
+			dy = 0; // move left/right
+		} else {
+			snapMoveView = false; // release snap
+		}
+		lastStartLoc = startLoc;
 		view.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
 

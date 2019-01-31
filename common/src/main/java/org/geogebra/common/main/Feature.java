@@ -190,9 +190,6 @@ public enum Feature {
 	/** MOW-336 */
 	MOW_DRAG_AND_DROP_ANIMATION,
 
-	/** MOW-345 */
-	MOW_MOVING_CANVAS,
-
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 
