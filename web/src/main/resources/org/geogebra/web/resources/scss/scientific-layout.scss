@@ -123,20 +123,26 @@
         position: absolute;
     }
 
+    %panelFadeAnimation {
+        opacity: 1;
+        animation-iteration-count: 1;
+        animation-duration: 0.2s;
+    }
+
     .panelFadeIn {
-    	opacity: 1;
-    	animation-name: fadeInOpacity;
-    	animation-iteration-count: 1;
-    	animation-timing-function: ease-in;
-    	animation-duration: 0.2s;
+        @extend %panelFadeAnimation;
+        &{
+            animation-name: fadeInOpacity;
+            animation-timing-function: ease-in;
+        }
     }
 
     .panelFadeOut {
-       	opacity: 1;
-       	animation-name: fadeOutOpacity;
-       	animation-iteration-count: 1;
-       	animation-timing-function: ease-out;
-       	animation-duration: 0.2s;
+        @extend %panelFadeAnimation;
+        &{
+            animation-name: fadeOutOpacity;
+            animation-timing-function: ease-out;
+        }
     }
 }
 
