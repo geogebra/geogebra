@@ -314,9 +314,6 @@ public enum Feature {
 
 	/** APPS-250 */
 	SHOW_DEFINITION_FOR_EQUATION_IN_EXAM,
-
-    /** G3D-37 */
-	G3D_PROJECTIONS_IN_SETTINGS,
 	
 	/** APPS-163 */
 	KEY_HANDLER_EV3D,

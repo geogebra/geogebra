@@ -1,8 +1,5 @@
 package org.geogebra.common.properties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -19,6 +16,9 @@ import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * List of properties for graphics views
@@ -63,12 +63,10 @@ public class GraphicsPropertiesList extends PropertiesList {
 		propertyList.add(
 				new GridVisibilityProperty(localization, euclidianSettings));
 
-		if (app.has(Feature.G3D_PROJECTIONS_IN_SETTINGS)) {
-            if (activeView.isEuclidianView3D()) {
-                propertyList.add(
-						new ProjectionsProperty(localization, activeView,
-                                (EuclidianSettings3D) euclidianSettings));
-            }
+        if (activeView.isEuclidianView3D()) {
+            propertyList.add(
+                    new ProjectionsProperty(localization, activeView,
+                            (EuclidianSettings3D) euclidianSettings));
         }
 
 		if (!"3D".equals(app.getVersion().getAppName())) {
