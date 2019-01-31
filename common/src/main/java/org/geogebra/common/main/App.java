@@ -4101,10 +4101,6 @@ public abstract class App implements UpdateSelection, AppInterface {
        // *********************************************************
        // **********************************************************************
 
-		// G3D-8, v511, 2018-11-15
-		case MOB_BACKGROUND_PROPERTY:
-			return true;
-
 		/** G3D-42*/
 			case G3D_AR_REGULAR_TOOLS:
 				return false;
