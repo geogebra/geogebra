@@ -3835,10 +3835,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_OPEN_FILE_VIEW:
 			return prerelease && whiteboard;
 
-		/** MOW-350 */
-		case MOW_EMBED_EXTENSION:
-			return prerelease;
-
 		/** MOW-532 */
 		case MOW_BURGER_MENU_CLEANUP:
 			return prerelease && whiteboard;

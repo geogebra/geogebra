@@ -353,10 +353,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_GRAPHING);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		if (app.has(Feature.MOW_EMBED_EXTENSION)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_EXTENSION);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_EXTENSION);
 		sb.append(" | ");
 		return sb.toString();
 	}
