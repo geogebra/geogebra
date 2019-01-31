@@ -830,4 +830,27 @@ abstract public class ObjectSettingsModel {
         }
         return show;
     }
+
+    /**
+     * @return whether the geoElement is shown in algebra view or not
+     */
+    public boolean isShownInAlgebraView() {
+        return geoElement != null && !geoElement.isAuxiliaryObject();
+    }
+
+    /**
+     * set the geoElement to be shown in algebra view or not
+     *
+     * @param flag flag
+     */
+    public void setShowInAlgebraView(boolean flag) {
+        if (geoElement != null) {
+            for (GeoElement geo : geoElementsList) {
+                geo.setAuxiliaryObject(!flag);
+                geo.updateRepaint();
+            }
+            app.setPropertiesOccured();
+            app.updateGuiForShowAuxiliaryObjects();
+        }
+    }
 }

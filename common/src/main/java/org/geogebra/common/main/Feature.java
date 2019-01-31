@@ -310,6 +310,9 @@ public enum Feature {
 	DROPDOWN_COMPONENT,
 
     /** G3D-197 */
-    G3D_TOOLS_SIMPLE_MORE_LESS
+    G3D_TOOLS_SIMPLE_MORE_LESS,
+
+    /** G3D-132 */
+    G3D_SHOW_IN_ALGEBRA_VIEW
 }
 

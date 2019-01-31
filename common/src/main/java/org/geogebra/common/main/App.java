@@ -1795,12 +1795,18 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return;
 		}
 		showAuxiliaryObjects = auxiliaryObjects;
-
-		if (getGuiManager() != null) {
-			getGuiManager().setShowAuxiliaryObjects(auxiliaryObjects);
-			// updateMenubar();
-		}
+		updateGuiForShowAuxiliaryObjects();
 	}
+
+    /**
+     * update GUI for show auxiliary objects flag
+     */
+	public final void updateGuiForShowAuxiliaryObjects() {
+        if (getGuiManager() != null) {
+            getGuiManager().setShowAuxiliaryObjects(showAuxiliaryObjects);
+            // updateMenubar();
+        }
+    }
 
 	/**
 	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
@@ -4111,6 +4117,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 
         /** G3D-197 */
         case G3D_TOOLS_SIMPLE_MORE_LESS:
+            return prerelease;
+
+        /** G3D-132 */
+        case G3D_SHOW_IN_ALGEBRA_VIEW:
             return prerelease;
 
         // **********************************************************************
