@@ -129,8 +129,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			input3D.updateMousePosition();
 
 			// check if the 3D mouse is on 3D view
-			if (!input3D.hasMouse() && robot != null) { // bird outside the view
-
+			if (input3D.hasMouse()) {
+				input3D.updateMouse3DEvent();
+				input3D.handleButtons();
+			} else if (robot != null) { // bird outside the view
 				// process right press / release
 				if (input3D.isRightPressed()) {
 					if (input3D.wasRightReleased()) {
