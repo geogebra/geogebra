@@ -355,8 +355,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 						StringTemplate.defaultTemplate), sb);
 				}
 			} else {
-				geo.addLabelTextOrHTML(
-					geo.getDefinition(StringTemplate.defaultTemplate), sb);
+				AlgebraItem.buildDefinitionString(geo, sb, StringTemplate.defaultTemplate);
 			}
 		}
 		return true;
