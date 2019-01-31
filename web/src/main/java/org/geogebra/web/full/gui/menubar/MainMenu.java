@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -131,7 +130,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 		}
 
 		boolean enableGraph = !exam || app.enableGraphing();
-		if (enableGraph && !app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+		if (enableGraph && !app.isWhiteboardActive()) {
 			this.createPerspectivesMenu();
 			this.createEditMenu();
 			this.createViewMenu();
@@ -147,13 +146,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 			if (app.enableFileFeatures()) {
 				menus.add(fileMenu);
 			}
-			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (!app.isWhiteboardActive()) {
 				menus.add(editMenu);
 			}
 			if (app.isUnbundledOrWhiteboard()) {
 				menus.add(downloadMenu);
 			}
-			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (!app.isWhiteboardActive()) {
 				menus.add(perspectivesMenu);
 			}
 			if (!app.isUnbundledOrWhiteboard()) {
@@ -161,7 +160,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 				menus.add(settingsMenu);
 				menus.add(toolsMenu);
 			}
-			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (!app.isWhiteboardActive()) {
 				menus.add(helpMenu);
 			}
 			if (app.enableFileFeatures()) {
@@ -205,8 +204,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 			}
 		}
 		if (enableGraph) {
-			if (app.isUnbundledOrWhiteboard()
-					&& !app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (app.isUnbundled()) {
 				createEditMenu();
 				menus.add(editMenu);
 				this.menuPanel.add(editMenu,
@@ -214,7 +212,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 								MaterialDesignResources.INSTANCE.edit_black(),
 								"Edit"),
 						true);
-			} else if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			} else if (!app.isWhiteboardActive()) {
 				this.menuPanel.add(editMenu,
 						getHTML(MaterialDesignResources.INSTANCE.edit_black(),
 								"Edit"),
@@ -230,7 +228,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 										.file_download_black(),
 								"DownloadAs"),
 						true);
-				if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+				if (!app.isWhiteboardActive()) {
 					this.menuPanel.add(perspectiveMenuUnbundled,
 							getExpandCollapseHTML(
 									MaterialDesignResources.INSTANCE
@@ -279,7 +277,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable,
 					true);
 		}
 		if (!exam) {
-			if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (!app.isWhiteboardActive()) {
 				if (app.isUnbundledOrWhiteboard()) {
 					this.menuPanel.add(helpMenu,
 							getExpandCollapseHTML(

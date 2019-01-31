@@ -341,7 +341,7 @@ public class FileMenuW extends GMenuBar
 					});
 		}
 		addSeparator();
-		if (!getApp().has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+		if (!getApp().isWhiteboardActive()) {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.export_image_black(),
 					loc.getMenu("exportImage")), true,

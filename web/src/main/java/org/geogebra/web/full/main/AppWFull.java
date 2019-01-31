@@ -1852,7 +1852,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			if (!isUnbundledOrWhiteboard()) {
 				floatingMenuPanel.addStyleName("classic");
 			}
-			if (has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+			if (isWhiteboardActive()) {
 				floatingMenuPanel.addStyleName("mow");
 			}
 			frame.add(floatingMenuPanel);

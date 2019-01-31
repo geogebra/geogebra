@@ -46,7 +46,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	 */
 	protected static void initActions(final MenuBarI menu, final AppW app) {
 
-		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
+		menu.addItem(app.isWhiteboardActive()
 				? menuText(app.getLocalization().getMenu("Slides") + " ("
 						+ app.getFileExtension().substring(1) + ")")
 				: menuText(app.getFileExtension().substring(1)), true,
@@ -60,7 +60,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					}
 				});
 
-		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
+		menu.addItem(app.isWhiteboardActive()
 				? menuText(app.getLocalization().getMenu("Image") + " (png)")
 				: menuText("png"), true, new MenuCommand(app) {
 
@@ -80,7 +80,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				});
 
 		menu.addItem(
-				app.has(Feature.MOW_BURGER_MENU_CLEANUP) ? menuText(
+				app.isWhiteboardActive() ? menuText(
 						app.getLocalization().getMenu("VectorGraphics")
 								+ " (svg)")
 						: menuText("svg"),
@@ -103,7 +103,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						dialogEvent(app, "exportSVG");
 					}
 				});
-		menu.addItem(app.has(Feature.MOW_BURGER_MENU_CLEANUP)
+		menu.addItem(app.isWhiteboardActive()
 				? menuText(app.getLocalization().getMenu("pdf"))
 				: menuText("pdf"), true, new MenuCommand(app) {
 
@@ -136,7 +136,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		// }
 		// });
 		// }
-		if (!app.has(Feature.MOW_BURGER_MENU_CLEANUP)) {
+		if (!app.isWhiteboardActive()) {
 			menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
 
 				@Override

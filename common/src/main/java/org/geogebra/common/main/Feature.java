@@ -216,9 +216,6 @@ public enum Feature {
 	/** MOW-533 */
 	MOW_BACKGROUND,
 
-	/** MOW-532 */
-	MOW_BURGER_MENU_CLEANUP,
-
 	/** MOW-189 */
 	MOW_TEXT_TOOL,
 
