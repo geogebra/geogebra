@@ -21,7 +21,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
@@ -74,9 +73,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	protected void initAxesOptionsPanel() {
 		// y axis is vertical
 		cbYAxisVertical = new JCheckBox(loc.getMenu("YAxisVertical"));
-		if (app.has(Feature.G3D_BLACK_AXES)) {
-			cbAxesColored = new JCheckBox(loc.getMenu("AxesColored"));
-		}
+		cbAxesColored = new JCheckBox(loc.getMenu("AxesColored"));
 
 		super.initAxesOptionsPanel();
 
@@ -88,9 +85,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbYAxisVertical));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(lblAxisLabelStyle,
 				cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
-		if (app.has(Feature.G3D_BLACK_AXES)) {
-			axesOptionsPanel.add(LayoutUtil.flowPanel(cbAxesColored));
-		}
+		axesOptionsPanel.add(LayoutUtil.flowPanel(cbAxesColored));
 	}
 
 	@Override
@@ -212,12 +207,10 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cbYAxisVertical.addActionListener(this);
 
 		// misc
-		if (app.has(Feature.G3D_BLACK_AXES)) {
-			cbAxesColored.removeActionListener(this);
-			cbAxesColored.setSelected(
-					((EuclidianView3D) view).getSettings().getHasColoredAxes());
-			cbAxesColored.addActionListener(this);
-		}
+		cbAxesColored.removeActionListener(this);
+		cbAxesColored.setSelected(
+				((EuclidianView3D) view).getSettings().getHasColoredAxes());
+		cbAxesColored.addActionListener(this);
 		cbUseLight.removeActionListener(this);
 		cbUseLight.setSelected(((EuclidianView3D) view).getUseLight());
 		cbUseLight.addActionListener(this);
@@ -473,9 +466,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cbYAxisVertical.setText(loc.getMenu("YAxisVertical"));
 
 		// misc
-		if (app.has(Feature.G3D_BLACK_AXES)) {
-			cbAxesColored.setText(loc.getMenu("AxesColored"));
-		}
+		cbAxesColored.setText(loc.getMenu("AxesColored"));
 		cbUseLight.setText(loc.getMenu("UseLighting"));
 
 		// clipping tab
@@ -515,10 +506,8 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			((EuclidianView3D) view)
 					.setYAxisVertical(cbYAxisVertical.isSelected());
 		} else if (source == cbAxesColored) {
-			if (app.has(Feature.G3D_BLACK_AXES)) {
-				((EuclidianView3D) view).getSettings()
-						.setHasColoredAxes(cbAxesColored.isSelected());
-			}
+			((EuclidianView3D) view).getSettings()
+					.setHasColoredAxes(cbAxesColored.isSelected());
 		} else if (source == cbUseLight) {
 			((EuclidianView3D) view).getSettings()
 					.setUseLight(cbUseLight.isSelected());

@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -129,18 +128,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			});
 
-			if (app.has(Feature.G3D_BLACK_AXES)) {
-				cbAxesColored = new CheckBox();
-				cbAxesColored.addClickHandler(new ClickHandler() {
+			cbAxesColored = new CheckBox();
+			cbAxesColored.addClickHandler(new ClickHandler() {
 
-					@Override
-					public void onClick(ClickEvent event) {
-						get3dview().getSettings()
-								.setHasColoredAxes(cbAxesColored.getValue());
-						repaintView();
-					}
-				});
-			}
+				@Override
+				public void onClick(ClickEvent event) {
+					get3dview().getSettings()
+							.setHasColoredAxes(cbAxesColored.getValue());
+					repaintView();
+				}
+			});
 
 			super.addAxesOptionsPanel();
 		}
@@ -151,9 +148,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			axesOptionsPanel.add(LayoutUtilW.panelRow(cbYAxisVertical));
 			axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
 					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
-			if (app.has(Feature.G3D_BLACK_AXES)) {
-				axesOptionsPanel.add(LayoutUtilW.panelRow(cbAxesColored));
-			}
+			axesOptionsPanel.add(LayoutUtilW.panelRow(cbAxesColored));
 		}
 
 		private void addClippingOptionsPanel() {
@@ -243,10 +238,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		public void update3DProperties() {
 
 			cbYAxisVertical.setValue(get3dview().getYAxisVertical());
-			if (app.has(Feature.G3D_BLACK_AXES)) {
-				cbAxesColored.setValue(
-						get3dview().getSettings().getHasColoredAxes());
-			}
+			cbAxesColored
+					.setValue(get3dview().getSettings().getHasColoredAxes());
 
 			cbUseLight.setValue(get3dview().getUseLight());
 
@@ -268,9 +261,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			super.setLabels();
 
 			setText(cbYAxisVertical, "YAxisVertical");
-			if (app.has(Feature.G3D_BLACK_AXES)) {
-				setText(cbAxesColored, "AxesColored");
-			}
+			setText(cbAxesColored, "AxesColored");
 			setText(cbUseLight, "UseLighting");
 			setText(clippingOptionsTitle, "Clipping");
 			setText(cbUseClipping, "UseClipping");
