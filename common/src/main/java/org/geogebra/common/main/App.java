@@ -3831,10 +3831,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_PDF_TOOL:
 			return prerelease && whiteboard;
 
-		/** MOW-300 */
-		case MOW_GEOGEBRA_TOOL:
-			return prerelease && whiteboard;
-
 		/** MOW-479 */
 		case MOW_OPEN_FILE_VIEW:
 			return prerelease && whiteboard;

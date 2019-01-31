@@ -208,8 +208,6 @@ public enum Feature {
 	/** MOW-348 */
 	MOW_PDF_TOOL,
 
-	MOW_GEOGEBRA_TOOL,
-
 	/** MOW-479 */
 	MOW_OPEN_FILE_VIEW,
 
