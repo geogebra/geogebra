@@ -303,9 +303,6 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** G3D-131 */
-	G3D_BLACK_AXES,
-
 	/** APPS-250 */
 	SHOW_DEFINITION_FOR_EQUATION_IN_EXAM,
 	

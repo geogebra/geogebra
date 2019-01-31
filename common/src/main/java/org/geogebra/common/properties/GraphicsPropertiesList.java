@@ -79,7 +79,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 		propertyList.add(new LabelsPropertyCollection(app, localization,
 				euclidianSettings));
 
-		if (app.has(Feature.G3D_BLACK_AXES) && activeView.isEuclidianView3D()) {
+		if (activeView.isEuclidianView3D()) {
 			propertyList.add(new AxesColoredProperty(localization,
                     (EuclidianSettings3D) euclidianSettings));
         }

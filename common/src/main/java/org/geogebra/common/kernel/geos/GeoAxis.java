@@ -60,11 +60,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
-			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
-				coloredColorFor3D = GColor.RED;
-			} else {
-				setObjColor(GColor.RED);
-			}
+			coloredColorFor3D = GColor.RED;
 			end.setCoords(1, 0, 1);
 			setEndPoint(end);
 			break;
@@ -72,11 +68,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case Y_AXIS:
 			setCoords(-1, 0, 0);
 			label = "yAxis";
-			if (getKernel().getApplication().has(Feature.G3D_BLACK_AXES)) {
-				coloredColorFor3D = GColor.DARK_GREEN;
-			} else {
-				setObjColor(GColor.DARK_GREEN);
-			}
+			coloredColorFor3D = GColor.DARK_GREEN;
 			end.setCoords(0, 1, 1);
 			setEndPoint(end);
 			break;

@@ -75,9 +75,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			ok = handleAxis(evSet, attrs);
 			break;
 		case "axesColored":
-			if (app.has(Feature.G3D_BLACK_AXES)) {
-				ok = handleColoredAxes((EuclidianSettings3D) evSet, attrs);
-			}
+		    ok = handleColoredAxes((EuclidianSettings3D) evSet, attrs);
 			break;
 		case "bgColor":
 			ok = handleBgColor(evSet, attrs);

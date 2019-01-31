@@ -1,10 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -121,6 +116,11 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -3024,8 +3024,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		sb.append("\"/>\n");
 
 		// colored axes
-		if (app.has(Feature.G3D_BLACK_AXES)
-				&& !getSettings().getHasColoredAxes()) {
+		if (!getSettings().getHasColoredAxes()) {
 			sb.append("\t<axesColored val=\"false\"/>\n");
 		}
 
@@ -4210,12 +4209,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		setProjection(evs.getProjection());
 
-		if (app.has(Feature.G3D_BLACK_AXES)) {
-			boolean colored = evs.getHasColoredAxes();
-			for (GeoAxisND ax : axis) {
-				ax.setColoredFor3D(colored);
-			}
-		}
+        boolean colored = evs.getHasColoredAxes();
+        for (GeoAxisND ax : axis) {
+            ax.setColoredFor3D(colored);
+        }
 
 		updateMatrix();
 		getEuclidianController().onCoordSystemChanged();
