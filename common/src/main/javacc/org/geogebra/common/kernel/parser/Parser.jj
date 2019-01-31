@@ -76,7 +76,7 @@ public class Parser implements ParserInterface{
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
     private boolean GiacParsing = false;
-    private boolean enableVectors = true;
+    private boolean enableStructures = true;
     private FunctionParser functionParser;
     private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
 
@@ -102,7 +102,7 @@ public class Parser implements ParserInterface{
       GeoGebraCASParsing = false;
       ExternalCASParsing = false;
       GiacParsing = false;
-      enableVectors = kernel.getAlgebraProcessor().enableStructures();
+      enableStructures = kernel.getAlgebraProcessor().enableStructures();
       undecided.clear();
     }
 
@@ -206,9 +206,13 @@ public class Parser implements ParserInterface{
     undecided.clear();
    }
 
-   private ExpressionValue ifVectorsEnabled(ExpressionValue def){
-     return enableVectors ? def : new MyDouble(kernel,Double.NaN);
- }
+	private <T extends ExpressionValue> T ifStructuresEnabled(T def)
+			throws MyError {
+		if (enableStructures) {
+			return def;
+		}
+		throw new MyError(loc, "InvalidInput");
+	}
 	
 	private MyDouble parseDouble(String image, boolean percent) {
 		double val = MyDouble.parseDouble(loc, image);
@@ -1464,7 +1468,7 @@ ExpressionValue list():
      // empty list
        "}"
       {
-           return ifVectorsEnabled(new MyList(kernel));
+           return ifStructuresEnabled(new MyList(kernel));
        }
     )
     |
@@ -1481,7 +1485,7 @@ ExpressionValue list():
           }
         )*
     "}"
-    {  return ifVectorsEnabled(myList);  }
+    {  return ifStructuresEnabled(myList);  }
    )
  )
 
@@ -1879,14 +1883,14 @@ ExpressionValue tuple():
 	       if(sep.kind == POLAR_SEPARATOR){
 	             ret.setPolarCoords(x,y);
 	       }
-	       return ifVectorsEnabled(ret);
+	       return ifStructuresEnabled(ret);
       }
       else {       
           MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
           if(sep.kind == POLAR_SEPARATOR){
              ret.setSphericalPolarCoords(x,y,z);
            }
-           return ifVectorsEnabled(ret);
+           return ifStructuresEnabled(ret);
        }
     }
 }
@@ -1905,13 +1909,9 @@ ExpressionNode cartesianvector_special():
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR> y = expressionNoFreeVars() ")" )
         {
-          if(!enableVectors)
-      {
-        return new ExpressionNode(kernel, Double.NaN);
-      }
           ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y));
           en.setLabel(l.image.substring(0,l.image.length()-1));
-          return en;
+          return ifStructuresEnabled(en);
         }
 }
 
@@ -1924,13 +1924,9 @@ ExpressionNode cartesianvector3D_special():
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR > y = expressionNoFreeVars() <VERTICAL_BAR> z = expressionNoFreeVars() ")" )
         {
-          if(!enableVectors)
-      {
-        return new ExpressionNode(kernel, Double.NaN);
-      }
           ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z));
           en.setLabel(l.image.substring(0,l.image.length()-1));
-          return en;
+          return ifStructuresEnabled(en);
         }
 }
 
@@ -1946,17 +1942,11 @@ ExpressionNode polarvector_special():
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  r = expressionNoFreeVars() <POLAR_SEPARATOR>  phi = expressionNoFreeVars() ")" )
         {
-          if(!enableVectors)
-      {
-        return new ExpressionNode(kernel, Double.NaN);
-      }
             MyVecNode v = new MyVecNode(kernel);
             v.setPolarCoords(r, phi);
           ExpressionNode en =  new ExpressionNode(kernel, v);
           en.setLabel(l.image.substring(0,l.image.length()-1));
-          return en;
+          return ifStructuresEnabled(en);
         }
 }
-
-
 
