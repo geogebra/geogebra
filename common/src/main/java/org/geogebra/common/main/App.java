@@ -3807,10 +3807,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_MOVING_CANVAS:
 			return prerelease && whiteboard;
 
-		/** MOW-299 */
-		case MOW_VIDEO_TOOL:
-			return prerelease && whiteboard;
-
 		/** MOW-278 */
 		case MOW_HIGHLIGHTER_TOOL:
 			return prerelease && whiteboard;

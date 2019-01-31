@@ -932,9 +932,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * Actions performed when menu button is pressed
 	 */
 	protected void onMenuButtonPressed() {
-		if (app.has(Feature.MOW_VIDEO_TOOL)) {
-			app.getActiveEuclidianView().getEuclidianController().widgetsToBackground();
-		}
+		app.getActiveEuclidianView().getEuclidianController()
+				.widgetsToBackground();
 		app.hideKeyboard();
 		app.closePopups();
 		app.toggleMenu();

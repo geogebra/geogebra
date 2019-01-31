@@ -925,33 +925,33 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (ms == ModeSetter.TOOLBAR) {
-			if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
-				if (newMode == EuclidianConstants.MODE_CAMERA) {
-					webcam();
+			if (app.getGuiManager() != null) {
+				switch (newMode) {
+				case EuclidianConstants.MODE_CAMERA:
+					app.getGuiManager().loadWebcam();
 					return;
-				}
-			}
-			if (newMode == EuclidianConstants.MODE_AUDIO) {
-				if (app.getGuiManager() != null) {
+					
+				case EuclidianConstants.MODE_AUDIO:
 					getDialogManager().showAudioInputDialog();
-				}
-			}
-			if (newMode == EuclidianConstants.MODE_VIDEO
-					&& app.has(Feature.MOW_VIDEO_TOOL)) {
-				if (app.getGuiManager() != null) {
+					break;
+					
+				case EuclidianConstants.MODE_VIDEO:
 					getDialogManager().showVideoInputDialog();
-				}
-			}
-			if (newMode == EuclidianConstants.MODE_PDF) {
-				if (app.getGuiManager() != null) {
+					break;
+					
+				case EuclidianConstants.MODE_PDF:
 					getDialogManager().showPDFInputDialog();
-				}
-			}
-			if (newMode == EuclidianConstants.MODE_EXTENSION) {
-				if (app.getGuiManager() != null) {
+					break;
+					
+				case EuclidianConstants.MODE_EXTENSION:
 					getDialogManager().showEmbedDialog();
-				}
+					break;
+					
+				default:
+					break;
+				}	
 			}
+
 			if (newMode == EuclidianConstants.MODE_GRAPHING) {
 				GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
 				ge.initPosition(view);
@@ -3553,12 +3553,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			app.getGuiManager().loadImage(loc, null, altDown, view);
 		}
 		return true;
-	}
-
-	protected final void webcam() {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().loadWebcam();
-		}
 	}
 
 	protected final GeoElement[] mirrorAtPoint(Hits hits, boolean selPreview) {
