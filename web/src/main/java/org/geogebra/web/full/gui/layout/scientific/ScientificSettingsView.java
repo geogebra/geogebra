@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentDropDown.DropDownSelectionCallback;
+import org.geogebra.web.full.gui.layout.animation.Animator;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -52,7 +53,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		this.app = app;
 		isOpen = true;
 		localization = app.getLocalization();
-		animator = new Animator(app.getAppletFrame(), this);
+		animator = new SettingsAnimator(app.getAppletFrame(), this);
 		createHeader();
 		createContent();
 	}

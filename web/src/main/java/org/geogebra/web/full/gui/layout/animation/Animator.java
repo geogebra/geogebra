@@ -4,21 +4,39 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class Animator {
+/**
+ * Adds two kinds of animations to the animatable Widget.
+ * One kind of in and out animation for small screen,
+ * and one kind of in and out animation for large screen.
+ * The animations need to be updated before animating the animatable widget.
+ * The updateAnimateInStyle() method has to be called before animating the animatable widget in,
+ * and the updateAnimateOutStyle() method has to be called before animating the widget out.
+ */
+public class Animator {
 	private GeoGebraFrameW frame;
 	private Widget animatable;
 	protected Animation largeScreenAnimation;
 	protected Animation smallScreenAnimation;
 
-	public Animator(GeoGebraFrameW frame, Widget animatable) {
+	/**
+	 * @param frame The frame of the whole app.
+	 * @param animatable The view element that we want to animate.
+	 */
+	protected Animator(GeoGebraFrameW frame, Widget animatable) {
 		this.frame = frame;
 		this.animatable = animatable;
 	}
 
+	/**
+	 * The method has to be called before animating the animatable widget in.
+	 */
 	public void updateAnimateInStyle() {
 		setStyle(getAnimateInStyle());
 	}
 
+	/**
+	 * This method has to be called before animating the animatable widget out.
+	 */
 	public void updateAnimateOutStyle() {
 		setStyle(getAnimateOutStyle());
 	}
@@ -35,10 +53,16 @@ public abstract class Animator {
 		animatable.removeStyleName(smallScreenAnimation.getAnimateOutStyle());
 	}
 
+	/**
+	 * @return The in-animation style depending on the screen size.
+	 */
 	public String getAnimateInStyle() {
 		return getAnimation().getAnimateInStyle();
 	}
 
+	/**
+	 * @return The out-animation style depending on the screen size.
+	 */
 	public String getAnimateOutStyle() {
 		return getAnimation().getAnimateOutStyle();
 	}
