@@ -1005,7 +1005,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected final ErrorHandler getErrorHandler(final boolean valid,
 			final boolean allowSliders, final boolean withSliders) {
 		clearErrorLabel();
-		return new AVErrorHandler(this, valid, allowSliders, withSliders);
+		return app.getActivity().createAVErrorHandler(this, valid, allowSliders, withSliders);
 	}
 
 	/**

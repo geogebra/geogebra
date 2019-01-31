@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -63,4 +64,14 @@ public interface GeoGebraActivity {
 	 * @return actions for the row
 	 */
 	MenuActionCollection getAVMenuItems(AlgebraViewW algebraView);
+
+	/**
+	 * @param radioTreeItem parent item
+	 * @param valid         previous input valid
+	 * @param allowSliders  whether to allow sliders at all
+	 * @param withSliders   whether to allow slider creation without asking
+	 * @return error handler for algebra input.
+	 */
+	ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
+			boolean allowSliders, boolean withSliders);
 }

@@ -7,9 +7,9 @@ import org.geogebra.common.util.AsyncOperation;
  * Error handler for AV input
  *
  */
-final class AVErrorHandler implements ErrorHandler {
+public final class AVErrorHandler implements ErrorHandler {
 	/**
-	 * 
+	 *
 	 */
 	private final RadioTreeItem radioTreeItem;
 	private final boolean valid;
@@ -26,7 +26,7 @@ final class AVErrorHandler implements ErrorHandler {
 	 * @param withSliders
 	 *            whether to allow slider creation without asking
 	 */
-	AVErrorHandler(RadioTreeItem radioTreeItem, boolean valid, boolean allowSliders,
+	public AVErrorHandler(RadioTreeItem radioTreeItem, boolean valid, boolean allowSliders,
 			boolean withSliders) {
 		this.radioTreeItem = radioTreeItem;
 		this.valid = valid;

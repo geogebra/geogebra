@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -10,9 +11,9 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MarblePanel;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.full.gui.view.algebra.AVErrorHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
 /**
  * General activity for all apps
  *
@@ -68,5 +69,11 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public MenuActionCollection getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollection(view);
+	}
+
+	@Override
+	public ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
+			boolean allowSliders, boolean withSliders) {
+		return new AVErrorHandler(radioTreeItem, valid, allowSliders, withSliders);
 	}
 }
