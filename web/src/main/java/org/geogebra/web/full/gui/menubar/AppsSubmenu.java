@@ -9,13 +9,14 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
  * Web implementation of PerspectivesMenu
  */
-public class PerspectivesMenuUnbundledW extends GMenuBar {
+public class AppsSubmenu extends Submenu<SVGResource> {
 
 	/** Application */
 	AppW app;
@@ -23,7 +24,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	/**
 		 * @param app application
 		 */
-	public PerspectivesMenuUnbundledW(AppW app) {
+	public AppsSubmenu(AppW app) {
 		super("apps", app);
 		this.app = app;
 		if (app.isUnbundledOrWhiteboard()) {
@@ -69,7 +70,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	}
 
 	/**
-	 * @return callback that shows the start exam dialog 
+	 * @return callback that shows the start exam dialog
 	 */
 	AsyncOperation<Boolean> getExamCallback() {
 		return new AsyncOperation<Boolean>() {
@@ -123,6 +124,16 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				+ app.getLocalization().getMenu(s) + "</span>";
 		return "<a class=\"menuLink\" href=\" " + link + "\" target=\"_blank\">"
 				+ imgHTML + "</a>";
+	}
+
+	@Override
+	public SVGResource getImage() {
+		return MaterialDesignResources.INSTANCE.geogebra_black();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "Apps";
 	}
 }
 

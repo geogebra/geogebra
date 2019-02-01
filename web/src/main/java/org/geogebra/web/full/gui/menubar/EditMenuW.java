@@ -5,11 +5,12 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * The "Edit" menu.
  */
-public class EditMenuW extends GMenuBar {
+public class EditMenuW extends Submenu<SVGResource> {
 
 	/**
 	 * Reference to selection manager
@@ -20,7 +21,7 @@ public class EditMenuW extends GMenuBar {
 
 	/**
 	 * Constructs the "Edit" menu
-	 * 
+	 *
 	 * @param app
 	 *            Application instance
 	 */
@@ -316,5 +317,15 @@ public class EditMenuW extends GMenuBar {
 			valid = true;
 			this.initActions();
 		}
+	}
+
+	@Override
+	public SVGResource getImage() {
+		return MaterialDesignResources.INSTANCE.edit_black();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "Edit";
 	}
 }

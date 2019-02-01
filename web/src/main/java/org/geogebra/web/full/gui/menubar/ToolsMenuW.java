@@ -2,20 +2,23 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.ExerciseBuilderDialog;
 import org.geogebra.web.full.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.full.gui.dialog.ToolManagerDialogW;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.resources.client.ImageResource;
+
 /**
  * Web implementation of ToolsMenu
  */
-public class ToolsMenuW extends GMenuBar {
+public class ToolsMenuW extends Submenu<ImageResource> {
 
 	/**
 	 * Constructs the "Tools" menu
-	 * 
+	 *
 	 * @param application
 	 *            The App instance
 	 */
@@ -98,6 +101,16 @@ public class ToolsMenuW extends GMenuBar {
 		ExerciseBuilderDialog exerciseBuilderDialog = new ExerciseBuilderDialog(
 				getApp());
 		exerciseBuilderDialog.center();
+	}
+
+	@Override
+	public ImageResource getImage() {
+		return GuiResources.INSTANCE.menu_icon_tools();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "Tools";
 	}
 
 }

@@ -7,11 +7,13 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.SharedResources;
 
 /**
  * Help menu
  */
-public class HelpMenuW extends GMenuBar implements BooleanRenderable {
+public class HelpMenuW extends Submenu<SVGResource> implements BooleanRenderable {
 	/**
 	 * Settings for version/about window
 	 */
@@ -126,5 +128,15 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 		tutorials.setEnabled(b);
 		bug.setEnabled(b);
 		forum.setEnabled(b);
+	}
+
+	@Override
+	public SVGResource getImage() {
+		return SharedResources.INSTANCE.icon_help_black();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "Help";
 	}
 }

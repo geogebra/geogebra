@@ -7,12 +7,14 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.Views;
 import org.geogebra.web.full.gui.view.Views.ViewType;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.Timer;
 
@@ -20,7 +22,7 @@ import com.google.gwt.user.client.Timer;
  * The "View" menu for the applet. For application use ViewMenuApplicationW
  * class
  */
-public class ViewMenuW extends GMenuBar {
+public class ViewMenuW extends Submenu<SVGResource> {
 
 	/**
 	 * Menuitem with checkbox for show algebra view
@@ -37,7 +39,7 @@ public class ViewMenuW extends GMenuBar {
 
 	/**
 	 * Constructs the "View" menu
-	 * 
+	 *
 	 * @param application
 	 *            The App instance
 	 */
@@ -54,7 +56,7 @@ public class ViewMenuW extends GMenuBar {
 
 	/**
 	 * Init actions for Refresh views, recompute objects
-	 * 
+	 *
 	 * @param loc
 	 *            localization
 	 */
@@ -236,5 +238,15 @@ public class ViewMenuW extends GMenuBar {
 			dataCollection.setSelected(app.getGuiManager().showView(
 					App.VIEW_DATA_COLLECTION), this);
 		}
+	}
+
+	@Override
+	public SVGResource getImage() {
+		return MaterialDesignResources.INSTANCE.home_black();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "View";
 	}
 }

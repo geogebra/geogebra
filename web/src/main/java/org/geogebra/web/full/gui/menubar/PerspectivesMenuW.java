@@ -6,6 +6,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -13,6 +14,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Window.Location;
@@ -20,8 +22,8 @@ import com.google.gwt.user.client.Window.Location;
 /**
  * Web implementation of PerspectivesMenu
  */
-public class PerspectivesMenuW extends GMenuBar {
-	
+public class PerspectivesMenuW extends Submenu<SVGResource> {
+
 	/** Application */
 	AppW app;
 
@@ -148,5 +150,15 @@ public class PerspectivesMenuW extends GMenuBar {
 
 		Browser.changeUrl("/classic#" + slug);
 
+	}
+
+	@Override
+	public SVGResource getImage() {
+		return MaterialDesignResources.INSTANCE.geogebra_black();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "Perspectives";
 	}
 }

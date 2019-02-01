@@ -29,6 +29,7 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -41,7 +42,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends GMenuBar
+public class FileMenuW extends Submenu<SVGResource>
 		implements BooleanRenderable, EventRenderable {
 
 	private static final double PADDING = 24;
@@ -460,7 +461,7 @@ public class FileMenuW extends GMenuBar
 
 	/**
 	 * Open share dialog for given app
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param anchor
@@ -531,6 +532,17 @@ public class FileMenuW extends GMenuBar
 			updateShareButton();
 			updateOpenFileButton();
 		}
+	}
+
+	@Override
+	public SVGResource getImage() {
+		return getApp().isWhiteboardActive() ? MaterialDesignResources.INSTANCE.file()
+				: MaterialDesignResources.INSTANCE.insert_file_black();
+	}
+
+	@Override
+	protected String getTitleTranslationKey() {
+		return "File";
 	}
 
 }
