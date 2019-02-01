@@ -3,13 +3,13 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactory;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
-import org.geogebra.web.full.gui.view.algebra.AVErrorHandlerScientific;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraMenuItemCollectionScientific;
@@ -88,7 +88,7 @@ public class ScientificActivity extends BaseActivity {
 	@Override
 	public ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
 			boolean allowSliders, boolean withSliders) {
-		return new AVErrorHandlerScientific();
+		return ErrorHelper.silent();
 	}
 
 }
