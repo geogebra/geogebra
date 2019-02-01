@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -37,7 +38,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public final class DrawBoolean extends Drawable {
 
-	private static final int LABEL_MARGIN = 9;
+	private static final int LABEL_MARGIN = 14;
 
 	private GeoBoolean geoBool;
 
@@ -237,9 +238,15 @@ public final class DrawBoolean extends Drawable {
 		private static GBasicStroke stroke13 = null;
 		private static GBasicStroke stroke26 = null;
 
-		/** background color when highlighted */
-		public static final GColor highlightBackground = GColor.newColor(248,
-				248, 248);
+		// colours for the highlight circle and outline
+		private static final GColor highlightBackground = GColor.newColor(0, 0,
+				0, 50);
+		private static final GColor highlightOutline = GColor.newColor(255, 255,
+				255, 128);
+
+		// highlight circle
+		private static GEllipse2DDouble highlightCircle = AwtFactory
+				.getPrototype().newEllipse2DDouble();
 
 		/**
 		 * Creates new checkbox icon
@@ -273,17 +280,33 @@ public final class DrawBoolean extends Drawable {
 		static public void paintIcon(boolean checked, boolean highlighted,
 				GGraphics2D g, int x, int y, int csize) {
 
+			if (highlighted) {
+				// size of circle when checkbox has focus
+				int highlightSize = csize * 3 / 2;
+
+				// white border for so it works with all background colours
+				int outlineWidth = 4;
+
+				// outline
+				g.setColor(highlightOutline);
+				highlightCircle.setFrameFromCenter(x + csize / 2, y + csize / 2,
+						x + highlightSize + outlineWidth,
+						y + highlightSize + outlineWidth);
+				g.fill(highlightCircle);
+
+				// fill
+				g.setColor(highlightBackground);
+				highlightCircle.setFrameFromCenter(x + csize / 2, y + csize / 2,
+						x + highlightSize, y + highlightSize);
+				g.fill(highlightCircle);
+			}
+
 			// outer bevel
 			// Draw rounded border
 			g.setColor(GColor.DARK_GRAY);
 			g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
-			// Draw rectangle with rounded borders
-			if (highlighted) {
-				g.setColor(highlightBackground);
-			} else {
-				g.setColor(GColor.WHITE);
-			}
+			g.setColor(GColor.WHITE);
 			g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize / 5,
 					csize / 5);
 
