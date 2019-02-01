@@ -2694,7 +2694,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ShowHideObject": "\u663e\u793a/\u9690\u85cf\u5bf9\u8c61",
     "ShowHideObject.Help": "\u9009\u62e9\u8981\u9690\u85cf\u7684\u5bf9\u8c61\u540e, \u5207\u6362\u5230\u5176\u4ed6\u5de5\u5177; \u590d\u9009\u8be5\u6309\u94ae\u6062\u590d\u663e\u793a\u72b6\u6001",
     "ShowHorizontalScrollbars": "\u663e\u793a\u6c34\u5e73\u6eda\u52a8\u6761",
-    "ShowInAlgebraView": "Show in Algebra View",
+    "ShowInAlgebraView": "\u663e\u793a\u5728\u4ee3\u6570\u533a",
     "ShowInToolBar": "\u5728\u5de5\u5177\u680f\u4e2d\u663e\u793a",
     "ShowInputField": "\u6307\u4ee4\u680f",
     "ShowInterval": "\u663e\u793a\u95f4\u9694",
