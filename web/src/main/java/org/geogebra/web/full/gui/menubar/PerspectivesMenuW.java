@@ -22,7 +22,7 @@ import com.google.gwt.user.client.Window.Location;
 /**
  * Web implementation of PerspectivesMenu
  */
-public class PerspectivesMenuW extends Submenu<SVGResource> {
+public class PerspectivesMenuW extends Submenu {
 
 	/** Application */
 	AppW app;

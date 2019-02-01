@@ -9,7 +9,7 @@ import org.geogebra.web.resources.SVGResource;
  * Top of main menu with a logo; technically not a submenu
  *
  */
-public class LogoMenu extends Submenu<SVGResource> {
+public class LogoMenu extends Submenu {
 
 	/**
 	 * @param app

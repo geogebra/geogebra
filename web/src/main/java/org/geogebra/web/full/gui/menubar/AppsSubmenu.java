@@ -16,7 +16,7 @@ import com.google.gwt.resources.client.ResourcePrototype;
 /**
  * Web implementation of PerspectivesMenu
  */
-public class AppsSubmenu extends Submenu<SVGResource> {
+public class AppsSubmenu extends Submenu {
 
 	/** Application */
 	AppW app;

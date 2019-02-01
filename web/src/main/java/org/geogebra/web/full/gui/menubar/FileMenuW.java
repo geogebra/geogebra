@@ -42,7 +42,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends Submenu<SVGResource>
+public class FileMenuW extends Submenu
 		implements BooleanRenderable, EventRenderable {
 
 	private static final double PADDING = 24;

@@ -2,18 +2,17 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * Menu that can be embedded in higher-level menu
- * 
+ *
  * @author Zbynek
  *
  * @param <T>
  *            image type (SVG or PNG)
  */
-public abstract class Submenu<T extends ResourcePrototype> extends GMenuBar {
+public abstract class Submenu extends GMenuBar {
 
 	/**
 	 * @param menuTitle
@@ -28,7 +27,7 @@ public abstract class Submenu<T extends ResourcePrototype> extends GMenuBar {
 	/**
 	 * @return icon
 	 */
-	public abstract T getImage();
+	public abstract SVGResource getImage();
 
 	/**
 	 * @param localization

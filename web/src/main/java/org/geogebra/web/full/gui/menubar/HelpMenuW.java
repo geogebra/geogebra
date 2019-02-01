@@ -13,7 +13,7 @@ import org.geogebra.web.shared.SharedResources;
 /**
  * Help menu
  */
-public class HelpMenuW extends Submenu<SVGResource> implements BooleanRenderable {
+public class HelpMenuW extends Submenu implements BooleanRenderable {
 	/**
 	 * Settings for version/about window
 	 */

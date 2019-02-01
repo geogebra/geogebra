@@ -8,7 +8,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Menu for account related items (logout)
  */
-public class UserSubmenu extends Submenu<SVGResource> {
+public class UserSubmenu extends Submenu {
 
 	/**
 	 * @param app

@@ -7,7 +7,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Help menu
  */
-public class DownloadMenuW extends Submenu<SVGResource> implements MenuBarI {
+public class DownloadMenuW extends Submenu implements MenuBarI {
 	/**
 	 * @param app
 	 *            application

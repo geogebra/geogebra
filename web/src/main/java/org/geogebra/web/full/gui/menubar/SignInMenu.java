@@ -7,7 +7,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Sign in menu
  */
-public class SignInMenu extends Submenu<SVGResource> {
+public class SignInMenu extends Submenu {
 
 	/**
 	 * @param app

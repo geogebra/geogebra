@@ -10,7 +10,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * The "Edit" menu.
  */
-public class EditMenuW extends Submenu<SVGResource> {
+public class EditMenuW extends Submenu {
 
 	/**
 	 * Reference to selection manager

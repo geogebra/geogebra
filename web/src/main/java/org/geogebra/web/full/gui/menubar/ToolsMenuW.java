@@ -2,19 +2,17 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.ExerciseBuilderDialog;
 import org.geogebra.web.full.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.full.gui.dialog.ToolManagerDialogW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.resources.client.ImageResource;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * Web implementation of ToolsMenu
  */
-public class ToolsMenuW extends Submenu<ImageResource> {
+public class ToolsMenuW extends Submenu {
 
 	/**
 	 * Constructs the "Tools" menu
@@ -104,8 +102,8 @@ public class ToolsMenuW extends Submenu<ImageResource> {
 	}
 
 	@Override
-	public ImageResource getImage() {
-		return GuiResources.INSTANCE.menu_icon_tools();
+	public SVGResource getImage() {
+		return MaterialDesignResources.INSTANCE.tools_black();
 	}
 
 	@Override

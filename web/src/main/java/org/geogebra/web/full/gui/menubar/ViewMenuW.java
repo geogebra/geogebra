@@ -22,7 +22,7 @@ import com.google.gwt.user.client.Timer;
  * The "View" menu for the applet. For application use ViewMenuApplicationW
  * class
  */
-public class ViewMenuW extends Submenu<SVGResource> {
+public class ViewMenuW extends Submenu {
 
 	/**
 	 * Menuitem with checkbox for show algebra view

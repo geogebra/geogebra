@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -73,17 +72,17 @@ public class MainMenu extends FlowPanel
 	 */
 	ArrayList<GMenuBar> menus;
 	/** user menu */
-	Submenu<SVGResource> userMenu;
+	Submenu userMenu;
 	/** sign in menu */
 	final SignInMenu signInMenu;
 	/**
 	 * simple logo menu item
 	 */
-	Submenu<SVGResource> logoMenu;
+	Submenu logoMenu;
 	/**
 	 * simple settings menu item
 	 */
-	Submenu<SVGResource> settingsMenu;
+	Submenu settingsMenu;
 
 	/**
 	 * Constructs the menubar
@@ -171,65 +170,55 @@ public class MainMenu extends FlowPanel
 		}
 
 		if (app.enableFileFeatures()) {
-			if (app.isUnbundledOrWhiteboard()) {
-				menus.add(fileMenu);
-				this.menuPanel.add(fileMenu, getExpandCollapseHTML(fileMenu), true);
-			} else {
-				addSimple(fileMenu);
-			}
+			addSubmenu(fileMenu);
 		}
 		if (enableGraph) {
-			if (app.isUnbundled()) {
-				createEditMenu();
-				menus.add(editMenu);
-				this.menuPanel.add(editMenu, getExpandCollapseHTML(editMenu), true);
-			} else if (!app.isWhiteboardActive()) {
-				addSimple(editMenu);
+			if (!app.isWhiteboardActive()) {
+				addSubmenu(editMenu);
 			}
 
 			if (app.isUnbundledOrWhiteboard()) {
-				menus.add(downloadMenu);
-				this.menuPanel.add(downloadMenu, getExpandCollapseHTML(downloadMenu), true);
+				addSubmenu(downloadMenu);
 				if (!app.isWhiteboardActive()) {
-					this.menuPanel.add(appsMenu,
-							getExpandCollapseHTML(appsMenu), true);
+					addSubmenu(appsMenu);
 				}
 			} else {
-				addSimple(perspectivesMenu);
+				addSubmenu(perspectivesMenu);
 			}
 
 			if (!app.isUnbundledOrWhiteboard()) {
-				addSimple(viewMenu);
+				addSubmenu(viewMenu);
 			}
 		}
 
-		addSimple(settingsMenu);
+		addSubmenu(settingsMenu);
 
 		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundledOrWhiteboard()) {
 			addSimple(toolsMenu);
 		}
 		if (!exam) {
 			if (!app.isWhiteboardActive()) {
-				if (app.isUnbundledOrWhiteboard()) {
-					this.menuPanel
-							.add(helpMenu,
-									getExpandCollapseHTML(helpMenu),
-									true);
-				} else {
-					addSimple(helpMenu);
-				}
+				addSubmenu(helpMenu);
 			}
 			if (app.getNetworkOperation().isOnline()) {
 				render(true);
 			}
 			app.getNetworkOperation().getView().add(this);
 		}
-		this.add(menuPanel);
+		add(menuPanel);
+	}
+
+	private void addSubmenu(Submenu submenu) {
+		if (app.isUnbundledOrWhiteboard() && !submenu.getItems().isEmpty()) {
+			this.menuPanel.add(submenu, getExpandCollapseHTML(submenu), true);
+		} else {
+			addSimple(submenu);
+		}
 	}
 
 	private void initLogoMenu() {
 		logoMenu = new LogoMenu(app);
-		addSimple(logoMenu);
+		addSubmenu(logoMenu);
 	}
 
 	private void initAriaStackPanel() {
@@ -316,7 +305,7 @@ public class MainMenu extends FlowPanel
 					return;
 				}
 				// SVGResource img = menuImgs.get(index - step);
-				Submenu<?> menu = getMenuAt(index);
+				Submenu menu = getMenuAt(index);
 
 				String title = menu.getTitle(app.getLocalization());
 
@@ -429,9 +418,8 @@ public class MainMenu extends FlowPanel
 	 *            submenu
 	 * @return HTML for menu heading
 	 */
-	String getHTML(Submenu<? extends ResourcePrototype> subMenu) {
-		return "<img src=\"" + ImgResourceHelper.safeURI(subMenu.getImage())
-				+ (subMenu.getImage() instanceof SVGResource ? "" : "\" style=\"opacity:1")
+	String getHTML(Submenu subMenu) {
+		return "<img src=\"" + subMenu.getImage().getSafeUri().asString()
 				+ "\" draggable=\"false\"><span>" + subMenu.getTitle(app.getLocalization())
 				+ "</span>";
 	}
@@ -443,8 +431,8 @@ public class MainMenu extends FlowPanel
 	 *            - menu item title
 	 * @return html code for an expandable menu item
 	 */
-	String getHTMLExpand(ResourcePrototype img, String s) {
-		return "<img src=\"" + NoDragImage.safeURI(img)
+	String getHTMLExpand(SVGResource img, String s) {
+		return "<img src=\"" + img.getSafeUri().asString()
 				+ "\" draggable=\"false\" aria-hidden=\"true\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
 				+ MaterialDesignResources.INSTANCE.expand_black().getSafeUri().asString()
@@ -459,8 +447,8 @@ public class MainMenu extends FlowPanel
 	 *            - menu item title
 	 * @return html code for menu item
 	 */
-	String getHTMLCollapse(ResourcePrototype img, String s) {
-		return "<img src=\"" + (img == null ? "-" : NoDragImage.safeURI(img))
+	String getHTMLCollapse(SVGResource img, String s) {
+		return "<img src=\"" + (img == null ? "-" : img.getSafeUri().asString())
 				+ "\" draggable=\"false\" aria-hidden=\"true\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
 				+ MaterialDesignResources.INSTANCE.collapse_black().getSafeUri().asString()
@@ -468,7 +456,7 @@ public class MainMenu extends FlowPanel
 				+ " aria-label=\"collapse\" role=\"button\">";
 	}
 
-	private String getExpandCollapseHTML(Submenu<SVGResource> submenu) {
+	private String getExpandCollapseHTML(Submenu submenu) {
 		String title = submenu.getTitle(app.getLocalization());
 		return getHTMLExpand(submenu.getImage(), title);
 	}
@@ -634,21 +622,15 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void addSignInMenu() {
-		addSimple(signInMenu);
+		addSubmenu(signInMenu);
 	}
 
-	private void addSimple(Submenu<? extends ResourcePrototype> submenu) {
+	private void addSimple(Submenu submenu) {
 		this.menuPanel.add(submenu, getHTML(submenu), true);
 	}
 
 	private void addUserMenu() {
-		if (app.isUnbundledOrWhiteboard()) {
-			this.menuPanel.add(this.userMenu,
-					getExpandCollapseHTML(userMenu),
-					true);
-		} else {
-			addSimple(userMenu);
-		}
+		addSubmenu(userMenu);
 	}
 
 	/**
@@ -764,11 +746,11 @@ public class MainMenu extends FlowPanel
 	 * @return the widget at given index if it is GMenubar instance or null
 	 *         otherwise.
 	 */
-	Submenu<?> getMenuAt(int stackIdx) {
+	Submenu getMenuAt(int stackIdx) {
 		int idx = stackIdx > -1 && stackIdx < menuPanel.getWidgetCount() ? stackIdx : 0;
 		Widget w = menuPanel.getWidget(idx);
 		if (w instanceof Submenu) {
-			return (Submenu<?>) w;
+			return (Submenu) w;
 		}
 		return null;
 	}
