@@ -43,4 +43,19 @@ public abstract class Submenu extends GMenuBar {
 	 */
 	protected abstract String getTitleTranslationKey();
 
+	public void handleHeaderClick() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @return whether dragging views should be enabled for this menu
+	 */
+	protected boolean isViewDraggingMenu() {
+		return false;
+	}
+
+	public void update() {
+		// update actions
+	}
+
 }

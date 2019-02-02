@@ -33,11 +33,6 @@ public class AppsSubmenu extends Submenu {
 			addStyleName("GeoGebraMenuBar");
 		}
 		initActions();
-		update();
-	}
-
-	private void update() {
-		// do nothing
 	}
 
 	private void initActions() {

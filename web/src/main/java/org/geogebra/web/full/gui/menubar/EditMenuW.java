@@ -312,6 +312,7 @@ public class EditMenuW extends Submenu {
 	/**
 	 * Rebuild the UI if invalid
 	 */
+	@Override
 	public void update() {
 		if (!valid) {
 			valid = true;

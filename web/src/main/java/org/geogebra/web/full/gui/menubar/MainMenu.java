@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -56,21 +55,15 @@ public class MainMenu extends FlowPanel
 	 */
 	AriaStackPanel menuPanel;
 	private ViewMenuW viewMenu;
-	private FileMenuW fileMenu;
-	private DownloadMenuW downloadMenu;
-	private HelpMenuW helpMenu;
-	private ToolsMenuW toolsMenu;
 	private EditMenuW editMenu;
 
-	private PerspectivesMenuW perspectivesMenu;
-	private AppsSubmenu appsMenu;
 	// private boolean leftSide = false;
 
 	public boolean smallScreen = false;
 	/**
 	 * Menus
 	 */
-	ArrayList<GMenuBar> menus;
+	ArrayList<Submenu> menus;
 	/** user menu */
 	Submenu userMenu;
 	/** sign in menu */
@@ -100,37 +93,42 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void init() {
+		ToolsMenuW toolsMenu = null;
+		HelpMenuW helpMenu = null;
+		FileMenuW fileMenu = null;
+		DownloadMenuW downloadMenu = null;
+		AppsSubmenu appsMenu = null;
+		PerspectivesMenuW perspectivesMenu = null;
 		if (app.getLoginOperation() == null) {
 			app.initSignInEventFlow(new LoginOperationW(app), ArticleElement.isEnableUsageStats());
 		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
 		if (app.enableFileFeatures()) {
-			this.createFileMenu();
+			fileMenu = new FileMenuW(app);
 		}
 
 		if (app.isUnbundledOrWhiteboard()) {
-			this.createDownloadAsMenu();
-		}
-
-		if (app.isUnbundledOrWhiteboard()) {
-			this.createDownloadAsMenu();
+			downloadMenu = new DownloadMenuW(app);
 		}
 
 		boolean enableGraph = !exam || app.enableGraphing();
 		if (enableGraph && !app.isWhiteboardActive()) {
-			this.createPerspectivesMenu();
-			this.createEditMenu();
-			this.createViewMenu();
+			perspectivesMenu = new PerspectivesMenuW(app);
+			appsMenu = new AppsSubmenu(app);
+			editMenu = new EditMenuW(app);
+			if (!app.isUnbundled()) {
+				viewMenu = new ViewMenuW(app);
+			}
 		}
-		this.createOptionsMenu();
+		settingsMenu = new SettingsMenu(app);
 		if (enableGraph) {
-			this.createToolsMenu();
+			toolsMenu = new ToolsMenuW(app);
 		}
 		this.menus = new ArrayList<>();
 		if (!exam) {
-			this.createHelpMenu();
-			this.createUserMenu();
+			helpMenu = new HelpMenuW(app);
+			this.userMenu = new UserSubmenu(app);
 			if (app.enableFileFeatures()) {
 				menus.add(fileMenu);
 			}
@@ -243,11 +241,9 @@ public class MainMenu extends FlowPanel
 
 				dispatchOpenEvent();
 
-				if (smallScreen && index == 0) {
-					app.getGuiManager().setDraggingViews(isViewDraggingMenu(menus.get(1)), false);
-				} else if (index < menus.size()) {
-					app.getGuiManager().setDraggingViews(isViewDraggingMenu(menus.get(index)),
-							false);
+				if (index >= 0 && index < menus.size()) {
+					app.getGuiManager().setDraggingViews(
+							menus.get(index).isViewDraggingMenu(), false);
 				}
 			}
 
@@ -263,22 +259,12 @@ public class MainMenu extends FlowPanel
 				} else if (eventType == Event.ONCLICK) {
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
-					if (app.getNetworkOperation().isOnline()
-							&& !app.getLoginOperation().isLoggedIn() && index >= 0
-							&& this.getWidget(index) == signInMenu) {
-						app.getLoginOperation().showLoginDialog();
+					Widget clicked = index >= 0 ? this.getWidget(index) : null;
+					if (clicked instanceof Submenu
+							&& ((Submenu) clicked).getItems().isEmpty()) {
+						((Submenu) clicked).handleHeaderClick();
 						app.toggleMenu();
 						return;
-					} else if (index >= 0) {
-						if (this.getWidget(index) == logoMenu) {
-							app.toggleMenu();
-							return;
-						}
-						if (this.getWidget(index) == settingsMenu) {
-							app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
-							app.toggleMenu();
-							return;
-						}
 					}
 					if (index != -1) {
 						showStack(index);
@@ -310,7 +296,7 @@ public class MainMenu extends FlowPanel
 				String title = menu.getTitle(app.getLocalization());
 
 				if (menu == settingsMenu) {
-					setStackText(index, getHTML(settingsMenu), title, expand);
+					setStackText(index, getHTML(menu), title, expand);
 					return;
 				}
 
@@ -367,15 +353,6 @@ public class MainMenu extends FlowPanel
 		menuPanel.addDomHandler(this, KeyDownEvent.getType());
 	}
 
-	/**
-	 * @param menu
-	 *            menu
-	 * @return whether dragging views should be enabled for this menu
-	 */
-	protected boolean isViewDraggingMenu(GMenuBar menu) {
-		return menu == perspectivesMenu || menu == viewMenu;
-	}
-
 	@Override
 	public void render(boolean online) {
 		if (!hasLoginButton()) {
@@ -401,16 +378,6 @@ public class MainMenu extends FlowPanel
 		if (this.userMenu != null) {
 			this.menuPanel.removeStack(this.userMenu);
 		}
-	}
-
-	private void createUserMenu() {
-		this.userMenu = new UserSubmenu(app);
-		if (app.isUnbundledOrWhiteboard()) {
-			this.userMenu.addStyleName("matStackPanel");
-		} else {
-			this.userMenu.addStyleName("GeoGebraMenuBar");
-		}
-
 	}
 
 	/**
@@ -461,41 +428,6 @@ public class MainMenu extends FlowPanel
 		return getHTMLExpand(submenu.getImage(), title);
 	}
 
-	private void createFileMenu() {
-		fileMenu = new FileMenuW(app);
-	}
-
-	private void createDownloadAsMenu() {
-		downloadMenu = new DownloadMenuW(app);
-	}
-
-	private void createPerspectivesMenu() {
-		perspectivesMenu = new PerspectivesMenuW(app);
-		appsMenu = new AppsSubmenu(app);
-	}
-
-	private void createEditMenu() {
-		editMenu = new EditMenuW(app);
-	}
-
-	private void createViewMenu() {
-		if (!app.isUnbundled()) {
-			viewMenu = new ViewMenuW(app);
-		}
-	}
-
-	private void createHelpMenu() {
-		helpMenu = new HelpMenuW(app);
-	}
-
-	private void createOptionsMenu() {
-		settingsMenu = new SettingsMenu(app);
-	}
-
-	private void createToolsMenu() {
-		toolsMenu = new ToolsMenuW(app);
-	}
-
 	private EditMenuW getEditMenu() {
 		return editMenu;
 	}
@@ -504,12 +436,8 @@ public class MainMenu extends FlowPanel
 	 * Update all submenus that depend on file content
 	 */
 	public void updateMenubar() {
-		if (viewMenu != null) {
-			viewMenu.update();
-		}
-
-		if (this.getEditMenu() != null) {
-			getEditMenu().update();
+		for (Submenu submenu : menus) {
+			submenu.update();
 		}
 	}
 

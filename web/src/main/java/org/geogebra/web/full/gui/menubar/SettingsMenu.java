@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -27,4 +28,9 @@ public class SettingsMenu extends Submenu {
 		return "Settings";
 	}
 
+	@Override
+	public void handleHeaderClick() {
+		getApp().getDialogManager().showPropertiesDialog(OptionType.GLOBAL,
+				null);
+	}
 }

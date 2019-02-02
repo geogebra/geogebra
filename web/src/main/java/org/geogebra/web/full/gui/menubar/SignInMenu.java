@@ -27,4 +27,12 @@ public class SignInMenu extends Submenu {
 		return "SignIn";
 	}
 
+	@Override
+	public void handleHeaderClick() {
+		if (getApp().getNetworkOperation().isOnline()
+				&& !getApp().getLoginOperation().isLoggedIn()) {
+			getApp().getLoginOperation().showLoginDialog();
+		}
+	}
+
 }

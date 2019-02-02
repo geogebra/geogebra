@@ -224,6 +224,7 @@ public class ViewMenuW extends Submenu {
 	/**
 	 * Update menu items
 	 */
+	@Override
 	public void update() {
 		for (Entry<Integer, GCheckBoxMenuItem> entry : this.items.entrySet()) {
 			int viewID = entry.getKey();
@@ -248,5 +249,10 @@ public class ViewMenuW extends Submenu {
 	@Override
 	protected String getTitleTranslationKey() {
 		return "View";
+	}
+
+	@Override
+	protected boolean isViewDraggingMenu() {
+		return true;
 	}
 }

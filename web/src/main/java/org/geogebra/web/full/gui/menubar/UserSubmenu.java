@@ -25,6 +25,11 @@ public class UserSubmenu extends Submenu {
 						app.getLoginOperation().performLogOut();
 					}
 				});
+		if (app.isUnbundledOrWhiteboard()) {
+			addStyleName("matStackPanel");
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
 	}
 
 	@Override

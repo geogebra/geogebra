@@ -39,12 +39,7 @@ public class PerspectivesMenuW extends Submenu {
 			addStyleName("GeoGebraMenuBar");
 		}
 		initActions();
-		update();
 	}
-
-	private void update() {
-		// do nothing
-    }
 
 	private void initActions() {
 		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
@@ -160,5 +155,10 @@ public class PerspectivesMenuW extends Submenu {
 	@Override
 	protected String getTitleTranslationKey() {
 		return "Perspectives";
+	}
+
+	@Override
+	protected boolean isViewDraggingMenu() {
+		return true;
 	}
 }
