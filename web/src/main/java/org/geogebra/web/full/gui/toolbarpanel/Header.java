@@ -494,7 +494,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private boolean needsHeader() {
 		return app.has(Feature.MAT_DESIGN_HEADER)
-				&& !app.shouldHaveSmallScreenLayout();
+				&& !app.getAppletFrame().shouldHaveSmallScreenLayout();
 	}
 
 	private void addShareButton() {

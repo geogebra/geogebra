@@ -303,6 +303,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			updateArticleHeight();
 		}
 	}
+	
+	/**
+	 * Called if header visibility is changed.
+	 */
+	public void onHeaderVisible() {
+		// TODO listener (?)
+	}
 
 	private int computeWidth() {
 		// do we have data-param-width?
@@ -333,11 +340,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			height = Window.getClientHeight() - margin;
 		}
 
-		if (height > 0) {
-			return height;
-		}
-
-		return height;
+		return Math.max(height, 0);
 	}
 
 	@Override

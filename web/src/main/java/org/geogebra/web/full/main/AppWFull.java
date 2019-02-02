@@ -1217,8 +1217,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void onHeaderVisible() {
-		ToolbarPanel toolbar = getGuiManager()
-				.getUnbundledToolbar();
+		ToolbarPanel toolbar = getGuiManager().getUnbundledToolbar();
 		if (isPortrait() && toolbar != null && toolbar.isClosed()) {
 			toolbar.doCloseInPortrait();
 		}

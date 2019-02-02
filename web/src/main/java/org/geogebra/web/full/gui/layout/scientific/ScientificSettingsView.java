@@ -166,12 +166,14 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	}
 
 	private void resizeHeader() {
-		boolean smallScreen = app.shouldHaveSmallScreenLayout();
+		boolean smallScreen = app.getAppletFrame()
+				.shouldHaveSmallScreenLayout();
 		headerView.resizeTo(smallScreen);
 	}
 
 	private void resizeContent() {
-		boolean smallScreen = app.hasSmallWindowOrCompactHeader();
+		boolean smallScreen = app.getAppletFrame()
+				.hasSmallWindowOrCompactHeader();
 		if (smallScreen) {
 			resizeContentToSmallScreen();
 		} else {

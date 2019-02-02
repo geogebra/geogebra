@@ -158,7 +158,8 @@ public class MainMenu extends FlowPanel
 			this.menus.add(settingsMenu);
 		}
 
-		smallScreen = app.isUnbundled() && app.shouldHaveSmallScreenLayout();
+		smallScreen = app.isUnbundled()
+				&& app.getAppletFrame().shouldHaveSmallScreenLayout();
 
 		initAriaStackPanel();
 		if (!app.isUnbundled() && !app.isWhiteboardActive()) {

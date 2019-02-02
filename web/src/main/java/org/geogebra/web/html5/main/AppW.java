@@ -410,20 +410,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO listener (?)
 	}
 
-	/**
-	 * @return whether small screen layout should be used
-	 */
-	public final boolean shouldHaveSmallScreenLayout() {
-		return getAppletFrame().shouldHaveSmallScreenLayout();
-	}
-
-	/**
-	 * @return whether small screen layout should be used independent from the header visibility
-	 */
-	public final boolean hasSmallWindowOrCompactHeader() {
-		return getAppletFrame().hasSmallWindowOrCompactHeader();
-	}
-
 	private static Versions getVersion(ArticleElementInterface ae,
 			int dimension,
 			GLookAndFeelI laf2) {

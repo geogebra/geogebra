@@ -36,7 +36,6 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -1983,15 +1982,7 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
-		double height = app.getArticleElement().getDataParamHeight()
-				- app.getArticleElement().getBorderThickness();
-		if (app.getArticleElement().getDataParamFitToScreen()) {
-			height = Window.getClientHeight();
-			if (!app.shouldHaveSmallScreenLayout()) {
-				height -= app.getArticleElement().getDataParamMarginTop();
-			}
-		}
-
+		double height = app.getAppletFrame().computeHeight();
 		setDividerLocationAbs(split,
 				(int) height - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT
 						- ToolbarPanel.VSHADOW_OFFSET);

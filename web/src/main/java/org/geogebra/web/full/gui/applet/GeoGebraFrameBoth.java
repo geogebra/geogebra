@@ -1012,4 +1012,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	@Override
+	public final void onHeaderVisible() {
+		ToolbarPanel toolbar = ((AppWFull) app).getGuiManager()
+				.getUnbundledToolbar();
+		if (app.isPortrait() && toolbar != null && toolbar.isClosed()) {
+			toolbar.doCloseInPortrait();
+		}
+	}
+
 }
