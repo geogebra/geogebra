@@ -2694,7 +2694,7 @@ __GGB__keysVar["nl"].menu = {
     "ShowHideObject": "Object tonen / verbergen",
     "ShowHideObject.Help": "Selecteer de te verbergen objecten en klik op andere knop of in tekenvenster",
     "ShowHorizontalScrollbars": "Toon horizontale schuifbalken",
-    "ShowInAlgebraView": "Show in Algebra View",
+    "ShowInAlgebraView": "Toon in Algebra venster",
     "ShowInToolBar": "Tonen op de Knoppenbalk",
     "ShowInputField": "Invoerbalk tonen",
     "ShowInterval": "Toon Interval",
