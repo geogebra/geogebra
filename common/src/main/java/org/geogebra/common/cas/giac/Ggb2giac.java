@@ -1019,11 +1019,8 @@ public class Ggb2giac {
 				"[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST,when(type((ggbminarg)[0])==DOM_LIST,?,min(ggbminarg)),?)][1]");
 		p("MixedNumber.1", "propfrac(%0)");
 
-		// need to use %0, %1 repeatedly (not using an intermediate variable)
-		// see GGB-2184
-		// eg Sum(If(Mod(k,2)==0,k,0),k,0,10)
-		p("Mod.2",
-				"when(type(%0)!=DOM_INT||type(%1)!=DOM_INT,rem(%0,%1,when(length(lname(%1))>0,lname(%1)[0],x)),irem(%0,%1))");
+		p("Mod.2", "ggbmod(%0,%1)");
+
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3", "gaussquad(%%0,%%1,%%2)");
 		p("NIntegral.4", "gaussquad(%%0,%%1,%%2,%%3)");

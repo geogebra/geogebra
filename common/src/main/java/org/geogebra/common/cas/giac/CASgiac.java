@@ -163,6 +163,20 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGB_IS_VARIABLE("ggb_is_variable", "ggb_is_variable(a):=when(length(lvar(a))==1,lvar(a)[0],?)"),
 
 		/**
+		 * 
+		 * need to use %0, %1 repeatedly (not using an intermediate variable)
+		 * see GGB-2184 eg Sum(If(Mod(k,2)==0,k,0),k,0,10)
+		 * 
+		 * check if a,b are numbers or polynomials and use rem() / irem()
+		 * accordingly
+		 */
+		GGBMOD("ggbmod", "ggbmod(a,b):=when(type(a)!=DOM_INT||type(b)!=DOM_INT,rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
+		
+		// for testing Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4, 12})
+		//GGBMOD("ggbmod",
+		//		"ggbmod(a,b):=when(((type((a))!=DOM_INT)&&(type((a))!=DOM_IDENT))||((type((b))!=DOM_INT)&&(type((b))!=DOM_IDENT)),rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
+
+		/**
 		 * test if "=" or "%=" or inequality - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
