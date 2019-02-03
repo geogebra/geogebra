@@ -154,19 +154,18 @@ public final class MyMath {
 
 	/**
 	 * need some leeway to make sure acos(0.8^2 / sqrt(0.8^4)) works
+	 * 
+	 * @param a
+	 *            real number
+	 * @return acos(a)
 	 */
 	public static double acos(double a) {
-
-		if (a > 1) {
-			if (DoubleUtil.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
+		if (a > 1 && DoubleUtil.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.acos(1);
-			}
 		}
 
-		if (a < -1) {
-			if (DoubleUtil.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
+		if (a < -1 && DoubleUtil.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.acos(-1);
-			}
 		}
 
 		return Math.acos(a);
@@ -183,14 +182,29 @@ public final class MyMath {
 		return 1 / tanh(a);
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return acosh(a)
+	 */
 	public static double acosh(double a) {
 		return FastMath.acosh(a);
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return asinh(a)
+	 */
 	public static double asinh(double a) {
 		return FastMath.asinh(a);
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return atanh(a)
+	 */
 	public static double atanh(double a) {
 		return FastMath.atanh(a);
 	}
@@ -290,6 +304,9 @@ public final class MyMath {
 	 * 
 	 * @param t
 	 *            input number
+	 * @param min
+	 *            0 to return rational numbers x &gt; 0; 1 to return only
+	 *            integers
 	 * @return closest bigger pretty integer
 	 */
 	public static double nextPrettyNumber(double t, double min) {

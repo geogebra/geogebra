@@ -182,6 +182,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return Commands.Roots;
 	}
 
+	/**
+	 * @return root points
+	 */
 	public GeoPoint[] getRootPoints() {
 		return getPoints(); // Points in ancestor
 	}
@@ -309,6 +312,16 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * Main algorithm, public for eventual use by other commands Finds a
 	 * samplesize n depending on screen coordinates Samples n intervals Collects
 	 * roots in intervals where y(l)*y(r)&gt;0
+	 * 
+	 * @param f
+	 *            function
+	 * @param l
+	 *            left bound
+	 * @param r
+	 *            right bound
+	 * @param samples
+	 *            number of samples
+	 * @return roots
 	 */
 	public static final double[] findRoots(GeoFunction f, double l, double r,
 			int samples) {
@@ -381,6 +394,14 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	/**
 	 * Brent's algo Copied from AlgoRootInterval.java.
+	 * 
+	 * @param f
+	 *            function
+	 * @param left
+	 *            left bound
+	 * @param right
+	 *            right bound
+	 * @return root
 	 */
 	public final static double calcSingleRoot(GeoFunction f, double left,
 			double right) {

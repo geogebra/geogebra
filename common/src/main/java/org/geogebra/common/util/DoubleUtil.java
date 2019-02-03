@@ -117,12 +117,12 @@ public class DoubleUtil {
 		return true;
 	}
 
-	/** is abs(x) &lt; epsilon ? */
+	/** @return is abs(x) &lt; epsilon ? */
 	final public static boolean isZero(double x) {
 		return (-Kernel.STANDARD_PRECISION < x) && (x < Kernel.STANDARD_PRECISION);
 	}
 
-	/** is abs(x) &lt; epsilon ? */
+	/** @return is abs(x) &lt; epsilon ? */
 	final public static boolean isZero(double x, double eps) {
 		return (-eps < x) && (x < eps);
 	}
@@ -254,6 +254,12 @@ public class DoubleUtil {
 
 	/**
 	 * Returns whether x is greater than or equal to y
+	 * 
+	 * @param x
+	 *            tested number
+	 * @param y
+	 *            upper bound
+	 * @return x + standard precision > y
 	 */
 	final public static boolean isGreaterEqual(double x, double y) {
 		return (x + Kernel.STANDARD_PRECISION) > y;
@@ -267,10 +273,11 @@ public class DoubleUtil {
 	 *            e
 	 * @param x
 	 *            x
+	 * @param eps
+	 *            precision
 	 * @return whether e is zero compared to x and eps
 	 */
 	final public static boolean isEpsilonWithPrecision(double e, double x, double eps) {
-	
 		double eAbs = Math.abs(e);
 	
 		if (eAbs > eps) {
@@ -342,6 +349,10 @@ public class DoubleUtil {
 	/**
 	 * Checks if x is very close (1E-8) to an integer. If it is, the integer
 	 * value is returned, otherwise x is returnd.
+	 * 
+	 * @param x
+	 *            real number
+	 * @return x rounded to an integer if close
 	 */
 	final public static double checkInteger(double x) {
 		double roundVal = Math.round(x);

@@ -130,6 +130,8 @@ public interface AppInterface {
 
 	/**
 	 * In Desktop gives current font, in Web creates a new one
+	 * 
+	 * @return font
 	 */
 	public abstract GFont getPlainFontCommon();
 

@@ -575,12 +575,30 @@ public abstract class Localization {
 
 	}
 
-	/** replace "%0" by arg0 */
+	/**
+	 * replace "%0" by arg0 etc.
+	 * 
+	 * @param key
+	 *            pattern key
+	 * @param arg0
+	 *            replace args
+	 * @return string with replacements
+	 */
 	final public String getPlain(String key, String... arg0) {
 		return getPlainArray(key, null, arg0);
 	}
 
-	/** replace "%0" by arg0 */
+	/**
+	 * replace "%0" by arg0 etc.
+	 * 
+	 * @param key
+	 *            pattern key
+	 * @param default0
+	 *            pattern for default locale
+	 * @param arg0
+	 *            replace args
+	 * @return string with replacements
+	 */
 	final public String getPlainDefault(String key, String default0,
 			String... arg0) {
 		return getPlainArray(key, default0, arg0);
@@ -1507,6 +1525,8 @@ public abstract class Localization {
 
 	/**
 	 * Get the value which tells whether the english commands are forced or not
+	 * 
+	 * @return whether to force English commands
 	 */
 	public boolean areEnglishCommandsForced() {
 		return areEnglishCommandsForced;

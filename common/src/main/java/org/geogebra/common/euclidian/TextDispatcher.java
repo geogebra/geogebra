@@ -179,6 +179,18 @@ public class TextDispatcher {
 	/**
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
+	 * 
+	 * @param type
+	 *            translation key for type
+	 * @param default0
+	 *            default translation
+	 * @param object
+	 *            object
+	 * @param value
+	 *            length or area
+	 * @param point
+	 *            position
+	 * @return text
 	 */
 	protected GeoText createDynamicTextForMouseLoc(String type, String default0,
 			GeoElement object, GeoElementND value, GPoint point) {
@@ -216,6 +228,13 @@ public class TextDispatcher {
 		return text;
 	}
 
+	/**
+	 * @param object
+	 *            region
+	 * @param loc0
+	 *            suggested position (optional)
+	 * @return point in region
+	 */
 	protected GeoPointND getPointForDynamicText(Region object, GPoint loc0) {
 		double rwx = 0, rwy = 0;
 		if (loc0 != null) {
@@ -239,6 +258,13 @@ public class TextDispatcher {
 				false, object, rwx, rwy, 0, false, true);
 	}
 
+	/**
+	 * @param object
+	 *            path
+	 * @param loc0
+	 *            mouse position
+	 * @return text position
+	 */
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {
 		return view.getEuclidianController().getCompanion().createNewPoint(
 				removeUnderscoresAndBraces(loc.getMenu("Point")
@@ -259,6 +285,16 @@ public class TextDispatcher {
 	/**
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
+	 * 
+	 * @param geoA
+	 *            first geo
+	 * @param geoB
+	 *            second geo
+	 * @param textCorner
+	 *            text position
+	 * @param length
+	 *            distance value
+	 * @return distance text
 	 */
 	public GeoText createDistanceText(GeoElementND geoA, GeoElementND geoB,
 			GeoPointND textCorner, GeoNumeric length) {

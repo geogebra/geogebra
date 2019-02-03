@@ -195,6 +195,8 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Returns the minimum width of drawable
+	 * 
+	 * @return min width in pixels
 	 */
 	public int getWidthThreshold() {
 		return 0;
@@ -202,6 +204,8 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Returns the minimum height of drawable
+	 * 
+	 * @return min height in pixels
 	 */
 	public int getHeightThreshold() {
 		return 0;

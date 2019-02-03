@@ -1845,7 +1845,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * 0/1/-1 if nothing happened / geo selected / geo unselected
+	 * @return 0/1/-1 if nothing happened / geo selected / geo unselected
 	 */
 	public int handleAddSelected(Hits hits, int max, boolean addMore,
 			ArrayList<? extends GeoElementND> list, TestGeo geoClass,

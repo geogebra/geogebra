@@ -8,6 +8,10 @@ public interface Point {
 
 	/**
 	 * Euclidean distance.
+	 * 
+	 * @param to
+	 *            other point
+	 * @return distance to other point
 	 */
 	public double distance(final Point to);
 	// {
@@ -17,6 +21,10 @@ public interface Point {
 	/**
 	 * compare 2 points. no need to square when comparing.
 	 * http://en.wikibooks.org/wiki/Algorithms/Distance_approximations
+	 * 
+	 * @param to
+	 *            other point
+	 * @return square of distance to other point
 	 */
 	public double distanceSqr(final Point to);
 	// {

@@ -306,6 +306,8 @@ public class ExamEnvironment {
 	/**
 	 * @param loc
 	 *            localization
+	 * @param builder
+	 *            log builder
 	 * @param withEndTime
 	 *            true if add end timestamp
 	 */
@@ -339,6 +341,12 @@ public class ExamEnvironment {
 
 	/**
 	 * NEW LOG DIALOG
+	 * 
+	 * @param loc
+	 *            localization
+	 * @param settings
+	 *            settings
+	 * @return log text
 	 */
 	public String getLog(Localization loc, Settings settings) {
 		ExamLogBuilder sb = new ExamLogBuilder();

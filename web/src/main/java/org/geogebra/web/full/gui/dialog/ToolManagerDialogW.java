@@ -250,7 +250,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 
 								updateMacroPanel();
 
-								if (model.deleteTools(macros.toArray())) {
+								if (model.deleteTools(macros)) {
 									applyChanges();
 									updateToolBar();
 								}

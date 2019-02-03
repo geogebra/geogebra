@@ -144,7 +144,9 @@ public final class FLS {
 	}
 
 	/**
-	 * optimise a tour. return a 2-Optimal tour.
+	 * optimise a tour.
+	 * 
+	 * @return a 2-Optimal tour.
 	 */
 	public static double optimise(final Point[] points) {
 

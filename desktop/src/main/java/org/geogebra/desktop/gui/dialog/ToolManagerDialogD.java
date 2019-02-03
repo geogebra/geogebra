@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -99,8 +100,8 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 */
 	private void deleteTools(JList<Macro> toolList,
 			DefaultListModel<Macro> listModel) {
-		Object[] sel = toolList.getSelectedValuesList().toArray();
-		if (sel == null || sel.length == 0) {
+		List<Macro> sel = toolList.getSelectedValuesList();
+		if (sel == null || sel.size() == 0) {
 			return;
 		}
 
@@ -122,7 +123,6 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 		for (Macro macro : model.getDeletedMacros()) {
 			listModel.removeElement(macro);
 		}
-
 	}
 
 	private void initGUI() {
@@ -388,7 +388,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 * Saves all selected tools in a new file.
 	 */
 	private void saveTools(JList<Macro> toolList) {
-		Object[] sel = toolList.getSelectedValuesList().toArray();
+		Macro[] sel = toolList.getSelectedValuesList().toArray(new Macro[0]);
 		if (sel == null || sel.length == 0) {
 			return;
 		}

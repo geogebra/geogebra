@@ -1064,7 +1064,6 @@ public class PlotterSurface {
 		n.setX(Math.cos(u) * cosSinV[0]);
 		n.setY(Math.sin(u) * cosSinV[0]);
 		n.setZ(cosSinV[1]);
-
 	}
 
 	/**
@@ -1338,6 +1337,7 @@ public class PlotterSurface {
 	 *            use fading for min
 	 * @param maxFading
 	 *            use fading for max
+	 * @return centers
 	 */
 	public Coords[] cone(Drawable3D drawable, Coords center, Coords vx,
 			Coords vy, Coords vz,

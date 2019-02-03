@@ -28,10 +28,10 @@ import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.debug.Log;
 
 public class ToolManagerDialogModel {
-	private App app;
+	private final App app;
 	final Localization loc;
-	private List<Macro> deletedMacros;
-	private ToolManagerDialogListener listener;
+	private final List<Macro> deletedMacros;
+	private final ToolManagerDialogListener listener;
 
 	public interface ToolManagerDialogListener {
 
@@ -88,9 +88,13 @@ public class ToolManagerDialogModel {
 
 	/**
 	 * Deletes all selected tools that are not used in the construction.
+	 * 
+	 * @param sel
+	 *            tools selected for deletion
+	 * @return whether some tools were deleted
 	 */
-	public boolean deleteTools(Object[] sel) {
-		if (sel == null || sel.length == 0) {
+	public boolean deleteTools(List<Macro> sel) {
+		if (sel == null || sel.size() == 0) {
 			return false;
 		}
 
@@ -101,8 +105,8 @@ public class ToolManagerDialogModel {
 		Kernel kernel = app.getKernel();
 		app.getSelectionManager().setSelectedGeos(new ArrayList<GeoElement>());
 		deletedMacros.clear();
-		for (int i = 0; i < sel.length; i++) {
-			Macro macro = (Macro) sel[i];
+		for (int i = 0; i < sel.size(); i++) {
+			Macro macro = sel.get(i);
 			if (!macro.isUsed()) {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
@@ -142,6 +146,9 @@ public class ToolManagerDialogModel {
 		return changeToolBar;
 	}
 
+	/**
+	 * @return deleted tools
+	 */
 	public List<Macro> getDeletedMacros() {
 		return deletedMacros;
 	}
@@ -190,14 +197,18 @@ public class ToolManagerDialogModel {
 
 	/**
 	 * Saves all selected tools in a new file.
+	 * 
+	 * @param sel
+	 *            selected tools
+	 * @return selected tools and dependencies
 	 */
-	public ArrayList<Macro> getAllTools(Object[] sel) {
+	public ArrayList<Macro> getAllTools(Macro[] sel) {
 
 		// we need to save all selected tools and all tools
 		// that are used by the selected tools
 		LinkedHashSet<Macro> tools = new LinkedHashSet<>();
 		for (int i = 0; i < sel.length; i++) {
-			Macro macro = (Macro) sel[i];
+			Macro macro = sel[i];
 			ArrayList<Macro> macros = macro.getUsedMacros();
 			if (macros != null) {
 				tools.addAll(macros);
@@ -207,10 +218,7 @@ public class ToolManagerDialogModel {
 
 		// create Macro array list from tools set
 		ArrayList<Macro> macros = new ArrayList<>(tools.size());
-		Iterator<Macro> it = tools.iterator();
-		while (it.hasNext()) {
-			macros.add(it.next());
-		}
+		macros.addAll(tools);
 
 		return macros;
 	}

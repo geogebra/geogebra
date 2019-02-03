@@ -59,9 +59,24 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	// Input-Output
-	private GeoFunction f1;
+	private final GeoFunction f1;
 
-	/** Computes "all" Extremums of f in &lt;l,r&gt; */
+	/**
+	 * Computes "all" Extremums of f in &lt;l,r&gt;
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param function
+	 *            function
+	 * @param left
+	 *            left bound
+	 * @param right
+	 *            right bound
+	 * @param labelEnabled
+	 *            whether to label outputs
+	 */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
 			GeoFunction function, GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
 		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive());
@@ -111,6 +126,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		return Commands.Extremum;
 	}
 
+	/**
+	 * @return extrema
+	 */
 	public GeoPoint[] getExtremumPoints() {
 		return getPoints();
 	}
@@ -195,6 +213,18 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	 * Main algorithm, public for eventual use by other commands Finds a
 	 * samplesize depending on screen coordinates Samples n intervals and
 	 * collects extremums in intervals
+	 * 
+	 * @param rrfunc
+	 *            function
+	 * @param l
+	 *            left bound
+	 * @param r
+	 *            right bound
+	 * @param samples
+	 *            number of samples
+	 * @param extrfinder
+	 *            extremum finder
+	 * @return extrema
 	 */
 	public final static double[] findExtremums(UnivariateFunction rrfunc,
 			double l, double r, int samples, ExtremumFinderI extrfinder) {

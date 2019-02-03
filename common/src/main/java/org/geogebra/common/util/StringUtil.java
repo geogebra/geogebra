@@ -182,6 +182,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * unicode value of the character)
 	 * 
 	 * @author Markus Hohenwarter
+	 * @param str
+	 *            unicode string
+	 * @param encodeLTGT
+	 *            whether to encode &lt; &gt;
+	 * @return HTML string
 	 */
 	final public static String toHTMLString(String str, boolean encodeLTGT) {
 		if (str == null) {
@@ -247,13 +252,14 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * Converts the given unicode string to a string where special characters
 	 * are converted to <code>&#encoding;</code> sequences . The resulting
 	 * string can be used in XML files.
+	 * 
+	 * @param str
+	 *            unicode string
+	 * @return XML string
 	 */
 	public static String encodeXML(String str) {
-
 		StringBuilder sb = new StringBuilder(str.length());
-
 		encodeXML(sb, str);
-
 		return sb.toString();
 	}
 
@@ -329,7 +335,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return whether it's left to right Unicode character
 	 */
 	protected boolean isRightToLeftChar(char c) {
-
 		return false;
 	}
 
@@ -356,6 +361,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * Replaces special unicode letters (e.g. greek letters) in str by LaTeX
 	 * strings.
+	 * 
+	 * @param str
+	 *            unicode string
+	 * @param convertGreekLetters
+	 *            whether to convert unicode alpha to \alpha
+	 * @return latex string
 	 */
 	public static synchronized String toLaTeXString(String str,
 			boolean convertGreekLetters) {
@@ -1793,8 +1804,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return str.length() == 1 && isCurrency(str.charAt(0));
 	}
 
-	public static boolean emptyOrZero(String tubeId) {
-		return empty(tubeId) || "0".equals(tubeId);
+	/**
+	 * @param text
+	 *            tested string
+	 * @return whether text is empty or equal to "0"
+	 */
+	public static boolean emptyOrZero(String text) {
+		return empty(text) || "0".equals(text);
 	}
 
 	/**

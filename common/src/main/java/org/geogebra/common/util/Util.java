@@ -43,6 +43,9 @@ public class Util {
 	 * Removes &lt; > " * / ? | \ and replaces them with underscore (_)
 	 * 
 	 * @author Michael Borcherds
+	 * @param name
+	 *            suggested filename
+	 * @return valid filename
 	 */
 	public static String processFilename(String name) {
 		int length = name != null ? name.length() : 0;

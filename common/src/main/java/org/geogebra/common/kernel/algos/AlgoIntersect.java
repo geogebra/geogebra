@@ -43,6 +43,12 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	/**
 	 * Returns the index in output[] of the intersection point that is closest
 	 * to the coordinates (xRW, yRW)
+	 * 
+	 * @param xRW
+	 *            initial x-coordinate
+	 * @param yRW
+	 *            initial y-coordinate
+	 * @return closest intersection index
 	 */
 	public int getClosestPointIndex(double xRW, double yRW) {
 		// AbstractApplication.debug("\nxRW="+xRW+"\nyRW="+yRW);
@@ -67,6 +73,10 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	/**
 	 * Returns the index in output[] of the intersection point that is closest
 	 * to the GeoPoint refPoint
+	 * 
+	 * @param refPoint
+	 *            initial point
+	 * @return closest intersection point
 	 */
 	int getClosestPointIndex(GeoPoint refPoint) {
 		GeoPoint[] P = getIntersectionPoints();

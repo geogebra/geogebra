@@ -84,6 +84,7 @@ public abstract class Script {
 	 * 
 	 * @param evt
 	 *            the event that triggered the script
+	 * @return success
 	 * @throws ScriptError
 	 *             error thrown if the script cannot be run
 	 */
@@ -120,6 +121,11 @@ public abstract class Script {
 	/**
 	 * The text of this script is modified by changing every whole word oldLabel
 	 * to newLabel.
+	 * 
+	 * @param oldLabel
+	 *            old label
+	 * @param newLabel
+	 *            new label
 	 * 
 	 * @return whether any renaming happened
 	 */
