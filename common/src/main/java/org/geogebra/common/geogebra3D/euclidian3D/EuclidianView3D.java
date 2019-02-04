@@ -3538,16 +3538,18 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public Previewable createPreviewParallelLine(
 			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines) {
-		// TODO Auto-generated method stub
+			ArrayList<GeoLineND> selectedLines,
+			ArrayList<GeoFunction> selectedFunctions) {
+		// not implemented in 3D
 		return null;
 	}
 
 	@Override
 	public Previewable createPreviewPerpendicularLine(
-			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines) {
-		// TODO Auto-generated method stub
+			ArrayList<GeoPointND> selectedPoints, 
+			ArrayList<GeoLineND> selectedLines,
+			ArrayList<GeoFunction> selectedFunctions) {
+		// not implemented in 3D
 		return null;
 	}
 

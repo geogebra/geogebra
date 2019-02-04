@@ -35,8 +35,10 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.MyMath;
@@ -99,6 +101,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 
 	private ArrayList<GeoPointND> points; // for preview
 	private ArrayList<GeoLineND> lines; // for preview
+	private ArrayList<GeoFunction> functions; // for preview
 	private GeoPointND startPoint;
 	private GeoPointND previewPoint2;
 
@@ -158,7 +161,8 @@ public class DrawLine extends SetDrawable implements Previewable {
 	 *            true for paralel, false for perpendicular
 	 */
 	public DrawLine(EuclidianView view, ArrayList<GeoPointND> points,
-			ArrayList<GeoLineND> lines, boolean parallel) {
+					ArrayList<GeoLineND> lines, ArrayList<GeoFunction> functions,
+					boolean parallel) {
 		if (parallel) {
 			previewMode = PreviewType.PARALLEL;
 		} else {
@@ -167,6 +171,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 		this.view = view;
 		this.points = points;
 		this.lines = lines;
+		this.functions = functions;
 		g = new GeoLine(view.getKernel().getConstruction());
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
@@ -491,7 +496,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 			break;
 		case PARALLEL:
 		case PERPENDICULAR:
-			isVisible = (lines.size() == 1);
+			isVisible = lines.size() == 1 || functions.size() == 1;
 			break;
 		case ANGLE_BISECTOR:
 			isVisible = (points.size() == 2);
@@ -555,18 +560,33 @@ public class DrawLine extends SetDrawable implements Previewable {
 				break;
 
 			case PARALLEL:
+				Lineable2D linePreview = null;
+
+				if (functions.size() == 1) {
+					linePreview = (Lineable2D) functions.get(0);
+				} else if (lines.size() == 1) {
+					linePreview = (Lineable2D) lines.get(0);
+				} else {
+					break;
+				}
+
 				// calc the line g through (xRW,yRW) and parallel to l
-				GeoLineND lND = lines.get(0);
-				Coords equation = lND
-						.getCartesianEquationVector(view.getMatrix());
-				GeoVec3D.cross(xRW, yRW, 1.0, equation.getY(), -equation.getX(),
+				GeoVec3D.cross(xRW, yRW, 1.0, linePreview.getY(), -linePreview.getX(),
 						0.0, ((GeoLine) g));
 				break;
 			case PERPENDICULAR:
+				linePreview = null;
+
+				if (functions.size() == 1) {
+					linePreview = (Lineable2D) functions.get(0);
+				} else if (lines.size() == 1) {
+					linePreview = (Lineable2D) lines.get(0);
+				} else {
+					break;
+				}
+
 				// calc the line g through (xRW,yRW) and perpendicular to l
-				lND = lines.get(0);
-				equation = lND.getCartesianEquationVector(view.getMatrix());
-				GeoVec3D.cross(xRW, yRW, 1.0, equation.getX(), equation.getY(),
+				GeoVec3D.cross(xRW, yRW, 1.0, linePreview.getX(), linePreview.getY(),
 						0.0, ((GeoLine) g));
 				break;
 			case PERPENDICULAR_BISECTOR:

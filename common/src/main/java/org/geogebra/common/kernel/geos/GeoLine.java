@@ -77,7 +77,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, GeoLineND, MatrixTransformable,
 		GeoFunctionable, Transformable, GeoEvaluatable, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo, EquationValue {
+		SymbolicParametersBotanaAlgo, EquationValue, Lineable2D {
 
 	// modes
 	/** implicit equation */

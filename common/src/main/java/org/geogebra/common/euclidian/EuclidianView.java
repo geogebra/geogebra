@@ -3499,15 +3499,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public Previewable createPreviewParallelLine(
 			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines) {
-		return new DrawLine(this, selectedPoints, selectedLines, true);
+			ArrayList<GeoLineND> selectedLines,
+			ArrayList<GeoFunction> selectedFunctions) {
+		return new DrawLine(this, selectedPoints, selectedLines,
+				selectedFunctions, true);
 	}
 
 	@Override
 	public Previewable createPreviewPerpendicularLine(
 			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines) {
-		return new DrawLine(this, selectedPoints, selectedLines, false);
+			ArrayList<GeoLineND> selectedLines,
+			ArrayList<GeoFunction> selectedFunctions) {
+		return new DrawLine(this, selectedPoints, selectedLines,
+				selectedFunctions, false);
 	}
 
 	/**

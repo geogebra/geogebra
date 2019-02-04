@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyPolyLine;
@@ -314,7 +315,7 @@ public class AlgoDispatcher {
 	 * 
 	 * @return line
 	 */
-	final public GeoLine line(String label, GeoPoint P, GeoLine l) {
+	final public GeoLine line(String label, GeoPoint P, Lineable2D l) {
 		AlgoLinePointLine algo = new AlgoLinePointLine(cons, label, P, l);
 		GeoLine g = algo.getLine();
 		return g;
@@ -349,7 +350,7 @@ public class AlgoDispatcher {
 	 *            orthogonal line
 	 * @return line
 	 */
-	final public GeoLine orthogonalLine(String label, GeoPoint P, GeoLine l) {
+	final public GeoLine orthogonalLine(String label, GeoPoint P, Lineable2D l) {
 		AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons, label, P,
 				l);
 		GeoLine g = algo.getLine();
@@ -1931,7 +1932,7 @@ public class AlgoDispatcher {
 	 * @return intersection of surface and line
 	 */
 	public GeoElement[] intersectImplicitSurfaceLine(String[] labels,
-			GeoImplicitSurfaceND surf, GeoLineND line) {
+			GeoImplicitSurfaceND surf, GeoElementND line) {
 		return new GeoPoint[0];
 	}
 

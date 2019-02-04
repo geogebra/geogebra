@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -280,6 +281,18 @@ public class EuclidianControllerCompanion {
 		}
 
 		return point;
+	}
+
+	/**
+	 * @param point
+	 *            point
+	 * @param line
+	 *            line
+	 * @return line orthogonal to the given one, going through a point
+	 */
+	protected GeoElement[] orthogonal(GeoPointND point, Lineable2D line) {
+		return new GeoElement[] { ec.getAlgoDispatcher().orthogonalLine(null,
+				(GeoPoint) point, line) };
 	}
 
 	/**

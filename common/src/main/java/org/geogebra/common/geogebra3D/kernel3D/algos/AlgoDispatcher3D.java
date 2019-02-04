@@ -314,7 +314,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 	@Override
 	public GeoElement[] intersectImplicitSurfaceLine(String[] labels,
-			GeoImplicitSurfaceND surf, GeoLineND line) {
+			GeoImplicitSurfaceND surf, GeoElementND line) {
 		AlgoIntersectImplicitSurface algo = new AlgoIntersectImplicitSurface(
 				cons, labels, surf, line);
 		GeoElement[] out = algo.getIntersectionPoints();

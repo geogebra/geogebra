@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -131,7 +132,8 @@ public interface EuclidianViewInterfaceCommon
 	 */
 	public Previewable createPreviewParallelLine(
 			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines);
+			ArrayList<GeoLineND> selectedLines,
+			ArrayList<GeoFunction> selectedFunctions);
 
 	/**
 	 * @param selectedPoints
@@ -142,7 +144,8 @@ public interface EuclidianViewInterfaceCommon
 	 */
 	public Previewable createPreviewPerpendicularLine(
 			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines);
+			ArrayList<GeoLineND> selectedLines,
+			ArrayList<GeoFunction> selectedFunctions);
 
 	/**
 	 * @param selectedPoints

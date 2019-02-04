@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -47,7 +48,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	protected GeoPoint P; // input
-	protected GeoLine l; // input
+	protected Lineable2D l; // input
 	private GeoLine g; // output
 	private PPolynomial[] polynomials;
 	private OrthoLinePointLineAdapter proverAdapter;
@@ -66,7 +67,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	 *            line result should be orthogonal to
 	 */
 	public AlgoOrthoLinePointLine(Construction cons, String label, GeoPoint P,
-			GeoLine l) {
+			Lineable2D l) {
 		super(cons);
 		this.P = P;
 		this.l = l;
@@ -106,7 +107,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	protected void setInput() {
 		input = new GeoElement[2];
 		input[0] = P;
-		input[1] = l;
+		input[1] = l.toGeoElement();
 	}
 
 	// for AlgoElement
@@ -130,13 +131,13 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	// Made public for LocusEqu
 	public GeoLine getl() {
-		return l;
+		return l instanceof GeoLine ? (GeoLine) l : null;
 	}
 
 	// calc the line g through P and normal to l
 	@Override
 	public final void compute() {
-		GeoVec3D.cross(P, l.x, l.y, 0.0, g);
+		GeoVec3D.cross(P, l.getX(), l.getY(), 0.0, g);
 	}
 
 	@Override
@@ -147,9 +148,9 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	@Override
 	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			P.getFreeVariables(variables);
-			l.getFreeVariables(variables);
+			((GeoLine) l).getFreeVariables(variables);
 			return;
 		}
 		throw new NoSymbolicParametersException();
@@ -158,9 +159,9 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	@Override
 	public int[] getDegrees(AbstractProverReciosMethod a)
 			throws NoSymbolicParametersException {
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			int[] degreeP = P.getDegrees(a);
-			int[] degreeL = l.getDegrees(a);
+			int[] degreeL = ((GeoLine) l).getDegrees(a);
 
 			int[] result = new int[3];
 			result[0] = degreeL[1] + degreeP[2];
@@ -176,9 +177,9 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	public BigInteger[] getExactCoordinates(
 			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			BigInteger[] pP = P.getExactCoordinates(values);
-			BigInteger[] pL = l.getExactCoordinates(values);
+			BigInteger[] pL = ((GeoLine) l).getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[3];
 			coords[0] = pL[1].multiply(pP[2]).negate();
 			coords[1] = pL[0].multiply(pP[2]);
@@ -194,9 +195,9 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			PPolynomial[] pP = P.getPolynomials();
-			PPolynomial[] pL = l.getPolynomials();
+			PPolynomial[] pL = ((GeoLine) l).getPolynomials();
 			polynomials = new PPolynomial[3];
 			polynomials[0] = pL[1].multiply(pP[2]).negate();
 			polynomials[1] = pL[0].multiply(pP[2]);
@@ -221,7 +222,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		if (proverAdapter == null) {
 			proverAdapter = new OrthoLinePointLineAdapter();
 		}
-		return proverAdapter.getBotanaPolynomials(l, P);
+		return proverAdapter.getBotanaPolynomials((GeoLine) l, P);
 	}
 
 	// ///////////////////////////////
@@ -247,7 +248,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	public String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("LineThroughAPerpendicularToB",
 				"Line through %0 perpendicular to %1",
-				P.getLabel(tpl), l.getLabel(tpl));
+				P.getLabel(tpl), ((GeoElement) l).getLabel(tpl));
 	}
 
 }

@@ -3,9 +3,9 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -53,9 +53,9 @@ public class CmdLine extends CommandProcessor {
 
 			// line through point parallel to another line
 			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoLine()))) {
+					&& (ok[1] = (arg[1] instanceof Lineable2D))) {
 				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
-						(GeoPoint) arg[0], (GeoLine) arg[1]) };
+						(GeoPoint) arg[0], (Lineable2D) arg[1]) };
 				return ret;
 			}
 

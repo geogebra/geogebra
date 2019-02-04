@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -46,7 +47,7 @@ public class AlgoLinePointLine extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P; // input
-	private GeoLine l; // input
+	private Lineable2D l; // input
 	private GeoLine g; // output
 	private PPolynomial[] polynomials;
 	private PPolynomial[] botanaPolynomials;
@@ -54,7 +55,7 @@ public class AlgoLinePointLine extends AlgoElement
 
 	/** Creates new AlgoLinePointLine */
 	public AlgoLinePointLine(Construction cons, String label, GeoPoint P,
-			GeoLine l) {
+			Lineable2D l) {
 		super(cons);
 		this.P = P;
 		this.l = l;
@@ -93,7 +94,7 @@ public class AlgoLinePointLine extends AlgoElement
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = P;
-		input[1] = l;
+		input[1] = l.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, g);
@@ -111,14 +112,14 @@ public class AlgoLinePointLine extends AlgoElement
 
 	// Made public for LocusEqu.
 	public GeoLine getl() {
-		return l;
+		return l instanceof GeoLine ? (GeoLine) l : null;
 	}
 
 	// calc the line g through P and parallel to l
 	@Override
 	public final void compute() {
 		// homogenous:
-		GeoVec3D.cross(P, l.y, -l.x, 0.0, g);
+		GeoVec3D.cross(P, l.getY(), -l.getX(), 0.0, g);
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public class AlgoLinePointLine extends AlgoElement
 		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("LineThroughAParallelToB",
 				"Line through %0 parallel to %1", P.getLabel(tpl),
-				l.getLabel(tpl));
+				((GeoElement) l).getLabel(tpl));
 
 	}
 
@@ -142,9 +143,9 @@ public class AlgoLinePointLine extends AlgoElement
 	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			P.getFreeVariables(variables);
-			l.getFreeVariables(variables);
+			((GeoLine) l).getFreeVariables(variables);
 			return;
 		}
 
@@ -155,9 +156,9 @@ public class AlgoLinePointLine extends AlgoElement
 	public int[] getDegrees(AbstractProverReciosMethod a)
 			throws NoSymbolicParametersException {
 
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			int[] degreeP = P.getDegrees(a);
-			int[] degreeL = l.getDegrees(a);
+			int[] degreeL = ((GeoLine) l).getDegrees(a);
 			int[] degrees = new int[3];
 			degrees[0] = degreeL[0] + degreeP[2];
 			degrees[1] = degreeL[1] + degreeP[2];
@@ -174,9 +175,9 @@ public class AlgoLinePointLine extends AlgoElement
 			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			BigInteger[] coordsP = P.getExactCoordinates(values);
-			BigInteger[] coordsL = l.getExactCoordinates(values);
+			BigInteger[] coordsL = ((GeoLine) l).getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[3];
 			coords[0] = coordsL[0].multiply(coordsP[2]);
 			coords[1] = coordsL[1].multiply(coordsP[2]);
@@ -195,9 +196,9 @@ public class AlgoLinePointLine extends AlgoElement
 			return polynomials;
 		}
 
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			PPolynomial[] coordsP = P.getPolynomials();
-			PPolynomial[] coordsl = l.getPolynomials();
+			PPolynomial[] coordsl = ((GeoLine) l).getPolynomials();
 			polynomials = new PPolynomial[3];
 			polynomials[0] = coordsl[0].multiply(coordsP[2]);
 			polynomials[1] = coordsl[1].multiply(coordsP[2]);
@@ -221,11 +222,11 @@ public class AlgoLinePointLine extends AlgoElement
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		if (P != null && l != null) {
+		if (P != null && l instanceof GeoLine) {
 			PVariable[] vP = P.getBotanaVars(P); // c1,c2
 			PPolynomial c1 = new PPolynomial(vP[0]);
 			PPolynomial c2 = new PPolynomial(vP[1]);
-			PVariable[] vL = l.getBotanaVars(l); // a1,a2,b1,b2
+			PVariable[] vL = ((GeoLine) l).getBotanaVars((GeoLine) l); // a1,a2,b1,b2
 			PPolynomial a1 = new PPolynomial(vL[0]);
 			PPolynomial a2 = new PPolynomial(vL[1]);
 			PPolynomial b1 = new PPolynomial(vL[2]);

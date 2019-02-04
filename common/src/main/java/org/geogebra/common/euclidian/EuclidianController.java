@@ -112,6 +112,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.GeoWidget;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -2626,6 +2627,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (selVectors() == 0) {
 				addSelectedLine(hits, 1, false, selPreview);
 			}
+			if (selFunctions() == 0) {
+				addSelectedFunction(hits, 1, false, selPreview);
+			}
 		}
 
 		if (selPoints() == 1) {
@@ -2646,7 +2650,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 				return ret;
 			} else if (selLines() == 1) {
-				// fetch selected point and vector
+				// fetch selected point and line
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
@@ -2657,6 +2661,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					ret[0] = getAlgoDispatcher().line(null,
 							(GeoPoint) points[0], (GeoLine) lines[0]);
 				}
+				return ret;
+			} else if (selFunctions() == 1) {
+				// fetch selected point and (linear) function
+				GeoPointND[] points = getSelectedPointsND();
+				GeoFunction[] lines = getSelectedFunctions();
+				ret[0] = getAlgoDispatcher().line(null, (GeoPoint) points[0],
+						(Lineable2D) lines[0]);
 				return ret;
 			}
 		}
@@ -2706,6 +2717,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (selVectors() == 0) {
 				addSelectedLine(hits, 1, false, selPreview);
 			}
+			if (selFunctions() == 0) {
+				addSelectedFunction(hits, 1, false, selPreview);
+			}
 		}
 
 		if (selPoints() == 1) {
@@ -2728,6 +2742,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
 				return companion.orthogonal(points[0], lines[0]);
+			} else if (selFunctions() == 1) {
+				// fetch selected point and (linear) function
+				GeoPointND[] points = getSelectedPointsND();
+				GeoFunction[] lines = getSelectedFunctions();
+				// create new line
+				return companion.orthogonal(points[0], (Lineable2D) lines[0]);
 			}
 		}
 		return null;
@@ -11234,8 +11254,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_PARALLEL:
+
 			previewDrawable = view.createPreviewParallelLine(
-					getSelectedPointList(), getSelectedLineList());
+					getSelectedPointList(), getSelectedLineList(),
+					getSelectedFunctionList());
 			break;
 
 		case EuclidianConstants.MODE_PARABOLA:
@@ -11250,8 +11272,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case EuclidianConstants.MODE_ORTHOGONAL:
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+
 			previewDrawable = view.createPreviewPerpendicularLine(
-					getSelectedPointList(), getSelectedLineList());
+							getSelectedPointList(), getSelectedLineList(),
+							getSelectedFunctionList());
 			break;
 
 		case EuclidianConstants.MODE_LINE_BISECTOR:

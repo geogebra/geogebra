@@ -1,9 +1,13 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.CmdOrthogonalLine;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -98,6 +102,18 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 
 	@Override
 	public GeoElement[] process3(Command c) throws MyError {
+
+		ExpressionValue arg2 = c.getArgument(2).unwrap();
+
+		// check if arg2 = xOyPlane
+		if (arg2 instanceof GeoPlane3DConstant) {
+			c.setArgument(2,
+					new GeoDummyVariable(cons,
+							arg2.toString(StringTemplate.defaultTemplate))
+									.wrap());
+			return process2(c, resArgs(c));
+		}
+
 		boolean[] ok = new boolean[3];
 		GeoElement[] arg;
 

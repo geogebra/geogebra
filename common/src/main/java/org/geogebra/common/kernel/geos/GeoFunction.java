@@ -81,7 +81,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, UnivariateFunction, Dilateable,
-		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable {
+		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable,
+		Lineable2D {
 
 	/** inner function representation */
 	protected Function fun;
@@ -2994,4 +2995,29 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public void setPointsVisible(boolean pointsVisible) {
 		this.pointsVisible = pointsVisible;
 	}
+
+	public double getX() {
+
+		try {
+			PolyFunction poly = fun
+					.expandToPolyFunctionNoCas(fun.getExpression(), false);
+			if (poly.getDegree() <= 1) {
+
+				// gradient of line
+				return poly.getCoeffs()[1];
+
+			}
+		} catch (Exception e) {
+			//
+		}
+
+		// not a line
+		return Double.NaN;
+
+	}
+
+	public double getY() {
+		return -1;
+	}
+
 }

@@ -9,9 +9,9 @@ import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -66,9 +66,9 @@ public class CmdOrthogonalLine extends CommandProcessor {
 
 		// line through point orthogonal to another line
 		else if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoLine()))) {
+				&& (ok[1] = (arg[1] instanceof Lineable2D))) {
 			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
-					c.getLabel(), (GeoPoint) arg[0], (GeoLine) arg[1]) };
+					c.getLabel(), (GeoPoint) arg[0], (Lineable2D) arg[1]) };
 			return ret;
 		} else if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[1] = (arg[1].isGeoConic()))) {
@@ -90,6 +90,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	 */
 	protected GeoElement[] process3(Command c) {
 		ExpressionValue arg2 = c.getArgument(2).unwrap();
+
 		// check if arg2 = xOyPlane
 		String name = arg2.toString(StringTemplate.defaultTemplate);
 		if (!(arg2 instanceof Variable) || !planeOrSpace(name)) {
