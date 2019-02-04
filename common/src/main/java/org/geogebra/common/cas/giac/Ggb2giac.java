@@ -1454,8 +1454,7 @@ public class Ggb2giac {
 				"[[[ggbzipfarg0:=%0],[ggbzipfarg1:=%1],[ggbzipfarg2:=%2]],if %3==true then harmonic(ggbzipfarg1,ggbzipfarg2)/harmonic(ggbzipfarg1,ggbzipfarg0) else 1/((ggbzipfarg2)^ggbzipfarg1*harmonic(ggbzipfarg1,ggbzipfarg0)) fi][1]");
 
 		// TODO check if it's easier to implement with giac's zip command
-		p("Zip.N", "ggbzipans(%)");
-
+		p("Zip.N", "eval(ggbzipans(%))");
 		// SolveCubic[x^3+3x^2+x-1]
 		// SolveCubic[x^3+3x^2+x-2]
 		// SolveCubic[x^3+3x^2+x-3]

@@ -300,6 +300,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		String translation = casParser
 				.getTranslatedCASCommand(sbCASCommand.toString());
 
+		boolean zipCommand = "Zip".equals(name);
+
 		// check for eg Sum.N=sum(%)
 		if (translation != null) {
 			sbCASCommand.setLength(0);
@@ -314,7 +316,18 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						getCurrentCAS().appendListStart(sbCASCommand);
 						for (int j = 0; j < args.size(); j++) {
 							ExpressionValue ev = args.get(j);
+
+							// wrap expression in '...' to stop premature
+							// evaluation
+							// eg Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4,
+							// 12})
+							if (zipCommand && j == 0) {
+								sbCASCommand.append("'");
+							}
 							sbCASCommand.append(toString(ev, symbolic, tpl));
+							if (zipCommand && j == 0) {
+								sbCASCommand.append("'");
+							}
 							sbCASCommand.append(',');
 						}
 						// remove last comma
