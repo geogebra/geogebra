@@ -17,6 +17,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -29,11 +30,6 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ScientificSettingsView extends MyHeaderPanel implements FastClickHandler, SetLabels {
-
-	private String smallScreenViewDesign = "scientificSettingsViewSmall";
-	private String smallScreenPanelDesign = "settingsPanelScientificSmallScreen";
-	private String bigScreenViewDesign = "scientificSettingsView";
-	private String bigScreenPanelDesign = "settingsPanelScientificNoHeader";
 
 	private final AppW app;
 	private HeaderView headerView;
@@ -70,7 +66,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 
 	private void createContent() {
 		settingsScrollPanel = new ScrollPanel();
-		settingsScrollPanel.addStyleName(bigScreenViewDesign);
+		settingsScrollPanel.addStyleName("settingsPanelScientificNoHeader");
 
 		FlowPanel contentPanel = new FlowPanel();
 		PropertiesList propertiesList =
@@ -172,28 +168,11 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	}
 
 	private void resizeContent() {
-		boolean smallScreen = app.getAppletFrame()
+		boolean isSmallScreen = app.getAppletFrame()
 				.hasSmallWindowOrCompactHeader();
-		if (smallScreen) {
-			resizeContentToSmallScreen();
-		} else {
-			resizeContentToBigScreen();
-		}
-	}
 
-	private void resizeContentToSmallScreen() {
-		toggleStyle(this, bigScreenViewDesign, smallScreenViewDesign);
-		toggleStyle(settingsScrollPanel, bigScreenPanelDesign, smallScreenPanelDesign);
-	}
-
-	private void resizeContentToBigScreen() {
-		toggleStyle(this, smallScreenViewDesign, bigScreenViewDesign);
-		toggleStyle(settingsScrollPanel, smallScreenPanelDesign, bigScreenPanelDesign);
-	}
-
-	private void toggleStyle(Widget element, String fromStyle, String toStyle) {
-		element.removeStyleName(fromStyle);
-		element.addStyleName(toStyle);
+		Dom.toggleClass(this, "scientificSettingsViewSmall", isSmallScreen);
+		Dom.toggleClass(settingsScrollPanel, "settingsPanelScientificSmallScreen", isSmallScreen);
 	}
 
 	@Override
