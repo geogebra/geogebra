@@ -855,14 +855,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			initStringBuilder(sbToString, tpl, label, this);
 		}
-		sbToString.append(toValueString(tpl));
+		if (ExamEnvironment.isProtectedEquation(this)) {
+			sbToString.append(getParentAlgorithm().getDefinition(tpl));
+		} else {
+			sbToString.append(toValueString(tpl));
+		}
 		return sbToString.toString();
 	}
 
