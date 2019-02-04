@@ -157,6 +157,8 @@ public class DrawLine extends SetDrawable implements Previewable {
 	 *            preview points
 	 * @param lines
 	 *            preview lines
+	 * @param functions
+	 * 			  preview functions
 	 * @param parallel
 	 *            true for paralel, false for perpendicular
 	 */
