@@ -49,6 +49,7 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -79,7 +80,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private KeyboardState keyboardState;
 	private final SimplePanel kbButtonSpace = new SimplePanel();
 	private GDevice device;
-	private boolean[] childVisible = new boolean[0];
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
@@ -207,60 +207,97 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	/**
-	 * @param bg
-	 *            full-sized GUI
+	 * @param panel Shows this full-screen panel.
 	 */
-	public void showBrowser(MyHeaderPanel bg) {
-		keyBoardNeeded(false, null);
-		GeoGebraFrameW frameLayout = this;
-		ToolTipManagerW.hideAllToolTips();
-		final int count = frameLayout.getWidgetCount();
-		final int oldHeight = this.getOffsetHeight();
-		final int oldWidth = this.getOffsetWidth();
-		childVisible = new boolean[count];
-		for (int i = 0; i < count; i++) {
-			// MOW-531 don't interfere with menu animation
-			if (!(frameLayout.getWidget(i) instanceof FloatingMenuPanel)) {
-				childVisible[i] = frameLayout.getWidget(i).isVisible();
-				frameLayout.getWidget(i).setVisible(false);
-			}
-		}
-		frameLayout.add(bg);
-		bg.setHeight(oldHeight + "px");
-		bg.setWidth(oldWidth + "px");
-		bg.onResize();
-		bg.setVisible(true);
-		bg.setFrame(this);
+	public void showPanel(MyHeaderPanel panel) {
+		prepareLayoutForShowingPanel();
+		addPanel(panel);
+		setupPanel(panel);
+	}
 
-		this.lastBG = bg;
+	private void prepareLayoutForShowingPanel() {
+		hideNotNeededElements();
+		hideOrFixChildren();
+
 		// in Graphing Menu > OPen sets overflow to hidden-> breaks resizing of
 		// BrowseGUI
 		getElement().getStyle().setOverflow(Overflow.VISIBLE);
-		// frameLayout.forceLayout();
+	}
+
+	private void hideNotNeededElements() {
+		keyBoardNeeded(false, null);
+		ToolTipManagerW.hideAllToolTips();
+	}
+
+	private void hideOrFixChildren() {
+		if (hasSmallWindowOrCompactHeader()) {
+			fixChildrenPosition();
+		} else {
+			hideChildren();
+		}
+ 	}
+
+	private void fixChildrenPosition() {
+		final int childCount = getWidgetCount();
+		for (int i = 0; i < childCount; i++) {
+			// MOW-531 don't interfere with menu animation
+			if (!(getWidget(i) instanceof FloatingMenuPanel)) {
+				getWidget(i).getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			}
+		}
+	}
+
+	private void hideChildren() {
+		final int childCount = getWidgetCount();
+		for (int i = 0; i < childCount; i++) {
+			// MOW-531 don't interfere with menu animation
+			if (!(getWidget(i) instanceof FloatingMenuPanel)) {
+				getWidget(i).addStyleName("temporarilyHidden");
+			}
+		}
+	}
+
+	private void addPanel(HeaderPanel panel) {
+		add(panel);
+		this.lastBG = panel;
+	}
+
+	private void setupPanel(MyHeaderPanel panel) {
+		panel.getElement().getStyle().setZIndex(12);
+		final int oldHeight = this.getOffsetHeight();
+		final int oldWidth = this.getOffsetWidth();
+		panel.setHeight(oldHeight + "px");
+		panel.setWidth(oldWidth + "px");
+		panel.onResize();
+		panel.setVisible(true);
+		panel.setFrame(this);
 	}
 
 	@Override
-	public void hideBrowser(MyHeaderPanel bg) {
+	public void hidePanel(MyHeaderPanel bg) {
 		if (lastBG == null) {
 			return; // MOW-394: childVisible is outdated, return
 		}
 		remove(bg == null ? lastBG : bg);
 		lastBG = null;
 		ToolTipManagerW.hideAllToolTips();
-		final int count = getWidgetCount();
-		for (int i = 0; i < count; i++) {
-			// MOW-531 don't interfere with menu animation
-			if (childVisible.length > i
-					&& !(getWidget(i) instanceof FloatingMenuPanel)) {
-				getWidget(i).setVisible(childVisible[i]);
-			}
-		}
+		showChildren();
 		// frameLayout.setLayout(app);
 		// frameLayout.forceLayout();
 		if (articleElement.getDataParamFitToScreen()) {
 			setSize(Window.getClientWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();
+		}
+	}
+
+	private void showChildren() {
+		final int childCount = getWidgetCount();
+		for (int i = 0; i < childCount; i++) {
+			// MOW-531 don't interfere with menu animation
+			if (!(getWidget(i) instanceof FloatingMenuPanel)) {
+				getWidget(i).removeStyleName("temporarilyHidden");
+			}
 		}
 	}
 

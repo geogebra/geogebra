@@ -77,7 +77,7 @@ public class Tablet implements EntryPoint {
 			if (appFrame.isHeaderPanelOpen()) {
 				GuiManagerW guiManager = (GuiManagerW) appFrame.getApplication()
 				        .getGuiManager();
-				appFrame.hideBrowser((BrowseGUI) guiManager.getBrowseView());
+				appFrame.hidePanel((BrowseGUI) guiManager.getBrowseView());
 			}
 		}
 	}

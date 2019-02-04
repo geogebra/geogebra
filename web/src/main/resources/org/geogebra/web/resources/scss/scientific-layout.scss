@@ -144,6 +144,19 @@
             animation-timing-function: ease-out;
         }
     }
+
+    .animateInFromRight {
+        animation-duration: 0.25s;
+        animation-name: fullScreenSlideIn;
+        overflow: auto;
+    }
+
+    .animateOutToRight {
+        animation-duration: 0.25s;
+        animation-name: fullScreenSlideOut;
+        overflow-y: auto;
+        right: -100vw;
+    }
 }
 
 @keyframes fadeInOpacity {
@@ -162,4 +175,14 @@
    	100% {
    		opacity: 0;
    	}
+}
+
+@keyframes fullScreenSlideIn {
+    0% {right: -100vw; top: 0px;}
+    100% {right: 0vw; top: 0px;}
+}
+
+@keyframes fullScreenSlideOut {
+    0% {right: 0vw; top: 0px;}
+    100% {right: -100vw; top: 0px;}
 }
