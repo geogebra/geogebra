@@ -2694,7 +2694,7 @@ __GGB__keysVar["fi"].menu = {
     "ShowHideObject": "N\xe4yt\xe4 / piilota objekti",
     "ShowHideObject.Help": "Valitse piilotettavat objektit ja vaihda sitten ty\xf6kalua.",
     "ShowHorizontalScrollbars": "N\xe4yt\xe4 vaakavierityspalkki",
-    "ShowInAlgebraView": "Show in Algebra View",
+    "ShowInAlgebraView": "N\xe4yt\xe4 Algebraikkunassa",
     "ShowInToolBar": "N\xe4yt\xe4 ty\xf6kalupalkissa",
     "ShowInputField": "N\xe4yt\xe4 sy\xf6tt\xf6kentt\xe4",
     "ShowInterval": "N\xe4yt\xe4 v\xe4li",
