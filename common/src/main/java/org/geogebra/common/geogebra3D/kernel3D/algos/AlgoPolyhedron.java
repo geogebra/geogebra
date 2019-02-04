@@ -9,8 +9,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.Auxiliary;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
 
 /**
  * @author ggb3D
@@ -94,7 +96,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
-						// s.setParentAlgorithm(AlgoPolyhedron.this);
+						if (cons.getKernel().getApplication()
+								.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+							s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+						}
 						return s;
 					}
 				});
@@ -114,7 +119,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
-						// p.setParentAlgorithm(AlgoPolyhedron.this);
+						if (cons.getKernel().getApplication()
+								.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+							p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+						}
 						return p;
 					}
 				});
@@ -246,6 +254,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				p.dontSetEuclidianVisibleBySetParentAlgorithm();
 			}
 			p.setLabelVisible(labelVisible);
+			if (cons.getKernel().getApplication()
+					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+			}
 
 			if (getPolyhedron().getShowObjectCondition() != null) {
 				try {

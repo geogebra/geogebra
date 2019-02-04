@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -445,6 +446,11 @@ public class GeoPolyhedron extends GeoElement3D
 			}
 		}
 
+		if (cons.getKernel().getApplication()
+				.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			polygon.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+		}
+
 		// put the polygon into the collection
 		polygons.put(index, polygon);
 
@@ -551,6 +557,11 @@ public class GeoPolyhedron extends GeoElement3D
 			} catch (Exception e) {
 				// circular definition
 			}
+		}
+
+		if (cons.getKernel().getApplication()
+				.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			segment.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 		}
 
 		storeSegment(segment, key);

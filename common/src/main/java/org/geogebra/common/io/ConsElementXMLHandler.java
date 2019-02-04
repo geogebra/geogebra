@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.Auxiliary;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -673,7 +674,9 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAuxiliary(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setAuxiliaryObject(MyXMLHandler.parseBoolean(attrs.get("val")));
+			geo.setAuxiliaryObject(MyXMLHandler.parseBoolean(attrs.get("val"))
+							? Auxiliary.YES_SAVE
+							: Auxiliary.NO_SAVE);
 			return true;
 		} catch (RuntimeException e) {
 			return false;

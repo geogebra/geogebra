@@ -206,7 +206,70 @@ public abstract class GeoElement extends ConstructionElement
 	public int labelOffsetX = 0;
 	/** offset for label in EV */
 	public int labelOffsetY = 0;
-	private boolean auxiliaryObject = false;
+
+	/** enum for auxiliary state */
+	static public enum Auxiliary {
+		/** is auxiliary */
+		YES_DEFAULT(true, false) {
+			@Override
+			public Auxiliary toggle() {
+				return Auxiliary.NO_SAVE;
+			}
+		},
+		/** is not auxiliary */
+		NO_DEFAULT(false, false) {
+			@Override
+			public Auxiliary toggle() {
+				return Auxiliary.YES_SAVE;
+			}
+		},
+		/** is not auxiliary, needs to save to XML */
+		NO_SAVE(false, true) {
+			@Override
+			public Auxiliary toggle() {
+				return YES_DEFAULT;
+			}
+		},
+		/** is auxiliary, needs to save to XML */
+		YES_SAVE(true, true) {
+			@Override
+			public Auxiliary toggle() {
+				return NO_DEFAULT;
+			}
+		};
+		
+		private boolean isOn;
+		private boolean needsSaveToXML;
+
+		private Auxiliary(boolean isOn, boolean needsSaveToXML) {
+			this.isOn = isOn;
+			this.needsSaveToXML = needsSaveToXML;
+		}
+		
+		/**
+		 * 
+		 * @return true if is auxiliary
+		 */
+		public boolean isOn() {
+			return isOn;
+		}
+
+		/**
+		 * 
+		 * @return true if it needs save to XML
+		 */
+		public boolean needsSaveToXML() {
+			return needsSaveToXML;
+		}
+
+		/**
+		 * 
+		 * @return the opposite value
+		 */
+		abstract public Auxiliary toggle();
+	}
+
+	private Auxiliary auxiliaryObject = Auxiliary.NO_DEFAULT;
 	private boolean selectionAllowed = true;
 	// on change: see setVisualValues()
 
@@ -1704,7 +1767,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	final public boolean isAuxiliaryObject() {
-		return auxiliaryObject;
+		return auxiliaryObject.isOn();
 	}
 
 	/**
@@ -1721,9 +1784,25 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public void setAuxiliaryObject(final boolean flag) {
-		if (auxiliaryObject != flag) {
-			auxiliaryObject = flag;
+		if (auxiliaryObject.isOn() != flag) {
+			auxiliaryObject = auxiliaryObject.toggle();
 			if (isLabelSet()) {
+				notifyUpdateAuxiliaryObject();
+			}
+		}
+	}
+
+	/**
+	 * set auxiliary property
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setAuxiliaryObject(final Auxiliary flag) {
+		if (auxiliaryObject != flag) {
+			boolean oldIsOn = auxiliaryObject.isOn();
+			auxiliaryObject = flag;
+			if (isLabelSet() && oldIsOn != flag.isOn()) {
 				notifyUpdateAuxiliaryObject();
 			}
 		}
@@ -5188,11 +5267,15 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected final void getAuxiliaryXML(final StringBuilder sb) {
 		if (!isAuxiliaryObjectByDefault()) {
-			if (auxiliaryObject) {
+			if (auxiliaryObject.needsSaveToXML()) {
 				sb.append("\t<auxiliary val=\"");
-				sb.append("true");
+				sb.append(auxiliaryObject.isOn());
 				sb.append("\"/>\n");
-			} else if (getMetasLength() > 0) { // force save "not auxiliary" for
+			} else if (getMetasLength() > 0 && !auxiliaryObject.isOn()) { // force
+																			// save
+																			// "not
+																			// auxiliary"
+																			// for
 												// e.g. segments created by
 												// polygon algo
 				sb.append("\t<auxiliary val=\"");
@@ -5201,7 +5284,7 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		} else { // needed for eg GeoTexts (in Algebra View but Auxilliary by
 					// default from ggb 4.0)
-			if (!auxiliaryObject) {
+			if (!auxiliaryObject.isOn()) {
 				sb.append("\t<auxiliary val=\"");
 				sb.append("false");
 				sb.append("\"/>\n");
