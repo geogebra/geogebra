@@ -163,6 +163,15 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGB_IS_VARIABLE("ggb_is_variable", "ggb_is_variable(a):=when(length(lvar(a))==1,lvar(a)[0],?)"),
 
 		/**
+		 * Used by Zip.N
+		 * 
+		 * TODO check if it's easier to implement with giac's zip command
+		 */
+		GGBZIPANS("ggbzipans", "ggbzipans(l):=begin local len0,res,sbl,xpr,k,j;xpr:=l[0];len0:=length(l[2]);res:={};"
+						+ "for k from 4 to length(l)-1 step +2 do len0:=min(len0,length(l[k])); od;"
+						+ "for k from 0 to len0-1 do sbl:={};for j from 2 to length(l)-1 step +2 do"
+						+ " sbl:=append(sbl,l[j-1]=l[j][k]);od;res:=append(res,subst(xpr,sbl));od; res; end"),
+		/**
 		 * 
 		 * need to use %0, %1 repeatedly (not using an intermediate variable)
 		 * see GGB-2184 eg Sum(If(Mod(k,2)==0,k,0),k,0,10)
@@ -173,8 +182,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGBMOD("ggbmod", "ggbmod(a,b):=when(type(a)!=DOM_INT||type(b)!=DOM_INT,rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
 		
 		// for testing Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4, 12})
-		//GGBMOD("ggbmod",
-		//		"ggbmod(a,b):=when(((type((a))!=DOM_INT)&&(type((a))!=DOM_IDENT))||((type((b))!=DOM_INT)&&(type((b))!=DOM_IDENT)),rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
+		// GGBMOD("ggbmod",
+		// "ggbmod(a,b):=when(((type((a))!=DOM_INT)&&(type((a))!=DOM_IDENT))||((type((b))!=DOM_INT)&&(type((b))!=DOM_IDENT)),rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
 
 		/**
 		 * test if "=" or "%=" or inequality - needed for eg
