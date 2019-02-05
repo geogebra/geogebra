@@ -8,9 +8,6 @@ import org.geogebra.web.resources.SVGResource;
  * Menu that can be embedded in higher-level menu
  *
  * @author Zbynek
- *
- * @param <T>
- *            image type (SVG or PNG)
  */
 public abstract class Submenu extends GMenuBar {
 
@@ -43,8 +40,11 @@ public abstract class Submenu extends GMenuBar {
 	 */
 	protected abstract String getTitleTranslationKey();
 
+	/**
+	 * Handle click in header when no subitems are present
+	 */
 	public void handleHeaderClick() {
-		// TODO Auto-generated method stub
+		// only for empty menus
 	}
 
 	/**
@@ -54,6 +54,9 @@ public abstract class Submenu extends GMenuBar {
 		return false;
 	}
 
+	/**
+	 * Update menu when file content changes
+	 */
 	public void update() {
 		// update actions
 	}

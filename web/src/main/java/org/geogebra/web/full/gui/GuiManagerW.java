@@ -222,9 +222,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateActions() {
-		if (mainMenuBar != null && mainMenuBar.getMenubar() != null) {
-			mainMenuBar.getMenubar().updateSelection();
-		}
+		updateMenubarSelection();
 
 		if (getApp().isWhiteboardActive()) {
 			(getApp().getAppletFrame()).updateUndoRedoMOW();

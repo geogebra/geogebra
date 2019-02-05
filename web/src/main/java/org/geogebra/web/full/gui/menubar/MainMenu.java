@@ -54,11 +54,9 @@ public class MainMenu extends FlowPanel
 	 * Panel with menus
 	 */
 	AriaStackPanel menuPanel;
-	private ViewMenuW viewMenu;
-	private EditMenuW editMenu;
 
 	// private boolean leftSide = false;
-
+	/** whether to use small screen layout (includes logo) */
 	public boolean smallScreen = false;
 	/**
 	 * Menus
@@ -72,10 +70,6 @@ public class MainMenu extends FlowPanel
 	 * simple logo menu item
 	 */
 	Submenu logoMenu;
-	/**
-	 * simple settings menu item
-	 */
-	Submenu settingsMenu;
 
 	/**
 	 * Constructs the menubar
@@ -93,69 +87,49 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void init() {
-		ToolsMenuW toolsMenu = null;
-		HelpMenuW helpMenu = null;
-		FileMenuW fileMenu = null;
-		DownloadMenuW downloadMenu = null;
-		AppsSubmenu appsMenu = null;
-		PerspectivesMenuW perspectivesMenu = null;
 		if (app.getLoginOperation() == null) {
 			app.initSignInEventFlow(new LoginOperationW(app), ArticleElement.isEnableUsageStats());
 		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
-		if (app.enableFileFeatures()) {
-			fileMenu = new FileMenuW(app);
-		}
 
-		if (app.isUnbundledOrWhiteboard()) {
-			downloadMenu = new DownloadMenuW(app);
-		}
-
-		boolean enableGraph = !exam || app.enableGraphing();
-		if (enableGraph && !app.isWhiteboardActive()) {
-			perspectivesMenu = new PerspectivesMenuW(app);
-			appsMenu = new AppsSubmenu(app);
-			editMenu = new EditMenuW(app);
-			if (!app.isUnbundled()) {
-				viewMenu = new ViewMenuW(app);
-			}
-		}
-		settingsMenu = new SettingsMenu(app);
-		if (enableGraph) {
-			toolsMenu = new ToolsMenuW(app);
-		}
 		this.menus = new ArrayList<>();
 		if (!exam) {
-			helpMenu = new HelpMenuW(app);
 			this.userMenu = new UserSubmenu(app);
 			if (app.enableFileFeatures()) {
-				menus.add(fileMenu);
+				menus.add(new FileMenuW(app));
 			}
 			if (!app.isWhiteboardActive()) {
-				menus.add(editMenu);
+				menus.add(new EditMenuW(app));
 			}
 			if (app.isUnbundledOrWhiteboard()) {
-				menus.add(downloadMenu);
-			}
-			if (!app.isWhiteboardActive()) {
-				menus.add(perspectivesMenu);
+				menus.add(new DownloadMenuW(app));
 			}
 			if (!app.isUnbundledOrWhiteboard()) {
-				menus.add(viewMenu);
-				menus.add(settingsMenu);
-				menus.add(toolsMenu);
+				menus.add(new PerspectivesMenuW(app));
+			}
+			if (app.isUnbundled()) {
+				menus.add(new AppsSubmenu(app));
+			}
+			if (!app.isUnbundledOrWhiteboard()) {
+				menus.add(new ViewMenuW(app));
+			}
+			menus.add(new SettingsMenu(app));
+			if (!app.isUnbundledOrWhiteboard()) {
+				if (!app.getLAF().isSmart()) {
+					menus.add(new ToolsMenuW(app));
+				}
 			}
 			if (!app.isWhiteboardActive()) {
-				menus.add(helpMenu);
+				menus.add(new HelpMenuW(app));
 			}
 			if (app.enableFileFeatures()) {
 				menus.add(signInMenu);
 			}
 
 		} else {
-			this.menus.add(fileMenu);
-			this.menus.add(settingsMenu);
+			menus.add(new FileMenuW(app));
+			menus.add(new SettingsMenu(app));
 		}
 
 		smallScreen = app.isUnbundled()
@@ -168,37 +142,12 @@ public class MainMenu extends FlowPanel
 			initLogoMenu();
 		}
 
-		if (app.enableFileFeatures()) {
-			addSubmenu(fileMenu);
-		}
-		if (enableGraph) {
-			if (!app.isWhiteboardActive()) {
-				addSubmenu(editMenu);
-			}
-
-			if (app.isUnbundledOrWhiteboard()) {
-				addSubmenu(downloadMenu);
-				if (!app.isWhiteboardActive()) {
-					addSubmenu(appsMenu);
-				}
-			} else {
-				addSubmenu(perspectivesMenu);
-			}
-
-			if (!app.isUnbundledOrWhiteboard()) {
-				addSubmenu(viewMenu);
-			}
+		for (Submenu menu : menus) {
+			addSubmenu(menu);
 		}
 
-		addSubmenu(settingsMenu);
-
-		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundledOrWhiteboard()) {
-			addSimple(toolsMenu);
-		}
 		if (!exam) {
-			if (!app.isWhiteboardActive()) {
-				addSubmenu(helpMenu);
-			}
+
 			if (app.getNetworkOperation().isOnline()) {
 				render(true);
 			}
@@ -296,7 +245,7 @@ public class MainMenu extends FlowPanel
 
 				String title = menu.getTitle(app.getLocalization());
 
-				if (menu == settingsMenu) {
+				if (menu.getItems().isEmpty()) {
 					setStackText(index, getHTML(menu), title, expand);
 					return;
 				}
@@ -311,7 +260,6 @@ public class MainMenu extends FlowPanel
 				} else {
 					setCollapseStyles(index);
 				}
-
 			}
 
 			private void expandStack(int index) {
@@ -429,10 +377,6 @@ public class MainMenu extends FlowPanel
 		return getHTMLExpand(submenu.getImage(), title);
 	}
 
-	private EditMenuW getEditMenu() {
-		return editMenu;
-	}
-
 	/**
 	 * Update all submenus that depend on file content
 	 */
@@ -446,8 +390,11 @@ public class MainMenu extends FlowPanel
 	 * Update on selection change
 	 */
 	public void updateSelection() {
-		if (this.getEditMenu() != null) {
-			getEditMenu().invalidate();
+		for (Submenu menu : menus) {
+			// TODO use listener
+			if (menu instanceof EditMenuW) {
+				((EditMenuW) menu).invalidate();
+			}
 		}
 	}
 
