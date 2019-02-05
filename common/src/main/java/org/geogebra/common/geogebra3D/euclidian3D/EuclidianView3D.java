@@ -4858,6 +4858,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setAREnabled(boolean isAREnabled) {
 		mIsAREnabled = isAREnabled;
+        if (euclidianController.isCreatingPointAR()) {
+            target.updateType(this);
+        }
 		updateMatrixForCursor3D();
         ((EuclidianController3D) euclidianController).scheduleMouseExit();
 	}
