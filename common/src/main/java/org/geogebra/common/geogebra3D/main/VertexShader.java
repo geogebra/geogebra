@@ -95,7 +95,28 @@ public class VertexShader {
 
 					+ "  // set layer a z-shift \n"
 					+ "  float fLayer = float(layer + att_layer);\n"
-					+ "  gl_Position.z = gl_Position.z - 0.0004 * fLayer; \n"
+
+					+ "	  vec3 n;\n"
+					+ "	  if (normal.x > 1.5){ // then use per-vertex normal\n"
+					+ "	  	n = attribute_Normal;\n"
+
+					+ "	  }else{\n"
+
+					+ "	  	n = normal;\n"
+
+					+ "	  }\n"
+					
+					+ " vec4 normalScreen = matrix * vec4(n, 0.0);\n"
+					+ " normalScreen.w = 0.0;\n"
+					+ " normalScreen = normalize(normalScreen);\n"
+
+					// shift z position to avoid z-fighting
+					// use layer value
+					// decrease when normal get orthogonal to screen
+					// constant values set by checking different screen
+					// resolutions and different mobile devices
+					+ " gl_Position.z = gl_Position.z"
+					+ " - 0.0008 * (1.0 - 0.5 * abs(normalScreen.z)) * fLayer * gl_Position.w; \n"
 
 					+ "  if (labelRendering == 1){ // use special origin for labels\n"
 					+ "      realWorldCoords = labelOrigin;\n"
@@ -109,16 +130,7 @@ public class VertexShader {
 					// light
 
 					+ "  if (enableLight == 1){// color with light\n"
-
-					+ "	  vec3 n;\n"
-					+ "	  if (normal.x > 1.5){ // then use per-vertex normal\n"
-					+ "	  	n = attribute_Normal;\n"
-
-					+ "	  }else{\n"
-
-					+ "	  	n = normal;\n"
-
-					+ "	  }\n" + "	  float factor = dot(n, lightPosition);\n"
+					+ "	  float factor = dot(n, lightPosition);\n"
 					+ "	  factor = float(culling) * factor;\n"
 					+ "	  factor = max(0.0, factor);\n"
 					+ "	  float ambiant = ambiantDiffuse[0];\n"
