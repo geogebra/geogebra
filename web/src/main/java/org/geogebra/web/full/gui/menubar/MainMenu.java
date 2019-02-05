@@ -100,10 +100,10 @@ public class MainMenu extends FlowPanel
 
 		this.menus = new ArrayList<>();
 		this.userMenu = new UserSubmenu(app);
+		actionProvider.addMenus(menus);
 		if (app.enableFileFeatures()) {
 			menus.add(signInMenu);
 		}
-		actionProvider.addMenus(menus);
 
 		smallScreen = app.isUnbundled()
 				&& app.getAppletFrame().shouldHaveSmallScreenLayout();
