@@ -273,7 +273,7 @@ public class SpeechRecognitionController {
 	 */
 	public native void playBeep() /*-{
 		var snd = new Audio();
-		snd.src = "http://soundbible.com/mp3/Short%20Beep%20Tone-SoundBible.com-1937840853.mp3";
+		snd.src = "https://soundbible.com/mp3/Short%20Beep%20Tone-SoundBible.com-1937840853.mp3";
 		snd.play();
 	}-*/;
 
