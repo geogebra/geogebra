@@ -467,7 +467,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 					.getParentAlgorithm();
 			ExpressionNode exp = algo.getExpression();
 
-
 			GeoCurveCartesian curve = (GeoCurveCartesian) exp.getLeft();
 			GeoNumeric param = (GeoNumeric) exp.getRight();
 
