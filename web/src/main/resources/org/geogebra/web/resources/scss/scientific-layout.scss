@@ -123,6 +123,10 @@
         position: absolute;
     }
 
+    .avWarningScientific {
+        top: 12px;
+    }
+
     %panelFadeAnimation {
         opacity: 1;
         animation-iteration-count: 1;
@@ -131,7 +135,7 @@
 
     .panelFadeIn {
         @extend %panelFadeAnimation;
-        &{
+        & {
             animation-name: fadeInOpacity;
             animation-timing-function: ease-in;
         }
@@ -139,7 +143,7 @@
 
     .panelFadeOut {
         @extend %panelFadeAnimation;
-        &{
+        & {
             animation-name: fadeOutOpacity;
             animation-timing-function: ease-out;
         }
