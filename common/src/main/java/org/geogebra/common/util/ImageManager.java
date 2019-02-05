@@ -24,7 +24,7 @@ abstract public class ImageManager {
 	 *            application
 	 */
 	public void setCornersFromSelection(GeoImage geoImage, App app) {
-		boolean label = !app.has(Feature.MOW_IMAGE_BOUNDING_BOX);
+		boolean label = !app.isWhiteboardActive();
 		ArrayList<GeoPointND> corners = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			GeoPointND p = getImageCornerFromSelection(i, app);

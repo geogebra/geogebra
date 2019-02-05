@@ -3801,10 +3801,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_CROP_IMAGE:
 			return prerelease && whiteboard;
 
-		/** MOW-379, MOW-380 */
-		case MOW_IMAGE_BOUNDING_BOX:
-			return prerelease && whiteboard;
-
 		/** MOW-459 */
 		case MOW_DOUBLE_CANVAS:
 			return prerelease && whiteboard;

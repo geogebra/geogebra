@@ -535,9 +535,7 @@ public final class DrawImage extends Drawable {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		if (!(geo.getKernel().getApplication()
-				.has(Feature.MOW_IMAGE_BOUNDING_BOX) && geo.getKernel().getApplication()
-						.has(Feature.MOW_CROP_IMAGE))
+		if (!(geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE))
 				|| (absoluteLocation && !geo.getKernel().getApplication()
 						.has(Feature.MOW_PIN_IMAGE))) {
 			return;
@@ -552,8 +550,7 @@ public final class DrawImage extends Drawable {
 			}
 			updateImageCrop(p, handler);
 		} else {
-			if (!geo.getKernel().getApplication()
-					.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
+			if (!geo.getKernel().getApplication().isWhiteboardActive()) {
 				return;
 			}
 			if (Double.isNaN(originalRatio)) {
