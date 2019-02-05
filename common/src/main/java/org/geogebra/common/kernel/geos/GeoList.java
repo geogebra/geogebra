@@ -434,8 +434,9 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setVisualStyle(final GeoElement style) {
-		super.setVisualStyle(style);
+	public void setVisualStyle(final GeoElement style,
+			boolean setAuxiliaryProperty) {
+		super.setVisualStyle(style, setAuxiliaryProperty);
 
 		// set point style
 		if (style instanceof PointProperties) {
@@ -451,7 +452,7 @@ public class GeoList extends GeoElement
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = elements.get(i);
 			if (!geo.isLabelSet()) {
-				geo.setVisualStyle(style);
+				geo.setVisualStyle(style, setAuxiliaryProperty);
 			}
 		}
 	}

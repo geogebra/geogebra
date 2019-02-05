@@ -2739,8 +2739,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void setVisualStyle(final GeoElement geo) {
-		super.setVisualStyle(geo);
+	public void setVisualStyle(final GeoElement geo,
+			boolean setAuxiliaryProperty) {
+		super.setVisualStyle(geo, setAuxiliaryProperty);
 
 		if (segments == null) {
 			return;

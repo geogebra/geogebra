@@ -208,8 +208,8 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo) {
-		super.setVisualStyle(geo);
+	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
+		super.setVisualStyle(geo, setAuxiliaryProperty);
 
 		if (geo.isGeoSegment()) {
 			GeoSegmentND seg = (GeoSegmentND) geo;

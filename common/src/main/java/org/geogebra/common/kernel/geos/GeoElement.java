@@ -1450,7 +1450,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public void setVisualStyle(final GeoElement geo) {
+	final public void setVisualStyle(final GeoElement geo) {
 		setVisualStyle(geo, true);
 	}
 

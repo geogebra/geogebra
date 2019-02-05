@@ -206,8 +206,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo) {
-		super.setVisualStyle(geo);
+	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
+		super.setVisualStyle(geo, setAuxiliaryProperty);
 
 		if (geo.isGeoImage()) {
 			inBackground = ((GeoImage) geo).inBackground;
