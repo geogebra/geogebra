@@ -4029,7 +4029,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TOOLBAR_FROM_APPCONFIG:
 			return prerelease;
 
-		/** APPS-19 */
+		/** APPS-19 APPS-68 */
 		case TABLE_VIEW:
 			return prerelease;
 
