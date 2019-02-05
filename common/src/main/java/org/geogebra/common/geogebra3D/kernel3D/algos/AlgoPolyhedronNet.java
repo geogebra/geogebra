@@ -15,9 +15,11 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.Auxiliary;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -167,6 +169,10 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 				p1.setParentAlgorithm(AlgoPolyhedronNet.this);
 				getNet().addPointCreated(p1);
 				p1.setLabelVisible(false);
+				if (cons.getApplication()
+						.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
+					p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+				}
 				return p1;
 			}
 		});
@@ -178,7 +184,10 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
-						// s.setParentAlgorithm(AlgoPolyhedron.this);
+						if (cons.getApplication()
+								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
+							s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+						}
 						return s;
 					}
 				});
@@ -190,8 +199,11 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D poly = new GeoPolygon3D(cons);
-						// poly.setParentAlgorithm(AlgoPolyhedron.this);
 						setChangeableCoordParent(poly);
+						if (cons.getApplication()
+								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
+							poly.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+						}
 						return poly;
 					}
 				}) {
