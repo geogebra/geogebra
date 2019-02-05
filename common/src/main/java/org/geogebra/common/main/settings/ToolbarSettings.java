@@ -77,6 +77,13 @@ public class ToolbarSettings extends AbstractSettings {
 	}
 
 	/**
+	 * @return whether empty level is supported
+	 */
+	public boolean hasEmptyConstruction() {
+		return this.type == AppType.GEOMETRY_CALC;
+	}
+
+	/**
 	 * @return - if app is 3d app
 	 * 
 	 */

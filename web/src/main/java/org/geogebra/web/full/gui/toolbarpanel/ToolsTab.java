@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	/**
-	 * 
+	 *
 	 */
 	private final ToolbarPanel toolbarPanel;
 
@@ -32,7 +32,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	 * button to get more tools
 	 */
 	StandardButton moreBtn;
-	
+
 	/**
 	 * button to get less tools
 	 */
@@ -46,7 +46,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	private App app;
 	/**
-	 * 
+	 *
 	 */
 	public boolean isCustomToolbar = false;
 
@@ -67,7 +67,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		createMoreLessButtons();
 		addMoreLessButtons();
 	}
-	
+
 	private void createMoreLessButtons() {
 		moreBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.More"), app);
@@ -82,7 +82,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		moreBtn.setIgnoreTab();
 		lessBtn.setIgnoreTab();
 		moreBtn.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick(Widget source) {
 				onMorePressed();
@@ -90,7 +90,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		});
 
 		lessBtn.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick(Widget source) {
 				onLessPressed();
@@ -114,18 +114,18 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	/** Less button handler */
 	protected void onLessPressed() {
-		ToolsetLevel level = app.getSettings().getToolbarSettings()
+		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
+		ToolsetLevel level = toolbarSettings
 				.getToolsetLevel();
-		AppType type = app.getSettings().getToolbarSettings().getType();
 		if (level.equals(ToolsetLevel.ADVANCED)) {
-			app.getSettings().getToolbarSettings()
+			toolbarSettings
 					.setToolsetLevel(ToolsetLevel.STANDARD);
 		} else if (level.equals(ToolsetLevel.STANDARD)
-				&& type.equals(AppType.GEOMETRY_CALC)) {
-			app.getSettings().getToolbarSettings()
+				&& toolbarSettings.hasEmptyConstruction()) {
+			toolbarSettings
 					.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 		} else {
-			app.getSettings().getToolbarSettings()
+			toolbarSettings
 					.setToolsetLevel(ToolsetLevel.STANDARD);
 		}
 		updateContent();
@@ -135,42 +135,31 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	 * add more or less button to tool panel
 	 */
 	public void addMoreLessButtons() {
-		AppType type = app.getSettings().getToolbarSettings().getType();
+		boolean hasEmptyConstruction = app.getSettings().getToolbarSettings()
+				.hasEmptyConstruction();
 		ToolsetLevel level = app.getSettings().getToolbarSettings()
 				.getToolsetLevel();
-		
-		if (type.equals(AppType.GRAPHING_CALCULATOR)
-				|| type.equals(AppType.GRAPHER_3D)) {
-			switch (level) {
-			case STANDARD:
-				toolsPanel.add(moreBtn);
-				break;
-				
-			case ADVANCED:
+
+		switch (level) {
+		case EMPTY_CONSTRUCTION:
+			toolsPanel.add(moreBtn);
+			break;
+		case STANDARD:
+			if (hasEmptyConstruction) {
 				toolsPanel.add(lessBtn);
-			
-			default:
-				break;
 			}
-		} else if (type.equals(AppType.GEOMETRY_CALC)) {
-			switch (level) {
-			case EMPTY_CONSTRUCTION:
-				toolsPanel.add(moreBtn);
-				break;
-			case STANDARD:
-				toolsPanel.add(lessBtn);
-				toolsPanel.add(moreBtn);
-				break;
-				
-			case ADVANCED:
-				toolsPanel.add(lessBtn);
-			
-			default:
-				break;
-			}
+			toolsPanel.add(moreBtn);
+			break;
+
+		case ADVANCED:
+			toolsPanel.add(lessBtn);
+
+		default:
+			break;
 		}
+
 	}
-	
+
 	private void createContents() {
 		sp = new ScrollPanel();
 		sp.setAlwaysShowScrollBars(false);
@@ -178,7 +167,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		sp.add(toolsPanel);
 		add(sp);
 	}
-	
+
 	/**
 	 * update the content of tool panel
 	 */
@@ -206,7 +195,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	/**
 	 * Changes visual settings of selected mode..
-	 * 
+	 *
 	 * @param mode
 	 *            the mode will be selected
 	 */
