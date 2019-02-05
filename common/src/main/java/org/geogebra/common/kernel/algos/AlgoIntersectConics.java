@@ -605,7 +605,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	}
 
 	/**
-	 * Checks wether Q[i] lies on g and c and sets isQonPath[] accordingly.
+	 * Checks whether Q[i] lies on g and c and sets isQonPath[] accordingly.
 	 */
 	private void updateQonPath() {
 		for (int i = 0; i < Q.length; i++) {

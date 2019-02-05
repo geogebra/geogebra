@@ -421,7 +421,7 @@ public abstract class StepNode implements HasLaTeX {
 	 * Provides an easy way to compare constants. Instead of
 	 * a.equals(StepConstant.create(b)), just use isEqual(a, b)
 	 *
-	 * @return wether a is a nonSpecialConstant, with value equal to b
+	 * @return whether a is a nonSpecialConstant, with value equal to b
 	 */
 	public static boolean isEqual(StepExpression a, double b) {
 		return a.nonSpecialConstant() && isEqual(a.getValue(), b);

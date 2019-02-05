@@ -2010,7 +2010,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 *            wheter geogebra-web applet rightclick enabled or not
+	 *            whether geogebra-web applet rightclick enabled or not
 	 */
 	@Override
 	public void enableRightClick(boolean enable) {
