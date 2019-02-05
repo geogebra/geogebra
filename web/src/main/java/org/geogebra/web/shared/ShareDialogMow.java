@@ -34,24 +34,18 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShareDialogMow extends DialogBoxW
 		implements FastClickHandler, SetLabels, SaveListener {
 	private AppW appW;
-	private FlowPanel dialogContent;
 	private Label selGroupLbl;
-	private FlowPanel groupPanel;
 	private ScrollPanel scrollPanel;
-	private FlowPanel noGroupPanel;
 	private Label noGroupsLbl;
 	private Label noGroupsHelpLbl;
-	private FlowPanel shareByLinkPanel;
 	private Label linkShareOnOffLbl;
 	private Label linkShareHelpLbl;
 	private ComponentSwitch shareSwitch;
 	private FlowPanel linkPanel;
 	private ComponentLinkBox linkBox;
 	private StandardButton copyBtn;
-	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
-	private String shareURL;
 	private Material material;
 	private MaterialCallbackI callback;
 	private java.util.HashMap<String, Boolean> changedGroups = new java.util.HashMap<>();
@@ -68,9 +62,8 @@ public class ShareDialogMow extends DialogBoxW
 	public ShareDialogMow(AppW app, String shareURL, Material mat) {
 		super(app.getPanel(), app);
 		this.appW = app;
-		this.shareURL = shareURL;
 		this.material = mat == null ? app.getActiveMaterial() : mat;
-		buildGui();
+		buildGui(shareURL);
 	}
 
 	/**
@@ -123,29 +116,29 @@ public class ShareDialogMow extends DialogBoxW
 		return shareSwitch.isSwitchOn();
 	}
 
-	private void buildGui() {
+	private void buildGui(String shareURL) {
 		addStyleName("shareDialogMow");
-		dialogContent = new FlowPanel();
+		FlowPanel dialogContent = new FlowPanel();
 		getGroupsSharedWith();
 		// get list of groups of user
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		// user has no groups
 		if (groupNames.isEmpty()) {
-			buildNoGroupPanel();
+			buildNoGroupPanel(dialogContent);
 		}
 		// show groups of user
 		else {
-			buildGroupPanel();
+			buildGroupPanel(dialogContent);
 		}
-		buildShareByLinkPanel();
-		buildButtonPanel();
+		buildShareByLinkPanel(dialogContent, shareURL);
+		buildButtonPanel(dialogContent);
 		add(dialogContent);
 		setLabels();
 	}
 
-	private void buildNoGroupPanel() {
-		noGroupPanel = new FlowPanel();
+	private void buildNoGroupPanel(FlowPanel dialogContent) {
+		FlowPanel noGroupPanel = new FlowPanel();
 		noGroupPanel.addStyleName("noGroupPanel");
 		SimplePanel groupImgHolder = new SimplePanel();
 		groupImgHolder.addStyleName("groupImgHolder");
@@ -162,11 +155,11 @@ public class ShareDialogMow extends DialogBoxW
 		dialogContent.add(noGroupPanel);
 	}
 
-	private void buildGroupPanel() {
+	private void buildGroupPanel(FlowPanel dialogContent) {
 		selGroupLbl = new Label();
 		selGroupLbl.setStyleName("selGrLbl");
 		dialogContent.add(selGroupLbl);
-		groupPanel = new FlowPanel();
+		FlowPanel groupPanel = new FlowPanel();
 		groupPanel.addStyleName("groupPanel");
 		scrollPanel = new ScrollPanel();
 		groupPanel.add(scrollPanel);
@@ -191,8 +184,9 @@ public class ShareDialogMow extends DialogBoxW
 		changedGroups.put(obj.getKey(), obj.getValue());
 	}
 
-	private void buildShareByLinkPanel() {
-		shareByLinkPanel = new FlowPanel();
+	private void buildShareByLinkPanel(FlowPanel dialogContent,
+			String shareURL) {
+		FlowPanel shareByLinkPanel = new FlowPanel();
 		shareByLinkPanel.addStyleName("shareByLink");
 		NoDragImage linkImg = new NoDragImage(
 				SharedResources.INSTANCE.mow_link_black(), 24);
@@ -216,7 +210,7 @@ public class ShareDialogMow extends DialogBoxW
 					}
 		});
 		shareByLinkPanel.add(shareSwitch);
-		buildLinkPanel();
+		buildLinkPanel(shareByLinkPanel, shareURL);
 		dialogContent.add(shareByLinkPanel);
 	}
 
@@ -227,7 +221,7 @@ public class ShareDialogMow extends DialogBoxW
 		return false;
 	}
 
-	private void buildLinkPanel() {
+	private void buildLinkPanel(FlowPanel shareByLinkPanel, String shareURL) {
 		linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
 		linkBox = new ComponentLinkBox(true, shareURL, "linkBox");
@@ -266,15 +260,15 @@ public class ShareDialogMow extends DialogBoxW
 		}
 	}
 
-	private void buildButtonPanel() {
-		buttonPanel = new FlowPanel();
+	private void buildButtonPanel(FlowPanel dialogContent) {
+		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		cancelBtn = addButton("Cancel");
-		saveBtn = addButton("Save");
+		cancelBtn = addButton(buttonPanel, "Cancel");
+		saveBtn = addButton(buttonPanel, "Save");
 		dialogContent.add(buttonPanel);
 	}
 
-	private StandardButton addButton(String transKey) {
+	private StandardButton addButton(FlowPanel buttonPanel, String transKey) {
 		StandardButton btn = new StandardButton(
 				appW.getLocalization().getMenu(transKey), appW);
 		btn.addFastClickHandler(this);
@@ -298,7 +292,8 @@ public class ShareDialogMow extends DialogBoxW
 					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
 		}
 		linkShareOnOffLbl
-				.setText(isShareLinkOn() ? "linkShareOn" : "linkShareOff");
+				.setText(app.getLocalization().getMenu(
+						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
 		linkShareHelpLbl
 				.setText(
 						app.getLocalization()
