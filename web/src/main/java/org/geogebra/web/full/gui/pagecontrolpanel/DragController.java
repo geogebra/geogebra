@@ -3,8 +3,6 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
@@ -271,7 +269,7 @@ class DragController {
 
 		public void handleTarget(int y) {
 			findTarget();
-			if (target != null && isAnimated()) {
+			if (target != null && getApp().isWhiteboardActive()) {
 				if (onTargetChange()) {
 					down = prevY < y;
 				} else {
@@ -286,7 +284,6 @@ class DragController {
 			}
 			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
 			if (card == null) {
-				Log.debug("Should never happen");
 				return false;
 			}
 			card.setTopBy(d);
@@ -299,9 +296,10 @@ class DragController {
 			int y2 = computedY(card.getAbsoluteTop());
 
 			int idx = cardIndexAt(card.getMiddleX(), 
-					isAnimated() ? (down ? y1 : y2) : card.getMiddleY());
+					getApp().isWhiteboardActive() ? (down ? y1 : y2)
+							: card.getMiddleY());
 
-			if (idx == -1 && isAnimated()) {
+			if (idx == -1 && getApp().isWhiteboardActive()) {
 				idx = cardIndexAt(card.getMiddleX(), (down ? y2 : y1));
 			}
 			target = idx != -1 ? cards.cardAt(idx) : null;
@@ -339,7 +337,7 @@ class DragController {
 				return false;
 			}
 
-			if (isAnimated()) {
+			if (getApp().isWhiteboardActive()) {
 				return dropAnimated();
 			}
 
@@ -409,7 +407,7 @@ class DragController {
 	}
 	
 	/**
-	 * Costructor
+	 * Constructor
 	 * 
 	 * @param slides
 	 *            the cards interface.
@@ -429,6 +427,13 @@ class DragController {
 			}
 		};
 		autoScroll = new AutoScrollTimer();
+	}
+
+	/**
+	 * @return see {@link App}
+	 */
+	public App getApp() {
+		return app;
 	}
 
 	/**
@@ -533,7 +538,7 @@ class DragController {
 				return true;
 			}
 			int targetIdx = dragged.move(y);
-			if (targetIdx != -1 && !isAnimated()) {
+			if (targetIdx != -1 && !app.isWhiteboardActive()) {
 				getListener().insertDivider(targetIdx);
 			}
 		}
@@ -554,7 +559,7 @@ class DragController {
 			clicked.addDragStartStyle(false);
 		} else if (CancelEventTimer.isDragging()) {
 			if (dragged.drop()) {
-				if (isAnimated()) {
+				if (app.isWhiteboardActive()) {
 					createDropAnimation();
 					return;
 				}
@@ -621,12 +626,4 @@ class DragController {
 	CardListInterface getListener() {
 		return cards.getListener();
 	}
-
-	/**
-	 * @return whether animation is supported
-	 */
-	boolean isAnimated() {
-		return app.has(Feature.MOW_DRAG_AND_DROP_ANIMATION);
-	}
-
 }

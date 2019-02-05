@@ -181,9 +181,6 @@ public enum Feature {
 	/** MOW-336 */
 	MOW_DRAG_AND_DROP_PAGES,
 
-	/** MOW-336 */
-	MOW_DRAG_AND_DROP_ANIMATION,
-
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 

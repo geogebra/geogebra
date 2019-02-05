@@ -3793,10 +3793,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_DRAG_AND_DROP_PAGES:
 			return prerelease && whiteboard;
 
-		/** MOW-336 */
-		case MOW_DRAG_AND_DROP_ANIMATION:
-			return prerelease && whiteboard;
-
 		/** MOW-360, MOW-381, MOW-382 */
 		case MOW_CROP_IMAGE:
 			return prerelease && whiteboard;
