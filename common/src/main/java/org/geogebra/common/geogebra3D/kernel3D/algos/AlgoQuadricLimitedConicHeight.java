@@ -7,9 +7,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.Auxiliary;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.main.Feature;
 
 /**
  * Algo for cylinder/cone from a conic and a height
@@ -68,6 +70,9 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		algoSide = new AlgoQuadricSide(cons, quadric, true, bottom);
 		side = (GeoQuadric3DPart) algoSide.getQuadric();
 		side.setParentAlgorithm(this);
+		if (cons.getApplication().has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
+			side.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+		}
 		quadric.setSide(side);
 
 		createTop();
@@ -95,6 +100,9 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	final protected void createTop() {
 		algoTop = new AlgoQuadricEndTop(cons, getQuadric());
 		top = algoTop.getSection();
+		if (cons.getApplication().has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
+			top.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+		}
 		top.setParentAlgorithm(this);
 
 	}
