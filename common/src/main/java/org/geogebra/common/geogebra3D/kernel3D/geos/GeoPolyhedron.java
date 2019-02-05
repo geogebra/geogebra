@@ -447,7 +447,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		if (cons.getKernel().getApplication()
-				.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
 			polygon.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 		}
 
@@ -560,7 +560,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		if (cons.getKernel().getApplication()
-				.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
 			segment.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 		}
 

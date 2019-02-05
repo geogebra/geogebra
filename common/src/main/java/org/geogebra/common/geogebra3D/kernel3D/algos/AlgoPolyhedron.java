@@ -97,7 +97,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
 						if (cons.getKernel().getApplication()
-								.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
 							s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						}
 						return s;
@@ -120,7 +120,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
 						if (cons.getKernel().getApplication()
-								.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
 							p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						}
 						return p;
@@ -255,7 +255,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 			}
 			p.setLabelVisible(labelVisible);
 			if (cons.getKernel().getApplication()
-					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+					.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
 				p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 			}
 
