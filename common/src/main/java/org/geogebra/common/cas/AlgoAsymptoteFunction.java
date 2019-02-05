@@ -33,6 +33,9 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
 	private StringBuilder sb = new StringBuilder();
 
+	// make sure Asymptote() gives undefined in Graphing/Geometry, not {}
+	private boolean enabled = false;
+
 	/**
 	 * Asymptotes for function
 	 * 
@@ -81,7 +84,14 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
 	@Override
 	public final void compute() {
-		if (!f.isDefined()) {
+
+		if (!enabled) {
+			// check again, CAS might now be loaded
+			enabled = kernel.getApplication().getSettings().getCasSettings()
+					.isEnabled();
+		}
+
+		if (!enabled || !f.isDefined()) {
 			g.setUndefined();
 			return;
 		}
