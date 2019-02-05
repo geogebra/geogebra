@@ -1,7 +1,6 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.ImageInputDialog;
@@ -178,7 +177,7 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		if (app.has(Feature.MOW_OPEN_FILE_VIEW)) {
+		if (app.isWhiteboardActive()) {
 			FileOpenButton mb = new FileOpenButton("containedButton");
 			OpenFileView of = new OpenFileView(app, mb);
 			mb.setOpenFileView(of);

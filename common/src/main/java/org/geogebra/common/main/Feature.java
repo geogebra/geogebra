@@ -190,9 +190,6 @@ public enum Feature {
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 
-	/** MOW-479 */
-	MOW_OPEN_FILE_VIEW,
-
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** MOB-1537 */

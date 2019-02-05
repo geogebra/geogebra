@@ -3809,10 +3809,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_DOUBLE_CANVAS:
 			return prerelease && whiteboard;
 
-		/** MOW-479 */
-		case MOW_OPEN_FILE_VIEW:
-			return prerelease && whiteboard;
-
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
 			return canary && whiteboard;

@@ -1756,7 +1756,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void logout() {
-		if (app.has(Feature.MOW_OPEN_FILE_VIEW)) {
+		if (app.isWhiteboardActive()) {
 			this.browseGUI = null;
 		}
 	}

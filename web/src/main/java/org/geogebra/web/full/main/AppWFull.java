@@ -797,7 +797,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void openSearch(String query) {
-		if (has(Feature.MOW_OPEN_FILE_VIEW)
+		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& query == null
 				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
@@ -816,14 +816,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	protected final void initGoogleDriveEventFlow() {
-
 		googleDriveOperation = new GoogleDriveOperationW(this);
 		String state = Location.getParameter("state");
 		if (getNetworkOperation().isOnline() && state != null
 				&& !"".equals(state)) {
 			googleDriveOperation.initGoogleDriveApi();
 		}
-
 	}
 
 	@Override
