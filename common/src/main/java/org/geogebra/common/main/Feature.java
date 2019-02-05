@@ -210,9 +210,6 @@ public enum Feature {
 	/** MOB-1722 */
 	MOB_EXPORT_STL,
 
-	/** MOW-533 */
-	MOW_BACKGROUND,
-
 	/** MOW-189 */
 	MOW_TEXT_TOOL,
 

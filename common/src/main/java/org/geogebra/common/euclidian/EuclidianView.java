@@ -3821,7 +3821,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            {@link GGraphics2D}
 	 */
 	public void paintMOWBackround(GGraphics2D g2) {
-		if (!(app.has(Feature.MOW_BACKGROUND) && isShowBackground() && settings != null)) {
+		if (!(app.isWhiteboardActive() && isShowBackground()
+				&& settings != null)) {
 			return;
 		}
 

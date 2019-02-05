@@ -9,7 +9,6 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -118,12 +117,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
 		private FlowPanel mainPanel;
-		protected boolean gridOptions;
+		/**
+		 * special grid types for mow (e.g. 3/4 or 1/2)
+		 */
+		protected boolean gridOptions = !app.isWhiteboardActive();
 		private FlowPanel stylePanel;
 
 		public GridTab() {
 			super(app);
-			gridOptions = !app.isWhiteboardActive() || !app.has(Feature.MOW_BACKGROUND);
 			mainPanel = new FlowPanel();
 			if (gridOptions) {
 				cbShowGrid = new CheckBox();

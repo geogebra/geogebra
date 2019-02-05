@@ -1413,7 +1413,7 @@ public class EuclidianViewW extends EuclidianView implements
 		double scale = getPrintingScale();
 		double origXZero = getXZero();
 		double origScale = getXscale();
-		if (app.has(Feature.MOW_BACKGROUND)
+		if (app.isWhiteboardActive()
 				&& getSettings().getBackgroundType() != BackgroundType.NONE
 				&& selectionRectangle == null) {
 			setCoordSystem(525 / SCALE_STANDARD * origScale, getYZero(),
@@ -1422,7 +1422,7 @@ public class EuclidianViewW extends EuclidianView implements
 		final Image prevImg = new Image();
 		String urlText = getExportImageDataUrl(scale, false);
 
-		if (app.has(Feature.MOW_BACKGROUND) && selectionRectangle == null) {
+		if (app.isWhiteboardActive() && selectionRectangle == null) {
 			setCoordSystem(origXZero, getYZero(), origScale, origScale);
 		}
 		prevImg.getElement().setAttribute("src", urlText);
