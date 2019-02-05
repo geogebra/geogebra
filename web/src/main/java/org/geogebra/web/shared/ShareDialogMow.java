@@ -19,15 +19,10 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -51,9 +46,7 @@ public class ShareDialogMow extends DialogBoxW
 	private Label linkShareHelpLbl;
 	private ComponentSwitch shareSwitch;
 	private FlowPanel linkPanel;
-	private TextBox linkBox;
-	/** true if linkBox is focused */
-	protected boolean linkBoxFocused = true;
+	private ComponentLinkBox linkBox;
 	private StandardButton copyBtn;
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
@@ -81,9 +74,9 @@ public class ShareDialogMow extends DialogBoxW
 	}
 
 	/**
-	 * @return textfield containing share link
+	 * @return text field containing share link
 	 */
-	public TextBox getLinkBox() {
+	public ComponentLinkBox getLinkBox() {
 		return linkBox;
 	}
 
@@ -237,11 +230,7 @@ public class ShareDialogMow extends DialogBoxW
 	private void buildLinkPanel() {
 		linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
-		linkBox = new TextBox();
-		linkBox.setReadOnly(true);
-		linkBox.setText(shareURL);
-		linkBox.setStyleName("linkBox");
-		addLinkBoxHandlers();
+		linkBox = new ComponentLinkBox(true, shareURL, "linkBox");
 		// build and add copy button
 		copyBtn = new StandardButton(app.getLocalization().getMenu("Copy"),
 				app);
@@ -251,37 +240,6 @@ public class ShareDialogMow extends DialogBoxW
 		linkPanel.add(copyBtn);
 		shareByLinkPanel.add(linkPanel);
 		linkPanel.setVisible(isShareLinkOn());
-	}
-
-	private void addLinkBoxHandlers() {
-		linkBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				focusLinkBox();
-			}
-		});
-		linkBox.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (linkBoxFocused) {
-					getLinkBox().setFocus(true);
-					getLinkBox().setSelectionRange(0, 0);
-				}
-				linkBoxFocused = false;
-			}
-		});
-	}
-
-	/**
-	 * focus textBox and select text
-	 */
-	protected void focusLinkBox() {
-		linkBox.setFocus(true);
-		linkBox.setSelectionRange(0, 0);
-		linkBox.selectAll();
-		linkBoxFocused = true;
 	}
 
 	/**
@@ -382,9 +340,9 @@ public class ShareDialogMow extends DialogBoxW
 			});
 			hide();
 		} else if (source == copyBtn) {
-			linkBoxFocused = false;
+			linkBox.setLinkBoxFocused(false);
 			app.copyTextToSystemClipboard(linkBox.getText());
-			focusLinkBox();
+			linkBox.focusLinkBox();
 			hide();
 		}
 	}
