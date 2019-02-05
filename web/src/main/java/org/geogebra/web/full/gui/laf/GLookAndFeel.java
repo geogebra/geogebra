@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -41,22 +40,17 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public static final int VIEW_ICON_SIZE = 20;
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
-	
-	@Override
-	public MainMenu getMenuBar(AppW app) {
-		return new MainMenu(app);
-    }
 
 	@Override
 	public boolean undoRedoSupported() {
 	    return true;
     }
-	
+
 	@Override
 	public boolean isSmart() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isTablet() {
 		return false;
@@ -80,12 +74,12 @@ public class GLookAndFeel implements GLookAndFeelI {
 								.getMenu("CloseApplicationLoseUnsavedData"));
             }
         });
-        
+
         if (this.windowCloseHandler == null) {
             //onClose is called, if user leaves the page correct
             //not called if browser crashes
             this.windowCloseHandler = Window.addCloseHandler(new CloseHandler<Window>() {
-    			
+
     			@Override
     			public void onClose(CloseEvent<Window> event) {
     				app.getFileManager().deleteAutoSavedFile();
@@ -104,7 +98,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 			this.windowClosingHandler.removeHandler();
 		}
 	}
-	
+
 	/**
 	 * @return app type for API calls
 	 */

@@ -5,6 +5,8 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.menubar.BaseMenuItemProvider;
+import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVErrorHandler;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraMenuItemCollection;
@@ -76,5 +78,10 @@ public class BaseActivity implements GeoGebraActivity {
 	public ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
 			boolean allowSliders, boolean withSliders) {
 		return new AVErrorHandler(radioTreeItem, valid, allowSliders, withSliders);
+	}
+
+	@Override
+	public MainMenuItemProvider getMenuItemProvider(AppW app) {
+		return new BaseMenuItemProvider(app);
 	}
 }

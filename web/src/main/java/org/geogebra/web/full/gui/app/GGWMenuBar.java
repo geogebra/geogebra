@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *
  */
 public class GGWMenuBar extends Composite {
-	
+
 	private FlowPanel ggbmenubarwrapper;
 	private MainMenu menubar;
 
@@ -28,14 +28,14 @@ public class GGWMenuBar extends Composite {
 		ggbmenubarwrapper = new FlowPanel();
 		ggbmenubarwrapper.addStyleName("ggbmenubarwrapper");
 		initWidget(ggbmenubarwrapper);
-		
+
 	}
-	
+
 	/**
 	 * @param app
 	 *            application to init menus
 	 */
-	public void init(AppW app) {
+	public void init(AppWFull app) {
 		ToolbarSettings set = app.getSettings().getToolbarSettings();
 		Versions ver = app.getVersion();
 		if (app.has(Feature.TOOLBAR_FROM_APPCONFIG)) {
@@ -43,11 +43,11 @@ public class GGWMenuBar extends Composite {
 		} else {
 			set.setFrom(ver);
 		}
-		menubar = (MainMenu) app.getLAF().getMenuBar(app);
+		menubar = new MainMenu(app, app.getActivity().getMenuItemProvider(app));
 
 		ggbmenubarwrapper.add(menubar);
 	}
-	
+
 	/**
 	 * @return wrapped menu
 	 */

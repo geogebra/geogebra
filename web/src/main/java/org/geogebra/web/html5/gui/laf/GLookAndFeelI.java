@@ -24,8 +24,6 @@ public interface GLookAndFeelI {
 
 	boolean undoRedoSupported();
 
-	MainMenuI getMenuBar(AppW app);
-
 	void addWindowClosingHandler(AppW app);
 
 	void removeWindowClosingHandler();

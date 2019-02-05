@@ -3,6 +3,7 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
@@ -74,4 +75,11 @@ public interface GeoGebraActivity {
 	 */
 	ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
 			boolean allowSliders, boolean withSliders);
+
+	/**
+	 * @param app
+	 *            application
+	 * @return provider of main menu actions
+	 */
+	MainMenuItemProvider getMenuItemProvider(AppW app);
 }

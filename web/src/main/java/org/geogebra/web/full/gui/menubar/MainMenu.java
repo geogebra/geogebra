@@ -71,16 +71,21 @@ public class MainMenu extends FlowPanel
 	 */
 	Submenu logoMenu;
 
+	private MainMenuItemProvider actionProvider;
+
 	/**
 	 * Constructs the menubar
 	 *
 	 * @param app
 	 *            application
+	 * @param actionProvider
+	 *            action provider
 	 */
-	public MainMenu(AppW app) {
+	public MainMenu(AppW app, MainMenuItemProvider actionProvider) {
 		if (!app.isUnbundledOrWhiteboard()) {
 			this.addStyleName("menubarSMART");
 		}
+		this.actionProvider = actionProvider;
 		signInMenu = new SignInMenu(app);
 		this.app = app;
 		init();
@@ -94,43 +99,11 @@ public class MainMenu extends FlowPanel
 		final boolean exam = app.isExam();
 
 		this.menus = new ArrayList<>();
-		if (!exam) {
-			this.userMenu = new UserSubmenu(app);
-			if (app.enableFileFeatures()) {
-				menus.add(new FileMenuW(app));
-			}
-			if (!app.isWhiteboardActive()) {
-				menus.add(new EditMenuW(app));
-			}
-			if (app.isUnbundledOrWhiteboard()) {
-				menus.add(new DownloadMenuW(app));
-			}
-			if (!app.isUnbundledOrWhiteboard()) {
-				menus.add(new PerspectivesMenuW(app));
-			}
-			if (app.isUnbundled()) {
-				menus.add(new AppsSubmenu(app));
-			}
-			if (!app.isUnbundledOrWhiteboard()) {
-				menus.add(new ViewMenuW(app));
-			}
-			menus.add(new SettingsMenu(app));
-			if (!app.isUnbundledOrWhiteboard()) {
-				if (!app.getLAF().isSmart()) {
-					menus.add(new ToolsMenuW(app));
-				}
-			}
-			if (!app.isWhiteboardActive()) {
-				menus.add(new HelpMenuW(app));
-			}
-			if (app.enableFileFeatures()) {
-				menus.add(signInMenu);
-			}
-
-		} else {
-			menus.add(new FileMenuW(app));
-			menus.add(new SettingsMenu(app));
+		this.userMenu = new UserSubmenu(app);
+		if (app.enableFileFeatures()) {
+			menus.add(signInMenu);
 		}
+		actionProvider.addMenus(menus);
 
 		smallScreen = app.isUnbundled()
 				&& app.getAppletFrame().shouldHaveSmallScreenLayout();
@@ -224,13 +197,13 @@ public class MainMenu extends FlowPanel
 			}
 
 			private void setExpandStyles(int index) {
-				GMenuBar mi = getMenuAt(index);
+				Submenu mi = getMenuAt(index);
 				mi.getElement().removeClassName("collapse");
 				mi.getElement().addClassName("expand");
 			}
 
 			private void setCollapseStyles(int index) {
-				GMenuBar mi = getMenuAt(index);
+				Submenu mi = getMenuAt(index);
 				mi.getElement().removeClassName("expand");
 				mi.getElement().addClassName("collapse");
 			}
@@ -538,8 +511,8 @@ public class MainMenu extends FlowPanel
 
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source instanceof GMenuBar) {
-			GMenuBar submenu = (GMenuBar) source;
+		if (source instanceof Submenu) {
+			Submenu submenu = (Submenu) source;
 
 			if (shiftDown) {
 				selectPreviousItem(submenu);
@@ -566,7 +539,7 @@ public class MainMenu extends FlowPanel
 	 * @return true if the next item is not the same as it is already selected.
 	 *
 	 */
-	boolean selectNextItem(GMenuBar menu) {
+	boolean selectNextItem(Submenu menu) {
 		if (menu == null) {
 			return false;
 		}
@@ -594,7 +567,7 @@ public class MainMenu extends FlowPanel
 	 * @return true if the previous item is not the same as it is already
 	 *         selected.
 	 */
-	boolean selectPreviousItem(GMenuBar menu) {
+	boolean selectPreviousItem(Submenu menu) {
 		if (menu == null) {
 			return false;
 		}
@@ -619,7 +592,7 @@ public class MainMenu extends FlowPanel
 	 *
 	 * @param stackIdx
 	 *            the index
-	 * @return the widget at given index if it is GMenubar instance or null
+	 * @return the widget at given index if it is Submenu instance or null
 	 *         otherwise.
 	 */
 	Submenu getMenuAt(int stackIdx) {
@@ -634,7 +607,7 @@ public class MainMenu extends FlowPanel
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
-		GMenuBar mi = getMenuAt(menuPanel.getLastSelectedIndex());
+		Submenu mi = getMenuAt(menuPanel.getLastSelectedIndex());
 
 		if (key == KeyCodes.KEY_TAB) {
 			if (mi != null) {
