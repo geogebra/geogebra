@@ -99,7 +99,7 @@ __GGB__keysVar["en"].command = {
     "Assume": "Assume",
     "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
-    "Asymptote.Syntax": "[ <Conic> ]\n[ <Function> ]\n[ <Implicit Curve> ]",
+    "Asymptote.Syntax": "[ <Object> ]",
     "AttachCopyToView": "AttachCopyToView",
     "AttachCopyToView.Syntax": "[ <Object>, <View 0|1|2> ]\n[ <Object>, <View 0|1|2>, <Point 1>, <Point 2>, <Screen Point 1>, <Screen Point 2> ]",
     "Axes": "Axes",
