@@ -32,7 +32,7 @@ public class DrawSurfaceComposite extends DrawComposite3D {
 			return surfaceCopy();
 		}
 		geoSurface.getParametric()
-				.setAllVisualPropertiesExceptEuclidianVisible(geoSurface, true);
+				.setAllVisualPropertiesExceptEuclidianVisible(geoSurface, true, true);
 		geoSurface.getParametric().setLineThickness(1);
 		return geoSurface.getParametric();
 	}

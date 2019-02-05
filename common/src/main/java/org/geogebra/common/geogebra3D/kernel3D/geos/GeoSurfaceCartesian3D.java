@@ -357,8 +357,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	@Override
 	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
-			boolean keepAdvanced) {
-		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+			boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
+				setAuxiliaryProperty);
 
 		if (geo.hasLevelOfDetail()) {
 			setLevelOfDetail(((SurfaceEvaluable) geo).getLevelOfDetail());

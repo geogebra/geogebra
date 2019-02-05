@@ -920,7 +920,7 @@ public class ConstructionDefaults {
 	 *            If the visual styles should be reset
 	 */
 	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
-		setDefaultVisualStyles(geo, isReset, true);
+		setDefaultVisualStyles(geo, isReset, true, true);
 	}
 
 	/**
@@ -933,9 +933,11 @@ public class ConstructionDefaults {
 	 *            If the visual styles should be reset
 	 * @param setEuclidianVisible
 	 *            If eucldianVisible should be set
+	 * @param setAuxiliaryProperty
+	 *            if auxiliary property should be set
 	 */
 	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset,
-			boolean setEuclidianVisible) {
+			boolean setEuclidianVisible, boolean setAuxiliaryProperty) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		// int type = DEFAULT_LINE;
@@ -953,9 +955,10 @@ public class ConstructionDefaults {
 																// for
 																// slider/angle
 				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo,
-						isReset);
+						isReset, setAuxiliaryProperty);
 			} else {
-				geo.setAllVisualProperties(defaultGeo, isReset);
+				geo.setAllVisualProperties(defaultGeo, isReset,
+						setAuxiliaryProperty);
 			}
 
 			if (geo instanceof GeoFunction) {

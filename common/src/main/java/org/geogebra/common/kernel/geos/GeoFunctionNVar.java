@@ -1354,8 +1354,9 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
-			boolean keepAdvanced) {
-		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+			boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
+				setAuxiliaryProperty);
 
 		if (hasLevelOfDetail() && geo.hasLevelOfDetail()) {
 			levelOfDetail = ((SurfaceEvaluable) geo).getLevelOfDetail();

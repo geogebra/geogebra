@@ -932,7 +932,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * Set visual style from defaults
 	 */
 	final public void setConstructionDefaults() {
-		setConstructionDefaults(true);
+		setConstructionDefaults(true, true);
 	}
 
 	/**
@@ -940,14 +940,17 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @param setEuclidianVisible
 	 *            If eucldianVisible should be set
+	 * @param setAuxiliaryProperty
+	 *            if auxiliary property should be set
 	 */
-	final public void setConstructionDefaults(boolean setEuclidianVisible) {
+	final public void setConstructionDefaults(boolean setEuclidianVisible,
+			boolean setAuxiliaryProperty) {
 
 		if (useVisualDefaults) {
 			final ConstructionDefaults consDef = cons.getConstructionDefaults();
 			if (consDef != null) {
 				consDef.setDefaultVisualStyles(this, false,
-						setEuclidianVisible);
+						setEuclidianVisible, setAuxiliaryProperty);
 			}
 		}
 	}
@@ -1351,11 +1354,28 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public void setAllVisualProperties(final GeoElement geo,
 			final boolean keepAdvanced) {
+		setAllVisualProperties(geo, keepAdvanced, true);
+	}
+
+	/**
+	 * Sets all visual values from given GeoElement. This will also affect
+	 * tracing, label location and the location of texts for example.
+	 * 
+	 * @param geo
+	 *            source geo
+	 * @param keepAdvanced
+	 *            true to skip copying color function and visibility condition
+	 * @param setAuxiliaryProperty
+	 *            if sets auxiliary property
+	 */
+	final public void setAllVisualProperties(final GeoElement geo,
+			final boolean keepAdvanced, final boolean setAuxiliaryProperty) {
 
 		euclidianVisible = geo.euclidianVisible;
 		visibleInView3D = geo.visibleInView3D;
 		algebraLabelVisible = geo.algebraLabelVisible;
-		setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+		setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
+				setAuxiliaryProperty);
 	}
 
 	/**
@@ -1369,13 +1389,15 @@ public abstract class GeoElement extends ConstructionElement
 	 *            source geo
 	 * @param keepAdvanced
 	 *            true to skip copying color function and visibility condition
+	 * @param setAuxiliaryProperty
+	 *            if sets auxiliary property
 	 */
 	public void setAllVisualPropertiesExceptEuclidianVisible(
-			final GeoElement geo, final boolean keepAdvanced) {
+			final GeoElement geo, final boolean keepAdvanced, boolean setAuxiliaryProperty) {
 		if (keepAdvanced) {
-			setVisualStyle(geo);
+			setVisualStyle(geo, setAuxiliaryProperty);
 		} else {
-			setAdvancedVisualStyle(geo);
+			setAdvancedVisualStyle(geo, setAuxiliaryProperty);
 		}
 
 		algebraVisible = geo.algebraVisible;
@@ -1429,6 +1451,19 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public void setVisualStyle(final GeoElement geo) {
+		setVisualStyle(geo, true);
+	}
+
+	/**
+	 * set visual style to geo
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param setAuxiliaryProperty
+	 *            if setting auxiliary property
+	 */
+	public void setVisualStyle(final GeoElement geo,
+			boolean setAuxiliaryProperty) {
 
 		// label style
 		labelVisible = geo.getLabelVisible();
@@ -1455,8 +1490,10 @@ public abstract class GeoElement extends ConstructionElement
 		setDecorationType(geo.getDecorationType());
 		setLineOpacity(geo.getLineOpacity());
 
-		// set whether it's an auxilliary object
-		setAuxiliaryObject(geo.isAuxiliaryObject());
+		if (setAuxiliaryProperty) {
+			// set whether it's an auxilliary object
+			setAuxiliaryObject(geo.isAuxiliaryObject());
+		}
 
 		// set fixed
 		setFixedFrom(geo);
@@ -1523,7 +1560,20 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public void setAdvancedVisualStyle(final GeoElement geo) {
-		setVisualStyle(geo);
+		setAdvancedVisualStyle(geo, true);
+	}
+
+	/**
+	 * Also copy advanced settings of this object.
+	 *
+	 * @param geo
+	 *            source geo
+	 * @param setAuxiliaryProperty
+	 *            if setting auxiliary property
+	 */
+	public void setAdvancedVisualStyle(final GeoElement geo,
+			boolean setAuxiliaryProperty) {
+		setVisualStyle(geo, setAuxiliaryProperty);
 
 		// set layer
 		setLayer(geo.getLayer());
