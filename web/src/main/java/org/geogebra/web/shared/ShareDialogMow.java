@@ -99,31 +99,28 @@ public class ShareDialogMow extends DialogBoxW
 		FlowPanel groups = new FlowPanel();
 		// first add button for groups with which material was already shared
 		for (String sharedGroup : sharedGroups) {
-			groups.add(new GroupButtonMow(appW, sharedGroup, true,
-					new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
-
-						@Override
-						public void callback(SimpleEntry<String, Boolean> obj) {
-							updateChangedGroupList(obj);
-						}
-					}));
+			addGroup(groups, sharedGroup, true);
 		}
 
 		// then add other existent groups of user
 		for (String group : groupNames) {
 			if (!containsSharedGroupList(group)) {
-				groups.add(new GroupButtonMow(appW, group, false,
-						new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
-
-							@Override
-							public void callback(
-									SimpleEntry<String, Boolean> obj) {
-								updateChangedGroupList(obj);
-							}
-						}));
+				addGroup(groups, group, false);
 			}
 		}
 		scrollPanel.add(groups);
+	}
+
+	private void addGroup(FlowPanel groupsPanel, String groupStr,
+			boolean selected) {
+		groupsPanel.add(new GroupButtonMow(appW, groupStr, selected,
+				new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
+
+					@Override
+					public void callback(SimpleEntry<String, Boolean> obj) {
+						updateChangedGroupList(obj);
+					}
+				}));
 	}
 
 	/**
