@@ -2230,10 +2230,10 @@ public class GeoPolyhedron extends GeoElement3D
 	 * 
 	 * @param points
 	 *            points for replacement
-	 * @param segments
+	 * @param replacementSegments
 	 *            segments for replacement
 	 */
-	public void replaceDummies(GeoPointND[] points, GeoSegmentND[] segments) {
+	public void replaceDummies(GeoPointND[] points, GeoSegmentND[] replacementSegments) {
 		for (GeoSegment3D seg : getSegments3D()) {
 			GeoPointND p1 = seg.getStartPoint();
 			GeoPointND p2 = seg.getEndPoint();
@@ -2271,7 +2271,7 @@ public class GeoPolyhedron extends GeoElement3D
 				for (int i = 0; i < polySegments.length; i++) {
 					GeoSegmentND s = polySegments[i];
 					if (s instanceof DummyGeoSegment3D) {
-						newSegments[i] = segments[((DummyGeoSegment3D) s)
+						newSegments[i] = replacementSegments[((DummyGeoSegment3D) s)
 								.getDummyIndex()];
 						segmentsNeedChange = true;
 					} else {

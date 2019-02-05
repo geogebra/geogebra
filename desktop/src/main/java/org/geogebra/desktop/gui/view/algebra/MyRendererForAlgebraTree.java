@@ -74,8 +74,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value,
-			boolean selected, boolean expanded, boolean leaf, int row,
-			boolean hasFocus) {
+			boolean itemSelected, boolean expanded, boolean leaf, int row,
+			boolean itemHasFocus) {
 
 		// Application.debug("getTreeCellRendererComponent: " + value);
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;

@@ -712,13 +712,10 @@ public class AlgebraViewD extends AlgebraTree
 
 	/**
 	 * Remove this node from the model.
-	 * 
-	 * @param node
-	 * @param model
 	 */
 	@Override
 	protected void removeFromModelForMode(DefaultMutableTreeNode node,
-			DefaultTreeModel model) {
+			DefaultTreeModel algebraModel) {
 
 		// remove the type branch if there are no more children
 		switch (treeMode) {
@@ -726,16 +723,15 @@ public class AlgebraViewD extends AlgebraTree
 			// do nothing
 			break;
 		case TYPE:
-			super.removeFromModelForMode(node, model);
+			super.removeFromModelForMode(node, algebraModel);
 			break;
 		case LAYER:
-			removeFromLayer(model,
-					((GeoElement) node.getUserObject()).getLayer());
+			removeFromLayer(((GeoElement) node.getUserObject()).getLayer());
 			break;
 		}
 	}
 
-	private void removeFromLayer(DefaultTreeModel model2, int i) {
+	private void removeFromLayer(int i) {
 		DefaultMutableTreeNode parent = layerNodesMap.get(i);
 
 		// this has been the last node
@@ -1002,7 +998,7 @@ public class AlgebraViewD extends AlgebraTree
 			if (node != null) {
 				((DefaultTreeModel) getModel()).removeNodeFromParent(node);
 				nodeTable.remove(node.getUserObject());
-				removeFromLayer(((DefaultTreeModel) getModel()), oldLayer);
+				removeFromLayer(oldLayer);
 			}
 
 			this.add(g, newLayer);
