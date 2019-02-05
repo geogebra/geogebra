@@ -172,9 +172,6 @@ public enum Feature {
 	/** GGB-2439 */
 	GRAPH_EXAM_MODE,
 
-	/** MOW-285 */
-	MOW_BOUNDING_BOX_FOR_PEN_TOOL,
-
 	/** GBB-2374 */
 	MAT_DESIGN_HEADER,
 

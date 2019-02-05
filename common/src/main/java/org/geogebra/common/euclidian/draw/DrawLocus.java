@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -154,8 +153,7 @@ public class DrawLocus extends Drawable {
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 
-		if (geo.getKernel().getApplication().has(
-				Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)
+		if (geo.getKernel().getApplication().isWhiteboardActive()
 				&& geo.getGeoClassType() == GeoClass.PENSTROKE
 				&& getBounds() != null) {
 			getBoundingBox().setRectangle(getBounds2D());
@@ -328,8 +326,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		if (!geo.getKernel().getApplication()
-				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
+		if (!geo.getKernel().getApplication().isWhiteboardActive()) {
 			return;
 		}
 		updateLocus(handler, p);
@@ -407,8 +404,7 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		if (geo.getKernel().getApplication()
-				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
+		if (geo.getKernel().getApplication().isWhiteboardActive()) {
 			if (boundingBox == null) {
 				boundingBox = new BoundingBox(false, false);
 			}
